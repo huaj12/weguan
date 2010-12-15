@@ -32,9 +32,9 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations" value="classpath:mybatis/*.xml" />
 	</bean>
-	
-	<bean id="passportMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.weguan.passport.mapper.PassportMapper" />
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.weguan.passport.mapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 

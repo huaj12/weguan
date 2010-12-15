@@ -8,7 +8,11 @@
   <name>passport Maven Webapp</name>
   <url>http://maven.apache.org</url>
   	<properties>
+    	<mybatis.model.targetProject>${project.basedir}/src/main/java</mybatis.model.targetProject>
+    	<mybatis.client.targetProject>${project.basedir}/src/main/java</mybatis.client.targetProject>
+    	<mybatis.map.targetProject>${project.basedir}/src/main/resources</mybatis.map.targetProject>
     	<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
+    	<mybatis.mysql.jar>${project.basedir}/tool/MBG/mysql-connector-java-5.1.12.jar</mybatis.mysql.jar>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -121,6 +125,12 @@
 		    <artifactId>log4j</artifactId>
 		    <version>1.2.16</version>
 		</dependency>
+		<dependency>
+		    <groupId>c3p0</groupId>
+		    <artifactId>c3p0</artifactId>
+		    <version>0.9.1.2</version>
+		</dependency>
+		
 		<!-- junit -->
 		<dependency>
 		  <groupId>junit</groupId>
@@ -154,8 +164,7 @@
 				  </execution>
 				</executions> -->
 				<configuration>
-					<configurationFile>${basedir}/tool/MBG/generatorConfig.xml</configurationFile>
-					<outputDirectory>${basedir}/src/main/java</outputDirectory>
+					<configurationFile>${project.basedir}/tool/MBG/generatorConfig.xml</configurationFile>
 					<overwrite>true</overwrite>
 				</configuration>
 	        </plugin>

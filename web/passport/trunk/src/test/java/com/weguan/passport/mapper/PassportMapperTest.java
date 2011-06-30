@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.weguan.passport.mapper.PassportMapper;
 import com.weguan.passport.model.Passport;
 import com.weguan.passport.model.PassportExample;
 
@@ -52,7 +51,7 @@ public class PassportMapperTest {
 		List<Passport> list = passportMapper.selectByExample(example);
 		Assert.assertEquals(1, list.size());
 		Assert.assertNotNull(list.get(0));
+		Assert.assertTrue(list.get(0).getId() > 0);
 		Assert.assertEquals(passport.getUserName(), list.get(0).getUserName());
-		System.out.println(passport.getId());
 	}
 }

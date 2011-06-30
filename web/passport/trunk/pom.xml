@@ -8,11 +8,11 @@
   <name>passport Maven Webapp</name>
   <url>http://maven.apache.org</url>
   	<properties>
-    	<mybatis.model.targetProject>${project.basedir}/src/main/java</mybatis.model.targetProject>
-    	<mybatis.client.targetProject>${project.basedir}/src/main/java</mybatis.client.targetProject>
-    	<mybatis.map.targetProject>${project.basedir}/src/main/resources</mybatis.map.targetProject>
+    	<!-- <mybatis.model.targetProject>${project.basedir}\src\main\java</mybatis.model.targetProject>
+    	<mybatis.client.targetProject>${project.basedir}\src\main\java</mybatis.client.targetProject>
+    	<mybatis.map.targetProject>${project.basedir}\src\main\resources</mybatis.map.targetProject>
+    	<mybatis.mysql.jar>${project.basedir}\tool\MBG\mysql-connector-java-5.1.12.jar</mybatis.mysql.jar> -->
     	<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
-    	<mybatis.mysql.jar>${project.basedir}/tool/MBG/mysql-connector-java-5.1.12.jar</mybatis.mysql.jar>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -147,9 +147,9 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-		       <source>1.6</source>
-		       <target>1.6</target>
-		     </configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.mybatis.generator</groupId>
@@ -164,7 +164,7 @@
 				  </execution>
 				</executions> -->
 				<configuration>
-					<configurationFile>${project.basedir}/tool/MBG/generatorConfig.xml</configurationFile>
+					<configurationFile>tool/MBG/generatorConfig.xml</configurationFile>
 					<overwrite>true</overwrite>
 				</configuration>
 	        </plugin>

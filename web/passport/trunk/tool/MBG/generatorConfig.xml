@@ -4,31 +4,31 @@
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-  <classPathEntry location="${mybatis.mysql.jar}" />
+  <classPathEntry location="tool/MBG/mysql-connector-java-5.1.12.jar" />
 
   <context id="MySQLTables" targetRuntime="MyBatis3">
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
         connectionURL="jdbc:mysql://127.0.0.1:3306/weguan"
         userId="root"
-        password="root">
+        password="111111">
     </jdbcConnection>
 
     <javaTypeResolver >
       <property name="forceBigDecimals" value="false" />
     </javaTypeResolver>
 
-    <javaModelGenerator targetPackage="com.weguan.passport.model" targetProject="${mybatis.model.targetProject}">
-      <property name="enableSubPackages" value="true" />
+    <javaModelGenerator targetPackage="com.weguan.passport.model" targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
       <property name="trimStrings" value="true" />
       <!-- <property name="rootClass" value="java.io.Serializable"/> -->
     </javaModelGenerator>
 
-    <sqlMapGenerator targetPackage="mybatis"  targetProject="${mybatis.map.targetProject}">
-      <property name="enableSubPackages" value="true" />
+    <sqlMapGenerator targetPackage="mybatis"  targetProject="src/main/resources">
+      <property name="enableSubPackages" value="false" />
     </sqlMapGenerator>
 
-    <javaClientGenerator type="XMLMAPPER" targetPackage="com.weguan.passport.mapper"  targetProject="${mybatis.client.targetProject}">
-      <property name="enableSubPackages" value="true" />
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.weguan.passport.mapper"  targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
 
     <table tableName="tb_passport" domainObjectName="Passport" >

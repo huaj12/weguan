@@ -15,8 +15,8 @@ public class IndexController {
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public ModelAndView index(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
-		System.out.println("index request...");
 		ModelAndView mav = new ModelAndView("index");
+		mav.addObject("name", "wujiajun");
 		return mav;
 	}
 }

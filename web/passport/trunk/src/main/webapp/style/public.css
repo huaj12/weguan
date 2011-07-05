@@ -1,0 +1,28 @@
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	margin: 0px;
+	padding: 0px;
+	color: #7e7e7e;
+	line-height: 20px;
+}
+
+a,a:visited,a:hover,a:active {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #3eabef;
+}
+
+.text {
+	font-size: 14px;
+	color: #000000;
+}
+
+img {
+	border: 0px;
+}
+
+#message {
+	color: red;
+	font-size: 12px;
+	padding-top: 10px;
+}

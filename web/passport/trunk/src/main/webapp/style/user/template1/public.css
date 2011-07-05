@@ -1,0 +1,65 @@
+img {
+	border: 0;
+}
+
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	margin: 0px;
+	padding: 0px;
+	color: #7e7e7e;
+	line-height: 20px;
+	background-color: #ffffff;
+}
+
+#profile {
+	background-color: #ffffff;
+}
+
+a,a:visited,a:hover,a:active {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #3eabef;
+}
+
+.set {
+	font-family: "����";
+	font-size: 14px;
+	color: #c95819;
+}
+
+.biaoti {
+	font-family: "����";
+	font-size: 28px;
+	color: #FFFFFF;
+}
+
+.xiaozi {
+	font-family: "����";
+	font-size: 12px;
+	color: #7e7e7e;
+}
+
+.biaoti2 {
+	font-family: "����";
+	font-size: 12px;
+	color: #FFFFFF;
+}
+
+.text {
+	font-family: "����";
+	font-size: 14px;
+	color: #ffffff;
+}
+
+.font14 {
+	font-size: 14px;
+}
+
+.head {
+	background-image: url(/images/user/template1/bg-diwen.gif);
+}
+
+#message {
+	color: red;
+	font-size: 12px;
+}

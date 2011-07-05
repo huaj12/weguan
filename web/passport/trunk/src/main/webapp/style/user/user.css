@@ -1,0 +1,354 @@
+#UserPanel {
+	padding: 26px 26px 26px 70px;
+	height: 50px;
+}
+
+#UserPanel .avatar,#UserPanel .user_titles {
+	float: left;
+}
+
+#UserPanel .user_titles {
+	padding-left: 10px;
+}
+
+#UserPanel .user_titles h1 {
+	display: inline;
+	font-weight: normal;
+}
+
+#UserPanel .user_titles h2 {
+	font-weight: normal;
+}
+
+#UserPanel .user_titles h4 {
+	font-weight: normal;
+	display: inline;
+}
+
+#ToolBox {
+	position: fixed;
+	top: 228px;
+	width: 31px;
+}
+
+#ToolBox .add,#ToolBox .config {
+	display: block;
+	width: 31px;
+	height: 31px;
+	margin-bottom: 10px;
+}
+
+#ToolBox .add {
+	background: url(/images/user/btn-add.gif) no-repeat;
+}
+
+#ToolBox .config {
+	background: url(/images/user/btn-config.gif) no-repeat;
+}
+
+#ShareBox {
+	position: absolute;
+	left: 40px;
+	top: 0px;
+	border: 1px solid #A9A9A9;
+	background-color: #606060;
+	width: 294px;
+	color: #FFFFFF;
+	text-align: center;
+	padding: 10px;
+	display: none;
+}
+
+#ShareBox li {
+	float: left;
+}
+
+#ShareBox a {
+	display: block;
+	width: 39px;
+	height: 39px;
+	margin: 5px;
+	background-image: url(/images/i-stuff-all.gif);
+	background-repeat: no-repeat;
+}
+
+#ShareBox .text {
+	background-position: -61px 0px;
+}
+
+#ShareBox .text_h {
+	background-position: -22px 0px;
+}
+
+#ShareBox .image {
+	background-position: -61px -39px;
+}
+
+#ShareBox .image_h {
+	background-position: -22px -39px;
+}
+
+#ShareBox .link {
+	background-position: -61px -78px;
+}
+
+#ShareBox .link_h {
+	background-position: -22px -78px;
+}
+
+#ShareBox .quote {
+	background-position: -61px -117px;
+}
+
+#ShareBox .quote_h {
+	background-position: -22px -117px;
+}
+
+#ShareBox .video {
+	background-position: -61px -156px;
+}
+
+#ShareBox .video_h {
+	background-position: -22px -156px;
+}
+
+#ShareBox .music {
+	background-position: -61px -195px;
+}
+
+#ShareBox .music_h {
+	background-position: -22px -195px;
+}
+
+#NoStuff {
+	width: 508px;
+	margin: 30px 0px 30px 111px;
+	padding: 10px 20px;
+}
+
+#StuffList {
+	line-height: 20px;
+}
+
+#StuffList li {
+	padding: 20px 0px;
+}
+
+#StuffList .time_group {
+	background: url(/images/user/bg-timegroup.gif) no-repeat;
+	width: 97px;
+	height: 20px;
+	color: #FFFFFF;
+	padding: 1px 0px 0px 3px;
+}
+
+#StuffList .stuff {
+	padding-left: 40px;
+}
+
+#StuffList .filter,#StuffFormPanel .icon {
+	background-repeat: no-repeat;
+}
+
+#StuffList .image .text,#StuffFormPanel .text {
+	background-position: 0px 0px;
+}
+
+#StuffList .image .filter,#StuffFormPanel .image,#StuffFormPanel .uploadimage,#StuffFormPanel .urlimage
+	{
+	background-position: 0px -39px;
+}
+
+#StuffList .link .filter,#StuffFormPanel .link {
+	background-position: 0px -78px;
+}
+
+#StuffList .quote .filter,#StuffFormPanel .quote {
+	background-position: 0px -117px;
+}
+
+#StuffList .video .filter,#StuffFormPanel .video {
+	background-position: 0px -156px;
+}
+
+#StuffList .music .filter,#StuffFormPanel .music {
+	background-position: 0px -195px;
+}
+
+#StuffList .stuff_info,#StuffList .content {
+	float: left;
+}
+
+#StuffList .edit_content {
+	float: right;
+}
+
+#StuffList .stuff_info {
+	text-align: center;
+	width: 51px;
+}
+
+#StuffList .tools {
+	visibility: hidden;
+}
+
+#StuffList .content,#StuffList .edit_content {
+	padding-left: 20px;
+	width: 540px;
+}
+
+#StuffList .edit_content {
+	width: 545px;
+}
+
+#StuffList .stuff_info * {
+	display: block;
+	margin-bottom: 3px;
+}
+
+#StuffList .stuff .filter span {
+	display: none;
+}
+
+#StuffList .stuff .filter {
+	width: 39px;
+	height: 39px;
+	margin: 0px 6px;
+}
+
+#StuffList .text .text_title {
+	font-size: 20px;
+	font-weight: normal;
+}
+
+#StuffList .quote .quote_form {
+	font-style: italic;
+	margin-left: 10px;
+}
+
+#StuffList .quote_body {
+	margin-top: 0px;
+}
+
+#StuffList .link .link_title {
+	font-size: 20px;
+	line-height: 20px;
+}
+
+#StuffList .video .video_code {
+	margin: 0px;
+}
+
+#StuffList .image .image_img {
+	padding: 6px;
+}
+
+#StuffFormPanel,#StuffList,#SiteFoot {
+	width: 660px;
+}
+
+#StuffList .pager {
+	text-align: center;
+	padding-bottom: 15px;
+}
+
+#StuffFormPanel .form_panel {
+	margin: 20px 0px 20px 111px;
+	position: relative;
+}
+
+#StuffFormPanel .icon {
+	height: 39px;
+	position: absolute;
+	width: 39px;
+	left: -65px;
+}
+
+#ProfileBox {
+	background-color: #606060;
+	border: 1px solid #A9A9A9;
+	padding: 5px 10px;
+	position: absolute;
+	left: 40px;
+	top: 40px;
+	width: 530px;
+	color: #FFFFFF;
+}
+
+#ProfileBox .user {
+	float: left;
+	width: 265px;
+	overflow: hidden;
+}
+
+#ProfileBox .blog {
+	float: right;
+	width: 265px;
+	overflow: hidden;
+}
+
+#ProfileBox .title {
+	color: #99cc00;
+	font-size: 20px;
+}
+
+#ProfileBox li {
+	padding: 3px 10px;
+}
+
+#ProfileBox .label {
+	margin-right: 15px;
+}
+
+#ProfileBox .buttons {
+	padding: 30px 50px;
+}
+
+#ProfileBox input {
+	width: 175px;
+}
+
+.stuff_form {
+	padding: 10px;
+}
+
+.stuff_form .title {
+	font-size: 18px;
+}
+
+.stuff_form label {
+	display: block;
+	margin: 15px 0px;
+	line-height: 20px;
+}
+
+.stuff_form .fields {
+	padding-right: 2px;
+}
+
+.stuff_form .input {
+	width: 100%;
+}
+
+.stuff_form .input_link {
+	width: 96%;
+	padding-left: 18px;
+	background: #FFFFFF url(/images/i-ie.gif) no-repeat;
+}
+
+.stuff_form .buttons button {
+	margin-right: 10px;
+}
+
+#SiteFoot .rss,#SiteFoot .inform {
+	text-align: center;
+	padding-top: 5px;
+}
+
+.pager_enabled {
+	text-decoration: none;
+}
+
+.pager_enabled_active {
+	text-decoration: underline;
+}

@@ -1,0 +1,24 @@
+.pager_disabled {
+	font-size: 12px;
+	color: 	#6C6A64;
+	text-decoration: none;
+}
+
+.pager_enabled {
+	font-size: 12px;
+	color: #3EABEF;
+	text-decoration: none;
+}
+
+.pager_enabled_active{
+	font-size: 12px;
+	color: #3EABEF;
+	text-decoration: underline;
+}
+
+.pager_cur_page {
+	font-size: 12px;
+	font-weight: bold;
+	color: 	#FF6000;
+	text-decoration: none;
+}

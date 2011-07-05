@@ -1,0 +1,120 @@
+#SiteHead {
+	background: url(/passport/images/head/bg-head.gif) repeat-x;
+	height: 45px;
+	color: #FFFFFF;
+}
+
+#SiteHead .logo,#SiteHead .hi,#SiteHead .favor_img {
+	float: left;
+	margin-left: 20px;
+}
+
+#SiteHead .logo {
+	margin-top: 2px;
+}
+
+#SiteHead .hi {
+	margin-top: 5px;
+}
+
+#SiteHead .favor_img {
+	margin-top: 10px;
+}
+
+#SiteHead .hi_name {
+	font-size: 16px;
+	font-weight: bold;
+	display: block;
+}
+
+#SiteHead .hi_title {
+	color: #ACACAC;
+}
+
+#SiteHead .menu,#SiteHead .login {
+	margin: 10px 10px 0px 0px;
+	float: right;
+}
+
+#SiteHead .menu a {
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+#SiteHead .login {
+	height: 22px;
+	overflow: hidden;
+}
+
+#SiteHead .login,#SiteHead .login a {
+	color: #ACACAC;
+}
+
+#SiteHead .login label {
+	margin: 0px 5px;
+}
+
+#SiteHead .login .input {
+	border-width: 0px 0px 1px 0px;
+	margin-left: 5px;
+	background-color: transparent;
+	color: #FFFFFF;
+	border-color: #ACACAC;
+	cursor: text;
+}
+
+#SiteHead .login .btn_login {
+	background: White url(/passport/images/head/login.gif) no-repeat;
+	width: 55px;
+	height: 17px;
+	border: 0px;
+	margin-left: 0;
+	cursor: pointer;
+	text-align: center;
+	color: #FFFFFF;
+	font-size: 12px;
+	vertical-align: middle;
+}
+
+#SiteHead .favorite {
+	position: absolute;
+	top: 50px;
+	left: 383px;
+	display: none;
+	width: 429px;
+	color: #7A7A7A;
+	line-height: 20px;
+}
+
+#SiteHead .favorite .body {
+	background-color: #FFFFFF;
+	padding: 10px;
+	border-left: 1px solid #505050;
+	border-right: 1px solid #505050;
+}
+
+#SiteHead .favorite .blue_text2 {
+	color: #009EFF;
+	font-size: 14px;
+}
+
+#SiteHead .favorite .blue_text {
+	color: #009EFF;
+}
+
+#SiteHead .favorite .red_text {
+	color: #C95819;
+}
+
+#SiteHead .favorite .des_pic {
+	float: left;
+}
+
+#SiteHead .favorite .text_content {
+	float: right;
+}
+
+#SiteHead .favorite p {
+	margin: 0px 0px 10px 0px;
+}

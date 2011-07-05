@@ -7,16 +7,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+
+import com.weguan.passport.web.UserContext;
 
 @Controller
-public class IndexController {
+public class HomeController {
 
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public ModelAndView index(HttpServletRequest request,
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String index(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
-		ModelAndView mav = new ModelAndView("index");
-		mav.addObject("name", "wujiajun");
-		return mav;
+		UserContext context = UserContext.getUserContext(request);
+		if (!context.hasLogin()) {
+			return null;
+		}
+		long uid = context.getUid();
+		request.setAttribute("loginedUserPoin", uid);
+		return "home/HomePage";
 	}
 }

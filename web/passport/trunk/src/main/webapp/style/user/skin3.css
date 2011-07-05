@@ -1,0 +1,54 @@
+a,a:visited {
+	color: #7F7B70;
+}
+
+body {
+	background-color: #FFF7E2;
+}
+
+#UserPanel {
+	background-image: url(/images/user/skin3/bg-diwen.gif);
+	color: #FFFFFF;
+}
+
+#UserPanel .user_titles h1 {
+	
+}
+
+#UserPanel .user_titles h2 {
+	
+}
+
+#UserPanel .user_titles h4 {
+	
+}
+
+#NoStuff {
+	border: 1px solid #DFDFDF;
+	color: #7E7E7E;
+}
+
+#StuffList .image .image_img {
+	background-color: #EDE6D1;
+}
+
+#StuffList .filter,#StuffFormPanel .icon {
+	background-image: url(/images/user/skin3/i-stuff.gif);
+}
+
+#StuffFormPanel,#StuffList,#SiteFoot {
+	color: #78746A;
+}
+
+.stuff_form {
+	border: 1px solid #E9E9E9;
+	background-color: #EDE6D1;
+}
+
+.stuff_form .title {
+	color: #7F7B70;
+}
+
+.stuff_form .input {
+	border: 1px solid #7E7E7E;
+}

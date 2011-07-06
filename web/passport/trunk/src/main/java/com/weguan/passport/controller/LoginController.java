@@ -1,5 +1,7 @@
 package com.weguan.passport.controller;
 
+import java.awt.image.RescaleOp;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.weguan.passport.exception.LoginException;
 import com.weguan.passport.form.LoginForm;
@@ -40,22 +43,30 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(HttpServletRequest request,
+	@ResponseBody
+	public Object[] login(HttpServletRequest request,
 			HttpServletResponse reponse, LoginForm loginForm, Model model) {
 		UserContext context = UserContext.getUserContext(request);
 		if (context.hasLogin()) {
-			return "redirect:/";
+			return result(true, "/", null, null);
 		}
 		try {
 			Passport passport = loginService.authenticate(
 					loginForm.getLoginName(), loginForm.getLoginPassword());
+			LoginHelper.login(request, passport.getId());
+			return result(true, StringUtils.isEmpty(loginForm.getRu()) ? "/"
+					: loginForm.getRu(), null, null);
 		} catch (LoginException e) {
 			if (log.isDebugEnabled()) {
 				log.error(e.getMessage(), e);
 			}
 			// 处理错误
+			return result(false, null, null, "");
 		}
+	}
 
-		return "PrepareLoginPage";
+	private Object[] result(boolean isSuccess, String returnLink, String token,
+			String errorMessage) {
+		return new Object[] { isSuccess, returnLink, token, errorMessage };
 	}
 }

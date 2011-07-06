@@ -16,8 +16,8 @@ function doLogin(loginForm) {
 				}
 				window.location.href = resultArray[1];
 			} else {
-				if ($("message")) {
-					$("message").innerHTML = "用户名或密码错误错误！";
+				if ($("message") && resultArray[3]) {
+					$("message").innerHTML = resultArray[3];
 				} else {
 					window.location.href = resultArray[1];
 				}

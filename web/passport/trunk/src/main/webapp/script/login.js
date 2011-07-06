@@ -4,15 +4,15 @@ function doLogin(loginForm) {
 			var resultArray = JSON.parse(responseText);
 			if (resultArray[0]) {
 				if (resultArray[2] && (typeof(resultArray[2]) == "string")) {
-					var date = new Date();
-					date.setMilliseconds(date.getMilliseconds() + 1000 * 60
-							* 60 * 24 * 30);
-					Cookie.set('loginCookie', resultArray[2], {
-						path : '/',
-						duration : 30
-					});
+					//var date = new Date();
+					//date.setMilliseconds(date.getMilliseconds() + 1000 * 60
+					//		* 60 * 24 * 30);
+					//Cookie.set('loginCookie', resultArray[2], {
+					//	path : '/',
+					//	duration : 30
+					//});
 				} else {
-					Cookie.remove("loginCookie");
+					//Cookie.remove("loginCookie");
 				}
 				window.location.href = resultArray[1];
 			} else {
@@ -47,9 +47,9 @@ function doGetPassword(loginForm) {
 					case "emailAddress_invalid" :
 						$("message").innerHTML = "email地址错误！";
 						break;
-					case "emailAddress_invalid" :
-						$("message").innerHTML = "email地址错误！";
-						break;
+					//case "emailAddress_invalid" :
+					//	$("message").innerHTML = "email地址错误！";
+					//	break;
 					case "success_send" :
 						$("message").innerHTML = "密码已发到您的邮箱，请注意查收！";
 						break;

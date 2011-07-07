@@ -22,6 +22,6 @@ public class LoginException extends WeguanException {
 	}
 
 	public LoginException(String errorCode, Throwable cause) {
-		super(errorCode);
+		super(errorCode, cause);
 	}
 }

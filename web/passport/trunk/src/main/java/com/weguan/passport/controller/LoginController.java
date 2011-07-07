@@ -1,5 +1,7 @@
 package com.weguan.passport.controller;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +29,8 @@ public class LoginController {
 
 	@Autowired
 	private ILoginService loginService;
+	@Autowired
+	private MessageSource messageSource;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, LoginForm loginForm,
@@ -59,7 +64,8 @@ public class LoginController {
 				log.error(e.getMessage(), e);
 			}
 			// 处理错误
-			return result(false, null, null, "");
+			return result(false, null, null, messageSource.getMessage(
+					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
 		}
 	}
 

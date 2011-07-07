@@ -1,5 +1,6 @@
 package com.weguan.passport.service.impl;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,7 +26,8 @@ public class LoginService implements ILoginService {
 		if (StringUtils.isEmpty(loginName) || StringUtils.isEmpty(password)) {
 			throw new LoginException(LoginException.LOGIN_INVALID);
 		}
-		Passport passport = passportDao.selectPassportByUserName(loginName);
+		Passport passport = passportDao.selectPassportByUserName(StringUtils
+				.lowerCase(loginName));
 		if (null == passport) {
 			if (log.isDebugEnabled()) {
 				log.debug("The loginName is not exist.[loginName=" + loginName
@@ -33,7 +35,8 @@ public class LoginService implements ILoginService {
 			}
 			throw new LoginException(LoginException.LOGIN_NAME_INEXISTENCE);
 		}
-		if (!StringUtils.equals(passport.getPassword(), password)) {
+		if (!StringUtils.equals(passport.getPassword(),
+				DigestUtils.md5Hex(password))) {
 			if (log.isDebugEnabled()) {
 				log.debug("The password is error.[loginName=" + loginName + "]");
 			}

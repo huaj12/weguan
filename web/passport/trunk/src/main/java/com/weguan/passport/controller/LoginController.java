@@ -1,7 +1,5 @@
 package com.weguan.passport.controller;
 
-import java.awt.image.RescaleOp;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

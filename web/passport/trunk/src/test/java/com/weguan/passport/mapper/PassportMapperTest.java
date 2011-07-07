@@ -30,10 +30,10 @@ public class PassportMapperTest {
 		passport = new Passport();
 		passport.setActive(0);
 		passport.setCreateTime(new Date());
-		passport.setEmail("wujiajun1020@gmail.com");
+		passport.setEmail("wujiajun123456789@gmail.com");
 		passport.setLastModifyTime(passport.getCreateTime());
 		passport.setPassword("65012331");
-		passport.setUserName("wujiajun");
+		passport.setUserName("wujiajun123456789");
 	}
 
 	@After

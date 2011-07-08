@@ -1,4 +1,4 @@
-package com.weguan.passport.util;
+package com.weguan.passport.core.util;
 
 import java.nio.charset.Charset;
 

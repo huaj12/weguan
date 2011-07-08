@@ -35,12 +35,12 @@
 				</tr>
 				<tr>
 					<td align="left"><span class="text">用户名</span><br />
-					<input type="text" name="loginName" class="input_name" size="15" maxlength="18"/>
+					<input type="text" name="loginName" class="input_name" size="15" maxlength="16" value="${registerForm.loginName}"/>
 					<span class="weguan-text">.weguan.com</span></td>
 				</tr>
-				<c:if test="${error=='duplicated_user'}">
+				<c:if test="${errorCode=='20002'}">
 					<tr>
-						<td align="left">用户名已经存在。</td>
+						<td align="left">${error}</td>
 					</tr>
 				</c:if>
 				<tr>
@@ -48,13 +48,18 @@
 					<input type="password" class="input" size="35" name="password"
 						maxlength="18" /></td>
 				</tr>
+				<c:if test="${errorCode=='20004'}">
+					<tr>
+						<td align="left">${error}</td>
+					</tr>
+				</c:if>
 				<tr>
 					<td align="left"><span class="text">邮箱</span><br />
-					<input type="text" name="emailAddress" class="input" size="35" /></td>
+					<input type="text" name="emailAddress" class="input" size="35" value="${registerForm.emailAddress}" /></td>
 				</tr>
-				<c:if test="${error=='duplicated_email_address'}">
+				<c:if test="${errorCode=='20003'||errorCode=='20001'}">
 					<tr>
-						<td align="left">邮箱已经存在。</td>
+						<td align="left">${error}</td>
 					</tr>
 				</c:if>
 				<tr>

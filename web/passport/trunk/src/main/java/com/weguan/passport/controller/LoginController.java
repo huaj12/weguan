@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.weguan.passport.core.web.UserContext;
 import com.weguan.passport.exception.LoginException;
 import com.weguan.passport.form.LoginForm;
 import com.weguan.passport.model.Passport;
 import com.weguan.passport.service.ILoginService;
-import com.weguan.passport.web.UserContext;
 
 @Controller
 public class LoginController {

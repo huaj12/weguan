@@ -13,13 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.weguan.passport.core.util.StringUtil;
 import com.weguan.passport.exception.RegisterException;
 import com.weguan.passport.form.RegisterForm;
 import com.weguan.passport.mapper.PassportMapper;
 import com.weguan.passport.model.Passport;
 import com.weguan.passport.model.PassportExample;
 import com.weguan.passport.service.IRegisterService;
-import com.weguan.passport.util.StringUtil;
 
 @Service
 public class RegisterService implements IRegisterService {
@@ -83,15 +83,15 @@ public class RegisterService implements IRegisterService {
 			throw new RegisterException(
 					RegisterException.REGISTER_USERNAME_INVALID);
 		}
-		if (!EMAIL_PATTERN.matcher(registerForm.getEmailAddress()).matches()) {
-			throw new RegisterException(
-					RegisterException.REGISTER_EMAIL_INVALID);
-		}
 		int passwordLth = StringUtil.chineseLength(registerForm.getPassword());
 		if (passwordLth < registerPasswordMin
 				|| passwordLth > registerPasswordMax) {
 			throw new RegisterException(
 					RegisterException.REGISTER_PASSWORD_INVALID);
+		}
+		if (!EMAIL_PATTERN.matcher(registerForm.getEmailAddress()).matches()) {
+			throw new RegisterException(
+					RegisterException.REGISTER_EMAIL_INVALID);
 		}
 	}
 }

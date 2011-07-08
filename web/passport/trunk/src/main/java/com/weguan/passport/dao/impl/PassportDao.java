@@ -3,6 +3,7 @@ package com.weguan.passport.dao.impl;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.weguan.passport.dao.IPassportDao;
@@ -13,6 +14,7 @@ import com.weguan.passport.model.PassportExample;
 @Repository
 public class PassportDao implements IPassportDao {
 
+	@Autowired
 	private PassportMapper passportMapper;
 
 	@Override

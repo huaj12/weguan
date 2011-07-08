@@ -1,4 +1,4 @@
-package com.weguan.passport.web.filter;
+package com.weguan.passport.core.web.filter;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 
+import com.weguan.passport.core.util.Constants;
 import com.weguan.passport.exception.NeedLoginException;
-import com.weguan.passport.util.Constants;
 
 @Component
 public class CheckLoginFilter implements Filter {

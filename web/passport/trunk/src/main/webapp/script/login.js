@@ -1,5 +1,5 @@
 function doLogin(loginForm) {
-	var request = new HttpRequest(WeGaunConstants.httpService+"/login.html", "POST", {
+	var request = new HttpRequest("/passport/login", "POST", {
 		onRequestSuccess : function(responseText) {
 			var resultArray = JSON.parse(responseText);
 			if (resultArray[0]) {

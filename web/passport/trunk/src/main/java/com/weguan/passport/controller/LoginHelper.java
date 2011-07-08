@@ -2,8 +2,8 @@ package com.weguan.passport.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.weguan.passport.web.UserContext;
-import com.weguan.passport.web.util.HttpRequestUtil;
+import com.weguan.passport.core.web.UserContext;
+import com.weguan.passport.core.web.util.HttpRequestUtil;
 
 public class LoginHelper {
 

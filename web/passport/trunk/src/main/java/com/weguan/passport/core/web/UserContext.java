@@ -1,8 +1,8 @@
-package com.weguan.passport.web;
+package com.weguan.passport.core.web;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.weguan.passport.web.util.HttpRequestUtil;
+import com.weguan.passport.core.web.util.HttpRequestUtil;
 
 /**
  * 适用于manager层的用户上下文环境。可用于模拟用户的登录状态、用户当前的session ID、用户当前的IP地址。

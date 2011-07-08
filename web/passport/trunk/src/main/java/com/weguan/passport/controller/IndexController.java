@@ -8,20 +8,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.weguan.passport.web.UserContext;
+import com.weguan.passport.core.web.UserContext;
 
 @Controller
-public class HomeController {
+public class IndexController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		UserContext context = UserContext.getUserContext(request);
-		if (!context.hasLogin()) {
-			return null;
-		}
-		long uid = context.getUid();
-		request.setAttribute("loginedUserPoin", uid);
-		return "home/HomePage";
+		request.setAttribute("loginedUserPoin", context.getUid());
+		request.setAttribute("hasLogin", context.hasLogin());
+		return "index/Index";
 	}
 }

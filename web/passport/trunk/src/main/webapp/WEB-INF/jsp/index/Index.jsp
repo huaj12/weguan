@@ -36,11 +36,11 @@
         </c:if>
         <c:if test="${hasLogin}">
             <script language="javascript">
-    function logout(){
-        Cookie.remove("loginCookie",{path:'/'});
-        window.top.location.href = "${logoutLink}";
-    }
-    </script>
+			    function logout(){
+			        Cookie.remove("loginCookie",{path:'/'});
+			        window.top.location.href = "${logoutLink}";
+			    }
+    		</script>
             <td width="188" align="center"><a href="javascript:logout();"
                 class="login">退出</a></td>
         </c:if>

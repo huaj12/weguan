@@ -1,4 +1,4 @@
-package com.weguan.passport.web.util;
+package com.weguan.passport.core.web.util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

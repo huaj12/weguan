@@ -1,9 +1,12 @@
 package com.weguan.passport.controller;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,8 @@ public class RegisterController {
 
 	@Autowired
 	private IRegisterService registerService;
+	@Autowired
+	private MessageSource messageSource;
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String register(HttpServletRequest request,
@@ -35,8 +40,11 @@ public class RegisterController {
 			}
 			model.addAttribute("uid", uid);
 		} catch (RegisterException e) {
-			model.addAttribute("error", e.getMessage());
+			model.addAttribute("errorCode", e.getErrorCode());
+			model.addAttribute("error", messageSource.getMessage(
+					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
+			model.addAttribute("registerForm", registerForm);
 		}
-		return "register/register";
+		return "register/Register";
 	}
 }

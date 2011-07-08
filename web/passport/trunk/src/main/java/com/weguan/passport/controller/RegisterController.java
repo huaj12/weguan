@@ -27,7 +27,7 @@ public class RegisterController {
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String register(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
-		return "register/register";
+		return "register/Register";
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)

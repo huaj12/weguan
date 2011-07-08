@@ -4,9 +4,9 @@
 	<tr>
 		<td width="48">&nbsp;</td>
 		<td width="362"><a href="${indexPageLink}"><img
-			src="images/homepage/logo.gif" width="200" height="98" border="0" /></a></td>
-		<td width="188" align="center"><a href="${registerLink}"
-			class="login">注册</a> &nbsp;&nbsp;&nbsp;&nbsp;<a href="${loginLink}"
+			src="${staticService}/images/homepage/logo.gif" width="200" height="98" border="0" /></a></td>
+		<td width="188" align="center"><a href="${httpService}/register"
+			class="login">注册</a> &nbsp;&nbsp;&nbsp;&nbsp;<a href="${httpService}/login"
 			class="login">登录</a></td>
 	</tr>
 </table>

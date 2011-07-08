@@ -6,11 +6,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>用户登录</title>
-<link href="/passport/style/public.css" rel="stylesheet" type="text/css" />
-<link href="/passport/style/head.css" rel="stylesheet" type="text/css" />
-<link href="/passport/style/homepage.css" rel="stylesheet" type="text/css" />
+<link href="${staticService}/style/public.css" rel="stylesheet" type="text/css" />
+<link href="${staticService}/style/head.css" rel="stylesheet" type="text/css" />
+<link href="${staticService}/style/homepage.css" rel="stylesheet" type="text/css" />
 <jsp:include page="Script.jsp" flush="true"></jsp:include>
-<script type="text/javascript" src="/passport/script/login.js"></script>
+<script type="text/javascript" src="${staticService}/script/login.js"></script>
 </head>
 <body>
 <div class="Bg_head"></div>
@@ -18,7 +18,7 @@
 <table width="600" border="0" align="center" cellpadding="0"
 	cellspacing="0">
 	<tr>
-		<td><img src="/passport/images/homepage/Bg_head.gif" width="600"
+		<td><img src="${staticService}/images/homepage/Bg_head.gif" width="600"
 			height="58" /></td>
 	</tr>
 	<tr>
@@ -29,7 +29,7 @@
 		<table width="80%" border="0" cellpadding="0" cellspacing="8">
 			<tr>
 				<td align="left" valign="top"><label><img
-					src="/passport/images/login.png" width="71" height="32" /> <span
+					src="${staticService}/images/login.png" width="71" height="32" /> <span
 					class="Bottom_text">或</span> <a href="${registerLink}">注册</a></label></td>
 			</tr>
 			<tr>
@@ -61,7 +61,7 @@
 	</tr>
 	<tr>
 		<td align="center" class="Bg_body"><img
-			src="/passport/images/homepage/Bg_bottom.gif" width="600" height="58" /></td>
+			src="${staticService}/images/homepage/Bg_bottom.gif" width="600" height="58" /></td>
 	</tr>
 </table>
 <jsp:include page="Footer.jsp" flush="true"></jsp:include>

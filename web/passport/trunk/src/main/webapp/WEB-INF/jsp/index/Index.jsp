@@ -10,12 +10,12 @@
 
 <!-- <link href="${homepageRssLink}" rel="alternate" title="微观分享"
 	type="application/rss+xml" /> -->
-<link href="/passport/style/user/template1/public.css" rel="stylesheet" type="text/css" />
-<link href="/passport/style/user/template1/index.css" rel="stylesheet" type="text/css" />
-<link href="/passport/style/homepage.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="/passport/script/user/share.js"></script>
-<script type="text/javascript" src="/passport/script/homepage.js"></script>
-<script type="text/javascript" src="/passport/script/user/audio-player.js"></script>
+<link href="${staticService}/style/user/template1/public.css" rel="stylesheet" type="text/css" />
+<link href="${staticService}/style/user/template1/index.css" rel="stylesheet" type="text/css" />
+<link href="${staticService}/style/homepage.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${staticService}/script/user/share.js"></script>
+<script type="text/javascript" src="${staticService}/script/homepage.js"></script>
+<script type="text/javascript" src="${staticService}/script/user/audio-player.js"></script>
 </head>
 
 <body>
@@ -27,12 +27,12 @@
 <table width="600" align="center" cellpadding="0" cellspacing="0">
     <tr>
         <td width="48">&nbsp;</td>
-        <td width="362"><a href="${indexPageLink}"><img
-            src="/passport/images/homepage/logo.gif" width="200" height="98" border="0" /></a></td>
+        <td width="362"><a href="${httpService}"><img
+            src="${staticService}/images/homepage/logo.gif" width="200" height="98" border="0" /></a></td>
         <c:if test="${!hasLogin}">
-            <td width="188" align="center"><a href="${registerLink}"
+            <td width="188" align="center"><a href="${httpService}/register"
                 class="login">注册</a> &nbsp;&nbsp;&nbsp;&nbsp;<a
-                href="${loginLink}" class="login">登录</a></td>
+                href="${httpService}/login" class="login">登录</a></td>
         </c:if>
         <c:if test="${hasLogin}">
             <script language="javascript">
@@ -48,10 +48,10 @@
 </table>
 <table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
-        <td><img src="/passport/images/homepage/Bg_head.gif" width="600" height="58" /></td>
+        <td><img src="${staticService}/images/homepage/Bg_head.gif" width="600" height="58" /></td>
     </tr>
     <tr>
-        <td><img src="/passport/images/homepage/Bg_slogan.gif" width="600"
+        <td><img src="${staticService}/images/homepage/Bg_slogan.gif" width="600"
             height="66" /></td>
     </tr>
     <tr>
@@ -117,9 +117,9 @@
         <tr>
 
             <td height="26" align="center" class="Bg_body"><a
-                href="${registerLink}" onmouseout="changeImage(this,'on')"
+                href="${httpService}/register" onmouseout="changeImage(this,'on')"
                 onmouseover="changeImage(this,'off')"><img
-                src="/passport/images/homepage/I_button.gif" name="Image11" width="551"
+                src="${staticService}/images/homepage/I_button.gif" name="Image11" width="551"
                 height="67" border="0" id="Image11" /></a></td>
 
         </tr>
@@ -129,7 +129,7 @@
         </tr>
         <tr>
             <td align="center" class="Bg_body"><img
-                src="/passport/images/homepage/Bg_ad.jpg" width="551" height="267"
+                src="${staticService}/images/homepage/Bg_ad.jpg" width="551" height="267"
                 border="0" usemap="#Map" /></td>
         </tr>
         <tr>
@@ -140,7 +140,7 @@
             <td height="26" align="center" class="Bg_body">
             <table width="551" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td><img src="/passport/images/homepage/Bg_bottomleft.gif"
+                    <td><img src="${staticService}/images/homepage/Bg_bottomleft.gif"
                         width="7" height="138" /></td>
                     <td width="537" valign="top" bgcolor="#e1e5e7">
                     <table width="537" border="0" cellspacing="0"
@@ -156,7 +156,7 @@
                                 class="Bottom_image">
                                 <tr>
                                     <td><img
-                                        src="/passport/images/homepage/i_text.gif"
+                                        src="${staticService}/images/homepage/i_text.gif"
                                         id="image" width="146" height="96" /></td>
                                 </tr>
                             </table>
@@ -179,7 +179,7 @@
 
                     </table>
                     </td>
-                    <td><img src="/passport/images/homepage/Bg_bottomright.gif"
+                    <td><img src="${staticService}/images/homepage/Bg_bottomright.gif"
                         width="7" height="138" /></td>
                 </tr>
 
@@ -189,7 +189,7 @@
     </c:if>
     <tr>
         <td align="center" class="Bg_body"><img
-            src="/passport/images/homepage/Bg_bottom.gif" width="600" height="58" /></td>
+            src="${staticService}/images/homepage/Bg_bottom.gif" width="600" height="58" /></td>
     </tr>
 
 </table>
@@ -208,7 +208,7 @@
         onmouseover="javascript:changeTitle('music')" />
 </map>
 <div id="Rss" style="text-align: center; "><a
-	href="${homepageRssLink}"><img src="/passport/images/i-rss.gif"></img></a><br />
+	href="${homepageRssLink}"><img src="${staticService}/images/i-rss.gif"></img></a><br />
 <a href="http://admin.weguan.com/" target="_blank" style="color: #fff">官方通告</a></div>
 <jsp:include page="../GoogleAnalytics.jsp" flush="true"></jsp:include>
 </body>

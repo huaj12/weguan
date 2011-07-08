@@ -42,7 +42,7 @@
   	<param-value>/WEB-INF/classes/application-context.xml</param-value>
   </context-param>
   
-  <servlet>
+    <servlet>
        <servlet-name>spring web</servlet-name>
        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
        <init-param>
@@ -56,30 +56,26 @@
        <servlet-name>spring web</servlet-name>
        <url-pattern>/</url-pattern>
    </servlet-mapping>
-   
+  
    <servlet-mapping>
        <servlet-name>default</servlet-name>
        <url-pattern>*.css</url-pattern>
    </servlet-mapping>
-
-    <servlet-mapping>
-       <servlet-name>default</servlet-name>
-       <url-pattern>*.gif</url-pattern>
-   </servlet-mapping>
-  
+   <servlet-mapping>
+      <servlet-name>default</servlet-name>
+      <url-pattern>*.gif</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
        <servlet-name>default</servlet-name>
        <url-pattern>*.jpg</url-pattern>
   </servlet-mapping>
-  
   <servlet-mapping>
        <servlet-name>default</servlet-name>
        <url-pattern>*.png</url-pattern>
   </servlet-mapping>
-  
   <servlet-mapping>
        <servlet-name>default</servlet-name>
        <url-pattern>*.js</url-pattern>
   </servlet-mapping>
-  
+   
 </web-app>

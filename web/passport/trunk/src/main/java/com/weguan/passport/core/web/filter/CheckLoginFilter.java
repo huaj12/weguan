@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 
+import com.weguan.passport.core.SystemConfig;
 import com.weguan.passport.core.util.Constants;
 import com.weguan.passport.exception.NeedLoginException;
 
@@ -34,6 +35,12 @@ public class CheckLoginFilter implements Filter {
 		HttpServletResponse rep = (HttpServletResponse) response;
 		HttpServletRequest req = (HttpServletRequest) request;
 		try {
+			System.out.println(req.getRequestURL());
+			System.out.println(SystemConfig.STATIC_DOMAIN+"***********");
+			System.out.println(SystemConfig.BASIC_DOMAIN+"*************");
+			System.out.println("-------------------------------------------");
+			req.setAttribute("staticService", SystemConfig.STATIC_DOMAIN);
+			req.setAttribute("httpService", SystemConfig.BASIC_DOMAIN);
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
 			if (e instanceof NeedLoginException) {

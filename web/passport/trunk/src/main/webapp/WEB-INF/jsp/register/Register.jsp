@@ -4,8 +4,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link href="/passport/style/public.css" rel="stylesheet" type="text/css" />
-<link href="/passport/style/homepage.css" rel="stylesheet" type="text/css" />
+<link href="${staticService}/style/public.css" rel="stylesheet" type="text/css" />
+<link href="${staticService}/style/homepage.css" rel="stylesheet" type="text/css" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <c:if test="${uid>0}">
 	<meta http-equiv="Refresh" content="0;URL=/passport" />
@@ -15,11 +15,11 @@
 <body>
 <div class="Bg_head"></div>
 <jsp:include page="../IndexHeader.jsp" />
-<form action="register" method="post">
+<form action="${httpService}/register" method="post">
 	<table width="600" border="0" align="center" cellpadding="0"
 		cellspacing="0">
 		<tr>
-			<td><img src="/passport/images/homepage/Bg_head.gif" width="600"
+			<td><img src="${staticService}/images/homepage/Bg_head.gif" width="600"
 				height="58" /></td>
 		</tr>
 		<tr>
@@ -27,7 +27,7 @@
 			<table width="80%" border="0" cellpadding="0" cellspacing="8">
 				<tr>
 					<td align="left" valign="top"><label><img
-						src="/passport/images/regist.png" width="72" height="33" /> <span
+						src="${staticService}/images/regist.png" width="72" height="33" /> <span
 						class="Bottom_text">或</span> <a class="link" href="${loginLink}">登录</a></label></td>
 				</tr>
 				<tr>
@@ -75,7 +75,7 @@
 		</tr>
 		<tr>
 			<td align="center" class="Bg_body"><img
-				src="/passport/images/homepage/Bg_bottom.gif" width="600" height="58" /></td>
+				src="${staticService}/images/homepage/Bg_bottom.gif" width="600" height="58" /></td>
 		</tr>
 	</table>
 </form>

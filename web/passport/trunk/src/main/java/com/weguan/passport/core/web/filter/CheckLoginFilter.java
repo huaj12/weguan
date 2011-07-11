@@ -35,10 +35,6 @@ public class CheckLoginFilter implements Filter {
 		HttpServletResponse rep = (HttpServletResponse) response;
 		HttpServletRequest req = (HttpServletRequest) request;
 		try {
-			System.out.println(req.getRequestURL());
-			System.out.println(SystemConfig.STATIC_DOMAIN+"***********");
-			System.out.println(SystemConfig.BASIC_DOMAIN+"*************");
-			System.out.println("-------------------------------------------");
 			req.setAttribute("staticService", SystemConfig.STATIC_DOMAIN);
 			req.setAttribute("httpService", SystemConfig.BASIC_DOMAIN);
 			filterChain.doFilter(request, response);
@@ -48,7 +44,7 @@ public class CheckLoginFilter implements Filter {
 						.toString(), Constants.UTF8);
 				rep.sendRedirect("/login?returnLink=" + returnLink);
 			} else {
-				throw new ServletException(e.getCause());
+				throw new ServletException(e.getMessage(), e);
 			}
 		}
 	}

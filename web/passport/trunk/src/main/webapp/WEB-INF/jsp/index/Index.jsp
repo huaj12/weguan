@@ -38,7 +38,7 @@
             <script language="javascript">
 			    function logout(){
 			        Cookie.remove("loginCookie",{path:'/'});
-			        window.top.location.href = "${logoutLink}";
+			        window.top.location.href = "${httpService}/logout";
 			    }
     		</script>
             <td width="188" align="center"><a href="javascript:logout();"

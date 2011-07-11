@@ -12,7 +12,7 @@ public class HttpRequestUtil {
 
 	public static Long getSessionAttributeAsLong(HttpServletRequest request,
 			String name, long defaultValue) {
-		if (checkParamNull(request, name)) {
+		if (_checkParamNull(request, name)) {
 			return defaultValue;
 		}
 		HttpSession session = request.getSession();
@@ -25,7 +25,7 @@ public class HttpRequestUtil {
 
 	public static void setSessionAttribute(HttpServletRequest request,
 			String name, Object value) {
-		if (checkParamNull(request, name, value)) {
+		if (_checkParamNull(request, name, value)) {
 			return;
 		}
 		HttpSession session = request.getSession();
@@ -33,7 +33,7 @@ public class HttpRequestUtil {
 	}
 
 	public static String getSessionId(HttpServletRequest request) {
-		if (checkParamNull(request)) {
+		if (_checkParamNull(request)) {
 			return null;
 		}
 		HttpSession session = request.getSession();
@@ -41,13 +41,13 @@ public class HttpRequestUtil {
 	}
 
 	public static String getRemoteAddress(HttpServletRequest request) {
-		if (checkParamNull(request)) {
+		if (_checkParamNull(request)) {
 			return null;
 		}
 		return request.getRemoteAddr();
 	}
 
-	private static boolean checkParamNull(Object... params) {
+	private static boolean _checkParamNull(Object... params) {
 		for (Object param : params) {
 			if (null == param) {
 				log.error("Invalid Parameter.");
@@ -55,5 +55,11 @@ public class HttpRequestUtil {
 			}
 		}
 		return false;
+	}
+
+	public static void removeSessionAttribute(HttpServletRequest request,
+			String uidAttributeName) {
+		HttpSession session = request.getSession();
+		session.removeAttribute(uidAttributeName);
 	}
 }

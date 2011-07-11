@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.weguan.passport.core.util.StringUtil;
+import com.weguan.passport.dao.IPassportDao;
 import com.weguan.passport.exception.RegisterException;
 import com.weguan.passport.form.RegisterForm;
 import com.weguan.passport.mapper.PassportMapper;
@@ -36,6 +37,8 @@ public class RegisterService implements IRegisterService {
 
 	@Autowired
 	private PassportMapper passportMapper;
+	@Autowired
+	private IPassportDao passportDao;
 	@Value("${register.password.min}")
 	private int registerPasswordMin = 6;
 	@Value("${register.password.max}")
@@ -83,6 +86,11 @@ public class RegisterService implements IRegisterService {
 			throw new RegisterException(
 					RegisterException.REGISTER_USERNAME_INVALID);
 		}
+		if (passportDao.countPassportByUserName(registerForm.getLoginName()) > 0) {
+			throw new RegisterException(
+					RegisterException.REGISTER_USERNAME_EXISTENCE);
+		}
+
 		int passwordLth = StringUtil.chineseLength(registerForm.getPassword());
 		if (passwordLth < registerPasswordMin
 				|| passwordLth > registerPasswordMax) {

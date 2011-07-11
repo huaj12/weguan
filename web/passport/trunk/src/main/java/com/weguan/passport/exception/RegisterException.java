@@ -20,6 +20,10 @@ public class RegisterException extends WeguanException {
 	 * 注册密码非法
 	 */
 	public static final String REGISTER_PASSWORD_INVALID = "20004";
+	/**
+	 * 用户名存在
+	 */
+	public static final String REGISTER_USERNAME_EXISTENCE = "20005";
 
 	public RegisterException(String errorCode) {
 		super(errorCode);

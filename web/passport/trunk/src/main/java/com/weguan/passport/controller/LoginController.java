@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.weguan.passport.core.SystemConfig;
 import com.weguan.passport.core.web.UserContext;
 import com.weguan.passport.exception.LoginException;
 import com.weguan.passport.form.LoginForm;
@@ -37,7 +38,7 @@ public class LoginController {
 			Model model) {
 		UserContext context = UserContext.getUserContext(request);
 		if (context.hasLogin()) {
-			return "redirect:/";
+			return "redirect:" + SystemConfig.BASIC_DOMAIN;
 		}
 		if (StringUtils.isNotEmpty(loginForm.getRu())) {
 			model.addAttribute("returnLink", loginForm.getRu());
@@ -51,26 +52,34 @@ public class LoginController {
 			HttpServletResponse reponse, LoginForm loginForm, Model model) {
 		UserContext context = UserContext.getUserContext(request);
 		if (context.hasLogin()) {
-			return result(true, "/", null, null);
+			return _result(true, SystemConfig.BASIC_DOMAIN, null, null);
 		}
 		try {
 			Passport passport = loginService.authenticate(
 					loginForm.getLoginName(), loginForm.getLoginPassword());
 			LoginHelper.login(request, passport.getId());
-			return result(true, StringUtils.isEmpty(loginForm.getRu()) ? "/"
-					: loginForm.getRu(), null, null);
+			return _result(
+					true,
+					StringUtils.isEmpty(loginForm.getRu()) ? SystemConfig.BASIC_DOMAIN
+							: loginForm.getRu(), null, null);
 		} catch (LoginException e) {
 			if (log.isDebugEnabled()) {
 				log.error(e.getMessage(), e);
 			}
 			// 处理错误
-			return result(false, null, null, messageSource.getMessage(
+			return _result(false, null, null, messageSource.getMessage(
 					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
 		}
 	}
 
-	private Object[] result(boolean isSuccess, String returnLink, String token,
-			String errorMessage) {
+	private Object[] _result(boolean isSuccess, String returnLink,
+			String token, String errorMessage) {
 		return new Object[] { isSuccess, returnLink, token, errorMessage };
+	}
+
+	@RequestMapping(value = "/logout")
+	public String logout(HttpServletRequest request) {
+		LoginHelper.logout(request);
+		return "redirect:" + SystemConfig.BASIC_DOMAIN;
 	}
 }

@@ -28,4 +28,11 @@ public class PassportDao implements IPassportDao {
 		return list.get(0);
 	}
 
+	@Override
+	public int countPassportByUserName(String userName) {
+		PassportExample example = new PassportExample();
+		example.createCriteria().andUserNameEqualTo(userName);
+		return passportMapper.countByExample(example);
+	}
+
 }

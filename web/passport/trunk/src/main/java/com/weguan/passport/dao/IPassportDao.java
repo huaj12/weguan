@@ -11,4 +11,12 @@ public interface IPassportDao {
 	 * @return
 	 */
 	public Passport selectPassportByUserName(String userName);
+
+	/**
+	 * 根据用户名计数
+	 * 
+	 * @param userName
+	 * @return
+	 */
+	public int countPassportByUserName(String userName);
 }

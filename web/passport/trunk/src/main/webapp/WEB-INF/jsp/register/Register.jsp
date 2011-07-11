@@ -8,7 +8,7 @@
 <link href="${staticService}/style/homepage.css" rel="stylesheet" type="text/css" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <c:if test="${uid>0}">
-	<meta http-equiv="Refresh" content="0;URL=/passport" />
+	<meta http-equiv="Refresh" content="0;URL=${httpService}" />
 </c:if>
 <title>用户注册</title>
 </head>
@@ -38,7 +38,7 @@
 					<input type="text" name="loginName" class="input_name" size="15" maxlength="16" value="${registerForm.loginName}"/>
 					<span class="weguan-text">.weguan.com</span></td>
 				</tr>
-				<c:if test="${errorCode=='20002'}">
+				<c:if test="${errorCode=='20002'||errorCode=='20005'}">
 					<tr>
 						<td align="left">${error}</td>
 					</tr>

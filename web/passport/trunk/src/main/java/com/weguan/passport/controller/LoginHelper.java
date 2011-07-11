@@ -11,4 +11,9 @@ public class LoginHelper {
 		HttpRequestUtil.setSessionAttribute(request,
 				UserContext.UID_ATTRIBUTE_NAME, uid);
 	}
+
+	public static void logout(HttpServletRequest request) {
+		HttpRequestUtil.removeSessionAttribute(request,
+				UserContext.UID_ATTRIBUTE_NAME);
+	}
 }

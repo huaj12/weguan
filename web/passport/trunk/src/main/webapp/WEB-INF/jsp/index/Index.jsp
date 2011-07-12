@@ -65,7 +65,7 @@
                 <tr>
                     <td width="10%"></td>
                     <td height="26" align="center" class="Bg_body1"><a
-                        href="${myLink}" class="mylink">去 我 的 个 人 主 页
+                        href="${httpService}/home" class="mylink">去 我 的 个 人 主 页
                     &gt;&gt;</a></td>
                     <td width="10%"></td>
                 </tr>

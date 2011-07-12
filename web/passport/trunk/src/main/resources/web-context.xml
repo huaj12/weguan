@@ -19,12 +19,14 @@
 	<mvc:resources location="/script/" mapping="/script/**"/> 
 	<mvc:resources location="/style/" mapping="/style/**"/> 
 	<mvc:resources location="/images/" mapping="/images/**"/> 
-	<!-- <mvc:resources location="/WEB-INF/jsp/" mapping="/WEB-INF/jsp/**"/> --> 
+	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
 		<property name="prefix" value="/WEB-INF/jsp/"/>
 		<property name="suffix" value=".jsp"/>
 	</bean>
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">

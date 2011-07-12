@@ -16,8 +16,11 @@ import org.springframework.stereotype.Service;
 import com.weguan.passport.core.util.StringUtil;
 import com.weguan.passport.dao.IPassportDao;
 import com.weguan.passport.exception.RegisterException;
+import com.weguan.passport.form.ModifyForm;
 import com.weguan.passport.form.RegisterForm;
+import com.weguan.passport.mapper.BlogMapper;
 import com.weguan.passport.mapper.PassportMapper;
+import com.weguan.passport.model.Blog;
 import com.weguan.passport.model.Passport;
 import com.weguan.passport.model.PassportExample;
 import com.weguan.passport.service.IRegisterService;
@@ -37,6 +40,8 @@ public class RegisterService implements IRegisterService {
 
 	@Autowired
 	private PassportMapper passportMapper;
+	@Autowired
+	private BlogMapper blogMapper;
 	@Autowired
 	private IPassportDao passportDao;
 	@Value("${register.password.min}")
@@ -61,11 +66,26 @@ public class RegisterService implements IRegisterService {
 		example.createCriteria()
 				.andUserNameEqualTo(registerForm.getLoginName());
 		List<Passport> list = passportMapper.selectByExample(example);
-		if (CollectionUtils.isEmpty(list)) {
-			return 0L;
-		} else {
-			return list.get(0).getId();
+		long uid = 0L;
+		if (CollectionUtils.isNotEmpty(list)) {
+			uid = list.get(0).getId();
 		}
+		if (uid > 0) {
+			passport.setId(uid);
+			_initBlog(passport);
+		}
+		return uid;
+	}
+
+	private void _initBlog(Passport passport) {
+		Blog blog = new Blog();
+		blog.setUid(passport.getId());
+		blog.setTitle(passport.getUserName() + "的微观世界！");
+		blog.setAbout("简单灵感点燃微观生活。");
+		blog.setStyleTemplate("1");
+		blog.setCreateTime(passport.getCreateTime());
+		blog.setLastModifyTime(passport.getLastModifyTime());
+		blogMapper.insertSelective(blog);
 	}
 
 	private void _checkRegisterForm(RegisterForm registerForm)
@@ -91,15 +111,65 @@ public class RegisterService implements IRegisterService {
 					RegisterException.REGISTER_USERNAME_EXISTENCE);
 		}
 
-		int passwordLth = StringUtil.chineseLength(registerForm.getPassword());
+		_checkPasswordLength(registerForm.getPassword());
+		_checkEmail(registerForm.getEmailAddress());
+	}
+
+	private void _checkPasswordLength(String password) throws RegisterException {
+		int passwordLth = StringUtil.chineseLength(password);
 		if (passwordLth < registerPasswordMin
 				|| passwordLth > registerPasswordMax) {
 			throw new RegisterException(
 					RegisterException.REGISTER_PASSWORD_INVALID);
 		}
-		if (!EMAIL_PATTERN.matcher(registerForm.getEmailAddress()).matches()) {
+	}
+
+	private void _checkEmail(String email) throws RegisterException {
+		if (!EMAIL_PATTERN.matcher(email).matches()) {
 			throw new RegisterException(
 					RegisterException.REGISTER_EMAIL_INVALID);
+		}
+	}
+
+	@Override
+	public void modify(long uid, ModifyForm modifyForm)
+			throws RegisterException {
+		boolean isUpdate = false;
+		Passport passport = passportMapper.selectByPrimaryKey(uid);
+		if (null == passport) {
+			throw new RegisterException(RegisterException.REGISTER_INVALID);
+		}
+		if (StringUtils.isNotEmpty(modifyForm.getPassword())
+				&& StringUtils.isNotEmpty(modifyForm.getPwdConf())) {
+			// check password
+			if (!StringUtils.equals(DigestUtils.md5Hex(modifyForm.getOldPwd()),
+					passport.getPassword())) {
+				throw new RegisterException(
+						RegisterException.REGISTER_OLD_PASSWORD_ERROR);
+			}
+			_checkPasswordLength(modifyForm.getPassword());
+			if (!StringUtils.equals(modifyForm.getPassword(),
+					modifyForm.getPwdConf())) {
+				throw new RegisterException(
+						RegisterException.REGISTER_PASSWORD_CONFIRM_ERROR);
+			}
+			if (!StringUtils.equals(modifyForm.getOldPwd(),
+					modifyForm.getPassword())) {
+				isUpdate = true;
+				passport.setPassword(DigestUtils.md5Hex(modifyForm
+						.getPassword()));
+			}
+		}
+		if (StringUtils.isNotEmpty(modifyForm.getEmailAddress())
+				&& !StringUtils.equals(passport.getEmail(),
+						modifyForm.getEmailAddress())) {
+			// check email
+			_checkEmail(modifyForm.getEmailAddress());
+			isUpdate = true;
+			passport.setEmail(modifyForm.getEmailAddress());
+		}
+		if (isUpdate) {
+			passportMapper.updateByPrimaryKeySelective(passport);
 		}
 	}
 }

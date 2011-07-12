@@ -39,10 +39,13 @@ public class CheckLoginFilter implements Filter {
 			req.setAttribute("httpService", SystemConfig.BASIC_DOMAIN);
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
-			if (e instanceof NeedLoginException) {
-				String returnLink = URLEncoder.encode(req.getRequestURL()
-						.toString(), Constants.UTF8);
-				rep.sendRedirect("/login?returnLink=" + returnLink);
+			if (e.getCause() instanceof NeedLoginException) {
+				String returnLink = URLEncoder.encode(
+						req.getRequestURL().toString()
+								+ (req.getQueryString() == null ? "" : req
+										.getQueryString()), Constants.UTF8);
+				rep.sendRedirect(SystemConfig.BASIC_DOMAIN
+						+ "/login?returnLink=" + returnLink);
 			} else {
 				throw new ServletException(e.getMessage(), e);
 			}

@@ -1,6 +1,6 @@
 package com.weguan.passport.exception;
 
-public class RegisterException extends WeguanException {
+public class BlogException extends WeguanException {
 
 	private static final long serialVersionUID = -2168895320219757711L;
 
@@ -33,11 +33,11 @@ public class RegisterException extends WeguanException {
 	 */
 	public static final String REGISTER_OLD_PASSWORD_ERROR = "20007";
 
-	public RegisterException(String errorCode) {
+	public BlogException(String errorCode) {
 		super(errorCode);
 	}
 
-	public RegisterException(String errorCode, Throwable cause) {
+	public BlogException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}
 }

@@ -3,7 +3,7 @@ a,a:visited {
 }
 
 #UserPanel {
-	background-image: url(/images/user/skin1/bg-diwen.gif);
+	background-image: url(/passport/images/user/skin1/bg-diwen.gif);
 	color: #FFFFFF;
 }
 
@@ -17,7 +17,7 @@ a,a:visited {
 }
 
 #StuffList .filter,#StuffFormPanel .icon {
-	background-image: url(/images/user/skin1/i-stuff.gif);
+	background-image: url(/passport/images/user/skin1/i-stuff.gif);
 }
 
 #StuffFormPanel,#StuffList,#SiteFoot {

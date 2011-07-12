@@ -34,6 +34,10 @@
     <table tableName="tb_passport" domainObjectName="Passport" >
       <property name="useActualColumnNames" value="false"/>
     </table>
+    
+    <table tableName="tb_blog" domainObjectName="Blog" >
+      <property name="useActualColumnNames" value="false"/>
+    </table>
 
   </context>
 </generatorConfiguration>

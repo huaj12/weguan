@@ -3,15 +3,17 @@
  */
 package com.juzhai.act;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,9 +27,11 @@ import com.juzhai.act.model.ActExample;
 @Component("actInitData")
 public class InitData {
 
-	private static final Map<Long, Act> ACT_MAP = new LinkedHashMap<Long, Act>();
-	private static final Map<Long, ActCategory> ACT_CATEGORY_MAP = new LinkedHashMap<Long, ActCategory>();
-	private static final Map<Long, List<Act>> ACT_CATEGORY_ACT_LIST_MAP = new LinkedHashMap<Long, List<Act>>();
+	private static final Log log = LogFactory.getLog(InitData.class);
+
+	public static final Map<Long, Act> ACT_MAP = new LinkedHashMap<Long, Act>();
+	public static final Map<Long, ActCategory> ACT_CATEGORY_MAP = new LinkedHashMap<Long, ActCategory>();
+	public static final Map<Long, List<Act>> ACT_CATEGORY_ACT_LIST_MAP = new LinkedHashMap<Long, List<Act>>();
 
 	@Autowired
 	private ActMapper actMapper;
@@ -65,30 +69,33 @@ public class InitData {
 	private void initActCategoryActList() {
 		ACT_CATEGORY_ACT_LIST_MAP.clear();
 		for (Act act : ACT_MAP.values()) {
-			if (StringUtils.isNotEmpty(act.getCategoryIds())) {
-				StringTokenizer st = new StringTokenizer(act.getCategoryIds(),
-						",");
-				while (st.hasMoreTokens()) {
-					String actCategoryId = st.nextToken();
-					if (StringUtils.isEmpty(actCategoryId)) {
-						continue;
-					} else {
-						try {
-							List<Act> list = ACT_CATEGORY_ACT_LIST_MAP.get(Long
-									.valueOf(actCategoryId));
-							if (null == list) {
-								list = new ArrayList<Act>();
-								ACT_CATEGORY_ACT_LIST_MAP.put(
-										Long.valueOf(actCategoryId), list);
-							}
-							list.add(act);
-						} catch (Exception e) {
-							continue;
-						}
+			addActToCategories(act);
+		}
+	}
+
+	private void addActToCategories(Act act) {
+		if (StringUtils.isNotEmpty(act.getCategoryIds())) {
+			StringTokenizer st = new StringTokenizer(act.getCategoryIds(), ",");
+			while (st.hasMoreTokens()) {
+				String actCategoryId = st.nextToken();
+				try {
+					List<Act> list = ACT_CATEGORY_ACT_LIST_MAP.get(Long
+							.valueOf(actCategoryId));
+					if (null == list) {
+						list = new CopyOnWriteArrayList<Act>();
+						ACT_CATEGORY_ACT_LIST_MAP.put(
+								Long.valueOf(actCategoryId), list);
 					}
+					list.add(act);
+				} catch (Exception e) {
+					log.error(e.getMessage(), e);
 				}
 			}
 		}
 	}
 
+	public void loadAct(Act act) {
+		InitData.ACT_MAP.put(act.getId(), act);
+		addActToCategories(act);
+	}
 }

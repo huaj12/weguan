@@ -69,4 +69,5 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 
+	<import resource="classpath:application-*-context.xml"/>
 </beans>

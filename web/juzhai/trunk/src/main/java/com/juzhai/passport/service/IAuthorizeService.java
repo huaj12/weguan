@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.FriendsBean;
 import com.juzhai.passport.model.Thirdparty;
 
 /**
@@ -43,4 +44,12 @@ public interface IAuthorizeService {
 	 */
 	public long access(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp);
+
+	/**
+	 * 获取好友列表
+	 * 
+	 * @param authInfo
+	 * @return
+	 */
+	public FriendsBean getFriends(AuthInfo authInfo);
 }

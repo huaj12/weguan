@@ -27,6 +27,15 @@ public interface ITpUserAuthService {
 	void cacheAuthInfo(long uid, AuthInfo authInfo);
 
 	/**
+	 * 获取AuthInfo
+	 * 
+	 * @param uid
+	 * @param tpId
+	 * @return
+	 */
+	AuthInfo getAuthInfo(long uid, long tpId);
+
+	/**
 	 * 当前仅当单机情况下，并且在本tomcat下才能使用此方法
 	 * 
 	 * @param request

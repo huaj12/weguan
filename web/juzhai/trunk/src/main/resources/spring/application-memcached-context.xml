@@ -36,7 +36,7 @@
 	</bean>
 	<!-- Use factory bean to build memcached client -->
 	<bean name="memcachedClient" factory-bean="memcachedClientBuilder"
-        factory-method="build" destroy-method="shutdown">
+        factory-method="build" destroy-method="shutdown" lazy-init="false">
         <property name="connectTimeout" value="${memcached.connect.timeout}" />
     </bean>
 

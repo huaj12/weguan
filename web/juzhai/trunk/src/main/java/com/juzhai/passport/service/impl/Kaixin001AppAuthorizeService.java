@@ -16,6 +16,7 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.FriendsBean;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 
@@ -44,7 +45,7 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 		if (StringUtils.isEmpty(sessionKey)) {
 			return 0L;
 		}
-		long time=System.currentTimeMillis();
+		long time = System.currentTimeMillis();
 		KxSDK kxSDK = newKxSDK(tp.getAppKey(), tp.getAppSecret(), sessionKey);
 		User user = null;
 		try {
@@ -52,7 +53,7 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 		} catch (KxException e) {
 			log.error(e.getMessage(), e);
 		}
-		System.out.println(System.currentTimeMillis()-time);
+		System.out.println(System.currentTimeMillis() - time);
 		if (null == user || user.getUid() <= 0) {
 			return 0L;
 		}
@@ -100,5 +101,11 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 		kxSDK.setOAuthConsumer(key, secret);
 		kxSDK.setToken(sessionKey, "kaixin001");
 		return kxSDK;
+	}
+
+	@Override
+	public FriendsBean getFriends(AuthInfo authInfo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

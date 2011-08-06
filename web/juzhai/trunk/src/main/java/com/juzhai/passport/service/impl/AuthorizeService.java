@@ -12,6 +12,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.FriendsBean;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.IAuthorizeService;
 
@@ -33,8 +34,14 @@ public class AuthorizeService implements IAuthorizeService, BeanFactoryAware {
 	@Override
 	public long access(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp) {
-		IAuthorizeService authorizeService = getAuthorizeServiceBean(tp);
-		return authorizeService.access(request, response, authInfo, tp);
+		return getAuthorizeServiceBean(tp).access(request, response, authInfo,
+				tp);
+	}
+
+	@Override
+	public FriendsBean getFriends(AuthInfo authInfo) {
+		return getAuthorizeServiceBean(authInfo.getThirdpartyName(),
+				authInfo.getJoinType()).getFriends(authInfo);
 	}
 
 	@Override
@@ -43,10 +50,14 @@ public class AuthorizeService implements IAuthorizeService, BeanFactoryAware {
 	}
 
 	private IAuthorizeService getAuthorizeServiceBean(Thirdparty tp) {
-		String joinType = StringUtils.upperCase(String.valueOf(tp.getJoinType()
-				.charAt(0))) + StringUtils.substring(tp.getJoinType(), 1);
-		String beanName = tp.getName() + joinType
-				+ this.getClass().getSimpleName();
+		return getAuthorizeServiceBean(tp.getName(), tp.getJoinType());
+	}
+
+	private IAuthorizeService getAuthorizeServiceBean(String tpName,
+			String jionType) {
+		String joinType = StringUtils.upperCase(String.valueOf(jionType
+				.charAt(0))) + StringUtils.substring(jionType, 1);
+		String beanName = tpName + joinType + this.getClass().getSimpleName();
 		IAuthorizeService authorizeService = (IAuthorizeService) beanFactory
 				.getBean(beanName);
 		if (log.isDebugEnabled()) {

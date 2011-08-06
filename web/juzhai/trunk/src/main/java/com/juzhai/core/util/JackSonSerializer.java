@@ -40,4 +40,15 @@ public class JackSonSerializer {
 			throw new JsonGenerationException(e);
 		}
 	}
+
+	public static <T> Map<String, T>[] toMapArray(String jsonAsString)
+			throws JsonGenerationException {
+		try {
+			return m.readValue(jsonAsString,
+					new TypeReference<Map<String, T>[]>() {
+					});
+		} catch (Exception e) {
+			throw new JsonGenerationException(e);
+		}
+	}
 }

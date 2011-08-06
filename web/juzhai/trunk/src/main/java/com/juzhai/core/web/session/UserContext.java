@@ -15,13 +15,16 @@ public class UserContext {
 
 	private String userAgentPermanentCode = null;
 
+	private long tpId;
+
 	UserContext(long uid, String remoteAddress, String sessionId,
-			String userAgentPermanentCode) {
+			String userAgentPermanentCode, long tpId) {
 		super();
 		this.uid = uid;
 		this.remoteAddress = remoteAddress;
 		this.sessionId = sessionId;
 		this.userAgentPermanentCode = userAgentPermanentCode;
+		this.tpId = tpId;
 	}
 
 	/**
@@ -69,4 +72,7 @@ public class UserContext {
 		return userAgentPermanentCode;
 	}
 
+	public long getTpId() {
+		return tpId;
+	}
 }

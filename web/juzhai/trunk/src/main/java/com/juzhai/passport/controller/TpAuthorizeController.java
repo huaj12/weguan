@@ -17,11 +17,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.juzhai.core.web.session.LoginSessionManager;
+import com.juzhai.core.web.ErrorPageDispatcher;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.IAuthorizeService;
+import com.juzhai.passport.service.login.ILoginService;
 
 /**
  * @author wujiajun Created on 2011-2-15
@@ -35,7 +36,7 @@ public class TpAuthorizeController {
 	@Autowired
 	private IAuthorizeService authorizeService;
 	@Autowired
-	private LoginSessionManager loginSessionManager;
+	private ILoginService tomcatLoginService;
 
 	@RequestMapping(value = "access/{tpId}")
 	public String access(HttpServletRequest request,
@@ -50,16 +51,19 @@ public class TpAuthorizeController {
 			}
 			AuthInfo authInfo = getAuthInfoFromCookie(request);
 			uid = authorizeService.access(request, response, authInfo, tp);
-
 		}
 		if (uid <= 0) {
 			log.error("access failed.[tpName=" + tp.getName() + ", joinType="
 					+ tp.getJoinType() + "].");
-			// TODO return 500
-			return null;
-		} else {
-			loginSessionManager.login(request, uid);
+			return ErrorPageDispatcher.ERROR_500;
 		}
+
+		tomcatLoginService.login(request, uid, tp.getId());
+
+		return returnPage(returnTo, tp);
+	}
+
+	private String returnPage(String returnTo, Thirdparty tp) {
 		if (StringUtils.isNotEmpty(returnTo)
 				&& StringUtils.startsWith(returnTo, "http")) {
 			return "redirect:" + returnTo;

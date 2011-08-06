@@ -13,7 +13,7 @@ public class SystemConfig implements FactoryBean<List<String>> {
 
 	private static final Log log = LogFactory.getLog(SystemConfig.class);
 
-	private static final String SYSTEM_CONFIG_PATH = "system.properties";
+	private static final String SYSTEM_CONFIG_PATH = "properties/system.properties";
 
 	public static String BASIC_DOMAIN;
 

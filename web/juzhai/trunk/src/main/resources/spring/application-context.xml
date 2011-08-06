@@ -22,8 +22,9 @@
 			<bean class="com.juzhai.core.SystemConfig">
 				<property name="locations">
 					<list>
-						<value>classpath:jdbc.properties</value>
-						<value>classpath:validation.properties</value>
+						<value>classpath:properties/jdbc.properties</value>
+						<value>classpath:properties/validation.properties</value>
+						<value>classpath:properties/memcached.properties</value>
 					</list>
 				</property>
 			</bean>
@@ -69,5 +70,5 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 
-	<import resource="classpath:application-*-context.xml"/>
+	<import resource="classpath:spring/application-*-context.xml"/>
 </beans>

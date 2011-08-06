@@ -2,8 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
@@ -11,10 +10,10 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context-3.0.xsd"
-        default-lazy-init="true">
-		
+	default-lazy-init="true">
+
 	<context:annotation-config />
-    <context:component-scan base-package="com.juzhai"/>
+	<context:component-scan base-package="com.juzhai" />
 
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -32,8 +31,9 @@
 		</property>
 		<property name="fileEncoding" value="UTF-8" />
 	</bean>
-	
-	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">
 			<list>
 				<value>i18n/error</value>
@@ -41,35 +41,12 @@
 		</property>
 	</bean>
 
-	<!-- 数据库模块配置 start -->
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close">
-		<property name="driverClass" value="${driverClass}" />
-		<property name="jdbcUrl" value="${jdbcUrl}" />
-		<property name="user" value="${username}" />
-		<property name="password" value="${password}" />
-		<property name="initialPoolSize" value="${sdb.initialPoolSize}"/>
-		<property name="minPoolSize" value="${sdb.minPoolSize}" />
-		<property name="maxPoolSize" value="${sdb.maxPoolSize}" />
-		<property name="acquireIncrement" value="${sdb.acquireIncrement}" />
-		<property name="maxIdleTime" value="${sdb.maxIdleTime}" />
-		<property name="checkoutTimeout" value="${sdb.checkoutTimeout}" />
+	<bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="5" />
+		<property name="maxPoolSize" value="10" />
+		<property name="queueCapacity" value="25" />
 	</bean>
 
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="mapperLocations" value="classpath:mybatis/*/*.xml" />
-	</bean>
-	
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg index="0" ref="sqlSessionFactory" />
-		<constructor-arg index="1" value="SIMPLE" />
-	</bean>
-
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.juzhai.*.mapper" />
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>
-
-	<import resource="classpath:spring/application-*-context.xml"/>
+	<import resource="classpath:spring/application-*-context.xml" />
 </beans>

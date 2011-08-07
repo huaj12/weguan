@@ -1,5 +1,7 @@
 package com.juzhai.passport.service.impl;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,7 +14,6 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.FriendsBean;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.IAuthorizeService;
 
@@ -39,9 +40,15 @@ public class AuthorizeService implements IAuthorizeService, BeanFactoryAware {
 	}
 
 	@Override
-	public FriendsBean getFriends(AuthInfo authInfo) {
+	public List<String> getAllFriends(AuthInfo authInfo) {
 		return getAuthorizeServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).getFriends(authInfo);
+				authInfo.getJoinType()).getAllFriends(authInfo);
+	}
+
+	@Override
+	public List<String> getAppFriends(AuthInfo authInfo) {
+		return getAuthorizeServiceBean(authInfo.getThirdpartyName(),
+				authInfo.getJoinType()).getAppFriends(authInfo);
 	}
 
 	@Override

@@ -81,6 +81,9 @@ public class TpUserAuthService implements ITpUserAuthService {
 	@Override
 	public AuthInfo getAuthInfo(long uid, long tpId) {
 		AuthInfo authInfo = null;
+		if (tpId <= 0) {
+			return authInfo;
+		}
 		try {
 			String authInfoJsonString = memcachedClient.getAndTouch(
 					KeyGenerator.genAuthInfoKey(uid), 30 * 60);

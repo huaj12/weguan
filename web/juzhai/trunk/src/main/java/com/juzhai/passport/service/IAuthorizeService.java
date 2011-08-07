@@ -3,11 +3,12 @@
  */
 package com.juzhai.passport.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.FriendsBean;
 import com.juzhai.passport.model.Thirdparty;
 
 /**
@@ -51,5 +52,13 @@ public interface IAuthorizeService {
 	 * @param authInfo
 	 * @return
 	 */
-	public FriendsBean getFriends(AuthInfo authInfo);
+	public List<String> getAllFriends(AuthInfo authInfo);
+
+	/**
+	 * 获取安装了应用的好友列表
+	 * 
+	 * @param authInfo
+	 * @return
+	 */
+	public List<String> getAppFriends(AuthInfo authInfo);
 }

@@ -14,7 +14,8 @@
     	<mybatis.map.targetProject>${project.basedir}\src\main\resources</mybatis.map.targetProject>
     	<mybatis.mysql.jar>${project.basedir}\tool\MBG\mysql-connector-java-5.1.12.jar</mybatis.mysql.jar> -->
     	<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
-    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
+    	<spring.amqp.version>1.0.0.RC2</spring.amqp.version>
+    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -107,6 +108,27 @@
 		  <version>${org.springframework.version}</version>
 		  <scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-amqp</artifactId>
+			<version>${spring.amqp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit</artifactId>
+			<version>${spring.amqp.version}</version>
+			<exclusions>  
+		        <exclusion>  
+		            <groupId>commons-io</groupId>
+    				<artifactId>commons-io</artifactId>
+		        </exclusion>  
+		    </exclusions>
+		</dependency>
+		<!-- <dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit-admin</artifactId>
+			<version>${spring.amqp.version}</version>
+		</dependency> -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

@@ -1,12 +1,18 @@
 package com.juzhai.passport.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kx4j.KxException;
 import kx4j.KxSDK;
+import kx4j.UIDs;
 import kx4j.User;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,7 +22,6 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.FriendsBean;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 
@@ -104,8 +109,54 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 	}
 
 	@Override
-	public FriendsBean getFriends(AuthInfo authInfo) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> getAllFriends(AuthInfo authInfo) {
+		KxSDK kxSDK = newKxSDK(authInfo.getAppKey(), authInfo.getAppSecret(),
+				authInfo.getSessionKey());
+		List<String> friendIdList = new ArrayList<String>();
+		try {
+			int start = 0;
+			int num = 50;
+			while (true) {
+				List<User> userList = kxSDK.getFriends("uid", start, num);
+				if (CollectionUtils.isEmpty(userList)) {
+					break;
+				}
+				for (User user : userList) {
+					friendIdList.add(String.valueOf(user.getUid()));
+				}
+				start += num;
+			}
+		} catch (KxException e) {
+			log.error(e.getMessage(), e);
+		}
+		return friendIdList;
+	}
+
+	@Override
+	public List<String> getAppFriends(AuthInfo authInfo) {
+		KxSDK kxSDK = newKxSDK(authInfo.getAppKey(), authInfo.getAppSecret(),
+				authInfo.getSessionKey());
+		List<String> friendIdList = new ArrayList<String>();
+		try {
+			int start = 0;
+			int num = 50;
+			while (true) {
+				UIDs uids = kxSDK.getAppFriendUids(start, num);
+				if (null == uids || ArrayUtils.isEmpty(uids.getIDs())) {
+					break;
+				}
+				for (long userId : uids.getIDs()) {
+					friendIdList.add(String.valueOf(userId));
+				}
+				if (uids.getNextCursor() <= start) {
+					break;
+				} else {
+					start = Long.valueOf(uids.getNextCursor()).intValue();
+				}
+			}
+		} catch (KxException e) {
+			log.error(e.getMessage(), e);
+		}
+		return friendIdList;
 	}
 }

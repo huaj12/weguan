@@ -9,8 +9,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
         http://www.springframework.org/schema/context 
-        http://www.springframework.org/schema/context/spring-context-3.0.xsd"
-	default-lazy-init="true">
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<!-- 数据库模块配置 start -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"

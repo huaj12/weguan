@@ -4,23 +4,54 @@
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:util="http://www.springframework.org/schema/util"
     xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:rabbit="http://www.springframework.org/schema/rabbit"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
         http://www.springframework.org/schema/context 
-        http://www.springframework.org/schema/context/spring-context-3.0.xsd"
-        default-lazy-init="true">
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 		
 	<bean id="rabbitConnectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
-	    <constructor-arg value="${hostname}"/>
-	    <constructor-arg value="${port}" />
-	    <property name="channelCacheSize" value="${channelCacheSize}" />
+	    <constructor-arg value="${rabbitmq.host}"/>
+	    <constructor-arg value="${rabbitmq.port}" />
+	    <property name="channelCacheSize" value="${rabbitmq.channelCacheSize}" />
 	</bean>
-
-	<bean id="rabbitTemplate" class="">
 	
+	<bean class="org.springframework.amqp.rabbit.core.RabbitAdmin">
+		<constructor-arg name="connectionFactory" ref="rabbitConnectionFactory" />
 	</bean>
+	
+	<bean id="abstractRabbitTemplate" class="org.springframework.amqp.rabbit.core.RabbitTemplate" abstract="true">
+		<property name="connectionFactory" ref="rabbitConnectionFactory" />
+	</bean>
+	
+	<bean id="updateActQueue" class="org.springframework.amqp.core.Queue">
+		<constructor-arg name="name" value="${rabbitmq.queue.updateAct}" />
+		<constructor-arg name="durable" value="true" />
+		<constructor-arg name="exclusive" value="true" />
+		<constructor-arg name="autoDelete" value="true" />
+	</bean>
+	
+	<bean id="updateActExchange" class="org.springframework.amqp.core.DirectExchange">
+		<constructor-arg name="name" value="${rabbitmq.exchange.updateAct}" />
+		<constructor-arg name="durable" value="true" />
+		<constructor-arg name="autoDelete" value="true" />
+	</bean>
+	
+	<bean class="org.springframework.amqp.core.Binding">
+		<constructor-arg name="destination" value="${rabbitmq.queue.updateAct}" />
+		<constructor-arg name="exchange" value="${rabbitmq.exchange.updateAct}" />
+		<constructor-arg name="routingKey" value="${rabbitmq.queue.updateAct}" />
+	</bean>
+	
+	<bean id="updateActRabbitTemplate" parent="abstractRabbitTemplate">
+		<property name="routingKey" value="${rabbitmq.queue.updateAct}" />
+		<property name="queue" value="${rabbitmq.queue.updateAct}" />
+		<property name="exchange" value="${rabbitmq.exchange.updateAct}" />
+	</bean>
+	
+	
 
 </beans>

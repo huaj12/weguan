@@ -25,6 +25,7 @@
 						<value>classpath:properties/validation.properties</value>
 						<value>classpath:properties/memcached.properties</value>
 						<value>classpath:properties/redis.properties</value>
+						<value>classpath:properties/rabbitmq.properties</value>
 					</list>
 				</property>
 			</bean>

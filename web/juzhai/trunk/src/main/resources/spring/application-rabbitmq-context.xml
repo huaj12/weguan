@@ -42,8 +42,10 @@
 	
 	<bean class="org.springframework.amqp.core.Binding">
 		<constructor-arg name="destination" value="${rabbitmq.queue.updateAct}" />
+		<constructor-arg name="destinationType" value="QUEUE" />
 		<constructor-arg name="exchange" value="${rabbitmq.exchange.updateAct}" />
 		<constructor-arg name="routingKey" value="${rabbitmq.queue.updateAct}" />
+		<constructor-arg name="arguments"><null /></constructor-arg>
 	</bean>
 	
 	<bean id="updateActRabbitTemplate" parent="abstractRabbitTemplate">
@@ -52,6 +54,21 @@
 		<property name="exchange" value="${rabbitmq.exchange.updateAct}" />
 	</bean>
 	
-	
+	<bean id="updateActMessageListenerContainer" class="org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer">
+		<property name="connectionFactory" ref="rabbitConnectionFactory" />
+		<property name="queueNames">
+			<array>
+				<value>${rabbitmq.queue.updateAct}</value>
+			</array>
+		</property>
+		<property name="messageListener" >
+			<bean class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
+				<property name="delegate" ref="updateActMessageListener" />
+			</bean>
+		</property>
+		<property name="acknowledgeMode" value="NONE" />
+		<!-- <property name="adviceChain"></property>
+		<property name="shutdownTimeout"></property> -->
+	</bean>
 
 </beans>

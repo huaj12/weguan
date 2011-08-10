@@ -20,7 +20,7 @@
     <javaModelGenerator targetPackage="com.juzhai.passport.model" targetProject="src/main/java">
       <property name="enableSubPackages" value="false" />
       <property name="trimStrings" value="true" />
-      <!-- <property name="rootClass" value="java.io.Serializable"/> -->
+      <property name="rootClass" value="java.io.Serializable"/>
     </javaModelGenerator>
 
     <sqlMapGenerator targetPackage="mybatis.passport"  targetProject="src/main/resources">
@@ -71,7 +71,7 @@
     <javaModelGenerator targetPackage="com.juzhai.act.model" targetProject="src/main/java">
       <property name="enableSubPackages" value="false" />
       <property name="trimStrings" value="true" />
-      <!-- <property name="rootClass" value="java.io.Serializable"/> -->
+	  <property name="rootClass" value="java.io.Serializable"/>
     </javaModelGenerator>
 
     <sqlMapGenerator targetPackage="mybatis.act"  targetProject="src/main/resources">

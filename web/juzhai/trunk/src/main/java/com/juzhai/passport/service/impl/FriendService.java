@@ -5,7 +5,10 @@ package com.juzhai.passport.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 
@@ -13,9 +16,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.core.cache.KeyGenerator;
+import com.juzhai.core.cache.MemcachedKeyGenerator;
+import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.FriendsBean;
@@ -39,37 +45,111 @@ public class FriendService implements IFriendService {
 	@Autowired
 	private MemcachedClient memcachedClient;
 	@Autowired
+	private RedisTemplate<String, List<String>> listRedisTemplate;
+	@Autowired
+	private RedisTemplate<String, Long> longRedisTemplate;
+	@Autowired
 	private TpUserMapper tpUserMapper;
 
 	@Override
-	public FriendsBean getFriends(long uid, long tpId) {
-		FriendsBean fb = null;
-		try {
-			fb = memcachedClient.get(KeyGenerator.genFriendsKey(uid));
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+	public FriendsBean getAllFriends(long uid) {
+		return new FriendsBean(getAppFriendsWithIntimacy(uid),
+				getNonAppFriends(uid));
+	}
+
+	@Override
+	public Map<Long, Integer> getAppFriendsWithIntimacy(long uid) {
+		Set<TypedTuple<Long>> tupleSet = longRedisTemplate.opsForZSet()
+				.rangeWithScores(RedisKeyGenerator.genFriendsKey(uid), 0, -1);
+		Map<Long, Integer> friendsIntimacy = new HashMap<Long, Integer>();
+		for (TypedTuple<Long> tt : tupleSet) {
+			friendsIntimacy.put(tt.getValue(), tt.getScore().intValue());
 		}
-		if (null == fb) {
+		return friendsIntimacy;
+	}
+
+	@Override
+	public Set<Long> getAppFriends(long uid) {
+		Set<Long> friendIds = longRedisTemplate.opsForZSet().range(
+				RedisKeyGenerator.genFriendsKey(uid), 0, -1);
+		if (CollectionUtils.isEmpty(friendIds)) {
+			return Collections.emptySet();
+		} else {
+			return friendIds;
+		}
+	}
+
+	@Override
+	public List<String> getNonAppFriends(long uid) {
+		return listRedisTemplate.opsForValue().get(
+				RedisKeyGenerator.genNonAppFriendsKey(uid));
+	}
+
+	@Override
+	public void updateExpiredFriends(long uid, long tpId) {
+		if (isExpired(uid)) {
 			final AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
 			if (null != authInfo) {
-				List<String> allFriendIds = authorizeService
-						.getAllFriends(authInfo);
+				// 第三方用户ID列表
 				List<String> appFriendIds = authorizeService
 						.getAppFriends(authInfo);
 
-				fb = new FriendsBean();
-				fb.setUninstallFriends(getNonAppFriends(allFriendIds,
-						appFriendIds));
-				fb.setInstallFriends(getAppFriendUids(appFriendIds, tpId));
-				try {
-					memcachedClient.set(KeyGenerator.genFriendsKey(uid),
-							24 * 3600, fb);
-				} catch (Exception e) {
-					log.error(e.getMessage(), e);
+				List<String> nonAppFriends = getNonAppFriends(
+						authorizeService.getAllFriends(authInfo), appFriendIds);
+				listRedisTemplate.opsForValue().set(
+						RedisKeyGenerator.genNonAppFriendsKey(uid),
+						nonAppFriends);
+
+				List<Long> appFriends = getAppFriendUids(appFriendIds, tpId);
+				String key = RedisKeyGenerator.genFriendsKey(uid);
+				Set<Long> cachedFriends = null;
+				if (longRedisTemplate.hasKey(key)) {
+					cachedFriends = longRedisTemplate.opsForZSet().range(key,
+							0, -1);
+					for (Long id : cachedFriends) {
+						if (!appFriends.contains(id)) {
+							longRedisTemplate.opsForZSet().remove(key, id);
+						}
+					}
 				}
+				for (Long id : appFriends) {
+					if (null == cachedFriends || !cachedFriends.contains(id)) {
+						longRedisTemplate.opsForZSet().add(key, id, 0);
+					}
+				}
+				touchCache(uid);
 			}
 		}
-		return fb;
+	}
+
+	@Override
+	public boolean isExpired(long uid) {
+		Boolean cached = null;
+		try {
+			cached = memcachedClient.get(MemcachedKeyGenerator
+					.genCachedFriendsKey(uid));
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return cached == null || !cached;
+	}
+
+	@Override
+	public void incrOrDecrIntimacy(long uid, long friendId, int intimacy) {
+		String key = RedisKeyGenerator.genFriendsKey(uid);
+		if (null != longRedisTemplate.opsForZSet().score(key, friendId)) {
+			longRedisTemplate.opsForZSet().incrementScore(key, friendId,
+					intimacy);
+		}
+	}
+
+	private void touchCache(long uid) {
+		try {
+			memcachedClient.set(MemcachedKeyGenerator.genCachedFriendsKey(uid),
+					3600 * 24, true);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
 	}
 
 	private List<String> getNonAppFriends(List<String> allFriendIds,

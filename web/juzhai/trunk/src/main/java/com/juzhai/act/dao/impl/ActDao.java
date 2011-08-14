@@ -64,7 +64,7 @@ public class ActDao implements IActDao {
 	}
 
 	@Override
-	public void increasePopularity(long actId, int p) {
+	public void incrOrDecrPopularity(long actId, int p) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", actId);
 		params.put("p", p);

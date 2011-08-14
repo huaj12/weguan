@@ -25,12 +25,11 @@ public abstract class AbstractLoginService implements ILoginService {
 			final long tpId) {
 		doLogin(request, uid, tpId);
 		// TODO 用AOP
-		// 初始化安装的好友列表和没安装的好友列表（memcached）
 		// 启动一个线程来获取和保存
 		taskExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
-				friendService.getFriends(uid, tpId);
+				friendService.updateExpiredFriends(uid, tpId);
 			}
 		});
 		profileService.cacheUserCity(uid);

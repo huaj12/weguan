@@ -18,7 +18,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.core.cache.KeyGenerator;
+import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.mapper.TpUserAuthMapper;
@@ -70,8 +70,8 @@ public class TpUserAuthService implements ITpUserAuthService {
 	public void cacheAuthInfo(long uid, AuthInfo authInfo) {
 		if (null != authInfo) {
 			try {
-				memcachedClient.set(KeyGenerator.genAuthInfoKey(uid), 30 * 60,
-						authInfo.toJsonString());
+				memcachedClient.set(MemcachedKeyGenerator.genAuthInfoKey(uid),
+						30 * 60, authInfo.toJsonString());
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
 			}
@@ -86,7 +86,7 @@ public class TpUserAuthService implements ITpUserAuthService {
 		}
 		try {
 			String authInfoJsonString = memcachedClient.getAndTouch(
-					KeyGenerator.genAuthInfoKey(uid), 30 * 60);
+					MemcachedKeyGenerator.genAuthInfoKey(uid), 30 * 60);
 			if (StringUtils.isNotEmpty(authInfoJsonString)) {
 				authInfo = AuthInfo.convertToBean(authInfoJsonString);
 			}

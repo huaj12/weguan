@@ -8,9 +8,9 @@
   
   <context id="passport" targetRuntime="MyBatis3">
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-        connectionURL="jdbc:mysql://127.0.0.1:3306/juzhai"
+        connectionURL="jdbc:mysql://192.168.1.10:3306/juzhai?socketTimeout=20000&amp;connectTimeout=20000"
         userId="root"
-        password="root">
+        password="111111">
     </jdbcConnection>
 
     <javaTypeResolver >
@@ -94,6 +94,7 @@
     
     <table tableName="tb_user_act" domainObjectName="UserAct">
       <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
     </table>
 
   </context>

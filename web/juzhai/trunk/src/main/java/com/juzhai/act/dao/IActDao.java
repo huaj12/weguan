@@ -15,5 +15,5 @@ public interface IActDao {
 
 	Act selectActByName(String name);
 
-	void increasePopularity(long actId, int p);
+	void incrOrDecrPopularity(long actId, int p);
 }

@@ -3,6 +3,10 @@
  */
 package com.juzhai.passport.service;
 
+import java.util.List;
+
+import com.juzhai.passport.model.Profile;
+
 public interface IProfileService {
 
 	/**
@@ -19,4 +23,12 @@ public interface IProfileService {
 	 * @return
 	 */
 	long getUserCityFromCache(long uid);
+
+	/**
+	 * 根据城市，找出所有在这个城市中的人
+	 * 
+	 * @param cityId
+	 * @return
+	 */
+	List<Profile> getProfilesByCityId(long cityId);
 }

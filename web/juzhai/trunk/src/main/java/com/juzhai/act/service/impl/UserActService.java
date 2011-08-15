@@ -42,7 +42,6 @@ public class UserActService implements IUserActService {
 		UserActExample example = new UserActExample();
 		example.createCriteria().andUidEqualTo(uid).andActIdEqualTo(actId);
 		userActMapper.deleteByExample(example);
-
 		// 更新Act的使用人数
 		actDao.incrOrDecrPopularity(actId, -1);
 	}
@@ -50,12 +49,13 @@ public class UserActService implements IUserActService {
 	@Override
 	public void wantToAct(long uid, long actId, long friendId) {
 		useAct(uid, actId, 2, true);
-		friendService.incrOrDecrIntimacy(uid, friendId, 1);
+		friendService.incrOrDecrIntimacy(uid, friendId, 2);
 	}
 
 	@Override
 	public void dependToAct(long uid, long actId, long friendId) {
 		useAct(uid, actId, 1, true);
+		friendService.incrOrDecrIntimacy(uid, friendId, 1);
 	}
 
 	@Override

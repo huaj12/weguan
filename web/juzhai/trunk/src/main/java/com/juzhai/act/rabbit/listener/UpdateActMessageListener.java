@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import com.juzhai.act.caculator.IScoreGenerator;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
@@ -26,10 +27,15 @@ public class UpdateActMessageListener implements
 	private IProfileService profileService;
 	@Autowired
 	private IFriendService friendService;
+	@Autowired
+	private IScoreGenerator inboxScoreGenerator;
+	// @Autowired
+	private int inboxCapacity = 100;
 
 	@Override
 	public Object handleMessage(UserAct userAct) {
 		Assert.notNull(userAct, "Object userAct must not be null.");
+		Assert.notNull(userAct.getId(), "UserAct's id must not be null.");
 		Assert.notNull(userAct.getUid(), "UserAct's uid must not be null");
 		Assert.notNull(userAct.getActId(), "UserAct's actId must not be null");
 		Assert.notNull(userAct.getHotLev(), "UserAct's hotLev must not be null");
@@ -38,14 +44,22 @@ public class UpdateActMessageListener implements
 				RedisKeyGenerator.genMyActsKey(userAct.getUid()),
 				userAct.getActId(), userAct.getHotLev());
 
-		// TODO push to friends
+		// push to friends
 		Set<Long> targets = getPushTargets(userAct.getUid());
 		for (Long targetId : targets) {
+			String key = RedisKeyGenerator.genInboxActsKey(targetId);
 			// TODO 使用piple
 			redisTemplate.opsForZSet().add(
-					RedisKeyGenerator.genInboxActsKey(targetId),
-					userAct.getActId(), 0);
-			// TODO 删除超过100个的值
+					key,
+					userAct.getId(),
+					inboxScoreGenerator.genScore(userAct.getUid(), targetId,
+							userAct.getActId()));
+			// 删除超过100个的值
+			int overCount = redisTemplate.opsForZSet().size(key).intValue()
+					- inboxCapacity;
+			if (overCount > 0) {
+				redisTemplate.opsForZSet().removeRange(key, 0, overCount - 1);
+			}
 		}
 
 		return null;

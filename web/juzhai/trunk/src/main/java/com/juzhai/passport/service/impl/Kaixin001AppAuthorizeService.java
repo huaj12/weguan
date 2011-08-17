@@ -22,6 +22,7 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 
@@ -108,21 +109,47 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 		return kxSDK;
 	}
 
+	private TpFriend kxUserTpFriend(User user) {
+		if (null == user) {
+			return null;
+		}
+		TpFriend tpFriend = new TpFriend();
+		tpFriend.setUserId(String.valueOf(user.getUid()));
+		tpFriend.setName(user.getName());
+		tpFriend.setGender(Math.abs(user.getGender() - 1));
+		tpFriend.setCity(user.getCity());
+		try {
+			String[] birthday = StringUtils.split(user.getBirthday(), "-");
+			int birthYear = Integer.valueOf(birthday[0]);
+			if (birthYear > 1900) {
+				tpFriend.setBirthYear(birthYear);
+			}
+		} catch (Exception e) {
+			log.error("parse birthday error.", e);
+		}
+		tpFriend.setLogoUrl(user.getLogo120());
+		return tpFriend;
+	}
+
 	@Override
-	public List<String> getAllFriends(AuthInfo authInfo) {
+	public List<TpFriend> getAllFriends(AuthInfo authInfo) {
 		KxSDK kxSDK = newKxSDK(authInfo.getAppKey(), authInfo.getAppSecret(),
 				authInfo.getSessionKey());
-		List<String> friendIdList = new ArrayList<String>();
+		List<TpFriend> friendIdList = new ArrayList<TpFriend>();
 		try {
 			int start = 0;
 			int num = 50;
+			String fields = "uid,name,gender,city,birthday,logo120";
 			while (true) {
-				List<User> userList = kxSDK.getFriends("uid", start, num);
+				List<User> userList = kxSDK.getFriends(fields, start, num);
 				if (CollectionUtils.isEmpty(userList)) {
 					break;
 				}
 				for (User user : userList) {
-					friendIdList.add(String.valueOf(user.getUid()));
+					TpFriend tpFriend = kxUserTpFriend(user);
+					if (null != tpFriend) {
+						friendIdList.add(tpFriend);
+					}
 				}
 				start += num;
 			}

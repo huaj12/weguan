@@ -14,6 +14,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.IAuthorizeService;
 
@@ -40,7 +41,7 @@ public class AuthorizeService implements IAuthorizeService, BeanFactoryAware {
 	}
 
 	@Override
-	public List<String> getAllFriends(AuthInfo authInfo) {
+	public List<TpFriend> getAllFriends(AuthInfo authInfo) {
 		return getAuthorizeServiceBean(authInfo.getThirdpartyName(),
 				authInfo.getJoinType()).getAllFriends(authInfo);
 	}

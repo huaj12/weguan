@@ -27,9 +27,17 @@ public class ProfileService implements IProfileService {
 	public void cacheUserCity(long uid) {
 		// 初始化所在地等需要匹配的信息（redis）
 		Profile profile = profileMapper.selectByPrimaryKey(uid);
-		if (null != profile && profile.getCity() != null) {
+		cacheUserCity(profile);
+	}
+
+	@Override
+	public void cacheUserCity(Profile profile) {
+		// 初始化所在地等需要匹配的信息（redis）
+		if (null != profile && profile.getUid() != null && profile.getUid() > 0
+				&& profile.getCity() != null && profile.getCity() > 0) {
 			redisTemplate.opsForValue().set(
-					RedisKeyGenerator.genUserCityKey(uid), profile.getCity());
+					RedisKeyGenerator.genUserCityKey(profile.getUid()),
+					profile.getCity());
 		}
 
 	}

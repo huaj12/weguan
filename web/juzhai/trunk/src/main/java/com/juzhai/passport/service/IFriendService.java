@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.FriendsBean;
 import com.juzhai.passport.bean.TpFriend;
 
@@ -51,6 +52,15 @@ public interface IFriendService {
 	 * @param tpId
 	 */
 	void updateExpiredFriends(long uid, long tpId);
+
+	/**
+	 * 更新好友列表（从第三方获取，缓存时间为1天）
+	 * 
+	 * @param uid
+	 * @param tpId
+	 * @param authInfo
+	 */
+	void updateExpiredFriends(long uid, long tpId, AuthInfo authInfo);
 
 	/**
 	 * 好友列表是否已经过期

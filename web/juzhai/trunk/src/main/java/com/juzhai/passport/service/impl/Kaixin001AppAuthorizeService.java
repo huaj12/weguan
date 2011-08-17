@@ -45,11 +45,11 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 	// }
 
 	@Override
-	public long access(HttpServletRequest request,
-			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp) {
+	protected String fetchTpIdentity(HttpServletRequest request,
+			AuthInfo authInfo, Thirdparty tp) {
 		String sessionKey = request.getParameter("session_key");
 		if (StringUtils.isEmpty(sessionKey)) {
-			return 0L;
+			return null;
 		}
 		long time = System.currentTimeMillis();
 		KxSDK kxSDK = newKxSDK(tp.getAppKey(), tp.getAppSecret(), sessionKey);
@@ -61,12 +61,11 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 		}
 		System.out.println(System.currentTimeMillis() - time);
 		if (null == user || user.getUid() <= 0) {
-			return 0L;
+			return null;
 		}
 		// 构建authInfo
 		authInfo = new AuthInfo(tp, sessionKey);
-		return completeAccessUser(request, response, authInfo,
-				String.valueOf(user.getUid()), tp);
+		return String.valueOf(user.getUid());
 	}
 
 	@Override

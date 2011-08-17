@@ -1,14 +1,9 @@
 package com.juzhai.passport.service.impl;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,20 +31,19 @@ public abstract class AbstractAuthorizeService implements IAuthorizeService {
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
 
-	protected Map<String, String> getCookieMap(HttpServletRequest request) {
-		Cookie[] cookies = request.getCookies();
-		if (ArrayUtils.isEmpty(cookies)) {
-			return Collections.emptyMap();
+	@Override
+	public long access(HttpServletRequest request,
+			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp) {
+		String tpIdentity = fetchTpIdentity(request, authInfo, tp);
+		if (StringUtils.isEmpty(tpIdentity)) {
+			log.error("Fetch thirdparty identity failed.[tpName:"
+					+ tp.getName() + ", joinType:" + tp.getJoinType());
+			return 0L;
 		}
-		Map<String, String> cookieMap = new HashMap<String, String>(
-				cookies.length);
-		for (Cookie cookie : cookies) {
-			cookieMap.put(cookie.getName(), cookie.getValue());
-		}
-		return cookieMap;
+		return completeAccessUser(request, response, authInfo, tpIdentity, tp);
 	}
 
-	protected long completeAccessUser(HttpServletRequest request,
+	private long completeAccessUser(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo, String tpIdentity,
 			Thirdparty tp) {
 		log.debug("completeAssessUser");
@@ -86,7 +80,23 @@ public abstract class AbstractAuthorizeService implements IAuthorizeService {
 		return uid;
 	}
 
-	abstract protected Profile convertToProfile(HttpServletRequest request,
+	protected abstract Profile convertToProfile(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo,
 			String thirdpartyIdentity, Thirdparty tp);
+
+	protected abstract String fetchTpIdentity(HttpServletRequest request,
+			AuthInfo authInfo, Thirdparty tp);
+
+	// protected Map<String, String> getCookieMap(HttpServletRequest request) {
+	// Cookie[] cookies = request.getCookies();
+	// if (ArrayUtils.isEmpty(cookies)) {
+	// return Collections.emptyMap();
+	// }
+	// Map<String, String> cookieMap = new HashMap<String, String>(
+	// cookies.length);
+	// for (Cookie cookie : cookies) {
+	// cookieMap.put(cookie.getName(), cookie.getValue());
+	// }
+	// return cookieMap;
+	// }
 }

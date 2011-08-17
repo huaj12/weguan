@@ -81,26 +81,26 @@ public class TpUserAuthService implements ITpUserAuthService {
 	@Override
 	public AuthInfo getAuthInfo(long uid, long tpId) {
 		AuthInfo authInfo = null;
-		if (tpId <= 0) {
-			return authInfo;
-		}
-		try {
-			String authInfoJsonString = memcachedClient.getAndTouch(
-					MemcachedKeyGenerator.genAuthInfoKey(uid), 30 * 60);
-			if (StringUtils.isNotEmpty(authInfoJsonString)) {
-				authInfo = AuthInfo.convertToBean(authInfoJsonString);
+		if (tpId > 0) {
+			try {
+				String authInfoJsonString = memcachedClient.getAndTouch(
+						MemcachedKeyGenerator.genAuthInfoKey(uid), 30 * 60);
+				if (StringUtils.isNotEmpty(authInfoJsonString)) {
+					authInfo = AuthInfo.convertToBean(authInfoJsonString);
+				}
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
 			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
-		if (null == authInfo) {
-			TpUserAuth tpUserAuth = getTpUserAuth(uid, tpId);
-			if (null != tpUserAuth) {
-				try {
-					authInfo = AuthInfo.convertToBean(tpUserAuth.getAuthInfo());
-					cacheAuthInfo(uid, authInfo);
-				} catch (JsonGenerationException e) {
-					log.error(e.getMessage(), e);
+			if (null == authInfo) {
+				TpUserAuth tpUserAuth = getTpUserAuth(uid, tpId);
+				if (null != tpUserAuth) {
+					try {
+						authInfo = AuthInfo.convertToBean(tpUserAuth
+								.getAuthInfo());
+						cacheAuthInfo(uid, authInfo);
+					} catch (JsonGenerationException e) {
+						log.error(e.getMessage(), e);
+					}
 				}
 			}
 		}

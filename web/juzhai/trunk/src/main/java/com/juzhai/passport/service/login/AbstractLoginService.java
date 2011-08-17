@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.juzhai.passport.service.IFriendService;
-import com.juzhai.passport.service.IProfileService;
 
 public abstract class AbstractLoginService implements ILoginService {
 
@@ -17,14 +16,11 @@ public abstract class AbstractLoginService implements ILoginService {
 	private ThreadPoolTaskExecutor taskExecutor;
 	@Autowired
 	private IFriendService friendService;
-	@Autowired
-	private IProfileService profileService;
 
 	@Override
 	public void login(HttpServletRequest request, final long uid,
 			final long tpId) {
 		doLogin(request, uid, tpId);
-		profileService.cacheUserCity(uid);
 		// TODO 用AOP
 		// 启动一个线程来获取和保存
 		taskExecutor.execute(new Runnable() {

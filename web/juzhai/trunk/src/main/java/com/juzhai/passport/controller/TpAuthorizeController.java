@@ -108,24 +108,23 @@ public class TpAuthorizeController {
 	// }
 
 	private AuthInfo getAuthInfoFromCookie(HttpServletRequest request) {
-		String value = null;
-		if (request == null || request.getCookies() == null) {
-			return null;
-		}
-		for (Cookie cookie : request.getCookies()) {
-			if (StringUtils.equals(cookie.getName(), REQUEST_TOKEN_ATTR_NAME)) {
-				value = cookie.getValue();
-				break;
+		if (request != null && request.getCookies() != null) {
+			String value = null;
+			for (Cookie cookie : request.getCookies()) {
+				if (StringUtils.equals(cookie.getName(),
+						REQUEST_TOKEN_ATTR_NAME)) {
+					value = cookie.getValue();
+					break;
+				}
+			}
+			if (StringUtils.isNotEmpty(value)) {
+				try {
+					return AuthInfo.convertToBean(value);
+				} catch (JsonGenerationException e) {
+					log.error(e.getMessage(), e);
+				}
 			}
 		}
-		if (StringUtils.isNotEmpty(value)) {
-			try {
-				return AuthInfo.convertToBean(value);
-			} catch (JsonGenerationException e) {
-				log.error(e.getMessage(), e);
-				return null;
-			}
-		}
-		return null;
+		return new AuthInfo();
 	}
 }

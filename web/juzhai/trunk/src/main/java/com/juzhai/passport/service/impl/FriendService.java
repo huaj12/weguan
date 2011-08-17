@@ -88,8 +88,15 @@ public class FriendService implements IFriendService {
 
 	@Override
 	public void updateExpiredFriends(long uid, long tpId) {
+		final AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		if (null != authInfo) {
+			updateExpiredFriends(uid, tpId, authInfo);
+		}
+	}
+
+	@Override
+	public void updateExpiredFriends(long uid, long tpId, AuthInfo authInfo) {
 		if (isExpired(uid)) {
-			final AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
 			if (null != authInfo) {
 				// 第三方用户ID列表
 				List<TpFriend> tpFriends = authorizeService

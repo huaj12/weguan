@@ -19,6 +19,8 @@ import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
+import com.juzhai.passport.service.IFriendService;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 
 @Service
@@ -34,6 +36,10 @@ public class RegisterService implements IRegisterService {
 	private TpUserMapper tpUserMapper;
 	@Autowired
 	private TpUserAuthService tpUserAuthService;
+	@Autowired
+	private IFriendService friendService;
+	@Autowired
+	private IProfileService profileService;
 
 	@Override
 	public long autoRegister(Thirdparty tp, String identity, AuthInfo authInfo,
@@ -49,6 +55,15 @@ public class RegisterService implements IRegisterService {
 		registerTpUser(tp, identity, passport);
 		tpUserAuthService.updateTpUserAuth(passport.getId(), tp.getId(),
 				authInfo);
+
+		// 初始化数据
+		// 1.所在城市
+		profileService.cacheUserCity(profile);
+		// 2.好友列表
+		friendService.updateExpiredFriends(passport.getId(), tp.getId(),
+				authInfo);
+		// 3.发送rabbitmq消息进行拉数据
+
 		return passport.getId();
 	}
 

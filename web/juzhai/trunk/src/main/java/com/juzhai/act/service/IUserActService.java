@@ -3,6 +3,8 @@
  */
 package com.juzhai.act.service;
 
+import java.util.List;
+
 public interface IUserActService {
 
 	/**
@@ -50,4 +52,12 @@ public interface IUserActService {
 	 * @param actId
 	 */
 	void removeAct(long uid, long actId);
+
+	/**
+	 * 从缓存根据用户id获取Act
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	List<Long> getActByUidFromCache(long uid);
 }

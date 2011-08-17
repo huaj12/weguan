@@ -10,6 +10,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.act.dao.IActDao;
@@ -18,12 +19,15 @@ import com.juzhai.act.model.Act;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.model.UserActExample;
 import com.juzhai.act.service.IUserActService;
+import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.service.IFriendService;
 
 @Service
 public class UserActService implements IUserActService {
 
+	@Autowired
+	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private IActDao actDao;
 	@Autowired
@@ -103,8 +107,18 @@ public class UserActService implements IUserActService {
 			userAct.setLastModifyTime(new Date());
 			userActMapper.updateByPrimaryKeySelective(userAct);
 		}
+		// save my act to redis
+		redisTemplate.opsForZSet().add(
+				RedisKeyGenerator.genMyActsKey(userAct.getUid()),
+				userAct.getActId(), userAct.getHotLev());
 
 		// push to friends
 		updateActRabbitTemplate.convertAndSend(userAct);
+	}
+
+	@Override
+	public List<Long> getActByUidFromCache(long uid) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

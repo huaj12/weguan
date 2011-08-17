@@ -17,6 +17,13 @@ public interface IProfileService {
 	void cacheUserCity(long uid);
 
 	/**
+	 * 缓存City属性
+	 * 
+	 * @param uid
+	 */
+	void cacheUserCity(Profile profile);
+
+	/**
 	 * 获取用户所在地城市
 	 * 
 	 * @param uid

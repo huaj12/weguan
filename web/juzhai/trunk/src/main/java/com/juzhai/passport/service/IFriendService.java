@@ -8,11 +8,12 @@ import java.util.Map;
 import java.util.Set;
 
 import com.juzhai.passport.bean.FriendsBean;
+import com.juzhai.passport.bean.TpFriend;
 
 public interface IFriendService {
 
 	/**
-	 * 获取所有好友（包括安装的和未安装应用的）
+	 * 获取所有好友（包括安装应用的好友和第三方所有好友）
 	 * 
 	 * @param uid
 	 * @return
@@ -41,7 +42,7 @@ public interface IFriendService {
 	 * @param uid
 	 * @return
 	 */
-	List<String> getNonAppFriends(long uid);
+	List<TpFriend> getTpFriends(long uid);
 
 	/**
 	 * 更新好友列表（从第三方获取，缓存时间为1天）

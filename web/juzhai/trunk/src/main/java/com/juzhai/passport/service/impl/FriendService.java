@@ -25,6 +25,7 @@ import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.FriendsBean;
+import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.mapper.TpUserMapper;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
@@ -45,7 +46,7 @@ public class FriendService implements IFriendService {
 	@Autowired
 	private MemcachedClient memcachedClient;
 	@Autowired
-	private RedisTemplate<String, List<String>> listRedisTemplate;
+	private RedisTemplate<String, List<TpFriend>> listRedisTemplate;
 	@Autowired
 	private RedisTemplate<String, Long> longRedisTemplate;
 	@Autowired
@@ -54,7 +55,7 @@ public class FriendService implements IFriendService {
 	@Override
 	public FriendsBean getAllFriends(long uid) {
 		return new FriendsBean(getAppFriendsWithIntimacy(uid),
-				getNonAppFriends(uid));
+				getTpFriends(uid));
 	}
 
 	@Override
@@ -80,9 +81,9 @@ public class FriendService implements IFriendService {
 	}
 
 	@Override
-	public List<String> getNonAppFriends(long uid) {
+	public List<TpFriend> getTpFriends(long uid) {
 		return listRedisTemplate.opsForValue().get(
-				RedisKeyGenerator.genNonAppFriendsKey(uid));
+				RedisKeyGenerator.genTpFriendsKey(uid));
 	}
 
 	@Override
@@ -91,16 +92,13 @@ public class FriendService implements IFriendService {
 			final AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
 			if (null != authInfo) {
 				// 第三方用户ID列表
-				List<String> appFriendIds = authorizeService
-						.getAppFriends(authInfo);
-
-				List<String> nonAppFriends = getNonAppFriends(
-						authorizeService.getAllFriends(authInfo), appFriendIds);
+				List<TpFriend> tpFriends = authorizeService
+						.getAllFriends(authInfo);
 				listRedisTemplate.opsForValue().set(
-						RedisKeyGenerator.genNonAppFriendsKey(uid),
-						nonAppFriends);
+						RedisKeyGenerator.genTpFriendsKey(uid), tpFriends);
 
-				List<Long> appFriends = getAppFriendUids(appFriendIds, tpId);
+				List<Long> appFriends = getAppFriendUids(
+						authorizeService.getAppFriends(authInfo), tpId);
 				String key = RedisKeyGenerator.genFriendsKey(uid);
 				Set<Long> cachedFriends = null;
 				if (longRedisTemplate.hasKey(key)) {
@@ -152,6 +150,7 @@ public class FriendService implements IFriendService {
 		}
 	}
 
+	@Deprecated
 	private List<String> getNonAppFriends(List<String> allFriendIds,
 			List<String> appFriendIds) {
 		List<String> nonAppFriends = new ArrayList<String>();

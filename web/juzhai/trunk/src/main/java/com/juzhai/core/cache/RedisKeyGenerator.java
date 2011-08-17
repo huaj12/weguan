@@ -10,8 +10,8 @@ public class RedisKeyGenerator extends KeyGenerator {
 		return genKey(uid, "friends");
 	}
 
-	public static String genNonAppFriendsKey(long uid) {
-		return genKey(uid, "nonAppFriends");
+	public static String genTpFriendsKey(long uid) {
+		return genKey(uid, "tpFriends");
 	}
 
 	public static String genMyActsKey(long uid) {

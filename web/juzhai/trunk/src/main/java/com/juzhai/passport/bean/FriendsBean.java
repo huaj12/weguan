@@ -21,13 +21,13 @@ public class FriendsBean implements Serializable {
 	/**
 	 * 未安装应用的好友（id为在第三方的id）
 	 */
-	private List<String> uninstallFriends = new ArrayList<String>();
+	private List<TpFriend> tpFriends = new ArrayList<TpFriend>();
 
 	public FriendsBean(Map<Long, Integer> friendsIntimacy,
-			List<String> uninstallFriends) {
+			List<TpFriend> tpFriends) {
 		super();
 		this.friendsIntimacy = friendsIntimacy;
-		this.uninstallFriends = uninstallFriends;
+		this.tpFriends = tpFriends;
 	}
 
 	public Map<Long, Integer> getFriendsIntimacy() {
@@ -42,11 +42,11 @@ public class FriendsBean implements Serializable {
 		return new ArrayList<Long>(getFriendsIntimacy().keySet());
 	}
 
-	public List<String> getUninstallFriends() {
-		return uninstallFriends;
+	public List<TpFriend> getTpFriends() {
+		return tpFriends;
 	}
 
-	public void setUninstallFriends(List<String> uninstallFriends) {
-		this.uninstallFriends = uninstallFriends;
+	public void setTpFriends(List<TpFriend> tpFriends) {
+		this.tpFriends = tpFriends;
 	}
 }

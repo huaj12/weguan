@@ -24,6 +24,7 @@ public abstract class AbstractLoginService implements ILoginService {
 	public void login(HttpServletRequest request, final long uid,
 			final long tpId) {
 		doLogin(request, uid, tpId);
+		profileService.cacheUserCity(uid);
 		// TODO 用AOP
 		// 启动一个线程来获取和保存
 		taskExecutor.execute(new Runnable() {
@@ -32,7 +33,6 @@ public abstract class AbstractLoginService implements ILoginService {
 				friendService.updateExpiredFriends(uid, tpId);
 			}
 		});
-		profileService.cacheUserCity(uid);
 	}
 
 	protected abstract void doLogin(HttpServletRequest request, long uid,

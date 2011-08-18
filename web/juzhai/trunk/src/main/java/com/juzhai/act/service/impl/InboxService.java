@@ -2,6 +2,7 @@ package com.juzhai.act.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.act.caculator.IScoreGenerator;
@@ -17,6 +18,8 @@ public class InboxService implements IInboxService {
 	private RedisTemplate<String, String> redisTemplate;
 	@Autowired
 	private IScoreGenerator inboxScoreGenerator;
+	@Autowired
+	private ThreadPoolTaskExecutor taskExecutor;
 
 	// @Autowired
 	// private int inboxCapacity = 100;
@@ -36,5 +39,20 @@ public class InboxService implements IInboxService {
 
 	private String assembleValue(long senderId, long actId) {
 		return senderId + VALUE_DELIMITER + actId;
+	}
+
+	@Override
+	public void syncInbox(long uid) {
+		// TODO 根据算法决定怎么存储
+	}
+
+	@Override
+	public void syncInboxByTask(final long uid) {
+		taskExecutor.execute(new Runnable() {
+			@Override
+			public void run() {
+				syncInbox(uid);
+			}
+		});
 	}
 }

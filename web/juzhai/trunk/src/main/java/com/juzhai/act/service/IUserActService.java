@@ -5,6 +5,8 @@ package com.juzhai.act.service;
 
 import java.util.List;
 
+import com.juzhai.act.exception.ActInputException;
+
 public interface IUserActService {
 
 	/**
@@ -32,8 +34,9 @@ public interface IUserActService {
 	 *            用户ID
 	 * @param actName
 	 *            活动名称
+	 * @throws ActInputException
 	 */
-	void addAct(long uid, String actName);
+	void addAct(long uid, String actName) throws ActInputException;
 
 	/**
 	 * 添加已经存在的拒宅活动
@@ -42,8 +45,9 @@ public interface IUserActService {
 	 *            用户ID
 	 * @param actId
 	 *            活动名称
+	 * @throws ActInputException
 	 */
-	void addAct(long uid, long actId);
+	void addAct(long uid, long actId) throws ActInputException;
 
 	/**
 	 * 删除我的拒宅活动
@@ -54,7 +58,7 @@ public interface IUserActService {
 	void removeAct(long uid, long actId);
 
 	/**
-	 * 从缓存根据用户id获取Act
+	 * 从缓存根据用户id获取Act(不带热度),根据热度排序
 	 * 
 	 * @param uid
 	 * @return

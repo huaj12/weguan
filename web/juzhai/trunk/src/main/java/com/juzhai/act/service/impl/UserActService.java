@@ -3,10 +3,14 @@
  */
 package com.juzhai.act.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +18,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.act.dao.IActDao;
+import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.mapper.UserActMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.UserAct;
@@ -25,6 +30,8 @@ import com.juzhai.passport.service.IFriendService;
 
 @Service
 public class UserActService implements IUserActService {
+
+	private final Log log = LogFactory.getLog(getClass());
 
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
@@ -52,24 +59,32 @@ public class UserActService implements IUserActService {
 
 	@Override
 	public void wantToAct(long uid, long actId, long friendId) {
-		useAct(uid, actId, 2, true);
+		try {
+			useAct(uid, actId, 2, true);
+		} catch (ActInputException e) {
+			log.error(e.getErrorCode(), e);
+		}
 		friendService.incrOrDecrIntimacy(uid, friendId, 2);
 	}
 
 	@Override
 	public void dependToAct(long uid, long actId, long friendId) {
-		useAct(uid, actId, 1, true);
+		try {
+			useAct(uid, actId, 1, true);
+		} catch (ActInputException e) {
+			log.error(e.getErrorCode(), e);
+		}
 		friendService.incrOrDecrIntimacy(uid, friendId, 1);
 	}
 
 	@Override
-	public void addAct(long uid, String actName) {
+	public void addAct(long uid, String actName) throws ActInputException {
 		Act act = actDao.selectActByName(actName);
 		if (null == act) {
 			// TODO 过滤词
 			long length = StringUtil.chineseLength(actName);
 			if (length < actNameLengthMin || length > actNameLengthMax) {
-				// TODO 抛出异常
+				throw new ActInputException(ActInputException.ACT_NAME_INVALID);
 			}
 			act = actDao.insertAct(uid, actName, null);
 		}
@@ -77,11 +92,12 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
-	public void addAct(long uid, long actId) {
+	public void addAct(long uid, long actId) throws ActInputException {
 		useAct(uid, actId, 5, false);
 	}
 
-	private void useAct(long uid, long actId, int hotLev, boolean canRepeat) {
+	private void useAct(long uid, long actId, int hotLev, boolean canRepeat)
+			throws ActInputException {
 		UserActExample example = new UserActExample();
 		example.createCriteria().andUidEqualTo(uid).andActIdEqualTo(actId);
 		List<UserAct> list = userActMapper.selectByExample(example);
@@ -99,7 +115,8 @@ public class UserActService implements IUserActService {
 			actDao.incrOrDecrPopularity(actId, 1);
 		} else {
 			if (!canRepeat) {
-				// TODO 抛出异常
+				throw new ActInputException(
+						ActInputException.ACT_NAME_EXISTENCE);
 			}
 			// update
 			userAct = list.get(0);
@@ -118,7 +135,8 @@ public class UserActService implements IUserActService {
 
 	@Override
 	public List<Long> getActByUidFromCache(long uid) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Long> actIds = redisTemplate.opsForZSet().reverseRange(
+				RedisKeyGenerator.genMyActsKey(uid), 0, -1);
+		return new ArrayList<Long>(actIds);
 	}
 }

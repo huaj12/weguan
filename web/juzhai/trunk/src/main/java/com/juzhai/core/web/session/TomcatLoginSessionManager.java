@@ -26,8 +26,7 @@ public class TomcatLoginSessionManager implements LoginSessionManager {
 
 	@Override
 	public void updateLoginExpire(UserContext userContext) {
-		// TODO Auto-generated method stub
-
+		// handled by tomcat session.
 	}
 
 	public void login(HttpServletRequest request, long uid, long tpId) {

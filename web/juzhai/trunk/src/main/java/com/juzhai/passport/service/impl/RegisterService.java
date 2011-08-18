@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.act.service.IInboxService;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.mapper.ProfileMapper;
@@ -40,6 +41,8 @@ public class RegisterService implements IRegisterService {
 	private IFriendService friendService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IInboxService inboxService;
 
 	@Override
 	public long autoRegister(Thirdparty tp, String identity, AuthInfo authInfo,
@@ -62,7 +65,8 @@ public class RegisterService implements IRegisterService {
 		// 2.好友列表
 		friendService.updateExpiredFriends(passport.getId(), tp.getId(),
 				authInfo);
-		// 3.发送rabbitmq消息进行拉数据
+		// 3.拉数据
+		inboxService.syncInboxByTask(passport.getId());
 
 		return passport.getId();
 	}

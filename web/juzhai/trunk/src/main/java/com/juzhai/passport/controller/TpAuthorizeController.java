@@ -43,6 +43,8 @@ public class TpAuthorizeController {
 			HttpServletResponse response, @PathVariable long tpId,
 			String returnTo) {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		// TODO 判断是否已经登录
+
 		long uid = 0;
 		if (null != tp) {
 			if (log.isDebugEnabled()) {

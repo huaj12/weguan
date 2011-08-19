@@ -31,7 +31,7 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
 
-    <table tableName="tb_passport" domainObjectName="Passport" >
+    <!-- <table tableName="tb_passport" domainObjectName="Passport" >
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
       <columnOverride column="email_active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
@@ -52,12 +52,21 @@
     <table tableName="tb_tp_user_auth" domainObjectName="TpUserAuth">
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
+    </table> -->
+
+	<table tableName="tb_city" domainObjectName="City">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+    <table tableName="tb_province" domainObjectName="Province">
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
     </table>
 
   </context>
   
   
-  <context id="act" targetRuntime="MyBatis3">
+  <!-- <context id="act" targetRuntime="MyBatis3">
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
         connectionURL="jdbc:mysql://127.0.0.1:3306/juzhai"
         userId="root"
@@ -97,7 +106,7 @@
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
     </table>
 
-  </context>
+  </context> -->
   
   
 </generatorConfiguration>

@@ -21,8 +21,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.core.util.TextTruncateUtil;
+import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.TpFriend;
+import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 
@@ -98,6 +100,12 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 		profile.setHome(HtmlUtils.htmlEscape(user.getHometown()));
 		profile.setLogoPic(user.getLogo120());
 		profile.setShape(HtmlUtils.htmlEscape(user.getBodyform()));
+		String cityName = user.getCity();
+		City city = InitData.getCityByName(cityName);
+		if (null != city) {
+			profile.setCity(city.getId());
+			profile.setProvince(city.getProvinceId());
+		}
 		return profile;
 	}
 

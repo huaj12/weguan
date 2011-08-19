@@ -6,6 +6,7 @@ package com.juzhai.spider.test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Date;
 import java.util.Map;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -15,14 +16,70 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.util.URIUtil;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.juzhai.core.util.JackSonSerializer;
+import com.juzhai.passport.mapper.CityMapper;
+import com.juzhai.passport.mapper.ProvinceMapper;
+import com.juzhai.passport.model.City;
+import com.juzhai.passport.model.Province;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration({ "classpath:spring/application-context.xml" })
 public class ProvinceAndCity {
+
+	@Autowired
+	private CityMapper cityMapper;
+	@Autowired
+	private ProvinceMapper provinceMapper;
+
+	@Test
+	public void initKaixinProvinceAndCity() throws HttpException, IOException {
+		int i = 1;
+		for (Map<String, Object> provinceMap : getKaixinCityDoGet("type=0")) {
+			String provinceName = (String) provinceMap.get("name");
+			Province province = new Province();
+			province.setName(provinceName);
+			province.setSequence(i);
+			province.setCreateTime(new Date());
+			province.setLastModifyTime(province.getCreateTime());
+			provinceMapper.insertSelective(province);
+			System.out.println("create province:" + province.getName());
+			i++;
+			Integer id = (Integer) provinceMap.get("id");
+			Map<String, Object>[] cityArray = getKaixinCityDoGet("type=1&id="
+					+ id);
+			if (ArrayUtils.isEmpty(cityArray)) {
+				createCity(provinceName, province.getId(), 1);
+			} else {
+				int j = 1;
+				for (Map<String, Object> cityMap : cityArray) {
+					createCity((String) cityMap.get("name"), province.getId(),
+							j);
+					j++;
+				}
+			}
+		}
+	}
+
+	public void createCity(String name, long provinceId, int sequence) {
+		City city = new City();
+		city.setName(name);
+		city.setProvinceId(provinceId);
+		city.setSequence(sequence);
+		city.setCreateTime(new Date());
+		city.setLastModifyTime(city.getCreateTime());
+		cityMapper.insertSelective(city);
+		System.out.println("        create city:" + city.getName());
+	}
 
 	@Test
 	public void kaixin() throws HttpException, IOException {

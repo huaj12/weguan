@@ -9,11 +9,18 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import com.juzhai.passport.mapper.CityMapper;
+import com.juzhai.passport.mapper.ProvinceMapper;
 import com.juzhai.passport.mapper.ThirdpartyMapper;
+import com.juzhai.passport.model.City;
+import com.juzhai.passport.model.CityExample;
+import com.juzhai.passport.model.Province;
+import com.juzhai.passport.model.ProvinceExample;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.ThirdpartyExample;
 
@@ -22,13 +29,21 @@ import com.juzhai.passport.model.ThirdpartyExample;
 public class InitData {
 
 	public static final Map<Long, Thirdparty> TP_MAP = new HashMap<Long, Thirdparty>();
+	public static final Map<Long, Province> PROVINCE_MAP = new HashMap<Long, Province>();
+	public static final Map<Long, City> CITY_MAP = new HashMap<Long, City>();
 
 	@Autowired
 	private ThirdpartyMapper thirdpartyMapper;
+	@Autowired
+	private ProvinceMapper provinceMapper;
+	@Autowired
+	private CityMapper cityMapper;
 
 	@PostConstruct
 	public void init() {
 		initTp();
+		initProvince();
+		initCity();
 	}
 
 	private void initTp() {
@@ -37,5 +52,29 @@ public class InitData {
 		for (Thirdparty tp : list) {
 			TP_MAP.put(tp.getId(), tp);
 		}
+	}
+
+	private void initCity() {
+		List<City> list = cityMapper.selectByExample(new CityExample());
+		for (City city : list) {
+			CITY_MAP.put(city.getId(), city);
+		}
+	}
+
+	private void initProvince() {
+		List<Province> list = provinceMapper
+				.selectByExample(new ProvinceExample());
+		for (Province province : list) {
+			PROVINCE_MAP.put(province.getId(), province);
+		}
+	}
+
+	public static City getCityByName(String name) {
+		for (City city : CITY_MAP.values()) {
+			if (StringUtils.equals(name, city.getName())) {
+				return city;
+			}
+		}
+		return null;
 	}
 }

@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.web.ErrorPageDispatcher;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
@@ -28,7 +29,7 @@ import com.juzhai.passport.service.login.ILoginService;
  * @author wujiajun Created on 2011-2-15
  */
 @Controller
-public class TpAuthorizeController {
+public class TpAuthorizeController extends BaseController {
 
 	private static final Log log = LogFactory
 			.getLog(TpAuthorizeController.class);

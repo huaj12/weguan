@@ -7,10 +7,10 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.act.annotation.ScorePoint;
-import com.juzhai.act.annotation.ScorePoint.ScoreType;
 import com.juzhai.act.caculator.AbstractScoreGenerator;
 import com.juzhai.act.caculator.IScoreCaculator;
+import com.juzhai.act.caculator.annotation.ScorePoint;
+import com.juzhai.act.caculator.annotation.ScorePoint.ScoreType;
 
 @Service
 public class InboxScoreGenerator extends AbstractScoreGenerator {

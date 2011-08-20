@@ -1,5 +1,7 @@
 package com.juzhai.act.service;
 
+import com.juzhai.act.bean.ActDealType;
+
 public interface IInboxService {
 
 	/**
@@ -25,4 +27,29 @@ public interface IInboxService {
 	 * @param uid
 	 */
 	void syncInboxByTask(long uid);
+
+	/**
+	 * 转移已读
+	 * 
+	 * @param uid
+	 * @param actId
+	 * @param friendId
+	 * @param actDealType
+	 */
+	void shiftRead(long uid, long senderId, long actId, ActDealType actDealType);
+
+	/**
+	 * 从收件箱中是删除
+	 * 
+	 * @param uid
+	 *            收件箱主人ID
+	 * @param senderId
+	 *            内容发送者ID
+	 * @param actId
+	 *            actId
+	 * @return true if exist
+	 */
+	boolean remove(long uid, long senderId, long actId);
+	
+	
 }

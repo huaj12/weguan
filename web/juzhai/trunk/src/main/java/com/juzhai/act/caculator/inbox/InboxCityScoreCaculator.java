@@ -2,9 +2,9 @@ package com.juzhai.act.caculator.inbox;
 
 import org.springframework.stereotype.Service;
 
-import com.juzhai.act.annotation.ScorePoint;
-import com.juzhai.act.annotation.ScorePoint.ScoreType;
 import com.juzhai.act.caculator.IScoreCaculator;
+import com.juzhai.act.caculator.annotation.ScorePoint;
+import com.juzhai.act.caculator.annotation.ScorePoint.ScoreType;
 
 @Service
 @ScorePoint({ ScoreType.INBOX })

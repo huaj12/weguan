@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.caculator.IScoreGenerator;
 import com.juzhai.act.service.IInboxService;
 import com.juzhai.core.cache.RedisKeyGenerator;
@@ -54,5 +55,21 @@ public class InboxService implements IInboxService {
 				syncInbox(uid);
 			}
 		});
+	}
+
+	@Override
+	public void shiftRead(long uid, long senderId, long actId,
+			ActDealType actDealType) {
+		redisTemplate.opsForList().rightPush(
+				RedisKeyGenerator.genDealedActsKey(uid, actDealType),
+				assembleValue(senderId, actId));
+	}
+
+	@Override
+	public boolean remove(long uid, long senderId, long actId) {
+		Boolean success = redisTemplate.opsForZSet().remove(
+				RedisKeyGenerator.genInboxActsKey(uid),
+				assembleValue(senderId, actId));
+		return success == null ? false : success;
 	}
 }

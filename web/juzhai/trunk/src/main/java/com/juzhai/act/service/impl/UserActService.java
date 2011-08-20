@@ -17,12 +17,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.dao.IActDao;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.mapper.UserActMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.model.UserActExample;
+import com.juzhai.act.service.IInboxService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.util.StringUtil;
@@ -43,6 +45,8 @@ public class UserActService implements IUserActService {
 	private AmqpTemplate updateActRabbitTemplate;
 	@Autowired
 	private IFriendService friendService;
+	@Autowired
+	private IInboxService inboxService;
 	@Value("${act.name.length.min}")
 	private int actNameLengthMin = 2;
 	@Value("${act.name.length.max}")
@@ -58,6 +62,28 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
+	public void dealAct(long uid, long actId, long friendId, ActDealType type) {
+		if (null == type) {
+			// TODO throw exception
+		}
+		// 验证uid的inbox中是否存在,并取出
+		if (!inboxService.remove(uid, friendId, actId)) {
+			// TODO throw exception
+		}
+		switch (type) {
+		case DEPEND:
+			dependToAct(uid, actId, friendId);
+			break;
+		case WANT:
+			wantToAct(uid, actId, friendId);
+			break;
+		case NILL:
+			break;
+		}
+		// 放入该放的已处理列表中
+		inboxService.shiftRead(uid, friendId, actId, type);
+	}
+
 	public void wantToAct(long uid, long actId, long friendId) {
 		try {
 			useAct(uid, actId, 2, true);
@@ -65,9 +91,9 @@ public class UserActService implements IUserActService {
 			log.error(e.getErrorCode(), e);
 		}
 		friendService.incrOrDecrIntimacy(uid, friendId, 2);
+		// TODO 发送私信
 	}
 
-	@Override
 	public void dependToAct(long uid, long actId, long friendId) {
 		try {
 			useAct(uid, actId, 1, true);
@@ -139,4 +165,5 @@ public class UserActService implements IUserActService {
 				RedisKeyGenerator.genMyActsKey(uid), 0, -1);
 		return new ArrayList<Long>(actIds);
 	}
+
 }

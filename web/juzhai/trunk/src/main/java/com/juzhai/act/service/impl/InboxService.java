@@ -19,6 +19,7 @@ import com.juzhai.act.caculator.IScoreGenerator;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IInboxService;
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 
@@ -104,6 +105,12 @@ public class InboxService implements IInboxService {
 				}
 			}
 		}
+		return null;
+	}
+
+	@Override
+	public SortedMap<TpFriend, Act> showRandam(long uid) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -3,6 +3,8 @@
  */
 package com.juzhai.act;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +21,13 @@ import org.springframework.stereotype.Component;
 
 import com.juzhai.act.mapper.ActCategoryMapper;
 import com.juzhai.act.mapper.ActMapper;
+import com.juzhai.act.mapper.RandomActMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActCategory;
 import com.juzhai.act.model.ActCategoryExample;
 import com.juzhai.act.model.ActExample;
+import com.juzhai.act.model.RandomAct;
+import com.juzhai.act.model.RandomActExample;
 
 @Component("actInitData")
 public class InitData {
@@ -32,17 +37,24 @@ public class InitData {
 	public static final Map<Long, Act> ACT_MAP = new LinkedHashMap<Long, Act>();
 	public static final Map<Long, ActCategory> ACT_CATEGORY_MAP = new LinkedHashMap<Long, ActCategory>();
 	public static final Map<Long, List<Act>> ACT_CATEGORY_ACT_LIST_MAP = new LinkedHashMap<Long, List<Act>>();
+	/**
+	 * key:0：女女；1：男女；2：男男
+	 */
+	public static final Map<Integer, List<Act>> RANDOM_ACT_MAP = new HashMap<Integer, List<Act>>();
 
 	@Autowired
 	private ActMapper actMapper;
 	@Autowired
 	private ActCategoryMapper actCategoryMapper;
+	@Autowired
+	private RandomActMapper randomActMapper;
 
 	@PostConstruct
 	public void init() {
 		initActMap();
 		initActCategoryMap();
 		initActCategoryActList();
+		initRandomActMap();
 	}
 
 	private void initActMap() {
@@ -91,6 +103,19 @@ public class InitData {
 					log.error(e.getMessage(), e);
 				}
 			}
+		}
+	}
+
+	private void initRandomActMap() {
+		RANDOM_ACT_MAP.put(0, new ArrayList<Act>());
+		RANDOM_ACT_MAP.put(1, new ArrayList<Act>());
+		RANDOM_ACT_MAP.put(2, new ArrayList<Act>());
+
+		RandomActExample example = new RandomActExample();
+		List<RandomAct> list = randomActMapper.selectByExample(example);
+		for (RandomAct ra : list) {
+			RANDOM_ACT_MAP.get(ra.getRoleCode())
+					.add(ACT_MAP.get(ra.getActId()));
 		}
 	}
 

@@ -32,6 +32,8 @@ public class TomcatLoginSessionManager implements LoginSessionManager {
 	public void login(HttpServletRequest request, long uid, long tpId) {
 		HttpRequestUtil.setSessionAttribute(request, UID_ATTRIBUTE_NAME, uid);
 		HttpRequestUtil.setSessionAttribute(request, TPID_ATTRIBUTE_NAME, tpId);
+		// 不过期
+		HttpRequestUtil.setMaxInactiveInterval(request, -1);
 	}
 
 	public void logout(HttpServletRequest request) {

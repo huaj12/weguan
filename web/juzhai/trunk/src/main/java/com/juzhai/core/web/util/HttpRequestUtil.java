@@ -47,6 +47,23 @@ public class HttpRequestUtil {
 		return request.getRemoteAddr();
 	}
 
+	public static void removeSessionAttribute(HttpServletRequest request,
+			String uidAttributeName) {
+		if (_checkParamNull(request)) {
+			return;
+		}
+		HttpSession session = request.getSession();
+		session.removeAttribute(uidAttributeName);
+	}
+
+	public static void setMaxInactiveInterval(HttpServletRequest request,
+			int interval) {
+		if (_checkParamNull(request, interval)) {
+			return;
+		}
+		request.getSession().setMaxInactiveInterval(interval);
+	}
+
 	private static boolean _checkParamNull(Object... params) {
 		for (Object param : params) {
 			if (null == param) {
@@ -55,11 +72,5 @@ public class HttpRequestUtil {
 			}
 		}
 		return false;
-	}
-
-	public static void removeSessionAttribute(HttpServletRequest request,
-			String uidAttributeName) {
-		HttpSession session = request.getSession();
-		session.removeAttribute(uidAttributeName);
 	}
 }

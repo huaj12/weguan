@@ -1,6 +1,10 @@
 package com.juzhai.act.service;
 
+import java.util.SortedMap;
+
 import com.juzhai.act.bean.ActDealType;
+import com.juzhai.act.model.Act;
+import com.juzhai.passport.model.Profile;
 
 public interface IInboxService {
 
@@ -50,6 +54,13 @@ public interface IInboxService {
 	 * @return true if exist
 	 */
 	boolean remove(long uid, long senderId, long actId);
-	
-	
+
+	/**
+	 * 显示第一个
+	 * 
+	 * @param uid
+	 *            收件箱用户ID
+	 * @return
+	 */
+	SortedMap<Profile, Act> showFirst(long uid);
 }

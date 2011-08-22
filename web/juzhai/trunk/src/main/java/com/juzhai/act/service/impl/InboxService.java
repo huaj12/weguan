@@ -1,18 +1,31 @@
 package com.juzhai.act.service.impl;
 
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.act.InitData;
 import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.caculator.IScoreGenerator;
+import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IInboxService;
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.passport.mapper.ProfileMapper;
+import com.juzhai.passport.model.Profile;
 
 @Service
 public class InboxService implements IInboxService {
 
+	private final Log log = LogFactory.getLog(getClass());
 	private static final String VALUE_DELIMITER = "|";
 
 	@Autowired
@@ -21,6 +34,8 @@ public class InboxService implements IInboxService {
 	private IScoreGenerator inboxScoreGenerator;
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
+	@Autowired
+	private ProfileMapper profileMapper;
 
 	// @Autowired
 	// private int inboxCapacity = 100;
@@ -36,10 +51,6 @@ public class InboxService implements IInboxService {
 		// if (overCount > 0) {
 		// redisTemplate.opsForZSet().removeRange(key, 0, overCount - 1);
 		// }
-	}
-
-	private String assembleValue(long senderId, long actId) {
-		return senderId + VALUE_DELIMITER + actId;
 	}
 
 	@Override
@@ -71,5 +82,54 @@ public class InboxService implements IInboxService {
 				RedisKeyGenerator.genInboxActsKey(uid),
 				assembleValue(senderId, actId));
 		return success == null ? false : success;
+	}
+
+	@Override
+	public SortedMap<Profile, Act> showFirst(long uid) {
+		Set<String> values = redisTemplate.opsForZSet().reverseRange(
+				RedisKeyGenerator.genInboxActsKey(uid), 0, 0);
+		if (CollectionUtils.isNotEmpty(values)) {
+			for (String value : values) {
+				long[] ids = parseValue(value);
+				if (null != ids) {
+					Profile profile = profileMapper.selectByPrimaryKey(ids[0]);
+					Act act = InitData.ACT_MAP.get(ids[1]);
+					if (null == profile || null == act) {
+						remove(uid, ids[0], ids[1]);
+					} else {
+						SortedMap<Profile, Act> result = new TreeMap<Profile, Act>();
+						result.put(profile, act);
+						return result;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	private String assembleValue(long senderId, long actId) {
+		return senderId + VALUE_DELIMITER + actId;
+	}
+
+	/**
+	 * 解析redis中存的value
+	 * 
+	 * @param value
+	 * @return 长度为2的数组，第一个是friendId，第二个是ActId.如果解析失败，返回null
+	 */
+	private long[] parseValue(String value) {
+		try {
+			StringTokenizer st = new StringTokenizer(value, VALUE_DELIMITER);
+			if (st.countTokens() == 2) {
+				long friendId = Long.valueOf(st.nextToken());
+				long actId = Long.valueOf(st.nextToken());
+				return new long[] { friendId, actId };
+			}
+		} catch (Exception e) {
+			if (log.isDebugEnabled()) {
+				log.debug("parse inbox element error.", e);
+			}
+		}
+		return null;
 	}
 }

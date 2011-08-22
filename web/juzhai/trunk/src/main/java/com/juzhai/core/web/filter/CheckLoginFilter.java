@@ -12,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -48,15 +49,44 @@ public class CheckLoginFilter implements Filter {
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
 			if (e.getCause() instanceof NeedLoginException) {
-				String returnLink = URLEncoder.encode(
-						req.getRequestURL().toString()
-								+ (req.getQueryString() == null ? "" : req
-										.getQueryString()), Constants.UTF8);
-				rep.sendRedirect(SystemConfig.BASIC_DOMAIN
-						+ "/login?returnLink=" + returnLink);
+				needLoginHandle(req, rep, (NeedLoginException) e.getCause());
 			} else {
 				throw new ServletException(e.getMessage(), e);
 			}
 		}
+	}
+
+	/**
+	 * 需要登录处理
+	 * 
+	 * @param request
+	 * @param response
+	 * @param e
+	 * @throws IOException
+	 */
+	private void needLoginHandle(HttpServletRequest request,
+			HttpServletResponse response, NeedLoginException e)
+			throws IOException {
+		if (isAjaxRequest(request)) {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		} else {
+			String returnLink = URLEncoder.encode(
+					request.getRequestURL().toString()
+							+ (request.getQueryString() == null ? "" : request
+									.getQueryString()), Constants.UTF8);
+			response.sendRedirect(SystemConfig.BASIC_DOMAIN
+					+ "/login?returnLink=" + returnLink);
+		}
+	}
+
+	/**
+	 * @return 是否ajax请求
+	 */
+	private boolean isAjaxRequest(HttpServletRequest request) {
+		String requestedWith = request.getHeader("x-requested-with");
+		if (StringUtils.equals(requestedWith, "XMLHttpRequest")) {
+			return true;
+		}
+		return false;
 	}
 }

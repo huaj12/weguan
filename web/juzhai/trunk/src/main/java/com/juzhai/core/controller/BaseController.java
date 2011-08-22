@@ -13,11 +13,16 @@ public class BaseController {
 	@Autowired
 	private LoginSessionManager loginSessionManager;
 
-	protected UserContext checkLoginReturnContext(HttpServletRequest request)
+	protected UserContext checkLoginForApp(HttpServletRequest request)
 			throws NeedLoginException {
+		return checkLogin(request, NeedLoginException.RunType.APP);
+	}
+
+	private UserContext checkLogin(HttpServletRequest request,
+			NeedLoginException.RunType runType) throws NeedLoginException {
 		UserContext context = loginSessionManager.getUserContext(request);
 		if (!context.hasLogin()) {
-			throw new NeedLoginException();
+			throw new NeedLoginException(runType);
 		}
 		return context;
 	}

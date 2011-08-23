@@ -4,6 +4,7 @@
 package com.juzhai.act.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.act.InitData;
 import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.dao.IActDao;
 import com.juzhai.act.exception.ActInputException;
@@ -186,9 +188,25 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
-	public List<Long> getActByUidFromCache(long uid) {
+	public List<Long> getUserActIdsFromCache(long uid) {
 		Set<Long> actIds = redisTemplate.opsForZSet().reverseRange(
 				RedisKeyGenerator.genMyActsKey(uid), 0, -1);
+		if (CollectionUtils.isEmpty(actIds)) {
+			return Collections.emptyList();
+		}
 		return new ArrayList<Long>(actIds);
+	}
+
+	@Override
+	public List<Act> getUserActFromCache(long uid) {
+		List<Long> actIdList = getUserActIdsFromCache(uid);
+		List<Act> actList = new ArrayList<Act>(actIdList.size());
+		for (long actId : actIdList) {
+			Act act = InitData.ACT_MAP.get(actId);
+			if (null != act) {
+				actList.add(act);
+			}
+		}
+		return actList;
 	}
 }

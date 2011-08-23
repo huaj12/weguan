@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.juzhai.core.controller.BaseController;
-import com.juzhai.core.web.ErrorPageDispatcher;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.model.Thirdparty;
@@ -58,7 +57,7 @@ public class TpAuthorizeController extends BaseController {
 		if (uid <= 0) {
 			log.error("access failed.[tpName=" + tp.getName() + ", joinType="
 					+ tp.getJoinType() + "].");
-			return ErrorPageDispatcher.ERROR_500;
+			return error_500;
 		}
 
 		tomcatLoginService.login(request, uid, tp.getId());

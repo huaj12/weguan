@@ -5,6 +5,9 @@ import java.util.SortedMap;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +22,15 @@ import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.home.exception.IndexException;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
 
 @Controller
 @RequestMapping(value = "app")
 public class AppHomeController extends BaseController {
+
+	private final Log log = LogFactory.getLog(getClass());
 
 	@Autowired
 	private IUserActService userActService;
@@ -36,7 +42,7 @@ public class AppHomeController extends BaseController {
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		if (!getNextFeed(context.getUid(), 1, model)) {
-			return ERROR_500;
+			return error_500;
 		}
 		return "home/home";
 	}
@@ -44,13 +50,25 @@ public class AppHomeController extends BaseController {
 	@RequestMapping(value = "/ajax/dealFeed", method = RequestMethod.GET)
 	@ResponseBody
 	public String ajaxDealFeed(HttpServletRequest request, Model model,
-			long actId, long friendId, int type, int times)
+			long actId, long friendId, String tpIdentity, int type, int times)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		ActDealType actDealType = ActDealType.valueOf(type);
-		userActService.dealAct(context.getUid(), actId, friendId, actDealType);
+		try {
+			if (friendId > 0) {
+				userActService.respFeed(context.getUid(), actId, friendId,
+						actDealType);
+
+			} else if (StringUtils.isNotEmpty(tpIdentity)) {
+				userActService.respFeed(context.getUid(), actId, tpIdentity,
+						context.getTpId(), actDealType);
+			}
+		} catch (IndexException e) {
+			log.error(e.getMessage(), e);
+			return error_500;
+		}
 		if (!getNextFeed(context.getUid(), times, model)) {
-			return ERROR_500;
+			return error_500;
 		}
 		return "home/feedFragment";
 	}

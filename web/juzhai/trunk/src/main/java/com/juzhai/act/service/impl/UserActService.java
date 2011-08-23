@@ -28,7 +28,10 @@ import com.juzhai.act.service.IInboxService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.home.exception.IndexException;
+import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IFriendService;
+import com.juzhai.passport.service.ITpUserService;
 
 @Service
 public class UserActService implements IUserActService {
@@ -47,6 +50,8 @@ public class UserActService implements IUserActService {
 	private IFriendService friendService;
 	@Autowired
 	private IInboxService inboxService;
+	@Autowired
+	private ITpUserService tpUserService;
 	@Value("${act.name.length.min}")
 	private int actNameLengthMin = 2;
 	@Value("${act.name.length.max}")
@@ -62,14 +67,33 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
-	public void dealAct(long uid, long actId, long friendId, ActDealType type) {
+	public void respFeed(long uid, long actId, String tpFriendId, long tpId,
+			ActDealType type) {
+		TpUser tpUser = tpUserService.getTpUserByTpIdAndIdentity(tpId,
+				tpFriendId);
+		// 处理ActAndFriend
+		dealActAndFriend(uid, actId, tpUser == null ? 0 : tpUser.getUid(), type);
+		// TODO 第三方系统消息
+
+	}
+
+	@Override
+	public void respFeed(long uid, long actId, long friendId, ActDealType type)
+			throws IndexException {
 		if (null == type) {
-			// TODO throw exception
+			throw new IndexException("response feed invalid parameter");
 		}
 		// 验证uid的inbox中是否存在,并取出
 		if (!inboxService.remove(uid, friendId, actId)) {
-			// TODO throw exception
+			throw new IndexException("response feed invalid parameter");
 		}
+		dealActAndFriend(uid, actId, friendId, type);
+		// 放入该放的已处理列表中
+		inboxService.shiftRead(uid, friendId, actId, type);
+	}
+
+	private void dealActAndFriend(long uid, long actId, long friendId,
+			ActDealType type) {
 		switch (type) {
 		case DEPEND:
 			dependToAct(uid, actId, friendId);
@@ -80,27 +104,29 @@ public class UserActService implements IUserActService {
 		case NILL:
 			break;
 		}
-		// 放入该放的已处理列表中
-		inboxService.shiftRead(uid, friendId, actId, type);
 	}
 
-	public void wantToAct(long uid, long actId, long friendId) {
+	private void wantToAct(long uid, long actId, long friendId) {
 		try {
 			useAct(uid, actId, 2, true);
 		} catch (ActInputException e) {
 			log.error(e.getErrorCode(), e);
 		}
-		friendService.incrOrDecrIntimacy(uid, friendId, 2);
-		// TODO 发送私信
+		if (friendId > 0) {
+			friendService.incrOrDecrIntimacy(uid, friendId, 2);
+			// TODO 发送私信
+		}
 	}
 
-	public void dependToAct(long uid, long actId, long friendId) {
+	private void dependToAct(long uid, long actId, long friendId) {
 		try {
 			useAct(uid, actId, 1, true);
 		} catch (ActInputException e) {
 			log.error(e.getErrorCode(), e);
 		}
-		friendService.incrOrDecrIntimacy(uid, friendId, 1);
+		if (friendId > 0) {
+			friendService.incrOrDecrIntimacy(uid, friendId, 1);
+		}
 	}
 
 	@Override
@@ -165,5 +191,4 @@ public class UserActService implements IUserActService {
 				RedisKeyGenerator.genMyActsKey(uid), 0, -1);
 		return new ArrayList<Long>(actIds);
 	}
-
 }

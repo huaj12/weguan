@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.exception.ActInputException;
+import com.juzhai.home.exception.IndexException;
 
 public interface IUserActService {
 
@@ -21,8 +22,27 @@ public interface IUserActService {
 	 *            好友ID
 	 * @param type
 	 *            处理方式
+	 * @throws IndexException
 	 */
-	void dealAct(long uid, long actId, long friendId, ActDealType type);
+	void respFeed(long uid, long actId, long friendId, ActDealType type)
+			throws IndexException;
+
+	/**
+	 * 处理Act
+	 * 
+	 * @param uid
+	 *            处理者ID
+	 * @param actId
+	 *            处理的ActId
+	 * @param tpFriendId
+	 *            第三方好友ID
+	 * @param tpId
+	 *            第三方id
+	 * @param type
+	 *            处理方式
+	 */
+	void respFeed(long uid, long actId, String tpFriendId, long tpId,
+			ActDealType type);
 
 	/**
 	 * 添加拒宅活动（用户可以自定义，但是不会立即对其他用户生效，通过验证后，会被其他人使用）

@@ -19,7 +19,8 @@ import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.passport.model.Profile;
+import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.bean.TpFriend;
 
 @Controller
 @RequestMapping(value = "app")
@@ -34,7 +35,9 @@ public class AppHomeController extends BaseController {
 	public String home(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
-		getNextFeed(context.getUid(), 1, model);
+		if (!getNextFeed(context.getUid(), 1, model)) {
+			return ERROR_500;
+		}
 		return "home/home";
 	}
 
@@ -46,8 +49,9 @@ public class AppHomeController extends BaseController {
 		UserContext context = checkLoginForApp(request);
 		ActDealType actDealType = ActDealType.valueOf(type);
 		userActService.dealAct(context.getUid(), actId, friendId, actDealType);
-		getNextFeed(context.getUid(), times, model);
-		// TODO 显示相互共同好友
+		if (!getNextFeed(context.getUid(), times, model)) {
+			return ERROR_500;
+		}
 		return "home/feedFragment";
 	}
 
@@ -61,22 +65,31 @@ public class AppHomeController extends BaseController {
 	 * @param model
 	 *            调用请求的Model
 	 */
-	private void getNextFeed(long uid, int times, Model model) {
+	private boolean getNextFeed(long uid, int times, Model model) {
 		if (times >= 4) {
-			// TODO 获取随机
+			// 获取随机
+			SortedMap<TpFriend, Act> random = inboxService.showRandam(uid);
+			if (MapUtils.isEmpty(random)) {
+				return false;
+			}
+			TpFriend tpFriend = random.firstKey();
+			model.addAttribute("tpFriend", tpFriend);
+			model.addAttribute("act", random.get(tpFriend));
 			model.addAttribute("times", 1);
 		} else {
 			// 获取指定
-			SortedMap<Profile, Act> first = inboxService.showFirst(uid);
+			SortedMap<ProfileCache, Act> first = inboxService.showFirst(uid);
 			if (MapUtils.isEmpty(first)) {
-				getNextFeed(uid, 4, model);
+				return getNextFeed(uid, 4, model);
 			} else {
-				Profile key = first.firstKey();
+				ProfileCache key = first.firstKey();
 				model.addAttribute("friendProfile", key);
 				model.addAttribute("act", first.get(key));
 				model.addAttribute("times", times + 1);
 			}
 		}
 
+		// TODO 显示相互共同好友
+		return true;
 	}
 }

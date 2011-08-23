@@ -22,4 +22,13 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 		return genKey(uid, "cachedFriends");
 	}
 
+	/**
+	 * 用户基本信息缓存
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genProfileCacheKey(long uid) {
+		return genKey(uid, "profileCache");
+	}
 }

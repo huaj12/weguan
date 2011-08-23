@@ -16,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.MemcachedKeyGenerator;
@@ -37,6 +38,8 @@ public class TpUserAuthService implements ITpUserAuthService {
 	private TpUserAuthMapper tpUserAuthMapper;
 	@Autowired
 	private MemcachedClient memcachedClient;
+	@Value("${authInfo.cache.expire.time}")
+	private int authInfoCacheExpireTime;
 
 	@Override
 	public void updateTpUserAuth(long uid, long tpId, AuthInfo authInfo) {
@@ -71,7 +74,7 @@ public class TpUserAuthService implements ITpUserAuthService {
 		if (null != authInfo) {
 			try {
 				memcachedClient.set(MemcachedKeyGenerator.genAuthInfoKey(uid),
-						30 * 60, authInfo.toJsonString());
+						authInfoCacheExpireTime, authInfo.toJsonString());
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
 			}
@@ -84,7 +87,8 @@ public class TpUserAuthService implements ITpUserAuthService {
 		if (tpId > 0) {
 			try {
 				String authInfoJsonString = memcachedClient.getAndTouch(
-						MemcachedKeyGenerator.genAuthInfoKey(uid), 30 * 60);
+						MemcachedKeyGenerator.genAuthInfoKey(uid),
+						authInfoCacheExpireTime);
 				if (StringUtils.isNotEmpty(authInfoJsonString)) {
 					authInfo = AuthInfo.convertToBean(authInfoJsonString);
 				}

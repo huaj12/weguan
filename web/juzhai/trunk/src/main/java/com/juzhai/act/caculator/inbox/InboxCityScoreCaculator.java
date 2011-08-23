@@ -12,7 +12,7 @@ public class InboxCityScoreCaculator implements IScoreCaculator {
 
 	@Override
 	public int calculate(long srcUid, long destUid, long actId) {
-		// TODO Auto-generated method stub
+		// TODO 计算分数
 		return 0;
 	}
 

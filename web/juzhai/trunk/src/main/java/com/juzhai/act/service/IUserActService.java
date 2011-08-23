@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.exception.ActInputException;
+import com.juzhai.act.model.Act;
 import com.juzhai.home.exception.IndexException;
 
 public interface IUserActService {
@@ -75,10 +76,18 @@ public interface IUserActService {
 	void removeAct(long uid, long actId);
 
 	/**
-	 * 从缓存根据用户id获取Act(不带热度),根据热度排序
+	 * 从缓存根据用户id获取ActId(不带热度),根据热度排序
 	 * 
 	 * @param uid
 	 * @return
 	 */
-	List<Long> getActByUidFromCache(long uid);
+	List<Long> getUserActIdsFromCache(long uid);
+
+	/**
+	 * 从缓存根据用户id获取Act
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	List<Act> getUserActFromCache(long uid);
 }

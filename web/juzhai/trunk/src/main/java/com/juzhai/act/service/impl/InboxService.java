@@ -1,11 +1,14 @@
 package com.juzhai.act.service.impl;
 
+import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +22,10 @@ import com.juzhai.act.caculator.IScoreGenerator;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IInboxService;
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
-import com.juzhai.passport.mapper.ProfileMapper;
-import com.juzhai.passport.model.Profile;
+import com.juzhai.passport.service.IFriendService;
+import com.juzhai.passport.service.IProfileService;
 
 @Service
 public class InboxService implements IInboxService {
@@ -36,7 +40,9 @@ public class InboxService implements IInboxService {
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
 	@Autowired
-	private ProfileMapper profileMapper;
+	private IFriendService friendService;
+	@Autowired
+	private IProfileService profileService;
 
 	// @Autowired
 	// private int inboxCapacity = 100;
@@ -86,20 +92,21 @@ public class InboxService implements IInboxService {
 	}
 
 	@Override
-	public SortedMap<Profile, Act> showFirst(long uid) {
+	public SortedMap<ProfileCache, Act> showFirst(long uid) {
 		Set<String> values = redisTemplate.opsForZSet().reverseRange(
 				RedisKeyGenerator.genInboxActsKey(uid), 0, 0);
 		if (CollectionUtils.isNotEmpty(values)) {
 			for (String value : values) {
 				long[] ids = parseValue(value);
 				if (null != ids) {
-					Profile profile = profileMapper.selectByPrimaryKey(ids[0]);
+					ProfileCache profileCache = profileService
+							.getProfileCacheByUid(ids[0]);
 					Act act = InitData.ACT_MAP.get(ids[1]);
-					if (null == profile || null == act) {
+					if (null == profileCache || null == act) {
 						remove(uid, ids[0], ids[1]);
 					} else {
-						SortedMap<Profile, Act> result = new TreeMap<Profile, Act>();
-						result.put(profile, act);
+						SortedMap<ProfileCache, Act> result = new TreeMap<ProfileCache, Act>();
+						result.put(profileCache, act);
 						return result;
 					}
 				}
@@ -110,8 +117,26 @@ public class InboxService implements IInboxService {
 
 	@Override
 	public SortedMap<TpFriend, Act> showRandam(long uid) {
-		// TODO Auto-generated method stub
-		return null;
+		ProfileCache profileCache = profileService.getProfileCacheByUid(uid);
+		if (null == profileCache) {
+			return null;
+		}
+		List<TpFriend> tpFriendList = friendService.getTpFriends(uid);
+		TpFriend tpFriend = tpFriendList.get(RandomUtils.nextInt(new Random(
+				System.currentTimeMillis()), tpFriendList.size()));
+		if (null == tpFriend) {
+			return null;
+		}
+		int genders = profileCache.getGender() + tpFriend.getGender();
+		List<Act> randomActList = InitData.RANDOM_ACT_MAP.get(genders);
+		Act act = randomActList.get(RandomUtils.nextInt(
+				new Random(System.currentTimeMillis()), randomActList.size()));
+		if (null == act) {
+			return null;
+		}
+		SortedMap<TpFriend, Act> result = new TreeMap<TpFriend, Act>();
+		result.put(tpFriend, act);
+		return result;
 	}
 
 	private String assembleValue(long senderId, long actId) {

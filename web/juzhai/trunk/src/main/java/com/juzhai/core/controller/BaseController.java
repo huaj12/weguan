@@ -10,6 +10,9 @@ import com.juzhai.core.web.session.UserContext;
 
 public class BaseController {
 
+	protected static final String ERROR_404 = "/404";
+	protected static final String ERROR_500 = "/500";
+
 	@Autowired
 	private LoginSessionManager loginSessionManager;
 

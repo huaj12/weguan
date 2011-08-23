@@ -60,12 +60,15 @@ public class RegisterService implements IRegisterService {
 				authInfo);
 
 		// 初始化数据
-		// 1.所在城市
+
+		// 1.缓存profile
+		profileService.cacheProfile(profile);
+		// 2.所在城市
 		profileService.cacheUserCity(profile);
-		// 2.好友列表
+		// 3.好友列表
 		friendService.updateExpiredFriends(passport.getId(), tp.getId(),
 				authInfo);
-		// 3.拉数据
+		// 4.拉数据
 		inboxService.syncInboxByTask(passport.getId());
 
 		return passport.getId();

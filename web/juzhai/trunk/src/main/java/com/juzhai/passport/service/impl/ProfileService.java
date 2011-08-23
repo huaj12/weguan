@@ -5,11 +5,20 @@ package com.juzhai.passport.service.impl;
 
 import java.util.List;
 
+import net.rubyeye.xmemcached.MemcachedClient;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.Assert;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
@@ -18,10 +27,16 @@ import com.juzhai.passport.service.IProfileService;
 @Service
 public class ProfileService implements IProfileService {
 
+	private final Log log = LogFactory.getLog(getClass());
+
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private ProfileMapper profileMapper;
+	@Autowired
+	private MemcachedClient memcachedClient;
+	@Value("${profile.cache.expire.time}")
+	private int profileCacheExpireTime = 20000;
 
 	@Override
 	public void cacheUserCity(long uid) {
@@ -56,4 +71,39 @@ public class ProfileService implements IProfileService {
 		return profileMapper.selectByExample(example);
 	}
 
+	@Override
+	public ProfileCache getProfileCacheByUid(long uid) {
+		ProfileCache profileCache = null;
+		try {
+			profileCache = memcachedClient.getAndTouch(
+					MemcachedKeyGenerator.genProfileCacheKey(uid),
+					profileCacheExpireTime);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		if (null == profileCache) {
+			Profile profile = profileMapper.selectByPrimaryKey(uid);
+			if (profile != null) {
+				profileCache = cacheProfile(profile);
+			}
+		}
+		return profileCache;
+	}
+
+	@Override
+	public ProfileCache cacheProfile(Profile profile) {
+		Assert.assertNotNull("The profile must not be null.", profile);
+		Assert.assertTrue("Profile uid invalid.", profile.getUid() != null
+				&& profile.getUid() > 0);
+		ProfileCache profileCache = new ProfileCache();
+		BeanUtils.copyProperties(profile, profileCache);
+		try {
+			memcachedClient.set(
+					MemcachedKeyGenerator.genProfileCacheKey(profile.getUid()),
+					profileCacheExpireTime, profileCache);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return profileCache;
+	}
 }

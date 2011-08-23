@@ -16,6 +16,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,8 @@ public class FriendService implements IFriendService {
 	private RedisTemplate<String, Long> longRedisTemplate;
 	@Autowired
 	private TpUserMapper tpUserMapper;
+	@Value("${friends.cache.expire.time}")
+	private int friendsCacheExpireTime;
 
 	@Override
 	public FriendsBean getAllFriends(long uid) {
@@ -151,7 +154,7 @@ public class FriendService implements IFriendService {
 	private void touchCache(long uid) {
 		try {
 			memcachedClient.set(MemcachedKeyGenerator.genCachedFriendsKey(uid),
-					3600 * 24, true);
+					friendsCacheExpireTime, true);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

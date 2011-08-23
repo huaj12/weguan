@@ -5,6 +5,7 @@ package com.juzhai.passport.service;
 
 import java.util.List;
 
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.Profile;
 
 public interface IProfileService {
@@ -38,4 +39,19 @@ public interface IProfileService {
 	 * @return
 	 */
 	List<Profile> getProfilesByCityId(long cityId);
+
+	/**
+	 * 根据用户ID获取Profile，先查缓存
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	ProfileCache getProfileCacheByUid(long uid);
+
+	/**
+	 * 缓存profile
+	 * 
+	 * @param profile
+	 */
+	ProfileCache cacheProfile(Profile profile);
 }

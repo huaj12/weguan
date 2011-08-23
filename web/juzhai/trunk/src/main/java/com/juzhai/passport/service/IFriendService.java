@@ -38,7 +38,7 @@ public interface IFriendService {
 	Set<Long> getAppFriends(long uid);
 
 	/**
-	 * 获取未安装应用的好友
+	 * 获取所有的好友
 	 * 
 	 * @param uid
 	 * @return

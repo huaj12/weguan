@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.juzhai.act.model.Act;
+import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
@@ -22,19 +23,33 @@ public class AppMyActController extends BaseController {
 
 	@Autowired
 	private IUserActService userActService;
+	@Autowired
+	private IActCategoryService actCategoryService;
 
-	@RequestMapping(value = { "/myAct" }, method = RequestMethod.GET)
+	private int hotCategorySize = 5;
+
+	@RequestMapping(value = "/myAct", method = RequestMethod.GET)
 	public String myAct(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		List<Act> myActList = userActService.getUserActFromCache(context
 				.getUid());
 		model.addAttribute("myActList", myActList);
-
-		// TODO 热门Act
+		model.addAttribute("hotCategoryList",
+				actCategoryService.listHotCategories(hotCategorySize));
 
 		return "act/myAct";
 	}
 
-	// TODO 创建，添加，删除
+	@RequestMapping(value = "/addAct")
+	public String addAct(HttpServletRequest request, long actId,
+			String actName, Model model) {
+		return null;
+	}
+
+	@RequestMapping(value = "/removeAct")
+	public String removeAct(HttpServletRequest request, long actId,
+			String actName, Model model) {
+		return null;
+	}
 }

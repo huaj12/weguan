@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -60,15 +61,6 @@ public class UserActService implements IUserActService {
 	private int actNameLengthMax = 20;
 
 	@Override
-	public void removeAct(long uid, long actId) {
-		UserActExample example = new UserActExample();
-		example.createCriteria().andUidEqualTo(uid).andActIdEqualTo(actId);
-		userActMapper.deleteByExample(example);
-		// 更新Act的使用人数
-		actDao.incrOrDecrPopularity(actId, -1);
-	}
-
-	@Override
 	public void respFeed(long uid, long actId, String tpFriendId, long tpId,
 			ActDealType type) {
 		TpUser tpUser = tpUserService.getTpUserByTpIdAndIdentity(tpId,
@@ -76,7 +68,6 @@ public class UserActService implements IUserActService {
 		// 处理ActAndFriend
 		dealActAndFriend(uid, actId, tpUser == null ? 0 : tpUser.getUid(), type);
 		// TODO 第三方系统消息
-
 	}
 
 	@Override
@@ -108,7 +99,8 @@ public class UserActService implements IUserActService {
 		}
 	}
 
-	private void wantToAct(long uid, long actId, long friendId) {
+	private void wantToAct(long uid, long actId, long friendId,
+			String tpIdentity, long tpId) {
 		try {
 			useAct(uid, actId, 2, true);
 		} catch (ActInputException e) {
@@ -117,6 +109,9 @@ public class UserActService implements IUserActService {
 		if (friendId > 0) {
 			friendService.incrOrDecrIntimacy(uid, friendId, 2);
 			// TODO 发送私信
+		} else if (StringUtils.isNotEmpty(tpIdentity) && tpId > 0) {
+			// TODO 发送第三方系统消息
+			// TODO 发送预存私信
 		}
 	}
 
@@ -209,4 +204,14 @@ public class UserActService implements IUserActService {
 		}
 		return actList;
 	}
+
+	@Override
+	public void removeAct(long uid, long actId) {
+		UserActExample example = new UserActExample();
+		example.createCriteria().andUidEqualTo(uid).andActIdEqualTo(actId);
+		userActMapper.deleteByExample(example);
+		// 更新Act的使用人数
+		actDao.incrOrDecrPopularity(actId, -1);
+	}
+
 }

@@ -1,30 +1,43 @@
 package com.juzhai.act.controller;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.juzhai.act.controller.form.AddActForm;
+import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 
 @Controller
 @RequestMapping(value = "app")
 public class AppMyActController extends BaseController {
 
+	private final Log log = LogFactory.getLog(getClass());
+
 	@Autowired
 	private IUserActService userActService;
 	@Autowired
 	private IActCategoryService actCategoryService;
+	@Autowired
+	private MessageSource messageSource;
 
 	private int hotCategorySize = 5;
 
@@ -37,19 +50,55 @@ public class AppMyActController extends BaseController {
 		model.addAttribute("myActList", myActList);
 		model.addAttribute("hotCategoryList",
 				actCategoryService.listHotCategories(hotCategorySize));
-
+		pageMyAct(request, model, 1);
 		return "act/myAct";
 	}
 
-	@RequestMapping(value = "/addAct")
-	public String addAct(HttpServletRequest request, long actId,
-			String actName, Model model) {
-		return null;
+	@RequestMapping(value = "/addAct", method = RequestMethod.POST)
+	@ResponseBody
+	public String addAct(HttpServletRequest request, AddActForm addActForm,
+			Model model) throws NeedLoginException {
+		UserContext context = checkLoginForApp(request);
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			if (addActForm.getActId() > 0) {
+				// 通过actId添加
+				userActService.addAct(context.getUid(), addActForm.getActId(),
+						addActForm.isSyn());
+			} else if (StringUtils.isNotEmpty(addActForm.getActName())) {
+				// 通过名字添加
+				userActService.addAct(context.getUid(), addActForm.getActName()
+						.trim(), addActForm.isSyn());
+			}
+			ajaxResult.setSuccess(true);
+		} catch (ActInputException e) {
+			if (log.isDebugEnabled()) {
+				log.debug(e.getMessage(), e);
+			}
+			ajaxResult.setSuccess(false);
+			ajaxResult.setErrorCode(e.getErrorCode());
+			ajaxResult.setErrorInfo(messageSource.getMessage(e.getErrorCode(),
+					null, e.getErrorCode(), Locale.SIMPLIFIED_CHINESE));
+		}
+
+		return ajaxResult.toJson();
 	}
 
-	@RequestMapping(value = "/removeAct")
-	public String removeAct(HttpServletRequest request, long actId,
-			String actName, Model model) {
+	@RequestMapping(value = "/removeAct", method = RequestMethod.POST)
+	@ResponseBody
+	public String removeAct(HttpServletRequest request, long actId, Model model)
+			throws NeedLoginException {
+		UserContext context = checkLoginForApp(request);
+		AjaxResult ajaxResult = new AjaxResult();
+		userActService.removeAct(context.getUid(), actId);
+		ajaxResult.setSuccess(true);
+		return ajaxResult.toJson();
+	}
+
+	@RequestMapping(value = "/pageMyAct", method = RequestMethod.GET)
+	@ResponseBody
+	public String pageMyAct(HttpServletRequest request, Model model, int page) {
+
 		return null;
 	}
 }

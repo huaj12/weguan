@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -61,13 +60,19 @@ public class UserActService implements IUserActService {
 	private int actNameLengthMax = 20;
 
 	@Override
-	public void respFeed(long uid, long actId, String tpFriendId, long tpId,
-			ActDealType type) {
+	public void respRandom(long uid, long actId, String tpFriendId, long tpId,
+			ActDealType type) throws IndexException {
+		if (null == type) {
+			throw new IndexException("response feed invalid parameter");
+		}
 		TpUser tpUser = tpUserService.getTpUserByTpIdAndIdentity(tpId,
 				tpFriendId);
 		// 处理ActAndFriend
-		dealActAndFriend(uid, actId, tpUser == null ? 0 : tpUser.getUid(), type);
-		// TODO 第三方系统消息
+		dealActAndFriend(uid, actId, tpUser == null ? 0 : tpUser.getUid(),
+				tpFriendId, tpId, type);
+		if (ActDealType.WANT.equals(type)) {
+			// TODO 发送第三方系统消息
+		}
 	}
 
 	@Override
@@ -80,39 +85,46 @@ public class UserActService implements IUserActService {
 		if (!inboxService.remove(uid, friendId, actId)) {
 			throw new IndexException("response feed invalid parameter");
 		}
-		dealActAndFriend(uid, actId, friendId, type);
+		dealActAndFriend(uid, actId, friendId, null, 0, type);
 		// 放入该放的已处理列表中
 		inboxService.shiftRead(uid, friendId, actId, type);
 	}
 
 	private void dealActAndFriend(long uid, long actId, long friendId,
-			ActDealType type) {
+			String tpIdentity, long tpId, ActDealType type) {
 		switch (type) {
 		case DEPEND:
 			dependToAct(uid, actId, friendId);
 			break;
 		case WANT:
-			wantToAct(uid, actId, friendId);
+			if (friendId > 0) {
+				wantToAct(uid, actId, friendId);
+			} else {
+				wantToAct(uid, actId, tpIdentity, tpId);
+			}
 			break;
 		case NILL:
 			break;
 		}
 	}
 
-	private void wantToAct(long uid, long actId, long friendId,
-			String tpIdentity, long tpId) {
+	private void wantToAct(long uid, long actId, long friendId) {
 		try {
 			useAct(uid, actId, 2, true);
 		} catch (ActInputException e) {
 			log.error(e.getErrorCode(), e);
 		}
-		if (friendId > 0) {
-			friendService.incrOrDecrIntimacy(uid, friendId, 2);
-			// TODO 发送私信
-		} else if (StringUtils.isNotEmpty(tpIdentity) && tpId > 0) {
-			// TODO 发送第三方系统消息
-			// TODO 发送预存私信
+		friendService.incrOrDecrIntimacy(uid, friendId, 2);
+		// TODO 发送私信
+	}
+
+	private void wantToAct(long uid, long actId, String tpIdentity, long tpId) {
+		try {
+			useAct(uid, actId, 2, true);
+		} catch (ActInputException e) {
+			log.error(e.getErrorCode(), e);
 		}
+		// TODO 发送预存私信
 	}
 
 	private void dependToAct(long uid, long actId, long friendId) {
@@ -127,7 +139,8 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
-	public void addAct(long uid, String actName) throws ActInputException {
+	public void addAct(long uid, String actName, boolean isSyn)
+			throws ActInputException {
 		Act act = actDao.selectActByName(actName);
 		if (null == act) {
 			// TODO 过滤词
@@ -137,12 +150,16 @@ public class UserActService implements IUserActService {
 			}
 			act = actDao.insertAct(uid, actName, null);
 		}
-		addAct(uid, act.getId());
+		addAct(uid, act.getId(), isSyn);
 	}
 
 	@Override
-	public void addAct(long uid, long actId) throws ActInputException {
+	public void addAct(long uid, long actId, boolean isSyn)
+			throws ActInputException {
 		useAct(uid, actId, 5, false);
+		if (isSyn) {
+			// TODO 第三方发送动态
+		}
 	}
 
 	private void useAct(long uid, long actId, int hotLev, boolean canRepeat)

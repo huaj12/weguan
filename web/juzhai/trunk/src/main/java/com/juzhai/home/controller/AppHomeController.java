@@ -60,7 +60,7 @@ public class AppHomeController extends BaseController {
 						actDealType);
 
 			} else if (StringUtils.isNotEmpty(tpIdentity)) {
-				userActService.respFeed(context.getUid(), actId, tpIdentity,
+				userActService.respRandom(context.getUid(), actId, tpIdentity,
 						context.getTpId(), actDealType);
 			}
 		} catch (IndexException e) {

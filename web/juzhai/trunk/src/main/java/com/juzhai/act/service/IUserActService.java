@@ -6,6 +6,7 @@ package com.juzhai.act.service;
 import java.util.List;
 
 import com.juzhai.act.bean.ActDealType;
+import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
 import com.juzhai.home.exception.IndexException;
@@ -96,4 +97,22 @@ public interface IUserActService {
 	 * @return
 	 */
 	List<Act> getUserActFromCache(long uid);
+
+	/**
+	 * 根据页码和每页显示数量，列出某用户的Act
+	 * 
+	 * @param uid
+	 * @param page
+	 * @param maxRows
+	 * @return
+	 */
+	List<UserActView> pageUserActView(long uid, int page, int maxRows);
+
+	/**
+	 * 某用户的Act数量
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	int countUserActByUid(long uid);
 }

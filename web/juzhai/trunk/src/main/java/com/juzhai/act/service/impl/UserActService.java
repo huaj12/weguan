@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.act.InitData;
 import com.juzhai.act.bean.ActDealType;
+import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.dao.IActDao;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.mapper.UserActMapper;
@@ -31,8 +32,10 @@ import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.home.exception.IndexException;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IFriendService;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
 
 @Service
@@ -54,6 +57,8 @@ public class UserActService implements IUserActService {
 	private IInboxService inboxService;
 	@Autowired
 	private ITpUserService tpUserService;
+	@Autowired
+	private IProfileService profileService;
 	@Value("${act.name.length.min}")
 	private int actNameLengthMin = 2;
 	@Value("${act.name.length.max}")
@@ -229,6 +234,32 @@ public class UserActService implements IUserActService {
 		userActMapper.deleteByExample(example);
 		// 更新Act的使用人数
 		actDao.incrOrDecrPopularity(actId, -1);
+	}
+
+	@Override
+	public List<UserActView> pageUserActView(long uid, int start, int maxRows) {
+		UserActExample example = new UserActExample();
+		example.createCriteria().andUidEqualTo(uid);
+		example.setOrderByClause("create_time desc");
+		// TODO wait limit
+		List<UserAct> list = userActMapper.selectByExample(example);
+		List<UserActView> returnList = new ArrayList<UserActView>();
+		ProfileCache profile = profileService.getProfileCacheByUid(uid);
+		for (UserAct userAct : list) {
+			Act act = InitData.ACT_MAP.get(userAct.getActId());
+			if (null != act) {
+				returnList.add(new UserActView(userAct, act, profile));
+			}
+		}
+
+		return returnList;
+	}
+
+	@Override
+	public int countUserActByUid(long uid) {
+		UserActExample example = new UserActExample();
+		example.createCriteria().andUidEqualTo(uid);
+		return userActMapper.countByExample(example);
 	}
 
 }

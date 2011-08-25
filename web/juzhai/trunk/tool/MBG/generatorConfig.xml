@@ -5,7 +5,7 @@
 
 <generatorConfiguration>
   <classPathEntry location="tool/MBG/mysql-connector-java-5.1.12.jar" />
-  
+
   <!-- <context id="passport" targetRuntime="MyBatis3">
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
         connectionURL="jdbc:mysql://192.168.1.10:3306/juzhai"
@@ -67,6 +67,9 @@
   
   
   <context id="act" targetRuntime="MyBatis3">
+  
+	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
+  
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
         connectionURL="jdbc:mysql://192.168.1.10:3306/juzhai"
         userId="root"
@@ -105,11 +108,11 @@
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
     </table> -->
-    
+	
     <table tableName="tb_random_act" domainObjectName="RandomAct">
       <property name="useActualColumnNames" value="false"/>
     </table>
-
+    
   </context>
   
   

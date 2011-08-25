@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.act.controller.form.AddActForm;
+import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 
@@ -39,7 +41,9 @@ public class AppMyActController extends BaseController {
 	@Autowired
 	private MessageSource messageSource;
 
+	// TODO 配置
 	private int hotCategorySize = 5;
+	private int myActMaxRows = 20;
 
 	@RequestMapping(value = "/myAct", method = RequestMethod.GET)
 	public String myAct(HttpServletRequest request, Model model)
@@ -48,6 +52,7 @@ public class AppMyActController extends BaseController {
 		List<Act> myActList = userActService.getUserActFromCache(context
 				.getUid());
 		model.addAttribute("myActList", myActList);
+		// TODO 推荐Act配置
 		model.addAttribute("hotCategoryList",
 				actCategoryService.listHotCategories(hotCategorySize));
 		pageMyAct(request, model, 1);
@@ -97,8 +102,14 @@ public class AppMyActController extends BaseController {
 
 	@RequestMapping(value = "/pageMyAct", method = RequestMethod.GET)
 	@ResponseBody
-	public String pageMyAct(HttpServletRequest request, Model model, int page) {
-
+	public String pageMyAct(HttpServletRequest request, Model model, int page)
+			throws NeedLoginException {
+		UserContext context = checkLoginForApp(request);
+		int totalCount = userActService.countUserActByUid(context.getUid());
+		PagerManager pager = new PagerManager(page, myActMaxRows, totalCount);
+		List<UserActView> userActViewList = userActService.pageUserActView(
+				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
+		model.addAttribute("userActViewList", userActViewList);
 		return null;
 	}
 }

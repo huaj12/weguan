@@ -250,6 +250,13 @@
 				<groupId>org.mybatis.generator</groupId>
 				<artifactId>mybatis-generator-maven-plugin</artifactId>
 				<version>1.3.0</version>
+				<dependencies>
+					<dependency>
+					  <groupId>com.juzhai</groupId>
+					  <artifactId>mybatisPlugin</artifactId>
+					  <version>0.0.1</version>
+					</dependency>
+				</dependencies>
 				<configuration>
 					<configurationFile>tool/MBG/generatorConfig.xml</configurationFile>
 					<overwrite>true</overwrite>

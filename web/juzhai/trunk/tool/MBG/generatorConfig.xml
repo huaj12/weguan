@@ -69,9 +69,10 @@
   <context id="act" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
+	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
   
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-        connectionURL="jdbc:mysql://192.168.1.10:3306/juzhai"
+        connectionURL="jdbc:mysql://127.0.0.1:3306/juzhai"
         userId="root"
         password="111111">
     </jdbcConnection>
@@ -83,7 +84,7 @@
     <javaModelGenerator targetPackage="com.juzhai.act.model" targetProject="src/main/java">
       <property name="enableSubPackages" value="false" />
       <property name="trimStrings" value="true" />
-	  <property name="rootClass" value="com.juzhai.core.model.Entity"/>
+	  <!-- <property name="rootClass" value="com.juzhai.core.model.Entity"/> -->
     </javaModelGenerator>
 
     <sqlMapGenerator targetPackage="mybatis.act"  targetProject="src/main/resources">
@@ -94,24 +95,28 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
 
+	<table tableName="tb_hot_act" domainObjectName="HotAct">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+
     <!-- <table tableName="tb_act" domainObjectName="Act" >
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
       <columnOverride column="active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
     
-    <table tableName="tb_act_category" domainObjectName="ActCategory" >
-      <property name="useActualColumnNames" value="false"/>
-    </table>
-    
     <table tableName="tb_user_act" domainObjectName="UserAct">
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
-    </table> -->
+    </table>
+    
+    <table tableName="tb_act_category" domainObjectName="ActCategory" >
+      <property name="useActualColumnNames" value="false"/>
+    </table>
 	
     <table tableName="tb_random_act" domainObjectName="RandomAct">
       <property name="useActualColumnNames" value="false"/>
-    </table>
+    </table> -->
     
   </context>
   

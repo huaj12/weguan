@@ -30,6 +30,7 @@ import com.juzhai.act.model.UserActExample;
 import com.juzhai.act.service.IInboxService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.passport.bean.ProfileCache;
@@ -241,7 +242,7 @@ public class UserActService implements IUserActService {
 		UserActExample example = new UserActExample();
 		example.createCriteria().andUidEqualTo(uid);
 		example.setOrderByClause("create_time desc");
-		// TODO wait limit
+		example.setLimit(new Limit(start, maxRows));
 		List<UserAct> list = userActMapper.selectByExample(example);
 		List<UserActView> returnList = new ArrayList<UserActView>();
 		ProfileCache profile = profileService.getProfileCacheByUid(uid);
@@ -251,7 +252,6 @@ public class UserActService implements IUserActService {
 				returnList.add(new UserActView(userAct, act, profile));
 			}
 		}
-
 		return returnList;
 	}
 

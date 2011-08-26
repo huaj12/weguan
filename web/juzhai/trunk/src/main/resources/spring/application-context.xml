@@ -26,6 +26,7 @@
 						<value>classpath:properties/redis.properties</value>
 						<value>classpath:properties/rabbitmq.properties</value>
 						<value>classpath:properties/threadPool.properties</value>
+						<value>classpath:properties/variable.properties</value>
 					</list>
 				</property>
 			</bean>

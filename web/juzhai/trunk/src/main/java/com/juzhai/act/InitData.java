@@ -21,11 +21,14 @@ import org.springframework.stereotype.Component;
 
 import com.juzhai.act.mapper.ActCategoryMapper;
 import com.juzhai.act.mapper.ActMapper;
+import com.juzhai.act.mapper.HotActMapper;
 import com.juzhai.act.mapper.RandomActMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActCategory;
 import com.juzhai.act.model.ActCategoryExample;
 import com.juzhai.act.model.ActExample;
+import com.juzhai.act.model.HotAct;
+import com.juzhai.act.model.HotActExample;
 import com.juzhai.act.model.RandomAct;
 import com.juzhai.act.model.RandomActExample;
 
@@ -37,6 +40,7 @@ public class InitData {
 	public static final Map<Long, Act> ACT_MAP = new LinkedHashMap<Long, Act>();
 	public static final Map<Long, ActCategory> ACT_CATEGORY_MAP = new LinkedHashMap<Long, ActCategory>();
 	public static final Map<Long, List<Act>> ACT_CATEGORY_ACT_LIST_MAP = new LinkedHashMap<Long, List<Act>>();
+	public static final Map<Long, Map<Long, List<Act>>> HOT_ACT_LIST_MAP = new LinkedHashMap<Long, Map<Long, List<Act>>>();
 	/**
 	 * key:0：女女；1：男女；2：男男
 	 */
@@ -47,6 +51,8 @@ public class InitData {
 	@Autowired
 	private ActCategoryMapper actCategoryMapper;
 	@Autowired
+	private HotActMapper hotActMapper;
+	@Autowired
 	private RandomActMapper randomActMapper;
 
 	@PostConstruct
@@ -55,6 +61,26 @@ public class InitData {
 		initActCategoryMap();
 		initActCategoryActList();
 		initRandomActMap();
+		initHotActListMap();
+	}
+
+	private void initHotActListMap() {
+		HotActExample example = new HotActExample();
+		example.setOrderByClause("sequence asc");
+		List<HotAct> hotActList = hotActMapper.selectByExample(example);
+		HOT_ACT_LIST_MAP.clear();
+		for (HotAct hotAct : hotActList) {
+			Map<Long, List<Act>> categoryActListMap = HOT_ACT_LIST_MAP
+					.get(hotAct.getTpId());
+			if (null == categoryActListMap) {
+				categoryActListMap = new LinkedHashMap<Long, List<Act>>();
+				HOT_ACT_LIST_MAP.put(hotAct.getTpId(), categoryActListMap);
+			}
+			Act act = ACT_MAP.get(hotAct.getActId());
+			if (null != act) {
+				addActToCategories(act, categoryActListMap);
+			}
+		}
 	}
 
 	private void initActMap() {
@@ -81,22 +107,23 @@ public class InitData {
 	private void initActCategoryActList() {
 		ACT_CATEGORY_ACT_LIST_MAP.clear();
 		for (Act act : ACT_MAP.values()) {
-			addActToCategories(act);
+			addActToCategories(act, ACT_CATEGORY_ACT_LIST_MAP);
 		}
 	}
 
-	private void addActToCategories(Act act) {
+	private void addActToCategories(Act act,
+			Map<Long, List<Act>> categoryActListMap) {
 		if (StringUtils.isNotEmpty(act.getCategoryIds())) {
 			StringTokenizer st = new StringTokenizer(act.getCategoryIds(), ",");
 			while (st.hasMoreTokens()) {
 				String actCategoryId = st.nextToken();
 				try {
-					List<Act> list = ACT_CATEGORY_ACT_LIST_MAP.get(Long
+					List<Act> list = categoryActListMap.get(Long
 							.valueOf(actCategoryId));
 					if (null == list) {
 						list = new CopyOnWriteArrayList<Act>();
-						ACT_CATEGORY_ACT_LIST_MAP.put(
-								Long.valueOf(actCategoryId), list);
+						categoryActListMap.put(Long.valueOf(actCategoryId),
+								list);
 					}
 					list.add(act);
 				} catch (Exception e) {
@@ -121,6 +148,6 @@ public class InitData {
 
 	public void loadAct(Act act) {
 		InitData.ACT_MAP.put(act.getId(), act);
-		addActToCategories(act);
+		addActToCategories(act, ACT_CATEGORY_ACT_LIST_MAP);
 	}
 }

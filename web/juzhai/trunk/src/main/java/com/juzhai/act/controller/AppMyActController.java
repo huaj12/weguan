@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ import com.juzhai.act.controller.form.AddActForm;
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.ActCategory;
 import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
@@ -40,9 +42,9 @@ public class AppMyActController extends BaseController {
 	private IActCategoryService actCategoryService;
 	@Autowired
 	private MessageSource messageSource;
-
-	// TODO 配置
+	@Value("${hot.category.size}")
 	private int hotCategorySize = 5;
+	@Value("${my.act.max.rows}")
 	private int myActMaxRows = 20;
 
 	@RequestMapping(value = "/myAct", method = RequestMethod.GET)
@@ -52,9 +54,12 @@ public class AppMyActController extends BaseController {
 		List<Act> myActList = userActService.getUserActFromCache(context
 				.getUid());
 		model.addAttribute("myActList", myActList);
-		// TODO 推荐Act配置
-		model.addAttribute("hotCategoryList",
-				actCategoryService.listHotCategories(hotCategorySize));
+
+		List<ActCategory> hotCategoryList = actCategoryService
+				.listHotCategories(hotCategorySize);
+		model.addAttribute("hotCategoryList", hotCategoryList);
+		model.addAttribute("hotActListMap", actCategoryService
+				.getHotActListMap(context.getTpId(), hotCategoryList));
 		pageMyAct(request, model, 1);
 		return "act/myAct";
 	}

@@ -10,10 +10,10 @@
 		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
-        http://www.springframework.org/schema/context 
-        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd">
 		
-	<bean id="rabbitConnectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+	<!-- <bean id="rabbitConnectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
 	    <constructor-arg value="${rabbitmq.host}"/>
 	    <constructor-arg value="${rabbitmq.port}" />
 	    <property name="channelCacheSize" value="${rabbitmq.channelCacheSize}" />
@@ -54,7 +54,9 @@
 		<property name="exchange" value="${rabbitmq.exchange.updateAct}" />
 	</bean>
 	
-	<bean id="updateActMessageListenerContainer" class="org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer">
+	
+	
+	<bean class="org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer">
 		<property name="connectionFactory" ref="rabbitConnectionFactory" />
 		<property name="queueNames">
 			<array>
@@ -67,8 +69,34 @@
 			</bean>
 		</property>
 		<property name="acknowledgeMode" value="NONE" />
-		<!-- <property name="adviceChain"></property>
-		<property name="shutdownTimeout"></property> -->
+	</bean> -->
+	
+	
+	<rabbit:connection-factory id="rabbitConnectionFactory"
+		host="${rabbitmq.host}"
+		port="${rabbitmq.port}"
+		channel-cache-size="${rabbitmq.channelCacheSize}" />
+		
+	<rabbit:admin connection-factory="rabbitConnectionFactory"/>
+	
+	<!-- update act -->
+	<rabbit:queue name="${rabbitmq.queue.updateAct}" />
+	<rabbit:direct-exchange name="${rabbitmq.exchange.updateAct}">
+		<rabbit:bindings>
+			<rabbit:binding queue="${rabbitmq.queue.updateAct}"/>
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+	<rabbit:template id="updateActRabbitTemplate"
+		connection-factory="rabbitConnectionFactory"
+		exchange="${rabbitmq.exchange.updateAct}"
+		queue="${rabbitmq.queue.updateAct}"
+		routing-key="${rabbitmq.queue.updateAct}"/>
+	<bean id="updateActListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
+		<property name="delegate" ref="updateActMessageListener" />
 	</bean>
+	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.updateAct}" prefetch="${rabbitmq.prefetch.updateAct}" >
+	    <rabbit:listener queue-names="${rabbitmq.queue.updateAct}" ref="updateActListener" />
+	</rabbit:listener-container>
+	<!-- update act -->
 
 </beans>

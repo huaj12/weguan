@@ -33,6 +33,8 @@ import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.home.exception.IndexException;
+import com.juzhai.msg.bean.ActMsg;
+import com.juzhai.msg.service.IMsgService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IFriendService;
@@ -60,6 +62,8 @@ public class UserActService implements IUserActService {
 	private ITpUserService tpUserService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IMsgService msgService;
 	@Value("${act.name.length.min}")
 	private int actNameLengthMin = 2;
 	@Value("${act.name.length.max}")
@@ -76,9 +80,6 @@ public class UserActService implements IUserActService {
 		// 处理ActAndFriend
 		dealActAndFriend(uid, actId, tpUser == null ? 0 : tpUser.getUid(),
 				tpFriendId, tpId, type);
-		// if (ActDealType.WANT.equals(type)) {
-		// // TODO 发送第三方系统消息
-		// }
 	}
 
 	@Override
@@ -121,8 +122,8 @@ public class UserActService implements IUserActService {
 			log.error(e.getErrorCode(), e);
 		}
 		friendService.incrOrDecrIntimacy(uid, friendId, 2);
-		// TODO 发送msg
-		// TODO 发送第三方系统消息
+		msgService.sendActMsg(uid, friendId, new ActMsg(actId, uid,
+				ActMsg.MsgType.FIND_YOU_ACT));
 	}
 
 	private void wantToAct(long uid, long actId, String tpIdentity, long tpId) {
@@ -131,9 +132,8 @@ public class UserActService implements IUserActService {
 		} catch (ActInputException e) {
 			log.error(e.getErrorCode(), e);
 		}
-
-		// TODO 发送预存msg
-		// TODO 发送第三方系统消息
+		msgService.sendActMsg(uid, tpId, tpIdentity, new ActMsg(actId, uid,
+				ActMsg.MsgType.FIND_YOU_ACT));
 	}
 
 	private void dependToAct(long uid, long actId, long friendId) {
@@ -166,7 +166,8 @@ public class UserActService implements IUserActService {
 	public void addAct(long uid, long actId, boolean isSyn)
 			throws ActInputException {
 		useAct(uid, actId, 5, false);
-		// TODO 发送msg
+		msgService.sendActMsg(uid, 0, new ActMsg(actId, uid,
+				ActMsg.MsgType.BROADCAST_ACT));
 		if (isSyn) {
 			// TODO 第三方发送动态
 		}

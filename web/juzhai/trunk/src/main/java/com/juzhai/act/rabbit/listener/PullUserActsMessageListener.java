@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import com.juzhai.act.caculator.IScoreGenerator;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
+import com.juzhai.msg.bean.Msg;
 import com.juzhai.msg.rabbit.message.MsgMessage;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
@@ -77,7 +78,6 @@ public class PullUserActsMessageListener implements
 		// return Collections.emptyList();
 		// }
 		// return profileService.getProfilesByCityId(cityId);
-	
 		return null;
 	}
 }

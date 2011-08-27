@@ -79,24 +79,64 @@
 		
 	<rabbit:admin connection-factory="rabbitConnectionFactory"/>
 	
-	<!-- update act -->
-	<rabbit:queue name="${rabbitmq.queue.updateAct}" />
-	<rabbit:direct-exchange name="${rabbitmq.exchange.updateAct}">
+	<!-- update act feed-->
+	<rabbit:queue name="${rabbitmq.queue.updateActFeed}" />
+	<rabbit:direct-exchange name="${rabbitmq.exchange.updateActFeed}">
 		<rabbit:bindings>
-			<rabbit:binding queue="${rabbitmq.queue.updateAct}"/>
+			<rabbit:binding queue="${rabbitmq.queue.updateActFeed}"/>
 		</rabbit:bindings>
 	</rabbit:direct-exchange>
-	<rabbit:template id="updateActRabbitTemplate"
+	<rabbit:template id="updateActFeedRabbitTemplate"
 		connection-factory="rabbitConnectionFactory"
-		exchange="${rabbitmq.exchange.updateAct}"
-		queue="${rabbitmq.queue.updateAct}"
-		routing-key="${rabbitmq.queue.updateAct}"/>
-	<bean id="updateActListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
-		<property name="delegate" ref="updateActMessageListener" />
+		exchange="${rabbitmq.exchange.updateActFeed}"
+		queue="${rabbitmq.queue.updateActFeed}"
+		routing-key="${rabbitmq.queue.updateActFeed}"/>
+	<bean id="updateActFeedListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
+		<property name="delegate" ref="updateActFeedMessageListener" />
 	</bean>
-	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.updateAct}" prefetch="${rabbitmq.prefetch.updateAct}" >
-	    <rabbit:listener queue-names="${rabbitmq.queue.updateAct}" ref="updateActListener" />
+	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.updateActFeed}" prefetch="${rabbitmq.prefetch.updateActFeed}" >
+	    <rabbit:listener queue-names="${rabbitmq.queue.updateActFeed}" ref="updateActFeedListener" />
 	</rabbit:listener-container>
-	<!-- update act -->
+	<!-- update act feed-->
+	
+	<!-- update act msg-->
+	<rabbit:queue name="${rabbitmq.queue.updateActMsg}" />
+	<rabbit:direct-exchange name="${rabbitmq.exchange.updateActMsg}">
+		<rabbit:bindings>
+			<rabbit:binding queue="${rabbitmq.queue.updateActMsg}"/>
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+	<rabbit:template id="updateActMsgRabbitTemplate"
+		connection-factory="rabbitConnectionFactory"
+		exchange="${rabbitmq.exchange.updateActMsg}"
+		queue="${rabbitmq.queue.updateActMsg}"
+		routing-key="${rabbitmq.queue.updateActMsg}"/>
+	<bean id="updateActMsgListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
+		<property name="delegate" ref="updateActMsgMessageListener" />
+	</bean>
+	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.updateActMsg}" prefetch="${rabbitmq.prefetch.updateActMsg}" >
+	    <rabbit:listener queue-names="${rabbitmq.queue.updateActMsg}" ref="updateActMsgListener" />
+	</rabbit:listener-container>
+	<!-- update act msg-->
+	
+	<!-- wantTo act msg-->
+	<rabbit:queue name="${rabbitmq.queue.wantToActMsg}" />
+	<rabbit:direct-exchange name="${rabbitmq.exchange.wantToActMsg}">
+		<rabbit:bindings>
+			<rabbit:binding queue="${rabbitmq.queue.wantToActMsg}"/>
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+	<rabbit:template id="wantToActMsgRabbitTemplate"
+		connection-factory="rabbitConnectionFactory"
+		exchange="${rabbitmq.exchange.wantToActMsg}"
+		queue="${rabbitmq.queue.wantToActMsg}"
+		routing-key="${rabbitmq.queue.wantToActMsg}"/>
+	<bean id="wantToActMsgListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
+		<property name="delegate" ref="wantToActMsgMessageListener" />
+	</bean>
+	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.wantToActMsg}" prefetch="${rabbitmq.prefetch.wantToActMsg}" >
+	    <rabbit:listener queue-names="${rabbitmq.queue.wantToActMsg}" ref="wantToActMsgListener" />
+	</rabbit:listener-container>
+	<!-- wantTo act msg-->
 
 </beans>

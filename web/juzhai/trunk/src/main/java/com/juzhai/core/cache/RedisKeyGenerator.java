@@ -63,4 +63,35 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genDealedActsKey(long uid, ActDealType type) {
 		return genKey(uid, type.name());
 	}
+
+	/**
+	 * 未读消息列表(list)
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genUnreadMsgsKey(long uid) {
+		return genKey(uid, "unreadMsgs");
+	}
+
+	/**
+	 * 已读消息列表(list)
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genReadMsgsKey(long uid) {
+		return genKey(uid, "readMsgs");
+	}
+
+	/**
+	 * 预存消息(list)
+	 * 
+	 * @param tpIdentity
+	 * @param tpId
+	 * @return
+	 */
+	public static String genPrestoreMsgsKey(String tpIdeneity, long tpId) {
+		return genKey(tpIdeneity, tpId, "prestoreMsgs");
+	}
 }

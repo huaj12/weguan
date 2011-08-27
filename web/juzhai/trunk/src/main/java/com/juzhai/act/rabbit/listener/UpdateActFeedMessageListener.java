@@ -12,7 +12,7 @@ import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
 import com.juzhai.passport.service.IFriendService;
 
 @Component
-public class UpdateActMessageListener implements
+public class UpdateActFeedMessageListener implements
 		IRabbitMessageListener<UserAct, Object> {
 
 	@Autowired

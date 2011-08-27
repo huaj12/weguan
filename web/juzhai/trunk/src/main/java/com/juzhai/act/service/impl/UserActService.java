@@ -51,7 +51,7 @@ public class UserActService implements IUserActService {
 	@Autowired
 	private UserActMapper userActMapper;
 	@Autowired
-	private AmqpTemplate updateActRabbitTemplate;
+	private AmqpTemplate updateActFeedRabbitTemplate;
 	@Autowired
 	private IFriendService friendService;
 	@Autowired
@@ -76,9 +76,9 @@ public class UserActService implements IUserActService {
 		// 处理ActAndFriend
 		dealActAndFriend(uid, actId, tpUser == null ? 0 : tpUser.getUid(),
 				tpFriendId, tpId, type);
-		if (ActDealType.WANT.equals(type)) {
-			// TODO 发送第三方系统消息
-		}
+		// if (ActDealType.WANT.equals(type)) {
+		// // TODO 发送第三方系统消息
+		// }
 	}
 
 	@Override
@@ -121,7 +121,8 @@ public class UserActService implements IUserActService {
 			log.error(e.getErrorCode(), e);
 		}
 		friendService.incrOrDecrIntimacy(uid, friendId, 2);
-		// TODO 发送私信
+		// TODO 发送msg
+		// TODO 发送第三方系统消息
 	}
 
 	private void wantToAct(long uid, long actId, String tpIdentity, long tpId) {
@@ -130,7 +131,9 @@ public class UserActService implements IUserActService {
 		} catch (ActInputException e) {
 			log.error(e.getErrorCode(), e);
 		}
-		// TODO 发送预存私信
+
+		// TODO 发送预存msg
+		// TODO 发送第三方系统消息
 	}
 
 	private void dependToAct(long uid, long actId, long friendId) {
@@ -163,6 +166,7 @@ public class UserActService implements IUserActService {
 	public void addAct(long uid, long actId, boolean isSyn)
 			throws ActInputException {
 		useAct(uid, actId, 5, false);
+		// TODO 发送msg
 		if (isSyn) {
 			// TODO 第三方发送动态
 		}
@@ -202,7 +206,7 @@ public class UserActService implements IUserActService {
 				userAct.getActId(), userAct.getHotLev());
 
 		// push to friends
-		updateActRabbitTemplate.convertAndSend(userAct);
+		updateActFeedRabbitTemplate.convertAndSend(userAct);
 	}
 
 	@Override

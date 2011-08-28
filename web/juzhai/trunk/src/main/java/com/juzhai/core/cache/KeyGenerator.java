@@ -4,7 +4,7 @@
 package com.juzhai.core.cache;
 
 import org.apache.commons.lang.StringUtils;
-import org.junit.Assert;
+import org.springframework.util.Assert;
 
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.model.Thirdparty;
@@ -28,8 +28,7 @@ public abstract class KeyGenerator {
 			String... funcs) {
 		StringBuilder sb = new StringBuilder();
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
-		Assert.assertNotNull("Can not find thirdparty by tpId[" + tpId + "].",
-				tp);
+		Assert.notNull(tp, "Can not find thirdparty by tpId[" + tpId + "].");
 		sb.append(tpIdeneity).append("@").append(tp.getName());
 		for (String func : funcs) {
 			if (StringUtils.isNotEmpty(func)) {

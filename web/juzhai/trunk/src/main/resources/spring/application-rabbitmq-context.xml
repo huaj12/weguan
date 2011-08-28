@@ -99,27 +99,27 @@
 	</rabbit:listener-container>
 	<!-- update act feed-->
 	
-	<!-- update act msg-->
-	<rabbit:queue name="${rabbitmq.queue.updateActMsg}" />
-	<rabbit:direct-exchange name="${rabbitmq.exchange.updateActMsg}">
+	<!-- act msg-->
+	<rabbit:queue name="${rabbitmq.queue.actMsg}" />
+	<rabbit:direct-exchange name="${rabbitmq.exchange.actMsg}">
 		<rabbit:bindings>
-			<rabbit:binding queue="${rabbitmq.queue.updateActMsg}"/>
+			<rabbit:binding queue="${rabbitmq.queue.actMsg}"/>
 		</rabbit:bindings>
 	</rabbit:direct-exchange>
-	<rabbit:template id="updateActMsgRabbitTemplate"
+	<rabbit:template id="actMsgRabbitTemplate"
 		connection-factory="rabbitConnectionFactory"
-		exchange="${rabbitmq.exchange.updateActMsg}"
-		queue="${rabbitmq.queue.updateActMsg}"
-		routing-key="${rabbitmq.queue.updateActMsg}"/>
-	<bean id="updateActMsgListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
-		<property name="delegate" ref="updateActMsgMessageListener" />
+		exchange="${rabbitmq.exchange.actMsg}"
+		queue="${rabbitmq.queue.actMsg}"
+		routing-key="${rabbitmq.queue.actMsg}"/>
+	<bean id="actMsgListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
+		<property name="delegate" ref="actMsgMessageListener" />
 	</bean>
-	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.updateActMsg}" prefetch="${rabbitmq.prefetch.updateActMsg}" >
-	    <rabbit:listener queue-names="${rabbitmq.queue.updateActMsg}" ref="updateActMsgListener" />
+	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.actMsg}" prefetch="${rabbitmq.prefetch.actMsg}" >
+	    <rabbit:listener queue-names="${rabbitmq.queue.actMsg}" ref="actMsgListener" />
 	</rabbit:listener-container>
-	<!-- update act msg-->
+	<!-- act msg-->
 	
-	<!-- wantTo act msg-->
+	<!-- wantTo act msg
 	<rabbit:queue name="${rabbitmq.queue.wantToActMsg}" />
 	<rabbit:direct-exchange name="${rabbitmq.exchange.wantToActMsg}">
 		<rabbit:bindings>
@@ -137,6 +137,6 @@
 	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.wantToActMsg}" prefetch="${rabbitmq.prefetch.wantToActMsg}" >
 	    <rabbit:listener queue-names="${rabbitmq.queue.wantToActMsg}" ref="wantToActMsgListener" />
 	</rabbit:listener-container>
-	<!-- wantTo act msg-->
+	wantTo act msg-->
 
 </beans>

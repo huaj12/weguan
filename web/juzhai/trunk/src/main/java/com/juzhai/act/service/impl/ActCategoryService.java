@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.junit.Assert;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.juzhai.act.InitData;
 import com.juzhai.act.model.Act;
@@ -25,7 +25,7 @@ public class ActCategoryService implements IActCategoryService {
 
 	@Override
 	public List<ActCategory> listHotCategories(int size) {
-		Assert.assertTrue("hot category size must greater than zero", size > 0);
+		Assert.isTrue(size > 0, "hot category size must greater than zero");
 		List<ActCategory> list = listHotCategories();
 		if (CollectionUtils.isEmpty(list)) {
 			return Collections.emptyList();

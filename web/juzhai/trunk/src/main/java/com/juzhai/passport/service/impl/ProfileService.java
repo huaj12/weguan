@@ -9,12 +9,12 @@ import net.rubyeye.xmemcached.MemcachedClient;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Assert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
@@ -92,9 +92,9 @@ public class ProfileService implements IProfileService {
 
 	@Override
 	public ProfileCache cacheProfile(Profile profile) {
-		Assert.assertNotNull("The profile must not be null.", profile);
-		Assert.assertTrue("Profile uid invalid.", profile.getUid() != null
-				&& profile.getUid() > 0);
+		Assert.notNull(profile, "The profile must not be null.");
+		Assert.isTrue(profile.getUid() != null && profile.getUid() > 0,
+				"Profile uid invalid.");
 		ProfileCache profileCache = new ProfileCache();
 		BeanUtils.copyProperties(profile, profileCache);
 		try {

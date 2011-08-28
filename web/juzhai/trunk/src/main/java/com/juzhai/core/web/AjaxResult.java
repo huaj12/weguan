@@ -53,6 +53,6 @@ public class AjaxResult {
 		} catch (JsonGenerationException e) {
 			log.error("Serialize AjaxResult to json failed", e);
 		}
-		return "{result:false;errorCode:\"serialize.error\"}";
+		return "{\"result\":false;\"errorCode\":\"serialize.error\"}";
 	}
 }

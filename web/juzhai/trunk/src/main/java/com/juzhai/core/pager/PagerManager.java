@@ -17,6 +17,7 @@ public class PagerManager {
 
 	public PagerManager(int page, int results, int totalResults) {
 		super();
+		page = page <= 0 ? 1 : page;
 		this.currentPage = page;
 		this.results = results;
 		this.totalResults = totalResults;

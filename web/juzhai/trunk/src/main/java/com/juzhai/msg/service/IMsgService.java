@@ -1,26 +1,23 @@
 package com.juzhai.msg.service;
 
-import com.juzhai.msg.bean.ActMsg;
+import com.juzhai.msg.bean.Msg;
 
-public interface IMsgService {
-
-	/**
-	 * 发送ActMsg消息给站内用户
-	 * 
-	 * @param senderId
-	 * @param receiverId
-	 *            如果为0，则表示群发
-	 * @param actMsg
-	 */
-	void sendActMsg(long senderId, long receiverId, ActMsg actMsg);
+public interface IMsgService<T extends Msg> {
 
 	/**
-	 * 发送ActMsg消息给站外用户
+	 * 把消息放入未读箱
 	 * 
-	 * @param senderId
 	 * @param receiverId
-	 * @param actMsg
+	 * @param msg
 	 */
-	void sendActMsg(long senderId, long receiverTpId, String receiverIdentity,
-			ActMsg actMsg);
+	void sendMsg(long receiverId, T msg);
+
+	/**
+	 * 把消息放入预存未读箱
+	 * 
+	 * @param receiverTpId
+	 * @param receiverIdentity
+	 * @param msg
+	 */
+	void sendMsg(long receiverTpId, String receiverIdentity, T msg);
 }

@@ -34,7 +34,7 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.msg.bean.ActMsg;
-import com.juzhai.msg.service.IMsgService;
+import com.juzhai.msg.service.IMsgMessageService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IFriendService;
@@ -63,7 +63,7 @@ public class UserActService implements IUserActService {
 	@Autowired
 	private IProfileService profileService;
 	@Autowired
-	private IMsgService msgService;
+	private IMsgMessageService msgMessageService;
 	@Value("${act.name.length.min}")
 	private int actNameLengthMin = 2;
 	@Value("${act.name.length.max}")
@@ -122,7 +122,7 @@ public class UserActService implements IUserActService {
 			log.error(e.getErrorCode(), e);
 		}
 		friendService.incrOrDecrIntimacy(uid, friendId, 2);
-		msgService.sendActMsg(uid, friendId, new ActMsg(actId, uid,
+		msgMessageService.sendActMsg(uid, friendId, new ActMsg(actId, uid,
 				ActMsg.MsgType.FIND_YOU_ACT));
 	}
 
@@ -132,8 +132,8 @@ public class UserActService implements IUserActService {
 		} catch (ActInputException e) {
 			log.error(e.getErrorCode(), e);
 		}
-		msgService.sendActMsg(uid, tpId, tpIdentity, new ActMsg(actId, uid,
-				ActMsg.MsgType.FIND_YOU_ACT));
+		msgMessageService.sendActMsg(uid, tpId, tpIdentity, new ActMsg(actId,
+				uid, ActMsg.MsgType.FIND_YOU_ACT));
 	}
 
 	private void dependToAct(long uid, long actId, long friendId) {
@@ -166,7 +166,7 @@ public class UserActService implements IUserActService {
 	public void addAct(long uid, long actId, boolean isSyn)
 			throws ActInputException {
 		useAct(uid, actId, 5, false);
-		msgService.sendActMsg(uid, 0, new ActMsg(actId, uid,
+		msgMessageService.sendActMsg(uid, 0, new ActMsg(actId, uid,
 				ActMsg.MsgType.BROADCAST_ACT));
 		if (isSyn) {
 			// TODO 第三方发送动态
@@ -265,6 +265,12 @@ public class UserActService implements IUserActService {
 		UserActExample example = new UserActExample();
 		example.createCriteria().andUidEqualTo(uid);
 		return userActMapper.countByExample(example);
+	}
+
+	@Override
+	public boolean hasAct(long uid, long actId) {
+		return null != redisTemplate.opsForZSet().score(
+				RedisKeyGenerator.genMyActsKey(uid), actId);
 	}
 
 }

@@ -37,6 +37,7 @@ public class InitData {
 
 	private static final Log log = LogFactory.getLog(InitData.class);
 
+	// TODO 考虑放到Redis中
 	public static final Map<Long, Act> ACT_MAP = new LinkedHashMap<Long, Act>();
 	public static final Map<Long, ActCategory> ACT_CATEGORY_MAP = new LinkedHashMap<Long, ActCategory>();
 	public static final Map<Long, List<Act>> ACT_CATEGORY_ACT_LIST_MAP = new LinkedHashMap<Long, List<Act>>();

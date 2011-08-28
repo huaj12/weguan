@@ -1,21 +1,31 @@
 package com.juzhai.msg.service.impl;
 
-import com.juzhai.msg.bean.ActMsg;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+
+import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.msg.bean.Msg;
 import com.juzhai.msg.service.IMsgService;
 
-public class MsgService implements IMsgService {
+@Service
+public class MsgService<T extends Msg> implements IMsgService<T> {
+
+	@Autowired
+	private RedisTemplate<String, T> redisTemplate;
 
 	@Override
-	public void sendActMsg(long senderId, long receiverId, ActMsg actMsg) {
-		// TODO Auto-generated method stub
-
+	public void sendMsg(long receiverId, T msg) {
+		redisTemplate.opsForList().leftPush(
+				RedisKeyGenerator.genUnreadMsgsKey(receiverId, msg.getClass()
+						.getSimpleName()), msg);
 	}
 
 	@Override
-	public void sendActMsg(long senderId, long receiverTpId,
-			String receiverIdentity, ActMsg actMsg) {
-		// TODO Auto-generated method stub
-
+	public void sendMsg(long receiverTpId, String receiverIdentity, T msg) {
+		redisTemplate.opsForList().leftPush(
+				RedisKeyGenerator.genPrestoreMsgsKey(receiverIdentity,
+						receiverTpId, msg.getClass().getSimpleName()), msg);
 	}
 
 }

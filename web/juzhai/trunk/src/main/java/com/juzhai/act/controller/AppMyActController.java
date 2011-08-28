@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.juzhai.act.controller.form.AddActForm;
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
-import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActCategory;
 import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IUserActService;
@@ -51,10 +50,6 @@ public class AppMyActController extends BaseController {
 	public String myAct(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
-		List<Act> myActList = userActService.getUserActFromCache(context
-				.getUid());
-		model.addAttribute("myActList", myActList);
-
 		List<ActCategory> hotCategoryList = actCategoryService
 				.listHotCategories(hotCategorySize);
 		model.addAttribute("hotCategoryList", hotCategoryList);
@@ -115,6 +110,7 @@ public class AppMyActController extends BaseController {
 		List<UserActView> userActViewList = userActService.pageUserActView(
 				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
 		model.addAttribute("userActViewList", userActViewList);
+		model.addAttribute("pager", pager);
 		return null;
 	}
 }

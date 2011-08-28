@@ -115,4 +115,13 @@ public interface IUserActService {
 	 * @return
 	 */
 	int countUserActByUid(long uid);
+
+	/**
+	 * 判断用户有没有Act
+	 * 
+	 * @param uid
+	 * @param actId
+	 * @return
+	 */
+	boolean hasAct(long uid, long actId);
 }

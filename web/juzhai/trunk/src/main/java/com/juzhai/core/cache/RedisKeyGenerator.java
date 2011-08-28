@@ -70,8 +70,8 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
-	public static String genUnreadMsgsKey(long uid) {
-		return genKey(uid, "unreadMsgs");
+	public static String genUnreadMsgsKey(long uid, String className) {
+		return genKey(uid, "unread" + className);
 	}
 
 	/**
@@ -80,8 +80,8 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
-	public static String genReadMsgsKey(long uid) {
-		return genKey(uid, "readMsgs");
+	public static String genReadMsgsKey(long uid, String className) {
+		return genKey(uid, "read" + className);
 	}
 
 	/**
@@ -91,7 +91,8 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param tpId
 	 * @return
 	 */
-	public static String genPrestoreMsgsKey(String tpIdeneity, long tpId) {
-		return genKey(tpIdeneity, tpId, "prestoreMsgs");
+	public static String genPrestoreMsgsKey(String tpIdeneity, long tpId,
+			String className) {
+		return genKey(tpIdeneity, tpId, "prestore" + className);
 	}
 }

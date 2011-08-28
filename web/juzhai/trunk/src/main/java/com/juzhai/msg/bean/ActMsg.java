@@ -1,5 +1,7 @@
 package com.juzhai.msg.bean;
 
+import java.util.Date;
+
 public class ActMsg extends Msg {
 	private static final long serialVersionUID = -57231618815784983L;
 
@@ -8,6 +10,8 @@ public class ActMsg extends Msg {
 	}
 
 	private long actId;
+
+	private String actName;
 
 	private long uid;
 
@@ -18,6 +22,7 @@ public class ActMsg extends Msg {
 		this.actId = actId;
 		this.uid = uid;
 		this.type = type;
+		super.setDate(new Date());
 	}
 
 	public long getActId() {
@@ -43,4 +48,13 @@ public class ActMsg extends Msg {
 	public void setType(MsgType type) {
 		this.type = type;
 	}
+
+	public String getActName() {
+		return actName;
+	}
+
+	public void setActName(String actName) {
+		this.actName = actName;
+	}
+
 }

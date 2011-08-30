@@ -20,6 +20,19 @@
 	<mvc:resources location="/style/" mapping="/style/**"/> 
 	<mvc:resources location="/images/" mapping="/images/**"/> 
 	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<bean class="com.juzhai.core.SystemConfig">
+				<property name="locations">
+					<list>
+						<value>classpath:properties/variable.properties</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="fileEncoding" value="UTF-8" />
+	</bean>
+	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
 		<property name="prefix" value="/WEB-INF/jsp/"/>

@@ -80,8 +80,8 @@
 	<rabbit:admin connection-factory="rabbitConnectionFactory"/>
 	
 	<!-- update act feed-->
-	<rabbit:queue name="${rabbitmq.queue.updateActFeed}" />
-	<rabbit:direct-exchange name="${rabbitmq.exchange.updateActFeed}">
+	<rabbit:queue name="${rabbitmq.queue.updateActFeed}" durable="true"/>
+	<rabbit:direct-exchange name="${rabbitmq.exchange.updateActFeed}" durable="true">
 		<rabbit:bindings>
 			<rabbit:binding queue="${rabbitmq.queue.updateActFeed}"/>
 		</rabbit:bindings>
@@ -94,14 +94,14 @@
 	<bean id="updateActFeedListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
 		<property name="delegate" ref="updateActFeedMessageListener" />
 	</bean>
-	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.updateActFeed}" prefetch="${rabbitmq.prefetch.updateActFeed}" >
+	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.updateActFeed}" prefetch="1" >
 	    <rabbit:listener queue-names="${rabbitmq.queue.updateActFeed}" ref="updateActFeedListener" />
 	</rabbit:listener-container>
 	<!-- update act feed-->
 	
 	<!-- act msg-->
-	<rabbit:queue name="${rabbitmq.queue.actMsg}" />
-	<rabbit:direct-exchange name="${rabbitmq.exchange.actMsg}">
+	<rabbit:queue name="${rabbitmq.queue.actMsg}" durable="true"/>
+	<rabbit:direct-exchange name="${rabbitmq.exchange.actMsg}" durable="true">
 		<rabbit:bindings>
 			<rabbit:binding queue="${rabbitmq.queue.actMsg}"/>
 		</rabbit:bindings>
@@ -114,7 +114,7 @@
 	<bean id="actMsgListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
 		<property name="delegate" ref="actMsgMessageListener" />
 	</bean>
-	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.actMsg}" prefetch="${rabbitmq.prefetch.actMsg}" >
+	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.actMsg}" prefetch="1" >
 	    <rabbit:listener queue-names="${rabbitmq.queue.actMsg}" ref="actMsgListener" />
 	</rabbit:listener-container>
 	<!-- act msg-->

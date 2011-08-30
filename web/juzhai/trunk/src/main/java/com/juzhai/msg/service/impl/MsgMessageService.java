@@ -14,7 +14,7 @@ import com.juzhai.msg.service.IMsgMessageService;
 public class MsgMessageService implements IMsgMessageService {
 
 	@Autowired
-	private AmqpTemplate actMessageRabbitTemplate;
+	private AmqpTemplate actMsgRabbitTemplate;
 
 	@Override
 	public void sendActMsg(long senderId, long receiverId, ActMsg actMsg) {
@@ -41,7 +41,7 @@ public class MsgMessageService implements IMsgMessageService {
 		Assert.notNull(msgMessage.getBody(), "message's body must not bu null.");
 		if (msgMessage.getBody() instanceof ActMsg) {
 			// TODO 检查消息有效性，防止代码bug
-			actMessageRabbitTemplate.convertAndSend(msgMessage);
+			actMsgRabbitTemplate.convertAndSend(msgMessage);
 		}
 	}
 }

@@ -29,6 +29,5 @@ public class InboxScoreGenerator extends AbstractScoreGenerator {
 				getScoreCaculatorList().add(scoreCaculator);
 			}
 		}
-		System.out.println(getScoreCaculatorList().size()+"**********");
 	}
 }

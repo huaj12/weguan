@@ -27,6 +27,7 @@
 						<value>classpath:properties/rabbitmq.properties</value>
 						<value>classpath:properties/threadPool.properties</value>
 						<value>classpath:properties/variable.properties</value>
+						<value>classpath:properties/lucene.properties</value>
 					</list>
 				</property>
 			</bean>

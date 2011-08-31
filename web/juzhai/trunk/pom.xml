@@ -215,6 +215,11 @@
 		    <artifactId>lucene-core</artifactId>
 		    <version>3.3.0</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.wltea</groupId>
+		    <artifactId>IKAnalyzer</artifactId>
+		    <version>3.2.8</version>
+		</dependency>
 		<!-- junit -->
 		<dependency>
 		  <groupId>junit</groupId>

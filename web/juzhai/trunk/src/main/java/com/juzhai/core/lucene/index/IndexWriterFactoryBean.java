@@ -20,22 +20,19 @@ public abstract class IndexWriterFactoryBean implements
 	public IndexWriter getObject() throws Exception {
 		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(
 				Version.valueOf(version), analyzer);
-		indexWriterConfig.setIndexCommit(commit);
-		indexWriterConfig.setIndexDeletionPolicy(delPolicy);
-		indexWriterConfig.setMaxBufferedDeleteTerms(maxBufferedDeleteTerms);
-		indexWriterConfig.setMaxBufferedDocs(maxBufferedDocs);
-		indexWriterConfig.setMaxThreadStates(maxThreadStates);
-		indexWriterConfig.setMergedSegmentWarmer(mergeSegmentWarmer);
-		indexWriterConfig.setMergePolicy(mergePolicy);
-		indexWriterConfig.setMergeScheduler(mergeScheduler);
-		indexWriterConfig.setOpenMode(openMode);
-		indexWriterConfig.setRAMBufferSizeMB(ramBufferSizeMB);
-		indexWriterConfig.setReaderPooling(readerPooling);
-		indexWriterConfig.setReaderTermsIndexDivisor(divisor);
-		indexWriterConfig.setSimilarity(similarity);
-		indexWriterConfig.setTermIndexInterval(interval);
-		indexWriterConfig.setWriteLockTimeout(writeLockTimeout);
-		indexWriterConfig.setDefaultWriteLockTimeout(writeLockTimeout);
+		// indexWriterConfig.setMaxBufferedDeleteTerms(maxBufferedDeleteTerms);
+		// indexWriterConfig.setMaxBufferedDocs(maxBufferedDocs);
+		// indexWriterConfig.setMaxThreadStates(maxThreadStates);
+		// indexWriterConfig.setMergedSegmentWarmer(mergeSegmentWarmer);
+		// indexWriterConfig.setMergePolicy(mergePolicy);
+		// indexWriterConfig.setMergeScheduler(mergeScheduler);
+		// indexWriterConfig.setRAMBufferSizeMB(ramBufferSizeMB);
+		// indexWriterConfig.setReaderPooling(readerPooling);
+		// indexWriterConfig.setReaderTermsIndexDivisor(divisor);
+		// indexWriterConfig.setSimilarity(similarity);
+		// indexWriterConfig.setTermIndexInterval(interval);
+		// indexWriterConfig.setWriteLockTimeout(writeLockTimeout);
+		// indexWriterConfig.setDefaultWriteLockTimeout(writeLockTimeout);
 		return new IndexWriter(openDirectory(indexPath), indexWriterConfig);
 	}
 

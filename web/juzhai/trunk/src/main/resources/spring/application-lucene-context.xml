@@ -13,10 +13,14 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd">
 		
-	 <bean id="actIndexWriter" class="com.juzhai.core.lucene.index.FSDirectoryIndexWriter">
-	 	<property name="indexPath"></property>
-	 	<property name="version"></property>
-	 	<property name="analyzer"></property>
+	 <bean id="actIndexWriter" class="com.juzhai.core.lucene.index.FSDirectoryIndexWriter" destroy-method="close">
+	 	<property name="indexPath" value="${act.index.path}" />
+	 	<property name="version" value="${version}" />
+	 	<property name="analyzer">
+	 		<bean class="org.wltea.analyzer.lucene.IKAnalyzer">
+	 			<property name="maxWordLength" value="${act.analyzer.maxWordLength}" />
+	 		</bean>
+	 	</property>
 	 </bean>
 
 </beans>

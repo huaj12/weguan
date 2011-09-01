@@ -16,23 +16,28 @@ public abstract class IndexWriterFactoryBean implements
 	private String version;
 	private Analyzer analyzer;
 
+	private Integer maxBufferedDeleteTerms;
+	private Integer maxBufferedDocs;
+	private Integer maxThreadStates;
+	private Double ramBufferSizeMB;
+	private Boolean readerPooling;
+	private Integer writeLockTimeout;
+
 	@Override
 	public IndexWriter getObject() throws Exception {
 		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(
 				Version.valueOf(version), analyzer);
-		// indexWriterConfig.setMaxBufferedDeleteTerms(maxBufferedDeleteTerms);
-		// indexWriterConfig.setMaxBufferedDocs(maxBufferedDocs);
-		// indexWriterConfig.setMaxThreadStates(maxThreadStates);
-		// indexWriterConfig.setMergedSegmentWarmer(mergeSegmentWarmer);
-		// indexWriterConfig.setMergePolicy(mergePolicy);
+		if (null != maxBufferedDeleteTerms) {
+			indexWriterConfig.setMaxBufferedDeleteTerms(maxBufferedDeleteTerms);
+		}
+		indexWriterConfig.setMaxBufferedDocs(maxBufferedDocs);
+		indexWriterConfig.setMaxThreadStates(maxThreadStates);
 		// indexWriterConfig.setMergeScheduler(mergeScheduler);
-		// indexWriterConfig.setRAMBufferSizeMB(ramBufferSizeMB);
-		// indexWriterConfig.setReaderPooling(readerPooling);
+		indexWriterConfig.setRAMBufferSizeMB(ramBufferSizeMB);
+		indexWriterConfig.setReaderPooling(readerPooling);
 		// indexWriterConfig.setReaderTermsIndexDivisor(divisor);
-		// indexWriterConfig.setSimilarity(similarity);
 		// indexWriterConfig.setTermIndexInterval(interval);
-		// indexWriterConfig.setWriteLockTimeout(writeLockTimeout);
-		// indexWriterConfig.setDefaultWriteLockTimeout(writeLockTimeout);
+		indexWriterConfig.setWriteLockTimeout(writeLockTimeout);
 		return new IndexWriter(openDirectory(indexPath), indexWriterConfig);
 	}
 
@@ -55,5 +60,37 @@ public abstract class IndexWriterFactoryBean implements
 
 	public void setIndexPath(String indexPath) {
 		this.indexPath = indexPath;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public void setAnalyzer(Analyzer analyzer) {
+		this.analyzer = analyzer;
+	}
+
+	public void setMaxBufferedDeleteTerms(Integer maxBufferedDeleteTerms) {
+		this.maxBufferedDeleteTerms = maxBufferedDeleteTerms;
+	}
+
+	public void setMaxBufferedDocs(Integer maxBufferedDocs) {
+		this.maxBufferedDocs = maxBufferedDocs;
+	}
+
+	public void setMaxThreadStates(Integer maxThreadStates) {
+		this.maxThreadStates = maxThreadStates;
+	}
+
+	public void setRamBufferSizeMB(Double ramBufferSizeMB) {
+		this.ramBufferSizeMB = ramBufferSizeMB;
+	}
+
+	public void setReaderPooling(Boolean readerPooling) {
+		this.readerPooling = readerPooling;
+	}
+
+	public void setWriteLockTimeout(Integer writeLockTimeout) {
+		this.writeLockTimeout = writeLockTimeout;
 	}
 }

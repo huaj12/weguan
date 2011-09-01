@@ -13,14 +13,20 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd">
 		
-	 <bean id="actIndexWriter" class="com.juzhai.core.lucene.index.FSDirectoryIndexWriter" destroy-method="close">
-	 	<property name="indexPath" value="${act.index.path}" />
+	<bean id="actIKAnalyzer" class="org.wltea.analyzer.lucene.IKAnalyzer">
+		<property name="maxWordLength" value="${act.analyzer.maxWordLength}" />
+	</bean>
+	
+	<bean id="actIndexWriter" class="com.juzhai.core.lucene.index.FSDirectoryIndexWriter" destroy-method="close">
+		<property name="indexPath" value="${act.index.path}" />
 	 	<property name="version" value="${version}" />
-	 	<property name="analyzer">
-	 		<bean class="org.wltea.analyzer.lucene.IKAnalyzer">
-	 			<property name="maxWordLength" value="${act.analyzer.maxWordLength}" />
-	 		</bean>
-	 	</property>
-	 </bean>
+	 	<property name="maxBufferedDeleteTerms" value="${act.maxBufferedDeleteTerms}" />
+	 	<property name="maxBufferedDocs" value="${act.maxBufferedDocs}" />
+	 	<property name="maxThreadStates" value="${act.maxThreadStates}" />
+	 	<property name="ramBufferSizeMB" value="${act.ramBufferSizeMB}" />
+	 	<property name="readerPooling" value="${act.readerPooling}" />
+	 	<property name="writeLockTimeout" value="${act.writeLockTimeout}" />
+	 	<property name="analyzer" ref="actIKAnalyzer" />
+	</bean>
 
 </beans>

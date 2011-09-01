@@ -52,7 +52,7 @@ public class ActDao implements IActDao {
 	private Act assembleAct(long uid, String name, List<Long> categoryIds,
 			boolean active) {
 		Act act = new Act();
-		act.setName(name);
+		act.setName(StringUtils.trim(name));
 		if (CollectionUtils.isNotEmpty(categoryIds)) {
 			act.setCategoryIds(StringUtils.join(categoryIds, ","));
 		}

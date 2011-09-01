@@ -14,24 +14,22 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.act.InitData;
 import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.controller.view.UserActView;
-import com.juzhai.act.dao.IActDao;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.mapper.UserActMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.model.UserActExample;
+import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IInboxService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
-import com.juzhai.core.util.StringUtil;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.service.IMsgMessageService;
@@ -49,7 +47,7 @@ public class UserActService implements IUserActService {
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
-	private IActDao actDao;
+	private IActService actService;
 	@Autowired
 	private UserActMapper userActMapper;
 	@Autowired
@@ -64,10 +62,6 @@ public class UserActService implements IUserActService {
 	private IProfileService profileService;
 	@Autowired
 	private IMsgMessageService msgMessageService;
-	@Value("${act.name.length.min}")
-	private int actNameLengthMin = 2;
-	@Value("${act.name.length.max}")
-	private int actNameLengthMax = 20;
 
 	@Override
 	public void respRandom(long uid, long actId, String tpFriendId, long tpId,
@@ -150,14 +144,14 @@ public class UserActService implements IUserActService {
 	@Override
 	public void addAct(long uid, String actName, boolean isSyn)
 			throws ActInputException {
-		Act act = actDao.selectActByName(actName);
+		Act act = actService.getActByName(actName);
 		if (null == act) {
-			// TODO 过滤词
-			long length = StringUtil.chineseLength(actName);
-			if (length < actNameLengthMin || length > actNameLengthMax) {
-				throw new ActInputException(ActInputException.ACT_NAME_INVALID);
+			act = actService.createAct(uid, actName, null);
+			if (null == act) {
+				log.error("add act by name failed.[createUid:" + uid
+						+ ", actName:" + actName + "]");
+				return;
 			}
-			act = actDao.insertAct(uid, actName, null);
 		}
 		addAct(uid, act.getId(), isSyn);
 	}
@@ -189,7 +183,7 @@ public class UserActService implements IUserActService {
 			userAct.setLastModifyTime(userAct.getCreateTime());
 			userActMapper.insertSelective(userAct);
 			// 添加人气
-			actDao.incrOrDecrPopularity(actId, 1);
+			actService.inOrDePopularity(actId, 1);
 		} else {
 			if (!canRepeat) {
 				throw new ActInputException(
@@ -239,7 +233,7 @@ public class UserActService implements IUserActService {
 		example.createCriteria().andUidEqualTo(uid).andActIdEqualTo(actId);
 		userActMapper.deleteByExample(example);
 		// 更新Act的使用人数
-		actDao.incrOrDecrPopularity(actId, -1);
+		actService.inOrDePopularity(actId, -1);
 	}
 
 	@Override

@@ -50,4 +50,15 @@ public interface IActService {
 	 *            正数加，负数减
 	 */
 	void inOrDePopularity(long actId, int p);
+
+	/**
+	 * 索引查询
+	 * 
+	 * @param queryString
+	 *            查询内容
+	 * @param count
+	 *            查询数量
+	 * @return
+	 */
+	List<String> indexSearchName(String queryString, int count);
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.act.model.Act;
 import com.juzhai.core.lucene.index.Indexer;
+import com.juzhai.core.lucene.searcher.IndexSearcherManager;
 
 @Service
 public class ActIndexer implements Indexer<Act> {

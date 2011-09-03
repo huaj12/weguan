@@ -9,6 +9,7 @@ import org.springframework.util.Assert;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.rabbit.message.ActIndexMessage;
 import com.juzhai.core.lucene.index.Indexer;
+import com.juzhai.core.lucene.searcher.IndexSearcherManager;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
 
 @Component
@@ -18,6 +19,8 @@ public class ActIndexMessageListener implements
 
 	@Autowired
 	private Indexer<Act> actIndexer;
+	@Autowired
+	private IndexSearcherManager actIndexSearcherManager;
 
 	@Override
 	public Object handleMessage(ActIndexMessage actIndexMessage) {
@@ -30,6 +33,12 @@ public class ActIndexMessageListener implements
 			}
 		} catch (Exception e) {
 			log.error("create act index failed.[actId:" + act.getId() + "]", e);
+		}
+		try {
+			actIndexSearcherManager.maybeReopen();
+		} catch (Exception e) {
+			log.error("reopen indexReader failed when create act["
+					+ act.getId() + "] index");
 		}
 		return null;
 	}

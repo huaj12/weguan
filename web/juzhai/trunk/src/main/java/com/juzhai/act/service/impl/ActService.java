@@ -3,12 +3,20 @@
  */
 package com.juzhai.act.service.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +30,8 @@ import com.juzhai.act.model.Act;
 import com.juzhai.act.rabbit.message.ActIndexMessage;
 import com.juzhai.act.rabbit.message.ActIndexMessage.ActionType;
 import com.juzhai.act.service.IActService;
+import com.juzhai.core.lucene.searcher.IndexSearcherTemplate;
+import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
 import com.juzhai.core.util.StringUtil;
 
 @Service
@@ -37,6 +47,8 @@ public class ActService implements IActService {
 	private IActDao actDao;
 	@Autowired
 	private RabbitTemplate actIndexCreateRabbitTemplate;
+	@Autowired
+	private IndexSearcherTemplate actIndexSearcherTemplate;
 	@Value("${act.name.length.min}")
 	private int actNameLengthMin = 2;
 	@Value("${act.name.length.max}")
@@ -95,4 +107,25 @@ public class ActService implements IActService {
 		}
 	}
 
+	@Override
+	public List<String> indexSearchName(final String queryString,
+			final int count) {
+		return actIndexSearcherTemplate.excute(new SearcherCallback() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public <T> T doCallback(IndexSearcher indexSearcher)
+					throws IOException {
+				TermQuery termQuery = new TermQuery(new Term("name",
+						StringUtils.trim(queryString)));
+				TopDocs topDocs = indexSearcher.search(termQuery, count);
+				List<String> actNameList = new ArrayList<String>(
+						topDocs.totalHits);
+				for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+					Document doc = indexSearcher.doc(scoreDoc.doc);
+					actNameList.add(doc.get("name"));
+				}
+				return (T) actNameList;
+			}
+		});
+	}
 }

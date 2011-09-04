@@ -95,4 +95,13 @@ public class RedisKeyGenerator extends KeyGenerator {
 			String className) {
 		return genKey(tpIdeneity, tpId, "prestore" + className);
 	}
+
+	/**
+	 * 邮件队列
+	 * 
+	 * @return
+	 */
+	public static String genMailQueueKey() {
+		return "mailQueue";
+	}
 }

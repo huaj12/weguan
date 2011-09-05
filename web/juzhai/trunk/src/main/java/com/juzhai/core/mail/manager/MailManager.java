@@ -1,12 +1,18 @@
-package com.juzhai.core.mail;
+package com.juzhai.core.mail.manager;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.juzhai.core.Constants;
+import com.juzhai.core.mail.bean.Mail;
 
 public class MailManager {
-
+	private final Log log = LogFactory.getLog(getClass());
+	
 	private static final int DEFAULT_BLOCK_POP_MAIL_TIMEOUT = 60;
+	
 	private static final String DEFAULT_ENCODING = Constants.UTF8;
 
 	private MailSender mailSender;
@@ -24,12 +30,18 @@ public class MailManager {
 	private String encoding = DEFAULT_ENCODING;
 
 	public void sendMail(final Mail mail, boolean immediately) {
-		mail.setEncoding(encoding);
+		if (StringUtils.isEmpty(mail.getEncoding())) {
+			mail.setEncoding(encoding);
+		}
 		if (immediately) {
 			taskExecutor.execute(new Runnable() {
 				@Override
 				public void run() {
-					mailSender.send(mail);
+					try {
+						mailSender.send(mail);
+					} catch (Exception e) {
+						log.error("immediately send mail failed.", e);
+					}
 				}
 			});
 		} else {
@@ -57,7 +69,11 @@ public class MailManager {
 			while (true) {
 				Mail mail = mailQueue.blockPop(blockPopMailTimeout);
 				if (null != mail) {
-					mailSender.send(mail);
+					try {
+						mailSender.send(mail);
+					} catch (Exception e) {
+						log.error("daemon send mail failed.", e);
+					}
 				} else if (mailDaemonStopping) {
 					break;
 				}

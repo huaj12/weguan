@@ -1,12 +1,23 @@
-package com.juzhai.core.mail;
+package com.juzhai.core.mail.bean;
 
+import java.io.Serializable;
 
-public class MailUser {
+public class MailUser implements Serializable {
+
+	private static final long serialVersionUID = 4387390235604857303L;
 
 	private String emailAddress;
+
 	private String nickname;
+
 	private String password;
+
 	private String userName;
+
+	public MailUser(String emailAddress, String nickname) {
+		this.emailAddress = emailAddress;
+		this.nickname = nickname;
+	}
 
 	public String getFriendlyEmailAddress() {
 		if (null == emailAddress) {

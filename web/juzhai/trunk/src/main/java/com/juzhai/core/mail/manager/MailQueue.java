@@ -1,4 +1,6 @@
-package com.juzhai.core.mail;
+package com.juzhai.core.mail.manager;
+
+import com.juzhai.core.mail.bean.Mail;
 
 public interface MailQueue {
 

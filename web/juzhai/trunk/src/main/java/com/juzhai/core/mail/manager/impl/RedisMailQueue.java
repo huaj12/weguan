@@ -1,4 +1,4 @@
-package com.juzhai.core.mail.impl;
+package com.juzhai.core.mail.manager.impl;
 
 import java.util.concurrent.TimeUnit;
 
@@ -7,8 +7,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
-import com.juzhai.core.mail.Mail;
-import com.juzhai.core.mail.MailQueue;
+import com.juzhai.core.mail.bean.Mail;
+import com.juzhai.core.mail.manager.MailQueue;
 
 @Component
 public class RedisMailQueue implements MailQueue {

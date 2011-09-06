@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.service.IInboxService;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.mapper.PassportMapper;
@@ -42,6 +43,8 @@ public class RegisterService implements IRegisterService {
 	@Autowired
 	private IProfileService profileService;
 	@Autowired
+	private IAccountService accountService;
+	@Autowired
 	private IInboxService inboxService;
 
 	@Override
@@ -55,6 +58,7 @@ public class RegisterService implements IRegisterService {
 			return 0L;
 		}
 		registerProfile(profile, passport);
+		registerAccount(passport);
 		registerTpUser(tp, identity, passport);
 		tpUserAuthService.updateTpUserAuth(passport.getId(), tp.getId(),
 				authInfo);
@@ -72,6 +76,10 @@ public class RegisterService implements IRegisterService {
 		inboxService.syncInboxByTask(passport.getId());
 
 		return passport.getId();
+	}
+
+	private void registerAccount(Passport passport) {
+		accountService.createAccount(passport.getId());
 	}
 
 	private void registerProfile(Profile profile, Passport passport) {

@@ -58,7 +58,7 @@ public class FriendService implements IFriendService {
 	@Override
 	public FriendsBean getAllFriends(long uid) {
 		return new FriendsBean(getAppFriendsWithIntimacy(uid),
-				getTpFriends(uid));
+				getUnInstallFriends(uid));
 	}
 
 	@Override
@@ -84,9 +84,9 @@ public class FriendService implements IFriendService {
 	}
 
 	@Override
-	public List<TpFriend> getTpFriends(long uid) {
+	public List<TpFriend> getUnInstallFriends(long uid) {
 		return listRedisTemplate.opsForValue().get(
-				RedisKeyGenerator.genTpFriendsKey(uid));
+				RedisKeyGenerator.genUnInstallFriendsKey(uid));
 	}
 
 	@Override
@@ -101,14 +101,18 @@ public class FriendService implements IFriendService {
 	public void updateExpiredFriends(long uid, long tpId, AuthInfo authInfo) {
 		if (isExpired(uid)) {
 			if (null != authInfo) {
-				// 第三方用户ID列表
-				List<TpFriend> tpFriends = authorizeService
-						.getAllFriends(authInfo);
-				listRedisTemplate.opsForValue().set(
-						RedisKeyGenerator.genTpFriendsKey(uid), tpFriends);
+				List<String> appFriendIds = authorizeService
+						.getAppFriends(authInfo);
 
-				List<Long> appFriends = getAppFriendUids(
-						authorizeService.getAppFriends(authInfo), tpId);
+				// 第三方未安装应用的好友
+				listRedisTemplate.opsForValue().set(
+						RedisKeyGenerator.genUnInstallFriendsKey(uid),
+						getNonAppFriends(
+								authorizeService.getAllFriends(authInfo),
+								appFriendIds));
+
+				// 更新安装了App的好友
+				List<Long> appFriends = getAppFriendUids(appFriendIds, tpId);
 				String key = RedisKeyGenerator.genFriendsKey(uid);
 				Set<Long> cachedFriends = null;
 				if (longRedisTemplate.hasKey(key)) {
@@ -160,20 +164,19 @@ public class FriendService implements IFriendService {
 		}
 	}
 
-	@Deprecated
-	private List<String> getNonAppFriends(List<String> allFriendIds,
+	private List<TpFriend> getNonAppFriends(List<TpFriend> allFriendIds,
 			List<String> appFriendIds) {
-		List<String> nonAppFriends = new ArrayList<String>();
+		List<TpFriend> unInstallFriends = new ArrayList<TpFriend>();
 		if (CollectionUtils.isEmpty(appFriendIds)) {
-			nonAppFriends.addAll(allFriendIds);
+			unInstallFriends.addAll(allFriendIds);
 		} else {
-			for (String tpUid : allFriendIds) {
-				if (!appFriendIds.contains(tpUid)) {
-					nonAppFriends.add(tpUid);
+			for (TpFriend tpFriend : allFriendIds) {
+				if (!appFriendIds.contains(tpFriend.getUserId())) {
+					unInstallFriends.add(tpFriend);
 				}
 			}
 		}
-		return nonAppFriends;
+		return unInstallFriends;
 	}
 
 	private List<Long> getAppFriendUids(List<String> appFriendIds, long tpId) {

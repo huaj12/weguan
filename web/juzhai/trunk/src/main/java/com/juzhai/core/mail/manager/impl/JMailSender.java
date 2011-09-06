@@ -38,4 +38,15 @@ public class JMailSender implements MailSender {
 		javaMailSender.send(message);
 	}
 
+	public void setSender(MailUser sender) {
+		this.sender = sender;
+	}
+
+	public void setMailTemplate(MailTemplate mailTemplate) {
+		this.mailTemplate = mailTemplate;
+	}
+
+	public void setJavaMailSender(JavaMailSender javaMailSender) {
+		this.javaMailSender = javaMailSender;
+	}
 }

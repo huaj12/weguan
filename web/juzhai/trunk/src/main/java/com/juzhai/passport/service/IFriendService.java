@@ -43,7 +43,7 @@ public interface IFriendService {
 	 * @param uid
 	 * @return
 	 */
-	List<TpFriend> getTpFriends(long uid);
+	List<TpFriend> getUnInstallFriends(long uid);
 
 	/**
 	 * 更新好友列表（从第三方获取，缓存时间为1天）

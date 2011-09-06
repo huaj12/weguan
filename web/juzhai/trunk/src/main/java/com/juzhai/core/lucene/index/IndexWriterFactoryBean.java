@@ -3,6 +3,7 @@ package com.juzhai.core.lucene.index;
 import java.io.IOException;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.FactoryBean;
 
 public abstract class IndexWriterFactoryBean implements
 		FactoryBean<IndexWriter> {
+
+	private IndexWriter reference;
 
 	private String indexPath;
 	private String version;
@@ -38,7 +41,8 @@ public abstract class IndexWriterFactoryBean implements
 		// indexWriterConfig.setReaderTermsIndexDivisor(divisor);
 		// indexWriterConfig.setTermIndexInterval(interval);
 		indexWriterConfig.setWriteLockTimeout(writeLockTimeout);
-		return new IndexWriter(openDirectory(indexPath), indexWriterConfig);
+		reference = new IndexWriter(openDirectory(indexPath), indexWriterConfig);
+		return reference;
 	}
 
 	@Override
@@ -49,6 +53,12 @@ public abstract class IndexWriterFactoryBean implements
 	@Override
 	public boolean isSingleton() {
 		return true;
+	}
+
+	public void close() throws CorruptIndexException, IOException {
+		if (null != reference) {
+			reference.close();
+		}
 	}
 
 	protected abstract Directory openDirectory(String indexPath)

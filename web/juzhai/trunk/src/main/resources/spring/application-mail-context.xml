@@ -31,8 +31,8 @@
 		</property>
 		<property name="sender">
 			<bean class="com.juzhai.core.mail.bean.MailUser">
-				<property name="emailAddress" value="${sender.mail.address}" />
-				<property name="nickname" value="${sender.nickname}" />
+				<constructor-arg value="${sender.mail.address}" />
+				<constructor-arg value="${sender.nickname}" />
 			</bean>
 		</property>
 		<property name="mailTemplate" ref="velocityMailTemplate" />

@@ -10,9 +10,9 @@ import com.juzhai.core.mail.bean.Mail;
 
 public class MailManager {
 	private final Log log = LogFactory.getLog(getClass());
-	
+
 	private static final int DEFAULT_BLOCK_POP_MAIL_TIMEOUT = 60;
-	
+
 	private static final String DEFAULT_ENCODING = Constants.UTF8;
 
 	private MailSender mailSender;
@@ -81,5 +81,25 @@ public class MailManager {
 			mailDaemonRunning = false;
 			mailDaemonStopping = false;
 		}
+	}
+
+	public void setMailSender(MailSender mailSender) {
+		this.mailSender = mailSender;
+	}
+
+	public void setTaskExecutor(ThreadPoolTaskExecutor taskExecutor) {
+		this.taskExecutor = taskExecutor;
+	}
+
+	public void setMailQueue(MailQueue mailQueue) {
+		this.mailQueue = mailQueue;
+	}
+
+	public void setBlockPopMailTimeout(int blockPopMailTimeout) {
+		this.blockPopMailTimeout = blockPopMailTimeout;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 }

@@ -36,7 +36,7 @@
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<value>actIndexOptimizationAndCommitTrigger</value>
+				<!-- <ref bean="actIndexOptimizationAndCommitTrigger"/> -->
 			</list>
 		</property>
 	</bean>

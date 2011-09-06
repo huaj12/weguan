@@ -30,8 +30,19 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genTpFriendsKey(long uid) {
 		return genKey(uid, "tpFriends");
+	}
+
+	/**
+	 * 第三方未安装应用好友列表(value)
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genUnInstallFriendsKey(long uid) {
+		return genKey(uid, "unInstallFriends");
 	}
 
 	/**

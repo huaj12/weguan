@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.juzhai.act.model.UserAct;
-import com.juzhai.act.service.IInboxService;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
+import com.juzhai.home.service.IInboxService;
 import com.juzhai.passport.service.IFriendService;
 
 @Component

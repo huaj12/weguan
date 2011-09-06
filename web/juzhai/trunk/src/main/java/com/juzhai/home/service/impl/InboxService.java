@@ -1,4 +1,4 @@
-package com.juzhai.act.service.impl;
+package com.juzhai.home.service.impl;
 
 import java.util.List;
 import java.util.Random;
@@ -20,8 +20,8 @@ import com.juzhai.act.InitData;
 import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.caculator.IScoreGenerator;
 import com.juzhai.act.model.Act;
-import com.juzhai.act.service.IInboxService;
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.home.service.IInboxService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.service.IFriendService;
@@ -121,9 +121,11 @@ public class InboxService implements IInboxService {
 		if (null == profileCache) {
 			return null;
 		}
-		List<TpFriend> tpFriendList = friendService.getTpFriends(uid);
-		TpFriend tpFriend = tpFriendList.get(RandomUtils.nextInt(new Random(
-				System.currentTimeMillis()), tpFriendList.size()));
+		List<TpFriend> unInstallFriendList = friendService
+				.getUnInstallFriends(uid);
+		TpFriend tpFriend = unInstallFriendList.get(RandomUtils.nextInt(
+				new Random(System.currentTimeMillis()),
+				unInstallFriendList.size()));
 		if (null == tpFriend) {
 			return null;
 		}

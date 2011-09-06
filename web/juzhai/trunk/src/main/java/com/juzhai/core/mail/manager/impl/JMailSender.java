@@ -37,4 +37,5 @@ public class JMailSender implements MailSender {
 
 		javaMailSender.send(message);
 	}
+
 }

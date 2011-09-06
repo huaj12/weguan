@@ -20,14 +20,19 @@
 
 	<bean id="jMailSender" class="com.juzhai.core.mail.manager.impl.JMailSender">
 		<property name="javaMailSender">
-			<bean></bean>
+			<bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
+				<property name="defaultEncoding" value="${support.mail.default.encoding}" />
+				<property name="host" value="${support.mail.host}" />
+				<property name="port" value="${support.mail.port}" />
+				<property name="protocol" value="${support.mail.protocol}" />
+				<property name="username" value="${sender.user.name}" />
+				<property name="password" value="${sender.password}" />
+			</bean>
 		</property>
 		<property name="sender">
 			<bean class="com.juzhai.core.mail.bean.MailUser">
-				<property name=""></property>
-				<property name=""></property>
-				<property name=""></property>
-				<property name=""></property>
+				<property name="emailAddress" value="${sender.mail.address}" />
+				<property name="nickname" value="${sender.nickname}" />
 			</bean>
 		</property>
 		<property name="mailTemplate" ref="velocityMailTemplate" />

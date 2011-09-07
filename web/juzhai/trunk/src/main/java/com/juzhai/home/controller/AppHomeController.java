@@ -1,14 +1,12 @@
 package com.juzhai.home.controller;
 
-import java.util.SortedMap;
-
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,15 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.act.bean.ActDealType;
-import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.home.bean.Feed;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.home.service.IInboxService;
-import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.bean.TpFriend;
 
 @Controller
 @RequestMapping(value = "app")
@@ -36,14 +32,14 @@ public class AppHomeController extends BaseController {
 	private IUserActService userActService;
 	@Autowired
 	private IInboxService inboxService;
+	@Value("${random.feed.frequency}")
+	private int randomFeedFrequency = 4;
 
 	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
-		if (!getNextFeed(context.getUid(), 1, model)) {
-			return error_500;
-		}
+		getNextFeed(context.getUid(), 1, model);
 		return "home/home";
 	}
 
@@ -67,9 +63,7 @@ public class AppHomeController extends BaseController {
 			log.error(e.getMessage(), e);
 			return error_500;
 		}
-		if (!getNextFeed(context.getUid(), times, model)) {
-			return error_500;
-		}
+		getNextFeed(context.getUid(), times, model);
 		return "home/feedFragment";
 	}
 
@@ -83,31 +77,30 @@ public class AppHomeController extends BaseController {
 	 * @param model
 	 *            调用请求的Model
 	 */
-	private boolean getNextFeed(long uid, int times, Model model) {
-		if (times >= 4) {
-			// 获取随机
-			SortedMap<TpFriend, Act> random = inboxService.showRandam(uid);
-			if (MapUtils.isEmpty(random)) {
-				return false;
-			}
-			TpFriend tpFriend = random.firstKey();
-			model.addAttribute("tpFriend", tpFriend);
-			model.addAttribute("act", random.get(tpFriend));
-			model.addAttribute("times", 1);
+	private void getNextFeed(long uid, int times, Model model) {
+		if (times > randomFeedFrequency) {
+			getRandomFeed(uid, model);
 		} else {
-			// 获取指定
-			SortedMap<ProfileCache, Act> first = inboxService.showFirst(uid);
-			if (MapUtils.isEmpty(first)) {
-				return getNextFeed(uid, 4, model);
-			} else {
-				ProfileCache key = first.firstKey();
-				model.addAttribute("friendProfile", key);
-				model.addAttribute("act", first.get(key));
-				model.addAttribute("times", times + 1);
-			}
+			getSpecificFeed(uid, times, model);
 		}
-
 		// TODO 显示相互共同好友
-		return true;
+	}
+
+	private void getRandomFeed(long uid, Model model) {
+		// 获取随机
+		Feed feed = inboxService.showRandam(uid);
+		model.addAttribute("feed", feed);
+		model.addAttribute("times", 1);
+	}
+
+	private void getSpecificFeed(long uid, int times, Model model) {
+		// 获取指定
+		Feed feed = inboxService.showFirst(uid);
+		if (null == feed) {
+			getRandomFeed(uid, model);
+		} else {
+			model.addAttribute("feed", feed);
+			model.addAttribute("times", times + 1);
+		}
 	}
 }

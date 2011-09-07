@@ -24,6 +24,7 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
+import com.juzhai.passport.service.IUserGuideService;
 
 @Service
 public class RegisterService implements IRegisterService {
@@ -46,6 +47,8 @@ public class RegisterService implements IRegisterService {
 	private IAccountService accountService;
 	@Autowired
 	private IInboxService inboxService;
+	@Autowired
+	private IUserGuideService userGuideService;
 
 	@Override
 	public long autoRegister(Thirdparty tp, String identity, AuthInfo authInfo,
@@ -59,6 +62,7 @@ public class RegisterService implements IRegisterService {
 		}
 		registerProfile(profile, passport);
 		registerAccount(passport);
+		registerUserGuide(passport);
 		registerTpUser(tp, identity, passport);
 		tpUserAuthService.updateTpUserAuth(passport.getId(), tp.getId(),
 				authInfo);
@@ -76,6 +80,10 @@ public class RegisterService implements IRegisterService {
 		inboxService.syncInboxByTask(passport.getId());
 
 		return passport.getId();
+	}
+
+	private void registerUserGuide(Passport passport) {
+		userGuideService.craeteUserGuide(passport.getId());
 	}
 
 	private void registerAccount(Passport passport) {

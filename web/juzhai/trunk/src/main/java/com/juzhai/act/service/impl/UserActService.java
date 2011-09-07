@@ -205,9 +205,15 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
-	public List<Long> getUserActIdsFromCache(long uid) {
+	public List<Long> getUserActIdsFromCache(long uid, int count) {
+		if (count <= 0) {
+			return Collections.emptyList();
+		}
+		if (count == Integer.MAX_VALUE) {
+			count = -1;
+		}
 		Set<Long> actIds = redisTemplate.opsForZSet().reverseRange(
-				RedisKeyGenerator.genMyActsKey(uid), 0, -1);
+				RedisKeyGenerator.genMyActsKey(uid), 0, count - 1);
 		if (CollectionUtils.isEmpty(actIds)) {
 			return Collections.emptyList();
 		}
@@ -215,8 +221,8 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
-	public List<Act> getUserActFromCache(long uid) {
-		List<Long> actIdList = getUserActIdsFromCache(uid);
+	public List<Act> getUserActFromCache(long uid, int count) {
+		List<Long> actIdList = getUserActIdsFromCache(uid, count);
 		List<Act> actList = new ArrayList<Act>(actIdList.size());
 		for (long actId : actIdList) {
 			Act act = InitData.ACT_MAP.get(actId);

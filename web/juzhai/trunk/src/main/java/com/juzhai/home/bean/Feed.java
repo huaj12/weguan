@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.juzhai.act.model.Act;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.bean.TpFriend;
 
 public class Feed implements Serializable {
 
@@ -15,11 +16,33 @@ public class Feed implements Serializable {
 		SPECIFIC, RANDOM
 	}
 
+	private TpFriend tpFriend;
+
 	private ProfileCache profileCache;
 
 	private List<Act> actList = new ArrayList<Act>();
 
 	private FeedType feedType;
+
+	public Feed(ProfileCache profileCache, FeedType feedType, Act... acts) {
+		this.profileCache = profileCache;
+		this.feedType = feedType;
+		for (Act act : acts) {
+			if (null != act) {
+				this.actList.add(act);
+			}
+		}
+	}
+
+	public Feed(TpFriend tpFriend, FeedType feedType, Act... acts) {
+		this.tpFriend = tpFriend;
+		this.feedType = feedType;
+		for (Act act : acts) {
+			if (null != act) {
+				this.actList.add(act);
+			}
+		}
+	}
 
 	public ProfileCache getProfileCache() {
 		return profileCache;
@@ -44,4 +67,13 @@ public class Feed implements Serializable {
 	public void addAct(Act act) {
 		getActList().add(act);
 	}
+
+	public TpFriend getTpFriend() {
+		return tpFriend;
+	}
+
+	public void setTpFriend(TpFriend tpFriend) {
+		this.tpFriend = tpFriend;
+	}
+
 }

@@ -3,15 +3,14 @@ package com.juzhai.home.service.impl;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.StringTokenizer;
-import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,10 @@ import com.juzhai.act.InitData;
 import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.caculator.IScoreGenerator;
 import com.juzhai.act.model.Act;
+import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.home.bean.Feed;
+import com.juzhai.home.bean.Feed.FeedType;
 import com.juzhai.home.service.IInboxService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
@@ -43,6 +45,12 @@ public class InboxService implements IInboxService {
 	private IFriendService friendService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IUserActService userActService;
+	@Value("${random.feed.myAct.count}")
+	private int randomFeedMyActCount = 5;
+	@Value("${random.feed.act.count}")
+	private int randomFeedActCount = 10;
 
 	// @Autowired
 	// private int inboxCapacity = 100;
@@ -92,7 +100,7 @@ public class InboxService implements IInboxService {
 	}
 
 	@Override
-	public SortedMap<ProfileCache, Act> showFirst(long uid) {
+	public Feed showFirst(long uid) {
 		Set<String> values = redisTemplate.opsForZSet().reverseRange(
 				RedisKeyGenerator.genInboxActsKey(uid), 0, 0);
 		if (CollectionUtils.isNotEmpty(values)) {
@@ -105,9 +113,7 @@ public class InboxService implements IInboxService {
 					if (null == profileCache || null == act) {
 						remove(uid, ids[0], ids[1]);
 					} else {
-						SortedMap<ProfileCache, Act> result = new TreeMap<ProfileCache, Act>();
-						result.put(profileCache, act);
-						return result;
+						return new Feed(profileCache, FeedType.SPECIFIC, act);
 					}
 				}
 			}
@@ -116,29 +122,42 @@ public class InboxService implements IInboxService {
 	}
 
 	@Override
-	public SortedMap<TpFriend, Act> showRandam(long uid) {
+	public Feed showRandam(long uid) {
 		ProfileCache profileCache = profileService.getProfileCacheByUid(uid);
 		if (null == profileCache) {
 			return null;
 		}
 		List<TpFriend> unInstallFriendList = friendService
 				.getUnInstallFriends(uid);
+		if (CollectionUtils.isEmpty(unInstallFriendList)) {
+			// 没有未安装App的好友
+			return null;
+		}
 		TpFriend tpFriend = unInstallFriendList.get(RandomUtils.nextInt(
 				new Random(System.currentTimeMillis()),
 				unInstallFriendList.size()));
 		if (null == tpFriend) {
 			return null;
 		}
-		int genders = profileCache.getGender() + tpFriend.getGender();
-		List<Act> randomActList = InitData.RANDOM_ACT_MAP.get(genders);
-		Act act = randomActList.get(RandomUtils.nextInt(
-				new Random(System.currentTimeMillis()), randomActList.size()));
-		if (null == act) {
+
+		List<Act> acts = userActService.getUserActFromCache(uid,
+				randomFeedMyActCount);
+		if (acts.size() < randomFeedActCount) {
+			// 随机Act
+			int genders = profileCache.getGender() + tpFriend.getGender();
+			List<Act> randomActList = InitData.RANDOM_ACT_MAP.get(genders);
+			for (int i = 0; i < randomFeedActCount - acts.size(); i++) {
+				Act act = randomActList.get(RandomUtils.nextInt(new Random(
+						System.currentTimeMillis()), randomActList.size()));
+				if (!acts.contains(act)) {
+					acts.add(act);
+				}
+			}
+		}
+		if (CollectionUtils.isEmpty(acts)) {
 			return null;
 		}
-		SortedMap<TpFriend, Act> result = new TreeMap<TpFriend, Act>();
-		result.put(tpFriend, act);
-		return result;
+		return new Feed(tpFriend, FeedType.RANDOM, acts.toArray(new Act[0]));
 	}
 
 	private String assembleValue(long senderId, long actId) {

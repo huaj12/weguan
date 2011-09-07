@@ -66,6 +66,7 @@ public class TpAuthorizeController extends BaseController {
 	}
 
 	private String returnPage(String returnTo, Thirdparty tp) {
+		//TODO 判断是否需要进入引导
 		if (StringUtils.isNotEmpty(returnTo)
 				&& StringUtils.startsWith(returnTo, "http")) {
 			return "redirect:" + returnTo;

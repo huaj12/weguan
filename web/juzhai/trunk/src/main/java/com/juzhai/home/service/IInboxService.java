@@ -1,11 +1,7 @@
 package com.juzhai.home.service;
 
-import java.util.SortedMap;
-
 import com.juzhai.act.bean.ActDealType;
-import com.juzhai.act.model.Act;
-import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.bean.TpFriend;
+import com.juzhai.home.bean.Feed;
 
 public interface IInboxService {
 
@@ -63,7 +59,7 @@ public interface IInboxService {
 	 *            收件箱用户ID
 	 * @return
 	 */
-	SortedMap<ProfileCache, Act> showFirst(long uid);
+	Feed showFirst(long uid);
 
 	/**
 	 * 显示一个随机
@@ -71,5 +67,5 @@ public interface IInboxService {
 	 * @param uid
 	 * @return
 	 */
-	SortedMap<TpFriend, Act> showRandam(long uid);
+	Feed showRandam(long uid);
 }

@@ -86,17 +86,23 @@ public interface IUserActService {
 	 * 从缓存根据用户id获取ActId(不带热度),根据热度排序
 	 * 
 	 * @param uid
+	 *            用户ID
+	 * @param count
+	 *            获取的数量 。<code>Integer.MIN_VALUE</code>表示获取全部
 	 * @return
 	 */
-	List<Long> getUserActIdsFromCache(long uid);
+	List<Long> getUserActIdsFromCache(long uid, int count);
 
 	/**
 	 * 从缓存根据用户id获取Act
 	 * 
 	 * @param uid
+	 *            用户ID
+	 * @param count
+	 *            获取的数量 。<code>Integer.MIN_VALUE</code>表示获取全部
 	 * @return
 	 */
-	List<Act> getUserActFromCache(long uid);
+	List<Act> getUserActFromCache(long uid, int count);
 
 	/**
 	 * 根据页码和每页显示数量，列出某用户的Act

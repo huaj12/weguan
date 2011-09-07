@@ -48,4 +48,15 @@ public class ActCategoryService implements IActCategoryService {
 		}
 		return null;
 	}
+
+	@Override
+	public List<Act> getHotActList(long tpId, long categoryId) {
+		Map<Long, List<Act>> allHotActListMap = InitData.HOT_ACT_LIST_MAP
+				.get(tpId);
+		if (null != allHotActListMap) {
+			return allHotActListMap.get(categoryId);
+		} else {
+			return Collections.emptyList();
+		}
+	}
 }

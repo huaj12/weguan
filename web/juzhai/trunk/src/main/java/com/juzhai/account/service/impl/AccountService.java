@@ -34,7 +34,7 @@ public class AccountService implements IAccountService {
 		account.setUid(uid);
 		account.setCreateTime(new Date());
 		account.setLastModifyTime(account.getCreateTime());
-		accountMapper.insert(account);
+		accountMapper.insertSelective(account);
 	}
 
 	@Override

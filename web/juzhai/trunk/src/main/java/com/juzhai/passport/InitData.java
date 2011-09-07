@@ -3,14 +3,17 @@
  */
 package com.juzhai.passport;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +34,7 @@ public class InitData {
 	public static final Map<Long, Thirdparty> TP_MAP = new HashMap<Long, Thirdparty>();
 	public static final Map<Long, Province> PROVINCE_MAP = new HashMap<Long, Province>();
 	public static final Map<Long, City> CITY_MAP = new HashMap<Long, City>();
+	public static final List<Long> GUIDE_STEPS = new ArrayList<Long>();
 
 	@Autowired
 	private ThirdpartyMapper thirdpartyMapper;
@@ -38,12 +42,24 @@ public class InitData {
 	private ProvinceMapper provinceMapper;
 	@Autowired
 	private CityMapper cityMapper;
+	@Value("${freshman.guide.steps}")
+	private String freshmanGuideSteps;
 
 	@PostConstruct
 	public void init() {
 		initTp();
 		initProvince();
 		initCity();
+		initGuideSteps();
+	}
+
+	private void initGuideSteps() {
+		if (StringUtils.isNotEmpty(freshmanGuideSteps)) {
+			StringTokenizer st = new StringTokenizer(freshmanGuideSteps, ",");
+			while (st.hasMoreTokens()) {
+				GUIDE_STEPS.add(Long.valueOf(st.nextToken()));
+			}
+		}
 	}
 
 	private void initTp() {

@@ -31,4 +31,13 @@ public interface IActCategoryService {
 	 */
 	Map<Long, List<Act>> getHotActListMap(long tpId,
 			List<ActCategory> actCategoryList);
+
+	/**
+	 * 根据第三方ID和分类ID获取推荐Act
+	 * 
+	 * @param tpId
+	 * @param categoryId
+	 * @return
+	 */
+	List<Act> getHotActList(long tpId, long categoryId);
 }

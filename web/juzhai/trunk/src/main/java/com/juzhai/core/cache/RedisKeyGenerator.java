@@ -115,4 +115,14 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genMailQueueKey() {
 		return "mailQueue";
 	}
+
+	/**
+	 * Act 近义词
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	public static String genActSynonymKey(long actId) {
+		return genKey(actId, "synonym");
+	}
 }

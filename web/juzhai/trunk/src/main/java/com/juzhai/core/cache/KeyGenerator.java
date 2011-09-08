@@ -13,9 +13,9 @@ public abstract class KeyGenerator {
 
 	private static final String CACHE_KEY_SEPARATOR = ".";
 
-	protected static String genKey(long uid, String... funcs) {
+	protected static String genKey(long primaryKey, String... funcs) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(uid);
+		sb.append(primaryKey);
 		for (String func : funcs) {
 			if (StringUtils.isNotEmpty(func)) {
 				sb.append(CACHE_KEY_SEPARATOR).append(func);

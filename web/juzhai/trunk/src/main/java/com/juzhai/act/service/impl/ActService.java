@@ -5,6 +5,7 @@ package com.juzhai.act.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.apache.lucene.search.TopDocs;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.act.InitData;
@@ -30,6 +32,7 @@ import com.juzhai.act.model.Act;
 import com.juzhai.act.rabbit.message.ActIndexMessage;
 import com.juzhai.act.rabbit.message.ActIndexMessage.ActionType;
 import com.juzhai.act.service.IActService;
+import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
 import com.juzhai.core.util.StringUtil;
@@ -49,6 +52,8 @@ public class ActService implements IActService {
 	private RabbitTemplate actIndexCreateRabbitTemplate;
 	@Autowired
 	private IndexSearcherTemplate actIndexSearcherTemplate;
+	@Autowired
+	private RedisTemplate<String, Long> redisTemplate;
 	@Value("${act.name.length.min}")
 	private int actNameLengthMin = 2;
 	@Value("${act.name.length.max}")
@@ -127,5 +132,42 @@ public class ActService implements IActService {
 				return (T) actNameList;
 			}
 		});
+	}
+
+	@Override
+	public List<Long> listSynonymIds(long actId) {
+		//TODO 试验，set和sortedset能否共同使用inter方法
+		List<Long> synonymList = redisTemplate.opsForList().range(
+				RedisKeyGenerator.genActSynonymKey(actId), 0, -1);
+		if (synonymList == null) {
+			synonymList = Collections.emptyList();
+		}
+		return synonymList;
+	}
+
+	@Override
+	public List<Act> listSynonymActs(long actId) {
+		List<Long> synonymIdList = listSynonymIds(actId);
+		List<Act> synonymActList = new ArrayList<Act>(synonymIdList.size());
+		for (long id : synonymIdList) {
+			Act act = InitData.ACT_MAP.get(id);
+			if (null != act) {
+				synonymActList.add(act);
+			}
+		}
+
+		return synonymActList;
+	}
+
+	@Override
+	public void addSynonym(long actId1, long actId2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeSynonym(long actId1, long actId2) {
+		// TODO Auto-generated method stub
+		
 	}
 }

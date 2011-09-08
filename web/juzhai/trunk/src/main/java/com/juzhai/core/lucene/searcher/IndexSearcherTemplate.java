@@ -13,10 +13,11 @@ public class IndexSearcherTemplate {
 	private IndexSearcherManager searcherManager;
 
 	public interface SearcherCallback {
-		<T> T doCallback(IndexSearcher indexSearcher) throws IOException;
+		<T extends Object> T doCallback(IndexSearcher indexSearcher)
+				throws IOException;
 	}
 
-	public <T> T excute(SearcherCallback callback) {
+	public <T extends Object> T excute(SearcherCallback callback) {
 		T result = null;
 		IndexSearcher indexSearcher = searcherManager.get();
 		try {

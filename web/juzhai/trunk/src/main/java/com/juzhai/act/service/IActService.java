@@ -61,4 +61,36 @@ public interface IActService {
 	 * @return
 	 */
 	List<String> indexSearchName(String queryString, int count);
+
+	/**
+	 * 近义词ActId列表
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	List<Long> listSynonymIds(long actId);
+
+	/**
+	 * 近义词Actl列表
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	List<Act> listSynonymActs(long actId);
+
+	/**
+	 * 设置两个近义词
+	 * 
+	 * @param actId1
+	 * @param actId2
+	 */
+	void addSynonym(long actId1, long actId2);
+
+	/**
+	 * 取消近义词
+	 * 
+	 * @param actId1
+	 * @param actId2
+	 */
+	void removeSynonym(long actId1, long actId2);
 }

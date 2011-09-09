@@ -87,6 +87,15 @@ public interface IActService {
 	void addSynonym(long actId1, long actId2);
 
 	/**
+	 * 设置两个近义词
+	 * 
+	 * @param actId1
+	 * @param actName2
+	 * @throws ActInputException
+	 */
+	void addSynonym(long actId1, String actName2) throws ActInputException;
+
+	/**
 	 * 取消近义词
 	 * 
 	 * @param actId1

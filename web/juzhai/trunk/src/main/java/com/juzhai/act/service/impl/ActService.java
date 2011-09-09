@@ -136,7 +136,7 @@ public class ActService implements IActService {
 
 	@Override
 	public List<Long> listSynonymIds(long actId) {
-		//TODO 试验，set和sortedset能否共同使用inter方法
+		// TODO 试验，set和sortedset能否共同使用inter方法
 		List<Long> synonymList = redisTemplate.opsForList().range(
 				RedisKeyGenerator.genActSynonymKey(actId), 0, -1);
 		if (synonymList == null) {
@@ -155,19 +155,37 @@ public class ActService implements IActService {
 				synonymActList.add(act);
 			}
 		}
-
 		return synonymActList;
 	}
 
 	@Override
 	public void addSynonym(long actId1, long actId2) {
-		// TODO Auto-generated method stub
-		
+		redisTemplate.opsForList().leftPush(
+				RedisKeyGenerator.genActSynonymKey(actId1), actId2);
+		redisTemplate.opsForList().leftPush(
+				RedisKeyGenerator.genActSynonymKey(actId2), actId1);
+	}
+
+	@Override
+	public void addSynonym(long actId1, String actName2)
+			throws ActInputException {
+		Act act = getActByName(actName2);
+		if (null == act) {
+			act = createAct(1L, actName2, null);
+			if (null == act) {
+				log.error("add act by name failed.[createUid:" + 1L
+						+ ", actName:" + actName2 + "]");
+				throw new ActInputException(ActInputException.ACT_NAME_INVALID);
+			}
+		}
+		addSynonym(actId1, act.getId());
 	}
 
 	@Override
 	public void removeSynonym(long actId1, long actId2) {
-		// TODO Auto-generated method stub
-		
+		redisTemplate.opsForList().remove(
+				RedisKeyGenerator.genActSynonymKey(actId1), 1, actId2);
+		redisTemplate.opsForList().remove(
+				RedisKeyGenerator.genActSynonymKey(actId2), 1, actId1);
 	}
 }

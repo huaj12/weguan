@@ -66,7 +66,9 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 			return null;
 		}
 		// 构建authInfo
-		authInfo = new AuthInfo(tp, sessionKey);
+		authInfo.setThirdparty(tp);
+		authInfo.setSessionKey(sessionKey);
+
 		return String.valueOf(user.getUid());
 	}
 

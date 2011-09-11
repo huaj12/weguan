@@ -9,7 +9,7 @@
 	
 	</head>
 	<body>
-		欢迎来到开心001&nbsp;uid:${context.uid}&nbsp;ip:${context.remoteAddress }
+		欢迎来到开心001
 	</body>
 </html>
 

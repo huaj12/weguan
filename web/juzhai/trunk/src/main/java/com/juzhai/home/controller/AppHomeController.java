@@ -39,6 +39,7 @@ public class AppHomeController extends BaseController {
 	public String home(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
+		queryPoint(context.getUid(), model);
 		getNextFeed(context.getUid(), 1, model);
 		return "home/home";
 	}
@@ -64,7 +65,7 @@ public class AppHomeController extends BaseController {
 			return error_500;
 		}
 		getNextFeed(context.getUid(), times, model);
-		return "home/feedFragment";
+		return "home/feed_fragment";
 	}
 
 	/**

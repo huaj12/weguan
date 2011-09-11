@@ -75,9 +75,14 @@ public class ProfileService implements IProfileService {
 	public ProfileCache getProfileCacheByUid(long uid) {
 		ProfileCache profileCache = null;
 		try {
-			profileCache = memcachedClient.getAndTouch(
-					MemcachedKeyGenerator.genProfileCacheKey(uid),
-					profileCacheExpireTime);
+			profileCache = memcachedClient.get(MemcachedKeyGenerator
+					.genProfileCacheKey(uid));
+			// TODO will change to getAndTouch by memcached 1.6.x
+			if (null != profileCache) {
+				memcachedClient.set(
+						MemcachedKeyGenerator.genProfileCacheKey(uid),
+						profileCacheExpireTime, profileCache);
+			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

@@ -86,10 +86,13 @@ public class TpUserAuthService implements ITpUserAuthService {
 		AuthInfo authInfo = null;
 		if (tpId > 0) {
 			try {
-				String authInfoJsonString = memcachedClient.getAndTouch(
-						MemcachedKeyGenerator.genAuthInfoKey(uid),
-						authInfoCacheExpireTime);
+				String authInfoJsonString = memcachedClient
+						.get(MemcachedKeyGenerator.genAuthInfoKey(uid));
 				if (StringUtils.isNotEmpty(authInfoJsonString)) {
+					// TODO will change to getAndTouch by memcached 1.6.x
+					memcachedClient.set(
+							MemcachedKeyGenerator.genAuthInfoKey(uid),
+							authInfoCacheExpireTime, authInfoJsonString);
 					authInfo = AuthInfo.convertToBean(authInfoJsonString);
 				}
 			} catch (Exception e) {

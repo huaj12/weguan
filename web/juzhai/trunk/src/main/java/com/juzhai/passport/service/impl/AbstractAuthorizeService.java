@@ -34,6 +34,9 @@ public abstract class AbstractAuthorizeService implements IAuthorizeService {
 	@Override
 	public long access(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp) {
+		if (authInfo == null) {
+			authInfo = new AuthInfo();
+		}
 		String tpIdentity = fetchTpIdentity(request, authInfo, tp);
 		if (StringUtils.isEmpty(tpIdentity)) {
 			log.error("Fetch thirdparty identity failed.[tpName:"

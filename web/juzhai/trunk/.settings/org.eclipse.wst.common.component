@@ -9,7 +9,7 @@
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/kxsdk/kxsdk">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <property name="context-root" value="juzhai"/>
         <property name="java-output-path" value="/juzhai/target/classes"/>
+        <property name="context-root" value="/"/>
     </wb-module>
 </project-modules>

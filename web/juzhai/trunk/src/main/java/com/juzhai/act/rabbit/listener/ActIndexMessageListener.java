@@ -4,7 +4,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import com.juzhai.act.model.Act;
 import com.juzhai.act.rabbit.message.ActIndexMessage;
@@ -25,7 +24,10 @@ public class ActIndexMessageListener implements
 	@Override
 	public Object handleMessage(ActIndexMessage actIndexMessage) {
 		Act act = actIndexMessage.getBody();
-		Assert.notNull(act, "Index act must not be null.");
+		if (null == act) {
+			log.error("Index act must not be null.");
+			return null;
+		}
 		try {
 			switch (actIndexMessage.getActionType()) {
 			case CREATE:

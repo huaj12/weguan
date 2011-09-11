@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
@@ -20,6 +21,8 @@ import com.juzhai.passport.service.IFriendService;
 public class ActMsgMessageListener implements
 		IRabbitMessageListener<MsgMessage<ActMsg>, Object> {
 
+	private final Log log = LogFactory.getLog(getClass());
+
 	@Autowired
 	private IFriendService friendService;
 	@Autowired
@@ -29,10 +32,16 @@ public class ActMsgMessageListener implements
 
 	@Override
 	public Object handleMessage(MsgMessage<ActMsg> msgMessage) {
-		Assert.notNull(msgMessage, "MsgMessage must not bu null.");
-		Assert.notNull(msgMessage.getBody(), "Object actMsg must not be null.");
-		Assert.notNull(msgMessage.getBody().getType(),
-				"ActMsg's type must not be null.");
+		if (null == msgMessage) {
+			log.error("MsgMessage must not bu null.");
+			return null;
+		}
+		if (null == msgMessage.getBody()) {
+			log.error("Object actMsg must not be null.");
+		}
+		if (null == msgMessage.getBody().getType()) {
+			log.error("ActMsg's type must not be null.");
+		}
 
 		if (msgMessage.getBody().getType().equals(ActMsg.MsgType.FIND_YOU_ACT)) {
 			findYouActMsg(msgMessage);

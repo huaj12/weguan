@@ -2,6 +2,8 @@ package com.juzhai.act.rabbit.listener;
 
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -15,6 +17,8 @@ import com.juzhai.passport.service.IFriendService;
 public class UpdateActFeedMessageListener implements
 		IRabbitMessageListener<UserAct, Object> {
 
+	private final Log log = LogFactory.getLog(getClass());
+
 	@Autowired
 	private IFriendService friendService;
 	@Autowired
@@ -22,6 +26,22 @@ public class UpdateActFeedMessageListener implements
 
 	@Override
 	public Object handleMessage(UserAct userAct) {
+		if (null == userAct) {
+			log.error("Object userAct must not be null.");
+			return null;
+		}
+		if (null == userAct.getId()) {
+			log.error("UserAct's id must not be null.");
+			return null;
+		}
+		if (null == userAct.getUid()) {
+			log.error("UserAct's uid must not be null");
+			return null;
+		}
+		if (null == userAct.getActId()) {
+			log.error("UserAct's actId must not be null");
+			return null;
+		}
 		Assert.notNull(userAct, "Object userAct must not be null.");
 		Assert.notNull(userAct.getId(), "UserAct's id must not be null.");
 		Assert.notNull(userAct.getUid(), "UserAct's uid must not be null");

@@ -61,7 +61,7 @@ public class AppMyActController extends BaseController {
 
 	@RequestMapping(value = "/addAct", method = RequestMethod.POST)
 	@ResponseBody
-	public String addAct(HttpServletRequest request, AddActForm addActForm,
+	public AjaxResult addAct(HttpServletRequest request, AddActForm addActForm,
 			Model model) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		AjaxResult ajaxResult = new AjaxResult();
@@ -86,7 +86,7 @@ public class AppMyActController extends BaseController {
 					null, e.getErrorCode(), Locale.SIMPLIFIED_CHINESE));
 		}
 
-		return ajaxResult.toJson();
+		return ajaxResult;
 	}
 
 	@RequestMapping(value = "/removeAct", method = RequestMethod.POST)

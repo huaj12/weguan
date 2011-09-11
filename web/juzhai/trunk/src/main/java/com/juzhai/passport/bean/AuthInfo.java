@@ -125,6 +125,12 @@ public class AuthInfo implements Serializable {
 		this.joinType = joinType;
 	}
 
+	public void setThirdparty(Thirdparty tp) {
+		this.thirdpartyName = tp.getName();
+		this.joinType = tp.getJoinType();
+		this.appKey = tp.getAppKey();
+	}
+
 	public String toJsonString() throws JsonGenerationException {
 		return JackSonSerializer.toString(this);
 	}

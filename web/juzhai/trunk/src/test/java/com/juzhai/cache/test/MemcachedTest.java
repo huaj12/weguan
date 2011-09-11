@@ -41,6 +41,7 @@ public class MemcachedTest {
 		String value = "simpleValue";
 		Assert.assertTrue(memcachedClient.set(key, 120, value));
 		Assert.assertEquals(value, memcachedClient.get(key));
+		Assert.assertTrue(memcachedClient.touch(key, 120));
 		Assert.assertTrue(memcachedClient.delete(key));
 		Assert.assertNull(memcachedClient.get(key));
 		System.out.println("use time: " + (System.currentTimeMillis() - start));

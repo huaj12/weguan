@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.juzhai.core.controller.BaseController;
+import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.model.Thirdparty;
@@ -42,9 +44,20 @@ public class TpAuthorizeController extends BaseController {
 	public String access(HttpServletRequest request,
 			HttpServletResponse response, @PathVariable long tpId,
 			String returnTo) {
-		Thirdparty tp = InitData.TP_MAP.get(tpId);
-		// TODO 判断是否已经登录
+		try {
+			UserContext context = checkLoginForApp(request);
+			Thirdparty loginTp = InitData.TP_MAP.get(context.getTpId());
+			if (null == loginTp) {
+				return error_500;
+			}
+			return returnPage(returnTo, loginTp);
+		} catch (NeedLoginException e) {
+		}
 
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		if (null == tp) {
+			return error_500;
+		}
 		long uid = 0;
 		if (null != tp) {
 			if (log.isDebugEnabled()) {
@@ -66,12 +79,12 @@ public class TpAuthorizeController extends BaseController {
 	}
 
 	private String returnPage(String returnTo, Thirdparty tp) {
-		//TODO 判断是否需要进入引导
+		// TODO 判断是否需要进入引导
 		if (StringUtils.isNotEmpty(returnTo)
 				&& StringUtils.startsWith(returnTo, "http")) {
 			return "redirect:" + returnTo;
 		}
-		return "passport/" + tp.getName() + "/index";
+		return "redirect:/app/index";
 	}
 
 	@RequestMapping(value = "auth/rr/appLogin")

@@ -38,14 +38,14 @@ public class ActDao implements IActDao {
 	@Override
 	public Act insertAct(long uid, String name, List<Long> categoryIds) {
 		Act act = assembleAct(uid, name, categoryIds, false);
-		actMapper.insert(act);
+		actMapper.insertSelective(act);
 		return act;
 	}
 
 	@Override
 	public Act insertVerifiedAct(long uid, String name, List<Long> categoryIds) {
 		Act act = assembleAct(uid, name, categoryIds, true);
-		actMapper.insert(act);
+		actMapper.insertSelective(act);
 		return act;
 	}
 

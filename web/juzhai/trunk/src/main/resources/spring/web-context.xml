@@ -15,10 +15,10 @@
 
 	<context:annotation-config />
     <context:component-scan base-package="com.juzhai.*.controller"/>
-    <mvc:annotation-driven />
-	<mvc:resources location="/script/" mapping="/script/**"/> 
+    <!-- <mvc:annotation-driven /> -->
+	<!-- <mvc:resources location="/script/" mapping="/script/**"/> 
 	<mvc:resources location="/style/" mapping="/style/**"/> 
-	<mvc:resources location="/images/" mapping="/images/**"/> 
+	<mvc:resources location="/images/" mapping="/images/**"/> --> 
 	
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -45,6 +45,13 @@
 		<property name="messageConverters">
 			<list>
 				<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+				<!-- <bean class="org.springframework.http.converter.StringHttpMessageConverter">   
+                	<property name="supportedMediaTypes">
+                		<list>
+                			<value>text/plain;charset=UTF-8</value>
+						</list>
+                	</property>   
+				</bean> -->
 			</list>
 		</property>
 	</bean>

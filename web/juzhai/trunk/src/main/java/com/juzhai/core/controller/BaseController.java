@@ -5,7 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 
+import com.juzhai.account.service.IAccountService;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.ErrorPageDispatcher;
 import com.juzhai.core.web.session.LoginSessionManager;
@@ -20,6 +22,8 @@ public class BaseController {
 
 	@Autowired
 	private LoginSessionManager loginSessionManager;
+	@Autowired
+	private IAccountService accountService;
 
 	protected UserContext checkLoginForApp(HttpServletRequest request)
 			throws NeedLoginException {
@@ -33,5 +37,9 @@ public class BaseController {
 			throw new NeedLoginException(runType);
 		}
 		return context;
+	}
+
+	protected void queryPoint(long uid, Model model) {
+		model.addAttribute("point", accountService.queryPoint(uid));
 	}
 }

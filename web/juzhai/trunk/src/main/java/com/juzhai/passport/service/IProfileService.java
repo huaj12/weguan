@@ -6,6 +6,7 @@ package com.juzhai.passport.service;
 import java.util.List;
 
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.Profile;
 
 public interface IProfileService {
@@ -54,4 +55,14 @@ public interface IProfileService {
 	 * @param profile
 	 */
 	ProfileCache cacheProfile(Profile profile);
+
+	/**
+	 * 订阅邮箱
+	 * 
+	 * @param uid
+	 * @param email
+	 * @return
+	 * @throws ProfileInputException
+	 */
+	boolean subEmail(long uid, String email) throws ProfileInputException;
 }

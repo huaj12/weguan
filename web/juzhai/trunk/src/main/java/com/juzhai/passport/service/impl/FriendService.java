@@ -99,7 +99,7 @@ public class FriendService implements IFriendService {
 
 	@Override
 	public void updateExpiredFriends(long uid, long tpId, AuthInfo authInfo) {
-		if (isExpired(uid)) {
+//		if (isExpired(uid)) {
 			if (null != authInfo) {
 				List<String> appFriendIds = authorizeService
 						.getAppFriends(authInfo);
@@ -131,7 +131,7 @@ public class FriendService implements IFriendService {
 				}
 				touchCache(uid);
 			}
-		}
+//		}
 	}
 
 	@Override

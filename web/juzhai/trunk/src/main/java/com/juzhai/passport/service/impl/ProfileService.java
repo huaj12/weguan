@@ -3,10 +3,13 @@
  */
 package com.juzhai.passport.service.impl;
 
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
@@ -19,6 +22,7 @@ import org.springframework.util.Assert;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
@@ -28,6 +32,10 @@ import com.juzhai.passport.service.IProfileService;
 public class ProfileService implements IProfileService {
 
 	private final Log log = LogFactory.getLog(getClass());
+
+	public static final String EMAIL_PATTERN_STRING = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*$";
+	public static final Pattern EMAIL_PATTERN = Pattern
+			.compile(EMAIL_PATTERN_STRING);
 
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
@@ -110,5 +118,20 @@ public class ProfileService implements IProfileService {
 			log.error(e.getMessage(), e);
 		}
 		return profileCache;
+	}
+
+	@Override
+	public boolean subEmail(long uid, String email) throws ProfileInputException {
+		email = StringUtils.trim(email);
+		if (!EMAIL_PATTERN.matcher(email).matches()) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_EMAIL_INVALID);
+		}
+		Profile profile = new Profile();
+		profile.setUid(uid);
+		profile.setEmail(email);
+		profile.setLastModifyTime(new Date());
+
+		return profileMapper.updateByPrimaryKeySelective(profile) == 1;
 	}
 }

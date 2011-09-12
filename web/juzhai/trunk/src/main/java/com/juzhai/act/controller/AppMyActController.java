@@ -59,7 +59,7 @@ public class AppMyActController extends BaseController {
 		return "act/myAct";
 	}
 
-	@RequestMapping(value = "/addAct", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/addAct", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult addAct(HttpServletRequest request, AddActForm addActForm,
 			Model model) throws NeedLoginException {

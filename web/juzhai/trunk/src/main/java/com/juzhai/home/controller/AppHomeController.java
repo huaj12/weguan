@@ -1,5 +1,7 @@
 package com.juzhai.home.controller;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -7,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +20,13 @@ import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.Feed;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.home.service.IInboxService;
+import com.juzhai.passport.exception.ProfileInputException;
+import com.juzhai.passport.service.IProfileService;
 
 @Controller
 @RequestMapping(value = "app")
@@ -32,15 +38,27 @@ public class AppHomeController extends BaseController {
 	private IUserActService userActService;
 	@Autowired
 	private IInboxService inboxService;
+	@Autowired
+	private IProfileService profileService;
+	@Autowired
+	private MessageSource messageSource;
 	@Value("${random.feed.frequency}")
 	private int randomFeedFrequency = 4;
 
 	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)
 			throws NeedLoginException {
+		long time1 = System.currentTimeMillis();
 		UserContext context = checkLoginForApp(request);
+		long time2 = System.currentTimeMillis();
 		queryPoint(context.getUid(), model);
+		long time3 = System.currentTimeMillis();
 		getNextFeed(context.getUid(), 1, model);
+		long time4 = System.currentTimeMillis();
+
+		System.out.println("check login:" + (time2 - time1));
+		System.out.println("query point:" + (time3 - time2));
+		System.out.println("get feed:" + (time4 - time3));
 		return "home/home";
 	}
 
@@ -103,5 +121,26 @@ public class AppHomeController extends BaseController {
 			model.addAttribute("feed", feed);
 			model.addAttribute("times", times + 1);
 		}
+	}
+
+	@RequestMapping(value = "/ajax/subEmail", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult subEmail(HttpServletRequest request, String email)
+			throws NeedLoginException {
+		UserContext context = checkLoginForApp(request);
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			ajaxResult.setSuccess(profileService.subEmail(context.getUid(),
+					email));
+		} catch (ProfileInputException e) {
+			if (log.isDebugEnabled()) {
+				log.debug(e.getMessage(), e);
+			}
+			ajaxResult.setSuccess(false);
+			ajaxResult.setErrorCode(e.getErrorCode());
+			ajaxResult.setErrorInfo(messageSource.getMessage(e.getErrorCode(),
+					null, e.getErrorCode(), Locale.SIMPLIFIED_CHINESE));
+		}
+		return ajaxResult;
 	}
 }

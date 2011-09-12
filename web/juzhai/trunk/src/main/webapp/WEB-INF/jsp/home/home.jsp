@@ -7,7 +7,6 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>拒宅器</title>
 		<link href="${jz:url('/css/jz.css')}" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="${jz:url('/js/jquery-1.6.3.min.js')}"></script>
 		<!-- [if IE 6] -->
 		<!-- <script src="iepng.js" type="text/javascript"></script>
 		<script type="text/javascript">
@@ -23,11 +22,20 @@
 					<jsp:include page="/WEB-INF/jsp/common/app/app_prompt.jsp" />
 					<jsp:include page="/WEB-INF/jsp/common/app/app_point.jsp" />
 					<div class="content white"><!--content begin-->
+						<!-- 先放loading -->
 						<jsp:include page="feed_fragment.jsp" />
 					</div><!--content end-->
 				</div><!--content_bg end-->
 			</div><!--skin_body end-->
 			<jsp:include page="/WEB-INF/jsp/common/app/app_bottom.jsp" />
 		</div><!--main end-->
+		<script type="text/javascript" src="${jz:url('/js/jquery/jquery-1.6.3.min.js')}"></script>
+		<script type="text/javascript" src="${jz:url('/js/base/base.js')}"></script>
+		<script type="text/javascript" src="${jz:url('/js/home/home.js')}"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				showFeed();	
+			});
+		</script>
 	</body>
 </html>

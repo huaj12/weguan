@@ -38,9 +38,11 @@ public class ActMsgMessageListener implements
 		}
 		if (null == msgMessage.getBody()) {
 			log.error("Object actMsg must not be null.");
+			return null;
 		}
 		if (null == msgMessage.getBody().getType()) {
 			log.error("ActMsg's type must not be null.");
+			return null;
 		}
 
 		if (msgMessage.getBody().getType().equals(ActMsg.MsgType.FIND_YOU_ACT)) {

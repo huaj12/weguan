@@ -152,8 +152,8 @@
 	<bean id="actIndexListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
 		<property name="delegate" ref="actIndexMessageListener" />
 	</bean>
-	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.actIndex}" prefetch="20" >
-	    <rabbit:listener queue-names="${rabbitmq.queue.actIndex.create}" ref="actMsgListener" />
+	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.actIndex}" prefetch="1" >
+	    <rabbit:listener queue-names="${rabbitmq.queue.actIndex.create}" ref="actIndexListener" />
 	</rabbit:listener-container>
 	<!-- act msg-->
 

@@ -2,6 +2,7 @@ package com.juzhai.act.lucene.index;
 
 import java.io.IOException;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.act.model.Act;
 import com.juzhai.core.lucene.index.Indexer;
-import com.juzhai.core.lucene.searcher.IndexSearcherManager;
 
 @Service
 public class ActIndexer implements Indexer<Act> {
@@ -31,9 +31,19 @@ public class ActIndexer implements Indexer<Act> {
 				Field.Index.ANALYZED));
 		// doc.add(new Field("categorys", categorys, Field.Store.NO,
 		// Field.Index.ANALYZED));
+		float boost = (BooleanUtils.isTrue(act.getActive()) ? 5F : 0F)
+				+ (act.getPopularity() == null ? 1 : act.getPopularity())
+				* 0.1f;
+		doc.setBoost(boost);
 		actIndexWriter.addDocument(doc);
 		if (isCommit) {
 			actIndexWriter.commit();
 		}
 	}
+
+	@Override
+	public void commit() throws CorruptIndexException, IOException {
+		actIndexWriter.commit();
+	}
+
 }

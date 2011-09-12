@@ -19,6 +19,9 @@ public class ActIndexOptimizationAndCommitHandler extends
 	@Override
 	protected void doHandle() {
 		if (actIndexWriter != null) {
+			if (log.isDebugEnabled()) {
+				log.debug("start optimize index");
+			}
 			try {
 				actIndexWriter.optimize();
 				actIndexWriter.commit();

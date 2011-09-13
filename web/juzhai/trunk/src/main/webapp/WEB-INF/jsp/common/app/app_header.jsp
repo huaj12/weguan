@@ -8,13 +8,13 @@
 		<div class="zjxq fl"><a href="#">我最近想去</a></div>
 		<div class="zjxq_input fl">
 			<p class="l"></p><span><input id="addAct" name="actName"  type="text" actId="0" /></span>
-			<a href="#" class="add" onclick="addAct('addAct')">+</a>
+			<a href="#" class="add" id="addActBtn">+</a>
 			<a href="#" class="zhao">召</a>
 			<a href="#" class="yao">邀</a>
 			<p class="r"></p>
 		</div>
 		<div class="home fl"><p></p><a href="#">拒宅器</a></div>
-		<div class="dy fr"><p class="l"></p><span><input id="subEmail" name="email" type="text" /></span><a href="#" onclick="subEmail('subEmail')">订阅</a></div>
+		<div class="dy fr"><p class="l"></p><span><input id="subEmail" name="email" type="text" /></span><a href="#" id="subEmailBtn" onclick="subEmail('subEmail')">订阅</a></div>
 		<div class="message fr"><a href="#">我的消息</a></div>
 	</div><!--top_mid end-->
 </div><!--skin_top end-->

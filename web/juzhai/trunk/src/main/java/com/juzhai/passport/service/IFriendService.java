@@ -78,4 +78,13 @@ public interface IFriendService {
 	 * @param intimacy
 	 */
 	void incrOrDecrIntimacy(long uid, long friendId, int intimacy);
+
+	/**
+	 * 获取好友亲密度
+	 * 
+	 * @param uid
+	 * @param friendId
+	 * @return
+	 */
+	int getFriendIntimacy(long uid, long friendId);
 }

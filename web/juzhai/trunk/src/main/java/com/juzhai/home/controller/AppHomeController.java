@@ -59,7 +59,7 @@ public class AppHomeController extends BaseController {
 		System.out.println("check login:" + (time2 - time1));
 		System.out.println("query point:" + (time3 - time2));
 		System.out.println("get feed:" + (time4 - time3));
-		return "home/home";
+		return "home/app/home";
 	}
 
 	@RequestMapping(value = "/ajax/dealFeed", method = RequestMethod.GET)
@@ -107,7 +107,7 @@ public class AppHomeController extends BaseController {
 
 	private void getRandomFeed(long uid, Model model) {
 		// 获取随机
-		Feed feed = inboxService.showRandam(uid);
+		Feed feed = inboxService.showGrade(uid);
 		model.addAttribute("feed", feed);
 		model.addAttribute("times", 1);
 	}

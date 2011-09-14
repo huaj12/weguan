@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -158,6 +159,47 @@ public class InboxService implements IInboxService {
 			return null;
 		}
 		return new Feed(tpFriend, FeedType.RANDOM, acts.toArray(new Act[0]));
+	}
+
+	@Override
+	public Feed showGrade(long uid) {
+		List<TpFriend> unInstallFriendList = friendService
+				.getUnInstallFriends(uid);
+		if (CollectionUtils.isEmpty(unInstallFriendList)) {
+			// 没有未安装App的好友
+			return null;
+		}
+		Set<String> identitySet = redisTemplate.opsForSet().members(
+				RedisKeyGenerator.genGradedUsersKey(uid));
+		if (null != identitySet) {
+			for (String identity : identitySet) {
+				TpFriend removeTpFriend = null;
+				for (TpFriend tpFriend : unInstallFriendList) {
+					if (StringUtils.equals(tpFriend.getUserId(), identity)) {
+						removeTpFriend = tpFriend;
+						break;
+					}
+				}
+				if (null != removeTpFriend) {
+					unInstallFriendList.remove(unInstallFriendList);
+				}
+			}
+		}
+
+		TpFriend tpFriend = unInstallFriendList.get(RandomUtils.nextInt(
+				new Random(System.currentTimeMillis()),
+				unInstallFriendList.size()));
+		if (null == tpFriend) {
+			return null;
+		}
+		return new Feed(tpFriend, FeedType.GRADE, new Act[0]);
+	}
+
+	@Override
+	public void grade(long uid, String identity) {
+		redisTemplate.opsForSet().add(RedisKeyGenerator.genGradedUsersKey(uid),
+				identity);
+		// TODO 发送消息
 	}
 
 	private String assembleValue(long senderId, long actId) {

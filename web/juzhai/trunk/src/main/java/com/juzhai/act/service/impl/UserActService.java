@@ -25,6 +25,7 @@ import com.juzhai.act.mapper.UserActMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.model.UserActExample;
+import com.juzhai.act.rabbit.message.ActUpdateMessage;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
@@ -200,8 +201,14 @@ public class UserActService implements IUserActService {
 				RedisKeyGenerator.genMyActsKey(userAct.getUid()),
 				userAct.getActId(), userAct.getHotLev());
 
+		sendFeed(userAct);
+	}
+
+	private void sendFeed(UserAct userAct) {
 		// push to friends
-		updateActFeedRabbitTemplate.convertAndSend(userAct);
+		ActUpdateMessage actUpdateMessage = new ActUpdateMessage();
+		actUpdateMessage.buildSenderId(userAct.getUid()).buildBody(userAct);
+		updateActFeedRabbitTemplate.convertAndSend(actUpdateMessage);
 	}
 
 	@Override

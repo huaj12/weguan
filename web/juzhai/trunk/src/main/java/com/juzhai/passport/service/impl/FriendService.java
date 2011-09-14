@@ -99,7 +99,7 @@ public class FriendService implements IFriendService {
 
 	@Override
 	public void updateExpiredFriends(long uid, long tpId, AuthInfo authInfo) {
-//		if (isExpired(uid)) {
+		if (isExpired(uid)) {
 			if (null != authInfo) {
 				List<String> appFriendIds = authorizeService
 						.getAppFriends(authInfo);
@@ -131,7 +131,7 @@ public class FriendService implements IFriendService {
 				}
 				touchCache(uid);
 			}
-//		}
+		}
 	}
 
 	@Override
@@ -153,6 +153,13 @@ public class FriendService implements IFriendService {
 			longRedisTemplate.opsForZSet().incrementScore(key, friendId,
 					intimacy);
 		}
+	}
+
+	@Override
+	public int getFriendIntimacy(long uid, long friendId) {
+		Double score = longRedisTemplate.opsForZSet().score(
+				RedisKeyGenerator.genFriendsKey(uid), friendId);
+		return score == null ? 0 : score.intValue();
 	}
 
 	private void touchCache(long uid) {

@@ -1,4 +1,4 @@
-package com.juzhai.act.caculator.inbox;
+package com.juzhai.act.caculator.inbox.caculator;
 
 import org.springframework.stereotype.Service;
 
@@ -8,12 +8,11 @@ import com.juzhai.act.caculator.annotation.ScorePoint.ScoreType;
 
 @Service
 @ScorePoint({ ScoreType.INBOX })
-public class InboxCityScoreCaculator implements IScoreCaculator {
+public class InboxTimeScoreCaculator implements IScoreCaculator {
 
 	@Override
-	public int calculate(long srcUid, long destUid, long actId) {
-		// TODO 计算分数
-		return 0;
+	public long calculate(long srcUid, long destUid, long actId) {
+		return System.currentTimeMillis() / 1000;
 	}
 
 }

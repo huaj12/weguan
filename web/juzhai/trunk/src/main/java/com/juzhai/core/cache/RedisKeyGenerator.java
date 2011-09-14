@@ -125,4 +125,14 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genActSynonymKey(long actId) {
 		return genKey(actId, "synonym");
 	}
+
+	/**
+	 * 已经打过分的列表
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public static String genGradedUsersKey(long userId) {
+		return genKey(userId, "graded");
+	}
 }

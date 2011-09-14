@@ -13,7 +13,7 @@ public class Feed implements Serializable {
 	private static final long serialVersionUID = -2496594920623735162L;
 
 	public enum FeedType {
-		SPECIFIC, RANDOM
+		SPECIFIC, RANDOM, GRADE
 	}
 
 	private TpFriend tpFriend;
@@ -27,9 +27,11 @@ public class Feed implements Serializable {
 	public Feed(ProfileCache profileCache, FeedType feedType, Act... acts) {
 		this.profileCache = profileCache;
 		this.feedType = feedType;
-		for (Act act : acts) {
-			if (null != act) {
-				this.actList.add(act);
+		if (null != acts) {
+			for (Act act : acts) {
+				if (null != act) {
+					this.actList.add(act);
+				}
 			}
 		}
 	}
@@ -37,9 +39,11 @@ public class Feed implements Serializable {
 	public Feed(TpFriend tpFriend, FeedType feedType, Act... acts) {
 		this.tpFriend = tpFriend;
 		this.feedType = feedType;
-		for (Act act : acts) {
-			if (null != act) {
-				this.actList.add(act);
+		if (null != acts) {
+			for (Act act : acts) {
+				if (null != act) {
+					this.actList.add(act);
+				}
 			}
 		}
 	}

@@ -68,4 +68,20 @@ public interface IInboxService {
 	 * @return
 	 */
 	Feed showRandam(long uid);
+
+	/**
+	 * 显示打分feed
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	Feed showGrade(long uid);
+
+	/**
+	 * 打分
+	 * 
+	 * @param uid
+	 * @param identity
+	 */
+	void grade(long uid, String identity);
 }

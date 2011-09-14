@@ -6,16 +6,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import com.juzhai.act.model.UserAct;
+import com.juzhai.act.rabbit.message.ActUpdateMessage;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
 import com.juzhai.home.service.IInboxService;
 import com.juzhai.passport.service.IFriendService;
 
 @Component
 public class UpdateActFeedMessageListener implements
-		IRabbitMessageListener<UserAct, Object> {
+		IRabbitMessageListener<ActUpdateMessage, Object> {
 
 	private final Log log = LogFactory.getLog(getClass());
 
@@ -25,28 +25,11 @@ public class UpdateActFeedMessageListener implements
 	private IInboxService inboxService;
 
 	@Override
-	public Object handleMessage(UserAct userAct) {
-		if (null == userAct) {
-			log.error("Object userAct must not be null.");
+	public Object handleMessage(ActUpdateMessage actUpdateMessage) {
+		if (!checkMessage(actUpdateMessage)) {
 			return null;
 		}
-		if (null == userAct.getId()) {
-			log.error("UserAct's id must not be null.");
-			return null;
-		}
-		if (null == userAct.getUid()) {
-			log.error("UserAct's uid must not be null");
-			return null;
-		}
-		if (null == userAct.getActId()) {
-			log.error("UserAct's actId must not be null");
-			return null;
-		}
-		Assert.notNull(userAct, "Object userAct must not be null.");
-		Assert.notNull(userAct.getId(), "UserAct's id must not be null.");
-		Assert.notNull(userAct.getUid(), "UserAct's uid must not be null");
-		Assert.notNull(userAct.getActId(), "UserAct's actId must not be null");
-
+		UserAct userAct = actUpdateMessage.getBody();
 		// push to friends
 		Set<Long> targets = getPushTargets(userAct.getUid());
 		for (Long targetId : targets) {
@@ -55,6 +38,31 @@ public class UpdateActFeedMessageListener implements
 		}
 
 		return null;
+	}
+
+	private boolean checkMessage(ActUpdateMessage message) {
+		if (null == message) {
+			log.error("Message is null.");
+			return false;
+		}
+		UserAct userAct = message.getBody();
+		if (null == userAct) {
+			log.error("Object userAct must not be null.");
+			return false;
+		}
+		if (null == userAct.getId()) {
+			log.error("UserAct's id must not be null.");
+			return false;
+		}
+		if (null == userAct.getUid()) {
+			log.error("UserAct's uid must not be null");
+			return false;
+		}
+		if (null == userAct.getActId()) {
+			log.error("UserAct's actId must not be null");
+			return false;
+		}
+		return true;
 	}
 
 	private Set<Long> getPushTargets(long uid) {

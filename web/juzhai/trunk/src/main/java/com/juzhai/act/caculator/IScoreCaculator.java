@@ -10,5 +10,5 @@ public interface IScoreCaculator {
 	 * @param actId
 	 * @return
 	 */
-	int calculate(long srcUid, long destUid, long actId);
+	long calculate(long srcUid, long destUid, long actId);
 }

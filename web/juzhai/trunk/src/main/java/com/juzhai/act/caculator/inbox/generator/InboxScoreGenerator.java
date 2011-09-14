@@ -1,4 +1,4 @@
-package com.juzhai.act.caculator.inbox;
+package com.juzhai.act.caculator.inbox.generator;
 
 import java.util.Collection;
 
@@ -15,7 +15,7 @@ import com.juzhai.act.caculator.annotation.ScorePoint.ScoreType;
 @Service
 public class InboxScoreGenerator extends AbstractScoreGenerator {
 
-	private ScoreType scoreType = ScorePoint.ScoreType.INBOX;
+	private ScoreType INBOX_SCORE_TYPE = ScorePoint.ScoreType.INBOX;
 
 	@PostConstruct
 	public void initBean() {
@@ -25,7 +25,8 @@ public class InboxScoreGenerator extends AbstractScoreGenerator {
 			ScorePoint scorePoint = scoreCaculator.getClass().getAnnotation(
 					ScorePoint.class);
 			if (null != scorePoint
-					&& ArrayUtils.contains(scorePoint.value(), scoreType)) {
+					&& ArrayUtils
+							.contains(scorePoint.value(), INBOX_SCORE_TYPE)) {
 				getScoreCaculatorList().add(scoreCaculator);
 			}
 		}

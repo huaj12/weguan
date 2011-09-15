@@ -236,6 +236,12 @@
 			<artifactId>quartz</artifactId>
 			<version>1.5.2</version>
 		</dependency>
+		<dependency>  
+			<groupId>net.sf.json-lib</groupId>  
+			<artifactId>json-lib</artifactId>  
+			<version>2.3</version>  
+			<classifier>jdk15</classifier>  
+		</dependency> 
 		<!-- junit -->
 		<dependency>
 		  <groupId>junit</groupId>
@@ -249,6 +255,7 @@
     		<version>2.5</version>
 	        <scope>provided</scope>
 		</dependency>
+		
 	</dependencies>
 	
 	<repositories>

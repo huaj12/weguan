@@ -8,7 +8,7 @@
 			<span class="fl"></span>
 			<a href="#" class="key_words"><c:out value="${userActView.act.name}"/></a>
 			<span class="fr"></span>
-			<a href="#" class="close" title="删除兴趣" onclick="javascript:removeMyAct();" actId="${userActView.act.id}">
+			<a href="#" class="close" title="删除兴趣" onclick="javascript:removeAct();" actId="${userActView.act.id}">
 				<img src="images/close_insteresting.png" />
 			</a>
 		</p>
@@ -16,9 +16,9 @@
 </div><!--interesting_list end-->
 <div class="arrow fr">
 	<c:if test="${pager.hasPre}">
-		<a href="#" onclick=""><img src="images/arrow_left.png" /></a>
+		<a href="#" onclick="javascript:pageMyAct(${pager.currentPage - 1});"><img src="images/arrow_left.png" /></a>
 	</c:if>
 	<c:if test="${pager.hasNext}">
-		<a href="#" onclick=""><img src="images/arrow_right.png" /></a>
+		<a href="#" onclick="javascript:pageMyAct(${pager.currentPage + 1});"><img src="images/arrow_right.png" /></a>
 	</c:if>
 </div>

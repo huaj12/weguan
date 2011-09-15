@@ -1,5 +1,6 @@
 package com.juzhai.act.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.act.controller.form.AddActForm;
+import com.juzhai.act.controller.view.HotActView;
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
@@ -60,7 +62,7 @@ public class AppMyActController extends BaseController {
 		if (CollectionUtils.isNotEmpty(hotCategoryList)) {
 			listHotAct(model, hotCategoryList.get(0).getId(), context);
 		}
-		return "act/my_act";
+		return "act/app/my_act";
 	}
 
 	@RequestMapping(value = "/ajax/addAct", method = RequestMethod.POST)
@@ -105,7 +107,7 @@ public class AppMyActController extends BaseController {
 		return ajaxResult;
 	}
 
-	@RequestMapping(value = "/pageMyAct", method = RequestMethod.GET)
+	@RequestMapping(value = "/ajax/pageMyAct", method = RequestMethod.GET)
 	@ResponseBody
 	public String pageMyAct(HttpServletRequest request, Model model, int page)
 			throws NeedLoginException {
@@ -116,21 +118,32 @@ public class AppMyActController extends BaseController {
 				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
 		model.addAttribute("userActViewList", userActViewList);
 		model.addAttribute("pager", pager);
-		return "act/my_act_list";
+		return "act/app/my_act_list";
 	}
 
-	@RequestMapping(value = "/showHotActs", method = RequestMethod.GET)
+	@RequestMapping(value = "/ajax/showHotActs", method = RequestMethod.GET)
 	@ResponseBody
 	public String showHotActs(HttpServletRequest request, Model model,
 			long actCategoryId) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		listHotAct(model, actCategoryId, context);
-		return null;
+		return "act/app/hot_act_list";
 	}
 
 	private void listHotAct(Model model, long actCategoryId, UserContext context) {
+		List<Long> myActIds = userActService.getUserActIdsFromCache(
+				context.getUid(), Integer.MAX_VALUE);
 		List<Act> hotActList = actCategoryService.getHotActList(
 				context.getTpId(), actCategoryId);
-		model.addAttribute("hotActList", hotActList);
+		List<HotActView> hotActViewList = new ArrayList<HotActView>(
+				hotActList.size());
+		for (Act act : hotActList) {
+			HotActView view = new HotActView();
+			view.setAct(act);
+			view.setHasUsed(myActIds.contains(act.getId()));
+			hotActViewList.add(view);
+		}
+
+		model.addAttribute("hotActViewList", hotActViewList);
 	}
 }

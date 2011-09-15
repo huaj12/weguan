@@ -24,12 +24,19 @@
 								</div><!--interesting end-->
 								<div class="rec_insterest"><!--rec_insterest begin-->
 									<div class="rec_tab"><!--rec_tab begin-->
-										<p class="act_hot"><span class="fl"></span><a href="#">最热</a><span class="fr"></span><strong></strong></p>
-										<p class="joy"><span class="fl"></span><a href="#">娱乐</a><span class="fr"></span><strong></strong></p>
+										<c:forEach var="actCategory" items="${hotCategoryList}" varStatus="status">
+											<p class="act_hot">
+												<span class="fl"></span>
+												<a href="#"><c:out value="${actCategory.name}"/></a>
+												<span class="fr"></span>
+												<strong></strong>
+											</p>
+										</c:forEach>
+										<!-- <p class="joy"><span class="fl"></span><a href="#">娱乐</a><span class="fr"></span><strong></strong></p>
 										<p class="sport"><span class="fl"></span><a href="#">运动</a><span class="fr"></span><strong></strong></p>
 										<p class="travel"><span class="fl"></span><a href="#">旅游</a><span class="fr"></span><strong></strong></p>
 										<p class="leisure"><span class="fl"></span><a href="#">休闲</a><span class="fr"></span><strong></strong></p>
-										<p class="food"><span class="fl"></span><a href="#">餐饮</a><span class="fr"></span><strong></strong></p>
+										<p class="food"><span class="fl"></span><a href="#">餐饮</a><span class="fr"></span><strong></strong></p> -->
 									</div><!--rec_tab end-->
 									<!--<a class="hot act_red"><span class="fl"></span><p>最热</p><span class="fr"></span><strong></strong></a>
 									<a href="#" class="joy purple"><span class="fl"></span><p>娱乐</p><span class="fr"></span><strong></strong></a>
@@ -39,8 +46,7 @@
 									<a href="#" class="food  orange"><span class="fl"></span><p>餐饮</p><span class="fr"></span><strong></strong></a>
 									-->
 									<div class="rec_words hot"><!--rec_words begin-->
-										<p class="act_hot"><span class="fl"></span><a href="#" title="立即添加">去唱歌</a><span class="fr"></span></p>
-										<p><span class="fl"></span><a href="#" title="立即添加">看变形金刚3</a><span class="fr"></span></p>
+										<jsp:include page="hot_act_list.jsp" />
 									</div><!--rec_words end-->
 								</div><!--rec_insterest end-->
 							</div><!--jzq end-->
@@ -51,5 +57,12 @@
 			</div><!--skin_body end-->
 			<div class="skin_bottom"></div>
 		</div><!--main end-->
+		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
+		<script type="text/javascript" src="${jz:url('/js/module/my_act.js')}"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				
+			});
+		</script>
 	</body>
 </html>

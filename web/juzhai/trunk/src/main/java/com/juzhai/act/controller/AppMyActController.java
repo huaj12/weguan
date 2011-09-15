@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.juzhai.act.controller.form.AddActForm;
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
+import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActCategory;
 import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IUserActService;
@@ -50,13 +52,15 @@ public class AppMyActController extends BaseController {
 	public String myAct(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
+		pageMyAct(request, model, 1);
+
 		List<ActCategory> hotCategoryList = actCategoryService
 				.listHotCategories(hotCategorySize);
 		model.addAttribute("hotCategoryList", hotCategoryList);
-		model.addAttribute("hotActListMap", actCategoryService
-				.getHotActListMap(context.getTpId(), hotCategoryList));
-		pageMyAct(request, model, 1);
-		return "act/myAct";
+		if (CollectionUtils.isNotEmpty(hotCategoryList)) {
+			listHotAct(model, hotCategoryList.get(0).getId(), context);
+		}
+		return "act/my_act";
 	}
 
 	@RequestMapping(value = "/ajax/addAct", method = RequestMethod.POST)
@@ -72,8 +76,9 @@ public class AppMyActController extends BaseController {
 						addActForm.isSyn());
 			} else if (StringUtils.isNotEmpty(addActForm.getActName())) {
 				// 通过名字添加
-				userActService.addAct(context.getUid(), addActForm.getActName()
-						.trim(), addActForm.isSyn());
+				userActService.addAct(context.getUid(),
+						StringUtils.trim(addActForm.getActName()).trim(),
+						addActForm.isSyn());
 			}
 			ajaxResult.setSuccess(true);
 		} catch (ActInputException e) {
@@ -89,15 +94,15 @@ public class AppMyActController extends BaseController {
 		return ajaxResult;
 	}
 
-	@RequestMapping(value = "/removeAct", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/removeAct", method = RequestMethod.POST)
 	@ResponseBody
-	public String removeAct(HttpServletRequest request, long actId, Model model)
-			throws NeedLoginException {
+	public AjaxResult removeAct(HttpServletRequest request, long actId,
+			Model model) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		AjaxResult ajaxResult = new AjaxResult();
 		userActService.removeAct(context.getUid(), actId);
 		ajaxResult.setSuccess(true);
-		return ajaxResult.toJson();
+		return ajaxResult;
 	}
 
 	@RequestMapping(value = "/pageMyAct", method = RequestMethod.GET)
@@ -111,6 +116,21 @@ public class AppMyActController extends BaseController {
 				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
 		model.addAttribute("userActViewList", userActViewList);
 		model.addAttribute("pager", pager);
+		return "act/my_act_list";
+	}
+
+	@RequestMapping(value = "/showHotActs", method = RequestMethod.GET)
+	@ResponseBody
+	public String showHotActs(HttpServletRequest request, Model model,
+			long actCategoryId) throws NeedLoginException {
+		UserContext context = checkLoginForApp(request);
+		listHotAct(model, actCategoryId, context);
 		return null;
+	}
+
+	private void listHotAct(Model model, long actCategoryId, UserContext context) {
+		List<Act> hotActList = actCategoryService.getHotActList(
+				context.getTpId(), actCategoryId);
+		model.addAttribute("hotActList", hotActList);
 	}
 }

@@ -4,14 +4,21 @@
 <h2><p>我的拒宅兴趣</p><span>(${pager.totalResults})</span></h2>
 <div class="interesting_list"><!--interesting_list begin-->
 	<c:forEach var="userActView" items="${userActViewList}">
-		<p class="hover"><span class="fl"></span><a href="#" class="key_words"><c:out value="${userActView.act.name}"/></a><span class="fr"></span><a href="#" class="close" title="删除兴趣"><img src="images/close_insteresting.png" /></a></p>
+		<p onmouseover="javascript:myActHover(true);" onmouseout="javascript:myActHover(false);">
+			<span class="fl"></span>
+			<a href="#" class="key_words"><c:out value="${userActView.act.name}"/></a>
+			<span class="fr"></span>
+			<a href="#" class="close" title="删除兴趣" onclick="javascript:removeMyAct();" actId="${userActView.act.id}">
+				<img src="images/close_insteresting.png" />
+			</a>
+		</p>
 	</c:forEach>
 </div><!--interesting_list end-->
 <div class="arrow fr">
 	<c:if test="${pager.hasPre}">
-			<a href="#"><img src="images/arrow_left.png" /></a>
+		<a href="#" onclick=""><img src="images/arrow_left.png" /></a>
 	</c:if>
 	<c:if test="${pager.hasNext}">
-		<a href="#"><img src="images/arrow_right.png" /></a>
+		<a href="#" onclick=""><img src="images/arrow_right.png" /></a>
 	</c:if>
 </div>

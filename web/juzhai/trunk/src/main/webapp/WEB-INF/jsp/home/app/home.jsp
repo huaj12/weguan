@@ -29,13 +29,11 @@
 			</div><!--skin_body end-->
 			<jsp:include page="/WEB-INF/jsp/common/app/app_bottom.jsp" />
 		</div><!--main end-->
-		<script type="text/javascript" src="${jz:url('/js/jquery/jquery-1.6.3.min.js')}"></script>
-		<!-- <script type="text/javascript" src="${jz:url('/js/base/base.js')}"></script> -->
-		<script type="text/javascript" src="${jz:url('/js/common/common.js')}"></script>
-		<script type="text/javascript" src="${jz:url('/js/module/app_header.js')}"></script>
+		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
+		<script type="text/javascript" src="${jz:url('/js/module/home.js')}"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
-				alert("ccc");
+				
 			});
 		</script>
 	</body>

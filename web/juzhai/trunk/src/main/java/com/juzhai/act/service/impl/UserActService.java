@@ -217,7 +217,7 @@ public class UserActService implements IUserActService {
 			return Collections.emptyList();
 		}
 		if (count == Integer.MAX_VALUE) {
-			count = -1;
+			count = 0;
 		}
 		Set<Long> actIds = redisTemplate.opsForZSet().reverseRange(
 				RedisKeyGenerator.genMyActsKey(uid), 0, count - 1);

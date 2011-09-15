@@ -27,24 +27,12 @@
 										<c:forEach var="actCategory" items="${hotCategoryList}" varStatus="status">
 											<p class="act_hot">
 												<span class="fl"></span>
-												<a href="#"><c:out value="${actCategory.name}"/></a>
+												<a href="#" onclick="javascript:showHotActs('${actCategory.id}');"><c:out value="${actCategory.name}"/></a>
 												<span class="fr"></span>
 												<strong></strong>
 											</p>
 										</c:forEach>
-										<!-- <p class="joy"><span class="fl"></span><a href="#">娱乐</a><span class="fr"></span><strong></strong></p>
-										<p class="sport"><span class="fl"></span><a href="#">运动</a><span class="fr"></span><strong></strong></p>
-										<p class="travel"><span class="fl"></span><a href="#">旅游</a><span class="fr"></span><strong></strong></p>
-										<p class="leisure"><span class="fl"></span><a href="#">休闲</a><span class="fr"></span><strong></strong></p>
-										<p class="food"><span class="fl"></span><a href="#">餐饮</a><span class="fr"></span><strong></strong></p> -->
 									</div><!--rec_tab end-->
-									<!--<a class="hot act_red"><span class="fl"></span><p>最热</p><span class="fr"></span><strong></strong></a>
-									<a href="#" class="joy purple"><span class="fl"></span><p>娱乐</p><span class="fr"></span><strong></strong></a>
-									<a href="#" class="sport yellow"><span class="fl"></span><p>运动</p><span class="fr"></span><strong></strong></a>
-									<a href="#" class="travel green"><span class="fl"></span><p>旅游</p><span class="fr"></span><strong></strong></a>
-									<a href="#" class="Leisure blue"><span class="fl"></span><p>休闲</p><span class="fr"></span><strong></strong></a>
-									<a href="#" class="food  orange"><span class="fl"></span><p>餐饮</p><span class="fr"></span><strong></strong></a>
-									-->
 									<div class="rec_words hot"><!--rec_words begin-->
 										<jsp:include page="hot_act_list.jsp" />
 									</div><!--rec_words end-->

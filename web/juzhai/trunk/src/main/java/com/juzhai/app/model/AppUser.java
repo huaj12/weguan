@@ -3,11 +3,11 @@ package com.juzhai.app.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.juzhai.app.util.ConvertObject;
-import com.juzhai.core.exception.JuzhaiAppException;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
+import com.juzhai.app.util.ConvertObject;
+import com.juzhai.core.exception.JuzhaiAppException;
 
 public class AppUser {
 	static final String[] POSSIBLE_ROOT_NAMES = new String[] { "user",
@@ -50,45 +50,137 @@ public class AppUser {
 	public AppUser(JSONObject json) throws JuzhaiAppException {
 		if (json != null) {
 			uid = ConvertObject.getLong(json, "uid");
-			name = ConvertObject.getString(json,"name");
-			hometown = ConvertObject.getString(json,"hometown");
-			city = ConvertObject.getString(json,"city");
-			logo120 = ConvertObject.getString(json,"logo120");
-			logo50 = ConvertObject.getString(json,"logo50");
-			birthday = ConvertObject.getString(json,"birthday");
-			bodyform = ConvertObject.getString(json,"bodyform");
-			blood = ConvertObject.getString(json,"blood");
-			marriage = ConvertObject.getString(json,"marriage");
-			trainwith = ConvertObject.getString(json,"trainwith");
-			interest = ConvertObject.getString(json,"interest");
-			favbook = ConvertObject.getString(json,"favbook");
-			favmovie = ConvertObject.getString(json,"favmovie");
-			favtv = ConvertObject.getString(json,"favtv");
-			idol = ConvertObject.getString(json,"idol");
-			motto = ConvertObject.getString(json,"motto");
-			wishlist = ConvertObject.getString(json,"wishlist");
-			intro = ConvertObject.getString(json,"intro");
-			if (ConvertObject.getString(json,"education").length() != 0) {
+			name = ConvertObject.getString(json, "name");
+			hometown = ConvertObject.getString(json, "hometown");
+			city = ConvertObject.getString(json, "city");
+			logo120 = ConvertObject.getString(json, "logo120");
+			logo50 = ConvertObject.getString(json, "logo50");
+			birthday = ConvertObject.getString(json, "birthday");
+			bodyform = ConvertObject.getString(json, "bodyform");
+			blood = ConvertObject.getString(json, "blood");
+			marriage = ConvertObject.getString(json, "marriage");
+			trainwith = ConvertObject.getString(json, "trainwith");
+			interest = ConvertObject.getString(json, "interest");
+			favbook = ConvertObject.getString(json, "favbook");
+			favmovie = ConvertObject.getString(json, "favmovie");
+			favtv = ConvertObject.getString(json, "favtv");
+			idol = ConvertObject.getString(json, "idol");
+			motto = ConvertObject.getString(json, "motto");
+			wishlist = ConvertObject.getString(json, "wishlist");
+			intro = ConvertObject.getString(json, "intro");
+			if (ConvertObject.getString(json, "education").length() != 0) {
 				JSONArray educationJsonArr = json.getJSONArray("education");
 				int len = educationJsonArr.size();
 				for (int i = 0; i < len; i++) {
-					AppEducation oneEdu = new AppEducation(educationJsonArr
-							.getJSONObject(i));
+					AppEducation oneEdu = new AppEducation(
+							educationJsonArr.getJSONObject(i));
 					education.add(oneEdu);
 				}
 			}
-			if (ConvertObject.getString(json,"career").length() != 0) {
+			if (ConvertObject.getString(json, "career").length() != 0) {
 				JSONArray careerJsonArr = json.getJSONArray("career");
 				int len = careerJsonArr.size();
 				for (int i = 0; i < len; i++) {
-					AppCareer oneCareer = new AppCareer(careerJsonArr
-							.getJSONObject(i));
+					AppCareer oneCareer = new AppCareer(
+							careerJsonArr.getJSONObject(i));
 					career.add(oneCareer);
 				}
 			}
 
-			isStar = ConvertObject.getInt(json,"isStar");
-			gender = ConvertObject.getInt(json,"gender");
+			isStar = ConvertObject.getInt(json, "isStar");
+			gender = ConvertObject.getInt(json, "gender");
 		}
+	}
+
+	public long getUid() {
+		return uid;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public int getGender() {
+		return gender;
+	}
+
+	public String getHometown() {
+		return hometown;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public String getLogo120() {
+		return logo120;
+	}
+
+	public String getLogo50() {
+		return logo50;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public String getBodyform() {
+		return bodyform;
+	}
+
+	public String getBlood() {
+		return blood;
+	}
+
+	public String getMarriage() {
+		return marriage;
+	}
+
+	public String getTrainwith() {
+		return trainwith;
+	}
+
+	public String getInterest() {
+		return interest;
+	}
+
+	public String getFavbook() {
+		return favbook;
+	}
+
+	public String getFavmovie() {
+		return favmovie;
+	}
+
+	public String getFavtv() {
+		return favtv;
+	}
+
+	public String getIdol() {
+		return idol;
+	}
+
+	public String getMotto() {
+		return motto;
+	}
+
+	public String getWishlist() {
+		return wishlist;
+	}
+
+	public String getIntro() {
+		return intro;
+	}
+
+	public List<AppEducation> getEducation() {
+		return education;
+	}
+
+	public List<AppCareer> getCareer() {
+		return career;
+	}
+
+	public int getIsStar() {
+		return isStar;
 	}
 }

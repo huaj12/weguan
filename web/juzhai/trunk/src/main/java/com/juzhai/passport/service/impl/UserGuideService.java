@@ -26,6 +26,7 @@ public class UserGuideService implements IUserGuideService {
 
 	@Override
 	public UserGuide getUserGuide(long uid) {
+		// TODO 考虑缓存
 		return userGuideMapper.selectByPrimaryKey(uid);
 	}
 

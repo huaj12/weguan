@@ -54,6 +54,7 @@ public class AppMyActController extends BaseController {
 	public String myAct(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
+		queryPoint(context.getUid(), model);
 		pageMyAct(request, model, 1);
 
 		List<ActCategory> hotCategoryList = actCategoryService

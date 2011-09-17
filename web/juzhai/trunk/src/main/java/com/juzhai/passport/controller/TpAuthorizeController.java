@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
@@ -24,6 +25,7 @@ import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.IAuthorizeService;
+import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.passport.service.login.ILoginService;
 
 /**
@@ -39,6 +41,8 @@ public class TpAuthorizeController extends BaseController {
 	private IAuthorizeService authorizeService;
 	@Autowired
 	private ILoginService tomcatLoginService;
+	@Autowired
+	private IUserGuideService userGuideService;
 
 	@RequestMapping(value = "access/{tpId}")
 	public String access(HttpServletRequest request,
@@ -50,7 +54,7 @@ public class TpAuthorizeController extends BaseController {
 			if (null == loginTp) {
 				return error_500;
 			}
-			return returnPage(returnTo, loginTp);
+			return returnPage(context.getUid(), loginTp, returnTo);
 		} catch (NeedLoginException e) {
 		}
 
@@ -75,16 +79,19 @@ public class TpAuthorizeController extends BaseController {
 
 		tomcatLoginService.login(request, uid, tp.getId());
 
-		return returnPage(returnTo, tp);
+		return returnPage(uid, tp, returnTo);
 	}
 
-	private String returnPage(String returnTo, Thirdparty tp) {
-		// TODO 判断是否需要进入引导
+	private String returnPage(long uid, Thirdparty tp, String returnTo) {
+		if (!userGuideService.isCompleteGuide(uid)) {
+			return "redirect:" + SystemConfig.BASIC_DOMAIN + "/app/guide";
+		}
+
 		if (StringUtils.isNotEmpty(returnTo)
 				&& StringUtils.startsWith(returnTo, "http")) {
 			return "redirect:" + returnTo;
 		}
-		return "redirect:/app/index";
+		return "redirect:" + SystemConfig.BASIC_DOMAIN + "/app/index";
 	}
 
 	@RequestMapping(value = "auth/rr/appLogin")

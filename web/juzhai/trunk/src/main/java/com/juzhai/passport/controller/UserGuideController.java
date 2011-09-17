@@ -64,15 +64,17 @@ public class UserGuideController extends BaseController {
 			Long actCategoryId = InitData.GUIDE_STEPS.get(currentStep - 1);
 			List<Act> actList = actCategoryService.getHotActList(
 					context.getTpId(), actCategoryId);
+			model.addAttribute("actCategory",
+					com.juzhai.act.InitData.ACT_CATEGORY_MAP.get(actCategoryId));
 			model.addAttribute("actList", actList);
 			model.addAttribute("step", currentStep);
-			return "";
+			return "guide/app/guide";
 		}
 	}
 
 	@RequestMapping(value = "/guide/next", method = RequestMethod.POST)
-	public String next(HttpServletRequest request, long[] actIds,
-			String[] actNames, String email, Model model)
+	public String next(HttpServletRequest request, long[] actId,
+			String[] actName, String email, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		UserGuide userGuide = userGuideService.getUserGuide(context.getUid());
@@ -94,9 +96,9 @@ public class UserGuideController extends BaseController {
 								e.getErrorCode(), Locale.SIMPLIFIED_CHINESE)));
 				return guide(request, model);
 			}
-			return "redirect:" + SystemConfig.BASIC_DOMAIN + "/index";
+			return "redirect:" + SystemConfig.BASIC_DOMAIN + "/app/index";
 		} else {
-			doGuideNext(context, actIds, actNames);
+			doGuideNext(context, actId, actName);
 			return guide(request, model);
 		}
 	}
@@ -123,12 +125,12 @@ public class UserGuideController extends BaseController {
 				}
 			}
 		}
-		// TODO 更新步骤
+		userGuideService.nextGuide(context.getUid());
 	}
 
 	private void doGuideComplete(UserContext context, String email)
 			throws ProfileInputException {
 		profileService.subEmail(context.getUid(), email);
-		// TODO 更新步骤
+		userGuideService.completeGuide(context.getUid());
 	}
 }

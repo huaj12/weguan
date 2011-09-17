@@ -19,4 +19,26 @@ public interface IUserGuideService {
 	 * @return
 	 */
 	UserGuide getUserGuide(long uid);
+
+	/**
+	 * 是否完成了引导
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	boolean isCompleteGuide(long uid);
+
+	/**
+	 * 进入下一个引导
+	 * 
+	 * @param uid
+	 */
+	void nextGuide(long uid);
+
+	/**
+	 * 完成引导
+	 * 
+	 * @param uid
+	 */
+	void completeGuide(long uid);
 }

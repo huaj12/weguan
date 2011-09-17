@@ -13,7 +13,6 @@ var Act = Class.extend({
 });
 
 $(document).ready(function(){
-	alert("abc");
 	//注册添加Act事件
 	$("#addActBtn").bind("click", function(){
 		var act = new Act($("#addAct").attr("actId"), $("#addAct").attr("value"));

@@ -21,15 +21,16 @@
 							<div class="basic_yd sec_sport"><!--basic_yd begin-->
 								<h3 class="fl"></h3>
 								<div class="sec fr"><!--sec begin-->
-									<h2>你感兴趣的娱乐</h2>
-									<!-- foreach -->
-									<p class="hover"><span class="fl"></span><a href="#" class="key_words">看变形金刚3</a><span class="fr"></span><em></em></p>
-									<p><span class="fl"></span><a href="#" class="key_words">打篮球</a><span class="fr"></span><em></em></p>
-									<!-- foreach -->
+									<h2>你感兴趣的${actCategory.name}</h2>
+									<div id="acts">
+										<c:forEach var="act" items="${actList }">
+											<p><span class="fl"></span><a href="#" class="key_words" actId="${act.id}"><c:out value="${act.name}" /></a><span class="fr"></span><em></em></p>
+										</c:forEach>
+									</div>
 									<div class="add_insterest">
-										<strong><input name="" type="text" /></strong>
+										<strong><input id="actName" type="text" /></strong>
 										<a href="#" class="add">添加</a>
-										<div class="error">请输入完整信息</div>
+										<div id="actNameError" class="error hidden">拒宅兴趣字数控制在1－10个中文内！</div>
 									</div>
 								</div><!--sec end-->
 							</div><!--basic_yd end-->
@@ -41,11 +42,20 @@
 							<span <c:if test="${step==3}">class="hover"</c:if>></span>
 							<span <c:if test="${step==4}">class="hover"</c:if>></span>
 						</div><!--round_num end-->
-						<div class="next_btn"><a href="/app/guide/next"">下一步</a></div>
+						<form id="nextForm" action="/app/guide/next" method="post">
+						</form>
+						<div class="next_btn"><a href="#">下一步</a></div>
 					</div><!--content end-->
 				</div><!--content_bg end-->
 			</div><!--skin_body end-->
 			<div class="skin_bottom"></div>
 		</div><!--main end-->
+		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
+		<script type="text/javascript" src="${jz:url('/js/module/guide.js')}"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				
+			});
+		</script>
 	</body>
 </html>

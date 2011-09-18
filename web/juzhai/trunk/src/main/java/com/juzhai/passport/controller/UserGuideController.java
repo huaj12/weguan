@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ public class UserGuideController extends BaseController {
 	public String guide(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
+		queryPoint(context.getUid(), model);
 		UserGuide userGuide = userGuideService.getUserGuide(context.getUid());
 		if (null == userGuide || userGuide.getComplete()) {
 			return error_500;
@@ -68,6 +70,7 @@ public class UserGuideController extends BaseController {
 					com.juzhai.act.InitData.ACT_CATEGORY_MAP.get(actCategoryId));
 			model.addAttribute("actList", actList);
 			model.addAttribute("step", currentStep);
+			model.addAttribute("totalStep", InitData.GUIDE_STEPS.size() + 1);
 			return "guide/app/guide";
 		}
 	}
@@ -130,7 +133,9 @@ public class UserGuideController extends BaseController {
 
 	private void doGuideComplete(UserContext context, String email)
 			throws ProfileInputException {
-		profileService.subEmail(context.getUid(), email);
+		if (StringUtils.isNotEmpty(email)) {
+			profileService.subEmail(context.getUid(), email);
+		}
 		userGuideService.completeGuide(context.getUid());
 	}
 }

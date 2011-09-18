@@ -3,9 +3,9 @@
 
 <mapper namespace="UserGuide_Mapper">
 	<update id="next" parameterType="map">
-	    update tb_user_guide set guide_step = guide_step + 1 where id = #{id}
+	    update tb_user_guide set guide_step = guide_step + 1 where uid = #{uid}
 	</update>
 	<update id="complete" parameterType="map">
-	    update tb_user_guide set guide_step = guide_step + 1, complete = 1 where id = #{id}
+	    update tb_user_guide set guide_step = guide_step + 1, complete = 1 where uid = #{uid}
 	</update>
 </mapper>

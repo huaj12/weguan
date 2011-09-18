@@ -12,6 +12,8 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.ErrorPageDispatcher;
 import com.juzhai.core.web.session.LoginSessionManager;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 
@@ -26,6 +28,8 @@ public class BaseController {
 	private LoginSessionManager loginSessionManager;
 	@Autowired
 	private IAccountService accountService;
+	@Autowired
+	private ITpUserAuthService tpUserAuthService;
 	@Autowired
 	private IProfileService profileService;
 
@@ -45,6 +49,9 @@ public class BaseController {
 
 	protected void queryPoint(long uid, Model model) {
 		model.addAttribute("point", accountService.queryPoint(uid));
+	}
+	public AuthInfo getAuthInfo(long uid,long tpId){
+		return tpUserAuthService.getAuthInfo(uid, tpId);
 	}
 
 	protected ProfileCache queryProfile(long uid, Model model) {

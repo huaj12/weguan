@@ -1,3 +1,27 @@
+function showKxDialog(para)
+{
+	var t = document.createElement("div");
+	t.innerHTML = '<iframe src="http://www.kaixin001.com/rest/rest.php?para='+para+'" scrolling="yes" height="0px"  width="0px" style="display:none"></iframe>';
+	document.body.appendChild(t.firstChild);
+}
+
+function kaixinFeed(name){
+	jQuery.get('/kaixinFeed', {
+		name:name,
+	    random : Math.random()
+	}, function(data) {
+		showKxDialog(data);
+	});
+}
+function kaixinRequest(name){
+	jQuery.get('/kaixinRequest', {
+		name:name,
+	    random : Math.random()
+	}, function(data) {
+		showKxDialog(data);
+	});
+}
+
 function addAct(successCallback){
 	var value = $("#addAct").attr("value");
 	if(!checkValLength(value, 2, 20)){

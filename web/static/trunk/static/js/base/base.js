@@ -34,36 +34,3 @@ function resetAddAct(inputObjId){
 	$("#"+inputObjId).attr("actId","0");
 }
 
-function subEmail(inputObjId){
-	//validation
-	var email = $("#"+inputObjId).attr("value");
-	if(!email||email==""){
-		alert("error");
-		return;
-	}
-	jQuery.ajax({
-		url: "/app/ajax/subEmail",
-		type: "get",
-		data: {"email": email},
-		dataType: "json",
-		success: function(result){
-			if(result&&result.success){
-				alert("保存成功");
-			}else if(result){
-				alert(result.errorInfo);
-			}
-		},
-		statusCode: {
-		    401: function() {
-		      alert("未登录");
-		    }
-		},
-		complete: function(){
-			resetEmailInput(inputObjId);
-		}
-	});
-}
-
-function resetEmailInput(inputObjId){
-	$("#"+inputObjId).attr("value","");
-}

@@ -25,6 +25,7 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.Feed;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.home.service.IInboxService;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.service.IProfileService;
 
@@ -52,6 +53,7 @@ public class AppHomeController extends BaseController {
 		UserContext context = checkLoginForApp(request);
 		long time2 = System.currentTimeMillis();
 		queryPoint(context.getUid(), model);
+		queryProfile(context.getUid(), model);
 		long time3 = System.currentTimeMillis();
 		getNextFeed(context.getUid(), 1, model);
 		long time4 = System.currentTimeMillis();
@@ -123,15 +125,24 @@ public class AppHomeController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "/ajax/subEmail", method = RequestMethod.GET)
+	@RequestMapping(value = "/ajax/subEmail", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult subEmail(HttpServletRequest request, String email)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			ajaxResult.setSuccess(profileService.subEmail(context.getUid(),
-					email));
+			ProfileCache profileCache = queryProfile(context.getUid(), null);
+			boolean isSuccess = true;
+			if (!StringUtils.equals(profileCache.getEmail(),
+					StringUtils.trim(email))) {
+				if (log.isDebugEnabled()) {
+					log.debug("sub new email.[uid: " + context.getUid()
+							+ ", email: " + email + "]");
+				}
+				isSuccess = profileService.subEmail(context.getUid(), email);
+			}
+			ajaxResult.setSuccess(isSuccess);
 		} catch (ProfileInputException e) {
 			if (log.isDebugEnabled()) {
 				log.debug(e.getMessage(), e);

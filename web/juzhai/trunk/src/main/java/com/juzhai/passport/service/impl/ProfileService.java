@@ -85,16 +85,14 @@ public class ProfileService implements IProfileService {
 		try {
 			profileCache = memcachedClient.get(MemcachedKeyGenerator
 					.genProfileCacheKey(uid));
-			// TODO will change to getAndTouch by memcached 1.6.x
-			if (null != profileCache) {
-				memcachedClient.set(
-						MemcachedKeyGenerator.genProfileCacheKey(uid),
-						profileCacheExpireTime, profileCache);
-			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-		if (null == profileCache) {
+
+		// TODO will change to getAndTouch by memcached 1.6.x
+		if (null != profileCache) {
+			cacheProfileCache(uid, profileCache);
+		} else {
 			Profile profile = profileMapper.selectByPrimaryKey(uid);
 			if (profile != null) {
 				profileCache = cacheProfile(profile);
@@ -110,18 +108,22 @@ public class ProfileService implements IProfileService {
 				"Profile uid invalid.");
 		ProfileCache profileCache = new ProfileCache();
 		BeanUtils.copyProperties(profile, profileCache);
+		cacheProfileCache(profile.getUid(), profileCache);
+		return profileCache;
+	}
+
+	private void cacheProfileCache(long uid, ProfileCache profileCache) {
 		try {
-			memcachedClient.set(
-					MemcachedKeyGenerator.genProfileCacheKey(profile.getUid()),
+			memcachedClient.set(MemcachedKeyGenerator.genProfileCacheKey(uid),
 					profileCacheExpireTime, profileCache);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-		return profileCache;
 	}
 
 	@Override
-	public boolean subEmail(long uid, String email) throws ProfileInputException {
+	public boolean subEmail(long uid, String email)
+			throws ProfileInputException {
 		email = StringUtils.trim(email);
 		if (!EMAIL_PATTERN.matcher(email).matches()) {
 			throw new ProfileInputException(
@@ -132,6 +134,16 @@ public class ProfileService implements IProfileService {
 		profile.setEmail(email);
 		profile.setLastModifyTime(new Date());
 
-		return profileMapper.updateByPrimaryKeySelective(profile) == 1;
+		if (profileMapper.updateByPrimaryKeySelective(profile) == 1) {
+			// 更新cache
+			ProfileCache profileCache = getProfileCacheByUid(uid);
+			if (null != profileCache) {
+				profileCache.setEmail(email);
+				cacheProfileCache(uid, profileCache);
+			}
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

@@ -7,6 +7,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>拒宅器</title>
 		<link href="${jz:url('/css/jz.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:url('/css/jquery.autocomplete.css')}" rel="stylesheet" type="text/css" />
 		<!-- [if IE 6] -->
 		<!-- <script src="iepng.js" type="text/javascript"></script>
 		<script type="text/javascript">

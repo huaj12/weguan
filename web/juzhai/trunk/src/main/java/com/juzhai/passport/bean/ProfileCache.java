@@ -15,6 +15,7 @@ public class ProfileCache implements Serializable {
 	private Integer birthYear;
 	private Integer birthMonth;
 	private Integer birthDay;
+	private String email;
 
 	public Long getUid() {
 		return uid;
@@ -86,5 +87,13 @@ public class ProfileCache implements Serializable {
 
 	public void setBirthDay(Integer birthDay) {
 		this.birthDay = birthDay;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

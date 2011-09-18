@@ -22,8 +22,8 @@
 			<div id="addActError" class="error hidden"><p>请输入完整信息信息</p></div>
 			<p class="l"></p><span><input id="addAct" type="text" /></span>
 			<a href="#" class="btn add" id="addActBtn">+</a>
-			<a href="#" class="btn zhao">召</a>
-			<a href="#" class="btn yao">邀</a>
+			<a href="#" onclick="kaixinFeed('打台球')" class="btn zhao">召</a>
+			<a href="#" onclick="kaixinRequest('打桌球')" class="btn yao">邀</a>
 			<p class="r"></p>
 		</div><!--zjxq_input end-->
 		<div class="home fl"><p></p><a href="#">拒宅器</a></div>

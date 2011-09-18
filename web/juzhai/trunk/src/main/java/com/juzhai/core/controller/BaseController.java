@@ -12,6 +12,8 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.ErrorPageDispatcher;
 import com.juzhai.core.web.session.LoginSessionManager;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.service.IProfileService;
 
 public class BaseController {
 
@@ -24,6 +26,8 @@ public class BaseController {
 	private LoginSessionManager loginSessionManager;
 	@Autowired
 	private IAccountService accountService;
+	@Autowired
+	private IProfileService profileService;
 
 	protected UserContext checkLoginForApp(HttpServletRequest request)
 			throws NeedLoginException {
@@ -41,5 +45,13 @@ public class BaseController {
 
 	protected void queryPoint(long uid, Model model) {
 		model.addAttribute("point", accountService.queryPoint(uid));
+	}
+
+	protected ProfileCache queryProfile(long uid, Model model) {
+		ProfileCache profileCache = profileService.getProfileCacheByUid(uid);
+		if (null != model) {
+			model.addAttribute("profile", profileCache);
+		}
+		return profileCache;
 	}
 }

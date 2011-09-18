@@ -29,7 +29,7 @@ public class SearcherTest {
 
 	@Test
 	public void searchTest() {
-		List<String> results = actService.indexSearchName("郊游", 10);
+		List<String> results = actService.indexSearchName("桌游", 10);
 		for (String result : results) {
 			System.out.println(result);
 		}

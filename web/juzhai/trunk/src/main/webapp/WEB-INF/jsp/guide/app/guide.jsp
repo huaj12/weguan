@@ -37,10 +37,9 @@
 						</div><!--mid end-->
 						<div class="bot"></div>
 						<div class="round_num"><!--round_num begin-->
-							<span <c:if test="${step==1}">class="hover"</c:if>></span>
-							<span <c:if test="${step==2}">class="hover"</c:if>></span>
-							<span <c:if test="${step==3}">class="hover"</c:if>></span>
-							<span <c:if test="${step==4}">class="hover"</c:if>></span>
+							<c:forEach begin="1" end="${totalStep}" var="index">
+								<span <c:if test="${step==index}">class="hover"</c:if>></span>
+							</c:forEach>
 						</div><!--round_num end-->
 						<form id="nextForm" action="/app/guide/next" method="post">
 						</form>

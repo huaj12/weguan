@@ -60,7 +60,7 @@ public abstract class AbstractAuthorizeService implements IAuthorizeService {
 			}
 			// 注册&激活账号&激活产品
 			Profile profile = convertToProfile(request, response, authInfo,
-					tpIdentity, tp);
+					tpIdentity);
 			if (null == profile) {
 				return 0;
 			}
@@ -85,7 +85,7 @@ public abstract class AbstractAuthorizeService implements IAuthorizeService {
 
 	protected abstract Profile convertToProfile(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo,
-			String thirdpartyIdentity, Thirdparty tp);
+			String thirdpartyIdentity);
 
 	protected abstract String fetchTpIdentity(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp);

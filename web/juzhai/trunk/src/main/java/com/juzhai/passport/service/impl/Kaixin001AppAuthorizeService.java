@@ -16,10 +16,14 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
+import com.juzhai.app.model.AppUser;
+import com.juzhai.app.service.IAppService;
+import com.juzhai.core.exception.JuzhaiAppException;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
@@ -38,6 +42,8 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
+	@Autowired
+	private IAppService kaiXinService;
 
 	// @Override
 	// public AuthInfo requestAuthInfo(Thirdparty tp, AuthorizeInfo
@@ -75,9 +81,9 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 	@Override
 	protected Profile convertToProfile(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo,
-			String thirdpartyIdentity, Thirdparty tp) {
+			String thirdpartyIdentity) {
 		// 调用开心API
-		KxSDK kxSDK = newKxSDK(tp.getAppKey(), tp.getAppSecret(),
+		KxSDK kxSDK = newKxSDK(authInfo.getAppKey(), authInfo.getAppSecret(),
 				authInfo.getSessionKey());
 		String[] fields = new String[] { "name", "gender", "hometown", "city",
 				"logo120", "bodyform", "interest", "school", "company" };
@@ -118,7 +124,7 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 		return kxSDK;
 	}
 
-	private TpFriend kxUserTpFriend(User user) {
+	private TpFriend kxUserTpFriend(AppUser user) {
 		if (null == user) {
 			return null;
 		}
@@ -127,14 +133,17 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 		tpFriend.setName(user.getName());
 		tpFriend.setGender(Math.abs(user.getGender() - 1));
 		tpFriend.setCity(user.getCity());
-		try {
-			String[] birthday = StringUtils.split(user.getBirthday(), "-");
-			int birthYear = Integer.valueOf(birthday[0]);
-			if (birthYear > 1900) {
-				tpFriend.setBirthYear(birthYear);
+
+		if (StringUtils.isNotEmpty(user.getBirthday())) {
+			try {
+				String[] birthday = user.getBirthday().split("[^0-9]");
+				int birthYear = Integer.valueOf(birthday[0]);
+				if (birthYear > 1900) {
+					tpFriend.setBirthYear(birthYear);
+				}
+			} catch (Exception e) {
+				log.error("parse birthday error.", e);
 			}
-		} catch (Exception e) {
-			log.error("parse birthday error.", e);
 		}
 		tpFriend.setLogoUrl(user.getLogo120());
 		return tpFriend;
@@ -142,27 +151,31 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 
 	@Override
 	public List<TpFriend> getAllFriends(AuthInfo authInfo) {
-		KxSDK kxSDK = newKxSDK(authInfo.getAppKey(), authInfo.getAppSecret(),
-				authInfo.getSessionKey());
+		// KxSDK kxSDK = newKxSDK(authInfo.getAppKey(), authInfo.getAppSecret(),
+		// authInfo.getSessionKey());
 		List<TpFriend> friendIdList = new ArrayList<TpFriend>();
 		try {
 			int start = 0;
 			int num = 50;
 			String fields = "uid,name,gender,city,birthday,logo120";
 			while (true) {
-				List<User> userList = kxSDK.getFriends(fields, start, num);
+				List<AppUser> userList = kaiXinService.getFriends(authInfo,
+						fields, start, num);
 				if (CollectionUtils.isEmpty(userList)) {
 					break;
 				}
-				for (User user : userList) {
+				for (AppUser user : userList) {
 					TpFriend tpFriend = kxUserTpFriend(user);
 					if (null != tpFriend) {
 						friendIdList.add(tpFriend);
 					}
 				}
+				if (userList.size() < num) {
+					break;
+				}
 				start += num;
 			}
-		} catch (KxException e) {
+		} catch (JuzhaiAppException e) {
 			log.error(e.getMessage(), e);
 		}
 		return friendIdList;

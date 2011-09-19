@@ -36,7 +36,7 @@ public class AuthInfo implements Serializable {
 		this.thirdpartyName = thirdpartyName;
 		this.joinType = joinType;
 		this.appKey = appKey;
-		// this.appSecret = appSecret;
+		this.appSecret = appSecret;
 		this.token = token;
 		this.tokenSecret = tokenSecret;
 	}
@@ -52,7 +52,7 @@ public class AuthInfo implements Serializable {
 		this.thirdpartyName = thirdpartyName;
 		this.joinType = joinType;
 		this.appKey = appKey;
-		// this.appSecret = appSecret;
+		this.appSecret = appSecret;
 		this.sessionKey = sessionKey;
 	}
 
@@ -129,6 +129,7 @@ public class AuthInfo implements Serializable {
 		this.thirdpartyName = tp.getName();
 		this.joinType = tp.getJoinType();
 		this.appKey = tp.getAppKey();
+		this.appSecret = tp.getAppSecret();
 	}
 
 	public String toJsonString() throws JsonGenerationException {

@@ -19,7 +19,7 @@
 				<a href="#">打三国杀</a>
 				<a href="#">打高尔夫</a>
 			</div><!--select_menu end-->
-			<div id="addActError" class="error hidden"><p>请输入完整信息信息</p></div>
+			<div id="addActError" class="error" style="display:none"><p>请输入完整信息信息</p></div>
 			<p class="l"></p><span><input id="addAct" type="text" /></span>
 			<a href="#" class="btn add" id="addActBtn">+</a>
 			<a href="#" onclick="kaixinFeed('打台球')" class="btn zhao">召</a>
@@ -28,7 +28,7 @@
 		</div><!--zjxq_input end-->
 		<div class="home fl"><p></p><a href="#">拒宅器</a></div>
 		<div class="dy fr">
-			<div class="error hidden">请输入完整信息</div>
+			<div class="error" style="display:none">请输入完整信息</div>
 			<p class="l"></p><span><input type="text" value="${profile.email}" /></span>
 			<a href="#">订阅</a>
 		</div>

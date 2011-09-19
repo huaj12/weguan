@@ -9,6 +9,7 @@ import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.UserAct;
 import com.juzhai.home.exception.IndexException;
 
 public interface IUserActService {
@@ -130,4 +131,13 @@ public interface IUserActService {
 	 * @return
 	 */
 	boolean hasAct(long uid, long actId);
+
+	/**
+	 * 根据用户ID和ActId获取UserAct
+	 * 
+	 * @param uid
+	 * @param actId
+	 * @return
+	 */
+	UserAct getUserAct(long uid, long actId);
 }

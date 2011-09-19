@@ -280,4 +280,16 @@ public class UserActService implements IUserActService {
 				RedisKeyGenerator.genMyActsKey(uid), actId);
 	}
 
+	@Override
+	public UserAct getUserAct(long uid, long actId) {
+		UserActExample example = new UserActExample();
+		example.createCriteria().andUidEqualTo(uid).andActIdEqualTo(actId);
+		List<UserAct> list = userActMapper.selectByExample(example);
+		if (CollectionUtils.isEmpty(list)) {
+			return null;
+		} else {
+			return list.get(0);
+		}
+	}
+
 }

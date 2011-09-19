@@ -20,6 +20,7 @@ import com.juzhai.act.InitData;
 import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.caculator.IScoreGenerator;
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.UserAct;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.home.bean.Feed;
@@ -114,7 +115,14 @@ public class InboxService implements IInboxService {
 					if (null == profileCache || null == act) {
 						remove(uid, ids[0], ids[1]);
 					} else {
-						return new Feed(profileCache, FeedType.SPECIFIC, act);
+						UserAct userAct = userActService.getUserAct(
+								profileCache.getUid(), act.getId());
+						if (null == userAct) {
+							remove(uid, ids[0], ids[1]);
+						} else {
+							return new Feed(profileCache, FeedType.SPECIFIC,
+									userAct.getLastModifyTime(), act);
+						}
 					}
 				}
 			}

@@ -28,4 +28,17 @@ public interface IAppService {
 	 */
 	List<AppUser>  getFriends(AuthInfo authInfo,String fields,int start,int num) throws JuzhaiAppException;
 	
+	/**
+	 * 
+	 * @param fuids TRUE
+	 * @param linktext TRUE
+	 * @param link TRUE 
+	 * @param word
+	 * @param text  TRUE 该文案可以有{_USER_} {_USER_TA_}变量，解析时会被替换为当前用户名字和他/她。
+                                                                   例如，动态文案：{_USER_} 在做XX任务时遇到了强大的XX，快去帮帮{_USER_TA_}！
+	 * @param picurl false
+	 * @return
+	 */
+	boolean sendSysMessage(String fuids,String linktext,String link,String word,String text,String picurl,AuthInfo authInfo);
+	
 }

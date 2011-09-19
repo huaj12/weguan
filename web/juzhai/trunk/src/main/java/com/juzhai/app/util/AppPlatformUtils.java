@@ -119,12 +119,20 @@ public class AppPlatformUtils {
 			request_str += paramKeys[i] + "=" + param.get(paramKeys[i]);
 			paramKeys2[i] = paramKeys[i];
 		}
-		String sig = request_str + authInfo.getSessionKey();
+		String sig = request_str + authInfo.getAppSecret();
 		sig = DigestUtils.md5Hex(sig);
 
 		paramKeys2[paramKeys.length] = "oauth_signature";
 		param.put("oauth_signature", sig);
 		String query = httpBuildQuery(param, paramKeys2);
+		return query;
+	}
+	
+	public static String sessionKeyBuildQuery(Map paramMap,String session_key){
+		 Map param = new HashMap();
+		 param.putAll(paramMap);
+		 param.put("session_key", session_key);
+		 String query = httpBuildQuery(param, null);
 		return query;
 	}
 	

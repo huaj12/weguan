@@ -7,6 +7,7 @@ import java.util.Map;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.app.model.AppUser;
@@ -32,8 +33,7 @@ public class KaiXinService implements IAppService {
 		Map<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("start", String.valueOf(start));
 		paramMap.put("num", String.valueOf(num));
-		String query = AppPlatformUtils.kaiXinBuildQuery(paramMap, authInfo,
-				"1.0");
+		String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap, authInfo.getSessionKey());
 		String ret = AppPlatformUtils.doSllGet(
 				"https://api.kaixin001.com/app/friends.json", query);
 		JSONObject jObject = JSONObject.fromObject(ret);
@@ -64,8 +64,7 @@ public class KaiXinService implements IAppService {
 		paramMap.put("fields", fields);
 		paramMap.put("start", String.valueOf(start));
 		paramMap.put("num", String.valueOf(num));
-		String query = AppPlatformUtils.kaiXinBuildQuery(paramMap, authInfo,
-				"1.0");
+		String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,authInfo.getSessionKey());
 		String ret = AppPlatformUtils.doSllGet(
 				"https://api.kaixin001.com/friends/me.json", query);
 		JSONObject jObject = JSONObject.fromObject(ret);
@@ -73,6 +72,37 @@ public class KaiXinService implements IAppService {
 		}catch (Exception e) {
 			throw new JuzhaiAppException("get kaixin getFriends is error",e);
 		}
+	}
+
+	@Override
+	public boolean sendSysMessage(String fuids, String linktext, String link,
+			String word, String text, String picurl,AuthInfo authInfo) {
+		boolean flag=false;
+		try{
+			Map<String, String> paramMap = new HashMap<String, String>();
+			paramMap.put("fuids", fuids);
+			paramMap.put("linktext", linktext);
+			paramMap.put("link", link);
+			if(!StringUtils.isEmpty(word)){
+				paramMap.put("word", word);	
+			}
+			if(!StringUtils.isEmpty(picurl)){
+				paramMap.put("picurl", picurl);
+			}
+			paramMap.put("text", text);
+			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,authInfo.getSessionKey());
+			String ret = AppPlatformUtils.doPost(
+					"https://api.kaixin001.com/sysnews/send.json", query);
+			JSONObject jObject = JSONObject.fromObject(ret);
+			if("1".equals(jObject.getString("result"))){
+				flag= true;
+			}else{
+				flag= false;
+			}
+				return flag;
+			}catch (Exception e) {
+				return flag;
+			}
 	}
 
 	

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.juzhai.app.util.AppPlatformUtils;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
@@ -36,7 +38,11 @@ public class KaiXinController  extends BaseController {
 		//拼凑参数
 		Map<String,String> paramMap=new HashMap<String,String>();
 		paramMap.put("method", "actions.sendNewsFeed");
-		paramMap.put("text", "我最近想去 【"+name+"】 ，有人响应么？");
+		if(StringUtils.isEmpty(name)){
+			paramMap.put("text", "别太宅了，现在就来用【拒宅器】吧！");
+		}else{
+			paramMap.put("text", "我最近想去 【"+name+"】 ，有人响应么？");
+		}
 		paramMap.put("linktext", "去看看");
 		paramMap.put("link", "http://test.51juzhai.com");
 		String query=AppPlatformUtils.buildQuery(paramMap, authInfo.getAppKey(), authInfo.getAppSecret(), authInfo.getSessionKey(), "1.2");
@@ -65,7 +71,12 @@ public class KaiXinController  extends BaseController {
 		paramMap.put("method", "actions.sendInvitation");
 		paramMap.put("format", "json");
 		paramMap.put("mode", "0");
-		paramMap.put("text", "我最近想去 【"+name+"】 ，有人响应么？");
+		if(StringUtils.isEmpty(name)){
+			paramMap.put("text", "别太宅了，现在就来用【拒宅器】吧！");
+		}else{
+			paramMap.put("text", "我最近想去 【"+name+"】 ，有人响应么？");
+		}
+		
 		String query=AppPlatformUtils.buildQuery(paramMap, authInfo.getAppKey(), authInfo.getAppSecret(), authInfo.getSessionKey(), "1.2");
 		out=response.getWriter();
 		out.println(AppPlatformUtils.urlBase64Encode(query));

@@ -28,11 +28,11 @@ public class KaiXinController  extends BaseController {
 	private final Log log = LogFactory.getLog(getClass());
 	
 	@RequestMapping(value = {"/kaixinFeed" }, method = RequestMethod.GET)
-	public String kaixinFeed(HttpServletRequest request,HttpServletResponse response, Model model,String name) throws NeedLoginException{
+	public String kaixinFeed(HttpServletRequest request,HttpServletResponse response, Model model,String name){
 		PrintWriter out=null;
-		UserContext context = checkLoginForApp(request);
+	
 		try{
-			
+			UserContext context = checkLoginForApp(request);
 			AuthInfo authInfo =getAuthInfo(context.getUid(),context.getTpId());
 			authInfo.setAppSecret(InitData.TP_MAP.get(context.getTpId()).getAppSecret());
 		//拼凑参数
@@ -60,10 +60,10 @@ public class KaiXinController  extends BaseController {
 	
 	
 	@RequestMapping(value = {"/kaixinRequest" }, method = RequestMethod.GET)
-	public String kaixinRequest(HttpServletRequest request,HttpServletResponse response, Model model,String name) throws NeedLoginException{
+	public String kaixinRequest(HttpServletRequest request,HttpServletResponse response, Model model,String name){
 		PrintWriter out=null;
-		UserContext context = checkLoginForApp(request);
 		try{
+		UserContext context = checkLoginForApp(request);
 		AuthInfo authInfo =getAuthInfo(context.getUid(),context.getTpId());
 		authInfo.setAppSecret(InitData.TP_MAP.get(context.getTpId()).getAppSecret());
 		//拼凑参数

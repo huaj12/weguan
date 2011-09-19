@@ -20,17 +20,17 @@ function holdStar(index){
 	if(stars){
 		stars.each(function(i, element){
 			if(i < index){
-				element.removeClass("link").addClass("hover");
+				$(element).removeClass("link").addClass("hover");
 			}else{
-				element.removeClass("hover").addClass("link");
+				$(element).removeClass("hover").addClass("link");
 			}
 		});
 	}
 	var star = stars[index-1];
 	if(star){
-		$("div.star > p.zai").text(star.attr("title"));
+		$("div.star > p.zai").text($(star).attr("title"));
 	}else{
-		$("div.star > p.zai").text("请选择");
+		$("div.star > p.zai").text("请选择！");
 	}
 }
 

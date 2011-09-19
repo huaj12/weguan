@@ -30,7 +30,7 @@
 									<div class="add_insterest">
 										<strong><input id="actName" type="text" /></strong>
 										<a href="#" class="add">添加</a>
-										<div id="actNameError" class="error hidden">拒宅兴趣字数控制在1－10个中文内！</div>
+										<div id="actNameError" class="error" style="display:none">拒宅兴趣字数控制在1－10个中文内！</div>
 									</div>
 								</div><!--sec end-->
 							</div><!--basic_yd end-->

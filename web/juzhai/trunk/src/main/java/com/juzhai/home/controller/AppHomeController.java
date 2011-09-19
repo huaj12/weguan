@@ -64,7 +64,7 @@ public class AppHomeController extends BaseController {
 		getNextFeed(context.getUid(), 1, model);
 		long time4 = System.currentTimeMillis();
 		System.out.println("get feed:" + (time4 - time3));
-		return "home/feed_fragment";
+		return "home/app/feed_fragment";
 	}
 
 	@RequestMapping(value = "/ajax/dealFeed", method = RequestMethod.POST)

@@ -23,11 +23,9 @@
 					<jsp:include page="/WEB-INF/jsp/common/app/app_prompt.jsp" />
 					<jsp:include page="/WEB-INF/jsp/common/app/app_point.jsp" />
 					<div class="content white"><!--content begin-->
-						<!-- 先放loading -->
-						<!-- <jsp:include page="feed_fragment.jsp" /> -->
 					</div><!--content end-->
 					<div class="loading"><!--loading begin-->
-						<span><img src="images/loading.gif" /></span><p><img src="images/loading_text.png" /></p>
+						<span><img src="${jz:url('/images/loading.gif')}" /></span><p><img src="${jz:url('/images/loading_text.png')}" /></p>
 					</div>
 				</div><!--content_bg end-->
 			</div><!--skin_body end-->

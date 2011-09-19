@@ -2,7 +2,10 @@ package com.juzhai.home.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 
 import com.juzhai.act.model.Act;
 import com.juzhai.passport.bean.ProfileCache;
@@ -20,13 +23,17 @@ public class Feed implements Serializable {
 
 	private ProfileCache profileCache;
 
+	private Date date;
+
 	private List<Act> actList = new ArrayList<Act>();
 
 	private FeedType feedType;
 
-	public Feed(ProfileCache profileCache, FeedType feedType, Act... acts) {
+	public Feed(ProfileCache profileCache, FeedType feedType, Date date,
+			Act... acts) {
 		this.profileCache = profileCache;
 		this.feedType = feedType;
+		this.date = date;
 		if (null != acts) {
 			for (Act act : acts) {
 				if (null != act) {
@@ -80,4 +87,19 @@ public class Feed implements Serializable {
 		this.tpFriend = tpFriend;
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public Act getAct() {
+		if (CollectionUtils.isEmpty(getActList())) {
+			return null;
+		} else {
+			return getActList().get(0);
+		}
+	}
 }

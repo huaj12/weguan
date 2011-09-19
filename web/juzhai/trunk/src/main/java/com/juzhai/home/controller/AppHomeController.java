@@ -49,36 +49,38 @@ public class AppHomeController extends BaseController {
 	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)
 			throws NeedLoginException {
-		long time1 = System.currentTimeMillis();
 		UserContext context = checkLoginForApp(request);
-		long time2 = System.currentTimeMillis();
 		queryPoint(context.getUid(), model);
 		queryProfile(context.getUid(), model);
-		long time3 = System.currentTimeMillis();
-		getNextFeed(context.getUid(), 1, model);
-		long time4 = System.currentTimeMillis();
 
-		System.out.println("check login:" + (time2 - time1));
-		System.out.println("query point:" + (time3 - time2));
-		System.out.println("get feed:" + (time4 - time3));
 		return "home/app/home";
 	}
 
-	@RequestMapping(value = "/ajax/dealFeed", method = RequestMethod.GET)
+	@RequestMapping(value = "/ajax/showFeed", method = RequestMethod.GET)
+	public String showFeed(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		UserContext context = checkLoginForApp(request);
+		long time3 = System.currentTimeMillis();
+		getNextFeed(context.getUid(), 1, model);
+		long time4 = System.currentTimeMillis();
+		System.out.println("get feed:" + (time4 - time3));
+		return "home/feed_fragment";
+	}
+
+	@RequestMapping(value = "/ajax/dealFeed", method = RequestMethod.POST)
 	@ResponseBody
 	public String ajaxDealFeed(HttpServletRequest request, Model model,
 			long actId, long friendId, String tpIdentity, int type, int times)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
-		ActDealType actDealType = ActDealType.valueOf(type);
 		try {
 			if (friendId > 0) {
+				ActDealType actDealType = ActDealType.valueOf(type);
 				userActService.respFeed(context.getUid(), actId, friendId,
 						actDealType);
 
 			} else if (StringUtils.isNotEmpty(tpIdentity)) {
-				userActService.respRandom(context.getUid(), actId, tpIdentity,
-						context.getTpId(), actDealType);
+				inboxService.grade(context.getUid(), tpIdentity);
 			}
 		} catch (IndexException e) {
 			log.error(e.getMessage(), e);

@@ -40,13 +40,13 @@ function addAct(successCallback){
 			if(result&&result.success){
 				$("#addActError").text("保存成功").show().fadeOut(3000);
 				$("#addAct").attr("value", "");
+				if(successCallback){
+					successCallback();
+				}
 			}else if(result){
 				$("#addActError").text(result.errorInfo).show().fadeOut(2000);
 			}else {
 				alert("系统异常！");
-			}
-			if(successCallback){
-				successCallback();
 			}
 		},
 		statusCode: {
@@ -96,10 +96,10 @@ $(document).ready(function(){
 		var value = $("#addAct").attr("value");
 		if(value && value != ""){
 			addAct(function(){
-				kaixinRequest(value);
+				kaixinFeed(value);
 			});
 		}else {
-			kaixinRequest();
+			kaixinFeed();
 		}
 	});
 	//注册邀请
@@ -107,10 +107,10 @@ $(document).ready(function(){
 		var value = $("#addAct").attr("value");
 		if(value && value != ""){
 			addAct(function(){
-				kaixinFeed(value);
+				kaixinRequest(value);
 			});
 		}else {
-			kaixinFeed();
+			kaixinRequest();
 		}
 	});
 	//注册订阅邮箱事件

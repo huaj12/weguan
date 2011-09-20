@@ -18,10 +18,6 @@ $(document).ready(function(){
 		var actNameInput = $("#actName");
 		var value = actNameInput.attr("value");
 		if(!checkValLength(value, 2, 20)){
-			//window.setTimeout(function(){
-			//	$("#actNameError").addClass("hidden");
-			//	clearTimeout(this);
-			//},2000);
 			$("#actNameError").show().fadeOut(2000);
 			return false;
 		}
@@ -53,10 +49,26 @@ $(document).ready(function(){
 				$("#nextForm").append(input);
 			}
 		});
+		
+		var email = $("div.add_dy > strong > input").attr("value");
+		if(email && email != ""){
+			if(!checkEmail(email)){
+				$("div.add_dy > div.error").text("邮箱格式有误！").show().fadeOut(2000);
+				return false;
+			} else {
+				var input = $("<input type='hidden' name='email' />");
+				input.attr("value", email);
+				$("#nextForm").append(input);
+			}
+		}
 		return true;
 	});
 	
-	$(".next_btn > a").bind("click", function(){
+	$(".next").bind("click", function(){
+		$("#nextForm").submit();
+	});
+	
+	$(".complete").bind("click", function(){
 		$("#nextForm").submit();
 	});
 });

@@ -19,6 +19,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.account.bean.ProfitAction;
+import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.InitData;
 import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.caculator.IScoreGenerator;
@@ -62,6 +64,8 @@ public class InboxService implements IInboxService {
 	private IAuthorizeService authorizeService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IAccountService accountService;
 	@Value("${random.feed.myAct.count}")
 	private int randomFeedMyActCount = 5;
 	@Value("${random.feed.act.count}")
@@ -234,6 +238,7 @@ public class InboxService implements IInboxService {
 				authorizeService.sendSystemMessage(authInfo, fuids, linktext,
 						link, word, text, picurl);
 			}
+			accountService.profitPoint(uid, ProfitAction.GRADE_STAR);
 		}
 	}
 

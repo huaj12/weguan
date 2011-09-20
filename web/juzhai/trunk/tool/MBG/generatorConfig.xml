@@ -34,14 +34,16 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
 
-    <!-- <table tableName="tb_passport" domainObjectName="Passport" >
+    
+	<table tableName="tb_profile" domainObjectName="Profile" >
+      <property name="useActualColumnNames" value="false"/>
+      <columnOverride column="sub_email" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+    </table>
+    
+   <!-- <table tableName="tb_passport" domainObjectName="Passport" >
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
       <columnOverride column="email_active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-    </table>
-    
-    <table tableName="tb_profile" domainObjectName="Profile" >
-      <property name="useActualColumnNames" value="false"/>
     </table>
     
     <table tableName="tb_thirdparty" domainObjectName="Thirdparty">
@@ -64,12 +66,12 @@
     <table tableName="tb_province" domainObjectName="Province">
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
-    </table> -->
+    </table>
     
    <table tableName="tb_user_guide" domainObjectName="UserGuide" >
       <property name="useActualColumnNames" value="false"/>
       <columnOverride column="complete" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-    </table>
+    </table> -->
 
   </context>
   

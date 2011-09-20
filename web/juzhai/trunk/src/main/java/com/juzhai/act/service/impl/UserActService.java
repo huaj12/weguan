@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.account.bean.ProfitAction;
+import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.InitData;
 import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.controller.view.UserActView;
@@ -32,7 +34,6 @@ import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.home.service.IInboxService;
-import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.service.IMsgMessageService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.TpUser;
@@ -63,6 +64,8 @@ public class UserActService implements IUserActService {
 	private IProfileService profileService;
 	@Autowired
 	private IMsgMessageService msgMessageService;
+	@Autowired
+	private IAccountService accountService;
 
 	@Override
 	public void respRandom(long uid, long actId, String tpFriendId, long tpId,
@@ -104,6 +107,7 @@ public class UserActService implements IUserActService {
 			} else {
 				wantToAct(uid, actId, tpIdentity, tpId);
 			}
+			accountService.profitPoint(uid, ProfitAction.WANT_TO);
 			break;
 		case NILL:
 			break;
@@ -117,8 +121,8 @@ public class UserActService implements IUserActService {
 			log.error(e.getErrorCode(), e);
 		}
 		friendService.incrOrDecrIntimacy(uid, friendId, 2);
-		msgMessageService.sendActMsg(uid, friendId, new ActMsg(actId, uid,
-				ActMsg.MsgType.FIND_YOU_ACT));
+		// msgMessageService.sendActMsg(uid, friendId, new ActMsg(actId, uid,
+		// ActMsg.MsgType.FIND_YOU_ACT));
 	}
 
 	private void wantToAct(long uid, long actId, String tpIdentity, long tpId) {
@@ -127,8 +131,8 @@ public class UserActService implements IUserActService {
 		} catch (ActInputException e) {
 			log.error(e.getErrorCode(), e);
 		}
-		msgMessageService.sendActMsg(uid, tpId, tpIdentity, new ActMsg(actId,
-				uid, ActMsg.MsgType.FIND_YOU_ACT));
+		// msgMessageService.sendActMsg(uid, tpId, tpIdentity, new ActMsg(actId,
+		// uid, ActMsg.MsgType.FIND_YOU_ACT));
 	}
 
 	private void dependToAct(long uid, long actId, long friendId) {
@@ -161,8 +165,9 @@ public class UserActService implements IUserActService {
 	public void addAct(long uid, long actId, boolean isSyn)
 			throws ActInputException {
 		useAct(uid, actId, 5, false);
-		msgMessageService.sendActMsg(uid, 0, new ActMsg(actId, uid,
-				ActMsg.MsgType.BROADCAST_ACT));
+		accountService.profitPoint(uid, ProfitAction.ADD_ACT);
+		// msgMessageService.sendActMsg(uid, 0, new ActMsg(actId, uid,
+		// ActMsg.MsgType.BROADCAST_ACT));
 	}
 
 	private void useAct(long uid, long actId, int hotLev, boolean canRepeat)

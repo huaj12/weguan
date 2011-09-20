@@ -59,6 +59,7 @@ public class KaiXinController extends BaseController {
 			String query = AppPlatformUtils.buildQuery(paramMap,
 					authInfo.getAppKey(), authInfo.getAppSecret(),
 					authInfo.getSessionKey(), "1.2");
+			response.setContentType("text/plain");
 			out = response.getWriter();
 			out.println(AppPlatformUtils.urlBase64Encode(query));
 		} catch (Exception e) {
@@ -98,6 +99,7 @@ public class KaiXinController extends BaseController {
 			String query = AppPlatformUtils.buildQuery(paramMap,
 					authInfo.getAppKey(), authInfo.getAppSecret(),
 					authInfo.getSessionKey(), "1.2");
+			response.setContentType("text/plain");
 			out = response.getWriter();
 			out.println(AppPlatformUtils.urlBase64Encode(query));
 		} catch (Exception e) {

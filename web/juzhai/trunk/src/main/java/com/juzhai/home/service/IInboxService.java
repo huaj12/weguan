@@ -83,5 +83,5 @@ public interface IInboxService {
 	 * @param uid
 	 * @param identity
 	 */
-	void grade(long uid, String identity);
+	void grade(long uid, long tpId, String identity, int star);
 }

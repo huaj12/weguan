@@ -53,6 +53,15 @@ public class AuthorizeService implements IAuthorizeService, BeanFactoryAware {
 	}
 
 	@Override
+	public void sendSystemMessage(AuthInfo authInfo, List<String> fuids,
+			String linktext, String link, String word, String text,
+			String picurl) {
+		getAuthorizeServiceBean(authInfo.getThirdpartyName(),
+				authInfo.getJoinType()).sendSystemMessage(authInfo, fuids,
+				linktext, link, word, text, picurl);
+	}
+
+	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
 	}

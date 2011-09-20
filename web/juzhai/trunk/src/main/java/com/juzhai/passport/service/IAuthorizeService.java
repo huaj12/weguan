@@ -62,4 +62,19 @@ public interface IAuthorizeService {
 	 * @return
 	 */
 	public List<String> getAppFriends(AuthInfo authInfo);
+
+	/**
+	 * 发送系统消息
+	 * 
+	 * @param authInfo
+	 * @param fuids
+	 * @param linktext
+	 * @param link
+	 * @param word
+	 * @param text
+	 * @param picurl
+	 */
+	public void sendSystemMessage(AuthInfo authInfo, List<String> fuids,
+			String linktext, String link, String word, String text,
+			String picurl);
 }

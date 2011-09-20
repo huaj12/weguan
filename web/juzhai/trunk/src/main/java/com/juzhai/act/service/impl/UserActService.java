@@ -163,9 +163,6 @@ public class UserActService implements IUserActService {
 		useAct(uid, actId, 5, false);
 		msgMessageService.sendActMsg(uid, 0, new ActMsg(actId, uid,
 				ActMsg.MsgType.BROADCAST_ACT));
-		if (isSyn) {
-			// TODO 第三方发送动态
-		}
 	}
 
 	private void useAct(long uid, long actId, int hotLev, boolean canRepeat)

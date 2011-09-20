@@ -19,6 +19,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.juzhai.account.bean.ProfitAction;
+import com.juzhai.account.service.IAccountService;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.passport.bean.ProfileCache;
@@ -43,6 +45,8 @@ public class ProfileService implements IProfileService {
 	private ProfileMapper profileMapper;
 	@Autowired
 	private MemcachedClient memcachedClient;
+	@Autowired
+	private IAccountService accountService;
 	@Value("${profile.cache.expire.time}")
 	private int profileCacheExpireTime = 20000;
 
@@ -132,14 +136,23 @@ public class ProfileService implements IProfileService {
 		Profile profile = new Profile();
 		profile.setUid(uid);
 		profile.setEmail(email);
+		profile.setSubEmail(true);
 		profile.setLastModifyTime(new Date());
 
 		if (profileMapper.updateByPrimaryKeySelective(profile) == 1) {
 			// 更新cache
 			ProfileCache profileCache = getProfileCacheByUid(uid);
+			boolean isFirst = false;
 			if (null != profileCache) {
+				if (StringUtils.isNotEmpty(profileCache.getEmail())) {
+					isFirst = true;
+				}
 				profileCache.setEmail(email);
+				profileCache.setSubEmail(true);
 				cacheProfileCache(uid, profileCache);
+			}
+			if (isFirst) {
+				accountService.profitPoint(uid, ProfitAction.SUB_EMAIL);
 			}
 			return true;
 		} else {

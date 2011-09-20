@@ -67,11 +67,10 @@ public class AppHomeController extends BaseController {
 		return "home/app/feed_fragment";
 	}
 
-	@RequestMapping(value = "/ajax/dealFeed", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/respFeed", method = RequestMethod.POST)
 	@ResponseBody
-	public String ajaxDealFeed(HttpServletRequest request, Model model,
-			long actId, long friendId, String tpIdentity, int type, int times)
-			throws NeedLoginException {
+	public String respFeed(HttpServletRequest request, Model model, long actId,
+			long friendId, int type, int times) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		try {
 			if (friendId > 0) {
@@ -79,12 +78,23 @@ public class AppHomeController extends BaseController {
 				userActService.respFeed(context.getUid(), actId, friendId,
 						actDealType);
 
-			} else if (StringUtils.isNotEmpty(tpIdentity)) {
-				inboxService.grade(context.getUid(), tpIdentity);
 			}
 		} catch (IndexException e) {
 			log.error(e.getMessage(), e);
 			return error_500;
+		}
+		getNextFeed(context.getUid(), times, model);
+		return "home/feed_fragment";
+	}
+
+	@RequestMapping(value = "/ajax/grade", method = RequestMethod.POST)
+	@ResponseBody
+	public String grade(HttpServletRequest request, Model model,
+			String tpIdentity, int star, int times) throws NeedLoginException {
+		UserContext context = checkLoginForApp(request);
+		if (star >= 0 && star <= 5) {
+			inboxService.grade(context.getUid(), context.getTpId(), tpIdentity,
+					star);
 		}
 		getNextFeed(context.getUid(), times, model);
 		return "home/feed_fragment";

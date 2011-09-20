@@ -208,4 +208,14 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 		}
 		return friendIdList;
 	}
+
+	@Override
+	public void sendSystemMessage(AuthInfo authInfo, List<String> fuids,
+			String linktext, String link, String word, String text,
+			String picurl) {
+		if (CollectionUtils.isNotEmpty(fuids)) {
+			kaiXinService.sendSysMessage(StringUtils.join(fuids, ","),
+					linktext, link, word, text, picurl, authInfo);
+		}
+	}
 }

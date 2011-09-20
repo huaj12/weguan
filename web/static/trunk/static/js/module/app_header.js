@@ -1,10 +1,11 @@
+//TODO 封装不同第三方app
 function showKxDialog(para)
 {
 	var t = document.createElement("div");
 	t.innerHTML = '<iframe src="http://www.kaixin001.com/rest/rest.php?para='+para+'" scrolling="yes" height="0px"  width="0px" style="display:none"></iframe>';
 	document.body.appendChild(t.firstChild);
 }
-
+//TODO 封装不同第三方app
 function kaixinFeed(name){
 	jQuery.get('/kaixinFeed', {
 		name:name,
@@ -13,6 +14,7 @@ function kaixinFeed(name){
 		showKxDialog(data);
 	});
 }
+//TODO 封装不同第三方app
 function kaixinRequest(name){
 	jQuery.get('/kaixinRequest', {
 		name:name,
@@ -44,7 +46,7 @@ function addAct(successCallback){
 				alert("系统异常！");
 			}
 			if(successCallback){
-				successCallback(result);
+				successCallback();
 			}
 		},
 		statusCode: {
@@ -91,15 +93,25 @@ $(document).ready(function(){
 	});
 	//注册召集令
 	$("div.zjxq_input > a.zhao").bind("click", function(){
-		addAct(function(result){
-			alert(result.errorInfo);
-		});
+		var value = $("#addAct").attr("value");
+		if(value && value != ""){
+			addAct(function(){
+				kaixinRequest(value);
+			});
+		}else {
+			kaixinRequest();
+		}
 	});
 	//注册邀请
 	$("div.zjxq_input > a.yao").bind("click", function(){
-		addAct(function(result){
-			alert(result);
-		});
+		var value = $("#addAct").attr("value");
+		if(value && value != ""){
+			addAct(function(){
+				kaixinFeed(value);
+			});
+		}else {
+			kaixinFeed();
+		}
 	});
 	//注册订阅邮箱事件
 	$("div.dy > a").bind("click", function(){

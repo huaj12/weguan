@@ -36,5 +36,5 @@
 </div><!--mid end-->
 <div class="bot"></div>
 <c:if test="${feed!=null&&feed.feedType=='GRADE'}">
-	<div class="next_btn"><a href="#">跳  过</a></div>
+	<div class="next_btn"><a href="#" onclick="javascript:grade(0, '${feed.tpFriend.userId}', ${times});">跳  过</a></div>
 </c:if>

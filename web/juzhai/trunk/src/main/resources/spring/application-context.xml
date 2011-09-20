@@ -42,6 +42,7 @@
 		<property name="basenames">
 			<list>
 				<value>i18n/error</value>
+				<value>i18n/message</value>
 			</list>
 		</property>
 	</bean>

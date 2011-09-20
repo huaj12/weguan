@@ -44,11 +44,11 @@ function showLoading(){
 	$(".loading").show();
 }
 
-function dealFeed(data){
+function dealFeed(url, data){
 	showLoading();
 	//load feed
 	jQuery.ajax({
-		url: "/app/ajax/dealFeed",
+		url: url,
 		type: "post",
 		data: data,
 		dataType: "html",
@@ -65,7 +65,7 @@ function dealFeed(data){
 
 function grade(star, tpIdentity, times){
 	if(star && star > 0 && tpIdentity && tpIdentity != "" && times && times > 0){
-		dealFeed({"tpIdentity": tpIdentity, "times": times});
+		dealFeed("/app/ajax/grade", {"tpIdentity": tpIdentity, "star": star, "times": times});
 	}
 }
 
@@ -75,6 +75,6 @@ function response(obj, type){
 		if(data){
 			data['type'] = type;
 		}
-		dealFeed(data);
+		dealFeed("/app/ajax/respFeed", data);
 	}
 }

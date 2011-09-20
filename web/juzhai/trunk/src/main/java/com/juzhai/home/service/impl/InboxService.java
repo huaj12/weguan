@@ -1,6 +1,8 @@
 package com.juzhai.home.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -12,6 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -22,14 +25,18 @@ import com.juzhai.act.caculator.IScoreGenerator;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.service.IUserActService;
+import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.home.bean.Feed;
 import com.juzhai.home.bean.Feed.FeedType;
 import com.juzhai.home.service.IInboxService;
+import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
+import com.juzhai.passport.service.IAuthorizeService;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.ITpUserAuthService;
 
 @Service
 public class InboxService implements IInboxService {
@@ -49,6 +56,12 @@ public class InboxService implements IInboxService {
 	private IProfileService profileService;
 	@Autowired
 	private IUserActService userActService;
+	@Autowired
+	private ITpUserAuthService tpUserAuthService;
+	@Autowired
+	private IAuthorizeService authorizeService;
+	@Autowired
+	private MessageSource messageSource;
 	@Value("${random.feed.myAct.count}")
 	private int randomFeedMyActCount = 5;
 	@Value("${random.feed.act.count}")
@@ -204,10 +217,29 @@ public class InboxService implements IInboxService {
 	}
 
 	@Override
-	public void grade(long uid, String identity) {
+	public void grade(long uid, long tpId, String identity, int star) {
 		redisTemplate.opsForSet().add(RedisKeyGenerator.genGradedUsersKey(uid),
 				identity);
-		// TODO 发送消息
+		if (star > 0 && star <= 5) {
+			AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+			if (null != authInfo) {
+				List<String> fuids = new ArrayList<String>();
+				fuids.add(identity);
+				// TODO 确定内容
+				String linktext = getContent(TpMessageKey.GRADE_LINKTEXT, null);
+				String link = getContent(TpMessageKey.GRADE_LINK, null);
+				String word = getContent(TpMessageKey.GRADE_WORD, null);
+				String text = getContent(TpMessageKey.GRADE_TEXT, null);
+				String picurl = getContent(TpMessageKey.GRADE_PICURL, null);
+				authorizeService.sendSystemMessage(authInfo, fuids, linktext,
+						link, word, text, picurl);
+			}
+		}
+	}
+
+	private String getContent(String code, Object[] args) {
+		return messageSource.getMessage(code, args, StringUtils.EMPTY,
+				Locale.SIMPLIFIED_CHINESE);
 	}
 
 	private String assembleValue(long senderId, long actId) {

@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -147,7 +148,9 @@ public class AppHomeController extends BaseController {
 			ProfileCache profileCache = queryProfile(context.getUid(), null);
 			boolean isSuccess = true;
 			if (!StringUtils.equals(profileCache.getEmail(),
-					StringUtils.trim(email))) {
+					StringUtils.trim(email))
+					|| profileCache.getSubEmail() == null
+					|| !profileCache.getSubEmail()) {
 				if (log.isDebugEnabled()) {
 					log.debug("sub new email.[uid: " + context.getUid()
 							+ ", email: " + email + "]");

@@ -25,8 +25,8 @@
 					<div class="content white"><!--content begin-->
 					</div><!--content end-->
 					<div class="loading"><!--loading begin-->
-						<span><img src="${jz:url('/images/loading.gif')}" /></span><p><img src="${jz:url('/images/loading_text.png')}" /></p>
-					</div>
+						<span><img src="${jz:url('/images/loading.gif')}" /></span><p></p>
+					</div><!--loading end-->
 				</div><!--content_bg end-->
 			</div><!--skin_body end-->
 			<jsp:include page="/WEB-INF/jsp/common/app/app_bottom.jsp" />

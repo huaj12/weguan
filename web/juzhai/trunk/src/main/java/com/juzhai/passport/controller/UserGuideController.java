@@ -59,19 +59,23 @@ public class UserGuideController extends BaseController {
 
 		if (currentStep > InitData.GUIDE_STEPS.size() + 1) {
 			return error_500;
-		} else if (currentStep == InitData.GUIDE_STEPS.size() + 1) {
-			// 订阅邮箱步骤
-			return "";
 		} else {
-			Long actCategoryId = InitData.GUIDE_STEPS.get(currentStep - 1);
-			List<Act> actList = actCategoryService.getHotActList(
-					context.getTpId(), actCategoryId);
-			model.addAttribute("actCategory",
-					com.juzhai.act.InitData.ACT_CATEGORY_MAP.get(actCategoryId));
-			model.addAttribute("actList", actList);
 			model.addAttribute("step", currentStep);
 			model.addAttribute("totalStep", InitData.GUIDE_STEPS.size() + 1);
-			return "guide/app/guide";
+			if (currentStep == InitData.GUIDE_STEPS.size() + 1) {
+				// 订阅邮箱步骤
+				queryProfile(context.getUid(), model);
+				return "guide/app/guide_email";
+			} else {
+				Long actCategoryId = InitData.GUIDE_STEPS.get(currentStep - 1);
+				List<Act> actList = actCategoryService.getHotActList(
+						context.getTpId(), actCategoryId);
+				model.addAttribute("actCategory",
+						com.juzhai.act.InitData.ACT_CATEGORY_MAP
+								.get(actCategoryId));
+				model.addAttribute("actList", actList);
+				return "guide/app/guide";
+			}
 		}
 	}
 

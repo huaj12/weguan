@@ -8,9 +8,9 @@
 		<c:choose>
 			<c:when test="${feed.feedType=='SPECIFIC'}">
 				<div class="photo fl"><img src="${feed.profileCache.logoPic}" /></div>
-				<div class="infor fl" data="{'friendId':feed.${profileCache.uid},'actId':${feed.act.id},'times':${times}}"><!--infor begin-->
+				<div class="infor fl" data="{'friendId':${feed.profileCache.uid},'actId':${feed.act.id},'times':${times}}"><!--infor begin-->
 					<h2><span class="u"><c:out value="${feed.profileCache.nickname}" /></span><span class="w">最近想去</span><span class="v"><c:out value="${feed.act.name}" /></span></h2>
-					<p><fmt:formatDate value="${feed.date}" pattern="YYYY.MM.DD"/>&nbsp;&nbsp;&nbsp;&nbsp;${feed.profileCache.province}&nbsp;${feed.profileCache.city}</p>
+					<p><fmt:formatDate value="${feed.date}" pattern="yyyy.MM.dd"/>&nbsp;&nbsp;&nbsp;&nbsp;${feed.profileCache.provinceName}&nbsp;${feed.profileCache.cityName}</p>
 					<a href="#" class="want" onclick="javascript:response(this, 1);">我也想去</a><a href="#" class="dwant" onclick="javascript:response(this, 2);">没兴趣</a>
 				</div><!--infor end-->
 			</c:when>

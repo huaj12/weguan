@@ -72,11 +72,11 @@ public class PagerManager {
 	}
 
 	public int getFirstResult() {
-		return (currentPage - 1) * results + 1;
+		return (currentPage - 1) * results;
 	}
 
 	public int getMaxResult() {
-		return currentPage * results;
+		return results;
 	}
 
 	public int getCurrentPage() {

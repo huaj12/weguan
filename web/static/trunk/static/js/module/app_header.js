@@ -40,7 +40,7 @@ function addAct(successCallback){
 			if(result&&result.success){
 				$("#addActError").text("保存成功").show().fadeOut(3000);
 				$("#addAct").attr("value", "");
-				if(pageMyAct){
+				if($("div.interesting").length > 0){
 					pageMyAct(1);
 				}
 				if(successCallback){

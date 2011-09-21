@@ -1,4 +1,4 @@
-function myActMouseOver(p, isOver){
+function myActHover(p, isOver){
 	if(isOver){
 		$(p).addClass("hover");
 	}else {
@@ -6,7 +6,7 @@ function myActMouseOver(p, isOver){
 	}
 }
 
-function hotActMouseOver(p, isOver){
+function hotActHover(p, isOver){
 	if($(p).hasClass("none")){
 		return;
 	}
@@ -18,34 +18,40 @@ function hotActMouseOver(p, isOver){
 }
 
 function removeAct(a){
-	var actId = $(a).attr("actId");
+	var actId = $(a).attr("actid");
 	if(isNaN(actId)){
 		return false;
 	}
-	//ajax
-	jQuery.ajax({
-		url: "/app/ajax/removeAct",
-		type: "post",
-		data: {"actId": actId},
-		dataType: "json",
-		success: function(result){
-			if(result&&result.success){
-				//移除内容
-				$(this).parent().remove();
-			}else{
-				alert("system error.");
+//	var answer = confirm("确认要删除?");
+//	if (answer){
+		//ajax
+		jQuery.ajax({
+			url: "/app/ajax/removeAct",
+			type: "post",
+			data: {"actId": actId},
+			dataType: "json",
+			success: function(result){
+				if(result&&result.success){
+					//移除内容
+					$(a).parent().remove();
+					var numberText = $("#myActCount").text();
+					var count = parseInt(numberText.substring(1, numberText.length-1));
+					$("#myActCount").text("(" + (count-1) + ")");
+				}else{
+					alert("system error.");
+				}
+			},
+			statusCode: {
+			    401: function() {
+			      alert("未登录");
+			    }
 			}
-		},
-		statusCode: {
-		    401: function() {
-		      alert("未登录");
-		    }
-		}
-	});
+		});
+//	}
 }
 
-function addAct(a){
-	var actId = $(a).attr("actId");
+function addRecommendAct(a){
+	var actId = $(a).attr("actid");
 	if(isNaN(actId)){
 		return false;
 	}
@@ -115,10 +121,10 @@ function showHotActs(a, actCategoryId){
 }
 
 function changeRecTabClass(p){
-	$("dev.rec_tab > p").each(function(){
+	$("div.rec_tab > p").each(function(){
 		var pClass = $(this).attr("class");
-		var idx = pClass.indexof("act_");
-		if(idx > 0){
+		var idx = pClass.indexOf("act_");
+		if(idx >= 0){
 			$(this).attr("class", pClass.substring(4));
 		}
 	});
@@ -126,11 +132,11 @@ function changeRecTabClass(p){
 }
 
 $(document).ready(function(){
-	$("p.act_hot > a").bind("click", function(){
-		var actCategoryId = $(this).attr("actCategoryId");
-		var pClass = $(this).parent.attr("class");
-		if(actCategoryId && actCategoryId > 0 && pClass.indexof("act_") < 0){
-			showHotActs(actCategoryId);
+	$("div.rec_tab > p > a").bind("click", function(){
+		var actCategoryId = $(this).attr("actcategoryid");
+		var pClass = $(this).parent().attr("class");
+		if(actCategoryId && actCategoryId > 0 && pClass.indexOf("act_") < 0){
+			showHotActs(this, actCategoryId);
 		}
 	});
 });

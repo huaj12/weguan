@@ -7,6 +7,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>我的拒宅</title>
 		<link href="${jz:url('/css/jz.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:url('/css/jquery.autocomplete.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<div class="main"><!--main begin-->
@@ -27,11 +28,11 @@
 										<c:forEach var="actCategory" items="${hotCategoryList}" varStatus="status">
 											<c:choose>
 												<c:when test="${status.count==1}"><c:set var="pClass" value="act_hot" /></c:when>
-												<c:when test="${status.count==2}"><c:set var="" value="joy" /></c:when>
-												<c:when test="${status.count==3}"><c:set var="" value="sport" /></c:when>
-												<c:when test="${status.count==4}"><c:set var="" value="travel" /></c:when>
-												<c:when test="${status.count==5}"><c:set var="" value="leisure" /></c:when>
-												<c:when test="${status.count==6}"><c:set var="" value="food" /></c:when>
+												<c:when test="${status.count==2}"><c:set var="pClass" value="joy" /></c:when>
+												<c:when test="${status.count==3}"><c:set var="pClass" value="sport" /></c:when>
+												<c:when test="${status.count==4}"><c:set var="pClass" value="travel" /></c:when>
+												<c:when test="${status.count==5}"><c:set var="pClass" value="leisure" /></c:when>
+												<c:when test="${status.count==6}"><c:set var="pClass" value="food" /></c:when>
 											</c:choose>
 											<p class="${pClass}">
 												<span class="fl"></span>

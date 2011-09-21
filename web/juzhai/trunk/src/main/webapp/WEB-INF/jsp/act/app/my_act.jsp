@@ -25,9 +25,17 @@
 								<div class="rec_insterest"><!--rec_insterest begin-->
 									<div class="rec_tab"><!--rec_tab begin-->
 										<c:forEach var="actCategory" items="${hotCategoryList}" varStatus="status">
-											<p class="act_hot">
+											<c:choose>
+												<c:when test="${status.count==1}"><c:set var="pClass" value="act_hot" /></c:when>
+												<c:when test="${status.count==2}"><c:set var="" value="joy" /></c:when>
+												<c:when test="${status.count==3}"><c:set var="" value="sport" /></c:when>
+												<c:when test="${status.count==4}"><c:set var="" value="travel" /></c:when>
+												<c:when test="${status.count==5}"><c:set var="" value="leisure" /></c:when>
+												<c:when test="${status.count==6}"><c:set var="" value="food" /></c:when>
+											</c:choose>
+											<p class="${pClass}">
 												<span class="fl"></span>
-												<a href="#" onclick="javascript:showHotActs('${actCategory.id}');"><c:out value="${actCategory.name}"/></a>
+												<a href="#" actCategoryId="${actCategory.id}"><c:out value="${actCategory.name}"/></a>
 												<span class="fr"></span>
 												<strong></strong>
 											</p>

@@ -2,6 +2,10 @@ package com.juzhai.passport.bean;
 
 import java.io.Serializable;
 
+import com.juzhai.passport.InitData;
+import com.juzhai.passport.model.City;
+import com.juzhai.passport.model.Province;
+
 public class ProfileCache implements Serializable {
 
 	private static final long serialVersionUID = 3187093291974355755L;
@@ -104,5 +108,23 @@ public class ProfileCache implements Serializable {
 
 	public void setSubEmail(Boolean subEmail) {
 		this.subEmail = subEmail;
+	}
+
+	public String getProvinceName() {
+		if (null == province) {
+			return null;
+		} else {
+			Province provinceObj = InitData.PROVINCE_MAP.get(province);
+			return null == provinceObj ? null : provinceObj.getName();
+		}
+	}
+
+	public String getCityName() {
+		if (null == city) {
+			return null;
+		} else {
+			City cityObj = InitData.CITY_MAP.get(city);
+			return null == cityObj ? null : cityObj.getName();
+		}
 	}
 }

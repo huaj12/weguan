@@ -71,7 +71,7 @@ function grade(star, tpIdentity, times){
 
 function response(obj, type){
 	if(type && type >= 0 && type <= 2){
-		var data = $(obj).parent().attr("data");
+		var data = eval("(" + $(obj).parent().attr("data") + ")");
 		if(data){
 			data['type'] = type;
 		}

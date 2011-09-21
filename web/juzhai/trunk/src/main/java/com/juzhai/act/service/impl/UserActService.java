@@ -246,19 +246,20 @@ public class UserActService implements IUserActService {
 	public void removeAct(long uid, long actId) {
 		UserActExample example = new UserActExample();
 		example.createCriteria().andUidEqualTo(uid).andActIdEqualTo(actId);
-		userActMapper.deleteByExample(example);
-		// 更新Act的使用人数
-		actService.inOrDePopularity(actId, -1);
-		// 删除redis里的数据
-		redisTemplate.opsForZSet().remove(RedisKeyGenerator.genMyActsKey(uid),
-				actId);
+		if (userActMapper.deleteByExample(example) >= 1) {
+			// 更新Act的使用人数
+			actService.inOrDePopularity(actId, -1);
+			// 删除redis里的数据
+			redisTemplate.opsForZSet().remove(
+					RedisKeyGenerator.genMyActsKey(uid), actId);
+		}
 	}
 
 	@Override
 	public List<UserActView> pageUserActView(long uid, int start, int maxRows) {
 		UserActExample example = new UserActExample();
 		example.createCriteria().andUidEqualTo(uid);
-		example.setOrderByClause("create_time desc");
+		example.setOrderByClause("create_time desc, id desc");
 		example.setLimit(new Limit(start, maxRows));
 		List<UserAct> list = userActMapper.selectByExample(example);
 		List<UserActView> returnList = new ArrayList<UserActView>();

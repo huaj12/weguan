@@ -55,6 +55,7 @@ public class AppMyActController extends BaseController {
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		queryPoint(context.getUid(), model);
+		queryProfile(context.getUid(), model);
 		pageMyAct(request, model, 1);
 
 		List<ActCategory> hotCategoryList = actCategoryService
@@ -109,7 +110,6 @@ public class AppMyActController extends BaseController {
 	}
 
 	@RequestMapping(value = "/ajax/pageMyAct", method = RequestMethod.GET)
-	@ResponseBody
 	public String pageMyAct(HttpServletRequest request, Model model, int page)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
@@ -123,7 +123,6 @@ public class AppMyActController extends BaseController {
 	}
 
 	@RequestMapping(value = "/ajax/showHotActs", method = RequestMethod.GET)
-	@ResponseBody
 	public String showHotActs(HttpServletRequest request, Model model,
 			long actCategoryId) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);

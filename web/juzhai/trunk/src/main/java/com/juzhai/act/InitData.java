@@ -86,7 +86,7 @@ public class InitData {
 
 	private void initActMap() {
 		ActExample example = new ActExample();
-		example.createCriteria().andActiveEqualTo(true);
+		// example.createCriteria().andActiveEqualTo(true);
 		example.setOrderByClause("popularity desc,id asc");
 		List<Act> list = actMapper.selectByExample(example);
 		ACT_MAP.clear();

@@ -1,21 +1,24 @@
-function myActMouseOver(isOver){
+function myActMouseOver(p, isOver){
 	if(isOver){
-		$(this).addClass("hover");
+		$(p).addClass("hover");
 	}else {
-		$(this).removeClass("hover");
+		$(p).removeClass("hover");
 	}
 }
 
-function hotActMouseOver(isOver){
+function hotActMouseOver(p, isOver){
+	if($(p).hasClass("none")){
+		return;
+	}
 	if(isOver){
-		$(this).addClass("act_hot");
+		$(p).addClass("act_hot");
 	}else {
-		$(this).removeClass("act_hot");
+		$(p).removeClass("act_hot");
 	}
 }
 
-function removeAct(){
-	var actId = $(this).attr("actId");
+function removeAct(a){
+	var actId = $(a).attr("actId");
 	if(isNaN(actId)){
 		return false;
 	}
@@ -29,6 +32,8 @@ function removeAct(){
 			if(result&&result.success){
 				//移除内容
 				$(this).parent().remove();
+			}else{
+				alert("system error.");
 			}
 		},
 		statusCode: {
@@ -39,8 +44,8 @@ function removeAct(){
 	});
 }
 
-function addAct(){
-	var actId = $(this).attr("actId");
+function addAct(a){
+	var actId = $(a).attr("actId");
 	if(isNaN(actId)){
 		return false;
 	}
@@ -52,9 +57,13 @@ function addAct(){
 		dataType: "json",
 		success: function(result){
 			if(result&&result.success){
+				$(a).removeAttr("onclick");
+				$(a).parent().attr("class", "none")
+					.removeAttr("onmouseover")
+					.removeAttr("onmouseout");
 				pageMyAct(1);
 			}else{
-				
+				alert("system error.");
 			}
 		},
 		statusCode: {
@@ -85,7 +94,7 @@ function pageMyAct(page){
 	});
 }
 
-function showHotActs(actCategoryId){
+function showHotActs(a, actCategoryId){
 	//ajax
 	jQuery.ajax({
 		url: "/app/ajax/showHotActs",
@@ -94,6 +103,7 @@ function showHotActs(actCategoryId){
 		dataType: "html",
 		context: $(".rec_words"),
 		success: function(responseHTML){
+			changeRecTabClass($(a).parent());
 			$(this).html(responseHTML);
 		},
 		statusCode: {
@@ -103,3 +113,24 @@ function showHotActs(actCategoryId){
 		}
 	});
 }
+
+function changeRecTabClass(p){
+	$("dev.rec_tab > p").each(function(){
+		var pClass = $(this).attr("class");
+		var idx = pClass.indexof("act_");
+		if(idx > 0){
+			$(this).attr("class", pClass.substring(4));
+		}
+	});
+	$(p).attr("class", "act_" + $(p).attr("class"));
+}
+
+$(document).ready(function(){
+	$("p.act_hot > a").bind("click", function(){
+		var actCategoryId = $(this).attr("actCategoryId");
+		var pClass = $(this).parent.attr("class");
+		if(actCategoryId && actCategoryId > 0 && pClass.indexof("act_") < 0){
+			showHotActs(actCategoryId);
+		}
+	});
+});

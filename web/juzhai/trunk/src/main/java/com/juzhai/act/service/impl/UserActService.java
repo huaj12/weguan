@@ -249,6 +249,9 @@ public class UserActService implements IUserActService {
 		userActMapper.deleteByExample(example);
 		// 更新Act的使用人数
 		actService.inOrDePopularity(actId, -1);
+		// 删除redis里的数据
+		redisTemplate.opsForZSet().remove(RedisKeyGenerator.genMyActsKey(uid),
+				actId);
 	}
 
 	@Override

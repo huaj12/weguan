@@ -478,12 +478,12 @@ abbr,acronym { border: 0;
 /********** 404 ************/
 
 
-/********** 505 ************/
-.error_505{ float:left; padding:45px;}
-.error_505 h2{ background:url(../images/full_image.png) no-repeat -535px -120px; *background:url(../images/full_image.png) no-repeat -534px -119px; width:84px; height:95px; float:left; margin-right:30px; display:inline;}
-.error_505 p{background:url(../images/full_image.png) no-repeat 0 -230px;  width:385px; height:58px; float:left;  margin-top:15px;}
+/********** 500 ************/
+.error_500{ float:left; padding:45px;}
+.error_500 h2{ background:url(../images/full_image.png) no-repeat -535px -120px; *background:url(../images/full_image.png) no-repeat -534px -119px; width:84px; height:95px; float:left; margin-right:30px; display:inline;}
+.error_500 p{background:url(../images/full_image.png) no-repeat 0 -230px;  width:385px; height:58px; float:left;  margin-top:15px;}
 
-/********** 505 ************/
+/********** 500 ************/
 
 
 

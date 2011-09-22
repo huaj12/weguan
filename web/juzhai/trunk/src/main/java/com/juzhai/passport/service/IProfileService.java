@@ -65,4 +65,13 @@ public interface IProfileService {
 	 * @throws ProfileInputException
 	 */
 	boolean subEmail(long uid, String email) throws ProfileInputException;
+
+	/**
+	 * 判断两个人是否可能同城，当其中有人没有所在地信息，即认为是同城
+	 * 
+	 * @param uid1
+	 * @param uid2
+	 * @return 0.不是同城 1.有可能同城 2.同城
+	 */
+	int isMaybeSameCity(long uid1, long uid2);
 }

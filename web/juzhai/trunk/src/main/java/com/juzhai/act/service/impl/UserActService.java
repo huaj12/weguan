@@ -298,4 +298,20 @@ public class UserActService implements IUserActService {
 		}
 	}
 
+	@Override
+	public boolean isInterested(long uid, long actId) {
+		List<Long> actIds = getUserActIdsFromCache(uid, Integer.MAX_VALUE);
+		if (CollectionUtils.isEmpty(actIds)) {
+			return false;
+		} else if (actIds.contains(actId)) {
+			return true;
+		} else {
+			List<Long> synonymIds = actService.listSynonymIds(actId);
+			if (CollectionUtils.containsAny(actIds, synonymIds)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
 }

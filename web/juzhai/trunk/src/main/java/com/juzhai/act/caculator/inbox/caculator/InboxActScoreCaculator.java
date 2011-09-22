@@ -6,21 +6,21 @@ import org.springframework.stereotype.Service;
 import com.juzhai.act.caculator.IScoreCaculator;
 import com.juzhai.act.caculator.annotation.ScorePoint;
 import com.juzhai.act.caculator.annotation.ScorePoint.ScoreType;
-import com.juzhai.passport.service.IProfileService;
+import com.juzhai.act.service.IUserActService;
 
 @Service
 @ScorePoint({ ScoreType.INBOX })
-public class InboxCityScoreCaculator implements IScoreCaculator {
+public class InboxActScoreCaculator implements IScoreCaculator {
 
-	private static final int CITY_REWARD_TIME = 3 * 24 * 60 * 60;
+	private static final int ACT_REWARD_TIME = 3 * 24 * 60 * 60;
 
 	@Autowired
-	private IProfileService profileService;
+	private IUserActService userActService;
 
 	@Override
 	public long calculate(long srcUid, long destUid, long actId) {
-		if (profileService.isMaybeSameCity(srcUid, destUid) > 0) {
-			return CITY_REWARD_TIME;
+		if (userActService.isInterested(destUid, actId)) {
+			return ACT_REWARD_TIME;
 		} else {
 			return 0;
 		}

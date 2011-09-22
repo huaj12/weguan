@@ -140,4 +140,13 @@ public interface IUserActService {
 	 * @return
 	 */
 	UserAct getUserAct(long uid, long actId);
+
+	/**
+	 * 判断某个用户是否对某个拒宅兴趣感兴趣，包括近义词兴趣
+	 * 
+	 * @param uid
+	 * @param actId
+	 * @return
+	 */
+	boolean isInterested(long uid, long actId);
 }

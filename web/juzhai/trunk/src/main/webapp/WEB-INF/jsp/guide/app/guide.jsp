@@ -18,12 +18,20 @@
 					<div class="content white"><!--content begin-->
 						<div class="top"></div>
 						<div class="mid"><!--mid begin-->
-							<div class="basic_yd sec_sport"><!--basic_yd begin-->
+							<c:choose>
+								<c:when test="${step==1}"><c:set var="classSuffix" value="hot" /></c:when>
+								<c:when test="${step==2}"><c:set var="classSuffix" value="joy" /></c:when>
+								<c:when test="${step==3}"><c:set var="classSuffix" value="sport" /></c:when>
+								<c:when test="${step==4}"><c:set var="classSuffix" value="travel" /></c:when>
+								<c:when test="${step==5}"><c:set var="classSuffix" value="leisure" /></c:when>
+								<c:when test="${step==6}"><c:set var="classSuffix" value="food" /></c:when>
+							</c:choose>
+							<div class="basic_yd sec_${classSuffix}"><!--basic_yd begin-->
 								<h3 class="fl"></h3>
 								<div class="sec fr"><!--sec begin-->
 									<h2>你感兴趣的${actCategory.name}</h2>
 									<div id="acts">
-										<c:forEach var="act" items="${actList }">
+										<c:forEach var="act" items="${actList}">
 											<p><span class="fl"></span><a href="#" class="key_words" actId="${act.id}"><c:out value="${act.name}" /></a><span class="fr"></span><em></em></p>
 										</c:forEach>
 									</div>

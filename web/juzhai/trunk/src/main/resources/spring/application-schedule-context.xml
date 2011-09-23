@@ -36,7 +36,7 @@
 		<property name="repeatInterval" value="${actIndex.optimization.commit.repeat.interval}" />
 	</bean>
 	
-	<bean id="unreadMsgEmailTrigger" parent="abstractSimpleTrigger">
+	<bean id="unreadMsgEmailTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
 				<property name="targetObject" ref="unreadMsgEmailHandler" />
@@ -45,7 +45,7 @@
 		<property name="cronExpression" value="${unread.msg.email.cron}" />
 	</bean>
 	
-	<bean id="actBriefingEmailTrigger" parent="abstractSimpleTrigger">
+	<bean id="actBriefingEmailTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
 				<property name="targetObject" ref="actBriefingEmailHandler" />

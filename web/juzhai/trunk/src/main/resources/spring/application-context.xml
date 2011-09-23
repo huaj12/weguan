@@ -55,5 +55,10 @@
 		<property name="threadNamePrefix" value="custom_" />
 	</bean>
 
+	<bean id="wordFilterService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl" value="http://localhost:8080/wordfilter/hessian/wordFilterService" />
+		<property name="serviceInterface" value="com.juzhai.wordfilter.service.IWordFilterService" />
+	</bean>
+
 	<import resource="classpath:spring/application-*-context.xml" />
 </beans>

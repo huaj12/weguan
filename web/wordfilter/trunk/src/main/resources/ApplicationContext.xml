@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by et8 (et8) -->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--
+  - Application context definition for JPetStore's business layer.
+	- Contains bean references to the transaction manager and to the DAOs in
+	- dataAccessContext-local/jta.xml (see web.xml's "contextConfigLocation").
+	-->
+<beans>
+	<!-- ========================= GENERAL DEFINITIONS ========================= -->
+	<!-- Configurer that replaces ${...} placeholders with values from properties files -->
+	<!-- (in this case, mail and JDBC related properties) -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:jdbc.properties" />
+	</bean>
+	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
+	<!-- Local DataSource that refers to a combined database -->
+	<!-- (see dataAccessContext-jta.xml for an alternative) -->
+	<!-- The placeholders are resolved from jdbc.properties through -->
+	<!-- the PropertyPlaceholderConfigurer in applicationContext.xml -->
+    
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass">
+			<value>${jdbc.driverClassName}</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="user">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+	      	<value>${jdbc.password}</value>
+		</property>
+		<property name="initialPoolSize">
+			<value>${sdb.initialPoolSize}</value>
+		</property>
+		<property name="minPoolSize">
+			<value>${sdb.minPoolSize}</value>
+		</property>
+		<property name="maxPoolSize">
+			<value>${sdb.maxPoolSize}</value>
+		</property>
+		<property name="acquireIncrement">
+			<value>${sdb.acquireIncrement}</value>
+		</property>
+		<property name="maxIdleTime">
+			<value>${sdb.maxIdleTime}</value>
+		</property>
+		<property name="checkoutTimeout">
+			<value>${sdb.checkoutTimeout}</value>
+		</property>
+    </bean>
+    <bean id="dbTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+    	<constructor-arg>
+    		<ref bean="dataSource"/>
+    	</constructor-arg>
+    </bean>
+    <bean id="filterDataDAO" class="com.juzhai.wordfilter.dao.FilterDataDAO">
+    	<property name="dbTemplate"><ref bean="dbTemplate"/></property>
+    	<property name="appReference"><ref bean="appReference"/></property>
+    </bean>
+    <bean id="filterLogDAO" class="com.juzhai.wordfilter.dao.FilterLogDAO">
+    	<property name="dataSource"><ref bean="dataSource"/></property>
+    </bean>    
+    <bean id="spamDataService" class="com.juzhai.wordfilter.dataservice.SpamDataServiceImpl" init-method="launchTask">
+    	<property name="period">
+    		<value>86400000</value>
+    	</property>
+    </bean>
+    
+    <bean id="filterLogService"
+		class="com.juzhai.wordfilter.dataservice.FilterLogServiceImpl">
+		<property name="filterLogdao">
+			<ref bean="filterLogDAO"/>
+		</property>
+		<property name="maxCacheSize">
+			<value>5000</value>
+		</property>
+	</bean>
+	<bean id="appReference" class="com.juzhai.wordfilter.web.util.AppReference">
+		<property name="fileName">
+			<value>app_id.properties</value>
+		</property>
+	</bean>
+	
+	<bean id="forbidService" class="com.juzhai.wordfilter.dataservice.ForbidService">
+		<property name="filterDataDAO">
+			<ref bean="filterDataDAO"/>
+		</property>
+	</bean>
+	
+</beans>

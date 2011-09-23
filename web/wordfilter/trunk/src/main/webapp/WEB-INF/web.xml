@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>
+	word_filter</display-name>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			<!-- Item/List/User Search -->
+			/WEB-INF/classes/ApplicationContext.xml
+		</param-value>
+	</context-param>
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>wordfilter.root</param-value>
+	</context-param>
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/log4j.properties</param-value>
+	</context-param>
+	<listener>
+		<listener-class>
+			com.juzhai.wordfilter.web.listener.SpringContextLoaderListener
+		</listener-class>
+	</listener> 
+	
+	<servlet>
+		<servlet-name>jvminfo</servlet-name>
+		<servlet-class>com.juzhai.wordfilter.web.servlet.JVMInfoServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<display-name>word filter</display-name>
+		<servlet-name>wordfilter</servlet-name>
+		<servlet-class>
+			com.juzhai.wordfilter.web.servlet.WordFilterServlet
+		</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet>
+		<display-name>admin</display-name>
+		<servlet-name>admin</servlet-name>
+		<servlet-class>
+			com.juzhai.wordfilter.web.servlet.AdminServlet
+		</servlet-class>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<display-name>forbidUser</display-name>
+		<servlet-name>forbidUser</servlet-name>
+		<servlet-class>
+			com.juzhai.wordfilter.web.servlet.ForbidUserServlet
+		</servlet-class>
+	</servlet>
+
+	<servlet>
+		<display-name>forbidIp</display-name>
+		<servlet-name>forbidIp</servlet-name>
+		<servlet-class>
+			com.juzhai.wordfilter.web.servlet.ForbidIpServlet
+		</servlet-class>
+	</servlet>
+
+	
+	<servlet-mapping>
+		<servlet-name>wordfilter</servlet-name>
+		<url-pattern>/wordfilter.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>admin</servlet-name>
+		<url-pattern>/update.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>jvminfo</servlet-name>
+		<url-pattern>/monitor.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>forbidUser</servlet-name>
+		<url-pattern>/forbidUser.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>forbidIp</servlet-name>
+		<url-pattern>/forbidIp.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>hessian</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				/WEB-INF/classes/Application-hessian-context.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>hessian</servlet-name>
+		<url-pattern>/hessian/*</url-pattern>
+	</servlet-mapping>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

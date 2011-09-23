@@ -50,6 +50,7 @@ public class MailManager {
 	}
 
 	public synchronized void startDaemon() {
+		// TODO 如果当前要结束，直接关闭结束标志
 		if (!mailDaemonRunning && !mailDaemonStopping) {
 			Thread daemon = new Thread(new MailDaemon());
 			daemon.start();

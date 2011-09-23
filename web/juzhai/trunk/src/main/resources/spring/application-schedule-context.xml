@@ -21,6 +21,9 @@
 	<bean id="abstractSimpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean" abstract="true">
 		<property name="startDelay" value="${default.start.delay}" />
 	</bean>
+	<bean id="abstractCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean" abstract="true">
+		<property name="startDelay" value="${default.start.delay}" />
+	</bean>
     
 
 	<bean id="actIndexOptimizationAndCommitTrigger" parent="abstractSimpleTrigger">
@@ -32,11 +35,31 @@
 		<property name="startDelay" value="${actIndex.optimization.commit.start.delay}" />
 		<property name="repeatInterval" value="${actIndex.optimization.commit.repeat.interval}" />
 	</bean>
+	
+	<bean id="unreadMsgEmailTrigger" parent="abstractSimpleTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="unreadMsgEmailHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${unread.msg.email.cron}" />
+	</bean>
+	
+	<bean id="actBriefingEmailTrigger" parent="abstractSimpleTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="actBriefingEmailHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${act.briefing.email.cron}" />
+	</bean>
 		
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
 				<ref bean="actIndexOptimizationAndCommitTrigger"/>
+				<!-- <ref bean="unreadMsgEmailTrigger"/>
+				<ref bean="actBriefingEmailTrigger"/> -->
 			</list>
 		</property>
 	</bean>

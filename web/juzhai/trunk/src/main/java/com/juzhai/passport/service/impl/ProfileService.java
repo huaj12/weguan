@@ -23,6 +23,7 @@ import com.juzhai.account.bean.ProfitAction;
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.core.dao.Limit;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.ProfileMapper;
@@ -171,5 +172,15 @@ public class ProfileService implements IProfileService {
 		} else {
 			return 0;
 		}
+	}
+
+	@Override
+	public List<Profile> getSubEmailProfiles(int firstResult, int maxResults) {
+		ProfileExample example = new ProfileExample();
+		example.createCriteria().andSubEmailEqualTo(true).andEmailIsNotNull()
+				.andEmailNotEqualTo(StringUtils.EMPTY);
+		example.setOrderByClause("uid asc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return profileMapper.selectByExample(example);
 	}
 }

@@ -74,4 +74,13 @@ public interface IProfileService {
 	 * @return 0.不是同城 1.有可能同城 2.同城
 	 */
 	int isMaybeSameCity(long uid1, long uid2);
+
+	/**
+	 * 获取订阅邮箱的用户资料对象
+	 * 
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Profile> getSubEmailProfiles(int firstResult, int maxResults);
 }

@@ -3,6 +3,8 @@
  */
 package com.juzhai.act.service;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import com.juzhai.act.bean.ActDealType;
@@ -149,4 +151,23 @@ public interface IUserActService {
 	 * @return
 	 */
 	boolean isInterested(long uid, long actId);
+
+	/**
+	 * 列出最近好友更新的兴趣
+	 * 
+	 * @param friendIds
+	 * @param startDate
+	 * @return
+	 */
+	List<UserAct> listFriendsRecentAct(Collection<Long> friendIds,
+			Date startDate, int firstResult, int maxResult);
+
+	/**
+	 * 统计最近好友更新的兴趣的数量
+	 * 
+	 * @param friendIds
+	 * @param startDate
+	 * @return
+	 */
+	int countFriendsRecentAct(Collection<Long> friendIds, Date startDate);
 }

@@ -4,6 +4,7 @@
 package com.juzhai.act.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -313,5 +314,30 @@ public class UserActService implements IUserActService {
 				return false;
 			}
 		}
+	}
+
+	@Override
+	public List<UserAct> listFriendsRecentAct(Collection<Long> friendIds,
+			Date startDate, int firstResult, int maxResults) {
+		if (CollectionUtils.isEmpty(friendIds)) {
+			return Collections.emptyList();
+		}
+		UserActExample example = new UserActExample();
+		example.createCriteria().andUidIn(new ArrayList<Long>(friendIds))
+				.andLastModifyTimeGreaterThanOrEqualTo(startDate);
+		example.setOrderByClause("last_modify_time desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return userActMapper.selectByExample(example);
+	}
+
+	@Override
+	public int countFriendsRecentAct(Collection<Long> friendIds, Date startDate) {
+		if (CollectionUtils.isEmpty(friendIds)) {
+			return 0;
+		}
+		UserActExample example = new UserActExample();
+		example.createCriteria().andUidIn(new ArrayList<Long>(friendIds))
+				.andLastModifyTimeGreaterThanOrEqualTo(startDate);
+		return userActMapper.countByExample(example);
 	}
 }

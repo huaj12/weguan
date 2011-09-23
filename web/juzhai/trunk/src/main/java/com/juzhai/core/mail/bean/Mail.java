@@ -1,10 +1,17 @@
 package com.juzhai.core.mail.bean;
 
 import java.io.Serializable;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+
+import com.juzhai.core.Constants;
 
 public class Mail implements Serializable {
 
 	private static final long serialVersionUID = -3704848536862469682L;
+
+	private static final String DEFAULT_ENCODING = Constants.UTF8;
 
 	private MailUser receiver;
 
@@ -25,7 +32,7 @@ public class Mail implements Serializable {
 	}
 
 	public String getEncoding() {
-		return encoding;
+		return StringUtils.isEmpty(encoding) ? DEFAULT_ENCODING : encoding;
 	}
 
 	public void setEncoding(String encoding) {
@@ -54,5 +61,21 @@ public class Mail implements Serializable {
 
 	public void setText(MailContent text) {
 		this.text = text;
+	}
+
+	public void buildSubject(String templatePath, Map<String, Object> props) {
+		if (null == this.subject) {
+			this.subject = new MailContent();
+		}
+		this.subject.setTemplatePath(templatePath);
+		this.subject.setProp(props);
+	}
+
+	public void buildText(String templatePath, Map<String, Object> props) {
+		if (null == this.text) {
+			this.text = new MailContent();
+		}
+		this.text.setTemplatePath(templatePath);
+		this.text.setProp(props);
 	}
 }

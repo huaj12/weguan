@@ -135,4 +135,14 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genGradedUsersKey(long userId) {
 		return genKey(userId, "graded");
 	}
+
+	/**
+	 * 用户数据用来DES加密的密钥
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public static String genUserSecretKey(long userId) {
+		return genKey(userId, "secretKey");
+	}
 }

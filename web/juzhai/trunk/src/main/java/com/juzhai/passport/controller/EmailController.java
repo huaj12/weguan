@@ -1,6 +1,5 @@
 package com.juzhai.passport.controller;
 
-import java.security.SecureRandom;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.core.controller.BaseController;
+import com.juzhai.core.encrypt.DESUtils;
+import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
@@ -68,9 +69,56 @@ public class EmailController extends BaseController {
 
 	@RequestMapping(value = "/unsubEmail", method = RequestMethod.GET)
 	public String unsubEmail(HttpServletRequest request, Model model,
-			String token) {
-		SecureRandom sr = new SecureRandom();
-		//TODO 退订成功页面
+			String token, long uid) {
+		long realUid = decryptUid(token, uid);
+		if (realUid <= 0) {
+			return error_500;
+		}
+		ProfileCache profileCache = profileService
+				.getProfileCacheByUid(realUid);
+		if (profileCache == null) {
+			return error_500;
+		}
+		model.addAttribute("profile", profileCache);
+		model.addAttribute("token", token);
+		// TODO 退订成功页面
 		return "";
+	}
+
+	@RequestMapping(value = "/unsubEmail", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult unsubEmailSubmit(HttpServletRequest request, Model model,
+			String token, long uid) {
+		long realUid = decryptUid(token, uid);
+		AjaxResult ajaxResult = new AjaxResult();
+		if (realUid > 0) {
+			boolean isSuccess = profileService.unsubEmail(realUid);
+			if (isSuccess) {
+				ajaxResult.setSuccess(isSuccess);
+				return ajaxResult;
+			}
+		}
+
+		ajaxResult.setSuccess(false);
+		ajaxResult.setErrorCode(JuzhaiException.ILLEGAL_OPERATION);
+		ajaxResult.setErrorInfo(messageSource.getMessage(
+				JuzhaiException.ILLEGAL_OPERATION, null,
+				Locale.SIMPLIFIED_CHINESE));
+		return ajaxResult;
+	}
+
+	private long decryptUid(String token, long uid) {
+		byte[] scretKey = profileService.getUserSecretKey(uid);
+		if (null == scretKey) {
+			return 0;
+		}
+		long realUid = 0;
+		try {
+			realUid = Long.valueOf(DESUtils.decryptToString(scretKey, token));
+		} catch (Exception e) {
+			log.error("unsub email decrypt error.[uid=" + uid + "]", e);
+			return 0;
+		}
+		return realUid;
 	}
 }

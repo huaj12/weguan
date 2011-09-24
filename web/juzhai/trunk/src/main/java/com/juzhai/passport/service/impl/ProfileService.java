@@ -3,12 +3,14 @@
  */
 package com.juzhai.passport.service.impl;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,6 +26,7 @@ import com.juzhai.account.service.IAccountService;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
+import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.ProfileMapper;
@@ -42,6 +45,8 @@ public class ProfileService implements IProfileService {
 
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
+	@Autowired
+	private RedisTemplate<String, byte[]> byteArrayRedisTemplate;
 	@Autowired
 	private ProfileMapper profileMapper;
 	@Autowired
@@ -162,6 +167,25 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
+	public boolean unsubEmail(long uid) {
+		Profile profile = new Profile();
+		profile.setUid(uid);
+		profile.setSubEmail(false);
+		profile.setLastModifyTime(new Date());
+		if (profileMapper.updateByPrimaryKeySelective(profile) == 1) {
+			// 更新cache
+			ProfileCache profileCache = getProfileCacheByUid(uid);
+			if (null != profileCache) {
+				profileCache.setSubEmail(false);
+				cacheProfileCache(uid, profileCache);
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
 	public int isMaybeSameCity(long uid1, long uid2) {
 		long srcUserCity = getUserCityFromCache(uid1);
 		long destUserCity = getUserCityFromCache(uid2);
@@ -182,5 +206,21 @@ public class ProfileService implements IProfileService {
 		example.setOrderByClause("uid asc");
 		example.setLimit(new Limit(firstResult, maxResults));
 		return profileMapper.selectByExample(example);
+	}
+
+	@Override
+	public byte[] getUserSecretKey(long uid) {
+		String redisKey = RedisKeyGenerator.genUserSecretKey(uid);
+		byte[] scretKey = byteArrayRedisTemplate.opsForValue().get(redisKey);
+		if (ArrayUtils.isEmpty(scretKey)) {
+			try {
+				scretKey = DESUtils.generateKey();
+			} catch (NoSuchAlgorithmException e) {
+				log.error("generate scretKey error.[uid=" + uid + "]", e);
+				return null;
+			}
+			byteArrayRedisTemplate.opsForValue().set(redisKey, scretKey);
+		}
+		return scretKey;
 	}
 }

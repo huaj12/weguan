@@ -4,6 +4,10 @@ public class JuzhaiException extends Exception {
 
 	private static final long serialVersionUID = -463492418595191842L;
 
+	public static final String SYSTEM_ERROR = "00001";
+
+	public static final String ILLEGAL_OPERATION = "00002";
+
 	public JuzhaiException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

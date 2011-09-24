@@ -40,5 +40,6 @@ public interface IWordFilterService {
 	 *         -99：未知的应用
 	 * @throws IOException
 	 */
-	int wordFilter(int application, long userId, String ip, byte[] txtData) throws IOException;
+	int wordFilter(int application, long userId, String ip, String txt)
+			throws IOException;
 }

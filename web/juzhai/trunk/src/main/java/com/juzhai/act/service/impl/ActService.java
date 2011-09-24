@@ -36,6 +36,7 @@ import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.wordfilter.service.IWordFilterService;
 
 @Service
 public class ActService implements IActService {
@@ -54,10 +55,14 @@ public class ActService implements IActService {
 	private IndexSearcherTemplate actIndexSearcherTemplate;
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
+	@Autowired
+	private IWordFilterService wordFilterService;
 	@Value("${act.name.length.min}")
 	private int actNameLengthMin = 2;
 	@Value("${act.name.length.max}")
 	private int actNameLengthMax = 20;
+	@Value("${act.name.wordfilter.application}")
+	private int actNameWordfilterApplication = 0;
 
 	@Override
 	public void verifyAct(long rawActId, String actCategoryIds) {
@@ -77,7 +82,14 @@ public class ActService implements IActService {
 	@Override
 	public Act createAct(long uid, String actName, List<Long> categoryIds)
 			throws ActInputException {
-		// TODO 过滤词
+		try {
+			if (wordFilterService.wordFilter(actNameWordfilterApplication, uid,
+					null, actName) < 0) {
+				throw new ActInputException(ActInputException.ACT_NAME_FORBID);
+			}
+		} catch (IOException e) {
+			log.error("Wordfilter service down.", e);
+		}
 		long length = StringUtil.chineseLength(actName);
 		if (length < actNameLengthMin || length > actNameLengthMax) {
 			throw new ActInputException(ActInputException.ACT_NAME_INVALID);

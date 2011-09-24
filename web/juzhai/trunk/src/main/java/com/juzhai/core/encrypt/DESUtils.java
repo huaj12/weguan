@@ -14,6 +14,9 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
+
 public class DESUtils {
 
 	public static byte[] generateKey() throws NoSuchAlgorithmException {
@@ -83,10 +86,26 @@ public class DESUtils {
 		return cipher.doFinal(encryptData);
 	}
 
+	public static byte[] decryptFromHexString(byte[] rawKeyData,
+			String encryptData) throws InvalidKeyException,
+			NoSuchAlgorithmException, InvalidKeySpecException,
+			NoSuchPaddingException, IllegalBlockSizeException,
+			BadPaddingException, DecoderException {
+		return decrypt(rawKeyData, Hex.decodeHex(encryptData.toCharArray()));
+	}
+
+	public static String decryptToString(byte[] rawKeyData, String encryptData)
+			throws InvalidKeyException, NoSuchAlgorithmException,
+			InvalidKeySpecException, NoSuchPaddingException,
+			IllegalBlockSizeException, BadPaddingException, DecoderException {
+		return new String(decrypt(rawKeyData,
+				Hex.decodeHex(encryptData.toCharArray())));
+	}
+
 	public static void main(String[] args) throws Exception {
 		byte[] key = generateKey();
 		byte[] encryptData = encrypt(key, "4567".getBytes());
-		byte[] decryptData = decrypt(key, encryptData);
+		byte[] decryptData = decrypt(generateKey(), encryptData);
 		System.out.println(new String(decryptData));
 	}
 }

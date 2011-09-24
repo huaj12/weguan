@@ -67,6 +67,14 @@ public interface IProfileService {
 	boolean subEmail(long uid, String email) throws ProfileInputException;
 
 	/**
+	 * 退订邮箱
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	boolean unsubEmail(long uid);
+
+	/**
 	 * 判断两个人是否可能同城，当其中有人没有所在地信息，即认为是同城
 	 * 
 	 * @param uid1
@@ -83,4 +91,11 @@ public interface IProfileService {
 	 * @return
 	 */
 	List<Profile> getSubEmailProfiles(int firstResult, int maxResults);
+
+	/**
+	 * 取用户密钥，当不存在，则生成一个并保存
+	 * 
+	 * @param uid
+	 */
+	byte[] getUserSecretKey(long uid);
 }

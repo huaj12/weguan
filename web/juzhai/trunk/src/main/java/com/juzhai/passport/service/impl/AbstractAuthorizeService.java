@@ -37,6 +37,9 @@ public abstract class AbstractAuthorizeService implements IAuthorizeService {
 		if (authInfo == null) {
 			authInfo = new AuthInfo();
 		}
+		if (!checkAuthInfo(request, authInfo, tp)) {
+			return 0L;
+		}
 		String tpIdentity = fetchTpIdentity(request, authInfo, tp);
 		if (StringUtils.isEmpty(tpIdentity)) {
 			log.error("Fetch thirdparty identity failed.[tpName:"
@@ -88,6 +91,9 @@ public abstract class AbstractAuthorizeService implements IAuthorizeService {
 			String thirdpartyIdentity);
 
 	protected abstract String fetchTpIdentity(HttpServletRequest request,
+			AuthInfo authInfo, Thirdparty tp);
+
+	protected abstract boolean checkAuthInfo(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp);
 
 	// protected Map<String, String> getCookieMap(HttpServletRequest request) {

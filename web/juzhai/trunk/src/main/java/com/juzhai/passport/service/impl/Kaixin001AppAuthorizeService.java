@@ -11,6 +11,7 @@ import kx4j.KxSDK;
 import kx4j.UIDs;
 import kx4j.User;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -217,5 +218,14 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 			kaiXinService.sendSysMessage(StringUtils.join(fuids, ","),
 					linktext, link, word, text, picurl, authInfo);
 		}
+	}
+
+	@Override
+	protected boolean checkAuthInfo(HttpServletRequest request,
+			AuthInfo authInfo, Thirdparty tp) {
+		String sessionKey = request.getParameter("session_key");
+		String appSecret = tp.getAppSecret();
+		String sig = DigestUtils.md5Hex(sessionKey + "_" + appSecret);
+		return StringUtils.equals(sig, request.getParameter("sig"));
 	}
 }

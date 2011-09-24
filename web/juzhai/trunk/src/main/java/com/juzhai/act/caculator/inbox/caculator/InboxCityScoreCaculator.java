@@ -1,5 +1,7 @@
 package com.juzhai.act.caculator.inbox.caculator;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ public class InboxCityScoreCaculator implements IScoreCaculator {
 	private IProfileService profileService;
 
 	@Override
-	public long calculate(long srcUid, long destUid, long actId) {
+	public long calculate(long srcUid, long destUid, long actId, Date time) {
 		if (profileService.isMaybeSameCity(srcUid, destUid) > 0) {
 			return CITY_REWARD_TIME;
 		} else {

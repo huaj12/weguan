@@ -1,5 +1,7 @@
 package com.juzhai.act.caculator;
 
+import java.util.Date;
+
 public interface IScoreCaculator {
 
 	/**
@@ -10,5 +12,5 @@ public interface IScoreCaculator {
 	 * @param actId
 	 * @return
 	 */
-	long calculate(long srcUid, long destUid, long actId);
+	long calculate(long srcUid, long destUid, long actId, Date time);
 }

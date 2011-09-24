@@ -1,5 +1,7 @@
 package com.juzhai.act.caculator;
 
+import java.util.Date;
+
 public interface IScoreGenerator {
 
 	/**
@@ -10,5 +12,5 @@ public interface IScoreGenerator {
 	 * @param actId
 	 * @return
 	 */
-	int genScore(long srcUid, long destUid, long actId);
+	int genScore(long srcUid, long destUid, long actId, Date time);
 }

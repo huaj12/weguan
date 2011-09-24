@@ -1,5 +1,7 @@
 package com.juzhai.act.caculator.inbox.caculator;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +19,7 @@ public class InboxIntimacyScoreCaculator implements IScoreCaculator {
 	private IFriendService friendService;
 
 	@Override
-	public long calculate(long srcUid, long destUid, long actId) {
+	public long calculate(long srcUid, long destUid, long actId, Date time) {
 		return friendService.getFriendIntimacy(srcUid, destUid)
 				* PER_INTIMACY_REWARD_TIME;
 	}

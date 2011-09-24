@@ -1,6 +1,7 @@
 package com.juzhai.home.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -10,6 +11,7 @@ import java.util.StringTokenizer;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,9 +78,16 @@ public class InboxService implements IInboxService {
 
 	@Override
 	public void push(long receiverId, long senderId, long actId) {
+		push(receiverId, senderId, actId, null);
+	}
+
+	private void push(long receiverId, long senderId, long actId, Date time) {
 		String key = RedisKeyGenerator.genInboxActsKey(receiverId);
-		redisTemplate.opsForZSet().add(key, assembleValue(senderId, actId),
-				inboxScoreGenerator.genScore(senderId, receiverId, actId));
+		redisTemplate.opsForZSet()
+				.add(key,
+						assembleValue(senderId, actId),
+						inboxScoreGenerator.genScore(senderId, receiverId,
+								actId, time));
 		// TODO 删除超过100个的值
 		// int overCount = redisTemplate.opsForZSet().size(key).intValue()
 		// - inboxCapacity;
@@ -89,7 +98,14 @@ public class InboxService implements IInboxService {
 
 	@Override
 	public void syncInbox(long uid) {
-		// TODO 根据算法决定怎么存储
+		Set<Long> friendIds = friendService.getAppFriends(uid);
+		Date startDate = DateUtils.addYears(new Date(), -1);
+		List<UserAct> userActList = userActService.listFriendsRecentAct(
+				friendIds, startDate, 0, 100);
+		for (UserAct userAct : userActList) {
+			push(uid, userAct.getUid(), userAct.getActId(),
+					userAct.getLastModifyTime());
+		}
 	}
 
 	@Override

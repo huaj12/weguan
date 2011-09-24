@@ -6,6 +6,9 @@ package com.juzhai.wordfilter.service.impl;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.juzhai.wordfilter.core.Config;
 import com.juzhai.wordfilter.core.Filter;
 import com.juzhai.wordfilter.dataservice.IFilterLogService;
@@ -18,22 +21,26 @@ import com.juzhai.wordfilter.web.util.SpringContextUtil;
  */
 public class WordFilterService implements IWordFilterService {
 
+	private final Log log = LogFactory.getLog(getClass());
+
 	public static final Charset GBK = Charset.forName("GBK");
 
 	@Override
-	public int wordFilter(int application, long userId, String ip,
-			byte[] txtData) throws IOException {
-
-		// byte[] txtData = null;
-		// if (txt != null) {
-		// txtData = txt.getBytes(GBK);
-		// } else {
-		// txtData = new byte[0];
-		// }
-
-		if (txtData == null) {
+	public int wordFilter(int application, long userId, String ip, String txt)
+			throws IOException {
+		if (log.isDebugEnabled()) {
+			log.debug("start filter word[" + txt + "]");
+		}
+		byte[] txtData = null;
+		if (null != txt && txt.length() > 0) {
+			txtData = txt.getBytes(GBK);
+		} else {
 			txtData = new byte[0];
 		}
+
+		// if (txtData == null) {
+		// txtData = new byte[0];
+		// }
 
 		/**
 		 * call check method

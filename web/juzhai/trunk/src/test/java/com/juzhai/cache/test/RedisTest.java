@@ -3,6 +3,8 @@
  */
 package com.juzhai.cache.test;
 
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.junit.After;
@@ -14,12 +16,17 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.juzhai.msg.bean.ActMsg;
+import com.juzhai.msg.bean.ActMsg.MsgType;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:spring/application-context.xml" })
 public class RedisTest {
 
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
+	@Autowired
+	private RedisTemplate<String, ActMsg> actMsgRedisTemplate;
 	private String key = "simpleKey";
 
 	@Before
@@ -30,6 +37,7 @@ public class RedisTest {
 	public void tearDown() throws Exception {
 
 		redisTemplate.delete(key);
+		actMsgRedisTemplate.delete(key);
 	}
 
 	@Test
@@ -91,5 +99,55 @@ public class RedisTest {
 		// range
 		Assert.assertEquals(value2, redisTemplate.opsForZSet().range(key, 0, 0)
 				.iterator().next().longValue());
+	}
+
+	@Test
+	public void listRemoveTest() {
+		long value1 = 1L;
+		long value2 = 2L;
+		long value3 = 3L;
+		long value4 = 4L;
+		redisTemplate.opsForList().leftPush(key, value1);
+		redisTemplate.opsForList().leftPush(key, value2);
+		redisTemplate.opsForList().leftPush(key, value3);
+		redisTemplate.opsForList().leftPush(key, value4);
+		redisTemplate.opsForList().leftPush(key, value1);
+		redisTemplate.opsForList().leftPush(key, value2);
+
+		redisTemplate.opsForList().remove(key, -1, value1);
+		List<Long> returnValues = redisTemplate.opsForList().range(key, 0, -1);
+		for (long value : returnValues) {
+			System.out.println(value);
+		}
+	}
+
+	@Test
+	public void listRemovePojoTest() {
+		ActMsg value1 = new ActMsg(1L, 1L, MsgType.BROADCAST_ACT);
+		ActMsg value2 = new ActMsg(2L, 2L, MsgType.BROADCAST_ACT);
+		ActMsg value3 = new ActMsg(3L, 3L, MsgType.BROADCAST_ACT);
+		ActMsg value4 = new ActMsg(4L, 4L, MsgType.BROADCAST_ACT);
+		ActMsg value5 = new ActMsg(1L, 1L, MsgType.BROADCAST_ACT);
+		ActMsg value6 = new ActMsg(2L, 2L, MsgType.BROADCAST_ACT);
+		actMsgRedisTemplate.opsForList().leftPush(key, value1);
+		actMsgRedisTemplate.opsForList().leftPush(key, value2);
+		actMsgRedisTemplate.opsForList().leftPush(key, value3);
+		actMsgRedisTemplate.opsForList().leftPush(key, value4);
+		actMsgRedisTemplate.opsForList().leftPush(key, value5);
+		actMsgRedisTemplate.opsForList().leftPush(key, value6);
+
+		ActMsg removePojo = actMsgRedisTemplate.opsForList().index(key, 1);
+		System.out.println(removePojo.getUid());
+		System.out.println(removePojo.getActId());
+		System.out.println("**************************");
+
+		actMsgRedisTemplate.opsForList().remove(key, 0, removePojo);
+		List<ActMsg> returnValues = actMsgRedisTemplate.opsForList().range(key,
+				0, -1);
+		for (ActMsg value : returnValues) {
+			System.out.println(value.getUid());
+			System.out.println(value.getActId());
+			System.out.println("---------------------------");
+		}
 	}
 }

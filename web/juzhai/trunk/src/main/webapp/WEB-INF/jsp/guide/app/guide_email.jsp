@@ -12,19 +12,18 @@
 	</head>
 	<body>
 		<div class="main"><!--main begin-->
-			<jsp:include page="/WEB-INF/jsp/common/app/app_guide_header.jsp" />
+			<div class="skin_top_new"></div>
 			<div class="skin_body">
 				<!--skin_body begin-->
-				<div class="skin_top_bg">
-					<jsp:include page="/WEB-INF/jsp/common/app/app_prompt.jsp" />
-					<jsp:include page="/WEB-INF/jsp/common/app/app_point.jsp" />
+				<div class="skin_top_bg_new">
+					<jsp:include page="/WEB-INF/jsp/common/app/app_guide_header.jsp" />
 					<div class="content white"><!--content begin-->
 						<div class="top"></div>
 						<div class="mid"><!--mid begin-->
 							<div class="basic_yd sec_rss"><!--basic_yd begin-->
 								<h3 class="fl"></h3>
 								<div class="sec fr"><!--sec begin-->
-									<h2>好了 ，你已经添加了12 个拒宅兴趣!</h2>
+									<h2>好了，你已经添加了${userActCount}个拒宅兴趣!</h2>
 									<h4>当你的同城好友有同样的兴趣时，我们会在下班前告知您</h4>
 									<div class="add_dy">
 										<strong>

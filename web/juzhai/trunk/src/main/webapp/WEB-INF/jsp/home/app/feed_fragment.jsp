@@ -11,7 +11,7 @@
 				<div class="infor fl" data="{'friendId':${feed.profileCache.uid},'actId':${feed.act.id},'times':${times}}"><!--infor begin-->
 					<h2><span class="u"><c:out value="${feed.profileCache.nickname}" /></span><span class="w">最近想去</span><span class="v"><c:out value="${feed.act.name}" /></span></h2>
 					<p><fmt:formatDate value="${feed.date}" pattern="yyyy.MM.dd"/>&nbsp;&nbsp;&nbsp;&nbsp;${feed.profileCache.provinceName}&nbsp;${feed.profileCache.cityName}</p>
-					<a href="#" class="want" onclick="javascript:response(this, 1);">我也想去</a><a href="#" class="dwant" onclick="javascript:response(this, 2);">没兴趣</a>
+					<a href="#" class="want" onclick="javascript:response(this, 1);"></a><a href="#" class="dwant" onclick="javascript:response(this, 2);"></a>
 				</div><!--infor end-->
 			</c:when>
 			<c:when test="${feed.feedType=='GRADE'}">
@@ -24,12 +24,14 @@
 						<span class="link" onmouseover="javascript:holdStar(3);" onmouseout="javascript:holdStar(-1);" onclick="javascript:grade(3, '${feed.tpFriend.userId}', ${times});" title="比我宅"></span>
 						<span class="link" onmouseover="javascript:holdStar(4);" onmouseout="javascript:holdStar(-1);" onclick="javascript:grade(4, '${feed.tpFriend.userId}', ${times});" title="很宅"></span>
 						<span class="link" onmouseover="javascript:holdStar(5);" onmouseout="javascript:holdStar(-1);" onclick="javascript:grade(5, '${feed.tpFriend.userId}', ${times});" title="相当宅"></span>
-						<p class="zai">请选择！</p>
 					</div><!--star end-->
+					<strong class="henzai"></strong>
 				</div><!--infor end-->
 			</c:when>
 			<c:otherwise>
-			<!-- 提示页面 -->
+				<div class="none_message"><!--none_message begin-->
+					<span>试试<a href="#" onclick="javascript:kaixinRequest();">邀请更多好友加入</a>！</span>
+				</div><!--none_message end-->
 			</c:otherwise>
 		</c:choose>
 	</div><!--jz_box end-->

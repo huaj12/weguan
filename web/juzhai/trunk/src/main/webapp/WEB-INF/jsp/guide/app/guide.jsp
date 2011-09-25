@@ -10,18 +10,17 @@
 	</head>
 	<body>
 		<div class="main"><!--main begin-->
-			<jsp:include page="/WEB-INF/jsp/common/app/app_guide_header.jsp" />
+			<div class="skin_top_new"></div>
 			<div class="skin_body"><!--skin_body begin-->
-				<div class="skin_top_bg"><!--content_bg begin-->
-					<jsp:include page="/WEB-INF/jsp/common/app/app_prompt.jsp" />
-					<jsp:include page="/WEB-INF/jsp/common/app/app_point.jsp" />
+				<div class="skin_top_bg_new"><!--content_bg begin-->
+					<jsp:include page="/WEB-INF/jsp/common/app/app_guide_header.jsp" />
 					<div class="content white"><!--content begin-->
 						<div class="top"></div>
 						<div class="mid"><!--mid begin-->
 							<c:choose>
-								<c:when test="${step==1}"><c:set var="classSuffix" value="hot" /></c:when>
+								<c:when test="${step==1}"><c:set var="classSuffix" value="sport" /></c:when>
 								<c:when test="${step==2}"><c:set var="classSuffix" value="joy" /></c:when>
-								<c:when test="${step==3}"><c:set var="classSuffix" value="sport" /></c:when>
+								<c:when test="${step==3}"><c:set var="classSuffix" value="travel" /></c:when>
 								<c:when test="${step==4}"><c:set var="classSuffix" value="travel" /></c:when>
 								<c:when test="${step==5}"><c:set var="classSuffix" value="leisure" /></c:when>
 								<c:when test="${step==6}"><c:set var="classSuffix" value="food" /></c:when>

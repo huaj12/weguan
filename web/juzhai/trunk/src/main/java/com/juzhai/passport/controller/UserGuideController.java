@@ -65,6 +65,8 @@ public class UserGuideController extends BaseController {
 			if (currentStep == InitData.GUIDE_STEPS.size() + 1) {
 				// 订阅邮箱步骤
 				queryProfile(context.getUid(), model);
+				model.addAttribute("userActCount",
+						userActService.countUserActByUid(context.getUid()));
 				return "guide/app/guide_email";
 			} else {
 				Long actCategoryId = InitData.GUIDE_STEPS.get(currentStep - 1);

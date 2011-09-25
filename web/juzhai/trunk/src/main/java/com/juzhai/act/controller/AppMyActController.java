@@ -55,6 +55,7 @@ public class AppMyActController extends BaseController {
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		queryPoint(context.getUid(), model);
+		showMyActTips(model);
 		queryProfile(context.getUid(), model);
 		pageMyAct(request, model, 1);
 

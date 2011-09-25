@@ -143,4 +143,15 @@ $(document).ready(function(){
 			return item.name;
 		}
 	});
+	
+	var proBoxNum = $("div.pro_box").size();
+	if(proBoxNum > 1){
+		var tipId = 1;
+		setInterval(function(){
+			$("div.tips_" + tipId).fadeOut(500, function(){
+				tipId = tipId == proBoxNum ? 1 : (tipId+1);
+				$("div.tips_" + tipId).fadeIn(500);
+			});
+		}, 5000);
+	}
 });

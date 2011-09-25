@@ -73,7 +73,7 @@ abbr,acronym { border: 0;
 
 
 /********************/
-.main{ width:800px; height:auto; display:block; margin:50px auto; }
+.main{ width:800px; height:auto; display:block; margin:auto; }
 .skin_top_new{ width:100%; height:9px; background:url(../images/full_image.png) no-repeat 0 -740px; *background:url(../images/full_image.png) no-repeat 0 -739px;  overflow:hidden;}
 
 .skin_top{ width:100%; height:65px; }
@@ -316,7 +316,7 @@ abbr,acronym { border: 0;
 .message_box .tab .active p.r{ background:#4E90DB;}
 .message_box .tab .active span{ background:#4E90DB; float:left; line-height:27px; line-height:29px\9; *line-height:27px; _line-height:29px; padding-left:10px; padding-right:10px; color:#fff; height:27px; overflow:hidden;}
 
-/********** Ë¹í°´Å¥************/
+/********** Ë¹?Å¥************/
 .message_box .title .pbr{ float:right; margin-top:25px;}
 .message_box .title .pbr a{background:url(../images/full_image.png) no-repeat -5px -140px; *background:url(../images/full_image.png) no-repeat -4px -139px; padding-left:20px; color:#999;  text-decoration:none; display:block; _display:inline;}
 .message_box .title .pbr a:hover{ text-decoration:underline;}

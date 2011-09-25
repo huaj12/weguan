@@ -121,4 +121,11 @@ public class EmailController extends BaseController {
 		}
 		return realUid;
 	}
+
+	@RequestMapping(value = "statReadEmail", method = RequestMethod.GET)
+	@ResponseBody
+	public String statReadEmail(String token, long uid) {
+		
+		return StringUtils.EMPTY;
+	}
 }

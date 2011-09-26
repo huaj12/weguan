@@ -4,7 +4,6 @@
 package com.juzhai.passport.service.impl;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -21,14 +20,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.juzhai.account.bean.ProfitAction;
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
@@ -39,10 +36,6 @@ public class ProfileService implements IProfileService {
 
 	private final Log log = LogFactory.getLog(getClass());
 
-	public static final String EMAIL_PATTERN_STRING = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*$";
-	public static final Pattern EMAIL_PATTERN = Pattern
-			.compile(EMAIL_PATTERN_STRING);
-
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
@@ -51,8 +44,6 @@ public class ProfileService implements IProfileService {
 	private ProfileMapper profileMapper;
 	@Autowired
 	private MemcachedClient memcachedClient;
-	@Autowired
-	private IAccountService accountService;
 	@Value("${profile.cache.expire.time}")
 	private int profileCacheExpireTime = 20000;
 
@@ -122,66 +113,13 @@ public class ProfileService implements IProfileService {
 		return profileCache;
 	}
 
-	private void cacheProfileCache(long uid, ProfileCache profileCache) {
+	@Override
+	public void cacheProfileCache(long uid, ProfileCache profileCache) {
 		try {
 			memcachedClient.set(MemcachedKeyGenerator.genProfileCacheKey(uid),
 					profileCacheExpireTime, profileCache);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-		}
-	}
-
-	@Override
-	public boolean subEmail(long uid, String email)
-			throws ProfileInputException {
-		email = StringUtils.trim(email);
-		if (!EMAIL_PATTERN.matcher(email).matches()) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_EMAIL_INVALID);
-		}
-		Profile profile = new Profile();
-		profile.setUid(uid);
-		profile.setEmail(email);
-		profile.setSubEmail(true);
-		profile.setLastModifyTime(new Date());
-
-		if (profileMapper.updateByPrimaryKeySelective(profile) == 1) {
-			// 更新cache
-			ProfileCache profileCache = getProfileCacheByUid(uid);
-			boolean isFirst = false;
-			if (null != profileCache) {
-				if (StringUtils.isNotEmpty(profileCache.getEmail())) {
-					isFirst = true;
-				}
-				profileCache.setEmail(email);
-				profileCache.setSubEmail(true);
-				cacheProfileCache(uid, profileCache);
-			}
-			if (isFirst) {
-				accountService.profitPoint(uid, ProfitAction.SUB_EMAIL);
-			}
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean unsubEmail(long uid) {
-		Profile profile = new Profile();
-		profile.setUid(uid);
-		profile.setSubEmail(false);
-		profile.setLastModifyTime(new Date());
-		if (profileMapper.updateByPrimaryKeySelective(profile) == 1) {
-			// 更新cache
-			ProfileCache profileCache = getProfileCacheByUid(uid);
-			if (null != profileCache) {
-				profileCache.setSubEmail(false);
-				cacheProfileCache(uid, profileCache);
-			}
-			return true;
-		} else {
-			return false;
 		}
 	}
 

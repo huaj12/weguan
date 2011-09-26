@@ -26,7 +26,7 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.UserGuide;
-import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.IEmailService;
 import com.juzhai.passport.service.IUserGuideService;
 
 @Controller
@@ -42,7 +42,7 @@ public class UserGuideController extends BaseController {
 	@Autowired
 	private IUserActService userActService;
 	@Autowired
-	private IProfileService profileService;
+	private IEmailService emailService;
 	@Autowired
 	private MessageSource messageSource;
 
@@ -140,7 +140,7 @@ public class UserGuideController extends BaseController {
 	private void doGuideComplete(UserContext context, String email)
 			throws ProfileInputException {
 		if (StringUtils.isNotEmpty(email)) {
-			profileService.subEmail(context.getUid(), email);
+			emailService.subEmail(context.getUid(), email);
 		}
 		userGuideService.completeGuide(context.getUid());
 	}

@@ -5,7 +5,6 @@ package com.juzhai.passport.service.impl;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 
@@ -20,7 +19,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.juzhai.account.service.IAccountService;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;

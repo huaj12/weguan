@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import com.juzhai.account.bean.ProfitAction;
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.InitData;
-import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.mapper.UserActMapper;
@@ -33,6 +32,7 @@ import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
+import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.home.service.IInboxService;
 import com.juzhai.msg.service.IMsgMessageService;
@@ -70,7 +70,7 @@ public class UserActService implements IUserActService {
 
 	@Override
 	public void respRandom(long uid, long actId, String tpFriendId, long tpId,
-			ActDealType type) throws IndexException {
+			ReadFeedType type) throws IndexException {
 		if (null == type) {
 			throw new IndexException("response feed invalid parameter");
 		}
@@ -82,7 +82,7 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
-	public void respFeed(long uid, long actId, long friendId, ActDealType type)
+	public void respFeed(long uid, long actId, long friendId, ReadFeedType type)
 			throws IndexException {
 		if (null == type) {
 			throw new IndexException("response feed invalid parameter");
@@ -97,7 +97,7 @@ public class UserActService implements IUserActService {
 	}
 
 	private void dealActAndFriend(long uid, long actId, long friendId,
-			String tpIdentity, long tpId, ActDealType type) {
+			String tpIdentity, long tpId, ReadFeedType type) {
 		switch (type) {
 		case DEPEND:
 			dependToAct(uid, actId, friendId);

@@ -1,7 +1,10 @@
 package com.juzhai.home.service;
 
-import com.juzhai.act.bean.ActDealType;
+import java.util.List;
+
 import com.juzhai.home.bean.Feed;
+import com.juzhai.home.bean.ReadFeed;
+import com.juzhai.home.bean.ReadFeedType;
 
 public interface IInboxService {
 
@@ -35,9 +38,17 @@ public interface IInboxService {
 	 * @param uid
 	 * @param actId
 	 * @param friendId
-	 * @param actDealType
+	 * @param readFeedType
 	 */
-	void shiftRead(long uid, long senderId, long actId, ActDealType actDealType);
+	void shiftRead(long uid, long senderId, long actId,
+			ReadFeedType readFeedType);
+
+	/**
+	 * 获取需要恢复的Feed
+	 * 
+	 * @return
+	 */
+	List<ReadFeed> listGetBackFeed();
 
 	/**
 	 * 从收件箱中是删除

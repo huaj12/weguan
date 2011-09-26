@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import com.juzhai.account.bean.ProfitAction;
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.InitData;
-import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.caculator.IScoreGenerator;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.UserAct;
@@ -33,6 +32,8 @@ import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.home.bean.Feed;
 import com.juzhai.home.bean.Feed.FeedType;
+import com.juzhai.home.bean.ReadFeed;
+import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.home.service.IInboxService;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
@@ -50,6 +51,8 @@ public class InboxService implements IInboxService {
 
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
+	@Autowired
+	private RedisTemplate<String, ReadFeed> readFeedRedisTemplate;
 	@Autowired
 	private IScoreGenerator inboxScoreGenerator;
 	@Autowired
@@ -72,6 +75,10 @@ public class InboxService implements IInboxService {
 	private int randomFeedMyActCount = 5;
 	@Value("${random.feed.act.count}")
 	private int randomFeedActCount = 10;
+	@Value("${want.feed.back.days.ago}")
+	private int wantFeedBackDaysAgo = 7;
+	@Value("${nill.feed.back.days.ago}")
+	private int nillFeedBackDaysAgo = 7;
 
 	// @Autowired
 	// private int inboxCapacity = 100;
@@ -120,10 +127,38 @@ public class InboxService implements IInboxService {
 
 	@Override
 	public void shiftRead(long uid, long senderId, long actId,
-			ActDealType actDealType) {
-		redisTemplate.opsForList().rightPush(
-				RedisKeyGenerator.genDealedActsKey(uid, actDealType),
-				assembleValue(senderId, actId));
+			ReadFeedType readFeedType) {
+		ReadFeed readFeed = new ReadFeed(senderId, uid, actId, readFeedType);
+		readFeedRedisTemplate.opsForList().rightPush(
+				RedisKeyGenerator.genReadFeedsKey(readFeedType), readFeed);
+	}
+
+	@Override
+	public List<ReadFeed> listGetBackFeed() {
+		List<ReadFeed> getBackFeedList = getBackFeedList(ReadFeedType.WANT,
+				wantFeedBackDaysAgo);
+		getBackFeedList.addAll(getBackFeedList(ReadFeedType.NILL,
+				nillFeedBackDaysAgo));
+		return getBackFeedList;
+	}
+
+	private List<ReadFeed> getBackFeedList(ReadFeedType type, int daysAgo) {
+		List<ReadFeed> getBackFeedList = new ArrayList<ReadFeed>();
+		Date cDate = new Date();
+		while (true) {
+			String key = RedisKeyGenerator.genReadFeedsKey(type);
+			ReadFeed readFeed = readFeedRedisTemplate.opsForList().leftPop(key);
+			if (null == readFeed) {
+				break;
+			} else if (readFeed.getTime().after(
+					DateUtils.addDays(cDate, -daysAgo))) {
+				readFeedRedisTemplate.opsForList().leftPush(key, readFeed);
+				break;
+			} else {
+				getBackFeedList.add(readFeed);
+			}
+		}
+		return getBackFeedList;
 	}
 
 	@Override

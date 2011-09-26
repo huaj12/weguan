@@ -1,6 +1,6 @@
 package com.juzhai.core.cache;
 
-import com.juzhai.act.bean.ActDealType;
+import com.juzhai.home.bean.ReadFeedType;
 
 public class RedisKeyGenerator extends KeyGenerator {
 
@@ -71,8 +71,8 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
-	public static String genDealedActsKey(long uid, ActDealType type) {
-		return genKey(uid, type.name());
+	public static String genReadFeedsKey(ReadFeedType type) {
+		return "readFeed_" + type.name();
 	}
 
 	/**

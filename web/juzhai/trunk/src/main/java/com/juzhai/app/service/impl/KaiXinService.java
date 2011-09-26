@@ -8,6 +8,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.app.model.AppUser;
@@ -19,7 +21,7 @@ import com.juzhai.passport.bean.AuthInfo;
 
 @Service
 public class KaiXinService implements IAppService {
-
+	private final Log log = LogFactory.getLog(getClass());
 	@Override
 	public String[] appFriends(AuthInfo authInfo, int start, int num) throws JuzhaiAppException {
 		if (start < 0) {
@@ -101,6 +103,28 @@ public class KaiXinService implements IAppService {
 			}
 				return flag;
 			}catch (Exception e) {
+				log.error("send kaixin sysmessage is error fuids:"+fuids, e);
+				return flag;
+			}
+	}
+
+	@Override
+	public boolean sendMessage(String fuids, String content,AuthInfo authInfo) {
+		boolean flag=false;
+		try{
+			Map<String, String> paramMap = new HashMap<String, String>();
+			paramMap.put("fuids", fuids);
+			paramMap.put("content",content);
+			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,authInfo.getSessionKey());
+			String ret = AppPlatformUtils.doPost(
+					"https://api.kaixin001.com/message/send.json", query);
+			JSONObject jObject = JSONObject.fromObject(ret);
+			if(!StringUtils.isEmpty(jObject.getString("mid"))){
+				flag=true;
+			}
+				return flag;
+			}catch (Exception e) {
+				log.error("send  kaixin message is error fuids:"+fuids, e);
 				return flag;
 			}
 	}

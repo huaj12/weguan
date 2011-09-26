@@ -41,4 +41,12 @@ public interface IAppService {
 	 */
 	boolean sendSysMessage(String fuids,String linktext,String link,String word,String text,String picurl,AuthInfo authInfo);
 	
+	/**
+	 * 发送短消息
+	 * @param fuids
+	 * @param Content
+	 * @return
+	 */
+	boolean sendMessage(String fuids,String content,AuthInfo authInfo);
+	
 }

@@ -3,6 +3,6 @@
 
 <mapper namespace="Account_Mapper">
 	<update id="updatePoint" parameterType="map">
-	    update tb_account set point = point + #{p} where uid = #{uid} and point + #{p}>0
+	    update tb_account set point = point + #{p} where uid = #{uid} and point + #{p}>=0
 	</update>
 </mapper>

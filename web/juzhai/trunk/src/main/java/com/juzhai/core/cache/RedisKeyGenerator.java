@@ -145,4 +145,13 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genUserSecretKey(long userId) {
 		return genKey(userId, "secretKey");
 	}
+
+	/**
+	 * 打开邮件的统计
+	 * 
+	 * @return
+	 */
+	public static String genOpenEmailStatKey() {
+		return "openEmailStat";
+	}
 }

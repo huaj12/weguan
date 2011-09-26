@@ -23,6 +23,7 @@ import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.ProfileInputException;
+import com.juzhai.passport.service.IEmailService;
 import com.juzhai.passport.service.IProfileService;
 
 @Controller
@@ -32,6 +33,8 @@ public class EmailController extends BaseController {
 
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IEmailService emailService;
 	@Autowired
 	private MessageSource messageSource;
 
@@ -52,7 +55,7 @@ public class EmailController extends BaseController {
 					log.debug("sub new email.[uid: " + context.getUid()
 							+ ", email: " + email + "]");
 				}
-				isSuccess = profileService.subEmail(context.getUid(), email);
+				isSuccess = emailService.subEmail(context.getUid(), email);
 			}
 			ajaxResult.setSuccess(isSuccess);
 		} catch (ProfileInputException e) {
@@ -92,7 +95,7 @@ public class EmailController extends BaseController {
 		long realUid = decryptUid(token, uid);
 		AjaxResult ajaxResult = new AjaxResult();
 		if (realUid > 0) {
-			boolean isSuccess = profileService.unsubEmail(realUid);
+			boolean isSuccess = emailService.unsubEmail(realUid);
 			if (isSuccess) {
 				ajaxResult.setSuccess(isSuccess);
 				return ajaxResult;
@@ -122,10 +125,13 @@ public class EmailController extends BaseController {
 		return realUid;
 	}
 
-	@RequestMapping(value = "statReadEmail", method = RequestMethod.GET)
+	@RequestMapping(value = "statOpenEmail", method = RequestMethod.GET)
 	@ResponseBody
-	public String statReadEmail(String token, long uid) {
-		
+	public String statOpenEmail(String token, long uid) {
+		long realUid = decryptUid(token, uid);
+		if (realUid == uid) {
+			emailService.statOpenEmail();
+		}
 		return StringUtils.EMPTY;
 	}
 }

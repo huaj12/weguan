@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.mapper.CityMapper;
 import com.juzhai.passport.mapper.ProvinceMapper;
 import com.juzhai.passport.mapper.ThirdpartyMapper;
@@ -89,6 +90,17 @@ public class InitData {
 		for (City city : CITY_MAP.values()) {
 			if (StringUtils.equals(name, city.getName())) {
 				return city;
+			}
+		}
+		return null;
+	}
+
+	public static Thirdparty getTpByTpNameAndJoinType(String name,
+			JoinTypeEnum joinType) {
+		for (Thirdparty tp : TP_MAP.values()) {
+			if (StringUtils.equals(tp.getName(), name)
+					&& StringUtils.equals(tp.getJoinType(), joinType.getName())) {
+				return tp;
 			}
 		}
 		return null;

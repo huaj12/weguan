@@ -170,4 +170,13 @@ public interface IUserActService {
 	 * @return
 	 */
 	int countFriendsRecentAct(Collection<Long> friendIds, Date startDate);
+
+	/**
+	 * 用户是否有某个兴趣
+	 * 
+	 * @param uid
+	 * @param actId
+	 * @return
+	 */
+	boolean existUserAct(long uid, long actId);
 }

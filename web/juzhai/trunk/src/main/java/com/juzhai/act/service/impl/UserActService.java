@@ -248,11 +248,11 @@ public class UserActService implements IUserActService {
 		UserActExample example = new UserActExample();
 		example.createCriteria().andUidEqualTo(uid).andActIdEqualTo(actId);
 		if (userActMapper.deleteByExample(example) >= 1) {
-			// 更新Act的使用人数
-			actService.inOrDePopularity(actId, -1);
 			// 删除redis里的数据
 			redisTemplate.opsForZSet().remove(
 					RedisKeyGenerator.genMyActsKey(uid), actId);
+			// 更新Act的使用人数
+			actService.inOrDePopularity(actId, -1);
 		}
 	}
 
@@ -339,5 +339,12 @@ public class UserActService implements IUserActService {
 		example.createCriteria().andUidIn(new ArrayList<Long>(friendIds))
 				.andLastModifyTimeGreaterThanOrEqualTo(startDate);
 		return userActMapper.countByExample(example);
+	}
+
+	@Override
+	public boolean existUserAct(long uid, long actId) {
+		Long rank = redisTemplate.opsForZSet().rank(
+				RedisKeyGenerator.genMyActsKey(uid), actId);
+		return rank != null;
 	}
 }

@@ -84,7 +84,7 @@ public class ActService implements IActService {
 			throws ActInputException {
 		try {
 			if (wordFilterService.wordFilter(actNameWordfilterApplication, uid,
-					null, actName) < 0) {
+					null, actName.getBytes("GBK")) < 0) {
 				throw new ActInputException(ActInputException.ACT_NAME_FORBID);
 			}
 		} catch (IOException e) {

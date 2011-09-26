@@ -26,21 +26,21 @@ public class WordFilterService implements IWordFilterService {
 	public static final Charset GBK = Charset.forName("GBK");
 
 	@Override
-	public int wordFilter(int application, long userId, String ip, String txt)
-			throws IOException {
+	public int wordFilter(int application, long userId, String ip,
+			byte[] txtData) throws IOException {
 		if (log.isDebugEnabled()) {
-			log.debug("start filter word[" + txt + "]");
+			log.debug("start filter word[" + txtData + "]");
 		}
-		byte[] txtData = null;
-		if (null != txt && txt.length() > 0) {
-			txtData = txt.getBytes(GBK);
-		} else {
-			txtData = new byte[0];
-		}
-
-		// if (txtData == null) {
+		// byte[] txtData = null;
+		// if (null != txt && txt.length() > 0) {
+		// txtData = txt.getBytes(GBK);
+		// } else {
 		// txtData = new byte[0];
 		// }
+
+		if (txtData == null) {
+			txtData = new byte[0];
+		}
 
 		/**
 		 * call check method

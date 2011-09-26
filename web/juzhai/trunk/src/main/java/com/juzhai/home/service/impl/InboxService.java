@@ -88,7 +88,8 @@ public class InboxService implements IInboxService {
 		push(receiverId, senderId, actId, null);
 	}
 
-	private void push(long receiverId, long senderId, long actId, Date time) {
+	@Override
+	public void push(long receiverId, long senderId, long actId, Date time) {
 		String key = RedisKeyGenerator.genInboxActsKey(receiverId);
 		redisTemplate.opsForZSet()
 				.add(key,
@@ -101,6 +102,13 @@ public class InboxService implements IInboxService {
 		// if (overCount > 0) {
 		// redisTemplate.opsForZSet().removeRange(key, 0, overCount - 1);
 		// }
+	}
+
+	@Override
+	public long inboxCount(long uid) {
+		Long count = redisTemplate.opsForZSet().size(
+				RedisKeyGenerator.genInboxActsKey(uid));
+		return null == count ? 0 : count;
 	}
 
 	@Override

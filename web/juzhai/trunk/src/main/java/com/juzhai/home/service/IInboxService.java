@@ -1,5 +1,6 @@
 package com.juzhai.home.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.juzhai.home.bean.Feed;
@@ -16,6 +17,24 @@ public interface IInboxService {
 	 * @param actId
 	 */
 	void push(long receiverId, long senderId, long actId);
+
+	/**
+	 * 向收件箱推数据
+	 * 
+	 * @param receiverId
+	 * @param senderId
+	 * @param actId
+	 * @param time
+	 */
+	void push(long receiverId, long senderId, long actId, Date time);
+
+	/**
+	 * 收件箱里feed的数量
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	long inboxCount(long uid);
 
 	/**
 	 * 同步收件箱，前提是好友信息已经缓存，小心使用，建议使用方法<code>syncInboxByTask</code>

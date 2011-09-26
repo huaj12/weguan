@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.Feed;
+import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.home.service.IInboxService;
 
@@ -62,9 +62,9 @@ public class AppHomeController extends BaseController {
 		UserContext context = checkLoginForApp(request);
 		try {
 			if (friendId > 0) {
-				ActDealType actDealType = ActDealType.valueOf(type);
+				ReadFeedType readFeedType = ReadFeedType.valueOf(type);
 				userActService.respFeed(context.getUid(), actId, friendId,
-						actDealType);
+						readFeedType);
 
 			}
 		} catch (IndexException e) {

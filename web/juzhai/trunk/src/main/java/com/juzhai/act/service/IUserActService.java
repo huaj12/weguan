@@ -7,11 +7,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import com.juzhai.act.bean.ActDealType;
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.UserAct;
+import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.home.exception.IndexException;
 
 public interface IUserActService {
@@ -29,7 +29,7 @@ public interface IUserActService {
 	 *            处理方式
 	 * @throws IndexException
 	 */
-	void respFeed(long uid, long actId, long friendId, ActDealType type)
+	void respFeed(long uid, long actId, long friendId, ReadFeedType type)
 			throws IndexException;
 
 	/**
@@ -48,7 +48,7 @@ public interface IUserActService {
 	 * @throws IndexException
 	 */
 	void respRandom(long uid, long actId, String tpFriendId, long tpId,
-			ActDealType type) throws IndexException;
+			ReadFeedType type) throws IndexException;
 
 	/**
 	 * 添加拒宅活动（用户可以自定义，但是不会立即对其他用户生效，通过验证后，会被其他人使用）

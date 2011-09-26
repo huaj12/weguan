@@ -30,4 +30,9 @@ public class TpUserService implements ITpUserService {
 		return CollectionUtils.isEmpty(list) ? null : list.get(0);
 	}
 
+	@Override
+	public TpUser getTpUserByUid(long uid) {
+		return tpUserMapper.selectByPrimaryKey(uid);
+	}
+
 }

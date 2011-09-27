@@ -140,7 +140,7 @@ abbr,acronym { border: 0;
 			<div class="message_list"><!--message_list begin-->
 				#foreach($feed in $feedList)
 					<div class="item"><!--item begin-->
-						<div class="photo"><img src="pic.png" width="80" height="80"/></div>
+						<div class="photo"><img src="${feed.profileCache.logoPic}" width="80" height="80"/></div>
 						<h2><span>${feed.profileCache.nickname}</span><p>最近想去</p><b>${feed.act.name}</b></h2>
 						<em>${feed.profileCache.provinceName}&nbsp;${feed.profileCache.cityName}</em>
 						<strong>${feed.dateFormat}</strong>

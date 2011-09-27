@@ -12,7 +12,7 @@
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
   
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-        connectionURL="jdbc:mysql://127.0.0.1:3306/juzhai"
+        connectionURL="jdbc:mysql://192.168.1.10:3306/juzhai"
         userId="root"
         password="111111">
     </jdbcConnection>
@@ -33,9 +33,12 @@
     <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.passport.mapper"  targetProject="src/main/java">
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
-
-    <table tableName="tb_thirdparty" domainObjectName="Thirdparty">
+    
+   <table tableName="tb_passport" domainObjectName="Passport" >
       <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
+      <columnOverride column="email_active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+      <columnOverride column="admin" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
     
 	<!-- <table tableName="tb_profile" domainObjectName="Profile" >
@@ -43,10 +46,8 @@
       <columnOverride column="sub_email" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
     
-   <table tableName="tb_passport" domainObjectName="Passport" >
+    <table tableName="tb_thirdparty" domainObjectName="Thirdparty">
       <property name="useActualColumnNames" value="false"/>
-      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
-      <columnOverride column="email_active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
     
     <table tableName="tb_tp_user" domainObjectName="TpUser">

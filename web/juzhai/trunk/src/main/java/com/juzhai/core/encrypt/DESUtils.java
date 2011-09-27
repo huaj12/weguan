@@ -61,6 +61,13 @@ public class DESUtils {
 		return cipher.doFinal(data);
 	}
 
+	public static String encryptToHexString(byte[] rawKeyData, byte[] data)
+			throws InvalidKeyException, NoSuchAlgorithmException,
+			InvalidKeySpecException, NoSuchPaddingException,
+			IllegalBlockSizeException, BadPaddingException {
+		return Hex.encodeHexString(encrypt(rawKeyData, data));
+	}
+
 	public static byte[] decrypt(byte[] rawKeyData, byte[] encryptData)
 			throws InvalidKeyException, NoSuchAlgorithmException,
 			InvalidKeySpecException, NoSuchPaddingException,

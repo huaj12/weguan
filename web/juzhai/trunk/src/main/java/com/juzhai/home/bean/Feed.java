@@ -1,11 +1,13 @@
 package com.juzhai.home.bean;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 
 import com.juzhai.act.model.Act;
 import com.juzhai.passport.bean.ProfileCache;
@@ -14,6 +16,9 @@ import com.juzhai.passport.bean.TpFriend;
 public class Feed implements Serializable {
 
 	private static final long serialVersionUID = -2496594920623735162L;
+
+	private static final SimpleDateFormat SDF = new SimpleDateFormat(
+			"yyyy-MM-dd");
 
 	public enum FeedType {
 		SPECIFIC, RANDOM, GRADE
@@ -101,5 +106,17 @@ public class Feed implements Serializable {
 		} else {
 			return getActList().get(0);
 		}
+	}
+
+	/**
+	 * 为邮件vm用
+	 * 
+	 * @return
+	 */
+	public String getDateFormat() {
+		if (null == getDate()) {
+			return StringUtils.EMPTY;
+		}
+		return SDF.format(getDate());
 	}
 }

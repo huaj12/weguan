@@ -10,6 +10,19 @@ public class HttpRequestUtil {
 
 	public final static Log log = LogFactory.getLog(HttpRequestUtil.class);
 
+	public static boolean getSessionAttributeAsBoolean(
+			HttpServletRequest request, String name, boolean defaultValue) {
+		if (_checkParamNull(request, name)) {
+			return defaultValue;
+		}
+		HttpSession session = request.getSession();
+		Object value = session.getAttribute(name);
+		if (null == value) {
+			return defaultValue;
+		}
+		return (Boolean) value;
+	}
+
 	public static Long getSessionAttributeAsLong(HttpServletRequest request,
 			String name, long defaultValue) {
 		if (_checkParamNull(request, name)) {

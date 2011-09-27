@@ -8,7 +8,8 @@ public interface LoginSessionManager {
 
 	public void updateLoginExpire(UserContext userContext);
 
-	public void login(HttpServletRequest request, long uid, long tpId);
+	public void login(HttpServletRequest request, long uid, long tpId,
+			boolean isAdmin);
 
 	public void logout(HttpServletRequest request);
 }

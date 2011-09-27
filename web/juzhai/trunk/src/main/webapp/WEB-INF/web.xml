@@ -34,6 +34,15 @@
   	<url-pattern>/*</url-pattern>
   </filter-mapping>
   
+  <filter>
+  	<filter-name>checkCmsLoginFilter</filter-name>
+  	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>checkCmsLoginFilter</filter-name>
+  	<url-pattern>/cms/*</url-pattern>
+  </filter-mapping>
+  
   <listener>
   	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>

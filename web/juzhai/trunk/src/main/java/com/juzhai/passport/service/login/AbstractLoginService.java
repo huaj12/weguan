@@ -46,7 +46,7 @@ public abstract class AbstractLoginService implements ILoginService {
 			accountService.profitPoint(uid, ProfitAction.DAY_LOGIN);
 		}
 
-		doLogin(request, uid, tpId);
+		doLogin(request, uid, tpId, false);
 		// 更新最后登录时间
 		updateLastLoginTime(uid);
 		// TODO 用AOP
@@ -59,6 +59,12 @@ public abstract class AbstractLoginService implements ILoginService {
 		});
 	}
 
+	@Override
+	public void cmsLogin(HttpServletRequest request, final long uid,
+			final long tpId, boolean admin) {
+		doLogin(request, uid, tpId, admin);
+	}
+
 	private void updateLastLoginTime(long uid) {
 		Passport updatePassport = new Passport();
 		updatePassport.setId(uid);
@@ -67,6 +73,6 @@ public abstract class AbstractLoginService implements ILoginService {
 	}
 
 	protected abstract void doLogin(HttpServletRequest request, long uid,
-			long tpId);
+			long tpId, boolean admin);
 
 }

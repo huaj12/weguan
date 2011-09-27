@@ -17,8 +17,9 @@ public class TomcatLoginService extends AbstractLoginService {
 	private LoginSessionManager loginSessionManager;
 
 	@Override
-	protected void doLogin(HttpServletRequest request, long uid, long tpId) {
-		loginSessionManager.login(request, uid, tpId);
+	protected void doLogin(HttpServletRequest request, long uid, long tpId,
+			boolean admin) {
+		loginSessionManager.login(request, uid, tpId, admin);
 	}
 
 }

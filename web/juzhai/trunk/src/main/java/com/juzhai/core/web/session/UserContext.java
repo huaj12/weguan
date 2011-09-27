@@ -17,14 +17,17 @@ public class UserContext {
 
 	private long tpId;
 
+	private boolean admin;
+
 	UserContext(long uid, String remoteAddress, String sessionId,
-			String userAgentPermanentCode, long tpId) {
+			String userAgentPermanentCode, long tpId, boolean admin) {
 		super();
 		this.uid = uid;
 		this.remoteAddress = remoteAddress;
 		this.sessionId = sessionId;
 		this.userAgentPermanentCode = userAgentPermanentCode;
 		this.tpId = tpId;
+		this.admin = admin;
 	}
 
 	/**
@@ -75,4 +78,9 @@ public class UserContext {
 	public long getTpId() {
 		return tpId;
 	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
 }

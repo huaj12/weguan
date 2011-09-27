@@ -1,6 +1,5 @@
 package com.juzhai.core.controller;
 
-import java.util.Arrays;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,6 @@ import org.springframework.ui.Model;
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.ErrorPageDispatcher;
-import com.juzhai.core.web.session.LoginSessionManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
@@ -29,8 +27,8 @@ public class BaseController {
 	protected final String error_404 = ErrorPageDispatcher.ERROR_404;
 	protected final String error_500 = ErrorPageDispatcher.ERROR_500;
 
-	@Autowired
-	private LoginSessionManager loginSessionManager;
+	// @Autowired
+	// private LoginSessionManager loginSessionManager;
 	@Autowired
 	private IAccountService accountService;
 	@Autowired
@@ -47,8 +45,9 @@ public class BaseController {
 
 	private UserContext checkLogin(HttpServletRequest request,
 			NeedLoginException.RunType runType) throws NeedLoginException {
-		UserContext context = loginSessionManager.getUserContext(request);
-		if (!context.hasLogin()) {
+		// UserContext context = loginSessionManager.getUserContext(request);
+		UserContext context = (UserContext) request.getAttribute("context");
+		if (context == null || !context.hasLogin()) {
 			throw new NeedLoginException(runType);
 		}
 		return context;

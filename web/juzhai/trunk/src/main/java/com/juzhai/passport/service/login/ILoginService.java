@@ -14,4 +14,14 @@ public interface ILoginService {
 	 * @param uid
 	 */
 	void login(HttpServletRequest request, long uid, long tpId);
+
+	/**
+	 * cms登录
+	 * 
+	 * @param request
+	 * @param uid
+	 * @param tpId
+	 * @param admin
+	 */
+	void cmsLogin(HttpServletRequest request, long uid, long tpId, boolean admin);
 }

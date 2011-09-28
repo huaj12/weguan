@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.act.InitData;
 import com.juzhai.act.exception.ActInputException;
@@ -72,6 +73,7 @@ public class ActController {
 			List<Act> synonymActList = actService.listSynonymActs(actId);
 			List<String> maybeSynonymList = actService.indexSearchName(
 					act.getName(), 10);
+			maybeSynonymList.remove(act.getName());
 			model.addAttribute("maybeSynonymList", maybeSynonymList);
 			model.addAttribute("synonymActList", synonymActList);
 			model.addAttribute("act", act);
@@ -80,6 +82,7 @@ public class ActController {
 	}
 
 	@RequestMapping(value = "/addSynonym", method = RequestMethod.POST)
+	@ResponseBody
 	public AjaxResult addSynonym(HttpServletRequest request, Model model,
 			long actId, String synonymActName) {
 		AjaxResult ajaxResult = new AjaxResult();
@@ -101,6 +104,7 @@ public class ActController {
 	}
 
 	@RequestMapping(value = "/removeSynonym", method = RequestMethod.POST)
+	@ResponseBody
 	public AjaxResult removeSynonym(HttpServletRequest request, Model model,
 			long actId, long removeActId) {
 		AjaxResult ajaxResult = new AjaxResult();

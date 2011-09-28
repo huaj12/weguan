@@ -29,6 +29,7 @@ import com.juzhai.act.dao.IActDao;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.mapper.ActMapper;
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.ActExample;
 import com.juzhai.act.rabbit.message.ActIndexMessage;
 import com.juzhai.act.rabbit.message.ActIndexMessage.ActionType;
 import com.juzhai.act.service.IActService;
@@ -172,6 +173,7 @@ public class ActService implements IActService {
 
 	@Override
 	public void addSynonym(long actId1, long actId2) {
+		removeSynonym(actId1, actId2);
 		redisTemplate.opsForList().leftPush(
 				RedisKeyGenerator.genActSynonymKey(actId1), actId2);
 		redisTemplate.opsForList().leftPush(
@@ -199,5 +201,20 @@ public class ActService implements IActService {
 				RedisKeyGenerator.genActSynonymKey(actId1), 1, actId2);
 		redisTemplate.opsForList().remove(
 				RedisKeyGenerator.genActSynonymKey(actId2), 1, actId1);
+	}
+
+	@Override
+	public List<Act> searchNewActs(Date startDate, Date endDate, int order) {
+		ActExample example = new ActExample();
+		example.createCriteria().andCreateTimeBetween(startDate, endDate);
+		switch (order) {
+		case 1:
+			example.setOrderByClause("create_time desc, id desc");
+			break;
+		default:
+			example.setOrderByClause("popularity desc, id desc");
+			break;
+		}
+		return actMapper.selectByExample(example);
 	}
 }

@@ -19,9 +19,11 @@ import com.juzhai.passport.service.login.ILoginService;
 @Controller
 @RequestMapping("/cms")
 public class LoginController {
-
 	private final Log log = LogFactory.getLog(getClass());
 
+	private static final String ERROR = "cms/error";
+
+	@Autowired
 	private IPassportService passportService;
 	@Autowired
 	private ILoginService tomcatLoginService;
@@ -36,18 +38,16 @@ public class LoginController {
 					token));
 		} catch (Exception e) {
 			log.error("decrypt cms login error.", e);
-			// TODO 报错页面
-			return "";
+			return ERROR;
 		}
 		if (uid > 0) {
 			Passport passport = passportService.getPassportByUid(uid);
 			if (passport != null && passport.getAdmin()) {
 				tomcatLoginService.cmsLogin(request, uid, 0L, true);
 				// CMS首页
-				return "";
+				return "cms/index";
 			}
 		}
-		// TODO 报错页面
-		return "";
+		return ERROR;
 	}
 }

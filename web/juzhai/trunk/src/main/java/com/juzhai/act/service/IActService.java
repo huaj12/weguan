@@ -3,6 +3,7 @@
  */
 package com.juzhai.act.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.juzhai.act.exception.ActInputException;
@@ -102,4 +103,15 @@ public interface IActService {
 	 * @param actId2
 	 */
 	void removeSynonym(long actId1, long actId2);
+
+	/**
+	 * 查询新的兴趣
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @param order
+	 *            0.热度 1.时间
+	 * @return
+	 */
+	List<Act> searchNewActs(Date startDate, Date endDate, int order);
 }

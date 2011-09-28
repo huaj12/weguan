@@ -91,7 +91,7 @@ a:hover {
 	<div class="leftInfo">
 		<ul>
 			<li>
-				<a href="">近义词设置</a>
+				<a href="/cms/searchActs" target="config">近义词设置</a>
 				<!-- <ul style="display: none;" id="gameConfig" class="child">
 					<li style="background-color: #A4D3EE;"><a
 						style="color: black;" href="showPreference.action?gameName=1"

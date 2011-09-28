@@ -34,4 +34,8 @@ public class CmsActView implements Serializable {
 	public void setSynonymActList(List<Act> synonymActList) {
 		this.synonymActList = synonymActList;
 	}
+
+	public int getSynonymActSize() {
+		return null == getSynonymActList() ? 0 : getSynonymActList().size();
+	}
 }

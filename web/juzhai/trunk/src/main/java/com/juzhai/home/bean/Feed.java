@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.juzhai.act.model.Act;
@@ -119,6 +120,16 @@ public class Feed implements Serializable {
 
 	public void setQuestion(Question question) {
 		this.question = question;
+	}
+
+	public String[] getAnswers() {
+		if (null == getQuestion()
+				|| StringUtils.isEmpty(getQuestion().getAnswer())) {
+			return ArrayUtils.EMPTY_STRING_ARRAY;
+		} else {
+			String[] answers = getQuestion().getAnswer().split("\\|");
+			return answers;
+		}
 	}
 
 	/**

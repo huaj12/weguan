@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="jz" uri="http://www.51juzhai.com/jsp/jstl/jz" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="begin_jz"><!--begin_jz begin--></div><!--begin_jz end-->
 <div class="pro_box_right"><!--pro_box_right begin-->
 	<c:choose>
 		<c:when test="${step==1}"><p>添加你的拒宅兴趣，才会收到好友的邀请哦</p></c:when>

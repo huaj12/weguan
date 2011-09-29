@@ -2,20 +2,36 @@ package com.juzhai.msg.rabbit.listener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
+import com.juzhai.account.InitData;
+import com.juzhai.account.bean.ProfitAction;
+import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.service.IUserActService;
+import com.juzhai.app.bean.TpMessageKey;
+import com.juzhai.app.service.IAppService;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
 import com.juzhai.msg.bean.ActMsg;
+import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.msg.rabbit.message.MsgMessage;
 import com.juzhai.msg.service.IMsgService;
+import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.JoinTypeEnum;
+import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IFriendService;
+import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.passport.service.ITpUserService;
 
 @Component
 public class ActMsgMessageListener implements
@@ -29,6 +45,18 @@ public class ActMsgMessageListener implements
 	private IMsgService<ActMsg> msgService;
 	@Autowired
 	private IUserActService userActService;
+	@Autowired
+	private ThreadPoolTaskExecutor taskExecutor;
+	@Autowired
+	IAppService kaiXinService;
+	@Autowired
+	ITpUserService tpUserService;
+	@Autowired
+	IAccountService accountService;
+	@Autowired
+	private ITpUserAuthService tpUserAuthService;
+	@Autowired
+	private MessageSource messageSource;
 
 	@Override
 	public Object handleMessage(MsgMessage<ActMsg> msgMessage) {
@@ -44,27 +72,61 @@ public class ActMsgMessageListener implements
 			log.error("ActMsg's type must not be null.");
 			return null;
 		}
-
-		if (msgMessage.getBody().getType().equals(ActMsg.MsgType.FIND_YOU_ACT)) {
-			findYouActMsg(msgMessage);
-		} else if (msgMessage.getBody().getType()
-				.equals(ActMsg.MsgType.BROADCAST_ACT)) {
-			broadcastActMsg(msgMessage);
-		}
+		//接受消息
+		ReceiverActMsg(msgMessage);
+	
 		return null;
 	}
 
-	private void findYouActMsg(MsgMessage<ActMsg> msgMessage) {
+	private void ReceiverActMsg(MsgMessage<ActMsg> msgMessage) {
+		try{
+		TpUser tpUser=null;
 		if (msgMessage.getReceiverId() > 0) {
 			msgService
 					.sendMsg(msgMessage.getReceiverId(), msgMessage.getBody());
+			 tpUser=tpUserService.getTpUserByUid(msgMessage.getReceiverId());
 		} else if (msgMessage.getReceiverTpId() > 0
 				&& StringUtils.isNotEmpty(msgMessage.getReceiverIdentity())) {
 			msgService.sendMsg(msgMessage.getReceiverTpId(),
 					msgMessage.getReceiverIdentity(), msgMessage.getBody());
+			tpUser=tpUserService.getTpUserByTpIdAndIdentity(msgMessage.getReceiverTpId(), msgMessage.getReceiverIdentity());
 		}
-
-		// TODO 发送第三方系统消息
+		if(tpUser==null){
+			log.error("send message find tpUser is null");
+			return ;
+		}
+		MsgType type=msgMessage.getBody().getType();
+		if(type==null){
+			log.error("send message find MsgType is null");
+			return ;
+		}
+		String receiverIdentity=tpUser.getTpIdentity();
+		String tpName=tpUser.getTpName();
+		long uid=msgMessage.getSenderId();
+		// TODO 目前就app 以后要重构
+		Thirdparty thirdparty=com.juzhai.passport.InitData.getTpByTpNameAndJoinType(tpName, JoinTypeEnum.APP);
+		if(thirdparty==null){
+			log.error("send message find thirdparty is null");
+			return ;
+		}
+		AuthInfo authInfo=tpUserAuthService.getAuthInfo(uid, thirdparty.getId());
+		if(authInfo==null){
+			log.error("send message find authInfo is null");
+			return ;
+		}
+		IAppService appService=null;
+		if("kaixin001".equals(tpName)){
+			appService=kaiXinService;
+		}
+		if(appService==null){
+			log.error("send message appService is null");
+			return ;
+		}
+		taskExecutor.submit(new SendSysMsgTask(accountService, appService, uid,receiverIdentity,authInfo,type,messageSource));
+		}catch (Exception e) {
+			e.printStackTrace();
+		}	
+		
 	}
 
 	private void broadcastActMsg(MsgMessage<ActMsg> msgMessage) {
@@ -91,3 +153,46 @@ public class ActMsgMessageListener implements
 		return targets;
 	}
 }
+
+ class SendSysMsgTask implements Callable<Boolean>{
+	 IAccountService accountService;
+	 IAppService appService;
+	 long uid;
+	 String receiverIdentity;
+	 MsgType type;
+	 AuthInfo authInfo;
+	 MessageSource messageSource;
+	 public SendSysMsgTask(IAccountService accoutService,IAppService appService,long uid,String receiverIdentity,AuthInfo authInfo,MsgType type, MessageSource messageSource) {
+		 this.accountService=accoutService;
+		 this.appService=appService;
+		 this.uid=uid;
+		 this.receiverIdentity=receiverIdentity;
+		 this.authInfo=authInfo;
+		 this.type=type;
+		 this.messageSource=messageSource;
+	}
+	@Override
+	public Boolean call() throws Exception {
+		try{
+		String text="";
+		if(MsgType.INVITE.equals(type)){
+			text=messageSource.getMessage(TpMessageKey.INVITE_FRIEND, new Object[]{"{_USER_}"},
+					Locale.SIMPLIFIED_CHINESE);
+		}else{
+			text=messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND, new Object[]{"{_USER_}"},
+					Locale.SIMPLIFIED_CHINESE);
+		}
+		//发送系统消息
+		appService.sendSysMessage(receiverIdentity, messageSource.getMessage(
+				TpMessageKey.FEED_LINKTEXT, null, Locale.SIMPLIFIED_CHINESE), messageSource.getMessage(
+						TpMessageKey.FEED_LINK, null, Locale.SIMPLIFIED_CHINESE), null, text, null, authInfo);
+		//发送成功增加积分
+		accountService.profitPoint(uid, ProfitAction.IMMEDIATE_RESPONSE);
+		}catch (Throwable  e) {
+			return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
+	 
+ }
+

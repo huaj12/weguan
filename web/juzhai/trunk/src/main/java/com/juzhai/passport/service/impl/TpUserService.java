@@ -3,6 +3,7 @@ package com.juzhai.passport.service.impl;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.passport.InitData;
@@ -14,7 +15,7 @@ import com.juzhai.passport.service.ITpUserService;
 
 @Service
 public class TpUserService implements ITpUserService {
-
+	@Autowired
 	private TpUserMapper tpUserMapper;
 
 	@Override

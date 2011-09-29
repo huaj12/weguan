@@ -70,7 +70,15 @@ public class BaseController {
 	}
 
 	protected void showMyActTips(Model model) {
-		String tipStrings = messageSource.getMessage("myAct.page.tips", null,
+		fetchTips(model, "myAct.page.tips");
+	}
+
+	protected void showDayFirstLoginTip(Model model) {
+		fetchTips(model, "day.first.login.tip");
+	}
+
+	private void fetchTips(Model model, String tipsKey) {
+		String tipStrings = messageSource.getMessage(tipsKey, null,
 				Locale.SIMPLIFIED_CHINESE);
 		if (StringUtils.isNotEmpty(tipStrings)) {
 			String[] tips = tipStrings.split("\\|");

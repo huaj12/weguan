@@ -78,3 +78,15 @@ function response(obj, type){
 		dealFeed("/app/ajax/respFeed", data);
 	}
 }
+
+function tip(obj, show){
+	if(show){
+		var tip = $(obj).attr("tip");
+		if(tip&&tip!=""){
+			$("div.pro_box > p").text(tip);
+			$("div.pro_box").show();
+		}
+	}else{
+		$("div.pro_box").hide();
+	}
+}

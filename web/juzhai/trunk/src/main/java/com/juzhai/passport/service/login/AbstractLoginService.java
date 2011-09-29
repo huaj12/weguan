@@ -15,6 +15,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.juzhai.account.bean.ProfitAction;
 import com.juzhai.account.service.IAccountService;
+import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.service.IFriendService;
@@ -22,6 +23,8 @@ import com.juzhai.passport.service.IFriendService;
 public abstract class AbstractLoginService implements ILoginService {
 
 	private final Log log = LogFactory.getLog(getClass());
+
+	protected static final String DAY_FIRST_LOGIN = "dfl";
 
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
@@ -44,6 +47,7 @@ public abstract class AbstractLoginService implements ILoginService {
 				|| !DateUtils
 						.isSameDay(new Date(), passport.getLastLoginTime())) {
 			accountService.profitPoint(uid, ProfitAction.DAY_LOGIN);
+			HttpRequestUtil.setSessionAttribute(request, DAY_FIRST_LOGIN, true);
 		}
 
 		doLogin(request, uid, tpId, false);

@@ -24,4 +24,12 @@ public interface ILoginService {
 	 * @param admin
 	 */
 	void cmsLogin(HttpServletRequest request, long uid, long tpId, boolean admin);
+
+	/**
+	 * 判断是否第一次登陆并删除标记
+	 * 
+	 * @param request
+	 * @return
+	 */
+	boolean isDayFirstLoginAndDel(HttpServletRequest request);
 }

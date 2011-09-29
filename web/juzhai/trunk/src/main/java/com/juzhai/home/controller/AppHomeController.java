@@ -20,6 +20,7 @@ import com.juzhai.home.bean.Feed;
 import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.home.service.IInboxService;
+import com.juzhai.passport.service.login.ILoginService;
 
 @Controller
 @RequestMapping(value = "app")
@@ -31,6 +32,8 @@ public class AppHomeController extends BaseController {
 	private IUserActService userActService;
 	@Autowired
 	private IInboxService inboxService;
+	@Autowired
+	private ILoginService tomcatLoginService;
 	@Value("${random.feed.frequency}")
 	private int randomFeedFrequency = 4;
 
@@ -40,7 +43,11 @@ public class AppHomeController extends BaseController {
 		UserContext context = checkLoginForApp(request);
 		queryPoint(context.getUid(), model);
 		queryProfile(context.getUid(), model);
-
+		boolean dayFirstLogin = tomcatLoginService
+				.isDayFirstLoginAndDel(request);
+		if (dayFirstLogin) {
+			showDayFirstLoginTip(model);
+		}
 		return "home/app/home";
 	}
 

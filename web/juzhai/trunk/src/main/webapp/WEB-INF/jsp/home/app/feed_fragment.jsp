@@ -11,7 +11,8 @@
 				<div class="infor fl" data="{'friendId':${feed.profileCache.uid},'actId':${feed.act.id},'times':${times}}"><!--infor begin-->
 					<h2><span class="u"><c:out value="${feed.profileCache.nickname}" /></span><span class="w">最近想去</span><span class="v"><c:out value="${feed.act.name}" /></span></h2>
 					<p><fmt:formatDate value="${feed.date}" pattern="yyyy.MM.dd"/>&nbsp;&nbsp;&nbsp;&nbsp;${feed.profileCache.provinceName}&nbsp;${feed.profileCache.cityName}</p>
-					<a href="#" class="want" onclick="javascript:response(this, 1);"></a><a href="#" class="dwant" onclick="javascript:response(this, 2);"></a>
+					<a href="#" class="want" onclick="javascript:response(this, 1);" tip="点击“我也想去”，告知所有有同样兴趣的好友" onmouseover="javascript:tip(this, true);" onmouseout="javascript:tip(this, false);"></a>
+					<a href="#" class="dwant" onclick="javascript:response(this, 2);" tip="切换到下一张，什么都不做" onmouseover="javascript:tip(this, true);" onmouseout="javascript:tip(this, false);"></a>
 				</div><!--infor end-->
 			</c:when>
 			<c:when test="${feed.feedType=='GRADE'}">

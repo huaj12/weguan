@@ -38,7 +38,7 @@
 			<div class="message_num">
 				<span>100111</span>
 			</div>
-			<a href="#">我的消息</a>
+			<a href="/msg/showUnRead.html">我的消息</a>
 		</div><!--我的消息 end-->
 	</div><!--top_mid end-->
 </div><!--skin_top end-->

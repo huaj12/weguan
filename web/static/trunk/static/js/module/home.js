@@ -63,9 +63,9 @@ function dealFeed(url, data){
 	});
 }
 
-function grade(star, tpIdentity, times){
+function answer(star, tpIdentity, times){
 	if(star && star > 0 && tpIdentity && tpIdentity != "" && times && times > 0){
-		dealFeed("/app/ajax/grade", {"tpIdentity": tpIdentity, "star": star, "times": times});
+		dealFeed("/app/ajax/answer", {"tpIdentity": tpIdentity, "star": star, "times": times});
 	}
 }
 

@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.annotation.PostConstruct;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Component;
 import com.juzhai.act.mapper.ActCategoryMapper;
 import com.juzhai.act.mapper.ActMapper;
 import com.juzhai.act.mapper.HotActMapper;
+import com.juzhai.act.mapper.QuestionMapper;
 import com.juzhai.act.mapper.RandomActMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActCategory;
@@ -29,6 +32,8 @@ import com.juzhai.act.model.ActCategoryExample;
 import com.juzhai.act.model.ActExample;
 import com.juzhai.act.model.HotAct;
 import com.juzhai.act.model.HotActExample;
+import com.juzhai.act.model.Question;
+import com.juzhai.act.model.QuestionExample;
 import com.juzhai.act.model.RandomAct;
 import com.juzhai.act.model.RandomActExample;
 
@@ -46,6 +51,7 @@ public class InitData {
 	 * key:0：女女；1：男女；2：男男
 	 */
 	public static final Map<Integer, List<Act>> RANDOM_ACT_MAP = new HashMap<Integer, List<Act>>();
+	public static final SortedMap<Long, Question> QUESTION_MAP = new TreeMap<Long, Question>();
 
 	@Autowired
 	private ActMapper actMapper;
@@ -55,6 +61,8 @@ public class InitData {
 	private HotActMapper hotActMapper;
 	@Autowired
 	private RandomActMapper randomActMapper;
+	@Autowired
+	private QuestionMapper questionMapper;
 
 	@PostConstruct
 	public void init() {
@@ -63,6 +71,15 @@ public class InitData {
 		initActCategoryActList();
 		initRandomActMap();
 		initHotActListMap();
+		intiQuestionMap();
+	}
+
+	private void intiQuestionMap() {
+		List<Question> list = questionMapper
+				.selectByExample(new QuestionExample());
+		for (Question question : list) {
+			QUESTION_MAP.put(question.getId(), question);
+		}
 	}
 
 	private void initHotActListMap() {

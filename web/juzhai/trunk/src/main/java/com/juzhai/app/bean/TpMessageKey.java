@@ -10,10 +10,11 @@ public class TpMessageKey {
 	public static final String INVITE_TEXT_DEFAULT = "invite.text.default";
 	public static final String INVITE_TEXT = "invite.text";
 
-	public static final String GRADE_TEXT = "grade.text";
-	public static final String GRADE_WORD = "grade.word";
-	public static final String GRADE_LINKTEXT = "grade.linktext";
-	public static final String GRADE_LINK = "grade.link";
-	public static final String GRADE_PICURL = "grade.picurl";
+	//TODO 改名
+	public static final String QUESTION_TEXT = "question.text";
+	public static final String QUESTION_WORD = "question.word";
+	public static final String QUESTION_LINKTEXT = "question.linktext";
+	public static final String QUESTION_LINK = "question.link";
+	public static final String QUESTION_PICURL = "question.picurl";
 
 }

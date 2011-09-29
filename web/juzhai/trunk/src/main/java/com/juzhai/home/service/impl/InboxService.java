@@ -26,6 +26,7 @@ import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.InitData;
 import com.juzhai.act.caculator.IScoreGenerator;
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.Question;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.app.bean.TpMessageKey;
@@ -242,11 +243,17 @@ public class InboxService implements IInboxService {
 		if (CollectionUtils.isEmpty(acts)) {
 			return null;
 		}
-		return new Feed(tpFriend, FeedType.RANDOM, acts.toArray(new Act[0]));
+		return new Feed(tpFriend, FeedType.RANDOM, null,
+				acts.toArray(new Act[0]));
 	}
 
 	@Override
-	public Feed showGrade(long uid) {
+	public Feed showQuestion(long uid) {
+		Question question = randomQuestion();
+		if (null == question) {
+			return null;
+		}
+
 		List<TpFriend> unInstallFriendList = friendService
 				.getUnInstallFriends(uid);
 		if (CollectionUtils.isEmpty(unInstallFriendList)) {
@@ -254,7 +261,7 @@ public class InboxService implements IInboxService {
 			return null;
 		}
 		Set<String> identitySet = redisTemplate.opsForSet().members(
-				RedisKeyGenerator.genGradedUsersKey(uid));
+				RedisKeyGenerator.genQuestionUsersKey(uid));
 		if (null != identitySet) {
 			for (String identity : identitySet) {
 				TpFriend removeTpFriend = null;
@@ -276,28 +283,40 @@ public class InboxService implements IInboxService {
 		if (null == tpFriend) {
 			return null;
 		}
-		return new Feed(tpFriend, FeedType.GRADE, new Act[0]);
+		return new Feed(tpFriend, FeedType.QUESTION, question, new Act[0]);
+	}
+
+	private Question randomQuestion() {
+		List<Question> questionList = new ArrayList<Question>(
+				InitData.QUESTION_MAP.values());
+		if (CollectionUtils.isEmpty(questionList)) {
+			return null;
+		}
+		Question question = questionList.get(RandomUtils.nextInt(new Random(
+				System.currentTimeMillis()), questionList.size()));
+		return question;
 	}
 
 	@Override
-	public void grade(long uid, long tpId, String identity, int star) {
-		redisTemplate.opsForSet().add(RedisKeyGenerator.genGradedUsersKey(uid),
-				identity);
+	public void answer(long uid, long tpId, String identity, int star) {
+		redisTemplate.opsForSet().add(
+				RedisKeyGenerator.genQuestionUsersKey(uid), identity);
 		if (star > 0 && star <= 5) {
 			AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
 			if (null != authInfo) {
 				List<String> fuids = new ArrayList<String>();
 				fuids.add(identity);
 				// TODO 确定内容
-				String linktext = getContent(TpMessageKey.GRADE_LINKTEXT, null);
-				String link = getContent(TpMessageKey.GRADE_LINK, null);
-				String word = getContent(TpMessageKey.GRADE_WORD, null);
-				String text = getContent(TpMessageKey.GRADE_TEXT, null);
-				String picurl = getContent(TpMessageKey.GRADE_PICURL, null);
+				String linktext = getContent(TpMessageKey.QUESTION_LINKTEXT,
+						null);
+				String link = getContent(TpMessageKey.QUESTION_LINK, null);
+				String word = getContent(TpMessageKey.QUESTION_WORD, null);
+				String text = getContent(TpMessageKey.QUESTION_TEXT, null);
+				String picurl = getContent(TpMessageKey.QUESTION_PICURL, null);
 				authorizeService.sendSystemMessage(authInfo, fuids, linktext,
 						link, word, text, picurl);
 			}
-			accountService.profitPoint(uid, ProfitAction.GRADE_STAR);
+			accountService.profitPoint(uid, ProfitAction.ANSWER_QUESTION);
 		}
 	}
 

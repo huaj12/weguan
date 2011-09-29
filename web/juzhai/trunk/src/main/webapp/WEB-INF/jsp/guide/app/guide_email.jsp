@@ -17,7 +17,7 @@
 				<!--skin_body begin-->
 				<div class="skin_top_bg_new">
 					<jsp:include page="/WEB-INF/jsp/common/app/app_guide_header.jsp" />
-					<div class="content white"><!--content begin-->
+					<div class="content white mt50"><!--content begin-->
 						<div class="top"></div>
 						<div class="mid"><!--mid begin-->
 							<div class="basic_yd sec_rss"><!--basic_yd begin-->
@@ -36,11 +36,11 @@
 							</div><!--basic_yd end-->
 						</div><!--mid end-->
 						<div class="bot"></div>
-						<div class="round_num"><!--round_num begin-->
+						<!-- <div class="round_num">
 							<c:forEach begin="1" end="${totalStep}" var="index">
 								<span <c:if test="${step==index}">class="hover"</c:if>></span>
 							</c:forEach>
-						</div><!--round_num end-->
+						</div> -->
 						<form id="nextForm" action="/app/guide/next" method="post">
 						</form>
 						<div class="next_btn">

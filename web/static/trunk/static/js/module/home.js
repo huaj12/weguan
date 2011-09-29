@@ -28,9 +28,9 @@ function holdStar(index){
 	}
 	var star = stars[index-1];
 	if(star){
-		$("div.star > p.zai").text($(star).attr("title"));
+		$("div.star > p.zai").text($(star).attr("title")).show();
 	}else{
-		$("div.star > p.zai").text("请选择！");
+		$("div.star > p.zai").text("").hide();
 	}
 }
 
@@ -63,15 +63,17 @@ function dealFeed(url, data){
 	});
 }
 
-function answer(star, tpIdentity, times){
-	if(star && star > 0 && tpIdentity && tpIdentity != "" && times && times > 0){
-		dealFeed("/app/ajax/answer", {"tpIdentity": tpIdentity, "star": star, "times": times});
+function answer(questionId, answerId, tpIdentity, times){
+	if(questionId && answerId &&
+			tpIdentity && tpIdentity != "" &&
+			times && times > 0){
+		dealFeed("/app/ajax/answer", {"questionId": questionId, "tpIdentity": tpIdentity, "answerId": answerId, "times": times});
 	}
 }
 
-function response(obj, type){
+function response(type){
 	if(type && type >= 0 && type <= 2){
-		var data = eval("(" + $(obj).parent().attr("data") + ")");
+		var data = eval("(" + $("div.jz_box > div.data").attr("data") + ")");
 		if(data){
 			data['type'] = type;
 		}

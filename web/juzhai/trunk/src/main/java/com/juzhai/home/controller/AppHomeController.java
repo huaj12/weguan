@@ -18,6 +18,7 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.Feed;
 import com.juzhai.home.bean.ReadFeedType;
+import com.juzhai.home.controller.form.AnswerForm;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.home.service.IInboxService;
 import com.juzhai.passport.service.login.ILoginService;
@@ -85,12 +86,11 @@ public class AppHomeController extends BaseController {
 	@RequestMapping(value = "/ajax/answer", method = RequestMethod.POST)
 	@ResponseBody
 	public String answer(HttpServletRequest request, Model model,
-			String tpIdentity, int star, int times) throws NeedLoginException {
+			AnswerForm answerForm, int times) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
-		if (star >= 0 && star <= 5) {
-			inboxService.answer(context.getUid(), context.getTpId(),
-					tpIdentity, star);
-		}
+		inboxService.answer(context.getUid(), context.getTpId(),
+				answerForm.getQuestionId(), answerForm.getTpIdentity(),
+				answerForm.getAnswerId());
 		getNextFeed(context.getUid(), times, model);
 		return "home/feed_fragment";
 	}

@@ -108,10 +108,14 @@ public interface IInboxService {
 	Feed showQuestion(long uid);
 
 	/**
-	 * 打分
+	 * 做题目
 	 * 
 	 * @param uid
+	 * @param tpId
+	 * @param questionId
 	 * @param identity
+	 * @param answer
 	 */
-	void answer(long uid, long tpId, String identity, int star);
+	void answer(long uid, long tpId, long questionId, String identity,
+			int answer);
 }

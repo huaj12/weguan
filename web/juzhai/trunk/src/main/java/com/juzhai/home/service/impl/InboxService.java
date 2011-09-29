@@ -298,26 +298,60 @@ public class InboxService implements IInboxService {
 	}
 
 	@Override
-	public void answer(long uid, long tpId, String identity, int star) {
-		redisTemplate.opsForSet().add(
-				RedisKeyGenerator.genQuestionUsersKey(uid), identity);
-		if (star > 0 && star <= 5) {
-			AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
-			if (null != authInfo) {
-				List<String> fuids = new ArrayList<String>();
-				fuids.add(identity);
-				// TODO 确定内容
-				String linktext = getContent(TpMessageKey.QUESTION_LINKTEXT,
-						null);
-				String link = getContent(TpMessageKey.QUESTION_LINK, null);
-				String word = getContent(TpMessageKey.QUESTION_WORD, null);
-				String text = getContent(TpMessageKey.QUESTION_TEXT, null);
-				String picurl = getContent(TpMessageKey.QUESTION_PICURL, null);
-				authorizeService.sendSystemMessage(authInfo, fuids, linktext,
-						link, word, text, picurl);
-			}
+	public void answer(long uid, long tpId, long questionId, String identity,
+			int answer) {
+		if (sendQuestionMssage(uid, tpId, questionId, identity, answer)) {
+			redisTemplate.opsForSet().add(
+					RedisKeyGenerator.genQuestionUsersKey(uid), identity);
 			accountService.profitPoint(uid, ProfitAction.ANSWER_QUESTION);
 		}
+	}
+
+	private boolean sendQuestionMssage(long uid, long tpId, long questionId,
+			String identity, int answer) {
+		Question question = InitData.QUESTION_MAP.get(questionId);
+		if (null == question) {
+			return false;
+		}
+		String[] answers = StringUtils.split(question.getAnswer(), "|");
+		if (answer <= 0 || answer > answers.length) {
+			return false;
+		}
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		if (null != authInfo) {
+			if (StringUtils.isNotEmpty(question.getInviteMessage())) {
+				ProfileCache profileCache = profileService
+						.getProfileCacheByUid(uid);
+				String word = null;
+				switch (question.getType()) {
+				case 0:
+					word = question.getInviteMessage()
+							.replace("{0}", profileCache.getNickname())
+							.replace("{1}", answers[answer - 1]);
+					break;
+				case 1:
+					if (answer == 1) {
+						word = question.getInviteMessage().replace("{0}",
+								profileCache.getNickname());
+					}
+					break;
+				}
+				if (StringUtils.isNotEmpty(word)) {
+					List<String> fuids = new ArrayList<String>();
+					fuids.add(identity);
+					// TODO 确定内容 9月30日完成
+					String linktext = getContent(
+							TpMessageKey.QUESTION_LINKTEXT, null);
+					String link = getContent(TpMessageKey.QUESTION_LINK, null);
+					String text = getContent(TpMessageKey.QUESTION_TEXT, null);
+					String picurl = getContent(TpMessageKey.QUESTION_PICURL,
+							null);
+					authorizeService.sendSystemMessage(authInfo, fuids,
+							linktext, link, word, text, picurl);
+				}
+			}
+		}
+		return true;
 	}
 
 	private String getContent(String code, Object[] args) {

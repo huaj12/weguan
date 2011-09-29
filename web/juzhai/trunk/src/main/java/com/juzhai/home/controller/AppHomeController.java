@@ -82,14 +82,14 @@ public class AppHomeController extends BaseController {
 		return "home/feed_fragment";
 	}
 
-	@RequestMapping(value = "/ajax/grade", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/answer", method = RequestMethod.POST)
 	@ResponseBody
-	public String grade(HttpServletRequest request, Model model,
+	public String answer(HttpServletRequest request, Model model,
 			String tpIdentity, int star, int times) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		if (star >= 0 && star <= 5) {
-			inboxService.grade(context.getUid(), context.getTpId(), tpIdentity,
-					star);
+			inboxService.answer(context.getUid(), context.getTpId(),
+					tpIdentity, star);
 		}
 		getNextFeed(context.getUid(), times, model);
 		return "home/feed_fragment";
@@ -107,16 +107,16 @@ public class AppHomeController extends BaseController {
 	 */
 	private void getNextFeed(long uid, int times, Model model) {
 		if (times > randomFeedFrequency) {
-			getRandomFeed(uid, model);
+			getQuestion(uid, model);
 		} else {
 			getSpecificFeed(uid, times, model);
 		}
 		// TODO 显示相互共同好友
 	}
 
-	private void getRandomFeed(long uid, Model model) {
+	private void getQuestion(long uid, Model model) {
 		// 获取随机
-		Feed feed = inboxService.showGrade(uid);
+		Feed feed = inboxService.showQuestion(uid);
 		model.addAttribute("feed", feed);
 		model.addAttribute("times", 1);
 	}
@@ -125,7 +125,7 @@ public class AppHomeController extends BaseController {
 		// 获取指定
 		Feed feed = inboxService.showFirst(uid);
 		if (null == feed) {
-			getRandomFeed(uid, model);
+			getQuestion(uid, model);
 		} else {
 			model.addAttribute("feed", feed);
 			model.addAttribute("times", times + 1);

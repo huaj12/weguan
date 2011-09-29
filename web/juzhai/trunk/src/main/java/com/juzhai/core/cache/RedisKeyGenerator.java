@@ -127,13 +127,13 @@ public class RedisKeyGenerator extends KeyGenerator {
 	}
 
 	/**
-	 * 已经打过分的列表
+	 * 已经做过题目的列表
 	 * 
 	 * @param userId
 	 * @return
 	 */
-	public static String genGradedUsersKey(long userId) {
-		return genKey(userId, "graded");
+	public static String genQuestionUsersKey(long userId) {
+		return genKey(userId, "question");
 	}
 
 	/**

@@ -105,7 +105,7 @@ public interface IInboxService {
 	 * @param uid
 	 * @return
 	 */
-	Feed showGrade(long uid);
+	Feed showQuestion(long uid);
 
 	/**
 	 * 打分
@@ -113,5 +113,5 @@ public interface IInboxService {
 	 * @param uid
 	 * @param identity
 	 */
-	void grade(long uid, long tpId, String identity, int star);
+	void answer(long uid, long tpId, String identity, int star);
 }

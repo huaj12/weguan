@@ -10,6 +10,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.Question;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
 
@@ -21,7 +22,7 @@ public class Feed implements Serializable {
 			"yyyy-MM-dd");
 
 	public enum FeedType {
-		SPECIFIC, RANDOM, GRADE
+		SPECIFIC, RANDOM, QUESTION
 	}
 
 	private TpFriend tpFriend;
@@ -33,6 +34,8 @@ public class Feed implements Serializable {
 	private List<Act> actList = new ArrayList<Act>();
 
 	private FeedType feedType;
+
+	private Question question;
 
 	public Feed(ProfileCache profileCache, FeedType feedType, Date date,
 			Act... acts) {
@@ -48,9 +51,11 @@ public class Feed implements Serializable {
 		}
 	}
 
-	public Feed(TpFriend tpFriend, FeedType feedType, Act... acts) {
+	public Feed(TpFriend tpFriend, FeedType feedType, Question question,
+			Act... acts) {
 		this.tpFriend = tpFriend;
 		this.feedType = feedType;
+		this.question = question;
 		if (null != acts) {
 			for (Act act : acts) {
 				if (null != act) {
@@ -106,6 +111,14 @@ public class Feed implements Serializable {
 		} else {
 			return getActList().get(0);
 		}
+	}
+
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 	/**

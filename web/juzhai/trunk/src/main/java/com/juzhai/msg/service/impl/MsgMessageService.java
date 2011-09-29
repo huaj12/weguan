@@ -19,6 +19,7 @@ public class MsgMessageService implements IMsgMessageService {
 	@Override
 	public void sendActMsg(long senderId, long receiverId, ActMsg actMsg) {
 		Assert.notNull(actMsg, "ActMsg must not be null.");
+		actMsg.setUid(senderId);
 		MsgMessage<ActMsg> msgMessage = new MsgMessage<ActMsg>();
 		msgMessage = msgMessage.buildSenderId(senderId)
 				.buildReceiverId(receiverId).buildBody(actMsg);
@@ -29,6 +30,7 @@ public class MsgMessageService implements IMsgMessageService {
 	public void sendActMsg(long senderId, long receiverTpId,
 			String receiverIdentity, ActMsg actMsg) {
 		Assert.notNull(actMsg, "ActMsg must not be null.");
+		actMsg.setUid(senderId);
 		MsgMessage<ActMsg> msgMessage = new MsgMessage<ActMsg>();
 		msgMessage.buildSenderId(senderId).buildReceiverTpId(receiverTpId)
 				.buildReceiverIdentity(receiverIdentity).buildBody(actMsg);

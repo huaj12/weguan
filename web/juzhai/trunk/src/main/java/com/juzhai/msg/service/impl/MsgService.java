@@ -27,5 +27,20 @@ public class MsgService<T extends Msg> implements IMsgService<T> {
 				RedisKeyGenerator.genPrestoreMsgsKey(receiverIdentity,
 						receiverTpId, msg.getClass().getSimpleName()), msg);
 	}
+	
 
+	@Override
+	public void getPrestore(String receiverIdentity, long receiverTpId,long uid,
+			String className) {
+		long len=redisTemplate.opsForList().size(RedisKeyGenerator.genPrestoreMsgsKey(receiverIdentity,
+				receiverTpId, className));
+		for(int i=0;i<len;i++){
+			T msg=redisTemplate.opsForList().rightPop(
+					RedisKeyGenerator.genPrestoreMsgsKey(receiverIdentity,
+							receiverTpId, className));
+			redisTemplate.opsForList().leftPush(RedisKeyGenerator.genUnreadMsgsKey(uid, msg.getClass()
+					.getSimpleName()), msg);
+		}
+		
+	}
 }

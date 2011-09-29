@@ -14,6 +14,8 @@ public class PagerManager {
 	private int results = 10;
 
 	private int totalResults = 0;
+	
+	public String stringUrl;
 
 	public PagerManager(int page, int results, int totalResults) {
 		super();
@@ -127,5 +129,36 @@ public class PagerManager {
 		}
 		this.nextOffset = nextOffset;
 	}
+	
+
+	public String getStringUrl() {
+		return stringUrl;
+	}
+
+	public void setStringUrl(String url) {
+		StringBuffer tag=new StringBuffer();
+		String divBegin="<div class='page'>";
+		String divEnd="</div>";
+		tag.append(divBegin);
+		if(1!=currentPage){
+			tag.append("<a href=\""+url+"&page=1"+"\" class=\"link\"><p class=\"l\"></p><strong class=\"m\">首页</strong><p class=\"r\"></p></a>");
+			tag.append("<a href=\""+url+"&page="+(currentPage-1)+"\" class=\"link\"><p class=\"l\"></p><strong class=\"m\">上一页</strong><p class=\"r\"></p></a>");
+		}
+		List<String> pages=getShowPages();
+		for(int i=0;i<pages.size();i++){
+			if(Integer.parseInt(pages.get(i))==currentPage){
+				tag.append("<a href=\"#\" class=\"active\"><p class=\"l\"></p><strong class=\"m\">"+pages.get(i)+"</strong><p class=\"r\"></p></a>");	
+			}else{
+				tag.append("<a href=\""+url+"&page="+pages.get(i)+"\" class=\"link\"><p class=\"l\"></p><strong class=\"m\">"+pages.get(i)+"</strong><p class=\"r\"></p></a>");
+			}
+		}
+		if(getTotalPage()==currentPage){
+			tag.append("<a href=\""+url+"&page="+(currentPage+1)+"\" class=\"link\"><p class=\"l\"></p><strong class=\"m\">下一页</strong><p class=\"r\"></p></a>");
+			tag.append("<a href=\""+url+"&page="+getTotalPage()+"\" class=\"link\"><p class=\"l\"></p><strong class=\"m\">尾页</strong><p class=\"r\"></p></a>");
+		}
+		tag.append(divEnd);
+		this.stringUrl =tag.toString();
+	}
+	
 
 }

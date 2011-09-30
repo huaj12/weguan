@@ -1,6 +1,10 @@
 package com.juzhai.msg.controller.view;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.juzhai.act.model.Act;
 import com.juzhai.msg.bean.ActMsg.MsgType;
@@ -10,10 +14,19 @@ public class ActMsgView implements Serializable {
 
 	private static final long serialVersionUID = 7087543258625496760L;
 
+	private static final SimpleDateFormat SDF = new SimpleDateFormat(
+			"yyyy-MM-dd hh:mm");
+
 	private Act act;
 
 	private ProfileCache profileCache;
-	
+
+	private MsgType msgType;
+	// 消息的状态
+	private boolean stuts;
+
+	private Date date;
+
 	public MsgType getMsgType() {
 		return msgType;
 	}
@@ -22,10 +35,6 @@ public class ActMsgView implements Serializable {
 		this.msgType = msgType;
 	}
 
-	private MsgType msgType;
-	//消息的状态
-	private boolean stuts;
-	
 	public boolean isStuts() {
 		return stuts;
 	}
@@ -48,5 +57,25 @@ public class ActMsgView implements Serializable {
 
 	public void setProfileCache(ProfileCache profileCache) {
 		this.profileCache = profileCache;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	/**
+	 * 为邮件vm用
+	 * 
+	 * @return
+	 */
+	public String getDateFormat() {
+		if (null == getDate()) {
+			return StringUtils.EMPTY;
+		}
+		return SDF.format(getDate());
 	}
 }

@@ -81,7 +81,8 @@ public class ActBriefingEmailHandler extends AbstractScheduleHandler {
 					if (CollectionUtils.isNotEmpty(userActs)) {
 						Mail mail = MailFactory.create(profile.getEmail(),
 								profile.getNickname(), true);
-						mail.buildSubject("/mail/briefing/subject.vm", null);
+						mail.buildSubject("/mail/briefing/subject.vm",
+								buildSubjectProp(profile));
 						mail.buildText(
 								"/mail/briefing/content.vm",
 								buildContentProp(profile, count, userActs,
@@ -100,6 +101,12 @@ public class ActBriefingEmailHandler extends AbstractScheduleHandler {
 
 	private void stopMailDaemon() {
 		mailManager.startDaemon();
+	}
+
+	private Map<String, Object> buildSubjectProp(Profile profile) {
+		Map<String, Object> prop = new HashMap<String, Object>();
+		prop.put("nickname", profile.getNickname());
+		return prop;
 	}
 
 	private Map<String, Object> buildContentProp(Profile profile, int count,

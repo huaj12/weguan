@@ -8,6 +8,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>拒宅器</title>
 		<link href="${jz:url('/css/jz.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:url('/css/skins/blue.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<div class="main"><!--main begin-->

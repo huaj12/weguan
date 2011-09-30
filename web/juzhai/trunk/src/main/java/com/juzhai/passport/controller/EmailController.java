@@ -84,8 +84,7 @@ public class EmailController extends BaseController {
 		}
 		model.addAttribute("profile", profileCache);
 		model.addAttribute("token", token);
-		// TODO 退订成功页面
-		return "";
+		return "mail/unsub";
 	}
 
 	@RequestMapping(value = "/unsubEmail", method = RequestMethod.POST)

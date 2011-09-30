@@ -4,9 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="top"></div>
 <div class="mid"><!--mid begin-->
-	<div class="jz_box"><!--jz_box begin-->
-		<c:choose>
-			<c:when test="${feed.feedType=='SPECIFIC'}">
+	<c:choose>
+		<c:when test="${feed.feedType=='SPECIFIC'}">
+			<div class="jz_box"><!--jz_box begin-->
 				<div class="photo fl"><img src="${feed.profileCache.logoPic}" /></div>
 				<div class="infor fl data" data="{'friendId':${feed.profileCache.uid},'actId':${feed.act.id},'times':${times}}"><!--infor begin-->
 					<h2><span class="u"><c:out value="${feed.profileCache.nickname}" /></span><span class="w">最近想去</span><span class="v"><c:out value="${feed.act.name}" /></span></h2>
@@ -14,11 +14,17 @@
 					<a href="#" class="want" onclick="javascript:response(1);" tip="点击“我也想去”，告知所有有同样兴趣的好友" onmouseover="javascript:tip(this, true);" onmouseout="javascript:tip(this, false);"></a>
 					<a href="#" class="dwant" onclick="javascript:response(2);" tip="切换到下一张，什么都不做" onmouseover="javascript:tip(this, true);" onmouseout="javascript:tip(this, false);"></a>
 				</div><!--infor end-->
-			</c:when>
-			<c:when test="${feed.feedType=='QUESTION'}">
+			</div>
+		</c:when>
+		<c:when test="${feed.feedType=='QUESTION'}">
+			<div class="jz_box"><!--jz_box begin-->
 				<div class="photo fl"><img src="${feed.tpFriend.logoUrl}" /></div>
 				<div class="df fl"><!--infor begin-->
-					<h2><span class="w">你觉得</span><span class="u"><c:out value="${feed.tpFriend.name}" /></span><span class="w">有多宅？</span></h2>
+					<h2>
+						<span class="w">${feed.questionNamePrefix}</span>
+						<span class="u"><c:out value="${feed.tpFriend.name}" /></span>
+						<span class="w">${feed.questionNameSuffix}</span>
+					</h2>
 					<p>${feed.tpFriend.city}</p>
 					<c:choose>
 						<c:when test="${feed.question.type == 0}">
@@ -47,14 +53,14 @@
 					</c:choose>
 					<!-- <strong class="henzai"></strong> -->
 				</div><!--infor end-->
-			</c:when>
-			<c:otherwise>
-				<div class="none_message"><!--none_message begin-->
-					<span>试试<a href="#" onclick="javascript:kaixinRequest();">邀请更多好友加入</a>！</span>
-				</div><!--none_message end-->
-			</c:otherwise>
-		</c:choose>
-	</div><!--jz_box end-->
+			</div>
+		</c:when>
+		<c:otherwise>
+			<div class="none_message"><!--none_message begin-->
+				<h2></h2><p></p><span>试试<a href="#" onclick="javascript:kaixinRequest();">邀请更多好友加入</a>！</span>
+			</div><!--none_message end-->
+		</c:otherwise>
+	</c:choose>
 </div><!--mid end-->
 <div class="bot"></div>
 <c:choose>

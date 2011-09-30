@@ -273,11 +273,13 @@ public class InboxService implements IInboxService {
 					}
 				}
 				if (null != removeTpFriend) {
-					unInstallFriendList.remove(unInstallFriendList);
+					unInstallFriendList.remove(removeTpFriend);
 				}
 			}
 		}
-
+		if (CollectionUtils.isEmpty(unInstallFriendList)) {
+			return null;
+		}
 		TpFriend tpFriend = unInstallFriendList.get(RandomUtils.nextInt(
 				new Random(System.currentTimeMillis()),
 				unInstallFriendList.size()));

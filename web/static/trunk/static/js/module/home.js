@@ -28,9 +28,9 @@ function holdStar(index){
 	}
 	var star = stars[index-1];
 	if(star){
-		$("div.star > p.zai").text($(star).attr("title")).show();
+		$("div.star > em").text($(star).attr("title")).show();
 	}else{
-		$("div.star > p.zai").text("").hide();
+		$("div.star > em").text("").hide();
 	}
 }
 

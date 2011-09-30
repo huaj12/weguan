@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
@@ -105,25 +104,38 @@ public class AppHomeController extends BaseController {
 	 */
 	private void getNextFeed(long uid, int times, Model model) {
 		if (times > randomFeedFrequency) {
-			getQuestion(uid, model);
+			getQuestion(uid, model, false);
 		} else {
-			getSpecificFeed(uid, times, model);
+			getSpecificFeed(uid, times, model, false);
 		}
 		// TODO 显示相互共同好友
 	}
 
-	private void getQuestion(long uid, Model model) {
+	private void getQuestion(long uid, Model model, boolean isFinal) {
 		// 获取随机
 		Feed feed = inboxService.showQuestion(uid);
-		model.addAttribute("feed", feed);
-		model.addAttribute("times", 1);
+		if (null == feed) {
+			if (isFinal) {
+				return;
+			} else {
+				getSpecificFeed(uid, 1, model, true);
+			}
+		} else {
+			model.addAttribute("feed", feed);
+			model.addAttribute("times", 1);
+		}
 	}
 
-	private void getSpecificFeed(long uid, int times, Model model) {
+	private void getSpecificFeed(long uid, int times, Model model,
+			boolean isFinal) {
 		// 获取指定
 		Feed feed = inboxService.showFirst(uid);
 		if (null == feed) {
-			getQuestion(uid, model);
+			if (isFinal) {
+				return;
+			} else {
+				getQuestion(uid, model, true);
+			}
 		} else {
 			model.addAttribute("feed", feed);
 			model.addAttribute("times", times + 1);

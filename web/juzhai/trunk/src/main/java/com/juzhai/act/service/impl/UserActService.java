@@ -35,6 +35,7 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.home.service.IInboxService;
+import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.service.IMsgMessageService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.TpUser;
@@ -122,8 +123,6 @@ public class UserActService implements IUserActService {
 			log.error(e.getErrorCode(), e);
 		}
 		friendService.incrOrDecrIntimacy(uid, friendId, 2);
-		// msgMessageService.sendActMsg(uid, friendId, new ActMsg(actId, uid,
-		// ActMsg.MsgType.FIND_YOU_ACT));
 	}
 
 	private void wantToAct(long uid, long actId, String tpIdentity, long tpId) {
@@ -132,8 +131,6 @@ public class UserActService implements IUserActService {
 		} catch (ActInputException e) {
 			log.error(e.getErrorCode(), e);
 		}
-		// msgMessageService.sendActMsg(uid, tpId, tpIdentity, new ActMsg(actId,
-		// uid, ActMsg.MsgType.FIND_YOU_ACT));
 	}
 
 	private void dependToAct(long uid, long actId, long friendId) {
@@ -167,8 +164,6 @@ public class UserActService implements IUserActService {
 			throws ActInputException {
 		useAct(uid, actId, 5, false);
 		accountService.profitPoint(uid, ProfitAction.ADD_ACT);
-		// msgMessageService.sendActMsg(uid, 0, new ActMsg(actId, uid,
-		// ActMsg.MsgType.BROADCAST_ACT));
 	}
 
 	private void useAct(long uid, long actId, int hotLev, boolean canRepeat)
@@ -203,8 +198,8 @@ public class UserActService implements IUserActService {
 		redisTemplate.opsForZSet().add(
 				RedisKeyGenerator.genMyActsKey(userAct.getUid()),
 				userAct.getActId(), userAct.getHotLev());
-
 		sendFeed(userAct);
+		sendMsg(userAct);
 	}
 
 	private void sendFeed(UserAct userAct) {
@@ -212,6 +207,12 @@ public class UserActService implements IUserActService {
 		ActUpdateMessage actUpdateMessage = new ActUpdateMessage();
 		actUpdateMessage.buildSenderId(userAct.getUid()).buildBody(userAct);
 		updateActFeedRabbitTemplate.convertAndSend(actUpdateMessage);
+	}
+
+	private void sendMsg(UserAct userAct) {
+		msgMessageService.sendActMsg(userAct.getUid(), 0L,
+				new ActMsg(userAct.getActId(), userAct.getUid(),
+						ActMsg.MsgType.RECOMMEND));
 	}
 
 	@Override

@@ -123,12 +123,12 @@ public class RedisTest {
 
 	@Test
 	public void listRemovePojoTest() {
-		ActMsg value1 = new ActMsg(1L, 1L, MsgType.BROADCAST_ACT);
-		ActMsg value2 = new ActMsg(2L, 2L, MsgType.BROADCAST_ACT);
-		ActMsg value3 = new ActMsg(3L, 3L, MsgType.BROADCAST_ACT);
-		ActMsg value4 = new ActMsg(4L, 4L, MsgType.BROADCAST_ACT);
-		ActMsg value5 = new ActMsg(1L, 1L, MsgType.BROADCAST_ACT);
-		ActMsg value6 = new ActMsg(2L, 2L, MsgType.BROADCAST_ACT);
+		ActMsg value1 = new ActMsg(1L, 1L, MsgType.INVITE);
+		ActMsg value2 = new ActMsg(2L, 2L, MsgType.INVITE);
+		ActMsg value3 = new ActMsg(3L, 3L, MsgType.INVITE);
+		ActMsg value4 = new ActMsg(4L, 4L, MsgType.INVITE);
+		ActMsg value5 = new ActMsg(1L, 1L, MsgType.INVITE);
+		ActMsg value6 = new ActMsg(2L, 2L, MsgType.INVITE);
 		actMsgRedisTemplate.opsForList().leftPush(key, value1);
 		actMsgRedisTemplate.opsForList().leftPush(key, value2);
 		actMsgRedisTemplate.opsForList().leftPush(key, value3);

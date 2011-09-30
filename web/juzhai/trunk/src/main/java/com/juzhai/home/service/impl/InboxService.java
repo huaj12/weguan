@@ -39,6 +39,7 @@ import com.juzhai.home.service.IInboxService;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
+import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.IAuthorizeService;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
@@ -322,32 +323,33 @@ public class InboxService implements IInboxService {
 			if (StringUtils.isNotEmpty(question.getInviteMessage())) {
 				ProfileCache profileCache = profileService
 						.getProfileCacheByUid(uid);
-				String word = null;
+				String text = null;
 				switch (question.getType()) {
 				case 0:
-					word = question.getInviteMessage()
+					text = question.getInviteMessage()
 							.replace("{0}", profileCache.getNickname())
 							.replace("{1}", answers[answer - 1]);
 					break;
 				case 1:
 					if (answer == 1) {
-						word = question.getInviteMessage().replace("{0}",
+						text = question.getInviteMessage().replace("{0}",
 								profileCache.getNickname());
 					}
 					break;
 				}
-				if (StringUtils.isNotEmpty(word)) {
+				if (StringUtils.isNotEmpty(text)) {
 					List<String> fuids = new ArrayList<String>();
 					fuids.add(identity);
-					// TODO 确定内容 9月30日完成
 					String linktext = getContent(
 							TpMessageKey.QUESTION_LINKTEXT, null);
-					String link = getContent(TpMessageKey.QUESTION_LINK, null);
-					String text = getContent(TpMessageKey.QUESTION_TEXT, null);
-					String picurl = getContent(TpMessageKey.QUESTION_PICURL,
-							null);
+					Thirdparty tp = com.juzhai.passport.InitData.TP_MAP
+							.get(tpId);
+					if (null == tp) {
+						return false;
+					}
 					authorizeService.sendSystemMessage(authInfo, fuids,
-							linktext, link, word, text, picurl);
+							linktext, tp.getAppUrl(), StringUtils.EMPTY, text,
+							StringUtils.EMPTY);
 				}
 			}
 		}

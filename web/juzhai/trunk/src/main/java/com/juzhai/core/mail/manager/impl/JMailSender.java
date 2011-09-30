@@ -26,8 +26,8 @@ public class JMailSender implements MailSender {
 		MimeMessageHelper helper = new MimeMessageHelper(message,
 				mail.getEncoding());
 		helper.setTo(mail.getReceiver().getEmailAddress());
-		helper.setFrom(sender.getEmailAddress(),
-				sender.getFriendlyEmailAddress());
+		// helper.setTo(mail.getReceiver().getFriendlyEmailAddress());
+		helper.setFrom(sender.getEmailAddress(), sender.getNickname());
 		helper.setSentDate(new Date());
 		helper.setSubject(mail.getSubject().getText(mailTemplate,
 				mail.getEncoding()));

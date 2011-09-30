@@ -4,8 +4,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title></title>
 <style type="text/css">
-<!--
-/* reset */
 body{ font-family:"宋体"; font-size:12px; line-height:150%; padding: 0; margin: 0; background:#4991DB; }
 div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,   
 form,fieldset,input,textarea,p,blockquote,th,td {   
@@ -42,14 +40,9 @@ abbr,acronym { border: 0;
 .fl{ float:left; _display:inline;}
 .fr{ float:right; _display:inline;}
 
-
-
-
-
 .main{ width:700px; height:auto; overflow:hidden; margin:0 auto; margin-top:50px;}
 .main_t,.main_b{ width:698px; height:1px; overflow:hidden; background:#fff; margin-left:1px; float:left; display:inline;}
 .main_m{ width:620px; height:auto; overflow:hidden; background:#fff; float:left; padding:40px;}
-
 
 .main_m .user p{ float:left; color:#666; font-size:16px; font-family:"微软雅黑","宋体"; width:620px;}
 .main_m .user span{ float:left; float:left; color:#666; font-size:14px; margin-top:15px; width:620px;}
@@ -57,7 +50,6 @@ abbr,acronym { border: 0;
 .main_m .message em{ width:1px; height:28px; background:#F8E69E; float:left; margin-top:1px; overflow:hidden;}
 .main_m .message p{ width:618px; height:30px; background:#F8E69E; float:left; text-align:center; color:#666; line-height:30px;}
 .main_m .message p span{ color:#4286D7; margin:auto 5px; font-weight:bold;}
-
 
 .message_list{ width:620px; height:auto; overflow:hidden; float:left; margin-top:6px;}
 .message_list .item{ width:590px; height:80px; background:#FAFAFA; padding:15px; float:left; margin-top:1px; position:relative;}
@@ -72,22 +64,15 @@ abbr,acronym { border: 0;
 .item a{ float:left; color:#336AAE; margin-left:20px; display:inline; text-decoration:none;}
 .item a:hover{ text-decoration:underline;}
 
-
 .item strong{ position:absolute; right:15px; top:10px; color:#ccc; font-family:Tahoma; font-size:11px;}
 
 .more{ width:620px; float:left; margin-top:5px; _margin-top:-10px;}
 .more a{ float:right; color:#336AAE;  margin-right:5px; display:inline; text-decoration:none;}
 .more a:hover{text-decoration:underline;}
 
-
-
-
-
-
 .main_m .hot{ width:620px; height:30px; overflow:hidden; margin-top:30px; float:left;}
 .main_m .hot em{ width:1px; height:28px; background:#C8DEF4; float:left; margin-top:1px; overflow:hidden;}
 .main_m .hot p{ width:618px; height:30px; background:#C8DEF4; float:left; text-align:center; color:#666; line-height:30px; font-size:14px;}
-
 
 .ph{ width:180px; height:auto; overflow:hidden; margin-top:5px;}
 .ph h2{ color:#999; font-weight:bold; padding-top:10px; padding-bottom:5px;}
@@ -100,13 +85,11 @@ abbr,acronym { border: 0;
 .ph .ph_item a{ width:143px; height:30px; float:left; text-align:center; line-height:30px; text-decoration:none;} 
 .ph .ph_item span{ width:1px; height:28px; overflow:hidden;  float:left; margin-top:1px;}
 
-
 .man{margin-left:1px; display:inline;  float:left}
 .man .num p{ background:#C8DEF4; color:#4991DB;}
 .man .num span{ background:#C8DEF4;}
 .man .ph_item a{ background:#C8DEF4; color:#4991DB;}
 .man .ph_item span{ background:#C8DEF4; color:#4991DB;}
-
 
 .woman{  float:left; margin-left:39px; display:inline;}
 .woman .num p{ background:#FFD1D1; color:#FF6699;}
@@ -120,14 +103,11 @@ abbr,acronym { border: 0;
 .remen .ph_item a{ background:#FFD1B2; color:#CC6600;}
 .remen .ph_item span{ background:#FFD1B2; color:#CC6600;}
 
-
 .copy{ margin:0 auto; margin-top:10px; width:700px; height:auto; overflow:hidden; padding-bottom:10px;}
 .copy a.left{ color:#DBE9F8; float:left; margin-left:10px; display:inline; font-size:14px; text-decoration:none;}
 .copy a.left:hover{ text-decoration:underline;}
 .copy a.right{ color:#CCC; float:right; margin-right:10px; display:inline;text-decoration:none; font-family:Arial;}
 
-
--->
 </style>
 </head>
 

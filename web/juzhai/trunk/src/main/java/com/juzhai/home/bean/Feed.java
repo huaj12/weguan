@@ -20,7 +20,7 @@ public class Feed implements Serializable {
 	private static final long serialVersionUID = -2496594920623735162L;
 
 	private static final SimpleDateFormat SDF = new SimpleDateFormat(
-			"yyyy-MM-dd");
+			"yyyy-MM-dd hh:mm");
 
 	public enum FeedType {
 		SPECIFIC, RANDOM, QUESTION

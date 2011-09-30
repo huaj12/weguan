@@ -64,7 +64,6 @@ public class AppHomeController extends BaseController {
 	}
 
 	@RequestMapping(value = "/ajax/respFeed", method = RequestMethod.POST)
-	@ResponseBody
 	public String respFeed(HttpServletRequest request, Model model, long actId,
 			long friendId, int type, int times) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
@@ -80,11 +79,10 @@ public class AppHomeController extends BaseController {
 			return error_500;
 		}
 		getNextFeed(context.getUid(), times, model);
-		return "home/feed_fragment";
+		return "home/app/feed_fragment";
 	}
 
 	@RequestMapping(value = "/ajax/answer", method = RequestMethod.POST)
-	@ResponseBody
 	public String answer(HttpServletRequest request, Model model,
 			AnswerForm answerForm, int times) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
@@ -92,7 +90,7 @@ public class AppHomeController extends BaseController {
 				answerForm.getQuestionId(), answerForm.getTpIdentity(),
 				answerForm.getAnswerId());
 		getNextFeed(context.getUid(), times, model);
-		return "home/feed_fragment";
+		return "home/app/feed_fragment";
 	}
 
 	/**

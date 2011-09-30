@@ -132,6 +132,22 @@ public class Feed implements Serializable {
 		}
 	}
 
+	public String getQuestionNamePrefix() {
+		if (null != getQuestion()) {
+			return getQuestion().getName().split("\\{0\\}")[0];
+		} else {
+			return StringUtils.EMPTY;
+		}
+	}
+
+	public String getQuestionNameSuffix() {
+		if (null != getQuestion()) {
+			return getQuestion().getName().split("\\{0\\}")[1];
+		} else {
+			return StringUtils.EMPTY;
+		}
+	}
+
 	/**
 	 * 为邮件vm用
 	 * 

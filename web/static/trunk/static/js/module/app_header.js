@@ -47,6 +47,9 @@ function addAct(successCallback){
 					successCallback();
 				}
 			}else if(result){
+				if(result && result.errorCode == 10003 && successCallback){
+					successCallback();
+				}
 				$("#addActError").text(result.errorInfo).show().fadeOut(2000);
 			}else {
 				alert("系统异常！");

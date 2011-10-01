@@ -38,5 +38,6 @@
 				
 			});
 		</script>
+		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 	</body>
 </html>

@@ -56,6 +56,7 @@
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
 		<script type="text/javascript" src="${jz:url('/js/module/my_act.js')}"></script>
+		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 		<script type="text/javascript">
 			$(document).ready(function(){
 				

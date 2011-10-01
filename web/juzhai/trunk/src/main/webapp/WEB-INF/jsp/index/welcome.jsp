@@ -13,12 +13,12 @@
 			<div class="top"><!--top begin-->
 				<h1></h1>
 				<div class="rk_menu"><!--rk_menu begin-->
-					<span><img src="images/entrance.gif" />
-					</span> <a href="#" title="点击进入"><img src="images/td_r1_c1.png" />
-					</a> <a href="#" title="敬请期待"><img src="images/td_r1_c3.png" />
-					</a> <a href="#" title="敬请期待"><img src="images/td_r1_c5.png" />
-					</a> <a href="#" title="敬请期待"><img src="images/td_r1_c7.png" />
-					</a> <a href="#" title="敬请期待"><img src="images/td_r1_c9.png" />
+					<span><img src="${jz:url('/images/web/entrance.gif')}" />
+					</span> <a href="${tpMap[1].appUrl}" title="点击进入"><img src="${jz:url('/images/web/td_r1_c1.png')}" />
+					</a> <a href="#" title="敬请期待"><img src="${jz:url('/images/web/td_r1_c3.png')}" />
+					</a> <a href="#" title="敬请期待"><img src="${jz:url('/images/web/td_r1_c5.png')}" />
+					</a> <a href="#" title="敬请期待"><img src="${jz:url('/images/web/td_r1_c7.png')}" />
+					</a> <a href="#" title="敬请期待"><img src="${jz:url('/images/web/td_r1_c9.png')}" />
 					</a>
 				</div><!--rk_menu end-->
 			</div><!--top end-->
@@ -51,7 +51,7 @@
 			</div><!--intru end-->
 			<div class="bottom"><!--bottom begin-->
 				<a href="#">拒宅工作组: max@51juzhai.com</a>
-				<p>2011 开心网 京ICP证080482号 京公网安备110000000003号</p>
+				<p>2011 拒宅网 沪ICP备11031778号</p>
 			</div><!--bottom end-->
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />

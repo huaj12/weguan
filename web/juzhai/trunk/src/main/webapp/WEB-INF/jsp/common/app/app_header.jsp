@@ -7,7 +7,7 @@
 	<div class="top_mid"><!--top_mid begin-->
 		<div class="top_high_line"></div>
 		<div class="zjxq fl"><!--最近想去 begin-->
-			<a href="/app/myAct" class="wantgo">我最近想去</a>
+			<a href="/app/myAct" class="wantgo" title="管理我的拒宅兴趣">我最近想去</a>
 		</div><!--最近想去 end-->
 		<div class="zjxq_input fl"><!--zjxq_input begin-->
 			<div class="select_menu"><!--select_menu begin-->

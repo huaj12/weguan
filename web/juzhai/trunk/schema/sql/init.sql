@@ -1,13 +1,14 @@
-insert into juzhai.tb_act_category (name,sequence,create_time,last_modify_time) values ('运动',1,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act_category (name,sequence,create_time,last_modify_time) values ('休闲娱乐',2,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act_category (name,sequence,create_time,last_modify_time) values ('旅游',3,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act_category (name,sequence,create_time,last_modify_time) values ('运动',2,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act_category (name,sequence,create_time,last_modify_time) values ('休闲娱乐',3,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act_category (name,sequence,create_time,last_modify_time) values ('旅游',4,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act_category (name,sequence,create_time,last_modify_time) values ('热门',1,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('健身馆',1,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打羽毛球',1,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打桌球',1,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打乒乓',1,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打篮球',1,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('踢足球',1,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打羽毛球','1,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打桌球','1,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打乒乓','1,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打篮球','1,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('踢足球','1,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('练瑜伽',1,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打保龄球',1,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打壁球',1,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
@@ -25,15 +26,15 @@ insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('骑马',1,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('射击馆',1,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('和朋友聚餐',2,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('朋友家串门',2,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('逛街',2,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('K歌',2,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('看电影',2,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('桌游',2,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('和朋友聚餐','2,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('朋友家串门','2,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('逛街','2,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('K歌','2,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('看电影','2,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('桌游','2,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打牌',2,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打麻将',2,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('酒吧',2,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('酒吧','2,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('买醉',2,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打电动',2,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('看演出',2,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
@@ -48,15 +49,16 @@ insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('看话剧',2,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 -- insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打桌球',1,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('周边旅游',3,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('出国旅游',3,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('自驾游',3,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('周边旅游','3,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('出国旅游','3,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('自驾游','3,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('欢乐谷',3,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('迪士尼',3,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('迪士尼','3,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('海边',3,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('西藏',3,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('拉萨',3,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('张家界',3,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('日本','3,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('台湾','3,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('普吉岛',3,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('坐过山车',3,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('嘉年华',3,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
@@ -127,6 +129,7 @@ insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (56,1,13);
 insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (57,1,14);
 insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (58,1,15);
 insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (59,1,16);
+insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (60,1,16);
 
 
 INSERT INTO `tb_province` (`id`,`name`,`sequence`,`create_time`,`last_modify_time`) VALUES (1,'北京',1,'2011-08-20 00:11:57','2011-08-20 00:11:57');

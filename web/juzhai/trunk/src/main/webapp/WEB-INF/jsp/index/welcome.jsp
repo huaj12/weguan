@@ -54,5 +54,6 @@
 				<p>2011 开心网 京ICP证080482号 京公网安备110000000003号</p>
 			</div><!--bottom end-->
 		</div><!--main end-->
+		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 	</body>
 </html>

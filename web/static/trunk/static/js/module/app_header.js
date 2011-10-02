@@ -92,7 +92,24 @@ function subEmail(){
 	});
 }
 
+function showActTip(inputObj){
+	if($(inputObj).val() == ""){
+		$("#addActError").text("输入你的拒宅兴趣，如：逛街、K歌...").show();
+	}
+}
+
 $(document).ready(function(){
+	//注册兴趣输入框获得光标事件
+	$("#addAct").bind("focus", function(event){
+		showActTip(event.target);
+	});
+	$('#addAct').bind("keypress"), (function(event) {
+		showActTip(event.target);
+	});
+	$("#addAct").bind("blur",function(){
+		$("#addActError").hide();
+	});
+	
 	//注册添加Act事件
 	$("div.zjxq_input > a.add").bind("click", function(){
 		addAct();

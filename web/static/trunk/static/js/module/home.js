@@ -64,7 +64,7 @@ function dealFeed(url, data){
 }
 
 function answer(questionId, answerId, tpIdentity, times){
-	if(questionId && answerId &&
+	if(questionId >= 0 && answerId >= 0 &&
 			tpIdentity && tpIdentity != "" &&
 			times && times > 0){
 		dealFeed("/app/ajax/answer", {"questionId": questionId, "tpIdentity": tpIdentity, "answerId": answerId, "times": times});

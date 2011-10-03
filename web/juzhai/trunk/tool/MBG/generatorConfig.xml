@@ -82,7 +82,7 @@
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
   
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-        connectionURL="jdbc:mysql://192.168.1.10:3306/juzhai"
+        connectionURL="jdbc:mysql://127.0.0.1:3306/juzhai"
         userId="root"
         password="111111">
     </jdbcConnection>

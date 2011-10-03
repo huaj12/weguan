@@ -551,21 +551,25 @@ INSERT INTO `tb_city` (`id`,`name`,`province_id`,`sequence`,`create_time`,`last_
 
 insert into juzhai.tb_thirdparty (id,name,join_type,app_key,app_secret,app_url) values (1,'kaixin001','app','158820497219e41f42ceff3ff18b6e73','58c480e2630a4d298750662382a00d94','http://www.kaixin001.com/!app_100012402114474624/');
 
-insert into juzhai.tb_question (type,name,answer,invite_message) values (0,'你觉得{0}有多宅？','有点宅|比较宅|比我宅|很宅|相当宅','{0}觉得你{1}，是时候拒宅了。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (0,'你觉得{0}能几天不出门？','1天|2天|3天|1周|1个月','{0}觉得你可以{1}不出门，是时候拒宅了。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (0,'你觉得{0}在朋友聚会时有多闷骚？','有点闷骚|比较闷骚|比我闷骚|很闷骚|相当闷骚','{0}觉得你在朋友聚会时{1}，应该多跟朋友聚聚了，哈哈。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (0,'你猜猜{0}上次出门运动是多久以前？','1周前|1个月前|半年前|1年前|上个世纪','{0}觉得你上次运动是在{1}，该出去多运动运动咯。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (0,'你觉得{0}能对着电脑发呆多久？','1小时|半天|1天|1周|1个月','{0}觉得你能对着电脑发呆{1}，有空还是多出去玩玩吧。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (0,'你觉得{0}能连吃几顿泡面？','2顿|3顿|5顿|10顿|20顿','{0}觉得你能连吃{1}顿泡面，还不如找三两好友出去吃一顿。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (0,'你有多久没见到{0}了？','1天|1周|1个月|1年|很久','{0}已经{1}没见过你了，也许他正想约你见一面呢。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (0,'猜猜你和{0}下一次见面是什么时候？','1天后|1周后|1个月后|1年后|很久以后','{0}估计下次和你见面是{1}，也许他正想约你聚聚呢。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (0,'你觉得{0}会连续加班几天？','2天|3天|4天|5天|很多天','{0}觉得你会连续加班{1}，拒绝宅器提醒你别忘了劳逸结合哦。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (0,'你猜{0}周日会懒床到几点？','9点|10点|12点|下午2点|下午5点','{0}猜你会赖床到{1}，拒宅器提示你“早睡早起有益健康哦”。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (0,'你觉得{0}有多宅？','有点宅|比较宅|比我宅|很宅|相当宅','{0}提醒你别老宅着了','我觉得你{0}。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (0,'你觉得{0}能几天不出门？','1天|2天|3天|1周|1个月','{0}提醒你别老宅在家哦','我觉得你可以{0}不出门。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (0,'你猜猜{0}上次出门运动是多久以前？','1周前|1个月前|半年前|1年前|上个世纪','{0}提醒你有空多出去运动运动哦','我猜你上次运动是在{0}。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (0,'你觉得{0}能对着电脑发呆多久？','1小时|半天|1天|1周|1个月','{0}提醒你有空还是该多出去玩玩吧','我觉得你能对着电脑发呆{0}。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (0,'你觉得{0}能连吃几顿泡面？','2顿|3顿|5顿|10顿|20顿','{0}提醒你找机会出去吃顿好的吧','我觉得你能在家连吃{0}顿泡面。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (0,'你有多久没见到{0}了？','1天|1周|1个月|1年|很久','{0}提醒你有空多跟朋友们聚聚吧','我已经{0}没见过你了。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (0,'猜猜你和{0}下一次见面是什么时候？','1天后|1周后|1个月后|1年后|很久以后','{0}提醒你多跟身边朋友们聚聚吧','我估计下次和你见面要{0}了。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (0,'你觉得{0}会连续加班几天？','2天|3天|4天|5天|很多天','{0}提醒你别忘了劳逸结合哦','我觉得你会连续加班{0}。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (0,'你猜{0}周日会懒床到几点？','9点|10点|12点|下午2点|下午5点','{0}提醒你早睡早起有益健康哦','我猜你周末会赖床到{0}。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (0,'你觉得{0}能坚持健身多长时间？','1天|3天|一周|一个月|半年','{0}提醒你锻炼身体贵在坚持哦','我觉得你能坚持健身{0}时间。');
 
-insert into juzhai.tb_question (type,name,answer,invite_message) values (1,'你猜{0}这周末会宅在家里么？','会|不会','{0}猜你这周末会宅在家里。宅在家里不如找朋友出去玩玩咯:）。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (1,'你是不是觉得{0}有了另一半后，就很少出来和朋友聚会了？','是|否','{0}觉得你有了另一半后，就很少出来和朋友聚会了。拒宅器提醒你和爱人甜蜜的时候也别冷落了身边的朋友哦。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (1,'你觉得{0}离得开电脑么？','离不开|离得开','{0}觉得你离不开电脑。拒宅器提醒你适当放下电脑，多多户外活动才会更健康哦。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (1,'你觉得{0}最近寂寞难耐么？','是|否','{0}觉得你最近寂寞难耐。如果你真的很孤单就来试试拒宅器吧。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (1,'你觉得{0}是个爱玩的人么？','是|否','{0}觉得你是个爱玩的人。独乐乐不如众乐乐哦，来拒宅器和好友们一起聚聚吧。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (1,'如果{0}邀请你去家里做客，你会去么？','会|不会','如果你邀请{0}去做客，他一定会来的哦。现在就去拒宅期邀请他吧。');
-insert into juzhai.tb_question (type,name,answer,invite_message) values (1,'你觉得{0}是麦霸么？','是|否','{0}觉得你是个麦霸；最近想不想找朋友出来一展歌喉？');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (1,'你猜{0}这周末会宅在家里么？','会|不会','{0}提醒你宅在家里不如找朋友出去玩玩咯','我猜你这周末又会宅在家里吧。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (1,'你是不是觉得{0}有了另一半后，就很少出来和朋友聚会了？','是|否','{0}提醒你别冷落了身边的朋友哦','我觉得你有了另一半后，就很少出来和朋友聚会了。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (1,'你觉得{0}离得开电脑么？','离不开|离得开','{0}提醒你适当放下电脑，多多户外活动吧','我觉得你已经离不开电脑。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (1,'你觉得{0}最近寂寞难耐么？','是|否','{0}提醒来看看好友们最近有什么出去玩的计划','你最近也寂寞难耐了吧。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (1,'你觉得{0}是个爱玩的人么？','是|否','{0}提醒你来拒宅器和好友们一起聚聚吧','你是个爱玩的人吧，但独乐乐不如众乐乐哦。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (1,'如果{0}邀请你去家里做客，你会去么？','会|不会','{0}在暗示你去拒宅器邀请他哦','如果你邀请我去做客，他一定会厚着脸皮来的哦。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (1,'你觉得{0}是麦霸么？','是|否','{0}提醒你有空出来一起K歌吧','你这个麦霸；最近想不想出来一展歌喉？');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (1,'你觉得{0}在朋友聚餐时是不是如狼似虎？','是|否','{0}暗示你该多请朋友们出来吃饭咯','我觉得你每次在朋友聚餐时都如狼似虎。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (1,'你觉得{0}K歌跑调么？','跑调|还好','{0}提醒你有空多出来练练歌吧','你之前唱歌老跑调，该练练了。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (1,'你觉得{0}在朋友聚会时能hold住场面么？','能|不能','{0}暗示你多组织写好友聚会吧','我觉得你每次聚会都能hold住场面，哈哈。');
+insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (1,'你的印象中{0}见到陌生异性会害羞么？','会|不会','{0}提醒你有机会多接触些异性','我的印象中，你见到陌生异性会很害羞，哈哈。');

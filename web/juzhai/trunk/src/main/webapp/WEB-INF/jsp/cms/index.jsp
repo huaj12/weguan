@@ -100,13 +100,13 @@ a:hover {
 				</ul> -->
 			</li>
 			<li>
-				<a href="#">已读邮件统计</a>
+				<a href="javascript:;">已读邮件统计</a>
 			</li>
 			<li>
-				<a href="#">热门分类</a>
+				<a href="javascript:;">热门分类</a>
 			</li>
 			<li>
-				<a href="#">男女兴趣排行榜</a>
+				<a href="javascript:;">男女兴趣排行榜</a>
 			</li>
 		</ul>
 	</div>

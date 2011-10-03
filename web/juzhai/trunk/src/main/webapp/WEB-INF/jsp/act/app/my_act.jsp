@@ -36,7 +36,7 @@
 											</c:choose>
 											<p class="${pClass}">
 												<span class="fl"></span>
-												<a href="#" actCategoryId="${actCategory.id}"><c:out value="${actCategory.name}"/></a>
+												<a href="javascript:;" actCategoryId="${actCategory.id}"><c:out value="${actCategory.name}"/></a>
 												<span class="fr"></span>
 												<strong></strong>
 											</p>

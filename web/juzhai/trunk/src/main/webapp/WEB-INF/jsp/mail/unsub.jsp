@@ -14,20 +14,20 @@
 				<h1></h1>
 				<div class="rk_menu"><!--rk_menu begin-->
 					<span><img src="images/entrance.gif" />
-					</span> <a href="#" title="开心拒宅"><img src="images/td_r1_c1.png" />
-					</a> <a href="#" title="人人拒宅"><img src="images/td_r1_c3.png" />
-					</a> <a href="#" title="微博拒宅"><img src="images/td_r1_c5.png" />
-					</a> <a href="#" title="安卓拒宅"><img src="images/td_r1_c7.png" />
-					</a> <a href="#" title="IPHONE拒宅"><img src="images/td_r1_c9.png" />
+					</span> <a href="javascript:;" title="开心拒宅"><img src="images/td_r1_c1.png" />
+					</a> <a href="javascript:;" title="人人拒宅"><img src="images/td_r1_c3.png" />
+					</a> <a href="javascript:;" title="微博拒宅"><img src="images/td_r1_c5.png" />
+					</a> <a href="javascript:;" title="安卓拒宅"><img src="images/td_r1_c7.png" />
+					</a> <a href="javascript:;" title="IPHONE拒宅"><img src="images/td_r1_c9.png" />
 					</a>
 				</div><!--rk_menu end-->
 			</div><!--top end-->
 			<div class="td_banner"><!--td_banner begin-->
 				<p>您的订阅邮箱：${profile.email}</p>
-				<span><a href="#" <c:if test="${!profile.subEmail}">class="unclick"</c:if>></a><em style="display:none;">已退订，再见了</em></span>
+				<span><a href="javascript:;" <c:if test="${!profile.subEmail}">class="unclick"</c:if>></a><em style="display:none;">已退订，再见了</em></span>
 			</div><!--td_banner end-->
 			<div class="bottom"><!--bottom begin-->
-				<a href="#">拒宅工作组: max@51juzhai.com</a>
+				<a href="javascript:;">拒宅工作组: max@51juzhai.com</a>
 				<p>2011 开心网 京ICP证080482号 京公网安备110000000003号</p>
 			</div><!--bottom end-->
 		</div><!--main end-->

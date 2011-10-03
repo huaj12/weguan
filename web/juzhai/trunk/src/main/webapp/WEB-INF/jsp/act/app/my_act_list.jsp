@@ -6,17 +6,17 @@
 	<c:forEach var="userActView" items="${userActViewList}">	
 		<p onmouseover="javascript:myActHover(this, true);" onmouseout="javascript:myActHover(this, false);">
 			<span class="fl"></span>
-			<a href="#" class="key_words"><c:out value="${userActView.act.name}"/></a>
+			<a href="javascript:;" class="key_words"><c:out value="${userActView.act.name}"/></a>
 			<span class="fr"></span>
-			<a href="#" class="close" title="删除兴趣" onclick="javascript:removeAct(this);" actid="${userActView.act.id}"></a>
+			<a href="javascript:;" class="close" title="删除兴趣" onclick="javascript:removeAct(this);" actid="${userActView.act.id}"></a>
 		</p>
 	</c:forEach>
 </div><!--interesting_list end-->
 <div class="arrow fr">
 	<c:if test="${pager.hasPre}">
-		<a href="#" class="l" onclick="javascript:pageMyAct(${pager.currentPage - 1});"></a>
+		<a href="javascript:;" class="l" onclick="javascript:pageMyAct(${pager.currentPage - 1});"></a>
 	</c:if>
 	<c:if test="${pager.hasNext}">
-		<a href="#" class="r" onclick="javascript:pageMyAct(${pager.currentPage + 1});"></a>
+		<a href="javascript:;" class="r" onclick="javascript:pageMyAct(${pager.currentPage + 1});"></a>
 	</c:if>
 </div>

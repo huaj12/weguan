@@ -23,12 +23,12 @@
 	<c:forEach var="synonymAct" items="${synonymActList}">
 		<tr>
 			<td>${synonymAct.name}</td>
-			<td><a href="#" onclick="javascript:removeSynonym('${synonymAct.id}', '${act.id}');">删除</a></td>
+			<td><a href="javascript:;" onclick="javascript:removeSynonym('${synonymAct.id}', '${act.id}');">删除</a></td>
 		</tr>
 	</c:forEach>
 	<tr>
 		<a name="actName"></a>
 		<td><input type="text" id="addInput" /></td>
-		<td><a href="#" onclick="javascript:addSynonym('${act.id}');">添加</a></td>
+		<td><a href="javascript:;" onclick="javascript:addSynonym('${act.id}');">添加</a></td>
 	</tr>
 </table>

@@ -37,14 +37,14 @@
 										</a>
 									</div><!--tab end-->
 									<!--pbr begin-->
-									<!-- <div class="pbr"><a href="#">被我屏蔽的人</a></div><!--pbr end-->
+									<!-- <div class="pbr"><a href="javascript:;">被我屏蔽的人</a></div><!--pbr end-->
 								</div><!--title end-->
 								<div class="box_body"><!--box_body begin-->
 									<c:forEach var="actMsg" items="${actMsgViewList}" varStatus="msg">
 										<div class="item hover"><!--item begin-->
 											<span class="l"></span><span class="r"></span>
 											<div class="close">
-												<a href="#" onclick="remove('${pager.currentPage}','${msg.index }','read')"></a>
+												<a href="javascript:;" onclick="remove('${pager.currentPage}','${msg.index }','read')"></a>
 											</div>
 											<div class="item_style1"><!--item_style1 begin-->
 												<div class="photo fl">
@@ -73,10 +73,10 @@
 														<c:otherwise>
 															<c:choose>
 																<c:when test="${actMsg.stuts}">
-																	<a href="#" class="unhover">响应已发</a>
+																	<a href="javascript:;" class="unhover">响应已发</a>
 																</c:when>
 																<c:otherwise>
-																	<a href="#" onclick="invite_app_friend(this,'${pager.currentPage}','${msg.index }','${actMsg.act.id}','${actMsg.profileCache.uid}')">立即响应</a>
+																	<a href="javascript:;" onclick="invite_app_friend(this,'${pager.currentPage}','${msg.index }','${actMsg.act.id}','${actMsg.profileCache.uid}')">立即响应</a>
 																</c:otherwise>
 															</c:choose>
 														</c:otherwise>

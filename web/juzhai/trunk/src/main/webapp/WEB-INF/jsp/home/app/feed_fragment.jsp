@@ -11,8 +11,8 @@
 				<div class="infor fl data" data="{'friendId':${feed.profileCache.uid},'actId':${feed.act.id},'times':${times}}"><!--infor begin-->
 					<h2><span class="u"><c:out value="${feed.profileCache.nickname}" /></span><span class="w">最近想去</span><span class="v"><c:out value="${feed.act.name}" /></span></h2>
 					<p><fmt:formatDate value="${feed.date}" pattern="yyyy.MM.dd"/>&nbsp;&nbsp;&nbsp;&nbsp;Ta在<c:choose><c:when test="${feed.profileCache.cityName && feed.profileCache.cityName != ''}">${feed.profileCache.cityName}</c:when><c:otherwise>地球</c:otherwise></c:choose></p>
-					<a href="#" class="want" onclick="javascript:response(1);" tip="点击“我也想去”，告知所有有同样兴趣的好友" onmouseover="javascript:tip(this, true);" onmouseout="javascript:tip(this, false);"></a>
-					<a href="#" class="dwant" onclick="javascript:response(2);" tip="切换到下一张，什么都不做" onmouseover="javascript:tip(this, true);" onmouseout="javascript:tip(this, false);"></a>
+					<a href="javascript:;" class="want" onclick="javascript:response(1);" tip="点击“我也想去”，告知所有有同样兴趣的好友" onmouseover="javascript:tip(this, true);" onmouseout="javascript:tip(this, false);"></a>
+					<a href="javascript:;" class="dwant" onclick="javascript:response(2);" tip="切换到下一张，什么都不做" onmouseover="javascript:tip(this, true);" onmouseout="javascript:tip(this, false);"></a>
 				</div><!--infor end-->
 			</div>
 		</c:when>
@@ -46,7 +46,7 @@
 											<c:set var="answer_class" value="no" />
 										</c:when>
 									</c:choose>
-									<a href="#" class="${answer_class}" onclick="javascript:answer(${feed.question.id}, ${status.count}, '${feed.tpFriend.userId}', ${times});">&nbsp;&nbsp;${answer}</a>
+									<a href="javascript:;" class="${answer_class}" onclick="javascript:answer(${feed.question.id}, ${status.count}, '${feed.tpFriend.userId}', ${times});">&nbsp;&nbsp;${answer}</a>
 								</c:forEach>
 							</div>
 						</c:when>
@@ -57,7 +57,7 @@
 		</c:when>
 		<c:otherwise>
 			<div class="none_message"><!--none_message begin-->
-				<h2></h2><p></p><span>试试<a href="#" onclick="javascript:kaixinRequest();">邀请更多好友加入</a>！</span>
+				<h2></h2><p></p><span>试试<a href="javascript:;" onclick="javascript:kaixinRequest();">邀请更多好友加入</a>！</span>
 			</div><!--none_message end-->
 		</c:otherwise>
 	</c:choose>
@@ -65,9 +65,9 @@
 <div class="bot"></div>
 <c:choose>
 	<c:when test="${feed.feedType=='SPECIFIC'}">
-		<div class="next_btn"><a href="#" onclick="javascript:response(2);">跳  过</a></div>
+		<div class="next_btn"><a href="javascript:;" onclick="javascript:response(2);">跳  过</a></div>
 	</c:when>
 	<c:when test="${feed.feedType=='QUESTION'}">
-		<div class="next_btn"><a href="#" onclick="javascript:answer(0, 0, '${feed.tpFriend.userId}', ${times});">跳  过</a></div>
+		<div class="next_btn"><a href="javascript:;" onclick="javascript:answer(0, 0, '${feed.tpFriend.userId}', ${times});">跳  过</a></div>
 	</c:when>
 </c:choose>

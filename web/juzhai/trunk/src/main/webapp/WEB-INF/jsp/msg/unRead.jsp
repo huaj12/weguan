@@ -34,14 +34,14 @@
 											<p class="r"></p>
 										</a>
 									</div><!--tab end-->
-									<!--pbr begin--><!-- <div class="pbr"><a href="#">被我屏蔽的人</a></div><!--pbr end-->
+									<!--pbr begin--><!-- <div class="pbr"><a href="javascript:;">被我屏蔽的人</a></div><!--pbr end-->
 								</div><!--title end-->
 								<div class="box_body"><!--box_body begin-->
  									<c:forEach var="actMsg" items="${actMsgViewList}" varStatus="msg">
 										<div class="item hover"><!--item begin-->
 											<span class="l"></span><span class="r"></span>
 											<div class="close">
-												<a  href="#" onclick="remove('${pager.currentPage}','${msg.index }','unread')"><img src="images/close.png" /></a>
+												<a  href="javascript:;" onclick="remove('${pager.currentPage}','${msg.index }','unread')"><img src="images/close.png" /></a>
 											</div>
 											<div class="item_style2"><!--item_style2 begin-->
 												<div class="photo fl"></div>
@@ -58,7 +58,7 @@
 													</h2>
 													<div class="clear"></div>
 													<p>他在${citys[actMsg.profileCache.city]}</p>
-													<a href="#" title="需消耗20积分" onclick="javascrpit:openmsg('${pager.currentPage}','${msg.index }');" class="view">立即查看</a>
+													<a href="javascript:;" title="需消耗20积分" onclick="javascrpit:openmsg('${pager.currentPage}','${msg.index }');" class="view">立即查看</a>
 													<strong>需消耗20积分</strong>
 													<em><fmt:formatDate value="${actMsg.act.createTime}" pattern="yyyy.MM.dd HH:mm"/></em>
 												</div><!--infor end-->
@@ -92,7 +92,7 @@
 					在我的消息中立即响应 +10分<br />
 					在我的消息主动联系对方 +10分
 				</p>
-				<a href="#" onclick="closeAllDiv();" class="iknow">知道了</a>
+				<a href="javascript:;" onclick="closeAllDiv();" class="iknow">知道了</a>
 			</div><!--box_mid end-->
 			<div class="box_bot"></div>
 		</div>

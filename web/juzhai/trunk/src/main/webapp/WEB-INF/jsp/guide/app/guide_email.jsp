@@ -29,7 +29,7 @@
 										<strong>
 											<input name="" type="text" />
 										</strong>
-										<a href="#" class="add complete">订阅</a>
+										<a href="javascript:;" class="add complete">订阅</a>
 										<div class="error" style="display:none"></div>
 									</div>
 								</div><!--sec end-->
@@ -44,7 +44,7 @@
 						<form id="nextForm" action="/app/guide/next" method="post">
 						</form>
 						<div class="next_btn">
-							<a href="#" class="complete">完成</a>
+							<a href="javascript:;" class="complete">完成</a>
 						</div>
 					</div><!--content end-->
 				</div><!--content_bg end-->

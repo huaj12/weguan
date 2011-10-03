@@ -31,12 +31,12 @@
 									<h2>选择你感兴趣的${actCategory.name}</h2>
 									<div id="acts">
 										<c:forEach var="act" items="${actList}">
-											<p><span class="fl"></span><a href="#" class="key_words" actId="${act.id}"><c:out value="${act.name}" /></a><span class="fr"></span><em></em></p>
+											<p><span class="fl"></span><a href="javascript:;" class="key_words" actId="${act.id}"><c:out value="${act.name}" /></a><span class="fr"></span><em></em></p>
 										</c:forEach>
 									</div>
 									<div class="add_insterest">
 										<strong><input id="actName" type="text" /></strong>
-										<a href="#" class="add">添加</a>
+										<a href="javascript:;" class="add">添加</a>
 										<div id="actNameError" class="error" style="display:none">拒宅兴趣字数控制在1－10个中文内！</div>
 									</div>
 								</div><!--sec end-->
@@ -50,7 +50,7 @@
 						</div> -->
 						<form id="nextForm" action="/app/guide/next" method="post">
 						</form>
-						<div class="next_btn"><a href="#" class="next">下一步</a></div>
+						<div class="next_btn"><a href="javascript:;" class="next">下一步</a></div>
 					</div><!--content end-->
 				</div><!--content_bg end-->
 			</div><!--skin_body end-->

@@ -1,6 +1,7 @@
 package com.juzhai.msg.rabbit.listener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -27,9 +28,13 @@ import com.juzhai.msg.rabbit.message.MsgMessage;
 import com.juzhai.msg.service.IMsgService;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.JoinTypeEnum;
+import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
+import com.juzhai.passport.service.IAuthorizeService;
 import com.juzhai.passport.service.IFriendService;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
 
@@ -57,6 +62,8 @@ public class ActMsgMessageListener implements
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IProfileService profileService;
 
 	@Override
 	public Object handleMessage(MsgMessage<ActMsg> msgMessage) {
@@ -103,6 +110,12 @@ public class ActMsgMessageListener implements
 		String receiverIdentity=tpUser.getTpIdentity();
 		String tpName=tpUser.getTpName();
 		long uid=msgMessage.getSenderId();
+		ProfileCache profileCache=profileService.getProfileCacheByUid(uid);
+		if(profileCache==null){
+			log.error("send message profileCache is null");
+			return ;
+		}
+		String sendName=profileCache.getNickname();
 		// TODO 目前就app 以后要重构
 		Thirdparty thirdparty=com.juzhai.passport.InitData.getTpByTpNameAndJoinType(tpName, JoinTypeEnum.APP);
 		if(thirdparty==null){
@@ -122,7 +135,7 @@ public class ActMsgMessageListener implements
 			log.error("send message appService is null");
 			return ;
 		}
-		taskExecutor.submit(new SendSysMsgTask(accountService, appService, uid,receiverIdentity,authInfo,type,messageSource));
+			taskExecutor.submit(new SendSysMsgTask(accountService, appService, uid,receiverIdentity,authInfo,type,messageSource,sendName));	
 		}catch (Exception e) {
 			e.printStackTrace();
 		}	
@@ -158,11 +171,12 @@ public class ActMsgMessageListener implements
 	 IAccountService accountService;
 	 IAppService appService;
 	 long uid;
+	 String sendName;
 	 String receiverIdentity;
 	 MsgType type;
 	 AuthInfo authInfo;
 	 MessageSource messageSource;
-	 public SendSysMsgTask(IAccountService accoutService,IAppService appService,long uid,String receiverIdentity,AuthInfo authInfo,MsgType type, MessageSource messageSource) {
+	 public SendSysMsgTask(IAccountService accoutService,IAppService appService,long uid,String receiverIdentity,AuthInfo authInfo,MsgType type, MessageSource messageSource,String sendName) {
 		 this.accountService=accoutService;
 		 this.appService=appService;
 		 this.uid=uid;
@@ -170,22 +184,30 @@ public class ActMsgMessageListener implements
 		 this.authInfo=authInfo;
 		 this.type=type;
 		 this.messageSource=messageSource;
+		 this.sendName=sendName;
 	}
 	@Override
 	public Boolean call() throws Exception {
 		try{
+		//内容
 		String text="";
+		//附言
+		String word="";
 		if(MsgType.INVITE.equals(type)){
-			text=messageSource.getMessage(TpMessageKey.INVITE_FRIEND, new Object[]{"{_USER_}"},
+			text=messageSource.getMessage(TpMessageKey.INVITE_FRIEND, new Object[]{sendName},
 					Locale.SIMPLIFIED_CHINESE);
-		}else{
-			text=messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND, new Object[]{"{_USER_}"},
+			word=messageSource.getMessage(TpMessageKey.INVITE_FRIEND_WORD, new Object[]{sendName},
+					Locale.SIMPLIFIED_CHINESE);
+		}else if (MsgType.RECOMMEND.equals(type)){
+			text=messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND, new Object[]{sendName},
+					Locale.SIMPLIFIED_CHINESE);
+			word=messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND_WORD, new Object[]{sendName},
 					Locale.SIMPLIFIED_CHINESE);
 		}
 		//发送系统消息
 		appService.sendSysMessage(receiverIdentity, messageSource.getMessage(
 				TpMessageKey.FEED_LINKTEXT, null, Locale.SIMPLIFIED_CHINESE), messageSource.getMessage(
-						TpMessageKey.FEED_LINK, null, Locale.SIMPLIFIED_CHINESE), null, text, null, authInfo);
+						TpMessageKey.FEED_LINK, null, Locale.SIMPLIFIED_CHINESE),word, text, null, authInfo);
 		//发送成功增加积分
 		accountService.profitPoint(uid, ProfitAction.IMMEDIATE_RESPONSE);
 		}catch (Throwable  e) {

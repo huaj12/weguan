@@ -9,7 +9,6 @@ public interface IMsgMessageService {
 	 * 
 	 * @param senderId
 	 * @param receiverId
-	 *            如果为0，则表示群发
 	 * @param actMsg
 	 */
 	void sendActMsg(long senderId, long receiverId, ActMsg actMsg);

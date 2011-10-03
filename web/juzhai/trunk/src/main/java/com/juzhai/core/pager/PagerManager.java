@@ -136,6 +136,7 @@ public class PagerManager {
 	}
 
 	public void setStringUrl(String url) {
+		if(getTotalPage()==0)return ;
 		StringBuffer tag=new StringBuffer();
 		String divBegin="<div class='page'>";
 		String divEnd="</div>";
@@ -152,7 +153,7 @@ public class PagerManager {
 				tag.append("<a href=\""+url+"&page="+pages.get(i)+"\" class=\"link\"><p class=\"l\"></p><strong class=\"m\">"+pages.get(i)+"</strong><p class=\"r\"></p></a>");
 			}
 		}
-		if(getTotalPage()==currentPage){
+		if(getTotalPage()!=currentPage){
 			tag.append("<a href=\""+url+"&page="+(currentPage+1)+"\" class=\"link\"><p class=\"l\"></p><strong class=\"m\">下一页</strong><p class=\"r\"></p></a>");
 			tag.append("<a href=\""+url+"&page="+getTotalPage()+"\" class=\"link\"><p class=\"l\"></p><strong class=\"m\">尾页</strong><p class=\"r\"></p></a>");
 		}

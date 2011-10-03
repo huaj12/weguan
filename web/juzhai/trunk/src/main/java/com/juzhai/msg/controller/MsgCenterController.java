@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,37 +21,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.account.bean.ConsumeAction;
-import com.juzhai.account.bean.ProfitAction;
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.InitData;
-import com.juzhai.app.service.IAppService;
-import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.util.JackSonSerializer;
+import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.msg.controller.view.ActMsgView;
 import com.juzhai.msg.service.IActMsgService;
 import com.juzhai.msg.service.IMsgMessageService;
-import com.juzhai.msg.service.IMsgService;
-import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.service.IProfileService;
 
 @Controller
 @RequestMapping(value = "msg")
 public class MsgCenterController extends BaseController {
-
+	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private IActMsgService actMsgService;
 	@Autowired
-	private IMsgMessageService sgMessageService;
+	private IMsgMessageService msgMessageService;
 	@Autowired
 	private IProfileService profileService;
 	@Value("${unread.actmsg.rows}")
-	private int unReadActMsgRows = 20;
+	private int unReadActMsgRows = 1;
 	@Value("${read.actmsg.rows}")
 	private int readActMsgRows = 20;
 	@Autowired
@@ -62,7 +60,7 @@ public class MsgCenterController extends BaseController {
 			page = 1;
 		UserContext context = checkLoginForApp(request);
 		doPageUnRead(context.getUid(), page, model);
-		return "msg/unRead";
+		return "msg/app/unRead";
 	}
 
 
@@ -93,6 +91,7 @@ public class MsgCenterController extends BaseController {
 					.getProfileCacheByUid(actMsg.getUid()));
 			actMsgView.setMsgType(actMsg.getType());
 			actMsgView.setStuts(actMsg.isStuts());
+			actMsgView.setDate(actMsg.getDate());
 			actMsgViewList.add(actMsgView);
 		}
 		return actMsgViewList;
@@ -105,7 +104,7 @@ public class MsgCenterController extends BaseController {
 			page = 1;
 		UserContext context = checkLoginForApp(request);
 		doPageRead(context.getUid(), model, page);
-		return "msg/read";
+		return "msg/app/read";
 	}
 
 
@@ -151,15 +150,13 @@ public class MsgCenterController extends BaseController {
 	 */
 	@RequestMapping(value = "/openMessage", method = RequestMethod.GET)
 	@ResponseBody
-	public String openMessage(HttpServletRequest request,
+	public AjaxResult openMessage(HttpServletRequest request,
 			HttpServletResponse response, Model model, Integer curPage,
 			Integer curIndex) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
-		PrintWriter out = null;
+		AjaxResult result=new AjaxResult();
 		try {
 			if (curPage != null && curIndex != null) {
-				response.setContentType("text/plain");
-				out = response.getWriter();
 				// 查询积分
 				int point=accountService.queryPoint(context.getUid());
 				// 判断积分余额
@@ -168,23 +165,19 @@ public class MsgCenterController extends BaseController {
 					int index = (curPage-1) * unReadActMsgRows + curIndex;
 					actMsgService.openMessage(context.getUid(), index);
 					accountService.consumePoint(context.getUid(), ConsumeAction.OPEN_MESSAGE);
-					out.print(1);
+					result.setSuccess(true);
 				} else {
 					// 积分余额不足
-					out.print(0);
+					result.setResult(false);
+					result.setErrorCode("-1");
 				}
 			} else {
-				out.print(-1);
+				result.setResult(false);
 			}
 		} catch (Exception e) {
-			// 未知错误
-			out.print(-1);
-		} finally {
-			if (null != out) {
-				out.close();
-			}
-		}
-		return null;
+			result.setResult(false);
+		} 
+		return result;
 	}
 	
 	@RequestMapping(value = "/reMoveMessage", method = RequestMethod.POST)
@@ -207,33 +200,41 @@ public class MsgCenterController extends BaseController {
 		 return null;
 	}
 	@RequestMapping(value = "/agreeMessage", method = RequestMethod.POST)
-	public String agreeMessage(HttpServletRequest request,
+	@ResponseBody
+	public AjaxResult agreeMessage(HttpServletRequest request,
 			HttpServletResponse response, Model model,Long actId,Long receiverId, Integer curPage,
 			Integer curIndex) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
-		PrintWriter out = null;
+		AjaxResult result=new AjaxResult();
 		try{
-			response.setContentType("text/plain");
-			out = response.getWriter();
 			if(actId!=null&&receiverId!=null&&curPage != null && curIndex != null){
 				int index = (curPage-1) * unReadActMsgRows + curIndex;
 				//改变消息状态
 				actMsgService.updateMsgStuts(context.getUid(), index);
 				ActMsg msg=new ActMsg(actId,MsgType.INVITE);
 				//发送拒宅邀请
-				sgMessageService.sendActMsg(context.getUid(), receiverId, msg);
-				out.println(1);
+				msgMessageService.sendActMsg(context.getUid(), receiverId, msg);
+				result.setSuccess(true);
 			}else{
-				out.println(0);	
+				result.setSuccess(false);	
 			}
 		}catch (Exception e) {
-			e.printStackTrace();
-			out.println(0);
-		}finally{
-			if(out!=null){
-				out.close();
-			}
+			result.setSuccess(false);
 		}
-		return null;
+		return result;
+	}
+	@RequestMapping(value = "/getUnMassageCount")
+	@ResponseBody
+	public AjaxResult getUnMassageCount(HttpServletRequest request,Model model) throws NeedLoginException{
+		UserContext context = checkLoginForApp(request);
+		AjaxResult result=new AjaxResult();
+		try{
+			long unread=actMsgService.countUnRead(context.getUid());
+			result.setSuccess(true);
+			result.setResult("{'count':'"+unread+"'}");
+		}catch (Exception e) {
+			result.setSuccess(false);
+		}
+		return result;
 	}
 }

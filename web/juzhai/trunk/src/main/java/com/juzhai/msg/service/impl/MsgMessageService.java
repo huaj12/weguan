@@ -1,29 +1,64 @@
 package com.juzhai.msg.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.juzhai.act.service.IUserActService;
 import com.juzhai.msg.bean.ActMsg;
+import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.msg.bean.Msg;
 import com.juzhai.msg.rabbit.message.MsgMessage;
 import com.juzhai.msg.service.IMsgMessageService;
+import com.juzhai.passport.bean.FriendsBean;
+import com.juzhai.passport.bean.TpFriend;
+import com.juzhai.passport.service.IAuthorizeService;
+import com.juzhai.passport.service.IFriendService;
+import com.juzhai.passport.service.IProfileService;
 
 @Service
 public class MsgMessageService implements IMsgMessageService {
 
 	@Autowired
 	private AmqpTemplate actMsgRabbitTemplate;
-
+	@Autowired
+	private IProfileService profileService;
+	@Autowired
+	IFriendService friendService;
+	@Autowired
+	private IUserActService userActService;
 	@Override
 	public void sendActMsg(long senderId, long receiverId, ActMsg actMsg) {
 		Assert.notNull(actMsg, "ActMsg must not be null.");
 		actMsg.setUid(senderId);
-		MsgMessage<ActMsg> msgMessage = new MsgMessage<ActMsg>();
-		msgMessage = msgMessage.buildSenderId(senderId)
-				.buildReceiverId(receiverId).buildBody(actMsg);
-		sendMsgMessage(msgMessage);
+		if(receiverId==0&&MsgType.RECOMMEND.equals(actMsg.getType())){
+			FriendsBean friendsBean=friendService.getAllFriends(senderId);
+			List<TpFriend> friends=friendsBean.getTpFriends();
+			//找出同城同兴趣的好友
+			for(Iterator<TpFriend> tpfriend=friends.iterator();tpfriend.hasNext();){
+				TpFriend friend=tpfriend.next();
+				if(profileService.isMaybeSameCity(senderId,Long.valueOf(friend.getUserId()))!=0){
+					if(userActService.hasAct(Long.valueOf(friend.getUserId()),actMsg.getActId())){
+						MsgMessage<ActMsg> msgMessage = new MsgMessage<ActMsg>();
+						msgMessage = msgMessage.buildSenderId(senderId)
+								.buildReceiverId(Long.valueOf(friend.getUserId())).buildBody(actMsg);
+						sendMsgMessage(msgMessage);
+					}
+				}
+			}
+		}else{
+			MsgMessage<ActMsg> msgMessage = new MsgMessage<ActMsg>();
+			msgMessage = msgMessage.buildSenderId(senderId)
+					.buildReceiverId(receiverId).buildBody(actMsg);
+			sendMsgMessage(msgMessage);
+		}
+		
 	}
 
 	@Override

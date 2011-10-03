@@ -320,25 +320,19 @@ public class InboxService implements IInboxService {
 		if (answer <= 0 || answer > answers.length) {
 			return false;
 		}
+		if (question.getType() == 1 && answer == 2) {
+			// 是非题选择了no
+			return true;
+		}
 		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
 		if (null != authInfo) {
-			if (StringUtils.isNotEmpty(question.getInviteMessage())) {
+			if (StringUtils.isNotEmpty(question.getInviteText())) {
 				ProfileCache profileCache = profileService
 						.getProfileCacheByUid(uid);
-				String text = null;
-				switch (question.getType()) {
-				case 0:
-					text = question.getInviteMessage()
-							.replace("{0}", profileCache.getNickname())
-							.replace("{1}", answers[answer - 1]);
-					break;
-				case 1:
-					if (answer == 1) {
-						text = question.getInviteMessage().replace("{0}",
-								profileCache.getNickname());
-					}
-					break;
-				}
+				String text = question.getInviteText().replace("{0}",
+						profileCache.getNickname());
+				String word = question.getInviteWord().replace("{0}",
+						answers[answer - 1]);
 				if (StringUtils.isNotEmpty(text)) {
 					List<String> fuids = new ArrayList<String>();
 					fuids.add(identity);
@@ -350,7 +344,7 @@ public class InboxService implements IInboxService {
 						return false;
 					}
 					authorizeService.sendSystemMessage(authInfo, fuids,
-							linktext, tp.getAppUrl(), StringUtils.EMPTY, text,
+							linktext, tp.getAppUrl(), word, text,
 							StringUtils.EMPTY);
 				}
 			}

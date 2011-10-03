@@ -261,7 +261,20 @@ public static String doSllGet(String reqUrl, String parameters) {
         }
     }
 }
-
+/**
+ * 验证请求
+ * @param query
+ * @return boolean
+ */
+public static boolean checkSignFromQuery(String query,String secret) {
+	String[] querys = query.split("&sig=");
+	String localsig = DigestUtils.md5Hex((querys[0] + secret));
+	if (localsig.equals(querys[1])) {
+		return true;
+	} else {
+		return false;
+	}
+}
 
 }
 

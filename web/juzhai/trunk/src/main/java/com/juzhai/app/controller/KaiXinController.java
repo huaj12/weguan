@@ -22,6 +22,7 @@ import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.app.util.AppPlatformUtils;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.msg.AppConfig;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 
@@ -86,6 +87,7 @@ public class KaiXinController extends BaseController {
 			paramMap.put("method", "actions.sendInvitation");
 			paramMap.put("format", "json");
 			paramMap.put("mode", "0");
+			paramMap.put("callbackkey",name);
 			if (StringUtils.isEmpty(name)) {
 				paramMap.put("text", messageSource.getMessage(
 						TpMessageKey.INVITE_TEXT_DEFAULT, null,

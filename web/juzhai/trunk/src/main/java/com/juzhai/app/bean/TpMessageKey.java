@@ -10,8 +10,10 @@ public class TpMessageKey {
 	public static final String INVITE_TEXT_DEFAULT = "invite.text.default";
 	public static final String INVITE_TEXT = "invite.text";
 	public static final String INVITE_FRIEND = "invite.friend";
+	public static final String INVITE_FRIEND_WORD = "invite.friend.word";
 
 	public static final String RECOMMEND_FRIEND = "recommend.friend";
+	public static final String RECOMMEND_FRIEND_WORD = "recommend.friend.word";
 
 	public static final String QUESTION_LINKTEXT = "question.linktext";
 

@@ -47,6 +47,5 @@ public interface IAppService {
 	 * @param Content
 	 * @return
 	 */
-	boolean sendMessage(String fuids,String content,AuthInfo authInfo);
-	
+	boolean sendMessage(String fuids,String word,AuthInfo authInfo);
 }

@@ -3,27 +3,29 @@
 			curPage:curPage,
 			curIndex:curIndex,
 		    random : Math.random()
-		}, function(data) {
-			if(data==1){
+		}, function(result) {
+			if(result&&result.success){
 				//成功
 				location.href='/msg/showRead';
-			}else if(data==0){
-				//余额不足
-				$.dialog({
-				    content: document.getElementById('pointDiv'),
-				    top:"5%",
-				    fixed: true,
-				    lock: true,
-				    title:"积分不足",
-				    id: 'point_box'
-				});
 			}else{
-				//未知错误请刷新页面后重试
-				$.dialog({
-				    content:'未知错误请刷新页面后重试',
-				    id: 'point_box',
-				    icon:'error'
-				});
+				if(result.errorCode=="-1"){
+					//余额不足
+					$.dialog({
+					    content: document.getElementById('pointDiv'),
+					    top:"5%",
+					    fixed: true,
+					    lock: true,
+					    title:"积分不足",
+					    id: 'point_box'
+					});
+				}else{
+					//未知错误请刷新页面后重试
+					$.dialog({
+					    content:'未知错误请刷新页面后重试',
+					    id: 'point_box',
+					    icon:'error'
+					});
+				}
 			}
 		});
 	}
@@ -44,8 +46,8 @@
 			receiverId:receiverId,
 			actId:actId,
 		    random : Math.random()
-		}, function(data) {
-			if(data==1){
+		}, function(result) {
+			if(result&&result.success){
 				obj.className="unhover";
 			}else{
 				//未知错误请刷新页面后重试
@@ -56,7 +58,6 @@
 				    top:20
 				});
 			}
-			
 		});
 	}
 	

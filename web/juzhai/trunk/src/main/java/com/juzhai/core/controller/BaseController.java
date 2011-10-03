@@ -27,6 +27,9 @@ public class BaseController {
 	protected final String error_404 = ErrorPageDispatcher.ERROR_404;
 	protected final String error_500 = ErrorPageDispatcher.ERROR_500;
 
+	private static final String MYACT_PAGE_TIPS_KEY = "myAct.page.tips";
+	private static final String DAY_FIRST_LOGIN_TIP = "day.first.login.tip";
+
 	// @Autowired
 	// private LoginSessionManager loginSessionManager;
 	@Autowired
@@ -70,11 +73,11 @@ public class BaseController {
 	}
 
 	protected void showMyActTips(Model model) {
-		fetchTips(model, "myAct.page.tips");
+		fetchTips(model, MYACT_PAGE_TIPS_KEY);
 	}
 
 	protected void showDayFirstLoginTip(Model model) {
-		fetchTips(model, "day.first.login.tip");
+		fetchTips(model, DAY_FIRST_LOGIN_TIP);
 	}
 
 	private void fetchTips(Model model, String tipsKey) {

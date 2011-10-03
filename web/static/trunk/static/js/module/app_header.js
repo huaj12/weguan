@@ -5,6 +5,12 @@ function showKxDialog(para)
 	t.innerHTML = '<iframe src="http://www.kaixin001.com/rest/rest.php?para='+para+'" scrolling="yes" height="0px"  width="0px" style="display:none"></iframe>';
 	document.body.appendChild(t.firstChild);
 }
+function showSysnewsDialog(url)
+{
+	var t = document.createElement("div");
+	t.innerHTML = '<iframe id="iframeinfo" src="'+ url +'" scrolling="no" height="344px"  width="547px" style="display:none;"></iframe>';
+	document.body.appendChild(t.firstChild);
+}
 //TODO 封装不同第三方app
 function kaixinFeed(name){
 	jQuery.get('/kaixinFeed', {
@@ -23,13 +29,13 @@ function kaixinRequest(name){
 		showKxDialog(data);
 	});
 }
+//TODO 
+function dialogSysnews(link,linktext,text,pic,redirect_uri,need_redirect){
+	showSysnewsDialog('http://api.kaixin001.com/dialog/sysnews?display=iframe&linktext='+linktext+'&text='+text+'&link='+link+'&picurl='+pic+'&app_id=100012402&redirect_uri='+redirect_uri+'&need_redirect='+need_redirect);
+}
 
 function addAct(successCallback){
 	var value = $("#addAct").attr("value");
-	if(!value || value == ""){
-		$("#addActError").text("请先输入").show().fadeOut(2000);
-		return false;
-	}
 	if(!checkValLength(value, 2, 20)){
 		$("#addActError").text("拒宅兴趣字数控制在1－10个中文内！").show().fadeOut(2000);
 		return false;
@@ -51,9 +57,6 @@ function addAct(successCallback){
 					successCallback();
 				}
 			}else if(result){
-				if(result && result.errorCode == 10003 && successCallback){
-					successCallback();
-				}
 				$("#addActError").text(result.errorInfo).show().fadeOut(2000);
 			}else {
 				alert("系统异常！");
@@ -69,11 +72,7 @@ function addAct(successCallback){
 
 function subEmail(){
 	//validation
-	var subInput = $("div.dy > span > input");
-	var email = subInput.val();
-	if(email == subInput.attr("initmsg")){
-		return false;
-	}
+	var email = $("div.dy > span > input").attr("value");
 	if(!checkEmail(email)){
 		$("div.dy > div.error").text("邮箱格式有误！").show().fadeOut(2000);
 		return false;
@@ -100,26 +99,7 @@ function subEmail(){
 	});
 }
 
-function showActTip(inputObj){
-	if($(inputObj).val() == ""){
-		$("#addActError").text("输入你的拒宅兴趣，如：逛街、K歌...").show();
-	}else{
-		$("#addActError").hide();
-	}
-}
-
 $(document).ready(function(){
-	//注册兴趣输入框获得光标事件
-	$('#addAct').bind("keyup"), (function(event) {
-		showActTip(event.target);
-	});
-	$("#addAct").bind("focus", function(event){
-		showActTip(event.target);
-	});
-	$("#addAct").bind("blur",function(){
-		$("#addActError").hide();
-	});
-	
 	//注册添加Act事件
 	$("div.zjxq_input > a.add").bind("click", function(){
 		addAct();
@@ -147,16 +127,6 @@ $(document).ready(function(){
 		}
 	});
 	//注册订阅邮箱事件
-	var subInput = $("div.dy > span > input");
-	var defaultMsg = subInput.attr("initmsg");
-	if(subInput.val() == ""){
-		subInput.val(defaultMsg);
-	}
-	subInput.bind("focus", function(){
-		if(subInput.val() == defaultMsg){
-			subInput.val("");
-		}
-	});
 	$("div.dy > a").bind("click", function(){
 		subEmail();
 	});

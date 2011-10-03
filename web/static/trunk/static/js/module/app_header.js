@@ -30,8 +30,8 @@ function kaixinRequest(name){
 	});
 }
 //TODO 
-function dialogSysnews(link,linktext,text,pic,redirect_uri,need_redirect){
-	showSysnewsDialog('http://api.kaixin001.com/dialog/sysnews?display=iframe&linktext='+linktext+'&text='+text+'&link='+link+'&picurl='+pic+'&app_id=100012402&redirect_uri='+redirect_uri+'&need_redirect='+need_redirect);
+function dialogSysnews(link,linktext,text,pic){
+	showSysnewsDialog('http://api.kaixin001.com/dialog/sysnews?display=iframe&linktext='+linktext+'&text='+text+'&link='+link+'&picurl='+pic+'&app_id=100012402&redirect_uri=http://www.kaixin001.com/!app_100012402114474624/&need_redirect=0');
 }
 
 function addAct(successCallback){

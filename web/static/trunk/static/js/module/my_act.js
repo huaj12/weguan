@@ -64,6 +64,7 @@ function addRecommendAct(a){
 		success: function(result){
 			if(result&&result.success){
 				$(a).removeAttr("onclick");
+				$(a).attr("title", "已添加");
 				$(a).parent().attr("class", "none")
 					.removeAttr("onmouseover")
 					.removeAttr("onmouseout");

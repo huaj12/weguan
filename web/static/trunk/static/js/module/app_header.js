@@ -26,6 +26,10 @@ function kaixinRequest(name){
 
 function addAct(successCallback){
 	var value = $("#addAct").attr("value");
+	if(!value || value == ""){
+		$("#addActError").text("请先输入").show().fadeOut(2000);
+		return false;
+	}
 	if(!checkValLength(value, 2, 20)){
 		$("#addActError").text("拒宅兴趣字数控制在1－10个中文内！").show().fadeOut(2000);
 		return false;
@@ -65,7 +69,11 @@ function addAct(successCallback){
 
 function subEmail(){
 	//validation
-	var email = $("div.dy > span > input").attr("value");
+	var subInput = $("div.dy > span > input");
+	var email = subInput.val();
+	if(email == subInput.attr("initmsg")){
+		return false;
+	}
 	if(!checkEmail(email)){
 		$("div.dy > div.error").text("邮箱格式有误！").show().fadeOut(2000);
 		return false;
@@ -95,15 +103,17 @@ function subEmail(){
 function showActTip(inputObj){
 	if($(inputObj).val() == ""){
 		$("#addActError").text("输入你的拒宅兴趣，如：逛街、K歌...").show();
+	}else{
+		$("#addActError").hide();
 	}
 }
 
 $(document).ready(function(){
 	//注册兴趣输入框获得光标事件
-	$("#addAct").bind("focus", function(event){
+	$('#addAct').bind("keyup"), (function(event) {
 		showActTip(event.target);
 	});
-	$('#addAct').bind("keypress"), (function(event) {
+	$("#addAct").bind("focus", function(event){
 		showActTip(event.target);
 	});
 	$("#addAct").bind("blur",function(){
@@ -137,6 +147,16 @@ $(document).ready(function(){
 		}
 	});
 	//注册订阅邮箱事件
+	var subInput = $("div.dy > span > input");
+	var defaultMsg = subInput.attr("initmsg");
+	if(subInput.val() == ""){
+		subInput.val(defaultMsg);
+	}
+	subInput.bind("focus", function(){
+		if(subInput.val() == defaultMsg){
+			subInput.val("");
+		}
+	});
 	$("div.dy > a").bind("click", function(){
 		subEmail();
 	});

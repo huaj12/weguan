@@ -31,7 +31,7 @@
 		<div class="dy fr">
 			<div class="error" style="display:none">请输入完整信息</div>
 			<p class="l"></p>
-			<span><input type="text" <c:if test="${profile.subEmail}">value="${profile.email}"</c:if> /></span>
+			<span><input type="text" <c:if test="${profile.subEmail}">value="${profile.email}"</c:if> initmsg="输入email, 别错过好友邀请" /></span>
 			<a href="#">订阅</a>
 		</div>
 		<div class="message fr"><!--我的消息 begin-->

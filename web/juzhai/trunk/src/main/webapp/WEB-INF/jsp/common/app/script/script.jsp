@@ -6,4 +6,3 @@
 <script type="text/javascript" src="${jz:url('/js/core/core.js')}"></script>
 <script type="text/javascript" src="${jz:url('/js/core/validation.js')}"></script>
 <script type="text/javascript" src="${jz:url('/js/module/app_header.js')}"></script>
-<script type="text/javascript" src="${jz:url('/js/artDialog/jquery.artDialog.js')}"></script>

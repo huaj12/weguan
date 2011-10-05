@@ -44,7 +44,8 @@ public class MailContent implements Serializable {
 	public String getText(MailTemplate mailTemplate, String encoding) {
 		if (StringUtils.isEmpty(this.content)
 				&& StringUtils.isNotEmpty(this.templatePath)) {
-			return mailTemplate.generate(this.templatePath, this.props);
+			return mailTemplate.generate(this.templatePath, this.props,
+					encoding);
 		}
 		return this.content == null ? "" : this.content;
 	}

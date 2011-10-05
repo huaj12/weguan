@@ -16,9 +16,10 @@ public class VelocityMailTemplate implements MailTemplate {
 	private VelocityEngine velocityEngine;
 
 	@Override
-	public String generate(String templetePath, Map<String, Object> props) {
+	public String generate(String templetePath, Map<String, Object> props,
+			String encoding) {
 		String text = VelocityEngineUtils.mergeTemplateIntoString(
-				velocityEngine, templetePath, props);
+				velocityEngine, templetePath, encoding, props);
 		return text;
 	}
 }

@@ -67,11 +67,19 @@ public class MailManager {
 	private class MailDaemon implements Runnable {
 		@Override
 		public void run() {
+			if (log.isDebugEnabled()) {
+				log.debug("start mail daemon");
+			}
 			while (true) {
 				Mail mail = mailQueue.blockPop(blockPopMailTimeout);
 				if (null != mail) {
 					try {
 						mailSender.send(mail);
+						if (log.isDebugEnabled()) {
+							log.debug("send mail to ["
+									+ mail.getReceiver().getEmailAddress()
+									+ "].");
+						}
 					} catch (Exception e) {
 						log.error("daemon send mail failed.", e);
 					}

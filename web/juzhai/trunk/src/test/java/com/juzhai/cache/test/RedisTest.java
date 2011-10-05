@@ -4,6 +4,7 @@
 package com.juzhai.cache.test;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import junit.framework.Assert;
 
@@ -16,6 +17,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.core.mail.bean.Mail;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 
@@ -25,6 +28,8 @@ public class RedisTest {
 
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
+	@Autowired
+	private RedisTemplate<String, Mail> mailRedisTemplate;
 	@Autowired
 	private RedisTemplate<String, ActMsg> actMsgRedisTemplate;
 	private String key = "simpleKey";
@@ -148,6 +153,15 @@ public class RedisTest {
 			System.out.println(value.getUid());
 			System.out.println(value.getActId());
 			System.out.println("---------------------------");
+		}
+	}
+
+	@Test
+	public void emailQueue() {
+		while (true) {
+			Mail mail = mailRedisTemplate.opsForList().leftPop(
+					RedisKeyGenerator.genMailQueueKey(), 5, TimeUnit.SECONDS);
+			System.out.println(mail.getReceiver().getEmailAddress());
 		}
 	}
 }

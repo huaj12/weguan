@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -68,6 +69,10 @@ public class ActBriefingEmailHandler extends AbstractScheduleHandler {
 				break;
 			}
 			for (Profile profile : profileList) {
+				if (!profile.getSubEmail()
+						|| StringUtils.isEmpty(profile.getEmail())) {
+					continue;
+				}
 				Set<Long> friendIds = friendService.getAppFriends(profile
 						.getUid());
 				Date startDate = DateUtils.addDays(new Date(),
@@ -91,6 +96,7 @@ public class ActBriefingEmailHandler extends AbstractScheduleHandler {
 					}
 				}
 			}
+			firstResult += maxResults;
 		}
 		stopMailDaemon();
 	}

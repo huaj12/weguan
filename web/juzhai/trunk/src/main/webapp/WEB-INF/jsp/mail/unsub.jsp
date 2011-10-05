@@ -13,12 +13,12 @@
 			<div class="top"><!--top begin-->
 				<h1></h1>
 				<div class="rk_menu"><!--rk_menu begin-->
-					<span><img src="images/entrance.gif" />
-					</span> <a href="javascript:;" title="开心拒宅"><img src="images/td_r1_c1.png" />
-					</a> <a href="javascript:;" title="人人拒宅"><img src="images/td_r1_c3.png" />
-					</a> <a href="javascript:;" title="微博拒宅"><img src="images/td_r1_c5.png" />
-					</a> <a href="javascript:;" title="安卓拒宅"><img src="images/td_r1_c7.png" />
-					</a> <a href="javascript:;" title="IPHONE拒宅"><img src="images/td_r1_c9.png" />
+					<span><img src="${jz:url('/images/web/entrance.gif')}" />
+					</span> <a href="${tpMap[1].appUrl}" title="点击进入"><img src="${jz:url('/images/web/td_r1_c1.png')}" />
+					</a> <a href="javascript:;" title="敬请期待"><img src="${jz:url('/images/web/td_r1_c3.png')}" />
+					</a> <a href="javascript:;" title="敬请期待"><img src="${jz:url('/images/web/td_r1_c5.png')}" />
+					</a> <a href="javascript:;" title="敬请期待"><img src="${jz:url('/images/web/td_r1_c7.png')}" />
+					</a> <a href="javascript:;" title="敬请期待"><img src="${jz:url('/images/web/td_r1_c9.png')}" />
 					</a>
 				</div><!--rk_menu end-->
 			</div><!--top end-->
@@ -32,10 +32,9 @@
 			</div><!--bottom end-->
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/web/script/script.jsp" />
-		<script type="text/javascript" src="${jz:url('/js/module/home.js')}"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
-				$("div.td_banner > a").bind("click", function(){
+				$("div.td_banner > span > a").bind("click", function(){
 					if($(this).hasClass("unclick")){
 						return false;
 					}
@@ -47,11 +46,11 @@
 						success: function(result){
 							if(result&&result.success){
 								//成功
-								$("div.td_banner > em").text("退订成功！").show();
-								$("div.td_banner > a").addClass("unclick");
+								$("div.td_banner > span > em").text("退订成功！").show();
+								$("div.td_banner > span > a").addClass("unclick");
 							}else if(result){
 								//报错
-								$("div.td_banner > em").text(result.errorInfo).show();
+								$("div.td_banner > span > em").text(result.errorInfo).show();
 							}else {
 								alert("系统异常！");
 							}

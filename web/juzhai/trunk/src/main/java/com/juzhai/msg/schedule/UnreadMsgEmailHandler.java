@@ -62,6 +62,7 @@ public class UnreadMsgEmailHandler extends AbstractScheduleHandler {
 					mailManager.sendMail(mail, false);
 				}
 			}
+			firstResult += maxResults;
 		}
 		stopMailDaemon();
 	}

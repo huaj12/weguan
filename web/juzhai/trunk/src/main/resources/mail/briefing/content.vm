@@ -128,7 +128,7 @@ abbr,acronym { border: 0;
 					<div class="line"></div>
 				#end
 			</div><!--message_list end-->
-			<div class="more"><a href="#if($tp==null)http://www.51juzhai.com#else${tp.appUrl}#end">查看更多&gt;&gt;</a></div>
+			<div class="more"><a href="#if(!$tp)http://www.51juzhai.com#else${tp.appUrl}#end">查看更多&gt;&gt;</a></div>
 			<div class="hot"><em></em><p>本周热门拒宅推荐</p><em></em></div>
 			<div class="ph remen"><!--ph begin-->
 				<h2>男女拒宅排行榜</h2>

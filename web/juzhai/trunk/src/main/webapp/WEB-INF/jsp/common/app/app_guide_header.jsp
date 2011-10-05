@@ -3,9 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="pro_box_right"><!--pro_box_right begin-->
 	<c:choose>
-		<c:when test="${step==1}"><p>添加你的拒宅兴趣，才会收到好友的邀请哦</p></c:when>
+		<c:when test="${step==1}"><p>添加你的兴趣，开启专属于你的拒宅服务（共4步）</p></c:when>
 		<c:when test="${step==2}"><p>当好友有同样的拒宅兴趣时，我们会及时通知您</p></c:when>
-		<c:when test="${step==3}"><p>每添加一个拒宅兴趣可获得5个拒宅积分哦</p></c:when>
-		<c:when test="${step==4}"><p>我们只会在下班前给您发邮件哦</p></c:when>
+		<c:when test="${step==3}"><p>添加的兴趣越多，你收到好友拒宅邀请的几率越高</p></c:when>
+		<c:when test="${step==4}"><p>当好友邀请你时，我们会通过你订阅的email通知你</p></c:when>
 	</c:choose>
 </div><!--pro_box_right end-->

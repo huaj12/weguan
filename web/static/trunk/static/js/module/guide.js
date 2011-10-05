@@ -1,6 +1,20 @@
 function clickAct(obj){
 	var parent = $(obj).parent();
-	if(parent.hasClass("hover")){
+	if(parent.hasClass("selected")){
+		parent.removeClass("selected");
+		$(obj).attr("title", "点击添加");
+	}else {
+		parent.addClass("selected");
+		$(obj).attr("title", "点击取消");
+	}
+}
+
+function hoverAct(obj, isOver){
+	var parent = $(obj).parent();
+	if(parent.hasClass("selected")){
+		return;
+	}
+	if(!isOver){
 		parent.removeClass("hover");
 	}else {
 		parent.addClass("hover");
@@ -12,27 +26,52 @@ $(document).ready(function(){
 		$(this).bind("click", function(){
 			clickAct(this);
 		});
+		$(this).bind("mouseover", function(){
+			hoverAct(this, true);
+		});
+		$(this).bind("mouseout", function(){
+			hoverAct(this, false);
+		});
 	});
+	
+	var addActInput = new AddActInput($("#actName"), $("#actNameError"));
+	addActInput.bindKeyUp();
+	addActInput.bindFocus();
+	addActInput.bindBlur();
+	addActInput.bindAutocomplete();
 	
 	$("a.add").bind("click", function(){
 		var actNameInput = $("#actName");
 		var value = actNameInput.attr("value");
-		if(!checkValLength(value, 2, 20)){
-			$("#actNameError").show().fadeOut(2000);
+		if(!value || value == ""){
+			$("#actNameError").text("请先输入").stop(true, true).show().fadeOut(2000);
 			return false;
 		}
-		var p = $("<p class='hover'><span class='fl'></span></p>");
+		if(!checkValLength(value, 2, 20)){
+			$("#actNameError").text("拒宅兴趣字数控制在1－10个中文内！").stop(true, true).show().fadeOut(2000);
+			return false;
+		}
+		var p = $("<p class='hover selected'><span class='fl'></span></p>");
 		var a = $("<a href='#' class='key_words'></a>");
 		a.html(value);
 		a.attr("actName", value);
+		a.attr("title", "点击取消");
 		a.bind("click", function(){
 			clickAct(a);
+		});
+		a.bind("mouseover", function(){
+			hoverAct(a, true);
+		});
+		a.bind("mouseout", function(){
+			hoverAct(a, false);
 		});
 		p.append(a);
 		p.append("<span class='fr'></span><em></em>");
 		$("#acts").append(p);
 		
 		actNameInput.attr("value","");
+		actNameInput.focus();
+		$(".goon_add").show();
 	});
 	
 	$("#nextForm").submit(function(){
@@ -53,7 +92,7 @@ $(document).ready(function(){
 		var email = $("div.add_dy > strong > input").attr("value");
 		if(email && email != ""){
 			if(!checkEmail(email)){
-				$("div.add_dy > div.error").text("邮箱格式有误！").show().fadeOut(2000);
+				$("div.add_dy > div.error").text("邮箱格式有误！").stop(true, true).show().fadeOut(2000);
 				return false;
 			} else {
 				var input = $("<input type='hidden' name='email' />");

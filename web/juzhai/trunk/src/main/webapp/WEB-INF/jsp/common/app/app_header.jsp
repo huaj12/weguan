@@ -10,7 +10,7 @@
 			<a href="/app/myAct" class="wantgo" title="管理我的拒宅兴趣">我最近想去</a>
 		</div><!--最近想去 end-->
 		<div class="zjxq_input fl"><!--zjxq_input begin-->
-			<div id="addActError" class="error" style="display:none"><p>请输入完整信息信息</p></div>
+			<div id="headAddActError" class="error" style="display:none"><p>请输入完整信息信息</p></div>
 			<p class="l"></p><span><input id="addAct" type="text" /></span>
 			<a href="javascript:;" class="btn add" id="addActBtn">+</a>
 			<a href="javascript:;" class="btn zhao">召</a>
@@ -21,7 +21,7 @@
 		<div class="dy fr">
 			<div class="error" style="display:none">请输入完整信息</div>
 			<p class="l"></p>
-			<span><input type="text" <c:if test="${profile.subEmail}">value="${profile.email}"</c:if> initmsg="输入email, 别错过好友邀请" /></span>
+			<span><input type="text" <c:if test="${profile.subEmail}">value="${profile.email}"</c:if> initmsg="输入email，订阅好友邀请" /></span>
 			<a href="javascript:;">订阅</a>
 		</div>
 		<div class="message fr"><!--我的消息 begin-->

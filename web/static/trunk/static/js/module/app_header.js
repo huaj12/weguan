@@ -120,7 +120,7 @@ function showActTip(inputObj){
 
 $(document).ready(function(){
 	//注册兴趣输入框获得光标事件
-	$('#addAct').bind("keyup"), (function(event) {
+	$('#addAct').keyup(function(event){
 		showActTip(event.target);
 	});
 	$("#addAct").bind("focus", function(event){

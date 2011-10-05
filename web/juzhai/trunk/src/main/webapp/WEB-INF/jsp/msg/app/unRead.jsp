@@ -35,14 +35,14 @@
 									</div><!--tab end-->
 									<!--pbr begin--><!-- <div class="pbr"><a href="javascript:;">被我屏蔽的人</a></div><!--pbr end-->
 								</div><!--title end-->
-								<div class="box_body"><!--box_body begin-->
+								<div class="box_body" id="unReadContent" ><!--box_body begin-->
 								<c:choose>
 									<c:when test="${!empty actMsgViewList}">
 	 									<c:forEach var="actMsg" items="${actMsgViewList}" varStatus="msg">
 											<div class="item hover"><!--item begin-->
 												<span class="l"></span><span class="r"></span>
 												<div class="close">
-													<a  href="javascript:;" onclick="remove('${pager.currentPage}','${msg.index }','unread')"><img src="images/close.png" /></a>
+													<a  href="javascript:;" onclick="remove('${pager.currentPage}','${msg.index }','unread')"></a>
 												</div>
 												<div class="item_style2"><!--item_style2 begin-->
 													<div class="photo fl">
@@ -74,7 +74,8 @@
 											</c:otherwise>
 									</c:choose>
 									<!-- page -->
-									${pager.stringUrl}
+									<jsp:include page="/WEB-INF/jsp/pager/pager.jsp" />
+									<!-- page end -->
 								</div><!--box_body end-->
 							</div><!--message_box end-->
 						</div><!--mid end-->

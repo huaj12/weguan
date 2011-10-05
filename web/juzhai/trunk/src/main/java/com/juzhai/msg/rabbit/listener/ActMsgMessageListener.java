@@ -64,7 +64,6 @@ public class ActMsgMessageListener implements
 	private MessageSource messageSource;
 	@Autowired
 	private IProfileService profileService;
-
 	@Override
 	public Object handleMessage(MsgMessage<ActMsg> msgMessage) {
 		if (null == msgMessage) {
@@ -79,13 +78,21 @@ public class ActMsgMessageListener implements
 			log.error("ActMsg's type must not be null.");
 			return null;
 		}
-		//接受消息
-		ReceiverActMsg(msgMessage);
+		//接受消息如果接受者UID为0则找出同城且同兴趣的所有好友
+		if(msgMessage.getReceiverId()==0&&MsgType.RECOMMEND.equals(msgMessage.getBody().getType())){
+			List<Long> fuids= getPushTargets(msgMessage.getSenderId(),msgMessage.getBody().getActId());
+			for(Long fuid:fuids){
+				msgMessage.buildReceiverId(fuid);
+				receiverActMsg(msgMessage);	
+			}
+		}else{
+			receiverActMsg(msgMessage);	
+		}
 	
 		return null;
 	}
 
-	private void ReceiverActMsg(MsgMessage<ActMsg> msgMessage) {
+	private void receiverActMsg(MsgMessage<ActMsg> msgMessage) {
 		try{
 		TpUser tpUser=null;
 		if (msgMessage.getReceiverId() > 0) {
@@ -135,32 +142,28 @@ public class ActMsgMessageListener implements
 			log.error("send message appService is null");
 			return ;
 		}
-			taskExecutor.submit(new SendSysMsgTask(accountService, appService, uid,receiverIdentity,authInfo,type,messageSource,sendName));	
+			taskExecutor.submit(new SendSysMsgTask(accountService, appService, uid,receiverIdentity,authInfo,type,messageSource,sendName,1));	
 		}catch (Exception e) {
 			e.printStackTrace();
 		}	
 		
 	}
 
-	private void broadcastActMsg(MsgMessage<ActMsg> msgMessage) {
-		long senderId = msgMessage.getSenderId();
-		List<Long> targets = getPushTargets(senderId, msgMessage.getBody()
-				.getActId());
-		for (Long targetUid : targets) {
-			// TODO 使用piple
-			msgService.sendMsg(targetUid, msgMessage.getBody());
-		}
-
-		// TODO 启动一个线程进行第三方消息发送
-	}
-
-	private List<Long> getPushTargets(long uid, long actId) {
+	/**
+	 * 找出同城同兴趣的好友
+	 * @param uid
+	 * @param actId
+	 * @return
+	 */
+	private List<Long> getPushTargets(long uid,long actId) {
 		Set<Long> friendIds = friendService.getAppFriends(uid);
 		List<Long> targets = new ArrayList<Long>();
 		for (Long friendUid : friendIds) {
-			if (friendUid != null && friendUid > 0
-					&& userActService.hasAct(friendUid, actId)) {
-				targets.add(friendUid);
+			if(profileService.isMaybeSameCity(uid, friendUid)!=0){
+				if (friendUid != null && friendUid > 0
+						&& userActService.hasAct(friendUid, actId)) {
+					targets.add(friendUid);
+				}
 			}
 		}
 		return targets;
@@ -175,8 +178,9 @@ public class ActMsgMessageListener implements
 	 String receiverIdentity;
 	 MsgType type;
 	 AuthInfo authInfo;
+	 int sendCount;
 	 MessageSource messageSource;
-	 public SendSysMsgTask(IAccountService accoutService,IAppService appService,long uid,String receiverIdentity,AuthInfo authInfo,MsgType type, MessageSource messageSource,String sendName) {
+	 public SendSysMsgTask(IAccountService accoutService,IAppService appService,long uid,String receiverIdentity,AuthInfo authInfo,MsgType type, MessageSource messageSource,String sendName,int sendCount) {
 		 this.accountService=accoutService;
 		 this.appService=appService;
 		 this.uid=uid;
@@ -185,6 +189,7 @@ public class ActMsgMessageListener implements
 		 this.type=type;
 		 this.messageSource=messageSource;
 		 this.sendName=sendName;
+		 this.sendCount=sendCount;
 	}
 	@Override
 	public Boolean call() throws Exception {
@@ -194,14 +199,14 @@ public class ActMsgMessageListener implements
 		//附言
 		String word="";
 		if(MsgType.INVITE.equals(type)){
-			text=messageSource.getMessage(TpMessageKey.INVITE_FRIEND, new Object[]{sendName},
+			text=messageSource.getMessage(TpMessageKey.INVITE_FRIEND, new Object[]{sendName,sendCount},
 					Locale.SIMPLIFIED_CHINESE);
-			word=messageSource.getMessage(TpMessageKey.INVITE_FRIEND_WORD, new Object[]{sendName},
+			word=messageSource.getMessage(TpMessageKey.INVITE_FRIEND_WORD, new Object[]{null},
 					Locale.SIMPLIFIED_CHINESE);
 		}else if (MsgType.RECOMMEND.equals(type)){
 			text=messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND, new Object[]{sendName},
 					Locale.SIMPLIFIED_CHINESE);
-			word=messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND_WORD, new Object[]{sendName},
+			word=messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND_WORD, new Object[]{sendCount},
 					Locale.SIMPLIFIED_CHINESE);
 		}
 		//发送系统消息

@@ -28,37 +28,15 @@ public class MsgMessageService implements IMsgMessageService {
 	@Autowired
 	private AmqpTemplate actMsgRabbitTemplate;
 	@Autowired
-	private IProfileService profileService;
-	@Autowired
 	IFriendService friendService;
-	@Autowired
-	private IUserActService userActService;
 	@Override
 	public void sendActMsg(long senderId, long receiverId, ActMsg actMsg) {
 		Assert.notNull(actMsg, "ActMsg must not be null.");
 		actMsg.setUid(senderId);
-		if(receiverId==0&&MsgType.RECOMMEND.equals(actMsg.getType())){
-			FriendsBean friendsBean=friendService.getAllFriends(senderId);
-			List<TpFriend> friends=friendsBean.getTpFriends();
-			//找出同城同兴趣的好友
-			for(Iterator<TpFriend> tpfriend=friends.iterator();tpfriend.hasNext();){
-				TpFriend friend=tpfriend.next();
-				if(profileService.isMaybeSameCity(senderId,Long.valueOf(friend.getUserId()))!=0){
-					if(userActService.hasAct(Long.valueOf(friend.getUserId()),actMsg.getActId())){
-						MsgMessage<ActMsg> msgMessage = new MsgMessage<ActMsg>();
-						msgMessage = msgMessage.buildSenderId(senderId)
-								.buildReceiverId(Long.valueOf(friend.getUserId())).buildBody(actMsg);
-						sendMsgMessage(msgMessage);
-					}
-				}
-			}
-		}else{
 			MsgMessage<ActMsg> msgMessage = new MsgMessage<ActMsg>();
 			msgMessage = msgMessage.buildSenderId(senderId)
 					.buildReceiverId(receiverId).buildBody(actMsg);
 			sendMsgMessage(msgMessage);
-		}
-		
 	}
 
 	@Override

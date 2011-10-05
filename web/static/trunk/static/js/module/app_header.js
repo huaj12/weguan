@@ -118,6 +118,22 @@ function showActTip(inputObj){
 	}
 }
 
+function showSubEmailDefault(inputObj){
+	var obj = $(inputObj);
+	var defaultMsg = obj.attr("initmsg");
+	if(obj.val() == ""){
+		obj.val(defaultMsg);
+	}
+}
+
+function hideSubEmailDefault(inputObj){
+	var obj = $(inputObj);
+	var defaultMsg = obj.attr("initmsg");
+	if(obj.val() == defaultMsg){
+		obj.val("");
+	}
+}
+
 $(document).ready(function(){
 	//注册兴趣输入框获得光标事件
 	$('#addAct').keyup(function(event){
@@ -158,14 +174,12 @@ $(document).ready(function(){
 	});
 	//注册订阅邮箱事件
 	var subInput = $("div.dy > span > input");
-	var defaultMsg = subInput.attr("initmsg");
-	if(subInput.val() == ""){
-		subInput.val(defaultMsg);
-	}
+	showSubEmailDefault(subInput);
 	subInput.bind("focus", function(){
-		if(subInput.val() == defaultMsg){
-			subInput.val("");
-		}
+		hideSubEmailDefault(this);
+	});
+	subInput.bind("blur", function(){
+		showSubEmailDefault(this);
 	});
 	$("div.dy > a").bind("click", function(){
 		subEmail();

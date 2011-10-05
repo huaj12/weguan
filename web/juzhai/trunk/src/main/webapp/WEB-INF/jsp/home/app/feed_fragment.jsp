@@ -10,9 +10,9 @@
 				<div class="photo fl"><img src="${feed.profileCache.logoPic}" /></div>
 				<div class="infor fl data" data="{'friendId':${feed.profileCache.uid},'actId':${feed.act.id},'times':${times}}"><!--infor begin-->
 					<h2><span class="u"><c:out value="${feed.profileCache.nickname}" /></span><span class="w">最近想去</span><span class="v"><c:out value="${feed.act.name}" /></span></h2>
-					<p><fmt:formatDate value="${feed.date}" pattern="yyyy.MM.dd"/>&nbsp;&nbsp;&nbsp;&nbsp;Ta在<c:choose><c:when test="${feed.profileCache.cityName && feed.profileCache.cityName != ''}">${feed.profileCache.cityName}</c:when><c:otherwise>地球</c:otherwise></c:choose></p>
-					<a href="javascript:;" class="want" onclick="javascript:response(1);" tip="点击“我也想去”，告知所有有同样兴趣的好友" onmouseover="javascript:tip(this, true);" onmouseout="javascript:tip(this, false);"></a>
-					<a href="javascript:;" class="dwant" onclick="javascript:response(2);" tip="切换到下一张，什么都不做" onmouseover="javascript:tip(this, true);" onmouseout="javascript:tip(this, false);"></a>
+					<p><fmt:formatDate value="${feed.date}" pattern="yyyy.MM.dd"/>&nbsp;&nbsp;&nbsp;&nbsp;Ta在<c:choose><c:when test="${feed.profileCache.cityName != ''}">${feed.profileCache.cityName}</c:when><c:otherwise>地球</c:otherwise></c:choose></p>
+					<a href="javascript:;" class="want btn" onclick="javascript:response(1);" tip="将{0}加为我的兴趣，并为我找到同兴趣的好友" onmouseover="javascript:tip(this, true, '${feed.act.name}');" onmouseout="javascript:tip(this, false);"></a>
+					<a href="javascript:;" class="dwant btn" onclick="javascript:response(2);" tip="切换到下一张，什么都不做" onmouseover="javascript:tip(this, true);" onmouseout="javascript:tip(this, false);"></a>
 				</div><!--infor end-->
 			</div>
 		</c:when>
@@ -25,7 +25,7 @@
 						<span class="u"><c:out value="${feed.tpFriend.name}" /></span>
 						<span class="w">${feed.questionNameSuffix}</span>
 					</h2>
-					<p>Ta在<c:choose><c:when test="${feed.tpFriend.city && feed.tpFriend.city != ''}">${feed.tpFriend.city}</c:when><c:otherwise>地球</c:otherwise></c:choose></p>
+					<p>Ta在<c:choose><c:when test="${feed.tpFriend.city != ''}">${feed.tpFriend.city}</c:when><c:otherwise>地球</c:otherwise></c:choose></p>
 					<c:choose>
 						<c:when test="${feed.question.type == 0}">
 							<div class="star"><!--star begin-->
@@ -65,7 +65,7 @@
 <div class="bot"></div>
 <c:choose>
 	<c:when test="${feed.feedType=='SPECIFIC'}">
-		<div class="next_btn"><a href="javascript:;" onclick="javascript:response(2);">跳  过</a></div>
+		<div class="next_btn"><a href="javascript:;" onclick="javascript:response(2);" tip="切换到下一张，什么都不做" onmouseover="javascript:tip(this, true);" onmouseout="javascript:tip(this, false);">跳  过</a></div>
 	</c:when>
 	<c:when test="${feed.feedType=='QUESTION'}">
 		<div class="next_btn"><a href="javascript:;" onclick="javascript:answer(0, 0, '${feed.tpFriend.userId}', ${times});">跳  过</a></div>

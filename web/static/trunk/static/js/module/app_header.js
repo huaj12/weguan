@@ -1,218 +1,206 @@
 //TODO 封装不同第三方app
-function showKxDialog(para)
-{
+function showKxDialog(para) {
 	var t = document.createElement("div");
-	t.innerHTML = '<iframe src="http://www.kaixin001.com/rest/rest.php?para='+para+'" scrolling="yes" height="0px"  width="0px" style="display:none"></iframe>';
+	t.innerHTML = '<iframe src="http://www.kaixin001.com/rest/rest.php?para='
+			+ para
+			+ '" scrolling="yes" height="0px"  width="0px" style="display:none"></iframe>';
 	document.body.appendChild(t.firstChild);
 }
-function showSysnewsDialog(url)
-{
+function showSysnewsDialog(url) {
 	var t = document.createElement("div");
-	t.innerHTML = '<iframe id="iframeinfo" src="'+ url +'" scrolling="no" height="344px"  width="547px" style="display:none;"></iframe>';
+	t.innerHTML = '<iframe id="iframeinfo" src="'
+			+ url
+			+ '" scrolling="no" height="344px"  width="547px" style="display:none;"></iframe>';
 	document.body.appendChild(t.firstChild);
 }
-//TODO 封装不同第三方app
-function kaixinFeed(name){
+// TODO 封装不同第三方app
+function kaixinFeed(name) {
 	jQuery.get('/kaixinFeed', {
-		name:name,
-	    random : Math.random()
+		name : name,
+		random : Math.random()
 	}, function(data) {
 		showKxDialog(data);
 	});
 }
-//TODO 封装不同第三方app
-function kaixinRequest(name){
+// TODO 封装不同第三方app
+function kaixinRequest(name) {
 	jQuery.get('/kaixinRequest', {
-		name:name,
-	    random : Math.random()
+		name : name,
+		random : Math.random()
 	}, function(data) {
 		showKxDialog(data);
 	});
 }
-//TODO 
-function dialogSysnews(link,linktext,text,pic){
-	showSysnewsDialog('http://api.kaixin001.com/dialog/sysnews?display=iframe&linktext='+linktext+'&text='+text+'&link='+link+'&picurl='+pic+'&app_id=100012402&redirect_uri=http://www.kaixin001.com/!app_100012402114474624/&need_redirect=0');
+// TODO
+function dialogSysnews(link, linktext, text, pic) {
+	showSysnewsDialog('http://api.kaixin001.com/dialog/sysnews?display=iframe&linktext='
+			+ linktext
+			+ '&text='
+			+ text
+			+ '&link='
+			+ link
+			+ '&picurl='
+			+ pic
+			+ '&app_id=100012402&redirect_uri=http://www.kaixin001.com/!app_100012402114474624/&need_redirect=0');
 }
 
-function addAct(successCallback){
+function addAct(successCallback) {
 	var value = $("#addAct").attr("value");
-	if(!value || value == ""){
-		$("#headAddActError").text("请先输入").stop(true, true).show().fadeOut(2000);
+	if (!value || value == "") {
+		$("#headAddActError").text("请先输入").stop(true, true).show()
+				.fadeOut(2000);
 		return false;
 	}
-	if(!checkValLength(value, 2, 20)){
-		$("#headAddActError").text("拒宅兴趣字数控制在1－10个中文内！").stop().show().fadeOut(2000);
+	if (!checkValLength(value, 2, 20)) {
+		$("#headAddActError").text("拒宅兴趣字数控制在1－10个中文内！").stop().show().fadeOut(
+				2000);
 		return false;
 	}
 	jQuery.ajax({
-		url: "/app/ajax/addAct",
-		type: "post",
-		data: {"actName": value},
-		dataType: "json",
-		success: function(result){
-			//result handle plugin
-			if(result&&result.success){
-				$("#headAddActError").text("保存成功").stop(true, true).show().fadeOut(3000);
+		url : "/app/ajax/addAct",
+		type : "post",
+		data : {
+			"actName" : value
+		},
+		dataType : "json",
+		success : function(result) {
+			// result handle plugin
+			if (result && result.success) {
+				$("#headAddActError").text("保存成功").stop(true, true).show()
+						.fadeOut(3000);
 				$("#addAct").attr("value", "");
-				if($("div.interesting").length > 0){
+				if ($("div.interesting").length > 0) {
 					pageMyAct(1);
 				}
-				if(successCallback){
+				if (successCallback) {
 					successCallback();
 				}
-			}else if(result){
-				if(result && result.errorCode == 10003 && successCallback){
+			} else if (result) {
+				if (result && result.errorCode == 10003 && successCallback) {
 					successCallback();
 				}
-				$("#headAddActError").text(result.errorInfo).stop(true, true).show().fadeOut(2000);
-			}else {
+				$("#headAddActError").text(result.errorInfo).stop(true, true)
+						.show().fadeOut(2000);
+			} else {
 				alert("系统异常！");
 			}
 		},
-		statusCode: {
-		    401: function() {
-		      alert("未登录");
-		    }
+		statusCode : {
+			401 : function() {
+				alert("未登录");
+			}
 		}
 	});
 }
 
-function subEmail(){
-	//validation
+function subEmail() {
+	// validation
 	var subInput = $("div.dy > span > input");
 	var email = subInput.val();
-	if(email == subInput.attr("initmsg")){
+	if (email == subInput.attr("initmsg")) {
 		return false;
 	}
-	if(!checkEmail(email)){
-		$("div.dy > div.error").text("邮箱格式有误！").stop(true, true).show().fadeOut(2000);
+	if (!checkEmail(email)) {
+		$("div.dy > div.error").text("邮箱格式有误！").stop(true, true).show()
+				.fadeOut(2000);
 		return false;
 	}
 	jQuery.ajax({
-		url: "/app/ajax/subEmail",
-		type: "post",
-		data: {"email": email},
-		dataType: "json",
-		success: function(result){
-			if(result&&result.success){
-				$("div.dy > div.error").text("订阅成功").stop(true, true).show().fadeOut(3000);
-			}else if(result){
-				$("div.dy > div.error").text(result.errorInfo).show().fadeOut(2000);
-			}else {
+		url : "/app/ajax/subEmail",
+		type : "post",
+		data : {
+			"email" : email
+		},
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				$("div.dy > div.error").text("订阅成功").stop(true, true).show()
+						.fadeOut(3000);
+			} else if (result) {
+				$("div.dy > div.error").text(result.errorInfo).show().fadeOut(
+						2000);
+			} else {
 				alert("系统异常！");
 			}
 		},
-		statusCode: {
-		    401: function() {
-		      alert("未登录");
-		    }
+		statusCode : {
+			401 : function() {
+				alert("未登录");
+			}
 		}
 	});
 }
 
-function showSubEmailDefault(inputObj){
+function showSubEmailDefault(inputObj) {
 	var obj = $(inputObj);
 	var defaultMsg = obj.attr("initmsg");
-	if(obj.val() == ""){
+	if (obj.val() == "") {
 		obj.val(defaultMsg);
 	}
 }
 
-function hideSubEmailDefault(inputObj){
+function hideSubEmailDefault(inputObj) {
 	var obj = $(inputObj);
 	var defaultMsg = obj.attr("initmsg");
-	if(obj.val() == defaultMsg){
+	if (obj.val() == defaultMsg) {
 		obj.val("");
 	}
 }
 
-$(document).ready(function(){
-//	//注册兴趣输入框获得光标事件
-//	$('#addAct').keyup(function(event){
-//		showActTip(event.target);
-//	});
-//	$("#addAct").bind("focus", function(event){
-//		showActTip(event.target);
-//	});
-//	$("#addAct").bind("blur",function(){
-//		$("#headAddActError").hide();
-//	});
-	
+$(document).ready(function() {
 	var addActInput = new AddActInput($("#addAct"), $("#headAddActError"));
 	addActInput.bindKeyUp();
 	addActInput.bindFocus();
 	addActInput.bindBlur();
 	addActInput.bindAutocomplete();
-	
-	//注册添加Act事件
-	$("div.zjxq_input > a.add").bind("click", function(){
+
+	// 注册添加Act事件
+	$("div.zjxq_input > a.add").bind("click", function() {
 		addAct();
 	});
-	//注册召集令
-	$("div.zjxq_input > a.zhao").bind("click", function(){
+	// 注册召集令
+	$("div.zjxq_input > a.zhao").bind("click", function() {
 		var value = $("#addAct").attr("value");
-		if(value && value != ""){
-			addAct(function(){
+		if (value && value != "") {
+			addAct(function() {
 				kaixinFeed(value);
 			});
-		}else {
+		} else {
 			kaixinFeed();
 		}
 	});
-	//注册邀请
-	$("div.zjxq_input > a.yao").bind("click", function(){
+	// 注册邀请
+	$("div.zjxq_input > a.yao").bind("click", function() {
 		var value = $("#addAct").attr("value");
-		if(value && value != ""){
-			addAct(function(){
+		if (value && value != "") {
+			addAct(function() {
 				kaixinRequest(value);
 			});
-		}else {
+		} else {
 			kaixinRequest();
 		}
 	});
-	//注册订阅邮箱事件
+	// 注册订阅邮箱事件
 	var subInput = $("div.dy > span > input");
 	showSubEmailDefault(subInput);
-	subInput.bind("focus", function(){
+	subInput.bind("focus", function() {
 		hideSubEmailDefault(this);
 	});
-	subInput.bind("blur", function(){
+	subInput.bind("blur", function() {
 		showSubEmailDefault(this);
 	});
-	$("div.dy > a").bind("click", function(){
+	$("div.dy > a").bind("click", function() {
 		subEmail();
 	});
-	//注册获取新消息数事件
-	
-//	//注册autoComplete
-//	$("#addAct").autocomplete("/autoSearch", {
-//		dataType: "json",
-//		parse: function(datas) {
-//			var parsed = [];
-//			for (var i=0; i < datas.length; i++) {
-//				var data = datas[i];
-//				if (data) {
-//					parsed[parsed.length] = {
-//						data: data,
-//						value: data.name,
-//						result: data.name
-//					};
-//				}
-//			}
-//			return parsed;
-//		},
-//		formatItem: function(item) {
-//			return item.name;
-//		}
-//	});
-	
-	var proBoxNum = $("div.pro_box").size();
-	if(proBoxNum > 1){
+	// TODO 注册获取新消息数事件
+
+	var proBoxNum = $("div.pro_box > p").size();
+	if (proBoxNum > 1) {
 		var tipId = 1;
-		setInterval(function(){
-			$("div.tips_" + tipId).fadeOut(500, function(){
-				tipId = tipId == proBoxNum ? 1 : (tipId+1);
-				$("div.tips_" + tipId).fadeIn(500);
+		setInterval(function() {
+			$("p.tips_" + tipId).fadeOut(500, function() {
+				tipId = tipId == proBoxNum ? 1 : (tipId + 1);
+				$("p.tips_" + tipId).fadeIn(500);
 			});
 		}, 5000);
 	}

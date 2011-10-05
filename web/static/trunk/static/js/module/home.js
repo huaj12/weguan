@@ -81,14 +81,16 @@ function response(type){
 	}
 }
 
-function tip(obj, show){
+function tip(obj, show, arg){
 	if(show){
 		var tip = $(obj).attr("tip");
+		if(arg && arg != ""){
+			tip = tip.replace("{0}", arg);
+		}
 		if(tip&&tip!=""){
-			$("div.pro_box > p").text(tip);
-			$("div.pro_box").show();
+			$("div.pro_box > p").text(tip).show();
 		}
 	}else{
-		$("div.pro_box").hide();
+		$("div.pro_box > p").hide();
 	}
 }

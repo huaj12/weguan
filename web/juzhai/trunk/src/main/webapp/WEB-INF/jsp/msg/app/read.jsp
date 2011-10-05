@@ -38,7 +38,7 @@
 									<!--pbr begin-->
 									<!-- <div class="pbr"><a href="javascript:;">被我屏蔽的人</a></div><!--pbr end-->
 								</div><!--title end-->
-								<div class="box_body"><!--box_body begin-->
+								<div class="box_body" id="readContent"><!--box_body begin-->
 									<c:choose>
 										<c:when test="${!empty actMsgViewList}">
 									<c:forEach var="actMsg" items="${actMsgViewList}" varStatus="msg">
@@ -92,7 +92,8 @@
 												</c:otherwise>
 											</c:choose>
 									<!-- page -->
-									${pager.stringUrl}
+									<jsp:include page="/WEB-INF/jsp/pager/pager.jsp" />
+									<!-- page end -->
 								</div><!--box_body end-->
 							</div><!--message_box end-->
 						</div><!--mid end-->

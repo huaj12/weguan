@@ -117,7 +117,7 @@
 		<property name="delegate" ref="actMsgMessageListener" />
 	</bean>
 	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.actMsg}" prefetch="1">
-	    <rabbit:listener queue-names="${rabbitmq.queue.actMsg}" ref="actMsgMessageListener" />
+	    <rabbit:listener queue-names="${rabbitmq.queue.actMsg}" ref="actMsgListener" />
 	</rabbit:listener-container>
 	<!-- act msg-->
 	

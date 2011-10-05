@@ -7,6 +7,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>新手引导</title>
 		<link href="${jz:url('/css/jz.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:url('/css/jquery.autocomplete.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<div class="main"><!--main begin-->
@@ -31,13 +32,14 @@
 									<h2>选择你感兴趣的${actCategory.name}</h2>
 									<div id="acts">
 										<c:forEach var="act" items="${actList}">
-											<p><span class="fl"></span><a href="javascript:;" class="key_words" actId="${act.id}"><c:out value="${act.name}" /></a><span class="fr"></span><em></em></p>
+											<p><span class="fl"></span><a href="javascript:;" class="key_words" actId="${act.id}" title="点击添加"><c:out value="${act.name}" /></a><span class="fr"></span><em></em></p>
 										</c:forEach>
 									</div>
 									<div class="add_insterest">
 										<strong><input id="actName" type="text" /></strong>
 										<a href="javascript:;" class="add">添加</a>
-										<div id="actNameError" class="error" style="display:none">拒宅兴趣字数控制在1－10个中文内！</div>
+										<div id="actNameError" class="error" style="display:none"></div>
+										<div class="goon_add" style="display:none">请继续添加，或点击下一步!</div>
 									</div>
 								</div><!--sec end-->
 							</div><!--basic_yd end-->

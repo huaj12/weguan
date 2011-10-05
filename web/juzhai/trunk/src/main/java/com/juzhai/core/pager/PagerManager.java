@@ -15,7 +15,10 @@ public class PagerManager {
 
 	private int totalResults = 0;
 	
-	public String stringUrl;
+	private String ajaxId;
+
+	public String url;
+	
 
 	public PagerManager(int page, int results, int totalResults) {
 		super();
@@ -23,6 +26,16 @@ public class PagerManager {
 		this.currentPage = page;
 		this.results = results;
 		this.totalResults = totalResults;
+	}
+	
+	public PagerManager(int page, int results, int totalResults,String url,String ajaxId) {
+		super();
+		page = page <= 0 ? 1 : page;
+		this.currentPage = page;
+		this.results = results;
+		this.totalResults = totalResults;
+		this.url=url;
+		this.ajaxId=ajaxId;
 	}
 
 	public PagerManager(int currentPage, int preOffset, int nextOffset,
@@ -130,36 +143,24 @@ public class PagerManager {
 		this.nextOffset = nextOffset;
 	}
 	
-
-	public String getStringUrl() {
-		return stringUrl;
+	public String getAjaxId() {
+		return ajaxId;
 	}
 
-	public void setStringUrl(String url) {
-		if(getTotalPage()==0)return ;
-		StringBuffer tag=new StringBuffer();
-		String divBegin="<div class='page'>";
-		String divEnd="</div>";
-		tag.append(divBegin);
-		if(1!=currentPage){
-			tag.append("<a href=\""+url+"&page=1"+"\" class=\"link\"><p class=\"l\"></p><strong class=\"m\">首页</strong><p class=\"r\"></p></a>");
-			tag.append("<a href=\""+url+"&page="+(currentPage-1)+"\" class=\"link\"><p class=\"l\"></p><strong class=\"m\">上一页</strong><p class=\"r\"></p></a>");
-		}
-		List<String> pages=getShowPages();
-		for(int i=0;i<pages.size();i++){
-			if(Integer.parseInt(pages.get(i))==currentPage){
-				tag.append("<a href=\"#\" class=\"active\"><p class=\"l\"></p><strong class=\"m\">"+pages.get(i)+"</strong><p class=\"r\"></p></a>");	
-			}else{
-				tag.append("<a href=\""+url+"&page="+pages.get(i)+"\" class=\"link\"><p class=\"l\"></p><strong class=\"m\">"+pages.get(i)+"</strong><p class=\"r\"></p></a>");
-			}
-		}
-		if(getTotalPage()!=currentPage){
-			tag.append("<a href=\""+url+"&page="+(currentPage+1)+"\" class=\"link\"><p class=\"l\"></p><strong class=\"m\">下一页</strong><p class=\"r\"></p></a>");
-			tag.append("<a href=\""+url+"&page="+getTotalPage()+"\" class=\"link\"><p class=\"l\"></p><strong class=\"m\">尾页</strong><p class=\"r\"></p></a>");
-		}
-		tag.append(divEnd);
-		this.stringUrl =tag.toString();
+	public void setAjaxId(String ajaxId) {
+		this.ajaxId = ajaxId;
 	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+
+	
 	
 
 }

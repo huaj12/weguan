@@ -62,13 +62,22 @@ public class MsgCenterController extends BaseController {
 		doPageUnRead(context.getUid(), page, model);
 		return "msg/app/unRead";
 	}
+	
+	@RequestMapping(value = "/pageUnRead", method = RequestMethod.GET)
+	public String pageUnRead(HttpServletRequest request, Model model,Integer page)
+			throws NeedLoginException {
+		if (null == page)
+			page = 1;
+		UserContext context = checkLoginForApp(request);
+		doPageUnRead(context.getUid(),page, model);
+		return "msg/app/ajax/unReadContent";
+	}
 
 
 	private void doPageUnRead(long uid, int page, Model model) {
 		long totalCount = actMsgService.countUnRead(uid);
 		PagerManager pager = new PagerManager(page, unReadActMsgRows, Long
-				.valueOf(totalCount).intValue());
-		pager.setStringUrl("/msg/showUnRead?");
+				.valueOf(totalCount).intValue(),"/msg/pageUnRead?","unReadContent");
 		List<ActMsg> actMsgList = actMsgService.pageUnRead(uid,
 				pager.getFirstResult(), pager.getMaxResult());
 		List<ActMsgView> actMsgViewList = assembleActMsgView(uid, actMsgList);
@@ -106,13 +115,21 @@ public class MsgCenterController extends BaseController {
 		doPageRead(context.getUid(), model, page);
 		return "msg/app/read";
 	}
-
+	
+	@RequestMapping(value = "/pageRead", method = RequestMethod.GET)
+	public String pageRead(HttpServletRequest request, Model model,Integer page)
+			throws NeedLoginException {
+		if (null == page)
+			page = 1;
+		UserContext context = checkLoginForApp(request);
+		doPageRead(context.getUid(),model,page);
+		return "msg/app/ajax/readContent";
+	}
 
 	private void doPageRead(long uid, Model model, int page) {
 		long totalCount = actMsgService.countRead(uid);
 		PagerManager pager = new PagerManager(page, readActMsgRows, Long
-				.valueOf(totalCount).intValue());
-		pager.setStringUrl("/msg/showRead?");
+				.valueOf(totalCount).intValue(),"/msg/pageRead?","readContent");
 		List<ActMsg> actMsgList = actMsgService.pageRead(uid,
 				pager.getFirstResult(), pager.getMaxResult());
 		List<ActMsgView> actMsgViewList = assembleActMsgView(uid, actMsgList);

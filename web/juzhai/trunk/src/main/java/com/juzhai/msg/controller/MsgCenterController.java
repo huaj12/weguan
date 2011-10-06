@@ -240,9 +240,9 @@ public class MsgCenterController extends BaseController {
 		}
 		return result;
 	}
-	@RequestMapping(value = "/getUnMassageCount")
+	@RequestMapping(value = "/getUnMessageCount")
 	@ResponseBody
-	public AjaxResult getUnMassageCount(HttpServletRequest request,Model model) throws NeedLoginException{
+	public AjaxResult getUnMessageCount(HttpServletRequest request,Model model) throws NeedLoginException{
 		UserContext context = checkLoginForApp(request);
 		AjaxResult result=new AjaxResult();
 		try{

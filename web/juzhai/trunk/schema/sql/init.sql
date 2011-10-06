@@ -549,7 +549,7 @@ INSERT INTO `tb_city` (`id`,`name`,`province_id`,`sequence`,`create_time`,`last_
 INSERT INTO `tb_city` (`id`,`name`,`province_id`,`sequence`,`create_time`,`last_modify_time`) VALUES (379,'马来西亚',35,14,'2011-08-20 00:12:01','2011-08-20 00:12:01');
 INSERT INTO `tb_city` (`id`,`name`,`province_id`,`sequence`,`create_time`,`last_modify_time`) VALUES (380,'其他',35,15,'2011-08-20 00:12:01','2011-08-20 00:12:01');
 
-insert into juzhai.tb_thirdparty (id,name,join_type,app_key,app_secret,app_url) values (1,'kaixin001','app','158820497219e41f42ceff3ff18b6e73','58c480e2630a4d298750662382a00d94','http://www.kaixin001.com/!app_100012402114474624/');
+insert into juzhai.tb_thirdparty (id,name,join_type,app_key,app_secret,app_url,user_home_url) values (1,'kaixin001','app','158820497219e41f42ceff3ff18b6e73','58c480e2630a4d298750662382a00d94','http://www.kaixin001.com/!app_100012402114474624/','http://www.kaixin001.com/home/?uid={0}');
 
 insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (0,'你觉得{0}有多宅？','有点宅|比较宅|比我宅|很宅|相当宅','{0}提醒你别老宅着了','我觉得你{0}。');
 insert into juzhai.tb_question (type,name,answer,invite_text,invite_word) values (0,'你觉得{0}能几天不出门？','1天|2天|3天|1周|1个月','{0}提醒你别老宅在家哦','我觉得你可以{0}不出门。');

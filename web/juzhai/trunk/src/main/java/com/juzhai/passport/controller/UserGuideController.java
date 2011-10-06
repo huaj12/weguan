@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +46,8 @@ public class UserGuideController extends BaseController {
 	private IEmailService emailService;
 	@Autowired
 	private MessageSource messageSource;
+	@Value("${guid.act.size}")
+	private int guidActSize = 12;
 
 	@RequestMapping(value = "/guide", method = RequestMethod.GET)
 	public String guide(HttpServletRequest request, Model model)
@@ -75,7 +78,10 @@ public class UserGuideController extends BaseController {
 				model.addAttribute("actCategory",
 						com.juzhai.act.InitData.ACT_CATEGORY_MAP
 								.get(actCategoryId));
-				model.addAttribute("actList", actList);
+				model.addAttribute(
+						"actList",
+						actList.subList(0,
+								Math.min(actList.size(), guidActSize)));
 				return "guide/app/guide";
 			}
 		}

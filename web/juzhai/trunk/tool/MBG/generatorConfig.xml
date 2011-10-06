@@ -6,7 +6,7 @@
 <generatorConfiguration>
   <classPathEntry location="tool/MBG/mysql-connector-java-5.1.12.jar" />
 
-  <!-- <context id="passport" targetRuntime="MyBatis3">
+  <context id="passport" targetRuntime="MyBatis3">
   	
   	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -34,7 +34,11 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
     
-   <table tableName="tb_passport" domainObjectName="Passport" >
+    <table tableName="tb_thirdparty" domainObjectName="Thirdparty">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+   <!-- <table tableName="tb_passport" domainObjectName="Passport" >
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
       <columnOverride column="email_active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
@@ -44,10 +48,6 @@
 	<table tableName="tb_profile" domainObjectName="Profile" >
       <property name="useActualColumnNames" value="false"/>
       <columnOverride column="sub_email" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-    </table>
-    
-    <table tableName="tb_thirdparty" domainObjectName="Thirdparty">
-      <property name="useActualColumnNames" value="false"/>
     </table>
     
     <table tableName="tb_tp_user" domainObjectName="TpUser">
@@ -71,12 +71,12 @@
    <table tableName="tb_user_guide" domainObjectName="UserGuide" >
       <property name="useActualColumnNames" value="false"/>
       <columnOverride column="complete" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-    </table>
+    </table> -->
 
-  </context> -->
+  </context>
   
   
-  <context id="act" targetRuntime="MyBatis3">
+  <!-- <context id="act" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -108,7 +108,7 @@
       <property name="useActualColumnNames" value="false"/>
     </table>
 
-	<!-- <table tableName="tb_hot_act" domainObjectName="HotAct">
+	<table tableName="tb_hot_act" domainObjectName="HotAct">
       <property name="useActualColumnNames" value="false"/>
     </table>
 
@@ -133,9 +133,9 @@
     
     <table tableName="tb_act_charts" domainObjectName="ActCharts">
       <property name="useActualColumnNames" value="false"/>
-    </table> -->
+    </table>
     
-  </context>
+  </context> -->
   
   <!-- <context id="account" targetRuntime="MyBatis3">
   

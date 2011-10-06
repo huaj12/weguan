@@ -9,7 +9,7 @@
 			<div class="jz_box"><!--jz_box begin-->
 				<div class="photo fl"><img src="${feed.profileCache.logoPic}" /></div>
 				<div class="infor fl data" data="{'friendId':${feed.profileCache.uid},'actId':${feed.act.id},'times':${times}}"><!--infor begin-->
-					<h2><span class="u"><c:out value="${feed.profileCache.nickname}" /></span><span class="w">最近想去</span><span class="v"><c:out value="${feed.act.name}" /></span></h2>
+					<h2><span class="u"><a href="${feed.tpHomeUrl}" class="user" target="_blank"><c:out value="${feed.profileCache.nickname}" /></a></span><span class="w">最近想去</span><span class="v"><c:out value="${feed.act.name}" /></span></h2>
 					<p><fmt:formatDate value="${feed.date}" pattern="yyyy.MM.dd"/>&nbsp;&nbsp;&nbsp;&nbsp;Ta在<c:choose><c:when test="${feed.profileCache.cityName != ''}">${feed.profileCache.cityName}</c:when><c:otherwise>地球</c:otherwise></c:choose></p>
 					<a href="javascript:;" class="want btn" onclick="javascript:response(1);" tip="将{0}加为我的兴趣，并为我找到同兴趣的好友" onmouseover="javascript:tip(this, true, '${feed.act.name}');" onmouseout="javascript:tip(this, false);"></a>
 					<a href="javascript:;" class="dwant btn" onclick="javascript:response(2);" tip="切换到下一张，什么都不做" onmouseover="javascript:tip(this, true);" onmouseout="javascript:tip(this, false);"></a>
@@ -22,7 +22,7 @@
 				<div class="df fl"><!--infor begin-->
 					<h2>
 						<span class="w">${feed.questionNamePrefix}</span>
-						<span class="u"><c:out value="${feed.tpFriend.name}" /></span>
+						<span class="u"><a href="${feed.tpHomeUrl}" class="user" target="_blank"><c:out value="${feed.tpFriend.name}" /></a></span>
 						<span class="w">${feed.questionNameSuffix}</span>
 					</h2>
 					<p>Ta在<c:choose><c:when test="${feed.tpFriend.city != ''}">${feed.tpFriend.city}</c:when><c:otherwise>地球</c:otherwise></c:choose></p>

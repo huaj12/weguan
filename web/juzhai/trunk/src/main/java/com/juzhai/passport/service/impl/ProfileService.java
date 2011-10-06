@@ -27,7 +27,9 @@ import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
+import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.ITpUserService;
 
 @Service
 public class ProfileService implements IProfileService {
@@ -40,6 +42,8 @@ public class ProfileService implements IProfileService {
 	private RedisTemplate<String, byte[]> byteArrayRedisTemplate;
 	@Autowired
 	private ProfileMapper profileMapper;
+	@Autowired
+	private ITpUserService tpUserService;
 	@Autowired
 	private MemcachedClient memcachedClient;
 	@Value("${profile.cache.expire.time}")
@@ -94,19 +98,24 @@ public class ProfileService implements IProfileService {
 		} else {
 			Profile profile = profileMapper.selectByPrimaryKey(uid);
 			if (profile != null) {
-				profileCache = cacheProfile(profile);
+				TpUser tpUser = tpUserService.getTpUserByUid(uid);
+				profileCache = cacheProfile(
+						profile,
+						null == tpUser ? StringUtils.EMPTY : tpUser
+								.getTpIdentity());
 			}
 		}
 		return profileCache;
 	}
 
 	@Override
-	public ProfileCache cacheProfile(Profile profile) {
+	public ProfileCache cacheProfile(Profile profile, String tpIdentity) {
 		Assert.notNull(profile, "The profile must not be null.");
 		Assert.isTrue(profile.getUid() != null && profile.getUid() > 0,
 				"Profile uid invalid.");
 		ProfileCache profileCache = new ProfileCache();
 		BeanUtils.copyProperties(profile, profileCache);
+		profileCache.setTpIdentity(tpIdentity);
 		cacheProfileCache(profile.getUid(), profileCache);
 		return profileCache;
 	}

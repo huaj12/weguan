@@ -38,6 +38,8 @@ public class Feed implements Serializable {
 
 	private Question question;
 
+	private String tpHomeUrl;
+
 	public Feed(ProfileCache profileCache, FeedType feedType, Date date,
 			Act... acts) {
 		this.profileCache = profileCache;
@@ -146,6 +148,24 @@ public class Feed implements Serializable {
 		} else {
 			return StringUtils.EMPTY;
 		}
+	}
+
+	public String getTpHomeUrl() {
+		if (StringUtils.isEmpty(tpHomeUrl)) {
+			return "#";
+		}
+		if (tpFriend != null) {
+			return tpHomeUrl.replace("{0}", tpFriend.getUserId());
+		} else if (null != profileCache
+				&& StringUtils.isNotEmpty(profileCache.getTpIdentity())) {
+			return tpHomeUrl.replace("{0}", profileCache.getTpIdentity());
+		} else {
+			return "#";
+		}
+	}
+
+	public void setTpHomeUrl(String tpHomeUrl) {
+		this.tpHomeUrl = tpHomeUrl;
 	}
 
 	/**

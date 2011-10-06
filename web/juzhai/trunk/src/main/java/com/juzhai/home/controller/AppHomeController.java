@@ -2,6 +2,7 @@ package com.juzhai.home.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.home.controller.form.AnswerForm;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.home.service.IInboxService;
+import com.juzhai.passport.InitData;
+import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.login.ILoginService;
 
 @Controller
@@ -56,7 +59,7 @@ public class AppHomeController extends BaseController {
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		long time3 = System.currentTimeMillis();
-		getNextFeed(context.getUid(), 1, model);
+		getNextFeed(context, 1, model);
 		long time4 = System.currentTimeMillis();
 		System.out.println("get feed:" + (time4 - time3));
 		return "home/app/feed_fragment";
@@ -77,7 +80,7 @@ public class AppHomeController extends BaseController {
 			log.error(e.getMessage(), e);
 			return error_500;
 		}
-		getNextFeed(context.getUid(), times, model);
+		getNextFeed(context, times, model);
 		return "home/app/feed_fragment";
 	}
 
@@ -88,7 +91,7 @@ public class AppHomeController extends BaseController {
 		inboxService.answer(context.getUid(), context.getTpId(),
 				answerForm.getQuestionId(), answerForm.getTpIdentity(),
 				answerForm.getAnswerId());
-		getNextFeed(context.getUid(), times, model);
+		getNextFeed(context, times, model);
 		return "home/app/feed_fragment";
 	}
 
@@ -102,43 +105,51 @@ public class AppHomeController extends BaseController {
 	 * @param model
 	 *            调用请求的Model
 	 */
-	private void getNextFeed(long uid, int times, Model model) {
+	private void getNextFeed(UserContext context, int times, Model model) {
 		if (times > randomFeedFrequency) {
-			getQuestion(uid, model, false);
+			getQuestion(context, model, false);
 		} else {
-			getSpecificFeed(uid, times, model, false);
+			getSpecificFeed(context, times, model, false);
 		}
 		// TODO 显示相互共同好友
 	}
 
-	private void getQuestion(long uid, Model model, boolean isFinal) {
+	private void getQuestion(UserContext context, Model model, boolean isFinal) {
 		// 获取随机
-		Feed feed = inboxService.showQuestion(uid);
+		Feed feed = inboxService.showQuestion(context.getUid());
 		if (null == feed) {
 			if (isFinal) {
 				return;
 			} else {
-				getSpecificFeed(uid, 1, model, true);
+				getSpecificFeed(context, 1, model, true);
 			}
 		} else {
-			model.addAttribute("feed", feed);
-			model.addAttribute("times", 1);
+			putFeedAndTimes(context, 1, model, feed);
 		}
 	}
 
-	private void getSpecificFeed(long uid, int times, Model model,
+	private void getSpecificFeed(UserContext context, int times, Model model,
 			boolean isFinal) {
 		// 获取指定
-		Feed feed = inboxService.showFirst(uid);
+		Feed feed = inboxService.showFirst(context.getUid());
 		if (null == feed) {
 			if (isFinal) {
 				return;
 			} else {
-				getQuestion(uid, model, true);
+				getQuestion(context, model, true);
 			}
 		} else {
-			model.addAttribute("feed", feed);
-			model.addAttribute("times", times + 1);
+			putFeedAndTimes(context, times + 1, model, feed);
 		}
+	}
+
+	private void putFeedAndTimes(UserContext context, int times, Model model,
+			Feed feed) {
+		Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
+		if (null != tp && StringUtils.isNotEmpty(tp.getUserHomeUrl())) {
+			feed.setTpHomeUrl(tp.getUserHomeUrl());
+		}
+		model.addAttribute("feed", feed);
+		model.addAttribute("times", times);
 	}
 }

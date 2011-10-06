@@ -25,8 +25,8 @@
 			<a href="javascript:;">订阅</a>
 		</div>
 		<div class="message fr"><!--我的消息 begin-->
-			<div class="message_num">
-				<span>100111</span>
+			<div class="message_num" style="display:none">
+				<span></span>
 			</div>
 			<a href="/msg/showUnRead.html" title="查看我的拒宅消息">我的消息</a>
 		</div><!--我的消息 end-->

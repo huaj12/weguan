@@ -147,6 +147,26 @@ function hideSubEmailDefault(inputObj) {
 	}
 }
 
+function showUnreadCnt(){
+	jQuery.ajax({
+		url : "/msg/getUnMessageCount",
+		type : "get",
+		dataType : "json",
+		success : function(result) {
+			// result handle plugin
+			if (result && result.success) {
+				var cnt = result.result;
+				$(".message_num > span").text(cnt);
+				if(cnt > 0){
+					$(".message_num").show();
+				}else {
+					$(".message_num").hide();
+				}
+			}
+		}
+	});
+}
+
 $(document).ready(function() {
 	var addActInput = new AddActInput($("#addAct"), $("#headAddActError"));
 	addActInput.bindKeyUp();
@@ -192,8 +212,13 @@ $(document).ready(function() {
 	$("div.dy > a").bind("click", function() {
 		subEmail();
 	});
-	// TODO 注册获取新消息数事件
-
+	
+	showUnreadCnt();
+	// 注册获取新消息数事件
+	setInterval(function() {
+		showUnreadCnt();
+	}, 10000);
+	
 	var proBoxNum = $("div.pro_box > p").size();
 	if (proBoxNum > 1) {
 		var tipId = 1;

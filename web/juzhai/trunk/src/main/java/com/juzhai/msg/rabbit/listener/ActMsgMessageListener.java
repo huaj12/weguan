@@ -1,41 +1,27 @@
 package com.juzhai.msg.rabbit.listener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
-import java.util.concurrent.Callable;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import com.juzhai.account.InitData;
-import com.juzhai.account.bean.ProfitAction;
-import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.service.IUserActService;
-import com.juzhai.app.bean.TpMessageKey;
-import com.juzhai.app.service.IAppService;
+import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.msg.rabbit.message.MsgMessage;
 import com.juzhai.msg.service.IMsgService;
-import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.JoinTypeEnum;
-import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.bean.TpFriend;
-import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.msg.service.ISendAppMsgService;
 import com.juzhai.passport.model.TpUser;
-import com.juzhai.passport.service.IAuthorizeService;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
-import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
 
 @Component
@@ -51,19 +37,12 @@ public class ActMsgMessageListener implements
 	@Autowired
 	private IUserActService userActService;
 	@Autowired
-	private ThreadPoolTaskExecutor taskExecutor;
-	@Autowired
-	IAppService kaiXinService;
-	@Autowired
-	ITpUserService tpUserService;
-	@Autowired
-	IAccountService accountService;
-	@Autowired
-	private ITpUserAuthService tpUserAuthService;
-	@Autowired
-	private MessageSource messageSource;
+	private ITpUserService tpUserService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private RedisTemplate<String,ActMsg> redisTemplate;
+	ISendAppMsgService sendAppMsgService;
 	@Override
 	public Object handleMessage(MsgMessage<ActMsg> msgMessage) {
 		if (null == msgMessage) {
@@ -105,44 +84,17 @@ public class ActMsgMessageListener implements
 					msgMessage.getReceiverIdentity(), msgMessage.getBody());
 			tpUser=tpUserService.getTpUserByTpIdAndIdentity(msgMessage.getReceiverTpId(), msgMessage.getReceiverIdentity());
 		}
-		if(tpUser==null){
-			log.error("send message find tpUser is null");
+		//如果是延迟发送则存到redis里面
+		if(msgMessage.getBody().isLazy()){
+			redisTemplate.opsForList().leftPush(
+		RedisKeyGenerator.genLazyMessageKey(msgMessage.getSenderId(),
+				msgMessage.getReceiverId(),msgMessage.getBody().getType(),msgMessage.getBody().getClass().getSimpleName()),
+		msgMessage.getBody()
+		);
 			return ;
 		}
-		MsgType type=msgMessage.getBody().getType();
-		if(type==null){
-			log.error("send message find MsgType is null");
-			return ;
-		}
-		String receiverIdentity=tpUser.getTpIdentity();
-		String tpName=tpUser.getTpName();
-		long uid=msgMessage.getSenderId();
-		ProfileCache profileCache=profileService.getProfileCacheByUid(uid);
-		if(profileCache==null){
-			log.error("send message profileCache is null");
-			return ;
-		}
-		String sendName=profileCache.getNickname();
-		// TODO 目前就app 以后要重构
-		Thirdparty thirdparty=com.juzhai.passport.InitData.getTpByTpNameAndJoinType(tpName, JoinTypeEnum.APP);
-		if(thirdparty==null){
-			log.error("send message find thirdparty is null");
-			return ;
-		}
-		AuthInfo authInfo=tpUserAuthService.getAuthInfo(uid, thirdparty.getId());
-		if(authInfo==null){
-			log.error("send message find authInfo is null");
-			return ;
-		}
-		IAppService appService=null;
-		if("kaixin001".equals(tpName)){
-			appService=kaiXinService;
-		}
-		if(appService==null){
-			log.error("send message appService is null");
-			return ;
-		}
-			taskExecutor.submit(new SendSysMsgTask(accountService, appService, uid,receiverIdentity,authInfo,type,messageSource,sendName,1));	
+		//发送第三方消息
+		sendAppMsgService.threadSendAppMsg(tpUser, msgMessage.getSenderId(), msgMessage.getBody().getType(), 1);	
 		}catch (Exception e) {
 			e.printStackTrace();
 		}	
@@ -170,56 +122,4 @@ public class ActMsgMessageListener implements
 	}
 }
 
- class SendSysMsgTask implements Callable<Boolean>{
-	 IAccountService accountService;
-	 IAppService appService;
-	 long uid;
-	 String sendName;
-	 String receiverIdentity;
-	 MsgType type;
-	 AuthInfo authInfo;
-	 int sendCount;
-	 MessageSource messageSource;
-	 public SendSysMsgTask(IAccountService accoutService,IAppService appService,long uid,String receiverIdentity,AuthInfo authInfo,MsgType type, MessageSource messageSource,String sendName,int sendCount) {
-		 this.accountService=accoutService;
-		 this.appService=appService;
-		 this.uid=uid;
-		 this.receiverIdentity=receiverIdentity;
-		 this.authInfo=authInfo;
-		 this.type=type;
-		 this.messageSource=messageSource;
-		 this.sendName=sendName;
-		 this.sendCount=sendCount;
-	}
-	@Override
-	public Boolean call() throws Exception {
-		try{
-		//内容
-		String text="";
-		//附言
-		String word="";
-		if(MsgType.INVITE.equals(type)){
-			text=messageSource.getMessage(TpMessageKey.INVITE_FRIEND, new Object[]{sendName,sendCount},
-					Locale.SIMPLIFIED_CHINESE);
-			word=messageSource.getMessage(TpMessageKey.INVITE_FRIEND_WORD, new Object[]{null},
-					Locale.SIMPLIFIED_CHINESE);
-		}else if (MsgType.RECOMMEND.equals(type)){
-			text=messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND, new Object[]{sendName},
-					Locale.SIMPLIFIED_CHINESE);
-			word=messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND_WORD, new Object[]{sendCount},
-					Locale.SIMPLIFIED_CHINESE);
-		}
-		//发送系统消息
-		appService.sendSysMessage(receiverIdentity, messageSource.getMessage(
-				TpMessageKey.FEED_LINKTEXT, null, Locale.SIMPLIFIED_CHINESE), messageSource.getMessage(
-						TpMessageKey.FEED_LINK, null, Locale.SIMPLIFIED_CHINESE),word, text, null, authInfo);
-		//发送成功增加积分
-		accountService.profitPoint(uid, ProfitAction.IMMEDIATE_RESPONSE);
-		}catch (Throwable  e) {
-			return Boolean.FALSE;
-		}
-		return Boolean.TRUE;
-	}
-	 
- }
 

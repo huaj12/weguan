@@ -1,34 +1,21 @@
 package com.juzhai.msg.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.juzhai.act.service.IUserActService;
 import com.juzhai.msg.bean.ActMsg;
-import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.msg.bean.Msg;
 import com.juzhai.msg.rabbit.message.MsgMessage;
 import com.juzhai.msg.service.IMsgMessageService;
-import com.juzhai.passport.bean.FriendsBean;
-import com.juzhai.passport.bean.TpFriend;
-import com.juzhai.passport.service.IAuthorizeService;
-import com.juzhai.passport.service.IFriendService;
-import com.juzhai.passport.service.IProfileService;
 
 @Service
 public class MsgMessageService implements IMsgMessageService {
 
 	@Autowired
 	private AmqpTemplate actMsgRabbitTemplate;
-	@Autowired
-	IFriendService friendService;
 	@Override
 	public void sendActMsg(long senderId, long receiverId, ActMsg actMsg) {
 		Assert.notNull(actMsg, "ActMsg must not be null.");

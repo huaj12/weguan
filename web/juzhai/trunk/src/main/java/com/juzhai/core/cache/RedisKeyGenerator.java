@@ -1,6 +1,7 @@
 package com.juzhai.core.cache;
 
 import com.juzhai.home.bean.ReadFeedType;
+import com.juzhai.msg.bean.ActMsg.MsgType;
 
 public class RedisKeyGenerator extends KeyGenerator {
 
@@ -153,5 +154,9 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 */
 	public static String genOpenEmailStatKey() {
 		return "openEmailStat";
+	}
+	
+	public static String genLazyMessageKey(long uid,long receiverId,MsgType type,String className){
+		return genKey(uid, receiverId,type,"lazy"+className);
 	}
 }

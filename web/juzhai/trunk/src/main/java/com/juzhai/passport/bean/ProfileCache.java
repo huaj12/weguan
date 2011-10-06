@@ -22,6 +22,8 @@ public class ProfileCache implements Serializable {
 	private String email;
 	private Boolean subEmail;
 
+	private String tpIdentity;
+
 	public Long getUid() {
 		return uid;
 	}
@@ -108,6 +110,14 @@ public class ProfileCache implements Serializable {
 
 	public void setSubEmail(Boolean subEmail) {
 		this.subEmail = subEmail;
+	}
+
+	public String getTpIdentity() {
+		return tpIdentity;
+	}
+
+	public void setTpIdentity(String tpIdentity) {
+		this.tpIdentity = tpIdentity;
 	}
 
 	public String getProvinceName() {

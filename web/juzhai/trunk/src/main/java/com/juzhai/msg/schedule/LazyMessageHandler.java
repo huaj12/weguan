@@ -42,7 +42,7 @@ public class LazyMessageHandler extends AbstractScheduleHandler  {
 	}
 	public long getReceiverId(String key){
 		try{
-			String s[]=key.split(".");
+			String s[]=key.split("\\.");
 			return Long.valueOf(s[1]);
 		}catch (Exception e) {
 			return 0;	

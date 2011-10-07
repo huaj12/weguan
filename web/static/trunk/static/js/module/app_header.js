@@ -13,13 +13,13 @@ function showSysnewsDialog(url) {
 			+ '" scrolling="no" height="344px"  width="547px" style="display:none;"></iframe>';
 	document.body.appendChild(t.firstChild);
 }
-// TODO 封装不同第三方app
+//TODO 封装不同第三方app
 function kaixinFeed(name) {
 	jQuery.get('/kaixinFeed', {
 		name : name,
 		random : Math.random()
 	}, function(data) {
-		showKxDialog(data);
+		showSysnewsDialog(data);
 	});
 }
 // TODO 封装不同第三方app
@@ -32,16 +32,13 @@ function kaixinRequest(name) {
 	});
 }
 // TODO
-function dialogSysnews(link, linktext, text, pic,name,tpId) {
-	showSysnewsDialog('http://api.kaixin001.com/dialog/sysnews?display=iframe&linktext='
-			+ linktext
-			+ '&text='
-			+ text
-			+ '&link='
-			+ link
-			+ '&picurl='
-			+ pic
-			+ '&app_id=100012402&redirect_uri='+encodeURI('http://test.51juzhai.com/dialogSysnewsCallBack?name='+name+'-'+tpId+'')+'&need_redirect=0');
+function dialogSysnews(name) {
+	jQuery.get('/dialogSysnews', {
+		name : name,
+		random : Math.random()
+	}, function(data) {
+		showSysnewsDialog(data);
+	});
 }
 
 function addAct(successCallback) {

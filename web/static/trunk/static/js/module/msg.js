@@ -11,6 +11,11 @@
 			}else{
 				if(result.errorCode=="-1"){
 					//余额不足
+					if(type=='INVITE'){
+						$("#_ponit").html('20');
+					}else{
+						$("#_ponit").html('10');
+					}
 					$.dialog({
 					    content: document.getElementById('pointDiv'),
 					    top:"5%",

@@ -46,7 +46,7 @@
 			</div><!--skin_body end-->
 			<div class="skin_bottom"></div>
 		</div><!--main end-->
-		<div class="alert_box al_box_s2" id="pointDiv" style="display: none">
+		<div class="alert_box " id="pointDiv" style="display: none" >
 			<div class="box_top"></div>
 			<div class="box_mid" ><!--box_mid begin-->
 				<div class="title"></div>

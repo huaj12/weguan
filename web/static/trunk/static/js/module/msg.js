@@ -1,7 +1,8 @@
-	function openmsg(curPage,curIndex){
+	function openmsg(curPage,curIndex,type){
 		$.get('/msg/openMessage', {
 			curPage:curPage,
 			curIndex:curIndex,
+			type:type,
 		    random : Math.random()
 		}, function(result) {
 			if(result&&result.success){

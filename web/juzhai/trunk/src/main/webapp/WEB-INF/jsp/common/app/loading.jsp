@@ -6,13 +6,6 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>loading...</title>
 		<link href="${jz:url('/css/jz.css')}" rel="stylesheet" type="text/css" />
-		<!-- [if IE 6]
-		<script src="${jz:url('/js/base/iepng.js')}"></script>
-		<script type="text/javascript">
-			//DD_belatedPNG.fix('div, ul, img, li, input, p, span, h3, h2, h1, h4, a');
-			DD_belatedPNG.fix('ul, img, li, input, p, span, h3, h2, h1, h4, a, div');
-		</script>
-		[endif] -->
 	</head>
 	<body>
 		<div class="main"><!--main begin-->

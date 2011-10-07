@@ -3,6 +3,7 @@ $(document).ready(function(){
 	jQuery.ajax({
 		url: "/app/ajax/showFeed",
 		type: "get",
+		cache : false,
 		dataType: "html",
 		success: function(result){
 			showFeedHtml(result);
@@ -50,6 +51,7 @@ function dealFeed(url, data){
 	jQuery.ajax({
 		url: url,
 		type: "post",
+		cache : false,
 		data: data,
 		dataType: "html",
 		success: function(result){
@@ -81,16 +83,17 @@ function response(type){
 	}
 }
 
-function tip(obj, show, arg){
+function showTip(obj, show, arg){
 	if(show){
 		var tip = $(obj).attr("tip");
 		if(arg && arg != ""){
 			tip = tip.replace("{0}", arg);
 		}
 		if(tip&&tip!=""){
-			$("div.pro_box > p").text(tip).show();
+			$("div.pro_box > p").text(tip);
+			$("div.pro_box").show();
 		}
 	}else{
-		$("div.pro_box > p").hide();
+		$("div.pro_box").hide();
 	}
 }

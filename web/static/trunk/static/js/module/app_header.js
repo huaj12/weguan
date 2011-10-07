@@ -56,6 +56,7 @@ function addAct(successCallback) {
 	jQuery.ajax({
 		url : "/app/ajax/addAct",
 		type : "post",
+		cache : false,
 		data : {
 			"actName" : value
 		},
@@ -105,6 +106,7 @@ function subEmail() {
 	jQuery.ajax({
 		url : "/app/ajax/subEmail",
 		type : "post",
+		cache : false,
 		data : {
 			"email" : email
 		},
@@ -144,19 +146,20 @@ function hideSubEmailDefault(inputObj) {
 	}
 }
 
-function showUnreadCnt(){
+function showUnreadCnt() {
 	jQuery.ajax({
 		url : "/msg/getUnMessageCount",
 		type : "get",
+		cache : false,
 		dataType : "json",
 		success : function(result) {
 			// result handle plugin
 			if (result && result.success) {
 				var cnt = result.result;
 				$(".message_num > span").text(cnt);
-				if(cnt > 0){
+				if (cnt > 0) {
 					$(".message_num").show();
-				}else {
+				} else {
 					$(".message_num").hide();
 				}
 			}
@@ -209,20 +212,20 @@ $(document).ready(function() {
 	$("div.dy > a").bind("click", function() {
 		subEmail();
 	});
-	
-	showUnreadCnt();
+
 	// 注册获取新消息数事件
+	showUnreadCnt();
 	setInterval(function() {
 		showUnreadCnt();
 	}, 10000);
-	
-	var proBoxNum = $("div.pro_box > p").size();
+
+	var proBoxNum = $("div.pro_box").size();
 	if (proBoxNum > 1) {
 		var tipId = 1;
 		setInterval(function() {
-			$("p.tips_" + tipId).fadeOut(500, function() {
+			$("div.tips_" + tipId).fadeOut(500, function() {
 				tipId = tipId == proBoxNum ? 1 : (tipId + 1);
-				$("p.tips_" + tipId).fadeIn(500);
+				$("div.tips_" + tipId).fadeIn(500);
 			});
 		}, 5000);
 	}

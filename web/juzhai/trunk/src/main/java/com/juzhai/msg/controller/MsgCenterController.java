@@ -180,7 +180,7 @@ public class MsgCenterController extends BaseController {
 					int index = (curPage - 1) * unReadActMsgRows + curIndex;
 					actMsgService.openMessage(context.getUid(), index);
 						accountService.consumePoint(context.getUid(),
-								ConsumeAction.OPEN_MESSAGE_INVITE);
+								consumeAction);
 					result.setSuccess(true);
 				} else {
 					// 积分余额不足

@@ -51,7 +51,7 @@
 			<div class="box_mid" ><!--box_mid begin-->
 				<div class="title"></div>
 				<p>
-					查看该消息需要 20 拒宅积分，而你当前只有 <em>${point}</em> 积分。<br />
+					查看该消息需要 <em id="_ponit">20</em> 拒宅积分，而你当前只有 <em>${point}</em> 积分。<br />
 					<span>你可通过如下方式获得积分</span><br />
 					订阅邮箱 +20分<br />
 					添加拒宅兴趣 +5分<br />

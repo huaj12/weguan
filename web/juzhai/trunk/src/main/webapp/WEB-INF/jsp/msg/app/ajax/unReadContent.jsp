@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 								<c:choose>
 									<c:when test="${!empty actMsgViewList}">
@@ -45,7 +46,7 @@
 																		<strong>需消耗10积分</strong>
 																</c:otherwise>
 															</c:choose>
-														<em><fmt:formatDate value="${actMsg.act.createTime}" pattern="yyyy.MM.dd HH:mm"/></em>
+														<em><fmt:formatDate value="${actMsg.date}" pattern="yyyy.MM.dd HH:mm"/></em>
 													</div><!--infor end-->
 												</div><!--item_style2 end-->
 											</div><!--item end-->

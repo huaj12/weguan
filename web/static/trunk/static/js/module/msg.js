@@ -55,6 +55,7 @@
 		}, function(result) {
 			if(result&&result.success){
 				obj.className="unhover";
+				obj.innerHTML="响应已发";
 			}else{
 				//未知错误请刷新页面后重试
 				$.dialog({

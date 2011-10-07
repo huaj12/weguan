@@ -53,17 +53,7 @@
 		</property>
 		<property name="cronExpression" value="${act.briefing.email.cron}" />
 	</bean>
-		
-	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-		<property name="triggers">
-			<list>
-				<ref bean="actIndexOptimizationAndCommitTrigger"/>
-				<ref bean="lazyMessageTrigger"/>
-				<!-- <ref bean="unreadMsgEmailTrigger"/>
-				<ref bean="actBriefingEmailTrigger"/> -->
-			</list>
-		</property>
-	</bean>
+	
 	<!-- lazyMessage begin -->
 	<bean id="lazyMessageTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
@@ -74,5 +64,28 @@
 		<property name="cronExpression" value="${lazy.msg.cron}" />
 	</bean>
 	<!-- lazyMessage end -->
+	
+	<!-- get back feed begin -->
+	<bean id="getBackFeedTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="getBackFeedHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${get.back.feed.cron}" />
+	</bean>
+	<!-- get back feed end -->
+		
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="actIndexOptimizationAndCommitTrigger"/>
+				<ref bean="lazyMessageTrigger"/>
+				<ref bean="getBackFeedTrigger"/>
+				<!-- <ref bean="unreadMsgEmailTrigger"/>
+				<ref bean="actBriefingEmailTrigger"/> -->
+			</list>
+		</property>
+	</bean>
 </beans>
 

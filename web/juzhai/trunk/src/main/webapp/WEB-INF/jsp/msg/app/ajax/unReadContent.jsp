@@ -12,7 +12,7 @@
 												</div>
 												<div class="item_style2"><!--item_style2 begin-->
 													<div class="photo fl">
-														<img src="${actMsg.profileCache.logoPic }" width="80" height="80">	
+														<img src="${actMsg.profileCache.logoPic }" width="80" height="80" />	
 													</div>
 													<div class="infor fl"><!--infor begin-->
 														<h2>

@@ -52,7 +52,7 @@
 														<h2>
 															<c:choose>
 																<c:when test="${actMsg.msgType=='INVITE'}">
-																	拒宅邀约：好友${actMsg.profileCache.nickname }想和你去....
+																	拒宅邀约：好友${actMsg.profileCache.nickname }邀你拒宅
 																</c:when>
 																<c:otherwise>
 																	拒宅推荐:好友${actMsg.profileCache.nickname }  添加了一个跟你相同的拒宅兴趣

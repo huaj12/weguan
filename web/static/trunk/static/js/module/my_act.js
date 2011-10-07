@@ -28,6 +28,7 @@ function removeAct(a){
 		jQuery.ajax({
 			url: "/app/ajax/removeAct",
 			type: "post",
+			cache : false,
 			data: {"actId": actId},
 			dataType: "json",
 			success: function(result){
@@ -59,6 +60,7 @@ function addRecommendAct(a){
 	jQuery.ajax({
 		url: "/app/ajax/addAct",
 		type: "post",
+		cache : false,
 		data: {"actId": actId},
 		dataType: "json",
 		success: function(result){
@@ -87,6 +89,7 @@ function pageMyAct(page){
 	jQuery.ajax({
 		url: "/app/ajax/pageMyAct",
 		type: "get",
+		cache : false,
 		data: {"page": page},
 		dataType: "html",
 		context: $(".interesting"),
@@ -106,6 +109,7 @@ function showHotActs(a, actCategoryId){
 	jQuery.ajax({
 		url: "/app/ajax/showHotActs",
 		type: "get",
+		cache : false,
 		data: {"actCategoryId": actCategoryId},
 		dataType: "html",
 		context: $(".rec_words"),

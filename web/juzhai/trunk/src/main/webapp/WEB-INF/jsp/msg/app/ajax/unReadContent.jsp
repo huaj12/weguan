@@ -10,6 +10,7 @@
 												<div class="close">
 													<a  href="javascript:;" onclick="remove('${pager.currentPage}','${msg.index }','unread')"></a>
 												</div>
+												<div></div>
 												<div class="item_style2"><!--item_style2 begin-->
 													<div class="photo fl">
 														<img src="${actMsg.profileCache.logoPic }" width="80" height="80" />	

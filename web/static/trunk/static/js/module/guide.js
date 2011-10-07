@@ -89,6 +89,25 @@ $(document).ready(function(){
 			}
 		});
 		
+//		var email = $("div.add_dy > strong > input").attr("value");
+//		if(email && email != ""){
+//			if(!checkEmail(email)){
+//				$("div.add_dy > div.error").text("邮箱格式有误！").stop(true, true).show().fadeOut(2000);
+//				return false;
+//			} else {
+//				var input = $("<input type='hidden' name='email' />");
+//				input.attr("value", email);
+//				$("#nextForm").append(input);
+//			}
+//		}
+		return true;
+	});
+	
+	$(".next").bind("click", function(){
+		$("#nextForm").submit();
+	});
+	
+	$(".complete").bind("click", function(){
 		var email = $("div.add_dy > strong > input").attr("value");
 		if(email && email != ""){
 			if(!checkEmail(email)){
@@ -98,16 +117,25 @@ $(document).ready(function(){
 				var input = $("<input type='hidden' name='email' />");
 				input.attr("value", email);
 				$("#nextForm").append(input);
+				
+				$("div.dy_ok > span > span").text(email);
+				$("div.dy_ok > a.edit").bind("click", function(){
+					$("div.add_dy > strong > input").val(email);
+					// 移除hidden
+					input.remove();
+					$("div.dy_ok").hide();
+					$("div.add_dy").show();
+				});
+				$("div.dy_ok > a.delete").bind("click", function(){
+					$("div.add_dy > strong > input").val("");
+					// 移除hidden
+					input.remove();
+					$("div.dy_ok").hide();
+					$("div.add_dy").show();
+				});
+				$("div.add_dy").hide();
+				$("div.dy_ok").show();
 			}
 		}
-		return true;
-	});
-	
-	$(".next").bind("click", function(){
-		$("#nextForm").submit();
-	});
-	
-	$(".complete").bind("click", function(){
-		$("#nextForm").submit();
 	});
 });

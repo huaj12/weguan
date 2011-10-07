@@ -25,13 +25,8 @@
 								<div class="sec fr"><!--sec begin-->
 									<h2>好了，你已经添加了${userActCount}个拒宅兴趣!</h2>
 									<h4>当你的同城好友有同样的兴趣时，我们会在下班前告知您</h4>
-									<div class="add_dy">
-										<strong>
-											<input name="" type="text" />
-										</strong>
-										<a href="javascript:;" class="add complete">订阅</a>
-										<div class="error" style="display:none"></div>
-									</div>
+									<div class="dy_ok" style="display:none"><span>订阅到：<span></span></span><a href="#" class="edit">修改</a><a href="#" class="delete">删除</a></div>
+									<div class="add_dy"><strong><input name="" type="text" /></strong><a href="javascript:;" class="add complete">订阅</a><div class="error" style="display:none"></div></div>
 								</div><!--sec end-->
 							</div><!--basic_yd end-->
 						</div><!--mid end-->
@@ -44,7 +39,7 @@
 						<form id="nextForm" action="/app/guide/next" method="post">
 						</form>
 						<div class="next_btn">
-							<a href="javascript:;" class="complete">完成</a>
+							<a href="javascript:;" class="next">完成</a>
 						</div>
 					</div><!--content end-->
 				</div><!--content_bg end-->

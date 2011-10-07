@@ -17,10 +17,10 @@
 														<h2>
 															<c:choose>
 																<c:when test="${actMsg.msgType=='INVITE'}">
-																	${actMsg.profileCache.nickname }邀你拒宅
+																	${actMsg.profileCache.nickname } 邀你拒宅
 																</c:when>
 																<c:otherwise>
-																	${actMsg.profileCache.nickname }添加了1个跟你相同的拒宅兴趣
+																	${actMsg.profileCache.nickname } 添加了1个跟你相同的拒宅兴趣
 																</c:otherwise>
 															</c:choose>
 														</h2>

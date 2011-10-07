@@ -56,7 +56,8 @@ public class KaiXinController extends BaseController {
 			}
 			paramMap.put("linktext", messageSource.getMessage(
 					TpMessageKey.FEED_LINKTEXT, null, Locale.SIMPLIFIED_CHINESE));
-			paramMap.put("link", "http://test.51juzhai.com");
+			paramMap.put("link", messageSource.getMessage(
+					TpMessageKey.FEED_LINK, null, Locale.SIMPLIFIED_CHINESE));
 			String query = AppPlatformUtils.buildQuery(paramMap,
 					authInfo.getAppKey(), authInfo.getAppSecret(),
 					authInfo.getSessionKey(), "1.2");

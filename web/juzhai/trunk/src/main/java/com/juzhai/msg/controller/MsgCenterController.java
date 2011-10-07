@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,8 +87,6 @@ public class MsgCenterController extends BaseController {
 		model.addAttribute("readCount", actMsgService.countRead(uid));
 		model.addAttribute("pager", pager);
 		model.addAttribute("point", accountService.queryPoint(uid));
-		model.addAttribute("citys", com.juzhai.passport.InitData.CITY_MAP);
-
 	}
 
 	private List<ActMsgView> assembleActMsgView(long uid,
@@ -158,21 +157,32 @@ public class MsgCenterController extends BaseController {
 	@ResponseBody
 	public AjaxResult openMessage(HttpServletRequest request,
 			HttpServletResponse response, Model model, Integer curPage,
-			Integer curIndex) throws NeedLoginException {
+			Integer curIndex,String type) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		AjaxResult result = new AjaxResult();
 		try {
-			if (curPage != null && curIndex != null) {
+			if (curPage != null && curIndex != null&&!StringUtils.isEmpty(type)) {
 				// 查询积分
 				int point = accountService.queryPoint(context.getUid());
 				// 判断积分余额
-				int openMsgPoint = com.juzhai.account.InitData.CONSUME_ACTION_RULE
-						.get(ConsumeAction.OPEN_MESSAGE);
+				int openMsgPoint = 0;
+					if(MsgType.INVITE.equals(type)){
+						openMsgPoint=com.juzhai.account.InitData.CONSUME_ACTION_RULE
+						.get(ConsumeAction.OPEN_MESSAGE_INVITE);
+					}else if(MsgType.RECOMMEND.equals(type)){
+						openMsgPoint=com.juzhai.account.InitData.CONSUME_ACTION_RULE
+						.get(ConsumeAction.OPEN_MESSAGE_RECOMMEND);
+					}
 				if (point + openMsgPoint > 0) {
 					int index = (curPage - 1) * unReadActMsgRows + curIndex;
 					actMsgService.openMessage(context.getUid(), index);
-					accountService.consumePoint(context.getUid(),
-							ConsumeAction.OPEN_MESSAGE);
+					if(MsgType.INVITE.equals(type)){
+						accountService.consumePoint(context.getUid(),
+								ConsumeAction.OPEN_MESSAGE_INVITE);
+					}else if(MsgType.RECOMMEND.equals(type)){
+						accountService.consumePoint(context.getUid(),
+								ConsumeAction.OPEN_MESSAGE_RECOMMEND);
+					}
 					result.setSuccess(true);
 				} else {
 					// 积分余额不足

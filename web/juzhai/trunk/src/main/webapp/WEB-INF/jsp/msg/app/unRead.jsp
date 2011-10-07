@@ -36,46 +36,7 @@
 									<!--pbr begin--><!-- <div class="pbr"><a href="javascript:;">被我屏蔽的人</a></div><!--pbr end-->
 								</div><!--title end-->
 								<div class="box_body" id="unReadContent" ><!--box_body begin-->
-								<c:choose>
-									<c:when test="${!empty actMsgViewList}">
-	 									<c:forEach var="actMsg" items="${actMsgViewList}" varStatus="msg">
-											<div class="item hover"><!--item begin-->
-												<span class="l"></span><span class="r"></span>
-												<div class="close">
-													<a  href="javascript:;" onclick="remove('${pager.currentPage}','${msg.index }','unread')"></a>
-												</div>
-												<div class="item_style2"><!--item_style2 begin-->
-													<div class="photo fl">
-														<img src="${actMsg.profileCache.logoPic }" width="80" height="80">	
-													</div>
-													<div class="infor fl"><!--infor begin-->
-														<h2>
-															<c:choose>
-																<c:when test="${actMsg.msgType=='INVITE'}">
-																	${actMsg.profileCache.nickname }邀你拒宅
-																</c:when>
-																<c:otherwise>
-																	${actMsg.profileCache.nickname }添加了1个跟你相同的拒宅兴趣
-																</c:otherwise>
-															</c:choose>
-														</h2>
-														<div class="clear"></div>
-														<p>ta在${citys[actMsg.profileCache.city]}</p>
-														<a href="javascript:;" title="需消耗20积分" onclick="javascrpit:openmsg('${pager.currentPage}','${msg.index }');" class="view">立即查看</a>
-														<strong>需消耗20积分</strong>
-														<em><fmt:formatDate value="${actMsg.act.createTime}" pattern="yyyy.MM.dd HH:mm"/></em>
-													</div><!--infor end-->
-												</div><!--item_style2 end-->
-											</div><!--item end-->
-										 </c:forEach>
-										</c:when>
-											<c:otherwise>
-												目前没有消息
-											</c:otherwise>
-									</c:choose>
-									<!-- page -->
-									<jsp:include page="/WEB-INF/jsp/pager/pager.jsp" />
-									<!-- page end -->
+								<jsp:include page="/WEB-INF/jsp/msg/app/ajax/unReadContent.jsp" />
 								</div><!--box_body end-->
 							</div><!--message_box end-->
 						</div><!--mid end-->

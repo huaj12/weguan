@@ -87,7 +87,6 @@ public class KaiXinController extends BaseController {
 			paramMap.put("method", "actions.sendInvitation");
 			paramMap.put("format", "json");
 			paramMap.put("mode", "0");
-			paramMap.put("callbackkey",name);
 			if (StringUtils.isEmpty(name)) {
 				paramMap.put("text", messageSource.getMessage(
 						TpMessageKey.INVITE_TEXT_DEFAULT, null,

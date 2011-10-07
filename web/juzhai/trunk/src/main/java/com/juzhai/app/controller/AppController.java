@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.juzhai.account.bean.ProfitAction;
+import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.InitData;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
@@ -40,11 +42,11 @@ public class AppController  {
 	@Autowired
 	private ITpUserService tpUserService;
 	@Autowired
-	private IActService actService;
-	@Autowired
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
 	private IMsgService msgService;
+	@Autowired
+	private IAccountService accountService;
 	@RequestMapping(value = "dialogSysnewsCallBack", method = RequestMethod.GET)
 	public String dialogSysnewsCallBack(HttpServletRequest request, 
 			Model model,String uid,String fuids,String name) {
@@ -52,7 +54,7 @@ public class AppController  {
 		try{
 			long tpId=0;
 			long actId=0;
-			if(name.isEmpty()){
+			if(!name.isEmpty()){
 				String[] str=name.split("-");
 				tpId=Long.valueOf(str[1]);
 				actId=Long.valueOf(str[0]);
@@ -83,6 +85,25 @@ public class AppController  {
 		}catch (Exception e) {
 			log.error("inviteCallBack is error",e);
 		}
+		return null;
+	}
+	
+	//拒宅召集令回调
+	@RequestMapping(value = "feedCallBack", method = RequestMethod.GET)
+	public String feedCallBack(HttpServletRequest request,Long tpId,String uid){
+		//验证签名
+		String queryString =request.getQueryString();
+		TpUser sendUser=tpUserService.getTpUserByTpIdAndIdentity(tpId, uid);
+		if(sendUser==null){
+			log.error("feedCallBack uid is not bind");
+		}
+		 AuthInfo authInfo =tpUserAuthService.getAuthInfo(sendUser.getUid(), tpId);
+		 if(AppPlatformUtils.checkSignFromQuery(queryString, authInfo.getAppSecret())){
+			 //加积分
+			 accountService.profitPoint(sendUser.getUid(), ProfitAction.TP_FEED);
+		 }else{
+			 log.error("feedCallBack sig is error");
+		 }
 		return null;
 	}
 	

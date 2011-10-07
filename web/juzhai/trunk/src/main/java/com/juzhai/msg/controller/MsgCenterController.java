@@ -166,23 +166,21 @@ public class MsgCenterController extends BaseController {
 				int point = accountService.queryPoint(context.getUid());
 				// 判断积分余额
 				int openMsgPoint = 0;
-					if(MsgType.INVITE.equals(type)){
+				ConsumeAction consumeAction=null;
+					if(MsgType.INVITE.name().equals(type)){
 						openMsgPoint=com.juzhai.account.InitData.CONSUME_ACTION_RULE
 						.get(ConsumeAction.OPEN_MESSAGE_INVITE);
-					}else if(MsgType.RECOMMEND.equals(type)){
+						consumeAction=ConsumeAction.OPEN_MESSAGE_INVITE;
+					}else if(MsgType.RECOMMEND.name().equals(type)){
 						openMsgPoint=com.juzhai.account.InitData.CONSUME_ACTION_RULE
 						.get(ConsumeAction.OPEN_MESSAGE_RECOMMEND);
+						consumeAction=ConsumeAction.OPEN_MESSAGE_RECOMMEND;
 					}
-				if (point + openMsgPoint > 0) {
+				if (point + openMsgPoint >= 0) {
 					int index = (curPage - 1) * unReadActMsgRows + curIndex;
 					actMsgService.openMessage(context.getUid(), index);
-					if(MsgType.INVITE.equals(type)){
 						accountService.consumePoint(context.getUid(),
 								ConsumeAction.OPEN_MESSAGE_INVITE);
-					}else if(MsgType.RECOMMEND.equals(type)){
-						accountService.consumePoint(context.getUid(),
-								ConsumeAction.OPEN_MESSAGE_RECOMMEND);
-					}
 					result.setSuccess(true);
 				} else {
 					// 积分余额不足

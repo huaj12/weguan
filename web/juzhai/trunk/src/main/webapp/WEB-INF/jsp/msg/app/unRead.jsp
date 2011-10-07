@@ -8,6 +8,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>拒宅器</title>
 		<link href="${jz:url('/css/jz.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:url('/css/jquery.autocomplete.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<div class="main"><!--main begin-->
@@ -33,7 +34,7 @@
 											<p class="r"></p>
 										</a>
 									</div><!--tab end-->
-									<!--pbr begin--><!-- <div class="pbr"><a href="javascript:;">被我屏蔽的人</a></div><!--pbr end-->
+									<!--pbr begin--><!-- <div class="pbr"><a href="javascript:;">被我屏蔽的人</a></div> --><!--pbr end-->
 								</div><!--title end-->
 								<div class="box_body" id="unReadContent" ><!--box_body begin-->
 								<jsp:include page="/WEB-INF/jsp/msg/app/ajax/unReadContent.jsp" />

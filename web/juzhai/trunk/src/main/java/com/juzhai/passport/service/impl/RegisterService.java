@@ -93,6 +93,7 @@ public class RegisterService implements IRegisterService {
 	private void registerProfile(Profile profile, Passport passport) {
 		profile.setUid(passport.getId());
 		profile.setCreateTime(passport.getCreateTime());
+		profile.setSubEmail(false);
 		profile.setLastModifyTime(passport.getLastModifyTime());
 		profileMapper.insertSelective(profile);
 	}

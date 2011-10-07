@@ -22,7 +22,7 @@
 															<span class="v">${actMsg.act.name }</span>
 														</c:when>
 														<c:otherwise>
-															最近也想去 ${actMsg.act.name }
+															<span class="w">最近也想去</span><span class="v"> ${actMsg.act.name }</span>
 														</c:otherwise>
 													</c:choose>
 													<div class="clear"></div>
@@ -60,7 +60,9 @@
 									</c:forEach>
 											</c:when>
 												<c:otherwise>
-													目前没有消息
+													<div class="other_message">
+														<p>目前没有信息</p>
+													</div>
 												</c:otherwise>
 											</c:choose>
 									<!-- page -->

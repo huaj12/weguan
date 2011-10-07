@@ -11,7 +11,7 @@
 <c:forEach var="page" items="${pager.showPages}" >
 <c:choose>
 	<c:when test="${page==pager.currentPage}">
-		<a href="javascript:;" onclick="page_content('${pager.url}&page=${page}','${pager.ajaxId}')" class="active"><p class="l"></p><strong class="m">${page}</strong><p class="r"></p></a>	
+		<a href="javascript:;" class="active"><p class="l"></p><strong class="m">${page}</strong><p class="r"></p></a>	
 	</c:when>
 	<c:otherwise>
 		<a href="javascript:;" onclick="page_content('${pager.url}&page=${page}','${pager.ajaxId}')" class="link"><p class="l"></p><strong class="m">${page}</strong><p class="r"></p></a>

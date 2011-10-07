@@ -17,17 +17,34 @@
 														<h2>
 															<c:choose>
 																<c:when test="${actMsg.msgType=='INVITE'}">
-																	拒宅邀约：好友${actMsg.profileCache.nickname }想和你去....
+																	${actMsg.profileCache.nickname }邀你拒宅
 																</c:when>
 																<c:otherwise>
-																	拒宅推荐:好友${actMsg.profileCache.nickname }  添加了一个跟你相同的拒宅兴趣
+																	${actMsg.profileCache.nickname }添加了1个跟你相同的拒宅兴趣
 																</c:otherwise>
 															</c:choose>
 														</h2>
 														<div class="clear"></div>
-														<p>他在${citys[actMsg.profileCache.city]}</p>
-														<a href="javascript:;" title="需消耗20积分" onclick="javascrpit:openmsg('${pager.currentPage}','${msg.index }');" class="view">立即查看</a>
-														<strong>需消耗20积分</strong>
+														<p>
+															<c:choose>
+																<c:when test="${!empty actMsg.profileCache.cityName }">
+																	ta在${actMsg.profileCache.cityName}
+																</c:when>
+																<c:otherwise>
+																	ta来自地球
+																</c:otherwise>
+															</c:choose>
+														</p>
+														<c:choose>
+																<c:when test="${actMsg.msgType=='INVITE'}">
+																		<a href="javascript:;" title="需消耗20积分" onclick="javascrpit:openmsg('${pager.currentPage}','${msg.index }','INVITE');" class="view">立即查看</a>
+																		<strong>需消耗20积分</strong>
+																</c:when>
+																<c:otherwise>
+																		<a href="javascript:;" title="需消耗10积分" onclick="javascrpit:openmsg('${pager.currentPage}','${msg.index }','RECOMMEND');" class="view">立即查看</a>
+																		<strong>需消耗10积分</strong>
+																</c:otherwise>
+															</c:choose>
 														<em><fmt:formatDate value="${actMsg.act.createTime}" pattern="yyyy.MM.dd HH:mm"/></em>
 													</div><!--infor end-->
 												</div><!--item_style2 end-->

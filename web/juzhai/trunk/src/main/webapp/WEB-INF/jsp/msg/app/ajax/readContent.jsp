@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-								<c:choose>
+							<c:choose>
 										<c:when test="${!empty actMsgViewList}">
 									<c:forEach var="actMsg" items="${actMsgViewList}" varStatus="msg">
 										<div class="item hover"><!--item begin-->
@@ -25,7 +25,16 @@
 														</c:otherwise>
 													</c:choose>
 													<div class="clear"></div>
-													<p>${citys[actMsg.profileCache.city]}</p>
+													<p>
+															<c:choose>
+																<c:when test="${!empty actMsg.profileCache.cityName }">
+																	ta在${actMsg.profileCache.cityName}
+																</c:when>
+																<c:otherwise>
+																	ta来自地球
+																</c:otherwise>
+															</c:choose>
+													 </p>
 													<strong><fmt:formatDate value="${actMsg.act.createTime}" pattern="yyyy.MM.dd HH:mm" /></strong>
 												</div><!--infor end-->
 												<div class="btn">

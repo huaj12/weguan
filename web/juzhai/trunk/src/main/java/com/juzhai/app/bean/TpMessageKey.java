@@ -6,7 +6,10 @@ public class TpMessageKey {
 	public static final String FEED_TEXT = "feed.text";
 	public static final String FEED_LINKTEXT = "feed.linktext";
 	public static final String FEED_LINK = "feed.link";
-
+	public static final String FEED_REDORECT_URI="feed.redirect.uri";
+	
+	public static final String SYSNEW_REDORECT_URI="sysnew.redirect.uri";
+	public static final String SYSNEW_DIALOG_TEXT="sysnew_dialog_text";
 	public static final String INVITE_TEXT_DEFAULT = "invite.text.default";
 	public static final String INVITE_TEXT = "invite.text";
 	public static final String INVITE_FRIEND = "invite.friend";

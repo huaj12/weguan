@@ -113,7 +113,7 @@ public class ActMsgMessageListener implements
 		for (Long friendUid : friendIds) {
 			if(profileService.isMaybeSameCity(uid, friendUid)!=0){
 				if (friendUid != null && friendUid > 0
-						&& userActService.hasAct(friendUid, actId)) {
+						&& userActService.isInterested(friendUid, actId)) {
 					targets.add(friendUid);
 				}
 			}

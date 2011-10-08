@@ -23,8 +23,8 @@
 							<div class="basic_yd sec_rss"><!--basic_yd begin-->
 								<h3 class="fl"></h3>
 								<div class="sec fr"><!--sec begin-->
-									<h2>好了，你已经添加了${userActCount}个拒宅兴趣!</h2>
-									<h4>当你的同城好友有同样的兴趣时，我们会在下班前告知您</h4>
+									<h2>订阅邮箱，别错过好友的拒宅邀请哦</h2>
+									<h4>您会在每天下班前收到email通知</h4>
 									<div class="dy_ok" style="display:none"><span>订阅到：<span></span></span><a href="#" class="edit">修改</a><a href="#" class="delete">删除</a></div>
 									<div class="add_dy"><strong><input name="" type="text" /></strong><a href="javascript:;" class="add complete">订阅</a><div class="error" style="display:none"></div></div>
 								</div><!--sec end-->

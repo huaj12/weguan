@@ -183,7 +183,7 @@ $(document).ready(function() {
 		var value = $("#addAct").attr("value");
 		if (value && value != "") {
 			addAct(function() {
-				dialogSysnews(value);
+				kaixinFeed(value);
 			});
 		} else {
 			kaixinFeed();
@@ -194,7 +194,7 @@ $(document).ready(function() {
 		var value = $("#addAct").attr("value");
 		if (value && value != "") {
 			addAct(function() {
-				kaixinRequest(value);
+				dialogSysnews(value);
 			});
 		} else {
 			kaixinRequest();

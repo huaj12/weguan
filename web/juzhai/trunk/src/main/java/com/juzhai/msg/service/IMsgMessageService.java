@@ -20,7 +20,6 @@ public interface IMsgMessageService {
 	 * @param receiverId
 	 * @param actMsg
 	 */
-	@Deprecated
 	void sendActMsg(long senderId, long receiverTpId, String receiverIdentity,
 			ActMsg actMsg);
 }

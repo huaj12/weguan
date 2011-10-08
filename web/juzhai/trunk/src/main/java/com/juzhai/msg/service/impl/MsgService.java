@@ -31,13 +31,13 @@ public class MsgService<T extends Msg> implements IMsgService<T> {
 
 	@Override
 	public void getPrestore(String receiverIdentity, long receiverTpId,long uid,
-			String className) {
+			T message) {
 		long len=redisTemplate.opsForList().size(RedisKeyGenerator.genPrestoreMsgsKey(receiverIdentity,
-				receiverTpId, className));
+				receiverTpId, message.getClass().getSimpleName()));
 		for(int i=0;i<len;i++){
 			T msg=redisTemplate.opsForList().rightPop(
 					RedisKeyGenerator.genPrestoreMsgsKey(receiverIdentity,
-							receiverTpId, className));
+							receiverTpId, message.getClass().getSimpleName()));
 			redisTemplate.opsForList().leftPush(RedisKeyGenerator.genUnreadMsgsKey(uid, msg.getClass()
 					.getSimpleName()), msg);
 		}

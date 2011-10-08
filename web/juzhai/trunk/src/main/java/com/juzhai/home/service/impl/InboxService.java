@@ -327,10 +327,11 @@ public class InboxService implements IInboxService {
 		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
 		if (null != authInfo) {
 			if (StringUtils.isNotEmpty(question.getInviteText())) {
-				ProfileCache profileCache = profileService
-						.getProfileCacheByUid(uid);
-				String text = question.getInviteText().replace("{0}",
-						profileCache.getNickname());
+				// ProfileCache profileCache = profileService
+				// .getProfileCacheByUid(uid);
+				// String text = question.getInviteText().replace("{0}",
+				// profileCache.getNickname());
+				String text = question.getInviteText();
 				String word = question.getInviteWord().replace("{0}",
 						answers[answer - 1]);
 				if (StringUtils.isNotEmpty(text)) {

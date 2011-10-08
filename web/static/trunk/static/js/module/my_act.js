@@ -11,9 +11,9 @@ function hotActHover(p, isOver){
 		return;
 	}
 	if(isOver){
-		$(p).addClass("act_hot");
+		$(p).addClass("hover");
 	}else {
-		$(p).removeClass("act_hot");
+		$(p).removeClass("hover");
 	}
 }
 
@@ -133,7 +133,9 @@ function changeRecTabClass(p){
 			$(this).attr("class", pClass.substring(4));
 		}
 	});
-	$(p).attr("class", "act_" + $(p).attr("class"));
+	var srcClass = $(p).attr("class");
+	$(".rec_words").attr("class", "rec_words " + srcClass);
+	$(p).attr("class", "act_" + srcClass);
 }
 
 $(document).ready(function(){

@@ -32,11 +32,11 @@ public class MsgService<T extends Msg> implements IMsgService<T> {
 
 	@Override
 	public void getPrestore(String receiverIdentity, long receiverTpId,long uid,
-			T message) {
+			Class<T> className) {
 			T msg=null;
-			while(msg!=redisTemplate.opsForList().rightPop(
+			while((msg=redisTemplate.opsForList().rightPop(
 					RedisKeyGenerator.genPrestoreMsgsKey(receiverIdentity,
-							receiverTpId, message.getClass().getSimpleName()))){
+							receiverTpId,className.getSimpleName())))!=null){
 				 redisTemplate.opsForList().leftPush(RedisKeyGenerator.genUnreadMsgsKey(uid, msg.getClass()
 							.getSimpleName()), msg);
 			}

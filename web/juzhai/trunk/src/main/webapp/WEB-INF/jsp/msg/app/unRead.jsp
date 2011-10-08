@@ -53,14 +53,14 @@
 				<div class="title"></div>
 				<p>
 					查看该消息需要 <em id="_ponit">20</em> 拒宅积分，而你当前只有 <em>${point}</em> 积分。<br />
-					<span>你可通过如下方式获得积分</span><br />
-					订阅邮箱 +20分<br />
-					发布拒宅召集令+20分<br/>
-					添加拒宅兴趣 +5分<br />
-					点击“想去” +5分<br />
-					评价好友+5分<br/>
-					在我的消息中立即响应 +10分<br />
-					每天登陆 +5分<br />
+					<span>你可通过如下方式获得积分：</span><br />
+					添加一个兴趣+5分<br />
+					每天登陆+5分<br />
+					点击“想去”+5分<br />
+					评价好友+5分<br />
+					响应好友的邀请+10分<br />
+					发布拒宅召集令+20分<br />
+					订阅邮箱+20分
 				</p>
 				<a href="javascript:;" onclick="closeAllDiv();" class="iknow">知道了</a>
 			</div><!--box_mid end-->

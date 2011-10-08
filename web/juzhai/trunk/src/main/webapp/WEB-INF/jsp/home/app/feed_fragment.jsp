@@ -68,6 +68,6 @@
 		<div class="next_btn"><a href="javascript:;" onclick="javascript:response(2);" tip="切换到下一张，什么都不做" onmouseover="javascript:showTip(this, true);" onmouseout="javascript:showTip(this, false);">跳  过</a></div>
 	</c:when>
 	<c:when test="${feed.feedType=='QUESTION'}">
-		<div class="next_btn"><a href="javascript:;" onclick="javascript:answer(0, 0, '${feed.tpFriend.userId}', ${times});">跳  过</a></div>
+		<div class="next_btn1"><a href="javascript:;" onclick="javascript:answer(0, 0, '${feed.tpFriend.userId}', ${times});">跳  过</a></div>
 	</c:when>
 </c:choose>

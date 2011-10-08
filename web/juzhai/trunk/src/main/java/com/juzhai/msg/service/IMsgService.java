@@ -20,13 +20,14 @@ public interface IMsgService<T extends Msg> {
 	 * @param msg
 	 */
 	void sendMsg(long receiverTpId, String receiverIdentity, T msg);
-	
+
 	/**
-	 * 将该用户的所有预存消息存放到未读消息里
-	 * 用户第一次登陆时调用
+	 * 将该用户的所有预存消息存放到未读消息里 用户第一次登陆时调用
+	 * 
 	 * @param receiverIdentity
 	 * @param receiverTpId
 	 * @param className
 	 */
-	void getPrestore(String receiverIdentity,long receiverTpId,long uid,Class<T> className);
+	void getPrestore(String receiverIdentity, long receiverTpId, long uid,
+			Class<T> clazz);
 }

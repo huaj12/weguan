@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.Msg;
 import com.juzhai.msg.service.IMsgService;
 
@@ -32,15 +33,12 @@ public class MsgService<T extends Msg> implements IMsgService<T> {
 	@Override
 	public void getPrestore(String receiverIdentity, long receiverTpId,long uid,
 			T message) {
-		long len=redisTemplate.opsForList().size(RedisKeyGenerator.genPrestoreMsgsKey(receiverIdentity,
-				receiverTpId, message.getClass().getSimpleName()));
-		for(int i=0;i<len;i++){
-			T msg=redisTemplate.opsForList().rightPop(
+			T msg=null;
+			while(msg!=redisTemplate.opsForList().rightPop(
 					RedisKeyGenerator.genPrestoreMsgsKey(receiverIdentity,
-							receiverTpId, message.getClass().getSimpleName()));
-			redisTemplate.opsForList().leftPush(RedisKeyGenerator.genUnreadMsgsKey(uid, msg.getClass()
-					.getSimpleName()), msg);
-		}
-		
+							receiverTpId, message.getClass().getSimpleName()))){
+				 redisTemplate.opsForList().leftPush(RedisKeyGenerator.genUnreadMsgsKey(uid, msg.getClass()
+							.getSimpleName()), msg);
+			}
 	}
 }

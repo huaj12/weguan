@@ -41,12 +41,12 @@ public class SendSysMsgTask implements Callable<Boolean>{
 		//附言
 		String word="";
 		if(MsgType.INVITE.equals(type)){
-			text=messageSource.getMessage(TpMessageKey.INVITE_FRIEND, new Object[]{sendName,sendCount},
+			text=messageSource.getMessage(TpMessageKey.INVITE_FRIEND, new Object[]{sendCount},
 					Locale.SIMPLIFIED_CHINESE);
 			word=messageSource.getMessage(TpMessageKey.INVITE_FRIEND_WORD, new Object[]{null},
 					Locale.SIMPLIFIED_CHINESE);
 		}else if (MsgType.RECOMMEND.equals(type)){
-			text=messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND, new Object[]{sendName},
+			text=messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND, null,
 					Locale.SIMPLIFIED_CHINESE);
 			word=messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND_WORD, new Object[]{sendCount},
 					Locale.SIMPLIFIED_CHINESE);

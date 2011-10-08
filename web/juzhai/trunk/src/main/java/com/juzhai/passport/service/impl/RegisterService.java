@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.home.service.IInboxService;
+import com.juzhai.msg.bean.ActMsg;
+import com.juzhai.msg.service.IMsgService;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.mapper.ProfileMapper;
@@ -49,6 +51,8 @@ public class RegisterService implements IRegisterService {
 	private IInboxService inboxService;
 	@Autowired
 	private IUserGuideService userGuideService;
+	@Autowired
+	private IMsgService<ActMsg> msgService;
 
 	@Override
 	public long autoRegister(Thirdparty tp, String identity, AuthInfo authInfo,
@@ -78,6 +82,9 @@ public class RegisterService implements IRegisterService {
 				authInfo);
 		// 4.拉数据
 		inboxService.syncInboxByTask(passport.getId());
+		// 5.预存消息转正
+		msgService.getPrestore(identity, tp.getId(), passport.getId(),
+				ActMsg.class);
 
 		return passport.getId();
 	}

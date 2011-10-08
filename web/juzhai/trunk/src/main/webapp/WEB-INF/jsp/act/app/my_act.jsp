@@ -28,8 +28,8 @@
 										<c:forEach var="actCategory" items="${hotCategoryList}" varStatus="status">
 											<c:choose>
 												<c:when test="${status.count==1}"><c:set var="pClass" value="act_hot" /></c:when>
-												<c:when test="${status.count==2}"><c:set var="pClass" value="joy" /></c:when>
-												<c:when test="${status.count==3}"><c:set var="pClass" value="sport" /></c:when>
+												<c:when test="${status.count==2}"><c:set var="pClass" value="sport" /></c:when>
+												<c:when test="${status.count==3}"><c:set var="pClass" value="joy" /></c:when>
 												<c:when test="${status.count==4}"><c:set var="pClass" value="travel" /></c:when>
 												<c:when test="${status.count==5}"><c:set var="pClass" value="leisure" /></c:when>
 												<c:when test="${status.count==6}"><c:set var="pClass" value="food" /></c:when>

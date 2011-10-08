@@ -28,5 +28,5 @@ public interface IMsgService<T extends Msg> {
 	 * @param receiverTpId
 	 * @param className
 	 */
-	void getPrestore(String receiverIdentity,long receiverTpId,long uid,String className);
+	void getPrestore(String receiverIdentity,long receiverTpId,long uid,T msg);
 }

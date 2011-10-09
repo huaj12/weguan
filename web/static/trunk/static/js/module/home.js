@@ -46,6 +46,8 @@ function showLoading(){
 }
 
 function dealFeed(url, data){
+	//清除tips
+	$("div.pro_box").hide();
 	showLoading();
 	//load feed
 	jQuery.ajax({

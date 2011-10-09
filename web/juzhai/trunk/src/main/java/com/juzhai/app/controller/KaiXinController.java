@@ -22,11 +22,13 @@ import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
 import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.app.util.AppPlatformUtils;
+import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.msg.AppConfig;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.model.Thirdparty;
 
 @Controller
 public class KaiXinController extends BaseController {
@@ -43,6 +45,7 @@ public class KaiXinController extends BaseController {
 
 		try {
 			UserContext context = checkLoginForApp(request);
+			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
 			String text="";
 			if (StringUtils.isEmpty(name)) {
 				text=messageSource.getMessage(
@@ -55,10 +58,8 @@ public class KaiXinController extends BaseController {
 			}
 			String linktext= messageSource.getMessage(
 					TpMessageKey.FEED_LINKTEXT, null, Locale.SIMPLIFIED_CHINESE);
-			String link=messageSource.getMessage(
-					TpMessageKey.FEED_LINK, null, Locale.SIMPLIFIED_CHINESE);
-			String feedRedirect_uri=messageSource.getMessage(
-					TpMessageKey.FEED_REDORECT_URI, new Object[]{context.getTpId()}, Locale.SIMPLIFIED_CHINESE);
+			String link=tp.getAppUrl();
+			String feedRedirect_uri=SystemConfig.FEED_REDIRECT_URI+"?tpId="+context.getTpId();
 			response.setContentType("text/plain");
 			out = response.getWriter();
 			out.println("http://api.kaixin001.com/dialog/feed?display=iframe&redirect_uri="+feedRedirect_uri+"&linktext="+linktext+"&link="+link+"&text="+text+"&app_id=100012402&need_redirect=0");
@@ -119,15 +120,14 @@ public class KaiXinController extends BaseController {
 		try {
 			Act act=actService.getActByName(name);
 			UserContext context = checkLoginForApp(request);
+			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
 			String	text=messageSource.getMessage(
 						TpMessageKey.SYSNEW_DIALOG_TEXT, null,
 						Locale.SIMPLIFIED_CHINESE);
 			String linktext= messageSource.getMessage(
 					TpMessageKey.FEED_LINKTEXT, null, Locale.SIMPLIFIED_CHINESE);
-			String link=messageSource.getMessage(
-					TpMessageKey.FEED_LINK, null, Locale.SIMPLIFIED_CHINESE);
-			String sysnewRedirect_uri=messageSource.getMessage(
-					TpMessageKey.SYSNEW_REDORECT_URI, new Object[]{act.getId()+"-"+context.getTpId()}, Locale.SIMPLIFIED_CHINESE);
+			String link=tp.getAppUrl();
+			String sysnewRedirect_uri=SystemConfig.SYSNEW_REDIRECT_URI+"?name="+act.getId()+"-"+context.getTpId();
 			response.setContentType("text/plain");
 			out = response.getWriter();
 			out.println("http://api.kaixin001.com/dialog/sysnews?display=iframe&linktext="

@@ -41,7 +41,7 @@
 												<div class="btn">
 													<c:choose>
 														<c:when test="${actMsg.msgType=='INVITE'}">
-															<a href="http://www.kaixin001.com/msg/write.php" target="_blank">马上联系他</a>
+															<a href="http://www.kaixin001.com/msg/write.php?uids=${actMsg.profileCache.tpIdentity}" target="_blank">马上联系他</a>
 														</c:when>
 														<c:otherwise>
 															<c:choose>

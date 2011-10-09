@@ -27,12 +27,12 @@
 									<div class="tab"><!--tab begin-->
 										<a href="/msg/showUnRead.html" class="link new">
 											<p class="l"></p>
-											<span><em class="mail"></em><strong>未读(${unReadCount})</strong></span>
+											<span><em class="mail"></em><strong>未读(<strong id="unReadCnt">${unReadCount}</strong>)</strong></span>
 											<p class="r"></p>
 										</a>
 										<a href="/msg/showRead.html" class="active">
 											<p class="l"></p>
-											<span><em class="mail_open"></em><strong>已读(${pager.totalResults})</strong></span>
+											<span><em class="mail_open"></em><strong>已读(<strong id="readCnt">${pager.totalResults}</strong>)</strong></span>
 											<p class="r"></p>
 										</a>
 									</div><!--tab end-->

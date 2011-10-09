@@ -86,7 +86,12 @@
 			}
 		});
 	}
-	
+	function moveoverItem(obj){
+		obj.className="item hover";
+	}
+	function moveoutItem(obj){
+		obj.className="item link";
+	}
 	function closeAllDiv(){
 		var list = $.dialog.list;
 		for (var i in list) {

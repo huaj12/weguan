@@ -4,8 +4,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 								<c:choose>
 									<c:when test="${!empty actMsgViewList}">
-	 									<c:forEach var="actMsg" items="${actMsgViewList}" varStatus="msg">
-											<div class="item hover"><!--item begin-->
+	 									<c:forEach var="actMsg"  items="${actMsgViewList}" varStatus="msg">
+											<div onmouseover="moveoverItem(this)" onmouseout="moveoutItem(this)"  class="item link"><!--item begin-->
 												<span class="l"></span><span class="r"></span>
 												<div class="close">
 													<a  href="javascript:;" onclick="remove('${pager.currentPage}','${msg.index }','unread','${pager.totalPage}')"></a>

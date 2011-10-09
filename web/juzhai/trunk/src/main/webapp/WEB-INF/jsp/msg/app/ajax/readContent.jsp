@@ -29,14 +29,14 @@
 													<p>
 															<c:choose>
 																<c:when test="${!empty actMsg.profileCache.cityName }">
-																	ta在${actMsg.profileCache.cityName}
+																	ta在${actMsg.profileCache.cityName} 
 																</c:when>
 																<c:otherwise>
 																	ta来自地球
 																</c:otherwise>
 															</c:choose>
+															发布于<fmt:formatDate value="${actMsg.date}" pattern="yyyy.MM.dd HH:mm" />
 													 </p>
-													<strong><fmt:formatDate value="${actMsg.date}" pattern="yyyy.MM.dd HH:mm" /></strong>
 												</div><!--infor end-->
 												<div class="btn">
 													<c:choose>

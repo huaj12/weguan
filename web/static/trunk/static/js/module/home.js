@@ -36,13 +36,13 @@ function holdStar(index){
 }
 
 function showFeedHtml(result){
-	$(".loading").hide();
+	$(".loading_home").hide();
 	$("div.skin_top_bg > div.content.white").html(result);
 }
 
 function showLoading(){
 	$("div.skin_top_bg > div.content.white").html("");
-	$(".loading").show();
+	$(".loading_home").show();
 }
 
 function dealFeed(url, data){

@@ -75,7 +75,7 @@ public class CheckLoginFilter implements Filter {
 							+ (request.getQueryString() == null ? "" : request
 									.getQueryString()), Constants.UTF8);
 			response.sendRedirect(SystemConfig.BASIC_DOMAIN
-					+ "/login?returnLink=" + returnLink);
+					+ "/app/login?returnLink=" + returnLink);
 		}
 	}
 

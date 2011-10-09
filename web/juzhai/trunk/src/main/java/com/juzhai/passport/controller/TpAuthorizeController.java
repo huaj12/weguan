@@ -52,6 +52,11 @@ public class TpAuthorizeController extends BaseController {
 	@Autowired
 	private IUserGuideService userGuideService;
 
+	@RequestMapping(value = "app/login")
+	public String login(HttpServletRequest request) {
+		return "login/app/login";
+	}
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "appLoad/{tpId}", method = RequestMethod.GET)
 	public String load(HttpServletRequest request, @PathVariable long tpId,

@@ -8,7 +8,7 @@
 											<div class="item hover"><!--item begin-->
 												<span class="l"></span><span class="r"></span>
 												<div class="close">
-													<a  href="javascript:;" onclick="remove('${pager.currentPage}','${msg.index }','unread')"></a>
+													<a  href="javascript:;" onclick="remove('${pager.currentPage}','${msg.index }','unread','${pager.totalPage}')"></a>
 												</div>
 												<div></div>
 												<div class="item_style2"><!--item_style2 begin-->

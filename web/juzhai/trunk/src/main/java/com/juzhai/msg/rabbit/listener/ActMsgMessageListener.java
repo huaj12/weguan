@@ -41,7 +41,9 @@ public class ActMsgMessageListener implements
 	@Autowired
 	private IProfileService profileService;
 	@Autowired
-	private RedisTemplate<String,Object> redisTemplate;
+	private RedisTemplate<String,Long> redisTemplate;
+	@Autowired
+	private RedisTemplate<String,String> redisStringTemplate;
 	ISendAppMsgService sendAppMsgService;
 	@Override
 	public Object handleMessage(MsgMessage<ActMsg> msgMessage) {
@@ -88,16 +90,13 @@ public class ActMsgMessageListener implements
 		if(msgMessage.getBody().isLazy()){
 			String lazyMsgKey=RedisKeyGenerator.genLazyMessageKey(msgMessage.getSenderId(),
 					msgMessage.getReceiverId(),msgMessage.getBody().getType(),msgMessage.getBody().getClass().getSimpleName());
-			redisTemplate.opsForList().leftPush(lazyMsgKey
-		,
-		msgMessage.getBody()
-		);
+			redisTemplate.opsForValue().increment(lazyMsgKey, 1);
 			//存储需要延迟发送的msgkey
-			redisTemplate.opsForSet().add(RedisKeyGenerator.genLazyMsgKey(), lazyMsgKey);
-			return ;
+			redisStringTemplate.opsForSet().add(RedisKeyGenerator.genLazyMsgKey(), lazyMsgKey);
+		}else{
+			//发送第三方消息
+			sendAppMsgService.threadSendAppMsg(tpUser, msgMessage.getSenderId(), msgMessage.getBody().getType(), 1);
 		}
-		//发送第三方消息
-		sendAppMsgService.threadSendAppMsg(tpUser, msgMessage.getSenderId(), msgMessage.getBody().getType(), 1);	
 		}catch (Exception e) {
 			log.error("receiverActMsg is error",e);
 		}	

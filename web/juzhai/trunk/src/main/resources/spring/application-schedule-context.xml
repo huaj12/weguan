@@ -75,6 +75,17 @@
 		<property name="cronExpression" value="${get.back.feed.cron}" />
 	</bean>
 	<!-- get back feed end -->
+	
+	<!-- reset question users begin -->
+	<bean id="resetQuestionUsersTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="resetQuestionUsersHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${reset.question.users.cron}" />
+	</bean>
+	<!-- reset question users end -->
 		
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
@@ -82,6 +93,7 @@
 				<ref bean="actIndexOptimizationAndCommitTrigger"/>
 				<ref bean="lazyMessageTrigger"/>
 				<ref bean="getBackFeedTrigger"/>
+				<ref bean="resetQuestionUsersTrigger"/>
 				<!-- <ref bean="unreadMsgEmailTrigger"/>
 				<ref bean="actBriefingEmailTrigger"/> -->
 			</list>

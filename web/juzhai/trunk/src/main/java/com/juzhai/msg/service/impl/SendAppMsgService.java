@@ -78,7 +78,7 @@ public class SendAppMsgService implements ISendAppMsgService {
 			log.error("send message appService is null");
 			return ;
 		}
-			taskExecutor.submit(new SendSysMsgTask(accountService, appService, uid,receiverIdentity,authInfo,type,messageSource,sendName,sendCount));
+			taskExecutor.submit(new SendSysMsgTask(thirdparty,accountService, appService, uid,receiverIdentity,authInfo,type,messageSource,sendName,sendCount));
 		
 	}
 	

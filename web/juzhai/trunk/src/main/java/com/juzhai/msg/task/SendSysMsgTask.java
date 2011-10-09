@@ -11,8 +11,10 @@ import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.app.service.IAppService;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.model.Thirdparty;
 
 public class SendSysMsgTask implements Callable<Boolean>{
+	 Thirdparty thirdparty;
 	 IAccountService accountService;
 	 IAppService appService;
 	 long uid;
@@ -22,7 +24,7 @@ public class SendSysMsgTask implements Callable<Boolean>{
 	 AuthInfo authInfo;
 	 long sendCount;
 	 MessageSource messageSource;
-	 public SendSysMsgTask(IAccountService accoutService,IAppService appService,long uid,String receiverIdentity,AuthInfo authInfo,MsgType type, MessageSource messageSource,String sendName,long sendCount) {
+	 public SendSysMsgTask(Thirdparty thirdparty,IAccountService accoutService,IAppService appService,long uid,String receiverIdentity,AuthInfo authInfo,MsgType type, MessageSource messageSource,String sendName,long sendCount) {
 		 this.accountService=accoutService;
 		 this.appService=appService;
 		 this.uid=uid;
@@ -32,6 +34,7 @@ public class SendSysMsgTask implements Callable<Boolean>{
 		 this.messageSource=messageSource;
 		 this.sendName=sendName;
 		 this.sendCount=sendCount;
+		 this.thirdparty=thirdparty;
 	}
 	@Override
 	public Boolean call() throws Exception {
@@ -53,8 +56,7 @@ public class SendSysMsgTask implements Callable<Boolean>{
 		}
 		//发送系统消息
 		appService.sendSysMessage(receiverIdentity, messageSource.getMessage(
-				TpMessageKey.FEED_LINKTEXT, null, Locale.SIMPLIFIED_CHINESE), messageSource.getMessage(
-						TpMessageKey.FEED_LINK, null, Locale.SIMPLIFIED_CHINESE),word, text, null, authInfo);
+				TpMessageKey.FEED_LINKTEXT, null, Locale.SIMPLIFIED_CHINESE), thirdparty.getAppUrl(),word, text, null, authInfo);
 		//发送成功增加积分
 		accountService.profitPoint(uid, ProfitAction.IMMEDIATE_RESPONSE);
 		}catch (Throwable  e) {

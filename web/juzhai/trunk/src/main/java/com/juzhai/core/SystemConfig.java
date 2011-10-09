@@ -18,6 +18,10 @@ public class SystemConfig implements FactoryBean<List<String>> {
 	public static String BASIC_DOMAIN;
 
 	public static String STATIC_DOMAIN;
+	
+	public static String FEED_REDIRECT_URI;
+	
+	public static String SYSNEW_REDIRECT_URI;
 
 	private List<String> locations = new LinkedList<String>();
 
@@ -31,6 +35,8 @@ public class SystemConfig implements FactoryBean<List<String>> {
 		}
 		STATIC_DOMAIN = config.getProperty("httpService.static");
 		BASIC_DOMAIN = config.getProperty("httpService.basic");
+		FEED_REDIRECT_URI = config.getProperty("feed.redirect.uri");
+		SYSNEW_REDIRECT_URI = config.getProperty("sysnew.redirect.uri");
 	}
 
 	public SystemConfig() {

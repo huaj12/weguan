@@ -89,10 +89,12 @@ public class MsgCenterController extends BaseController {
 		model.addAttribute("point", accountService.queryPoint(uid));
 	}
 	
-	private int getPage(long totalCount,int curpage,int msgRows){
+	private  int getPage(long totalCount,int curpage,int msgRows){
 		int  page=1;
-		if(curpage>(totalCount/msgRows)+1){
+		if(curpage>(totalCount/msgRows)+1&&totalCount%msgRows!=0){
 			page=(int) (totalCount/msgRows)+1;
+		}else if(curpage>totalCount/msgRows&&totalCount%msgRows==0){
+			page=(int) (totalCount/msgRows);
 		}else{
 			page=curpage;
 		}
@@ -101,7 +103,6 @@ public class MsgCenterController extends BaseController {
 		}
 		return page;
 	}
-
 
 	private List<ActMsgView> assembleActMsgView(long uid,
 			List<ActMsg> actMsgList) {

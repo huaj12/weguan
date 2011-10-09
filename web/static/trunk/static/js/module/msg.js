@@ -36,22 +36,33 @@
 		});
 	}
 	function remove(curPage,curIndex,type,totalCount){
-		$.post('/msg/reMoveMessage', {
-			curPage:curPage,
-			curIndex:curIndex,
-			type:type,
-		    random : Math.random()
-		}, function(data) {
-			if(data!=null){
-				if('unread'==type){
-					$("#unReadContent").html(data);	
-					$("#unReadCnt").html(totalCount-1);
-				}else{
-					$("#readContent").html(data);
-					$("#readCnt").html(totalCount-1);
-				}
-			}
+		$.dialog({
+		    icon: 'question',
+		    top:'5%',
+		    content: '确定删除该条消息？',
+		     ok: function () {
+		    	 $.post('/msg/reMoveMessage', {
+		 			curPage:curPage,
+		 			curIndex:curIndex,
+		 			type:type,
+		 		    random : Math.random()
+		 		}, function(data) {
+		 			if(data!=null){
+		 				if('unread'==type){
+		 					$("#unReadContent").html(data);	
+		 					$("#unReadCnt").html(totalCount-1);
+		 				}else{
+		 					$("#readContent").html(data);
+		 					$("#readCnt").html(totalCount-1);
+		 				}
+		 			}
+		 		});
+		    	        return true;
+		    	  },
+		   cancelVal: '取消',
+		   cancel: true 
 		});
+		
 	}
 	function invite_app_friend(obj,curPage,curIndex,actId,receiverId){
 		$.post('/msg/agreeMessage', {

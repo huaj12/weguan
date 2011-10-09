@@ -41,7 +41,7 @@ public class ActMsgMessageListener implements
 	@Autowired
 	private IProfileService profileService;
 	@Autowired
-	private RedisTemplate<String,ActMsg> redisTemplate;
+	private RedisTemplate<String,Object> redisTemplate;
 	ISendAppMsgService sendAppMsgService;
 	@Override
 	public Object handleMessage(MsgMessage<ActMsg> msgMessage) {
@@ -86,11 +86,14 @@ public class ActMsgMessageListener implements
 		}
 		//如果是延迟发送则存到redis里面
 		if(msgMessage.getBody().isLazy()){
-			redisTemplate.opsForList().leftPush(
-		RedisKeyGenerator.genLazyMessageKey(msgMessage.getSenderId(),
-				msgMessage.getReceiverId(),msgMessage.getBody().getType(),msgMessage.getBody().getClass().getSimpleName()),
+			String lazyMsgKey=RedisKeyGenerator.genLazyMessageKey(msgMessage.getSenderId(),
+					msgMessage.getReceiverId(),msgMessage.getBody().getType(),msgMessage.getBody().getClass().getSimpleName());
+			redisTemplate.opsForList().leftPush(lazyMsgKey
+		,
 		msgMessage.getBody()
 		);
+			//存储需要延迟发送的msgkey
+			redisTemplate.opsForSet().add(RedisKeyGenerator.genLazyMsgKey(), lazyMsgKey);
 			return ;
 		}
 		//发送第三方消息

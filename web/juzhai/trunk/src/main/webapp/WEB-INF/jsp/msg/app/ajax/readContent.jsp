@@ -5,7 +5,7 @@
 							<c:choose>
 										<c:when test="${!empty actMsgViewList}">
 									<c:forEach var="actMsg" items="${actMsgViewList}" varStatus="msg">
-										<div class="item hover"><!--item begin-->
+										<div id="msgItem" onmouseover="moveoverItem(this)" onmouseout="moveoutItem(this)" class="item link"><!--item begin-->
 											<span class="l"></span><span class="r"></span>
 											<div class="close">
 												<a href="javascript:;" onclick="remove('${pager.currentPage}','${msg.index }','read','${pager.totalPage}')"></a>

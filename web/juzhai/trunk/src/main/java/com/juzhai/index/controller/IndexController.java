@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.index.CorruptIndexException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +20,7 @@ import com.juzhai.passport.InitData;
 
 @Controller
 public class IndexController {
-
+	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private Indexer<Act> actIndexer;
 
@@ -35,11 +37,9 @@ public class IndexController {
 			try {
 				actIndexer.addIndex(act, true);
 			} catch (CorruptIndexException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error("createIndex is CorruptIndexException",e);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error("CorruptIndexException is IOException",e);
 			}
 		}
 		return "success";

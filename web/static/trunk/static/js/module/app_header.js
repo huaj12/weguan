@@ -156,7 +156,7 @@ function showUnreadCnt() {
 			// result handle plugin
 			if (result && result.success) {
 				var cnt = result.result;
-				$(".message_num > span").text(cnt);
+				$(".message_num > span").text("+" + cnt);
 				if (cnt > 0) {
 					$(".message_num").show();
 				} else {

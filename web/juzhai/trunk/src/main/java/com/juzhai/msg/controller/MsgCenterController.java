@@ -91,8 +91,8 @@ public class MsgCenterController extends BaseController {
 	
 	private int getPage(long totalCount,int curpage,int msgRows){
 		int  page=1;
-		if(totalCount/msgRows<curpage){
-			page=(int) (totalCount/msgRows);
+		if(curpage>(totalCount/msgRows)+1){
+			page=(int) (totalCount/msgRows)+1;
 		}else{
 			page=curpage;
 		}

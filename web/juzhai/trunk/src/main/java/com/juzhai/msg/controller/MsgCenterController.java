@@ -77,7 +77,7 @@ public class MsgCenterController extends BaseController {
 
 	private void doPageUnRead(long uid, int page, Model model) {
 		long totalCount = actMsgService.countUnRead(uid);
-		PagerManager pager = new PagerManager(page, unReadActMsgRows, Long
+		PagerManager pager = new PagerManager(getPage(totalCount,page,unReadActMsgRows), unReadActMsgRows, Long
 				.valueOf(totalCount).intValue(), "/msg/pageUnRead?",
 				"unReadContent");
 		List<ActMsg> actMsgList = actMsgService.pageUnRead(uid,
@@ -88,6 +88,20 @@ public class MsgCenterController extends BaseController {
 		model.addAttribute("pager", pager);
 		model.addAttribute("point", accountService.queryPoint(uid));
 	}
+	
+	private int getPage(long totalCount,int curpage,int msgRows){
+		int  page=1;
+		if(totalCount/msgRows<curpage){
+			page=(int) (totalCount/msgRows);
+		}else{
+			page=curpage;
+		}
+		if(page<1){
+			page=1;
+		}
+		return page;
+	}
+
 
 	private List<ActMsgView> assembleActMsgView(long uid,
 			List<ActMsg> actMsgList) {
@@ -132,7 +146,7 @@ public class MsgCenterController extends BaseController {
 
 	private void doPageRead(long uid, Model model, int page) {
 		long totalCount = actMsgService.countRead(uid);
-		PagerManager pager = new PagerManager(page, readActMsgRows, Long
+		PagerManager pager = new PagerManager(getPage(totalCount,page,readActMsgRows), readActMsgRows, Long
 				.valueOf(totalCount).intValue(), "/msg/pageRead?",
 				"readContent");
 		List<ActMsg> actMsgList = actMsgService.pageRead(uid,
@@ -204,14 +218,17 @@ public class MsgCenterController extends BaseController {
 		try {
 			if (curPage != null && curIndex != null) {
 				int index = (curPage - 1) * unReadActMsgRows + curIndex;
+				int page=0;
 				if ("unread".equals(type)) {
 					actMsgService.removeUnRead(context.getUid(), index);
-				} else if ("read".equals(type)) {
+					return pageUnRead(request, model,curPage);
+				} else if("read".equals(type)) {
 					actMsgService.removeRead(context.getUid(), index);
+					return pageRead(request, model, curPage);
 				}
 			}
 		} catch (Exception e) {
-
+			log.error("remove msg is error", e);
 		}
 		return null;
 	}

@@ -322,7 +322,7 @@ public class InboxService implements IInboxService {
 		}
 		if (question.getType() == 1 && answer == 2) {
 			// 是非题选择了no
-			return true;
+			return false;
 		}
 		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
 		if (null != authInfo) {

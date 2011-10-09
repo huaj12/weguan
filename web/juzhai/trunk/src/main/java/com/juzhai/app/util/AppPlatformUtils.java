@@ -28,6 +28,8 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.juzhai.passport.bean.AuthInfo;
 
@@ -37,6 +39,7 @@ import sun.misc.BASE64Encoder;
 
 
 public class AppPlatformUtils {
+	private static final Log log = LogFactory.getLog(AppPlatformUtils.class);
 	private static HttpsX509TrustManager xtm = new HttpsX509TrustManager();
 	private static HttpsHostnameVerifier hnv = new HttpsHostnameVerifier();
 	//64位编码
@@ -46,7 +49,7 @@ public class AppPlatformUtils {
 			BASE64Encoder base64en = new BASE64Encoder();
 			basestr = base64en.encode(str.getBytes());
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("urlBase64Encode is error",e);
 		}
 		return basestr.replaceAll("\\+", "\\*").replaceAll("/", "-").replaceAll(
 				"=", "");
@@ -60,7 +63,7 @@ public class AppPlatformUtils {
 			byte[] b = base64dec.decodeBuffer(str);
 			result =new String(b);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("urlBase64Decode is error", e);
 		}
 		return result;
 	}
@@ -162,7 +165,7 @@ public class AppPlatformUtils {
 				}
 			}
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			log.error("httpBuildQuery is error", e);
 		}
 		if (strbuf.length() > 0) {
 			strbuf.deleteCharAt(strbuf.length() - 1);

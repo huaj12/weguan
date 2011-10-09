@@ -99,7 +99,7 @@ public class ActMsgMessageListener implements
 		//发送第三方消息
 		sendAppMsgService.threadSendAppMsg(tpUser, msgMessage.getSenderId(), msgMessage.getBody().getType(), 1);	
 		}catch (Exception e) {
-			e.printStackTrace();
+			log.error("receiverActMsg is error",e);
 		}	
 		
 	}

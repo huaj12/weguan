@@ -35,14 +35,22 @@
 			}
 		});
 	}
-	function remove(curPage,curIndex,type){
+	function remove(curPage,curIndex,type,totalCount){
 		$.post('/msg/reMoveMessage', {
 			curPage:curPage,
 			curIndex:curIndex,
 			type:type,
 		    random : Math.random()
 		}, function(data) {
-			location.reload();
+			if(data!=null){
+				if('unread'==type){
+					$("#unReadContent").html(data);	
+					$("#unReadCnt").html(totalCount-1);
+				}else{
+					$("#readContent").html(data);
+					$("#readCnt").html(totalCount-1);
+				}
+			}
 		});
 	}
 	function invite_app_friend(obj,curPage,curIndex,actId,receiverId){

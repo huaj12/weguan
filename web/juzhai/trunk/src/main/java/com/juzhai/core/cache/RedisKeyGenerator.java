@@ -138,6 +138,15 @@ public class RedisKeyGenerator extends KeyGenerator {
 	}
 
 	/**
+	 * 存放所有记录了已做题目的Key的key
+	 * 
+	 * @return
+	 */
+	public static String genQuestionUserKeysKey() {
+		return "questionUserKeys";
+	}
+
+	/**
 	 * 用户数据用来DES加密的密钥
 	 * 
 	 * @param userId
@@ -155,8 +164,9 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genOpenEmailStatKey() {
 		return "openEmailStat";
 	}
-	
-	public static String genLazyMessageKey(long uid,long receiverId,MsgType type,String className){
-		return genKey(uid, receiverId,type,"lazy"+className);
+
+	public static String genLazyMessageKey(long uid, long receiverId,
+			MsgType type, String className) {
+		return genKey(uid, receiverId, type, "lazy" + className);
 	}
 }

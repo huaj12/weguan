@@ -304,8 +304,10 @@ public class InboxService implements IInboxService {
 	public void answer(long uid, long tpId, long questionId, String identity,
 			int answer) {
 		if (sendQuestionMssage(uid, tpId, questionId, identity, answer)) {
+			String key = RedisKeyGenerator.genQuestionUsersKey(uid);
+			redisTemplate.opsForSet().add(key, identity);
 			redisTemplate.opsForSet().add(
-					RedisKeyGenerator.genQuestionUsersKey(uid), identity);
+					RedisKeyGenerator.genQuestionUserKeysKey(), key);
 			accountService.profitPoint(uid, ProfitAction.ANSWER_QUESTION);
 		}
 	}

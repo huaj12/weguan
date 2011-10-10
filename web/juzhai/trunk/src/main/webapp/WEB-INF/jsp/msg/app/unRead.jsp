@@ -25,12 +25,12 @@
 									<div class="tab"><!--tab begin-->
 										<a href="/msg/showUnRead" class="active new">
 											<p class="l"></p>
-											<span><em class="mail"></em><strong>未读(<label id="unReadCnt">${pager.totalResults}</label>)</strong></span>
+											<span><em id="unMsgstuts" class="mail"></em><strong>未读(<label id="unReadCnt">${pager.totalResults}</label>)</strong></span>
 											<p class="r"></p>
 										</a>
 										<a href="/msg/showRead" class="link">
 											<p class="l"></p>
-											<span><em class="mail_open"></em><strong>已读(<label id="readCnt">${readCount}</label>)</strong></span>
+											<span><em id="msgstuts" class="mail_open"></em><strong>已读(<label id="readCnt">${readCount}</label>)</strong></span>
 											<p class="r"></p>
 										</a>
 									</div><!--tab end-->
@@ -54,13 +54,13 @@
 				<p>
 					查看该消息需要 <em id="_ponit">20</em> 拒宅积分，而你当前只有 <em>${point}</em> 积分。<br />
 					<span>你可通过如下方式获得积分：</span><br />
-					添加一个兴趣+5分<br />
+					<a class="btn zhao"  onclick="closeAllDiv();kaixinFeed('');" href="javascript:;">发布拒宅召集令+20分</a><br />
+					<a href="javascript:;" onclick="closeAllDiv();document.getElementById('subEmail').focus()" >订阅邮箱</a>+20分<br/>
+					<a href="/app/myAct">添加一个兴趣</a>+5分<br />
 					每天登陆+5分<br />
 					点击“想去”+5分<br />
 					评价好友+5分<br />
-					响应好友的邀请+10分<br />
-					发布拒宅召集令+20分<br />
-					订阅邮箱+20分
+					响应好友的邀请+10分
 				</p>
 				<a href="javascript:;" onclick="closeAllDiv();" class="iknow">知道了</a>
 			</div><!--box_mid end-->

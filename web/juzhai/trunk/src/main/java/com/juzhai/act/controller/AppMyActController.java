@@ -126,8 +126,11 @@ public class AppMyActController extends BaseController {
 	@RequestMapping(value = "/ajax/showHotActs", method = RequestMethod.GET)
 	public String showHotActs(HttpServletRequest request, Model model,
 			long actCategoryId) throws NeedLoginException {
+		long time1 = System.currentTimeMillis();
 		UserContext context = checkLoginForApp(request);
 		listHotAct(model, actCategoryId, context);
+		System.out.println("hot acts time:"
+				+ (System.currentTimeMillis() - time1));
 		return "act/app/hot_act_list";
 	}
 

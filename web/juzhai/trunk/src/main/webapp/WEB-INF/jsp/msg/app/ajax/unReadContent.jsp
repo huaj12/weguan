@@ -13,7 +13,7 @@
 				<span class="l"></span><span class="r"></span>
 				<div class="close">
 					<a href="javascript:;"
-						onclick="remove('${pager.currentPage}','${msg.index }','unread','${pager.totalPage}')"></a>
+						onclick="remove('${pager.currentPage}','${msg.index }','unread','${pager.totalResults}')"></a>
 				</div>
 
 				<div class="item_style1">

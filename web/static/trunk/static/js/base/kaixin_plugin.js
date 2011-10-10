@@ -5,7 +5,7 @@ function setHeight(){
 		dHeight = document.documentElement.scrollHeight;
 	}
 	var t = document.createElement("div");
-	t.innerHTML = '<iframe id="kxiframeagent" src="http://rest.kaixin001.com/api/agent.html#'+dHeight+'" scrolling="yes" height="0px" width="0px"></iframe>';
+	t.innerHTML = '<iframe id="kxiframeagent" src="http://rest.kaixin001.com/api/agent.html#'+dHeight+'" scrolling="yes" height="0px" width="0px" frameborder="0"></iframe>';
 	document.documentElement.appendChild(t.firstChild);
 }
 

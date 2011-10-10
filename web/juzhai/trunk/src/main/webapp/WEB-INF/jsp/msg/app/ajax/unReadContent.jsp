@@ -56,13 +56,13 @@
 					<div class="btn">
 						<c:choose>
 							<c:when test="${actMsg.msgType=='INVITE'}">
-								<a href="javascript:;" title="需消耗20积分"
-									onclick="javascrpit:openmsg('${pager.currentPage}','${msg.index }','INVITE');"
+								<a href="javascript:;" title="需消耗${invitePoint}积分"
+									onclick="javascrpit:openmsg('${pager.currentPage}','${msg.index }','INVITE','${invitePoint}');"
 									>立即查看</a>
 							</c:when>
 							<c:otherwise>
-								<a href="javascript:;" title="需消耗10积分"
-									onclick="javascrpit:openmsg('${pager.currentPage}','${msg.index }','RECOMMEND');"
+								<a href="javascript:;" title="需消耗${recommendPoint}积分"
+									onclick="javascrpit:openmsg('${pager.currentPage}','${msg.index }','RECOMMEND','${recommendPoint}');"
 									>立即查看</a>
 							</c:otherwise>
 						</c:choose>

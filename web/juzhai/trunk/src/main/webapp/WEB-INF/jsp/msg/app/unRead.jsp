@@ -52,7 +52,7 @@
 			<div class="box_mid" ><!--box_mid begin-->
 				<div class="title"></div>
 				<p>
-					查看该消息需要 <em id="_ponit">20</em> 拒宅积分，而你当前只有 <em>${point}</em> 积分。<br />
+					查看该消息需要<em id="_ponit"></em> 拒宅积分，而你当前只有 <em>${point}</em> 积分。<br />
 					<span>你可通过如下方式获得积分：</span><br />
 					<a class="btn zhao"  onclick="closeAllDiv();kaixinFeed('');" href="javascript:;">发布拒宅召集令+20分</a><br />
 					<a href="javascript:;" onclick="closeAllDiv();document.getElementById('subEmail').focus()" >订阅邮箱</a>+20分<br/>

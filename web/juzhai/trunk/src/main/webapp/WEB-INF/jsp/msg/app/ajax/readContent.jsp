@@ -46,7 +46,7 @@
 														<c:otherwise>
 															<c:choose>
 																<c:when test="${actMsg.stuts}">
-																	<a href="javascript:;" class="unhover">响应已发</a>
+																	<a class="unhover">响应已发</a>
 																</c:when>
 																<c:otherwise>
 																	<a href="javascript:;" onclick="invite_app_friend(this,'${pager.currentPage}','${msg.index }','${actMsg.act.id}','${actMsg.profileCache.uid}')">立即响应</a>

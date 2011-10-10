@@ -26,6 +26,7 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.exception.ProfileInputException;
+import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.UserGuide;
 import com.juzhai.passport.service.IEmailService;
 import com.juzhai.passport.service.IUserGuideService;
@@ -111,7 +112,10 @@ public class UserGuideController extends BaseController {
 								e.getErrorCode(), Locale.SIMPLIFIED_CHINESE)));
 				return guide(request, model);
 			}
-			return "redirect:" + SystemConfig.BASIC_DOMAIN + "/app/index";
+			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
+			return "redirect:"
+					+ SystemConfig.getDomain(tp == null ? null : tp.getName())
+					+ "/app/index";
 		} else {
 			doGuideNext(context, actId, actName);
 			return guide(request, model);

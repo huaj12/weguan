@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +26,6 @@ import com.juzhai.app.util.AppPlatformUtils;
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.msg.AppConfig;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.model.Thirdparty;
@@ -37,6 +37,10 @@ public class KaiXinController extends BaseController {
 	private MessageSource messageSource;
 	@Autowired
 	private IActService actService;
+	@Value("${feed.redirect.uri}")
+	private String feedRedirectUri;
+	@Value("${sysnew.redirect.uri}")
+	private String sysnewRedirectUri;
 
 	@RequestMapping(value = { "/kaixinFeed" }, method = RequestMethod.GET)
 	public String kaixinFeed(HttpServletRequest request,
@@ -46,23 +50,34 @@ public class KaiXinController extends BaseController {
 		try {
 			UserContext context = checkLoginForApp(request);
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
-			String text="";
+			String text = "";
 			if (StringUtils.isEmpty(name)) {
-				text=messageSource.getMessage(
-						TpMessageKey.FEED_TEXT_DEFAULT, null,
-						Locale.SIMPLIFIED_CHINESE);
+				text = messageSource.getMessage(TpMessageKey.FEED_TEXT_DEFAULT,
+						null, Locale.SIMPLIFIED_CHINESE);
 			} else {
-				text= messageSource.getMessage(
-						TpMessageKey.FEED_TEXT, new Object[] { name },
-						Locale.SIMPLIFIED_CHINESE);
+				text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
+						new Object[] { name }, Locale.SIMPLIFIED_CHINESE);
 			}
-			String linktext= messageSource.getMessage(
-					TpMessageKey.FEED_LINKTEXT, null, Locale.SIMPLIFIED_CHINESE);
-			String link=tp.getAppUrl();
-			String feedRedirect_uri=SystemConfig.FEED_REDIRECT_URI+"?tpId="+context.getTpId();
+			String linktext = messageSource
+					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
+							Locale.SIMPLIFIED_CHINESE);
+			String link = tp.getAppUrl();
+			String feedRedirect_uri = SystemConfig.getDomain(tp == null ? null
+					: tp.getName())
+					+ feedRedirectUri
+					+ "?tpId="
+					+ context.getTpId();
 			response.setContentType("text/plain");
 			out = response.getWriter();
-			out.println("http://api.kaixin001.com/dialog/feed?display=iframe&redirect_uri="+feedRedirect_uri+"&linktext="+linktext+"&link="+link+"&text="+text+"&app_id=100012402&need_redirect=0");
+			out.println("http://api.kaixin001.com/dialog/feed?display=iframe&redirect_uri="
+					+ feedRedirect_uri
+					+ "&linktext="
+					+ linktext
+					+ "&link="
+					+ link
+					+ "&text="
+					+ text
+					+ "&app_id=100012402&need_redirect=0");
 		} catch (Exception e) {
 			log.error("kaixin send feed is error", e);
 		} finally {
@@ -112,31 +127,40 @@ public class KaiXinController extends BaseController {
 		}
 		return null;
 	}
-	
+
 	@RequestMapping(value = { "/dialogSysnews" }, method = RequestMethod.GET)
 	public String dialogSysnews(HttpServletRequest request,
 			HttpServletResponse response, Model model, String name) {
 		PrintWriter out = null;
 		try {
-			Act act=actService.getActByName(name);
+			Act act = actService.getActByName(name);
 			UserContext context = checkLoginForApp(request);
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
-			String	text=messageSource.getMessage(
-						TpMessageKey.SYSNEW_DIALOG_TEXT, null,
-						Locale.SIMPLIFIED_CHINESE);
-			String linktext= messageSource.getMessage(
-					TpMessageKey.FEED_LINKTEXT, null, Locale.SIMPLIFIED_CHINESE);
-			String link=tp.getAppUrl();
-			String sysnewRedirect_uri=SystemConfig.SYSNEW_REDIRECT_URI+"?name="+act.getId()+"-"+context.getTpId();
+			String text = messageSource.getMessage(
+					TpMessageKey.SYSNEW_DIALOG_TEXT, null,
+					Locale.SIMPLIFIED_CHINESE);
+			String linktext = messageSource
+					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
+							Locale.SIMPLIFIED_CHINESE);
+			String link = tp.getAppUrl();
+			String sysnewRedirect_uri = SystemConfig
+					.getDomain(tp == null ? null : tp.getName())
+					+ sysnewRedirectUri
+					+ "?name="
+					+ act.getId()
+					+ "-"
+					+ context.getTpId();
 			response.setContentType("text/plain");
 			out = response.getWriter();
 			out.println("http://api.kaixin001.com/dialog/sysnews?display=iframe&linktext="
-			+ linktext
-			+ "&text="
-			+ text
-			+ "&link="
-			+ link
-			+ "&app_id=100012402&redirect_uri="+sysnewRedirect_uri+"&need_redirect=0");
+					+ linktext
+					+ "&text="
+					+ text
+					+ "&link="
+					+ link
+					+ "&app_id=100012402&redirect_uri="
+					+ sysnewRedirect_uri
+					+ "&need_redirect=0");
 		} catch (Exception e) {
 			log.error("kaixin dialogSysnews is error", e);
 		} finally {

@@ -44,8 +44,6 @@ public class CheckLoginFilter implements Filter {
 		try {
 			UserContext context = loginSessionManager.getUserContext(req);
 			req.setAttribute("context", context);
-			req.setAttribute("staticService", SystemConfig.STATIC_DOMAIN);
-			req.setAttribute("httpService", SystemConfig.BASIC_DOMAIN);
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
 			if (e.getCause() instanceof NeedLoginException) {
@@ -74,7 +72,7 @@ public class CheckLoginFilter implements Filter {
 					request.getRequestURL().toString()
 							+ (request.getQueryString() == null ? "" : request
 									.getQueryString()), Constants.UTF8);
-			response.sendRedirect(SystemConfig.BASIC_DOMAIN
+			response.sendRedirect(SystemConfig.getDomain()
 					+ "/app/login?returnLink=" + returnLink);
 		}
 	}

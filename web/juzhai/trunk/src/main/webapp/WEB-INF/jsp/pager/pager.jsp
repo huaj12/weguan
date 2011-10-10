@@ -2,7 +2,7 @@
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<%@ taglib prefix="jz" uri="http://www.51juzhai.com/jsp/jstl/jz" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<script type="text/javascript" src="${jz:url('/js/core/pager.js')}"></script>
+<script type="text/javascript" src="${jz:static('/js/core/pager.js')}"></script>
 <div class="page">
 <c:if test="${pager.currentPage!=1}">
 	<a href="javascript:;" onclick="page_content('${pager.url}&page=1','${pager.ajaxId}')" class="link"><p class="l"></p><strong class="m">首页</strong><p class="r"></p></a>

@@ -5,7 +5,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>loading...</title>
-		<link href="${jz:url('/css/jz.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:static('/css/jz.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<div class="main"><!--main begin-->
@@ -14,7 +14,7 @@
 			<div class="skin_body"><!--skin_body begin-->
 				<div class="skin_top_bg_new"><!--content_bg begin-->
 					<div class="loading"><!--loading begin-->
-						<span><img src="${jz:url('/images/loading.gif')}" /></span>
+						<span><img src="${jz:static('/images/loading.gif')}" /></span>
 						<p></p>
 					</div><!--loading end-->
 				</div><!--content_bg end-->

@@ -35,9 +35,9 @@ $(document).ready(function(){
 	});
 	
 	var addActInput = new AddActInput($("#actName"), $("#actNameError"));
-	addActInput.bindKeyUp();
-	addActInput.bindFocus();
-	addActInput.bindBlur();
+	//addActInput.bindKeyUp();
+	//addActInput.bindFocus();
+	//addActInput.bindBlur();
 	addActInput.bindAutocomplete();
 	
 	$("a.add").bind("click", function(){
@@ -52,7 +52,7 @@ $(document).ready(function(){
 			return false;
 		}
 		var p = $("<p class='hover selected'><span class='fl'></span></p>");
-		var a = $("<a href='#' class='key_words'></a>");
+		var a = $("<a href='javascript:;' class='key_words'></a>");
 		a.html(value);
 		a.attr("actName", value);
 		a.attr("title", "点击取消");
@@ -70,7 +70,7 @@ $(document).ready(function(){
 		$("#acts").append(p);
 		
 		actNameInput.attr("value","");
-		actNameInput.focus();
+		//actNameInput.focus();
 		$(".goon_add").show();
 	});
 	

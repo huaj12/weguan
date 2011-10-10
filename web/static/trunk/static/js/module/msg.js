@@ -1,4 +1,4 @@
-	function openmsg(curPage,curIndex,type){
+	function openmsg(curPage,curIndex,type,point){
 		$.get('/msg/openMessage', {
 			curPage:curPage,
 			curIndex:curIndex,
@@ -11,11 +11,7 @@
 			}else{
 				if(result.errorCode=="-1"){
 					//余额不足
-					if(type=='INVITE'){
-						$("#_ponit").html('20');
-					}else{
-						$("#_ponit").html('10');
-					}
+						$("#_ponit").html(point);
 					$.dialog({
 					    content: document.getElementById('pointDiv'),
 					    top:"50%",

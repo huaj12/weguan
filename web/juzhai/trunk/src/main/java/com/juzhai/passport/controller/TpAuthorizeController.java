@@ -115,10 +115,12 @@ public class TpAuthorizeController extends BaseController {
 	}
 
 	private String convertGoUrl(Thirdparty tp, String goUri) {
-		String domain = SystemConfig
-				.getDomain(tp == null ? null : tp.getName());
-		if (StringUtils.isNotEmpty(domain)) {
-			return domain + goUri;
+		if (StringUtils.isNotEmpty(goUri)) {
+			String domain = SystemConfig.getDomain(tp == null ? null : tp
+					.getName());
+			if (StringUtils.isNotEmpty(domain)) {
+				return domain + goUri;
+			}
 		}
 		return null;
 	}

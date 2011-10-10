@@ -3,5 +3,6 @@
 		    random : Math.random()
 		}, function(data) {
 			$("#"+ajaxId).html(data);
+			setHeight();
 		});
 	}

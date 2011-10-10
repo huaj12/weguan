@@ -55,6 +55,7 @@
 		 					$("#readContent").html(data);
 		 					$("#readCnt").html(totalCount-1);
 		 				}
+		 				setHeight();
 		 			}
 		 		});
 		    	        return true;

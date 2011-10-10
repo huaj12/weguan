@@ -32,6 +32,7 @@
 				
 			});
 		</script>
+		<script type="text/javascript" src="${jz:url('/js/base/kaixin_plugin.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 	</body>
 </html>

@@ -66,9 +66,10 @@
 			</div><!--box_mid end-->
 			<div class="box_bot"></div>
 		</div>
-		<script type="text/javascript" src="${jz:url('/js/module/msg.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
 		<jsp:include page="/WEB-INF/jsp/common/app/artDialog/artDialog.jsp" />
+		<script type="text/javascript" src="${jz:url('/js/module/msg.js')}"></script>
+		<script type="text/javascript" src="${jz:url('/js/base/kaixin_plugin.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 	
 	</body>

@@ -28,7 +28,7 @@
 			<div class="message_num" style="display:none">
 				<span></span>
 			</div>
-			<a href="/msg/showUnRead.html" title="查看我的拒宅消息">我的消息</a>
+			<a href="/msg/showUnRead" title="查看我的拒宅消息">我的消息</a>
 		</div><!--我的消息 end-->
 	</div><!--top_mid end-->
 </div><!--skin_top end-->

@@ -35,7 +35,7 @@
 																	ta来自地球
 																</c:otherwise>
 															</c:choose>
-															发布于<fmt:formatDate value="${actMsg.date}" pattern="yyyy.MM.dd HH:mm" />
+															发布于<fmt:formatDate value="${actMsg.date}" pattern="yyyy.MM.dd" />
 													 </p>
 												</div><!--infor end-->
 												<div class="btn">

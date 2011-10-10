@@ -56,7 +56,7 @@ public class SendSysMsgTask implements Callable<Boolean>{
 		}
 		//发送系统消息
 		appService.sendSysMessage(receiverIdentity, messageSource.getMessage(
-				TpMessageKey.FEED_LINKTEXT, null, Locale.SIMPLIFIED_CHINESE), thirdparty.getAppUrl(),word, text, null, authInfo);
+				TpMessageKey.FEED_LINKTEXT, null, Locale.SIMPLIFIED_CHINESE), thirdparty.getAppUrl()+"/msg/showUnRead",word, text, null, authInfo);
 		//发送成功增加积分
 		accountService.profitPoint(uid, ProfitAction.IMMEDIATE_RESPONSE);
 		}catch (Throwable  e) {

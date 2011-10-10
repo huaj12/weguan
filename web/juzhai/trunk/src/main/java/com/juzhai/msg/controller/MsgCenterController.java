@@ -87,6 +87,10 @@ public class MsgCenterController extends BaseController {
 		model.addAttribute("readCount", actMsgService.countRead(uid));
 		model.addAttribute("pager", pager);
 		model.addAttribute("point", accountService.queryPoint(uid));
+		model.addAttribute("invitePoint",Math.abs(com.juzhai.account.InitData.CONSUME_ACTION_RULE
+						.get(ConsumeAction.OPEN_MESSAGE_INVITE)));
+		model.addAttribute("recommendPoint",Math.abs(com.juzhai.account.InitData.CONSUME_ACTION_RULE
+				.get(ConsumeAction.OPEN_MESSAGE_RECOMMEND)));
 	}
 	
 	private  int getPage(long totalCount,int curpage,int msgRows){

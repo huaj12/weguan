@@ -18,7 +18,7 @@
 					}
 					$.dialog({
 					    content: document.getElementById('pointDiv'),
-					    top:"5%",
+					    top:"50%",
 					    fixed: true,
 					    lock: true,
 					    title:"积分不足",
@@ -38,7 +38,9 @@
 	function remove(curPage,curIndex,type,totalCount){
 		$.dialog({
 		    icon: 'question',
-		    top:'5%',
+		    fixed: true,
+		    top:'50%',
+		    id: 'question_box',
 		    content: '确定删除该条消息？',
 		     ok: function () {
 		    	 $.post('/msg/reMoveMessage', {

@@ -6,8 +6,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>我的拒宅</title>
-		<link href="${jz:url('/css/jz.css')}" rel="stylesheet" type="text/css" />
-		<link href="${jz:url('/css/jquery.autocomplete.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:static('/css/jz.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:static('/css/jquery.autocomplete.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<div class="main"><!--main begin-->
@@ -37,7 +37,7 @@
 											<p class="${pClass}">
 												<span class="fl"></span>
 												<a href="javascript:;" actCategoryId="${actCategory.id}"><c:out value="${actCategory.name}"/></a>
-												<span class="fr"></span>
+												<span class="fl"></span>
 												<strong></strong>
 											</p>
 										</c:forEach>
@@ -55,14 +55,14 @@
 			<div class="skin_bottom"></div>
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
-		<script type="text/javascript" src="${jz:url('/js/module/my_act.js')}"></script>
+		<script type="text/javascript" src="${jz:static('/js/module/my_act.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 		<script type="text/javascript">
 			$(document).ready(function(){
 				
 			});
 		</script>
-		<script type="text/javascript" src="${jz:url('/js/base/kaixin_plugin.js')}"></script>
+		<script type="text/javascript" src="${jz:static('/js/base/kaixin_plugin.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 	</body>
 </html>

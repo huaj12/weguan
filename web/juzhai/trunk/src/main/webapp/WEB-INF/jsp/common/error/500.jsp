@@ -5,7 +5,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>500</title>
-		<link href="${jz:url('/css/jz.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:static('/css/jz.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<div class="main"><!--main begin-->

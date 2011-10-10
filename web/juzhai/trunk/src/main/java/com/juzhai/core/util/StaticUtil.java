@@ -14,10 +14,10 @@ import org.apache.commons.logging.LogFactory;
  * @author wujiajun
  * 
  */
-public class UrlUtil {
-	private final static Log log = LogFactory.getLog(UrlUtil.class);
+public class StaticUtil {
+	private final static Log log = LogFactory.getLog(StaticUtil.class);
 
-	private static String URL_CONFIG_PATH = "/properties/url.properties";
+	private static String STATIC_CONFIG_PATH = "/properties/static.properties";
 	private static String prefix_css = null;
 	private static String prefix_js = null;
 	private static String prefix_image = null;
@@ -32,8 +32,8 @@ public class UrlUtil {
 	}
 
 	private static void init() throws IOException {
-		InputStream in = UrlUtil.class.getClassLoader().getResourceAsStream(
-				URL_CONFIG_PATH);
+		InputStream in = StaticUtil.class.getClassLoader().getResourceAsStream(
+				STATIC_CONFIG_PATH);
 		if (in == null) {
 			throw new RuntimeException(
 					"The file: /properties/urls.properties can't be found in Classpath.");

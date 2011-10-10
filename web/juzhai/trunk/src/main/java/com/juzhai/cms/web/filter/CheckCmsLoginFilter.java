@@ -62,7 +62,7 @@ public class CheckCmsLoginFilter implements Filter {
 					request.getRequestURL().toString()
 							+ (request.getQueryString() == null ? "" : request
 									.getQueryString()), Constants.UTF8);
-			response.sendRedirect(SystemConfig.BASIC_DOMAIN
+			response.sendRedirect(SystemConfig.getDomain()
 					+ "/login?returnLink=" + returnLink);
 		}
 	}

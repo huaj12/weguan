@@ -6,19 +6,19 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>邮件退订</title>
-		<link href="${jz:url('/css/jz_web.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<div class="main"><!--main begin-->
 			<div class="top"><!--top begin-->
 				<h1></h1>
 				<div class="rk_menu"><!--rk_menu begin-->
-					<span><img src="${jz:url('/images/web/entrance.gif')}" />
-					</span> <a href="${tpMap[1].appUrl}" title="点击进入"><img src="${jz:url('/images/web/td_r1_c1.png')}" />
-					</a> <a href="javascript:;" title="敬请期待"><img src="${jz:url('/images/web/td_r1_c3.png')}" />
-					</a> <a href="javascript:;" title="敬请期待"><img src="${jz:url('/images/web/td_r1_c5.png')}" />
-					</a> <a href="javascript:;" title="敬请期待"><img src="${jz:url('/images/web/td_r1_c7.png')}" />
-					</a> <a href="javascript:;" title="敬请期待"><img src="${jz:url('/images/web/td_r1_c9.png')}" />
+					<span><img src="${jz:static('/images/web/entrance.gif')}" />
+					</span> <a href="${tpMap[1].appUrl}" title="点击进入"><img src="${jz:static('/images/web/td_r1_c1.png')}" />
+					</a> <a href="javascript:;" title="敬请期待"><img src="${jz:static('/images/web/td_r1_c3.png')}" />
+					</a> <a href="javascript:;" title="敬请期待"><img src="${jz:static('/images/web/td_r1_c5.png')}" />
+					</a> <a href="javascript:;" title="敬请期待"><img src="${jz:static('/images/web/td_r1_c7.png')}" />
+					</a> <a href="javascript:;" title="敬请期待"><img src="${jz:static('/images/web/td_r1_c9.png')}" />
 					</a>
 				</div><!--rk_menu end-->
 			</div><!--top end-->

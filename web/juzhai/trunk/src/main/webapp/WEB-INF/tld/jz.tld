@@ -24,10 +24,10 @@
     </tag> -->
     
     <function>
-    	<name>url</name>
+    	<name>static</name>
     	<function-class>com.juzhai.core.web.jstl.JzCoreFunction</function-class>
     	<function-signature>java.lang.String u(java.lang.String)</function-signature>
-    	<example>${jz:url('/images/example.png')}</example>
+    	<example>${jz:static('/images/example.png')}</example>
     </function>
     
 </taglib>

@@ -8,8 +8,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>拒宅器</title>
-		<link href="${jz:url('/css/jz.css')}" rel="stylesheet" type="text/css" />
-		<link href="${jz:url('/css/jquery.autocomplete.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:static('/css/jz.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:static('/css/jquery.autocomplete.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<div class="main">
@@ -52,8 +52,8 @@
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
 		<jsp:include page="/WEB-INF/jsp/common/app/artDialog/artDialog.jsp" />
-		<script type="text/javascript" src="${jz:url('/js/module/msg.js')}"></script>
-		<script type="text/javascript" src="${jz:url('/js/base/kaixin_plugin.js')}"></script>
+		<script type="text/javascript" src="${jz:static('/js/module/msg.js')}"></script>
+		<script type="text/javascript" src="${jz:static('/js/base/kaixin_plugin.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 	</body>
 </html>

@@ -1,11 +1,11 @@
 package com.juzhai.core.web.jstl;
 
-import com.juzhai.core.util.UrlUtil;
+import com.juzhai.core.util.StaticUtil;
 
 public class JzCoreFunction {
 
 	public static String u(String uri) {
-		return UrlUtil.u(uri);
+		return StaticUtil.u(uri);
 	}
 
 }

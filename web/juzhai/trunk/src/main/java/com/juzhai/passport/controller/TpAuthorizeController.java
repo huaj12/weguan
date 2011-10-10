@@ -79,7 +79,12 @@ public class TpAuthorizeController extends BaseController {
 	@RequestMapping(value = "access", method = RequestMethod.GET)
 	@ResponseBody
 	public AjaxResult access(HttpServletRequest request,
-			HttpServletResponse response, long tpId, String returnTo) {
+			HttpServletResponse response, long tpId, String goUri) {
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		if (null == tp) {
+			return returnError();
+		}
+		String returnTo = convertGoUrl(tp, goUri);
 		try {
 			UserContext context = checkLoginForApp(request);
 			Thirdparty loginTp = InitData.TP_MAP.get(context.getTpId());
@@ -88,11 +93,6 @@ public class TpAuthorizeController extends BaseController {
 			}
 			return returnPage(context.getUid(), loginTp, returnTo);
 		} catch (NeedLoginException e) {
-		}
-
-		Thirdparty tp = InitData.TP_MAP.get(tpId);
-		if (null == tp) {
-			return returnError();
 		}
 		long uid = 0;
 		if (null != tp) {
@@ -114,17 +114,28 @@ public class TpAuthorizeController extends BaseController {
 		return returnPage(uid, tp, returnTo);
 	}
 
+	private String convertGoUrl(Thirdparty tp, String goUri) {
+		String domain = SystemConfig
+				.getDomain(tp == null ? null : tp.getName());
+		if (StringUtils.isNotEmpty(domain)) {
+			return domain + goUri;
+		}
+		return null;
+	}
+
 	private AjaxResult returnPage(long uid, Thirdparty tp, String returnTo) {
 		AjaxResult result = new AjaxResult();
 		result.setSuccess(true);
 		String returnUrl = null;
 		if (!userGuideService.isCompleteGuide(uid)) {
-			returnUrl = SystemConfig.BASIC_DOMAIN + "/app/guide";
+			returnUrl = SystemConfig
+					.getDomain(tp == null ? null : tp.getName()) + "/app/guide";
 		} else if (StringUtils.isNotEmpty(returnTo)
 				&& StringUtils.startsWith(returnTo, "http")) {
 			returnUrl = returnTo;
 		} else {
-			returnUrl = SystemConfig.BASIC_DOMAIN + "/app/index";
+			returnUrl = SystemConfig
+					.getDomain(tp == null ? null : tp.getName()) + "/app/index";
 		}
 		result.setResult(returnUrl);
 		return result;

@@ -2,6 +2,8 @@ package com.juzhai.msg.schedule;
 
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,6 +22,7 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserService;
 @Component
 public class LazyMessageHandler extends AbstractScheduleHandler  {
+	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private RedisTemplate<String,Long> redisTemplate;
 	@Autowired
@@ -34,34 +37,51 @@ public class LazyMessageHandler extends AbstractScheduleHandler  {
 		lazyKeyredisTemplate.delete(RedisKeyGenerator.genLazyMsgKey());
 		for(String key:keys){
 				Long count=redisTemplate.opsForValue().increment(key, 0);
-				TpUser tpUser=tpUserService.getTpUserByUid(getReceiverId(key));
-				sendAppMsgService.threadSendAppMsg(tpUser,getSendId(key), getMsgType(key), count);
+				LazyKeyView lazyKeyView=getLazyKeyView(key);
+				if(lazyKeyView!=null){
+					TpUser tpUser=tpUserService.getTpUserByUid(lazyKeyView.getReceiverId());
+					sendAppMsgService.threadSendAppMsg(tpUser,lazyKeyView.getSendId(), lazyKeyView.getType(), count);
+				}
 		}
 	}
-	public long getSendId(String key){
+	
+	public LazyKeyView getLazyKeyView(String key){
 		try{
-			String s[]=key.split("\\.");
-			return Long.valueOf(s[0]);
+		String s[]=key.split("\\.");
+			return new LazyKeyView(Long.valueOf(s[0]), Long.valueOf(s[1]), MsgType.valueOf(s[2]));
 		}catch (Exception e) {
-			return 0;	
-		}
-	}
-	public MsgType getMsgType(String key){
-		
-		try{
-			String s[]=key.split("\\.");
-			return MsgType.valueOf(s[2]);
-		}catch (Exception e) {
-			return null;	
-		}
-	}
-	public long getReceiverId(String key){
-		try{
-			String s[]=key.split("\\.");
-			return Long.valueOf(s[1]);
-		}catch (Exception e) {
-			return 0;	
+			log.error("getLazyKeyView is error", e);
+			return null;
 		}
 	}
 
+}
+class LazyKeyView{
+	long sendId;
+	long receiverId;
+	MsgType type;
+	
+	LazyKeyView (long sendId,long receiverId,MsgType type){
+		this.sendId=sendId;
+		this.receiverId=receiverId;
+		this.type=type;
+	}
+	public long getSendId() {
+		return sendId;
+	}
+	public void setSendId(long sendId) {
+		this.sendId = sendId;
+	}
+	public long getReceiverId() {
+		return receiverId;
+	}
+	public void setReceiverId(long receiverId) {
+		this.receiverId = receiverId;
+	}
+	public MsgType getType() {
+		return type;
+	}
+	public void setType(MsgType type) {
+		this.type = type;
+	}
 }

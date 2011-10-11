@@ -37,6 +37,7 @@ public class LazyMessageHandler extends AbstractScheduleHandler  {
 		lazyKeyredisTemplate.delete(RedisKeyGenerator.genLazyMsgKey());
 		for(String key:keys){
 				Long count=redisTemplate.opsForValue().increment(key, 0);
+				redisTemplate.delete(key);
 				LazyKeyView lazyKeyView=getLazyKeyView(key);
 				if(lazyKeyView!=null){
 					TpUser tpUser=tpUserService.getTpUserByUid(lazyKeyView.getReceiverId());

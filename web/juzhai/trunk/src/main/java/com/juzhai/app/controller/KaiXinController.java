@@ -51,16 +51,16 @@ public class KaiXinController extends BaseController {
 			UserContext context = checkLoginForApp(request);
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
 			String text = "";
-			String word="";
+			String word = "";
 			if (StringUtils.isEmpty(name)) {
 				text = messageSource.getMessage(TpMessageKey.FEED_TEXT_DEFAULT,
 						null, Locale.SIMPLIFIED_CHINESE);
-				word=messageSource.getMessage(TpMessageKey.FEED_WORD_DEFAULT,
+				word = messageSource.getMessage(TpMessageKey.FEED_WORD_DEFAULT,
 						null, Locale.SIMPLIFIED_CHINESE);
 			} else {
 				text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
 						new Object[] { name }, Locale.SIMPLIFIED_CHINESE);
-				word=messageSource.getMessage(TpMessageKey.FEED_WORD,
+				word = messageSource.getMessage(TpMessageKey.FEED_WORD,
 						new Object[] { name }, Locale.SIMPLIFIED_CHINESE);
 			}
 			String linktext = messageSource
@@ -82,7 +82,7 @@ public class KaiXinController extends BaseController {
 					+ link
 					+ "&text="
 					+ text
-					+ "&app_id=100012402&need_redirect=0&word="+word);
+					+ "&app_id=100012402&need_redirect=0&word=" + word);
 		} catch (Exception e) {
 			log.error("kaixin send feed is error", e);
 		} finally {
@@ -147,7 +147,7 @@ public class KaiXinController extends BaseController {
 			String linktext = messageSource
 					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
 							Locale.SIMPLIFIED_CHINESE);
-			String link = tp.getAppUrl()+"goUri=/msg/showUnRead";
+			String link = tp.getAppUrl() + "?goUri=/msg/showUnRead";
 			String sysnewRedirect_uri = SystemConfig
 					.getDomain(tp == null ? null : tp.getName())
 					+ sysnewRedirectUri
@@ -155,8 +155,8 @@ public class KaiXinController extends BaseController {
 					+ act.getId()
 					+ "-"
 					+ context.getTpId();
-			String word=messageSource
-			.getMessage(TpMessageKey.INVITE_FRIEND_WORD, null,
+			String word = messageSource.getMessage(
+					TpMessageKey.INVITE_FRIEND_WORD, null,
 					Locale.SIMPLIFIED_CHINESE);
 			response.setContentType("text/plain");
 			out = response.getWriter();
@@ -168,7 +168,7 @@ public class KaiXinController extends BaseController {
 					+ link
 					+ "&app_id=100012402&redirect_uri="
 					+ sysnewRedirect_uri
-					+ "&need_redirect=0&word="+word);
+					+ "&need_redirect=0&word=" + word);
 		} catch (Exception e) {
 			log.error("kaixin dialogSysnews is error", e);
 		} finally {

@@ -5,8 +5,8 @@
 <script type="text/javascript" src="${jz:static('/js/core/pager.js')}"></script>
 <div class="page">
 <c:if test="${pager.currentPage!=1}">
-	<a href="javascript:;" onclick="page_content('${pager.url}&page=1','${pager.ajaxId}')" class="link"><p class="l"></p><strong class="m">首页</strong><p class="r"></p></a>
-	<a href="javascript:;" onclick="page_content('${pager.url}&page=${pager.currentPage-1}','${pager.ajaxId}')" class="link"><p class="l"></p><strong class="m">上一页</strong><p class="r"></p></a>
+	<a href="javascript:;" onclick="page_content('${pager.url}?page=1${pager.param}','${pager.ajaxId}')" class="link"><p class="l"></p><strong class="m">首页</strong><p class="r"></p></a>
+	<a href="javascript:;" onclick="page_content('${pager.url}?page=${pager.currentPage-1}${pager.param}','${pager.ajaxId}')" class="link"><p class="l"></p><strong class="m">上一页</strong><p class="r"></p></a>
 </c:if>
 <c:if test="${pager.totalPage>1}">
 <c:forEach var="page" items="${pager.showPages}" >
@@ -15,12 +15,12 @@
 		<a href="javascript:;" class="active"><p class="l"></p><strong class="m">${page}</strong><p class="r"></p></a>	
 	</c:when>
 	<c:otherwise>
-		<a href="javascript:;" onclick="page_content('${pager.url}&page=${page}','${pager.ajaxId}')" class="link"><p class="l"></p><strong class="m">${page}</strong><p class="r"></p></a>
+		<a href="javascript:;" onclick="page_content('${pager.url}?page=${page}${pager.param}','${pager.ajaxId}')" class="link"><p class="l"></p><strong class="m">${page}</strong><p class="r"></p></a>
 	</c:otherwise>
 </c:choose>
 </c:forEach>
 </c:if>
 <c:if test="${pager.currentPage!=pager.totalPage&&pager.totalPage>1}">
-<a href="javascript:;" onclick="page_content('${pager.url}&page=${pager.currentPage+1}','${pager.ajaxId}')" class="link"><p class="l"></p><strong class="m">下一页</strong><p class="r"></p></a>
-<a href="javascript:;" onclick="page_content('${pager.url}&page=${pager.totalPage}','${pager.ajaxId}')" class="link"><p class="l"></p><strong class="m">尾页</strong><p class="r"></p></a></div>
+<a href="javascript:;" onclick="page_content('${pager.url}?page=${pager.currentPage+1}${pager.param}','${pager.ajaxId}')" class="link"><p class="l"></p><strong class="m">下一页</strong><p class="r"></p></a>
+<a href="javascript:;" onclick="page_content('${pager.url}?page=${pager.totalPage}${pager.param}','${pager.ajaxId}')" class="link"><p class="l"></p><strong class="m">尾页</strong><p class="r"></p></a></div>
 </c:if>

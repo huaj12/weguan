@@ -4,6 +4,9 @@ public class TpMessageKey {
 
 	public static final String FEED_TEXT_DEFAULT = "feed.text.default";
 	public static final String FEED_TEXT = "feed.text";
+	public static final String FEED_WORD_DEFAULT = "feed.word.default";
+	public static final String FEED_WORD = "feed.word";
+	
 	public static final String FEED_LINKTEXT = "feed.linktext";
 	
 	public static final String SYSNEW_DIALOG_TEXT="sysnew_dialog_text";

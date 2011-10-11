@@ -78,7 +78,7 @@ public class MsgCenterController extends BaseController {
 	private void doPageUnRead(long uid, int page, Model model) {
 		long totalCount = actMsgService.countUnRead(uid);
 		PagerManager pager = new PagerManager(getPage(totalCount,page,unReadActMsgRows), unReadActMsgRows, Long
-				.valueOf(totalCount).intValue(), "/msg/pageUnRead?",
+				.valueOf(totalCount).intValue(), "/msg/pageUnRead",null,
 				"unReadContent");
 		List<ActMsg> actMsgList = actMsgService.pageUnRead(uid,
 				pager.getFirstResult(), pager.getMaxResult());
@@ -152,7 +152,7 @@ public class MsgCenterController extends BaseController {
 	private void doPageRead(long uid, Model model, int page) {
 		long totalCount = actMsgService.countRead(uid);
 		PagerManager pager = new PagerManager(getPage(totalCount,page,readActMsgRows), readActMsgRows, Long
-				.valueOf(totalCount).intValue(), "/msg/pageRead?",
+				.valueOf(totalCount).intValue(), "/msg/pageRead","",
 				"readContent");
 		List<ActMsg> actMsgList = actMsgService.pageRead(uid,
 				pager.getFirstResult(), pager.getMaxResult());

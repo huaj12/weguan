@@ -19,6 +19,8 @@ public class PagerManager {
 
 	public String url;
 	
+	public String param;
+	
 
 	public PagerManager(int page, int results, int totalResults) {
 		super();
@@ -28,13 +30,14 @@ public class PagerManager {
 		this.totalResults = totalResults;
 	}
 	
-	public PagerManager(int page, int results, int totalResults,String url,String ajaxId) {
+	public PagerManager(int page, int results, int totalResults,String url,String param,String ajaxId) {
 		super();
 		page = page <= 0 ? 1 : page;
 		this.currentPage = page;
 		this.results = results;
 		this.totalResults = totalResults;
 		this.url=url;
+		this.param=param;
 		this.ajaxId=ajaxId;
 	}
 
@@ -157,6 +160,14 @@ public class PagerManager {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getParam() {
+		return param;
+	}
+
+	public void setParam(String param) {
+		this.param = param;
 	}
 
 

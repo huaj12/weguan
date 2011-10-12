@@ -27,8 +27,8 @@
 				<span><a href="javascript:;" <c:if test="${!profile.subEmail}">class="unclick"</c:if>></a><em style="display:none;">已退订，再见了</em></span>
 			</div><!--td_banner end-->
 			<div class="bottom"><!--bottom begin-->
-				<a href="javascript:;">拒宅工作组: max@51juzhai.com</a>
-				<p>2011 开心网 京ICP证080482号 京公网安备110000000003号</p>
+				<a href="mailto:max@51juzhai.com">拒宅工作组: max@51juzhai.com</a>
+				<p>2011 拒宅网 沪ICP备11031778号</p>
 			</div><!--bottom end-->
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/web/script/script.jsp" />

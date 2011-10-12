@@ -18,12 +18,13 @@
 						<div style="width:80px; height:80px; overflow:hidden; float:left; margin-right:15px; display:inline;"><img src="${feed.profileCache.logoPic}" width="80" height="80"/></div>
 						<span style="float:left; font-size:14px; font-weight:bold; margin-top:15px; padding-bottom:15px; width:80%; "><span style="color:#336AAE; float:left;">${feed.profileCache.nickname}</span><span style="color:#666; float:left; margin-left:10px; display:inline;">想和你去</span><b style="color:#333; float:left; margin-left:10px; display:inline;">${feed.act.name}</b></span>
 						<em style="float:left; color:#999; white-space:nowrap; font-style:normal;">ta在#if($feed.profileCache.cityName && $feed.profileCache.cityName != "")${feed.profileCache.cityName}#else地球#end</em>
-						<strong style="position:absolute; right:15px; top:10px; color:#ccc; font-family:Tahoma; font-size:11px;">${feed.dateFormat}</strong>
+						<strong style="position:absolute; right:15px; top:10px; color:#ccc; font-family:Tahoma; font-size:11px;">&nbsp;${feed.dateFormat}</strong>
 					</div><!--item end-->
 					<div style="width:620px; height:1px; background:#F5F5F5; overflow:hidden; float:left; margin-top:1px;"></div>
 				#end
 			</div><!--message_list end-->
 			<div style="width:620px; float:left; margin-top:5px; "><a href="#if(!$tp)http://www.51juzhai.com#else${tp.appUrl}#end" style="float:right; color:#336AAE;  margin-right:5px; display:inline; text-decoration:none;">查看更多&gt;&gt;</a></div>
+			#*
 			<div style="width:620px; height:30px; overflow:hidden; margin-top:30px; float:left;">
 				<em style=" width:1px; height:28px; background:#C8DEF4; float:left; margin-top:1px; overflow:hidden;"></em>
 				<span style="width:618px; height:30px; background:#C8DEF4; float:left; text-align:center; color:#666; line-height:30px; font-size:14px;">本周热门拒宅推荐</span>
@@ -62,6 +63,7 @@
 					#end
 				</ul>
 			</div><!--ph end-->
+			*#
 		</div><!--main_m end-->
 		<div style="width:698px; height:1px; overflow:hidden; background:#fff; margin-left:1px; float:left; display:inline;"></div>
 	</div><!--main over-->

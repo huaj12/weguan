@@ -50,7 +50,7 @@
 				</div><!--index_icon_item end-->
 			</div><!--intru end-->
 			<div class="bottom"><!--bottom begin-->
-				<a href="javascript:;">拒宅工作组: max@51juzhai.com</a>
+				<a href="mailto:max@51juzhai.com">拒宅工作组: max@51juzhai.com</a>
 				<p>2011 拒宅网 沪ICP备11031778号</p>
 			</div><!--bottom end-->
 		</div><!--main end-->

@@ -1,50 +1,16 @@
-
-	<div class="main"><!--main begin-->
-		<div class="main_t"></div>
-		<div class="main_m"><!--main_m begin-->
-			<div class="user"><p>HI, ${profile.nickname}</p></div>
-			<div class="message"><em></em><p>你有<span>${msgCount}</span>条拒宅消息</p><em></em></div>
-			<div class="message_list"><!--message_list begin-->
-				#foreach($actMsgView in $actMsgViewList)
-					<div class="item"><!--item begin-->
-						<div class="photo"><img src="${actMsgView.profileCache.logoPic}" width="80" height="80"/></div>
-						<h2>
-							<span>${actMsgView.profileCache.nickname}</span>
-							#if(${actMsgView.msgType.name()=='INVITE'})
-								<p>想和你去...</p>
-							#elseif(${actMsgView.msgType.name()=='RECOMMEND'})
-								<p>添加了一个跟你相同的拒宅兴趣</p>
-							#end
-						</h2>
-						<em>${actMsgView.profileCache.provinceName}&nbsp;${actMsgView.profileCache.cityName}</em><a href="#">立即查看 >></a>
-						<strong>${actMsgView.dateFormat}</strong>
-					</div><!--item end-->
-					<div class="line"></div>
-				#end
-			</div><!--message_list end-->
-			<div class="more"><a href="#if($tp==null)http://www.51juzhai.com#else${tp.appUrl}#end">查看更多&gt;&gt;</a></div>
-		</div><!--main_m end-->
-		<div class="main_b"></div>
-	</div><!--main over-->
-	<div class="copy">
-		<a href="http://www.51juzhai.com/unsubEmail?token=${token}&uid=${profile.uid}" class="left">不再接收拒宅消息</a>
-		<a href="http://www.51juzhai.com" class="right">51juzhai.com</a>
-	</div>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 <div style="width:1200px; height:auto; background:#4991DB; margin:0 auto; padding-top:1px; font-family:'宋体'; font-size:12px; line-height:150%;">
 	<div style="width:700px; height:auto; overflow:hidden; margin:0 auto; margin-top:50px;"><!--main begin-->
 		<div style="width:698px; height:1px; overflow:hidden; background:#fff; margin-left:1px; float:left; display:inline;"></div>
 		<div style=" width:620px; height:auto; overflow:hidden; background:#fff; float:left; padding:40px;"><!--main_m begin-->
-			<div style="width:620px; height:30px; overflow:hidden; margin-top:30px; float:left;"><em style="width:1px; height:28px; background:#F8E69E; float:left; margin-top:1px; overflow:hidden;"></em><span style="width:618px; height:30px; background:#F8E69E; float:left; text-align:center; color:#666; line-height:30px;">你有<span style="color:#4286D7; margin:auto 5px; font-weight:bold;">${msgCount}</span>条拒宅消息</span><em style="width:1px; height:28px; background:#F8E69E; float:left; margin-top:1px; overflow:hidden;"></em></div>
+			<div class="user">
+				<span style="width:620px; float:left; color:#666; font-size:16px; font-family:'微软雅黑','宋体';">HI,${profile.nickname}！</span>
+				<span style="float:left; float:left; color:#666; font-size:14px; margin-top:15px; width:620px;">你收到了新的拒宅消息</span>
+			</div>
+			<div style="width:620px; height:30px; overflow:hidden; margin-top:30px; float:left;">
+				<em style="width:1px; height:28px; background:#F8E69E; float:left; margin-top:1px; overflow:hidden;"></em>
+				<span style="width:618px; height:30px; background:#F8E69E; float:left; text-align:center; color:#666; line-height:30px;">你有<span style="color:#4286D7; margin:auto 5px; font-weight:bold;">${msgCount}</span>条拒宅消息</span>
+				<em style="width:1px; height:28px; background:#F8E69E; float:left; margin-top:1px; overflow:hidden;"></em>
+			</div>
 			<div style="width:620px; height:auto; overflow:hidden; float:left; margin-top:6px;"><!--message_list begin-->
 				#foreach($actMsgView in $actMsgViewList)
 					<div style="width:590px; height:80px; background:#FAFAFA; padding:15px; float:left; margin-top:1px; position:relative;"><!--item begin-->
@@ -53,20 +19,20 @@
 						</div>
 						<span style="float:left; font-size:14px; font-weight:bold; margin-top:15px; padding-bottom:15px; width:80%; ">
 							<span style="color:#336AAE; float:left;">${actMsgView.profileCache.nickname}</span>
-							#if(${actMsgView.msgType.name()=='INVITE'})
+							#if($actMsgView.msgType.name()=='INVITE')
 								<span style=" color:#666; float:left; margin-left:10px; display:inline;">想和你去...</span>
-							#elseif(${actMsgView.msgType.name()=='RECOMMEND'})
+							#elseif($actMsgView.msgType.name()=='RECOMMEND')
 								<span style=" color:#666; float:left; margin-left:10px; display:inline;">添加了一个跟你相同的拒宅兴趣</span>
 							#end
 						</span>
 						<em style="float:left; color:#999; white-space:nowrap; font-style:normal;">ta在#if($actMsgView.profileCache.cityName && $actMsgView.profileCache.cityName != "")${actMsgView.profileCache.cityName}#else地球#end</em>
-						<a href="#" style="float:left; color:#336AAE; margin-left:20px; display:inline; text-decoration:none;">立即查看&gt;&gt;</a>
-						<strong style="position:absolute; right:15px; top:10px; color:#ccc; font-family:Tahoma; font-size:11px;">${actMsgView.dateFormat}</strong>
+						##<a href="#if(!$tp)http://www.51juzhai.com#else${tp.appUrl}#end" style="float:left; color:#336AAE; margin-left:20px; display:inline; text-decoration:none;">立即查看&gt;&gt;</a>
+						<strong style="position:absolute; right:15px; top:10px; color:#ccc; font-family:Tahoma; font-size:11px;">&nbsp;${actMsgView.dateFormat}</strong>
 					</div><!--item end-->
 					<div style="width:620px; height:1px; background:#F5F5F5; overflow:hidden; float:left; margin-top:1px;"></div>
 				#end
 			</div><!--message_list end-->
-			<div style="width:620px; float:left; margin-top:5px; _margin-top:-10px;"><a href="#if($tp==null)http://www.51juzhai.com#else${tp.appUrl}#end" style="float:right; color:#336AAE;  margin-right:5px; display:inline; text-decoration:none;">查看更多&gt;&gt;</a></div>
+			<div style="width:620px; float:left; margin-top:5px; _margin-top:-10px;"><a href="#if(!$tp)http://www.51juzhai.com#else${tp.appUrl}#end" style="float:right; color:#336AAE;  margin-right:5px; display:inline; text-decoration:none;">查看更多&gt;&gt;</a></div>
 		</div><!--main_m end-->
 		<div style="width:698px; height:1px; overflow:hidden; background:#fff; margin-left:1px; float:left; display:inline;"></div>
 	</div><!--main over-->

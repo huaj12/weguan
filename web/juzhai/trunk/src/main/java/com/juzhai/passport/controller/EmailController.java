@@ -21,6 +21,7 @@ import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.service.IEmailService;
@@ -84,6 +85,7 @@ public class EmailController extends BaseController {
 		}
 		model.addAttribute("profile", profileCache);
 		model.addAttribute("token", token);
+		model.addAttribute("tpMap", InitData.TP_MAP);
 		return "mail/unsub";
 	}
 

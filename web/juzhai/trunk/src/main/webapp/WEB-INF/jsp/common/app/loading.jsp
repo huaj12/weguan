@@ -9,13 +9,16 @@
 	</head>
 	<body>
 		<div class="main"><!--main begin-->
-			<div class="skin_top_new"><!--skin_top_new begin-->
-			</div><!--skin_top_new end-->
+			<div class="skin_top_new"><!--skin_top_new begin--></div><!--skin_top_new end-->
 			<div class="skin_body"><!--skin_body begin-->
 				<div class="skin_top_bg_new"><!--content_bg begin-->
 					<div class="loading"><!--loading begin-->
 						<span><img src="${jz:static('/images/loading.gif')}" /></span>
-						<p></p>
+						<p id="p1">正在开启拒宅器...</p>
+						<p id="p2" style="dsiplay:none;">开始导入你的好友...</p>
+						<p id="p3" style="dsiplay:none;">正在挖掘好友兴趣...</p>
+						<p id="p4" style="dsiplay:none;">为你准备兴趣匹配...</p>
+						<p id="p5" style="dsiplay:none;">开启你的拒宅通知...</p>
 					</div><!--loading end-->
 				</div><!--content_bg end-->
 			</div><!--skin_body end-->
@@ -23,6 +26,16 @@
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
 		<script type="text/javascript">
+			var pArray = $("div.loading > p");
+			var pCount = $("div.loading > p").size();
+			var pNum = 1;
+			setInterval(function() {
+				pArray[pNum-1].fadeOut(200, function() {
+					pNum = pNum == pCount ? 1 : (pNum + 1);
+					pArray[pNum-1].fadeIn(200);
+				});
+			}, 2000);
+		
 			$(document).ready(function(){
 				var data=${data};
 				jQuery.ajax({
@@ -40,7 +53,6 @@
 				});
 			});
 		</script>
-		<script type="text/javascript" src="${jz:static('/js/base/kaixin_plugin.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 	</body>
 </html>

@@ -36,13 +36,17 @@ function holdStar(index){
 }
 
 function showFeedHtml(result){
+	var contentDiv = $("div.skin_top_bg > div.content.white");
+	contentDiv.html(result);
 	$(".loading_home").hide();
-	$("div.skin_top_bg > div.content.white").html(result);
+	contentDiv.show();
 }
 
 function showLoading(){
-	$("div.skin_top_bg > div.content.white").html("");
+	var contentDiv = $("div.skin_top_bg > div.content.white");
+	contentDiv.hide();
 	$(".loading_home").show();
+	contentDiv.html("");
 }
 
 function dealFeed(url, data){

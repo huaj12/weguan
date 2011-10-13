@@ -71,7 +71,7 @@ public class CheckLoginFilter implements Filter {
 			String returnLink = URLEncoder.encode(
 					HttpRequestUtil.getRemoteUrl(request), "UTF-8");
 			// TODO need test
-			response.sendRedirect("/app/login?returnLink=" + returnLink);
+			response.sendRedirect("/login?returnLink=" + returnLink);
 		}
 	}
 

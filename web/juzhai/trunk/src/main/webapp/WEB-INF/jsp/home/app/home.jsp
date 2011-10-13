@@ -25,9 +25,6 @@
 						</div><!--mid end-->
 						<div class="bot"></div>
 					</div><!--loading end-->
-					<div class="loading_home"><!--loading begin-->
-						<span><img src="${jz:static('/images/loading.gif')}" /></span><p></p>
-					</div><!--loading end-->
 				</div><!--content_bg end-->
 			</div><!--skin_body end-->
 			<jsp:include page="/WEB-INF/jsp/common/app/app_bottom.jsp" />

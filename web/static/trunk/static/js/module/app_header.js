@@ -85,7 +85,7 @@ function addAct(successCallback) {
 		},
 		statusCode : {
 			401 : function() {
-				alert("未登录");
+				window.location.href="/login";
 			}
 		}
 	});
@@ -124,7 +124,7 @@ function subEmail() {
 		},
 		statusCode : {
 			401 : function() {
-				alert("未登录");
+				window.location.href="/login";
 			}
 		}
 	});
@@ -147,24 +147,27 @@ function hideSubEmailDefault(inputObj) {
 }
 
 function showUnreadCnt() {
-	jQuery.ajax({
-		url : "/msg/getUnMessageCount",
-		type : "get",
-		cache : false,
-		dataType : "json",
-		success : function(result) {
-			// result handle plugin
-			if (result && result.success) {
-				var cnt = result.result;
-				$(".message_num > span").text("+" + cnt);
-				if (cnt > 0) {
-					$(".message_num").show();
-				} else {
-					$(".message_num").hide();
+	var messageNumObj = $(".message_num");
+	if(messageNumObj){
+		jQuery.ajax({
+			url : "/msg/getUnMessageCount",
+			type : "get",
+			cache : false,
+			dataType : "json",
+			success : function(result) {
+				// result handle plugin
+				if (result && result.success) {
+					var cnt = result.result;
+					$(".message_num > span").text("+" + cnt);
+					if (cnt > 0) {
+						messageNumObj.show();
+					} else {
+						messageNumObj.hide();
+					}
 				}
 			}
-		}
-	});
+		});
+	}
 }
 
 $(document).ready(function() {

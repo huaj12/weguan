@@ -29,6 +29,8 @@ public class RedisTest {
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
+	private RedisTemplate<String, Integer> integerRedisTemplate;
+	@Autowired
 	private RedisTemplate<String, Mail> mailRedisTemplate;
 	@Autowired
 	private RedisTemplate<String, ActMsg> actMsgRedisTemplate;
@@ -163,5 +165,14 @@ public class RedisTest {
 					RedisKeyGenerator.genMailQueueKey(), 5, TimeUnit.SECONDS);
 			System.out.println(mail.getReceiver().getEmailAddress());
 		}
+	}
+
+	@Test
+	public void testIncr() {
+		System.out.println(integerRedisTemplate.opsForValue().increment(key, 1));
+		System.out.println(integerRedisTemplate.opsForValue().increment(key, 3));
+		System.out.println(integerRedisTemplate.opsForValue().increment(key, 6));
+		Assert.assertEquals(1L, integerRedisTemplate.opsForValue().increment(key,0)
+				.longValue());
 	}
 }

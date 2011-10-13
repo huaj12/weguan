@@ -16,8 +16,15 @@
 				<div class="skin_top_bg"><!--content_bg begin-->
 					<jsp:include page="/WEB-INF/jsp/common/app/app_prompt.jsp" />
 					<jsp:include page="/WEB-INF/jsp/common/app/app_point.jsp" />
-					<div class="content white"><!--content begin-->
+					<div class="content white" style="display:none;"><!--content begin-->
 					</div><!--content end-->
+					<div class="loading_home"><!--loading begin-->
+						<div class="top"></div>
+						<div class="mid"><!--mid begin-->
+							<span><img src="${jz:static('/images/loading.gif')}" /></span><p></p>
+						</div><!--mid end-->
+						<div class="bot"></div>
+					</div><!--loading end-->
 					<div class="loading_home"><!--loading begin-->
 						<span><img src="${jz:static('/images/loading.gif')}" /></span><p></p>
 					</div><!--loading end-->

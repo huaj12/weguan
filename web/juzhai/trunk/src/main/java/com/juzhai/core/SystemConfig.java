@@ -70,6 +70,30 @@ public class SystemConfig implements FactoryBean<List<String>> {
 		}
 	}
 
+	/**
+	 * 根据当前请求URL获取哪个平台
+	 * 
+	 * @param thirdpartyName
+	 * @return
+	 */
+	public static String getThirdpartyName(String requestUrl) {
+		String key = null;
+		for (Map.Entry<String, String> entry : SystemConfig.DOMAIN_MAP
+				.entrySet()) {
+			if (StringUtils.contains(requestUrl, entry.getValue())) {
+				key = entry.getKey();
+				break;
+			}
+		}
+		if (StringUtils.isEmpty(key)
+				|| StringUtils.equals(DOMAIN_PROPERTY_SUFFIX, key)) {
+			return null;
+		} else {
+			return StringUtils.substring(key, 0,
+					StringUtils.lastIndexOf(key, "." + DOMAIN_PROPERTY_SUFFIX));
+		}
+	}
+
 	public SystemConfig() {
 		super();
 		locations.add("classpath:" + SYSTEM_CONFIG_PATH);

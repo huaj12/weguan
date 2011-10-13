@@ -29,8 +29,10 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.util.JackSonSerializer;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.IAuthorizeService;
 import com.juzhai.passport.service.IUserGuideService;
@@ -53,7 +55,12 @@ public class TpAuthorizeController extends BaseController {
 	private IUserGuideService userGuideService;
 
 	@RequestMapping(value = "app/login")
-	public String login(HttpServletRequest request) {
+	public String login(HttpServletRequest request, Model model) {
+		String requestUrl = HttpRequestUtil.getRemoteUrl(request);
+		String thirdpartyName = SystemConfig.getThirdpartyName(requestUrl);
+		Thirdparty tp = InitData.getTpByTpNameAndJoinType(thirdpartyName,
+				JoinTypeEnum.APP);
+		model.addAttribute("tp", tp);
 		return "login/app/login";
 	}
 

@@ -3,12 +3,15 @@ package com.juzhai.core.web.util;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class HttpRequestUtil {
-
 	public final static Log log = LogFactory.getLog(HttpRequestUtil.class);
+
+	private static final String NGINX_IP_HEADER = "X-Real-IP";
+	private static final String NGINX_URL_HEADER = "X-Real-Url";
 
 	public static boolean getSessionAttributeAsBoolean(
 			HttpServletRequest request, String name, boolean defaultValue) {
@@ -53,13 +56,6 @@ public class HttpRequestUtil {
 		return session.getId();
 	}
 
-	public static String getRemoteAddress(HttpServletRequest request) {
-		if (_checkParamNull(request)) {
-			return null;
-		}
-		return request.getRemoteAddr();
-	}
-
 	public static void removeSessionAttribute(HttpServletRequest request,
 			String uidAttributeName) {
 		if (_checkParamNull(request)) {
@@ -75,6 +71,48 @@ public class HttpRequestUtil {
 			return;
 		}
 		request.getSession().setMaxInactiveInterval(interval);
+	}
+
+	/**
+	 * 从request中抽取客户端ip(兼容nginx转发模式)
+	 * 
+	 * @author morgan
+	 * @param request
+	 * @see #NGINX_IP_HEADER
+	 * @return
+	 */
+	public static String getRemoteIp(HttpServletRequest request) {
+		if (_checkParamNull(request)) {
+			return null;
+		}
+		String ip = request.getHeader(NGINX_IP_HEADER);
+		if (StringUtils.isEmpty(ip))
+			return request.getRemoteAddr();
+		else
+			return ip;
+	}
+
+	/**
+	 * 从request中抽取当前url(兼容nginx转发模式)
+	 * 
+	 * @author morgan
+	 * @param request
+	 * @see #NGINX_URL_HEADER
+	 * @return
+	 */
+	public static String getRemoteUrl(HttpServletRequest request) {
+		if (_checkParamNull(request)) {
+			return null;
+		}
+		String url = request.getHeader(NGINX_URL_HEADER);
+		if (StringUtils.isEmpty(url)) {
+			return request.getRequestURL().toString();
+		} else {
+			if (log.isDebugEnabled()) {
+				log.debug("NGINX_URL_HEADER:" + url);
+			}
+			return url;
+		}
 	}
 
 	private static boolean _checkParamNull(Object... params) {

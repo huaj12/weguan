@@ -16,11 +16,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.juzhai.core.Constants;
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.LoginSessionManager;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.core.web.util.HttpRequestUtil;
 
 @Component
 public class CheckLoginFilter implements Filter {
@@ -69,11 +69,9 @@ public class CheckLoginFilter implements Filter {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		} else {
 			String returnLink = URLEncoder.encode(
-					request.getRequestURL().toString()
-							+ (request.getQueryString() == null ? "" : request
-									.getQueryString()), Constants.UTF8);
-			response.sendRedirect(SystemConfig.getDomain()
-					+ "/app/login?returnLink=" + returnLink);
+					HttpRequestUtil.getRemoteUrl(request), "UTF-8");
+			// TODO need test
+			response.sendRedirect("/app/login?returnLink=" + returnLink);
 		}
 	}
 

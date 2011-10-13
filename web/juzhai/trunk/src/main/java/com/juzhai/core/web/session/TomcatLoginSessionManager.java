@@ -18,7 +18,7 @@ public class TomcatLoginSessionManager implements LoginSessionManager {
 		long uid = HttpRequestUtil.getSessionAttributeAsLong(request,
 				UID_ATTRIBUTE_NAME, 0L);
 		String sessionId = HttpRequestUtil.getSessionId(request);
-		String remoteAddress = HttpRequestUtil.getRemoteAddress(request);
+		String remoteAddress = HttpRequestUtil.getRemoteIp(request);
 		long tpId = HttpRequestUtil.getSessionAttributeAsLong(request,
 				TPID_ATTRIBUTE_NAME, 0L);
 		boolean admin = HttpRequestUtil.getSessionAttributeAsBoolean(request,

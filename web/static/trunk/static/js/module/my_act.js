@@ -44,7 +44,7 @@ function removeAct(a){
 			},
 			statusCode: {
 			    401: function() {
-			      alert("未登录");
+			    	window.location.href="/login";
 			    }
 			}
 		});
@@ -77,7 +77,7 @@ function addRecommendAct(a){
 		},
 		statusCode: {
 		    401: function() {
-		      alert("未登录");
+		    	window.location.href="/login";
 		    }
 		}
 	});
@@ -98,7 +98,7 @@ function pageMyAct(page){
 		},
 		statusCode: {
 		    401: function() {
-		      alert("未登录");
+		    	window.location.href="/login";
 		    }
 		}
 	});
@@ -119,7 +119,7 @@ function showHotActs(a, actCategoryId){
 		},
 		statusCode: {
 		    401: function() {
-		      alert("未登录");
+		    	window.location.href="/login";
 		    }
 		}
 	});

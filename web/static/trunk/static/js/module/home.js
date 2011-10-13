@@ -10,7 +10,7 @@ $(document).ready(function(){
 		},
 		statusCode: {
 		    401: function() {
-		      alert("未登录");
+		      window.location.href="/login";
 		    }
 		}
 	});
@@ -38,8 +38,12 @@ function holdStar(index){
 function showFeedHtml(result){
 	var contentDiv = $("div.skin_top_bg > div.content.white");
 	contentDiv.html(result);
-	$(".loading_home").hide();
-	contentDiv.show();
+//	$(".loading_home").hide();
+//	contentDiv.show();
+	
+	$(".loading_home").fadeOut(500, function(){
+		contentDiv.fadeIn(400);
+	});
 }
 
 function showLoading(){
@@ -65,7 +69,7 @@ function dealFeed(url, data){
 		},
 		statusCode: {
 		    401: function() {
-		      alert("未登录");
+		    	window.location.href="/login";
 		    }
 		}
 	});

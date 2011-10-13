@@ -54,7 +54,7 @@ public class TpAuthorizeController extends BaseController {
 	@Autowired
 	private IUserGuideService userGuideService;
 
-	@RequestMapping(value = "app/login")
+	@RequestMapping(value = "login")
 	public String login(HttpServletRequest request, Model model) {
 		String requestUrl = HttpRequestUtil.getRemoteUrl(request);
 		String thirdpartyName = SystemConfig.getThirdpartyName(requestUrl);

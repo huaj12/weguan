@@ -21,7 +21,7 @@
 		<div class="dy fr">
 			<div class="error" style="display:none">请输入完整信息</div>
 			<p class="l"></p>
-			<span><input id="subEmail" type="text" <c:if test="${profile.subEmail}">value="${profile.email}"</c:if> initmsg="输入email" /></span>
+			<span><input id="subEmail" type="text" <c:if test="${profile.subEmail}">value="${profile.email}"</c:if> initmsg="用email接收拒宅邀请" /></span>
 			<a href="javascript:;">订阅</a>
 		</div>
 		<div class="message fr"><!--我的消息 begin-->

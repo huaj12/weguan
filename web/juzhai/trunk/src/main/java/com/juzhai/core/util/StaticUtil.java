@@ -22,6 +22,7 @@ public class StaticUtil {
 	private static String prefix_js = null;
 	private static String prefix_image = null;
 	private static String prefix_static = null;
+	private static String version;
 
 	static {
 		try {
@@ -48,6 +49,7 @@ public class StaticUtil {
 		prefix_js = prop.getProperty("prefix_js");
 		prefix_image = prop.getProperty("prefix_image");
 		prefix_static = prop.getProperty("prefix_static");
+		version = prop.getProperty("version", "");
 	}
 
 	//
@@ -83,6 +85,6 @@ public class StaticUtil {
 		if (log.isDebugEnabled()) {
 			log.debug("static resource converting:" + key + "->" + url);
 		}
-		return url;
+		return url + (StringUtils.isEmpty(version) ? "" : ("?" + version));
 	}
 }

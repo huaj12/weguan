@@ -2,7 +2,7 @@ function setHeight(){
 	var dHeight = document.documentElement.offsetHeight;
 	if("\v"=="v")
 	{
-		dHeight = document.documentElement.scrollHeight;
+		dHeight = document.body.scrollHeight;
 	}
 	var t = document.createElement("div");
 	t.innerHTML = '<iframe id="kxiframeagent" src="http://rest.kaixin001.com/api/agent.html#'+dHeight+'" scrolling="yes" height="0px" width="0px" frameborder="0"></iframe>';

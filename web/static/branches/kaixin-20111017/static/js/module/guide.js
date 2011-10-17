@@ -105,6 +105,7 @@ $(document).ready(function(){
 	
 	$(".next").bind("click", function(){
 		$("#nextForm").submit();
+		return false;
 	});
 	
 	$(".complete").bind("click", function(){

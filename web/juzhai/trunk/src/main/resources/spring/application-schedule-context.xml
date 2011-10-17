@@ -94,8 +94,8 @@
 				<ref bean="lazyMessageTrigger"/>
 				<ref bean="getBackFeedTrigger"/>
 				<ref bean="resetQuestionUsersTrigger"/>
-				<!-- <ref bean="unreadMsgEmailTrigger"/>
-				<ref bean="actBriefingEmailTrigger"/> -->
+				<ref bean="unreadMsgEmailTrigger"/>
+				<ref bean="actBriefingEmailTrigger"/>
 			</list>
 		</property>
 	</bean>

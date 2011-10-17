@@ -58,10 +58,7 @@ public class AppHomeController extends BaseController {
 	public String showFeed(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
-		long time3 = System.currentTimeMillis();
 		getNextFeed(context, 1, model);
-		long time4 = System.currentTimeMillis();
-		System.out.println("get feed:" + (time4 - time3));
 		return "home/app/feed_fragment";
 	}
 

@@ -130,7 +130,7 @@ public class UserGuideController extends BaseController {
 					userActService.addAct(context.getUid(), actId, false);
 				} catch (ActInputException e) {
 					log.error("Add act by id failed in giude. [actId:" + actId
-							+ "]", e);
+							+ ", message:" + e.getMessage() + "]");
 				}
 			}
 		}
@@ -139,8 +139,10 @@ public class UserGuideController extends BaseController {
 				try {
 					userActService.addAct(context.getUid(), actName, false);
 				} catch (ActInputException e) {
-					log.error("Add act by name failed in giude. [actName:"
-							+ actName + "]", e);
+					if (log.isDebugEnabled()) {
+						log.debug("Add act by name failed in giude. [actName:"
+								+ actName + "]", e);
+					}
 				}
 			}
 		}

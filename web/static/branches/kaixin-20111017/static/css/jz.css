@@ -539,7 +539,7 @@ abbr,acronym { border: 0;
 .basic_yd .sec p span{ width:1px; height:25px; float:left; margin-top:1px; overflow:hidden; background:#F5F5F5;}
 .basic_yd .sec p a.key_words{ height:27px; padding-left:12px; padding-right:12px; float: left;  line-height:27px; color:#999; text-decoration:none; background:#F5F5F5;}
 .basic_yd .sec p em{ position:absolute; bottom:6px;  left:2px; display:none; background:url(../images/full_image.png) no-repeat -750px -20px;
-_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/selected_icon.png'); /* IE6 */
+_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/selected_icon.png'); /* IE6 */
 _background-image:none; width:7px; height:8px;}
 
 

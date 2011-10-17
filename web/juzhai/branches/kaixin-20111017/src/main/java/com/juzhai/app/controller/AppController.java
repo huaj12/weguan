@@ -51,6 +51,7 @@ public class AppController  {
 	public String dialogSysnewsCallBack(HttpServletRequest request, 
 			Model model,String uid,String fuids,String name) {
 		// TODO: 接入人人这里需要修改
+		String queryString =request.getQueryString();
 		try{
 			long tpId=0;
 			long actId=0;
@@ -60,7 +61,6 @@ public class AppController  {
 				actId=Long.valueOf(str[0]);
 			}
 			//验证签名
-			String queryString =request.getQueryString();
 			TpUser sendUser=tpUserService.getTpUserByTpIdAndIdentity(tpId, uid);
 			if(sendUser==null){
 				log.error("dialogSysnewsCallBack uid is not bind");
@@ -83,7 +83,7 @@ public class AppController  {
 				 log.error("inviteCallBack sig is error");
 			 }
 		}catch (Exception e) {
-			log.error("inviteCallBack is error",e);
+			log.error("inviteCallBack is error queryString="+queryString,e);
 		}
 		return null;
 	}
@@ -93,6 +93,7 @@ public class AppController  {
 	public String feedCallBack(HttpServletRequest request,Long tpId,String uid){
 		//验证签名
 		String queryString =request.getQueryString();
+		try{
 		TpUser sendUser=tpUserService.getTpUserByTpIdAndIdentity(tpId, uid);
 		if(sendUser==null){
 			log.error("feedCallBack uid is not bind");
@@ -102,8 +103,11 @@ public class AppController  {
 			 //加积分
 			 accountService.profitPoint(sendUser.getUid(), ProfitAction.TP_FEED);
 		 }else{
-			 log.error("feedCallBack sig is error");
+			 log.error("feedCallBack sig is error ");
 		 }
+		}catch (Exception e) {
+			log.error("feedCallBack is error queryString="+queryString,e);
+		}
 		return null;
 	}
 	

@@ -22,8 +22,10 @@ import com.juzhai.passport.bean.AuthInfo;
 @Service
 public class KaiXinService implements IAppService {
 	private final Log log = LogFactory.getLog(getClass());
+
 	@Override
-	public String[] appFriends(AuthInfo authInfo, int start, int num) throws JuzhaiAppException {
+	public String[] appFriends(AuthInfo authInfo, int start, int num)
+			throws JuzhaiAppException {
 		if (start < 0) {
 			start = 0;
 		}
@@ -31,29 +33,30 @@ public class KaiXinService implements IAppService {
 		if (num < 0 || num > 50) {
 			num = 20;
 		}
-		try{
-		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("start", String.valueOf(start));
-		paramMap.put("num", String.valueOf(num));
-		String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap, authInfo.getSessionKey());
-		String ret = AppPlatformUtils.doSllGet(
-				"https://api.kaixin001.com/app/friends.json", query);
-		JSONObject jObject = JSONObject.fromObject(ret);
-		JSONArray list =(JSONArray) jObject.get("uids");
-		String []uids=new String[list.size()];
-		for (int i = 0; i < list.size(); i++) {
-			uids[0]=list.getString(i);
+		try {
+			Map<String, String> paramMap = new HashMap<String, String>();
+			paramMap.put("start", String.valueOf(start));
+			paramMap.put("num", String.valueOf(num));
+			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
+					authInfo.getSessionKey());
+			String ret = AppPlatformUtils.doSllGet(
+					"https://api.kaixin001.com/app/friends.json", query);
+			JSONObject jObject = JSONObject.fromObject(ret);
+			JSONArray list = (JSONArray) jObject.get("uids");
+			String[] uids = new String[list.size()];
+			for (int i = 0; i < list.size(); i++) {
+				uids[0] = list.getString(i);
+			}
+			return uids;
+		} catch (Exception e) {
+			throw new JuzhaiAppException("get kaixin appFriends is error", e);
 		}
-		return uids;
-		}catch (Exception e) {
-			throw new JuzhaiAppException("get kaixin appFriends is error",e);
-		}
-		
+
 	}
 
 	@Override
-	public List<AppUser> getFriends(AuthInfo authInfo, String fields, int start,
-			int num) throws JuzhaiAppException {
+	public List<AppUser> getFriends(AuthInfo authInfo, String fields,
+			int start, int num) throws JuzhaiAppException {
 		if (start < 0) {
 			start = 0;
 		}
@@ -61,74 +64,76 @@ public class KaiXinService implements IAppService {
 		if (num < 0 || num > 50) {
 			num = 20;
 		}
-		try{
-		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("fields", fields);
-		paramMap.put("start", String.valueOf(start));
-		paramMap.put("num", String.valueOf(num));
-		String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,authInfo.getSessionKey());
-		String ret = AppPlatformUtils.doSllGet(
-				"https://api.kaixin001.com/friends/me.json", query);
-		JSONObject jObject = JSONObject.fromObject(ret);
-		return ConvertObject.constructUser(jObject);
-		}catch (Exception e) {
-			throw new JuzhaiAppException("get kaixin getFriends is error",e);
+		try {
+			Map<String, String> paramMap = new HashMap<String, String>();
+			paramMap.put("fields", fields);
+			paramMap.put("start", String.valueOf(start));
+			paramMap.put("num", String.valueOf(num));
+			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
+					authInfo.getSessionKey());
+			String ret = AppPlatformUtils.doSllGet(
+					"https://api.kaixin001.com/friends/me.json", query);
+			JSONObject jObject = JSONObject.fromObject(ret);
+			return ConvertObject.constructUser(jObject);
+		} catch (Exception e) {
+			throw new JuzhaiAppException("get kaixin getFriends is error", e);
 		}
 	}
 
 	@Override
 	public boolean sendSysMessage(String fuids, String linktext, String link,
-			String word, String text, String picurl,AuthInfo authInfo) {
-		boolean flag=false;
-		try{
+			String word, String text, String picurl, AuthInfo authInfo) {
+		boolean flag = false;
+		try {
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("fuids", fuids);
 			paramMap.put("linktext", linktext);
 			paramMap.put("link", link);
-			if(!StringUtils.isEmpty(word)){
-				paramMap.put("word", word);	
+			if (!StringUtils.isEmpty(word)) {
+				paramMap.put("word", word);
 			}
-			if(!StringUtils.isEmpty(picurl)){
+			if (!StringUtils.isEmpty(picurl)) {
 				paramMap.put("picurl", picurl);
 			}
 			paramMap.put("text", text);
-			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,authInfo.getSessionKey());
+			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
+					authInfo.getSessionKey());
 			String ret = AppPlatformUtils.doPost(
 					"https://api.kaixin001.com/sysnews/send.json", query);
 			JSONObject jObject = JSONObject.fromObject(ret);
-			if("1".equals(jObject.getString("result"))){
-				flag= true;
-			}else{
-				flag= false;
+			if ("1".equals(jObject.getString("result"))) {
+				flag = true;
+			} else {
+				flag = false;
 			}
-				return flag;
-			}catch (Exception e) {
-				log.error("send kaixin sysmessage is error fuids:"+fuids, e);
-				return flag;
-			}
+			return flag;
+		} catch (Exception e) {
+			log.error("send kaixin sysmessage is error fuids:" + fuids
+					+ " [error: " + e.getMessage() + "].");
+			return flag;
+		}
 	}
 
 	@Override
-	public boolean sendMessage(String fuids, String content,AuthInfo authInfo) {
-		boolean flag=false;
-		try{
+	public boolean sendMessage(String fuids, String content, AuthInfo authInfo) {
+		boolean flag = false;
+		try {
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("fuids", fuids);
-			paramMap.put("content",content);
-			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,authInfo.getSessionKey());
+			paramMap.put("content", content);
+			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
+					authInfo.getSessionKey());
 			String ret = AppPlatformUtils.doPost(
 					"https://api.kaixin001.com/message/send.json", query);
 			JSONObject jObject = JSONObject.fromObject(ret);
-			if(!StringUtils.isEmpty(jObject.getString("mid"))){
-				flag=true;
+			if (!StringUtils.isEmpty(jObject.getString("mid"))) {
+				flag = true;
 			}
-				return flag;
-			}catch (Exception e) {
-				log.error("send  kaixin message is error fuids:"+fuids, e);
-				return flag;
-			}
+			return flag;
+		} catch (Exception e) {
+			log.error("send  kaixin message is error fuids:" + fuids, e);
+			return flag;
+		}
 	}
 
-
-	
 }

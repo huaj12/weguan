@@ -108,11 +108,4 @@ public class DESUtils {
 		return new String(decrypt(rawKeyData,
 				Hex.decodeHex(encryptData.toCharArray())));
 	}
-
-	public static void main(String[] args) throws Exception {
-		byte[] key = generateKey();
-		byte[] encryptData = encrypt(key, "4567".getBytes());
-		byte[] decryptData = decrypt(generateKey(), encryptData);
-		System.out.println(new String(decryptData));
-	}
 }

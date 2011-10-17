@@ -99,44 +99,45 @@ public class FriendService implements IFriendService {
 
 	@Override
 	public void updateExpiredFriends(long uid, long tpId, AuthInfo authInfo) {
-		// if (isExpired(uid)) {
-		if (null != authInfo) {
-			// 第三方安装应用好友
-			List<String> appFriendIds = authorizeService
-					.getAppFriends(authInfo);
+		if (isExpired(uid)) {
+			if (null != authInfo) {
+				// 第三方安装应用好友
+				List<String> appFriendIds = authorizeService
+						.getAppFriends(authInfo);
 
-			// 第三方未安装应用的好友
-			listRedisTemplate.opsForValue().set(
-					RedisKeyGenerator.genUnInstallFriendsKey(uid),
-					getNonAppFriends(authorizeService.getAllFriends(authInfo),
-							appFriendIds));
+				// 第三方未安装应用的好友
+				listRedisTemplate.opsForValue().set(
+						RedisKeyGenerator.genUnInstallFriendsKey(uid),
+						getNonAppFriends(
+								authorizeService.getAllFriends(authInfo),
+								appFriendIds));
 
-			// 更新安装了App的好友
-			List<Long> appFriends = getAppFriendUids(appFriendIds, tpId);
+				// 更新安装了App的好友
+				List<Long> appFriends = getAppFriendUids(appFriendIds, tpId);
 
-			String key = RedisKeyGenerator.genFriendsKey(uid);
-			Set<Long> cachedFriends = null;
-			if (longRedisTemplate.hasKey(key)) {
-				cachedFriends = longRedisTemplate.opsForZSet()
-						.range(key, 0, -1);
-				for (Long id : cachedFriends) {
-					if (!appFriends.contains(id)) {
-						longRedisTemplate.opsForZSet().remove(key, id);
-						longRedisTemplate.opsForZSet().remove(
-								RedisKeyGenerator.genFriendsKey(id), uid);
+				String key = RedisKeyGenerator.genFriendsKey(uid);
+				Set<Long> cachedFriends = null;
+				if (longRedisTemplate.hasKey(key)) {
+					cachedFriends = longRedisTemplate.opsForZSet().range(key,
+							0, -1);
+					for (Long id : cachedFriends) {
+						if (!appFriends.contains(id)) {
+							longRedisTemplate.opsForZSet().remove(key, id);
+							longRedisTemplate.opsForZSet().remove(
+									RedisKeyGenerator.genFriendsKey(id), uid);
+						}
 					}
 				}
-			}
-			for (Long id : appFriends) {
-				if (null == cachedFriends || !cachedFriends.contains(id)) {
-					longRedisTemplate.opsForZSet().add(key, id, 0);
-					longRedisTemplate.opsForZSet().add(
-							RedisKeyGenerator.genFriendsKey(id), uid, 0);
+				for (Long id : appFriends) {
+					if (null == cachedFriends || !cachedFriends.contains(id)) {
+						longRedisTemplate.opsForZSet().add(key, id, 0);
+						longRedisTemplate.opsForZSet().add(
+								RedisKeyGenerator.genFriendsKey(id), uid, 0);
+					}
 				}
+				touchCache(uid);
 			}
-			touchCache(uid);
 		}
-		// }
 	}
 
 	@Override

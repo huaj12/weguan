@@ -249,6 +249,18 @@ public class AppPlatformUtils {
             }
         }
     }
+ 
+ public static void doMsgPost(String reqUrl, String parameters) {
+     HttpURLConnection urlConn = null;
+     try {
+         urlConn = sendPost(reqUrl, parameters);
+     } finally {
+         if (urlConn != null) {
+             urlConn.disconnect();
+             urlConn = null;
+         }
+     }
+ }
 
   
 public static String doSllGet(String reqUrl, String parameters) {

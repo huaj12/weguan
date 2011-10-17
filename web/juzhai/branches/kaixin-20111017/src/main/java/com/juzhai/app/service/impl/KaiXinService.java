@@ -64,6 +64,7 @@ public class KaiXinService implements IAppService {
 		if (num < 0 || num > 50) {
 			num = 20;
 		}
+		String ret="";
 		try {
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("fields", fields);
@@ -71,19 +72,18 @@ public class KaiXinService implements IAppService {
 			paramMap.put("num", String.valueOf(num));
 			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
 					authInfo.getSessionKey());
-			String ret = AppPlatformUtils.doSllGet(
+			 ret = AppPlatformUtils.doSllGet(
 					"https://api.kaixin001.com/friends/me.json", query);
 			JSONObject jObject = JSONObject.fromObject(ret);
 			return ConvertObject.constructUser(jObject);
 		} catch (Exception e) {
-			throw new JuzhaiAppException("get kaixin getFriends is error", e);
+			throw new JuzhaiAppException("get kaixin getFriends is error ret="+ret, e);
 		}
 	}
 
 	@Override
 	public boolean sendSysMessage(String fuids, String linktext, String link,
 			String word, String text, String picurl, AuthInfo authInfo) {
-		boolean flag = false;
 		try {
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("fuids", fuids);
@@ -98,19 +98,13 @@ public class KaiXinService implements IAppService {
 			paramMap.put("text", text);
 			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
 					authInfo.getSessionKey());
-			String ret = AppPlatformUtils.doPost(
+			AppPlatformUtils.doMsgPost(
 					"https://api.kaixin001.com/sysnews/send.json", query);
-			JSONObject jObject = JSONObject.fromObject(ret);
-			if ("1".equals(jObject.getString("result"))) {
-				flag = true;
-			} else {
-				flag = false;
-			}
-			return flag;
+			return true;
 		} catch (Exception e) {
 			log.error("send kaixin sysmessage is error fuids:" + fuids
 					+ " [error: " + e.getMessage() + "].");
-			return flag;
+			return false;
 		}
 	}
 
@@ -134,6 +128,29 @@ public class KaiXinService implements IAppService {
 			log.error("send  kaixin message is error fuids:" + fuids, e);
 			return flag;
 		}
+	}
+
+	@Override
+	public int getAllocation(AuthInfo authInfo) {
+		String ret="";
+		try{
+		Map<String, String> paramMap = new HashMap<String, String>();
+		String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
+				authInfo.getSessionKey());
+	    ret=AppPlatformUtils.doSllGet("https://api.kaixin001.com/app/rate_limit_status.json", query);
+		JSONObject jObject = JSONObject.fromObject(ret);
+			return jObject.getInt("remaining_hits");
+		}catch (Exception e) {
+			log.error("getAllocation is error ret:" + ret, e);
+			return 0;
+		}
+		
+	}
+	
+	public static void main(String[] args){
+		AuthInfo a=new AuthInfo();
+		a.setSessionKey("2328283_100012402_2328283_1318852016_ea8b5ebbb46547e0f2bcc504b027b801");
+		System.out.println(new KaiXinService().getAllocation(a));
 	}
 
 }

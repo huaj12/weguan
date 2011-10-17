@@ -177,7 +177,7 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 				start += num;
 			}
 		} catch (JuzhaiAppException e) {
-			log.error(e.getMessage(), e);
+			log.error(e.getMessage());
 		}
 		return friendIdList;
 	}

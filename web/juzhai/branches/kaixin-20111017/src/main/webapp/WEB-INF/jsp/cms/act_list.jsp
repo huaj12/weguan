@@ -115,6 +115,20 @@
 				<td></td>
 			</tr>
 		</c:forEach>
+		<tr>
+			<td colspan="7">
+				<c:forEach var="pageId" items="${pager.showPages}">
+					<c:choose>
+						<c:when test="${pageId!=pager.currentPage}">
+							<a href="/cms/searchActs?startDate=${searchActForm.startDate}&endDate=${searchActForm.endDate}&order=${searchActForm.order}&pageId=${pageId}">${pageId}</a>
+						</c:when>
+						<c:otherwise>
+							<strong>${pageId}</strong>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</td>
+		</tr>
 	</table>
 	<div id="synonym"></div>
 </body>

@@ -139,10 +139,8 @@ public class UserGuideController extends BaseController {
 				try {
 					userActService.addAct(context.getUid(), actName, false);
 				} catch (ActInputException e) {
-					if (log.isDebugEnabled()) {
-						log.debug("Add act by name failed in giude. [actName:"
-								+ actName + "]", e);
-					}
+					log.error("Add act by name failed in giude. [actName:"
+							+ actName + ", message:" + e.getMessage() + "]");
 				}
 			}
 		}

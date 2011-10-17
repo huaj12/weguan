@@ -1,5 +1,8 @@
 package com.juzhai.core.web.session;
 
+import com.juzhai.passport.InitData;
+import com.juzhai.passport.model.Thirdparty;
+
 /**
  * 适用于manager层的用户上下文环境。可用于模拟用户的登录状态、用户当前的session ID、用户当前的IP地址。
  * 
@@ -77,6 +80,11 @@ public class UserContext {
 
 	public long getTpId() {
 		return tpId;
+	}
+
+	public String getTpName() {
+		Thirdparty tp = InitData.TP_MAP.get(this.tpId);
+		return tp == null ? null : tp.getName();
 	}
 
 	public boolean isAdmin() {

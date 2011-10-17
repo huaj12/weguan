@@ -29,7 +29,7 @@
 							<div class="basic_yd sec_${classSuffix}"><!--basic_yd begin-->
 								<h3 class="fl"></h3>
 								<div class="sec fr"><!--sec begin-->
-									<h2>选择你感兴趣的${actCategory.name}项目</h2>
+									<h2>选择你最近感兴趣的${actCategory.name}项目</h2>
 									<div id="acts">
 										<c:forEach var="act" items="${actList}">
 											<p><span class="fl"></span><a href="javascript:;" class="key_words" actId="${act.id}" title="点击添加"><c:out value="${act.name}" /></a><span class="fr"></span><em></em></p>

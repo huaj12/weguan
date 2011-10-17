@@ -113,5 +113,16 @@ public interface IActService {
 	 *            0.热度 1.时间
 	 * @return
 	 */
-	List<Act> searchNewActs(Date startDate, Date endDate, int order);
+	List<Act> searchNewActs(Date startDate, Date endDate, int order,
+			int firstResult, int maxResults);
+
+	/**
+	 * 新的兴趣数量
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 *            0.热度 1.时间
+	 * @return
+	 */
+	int countNewActs(Date startDate, Date endDate);
 }

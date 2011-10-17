@@ -26,6 +26,7 @@ import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
 import com.juzhai.cms.controller.form.SearchActForm;
 import com.juzhai.cms.controller.view.CmsActView;
+import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 
 @Controller
@@ -48,8 +49,12 @@ public class ActController {
 						new String[] { "yyyy.MM.dd" });
 				Date endDate = DateUtils.parseDate(form.getEndDate(),
 						new String[] { "yyyy.MM.dd" });
+
+				PagerManager pager = new PagerManager(form.getPageId(), 10,
+						actService.countNewActs(startDate, endDate));
 				List<Act> actList = actService.searchNewActs(startDate,
-						endDate, form.getOrder());
+						endDate, form.getOrder(), pager.getFirstResult(),
+						pager.getMaxResult());
 				List<CmsActView> viewList = new ArrayList<CmsActView>(
 						actList.size());
 				for (Act act : actList) {
@@ -57,6 +62,7 @@ public class ActController {
 							.listSynonymActs(act.getId())));
 				}
 				model.addAttribute("cmsActViewList", viewList);
+				model.addAttribute("pager", pager);
 			} catch (ParseException e) {
 				log.error("parse search date error.", e);
 			}

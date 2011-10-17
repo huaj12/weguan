@@ -414,7 +414,7 @@ abbr,acronym { border: 0;
 .item .item_style1 .infor span{ font-size:14px; font-family:"微软雅黑", "宋体" }
 .item .item_style1 .infor span.u{ color:#336AAE;}
 .item .item_style1 .infor span.w{ color:#666; margin:0 8px;}
-.item .item_style1 .infor span.v{ color:#666; font-weight:bold}
+.item .item_style1 .infor span.v{ color:#F26418; font-weight:bold}
 
 .item .item_style1 .infor p{ color:#999; float:left; margin-top:20px;}
 .item .item_style1 .infor strong{ color:#bbb; float:left; margin-top:20px; margin-left:20px; display:inline; font-family:Tahoma; font-size:10px; font-weight:bold;}

@@ -65,6 +65,17 @@
 	</bean>
 	<!-- lazyMessage end -->
 	
+	<!-- begin mergerMessage -->
+	<bean id="mergerMessageTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="mergerMessageHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${merger.msg.cron}" />
+	</bean>
+	<!-- endmergerMessage -->
+	
 	<!-- get back feed begin -->
 	<bean id="getBackFeedTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
@@ -92,6 +103,7 @@
 			<list>
 				<ref bean="actIndexOptimizationAndCommitTrigger"/>
 				<ref bean="lazyMessageTrigger"/>
+				<ref bean="mergerMessageTrigger"/>
 				<ref bean="getBackFeedTrigger"/>
 				<ref bean="resetQuestionUsersTrigger"/>
 				<ref bean="unreadMsgEmailTrigger"/>

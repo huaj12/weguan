@@ -89,6 +89,9 @@ public class MailManager {
 			}
 			mailDaemonRunning = false;
 			mailDaemonStopping = false;
+			if (log.isDebugEnabled()) {
+				log.debug("end mail daemon");
+			}
 		}
 	}
 

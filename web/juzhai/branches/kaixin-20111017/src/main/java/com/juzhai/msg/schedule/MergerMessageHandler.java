@@ -25,6 +25,7 @@ import com.juzhai.msg.service.IMsgService;
 import com.juzhai.msg.service.ISendAppMsgService;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserService;
+import com.juzhai.passport.service.IUserSetupService;
 
 @Component
 public class MergerMessageHandler extends AbstractScheduleHandler {
@@ -41,6 +42,8 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 	private IActService actService;
 	@Autowired
 	private IMsgService<MergerActMsg> msgService;
+	@Autowired
+	private IUserSetupService userSetupService;
 
 	@Override
 	protected void doHandle() {
@@ -55,18 +58,18 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 			if (count > 20) {
 				count = 20;
 			}
-			Set<TypedTuple<Long>> typedTuples = redisLongTemplate.opsForZSet().reverseRangeWithScores(key,
-					0, count);
+			Set<TypedTuple<Long>> typedTuples = redisLongTemplate.opsForZSet()
+					.reverseRangeWithScores(key, 0, count);
 			redisTemplate.delete(key);
 			LazyKeyView lazyKeyView = getLazyKeyView(key);
 			MergerActMsg merge = new MergerActMsg();
 			merge.setUid(lazyKeyView.getSendId());
 			List<ActMsg> actMsgs = new ArrayList<ActMsg>();
-			for(TypedTuple<Long> typeTuple:typedTuples){
-				ActMsg msg = new ActMsg(typeTuple.getValue(), lazyKeyView.getSendId(),
-						lazyKeyView.getType());
+			for (TypedTuple<Long> typeTuple : typedTuples) {
+				ActMsg msg = new ActMsg(typeTuple.getValue(),
+						lazyKeyView.getSendId(), lazyKeyView.getType());
 				if (actMsgs.size() == 0) {
-					long date=new Double(typeTuple.getScore()).longValue();
+					long date = new Double(typeTuple.getScore()).longValue();
 					merge.setDate(new Date(date));
 				}
 				actMsgs.add(msg);
@@ -74,10 +77,13 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 			merge.setMsgs(actMsgs);
 			merge.setType(lazyKeyView.getType());
 			msgService.sendMsg(lazyKeyView.getReceiverId(), merge);
-			TpUser tpUser = tpUserService.getTpUserByUid(lazyKeyView
-					.getReceiverId());
-			sendAppMsgService.threadSendAppMsg(tpUser, lazyKeyView.getSendId(),
-					lazyKeyView.getType(), count);
+			// 判断用户是否发送消息
+			if (userSetupService.isTpAdvise(lazyKeyView.getSendId())) {
+				TpUser tpUser = tpUserService.getTpUserByUid(lazyKeyView
+						.getReceiverId());
+				sendAppMsgService.threadSendAppMsg(tpUser,
+						lazyKeyView.getSendId(), lazyKeyView.getType(), count);
+			}
 
 		}
 	}

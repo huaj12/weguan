@@ -59,18 +59,22 @@ public class MigrateController {
 			Map<String, List<ActMsg>> map = new HashMap<String, List<ActMsg>>();
 			for (int i = 0; i < count; i++) {
 				ActMsg actMsg = redisTemplate.opsForList().leftPop(key);
+				if(actMsg==null){
+					log.info("actMsg is null key="+key);
+					continue;
+				}
 				List<ActMsg> actMsgs = null;
-				System.out.println(actMsg.getDate());
 				
 				String nowDate=sdf.format(actMsg.getDate());
-				System.out.println(actMsg.getUid()+":"+actMsg.getType()+":"+nowDate);
-				if (map.get(actMsg.getUid()+":"+actMsg.getType()) == null) {
+				log.debug(actMsg.getUid()+":"+actMsg.getType()+":"+nowDate);
+				String mapKey=actMsg.getUid()+":"+actMsg.getType()+":"+nowDate;
+				if (map.get(mapKey) == null) {
 					actMsgs = new ArrayList<ActMsg>();
 				} else {
-					actMsgs = map.get(actMsg.getUid()+":"+actMsg.getType()+":"+nowDate);
+					actMsgs = map.get(mapKey);
 				}
 				actMsgs.add(actMsg);
-				map.put(actMsg.getUid()+":"+actMsg.getType()+":"+nowDate, actMsgs);
+				map.put(mapKey, actMsgs);
 			}
 			for (Map.Entry<String, List<ActMsg>> entry : map.entrySet()) {
 				String str[]=entry.getKey().split(":");

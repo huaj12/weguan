@@ -24,6 +24,7 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
+import com.juzhai.passport.service.IUserSetupService;
 
 @Component
 public class ActMsgMessageListener implements
@@ -46,6 +47,8 @@ public class ActMsgMessageListener implements
 	@Autowired
 	private RedisTemplate<String, String> redisStringTemplate;
 	ISendAppMsgService sendAppMsgService;
+	@Autowired
+	private IUserSetupService userSetupService;
 
 	@Override
 	public Object handleMessage(MsgMessage<ActMsg> msgMessage) {
@@ -111,8 +114,11 @@ public class ActMsgMessageListener implements
 
 			}
 			if (tpUser != null) {
-				sendAppMsgService.threadSendAppMsg(tpUser, msgMessage
-						.getSenderId(), msgMessage.getBody().getType(), 1);
+				//该用户是否发送第三方消息
+				if (userSetupService.isTpAdvise(msgMessage.getSenderId())) {
+					sendAppMsgService.threadSendAppMsg(tpUser, msgMessage
+							.getSenderId(), msgMessage.getBody().getType(), 1);
+				}
 			}
 		} catch (Exception e) {
 			log.error("receiverActMsg is error", e);

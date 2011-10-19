@@ -72,8 +72,8 @@ public class MigrateController {
 				}
 			
 			}
-
 		}
+		redisTemplate.delete(keys);
 	}
 
 	private int getreceiverId(String key) {

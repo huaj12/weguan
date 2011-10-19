@@ -62,6 +62,9 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 			for (Long actId : actIds) {
 				ActMsg msg = new ActMsg(actId, lazyKeyView.getSendId(),
 						lazyKeyView.getType());
+				if (actMsgs.size() == 0) {
+					merge.setDate(msg.getDate());
+				}
 				actMsgs.add(msg);
 			}
 			merge.setMsgs(actMsgs);

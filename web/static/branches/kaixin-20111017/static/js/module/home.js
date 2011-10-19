@@ -29,7 +29,7 @@ function holdStar(index){
 	}
 	var star = stars[index-1];
 	if(star){
-		$("div.star > em").text($(star).attr("title")).show();
+		$("div.star > em").text($(star).attr("tip")).show();
 	}else{
 		$("div.star > em").text("").hide();
 	}

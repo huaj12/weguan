@@ -30,7 +30,7 @@
 						<c:when test="${feed.question.type == 0}">
 							<div class="star"><!--star begin-->
 								<c:forEach var="answer" items="${feed.answers}" varStatus="status">
-									<span class="link" onmouseover="javascript:holdStar(${status.count});" onmouseout="javascript:holdStar(-1);" onclick="javascript:answer(${feed.question.id}, ${status.count}, '${feed.tpFriend.userId}', ${times});" title="${answer}"></span>
+									<span class="link" onmouseover="javascript:holdStar(${status.count});" onmouseout="javascript:holdStar(-1);" onclick="javascript:answer(${feed.question.id}, ${status.count}, '${feed.tpFriend.userId}', ${times});" title="点击评价" tip="${answer}"></span>
 								</c:forEach>
 								<em class="zai" style="display:none;"></em>
 							</div><!--star end-->
@@ -46,7 +46,7 @@
 											<c:set var="answer_class" value="no" />
 										</c:when>
 									</c:choose>
-									<a href="javascript:;" class="${answer_class}" onclick="javascript:answer(${feed.question.id}, ${status.count}, '${feed.tpFriend.userId}', ${times});">&nbsp;&nbsp;${answer}</a>
+									<a href="javascript:;" class="${answer_class}" onclick="javascript:answer(${feed.question.id}, ${status.count}, '${feed.tpFriend.userId}', ${times});" <c:if test="${answer_class=='yes'}">title="点击评价"</c:if> >&nbsp;&nbsp;${answer}</a>
 								</c:forEach>
 							</div>
 						</c:when>

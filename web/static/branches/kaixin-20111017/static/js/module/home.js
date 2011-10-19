@@ -75,6 +75,15 @@ function dealFeed(url, data){
 	});
 }
 
+function invite(){
+	kaixinFeed();
+	dealFeed("/app/ajax/showFeed", {});
+}
+
+function skipInvite(){
+	dealFeed("/app/ajax/showFeed", {});
+}
+
 function answer(questionId, answerId, tpIdentity, times){
 	if(questionId >= 0 && answerId >= 0 &&
 			tpIdentity && tpIdentity != "" &&

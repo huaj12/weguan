@@ -54,6 +54,10 @@
 						</form>
 						<div class="next_btn"><a href="javascript:;" class="next">下一步</a></div>
 					</div><!--content end-->
+					<div class="tz <c:choose><c:when test="${isAdvise==null||isAdvise}">tz_secleted</c:when><c:otherwise>tz_link</c:otherwise></c:choose>">
+						<p></p>
+						<span>添加兴趣时，告诉同城好友！</span>
+					</div>
 				</div><!--content_bg end-->
 			</div><!--skin_body end-->
 			<div class="skin_bottom"></div>

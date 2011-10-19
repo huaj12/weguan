@@ -31,4 +31,36 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	public static String genProfileCacheKey(long uid) {
 		return genKey(uid, "profileCache");
 	}
+
+	/**
+	 * 最后一次推送时间
+	 * 
+	 * @param senderId
+	 * @param receiverId
+	 * @return
+	 */
+	public static String genLastPushTimeKey(long senderId, long receiverId) {
+		return genKey(senderId, "lastPush_" + receiverId);
+	}
+
+	/**
+	 * 推送惩罚连续次数
+	 * 
+	 * @param senderId
+	 * @param receiverId
+	 * @return
+	 */
+	public static String genPushPunishTimesKey(long senderId, long receiverId) {
+		return genKey(senderId, "punishTimes_" + receiverId);
+	}
+
+	/**
+	 * 是否第三方通知Key
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genSetupTpAdviseKey(long uid) {
+		return genKey(uid, "tpAdvise");
+	}
 }

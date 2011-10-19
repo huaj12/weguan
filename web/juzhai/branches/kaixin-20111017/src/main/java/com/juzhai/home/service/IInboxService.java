@@ -118,4 +118,30 @@ public interface IInboxService {
 	 */
 	void answer(long uid, long tpId, long questionId, String identity,
 			int answer);
+
+	/**
+	 * 获取最后推送时间
+	 * 
+	 * @param senderId
+	 * @param receiverId
+	 * @return
+	 */
+	long getLastPushTime(long senderId, long receiverId);
+
+	/**
+	 * 清空惩罚次数
+	 * 
+	 * @param senderId
+	 * @param receiverId
+	 */
+	void clearPunishTimes(long senderId, long receiverId);
+
+	/**
+	 * 增加惩罚次数
+	 * 
+	 * @param senderId
+	 * @param reveiverId
+	 * @return
+	 */
+	long increasePunishTimes(long senderId, long reveiverId);
 }

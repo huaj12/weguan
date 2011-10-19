@@ -55,6 +55,17 @@
 				</div><!--infor end-->
 			</div>
 		</c:when>
+		<c:when test="${feed.feedType=='INVITE'}">
+			<div class="jz_box"><!--jz_box begin-->
+				<div class="icon1 fl"></div>
+				<div class="infor fl"><!--infor begin-->
+					<h2><span class="u">很多好友还没有加入拒宅</span></h2>
+					<p>拒宅器还不能充分发挥作用哦</p>
+					<a href="javascript:;" class="zjl" onclick="javascript:invite();">发布拒宅召集令</a>
+					<h3>立即获得20分拒宅积分</h3>
+				</div><!--infor end-->
+			</div>
+		</c:when>
 		<c:otherwise>
 			<div class="none_message"><!--none_message begin-->
 				<h2></h2><p></p><span>试试<a href="javascript:;" onclick="javascript:kaixinRequest();">邀请更多好友加入</a>！</span>
@@ -69,5 +80,8 @@
 	</c:when>
 	<c:when test="${feed.feedType=='QUESTION'}">
 		<div class="next_btn1"><a href="javascript:;" onclick="javascript:answer(0, 0, '${feed.tpFriend.userId}', ${times});">跳  过</a></div>
+	</c:when>
+	<c:when test="${feed.feedType=='INVITE'}">
+		<div class="next_btn1"><a href="javascript:;" onclick="javascript:skipInvite();">跳  过</a></div>
 	</c:when>
 </c:choose>

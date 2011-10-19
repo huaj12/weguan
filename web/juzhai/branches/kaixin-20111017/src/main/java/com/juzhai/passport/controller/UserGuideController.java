@@ -115,7 +115,7 @@ public class UserGuideController extends BaseController {
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
 			return "redirect:"
 					+ SystemConfig.getDomain(tp == null ? null : tp.getName())
-					+ "/app/index";
+					+ "/app/index?isFirst=true";
 		} else {
 			doGuideNext(context, actId, actName);
 			return guide(request, model);

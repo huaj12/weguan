@@ -28,11 +28,11 @@
 						<c:choose>
 							<c:when test="${actMsg.msgType=='INVITE'}">
 								<span class="u">${actMsg.profileCache.nickname }</span>
-								<span class="w">发给你${actMsg.acts.size }个邀你拒宅</span>
+								<span class="w">发给你${actMsg.actCount }个邀你拒宅</span>
 							</c:when>
 							<c:otherwise>
 								<span class="u">${actMsg.profileCache.nickname }</span>
-								<span class="w">有${actMsg.acts.size}个跟你相同的拒宅兴趣</span>
+								<span class="w">有${actMsg.actCount}个跟你相同的拒宅兴趣</span>
 							</c:otherwise>
 						</c:choose>
 						<div class="clear"></div>

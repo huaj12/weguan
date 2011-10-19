@@ -22,40 +22,40 @@
 															<span class="w">想和你去</span>
 															<c:forEach items="${actMsg.acts}" var="act" varStatus="step" >
 																<c:if test="${step.index<3}">
-																<span class="v">${act.name}</span>
+																<span class="v">${jz:truncate(act.name,7,'...')}</span>
 																</c:if>
 															</c:forEach>
 															<c:if test="${actMsg.actCount>3}">
 															<div style="display: none" id="interestBox_${msg.index}" class="show_pro"><!--show_pro begin-->
 															<c:forEach items="${actMsg.acts}" var="act" varStatus="step" >
-																<p>${act.name}</p>
+																<p>${jz:truncate(act.name,7,'...')}</p>
 															</c:forEach>
 																<div class="clear"></div>
 																<div class="btn"><!--btn begin-->
 																<a href="javascript:;" onclick="closeAllDiv();">知道了</a>
 																</div><!--btn end-->
 															</div><!--show_pro end-->
-															<a  href="javascript:;" onclick="queryAll('${actMsg.profileCache.nickname }想和你去','${msg.index }')">等${actMsg.acts.size}个项目</a>
+															<a  href="javascript:;" onclick="queryAll('${actMsg.profileCache.nickname }想和你去','${msg.index }')">等${actMsg.actCount}个项目</a>
 															</c:if>
 														</c:when>
 														<c:otherwise>
 															<span class="w">最近也想去</span>
 															<c:forEach items="${actMsg.acts}" var="act" varStatus="step" >
 																<c:if test="${step.index<3}">
-																<span class="v">${act.name}</span>
+																<span class="v">${jz:truncate(act.name,7,'...')}</span>
 																</c:if>
 															</c:forEach>
 															<c:if test="${actMsg.actCount>3}">
 															<div style="display: none" id="interestBox_${msg.index}" class="show_pro"><!--show_pro begin-->
 															<c:forEach items="${actMsg.acts}" var="act" varStatus="step" >
-																<p>${act.name}</p>
+																<p>${jz:truncate(act.name,7,'...')}</p>
 															</c:forEach>
 																<div class="clear"></div>
 																<div class="btn"><!--btn begin-->
 																<a href="javascript:;" onclick="closeAllDiv();">知道了</a>
 																</div><!--btn end-->
 															</div><!--show_pro end-->
-															<a  href="javascript:;" onclick="queryAll('${actMsg.profileCache.nickname }最近也想去','${msg.index }')">等${actMsg.acts.size}个项目</a>
+															<a  href="javascript:;" onclick="queryAll('${actMsg.profileCache.nickname }最近也想去','${msg.index }')">等${actMsg.actCount}个项目</a>
 															</c:if>
 														</c:otherwise>
 													</c:choose>
@@ -95,7 +95,7 @@
 										<!-- artDialog div -->
 										<div class="show_pro" style="display: none" id="invite_app_div_${msg.index }"><!--show_pro begin-->
 										<c:forEach items="${actMsg.acts}" var="act" varStatus="step" >
-										<p><span class="l"></span><a href="javascript:;" id="${act.id}" onmouseout="hoverAct(this,false)" onmouseover="hoverAct(this,true)" onclick="clickAct(this)" class="key_words">${act.name}</a><span class="r"></span><em></em></p>
+										<p><span class="l"></span><a href="javascript:;" id="${act.id}" onmouseout="hoverAct(this,false)" onmouseover="hoverAct(this,true)" onclick="clickAct(this)" class="key_words">${jz:truncate(act.name,7,'...')}</a><span class="r"></span><em></em></p>
 										</c:forEach>
 										<div class="clear"></div>
 										<div class="btn"><!--btn begin-->

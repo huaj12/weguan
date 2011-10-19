@@ -33,7 +33,7 @@
     <function>
     	<name>truncate</name>
     	<function-class>com.juzhai.core.web.jstl.JzCoreFunction</function-class>
-    	<function-signature>java.lang.String truncate(java.lang.String,java.lang.Integer,java.lang.String)</function-signature>
+    	<function-signature>java.lang.String truncate(java.lang.String,int,java.lang.String)</function-signature>
     	<example>${jz:truncate('出国旅游',2,'...')}</example>
     </function>
     

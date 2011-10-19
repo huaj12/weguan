@@ -29,16 +29,6 @@ public class ActMsgView implements Serializable {
 
 	private Date date;
 
-	private int actCount;
-
-	public int getActCount() {
-		return actCount;
-	}
-
-	public void setActCount(int actCount) {
-		this.actCount = actCount;
-	}
-
 	public MsgType getMsgType() {
 		return msgType;
 	}

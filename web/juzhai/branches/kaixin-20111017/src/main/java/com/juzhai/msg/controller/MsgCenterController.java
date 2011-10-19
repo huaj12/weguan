@@ -120,7 +120,10 @@ public class MsgCenterController extends BaseController {
 			ActMsgView actMsgView = new ActMsgView();
 			List<Act> acts = new ArrayList<Act>();
 			for (ActMsg msg : actMsg.getMsgs()) {
-				acts.add(InitData.ACT_MAP.get(msg.getActId()));
+				Act act=InitData.ACT_MAP.get(msg.getActId());
+				if(act!=null){
+					acts.add(act);	
+				}
 			}
 			actMsgView.setActs(acts);
 			actMsgView.setProfileCache(profileService
@@ -128,7 +131,6 @@ public class MsgCenterController extends BaseController {
 			actMsgView.setMsgType(actMsg.getType());
 			actMsgView.setStuts(actMsg.isStuts());
 			actMsgView.setDate(actMsg.getDate());
-			actMsgView.setActCount(acts.size());
 			actMsgViewList.add(actMsgView);
 		}
 		return actMsgViewList;
@@ -251,20 +253,31 @@ public class MsgCenterController extends BaseController {
 	@RequestMapping(value = "/agreeMessage", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult agreeMessage(HttpServletRequest request,
-			HttpServletResponse response, Model model, Long actId,
+			HttpServletResponse response, Model model, String actIds,
 			Long receiverId, Integer curPage, Integer curIndex)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		AjaxResult result = new AjaxResult();
 		try {
-			if (actId != null && receiverId != null && curPage != null
+			if (!StringUtils.isEmpty(actIds) && receiverId != null && curPage != null
 					&& curIndex != null) {
 				int index = (curPage - 1) * unReadActMsgRows + curIndex;
 				// 改变消息状态
 				mergerActMsgService.updateMsgStuts(context.getUid(), index);
-				ActMsg msg = new ActMsg(actId, MsgType.INVITE);
-				// 发送拒宅邀请
-				msgMessageService.sendActMsg(context.getUid(), receiverId, msg);
+				String[] ids = actIds.split(",");
+				for (String id : ids) {
+					long actId = 0;
+					try {
+						actId = Long.valueOf(id);
+					} catch (Exception e) {
+					}
+					if (actId == 0)
+						continue;
+					ActMsg msg = new ActMsg(actId, MsgType.INVITE);
+					// 发送拒宅邀请
+					msgMessageService.sendActMsg(context.getUid(), receiverId,
+							msg);
+				}
 				result.setSuccess(true);
 			} else {
 				result.setSuccess(false);

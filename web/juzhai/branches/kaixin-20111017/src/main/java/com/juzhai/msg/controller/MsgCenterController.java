@@ -82,7 +82,7 @@ public class MsgCenterController extends BaseController {
 		PagerManager pager = new PagerManager(getPage(totalCount, page,
 				unReadActMsgRows), unReadActMsgRows, Long.valueOf(totalCount)
 				.intValue(), "/msg/pageUnRead", null, "unReadContent");
-		List<MergerActMsg<ActMsg>> actMsgList = mergerActMsgService.pageUnRead(
+		List<MergerActMsg> actMsgList = mergerActMsgService.pageUnRead(
 				uid, pager.getFirstResult(), pager.getMaxResult());
 		List<ActMsgView> actMsgViewList = assembleActMsgView(uid, actMsgList);
 		model.addAttribute("actMsgViewList", actMsgViewList);
@@ -113,10 +113,10 @@ public class MsgCenterController extends BaseController {
 	}
 
 	private List<ActMsgView> assembleActMsgView(long uid,
-			List<MergerActMsg<ActMsg>> actMsgList) {
+			List<MergerActMsg> actMsgList) {
 		List<ActMsgView> actMsgViewList = new ArrayList<ActMsgView>(
 				actMsgList.size());
-		for (MergerActMsg<ActMsg> actMsg : actMsgList) {
+		for (MergerActMsg actMsg : actMsgList) {
 			ActMsgView actMsgView = new ActMsgView();
 			List<Act> acts = new ArrayList<Act>();
 			for (ActMsg msg : actMsg.getMsgs()) {
@@ -165,7 +165,7 @@ public class MsgCenterController extends BaseController {
 		PagerManager pager = new PagerManager(getPage(totalCount, page,
 				readActMsgRows), readActMsgRows, Long.valueOf(totalCount)
 				.intValue(), "/msg/pageRead", "", "readContent");
-		List<MergerActMsg<ActMsg>> actMsgList = mergerActMsgService.pageRead(
+		List<MergerActMsg> actMsgList = mergerActMsgService.pageRead(
 				uid, pager.getFirstResult(), pager.getMaxResult());
 		List<ActMsgView> actMsgViewList = assembleActMsgView(uid, actMsgList);
 		model.addAttribute("actMsgViewList", actMsgViewList);

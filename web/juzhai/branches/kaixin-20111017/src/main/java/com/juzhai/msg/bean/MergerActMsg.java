@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.juzhai.msg.bean.ActMsg.MsgType;
 
-public class MergerActMsg<T extends Msg> extends Msg{
+public class MergerActMsg extends Msg{
 	
-	public MergerActMsg(List<T> msgs,long uid) {
+	public MergerActMsg(List<ActMsg> msgs,long uid) {
 		this.msgs=msgs;
 		this.uid=uid;
 		this.stuts=false;
@@ -23,7 +23,7 @@ public class MergerActMsg<T extends Msg> extends Msg{
 	//消息的状态true 已处理
 	private boolean stuts;
 	
-	private List<T> msgs;
+	private List<ActMsg> msgs;
 	
 	private MsgType type;
 	
@@ -48,11 +48,11 @@ public class MergerActMsg<T extends Msg> extends Msg{
 	public void setStuts(boolean stuts) {
 		this.stuts = stuts;
 	}
-	public List<T> getMsgs() {
+	public List<ActMsg> getMsgs() {
 		return msgs;
 	}
 
-	public void setMsgs(List<T> msgs) {
+	public void setMsgs(List<ActMsg> msgs) {
 		this.msgs = msgs;
 	}
 

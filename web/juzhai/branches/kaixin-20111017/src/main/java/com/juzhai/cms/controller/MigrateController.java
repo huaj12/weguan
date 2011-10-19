@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.service.IMsgService;
@@ -30,23 +31,23 @@ public class MigrateController {
 	@Autowired
 	private RedisTemplate<String, MergerActMsg> redisMergerActMsgTemplate;
 	@Autowired
-	private IMsgService<MergerActMsg<ActMsg>> msgService;
+	private IMsgService<MergerActMsg> msgService;
 	private final Log log = LogFactory.getLog(getClass());
 
 	@RequestMapping(value = "/migrateMsg")
 	public String migrateMsg(HttpServletRequest request, Model model) {
 		// 迁移未读消息
 		Set<String> unReadkeys = redisTemplate.keys("*.unreadActMsg");
-		migrate(unReadkeys);
+		migrate(unReadkeys,"unread");
 		Set<String> readkeys = redisTemplate.keys("*.readActMsg");
-		migrate(readkeys);
+		migrate(readkeys,"read");
 		return null;
 	}
 
-	private void migrate(Set<String> keys) {
+	private void migrate(Set<String> keys,String type) {
 		for (String key : keys) {
 			long count = redisTemplate.opsForList().size(key);
-			MergerActMsg<ActMsg> merge = new MergerActMsg<ActMsg>();
+			MergerActMsg merge = new MergerActMsg();
 			Map<Long, List<ActMsg>> map = new HashMap<Long, List<ActMsg>>();
 			for (int i = 0; i < count; i++) {
 				ActMsg actMsg = redisTemplate.opsForList().leftPop(key);
@@ -62,7 +63,14 @@ public class MigrateController {
 			for (Map.Entry<Long, List<ActMsg>> entry : map.entrySet()) {
 				merge.setUid(entry.getKey());
 				merge.setMsgs(entry.getValue());
-				msgService.sendMsg(getreceiverId(key), merge);
+				if("read".equals(type)){
+					String readKey = RedisKeyGenerator.genReadMsgsKey(getreceiverId(key),
+							MergerActMsg.class.getSimpleName());
+					redisMergerActMsgTemplate.opsForList().leftPush(readKey, merge);
+				}else{
+					msgService.sendMsg(getreceiverId(key), merge);
+				}
+			
 			}
 
 		}

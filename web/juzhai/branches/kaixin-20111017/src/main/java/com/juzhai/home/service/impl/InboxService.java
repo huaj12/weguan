@@ -8,6 +8,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import net.rubyeye.xmemcached.MemcachedClient;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
@@ -30,6 +32,7 @@ import com.juzhai.act.model.Question;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.app.bean.TpMessageKey;
+import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.home.bean.Feed;
 import com.juzhai.home.bean.Feed.FeedType;
@@ -72,6 +75,8 @@ public class InboxService implements IInboxService {
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
+	private MemcachedClient memcachedClient;
+	@Autowired
 	private IAccountService accountService;
 	@Value("${random.feed.myAct.count}")
 	private int randomFeedMyActCount = 5;
@@ -81,6 +86,8 @@ public class InboxService implements IInboxService {
 	private int wantFeedBackDaysAgo = 7;
 	@Value("${nill.feed.back.days.ago}")
 	private int nillFeedBackDaysAgo = 7;
+	@Value("${last.push.expire.time}")
+	private int lastPushExpireTime = 86400;
 
 	// @Autowired
 	// private int inboxCapacity = 100;
@@ -98,6 +105,14 @@ public class InboxService implements IInboxService {
 						assembleValue(senderId, actId),
 						inboxScoreGenerator.genScore(senderId, receiverId,
 								actId, time));
+		// 更新最后推送时间
+		try {
+			memcachedClient.set(MemcachedKeyGenerator.genLastPushTimeKey(
+					senderId, receiverId), lastPushExpireTime, System
+					.currentTimeMillis());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
 		// TODO 删除超过100个的值
 		// int overCount = redisTemplate.opsForZSet().size(key).intValue()
 		// - inboxCapacity;
@@ -312,6 +327,18 @@ public class InboxService implements IInboxService {
 		}
 	}
 
+	@Override
+	public long getLastPushTime(long senderId, long receiverId) {
+		try {
+			Long time = memcachedClient.get(MemcachedKeyGenerator
+					.genLastPushTimeKey(senderId, receiverId));
+			return time == null ? 0L : time;
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return 0L;
+		}
+	}
+
 	private boolean sendQuestionMssage(long uid, long tpId, long questionId,
 			String identity, int answer) {
 		Question question = InitData.QUESTION_MAP.get(questionId);
@@ -384,5 +411,26 @@ public class InboxService implements IInboxService {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public void clearPunishTimes(long senderId, long receiverId) {
+		try {
+			memcachedClient.deleteWithNoReply(MemcachedKeyGenerator
+					.genPushPunishTimesKey(senderId, receiverId));
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public long increasePunishTimes(long senderId, long receiverId) {
+		try {
+			return memcachedClient.incr(MemcachedKeyGenerator
+					.genPushPunishTimesKey(senderId, receiverId), 1, 1);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return 0L;
+		}
 	}
 }

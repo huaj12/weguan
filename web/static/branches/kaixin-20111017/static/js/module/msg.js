@@ -63,16 +63,31 @@
 		});
 		
 	}
-	function invite_app_friend(obj,curPage,curIndex,actId,receiverId){
+	function invite_app_friend(obj,curPage,curIndex,receiverId){
+		var actIds="";
+		$(".key_words").each(function(){
+			var parent = $(this).parent();
+			if(parent.hasClass("selected")){
+				if(this.id!=null){
+					actIds=actIds+this.id+",";
+				}
+			}
+		});
+		if(actIds==""){
+			alert('请至少选择一个兴趣。');
+			return ;
+		}
 		$.post('/msg/agreeMessage', {
 			curPage:curPage,
 			curIndex:curIndex,
 			receiverId:receiverId,
-			actId:actId,
+			actIds:actIds,
 		    random : Math.random()
 		}, function(result) {
 			if(result&&result.success){
-				obj.outerHTML="<a class='unhover'>响应已发</a>";
+				closeAllDiv();
+				var tagerObj=document.getElementById("invite_btn_"+curIndex);
+				tagerObj.outerHTML="<a class='unhover'>响应已发</a>";
 			}else{
 				//未知错误请刷新页面后重试
 				$.dialog({
@@ -84,6 +99,30 @@
 			}
 		});
 	}
+	function initinvite_Div(){
+		closeAllDiv();
+		$(".key_words").each(function(){
+			var parent = $(this).parent();
+			parent.removeClass("hover");
+			parent.removeClass("selected");
+		});
+	}
+	function invite_app_div(title,index){
+		$.dialog({
+		    content: document.getElementById('invite_app_div_'+index),
+		    top:"50%",
+		    title:title,
+		});
+	}
+	
+	function queryAll(title,index){
+		$.dialog({
+		    content: document.getElementById('interestBox_'+index),
+		    top:"50%",
+		    title:title,
+		});
+	}
+	
 	function moveoverItem(obj){
 		obj.className="item hover";
 	}
@@ -96,6 +135,31 @@
 		    list[i].close();
 		};
 	}
+	
+	
+	function clickAct(obj){
+		var parent = $(obj).parent();
+		if(parent.hasClass("selected")){
+			parent.removeClass("selected");
+			$(obj).attr("title", "点击添加");
+		}else {
+			parent.addClass("selected");
+			$(obj).attr("title", "点击取消");
+		}
+	}
+
+	function hoverAct(obj, isOver){
+		var parent = $(obj).parent();
+		if(parent.hasClass("selected")){
+			return;
+		}
+		if(!isOver){
+			parent.removeClass("hover");
+		}else {
+			parent.addClass("hover");
+		}
+	}
+	
 	//让火狐支持outerHTML方法
 	if(typeof(HTMLElement)!="undefined" && !window.opera)
 	{

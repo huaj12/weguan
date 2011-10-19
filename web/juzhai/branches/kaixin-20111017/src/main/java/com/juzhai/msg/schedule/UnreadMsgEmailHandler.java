@@ -83,10 +83,10 @@ public class UnreadMsgEmailHandler extends AbstractScheduleHandler {
 	}
 
 	private List<ActMsgView> getActMsgViewList(long uid) {
-		List<MergerActMsg<ActMsg>> actMsgList = mergerActMsgService.pageUnRead(
+		List<MergerActMsg> actMsgList = mergerActMsgService.pageUnRead(
 				uid, 0, unreadEmailMsgMaxResults);
 		List<ActMsgView> actMsgViewList = new ArrayList<ActMsgView>();
-		for (MergerActMsg<ActMsg> actMsg : actMsgList) {
+		for (MergerActMsg actMsg : actMsgList) {
 			ActMsgView actMsgView = new ActMsgView();
 			List<Act> acts = new ArrayList<Act>();
 			for (ActMsg msg : actMsg.getMsgs()) {

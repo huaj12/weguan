@@ -16,12 +16,12 @@ import com.juzhai.msg.service.IMergerActMsgService;
 @Service
 public class MergerActMsgService implements IMergerActMsgService {
 	@Autowired
-	private RedisTemplate<String, MergerActMsg<ActMsg>> redisTemplate;
+	private RedisTemplate<String, MergerActMsg> redisTemplate;
 
 	@Override
-	public List<MergerActMsg<ActMsg>> pageUnRead(long uid, int start,
+	public List<MergerActMsg> pageUnRead(long uid, int start,
 			int maxResults) {
-		List<MergerActMsg<ActMsg>> actMsgList = new ArrayList<MergerActMsg<ActMsg>>();
+		List<MergerActMsg> actMsgList = new ArrayList<MergerActMsg>();
 		String unReadKey = RedisKeyGenerator.genUnreadMsgsKey(uid,
 				MergerActMsg.class.getSimpleName());
 		actMsgList = redisTemplate.opsForList().range(unReadKey, start,
@@ -37,7 +37,7 @@ public class MergerActMsgService implements IMergerActMsgService {
 	}
 
 	@Override
-	public List<MergerActMsg<ActMsg>> pageRead(long uid, int start,
+	public List<MergerActMsg> pageRead(long uid, int start,
 			int maxResults) {
 		if (maxResults <= 0) {
 			return Collections.emptyList();
@@ -59,7 +59,7 @@ public class MergerActMsgService implements IMergerActMsgService {
 	public void openMessage(long uid, int index) {
 		String unReadKey = RedisKeyGenerator.genUnreadMsgsKey(uid,
 				MergerActMsg.class.getSimpleName());
-		MergerActMsg<ActMsg> msg = redisTemplate.opsForList().index(unReadKey,
+		MergerActMsg msg = redisTemplate.opsForList().index(unReadKey,
 				index);
 		redisTemplate.opsForList().remove(unReadKey, 0, msg);
 		String readKey = RedisKeyGenerator.genReadMsgsKey(uid,
@@ -71,7 +71,7 @@ public class MergerActMsgService implements IMergerActMsgService {
 	public void removeUnRead(long uid, int index) {
 		String unReadKey = RedisKeyGenerator.genUnreadMsgsKey(uid,
 				MergerActMsg.class.getSimpleName());
-		MergerActMsg<ActMsg> msg = redisTemplate.opsForList().index(unReadKey,
+		MergerActMsg msg = redisTemplate.opsForList().index(unReadKey,
 				index);
 		redisTemplate.opsForList().remove(unReadKey, 0, msg);
 	}
@@ -80,7 +80,7 @@ public class MergerActMsgService implements IMergerActMsgService {
 	public void removeRead(long uid, int index) {
 		String readKey = RedisKeyGenerator.genReadMsgsKey(uid,
 				MergerActMsg.class.getSimpleName());
-		MergerActMsg<ActMsg> msg = redisTemplate.opsForList().index(readKey,
+		MergerActMsg msg = redisTemplate.opsForList().index(readKey,
 				index);
 		redisTemplate.opsForList().remove(readKey, 0, msg);
 	}
@@ -89,7 +89,7 @@ public class MergerActMsgService implements IMergerActMsgService {
 	public void updateMsgStuts(long uid, int index) {
 		String readKey = RedisKeyGenerator.genReadMsgsKey(uid,
 				MergerActMsg.class.getSimpleName());
-		MergerActMsg<ActMsg> msg = redisTemplate.opsForList().index(readKey,
+		MergerActMsg msg = redisTemplate.opsForList().index(readKey,
 				index);
 		msg.setStuts(true);
 		redisTemplate.opsForList().set(readKey, index, msg);

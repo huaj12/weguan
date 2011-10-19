@@ -34,7 +34,7 @@ public class ActMsgMessageListener implements
 	@Autowired
 	private IFriendService friendService;
 	@Autowired
-	private IMsgService<MergerActMsg<ActMsg>> msgService;
+	private IMsgService<MergerActMsg> msgService;
 	@Autowired
 	private IUserActService userActService;
 	@Autowired
@@ -120,8 +120,8 @@ public class ActMsgMessageListener implements
 
 	}
 
-	private MergerActMsg<ActMsg> newMergerMsg(MsgMessage<ActMsg> msgMessage) {
-		MergerActMsg<ActMsg> merger = new MergerActMsg<ActMsg>();
+	private MergerActMsg newMergerMsg(MsgMessage<ActMsg> msgMessage) {
+		MergerActMsg merger = new MergerActMsg();
 		List<ActMsg> msgs = new ArrayList<ActMsg>();
 		msgs.add(msgMessage.getBody());
 		merger.setUid(msgMessage.getSenderId());

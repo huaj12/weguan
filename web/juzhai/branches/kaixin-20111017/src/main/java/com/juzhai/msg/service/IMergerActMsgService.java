@@ -14,7 +14,7 @@ public interface IMergerActMsgService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<MergerActMsg<ActMsg>> pageUnRead(long uid, int start, int maxResults);
+	List<MergerActMsg> pageUnRead(long uid, int start, int maxResults);
 
 	/**
 	 * 未读数
@@ -32,7 +32,7 @@ public interface IMergerActMsgService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<MergerActMsg<ActMsg>> pageRead(long uid, int start, int maxResults);
+	List<MergerActMsg> pageRead(long uid, int start, int maxResults);
 
 	/**
 	 * 已读列表数

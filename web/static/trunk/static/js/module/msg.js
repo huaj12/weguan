@@ -75,6 +75,7 @@
 		});
 		if(actIds==""){
 			alert('请至少选择一个兴趣。');
+			return ;
 		}
 		$.post('/msg/agreeMessage', {
 			curPage:curPage,

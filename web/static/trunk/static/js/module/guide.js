@@ -75,7 +75,7 @@ $(document).ready(function(){
 	});
 	
 	$("#nextForm").submit(function(){
-		$("p.hover > a").each(function(){
+		$("#acts > p.selected > a").each(function(){
 			var input = $("<input type='hidden' />");
 			if($(this).attr("actId")){
 				input.attr("name", "actId");
@@ -105,6 +105,7 @@ $(document).ready(function(){
 	
 	$(".next").bind("click", function(){
 		$("#nextForm").submit();
+		return false;
 	});
 	
 	$(".complete").bind("click", function(){

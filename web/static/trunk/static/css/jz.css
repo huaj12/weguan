@@ -178,6 +178,11 @@ abbr,acronym { border: 0;
 .mid .jz_box .infor a.dwant{ background:url(../images/full_image.png) no-repeat -150px -450px; }
 .mid .jz_box .infor a.dwant:hover{ background:url(../images/full_image.png) no-repeat -150px -500px; }
 
+.mid .jz_box .icon1{background:url(../images/full_image.png) no-repeat -685px -540px; _background:url(../images/image_ie6.png) no-repeat -685px -540px;  width:93px; height:98px;  margin-right:47px; margin-left:10px;}
+.mid .jz_box h3{ float:left; margin-left:15px; color:#999; margin-top:13px; display:inline;}
+.mid .jz_box .infor a.zjl{width:119px; height:44px; display:block; float:left; margin-top:1px; background:url(../images/full_image.png) no-repeat -290px -550px; color:#C8DCF1; line-height:44px; font-size:14px; font-weight:bold; padding-left:35px; text-decoration:none;}
+.mid .jz_box .infor a.zjl:hover{background:url(../images/full_image.png) no-repeat -290px -600px; color:#fff;}
+
 .mid .jz_box .df{ width:360px;}
 .mid .jz_box .df h2{ margin-top:1px; line-height:200%;}
 .mid .jz_box .df h2 span{ font-size:16px; font-family:"微软雅黑", "宋体";}
@@ -212,11 +217,11 @@ abbr,acronym { border: 0;
 .jz_box strong.henzai{ background:url(../images/full_image.png) no-repeat -540px -550px;}
 
 
-.content .next_btn1{ width:94px; height:43px; position:absolute; bottom:-51px; *bottom:-50px; right:0px;}
+.content .next_btn1{ width:94px; height:43px; position:absolute; bottom:-51px; *bottom:-50px; right:-2px;}
 .content .next_btn1 a{background:url(../images/full_image.png) no-repeat -170px -80px; _background:url(../images/image_ie6.png) no-repeat -170px -80px; display:block; text-align:center; line-height:40px; line-height:45px\9; *line-height:42px; color:#ABC9ED; font-size:14px; font-weight:bold; text-decoration:none; height:43px;}
 .content .next_btn1 a:hover{ color:#fff;}
 
-.content .next_btn{ width:94px; height:43px; position:absolute; bottom:-51px; *bottom:-50px; right:0px;}
+.content .next_btn{ width:94px; height:43px; position:absolute; bottom:-51px; *bottom:-50px; right:-2px;}
 .content .next_btn a{background:url(../images/full_image.png) no-repeat -170px -80px; _background:url(../images/image_ie6.png) no-repeat -170px -80px; display:block; text-align:center; line-height:40px; line-height:45px\9; *line-height:42px; color:#fff; font-size:14px; font-weight:bold; text-decoration:none; height:43px;}
 .content .next_btn a:hover{ color:#fff;}
 
@@ -408,6 +413,7 @@ abbr,acronym { border: 0;
 
 
 
+
 /********** message 已读************/
 
 .item .item_style1 .infor{ margin-left:20px; width:340px; }
@@ -540,7 +546,7 @@ abbr,acronym { border: 0;
 .basic_yd .sec p span{ width:1px; height:25px; float:left; margin-top:1px; overflow:hidden; background:#F5F5F5;}
 .basic_yd .sec p a.key_words{ height:27px; padding-left:12px; padding-right:12px; float: left;  line-height:27px; color:#999; text-decoration:none; background:#F5F5F5;}
 .basic_yd .sec p em{ position:absolute; bottom:6px;  left:2px; display:none; background:url(../images/full_image.png) no-repeat -750px -20px;
-_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/selected_icon.png'); /* IE6 */
+_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/selected_icon.png'); /* IE6 */
 _background-image:none; width:7px; height:8px;}
 
 
@@ -623,9 +629,8 @@ _background-image:none; width:7px; height:8px;}
 
 
 
+/************* 已读消息弹出层**************/
 .show_pro{ float:left;display:inline; width:370px;  word-break:keep-all; white-space:normal;}
-
-
 
 .show_pro .btn{ float:right; margin-top:15px;}
 .show_pro .btn a{width:74px; height:34px; background:url(../images/full_image.png) no-repeat -275px -85px; _background:url(../images/image_ie6.png) no-repeat -275px -85px; text-align:center; line-height:34px; color:#666; display:block; float:left; text-decoration:none;}
@@ -647,7 +652,9 @@ _background-image:none; width:7px; height:8px;}
 .show_pro p.hover a.key_words{ background:#4E90DB; color:#fff;}
 
 
-
-
-
+.tz{ width:auto; float:left; cursor:pointer; margin-left:98px; margin-top:10px; display:inline;}
+.tz p{ width:13px; height:13px; overflow:hidden; float:left; margin-top:2px;}
+.tz span{ float:left; margin-left:5px; color:#A4C8ED;}
+.tz_link p{ background:url(../images/check_box__img.jpg) no-repeat;}
+.tz_secleted p{ background:url(../images/check_box__img.jpg) no-repeat 0 -13px;}
 

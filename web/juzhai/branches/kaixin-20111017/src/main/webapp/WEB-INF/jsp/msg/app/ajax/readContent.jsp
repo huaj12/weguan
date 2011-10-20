@@ -83,7 +83,7 @@
 																	<a class="unhover">响应已发</a>
 																</c:when>
 																<c:otherwise>
-																	<a href="javascript:;"  id="invite_btn_${msg.index }" onclick="initinvite_Div();invite_app_div('邀请${actMsg.profileCache.nickname}去','${msg.index }');">立即响应</a>
+																	<a href="javascript:;"  id="invite_btn_${msg.index }" onclick="initinvite_Div();invite_app_div('邀请${actMsg.profileCache.nickname}去','${msg.index }');">邀请ta</a>
 																</c:otherwise>
 															</c:choose>
 														</c:otherwise>

@@ -35,7 +35,7 @@ import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
 
 @Controller
-public class AppController  {
+public class AppController {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private IMsgMessageService msgMessageService;
@@ -44,67 +44,80 @@ public class AppController  {
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
-	private IMsgService msgService;
-	@Autowired
 	private IAccountService accountService;
+
 	@RequestMapping(value = "dialogSysnewsCallBack", method = RequestMethod.GET)
-	public String dialogSysnewsCallBack(HttpServletRequest request, 
-			Model model,String uid,String fuids,String name) {
+	public String dialogSysnewsCallBack(HttpServletRequest request,
+			Model model, String uid, String fuids, String name) {
 		// TODO: 接入人人这里需要修改
-		try{
-			long tpId=0;
-			long actId=0;
-			if(!name.isEmpty()){
-				String[] str=name.split("-");
-				tpId=Long.valueOf(str[1]);
-				actId=Long.valueOf(str[0]);
+		String queryString = request.getQueryString();
+		try {
+			long tpId = 0;
+			long actId = 0;
+			if (!name.isEmpty()) {
+				String[] str = name.split("-");
+				tpId = Long.valueOf(str[1]);
+				actId = Long.valueOf(str[0]);
 			}
-			//验证签名
-			String queryString =request.getQueryString();
-			TpUser sendUser=tpUserService.getTpUserByTpIdAndIdentity(tpId, uid);
-			if(sendUser==null){
+			// 验证签名
+			TpUser sendUser = tpUserService.getTpUserByTpIdAndIdentity(tpId,
+					uid);
+			if (sendUser == null) {
 				log.error("dialogSysnewsCallBack uid is not bind");
 			}
-			 AuthInfo authInfo =tpUserAuthService.getAuthInfo(sendUser.getUid(), tpId);
-			 if(AppPlatformUtils.checkSignFromQuery(queryString, authInfo.getAppSecret())){
-				ActMsg actMsg=new ActMsg(actId,sendUser.getUid(), MsgType.INVITE);
-				String[] fids=fuids.split(",");
-				for(int i=0;i<fids.length;i++){
-					String fid=fids[i];
-					TpUser receiverUser=tpUserService.getTpUserByTpIdAndIdentity(tpId, fid);
-					if(receiverUser!=null&&receiverUser.getUid()>0){
-						msgService
-						.sendMsg(receiverUser.getUid(),actMsg);
-					}else{
-						msgService.sendMsg(tpId, fid, actMsg);
+			AuthInfo authInfo = tpUserAuthService.getAuthInfo(
+					sendUser.getUid(), tpId);
+			if (AppPlatformUtils.checkSignFromQuery(queryString,
+					authInfo.getAppSecret())) {
+				ActMsg actMsg = new ActMsg(actId, sendUser.getUid(),
+						MsgType.INVITE);
+				String[] fids = fuids.split(",");
+				for (int i = 0; i < fids.length; i++) {
+					String fid = fids[i];
+					TpUser receiverUser = tpUserService
+							.getTpUserByTpIdAndIdentity(tpId, fid);
+					if (receiverUser != null && receiverUser.getUid() > 0) {
+						msgMessageService.sendActMsg(sendUser.getUid(),
+								receiverUser.getUid(), actMsg);
+					} else {
+						msgMessageService.sendActMsg(sendUser.getUid(), tpId,
+								fid, actMsg);
 					}
 				}
-			 }else{
-				 log.error("inviteCallBack sig is error");
-			 }
-		}catch (Exception e) {
-			log.error("inviteCallBack is error",e);
+			} else {
+				log.error("inviteCallBack sig is error");
+			}
+		} catch (Exception e) {
+			log.error("inviteCallBack is error queryString=" + queryString, e);
 		}
 		return null;
 	}
-	
-	//拒宅召集令回调
+
+	// 拒宅召集令回调
 	@RequestMapping(value = "feedCallBack", method = RequestMethod.GET)
-	public String feedCallBack(HttpServletRequest request,Long tpId,String uid){
-		//验证签名
-		String queryString =request.getQueryString();
-		TpUser sendUser=tpUserService.getTpUserByTpIdAndIdentity(tpId, uid);
-		if(sendUser==null){
-			log.error("feedCallBack uid is not bind");
+	public String feedCallBack(HttpServletRequest request, Long tpId, String uid) {
+		// 验证签名
+		String queryString = request.getQueryString();
+		try {
+			TpUser sendUser = tpUserService.getTpUserByTpIdAndIdentity(tpId,
+					uid);
+			if (sendUser == null) {
+				log.error("feedCallBack uid is not bind");
+			}
+			AuthInfo authInfo = tpUserAuthService.getAuthInfo(
+					sendUser.getUid(), tpId);
+			if (AppPlatformUtils.checkSignFromQuery(queryString,
+					authInfo.getAppSecret())) {
+				// 加积分
+				accountService.profitPoint(sendUser.getUid(),
+						ProfitAction.TP_FEED);
+			} else {
+				log.error("feedCallBack sig is error ");
+			}
+		} catch (Exception e) {
+			log.error("feedCallBack is error queryString=" + queryString, e);
 		}
-		 AuthInfo authInfo =tpUserAuthService.getAuthInfo(sendUser.getUid(), tpId);
-		 if(AppPlatformUtils.checkSignFromQuery(queryString, authInfo.getAppSecret())){
-			 //加积分
-			 accountService.profitPoint(sendUser.getUid(), ProfitAction.TP_FEED);
-		 }else{
-			 log.error("feedCallBack sig is error");
-		 }
 		return null;
 	}
-	
+
 }

@@ -24,7 +24,7 @@
 			</div><!--skin_body end-->
 			<div class="skin_bottom"></div>
 		</div><!--main end-->
-		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
+		<script type="text/javascript" src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 		<script type="text/javascript">
 			var pCount = $("div.loading > p").size();
 			var pNum = 1;

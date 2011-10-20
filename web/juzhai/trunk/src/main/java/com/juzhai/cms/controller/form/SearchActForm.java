@@ -11,6 +11,8 @@ public class SearchActForm {
 	 */
 	private int order;
 
+	private int pageId = 1;
+
 	public String getStartDate() {
 		return startDate;
 	}
@@ -33,5 +35,13 @@ public class SearchActForm {
 
 	public void setOrder(int order) {
 		this.order = order;
+	}
+
+	public int getPageId() {
+		return pageId;
+	}
+
+	public void setPageId(int pageId) {
+		this.pageId = pageId;
 	}
 }

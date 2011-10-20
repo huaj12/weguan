@@ -1,7 +1,9 @@
 package com.juzhai.act.rabbit.listener;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,11 @@ import org.springframework.stereotype.Component;
 
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.rabbit.message.ActUpdateMessage;
+import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
 import com.juzhai.home.service.IInboxService;
 import com.juzhai.passport.service.IFriendService;
+import com.juzhai.passport.service.IProfileService;
 
 @Component
 public class UpdateActFeedMessageListener implements
@@ -23,6 +27,10 @@ public class UpdateActFeedMessageListener implements
 	private IFriendService friendService;
 	@Autowired
 	private IInboxService inboxService;
+	@Autowired
+	private IProfileService profileService;
+	@Autowired
+	private IUserActService userActService;
 
 	@Override
 	public Object handleMessage(ActUpdateMessage actUpdateMessage) {
@@ -31,7 +39,8 @@ public class UpdateActFeedMessageListener implements
 		}
 		UserAct userAct = actUpdateMessage.getBody();
 		// push to friends
-		Set<Long> targets = getPushTargets(userAct.getUid());
+		Set<Long> targets = getPushTargets(userAct.getUid(),
+				userAct.getActId(), actUpdateMessage.getExcludeUids());
 		for (Long targetId : targets) {
 			// TODO 使用piple
 			inboxService.push(targetId, userAct.getUid(), userAct.getActId());
@@ -65,16 +74,19 @@ public class UpdateActFeedMessageListener implements
 		return true;
 	}
 
-	private Set<Long> getPushTargets(long uid) {
-		Set<Long> targets = friendService.getAppFriends(uid);
-		// for (Profile profile : getSameCityUsers(uid)) {
-		// if (!targets.contains(profile.getUid())) {
-		// targets.add(profile.getUid());
-		// }
-		// }
+	private Set<Long> getPushTargets(long uid, long actId, Set<Long> excludeUids) {
+		Set<Long> targets = new HashSet<Long>();
+		Set<Long> appFriends = friendService.getAppFriends(uid);
+		for (long friendId : appFriends) {
+			if ((profileService.isMaybeSameCity(uid, friendId) == 0 || !userActService
+					.isInterested(friendId, actId))
+					&& (CollectionUtils.isEmpty(excludeUids) || !excludeUids
+							.contains(friendId))) {
+				targets.add(friendId);
+			}
+		}
 		return targets;
 	}
-
 	// private List<Profile> getSameCityUsers(long uid) {
 	// long cityId = profileService.getUserCityFromCache(uid);
 	// if (cityId <= 0) {

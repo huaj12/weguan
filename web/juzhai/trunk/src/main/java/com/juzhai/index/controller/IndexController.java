@@ -30,16 +30,16 @@ public class IndexController {
 		return "index/welcome";
 	}
 
-	@RequestMapping(value = "createIndex", method = RequestMethod.GET)
+	// @RequestMapping(value = "createIndex", method = RequestMethod.GET)
 	@ResponseBody
 	public String createIndex(HttpServletRequest request) {
 		for (Act act : com.juzhai.act.InitData.ACT_MAP.values()) {
 			try {
 				actIndexer.addIndex(act, true);
 			} catch (CorruptIndexException e) {
-				log.error("createIndex is CorruptIndexException",e);
+				log.error("createIndex is CorruptIndexException", e);
 			} catch (IOException e) {
-				log.error("CorruptIndexException is IOException",e);
+				log.error("CorruptIndexException is IOException", e);
 			}
 		}
 		return "success";

@@ -258,6 +258,11 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.renren.api.client</groupId>
+			<artifactId>api_client_sdk</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>

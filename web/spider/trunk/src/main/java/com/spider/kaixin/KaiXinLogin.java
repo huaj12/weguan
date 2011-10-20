@@ -1,11 +1,13 @@
 package com.spider.kaixin;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
@@ -56,7 +58,7 @@ public class KaiXinLogin {
 		return KaiXinJsUtils.getPassword(password, encryptKey);
 	}
 
-	public boolean login(String userName,String password) {
+	public void login(String userName,String password) throws Exception{
 		HttpPost httpost = new HttpPost(kaiXinLoginURL);
 
 		String encryptKey = getEncryptKey(userName);
@@ -72,16 +74,12 @@ public class KaiXinLogin {
 		try {
 			httpost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
 			response = httpclient.execute(httpost);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
+		}  finally {
 			httpost.abort();
 		}
-		return true;
 	}
 
-	public String getJuZhaiUrl() {
+	public String getJuZhaiUrl() throws Exception {
 		HttpGet httpget = new HttpGet(url);
 
 		ResponseHandler<String> responseHandler = new BasicResponseHandler();
@@ -93,33 +91,33 @@ public class KaiXinLogin {
 			int begin = responseBody.indexOf("/app/restapp.php?");
 			int end = responseBody.indexOf("\"></iframe");
 			responseBody = responseBody.substring(begin, end);
-		} catch (Exception e) {
-			responseBody = null;
 		} finally {
 			httpget.abort();
 		}
 		return responseBody;
 	}
 
-	public  void updateSession(String juzhaiqiUrl) {
-		if(juzhaiqiUrl==null)
+	public  void updateSession(String juzhaiqiUrl) throws ClientProtocolException, IOException {
+		if(juzhaiqiUrl==null){
+			System.out.println("登陆失败");
 			return ;
+		}
 		HttpGet httpget = new HttpGet(domian + juzhaiqiUrl);
 		try {
 			response = httpclient.execute(httpget);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
+		}  finally {
 			httpget.abort();
 		}
 	}
 	
 	public static void  start(String userName,String password){
-		if(kaixin.login(userName,password)){
-			kaixin.updateSession(kaixin.getJuZhaiUrl());
-		}else{
-			System.out.println(userName+":"+password+"  login is error");
+		try{
+		kaixin.login(userName,password);
+		kaixin.updateSession(kaixin.getJuZhaiUrl());
+		}catch (Exception e) {
+			System.out.println(userName+":"+password+"  login is error"+e);
 		}
+		
 	}
 
 	public static void main(String[] args) {

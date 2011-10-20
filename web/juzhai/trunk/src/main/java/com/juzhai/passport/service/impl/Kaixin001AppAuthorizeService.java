@@ -136,9 +136,11 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 		if (StringUtils.isNotEmpty(user.getBirthday())) {
 			try {
 				String[] birthday = user.getBirthday().split("[^0-9]");
-				int birthYear = Integer.valueOf(birthday[0]);
-				if (birthYear > 1900) {
-					tpFriend.setBirthYear(birthYear);
+				if (StringUtils.isNotEmpty(birthday[0])) {
+					int birthYear = Integer.valueOf(birthday[0]);
+					if (birthYear > 1900) {
+						tpFriend.setBirthYear(birthYear);
+					}
 				}
 			} catch (Exception e) {
 				log.error("parse birthday error.", e);
@@ -175,7 +177,7 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 				start += num;
 			}
 		} catch (JuzhaiAppException e) {
-			log.error(e.getMessage(), e);
+			log.error(e.getMessage());
 		}
 		return friendIdList;
 	}
@@ -203,7 +205,7 @@ public class Kaixin001AppAuthorizeService extends AbstractAuthorizeService {
 				}
 			}
 		} catch (KxException e) {
-			log.error(e.getMessage(), e);
+			log.error(e.getMessage());
 		}
 		return friendIdList;
 	}

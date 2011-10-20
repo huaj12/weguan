@@ -23,7 +23,7 @@ public class Feed implements Serializable {
 			"yyyy-MM-dd hh:mm");
 
 	public enum FeedType {
-		SPECIFIC, RANDOM, QUESTION
+		SPECIFIC, RANDOM, QUESTION, INVITE
 	}
 
 	private TpFriend tpFriend;
@@ -66,6 +66,11 @@ public class Feed implements Serializable {
 				}
 			}
 		}
+	}
+
+	public Feed(FeedType feedType, Date date) {
+		this.feedType = feedType;
+		this.date = date;
 	}
 
 	public ProfileCache getProfileCache() {

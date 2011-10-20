@@ -118,7 +118,7 @@ public class UserActService implements IUserActService {
 
 	private void wantToAct(long uid, long actId, long friendId) {
 		try {
-			useAct(uid, actId, 2, true);
+			useAct(uid, actId, 2, true, friendId);
 		} catch (ActInputException e) {
 			log.error(e.getErrorCode(), e);
 		}
@@ -127,7 +127,7 @@ public class UserActService implements IUserActService {
 
 	private void wantToAct(long uid, long actId, String tpIdentity, long tpId) {
 		try {
-			useAct(uid, actId, 2, true);
+			useAct(uid, actId, 2, true, 0);
 		} catch (ActInputException e) {
 			log.error(e.getErrorCode(), e);
 		}
@@ -135,7 +135,7 @@ public class UserActService implements IUserActService {
 
 	private void dependToAct(long uid, long actId, long friendId) {
 		try {
-			useAct(uid, actId, 1, true);
+			useAct(uid, actId, 1, true, friendId);
 		} catch (ActInputException e) {
 			log.error(e.getErrorCode(), e);
 		}
@@ -162,12 +162,12 @@ public class UserActService implements IUserActService {
 	@Override
 	public void addAct(long uid, long actId, boolean isSyn)
 			throws ActInputException {
-		useAct(uid, actId, 5, false);
+		useAct(uid, actId, 5, false, 0);
 		accountService.profitPoint(uid, ProfitAction.ADD_ACT);
 	}
 
-	private void useAct(long uid, long actId, int hotLev, boolean canRepeat)
-			throws ActInputException {
+	private void useAct(long uid, long actId, int hotLev, boolean canRepeat,
+			long srcFriendId) throws ActInputException {
 		UserActExample example = new UserActExample();
 		example.createCriteria().andUidEqualTo(uid).andActIdEqualTo(actId);
 		List<UserAct> list = userActMapper.selectByExample(example);
@@ -198,14 +198,15 @@ public class UserActService implements IUserActService {
 		redisTemplate.opsForZSet().add(
 				RedisKeyGenerator.genMyActsKey(userAct.getUid()),
 				userAct.getActId(), userAct.getHotLev());
-		sendFeed(userAct);
+		sendFeed(userAct, srcFriendId);
 		sendMsg(userAct);
 	}
 
-	private void sendFeed(UserAct userAct) {
+	private void sendFeed(UserAct userAct, long srcFriendId) {
 		// push to friends
 		ActUpdateMessage actUpdateMessage = new ActUpdateMessage();
 		actUpdateMessage.buildSenderId(userAct.getUid()).buildBody(userAct);
+		actUpdateMessage.addExcludeUid(srcFriendId);
 		updateActFeedRabbitTemplate.convertAndSend(actUpdateMessage);
 	}
 

@@ -115,7 +115,7 @@ public class UserGuideController extends BaseController {
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
 			return "redirect:"
 					+ SystemConfig.getDomain(tp == null ? null : tp.getName())
-					+ "/app/index";
+					+ "/app/index?isFirst=true";
 		} else {
 			doGuideNext(context, actId, actName);
 			return guide(request, model);
@@ -130,7 +130,7 @@ public class UserGuideController extends BaseController {
 					userActService.addAct(context.getUid(), actId, false);
 				} catch (ActInputException e) {
 					log.error("Add act by id failed in giude. [actId:" + actId
-							+ "]", e);
+							+ ", message:" + e.getMessage() + "]");
 				}
 			}
 		}
@@ -140,7 +140,7 @@ public class UserGuideController extends BaseController {
 					userActService.addAct(context.getUid(), actName, false);
 				} catch (ActInputException e) {
 					log.error("Add act by name failed in giude. [actName:"
-							+ actName + "]", e);
+							+ actName + ", message:" + e.getMessage() + "]");
 				}
 			}
 		}

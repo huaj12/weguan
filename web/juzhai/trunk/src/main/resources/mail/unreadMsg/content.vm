@@ -26,13 +26,13 @@
 							#end
 						</span>
 						<em style="float:left; color:#999; white-space:nowrap; font-style:normal;">ta在#if($actMsgView.profileCache.cityName && $actMsgView.profileCache.cityName != "")${actMsgView.profileCache.cityName}#else地球#end</em>
-						##<a href="#if(!$tp)http://www.51juzhai.com#else${tp.appUrl}#end" style="float:left; color:#336AAE; margin-left:20px; display:inline; text-decoration:none;">立即查看&gt;&gt;</a>
-						<strong style="position:absolute; right:15px; top:10px; color:#ccc; font-family:Tahoma; font-size:11px;">&nbsp;${actMsgView.dateFormat}</strong>
+						<span style=" float:left; margin-left:10px; display:inline;color:#ccc; font-family:Tahoma; font-size:11px;">${actMsgView.dateFormat}</span>
+						<a href="#if(!$tp)http://www.51juzhai.com#else${tp.appUrl}?goUri=/msg/showUnRead#end" style=" float:right; margin-right:30px;  color:#666;text-decoration:none; color:#4286D7; white-space:nowrap; display:block inline;">立即查看&gt;&gt;</a>
 					</div><!--item end-->
 					<div style="width:620px; height:1px; background:#F5F5F5; overflow:hidden; float:left; margin-top:1px;"></div>
 				#end
 			</div><!--message_list end-->
-			<div style="width:620px; float:left; margin-top:5px; _margin-top:-10px;"><a href="#if(!$tp)http://www.51juzhai.com#else${tp.appUrl}#end" style="float:right; color:#336AAE;  margin-right:5px; display:inline; text-decoration:none;">查看更多&gt;&gt;</a></div>
+			<div style="width:620px; float:left; margin-top:5px; _margin-top:-10px;"><a href="#if(!$tp)http://www.51juzhai.com#else${tp.appUrl}?goUri=/msg/showUnRead#end" style="float:right; color:#336AAE;  margin-right:5px; display:inline; text-decoration:none;">查看更多&gt;&gt;</a></div>
 		</div><!--main_m end-->
 		<div style="width:698px; height:1px; overflow:hidden; background:#fff; margin-left:1px; float:left; display:inline;"></div>
 	</div><!--main over-->

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+	<%@ taglib prefix="jz" uri="http://www.51juzhai.com/jsp/jstl/jz"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 							<c:choose>
 										<c:when test="${!empty actMsgViewList}">
@@ -19,10 +20,43 @@
 													<c:choose>
 														<c:when test="${actMsg.msgType=='INVITE'}">
 															<span class="w">想和你去</span>
-															<span class="v">${actMsg.act.name }</span>
+															<c:forEach items="${actMsg.acts}" var="act" varStatus="step" >
+																<c:if test="${step.index<3}">
+																<span class="v">${jz:truncate(act.name,14,'...')}</span>
+																</c:if>
+															</c:forEach>
+															<c:if test="${actMsg.actCount>3}">
+															<div style="display: none" id="interestBox_${msg.index}" class="show_pro"><!--show_pro begin-->
+															<c:forEach items="${actMsg.acts}" var="act" varStatus="step" >
+																<p>${jz:truncate(act.name,14,'...')}</p>
+															</c:forEach>
+																<div class="clear"></div>
+																<div class="btn"><!--btn begin-->
+																<a href="javascript:;" onclick="closeAllDiv();">知道了</a>
+																</div><!--btn end-->
+															</div><!--show_pro end-->
+															<a  href="javascript:;" onclick="queryAll('${actMsg.profileCache.nickname }想和你去','${msg.index }')">等${actMsg.actCount}个项目</a>
+															</c:if>
 														</c:when>
 														<c:otherwise>
-															<span class="w">最近也想去</span><span class="v"> ${actMsg.act.name }</span>
+															<span class="w">最近也想去</span>
+															<c:forEach items="${actMsg.acts}" var="act" varStatus="step" >
+																<c:if test="${step.index<3}">
+																<span class="v">${jz:truncate(act.name,14,'...')}</span>
+																</c:if>
+															</c:forEach>
+															<c:if test="${actMsg.actCount>3}">
+															<div style="display: none" id="interestBox_${msg.index}" class="show_pro"><!--show_pro begin-->
+															<c:forEach items="${actMsg.acts}" var="act" varStatus="step" >
+																<p>${jz:truncate(act.name,14,'...')}</p>
+															</c:forEach>
+																<div class="clear"></div>
+																<div class="btn"><!--btn begin-->
+																<a href="javascript:;" onclick="closeAllDiv();">知道了</a>
+																</div><!--btn end-->
+															</div><!--show_pro end-->
+															<a  href="javascript:;" onclick="queryAll('${actMsg.profileCache.nickname }最近也想去','${msg.index }')">等${actMsg.actCount}个项目</a>
+															</c:if>
 														</c:otherwise>
 													</c:choose>
 													<div class="clear"></div>
@@ -49,7 +83,7 @@
 																	<a class="unhover">响应已发</a>
 																</c:when>
 																<c:otherwise>
-																	<a href="javascript:;" onclick="invite_app_friend(this,'${pager.currentPage}','${msg.index }','${actMsg.act.id}','${actMsg.profileCache.uid}')">立即响应</a>
+																	<a href="javascript:;"  id="invite_btn_${msg.index }" onclick="initinvite_Div();invite_app_div('邀请${actMsg.profileCache.nickname}去','${msg.index }');">立即响应</a>
 																</c:otherwise>
 															</c:choose>
 														</c:otherwise>
@@ -57,6 +91,17 @@
 												</div>
 											</div><!--item_style1 end-->
 										</div><!--item end-->
+										
+										<!-- artDialog div -->
+										<div class="show_pro" style="display: none" id="invite_app_div_${msg.index }"><!--show_pro begin-->
+										<c:forEach items="${actMsg.acts}" var="act" varStatus="step" >
+										<p><span class="l"></span><a href="javascript:;" id="${act.id}" onmouseout="hoverAct(this,false)" onmouseover="hoverAct(this,true)" onclick="clickAct(this)" class="key_words">${jz:truncate(act.name,14,'...')}</a><span class="r"></span><em></em></p>
+										</c:forEach>
+										<div class="clear"></div>
+										<div class="btn"><!--btn begin-->
+										<a href="javascript:;" onclick="invite_app_friend(this,'${pager.currentPage}','${msg.index }','${actMsg.profileCache.uid}')">邀请ta</a>
+										</div><!--btn end-->
+										</div><!--show_pro end-->
 									</c:forEach>
 											</c:when>
 												<c:otherwise>

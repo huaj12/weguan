@@ -169,11 +169,22 @@ public class RedisKeyGenerator extends KeyGenerator {
 			MsgType type, String className) {
 		return genKey(uid, receiverId, type, "lazy" + className);
 	}
+
 	/**
 	 * 延迟发送的msg
+	 * 
 	 * @return
 	 */
 	public static String genLazyMsgKey() {
 		return "lazyMsgKey";
+	}
+
+	/**
+	 * 延迟发送的msg
+	 * 
+	 * @return
+	 */
+	public static String genMergerMsgKey() {
+		return "mergerMsgKey";
 	}
 }

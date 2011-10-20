@@ -30,7 +30,7 @@
 						<c:when test="${feed.question.type == 0}">
 							<div class="star"><!--star begin-->
 								<c:forEach var="answer" items="${feed.answers}" varStatus="status">
-									<span class="link" onmouseover="javascript:holdStar(${status.count});" onmouseout="javascript:holdStar(-1);" onclick="javascript:answer(${feed.question.id}, ${status.count}, '${feed.tpFriend.userId}', ${times});" title="${answer}"></span>
+									<span class="link" onmouseover="javascript:holdStar(${status.count});" onmouseout="javascript:holdStar(-1);" onclick="javascript:answer(${feed.question.id}, ${status.count}, '${feed.tpFriend.userId}', ${times});" title="点击评价" tip="${answer}"></span>
 								</c:forEach>
 								<em class="zai" style="display:none;"></em>
 							</div><!--star end-->
@@ -46,12 +46,23 @@
 											<c:set var="answer_class" value="no" />
 										</c:when>
 									</c:choose>
-									<a href="javascript:;" class="${answer_class}" onclick="javascript:answer(${feed.question.id}, ${status.count}, '${feed.tpFriend.userId}', ${times});">&nbsp;&nbsp;${answer}</a>
+									<a href="javascript:;" class="${answer_class}" onclick="javascript:answer(${feed.question.id}, ${status.count}, '${feed.tpFriend.userId}', ${times});" <c:if test="${answer_class=='yes'}">title="点击评价"</c:if> >&nbsp;&nbsp;${answer}</a>
 								</c:forEach>
 							</div>
 						</c:when>
 					</c:choose>
 					<!-- <strong class="henzai"></strong> -->
+				</div><!--infor end-->
+			</div>
+		</c:when>
+		<c:when test="${feed.feedType=='INVITE'}">
+			<div class="jz_box"><!--jz_box begin-->
+				<div class="icon1 fl"></div>
+				<div class="infor fl"><!--infor begin-->
+					<h2><span class="u">很多好友还没有加入拒宅</span></h2>
+					<p>拒宅器还不能充分发挥作用哦</p>
+					<a href="javascript:;" class="zjl" onclick="javascript:invite();">发布拒宅召集令</a>
+					<h3>立即获得20分拒宅积分</h3>
 				</div><!--infor end-->
 			</div>
 		</c:when>
@@ -69,5 +80,8 @@
 	</c:when>
 	<c:when test="${feed.feedType=='QUESTION'}">
 		<div class="next_btn1"><a href="javascript:;" onclick="javascript:answer(0, 0, '${feed.tpFriend.userId}', ${times});">跳  过</a></div>
+	</c:when>
+	<c:when test="${feed.feedType=='INVITE'}">
+		<div class="next_btn1"><a href="javascript:;" onclick="javascript:skipInvite();">跳  过</a></div>
 	</c:when>
 </c:choose>

@@ -58,8 +58,8 @@ public class KaiXinController extends BaseController {
 				word = messageSource.getMessage(TpMessageKey.FEED_WORD_DEFAULT,
 						null, Locale.SIMPLIFIED_CHINESE);
 			} else {
-				text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
-						new Object[] { name }, Locale.SIMPLIFIED_CHINESE);
+				text = messageSource.getMessage(TpMessageKey.FEED_TEXT_DEFAULT,
+						null, Locale.SIMPLIFIED_CHINESE);
 				word = messageSource.getMessage(TpMessageKey.FEED_WORD,
 						new Object[] { name }, Locale.SIMPLIFIED_CHINESE);
 			}

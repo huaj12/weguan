@@ -50,7 +50,7 @@
 				</div><!--index_icon_item end-->
 			</div><!--intru end-->
 			<div class="bottom"><!--bottom begin-->
-				<p>拒宅网&copy;2011 沪ICP备11031778号<a href="mailto:contact@51juzhai.com?subject=联系我们">联系我们</a><a href="http://weibo.com/51juzhai" target="_blank">官方微博</a><a href="mailto:feedback@51juzhai.com?subject=意见反馈">意见反馈</a></p>
+				<p>拒宅网&copy;2011 沪ICP备11031778号<a href="mailto:contact@51juzhai.com">联系我们</a><a href="http://weibo.com/51juzhai" target="_blank">官方微博</a><a href="mailto:feedback@51juzhai.com">意见反馈</a></p>
 			</div><!--bottom end-->
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />

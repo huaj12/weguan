@@ -29,7 +29,7 @@
 							<div class="basic_yd sec_${classSuffix}"><!--basic_yd begin-->
 								<h3 class="fl"></h3>
 								<div class="sec fr"><!--sec begin-->
-									<h2>选择你感兴趣的${actCategory.name}项目</h2>
+									<h2>选择你最近感兴趣的${actCategory.name}项目</h2>
 									<div id="acts">
 										<c:forEach var="act" items="${actList}">
 											<p><span class="fl"></span><a href="javascript:;" class="key_words" actId="${act.id}" title="点击添加"><c:out value="${act.name}" /></a><span class="fr"></span><em></em></p>
@@ -54,6 +54,10 @@
 						</form>
 						<div class="next_btn"><a href="javascript:;" class="next">下一步</a></div>
 					</div><!--content end-->
+					<div class="tz <c:choose><c:when test="${isAdvise==null||isAdvise}">tz_secleted</c:when><c:otherwise>tz_link</c:otherwise></c:choose>">
+						<p></p>
+						<span>添加兴趣时,告知同兴趣的同城好友</span>
+					</div>
 				</div><!--content_bg end-->
 			</div><!--skin_body end-->
 			<div class="skin_bottom"></div>

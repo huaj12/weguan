@@ -48,4 +48,6 @@ public interface IAppService {
 	 * @return
 	 */
 	boolean sendMessage(String fuids,String word,AuthInfo authInfo);
+	
+	int getAllocation(AuthInfo authInfo);
 }

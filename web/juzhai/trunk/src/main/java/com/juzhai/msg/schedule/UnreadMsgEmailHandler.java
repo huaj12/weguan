@@ -10,14 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.juzhai.act.InitData;
+import com.juzhai.act.model.Act;
 import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.core.mail.bean.Mail;
 import com.juzhai.core.mail.factory.MailFactory;
 import com.juzhai.core.mail.manager.MailManager;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 import com.juzhai.msg.bean.ActMsg;
+import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.controller.view.ActMsgView;
-import com.juzhai.msg.service.IActMsgService;
+import com.juzhai.msg.service.IMergerActMsgService;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
@@ -33,7 +36,7 @@ public class UnreadMsgEmailHandler extends AbstractScheduleHandler {
 	@Autowired
 	private MailManager mailManager;
 	@Autowired
-	private IActMsgService actMsgService;
+	private IMergerActMsgService mergerActMsgService;
 	@Autowired
 	private ITpUserService tpUserService;
 	@Value("${unreadEmail.msg.maxResults}")
@@ -76,19 +79,24 @@ public class UnreadMsgEmailHandler extends AbstractScheduleHandler {
 	}
 
 	private long unReadMsgCount(long uid) {
-		return actMsgService.countUnRead(uid);
+		return mergerActMsgService.countUnRead(uid);
 	}
 
 	private List<ActMsgView> getActMsgViewList(long uid) {
-		List<ActMsg> actMsgList = actMsgService.pageUnRead(uid, 0,
-				unreadEmailMsgMaxResults);
-		List<ActMsgView> actMsgViewList = new ArrayList<ActMsgView>(
-				actMsgList.size());
-		for (ActMsg actMsg : actMsgList) {
+		List<MergerActMsg> actMsgList = mergerActMsgService.pageUnRead(
+				uid, 0, unreadEmailMsgMaxResults);
+		List<ActMsgView> actMsgViewList = new ArrayList<ActMsgView>();
+		for (MergerActMsg actMsg : actMsgList) {
 			ActMsgView actMsgView = new ActMsgView();
+			List<Act> acts = new ArrayList<Act>();
+			for (ActMsg msg : actMsg.getMsgs()) {
+				acts.add(InitData.ACT_MAP.get(msg.getActId()));
+			}
+			actMsgView.setActs(acts);
 			actMsgView.setProfileCache(profileService
 					.getProfileCacheByUid(actMsg.getUid()));
 			actMsgView.setMsgType(actMsg.getType());
+			actMsgView.setStuts(actMsg.isStuts());
 			actMsgView.setDate(actMsg.getDate());
 			actMsgViewList.add(actMsgView);
 		}

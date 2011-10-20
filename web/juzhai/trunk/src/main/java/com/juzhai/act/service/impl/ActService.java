@@ -34,6 +34,7 @@ import com.juzhai.act.rabbit.message.ActIndexMessage;
 import com.juzhai.act.rabbit.message.ActIndexMessage.ActionType;
 import com.juzhai.act.service.IActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.core.dao.Limit;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
 import com.juzhai.core.util.StringUtil;
@@ -204,7 +205,8 @@ public class ActService implements IActService {
 	}
 
 	@Override
-	public List<Act> searchNewActs(Date startDate, Date endDate, int order) {
+	public List<Act> searchNewActs(Date startDate, Date endDate, int order,
+			int firstResult, int maxResults) {
 		ActExample example = new ActExample();
 		example.createCriteria().andCreateTimeBetween(startDate, endDate);
 		switch (order) {
@@ -215,6 +217,14 @@ public class ActService implements IActService {
 			example.setOrderByClause("popularity desc, id desc");
 			break;
 		}
+		example.setLimit(new Limit(firstResult, maxResults));
 		return actMapper.selectByExample(example);
+	}
+
+	@Override
+	public int countNewActs(Date startDate, Date endDate) {
+		ActExample example = new ActExample();
+		example.createCriteria().andCreateTimeBetween(startDate, endDate);
+		return actMapper.countByExample(example);
 	}
 }

@@ -25,9 +25,7 @@ public class KaiXinLogin {
 	private String url = "http://www.kaixin001.com/!app_juzhaiqi/";
 	private String domian = "http://www.kaixin001.com";
 	private String kaiXinLoginURL = "http://www.kaixin001.com/login/login_api.php";
-	private HttpResponse response;
 	private DefaultHttpClient httpclient = new DefaultHttpClient();
-	private static KaiXinLogin kaixin=new KaiXinLogin();
 
 	private String getEncryptKey(String userName) {
 		HttpPost httpost = new HttpPost(kaiXinLoginURL);
@@ -38,7 +36,7 @@ public class KaiXinLogin {
 		String encryptKey = "";
 		try {
 			httpost.setEntity(new UrlEncodedFormEntity(formparams, HTTP.UTF_8));
-			response = httpclient.execute(httpost);
+			HttpResponse response = httpclient.execute(httpost);
 			HttpEntity entity = response.getEntity();
 
 			if (entity != null) {
@@ -70,16 +68,18 @@ public class KaiXinLogin {
 				getEncryptPassword(encryptKey,password)));
 		nvps.add(new BasicNameValuePair("encypt", encryptKey));
 		nvps.add(new BasicNameValuePair("url", "/home/"));
-		nvps.add(new BasicNameValuePair("remember", "1"));
+//		nvps.add(new BasicNameValuePair("remember", "1"));
+		HttpResponse response=null;
 		try {
 			httpost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
-			response = httpclient.execute(httpost);
+			response  = httpclient.execute(httpost);
 		}  finally {
 			httpost.abort();
 		}
+		getJuZhaiUrl(response);
 	}
 
-	public String getJuZhaiUrl() throws Exception {
+	public void getJuZhaiUrl(HttpResponse response) throws Exception {
 		HttpGet httpget = new HttpGet(url);
 
 		ResponseHandler<String> responseHandler = new BasicResponseHandler();
@@ -94,17 +94,27 @@ public class KaiXinLogin {
 		} finally {
 			httpget.abort();
 		}
-		return responseBody;
+		updateSession(responseBody,response);
 	}
 
-	public  void updateSession(String juzhaiqiUrl) throws ClientProtocolException, IOException {
+	public  void updateSession(String juzhaiqiUrl,HttpResponse response) throws ClientProtocolException, IOException {
 		if(juzhaiqiUrl==null){
 			System.out.println("登陆失败");
 			return ;
 		}
 		HttpGet httpget = new HttpGet(domian + juzhaiqiUrl);
 		try {
-			response = httpclient.execute(httpget);
+			ResponseHandler<String> responseHandler = new BasicResponseHandler();
+			String body = httpclient.execute(httpget,responseHandler);
+			int begin=body.indexOf("data={")+6;
+			int end=body.indexOf("}", begin);
+			body=body.substring(begin, end);
+			body=body.replaceAll("\"", "");
+			body=body.replaceAll(",", "&");
+			body=body.replaceAll(":", "=");
+			System.out.println(body);
+			HttpGet accessget = new HttpGet("http://kx.51juzhai.com/access?"+body);
+			response = httpclient.execute(accessget);
 		}  finally {
 			httpget.abort();
 		}
@@ -112,8 +122,8 @@ public class KaiXinLogin {
 	
 	public static void  start(String userName,String password){
 		try{
+		KaiXinLogin kaixin=new KaiXinLogin();
 		kaixin.login(userName,password);
-		kaixin.updateSession(kaixin.getJuZhaiUrl());
 		}catch (Exception e) {
 			System.out.println(userName+":"+password+"  login is error"+e);
 		}

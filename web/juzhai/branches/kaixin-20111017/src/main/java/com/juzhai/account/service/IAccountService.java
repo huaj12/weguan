@@ -43,4 +43,12 @@ public interface IAccountService {
 	 * @return
 	 */
 	void profitPoint(long uid, ProfitAction profitAction);
+
+	/**
+	 * 增加积点
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	void profitPoint(long uid, ProfitAction profitAction, int num);
 }

@@ -279,9 +279,8 @@ public class MsgCenterController extends BaseController {
 
 					msgMessageService.sendActMsg(context.getUid(), receiverId,
 							msg);
-					accountService.profitPoint(context.getUid(), ProfitAction.INVITE_FRIEND);
 				}
-
+				accountService.profitPoint(context.getUid(), ProfitAction.INVITE_FRIEND);
 				result.setSuccess(true);
 			} else {
 				result.setSuccess(false);

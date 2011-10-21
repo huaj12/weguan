@@ -54,13 +54,11 @@
 				<p>
 					查看该消息需要<em id="_ponit"></em> 拒宅积分，而你当前只有 <em>${point}</em> 积分。<br />
 					<span>你可通过如下方式获得积分：</span><br />
-					<a class="btn zhao"  onclick="closeAllDiv();kaixinFeed('');" href="javascript:;">发布拒宅召集令+20分</a><br />
-					<a href="javascript:;" onclick="closeAllDiv();document.getElementById('subEmail').focus()" >订阅邮箱</a>+20分<br/>
-					<a href="/app/myAct">添加一个兴趣</a>+5分<br />
+					<a class="btn zhao"  onclick="closeAllDiv();kaixinFeed('');" href="javascript:;">发布拒宅召集令+2分</a><br />
+					<a href="javascript:;" onclick="closeAllDiv();document.getElementById('subEmail').focus()" >订阅邮箱</a>+10分<br/>
 					每天登陆+5分<br />
-					点击“想去”+5分<br />
-					评价好友+5分<br />
-					响应好友的邀请+10分
+					邀请一个好友+2分<br />
+					评价好友+2分<br />
 				</p>
 				<a href="javascript:;" onclick="closeAllDiv();" class="iknow">知道了</a>
 			</div><!--box_mid end-->

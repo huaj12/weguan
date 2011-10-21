@@ -28,7 +28,7 @@ function kaixinRequest(name) {
 		name : name,
 		random : Math.random()
 	}, function(data) {
-		showKxDialog(data);
+		showSysnewsDialog(data);
 	});
 }
 // TODO

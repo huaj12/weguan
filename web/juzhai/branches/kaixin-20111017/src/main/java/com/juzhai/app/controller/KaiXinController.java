@@ -41,6 +41,8 @@ public class KaiXinController extends BaseController {
 	private String feedRedirectUri;
 	@Value("${sysnew.redirect.uri}")
 	private String sysnewRedirectUri;
+	@Value("${request.redirect.uri}")
+	private String requestRedirectUri;
 
 	@RequestMapping(value = { "/kaixinFeed" }, method = RequestMethod.GET)
 	public String kaixinFeed(HttpServletRequest request,
@@ -99,30 +101,25 @@ public class KaiXinController extends BaseController {
 		PrintWriter out = null;
 		try {
 			UserContext context = checkLoginForApp(request);
-			AuthInfo authInfo = getAuthInfo(context.getUid(), context.getTpId());
-			authInfo.setAppSecret(InitData.TP_MAP.get(context.getTpId())
-					.getAppSecret());
-			// 拼凑参数
-			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("method", "actions.sendInvitation");
-			paramMap.put("format", "json");
-			paramMap.put("mode", "0");
+			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
+			String text = "";
 			if (StringUtils.isEmpty(name)) {
-				paramMap.put("text", messageSource.getMessage(
+				text = messageSource.getMessage(
 						TpMessageKey.INVITE_TEXT_DEFAULT, null,
-						Locale.SIMPLIFIED_CHINESE));
+						Locale.SIMPLIFIED_CHINESE);
 			} else {
-				paramMap.put("text", messageSource.getMessage(
-						TpMessageKey.INVITE_TEXT, new Object[] { name },
-						Locale.SIMPLIFIED_CHINESE));
+				text = messageSource.getMessage(TpMessageKey.INVITE_TEXT,
+						new Object[] { name }, Locale.SIMPLIFIED_CHINESE);
 			}
-
-			String query = AppPlatformUtils.buildQuery(paramMap,
-					authInfo.getAppKey(), authInfo.getAppSecret(),
-					authInfo.getSessionKey(), "1.2");
+			String requestRedirect_uri = SystemConfig
+					.getDomain(tp == null ? null : tp.getName())
+					+ requestRedirectUri + "?tpId=" + context.getTpId();
 			response.setContentType("text/plain");
 			out = response.getWriter();
-			out.println(AppPlatformUtils.urlBase64Encode(query));
+			out.println("http://api.kaixin001.com/dialog/invitation?display=iframe&text="
+					+ text
+					+ "&app_id=100012402&redirect_uri="
+					+ requestRedirect_uri + "&need_redirect=0");
 		} catch (Exception e) {
 			log.error("kaixin send Request is error", e);
 		} finally {

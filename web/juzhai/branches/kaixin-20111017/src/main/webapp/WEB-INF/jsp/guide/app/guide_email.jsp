@@ -39,7 +39,7 @@
 						<form id="nextForm" action="/app/guide/next" method="post">
 						</form>
 						<div class="next_btn">
-							<a href="javascript:;" class="next">完成</a>
+							<a href="javascript:;" class="next">进入拒宅</a>
 						</div>
 					</div><!--content end-->
 				</div><!--content_bg end-->

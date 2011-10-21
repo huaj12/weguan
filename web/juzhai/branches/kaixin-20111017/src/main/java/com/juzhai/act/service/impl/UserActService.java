@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.account.bean.ProfitAction;
-import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.InitData;
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
@@ -66,8 +64,9 @@ public class UserActService implements IUserActService {
 	private IProfileService profileService;
 	@Autowired
 	private IMsgMessageService msgMessageService;
-	@Autowired
-	private IAccountService accountService;
+
+	// @Autowired
+	// private IAccountService accountService;
 
 	@Override
 	public void respRandom(long uid, long actId, String tpFriendId, long tpId,
@@ -109,7 +108,7 @@ public class UserActService implements IUserActService {
 			} else {
 				wantToAct(uid, actId, tpIdentity, tpId);
 			}
-			accountService.profitPoint(uid, ProfitAction.WANT_TO);
+			// accountService.profitPoint(uid, ProfitAction.WANT_TO);
 			break;
 		case NILL:
 			break;
@@ -163,7 +162,7 @@ public class UserActService implements IUserActService {
 	public void addAct(long uid, long actId, boolean isSyn)
 			throws ActInputException {
 		useAct(uid, actId, 5, false, 0);
-		accountService.profitPoint(uid, ProfitAction.ADD_ACT);
+		// accountService.profitPoint(uid, ProfitAction.ADD_ACT);
 	}
 
 	private void useAct(long uid, long actId, int hotLev, boolean canRepeat,

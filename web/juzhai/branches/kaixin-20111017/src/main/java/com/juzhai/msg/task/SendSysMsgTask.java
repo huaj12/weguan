@@ -5,7 +5,6 @@ import java.util.concurrent.Callable;
 
 import org.springframework.context.MessageSource;
 
-import com.juzhai.account.bean.ProfitAction;
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.app.service.IAppService;
@@ -66,8 +65,6 @@ public class SendSysMsgTask implements Callable<Boolean> {
 					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
 							Locale.SIMPLIFIED_CHINESE), thirdparty.getAppUrl()
 					+ "?goUri=/msg/showUnRead", word, text, null, authInfo);
-			// 发送成功增加积分
-			accountService.profitPoint(uid, ProfitAction.IMMEDIATE_RESPONSE);
 		} catch (Throwable e) {
 			return Boolean.FALSE;
 		}

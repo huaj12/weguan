@@ -53,7 +53,7 @@ public class EmailService implements IEmailService {
 					.getProfileCacheByUid(uid);
 			boolean isFirst = false;
 			if (null != profileCache) {
-				if (StringUtils.isNotEmpty(profileCache.getEmail())) {
+				if (StringUtils.isEmpty(profileCache.getEmail())) {
 					isFirst = true;
 				}
 				profileCache.setEmail(email);

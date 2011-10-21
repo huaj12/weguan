@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.account.bean.ConsumeAction;
+import com.juzhai.account.bean.ProfitAction;
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.InitData;
 import com.juzhai.act.model.Act;
@@ -275,9 +276,12 @@ public class MsgCenterController extends BaseController {
 						continue;
 					ActMsg msg = new ActMsg(actId, MsgType.INVITE);
 					// 发送拒宅邀请
+
 					msgMessageService.sendActMsg(context.getUid(), receiverId,
 							msg);
+					accountService.profitPoint(context.getUid(), ProfitAction.INVITE_FRIEND);
 				}
+
 				result.setSuccess(true);
 			} else {
 				result.setSuccess(false);

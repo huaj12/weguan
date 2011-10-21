@@ -60,9 +60,14 @@ public class AccountService implements IAccountService {
 
 	@Override
 	public void profitPoint(long uid, ProfitAction profitAction) {
+		profitPoint(uid, profitAction, 1);
+	}
+
+	@Override
+	public void profitPoint(long uid, ProfitAction profitAction, int num) {
 		int point = InitData.PROFIT_ACTION_RULE.get(profitAction);
 		if (point > 0) {
-			accountDao.updatePoint(uid, point);
+			accountDao.updatePoint(uid, point * num);
 		}
 	}
 }

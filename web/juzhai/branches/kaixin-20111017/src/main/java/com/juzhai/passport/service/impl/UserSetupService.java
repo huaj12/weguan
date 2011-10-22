@@ -1,9 +1,6 @@
 package com.juzhai.passport.service.impl;
 
-import java.util.concurrent.TimeoutException;
-
 import net.rubyeye.xmemcached.MemcachedClient;
-import net.rubyeye.xmemcached.exception.MemcachedException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -3,7 +3,12 @@ function clickAct(obj){
 	if(parent.hasClass("selected")){
 		parent.removeClass("selected");
 		$(obj).attr("title", "点击添加");
+		$(".goon_add").hide();
 	}else {
+		//判断数量
+		if(!checkActCnt(4)){
+			return;
+		}
 		parent.addClass("selected");
 		$(obj).attr("title", "点击取消");
 	}
@@ -19,6 +24,15 @@ function hoverAct(obj, isOver){
 	}else {
 		parent.addClass("hover");
 	}
+}
+
+function checkActCnt(checkCnt){
+	//判断数量
+	if($("#acts > p.selected").size() > checkCnt){
+		$(".goon_add").text("不要超过5个项目哦!").css("color", "red").show();
+		return false;
+	}
+	return true;
 }
 
 $(document).ready(function(){
@@ -51,7 +65,8 @@ $(document).ready(function(){
 			$("#actNameError").text("拒宅兴趣字数控制在1－10个中文内！").stop(true, true).show().fadeOut(2000);
 			return false;
 		}
-		var p = $("<p class='hover selected'><span class='fl'></span></p>");
+//		var p = $("<p class='hover selected'><span class='fl'></span></p>");
+		var p = $("<p><span class='fl'></span></p>");
 		var a = $("<a href='javascript:;' class='key_words'></a>");
 		a.html(value);
 		a.attr("actName", value);
@@ -68,13 +83,17 @@ $(document).ready(function(){
 		p.append(a);
 		p.append("<span class='fr'></span><em></em>");
 		$("#acts").append(p);
-		
 		actNameInput.attr("value","");
-		//actNameInput.focus();
-		$(".goon_add").show();
+		a.click();
+		if(p.hasClass("selected")){
+			$(".goon_add").text("请继续添加，或点击下一步!").css("color", "").show();
+		}
 	});
 	
 	$("#nextForm").submit(function(){
+		if(!checkActCnt(5)){
+			return false;
+		}
 		$("#acts > p.selected > a").each(function(){
 			var input = $("<input type='hidden' />");
 			if($(this).attr("actId")){

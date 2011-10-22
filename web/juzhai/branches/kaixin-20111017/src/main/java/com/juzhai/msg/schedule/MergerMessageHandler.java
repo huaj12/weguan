@@ -2,7 +2,6 @@ package com.juzhai.msg.schedule;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -13,7 +12,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Component;
 
-import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
@@ -78,7 +76,9 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 			merge.setType(lazyKeyView.getType());
 			msgService.sendMsg(lazyKeyView.getReceiverId(), merge);
 			// 判断用户是否发送消息
-			if (userSetupService.isTpAdvise(lazyKeyView.getSendId())) {
+			if (userSetupService.isTpAdvise(lazyKeyView.getSendId())
+					&& sendAppMsgService.checkTpMsgLimitAndAddCnt(
+							lazyKeyView.getReceiverId(), merge.getType())) {
 				TpUser tpUser = tpUserService.getTpUserByUid(lazyKeyView
 						.getReceiverId());
 				sendAppMsgService.threadSendAppMsg(tpUser,

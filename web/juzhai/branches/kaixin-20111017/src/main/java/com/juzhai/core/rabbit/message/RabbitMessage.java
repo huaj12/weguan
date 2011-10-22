@@ -1,6 +1,8 @@
 package com.juzhai.core.rabbit.message;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class RabbitMessage<T extends RabbitMessage<T, B>, B>
 		implements Serializable {
@@ -21,6 +23,27 @@ public abstract class RabbitMessage<T extends RabbitMessage<T, B>, B>
 	 * 消息实体内容
 	 */
 	private B body;
+
+	private Set<Long> excludeUids;
+
+	@SuppressWarnings("unchecked")
+	public T buildExcludeUids(Set<Long> excludeUids) {
+		this.excludeUids = excludeUids;
+		return (T) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T addExcludeUid(long uid) {
+		if (uid > 0) {
+			Set<Long> uids = getExcludeUids();
+			if (null == uids) {
+				uids = new HashSet<Long>();
+				buildExcludeUids(uids);
+			}
+			uids.add(uid);
+		}
+		return (T) this;
+	}
 
 	@SuppressWarnings("unchecked")
 	public T buildReceiverId(long receiverId) {
@@ -50,5 +73,9 @@ public abstract class RabbitMessage<T extends RabbitMessage<T, B>, B>
 
 	public B getBody() {
 		return body;
+	}
+
+	public Set<Long> getExcludeUids() {
+		return excludeUids;
 	}
 }

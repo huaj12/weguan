@@ -204,8 +204,8 @@ public class UserActService implements IUserActService {
 	private void sendFeed(UserAct userAct, long srcFriendId) {
 		// push to friends
 		ActUpdateMessage actUpdateMessage = new ActUpdateMessage();
-		actUpdateMessage.buildSenderId(userAct.getUid()).buildBody(userAct);
-		actUpdateMessage.addExcludeUid(srcFriendId);
+		actUpdateMessage.buildSenderId(userAct.getUid()).buildBody(userAct)
+				.addExcludeUid(srcFriendId);
 		updateActFeedRabbitTemplate.convertAndSend(actUpdateMessage);
 	}
 

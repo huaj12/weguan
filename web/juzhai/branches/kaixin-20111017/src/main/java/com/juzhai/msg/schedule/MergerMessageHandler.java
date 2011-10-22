@@ -12,7 +12,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Component;
 
-import com.juzhai.act.service.IActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 import com.juzhai.msg.bean.ActMsg;
@@ -36,8 +35,6 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 	private ISendAppMsgService sendAppMsgService;
 	@Autowired
 	private ITpUserService tpUserService;
-	@Autowired
-	private IActService actService;
 	@Autowired
 	private IMsgService<MergerActMsg> msgService;
 	@Autowired
@@ -76,13 +73,15 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 			merge.setType(lazyKeyView.getType());
 			msgService.sendMsg(lazyKeyView.getReceiverId(), merge);
 			// 判断用户是否发送消息
-			if (userSetupService.isTpAdvise(lazyKeyView.getSendId())
-					&& sendAppMsgService.checkTpMsgLimitAndAddCnt(
-							lazyKeyView.getReceiverId(), merge.getType())) {
+			if (userSetupService.isTpAdvise(lazyKeyView.getSendId())) {
 				TpUser tpUser = tpUserService.getTpUserByUid(lazyKeyView
 						.getReceiverId());
-				sendAppMsgService.threadSendAppMsg(tpUser,
-						lazyKeyView.getSendId(), lazyKeyView.getType(), count);
+				if (sendAppMsgService.checkTpMsgLimitAndAddCnt(
+						lazyKeyView.getReceiverId(), merge.getType())) {
+					sendAppMsgService.threadSendAppMsg(tpUser,
+							lazyKeyView.getSendId(), lazyKeyView.getType(),
+							count);
+				}
 			}
 
 		}

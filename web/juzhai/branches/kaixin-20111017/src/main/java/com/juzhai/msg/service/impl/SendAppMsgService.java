@@ -43,6 +43,10 @@ public class SendAppMsgService implements ISendAppMsgService {
 	private MemcachedClient memcachedClient;
 	@Value("${tp.msg.receive.cnt.expire.time}")
 	private int tpMsgReceiveCntExpireTime;
+	@Value("${recommend.tp.msg.limit}")
+	private int recommendTpMsgLimit = 1;
+	@Value("${invite.tp.msg.limit}")
+	private int inviteTpMsgLimit = 3;
 
 	@Override
 	public void threadSendAppMsg(TpUser tpUser, long uid, MsgType type,
@@ -92,18 +96,32 @@ public class SendAppMsgService implements ISendAppMsgService {
 
 	@Override
 	public boolean checkTpMsgLimitAndAddCnt(long receiverId, MsgType msgType) {
-		if (!msgType.equals(MsgType.RECOMMEND)) {
-			return true;
+		int limit = Integer.MAX_VALUE;
+		if (MsgType.RECOMMEND.equals(msgType)) {
+			limit = recommendTpMsgLimit;
+		} else if (MsgType.INVITE.equals(msgType)) {
+			limit = inviteTpMsgLimit;
 		}
 		try {
-			Long result = memcachedClient.get(MemcachedKeyGenerator
-					.genTpMsgReceiveCnt(receiverId, msgType));
-			if (null != result && result >= 1) {
-				return false;
-			} else {
-				memcachedClient.set(MemcachedKeyGenerator.genTpMsgReceiveCnt(
-						receiverId, msgType), tpMsgReceiveCntExpireTime, 1L);
+			long result = memcachedClient.incr(MemcachedKeyGenerator
+					.genTpMsgReceiveCnt(receiverId, msgType), 1L, 1L, 1000L,
+					tpMsgReceiveCntExpireTime);
+
+			// Counter counter =
+			// memcachedClient.getCounter(MemcachedKeyGenerator
+			// .genTpMsgReceiveCnt(receiverId, msgType));
+			// System.out.println(receiverId + ": count is " + counter.get());
+			// if (null == counter || counter.get() == 0) {
+			// System.out.println(receiverId + ": result is null. msgType: "
+			// + msgType.name());
+			//
+			// return true;
+			// } else
+			if (result <= limit) {
+				// counter.incrementAndGet();
 				return true;
+			} else {
+				return false;
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

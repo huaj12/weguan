@@ -97,7 +97,7 @@ public interface IInboxService {
 	 * @param uid
 	 * @return
 	 */
-	Feed showRandam(long uid);
+	Feed showYue(long uid);
 
 	/**
 	 * 显示打分feed

@@ -122,6 +122,8 @@ public class UserActService implements IUserActService {
 			log.error(e.getErrorCode(), e);
 		}
 		friendService.incrOrDecrIntimacy(uid, friendId, 2);
+		// 发送邀请消息
+		sendRecommendMsg(uid, friendId, actId);
 	}
 
 	private void wantToAct(long uid, long actId, String tpIdentity, long tpId) {
@@ -198,7 +200,7 @@ public class UserActService implements IUserActService {
 				RedisKeyGenerator.genMyActsKey(userAct.getUid()),
 				userAct.getActId(), userAct.getHotLev());
 		sendFeed(userAct, srcFriendId);
-		sendMsg(userAct);
+		// sendMsg(userAct);
 	}
 
 	private void sendFeed(UserAct userAct, long srcFriendId) {
@@ -209,10 +211,16 @@ public class UserActService implements IUserActService {
 		updateActFeedRabbitTemplate.convertAndSend(actUpdateMessage);
 	}
 
-	private void sendMsg(UserAct userAct) {
+	@Deprecated
+	private void sendRecommendMsg(UserAct userAct) {
 		msgMessageService.sendActMsg(userAct.getUid(), 0L,
 				new ActMsg(userAct.getActId(), userAct.getUid(),
 						ActMsg.MsgType.RECOMMEND));
+	}
+
+	private void sendRecommendMsg(long senderUid, long receiverId, long actId) {
+		msgMessageService.sendActMsg(senderUid, receiverId, new ActMsg(actId,
+				senderUid, ActMsg.MsgType.INVITE));
 	}
 
 	@Override

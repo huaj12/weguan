@@ -7,15 +7,11 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import com.juzhai.account.bean.ProfitAction;
-import com.juzhai.account.service.IAccountService;
-import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.service.IFriendService;
@@ -32,8 +28,6 @@ public abstract class AbstractLoginService implements ILoginService {
 	private IFriendService friendService;
 	@Autowired
 	private PassportMapper passportMapper;
-	@Autowired
-	private IAccountService accountService;
 
 	@Override
 	public void login(HttpServletRequest request, final long uid,
@@ -43,12 +37,12 @@ public abstract class AbstractLoginService implements ILoginService {
 		if (null == passport) {
 			log.error("Login error. Can not find passport[id=" + uid + "].");
 		}
-		if (passport.getLastLoginTime() == null
-				|| !DateUtils
-						.isSameDay(new Date(), passport.getLastLoginTime())) {
-			accountService.profitPoint(uid, ProfitAction.DAY_LOGIN);
-			HttpRequestUtil.setSessionAttribute(request, DAY_FIRST_LOGIN, true);
-		}
+		// if (passport.getLastLoginTime() == null
+		// || !DateUtils
+		// .isSameDay(new Date(), passport.getLastLoginTime())) {
+		// accountService.profitPoint(uid, ProfitAction.DAY_LOGIN);
+		// HttpRequestUtil.setSessionAttribute(request, DAY_FIRST_LOGIN, true);
+		// }
 
 		doLogin(request, uid, tpId, false);
 		// 更新最后登录时间

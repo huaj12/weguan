@@ -323,7 +323,7 @@ public class InboxService implements IInboxService {
 			redisTemplate.opsForSet().add(key, identity);
 			redisTemplate.opsForSet().add(
 					RedisKeyGenerator.genQuestionUserKeysKey(), key);
-			accountService.profitPoint(uid, ProfitAction.ANSWER_QUESTION);
+			// accountService.profitPoint(uid, ProfitAction.ANSWER_QUESTION);
 		}
 	}
 

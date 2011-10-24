@@ -11,14 +11,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.account.bean.ConsumeAction;
-import com.juzhai.account.bean.ProfitAction;
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.InitData;
 import com.juzhai.act.model.Act;
@@ -36,8 +34,6 @@ import com.juzhai.msg.service.IMsgMessageService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 
-@Controller
-@RequestMapping(value = "msg")
 public class MsgCenterController extends BaseController {
 	private final Log log = LogFactory.getLog(getClass());
 
@@ -83,13 +79,12 @@ public class MsgCenterController extends BaseController {
 		PagerManager pager = new PagerManager(getPage(totalCount, page,
 				unReadActMsgRows), unReadActMsgRows, Long.valueOf(totalCount)
 				.intValue(), "/msg/pageUnRead", null, "unReadContent");
-		List<MergerActMsg> actMsgList = mergerActMsgService.pageUnRead(
-				uid, pager.getFirstResult(), pager.getMaxResult());
+		List<MergerActMsg> actMsgList = mergerActMsgService.pageUnRead(uid,
+				pager.getFirstResult(), pager.getMaxResult());
 		List<ActMsgView> actMsgViewList = assembleActMsgView(uid, actMsgList);
 		model.addAttribute("actMsgViewList", actMsgViewList);
 		model.addAttribute("readCount", mergerActMsgService.countRead(uid));
 		model.addAttribute("pager", pager);
-		model.addAttribute("point", accountService.queryPoint(uid));
 		model.addAttribute("invitePoint", Math
 				.abs(com.juzhai.account.InitData.CONSUME_ACTION_RULE
 						.get(ConsumeAction.OPEN_MESSAGE_INVITE)));
@@ -121,9 +116,9 @@ public class MsgCenterController extends BaseController {
 			ActMsgView actMsgView = new ActMsgView();
 			List<Act> acts = new ArrayList<Act>();
 			for (ActMsg msg : actMsg.getMsgs()) {
-				Act act=InitData.ACT_MAP.get(msg.getActId());
-				if(act!=null){
-					acts.add(act);	
+				Act act = InitData.ACT_MAP.get(msg.getActId());
+				if (act != null) {
+					acts.add(act);
 				}
 			}
 			actMsgView.setActs(acts);
@@ -166,14 +161,13 @@ public class MsgCenterController extends BaseController {
 		PagerManager pager = new PagerManager(getPage(totalCount, page,
 				readActMsgRows), readActMsgRows, Long.valueOf(totalCount)
 				.intValue(), "/msg/pageRead", "", "readContent");
-		List<MergerActMsg> actMsgList = mergerActMsgService.pageRead(
-				uid, pager.getFirstResult(), pager.getMaxResult());
+		List<MergerActMsg> actMsgList = mergerActMsgService.pageRead(uid,
+				pager.getFirstResult(), pager.getMaxResult());
 		List<ActMsgView> actMsgViewList = assembleActMsgView(uid, actMsgList);
 		model.addAttribute("actMsgViewList", actMsgViewList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("unReadCount", mergerActMsgService.countUnRead(uid));
 		model.addAttribute("citys", com.juzhai.passport.InitData.CITY_MAP);
-		model.addAttribute("point", accountService.queryPoint(uid));
 	}
 
 	/**
@@ -194,31 +188,31 @@ public class MsgCenterController extends BaseController {
 		try {
 			if (curPage != null && curIndex != null
 					&& !StringUtils.isEmpty(type)) {
-				// 查询积分
-				int point = accountService.queryPoint(context.getUid());
 				// 判断积分余额
-				int openMsgPoint = 0;
-				ConsumeAction consumeAction = null;
-				if (MsgType.INVITE.name().equals(type)) {
-					openMsgPoint = com.juzhai.account.InitData.CONSUME_ACTION_RULE
-							.get(ConsumeAction.OPEN_MESSAGE_INVITE);
-					consumeAction = ConsumeAction.OPEN_MESSAGE_INVITE;
-				} else if (MsgType.RECOMMEND.name().equals(type)) {
-					openMsgPoint = com.juzhai.account.InitData.CONSUME_ACTION_RULE
-							.get(ConsumeAction.OPEN_MESSAGE_RECOMMEND);
-					consumeAction = ConsumeAction.OPEN_MESSAGE_RECOMMEND;
-				}
-				if (point + openMsgPoint >= 0) {
-					int index = (curPage - 1) * unReadActMsgRows + curIndex;
-					mergerActMsgService.openMessage(context.getUid(), index);
-					accountService
-							.consumePoint(context.getUid(), consumeAction);
-					result.setSuccess(true);
-				} else {
-					// 积分余额不足
-					result.setResult(false);
-					result.setErrorCode("-1");
-				}
+				// int openMsgPoint = 0;
+				// ConsumeAction consumeAction = null;
+				// if (MsgType.INVITE.name().equals(type)) {
+				// openMsgPoint =
+				// com.juzhai.account.InitData.CONSUME_ACTION_RULE
+				// .get(ConsumeAction.OPEN_MESSAGE_INVITE);
+				// consumeAction = ConsumeAction.OPEN_MESSAGE_INVITE;
+				// } else if (MsgType.RECOMMEND.name().equals(type)) {
+				// openMsgPoint =
+				// com.juzhai.account.InitData.CONSUME_ACTION_RULE
+				// .get(ConsumeAction.OPEN_MESSAGE_RECOMMEND);
+				// consumeAction = ConsumeAction.OPEN_MESSAGE_RECOMMEND;
+				// }
+				// if (point + openMsgPoint >= 0) {
+				int index = (curPage - 1) * unReadActMsgRows + curIndex;
+				mergerActMsgService.openMessage(context.getUid(), index);
+				// accountService
+				// .consumePoint(context.getUid(), consumeAction);
+				// result.setSuccess(true);
+				// } else {
+				// 积分余额不足
+				// result.setResult(false);
+				// result.setErrorCode("-1");
+				// }
 			} else {
 				result.setResult(false);
 			}
@@ -236,7 +230,6 @@ public class MsgCenterController extends BaseController {
 		try {
 			if (curPage != null && curIndex != null) {
 				int index = (curPage - 1) * unReadActMsgRows + curIndex;
-				int page = 0;
 				if ("unread".equals(type)) {
 					mergerActMsgService.removeUnRead(context.getUid(), index);
 					return pageUnRead(request, model, curPage);
@@ -260,8 +253,8 @@ public class MsgCenterController extends BaseController {
 		UserContext context = checkLoginForApp(request);
 		AjaxResult result = new AjaxResult();
 		try {
-			if (!StringUtils.isEmpty(actIds) && receiverId != null && curPage != null
-					&& curIndex != null) {
+			if (!StringUtils.isEmpty(actIds) && receiverId != null
+					&& curPage != null && curIndex != null) {
 				int index = (curPage - 1) * unReadActMsgRows + curIndex;
 				// 改变消息状态
 				mergerActMsgService.updateMsgStuts(context.getUid(), index);
@@ -280,7 +273,8 @@ public class MsgCenterController extends BaseController {
 					msgMessageService.sendActMsg(context.getUid(), receiverId,
 							msg);
 				}
-				accountService.profitPoint(context.getUid(), ProfitAction.INVITE_FRIEND);
+				// accountService.profitPoint(context.getUid(),
+				// ProfitAction.INVITE_FRIEND);
 				result.setSuccess(true);
 			} else {
 				result.setSuccess(false);

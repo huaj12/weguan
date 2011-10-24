@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.account.bean.ProfitAction;
-import com.juzhai.account.service.IAccountService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.ProfileInputException;
@@ -24,8 +22,7 @@ public class EmailService implements IEmailService {
 	public static final String EMAIL_PATTERN_STRING = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*$";
 	public static final Pattern EMAIL_PATTERN = Pattern
 			.compile(EMAIL_PATTERN_STRING);
-	@Autowired
-	private IAccountService accountService;
+
 	@Autowired
 	private IProfileService profileService;
 	@Autowired
@@ -51,18 +48,18 @@ public class EmailService implements IEmailService {
 			// 更新cache
 			ProfileCache profileCache = profileService
 					.getProfileCacheByUid(uid);
-			boolean isFirst = false;
+			// boolean isFirst = false;
 			if (null != profileCache) {
-				if (StringUtils.isEmpty(profileCache.getEmail())) {
-					isFirst = true;
-				}
+				// if (StringUtils.isEmpty(profileCache.getEmail())) {
+				// isFirst = true;
+				// }
 				profileCache.setEmail(email);
 				profileCache.setSubEmail(true);
 				profileService.cacheProfileCache(uid, profileCache);
 			}
-			if (isFirst) {
-				accountService.profitPoint(uid, ProfitAction.SUB_EMAIL);
-			}
+			// if (isFirst) {
+			// accountService.profitPoint(uid, ProfitAction.SUB_EMAIL);
+			// }
 			return true;
 		} else {
 			return false;

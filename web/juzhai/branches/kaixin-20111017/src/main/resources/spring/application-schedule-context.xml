@@ -54,17 +54,6 @@
 		<property name="cronExpression" value="${act.briefing.email.cron}" />
 	</bean>
 	
-	<!-- lazyMessage begin -->
-	<bean id="lazyMessageTrigger" parent="abstractCronTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="lazyMessageHandler" />
-			</bean>
-		</property>
-		<property name="cronExpression" value="${lazy.msg.cron}" />
-	</bean>
-	<!-- lazyMessage end -->
-	
 	<!-- begin mergerMessage -->
 	<bean id="mergerMessageTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
@@ -102,7 +91,6 @@
 		<property name="triggers">
 			<list>
 				<ref bean="actIndexOptimizationAndCommitTrigger"/>
-				<ref bean="lazyMessageTrigger"/>
 				<ref bean="mergerMessageTrigger"/>
 				<ref bean="getBackFeedTrigger"/>
 				<ref bean="resetQuestionUsersTrigger"/>

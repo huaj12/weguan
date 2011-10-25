@@ -351,12 +351,16 @@ abbr,acronym { border: 0;
 .message_box .tab em{  width:16px; height:16px; display:block; float:left; margin-top:5px;}
 .message_box .tab em.mail{ background:url(../images/full_image.png) no-repeat -5px -90px;  _background:url(../images/image_ie6_gif.gif) no-repeat -5px -90px;}
 .message_box .tab em.mail_open{ background:url(../images/full_image.png) no-repeat -5px -115px; _background:url(../images/image_ie6_gif.gif) no-repeat -5px -115px;}
-.message_box .tab strong{ float:left; margin-left:3px; display:inline;}
+.message_box .tab strong{ float:left; margin-left:3px; display:inline; font-size:14px; font-weight:bold;}
+
+.message_box .title .fh{ float:right; margin-top:15px; margin-right:10px; display:inline;}
+.message_box .title .fh a{color:#4E90DB;  text-decoration:none; display:block; }
+.message_box .title .fh a:hover{ text-decoration:underline; color:#4E90DB;}
 
 
-.message_box .tab .link span{  float:left; line-height:27px; line-height:29px\9;  padding-left:10px; padding-right:10px; color:#999; height:27px; overflow:hidden;}
+
+.message_box .tab .link span{  float:left; line-height:27px; line-height:29px\9;  padding-left:10px; padding-right:10px; color:#666; height:27px; overflow:hidden; }
 .message_box .tab .new{ color:#4E90DB;}
-
 
 .message_box .tab .active p.l{ background:#4E90DB;}
 .message_box .tab .active p.r{ background:#4E90DB;}

@@ -12,6 +12,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Component;
 
+import com.juzhai.act.InitData;
+import com.juzhai.act.service.IActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 import com.juzhai.msg.bean.ActMsg;
@@ -72,7 +74,10 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 				}
 				actMsgs.add(msg);
 				if(i<3){
-					sendActNames=sendActNames+msg.getActName()+"、";
+					sendActNames=sendActNames+InitData.ACT_MAP.get(typeTuple.getValue()).getName();
+					if(i!=2){
+						sendActNames=sendActNames+"、";
+					}
 				}else{
 					if(sendActNames.indexOf("...")==-1){
 						sendActNames=sendActNames+"...";

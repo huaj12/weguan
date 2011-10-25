@@ -22,7 +22,7 @@ public class MsgService<T extends Msg> implements IMsgService<T> {
 		redisTemplate.opsForList().leftPush(
 				RedisKeyGenerator.genReadMsgsKey(receiverId, msg.getClass()
 						.getSimpleName()), msg);
-		redisLongTemplate.opsForValue().increment(RedisKeyGenerator.genReadMsgCountKey(receiverId,msg.getClass().getSimpleName()), 1);
+		redisLongTemplate.opsForValue().increment(RedisKeyGenerator.genUnReadMsgCountKey(receiverId,msg.getClass().getSimpleName()), 1);
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class MsgService<T extends Msg> implements IMsgService<T> {
 			redisTemplate.opsForList().leftPush(
 					RedisKeyGenerator.genReadMsgsKey(uid, msg.getClass()
 							.getSimpleName()), msg);
-			redisLongTemplate.opsForValue().increment(RedisKeyGenerator.genReadMsgCountKey(uid,msg.getClass().getSimpleName()), 1);
+			redisLongTemplate.opsForValue().increment(RedisKeyGenerator.genUnReadMsgCountKey(uid,msg.getClass().getSimpleName()), 1);
 		}
 	}
 }

@@ -96,8 +96,8 @@ public class RedisKeyGenerator extends KeyGenerator {
 		return genKey(uid, "read" + className);
 	}
 	
-	public static String genReadMsgCountKey(long uid,String className){
-		return genKey(uid, className+"Count");
+	public static String genUnReadMsgCountKey(long uid,String className){
+		return genKey(uid, "unreadcount"+className);
 	}
 
 	/**

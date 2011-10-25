@@ -191,4 +191,13 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genMergerMsgKey() {
 		return "mergerMsgKey";
 	}
+
+	/**
+	 * Act 屏蔽
+	 * 
+	 * @return
+	 */
+	public static String genActShieldKey() {
+		return "actShield";
+	}
 }

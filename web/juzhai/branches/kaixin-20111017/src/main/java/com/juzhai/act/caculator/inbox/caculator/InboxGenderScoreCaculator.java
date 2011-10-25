@@ -2,6 +2,8 @@ package com.juzhai.act.caculator.inbox.caculator;
 
 import java.util.Date;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import com.juzhai.passport.service.IProfileService;
 @ScorePoint({ ScoreType.INBOX })
 public class InboxGenderScoreCaculator implements IScoreCaculator {
 
+	private final Log log = LogFactory.getLog(getClass());
+
 	@Autowired
 	private IProfileService profileService;
 	@Value("${female.reward.time.seconds}")
@@ -26,10 +30,12 @@ public class InboxGenderScoreCaculator implements IScoreCaculator {
 		ProfileCache profile = profileService.getProfileCacheByUid(srcUid);
 		if (null != profile && null != profile.getGender()
 				&& profile.getGender() == 0) {
+			if (log.isDebugEnabled()) {
+				log.debug("add score by gender[0].");
+			}
 			return femaleRewardTimeSeconds;
 		} else {
 			return 0;
 		}
 	}
-
 }

@@ -124,10 +124,10 @@
 	}
 	
 	function moveoverItem(obj){
-		obj.className="item hover";
+		$(obj).removeClass("item link").addClass("item hover");
 	}
 	function moveoutItem(obj){
-		obj.className="item link";
+		$(obj).removeClass("item hover").addClass("item link");
 	}
 	function closeAllDiv(){
 		var list = $.dialog.list;

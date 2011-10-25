@@ -23,22 +23,6 @@
 						<div class="top"></div>
 						<div class="mid"><!--mid begin-->
 							<div class="message_box"><!--message_box begin-->
-								<div class="title"><!--title begin-->
-									<div class="tab"><!--tab begin-->
-										<a href="/msg/showUnRead" class="link new">
-											<p class="l"></p>
-											<span><em class="mail"></em><strong>未读(<label id="unReadCnt">${unReadCount}</label>)</strong></span>
-											<p class="r"></p>
-										</a>
-										<a href="/msg/showRead" class="active">
-											<p class="l"></p>
-											<span><em class="mail_open"></em><strong>已读(<label id="readCnt">${pager.totalResults}</label>)</strong></span>
-											<p class="r"></p>
-										</a>
-									</div><!--tab end-->
-									<!--pbr begin-->
-									<!-- <div class="pbr"><a href="javascript:;">被我屏蔽的人</a></div> --><!--pbr end-->
-								</div><!--title end-->
 								<div class="box_body" id="readContent"><!--box_body begin-->
 									<jsp:include page="/WEB-INF/jsp/msg/app/ajax/readContent.jsp" />
 								</div><!--box_body end-->
@@ -50,6 +34,24 @@
 			</div><!--skin_body end-->
 			<div class="skin_bottom"></div>
 		</div><!--main end-->
+			<!-- artDialog div -->
+			<div id="boardDiv" style="display: none">
+				<div class="cantact_user">
+					<!--cantact_user begin-->
+					<div class="text_area">
+						<textarea id="board_content" name="" cols="" rows=""></textarea>
+					</div>
+					<div class="clear"></div>
+					<div class="bt">
+						<a href="javascript:;" onclick="sendBoard();" >发送</a>
+					</div>
+					<div class="ck">
+						<input id="board_fid" value="" type="hidden"/>
+						<input id="board_name" value="" type="hidden"/>
+					</div>
+				</div>
+				<!--cantact_user end-->
+			</div>
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
 		<jsp:include page="/WEB-INF/jsp/common/app/artDialog/artDialog.jsp" />
 		<script type="text/javascript" src="${jz:static('/js/module/msg.js')}"></script>

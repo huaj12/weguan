@@ -93,7 +93,9 @@
 					</div>
 					<!--infor end-->
 					<div class="btn">
-						<a href="javascript:;" onclick="showBoard('${actMsg.profileCache.nickname }','<c:forEach items="${actMsg.acts}" var="act" varStatus="step">${act.name}、 </c:forEach>','${actMsg.profileCache.tpIdentity}')">联系ta</a>
+					<c:set var="s" value="" />
+					<c:forEach items="${actMsg.acts}" var="act" varStatus="step"><c:set var="s" value="${s}${act.name}、"></c:set> </c:forEach>
+						<a href="javascript:;" onclick="showBoard('${actMsg.profileCache.nickname }','${s}','${actMsg.profileCache.tpIdentity}')">联系ta</a>
 					</div>
 				</div>
 				<!--item_style1 end-->

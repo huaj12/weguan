@@ -160,6 +160,58 @@
 		}
 	}
 	
+	function showBoard(name,str,fid){
+		clearBoard();
+		var content="你最近何时有空啊？想不想一起去"+str+"?";
+		$("#board_content").val(content);
+		$("#board_fid").val(fid);
+		$("#board_name").val(name);
+		$.dialog({
+		    lock: true,
+		    content:document.getElementById('boardDiv'),
+		    title:"联系"+name,
+		    top:"50%"
+		});
+	}
+	
+	function clearBoard(){
+		$("#board_content").val('');
+		$("#board_fid").val('');
+		$("#board_name").val('');
+	}
+	function sendBoard(){
+		var content=$("#board_content").val();
+		var fids=$("#board_fid").val();
+		var name=$("#board_name").val();
+		$.post('/msg/sendBoard', {
+			content:content,
+			fids:fids,
+		    random : Math.random()
+		}, function(result) {
+			if(result&&result.success){
+				closeAllDiv();
+				$.dialog({
+				    content: '<div>发送成功!</br>等待他的回复吧</div>',
+				    top:"50%",
+				    width:305,
+				    time:2,
+				    title:'联系'+name
+				});
+			}else{
+				closeAllDiv();
+				//未知错误请刷新页面后重试
+				$.dialog({
+				    lock: true,
+				    content: '查看ta是否是您的好友或刷新页面后重试',
+				    icon: 'error',
+				    time:3,
+				    top:"50%"
+				    	
+				});
+			}
+		});
+	}
+	
 	//让火狐支持outerHTML方法
 	if(typeof(HTMLElement)!="undefined" && !window.opera)
 	{

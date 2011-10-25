@@ -18,6 +18,7 @@ import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.schedule.view.LazyKeyView;
+import com.juzhai.msg.service.IMergerActMsgService;
 import com.juzhai.msg.service.IMsgService;
 import com.juzhai.msg.service.ISendAppMsgService;
 import com.juzhai.passport.model.TpUser;
@@ -60,6 +61,8 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 			MergerActMsg merge = new MergerActMsg();
 			merge.setUid(lazyKeyView.getSendId());
 			List<ActMsg> actMsgs = new ArrayList<ActMsg>();
+			String sendActNames="";
+			int i=0;
 			for (TypedTuple<Long> typeTuple : typedTuples) {
 				ActMsg msg = new ActMsg(typeTuple.getValue(),
 						lazyKeyView.getSendId(), lazyKeyView.getType());
@@ -68,6 +71,14 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 					merge.setDate(new Date(date));
 				}
 				actMsgs.add(msg);
+				if(i<3){
+					sendActNames=sendActNames+msg.getActName()+"、";
+				}else{
+					if(sendActNames.indexOf("...")==-1){
+						sendActNames=sendActNames+"...";
+					}
+				}
+				i++;
 			}
 			merge.setMsgs(actMsgs);
 			merge.setType(lazyKeyView.getType());
@@ -80,7 +91,7 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 						lazyKeyView.getReceiverId(), merge.getType())) {
 					sendAppMsgService.threadSendAppMsg(tpUser,
 							lazyKeyView.getSendId(), lazyKeyView.getType(),
-							count);
+							sendActNames);
 				}
 			}
 

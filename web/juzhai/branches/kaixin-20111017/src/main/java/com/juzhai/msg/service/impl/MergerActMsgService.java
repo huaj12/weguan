@@ -17,7 +17,8 @@ import com.juzhai.msg.service.IMergerActMsgService;
 public class MergerActMsgService implements IMergerActMsgService {
 	@Autowired
 	private RedisTemplate<String, MergerActMsg> redisTemplate;
-
+	@Autowired
+	private RedisTemplate<String, Long> redisLongTemplate;
 	@Override
 	public List<MergerActMsg> pageUnRead(long uid, int start,
 			int maxResults) {
@@ -93,6 +94,18 @@ public class MergerActMsgService implements IMergerActMsgService {
 				index);
 		msg.setStuts(true);
 		redisTemplate.opsForList().set(readKey, index, msg);
+	}
+
+
+	@Override
+	public long getMergerActMsgCount(long uid) {
+		return redisLongTemplate.opsForValue().increment(RedisKeyGenerator.genReadMsgCountKey(uid,MergerActMsg.class.getSimpleName()),0);
+	}
+
+	@Override
+	public void clearMergerActMsgCount(long uid) {
+		redisLongTemplate.delete(RedisKeyGenerator.genReadMsgCountKey(uid,MergerActMsg.class.getSimpleName()));
+		
 	}
 
 }

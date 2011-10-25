@@ -1,6 +1,7 @@
 package com.juzhai.msg.controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +22,7 @@ import com.juzhai.account.bean.ConsumeAction;
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.InitData;
 import com.juzhai.act.model.Act;
+import com.juzhai.app.service.IAppService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
@@ -31,9 +34,13 @@ import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.controller.view.ActMsgView;
 import com.juzhai.msg.service.IMergerActMsgService;
 import com.juzhai.msg.service.IMsgMessageService;
+import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.ITpUserAuthService;
 
+@Controller
+@RequestMapping(value = "msg")
 public class MsgCenterController extends BaseController {
 	private final Log log = LogFactory.getLog(getClass());
 
@@ -48,7 +55,11 @@ public class MsgCenterController extends BaseController {
 	@Value("${read.actmsg.rows}")
 	private int readActMsgRows = 20;
 	@Autowired
-	IAccountService accountService;
+	private IAccountService accountService;
+	@Autowired
+	private IAppService appService;
+	@Autowired
+	private ITpUserAuthService tpUserAuthService;
 
 	@RequestMapping(value = "/showUnRead", method = RequestMethod.GET)
 	public String showUnRead(HttpServletRequest request, Model model,
@@ -143,6 +154,8 @@ public class MsgCenterController extends BaseController {
 			showNotSubEmailTip(model);
 		}
 		doPageRead(context.getUid(), model, page);
+		//清空消息数目
+		mergerActMsgService.clearMergerActMsgCount(context.getUid());
 		return "msg/app/read";
 	}
 
@@ -292,13 +305,39 @@ public class MsgCenterController extends BaseController {
 		UserContext context = checkLoginForApp(request);
 		AjaxResult result = new AjaxResult();
 		try {
-			long unread = mergerActMsgService.countUnRead(context.getUid());
+			long unread = mergerActMsgService.getMergerActMsgCount(context.getUid());
 			result.setSuccess(true);
 			result.setResult(unread);
 		} catch (Exception e) {
 			result.setSuccess(false);
-			log.error(e.getMessage(), e);
+			log.error("getUnMessageCount is error", e);
 		}
 		return result;
 	}
+
+	@RequestMapping(value = "/sendBoard")
+	@ResponseBody
+	public AjaxResult sendBoard(HttpServletRequest request, String fids,
+			String content) throws NeedLoginException {
+		UserContext context = checkLoginForApp(request);
+		AjaxResult result = new AjaxResult();
+		try {
+			if (!StringUtils.isEmpty(fids)) {
+				AuthInfo authInfo = tpUserAuthService.getAuthInfo(
+						context.getUid(), context.getTpId());
+				if(appService.sendMessage(fids, content, authInfo)){
+					result.setSuccess(true);
+				}else{
+					result.setSuccess(false);	
+				};
+			} else {
+				result.setSuccess(false);
+			}
+		} catch (Exception e) {
+			result.setSuccess(false);
+			log.error("sendBoard is error", e);
+		}
+		return result;
+	}
+
 }

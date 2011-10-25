@@ -4,7 +4,7 @@ import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.passport.model.TpUser;
 
 public interface ISendAppMsgService {
-	void threadSendAppMsg(TpUser tpUser, long uid, MsgType type, long sendCount);
+	void threadSendAppMsg(TpUser tpUser, long uid, MsgType type, String sendContent);
 
 	/**
 	 * 检查第三方消息接收方限制数是否到达，如果没到达，则+1

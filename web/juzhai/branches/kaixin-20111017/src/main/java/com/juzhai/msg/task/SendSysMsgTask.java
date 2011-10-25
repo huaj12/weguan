@@ -21,13 +21,13 @@ public class SendSysMsgTask implements Callable<Boolean> {
 	String receiverIdentity;
 	MsgType type;
 	AuthInfo authInfo;
-	long sendCount;
+	String sendAct;
 	MessageSource messageSource;
 
 	public SendSysMsgTask(Thirdparty thirdparty, IAccountService accoutService,
 			IAppService appService, long uid, String receiverIdentity,
 			AuthInfo authInfo, MsgType type, MessageSource messageSource,
-			String sendName, long sendCount) {
+			String sendName, String sendAct) {
 		this.accountService = accoutService;
 		this.appService = appService;
 		this.uid = uid;
@@ -36,7 +36,7 @@ public class SendSysMsgTask implements Callable<Boolean> {
 		this.type = type;
 		this.messageSource = messageSource;
 		this.sendName = sendName;
-		this.sendCount = sendCount;
+		this.sendAct = sendAct;
 		this.thirdparty = thirdparty;
 	}
 
@@ -49,16 +49,16 @@ public class SendSysMsgTask implements Callable<Boolean> {
 			String word = "";
 			if (MsgType.INVITE.equals(type)) {
 				text = messageSource.getMessage(TpMessageKey.INVITE_FRIEND,
-						new Object[] { sendCount }, Locale.SIMPLIFIED_CHINESE);
+						new Object[] { sendAct }, Locale.SIMPLIFIED_CHINESE);
 				word = messageSource.getMessage(
 						TpMessageKey.INVITE_FRIEND_WORD, new Object[] { null },
 						Locale.SIMPLIFIED_CHINESE);
 			} else if (MsgType.RECOMMEND.equals(type)) {
 				text = messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND,
-						null, Locale.SIMPLIFIED_CHINESE);
+						new Object[]{sendAct}, Locale.SIMPLIFIED_CHINESE);
 				word = messageSource.getMessage(
 						TpMessageKey.RECOMMEND_FRIEND_WORD,
-						new Object[] { sendCount }, Locale.SIMPLIFIED_CHINESE);
+						new Object[] { null }, Locale.SIMPLIFIED_CHINESE);
 			}
 			// 发送系统消息
 			appService.sendSysMessage(receiverIdentity, messageSource

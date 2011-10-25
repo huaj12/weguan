@@ -55,7 +55,7 @@
 						</form>
 						<div class="next_btn"><a href="javascript:;" class="next"><c:choose><c:when test="${step == totalStep}">进入拒宅</c:when><c:otherwise>下一步</c:otherwise></c:choose></a></div>
 					</div><!--content end-->
-					<div class="tz <c:choose><c:when test="${isAdvise==null||isAdvise}">tz_secleted</c:when><c:otherwise>tz_link</c:otherwise></c:choose>">
+					<div class="check_box tz <c:choose><c:when test="${isAdvise==null||isAdvise}">tz_secleted</c:when><c:otherwise>tz_link</c:otherwise></c:choose>">
 						<p></p>
 						<span>添加兴趣时,告知同兴趣的同城好友</span>
 					</div>

@@ -77,6 +77,48 @@
 			}
 		});
 	}
+	
+	function removeShield(actId){
+		jQuery.ajax({
+			url: "/cms/removeShield",
+			type: "post",
+			data: {"actId":actId},
+			dataType: "json",
+			success: function(result){
+				if(result&&result.success){
+					$("#op_"+actId).text("已删除");
+				}else{
+					alert(result.errorInfo);
+				}
+			},
+			statusCode: {
+			    401: function() {
+			      alert("未登录");
+			    }
+			}
+		});
+	}
+	
+	function addShield(actId){
+		jQuery.ajax({
+			url: "/cms/addShield",
+			type: "post",
+			data: {"actId":actId},
+			dataType: "json",
+			success: function(result){
+				if(result&&result.success){
+					$("#op_"+actId).text("已添加");
+				}else{
+					alert(result.errorInfo);
+				}
+			},
+			statusCode: {
+			    401: function() {
+			      alert("未登录");
+			    }
+			}
+		});
+	}
 </script>
 <style type="text/css">
 </style>
@@ -112,7 +154,12 @@
 				<td>${actView.act.popularity}</td>
 				<td><fmt:formatDate value="${actView.act.createTime}" pattern="yyyy.MM.dd hh:mm" /></td>
 				<td>${actView.act.active}</td>
-				<td></td>
+				<td id="op_${actView.act.id}">
+					<c:choose>
+						<c:when test="${actView.shield}"><a href="javascript:;" onclick="javascript:removeShield('${actView.act.id}');">删除屏蔽</a></c:when>
+						<c:otherwise><a href="javascript:;" onclick="javascript:addShield('${actView.act.id}');">添加屏蔽</a></c:otherwise>
+					</c:choose>
+				</td>
 			</tr>
 		</c:forEach>
 		<tr>

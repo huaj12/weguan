@@ -17,17 +17,21 @@
 						<div style="width:80px; height:80px; overflow:hidden; float:left; margin-right:15px; display:inline;">
 							<img src="${actMsgView.profileCache.logoPic}" width="80" height="80"/>
 						</div>
-						<span style="float:left; font-size:14px; font-weight:bold; margin-top:15px; padding-bottom:15px; width:80%; ">
-							<span style="color:#336AAE; float:left;">${actMsgView.profileCache.nickname}</span>
-							#if($actMsgView.msgType.name()=='INVITE')
-								<span style=" color:#666; float:left; margin-left:10px; display:inline;">想和你去...</span>
-							#elseif($actMsgView.msgType.name()=='RECOMMEND')
-								<span style=" color:#666; float:left; margin-left:10px; display:inline;">添加了一个跟你相同的拒宅兴趣</span>
+						<span style="line-height:200%; float:left; font-size:14px; font-weight:bold; padding-bottom:5px; width:80%; ">
+							<span style="color:#336AAE; float:left; margin-right:10px; display:inline;">${actMsgView.profileCache.nickname}</span>
+							<span style=" color:#666; float:left; margin-right:10px; display:inline;">想和你去</span>
+							#foreach($act in $actMsgView.acts)
+								#if($velocityCount<=3)
+									<b style="color:#CC6600; float:left; margin-right:10px; white-space:nowrap;">$act.name</b>
+								#end
+							#end
+							#if($actMsgView.acts.size() > 3)
+								<span style="color:#999; float:left;">等$actMsgView.acts.size()个项目</span>
 							#end
 						</span>
 						<em style="float:left; color:#999; white-space:nowrap; font-style:normal;">ta在#if($actMsgView.profileCache.cityName && $actMsgView.profileCache.cityName != "")${actMsgView.profileCache.cityName}#else地球#end</em>
-						<span style=" float:left; margin-left:10px; display:inline;color:#ccc; font-family:Tahoma; font-size:11px;">${actMsgView.dateFormat}</span>
-						<a href="#if(!$tp)http://www.51juzhai.com#else${tp.appUrl}?goUri=/msg/showUnRead#end" style=" float:right; margin-right:30px;  color:#666;text-decoration:none; color:#4286D7; white-space:nowrap; display:block inline;">立即查看&gt;&gt;</a>
+						<strong style=" float:left; margin-left:20px; display:inline;color:#ccc; font-family:Tahoma; font-size:11px;">${actMsgView.dateFormat}</strong>
+						<a href="#if(!$tp)http://www.51juzhai.com#else${tp.appUrl}?goUri=/msg/showRead#end" style="float:right; color:#336AAE; margin-left:20px; display:inline; text-decoration:none;">去看看&gt;&gt;</a>
 					</div><!--item end-->
 					<div style="width:620px; height:1px; background:#F5F5F5; overflow:hidden; float:left; margin-top:1px;"></div>
 				#end

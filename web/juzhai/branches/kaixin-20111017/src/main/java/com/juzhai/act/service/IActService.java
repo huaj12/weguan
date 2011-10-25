@@ -99,10 +99,10 @@ public interface IActService {
 	/**
 	 * 取消近义词
 	 * 
-	 * @param actId1
-	 * @param actId2
+	 * @param actId
+	 * @param removeActId
 	 */
-	void removeSynonym(long actId1, long actId2);
+	void removeSynonym(long actId, long removeActId);
 
 	/**
 	 * 查询新的兴趣
@@ -125,4 +125,42 @@ public interface IActService {
 	 * @return
 	 */
 	int countNewActs(Date startDate, Date endDate);
+
+	/**
+	 * 添加屏蔽词
+	 * 
+	 * @param actId
+	 */
+	void addActShield(long actId);
+
+	/**
+	 * 删除屏蔽词
+	 * 
+	 * @param actId
+	 */
+	void removeActShield(long actId);
+
+	/**
+	 * 判断是否是屏蔽词
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	boolean isShieldAct(long actId);
+
+	/**
+	 * 屏蔽词ActId列表
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	List<Long> listShieldActIds();
+
+	/**
+	 * 屏蔽词Act列表
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	List<Act> listShieldActs();
 }

@@ -100,6 +100,9 @@ a:hover {
 				</ul> -->
 			</li>
 			<li>
+				<a href="/cms/showShield" target="config">屏蔽词设置</a>
+			</li>
+			<li>
 				<a href="javascript:;">已读邮件统计</a>
 			</li>
 			<li>

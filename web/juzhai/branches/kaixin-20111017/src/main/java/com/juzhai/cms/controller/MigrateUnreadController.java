@@ -16,6 +16,7 @@ import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.comparator.DescDateComparator;
 
 @Controller
+@RequestMapping("/cms")
 public class MigrateUnreadController {
 	@Autowired
 	private RedisTemplate<String, MergerActMsg> redisMergerActMsgTemplate;

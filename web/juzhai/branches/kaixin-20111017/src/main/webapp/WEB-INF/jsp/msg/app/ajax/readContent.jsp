@@ -7,8 +7,7 @@
 <c:choose>
 	<c:when test="${!empty actMsgViewList}">
 		<c:forEach var="actMsg" items="${actMsgViewList}" varStatus="msg">
-			<div id="msgItem" onmouseover="moveoverItem(this)"
-				onmouseout="moveoutItem(this)" class="item link">
+			<div id="msgItem" onmouseover='moveoverItem(this)' onmouseout='moveoutItem(this)' class="item link">
 				<!--item begin-->
 				<span class="l"></span><span class="r"></span>
 				<div class="close">

@@ -94,7 +94,7 @@
 					<!--infor end-->
 					<div class="btn">
 					<c:set var="s" value="" />
-					<c:forEach items="${actMsg.acts}" var="act" varStatus="step"><c:set var="s" value="${s}${act.name}、"></c:set> </c:forEach>
+					<c:forEach var="act" items="${actMsg.acts}" varStatus="step"><c:set var="s" value="${s}${act.name}、"></c:set> </c:forEach>
 						<a href="javascript:;" onclick="showBoard('${actMsg.profileCache.nickname }','${s}','${actMsg.profileCache.tpIdentity}')">联系ta</a>
 					</div>
 				</div>

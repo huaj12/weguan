@@ -111,7 +111,7 @@
 		$.dialog({
 		    content: document.getElementById('invite_app_div_'+index),
 		    top:"50%",
-		    title:title,
+		    title:title
 		});
 	}
 	
@@ -119,7 +119,7 @@
 		$.dialog({
 		    content: document.getElementById('interestBox_'+index),
 		    top:"50%",
-		    title:title,
+		    title:title
 		});
 	}
 	

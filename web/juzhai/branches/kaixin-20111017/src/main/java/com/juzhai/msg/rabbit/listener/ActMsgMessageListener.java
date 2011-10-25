@@ -18,6 +18,7 @@ import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.rabbit.message.MsgMessage;
+import com.juzhai.msg.service.IMergerActMsgService;
 import com.juzhai.msg.service.IMsgService;
 import com.juzhai.msg.service.ISendAppMsgService;
 import com.juzhai.passport.model.TpUser;
@@ -49,7 +50,6 @@ public class ActMsgMessageListener implements
 	ISendAppMsgService sendAppMsgService;
 	@Autowired
 	private IUserSetupService userSetupService;
-
 	@Override
 	public Object handleMessage(MsgMessage<ActMsg> msgMessage) {
 		if (null == msgMessage) {
@@ -117,7 +117,7 @@ public class ActMsgMessageListener implements
 				//该用户是否发送第三方消息
 				if (userSetupService.isTpAdvise(msgMessage.getSenderId())) {
 					sendAppMsgService.threadSendAppMsg(tpUser, msgMessage
-							.getSenderId(), msgMessage.getBody().getType(), 1);
+							.getSenderId(), msgMessage.getBody().getType(), msgMessage.getBody().getActName());
 				}
 			}
 		} catch (Exception e) {

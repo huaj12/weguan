@@ -23,6 +23,7 @@
 				}else{
 					//未知错误请刷新页面后重试
 					$.dialog({
+						lock: true,
 					    content:'未知错误请刷新页面后重试',
 					    id: 'point_box',
 					    icon:'error'
@@ -109,6 +110,7 @@
 	}
 	function invite_app_div(title,index){
 		$.dialog({
+			lock: true,
 		    content: document.getElementById('invite_app_div_'+index),
 		    top:"50%",
 		    title:title
@@ -117,6 +119,7 @@
 	
 	function queryAll(title,index){
 		$.dialog({
+			lock: true,
 		    content: document.getElementById('interestBox_'+index),
 		    top:"50%",
 		    title:title
@@ -191,6 +194,7 @@
 			if(result&&result.success){
 				closeAllDiv();
 				$.dialog({
+					lock: true,
 				    content: '<div>发送成功!</br>等待他的回复吧</div>',
 				    top:"50%",
 				    width:305,

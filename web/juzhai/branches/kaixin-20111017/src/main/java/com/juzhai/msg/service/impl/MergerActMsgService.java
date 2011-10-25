@@ -99,12 +99,12 @@ public class MergerActMsgService implements IMergerActMsgService {
 
 	@Override
 	public long getMergerActMsgCount(long uid) {
-		return redisLongTemplate.opsForValue().increment(RedisKeyGenerator.genReadMsgCountKey(uid,MergerActMsg.class.getSimpleName()),0);
+		return redisLongTemplate.opsForValue().increment(RedisKeyGenerator.genUnReadMsgCountKey(uid,MergerActMsg.class.getSimpleName()),0);
 	}
 
 	@Override
 	public void clearMergerActMsgCount(long uid) {
-		redisLongTemplate.delete(RedisKeyGenerator.genReadMsgCountKey(uid,MergerActMsg.class.getSimpleName()));
+		redisLongTemplate.delete(RedisKeyGenerator.genUnReadMsgCountKey(uid,MergerActMsg.class.getSimpleName()));
 		
 	}
 

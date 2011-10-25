@@ -35,7 +35,7 @@
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
 		<script type="text/javascript" src="${jz:static('/js/module/home.js')}"></script>
-		<c:if test="${actNames != null}">
+		<%-- <c:if test="${actNames != null}">
 			<script type="text/javascript">
 				var firstFeed = function(){
 					var actNames = "${actNames}";
@@ -52,7 +52,7 @@
 				}catch (e) {
 				}
 			});
-		</script>
+		</script> --%>
 		<script type="text/javascript" src="${jz:static('/js/base/kaixin_plugin.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 	</body>

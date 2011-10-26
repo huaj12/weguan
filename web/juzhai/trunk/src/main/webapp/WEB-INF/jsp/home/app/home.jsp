@@ -25,7 +25,7 @@
 						</div><!--mid end-->
 						<div class="bot"></div>
 					</div><!--loading end-->
-					<div class="tz <c:choose><c:when test="${isAdvise==null||isAdvise}">tz_secleted</c:when><c:otherwise>tz_link</c:otherwise></c:choose>">
+					<div class="check_box tz1 <c:choose><c:when test="${isAdvise==null||isAdvise}">tz_secleted</c:when><c:otherwise>tz_link</c:otherwise></c:choose>">
 						<p></p>
 						<span>添加兴趣时,告知同兴趣的同城好友</span>
 					</div>
@@ -35,7 +35,7 @@
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
 		<script type="text/javascript" src="${jz:static('/js/module/home.js')}"></script>
-		<c:if test="${actNames != null}">
+		<%-- <c:if test="${actNames != null}">
 			<script type="text/javascript">
 				var firstFeed = function(){
 					var actNames = "${actNames}";
@@ -52,7 +52,7 @@
 				}catch (e) {
 				}
 			});
-		</script>
+		</script> --%>
 		<script type="text/javascript" src="${jz:static('/js/base/kaixin_plugin.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 	</body>

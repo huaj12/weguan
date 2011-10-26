@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.rabbit.message.ActUpdateMessage;
+import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
 import com.juzhai.home.service.IInboxService;
@@ -31,6 +32,8 @@ public class UpdateActFeedMessageListener implements
 	private IProfileService profileService;
 	@Autowired
 	private IUserActService userActService;
+	@Autowired
+	private IActService actService;
 
 	@Override
 	public Object handleMessage(ActUpdateMessage actUpdateMessage) {
@@ -38,6 +41,12 @@ public class UpdateActFeedMessageListener implements
 			return null;
 		}
 		UserAct userAct = actUpdateMessage.getBody();
+		if (actService.isShieldAct(userAct.getActId())) {
+			if (log.isDebugEnabled()) {
+				log.debug("act[id=" + userAct.getActId() + "] is shield.");
+			}
+			return null;
+		}
 		// push to friends
 		Set<Long> targets = getPushTargets(userAct.getUid(),
 				userAct.getActId(), actUpdateMessage.getExcludeUids());
@@ -78,10 +87,8 @@ public class UpdateActFeedMessageListener implements
 		Set<Long> targets = new HashSet<Long>();
 		Set<Long> appFriends = friendService.getAppFriends(uid);
 		for (long friendId : appFriends) {
-			if ((profileService.isMaybeSameCity(uid, friendId) == 0 || !userActService
-					.isInterested(friendId, actId))
-					&& (CollectionUtils.isEmpty(excludeUids) || !excludeUids
-							.contains(friendId))) {
+			if (CollectionUtils.isEmpty(excludeUids)
+					|| !excludeUids.contains(friendId)) {
 				targets.add(friendId);
 			}
 		}

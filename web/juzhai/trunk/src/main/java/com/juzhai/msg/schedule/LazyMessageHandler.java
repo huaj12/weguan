@@ -22,7 +22,7 @@ import com.juzhai.msg.task.SendSysMsgTask;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserService;
 
-@Component
+@Deprecated
 public class LazyMessageHandler extends AbstractScheduleHandler {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
@@ -47,7 +47,7 @@ public class LazyMessageHandler extends AbstractScheduleHandler {
 				TpUser tpUser = tpUserService.getTpUserByUid(lazyKeyView
 						.getReceiverId());
 				sendAppMsgService.threadSendAppMsg(tpUser,
-						lazyKeyView.getSendId(), lazyKeyView.getType(), count);
+						lazyKeyView.getSendId(), lazyKeyView.getType(), "");
 			}
 		}
 	}

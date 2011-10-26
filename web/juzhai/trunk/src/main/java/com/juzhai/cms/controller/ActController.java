@@ -59,7 +59,8 @@ public class ActController {
 						actList.size());
 				for (Act act : actList) {
 					viewList.add(new CmsActView(act, actService
-							.listSynonymActs(act.getId())));
+							.listSynonymActs(act.getId()), actService
+							.isShieldAct(act.getId())));
 				}
 				model.addAttribute("cmsActViewList", viewList);
 				model.addAttribute("pager", pager);
@@ -120,5 +121,38 @@ public class ActController {
 			ajaxResult.setSuccess(true);
 		}
 		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/addShield", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult addShield(HttpServletRequest request, Model model,
+			long actId) {
+		AjaxResult ajaxResult = new AjaxResult();
+		Act act = InitData.ACT_MAP.get(actId);
+		if (null != act) {
+			actService.addActShield(actId);
+			ajaxResult.setSuccess(true);
+		}
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/removeShield", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult removeSynonym(HttpServletRequest request, Model model,
+			long actId) {
+		AjaxResult ajaxResult = new AjaxResult();
+		Act act = InitData.ACT_MAP.get(actId);
+		if (null != act) {
+			actService.removeActShield(actId);
+			ajaxResult.setSuccess(true);
+		}
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/showShield", method = RequestMethod.GET)
+	public String showShield(HttpServletRequest request, Model model) {
+		List<Act> shieldActList = actService.listShieldActs();
+		model.addAttribute("shieldActList", shieldActList);
+		return "cms/shield_list";
 	}
 }

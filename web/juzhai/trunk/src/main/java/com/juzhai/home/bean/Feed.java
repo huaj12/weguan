@@ -23,7 +23,7 @@ public class Feed implements Serializable {
 			"yyyy-MM-dd hh:mm");
 
 	public enum FeedType {
-		SPECIFIC, RANDOM, QUESTION, INVITE
+		SPECIFIC, YUE, QUESTION, INVITE
 	}
 
 	private TpFriend tpFriend;

@@ -62,9 +62,9 @@ public class BaseController {
 		return context;
 	}
 
-	protected void queryPoint(long uid, Model model) {
-		model.addAttribute("point", accountService.queryPoint(uid));
-	}
+	// protected void queryPoint(long uid, Model model) {
+	// model.addAttribute("point", accountService.queryPoint(uid));
+	// }
 
 	public AuthInfo getAuthInfo(long uid, long tpId) {
 		return tpUserAuthService.getAuthInfo(uid, tpId);

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -162,23 +163,26 @@ public class ActService implements IActService {
 	@Override
 	public List<Act> listSynonymActs(long actId) {
 		List<Long> synonymIdList = listSynonymIds(actId);
-		List<Act> synonymActList = new ArrayList<Act>(synonymIdList.size());
-		for (long id : synonymIdList) {
-			Act act = InitData.ACT_MAP.get(id);
-			if (null != act) {
-				synonymActList.add(act);
-			}
-		}
-		return synonymActList;
+		return convertToActs(synonymIdList);
 	}
 
 	@Override
 	public void addSynonym(long actId1, long actId2) {
-		removeSynonym(actId1, actId2);
-		redisTemplate.opsForList().leftPush(
-				RedisKeyGenerator.genActSynonymKey(actId1), actId2);
-		redisTemplate.opsForList().leftPush(
-				RedisKeyGenerator.genActSynonymKey(actId2), actId1);
+		List<Long> synonymIds1 = listSynonymIds(actId1);
+		synonymIds1.add(actId1);
+		List<Long> synonymIds2 = listSynonymIds(actId2);
+		synonymIds2.add(actId2);
+		for (long id1 : synonymIds1) {
+			for (long id2 : synonymIds2) {
+				if (id1 != id2) {
+					removeSynonymEachother(id1, id2);
+					redisTemplate.opsForList().leftPush(
+							RedisKeyGenerator.genActSynonymKey(id1), id2);
+					redisTemplate.opsForList().leftPush(
+							RedisKeyGenerator.genActSynonymKey(id2), id1);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -197,7 +201,17 @@ public class ActService implements IActService {
 	}
 
 	@Override
-	public void removeSynonym(long actId1, long actId2) {
+	public void removeSynonym(long actId, long removeId) {
+		List<Long> synonymIds = listSynonymIds(actId);
+		synonymIds.add(actId);
+		for (long id : synonymIds) {
+			if (id != removeId) {
+				removeSynonymEachother(id, removeId);
+			}
+		}
+	}
+
+	private void removeSynonymEachother(long actId1, long actId2) {
 		redisTemplate.opsForList().remove(
 				RedisKeyGenerator.genActSynonymKey(actId1), 1, actId2);
 		redisTemplate.opsForList().remove(
@@ -226,5 +240,51 @@ public class ActService implements IActService {
 		ActExample example = new ActExample();
 		example.createCriteria().andCreateTimeBetween(startDate, endDate);
 		return actMapper.countByExample(example);
+	}
+
+	@Override
+	public void addActShield(long actId) {
+		redisTemplate.opsForZSet().add(RedisKeyGenerator.genActShieldKey(),
+				actId, System.currentTimeMillis());
+	}
+
+	@Override
+	public void removeActShield(long actId) {
+		redisTemplate.opsForZSet().remove(RedisKeyGenerator.genActShieldKey(),
+				actId);
+	}
+
+	@Override
+	public List<Long> listShieldActIds() {
+		Set<Long> shieldActIds = redisTemplate.opsForZSet().reverseRange(
+				RedisKeyGenerator.genActShieldKey(), 0, -1);
+		if (null == shieldActIds) {
+			return Collections.emptyList();
+		}
+		return new ArrayList<Long>(shieldActIds);
+	}
+
+	@Override
+	public List<Act> listShieldActs() {
+		List<Long> shieldActIds = listShieldActIds();
+		return convertToActs(shieldActIds);
+	}
+
+	@Override
+	public boolean isShieldAct(long actId) {
+		Double score = redisTemplate.opsForZSet().score(
+				RedisKeyGenerator.genActShieldKey(), actId);
+		return null != score && score > 0;
+	}
+
+	private List<Act> convertToActs(List<Long> actIdList) {
+		List<Act> actList = new ArrayList<Act>(actIdList.size());
+		for (long id : actIdList) {
+			Act act = InitData.ACT_MAP.get(id);
+			if (null != act) {
+				actList.add(act);
+			}
+		}
+		return actList;
 	}
 }

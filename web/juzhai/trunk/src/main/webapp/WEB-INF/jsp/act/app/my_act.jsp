@@ -50,7 +50,7 @@
 						</div><!--mid end-->
 						<div class="bot"></div>
 					</div><!--content end-->
-					<div class="tz <c:choose><c:when test="${isAdvise==null||isAdvise}">tz_secleted</c:when><c:otherwise>tz_link</c:otherwise></c:choose>">
+					<div class="check_box tz1 <c:choose><c:when test="${isAdvise==null||isAdvise}">tz_secleted</c:when><c:otherwise>tz_link</c:otherwise></c:choose>">
 						<p></p>
 						<span>添加兴趣时,告知同兴趣的同城好友</span>
 					</div>

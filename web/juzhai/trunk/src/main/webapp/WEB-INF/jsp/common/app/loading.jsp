@@ -26,16 +26,16 @@
 		</div><!--main end-->
 		<script type="text/javascript" src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 		<script type="text/javascript">
-			var pCount = $("div.loading > p").size();
-			var pNum = 1;
-			setInterval(function() {
-				$("div.loading > #p"+ pNum).fadeOut(200, function() {
-					pNum = pNum == pCount ? 1 : (pNum + 1);
-					$("div.loading > #p"+ pNum).fadeIn(200);
-				});
-			}, 3000);
-		
 			$(document).ready(function(){
+				var pCount = $("div.loading > p").size();
+				var pNum = 1;
+				setInterval(function() {
+					$("div.loading > #p"+ pNum).fadeOut(200, function() {
+						pNum = pNum == pCount ? 1 : (pNum + 1);
+						$("div.loading > #p"+ pNum).fadeIn(200);
+					});
+				}, 3000);
+				
 				var data=${data};
 				jQuery.ajax({
 					url: "/access",
@@ -52,6 +52,5 @@
 				});
 			});
 		</script>
-		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 	</body>
 </html>

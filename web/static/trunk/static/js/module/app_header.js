@@ -28,7 +28,7 @@ function kaixinRequest(name) {
 		name : name,
 		random : Math.random()
 	}, function(data) {
-		showKxDialog(data);
+		showSysnewsDialog(data);
 	});
 }
 // TODO
@@ -233,9 +233,9 @@ $(document).ready(function() {
 		}, 5000);
 	}
 	
-	var advise = $(".tz");
+	var advise = $(".check_box");
 	if(advise){
-		$(".tz > p").bind("click", function(){
+		$(".check_box > p").bind("click", function(){
 			var currentAdvise = advise.hasClass("tz_secleted");
 			jQuery.ajax({
 				url : "/app/setupAdvise",

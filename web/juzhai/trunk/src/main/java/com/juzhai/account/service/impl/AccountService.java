@@ -7,9 +7,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.account.InitData;
-import com.juzhai.account.bean.ConsumeAction;
-import com.juzhai.account.bean.ProfitAction;
 import com.juzhai.account.dao.impl.AccountDao;
 import com.juzhai.account.mapper.AccountMapper;
 import com.juzhai.account.model.Account;
@@ -37,32 +34,37 @@ public class AccountService implements IAccountService {
 		accountMapper.insertSelective(account);
 	}
 
-	@Override
-	public int queryPoint(long uid) {
-		Account account = accountMapper.selectByPrimaryKey(uid);
-		return account == null ? 0 : account.getPoint();
-	}
-
-	@Override
-	public boolean checkPoint(long uid, ConsumeAction consumeAction) {
-		return (queryPoint(uid) + InitData.CONSUME_ACTION_RULE
-				.get(consumeAction)) >= 0;
-	}
-
-	@Override
-	public boolean consumePoint(long uid, ConsumeAction consumeAction) {
-		int point = InitData.CONSUME_ACTION_RULE.get(consumeAction);
-		if (point < 0) {
-			return accountDao.updatePoint(uid, point) == 1;
-		}
-		return true;
-	}
-
-	@Override
-	public void profitPoint(long uid, ProfitAction profitAction) {
-		int point = InitData.PROFIT_ACTION_RULE.get(profitAction);
-		if (point > 0) {
-			accountDao.updatePoint(uid, point);
-		}
-	}
+	// @Override
+	// public int queryPoint(long uid) {
+	// Account account = accountMapper.selectByPrimaryKey(uid);
+	// return account == null ? 0 : account.getPoint();
+	// }
+	//
+	// @Override
+	// public boolean checkPoint(long uid, ConsumeAction consumeAction) {
+	// return (queryPoint(uid) + InitData.CONSUME_ACTION_RULE
+	// .get(consumeAction)) >= 0;
+	// }
+	//
+	// @Override
+	// public boolean consumePoint(long uid, ConsumeAction consumeAction) {
+	// int point = InitData.CONSUME_ACTION_RULE.get(consumeAction);
+	// if (point < 0) {
+	// return accountDao.updatePoint(uid, point) == 1;
+	// }
+	// return true;
+	// }
+	//
+	// @Override
+	// public void profitPoint(long uid, ProfitAction profitAction) {
+	// profitPoint(uid, profitAction, 1);
+	// }
+	//
+	// @Override
+	// public void profitPoint(long uid, ProfitAction profitAction, int num) {
+	// int point = InitData.PROFIT_ACTION_RULE.get(profitAction);
+	// if (point > 0) {
+	// accountDao.updatePoint(uid, point * num);
+	// }
+	// }
 }

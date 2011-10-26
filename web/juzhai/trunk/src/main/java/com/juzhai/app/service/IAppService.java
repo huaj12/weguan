@@ -48,6 +48,8 @@ public interface IAppService {
 	 * @return
 	 */
 	boolean sendMessage(String fuids,String word,AuthInfo authInfo);
-	
+	@Deprecated
 	int getAllocation(AuthInfo authInfo);
+
+	boolean sendBoard (AuthInfo authInfo,String secret,String content,String fuid);
 }

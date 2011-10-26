@@ -52,7 +52,7 @@ public class AppHomeController extends BaseController {
 	public String home(HttpServletRequest request, Model model, Boolean isFirst)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
-		queryPoint(context.getUid(), model);
+		// queryPoint(context.getUid(), model);
 		queryProfile(context.getUid(), model);
 		boolean dayFirstLogin = tomcatLoginService
 				.isDayFirstLoginAndDel(request);

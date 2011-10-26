@@ -19,17 +19,18 @@
 						<div class="top"></div>
 						<div class="mid"><!--mid begin-->
 							<c:choose>
-								<c:when test="${step==1}"><c:set var="classSuffix" value="sport" /></c:when>
-								<c:when test="${step==2}"><c:set var="classSuffix" value="joy" /></c:when>
-								<c:when test="${step==3}"><c:set var="classSuffix" value="travel" /></c:when>
+								<c:when test="${step==1}"><c:set var="classSuffix" value="travel" /></c:when>
+								<c:when test="${step==2}"><c:set var="classSuffix" value="sport" /></c:when>
+								<c:when test="${step==3}"><c:set var="classSuffix" value="joy" /></c:when>
 								<c:when test="${step==4}"><c:set var="classSuffix" value="travel" /></c:when>
 								<c:when test="${step==5}"><c:set var="classSuffix" value="leisure" /></c:when>
 								<c:when test="${step==6}"><c:set var="classSuffix" value="food" /></c:when>
 							</c:choose>
 							<div class="basic_yd sec_${classSuffix}"><!--basic_yd begin-->
-								<h3 class="fl"></h3>
+								<h3 class="fl"><img src="${profile.logoPic}"  width="80" height="80"/></h3>
 								<div class="sec fr"><!--sec begin-->
-									<h2>选择你最近感兴趣的${actCategory.name}项目</h2>
+									<%--  <h2>选择你最近感兴趣的${actCategory.name}项目</h2> --%>
+									<h2>我最近想找朋友去:(添加最多5个兴趣)</h2>
 									<div id="acts">
 										<c:forEach var="act" items="${actList}">
 											<p><span class="fl"></span><a href="javascript:;" class="key_words" actId="${act.id}" title="点击添加"><c:out value="${act.name}" /></a><span class="fr"></span><em></em></p>
@@ -39,7 +40,7 @@
 										<strong><input id="actName" type="text" /></strong>
 										<a href="javascript:;" class="add">添加</a>
 										<div id="actNameError" class="error" style="display:none"></div>
-										<div class="goon_add" style="display:none">请继续添加，或点击下一步!</div>
+										<div class="goon_add" style="display:none;">请继续添加，或点击下一步!</div>
 									</div>
 								</div><!--sec end-->
 							</div><!--basic_yd end-->
@@ -52,9 +53,9 @@
 						</div> -->
 						<form id="nextForm" action="/app/guide/next" method="post">
 						</form>
-						<div class="next_btn"><a href="javascript:;" class="next">下一步</a></div>
+						<div class="next_btn"><a href="javascript:;" class="next"><c:choose><c:when test="${step == totalStep}">进入拒宅</c:when><c:otherwise>下一步</c:otherwise></c:choose></a></div>
 					</div><!--content end-->
-					<div class="tz <c:choose><c:when test="${isAdvise==null||isAdvise}">tz_secleted</c:when><c:otherwise>tz_link</c:otherwise></c:choose>">
+					<div class="check_box tz <c:choose><c:when test="${isAdvise==null||isAdvise}">tz_secleted</c:when><c:otherwise>tz_link</c:otherwise></c:choose>">
 						<p></p>
 						<span>添加兴趣时,告知同兴趣的同城好友</span>
 					</div>

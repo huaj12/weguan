@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.msg.bean.Msg;
+import com.juzhai.msg.service.IMergerActMsgService;
 import com.juzhai.msg.service.IMsgService;
 
 @Service
@@ -13,12 +14,15 @@ public class MsgService<T extends Msg> implements IMsgService<T> {
 
 	@Autowired
 	private RedisTemplate<String, T> redisTemplate;
+	@Autowired
+	private RedisTemplate<String, Long> redisLongTemplate;
 
 	@Override
 	public void sendMsg(long receiverId, T msg) {
 		redisTemplate.opsForList().leftPush(
-				RedisKeyGenerator.genUnreadMsgsKey(receiverId, msg.getClass()
+				RedisKeyGenerator.genReadMsgsKey(receiverId, msg.getClass()
 						.getSimpleName()), msg);
+		redisLongTemplate.opsForValue().increment(RedisKeyGenerator.genUnReadMsgCountKey(receiverId,msg.getClass().getSimpleName()), 1);
 	}
 
 	@Override
@@ -36,8 +40,9 @@ public class MsgService<T extends Msg> implements IMsgService<T> {
 				RedisKeyGenerator.genPrestoreMsgsKey(receiverIdentity,
 						receiverTpId, clazz.getSimpleName()))) != null) {
 			redisTemplate.opsForList().leftPush(
-					RedisKeyGenerator.genUnreadMsgsKey(uid, msg.getClass()
+					RedisKeyGenerator.genReadMsgsKey(uid, msg.getClass()
 							.getSimpleName()), msg);
+			redisLongTemplate.opsForValue().increment(RedisKeyGenerator.genUnReadMsgCountKey(uid,msg.getClass().getSimpleName()), 1);
 		}
 	}
 }

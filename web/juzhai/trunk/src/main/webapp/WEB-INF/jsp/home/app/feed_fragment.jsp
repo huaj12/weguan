@@ -9,10 +9,10 @@
 			<div class="jz_box"><!--jz_box begin-->
 				<div class="photo fl"><img src="${feed.profileCache.logoPic}" /></div>
 				<div class="infor fl data" data="{'friendId':${feed.profileCache.uid},'actId':${feed.act.id},'times':${times}}"><!--infor begin-->
-					<h2><span class="u"><a href="${feed.tpHomeUrl}" class="user" target="_blank"><c:out value="${feed.profileCache.nickname}" /></a></span><span class="w">最近想去</span><span class="v"><c:out value="${feed.act.name}" /></span></h2>
+					<h2><span class="u"><a href="${feed.tpHomeUrl}" class="user" target="_blank"><c:out value="${feed.profileCache.nickname}" /></a></span><span class="w">想找伴去</span><span class="v"><c:out value="${feed.act.name}" /></span></h2>
 					<p>ta在<c:choose><c:when test="${feed.profileCache.cityName != ''}">${feed.profileCache.cityName}</c:when><c:otherwise>地球</c:otherwise></c:choose>，发布于<fmt:formatDate value="${feed.date}" pattern="yyyy.MM.dd"/></p>
-					<a href="javascript:;" class="want btn" onclick="javascript:response(1);" tip="将{0}加为我的兴趣，并找到同好好友" onmouseover="javascript:showTip(this, true, '${feed.act.name}');" onmouseout="javascript:showTip(this, false);"></a>
-					<a href="javascript:;" class="dwant btn" onclick="javascript:response(2);" tip="切换到下一张，什么都不做" onmouseover="javascript:showTip(this, true);" onmouseout="javascript:showTip(this, false);"></a>
+					<a href="javascript:;" class="want btn" onclick="javascript:response(1);" tip="将 {0} 加为我的兴趣" onmouseover="javascript:showTip(this, true, '${feed.act.name}');" onmouseout="javascript:showTip(this, false);" title="点击告诉ta"></a>
+					<a href="javascript:;" class="dwant btn" onclick="javascript:response(2);" tip="切换到下一张，什么都不做" onmouseover="javascript:showTip(this, true);" onmouseout="javascript:showTip(this, false);" title="看下一张"></a>
 				</div><!--infor end-->
 			</div>
 		</c:when>
@@ -62,7 +62,7 @@
 					<h2><span class="u">很多好友还没有加入拒宅</span></h2>
 					<p>拒宅器还不能充分发挥作用哦</p>
 					<a href="javascript:;" class="zjl" onclick="javascript:invite();">发布拒宅召集令</a>
-					<h3>立即获得20分拒宅积分</h3>
+					<h3><!-- 立即获得20分拒宅积分 --></h3>
 				</div><!--infor end-->
 			</div>
 		</c:when>
@@ -76,7 +76,7 @@
 <div class="bot"></div>
 <c:choose>
 	<c:when test="${feed.feedType=='SPECIFIC'}">
-		<div class="next_btn1"><a href="javascript:;" onclick="javascript:response(2);" tip="切换到下一张，什么都不做" onmouseover="javascript:showTip(this, true);" onmouseout="javascript:showTip(this, false);">跳  过</a></div>
+		<div class="next_btn1"><a href="javascript:;" onclick="javascript:response(2);" tip="切换到下一张，什么都不做" onmouseover="javascript:showTip(this, true);" onmouseout="javascript:showTip(this, false);">换一换</a></div>
 	</c:when>
 	<c:when test="${feed.feedType=='QUESTION'}">
 		<div class="next_btn1"><a href="javascript:;" onclick="javascript:answer(0, 0, '${feed.tpFriend.userId}', ${times});">跳  过</a></div>

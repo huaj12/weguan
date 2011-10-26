@@ -150,4 +150,34 @@ public class KaiXinService implements IAppService {
 
 	}
 
+	@Override
+	public boolean  sendBoard(AuthInfo authInfo, String secret, String content,
+			String fuid) {
+		boolean flag = false;
+		try {
+			if(StringUtils.isEmpty(secret)){
+				secret="0";
+			}
+			if(StringUtils.isEmpty(content)){
+				content="";
+			}
+			Map<String, String> paramMap = new HashMap<String, String>();
+			paramMap.put("uid", fuid);
+			paramMap.put("content", content);
+			paramMap.put("secret", secret);
+			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
+					authInfo.getSessionKey());
+			String ret = AppPlatformUtils.doPost(
+					"https://api.kaixin001.com/board/create.json", query);
+			JSONObject jObject = JSONObject.fromObject(ret);
+			if (!StringUtils.isEmpty(jObject.getString("thread_bid"))) {
+				flag = true;
+			}
+			return flag;
+		} catch (Exception e) {
+			log.error("send  kaixin Board  is error fuids:" + fuid+" secret:"+secret);
+			return false;
+		}
+	}
+
 }

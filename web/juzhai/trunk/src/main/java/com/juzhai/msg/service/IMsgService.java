@@ -5,7 +5,7 @@ import com.juzhai.msg.bean.Msg;
 public interface IMsgService<T extends Msg> {
 
 	/**
-	 * 把消息放入未读箱
+	 * 把消息放入信箱
 	 * 
 	 * @param receiverId
 	 * @param msg
@@ -13,7 +13,7 @@ public interface IMsgService<T extends Msg> {
 	void sendMsg(long receiverId, T msg);
 
 	/**
-	 * 把消息放入预存未读箱
+	 * 把消息放入预存信箱
 	 * 
 	 * @param receiverTpId
 	 * @param receiverIdentity
@@ -22,7 +22,7 @@ public interface IMsgService<T extends Msg> {
 	void sendMsg(long receiverTpId, String receiverIdentity, T msg);
 
 	/**
-	 * 将该用户的所有预存消息存放到未读消息里 用户第一次登陆时调用
+	 * 将该用户的所有预存消息存放到消息里 用户第一次登陆时调用
 	 * 
 	 * @param receiverIdentity
 	 * @param receiverTpId

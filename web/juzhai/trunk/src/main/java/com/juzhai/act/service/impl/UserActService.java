@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.account.bean.ProfitAction;
-import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.InitData;
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
@@ -66,8 +64,9 @@ public class UserActService implements IUserActService {
 	private IProfileService profileService;
 	@Autowired
 	private IMsgMessageService msgMessageService;
-	@Autowired
-	private IAccountService accountService;
+
+	// @Autowired
+	// private IAccountService accountService;
 
 	@Override
 	public void respRandom(long uid, long actId, String tpFriendId, long tpId,
@@ -109,7 +108,7 @@ public class UserActService implements IUserActService {
 			} else {
 				wantToAct(uid, actId, tpIdentity, tpId);
 			}
-			accountService.profitPoint(uid, ProfitAction.WANT_TO);
+			// accountService.profitPoint(uid, ProfitAction.WANT_TO);
 			break;
 		case NILL:
 			break;
@@ -123,6 +122,8 @@ public class UserActService implements IUserActService {
 			log.error(e.getErrorCode(), e);
 		}
 		friendService.incrOrDecrIntimacy(uid, friendId, 2);
+		// 发送邀请消息
+		sendRecommendMsg(uid, friendId, actId);
 	}
 
 	private void wantToAct(long uid, long actId, String tpIdentity, long tpId) {
@@ -163,7 +164,7 @@ public class UserActService implements IUserActService {
 	public void addAct(long uid, long actId, boolean isSyn)
 			throws ActInputException {
 		useAct(uid, actId, 5, false, 0);
-		accountService.profitPoint(uid, ProfitAction.ADD_ACT);
+		// accountService.profitPoint(uid, ProfitAction.ADD_ACT);
 	}
 
 	private void useAct(long uid, long actId, int hotLev, boolean canRepeat,
@@ -199,21 +200,27 @@ public class UserActService implements IUserActService {
 				RedisKeyGenerator.genMyActsKey(userAct.getUid()),
 				userAct.getActId(), userAct.getHotLev());
 		sendFeed(userAct, srcFriendId);
-		sendMsg(userAct);
+		// sendMsg(userAct);
 	}
 
 	private void sendFeed(UserAct userAct, long srcFriendId) {
 		// push to friends
 		ActUpdateMessage actUpdateMessage = new ActUpdateMessage();
-		actUpdateMessage.buildSenderId(userAct.getUid()).buildBody(userAct);
-		actUpdateMessage.addExcludeUid(srcFriendId);
+		actUpdateMessage.buildSenderId(userAct.getUid()).buildBody(userAct)
+				.addExcludeUid(srcFriendId);
 		updateActFeedRabbitTemplate.convertAndSend(actUpdateMessage);
 	}
 
-	private void sendMsg(UserAct userAct) {
+	@Deprecated
+	private void sendRecommendMsg(UserAct userAct) {
 		msgMessageService.sendActMsg(userAct.getUid(), 0L,
 				new ActMsg(userAct.getActId(), userAct.getUid(),
 						ActMsg.MsgType.RECOMMEND));
+	}
+
+	private void sendRecommendMsg(long senderUid, long receiverId, long actId) {
+		msgMessageService.sendActMsg(senderUid, receiverId, new ActMsg(actId,
+				senderUid, ActMsg.MsgType.INVITE));
 	}
 
 	@Override

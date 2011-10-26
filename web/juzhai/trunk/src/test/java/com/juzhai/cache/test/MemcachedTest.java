@@ -6,6 +6,7 @@ package com.juzhai.cache.test;
 import java.util.concurrent.TimeoutException;
 
 import junit.framework.Assert;
+import net.rubyeye.xmemcached.Counter;
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.exception.MemcachedException;
 
@@ -23,6 +24,7 @@ public class MemcachedTest {
 
 	@Autowired
 	private MemcachedClient memcachedClient;
+	private String key = "simpleKey";
 
 	@Before
 	public void setUp() throws Exception {
@@ -30,6 +32,7 @@ public class MemcachedTest {
 
 	@After
 	public void tearDown() throws Exception {
+		memcachedClient.delete(key);
 		memcachedClient.shutdown();
 	}
 
@@ -37,14 +40,30 @@ public class MemcachedTest {
 	public void simpleTest() throws TimeoutException, InterruptedException,
 			MemcachedException {
 		long start = System.currentTimeMillis();
-		String key = "simpleKey";
 		String value = "simpleValue";
 		Assert.assertTrue(memcachedClient.set(key, 120, value));
 		Assert.assertEquals(value, memcachedClient.get(key));
-		Assert.assertTrue(memcachedClient.touch(key, 120));
+		// Assert.assertTrue(memcachedClient.touch(key, 120));
 		Assert.assertTrue(memcachedClient.delete(key));
 		Assert.assertNull(memcachedClient.get(key));
 		System.out.println("use time: " + (System.currentTimeMillis() - start));
+	}
+
+	@Test
+	public void incr() throws TimeoutException, InterruptedException,
+			MemcachedException {
+		Counter counter = memcachedClient.getCounter(key);
+		System.out.println(counter.get());
+		Assert.assertEquals(1L, memcachedClient.incr(key, 1L, 1L, 1000L, 60));
+		System.out.println(memcachedClient.getCounter(key).get());
+		Thread.sleep(20000);
+		System.out.println(memcachedClient.getCounter(key).get());
+		Thread.sleep(20000);
+		System.out.println(memcachedClient.getCounter(key).get());
+		Thread.sleep(10000);
+		System.out.println(memcachedClient.getCounter(key).get());
+		Thread.sleep(15000);
+		System.out.println(memcachedClient.getCounter(key).get());
 	}
 
 	@Test

@@ -2,7 +2,6 @@ package com.juzhai.msg.schedule;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -13,7 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Component;
 
-import com.juzhai.act.model.Act;
+import com.juzhai.act.InitData;
 import com.juzhai.act.service.IActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
@@ -21,6 +20,7 @@ import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.schedule.view.LazyKeyView;
+import com.juzhai.msg.service.IMergerActMsgService;
 import com.juzhai.msg.service.IMsgService;
 import com.juzhai.msg.service.ISendAppMsgService;
 import com.juzhai.passport.model.TpUser;
@@ -38,8 +38,6 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 	private ISendAppMsgService sendAppMsgService;
 	@Autowired
 	private ITpUserService tpUserService;
-	@Autowired
-	private IActService actService;
 	@Autowired
 	private IMsgService<MergerActMsg> msgService;
 	@Autowired
@@ -65,6 +63,8 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 			MergerActMsg merge = new MergerActMsg();
 			merge.setUid(lazyKeyView.getSendId());
 			List<ActMsg> actMsgs = new ArrayList<ActMsg>();
+			String sendActNames="";
+			int i=0;
 			for (TypedTuple<Long> typeTuple : typedTuples) {
 				ActMsg msg = new ActMsg(typeTuple.getValue(),
 						lazyKeyView.getSendId(), lazyKeyView.getType());
@@ -73,6 +73,17 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 					merge.setDate(new Date(date));
 				}
 				actMsgs.add(msg);
+				if(i<3){
+					sendActNames=sendActNames+InitData.ACT_MAP.get(typeTuple.getValue()).getName();
+					if(i!=2){
+						sendActNames=sendActNames+"、";
+					}
+				}else{
+					if(sendActNames.indexOf("...")==-1){
+						sendActNames=sendActNames+"...";
+					}
+				}
+				i++;
 			}
 			merge.setMsgs(actMsgs);
 			merge.setType(lazyKeyView.getType());
@@ -81,8 +92,12 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 			if (userSetupService.isTpAdvise(lazyKeyView.getSendId())) {
 				TpUser tpUser = tpUserService.getTpUserByUid(lazyKeyView
 						.getReceiverId());
-				sendAppMsgService.threadSendAppMsg(tpUser,
-						lazyKeyView.getSendId(), lazyKeyView.getType(), count);
+				if (sendAppMsgService.checkTpMsgLimitAndAddCnt(
+						lazyKeyView.getReceiverId(), merge.getType())) {
+					sendAppMsgService.threadSendAppMsg(tpUser,
+							lazyKeyView.getSendId(), lazyKeyView.getType(),
+							sendActNames);
+				}
 			}
 
 		}

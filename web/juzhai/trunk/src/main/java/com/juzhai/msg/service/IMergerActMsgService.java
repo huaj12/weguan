@@ -74,5 +74,17 @@ public interface IMergerActMsgService {
 	 * @param index
 	 */
 	void updateMsgStuts(long uid, int index);
+	
+	/**
+	 * 返回当前消息数目
+	 * @param uid
+	 * @return
+	 */
+	long getMergerActMsgCount(long uid);
+	/**
+	 * 清空当前消息数目
+	 * @param uid
+	 */
+	void clearMergerActMsgCount(long uid);
 
 }

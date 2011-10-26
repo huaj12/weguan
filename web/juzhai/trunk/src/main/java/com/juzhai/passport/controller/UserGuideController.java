@@ -5,7 +5,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,6 @@ import com.juzhai.passport.InitData;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.UserGuide;
-import com.juzhai.passport.service.IEmailService;
 import com.juzhai.passport.service.IUserGuideService;
 
 @Controller
@@ -44,8 +42,6 @@ public class UserGuideController extends BaseController {
 	@Autowired
 	private IUserActService userActService;
 	@Autowired
-	private IEmailService emailService;
-	@Autowired
 	private MessageSource messageSource;
 	@Value("${guid.act.size}")
 	private int guidActSize = 12;
@@ -54,37 +50,35 @@ public class UserGuideController extends BaseController {
 	public String guide(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
-		queryPoint(context.getUid(), model);
+		// queryPoint(context.getUid(), model);
 		UserGuide userGuide = userGuideService.getUserGuide(context.getUid());
 		if (null == userGuide || userGuide.getComplete()) {
 			return error_500;
 		}
 		int currentStep = userGuide.getGuideStep() + 1;
 
-		if (currentStep > InitData.GUIDE_STEPS.size() + 1) {
+		if (currentStep > InitData.GUIDE_STEPS.size()) {
 			return error_500;
 		} else {
 			model.addAttribute("step", currentStep);
-			model.addAttribute("totalStep", InitData.GUIDE_STEPS.size() + 1);
-			if (currentStep == InitData.GUIDE_STEPS.size() + 1) {
-				// 订阅邮箱步骤
-				queryProfile(context.getUid(), model);
-				model.addAttribute("userActCount",
-						userActService.countUserActByUid(context.getUid()));
-				return "guide/app/guide_email";
-			} else {
-				Long actCategoryId = InitData.GUIDE_STEPS.get(currentStep - 1);
-				List<Act> actList = actCategoryService.getHotActList(
-						context.getTpId(), actCategoryId);
-				model.addAttribute("actCategory",
-						com.juzhai.act.InitData.ACT_CATEGORY_MAP
-								.get(actCategoryId));
-				model.addAttribute(
-						"actList",
-						actList.subList(0,
-								Math.min(actList.size(), guidActSize)));
-				return "guide/app/guide";
-			}
+			model.addAttribute("totalStep", InitData.GUIDE_STEPS.size());
+			// if (currentStep == InitData.GUIDE_STEPS.size() + 1) {
+			// // 订阅邮箱步骤
+			// queryProfile(context.getUid(), model);
+			// model.addAttribute("userActCount",
+			// userActService.countUserActByUid(context.getUid()));
+			// return "guide/app/guide_email";
+			// } else {
+			Long actCategoryId = InitData.GUIDE_STEPS.get(currentStep - 1);
+			List<Act> actList = actCategoryService.getHotActList(
+					context.getTpId(), actCategoryId);
+			model.addAttribute("actCategory",
+					com.juzhai.act.InitData.ACT_CATEGORY_MAP.get(actCategoryId));
+			model.addAttribute("actList",
+					actList.subList(0, Math.min(actList.size(), guidActSize)));
+			queryProfile(context.getUid(), model);
+			return "guide/app/guide";
+			// }
 		}
 	}
 
@@ -98,12 +92,12 @@ public class UserGuideController extends BaseController {
 			return error_500;
 		}
 		int currentStep = userGuide.getGuideStep() + 1;
-		if (currentStep > InitData.GUIDE_STEPS.size() + 1) {
+		if (currentStep > InitData.GUIDE_STEPS.size()) {
 			return error_500;
-		} else if (currentStep == InitData.GUIDE_STEPS.size() + 1) {
+		} else if (currentStep == InitData.GUIDE_STEPS.size()) {
 			// complete
 			try {
-				doGuideComplete(context, email);
+				doGuideComplete(context, actId, actName);
 			} catch (ProfileInputException e) {
 				model.addAttribute("errorCode", e.getErrorCode());
 				model.addAttribute(
@@ -123,6 +117,12 @@ public class UserGuideController extends BaseController {
 	}
 
 	private void doGuideNext(UserContext context, long[] actIds,
+			String[] actNames) {
+		guideAddActs(context, actIds, actNames);
+		userGuideService.nextGuide(context.getUid());
+	}
+
+	private void guideAddActs(UserContext context, long[] actIds,
 			String[] actNames) {
 		if (null != actIds) {
 			for (long actId : actIds) {
@@ -144,14 +144,19 @@ public class UserGuideController extends BaseController {
 				}
 			}
 		}
-		userGuideService.nextGuide(context.getUid());
 	}
 
-	private void doGuideComplete(UserContext context, String email)
-			throws ProfileInputException {
-		if (StringUtils.isNotEmpty(email)) {
-			emailService.subEmail(context.getUid(), email);
-		}
+	private void doGuideComplete(UserContext context, long[] actIds,
+			String[] actNames) throws ProfileInputException {
+		guideAddActs(context, actIds, actNames);
 		userGuideService.completeGuide(context.getUid());
 	}
+
+	// private void doGuideComplete(UserContext context, String email)
+	// throws ProfileInputException {
+	// if (StringUtils.isNotEmpty(email)) {
+	// emailService.subEmail(context.getUid(), email);
+	// }
+	// userGuideService.completeGuide(context.getUid());
+	// }
 }

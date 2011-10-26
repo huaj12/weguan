@@ -23,8 +23,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.account.bean.ProfitAction;
-import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.InitData;
 import com.juzhai.act.caculator.IScoreGenerator;
 import com.juzhai.act.model.Act;
@@ -76,8 +74,6 @@ public class InboxService implements IInboxService {
 	private MessageSource messageSource;
 	@Autowired
 	private MemcachedClient memcachedClient;
-	@Autowired
-	private IAccountService accountService;
 	@Value("${random.feed.myAct.count}")
 	private int randomFeedMyActCount = 5;
 	@Value("${random.feed.act.count}")
@@ -224,7 +220,7 @@ public class InboxService implements IInboxService {
 	}
 
 	@Override
-	public Feed showRandam(long uid) {
+	public Feed showYue(long uid) {
 		ProfileCache profileCache = profileService.getProfileCacheByUid(uid);
 		if (null == profileCache) {
 			return null;
@@ -259,8 +255,7 @@ public class InboxService implements IInboxService {
 		if (CollectionUtils.isEmpty(acts)) {
 			return null;
 		}
-		return new Feed(tpFriend, FeedType.RANDOM, null,
-				acts.toArray(new Act[0]));
+		return new Feed(tpFriend, FeedType.YUE, null, acts.toArray(new Act[0]));
 	}
 
 	@Override
@@ -323,7 +318,7 @@ public class InboxService implements IInboxService {
 			redisTemplate.opsForSet().add(key, identity);
 			redisTemplate.opsForSet().add(
 					RedisKeyGenerator.genQuestionUserKeysKey(), key);
-			accountService.profitPoint(uid, ProfitAction.ANSWER_QUESTION);
+			// accountService.profitPoint(uid, ProfitAction.ANSWER_QUESTION);
 		}
 	}
 

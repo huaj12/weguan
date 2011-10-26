@@ -95,6 +95,10 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genReadMsgsKey(long uid, String className) {
 		return genKey(uid, "read" + className);
 	}
+	
+	public static String genUnReadMsgCountKey(long uid,String className){
+		return genKey(uid, "unreadcount"+className);
+	}
 
 	/**
 	 * 预存消息(list)
@@ -186,5 +190,14 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 */
 	public static String genMergerMsgKey() {
 		return "mergerMsgKey";
+	}
+
+	/**
+	 * Act 屏蔽
+	 * 
+	 * @return
+	 */
+	public static String genActShieldKey() {
+		return "actShield";
 	}
 }

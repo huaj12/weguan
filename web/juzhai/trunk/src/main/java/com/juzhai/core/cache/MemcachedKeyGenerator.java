@@ -1,5 +1,7 @@
 package com.juzhai.core.cache;
 
+import com.juzhai.msg.bean.ActMsg.MsgType;
+
 public class MemcachedKeyGenerator extends KeyGenerator {
 
 	/**
@@ -62,5 +64,14 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	 */
 	public static String genSetupTpAdviseKey(long uid) {
 		return genKey(uid, "tpAdvise");
+	}
+
+	/**
+	 * 在限额时间内，收到的第三方邀请信息的数量
+	 * 
+	 * @return
+	 */
+	public static String genTpMsgReceiveCnt(long uid, MsgType msgType) {
+		return genKey(uid, "tpMsgReceiveCnt_" + msgType.name());
 	}
 }

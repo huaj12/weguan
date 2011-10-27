@@ -35,4 +35,11 @@ public class RenrenAppMessageService implements IMessageService {
 		return renrenApiClient;
 	}
 
+
+	@Override
+	public boolean sendMessage(String fuids, String content, AuthInfo authInfo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

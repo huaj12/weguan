@@ -17,4 +17,6 @@ public interface IMessageService {
 	 * @return
 	 */
 	boolean sendSysMessage(List<String> fuids,String linktext,String link,String word,String text,String picurl,AuthInfo authInfo);
+	
+	boolean sendMessage(String fuids, String content, AuthInfo authInfo);
 }

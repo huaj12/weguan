@@ -34,9 +34,9 @@ import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.model.Thirdparty;
-import com.juzhai.passport.service.IAuthorizeService;
 import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.passport.service.login.ILoginService;
+import com.juzhai.platform.service.IUserService;
 
 /**
  * @author wujiajun Created on 2011-2-15
@@ -48,7 +48,7 @@ public class TpAuthorizeController extends BaseController {
 			.getLog(TpAuthorizeController.class);
 	private static final String REQUEST_TOKEN_ATTR_NAME = "authInfo";
 	@Autowired
-	private IAuthorizeService authorizeService;
+	private IUserService userService;
 	@Autowired
 	private ILoginService tomcatLoginService;
 	@Autowired
@@ -75,12 +75,13 @@ public class TpAuthorizeController extends BaseController {
 			parameters.put(name, request.getParameter(name));
 		}
 		parameters.put("tpId", tpId);
+		Thirdparty loginTp = InitData.TP_MAP.get(tpId);
 		try {
 			model.addAttribute("data", JackSonSerializer.toString(parameters));
 		} catch (JsonGenerationException e) {
 			log.error(e);
 		}
-		return "common/app/loading";
+		return "common/app/"+loginTp.getName()+"/loading";
 	}
 
 	@RequestMapping(value = "access", method = RequestMethod.GET)
@@ -108,7 +109,7 @@ public class TpAuthorizeController extends BaseController {
 						+ ", joinType=" + tp.getJoinType() + "]");
 			}
 			AuthInfo authInfo = getAuthInfoFromCookie(request);
-			uid = authorizeService.access(request, response, authInfo, tp);
+			uid = userService.access(request, response, authInfo, tp);
 		}
 		if (uid <= 0) {
 			log.error("access failed.[tpName=" + tp.getName() + ", joinType="

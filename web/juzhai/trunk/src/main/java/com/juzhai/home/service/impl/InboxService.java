@@ -45,6 +45,8 @@ import com.juzhai.passport.service.IAuthorizeService;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.platform.service.IMessageService;
+import com.juzhai.platform.service.IUserService;
 
 @Service
 public class InboxService implements IInboxService {
@@ -69,7 +71,7 @@ public class InboxService implements IInboxService {
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
-	private IAuthorizeService authorizeService;
+	private IMessageService messageService;
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
@@ -368,9 +370,7 @@ public class InboxService implements IInboxService {
 					if (null == tp) {
 						return false;
 					}
-					authorizeService.sendSystemMessage(authInfo, fuids,
-							linktext, tp.getAppUrl(), word, text,
-							StringUtils.EMPTY);
+					messageService.sendSysMessage(fuids, linktext, tp.getAppUrl(), word, text, StringUtils.EMPTY, authInfo);
 				}
 			}
 		}

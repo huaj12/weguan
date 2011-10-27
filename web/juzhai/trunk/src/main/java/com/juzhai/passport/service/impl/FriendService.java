@@ -31,9 +31,9 @@ import com.juzhai.passport.mapper.TpUserMapper;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.model.TpUserExample;
-import com.juzhai.passport.service.IAuthorizeService;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.platform.service.IUserService;
 
 @Service
 public class FriendService implements IFriendService {
@@ -43,7 +43,7 @@ public class FriendService implements IFriendService {
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
-	private IAuthorizeService authorizeService;
+	private IUserService userService;
 	@Autowired
 	private MemcachedClient memcachedClient;
 	@Autowired
@@ -102,14 +102,14 @@ public class FriendService implements IFriendService {
 		if (isExpired(uid)) {
 			if (null != authInfo) {
 				// 第三方安装应用好友
-				List<String> appFriendIds = authorizeService
+				List<String> appFriendIds = userService
 						.getAppFriends(authInfo);
 
 				// 第三方未安装应用的好友
 				listRedisTemplate.opsForValue().set(
 						RedisKeyGenerator.genUnInstallFriendsKey(uid),
 						getNonAppFriends(
-								authorizeService.getAllFriends(authInfo),
+								userService.getAllFriends(authInfo),
 								appFriendIds));
 
 				// 更新安装了App的好友

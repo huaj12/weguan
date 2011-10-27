@@ -167,7 +167,6 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		if (StringUtils.isEmpty(sessionKey)) {
 			return null;
 		}
-		long time = System.currentTimeMillis();
 		KxSDK kxSDK = newKxSDK(tp.getAppKey(), tp.getAppSecret(), sessionKey);
 		User user = null;
 		try {
@@ -175,7 +174,6 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		} catch (KxException e) {
 			log.error(e.getMessage(), e);
 		}
-		System.out.println(System.currentTimeMillis() - time);
 		if (null == user || user.getUid() <= 0) {
 			return null;
 		}

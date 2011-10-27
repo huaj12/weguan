@@ -52,4 +52,26 @@ public class Kaixin001AppMessageService implements IMessageService {
 		}
 	}
 
+	@Override
+	public boolean sendMessage(String fuids, String content, AuthInfo authInfo) {
+		boolean flag = false;
+		try {
+			Map<String, String> paramMap = new HashMap<String, String>();
+			paramMap.put("fuids", fuids);
+			paramMap.put("content", content);
+			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
+					authInfo.getSessionKey());
+			String ret = AppPlatformUtils.doPost(
+					"https://api.kaixin001.com/message/send.json", query);
+			JSONObject jObject = JSONObject.fromObject(ret);
+			if (!StringUtils.isEmpty(jObject.getString("mid"))) {
+				flag = true;
+			}
+			return flag;
+		} catch (Exception e) {
+			log.error("send  kaixin message is error fuids:" + fuids, e);
+			return flag;
+		}
+	}
+
 }

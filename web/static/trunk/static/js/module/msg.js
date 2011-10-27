@@ -165,7 +165,7 @@
 	
 	function showBoard(name,str,fid){
 		clearBoard();
-		var content="你最近何时有空啊？想不想一起去"+str+"?";
+		var content="你最近何时有空啊？想不想一起去"+str+"?(来自拒宅器)";
 		$("#board_content").val(content);
 		$("#board_fid").val(fid);
 		$("#board_name").val(name);

@@ -186,10 +186,10 @@ $(document).ready(function() {
 		var value = $("#addAct").attr("value");
 		if (value && value != "") {
 			addAct(function() {
-				kaixinFeed(value);
+				feed('kaixin001',value);
 			});
 		} else {
-			kaixinFeed();
+			feed('kaixin001','');
 		}
 	});
 	// 注册邀请
@@ -197,10 +197,10 @@ $(document).ready(function() {
 		var value = $("#addAct").attr("value");
 		if (value && value != "") {
 			addAct(function() {
-				dialogSysnews(value);
+				requestByName('kaixin001',value);
 			});
 		} else {
-			kaixinRequest();
+			request('kaixin001');
 		}
 	});
 	// 注册订阅邮箱事件

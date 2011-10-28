@@ -11,9 +11,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.app.util.AppPlatformUtils;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.platform.service.IMessageService;
+import com.juzhai.platform.utils.AppPlatformUtils;
 
 @Service
 public class Kaixin001AppMessageService implements IMessageService {
@@ -24,6 +24,10 @@ public class Kaixin001AppMessageService implements IMessageService {
 			String word, String text, String picurl, AuthInfo authInfo) {
 		boolean flag = false;
 		try {
+			if(authInfo==null){
+				log.error("send  kaixin sysmessage authInfo is null ");
+				return false;
+			}
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("fuids", StringUtils.join(fuids, ","));
 			paramMap.put("linktext", linktext);
@@ -56,6 +60,10 @@ public class Kaixin001AppMessageService implements IMessageService {
 	public boolean sendMessage(String fuids, String content, AuthInfo authInfo) {
 		boolean flag = false;
 		try {
+			if(authInfo==null){
+				log.error("send  kaixin message authInfo is null ");
+				return false;
+			}
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("fuids", fuids);
 			paramMap.put("content", content);
@@ -70,6 +78,40 @@ public class Kaixin001AppMessageService implements IMessageService {
 			return flag;
 		} catch (Exception e) {
 			log.error("send  kaixin message is error fuids:" + fuids, e);
+			return flag;
+		}
+	}
+
+	@Override
+	public boolean sendFeed(String linktext, String link, String word,
+			String text, String picurl, AuthInfo authInfo) {
+		boolean flag = false;
+		try {
+			Map<String, String> paramMap = new HashMap<String, String>();
+			if(authInfo==null){
+				log.error("send  kaixin feed authInfo is null ");
+				return false;
+			}
+			paramMap.put("linktext", linktext);
+			paramMap.put("link", link);
+			if(!StringUtils.isEmpty(word)){
+				paramMap.put("word", word);
+			}
+			if(!StringUtils.isEmpty(picurl)){
+				paramMap.put("picurl", picurl);
+			}
+			paramMap.put("text", text);
+			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
+					authInfo.getSessionKey());
+			String ret = AppPlatformUtils.doPost(
+					"https://api.kaixin001.com/feed/send.json", query);
+			JSONObject jObject = JSONObject.fromObject(ret);
+			if (!StringUtils.isEmpty(jObject.getString("result"))) {
+				flag = true;
+			}
+			return flag;
+		} catch (Exception e) {
+			log.error("send  kaixin feed is error ", e);
 			return flag;
 		}
 	}

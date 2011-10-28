@@ -3,7 +3,7 @@ package com.juzhai.app.model;
 import java.io.Serializable;
 import java.util.List;
 
-
+@Deprecated
 public class AppUserWapper implements Serializable {
 
 	private static final long serialVersionUID = -3119107701303920284L;

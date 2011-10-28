@@ -8,7 +8,7 @@ import net.sf.json.JSONObject;
 
 import com.juzhai.app.util.ConvertObject;
 import com.juzhai.core.exception.JuzhaiAppException;
-
+@Deprecated
 public class AppUser {
 	static final String[] POSSIBLE_ROOT_NAMES = new String[] { "user",
 			"sender", "recipient", "retweeting_user" };

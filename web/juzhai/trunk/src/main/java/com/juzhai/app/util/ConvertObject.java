@@ -10,7 +10,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
-
+@Deprecated
 public class ConvertObject {
 	public static List<AppUser> constructUser(JSONObject json) throws JuzhaiAppException {
 

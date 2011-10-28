@@ -36,7 +36,7 @@ import com.juzhai.passport.bean.AuthInfo;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
-
+@Deprecated
 public class AppPlatformUtils {
 	private static final Log log = LogFactory.getLog(AppPlatformUtils.class);
 	private static HttpsX509TrustManager xtm = new HttpsX509TrustManager();

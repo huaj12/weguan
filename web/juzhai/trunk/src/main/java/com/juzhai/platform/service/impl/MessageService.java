@@ -48,6 +48,12 @@ public class MessageService implements IMessageService, BeanFactoryAware {
 		return getMessageServiceBean(authInfo.getThirdpartyName(),
 				authInfo.getJoinType()).sendMessage(fuids, content, authInfo);
 	}
+	@Override
+	public boolean sendFeed(String linktext, String link, String word,
+			String text, String picurl, AuthInfo authInfo) {
+		return getMessageServiceBean(authInfo.getThirdpartyName(),
+				authInfo.getJoinType()).sendFeed(linktext, link, word, text, picurl, authInfo);
+	}
 
 
 }

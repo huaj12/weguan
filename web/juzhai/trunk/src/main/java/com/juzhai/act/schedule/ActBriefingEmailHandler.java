@@ -14,10 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.juzhai.act.InitData;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.service.IActChartsService;
+import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.core.mail.bean.Mail;
@@ -50,6 +50,8 @@ public class ActBriefingEmailHandler extends AbstractScheduleHandler {
 	private IActChartsService actChartsService;
 	@Autowired
 	private ITpUserService tpUserService;
+	@Autowired
+	private IActService actService;
 	@Value("${briefing.userAct.maxResults}")
 	private int briefingUserActMaxResults = 5;
 	@Value("${briefing.userAct.moveUp.days}")
@@ -140,7 +142,7 @@ public class ActBriefingEmailHandler extends AbstractScheduleHandler {
 		for (UserAct userAct : userActList) {
 			ProfileCache profileCache = profileService
 					.getProfileCacheByUid(userAct.getUid());
-			Act act = InitData.ACT_MAP.get(userAct.getActId());
+			Act act = actService.getActById(userAct.getActId());
 			if (null != profileCache && null != act) {
 				feedList.add(new Feed(profileCache, FeedType.SPECIFIC, userAct
 						.getLastModifyTime(), act));

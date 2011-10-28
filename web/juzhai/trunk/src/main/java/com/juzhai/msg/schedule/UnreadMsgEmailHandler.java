@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.juzhai.act.InitData;
 import com.juzhai.act.model.Act;
+import com.juzhai.act.service.IActService;
 import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.core.mail.bean.Mail;
 import com.juzhai.core.mail.factory.MailFactory;
@@ -39,6 +39,8 @@ public class UnreadMsgEmailHandler extends AbstractScheduleHandler {
 	private IMergerActMsgService mergerActMsgService;
 	@Autowired
 	private ITpUserService tpUserService;
+	@Autowired
+	private IActService actService;
 	@Value("${unreadEmail.msg.maxResults}")
 	private int unreadEmailMsgMaxResults = 5;
 
@@ -86,12 +88,21 @@ public class UnreadMsgEmailHandler extends AbstractScheduleHandler {
 
 		List<MergerActMsg> actMsgList = mergerActMsgService.pageRead(uid, 0,
 				unreadEmailMsgMaxResults);
+
+		List<Long> actIds = new ArrayList<Long>();
+		for (MergerActMsg mergerActMsg : actMsgList) {
+			for (ActMsg actMsg : mergerActMsg.getMsgs()) {
+				actIds.add(actMsg.getActId());
+			}
+		}
+		Map<Long, Act> actMap = actService.getMultiActByIds(actIds);
+
 		List<ActMsgView> actMsgViewList = new ArrayList<ActMsgView>();
 		for (MergerActMsg actMsg : actMsgList) {
 			ActMsgView actMsgView = new ActMsgView();
 			List<Act> acts = new ArrayList<Act>();
 			for (ActMsg msg : actMsg.getMsgs()) {
-				acts.add(InitData.ACT_MAP.get(msg.getActId()));
+				acts.add(actMap.get(msg.getActId()));
 			}
 			actMsgView.setActs(acts);
 			actMsgView.setProfileCache(profileService

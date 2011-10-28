@@ -12,7 +12,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Component;
 
-import com.juzhai.act.InitData;
 import com.juzhai.act.service.IActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
@@ -20,7 +19,6 @@ import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.schedule.view.LazyKeyView;
-import com.juzhai.msg.service.IMergerActMsgService;
 import com.juzhai.msg.service.IMsgService;
 import com.juzhai.msg.service.ISendAppMsgService;
 import com.juzhai.passport.model.TpUser;
@@ -42,6 +40,8 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 	private IMsgService<MergerActMsg> msgService;
 	@Autowired
 	private IUserSetupService userSetupService;
+	@Autowired
+	private IActService actService;
 
 	@Override
 	protected void doHandle() {
@@ -63,8 +63,8 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 			MergerActMsg merge = new MergerActMsg();
 			merge.setUid(lazyKeyView.getSendId());
 			List<ActMsg> actMsgs = new ArrayList<ActMsg>();
-			String sendActNames="";
-			int i=0;
+			String sendActNames = "";
+			int i = 0;
 			for (TypedTuple<Long> typeTuple : typedTuples) {
 				ActMsg msg = new ActMsg(typeTuple.getValue(),
 						lazyKeyView.getSendId(), lazyKeyView.getType());
@@ -73,14 +73,16 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 					merge.setDate(new Date(date));
 				}
 				actMsgs.add(msg);
-				if(i<3){
-					sendActNames=sendActNames+InitData.ACT_MAP.get(typeTuple.getValue()).getName();
-					if(i!=2){
-						sendActNames=sendActNames+"、";
+				if (i < 3) {
+					sendActNames = sendActNames
+							+ actService.getActById(typeTuple.getValue())
+									.getName();
+					if (i != 2) {
+						sendActNames = sendActNames + "、";
 					}
-				}else{
-					if(sendActNames.indexOf("...")==-1){
-						sendActNames=sendActNames+"...";
+				} else {
+					if (sendActNames.indexOf("...") == -1) {
+						sendActNames = sendActNames + "...";
 					}
 				}
 				i++;

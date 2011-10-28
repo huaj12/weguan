@@ -34,7 +34,6 @@ import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.model.Thirdparty;
-import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.platform.service.IUserService;
 
@@ -51,8 +50,9 @@ public class TpAuthorizeController extends BaseController {
 	private IUserService userService;
 	@Autowired
 	private ILoginService tomcatLoginService;
-	@Autowired
-	private IUserGuideService userGuideService;
+
+	// @Autowired
+	// private IUserGuideService userGuideService;
 
 	@RequestMapping(value = "login")
 	public String login(HttpServletRequest request, Model model) {
@@ -81,7 +81,7 @@ public class TpAuthorizeController extends BaseController {
 		} catch (JsonGenerationException e) {
 			log.error(e);
 		}
-		return "common/app/"+loginTp.getName()+"/loading";
+		return "common/app/" + loginTp.getName() + "/loading";
 	}
 
 	@RequestMapping(value = "access", method = RequestMethod.GET)
@@ -137,10 +137,12 @@ public class TpAuthorizeController extends BaseController {
 		AjaxResult result = new AjaxResult();
 		result.setSuccess(true);
 		String returnUrl = null;
-		if (!userGuideService.isCompleteGuide(uid)) {
-			returnUrl = SystemConfig
-					.getDomain(tp == null ? null : tp.getName()) + "/app/guide";
-		} else if (StringUtils.isNotEmpty(returnTo)
+		// if (!userGuideService.isCompleteGuide(uid)) {
+		// returnUrl = SystemConfig
+		// .getDomain(tp == null ? null : tp.getName()) + "/app/guide";
+		// } else
+
+		if (StringUtils.isNotEmpty(returnTo)
 				&& StringUtils.startsWith(returnTo, "http")) {
 			returnUrl = returnTo;
 		} else {

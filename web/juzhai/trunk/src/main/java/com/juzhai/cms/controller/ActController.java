@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.juzhai.act.InitData;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
@@ -75,7 +74,7 @@ public class ActController {
 	@RequestMapping(value = "/showSynonym", method = RequestMethod.GET)
 	public String showSynonym(HttpServletRequest request, Model model,
 			long actId) {
-		Act act = InitData.ACT_MAP.get(actId);
+		Act act = actService.getActById(actId);
 		if (null != act) {
 			List<Act> synonymActList = actService.listSynonymActs(actId);
 			List<String> maybeSynonymList = actService.indexSearchName(
@@ -93,8 +92,7 @@ public class ActController {
 	public AjaxResult addSynonym(HttpServletRequest request, Model model,
 			long actId, String synonymActName) {
 		AjaxResult ajaxResult = new AjaxResult();
-		Act act = InitData.ACT_MAP.get(actId);
-		if (null != act) {
+		if (actService.actExist(actId)) {
 			try {
 				actService.addSynonym(actId, synonymActName);
 				ajaxResult.setSuccess(true);
@@ -115,8 +113,7 @@ public class ActController {
 	public AjaxResult removeSynonym(HttpServletRequest request, Model model,
 			long actId, long removeActId) {
 		AjaxResult ajaxResult = new AjaxResult();
-		Act act = InitData.ACT_MAP.get(actId);
-		if (null != act) {
+		if (actService.actExist(actId)) {
 			actService.removeSynonym(actId, removeActId);
 			ajaxResult.setSuccess(true);
 		}
@@ -128,8 +125,7 @@ public class ActController {
 	public AjaxResult addShield(HttpServletRequest request, Model model,
 			long actId) {
 		AjaxResult ajaxResult = new AjaxResult();
-		Act act = InitData.ACT_MAP.get(actId);
-		if (null != act) {
+		if (actService.actExist(actId)) {
 			actService.addActShield(actId);
 			ajaxResult.setSuccess(true);
 		}
@@ -141,8 +137,7 @@ public class ActController {
 	public AjaxResult removeSynonym(HttpServletRequest request, Model model,
 			long actId) {
 		AjaxResult ajaxResult = new AjaxResult();
-		Act act = InitData.ACT_MAP.get(actId);
-		if (null != act) {
+		if (actService.actExist(actId)) {
 			actService.removeActShield(actId);
 			ajaxResult.setSuccess(true);
 		}

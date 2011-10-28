@@ -7,9 +7,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import net.rubyeye.xmemcached.MemcachedClient;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,7 +30,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.act.InitData;
 import com.juzhai.act.dao.IActDao;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.mapper.ActMapper;
@@ -34,6 +38,7 @@ import com.juzhai.act.model.ActExample;
 import com.juzhai.act.rabbit.message.ActIndexMessage;
 import com.juzhai.act.rabbit.message.ActIndexMessage.ActionType;
 import com.juzhai.act.service.IActService;
+import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate;
@@ -49,8 +54,6 @@ public class ActService implements IActService {
 	@Autowired
 	private ActMapper actMapper;
 	@Autowired
-	private InitData actInitData;
-	@Autowired
 	private IActDao actDao;
 	@Autowired
 	private RabbitTemplate actIndexCreateRabbitTemplate;
@@ -60,12 +63,126 @@ public class ActService implements IActService {
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private IWordFilterService wordFilterService;
+	@Autowired
+	private MemcachedClient memcachedClient;
 	@Value("${act.name.length.min}")
 	private int actNameLengthMin = 2;
 	@Value("${act.name.length.max}")
 	private int actNameLengthMax = 20;
 	@Value("${act.name.wordfilter.application}")
 	private int actNameWordfilterApplication = 0;
+	@Value("${act.cache.expire.time}")
+	private int actCacheExpireTime = 0;
+
+	@Override
+	public boolean actExist(long actId) {
+		try {
+			Act act = memcachedClient.get(MemcachedKeyGenerator
+					.genActCacheKey(actId));
+			if (null != act) {
+				return true;
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		ActExample example = new ActExample();
+		example.createCriteria().andIdEqualTo(actId);
+		return actMapper.countByExample(example) > 0;
+	}
+
+	@Override
+	public Act getActById(long actId) {
+		String key = MemcachedKeyGenerator.genActCacheKey(actId);
+		Act act = null;
+		try {
+			act = memcachedClient.get(key);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		if (null == act) {
+			act = actMapper.selectByPrimaryKey(actId);
+			if (null != act) {
+				try {
+					memcachedClient.set(key, actCacheExpireTime, act);
+				} catch (Exception e) {
+					log.error(e.getMessage(), e);
+				}
+			}
+		}
+		return act;
+	}
+
+	@Override
+	public Map<Long, Act> getMultiActByIds(List<Long> actIds) {
+		// 判断是否为空
+		if (CollectionUtils.isEmpty(actIds)) {
+			return Collections.emptyMap();
+		}
+		// 组装Key
+		Map<String, Long> actKeyMap = new HashMap<String, Long>(actIds.size());
+		for (long actId : actIds) {
+			actKeyMap.put(MemcachedKeyGenerator.genActCacheKey(actId), actId);
+		}
+		// 缓存搜索
+		Map<Long, Act> actMap = new HashMap<Long, Act>();
+		try {
+			Map<String, Act> actCacheMap = memcachedClient.get(actKeyMap
+					.keySet());
+			for (Map.Entry<String, Act> entry : actCacheMap.entrySet()) {
+				actMap.put(actKeyMap.get(entry.getKey()), entry.getValue());
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+
+		// 数据库搜索未被缓存的
+		if (actMap.size() != actIds.size()) {
+			// 组装需要数据库搜索的ActId
+			List<Long> searchActIds = new ArrayList<Long>();
+			for (long actId : actIds) {
+				if (!actMap.containsKey(actId)) {
+					searchActIds.add(actId);
+				}
+			}
+			if (CollectionUtils.isNotEmpty(searchActIds)) {
+				// 数据库搜索
+				ActExample example = new ActExample();
+				example.createCriteria().andIdIn(searchActIds);
+				List<Act> actList = actMapper.selectByExample(example);
+				for (Act act : actList) {
+					// 更新缓存
+					try {
+						memcachedClient.set(MemcachedKeyGenerator
+								.genActCacheKey(act.getId()),
+								actCacheExpireTime, act);
+					} catch (Exception e) {
+						log.error(e.getMessage(), e);
+					}
+					// 放入返回Map中
+					actMap.put(act.getId(), act);
+				}
+			}
+		}
+
+		return actMap;
+	}
+
+	@Override
+	public List<Act> getActListByIds(List<Long> actIds) {
+		// 判断是否为空
+		if (CollectionUtils.isEmpty(actIds)) {
+			return Collections.emptyList();
+		}
+		List<Act> actList = new ArrayList<Act>(actIds.size());
+		Map<Long, Act> actMap = getMultiActByIds(actIds);
+		for (long actId : actIds) {
+			Act act = actMap.get(actId);
+			if (null != act) {
+				actList.add(act);
+			}
+		}
+		return actList;
+	}
 
 	@Override
 	public void verifyAct(long rawActId, String actCategoryIds) {
@@ -77,8 +194,9 @@ public class ActService implements IActService {
 			act.setActive(true);
 			actMapper.updateByPrimaryKeySelective(act);
 
-			// 加载Act
-			actInitData.loadAct(act);
+			// // 加载Act
+			// actInitData.loadAct(act);
+			clearActCache(act.getId());
 		}
 	}
 
@@ -99,8 +217,8 @@ public class ActService implements IActService {
 		}
 		Act act = actDao.insertAct(uid, actName, null);
 		if (null != act) {
-			// 加载Act
-			actInitData.loadAct(act);
+			// // 加载Act
+			// actInitData.loadAct(act);
 			if (log.isDebugEnabled()) {
 				log.debug("load new act to InitData");
 			}
@@ -163,7 +281,7 @@ public class ActService implements IActService {
 	@Override
 	public List<Act> listSynonymActs(long actId) {
 		List<Long> synonymIdList = listSynonymIds(actId);
-		return convertToActs(synonymIdList);
+		return getActListByIds(synonymIdList);
 	}
 
 	@Override
@@ -267,7 +385,8 @@ public class ActService implements IActService {
 	@Override
 	public List<Act> listShieldActs() {
 		List<Long> shieldActIds = listShieldActIds();
-		return convertToActs(shieldActIds);
+		// TODO 特殊处理
+		return getActListByIds(shieldActIds);
 	}
 
 	@Override
@@ -277,14 +396,12 @@ public class ActService implements IActService {
 		return null != score && score > 0;
 	}
 
-	private List<Act> convertToActs(List<Long> actIdList) {
-		List<Act> actList = new ArrayList<Act>(actIdList.size());
-		for (long id : actIdList) {
-			Act act = InitData.ACT_MAP.get(id);
-			if (null != act) {
-				actList.add(act);
-			}
+	private void clearActCache(long actId) {
+		try {
+			memcachedClient.deleteWithNoReply(MemcachedKeyGenerator
+					.genActCacheKey(actId));
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
 		}
-		return actList;
 	}
 }

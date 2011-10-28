@@ -104,13 +104,13 @@ function pageMyAct(page){
 	});
 }
 
-function showHotActs(a, actCategoryId){
+function showCategoryActs(a, categoryId){
 	//ajax
 	jQuery.ajax({
-		url: "/app/ajax/showHotActs",
+		url: "/app/ajax/showCategoryActs",
 		type: "get",
 		cache : false,
-		data: {"actCategoryId": actCategoryId},
+		data: {"categoryId": categoryId},
 		dataType: "html",
 		context: $(".rec_words"),
 		success: function(responseHTML){
@@ -140,10 +140,10 @@ function changeRecTabClass(p){
 
 $(document).ready(function(){
 	$("div.rec_tab > p > a").bind("click", function(){
-		var actCategoryId = $(this).attr("actcategoryid");
+		var categoryId = $(this).attr("categoryid");
 		var pClass = $(this).parent().attr("class");
-		if(actCategoryId && actCategoryId > 0 && pClass.indexOf("act_") < 0){
-			showHotActs(this, actCategoryId);
+		if(categoryId && categoryId > 0 && pClass.indexOf("act_") < 0){
+			showCategoryActs(this, categoryId);
 		}
 	});
 });

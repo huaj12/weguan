@@ -5,7 +5,7 @@ import com.juzhai.core.exception.JuzhaiAppException;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
-
+@Deprecated
 public class AppCareer {
 	 private String company;
      private String dept;

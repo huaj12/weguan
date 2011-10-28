@@ -18,7 +18,7 @@ import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserService;
 
-@Controller
+@Deprecated
 public class AppController {
 
 	

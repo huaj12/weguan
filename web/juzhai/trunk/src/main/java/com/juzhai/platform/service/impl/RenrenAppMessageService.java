@@ -42,4 +42,12 @@ public class RenrenAppMessageService implements IMessageService {
 		return false;
 	}
 
+
+	@Override
+	public boolean sendFeed(String linktext, String link, String word,
+			String text, String picurl, AuthInfo authInfo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -6,7 +6,7 @@ import com.juzhai.core.exception.JuzhaiAppException;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
-
+@Deprecated
 public class AppEducation {
 	private String schooltype;
     private String school;

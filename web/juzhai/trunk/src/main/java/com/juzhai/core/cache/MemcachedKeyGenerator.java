@@ -35,6 +35,16 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	}
 
 	/**
+	 * Act缓存
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	public static String genActCacheKey(long actId) {
+		return genKey(actId, "actCache");
+	}
+
+	/**
 	 * 最后一次推送时间
 	 * 
 	 * @param senderId

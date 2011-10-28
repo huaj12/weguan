@@ -1,8 +1,11 @@
 package com.juzhai.act.controller.view;
 
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.Category;
 
-public class HotActView {
+public class CategoryActView {
+
+	private Category category;
 
 	private Act act;
 
@@ -22,5 +25,13 @@ public class HotActView {
 
 	public void setHasUsed(boolean hasUsed) {
 		this.hasUsed = hasUsed;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 }

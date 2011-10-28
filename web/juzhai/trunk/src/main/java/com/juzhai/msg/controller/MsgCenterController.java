@@ -1,8 +1,8 @@
 package com.juzhai.msg.controller;
 
 import java.util.ArrayList;
-
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.account.bean.ConsumeAction;
 import com.juzhai.account.service.IAccountService;
-import com.juzhai.act.InitData;
 import com.juzhai.act.model.Act;
+import com.juzhai.act.service.IActService;
 import com.juzhai.app.service.IAppService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
@@ -60,6 +60,8 @@ public class MsgCenterController extends BaseController {
 	private IAppService appService;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
+	@Autowired
+	private IActService actService;
 
 	@RequestMapping(value = "/showUnRead", method = RequestMethod.GET)
 	public String showUnRead(HttpServletRequest request, Model model,
@@ -123,11 +125,18 @@ public class MsgCenterController extends BaseController {
 			List<MergerActMsg> actMsgList) {
 		List<ActMsgView> actMsgViewList = new ArrayList<ActMsgView>(
 				actMsgList.size());
+		List<Long> actIds = new ArrayList<Long>();
+		for (MergerActMsg mergerActMsg : actMsgList) {
+			for (ActMsg actMsg : mergerActMsg.getMsgs()) {
+				actIds.add(actMsg.getActId());
+			}
+		}
+		Map<Long, Act> actMap = actService.getMultiActByIds(actIds);
 		for (MergerActMsg actMsg : actMsgList) {
 			ActMsgView actMsgView = new ActMsgView();
 			List<Act> acts = new ArrayList<Act>();
 			for (ActMsg msg : actMsg.getMsgs()) {
-				Act act = InitData.ACT_MAP.get(msg.getActId());
+				Act act = actMap.get(msg.getActId());
 				if (act != null) {
 					acts.add(act);
 				}
@@ -154,7 +163,7 @@ public class MsgCenterController extends BaseController {
 			showNotSubEmailTip(model);
 		}
 		doPageRead(context.getUid(), model, page);
-		//清空消息数目
+		// 清空消息数目
 		mergerActMsgService.clearMergerActMsgCount(context.getUid());
 		return "msg/app/read";
 	}
@@ -305,7 +314,8 @@ public class MsgCenterController extends BaseController {
 		UserContext context = checkLoginForApp(request);
 		AjaxResult result = new AjaxResult();
 		try {
-			long unread = mergerActMsgService.getMergerActMsgCount(context.getUid());
+			long unread = mergerActMsgService.getMergerActMsgCount(context
+					.getUid());
 			result.setSuccess(true);
 			result.setResult(unread);
 		} catch (Exception e) {
@@ -325,11 +335,12 @@ public class MsgCenterController extends BaseController {
 			if (!StringUtils.isEmpty(fids)) {
 				AuthInfo authInfo = tpUserAuthService.getAuthInfo(
 						context.getUid(), context.getTpId());
-				if(appService.sendMessage(fids, content, authInfo)){
+				if (appService.sendMessage(fids, content, authInfo)) {
 					result.setSuccess(true);
-				}else{
-					result.setSuccess(false);	
-				};
+				} else {
+					result.setSuccess(false);
+				}
+				;
 			} else {
 				result.setSuccess(false);
 			}

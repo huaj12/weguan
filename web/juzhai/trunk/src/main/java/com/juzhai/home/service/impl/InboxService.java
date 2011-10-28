@@ -28,6 +28,7 @@ import com.juzhai.act.caculator.IScoreGenerator;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.Question;
 import com.juzhai.act.model.UserAct;
+import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
@@ -41,12 +42,10 @@ import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Thirdparty;
-import com.juzhai.passport.service.IAuthorizeService;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.service.IMessageService;
-import com.juzhai.platform.service.IUserService;
 
 @Service
 public class InboxService implements IInboxService {
@@ -68,6 +67,8 @@ public class InboxService implements IInboxService {
 	private IProfileService profileService;
 	@Autowired
 	private IUserActService userActService;
+	@Autowired
+	private IActService actService;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
@@ -202,7 +203,7 @@ public class InboxService implements IInboxService {
 				if (null != ids) {
 					ProfileCache profileCache = profileService
 							.getProfileCacheByUid(ids[0]);
-					Act act = InitData.ACT_MAP.get(ids[1]);
+					Act act = actService.getActById(ids[1]);
 					if (null == profileCache || null == act) {
 						remove(uid, ids[0], ids[1]);
 					} else {
@@ -370,7 +371,9 @@ public class InboxService implements IInboxService {
 					if (null == tp) {
 						return false;
 					}
-					messageService.sendSysMessage(fuids, linktext, tp.getAppUrl(), word, text, StringUtils.EMPTY, authInfo);
+					messageService.sendSysMessage(fuids, linktext,
+							tp.getAppUrl(), word, text, StringUtils.EMPTY,
+							authInfo);
 				}
 			}
 		}

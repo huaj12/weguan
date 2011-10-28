@@ -25,7 +25,7 @@
 								</div><!--interesting end-->
 								<div class="rec_insterest"><!--rec_insterest begin-->
 									<div class="rec_tab"><!--rec_tab begin-->
-										<c:forEach var="actCategory" items="${hotCategoryList}" varStatus="status">
+										<c:forEach var="category" items="${categoryList}" varStatus="status">
 											<c:choose>
 												<c:when test="${status.count==1}"><c:set var="pClass" value="act_hot" /></c:when>
 												<c:when test="${status.count==2}"><c:set var="pClass" value="joy" /></c:when>
@@ -36,14 +36,14 @@
 											</c:choose>
 											<p class="${pClass}">
 												<span class="fl"></span>
-												<a href="javascript:;" actCategoryId="${actCategory.id}"><c:out value="${actCategory.name}"/></a>
+												<a href="javascript:;" categoryid="${category.id}"><c:out value="${category.name}"/></a>
 												<span class="fl"></span>
 												<strong></strong>
 											</p>
 										</c:forEach>
 									</div><!--rec_tab end-->
 									<div class="rec_words hot"><!--rec_words begin-->
-										<jsp:include page="hot_act_list.jsp" />
+										<jsp:include page="category_act_list.jsp" />
 									</div><!--rec_words end-->
 								</div><!--rec_insterest end-->
 							</div><!--jzq end-->

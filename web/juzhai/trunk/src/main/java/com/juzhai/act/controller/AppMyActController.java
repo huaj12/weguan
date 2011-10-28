@@ -19,13 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.juzhai.act.InitData;
 import com.juzhai.act.controller.form.AddActForm;
-import com.juzhai.act.controller.view.HotActView;
+import com.juzhai.act.controller.view.CategoryActView;
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
-import com.juzhai.act.model.ActCategory;
-import com.juzhai.act.service.IActCategoryService;
+import com.juzhai.act.model.Category;
+import com.juzhai.act.service.ICategoryService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
@@ -42,11 +43,11 @@ public class AppMyActController extends BaseController {
 	@Autowired
 	private IUserActService userActService;
 	@Autowired
-	private IActCategoryService actCategoryService;
+	private ICategoryService categoryService;
 	@Autowired
 	private MessageSource messageSource;
-	@Value("${hot.category.size}")
-	private int hotCategorySize = 5;
+	@Value("${show.category.size}")
+	private int showCategorySize = 5;
 	@Value("${my.act.max.rows}")
 	private int myActMaxRows = 20;
 
@@ -59,11 +60,11 @@ public class AppMyActController extends BaseController {
 		queryProfile(context.getUid(), model);
 		pageMyAct(request, model, 1);
 
-		List<ActCategory> hotCategoryList = actCategoryService
-				.listHotCategories(hotCategorySize);
-		model.addAttribute("hotCategoryList", hotCategoryList);
-		if (CollectionUtils.isNotEmpty(hotCategoryList)) {
-			listHotAct(model, hotCategoryList.get(0).getId(), context);
+		List<Category> categoryList = categoryService
+				.listCategories(showCategorySize);
+		model.addAttribute("categoryList", categoryList);
+		if (CollectionUtils.isNotEmpty(categoryList)) {
+			listCategoryAct(model, categoryList.get(0).getId(), context);
 		}
 		return "act/app/my_act";
 	}
@@ -123,28 +124,28 @@ public class AppMyActController extends BaseController {
 		return "act/app/my_act_list";
 	}
 
-	@RequestMapping(value = "/ajax/showHotActs", method = RequestMethod.GET)
+	@RequestMapping(value = "/ajax/showCategoryActs", method = RequestMethod.GET)
 	public String showHotActs(HttpServletRequest request, Model model,
-			long actCategoryId) throws NeedLoginException {
+			long categoryId) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
-		listHotAct(model, actCategoryId, context);
-		return "act/app/hot_act_list";
+		listCategoryAct(model, categoryId, context);
+		return "act/app/category_act_list";
 	}
 
-	private void listHotAct(Model model, long actCategoryId, UserContext context) {
+	private void listCategoryAct(Model model, long categoryId,
+			UserContext context) {
 		List<Long> myActIds = userActService.getUserActIdsFromCache(
 				context.getUid(), Integer.MAX_VALUE);
-		List<Act> hotActList = actCategoryService.getHotActList(
-				context.getTpId(), actCategoryId);
-		List<HotActView> hotActViewList = new ArrayList<HotActView>(
+		List<Act> hotActList = InitData.CATEGORY_ACT_LIST_MAP.get(categoryId);
+		List<CategoryActView> categoryActViewList = new ArrayList<CategoryActView>(
 				hotActList.size());
 		for (Act act : hotActList) {
-			HotActView view = new HotActView();
+			CategoryActView view = new CategoryActView();
 			view.setAct(act);
 			view.setHasUsed(myActIds.contains(act.getId()));
-			hotActViewList.add(view);
+			categoryActViewList.add(view);
 		}
 
-		model.addAttribute("hotActViewList", hotActViewList);
+		model.addAttribute("categoryActViewList", categoryActViewList);
 	}
 }

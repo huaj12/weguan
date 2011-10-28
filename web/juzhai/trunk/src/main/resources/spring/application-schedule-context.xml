@@ -22,7 +22,6 @@
 		<property name="startDelay" value="${default.start.delay}" />
 	</bean>
 	<bean id="abstractCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean" abstract="true">
-		<property name="startDelay" value="${default.start.delay}" />
 	</bean>
     
 
@@ -86,6 +85,17 @@
 		<property name="cronExpression" value="${reset.question.users.cron}" />
 	</bean>
 	<!-- reset question users end -->
+	
+	<!-- reset question users begin -->
+	<bean id="showCategoryActListTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="showCategoryActListHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${show.category.act.list.cron}" />
+	</bean>
+	<!-- reset question users end -->
 		
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
@@ -96,6 +106,7 @@
 				<ref bean="resetQuestionUsersTrigger"/>
 				<ref bean="unreadMsgEmailTrigger"/>
 				<ref bean="actBriefingEmailTrigger"/>
+				<ref bean="showCategoryActListTrigger"/>
 			</list>
 		</property>
 	</bean>

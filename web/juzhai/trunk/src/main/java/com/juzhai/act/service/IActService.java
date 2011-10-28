@@ -5,11 +5,43 @@ package com.juzhai.act.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
 
 public interface IActService {
+
+	/**
+	 * act是否存在
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	boolean actExist(long actId);
+
+	/**
+	 * 根据ActId获取Act
+	 * 
+	 * @param actId
+	 */
+	Act getActById(long actId);
+
+	/**
+	 * 获取多个Act
+	 * 
+	 * @param actIds
+	 * @return
+	 */
+	Map<Long, Act> getMultiActByIds(List<Long> actIds);
+
+	/**
+	 * 获取多个Act
+	 * 
+	 * @param actIds
+	 * @return
+	 */
+	List<Act> getActListByIds(List<Long> actIds);
 
 	/**
 	 * 审核用户自定义的Act

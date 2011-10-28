@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -18,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.act.InitData;
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.mapper.UserActMapper;
@@ -242,14 +242,7 @@ public class UserActService implements IUserActService {
 	@Override
 	public List<Act> getUserActFromCache(long uid, int count) {
 		List<Long> actIdList = getUserActIdsFromCache(uid, count);
-		List<Act> actList = new ArrayList<Act>(actIdList.size());
-		for (long actId : actIdList) {
-			Act act = InitData.ACT_MAP.get(actId);
-			if (null != act) {
-				actList.add(act);
-			}
-		}
-		return actList;
+		return actService.getActListByIds(actIdList);
 	}
 
 	@Override
@@ -274,8 +267,14 @@ public class UserActService implements IUserActService {
 		List<UserAct> list = userActMapper.selectByExample(example);
 		List<UserActView> returnList = new ArrayList<UserActView>();
 		ProfileCache profile = profileService.getProfileCacheByUid(uid);
+
+		List<Long> actIds = new ArrayList<Long>(list.size());
 		for (UserAct userAct : list) {
-			Act act = InitData.ACT_MAP.get(userAct.getActId());
+			actIds.add(userAct.getActId());
+		}
+		Map<Long, Act> actMap = actService.getMultiActByIds(actIds);
+		for (UserAct userAct : list) {
+			Act act = actMap.get(userAct.getActId());
 			if (null != act) {
 				returnList.add(new UserActView(userAct, act, profile));
 			}

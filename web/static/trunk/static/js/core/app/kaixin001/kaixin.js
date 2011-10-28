@@ -14,7 +14,7 @@ function showSysnewsDialog(url) {
 	document.body.appendChild(t.firstChild);
 }
 //TODO 封装不同第三方app
-function kaixinFeed(name) {
+function kaixin001Feed(name) {
 	jQuery.get('/kaixinFeed', {
 		name : name,
 		random : Math.random()
@@ -23,16 +23,16 @@ function kaixinFeed(name) {
 	});
 }
 // TODO 封装不同第三方app
-function kaixinRequest(name) {
+function kaixin001Request(name) {
 	jQuery.get('/kaixinRequest', {
 		name : name,
 		random : Math.random()
 	}, function(data) {
-		showKxDialog(data);
+		showSysnewsDialog(data);
 	});
 }
 // TODO
-function kaixinRequestByName(name) {
+function kaixin001RequestByName(name) {
 	jQuery.get('/dialogSysnews', {
 		name : name,
 		random : Math.random()

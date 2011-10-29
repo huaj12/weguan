@@ -43,21 +43,6 @@ public class CategoryService implements ICategoryService {
 		}
 	}
 
-	// @Override
-	// public Map<Long, List<Act>> getHotActListMap(long tpId,
-	// List<ActCategory> actCategoryList) {
-	// Map<Long, List<Act>> allHotActListMap = InitData.HOT_ACT_LIST_MAP
-	// .get(tpId);
-	// Map<Long, List<Act>> returnMap = new LinkedHashMap<Long, List<Act>>();
-	// for (ActCategory actCategory : actCategoryList) {
-	// List<Act> actList = allHotActListMap.get(actCategory.getId());
-	// if (null != actList) {
-	// returnMap.put(actCategory.getId(), new ArrayList<Act>(actList));
-	// }
-	// }
-	// return null;
-	// }
-
 	@Override
 	public List<Act> geActsByCategoryId(long categoryId, int size) {
 		ActCategoryExample example = new ActCategoryExample();

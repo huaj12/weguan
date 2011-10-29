@@ -14,16 +14,6 @@ public interface ICategoryService {
 	 */
 	List<Category> listCategories(int size);
 
-	// /**
-	// * 列出推荐的Act
-	// *
-	// * @param tpId
-	// * @param actCategoryList
-	// * @return
-	// */
-	// Map<Long, List<Act>> getHotActListMap(long tpId,
-	// List<ActCategory> actCategoryList);
-
 	/**
 	 * 分类ID获取推荐Act,排除屏蔽的
 	 * 

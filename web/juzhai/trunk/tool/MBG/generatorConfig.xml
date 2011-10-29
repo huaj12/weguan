@@ -104,23 +104,23 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
     
-	<table tableName="tb_hot_act" domainObjectName="HotAct">
+    <table tableName="tb_act" domainObjectName="Act" >
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
+      <columnOverride column="active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+    </table>
+    
+	<!-- <table tableName="tb_hot_act" domainObjectName="HotAct">
       <property name="useActualColumnNames" value="false"/>
       <columnOverride column="active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
     
-    <!-- <table tableName="tb_act_category" domainObjectName="ActCategory" >
+    <table tableName="tb_act_category" domainObjectName="ActCategory" >
       <property name="useActualColumnNames" value="false"/>
     </table>
 
 	<table tableName="tb_question" domainObjectName="Question">
       <property name="useActualColumnNames" value="false"/>
-    </table>
-    
-    <table tableName="tb_act" domainObjectName="Act" >
-      <property name="useActualColumnNames" value="false"/>
-      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
-      <columnOverride column="active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
     
     <table tableName="tb_category" domainObjectName="Category" >

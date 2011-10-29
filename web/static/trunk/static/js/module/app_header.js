@@ -181,28 +181,28 @@ $(document).ready(function() {
 	$("div.zjxq_input > a.add").bind("click", function() {
 		addAct();
 	});
-	// 注册召集令
-	$("div.zjxq_input > a.zhao").bind("click", function() {
-		var value = $("#addAct").attr("value");
-		if (value && value != "") {
-			addAct(function() {
-				feed('kaixin001',value);
-			});
-		} else {
-			feed('kaixin001','');
-		}
-	});
-	// 注册邀请
-	$("div.zjxq_input > a.yao").bind("click", function() {
-		var value = $("#addAct").attr("value");
-		if (value && value != "") {
-			addAct(function() {
-				requestByName('kaixin001',value);
-			});
-		} else {
-			request('kaixin001');
-		}
-	});
+	// // 注册召集令
+	// $("div.zjxq_input > a.zhao").bind("click", function() {
+	// var value = $("#addAct").attr("value");
+	// if (value && value != "") {
+	// addAct(function() {
+	// feed('kaixin001',value);
+	// });
+	// } else {
+	// feed('kaixin001','');
+	// }
+	// });
+	// // 注册邀请
+	// $("div.zjxq_input > a.yao").bind("click", function() {
+	// var value = $("#addAct").attr("value");
+	// if (value && value != "") {
+	// addAct(function() {
+	// requestByName('kaixin001',value);
+	// });
+	// } else {
+	// request('kaixin001');
+	//		}
+	//	});
 	// 注册订阅邮箱事件
 	var subInput = $("div.dy > span > input");
 	showSubEmailDefault(subInput);

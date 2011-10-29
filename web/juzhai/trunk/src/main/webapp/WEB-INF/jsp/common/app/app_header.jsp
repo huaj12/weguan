@@ -13,8 +13,8 @@
 			<div id="headAddActError" class="error" style="display:none"><p>请输入完整信息信息</p></div>
 			<p class="l"></p><span><input id="addAct" type="text" /></span>
 			<a href="javascript:;" class="btn add" id="addActBtn" title="添加为我的兴趣">+</a>
-			<a href="javascript:;" class="btn zhao" title="向好友发布动态">召</a>
-			<a href="javascript:;" class="btn yao" title="邀请指定好友">邀</a>
+			<%-- <a href="javascript:;" class="btn zhao" title="向好友发布动态">召</a>
+			<a href="javascript:;" class="btn yao" title="邀请指定好友">邀</a> --%>
 			<p class="r"></p>
 		</div><!--zjxq_input end-->
 		<div class="home fl"><p></p><a href="/app/index">拒宅器</a></div>

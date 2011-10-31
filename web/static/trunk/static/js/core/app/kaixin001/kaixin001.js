@@ -14,7 +14,7 @@ function showSysnewsDialog(url) {
 	document.body.appendChild(t.firstChild);
 }
 //TODO 封装不同第三方app
-function kaixin001Feed(name) {
+function feed(name) {
 	jQuery.get('/kaixinFeed', {
 		name : name,
 		random : Math.random()
@@ -23,7 +23,7 @@ function kaixin001Feed(name) {
 	});
 }
 // TODO 封装不同第三方app
-function kaixin001Request(name) {
+function request(name) {
 	jQuery.get('/kaixinRequest', {
 		name : name,
 		random : Math.random()
@@ -32,7 +32,7 @@ function kaixin001Request(name) {
 	});
 }
 // TODO
-function kaixin001RequestByName(name) {
+function requestByName(name) {
 	jQuery.get('/dialogSysnews', {
 		name : name,
 		random : Math.random()

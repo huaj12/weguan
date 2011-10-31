@@ -1,7 +1,7 @@
-insert into juzhai.tb_act_category (name,sequence,create_time,last_modify_time) values ('运动',3,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act_category (name,sequence,create_time,last_modify_time) values ('休闲娱乐',2,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act_category (name,sequence,create_time,last_modify_time) values ('旅游',4,'2011-09-17 09:20:46','2011-09-17 09:20:46');
-insert into juzhai.tb_act_category (name,sequence,create_time,last_modify_time) values ('热门',1,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_category (name,sequence,create_time,last_modify_time) values ('运动',3,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_category (name,sequence,create_time,last_modify_time) values ('休闲娱乐',2,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_category (name,sequence,create_time,last_modify_time) values ('旅游',4,'2011-09-17 09:20:46','2011-09-17 09:20:46');
+insert into juzhai.tb_category (name,sequence,create_time,last_modify_time) values ('热门',1,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('健身馆',1,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('打羽毛球','1,4',0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
@@ -77,79 +77,6 @@ insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('逛公园',3,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 insert into juzhai.tb_act (name,category_ids,popularity,active,create_uid,create_time,last_modify_time) values ('游乐场',3,0,1,0,'2011-09-17 09:20:46','2011-09-17 09:20:46');
 
-
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (1,1,1);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (2,1,2);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (3,1,3);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (4,1,4);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (5,1,5);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (6,1,6);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (7,1,7);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (8,1,8);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (9,1,9);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (10,1,10);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (11,1,11);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (12,1,12);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (13,1,13);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (14,1,14);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (15,1,15);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (16,1,16);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (17,1,17);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (18,1,18);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (19,1,19);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (20,1,20);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (21,1,21);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (22,1,22);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (23,1,23);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (24,1,24);
-
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (25,1,1);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (26,1,2);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (27,1,3);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (28,1,4);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (29,1,5);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (30,1,6);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (31,1,7);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (32,1,8);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (33,1,9);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (34,1,10);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (35,1,11);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (36,1,12);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (37,1,13);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (38,1,14);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (39,1,15);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (40,1,16);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (41,1,17);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (42,1,18);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (43,1,19);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (44,1,20);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (45,1,21);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (46,1,22);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (47,1,23);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (48,1,24);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (49,1,25);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (50,1,26);
-
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (51,1,1);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (52,1,2);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (53,1,3);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (54,1,4);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (55,1,5);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (56,1,6);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (57,1,7);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (58,1,8);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (59,1,9);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (60,1,10);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (61,1,11);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (62,1,12);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (63,1,13);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (64,1,14);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (65,1,15);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (66,1,16);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (67,1,17);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (68,1,18);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (69,1,19);
-insert into juzhai.tb_hot_act (act_id,tp_id,sequence) values (70,1,20);
 
 
 INSERT INTO `tb_province` (`id`,`name`,`sequence`,`create_time`,`last_modify_time`) VALUES (1,'北京',1,'2011-08-20 00:11:57','2011-08-20 00:11:57');

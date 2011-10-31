@@ -28,7 +28,7 @@ function sendUI(params,url){
 	  };
 	   Renren.ui(uiOpts);
   }
-function renrenFeed(name){
+function feed(name){
 	jQuery.get('/renrenFeed', {
 		name : name,
 		random : Math.random()

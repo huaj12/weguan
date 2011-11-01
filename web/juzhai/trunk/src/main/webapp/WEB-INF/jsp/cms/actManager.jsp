@@ -12,24 +12,24 @@
 	src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 <script>
 	function searchAct() {
-		var bDate=$("#bDate").val();
-		var eDate=$("#eDate").val();
-		var name=$("#name").val();
+		var bDate = $("#bDate").val();
+		var eDate = $("#eDate").val();
+		var name = $("#name").val();
 		$.get('/cms/searchAct', {
-			name:name,
-			bDate:bDate,
-			eDate:eDate,
+			name : name,
+			bDate : bDate,
+			eDate : eDate,
 			random : Math.random()
 		}, function(result) {
 			$("#act_list").html(result);
 		});
 	}
-	function actManagerPage(pageId,bDate,eDate,name){
+	function actManagerPage(pageId, bDate, eDate, name) {
 		$.get('/cms/searchAct', {
-			name:name,
-			bDate:bDate,
-			eDate:eDate,
-			pageId:pageId,
+			name : name,
+			bDate : bDate,
+			eDate : eDate,
+			pageId : pageId,
 			random : Math.random()
 		}, function(result) {
 			$("#act_list").html(result);
@@ -45,7 +45,8 @@
 		<tr>
 			<td>添加时间:</td>
 			<td><input id="bDate" type="text" />&nbsp;到&nbsp;<input
-				id="eDate" type="text" /></td>
+				id="eDate" type="text" />
+			</td>
 		</tr>
 		<!-- >tr>
 			<td>分类:</td>
@@ -59,11 +60,10 @@
 		<tr>
 			<td>简称:</td>
 			<td><input type="text" id="name" /> <input type="button"
-				value="查找" onclick="searchAct()" /></td>
+				value="查找" onclick="searchAct()" />
+			</td>
 		</tr>
 	</table>
-	<span id="act_list">
-	
-	</span>
+	<span id="act_list"> </span>
 </body>
 </html>

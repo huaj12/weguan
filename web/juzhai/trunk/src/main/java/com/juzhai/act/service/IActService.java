@@ -230,5 +230,5 @@ public interface IActService {
 	int searchActsCount(Date beginDate,Date endDate,String name,String catId);
 	
 	
-	void updateAct(Act act);
+	void updateAct(Act act,List<Long> categoryIds);
 }

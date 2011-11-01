@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 /**
  * 文件处理工具类
  * 
@@ -183,6 +182,13 @@ public class FileUtil {
 		}
 	}
 
+	/**
+	 * 如果存在，强行删除
+	 * 
+	 * @param directoryPath
+	 * @param fileName
+	 * @return
+	 */
 	public static boolean forceDeleteOnExit(String directoryPath,
 			String fileName) {
 		File file = newFile(directoryPath, fileName);
@@ -208,10 +214,9 @@ public class FileUtil {
 		StringBuilder path = new StringBuilder();
 		long value = id;
 		for (int i = 4; i >= 1; i--) {
-			path.append(String.valueOf(value
-					/ (new Double(Math.pow(2000, i)).intValue()))
-					+ File.separator);
-			value = value % (new Double(Math.pow(2000, i)).intValue());
+			long basicNum = Double.valueOf(Math.pow(2000, i)).longValue();
+			path.append(value / basicNum).append(File.separator);
+			value = value % basicNum;
 		}
 		path.append(String.valueOf(id));
 		return path.toString();
@@ -224,13 +229,13 @@ public class FileUtil {
 	 * @return
 	 */
 	public static String generateHierarchyWebPath(long id) {
+		String webSeparator = "/";
 		StringBuilder path = new StringBuilder();
 		long value = id;
 		for (int i = 4; i >= 1; i--) {
-			path.append(String.valueOf(value
-					/ (new Double(Math.pow(2000, i)).intValue()))
-					+"/");
-			value = value % (new Double(Math.pow(2000, i)).intValue());
+			long basicNum = Double.valueOf(Math.pow(2000, i)).longValue();
+			path.append(value / basicNum).append(webSeparator);
+			value = value % basicNum;
 		}
 		path.append(String.valueOf(id));
 		return path.toString();
@@ -264,5 +269,11 @@ public class FileUtil {
 		} else {
 			return fileName;
 		}
+	}
+
+	public static void main(String[] args) {
+		System.out.println(FileUtil.generateHierarchyPath(7999999L));
+		System.out.println(FileUtil.generateHierarchyWebPath(234565485L));
+		System.out.println(Math.pow(2000, 3));
 	}
 }

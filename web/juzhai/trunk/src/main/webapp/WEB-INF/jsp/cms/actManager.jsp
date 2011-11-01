@@ -14,11 +14,9 @@
 	function searchAct() {
 		var bDate=$("#bDate").val();
 		var eDate=$("#eDate").val();
-		var catId=$("#catId").val();
 		var name=$("#name").val();
 		$.get('/cms/searchAct', {
 			name:name,
-			catId:catId,
 			bDate:bDate,
 			eDate:eDate,
 			random : Math.random()
@@ -26,10 +24,9 @@
 			$("#act_list").html(result);
 		});
 	}
-	function actManagerPage(pageId,catId,bDate,eDate,name){
+	function actManagerPage(pageId,bDate,eDate,name){
 		$.get('/cms/searchAct', {
 			name:name,
-			catId:catId,
 			bDate:bDate,
 			eDate:eDate,
 			pageId:pageId,
@@ -50,7 +47,7 @@
 			<td><input id="bDate" type="text" />&nbsp;到&nbsp;<input
 				id="eDate" type="text" /></td>
 		</tr>
-		<tr>
+		<!-- >tr>
 			<td>分类:</td>
 			<td><select id="catId">
 					<c:forEach var="cat" items="${categoryList}">
@@ -58,7 +55,7 @@
 					</c:forEach>
 			</select>
 			</td>
-		</tr>
+		</tr -->
 		<tr>
 			<td>简称:</td>
 			<td><input type="text" id="name" /> <input type="button"

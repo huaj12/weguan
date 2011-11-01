@@ -153,7 +153,7 @@ public class KaiXinController extends BaseController {
 			String linktext = messageSource
 					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
 							Locale.SIMPLIFIED_CHINESE);
-			String link = tp.getAppUrl() + "?goUri=/msg/showUnRead";
+			String link = tp.getAppUrl() + "?goUri=/msg/showRead";
 			String sysnewRedirect_uri = SystemConfig
 					.getDomain(tp == null ? null : tp.getName())
 					+ sysnewRedirectUri

@@ -18,6 +18,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.juzhai.cms.bean.SizeType;
+
 /**
  * @author wujiajun Created on 2010-8-10
  */
@@ -27,7 +29,7 @@ public class ImageUtil {
 	private static final Log log = LogFactory.getLog(ImageUtil.class);
 	private static final int EXTERNAL_URL_CHAR = ':';
 	private static final Map<String, String> IMAGE_TYPE_MAP = new HashMap<String, String>();
-
+	
 	static {
 		IMAGE_TYPE_MAP.put("jpeg", "FFD8FF");
 		IMAGE_TYPE_MAP.put("jpg", IMAGE_TYPE_MAP.get("jpeg"));
@@ -35,19 +37,18 @@ public class ImageUtil {
 		IMAGE_TYPE_MAP.put("png", "89504E47");
 		IMAGE_TYPE_MAP.put("bmp", "424D");
 	}
-
 	/**
 	 * 图片分层存储目录
 	 * 
 	 * @param id
 	 *            标示符ID
 	 * @param size
-	 *            大小尺寸(-1表示原图，0表示剪切完的图)
+	 *            大小尺寸(0表示原图)
 	 * @return 路劲
 	 */
-	public static String generateHierarchyImagePath(long id, int size) {
+	public static String generateHierarchyImagePath(long id, SizeType size) {
 		String path = FileUtil.generateHierarchyPath(id);
-		return path + File.separator + size;
+		return path + File.separator + size.getType()+File.separator;
 	}
 
 	/**
@@ -66,25 +67,14 @@ public class ImageUtil {
 	 * @param size
 	 * @return 图片web路径
 	 */
-	public static String generateHierarchyImageWebPath(long id, int size) {
+	public static String generateHierarchyImageWebPath(long id, SizeType size) {
 		StringBuilder path = new StringBuilder();
 		path.append(webSeparator).append(FileUtil.generateHierarchyWebPath(id))
-				.append(webSeparator).append(size).append(webSeparator);
+				.append(webSeparator).append(size.getType()).append(webSeparator);
 		return path.toString();
 	}
 
-	/**
-	 * 图片分层web浏览路径
-	 * 
-	 * @param id
-	 * @return 图片web路径
-	 */
-	public static String generateHierarchyImageWebPath(long id) {
-		StringBuilder path = new StringBuilder();
-		path.append(webSeparator).append(FileUtil.generateHierarchyWebPath(id))
-				.append(webSeparator);
-		return path.toString();
-	}
+
 
 	/**
 	 * 生成图片完整访问web路径
@@ -95,10 +85,10 @@ public class ImageUtil {
 	 * @return 访问路径
 	 */
 	public static String generateFullImageWebPath(String domainContext,
-			long id, String fileName) {
+			long id, String fileName,SizeType sizeType) {
 		StringBuilder fileUri = new StringBuilder();
 		fileUri.append(domainContext)
-				.append(ImageUtil.generateHierarchyImageWebPath(id))
+				.append(ImageUtil.generateHierarchyImageWebPath(id,sizeType))
 				.append(fileName);
 		return fileUri.toString();
 	}

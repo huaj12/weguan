@@ -21,7 +21,8 @@ public class SystemConfig implements FactoryBean<List<String>> {
 	private static final String DOMAIN_PROPERTY_SUFFIX = "domain";
 
 	private static final Map<String, String> DOMAIN_MAP = new HashMap<String, String>();
-
+	
+	public static final String IMAGE_HOME="E:\\juzhai\\font\\WebContent\\images\\";
 	// public static String FEED_REDIRECT_URI;
 
 	// public static String SYSNEW_REDIRECT_URI;

@@ -13,18 +13,31 @@ public class CmsActMagerView implements Serializable {
 
 	private String address;
 
-	private String crowd;
+	private String gender;
+
+	private String age;
+
+	private String status;
 
 	private String category;
 
-	public CmsActMagerView(Act act, String logoWebPath, String address,
-			String crowd, String category) {
-		super();
+	private String proName;
+
+	private String cityName;
+
+	public CmsActMagerView(Act act, String logoWebPath, String proName,
+			String cityName, String address, String age, String gender,
+			String status, String category) {
 		this.act = act;
 		this.logoWebPath = logoWebPath;
-		this.crowd = crowd;
 		this.address = address;
 		this.category = category;
+		this.status = status;
+		this.age = age;
+		this.gender = gender;
+		this.proName = proName;
+		this.cityName = cityName;
+
 	}
 
 	public Act getAct() {
@@ -43,20 +56,52 @@ public class CmsActMagerView implements Serializable {
 		this.logoWebPath = logoWebPath;
 	}
 
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getProName() {
+		return proName;
+	}
+
+	public void setProName(String proName) {
+		this.proName = proName;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
 	public String getAddress() {
 		return address;
 	}
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public String getCrowd() {
-		return crowd;
-	}
-
-	public void setCrowd(String crowd) {
-		this.crowd = crowd;
 	}
 
 	public String getCategory() {

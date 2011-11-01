@@ -35,6 +35,7 @@ import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.mapper.ActMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActExample;
+import com.juzhai.act.model.ActExample.Criteria;
 import com.juzhai.act.rabbit.message.ActIndexMessage;
 import com.juzhai.act.rabbit.message.ActIndexMessage.ActionType;
 import com.juzhai.act.service.IActService;
@@ -234,6 +235,42 @@ public class ActService implements IActService {
 	}
 
 	@Override
+	public Act createAct(Act act, List<Long> categoryIds)
+			throws ActInputException {
+		if (act == null || act.getName() == null || act.getCreateUid() == 0) {
+			throw new ActInputException(ActInputException.ACT_NAME_FORBID);
+		}
+		try {
+			if (wordFilterService.wordFilter(actNameWordfilterApplication,
+					act.getCreateUid(), null, act.getName().getBytes("GBK")) < 0) {
+				throw new ActInputException(ActInputException.ACT_NAME_FORBID);
+			}
+		} catch (IOException e) {
+			log.error("Wordfilter service down.", e);
+		}
+		long length = StringUtil.chineseLength(act.getName());
+		if (length < actNameLengthMin || length > actNameLengthMax) {
+			throw new ActInputException(ActInputException.ACT_NAME_INVALID);
+		}
+		actDao.inserAct(act, categoryIds);
+		if (null != act) {
+			// // 加载Act
+			// actInitData.loadAct(act);
+			if (log.isDebugEnabled()) {
+				log.debug("load new act to InitData");
+			}
+			// add 索引
+			ActIndexMessage msgMessage = new ActIndexMessage();
+			msgMessage.buildBody(act).buildActionType(ActionType.CREATE);
+			actIndexCreateRabbitTemplate.convertAndSend(msgMessage);
+			if (log.isDebugEnabled()) {
+				log.debug("send act index create message");
+			}
+		}
+		return act;
+	}
+
+	@Override
 	public Act getActByName(String name) {
 		return actDao.selectActByName(StringUtils.trim(name));
 	}
@@ -404,4 +441,45 @@ public class ActService implements IActService {
 			log.error(e.getMessage(), e);
 		}
 	}
+
+	@Override
+	public List<Act> searchActs(Date beginDate, Date endDate, String name,
+			String catId, int firstResult, int maxResults) {
+		ActExample example = new ActExample();
+		Criteria criteria = example.createCriteria();
+		if (beginDate != null && endDate != null) {
+			criteria.andCreateTimeBetween(beginDate, endDate);
+		}
+		if (!StringUtils.isEmpty(name)) {
+			criteria.andNameEqualTo(name);
+		}
+		if (!StringUtils.isEmpty(catId)) {
+			criteria.andCategoryIdsLike(catId);
+		}
+		example.setLimit(new Limit(firstResult, maxResults));
+		return actMapper.selectByExample(example);
+	}
+
+	@Override
+	public int searchActsCount(Date beginDate, Date endDate, String name,
+			String catId) {
+		ActExample example = new ActExample();
+		Criteria criteria = example.createCriteria();
+		if (beginDate != null && endDate != null) {
+			criteria.andCreateTimeBetween(beginDate, endDate);
+		}
+		if (!StringUtils.isEmpty(name)) {
+			criteria.andNameEqualTo(name);
+		}
+		if (!StringUtils.isEmpty(catId)) {
+			criteria.andCategoryIdsLike(catId);
+		}
+		return actMapper.countByExample(example);
+	}
+
+	@Override
+	public void updateAct(Act act) {
+		actMapper.updateByPrimaryKey(act);
+	}
+
 }

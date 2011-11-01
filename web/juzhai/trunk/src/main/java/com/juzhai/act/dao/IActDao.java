@@ -11,6 +11,8 @@ public interface IActDao {
 
 	Act insertAct(long uid, String name, List<Long> categoryIds);
 
+	Act inserAct(Act act, List<Long> categoryIds);
+
 	Act insertVerifiedAct(long uid, String name, List<Long> categoryIds);
 
 	Act selectActByName(String name);

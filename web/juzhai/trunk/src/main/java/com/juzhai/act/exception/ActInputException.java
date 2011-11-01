@@ -18,6 +18,10 @@ public class ActInputException extends JuzhaiException {
 	 * act名字已经存在
 	 */
 	public static final String ACT_NAME_EXISTENCE = "10003";
+	/**
+	 * act uid或者name为空
+	 */
+	public static final String ACT_FIELD_ISNULL = "10004";
 
 	public ActInputException(String errorCode, Throwable cause) {
 		super(errorCode, cause);

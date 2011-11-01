@@ -43,6 +43,19 @@ public class ActDao implements IActDao {
 	}
 
 	@Override
+	public Act inserAct(Act act, List<Long> categoryIds) {
+		act.setActive(false);
+		if (CollectionUtils.isNotEmpty(categoryIds)) {
+			act.setCategoryIds(StringUtils.join(categoryIds, ","));
+		}
+		act.setCreateTime(new Date());
+		act.setLastModifyTime(act.getCreateTime());
+		act.setPopularity(0);
+		actMapper.insertSelective(act);
+		return act;
+	}
+
+	@Override
 	public Act insertVerifiedAct(long uid, String name, List<Long> categoryIds) {
 		Act act = assembleAct(uid, name, categoryIds, true);
 		actMapper.insertSelective(act);
@@ -70,5 +83,6 @@ public class ActDao implements IActDao {
 		params.put("p", p);
 		sqlSession.update("Act_Mapper.increasePopularity", params);
 	}
+
 
 }

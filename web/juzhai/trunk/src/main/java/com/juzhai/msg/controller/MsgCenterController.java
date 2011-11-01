@@ -66,15 +66,15 @@ public class MsgCenterController extends BaseController {
 	@RequestMapping(value = "/showUnRead", method = RequestMethod.GET)
 	public String showUnRead(HttpServletRequest request, Model model,
 			Integer page) throws NeedLoginException {
-		if (null == page)
-			page = 1;
-		UserContext context = checkLoginForApp(request);
-		ProfileCache profileCache = queryProfile(context.getUid(), model);
-		if (profileCache != null && !profileCache.getSubEmail()) {
-			showNotSubEmailTip(model);
-		}
-		doPageUnRead(context.getUid(), page, model);
-		return "msg/app/unRead";
+//		if (null == page)
+//			page = 1;
+//		UserContext context = checkLoginForApp(request);
+//		ProfileCache profileCache = queryProfile(context.getUid(), model);
+//		if (profileCache != null && !profileCache.getSubEmail()) {
+//			showNotSubEmailTip(model);
+//		}
+//		doPageUnRead(context.getUid(), page, model);
+		return "redirect:/msg/showRead";
 	}
 
 	@RequestMapping(value = "/pageUnRead", method = RequestMethod.GET)

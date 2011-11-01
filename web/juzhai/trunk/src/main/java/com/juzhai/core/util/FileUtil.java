@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+
 /**
  * 文件处理工具类
  * 
@@ -204,13 +205,15 @@ public class FileUtil {
 	 * @return 层次路径
 	 */
 	public static String generateHierarchyPath(long id) {
-		long lev3 = id % 10000;
-		long prefix = id / 10000;
-		long lev2 = prefix % 10000;
-		long lev1 = prefix / 10000;
 		StringBuilder path = new StringBuilder();
-		path.append(lev1).append(File.separator).append(lev2)
-				.append(File.separator).append(lev3);
+		long value = id;
+		for (int i = 4; i >= 1; i--) {
+			path.append(String.valueOf(value
+					/ (new Double(Math.pow(2000, i)).intValue()))
+					+ File.separator);
+			value = value % (new Double(Math.pow(2000, i)).intValue());
+		}
+		path.append(String.valueOf(id));
 		return path.toString();
 	}
 
@@ -221,14 +224,15 @@ public class FileUtil {
 	 * @return
 	 */
 	public static String generateHierarchyWebPath(long id) {
-		String webSeparator = "/";
-		long lev3 = id % 10000;
-		long prefix = id / 10000;
-		long lev2 = prefix % 10000;
-		long lev1 = prefix / 10000;
 		StringBuilder path = new StringBuilder();
-		path.append(lev1).append(webSeparator).append(lev2)
-				.append(webSeparator).append(lev3).append(webSeparator);
+		long value = id;
+		for (int i = 4; i >= 1; i--) {
+			path.append(String.valueOf(value
+					/ (new Double(Math.pow(2000, i)).intValue()))
+					+"/");
+			value = value % (new Double(Math.pow(2000, i)).intValue());
+		}
+		path.append(String.valueOf(id));
 		return path.toString();
 	}
 

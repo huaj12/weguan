@@ -220,7 +220,7 @@ public class ActService implements IActService {
 			throw new ActInputException(ActInputException.ACT_NAME_INVALID);
 		}
 		Act act = actDao.insertAct(uid, actName, null);
-		updateActCategory(act.getId(),categoryIds);
+		updateActCategory(act.getId(), categoryIds);
 		if (null != act) {
 			// // 加载Act
 			// actInitData.loadAct(act);
@@ -263,7 +263,7 @@ public class ActService implements IActService {
 			throw new ActInputException(ActInputException.ACT_NAME_INVALID);
 		}
 		actDao.inserAct(act, categoryIds);
-		updateActCategory(act.getId(),categoryIds);
+		updateActCategory(act.getId(), categoryIds);
 		if (null != act) {
 			// // 加载Act
 			// actInitData.loadAct(act);
@@ -455,7 +455,7 @@ public class ActService implements IActService {
 
 	@Override
 	public List<Act> searchActs(Date beginDate, Date endDate, String name,
-			String catId, int firstResult, int maxResults) {
+			int firstResult, int maxResults) {
 		ActExample example = new ActExample();
 		Criteria criteria = example.createCriteria();
 		if (beginDate != null && endDate != null) {
@@ -463,17 +463,13 @@ public class ActService implements IActService {
 		}
 		if (!StringUtils.isEmpty(name)) {
 			criteria.andNameEqualTo(name);
-		}
-		if (!StringUtils.isEmpty(catId)) {
-			criteria.andCategoryIdsLike(catId);
 		}
 		example.setLimit(new Limit(firstResult, maxResults));
 		return actMapper.selectByExample(example);
 	}
 
 	@Override
-	public int searchActsCount(Date beginDate, Date endDate, String name,
-			String catId) {
+	public int searchActsCount(Date beginDate, Date endDate, String name) {
 		ActExample example = new ActExample();
 		Criteria criteria = example.createCriteria();
 		if (beginDate != null && endDate != null) {
@@ -481,9 +477,6 @@ public class ActService implements IActService {
 		}
 		if (!StringUtils.isEmpty(name)) {
 			criteria.andNameEqualTo(name);
-		}
-		if (!StringUtils.isEmpty(catId)) {
-			criteria.andCategoryIdsLike(catId);
 		}
 		return actMapper.countByExample(example);
 	}

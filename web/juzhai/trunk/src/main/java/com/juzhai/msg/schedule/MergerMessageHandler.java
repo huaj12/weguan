@@ -23,7 +23,6 @@ import com.juzhai.msg.service.IMsgService;
 import com.juzhai.msg.service.ISendAppMsgService;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserService;
-import com.juzhai.passport.service.IUserSetupService;
 
 @Component
 public class MergerMessageHandler extends AbstractScheduleHandler {
@@ -38,8 +37,8 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 	private ITpUserService tpUserService;
 	@Autowired
 	private IMsgService<MergerActMsg> msgService;
-	@Autowired
-	private IUserSetupService userSetupService;
+	// @Autowired
+	// private IUserSetupService userSetupService;
 	@Autowired
 	private IActService actService;
 
@@ -91,17 +90,16 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 			merge.setType(lazyKeyView.getType());
 			msgService.sendMsg(lazyKeyView.getReceiverId(), merge);
 			// 判断用户是否发送消息
-			if (userSetupService.isTpAdvise(lazyKeyView.getSendId())) {
-				TpUser tpUser = tpUserService.getTpUserByUid(lazyKeyView
-						.getReceiverId());
-				if (sendAppMsgService.checkTpMsgLimitAndAddCnt(
-						lazyKeyView.getReceiverId(), merge.getType())) {
-					sendAppMsgService.threadSendAppMsg(tpUser,
-							lazyKeyView.getSendId(), lazyKeyView.getType(),
-							sendActNames);
-				}
+			// if (userSetupService.isTpAdvise(lazyKeyView.getSendId())) {
+			TpUser tpUser = tpUserService.getTpUserByUid(lazyKeyView
+					.getReceiverId());
+			if (sendAppMsgService.checkTpMsgLimitAndAddCnt(
+					lazyKeyView.getReceiverId(), merge.getType())) {
+				sendAppMsgService.threadSendAppMsg(tpUser,
+						lazyKeyView.getSendId(), lazyKeyView.getType(),
+						sendActNames);
 			}
-
+			// }
 		}
 	}
 

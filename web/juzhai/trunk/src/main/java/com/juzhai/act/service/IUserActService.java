@@ -17,6 +17,16 @@ import com.juzhai.home.exception.IndexException;
 public interface IUserActService {
 
 	/**
+	 * 处理推荐
+	 * 
+	 * @param uid
+	 * @param actid
+	 * @param type
+	 * @param isFeed
+	 */
+	void respRecommend(long uid, long actid, ReadFeedType type, boolean isFeed);
+
+	/**
 	 * 处理Act
 	 * 
 	 * @param uid
@@ -29,7 +39,7 @@ public interface IUserActService {
 	 *            处理方式
 	 * @throws IndexException
 	 */
-	void respFeed(long uid, long actId, long friendId, ReadFeedType type)
+	void respSpecific(long uid, long actId, long friendId, ReadFeedType type)
 			throws IndexException;
 
 	/**
@@ -179,4 +189,41 @@ public interface IUserActService {
 	 * @return
 	 */
 	boolean existUserAct(long uid, long actId);
+
+	/**
+	 * 列出所有加了特定项目的UserAct
+	 * 
+	 * @param actId
+	 * @param firstResult
+	 * @param maxResult
+	 * @return
+	 */
+	List<UserAct> listUserActByActId(long actId, int firstResult, int maxResult);
+
+	/**
+	 * 加了特定项目的人数
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	int countUserActByActId(long actId);
+
+	/**
+	 * 列出所有加了特定项目的UserAct
+	 * 
+	 * @param actId
+	 * @param firstResult
+	 * @param maxResult
+	 * @return
+	 */
+	List<UserAct> listFriendUserActByActId(Collection<Long> friendIds,
+			long actId, int firstResult, int maxResult);
+
+	/**
+	 * 加了特定项目的人数
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	int countFriendUserActByActId(Collection<Long> friendIds, long actId);
 }

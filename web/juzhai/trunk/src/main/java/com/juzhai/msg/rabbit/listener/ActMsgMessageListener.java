@@ -50,6 +50,7 @@ public class ActMsgMessageListener implements
 	ISendAppMsgService sendAppMsgService;
 	@Autowired
 	private IUserSetupService userSetupService;
+
 	@Override
 	public Object handleMessage(MsgMessage<ActMsg> msgMessage) {
 		if (null == msgMessage) {
@@ -114,11 +115,12 @@ public class ActMsgMessageListener implements
 
 			}
 			if (tpUser != null) {
-				//该用户是否发送第三方消息
-				if (userSetupService.isTpAdvise(msgMessage.getSenderId())) {
-					sendAppMsgService.threadSendAppMsg(tpUser, msgMessage
-							.getSenderId(), msgMessage.getBody().getType(), msgMessage.getBody().getActName());
-				}
+				// 该用户是否发送第三方消息
+				// if (userSetupService.isTpAdvise(msgMessage.getSenderId())) {
+				sendAppMsgService.threadSendAppMsg(tpUser, msgMessage
+						.getSenderId(), msgMessage.getBody().getType(),
+						msgMessage.getBody().getActName());
+				// }
 			}
 		} catch (Exception e) {
 			log.error("receiverActMsg is error", e);

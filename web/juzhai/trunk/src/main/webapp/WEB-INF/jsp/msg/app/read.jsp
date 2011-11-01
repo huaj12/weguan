@@ -14,65 +14,44 @@
 	rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<div class="main">
-		<!--main begin-->
+	<div class="main"><!--main begin-->
 		<jsp:include page="/WEB-INF/jsp/common/app/app_header.jsp" />
-		<div class="skin_body">
-			<!--skin_body begin-->
-			<div class="skin_top_bg">
-				<!--content_bg begin-->
+		<div class="skin_body"><!--skin_body begin-->
+			<div class="skin_top_bg"><!--content_bg begin-->
 				<jsp:include page="/WEB-INF/jsp/common/app/app_prompt.jsp" />
 				<jsp:include page="/WEB-INF/jsp/common/app/app_point.jsp" />
-				<div class="content white">
-					<!--content begin-->
+				<div class="content white"><!--content begin-->
 					<div class="top"></div>
-					<div class="mid">
-						<!--mid begin-->
-						<div class="message_box">
-							<!--message_box begin-->
-							<div class="title">
-								<!--title begin-->
-								<div class="tab">
-									<!--tab begin-->
+					<div class="mid"><!--mid begin-->
+						<div class="message_box"><!--message_box begin-->
+							<div class="title"><!--title begin-->
+								<div class="tab"><!--tab begin-->
 									<a href="/msg/showRead" class="link">
 										<p class="l"></p> <span><em id="msgstuts"
 											class="mail_open"></em><strong>我的消息(<font id="readCnt" style="font-size:12px;  font-weight:normal;">${pager.totalResults}</font>)</strong></span>
 										<p class="r"></p> </a>
-								</div>
-								<!--tab end-->
-								<div class="fh">
-									<!--fh begin-->
+								</div><!--tab end-->
+								<div class="fh"><!--fh begin-->
 									<a href="/app/index">返回首页</a>
-								</div>
-								<!--fh end-->
+								</div><!--fh end-->
 								<!--pbr begin-->
 								<!-- <div class="pbr"><a href="javascript:;">被我屏蔽的人</a></div> -->
 								<!--pbr end-->
-							</div>
-							<!--title end-->
-							<div class="box_body" id="readContent">
-								<!--box_body begin-->
+							</div><!--title end-->
+							<div class="box_body" id="readContent"><!--box_body begin-->
 								<jsp:include page="/WEB-INF/jsp/msg/app/ajax/readContent.jsp" />
-							</div>
-							<!--box_body end-->
-						</div>
-						<!--message_box end-->
-					</div>
-					<!--mid end-->
+							</div><!--box_body end-->
+						</div><!--message_box end-->
+					</div><!--mid end-->
 					<div class="bot"></div>
-				</div>
-				<!--content end-->
-			</div>
-			<!--content_bg end-->
-		</div>
-		<!--skin_body end-->
+				</div><!--content end-->
+			</div><!--content_bg end-->
+		</div><!--skin_body end-->
 		<div class="skin_bottom"></div>
-	</div>
-	<!--main end-->
+	</div><!--main end-->
 	<!-- artDialog div -->
 	<div id="boardDiv" style="display: none">
-		<div class="cantact_user">
-			<!--cantact_user begin-->
+		<div class="cantact_user"><!--cantact_user begin-->
 			<div class="text_area">
 				<textarea id="board_content" name="" cols="" rows=""></textarea>
 			</div>
@@ -84,14 +63,12 @@
 				<input id="board_fid" value="" type="hidden" /> <input
 					id="board_name" value="" type="hidden" />
 			</div>
-		</div>
-		<!--cantact_user end-->
+		</div><!--cantact_user end-->
 	</div>
 	<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
 	<jsp:include page="/WEB-INF/jsp/common/app/artDialog/artDialog.jsp" />
 	<script type="text/javascript" src="${jz:static('/js/module/msg.js')}"></script>
-	<script type="text/javascript"
-		src="${jz:static('/js/base/kaixin_plugin.js')}"></script>
+	<script type="text/javascript" src="${jz:static('/js/base/kaixin_plugin.js')}"></script>
 	<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 </body>
 </html>

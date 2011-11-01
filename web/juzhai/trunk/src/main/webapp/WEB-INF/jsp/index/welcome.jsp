@@ -53,7 +53,6 @@
 				<p>拒宅网&copy;2011 沪ICP备11031778号<a href="mailto:contact@51juzhai.com">联系我们</a><a href="http://weibo.com/51juzhai" target="_blank">官方微博</a><a href="mailto:feedback@51juzhai.com">意见反馈</a></p>
 			</div><!--bottom end-->
 		</div><!--main end-->
-		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 		<script type="text/javascript" src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 		<script type="text/javascript" src="${jz:static('/js/artDialog/jquery.artDialog.js')}"></script>
 		<script type="text/javascript">
@@ -76,7 +75,7 @@
 				<a href="#" class="cs_weibo" title="即将推出">微博拒宅</a>
 				<a href="#" class="cs_anzuo" title="即将推出">安卓拒宅</a>
 			</div>
-
-</div> <!--alert_box end-->
+		</div> <!--alert_box end-->
+		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 	</body>
 </html>

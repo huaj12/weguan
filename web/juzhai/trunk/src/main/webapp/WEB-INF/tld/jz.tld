@@ -37,4 +37,11 @@
     	<example>${jz:truncate('出国旅游',2,'...')}</example>
     </function>
     
+    <function>
+    	<name>dateAfter</name>
+    	<function-class>com.juzhai.core.web.jstl.JzCoreFunction</function-class>
+    	<function-signature>java.lang.Boolean dateAfter(java.util.Date)</function-signature>
+    	<example>${jz:dateAfter(date)}</example>
+    </function>
+    
 </taglib>

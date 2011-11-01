@@ -69,6 +69,23 @@ public class UserActService implements IUserActService {
 	// private IAccountService accountService;
 
 	@Override
+	public void respRecommend(long uid, long actId, ReadFeedType type,
+			boolean isFeed) {
+		if (ReadFeedType.WANT.equals(type)) {
+			try {
+				addAct(uid, actId, false);
+			} catch (ActInputException e) {
+				log.error(e.getMessage());
+			}
+		} else {
+			inboxService.shiftRead(uid, 0, actId, type);
+		}
+		if (isFeed) {
+			// TODO
+		}
+	}
+
+	@Override
 	public void respRandom(long uid, long actId, String tpFriendId, long tpId,
 			ReadFeedType type) throws IndexException {
 		if (null == type) {
@@ -82,8 +99,8 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
-	public void respFeed(long uid, long actId, long friendId, ReadFeedType type)
-			throws IndexException {
+	public void respSpecific(long uid, long actId, long friendId,
+			ReadFeedType type) throws IndexException {
 		if (null == type) {
 			throw new IndexException("response feed invalid parameter");
 		}
@@ -122,8 +139,6 @@ public class UserActService implements IUserActService {
 			log.error(e.getErrorCode(), e);
 		}
 		friendService.incrOrDecrIntimacy(uid, friendId, 2);
-		// 发送邀请消息
-		sendRecommendMsg(uid, friendId, actId);
 	}
 
 	private void wantToAct(long uid, long actId, String tpIdentity, long tpId) {
@@ -200,7 +215,6 @@ public class UserActService implements IUserActService {
 				RedisKeyGenerator.genMyActsKey(userAct.getUid()),
 				userAct.getActId(), userAct.getHotLev());
 		sendFeed(userAct, srcFriendId);
-		// sendMsg(userAct);
 	}
 
 	private void sendFeed(UserAct userAct, long srcFriendId) {
@@ -218,7 +232,7 @@ public class UserActService implements IUserActService {
 						ActMsg.MsgType.RECOMMEND));
 	}
 
-	private void sendRecommendMsg(long senderUid, long receiverId, long actId) {
+	private void sendInviteMsg(long senderUid, long receiverId, long actId) {
 		msgMessageService.sendActMsg(senderUid, receiverId, new ActMsg(actId,
 				senderUid, ActMsg.MsgType.INVITE));
 	}
@@ -354,5 +368,47 @@ public class UserActService implements IUserActService {
 		Long rank = redisTemplate.opsForZSet().rank(
 				RedisKeyGenerator.genMyActsKey(uid), actId);
 		return rank != null;
+	}
+
+	@Override
+	public List<UserAct> listUserActByActId(long actId, int firstResult,
+			int maxResult) {
+		UserActExample example = new UserActExample();
+		example.createCriteria().andActIdEqualTo(actId);
+		example.setOrderByClause("last_modify_time desc");
+		example.setLimit(new Limit(firstResult, maxResult));
+		return userActMapper.selectByExample(example);
+	}
+
+	@Override
+	public int countUserActByActId(long actId) {
+		UserActExample example = new UserActExample();
+		example.createCriteria().andActIdEqualTo(actId);
+		return userActMapper.countByExample(example);
+	}
+
+	@Override
+	public List<UserAct> listFriendUserActByActId(Collection<Long> friendIds,
+			long actId, int firstResult, int maxResult) {
+		if (CollectionUtils.isEmpty(friendIds)) {
+			return Collections.emptyList();
+		}
+		UserActExample example = new UserActExample();
+		example.createCriteria().andActIdEqualTo(actId)
+				.andUidIn(new ArrayList<Long>(friendIds));
+		example.setOrderByClause("last_modify_time desc");
+		example.setLimit(new Limit(firstResult, maxResult));
+		return userActMapper.selectByExample(example);
+	}
+
+	@Override
+	public int countFriendUserActByActId(Collection<Long> friendIds, long actId) {
+		if (CollectionUtils.isEmpty(friendIds)) {
+			return 0;
+		}
+		UserActExample example = new UserActExample();
+		example.createCriteria().andActIdEqualTo(actId)
+				.andUidIn(new ArrayList<Long>(friendIds));
+		return userActMapper.countByExample(example);
 	}
 }

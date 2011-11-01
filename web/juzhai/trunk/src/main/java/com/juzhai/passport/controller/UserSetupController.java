@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
@@ -25,8 +23,8 @@ public class UserSetupController extends BaseController {
 	@Autowired
 	private IUserSetupService userSetupService;
 
-	@RequestMapping(value = "/setupAdvise", method = RequestMethod.POST)
-	@ResponseBody
+	// @RequestMapping(value = "/setupAdvise", method = RequestMethod.POST)
+	// @ResponseBody
 	public AjaxResult setupAdvise(HttpServletRequest request, Model model,
 			boolean isAdvise) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);

@@ -77,6 +77,16 @@ public class RedisKeyGenerator extends KeyGenerator {
 	}
 
 	/**
+	 * 已处理Act列表(list)
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genNillActsKey(long uid) {
+		return genKey(uid, "nillActs");
+	}
+
+	/**
 	 * 未读消息列表(list)
 	 * 
 	 * @param uid
@@ -95,9 +105,9 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genReadMsgsKey(long uid, String className) {
 		return genKey(uid, "read" + className);
 	}
-	
-	public static String genUnReadMsgCountKey(long uid,String className){
-		return genKey(uid, "unreadcount"+className);
+
+	public static String genUnReadMsgCountKey(long uid, String className) {
+		return genKey(uid, "unreadcount" + className);
 	}
 
 	/**

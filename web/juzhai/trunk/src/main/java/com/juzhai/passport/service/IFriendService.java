@@ -87,4 +87,13 @@ public interface IFriendService {
 	 * @return
 	 */
 	int getFriendIntimacy(long uid, long friendId);
+
+	/**
+	 * 是否是App好友
+	 * 
+	 * @param uid
+	 * @param friendId
+	 * @return
+	 */
+	boolean isAppFriend(long uid, long friendId);
 }

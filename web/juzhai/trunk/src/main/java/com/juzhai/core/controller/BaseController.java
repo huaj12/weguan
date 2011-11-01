@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.ui.Model;
 
-import com.juzhai.account.service.IAccountService;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.ErrorPageDispatcher;
 import com.juzhai.core.web.session.UserContext;
@@ -34,8 +33,8 @@ public class BaseController {
 
 	// @Autowired
 	// private LoginSessionManager loginSessionManager;
-	@Autowired
-	private IAccountService accountService;
+	// @Autowired
+	// private IAccountService accountService;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
@@ -57,8 +56,8 @@ public class BaseController {
 		if (context == null || !context.hasLogin()) {
 			throw new NeedLoginException(runType);
 		}
-		request.setAttribute("isAdvise",
-				userSetupService.isTpAdvise(context.getUid()));
+		// request.setAttribute("isAdvise",
+		// userSetupService.isTpAdvise(context.getUid()));
 		return context;
 	}
 

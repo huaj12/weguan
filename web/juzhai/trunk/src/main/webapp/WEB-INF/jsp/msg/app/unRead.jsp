@@ -69,6 +69,5 @@
 		<script type="text/javascript" src="${jz:static('/js/module/msg.js')}"></script>
 		<script type="text/javascript" src="${jz:static('/js/base/kaixin_plugin.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
-	
 	</body>
 </html>

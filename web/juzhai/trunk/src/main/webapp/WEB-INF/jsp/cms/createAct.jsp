@@ -48,11 +48,11 @@
 			</tr>
 			<tr>
 				<td>分类：</td>
-				<td><select name="catId">
-						<c:forEach var="cats" items="${categoryList}">
-							<option value="${cats.id}">${cats.name}</option>
-						</c:forEach>
-				</select></td>
+				<td>
+				<c:forEach var="cats" items="${categoryList}">
+					${cats.name}:<input type="checkbox" name="catIds" value="${cats.id}"/> 
+				</c:forEach>
+				</td>
 			</tr>
 			<tr>
 				<td>地点（选填）：</td>

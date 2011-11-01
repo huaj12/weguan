@@ -38,6 +38,7 @@ import com.juzhai.act.model.ActExample;
 import com.juzhai.act.model.ActExample.Criteria;
 import com.juzhai.act.rabbit.message.ActIndexMessage;
 import com.juzhai.act.rabbit.message.ActIndexMessage.ActionType;
+import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IActService;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
@@ -64,6 +65,8 @@ public class ActService implements IActService {
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private IWordFilterService wordFilterService;
+	@Autowired
+	private IActCategoryService actCategoryService;
 	@Autowired
 	private MemcachedClient memcachedClient;
 	@Value("${act.name.length.min}")
@@ -217,6 +220,7 @@ public class ActService implements IActService {
 			throw new ActInputException(ActInputException.ACT_NAME_INVALID);
 		}
 		Act act = actDao.insertAct(uid, actName, null);
+		updateActCategory(act.getId(),categoryIds);
 		if (null != act) {
 			// // 加载Act
 			// actInitData.loadAct(act);
@@ -232,6 +236,12 @@ public class ActService implements IActService {
 			}
 		}
 		return act;
+	}
+
+	private void updateActCategory(long id, List<Long> categoryIds) {
+		if (categoryIds != null) {
+			actCategoryService.updateActCategory(id, categoryIds);
+		}
 	}
 
 	@Override
@@ -253,6 +263,7 @@ public class ActService implements IActService {
 			throw new ActInputException(ActInputException.ACT_NAME_INVALID);
 		}
 		actDao.inserAct(act, categoryIds);
+		updateActCategory(act.getId(),categoryIds);
 		if (null != act) {
 			// // 加载Act
 			// actInitData.loadAct(act);
@@ -478,8 +489,10 @@ public class ActService implements IActService {
 	}
 
 	@Override
-	public void updateAct(Act act) {
+	public void updateAct(Act act, List<Long> categoryIds) {
 		actMapper.updateByPrimaryKey(act);
+		updateActCategory(act.getId(), categoryIds);
+		clearActCache(act.getId());
 	}
 
 }

@@ -103,6 +103,13 @@ a:hover {
 				<a href="/cms/showShield" target="config">屏蔽词设置</a>
 			</li>
 			<li>
+				<a href="/cms/showCreateAct" target="config">添加拒宅项目</a>
+			</li>
+			<li>
+			<a href="/cms/showActManager" target="config">拒宅项目管理</a>
+				
+			</li>
+			<li>
 				<a href="javascript:;">已读邮件统计</a>
 			</li>
 			<li>

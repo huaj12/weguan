@@ -185,7 +185,7 @@ public class ActController {
 
 	@RequestMapping(value = "/searchAct", method = RequestMethod.GET)
 	public String searchAct(Model model, String bDate, String eDate,
-			String catId, String name, Integer pageId) {
+			String name, Integer pageId) {
 		List<Act> acts = null;
 		if (pageId == null)
 			pageId = 1;
@@ -204,19 +204,18 @@ public class ActController {
 			log.error("parse search date error.", e);
 		}
 		PagerManager pager = new PagerManager(pageId, 10,
-				actService.searchActsCount(startDate, endDate, name, catId));
-		acts = actService.searchActs(startDate, endDate, name, catId,
+				actService.searchActsCount(startDate, endDate, name));
+		acts = actService.searchActs(startDate, endDate, name,
 				pager.getFirstResult(), pager.getMaxResult());
 
 		List<CmsActMagerView> viewList = new ArrayList<CmsActMagerView>(
 				acts.size());
 		for (Act act : acts) {
-			String cword = "年龄: "
-					+ SuitAge.getByIndex(act.getSuitAge()).getType()
-					+ "  群体:  "
-					+ SuitStatus.getByIndex(act.getSuitStatus()).getType()
-					+ "  性别 :  "
-					+ SuitGender.getByIndex(act.getSuitGender()).getType();
+			String age = SuitAge.getByIndex(act.getSuitAge()).getType();
+			String status = SuitStatus.getByIndex(act.getSuitStatus())
+					.getType();
+			String gender = SuitGender.getByIndex(act.getSuitGender())
+					.getType();
 			City city = com.juzhai.passport.InitData.CITY_MAP
 					.get(act.getCity());
 			Province pro = com.juzhai.passport.InitData.PROVINCE_MAP.get(act
@@ -224,16 +223,15 @@ public class ActController {
 			String proName = "";
 			String cityName = "";
 			if (pro != null) {
-				proName = "省份:" + pro.getName() + " ";
+				proName = pro.getName();
 			}
 			if (city != null) {
-				cityName = "城市:" + city.getName() + " ";
+				cityName = city.getName();
 			}
-			String addr = "";
+			String address = "";
 			if (act.getAddress() != null) {
-				addr = "详细地址:" + act.getAddress();
+				address = act.getAddress();
 			}
-			String address = proName + cityName + addr;
 			String logoWebPath = "";
 			if (act.getLogo() != null) {
 				logoWebPath = ImageUtil.generateFullImageWebPath(
@@ -248,15 +246,15 @@ public class ActController {
 					categorys.append(c.getName() + " ");
 				}
 			}
-			viewList.add(new CmsActMagerView(act, logoWebPath, address, cword,
-					categorys.toString()));
+			viewList.add(new CmsActMagerView(act, logoWebPath, proName,
+					cityName, address, age, gender, status, categorys
+							.toString()));
 		}
 		model.addAttribute("cmsActMagerViews", viewList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("acts", acts);
 		model.addAttribute("eDate", eDate);
 		model.addAttribute("bDate", bDate);
-		model.addAttribute("catId", catId);
 		model.addAttribute("name", name);
 		return "cms/ajax/actManager_list";
 	}
@@ -316,7 +314,8 @@ public class ActController {
 			if (act != null && act.getName() != null) {
 				if (actService.getActByName(act.getName()) == null) {
 					Act a = actService.createAct(act, form.getCatIds());
-					if (a.getLogo() != null && form.getImgFile() != null && form.getImgFile().getSize()>0) {
+					if (a.getLogo() != null && form.getImgFile() != null
+							&& form.getImgFile().getSize() > 0) {
 						uploadImageService.uploadImg(a.getId(), a.getLogo(),
 								form.getImgFile());
 					}
@@ -349,7 +348,7 @@ public class ActController {
 	public String updateAct(AddActForm form, HttpServletRequest request) {
 		Act act = ConverAct(form, 0l);
 		try {
-			actService.updateAct(act,form.getCatIds());
+			actService.updateAct(act, form.getCatIds());
 		} catch (Exception e) {
 			log.error("update act is error.", e);
 		}
@@ -362,23 +361,21 @@ public class ActController {
 		}
 		Act act = null;
 		if (form.getId() != null) {
-				act = actService.getActById(form.getId());
-				if(act==null){
-					return null;
+			act = actService.getActById(form.getId());
+			if (act == null) {
+				return null;
+			}
+			if (form.getImgFile() != null && form.getImgFile().getSize() > 0) {
+				UUID uuid = UUID.randomUUID();
+				String fileName = uuid.toString() + "."
+						+ uploadImageService.getImgType(form.getImgFile());
+				uploadImageService.uploadImg(form.getId(), fileName,
+						form.getImgFile());
+				if (!StringUtils.isEmpty(act.getLogo())) {
+					uploadImageService.deleteImg(form.getId(), act.getLogo());
 				}
-				if (form.getImgFile() != null
-						&& form.getImgFile().getSize() > 0) {
-					UUID uuid = UUID.randomUUID();
-					String fileName = uuid.toString() + "."
-							+ uploadImageService.getImgType(form.getImgFile());
-					uploadImageService.uploadImg(form.getId(), fileName,
-							form.getImgFile());
-					if (!StringUtils.isEmpty(act.getLogo())) {
-						uploadImageService.deleteImg(form.getId(),
-								act.getLogo());
-					}
-					act.setLogo(fileName);
-				}
+				act.setLogo(fileName);
+			}
 		} else {
 			act = new Act();
 			act.setCreateUid(uid);
@@ -431,7 +428,5 @@ public class ActController {
 		act.setFullName(form.getFullName());
 		return act;
 	}
-
-	
 
 }

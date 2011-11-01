@@ -29,7 +29,7 @@ public class ImageUtil {
 	private static final Log log = LogFactory.getLog(ImageUtil.class);
 	private static final int EXTERNAL_URL_CHAR = ':';
 	private static final Map<String, String> IMAGE_TYPE_MAP = new HashMap<String, String>();
-	
+
 	static {
 		IMAGE_TYPE_MAP.put("jpeg", "FFD8FF");
 		IMAGE_TYPE_MAP.put("jpg", IMAGE_TYPE_MAP.get("jpeg"));
@@ -37,6 +37,7 @@ public class ImageUtil {
 		IMAGE_TYPE_MAP.put("png", "89504E47");
 		IMAGE_TYPE_MAP.put("bmp", "424D");
 	}
+
 	/**
 	 * 图片分层存储目录
 	 * 
@@ -48,7 +49,7 @@ public class ImageUtil {
 	 */
 	public static String generateHierarchyImagePath(long id, SizeType size) {
 		String path = FileUtil.generateHierarchyPath(id);
-		return path + File.separator + size.getType()+File.separator;
+		return path + File.separator + size.getType() + File.separator;
 	}
 
 	/**
@@ -70,11 +71,10 @@ public class ImageUtil {
 	public static String generateHierarchyImageWebPath(long id, SizeType size) {
 		StringBuilder path = new StringBuilder();
 		path.append(webSeparator).append(FileUtil.generateHierarchyWebPath(id))
-				.append(webSeparator).append(size.getType()).append(webSeparator);
+				.append(webSeparator).append(size.getType())
+				.append(webSeparator);
 		return path.toString();
 	}
-
-
 
 	/**
 	 * 生成图片完整访问web路径
@@ -85,14 +85,20 @@ public class ImageUtil {
 	 * @return 访问路径
 	 */
 	public static String generateFullImageWebPath(String domainContext,
-			long id, String fileName,SizeType sizeType) {
+			long id, String fileName, SizeType sizeType) {
 		StringBuilder fileUri = new StringBuilder();
 		fileUri.append(domainContext)
-				.append(ImageUtil.generateHierarchyImageWebPath(id,sizeType))
+				.append(ImageUtil.generateHierarchyImageWebPath(id, sizeType))
 				.append(fileName);
 		return fileUri.toString();
 	}
 
+	/**
+	 * 是否内部图片地址
+	 * 
+	 * @param picUrl
+	 * @return
+	 */
 	public static boolean isInternalUrl(String picUrl) {
 		if (StringUtils.isEmpty(picUrl)) {
 			return false;

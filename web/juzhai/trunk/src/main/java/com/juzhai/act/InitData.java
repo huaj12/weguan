@@ -4,14 +4,16 @@
 package com.juzhai.act;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.annotation.PostConstruct;
 
@@ -19,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.juzhai.act.mapper.CategoryMapper;
@@ -44,7 +47,8 @@ public class InitData {
 	// Act>();
 	public static final Map<Long, Category> CATEGORY_MAP = new LinkedHashMap<Long, Category>();
 	public static final Map<Long, List<Act>> CATEGORY_ACT_LIST_MAP = new HashMap<Long, List<Act>>();
-	public static final Map<Long, List<Act>> RECOMMEND_ACT_MAP = new HashMap<Long, List<Act>>();
+	public static final Map<Long, Set<Long>> RECOMMEND_ACT_MAP = new HashMap<Long, Set<Long>>();
+	public static final Map<Long, Integer> RECOMMEND_CATEGORY_RATE_MAP = new LinkedHashMap<Long, Integer>();
 	/**
 	 * key:0：女女；1：男女；2：男男
 	 */
@@ -67,6 +71,8 @@ public class InitData {
 	private ICategoryService categoryService;
 	@Autowired
 	private HotActMapper hotActMapper;
+	@Value("${recommend.category.rates}")
+	private String recommendCategoryRates;
 
 	@PostConstruct
 	public void init() {
@@ -76,8 +82,27 @@ public class InitData {
 		// 分类下的显示项目
 		initCategoryActListMap();
 		// initRandomActMap();
+		// 推荐分类的随机百分比
+		initRecommendCategoryRateMap();
 		initRecommendActMap();
 		intiQuestionMap();
+	}
+
+	private void initRecommendCategoryRateMap() {
+		StringTokenizer st = new StringTokenizer(recommendCategoryRates, "|");
+		int rate = 0;
+		while (st.hasMoreTokens()) {
+			String[] categoryRate = StringUtils.split(st.nextToken(), ":");
+			if (categoryRate.length == 2) {
+				try {
+					rate += Integer.valueOf(categoryRate[1]);
+					RECOMMEND_CATEGORY_RATE_MAP.put(
+							Long.valueOf(categoryRate[0]), rate);
+				} catch (NumberFormatException e) {
+					log.error(e.getMessage(), e);
+				}
+			}
+		}
 	}
 
 	private void initRecommendActMap() {
@@ -89,21 +114,27 @@ public class InitData {
 			actIds.add(hotAct.getActId());
 		}
 		List<Act> recommendActList = actService.getActListByIds(actIds);
+		Date cDate = new Date();
 		for (Act act : recommendActList) {
+			if (null != act.getEndTime() && act.getEndTime().before(cDate)) {
+				continue;
+			}
 			if (StringUtils.isNotEmpty(act.getCategoryIds())) {
 				StringTokenizer st = new StringTokenizer(act.getCategoryIds(),
 						",");
 				while (st.hasMoreTokens()) {
-					String actCategoryId = st.nextToken();
 					try {
-						List<Act> list = RECOMMEND_ACT_MAP.get(Long
-								.valueOf(actCategoryId));
-						if (null == list) {
-							list = new CopyOnWriteArrayList<Act>();
-							RECOMMEND_ACT_MAP.put(Long.valueOf(actCategoryId),
-									list);
+						long actCategoryId = Long.valueOf(st.nextToken());
+						if (RECOMMEND_CATEGORY_RATE_MAP
+								.containsKey(actCategoryId)) {
+							Set<Long> actIdSet = RECOMMEND_ACT_MAP
+									.get(actCategoryId);
+							if (null == actIdSet) {
+								actIdSet = new HashSet<Long>();
+								RECOMMEND_ACT_MAP.put(actCategoryId, actIdSet);
+							}
+							actIdSet.add(act.getId());
 						}
-						list.add(act);
 					} catch (Exception e) {
 						log.error(e.getMessage(), e);
 					}

@@ -66,8 +66,8 @@ public class TpAuthorizeController extends BaseController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "appLoad/{tpId}", method = RequestMethod.GET)
-	public String load(HttpServletRequest request, @PathVariable long tpId,
-			Model model) {
+	public String load(HttpServletRequest request,
+			HttpServletResponse response, @PathVariable long tpId, Model model) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		Enumeration<String> names = request.getParameterNames();
 		while (names.hasMoreElements()) {
@@ -84,7 +84,7 @@ public class TpAuthorizeController extends BaseController {
 		return "common/app/" + loginTp.getName() + "/loading";
 	}
 
-	@RequestMapping(value = "access", method = RequestMethod.GET)
+	@RequestMapping(value = "access")
 	@ResponseBody
 	public AjaxResult access(HttpServletRequest request,
 			HttpServletResponse response, long tpId, String goUri) {

@@ -83,13 +83,13 @@ public interface IInboxService {
 	boolean remove(long uid, long senderId, long actId);
 
 	/**
-	 * 显示第一个
+	 * 显示特定Feed
 	 * 
 	 * @param uid
 	 *            收件箱用户ID
 	 * @return
 	 */
-	Feed showFirst(long uid);
+	Feed showSpecific(long uid);
 
 	/**
 	 * 显示一个随机
@@ -106,6 +106,15 @@ public interface IInboxService {
 	 * @return
 	 */
 	Feed showQuestion(long uid);
+
+	/**
+	 * 显示推荐
+	 * 
+	 * @param uid
+	 *            收件箱用户ID
+	 * @return
+	 */
+	Feed showRecommend(long uid);
 
 	/**
 	 * 做题目

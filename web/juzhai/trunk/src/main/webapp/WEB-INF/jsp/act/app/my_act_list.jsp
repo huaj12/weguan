@@ -6,7 +6,7 @@
 	<c:forEach var="userActView" items="${userActViewList}">	
 		<p onmouseover="javascript:myActHover(this, true);" onmouseout="javascript:myActHover(this, false);">
 			<span class="fl"></span>
-			<a href="javascript:;" class="key_words"><c:out value="${userActView.act.name}"/></a>
+			<a href="/app/showAct/${userActView.act.id}" class="key_words"><c:out value="${userActView.act.name}"/></a>
 			<span class="fr"></span>
 			<a href="javascript:;" class="close" title="删除兴趣" onclick="javascript:removeAct(this);" actid="${userActView.act.id}"></a>
 		</p>

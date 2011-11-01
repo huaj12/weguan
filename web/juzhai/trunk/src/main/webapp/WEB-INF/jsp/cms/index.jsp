@@ -106,8 +106,10 @@ a:hover {
 				<a href="/cms/showCreateAct" target="config">添加拒宅项目</a>
 			</li>
 			<li>
-			<a href="/cms/showActManager" target="config">拒宅项目管理</a>
-				
+				<a href="/cms/showActManager" target="config">拒宅项目管理</a>
+			</li>
+			<li>
+				<a href="/cms/showHotAct?active=true&page=1" target="config">推荐项目设置</a>
 			</li>
 			<li>
 				<a href="javascript:;">已读邮件统计</a>

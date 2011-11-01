@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,8 +15,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.juzhai.act.mapper.ActCategoryMapper;
+import com.juzhai.act.mapper.ActMapper;
+import com.juzhai.act.model.Act;
+import com.juzhai.act.model.ActCategory;
+import com.juzhai.act.model.ActExample;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
@@ -23,7 +31,11 @@ import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.service.IMsgService;
 
 @Deprecated
+@Controller
+@RequestMapping("/cms")
 public class MigrateController {
+
+	private final Log log = LogFactory.getLog(getClass());
 
 	@Autowired
 	private RedisTemplate<String, ActMsg> redisTemplate;
@@ -31,7 +43,34 @@ public class MigrateController {
 	private RedisTemplate<String, MergerActMsg> redisMergerActMsgTemplate;
 	@Autowired
 	private IMsgService<MergerActMsg> msgService;
-	private final Log log = LogFactory.getLog(getClass());
+	@Autowired
+	private ActMapper actMapper;
+	@Autowired
+	private ActCategoryMapper actCategoryMapper;
+
+	@RequestMapping(value = "migrateActCategory")
+	public String migrateActCategory(HttpServletRequest request, Model model) {
+		ActExample example = new ActExample();
+		example.createCriteria().andCategoryIdsIsNotNull()
+				.andCategoryIdsNotEqualTo("");
+		List<Act> actList = actMapper.selectByExample(example);
+		for (Act act : actList) {
+			StringTokenizer st = new StringTokenizer(act.getCategoryIds(), ",");
+			while (st.hasMoreTokens()) {
+				try {
+					Long categoryId = Long.valueOf(st.nextToken().trim());
+					ActCategory actCategory = new ActCategory();
+					actCategory.setActId(act.getId());
+					actCategory.setCategoryId(categoryId);
+					actCategory.setCreateTime(act.getCreateTime());
+					actCategoryMapper.insertSelective(actCategory);
+				} catch (NumberFormatException e) {
+					log.error(e.getMessage(), e);
+				}
+			}
+		}
+		return null;
+	}
 
 	public String migrateMsg(HttpServletRequest request, Model model) {
 		// 迁移未读消息

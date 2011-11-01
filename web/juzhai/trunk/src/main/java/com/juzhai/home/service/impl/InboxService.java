@@ -2,8 +2,10 @@ package com.juzhai.home.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -57,6 +59,8 @@ public class InboxService implements IInboxService {
 	private RedisTemplate<String, String> redisTemplate;
 	@Autowired
 	private RedisTemplate<String, ReadFeed> readFeedRedisTemplate;
+	@Autowired
+	private RedisTemplate<String, Long> longRedisTemplate;
 	@Autowired
 	private IScoreGenerator inboxScoreGenerator;
 	@Autowired
@@ -152,9 +156,14 @@ public class InboxService implements IInboxService {
 	@Override
 	public void shiftRead(long uid, long senderId, long actId,
 			ReadFeedType readFeedType) {
-		ReadFeed readFeed = new ReadFeed(senderId, uid, actId, readFeedType);
-		readFeedRedisTemplate.opsForList().rightPush(
-				RedisKeyGenerator.genReadFeedsKey(readFeedType), readFeed);
+		if (ReadFeedType.WANT.equals(readFeedType)) {
+			ReadFeed readFeed = new ReadFeed(senderId, uid, actId, readFeedType);
+			readFeedRedisTemplate.opsForList().rightPush(
+					RedisKeyGenerator.genReadFeedsKey(readFeedType), readFeed);
+		} else {
+			longRedisTemplate.opsForSet().add(
+					RedisKeyGenerator.genNillActsKey(uid), actId);
+		}
 	}
 
 	@Override
@@ -194,7 +203,7 @@ public class InboxService implements IInboxService {
 	}
 
 	@Override
-	public Feed showFirst(long uid) {
+	public Feed showSpecific(long uid) {
 		Set<String> values = redisTemplate.opsForZSet().reverseRange(
 				RedisKeyGenerator.genInboxActsKey(uid), 0, 0);
 		if (CollectionUtils.isNotEmpty(values)) {
@@ -314,6 +323,60 @@ public class InboxService implements IInboxService {
 	}
 
 	@Override
+	public Feed showRecommend(long uid) {
+		// 需要排除的
+		Set<Long> excludeActIds = longRedisTemplate.opsForSet().members(
+				RedisKeyGenerator.genNillActsKey(uid));
+		for (long actId : userActService.getUserActIdsFromCache(uid,
+				Integer.MAX_VALUE)) {
+			excludeActIds.add(actId);
+		}
+		// 准备需要随机的推荐Act
+		List<Act> defaultActList = null;
+		Map<Long, List<Act>> recommendMap = new HashMap<Long, List<Act>>();
+		for (Long key : InitData.RECOMMEND_CATEGORY_RATE_MAP.keySet()) {
+			Set<Long> recommendActIds = InitData.RECOMMEND_ACT_MAP.get(key);
+			List<Long> actIds = recommendActIds == null ? new ArrayList<Long>()
+					: new ArrayList<Long>(recommendActIds);
+			for (long excludeActId : excludeActIds) {
+				actIds.remove(excludeActId);
+			}
+			List<Act> actList = actService.getActListByIds(actIds);
+			if (CollectionUtils.isEmpty(defaultActList)
+					&& CollectionUtils.isNotEmpty(actList)) {
+				defaultActList = actList;
+			}
+			recommendMap.put(key, actList);
+		}
+		if (CollectionUtils.isNotEmpty(defaultActList)) {
+			for (Long key : InitData.RECOMMEND_CATEGORY_RATE_MAP.keySet()) {
+				if (CollectionUtils.isEmpty(recommendMap.get(key))) {
+					recommendMap.put(key, defaultActList);
+				}
+			}
+		}
+		// 按照概率来随
+		Act act = null;
+		int randomValue = RandomUtils.nextInt(100);
+		for (Map.Entry<Long, Integer> entry : InitData.RECOMMEND_CATEGORY_RATE_MAP
+				.entrySet()) {
+			List<Act> recommendList = recommendMap.get(entry.getKey());
+			if (randomValue < entry.getValue()) {
+				if (CollectionUtils.isNotEmpty(recommendList)) {
+					act = recommendList.get(RandomUtils.nextInt(new Random(
+							System.currentTimeMillis()), recommendList.size()));
+				}
+				break;
+			}
+		}
+		if (act == null) {
+			return null;
+		} else {
+			return new Feed(null, FeedType.RECOMMEND, new Date(), act);
+		}
+	}
+
+	@Override
 	public void answer(long uid, long tpId, long questionId, String identity,
 			int answer) {
 		if (sendQuestionMssage(uid, tpId, questionId, identity, answer)) {
@@ -371,6 +434,7 @@ public class InboxService implements IInboxService {
 					if (null == tp) {
 						return false;
 					}
+					// TODO
 					messageService.sendSysMessage(fuids, linktext,
 							tp.getAppUrl(), word, text, StringUtils.EMPTY,
 							authInfo);

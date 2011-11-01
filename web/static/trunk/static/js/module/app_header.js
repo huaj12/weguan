@@ -194,21 +194,21 @@ $(document).ready(function() {
 	if(advise){
 		$(".check_box > p").bind("click", function(){
 			var currentAdvise = advise.hasClass("tz_secleted");
-			jQuery.ajax({
-				url : "/app/setupAdvise",
-				type : "post",
-				cache : false,
-				dataType : "json",
-				data : { "isAdvise" : !currentAdvise },
-				success : function(result) {
+//			jQuery.ajax({
+//				url : "/app/setupAdvise",
+//				type : "post",
+//				cache : false,
+//				dataType : "json",
+//				data : { "isAdvise" : !currentAdvise },
+//				success : function(result) {
 					//加勾或者取消勾
 					if(currentAdvise){
 						advise.removeClass("tz_secleted").addClass("tz_link");
 					}else{
 						advise.removeClass("tz_link").addClass("tz_secleted");
 					}
-				}
-			});
+//				}
+//			});
 		});
 	}
 });

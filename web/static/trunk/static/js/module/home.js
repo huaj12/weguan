@@ -66,6 +66,10 @@ function dealFeed(url, data){
 		dataType: "html",
 		success: function(result){
 			showFeedHtml(result);
+			var advise = $(".check_box");
+			if(advise){
+				advise.removeClass("tz_link").addClass("tz_secleted");
+			}
 		},
 		statusCode: {
 		    401: function() {
@@ -84,21 +88,31 @@ function skipInvite(){
 	dealFeed("/app/ajax/showFeed", {});
 }
 
-function answer(questionId, answerId, tpIdentity, times){
+function respQuestion(questionId, answerId, tpIdentity){
 	if(questionId >= 0 && answerId >= 0 &&
-			tpIdentity && tpIdentity != "" &&
-			times && times > 0){
-		dealFeed("/app/ajax/answer", {"questionId": questionId, "tpIdentity": tpIdentity, "answerId": answerId, "times": times});
+			tpIdentity && tpIdentity != ""){
+		dealFeed("/app/ajax/respQuestion", {"questionId": questionId, "tpIdentity": tpIdentity, "answerId": answerId});
 	}
 }
 
-function response(type){
+function respSpecific(type){
 	if(type && type >= 0 && type <= 2){
 		var data = eval("(" + $("div.jz_box > div.data").attr("data") + ")");
 		if(data){
 			data['type'] = type;
 		}
-		dealFeed("/app/ajax/respFeed", data);
+		dealFeed("/app/ajax/respSpecific", data);
+	}
+}
+
+function respRecommend(actId, type){
+	if(actId >= 0 && type && type >= 0 && type <= 2){
+		var isFeed = false;
+		var advise = $(".check_box");
+		if(advise){
+			isFeed = advise.hasClass("tz_secleted");
+		}
+		dealFeed("/app/ajax/respRecommend", {"actId": actId, "type": type, "isFeed": isFeed});
 	}
 }
 

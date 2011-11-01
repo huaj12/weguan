@@ -102,14 +102,12 @@ public class FriendService implements IFriendService {
 		if (isExpired(uid)) {
 			if (null != authInfo) {
 				// 第三方安装应用好友
-				List<String> appFriendIds = userService
-						.getAppFriends(authInfo);
+				List<String> appFriendIds = userService.getAppFriends(authInfo);
 
 				// 第三方未安装应用的好友
 				listRedisTemplate.opsForValue().set(
 						RedisKeyGenerator.genUnInstallFriendsKey(uid),
-						getNonAppFriends(
-								userService.getAllFriends(authInfo),
+						getNonAppFriends(userService.getAllFriends(authInfo),
 								appFriendIds));
 
 				// 更新安装了App的好友
@@ -210,5 +208,12 @@ public class FriendService implements IFriendService {
 			appFriendUids.add(tpUser.getUid());
 		}
 		return appFriendUids;
+	}
+
+	@Override
+	public boolean isAppFriend(long uid, long friendId) {
+		Double score = longRedisTemplate.opsForZSet().score(
+				RedisKeyGenerator.genFriendsKey(uid), friendId);
+		return score != null;
 	}
 }

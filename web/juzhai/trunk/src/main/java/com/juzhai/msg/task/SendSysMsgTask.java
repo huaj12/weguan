@@ -64,7 +64,7 @@ public class SendSysMsgTask implements Callable<Boolean> {
 			appService.sendSysMessage(receiverIdentity, messageSource
 					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
 							Locale.SIMPLIFIED_CHINESE), thirdparty.getAppUrl()
-					+ "?goUri=/msg/showUnRead", word, text, null, authInfo);
+					+ "?goUri=/msg/showRead", word, text, null, authInfo);
 		} catch (Throwable e) {
 			return Boolean.FALSE;
 		}

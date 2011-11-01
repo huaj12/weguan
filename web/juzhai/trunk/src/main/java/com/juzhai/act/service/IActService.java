@@ -66,7 +66,20 @@ public interface IActService {
 	 */
 	Act createAct(long uid, String actName, List<Long> categoryIds)
 			throws ActInputException;
-
+	/**
+	 * 创建Act
+	 * 
+	 * @param uid
+	 *            创建者
+	 * @param actName
+	 *            名称
+	 * @param categoryIds
+	 *            类别Id列表
+	 * @return 带有id的Act实体
+	 * @throws ActInputException
+	 */
+	Act createAct(Act act, List<Long> categoryIds)
+			throws ActInputException;
 	/**
 	 * 根据name查询
 	 * 
@@ -195,4 +208,27 @@ public interface IActService {
 	 * @return
 	 */
 	List<Act> listShieldActs();
+	/**
+	 * 根据搜索条件找出acts
+	 * @param beginDate
+	 * @param endDate
+	 * @param name
+	 * @param active
+	 * @param catId
+	 * @return
+	 */
+	List<Act> searchActs(Date beginDate,Date endDate,String name,String catId,int firstResult, int maxResults);
+	
+	/**
+	 * 根据条件统计数量
+	 * @param beginDate
+	 * @param endDate
+	 * @param name
+	 * @param catId
+	 * @return
+	 */
+	int searchActsCount(Date beginDate,Date endDate,String name,String catId);
+	
+	
+	void updateAct(Act act);
 }

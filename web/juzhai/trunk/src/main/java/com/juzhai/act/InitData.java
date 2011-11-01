@@ -34,8 +34,8 @@ import com.juzhai.act.model.HotAct;
 import com.juzhai.act.model.HotActExample;
 import com.juzhai.act.model.Question;
 import com.juzhai.act.model.QuestionExample;
+import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IActService;
-import com.juzhai.act.service.ICategoryService;
 
 @Component("actInitData")
 public class InitData {
@@ -68,7 +68,7 @@ public class InitData {
 	@Autowired
 	private IActService actService;
 	@Autowired
-	private ICategoryService categoryService;
+	private IActCategoryService actCategoryService;
 	@Autowired
 	private HotActMapper hotActMapper;
 	@Value("${recommend.category.rates}")
@@ -144,7 +144,7 @@ public class InitData {
 	}
 
 	private void initCategoryActListMap() {
-		categoryService.updateCategoryActList();
+		actCategoryService.updateCategoryActList();
 	}
 
 	private void intiQuestionMap() {

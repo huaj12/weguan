@@ -34,7 +34,7 @@ public class AddActForm {
 
 	private String intro;
 
-	private Long catId;
+	private List<Long>  catIds;
 
 	private Long province;
 
@@ -60,11 +60,7 @@ public class AddActForm {
 
 	private Integer maxCharge;
 
-	public List<Long> getCatids() {
-		List<Long> catIds = new ArrayList();
-		catIds.add(this.catId);
-		return catIds;
-	}
+
 
 	public MultipartFile getImgFile() {
 		return imgFile;
@@ -98,12 +94,13 @@ public class AddActForm {
 		this.intro = intro;
 	}
 
-	public Long getCatId() {
-		return catId;
+
+	public List<Long> getCatIds() {
+		return catIds;
 	}
 
-	public void setCatId(Long catId) {
-		this.catId = catId;
+	public void setCatIds(List<Long> catIds) {
+		this.catIds = catIds;
 	}
 
 	public Long getProvince() {

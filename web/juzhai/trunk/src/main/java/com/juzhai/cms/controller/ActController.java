@@ -25,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.juzhai.act.InitData;
@@ -40,6 +41,7 @@ import com.juzhai.cms.controller.form.AddActForm;
 import com.juzhai.cms.controller.form.SearchActForm;
 import com.juzhai.cms.controller.view.CmsActMagerView;
 import com.juzhai.cms.controller.view.CmsActView;
+import com.juzhai.cms.service.IUploadImageService;
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.util.FileUtil;
@@ -59,6 +61,8 @@ public class ActController {
 	private IActService actService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IUploadImageService uploadImageService;
 
 	@RequestMapping(value = "/searchActs")
 	public String searchActs(HttpServletRequest request, Model model,
@@ -207,31 +211,34 @@ public class ActController {
 		List<CmsActMagerView> viewList = new ArrayList<CmsActMagerView>(
 				acts.size());
 		for (Act act : acts) {
-			String cword ="年龄: "+ SuitAge.getByIndex(act.getSuitAge()).getType()
-					+"  群体:  "+ SuitStatus.getByIndex(act.getSuitStatus()).getType()
-					+"  性别 :  "+ SuitGender.getByIndex(act.getSuitGender()).getType();
+			String cword = "年龄: "
+					+ SuitAge.getByIndex(act.getSuitAge()).getType()
+					+ "  群体:  "
+					+ SuitStatus.getByIndex(act.getSuitStatus()).getType()
+					+ "  性别 :  "
+					+ SuitGender.getByIndex(act.getSuitGender()).getType();
 			City city = com.juzhai.passport.InitData.CITY_MAP
 					.get(act.getCity());
 			Province pro = com.juzhai.passport.InitData.PROVINCE_MAP.get(act
 					.getProvince());
-			String proName="";
-			String cityName="";
-			if(pro!=null){
-				proName="省份:"+pro.getName()+" ";
+			String proName = "";
+			String cityName = "";
+			if (pro != null) {
+				proName = "省份:" + pro.getName() + " ";
 			}
-			if(city!=null){
-				cityName="城市:"+city.getName()+" ";
+			if (city != null) {
+				cityName = "城市:" + city.getName() + " ";
 			}
-			String addr="";
-			if(act.getAddress()!=null){
-				addr="详细地址:"+act.getAddress();
+			String addr = "";
+			if (act.getAddress() != null) {
+				addr = "详细地址:" + act.getAddress();
 			}
 			String address = proName + cityName + addr;
-			String logoWebPath ="";
-			if(act.getLogo()!=null){
-				logoWebPath=ImageUtil.generateFullImageWebPath(
-					StaticUtil.u("/images/"), act.getId(), act.getLogo(),
-					SizeType.BIG);
+			String logoWebPath = "";
+			if (act.getLogo() != null) {
+				logoWebPath = ImageUtil.generateFullImageWebPath(
+						StaticUtil.u("/images/"), act.getId(), act.getLogo(),
+						SizeType.BIG);
 			}
 			StringBuffer categorys = new StringBuffer();
 			String cats = act.getCategoryIds();
@@ -268,10 +275,10 @@ public class ActController {
 		assembleCiteys(model);
 		model.addAttribute("act", act);
 		model.addAttribute("logoWebPath", ImageUtil.generateFullImageWebPath(
-					StaticUtil.u("/images/"), act.getId(), act.getLogo(),
-					SizeType.BIG));
+				StaticUtil.u("/images/"), act.getId(), act.getLogo(),
+				SizeType.BIG));
 		model.addAttribute("age", SuitAge.getByIndex(act.getSuitAge()));
-		model.addAttribute("gender",SuitGender.getByIndex(act.getSuitGender()));
+		model.addAttribute("gender", SuitGender.getByIndex(act.getSuitGender()));
 		model.addAttribute("stauts", SuitStatus.getByIndex(act.getSuitStatus()));
 		return "cms/updateAct";
 	}
@@ -308,10 +315,10 @@ public class ActController {
 		try {
 			if (act != null && act.getName() != null) {
 				if (actService.getActByName(act.getName()) == null) {
-					Act a = actService.createAct(act, form.getCatids());
-					if (a.getLogo() != null && form.getImgFile() != null) {
-						uploadImg(a.getId(), a.getLogo(), form.getImgFile()
-								.getInputStream());
+					Act a = actService.createAct(act, form.getCatIds());
+					if (a.getLogo() != null && form.getImgFile() != null && form.getImgFile().getSize()>0) {
+						uploadImageService.uploadImg(a.getId(), a.getLogo(),
+								form.getImgFile());
 					}
 				} else {
 					log.error("create act name is exist");
@@ -322,7 +329,7 @@ public class ActController {
 		} catch (Exception e) {
 			log.error("create act is error.", e);
 		}
-		return null;
+		return "redirect:/cms/showActManager";
 	}
 
 	@RequestMapping(value = "/selectCity", method = RequestMethod.GET)
@@ -342,11 +349,11 @@ public class ActController {
 	public String updateAct(AddActForm form, HttpServletRequest request) {
 		Act act = ConverAct(form, 0l);
 		try {
-			actService.updateAct(act);
+			actService.updateAct(act,form.getCatIds());
 		} catch (Exception e) {
 			log.error("update act is error.", e);
 		}
-		return null;
+		return "redirect:/cms/showActManager";
 	}
 
 	private Act ConverAct(AddActForm form, Long uid) {
@@ -355,47 +362,31 @@ public class ActController {
 		}
 		Act act = null;
 		if (form.getId() != null) {
-			try {
 				act = actService.getActById(form.getId());
-				if (form.getImgFile() != null&&form.getImgFile().getSize()>0) {
+				if(act==null){
+					return null;
+				}
+				if (form.getImgFile() != null
+						&& form.getImgFile().getSize() > 0) {
 					UUID uuid = UUID.randomUUID();
-					String fileName = uuid.toString()
-							+ "."
-							+ form.getImgFile().getContentType()
-									.replaceAll("image/", "");
-					String directoryPath = SystemConfig.IMAGE_HOME
-							+ ImageUtil.generateHierarchyImagePath(
-									form.getId(), SizeType.BIG);
-					new File(directoryPath + act.getLogo()).delete();
-					FileUtil.writeStreamToFile(directoryPath, fileName, form
-							.getImgFile().getInputStream());
-					for (SizeType sizeType : SizeType.values()) {
-						if (sizeType.getType() > 0) {
-							String distDirectoryPath = SystemConfig.IMAGE_HOME
-									+ ImageUtil.generateHierarchyImagePath(
-											form.getId(), sizeType);
-							new File(distDirectoryPath + act.getLogo())
-									.delete();
-							ImageUtil.reduceImage(directoryPath + fileName,
-									distDirectoryPath, fileName,
-									sizeType.getType(), sizeType.getType());
-						}
+					String fileName = uuid.toString() + "."
+							+ uploadImageService.getImgType(form.getImgFile());
+					uploadImageService.uploadImg(form.getId(), fileName,
+							form.getImgFile());
+					if (!StringUtils.isEmpty(act.getLogo())) {
+						uploadImageService.deleteImg(form.getId(),
+								act.getLogo());
 					}
 					act.setLogo(fileName);
 				}
-			} catch (Exception e) {
-				log.error("upload image file is error.", e);
-			}
 		} else {
 			act = new Act();
 			act.setCreateUid(uid);
 			if (form.getImgFile() != null) {
 				UUID uuid = UUID.randomUUID();
 				if (form.getImgFile() != null) {
-					String fileName = uuid.toString()
-							+ "."
-							+ form.getImgFile().getContentType()
-									.replaceAll("image/", "");
+					String fileName = uuid.toString() + "."
+							+ uploadImageService.getImgType(form.getImgFile());
 					act.setLogo(fileName);
 				}
 			}
@@ -427,7 +418,7 @@ public class ActController {
 		act.setMaxRoleNum(form.getMaxRoleNum());
 		act.setMinRoleNum(form.getMinRoleNum());
 		act.setName(form.getName());
-		act.setCategoryIds(String.valueOf(form.getCatId()));
+		act.setCategoryIds(StringUtils.join(form.getCatIds(), ","));
 		if (!StringUtils.isEmpty(form.getSuiAge())) {
 			act.setSuitAge(SuitAge.getSuitAge(form.getSuiAge()));
 		}
@@ -441,19 +432,6 @@ public class ActController {
 		return act;
 	}
 
-	private void uploadImg(long catId, String fileName, InputStream inputStream) {
-		String directoryPath = SystemConfig.IMAGE_HOME
-				+ ImageUtil.generateHierarchyImagePath(catId, SizeType.BIG);
-		FileUtil.writeStreamToFile(directoryPath, fileName, inputStream);
-		for (SizeType sizeType : SizeType.values()) {
-			if (sizeType.getType() > 0) {
-				String distDirectoryPath = SystemConfig.IMAGE_HOME
-						+ ImageUtil.generateHierarchyImagePath(catId, sizeType);
-				ImageUtil.reduceImage(directoryPath + fileName,
-						distDirectoryPath, fileName, sizeType.getType(),
-						sizeType.getType());
-			}
-		}
-	}
+	
 
 }

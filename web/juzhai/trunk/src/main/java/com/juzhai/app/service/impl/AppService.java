@@ -11,8 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.act.model.Act;
+import com.juzhai.act.service.IActService;
 import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.app.service.IAppService;
+import com.juzhai.cms.bean.SizeType;
+import com.juzhai.core.util.ImageUtil;
+import com.juzhai.core.util.StaticUtil;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
@@ -29,6 +34,8 @@ public class AppService implements IAppService {
 	private MessageSource messageSource;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
+	@Autowired
+	private IActService actService;
 	private final Log log = LogFactory.getLog(getClass());
 
 	@Override
@@ -76,9 +83,14 @@ public class AppService implements IAppService {
 	}
 
 	@Override
-	public boolean sendFeed(String actName, long uid, long tpId) {
-		if (StringUtils.isEmpty(actName)) {
-			log.error("send Feed actName is null");
+	public boolean sendFeed(long actId, long uid, long tpId) {
+		if (actId==0) {
+			log.error("send Feed actId is null");
+			return false;
+		}
+		Act act=actService.getActById(actId);
+		if (act==null) {
+			log.error("send Feed act is null");
 			return false;
 		}
 		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
@@ -86,15 +98,20 @@ public class AppService implements IAppService {
 			log.error("send Feed authInfo is null");
 			return false;
 		}
+		String picurl = "";
+		if (act.getLogo() != null) {
+			picurl = ImageUtil.generateFullImageWebPath(
+					StaticUtil.u("/images/"), act.getId(), act.getLogo(),
+					SizeType.MIDDLE);
+		}
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
-		String text = messageSource.getMessage(TpMessageKey.FEED_TEXT_DEFAULT,
+		String text = messageSource.getMessage(TpMessageKey.FEED_TEXT_BACK,
 				null, Locale.SIMPLIFIED_CHINESE);
-		String word = word = messageSource.getMessage(TpMessageKey.FEED_WORD,
-				new Object[] { actName }, Locale.SIMPLIFIED_CHINESE);
+		String word = word = messageSource.getMessage(TpMessageKey.FEED_WORD_BACK,
+				new Object[] { act.getName() }, Locale.SIMPLIFIED_CHINESE);
 		String linktext = messageSource.getMessage(TpMessageKey.FEED_LINKTEXT,
 				null, Locale.SIMPLIFIED_CHINESE);
-		String link = tp.getAppUrl();
-		String picurl = null;
+		String link = tp.getAppUrl() + "?goUri=/app/showAct/"+actId;
 		return messageService.sendFeed(linktext, link, word, text, picurl,
 				authInfo);
 	}

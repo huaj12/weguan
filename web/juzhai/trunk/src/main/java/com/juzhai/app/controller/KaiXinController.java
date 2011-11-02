@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
 import com.juzhai.app.bean.TpMessageKey;
-import com.juzhai.app.util.AppPlatformUtils;
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.web.session.UserContext;
@@ -34,6 +33,7 @@ import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserService;
+import com.juzhai.platform.utils.AppPlatformUtils;
 
 @Controller
 public class KaiXinController extends BaseController {

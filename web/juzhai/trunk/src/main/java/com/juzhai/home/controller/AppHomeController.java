@@ -93,8 +93,8 @@ public class AppHomeController extends BaseController {
 			long actId, int type, boolean isFeed) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		ReadFeedType readFeedType = ReadFeedType.valueOf(type);
-		userActService.respRecommend(context.getUid(), actId, readFeedType,
-				isFeed);
+		userActService.respRecommend(context.getUid(), context.getTpId(),
+				actId, readFeedType, isFeed);
 		getNextFeed(context, model);
 		return "home/app/feed_fragment";
 	}

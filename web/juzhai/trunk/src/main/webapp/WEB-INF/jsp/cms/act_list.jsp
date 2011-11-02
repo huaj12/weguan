@@ -9,6 +9,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>拒宅兴趣</title>
 <script type="text/javascript" src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
+<script type="text/javascript"
+	src="${jz:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 <script type="text/javascript">
 	function showSynonym(actId){
 		jQuery.ajax({
@@ -128,7 +130,7 @@
 	<form action="/cms/searchActs" method="get">
 		<table>
 			<tr>
-				<td><input type="text" name="startDate" value="${searchActForm.startDate}" />&nbsp;到&nbsp;<input type="text" name="endDate" value="${searchActForm.endDate}" /></td>
+				<td><input type="text" name="startDate" onClick="WdatePicker()" value="${searchActForm.startDate}" />&nbsp;到&nbsp;<input type="text" name="endDate" onClick="WdatePicker()" value="${searchActForm.endDate}" /></td>
 				<td>热度<input type="radio" name="order" value="0" <c:if test="${searchActForm.order == 0}">checked="checked"</c:if> />&nbsp;&nbsp;时间<input type="radio" name="order" value="1" <c:if test="${searchActForm.order == 1}">checked="checked"</c:if> /></td>
 			</tr>
 			<tr>

@@ -10,6 +10,8 @@
 <title>拒宅项目管理</title>
 <script type="text/javascript"
 	src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
+	<script type="text/javascript"
+	src="${jz:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 <script>
 	function searchAct() {
 		var bDate = $("#bDate").val();
@@ -44,8 +46,8 @@
 	<table>
 		<tr>
 			<td>添加时间:</td>
-			<td><input id="bDate" type="text" />&nbsp;到&nbsp;<input
-				id="eDate" type="text" />
+			<td><input id="bDate" type="text"  onClick="WdatePicker()"/>&nbsp;到&nbsp;<input
+				id="eDate" type="text"  onClick="WdatePicker()" />
 			</td>
 		</tr>
 		<!-- >tr>

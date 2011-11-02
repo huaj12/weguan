@@ -2,7 +2,6 @@ package com.juzhai.app.service;
 
 import java.util.List;
 
-import com.juzhai.app.model.AppUser;
 import com.juzhai.core.exception.JuzhaiAppException;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.passport.bean.AuthInfo;

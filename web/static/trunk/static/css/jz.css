@@ -723,7 +723,7 @@ _background-image:none; width:7px; height:8px;}
 .mid .project_sub .photo{ background:url(../images/full_image1.png) no-repeat -590px -330px; _background:url(../images/image_ie6_1.png) no-repeat -590px -330px;  width:120px; height:120px; padding:7px; margin-right:32px; margin-left:35px; display:inline;}
 
 .mid .project_sub .infor{ *width:360px;}
-.mid .project_sub .infor h2{ margin-top:8px; font-size:16px; font-family:"微软雅黑", "宋体"; color:#333;}
+.mid .project_sub .infor h2{ margin-top:8px; font-size:16px; font-family:"微软雅黑", "宋体"; color:#333; font-weight:bold;}
 .mid .project_sub .infor h5{ color:#999; margin-top:8px; width:360px; line-height:180%;}
 
 .mid .project_sub .infor .ytj{ float:left; margin-right:10px; height:40px; margin-top:10px;}
@@ -737,7 +737,7 @@ _background-image:none; width:7px; height:8px;}
 
 
 .mid .project_sub .infor h5 a{ color:#4E90DB; text-decoration:underline;}
-.mid .project_sub .infor a.btn{ width:104px; height:44px; display:block inline; line-height:44px; text-decoration:none; font-weight:bold; float:left; margin-right:10px; margin-top:8px; text-align:center; font-size:14px; font-weight:bold;}
+.mid .project_sub .infor a.btn{ width:104px; height:44px; display:block inline; line-height:44px; text-decoration:none; font-weight:bold; float:left; margin-right:10px; margin-top:8px; text-align:center; font-size:12px; font-weight:bold;}
 .mid .project_sub .infor a.want{  background:url(../images/project_sub.png) no-repeat 0 0; color:#CC6600;}
 .mid .project_sub .infor a.want:hover{ background:url(../images/project_sub.png) no-repeat 0 -50px;}
 .mid .project_sub .infor a.zjl{ background:url(../images/project_sub.png) no-repeat 0 -100px; color:#666;}

@@ -44,4 +44,11 @@
     	<example>${jz:dateAfter(date)}</example>
     </function>
     
+    <function>
+    	<name>actLogo</name>
+    	<function-class>com.juzhai.core.web.jstl.JzCoreFunction</function-class>
+    	<function-signature>java.lang.String actLogo(long,java.lang.String,int)</function-signature>
+    	<example>${jz:actLogo(123456,'abc.jpg',120)}</example>
+    </function>
+    
 </taglib>

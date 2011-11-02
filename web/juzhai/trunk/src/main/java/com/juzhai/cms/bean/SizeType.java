@@ -12,4 +12,12 @@ public enum SizeType {
 		return type;
 	}
 
+	public static SizeType getSizeTypeBySize(int size) {
+		for (SizeType sizeType : values()) {
+			if (sizeType.getType() == size) {
+				return sizeType;
+			}
+		}
+		return null;
+	}
 }

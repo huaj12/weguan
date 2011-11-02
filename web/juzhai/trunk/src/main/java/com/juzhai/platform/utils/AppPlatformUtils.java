@@ -237,7 +237,7 @@ public class AppPlatformUtils {
 		} catch (SocketTimeoutException e1) {
 			return "";
 		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage(), e);
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 

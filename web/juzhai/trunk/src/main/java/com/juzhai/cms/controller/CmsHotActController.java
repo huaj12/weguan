@@ -59,7 +59,7 @@ public class CmsHotActController {
 		ajaxResult.setSuccess(true);
 		return ajaxResult;
 	}
-	
+
 	@RequestMapping(value = "/deleteHotAct", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult deleteHotAct(HttpServletRequest request, Model model,
@@ -72,8 +72,8 @@ public class CmsHotActController {
 
 	@RequestMapping(value = "/showHotAct", method = RequestMethod.GET)
 	public String showHotAct(HttpServletRequest request, Model model,
-			boolean active, @RequestParam(defaultValue = "1") int page) {
-		PagerManager pager = new PagerManager(page, 10,
+			boolean active, @RequestParam(defaultValue = "1") int pageId) {
+		PagerManager pager = new PagerManager(pageId, 10,
 				hotActService.countHotAct(active));
 		List<Act> hotActList = hotActService.listHotAct(active,
 				pager.getFirstResult(), pager.getMaxResult());

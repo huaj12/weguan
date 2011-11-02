@@ -62,9 +62,9 @@ public class ActController {
 				&& StringUtils.isNotEmpty(form.getEndDate())) {
 			try {
 				Date startDate = DateUtils.parseDate(form.getStartDate(),
-						new String[] { "yyyy.MM.dd" });
+						new String[] { "yyyy-MM-dd" });
 				Date endDate = DateUtils.parseDate(form.getEndDate(),
-						new String[] { "yyyy.MM.dd" });
+						new String[] { "yyyy-MM-dd" });
 
 				PagerManager pager = new PagerManager(form.getPageId(), 10,
 						actService.countNewActs(startDate, endDate));
@@ -185,11 +185,11 @@ public class ActController {
 		try {
 			if (!StringUtils.isEmpty(bDate)) {
 				startDate = DateUtils.parseDate(bDate,
-						new String[] { "yyyy.MM.dd" });
+						new String[] { "yyyy-MM-dd" });
 			}
 			if (!StringUtils.isEmpty(eDate)) {
 				endDate = DateUtils.parseDate(eDate,
-						new String[] { "yyyy.MM.dd" });
+						new String[] { "yyyy-MM-dd" });
 			}
 		} catch (ParseException e) {
 			log.error("parse search date error.", e);
@@ -387,12 +387,12 @@ public class ActController {
 		try {
 			if (!StringUtils.isEmpty(form.getStartTime())) {
 				startTime = DateUtils.parseDate(form.getStartTime(),
-						new String[] { "yyyy.MM.dd" });
+						new String[] { "yyyy-MM-dd" });
 				act.setStartTime(startTime);
 			}
 			if (!StringUtils.isEmpty(form.getEndTime())) {
 				endTime = DateUtils.parseDate(form.getEndTime(),
-						new String[] { "yyyy.MM.dd" });
+						new String[] { "yyyy-MM-dd" });
 				act.setEndTime(endTime);
 			}
 		} catch (ParseException e) {

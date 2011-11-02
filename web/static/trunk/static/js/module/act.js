@@ -169,10 +169,10 @@ function inviteHer(obj, friendId){
 		cache : false,
 		data: {"actId": actId,"friendId": friendId},
 		dataType: "json",
-		context: $(obj),
 		success: function(result){
 			if(result&&result.success){
-				$(this).addClass("unclick");
+				$(obj).addClass("unclick");
+				$(obj).removeAttr("onclick");
 			}else{
 				alert("system error.");
 			}

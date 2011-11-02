@@ -1,15 +1,10 @@
 package com.juzhai.platform.utils;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -18,9 +13,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
-import java.util.Map.Entry;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -29,13 +24,14 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.juzhai.passport.bean.AuthInfo;
-
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
+
+import com.juzhai.passport.bean.AuthInfo;
 
 public class AppPlatformUtils {
 	private static final Log log = LogFactory.getLog(AppPlatformUtils.class);
@@ -191,7 +187,7 @@ public class AppPlatformUtils {
 			urlConn.getOutputStream().flush();
 			urlConn.getOutputStream().close();
 		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage(), e);
+			log.error(e.getMessage());
 		}
 		return urlConn;
 	}
@@ -210,7 +206,7 @@ public class AppPlatformUtils {
 			HttpsURLConnection.setDefaultHostnameVerifier(hnv);
 			urlCon = (new URL(url)).openConnection();
 		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage(), e);
+			log.error(e.getMessage());
 		}
 
 		return urlCon;
@@ -234,11 +230,10 @@ public class AppPlatformUtils {
 			rd.close();
 			in.close();
 			return responseContent;
-		} catch (SocketTimeoutException e1) {
-			return "";
 		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
+			log.error(e.getMessage());
 		}
+		return StringUtils.EMPTY;
 	}
 
 	public static String doPost(String reqUrl, String parameters) {

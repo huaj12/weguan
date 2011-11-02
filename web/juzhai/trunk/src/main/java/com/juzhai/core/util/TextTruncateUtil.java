@@ -1,5 +1,7 @@
 package com.juzhai.core.util;
 
+import org.apache.commons.lang.StringUtils;
+
 public class TextTruncateUtil {
 
 	/**
@@ -19,7 +21,7 @@ public class TextTruncateUtil {
 			suffix = "";
 		}
 		if ((originalText == null) || (originalText.length() == 0)) {
-			return suffix;
+			return StringUtils.EMPTY;
 		}
 		if (targetLength <= 0) {
 			return originalText.substring(0, 1) + suffix;

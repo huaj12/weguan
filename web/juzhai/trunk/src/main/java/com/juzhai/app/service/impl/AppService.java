@@ -84,10 +84,6 @@ public class AppService implements IAppService {
 
 	@Override
 	public boolean sendFeed(long actId, long uid, long tpId) {
-		if (actId==0) {
-			log.error("send Feed actId is null");
-			return false;
-		}
 		Act act=actService.getActById(actId);
 		if (act==null) {
 			log.error("send Feed act is null");
@@ -98,7 +94,7 @@ public class AppService implements IAppService {
 			log.error("send Feed authInfo is null");
 			return false;
 		}
-		String picurl = "";
+		String picurl ="";
 		if (act.getLogo() != null) {
 			picurl = ImageUtil.generateFullImageWebPath(
 					StaticUtil.u("/images/"), act.getId(), act.getLogo(),

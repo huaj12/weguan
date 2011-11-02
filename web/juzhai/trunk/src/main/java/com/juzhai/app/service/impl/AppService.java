@@ -18,6 +18,7 @@ import com.juzhai.app.service.IAppService;
 import com.juzhai.cms.bean.SizeType;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;
+import com.juzhai.core.web.jstl.JzCoreFunction;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
@@ -84,8 +85,8 @@ public class AppService implements IAppService {
 
 	@Override
 	public boolean sendFeed(long actId, long uid, long tpId) {
-		Act act=actService.getActById(actId);
-		if (act==null) {
+		Act act = actService.getActById(actId);
+		if (act == null) {
 			log.error("send Feed act is null");
 			return false;
 		}
@@ -94,20 +95,18 @@ public class AppService implements IAppService {
 			log.error("send Feed authInfo is null");
 			return false;
 		}
-		String picurl ="";
+		String picurl = "";
 		if (act.getLogo() != null) {
-			picurl = ImageUtil.generateFullImageWebPath(
-					StaticUtil.u("/images/"), act.getId(), act.getLogo(),
-					SizeType.MIDDLE);
+			picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(), 120);
 		}
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		String text = messageSource.getMessage(TpMessageKey.FEED_TEXT_BACK,
 				null, Locale.SIMPLIFIED_CHINESE);
-		String word = word = messageSource.getMessage(TpMessageKey.FEED_WORD_BACK,
+		String word = messageSource.getMessage(TpMessageKey.FEED_WORD_BACK,
 				new Object[] { act.getName() }, Locale.SIMPLIFIED_CHINESE);
 		String linktext = messageSource.getMessage(TpMessageKey.FEED_LINKTEXT,
 				null, Locale.SIMPLIFIED_CHINESE);
-		String link = tp.getAppUrl() + "?goUri=/app/showAct/"+actId;
+		String link = tp.getAppUrl() + "?goUri=/app/showAct/" + actId;
 		return messageService.sendFeed(linktext, link, word, text, picurl,
 				authInfo);
 	}

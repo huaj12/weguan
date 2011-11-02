@@ -31,16 +31,14 @@ import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.Category;
 import com.juzhai.act.service.IActService;
-import com.juzhai.cms.bean.SizeType;
 import com.juzhai.cms.controller.form.AddActForm;
 import com.juzhai.cms.controller.form.SearchActForm;
 import com.juzhai.cms.controller.view.CmsActMagerView;
 import com.juzhai.cms.controller.view.CmsActView;
 import com.juzhai.cms.service.IUploadImageService;
 import com.juzhai.core.pager.PagerManager;
-import com.juzhai.core.util.ImageUtil;
-import com.juzhai.core.util.StaticUtil;
 import com.juzhai.core.web.AjaxResult;
+import com.juzhai.core.web.jstl.JzCoreFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Province;
@@ -227,9 +225,8 @@ public class ActController {
 			}
 			String logoWebPath = "";
 			if (act.getLogo() != null) {
-				logoWebPath = ImageUtil.generateFullImageWebPath(
-						StaticUtil.u("/images/"), act.getId(), act.getLogo(),
-						SizeType.ORIGINAL);
+				logoWebPath = JzCoreFunction.actLogo(act.getId(),
+						act.getLogo(), 0);
 			}
 			StringBuffer categorys = new StringBuffer();
 			String cats = act.getCategoryIds();
@@ -265,9 +262,8 @@ public class ActController {
 		Act act = actService.getActById(actId);
 		assembleCiteys(model);
 		model.addAttribute("act", act);
-		model.addAttribute("logoWebPath", ImageUtil.generateFullImageWebPath(
-				StaticUtil.u("/images/"), act.getId(), act.getLogo(),
-				SizeType.ORIGINAL));
+		model.addAttribute("logoWebPath",
+				JzCoreFunction.actLogo(act.getId(), act.getLogo(), 0));
 		model.addAttribute("age", SuitAge.getByIndex(act.getSuitAge()));
 		model.addAttribute("gender", SuitGender.getByIndex(act.getSuitGender()));
 		model.addAttribute("stauts", SuitStatus.getByIndex(act.getSuitStatus()));

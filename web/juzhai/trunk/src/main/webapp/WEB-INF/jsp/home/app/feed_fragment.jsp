@@ -58,7 +58,7 @@
 		</c:when>
 		<c:when test="${feed.feedType=='RECOMMEND'}">
 			<div class="jz_box"><!--jz_box begin-->
-				<div class="photo fl"><img src="" /></div>
+				<div class="photo fl"><a href="/app/showAct/${feed.act.id}"><img src="${jz:actLogo(feed.act.id,feed.act.logo,120)}" /></a></div>
 				<div class="infor fl"><!--infor begin-->
 					<h2><span class="x">想和朋友去</span><span class="v"><a href="/app/showAct/${feed.act.id}"><c:out value="${feed.act.name}" /></a></span><span class="w">么？</span></h2>
 					<h5>${jz:truncate(feed.act.intro,50,'...')}<!-- <a href="#">详细</a> --></h5>
@@ -84,6 +84,6 @@
 		<div class="next_btn1"><a href="javascript:;" onclick="javascript:respQuestion(0, 0, '${feed.tpFriend.userId}');">跳  过</a></div>
 	</c:when>
 	<c:when test="${feed.feedType=='RECOMMEND'}">
-		<div class="next_btn1"><a href="javascript:;" onclick="javascript:respRecommend(${feed.act.id}, 2);">跳  过</a></div>
+		<div class="next_btn1"><a href="javascript:;" onclick="javascript:respRecommend(${feed.act.id}, 2);">换一换</a></div>
 	</c:when>
 </c:choose>

@@ -70,28 +70,27 @@ public class ImageUtil {
 	 */
 	public static String generateHierarchyImageWebPath(long id, SizeType size) {
 		StringBuilder path = new StringBuilder();
-		path.append(webSeparator).append(FileUtil.generateHierarchyWebPath(id))
-				.append(webSeparator).append(size.getType())
-				.append(webSeparator);
+		path.append(FileUtil.generateHierarchyWebPath(id)).append(webSeparator)
+				.append(size.getType()).append(webSeparator);
 		return path.toString();
 	}
 
-	/**
-	 * 生成图片完整访问web路径
-	 * 
-	 * @param domainContext
-	 * @param id
-	 * @param fileName
-	 * @return 访问路径
-	 */
-	public static String generateFullImageWebPath(String domainContext,
-			long id, String fileName, SizeType sizeType) {
-		StringBuilder fileUri = new StringBuilder();
-		fileUri.append(domainContext)
-				.append(ImageUtil.generateHierarchyImageWebPath(id, sizeType))
-				.append(fileName);
-		return fileUri.toString();
-	}
+	// /**
+	// * 生成图片完整访问web路径
+	// *
+	// * @param domainContext
+	// * @param id
+	// * @param fileName
+	// * @return 访问路径
+	// */
+	// public static String generateFullImageWebPath(String domainContext,
+	// long id, String fileName, SizeType sizeType) {
+	// StringBuilder fileUri = new StringBuilder();
+	// fileUri.append(domainContext)
+	// .append(ImageUtil.generateHierarchyImageWebPath(id, sizeType))
+	// .append(fileName);
+	// return fileUri.toString();
+	// }
 
 	/**
 	 * 是否内部图片地址

@@ -23,13 +23,12 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import com.juzhai.passport.bean.AuthInfo;
 
@@ -40,10 +39,11 @@ public class AppPlatformUtils {
 
 	// 64位编码
 	public static String urlBase64Encode(String str) {
-		String basestr = str;
+		String basestr ="";
 		try {
-			BASE64Encoder base64en = new BASE64Encoder();
-			basestr = base64en.encode(str.getBytes());
+			Base64 base64en = new Base64();
+			byte[] bytes = base64en.encode(str.getBytes("UTF-8"));
+			basestr = new String(bytes, "UTF-8");
 		} catch (Exception e) {
 			log.error("urlBase64Encode is error", e);
 		}
@@ -56,9 +56,9 @@ public class AppPlatformUtils {
 		String result = "";
 		try {
 			str = str.replaceAll("\\*", "\\+").replaceAll("-", "/");
-			BASE64Decoder base64dec = new BASE64Decoder();
-			byte[] b = base64dec.decodeBuffer(str);
-			result = new String(b);
+			Base64 base64en = new Base64();
+			byte[] bytes = base64en.decode(str.getBytes("UTF-8"));
+			result = new String(bytes,"UTF-8");
 		} catch (Exception e) {
 			log.error("urlBase64Decode is error", e);
 		}

@@ -58,7 +58,7 @@ public class JzCoreFunction {
 			return StaticUtil.u("/images/" + size + "_defaultActLogo.gif");
 		} else {
 			if (ImageUtil.isInternalUrl(fileName)) {
-				return StaticUtil.u("/update/act"
+				return StaticUtil.u("/upload/act/"
 						+ ImageUtil.generateHierarchyImageWebPath(actId,
 								sizeType) + fileName);
 			} else {

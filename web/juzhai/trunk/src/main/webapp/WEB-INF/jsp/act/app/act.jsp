@@ -28,7 +28,7 @@
 									<div class="ytj" <c:if test="${!hasAct}">style="display:none;"</c:if>>
 										<p></p><span><em>已添加</em><strong>|</strong><a href="javascript:;" actid="${act.id}" actname="${act.name}">取消</a></span><p></p>
 									</div>
-									<a href="javascript:;" class="want btn" actid="${act.id}" <c:if test="${hasAct}">style="display:none;"</c:if>>我想去+1</a><c:if test="${!isShield}"><a href="javascript:;" class="zjl btn" actname="${act.name}">发布召集令</a></c:if><a href="javascript:;" class="yqhy btn" actname="${act.name}">邀请好友</a>
+									<a href="javascript:;" class="want btn" actid="${act.id}" <c:if test="${hasAct}">style="display:none;"</c:if>>我想去+1</a><c:if test="${!isShield}"><a href="javascript:;" class="zjl btn" actid="${act.id}">发布召集令</a></c:if><a href="javascript:;" class="yqhy btn" actid="${act.id}">邀请好友</a>
 								</div><!--infor end-->
 								<div class="wantgolist"><!--wantgolist begin-->
 									<div class="title" actid="${act.id}"><!--title begin-->

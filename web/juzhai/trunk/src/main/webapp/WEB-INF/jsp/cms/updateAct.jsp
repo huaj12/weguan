@@ -37,7 +37,8 @@
 		<table>
 			<tr>
 				<td>简称</td>
-				<td><input type="text" name="name" value="${act.name}" /></td>
+				<td><input type="text" name="name" value="${act.name}" />
+				</td>
 			</tr>
 			<tr>
 				<td>全称（选填）：</td>
@@ -47,20 +48,21 @@
 			<tr>
 				<td>简介（选填）：</td>
 				<td><textarea rows="5" cols="40" name="intro">
-						<c:out value="${act.intro}"></c:out> </textarea>
-				</td>
+						<c:out value="${act.intro}"></c:out> </textarea></td>
 			</tr>
 			<tr>
 				<td>分类：</td>
-				<td>
-					<c:forEach var="cats" items="${categoryList}">
+				<td><c:forEach var="cats" items="${categoryList}">
 						<c:set var="checked" value="false" />
 						<c:forEach var="cId" items="${act.categoryIds}">
-							<c:if test="${cId==cats.id}"><c:set var="checked" value="true" /></c:if>
+							<c:if test="${cId==cats.id}">
+								<c:set var="checked" value="true" />
+							</c:if>
 						</c:forEach>
-						${cats.name}:<input <c:if test="${checked}">checked="checked"</c:if> type="checkbox" name="catIds" value="${cats.id}" />&nbsp;&nbsp;
-					</c:forEach>
-				</td>
+						${cats.name}:<input
+							<c:if test="${checked}">checked="checked"</c:if> type="checkbox"
+							name="catIds" value="${cats.id}" />&nbsp;&nbsp;
+					</c:forEach></td>
 			</tr>
 			<tr>
 				<td>地点（选填）：</td>
@@ -94,11 +96,12 @@
 			</tr>
 			<tr>
 				<td>适合人群</td>
-				<td>年龄 <c:forEach var="suitAge" items="${suitAges}">
+				<td>年龄<c:forEach var="suitAge" items="${suitAges}">
 						<input type="radio" name="suiAge"
 							<c:if test="${age==suitAge}">checked="checked"</c:if>
-							checked="checked" value="${suitAge}" />${suitAge.type}
-			</c:forEach></td>
+							value="${suitAge}" />${suitAge.type}
+			</c:forEach>
+				</td>
 			</tr>
 			<tr>
 				<td></td>
@@ -106,7 +109,8 @@
 						<input type="radio" name="suitGender"
 							<c:if test="${gender==suitGender}">checked="checked"</c:if>
 							value="${suitGender}" />${suitGender.type}
-			</c:forEach></td>
+			</c:forEach>
+				</td>
 			</tr>
 			<tr>
 				<td></td>
@@ -114,13 +118,15 @@
 						<input type="radio" name="suitStatu"
 							<c:if test="${stauts==suitStatu}">checked="checked"</c:if>
 							value="${suitStatu}" />${suitStatu.type}
-			</c:forEach></td>
+			</c:forEach>
+				</td>
 			</tr>
 			<tr>
 				<td>适合人数（选填）</td>
 				<td><input type="text" name="minRoleNum"
 					value="${act.minRoleNum}" />至 <input type="text" name="maxRoleNum"
-					value="${act.maxRoleNum}" /></td>
+					value="${act.maxRoleNum}" />
+				</td>
 			</tr>
 			<tr>
 				<td>起始时间（选填）</td>
@@ -139,12 +145,14 @@
 			<tr>
 				<td>消费区间（选填）</td>
 				<td><input type="text" name=minCharge value="${act.minCharge }" />至<input
-					type="text" name=maxCharge value="${act.maxCharge }" /></td>
+					type="text" name=maxCharge value="${act.maxCharge }" />
+				</td>
 			</tr>
 			<tr>
 				<td>logo</td>
 				<td><img src="${logoWebPath}" width="50" height="50" />重新上传<input
-					type="file" name="imgFile" /></td>
+					type="file" name="imgFile" />
+				</td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center"><input type="submit" value="提交" />

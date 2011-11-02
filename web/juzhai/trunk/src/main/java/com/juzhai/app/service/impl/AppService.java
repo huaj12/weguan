@@ -101,9 +101,9 @@ public class AppService implements IAppService {
 		}
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		String text = messageSource.getMessage(TpMessageKey.FEED_TEXT_BACK,
-				null, Locale.SIMPLIFIED_CHINESE);
-		String word = messageSource.getMessage(TpMessageKey.FEED_WORD_BACK,
 				new Object[] { act.getName() }, Locale.SIMPLIFIED_CHINESE);
+		String word = messageSource.getMessage(TpMessageKey.FEED_WORD_BACK,
+				null, Locale.SIMPLIFIED_CHINESE);
 		String linktext = messageSource.getMessage(TpMessageKey.FEED_LINKTEXT,
 				null, Locale.SIMPLIFIED_CHINESE);
 		String link = tp.getAppUrl() + "?goUri=/app/showAct/" + actId;

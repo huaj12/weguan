@@ -4,8 +4,11 @@ public class TpMessageKey {
 
 	public static final String FEED_TEXT_DEFAULT = "feed.text.default";
 	public static final String FEED_TEXT = "feed.text";
+	public static final String FEED_TEXT_BACK = "feed.text.back";
 	public static final String FEED_WORD_DEFAULT = "feed.word.default";
 	public static final String FEED_WORD = "feed.word";
+	public static final String FEED_WORD_BACK = "feed.word.back";
+	
 	
 	public static final String FEED_LINKTEXT = "feed.linktext";
 	

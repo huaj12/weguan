@@ -52,13 +52,15 @@
 			</tr>
 			<tr>
 				<td>分类：</td>
-				<td><c:forEach var="cats" items="${categoryList}">
-					${cats.name}:<input
-							<c:forEach var="cId" items="${act.categoryIds}">
-					<c:if test="${cId==cats.id}">checked="checked"</c:if>
-							</c:forEach>
-							type="checkbox" name="catIds" value="${cats.id}" />
-					</c:forEach></td>
+				<td>
+					<c:forEach var="cats" items="${categoryList}">
+						<c:set var="checked" value="false" />
+						<c:forEach var="cId" items="${act.categoryIds}">
+							<c:if test="${cId==cats.id}"><c:set var="checked" value="true" /></c:if>
+						</c:forEach>
+						${cats.name}:<input checked="${checked}" type="checkbox" name="catIds" value="${cats.id}" />
+					</c:forEach>
+				</td>
 			</tr>
 			<tr>
 				<td>地点（选填）：</td>

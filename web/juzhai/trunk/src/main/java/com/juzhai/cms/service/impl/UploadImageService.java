@@ -1,9 +1,6 @@
 package com.juzhai.cms.service.impl;
 
 import java.io.File;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,35 +10,28 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.cms.bean.SizeType;
 import com.juzhai.cms.service.IUploadImageService;
-import com.juzhai.core.SystemConfig;
 import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.ImageUtil;
 
 @Service
 public class UploadImageService implements IUploadImageService {
 	private final Log log = LogFactory.getLog(getClass());
-	private static List<String> fileTypes = new ArrayList<String>();
-	static {
-		fileTypes.add("jpg");
-		fileTypes.add("jpeg");
-		fileTypes.add("bmp");
-		fileTypes.add("gif");
-	}
 
 	@Value("${upload.image.home}")
 	private String uploadImageHome;
 	@Value("${upload.image.size}")
-	private long uploadImageSize;
+	private int uploadImageSize;
+	@Value("${upload.image.types}")
+	private String uploadImageTypes;
 
 	@Override
 	public void uploadImg(long id, String fileName, MultipartFile imgFile) {
 		try {
-			String fileType = getImgType(imgFile);
-			if (fileTypes.contains(fileType)
-					&& imgFile.getSize() < (uploadImageSize * 1024 * 1024)) {
+			if (ImageUtil.validationImage(uploadImageTypes, uploadImageSize,
+					imgFile) == 1) {
 				String directoryPath = uploadImageHome
-						+ ImageUtil
-								.generateHierarchyImagePath(id, SizeType.BIG);
+						+ ImageUtil.generateHierarchyImagePath(id,
+								SizeType.ORIGINAL);
 				FileUtil.writeStreamToFile(directoryPath, fileName,
 						imgFile.getInputStream());
 				for (SizeType sizeType : SizeType.values()) {
@@ -68,7 +58,8 @@ public class UploadImageService implements IUploadImageService {
 	public void deleteImg(long id, String fileName) {
 		try {
 			String directoryPath = uploadImageHome
-					+ ImageUtil.generateHierarchyImagePath(id, SizeType.BIG);
+					+ ImageUtil.generateHierarchyImagePath(id,
+							SizeType.ORIGINAL);
 			new File(directoryPath + fileName).delete();
 			for (SizeType sizeType : SizeType.values()) {
 				if (sizeType.getType() > 0) {

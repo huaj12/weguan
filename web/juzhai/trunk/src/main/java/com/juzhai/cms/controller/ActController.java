@@ -1,8 +1,5 @@
 package com.juzhai.cms.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,8 +22,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.juzhai.act.InitData;
 import com.juzhai.act.bean.SuitAge;
@@ -42,9 +37,7 @@ import com.juzhai.cms.controller.form.SearchActForm;
 import com.juzhai.cms.controller.view.CmsActMagerView;
 import com.juzhai.cms.controller.view.CmsActView;
 import com.juzhai.cms.service.IUploadImageService;
-import com.juzhai.core.SystemConfig;
 import com.juzhai.core.pager.PagerManager;
-import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;
 import com.juzhai.core.web.AjaxResult;
@@ -236,7 +229,7 @@ public class ActController {
 			if (act.getLogo() != null) {
 				logoWebPath = ImageUtil.generateFullImageWebPath(
 						StaticUtil.u("/images/"), act.getId(), act.getLogo(),
-						SizeType.BIG);
+						SizeType.ORIGINAL);
 			}
 			StringBuffer categorys = new StringBuffer();
 			String cats = act.getCategoryIds();
@@ -274,7 +267,7 @@ public class ActController {
 		model.addAttribute("act", act);
 		model.addAttribute("logoWebPath", ImageUtil.generateFullImageWebPath(
 				StaticUtil.u("/images/"), act.getId(), act.getLogo(),
-				SizeType.BIG));
+				SizeType.ORIGINAL));
 		model.addAttribute("age", SuitAge.getByIndex(act.getSuitAge()));
 		model.addAttribute("gender", SuitGender.getByIndex(act.getSuitGender()));
 		model.addAttribute("stauts", SuitStatus.getByIndex(act.getSuitStatus()));
@@ -309,7 +302,7 @@ public class ActController {
 	@RequestMapping(value = "/createAct", method = RequestMethod.POST)
 	public String createAct(AddActForm form, HttpServletRequest request) {
 		UserContext context = (UserContext) request.getAttribute("context");
-		Act act = ConverAct(form, context.getUid());
+		Act act = converAct(form, context.getUid());
 		try {
 			if (act != null && act.getName() != null) {
 				if (actService.getActByName(act.getName()) == null) {
@@ -346,7 +339,7 @@ public class ActController {
 
 	@RequestMapping(value = "/updateAct", method = RequestMethod.POST)
 	public String updateAct(AddActForm form, HttpServletRequest request) {
-		Act act = ConverAct(form, 0l);
+		Act act = converAct(form, 0L);
 		try {
 			actService.updateAct(act, form.getCatIds());
 		} catch (Exception e) {
@@ -355,7 +348,7 @@ public class ActController {
 		return "redirect:/cms/showActManager";
 	}
 
-	private Act ConverAct(AddActForm form, Long uid) {
+	private Act converAct(AddActForm form, Long uid) {
 		if (form == null) {
 			return null;
 		}

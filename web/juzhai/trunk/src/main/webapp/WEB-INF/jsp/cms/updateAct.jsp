@@ -58,7 +58,7 @@
 						<c:forEach var="cId" items="${act.categoryIds}">
 							<c:if test="${cId==cats.id}"><c:set var="checked" value="true" /></c:if>
 						</c:forEach>
-						${cats.name}:<input checked="${checked}" type="checkbox" name="catIds" value="${cats.id}" />
+						${cats.name}:<input <c:if test="${checked}">checked="checked"</c:if> type="checkbox" name="catIds" value="${cats.id}" />&nbsp;&nbsp;
 					</c:forEach>
 				</td>
 			</tr>

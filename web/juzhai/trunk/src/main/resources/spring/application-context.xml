@@ -30,6 +30,7 @@
 						<value>classpath:properties/lucene.properties</value>
 						<value>classpath:properties/mail.properties</value>
 						<value>classpath:properties/schedule.properties</value>
+						<value>classpath:properties/file.properties</value>
 					</list>
 				</property>
 			</bean>

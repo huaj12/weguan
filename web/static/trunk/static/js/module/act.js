@@ -3,16 +3,16 @@ $(document).ready(function(){
 	var zjl = $(".zjl");
 	if(zjl){
 		zjl.bind("click", function(){
-			var actName = $(this).attr("actname");
-			feed(actName);
+			var actId = $(this).attr("actid");
+			feed(actId);
 		});
 	}
 	//邀请
 	var yqhy = $(".yqhy");
 	if(yqhy){
 		yqhy.bind("click", function(){
-			var actName = $(this).attr("actname");
-			requestByName(actName);
+			var actId = $(this).attr("actid");
+			requestByName(actId);
 		});
 	}
 	//取消
@@ -171,7 +171,7 @@ function inviteHer(obj, friendId){
 		dataType: "json",
 		success: function(result){
 			if(result&&result.success){
-				$(obj).addClass("unclick");
+				$(obj).addClass("unclick").text("已约");
 				$(obj).removeAttr("onclick");
 			}else{
 				alert("system error.");

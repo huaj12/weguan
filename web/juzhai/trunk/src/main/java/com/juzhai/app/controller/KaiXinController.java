@@ -24,6 +24,7 @@ import com.juzhai.act.service.IActService;
 import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
+import com.juzhai.core.web.jstl.JzCoreFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
@@ -55,15 +56,18 @@ public class KaiXinController extends BaseController {
 
 	@RequestMapping(value = { "/kaixinFeed" }, method = RequestMethod.GET)
 	public String kaixinFeed(HttpServletRequest request,
-			HttpServletResponse response, Model model, String name) {
+			HttpServletResponse response, Model model, Long actId) {
 		PrintWriter out = null;
 
 		try {
+			
 			UserContext context = checkLoginForApp(request);
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
 			String text = "";
 			String word = "";
-			if (StringUtils.isEmpty(name)) {
+			if(actId==null)actId=0l;
+			Act act=actService.getActById(actId);
+			if (act==null) {
 				text = messageSource.getMessage(TpMessageKey.FEED_TEXT_DEFAULT,
 						null, Locale.SIMPLIFIED_CHINESE);
 				word = messageSource.getMessage(TpMessageKey.FEED_WORD_DEFAULT,
@@ -72,7 +76,7 @@ public class KaiXinController extends BaseController {
 				text = messageSource.getMessage(TpMessageKey.FEED_TEXT_DEFAULT,
 						null, Locale.SIMPLIFIED_CHINESE);
 				word = messageSource.getMessage(TpMessageKey.FEED_WORD,
-						new Object[] { name }, Locale.SIMPLIFIED_CHINESE);
+						new Object[] { act.getName() }, Locale.SIMPLIFIED_CHINESE);
 			}
 			String linktext = messageSource
 					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
@@ -83,6 +87,7 @@ public class KaiXinController extends BaseController {
 					+ feedRedirectUri
 					+ "?tpId="
 					+ context.getTpId();
+			String picurl=JzCoreFunction.actLogo(act.getId(), act.getLogo(), 120);
 			response.setContentType("text/plain");
 			out = response.getWriter();
 			out.println("http://api.kaixin001.com/dialog/feed?display=iframe&redirect_uri="
@@ -93,7 +98,7 @@ public class KaiXinController extends BaseController {
 					+ link
 					+ "&text="
 					+ text
-					+ "&app_id=100012402&need_redirect=0&word=" + word);
+					+ "&app_id=100012402&need_redirect=0&picurl="+picurl+"&word=" + word);
 		} catch (Exception e) {
 			log.error("kaixin send feed is error", e);
 		} finally {

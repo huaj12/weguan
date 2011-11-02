@@ -464,6 +464,7 @@ public class ActService implements IActService {
 		if (!StringUtils.isEmpty(name)) {
 			criteria.andNameEqualTo(name);
 		}
+		example.setOrderByClause("last_modify_time");
 		example.setLimit(new Limit(firstResult, maxResults));
 		return actMapper.selectByExample(example);
 	}

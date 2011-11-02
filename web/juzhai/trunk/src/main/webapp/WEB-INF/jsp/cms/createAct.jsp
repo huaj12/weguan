@@ -10,6 +10,8 @@
 <title>添加项目</title>
 <script type="text/javascript"
 	src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
+<script type="text/javascript"
+	src="${jz:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 <script>
 	function selectCity(obj) {
 		$.get('/cms/selectCity', {
@@ -36,24 +38,24 @@
 		<table>
 			<tr>
 				<td>简称</td>
-				<td><input type="text" name="name" />
-				</td>
+				<td><input type="text" name="name" /></td>
 			</tr>
 			<tr>
 				<td>全称（选填）：</td>
-				<td><input type="text" name="fullName" />
-				</td>
+				<td><input type="text" name="fullName" /></td>
 			</tr>
 			<tr>
 				<td>简介（选填）：</td>
-				<td><textarea rows="5" cols="40" name="intro"></textarea></td>
+				<td><textarea rows="5" cols="40" name="intro"></textarea>
+				</td>
 			</tr>
 			<tr>
 				<td>分类：</td>
 				<td><c:forEach var="cats" items="${categoryList}">
 					${cats.name}:<input type="checkbox" name="catIds"
 							value="${cats.id}" />
-					</c:forEach></td>
+					</c:forEach>
+				</td>
 			</tr>
 			<tr>
 				<td>地点（选填）：</td>
@@ -77,8 +79,7 @@
 									<option value="${city.id}">${city.name}</option>
 								</c:if>
 							</c:forEach>
-					</select> </span> 详细地址:<input type="text" name="address" />
-				</td>
+					</select> </span> 详细地址:<input type="text" name="address" /></td>
 			</tr>
 			<tr>
 				<td>适合人群</td>
@@ -86,8 +87,7 @@
 
 						<input <c:if test="${suitAge=='ALL'}">checked="checked"</c:if>
 							type="radio" name="suiAge" value="${suitAge}" />${suitAge.type}
-			</c:forEach>
-				</td>
+			</c:forEach></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -95,8 +95,7 @@
 						<input type="radio"
 							<c:if test="${suitGender=='ALL'}">checked="checked"</c:if>
 							name="suitGender" value="${suitGender}" />${suitGender.type}
-			</c:forEach>
-				</td>
+			</c:forEach></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -104,35 +103,31 @@
 						<input type="radio" name="suitStatu"
 							<c:if test="${suitStatu=='ALL'}">checked="checked"</c:if>
 							value="${suitStatu}" />${suitStatu.type}
-			</c:forEach>
-				</td>
+			</c:forEach></td>
 			</tr>
 			<tr>
 				<td>适合人数（选填）</td>
 				<td><input type="text" name="minRoleNum" value="1" />至 <input
-					type="text" name="maxRoleNum" />
-				</td>
+					type="text" name="maxRoleNum" /></td>
 			</tr>
 			<tr>
 				<td>起始时间（选填）</td>
-				<td><input type="text" name="startTime" />
+				<td><input type="text" onClick="WdatePicker()" name="startTime" />
 				</td>
 			</tr>
 			<tr>
 				<td>截止时间（选填）</td>
-				<td><input type="text" name="endTime" />
+				<td><input type="text" onClick="WdatePicker()" name="endTime" />
 				</td>
 			</tr>
 			<tr>
 				<td>消费区间（选填）</td>
 				<td><input type="text" name=minCharge />至<input type="text"
-					name=maxCharge />
-				</td>
+					name=maxCharge /></td>
 			</tr>
 			<tr>
 				<td>logo</td>
-				<td><input type="file" name="imgFile" />
-				</td>
+				<td><input type="file" name="imgFile" /></td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center"><input type="submit" value="提交" />

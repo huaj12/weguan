@@ -10,6 +10,8 @@
 <title>添加项目</title>
 <script type="text/javascript"
 	src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
+<script type="text/javascript"
+	src="${jz:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 <script>
 	function selectCity(obj) {
 		$.get('/cms/selectCity', {
@@ -130,16 +132,16 @@
 			</tr>
 			<tr>
 				<td>起始时间（选填）</td>
-				<td><input type="text" name="startTime"
+				<td><input type="text" onClick="WdatePicker()" name="startTime"
 					value="<fmt:formatDate value="${act.startTime}"
-						pattern="yyyy.MM.dd" />" />
+						pattern="yyyy-MM-dd" />" />
 				</td>
 			</tr>
 			<tr>
 				<td>截止时间（选填）</td>
-				<td><input type="text" name="endTime"
+				<td><input type="text" onClick="WdatePicker()" name="endTime"
 					value="<fmt:formatDate value="${act.endTime}"
-						pattern="yyyy.MM.dd" />" />
+						pattern="yyyy-MM-dd" />" />
 				</td>
 			</tr>
 			<tr>

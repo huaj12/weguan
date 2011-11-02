@@ -60,14 +60,15 @@ public class KaiXinController extends BaseController {
 		PrintWriter out = null;
 
 		try {
-			
+
 			UserContext context = checkLoginForApp(request);
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
 			String text = "";
 			String word = "";
-			if(actId==null)actId=0l;
-			Act act=actService.getActById(actId);
-			if (act==null) {
+			if (actId == null)
+				actId = 0l;
+			Act act = actService.getActById(actId);
+			if (act == null) {
 				text = messageSource.getMessage(TpMessageKey.FEED_TEXT_DEFAULT,
 						null, Locale.SIMPLIFIED_CHINESE);
 				word = messageSource.getMessage(TpMessageKey.FEED_WORD_DEFAULT,
@@ -76,7 +77,8 @@ public class KaiXinController extends BaseController {
 				text = messageSource.getMessage(TpMessageKey.FEED_TEXT_DEFAULT,
 						null, Locale.SIMPLIFIED_CHINESE);
 				word = messageSource.getMessage(TpMessageKey.FEED_WORD,
-						new Object[] { act.getName() }, Locale.SIMPLIFIED_CHINESE);
+						new Object[] { act.getName() },
+						Locale.SIMPLIFIED_CHINESE);
 			}
 			String linktext = messageSource
 					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
@@ -87,7 +89,8 @@ public class KaiXinController extends BaseController {
 					+ feedRedirectUri
 					+ "?tpId="
 					+ context.getTpId();
-			String picurl=JzCoreFunction.actLogo(act.getId(), act.getLogo(), 120);
+			String picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(),
+					120);
 			response.setContentType("text/plain");
 			out = response.getWriter();
 			out.println("http://api.kaixin001.com/dialog/feed?display=iframe&redirect_uri="
@@ -98,7 +101,9 @@ public class KaiXinController extends BaseController {
 					+ link
 					+ "&text="
 					+ text
-					+ "&app_id=100012402&need_redirect=0&picurl="+picurl+"&word=" + word);
+					+ "&app_id=100012402&need_redirect=0&picurl="
+					+ picurl
+					+ "&word=" + word);
 		} catch (Exception e) {
 			log.error("kaixin send feed is error", e);
 		} finally {
@@ -146,10 +151,12 @@ public class KaiXinController extends BaseController {
 
 	@RequestMapping(value = { "/dialogSysnews" }, method = RequestMethod.GET)
 	public String dialogSysnews(HttpServletRequest request,
-			HttpServletResponse response, Model model, String name) {
+			HttpServletResponse response, Model model, Long actId) {
 		PrintWriter out = null;
 		try {
-			Act act = actService.getActByName(name);
+			if (actId == null)
+				actId = 0l;
+			Act act = actService.getActById(actId);
 			UserContext context = checkLoginForApp(request);
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
 			String text = messageSource.getMessage(
@@ -169,6 +176,8 @@ public class KaiXinController extends BaseController {
 			String word = messageSource.getMessage(
 					TpMessageKey.INVITE_FRIEND_WORD, null,
 					Locale.SIMPLIFIED_CHINESE);
+			String picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(),
+					120);
 			response.setContentType("text/plain");
 			out = response.getWriter();
 			out.println("http://api.kaixin001.com/dialog/sysnews?display=iframe&linktext="
@@ -179,7 +188,7 @@ public class KaiXinController extends BaseController {
 					+ link
 					+ "&app_id=100012402&redirect_uri="
 					+ sysnewRedirect_uri
-					+ "&need_redirect=0&word=" + word);
+					+ "&picurl=" + picurl + "&need_redirect=0&word=" + word);
 		} catch (Exception e) {
 			log.error("kaixin dialogSysnews is error", e);
 		} finally {
@@ -189,10 +198,7 @@ public class KaiXinController extends BaseController {
 		}
 		return null;
 	}
-	
-	
-	
-	
+
 	@RequestMapping(value = "kaixinSysnewsCallBack", method = RequestMethod.GET)
 	public String dialogSysnewsCallBack(HttpServletRequest request,
 			Model model, String uid, String fuids, String name, Integer num) {

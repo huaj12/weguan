@@ -89,7 +89,11 @@ public class KaiXinController extends BaseController {
 					+ feedRedirectUri
 					+ "?tpId="
 					+ context.getTpId();
-			String picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(),
+			String logo="";
+			if(act!=null){
+				logo=act.getLogo();
+			}
+			String picurl = JzCoreFunction.actLogo(actId, logo,
 					120);
 			response.setContentType("text/plain");
 			out = response.getWriter();
@@ -157,6 +161,10 @@ public class KaiXinController extends BaseController {
 			if (actId == null)
 				actId = 0l;
 			Act act = actService.getActById(actId);
+			if(act==null){
+				log.error("dialogSysnews actId is null");
+				return null;
+			}
 			UserContext context = checkLoginForApp(request);
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
 			String text = messageSource.getMessage(

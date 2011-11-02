@@ -62,7 +62,7 @@ public class Kaixin001AppUserService extends AbstractUserService {
 				start += num;
 			}
 		} catch (KxException e) {
-			log.error(e.getMessage(), e);
+			log.error(e.getMessage());
 		}
 		return friendIdList;
 	}

@@ -38,6 +38,6 @@ public interface IAppService {
 	 * @param authInfo
 	 * @return
 	 */
-	boolean sendFeed(String word, AuthInfo authInfo);
+	boolean sendFeed(String word, long uid,long tpId);
 
 }

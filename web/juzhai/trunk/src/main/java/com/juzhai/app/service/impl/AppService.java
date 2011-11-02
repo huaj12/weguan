@@ -91,7 +91,6 @@ public class AppService implements IAppService {
 				null, Locale.SIMPLIFIED_CHINESE);
 		String word = word = messageSource.getMessage(TpMessageKey.FEED_WORD,
 				new Object[] { actName }, Locale.SIMPLIFIED_CHINESE);
-
 		String linktext = messageSource.getMessage(TpMessageKey.FEED_LINKTEXT,
 				null, Locale.SIMPLIFIED_CHINESE);
 		String link = tp.getAppUrl();

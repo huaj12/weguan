@@ -30,7 +30,7 @@ public class SendAppMsgService implements ISendAppMsgService {
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
 	@Autowired
-	private IAppService kaiXinService;
+	private IAppService appService;
 	@Autowired
 	private IAccountService accountService;
 	@Autowired
@@ -78,14 +78,6 @@ public class SendAppMsgService implements ISendAppMsgService {
 				thirdparty.getId());
 		if (authInfo == null) {
 			log.error("send message find authInfo is null");
-			return;
-		}
-		IAppService appService = null;
-		if ("kaixin001".equals(tpName)) {
-			appService = kaiXinService;
-		}
-		if (appService == null) {
-			log.error("send message appService is null");
 			return;
 		}
 		taskExecutor.submit(new SendSysMsgTask(thirdparty, accountService,

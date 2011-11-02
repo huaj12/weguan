@@ -406,12 +406,14 @@ public class ActController {
 		} catch (ParseException e) {
 			log.error("parse search date error.", e);
 		}
-		act.setIntro(form.getIntro());
+		String intro=form.getIntro();
+		if(intro!=null)
+		act.setIntro(subString(200,form.getIntro()));
 		act.setMaxCharge(form.getMaxCharge());
 		act.setMinCharge(form.getMinCharge());
 		act.setMaxRoleNum(form.getMaxRoleNum());
 		act.setMinRoleNum(form.getMinRoleNum());
-		act.setName(form.getName());
+		act.setName(subString(10,form.getName()));
 		act.setCategoryIds(StringUtils.join(form.getCatIds(), ","));
 		if (!StringUtils.isEmpty(form.getSuiAge())) {
 			act.setSuitAge(SuitAge.getSuitAge(form.getSuiAge()));
@@ -422,8 +424,18 @@ public class ActController {
 		if (!StringUtils.isEmpty(form.getSuitStatu())) {
 			act.setSuitStatus(SuitStatus.getSuitStatus(form.getSuitStatu()));
 		}
-		act.setFullName(form.getFullName());
+		act.setFullName(subString(30,form.getFullName()));
 		return act;
+	}
+	
+	
+	private String subString(int len,String str){
+		if(str!=null&&str.length()>len){
+			return str.substring(0,len);
+		}else{
+			return str;
+		}
+		
 	}
 
 }

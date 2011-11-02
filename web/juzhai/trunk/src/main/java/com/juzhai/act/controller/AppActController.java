@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.act.model.Act;
@@ -25,6 +26,8 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.msg.bean.ActMsg;
+import com.juzhai.msg.service.IMsgMessageService;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
 
@@ -40,6 +43,8 @@ public class AppActController extends BaseController {
 	private IFriendService friendService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IMsgMessageService msgMessageService;
 	@Value("${act.user.maxResult}")
 	private int actUserMaxResult;
 
@@ -101,9 +106,16 @@ public class AppActController extends BaseController {
 	@RequestMapping(value = "/ajax/inviteHer", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult inviteHer(HttpServletRequest request, Model model,
-			long friendId, long actId) {
-
-		return null;
+			long friendId, @RequestParam(defaultValue = "0") long actId)
+			throws NeedLoginException {
+		UserContext context = checkLoginForApp(request);
+		if (actId > 0) {
+			msgMessageService.sendActMsg(context.getUid(), friendId,
+					new ActMsg(actId, context.getUid(), ActMsg.MsgType.INVITE));
+		}
+		AjaxResult result = new AjaxResult();
+		result.setSuccess(true);
+		return result;
 	}
 
 	private List<ActUserView> assembleActUserView(long uid,

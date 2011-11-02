@@ -28,6 +28,7 @@ import com.juzhai.act.model.UserActExample;
 import com.juzhai.act.rabbit.message.ActUpdateMessage;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
+import com.juzhai.app.service.IAppService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.home.bean.ReadFeedType;
@@ -64,13 +65,15 @@ public class UserActService implements IUserActService {
 	private IProfileService profileService;
 	@Autowired
 	private IMsgMessageService msgMessageService;
+	@Autowired
+	private IAppService appService;
 
 	// @Autowired
 	// private IAccountService accountService;
 
 	@Override
-	public void respRecommend(long uid, long actId, ReadFeedType type,
-			boolean isFeed) {
+	public void respRecommend(long uid, long tpId, long actId,
+			ReadFeedType type, boolean isFeed) {
 		if (ReadFeedType.WANT.equals(type)) {
 			try {
 				addAct(uid, actId, false);
@@ -80,8 +83,8 @@ public class UserActService implements IUserActService {
 		} else {
 			inboxService.shiftRead(uid, 0, actId, type);
 		}
-		if (isFeed) {
-			// TODO
+		if (isFeed && !actService.isShieldAct(actId)) {
+			appService.sendFeed(actId, uid, tpId);
 		}
 	}
 

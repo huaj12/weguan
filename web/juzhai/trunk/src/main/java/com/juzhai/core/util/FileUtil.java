@@ -212,13 +212,12 @@ public class FileUtil {
 	 */
 	public static String generateHierarchyPath(long id) {
 		StringBuilder path = new StringBuilder();
-		long value = id;
-		for (int i = 4; i >= 1; i--) {
+		for (int i = 2; i >= 1; i--) {
 			long basicNum = Double.valueOf(Math.pow(2000, i)).longValue();
-			path.append(value / basicNum).append(File.separator);
-			value = value % basicNum;
+			path.append(id / basicNum).append(File.separator);
+			id = id % basicNum;
 		}
-		path.append(String.valueOf(id));
+		path.append(id);
 		return path.toString();
 	}
 
@@ -231,13 +230,12 @@ public class FileUtil {
 	public static String generateHierarchyWebPath(long id) {
 		String webSeparator = "/";
 		StringBuilder path = new StringBuilder();
-		long value = id;
-		for (int i = 4; i >= 1; i--) {
+		for (int i = 2; i >= 1; i--) {
 			long basicNum = Double.valueOf(Math.pow(2000, i)).longValue();
-			path.append(value / basicNum).append(webSeparator);
-			value = value % basicNum;
+			path.append(id / basicNum).append(webSeparator);
+			id = id % basicNum;
 		}
-		path.append(String.valueOf(id));
+		path.append(id);
 		return path.toString();
 	}
 
@@ -273,7 +271,6 @@ public class FileUtil {
 
 	public static void main(String[] args) {
 		System.out.println(FileUtil.generateHierarchyPath(7999999L));
-		System.out.println(FileUtil.generateHierarchyWebPath(234565485L));
-		System.out.println(Math.pow(2000, 3));
+		System.out.println(FileUtil.generateHierarchyWebPath(7999999999L));
 	}
 }

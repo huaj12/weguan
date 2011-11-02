@@ -95,10 +95,7 @@ public class AppService implements IAppService {
 			log.error("send Feed authInfo is null");
 			return false;
 		}
-		String picurl = "";
-		if (act.getLogo() != null) {
-			picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(), 120);
-		}
+		String	picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(), 120);
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		String text = messageSource.getMessage(TpMessageKey.FEED_TEXT_BACK,
 				new Object[] { act.getName() }, Locale.SIMPLIFIED_CHINESE);

@@ -9,22 +9,26 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Service;
 
 import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.app.service.IAppService;
-import com.juzhai.core.SystemConfig;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.service.IMessageService;
 
+@Service
 public class AppService implements IAppService {
 	@Autowired
 	private IMessageService messageService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private ITpUserAuthService tpUserAuthService;
 	private final Log log = LogFactory.getLog(getClass());
 
 	@Override
@@ -72,23 +76,22 @@ public class AppService implements IAppService {
 	}
 
 	@Override
-	public boolean sendFeed(String actName, AuthInfo authInfo) {
-		Thirdparty tp = InitData.getTpByTpNameAndJoinType(
-				authInfo.getThirdpartyName(),
-				JoinTypeEnum.valueOf(authInfo.getJoinType()));
-		String text = "";
-		String word = "";
+	public boolean sendFeed(String actName, long uid, long tpId) {
 		if (StringUtils.isEmpty(actName)) {
-			text = messageSource.getMessage(TpMessageKey.FEED_TEXT_DEFAULT,
-					null, Locale.SIMPLIFIED_CHINESE);
-			word = messageSource.getMessage(TpMessageKey.FEED_WORD_DEFAULT,
-					null, Locale.SIMPLIFIED_CHINESE);
-		} else {
-			text = messageSource.getMessage(TpMessageKey.FEED_TEXT_DEFAULT,
-					null, Locale.SIMPLIFIED_CHINESE);
-			word = messageSource.getMessage(TpMessageKey.FEED_WORD,
-					new Object[] { actName }, Locale.SIMPLIFIED_CHINESE);
+			log.error("send Feed actName is null");
+			return false;
 		}
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		if (authInfo == null) {
+			log.error("send Feed authInfo is null");
+			return false;
+		}
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		String text = messageSource.getMessage(TpMessageKey.FEED_TEXT_DEFAULT,
+				null, Locale.SIMPLIFIED_CHINESE);
+		String word = word = messageSource.getMessage(TpMessageKey.FEED_WORD,
+				new Object[] { actName }, Locale.SIMPLIFIED_CHINESE);
+
 		String linktext = messageSource.getMessage(TpMessageKey.FEED_LINKTEXT,
 				null, Locale.SIMPLIFIED_CHINESE);
 		String link = tp.getAppUrl();

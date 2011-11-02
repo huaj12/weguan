@@ -302,11 +302,15 @@ public class ActController {
 		try {
 			if (act != null && act.getName() != null) {
 				if (actService.getActByName(act.getName()) == null) {
-					Act a = actService.createAct(act, form.getCatIds());
-					if (a.getLogo() != null && form.getImgFile() != null
-							&& form.getImgFile().getSize() > 0) {
-						uploadImageService.uploadImg(a.getId(), a.getLogo(),
-								form.getImgFile());
+					if (form.getCatIds() != null) {
+						Act a = actService.createAct(act, form.getCatIds());
+						if (a.getLogo() != null && form.getImgFile() != null
+								&& form.getImgFile().getSize() > 0) {
+							uploadImageService.uploadImg(a.getId(),
+									a.getLogo(), form.getImgFile());
+						}
+					} else {
+						log.error("create act catIds is null");
 					}
 				} else {
 					log.error("create act name is exist");
@@ -337,7 +341,11 @@ public class ActController {
 	public String updateAct(AddActForm form, HttpServletRequest request) {
 		Act act = converAct(form, 0L);
 		try {
-			actService.updateAct(act, form.getCatIds());
+			if (form.getCatIds() != null) {
+				actService.updateAct(act, form.getCatIds());
+			} else {
+				log.error("create act catIds is null");
+			}
 		} catch (Exception e) {
 			log.error("update act is error.", e);
 		}

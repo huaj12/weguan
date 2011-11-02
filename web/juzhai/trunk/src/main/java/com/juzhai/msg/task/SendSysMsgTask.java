@@ -43,28 +43,10 @@ public class SendSysMsgTask implements Callable<Boolean> {
 	@Override
 	public Boolean call() throws Exception {
 		try {
-			// 内容
-			String text = "";
-			// 附言
-			String word = "";
-			if (MsgType.INVITE.equals(type)) {
-				text = messageSource.getMessage(TpMessageKey.INVITE_FRIEND,
-						new Object[] { sendAct }, Locale.SIMPLIFIED_CHINESE);
-				word = messageSource.getMessage(
-						TpMessageKey.INVITE_FRIEND_WORD, new Object[] { null },
-						Locale.SIMPLIFIED_CHINESE);
-			} else if (MsgType.RECOMMEND.equals(type)) {
-				text = messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND,
-						new Object[]{sendAct}, Locale.SIMPLIFIED_CHINESE);
-				word = messageSource.getMessage(
-						TpMessageKey.RECOMMEND_FRIEND_WORD,
-						new Object[] { null }, Locale.SIMPLIFIED_CHINESE);
-			}
 			// 发送系统消息
-			appService.sendSysMessage(receiverIdentity, messageSource
-					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
-							Locale.SIMPLIFIED_CHINESE), thirdparty.getAppUrl()
-					+ "?goUri=/msg/showRead", word, text, null, authInfo);
+			appService.sendSysMessage(receiverIdentity, sendAct,
+					thirdparty.getAppUrl() + "?goUri=/msg/showRead", type,
+					authInfo);
 		} catch (Throwable e) {
 			return Boolean.FALSE;
 		}

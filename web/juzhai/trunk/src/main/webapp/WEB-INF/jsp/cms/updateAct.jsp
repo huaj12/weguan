@@ -27,29 +27,70 @@
 	function hiedAddress() {
 		document.getElementById("myaddress").style.display = "none";
 	}
+	function checkData(){
+		var name=$("#name").val();
+		var fullName=$("#fullName").val();
+		var intro=$("#intro").val();
+		if(trimStr(name).length==0){
+			alert("简称不能为空");
+			return false;
+		}
+		if(name.length>10){
+			alert("简称不能超过10个字");
+			return false;
+		}
+		if(fullName.length>30){
+			alert("全称不能超过30个字");
+			return false;
+		}if(intro.length>30){
+			alert("简介不能超过200个字");
+			return false;
+		}
+		var flag=true;
+		$('input[name=catIds]').each(function(){
+			 if(this.checked){
+		   		flag=false;
+		   		return false;
+		   }
+		})
+		if(flag){
+			alert("至少选择一个分类");
+			return false;
+		}
+		
+		return true;
+	}
+	function trimStr(str)  
+	{   
+	    if ((typeof(str) != "string") || !str)  
+	    {  
+	        return "";   
+	    }  
+	    return str.replace(/(^\s*)|(\s*$)/g, "");   
+	}
 </script>
 <style type="text/css">
 </style>
 </head>
 <body>
 	<h2>添加项目</h2>
-	<form action="/cms/updateAct" method="post"
+	<form action="/cms/updateAct"  onsubmit="return checkData();" method="post"
 		enctype="multipart/form-data">
 		<input type="hidden" name="id" value="${act.id }" />
 		<table>
 			<tr>
 				<td>简称</td>
-				<td><input type="text" name="name" value="${act.name}" />
+				<td><input type="text" id="name" name="name" value="${act.name}" />
 				</td>
 			</tr>
 			<tr>
 				<td>全称（选填）：</td>
-				<td><input type="text" name="fullName" value="${act.fullName}" />
+				<td><input type="text" id="fullName" name="fullName" value="${act.fullName}" />
 				</td>
 			</tr>
 			<tr>
 				<td>简介（选填）：</td>
-				<td><textarea rows="5" cols="40" name="intro">
+				<td><textarea rows="5" cols="40" id="intro" name="intro">
 						<c:out value="${act.intro}"></c:out> </textarea></td>
 			</tr>
 			<tr>

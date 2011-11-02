@@ -14,9 +14,9 @@ function showSysnewsDialog(url) {
 	document.body.appendChild(t.firstChild);
 }
 //TODO 封装不同第三方app
-function feed(name) {
+function feed(actId) {
 	jQuery.get('/kaixinFeed', {
-		name : name,
+		actId : actId,
 		random : Math.random()
 	}, function(data) {
 		showSysnewsDialog(data);
@@ -32,9 +32,9 @@ function request(name) {
 	});
 }
 // TODO
-function requestByName(name) {
+function requestByName(actId) {
 	jQuery.get('/dialogSysnews', {
-		name : name,
+		actId : actId,
 		random : Math.random()
 	}, function(data) {
 		showSysnewsDialog(data);

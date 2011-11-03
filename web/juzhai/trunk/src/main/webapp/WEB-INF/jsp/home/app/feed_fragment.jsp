@@ -12,7 +12,7 @@
 					<h2><span class="u"><a href="${feed.tpHomeUrl}" class="user" target="_blank"><c:out value="${feed.profileCache.nickname}" /></a></span><span class="w">想找伴去</span><span class="v"><a href="/app/showAct/${feed.act.id}"><c:out value="${feed.act.name}" /></a></span></h2>
 					<h5>ta在<c:choose><c:when test="${feed.profileCache.cityName != ''}">${feed.profileCache.cityName}</c:when><c:otherwise>地球</c:otherwise></c:choose>，发布于<fmt:formatDate value="${feed.date}" pattern="yyyy.MM.dd"/></h5>
 					<h6><c:if test="${allUserCnt!=null&&allUserCnt>0}">共<font color="#4E90DB">${allUserCnt}</font>人想去<c:if test="${friendUserCnt!=null&&friendUserCnt>0}">，其中<font color="#4E90DB">${friendUserCnt}</font>个是你的好友！</c:if></c:if></h6>
-					<a href="javascript:;" class="want btn" onclick="javascript:respSpecific(1);" tip="将 {0} 加为我的兴趣" onmouseover="javascript:showTip(this, true, '${feed.act.name}');" onmouseout="javascript:showTip(this, false);" title="点击告诉ta"></a>
+					<a href="javascript:;" class="want btn" onclick="javascript:respSpecific(1);" tip="将 {0} 加为我的兴趣" onmouseover="javascript:showTip(this, true, '${feed.act.name}');" onmouseout="javascript:showTip(this, false);" title="点击添加"></a>
 					<a href="javascript:;" class="dwant btn" onclick="javascript:respSpecific(2);" tip="切换到下一张，什么都不做" onmouseover="javascript:showTip(this, true);" onmouseout="javascript:showTip(this, false);" title="看下一张"></a>
 				</div><!--infor end-->
 			</div>

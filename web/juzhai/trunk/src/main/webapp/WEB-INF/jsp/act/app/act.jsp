@@ -31,7 +31,7 @@
 									<a href="javascript:;" class="want btn" actid="${act.id}" <c:if test="${hasAct}">style="display:none;"</c:if>>我想去+1</a><c:if test="${!isShield}"><a href="javascript:;" class="zjl btn" actid="${act.id}">发布召集令</a></c:if><a href="javascript:;" class="yqhy btn" actid="${act.id}">邀请好友</a>
 								</div><!--infor end-->
 								<div class="wantgolist"><!--wantgolist begin-->
-									<div class="title" actid="${act.id}"><!--title begin-->
+									<div class="title" actid="${act.id}" alluser="${showAllUser}"><!--title begin-->
 										<h3>想去的</h3><em></em>
 										<a href="javascript:;" class="active" id="friendUser"><p class="l"></p><span>好友(${fUserActCount})</span><p class="r"></p></a>
 										<a href="javascript:;" class="link" id="allUser"><p class="l"></p><span>所有人(${userActCount})</span><p class="r"></p></a>

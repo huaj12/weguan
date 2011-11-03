@@ -50,7 +50,8 @@ public class AppActController extends BaseController {
 
 	@RequestMapping(value = "/showAct/{actId}", method = RequestMethod.GET)
 	public String showAct(HttpServletRequest request, Model model,
-			@PathVariable long actId) throws NeedLoginException {
+			@PathVariable long actId, Integer allUser)
+			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		Act act = actService.getActById(actId);
 		if (act == null) {
@@ -67,6 +68,7 @@ public class AppActController extends BaseController {
 				"fUserActCount",
 				userActService.countFriendUserActByActId(
 						friendService.getAppFriends(context.getUid()), actId));
+		model.addAttribute("showAllUser", null != allUser);
 		return "act/app/act";
 	}
 

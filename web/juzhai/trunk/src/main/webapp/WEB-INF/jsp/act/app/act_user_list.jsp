@@ -9,10 +9,10 @@
 			<div class="item_w link" onmouseover="javascript:actUserHover(this,true);" onmouseout="javascript:actUserHover(this,false);">
 				<em class="l"></em>
 				<em class="r"></em>
-				<p><img src="${actUserView.profileCache.logoPic}" width="50" height="50"/></p>
-				<h3><c:out value="${actUserView.profileCache.nickname}" /></h3>
+				<p><a href="${jz:tpHomeUrl(actUserView.profileCache.tpIdentity,context.tpId)}" target="_blank"><img src="${actUserView.profileCache.logoPic}" width="50" height="50"/></a></p>
+				<h3><a href="${jz:tpHomeUrl(actUserView.profileCache.tpIdentity,context.tpId)}" target="_blank" class="user"><c:out value="${actUserView.profileCache.nickname}" /></a></h3>
 				<c:if test="${actUserView.friend}">
-					<a href="javascript:;" onclick="javascript:inviteHer(this, ${actUserView.profileCache.uid});">约ta</a>
+					<a href="javascript:;" class="btn" onclick="javascript:inviteHer(this, ${actUserView.profileCache.uid});">约ta</a>
 				</c:if>
 				<span>ta在<c:choose><c:when test="${actUserView.profileCache.cityName != ''}">${actUserView.profileCache.cityName}</c:when><c:otherwise>地球</c:otherwise></c:choose>&nbsp;发布于<font><fmt:formatDate value="${actUserView.createTime}" pattern="yyyy.MM.dd"/></font></span>
 			</div>

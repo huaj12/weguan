@@ -30,7 +30,6 @@ $(document).ready(function(){
 		});
 	}
 	//加载好友
-	pageFriendUser(1);
 	$("#friendUser").bind("click", function(){
 		$(this).removeClass("link").addClass("active");
 		$("#allUser").removeClass("active").addClass("link");
@@ -41,6 +40,12 @@ $(document).ready(function(){
 		$("#friendUser").removeClass("active").addClass("link");
 		pageAllUser(1);
 	});
+	var showAllUser = $(".title").attr("alluser");
+	if(showAllUser == "true"){
+		$("#allUser").click();
+	}else{
+		$("#friendUser").click();
+	}
 });
 
 function removeAct(obj){

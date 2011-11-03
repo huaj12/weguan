@@ -484,6 +484,7 @@ public class ActService implements IActService {
 
 	@Override
 	public void updateAct(Act act, List<Long> categoryIds) {
+		act.setLastModifyTime(new Date());
 		actMapper.updateByPrimaryKey(act);
 		updateActCategory(act.getId(), categoryIds);
 		clearActCache(act.getId());

@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
@@ -19,9 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.juzhai.act.InitData;
 import com.juzhai.act.bean.SuitAge;
@@ -250,8 +253,9 @@ public class ActController {
 	}
 
 	@RequestMapping(value = "/showCreateAct", method = RequestMethod.GET)
-	public String showCreateAct(Model model) {
+	public String showCreateAct(Model model, String msg) {
 		assembleCiteys(model);
+		model.addAttribute("msg", msg);
 		return "cms/createAct";
 	}
 
@@ -296,32 +300,59 @@ public class ActController {
 	}
 
 	@RequestMapping(value = "/createAct", method = RequestMethod.POST)
-	public String createAct(AddActForm form, HttpServletRequest request) {
+	public ModelAndView createAct(AddActForm form, HttpServletRequest request) {
 		UserContext context = (UserContext) request.getAttribute("context");
 		Act act = converAct(form, context.getUid());
+		ModelMap mmap = new ModelMap();
 		try {
+			String logo = null;
+			long actId = 0;
 			if (act != null && act.getName() != null) {
-				if (actService.getActByName(act.getName()) == null) {
-					if (form.getCatIds() != null) {
-						Act a = actService.createAct(act, form.getCatIds());
-						if (a.getLogo() != null && form.getImgFile() != null
-								&& form.getImgFile().getSize() > 0) {
-							uploadImageService.uploadImg(a.getId(),
-									a.getLogo(), form.getImgFile());
-						}
-					} else {
-						log.error("create act catIds is null");
-					}
+				Act oldAct = actService.getActByName(act.getName());
+				if (oldAct == null) {
+					Act a = actService.createAct(act, form.getCatIds());
+					actId = a.getId();
+					logo = a.getLogo();
+					mmap.addAttribute("msg", "create is success");
 				} else {
-					log.error("create act name is exist");
+					act.setId(oldAct.getId());
+					act.setActive(oldAct.getActive());
+					if (CollectionUtils.isNotEmpty(form.getCatIds())) {
+						act.setCategoryIds(StringUtils.join(form.getCatIds(),
+								","));
+					}
+					act.setCreateTime(oldAct.getCreateTime());
+					act.setCreateUid(oldAct.getCreateUid());
+					act.setPopularity(oldAct.getPopularity());
+					if (act.getProvince() == null) {
+						act.setProvince(0l);
+					}
+					if (act.getCity() == null) {
+						act.setCity(0l);
+					}
+					actService.updateAct(act, form.getCatIds());
+					if (StringUtils.isNotEmpty(oldAct.getLogo())) {
+						uploadImageService.deleteImg(act.getId(),
+								oldAct.getLogo());
+					}
+					actId = act.getId();
+					logo = act.getLogo();
+					mmap.addAttribute("msg", "replace is success");
 				}
+				if (logo != null && form.getImgFile() != null
+						&& form.getImgFile().getSize() > 0 && actId > 0) {
+					uploadImageService
+							.uploadImg(actId, logo, form.getImgFile());
+				}
+
 			} else {
-				log.error("create act name is null");
+				mmap.addAttribute("msg", "create act name is null");
 			}
 		} catch (Exception e) {
+			mmap.addAttribute("msg", "create act is error.");
 			log.error("create act is error.", e);
 		}
-		return "redirect:/cms/showActManager";
+		return new ModelAndView("redirect:/cms/showCreateAct", mmap);
 	}
 
 	@RequestMapping(value = "/selectCity", method = RequestMethod.GET)
@@ -406,14 +437,30 @@ public class ActController {
 		} catch (ParseException e) {
 			log.error("parse search date error.", e);
 		}
-		String intro=form.getIntro();
-		if(intro!=null)
-		act.setIntro(subString(200,form.getIntro()));
-		act.setMaxCharge(form.getMaxCharge());
-		act.setMinCharge(form.getMinCharge());
-		act.setMaxRoleNum(form.getMaxRoleNum());
-		act.setMinRoleNum(form.getMinRoleNum());
-		act.setName(subString(10,form.getName()));
+		String intro = form.getIntro();
+		if (intro != null)
+			act.setIntro(subString(200, form.getIntro()));
+		if (form.getMaxCharge() == null) {
+			act.setMaxCharge(0);
+		} else {
+			act.setMaxCharge(form.getMaxCharge());
+		}
+		if (form.getMinCharge() == null) {
+			act.setMinCharge(0);
+		} else {
+			act.setMinCharge(form.getMinCharge());
+		}
+		if (form.getMaxRoleNum() == null) {
+			act.setMaxRoleNum(0);
+		} else {
+			act.setMaxRoleNum(form.getMaxRoleNum());
+		}
+		if (form.getMinRoleNum() == null) {
+			act.setMinRoleNum(0);
+		} else {
+			act.setMinRoleNum(form.getMinRoleNum());
+		}
+		act.setName(subString(10, form.getName()));
 		act.setCategoryIds(StringUtils.join(form.getCatIds(), ","));
 		if (!StringUtils.isEmpty(form.getSuiAge())) {
 			act.setSuitAge(SuitAge.getSuitAge(form.getSuiAge()));
@@ -424,18 +471,17 @@ public class ActController {
 		if (!StringUtils.isEmpty(form.getSuitStatu())) {
 			act.setSuitStatus(SuitStatus.getSuitStatus(form.getSuitStatu()));
 		}
-		act.setFullName(subString(30,form.getFullName()));
+		act.setFullName(subString(30, form.getFullName()));
 		return act;
 	}
-	
-	
-	private String subString(int len,String str){
-		if(str!=null&&str.length()>len){
-			return str.substring(0,len);
-		}else{
+
+	private String subString(int len, String str) {
+		if (str != null && str.length() > len) {
+			return str.substring(0, len);
+		} else {
 			return str;
 		}
-		
+
 	}
 
 }

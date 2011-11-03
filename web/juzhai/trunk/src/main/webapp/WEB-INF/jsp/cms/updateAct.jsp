@@ -42,7 +42,7 @@
 		if(fullName.length>30){
 			alert("全称不能超过30个字");
 			return false;
-		}if(intro.length>30){
+		}if(intro.length>200){
 			alert("简介不能超过200个字");
 			return false;
 		}

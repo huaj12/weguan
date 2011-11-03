@@ -21,6 +21,7 @@
 						<div class="top"></div>
 						<div class="mid"><!--mid begin-->
 							<div class="project_sub"><!--project_sub begin-->
+								<div class="back_to_home"><a href="/app/index">返回首页</a></div>
 								<div class="photo fl"><img src="${jz:actLogo(act.id,act.logo,120)}" /></div>
 								<div class="infor fl"><!--infor begin-->
 									<h2><c:out value="${act.name}" /></h2>

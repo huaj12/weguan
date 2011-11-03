@@ -73,9 +73,9 @@
 </style>
 </head>
 <body>
-	<h2>添加项目</h2>
-	<form action="/cms/createAct" onsubmit="return checkData();" method="post"
-		enctype="multipart/form-data">
+	<h2>添加项目${msg}</h2>
+	<form action="/cms/createAct" onsubmit="return checkData();"
+		method="post" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td>简称</td>
@@ -89,14 +89,18 @@
 			</tr>
 			<tr>
 				<td>简介（选填）：</td>
-				<td><textarea rows="5" id="intro" cols="40"  name="intro"></textarea>
+				<td><textarea rows="5" id="intro" cols="40" name="intro"></textarea>
 				</td>
 			</tr>
 			<tr>
 				<td>分类：</td>
-				<td><c:forEach var="cats" items="${categoryList}">
+				<td><c:forEach var="cats" items="${categoryList}"
+						varStatus="step">
 					${cats.name}:<input type="checkbox" name="catIds"
 							value="${cats.id}" />
+							 <c:if test="${step.count % 4==0}">
+							<br />
+						</c:if>
 					</c:forEach></td>
 			</tr>
 			<tr>

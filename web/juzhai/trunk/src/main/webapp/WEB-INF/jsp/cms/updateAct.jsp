@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>添加项目</title>
+<title>修改项目</title>
 <script type="text/javascript"
 	src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 <script type="text/javascript"
@@ -73,7 +73,7 @@
 </style>
 </head>
 <body>
-	<h2>添加项目</h2>
+	<h2>修改项目</h2>
 	<form action="/cms/updateAct"  onsubmit="return checkData();" method="post"
 		enctype="multipart/form-data">
 		<input type="hidden" name="id" value="${act.id }" />
@@ -95,7 +95,7 @@
 			</tr>
 			<tr>
 				<td>分类：</td>
-				<td><c:forEach var="cats" items="${categoryList}">
+				<td><c:forEach var="cats" items="${categoryList}" varStatus="step">
 						<c:set var="checked" value="false" />
 						<c:forEach var="cId" items="${act.categoryIds}">
 							<c:if test="${cId==cats.id}">
@@ -105,6 +105,9 @@
 						${cats.name}:<input
 							<c:if test="${checked}">checked="checked"</c:if> type="checkbox"
 							name="catIds" value="${cats.id}" />&nbsp;&nbsp;
+						 <c:if test="${step.count % 4==0}">
+							<br />
+						</c:if>	
 					</c:forEach></td>
 			</tr>
 			<tr>

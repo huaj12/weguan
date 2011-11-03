@@ -79,7 +79,7 @@ public class StaticUtil {
 			} else if (suffix.equalsIgnoreCase("images")) {
 				url = prefix_image + key;
 			} else {
-				url = prefix_static + key;
+				return prefix_static + key;
 			}
 		}
 		if (log.isDebugEnabled()) {

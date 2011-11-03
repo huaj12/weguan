@@ -8,6 +8,8 @@ import com.juzhai.cms.bean.SizeType;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;
 import com.juzhai.core.util.TextTruncateUtil;
+import com.juzhai.passport.InitData;
+import com.juzhai.passport.model.Thirdparty;
 
 public class JzCoreFunction {
 
@@ -65,5 +67,21 @@ public class JzCoreFunction {
 				return fileName;
 			}
 		}
+	}
+
+	/**
+	 * 第三方用户首页
+	 * 
+	 * @param tpIdentity
+	 * @param tpId
+	 * @return
+	 */
+	public static String tpHomeUrl(String tpIdentity, long tpId) {
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		if (null != tp && StringUtils.isNotEmpty(tp.getUserHomeUrl())
+				&& StringUtils.isNotEmpty(tpIdentity)) {
+			return tp.getUserHomeUrl().replace("{0}", tpIdentity);
+		}
+		return "#";
 	}
 }

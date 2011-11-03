@@ -7,7 +7,7 @@
 	<c:choose>
 		<c:when test="${feed.feedType=='SPECIFIC'}">
 			<div class="jz_box"><!--jz_box begin-->
-				<div class="photo fl"><img src="${feed.profileCache.logoPic}" /></div>
+				<div class="photo fl"><a href="${feed.tpHomeUrl}" class="user" target="_blank"><img src="${feed.profileCache.logoPic}" /></a></div>
 				<div class="infor fl data" data="{'friendId':${feed.profileCache.uid},'actId':${feed.act.id}}"><!--infor begin-->
 					<h2><span class="u"><a href="${feed.tpHomeUrl}" class="user" target="_blank"><c:out value="${feed.profileCache.nickname}" /></a></span><span class="w">想找伴去</span><span class="v"><a href="/app/showAct/${feed.act.id}"><c:out value="${feed.act.name}" /></a></span></h2>
 					<h5>ta在<c:choose><c:when test="${feed.profileCache.cityName != ''}">${feed.profileCache.cityName}</c:when><c:otherwise>地球</c:otherwise></c:choose>，发布于<fmt:formatDate value="${feed.date}" pattern="yyyy.MM.dd"/></h5>
@@ -62,7 +62,7 @@
 				<div class="infor fl"><!--infor begin-->
 					<h2><span class="x">想和朋友去</span><span class="v"><a href="/app/showAct/${feed.act.id}"><c:out value="${feed.act.name}" /></a></span><span class="w">么？</span></h2>
 					<h5>${jz:truncate(feed.act.intro,50,'...')}<!-- <a href="#">详细</a> --></h5>
-					<h6><c:if test="${allUserCnt!=null&&allUserCnt>0}">共<font color="#4E90DB">${allUserCnt}</font>人想去<c:if test="${friendUserCnt!=null&&friendUserCnt>0}">，其中<font color="#4E90DB">${friendUserCnt}</font>个是你的好友！</c:if></c:if></h6>
+					<h6><c:if test="${allUserCnt!=null&&allUserCnt>0}">共<a href="/app/showAct/${feed.act.id}?allUser=1">${allUserCnt}</a>人想去<c:if test="${friendUserCnt!=null&&friendUserCnt>0}">，其中<a href="/app/showAct/${feed.act.id}">${friendUserCnt}</a>个是你的好友！</c:if></c:if></h6>
 					<a href="javascript:;" class="want btn" onclick="javascript:respRecommend(${feed.act.id}, 1);" tip="将 {0} 加为我的兴趣" onmouseover="javascript:showTip(this, true, '${feed.act.name}');" onmouseout="javascript:showTip(this, false);" title="点击添加"></a>
 					<a href="javascript:;" class="dwant btn" onclick="javascript:respRecommend(${feed.act.id}, 2);" title="不再显示"></a>
 				</div><!--infor end-->

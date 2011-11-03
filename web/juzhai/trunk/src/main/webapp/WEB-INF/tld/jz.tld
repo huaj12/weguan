@@ -51,4 +51,11 @@
     	<example>${jz:actLogo(123456,'abc.jpg',120)}</example>
     </function>
     
+    <function>
+    	<name>tpHomeUrl</name>
+    	<function-class>com.juzhai.core.web.jstl.JzCoreFunction</function-class>
+    	<function-signature>java.lang.String tpHomeUrl(java.lang.String,long)</function-signature>
+    	<example>${jz:tpHomeUrl('1234233',1)}</example>
+    </function>
+    
 </taglib>

@@ -5,7 +5,7 @@
 	<!-- 要判断是否变灰 -->
 	<p <c:if test="${categoryActView.hasUsed}">class="none"</c:if> <c:if test="${!categoryActView.hasUsed}">onmouseover="javascript:hotActHover(this, true);" onmouseout="javascript:hotActHover(this, false);"</c:if>>
 		<span class="l"></span>
-		<a href="javascript:;" <c:choose><c:when test="${!categoryActView.hasUsed}">title="立即添加" onclick="javascript:addRecommendAct(this);"</c:when><c:otherwise>title="已添加"</c:otherwise></c:choose> actid="${categoryActView.act.id}"><c:out value="${categoryActView.act.name}" /></a>
+		<a href="javascript:;" <c:choose><c:when test="${!categoryActView.hasUsed}">title="点击添加" onclick="javascript:addRecommendAct(this);"</c:when><c:otherwise>title="已添加"</c:otherwise></c:choose> actid="${categoryActView.act.id}"><c:out value="${categoryActView.act.name}" /></a>
 		<span class="r"></span>
 	</p>
 </c:forEach>

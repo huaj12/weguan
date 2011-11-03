@@ -73,7 +73,7 @@ public class AppPlatformUtils {
 	 */
 	public static String buildQuery(Map<String, String> paramMap,
 			String api_key, String secret, String sessionKey, String v) {
-		Map param = new HashMap();
+		Map<String,String> param = new HashMap<String,String>();
 		param.putAll(paramMap);
 		param.put("api_key", api_key);
 		param.put("call_id", String.valueOf(System.currentTimeMillis()));
@@ -105,7 +105,7 @@ public class AppPlatformUtils {
 	 */
 	public static String kaiXinBuildQuery(Map<String, String> paramMap,
 			AuthInfo authInfo, String v) {
-		Map param = new HashMap();
+		Map<String,String> param = new HashMap<String,String>();
 		param.putAll(paramMap);
 		param.put("oauth_consumer_key", authInfo.getAppKey());
 		param.put("oauth_signature_method", "HMAC-SHA1");
@@ -131,8 +131,8 @@ public class AppPlatformUtils {
 		return query;
 	}
 
-	public static String sessionKeyBuildQuery(Map paramMap, String session_key) {
-		Map param = new HashMap();
+	public static String sessionKeyBuildQuery(Map<String,String> paramMap, String session_key) {
+		Map<String,String> param = new HashMap<String,String>();
 		param.putAll(paramMap);
 		param.put("session_key", session_key);
 		String query = httpBuildQuery(param, null);
@@ -143,10 +143,10 @@ public class AppPlatformUtils {
 		StringBuffer strbuf = new StringBuffer();
 		try {
 			if (keyset == null) {
-				Set set = map.entrySet();
-				Iterator it = set.iterator();
+				Set<Entry<String,String>> set = map.entrySet();
+				Iterator<Entry<String, String>> it = set.iterator();
 				while (it.hasNext()) {
-					Entry entry = (Entry) it.next();
+					Entry<String, String> entry =  it.next();
 					strbuf.append(
 							URLEncoder.encode(entry.getKey().toString(),
 									"UTF-8")).append("=");

@@ -41,18 +41,13 @@ public class Kaixin001AppMessageService implements IMessageService {
 			paramMap.put("text", text);
 			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
 					authInfo.getSessionKey());
-			String ret = AppPlatformUtils.doPost(
+			AppPlatformUtils.doPost(
 					"https://api.kaixin001.com/sysnews/send.json", query);
-			JSONObject jObject = JSONObject.fromObject(ret);
-			if ("1".equals(jObject.getString("result"))) {
-				flag = true;
-			} else {
-				flag = false;
-			}
-			return flag;
+			return true;
 		} catch (Exception e) {
-			log.error("send kaixin sysmessage is error fuids:" + fuids, e);
-			return flag;
+			log.error("send kaixin sysmessage is error fuids:" + fuids
+					+ " [error: " + e.getMessage() + "].");
+			return false;
 		}
 	}
 
@@ -77,7 +72,7 @@ public class Kaixin001AppMessageService implements IMessageService {
 			}
 			return flag;
 		} catch (Exception e) {
-			log.error("send  kaixin message is error fuids:" + fuids, e);
+			log.error("send  kaixin message is error fuids:" + fuids + " [error: " + e.getMessage() + "].");
 			return flag;
 		}
 	}
@@ -111,7 +106,7 @@ public class Kaixin001AppMessageService implements IMessageService {
 			}
 			return flag;
 		} catch (Exception e) {
-			log.error("send  kaixin feed is error ", e);
+			log.error("send  kaixin feed is error "+ " [error: " + e.getMessage() + "].");
 			return flag;
 		}
 	}

@@ -42,6 +42,7 @@
 											</p>
 										</c:forEach>
 									</div><!--rec_tab end-->
+									<div class="clear"></div>
 									<div class="rec_words hot"><!--rec_words begin-->
 										<jsp:include page="category_act_list.jsp" />
 									</div><!--rec_words end-->

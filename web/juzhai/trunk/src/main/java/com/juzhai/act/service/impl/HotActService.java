@@ -38,10 +38,12 @@ public class HotActService implements IHotActService {
 	public void activeHotAct(long actId) {
 		if (actService.actExist(actId)) {
 			HotAct hotAct = hotActMapper.selectByPrimaryKey(actId);
-			if (null != hotAct && !hotAct.getActive()) {
-				hotAct.setLastModifyTime(new Date());
-				hotAct.setActive(true);
-				hotActMapper.updateByPrimaryKeySelective(hotAct);
+			if (null != hotAct) {
+				if (!hotAct.getActive()) {
+					hotAct.setLastModifyTime(new Date());
+					hotAct.setActive(true);
+					hotActMapper.updateByPrimaryKeySelective(hotAct);
+				}
 			} else {
 				hotAct = new HotAct();
 				hotAct.setActId(actId);

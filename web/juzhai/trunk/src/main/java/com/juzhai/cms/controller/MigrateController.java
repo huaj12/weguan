@@ -24,6 +24,7 @@ import com.juzhai.act.mapper.ActMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActCategory;
 import com.juzhai.act.model.ActExample;
+import com.juzhai.act.service.IHotActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
@@ -47,6 +48,8 @@ public class MigrateController {
 	private ActMapper actMapper;
 	@Autowired
 	private ActCategoryMapper actCategoryMapper;
+	@Autowired
+	private IHotActService hotActService;
 
 	@RequestMapping(value = "migrateActCategory")
 	public String migrateActCategory(HttpServletRequest request, Model model) {
@@ -68,6 +71,17 @@ public class MigrateController {
 					log.error(e.getMessage(), e);
 				}
 			}
+		}
+		return null;
+	}
+
+	@RequestMapping(value = "initHotAct")
+	public String initHotAct(HttpServletRequest request, Model model) {
+		ActExample example = new ActExample();
+		example.createCriteria().andLogoIsNotNull().andLogoNotEqualTo("");
+		List<Act> actList = actMapper.selectByExample(example);
+		for (Act act : actList) {
+			hotActService.activeHotAct(act.getId());
 		}
 		return null;
 	}

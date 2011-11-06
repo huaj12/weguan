@@ -20,8 +20,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.juzhai.act.service.IUserActService;
 import com.juzhai.home.bean.Feed;
+import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.home.service.IInboxService;
+import com.juzhai.passport.InitData;
+import com.juzhai.passport.bean.JoinTypeEnum;
+import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserService;
 
@@ -34,6 +39,8 @@ public class PopularizeController {
 	private ITpUserService tpUserService;
 	@Autowired
 	private IInboxService inboxService;
+	@Autowired
+	private IUserActService userActService;
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
 
@@ -54,29 +61,56 @@ public class PopularizeController {
 					TpUser tpUser = tpUserService.getTpUserByTpIdAndIdentity(
 							1L, kxUid.trim());
 					if (tpUser != null) {
-						for (int i = 0; i < 20; i++) {
-							Feed feed = inboxService.showQuestion(tpUser
-									.getUid());
-							if (feed == null || feed.getQuestion() == null) {
-								break;
-							}
-							int answer = 1;
-							if (feed.getQuestion().getType() == 0) {
-								answer = 5;
-							}
-							inboxService.answer(tpUser.getUid(), 1L, feed
-									.getQuestion().getId(), feed.getTpFriend()
-									.getUserId(), answer);
-						}
-						log.error("user[" + tpUser.getUid() + "] the " + index
-								+ " end");
+						answerQuestion(index, tpUser);
 						try {
-							Thread.sleep(RandomUtils.nextInt(5000));
+							Thread.sleep(RandomUtils.nextInt(2000));
+						} catch (InterruptedException e) {
+						}
+						respRecommend(index, tpUser);
+						try {
+							Thread.sleep(RandomUtils.nextInt(2000));
 						} catch (InterruptedException e) {
 						}
 					}
 				}
 				log.error("end auto answer...");
+			}
+
+			private void answerQuestion(int index, TpUser tpUser) {
+				for (int i = 0; i < 20; i++) {
+					Feed feed = inboxService.showQuestion(tpUser.getUid());
+					if (feed == null || feed.getQuestion() == null) {
+						break;
+					}
+					int answer = 1;
+					if (feed.getQuestion().getType() == 0) {
+						answer = 5;
+					}
+					inboxService.answer(tpUser.getUid(), 1L, feed.getQuestion()
+							.getId(), feed.getTpFriend().getUserId(), answer);
+				}
+				log.error("user[" + tpUser.getUid() + "] the " + index
+						+ " question end");
+			}
+
+			private void respRecommend(int index, TpUser tpUser) {
+				Thirdparty tp = InitData.getTpByTpNameAndJoinType(
+						tpUser.getTpName(), JoinTypeEnum.APP);
+				if (null != tp) {
+					for (int i = 0; i < 5; i++) {
+						Feed feed = inboxService.showRecommend(tpUser.getUid());
+						if (feed == null || feed.getAct() == null) {
+							break;
+						}
+						userActService.respRecommend(tpUser.getUid(), feed
+								.getAct().getId(), tp.getId(),
+								ReadFeedType.WANT, true);
+					}
+					log.error("user[" + tpUser.getUid() + "] the " + index
+							+ " recommend end");
+				} else {
+					log.error("user[" + tpUser.getUid() + "] can not find tp.");
+				}
 			}
 		});
 		return null;

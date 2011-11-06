@@ -7,9 +7,9 @@ public class PagerManager {
 
 	private int currentPage = 1;
 
-	private int preOffset = 4;
+	private int preOffset = 3;
 
-	private int nextOffset = 4;
+	private int nextOffset = 3;
 
 	private int results = 10;
 

@@ -14,6 +14,19 @@ $(document).ready(function(){
 		    }
 		}
 	});
+	
+	var advise = $(".check_box");
+	if(advise){
+		$(".check_box > p").bind("click", function(){
+			var currentAdvise = advise.hasClass("tz_secleted");
+			//加勾或者取消勾
+			if(currentAdvise){
+				advise.removeClass("tz_secleted").addClass("tz_link");
+			}else{
+				advise.removeClass("tz_link").addClass("tz_secleted");
+			}
+		});
+	}
 });
 
 function holdStar(index){

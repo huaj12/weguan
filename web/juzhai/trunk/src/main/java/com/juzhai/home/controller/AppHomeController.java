@@ -1,7 +1,6 @@
 package com.juzhai.home.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,13 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.Feed;
 import com.juzhai.home.bean.ReadFeedType;
@@ -100,6 +102,7 @@ public class AppHomeController extends BaseController {
 	}
 
 	@RequestMapping(value = "/ajax/respSpecific", method = RequestMethod.POST)
+	@Deprecated
 	public String respSpecific(HttpServletRequest request, Model model,
 			long actId, long friendId, int type) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
@@ -202,7 +205,7 @@ public class AppHomeController extends BaseController {
 					.getId());
 			model.addAttribute("allUserCnt", allUserCnt);
 			if (allUserCnt > 0) {
-				Set<Long> friendIds = friendService.getAppFriends(context
+				List<Long> friendIds = friendService.getAppFriends(context
 						.getUid());
 				if (CollectionUtils.isNotEmpty(friendIds)) {
 					model.addAttribute("friendUserCnt", userActService

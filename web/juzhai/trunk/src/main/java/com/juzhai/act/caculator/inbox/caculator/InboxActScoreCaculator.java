@@ -4,15 +4,12 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import com.juzhai.act.caculator.IScoreCaculator;
-import com.juzhai.act.caculator.annotation.ScorePoint;
-import com.juzhai.act.caculator.annotation.ScorePoint.ScoreType;
 import com.juzhai.act.service.IUserActService;
 
-@Service
-@ScorePoint({ ScoreType.INBOX })
+//@Service
+//@ScorePoint({ ScoreType.INBOX })
 public class InboxActScoreCaculator implements IScoreCaculator {
 
 	@Autowired

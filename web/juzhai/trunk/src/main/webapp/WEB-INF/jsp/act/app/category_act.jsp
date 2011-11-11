@@ -19,9 +19,24 @@
 						<div class="top"></div>
 						<div class="mid"><!--mid begin-->
 							<div class="pub_style"><!--pub_style begin-->
-								<div class="title"><h2>我想去的拒宅项目(${pager.totalResults})</h2><a href="/app/showCategoryActs" class="add">添加项目&gt;&gt;</a></div>
+								<div class="title">
+									<h2>添加我想去的项目</h2>
+									<div class="or">
+										<p>或者</p>
+										<span><input name="" type="text"  value="手动输入"/></span><a href="#">推荐</a>
+										<div class="ts"><em>感谢推荐!<br />我们审核后会加入拒宅器</em></div>
+									</div>
+								</div>
 								<div class="box"><!--box begin-->
-									<jsp:include page="my_act_list.jsp" />
+									<div class="ca"><!--ca begin-->
+										<c:forEach var="category" items="${categoryList}" varStatus="status">
+											<span <c:if test="${status.first}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="javascript:void(0);" onclick="switchCategory(this, ${category.id})"><c:out value="${category.name}" /></a></span>
+										</c:forEach>
+									</div><!--ca end-->
+									<div class="clear"></div>
+									<div class="i_w_g"><!--我想去的 begin-->
+										<jsp:include page="category_act_list.jsp" />
+									</div><!--我想去的 end-->
 								</div><!--box ends-->
 							</div><!--pub_style end-->
 						</div><!--mid end-->
@@ -34,9 +49,6 @@
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
 		<script type="text/javascript" src="${jz:static('/js/module/my_act.js')}"></script>
 		<script type="text/javascript">
-			$(document).ready(function(){
-				
-			});
 		</script>
 		<script type="text/javascript" src="${jz:static('/js/base/kaixin_plugin.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />

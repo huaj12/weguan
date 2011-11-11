@@ -58,4 +58,11 @@
     	<example>${jz:tpHomeUrl('1234233',1)}</example>
     </function>
     
+    <function>
+    	<name>cityName</name>
+    	<function-class>com.juzhai.core.web.jstl.JzCoreFunction</function-class>
+    	<function-signature>java.lang.String cityName(long)</function-signature>
+    	<example>${jz:cityName(1)}</example>
+    </function>
+    
 </taglib>

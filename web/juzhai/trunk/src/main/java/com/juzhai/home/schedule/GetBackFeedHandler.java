@@ -28,7 +28,7 @@ public class GetBackFeedHandler extends AbstractScheduleHandler {
 	protected void doHandle() {
 		List<ReadFeed> backFeedList = inboxService.listGetBackFeed();
 		for (ReadFeed readFeed : backFeedList) {
-			if (userActService.existUserAct(readFeed.getSenderId(),
+			if (userActService.hasAct(readFeed.getSenderId(),
 					readFeed.getActId())) {
 				Date date = null;
 				switch (readFeed.getType()) {

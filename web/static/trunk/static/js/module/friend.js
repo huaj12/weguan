@@ -1,0 +1,27 @@
+function friendHover(li, isOver){
+	if(isOver){
+		$(li).addClass("hover");
+	}else {
+		$(li).removeClass("hover");
+	}
+}
+
+function pageFriend(page){
+	//ajax
+	jQuery.ajax({
+		url: "/app/ajax/pageFriend",
+		type: "get",
+		cache : false,
+		data: {"page": page},
+		dataType: "html",
+		context: $(".f_w_g"),
+		success: function(responseHTML){
+			$(this).html(responseHTML);
+		},
+		statusCode: {
+		    401: function() {
+		    	window.location.href="/login";
+		    }
+		}
+	});
+}

@@ -36,20 +36,20 @@ public interface IInboxService {
 	 */
 	long inboxCount(long uid);
 
-	/**
-	 * 同步收件箱，前提是好友信息已经缓存，小心使用，建议使用方法<code>syncInboxByTask</code>
-	 * 
-	 * @param uid
-	 *            用户ID
-	 */
-	void syncInbox(long uid);
-
-	/**
-	 * 启动一个子线程进行同步收件箱，前提是好友信息已经缓存
-	 * 
-	 * @param uid
-	 */
-	void syncInboxByTask(long uid);
+	// /**
+	// * 同步收件箱，前提是好友信息已经缓存，小心使用，建议使用方法<code>syncInboxByTask</code>
+	// *
+	// * @param uid
+	// * 用户ID
+	// */
+	// void syncInbox(long uid);
+	//
+	// /**
+	// * 启动一个子线程进行同步收件箱，前提是好友信息已经缓存
+	// *
+	// * @param uid
+	// */
+	// void syncInboxByTask(long uid);
 
 	/**
 	 * 转移已读
@@ -67,6 +67,7 @@ public interface IInboxService {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	List<ReadFeed> listGetBackFeed();
 
 	/**
@@ -74,13 +75,11 @@ public interface IInboxService {
 	 * 
 	 * @param uid
 	 *            收件箱主人ID
-	 * @param senderId
-	 *            内容发送者ID
 	 * @param actId
 	 *            actId
 	 * @return true if exist
 	 */
-	boolean remove(long uid, long senderId, long actId);
+	boolean remove(long uid, long actId);
 
 	/**
 	 * 显示特定Feed
@@ -135,6 +134,7 @@ public interface IInboxService {
 	 * @param receiverId
 	 * @return
 	 */
+	@Deprecated
 	long getLastPushTime(long senderId, long receiverId);
 
 	/**
@@ -143,6 +143,7 @@ public interface IInboxService {
 	 * @param senderId
 	 * @param receiverId
 	 */
+	@Deprecated
 	void clearPunishTimes(long senderId, long receiverId);
 
 	/**
@@ -152,5 +153,6 @@ public interface IInboxService {
 	 * @param reveiverId
 	 * @return
 	 */
+	@Deprecated
 	long increasePunishTimes(long senderId, long reveiverId);
 }

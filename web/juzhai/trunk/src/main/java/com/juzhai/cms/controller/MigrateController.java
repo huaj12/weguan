@@ -11,25 +11,34 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.mapper.ActCategoryMapper;
 import com.juzhai.act.mapper.ActMapper;
 import com.juzhai.act.model.Act;
-import com.juzhai.act.model.ActCategory;
 import com.juzhai.act.model.ActExample;
 import com.juzhai.act.service.IHotActService;
+import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.core.dao.Limit;
+import com.juzhai.home.bean.ReadFeed;
+import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.service.IMsgService;
+import com.juzhai.passport.mapper.ProfileMapper;
+import com.juzhai.passport.model.Profile;
+import com.juzhai.passport.model.ProfileExample;
 
 @Deprecated
 @Controller
@@ -43,6 +52,12 @@ public class MigrateController {
 	@Autowired
 	private RedisTemplate<String, MergerActMsg> redisMergerActMsgTemplate;
 	@Autowired
+	private RedisTemplate<String, ReadFeed> readFeedRedisTemplate;
+	@Autowired
+	private RedisTemplate<String, Long> longRedisTemplate;
+	@Autowired
+	private RedisTemplate<String, String> stringRedisTemplate;
+	@Autowired
 	private IMsgService<MergerActMsg> msgService;
 	@Autowired
 	private ActMapper actMapper;
@@ -50,26 +65,80 @@ public class MigrateController {
 	private ActCategoryMapper actCategoryMapper;
 	@Autowired
 	private IHotActService hotActService;
+	@Autowired
+	private ProfileMapper profileMapper;
+	@Autowired
+	private IUserActService userActService;
 
-	@RequestMapping(value = "migrateActCategory")
-	public String migrateActCategory(HttpServletRequest request, Model model) {
-		ActExample example = new ActExample();
-		example.createCriteria().andCategoryIdsIsNotNull()
-				.andCategoryIdsNotEqualTo("");
-		List<Act> actList = actMapper.selectByExample(example);
-		for (Act act : actList) {
-			StringTokenizer st = new StringTokenizer(act.getCategoryIds(), ",");
-			while (st.hasMoreTokens()) {
-				try {
-					Long categoryId = Long.valueOf(st.nextToken().trim());
-					ActCategory actCategory = new ActCategory();
-					actCategory.setActId(act.getId());
-					actCategory.setCategoryId(categoryId);
-					actCategory.setCreateTime(act.getCreateTime());
-					actCategoryMapper.insertSelective(actCategory);
-				} catch (NumberFormatException e) {
-					log.error(e.getMessage(), e);
+	@RequestMapping(value = "migrateFeed")
+	public String migrateFeed(HttpServletRequest request) {
+		ProfileExample example = new ProfileExample();
+		example.setOrderByClause("uid asc");
+		int firstResult = 0;
+		int maxResults = 200;
+		while (true) {
+			example.setLimit(new Limit(firstResult, maxResults));
+			List<Profile> profileList = profileMapper.selectByExample(example);
+			if (CollectionUtils.isEmpty(profileList)) {
+				break;
+			}
+			for (Profile profile : profileList) {
+				migrateFeedByUid(profile.getUid());
+				migrateMyActsByUid(profile.getUid());
+			}
+			firstResult += maxResults;
+		}
+		List<String> keys = new ArrayList<String>();
+		for (ReadFeedType readFeedType : ReadFeedType.values()) {
+			keys.add(RedisKeyGenerator.genReadFeedsKey(readFeedType));
+		}
+		readFeedRedisTemplate.delete(keys);
+		return null;
+	}
+
+	private void migrateFeedByUid(long uid) {
+		String key = RedisKeyGenerator.genInboxActsKey(uid);
+		Set<TypedTuple<String>> values = stringRedisTemplate.opsForZSet()
+				.reverseRangeWithScores(key, 0, -1);
+		stringRedisTemplate.delete(key);
+		Map<Long, Double> map = new HashMap<Long, Double>();
+		for (TypedTuple<String> value : values) {
+			long[] ids = parseValue(value.getValue());
+			if (ids.length == 2) {
+				if (!map.containsKey(ids[1])) {
+					map.put(ids[1], value.getScore());
 				}
+			}
+		}
+		for (Map.Entry<Long, Double> entry : map.entrySet()) {
+			longRedisTemplate.opsForZSet().add(key, entry.getKey(),
+					entry.getValue());
+		}
+	}
+
+	private void migrateMyActsByUid(long uid) {
+		String key = RedisKeyGenerator.genMyActsKey(uid);
+		longRedisTemplate.delete(key);
+		List<UserActView> userActViewList = userActService.pageUserActView(uid,
+				0, Integer.MAX_VALUE);
+		for (UserActView userActView : userActViewList) {
+			longRedisTemplate.opsForZSet().add(key,
+					userActView.getUserAct().getActId(),
+					userActView.getUserAct().getCreateTime().getTime());
+		}
+	}
+
+	private long[] parseValue(String value) {
+		try {
+			StringTokenizer st = new StringTokenizer(value, "|");
+			if (st.countTokens() == 2) {
+				long friendId = Long.valueOf(st.nextToken());
+				long actId = Long.valueOf(st.nextToken());
+				return new long[] { friendId, actId };
+			}
+		} catch (Exception e) {
+			if (log.isDebugEnabled()) {
+				log.debug("parse inbox element error.", e);
 			}
 		}
 		return null;

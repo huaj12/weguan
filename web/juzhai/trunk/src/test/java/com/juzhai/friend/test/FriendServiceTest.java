@@ -1,7 +1,6 @@
 package com.juzhai.friend.test;
 
 import java.util.List;
-import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
@@ -37,7 +36,7 @@ public class FriendServiceTest {
 
 	@Test
 	public void appFriendsTest() {
-		Set<Long> ids = friendService.getAppFriends(1L);
+		List<Long> ids = friendService.getAppFriends(1L);
 		System.out.println(ids.size());
 	}
 }

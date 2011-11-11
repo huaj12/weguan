@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.home.service.IInboxService;
-import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.service.IMsgService;
 import com.juzhai.passport.bean.AuthInfo;
@@ -81,8 +80,8 @@ public class RegisterService implements IRegisterService {
 		// 3.好友列表
 		friendService.updateExpiredFriends(passport.getId(), tp.getId(),
 				authInfo);
-		// 4.拉数据
-		inboxService.syncInboxByTask(passport.getId());
+		// // 4.拉数据
+		// inboxService.syncInboxByTask(passport.getId());
 		// 5.预存消息转正
 		msgService.getPrestore(identity, tp.getId(), passport.getId(),
 				MergerActMsg.class);
@@ -100,9 +99,10 @@ public class RegisterService implements IRegisterService {
 
 	private void registerProfile(Profile profile, Passport passport) {
 		profile.setUid(passport.getId());
-		profile.setCreateTime(passport.getCreateTime());
 		profile.setSubEmail(false);
+		profile.setCreateTime(passport.getCreateTime());
 		profile.setLastModifyTime(passport.getLastModifyTime());
+		profile.setLastUpdateTime(passport.getCreateTime());
 		profileMapper.insertSelective(profile);
 	}
 

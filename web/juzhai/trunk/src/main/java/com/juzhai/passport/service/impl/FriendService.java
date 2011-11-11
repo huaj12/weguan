@@ -21,17 +21,20 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.FriendsBean;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.mapper.TpUserMapper;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.model.TpUserExample;
 import com.juzhai.passport.service.IFriendService;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.service.IUserService;
 
@@ -52,6 +55,10 @@ public class FriendService implements IFriendService {
 	private RedisTemplate<String, Long> longRedisTemplate;
 	@Autowired
 	private TpUserMapper tpUserMapper;
+	@Autowired
+	private IProfileService profileService;
+	@Autowired
+	private IUserActService userActService;
 	@Value("${friends.cache.expire.time}")
 	private int friendsCacheExpireTime;
 
@@ -73,14 +80,21 @@ public class FriendService implements IFriendService {
 	}
 
 	@Override
-	public Set<Long> getAppFriends(long uid) {
+	public List<Long> getAppFriends(long uid) {
 		Set<Long> friendIds = longRedisTemplate.opsForZSet().range(
 				RedisKeyGenerator.genFriendsKey(uid), 0, -1);
 		if (CollectionUtils.isEmpty(friendIds)) {
-			return Collections.emptySet();
+			return Collections.emptyList();
 		} else {
-			return friendIds;
+			return new ArrayList<Long>(friendIds);
 		}
+	}
+
+	@Override
+	public int countAppFriends(long uid) {
+		Long count = longRedisTemplate.opsForZSet().size(
+				RedisKeyGenerator.genFriendsKey(uid));
+		return count == null ? 0 : count.intValue();
 	}
 
 	@Override
@@ -215,5 +229,20 @@ public class FriendService implements IFriendService {
 		Double score = longRedisTemplate.opsForZSet().score(
 				RedisKeyGenerator.genFriendsKey(uid), friendId);
 		return score != null;
+	}
+
+	@Override
+	public List<ProfileCache> findSameActFriends(long uid, long actId, int num) {
+		List<ProfileCache> list = new ArrayList<ProfileCache>();
+		List<Long> friendIds = getAppFriends(uid);
+		for (long fid : friendIds) {
+			if (userActService.hasAct(fid, actId)) {
+				list.add(profileService.getProfileCacheByUid(fid));
+				if (list.size() >= num) {
+					break;
+				}
+			}
+		}
+		return list;
 	}
 }

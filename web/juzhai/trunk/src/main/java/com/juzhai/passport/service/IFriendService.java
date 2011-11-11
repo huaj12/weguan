@@ -5,10 +5,10 @@ package com.juzhai.passport.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.FriendsBean;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
 
 public interface IFriendService {
@@ -35,7 +35,15 @@ public interface IFriendService {
 	 * @param uid
 	 * @return
 	 */
-	Set<Long> getAppFriends(long uid);
+	List<Long> getAppFriends(long uid);
+
+	/**
+	 * 安装应用的好友数
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	int countAppFriends(long uid);
 
 	/**
 	 * 获取所有的好友
@@ -96,4 +104,14 @@ public interface IFriendService {
 	 * @return
 	 */
 	boolean isAppFriend(long uid, long friendId);
+
+	/**
+	 * 取前N个添加相同项目的好友
+	 * 
+	 * @param uid
+	 * @param actId
+	 * @param num
+	 * @return
+	 */
+	List<ProfileCache> findSameActFriends(long uid, long actId, int num);
 }

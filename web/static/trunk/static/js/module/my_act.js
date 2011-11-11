@@ -1,29 +1,19 @@
-function myActHover(p, isOver){
+function actHover(li, isOver){
 	if(isOver){
-		$(p).addClass("hover");
+		$(li).addClass("hover");
 	}else {
-		$(p).removeClass("hover");
-	}
-}
-
-function hotActHover(p, isOver){
-	if($(p).hasClass("none")){
-		return;
-	}
-	if(isOver){
-		$(p).addClass("hover");
-	}else {
-		$(p).removeClass("hover");
+		$(li).removeClass("hover");
 	}
 }
 
 function removeAct(a){
 	var actId = $(a).attr("actid");
-	if(isNaN(actId)){
+	var actName = $(a).attr("actname");
+	if(actName == null || actName == '' || isNaN(actId)){
 		return false;
 	}
-//	var answer = confirm("确认要删除?");
-//	if (answer){
+	var answer = confirm("确定不再想去 " + actName + " 么？");
+	if (answer){
 		//ajax
 		jQuery.ajax({
 			url: "/app/ajax/removeAct",
@@ -48,10 +38,10 @@ function removeAct(a){
 			    }
 			}
 		});
-//	}
+	}
 }
 
-function addRecommendAct(a){
+function addCategoryAct(a){
 	var actId = $(a).attr("actid");
 	if(isNaN(actId)){
 		return false;
@@ -66,11 +56,8 @@ function addRecommendAct(a){
 		success: function(result){
 			if(result&&result.success){
 				$(a).removeAttr("onclick");
-				$(a).attr("title", "已添加");
-				$(a).parent().attr("class", "none")
-					.removeAttr("onmouseover")
-					.removeAttr("onmouseout");
-				pageMyAct(1);
+				$(a).text("已添加");
+				$(a).addClass("unclick");
 			}else{
 				alert("system error.");
 			}
@@ -92,7 +79,7 @@ function pageMyAct(page){
 		cache : false,
 		data: {"page": page},
 		dataType: "html",
-		context: $(".interesting"),
+		context: $(".box"),
 		success: function(responseHTML){
 			$(this).html(responseHTML);
 		},
@@ -104,17 +91,17 @@ function pageMyAct(page){
 	});
 }
 
-function showCategoryActs(a, categoryId){
+function switchCategory(a, categoryId){
 	//ajax
 	jQuery.ajax({
-		url: "/app/ajax/showCategoryActs",
+		url: "/app/ajax/pageCategoryAct",
 		type: "get",
 		cache : false,
 		data: {"categoryId": categoryId},
 		dataType: "html",
-		context: $(".rec_words"),
+		context: $(".i_w_g"),
 		success: function(responseHTML){
-			changeRecTabClass($(a).parent());
+			changeCategoryTab($(a).parent());
 			$(this).html(responseHTML);
 		},
 		statusCode: {
@@ -125,25 +112,33 @@ function showCategoryActs(a, categoryId){
 	});
 }
 
-function changeRecTabClass(p){
-	$("div.rec_tab > p").each(function(){
-		var pClass = $(this).attr("class");
-		var idx = pClass.indexOf("act_");
-		if(idx >= 0){
-			$(this).attr("class", pClass.substring(4));
+function changeCategoryTab(span){
+	$(".ca > span").each(function(){
+		$(this).removeClass("hover");
+	});
+	$(span).addClass("hover");
+}
+
+function pageCategoryAct(categoryId, pageId){
+	//ajax
+	jQuery.ajax({
+		url: "/app/ajax/pageCategoryAct",
+		type: "get",
+		cache : false,
+		data: {"categoryId": categoryId, "page": pageId},
+		dataType: "html",
+		context: $(".i_w_g"),
+		success: function(responseHTML){
+			$(this).html(responseHTML);
+		},
+		statusCode: {
+		    401: function() {
+		    	window.location.href="/login";
+		    }
 		}
 	});
-	var srcClass = $(p).attr("class");
-	$(".rec_words").attr("class", "rec_words " + srcClass);
-	$(p).attr("class", "act_" + srcClass);
 }
 
 $(document).ready(function(){
-	$("div.rec_tab > p > a").bind("click", function(){
-		var categoryId = $(this).attr("categoryid");
-		var pClass = $(this).parent().attr("class");
-		if(categoryId && categoryId > 0 && pClass.indexOf("act_") < 0){
-			showCategoryActs(this, categoryId);
-		}
-	});
+
 });

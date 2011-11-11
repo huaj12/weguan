@@ -22,14 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.act.InitData;
 import com.juzhai.act.caculator.IScoreGenerator;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.Question;
-import com.juzhai.act.model.UserAct;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.app.bean.TpMessageKey;
@@ -56,15 +54,15 @@ public class InboxService implements IInboxService {
 	private static final String VALUE_DELIMITER = "|";
 
 	@Autowired
-	private RedisTemplate<String, String> redisTemplate;
+	private RedisTemplate<String, String> stringRedisTemplate;
 	@Autowired
 	private RedisTemplate<String, ReadFeed> readFeedRedisTemplate;
 	@Autowired
-	private RedisTemplate<String, Long> longRedisTemplate;
+	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private IScoreGenerator inboxScoreGenerator;
-	@Autowired
-	private ThreadPoolTaskExecutor taskExecutor;
+	// @Autowired
+	// private ThreadPoolTaskExecutor taskExecutor;
 	@Autowired
 	private IFriendService friendService;
 	@Autowired
@@ -89,9 +87,9 @@ public class InboxService implements IInboxService {
 	private int wantFeedBackDaysAgo = 7;
 	@Value("${nill.feed.back.days.ago}")
 	private int nillFeedBackDaysAgo = 7;
-	@Value("${last.push.expire.time}")
-	private int lastPushExpireTime = 86400;
 
+	// @Value("${last.push.expire.time}")
+	// private int lastPushExpireTime = 86400
 	// @Autowired
 	// private int inboxCapacity = 100;
 
@@ -105,17 +103,17 @@ public class InboxService implements IInboxService {
 		String key = RedisKeyGenerator.genInboxActsKey(receiverId);
 		redisTemplate.opsForZSet()
 				.add(key,
-						assembleValue(senderId, actId),
+						actId,
 						inboxScoreGenerator.genScore(senderId, receiverId,
 								actId, time));
 		// 更新最后推送时间
-		try {
-			memcachedClient.set(MemcachedKeyGenerator.genLastPushTimeKey(
-					senderId, receiverId), lastPushExpireTime, System
-					.currentTimeMillis());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
+		// try {
+		// memcachedClient.set(MemcachedKeyGenerator.genLastPushTimeKey(
+		// senderId, receiverId), lastPushExpireTime, System
+		// .currentTimeMillis());
+		// } catch (Exception e) {
+		// log.error(e.getMessage(), e);
+		// }
 		// TODO 删除超过100个的值
 		// int overCount = redisTemplate.opsForZSet().size(key).intValue()
 		// - inboxCapacity;
@@ -131,27 +129,27 @@ public class InboxService implements IInboxService {
 		return null == count ? 0 : count;
 	}
 
-	@Override
-	public void syncInbox(long uid) {
-		Set<Long> friendIds = friendService.getAppFriends(uid);
-		Date startDate = DateUtils.addYears(new Date(), -1);
-		List<UserAct> userActList = userActService.listFriendsRecentAct(
-				friendIds, startDate, 0, 100);
-		for (UserAct userAct : userActList) {
-			push(uid, userAct.getUid(), userAct.getActId(),
-					userAct.getLastModifyTime());
-		}
-	}
-
-	@Override
-	public void syncInboxByTask(final long uid) {
-		taskExecutor.execute(new Runnable() {
-			@Override
-			public void run() {
-				syncInbox(uid);
-			}
-		});
-	}
+	// @Override
+	// public void syncInbox(long uid) {
+	// Set<Long> friendIds = friendService.getAppFriends(uid);
+	// Date startDate = DateUtils.addYears(new Date(), -1);
+	// List<UserAct> userActList = userActService.listFriendsRecentAct(
+	// friendIds, startDate, 0, 100);
+	// for (UserAct userAct : userActList) {
+	// push(uid, userAct.getUid(), userAct.getActId(),
+	// userAct.getLastModifyTime());
+	// }
+	// }
+	//
+	// @Override
+	// public void syncInboxByTask(final long uid) {
+	// taskExecutor.execute(new Runnable() {
+	// @Override
+	// public void run() {
+	// syncInbox(uid);
+	// }
+	// });
+	// }
 
 	@Override
 	public void shiftRead(long uid, long senderId, long actId,
@@ -161,70 +159,35 @@ public class InboxService implements IInboxService {
 			readFeedRedisTemplate.opsForList().rightPush(
 					RedisKeyGenerator.genReadFeedsKey(readFeedType), readFeed);
 		} else {
-			longRedisTemplate.opsForSet().add(
+			redisTemplate.opsForSet().add(
 					RedisKeyGenerator.genNillActsKey(uid), actId);
 		}
 	}
 
 	@Override
-	public List<ReadFeed> listGetBackFeed() {
-		List<ReadFeed> getBackFeedList = getBackFeedList(ReadFeedType.WANT,
-				wantFeedBackDaysAgo);
-		getBackFeedList.addAll(getBackFeedList(ReadFeedType.NILL,
-				nillFeedBackDaysAgo));
-		return getBackFeedList;
-	}
-
-	private List<ReadFeed> getBackFeedList(ReadFeedType type, int daysAgo) {
-		List<ReadFeed> getBackFeedList = new ArrayList<ReadFeed>();
-		Date cDate = new Date();
-		while (true) {
-			String key = RedisKeyGenerator.genReadFeedsKey(type);
-			ReadFeed readFeed = readFeedRedisTemplate.opsForList().leftPop(key);
-			if (null == readFeed) {
-				break;
-			} else if (readFeed.getTime().after(
-					DateUtils.addDays(cDate, -daysAgo))) {
-				readFeedRedisTemplate.opsForList().leftPush(key, readFeed);
-				break;
-			} else {
-				getBackFeedList.add(readFeed);
-			}
-		}
-		return getBackFeedList;
-	}
-
-	@Override
-	public boolean remove(long uid, long senderId, long actId) {
+	public boolean remove(long uid, long actId) {
 		Boolean success = redisTemplate.opsForZSet().remove(
-				RedisKeyGenerator.genInboxActsKey(uid),
-				assembleValue(senderId, actId));
+				RedisKeyGenerator.genInboxActsKey(uid), String.valueOf(actId));
 		return success == null ? false : success;
 	}
 
 	@Override
 	public Feed showSpecific(long uid) {
-		Set<String> values = redisTemplate.opsForZSet().reverseRange(
+		Set<Long> values = redisTemplate.opsForZSet().reverseRange(
 				RedisKeyGenerator.genInboxActsKey(uid), 0, 0);
 		if (CollectionUtils.isNotEmpty(values)) {
-			for (String value : values) {
-				long[] ids = parseValue(value);
-				if (null != ids) {
-					ProfileCache profileCache = profileService
-							.getProfileCacheByUid(ids[0]);
-					Act act = actService.getActById(ids[1]);
-					if (null == profileCache || null == act) {
-						remove(uid, ids[0], ids[1]);
+			for (long actId : values) {
+				try {
+					Act act = actService.getActById(actId);
+					if (null == act) {
+						remove(uid, actId);
 					} else {
-						UserAct userAct = userActService.getUserAct(
-								profileCache.getUid(), act.getId());
-						if (null == userAct) {
-							remove(uid, ids[0], ids[1]);
-						} else {
-							return new Feed(profileCache, FeedType.SPECIFIC,
-									userAct.getLastModifyTime(), act);
-						}
+						return new Feed(null, FeedType.SPECIFIC, new Date(),
+								act);
 					}
+				} catch (NumberFormatException e) {
+					log.error(e.getMessage(), e);
+					break;
 				}
 			}
 		}
@@ -283,7 +246,7 @@ public class InboxService implements IInboxService {
 			// 没有未安装App的好友
 			return null;
 		}
-		Set<String> identitySet = redisTemplate.opsForSet().members(
+		Set<String> identitySet = stringRedisTemplate.opsForSet().members(
 				RedisKeyGenerator.genQuestionUsersKey(uid));
 		if (null != identitySet) {
 			for (String identity : identitySet) {
@@ -325,7 +288,7 @@ public class InboxService implements IInboxService {
 	@Override
 	public Feed showRecommend(long uid) {
 		// 需要排除的
-		Set<Long> excludeActIds = longRedisTemplate.opsForSet().members(
+		Set<Long> excludeActIds = redisTemplate.opsForSet().members(
 				RedisKeyGenerator.genNillActsKey(uid));
 		for (long actId : userActService.getUserActIdsFromCache(uid,
 				Integer.MAX_VALUE)) {
@@ -381,22 +344,10 @@ public class InboxService implements IInboxService {
 			int answer) {
 		if (sendQuestionMssage(uid, tpId, questionId, identity, answer)) {
 			String key = RedisKeyGenerator.genQuestionUsersKey(uid);
-			redisTemplate.opsForSet().add(key, identity);
-			redisTemplate.opsForSet().add(
+			stringRedisTemplate.opsForSet().add(key, identity);
+			stringRedisTemplate.opsForSet().add(
 					RedisKeyGenerator.genQuestionUserKeysKey(), key);
 			// accountService.profitPoint(uid, ProfitAction.ANSWER_QUESTION);
-		}
-	}
-
-	@Override
-	public long getLastPushTime(long senderId, long receiverId) {
-		try {
-			Long time = memcachedClient.get(MemcachedKeyGenerator
-					.genLastPushTimeKey(senderId, receiverId));
-			return time == null ? 0L : time;
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			return 0L;
 		}
 	}
 
@@ -449,6 +400,7 @@ public class InboxService implements IInboxService {
 				Locale.SIMPLIFIED_CHINESE);
 	}
 
+	@Deprecated
 	private String assembleValue(long senderId, long actId) {
 		return senderId + VALUE_DELIMITER + actId;
 	}
@@ -459,6 +411,7 @@ public class InboxService implements IInboxService {
 	 * @param value
 	 * @return 长度为2的数组，第一个是friendId，第二个是ActId.如果解析失败，返回null
 	 */
+	@Deprecated
 	private long[] parseValue(String value) {
 		try {
 			StringTokenizer st = new StringTokenizer(value, VALUE_DELIMITER);
@@ -476,6 +429,7 @@ public class InboxService implements IInboxService {
 	}
 
 	@Override
+	@Deprecated
 	public void clearPunishTimes(long senderId, long receiverId) {
 		try {
 			memcachedClient.deleteWithNoReply(MemcachedKeyGenerator
@@ -486,6 +440,7 @@ public class InboxService implements IInboxService {
 	}
 
 	@Override
+	@Deprecated
 	public long increasePunishTimes(long senderId, long receiverId) {
 		try {
 			return memcachedClient.incr(MemcachedKeyGenerator
@@ -494,5 +449,48 @@ public class InboxService implements IInboxService {
 			log.error(e.getMessage(), e);
 			return 0L;
 		}
+	}
+
+	@Override
+	@Deprecated
+	public long getLastPushTime(long senderId, long receiverId) {
+		try {
+			Long time = memcachedClient.get(MemcachedKeyGenerator
+					.genLastPushTimeKey(senderId, receiverId));
+			return time == null ? 0L : time;
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return 0L;
+		}
+	}
+
+	@Deprecated
+	@Override
+	public List<ReadFeed> listGetBackFeed() {
+		List<ReadFeed> getBackFeedList = getBackFeedList(ReadFeedType.WANT,
+				wantFeedBackDaysAgo);
+		getBackFeedList.addAll(getBackFeedList(ReadFeedType.NILL,
+				nillFeedBackDaysAgo));
+		return getBackFeedList;
+	}
+
+	@Deprecated
+	private List<ReadFeed> getBackFeedList(ReadFeedType type, int daysAgo) {
+		List<ReadFeed> getBackFeedList = new ArrayList<ReadFeed>();
+		Date cDate = new Date();
+		while (true) {
+			String key = RedisKeyGenerator.genReadFeedsKey(type);
+			ReadFeed readFeed = readFeedRedisTemplate.opsForList().leftPop(key);
+			if (null == readFeed) {
+				break;
+			} else if (readFeed.getTime().after(
+					DateUtils.addDays(cDate, -daysAgo))) {
+				readFeedRedisTemplate.opsForList().leftPush(key, readFeed);
+				break;
+			} else {
+				getBackFeedList.add(readFeed);
+			}
+		}
+		return getBackFeedList;
 	}
 }

@@ -16,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,8 @@ public class UserActService implements IUserActService {
 	private IMsgMessageService msgMessageService;
 	@Autowired
 	private IAppService appService;
+	@Value("${users.same.act.pre.count}")
+	private int usersSameActPreCount;
 
 	// @Autowired
 	// private IAccountService accountService;
@@ -102,13 +105,14 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
+	@Deprecated
 	public void respSpecific(long uid, long actId, long friendId,
 			ReadFeedType type) throws IndexException {
 		if (null == type) {
 			throw new IndexException("response feed invalid parameter");
 		}
 		// 验证uid的inbox中是否存在,并取出
-		if (!inboxService.remove(uid, friendId, actId)) {
+		if (!inboxService.remove(uid, actId)) {
 			throw new IndexException("response feed invalid parameter");
 		}
 		dealActAndFriend(uid, actId, friendId, null, 0, type);
@@ -116,6 +120,7 @@ public class UserActService implements IUserActService {
 		inboxService.shiftRead(uid, friendId, actId, type);
 	}
 
+	@Deprecated
 	private void dealActAndFriend(long uid, long actId, long friendId,
 			String tpIdentity, long tpId, ReadFeedType type) {
 		switch (type) {
@@ -135,6 +140,7 @@ public class UserActService implements IUserActService {
 		}
 	}
 
+	@Deprecated
 	private void wantToAct(long uid, long actId, long friendId) {
 		try {
 			useAct(uid, actId, 2, true, friendId);
@@ -144,6 +150,7 @@ public class UserActService implements IUserActService {
 		friendService.incrOrDecrIntimacy(uid, friendId, 2);
 	}
 
+	@Deprecated
 	private void wantToAct(long uid, long actId, String tpIdentity, long tpId) {
 		try {
 			useAct(uid, actId, 2, true, 0);
@@ -152,6 +159,7 @@ public class UserActService implements IUserActService {
 		}
 	}
 
+	@Deprecated
 	private void dependToAct(long uid, long actId, long friendId) {
 		try {
 			useAct(uid, actId, 1, true, friendId);
@@ -202,6 +210,7 @@ public class UserActService implements IUserActService {
 			userActMapper.insertSelective(userAct);
 			// 添加人气
 			actService.inOrDePopularity(actId, 1);
+			profileService.updateLastUpdateTime(uid);
 		} else {
 			if (!canRepeat) {
 				throw new ActInputException(
@@ -216,7 +225,7 @@ public class UserActService implements IUserActService {
 		// save my act to redis
 		redisTemplate.opsForZSet().add(
 				RedisKeyGenerator.genMyActsKey(userAct.getUid()),
-				userAct.getActId(), userAct.getHotLev());
+				userAct.getActId(), userAct.getCreateTime().getTime());
 		sendFeed(userAct, srcFriendId);
 	}
 
@@ -254,6 +263,13 @@ public class UserActService implements IUserActService {
 			return Collections.emptyList();
 		}
 		return new ArrayList<Long>(actIds);
+	}
+
+	@Override
+	public int getUserActCountFromCache(long uid) {
+		Long count = redisTemplate.opsForZSet().size(
+				RedisKeyGenerator.genMyActsKey(uid));
+		return count == null ? 0 : count.intValue();
 	}
 
 	@Override
@@ -366,12 +382,12 @@ public class UserActService implements IUserActService {
 		return userActMapper.countByExample(example);
 	}
 
-	@Override
-	public boolean existUserAct(long uid, long actId) {
-		Long rank = redisTemplate.opsForZSet().rank(
-				RedisKeyGenerator.genMyActsKey(uid), actId);
-		return rank != null;
-	}
+	// @Override
+	// public boolean existUserAct(long uid, long actId) {
+	// Long rank = redisTemplate.opsForZSet().rank(
+	// RedisKeyGenerator.genMyActsKey(uid), actId);
+	// return rank != null;
+	// }
 
 	@Override
 	public List<UserAct> listUserActByActId(long actId, int firstResult,
@@ -391,7 +407,7 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
-	public List<UserAct> listFriendUserActByActId(Collection<Long> friendIds,
+	public List<UserAct> listFriendUserActByActId(List<Long> friendIds,
 			long actId, int firstResult, int maxResult) {
 		if (CollectionUtils.isEmpty(friendIds)) {
 			return Collections.emptyList();
@@ -405,13 +421,29 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
-	public int countFriendUserActByActId(Collection<Long> friendIds, long actId) {
+	public int countFriendUserActByActId(List<Long> friendIds, long actId) {
 		if (CollectionUtils.isEmpty(friendIds)) {
 			return 0;
 		}
 		UserActExample example = new UserActExample();
-		example.createCriteria().andActIdEqualTo(actId)
-				.andUidIn(new ArrayList<Long>(friendIds));
+		example.createCriteria().andActIdEqualTo(actId).andUidIn(friendIds);
 		return userActMapper.countByExample(example);
+	}
+
+	@Override
+	public List<Act> listUsersSameActList(long primaryUid, long friendUid,
+			int count) {
+		List<Act> result = new ArrayList<Act>(count);
+		List<Act> actList = getUserActFromCache(primaryUid,
+				usersSameActPreCount);
+		for (Act act : actList) {
+			if (hasAct(friendUid, act.getId())) {
+				result.add(act);
+				if (result.size() >= count) {
+					break;
+				}
+			}
+		}
+		return result;
 	}
 }

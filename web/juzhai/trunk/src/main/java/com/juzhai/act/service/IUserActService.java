@@ -41,6 +41,7 @@ public interface IUserActService {
 	 *            处理方式
 	 * @throws IndexException
 	 */
+	@Deprecated
 	void respSpecific(long uid, long actId, long friendId, ReadFeedType type)
 			throws IndexException;
 
@@ -120,6 +121,14 @@ public interface IUserActService {
 	List<Act> getUserActFromCache(long uid, int count);
 
 	/**
+	 * 从缓存根据用户ID获取他的项目数
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	int getUserActCountFromCache(long uid);
+
+	/**
 	 * 根据页码和每页显示数量，列出某用户的Act
 	 * 
 	 * @param uid
@@ -183,14 +192,14 @@ public interface IUserActService {
 	 */
 	int countFriendsRecentAct(Collection<Long> friendIds, Date startDate);
 
-	/**
-	 * 用户是否有某个兴趣
-	 * 
-	 * @param uid
-	 * @param actId
-	 * @return
-	 */
-	boolean existUserAct(long uid, long actId);
+	// /**
+	// * 用户是否有某个兴趣
+	// *
+	// * @param uid
+	// * @param actId
+	// * @return
+	// */
+	// boolean existUserAct(long uid, long actId);
 
 	/**
 	 * 列出所有加了特定项目的UserAct
@@ -218,8 +227,8 @@ public interface IUserActService {
 	 * @param maxResult
 	 * @return
 	 */
-	List<UserAct> listFriendUserActByActId(Collection<Long> friendIds,
-			long actId, int firstResult, int maxResult);
+	List<UserAct> listFriendUserActByActId(List<Long> friendIds, long actId,
+			int firstResult, int maxResult);
 
 	/**
 	 * 加了特定项目的人数
@@ -227,5 +236,15 @@ public interface IUserActService {
 	 * @param actId
 	 * @return
 	 */
-	int countFriendUserActByActId(Collection<Long> friendIds, long actId);
+	int countFriendUserActByActId(List<Long> friendIds, long actId);
+
+	/**
+	 * 获取两人前N个共同项目
+	 * 
+	 * @param primaryUid
+	 * @param friendUid
+	 * @param count
+	 * @return
+	 */
+	List<Act> listUsersSameActList(long primaryUid, long friendUid, int count);
 }

@@ -5,30 +5,15 @@
 	<div class="top_right"></div>
 	<div class="top_left"></div>
 	<div class="top_mid"><!--top_mid begin-->
-		<div class="top_high_line"></div>
-		<div class="zjxq fl"><!--最近想去 begin-->
-			<a href="/app/myAct" class="wantgo" title="管理我的拒宅兴趣">我想找伴去</a>
-		</div><!--最近想去 end-->
-		<div class="zjxq_input fl"><!--zjxq_input begin-->
-			<div id="headAddActError" class="error" style="display:none"><p>请输入完整信息信息</p></div>
-			<p class="l"></p><span><input id="addAct" type="text" /></span>
-			<a href="javascript:;" class="btn add" id="addActBtn" title="添加为我的兴趣">添加</a>
-			<%-- <a href="javascript:;" class="btn zhao" title="向好友发布动态">召</a>
-			<a href="javascript:;" class="btn yao" title="邀请指定好友">邀</a> --%>
-			<p class="r"></p>
-		</div><!--zjxq_input end-->
-		<div class="home fl"><p></p><a href="/app/index">拒宅器</a></div>
-		<div class="dy fr">
-			<div class="error" style="display:none">请输入完整信息</div>
-			<p class="l"></p>
-			<span><input id="subEmail" type="text" <c:if test="${profile.subEmail}">value="${profile.email}"</c:if> initmsg="用email接收拒宅邀请" /></span>
-			<a href="javascript:;">订阅</a>
-		</div>
-		<div class="message fr"><!--我的消息 begin-->
-			<div class="message_num" style="display:none">
-				<span></span>
-			</div>
-			<a href="/msg/showRead" title="查看我的拒宅消息">我的消息</a>
-		</div><!--我的消息 end-->
+		<div class="menu"><!--menu begin-->
+			<span <c:if test="${page=='home'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="/app/index">拒宅灵感</a></span>
+			<em></em>
+			<span <c:if test="${page=='myAct'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="/app/myAct">我的拒宅(123)</a></span>
+			<em></em>
+			<span <c:if test="${page=='friend'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="/app/showAllFriend">好友的拒宅</a></span>
+			<em></em>
+			<span <c:if test="${page=='rank'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="#">拒宅排行</a></span>
+		</div><!--menu end-->
+		<div class="dy fr"><p class="l"></p><span><input name="" type="text" value="输入拒宅项目,如:逛街"/></span><a href="#">找伴</a></div>
 	</div><!--top_mid end-->
 </div><!--skin_top end-->

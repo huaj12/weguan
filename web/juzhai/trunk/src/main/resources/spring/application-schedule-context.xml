@@ -102,7 +102,7 @@
 			<list>
 				<ref bean="actIndexOptimizationAndCommitTrigger"/>
 				<ref bean="mergerMessageTrigger"/>
-				<ref bean="getBackFeedTrigger"/>
+				<!-- <ref bean="getBackFeedTrigger"/> -->
 				<ref bean="resetQuestionUsersTrigger"/>
 				<ref bean="unreadMsgEmailTrigger"/>
 				<ref bean="actBriefingEmailTrigger"/>

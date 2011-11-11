@@ -1,6 +1,7 @@
 package com.juzhai.act.rabbit.listener;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -85,7 +86,7 @@ public class UpdateActFeedMessageListener implements
 
 	private Set<Long> getPushTargets(long uid, long actId, Set<Long> excludeUids) {
 		Set<Long> targets = new HashSet<Long>();
-		Set<Long> appFriends = friendService.getAppFriends(uid);
+		List<Long> appFriends = friendService.getAppFriends(uid);
 		for (long friendId : appFriends) {
 			if (CollectionUtils.isEmpty(excludeUids)
 					|| !excludeUids.contains(friendId)) {

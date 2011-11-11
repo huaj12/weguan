@@ -2,7 +2,6 @@ package com.juzhai.msg.rabbit.listener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -18,7 +17,6 @@ import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.rabbit.message.MsgMessage;
-import com.juzhai.msg.service.IMergerActMsgService;
 import com.juzhai.msg.service.IMsgService;
 import com.juzhai.msg.service.ISendAppMsgService;
 import com.juzhai.passport.model.TpUser;
@@ -145,7 +143,7 @@ public class ActMsgMessageListener implements
 	 * @return
 	 */
 	private List<Long> getPushTargets(long uid, long actId) {
-		Set<Long> friendIds = friendService.getAppFriends(uid);
+		List<Long> friendIds = friendService.getAppFriends(uid);
 		List<Long> targets = new ArrayList<Long>();
 		for (Long friendUid : friendIds) {
 			if (profileService.isMaybeSameCity(uid, friendUid) != 0) {

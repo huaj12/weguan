@@ -92,7 +92,7 @@ public class AppActController extends BaseController {
 	public String pageActFriend(HttpServletRequest request, Model model,
 			long actId, int page) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
-		Set<Long> friendIds = friendService.getAppFriends(context.getUid());
+		List<Long> friendIds = friendService.getAppFriends(context.getUid());
 		PagerManager pager = new PagerManager(page, actUserMaxResult,
 				userActService.countFriendUserActByActId(friendIds, actId));
 		List<UserAct> userActList = userActService.listFriendUserActByActId(

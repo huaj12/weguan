@@ -4,10 +4,13 @@
 package com.juzhai.passport.service.impl;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -167,5 +170,26 @@ public class ProfileService implements IProfileService {
 			byteArrayRedisTemplate.opsForValue().set(redisKey, scretKey);
 		}
 		return scretKey;
+	}
+
+	@Override
+	public void updateLastUpdateTime(long uid) {
+		Profile profile = new Profile();
+		profile.setUid(uid);
+		profile.setLastUpdateTime(new Date());
+		profileMapper.updateByPrimaryKeySelective(profile);
+	}
+
+	@Override
+	public List<Profile> listProfileByIdsOrderByLastUpdateTime(List<Long> uids,
+			int firstResult, int maxResults) {
+		if (CollectionUtils.isEmpty(uids)) {
+			return Collections.emptyList();
+		}
+		ProfileExample example = new ProfileExample();
+		example.createCriteria().andUidIn(uids);
+		example.setOrderByClause("last_update_time desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return profileMapper.selectByExample(example);
 	}
 }

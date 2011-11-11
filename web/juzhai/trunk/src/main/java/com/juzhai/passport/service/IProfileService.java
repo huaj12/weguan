@@ -87,4 +87,20 @@ public interface IProfileService {
 	 * @param uid
 	 */
 	byte[] getUserSecretKey(long uid);
+
+	/**
+	 * 更新最后更新时间
+	 * 
+	 * @param uid
+	 */
+	void updateLastUpdateTime(long uid);
+
+	/**
+	 * 根据给出的ID列表，根据最后更新时间排序
+	 * 
+	 * @param uids
+	 * @return
+	 */
+	List<Profile> listProfileByIdsOrderByLastUpdateTime(List<Long> uids,
+			int firstResult, int maxResults);
 }

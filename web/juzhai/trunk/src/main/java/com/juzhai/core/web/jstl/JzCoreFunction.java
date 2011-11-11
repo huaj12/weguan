@@ -9,6 +9,7 @@ import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.InitData;
+import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Thirdparty;
 
 public class JzCoreFunction {
@@ -83,5 +84,20 @@ public class JzCoreFunction {
 			return tp.getUserHomeUrl().replace("{0}", tpIdentity);
 		}
 		return "#";
+	}
+
+	/**
+	 * 获得城市名称
+	 * 
+	 * @param cityId
+	 * @return
+	 */
+	public static String cityName(long cityId) {
+		if (cityId <= 0) {
+			return null;
+		} else {
+			City cityObj = InitData.CITY_MAP.get(cityId);
+			return null == cityObj ? null : cityObj.getName();
+		}
 	}
 }

@@ -8,11 +8,11 @@
 		<div class="menu"><!--menu begin-->
 			<span <c:if test="${page=='home'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="/app/index">拒宅灵感</a></span>
 			<em></em>
-			<span <c:if test="${page=='myAct'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="/app/myAct">我的拒宅(123)</a></span>
+			<span <c:if test="${page=='myAct'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="/app/myAct">我的拒宅</a></span>
 			<em></em>
 			<span <c:if test="${page=='friend'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="/app/showAllFriend">好友的拒宅</a></span>
 			<em></em>
-			<span <c:if test="${page=='rank'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="#">拒宅排行</a></span>
+			<span <c:if test="${page=='rank'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="/app/showLive">拒宅排行</a></span>
 		</div><!--menu end-->
 		<div class="dy fr"><p class="l"></p><span><input name="" type="text" value="输入拒宅项目,如:逛街"/></span><a href="#">找伴</a></div>
 	</div><!--top_mid end-->

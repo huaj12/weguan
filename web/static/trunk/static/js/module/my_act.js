@@ -1,43 +1,43 @@
-function actHover(li, isOver){
-	if(isOver){
-		$(li).addClass("hover");
-	}else {
-		$(li).removeClass("hover");
-	}
-}
-
 function removeAct(a, pageId){
 	var actId = $(a).attr("actid");
 	var actName = $(a).attr("actname");
 	if(actName == null || actName == '' || isNaN(actId)){
 		return false;
 	}
-	var answer = confirm("确定不再想去 " + actName + " 么？");
-	if (answer){
-		//ajax
-		jQuery.ajax({
-			url: "/app/ajax/removeAct",
-			type: "post",
-			cache : false,
-			data: {"actId": actId},
-			dataType: "json",
-			success: function(result){
-				if(result&&result.success){
-					//移除内容
-					pageMyAct(pageId);
-					var count = $("#myActCnt").text();
-					$("#myActCnt").text(count-1);
-				}else{
-					alert("system error.");
-				}
+	$.dialog({
+		icon: 'question',
+		fixed: true,
+		top:'50%',
+		id: 'question_box',
+		content: '确定不再想去 ' + actName + ' 么？',
+		ok: function () {
+				jQuery.ajax({
+					url: "/app/ajax/removeAct",
+					type: "post",
+					cache : false,
+					data: {"actId": actId},
+					dataType: "json",
+					success: function(result){
+						if(result&&result.success){
+							//移除内容
+							pageMyAct(pageId);
+							var count = $("#myActCnt").text();
+							$("#myActCnt").text(count-1);
+						}else{
+							alert("system error.");
+						}
+					},
+					statusCode: {
+					    401: function() {
+					    	window.location.href="/login";
+					    }
+					}
+				});
+				return true;
 			},
-			statusCode: {
-			    401: function() {
-			    	window.location.href="/login";
-			    }
-			}
-		});
-	}
+		cancelVal: '取消',
+		cancel: true 
+	});
 }
 
 function addCategoryAct(a){

@@ -7,7 +7,7 @@
 		<c:otherwise>
 			<ul>
 				<c:forEach var="userActView" items="${userActViewList}" varStatus="status">
-					<li <c:if test="${status.count%2==0}">class="mr0"</c:if> onmouseover="javascript:actHover(this, true)" onmouseout="javascript:actHover(this, false)">
+					<li <c:if test="${status.count%2==0}">class="mr0"</c:if> onmouseover="javascript:mouseHover(this, true)" onmouseout="javascript:mouseHover(this, false)">
 						<p class="l"></p>
 						<p class="r"></p>
 						<a href="/app/showAct/${userActView.act.id}" class="btn">找伴</a>
@@ -23,9 +23,9 @@
 											<c:forEach var="friend" items="${userActView.friendList}" varStatus="status">
 												<a href="/app/${friend.uid}" class="user">${friend.nickname}</a><c:if test="${!status.last}">、</c:if>
 											</c:forEach>
-											&nbsp;等<a href="/app/showAct/${userActView.act.id}?allUser=1" class="num">${userActView.act.popularity}</a>人想去
+											&nbsp;等<a href="/app/showAct/${userActView.act.id}" class="num">${userActView.act.popularity}</a>人想去
 										</c:when>
-										<c:otherwise>共<a href="/app/showAct/${userActView.act.id}?allUser=1" class="num">${userActView.act.popularity}</a>人想去</c:otherwise>
+										<c:otherwise>共<a href="/app/showAct/${userActView.act.id}" class="num">${userActView.act.popularity}</a>人想去</c:otherwise>
 									</c:choose>
 								</c:when>
 								<c:otherwise>

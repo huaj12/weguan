@@ -1,11 +1,3 @@
-function friendHover(li, isOver){
-	if(isOver){
-		$(li).addClass("hover");
-	}else {
-		$(li).removeClass("hover");
-	}
-}
-
 function pageFriend(page){
 	//ajax
 	jQuery.ajax({

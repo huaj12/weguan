@@ -45,6 +45,20 @@
     </function>
     
     <function>
+    	<name>beforeMinutes</name>
+    	<function-class>com.juzhai.core.web.jstl.JzCoreFunction</function-class>
+    	<function-signature>long beforeMinutes(java.util.Date)</function-signature>
+    	<example>${jz:beforeMinutes(date)}</example>
+    </function>
+    
+    <function>
+    	<name>beforeDays</name>
+    	<function-class>com.juzhai.core.web.jstl.JzCoreFunction</function-class>
+    	<function-signature>long beforeDays(java.util.Date)</function-signature>
+    	<example>${jz:beforeDays(date)}</example>
+    </function>
+    
+    <function>
     	<name>actLogo</name>
     	<function-class>com.juzhai.core.web.jstl.JzCoreFunction</function-class>
     	<function-signature>java.lang.String actLogo(long,java.lang.String,int)</function-signature>

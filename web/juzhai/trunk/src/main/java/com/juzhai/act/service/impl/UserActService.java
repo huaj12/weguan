@@ -35,6 +35,7 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.home.service.IInboxService;
+import com.juzhai.index.service.IActLiveService;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.service.IMsgMessageService;
 import com.juzhai.passport.bean.ProfileCache;
@@ -68,6 +69,8 @@ public class UserActService implements IUserActService {
 	private IMsgMessageService msgMessageService;
 	@Autowired
 	private IAppService appService;
+	@Autowired
+	private IActLiveService actLiveService;
 	@Value("${users.same.act.pre.count}")
 	private int usersSameActPreCount;
 
@@ -199,34 +202,34 @@ public class UserActService implements IUserActService {
 		example.createCriteria().andUidEqualTo(uid).andActIdEqualTo(actId);
 		List<UserAct> list = userActMapper.selectByExample(example);
 		UserAct userAct = null;
-		if (CollectionUtils.isEmpty(list)) {
-			// insert
-			userAct = new UserAct();
-			userAct.setActId(actId);
-			userAct.setHotLev(hotLev);
-			userAct.setUid(uid);
-			userAct.setCreateTime(new Date());
-			userAct.setLastModifyTime(userAct.getCreateTime());
-			userActMapper.insertSelective(userAct);
-			// 添加人气
-			actService.inOrDePopularity(actId, 1);
-			profileService.updateLastUpdateTime(uid);
-			inboxService.remove(uid, actId);
-		} else {
-			if (!canRepeat) {
-				throw new ActInputException(
-						ActInputException.ACT_NAME_EXISTENCE);
-			}
-			// update
-			userAct = list.get(0);
-			userAct.setHotLev(userAct.getHotLev() + hotLev);
-			userAct.setLastModifyTime(new Date());
-			userActMapper.updateByPrimaryKeySelective(userAct);
+		if (CollectionUtils.isNotEmpty(list)) {
+			// if (!canRepeat) {
+			throw new ActInputException(ActInputException.ACT_NAME_EXISTENCE);
+			// }
+			// // update
+			// userAct = list.get(0);
+			// userAct.setHotLev(userAct.getHotLev() + hotLev);
+			// userAct.setLastModifyTime(new Date());
+			// userActMapper.updateByPrimaryKeySelective(userAct);
 		}
+
+		// insert
+		userAct = new UserAct();
+		userAct.setActId(actId);
+		userAct.setHotLev(hotLev);
+		userAct.setUid(uid);
+		userAct.setCreateTime(new Date());
+		userAct.setLastModifyTime(userAct.getCreateTime());
+		userActMapper.insertSelective(userAct);
 		// save my act to redis
 		redisTemplate.opsForZSet().add(
 				RedisKeyGenerator.genMyActsKey(userAct.getUid()),
 				userAct.getActId(), userAct.getCreateTime().getTime());
+		// 添加人气
+		actService.inOrDePopularity(actId, 1);
+		profileService.updateLastUpdateTime(uid);
+		inboxService.remove(uid, actId);
+		actLiveService.addNewLive(uid, actId, userAct.getCreateTime());
 		sendFeed(userAct, srcFriendId);
 	}
 
@@ -289,6 +292,8 @@ public class UserActService implements IUserActService {
 					RedisKeyGenerator.genMyActsKey(uid), actId);
 			// 更新Act的使用人数
 			actService.inOrDePopularity(actId, -1);
+
+			actLiveService.removeLive(uid, actId);
 		}
 	}
 

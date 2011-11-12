@@ -1,8 +1,10 @@
 package com.juzhai.core.web.jstl;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 
 import com.juzhai.cms.bean.SizeType;
 import com.juzhai.core.util.ImageUtil;
@@ -45,6 +47,27 @@ public class JzCoreFunction {
 	 */
 	public static boolean dateAfter(Date date) {
 		return date.before(new Date());
+	}
+
+	/**
+	 * 多少分钟之前
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static long beforeMinutes(Date date) {
+		return (System.currentTimeMillis() - date.getTime()) / 60000;
+	}
+
+	/**
+	 * 多少天之前
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static long beforeDays(Date date) {
+		return ((DateUtils.truncate(new Date(), Calendar.DATE).getTime() - DateUtils
+				.truncate(date, Calendar.DATE).getTime()) / (24 * 60 * 60 * 1000));
 	}
 
 	/**
@@ -99,5 +122,10 @@ public class JzCoreFunction {
 			City cityObj = InitData.CITY_MAP.get(cityId);
 			return null == cityObj ? null : cityObj.getName();
 		}
+	}
+
+	public static void main(String[] args) {
+		Date date = DateUtils.addDays(new Date(), -3);
+		System.out.println(beforeDays(date));
 	}
 }

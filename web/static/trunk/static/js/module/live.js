@@ -1,12 +1,16 @@
-function pageUserAct(uid, page){
+$(document).ready(function(){
+	
+});
+
+function pageLive(page){
 	//ajax
 	jQuery.ajax({
-		url: "/app/ajax/pageUserAct",
+		url: "/app/ajax/pageLive",
 		type: "get",
 		cache : false,
-		data: {"uid": uid, "page": page},
+		data: {"page": page},
 		dataType: "html",
-		context: $(".txqd"),
+		context: $(".f_w_g"),
 		success: function(responseHTML){
 			$(this).html(responseHTML);
 			setHeight();

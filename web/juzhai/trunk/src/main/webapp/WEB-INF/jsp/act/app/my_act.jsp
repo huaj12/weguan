@@ -19,7 +19,7 @@
 						<div class="top"></div>
 						<div class="mid"><!--mid begin-->
 							<div class="pub_style"><!--pub_style begin-->
-								<div class="title"><h2>我想去的拒宅项目(${pager.totalResults})</h2><a href="/app/showCategoryActs" class="add">添加项目&gt;&gt;</a></div>
+								<div class="title"><h2>我想去的拒宅项目(<em id="myActCnt">${pager.totalResults}</em>)</h2><a href="/app/showCategoryActs" class="add">添加项目&gt;&gt;</a></div>
 								<div class="box"><!--box begin-->
 									<jsp:include page="my_act_list.jsp" />
 								</div><!--box ends-->

@@ -100,12 +100,17 @@ public class InboxService implements IInboxService {
 
 	@Override
 	public void push(long receiverId, long senderId, long actId, Date time) {
-		String key = RedisKeyGenerator.genInboxActsKey(receiverId);
-		redisTemplate.opsForZSet()
-				.add(key,
-						actId,
-						inboxScoreGenerator.genScore(senderId, receiverId,
-								actId, time));
+		if (userActService.hasAct(receiverId, actId)
+				|| isNilAct(receiverId, actId)) {
+			return;
+		} else {
+			String key = RedisKeyGenerator.genInboxActsKey(receiverId);
+			redisTemplate.opsForZSet().add(
+					key,
+					actId,
+					inboxScoreGenerator.genScore(senderId, receiverId, actId,
+							time));
+		}
 		// 更新最后推送时间
 		// try {
 		// memcachedClient.set(MemcachedKeyGenerator.genLastPushTimeKey(
@@ -120,6 +125,11 @@ public class InboxService implements IInboxService {
 		// if (overCount > 0) {
 		// redisTemplate.opsForZSet().removeRange(key, 0, overCount - 1);
 		// }
+	}
+
+	private boolean isNilAct(long uid, long actId) {
+		return redisTemplate.opsForSet().isMember(
+				RedisKeyGenerator.genNillActsKey(uid), actId);
 	}
 
 	@Override
@@ -161,13 +171,14 @@ public class InboxService implements IInboxService {
 		} else {
 			redisTemplate.opsForSet().add(
 					RedisKeyGenerator.genNillActsKey(uid), actId);
+			remove(uid, actId);
 		}
 	}
 
 	@Override
 	public boolean remove(long uid, long actId) {
 		Boolean success = redisTemplate.opsForZSet().remove(
-				RedisKeyGenerator.genInboxActsKey(uid), String.valueOf(actId));
+				RedisKeyGenerator.genInboxActsKey(uid), actId);
 		return success == null ? false : success;
 	}
 

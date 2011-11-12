@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class AppUserHomeController extends BaseController {
 		pageMyAct(request, model, 1, uid);
 		model.addAttribute("sameActList", userActService.listUsersSameActList(
 				context.getUid(), uid, usersSameActCount));
-		return "home/app/userHome";
+		return "home/app/user_home";
 	}
 
 	@RequestMapping(value = "/ajax/pageUserAct", method = RequestMethod.GET)
@@ -64,14 +65,19 @@ public class AppUserHomeController extends BaseController {
 			@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "0") long uid)
 			throws NeedLoginException {
-		UserContext context = checkLoginForApp(request);
+		checkLoginForApp(request);
 		int totalCount = userActService.countUserActByUid(uid);
 		PagerManager pager = new PagerManager(page, userActMaxRows, totalCount);
-		List<UserActView> userActViewList = userActService.pageUserActView(
-				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
+		List<UserActView> userActViewList = userActService.pageUserActView(uid,
+				pager.getFirstResult(), pager.getMaxResult());
 		model.addAttribute("userActViewList", userActViewList);
 		model.addAttribute("pager", pager);
-		return "home/app/user_act_list";
+		if (CollectionUtils.isNotEmpty(userActViewList) && page == 1) {
+			model.addAttribute("lastUpdateTime", userActViewList.get(0)
+					.getUserAct().getCreateTime());
+		}
+		model.addAttribute("uid", uid);
+		return "home/app/user_home_act_list";
 	}
 
 	@RequestMapping(value = "/showAllFriend", method = RequestMethod.GET)
@@ -79,7 +85,7 @@ public class AppUserHomeController extends BaseController {
 			throws NeedLoginException {
 		checkLoginForApp(request);
 		pageFriend(request, model, 1);
-		return "home/app/allFriend";
+		return "home/app/all_friend";
 	}
 
 	@RequestMapping(value = "/ajax/pageFriend", method = RequestMethod.GET)

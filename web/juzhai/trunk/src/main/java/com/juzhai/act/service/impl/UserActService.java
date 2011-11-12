@@ -211,6 +211,7 @@ public class UserActService implements IUserActService {
 			// 添加人气
 			actService.inOrDePopularity(actId, 1);
 			profileService.updateLastUpdateTime(uid);
+			inboxService.remove(uid, actId);
 		} else {
 			if (!canRepeat) {
 				throw new ActInputException(

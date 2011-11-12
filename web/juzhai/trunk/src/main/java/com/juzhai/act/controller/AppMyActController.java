@@ -148,9 +148,9 @@ public class AppMyActController extends BaseController {
 			long categoryId, @RequestParam(defaultValue = "1") int page)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
-		pageCategoryAct(context, model, categoryId, 1);
+		pageCategoryAct(context, model, categoryId, page);
 		model.addAttribute("categoryId", categoryId);
-		return "act/app/my_act_list";
+		return "act/app/category_act_list";
 	}
 
 	private void pageCategoryAct(UserContext context, Model model,

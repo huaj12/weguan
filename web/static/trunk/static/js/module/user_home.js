@@ -1,4 +1,4 @@
-function friendHover(li, isOver){
+function userActHover(li, isOver){
 	if(isOver){
 		$(li).addClass("hover");
 	}else {
@@ -6,15 +6,15 @@ function friendHover(li, isOver){
 	}
 }
 
-function pageFriend(page){
+function pageUserAct(uid, page){
 	//ajax
 	jQuery.ajax({
-		url: "/app/ajax/pageFriend",
+		url: "/app/ajax/pageUserAct",
 		type: "get",
 		cache : false,
-		data: {"page": page},
+		data: {"uid": uid, "page": page},
 		dataType: "html",
-		context: $(".f_w_g"),
+		context: $(".txqd"),
 		success: function(responseHTML){
 			$(this).html(responseHTML);
 			setHeight();

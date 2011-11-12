@@ -11,7 +11,7 @@
 						<p class="l"></p>
 						<p class="r"></p>
 						<a href="/app/showAct/${userActView.act.id}" class="btn">找伴</a>
-						<a href="javascript:void(0);" onclick="javascript:removeAct(this);" actid="${userActView.act.id}" actname="${userActView.act.name}" class="close"></a>
+						<a href="javascript:void(0);" onclick="javascript:removeAct(this, ${pager.currentPage});" actid="${userActView.act.id}" actname="${userActView.act.name}" class="close"></a>
 						<div></div>
 						<div class="photo"><a href="/app/showAct/${userActView.act.id}"><img src="${jz:actLogo(userActView.act.id,userActView.act.logo,80)}"  width="80" height="80"/></a></div>
 						<h2><a href="/app/showAct/${userActView.act.id}"><c:out value="${userActView.act.name}"/></a></h2>

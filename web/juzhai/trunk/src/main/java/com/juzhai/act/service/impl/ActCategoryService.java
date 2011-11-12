@@ -73,7 +73,7 @@ public class ActCategoryService implements IActCategoryService {
 				if (act1.getPopularity() == act2.getPopularity()) {
 					return Long.valueOf(act1.getId() - act2.getId()).intValue();
 				} else {
-					return act1.getPopularity() - act2.getPopularity();
+					return act2.getPopularity() - act1.getPopularity();
 				}
 			}
 		});

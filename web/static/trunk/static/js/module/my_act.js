@@ -6,7 +6,7 @@ function actHover(li, isOver){
 	}
 }
 
-function removeAct(a){
+function removeAct(a, pageId){
 	var actId = $(a).attr("actid");
 	var actName = $(a).attr("actname");
 	if(actName == null || actName == '' || isNaN(actId)){
@@ -24,10 +24,9 @@ function removeAct(a){
 			success: function(result){
 				if(result&&result.success){
 					//移除内容
-					$(a).parent().remove();
-					var numberText = $("#myActCount").text();
-					var count = parseInt(numberText.substring(1, numberText.length-1));
-					$("#myActCount").text("(" + (count-1) + ")");
+					pageMyAct(pageId);
+					var count = $("#myActCnt").text();
+					$("#myActCnt").text(count-1);
 				}else{
 					alert("system error.");
 				}
@@ -82,6 +81,7 @@ function pageMyAct(page){
 		context: $(".box"),
 		success: function(responseHTML){
 			$(this).html(responseHTML);
+			setHeight();
 		},
 		statusCode: {
 		    401: function() {
@@ -130,6 +130,7 @@ function pageCategoryAct(categoryId, pageId){
 		context: $(".i_w_g"),
 		success: function(responseHTML){
 			$(this).html(responseHTML);
+			setHeight();
 		},
 		statusCode: {
 		    401: function() {

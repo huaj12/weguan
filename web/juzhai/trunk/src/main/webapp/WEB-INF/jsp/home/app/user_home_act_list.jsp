@@ -9,7 +9,7 @@
 	<c:otherwise>
 		<ul>
 			<c:forEach var="userActView" items="${userActViewList}">
-				<li onmouseover="javascript:userActHover(this, true);" onmouseout="javascript:userActHover(this, false);">
+				<li onmouseover="javascript:mouseHover(this, true);" onmouseout="javascript:mouseHover(this, false);">
 					<p class="l"></p><p class="r"></p>
 					<a href="#" class="iwg">❤ 我想去</a>
 					<!-- <a href="#" class="ytj">已添加</a> -->

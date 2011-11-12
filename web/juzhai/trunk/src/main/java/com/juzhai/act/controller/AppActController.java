@@ -2,7 +2,6 @@ package com.juzhai.act.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -50,7 +49,7 @@ public class AppActController extends BaseController {
 
 	@RequestMapping(value = "/showAct/{actId}", method = RequestMethod.GET)
 	public String showAct(HttpServletRequest request, Model model,
-			@PathVariable long actId, Integer allUser)
+			@PathVariable long actId, Integer friendUser)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		Act act = actService.getActById(actId);
@@ -68,7 +67,7 @@ public class AppActController extends BaseController {
 				"fUserActCount",
 				userActService.countFriendUserActByActId(
 						friendService.getAppFriends(context.getUid()), actId));
-		model.addAttribute("showAllUser", null != allUser);
+		model.addAttribute("showFriendUser", null != friendUser);
 		return "act/app/act";
 	}
 

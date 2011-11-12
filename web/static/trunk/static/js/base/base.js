@@ -50,3 +50,11 @@ function showActTip(inputObj, infoObj){
 		infoObj.hide();
 	}
 }
+
+function mouseHover(li, isOver){
+	if(isOver){
+		$(li).addClass("hover");
+	}else {
+		$(li).removeClass("hover");
+	}
+}

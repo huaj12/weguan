@@ -7,7 +7,7 @@
 	<c:otherwise>
 		<ul>
 			<c:forEach var="friendView" items="${friendViewList}">
-				<li onmouseover="javascript:friendHover(this, true);" onmouseout="javascript:friendHover(this, false);">
+				<li onmouseover="javascript:mouseHover(this, true);" onmouseout="javascript:mouseHover(this, false);">
 					<p class="l"></p><p class="r"></p>
 					<a href="#" class="msgh">给ta留言</a>
 					<div class="photo1"><a href="/app/${friendView.profile.uid}"><img src="${friendView.profile.logoPic}" width="80" height="80"/></a></div>

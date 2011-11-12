@@ -40,11 +40,11 @@ $(document).ready(function(){
 		$("#friendUser").removeClass("active").addClass("link");
 		pageAllUser(1);
 	});
-	var showAllUser = $(".title").attr("alluser");
+	var showAllUser = $(".title").attr("friendUser");
 	if(showAllUser == "true"){
-		$("#allUser").click();
-	}else{
 		$("#friendUser").click();
+	}else{
+		$("#allUser").click();
 	}
 });
 

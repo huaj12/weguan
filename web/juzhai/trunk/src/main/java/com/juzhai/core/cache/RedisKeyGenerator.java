@@ -210,4 +210,23 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genActShieldKey() {
 		return "actShield";
 	}
+
+	/**
+	 * 活跃用户的Uid ZSET
+	 * 
+	 * @return
+	 */
+	public static String genActivistsKey() {
+		return "activists";
+	}
+
+	/**
+	 * 用户最新的Act
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genUserNewestActKey(long uid) {
+		return genKey(uid, "userNewestAct");
+	}
 }

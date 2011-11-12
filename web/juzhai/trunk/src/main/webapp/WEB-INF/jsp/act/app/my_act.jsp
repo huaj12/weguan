@@ -32,6 +32,7 @@
 			<div class="skin_bottom"></div>
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
+		<jsp:include page="/WEB-INF/jsp/common/app/artDialog/artDialog.jsp" />
 		<script type="text/javascript" src="${jz:static('/js/module/my_act.js')}"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){

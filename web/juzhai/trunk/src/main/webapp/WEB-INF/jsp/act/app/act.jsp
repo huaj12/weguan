@@ -6,36 +6,34 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>无标题文档</title>
-		<link href="${jz:static('/css/jz.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:static('/css/jz_v2.css')}" rel="stylesheet" type="text/css" />
 		<link href="${jz:static('/css/jquery.autocomplete.css')}" rel="stylesheet" type="text/css" />
 	</head>
-
 	<body>
 		<div class="main"><!--main begin-->
 			<jsp:include page="/WEB-INF/jsp/common/app/app_header.jsp" />
 			<div class="skin_body"><!--skin_body begin-->
 				<div class="skin_top_bg"><!--content_bg begin-->
-					<jsp:include page="/WEB-INF/jsp/common/app/app_prompt.jsp" />
-					<jsp:include page="/WEB-INF/jsp/common/app/app_point.jsp" />
 					<div class="content white"><!--content begin-->
 						<div class="top"></div>
 						<div class="mid"><!--mid begin-->
 							<div class="project_sub"><!--project_sub begin-->
-								<div class="back_to_home"><a href="/app/index">返回首页</a></div>
-								<div class="photo fl"><img src="${jz:actLogo(act.id,act.logo,120)}" /></div>
+								<div class="back_to_home"><a href="/app/showCategoryActs">发现更多&gt;&gt;</a></div>
+								<div class="photo fl"><a href="#"><img src="${jz:actLogo(act.id,act.logo,120)}" /></a></a></div>
 								<div class="infor fl"><!--infor begin-->
 									<h2><c:out value="${act.name}" /></h2>
 									<h5><c:out value="${act.intro}" /><!-- <a href="#">详细</a> --></h5>
 									<div class="ytj" <c:if test="${!hasAct}">style="display:none;"</c:if>>
-										<p></p><span><em>已添加</em><strong>|</strong><a href="javascript:;" actid="${act.id}" actname="${act.name}">取消</a></span><p></p>
+										<p></p><span><em>已添加</em><strong>|</strong><a href="javascript:void(0);" actid="${act.id}" actname="${act.name}">取消</a></span><p></p>
 									</div>
-									<a href="javascript:;" class="want btn" actid="${act.id}" <c:if test="${hasAct}">style="display:none;"</c:if>>我想去+1</a><c:if test="${!isShield}"><a href="javascript:;" class="zjl btn" actid="${act.id}">发布召集令</a></c:if><a href="javascript:;" class="yqhy btn" actid="${act.id}">邀请好友</a>
+									<a href="javascript:void(0);" class="want btn" actid="${act.id}" <c:if test="${hasAct}">style="display:none;"</c:if>>❤ 我想去</a><c:if test="${!isShield}"><a href="javascript:void(0);" class="zjl btn" actid="${act.id}">分享</a></c:if><a href="javascript:void(0);" class="yqhy btn" actid="${act.id}">邀请好友</a>
 								</div><!--infor end-->
 								<div class="wantgolist"><!--wantgolist begin-->
-									<div class="title" actid="${act.id}" alluser="${showAllUser}"><!--title begin-->
+									<div class="title" actid="${act.id}" friendUser="${showFriendUser}"><!--title begin-->
 										<h3>想去的</h3><em></em>
-										<a href="javascript:;" class="active" id="friendUser"><p class="l"></p><span>好友(${fUserActCount})</span><p class="r"></p></a>
-										<a href="javascript:;" class="link" id="allUser"><p class="l"></p><span>所有人(${userActCount})</span><p class="r"></p></a>
+										<a href="javascript:void(0);" class="active" id="allUser"><p class="l"></p><span>所有人(${userActCount})</span><p class="r"></p></a>
+										<!-- <a href="#" class="link"><p class="l"></p><span>同城人(12)</span><p class="r"></p></a> -->
+										<a href="javascript:void(0);" class="link" id="friendUser"><p class="l"></p><span>好友(${fUserActCount})</span><p class="r"></p></a>
 									</div><!--title end-->
 									<div id="actUserList" style="display: none;"></div>
 									<div class="item_loading"><!--item_loading begin-->

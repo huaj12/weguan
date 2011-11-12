@@ -177,6 +177,74 @@
 		});
 	}
 	
+	function showAbout(name,actId,actName,fid){
+		clearAbout();
+		var content="";
+		if(actName!=null&&actName.length>0){
+			content="hi，想不想一起去"+actName+"?";
+		}else{
+			content="hi，想不想一起出去玩？";
+		}
+		$("#about_content").val(content);
+		$("#about_fid").val(fid);
+		$("#about_actId").val(actId);
+		$("#about_name").val(name);
+		$.dialog({
+		    lock: true,
+		    content:document.getElementById('aboutDiv'),
+		    title:"给"+name+"留言",
+		    top:"50%"
+		});
+	}
+	function clearAbout(){
+		$("#about_content").val('');
+		$("#about_fid").val('');
+		$("#about_actId").val('');
+		$("#about_name").val('');
+		
+	}
+	function sendAbout(){
+		var content=$("#about_content").val();
+		var fuid=$("#about_fid").val();
+		var name=$("#about_name").val();
+		var actId=$("#about_actId").val();
+		if(content.length>30){
+			alert("不要超过30个字哦");
+			return ;
+		}
+		$.post('/msg/sendAbout', {
+			content:content,
+			fuid:fuid,
+			actId:actId,
+		    random : Math.random()
+		}, function(result) {
+			if(result&&result.success){
+				closeAllDiv();
+				$.dialog({
+					lock: true,
+				    content: '<div>发送成功!</br>等待他的回复吧</div>',
+				    top:"50%",
+				    width:305,
+				    time:2,
+				    title:'给'+name+'留言'
+				});
+			}else{
+				closeAllDiv();
+				//未知错误请刷新页面后重试
+				$.dialog({
+				    lock: true,
+				    content: '刷新页面后重试',
+				    icon: 'error',
+				    time:3,
+				    top:"50%"
+				    	
+				});
+			}
+		});
+	}
+	
+	
+	
 	function clearBoard(){
 		$("#board_content").val('');
 		$("#board_fid").val('');

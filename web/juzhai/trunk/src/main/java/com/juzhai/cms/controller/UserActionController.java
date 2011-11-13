@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.juzhai.act.mapper.SynonymActMapper;
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.SynonymAct;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.ISynonymActService;
 import com.juzhai.cms.mapper.AddActActionMapper;
@@ -40,8 +42,7 @@ public class UserActionController {
 	private SearchActActionMapper searchActActionMapper;
 	@Autowired
 	private AddActActionMapper addActActionMapper;
-	@Autowired
-	private ISynonymActService synonymActService;
+	int cmsPage=20;
 
 	@RequestMapping(value = "/showSearchActAction", method = RequestMethod.GET)
 	public String showSearchActAction(HttpServletRequest request, Model model,
@@ -49,7 +50,7 @@ public class UserActionController {
 		if (pageId == null) {
 			pageId = 1;
 		}
-		PagerManager pager = new PagerManager(pageId, 1,
+		PagerManager pager = new PagerManager(pageId, cmsPage,
 				userActionService.getSearchActActionCount());
 		List<SearchActAction> list = userActionService.getSearchActAction(
 				pager.getFirstResult(), pager.getMaxResult());
@@ -57,14 +58,14 @@ public class UserActionController {
 		model.addAttribute("pager", pager);
 		return "cms/searchActActionList";
 	}
-	
+
 	@RequestMapping(value = "/showAddActAction", method = RequestMethod.GET)
 	public String showAddActAction(HttpServletRequest request, Model model,
 			Integer pageId) {
 		if (pageId == null) {
 			pageId = 1;
 		}
-		PagerManager pager = new PagerManager(pageId, 1,
+		PagerManager pager = new PagerManager(pageId, cmsPage,
 				userActionService.getAddActActionCount());
 		List<AddActAction> list = userActionService.getAddActAction(
 				pager.getFirstResult(), pager.getMaxResult());
@@ -73,29 +74,7 @@ public class UserActionController {
 		return "cms/addActActionList";
 	}
 
-	@RequestMapping(value = "/cmsSynonymAct")
-	@ResponseBody
-	public AjaxResult cmsSynonymAct(HttpServletRequest request, String name,
-			String actName, Model model) {
-		AjaxResult result = new AjaxResult();
-		try {
-			Act act = actService.getActByName(actName);
-			if (act == null) {
-				result.setSuccess(false);
-				result.setErrorCode("-1");
-			} else {
-				if (synonymActService.synonymAct(name, actName)) {
-					result.setSuccess(true);
-				} else {
-					result.setSuccess(false);
-				}
-			}
-		} catch (Exception e) {
-			result.setSuccess(false);
-			log.error("cmsSynonymAct is error", e);
-		}
-		return result;
-	}
+	
 
 	@RequestMapping(value = "/deleteAddActAction", method = RequestMethod.GET)
 	public String deleteAddActAction(Long id) {
@@ -112,4 +91,6 @@ public class UserActionController {
 		}
 		return null;
 	}
+
+	
 }

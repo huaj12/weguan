@@ -1,3 +1,80 @@
 $(document).ready(function() {
-	//找伴
+	var addActInput = new AddActInput($("#addAct"), $("#headAddActError"));
+	addActInput.bindKeyUp();
+	addActInput.bindFocus();
+	addActInput.bindBlur();
+	addActInput.bindAutocomplete();
+	
+	// 注册搜索Act事件
+	$("#_searchActs").bind("click", function() {
+		_searchActs();
+	});
 });
+
+var AddActInput =  Class.extend({
+	init: function(jInputObj, jErrorObj){
+		inputObj = jInputObj;
+		errorObj = jErrorObj;
+	},
+	bindKeyUp:function(){
+		inputObj.keyup(function(event){
+			showActTip(event.target, errorObj);
+		});
+	},
+	bindFocus:function(){
+		inputObj.bind("focus", function(event){
+			showActTip(event.target, errorObj);
+		});
+	},
+	bindBlur:function(){
+		inputObj.bind("blur",function(){
+			errorObj.hide();
+		});
+	},
+	bindAutocomplete:function(){
+		//注册autoComplete
+		inputObj.autocomplete("/searchAutoMatch", {
+			dataType: "json",
+			parse: function(datas) {
+				var parsed = [];
+				for (var i=0; i < datas.length; i++) {
+					var data = datas[i];
+					if (data) {
+						parsed[parsed.length] = {
+							data: data,
+							value: data.name,
+							result: data.name
+						};
+					}
+				}
+				return parsed;
+			},
+			formatItem: function(item) {
+				return item.name;
+			}
+		});
+	}
+});
+
+function showActTip(inputObj, infoObj){
+	if($(inputObj).val() == ""){
+		infoObj.text("输入拒宅项目,如:逛街").stop(true, true).show();
+	}else{
+		infoObj.hide();
+	}
+}
+
+function _searchActs(){
+	var value = $("#addAct").attr("value");
+	if (!value || value == ""||value=='输入拒宅项目,如:逛街') {
+		$("#headAddActError").text("请先输入").stop(true, true).show()
+				.fadeOut(2000);
+		return false;
+	}
+	if (!checkValLength(value, 2, 20)) {
+		$("#headAddActError").text("拒宅兴趣字数控制在1－10个中文内！").stop().show().fadeOut(
+				2000);
+		return false;
+	}
+	location.href="/searchAct?name="+value;
+}

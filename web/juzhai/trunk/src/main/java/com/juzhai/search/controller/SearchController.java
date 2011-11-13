@@ -51,7 +51,7 @@ public class SearchController extends BaseController {
 			}
 		}
 		if (actId != null) {
-			return "redirect:/msg/showRead/" + actId;
+			return "redirect:/app/showAct/" + actId;
 		} else {
 			long uid = context.getUid();
 			ProfileCache cache = profileService.getProfileCacheByUid(uid);

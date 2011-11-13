@@ -82,6 +82,7 @@ public class AppActController extends BaseController {
 		List<ActUserView> actUserViewList = assembleActUserView(
 				context.getUid(), userActList, true);
 		model.addAttribute("pager", pager);
+		model.addAttribute("act", actService.getActById(actId));
 		model.addAttribute("actUserViewList", actUserViewList);
 		model.addAttribute("pageFriend", false);
 		return "act/app/act_user_list";
@@ -99,6 +100,7 @@ public class AppActController extends BaseController {
 		List<ActUserView> actUserViewList = assembleActUserView(
 				context.getUid(), userActList, false);
 		model.addAttribute("pager", pager);
+		model.addAttribute("act", actService.getActById(actId));
 		model.addAttribute("actUserViewList", actUserViewList);
 		model.addAttribute("pageFriend", true);
 		return "act/app/act_user_list";

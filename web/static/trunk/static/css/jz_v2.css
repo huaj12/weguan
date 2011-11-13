@@ -34,15 +34,25 @@ abbr,acronym { border: 0;
 .clear{ clear:both;}
 .fl{ float:left; _display:inline;}
 .fr{ float:right; _display:inline;}
+.mr15{ margin-right:15px; *margin-right:5px;}
 
 
-
-
+/**********
 .page{ margin-top:20px;  float:right; width:660px; margin-right:18px; *margin-right:0px;}
-.page a{ font-weight:bold; color:#666; margin-left:3px; margin-right:3px;  text-decoration:none; *cursor:pointer; float:right; display:block inline;}
+.page a{ font-weight:bold; color:#666; margin-left:3px; margin-right:3px;  text-decoration:none; *cursor:pointer; float:left; display:block inline;}
 .page a:hover{ color:#4E90DB;}
 .page p{ width:3px; height:27px; overflow:hidden; float:left;}
 .page strong{ float:left; height:27px; padding-left:7px; padding-right:7px; line-height:27px; line-height:28px\9; overflow:hidden;}
+**********/
+
+.page{ margin-top:18px;  *padding-bottom:3px; float:right; display:inline;  margin-right:18px;}
+.page a{ font-weight:bold; color:#666; margin-left:3px; margin-right:3px;  text-decoration:none; *cursor:pointer; float:left; display:block inline;}
+.page a:hover{ color:#4E90DB;}
+.page p{ width:3px; height:27px; overflow:hidden; float:left;}
+.page strong{ float:left; height:27px; padding-left:7px; padding-right:7px; line-height:27px; line-height:28px\9; overflow:hidden;}
+
+
+
 .page .link .l{background:url(../images/full_image1.png) -545px -15px; _background:url(../images/image_ie6_1.png) -545px -15px;}
 .page .link .r{ background:url(../images/full_image1.png) -548px -15px; _background:url(../images/image_ie6_1.png) -548px -15px; }
 .page .link .m{ background:url(../images/img_y_ie6.png) repeat-x 0 0; _background:url(../images/img_y_ie6.png) repeat-x 0 0;}
@@ -81,15 +91,15 @@ abbr,acronym { border: 0;
 .top_mid .menu .hover .l{ left:-5px; background:url(../images/2qi/menu_r1_c1.jpg) no-repeat; }
 .top_mid .menu .hover .r{ right:-5px; background:url(../images/2qi/menu_r1_c5.jpg) no-repeat;}
 
-.dy{ margin-right:10px;  margin-top:18px; }
+.dy{ margin-right:10px;  margin-top:18px;  position:relative;}
 .dy span{ float:left;}
 .dy p{ height:29px; overflow:hidden; float:left;}
 .dy p.l{ background:url(../images/full_image1.png) -510px -235px; _background:url(../images/image_ie6_1.png) -510px -235px;   width:6px; *margin-top:1px;}
 .dy span input{ background:url(../images/img_y.png) repeat-x 0 -105px; _background:url(../images/img_y_ie6.png) repeat-x 0 -105px; height:29px; width:140px; border:0; line-height:29px; color:#98ACC2; padding-left:4px; }
 .dy a{ background:url(../images/full_image1.png) no-repeat -631px -181px; _background:url(../images/image_ie6_1.png) no-repeat -631px -181px; width:58px; _width:57px; height:29px; text-align:center; overflow:hidden; *margin-top:1px; line-height:29px; line-height:30px\0; *line-height:29px; display:block; text-decoration:none; color:#666; font-weight:bold; float:left;}
+.dy .ts{position:absolute; line-height:150%; z-index:999; color:#fff; top:29px; *top:30px; left:2px; width:150px;  height:auto; overflow:hidden; *padding-bottom:8px; _padding-bottom:0px;}
 
-
-
+.dy .ts em{ background:#000; filter:alpha(opacity=70); -moz-opacity:0.7; -khtml-opacity:0.7;opacity:0.7; float:left; width:130px; padding:10px; padding-top:8px; padding-right:8px;}
 
 
 .skin_body{ width:100%; height:auto;  min-height:205px; _height:205px; background:url(../images/img_x.png) repeat-y -1210px 0 ; }
@@ -194,11 +204,11 @@ abbr,acronym { border: 0;
 .pub_style .title .or span input{ width:95px; height:30px; float:left; border:none; color:#999; background:none; padding-left:7px; padding-right:7px; line-height:30px;} 
 .pub_style .title .or a{ background:url(../images/2qi/or_r1_c2.jpg) no-repeat; width:58px; height:30px; float:left; display:block; color:#666; font-weight:bold; text-decoration:none; text-align:center; line-height:30px;}
 
-.pub_style .title .or .ts{ position:absolute; filter:alpha(opacity=70); -moz-opacity:0.7; -khtml-opacity:0.7;opacity:0.7;  line-height:150%;background:#000; z-index:999; color:#fff; _white-space:nowrap; bottom:-50px; left:33px; width:150px;  height:50px; overflow:hidden;}
-.pub_style .title .or .ts em{ margin:10px; float:left; display:inline; margin-top:8px; margin-right:8px; }
+.pub_style .title .or .ts{ position:absolute; line-height:150%; z-index:999; color:#fff; top:30px; left:33px; width:150px;  height:auto; overflow:hidden; *padding-bottom:8px; _padding-bottom:0px;}
+.pub_style .title .or .ts em{ background:#000; filter:alpha(opacity=70); -moz-opacity:0.7; -khtml-opacity:0.7;opacity:0.7; float:left; width:130px; padding:10px; padding-top:8px; padding-right:8px;}
 
-
-
+.pub_style .title .or .ts ul{ float:left; width:150px;}
+.pub_style .title .or .ts ul li{ width:130px; padding:4px 10px; height:21px; color:#fff; filter:alpha(opacity=70); -moz-opacity:0.7; -khtml-opacity:0.7;opacity:0.7; float:left;  line-height:25px; background:#000; margin-top:0px;}
 
 
 .pub_style .box{ float:left; padding:20px;} 
@@ -346,12 +356,27 @@ abbr,acronym { border: 0;
 .my_page .gtah ul li a:hover{color:#4790DB;  text-decoration:underline;}
 .my_page .gtah ul li p{}
 
+/***
 .txqd ul { float:left; margin-left:35px; display:inline; margin-top:10px;}
-
-.txqd ul li{ float:left; width:610px; height:80px; background:#fafafa; position:relative;  padding:10px; margin-top:10px; display:inline; }/***  WIDTH:650PX  ****/
+.txqd ul li{ float:left; width:610px; height:80px; background:#fafafa; position:relative;  padding:10px; margin-top:10px; display:inline; }/***  WIDTH:650PX  
 .txqd ul li p{ position:absolute; background:#fafafa; width:1px; height:98px; top:1px;}
 .txqd ul li p.l{ left:-1px;}
 .txqd ul li p.r{ right:-1px; }
+****/
+.txqd ul { float:left; margin-left:35px; display:inline; margin-top:10px;}
+.txqd ul li{ float:left; width:90px; height:120px; overflow:hidden; padding-bottom:10px; margin-right:18px; display:inline; margin-top:5px;}
+.txqd ul li p{ float:left; text-align:center; width:90px;}
+.txqd ul li h2{ width:90px; float:left; margin-top:5px; text-align:center;}
+.txqd ul li h2 a{color:#666; text-decoration:none;}
+.txqd ul li h2 a:hover{color:#4790DB; text-decoration:underline;}
+
+
+
+
+
+
+
+/***
 
 .txqd ul li .photo1{ width:80px; height:80px; float:left; margin-right:10px; display:inline;}
 .txqd ul li h2{ float:left; margin-top:3px; font-family:"微软雅黑","宋体"; font-size:15px; color:#333;  width:440px; }
@@ -381,7 +406,7 @@ abbr,acronym { border: 0;
 .txqd ul .hover p{ background:#FDF4D2;}
 .txqd ul li.hover{ background:#FDF4D2;}
 
-
+****/
 
 
 

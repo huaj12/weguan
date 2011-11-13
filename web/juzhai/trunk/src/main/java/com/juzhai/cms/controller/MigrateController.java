@@ -103,11 +103,15 @@ public class MigrateController {
 		stringRedisTemplate.delete(key);
 		Map<Long, Double> map = new HashMap<Long, Double>();
 		for (TypedTuple<String> value : values) {
-			long[] ids = parseValue(value.getValue());
-			if (ids.length == 2) {
-				if (!map.containsKey(ids[1])) {
-					map.put(ids[1], value.getScore());
+			try {
+				long[] ids = parseValue(value.getValue());
+				if (ids.length == 2) {
+					if (!map.containsKey(ids[1])) {
+						map.put(ids[1], value.getScore());
+					}
 				}
+			} catch (Exception e) {
+				continue;
 			}
 		}
 		for (Map.Entry<Long, Double> entry : map.entrySet()) {

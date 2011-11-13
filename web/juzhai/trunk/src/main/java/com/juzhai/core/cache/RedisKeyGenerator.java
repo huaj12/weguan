@@ -1,5 +1,10 @@
 package com.juzhai.core.cache;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import org.apache.commons.lang.time.DateUtils;
+
 import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 
@@ -228,5 +233,15 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 */
 	public static String genUserNewestActKey(long uid) {
 		return genKey(uid, "userNewestAct");
+	}
+
+	/**
+	 * 排行榜
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String genActDayRankKey(Date date) {
+		return "actRank_" + DateUtils.truncate(date, Calendar.DATE).getTime();
 	}
 }

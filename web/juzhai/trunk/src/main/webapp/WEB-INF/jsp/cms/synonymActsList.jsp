@@ -10,6 +10,7 @@
 <title>指向词管理</title>
 <script type="text/javascript"
 	src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
+	<jsp:include page="/WEB-INF/jsp/cms/common/cmsAutoMatch.jsp" />
 <script>
 	function deleteSyn(id) {
 		if (id != null) {
@@ -91,5 +92,13 @@
 				</c:forEach></td>
 		</tr>
 	</table>
+	<c:forEach var="view" items="${synonymActViews}">
+	<script type="text/javascript">
+	$(document).ready(function() {
+		var addActInput = new AddActInput($("#actName_${view.synonymAct.id}"));
+		addActInput.bindAutocomplete();
+	});
+	</script>
+	</c:forEach>
 </body>
 </html>

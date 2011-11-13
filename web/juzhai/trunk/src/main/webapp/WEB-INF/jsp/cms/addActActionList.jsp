@@ -8,8 +8,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>用户推荐记录</title>
-<script type="text/javascript"
-	src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
+<script type="text/javascript" src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
+<jsp:include page="/WEB-INF/jsp/cms/common/cmsAutoMatch.jsp" />
 <script>
 	function deleteAddAct(id) {
 		if (id != null) {
@@ -47,6 +47,8 @@
 		
 		
 	}
+
+	
 </script>
 </head>
 <body>
@@ -85,5 +87,13 @@
 			</td>
 		</tr>
 	</table>
+	<c:forEach var="list" items="${lists}">
+	<script type="text/javascript">
+	$(document).ready(function() {
+		var addActInput = new AddActInput($("#actName_${list.id}"));
+		addActInput.bindAutocomplete();
+	});
+	</script>
+	</c:forEach>
 </body>
 </html>

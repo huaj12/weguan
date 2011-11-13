@@ -10,6 +10,7 @@
 <title>找伴儿记录</title>
 <script type="text/javascript"
 	src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
+	<jsp:include page="/WEB-INF/jsp/cms/common/cmsAutoMatch.jsp" />
 <script>
 	function deleteSearchAct(id) {
 		if (id != null) {
@@ -85,5 +86,13 @@
 			</td>
 		</tr>
 	</table>
+		<c:forEach var="list" items="${lists}">
+	<script type="text/javascript">
+	$(document).ready(function() {
+		var addActInput = new AddActInput($("#actName_${list.id}"));
+		addActInput.bindAutocomplete();
+	});
+	</script>
+	</c:forEach>
 </body>
 </html>

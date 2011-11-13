@@ -12,11 +12,15 @@ public interface ISynonymActService {
 	 * @param actName同义词
 	 */
 	boolean synonymAct(String name, String actName);
+	
+	boolean synonymAct(String name, long actId);
 
 	List<SynonymAct> getSysonymActs(int firstResult, int maxResults);
 
 	int countSysonymActs();
 
 	boolean updateSynonymAct(Long id, long actId);
+	
+	boolean isExist(String name);
 
 }

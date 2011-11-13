@@ -36,15 +36,28 @@ public class SynonymActService implements ISynonymActService {
 			log.error("synonymAct actName is not exist");
 			return false;
 		}
+		return synonymAct(actName, act.getId());
+	}
+	
+	@Override
+	public boolean synonymAct(String name, long actId) {
+		if (StringUtils.isEmpty(name)) {
+			log.error("synonymAct name is null");
+			return false;
+		}
+		if (actId==0) {
+			log.error("synonymAct actId is null");
+			return false;
+		}
 		try {
 			SynonymAct syn = new SynonymAct();
-			syn.setActId(act.getId());
+			syn.setActId(actId);
 			syn.setCreateTime(new Date());
 			syn.setLastModifyTime(new Date());
 			syn.setName(name);
 			synonymActMapper.insert(syn);
 			// 将指向词加入内存
-			InitData.SYNONYM_ACT.put(name, act.getId());
+			InitData.SYNONYM_ACT.put(name, actId);
 		} catch (Exception e) {
 			log.error("synonymAct is error." + e.getMessage());
 			return false;
@@ -87,5 +100,17 @@ public class SynonymActService implements ISynonymActService {
 		}
 		return true;
 	}
+
+	@Override
+	public boolean isExist(String name) {
+		SynonymActExample example = new SynonymActExample();
+		example.createCriteria().andNameEqualTo(name);
+		if(synonymActMapper.countByExample(example)>0){
+			return true;
+		}
+		return false;
+	}
+
+	
 
 }

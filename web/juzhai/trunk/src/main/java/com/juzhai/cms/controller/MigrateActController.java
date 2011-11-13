@@ -23,6 +23,7 @@ import com.juzhai.act.model.Act;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IHotActService;
+import com.juzhai.act.service.ISynonymActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.pager.PagerManager;
@@ -41,54 +42,56 @@ public class MigrateActController {
 	@Autowired
 	private IHotActService hotActService;
 	@Autowired
+	private ISynonymActService synonymActService;
+	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private RedisTemplate<String, MergerActMsg> redisMergerActMsgTemplate;
+
 	@RequestMapping(value = "migrateAct")
 	public String migrateAct() {
-		try {
-			Date endDate = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-			Date beginDate = sdf.parse("2010-12-12");
-			PagerManager pager = new PagerManager(1, 10,
-					actService.searchActsCount(beginDate, endDate, null));
-			for (int i = 1; i <= pager.getTotalPage(); i++) {
-				List<Act> list = actService.searchActs(beginDate, endDate,
-						null, (i - 1) * 50, 50);
-				if (list == null) {
-					break;
-				}
-				for (Act act : list) {
-
-					List<Act> acts = actService.listSynonymActs(act.getId());
-					Collections.sort(acts, new Comparator<Act>() {
-						@Override
-						public int compare(Act o1, Act o2) {
-							if (o1 == null || o2 == null) {
-								return 0;
-							}
-							int p1 = o1.getPopularity();
-							int p2 = o2.getPopularity();
-							if (p1 > p2) {
-								return 1;
-							} else if (p1 < p2) {
-								return -1;
-							} else {
-								return 0;
-							}
-						}
-					});
-					Map<Long, Long> actMaps = getActMap(acts);
-					opTableAct(actMaps);
-					opTableUserAct(actMaps);
-					opRedisActSynonym(actMaps);
-					opRedisActMsg();
-				}
+		Set<String> synonymKeys = redisTemplate.keys("*synonym");
+		for (String key : synonymKeys) {
+			Long actId = getActId(key);
+			if (actId == null) {
+				continue;
 			}
-		} catch (Exception e) {
-
+			List<Act> acts = actService.listSynonymActs(actId);
+			Collections.sort(acts, new Comparator<Act>() {
+				@Override
+				public int compare(Act o1, Act o2) {
+					if (o1 == null || o2 == null) {
+						return 0;
+					}
+					int p1 = o1.getPopularity();
+					int p2 = o2.getPopularity();
+					if (p1 > p2) {
+						return 1;
+					} else if (p1 < p2) {
+						return -1;
+					} else {
+						return 0;
+					}
+				}
+			});
+			Map<Long, Long> actMaps = getActMap(acts);
+			opTableAct(actMaps);
+			opTableUserAct(actMaps);
+			addSynonymAct(actMaps);
+			opRedisActSynonym(actMaps);
+			opRedisActMsg();
 		}
+		 redisTemplate.delete(synonymKeys);
 		return null;
+	}
+
+	private Long getActId(String key) {
+		try {
+			String str[] = key.split("\\.");
+			return Long.parseLong(str[0]);
+		} catch (Exception e) {
+			return Long.valueOf("0");
+		}
 	}
 
 	/**
@@ -107,9 +110,28 @@ public class MigrateActController {
 		}
 	}
 	/**
+	 * 将被遗弃的词迁移到指向词
+	 * @param actMaps
+	 */
+	private void addSynonymAct(Map<Long, Long> actMaps) {
+		for (Entry<Long, Long> entry : actMaps.entrySet()) {
+			Act act=actService.getActById(entry.getKey());
+			if(act==null){
+				continue;
+			}
+			String name=act.getName();
+			if(!synonymActService.isExist(name)){
+				synonymActService.synonymAct(name, entry.getValue());	
+			}
+		
+			
+		}
+	}
+
+	/**
 	 * 删除所有消息
 	 */
-	public void opRedisActMsg() {
+	private void opRedisActMsg() {
 		Set<String> keys = redisMergerActMsgTemplate.keys("*.MergerActMsg");
 		if (keys != null && keys.size() > 0) {
 			redisMergerActMsgTemplate.delete(keys);
@@ -121,7 +143,7 @@ public class MigrateActController {
 	 * @param acts
 	 * @return Map<被遗弃的Act，指向的Act>）
 	 */
-	public Map<Long, Long> getActMap(List<Act> acts) {
+	private Map<Long, Long> getActMap(List<Act> acts) {
 		Map<Long, Long> actMap = new HashMap<Long, Long>();
 		long hotActId = 0;
 		for (Act act : acts) {
@@ -157,7 +179,7 @@ public class MigrateActController {
 	 * 
 	 * @param actMaps
 	 */
-	public void opTableAct(Map<Long, Long> actMaps) {
+	private void opTableAct(Map<Long, Long> actMaps) {
 		int popularity = 0;
 		long hotActId = 0;
 		for (Entry<Long, Long> entry : actMaps.entrySet()) {
@@ -179,7 +201,7 @@ public class MigrateActController {
 		}
 	}
 
-	public void opTableUserAct(Map<Long, Long> actMaps) {
+	private void opTableUserAct(Map<Long, Long> actMaps) {
 		for (Entry<Long, Long> entry : actMaps.entrySet()) {
 			long actId = entry.getKey();
 			long hotActId = entry.getValue();

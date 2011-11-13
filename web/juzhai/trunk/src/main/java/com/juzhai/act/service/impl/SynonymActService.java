@@ -1,6 +1,7 @@
 package com.juzhai.act.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -12,7 +13,9 @@ import com.juzhai.act.InitData;
 import com.juzhai.act.mapper.SynonymActMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.SynonymAct;
+import com.juzhai.act.model.SynonymActExample;
 import com.juzhai.act.service.ISynonymActService;
+import com.juzhai.core.dao.Limit;
 
 @Service
 public class SynonymActService implements ISynonymActService {
@@ -44,6 +47,42 @@ public class SynonymActService implements ISynonymActService {
 			InitData.SYNONYM_ACT.put(name, act.getId());
 		} catch (Exception e) {
 			log.error("synonymAct is error." + e.getMessage());
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public List<SynonymAct> getSysonymActs(int firstResult, int maxResults) {
+		SynonymActExample example = new SynonymActExample();
+		example.setLimit(new Limit(firstResult, maxResults));
+		example.setOrderByClause("last_modify_time desc");
+		return synonymActMapper.selectByExample(example);
+	}
+
+	@Override
+	public int countSysonymActs() {
+		SynonymActExample example = new SynonymActExample();
+		return synonymActMapper.countByExample(example);
+	}
+
+	@Override
+	public boolean updateSynonymAct(Long id, long actId) {
+		try {
+			if (id == null) {
+				return false;
+			}
+			SynonymAct synAct = synonymActMapper.selectByPrimaryKey(id);
+			if (synAct == null) {
+				return false;
+			}
+			if (actId == 0) {
+				return false;
+			}
+			synAct.setActId(actId);
+			synAct.setLastModifyTime(new Date());
+			synonymActMapper.updateByPrimaryKey(synAct);
+		} catch (Exception e) {
 			return false;
 		}
 		return true;

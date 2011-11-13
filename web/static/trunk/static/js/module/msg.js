@@ -228,6 +228,9 @@
 				    time:2,
 				    title:'给'+name+'留言'
 				});
+				if($('#about_'+fuid).length) {  
+					inviteHer(document.getElementById('about_'+fuid),fuid);
+				}  
 			}else{
 				closeAllDiv();
 				//未知错误请刷新页面后重试

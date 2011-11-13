@@ -47,7 +47,7 @@ public class LazyMessageHandler extends AbstractScheduleHandler {
 				TpUser tpUser = tpUserService.getTpUserByUid(lazyKeyView
 						.getReceiverId());
 				sendAppMsgService.threadSendAppMsg(tpUser,
-						lazyKeyView.getSendId(), lazyKeyView.getType(), "");
+						lazyKeyView.getSendId(), lazyKeyView.getType(), 0);
 			}
 		}
 	}

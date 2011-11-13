@@ -50,7 +50,7 @@ public class SendAppMsgService implements ISendAppMsgService {
 
 	@Override
 	public void threadSendAppMsg(TpUser tpUser, long uid, MsgType type,
-			String sendContent) {
+			long actId) {
 		if (tpUser == null) {
 			log.error("send message find tpUser is null");
 			return;
@@ -80,9 +80,8 @@ public class SendAppMsgService implements ISendAppMsgService {
 			log.error("send message find authInfo is null");
 			return;
 		}
-		taskExecutor.submit(new SendSysMsgTask(thirdparty, accountService,
-				appService, uid, receiverIdentity, authInfo, type,
-				messageSource, sendName,  sendContent));
+		taskExecutor.submit(new SendSysMsgTask(thirdparty, appService,
+				receiverIdentity, authInfo, type, actId));
 
 	}
 

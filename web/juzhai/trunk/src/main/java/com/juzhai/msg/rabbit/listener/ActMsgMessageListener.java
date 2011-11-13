@@ -1,12 +1,15 @@
 package com.juzhai.msg.rabbit.listener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -49,6 +52,9 @@ public class ActMsgMessageListener implements
 	@Autowired
 	private IUserSetupService userSetupService;
 
+	@Value("${friend.act.count}")
+	private int friendActCount = 10;
+
 	@Override
 	public Object handleMessage(MsgMessage<ActMsg> msgMessage) {
 		if (null == msgMessage) {
@@ -83,30 +89,30 @@ public class ActMsgMessageListener implements
 		try {
 			TpUser tpUser = null;
 			if (msgMessage.getReceiverId() > 0) {
-				// 是否延迟发送
-				if (msgMessage.getBody().isLazy()) {
-					String lazyMsgKey = RedisKeyGenerator.genLazyMessageKey(
-							msgMessage.getSenderId(), msgMessage
-									.getReceiverId(), msgMessage.getBody()
-									.getType(), MergerActMsg.class
-									.getSimpleName());
-					redisTemplate.opsForZSet().add(lazyMsgKey,
-							msgMessage.getBody().getActId(),
-							msgMessage.getBody().getDate().getTime());
-					redisStringTemplate.opsForSet().add(
-							RedisKeyGenerator.genMergerMsgKey(), lazyMsgKey);
-				} else {
-					msgService.sendMsg(msgMessage.getReceiverId(),
-							newMergerMsg(msgMessage));
-					tpUser = tpUserService.getTpUserByUid(msgMessage
-							.getReceiverId());
-				}
+				// // 是否延迟发送
+				// if (msgMessage.getBody().isLazy()) {
+				// String lazyMsgKey = RedisKeyGenerator.genLazyMessageKey(
+				// msgMessage.getSenderId(), msgMessage
+				// .getReceiverId(), msgMessage.getBody()
+				// .getType(), MergerActMsg.class
+				// .getSimpleName());
+				// redisTemplate.opsForZSet().add(lazyMsgKey,
+				// msgMessage.getBody().getActId(),
+				// msgMessage.getBody().getDate().getTime());
+				// redisStringTemplate.opsForSet().add(
+				// RedisKeyGenerator.genMergerMsgKey(), lazyMsgKey);
+				// } else {
+				// msgService.sendMsg(msgMessage.getReceiverId(),
+				// newMergerMsg(msgMessage));
+				tpUser = tpUserService.getTpUserByUid(msgMessage
+						.getReceiverId());
+				// }
+				// 消息不再合并
 			} else if (msgMessage.getReceiverTpId() > 0
 					&& StringUtils.isNotEmpty(msgMessage.getReceiverIdentity())) {
-				msgService.sendMsg(msgMessage.getReceiverTpId(),
-						msgMessage.getReceiverIdentity(),
-						newMergerMsg(msgMessage));
-				// 预存消息不需要合并
+				// msgService.sendMsg(msgMessage.getReceiverTpId(),
+				// msgMessage.getReceiverIdentity(),
+				// newMergerMsg(msgMessage));
 				tpUser = tpUserService.getTpUserByTpIdAndIdentity(
 						msgMessage.getReceiverTpId(),
 						msgMessage.getReceiverIdentity());
@@ -115,9 +121,13 @@ public class ActMsgMessageListener implements
 			if (tpUser != null) {
 				// 该用户是否发送第三方消息
 				// if (userSetupService.isTpAdvise(msgMessage.getSenderId())) {
-				sendAppMsgService.threadSendAppMsg(tpUser, msgMessage
-						.getSenderId(), msgMessage.getBody().getType(),
-						msgMessage.getBody().getActName());
+				// 12小时内只能给该用户发一条消息
+				if (sendAppMsgService.checkTpMsgLimitAndAddCnt(msgMessage
+						.getReceiverId(), msgMessage.getBody().getType())) {
+					sendAppMsgService.threadSendAppMsg(tpUser, msgMessage
+							.getSenderId(), msgMessage.getBody().getType(),
+							msgMessage.getBody().getActId());
+				}
 				// }
 			}
 		} catch (Exception e) {
@@ -136,22 +146,27 @@ public class ActMsgMessageListener implements
 	}
 
 	/**
-	 * 找出同城同兴趣的好友
+	 * 当该项目超过xx人想去找出同兴趣的好友
 	 * 
 	 * @param uid
 	 * @param actId
 	 * @return
 	 */
 	private List<Long> getPushTargets(long uid, long actId) {
-		List<Long> friendIds = friendService.getAppFriends(uid);
-		List<Long> targets = new ArrayList<Long>();
-		for (Long friendUid : friendIds) {
-			if (profileService.isMaybeSameCity(uid, friendUid) != 0) {
+		int count = userActService.countUserActByActId(actId);
+		List<Long> targets = null;
+		if (friendActCount < count) {
+			List<Long> friendIds = friendService.getAppFriends(uid);
+			targets = new ArrayList<Long>();
+			for (Long friendUid : friendIds) {
+
 				if (friendUid != null && friendUid > 0
-						&& userActService.isInterested(friendUid, actId)) {
+						&& userActService.hasAct(friendUid, actId)) {
 					targets.add(friendUid);
 				}
 			}
+		} else {
+			targets = Collections.emptyList();
 		}
 		return targets;
 	}

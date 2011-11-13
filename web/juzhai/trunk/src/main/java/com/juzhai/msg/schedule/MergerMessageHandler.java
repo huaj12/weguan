@@ -48,57 +48,58 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 				RedisKeyGenerator.genMergerMsgKey());
 		redisTemplate.delete(RedisKeyGenerator.genMergerMsgKey());
 		for (String key : keys) {
-			long count = redisTemplate.opsForZSet().size(key);
-			if (count == 0) {
-				continue;
-			}
-			if (count > 20) {
-				count = 20;
-			}
-			Set<TypedTuple<Long>> typedTuples = redisLongTemplate.opsForZSet()
-					.reverseRangeWithScores(key, 0, count);
+			// long count = redisTemplate.opsForZSet().size(key);
+			// if (count == 0) {
+			// continue;
+			// }
+			// if (count > 20) {
+			// count = 20;
+			// }
+			// Set<TypedTuple<Long>> typedTuples =
+			// redisLongTemplate.opsForZSet()
+			// .reverseRangeWithScores(key, 0, count);
 			redisTemplate.delete(key);
-			LazyKeyView lazyKeyView = getLazyKeyView(key);
-			MergerActMsg merge = new MergerActMsg();
-			merge.setUid(lazyKeyView.getSendId());
-			List<ActMsg> actMsgs = new ArrayList<ActMsg>();
-			String sendActNames = "";
-			int i = 0;
-			for (TypedTuple<Long> typeTuple : typedTuples) {
-				ActMsg msg = new ActMsg(typeTuple.getValue(),
-						lazyKeyView.getSendId(), lazyKeyView.getType());
-				if (actMsgs.size() == 0) {
-					long date = new Double(typeTuple.getScore()).longValue();
-					merge.setDate(new Date(date));
-				}
-				actMsgs.add(msg);
-				if (i < 3) {
-					sendActNames = sendActNames
-							+ actService.getActById(typeTuple.getValue())
-									.getName();
-					if (i != 2) {
-						sendActNames = sendActNames + "、";
-					}
-				} else {
-					if (sendActNames.indexOf("...") == -1) {
-						sendActNames = sendActNames + "...";
-					}
-				}
-				i++;
-			}
-			merge.setMsgs(actMsgs);
-			merge.setType(lazyKeyView.getType());
-			msgService.sendMsg(lazyKeyView.getReceiverId(), merge);
-			// 判断用户是否发送消息
-			// if (userSetupService.isTpAdvise(lazyKeyView.getSendId())) {
-			TpUser tpUser = tpUserService.getTpUserByUid(lazyKeyView
-					.getReceiverId());
-			if (sendAppMsgService.checkTpMsgLimitAndAddCnt(
-					lazyKeyView.getReceiverId(), merge.getType())) {
-				sendAppMsgService.threadSendAppMsg(tpUser,
-						lazyKeyView.getSendId(), lazyKeyView.getType(),
-						sendActNames);
-			}
+			// LazyKeyView lazyKeyView = getLazyKeyView(key);
+			// MergerActMsg merge = new MergerActMsg();
+			// merge.setUid(lazyKeyView.getSendId());
+			// List<ActMsg> actMsgs = new ArrayList<ActMsg>();
+			// String sendActNames = "";
+			// int i = 0;
+			// for (TypedTuple<Long> typeTuple : typedTuples) {
+			// ActMsg msg = new ActMsg(typeTuple.getValue(),
+			// lazyKeyView.getSendId(), lazyKeyView.getType());
+			// if (actMsgs.size() == 0) {
+			// long date = new Double(typeTuple.getScore()).longValue();
+			// merge.setDate(new Date(date));
+			// }
+			// actMsgs.add(msg);
+			// if (i < 3) {
+			// sendActNames = sendActNames
+			// + actService.getActById(typeTuple.getValue())
+			// .getName();
+			// if (i != 2) {
+			// sendActNames = sendActNames + "、";
+			// }
+			// } else {
+			// if (sendActNames.indexOf("...") == -1) {
+			// sendActNames = sendActNames + "...";
+			// }
+			// }
+			// i++;
+			// }
+			// merge.setMsgs(actMsgs);
+			// merge.setType(lazyKeyView.getType());
+			// msgService.sendMsg(lazyKeyView.getReceiverId(), merge);
+			// // 判断用户是否发送消息
+			// // if (userSetupService.isTpAdvise(lazyKeyView.getSendId())) {
+			// TpUser tpUser = tpUserService.getTpUserByUid(lazyKeyView
+			// .getReceiverId());
+			// if (sendAppMsgService.checkTpMsgLimitAndAddCnt(
+			// lazyKeyView.getReceiverId(), merge.getType())) {
+			// sendAppMsgService.threadSendAppMsg(tpUser,
+			// lazyKeyView.getSendId(), lazyKeyView.getType(),
+			// 0);
+			// }
 			// }
 		}
 	}

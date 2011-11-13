@@ -14,29 +14,19 @@ import com.juzhai.passport.model.Thirdparty;
 
 public class SendSysMsgTask implements Callable<Boolean> {
 	Thirdparty thirdparty;
-	IAccountService accountService;
 	IAppService appService;
-	long uid;
-	String sendName;
 	String receiverIdentity;
 	MsgType type;
 	AuthInfo authInfo;
-	String sendAct;
-	MessageSource messageSource;
+	long actId;
 
-	public SendSysMsgTask(Thirdparty thirdparty, IAccountService accoutService,
-			IAppService appService, long uid, String receiverIdentity,
-			AuthInfo authInfo, MsgType type, MessageSource messageSource,
-			String sendName, String sendAct) {
-		this.accountService = accoutService;
+	public SendSysMsgTask(Thirdparty thirdparty, IAppService appService,
+			String receiverIdentity, AuthInfo authInfo, MsgType type, long actId) {
 		this.appService = appService;
-		this.uid = uid;
 		this.receiverIdentity = receiverIdentity;
 		this.authInfo = authInfo;
 		this.type = type;
-		this.messageSource = messageSource;
-		this.sendName = sendName;
-		this.sendAct = sendAct;
+		this.actId = actId;
 		this.thirdparty = thirdparty;
 	}
 
@@ -44,7 +34,7 @@ public class SendSysMsgTask implements Callable<Boolean> {
 	public Boolean call() throws Exception {
 		try {
 			// 发送系统消息
-			appService.sendSysMessage(receiverIdentity, sendAct,
+			appService.sendSysMessage(receiverIdentity, actId,
 					thirdparty.getAppUrl() + "?goUri=/msg/showRead", type,
 					authInfo);
 		} catch (Throwable e) {

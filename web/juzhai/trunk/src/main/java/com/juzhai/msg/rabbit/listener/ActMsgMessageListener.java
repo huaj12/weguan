@@ -48,7 +48,8 @@ public class ActMsgMessageListener implements
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private RedisTemplate<String, String> redisStringTemplate;
-	ISendAppMsgService sendAppMsgService;
+	@Autowired
+	private ISendAppMsgService sendAppMsgService;
 	@Autowired
 	private IUserSetupService userSetupService;
 

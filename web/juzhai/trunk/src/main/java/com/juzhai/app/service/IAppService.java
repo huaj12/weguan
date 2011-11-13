@@ -5,6 +5,7 @@ import java.util.List;
 import com.juzhai.core.exception.JuzhaiAppException;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.TpFriend;
 
 public interface IAppService {
 
@@ -18,8 +19,8 @@ public interface IAppService {
 	 * @param authInfo
 	 * @return
 	 */
-	boolean sendSysMessage(String fuids, String sendAct, String link,
-			MsgType type, AuthInfo authInfo);
+	boolean sendSysMessage(String fuids, long actId, String link, MsgType type,
+			AuthInfo authInfo);
 
 	/**
 	 * 发送短消息
@@ -31,12 +32,24 @@ public interface IAppService {
 	boolean sendMessage(String fuids, String word, AuthInfo authInfo);
 
 	/**
+	 * 约他短消息fuids上限30
+	 * 
+	 * @param fuids
+	 * @param content
+	 * @param sendId
+	 * @param tpId
+	 * @return
+	 */
+	boolean aboutFriends(List<String> fuids, String content, long sendId,
+			long tpId, long actId);
+
+	/**
 	 * 发送feed
 	 * 
 	 * @param word
 	 * @param authInfo
 	 * @return
 	 */
-	boolean sendFeed(long actId, long uid,long tpId);
+	boolean sendFeed(long actId, long uid, long tpId);
 
 }

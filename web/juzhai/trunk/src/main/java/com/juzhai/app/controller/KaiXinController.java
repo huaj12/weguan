@@ -89,12 +89,11 @@ public class KaiXinController extends BaseController {
 					+ feedRedirectUri
 					+ "?tpId="
 					+ context.getTpId();
-			String logo="";
-			if(act!=null){
-				logo=act.getLogo();
+			String logo = "";
+			if (act != null) {
+				logo = act.getLogo();
 			}
-			String picurl = JzCoreFunction.actLogo(actId, logo,
-					120);
+			String picurl = JzCoreFunction.actLogo(actId, logo, 120);
 			response.setContentType("text/plain");
 			out = response.getWriter();
 			out.println("http://api.kaixin001.com/dialog/feed?display=iframe&redirect_uri="
@@ -161,7 +160,7 @@ public class KaiXinController extends BaseController {
 			if (actId == null)
 				actId = 0l;
 			Act act = actService.getActById(actId);
-			if(act==null){
+			if (act == null) {
 				log.error("dialogSysnews actId is null");
 				return null;
 			}
@@ -238,20 +237,20 @@ public class KaiXinController extends BaseController {
 					log.error("dialogSysnewsCallBack uid is not bind");
 					return null;
 				}
-				ActMsg actMsg = new ActMsg(actId, sendUser.getUid(),
-						MsgType.INVITE);
-				String[] fids = fuids.split(",");
-				for (String fid : fids) {
-					TpUser receiverUser = tpUserService
-							.getTpUserByTpIdAndIdentity(tpId, fid);
-					if (receiverUser != null && receiverUser.getUid() > 0) {
-						msgMessageService.sendActMsg(sendUser.getUid(),
-								receiverUser.getUid(), actMsg);
-					} else {
-						msgMessageService.sendActMsg(sendUser.getUid(), tpId,
-								fid, actMsg);
-					}
-				}
+				// ActMsg actMsg = new ActMsg(actId, sendUser.getUid(),
+				// MsgType.INVITE);
+				// String[] fids = fuids.split(",");
+				// for (String fid : fids) {
+				// TpUser receiverUser = tpUserService
+				// .getTpUserByTpIdAndIdentity(tpId, fid);
+				// if (receiverUser != null && receiverUser.getUid() > 0) {
+				// msgMessageService.sendActMsg(sendUser.getUid(),
+				// receiverUser.getUid(), actMsg);
+				// } else {
+				// msgMessageService.sendActMsg(sendUser.getUid(), tpId,
+				// fid, actMsg);
+				// }
+				// }
 				// 有内容加积分
 				// if(num==null){
 				// num=1;

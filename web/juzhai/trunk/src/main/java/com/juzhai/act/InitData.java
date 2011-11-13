@@ -52,8 +52,8 @@ public class InitData {
 	public static final Map<Long, List<Act>> CATEGORY_ACT_LIST_MAP = new HashMap<Long, List<Act>>();
 	public static final Map<Long, Set<Long>> RECOMMEND_ACT_MAP = new HashMap<Long, Set<Long>>();
 	public static final Map<Long, Integer> RECOMMEND_CATEGORY_RATE_MAP = new LinkedHashMap<Long, Integer>();
-	//指向词
-	public static Map<String,Long> SYNONYM_ACT=new HashMap<String, Long>();
+	// 指向词
+	public static Map<String, Long> SYNONYM_ACT = new HashMap<String, Long>();
 	/**
 	 * key:0：女女；1：男女；2：男男
 	 */
@@ -78,7 +78,7 @@ public class InitData {
 	private HotActMapper hotActMapper;
 	@Autowired
 	private SynonymActMapper synonymActMapper;
-	
+
 	@Value("${recommend.category.rates}")
 	private String recommendCategoryRates;
 
@@ -98,8 +98,9 @@ public class InitData {
 	}
 
 	private void initSynonymMap() {
-		List<SynonymAct> synonymActs=synonymActMapper.selectByExample(new SynonymActExample());
-		for(SynonymAct syn: synonymActs){
+		List<SynonymAct> synonymActs = synonymActMapper
+				.selectByExample(new SynonymActExample());
+		for (SynonymAct syn : synonymActs) {
 			SYNONYM_ACT.put(syn.getName(), syn.getActId());
 		}
 	}

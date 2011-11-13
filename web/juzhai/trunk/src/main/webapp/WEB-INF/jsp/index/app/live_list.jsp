@@ -6,7 +6,7 @@
 		<li onmouseover="javascript:mouseHover(this, true);" onmouseout="javascript:mouseHover(this, false);">
 			<p class="l"></p><p class="r"></p>
 			<a href="#" class="iwg">❤ 我想去</a>
-			<a href="#" class="whg">给ta留言</a>
+			<a href="#" onclick="showAbout('${actLiveView.profileCache.nickname}','${actLiveView.act.id}','${actLiveView.act.name}','${actLiveView.profileCache.uid}');" class="whg">给ta留言</a>
 			<div class="photo1"><a href="/app/${actLiveView.profileCache.uid}"><img src="${actLiveView.profileCache.logoPic}"  width="80" height="80"/></a></div>
 			<div class="photo2"><a href="/app/showAct/${actLiveView.act.id}"><img src="${jz:actLogo(actLiveView.act.id,actLiveView.act.logo,80)}"  width="80" height="80"/></a></div>
 			<h2><a href="/app/${actLiveView.profileCache.uid}" class="u"><c:out value="${actLiveView.profileCache.nickname}" /></a>最近想去<a href="/app/showAct/${actLiveView.act.id}" class="v"><c:out value="${actLiveView.act.name}" /></a></h2>

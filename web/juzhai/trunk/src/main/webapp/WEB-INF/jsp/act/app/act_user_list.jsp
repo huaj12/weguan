@@ -11,7 +11,7 @@
 				<em class="r"></em>
 				<p><a href="/app/${actUserView.profileCache.uid}"><img src="${actUserView.profileCache.logoPic}" width="50" height="50"/></a></p>
 				<h3><a href="/app/${actUserView.profileCache.uid}" class="user"><c:out value="${actUserView.profileCache.nickname}" /></a></h3>
-				<a href="javascript:void(0);" class="btn" onclick="javascript:inviteHer(this, ${actUserView.profileCache.uid});">留言</a>
+				<a href="javascript:void(0);" class="btn" id="about_${actUserView.profileCache.uid}" onclick="showAbout('${actUserView.profileCache.nickname}','${act.id}','${act.name}','${actUserView.profileCache.uid}');" >留言</a>
 				<span>ta在<c:choose><c:when test="${actUserView.profileCache.cityName != ''}">${actUserView.profileCache.cityName}</c:when><c:otherwise>地球</c:otherwise></c:choose>&nbsp;发布于<font><fmt:formatDate value="${actUserView.createTime}" pattern="yyyy.MM.dd"/></font></span>
 			</div>
 		</c:forEach>

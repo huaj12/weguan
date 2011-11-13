@@ -103,6 +103,7 @@ function switchCategory(a, categoryId){
 		success: function(responseHTML){
 			changeCategoryTab($(a).parent());
 			$(this).html(responseHTML);
+			setHeight();
 		},
 		statusCode: {
 		    401: function() {

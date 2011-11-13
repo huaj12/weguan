@@ -53,6 +53,9 @@ public class AppUserHomeController extends BaseController {
 	public String userHome(HttpServletRequest request, Model model,
 			@PathVariable long uid) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
+		if (context.getUid() == uid) {
+			return "redirect:/app/myAct";
+		}
 		queryProfile(uid, model);
 		pageMyAct(request, model, 1, uid);
 		model.addAttribute("sameActList", userActService.listUsersSameActList(

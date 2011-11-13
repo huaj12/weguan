@@ -9,7 +9,7 @@
 			<c:forEach var="friendView" items="${friendViewList}">
 				<li onmouseover="javascript:mouseHover(this, true);" onmouseout="javascript:mouseHover(this, false);">
 					<p class="l"></p><p class="r"></p>
-					<a href="#" onclick="showAbout('${friendView.profile.nickname}','','','${friendView.profile.uid}');" class="msgh">给ta留言</a>
+					<a href="javascript:void(0);" onclick="showAbout('${friendView.profile.nickname}','','','${friendView.profile.uid}');" class="msgh">给ta留言</a>
 					<div class="photo1"><a href="/app/${friendView.profile.uid}"><img src="${friendView.profile.logoPic}" width="80" height="80"/></a></div>
 					<h2><a href="/app/${friendView.profile.uid}" class="u"><c:out value="${friendView.profile.nickname}" /></a>最近想去:</h2>
 					<div class="xq"><c:forEach var="act" items="${friendView.actList}"><a href="/app/showAct/${act.id}"><c:out value="${act.name}" /></a></c:forEach><b>等<a href="/app/${friendView.profile.uid}"></a>${friendView.actCnt}个项目</b></div>

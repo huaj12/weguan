@@ -19,13 +19,8 @@
 						<div class="top"></div>
 						<div class="mid"><!--mid begin-->
 							<div class="pub_style"><!--pub_style begin-->
-								<div class="title">
-									<h2>
-										<span class="hover"><p class="l"></p><p class="r"></p><a href="javascript:void(0);">拒宅直播</a></span>
-										<span><p class="l"></p><p class="r"></p><a href="#">本周热门</a></span>
-									</h2>
-									<a href="/app/showCategoryActs" class="more">发现更多&gt;&gt;</a>
-								</div>
+								<c:set var="tab" value="live" scope="request" />
+								<jsp:include page="tab.jsp" />
 								<div class="box"><!--box begin-->
 									<div class="f_w_g"><!--好友想去的 begin-->
 										<jsp:include page="live_list.jsp" />
@@ -41,7 +36,7 @@
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
 		<jsp:include page="/WEB-INF/jsp/common/app/sendMessage.jsp" />
-		<script type="text/javascript" src="${jz:static('/js/module/live.js')}"></script>
+		<script type="text/javascript" src="${jz:static('/js/module/index.js')}"></script>
 		<script type="text/javascript">
 		</script>
 		<script type="text/javascript" src="${jz:static('/js/base/kaixin_plugin.js')}"></script>

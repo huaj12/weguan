@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.juzhai.act.service.IActService;
 import com.juzhai.core.controller.BaseController;
 
-@Controller
+@Deprecated
 public class ActSearchController extends BaseController {
 
 	@Autowired

@@ -52,8 +52,10 @@ public interface IHotActService {
 	 * @return
 	 */
 	int countHotAct(boolean active);
+
 	/**
 	 * 判断特定兴趣是否在推荐列表里面存在
+	 * 
 	 * @param actId
 	 * @return
 	 */

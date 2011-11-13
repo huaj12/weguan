@@ -194,15 +194,15 @@ public class AppMyActController extends BaseController {
 			long uid = context.getUid();
 			ProfileCache cache = profileService.getProfileCacheByUid(uid);
 			if (cache != null) {
-				if(userActionService.addActActionMaximum(uid)){
+				if (userActionService.addActActionMaximum(uid)) {
 					userActionService.createAddActAction(name, uid,
 							cache.getNickname());
 					ajaxResult.setSuccess(true);
-				}else{
-					log.error("uid:"+uid+" Exceeds the limit");
+				} else {
+					log.error("uid:" + uid + " Exceeds the limit");
 					ajaxResult.setSuccess(false);
 				}
-			
+
 			} else {
 				log.error("searchAct uid is not exist");
 				ajaxResult.setSuccess(false);

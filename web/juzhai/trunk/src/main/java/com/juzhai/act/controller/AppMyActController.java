@@ -28,12 +28,15 @@ import com.juzhai.act.model.Act;
 import com.juzhai.act.model.Category;
 import com.juzhai.act.service.ICategoryService;
 import com.juzhai.act.service.IUserActService;
+import com.juzhai.cms.service.IUserActionService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IFriendService;
+import com.juzhai.passport.service.IProfileService;
 
 @Controller
 @RequestMapping(value = "app")
@@ -49,6 +52,10 @@ public class AppMyActController extends BaseController {
 	private MessageSource messageSource;
 	@Autowired
 	private IFriendService friendService;
+	@Autowired
+	private IUserActionService userActionService;
+	@Autowired
+	private IProfileService profileService;
 	@Value("${show.category.size}")
 	private int showCategorySize = 5;
 	@Value("${my.act.max.rows}")
@@ -175,5 +182,35 @@ public class AppMyActController extends BaseController {
 		}
 		model.addAttribute("categoryActViewList", categoryActViewList);
 		model.addAttribute("pager", pager);
+	}
+
+	@RequestMapping(value = "/ajax/recommendAct", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult recommendAct(String name, HttpServletRequest request)
+			throws NeedLoginException {
+		UserContext context = checkLoginForApp(request);
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			long uid = context.getUid();
+			ProfileCache cache = profileService.getProfileCacheByUid(uid);
+			if (cache != null) {
+				if(userActionService.addActActionMaximum(uid)){
+					userActionService.createAddActAction(name, uid,
+							cache.getNickname());
+					ajaxResult.setSuccess(true);
+				}else{
+					log.error("uid:"+uid+" Exceeds the limit");
+					ajaxResult.setSuccess(false);
+				}
+			
+			} else {
+				log.error("searchAct uid is not exist");
+				ajaxResult.setSuccess(false);
+			}
+		} catch (Exception e) {
+			log.error("ajax recommendAct is error.");
+			ajaxResult.setSuccess(false);
+		}
+		return ajaxResult;
 	}
 }

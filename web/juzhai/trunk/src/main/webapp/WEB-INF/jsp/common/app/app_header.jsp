@@ -14,6 +14,10 @@
 			<em></em>
 			<span <c:if test="${page=='rank'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="/app/showLive">拒宅排行</a></span>
 		</div><!--menu end-->
-		<div class="dy fr"><p class="l"></p><span><input name="" type="text" value="输入拒宅项目,如:逛街"/></span><a href="#">找伴</a></div>
+		<div class="dy fr"><p class="l"></p><span><input name="" id="addAct" type="text" onfocus="if(this.value=='输入拒宅项目,如:逛街')this.value=''" onblur="if(this.value=='')this.value='输入拒宅项目,如:逛街'" value="输入拒宅项目,如:逛街"/></span><a id="_searchActs" href="#">找伴</a>
+		<div class="ts" id="headAddActError" style="display:none"><!--ts begin-->
+			<em>请输入内容</em>
+		</div><!--ts end-->
+		</div>
 	</div><!--top_mid end-->
 </div><!--skin_top end-->

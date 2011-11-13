@@ -109,6 +109,12 @@ a:hover {
 				<a href="/cms/showActManager" target="config">拒宅项目管理</a>
 			</li>
 			<li>
+				<a href="/cms/showSearchActAction" target="config">用户找伴记录</a>
+			</li>
+			<li>
+				<a href="/cms/showAddActAction" target="config">用户推荐记录</a>
+			</li>
+			<li>
 				<a href="/cms/showHotAct?active=true&page=1" target="config">推荐项目设置</a>
 			</li>
 			<li>

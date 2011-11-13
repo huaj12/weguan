@@ -76,10 +76,11 @@
 	<h2>添加项目${msg}</h2>
 	<form action="/cms/createAct" onsubmit="return checkData();"
 		method="post" enctype="multipart/form-data">
+		<input value="${addUid}" type="hidden" name="addUid"/>
 		<table>
 			<tr>
 				<td>简称</td>
-				<td><input type="text" id="name" name="name" />
+				<td><input type="text" id="name" value="${actName}" name="name" />
 				</td>
 			</tr>
 			<tr>

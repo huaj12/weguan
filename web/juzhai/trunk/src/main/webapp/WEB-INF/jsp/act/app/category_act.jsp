@@ -22,8 +22,8 @@
 									<h2>添加我想去的项目</h2>
 									<div class="or">
 										<p>或者</p>
-										<span><input name="" type="text"  value="手动输入"/></span><a href="#">推荐</a>
-										<div class="ts"><em>感谢推荐!<br />我们审核后会加入拒宅器</em></div>
+										<span><input name="" id="categoryAddAct"  type="text"   onfocus="if(this.value=='手动输入')this.value=''" onblur="if(this.value=='')this.value='手动输入'" value="手动输入"/></span><a id="_addMyActs" href="#">推荐</a>
+										<div class="ts" id="categoryAddActError" style="display:none"><em>感谢推荐!<br />我们审核后会加入拒宅器</em></div>
 									</div>
 								</div>
 								<div class="box"><!--box begin-->

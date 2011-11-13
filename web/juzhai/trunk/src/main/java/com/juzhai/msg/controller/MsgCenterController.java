@@ -36,8 +36,11 @@ import com.juzhai.msg.service.IMergerActMsgService;
 import com.juzhai.msg.service.IMsgMessageService;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.passport.service.ITpUserService;
+import com.juzhai.passport.service.impl.TpUserService;
 
 @Controller
 @RequestMapping(value = "msg")
@@ -57,6 +60,8 @@ public class MsgCenterController extends BaseController {
 	@Autowired
 	private IAccountService accountService;
 	@Autowired
+	private ITpUserService tpUserService;
+	@Autowired
 	private IAppService appService;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
@@ -66,15 +71,15 @@ public class MsgCenterController extends BaseController {
 	@RequestMapping(value = "/showUnRead", method = RequestMethod.GET)
 	public String showUnRead(HttpServletRequest request, Model model,
 			Integer page) throws NeedLoginException {
-//		if (null == page)
-//			page = 1;
-//		UserContext context = checkLoginForApp(request);
-//		ProfileCache profileCache = queryProfile(context.getUid(), model);
-//		if (profileCache != null && !profileCache.getSubEmail()) {
-//			showNotSubEmailTip(model);
-//		}
-//		doPageUnRead(context.getUid(), page, model);
-		return "redirect:/msg/showRead";
+		// if (null == page)
+		// page = 1;
+		// UserContext context = checkLoginForApp(request);
+		// ProfileCache profileCache = queryProfile(context.getUid(), model);
+		// if (profileCache != null && !profileCache.getSubEmail()) {
+		// showNotSubEmailTip(model);
+		// }
+		// doPageUnRead(context.getUid(), page, model);
+		return "redirect:/app/index";
 	}
 
 	@RequestMapping(value = "/pageUnRead", method = RequestMethod.GET)
@@ -165,7 +170,7 @@ public class MsgCenterController extends BaseController {
 		doPageRead(context.getUid(), model, page);
 		// 清空消息数目
 		mergerActMsgService.clearMergerActMsgCount(context.getUid());
-		return "msg/app/read";
+		return "redirect:/app/index";
 	}
 
 	@RequestMapping(value = "/pageRead", method = RequestMethod.GET)
@@ -341,6 +346,38 @@ public class MsgCenterController extends BaseController {
 					result.setSuccess(false);
 				}
 				;
+			} else {
+				result.setSuccess(false);
+			}
+		} catch (Exception e) {
+			result.setSuccess(false);
+			log.error("sendBoard is error", e);
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/sendAbout")
+	@ResponseBody
+	public AjaxResult sendAbout(HttpServletRequest request, String content,
+			Long fuid, Long actId, Model model) throws NeedLoginException {
+		UserContext context = checkLoginForApp(request);
+		AjaxResult result = new AjaxResult();
+		try {
+			if (actId == null) {
+				actId = 0l;
+			}
+			if (fuid == null) {
+				result.setSuccess(false);
+				return result;
+			}
+			TpUser tpUser = tpUserService.getTpUserByUid(fuid);
+			List<String> fuids = new ArrayList<String>();
+			if (tpUser != null) {
+				fuids.add(tpUser.getTpIdentity());
+			}
+			if (appService.aboutFriends(fuids, content, context.getUid(),
+					context.getTpId(), actId)) {
+				result.setSuccess(true);
 			} else {
 				result.setSuccess(false);
 			}

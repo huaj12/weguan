@@ -34,6 +34,7 @@ import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.Category;
 import com.juzhai.act.service.IActService;
+import com.juzhai.act.service.IUserActService;
 import com.juzhai.cms.controller.form.AddActForm;
 import com.juzhai.cms.controller.form.SearchActForm;
 import com.juzhai.cms.controller.view.CmsActMagerView;
@@ -53,6 +54,8 @@ public class ActController {
 
 	@Autowired
 	private IActService actService;
+	@Autowired
+	private IUserActService userActService;
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
@@ -253,9 +256,12 @@ public class ActController {
 	}
 
 	@RequestMapping(value = "/showCreateAct", method = RequestMethod.GET)
-	public String showCreateAct(Model model, String msg) {
+	public String showCreateAct(Model model, String msg, String actName,
+			Long addUid) {
 		assembleCiteys(model);
 		model.addAttribute("msg", msg);
+		model.addAttribute("actName", actName);
+		model.addAttribute("addUid", addUid);
 		return "cms/createAct";
 	}
 
@@ -300,7 +306,8 @@ public class ActController {
 	}
 
 	@RequestMapping(value = "/createAct", method = RequestMethod.POST)
-	public ModelAndView createAct(AddActForm form, HttpServletRequest request) {
+	public ModelAndView createAct(AddActForm form, Long addUid,
+			HttpServletRequest request) {
 		UserContext context = (UserContext) request.getAttribute("context");
 		Act act = converAct(form, context.getUid());
 		ModelMap mmap = new ModelMap();
@@ -311,6 +318,9 @@ public class ActController {
 				Act oldAct = actService.getActByName(act.getName());
 				if (oldAct == null) {
 					Act a = actService.createAct(act, form.getCatIds());
+					if (addUid != null) {
+						userActService.addAct(addUid, a.getId(), true);
+					}
 					actId = a.getId();
 					logo = a.getLogo();
 					mmap.addAttribute("msg", "create is success");
@@ -369,18 +379,21 @@ public class ActController {
 	}
 
 	@RequestMapping(value = "/updateAct", method = RequestMethod.POST)
-	public String updateAct(AddActForm form, HttpServletRequest request) {
+	public ModelAndView updateAct(AddActForm form, HttpServletRequest request) {
 		Act act = converAct(form, 0L);
+		ModelMap mmap = new ModelMap();
 		try {
 			if (form.getCatIds() != null) {
 				actService.updateAct(act, form.getCatIds());
 			} else {
+				mmap.addAttribute("msg", "create act catIds is null");
 				log.error("create act catIds is null");
 			}
 		} catch (Exception e) {
+			mmap.addAttribute("msg", "update act is error.");
 			log.error("update act is error.", e);
 		}
-		return "redirect:/cms/showActManager";
+		return new ModelAndView("redirect:/cms/showActManager",mmap);
 	}
 
 	private Act converAct(AddActForm form, Long uid) {

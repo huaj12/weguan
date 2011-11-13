@@ -93,4 +93,15 @@ public class HotActService implements IHotActService {
 		example.createCriteria().andActiveEqualTo(active);
 		return hotActMapper.countByExample(example);
 	}
+
+	@Override
+	public boolean isExistHotAct(long actId) {
+		HotActExample example = new HotActExample();
+		example.createCriteria().andActIdEqualTo(actId);
+		int count=hotActMapper.countByExample(example);
+		if(count>0){
+			return true;
+		}
+		return false;
+	}
 }

@@ -24,7 +24,7 @@
 									<div class="photo"><a href="${jz:tpHomeUrl(profile.tpIdentity,context.tpId)}" target="_blank"><img src="${profile.logoPic}"  width="80" height="80"/></a></div>
 									<h2><a href="${jz:tpHomeUrl(profile.tpIdentity,context.tpId)}" target="_blank"><c:out value="${profile.nickname}"/></a></h2>
 									<p>ta在<c:choose><c:when test="${profile.cityName != ''}">${profile.cityName}</c:when><c:otherwise>地球</c:otherwise></c:choose><c:if test="${lastUpdateTime!=null}">&nbsp;&nbsp;最近更新于<fmt:formatDate value="${lastUpdateTime}" pattern="yyyy.MM.dd"/></c:if></p>
-									<span><a href="#">给ta留言</a></span>
+									<span><a onclick="showAbout('${profile.nickname}','${act.id}','${act.name}','${profile.uid}');" href="#">给ta留言</a></span>
 								</div><!--head_area end-->
 								<c:if test="${sameActList.size() > 0}">
 									<div class="gtah"><!--gtah begin-->
@@ -49,6 +49,7 @@
 			<div class="skin_bottom"></div>
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
+		<jsp:include page="/WEB-INF/jsp/common/app/sendMessage.jsp" />
 		<script type="text/javascript" src="${jz:static('/js/module/user_home.js')}"></script>
 		<script type="text/javascript" src="${jz:static('/js/base/kaixin_plugin.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />

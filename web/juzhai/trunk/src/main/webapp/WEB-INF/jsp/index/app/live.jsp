@@ -40,7 +40,7 @@
 			<div class="skin_bottom"></div>
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
-		<jsp:include page="/WEB-INF/jsp/common/app/artDialog/artDialog.jsp" />
+		<jsp:include page="/WEB-INF/jsp/common/app/sendMessage.jsp" />
 		<script type="text/javascript" src="${jz:static('/js/module/live.js')}"></script>
 		<script type="text/javascript">
 		</script>

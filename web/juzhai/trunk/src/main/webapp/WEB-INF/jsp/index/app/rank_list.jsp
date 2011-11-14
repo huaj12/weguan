@@ -5,7 +5,7 @@
 	<c:forEach var="act" items="${actList}">
 		<li onmouseover="javascript:mouseHover(this, true);" onmouseout="javascript:mouseHover(this, false);">
 			<p class="l"></p><p class="r"></p>
-			<a href="javascript:void(0);" onclick="javascript:wantTo(this);" actid="${act.id}" class="iwg_big" >❤ 我想去</a>
+			<a href="javascript:void(0);" onclick="javascript:wantTo(this);" actid="${act.id}" class="iwg_big" title="接收相关邀请">❤ 我想去</a>
 			<div class="photo1"><a href="/app/showAct/${act.id}"><img src="${jz:actLogo(act.id,act.logo,80)}"  width="80" height="80"/></a></div>
 			<h2><a href="/app/showAct/${act.id}" class="v2"><c:out value="${act.name}" /></a></h2>
 			<span>${jz:truncate(feed.act.intro,54,'...')}</span>

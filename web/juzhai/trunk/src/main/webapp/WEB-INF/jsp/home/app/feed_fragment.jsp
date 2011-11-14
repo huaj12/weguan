@@ -10,10 +10,11 @@
 				<div class="photo fl"><a href="/app/showAct/${feed.act.id}"><img src="${jz:actLogo(feed.act.id,feed.act.logo,120)}" /></a></div>
 				<div class="infor fl"><!--infor begin-->
 					<h2><span class="w">想去</span><span class="v"><a href="/app/showAct/${feed.act.id}"><c:out value="${feed.act.name}" /></a></span><span class="w">么？</span></h2>
-					<p>${jz:truncate(feed.act.intro,50,'...')}</p>
-					<em><c:if test="${allUserCnt!=null&&allUserCnt>0}">共<a href="/app/showAct/${feed.act.id}">${allUserCnt}</a>人想去<c:if test="${friendUserCnt!=null&&friendUserCnt>0}">，<a href="/app/showAct/${feed.act.id}?friendUser=1">${friendUserCnt}</a>人是你的好友</c:if></c:if></em>
+					<p>${jz:truncate(feed.act.intro,120,'...')}</p>
+					<div></div>
+					<em><c:if test="${allUserCnt!=null&&allUserCnt>0}">共<a href="/app/showAct/${feed.act.id}" title="点击查看">${allUserCnt}</a>人想去<c:if test="${friendUserCnt!=null&&friendUserCnt>0}">，<a href="/app/showAct/${feed.act.id}?friendUser=1" title="点击查看">${friendUserCnt}</a>人是你的好友</c:if></c:if></em>
 					<a href="javascript:void(0);" class="dwant btn" onclick="javascript:respRecommend(${feed.act.id}, 2);" title="不再显示"></a>
-					<a href="javascript:void(0);" class="want btn" onclick="javascript:respRecommend(${feed.act.id}, 1);"></a>
+					<a href="javascript:void(0);" class="want btn" onclick="javascript:respRecommend(${feed.act.id}, 1);" title="接收相关邀请"></a>
 				</div><!--infor end-->
 			</div><!--jz_box end-->
 		</c:when>

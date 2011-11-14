@@ -18,14 +18,8 @@
 						<div class="top"></div>
 						<div class="mid"><!--mid begin-->
 							<div class="pub_style"><!--pub_style begin-->
-								<div class="title">
-									<h2>添加我想去的项目</h2>
-									<div class="or">
-										<p>或者</p>
-										<span><input name="" id="categoryAddAct"  type="text"   onfocus="if(this.value=='手动输入')this.value=''" onblur="if(this.value=='')this.value='手动输入'" value="手动输入"/></span><a id="_addMyActs" href="javascript:void(0);">推荐</a>
-										<div class="ts" id="categoryAddActError" style="display:none"><em>感谢推荐!<br />我们审核后会加入拒宅器</em></div>
-									</div>
-								</div>
+								<c:set var="tab" value="category" scope="request" />
+								<jsp:include page="tab.jsp" />
 								<div class="box"><!--box begin-->
 									<div class="ca"><!--ca begin-->
 										<c:forEach var="category" items="${categoryList}" varStatus="status">
@@ -46,7 +40,7 @@
 			<div class="skin_bottom"></div>
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
-		<script type="text/javascript" src="${jz:static('/js/module/my_act.js')}"></script>
+		<script type="text/javascript" src="${jz:static('/js/module/index.js')}"></script>
 		<script type="text/javascript">
 		</script>
 		<script type="text/javascript" src="${jz:static('/js/base/kaixin_plugin.js')}"></script>

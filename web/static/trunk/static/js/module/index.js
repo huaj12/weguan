@@ -43,3 +43,82 @@ function wantTo(a){
 		}
 	});
 }
+
+function addCategoryAct(a){
+	var actId = $(a).attr("actid");
+	if(isNaN(actId)){
+		return false;
+	}
+	//ajax
+	jQuery.ajax({
+		url: "/app/ajax/addAct",
+		type: "post",
+		cache : false,
+		data: {"actId": actId},
+		dataType: "json",
+		success: function(result){
+			if(result&&result.success){
+				$(a).removeAttr("onclick");
+				$(a).text("已添加");
+				$(a).addClass("unclick");
+			}else{
+				alert("system error.");
+			}
+		},
+		statusCode: {
+		    401: function() {
+		    	window.location.href="/login";
+		    }
+		}
+	});
+}
+
+function switchCategory(a, categoryId){
+	//ajax
+	jQuery.ajax({
+		url: "/app/ajax/pageCategoryAct",
+		type: "get",
+		cache : false,
+		data: {"categoryId": categoryId},
+		dataType: "html",
+		context: $(".i_w_g"),
+		success: function(responseHTML){
+			changeCategoryTab($(a).parent());
+			$(this).html(responseHTML);
+			setHeight();
+		},
+		statusCode: {
+		    401: function() {
+		    	window.location.href="/login";
+		    }
+		}
+	});
+}
+
+function changeCategoryTab(span){
+	$(".ca > span").each(function(){
+		$(this).removeClass("hover");
+	});
+	$(span).addClass("hover");
+}
+
+function pageCategoryAct(categoryId, pageId){
+	//ajax
+	jQuery.ajax({
+		url: "/app/ajax/pageCategoryAct",
+		type: "get",
+		cache : false,
+		data: {"categoryId": categoryId, "page": pageId},
+		dataType: "html",
+		context: $(".i_w_g"),
+		success: function(responseHTML){
+			$(this).html(responseHTML);
+			setHeight();
+		},
+		statusCode: {
+		    401: function() {
+		    	window.location.href="/login";
+		    }
+		}
+	});
+}

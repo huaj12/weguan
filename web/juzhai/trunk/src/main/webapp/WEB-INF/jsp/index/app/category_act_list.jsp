@@ -7,7 +7,7 @@
 			<p class="l"></p><p class="r"></p>
 			<c:choose>
 				<c:when test="${categoryActView.hasUsed}"><a class="wg unclick" href="javascript:void(0);">已添加</a></c:when>
-				<c:otherwise><a href="javascript:void(0);" class="wg" onclick="javascript:addCategoryAct(this);" actid="${categoryActView.act.id}">我想去</a></c:otherwise>
+				<c:otherwise><a href="javascript:void(0);" class="wg" onclick="javascript:addCategoryAct(this);" actid="${categoryActView.act.id}" title="接收相关邀请">我想去</a></c:otherwise>
 			</c:choose>
 			<div></div>
 			<div class="photo"><a href="/app/showAct/${categoryActView.act.id}"><img src="${jz:actLogo(categoryActView.act.id,categoryActView.act.logo,80)}"  width="80" height="80"/></a></div>

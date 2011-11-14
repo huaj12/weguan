@@ -1,6 +1,5 @@
 package com.juzhai.act.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,17 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.juzhai.act.InitData;
 import com.juzhai.act.controller.form.AddActForm;
-import com.juzhai.act.controller.view.CategoryActView;
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
-import com.juzhai.act.model.Act;
-import com.juzhai.act.model.Category;
-import com.juzhai.act.service.ICategoryService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.cms.service.IUserActionService;
 import com.juzhai.core.controller.BaseController;
@@ -47,8 +40,6 @@ public class AppMyActController extends BaseController {
 	@Autowired
 	private IUserActService userActService;
 	@Autowired
-	private ICategoryService categoryService;
-	@Autowired
 	private MessageSource messageSource;
 	@Autowired
 	private IFriendService friendService;
@@ -56,12 +47,8 @@ public class AppMyActController extends BaseController {
 	private IUserActionService userActionService;
 	@Autowired
 	private IProfileService profileService;
-	@Value("${show.category.size}")
-	private int showCategorySize = 5;
 	@Value("${my.act.max.rows}")
 	private int myActMaxRows = 20;
-	@Value("${category.act.max.rows}")
-	private int categoryActMaxRows = 8;
 	@Value("${same.act.friends.num}")
 	private int sameActFriendsNum = 2;
 
@@ -133,55 +120,6 @@ public class AppMyActController extends BaseController {
 		model.addAttribute("userActViewList", userActViewList);
 		model.addAttribute("pager", pager);
 		return "act/app/my_act_list";
-	}
-
-	@RequestMapping(value = "/showCategoryActs", method = RequestMethod.GET)
-	public String showHotActs(HttpServletRequest request, Model model,
-			@RequestParam(defaultValue = "0") long categoryId)
-			throws NeedLoginException {
-		checkLoginForApp(request);
-		List<Category> categoryList = categoryService
-				.listCategories(showCategorySize);
-		model.addAttribute("categoryList", categoryList);
-		if (categoryId <= 0) {
-			categoryId = categoryList.get(0).getId();
-		}
-		pageCategoryAct(request, model, categoryId, 1);
-		return "act/app/category_act";
-	}
-
-	@RequestMapping(value = "/ajax/pageCategoryAct", method = RequestMethod.GET)
-	public String pageCategoryAct(HttpServletRequest request, Model model,
-			long categoryId, @RequestParam(defaultValue = "1") int page)
-			throws NeedLoginException {
-		UserContext context = checkLoginForApp(request);
-		pageCategoryAct(context, model, categoryId, page);
-		model.addAttribute("categoryId", categoryId);
-		return "act/app/category_act_list";
-	}
-
-	private void pageCategoryAct(UserContext context, Model model,
-			long categoryId, int page) {
-		List<Long> myActIds = userActService.getUserActIdsFromCache(
-				context.getUid(), Integer.MAX_VALUE);
-		List<Act> hotActList = InitData.CATEGORY_ACT_LIST_MAP.get(categoryId);
-		int totalCount = hotActList.size();
-		PagerManager pager = new PagerManager(page, categoryActMaxRows,
-				totalCount);
-		List<CategoryActView> categoryActViewList = new ArrayList<CategoryActView>(
-				categoryActMaxRows);
-		if (pager.getFirstResult() < hotActList.size()) {
-			for (Act act : hotActList.subList(pager.getFirstResult(), Math.min(
-					pager.getFirstResult() + pager.getMaxResult(),
-					hotActList.size()))) {
-				CategoryActView view = new CategoryActView();
-				view.setAct(act);
-				view.setHasUsed(myActIds.contains(act.getId()));
-				categoryActViewList.add(view);
-			}
-		}
-		model.addAttribute("categoryActViewList", categoryActViewList);
-		model.addAttribute("pager", pager);
 	}
 
 	@RequestMapping(value = "/ajax/recommendAct", method = RequestMethod.GET)

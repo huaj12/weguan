@@ -6,7 +6,7 @@
 		<li onmouseover="javascript:mouseHover(this, true);" onmouseout="javascript:mouseHover(this, false);">
 			<p class="l"></p><p class="r"></p>
 			<c:if test="${actLiveView.profileCache.uid != context.uid}">
-				<a href="javascript:void(0);" onclick="javascript:wantTo(this);" actid="${actLiveView.act.id}" class="iwg" >❤ 我想去</a>
+				<a href="javascript:void(0);" onclick="javascript:wantTo(this);" actid="${actLiveView.act.id}" class="iwg" title="接收相关邀请">❤ 我想去</a>
 				<a href="javascript:void(0);" onclick="showAbout('${actLiveView.profileCache.nickname}','${actLiveView.act.id}','${actLiveView.act.name}','${actLiveView.profileCache.uid}');" class="whg">给ta留言</a>
 			</c:if>
 			<div class="photo1"><a href="/app/${actLiveView.profileCache.uid}"><img src="${actLiveView.profileCache.logoPic}"  width="80" height="80"/></a></div>

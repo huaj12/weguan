@@ -72,12 +72,12 @@ function add_my_act(){
 	var value = $("#categoryAddAct").attr("value");
 	if (!value || value == ""||value=='手动输入') {
 		$("#categoryAddActError").html("<em>请先输入</em>").stop().show()
-				.fadeOut(3000);
+				.fadeOut(2000);
 		return false;
 	}
 	if (!checkValLength(value, 2, 20)) {
 		$("#categoryAddActError").html("<em>拒宅兴趣字数控制在1－10个中文内！</em>").stop().show().fadeOut(
-				3000);
+				2000);
 		
 		return false;
 	}

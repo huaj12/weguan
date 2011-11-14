@@ -27,4 +27,6 @@ public interface IActCategoryService {
 	 * 更新分类项目
 	 */
 	void updateCategoryActList();
+	
+	void deleteActCategory(long actId);
 }

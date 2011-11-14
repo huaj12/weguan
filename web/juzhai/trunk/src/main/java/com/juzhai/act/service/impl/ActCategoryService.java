@@ -87,4 +87,11 @@ public class ActCategoryService implements IActCategoryService {
 					geActsByCategoryId(categoryId, showCategoryActSize));
 		}
 	}
+
+	@Override
+	public void deleteActCategory(long actId) {
+		ActCategoryExample example = new ActCategoryExample();
+		example.createCriteria().andActIdEqualTo(actId);
+		actCategoryMapper.deleteByExample(example);
+	}
 }

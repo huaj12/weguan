@@ -230,6 +230,7 @@ public class UserActService implements IUserActService {
 		profileService.updateLastUpdateTime(uid);
 		inboxService.remove(uid, actId);
 		actLiveService.addNewLive(uid, actId, userAct.getCreateTime());
+		sendRecommendMsg(userAct);
 		sendFeed(userAct, srcFriendId);
 	}
 
@@ -241,7 +242,11 @@ public class UserActService implements IUserActService {
 		updateActFeedRabbitTemplate.convertAndSend(actUpdateMessage);
 	}
 
-	@Deprecated
+	/**
+	 * 匹配消息
+	 * 
+	 * @param userAct
+	 */
 	private void sendRecommendMsg(UserAct userAct) {
 		msgMessageService.sendActMsg(userAct.getUid(), 0L,
 				new ActMsg(userAct.getActId(), userAct.getUid(),

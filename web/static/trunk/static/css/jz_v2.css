@@ -350,11 +350,15 @@ abbr,acronym { border: 0;
 
 .my_page .gtah,.my_page .txqd{ background:url(../images/2qi/my_page_box_bg.jpg) repeat-x; width:700px; height:auto; padding-bottom:30px; float:left;}
 .my_page .gtah h3,.my_page .txqd h3{ padding-left:35px; color:#666; font-weight:bold; float:left; margin-top:13px;}
-.my_page .gtah ul{ float:left; padding:20px 35px;}
-.my_page .gtah ul li{ width:80px; height:80px; float:left; margin-right:25px; display:inline; position:relative;}
-.my_page .gtah ul li a{ width:80px; height:15px; display:block; position:absolute; z-index:999; padding-top:85px; text-align:center; color:#999; text-decoration:none;}
-.my_page .gtah ul li a:hover{color:#4790DB;  text-decoration:underline;}
-.my_page .gtah ul li p{}
+
+.gtah ul { float:left; margin-left:35px; display:inline; margin-top:10px;}
+.gtah ul li{ float:left; width:90px; height:120px; overflow:hidden; padding-bottom:10px; margin-right:18px; display:inline; margin-top:5px;}
+.gtah ul li p{ float:left; text-align:center; width:90px;}
+.gtah ul li h2{ width:90px; float:left; margin-top:5px; text-align:center;}
+.gtah ul li h2 a{color:#666; text-decoration:none;}
+.gtah ul li h2 a:hover{color:#4790DB; text-decoration:underline;}
+
+
 
 /***
 .txqd ul { float:left; margin-left:35px; display:inline; margin-top:10px;}
@@ -541,11 +545,11 @@ abbr,acronym { border: 0;
 /********** LOADINGS************/
 .loading_home{ width:700px; height:auto; display:block; margin:0 auto; margin-top:48px; position:relative; text-align:center; }
 .loading_home .top{ width:698px; height:1px;  overflow:hidden;  background:#FFF; margin:0 auto;}
-.loading_home .mid{ width:700px; height:219px; overflow:hidden; background:#FFF; position:relative; z-index:998;}
+.loading_home .mid{ width:700px; height:194px; overflow:hidden; background:#FFF; position:relative; z-index:998;}
 .loading_home .bot{ width:698px; height:1px;  overflow:hidden;  background:#FFF; margin:0 auto;}
 
-.loading_home span{ float:left; margin-left:270px; display:inline; margin-top:95px;}
-.loading_home p{font-family:"微软雅黑", "宋体"; font-size:20px; color:#999; float:left; margin-top:100px; margin-left:10px; display:inline;}
+.loading_home span{ float:left; margin-left:270px; display:inline; margin-top:75px;}
+.loading_home p{font-family:"微软雅黑", "宋体"; font-size:20px; color:#999; float:left; margin-top:80px; margin-left:10px; display:inline;}
 
 
 
@@ -557,7 +561,6 @@ abbr,acronym { border: 0;
 .loading p{ float:left; margin-left:20px; display:inline; margin-top:32px; font-family:"微软雅黑", "宋体"; font-size:20px; color:#888;}
 
 .skin_bottom{ width:100%; height:9px; overflow:hidden; background:url(../images/full_image1.png) no-repeat 0 0;}
-
 
 /***********留言弹出层**************************/
 .cantact_user{ width:250px; height:auto; overflow:hidden; }

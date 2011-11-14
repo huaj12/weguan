@@ -32,7 +32,10 @@
 										<div class="clear"></div>
 										<ul>
 											<c:forEach var="act" items="${sameActList}">
-												<li><a href="/app/showAct/${act.id}"><c:out value="${act.name}" /></a><p><img src="${jz:actLogo(act.id,act.logo,80)}"  width="80" height="80"/></p></li>
+												<li>
+													<p><a href="/app/showAct/${act.id}"><img src="${jz:actLogo(act.id,act.logo,80)}"  width="80" height="80"/></a></p>
+													<h2><a href="/app/showAct/${act.id}"><c:out value="${act.name}" /></a></h2>
+												</li>
 											</c:forEach>
 										</ul>
 									</div><!--gtah end-->

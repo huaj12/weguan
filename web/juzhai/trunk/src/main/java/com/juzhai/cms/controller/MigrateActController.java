@@ -56,6 +56,7 @@ public class MigrateActController {
 	public String migrateAct() {
 		Set<String> synonymKeys = redisTemplate.keys("*synonym");
 		migrateSynonym(synonymKeys);
+		
 		Map<Long, Long> actMaps=new HashMap<Long, Long>();
 		for (String key : synonymKeys) {
 			Long actId = getActId(key);
@@ -107,7 +108,6 @@ public class MigrateActController {
 				}
 			}
 			setSameSynoym(set, key, count);
-			
 		}
 	}
 	
@@ -128,7 +128,8 @@ public class MigrateActController {
 			if(!k.equals(key)){
 				long count=redisTemplate.opsForList().size(key);
 				for (int i = 0; i < count; i++) {
-					if(redisTemplate.opsForList().index(key, i)==actId){
+					Long aId=redisTemplate.opsForList().index(key, i);
+					if(aId.longValue()==actId.longValue()){
 						keys.add(key);
 						break;
 					}
@@ -229,8 +230,8 @@ public class MigrateActController {
 						continue;
 					}
 					actMap.put(act.getId(), aId);
-					System.out.println("actid:" + act.getId() + "|hotActId:"
-							+ aId);
+//					System.out.println("actid:" + act.getId() + "|hotActId:"
+//							+ aId);
 				}
 			} else {
 				Act act = acts.get(i);
@@ -239,8 +240,8 @@ public class MigrateActController {
 				}
 				if (act.getId() != hotActId) {
 					actMap.put(act.getId(), hotActId);
-					System.out.println("actid:" + act.getId() + "|hotActId:"
-							+ hotActId);
+//					System.out.println("actid:" + act.getId() + "|hotActId:"
+//							+ hotActId);
 				}
 			}
 

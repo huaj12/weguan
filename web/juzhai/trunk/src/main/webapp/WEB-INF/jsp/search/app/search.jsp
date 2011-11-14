@@ -27,12 +27,12 @@
 							<!--jz_box begin-->
 							<div class="search">
 								<!--search begin-->
-								<em><a href="#">返回首页</a> </em>
+								<em><a href="/app/index">返回首页</a> </em>
 								<h2>
 									抱歉， 没有找到<span>${name }</span>这个拒宅项目！
 								</h2>
 								<p>
-									${name} 已经提交给我们，通过审核后将立即加入。我们建议您去<a href="#">拒宅项目库</a>通过分类查找。
+									${name} 已经提交给我们，通过审核后将立即加入。我们建议您去<a href="/app/showCategoryActs">拒宅项目库</a>通过分类查找。
 								</p>
 							</div>
 							<!--search end-->

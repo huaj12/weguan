@@ -4,7 +4,7 @@ CREATE INDEX `idx_uid_lastupdatetime` USING BTREE ON `juzhai`.`tb_profile` (`uid
 update tb_profile set last_update_time = last_modify_time where uid > 0;
 
 
-CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_synonym_act` (
+CREATE  TABLE `juzhai`.`tb_synonym_act` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `act_id` BIGINT NOT NULL ,
   `name` VARCHAR(100) NOT NULL ,
@@ -14,10 +14,10 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_synonym_act` (
   UNIQUE INDEX `uidx_name` (`name` ASC) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci
+COLLATE = utf8_general_ci;
 
 
-CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_search_act_action` (
+CREATE  TABLE `juzhai`.`tb_search_act_action` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(100) NOT NULL ,
   `user_id` BIGINT NOT NULL ,
@@ -27,10 +27,10 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_search_act_action` (
   INDEX `idx_createtime` (`create_time` ASC) )
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci
+COLLATE = utf8_general_ci;
 
 
-CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_add_act_action` (
+CREATE  TABLE `juzhai`.`tb_add_act_action` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(100) NOT NULL ,
   `user_id` BIGINT NOT NULL ,
@@ -40,4 +40,4 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_add_act_action` (
   INDEX `idx_createtime` (`create_time` ASC) )
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci
+COLLATE = utf8_general_ci;

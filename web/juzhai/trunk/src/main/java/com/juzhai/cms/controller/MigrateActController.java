@@ -11,6 +11,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -32,7 +34,7 @@ import com.juzhai.msg.bean.MergerActMsg;
 @Controller
 @RequestMapping("/cms")
 public class MigrateActController {
-
+	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private IActService actService;
 	@Autowired
@@ -55,8 +57,14 @@ public class MigrateActController {
 	@RequestMapping(value = "migrateAct")
 	public String migrateAct() {
 		Set<String> synonymKeys = redisTemplate.keys("*synonym");
-		migrateSynonym(synonymKeys);
-		
+//		migrateSynonym(synonymKeys);
+		for (String key : synonymKeys) {
+			List<Long> actIds = actService.listSynonymIds(getActId(key));
+			for (long actId : actIds) {
+				actService.addSynonym(getActId(key), actId);
+			}
+		}
+
 		Map<Long, Long> actMaps=new HashMap<Long, Long>();
 		for (String key : synonymKeys) {
 			Long actId = getActId(key);
@@ -64,6 +72,7 @@ public class MigrateActController {
 				continue;
 			}
 			List<Act> acts = actService.listSynonymActs(actId);
+			acts.add(actService.getActById(actId));
 			Collections.sort(acts, new Comparator<Act>() {
 				@Override
 				public int compare(Act o1, Act o2) {
@@ -90,6 +99,7 @@ public class MigrateActController {
 		opRedisActMsg();
 		deleteScrapAct(actMaps);
 		redisTemplate.delete(synonymKeys);
+		log.debug("migrateAct is  success");
 		return null;
 	}
 	//合并同义词

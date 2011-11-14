@@ -200,11 +200,8 @@ public class MigrateActController {
 	 * @param actMaps
 	 */
 	private void opTableAct(Map<Long, Long> actMaps) {
-		long hotActId = 0;
 		for (Entry<Long, Long> entry : actMaps.entrySet()) {
-			if (hotActId == 0) {
-				hotActId = entry.getValue();
-			}
+			long hotActId = entry.getValue();
 			long actId = entry.getKey();
 			Act act = actService.getActById(actId);
 			int popularity = 0;

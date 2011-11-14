@@ -151,25 +151,26 @@ $(document).ready(function(){
 function add_my_act(){
 	var value = $("#categoryAddAct").attr("value");
 	if (!value || value == ""||value=='手动输入') {
-		$("#categoryAddActError").text("请先输入").stop(true, true).show()
-				.fadeOut(2000);
+		$("#categoryAddActError").html("<em>请先输入</em>").stop().show()
+				.fadeOut(3000);
 		return false;
 	}
 	if (!checkValLength(value, 2, 20)) {
-		$("#categoryAddActError").text("拒宅兴趣字数控制在1－10个中文内！").stop().show().fadeOut(
-				2000);
+		$("#categoryAddActError").html("<em>拒宅兴趣字数控制在1－10个中文内！</em>").stop().show().fadeOut(
+				3000);
+		
 		return false;
 	}
 	jQuery.ajax({
-		url: "/app//ajax/recommendAct",
+		url: "/app/ajax/recommendAct",
 		type: "get",
 		cache : false,
 		data: {"name":value},
 		dataType: "json",
 		success: function(result){
 			if(result&&result.success){
-				 $("#categoryAddAct").val('');
-				$("#categoryAddActError").text("感谢推荐!我们审核后会加入拒宅器").stop().show().fadeOut(
+				$("#categoryAddAct").val('');
+				$("#categoryAddActError").html("<em>感谢推荐!我们审核后会加入拒宅器</em>").stop().show().fadeOut(
 						3000);
 			}else{
 				alert("system error.");

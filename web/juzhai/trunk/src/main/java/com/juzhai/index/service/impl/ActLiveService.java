@@ -41,8 +41,9 @@ public class ActLiveService implements IActLiveService {
 
 	@Override
 	public void removeLive(long uid, long actId) {
-		if (redisTemplate.opsForValue().get(
-				RedisKeyGenerator.genUserNewestActKey(uid)) == actId) {
+		Long newestActId = redisTemplate.opsForValue().get(
+				RedisKeyGenerator.genUserNewestActKey(uid));
+		if (null != newestActId && newestActId.longValue() == actId) {
 			// 删除并更新最新的
 			Set<TypedTuple<Long>> actIds = redisTemplate.opsForZSet()
 					.reverseRangeWithScores(

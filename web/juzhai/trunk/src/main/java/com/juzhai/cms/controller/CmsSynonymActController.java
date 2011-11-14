@@ -71,7 +71,7 @@ public class CmsSynonymActController {
 		for(SynonymAct syn:list){
 			Act act=actService.getActById(syn.getActId());
 			if(act==null){
-				System.out.println(syn.getActId()+" is delete");
+//				System.out.println(syn.getActId()+" is delete");
 				continue;
 			}
 			synonymActViews.add(new CmsSynonymActView(act.getName(), syn));

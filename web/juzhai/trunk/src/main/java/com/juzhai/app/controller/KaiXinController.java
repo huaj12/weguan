@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
+import com.juzhai.act.service.IUserActService;
 import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
@@ -43,6 +44,8 @@ public class KaiXinController extends BaseController {
 	private MessageSource messageSource;
 	@Autowired
 	private IMsgMessageService msgMessageService;
+	@Autowired
+	private IUserActService userActService;
 	@Autowired
 	private ITpUserService tpUserService;
 	@Autowired
@@ -74,10 +77,11 @@ public class KaiXinController extends BaseController {
 				word = messageSource.getMessage(TpMessageKey.FEED_WORD_DEFAULT,
 						null, Locale.SIMPLIFIED_CHINESE);
 			} else {
-				text = messageSource.getMessage(TpMessageKey.FEED_TEXT_DEFAULT,
-						null, Locale.SIMPLIFIED_CHINESE);
+				int count=userActService.countUserActByActId(actId);
+				text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
+						new Object[] { act.getName(),count }, Locale.SIMPLIFIED_CHINESE);
 				word = messageSource.getMessage(TpMessageKey.FEED_WORD,
-						new Object[] { act.getName() },
+						null,
 						Locale.SIMPLIFIED_CHINESE);
 			}
 			String linktext = messageSource

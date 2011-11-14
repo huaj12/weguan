@@ -111,8 +111,9 @@ public class AppService implements IAppService {
 		}
 		String picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(), 120);
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		int count=userActService.countUserActByActId(actId);
 		String text = messageSource.getMessage(TpMessageKey.FEED_TEXT_BACK,
-				new Object[] { act.getName() }, Locale.SIMPLIFIED_CHINESE);
+				new Object[] { act.getName(),count}, Locale.SIMPLIFIED_CHINESE);
 		String word = messageSource.getMessage(TpMessageKey.FEED_WORD_BACK,
 				null, Locale.SIMPLIFIED_CHINESE);
 		String linktext = messageSource.getMessage(TpMessageKey.FEED_LINKTEXT,

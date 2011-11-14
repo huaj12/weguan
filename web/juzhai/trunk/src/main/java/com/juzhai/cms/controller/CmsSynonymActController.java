@@ -70,6 +70,10 @@ public class CmsSynonymActController {
 		List<CmsSynonymActView> synonymActViews=new ArrayList<CmsSynonymActView>();
 		for(SynonymAct syn:list){
 			Act act=actService.getActById(syn.getActId());
+			if(act==null){
+				System.out.println(syn.getActId()+" is delete");
+				continue;
+			}
 			synonymActViews.add(new CmsSynonymActView(act.getName(), syn));
 		}
 		model.addAttribute("synonymActViews", synonymActViews);

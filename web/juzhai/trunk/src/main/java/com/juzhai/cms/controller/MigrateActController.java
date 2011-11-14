@@ -1,32 +1,32 @@
 package com.juzhai.cms.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.juzhai.act.mapper.ActMapper;
+import com.juzhai.act.mapper.SynonymActMapper;
 import com.juzhai.act.mapper.UserActMapper;
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.SynonymActExample;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IHotActService;
 import com.juzhai.act.service.ISynonymActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
-import com.juzhai.core.pager.PagerManager;
 import com.juzhai.msg.bean.MergerActMsg;
 
 @Controller
@@ -44,6 +44,10 @@ public class MigrateActController {
 	@Autowired
 	private ISynonymActService synonymActService;
 	@Autowired
+	private ActMapper actMapper;
+	@Autowired
+	private SynonymActMapper synonymActMapper;
+	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private RedisTemplate<String, MergerActMsg> redisMergerActMsgTemplate;
@@ -51,6 +55,7 @@ public class MigrateActController {
 	@RequestMapping(value = "migrateAct")
 	public String migrateAct() {
 		Set<String> synonymKeys = redisTemplate.keys("*synonym");
+		migrateSynonym(synonymKeys);
 		for (String key : synonymKeys) {
 			Long actId = getActId(key);
 			if (actId == null) {
@@ -80,9 +85,64 @@ public class MigrateActController {
 			addSynonymAct(actMaps);
 			opRedisActSynonym(actMaps);
 			opRedisActMsg();
+			deleteScrapAct(actMaps);
+			System.out.println("-----------------------------");
 		}
-		 redisTemplate.delete(synonymKeys);
+		redisTemplate.delete(synonymKeys);
 		return null;
+	}
+	//合并同义词
+	private void migrateSynonym(Set<String> synonymKeys){
+		for(String key:synonymKeys){
+			long count=redisTemplate.opsForList().size(key);
+			Set<Long> set=new HashSet<Long>();
+			for (int i = 0; i < count; i++) {
+				Long actId=redisTemplate.opsForList().index(key, i);
+				Set<String> sameSynKeys=findSameSynonym(synonymKeys, key, actId);
+				for(String sameSynKey:sameSynKeys){
+					long sameCount=redisTemplate.opsForList().size(sameSynKey);
+					for(int j=0;j<sameCount;j++){
+						set.add(redisTemplate.opsForList().leftPop(sameSynKey));
+					}
+				}
+			}
+			setSameSynoym(set, key, count);
+			
+		}
+	}
+	
+	private void setSameSynoym(Set<Long> set,String key,long count){
+		for (int i = 0; i < count; i++) {
+			Long actId=redisTemplate.opsForList().leftPop(key);
+			set.add(actId);
+		}
+		for(Long aId:set){
+			redisTemplate.opsForList().leftPush(key, aId);
+		}
+		
+	}
+	
+	private Set<String>  findSameSynonym(Set<String> synonymKeys,String k,Long actId){
+		Set<String> keys=new HashSet<String>();
+		for(String key:synonymKeys){
+			if(!k.equals(key)){
+				long count=redisTemplate.opsForList().size(key);
+				for (int i = 0; i < count; i++) {
+					if(redisTemplate.opsForList().index(key, i)==actId){
+						keys.add(key);
+					}
+				}
+			}
+		}
+		return keys;
+	}
+
+	private void deleteScrapAct(Map<Long, Long> actMaps) {
+		// 删除废弃的act
+		for (Entry<Long, Long> entry : actMaps.entrySet()) {
+				actMapper.deleteByPrimaryKey(entry.getKey());
+		}
+
 	}
 
 	private Long getActId(String key) {
@@ -109,22 +169,23 @@ public class MigrateActController {
 			redisTemplate.delete(keys);
 		}
 	}
+
 	/**
 	 * 将被遗弃的词迁移到指向词
+	 * 
 	 * @param actMaps
 	 */
 	private void addSynonymAct(Map<Long, Long> actMaps) {
 		for (Entry<Long, Long> entry : actMaps.entrySet()) {
-			Act act=actService.getActById(entry.getKey());
-			if(act==null){
+			Act act = actService.getActById(entry.getKey());
+			if (act == null) {
 				continue;
 			}
-			String name=act.getName();
-			if(!synonymActService.isExist(name)){
-				synonymActService.synonymAct(name, entry.getValue());	
+			String name = act.getName();
+			if (!synonymActService.isExist(name)) {
+				synonymActService.synonymAct(name, entry.getValue());
 			}
-		
-			
+
 		}
 	}
 
@@ -160,16 +221,28 @@ public class MigrateActController {
 				if (hotAct == null) {
 					continue;
 				}
-				hotActId = hotAct.getId();
-			}
-			if (i != acts.size() - 1) {
-
+				long aId = hotAct.getId();
+				if (i != acts.size() - 1) {
+					Act act = acts.get(i);
+					if (act == null) {
+						continue;
+					}
+					actMap.put(act.getId(), aId);
+					System.out.println("actid:" + act.getId() + "|hotActId:"
+							+ aId);
+				}
+			} else {
 				Act act = acts.get(i);
 				if (act == null) {
 					continue;
 				}
-				actMap.put(act.getId(), hotActId);
+				if (act.getId() != hotActId) {
+					actMap.put(act.getId(), hotActId);
+					System.out.println("actid:" + act.getId() + "|hotActId:"
+							+ hotActId);
+				}
 			}
+
 		}
 		return actMap;
 	}
@@ -192,6 +265,8 @@ public class MigrateActController {
 			if (act != null) {
 				popularity = popularity + act.getPopularity();
 			}
+			// 删除被遗弃的act
+
 		}
 		Act hotAct = actService.getActById(hotActId);
 		if (hotAct != null) {

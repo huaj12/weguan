@@ -130,6 +130,7 @@ public class MigrateActController {
 				for (int i = 0; i < count; i++) {
 					if(redisTemplate.opsForList().index(key, i)==actId){
 						keys.add(key);
+						break;
 					}
 				}
 			}

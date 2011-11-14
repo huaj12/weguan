@@ -1,5 +1,6 @@
 package com.juzhai.cms.controller;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.lucene.index.CorruptIndexException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
@@ -26,10 +28,12 @@ import com.juzhai.act.mapper.ActCategoryMapper;
 import com.juzhai.act.mapper.ActMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActExample;
+import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IHotActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
+import com.juzhai.core.lucene.index.Indexer;
 import com.juzhai.home.bean.ReadFeed;
 import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.msg.bean.ActMsg;
@@ -69,6 +73,10 @@ public class MigrateController {
 	private ProfileMapper profileMapper;
 	@Autowired
 	private IUserActService userActService;
+	@Autowired
+	private IActService actService;
+	@Autowired
+	private Indexer<Act> actIndexer;
 
 	@RequestMapping(value = "migrateFeed")
 	public String migrateFeed(HttpServletRequest request) {
@@ -115,8 +123,10 @@ public class MigrateController {
 			}
 		}
 		for (Map.Entry<Long, Double> entry : map.entrySet()) {
-			longRedisTemplate.opsForZSet().add(key, entry.getKey(),
-					entry.getValue());
+			if (actService.actExist(entry.getKey())) {
+				longRedisTemplate.opsForZSet().add(key, entry.getKey(),
+						entry.getValue());
+			}
 		}
 	}
 
@@ -144,6 +154,32 @@ public class MigrateController {
 			if (log.isDebugEnabled()) {
 				log.debug("parse inbox element error.", e);
 			}
+		}
+		return null;
+	}
+
+	@RequestMapping(value = "migrateActIndex")
+	public String migrateActIndex(HttpServletRequest request) {
+		ActExample example = new ActExample();
+		example.setOrderByClause("id asc");
+		int firstResult = 0;
+		int maxResults = 200;
+		while (true) {
+			example.setLimit(new Limit(firstResult, maxResults));
+			List<Act> actList = actMapper.selectByExample(example);
+			if (CollectionUtils.isEmpty(actList)) {
+				break;
+			}
+			for (Act act : actList) {
+				try {
+					actIndexer.addIndex(act, false);
+				} catch (CorruptIndexException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			firstResult += maxResults;
 		}
 		return null;
 	}

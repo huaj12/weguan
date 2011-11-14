@@ -86,7 +86,6 @@ public class MigrateActController {
 			opRedisActSynonym(actMaps);
 			opRedisActMsg();
 			deleteScrapAct(actMaps);
-			System.out.println("-----------------------------");
 		}
 		redisTemplate.delete(synonymKeys);
 		return null;
@@ -229,8 +228,8 @@ public class MigrateActController {
 						continue;
 					}
 					actMap.put(act.getId(), aId);
-					System.out.println("actid:" + act.getId() + "|hotActId:"
-							+ aId);
+//					System.out.println("actid:" + act.getId() + "|hotActId:"
+//							+ aId);
 				}
 			} else {
 				Act act = acts.get(i);
@@ -239,8 +238,8 @@ public class MigrateActController {
 				}
 				if (act.getId() != hotActId) {
 					actMap.put(act.getId(), hotActId);
-					System.out.println("actid:" + act.getId() + "|hotActId:"
-							+ hotActId);
+//					System.out.println("actid:" + act.getId() + "|hotActId:"
+//							+ hotActId);
 				}
 			}
 

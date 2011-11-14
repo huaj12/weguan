@@ -50,6 +50,16 @@ public class JzCoreFunction {
 	}
 
 	/**
+	 * 多少秒之前
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static long beforeSeconds(Date date) {
+		return (System.currentTimeMillis() - date.getTime()) / 1000;
+	}
+
+	/**
 	 * 多少分钟之前
 	 * 
 	 * @param date

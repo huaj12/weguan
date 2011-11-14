@@ -45,6 +45,13 @@
     </function>
     
     <function>
+    	<name>beforeSeconds</name>
+    	<function-class>com.juzhai.core.web.jstl.JzCoreFunction</function-class>
+    	<function-signature>long beforeSeconds(java.util.Date)</function-signature>
+    	<example>${jz:beforeSeconds(date)}</example>
+    </function>
+    
+    <function>
     	<name>beforeMinutes</name>
     	<function-class>com.juzhai.core.web.jstl.JzCoreFunction</function-class>
     	<function-signature>long beforeMinutes(java.util.Date)</function-signature>

@@ -11,6 +11,7 @@
 	</head>
 	<body>
 		<div class="main"><!--main begin-->
+			<c:set var="page" value="rank" scope="request" />
 			<jsp:include page="/WEB-INF/jsp/common/app/app_header.jsp" />
 			<div class="skin_body"><!--skin_body begin-->
 				<div class="skin_top_bg"><!--content_bg begin-->

@@ -420,7 +420,7 @@ public class ActController {
 		} else {
 			act = new Act();
 			act.setCreateUid(uid);
-			if (form.getImgFile() != null) {
+			if (form.getImgFile() != null && form.getImgFile().getSize() > 0) {
 				UUID uuid = UUID.randomUUID();
 				if (form.getImgFile() != null) {
 					String fileName = uuid.toString() + "."

@@ -8,7 +8,7 @@
 			<a href="javascript:void(0);" onclick="javascript:wantTo(this);" actid="${act.id}" class="iwg_big" title="接收相关邀请">❤ 我想去</a>
 			<div class="photo1"><a href="/app/showAct/${act.id}"><img src="${jz:actLogo(act.id,act.logo,80)}"  width="80" height="80"/></a></div>
 			<h2><a href="/app/showAct/${act.id}" class="v2"><c:out value="${act.name}" /></a></h2>
-			<span>${jz:truncate(feed.act.intro,54,'...')}</span>
+			<span>${jz:truncate(act.intro,54,'...')}</span>
 			<strong>共<a href="/app/showAct/${act.id}">${act.popularity}</a>人想去</strong>
 		</li>
 	</c:forEach>

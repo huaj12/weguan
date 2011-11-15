@@ -4,6 +4,7 @@
 package com.juzhai.cache.test;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import junit.framework.Assert;
@@ -169,10 +170,22 @@ public class RedisTest {
 
 	@Test
 	public void testIncr() {
-		System.out.println(integerRedisTemplate.opsForValue().increment(key, 1));
-		System.out.println(integerRedisTemplate.opsForValue().increment(key, 3));
-		System.out.println(integerRedisTemplate.opsForValue().increment(key, 6));
-		Assert.assertEquals(1L, integerRedisTemplate.opsForValue().increment(key,0)
-				.longValue());
+		System.out
+				.println(integerRedisTemplate.opsForValue().increment(key, 1));
+		System.out
+				.println(integerRedisTemplate.opsForValue().increment(key, 3));
+		System.out
+				.println(integerRedisTemplate.opsForValue().increment(key, 6));
+		Assert.assertEquals(1L,
+				integerRedisTemplate.opsForValue().increment(key, 0)
+						.longValue());
+	}
+
+	@Test
+	public void testRank() {
+		Set<String> keys = redisTemplate.keys("actRank_*");
+		for (String key : keys) {
+			System.out.println(key);
+		}
 	}
 }

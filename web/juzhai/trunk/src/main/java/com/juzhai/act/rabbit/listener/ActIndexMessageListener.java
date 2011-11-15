@@ -32,10 +32,22 @@ public class ActIndexMessageListener implements
 			switch (actIndexMessage.getActionType()) {
 			case CREATE:
 				actIndexer.addIndex(act, true);
+				if (log.isDebugEnabled()) {
+					log.debug("create act index. name is " + act.getName());
+				}
+				break;
 			case UPDATE:
 				actIndexer.updateIndex(act, true);
+				if (log.isDebugEnabled()) {
+					log.debug("update act index. name is " + act.getName());
+				}
+				break;
 			case DELETE:
 				actIndexer.deleteIndex(act, true);
+				if (log.isDebugEnabled()) {
+					log.debug("delete act index. name is " + act.getName());
+				}
+				break;
 			}
 		} catch (Exception e) {
 			log.error("create act index failed.[actId:" + act.getId() + "]", e);

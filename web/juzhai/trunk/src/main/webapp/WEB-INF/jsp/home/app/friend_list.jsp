@@ -12,7 +12,7 @@
 					<a href="javascript:void(0);" onclick="showAbout('${friendView.profile.nickname}','','','${friendView.profile.uid}');" class="msgh">给ta留言</a>
 					<div class="photo1"><a href="/app/${friendView.profile.uid}"><img src="${friendView.profile.logoPic}" width="80" height="80"/></a></div>
 					<h2><a href="/app/${friendView.profile.uid}" class="u"><c:out value="${friendView.profile.nickname}" /></a>最近想去:</h2>
-					<div class="xq"><c:forEach var="act" items="${friendView.actList}"><a href="/app/showAct/${act.id}"><c:out value="${act.name}" /></a></c:forEach><b>等<a href="/app/${friendView.profile.uid}"></a>${friendView.actCnt}个项目</b></div>
+					<div class="xq"><c:forEach var="act" items="${friendView.actList}"><a href="/app/showAct/${act.id}"><c:out value="${act.name}" /></a></c:forEach><c:if test="${friendView.actCnt > 0}"><b>等<a href="/app/${friendView.profile.uid}"></a>${friendView.actCnt}个项目</b></c:if></div>
 					<em>ta在<c:choose><c:when test="${friendView.profile.city > 0}">${jz:cityName(friendView.profile.city)}</c:when><c:otherwise>地球</c:otherwise></c:choose>&nbsp;&nbsp;更新于<fmt:formatDate value="${friendView.profile.lastUpdateTime}" pattern="yyyy.MM.dd"/></em>
 				</li>
 			</c:forEach>

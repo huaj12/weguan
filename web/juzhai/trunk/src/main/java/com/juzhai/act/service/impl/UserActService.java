@@ -36,6 +36,7 @@ import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.home.service.IInboxService;
 import com.juzhai.index.service.IActLiveService;
+import com.juzhai.index.service.IActRankService;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.service.IMsgMessageService;
 import com.juzhai.passport.bean.ProfileCache;
@@ -71,6 +72,8 @@ public class UserActService implements IUserActService {
 	private IAppService appService;
 	@Autowired
 	private IActLiveService actLiveService;
+	@Autowired
+	private IActRankService actRankService;
 	@Value("${users.same.act.pre.count}")
 	private int usersSameActPreCount;
 
@@ -230,6 +233,7 @@ public class UserActService implements IUserActService {
 		profileService.updateLastUpdateTime(uid);
 		inboxService.remove(uid, actId);
 		actLiveService.addNewLive(uid, actId, userAct.getCreateTime());
+		actRankService.incrScore(actId, userAct.getCreateTime());
 		sendRecommendMsg(userAct);
 		sendFeed(userAct, srcFriendId);
 	}

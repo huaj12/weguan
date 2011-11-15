@@ -80,7 +80,7 @@ public class KaiXinController extends BaseController {
 				int count = userActService.countUserActByActId(actId);
 				if (count > 3) {
 					text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
-							new Object[] { count, act.getName() },
+							new Object[] {  act.getName(),count-1 },
 							Locale.SIMPLIFIED_CHINESE);
 				} else {
 					text = messageSource.getMessage(
@@ -94,7 +94,7 @@ public class KaiXinController extends BaseController {
 			String linktext = messageSource
 					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
 							Locale.SIMPLIFIED_CHINESE);
-			String link = tp.getAppUrl();
+			String link ="https://kaixin001.com";
 			String feedRedirect_uri = SystemConfig.getDomain(tp == null ? null
 					: tp.getName())
 					+ feedRedirectUri

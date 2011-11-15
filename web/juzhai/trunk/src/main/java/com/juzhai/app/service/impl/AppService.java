@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,8 @@ public class AppService implements IAppService {
 	private IActService actService;
 	@Autowired
 	private IUserActService userActService;
-
+	@Value("${show.feed.count}")
+	private int feedCount=3;
 	private final Log log = LogFactory.getLog(getClass());
 
 	@Override
@@ -113,7 +115,7 @@ public class AppService implements IAppService {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		int count = userActService.countUserActByActId(actId);
 		String text = "";
-		if (count > 3) {
+		if (feedCount > 3) {
 			text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
 					new Object[] {  act.getName(),count-1},
 					Locale.SIMPLIFIED_CHINESE);

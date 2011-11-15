@@ -103,7 +103,7 @@ abbr,acronym { border: 0;
 
 
 .skin_body{ width:100%; height:auto;  min-height:205px; _height:205px; background:url(../images/img_x.png) repeat-y -1210px 0 ; }
-.skin_body .skin_top_bg{ background:url(../images/full_image1.png) no-repeat 0 -760px; _background:url(../images/image_ie6_1.png) no-repeat 0 -760px; width:100%; height:auto; min-height:204px; _height:204px; overflow:hidden; _overflow:none; position:relative; padding-bottom:40px; }
+.skin_body .skin_top_bg{ background:url(../images/full_image1.png) no-repeat 0 -760px; _background:url(../images/image_ie6_1.png) no-repeat 0 -760px; width:100%; height:auto; min-height:204px; _height:204px; overflow:hidden; _overflow:none; position:relative; padding-bottom:61px; }
 
 
 
@@ -169,8 +169,9 @@ abbr,acronym { border: 0;
 
 
 /********** 换一换按钮 ************/
-.content .next_btn1{ float:right; margin-top:8px; width:94px; height:43px;}
-.content .next_btn1 a{background:url(../images/full_image1.png) no-repeat -170px -80px; _background:url(../images/image_ie6_1.png) no-repeat -170px -80px; display:block; text-align:center; line-height:40px; line-height:45px\9; *line-height:42px; color:#CEDFF5; font-size:14px; font-weight:bold; text-decoration:none; height:43px;}
+.content .next_btn1{ width:94px; height:43px; position:absolute; bottom:-51px; *bottom:-50px; right:-2px;}
+/*.content .next_btn1{ float:right; margin-top:8px; width:94px; height:43px;}*/
+.content .next_btn1 a{background:url(../images/image_ie6_1.png) no-repeat -170px -80px; _background:url(../images/image_ie6_1.png) no-repeat -170px -80px; display:block; text-align:center; line-height:40px; line-height:45px\9; *line-height:42px; color:#CEDFF5; font-size:14px; font-weight:bold; text-decoration:none; height:43px;}
 .content .next_btn1 a:hover{ color:#fff;}
 
 
@@ -187,19 +188,20 @@ abbr,acronym { border: 0;
 .pub_style .title h2 span p{ width:1px; height:25px; position:absolute; top:1px;}
 .pub_style .title h2 span p.l{ left:-1px;}
 .pub_style .title h2 span p.r{ right:-1px;}
-.pub_style .title h2 span a{ padding-left:8px; padding-right:6px; line-height:27px; height:27px; color:#666; font-size:14px; font-weight:bold; display:block; float:left; text-decoration:none;}
+.pub_style .title h2 span a{ padding-left:8px; padding-right:6px; line-height:27px; height:27px; color:#666; font-size:14px; font-weight:normal; display:block; float:left; text-decoration:none;}
 
 .pub_style .title h2 .hover p{ background:#4790DB;}
-.pub_style .title h2 .hover a{ background:#4790DB; color:#fff;}
+.pub_style .title h2 .hover a{ background:#4790DB; color:#fff; font-weight:bold; }
 
-.pub_style .title a.yq,a.more{ float:right; line-height:45px; color:#4790DB; margin-right:20px; display:inline; text-decoration:none; font-weight:bold;}
-.pub_style .title a.yq:hover,a.more:hover{ text-decoration:underline;}
+.pub_style .title a.yq{ float:right; line-height:45px; color:#4790DB; margin-right:20px; display:inline; text-decoration:none; font-weight:bold;}
+.pub_style .title a.yq:hover{ text-decoration:underline;}
 
-
+.pub_style .title a.more{ float:right; line-height:45px; color:#4790DB; margin-right:8px; display:inline; text-decoration:none; }
+.pub_style .title a.more:hover{ text-decoration:underline;}
 
 
 .pub_style .title .or{ float:right; margin-right:10px; display:inline; margin-top:7px;  position:relative; z-index:998;}
-.pub_style .title .or p{ float:left; margin-right:5px; color:#666; font-weight:bold; margin-top:7px;}
+.pub_style .title .or p{ float:left; margin-right:5px; color:#666; margin-top:7px;}
 .pub_style .title .or span{ background:url(../images/2qi/or_r1_c1.jpg) no-repeat; width:109px; height:30px; float:left;}
 .pub_style .title .or span input{ width:95px; height:30px; float:left; border:none; color:#999; background:none; padding-left:7px; padding-right:7px; line-height:30px;} 
 .pub_style .title .or a{ background:url(../images/2qi/or_r1_c2.jpg) no-repeat; width:58px; height:30px; float:left; display:block; color:#666; font-weight:bold; text-decoration:none; text-align:center; line-height:30px;}

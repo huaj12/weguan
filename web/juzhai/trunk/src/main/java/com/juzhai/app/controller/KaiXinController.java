@@ -56,6 +56,9 @@ public class KaiXinController extends BaseController {
 	private String sysnewRedirectUri;
 	@Value("${kaixin.request.redirect.uri}")
 	private String requestRedirectUri;
+	@Value("${show.feed.count}")
+	private int feedCount=3;
+
 
 	@RequestMapping(value = { "/kaixinFeed" }, method = RequestMethod.GET)
 	public String kaixinFeed(HttpServletRequest request,
@@ -78,7 +81,7 @@ public class KaiXinController extends BaseController {
 						null, Locale.SIMPLIFIED_CHINESE);
 			} else {
 				int count = userActService.countUserActByActId(actId);
-				if (count > 3) {
+				if (feedCount > 3) {
 					text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
 							new Object[] {  act.getName(),count-1 },
 							Locale.SIMPLIFIED_CHINESE);

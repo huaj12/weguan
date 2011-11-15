@@ -19,7 +19,7 @@ function feed(actId) {
 		actId : actId,
 		random : Math.random()
 	}, function(data) {
-		showSysnewsDialog(data);
+		showKxDialog(data);
 	});
 }
 // TODO 封装不同第三方app

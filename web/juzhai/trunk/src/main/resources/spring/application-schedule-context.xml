@@ -93,10 +93,20 @@
 				<property name="targetObject" ref="showCategoryActListHandler" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="${show.category.act.list.cron}" />
+		<property name="cronExpression" value="${delete.user.action.cron}" />
 	</bean>
 	<!-- reset question users end -->
-		
+	
+	<!-- delete user action begin -->
+	<bean id="deleteUserActionTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="deleteUserActionHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${show.category.act.list.cron}" />
+	</bean>
+	<!-- delete user action end -->
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
@@ -107,6 +117,7 @@
 				<ref bean="unreadMsgEmailTrigger"/>
 				<ref bean="actBriefingEmailTrigger"/>
 				<ref bean="showCategoryActListTrigger"/>
+				<ref bean="deleteUserActionTrigger"/>
 			</list>
 		</property>
 	</bean>

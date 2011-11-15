@@ -77,7 +77,7 @@ public class AppService implements IAppService {
 						Locale.SIMPLIFIED_CHINESE);
 			}
 			List<String> receiverIdentitys = new ArrayList<String>();
-			for (String fuid : fuids.split("")) {
+			for (String fuid : fuids.split(",")) {
 				receiverIdentitys.add(fuid);
 			}
 			String picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(),

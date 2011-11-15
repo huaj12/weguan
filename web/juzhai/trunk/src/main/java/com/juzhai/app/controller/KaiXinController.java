@@ -181,7 +181,7 @@ public class KaiXinController extends BaseController {
 			// 拼凑参数
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("method", "actions.sendNewsFeed");
-			paramMap.put("text",text+word);
+			paramMap.put("text",text);
 			paramMap.put("linktext",linktext);
 			paramMap.put("link",link);
 			paramMap.put("pic",picurl);

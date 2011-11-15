@@ -93,7 +93,7 @@
 				<property name="targetObject" ref="showCategoryActListHandler" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="${delete.user.action.cron}" />
+		<property name="cronExpression" value="${show.category.act.list.cron}" />
 	</bean>
 	<!-- reset question users end -->
 	
@@ -104,7 +104,7 @@
 				<property name="targetObject" ref="deleteUserActionHandler" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="${show.category.act.list.cron}" />
+		<property name="cronExpression" value="${delete.user.action.cron}" />
 	</bean>
 	<!-- delete user action end -->
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">

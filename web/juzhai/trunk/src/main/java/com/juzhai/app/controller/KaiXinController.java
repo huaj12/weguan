@@ -35,6 +35,7 @@ import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
+import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.utils.AppPlatformUtils;
 
@@ -45,6 +46,8 @@ public class KaiXinController extends BaseController {
 	private MessageSource messageSource;
 	@Autowired
 	private IMsgMessageService msgMessageService;
+	@Autowired
+	private ITpUserAuthService tpUserAuthService;
 	@Autowired
 	private IUserActService userActService;
 	@Autowired
@@ -61,8 +64,8 @@ public class KaiXinController extends BaseController {
 	private int feedCount=3;
 
 
-	@RequestMapping(value = { "/kaixinFeed" }, method = RequestMethod.GET)
-	public String kaixinFeed(HttpServletRequest request,
+	//@RequestMapping(value = { "/kaixinFeed2" }, method = RequestMethod.GET)
+	public String kaixinFeed2(HttpServletRequest request,
 			HttpServletResponse response, Model model, Long actId) {
 		PrintWriter out = null;
 
@@ -124,6 +127,71 @@ public class KaiXinController extends BaseController {
 					+ picurl
 					+ "&word=" + word;
 			out.println(url);
+		} catch (Exception e) {
+			log.error("kaixin send feed is error", e);
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
+		return null;
+	}
+	@RequestMapping(value = { "/kaixinFeed" }, method = RequestMethod.GET)
+	public String kaixinFeed(HttpServletRequest request,
+			HttpServletResponse response, Model model,Long actId) {
+		PrintWriter out = null;
+
+		try {
+			UserContext context = checkLoginForApp(request);
+			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
+			String text = "";
+			String word = "";
+			if (actId == null)
+				actId = 0l;
+			Act act = actService.getActById(actId);
+			if (act == null) {
+				text = messageSource.getMessage(TpMessageKey.FEED_TEXT_DEFAULT,
+						null, Locale.SIMPLIFIED_CHINESE);
+				word = messageSource.getMessage(TpMessageKey.FEED_WORD_DEFAULT,
+						null, Locale.SIMPLIFIED_CHINESE);
+			} else {
+				int count = userActService.countUserActByActId(actId);
+				if (count> feedCount ) {
+					text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
+							new Object[] {  act.getName(),count-1 },
+							Locale.SIMPLIFIED_CHINESE);
+				} else {
+					text = messageSource.getMessage(
+							TpMessageKey.FEED_TEXT_COUNT_DEFAULT,
+							new Object[] { act.getName() },
+							Locale.SIMPLIFIED_CHINESE);
+				}
+				word = messageSource.getMessage(TpMessageKey.FEED_WORD, null,
+						Locale.SIMPLIFIED_CHINESE);
+			}
+			String linktext = messageSource
+					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
+							Locale.SIMPLIFIED_CHINESE);
+			String link =tp.getAppUrl();
+			String logo = "";
+			if (act != null) {
+				logo = act.getLogo();
+			}
+			String picurl = JzCoreFunction.actLogo(actId, logo, 120);
+			// 拼凑参数
+			Map<String, String> paramMap = new HashMap<String, String>();
+			paramMap.put("method", "actions.sendNewsFeed");
+			paramMap.put("text",text+word);
+			paramMap.put("linktext",linktext);
+			paramMap.put("link",link);
+			paramMap.put("pic",picurl);
+			AuthInfo authInfo = tpUserAuthService.getAuthInfo(context.getUid(),context.getTpId());
+			String query = AppPlatformUtils.buildQuery(paramMap,
+					authInfo.getAppKey(), authInfo.getAppSecret(),
+					authInfo.getSessionKey(), "1.2");
+			response.setContentType("text/plain");
+			out = response.getWriter();
+			out.println(AppPlatformUtils.urlBase64Encode(query));
 		} catch (Exception e) {
 			log.error("kaixin send feed is error", e);
 		} finally {

@@ -77,11 +77,18 @@ public class KaiXinController extends BaseController {
 				word = messageSource.getMessage(TpMessageKey.FEED_WORD_DEFAULT,
 						null, Locale.SIMPLIFIED_CHINESE);
 			} else {
-				int count=userActService.countUserActByActId(actId);
-				text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
-						new Object[] { act.getName(),count }, Locale.SIMPLIFIED_CHINESE);
-				word = messageSource.getMessage(TpMessageKey.FEED_WORD,
-						null,
+				int count = userActService.countUserActByActId(actId);
+				if (count > 3) {
+					text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
+							new Object[] { count, act.getName() },
+							Locale.SIMPLIFIED_CHINESE);
+				} else {
+					text = messageSource.getMessage(
+							TpMessageKey.FEED_TEXT_COUNT_DEFAULT,
+							new Object[] { act.getName() },
+							Locale.SIMPLIFIED_CHINESE);
+				}
+				word = messageSource.getMessage(TpMessageKey.FEED_WORD, null,
 						Locale.SIMPLIFIED_CHINESE);
 			}
 			String linktext = messageSource
@@ -100,7 +107,7 @@ public class KaiXinController extends BaseController {
 			String picurl = JzCoreFunction.actLogo(actId, logo, 120);
 			response.setContentType("text/plain");
 			out = response.getWriter();
-			out.println("http://api.kaixin001.com/dialog/feed?display=iframe&redirect_uri="
+			String url = "http://api.kaixin001.com/dialog/feed?display=iframe&redirect_uri="
 					+ feedRedirect_uri
 					+ "&linktext="
 					+ linktext
@@ -110,7 +117,8 @@ public class KaiXinController extends BaseController {
 					+ text
 					+ "&app_id=100012402&need_redirect=0&picurl="
 					+ picurl
-					+ "&word=" + word);
+					+ "&word=" + word;
+			out.println(url);
 		} catch (Exception e) {
 			log.error("kaixin send feed is error", e);
 		} finally {

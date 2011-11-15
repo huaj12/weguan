@@ -12,7 +12,7 @@
 			<div></div>
 			<div class="photo"><a href="/app/showAct/${categoryActView.act.id}"><img src="${jz:actLogo(categoryActView.act.id,categoryActView.act.logo,80)}"  width="80" height="80"/></a></div>
 			<h2><a href="/app/showAct/${categoryActView.act.id}"><c:out value="${categoryActView.act.name}" /></a></h2>
-			<span>${jz:truncate(categoryActView.act.intro,68,'...')}</span>
+			<span>${jz:truncate(categoryActView.act.intro,60,'...')}</span>
 			<h5><a href="/app/showAct/${categoryActView.act.id}">${categoryActView.act.popularity}</a>人想去</h5>
 		</li>
 	</c:forEach>

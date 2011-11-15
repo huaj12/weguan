@@ -12,7 +12,7 @@
 			<div class="photo1"><a href="/app/${actLiveView.profileCache.uid}"><img src="${actLiveView.profileCache.logoPic}"  width="80" height="80"/></a></div>
 			<div class="photo2"><a href="/app/showAct/${actLiveView.act.id}"><img src="${jz:actLogo(actLiveView.act.id,actLiveView.act.logo,80)}"  width="80" height="80"/></a></div>
 			<h2><a href="/app/${actLiveView.profileCache.uid}" class="u"><c:out value="${actLiveView.profileCache.nickname}" /></a>最近想去<a href="/app/showAct/${actLiveView.act.id}" class="v"><c:out value="${actLiveView.act.name}" /></a></h2>
-			<span>${jz:truncate(feed.act.intro,54,'...')}</span>
+			<span>${jz:truncate(feed.act.intro,50,'...')}</span>
 			<strong>
 				<c:import url="/WEB-INF/jsp/common/fragment/user_city.jsp">
 					<c:param name="cityId" value="${actLiveView.profileCache.city}"/>

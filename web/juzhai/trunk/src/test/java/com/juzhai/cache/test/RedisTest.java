@@ -18,8 +18,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.mail.bean.Mail;
+import com.juzhai.home.bean.Feed;
+import com.juzhai.home.service.IInboxService;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 
@@ -35,6 +38,10 @@ public class RedisTest {
 	private RedisTemplate<String, Mail> mailRedisTemplate;
 	@Autowired
 	private RedisTemplate<String, ActMsg> actMsgRedisTemplate;
+	@Autowired
+	private IUserActService userActService;
+	@Autowired
+	private IInboxService inboxService;
 	private String key = "simpleKey";
 
 	@Before
@@ -187,5 +194,13 @@ public class RedisTest {
 		for (String key : keys) {
 			System.out.println(key);
 		}
+	}
+
+	@Test
+	public void testMyActs() {
+		System.out.println(redisTemplate.opsForZSet().size(
+				RedisKeyGenerator.genMyActsKey(12)));
+		Feed feed = inboxService.showRecommend(12);
+		System.out.println(feed.getAct().getId());
 	}
 }

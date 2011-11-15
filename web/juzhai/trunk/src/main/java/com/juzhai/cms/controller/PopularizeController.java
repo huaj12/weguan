@@ -102,9 +102,12 @@ public class PopularizeController {
 						if (feed == null || feed.getAct() == null) {
 							break;
 						}
-						userActService.respRecommend(tpUser.getUid(), feed
-								.getAct().getId(), tp.getId(),
+						userActService.respRecommend(tpUser.getUid(),
+								tp.getId(), feed.getAct().getId(),
 								ReadFeedType.WANT, true);
+						log.error("user[" + tpUser.getUid()
+								+ "] recommend act[" + feed.getAct().getId()
+								+ "] end");
 					}
 					log.error("user[" + tpUser.getUid() + "] the " + index
 							+ " recommend end");

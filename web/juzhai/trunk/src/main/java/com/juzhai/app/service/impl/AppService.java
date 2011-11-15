@@ -115,7 +115,7 @@ public class AppService implements IAppService {
 		String text = "";
 		if (count > 3) {
 			text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
-					new Object[] { count, act.getName() },
+					new Object[] {  act.getName(),count-1},
 					Locale.SIMPLIFIED_CHINESE);
 		} else {
 			text = messageSource.getMessage(

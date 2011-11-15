@@ -118,7 +118,7 @@ public class KaiXinController extends BaseController {
 					+ link
 					+ "&text="
 					+ text
-					+ "&app_id=100012402&need_redirect=0&picurl="
+					+ "&app_id="+tp.getAppId()+"&need_redirect=0&picurl="
 					+ picurl
 					+ "&word=" + word;
 			out.println(url);
@@ -155,7 +155,7 @@ public class KaiXinController extends BaseController {
 			out = response.getWriter();
 			out.println("http://api.kaixin001.com/dialog/invitation?display=iframe&text="
 					+ text
-					+ "&app_id=100012402&redirect_uri="
+					+ "&app_id="+tp.getAppId()+"&redirect_uri="
 					+ requestRedirect_uri + "&need_redirect=0");
 		} catch (Exception e) {
 			log.error("kaixin send Request is error", e);
@@ -208,7 +208,7 @@ public class KaiXinController extends BaseController {
 					+ text
 					+ "&link="
 					+ link
-					+ "&app_id=100012402&redirect_uri="
+					+ "&app_id="+tp.getAppId()+"&redirect_uri="
 					+ sysnewRedirect_uri
 					+ "&picurl=" + picurl + "&need_redirect=0&word=" + word);
 		} catch (Exception e) {

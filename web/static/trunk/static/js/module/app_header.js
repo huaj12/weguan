@@ -58,7 +58,7 @@ var AddActInput =  Class.extend({
 
 function showActTip(inputObj, infoObj){
 	if($(inputObj).val() == ""){
-		infoObj.text("输入拒宅项目,如:逛街").stop(true, true).show();
+		infoObj.html("<em>输入拒宅项目,如:逛街</em>").stop(true, true).show();
 	}else{
 		infoObj.hide();
 	}
@@ -67,12 +67,12 @@ function showActTip(inputObj, infoObj){
 function _searchActs(){
 	var value = $("#addAct").attr("value");
 	if (!value || value == ""||value=='输入拒宅项目,如:逛街') {
-		$("#headAddActError").text("请先输入").stop(true, true).show()
+		$("#headAddActError").html("<em>请先输入</em>").stop(true, true).show()
 				.fadeOut(2000);
 		return false;
 	}
 	if (!checkValLength(value, 2, 20)) {
-		$("#headAddActError").text("拒宅兴趣字数控制在1－10个中文内！").stop().show().fadeOut(
+		$("#headAddActError").html("<em>拒宅兴趣字数控制在1－10个中文内！</em>").stop().show().fadeOut(
 				2000);
 		return false;
 	}

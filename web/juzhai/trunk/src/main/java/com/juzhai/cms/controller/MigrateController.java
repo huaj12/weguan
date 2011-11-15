@@ -34,8 +34,8 @@ import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.lucene.index.Indexer;
+import com.juzhai.core.lucene.searcher.IndexSearcherManager;
 import com.juzhai.home.bean.ReadFeed;
-import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.msg.bean.MergerActMsg;
@@ -77,6 +77,8 @@ public class MigrateController {
 	private IActService actService;
 	@Autowired
 	private Indexer<Act> actIndexer;
+	@Autowired
+	private IndexSearcherManager actIndexSearcherManager;
 
 	@RequestMapping(value = "migrateFeed")
 	public String migrateFeed(HttpServletRequest request) {
@@ -180,6 +182,11 @@ public class MigrateController {
 				}
 			}
 			firstResult += maxResults;
+		}
+		try {
+			actIndexSearcherManager.maybeReopen();
+		} catch (Exception e) {
+			log.error("reopen indexReader failed when migrate index");
 		}
 		return null;
 	}

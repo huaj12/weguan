@@ -1,6 +1,7 @@
 package com.juzhai.app.controller;
 
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -94,6 +95,7 @@ public class KaiXinController extends BaseController {
 				word = messageSource.getMessage(TpMessageKey.FEED_WORD, null,
 						Locale.SIMPLIFIED_CHINESE);
 			}
+			text=URLEncoder.encode(text, "UTF-8");
 			String linktext = messageSource
 					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
 							Locale.SIMPLIFIED_CHINESE);

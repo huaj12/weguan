@@ -41,9 +41,14 @@ public class Kaixin001AppMessageService implements IMessageService {
 			paramMap.put("text", text);
 			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
 					authInfo.getSessionKey());
-			AppPlatformUtils.doPost(
+			String ret=AppPlatformUtils.doPost(
 					"https://api.kaixin001.com/sysnews/send.json", query);
-			return true;
+			JSONObject jObject = JSONObject.fromObject(ret);
+			if ("1".equals(jObject.getString("result"))) {
+				return  true;
+			} else {
+				return false;
+			}
 		} catch (Exception e) {
 			log.error("send kaixin sysmessage is error fuids:" + fuids
 					+ " [error: " + e.getMessage() + "].");

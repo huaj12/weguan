@@ -20,12 +20,12 @@ public interface IUserActService {
 	 * 处理推荐
 	 * 
 	 * @param uid
-	 * @param actid
 	 * @param tpId
+	 * @param actid
 	 * @param type
 	 * @param isFeed
 	 */
-	void respRecommend(long uid, long actid, long tpId, ReadFeedType type,
+	void respRecommend(long uid, long tpId, long actid, ReadFeedType type,
 			boolean isFeed);
 
 	/**

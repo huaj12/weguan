@@ -87,7 +87,7 @@ public class UserActService implements IUserActService {
 			try {
 				addAct(uid, actId, false);
 			} catch (ActInputException e) {
-				log.error(e.getMessage());
+				log.error(e.getMessage() + " actId: " + actId);
 			}
 		} else {
 			inboxService.shiftRead(uid, 0, actId, type);

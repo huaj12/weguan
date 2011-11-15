@@ -92,15 +92,15 @@ public class MigrateController {
 			}
 			for (Profile profile : profileList) {
 				migrateFeedByUid(profile.getUid());
-				migrateMyActsByUid(profile.getUid());
+				// migrateMyActsByUid(profile.getUid());
 			}
 			firstResult += maxResults;
 		}
-		List<String> keys = new ArrayList<String>();
-		for (ReadFeedType readFeedType : ReadFeedType.values()) {
-			keys.add(RedisKeyGenerator.genReadFeedsKey(readFeedType));
-		}
-		readFeedRedisTemplate.delete(keys);
+		// List<String> keys = new ArrayList<String>();
+		// for (ReadFeedType readFeedType : ReadFeedType.values()) {
+		// keys.add(RedisKeyGenerator.genReadFeedsKey(readFeedType));
+		// }
+		// readFeedRedisTemplate.delete(keys);
 		return null;
 	}
 

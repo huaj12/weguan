@@ -207,6 +207,7 @@ public class UserActService implements IUserActService {
 		UserAct userAct = null;
 		if (CollectionUtils.isNotEmpty(list)) {
 			// if (!canRepeat) {
+			inboxService.remove(uid, actId);
 			throw new ActInputException(ActInputException.ACT_NAME_EXISTENCE);
 			// }
 			// // update

@@ -115,7 +115,7 @@ public class AppService implements IAppService {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		int count = userActService.countUserActByActId(actId);
 		String text = "";
-		if (feedCount > 3) {
+		if (count > feedCount) {
 			text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
 					new Object[] {  act.getName(),count-1},
 					Locale.SIMPLIFIED_CHINESE);

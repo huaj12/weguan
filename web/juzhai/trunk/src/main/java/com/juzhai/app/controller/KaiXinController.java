@@ -81,7 +81,7 @@ public class KaiXinController extends BaseController {
 						null, Locale.SIMPLIFIED_CHINESE);
 			} else {
 				int count = userActService.countUserActByActId(actId);
-				if (feedCount > 3) {
+				if (count> feedCount ) {
 					text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
 							new Object[] {  act.getName(),count-1 },
 							Locale.SIMPLIFIED_CHINESE);

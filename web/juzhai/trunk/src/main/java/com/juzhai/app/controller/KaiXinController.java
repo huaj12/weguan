@@ -97,7 +97,7 @@ public class KaiXinController extends BaseController {
 			String linktext = messageSource
 					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
 							Locale.SIMPLIFIED_CHINESE);
-			String link ="https://kaixin001.com";
+			String link =tp.getAppUrl();
 			String feedRedirect_uri = SystemConfig.getDomain(tp == null ? null
 					: tp.getName())
 					+ feedRedirectUri

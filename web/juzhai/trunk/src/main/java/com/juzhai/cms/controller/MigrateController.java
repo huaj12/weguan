@@ -80,7 +80,35 @@ public class MigrateController {
 	@Autowired
 	private IndexSearcherManager actIndexSearcherManager;
 
-	@RequestMapping(value = "migrateFeed")
+	@RequestMapping(value = "migrateActPoplarity")
+	public String migrateActPoplarity(HttpServletRequest request) {
+		ActExample example = new ActExample();
+		example.setOrderByClause("id asc");
+		int firstResult = 0;
+		int maxResults = 200;
+		while (true) {
+			example.setLimit(new Limit(firstResult, maxResults));
+			List<Act> actList = actMapper.selectByExample(example);
+			if (CollectionUtils.isEmpty(actList)) {
+				break;
+			}
+			for (Act act : actList) {
+				int count = userActService.countUserActByActId(act.getId());
+				act.setPopularity(count);
+				actMapper.updateByPrimaryKeySelective(act);
+				longRedisTemplate.opsForValue()
+						.increment(
+								RedisKeyGenerator.genTpActPopularityKey(
+										act.getId(), 1),
+								Long.valueOf(String.valueOf(count)));
+			}
+			firstResult += maxResults;
+		}
+		longRedisTemplate.rename("activists",
+				RedisKeyGenerator.genActivistsKey(1L));
+		return null;
+	}
+
 	public String migrateFeed(HttpServletRequest request) {
 		ProfileExample example = new ProfileExample();
 		example.setOrderByClause("uid asc");
@@ -191,7 +219,6 @@ public class MigrateController {
 		return null;
 	}
 
-	@RequestMapping(value = "initHotAct")
 	public String initHotAct(HttpServletRequest request, Model model) {
 		ActExample example = new ActExample();
 		example.createCriteria().andLogoIsNotNull().andLogoNotEqualTo("");

@@ -62,11 +62,12 @@ public class AppIndexController extends BaseController {
 	public String pageLive(HttpServletRequest request, Model model,
 			@RequestParam(defaultValue = "1") int page)
 			throws NeedLoginException {
-		checkLoginForApp(request);
+		UserContext context = checkLoginForApp(request);
 		PagerManager pager = new PagerManager(page, liveActMaxResults,
-				actLiveService.countActivists());
-		List<ActLiveView> actLiveViewList = actLiveService.listActivists(
-				pager.getFirstResult(), pager.getMaxResult());
+				actLiveService.countActivists(context.getTpId()));
+		List<ActLiveView> actLiveViewList = actLiveService
+				.listActivists(context.getTpId(), pager.getFirstResult(),
+						pager.getMaxResult());
 		model.addAttribute("pager", pager);
 		model.addAttribute("actLiveViewList", actLiveViewList);
 		return "index/app/live_list";

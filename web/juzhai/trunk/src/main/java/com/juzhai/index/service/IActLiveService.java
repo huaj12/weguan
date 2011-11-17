@@ -13,7 +13,7 @@ public interface IActLiveService {
 	 * @param uid
 	 * @param actId
 	 */
-	void addNewLive(long uid, long actId, Date time);
+	void addNewLive(long uid, long tpId, long actId, Date time);
 
 	/**
 	 * 删除直播
@@ -21,7 +21,7 @@ public interface IActLiveService {
 	 * @param uid
 	 * @param actId
 	 */
-	void removeLive(long uid, long actId);
+	void removeLive(long uid, long tpId, long actId);
 
 	/**
 	 * 直播列表
@@ -30,12 +30,12 @@ public interface IActLiveService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<ActLiveView> listActivists(int firstResult, int maxResults);
+	List<ActLiveView> listActivists(long tpId, int firstResult, int maxResults);
 
 	/**
 	 * 直播数量
 	 * 
 	 * @return
 	 */
-	int countActivists();
+	int countActivists(long tpId);
 }

@@ -29,18 +29,18 @@ public class ActLiveService implements IActLiveService {
 	private IActService actService;
 
 	@Override
-	public void addNewLive(long uid, long actId, Date time) {
+	public void addNewLive(long uid, long tpId, long actId, Date time) {
 		if (time == null) {
 			time = new Date();
 		}
-		redisTemplate.opsForZSet().add(RedisKeyGenerator.genActivistsKey(),
+		redisTemplate.opsForZSet().add(RedisKeyGenerator.genActivistsKey(tpId),
 				uid, time.getTime());
 		redisTemplate.opsForValue().set(
 				RedisKeyGenerator.genUserNewestActKey(uid), actId);
 	}
 
 	@Override
-	public void removeLive(long uid, long actId) {
+	public void removeLive(long uid, long tpId, long actId) {
 		Long newestActId = redisTemplate.opsForValue().get(
 				RedisKeyGenerator.genUserNewestActKey(uid));
 		if (null != newestActId && newestActId.longValue() == actId) {
@@ -51,13 +51,13 @@ public class ActLiveService implements IActLiveService {
 			if (CollectionUtils.isNotEmpty(actIds)) {
 				// 直接更新
 				for (TypedTuple<Long> typedTuple : actIds) {
-					addNewLive(uid, typedTuple.getValue(), new Date(typedTuple
-							.getScore().longValue()));
+					addNewLive(uid, tpId, typedTuple.getValue(), new Date(
+							typedTuple.getScore().longValue()));
 				}
 			} else {
 				// 删除
 				redisTemplate.opsForZSet().remove(
-						RedisKeyGenerator.genActivistsKey(), uid);
+						RedisKeyGenerator.genActivistsKey(tpId), uid);
 				redisTemplate
 						.delete(RedisKeyGenerator.genUserNewestActKey(uid));
 			}
@@ -66,11 +66,13 @@ public class ActLiveService implements IActLiveService {
 	}
 
 	@Override
-	public List<ActLiveView> listActivists(int firstResult, int maxResults) {
+	public List<ActLiveView> listActivists(long tpId, int firstResult,
+			int maxResults) {
 		List<ActLiveView> actLiveViewList = new ArrayList<ActLiveView>();
 		Set<TypedTuple<Long>> users = redisTemplate.opsForZSet()
-				.reverseRangeWithScores(RedisKeyGenerator.genActivistsKey(),
-						firstResult, firstResult + maxResults - 1);
+				.reverseRangeWithScores(
+						RedisKeyGenerator.genActivistsKey(tpId), firstResult,
+						firstResult + maxResults - 1);
 		for (TypedTuple<Long> user : users) {
 			actLiveViewList.add(new ActLiveView(profileService
 					.getProfileCacheByUid(user.getValue()),
@@ -87,8 +89,8 @@ public class ActLiveService implements IActLiveService {
 	}
 
 	@Override
-	public int countActivists() {
+	public int countActivists(long tpId) {
 		return redisTemplate.opsForZSet()
-				.size(RedisKeyGenerator.genActivistsKey()).intValue();
+				.size(RedisKeyGenerator.genActivistsKey(tpId)).intValue();
 	}
 }

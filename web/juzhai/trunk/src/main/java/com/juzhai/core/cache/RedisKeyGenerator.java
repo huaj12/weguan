@@ -3,10 +3,13 @@ package com.juzhai.core.cache;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
 import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.msg.bean.ActMsg.MsgType;
+import com.juzhai.passport.InitData;
+import com.juzhai.passport.model.Thirdparty;
 
 public class RedisKeyGenerator extends KeyGenerator {
 
@@ -221,8 +224,10 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * 
 	 * @return
 	 */
-	public static String genActivistsKey() {
-		return "activists";
+	public static String genActivistsKey(long tpId) {
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		String tpName = tp == null ? StringUtils.EMPTY : tp.getName();
+		return tpName + "_activists";
 	}
 
 	/**
@@ -243,5 +248,18 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 */
 	public static String genActDayRankKey(Date date) {
 		return "actRank_" + DateUtils.truncate(date, Calendar.DATE).getTime();
+	}
+
+	/**
+	 * 各个平台下的项目流行度
+	 * 
+	 * @param actId
+	 * @param tpId
+	 * @return
+	 */
+	public static String genTpActPopularityKey(long actId, long tpId) {
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		String tpName = tp == null ? StringUtils.EMPTY : tp.getName();
+		return genKey(actId, tpName + "_actPopularity");
 	}
 }

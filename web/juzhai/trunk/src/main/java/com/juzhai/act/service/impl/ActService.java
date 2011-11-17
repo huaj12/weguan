@@ -46,6 +46,8 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.passport.InitData;
+import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
 @Service
@@ -290,6 +292,26 @@ public class ActService implements IActService {
 	public void inOrDePopularity(long actId, int p) {
 		if (p != 0) {
 			actDao.incrOrDecrPopularity(actId, p);
+		}
+	}
+
+	@Override
+	public void inOrDeTpActPopularity(long tpId, long actId, int p) {
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		if (p != 0 && tp != null) {
+			redisTemplate.opsForValue().increment(
+					RedisKeyGenerator.genTpActPopularityKey(actId, tpId), p);
+		}
+	}
+
+	@Override
+	public long getTpActPopularity(long tpId, long actId) {
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		if (null != tp) {
+			return redisTemplate.opsForValue().increment(
+					RedisKeyGenerator.genTpActPopularityKey(actId, tpId), 0);
+		} else {
+			return 0L;
 		}
 	}
 

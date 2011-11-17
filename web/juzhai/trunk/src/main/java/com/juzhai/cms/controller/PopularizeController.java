@@ -77,7 +77,7 @@ public class PopularizeController {
 			}
 
 			private void answerQuestion(int index, TpUser tpUser) {
-				for (int i = 0; i < 20; i++) {
+				for (int i = 0; i < 1; i++) {
 					Feed feed = inboxService.showQuestion(tpUser.getUid());
 					if (feed == null || feed.getQuestion() == null) {
 						break;
@@ -97,7 +97,7 @@ public class PopularizeController {
 				Thirdparty tp = InitData.getTpByTpNameAndJoinType(
 						tpUser.getTpName(), JoinTypeEnum.APP);
 				if (null != tp) {
-					for (int i = 0; i < 5; i++) {
+					for (int i = 0; i < 1; i++) {
 						Feed feed = inboxService.showRecommend(tpUser.getUid());
 						if (feed == null || feed.getAct() == null) {
 							break;

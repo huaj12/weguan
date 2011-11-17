@@ -99,6 +99,24 @@ public interface IActService {
 	void inOrDePopularity(long actId, int p);
 
 	/**
+	 * 增加或者减少人气
+	 * 
+	 * @param actId
+	 * @param p
+	 *            正数加，负数减
+	 */
+	void inOrDeTpActPopularity(long tpId, long actId, int p);
+
+	/**
+	 * 获取Act在平台上的流行度
+	 * 
+	 * @param tpId
+	 * @param actId
+	 * @return
+	 */
+	long getTpActPopularity(long tpId, long actId);
+
+	/**
 	 * 索引查询
 	 * 
 	 * @param queryString

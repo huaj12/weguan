@@ -96,7 +96,7 @@ public interface IUserActService {
 	 * @param uid
 	 * @param actId
 	 */
-	void removeAct(long uid, long actId);
+	void removeAct(long uid, long tpId, long actId);
 
 	/**
 	 * 从缓存根据用户id获取ActId(不带热度),根据热度排序

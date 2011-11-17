@@ -44,7 +44,7 @@ public class Configuration {
 
     /*package*/ static void init() {
         defaultProperty = new Properties();
-        defaultProperty.setProperty("kx4j.debug", "true");
+        defaultProperty.setProperty("kx4j.debug", "false");
         defaultProperty.setProperty("kx4j.source", KxSDK.CONSUMER_KEY);
         //defaultProperty.setProperty("kx4j.clientVersion","");
         defaultProperty.setProperty("kx4j.clientURL", "http://wiki.open.kaixin001.com/-{kx4j.clientVersion}.xml");

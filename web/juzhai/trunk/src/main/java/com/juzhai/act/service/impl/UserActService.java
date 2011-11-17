@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -39,7 +40,9 @@ import com.juzhai.index.service.IActLiveService;
 import com.juzhai.index.service.IActRankService;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.service.IMsgMessageService;
+import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
@@ -199,8 +202,8 @@ public class UserActService implements IUserActService {
 		// accountService.profitPoint(uid, ProfitAction.ADD_ACT);
 	}
 
-	private void useAct(long uid, long actId, int hotLev, boolean canRepeat,
-			long srcFriendId) throws ActInputException {
+	private void useAct(long uid, long tpId, long actId, int hotLev)
+			throws ActInputException {
 		UserActExample example = new UserActExample();
 		example.createCriteria().andUidEqualTo(uid).andActIdEqualTo(actId);
 		List<UserAct> list = userActMapper.selectByExample(example);
@@ -216,12 +219,15 @@ public class UserActService implements IUserActService {
 			// userAct.setLastModifyTime(new Date());
 			// userActMapper.updateByPrimaryKeySelective(userAct);
 		}
-
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		// insert
 		userAct = new UserAct();
 		userAct.setActId(actId);
 		userAct.setHotLev(hotLev);
 		userAct.setUid(uid);
+		if (tp != null && StringUtils.isNotEmpty(tp.getName())) {
+			userAct.setTpName(tp.getName());
+		}
 		userAct.setCreateTime(new Date());
 		userAct.setLastModifyTime(userAct.getCreateTime());
 		userActMapper.insertSelective(userAct);
@@ -231,19 +237,20 @@ public class UserActService implements IUserActService {
 				userAct.getActId(), userAct.getCreateTime().getTime());
 		// 添加人气
 		actService.inOrDePopularity(actId, 1);
+		// 加平台的Act人气
+		actService.inOrDeTpActPopularity(tpId, actId, 1);
 		profileService.updateLastUpdateTime(uid);
 		inboxService.remove(uid, actId);
-		actLiveService.addNewLive(uid, actId, userAct.getCreateTime());
+		actLiveService.addNewLive(uid, tpId, actId, userAct.getCreateTime());
 		actRankService.incrScore(actId, userAct.getCreateTime());
 		sendRecommendMsg(userAct);
-		sendFeed(userAct, srcFriendId);
+		sendFeed(userAct);
 	}
 
-	private void sendFeed(UserAct userAct, long srcFriendId) {
+	private void sendFeed(UserAct userAct) {
 		// push to friends
 		ActUpdateMessage actUpdateMessage = new ActUpdateMessage();
-		actUpdateMessage.buildSenderId(userAct.getUid()).buildBody(userAct)
-				.addExcludeUid(srcFriendId);
+		actUpdateMessage.buildSenderId(userAct.getUid()).buildBody(userAct);
 		updateActFeedRabbitTemplate.convertAndSend(actUpdateMessage);
 	}
 
@@ -293,7 +300,7 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
-	public void removeAct(long uid, long actId) {
+	public void removeAct(long uid, long tpId, long actId) {
 		UserActExample example = new UserActExample();
 		example.createCriteria().andUidEqualTo(uid).andActIdEqualTo(actId);
 		if (userActMapper.deleteByExample(example) >= 1) {
@@ -302,8 +309,8 @@ public class UserActService implements IUserActService {
 					RedisKeyGenerator.genMyActsKey(uid), actId);
 			// 更新Act的使用人数
 			actService.inOrDePopularity(actId, -1);
-
-			actLiveService.removeLive(uid, actId);
+			actService.inOrDeTpActPopularity(tpId, actId, -1);
+			actLiveService.removeLive(uid, tpId, actId);
 		}
 	}
 

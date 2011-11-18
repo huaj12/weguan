@@ -72,13 +72,11 @@ public class AppMyActController extends BaseController {
 		try {
 			if (addActForm.getActId() > 0) {
 				// 通过actId添加
-				userActService.addAct(context.getUid(), addActForm.getActId(),
-						addActForm.isSyn());
+				userActService.addAct(context.getUid(), addActForm.getActId());
 			} else if (StringUtils.isNotEmpty(addActForm.getActName())) {
 				// 通过名字添加
 				userActService.addAct(context.getUid(),
-						StringUtils.trim(addActForm.getActName()).trim(),
-						addActForm.isSyn());
+						StringUtils.trim(addActForm.getActName()).trim());
 			}
 			ajaxResult.setSuccess(true);
 		} catch (ActInputException e) {
@@ -100,7 +98,7 @@ public class AppMyActController extends BaseController {
 			Model model) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		AjaxResult ajaxResult = new AjaxResult();
-		userActService.removeAct(context.getUid(), actId);
+		userActService.removeAct(context.getUid(), context.getTpId(), actId);
 		ajaxResult.setSuccess(true);
 		return ajaxResult;
 	}

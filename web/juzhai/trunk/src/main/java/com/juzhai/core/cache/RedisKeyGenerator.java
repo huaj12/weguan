@@ -231,6 +231,15 @@ public class RedisKeyGenerator extends KeyGenerator {
 	}
 
 	/**
+	 * 活跃用户的Uid ZSET
+	 * 
+	 * @return
+	 */
+	public static String genActivistsKey(String tpName) {
+		return tpName == null ? StringUtils.EMPTY : tpName + "_activists";
+	}
+
+	/**
 	 * 用户最新的Act
 	 * 
 	 * @param uid
@@ -261,5 +270,17 @@ public class RedisKeyGenerator extends KeyGenerator {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		String tpName = tp == null ? StringUtils.EMPTY : tp.getName();
 		return genKey(actId, tpName + "_actPopularity");
+	}
+
+	/**
+	 * 各个平台下的项目流行度
+	 * 
+	 * @param actId
+	 * @param tpName
+	 * @return
+	 */
+	public static String genTpActPopularityKey(long actId, String tpName) {
+		return genKey(actId, tpName == null ? StringUtils.EMPTY : tpName
+				+ "_actPopularity");
 	}
 }

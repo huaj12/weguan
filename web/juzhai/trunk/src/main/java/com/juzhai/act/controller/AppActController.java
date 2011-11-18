@@ -77,8 +77,9 @@ public class AppActController extends BaseController {
 		UserContext context = checkLoginForApp(request);
 		PagerManager pager = new PagerManager(page, actUserMaxResult,
 				userActService.countUserActByActId(actId));
-		List<UserAct> userActList = userActService.listUserActByActId(actId,
-				pager.getFirstResult(), pager.getMaxResult());
+		List<UserAct> userActList = userActService.listUserActByActId(
+				context.getTpId(), actId, pager.getFirstResult(),
+				pager.getMaxResult());
 		List<ActUserView> actUserViewList = assembleActUserView(
 				context.getUid(), userActList, true);
 		model.addAttribute("pager", pager);

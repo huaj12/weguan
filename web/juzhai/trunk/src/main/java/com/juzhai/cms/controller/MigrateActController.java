@@ -1,16 +1,13 @@
 package com.juzhai.cms.controller;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +15,16 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.juzhai.act.mapper.ActCategoryMapper;
 import com.juzhai.act.mapper.ActMapper;
 import com.juzhai.act.mapper.SynonymActMapper;
 import com.juzhai.act.mapper.UserActMapper;
 import com.juzhai.act.model.Act;
-import com.juzhai.act.model.SynonymActExample;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IHotActService;
 import com.juzhai.act.service.ISynonymActService;
 import com.juzhai.act.service.IUserActService;
-import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.msg.bean.MergerActMsg;
 
 @Controller
@@ -45,7 +39,7 @@ public class MigrateActController {
 	private UserActMapper userActMapper;
 	@Autowired
 	private IHotActService hotActService;
-	@Autowired 
+	@Autowired
 	private IActCategoryService actCategoryService;
 	@Autowired
 	private ISynonymActService synonymActService;
@@ -103,12 +97,12 @@ public class MigrateActController {
 			});
 			actMaps.putAll(getActMap(acts));
 		}
-		 opTableAct(actMaps);
-		 opTableUserAct(actMaps);
-		 addSynonymAct(actMaps);
-		 opRedisActMsg();
-		 deleteScrapAct(actMaps);
-		 redisTemplate.delete(synonymKeys);
+		opTableAct(actMaps);
+		opTableUserAct(actMaps);
+		addSynonymAct(actMaps);
+		opRedisActMsg();
+		deleteScrapAct(actMaps);
+		redisTemplate.delete(synonymKeys);
 		log.debug("migrateAct is  success");
 		return null;
 	}
@@ -118,7 +112,7 @@ public class MigrateActController {
 		for (Entry<Long, Long> entry : actMaps.entrySet()) {
 			actMapper.deleteByPrimaryKey(entry.getKey());
 			actCategoryService.deleteActCategory(entry.getKey());
-			
+
 		}
 
 	}
@@ -223,9 +217,9 @@ public class MigrateActController {
 			long actId = entry.getKey();
 			long hotActId = entry.getValue();
 			// 找出找出所有添加过被遗弃的act的人
-			int count=userActService.countUserActByActId(actId);
-			List<UserAct> userActs = userActService.listUserActByActId(actId,
-					0, count);
+			int count = userActService.countUserActByActId(actId);
+			List<UserAct> userActs = userActService.listUserActByActId(0,
+					actId, 0, count);
 			for (UserAct scrapUserAct : userActs) {
 				UserAct newUserAct = userActService.getUserAct(
 						scrapUserAct.getUid(), hotActId);

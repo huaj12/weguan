@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
@@ -16,7 +17,9 @@ import com.juzhai.act.service.IActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.index.controller.view.ActLiveView;
 import com.juzhai.index.service.IActLiveService;
+import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.ITpUserService;
 
 @Service
 public class ActLiveService implements IActLiveService {
@@ -27,20 +30,26 @@ public class ActLiveService implements IActLiveService {
 	private IProfileService profileService;
 	@Autowired
 	private IActService actService;
+	@Autowired
+	private ITpUserService tpUserService;
 
 	@Override
-	public void addNewLive(long uid, long tpId, long actId, Date time) {
+	public void addNewLive(long uid, long actId, Date time) {
 		if (time == null) {
 			time = new Date();
 		}
-		redisTemplate.opsForZSet().add(RedisKeyGenerator.genActivistsKey(tpId),
-				uid, time.getTime());
-		redisTemplate.opsForValue().set(
-				RedisKeyGenerator.genUserNewestActKey(uid), actId);
+		TpUser tpUser = tpUserService.getTpUserByUid(uid);
+		if (null != tpUser && StringUtils.isNotEmpty(tpUser.getTpName())) {
+			redisTemplate.opsForZSet().add(
+					RedisKeyGenerator.genActivistsKey(tpUser.getTpName()), uid,
+					time.getTime());
+			redisTemplate.opsForValue().set(
+					RedisKeyGenerator.genUserNewestActKey(uid), actId);
+		}
 	}
 
 	@Override
-	public void removeLive(long uid, long tpId, long actId) {
+	public void removeLive(long uid, long actId) {
 		Long newestActId = redisTemplate.opsForValue().get(
 				RedisKeyGenerator.genUserNewestActKey(uid));
 		if (null != newestActId && newestActId.longValue() == actId) {
@@ -51,15 +60,20 @@ public class ActLiveService implements IActLiveService {
 			if (CollectionUtils.isNotEmpty(actIds)) {
 				// 直接更新
 				for (TypedTuple<Long> typedTuple : actIds) {
-					addNewLive(uid, tpId, typedTuple.getValue(), new Date(
-							typedTuple.getScore().longValue()));
+					addNewLive(uid, typedTuple.getValue(), new Date(typedTuple
+							.getScore().longValue()));
 				}
 			} else {
-				// 删除
-				redisTemplate.opsForZSet().remove(
-						RedisKeyGenerator.genActivistsKey(tpId), uid);
-				redisTemplate
-						.delete(RedisKeyGenerator.genUserNewestActKey(uid));
+				TpUser tpUser = tpUserService.getTpUserByUid(uid);
+				if (null != tpUser
+						&& StringUtils.isNotEmpty(tpUser.getTpName())) {
+					// 删除
+					redisTemplate.opsForZSet().remove(
+							RedisKeyGenerator.genActivistsKey(tpUser
+									.getTpName()), uid);
+					redisTemplate.delete(RedisKeyGenerator
+							.genUserNewestActKey(uid));
+				}
 			}
 		}
 

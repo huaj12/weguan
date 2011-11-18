@@ -47,6 +47,7 @@ import com.juzhai.core.lucene.searcher.IndexSearcherTemplate;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.InitData;
+import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
@@ -296,11 +297,10 @@ public class ActService implements IActService {
 	}
 
 	@Override
-	public void inOrDeTpActPopularity(long tpId, long actId, int p) {
-		Thirdparty tp = InitData.TP_MAP.get(tpId);
-		if (p != 0 && tp != null) {
+	public void inOrDeTpActPopularity(String tpName, long actId, int p) {
+		if (p != 0 && ThirdpartyNameEnum.getThirdpartyNameEnum(tpName) != null) {
 			redisTemplate.opsForValue().increment(
-					RedisKeyGenerator.genTpActPopularityKey(actId, tpId), p);
+					RedisKeyGenerator.genTpActPopularityKey(actId, tpName), p);
 		}
 	}
 

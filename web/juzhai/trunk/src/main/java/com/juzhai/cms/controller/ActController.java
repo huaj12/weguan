@@ -319,7 +319,7 @@ public class ActController {
 				if (oldAct == null) {
 					Act a = actService.createAct(act, form.getCatIds());
 					if (addUid != null) {
-						userActService.addAct(addUid, a.getId(), true);
+						userActService.addAct(addUid, a.getId());
 					}
 					actId = a.getId();
 					logo = a.getLogo();
@@ -393,7 +393,7 @@ public class ActController {
 			mmap.addAttribute("msg", "update act is error.");
 			log.error("update act is error.", e);
 		}
-		return new ModelAndView("redirect:/cms/showActManager",mmap);
+		return new ModelAndView("redirect:/cms/showActManager", mmap);
 	}
 
 	private Act converAct(AddActForm form, Long uid) {

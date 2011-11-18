@@ -40,9 +40,7 @@ import com.juzhai.index.service.IActLiveService;
 import com.juzhai.index.service.IActRankService;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.service.IMsgMessageService;
-import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
@@ -88,7 +86,7 @@ public class UserActService implements IUserActService {
 			ReadFeedType type, boolean isFeed) {
 		if (ReadFeedType.WANT.equals(type)) {
 			try {
-				addAct(uid, actId, false);
+				addAct(uid, actId);
 			} catch (ActInputException e) {
 				log.error(e.getMessage() + " actId: " + actId);
 			}
@@ -151,38 +149,37 @@ public class UserActService implements IUserActService {
 
 	@Deprecated
 	private void wantToAct(long uid, long actId, long friendId) {
-		try {
-			useAct(uid, actId, 2, true, friendId);
-		} catch (ActInputException e) {
-			log.error(e.getErrorCode(), e);
-		}
-		friendService.incrOrDecrIntimacy(uid, friendId, 2);
+		// try {
+		// useAct(uid, actId, 2, true, friendId);
+		// } catch (ActInputException e) {
+		// log.error(e.getErrorCode(), e);
+		// }
+		// friendService.incrOrDecrIntimacy(uid, friendId, 2);
 	}
 
 	@Deprecated
 	private void wantToAct(long uid, long actId, String tpIdentity, long tpId) {
-		try {
-			useAct(uid, actId, 2, true, 0);
-		} catch (ActInputException e) {
-			log.error(e.getErrorCode(), e);
-		}
+		// try {
+		// useAct(uid, actId, 2, true, 0);
+		// } catch (ActInputException e) {
+		// log.error(e.getErrorCode(), e);
+		// }
 	}
 
 	@Deprecated
 	private void dependToAct(long uid, long actId, long friendId) {
-		try {
-			useAct(uid, actId, 1, true, friendId);
-		} catch (ActInputException e) {
-			log.error(e.getErrorCode(), e);
-		}
-		if (friendId > 0) {
-			friendService.incrOrDecrIntimacy(uid, friendId, 1);
-		}
+		// try {
+		// useAct(uid, actId, 1, true, friendId);
+		// } catch (ActInputException e) {
+		// log.error(e.getErrorCode(), e);
+		// }
+		// if (friendId > 0) {
+		// friendService.incrOrDecrIntimacy(uid, friendId, 1);
+		// }
 	}
 
 	@Override
-	public void addAct(long uid, String actName, boolean isSyn)
-			throws ActInputException {
+	public void addAct(long uid, String actName) throws ActInputException {
 		Act act = actService.getActByName(actName);
 		if (null == act) {
 			act = actService.createAct(uid, actName, null);
@@ -192,18 +189,18 @@ public class UserActService implements IUserActService {
 				return;
 			}
 		}
-		addAct(uid, act.getId(), isSyn);
+		addAct(uid, act.getId());
 	}
 
 	@Override
-	public void addAct(long uid, long actId, boolean isSyn)
-			throws ActInputException {
-		useAct(uid, actId, 5, false, 0);
+	public void addAct(long uid, long actId) throws ActInputException {
+		useAct(uid, actId, 5);
 		// accountService.profitPoint(uid, ProfitAction.ADD_ACT);
 	}
 
-	private void useAct(long uid, long tpId, long actId, int hotLev)
+	private void useAct(long uid, long actId, int hotLev)
 			throws ActInputException {
+		TpUser tpUser = tpUserService.getTpUserByUid(uid);
 		UserActExample example = new UserActExample();
 		example.createCriteria().andUidEqualTo(uid).andActIdEqualTo(actId);
 		List<UserAct> list = userActMapper.selectByExample(example);
@@ -219,14 +216,13 @@ public class UserActService implements IUserActService {
 			// userAct.setLastModifyTime(new Date());
 			// userActMapper.updateByPrimaryKeySelective(userAct);
 		}
-		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		// insert
 		userAct = new UserAct();
 		userAct.setActId(actId);
 		userAct.setHotLev(hotLev);
 		userAct.setUid(uid);
-		if (tp != null && StringUtils.isNotEmpty(tp.getName())) {
-			userAct.setTpName(tp.getName());
+		if (tpUser != null && StringUtils.isNotEmpty(tpUser.getTpName())) {
+			userAct.setTpName(tpUser.getTpName());
 		}
 		userAct.setCreateTime(new Date());
 		userAct.setLastModifyTime(userAct.getCreateTime());
@@ -237,11 +233,13 @@ public class UserActService implements IUserActService {
 				userAct.getActId(), userAct.getCreateTime().getTime());
 		// 添加人气
 		actService.inOrDePopularity(actId, 1);
-		// 加平台的Act人气
-		actService.inOrDeTpActPopularity(tpId, actId, 1);
+		if (tpUser != null && StringUtils.isNotEmpty(tpUser.getTpName())) {
+			// 加平台的Act人气
+			actService.inOrDeTpActPopularity(tpUser.getTpName(), actId, 1);
+		}
 		profileService.updateLastUpdateTime(uid);
 		inboxService.remove(uid, actId);
-		actLiveService.addNewLive(uid, tpId, actId, userAct.getCreateTime());
+		actLiveService.addNewLive(uid, actId, userAct.getCreateTime());
 		actRankService.incrScore(actId, userAct.getCreateTime());
 		sendRecommendMsg(userAct);
 		sendFeed(userAct);
@@ -309,8 +307,11 @@ public class UserActService implements IUserActService {
 					RedisKeyGenerator.genMyActsKey(uid), actId);
 			// 更新Act的使用人数
 			actService.inOrDePopularity(actId, -1);
-			actService.inOrDeTpActPopularity(tpId, actId, -1);
-			actLiveService.removeLive(uid, tpId, actId);
+			TpUser tpUser = tpUserService.getTpUserByUid(uid);
+			if (null != tpUser && StringUtils.isNotEmpty(tpUser.getTpName())) {
+				actService.inOrDeTpActPopularity(tpUser.getTpName(), actId, -1);
+			}
+			actLiveService.removeLive(uid, actId);
 		}
 	}
 

@@ -74,21 +74,20 @@ public interface IUserActService {
 	 *            是否同步
 	 * @throws ActInputException
 	 */
-	void addAct(long uid, String actName, boolean isSyn)
-			throws ActInputException;
+	void addAct(long uid, String actName) throws ActInputException;
 
 	/**
 	 * 添加已经存在的拒宅活动
 	 * 
 	 * @param uid
 	 *            用户ID
+	 * @param tpId
+	 *            第三方ID
 	 * @param actId
 	 *            活动名称
-	 * @param isSyn
-	 *            是否同步
 	 * @throws ActInputException
 	 */
-	void addAct(long uid, long actId, boolean isSyn) throws ActInputException;
+	void addAct(long uid, long actId) throws ActInputException;
 
 	/**
 	 * 删除我的拒宅活动

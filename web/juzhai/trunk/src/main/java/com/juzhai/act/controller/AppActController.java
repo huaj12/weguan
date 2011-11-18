@@ -62,7 +62,7 @@ public class AppActController extends BaseController {
 		model.addAttribute("isShield", actService.isShieldAct(actId));
 
 		model.addAttribute("userActCount",
-				userActService.countUserActByActId(actId));
+				userActService.countUserActByActId(context.getTpId(), actId));
 		model.addAttribute(
 				"fUserActCount",
 				userActService.countFriendUserActByActId(
@@ -76,7 +76,7 @@ public class AppActController extends BaseController {
 			long actId, int page) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		PagerManager pager = new PagerManager(page, actUserMaxResult,
-				userActService.countUserActByActId(actId));
+				userActService.countUserActByActId(context.getTpId(), actId));
 		List<UserAct> userActList = userActService.listUserActByActId(
 				context.getTpId(), actId, pager.getFirstResult(),
 				pager.getMaxResult());

@@ -42,6 +42,7 @@ import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.service.IMsgMessageService;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IFriendService;
@@ -431,9 +432,25 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
-	public int countUserActByActId(long actId) {
+	public int countUserActByActId(long tpId, long actId) {
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		UserActExample example = new UserActExample();
-		example.createCriteria().andActIdEqualTo(actId);
+		UserActExample.Criteria c = example.createCriteria().andActIdEqualTo(
+				actId);
+		if (null != tp) {
+			c.andTpNameEqualTo(tp.getName());
+		}
+		return userActMapper.countByExample(example);
+	}
+
+	@Override
+	public int countUserActByActId(String tpName, long actId) {
+		UserActExample example = new UserActExample();
+		UserActExample.Criteria c = example.createCriteria().andActIdEqualTo(
+				actId);
+		if (null != ThirdpartyNameEnum.getThirdpartyNameEnum(tpName)) {
+			c.andTpNameEqualTo(tpName);
+		}
 		return userActMapper.countByExample(example);
 	}
 

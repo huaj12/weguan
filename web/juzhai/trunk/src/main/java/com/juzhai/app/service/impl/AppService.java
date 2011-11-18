@@ -1,7 +1,6 @@
 package com.juzhai.app.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,12 +21,10 @@ import com.juzhai.core.web.jstl.JzCoreFunction;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.TpFriend;
+import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.model.Thirdparty;
-import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.service.IMessageService;
-import com.juzhai.platform.service.IUserService;
 
 @Service
 public class AppService implements IAppService {
@@ -42,7 +39,7 @@ public class AppService implements IAppService {
 	@Autowired
 	private IUserActService userActService;
 	@Value("${show.feed.count}")
-	private int feedCount=3;
+	private int feedCount = 3;
 	private final Log log = LogFactory.getLog(getClass());
 
 	@Override
@@ -68,7 +65,8 @@ public class AppService implements IAppService {
 						TpMessageKey.INVITE_FRIEND_WORD, new Object[] { null },
 						Locale.SIMPLIFIED_CHINESE);
 			} else if (MsgType.RECOMMEND.equals(type)) {
-				int count = userActService.countUserActByActId(actId);
+				int count = userActService.countUserActByActId(
+						ThirdpartyNameEnum.KAIXIN001.getName(), actId);
 				text = messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND,
 						new Object[] { count, act.getName() },
 						Locale.SIMPLIFIED_CHINESE);
@@ -113,11 +111,12 @@ public class AppService implements IAppService {
 		}
 		String picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(), 120);
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
-		int count = userActService.countUserActByActId(actId);
+		int count = userActService.countUserActByActId(
+				ThirdpartyNameEnum.KAIXIN001.getName(), actId);
 		String text = "";
 		if (count > feedCount) {
 			text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
-					new Object[] {  act.getName(),count-1},
+					new Object[] { act.getName(), count - 1 },
 					Locale.SIMPLIFIED_CHINESE);
 		} else {
 			text = messageSource.getMessage(

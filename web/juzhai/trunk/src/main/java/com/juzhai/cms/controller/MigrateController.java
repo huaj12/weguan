@@ -93,7 +93,7 @@ public class MigrateController {
 				break;
 			}
 			for (Act act : actList) {
-				int count = userActService.countUserActByActId(act.getId());
+				int count = userActService.countUserActByActId(0, act.getId());
 				act.setPopularity(count);
 				actMapper.updateByPrimaryKeySelective(act);
 				longRedisTemplate.opsForValue()

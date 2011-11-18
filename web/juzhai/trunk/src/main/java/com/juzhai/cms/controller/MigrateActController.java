@@ -217,7 +217,7 @@ public class MigrateActController {
 			long actId = entry.getKey();
 			long hotActId = entry.getValue();
 			// 找出找出所有添加过被遗弃的act的人
-			int count = userActService.countUserActByActId(actId);
+			int count = userActService.countUserActByActId(0, actId);
 			List<UserAct> userActs = userActService.listUserActByActId(0,
 					actId, 0, count);
 			for (UserAct scrapUserAct : userActs) {

@@ -19,6 +19,7 @@ import com.juzhai.act.InitData;
 import com.juzhai.act.controller.view.CategoryActView;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.Category;
+import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.ICategoryService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
@@ -41,6 +42,8 @@ public class AppIndexController extends BaseController {
 	private ICategoryService categoryService;
 	@Autowired
 	private IUserActService userActService;
+	@Autowired
+	private IActService actService;
 	@Value("${live.act.max.results}")
 	private int liveActMaxResults;
 	@Value("${rank.act.count}")
@@ -76,9 +79,14 @@ public class AppIndexController extends BaseController {
 	@RequestMapping(value = "/showRank", method = RequestMethod.GET)
 	public String showRank(HttpServletRequest request, Model model)
 			throws NeedLoginException {
-		checkLoginForApp(request);
+		UserContext context = checkLoginForApp(request);
 		List<Act> actList = actRankService.listActRank(
 				DateUtils.addDays(new Date(), -1), rankActCount);
+		for (Act act : actList) {
+			act.setPopularity(Long.valueOf(
+					actService.getTpActPopularity(context.getTpId(),
+							act.getId())).intValue());
+		}
 		model.addAttribute("actList", actList);
 		return "index/app/rank";
 	}
@@ -124,6 +132,8 @@ public class AppIndexController extends BaseController {
 					hotActList.size()))) {
 				CategoryActView view = new CategoryActView();
 				view.setAct(act);
+				view.setTpActPopularity(actService.getTpActPopularity(
+						context.getTpId(), act.getId()));
 				view.setHasUsed(myActIds.contains(act.getId()));
 				categoryActViewList.add(view);
 			}

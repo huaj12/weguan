@@ -11,6 +11,16 @@ public class CategoryActView {
 
 	private boolean hasUsed;
 
+	private long tpActPopularity;
+
+	public long getTpActPopularity() {
+		return tpActPopularity;
+	}
+
+	public void setTpActPopularity(long tpActPopularity) {
+		this.tpActPopularity = tpActPopularity;
+	}
+
 	public Act getAct() {
 		return act;
 	}

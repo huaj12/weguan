@@ -217,7 +217,15 @@ public interface IUserActService {
 	 * @param actId
 	 * @return
 	 */
-	int countUserActByActId(long actId);
+	int countUserActByActId(long tpId, long actId);
+
+	/**
+	 * 加了特定项目的人数
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	int countUserActByActId(String tpName, long actId);
 
 	/**
 	 * 列出所有加了特定项目的UserAct

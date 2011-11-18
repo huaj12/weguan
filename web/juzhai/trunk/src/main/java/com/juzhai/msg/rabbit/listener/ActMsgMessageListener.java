@@ -3,7 +3,6 @@ package com.juzhai.msg.rabbit.listener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -14,7 +13,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import com.juzhai.act.service.IUserActService;
-import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.ActMsg.MsgType;
@@ -154,7 +152,9 @@ public class ActMsgMessageListener implements
 	 * @return
 	 */
 	private List<Long> getPushTargets(long uid, long actId) {
-		int count = userActService.countUserActByActId(actId);
+		TpUser tpUser = tpUserService.getTpUserByUid(uid);
+		int count = userActService.countUserActByActId(
+				tpUser != null ? tpUser.getTpName() : StringUtils.EMPTY, actId);
 		List<Long> targets = null;
 		if (friendActCount < count) {
 			List<Long> friendIds = friendService.getAppFriends(uid);

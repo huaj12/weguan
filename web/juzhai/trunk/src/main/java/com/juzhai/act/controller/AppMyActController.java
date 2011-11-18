@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.juzhai.act.controller.form.AddActForm;
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.exception.ActInputException;
+import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.cms.service.IUserActionService;
 import com.juzhai.core.controller.BaseController;
@@ -47,6 +48,8 @@ public class AppMyActController extends BaseController {
 	private IUserActionService userActionService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IActService actService;
 	@Value("${my.act.max.rows}")
 	private int myActMaxRows = 20;
 	@Value("${same.act.friends.num}")
@@ -114,6 +117,10 @@ public class AppMyActController extends BaseController {
 		for (UserActView view : userActViewList) {
 			view.setFriendList(friendService.findSameActFriends(
 					context.getUid(), view.getAct().getId(), sameActFriendsNum));
+			view.getAct().setPopularity(
+					Long.valueOf(
+							actService.getTpActPopularity(context.getTpId(),
+									view.getAct().getId())).intValue());
 		}
 		model.addAttribute("userActViewList", userActViewList);
 		model.addAttribute("pager", pager);

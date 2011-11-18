@@ -28,8 +28,6 @@ import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.web.jstl.JzCoreFunction;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.msg.bean.ActMsg;
-import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.msg.service.IMsgMessageService;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
@@ -61,10 +59,9 @@ public class KaiXinController extends BaseController {
 	@Value("${kaixin.request.redirect.uri}")
 	private String requestRedirectUri;
 	@Value("${show.feed.count}")
-	private int feedCount=3;
+	private int feedCount = 3;
 
-
-	//@RequestMapping(value = { "/kaixinFeed2" }, method = RequestMethod.GET)
+	// @RequestMapping(value = { "/kaixinFeed2" }, method = RequestMethod.GET)
 	public String kaixinFeed2(HttpServletRequest request,
 			HttpServletResponse response, Model model, Long actId) {
 		PrintWriter out = null;
@@ -84,10 +81,11 @@ public class KaiXinController extends BaseController {
 				word = messageSource.getMessage(TpMessageKey.FEED_WORD_DEFAULT,
 						null, Locale.SIMPLIFIED_CHINESE);
 			} else {
-				int count = userActService.countUserActByActId(actId);
-				if (count> feedCount ) {
+				int count = userActService.countUserActByActId(
+						context.getTpId(), actId);
+				if (count > feedCount) {
 					text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
-							new Object[] {  act.getName(),count-1 },
+							new Object[] { act.getName(), count - 1 },
 							Locale.SIMPLIFIED_CHINESE);
 				} else {
 					text = messageSource.getMessage(
@@ -98,11 +96,11 @@ public class KaiXinController extends BaseController {
 				word = messageSource.getMessage(TpMessageKey.FEED_WORD, null,
 						Locale.SIMPLIFIED_CHINESE);
 			}
-			text=URLEncoder.encode(text, "UTF-8");
+			text = URLEncoder.encode(text, "UTF-8");
 			String linktext = messageSource
 					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
 							Locale.SIMPLIFIED_CHINESE);
-			String link =tp.getAppUrl();
+			String link = tp.getAppUrl();
 			String feedRedirect_uri = SystemConfig.getDomain(tp == null ? null
 					: tp.getName())
 					+ feedRedirectUri
@@ -123,9 +121,9 @@ public class KaiXinController extends BaseController {
 					+ link
 					+ "&text="
 					+ text
-					+ "&app_id="+tp.getAppId()+"&need_redirect=0&picurl="
-					+ picurl
-					+ "&word=" + word;
+					+ "&app_id="
+					+ tp.getAppId()
+					+ "&need_redirect=0&picurl=" + picurl + "&word=" + word;
 			out.println(url);
 		} catch (Exception e) {
 			log.error("kaixin send feed is error", e);
@@ -136,9 +134,10 @@ public class KaiXinController extends BaseController {
 		}
 		return null;
 	}
+
 	@RequestMapping(value = { "/kaixinFeed" }, method = RequestMethod.GET)
 	public String kaixinFeed(HttpServletRequest request,
-			HttpServletResponse response, Model model,Long actId) {
+			HttpServletResponse response, Model model, Long actId) {
 		PrintWriter out = null;
 
 		try {
@@ -155,10 +154,11 @@ public class KaiXinController extends BaseController {
 				word = messageSource.getMessage(TpMessageKey.FEED_WORD_DEFAULT,
 						null, Locale.SIMPLIFIED_CHINESE);
 			} else {
-				int count = userActService.countUserActByActId(actId);
-				if (count> feedCount ) {
+				int count = userActService.countUserActByActId(
+						context.getTpId(), actId);
+				if (count > feedCount) {
 					text = messageSource.getMessage(TpMessageKey.FEED_TEXT,
-							new Object[] {  act.getName(),count-1 },
+							new Object[] { act.getName(), count - 1 },
 							Locale.SIMPLIFIED_CHINESE);
 				} else {
 					text = messageSource.getMessage(
@@ -172,7 +172,7 @@ public class KaiXinController extends BaseController {
 			String linktext = messageSource
 					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
 							Locale.SIMPLIFIED_CHINESE);
-			String link =tp.getAppUrl();
+			String link = tp.getAppUrl();
 			String logo = "";
 			if (act != null) {
 				logo = act.getLogo();
@@ -181,11 +181,12 @@ public class KaiXinController extends BaseController {
 			// 拼凑参数
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("method", "actions.sendNewsFeed");
-			paramMap.put("text",text);
-			paramMap.put("linktext",linktext);
-			paramMap.put("link",link);
-			paramMap.put("pic",picurl);
-			AuthInfo authInfo = tpUserAuthService.getAuthInfo(context.getUid(),context.getTpId());
+			paramMap.put("text", text);
+			paramMap.put("linktext", linktext);
+			paramMap.put("link", link);
+			paramMap.put("pic", picurl);
+			AuthInfo authInfo = tpUserAuthService.getAuthInfo(context.getUid(),
+					context.getTpId());
 			String query = AppPlatformUtils.buildQuery(paramMap,
 					authInfo.getAppKey(), authInfo.getAppSecret(),
 					authInfo.getSessionKey(), "1.2");
@@ -225,7 +226,9 @@ public class KaiXinController extends BaseController {
 			out = response.getWriter();
 			out.println("http://api.kaixin001.com/dialog/invitation?display=iframe&text="
 					+ text
-					+ "&app_id="+tp.getAppId()+"&redirect_uri="
+					+ "&app_id="
+					+ tp.getAppId()
+					+ "&redirect_uri="
 					+ requestRedirect_uri + "&need_redirect=0");
 		} catch (Exception e) {
 			log.error("kaixin send Request is error", e);
@@ -278,7 +281,9 @@ public class KaiXinController extends BaseController {
 					+ text
 					+ "&link="
 					+ link
-					+ "&app_id="+tp.getAppId()+"&redirect_uri="
+					+ "&app_id="
+					+ tp.getAppId()
+					+ "&redirect_uri="
 					+ sysnewRedirect_uri
 					+ "&picurl=" + picurl + "&need_redirect=0&word=" + word);
 		} catch (Exception e) {

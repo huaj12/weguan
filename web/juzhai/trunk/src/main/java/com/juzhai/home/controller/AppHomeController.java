@@ -13,16 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.juzhai.act.controller.view.UserActView;
+import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
-import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.Feed;
 import com.juzhai.home.bean.ReadFeedType;
@@ -45,6 +43,8 @@ public class AppHomeController extends BaseController {
 	private IInboxService inboxService;
 	@Autowired
 	private IFriendService friendService;
+	@Autowired
+	private IActService actService;
 	// @Autowired
 	// private ILoginService tomcatLoginService;
 	@Value("${specific.feed.rate}")
@@ -201,8 +201,8 @@ public class AppHomeController extends BaseController {
 			feed.setTpHomeUrl(tp.getUserHomeUrl());
 		}
 		if (feed.getAct() != null) {
-			int allUserCnt = userActService.countUserActByActId(feed.getAct()
-					.getId());
+			long allUserCnt = actService.getTpActPopularity(context.getTpId(),
+					feed.getAct().getId());
 			model.addAttribute("allUserCnt", allUserCnt);
 			if (allUserCnt > 0) {
 				List<Long> friendIds = friendService.getAppFriends(context

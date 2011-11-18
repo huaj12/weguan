@@ -208,7 +208,8 @@ public interface IUserActService {
 	 * @param maxResult
 	 * @return
 	 */
-	List<UserAct> listUserActByActId(long actId, int firstResult, int maxResult);
+	List<UserAct> listUserActByActId(long tpId, long actId, int firstResult,
+			int maxResult);
 
 	/**
 	 * 加了特定项目的人数

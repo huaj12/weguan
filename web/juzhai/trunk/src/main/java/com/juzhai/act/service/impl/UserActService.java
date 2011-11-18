@@ -40,7 +40,9 @@ import com.juzhai.index.service.IActLiveService;
 import com.juzhai.index.service.IActRankService;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.service.IMsgMessageService;
+import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
@@ -414,10 +416,15 @@ public class UserActService implements IUserActService {
 	// }
 
 	@Override
-	public List<UserAct> listUserActByActId(long actId, int firstResult,
-			int maxResult) {
+	public List<UserAct> listUserActByActId(long tpId, long actId,
+			int firstResult, int maxResult) {
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		UserActExample example = new UserActExample();
-		example.createCriteria().andActIdEqualTo(actId);
+		UserActExample.Criteria c = example.createCriteria().andActIdEqualTo(
+				actId);
+		if (null != tp) {
+			c.andTpNameEqualTo(tp.getName());
+		}
 		example.setOrderByClause("last_modify_time desc");
 		example.setLimit(new Limit(firstResult, maxResult));
 		return userActMapper.selectByExample(example);

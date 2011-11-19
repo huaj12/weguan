@@ -19,12 +19,18 @@ import org.springframework.stereotype.Component;
 
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.mapper.CityMapper;
+import com.juzhai.passport.mapper.CityMappingMapper;
 import com.juzhai.passport.mapper.ProvinceMapper;
+import com.juzhai.passport.mapper.ProvinceMappingMapper;
 import com.juzhai.passport.mapper.ThirdpartyMapper;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.CityExample;
+import com.juzhai.passport.model.CityMapping;
+import com.juzhai.passport.model.CityMappingExample;
 import com.juzhai.passport.model.Province;
 import com.juzhai.passport.model.ProvinceExample;
+import com.juzhai.passport.model.ProvinceMapping;
+import com.juzhai.passport.model.ProvinceMappingExample;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.ThirdpartyExample;
 
@@ -36,6 +42,8 @@ public class InitData {
 	public static final Map<Long, Province> PROVINCE_MAP = new HashMap<Long, Province>();
 	public static final Map<Long, City> CITY_MAP = new HashMap<Long, City>();
 	public static final List<Long> GUIDE_STEPS = new ArrayList<Long>();
+	public static final Map<String, Long> CITY_MAPPING = new HashMap<String, Long>();
+	public static final Map<String, Long> PROVINCE_MAPPING = new HashMap<String, Long>();
 
 	@Autowired
 	private ThirdpartyMapper thirdpartyMapper;
@@ -43,6 +51,10 @@ public class InitData {
 	private ProvinceMapper provinceMapper;
 	@Autowired
 	private CityMapper cityMapper;
+	@Autowired
+	private CityMappingMapper cityMappingMapper;
+	@Autowired
+	private ProvinceMappingMapper provinceMappingMapper;
 	@Value("${freshman.guide.steps}")
 	private String freshmanGuideSteps;
 
@@ -52,6 +64,21 @@ public class InitData {
 		initProvince();
 		initCity();
 		initGuideSteps();
+		initCityAndProvinceMapping();
+	}
+
+	private void initCityAndProvinceMapping() {
+		for (CityMapping cityMapping : cityMappingMapper
+				.selectByExample(new CityMappingExample())) {
+			CITY_MAPPING.put(cityMapping.getMappingCityName(),
+					cityMapping.getCityId());
+		}
+
+		for (ProvinceMapping provinceMapping : provinceMappingMapper
+				.selectByExample(new ProvinceMappingExample())) {
+			PROVINCE_MAPPING.put(provinceMapping.getMappingProvinceName(),
+					provinceMapping.getProvinceId());
+		}
 	}
 
 	private void initGuideSteps() {

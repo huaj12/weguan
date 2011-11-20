@@ -19,7 +19,7 @@
 				  var uiOpts = {
 					  url : "http://graph.renren.com/oauth/authorize",
 					  display : "iframe",
-					  params : {"response_type":"token","client_id":"${jz:appId(tpId)}","scope":"publish_feed send_message"},
+					  params : {"response_type":"token","client_id":"163941","scope":"publish_feed"},
 					  onSuccess: function(r){
 					    top.location = "http://apps.renren.com/juzhaiqi/";
 					  },

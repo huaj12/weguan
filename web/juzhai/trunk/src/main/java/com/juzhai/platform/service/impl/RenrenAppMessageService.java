@@ -63,14 +63,20 @@ public class RenrenAppMessageService implements IMessageService {
 			String query = AppPlatformUtils.buildQuery(paramMap,
 					authInfo.getAppKey(), authInfo.getAppSecret(),
 					authInfo.getSessionKey(), "1.0");
-			AppPlatformUtils.doPost("http://api.renren.com/restserver.do",
+			String ret=AppPlatformUtils.doPost("http://api.renren.com/restserver.do",
 					query);
+			JSONObject jObject = JSONObject.fromObject(ret);
+			if (StringUtils.isNotEmpty(jObject.getString("result"))) {
+				return  true;
+			} else {
+				log.error("send renren Message is error. reg:"+ret);
+				return false;
+			}
 		} catch (Exception e) {
 			log.error("send renren sysmessage is error fuid:" + fuid
 					+ " [error: " + e.getMessage() + "].");
 			return false;
 		}
-		return true;
 	}
 
 	@Override

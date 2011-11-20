@@ -8,6 +8,8 @@
 <script type="text/javascript" src="${jz:static('/js/core/validation.js')}"></script>
 <script type="text/javascript" src="${jz:static('/js/base/base.js')}"></script>
 <script type="text/javascript" src="${jz:static('/js/module/app_header.js')}"></script>
+<c:if test="${empty !context.tpName}"></c:if>
 <c:set value="/js/core/app/${context.tpName}/${context.tpName}.js" var="s"></c:set>
+<c:set value="/js/core/app/${context.tpName}/${context.tpName}_plugin.js" var="plugin"></c:set>
 <script type="text/javascript" src="${jz:static(s)}"></script>
-
+<script type="text/javascript" src="${jz:static(plugin)}"></script>

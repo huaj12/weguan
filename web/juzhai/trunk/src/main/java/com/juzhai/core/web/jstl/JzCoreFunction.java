@@ -134,8 +134,14 @@ public class JzCoreFunction {
 		}
 	}
 
-	public static void main(String[] args) {
-		Date date = DateUtils.addDays(new Date(), -3);
-		System.out.println(beforeDays(date));
+	/**
+	 * 获取appId
+	 * 
+	 * @param tpId
+	 * @return
+	 */
+	public static String appId(long tpId) {
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		return tp == null ? StringUtils.EMPTY : tp.getAppId();
 	}
 }

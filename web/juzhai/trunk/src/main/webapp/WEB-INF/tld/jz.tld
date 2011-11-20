@@ -86,4 +86,11 @@
     	<example>${jz:cityName(1)}</example>
     </function>
     
+    <function>
+    	<name>appId</name>
+    	<function-class>com.juzhai.core.web.jstl.JzCoreFunction</function-class>
+    	<function-signature>java.lang.String appId(long)</function-signature>
+    	<example>${jz:appId(1)}</example>
+    </function>
+    
 </taglib>

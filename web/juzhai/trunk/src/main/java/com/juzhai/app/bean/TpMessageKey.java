@@ -9,14 +9,13 @@ public class TpMessageKey {
 	public static final String FEED_WORD_DEFAULT = "feed.word.default";
 	public static final String FEED_WORD = "feed.word";
 	public static final String FEED_WORD_BACK = "feed.word.back";
-	
-	
+
 	public static final String FEED_LINKTEXT = "feed.linktext";
-	
+
 	public static final String RENREN_SEND_MESSAGE = "renren.send.message";
 	public static final String KAIXIN_SEND_MESSAGE = "kaixin.send.message";
-	
-	public static final String SYSNEW_DIALOG_TEXT="sysnew_dialog_text";
+
+	public static final String SYSNEW_DIALOG_TEXT = "sysnew_dialog_text";
 	public static final String INVITE_TEXT_DEFAULT = "invite.text.default";
 	public static final String INVITE_TEXT = "invite.text";
 	public static final String INVITE_FRIEND = "invite.friend";
@@ -26,5 +25,9 @@ public class TpMessageKey {
 	public static final String RECOMMEND_FRIEND_WORD = "recommend.friend.word";
 
 	public static final String QUESTION_LINKTEXT = "question.linktext";
+
+	public static final String RENREN_INVITE_ACCEPT_LABEL = "renren.invite.accept.label";
+	public static final String RENREN_INVITE_SEND_LABEL = "renren.invite.send.label";
+	public static final String RENREN_INVITE_ACTIONTEXT = "renren.invite.actiontext";
 
 }

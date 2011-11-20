@@ -25,7 +25,6 @@
 			</div><!--skin_body end-->
 			<div class="skin_bottom"></div>
 		</div><!--main end-->
-		<script type="text/javascript" src="${jz:static('/js/base/kaixin_plugin.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 	</body>
 </html>

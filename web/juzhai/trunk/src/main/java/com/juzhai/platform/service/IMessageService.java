@@ -24,7 +24,7 @@ public interface IMessageService {
 	 * @param authInfo
 	 * @return
 	 */
-	boolean sendMessage(String fuids, String content, AuthInfo authInfo);
+	boolean sendMessage(long sendId,String fuids, String content, AuthInfo authInfo,long actId,String link);
 	/**
 	 * 发送feed无弹筐
 	 * @param linktext

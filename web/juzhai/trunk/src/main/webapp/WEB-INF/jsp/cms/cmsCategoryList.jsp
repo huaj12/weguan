@@ -19,7 +19,7 @@
 				if (result && result.success) {
 					location.reload();
 				} else {
-					alert("删除失败");
+					alert(result.errorInfo);
 				}
 			});
 		}

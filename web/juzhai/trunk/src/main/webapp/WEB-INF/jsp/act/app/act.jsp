@@ -26,7 +26,7 @@
 									<div class="ytj" <c:if test="${!hasAct}">style="display:none;"</c:if>>
 										<p></p><span><em>已添加</em><strong>|</strong><a href="javascript:void(0);" actid="${act.id}" actname="${act.name}">取消</a></span><p></p>
 									</div>
-									<a href="javascript:void(0);" class="want btn" actid="${act.id}" <c:if test="${hasAct}">style="display:none;"</c:if> title="接收相关邀请">❤ 我想去</a><c:if test="${!isShield}"><a href="javascript:void(0);" class="zjl btn" actid="${act.id}">分享</a></c:if><a href="javascript:void(0);" class="yqhy btn" actid="${act.id}">邀请好友</a>
+									<a href="javascript:void(0);" class="want btn" actid="${act.id}" <c:if test="${hasAct}">style="display:none;"</c:if> title="接收相关邀请">❤ 我想去</a><c:if test="${!isShield}"><a href="javascript:void(0);" class="zjl btn" actid="${act.id}">分享</a></c:if><%--<a href="javascript:void(0);" class="yqhy btn" actid="${act.id}">邀请好友</a> --%>
 								</div><!--infor end-->
 								<div class="wantgolist"><!--wantgolist begin-->
 									<div class="title" actid="${act.id}" friendUser="${showFriendUser}"><!--title begin-->

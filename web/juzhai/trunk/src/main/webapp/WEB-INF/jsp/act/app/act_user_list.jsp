@@ -36,6 +36,6 @@
 	</div>
 </c:when>
 <c:otherwise>
-	<div class="item_none">这里没有人<br /><a href="javascript:void(0);" onclick="javascript:requestByName('${act.id}');">邀请好友加入</a></div>
+	<div class="item_none">这里没有人<br /><a href="javascript:void(0);" onclick="javascript:feed('${act.id}');">邀请好友加入</a></div>
 </c:otherwise>
 </c:choose>

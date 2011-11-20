@@ -13,6 +13,9 @@ public class TpMessageKey {
 	
 	public static final String FEED_LINKTEXT = "feed.linktext";
 	
+	public static final String RENREN_SEND_MESSAGE = "renren.send.message";
+	public static final String KAIXIN_SEND_MESSAGE = "kaixin.send.message";
+	
 	public static final String SYSNEW_DIALOG_TEXT="sysnew_dialog_text";
 	public static final String INVITE_TEXT_DEFAULT = "invite.text.default";
 	public static final String INVITE_TEXT = "invite.text";

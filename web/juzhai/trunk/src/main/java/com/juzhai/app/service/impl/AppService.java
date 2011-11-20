@@ -98,10 +98,6 @@ public class AppService implements IAppService {
 		return true;
 	}
 
-	@Override
-	public boolean sendMessage(String fuids, String word, AuthInfo authInfo) {
-		return messageService.sendMessage(fuids, word, authInfo);
-	}
 
 	@Override
 	public boolean sendFeed(long actId, long uid, long tpId) {
@@ -169,17 +165,9 @@ public class AppService implements IAppService {
 			}
 			Thirdparty tp = InitData.TP_MAP.get(tpId);
 			for (String fuid : fuids) {
-				String link = "";
-				if (actId > 0) {
-					link = "</br>" + "----来自拒宅器" + tp.getAppUrl()
-							+ "?goUri=/app/showAct/" + actId;
-				} else {
-					link = "</br>" + "----来自拒宅器" + tp.getAppUrl()
-							+ "?goUri=/app/" + fuid;
-				}
-				content = content + link;
-				messageService.sendMessage(fuid,
-						content, authInfo);
+				String link = tp.getAppUrl();
+				messageService.sendMessage(sendId,fuid,
+						content, authInfo,actId,link);
 			}
 		} catch (Exception e) {
 			log.error("aboutFriends is error.");

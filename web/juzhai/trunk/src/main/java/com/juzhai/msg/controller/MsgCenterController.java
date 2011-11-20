@@ -340,12 +340,11 @@ public class MsgCenterController extends BaseController {
 			if (!StringUtils.isEmpty(fids)) {
 				AuthInfo authInfo = tpUserAuthService.getAuthInfo(
 						context.getUid(), context.getTpId());
-				if (appService.sendMessage(fids, content, authInfo)) {
-					result.setSuccess(true);
-				} else {
-					result.setSuccess(false);
-				}
-				;
+//				if (appService.sendMessage(fids, content, authInfo)) {
+//					result.setSuccess(true);
+//				} else {
+//					result.setSuccess(false);
+//				}
 			} else {
 				result.setSuccess(false);
 			}

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="jz" uri="http://www.51juzhai.com/jsp/jstl/jz" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -12,12 +13,13 @@
 		<%String sessionKey=request.getParameter("xn_sig_session_key");
 		if(sessionKey==null){
 			%>
+			<c:set value="${context.tpId}" var="tpId"></c:set>
 			<script type="text/javascript" src="${jz:static('/js/core/renren-gc.js')}"></script>
 			 <script type="text/javascript">
 				  var uiOpts = {
 					  url : "http://graph.renren.com/oauth/authorize",
 					  display : "iframe",
-					  params : {"response_type":"token","client_id":"163941","scope":"publish_feed"},
+					  params : {"response_type":"token","client_id":"${jz:appId(s)}","scope":"publish_feed"},
 					  onSuccess: function(r){
 					    top.location = "http://apps.renren.com/juzhaiqi/";
 					  },

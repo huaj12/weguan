@@ -14,7 +14,6 @@
 		if(sessionKey==null){
 			%>
 			<c:set value="${context.tpId}" var="tpId"></c:set>
-			<script type="text/javascript" src="${jz:static('/js/core/renren-gc.js')}"></script>
 			 <script type="text/javascript">
 				  var uiOpts = {
 					  url : "http://graph.renren.com/oauth/authorize",

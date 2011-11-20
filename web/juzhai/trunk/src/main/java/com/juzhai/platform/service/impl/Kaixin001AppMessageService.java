@@ -2,6 +2,7 @@ package com.juzhai.platform.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import net.sf.json.JSONObject;
@@ -9,8 +10,11 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.platform.service.IMessageService;
 import com.juzhai.platform.utils.AppPlatformUtils;
@@ -18,7 +22,8 @@ import com.juzhai.platform.utils.AppPlatformUtils;
 @Service
 public class Kaixin001AppMessageService implements IMessageService {
 	private final Log log = LogFactory.getLog(getClass());
-
+	@Autowired
+	private MessageSource messageSource;
 	@Override
 	public boolean sendSysMessage(List<String> fuids, String linktext, String link,
 			String word, String text, String picurl, AuthInfo authInfo) {
@@ -57,16 +62,27 @@ public class Kaixin001AppMessageService implements IMessageService {
 	}
 
 	@Override
-	public boolean sendMessage(String fuids, String content, AuthInfo authInfo) {
+	public boolean sendMessage(long sendId,String fuids, String content, AuthInfo authInfo,long actId,String link) {
 		boolean flag = false;
 		try {
 			if(authInfo==null){
 				log.error("send  kaixin message authInfo is null ");
 				return false;
 			}
+			String text="";
+			if (actId > 0) {
+				text = messageSource.getMessage(TpMessageKey.KAIXIN_SEND_MESSAGE,
+						new Object[] { content,link+ "?goUri=/app/showAct/" + actId },
+						Locale.SIMPLIFIED_CHINESE);
+			} else {
+				text = messageSource.getMessage(TpMessageKey.KAIXIN_SEND_MESSAGE,
+						new Object[] { content,link
+						+ "?goUri=/app/" + fuids },
+						Locale.SIMPLIFIED_CHINESE);
+			}
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("fuids", fuids);
-			paramMap.put("content", content);
+			paramMap.put("content",text);
 			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
 					authInfo.getSessionKey());
 			String ret = AppPlatformUtils.doPost(

@@ -156,6 +156,7 @@ public class RenrenAppUserService extends AbstractUserService {
 	protected boolean checkAuthInfo(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
 		String queryString = request.getQueryString();
+		
 		String[] parms = queryString.split("&");
 		Map<String, String> map = new HashMap<String, String>();
 		String sig = "";
@@ -169,6 +170,9 @@ public class RenrenAppUserService extends AbstractUserService {
 				 value="";
 			}
 			if(key.indexOf("xn_sig_")!=-1){
+				if("xn_sig_ext_perm".equals(key)){
+					value=value.replaceAll("%2C",",");	
+				}
 				map.put(key.replaceAll("xn_sig_",""), value);
 			}else{
 				if("xn_sig".equals(key)){

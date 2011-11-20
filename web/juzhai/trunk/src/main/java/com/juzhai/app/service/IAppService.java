@@ -22,14 +22,6 @@ public interface IAppService {
 	boolean sendSysMessage(String fuids, long actId, String link, MsgType type,
 			AuthInfo authInfo);
 
-	/**
-	 * 发送短消息
-	 * 
-	 * @param fuids
-	 * @param Content
-	 * @return
-	 */
-	boolean sendMessage(String fuids, String word, AuthInfo authInfo);
 
 	/**
 	 * 约他短消息fuids上限30

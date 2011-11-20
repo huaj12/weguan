@@ -29,4 +29,10 @@ public interface IActCategoryService {
 	void updateCategoryActList();
 	
 	void deleteActCategory(long actId);
+	/**
+	 * 判断某分类下面是否有内容
+	 * @param catId
+	 * @return
+	 */
+	boolean isExistAct(long catId);
 }

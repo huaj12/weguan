@@ -27,8 +27,7 @@ import com.juzhai.act.service.ISynonymActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.msg.bean.MergerActMsg;
 
-@Controller
-@RequestMapping("/cms")
+@Deprecated
 public class MigrateActController {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
@@ -52,7 +51,7 @@ public class MigrateActController {
 	@Autowired
 	private RedisTemplate<String, MergerActMsg> redisMergerActMsgTemplate;
 
-	@RequestMapping(value = "migrateAct")
+	@Deprecated
 	public String migrateAct() {
 		Set<String> synonymKeys = redisTemplate.keys("*synonym");
 		// migrateSynonym(synonymKeys);

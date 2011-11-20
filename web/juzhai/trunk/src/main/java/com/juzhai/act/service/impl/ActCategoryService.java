@@ -94,4 +94,15 @@ public class ActCategoryService implements IActCategoryService {
 		example.createCriteria().andActIdEqualTo(actId);
 		actCategoryMapper.deleteByExample(example);
 	}
+
+	@Override
+	public boolean isExistAct(long catId) {
+		ActCategoryExample example = new ActCategoryExample();
+		example.createCriteria().andCategoryIdEqualTo(catId);
+		if (actCategoryMapper.countByExample(example) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

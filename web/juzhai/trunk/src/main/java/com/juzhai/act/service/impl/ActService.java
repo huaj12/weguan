@@ -510,6 +510,20 @@ public class ActService implements IActService {
 		actMapper.updateByPrimaryKey(act);
 		updateActCategory(act.getId(), categoryIds);
 		clearActCache(act.getId());
+		if (null != act) {
+			// // 加载Act
+			// actInitData.loadAct(act);
+			if (log.isDebugEnabled()) {
+				log.debug("load new act to InitData");
+			}
+			// add 索引
+			ActIndexMessage msgMessage = new ActIndexMessage();
+			msgMessage.buildBody(act).buildActionType(ActionType.UPDATE);
+			actIndexCreateRabbitTemplate.convertAndSend(msgMessage);
+			if (log.isDebugEnabled()) {
+				log.debug("send act index update message");
+			}
+		}
 	}
 
 }

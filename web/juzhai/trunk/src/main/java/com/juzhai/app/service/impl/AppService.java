@@ -10,13 +10,17 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.Question;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.app.service.IAppService;
+import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.jstl.JzCoreFunction;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.passport.InitData;
@@ -38,6 +42,8 @@ public class AppService implements IAppService {
 	private IActService actService;
 	@Autowired
 	private IUserActService userActService;
+	@Autowired
+	private RedisTemplate<String, String> stringRedisTemplate;
 	@Value("${show.feed.count}")
 	private int feedCount = 3;
 	private final Log log = LogFactory.getLog(getClass());
@@ -123,8 +129,14 @@ public class AppService implements IAppService {
 					TpMessageKey.FEED_TEXT_COUNT_DEFAULT,
 					new Object[] { act.getName() }, Locale.SIMPLIFIED_CHINESE);
 		}
-		String word = messageSource.getMessage(TpMessageKey.FEED_WORD_BACK,
-				null, Locale.SIMPLIFIED_CHINESE);
+		String word = "";
+		if(StringUtils.isNotEmpty(act.getIntro())){
+			word=TextTruncateUtil.truncate(act.getIntro(), 100, "...") ;
+		}else{
+			word=messageSource.getMessage(TpMessageKey.FEED_WORD_BACK,
+					null, Locale.SIMPLIFIED_CHINESE);
+		}
+		
 		String linktext = messageSource.getMessage(TpMessageKey.FEED_LINKTEXT,
 				null, Locale.SIMPLIFIED_CHINESE);
 		String link = tp.getAppUrl() + "?goUri=/app/showAct/" + actId;
@@ -141,11 +153,7 @@ public class AppService implements IAppService {
 				return false;
 			}
 			if (fuids.size() > 30) {
-				for (int i = 0; i < fuids.size(); i++) {
-					if (i >= 30) {
-						fuids.remove(i);
-					}
-				}
+				fuids=fuids.subList(0, 30);
 			}
 			if (StringUtils.isEmpty(content)) {
 				content = "";
@@ -170,7 +178,7 @@ public class AppService implements IAppService {
 							+ "?goUri=/app/" + fuid;
 				}
 				content = content + link;
-				messageService.sendMessage(StringUtils.join(fuids, ","),
+				messageService.sendMessage(fuid,
 						content, authInfo);
 			}
 		} catch (Exception e) {
@@ -178,5 +186,63 @@ public class AppService implements IAppService {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void answer(long uid, long tpId, long questionId, String identity,
+			int answer) {
+		if (sendQuestionMssage(uid, tpId, questionId, identity, answer)) {
+			String key = RedisKeyGenerator.genQuestionUsersKey(uid);
+			stringRedisTemplate.opsForSet().add(key, identity);
+			stringRedisTemplate.opsForSet().add(
+					RedisKeyGenerator.genQuestionUserKeysKey(), key);
+			// accountService.profitPoint(uid, ProfitAction.ANSWER_QUESTION);
+		}
+		
+	}
+	
+	private boolean sendQuestionMssage(long uid, long tpId, long questionId,
+			String identity, int answer) {
+		Question question = com.juzhai.act.InitData.QUESTION_MAP.get(questionId);
+		if (null == question) {
+			return false;
+		}
+		String[] answers = StringUtils.split(question.getAnswer(), "|");
+		if (answer <= 0 || answer > answers.length) {
+			return false;
+		}
+		if (question.getType() == 1 && answer == 2) {
+			// 是非题选择了no
+			return false;
+		}
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		if (null != authInfo) {
+			if (StringUtils.isNotEmpty(question.getInviteText())) {
+				String text = question.getInviteText();
+				String word = question.getInviteWord().replace("{0}",
+						answers[answer - 1]);
+				if (StringUtils.isNotEmpty(text)) {
+					List<String> fuids = new ArrayList<String>();
+					fuids.add(identity);
+					String linktext = getContent(
+							TpMessageKey.QUESTION_LINKTEXT, null);
+					Thirdparty tp = com.juzhai.passport.InitData.TP_MAP
+							.get(tpId);
+					if (null == tp) {
+						return false;
+					}
+					// TODO
+					messageService.sendSysMessage(fuids, linktext,
+							tp.getAppUrl(), word, text, StringUtils.EMPTY,
+							authInfo);
+				}
+			}
+		}
+		return true;
+	}
+	
+	private String getContent(String code, Object[] args) {
+		return messageSource.getMessage(code, args, StringUtils.EMPTY,
+				Locale.SIMPLIFIED_CHINESE);
 	}
 }

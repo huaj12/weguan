@@ -51,5 +51,15 @@ public interface IAppService {
 	 * @return
 	 */
 	boolean sendFeed(long actId, long uid, long tpId);
+	/**
+	 * 用户做题
+	 * @param uid
+	 * @param tpId
+	 * @param questionId
+	 * @param identity
+	 * @param answer
+	 */
+	void answer (long uid, long tpId, long questionId, String identity,
+			int answer);
 
 }

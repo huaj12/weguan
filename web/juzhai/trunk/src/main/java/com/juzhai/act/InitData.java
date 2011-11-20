@@ -204,6 +204,7 @@ public class InitData {
 
 	private void initCategoryMap() {
 		CategoryExample example = new CategoryExample();
+		example.createCriteria().andSequenceNotEqualTo(0);
 		example.setOrderByClause("sequence asc,id asc");
 		List<Category> list = categoryMapper.selectByExample(example);
 		CATEGORY_MAP.clear();

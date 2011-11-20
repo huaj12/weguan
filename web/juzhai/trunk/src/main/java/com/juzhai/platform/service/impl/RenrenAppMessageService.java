@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.platform.service.IMessageService;
 import com.juzhai.platform.utils.AppPlatformUtils;
@@ -57,7 +58,7 @@ public class RenrenAppMessageService implements IMessageService {
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("method", "message.send");
 			paramMap.put("uid", fuid);
-			paramMap.put("title", "");
+			paramMap.put("title", TextTruncateUtil.truncate(content,15,""));
 			paramMap.put("content", content);
 			String query = AppPlatformUtils.buildQuery(paramMap,
 					authInfo.getAppKey(), authInfo.getAppSecret(),

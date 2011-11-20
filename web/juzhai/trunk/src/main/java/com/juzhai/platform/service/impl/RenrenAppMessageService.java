@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,26 +48,24 @@ public class RenrenAppMessageService implements IMessageService {
 	}
 
 	@Override
-	public boolean sendMessage(String fuids, String content, AuthInfo authInfo) {
+	public boolean sendMessage(String fuid, String content, AuthInfo authInfo) {
 		try {
-			if (StringUtils.isEmpty(fuids)) {
+			if (StringUtils.isEmpty(fuid)) {
 				return false;
 			}
-			//人人不支持发送多个循环发送
-			for (String fuid : fuids.split(",")) {
-				Map<String, String> paramMap = new HashMap<String, String>();
-				paramMap.put("method", "message.send");
-				paramMap.put("uid", fuid);
-				paramMap.put("title", "");
-				paramMap.put("content", content);
-				String query = AppPlatformUtils.buildQuery(paramMap,
-						authInfo.getAppKey(), authInfo.getAppSecret(),
-						authInfo.getSessionKey(), "1.0");
-				AppPlatformUtils.doPost(
-						"http://api.renren.com/restserver.do", query);
-			}
+
+			Map<String, String> paramMap = new HashMap<String, String>();
+			paramMap.put("method", "message.send");
+			paramMap.put("uid", fuid);
+			paramMap.put("title", "");
+			paramMap.put("content", content);
+			String query = AppPlatformUtils.buildQuery(paramMap,
+					authInfo.getAppKey(), authInfo.getAppSecret(),
+					authInfo.getSessionKey(), "1.0");
+			AppPlatformUtils.doPost("http://api.renren.com/restserver.do",
+					query);
 		} catch (Exception e) {
-			log.error("send renren sysmessage is error fuids:" + fuids
+			log.error("send renren sysmessage is error fuid:" + fuid
 					+ " [error: " + e.getMessage() + "].");
 			return false;
 		}
@@ -75,8 +75,35 @@ public class RenrenAppMessageService implements IMessageService {
 	@Override
 	public boolean sendFeed(String linktext, String link, String word,
 			String text, String picurl, AuthInfo authInfo) {
-		// TODO Auto-generated method stub
-		return false;
+		try{
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("method", "feed.publishFeed");
+		paramMap.put("name", "拒宅器");
+		paramMap.put("description", word);
+		paramMap.put("url", link);
+		paramMap.put("image", picurl);
+		paramMap.put("caption", "");
+		paramMap.put("action_name ", linktext);
+		paramMap.put("action_link", link);
+		paramMap.put("message", text);
+		paramMap.put("format", "JSON");
+		String query = AppPlatformUtils.buildQuery(paramMap,
+				authInfo.getAppKey(), authInfo.getAppSecret(),
+				authInfo.getSessionKey(), "1.0");
+		String ret=AppPlatformUtils.doPost("http://api.renren.com/restserver.do",
+				query);
+		JSONObject jObject = JSONObject.fromObject(ret);
+		if (StringUtils.isNotEmpty(jObject.getString("post_id"))) {
+			return  true;
+		} else {
+			log.error("send renren sendFeed is error. reg:"+ret);
+			return false;
+		}
+		}catch (Exception e) {
+			log.error("send renren sendFeed is error "
+					+ " [error: " + e.getMessage() + "].");
+			return false;
+		}
 	}
 
 }

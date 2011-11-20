@@ -20,6 +20,7 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -39,6 +40,7 @@ import com.juzhai.act.model.SynonymAct;
 import com.juzhai.act.model.SynonymActExample;
 import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IActService;
+import com.juzhai.core.util.JackSonSerializer;
 
 @Component("actInitData")
 public class InitData {
@@ -50,8 +52,8 @@ public class InitData {
 	// Act>();
 	public static final Map<Long, Category> CATEGORY_MAP = new LinkedHashMap<Long, Category>();
 	public static final Map<Long, List<Act>> CATEGORY_ACT_LIST_MAP = new HashMap<Long, List<Act>>();
-	public static final Map<Long, Set<Long>> RECOMMEND_ACT_MAP = new HashMap<Long, Set<Long>>();
-	public static final Map<Long, Integer> RECOMMEND_CATEGORY_RATE_MAP = new LinkedHashMap<Long, Integer>();
+	public static final Map<String, Map<Long, Set<Long>>> TP_RECOMMEND_ACT_MAP = new HashMap<String, Map<Long, Set<Long>>>();
+	public static final Map<String, Map<Long, Integer>> RECOMMEND_CATEGORY_RATE_MAP = new HashMap<String, Map<Long, Integer>>();
 	// 指向词
 	public static Map<String, Long> SYNONYM_ACT = new HashMap<String, Long>();
 	/**
@@ -83,7 +85,7 @@ public class InitData {
 	private String recommendCategoryRates;
 
 	@PostConstruct
-	public void init() {
+	public void init() throws JsonGenerationException {
 		// initActMap();
 		// 分类
 		initCategoryMap();
@@ -105,21 +107,39 @@ public class InitData {
 		}
 	}
 
-	private void initRecommendCategoryRateMap() {
-		StringTokenizer st = new StringTokenizer(recommendCategoryRates, "|");
-		int rate = 0;
-		while (st.hasMoreTokens()) {
-			String[] categoryRate = StringUtils.split(st.nextToken(), ":");
-			if (categoryRate.length == 2) {
-				try {
-					rate += Integer.valueOf(categoryRate[1]);
-					RECOMMEND_CATEGORY_RATE_MAP.put(
-							Long.valueOf(categoryRate[0]), rate);
-				} catch (NumberFormatException e) {
-					log.error(e.getMessage(), e);
-				}
+	private void initRecommendCategoryRateMap() throws JsonGenerationException {
+		Map<String, Map<String, Integer>> rateMap = JackSonSerializer
+				.toMap(recommendCategoryRates);
+		for (Map.Entry<String, Map<String, Integer>> entry : rateMap.entrySet()) {
+			String key = entry.getKey();
+			Map<Long, Integer> value = RECOMMEND_CATEGORY_RATE_MAP.get(key);
+			if (value == null) {
+				value = new LinkedHashMap<Long, Integer>();
+				RECOMMEND_CATEGORY_RATE_MAP.put(key, value);
+			}
+			int rate = 0;
+			for (Map.Entry<String, Integer> entry2 : entry.getValue()
+					.entrySet()) {
+				rate += entry2.getValue();
+				value.put(Long.valueOf(entry2.getKey()), rate);
 			}
 		}
+
+		// StringTokenizer st = new StringTokenizer(recommendCategoryRates,
+		// "|");
+		// int rate = 0;
+		// while (st.hasMoreTokens()) {
+		// String[] categoryRate = StringUtils.split(st.nextToken(), ":");
+		// if (categoryRate.length == 2) {
+		// try {
+		// rate += Integer.valueOf(categoryRate[1]);
+		// RECOMMEND_CATEGORY_RATE_MAP.put(
+		// Long.valueOf(categoryRate[0]), rate);
+		// } catch (NumberFormatException e) {
+		// log.error(e.getMessage(), e);
+		// }
+		// }
+		// }
 	}
 
 	private void initRecommendActMap() {
@@ -142,15 +162,25 @@ public class InitData {
 				while (st.hasMoreTokens()) {
 					try {
 						long actCategoryId = Long.valueOf(st.nextToken());
-						if (RECOMMEND_CATEGORY_RATE_MAP
-								.containsKey(actCategoryId)) {
-							Set<Long> actIdSet = RECOMMEND_ACT_MAP
-									.get(actCategoryId);
-							if (null == actIdSet) {
-								actIdSet = new HashSet<Long>();
-								RECOMMEND_ACT_MAP.put(actCategoryId, actIdSet);
+						for (Map.Entry<String, Map<Long, Integer>> entry : RECOMMEND_CATEGORY_RATE_MAP
+								.entrySet()) {
+							Map<Long, Set<Long>> recommendActMap = TP_RECOMMEND_ACT_MAP
+									.get(entry.getKey());
+							if (null == recommendActMap) {
+								recommendActMap = new HashMap<Long, Set<Long>>();
+								TP_RECOMMEND_ACT_MAP.put(entry.getKey(),
+										recommendActMap);
 							}
-							actIdSet.add(act.getId());
+							if (entry.getValue().containsKey(actCategoryId)) {
+								Set<Long> actIdSet = recommendActMap
+										.get(actCategoryId);
+								if (null == actIdSet) {
+									actIdSet = new HashSet<Long>();
+									recommendActMap
+											.put(actCategoryId, actIdSet);
+								}
+								actIdSet.add(act.getId());
+							}
 						}
 					} catch (Exception e) {
 						log.error(e.getMessage(), e);

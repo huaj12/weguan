@@ -1,7 +1,13 @@
 $(document).ready(function(){
+	var url;
+	if($(".judge")){
+		url = "/app/ajax/showJudge";
+	} else {
+		url = "/app/ajax/showFeed";
+	}
 	//load feed
 	jQuery.ajax({
-		url: "/app/ajax/showFeed",
+		url: url,
 		type: "get",
 		cache : false,
 		dataType: "html",
@@ -104,7 +110,7 @@ function skipInvite(){
 function respQuestion(questionId, answerId, tpIdentity){
 	if(questionId >= 0 && answerId >= 0 &&
 			tpIdentity && tpIdentity != ""){
-		dealFeed("/app/ajax/respQuestion", {"questionId": questionId, "tpIdentity": tpIdentity, "answerId": answerId});
+		dealFeed("/app/ajax/respJudge", {"questionId": questionId, "tpIdentity": tpIdentity, "answerId": answerId});
 	}
 }
 

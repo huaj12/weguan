@@ -14,7 +14,7 @@
 			<c:set var="page" value="home" scope="request"/>
 			<jsp:include page="/WEB-INF/jsp/common/app/app_header.jsp" />
 			<div class="skin_body"><!--skin_body begin-->
-				<div class="skin_top_bg"><!--content_bg begin-->
+				<div class="skin_top_bg judge"><!--content_bg begin-->
 					<div class="content white" style="display:none;"><!--content begin-->
 					</div><!--content end-->
 					<div class="loading_home"><!--loading_home begin-->
@@ -24,12 +24,6 @@
 						</div><!--mid end-->
 						<div class="bot"></div>
 					</div><!--loading_home end-->
-					<c:if test="${context.tpName == 'kaixin001'}">
-						<div class="check_box tz <c:choose><c:when test="${isAdvise==null||isAdvise}">tz_secleted</c:when><c:otherwise>tz_link</c:otherwise></c:choose>">
-							<p></p>
-							<span>将我想去的分享给好友</span>
-						</div>
-					</c:if>
 				</div><!--content_bg end-->
 			</div><!--skin_body end-->
 			<div class="skin_bottom"></div>

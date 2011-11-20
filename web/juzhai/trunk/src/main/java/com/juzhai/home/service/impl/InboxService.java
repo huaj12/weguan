@@ -42,9 +42,11 @@ import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.service.IMessageService;
 
 @Service
@@ -73,6 +75,8 @@ public class InboxService implements IInboxService {
 	private IActService actService;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
+	@Autowired
+	private ITpUserService tpUserService;
 	@Autowired
 	private IMessageService messageService;
 	@Autowired
@@ -298,6 +302,16 @@ public class InboxService implements IInboxService {
 
 	@Override
 	public Feed showRecommend(long uid) {
+		TpUser tpUser = tpUserService.getTpUserByUid(uid);
+		String tpName = tpUser == null ? StringUtils.EMPTY : tpUser.getTpName();
+		Map<Long, Integer> rateMap = InitData.RECOMMEND_CATEGORY_RATE_MAP
+				.get(tpName);
+		Map<Long, Set<Long>> recommendActMap = InitData.TP_RECOMMEND_ACT_MAP
+				.get(tpName);
+		if (null == rateMap || null == recommendActMap) {
+			return null;
+		}
+
 		// 需要排除的
 		Set<Long> excludeActIds = redisTemplate.opsForSet().members(
 				RedisKeyGenerator.genNillActsKey(uid));
@@ -308,8 +322,8 @@ public class InboxService implements IInboxService {
 		// 准备需要随机的推荐Act
 		List<Act> defaultActList = null;
 		Map<Long, List<Act>> recommendMap = new HashMap<Long, List<Act>>();
-		for (Long key : InitData.RECOMMEND_CATEGORY_RATE_MAP.keySet()) {
-			Set<Long> recommendActIds = InitData.RECOMMEND_ACT_MAP.get(key);
+		for (Long key : rateMap.keySet()) {
+			Set<Long> recommendActIds = recommendActMap.get(key);
 			List<Long> actIds = recommendActIds == null ? new ArrayList<Long>()
 					: new ArrayList<Long>(recommendActIds);
 			for (long excludeActId : excludeActIds) {
@@ -323,7 +337,7 @@ public class InboxService implements IInboxService {
 			recommendMap.put(key, actList);
 		}
 		if (CollectionUtils.isNotEmpty(defaultActList)) {
-			for (Long key : InitData.RECOMMEND_CATEGORY_RATE_MAP.keySet()) {
+			for (Long key : rateMap.keySet()) {
 				if (CollectionUtils.isEmpty(recommendMap.get(key))) {
 					recommendMap.put(key, defaultActList);
 				}
@@ -332,8 +346,7 @@ public class InboxService implements IInboxService {
 		// 按照概率来随
 		Act act = null;
 		int randomValue = RandomUtils.nextInt(100);
-		for (Map.Entry<Long, Integer> entry : InitData.RECOMMEND_CATEGORY_RATE_MAP
-				.entrySet()) {
+		for (Map.Entry<Long, Integer> entry : rateMap.entrySet()) {
 			List<Act> recommendList = recommendMap.get(entry.getKey());
 			if (randomValue < entry.getValue()) {
 				if (CollectionUtils.isNotEmpty(recommendList)) {

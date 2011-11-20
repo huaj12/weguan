@@ -6,10 +6,10 @@ function sendUI(params,url){
 		  style : {
 			  top:100,
 			  left:75,
-			  width:650,
-			  height:520					  
+			  width:450,
+			  height:420					  
 		  },
-		  params : params,
+		  params : JSON.decode(params),
 		  onComplete : function(response){
 			  if(window.console) 
 				  console.log("complete: "+response);
@@ -28,12 +28,21 @@ function sendUI(params,url){
 	  };
 	   Renren.ui(uiOpts);
   }
-function feed(name){
+function feed(id){
 	jQuery.get('/renrenFeed', {
-		name : name,
+		id: id,
 		random : Math.random()
 	}, function(data) {
 		sendUI(data,'feed');
 	});
 	
+}
+
+function request(id) {
+	jQuery.get('/renrenRequest', {
+		id : id,
+		random : Math.random()
+	}, function(data) {
+		sendUI(data,'request');
+	});
 }

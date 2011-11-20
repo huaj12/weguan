@@ -18,7 +18,7 @@
 						<div class="top"></div>
 						<div class="mid"><!--mid begin-->
 							<div class="project_sub"><!--project_sub begin-->
-								<div class="back_to_home"><a href="/app/showCategoryActs">发现更多&gt;&gt;</a></div>
+								<div class="back_to_home"><a href="javascript:history.go(-1)">返回上一页</a></div>
 								<div class="photo fl"><img src="${jz:actLogo(act.id,act.logo,120)}" /></div>
 								<div class="infor fl"><!--infor begin-->
 									<h2><c:out value="${act.name}" /></h2>

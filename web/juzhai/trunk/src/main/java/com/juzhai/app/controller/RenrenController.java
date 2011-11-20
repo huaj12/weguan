@@ -20,12 +20,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
+import com.juzhai.act.service.IUserActService;
+import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
+import com.juzhai.core.web.jstl.JzCoreFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.service.IMsgMessageService;
@@ -49,39 +53,56 @@ public class RenrenController extends BaseController {
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
-	private IMsgService<ActMsg> msgService;
-	@Autowired
-	private IAccountService accountService;
-	@Value("${renren.feed.redirect.uri}")
-	private String feedRedirectUri;
-	@Value("${renren.request.redirect.uri}")
-	private String reuqestRedirectUri;
+	private IUserActService userActService;
+	@Value("${show.feed.count}")
+	private int feedCount = 3;
 
 	@RequestMapping(value = { "/renrenFeed" }, method = RequestMethod.GET)
 	public String kaixinFeed(HttpServletRequest request,
-			HttpServletResponse response, Model model, String name) {
+			HttpServletResponse response, Model model,
+			@RequestParam(defaultValue = "0") long id) {
 		PrintWriter out = null;
 
 		try {
 			UserContext context = checkLoginForApp(request);
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
-			String action_link = "http://apps.renren.com/juzhaiqi/";
-			String title = "发布了拒宅召集令";
-			String action_name = "立即查看";
-			String description="";
-		    if(StringUtils.isEmpty(name)){
-		    	description ="我最近不想对着电脑发呆了；谁想陪我出去玩?";
-		    }else{
-		    	description = "我最近想去【" + name + "】;有人响应吗？";
-		    }
-		
-			String image = "";
-			// String redirect_uri="http://apps.renren.com/juzhaiqi/";
+			String action_link = tp.getAppUrl();
+			String title = "拒宅器";
+			String action_name = messageSource
+					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
+							Locale.SIMPLIFIED_CHINESE);
+			String description = "";
+			Act act = actService.getActById(id);
+			if (act == null) {
+				description = messageSource.getMessage(
+						TpMessageKey.FEED_TEXT_DEFAULT, null,
+						Locale.SIMPLIFIED_CHINESE);
+			} else {
+				int count = userActService.countUserActByActId(
+						context.getTpId(), id);
+				if (count > feedCount) {
+					description = messageSource.getMessage(
+							TpMessageKey.FEED_TEXT,
+							new Object[] { act.getName(), count - 1 },
+							Locale.SIMPLIFIED_CHINESE);
+				} else {
+					description = messageSource.getMessage(
+							TpMessageKey.FEED_TEXT_COUNT_DEFAULT,
+							new Object[] { act.getName() },
+							Locale.SIMPLIFIED_CHINESE);
+				}
+			}
+			String logo = "";
+			if (act != null) {
+				logo = act.getLogo();
+			}
+			String picurl = JzCoreFunction.actLogo(id, logo, 120);
 			response.setContentType("text/plain");
 			out = response.getWriter();
-			out.println("{'url':'" + action_link + "','name':'" + title
-					+ "','action_name':'" + action_name + "','action_link':'"
-					+ action_link + "','description':'" + description + "'}");
+			out.println("{'image':'" + picurl + "','url':'" + action_link
+					+ "','name':'" + title + "','action_name':'" + action_name
+					+ "','action_link':'" + action_link + "','description':'"
+					+ description + "'}");
 		} catch (Exception e) {
 			log.error("renren send feed is error", e);
 		} finally {
@@ -94,35 +115,45 @@ public class RenrenController extends BaseController {
 
 	@RequestMapping(value = { "/renrenRequest" }, method = RequestMethod.GET)
 	public String renrenRequest(HttpServletRequest request,
-			HttpServletResponse response, Model model, String name) {
+			HttpServletResponse response, Model model,
+			@RequestParam(defaultValue = "0") long id) {
 		PrintWriter out = null;
 
 		try {
 			UserContext context = checkLoginForApp(request);
-			Act act = actService.getActByName(name);
+
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
-			String accept_url=tp.getAppUrl();
-			String accept_label="立即查看";
-			String actiontext="拒宅邀请";
-			String selector_mode="";
-			String app_msg="";
-			String callBack="";
-			if(StringUtils.isEmpty(name)){
-			    selector_mode="naf";
-				app_msg="还在对着电脑发呆吧；快来拒宅器看看好友们最近都有什么出去玩的计划吧。";	
-			}else{
-				selector_mode="all";
-				app_msg="最近有空么？一起出去玩吧。";
-				callBack=",'redirect_uri':'"+SystemConfig
-				.getDomain(tp == null ? null : tp.getName())+reuqestRedirectUri+"?name="
-				+ act.getId()
-				+ "&tpId="
-				+ context.getTpId()+"'";
+			String accept_url = tp.getAppUrl();
+			String accept_label = messageSource.getMessage(
+					TpMessageKey.RENREN_INVITE_ACCEPT_LABEL, null,
+					Locale.SIMPLIFIED_CHINESE);
+			String actiontext = messageSource.getMessage(
+					TpMessageKey.RENREN_INVITE_ACTIONTEXT, null,
+					Locale.SIMPLIFIED_CHINESE);
+			String send_btn_label = messageSource.getMessage(
+					TpMessageKey.RENREN_INVITE_SEND_LABEL, null,
+					Locale.SIMPLIFIED_CHINESE);
+			String selector_mode = "";
+			String app_msg = "";
+			Act act = actService.getActById(id);
+			if (act == null) {
+				selector_mode = "naf";
+				app_msg = messageSource.getMessage(
+						TpMessageKey.INVITE_TEXT_DEFAULT, null,
+						Locale.SIMPLIFIED_CHINESE);
+			} else {
+				selector_mode = "all";
+				app_msg = messageSource.getMessage(TpMessageKey.INVITE_TEXT,
+						new Object[] { act.getName() },
+						Locale.SIMPLIFIED_CHINESE);
 			}
-			String send_btn_label="发送邀请";
 			response.setContentType("text/plain");
 			out = response.getWriter();
-			out.println("{'accept_url':'"+accept_url+"','accept_label':'"+accept_label+"','actiontext':'"+actiontext+"','app_msg':'"+app_msg+"','selector_mode':'"+selector_mode+"','send_btn_label':'"+send_btn_label+"','selector_mode':'"+selector_mode+"'"+callBack+"}");
+			out.println("{'accept_url':'" + accept_url + "','accept_label':'"
+					+ accept_label + "','actiontext':'" + actiontext
+					+ "','app_msg':'" + app_msg + "','selector_mode':'"
+					+ selector_mode + "','send_btn_label':'" + send_btn_label
+					+ "','selector_mode':'" + selector_mode + "'}");
 		} catch (Exception e) {
 			log.error("kaixin send feed is error", e);
 		} finally {
@@ -130,13 +161,6 @@ public class RenrenController extends BaseController {
 				out.close();
 			}
 		}
-		return null;
-	}
-
-	@RequestMapping(value = "renrenRequestCallBack")
-	public String dialogSysnewsCallBack(HttpServletRequest request,
-			Model model) {
-		String queryString = request.getQueryString();
 		return null;
 	}
 

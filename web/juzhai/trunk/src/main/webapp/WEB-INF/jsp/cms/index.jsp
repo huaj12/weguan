@@ -118,6 +118,9 @@ a:hover {
 				<a href="/cms/showSynonymActs" target="config">指向词管理</a>
 			</li>
 			<li>
+				<a href="/cms/cmsShowCategoryList" target="config">类别管理</a>
+			</li>
+			<li>
 				<a href="/cms/showHotAct?active=true&page=1" target="config">推荐项目设置</a>
 			</li>
 			<li>

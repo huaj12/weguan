@@ -3,6 +3,7 @@ package com.renren.api.client.services.impl;
 import java.util.TreeMap;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import com.renren.api.client.RenrenApiInvoker;
 import com.renren.api.client.services.UserService;
@@ -46,5 +47,13 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
         return this.getResultBoolean(params);
     }
+
+	public JSONObject getProfileInfo(String userId, String fields) {
+		 TreeMap<String, String> params = new TreeMap<String, String>();
+	        params.put("method", "users.getProfileInfo");
+	        params.put("uid", userId);
+	        params.put("fields", fields);
+	        return this.getResultJSONObject(params);
+	}
 
 }

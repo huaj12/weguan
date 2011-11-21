@@ -14,7 +14,7 @@
 				  var uiOpts = {
 					  url : "http://graph.renren.com/oauth/authorize",
 					  display : "iframe",
-					  params : {"response_type":"token","client_id":"${jz:appId('tp.id')}","scope":"publish_feed"},
+					  params : {"response_type":"token","client_id":"${jz:appId(tp.id)}","scope":"publish_feed"},
 					  onSuccess: function(r){
 					    top.location = "http://apps.renren.com/juzhaiqi/";
 					  },

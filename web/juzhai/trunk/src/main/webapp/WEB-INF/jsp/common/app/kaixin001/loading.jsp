@@ -5,7 +5,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>loading...</title>
-		<link href="${jz:static('/css/jz.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:static('/css/jz_v2.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<jsp:include page="/WEB-INF/jsp/common/app/app_kaixin001_top_logo.jsp" />

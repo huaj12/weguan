@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,9 +19,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
-import kx4j.KxException;
-import kx4j.KxSDK;
-import kx4j.User;
 
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.InitData;
@@ -52,15 +48,17 @@ public class RenrenAppUserService extends AbstractUserService {
 			List<String> fuids = new ArrayList<String>(array.size());
 			for (Object o : array) {
 				JSONObject object = (JSONObject) o;
-				fuids.add(String.valueOf((Long) object.get("id")));
+				fuids.add(String.valueOf(object.get("id")));
 			}
 			JSONArray fArray = client.getUserService().getInfo(
 					StringUtils.join(fuids, ","),
-					"uid,name,sex,birthday,hometown_location,headurl");
+					"uid,name,sex,birthday,headurl");
 			for (Object fInfo : fArray) {
 				TpFriend tpFriend = new TpFriend();
 				JSONObject info = (JSONObject) fInfo;
-				tpFriend.setUserId(String.valueOf((Long) info.get("id")));
+				String uid=String.valueOf(info.get("uid"));
+				JSONObject cityObj=client.getUserService().getProfileInfo(String.valueOf(uid),"network_name");
+				tpFriend.setUserId(uid);
 				tpFriend.setName((String) info.get("name"));
 				tpFriend.setGender(((Long) info.get("sex")).intValue());
 				tpFriend.setLogoUrl((String) info.get("headurl"));
@@ -76,9 +74,8 @@ public class RenrenAppUserService extends AbstractUserService {
 						log.error("parse birthday error.", e);
 					}
 				}
-				JSONObject hometown = (JSONObject) info
-						.get("hometown_location");
-				tpFriend.setCity((String) hometown.get("city"));
+				String cityName = (String) cityObj.get("network_name");
+				tpFriend.setCity(cityName);
 			}
 			if (array.size() < 500) {
 				break;
@@ -95,7 +92,7 @@ public class RenrenAppUserService extends AbstractUserService {
 		List<String> friendIdList = new ArrayList<String>(array.size());
 		for (Object o : array) {
 			JSONObject object = (JSONObject) o;
-			friendIdList.add(String.valueOf((Long) object.get("uid")));
+			friendIdList.add(String.valueOf(object.get("uid")));
 		}
 		return friendIdList;
 	}
@@ -111,6 +108,7 @@ public class RenrenAppUserService extends AbstractUserService {
 				"headurl" };
 		JSONArray array = client.getUserService().getInfo(String.valueOf(uid),
 				StringUtils.join(fields, ","));
+		JSONObject cityObj=client.getUserService().getProfileInfo(String.valueOf(uid),"network_name");
 		JSONObject object = (JSONObject) array.get(0);
 		JSONObject hometown = (JSONObject) object.get("hometown_location");
 		String name = (String) object.get("name");
@@ -124,7 +122,7 @@ public class RenrenAppUserService extends AbstractUserService {
 		profile.setGender(sex.intValue());
 		profile.setLogoPic(headurl);
 		profile.setHome(home);
-		String cityName = (String) hometown.get("city");
+		String cityName = (String) cityObj.get("network_name");
 		City city = InitData.getCityByName(cityName);
 		if (null != city) {
 			profile.setCity(city.getId());

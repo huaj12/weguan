@@ -11,6 +11,7 @@
 		
 	</head>
 	<body>
+		<jsp:include page="/WEB-INF/jsp/common/app/app_${context.tpName}_top_logo.jsp" />
 		<div class="main"><!--main begin-->
 			<div class="skin_top_new"></div>
 			<div class="skin_body">

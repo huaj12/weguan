@@ -27,9 +27,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.juzhai.core.util.JackSonSerializer;
+import com.juzhai.passport.InitData;
 import com.juzhai.passport.mapper.CityMapper;
+import com.juzhai.passport.mapper.CityMappingMapper;
 import com.juzhai.passport.mapper.ProvinceMapper;
 import com.juzhai.passport.model.City;
+import com.juzhai.passport.model.CityMapping;
 import com.juzhai.passport.model.Province;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -40,6 +43,8 @@ public class ProvinceAndCity {
 	private CityMapper cityMapper;
 	@Autowired
 	private ProvinceMapper provinceMapper;
+	@Autowired
+	private CityMappingMapper cityMappingMapper;
 
 	@Test
 	public void initKaixinProvinceAndCity() throws HttpException, IOException {
@@ -78,7 +83,7 @@ public class ProvinceAndCity {
 		city.setCreateTime(new Date());
 		city.setLastModifyTime(city.getCreateTime());
 		cityMapper.insertSelective(city);
-		System.out.println("        create city:" + city.getName());
+		// System.out.println("        create city:" + city.getName());
 	}
 
 	@Test
@@ -145,7 +150,36 @@ public class ProvinceAndCity {
 					value.length() - 2).split(",");
 			for (String city : cityArray) {
 				city = city.split(":")[1];
-				System.out.print(city.substring(0, city.length() - 1) + ",");
+				city = city.substring(0, city.length() - 1);
+				if (null == InitData.getCityByName(city)) {
+					String destCity = city;
+					if (destCity.endsWith("市")) {
+						destCity = city.substring(0, city.length() - 1);
+					}
+					if (destCity.endsWith(")")) {
+						destCity = city.substring(0, city.lastIndexOf("("));
+					}
+					if (destCity.endsWith("特别行政区")) {
+						destCity = city.substring(0, city.lastIndexOf("特别行政区"));
+					}
+					if (StringUtils.equals(destCity, "台湾省")) {
+						destCity = "台湾";
+					}
+					if (StringUtils.equals(destCity, "普洱")) {
+						destCity = "思茅";
+					}
+					City cityObj = InitData.getCityByName(destCity);
+					if (null != cityObj) {
+						try {
+							CityMapping cityMapping = new CityMapping();
+							cityMapping.setCityId(cityObj.getId());
+							cityMapping.setMappingCityName(city);
+							cityMappingMapper.insertSelective(cityMapping);
+						} catch (Exception e) {
+						}
+					}
+				}
+				System.out.print(city + ",");
 			}
 			System.out.println();
 			i++;

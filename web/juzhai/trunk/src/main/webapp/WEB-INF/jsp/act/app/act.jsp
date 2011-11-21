@@ -10,6 +10,7 @@
 		<link href="${jz:static('/css/jquery.autocomplete.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
+		<jsp:include page="/WEB-INF/jsp/common/app/app_${context.tpName}_top_logo.jsp" />
 		<div class="main"><!--main begin-->
 			<jsp:include page="/WEB-INF/jsp/common/app/app_header.jsp" />
 			<div class="skin_body"><!--skin_body begin-->
@@ -18,10 +19,10 @@
 						<div class="top"></div>
 						<div class="mid"><!--mid begin-->
 							<div class="project_sub"><!--project_sub begin-->
-								<div class="back_to_home"><a href="javascript:history.go(-1)">返回上一页</a></div>
+								<div class="back_to_home"><a href="javascript:void(0);" onclick="javascript:history.go(-1);">返回上一页</a></div>
 								<div class="photo fl"><img src="${jz:actLogo(act.id,act.logo,120)}" /></div>
 								<div class="infor fl"><!--infor begin-->
-									<h2><c:out value="${act.name}" /></h2>
+									<h2><c:out value="${act.name}" /><a href="/app/showCategoryActs" class="fxgd">发现更多&gt;&gt;</a></h2>
 									<h5><c:out value="${act.intro}" /><!-- <a href="#">详细</a> --></h5>
 									<div class="ytj" <c:if test="${!hasAct}">style="display:none;"</c:if>>
 										<p></p><span><em>已添加</em><strong>|</strong><a href="javascript:void(0);" actid="${act.id}" actname="${act.name}">取消</a></span><p></p>

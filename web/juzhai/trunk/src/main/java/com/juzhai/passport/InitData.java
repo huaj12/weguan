@@ -114,12 +114,20 @@ public class InitData {
 	}
 
 	public static City getCityByName(String name) {
+		City returnCity = null;
 		for (City city : CITY_MAP.values()) {
 			if (StringUtils.equals(name, city.getName())) {
-				return city;
+				returnCity = city;
+				break;
 			}
 		}
-		return null;
+		if (null == returnCity) {
+			Long cityId = CITY_MAPPING.get(name);
+			if (null != cityId) {
+				returnCity = CITY_MAP.get(cityId);
+			}
+		}
+		return returnCity;
 	}
 
 	public static Thirdparty getTpByTpNameAndJoinType(String name,

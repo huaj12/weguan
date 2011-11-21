@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	var url;
-	if($(".judge")){
+	if($("div.judge").length > 0){
 		url = "/app/ajax/showJudge";
 	} else {
 		url = "/app/ajax/showFeed";
@@ -22,7 +22,7 @@ $(document).ready(function(){
 	});
 	
 	var advise = $(".check_box");
-	if(advise){
+	if(advise.length > 0){
 		$(".check_box > p").bind("click", function(){
 			var currentAdvise = advise.hasClass("tz_secleted");
 			//加勾或者取消勾
@@ -37,7 +37,7 @@ $(document).ready(function(){
 
 function holdStar(index){
 	var stars = $("div.star > span");
-	if(stars){
+	if(stars.length > 0){
 		stars.each(function(i, element){
 			if(i < index){
 				$(element).removeClass("link").addClass("hover");
@@ -86,7 +86,7 @@ function dealFeed(url, data){
 		success: function(result){
 			showFeedHtml(result);
 			var advise = $(".check_box");
-			if(advise){
+			if(advise.length > 0){
 				advise.removeClass("tz_link").addClass("tz_secleted");
 			}
 		},
@@ -126,9 +126,9 @@ function respSpecific(type){
 
 function respRecommend(actId, type){
 	if(actId >= 0 && type && type >= 0 && type <= 2){
-		var isFeed = false;
+		var isFeed = true;
 		var advise = $(".check_box");
-		if(advise){
+		if(advise.length > 0){
 			isFeed = advise.hasClass("tz_secleted");
 		}
 		dealFeed("/app/ajax/respRecommend", {"actId": actId, "type": type, "isFeed": isFeed});

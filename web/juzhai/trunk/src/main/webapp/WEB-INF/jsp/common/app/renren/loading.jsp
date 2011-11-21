@@ -8,7 +8,7 @@
 		<title>loading...</title>
 		<link href="${jz:static('/css/jz.css')}" rel="stylesheet" type="text/css" />
 	</head>
-	<body>
+	<body background="${jz:static('/images/renrenbg.jpg')}">
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
 		<%String sessionKey=request.getParameter("xn_sig_session_key");
 		if(sessionKey==null){

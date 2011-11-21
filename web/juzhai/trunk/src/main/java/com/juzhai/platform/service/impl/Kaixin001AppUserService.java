@@ -156,6 +156,25 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		profile.setHome(HtmlUtils.htmlEscape(user.getHometown()));
 		profile.setLogoPic(user.getLogo120());
 		profile.setShape(HtmlUtils.htmlEscape(user.getBodyform()));
+		if (StringUtils.isNotEmpty(user.getBirthday())) {
+			try {
+				String[] birthdays = user.getBirthday().split("[^0-9]");
+				int birthYear = Integer.valueOf(birthdays[0]);
+				int brithMonth=Integer.valueOf(birthdays[1]);
+				int brithDay=Integer.valueOf(birthdays[2]);
+				if (birthYear > 1900) {
+					profile.setBirthYear(birthYear);
+				}
+				if(brithMonth>0&&brithMonth<13){
+					profile.setBirthMonth(brithMonth);
+				}
+				if(brithDay>0&&brithDay<32){
+					profile.setBirthDay(brithDay);
+				}
+			} catch (Exception e) {
+				log.error("parse birthday error.", e);
+			}
+		}
 		String cityName = user.getCity();
 		City city = InitData.getCityByName(cityName);
 		if (null != city) {

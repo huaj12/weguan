@@ -1,6 +1,7 @@
 package com.renren.api.client.services;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * @author 李勇(yong.li@opi-corp.com) 2011-2-17
@@ -18,7 +19,9 @@ public interface UserService {
      * @return
      */
     public JSONArray getInfo(String userIds, String fields);
-
+    
+    
+    public JSONObject getProfileInfo(String userId, String fields);
     /**
      * 检查用户是否授予应用扩展权限。
      * 

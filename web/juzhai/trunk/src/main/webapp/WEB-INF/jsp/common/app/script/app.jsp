@@ -12,14 +12,8 @@
 <script>
 XN_RequireFeatures(["Connect","CanvasUtil"], function(){ 
 	//这里要自己填两个参数：api_key和跨域文件xd_receiver.html的路径 
-	XN.Main.init("${jz:appKey(context.tpId)}", "${jz:static('/js/xd_receiver.html')}");
+	XN.Main.init("${jz:appKey(context.tpId)}", "${jz:static('/renren/xd_receiver.html')}");
 	//这里要填需要自定义的高度如“800px”，注意应该有'px'单位 
-	var dHeight = document.documentElement.offsetHeight;
-		if("\v"=="v")
-		{
-			dHeight = document.body.scrollHeight;
-		}
-		dHeight=dHeight+10;
-	XN.CanvasClient.setCanvasHeight(dHeight+"px" ); }); 
+	setHeight(); }); 
 </script>
 </c:if>

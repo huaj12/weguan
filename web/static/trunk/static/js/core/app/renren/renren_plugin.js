@@ -530,4 +530,13 @@ params.movie=path;}else{properties.type="application/x-shockwave-flash";}propert
 return this;},remote:function(){return Swiff.remote.apply(Swiff,[this.toElement()].append(arguments));}});Swiff.CallBacks={};Swiff.remote=function(obj,fn){var rs=obj.CallFunction('<invoke name="'+fn+'" returntype="javascript">'+__flash__argumentsToXML(arguments,2)+"</invoke>");
 return eval(rs);};})();
 
-Renren.init({appId:163941}); 
+Renren.init({appId:163941});
+function setHeight(){
+	var dHeight = document.documentElement.offsetHeight;
+	if("\v"=="v")
+	{
+		dHeight = document.body.scrollHeight;
+	}
+	dHeight=dHeight+10;
+XN.CanvasClient.setCanvasHeight(dHeight+"px" );
+}

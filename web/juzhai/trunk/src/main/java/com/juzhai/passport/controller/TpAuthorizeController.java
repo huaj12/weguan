@@ -159,13 +159,13 @@ public class TpAuthorizeController extends BaseController {
 		return result;
 	}
 
-	@RequestMapping(value = "auth/rr/appLogin")
+	@RequestMapping(value = "auth/rr/app_login")
 	public String rrLogin(HttpServletRequest request,
 			HttpServletResponse response, String fromUri, Model model) {
 		String sessionKey = request.getParameter("xn_sig_session_key");
 		String uid = request.getParameter("xn_sig_user");
 		if (StringUtils.isEmpty(sessionKey) || StringUtils.isEmpty(uid)) {
-			Thirdparty tp = InitData.TP_MAP.get(5L);
+			Thirdparty tp = InitData.TP_MAP.get(2L);
 			if (null != tp) {
 				if (log.isDebugEnabled()) {
 					log.debug("thirdparty login[tpname=" + tp.getName() + "]");
@@ -173,9 +173,9 @@ public class TpAuthorizeController extends BaseController {
 				model.addAttribute("tp", tp);
 				model.addAttribute("fromUri", fromUri);
 			}
-			return "/renren/app_login";
+			return "auth/renren/app_auth";
 		} else {
-			return "forward:/access/2";
+			return "forward:/appLoad/2";
 		}
 	}
 

@@ -144,4 +144,15 @@ public class JzCoreFunction {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		return tp == null ? StringUtils.EMPTY : tp.getAppId();
 	}
+	/**
+	 * 获取appKey
+	 * 
+	 * @param tpId
+	 * @return
+	 */
+	public static String appKey(long tpId) {
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		return tp == null ? StringUtils.EMPTY : tp.getAppKey();
+	}
+	
 }

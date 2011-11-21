@@ -76,6 +76,7 @@ public class RenrenAppUserService extends AbstractUserService {
 				}
 				String cityName = (String) cityObj.get("network_name");
 				tpFriend.setCity(cityName);
+				friendIdList.add(tpFriend);
 			}
 			if (array.size() < 500) {
 				break;
@@ -98,14 +99,14 @@ public class RenrenAppUserService extends AbstractUserService {
 	}
 
 	@Override
-	protected Profile convertToProfile(HttpServletRequest request,
+	public Profile convertToProfile(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo,
 			String thirdpartyIdentity) {
 		RenrenApiClient client = newRenrenApiClient(authInfo.getAppKey(),
 				authInfo.getAppSecret(), authInfo.getSessionKey());
 		int uid = client.getUserService().getLoggedInUser();
 		String[] fields = new String[] { "name", "sex", "hometown_location",
-				"headurl" };
+				"headurl","birthday" };
 		JSONArray array = client.getUserService().getInfo(String.valueOf(uid),
 				StringUtils.join(fields, ","));
 		JSONObject cityObj=client.getUserService().getProfileInfo(String.valueOf(uid),"network_name");
@@ -122,6 +123,26 @@ public class RenrenAppUserService extends AbstractUserService {
 		profile.setGender(sex.intValue());
 		profile.setLogoPic(headurl);
 		profile.setHome(home);
+		String birthday=String.valueOf(object.get("birthday"));
+		if (StringUtils.isNotEmpty(birthday)) {
+			try {
+				String[] birthdays = birthday.split("[^0-9]");
+				int birthYear = Integer.valueOf(birthdays[0]);
+				int brithMonth=Integer.valueOf(birthdays[1]);
+				int brithDay=Integer.valueOf(birthdays[2]);
+				if (birthYear > 1900) {
+					profile.setBirthYear(birthYear);
+				}
+				if(brithMonth>0&&brithMonth<13){
+					profile.setBirthMonth(brithMonth);
+				}
+				if(brithDay>0&&brithDay<32){
+					profile.setBirthDay(brithDay);
+				}
+			} catch (Exception e) {
+				log.error("parse birthday error.", e);
+			}
+		}
 		String cityName = (String) cityObj.get("network_name");
 		City city = InitData.getCityByName(cityName);
 		if (null != city) {

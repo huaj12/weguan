@@ -45,7 +45,7 @@
 		</c:when>
 		<c:otherwise>
 			<div class="none_message"><!--none_message begin-->
-				<h2></h2><p>拒宅器里没有信息了。</p><a href="javascript:void(0);" onclick="javascript:request();">邀请更多好友加入</a>
+				<h2></h2><p>这里没有信息了。</p><%-- <a href="javascript:void(0);" onclick="javascript:request();">邀请更多好友加入</a> --%>
 			</div><!--none_message end-->
 		</c:otherwise>
 	</c:choose>

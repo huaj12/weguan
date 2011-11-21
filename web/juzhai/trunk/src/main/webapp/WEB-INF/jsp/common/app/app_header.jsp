@@ -8,6 +8,8 @@
 		<div class="menu"><!--menu begin-->
 			<span <c:if test="${page=='home'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="/app/index">拒宅灵感</a></span>
 			<em></em>
+			<span <c:if test="${page=='judge'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="/app/judge">宅人评价</a></span>
+			<em></em>
 			<span <c:if test="${page=='myAct'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="/app/myAct">我的拒宅</a></span>
 			<em></em>
 			<span <c:if test="${page=='friend'}">class="hover"</c:if>><p class="l"></p><p class="r"></p><a href="/app/showAllFriend">好友的拒宅</a></span>

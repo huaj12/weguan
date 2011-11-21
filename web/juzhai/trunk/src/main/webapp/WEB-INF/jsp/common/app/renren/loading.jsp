@@ -29,6 +29,7 @@
 			<%
 		}else{
 			%>
+			<jsp:include page="/WEB-INF/jsp/common/app/app_renren_top_logo.jsp" />
 			<div class="main"><!--main begin-->
 			<div class="skin_top_new"><!--skin_top_new begin-->
 			</div><!--skin_top_new end-->

@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	//召集令
 	var zjl = $(".zjl");
-	if(zjl){
+	if(zjl.length > 0){
 		zjl.bind("click", function(){
 			var actId = $(this).attr("actid");
 			feed(actId);
@@ -9,7 +9,7 @@ $(document).ready(function(){
 	}
 	//邀请
 	var yqhy = $(".yqhy");
-	if(yqhy){
+	if(yqhy.length > 0){
 		yqhy.bind("click", function(){
 			var actId = $(this).attr("actid");
 			requestByName(actId);
@@ -17,14 +17,14 @@ $(document).ready(function(){
 	}
 	//取消
 	var cancelBtn = $(".ytj > span > a");
-	if(cancelBtn){
+	if(cancelBtn.length > 0){
 		cancelBtn.bind("click", function(){
 			removeAct(this);
 		});
 	}
 	//添加
 	var addBtn = $(".want");
-	if(addBtn){
+	if(addBtn.length > 0){
 		addBtn.bind("click", function(){
 			addAct(this);
 		});

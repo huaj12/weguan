@@ -11,6 +11,7 @@
 		<link href="${jz:static('/css/jquery.autocomplete.css')}" rel="stylesheet" type="text/css" />
 </head>
 <body>
+	<jsp:include page="/WEB-INF/jsp/common/app/app_${context.tpName}_top_logo.jsp" />
 	<div class="main">
 		<!--main begin-->
 		<jsp:include page="/WEB-INF/jsp/common/app/app_header.jsp" />

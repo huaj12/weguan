@@ -10,8 +10,9 @@
 		<link href="${jz:static('/css/jquery.autocomplete.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
+		<jsp:include page="/WEB-INF/jsp/common/app/app_${context.tpName}_top_logo.jsp" />
 		<div class="main"><!--main begin-->
-			<c:set var="page" value="home" scope="request"/>
+			<c:set var="page" value="judge" scope="request"/>
 			<jsp:include page="/WEB-INF/jsp/common/app/app_header.jsp" />
 			<div class="skin_body"><!--skin_body begin-->
 				<div class="skin_top_bg judge"><!--content_bg begin-->

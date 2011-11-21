@@ -244,7 +244,7 @@ public class UserActService implements IUserActService {
 		inboxService.remove(uid, actId);
 		actLiveService.addNewLive(uid, actId, userAct.getCreateTime());
 		actRankService.incrScore(actId, userAct.getCreateTime());
-		sendRecommendMsg(userAct);
+		// sendRecommendMsg(userAct);
 		sendFeed(userAct);
 	}
 

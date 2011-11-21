@@ -159,7 +159,7 @@ public class TpAuthorizeController extends BaseController {
 		return result;
 	}
 
-	@RequestMapping(value = "auth/rr/app_login")
+	@RequestMapping(value = "auth/rr/appLogin")
 	public String rrLogin(HttpServletRequest request,
 			HttpServletResponse response, String fromUri, Model model) {
 		String sessionKey = request.getParameter("xn_sig_session_key");

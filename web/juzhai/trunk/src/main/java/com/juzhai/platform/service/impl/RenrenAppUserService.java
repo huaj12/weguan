@@ -43,8 +43,10 @@ public class RenrenAppUserService extends AbstractUserService {
 		List<TpFriend> friendIdList = new ArrayList<TpFriend>();
 		RenrenApiClient client = newRenrenApiClient(authInfo.getAppKey(),
 				authInfo.getAppSecret(), authInfo.getSessionKey());
+		int start = 1;
+		int num = 500;
 		while (true) {
-			JSONArray array = client.getFriendsService().getFriends(1, 500);
+			JSONArray array = client.getFriendsService().getFriends(start, num);
 			List<String> fuids = new ArrayList<String>(array.size());
 			for (Object o : array) {
 				JSONObject object = (JSONObject) o;
@@ -81,6 +83,7 @@ public class RenrenAppUserService extends AbstractUserService {
 			if (array.size() < 500) {
 				break;
 			}
+			start ++;
 		}
 		return friendIdList;
 	}

@@ -10,6 +10,7 @@
 	</head>
 	<body background="${jz:static('/images/renrenbg.jpg')}">
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
+		<script type="text/javascript" src="${jz:static('/js/core/app/renren/renren_plugin.js')}"></script>
 		<%String sessionKey=request.getParameter("xn_sig_session_key");
 		if(sessionKey==null){
 			%>

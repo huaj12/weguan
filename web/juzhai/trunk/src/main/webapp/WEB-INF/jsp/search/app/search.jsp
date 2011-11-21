@@ -51,7 +51,7 @@
 	</div>
 	<!--main end-->
 	<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
-	
+	<jsp:include page="/WEB-INF/jsp/common/app/script/app.jsp" />
 	<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 </body>
 </html>

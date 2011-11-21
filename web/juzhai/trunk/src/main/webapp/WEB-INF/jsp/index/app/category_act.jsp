@@ -44,7 +44,7 @@
 		<script type="text/javascript" src="${jz:static('/js/module/index.js')}"></script>
 		<script type="text/javascript">
 		</script>
-		
+		<jsp:include page="/WEB-INF/jsp/common/app/script/app.jsp" />
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 	</body>
 </html>

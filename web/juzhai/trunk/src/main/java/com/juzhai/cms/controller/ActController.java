@@ -239,7 +239,9 @@ public class ActController {
 			if (cats != null) {
 				for (String cat : cats.split(",")) {
 					Category c = InitData.CATEGORY_MAP.get(Long.valueOf(cat));
-					categorys.append(c.getName() + " ");
+					if (c != null) {
+						categorys.append(c.getName() + " ");
+					}
 				}
 			}
 			viewList.add(new CmsActMagerView(act, logoWebPath, proName,

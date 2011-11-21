@@ -92,5 +92,12 @@
     	<function-signature>java.lang.String appId(long)</function-signature>
     	<example>${jz:appId(1)}</example>
     </function>
+       
+    <function>
+    	<name>appKey</name>
+    	<function-class>com.juzhai.core.web.jstl.JzCoreFunction</function-class>
+    	<function-signature>java.lang.String appKey(long)</function-signature>
+    	<example>${jz:appId(1)}</example>
+    </function>
     
 </taglib>

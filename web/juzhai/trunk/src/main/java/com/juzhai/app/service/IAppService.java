@@ -19,7 +19,7 @@ public interface IAppService {
 	 * @param authInfo
 	 * @return
 	 */
-	boolean sendSysMessage(String fuids, long actId, String link, MsgType type,
+	boolean sendSysMessage(long sendId,String fuids, long actId, String link, MsgType type,
 			AuthInfo authInfo);
 
 
@@ -44,14 +44,15 @@ public interface IAppService {
 	 */
 	boolean sendFeed(long actId, long uid, long tpId);
 	/**
-	 * 用户做题
-	 * @param uid
-	 * @param tpId
-	 * @param questionId
-	 * @param identity
-	 * @param answer
+	 * 发送答题消息
+	 * @param fuids
+	 * @param linktext
+	 * @param link
+	 * @param word
+	 * @param text
+	 * @return
 	 */
-	void answer (long uid, long tpId, long questionId, String identity,
-			int answer);
+	boolean sendQuestionMessage(long uid, long tpId,List<String> fuids, String linktext,
+			String  link,String  word,String  text);
 
 }

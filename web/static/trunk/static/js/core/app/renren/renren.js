@@ -4,8 +4,8 @@ function sendUI(params,url){
 		  display : 'iframe',
 		  method :'get',
 		  style : {
-			  width:450,
-			  height:420					  
+			  width:600,
+			  height:520					  
 		  },
 		  params : JSON.decode(params),
 		  onComplete : function(response){
@@ -42,5 +42,6 @@ function request(id) {
 		random : Math.random()
 	}, function(data) {
 		sendUI(data,'request');
+		setHeight(520);
 	});
 }

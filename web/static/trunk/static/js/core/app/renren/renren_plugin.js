@@ -1,10 +1,18 @@
-function setHeight(){
+function setHeight(rheight){
 	var dHeight = document.documentElement.offsetHeight;
 	if("\v"=="v")
 	{
 		dHeight = document.body.scrollHeight;
 	}
 	dHeight=dHeight+10;
+	
+	if(rheight!=undefined){
+		if(rheight-dHeight>0){
+			var h=rheight-dHeight;
+			dHeight=dHeight+h+50;
+		}
+		
+	}
 XN.CanvasClient.setCanvasHeight(dHeight+"px" );
 }
 

@@ -1,11 +1,11 @@
-function sendUI(params,url){
+function sendUI(params,url,rwidth,rheight){
   	var uiOpts = {
 		  url : url,
 		  display : 'iframe',
 		  method :'get',
 		  style : {
-			  width:600,
-			  height:520					  
+			  width:rwidth,
+			  height:rheight					  
 		  },
 		  params : JSON.decode(params),
 		  onComplete : function(response){
@@ -31,7 +31,7 @@ function feed(id){
 		id: id,
 		random : Math.random()
 	}, function(data) {
-		sendUI(data,'feed');
+		sendUI(data,'feed',500.350);
 	});
 	
 }
@@ -41,7 +41,7 @@ function request(id) {
 		id : id,
 		random : Math.random()
 	}, function(data) {
-		sendUI(data,'request');
+		sendUI(data,'request',600,520);
 		setHeight(520);
 	});
 }

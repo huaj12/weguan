@@ -54,7 +54,7 @@ public class RenrenAppUserService extends AbstractUserService {
 			}
 			JSONArray fArray = client.getUserService().getInfo(
 					StringUtils.join(fuids, ","),
-					"uid,name,sex,birthday,headurl");
+					"uid,name,sex,birthday,mainurl");
 			for (Object fInfo : fArray) {
 				TpFriend tpFriend = new TpFriend();
 				JSONObject info = (JSONObject) fInfo;
@@ -63,7 +63,7 @@ public class RenrenAppUserService extends AbstractUserService {
 				tpFriend.setUserId(uid);
 				tpFriend.setName((String) info.get("name"));
 				tpFriend.setGender(((Long) info.get("sex")).intValue());
-				tpFriend.setLogoUrl((String) info.get("headurl"));
+				tpFriend.setLogoUrl((String) info.get("mainurl"));
 				String birthday = (String) info.get("birthday");
 				if (StringUtils.isNotEmpty(birthday)) {
 					try {
@@ -109,7 +109,7 @@ public class RenrenAppUserService extends AbstractUserService {
 				authInfo.getAppSecret(), authInfo.getSessionKey());
 		int uid = client.getUserService().getLoggedInUser();
 		String[] fields = new String[] { "name", "sex", "hometown_location",
-				"headurl","birthday" };
+				"mainurl","birthday" };
 		JSONArray array = client.getUserService().getInfo(String.valueOf(uid),
 				StringUtils.join(fields, ","));
 		JSONObject cityObj=client.getUserService().getProfileInfo(String.valueOf(uid),"network_name");
@@ -117,14 +117,14 @@ public class RenrenAppUserService extends AbstractUserService {
 		JSONObject hometown = (JSONObject) object.get("hometown_location");
 		String name = (String) object.get("name");
 		Long sex = (Long) object.get("sex");
-		String headurl = (String) object.get("headurl");
+		String mainurl = (String) object.get("mainurl");
 		String home = (String) hometown.get("province");
 		Profile profile = new Profile();
 		profile.setNickname(TextTruncateUtil.truncate(
 				HtmlUtils.htmlUnescape(name), nicknameLengthMax,
 				StringUtils.EMPTY));
 		profile.setGender(sex.intValue());
-		profile.setLogoPic(headurl);
+		profile.setLogoPic(mainurl);
 		profile.setHome(home);
 		String birthday=String.valueOf(object.get("birthday"));
 		if (StringUtils.isNotEmpty(birthday)) {

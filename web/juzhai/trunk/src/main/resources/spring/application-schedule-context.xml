@@ -103,8 +103,8 @@
 				<ref bean="actIndexOptimizationAndCommitTrigger"/>
 				<!-- <ref bean="getBackFeedTrigger"/> -->
 				<ref bean="resetQuestionUsersTrigger"/>
-				<ref bean="unreadMsgEmailTrigger"/>
-				<ref bean="actBriefingEmailTrigger"/>
+				<!-- <ref bean="unreadMsgEmailTrigger"/>
+				<ref bean="actBriefingEmailTrigger"/> -->
 				<ref bean="showCategoryActListTrigger"/>
 				<ref bean="deleteUserActionTrigger"/>
 			</list>

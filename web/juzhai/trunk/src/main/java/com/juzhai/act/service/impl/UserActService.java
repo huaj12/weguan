@@ -93,11 +93,11 @@ public class UserActService implements IUserActService {
 			} catch (ActInputException e) {
 				log.error(e.getMessage() + " actId: " + actId);
 			}
+			if (isFeed && !actService.isShieldAct(actId)) {
+				appService.sendFeed(actId, uid, tpId);
+			}
 		} else {
 			inboxService.shiftRead(uid, 0, actId, type);
-		}
-		if (isFeed && !actService.isShieldAct(actId)) {
-			appService.sendFeed(actId, uid, tpId);
 		}
 	}
 

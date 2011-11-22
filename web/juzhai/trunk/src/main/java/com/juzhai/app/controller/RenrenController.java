@@ -67,17 +67,19 @@ public class RenrenController extends BaseController {
 			UserContext context = checkLoginForApp(request);
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
 			String action_link = tp.getAppUrl();
-			String title = "拒宅器";
+			
 			String action_name = messageSource
 					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
 							Locale.SIMPLIFIED_CHINESE);
 			String description = "";
+			String title = "";
 			Act act = actService.getActById(id);
 			if (act == null) {
 				description = messageSource.getMessage(
 						TpMessageKey.FEED_TEXT_DEFAULT, null,
 						Locale.SIMPLIFIED_CHINESE);
 			} else {
+				title=act.getName();
 				int count = userActService.countUserActByActId(
 						context.getTpId(), id);
 				if (count > feedCount) {

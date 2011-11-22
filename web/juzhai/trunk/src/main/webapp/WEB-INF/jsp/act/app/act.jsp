@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="jz" uri="http://www.51juzhai.com/jsp/jstl/jz" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xn="http://www.renren.com/2009/xnml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>无标题文档</title>
@@ -22,7 +22,7 @@
 								<div class="back_to_home"><a href="javascript:void(0);" onclick="javascript:history.go(-1);">返回上一页</a></div>
 								<div class="photo fl"><img src="${jz:actLogo(act.id,act.logo,120)}" /></div>
 								<div class="infor fl"><!--infor begin-->
-									<h2><c:out value="${act.name}" /><a href="/app/showCategoryActs" class="fxgd">发现更多&gt;&gt;</a></h2>
+									<h2><c:out value="${act.name}" /><a href="/app/index" class="fxgd">发现更多&gt;&gt;</a></h2>
 									<h5><c:out value="${act.intro}" /><!-- <a href="#">详细</a> --></h5>
 									<div class="ytj" <c:if test="${!hasAct}">style="display:none;"</c:if>>
 										<p></p><span><em>已添加</em><strong>|</strong><a href="javascript:void(0);" actid="${act.id}" actname="${act.name}">取消</a></span><p></p>

@@ -23,7 +23,7 @@
 								<div class="more_friend"><a href="javascript:void(0);" onclick="javascript:history.go(-1);">返回上一页&gt;&gt;</a></div>
 								<div class="head_area"><!--head_area begin-->
 									<div class="photo"><a href="${jz:tpHomeUrl(profile.tpIdentity,context.tpId)}" target="_blank"><img src="${profile.logoPic}"  width="80" height="80"/></a></div>
-									<h2><a href="${jz:tpHomeUrl(profile.tpIdentity,context.tpId)}" target="_blank" class="uname"><c:out value="${profile.nickname}"/></a><a href="/app/showAllFriend" class="fxgd">发现更多>></a></h2>
+									<h2><a href="${jz:tpHomeUrl(profile.tpIdentity,context.tpId)}" target="_blank" class="uname"><c:out value="${profile.nickname}"/></a><a href="/app/showLive" class="fxgd">发现更多>></a></h2>
 									<p>ta在<c:choose><c:when test="${profile.cityName != ''}">${profile.cityName}</c:when><c:otherwise>地球</c:otherwise></c:choose><c:if test="${lastUpdateTime!=null}">&nbsp;&nbsp;最近更新于<fmt:formatDate value="${lastUpdateTime}" pattern="yyyy.MM.dd"/></c:if></p>
 									<span><a onclick="showAbout('${profile.nickname}','${act.id}','${act.name}','${profile.uid}');" href="javascript:void(0);">给ta留言</a></span>
 								</div><!--head_area end-->

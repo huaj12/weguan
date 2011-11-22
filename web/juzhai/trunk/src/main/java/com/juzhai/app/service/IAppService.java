@@ -10,7 +10,7 @@ import com.juzhai.passport.bean.TpFriend;
 public interface IAppService {
 
 	/**
-	 * 发送系统消息
+	 * 发送匹配消息
 	 * 
 	 * @param fuids
 	 * @param sendAct
@@ -19,9 +19,8 @@ public interface IAppService {
 	 * @param authInfo
 	 * @return
 	 */
-	boolean sendSysMessage(long sendId,String fuids, long actId, String link, MsgType type,
-			AuthInfo authInfo);
-
+	boolean sendMatchMessage(long sendId, String fuids, long actId,
+			String link, MsgType type, AuthInfo authInfo);
 
 	/**
 	 * 约他短消息fuids上限30
@@ -43,8 +42,10 @@ public interface IAppService {
 	 * @return
 	 */
 	boolean sendFeed(long actId, long uid, long tpId);
+
 	/**
 	 * 发送答题消息
+	 * 
 	 * @param fuids
 	 * @param linktext
 	 * @param link

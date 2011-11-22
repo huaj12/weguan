@@ -29,6 +29,7 @@ import com.juzhai.act.service.IUserActService;
 import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
+import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.jstl.JzCoreFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.msg.bean.ActMsg;
@@ -73,22 +74,24 @@ public class RenrenController extends BaseController {
 							Locale.SIMPLIFIED_CHINESE);
 			String description = "";
 			String title = "";
+			String message="";
 			Act act = actService.getActById(id);
 			if (act == null) {
-				description = messageSource.getMessage(
+				message = messageSource.getMessage(
 						TpMessageKey.FEED_TEXT_DEFAULT, null,
 						Locale.SIMPLIFIED_CHINESE);
 			} else {
 				title=act.getName();
+				description=TextTruncateUtil.truncate(act.getIntro(), 100, "...") ;
 				int count = userActService.countUserActByActId(
 						context.getTpId(), id);
 				if (count > feedCount) {
-					description = messageSource.getMessage(
+					message = messageSource.getMessage(
 							TpMessageKey.FEED_TEXT,
 							new Object[] { act.getName(), count - 1 },
 							Locale.SIMPLIFIED_CHINESE);
 				} else {
-					description = messageSource.getMessage(
+					message = messageSource.getMessage(
 							TpMessageKey.FEED_TEXT_COUNT_DEFAULT,
 							new Object[] { act.getName() },
 							Locale.SIMPLIFIED_CHINESE);
@@ -101,7 +104,7 @@ public class RenrenController extends BaseController {
 			String picurl = JzCoreFunction.actLogo(id, logo, 120);
 			response.setContentType("text/plain");
 			out = response.getWriter();
-			out.println("{'image':'" + picurl + "','url':'" + action_link
+			out.println("{'message':'" + message + "','image':'" + picurl + "','url':'" + action_link
 					+ "','name':'" + title + "','action_name':'" + action_name
 					+ "','action_link':'" + action_link + "','description':'"
 					+ description + "'}");

@@ -52,7 +52,7 @@ public interface IAppService {
 	 * @param text
 	 * @return
 	 */
-	boolean sendQuestionMessage(long uid, long tpId,List<String> fuids, String linktext,
-			String  link,String  word,String  text);
+	boolean sendQuestionMssage(long uid, long tpId, long questionId,
+			String identity, int answer);
 
 }

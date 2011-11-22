@@ -53,7 +53,7 @@ public class AppService implements IAppService {
 	private final Log log = LogFactory.getLog(getClass());
 
 	@Override
-	public boolean sendSysMessage(long sendId, String fuids, long actId,
+	public boolean sendMatchMessage(long sendId, String fuids, long actId,
 			String link, MsgType type, AuthInfo authInfo) {
 		if (fuids == null)
 			return false;

@@ -24,12 +24,14 @@ public class Kaixin001AppMessageService implements IMessageService {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private MessageSource messageSource;
+
 	@Override
-	public boolean sendSysMessage(List<String> fuids, String linktext, String link,
-			String word, String text, String picurl, AuthInfo authInfo) {
+	public boolean sendSysMessage(List<String> fuids, String linktext,
+			String link, String word, String text, String picurl,
+			AuthInfo authInfo) {
 		boolean flag = false;
 		try {
-			if(authInfo==null){
+			if (authInfo == null) {
 				log.error("send  kaixin sysmessage authInfo is null ");
 				return false;
 			}
@@ -46,11 +48,11 @@ public class Kaixin001AppMessageService implements IMessageService {
 			paramMap.put("text", text);
 			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
 					authInfo.getSessionKey());
-			String ret=AppPlatformUtils.doPost(
+			String ret = AppPlatformUtils.doPost(
 					"https://api.kaixin001.com/sysnews/send.json", query);
 			JSONObject jObject = JSONObject.fromObject(ret);
 			if ("1".equals(jObject.getString("result"))) {
-				return  true;
+				return true;
 			} else {
 				return false;
 			}
@@ -62,27 +64,30 @@ public class Kaixin001AppMessageService implements IMessageService {
 	}
 
 	@Override
-	public boolean sendMessage(long sendId,String fuids, String content, AuthInfo authInfo,long actId,String link) {
+	public boolean sendMessage(long sendId, String fuids, String content,
+			AuthInfo authInfo, long actId, String link) {
 		boolean flag = false;
 		try {
-			if(authInfo==null){
+			if (authInfo == null) {
 				log.error("send  kaixin message authInfo is null ");
 				return false;
 			}
-			String text="";
+			String text = "";
 			if (actId > 0) {
-				text = messageSource.getMessage(TpMessageKey.KAIXIN_SEND_MESSAGE,
-						new Object[] { content,link+ "?goUri=/app/showAct/" + actId },
+				text = messageSource.getMessage(
+						TpMessageKey.KAIXIN_SEND_MESSAGE,
+						new Object[] { content,
+								link + "?goUri=/app/showAct/" + actId },
 						Locale.SIMPLIFIED_CHINESE);
 			} else {
-				text = messageSource.getMessage(TpMessageKey.KAIXIN_SEND_MESSAGE,
-						new Object[] { content,link
-						+ "?goUri=/app/" + fuids },
+				text = messageSource.getMessage(
+						TpMessageKey.KAIXIN_SEND_MESSAGE, new Object[] {
+								content, link + "?goUri=/app/" + sendId },
 						Locale.SIMPLIFIED_CHINESE);
 			}
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("fuids", fuids);
-			paramMap.put("content",text);
+			paramMap.put("content", text);
 			String query = AppPlatformUtils.sessionKeyBuildQuery(paramMap,
 					authInfo.getSessionKey());
 			String ret = AppPlatformUtils.doPost(
@@ -93,27 +98,28 @@ public class Kaixin001AppMessageService implements IMessageService {
 			}
 			return flag;
 		} catch (Exception e) {
-			log.error("send  kaixin message is error fuids:" + fuids + " [error: " + e.getMessage() + "].");
+			log.error("send  kaixin message is error fuids:" + fuids
+					+ " [error: " + e.getMessage() + "].");
 			return flag;
 		}
 	}
 
 	@Override
 	public boolean sendFeed(String linktext, String link, String word,
-			String text, String picurl, AuthInfo authInfo,String name) {
+			String text, String picurl, AuthInfo authInfo, String name) {
 		boolean flag = false;
 		try {
 			Map<String, String> paramMap = new HashMap<String, String>();
-			if(authInfo==null){
+			if (authInfo == null) {
 				log.error("send  kaixin feed authInfo is null ");
 				return false;
 			}
 			paramMap.put("linktext", linktext);
 			paramMap.put("link", link);
-			if(!StringUtils.isEmpty(word)){
+			if (!StringUtils.isEmpty(word)) {
 				paramMap.put("word", word);
 			}
-			if(!StringUtils.isEmpty(picurl)){
+			if (!StringUtils.isEmpty(picurl)) {
 				paramMap.put("picurl", picurl);
 			}
 			paramMap.put("text", text);
@@ -127,22 +133,25 @@ public class Kaixin001AppMessageService implements IMessageService {
 			}
 			return flag;
 		} catch (Exception e) {
-			log.error("send  kaixin feed is error "+ " [error: " + e.getMessage() + "].");
+			log.error("send  kaixin feed is error " + " [error: "
+					+ e.getMessage() + "].");
 			return flag;
 		}
 	}
 
 	@Override
-	public boolean sendQuestionMessage(AuthInfo authInfo, List<String> fuids,long sendId,
-			String linktext, String link, String word, String text) {
-		return sendSysMessage(fuids, linktext, link, word, text, StringUtils.EMPTY, authInfo);
+	public boolean sendQuestionMessage(AuthInfo authInfo, List<String> fuids,
+			long sendId, String linktext, String link, String word, String text) {
+		return sendSysMessage(fuids, linktext, link, word, text,
+				StringUtils.EMPTY, authInfo);
 	}
 
 	@Override
-	public boolean sendMatchMessage(long sendId,List<String> fuids, String linktext,
-			String link, String word, String text, String picurl,
-			AuthInfo authInfo,long actId) {
-		return sendSysMessage(fuids, linktext, link, word, text, picurl, authInfo);
+	public boolean sendMatchMessage(long sendId, List<String> fuids,
+			String linktext, String link, String word, String text,
+			String picurl, AuthInfo authInfo, long actId) {
+		return sendSysMessage(fuids, linktext, link, word, text, picurl,
+				authInfo);
 	}
 
 }

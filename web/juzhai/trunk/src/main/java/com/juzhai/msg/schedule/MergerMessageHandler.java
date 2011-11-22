@@ -30,8 +30,6 @@ public class MergerMessageHandler extends AbstractScheduleHandler {
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 	@Autowired
-	private RedisTemplate<String, Long> redisLongTemplate;
-	@Autowired
 	private ISendAppMsgService sendAppMsgService;
 	@Autowired
 	private ITpUserService tpUserService;

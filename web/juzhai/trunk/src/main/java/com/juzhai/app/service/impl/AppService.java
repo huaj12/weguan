@@ -186,15 +186,43 @@ public class AppService implements IAppService {
 	}
 
 
+	
 	@Override
-	public boolean sendQuestionMessage(long uid, long tpId, List<String> fuids,
-			String linktext, String link, String word, String text) {
-		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
-		if(null!=authInfo){
-			return messageService.sendQuestionMessage(authInfo, fuids,uid, linktext, link, word, text);
-		}else{
-			return false;	
+	public boolean sendQuestionMssage(long uid, long tpId, long questionId,
+			String identity, int answer) {
+		Question question = com.juzhai.act.InitData.QUESTION_MAP.get(questionId);
+		if (null == question) {
+			return false;
 		}
+		String[] answers = StringUtils.split(question.getAnswer(), "|");
+		if (answer <= 0 || answer > answers.length) {
+			return false;
+		}
+		if (question.getType() == 1 && answer == 2) {
+			// 是非题选择了no
+			return false;
+		}
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		if (null != authInfo) {
+			if (StringUtils.isNotEmpty(question.getInviteText())) {
+				String text = question.getInviteText();
+				String word = question.getInviteWord().replace("{0}",
+						answers[answer - 1]);
+				if (StringUtils.isNotEmpty(text)) {
+					List<String> fuids = new ArrayList<String>();
+					fuids.add(identity);
+					String linktext = getContent(
+							TpMessageKey.QUESTION_LINKTEXT, null);
+					Thirdparty tp = com.juzhai.passport.InitData.TP_MAP
+							.get(tpId);
+					if (null == tp) {
+						return false;
+					}
+					 messageService.sendQuestionMessage(authInfo, fuids,uid, linktext, tp.getAppUrl(), word, text);
+				}
+			}
+		}
+		return true;
 	}
 
 

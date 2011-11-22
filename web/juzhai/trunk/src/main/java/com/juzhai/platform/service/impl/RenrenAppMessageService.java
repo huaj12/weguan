@@ -111,28 +111,13 @@ public class RenrenAppMessageService implements IMessageService {
 	public boolean sendFeed(String linktext, String link, String word,
 			String text, String picurl, AuthInfo authInfo, String name) {
 		try {
-			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("method", "feed.publishFeed");
-			paramMap.put("name", name);
-			paramMap.put("description", word);
-			paramMap.put("url", link);
-			paramMap.put("image", picurl);
-			paramMap.put("caption", "");
-			paramMap.put("action_name", linktext);
-			paramMap.put("action_link", link);
-			paramMap.put("message", text);
-			paramMap.put("format", "JSON");
-			String query = AppPlatformUtils.buildQuery(paramMap,
-					authInfo.getAppKey(), authInfo.getAppSecret(),
-					authInfo.getSessionKey(), "1.0");
-			String ret = AppPlatformUtils.doPost(
-					"http://api.renren.com/restserver.do", query);
-			JSONObject jObject = JSONObject.fromObject(ret);
-			if (StringUtils.isNotEmpty(jObject.getString("post_id"))) {
-				return true;
-			} else {
-				log.error("send renren sendFeed is error. reg:" + ret);
+			RenrenApiClient client = newRenrenApiClient(authInfo.getAppKey(),
+					authInfo.getAppSecret(), authInfo.getSessionKey());
+			String ret=client.getNotificationsService().sendFeed(linktext, link, word, text, picurl, name);
+			if(StringUtils.isEmpty(ret)){
 				return false;
+			}else{
+				return true;
 			}
 		} catch (Exception e) {
 			log.error("send renren sendFeed is error " + " [error: "

@@ -16,8 +16,13 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.core.util.TextTruncateUtil;
+import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.JoinTypeEnum;
+import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.TpUser;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.service.IMessageService;
 import com.juzhai.platform.utils.AppPlatformUtils;
@@ -31,6 +36,8 @@ public class RenrenAppMessageService implements IMessageService {
 	private ITpUserService tpUserService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IProfileService profileService;
 
 	@Override
 	public boolean sendSysMessage(List<String> fuids, String linktext,
@@ -39,7 +46,7 @@ public class RenrenAppMessageService implements IMessageService {
 		RenrenApiClient client = newRenrenApiClient(authInfo.getAppKey(),
 				authInfo.getAppSecret(), authInfo.getSessionKey());
 		int count = client.getNotificationsService().send(
-				StringUtils.join(fuids, ","), text + "" + word);
+				StringUtils.join(fuids, ","), word + "" + text);
 		if (count > 0) {
 			return true;
 		} else {
@@ -65,21 +72,21 @@ public class RenrenAppMessageService implements IMessageService {
 			if (StringUtils.isEmpty(fuid)) {
 				return false;
 			}
-			TpUser tpUser = tpUserService.getTpUserByUid(sendId);
-			if (null == tpUser) {
+			ProfileCache pro=profileService.getProfileCacheByUid(sendId);
+			if (null == pro) {
 				return false;
 			}
 			String text = "";
 			if (actId > 0) {
 				text = messageSource.getMessage(
 						TpMessageKey.RENREN_SEND_MESSAGE,
-						new Object[] { tpUser.getTpIdentity(), link, content,
+						new Object[] { link+"?goUri=/app/" + sendId,pro.getNickname(), link, content,
 								link + "?goUri=/app/showAct/" + actId },
 						Locale.SIMPLIFIED_CHINESE);
 			} else {
 				text = messageSource.getMessage(
 						TpMessageKey.RENREN_SEND_MESSAGE,
-						new Object[] { tpUser.getTpIdentity(), link, content,
+						new Object[] {link+"?goUri=/app/" + sendId,pro.getNickname(), link, content,
 								link + "?goUri=/app/" + fuid },
 						Locale.SIMPLIFIED_CHINESE);
 			}
@@ -100,7 +107,7 @@ public class RenrenAppMessageService implements IMessageService {
 
 	@Override
 	public boolean sendFeed(String linktext, String link, String word,
-			String text, String picurl, AuthInfo authInfo,String name) {
+			String text, String picurl, AuthInfo authInfo, String name) {
 		try {
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("method", "feed.publishFeed");
@@ -130,6 +137,33 @@ public class RenrenAppMessageService implements IMessageService {
 					+ e.getMessage() + "].");
 			return false;
 		}
+	}
+
+	@Override
+	public boolean sendQuestionMessage(AuthInfo authInfo, List<String> fuids,
+			long sendId, String linktext, String link, String word,
+			String text) {
+		text = "";
+		ProfileCache pro=profileService.getProfileCacheByUid(sendId);
+		String content = getContent(TpMessageKey.RENREN_QUERTION_MESSAGE, new Object[]{link+"?goUri=/app/" + sendId,pro.getNickname(),word,link+"?goUri=/app/judge"});
+		return sendSysMessage(fuids, linktext, link, content, text,
+				StringUtils.EMPTY, authInfo);
+	}
+
+	private String getContent(String code, Object[] args) {
+		return messageSource.getMessage(code, args, StringUtils.EMPTY,
+				Locale.SIMPLIFIED_CHINESE);
+	}
+
+	@Override
+	public boolean sendMatchMessage(long sendId,List<String> fuids, String linktext,
+			String link, String word, String text, String picurl,
+			AuthInfo authInfo,long actId) {
+		ProfileCache pro=profileService.getProfileCacheByUid(sendId);
+		word="";
+		String content = getContent(TpMessageKey.RENREN_MATCH_MESSAGE, new Object[]{authInfo,link+"?goUri=/app/" + sendId,pro.getNickname(),text,link});
+		sendSysMessage(fuids, linktext, link, word, content, StringUtils.EMPTY, authInfo);
+		return false;
 	}
 
 }

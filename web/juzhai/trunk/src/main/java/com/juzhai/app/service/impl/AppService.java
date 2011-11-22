@@ -27,7 +27,9 @@ import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.service.IMessageService;
 
 @Service
@@ -39,6 +41,8 @@ public class AppService implements IAppService {
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
+	private ITpUserService tpUserService;
+	@Autowired
 	private IActService actService;
 	@Autowired
 	private IUserActService userActService;
@@ -49,7 +53,7 @@ public class AppService implements IAppService {
 	private final Log log = LogFactory.getLog(getClass());
 
 	@Override
-	public boolean sendSysMessage(String fuids, long actId, String link,
+	public boolean sendSysMessage(long sendId,String fuids, long actId, String link,
 			MsgType type, AuthInfo authInfo) {
 		if (fuids == null)
 			return false;
@@ -87,10 +91,10 @@ public class AppService implements IAppService {
 			String picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(),
 					120);
 			// 发送系统消息
-			messageService.sendSysMessage(receiverIdentitys, messageSource
+			messageService.sendMatchMessage(sendId,receiverIdentitys, messageSource
 					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
 							Locale.SIMPLIFIED_CHINESE), link, word, text,
-					picurl, authInfo);
+					picurl, authInfo,act.getId());
 		} catch (Exception e) {
 			log.error("send message is error.fuids=" + fuids, e);
 			return false;
@@ -176,61 +180,23 @@ public class AppService implements IAppService {
 		return true;
 	}
 
-	@Override
-	public void answer(long uid, long tpId, long questionId, String identity,
-			int answer) {
-		if (sendQuestionMssage(uid, tpId, questionId, identity, answer)) {
-			String key = RedisKeyGenerator.genQuestionUsersKey(uid);
-			stringRedisTemplate.opsForSet().add(key, identity);
-			stringRedisTemplate.opsForSet().add(
-					RedisKeyGenerator.genQuestionUserKeysKey(), key);
-			// accountService.profitPoint(uid, ProfitAction.ANSWER_QUESTION);
-		}
-		
-	}
-	
-	private boolean sendQuestionMssage(long uid, long tpId, long questionId,
-			String identity, int answer) {
-		Question question = com.juzhai.act.InitData.QUESTION_MAP.get(questionId);
-		if (null == question) {
-			return false;
-		}
-		String[] answers = StringUtils.split(question.getAnswer(), "|");
-		if (answer <= 0 || answer > answers.length) {
-			return false;
-		}
-		if (question.getType() == 1 && answer == 2) {
-			// 是非题选择了no
-			return false;
-		}
-		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
-		if (null != authInfo) {
-			if (StringUtils.isNotEmpty(question.getInviteText())) {
-				String text = question.getInviteText();
-				String word = question.getInviteWord().replace("{0}",
-						answers[answer - 1]);
-				if (StringUtils.isNotEmpty(text)) {
-					List<String> fuids = new ArrayList<String>();
-					fuids.add(identity);
-					String linktext = getContent(
-							TpMessageKey.QUESTION_LINKTEXT, null);
-					Thirdparty tp = com.juzhai.passport.InitData.TP_MAP
-							.get(tpId);
-					if (null == tp) {
-						return false;
-					}
-					// TODO
-					messageService.sendSysMessage(fuids, linktext,
-							tp.getAppUrl(), word, text, StringUtils.EMPTY,
-							authInfo);
-				}
-			}
-		}
-		return true;
-	}
-	
 	private String getContent(String code, Object[] args) {
 		return messageSource.getMessage(code, args, StringUtils.EMPTY,
 				Locale.SIMPLIFIED_CHINESE);
 	}
+
+
+	@Override
+	public boolean sendQuestionMessage(long uid, long tpId, List<String> fuids,
+			String linktext, String link, String word, String text) {
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		if(null!=authInfo){
+			return messageService.sendQuestionMessage(authInfo, fuids,uid, linktext, link, word, text);
+		}else{
+			return false;	
+		}
+	}
+
+
+	
 }

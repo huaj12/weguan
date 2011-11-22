@@ -72,7 +72,7 @@ public class RenrenAppMessageService implements IMessageService {
 			if (StringUtils.isEmpty(fuid)) {
 				return false;
 			}
-			ProfileCache pro=profileService.getProfileCacheByUid(sendId);
+			ProfileCache pro = profileService.getProfileCacheByUid(sendId);
 			if (null == pro) {
 				return false;
 			}
@@ -80,13 +80,15 @@ public class RenrenAppMessageService implements IMessageService {
 			if (actId > 0) {
 				text = messageSource.getMessage(
 						TpMessageKey.RENREN_SEND_MESSAGE,
-						new Object[] { link+"?goUri=/app/" + sendId,pro.getNickname(), link, content,
+						new Object[] { link + "?goUri=/app/" + sendId,
+								pro.getNickname(), link, content,
 								link + "?goUri=/app/showAct/" + actId },
 						Locale.SIMPLIFIED_CHINESE);
 			} else {
 				text = messageSource.getMessage(
 						TpMessageKey.RENREN_SEND_MESSAGE,
-						new Object[] {link+"?goUri=/app/" + sendId,pro.getNickname(), link, content,
+						new Object[] { link + "?goUri=/app/" + sendId,
+								pro.getNickname(), link, content,
 								link + "?goUri=/app/" + sendId },
 						Locale.SIMPLIFIED_CHINESE);
 			}
@@ -141,14 +143,16 @@ public class RenrenAppMessageService implements IMessageService {
 
 	@Override
 	public boolean sendQuestionMessage(AuthInfo authInfo, List<String> fuids,
-			long sendId, String linktext, String link, String word,
-			String text) {
+			long sendId, String linktext, String link, String word, String text) {
 		text = "";
-		ProfileCache pro=profileService.getProfileCacheByUid(sendId);
-		if(pro==null){
+		ProfileCache pro = profileService.getProfileCacheByUid(sendId);
+		if (pro == null) {
 			return false;
 		}
-		String content = getContent(TpMessageKey.RENREN_QUERTION_MESSAGE, new Object[]{link+"?goUri=/app/" + sendId,pro.getNickname(),word,link+"?goUri=/app/judge"});
+		String content = getContent(
+				TpMessageKey.RENREN_QUERTION_MESSAGE,
+				new Object[] { link + "?goUri=/app/" + sendId,
+						pro.getNickname(), word, link + "?goUri=/app/judge" });
 		return sendSysMessage(fuids, linktext, link, content, text,
 				StringUtils.EMPTY, authInfo);
 	}
@@ -159,16 +163,20 @@ public class RenrenAppMessageService implements IMessageService {
 	}
 
 	@Override
-	public boolean sendMatchMessage(long sendId,List<String> fuids, String linktext,
-			String link, String word, String text, String picurl,
-			AuthInfo authInfo,long actId) {
-		ProfileCache pro=profileService.getProfileCacheByUid(sendId);
-		if(pro==null){
+	public boolean sendMatchMessage(long sendId, List<String> fuids,
+			String linktext, String link, String word, String text,
+			String picurl, AuthInfo authInfo, long actId) {
+		ProfileCache pro = profileService.getProfileCacheByUid(sendId);
+		if (pro == null) {
 			return false;
 		}
-		word="";
-		String content = getContent(TpMessageKey.RENREN_MATCH_MESSAGE, new Object[]{authInfo,link+"?goUri=/app/" + sendId,pro.getNickname(),text,link});
-		return sendSysMessage(fuids, linktext, link, word, content, StringUtils.EMPTY, authInfo);
+		word = "";
+		String content = getContent(
+				TpMessageKey.RENREN_MATCH_MESSAGE,
+				new Object[] { authInfo, link + "?goUri=/app/" + sendId,
+						pro.getNickname(), text, link });
+		return sendSysMessage(fuids, linktext, link, word, content,
+				StringUtils.EMPTY, authInfo);
 	}
 
 }

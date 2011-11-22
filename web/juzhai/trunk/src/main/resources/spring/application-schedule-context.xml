@@ -53,16 +53,6 @@
 		<property name="cronExpression" value="${act.briefing.email.cron}" />
 	</bean>
 	
-	<!-- begin mergerMessage -->
-	<bean id="mergerMessageTrigger" parent="abstractCronTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="mergerMessageHandler" />
-			</bean>
-		</property>
-		<property name="cronExpression" value="${merger.msg.cron}" />
-	</bean>
-	<!-- endmergerMessage -->
 	
 	<!-- get back feed begin -->
 	<bean id="getBackFeedTrigger" parent="abstractCronTrigger">
@@ -111,7 +101,6 @@
 		<property name="triggers">
 			<list>
 				<ref bean="actIndexOptimizationAndCommitTrigger"/>
-				<ref bean="mergerMessageTrigger"/>
 				<!-- <ref bean="getBackFeedTrigger"/> -->
 				<ref bean="resetQuestionUsersTrigger"/>
 				<ref bean="unreadMsgEmailTrigger"/>

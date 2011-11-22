@@ -4,8 +4,7 @@ function setHeight(rheight){
 	{
 		dHeight = document.body.scrollHeight;
 	}
-	dHeight=dHeight+10;
-	
+	dHeight=dHeight+25;
 	if(rheight!=undefined){
 		if(rheight-dHeight>0){
 			var h=rheight-dHeight;

@@ -19,23 +19,26 @@ public class SendSysMsgTask implements Callable<Boolean> {
 	MsgType type;
 	AuthInfo authInfo;
 	long actId;
+	long uid;
 
 	public SendSysMsgTask(Thirdparty thirdparty, IAppService appService,
-			String receiverIdentity, AuthInfo authInfo, MsgType type, long actId) {
+			String receiverIdentity, AuthInfo authInfo, MsgType type, long actId,long uid) {
 		this.appService = appService;
 		this.receiverIdentity = receiverIdentity;
 		this.authInfo = authInfo;
 		this.type = type;
 		this.actId = actId;
 		this.thirdparty = thirdparty;
+		this.uid=uid;
+		
 	}
 
 	@Override
 	public Boolean call() throws Exception {
 		try {
 			// 发送系统消息
-			appService.sendSysMessage(receiverIdentity, actId,
-					thirdparty.getAppUrl() + "?goUri=/msg/showRead", type,
+			appService.sendSysMessage(uid,receiverIdentity, actId,
+					thirdparty.getAppUrl() + "?goUri=/app/showAct/" + actId, type,
 					authInfo);
 		} catch (Throwable e) {
 			return Boolean.FALSE;

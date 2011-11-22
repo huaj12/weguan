@@ -2,6 +2,8 @@ package com.renren.api.client.services;
 
 import java.util.List;
 
+import org.json.simple.JSONObject;
+
 /**
  * @author 李勇(yong.li@opi-corp.com) 2011-2-21
  */
@@ -25,7 +27,9 @@ public interface NotificationsService {
      * @return
      */
     public int send(String toIds, String notification, String type);
-
+    
+	public String sendFeed(String linktext, String link, String word,
+			String text, String picurl,String name);
     /**
      * 给你的用户发送Email；此接口需要扩展权限---Email。
      * 

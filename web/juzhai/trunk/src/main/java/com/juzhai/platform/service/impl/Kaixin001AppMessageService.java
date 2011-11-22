@@ -132,4 +132,17 @@ public class Kaixin001AppMessageService implements IMessageService {
 		}
 	}
 
+	@Override
+	public boolean sendQuestionMessage(AuthInfo authInfo, List<String> fuids,long sendId,
+			String linktext, String link, String word, String text) {
+		return sendSysMessage(fuids, linktext, link, word, linktext, StringUtils.EMPTY, authInfo);
+	}
+
+	@Override
+	public boolean sendMatchMessage(long sendId,List<String> fuids, String linktext,
+			String link, String word, String text, String picurl,
+			AuthInfo authInfo,long actId) {
+		return sendSysMessage(fuids, linktext, link, word, text, picurl, authInfo);
+	}
+
 }

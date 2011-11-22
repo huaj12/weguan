@@ -20,7 +20,7 @@
 		</c:when>
 		<c:when test="${feed.feedType=='QUESTION'}">
 			<div class="jz_box"><!--jz_box begin-->
-				<div class="photo fl"><a href="${jz:tpHomeUrl(feed.tpFriend.userId,context.tpId)}" target="_blank"><img src="${feed.tpFriend.logoUrl}" /></a></div>
+				<div class="photo fl"><a href="${jz:tpHomeUrl(feed.tpFriend.userId,context.tpId)}" target="_blank"><img src="${feed.tpFriend.logoUrl}" height="120" width="120" /></a></div>
 				<div class="df fl"><!--infor begin-->
 					<h2>
 						<span class="w">${feed.questionNamePrefix}</span>

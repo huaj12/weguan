@@ -100,7 +100,7 @@ public class Kaixin001AppMessageService implements IMessageService {
 
 	@Override
 	public boolean sendFeed(String linktext, String link, String word,
-			String text, String picurl, AuthInfo authInfo) {
+			String text, String picurl, AuthInfo authInfo,String name) {
 		boolean flag = false;
 		try {
 			Map<String, String> paramMap = new HashMap<String, String>();

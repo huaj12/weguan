@@ -35,5 +35,5 @@ public interface IMessageService {
 	 * @param authInfo
 	 * @return
 	 */
-	boolean sendFeed(String linktext,String link,String word,String text,String picurl,AuthInfo authInfo);
+	boolean sendFeed(String linktext,String link,String word,String text,String picurl,AuthInfo authInfo,String name);
 }

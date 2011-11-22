@@ -100,13 +100,11 @@ public class RenrenAppMessageService implements IMessageService {
 
 	@Override
 	public boolean sendFeed(String linktext, String link, String word,
-			String text, String picurl, AuthInfo authInfo) {
+			String text, String picurl, AuthInfo authInfo,String name) {
 		try {
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("method", "feed.publishFeed");
-			paramMap.put("name", messageSource.getMessage(
-					TpMessageKey.FEED_TEXT_DEFAULT, null,
-					Locale.SIMPLIFIED_CHINESE));
+			paramMap.put("name", name);
 			paramMap.put("description", word);
 			paramMap.put("url", link);
 			paramMap.put("image", picurl);

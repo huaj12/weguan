@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import org.json.simple.JSONObject;
+
 import com.renren.api.client.RenrenApiInvoker;
 import com.renren.api.client.services.NotificationsService;
 
@@ -47,5 +49,20 @@ public class NotificationsServiceImpl extends AbstractService implements Notific
         }
         return ids;
     }
+
+	public String sendFeed(String linktext, String link, String word,
+			String text, String picurl, String name) {
+		 TreeMap<String, String> paramMap = new TreeMap<String, String>();
+		 	paramMap.put("method", "feed.publishFeed");
+			paramMap.put("name", name);
+			paramMap.put("description", word);
+			paramMap.put("url", link);
+			paramMap.put("image", picurl);
+			paramMap.put("caption", "");
+			paramMap.put("action_name", linktext);
+			paramMap.put("action_link", link);
+			paramMap.put("message", text);
+	        return this.getResultValue(paramMap, "post_id");
+	}
 
 }

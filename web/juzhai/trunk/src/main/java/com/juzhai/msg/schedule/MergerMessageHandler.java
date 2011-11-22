@@ -24,7 +24,7 @@ import com.juzhai.msg.service.ISendAppMsgService;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserService;
 
-@Component
+@Deprecated
 public class MergerMessageHandler extends AbstractScheduleHandler {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired

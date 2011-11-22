@@ -118,7 +118,7 @@ public class RenrenAppMessageService implements IMessageService {
 			paramMap.put("url", link);
 			paramMap.put("image", picurl);
 			paramMap.put("caption", "");
-			paramMap.put("action_name ", linktext);
+			paramMap.put("action_name", linktext);
 			paramMap.put("action_link", link);
 			paramMap.put("message", text);
 			paramMap.put("format", "JSON");

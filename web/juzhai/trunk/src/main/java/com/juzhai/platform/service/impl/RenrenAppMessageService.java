@@ -87,7 +87,7 @@ public class RenrenAppMessageService implements IMessageService {
 				text = messageSource.getMessage(
 						TpMessageKey.RENREN_SEND_MESSAGE,
 						new Object[] {link+"?goUri=/app/" + sendId,pro.getNickname(), link, content,
-								link + "?goUri=/app/" + fuid },
+								link + "?goUri=/app/" + sendId },
 						Locale.SIMPLIFIED_CHINESE);
 			}
 			RenrenApiClient client = newRenrenApiClient(authInfo.getAppKey(),

@@ -81,7 +81,8 @@ public class RenrenController extends BaseController {
 						TpMessageKey.FEED_TEXT_DEFAULT, null,
 						Locale.SIMPLIFIED_CHINESE);
 			} else {
-				title=act.getName();
+				title=messageSource.getMessage(TpMessageKey.FEED_NAME, new Object[]{act.getName()},
+						Locale.SIMPLIFIED_CHINESE);
 				description=TextTruncateUtil.truncate(act.getIntro(), 100, "...") ;
 				int count = userActService.countUserActByActId(
 						context.getTpId(), id);

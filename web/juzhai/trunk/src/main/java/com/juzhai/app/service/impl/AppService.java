@@ -135,7 +135,7 @@ public class AppService implements IAppService {
 			word = messageSource.getMessage(TpMessageKey.FEED_WORD_BACK, null,
 					Locale.SIMPLIFIED_CHINESE);
 		}
-		String name = act.getName();
+		String name =getContent(TpMessageKey.FEED_NAME, new Object[]{ act.getName()});
 		String linktext = messageSource.getMessage(TpMessageKey.FEED_LINKTEXT,
 				null, Locale.SIMPLIFIED_CHINESE);
 		String link = tp.getAppUrl() + "?goUri=/app/showAct/" + actId;

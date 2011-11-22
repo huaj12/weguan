@@ -19,15 +19,12 @@ import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.app.service.IAppService;
-import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.jstl.JzCoreFunction;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.model.Thirdparty;
-import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.service.IMessageService;
@@ -76,7 +73,7 @@ public class AppService implements IAppService {
 						Locale.SIMPLIFIED_CHINESE);
 			} else if (MsgType.RECOMMEND.equals(type)) {
 				int count = userActService.countUserActByActId(
-						ThirdpartyNameEnum.KAIXIN001.getName(), actId);
+						authInfo.getThirdpartyName(), actId);
 				text = messageSource.getMessage(TpMessageKey.RECOMMEND_FRIEND,
 						new Object[] { count, act.getName() },
 						Locale.SIMPLIFIED_CHINESE);
@@ -116,8 +113,7 @@ public class AppService implements IAppService {
 		}
 		String picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(), 120);
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
-		int count = userActService.countUserActByActId(
-				ThirdpartyNameEnum.KAIXIN001.getName(), actId);
+		int count = userActService.countUserActByActId(tp.getName(), actId);
 		String text = "";
 		if (count > feedCount) {
 			text = messageSource.getMessage(TpMessageKey.FEED_TEXT,

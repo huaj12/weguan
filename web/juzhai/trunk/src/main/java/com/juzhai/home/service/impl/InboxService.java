@@ -31,6 +31,7 @@ import com.juzhai.act.model.Question;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.app.bean.TpMessageKey;
+import com.juzhai.app.service.IAppService;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.home.bean.Feed;
@@ -83,6 +84,8 @@ public class InboxService implements IInboxService {
 	private MessageSource messageSource;
 	@Autowired
 	private MemcachedClient memcachedClient;
+	@Autowired
+	private IAppService appService;
 	@Value("${random.feed.myAct.count}")
 	private int randomFeedMyActCount = 5;
 	@Value("${random.feed.act.count}")
@@ -366,7 +369,8 @@ public class InboxService implements IInboxService {
 	@Override
 	public void answer(long uid, long tpId, long questionId, String identity,
 			int answer) {
-		if (sendQuestionMssage(uid, tpId, questionId, identity, answer)) {
+		if (appService.sendQuestionMssage(uid, tpId, questionId, identity,
+				answer)) {
 			String key = RedisKeyGenerator.genQuestionUsersKey(uid);
 			stringRedisTemplate.opsForSet().add(key, identity);
 			stringRedisTemplate.opsForSet().add(
@@ -375,49 +379,49 @@ public class InboxService implements IInboxService {
 		}
 	}
 
-	private boolean sendQuestionMssage(long uid, long tpId, long questionId,
-			String identity, int answer) {
-		Question question = InitData.QUESTION_MAP.get(questionId);
-		if (null == question) {
-			return false;
-		}
-		String[] answers = StringUtils.split(question.getAnswer(), "|");
-		if (answer <= 0 || answer > answers.length) {
-			return false;
-		}
-		if (question.getType() == 1 && answer == 2) {
-			// 是非题选择了no
-			return false;
-		}
-		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
-		if (null != authInfo) {
-			if (StringUtils.isNotEmpty(question.getInviteText())) {
-				// ProfileCache profileCache = profileService
-				// .getProfileCacheByUid(uid);
-				// String text = question.getInviteText().replace("{0}",
-				// profileCache.getNickname());
-				String text = question.getInviteText();
-				String word = question.getInviteWord().replace("{0}",
-						answers[answer - 1]);
-				if (StringUtils.isNotEmpty(text)) {
-					List<String> fuids = new ArrayList<String>();
-					fuids.add(identity);
-					String linktext = getContent(
-							TpMessageKey.QUESTION_LINKTEXT, null);
-					Thirdparty tp = com.juzhai.passport.InitData.TP_MAP
-							.get(tpId);
-					if (null == tp) {
-						return false;
-					}
-					// TODO
-					messageService.sendSysMessage(fuids, linktext,
-							tp.getAppUrl(), word, text, StringUtils.EMPTY,
-							authInfo);
-				}
-			}
-		}
-		return true;
-	}
+	// private boolean sendQuestionMssage(long uid, long tpId, long questionId,
+	// String identity, int answer) {
+	// Question question = InitData.QUESTION_MAP.get(questionId);
+	// if (null == question) {
+	// return false;
+	// }
+	// String[] answers = StringUtils.split(question.getAnswer(), "|");
+	// if (answer <= 0 || answer > answers.length) {
+	// return false;
+	// }
+	// if (question.getType() == 1 && answer == 2) {
+	// // 是非题选择了no
+	// return false;
+	// }
+	// AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+	// if (null != authInfo) {
+	// if (StringUtils.isNotEmpty(question.getInviteText())) {
+	// // ProfileCache profileCache = profileService
+	// // .getProfileCacheByUid(uid);
+	// // String text = question.getInviteText().replace("{0}",
+	// // profileCache.getNickname());
+	// String text = question.getInviteText();
+	// String word = question.getInviteWord().replace("{0}",
+	// answers[answer - 1]);
+	// if (StringUtils.isNotEmpty(text)) {
+	// List<String> fuids = new ArrayList<String>();
+	// fuids.add(identity);
+	// String linktext = getContent(
+	// TpMessageKey.QUESTION_LINKTEXT, null);
+	// Thirdparty tp = com.juzhai.passport.InitData.TP_MAP
+	// .get(tpId);
+	// if (null == tp) {
+	// return false;
+	// }
+	// // TODO
+	// messageService.sendSysMessage(fuids, linktext,
+	// tp.getAppUrl(), word, text, StringUtils.EMPTY,
+	// authInfo);
+	// }
+	// }
+	// }
+	// return true;
+	// }
 
 	private String getContent(String code, Object[] args) {
 		return messageSource.getMessage(code, args, StringUtils.EMPTY,

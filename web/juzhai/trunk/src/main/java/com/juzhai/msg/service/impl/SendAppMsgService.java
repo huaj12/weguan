@@ -81,7 +81,7 @@ public class SendAppMsgService implements ISendAppMsgService {
 			return;
 		}
 		taskExecutor.submit(new SendSysMsgTask(thirdparty, appService,
-				receiverIdentity, authInfo, type, actId));
+				receiverIdentity, authInfo, type, actId,uid));
 
 	}
 

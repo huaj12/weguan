@@ -4,8 +4,6 @@ function sendUI(params,url){
 		  display : 'iframe',
 		  method :'get',
 		  style : {
-			  top:100,
-			  left:75,
 			  width:450,
 			  height:420					  
 		  },

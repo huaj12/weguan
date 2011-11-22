@@ -145,6 +145,9 @@ public class RenrenAppMessageService implements IMessageService {
 			String text) {
 		text = "";
 		ProfileCache pro=profileService.getProfileCacheByUid(sendId);
+		if(pro==null){
+			return false;
+		}
 		String content = getContent(TpMessageKey.RENREN_QUERTION_MESSAGE, new Object[]{link+"?goUri=/app/" + sendId,pro.getNickname(),word,link+"?goUri=/app/judge"});
 		return sendSysMessage(fuids, linktext, link, content, text,
 				StringUtils.EMPTY, authInfo);
@@ -160,10 +163,12 @@ public class RenrenAppMessageService implements IMessageService {
 			String link, String word, String text, String picurl,
 			AuthInfo authInfo,long actId) {
 		ProfileCache pro=profileService.getProfileCacheByUid(sendId);
+		if(pro==null){
+			return false;
+		}
 		word="";
 		String content = getContent(TpMessageKey.RENREN_MATCH_MESSAGE, new Object[]{authInfo,link+"?goUri=/app/" + sendId,pro.getNickname(),text,link});
-		sendSysMessage(fuids, linktext, link, word, content, StringUtils.EMPTY, authInfo);
-		return false;
+		return sendSysMessage(fuids, linktext, link, word, content, StringUtils.EMPTY, authInfo);
 	}
 
 }

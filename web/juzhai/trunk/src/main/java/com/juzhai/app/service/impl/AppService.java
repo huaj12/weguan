@@ -53,8 +53,8 @@ public class AppService implements IAppService {
 	private final Log log = LogFactory.getLog(getClass());
 
 	@Override
-	public boolean sendSysMessage(long sendId,String fuids, long actId, String link,
-			MsgType type, AuthInfo authInfo) {
+	public boolean sendSysMessage(long sendId, String fuids, long actId,
+			String link, MsgType type, AuthInfo authInfo) {
 		if (fuids == null)
 			return false;
 		try {
@@ -91,17 +91,16 @@ public class AppService implements IAppService {
 			String picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(),
 					120);
 			// 发送系统消息
-			messageService.sendMatchMessage(sendId,receiverIdentitys, messageSource
-					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
+			messageService.sendMatchMessage(sendId, receiverIdentitys,
+					messageSource.getMessage(TpMessageKey.FEED_LINKTEXT, null,
 							Locale.SIMPLIFIED_CHINESE), link, word, text,
-					picurl, authInfo,act.getId());
+					picurl, authInfo, act.getId());
 		} catch (Exception e) {
 			log.error("send message is error.fuids=" + fuids, e);
 			return false;
 		}
 		return true;
 	}
-
 
 	@Override
 	public boolean sendFeed(long actId, long uid, long tpId) {
@@ -130,18 +129,18 @@ public class AppService implements IAppService {
 					new Object[] { act.getName() }, Locale.SIMPLIFIED_CHINESE);
 		}
 		String word = "";
-		if(StringUtils.isNotEmpty(act.getIntro())){
-			word=TextTruncateUtil.truncate(act.getIntro(), 100, "...") ;
-		}else{
-			word=messageSource.getMessage(TpMessageKey.FEED_WORD_BACK,
-					null, Locale.SIMPLIFIED_CHINESE);
+		if (StringUtils.isNotEmpty(act.getIntro())) {
+			word = TextTruncateUtil.truncate(act.getIntro(), 100, "...");
+		} else {
+			word = messageSource.getMessage(TpMessageKey.FEED_WORD_BACK, null,
+					Locale.SIMPLIFIED_CHINESE);
 		}
-		String name=act.getName();
+		String name = act.getName();
 		String linktext = messageSource.getMessage(TpMessageKey.FEED_LINKTEXT,
 				null, Locale.SIMPLIFIED_CHINESE);
 		String link = tp.getAppUrl() + "?goUri=/app/showAct/" + actId;
 		return messageService.sendFeed(linktext, link, word, text, picurl,
-				authInfo,name);
+				authInfo, name);
 	}
 
 	@Override
@@ -153,7 +152,7 @@ public class AppService implements IAppService {
 				return false;
 			}
 			if (fuids.size() > 30) {
-				fuids=fuids.subList(0, 30);
+				fuids = fuids.subList(0, 30);
 			}
 			if (StringUtils.isEmpty(content)) {
 				content = "";
@@ -170,8 +169,8 @@ public class AppService implements IAppService {
 			Thirdparty tp = InitData.TP_MAP.get(tpId);
 			for (String fuid : fuids) {
 				String link = tp.getAppUrl();
-				messageService.sendMessage(sendId,fuid,
-						content, authInfo,actId,link);
+				messageService.sendMessage(sendId, fuid, content, authInfo,
+						actId, link);
 			}
 		} catch (Exception e) {
 			log.error("aboutFriends is error.");
@@ -185,12 +184,11 @@ public class AppService implements IAppService {
 				Locale.SIMPLIFIED_CHINESE);
 	}
 
-
-	
 	@Override
 	public boolean sendQuestionMssage(long uid, long tpId, long questionId,
 			String identity, int answer) {
-		Question question = com.juzhai.act.InitData.QUESTION_MAP.get(questionId);
+		Question question = com.juzhai.act.InitData.QUESTION_MAP
+				.get(questionId);
 		if (null == question) {
 			return false;
 		}
@@ -218,13 +216,12 @@ public class AppService implements IAppService {
 					if (null == tp) {
 						return false;
 					}
-					 messageService.sendQuestionMessage(authInfo, fuids,uid, linktext, tp.getAppUrl(), word, text);
+					messageService.sendQuestionMessage(authInfo, fuids, uid,
+							linktext, tp.getAppUrl(), word, text);
 				}
 			}
 		}
 		return true;
 	}
 
-
-	
 }

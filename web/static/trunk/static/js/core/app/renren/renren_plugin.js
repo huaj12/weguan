@@ -59,7 +59,6 @@ b,c){this.methods[a]||(this.methods[a]=p.proxy(a,b,c&&j(c)!="array"?[c]:c))},add
 cbid:a.data.cbid},a.origin,a.transport,a.source)}}},checkOrigin:function(a,b){if(!a)return!1;for(var c=0,d=b.length;c<d;c++)if(b[c].indexOf(a)==0||a.indexOf(b[c])==0)return!0;return!1},Client:new l({callbacks:{},initialize:function(a){f.addEvent("receivedXDMessage",y(this.handleXDMessages,this));this.server=r({},a)},handleXDMessages:function(a){if(a.data&&a.data.cbid){var b=this.callbacks[a.data.cbid];b&&this.checkOrigin(a.origin)&&(delete this.callbacks[a.data.cbid],b(a.data.result))}},checkOrigin:function(a){return p.checkOrigin(a,
 [this.server.origin])},call:function(a,b,c){var d=f.transports,d=d.postMessage||d.flash,e=j(b),g;d&&(c&&(g=v(),this.callbacks[g]=c),e!="array"&&e!="arguments"&&(b=[b]),f.sendMessage({method:a,args:b,cbid:g},this.server.origin,d,this.server.relation))}})};p.EventsReceiver=new l({Extends:p.Server,Implements:[t],initialize:function(a){this.parent({fireXDEvent:y(this.fireEvent,this)},a)}});p.EventsSender=new l({Extends:p.Client,fireXDEvent:function(a,b,c){this.call("fireXDEvent",[a,b,c])}});p.CanvasClient=
 new l({Extends:p.Client,initialize:function(){var a=location.search,a=a==""?{}:E(a.substr(1));this.parent({origin:m.apps+(a.xn_sig||""),relation:"parent"})}});i.Renren=x(B,{onFlashReady:k.onFlashReady,onIframeReady:h.onIframeReady,XD:f,Request:n,XDPC:p,ui:L})})(window);
-Renren.init({appId:163941});
 /*
 ---
 MooTools: the javascript framework

@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.model.Act;
@@ -59,11 +60,11 @@ public class RenrenController extends BaseController {
 	private int feedCount = 3;
 
 	@RequestMapping(value = { "/renrenFeed" }, method = RequestMethod.GET)
-	public String kaixinFeed(HttpServletRequest request,
+	@ResponseBody
+	public Map<String,String> renrenFeed(HttpServletRequest request,
 			HttpServletResponse response, Model model,
 			@RequestParam(defaultValue = "0") long id) {
-		PrintWriter out = null;
-
+		Map<String,String> map=new HashMap<String,String>();
 		try {
 			UserContext context = checkLoginForApp(request);
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
@@ -103,31 +104,28 @@ public class RenrenController extends BaseController {
 				logo = act.getLogo();
 			}
 			String picurl = JzCoreFunction.actLogo(id, logo, 120);
-			response.setContentType("text/plain");
-			out = response.getWriter();
-			out.println("{'message':'" + message + "','image':'" + picurl + "','url':'" + action_link
-					+ "','name':'" + title + "','action_name':'" + action_name
-					+ "','action_link':'" + action_link + "','description':'"
-					+ description + "'}");
+			map.put("message", message);
+			map.put("image", picurl);
+			map.put("url", action_link);
+			map.put("name", title);
+			map.put("action_name", action_name);
+			map.put("action_link", action_link);
+			map.put("description", description);
 		} catch (Exception e) {
 			log.error("renren send feed is error", e);
-		} finally {
-			if (out != null) {
-				out.close();
-			}
-		}
-		return null;
+			return map;
+		} 
+		return map;
 	}
 
 	@RequestMapping(value = { "/renrenRequest" }, method = RequestMethod.GET)
-	public String renrenRequest(HttpServletRequest request,
+	@ResponseBody
+	public Map<String,String>  renrenRequest(HttpServletRequest request,
 			HttpServletResponse response, Model model,
 			@RequestParam(defaultValue = "0") long id) {
-		PrintWriter out = null;
-
+		Map<String,String> map=new HashMap<String,String>();
 		try {
 			UserContext context = checkLoginForApp(request);
-
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
 			String accept_url = tp.getAppUrl();
 			String accept_label = messageSource.getMessage(
@@ -153,21 +151,17 @@ public class RenrenController extends BaseController {
 						new Object[] { act.getName() },
 						Locale.SIMPLIFIED_CHINESE);
 			}
-			response.setContentType("text/plain");
-			out = response.getWriter();
-			out.println("{'accept_url':'" + accept_url + "','accept_label':'"
-					+ accept_label + "','actiontext':'" + actiontext
-					+ "','app_msg':'" + app_msg + "','selector_mode':'"
-					+ selector_mode + "','send_btn_label':'" + send_btn_label
-					+ "','selector_mode':'" + selector_mode + "'}");
+			map.put("accept_url", accept_url);
+			map.put("accept_label", accept_label);
+			map.put("actiontext", actiontext);
+			map.put("app_msg", app_msg);
+			map.put("selector_mode", selector_mode);
+			map.put("send_btn_label", send_btn_label);
 		} catch (Exception e) {
 			log.error("kaixin send feed is error", e);
-		} finally {
-			if (out != null) {
-				out.close();
-			}
-		}
-		return null;
+			return map;
+		} 
+		return map;
 	}
 
 }

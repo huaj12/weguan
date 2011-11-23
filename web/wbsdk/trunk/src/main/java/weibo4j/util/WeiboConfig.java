@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class WeiboConfig {
-	private static String filePath = "src/config.properties";
+	private static String filePath = "src/main/resources/config.properties";
 	public WeiboConfig(){}
 	private static Properties props = new Properties(); 
 	static{

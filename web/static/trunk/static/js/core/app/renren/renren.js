@@ -7,7 +7,7 @@ function sendUI(params,url,rwidth,rheight){
 			  width:rwidth,
 			  height:rheight					  
 		  },
-		  params : JSON.decode(params),
+		  params :params,
 		  onComplete : function(response){
 			  if(window.console) 
 				  console.log("complete: "+response);

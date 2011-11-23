@@ -1,0 +1,35 @@
+#surefire
+#Wed Nov 23 12:15:41 CST 2011
+testClassesDirectory=/Users/wujiajun/work/workspace/wbsdk/target/test-classes
+classPathUrl.4=/Users/wujiajun/.m2/repository/commons-httpclient/commons-httpclient/3.1/commons-httpclient-3.1.jar
+classPathUrl.3=/Users/wujiajun/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar
+classPathUrl.2=/Users/wujiajun/.m2/repository/commons-codec/commons-codec/1.5/commons-codec-1.5.jar
+useManifestOnlyJar=true
+classPathUrl.1=/Users/wujiajun/work/workspace/wbsdk/target/classes
+reportsDirectory=/Users/wujiajun/work/workspace/wbsdk/target/surefire-reports
+classPathUrl.0=/Users/wujiajun/work/workspace/wbsdk/target/test-classes
+dirscanner.0=directoryScannerOptions
+providerConfiguration=org.apache.maven.surefire.junit4.JUnit4Provider
+testSuiteDefinitionTestSourceDirectory=/Users/wujiajun/work/workspace/wbsdk/src/test/java
+surefireClassPathUrl.1=/Users/wujiajun/.m2/repository/org/apache/maven/surefire/surefire-api/2.7.1/surefire-api-2.7.1.jar
+surefireClassPathUrl.0=/Users/wujiajun/.m2/repository/org/apache/maven/surefire/surefire-junit4/2.7.1/surefire-junit4-2.7.1.jar
+report.2=org.apache.maven.surefire.report.XMLReporter
+useSystemClassLoader=true
+report.1=org.apache.maven.surefire.report.BriefFileReporter
+report.0=org.apache.maven.surefire.report.ForkingConsoleReporter
+excludes0=**/*$*
+isTrimStackTrace=true
+dirscanner.0.params=/Users/wujiajun/work/workspace/wbsdk/target/test-classes|[**/Test*.java, **/*Test.java, **/*TestCase.java]|[**/*$*]
+includes2=**/*TestCase.java
+enableAssertions=true
+includes1=**/*Test.java
+failIfNoTests=false
+includes0=**/Test*.java
+dirscanner.0.types=java.io.File|java.util.ArrayList|java.util.ArrayList
+classPathUrl.10=/Users/wujiajun/.m2/repository/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar
+classPathUrl.9=/Users/wujiajun/.m2/repository/junit/junit-dep/4.8.2/junit-dep-4.8.2.jar
+classPathUrl.8=/Users/wujiajun/.m2/repository/org/codehaus/jackson/jackson-mapper-asl/1.8.2/jackson-mapper-asl-1.8.2.jar
+classPathUrl.7=/Users/wujiajun/.m2/repository/org/codehaus/jackson/jackson-core-asl/1.8.2/jackson-core-asl-1.8.2.jar
+childDelegation=false
+classPathUrl.6=/Users/wujiajun/.m2/repository/org/codehaus/jackson/jackson-jaxrs/1.8.2/jackson-jaxrs-1.8.2.jar
+classPathUrl.5=/Users/wujiajun/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+      	 项目构建文件
+     ====================================================================== -->
+<project>
+
+    <!-- <import file="build.property.xml" />-->
+
+	<!-- ================================= 
+	          macrodef: deploy
+	          1、删除旧的静态文件
+	          2、将本次静态目录复制过去
+	================================= -->
+    <macrodef name="deploy-static">
+        <attribute name="server" />
+        <attribute name="username" />
+        <attribute name="password" />
+        <attribute name="staticdir" />
+        <sequential>
+            <property name="remote.server" value="@{server}"/>
+            <sshexec trust="true" host="@{server}" username="@{username}" password="@{password}" failonerror="false" command="cd @{staticDir}; rm -rf @{staticdir}/static/*"/>
+            <scp remoteToDir="@{username}:@{password}@${remote.server}:@{staticdir}/static" trust="true" verbose="true" passphrase="">
+            	<fileset dir="static"/>
+            </scp>
+        </sequential>           
+    </macrodef>
+	
+	<target name="deploy-static-test" description="发布静态">
+		<deploy-static password="65012331" server="192.168.1.10" staticdir="/var/www/html" username="root" />
+		<echo message="静态资源发布成功！" />
+	</target>
+	
+	<target name="depoly-static-macpro" description="mac pro 发布静态">
+		<delete dir="/Users/wujiajun/work/nginx/html/static" />
+		<copydir dest="/Users/wujiajun/work/nginx/html/static" src="static" />
+	</target>
+	
+</project>

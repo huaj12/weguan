@@ -10,13 +10,13 @@
 		var="plugin"></c:set>
 	<script type="text/javascript" src="${jz:static(s)}"></script>
 	<script type="text/javascript" src="${jz:static(plugin)}"></script>
+</c:if>
+<c:if test="${context.tpName=='renren'}">
 	<script>
 		Renren.init({
 			appId : '${jz:appId(context.tpId)}'
 		});
 	</script>
-</c:if>
-<c:if test="${context.tpName=='renren'}">
 	<script type="text/javascript"
 		src="http://static.connect.renren.com/js/v1.0/FeatureLoader.jsp"></script>
 	<script>

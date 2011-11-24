@@ -70,5 +70,14 @@ function getByteLen(val) {
 			len += 1; 
 	} 
 	return len; 
-} 
+}
+
+function trimStr(str)  
+{   
+    if ((typeof(str) != "string") || !str)  
+    {  
+        return "";   
+    }  
+    return str.replace(/(^\s*)|(\s*$)/g, "");   
+}
 

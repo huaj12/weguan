@@ -32,7 +32,7 @@ public interface IAppService {
 	 * @return
 	 */
 	boolean aboutFriends(List<String> fuids, String content, long sendId,
-			long tpId, long actId);
+			long tpId, long actId,String typeWeibo,String typeComment);
 
 	/**
 	 * 发送feed

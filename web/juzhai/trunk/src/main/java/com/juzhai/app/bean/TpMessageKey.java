@@ -19,6 +19,7 @@ public class TpMessageKey {
 	public static final String RENREN_QUERTION_MESSAGE = "renren.question.message";
 	public static final String RENREN_MATCH_MESSAGE = "	renren.match.message";
 	
+	public static final String WEIBO_SEND_MESSAGE = "weibo.send.message";
 	
 	public static final String WEIBO_QUERTION_MESSAGE = "weibo.question.message";
 

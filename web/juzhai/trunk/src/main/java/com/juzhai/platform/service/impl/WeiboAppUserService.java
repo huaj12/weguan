@@ -37,18 +37,12 @@ public class WeiboAppUserService extends AbstractUserService {
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
 
-	private String newWeibo(AuthInfo authInfo) {
-		Weibo weibo = new Weibo();
-		weibo.setToken(authInfo.getToken());
-		String uid = authInfo.getTpIdentity();
-		return uid;
-	}
 
 	@Override
 	public List<TpFriend> getAllFriends(AuthInfo authInfo) {
 		List<TpFriend> friendIdList = new ArrayList<TpFriend>();
-		String uid = newWeibo(authInfo);
-		Friendships fm = new Friendships();
+		String uid =authInfo.getTpIdentity();
+		Friendships fm = new Friendships(authInfo.getToken());
 		try {
 			List<User> users = fm.getFriendsBilateral(uid);
 			for (User user : users) {
@@ -62,7 +56,7 @@ public class WeiboAppUserService extends AbstractUserService {
 					sex = 1;
 				}
 				tpFriend.setGender(sex);
-				tpFriend.setLogoUrl(user.getProfileImageURL().toString());
+				tpFriend.setLogoUrl(user.getavatarLarge());
 				// 微博获取不到生日需要申请高级接口
 				tpFriend.setCity(user.getLocation());
 				friendIdList.add(tpFriend);
@@ -76,8 +70,8 @@ public class WeiboAppUserService extends AbstractUserService {
 
 	@Override
 	public List<String> getAppFriends(AuthInfo authInfo) {
-		String uid = newWeibo(authInfo);
-		Friendships fm = new Friendships();
+		String uid=authInfo.getTpIdentity();
+		Friendships fm = new Friendships(authInfo.getToken());
 		List<String> fuids = new ArrayList<String>();
 		try {
 			String[] ids = fm.getFriendsBilateralIds(uid);
@@ -98,9 +92,8 @@ public class WeiboAppUserService extends AbstractUserService {
 			HttpServletResponse response, AuthInfo authInfo,
 			String thirdpartyIdentity) {
 		try {
-			String uid = newWeibo(authInfo);
-			Users users = new Users();
-			User user = users.showUserById(uid);
+			Users users = new Users(authInfo.getToken());
+			User user = users.showUserById(authInfo.getTpIdentity());
 			Profile profile = new Profile();
 			profile.setNickname(TextTruncateUtil.truncate(
 					HtmlUtils.htmlUnescape(user.getName()), nicknameLengthMax,
@@ -110,7 +103,7 @@ public class WeiboAppUserService extends AbstractUserService {
 				sex = 1;
 			}
 			profile.setGender(sex);
-			profile.setLogoPic(user.getProfileImageURL().toString());
+			profile.setLogoPic(user.getavatarLarge());
 			// 没有家乡用所在地代替
 			profile.setHome(user.getLocation());
 			// 获取不到生日需要高级接口
@@ -166,6 +159,10 @@ public class WeiboAppUserService extends AbstractUserService {
 			return null;
 		}
 		return oauth;
+	}
+	
+	private String getBigImage(String pic){
+		return pic.replaceAll("/50/", "/180/");
 	}
 
 }

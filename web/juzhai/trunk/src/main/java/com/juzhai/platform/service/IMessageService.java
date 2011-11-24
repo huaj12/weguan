@@ -18,13 +18,13 @@ public interface IMessageService {
 	 */
 	boolean sendSysMessage(List<String> fuids,String linktext,String link,String word,String text,String picurl,AuthInfo authInfo);
 	/**
-	 * 发送消息
+	 * 发送留言
 	 * @param fuids
 	 * @param content
 	 * @param authInfo
 	 * @return
 	 */
-	boolean sendMessage(long sendId,String fuids, String content, AuthInfo authInfo,long actId,String link);
+	boolean sendMessage(long sendId,String fuids,String fname, String content, AuthInfo authInfo,long actId,String link,String typeWeibo,String typeComment);
 	/**
 	 * 发送feed无弹筐
 	 * @param linktext
@@ -35,7 +35,7 @@ public interface IMessageService {
 	 * @param authInfo
 	 * @return
 	 */
-	boolean sendFeed(String linktext,String link,String word,String text,String picurl,AuthInfo authInfo,String name);
+	boolean sendFeed(String linktext,String link,String word,String text,String picurl,AuthInfo authInfo,String name,long actId);
 	/**
 	 * 发送答题消息
 	 * @param fuids

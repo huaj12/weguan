@@ -66,9 +66,13 @@ public class RenrenAppMessageService implements IMessageService {
 	}
 
 	@Override
-	public boolean sendMessage(long sendId, String fuid, String content,
-			AuthInfo authInfo, long actId, String link) {
+	public boolean sendMessage(long sendId, String fuid, String fname,String content,
+			AuthInfo authInfo, long actId, String link,String typeWeibo,String typeComment) {
 		try {
+			if (content.trim().length() >30) {
+				log.error("about friends  content is too long ");
+				return false;
+			}
 			if (StringUtils.isEmpty(fuid)) {
 				return false;
 			}
@@ -109,7 +113,7 @@ public class RenrenAppMessageService implements IMessageService {
 
 	@Override
 	public boolean sendFeed(String linktext, String link, String word,
-			String text, String picurl, AuthInfo authInfo, String name) {
+			String text, String picurl, AuthInfo authInfo, String name,long actId) {
 		try {
 			RenrenApiClient client = newRenrenApiClient(authInfo.getAppKey(),
 					authInfo.getAppSecret(), authInfo.getSessionKey());

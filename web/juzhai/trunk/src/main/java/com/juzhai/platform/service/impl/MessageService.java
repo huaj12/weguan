@@ -44,15 +44,15 @@ public class MessageService implements IMessageService, BeanFactoryAware {
 				authInfo.getJoinType()).sendSysMessage(fuids, linktext, link, word, text, picurl, authInfo);
 	}
 	@Override
-	public boolean sendMessage(long sendId,String fuids, String content, AuthInfo authInfo,long actId,String link) {
+	public boolean sendMessage(long sendId,String fuids,String fname, String content, AuthInfo authInfo,long actId,String link,String typeWeibo,String typeComment) {
 		return getMessageServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).sendMessage(sendId,fuids, content, authInfo,actId,link);
+				authInfo.getJoinType()).sendMessage(sendId,fuids, fname,content, authInfo,actId,link,typeWeibo,typeComment);
 	}
 	@Override
 	public boolean sendFeed(String linktext, String link, String word,
-			String text, String picurl, AuthInfo authInfo,String name) {
+			String text, String picurl, AuthInfo authInfo,String name,long actId) {
 		return getMessageServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).sendFeed(linktext, link, word, text, picurl, authInfo,name);
+				authInfo.getJoinType()).sendFeed(linktext, link, word, text, picurl, authInfo,name, actId);
 	}
 	@Override
 	public boolean sendQuestionMessage(AuthInfo authInfo, List<String> fuids,long sendId,

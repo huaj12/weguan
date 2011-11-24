@@ -21,6 +21,19 @@ public class Oauth {
 	public String access_token;
 	public String user_id;
 
+	private String client_ID = "";
+	private String client_SERCRET = "";
+	private String redirect_URI = "";
+
+	public Oauth() {
+	}
+
+	public Oauth(String client_ID, String client_SERCRET, String redirect_URI) {
+		this.client_ID = client_ID;
+		this.client_SERCRET = client_SERCRET;
+		this.redirect_URI = redirect_URI;
+	}
+
 	public String getToken() {
 		return access_token;
 	}
@@ -38,8 +51,8 @@ public class Oauth {
 			t[0] += "=";
 		String part1 = t[0].replace("-", "+").replace("_", "/");
 
-		SecretKey key = new SecretKeySpec(WeiboConfig
-				.getValue("client_SERCRET").getBytes(), "hmacSHA256");
+		SecretKey key = new SecretKeySpec(client_SERCRET.getBytes(),
+				"hmacSHA256");
 		Mac m;
 		m = Mac.getInstance("hmacSHA256");
 		m.init(key);
@@ -74,22 +87,18 @@ public class Oauth {
 
 	public AccessToken getAccessTokenByCode(String code) throws WeiboException {
 		return new AccessToken(Weibo.client.post(
-				WeiboConfig.getValue("accessTokenURL"),
-				new PostParameter[] {
-						new PostParameter("client_id", WeiboConfig
-								.getValue("client_ID")),
-						new PostParameter("client_secret", WeiboConfig
-								.getValue("client_SERCRET")),
+				WeiboConfig.getValue("accessTokenURL"), new PostParameter[] {
+						new PostParameter("client_id", client_ID),
+						new PostParameter("client_secret", client_SERCRET),
 						new PostParameter("grant_type", "authorization_code"),
 						new PostParameter("code", code),
-						new PostParameter("redirect_uri", WeiboConfig
-								.getValue("redirect_URI")) }, false));
+						new PostParameter("redirect_uri", redirect_URI) },
+				false));
 	}
 
 	public String authorize(String response_type) throws WeiboException {
 		return WeiboConfig.getValue("authorizeURL").trim() + "?client_id="
-				+ WeiboConfig.getValue("client_ID").trim() + "&redirect_uri="
-				+ WeiboConfig.getValue("redirect_URI").trim()
+				+ client_ID.trim() + "&redirect_uri=" + redirect_URI.trim()
 				+ "&response_type=" + response_type;
 	}
 }

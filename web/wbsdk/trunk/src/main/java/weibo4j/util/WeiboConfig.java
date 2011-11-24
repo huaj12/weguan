@@ -1,28 +1,26 @@
 package weibo4j.util;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WeiboConfig {
-	private static String filePath = "src/main/resources/config.properties";
-	public WeiboConfig(){}
-	private static Properties props = new Properties(); 
-	static{
-		try {
-			props.load(new FileInputStream(filePath));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	public static String getValue(String key){
-		return props.getProperty(key);
+	private static Map<String, String> map = new HashMap<String, String>();
+
+	public WeiboConfig() {
 	}
 
-    public static void updateProperties(String key,String value) {    
-            props.setProperty(key, value); 
-    } 
+	static {
+		map.put("baseURL", "https://api.weibo.com/2/");
+		map.put("accessTokenURL", "https://api.weibo.com/2/oauth2/access_token");
+		map.put("authorizeURL", "https://api.weibo.com/2/oauth2/authorize");
+	}
+
+	public static String getValue(String key) {
+		return map.get(key);
+	}
+
+	public static void updateProperties(String key, String value) {
+		map.put(key, value);
+	}
+
 }

@@ -72,7 +72,7 @@ abbr,acronym { border: 0;
 
 
 
-.top_logo{ width:800px; height:auto; overflow:hidden; margin:0 auto; padding-bottom:15px; margin-top:15px;}
+.top_logo{ width:760px; height:auto; overflow:hidden; margin:0 auto; padding-bottom:15px; margin-top:15px;}
 .top_logo h1{ width:90px; height:24px; float:left; background:url(../images/2qi/renren_logo.jpg) no-repeat; margin-left:3px; display:inline;}
 .top_logo p{ color:#666; float:left; margin-left:12px; margin-top:2px; display:inline;}
 .top_logo span{ float:right; margin-right:5px; display:inline; margin-top:2px;}
@@ -83,13 +83,13 @@ abbr,acronym { border: 0;
 
 
 /********************/
-.main{ width:800px; height:auto; display:block; margin:0 auto;}
-.skin_top_new{ width:100%; height:9px; background:url(../images/full_image1.png) no-repeat 0 -740px;   overflow:hidden;}
+.main{ width:760px; height:auto; display:block; margin:0 auto;}
+.skin_top_new{ width:100%; height:10px; background:url(../images/2qi/wb_760_r1_c1.png) no-repeat; overflow:hidden;}
 
 .skin_top{ width:100%; height:65px; }
 .skin_top .top_left{ width:5px; height:65px; overflow:hidden; background:url(../images/full_image1.png) 0px -10px;  float:left;}
 .skin_top .top_right{ width:5px; height:65px; overflow:hidden; background:url(../images/full_image1.png) -5px -10px; float:right;}
-.skin_top .top_mid{ width:790px; height:65px; background:url(../images/img_y.png) repeat-x 0 -135px;  position:relative; float:left;  *z-index:1;}
+.skin_top .top_mid{ width:750px; height:65px; background:url(../images/img_y.png) repeat-x 0 -135px;  position:relative; float:left;  *z-index:1;}
 .top_mid .top_high_line{ background:url(../images/full_image1.png) -325px -80px; width:460px; height:2px; overflow:hidden; position:absolute; top:0; left:10px;}
 
 
@@ -100,7 +100,7 @@ abbr,acronym { border: 0;
 .top_mid .menu span p.r{ right:-5px;}
 .top_mid .menu span a{ height:42px; display:block; float:left; padding-left:15px; padding-right:15px; line-height:42px; font-weight:bold; color:#fff;text-decoration:none;}
 .top_mid .menu span a:hover{ text-decoration:underline;}
-.top_mid .menu em{ width:2px; height:42px; float:left; margin-left:9px; margin-right:9px; margin-top:11px; display:inline; background:url(../images/2qi/menu_r1_c7.jpg) no-repeat;}
+.top_mid .menu em{ width:2px; height:42px; float:left; margin-left:7px; margin-right:6px; margin-top:11px; display:inline; background:url(../images/2qi/menu_r1_c7.jpg) no-repeat;}
 
 .top_mid .menu .hover a{background:url(../images/2qi/menu_r1_c3.jpg) repeat-x; color:#CC6600}
 .top_mid .menu .hover .l{ left:-5px; background:url(../images/2qi/menu_r1_c1.jpg) no-repeat; }
@@ -117,13 +117,13 @@ abbr,acronym { border: 0;
 .dy .ts em{ background:#000; filter:alpha(opacity=70); -moz-opacity:0.7; -khtml-opacity:0.7;opacity:0.7; float:left; width:130px; padding:10px; padding-top:8px; padding-right:8px;}
 
 
-.skin_body{ width:100%; height:auto;  min-height:205px; _height:205px; background:url(../images/img_x.png) repeat-y -1210px 0 ; }
-.skin_body .skin_top_bg{ background:url(../images/full_image1.png) no-repeat 0 -760px; _background:url(../images/image_ie6_1.png) no-repeat 0 -760px; width:100%; height:auto; min-height:204px; _height:204px; overflow:hidden; _overflow:none; position:relative; padding-bottom:61px; }
+.skin_body{ width:100%; height:auto;  min-height:205px; _height:205px; background:url(../images/2qi/bbg.png) repeat-y; }
+.skin_body .skin_top_bg{ background:url(../images/2qi/wb_760_r3_c1.png) no-repeat; width:100%; height:auto; min-height:204px; _height:204px; overflow:hidden; _overflow:none; position:relative; padding-bottom:61px; }
 
 
 
 
-.content{ width:700px; height:auto; display:block; margin:0 auto; margin-top:48px; position:relative; }
+.content{ width:700px; height:auto; display:block; margin:0 auto; margin-top:28px; position:relative; }
 
 .white .top{ width:698px; height:1px;  overflow:hidden;  background:#FFF; margin:0 auto;}
 .white .mid{ width:700px; height:auto; overflow:hidden; background:#FFF; position:relative; z-index:998;}
@@ -177,7 +177,7 @@ abbr,acronym { border: 0;
 
 
 /********** 勾选框 ************/
-.tz{ width:auto; float:left; cursor:pointer; margin-left:50px; margin-top:10px; display:inline; *width:250px; position:absolute; left:0px; top:250px; }
+.tz{ width:auto; float:left; cursor:pointer; margin-left:30px; margin-top:10px; display:inline; *width:250px; position:absolute; left:0px; top:230px; }
 .tz p{ width:13px; height:13px; overflow:hidden; float:left; margin-top:2px;}
 .tz span{ float:left; margin-left:5px; color:#A4C8ED;}
 .tz_link p{ background:url(../images/check_box__img.jpg) no-repeat;}
@@ -187,7 +187,7 @@ abbr,acronym { border: 0;
 /********** 换一换按钮 ************/
 .content .next_btn1{ width:94px; height:43px; position:absolute; bottom:-51px; *bottom:-50px; right:-2px;}
 /*.content .next_btn1{ float:right; margin-top:8px; width:94px; height:43px;}*/
-.content .next_btn1 a{background:url(../images/image_ie6_1.png) no-repeat -170px -80px; _background:url(../images/image_ie6_1.png) no-repeat -170px -80px; display:block; text-align:center; line-height:40px; line-height:45px\9; *line-height:42px; color:#CEDFF5; font-size:14px; font-weight:bold; text-decoration:none; height:43px;}
+.content .next_btn1 a{background:url(../images/2qi/hyh_btn.png) no-repeat; display:block; text-align:center; line-height:40px; line-height:45px\9; *line-height:42px; color:#CEDFF5; font-size:14px; font-weight:bold; text-decoration:none; height:43px;}
 .content .next_btn1 a:hover{ color:#fff;}
 
 
@@ -570,7 +570,7 @@ abbr,acronym { border: 0;
 
 
 /********** LOADINGS************/
-.loading_home{ width:700px; height:auto; display:block; margin:0 auto; margin-top:48px; position:relative; text-align:center; }
+.loading_home{ width:700px; height:auto; display:block; margin:0 auto; margin-top:28px; position:relative; text-align:center; }
 .loading_home .top{ width:698px; height:1px;  overflow:hidden;  background:#FFF; margin:0 auto;}
 .loading_home .mid{ width:700px; height:194px; overflow:hidden; background:#FFF; position:relative; z-index:998;}
 .loading_home .bot{ width:698px; height:1px;  overflow:hidden;  background:#FFF; margin:0 auto;}
@@ -586,13 +586,58 @@ abbr,acronym { border: 0;
 .loading{ background:url(../images/full_image1.png) no-repeat -160px -130px;  _background:url(../images/image_ie6_1.png) no-repeat -160px -130px; color:#fff; width:354px; height:84px; margin-left:220px; display:inline; margin-top:150px; float:left;}
 .loading span{ float:left; margin-left:30px; display:inline; margin-top:25px;}
 .loading p{ float:left; margin-left:20px; display:inline; margin-top:32px; font-family:"微软雅黑", "宋体"; font-size:20px; color:#888;}
-.skin_bottom{ width:100%; height:9px; overflow:hidden; background:url(../images/full_image1.png) no-repeat 0 0;}
+
+
+
+
+
+
+
+
+
+
+
+.skin_bottom{ width:100%; height:9px; overflow:hidden; background:url(../images/2qi/wb_760_r7_c1.png) no-repeat;}
 
 /***********留言弹出层**************************/
-.cantact_user{ width:250px; height:auto; overflow:hidden; }
+.cantact_user{ width:250px; height:auto; overflow:hidden; background:#fff;}
 .cantact_user .text_area{ float:left;}
 .cantact_user .text_area textarea{ background:#fafafa; border:1px solid #ccc; width:239px; height:72px; overflow:hidden; color:#666; padding:5px;} 
 .cantact_user .bt{ float:right; margin-left:20px; display:inline; margin-top:5px;}
-.cantact_user .ck{float:right; margin-top:12px; color:#666;}
-.cantact_user .ck input{ float:left;  margin-top:3px;  *margin-top:0px;}
+.cantact_user .ck{float:left; color:#666;}
+.cantact_user .ck p{ float:left; margin-right:10px; display:inline;}
+.cantact_user .ck p em{ float:left; margin-top:13px; *margin-top:9px;}
+.cantact_user .ck p span{ float:left; margin-left:5px; display:inline; margin-top:11px;*margin-top:10px;_margin-top:11px; *margin-left:3px; }
 .cantact_user .bt a{ width:74px; height:34px; background:url(../images/full_image1.png) no-repeat -355px -85px; _background:url(../images/image_ie6_1.png) no-repeat -355px -85px;  text-align:center; line-height:34px; color:#fff; display:block; float:left; text-decoration:none; font-weight:blod;}
+
+
+
+
+
+
+/***********分享弹出层**************************/
+
+
+.share_wb{ width:465px; height:auto; overflow:hidden;  float:left;}
+
+.share_wb .area{ padding:15px; float:left; background:#fff;  width:435px;}
+.share_wb .area p{ width:120px; height:120px; overflow:hidden; float:left; }
+.share_wb .area span{ float:right; width:300px; height:120px; overflow:hidden;}
+.share_wb .area span textarea{ width:290px; height:110px; *height:108px; overflow:hidden; border:1px solid #ccc; color:#333; padding:4px; background:url(../images/2qi/textarea_bg.gif) no-repeat; color:#666;}
+
+.share_wb .btn{ float:left; background:#F6F6F6; border-top:1px solid #DADEE5; height:35px; width:435px; padding:5px 15px;}
+
+.share_wb .btn p{ float:left; margin-left:3px; display:inline;}
+.share_wb .btn p b{ float:left; margin-top:10px; *margin-top:7px; _margin-top:6px;}
+.share_wb .btn p em{ float:left; margin-left:5px; color:#666; margin-top:8px; display:inline; *margin-left:3px;}
+.share_wb .btn span{  float:right; }
+
+.share_wb .btn span a{color:#fff; width:84px; height:36px; line-height:36px; text-align:center; font-weight:bold; font-size:14px; display:block; text-decoration:none; background:url(../images/2qi/share_btn.jpg) no-repeat 0 0;}
+.share_wb .btn span a:hover{ background:url(../images/2qi/share_btn.jpg) no-repeat 0 -40px;}
+
+
+
+
+
+
+

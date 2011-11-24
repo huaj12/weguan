@@ -32,3 +32,8 @@
 				});
 	</script>
 </c:if>
+<c:if test="${context.tpName=='weibo'}">
+	<script
+		src="http://tjs.sjs.sinajs.cn/t35/apps/opent/js/frames/client.js"
+		language="JavaScript"></script>
+</c:if>

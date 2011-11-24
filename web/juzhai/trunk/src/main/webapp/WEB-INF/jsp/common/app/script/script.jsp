@@ -8,3 +8,4 @@
 <script type="text/javascript" src="${jz:static('/js/core/validation.js')}"></script>
 <script type="text/javascript" src="${jz:static('/js/base/base.js')}"></script>
 <script type="text/javascript" src="${jz:static('/js/module/app_header.js')}"></script>
+<jsp:include page="/WEB-INF/jsp/common/app/artDialog/artDialog.jsp" />

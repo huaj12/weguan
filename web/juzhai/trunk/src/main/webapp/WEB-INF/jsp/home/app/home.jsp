@@ -6,7 +6,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>拒宅器</title>
-		<link href="${jz:static('/css/jz_v2.css')}" rel="stylesheet" type="text/css" />
+		<c:set var="cssFile" value="/css/jz_${context.tpName}.css" />
+		<link href="${jz:static(cssFile)}" rel="stylesheet" type="text/css" />
 		<link href="${jz:static('/css/jquery.autocomplete.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>

@@ -11,7 +11,7 @@ import org.apache.commons.lang.StringUtils;
 public enum ThirdpartyNameEnum {
 
 	// 新浪微博
-	TSINA("tSina"),
+	WEIBO("weibo"),
 	// 人人
 	RENREN("renren"),
 	// 腾讯微博

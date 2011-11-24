@@ -47,6 +47,7 @@ public abstract class AbstractUserService implements IUserService {
 					+ tp.getName() + ", joinType:" + tp.getJoinType());
 			return 0L;
 		}
+		authInfo.setTpIdentity(tpIdentity);
 		return completeAccessUser(request, response, authInfo, tpIdentity, tp);
 	}
 

@@ -17,6 +17,7 @@ public class AuthInfo implements Serializable {
 
 	private static final long serialVersionUID = -2477174021935374878L;
 
+	private String tpIdentity;
 	private String thirdpartyName;
 	private String joinType;
 	private String appKey;
@@ -123,6 +124,14 @@ public class AuthInfo implements Serializable {
 
 	public void setJoinType(String joinType) {
 		this.joinType = joinType;
+	}
+
+	public String getTpIdentity() {
+		return tpIdentity;
+	}
+
+	public void setTpIdentity(String tpIdentity) {
+		this.tpIdentity = tpIdentity;
 	}
 
 	public void setThirdparty(Thirdparty tp) {

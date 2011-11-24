@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Date;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -183,6 +184,60 @@ public class ProvinceAndCity {
 			}
 			System.out.println();
 			i++;
+		}
+	}
+
+	@Test
+	public void weibo() throws IOException {
+		Properties p = new Properties();
+		p.load(getClass().getClassLoader().getResourceAsStream(
+				"weiboCity.properties"));
+		String[] provinceNames = new String[] { "安徽", "北京", "重庆", "福建", "甘肃",
+				"广东", "广西", "贵州", "海南", "河北", "黑龙江", "河南", "湖北", "湖南", "内蒙古",
+				"江苏", "江西", "吉林", "辽宁", "宁夏", "青海", "山西", "山东", "上海", "四川",
+				"天津", "西藏", "新疆", "云南", "浙江", "陕西", "台湾", "香港", "澳门", "海外" };
+		int i = 0;
+		for (String provinceName : provinceNames) {
+			System.out.print(provinceName + ": ");
+			String[] cityNames = p.getProperty(provinceName).split(",");
+			for (String cityName : cityNames) {
+				City city = InitData.getCityByName(cityName);
+				if (city == null) {
+					i++;
+					System.out.print(cityName + ",");
+				}
+			}
+			System.out.println();
+		}
+		System.out.println("total:" + i);
+	}
+
+	@Test
+	public void createWeiboCity() throws IOException {
+		Properties p = new Properties();
+		p.load(getClass().getClassLoader().getResourceAsStream(
+				"weiboCity.properties"));
+		Properties cityMappingProp = new Properties();
+		cityMappingProp.load(getClass().getClassLoader().getResourceAsStream(
+				"cityMapping.properties"));
+		String[] provinceNames = new String[] { "安徽", "北京", "重庆", "福建", "甘肃",
+				"广东", "广西", "贵州", "海南", "河北", "黑龙江", "河南", "湖北", "湖南", "内蒙古",
+				"江苏", "江西", "吉林", "辽宁", "宁夏", "青海", "山西", "山东", "上海", "四川",
+				"天津", "西藏", "新疆", "云南", "浙江", "陕西", "台湾", "香港", "澳门", "海外" };
+		for (String provinceName : provinceNames) {
+			String[] cityNames = p.getProperty(provinceName).split(",");
+			for (String cityName : cityNames) {
+				String mappingCityName = cityMappingProp.getProperty(cityName);
+				if (StringUtils.isNotEmpty(mappingCityName)) {
+					City city = InitData.getCityByName(mappingCityName);
+					if (null != city) {
+						CityMapping cityMapping = new CityMapping();
+						cityMapping.setCityId(city.getId());
+						cityMapping.setMappingCityName(cityName);
+						cityMappingMapper.insertSelective(cityMapping);
+					}
+				}
+			}
 		}
 	}
 }

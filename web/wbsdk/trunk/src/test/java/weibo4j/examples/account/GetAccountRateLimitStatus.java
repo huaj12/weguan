@@ -1,7 +1,6 @@
 package weibo4j.examples.account;
 
 import weibo4j.Account;
-import weibo4j.Weibo;
 import weibo4j.examples.Log;
 import weibo4j.model.RateLimitStatus;
 import weibo4j.model.WeiboException;
@@ -12,12 +11,10 @@ public class GetAccountRateLimitStatus {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Weibo weibo = new Weibo();
 		String access_token = args[0];
-		weibo.setToken(access_token);
-		Account am = new Account();
+		Account am = new Account(access_token);
 		try {
-            RateLimitStatus json = am.getAccountRateLimitStatus();
+			RateLimitStatus json = am.getAccountRateLimitStatus();
 			Log.logInfo(json.toString());
 		} catch (WeiboException e) {
 			e.printStackTrace();

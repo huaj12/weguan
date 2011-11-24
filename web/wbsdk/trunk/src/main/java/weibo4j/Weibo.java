@@ -37,7 +37,11 @@ public class Weibo implements java.io.Serializable {
 
 	private static final long serialVersionUID = 4282616848978535016L;
 
-	public static HttpClient client = new HttpClient();
+	protected HttpClient client = new HttpClient();
+
+	public Weibo(String token) {
+		this.client.setToken(token);
+	}
 
 	/**
 	 * Sets token information
@@ -48,4 +52,7 @@ public class Weibo implements java.io.Serializable {
 		client.setToken(token);
 	}
 
+	public HttpClient getClient() {
+		return this.client;
+	}
 }

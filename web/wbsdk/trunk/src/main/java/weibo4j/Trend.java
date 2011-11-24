@@ -10,7 +10,13 @@ import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONException;
 import weibo4j.util.WeiboConfig;
 
-public class Trend {
+public class Trend extends Weibo {
+
+	private static final long serialVersionUID = 9156981251781599197L;
+
+	public Trend(String token) {
+		super(token);
+	}
 
 	/*----------------------------话题接口----------------------------------------*/
 	/**
@@ -27,7 +33,7 @@ public class Trend {
 	 */
 	public List<UserTrend> getTrends(String uid) throws WeiboException {
 		return UserTrend
-				.constructTrendList(Weibo.client.get(
+				.constructTrendList(client.get(
 						WeiboConfig.getValue("baseURL") + "trends.json",
 						new PostParameter[] { new PostParameter("uid", uid
 								.toString()) }));
@@ -50,7 +56,7 @@ public class Trend {
 	public List<UserTrend> getTrends(Integer uid, Paging page)
 			throws WeiboException {
 		return UserTrend
-				.constructTrendList(Weibo.client.get(
+				.constructTrendList(client.get(
 						WeiboConfig.getValue("baseURL") + "trends.json",
 						new PostParameter[] { new PostParameter("uid", uid
 								.toString()) }, page));
@@ -72,7 +78,7 @@ public class Trend {
 	 */
 	public boolean isFollow(String trend_name) throws WeiboException {
 		try {
-			return Weibo.client
+			return client
 					.get(WeiboConfig.getValue("baseURL")
 							+ "trends/is_follow.json",
 							new PostParameter[] { new PostParameter(
@@ -98,7 +104,7 @@ public class Trend {
 	 * @since JDK 1.5
 	 */
 	public List<Trends> getTrendsHourly(Integer base_app) throws WeiboException {
-		return Trends.constructTrendsList(Weibo.client.get(
+		return Trends.constructTrendsList(client.get(
 				WeiboConfig.getValue("baseURL") + "trends/hourly.json",
 				new PostParameter[] { new PostParameter("base_app", base_app
 						.toString()) }));
@@ -118,7 +124,7 @@ public class Trend {
 	 * @since JDK 1.5
 	 */
 	public List<Trends> getTrendsDaily(Integer base_app) throws WeiboException {
-		return Trends.constructTrendsList(Weibo.client.get(
+		return Trends.constructTrendsList(client.get(
 				WeiboConfig.getValue("baseURL") + "trends/daily.json",
 				new PostParameter[] { new PostParameter("base_app", base_app
 						.toString()) }));
@@ -139,7 +145,7 @@ public class Trend {
 	 * @since JDK 1.5
 	 */
 	public List<Trends> getTrendsWeekly(Integer base_app) throws WeiboException {
-		return Trends.constructTrendsList(Weibo.client.get(
+		return Trends.constructTrendsList(client.get(
 				WeiboConfig.getValue("baseURL") + "trends/weekly.json",
 				new PostParameter[] { new PostParameter("base_app", base_app
 						.toString()) }));
@@ -160,7 +166,7 @@ public class Trend {
 	 * @since JDK 1.5
 	 */
 	public UserTrend trendsFollow(String trend_name) throws WeiboException {
-		return new UserTrend(Weibo.client.post(WeiboConfig.getValue("baseURL")
+		return new UserTrend(client.post(WeiboConfig.getValue("baseURL")
 				+ "trends/follow.json",
 				new PostParameter[] { new PostParameter("trend_name",
 						trend_name) }));
@@ -182,7 +188,7 @@ public class Trend {
 	 */
 	public boolean trendsDestroy(Integer trend_id) throws WeiboException {
 		try {
-			return Weibo.client
+			return client
 					.delete(WeiboConfig.getValue("baseURL")
 							+ "trends/destroy.json",
 							new PostParameter[] { new PostParameter("trend_id",

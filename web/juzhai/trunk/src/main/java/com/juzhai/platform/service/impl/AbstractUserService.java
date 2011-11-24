@@ -7,7 +7,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
+import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.dao.ITpUserDao;
 import com.juzhai.passport.model.Profile;
@@ -19,8 +21,7 @@ import com.juzhai.platform.service.IUserService;
 
 public abstract class AbstractUserService implements IUserService {
 
-	private static final Log log = LogFactory
-			.getLog(AbstractUserService.class);
+	private static final Log log = LogFactory.getLog(AbstractUserService.class);
 
 	@Autowired
 	private ITpUserDao tpUserDao;
@@ -28,6 +29,8 @@ public abstract class AbstractUserService implements IUserService {
 	private IRegisterService registerService;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
+	@Autowired
+	private RedisTemplate<String, String> redisTemplate;
 
 	@Override
 	public long access(HttpServletRequest request,
@@ -67,6 +70,10 @@ public abstract class AbstractUserService implements IUserService {
 			}
 			uid = registerService.autoRegister(tp, tpIdentity, authInfo,
 					profile);
+			// redis记录已安装App的用户
+			redisTemplate.opsForSet().add(
+					RedisKeyGenerator.genTpInstallUsersKey(tp.getName()),
+					tpIdentity);
 		} else {
 			if (log.isDebugEnabled()) {
 				log.debug("save authInfo.[tp=" + tpUser.getTpName() + ", uid="
@@ -82,6 +89,11 @@ public abstract class AbstractUserService implements IUserService {
 		}
 
 		return uid;
+	}
+
+	protected boolean isInstalled(String tpName, String tpIdentity) {
+		return redisTemplate.opsForSet().isMember(
+				RedisKeyGenerator.genTpInstallUsersKey(tpName), tpIdentity);
 	}
 
 	protected abstract Profile convertToProfile(HttpServletRequest request,

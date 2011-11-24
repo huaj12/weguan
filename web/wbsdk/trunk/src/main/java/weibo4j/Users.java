@@ -5,7 +5,14 @@ import weibo4j.model.User;
 import weibo4j.model.WeiboException;
 import weibo4j.util.WeiboConfig;
 
-public class Users {
+public class Users extends Weibo {
+
+	private static final long serialVersionUID = -3904664827509335778L;
+
+	public Users(String token) {
+		super(token);
+	}
+
 	/*----------------------------用户接口----------------------------------------*/
 	/**
 	 * 根据用户ID获取用户信息
@@ -20,7 +27,7 @@ public class Users {
 	 * @since JDK 1.5
 	 */
 	public User showUserById(String uid) throws WeiboException {
-		return new User(Weibo.client.get(
+		return new User(client.get(
 				WeiboConfig.getValue("baseURL") + "users/show.json",
 				new PostParameter[] { new PostParameter("uid", uid) })
 				.asJSONObject());
@@ -39,7 +46,7 @@ public class Users {
 	 * @since JDK 1.5
 	 */
 	public User showUser(String screen_name) throws WeiboException {
-		return new User(Weibo.client.get(
+		return new User(client.get(
 				WeiboConfig.getValue("baseURL") + "users/show.json",
 				new PostParameter[] { new PostParameter("screen_name",
 						screen_name) }).asJSONObject());
@@ -59,7 +66,7 @@ public class Users {
 	 * @since JDK 1.5
 	 */
 	public User showUserByDomain(String domain) throws WeiboException {
-		return new User(Weibo.client.get(
+		return new User(client.get(
 				WeiboConfig.getValue("baseURL") + "users/domain_show.json",
 				new PostParameter[] { new PostParameter("domain", domain) })
 				.asJSONObject());

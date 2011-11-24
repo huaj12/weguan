@@ -9,7 +9,14 @@ import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONException;
 import weibo4j.util.WeiboConfig;
 
-public class Tags {
+public class Tags extends Weibo {
+
+	private static final long serialVersionUID = 5913064564934063068L;
+
+	public Tags(String token) {
+		super(token);
+	}
+
 	/*----------------------------标签接口----------------------------------------*/
 	/**
 	 * 返回指定用户的标签列表
@@ -25,7 +32,7 @@ public class Tags {
 	 */
 	public List<Tag> getTags(String uid) throws WeiboException {
 		return Tag
-				.constructTags(Weibo.client.get(WeiboConfig.getValue("baseURL")
+				.constructTags(client.get(WeiboConfig.getValue("baseURL")
 						+ "tags.json", new PostParameter[] { new PostParameter(
 						"uid", uid.toString()) }));
 	}
@@ -46,7 +53,7 @@ public class Tags {
 	 */
 	public List<Tag> getTags(String uid, Paging page) throws WeiboException {
 		return Tag
-				.constructTags(Weibo.client.get(WeiboConfig.getValue("baseURL")
+				.constructTags(client.get(WeiboConfig.getValue("baseURL")
 						+ "tags.json", new PostParameter[] { new PostParameter(
 						"uid", uid.toString()) }, page));
 	}
@@ -65,7 +72,7 @@ public class Tags {
 	 * @since JDK 1.5
 	 */
 	public List<Tag> getTagsBatch(String uids) throws WeiboException {
-		return Tag.constructTags(Weibo.client.get(
+		return Tag.constructTags(client.get(
 				WeiboConfig.getValue("baseURL") + "tags/tags_batch.json",
 				new PostParameter[] { new PostParameter("uids", uids) }));
 	}
@@ -83,7 +90,7 @@ public class Tags {
 	 */
 
 	public List<Tag> getTagsSuggestions() throws WeiboException {
-		return Tag.constructTags(Weibo.client.get(WeiboConfig
+		return Tag.constructTags(client.get(WeiboConfig
 				.getValue("baseURL") + "tags/suggestions.json"));
 	}
 
@@ -100,7 +107,7 @@ public class Tags {
 	 * @since JDK 1.5
 	 */
 	public List<Tag> createTags(String tags) throws WeiboException {
-		return Tag.constructTags(Weibo.client.post(
+		return Tag.constructTags(client.post(
 				WeiboConfig.getValue("baseURL") + "tags/create.json",
 				new PostParameter[] { new PostParameter("tags", tags) }));
 	}
@@ -120,7 +127,7 @@ public class Tags {
 	 */
 	public boolean destoryTag(Integer tag_id) throws WeiboException {
 		try {
-			return Weibo.client
+			return client
 					.post(WeiboConfig.getValue("baseURL") + "tags/destroy.json",
 							new PostParameter[] { new PostParameter("tag_id",
 									tag_id.toString()) }).asJSONObject()
@@ -144,7 +151,7 @@ public class Tags {
 	 * @since JDK 1.5
 	 */
 	public List<Tag> destroyTagsBatch(String ids) throws WeiboException {
-		return Tag.constructTags(Weibo.client.post(
+		return Tag.constructTags(client.post(
 				WeiboConfig.getValue("baseURL") + "tags/destroy_batch.json",
 				new PostParameter[] { new PostParameter("ids", ids) }));
 	}

@@ -3,7 +3,6 @@ package weibo4j.examples.friendships;
 import java.util.List;
 
 import weibo4j.Friendships;
-import weibo4j.Weibo;
 import weibo4j.examples.Log;
 import weibo4j.model.User;
 import weibo4j.model.WeiboException;
@@ -15,13 +14,11 @@ public class GetFriendsBilateral {
 	 */
 	public static void main(String[] args) {
 		String access_token = args[0];
-		Weibo weibo = new Weibo();
-		weibo.setToken(access_token);
 		String uid = args[1];
-		Friendships fm = new Friendships();
+		Friendships fm = new Friendships(access_token);
 		try {
 			List<User> users = fm.getFriendsBilateral(uid);
-			for(User u : users){
+			for (User u : users) {
 				Log.logInfo(u.toString());
 			}
 		} catch (WeiboException e) {

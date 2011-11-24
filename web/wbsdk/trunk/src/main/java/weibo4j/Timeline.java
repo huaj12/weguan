@@ -3,6 +3,7 @@ package weibo4j;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import weibo4j.http.ImageItem;
 import weibo4j.model.Emotion;
 import weibo4j.model.Paging;
@@ -13,7 +14,13 @@ import weibo4j.model.WeiboException;
 import weibo4j.util.URLEncodeUtils;
 import weibo4j.util.WeiboConfig;
 
-public class Timeline {
+public class Timeline extends Weibo {
+
+	private static final long serialVersionUID = 1717187179390909129L;
+
+	public Timeline(String token) {
+		super(token);
+	}
 
 	/*----------------------------读取接口----------------------------------------*/
 
@@ -31,7 +38,7 @@ public class Timeline {
 	 */
 	public List<Status> getPublicTimeline() throws WeiboException {
 
-		return Status.constructStatuses(Weibo.client.get(WeiboConfig
+		return Status.constructStatuses(client.get(WeiboConfig
 				.getValue("baseURL") + "statuses/public_timeline.json"));
 	}
 
@@ -53,7 +60,7 @@ public class Timeline {
 	public List<Status> getPublicTimeline(int count, int baseApp)
 			throws WeiboException {
 
-		return Status.constructStatuses(Weibo.client.get(
+		return Status.constructStatuses(client.get(
 				WeiboConfig.getValue("baseURL")
 						+ "statuses/public_timeline.json", new PostParameter[] {
 						new PostParameter("count", count),
@@ -77,7 +84,7 @@ public class Timeline {
 	 */
 	public List<Status> getFriendsTimeline() throws WeiboException {
 
-		return Status.constructStatuses(Weibo.client.get(WeiboConfig
+		return Status.constructStatuses(client.get(WeiboConfig
 				.getValue("baseURL") + "statuses/friends_timeline.json"));
 
 	}
@@ -100,7 +107,7 @@ public class Timeline {
 	 */
 	public List<Status> getFriendsTimeline(Integer baseAPP, Integer feature,
 			Paging paging) throws WeiboException {
-		return Status.constructStatuses(Weibo.client.get(
+		return Status.constructStatuses(client.get(
 				WeiboConfig.getValue("baseURL")
 						+ "statuses/friends_timeline.json",
 				new PostParameter[] {
@@ -124,7 +131,7 @@ public class Timeline {
 	 */
 	public List<Status> getHomeTimeline() throws WeiboException {
 
-		return Status.constructStatuses(Weibo.client.get(WeiboConfig
+		return Status.constructStatuses(client.get(WeiboConfig
 				.getValue("baseURL") + "statuses/home_timeline.json"));
 
 	}
@@ -148,13 +155,10 @@ public class Timeline {
 	public List<Status> getHomeTimeline(Integer baseAPP, Integer feature,
 			Paging paging) throws WeiboException {
 		return Status
-				.constructStatuses(Weibo.client.get(
-						WeiboConfig.getValue("baseURL")
-								+ "statuses/home_timeline.json",
-						new PostParameter[] {
-								new PostParameter("base_app", baseAPP
-										.toString()),
-								new PostParameter("feature", feature.toString()) },
+				.constructStatuses(client.get(WeiboConfig.getValue("baseURL")
+						+ "statuses/home_timeline.json", new PostParameter[] {
+						new PostParameter("base_app", baseAPP.toString()),
+						new PostParameter("feature", feature.toString()) },
 						paging));
 
 	}
@@ -172,7 +176,7 @@ public class Timeline {
 	 */
 	public List<Status> getUserTimeline(String access_token)
 			throws WeiboException {
-		return Status.constructStatuses(Weibo.client.get(WeiboConfig
+		return Status.constructStatuses(client.get(WeiboConfig
 				.getValue("baseURL") + "statuses/user_timeline.json"));
 	}
 
@@ -203,16 +207,13 @@ public class Timeline {
 			Integer count, Paging page, Integer base_app, Integer feature)
 			throws WeiboException {
 		return Status
-				.constructStatuses(Weibo.client.get(
-						WeiboConfig.getValue("baseURL")
-								+ "statuses/user_timeline.json",
-						new PostParameter[] {
-								new PostParameter("uid", uid.toString()),
-								new PostParameter("screen_name", screen_name),
-								new PostParameter("count", count.toString()),
-								new PostParameter("base_app", base_app
-										.toString()),
-								new PostParameter("feature", feature.toString()) },
+				.constructStatuses(client.get(WeiboConfig.getValue("baseURL")
+						+ "statuses/user_timeline.json", new PostParameter[] {
+						new PostParameter("uid", uid.toString()),
+						new PostParameter("screen_name", screen_name),
+						new PostParameter("count", count.toString()),
+						new PostParameter("base_app", base_app.toString()),
+						new PostParameter("feature", feature.toString()) },
 						page));
 	}
 
@@ -230,7 +231,7 @@ public class Timeline {
 	 * @since JDK 1.5
 	 */
 	public List<Status> getRepostTimeline(String id) throws WeiboException {
-		return Status.constructStatuses(Weibo.client.get(
+		return Status.constructStatuses(client.get(
 				WeiboConfig.getValue("baseURL")
 						+ "statuses/repost_timeline.json",
 				new PostParameter[] { new PostParameter("id", id) }));
@@ -255,7 +256,7 @@ public class Timeline {
 	 */
 	public List<Status> getRepostTimeline(String id, Paging page, Integer count)
 			throws WeiboException {
-		return Status.constructStatuses(Weibo.client.get(
+		return Status.constructStatuses(client.get(
 				WeiboConfig.getValue("baseURL")
 						+ "statuses/repost_timeline.json", new PostParameter[] {
 						new PostParameter("id", id),
@@ -274,7 +275,7 @@ public class Timeline {
 	 * @since JDK 1.5
 	 */
 	public List<Status> getRepostByMe() throws WeiboException {
-		return Status.constructStatuses(Weibo.client.get(WeiboConfig
+		return Status.constructStatuses(client.get(WeiboConfig
 				.getValue("baseURL") + "statuses/repost_by_me.json"));
 	}
 
@@ -292,7 +293,7 @@ public class Timeline {
 	 * @since JDK 1.5
 	 */
 	public List<Status> getRepostByMe(Paging page) throws WeiboException {
-		return Status.constructStatuses(Weibo.client.get(
+		return Status.constructStatuses(client.get(
 				WeiboConfig.getValue("baseURL") + "statuses/repost_by_me.json",
 				null, page));
 	}
@@ -309,7 +310,7 @@ public class Timeline {
 	 * @since JDK 1.5
 	 */
 	public List<Status> getMentions() throws WeiboException {
-		return Status.constructStatuses(Weibo.client.get(WeiboConfig
+		return Status.constructStatuses(client.get(WeiboConfig
 				.getValue("baseURL") + "statuses/mentions.json"));
 	}
 
@@ -337,7 +338,7 @@ public class Timeline {
 	public List<Status> getMentions(Paging page, Integer filter_by_author,
 			Integer filter_by_source, Integer filter_by_type)
 			throws WeiboException {
-		return Status.constructStatuses(Weibo.client.get(
+		return Status.constructStatuses(client.get(
 				WeiboConfig.getValue("baseURL") + "statuses/mentions.json",
 				new PostParameter[] {
 						new PostParameter("filter_by_author", filter_by_author
@@ -362,7 +363,7 @@ public class Timeline {
 	 * @since JDK 1.5
 	 */
 	public Status showStatus(String id) throws WeiboException {
-		return new Status(Weibo.client.get(WeiboConfig.getValue("baseURL")
+		return new Status(client.get(WeiboConfig.getValue("baseURL")
 				+ "statuses/show.json",
 				new PostParameter[] { new PostParameter("id", id) }));
 	}
@@ -383,7 +384,7 @@ public class Timeline {
 	 * @since JDK 1.5
 	 */
 	public String QueryMid(Integer type, String id) throws WeiboException {
-		return new Status(Weibo.client.get(WeiboConfig.getValue("baseURL")
+		return new Status(client.get(WeiboConfig.getValue("baseURL")
 				+ "statuses/querymid.json", new PostParameter[] {
 				new PostParameter("id", id.toString()),
 				new PostParameter("type", type.toString()) })).getMid();
@@ -405,11 +406,12 @@ public class Timeline {
 	 * @since JDK 1.5
 	 */
 	public String QueryId(String mid, Integer type) throws WeiboException {
-		return new Status(Weibo.client.get(WeiboConfig.getValue("baseURL")
+		return new Status(client.get(WeiboConfig.getValue("baseURL")
 				+ "statuses/queryid.json",
 				new PostParameter[] { new PostParameter("mid", mid),
 						new PostParameter("type", type.toString()) })).getId();
 	}
+
 	/**
 	 * 通过微博MID获取其ID
 	 * 
@@ -417,9 +419,12 @@ public class Timeline {
 	 *            true string 需要查询的微博MID，批量模式下，用半角逗号分隔，最多不超过20个
 	 * @param type
 	 *            获取类型，1：微博、2：评论、3：私信，默认为1。
-	 * @param is_batch 是否使用批量模式，0：否、1：是，默认为0。  
-	 * @param inbox 仅对私信有效，当MID类型为私信时用此参数，0：发件箱、1：收件箱，默认为0 。 
-	 * @param isBase62 MID是否是base62编码，0：否、1：是，默认为0。                          
+	 * @param is_batch
+	 *            是否使用批量模式，0：否、1：是，默认为0。
+	 * @param inbox
+	 *            仅对私信有效，当MID类型为私信时用此参数，0：发件箱、1：收件箱，默认为0 。
+	 * @param isBase62
+	 *            MID是否是base62编码，0：否、1：是，默认为0。
 	 * @return Status's id
 	 * @throws WeiboException
 	 *             when Weibo service or network is unavailable
@@ -428,16 +433,17 @@ public class Timeline {
 	 *      href="http://open.weibo.com/wiki/2/statuses/queryid">statuses/queryid</a>
 	 * @since JDK 1.5
 	 */
-	public List<QueryID> QueryId(String mid, Integer type,Integer isBatch,Integer inbox,Integer isBase62) throws WeiboException {
-		return QueryID.constructQueryID(Weibo.client.get(WeiboConfig.getValue("baseURL")
-				+ "statuses/queryid.json",new PostParameter[] { 
-			       new PostParameter("mid", mid),
-				   new PostParameter("type", type.toString()),
-			       new PostParameter("is_batch", isBatch.toString()),
-			       new PostParameter("inbox", inbox.toString()),
-			       new PostParameter("isBase62", isBase62.toString())
-				}));
+	public List<QueryID> QueryId(String mid, Integer type, Integer isBatch,
+			Integer inbox, Integer isBase62) throws WeiboException {
+		return QueryID.constructQueryID(client.get(
+				WeiboConfig.getValue("baseURL") + "statuses/queryid.json",
+				new PostParameter[] { new PostParameter("mid", mid),
+						new PostParameter("type", type.toString()),
+						new PostParameter("is_batch", isBatch.toString()),
+						new PostParameter("inbox", inbox.toString()),
+						new PostParameter("isBase62", isBase62.toString()) }));
 	}
+
 	/**
 	 * 通过微博ID获取其MID
 	 * 
@@ -445,7 +451,8 @@ public class Timeline {
 	 *            需要查询的微博ID，批量模式下，用半角逗号分隔，最多不超过20个。
 	 * @param type
 	 *            获取类型，1：微博、2：评论、3：私信，默认为1。
-	 * @param is_batch 是否使用批量模式，0：否、1：是，默认为0。
+	 * @param is_batch
+	 *            是否使用批量模式，0：否、1：是，默认为0。
 	 * @return Status's mid
 	 * @throws WeiboException
 	 *             when Weibo service or network is unavailable
@@ -454,12 +461,15 @@ public class Timeline {
 	 *      href="http://open.weibo.com/wiki/2/statuses/querymid">statuses/querymid</a>
 	 * @since JDK 1.5
 	 */
-	public List<QueryID> QueryMid(Integer type, String id,Integer isBatch) throws WeiboException {
-		return QueryID.constructQueryID(Weibo.client.get(WeiboConfig.getValue("baseURL")+ "statuses/querymid.json", new PostParameter[] {
-				new PostParameter("id", id.toString()),
-				new PostParameter("type", type.toString()),
-				new PostParameter("is_batch",isBatch)}));
+	public List<QueryID> QueryMid(Integer type, String id, Integer isBatch)
+			throws WeiboException {
+		return QueryID.constructQueryID(client.get(
+				WeiboConfig.getValue("baseURL") + "statuses/querymid.json",
+				new PostParameter[] { new PostParameter("id", id.toString()),
+						new PostParameter("type", type.toString()),
+						new PostParameter("is_batch", isBatch) }));
 	}
+
 	/**
 	 * 按天返回热门微博转发榜的微博列表
 	 * 
@@ -472,12 +482,12 @@ public class Timeline {
 	 * @since JDK 1.5
 	 */
 	public List<Status> getRepostDaily() throws WeiboException {
-		return Status.constructStatuses(Weibo.client.get(WeiboConfig
+		return Status.constructStatuses(client.get(WeiboConfig
 				.getValue("baseURL") + "statuses/hot/repost_daily.json"));
 	}
 
 	/**
-	 * 转发一条新微博 
+	 * 转发一条新微博
 	 * 
 	 * @param id
 	 *            要转发的微博ID
@@ -490,7 +500,7 @@ public class Timeline {
 	 * @since JDK 1.5
 	 */
 	public Status Repost(String id) throws WeiboException {
-		return new Status(Weibo.client.post(WeiboConfig.getValue("baseURL")
+		return new Status(client.post(WeiboConfig.getValue("baseURL")
 				+ "statuses/update.json",
 				new PostParameter[] { new PostParameter("id", id.toString()) }));
 	}
@@ -516,7 +526,7 @@ public class Timeline {
 			throws WeiboException {
 		if (!URLEncodeUtils.isURLEncoded(status))
 			status = URLEncodeUtils.encodeURL(status);
-		return new Status(Weibo.client.post(WeiboConfig.getValue("baseURL")
+		return new Status(client.post(WeiboConfig.getValue("baseURL")
 				+ "statuses/repost.json", new PostParameter[] {
 				new PostParameter("id", id),
 				new PostParameter("status", status),
@@ -537,7 +547,7 @@ public class Timeline {
 	 * @since JDK 1.5
 	 */
 	public Status Destroy(String id) throws WeiboException {
-		return new Status(Weibo.client.post(WeiboConfig.getValue("baseURL")
+		return new Status(client.post(WeiboConfig.getValue("baseURL")
 				+ "statuses/destroy.json",
 				new PostParameter[] { new PostParameter("id", id) }));
 	}
@@ -556,7 +566,7 @@ public class Timeline {
 	 * @since JDK 1.5
 	 */
 	public Status UpdateStatus(String status) throws WeiboException {
-		return new Status(Weibo.client.post(WeiboConfig.getValue("baseURL")
+		return new Status(client.post(WeiboConfig.getValue("baseURL")
 				+ "statuses/update.json",
 				new PostParameter[] { new PostParameter("status", status) }));
 	}
@@ -585,7 +595,7 @@ public class Timeline {
 		if (!URLEncodeUtils.isURLEncoded(status)) {
 			status = URLEncodeUtils.encodeURL(status);
 		}
-		return new Status(Weibo.client.post(WeiboConfig.getValue("baseURL")
+		return new Status(client.post(WeiboConfig.getValue("baseURL")
 				+ "statuses/update.json", new PostParameter[] {
 				new PostParameter("status", status),
 				new PostParameter("lat", lat.toString()),
@@ -612,8 +622,8 @@ public class Timeline {
 			throws WeiboException {
 		if (!URLEncodeUtils.isURLEncoded(status))
 			status = URLEncodeUtils.encodeURL(status);
-		return new Status(Weibo.client.multPartURL(
-				WeiboConfig.getValue("baseURL") + "statuses/upload.json",
+		return new Status(client.multPartURL(WeiboConfig.getValue("baseURL")
+				+ "statuses/upload.json",
 				new PostParameter[] { new PostParameter("status", status) },
 				item));
 	}
@@ -640,11 +650,11 @@ public class Timeline {
 			Float longs) throws WeiboException {
 		if (!URLEncodeUtils.isURLEncoded(status))
 			status = URLEncodeUtils.encodeURL(status);
-		return new Status(Weibo.client.multPartURL(
-				WeiboConfig.getValue("baseURL") + "statuses/upload.json",
-				new PostParameter[] { new PostParameter("status", status),
-						new PostParameter("lat", lat.toString()),
-						new PostParameter("long", longs.toString()) }, item));
+		return new Status(client.multPartURL(WeiboConfig.getValue("baseURL")
+				+ "statuses/upload.json", new PostParameter[] {
+				new PostParameter("status", status),
+				new PostParameter("lat", lat.toString()),
+				new PostParameter("long", longs.toString()) }, item));
 	}
 
 	/**
@@ -658,7 +668,7 @@ public class Timeline {
 	 * @since JDK 1.5
 	 */
 	public List<Emotion> getEmotions() throws WeiboException {
-		return Emotion.constructEmotions(Weibo.client.get(WeiboConfig
+		return Emotion.constructEmotions(client.get(WeiboConfig
 				.getValue("baseURL") + "emotions.json"));
 	}
 
@@ -685,7 +695,7 @@ public class Timeline {
 		if (language != null) {
 			maps.put("language", language);
 		}
-		return Emotion.constructEmotions(Weibo.client.get(
+		return Emotion.constructEmotions(client.get(
 				WeiboConfig.getValue("baseURL") + "emotions.json",
 				new PostParameter[] { new PostParameter("type", type),
 						new PostParameter("language", language) }));

@@ -1,6 +1,7 @@
 package weibo4j;
 
 import java.util.List;
+
 import weibo4j.model.PostParameter;
 import weibo4j.model.RateLimitStatus;
 import weibo4j.model.School;
@@ -12,9 +13,16 @@ import weibo4j.util.WeiboConfig;
  * @author sinaWeibo
  * 
  */
-public class Account {
+public class Account extends Weibo {
+
+	private static final long serialVersionUID = -3748480558809827332L;
+
+	public Account(String token) {
+		super(token);
+	}
+
 	/**
-	 * OAuth授权之后，获取授权用户的UID 
+	 * OAuth授权之后，获取授权用户的UID
 	 * 
 	 * @return uid
 	 * @throws WeiboException
@@ -24,9 +32,12 @@ public class Account {
 	 *      href="http://open.weibo.com/wiki/2/account/get_uid">account/get_uid</a>
 	 * @since JDK 1.5
 	 */
-	public JSONObject getUid() throws WeiboException{
-		return Weibo.client.get(WeiboConfig.getValue("baseURL")+"account/get_uid.json").asJSONObject();
+	public JSONObject getUid() throws WeiboException {
+		return client.get(
+				WeiboConfig.getValue("baseURL") + "account/get_uid.json")
+				.asJSONObject();
 	}
+
 	/**
 	 * 获取当前登录用户的隐私设置
 	 * 
@@ -40,7 +51,7 @@ public class Account {
 	 * @since JDK 1.5
 	 */
 	public JSONObject getAccountPrivacy() throws WeiboException {
-		return Weibo.client.get(
+		return client.get(
 				WeiboConfig.getValue("baseURL") + "account/get_privacy.json")
 				.asJSONObject();
 	}
@@ -57,7 +68,7 @@ public class Account {
 	 * @since JDK 1.5
 	 */
 	public List<School> getAccountPrpfileSchoolList() throws WeiboException {
-		return School.constructSchool(Weibo.client.get(WeiboConfig
+		return School.constructSchool(client.get(WeiboConfig
 				.getValue("baseURL") + "account/profile/school_list.json"));
 	}
 
@@ -77,7 +88,7 @@ public class Account {
 	public List<School> getAccountPrpfileSchoolList(Integer province,
 			Integer city, Integer area, Integer type, String capital,
 			String keyword, Integer count) throws WeiboException {
-		return School.constructSchool(Weibo.client.get(
+		return School.constructSchool(client.get(
 				WeiboConfig.getValue("baseURL")
 						+ "account/profile/school_list.json",
 				new PostParameter[] {
@@ -99,7 +110,7 @@ public class Account {
 	 * @since JDK 1.5
 	 */
 	public RateLimitStatus getAccountRateLimitStatus() throws WeiboException {
-		return new RateLimitStatus(Weibo.client.get(WeiboConfig
+		return new RateLimitStatus(client.get(WeiboConfig
 				.getValue("baseURL") + "account/rate_limit_status.json"));
 	}
 

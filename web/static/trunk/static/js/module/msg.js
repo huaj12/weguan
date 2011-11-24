@@ -179,9 +179,17 @@
 	
 	function showAbout(name,actId,actName,fid){
 		clearAbout();
+		var isWeibo=false;
+		if($ ("#isWeibo").length>0){
+			isWeibo=true;
+		}
 		var content="";
 		if(actName!=null&&actName.length>0){
-			content="hi，想不想一起去"+actName+"?";
+			if(isWeibo){
+				content="hi，想不想一起去#"+actName+"#?";
+			}else{
+				content="hi，想不想一起去"+actName+"?";
+			}
 		}else{
 			content="hi，想不想一起出去玩？";
 		}
@@ -197,6 +205,14 @@
 		});
 	}
 	function clearAbout(){
+		var isWeibo=false;
+		if($ ("#isWeibo").length>0){
+			isWeibo=true;
+		}
+		if(isWeibo){
+			$("#type_comment").attr('checked',false);
+			$("#type_weibo").attr('checked',false)
+		}
 		$("#about_content").val('');
 		$("#about_fid").val('');
 		$("#about_actId").val('');
@@ -204,18 +220,40 @@
 		
 	}
 	function sendAbout(){
+		var isWeibo=false;
+		var type_comment="";
+		var type_weibo="";
+		if($ ("#isWeibo").length>0){
+			if($("#type_comment").attr('checked')!=undefined){
+				type_comment=$("#type_comment").val();
+			}
+			if($("#type_weibo").attr('checked')!=undefined){
+				type_weibo=$("#type_weibo").val();
+			}
+			isWeibo=true;
+		}
+		if(isWeibo){
+			if(type_comment==""&&type_weibo==""){
+				alert("至少选择一个留言渠道哦");
+				return ;
+			}
+		}
 		var content=$("#about_content").val();
 		var fuid=$("#about_fid").val();
 		var name=$("#about_name").val();
 		var actId=$("#about_actId").val();
-		if(content.length>30){
-			alert("不要超过30个字哦");
+		
+		if(trimStr(content).length==0){
+			alert("给你的好友留点言吧！");
 			return ;
 		}
+		
 		$.post('/msg/sendAbout', {
 			content:content,
 			fuid:fuid,
 			actId:actId,
+			typeComment:type_comment,
+			typeWeibo:type_weibo,
 		    random : Math.random()
 		}, function(result) {
 			if(result&&result.success){
@@ -245,7 +283,6 @@
 			}
 		});
 	}
-	
 	
 	
 	function clearBoard(){

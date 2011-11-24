@@ -6,10 +6,10 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>loading...</title>
-		<link href="${jz:static('/css/jz.css')}" rel="stylesheet" type="text/css" />
+		<link href="${jz:static('/css/jz_renren.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
-			<jsp:include page="/WEB-INF/jsp/common/app/app_kaixin001_top_logo.jsp" />
+		<jsp:include page="/WEB-INF/jsp/common/app/app_kaixin001_top_logo.jsp" />
 		<div class="main"><!--main begin-->
 			<div class="skin_top_new"><!--skin_top_new begin--></div><!--skin_top_new end-->
 			<div class="skin_body"><!--skin_body begin-->
@@ -41,7 +41,7 @@
 				var data=${data};
 				jQuery.ajax({
 					url: "/access",
-					type: "get",
+					type: "post",
 					data: data,
 					dataType: "json",
 					success: function(result){
@@ -54,6 +54,5 @@
 				});
 			});
 		</script>
-		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
 	</body>
 </html>

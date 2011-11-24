@@ -283,4 +283,14 @@ public class RedisKeyGenerator extends KeyGenerator {
 		return genKey(actId, tpName == null ? StringUtils.EMPTY : tpName
 				+ "_actPopularity");
 	}
+
+	/**
+	 * 平台用户已安装用户列表
+	 * 
+	 * @param tpName
+	 * @return
+	 */
+	public static String genTpInstallUsersKey(String tpName) {
+		return tpName + ".installUsers";
+	}
 }

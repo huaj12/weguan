@@ -64,10 +64,14 @@ public class Kaixin001AppMessageService implements IMessageService {
 	}
 
 	@Override
-	public boolean sendMessage(long sendId, String fuids, String content,
-			AuthInfo authInfo, long actId, String link) {
+	public boolean sendMessage(long sendId, String fuids,String fname, String content,
+			AuthInfo authInfo, long actId, String link,String typeWeibo,String typeComment) {
 		boolean flag = false;
 		try {
+			if (content.trim().length() >30) {
+				log.error("about friends  content is too long ");
+				return false;
+			}
 			if (authInfo == null) {
 				log.error("send  kaixin message authInfo is null ");
 				return false;
@@ -106,7 +110,7 @@ public class Kaixin001AppMessageService implements IMessageService {
 
 	@Override
 	public boolean sendFeed(String linktext, String link, String word,
-			String text, String picurl, AuthInfo authInfo, String name) {
+			String text, String picurl, AuthInfo authInfo, String name,long actId) {
 		boolean flag = false;
 		try {
 			Map<String, String> paramMap = new HashMap<String, String>();

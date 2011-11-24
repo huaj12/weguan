@@ -24,7 +24,10 @@ import com.juzhai.core.web.jstl.JzCoreFunction;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.passport.model.TpUser;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.service.IMessageService;
@@ -43,6 +46,8 @@ public class AppService implements IAppService {
 	private IActService actService;
 	@Autowired
 	private IUserActService userActService;
+	@Autowired
+	private IProfileService profileService;
 	@Autowired
 	private RedisTemplate<String, String> stringRedisTemplate;
 	@Value("${show.feed.count}")
@@ -136,12 +141,12 @@ public class AppService implements IAppService {
 				null, Locale.SIMPLIFIED_CHINESE);
 		String link = tp.getAppUrl() + "?goUri=/app/showAct/" + actId;
 		return messageService.sendFeed(linktext, link, word, text, picurl,
-				authInfo, name);
+				authInfo, name,actId);
 	}
 
 	@Override
 	public boolean aboutFriends(List<String> fuids, String content,
-			long sendId, long tpId, long actId) {
+			long sendId, long tpId, long actId,String typeWeibo,String typeComment) {
 		try {
 			if (fuids == null || fuids.size() == 0) {
 				log.error("about friends  fuids is null");
@@ -153,10 +158,6 @@ public class AppService implements IAppService {
 			if (StringUtils.isEmpty(content)) {
 				content = "";
 			}
-			if (content.trim().length() > 30) {
-				log.error("about friends  content is too long ");
-				return false;
-			}
 			AuthInfo authInfo = tpUserAuthService.getAuthInfo(sendId, tpId);
 			if (authInfo == null) {
 				log.error("about friends  authInfo is null");
@@ -165,8 +166,14 @@ public class AppService implements IAppService {
 			Thirdparty tp = InitData.TP_MAP.get(tpId);
 			for (String fuid : fuids) {
 				String link = tp.getAppUrl();
-				messageService.sendMessage(sendId, fuid, content, authInfo,
-						actId, link);
+				TpUser tpUser=tpUserService.getTpUserByTpIdAndIdentity(tpId, fuid);
+				ProfileCache pro=profileService.getProfileCacheByUid(tpUser.getUid());
+				String fname="";
+				if(pro!=null){
+					fname=pro.getNickname();
+				}
+				messageService.sendMessage(sendId, fuid,fname, content, authInfo,
+						actId, link,typeWeibo,typeComment);
 			}
 		} catch (Exception e) {
 			log.error("aboutFriends is error.");

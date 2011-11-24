@@ -358,7 +358,7 @@ public class MsgCenterController extends BaseController {
 	@RequestMapping(value = "/sendAbout")
 	@ResponseBody
 	public AjaxResult sendAbout(HttpServletRequest request, String content,
-			Long fuid, Long actId, Model model) throws NeedLoginException {
+			Long fuid, Long actId, Model model,String typeWeibo,String typeComment) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		AjaxResult result = new AjaxResult();
 		try {
@@ -375,7 +375,7 @@ public class MsgCenterController extends BaseController {
 				fuids.add(tpUser.getTpIdentity());
 			}
 			if (appService.aboutFriends(fuids, content, context.getUid(),
-					context.getTpId(), actId)) {
+					context.getTpId(), actId,typeWeibo,typeComment)) {
 				result.setSuccess(true);
 			} else {
 				result.setSuccess(false);

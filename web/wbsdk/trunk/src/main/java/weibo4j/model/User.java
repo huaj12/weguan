@@ -389,38 +389,47 @@ public class User extends WeiboResponse implements java.io.Serializable {
 	public boolean isVerified() {
 		return verified;
 	}
-
-	public int getverifiedType() {
+	public String getVerifiedReason() {
+		return verifiedReason;
+	}
+	public void setVerifiedReason(String verifiedReason) {
+		this.verifiedReason = verifiedReason;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public String getProfileImageUrl() {
+		return profileImageUrl;
+	}
+	public int getVerifiedType() {
 		return verifiedType;
 	}
-
-	public boolean isallowAllActMsg() {
+	public boolean isAllowAllActMsg() {
 		return allowAllActMsg;
 	}
-
-	public boolean isallowAllComment() {
+	public boolean isAllowAllComment() {
 		return allowAllComment;
 	}
-
-	public boolean isfollowMe() {
+	public boolean isFollowMe() {
 		return followMe;
 	}
-
+	public int getOnlineStatus() {
+		return onlineStatus;
+	}
+	public int getBiFollowersCount() {
+		return biFollowersCount;
+	}
 	public String getAvatarLarge() {
 		return avatarLarge;
 	}
 
-	public int getonlineStatus() {
-		return onlineStatus;
-	}
+
 
 	public Status getStatus() {
 		return status;
 	}
 
-	public int getbiFollowersCount() {
-		return biFollowersCount;
-	}
+
 
 	public String getRemark() {
 		return remark;

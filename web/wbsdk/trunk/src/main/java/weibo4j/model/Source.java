@@ -10,9 +10,11 @@ public class Source implements java.io.Serializable{
 		super();
 		// TODO Auto-generated constructor stus
 		String[] source = str.split("\"",5);
+		if(source!=null&&source.length>4){
         url = source[1];
         relationShip = source[3];
         name = source[4].replace(">", "").replace("</a", "");
+		}
 	}
     
 	public String getUrl() {

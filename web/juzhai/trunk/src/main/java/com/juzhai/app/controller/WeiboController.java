@@ -83,7 +83,7 @@ public class WeiboController extends BaseController {
 			}
 			String message = messageSource.getMessage(
 					TpMessageKey.WEIBO_FEED_TEXT_COUNT, new Object[] { count,
-							act.getName(), act.getName(), act.getIntro() },
+							act.getName() },
 					Locale.SIMPLIFIED_CHINESE);
 			String logo = "";
 			if (act != null) {

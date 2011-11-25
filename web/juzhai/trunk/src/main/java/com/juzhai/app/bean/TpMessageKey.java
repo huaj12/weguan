@@ -5,7 +5,7 @@ public class TpMessageKey {
 	public static final String FEED_TEXT_DEFAULT = "feed.text.default";
 	public static final String FEED_TEXT = "feed.text";
 	public static final String FEED_TEXT_COUNT_DEFAULT = "feed.text.count.default";
-	public static final String WEIBO_FEED_TEXT_COUNT = "weibo.feed.tect.count";
+	public static final String WEIBO_FEED_TEXT_COUNT = "weibo.feed.text.count";
 	
 	public static final String FEED_TEXT_BACK = "feed.text.back";
 	public static final String FEED_WORD_DEFAULT = "feed.word.default";

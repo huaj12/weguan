@@ -16,7 +16,7 @@
 			App.AuthDialog.show({
 				client_id :'${tp.appKey}', //必选，appkey
 				redirect_uri :'${tp.appUrl}', //必选，授权后的回调地址，例如：http://apps.weibo.com/giftabc
-				height : 120
+				height : 220
 			//可选，默认距顶端120px
 			});
 	</script>

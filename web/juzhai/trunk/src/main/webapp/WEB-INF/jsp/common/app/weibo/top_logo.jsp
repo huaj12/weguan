@@ -19,7 +19,7 @@
 		<!--area end-->
 		<div class="btn">
 			<!--btn begin-->
-			<span><a href="#" onclick="sendRequest();">分享</a> </span>
+			<span><a href="javascript:void(0);" onclick="sendRequest();">分享</a> </span>
 		</div>
 		<!--btn end-->
 	</div>

@@ -20,7 +20,7 @@
 				<b><input name="" type="checkbox" id="isFollow" value="1" /> </b><em>关注拒宅网</em>
 			</p>
 				<input id="feed_actId" value="" type="hidden" />
-			<span><a href="#" onclick="sendfeed();">分享</a> </span>
+			<span><a href="javascript:void(0);" onclick="sendfeed();">分享</a> </span>
 		</div>
 		<!--btn end-->
 	</div>

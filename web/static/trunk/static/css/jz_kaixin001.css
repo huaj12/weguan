@@ -589,10 +589,17 @@ abbr,acronym { border: 0;
 .skin_bottom{ width:100%; height:9px; overflow:hidden; background:url(../images/full_image1.png) no-repeat 0 0;}
 
 /***********留言弹出层**************************/
-.cantact_user{ width:250px; height:auto; overflow:hidden; }
+.cantact_user{ width:250px; height:auto; overflow:hidden; background:#fff;}
 .cantact_user .text_area{ float:left;}
 .cantact_user .text_area textarea{ background:#fafafa; border:1px solid #ccc; width:239px; height:72px; overflow:hidden; color:#666; padding:5px;} 
 .cantact_user .bt{ float:right; margin-left:20px; display:inline; margin-top:5px;}
-.cantact_user .ck{float:right; margin-top:12px; color:#666;}
-.cantact_user .ck input{ float:left;  margin-top:3px;  *margin-top:0px;}
+.cantact_user .ck{float:right; color:#666;}
+.cantact_user .ck p{ float:left; margin-right:10px; display:inline;}
+.cantact_user .ck p em{ float:left; margin-top:13px; *margin-top:9px;}
+.cantact_user .ck p span{ float:left; margin-left:5px; display:inline; margin-top:11px;*margin-top:10px;_margin-top:11px; *margin-left:3px; }
 .cantact_user .bt a{ width:74px; height:34px; background:url(../images/full_image1.png) no-repeat -355px -85px; _background:url(../images/image_ie6_1.png) no-repeat -355px -85px;  text-align:center; line-height:34px; color:#fff; display:block; float:left; text-decoration:none; font-weight:blod;}
+
+.cantact_user .sending{ float:right; margin-top:10px; margin-right:5px; display:inline; height:30px;}
+.cantact_user .sending .loading_icon{ float:left;}
+.cantact_user .sending strong{ float:left; font-size:14px; color:#999; font-family:"微软雅黑","宋体"; margin-left:5px; display:inline;}
+

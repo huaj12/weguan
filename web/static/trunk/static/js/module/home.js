@@ -126,10 +126,15 @@ function respSpecific(type){
 
 function respRecommend(actId, type){
 	if(actId >= 0 && type && type >= 0 && type <= 2){
-		var isFeed = true;
+		var isFeed = false;
 		var advise = $(".check_box");
 		if(advise.length > 0){
 			isFeed = advise.hasClass("tz_secleted");
+		}
+		if(type == 1){
+			if(recommendFeed instanceof Function){
+				recommendFeed(actId);
+			}
 		}
 		dealFeed("/app/ajax/respRecommend", {"actId": actId, "type": type, "isFeed": isFeed});
 	}

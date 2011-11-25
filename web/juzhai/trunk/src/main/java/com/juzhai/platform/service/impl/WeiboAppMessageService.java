@@ -36,15 +36,9 @@ import com.juzhai.platform.service.IMessageService;
 public class WeiboAppMessageService implements IMessageService {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
-	private ITpUserService tpUserService;
-	@Autowired
 	private MessageSource messageSource;
 	@Autowired
-	private IProfileService profileService;
-	@Autowired
 	private IUploadImageService uploadImageService;
-	@Autowired
-	private IUserActService userActService;
 	@Autowired
 	private IActService actService;
 	@Value("${show.feed.count}")
@@ -130,21 +124,7 @@ public class WeiboAppMessageService implements IMessageService {
 	public boolean sendFeed(String linktext, String link, String word,
 			String text, String picurl, AuthInfo authInfo, String name,
 			long actId) {
-		Act act = actService.getActById(actId);
-		if (act == null) {
-			log.error("send Feed act is null");
-			return false;
-		}
-		try{
-		String appLink = link + "?goUri=/app/showAct/" + actId;
-		text = subContent(text, appLink);
-		Timeline timeline = new Timeline(authInfo.getToken());
-		sendWeibo(actId, timeline, text);
-		}catch (Exception e) {
-			log.error("weibo sendFeed is error." + e.getMessage());
-			return false;
-		}
-		return true;
+		return false;
 	}
 
 	@Override

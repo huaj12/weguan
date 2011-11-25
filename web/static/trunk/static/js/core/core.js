@@ -81,3 +81,10 @@ function trimStr(str)
     return str.replace(/(^\s*)|(\s*$)/g, "");   
 }
 
+function closeAllDiv(){
+	var list = $.dialog.list;
+	for (var i in list) {
+	    list[i].close();
+	};
+}
+

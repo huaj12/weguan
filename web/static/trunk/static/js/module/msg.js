@@ -132,12 +132,7 @@
 	function moveoutItem(obj){
 		$(obj).removeClass("item hover").addClass("item link");
 	}
-	function closeAllDiv(){
-		var list = $.dialog.list;
-		for (var i in list) {
-		    list[i].close();
-		};
-	}
+
 	
 	
 	function clickAct(obj){

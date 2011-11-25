@@ -9,8 +9,13 @@ import org.springframework.stereotype.Service;
 
 import weibo4j.Friendships;
 import weibo4j.Timeline;
+import weibo4j.http.ImageItem;
+import weibo4j.model.WeiboException;
 
+import com.juzhai.act.model.Act;
+import com.juzhai.act.service.IActService;
 import com.juzhai.app.service.IWeiboService;
+import com.juzhai.cms.service.IUploadImageService;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.InitData;
@@ -25,8 +30,11 @@ public class WeiboService implements IWeiboService {
 	private String weiboUid = "";
 	private int weiboMaxLength = 280;
 	@Autowired
+	private IActService actService;
+	@Autowired
 	private ITpUserAuthService tpUserAuthService;
-
+	@Autowired
+	private IUploadImageService uploadImageService;
 	@Override
 	public void follow(long tpId, long uid) {
 		try {
@@ -45,7 +53,7 @@ public class WeiboService implements IWeiboService {
 	public boolean sendWeiboRequest(long tpId, long uid, String content) {
 		try {
 			AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
-			if(StringUtils.isEmpty(content)){
+			if (StringUtils.isEmpty(content)) {
 				return false;
 			}
 			if (authInfo == null) {
@@ -56,9 +64,7 @@ public class WeiboService implements IWeiboService {
 				return false;
 			}
 			String appLink = tp.getAppUrl() + "?goUri=/app/" + uid;
-			int count = weiboMaxLength - StringUtil.chineseLength(appLink);
-			content = TextTruncateUtil.truncate(content, count - 5, "...")
-					+ appLink;
+			content = subContent(content, appLink);
 			Timeline timeline = new Timeline(authInfo.getToken());
 			timeline.UpdateStatus(content);
 			return true;
@@ -66,6 +72,60 @@ public class WeiboService implements IWeiboService {
 			log.error("weibo sendWeiboRequest is error." + e.getMessage());
 			return false;
 		}
+	}
+
+	@Override
+	public boolean sendFeed(long tpId, long uid, String content, long actId) {
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		if (StringUtils.isEmpty(content)) {
+			return false;
+		}
+		if (authInfo == null) {
+			return false;
+		}
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		if (tp == null) {
+			return false;
+		}
+		Act act = actService.getActById(actId);
+		if (act == null) {
+			log.error("send Feed act is null");
+			return false;
+		}
+		try {
+			String link = tp.getAppUrl();
+			String appLink = link + "?goUri=/app/showAct/" + actId;
+			content = subContent(content, appLink);
+			Timeline timeline = new Timeline(authInfo.getToken());
+			sendWeibo(actId, timeline, content);
+		} catch (Exception e) {
+			log.error("weibo sendFeed is error." + e.getMessage());
+			return false;
+		}
+		return true;
+	}
+
+	private void sendWeibo(long actId, Timeline timeline, String content)
+			throws WeiboException {
+		Act act = actService.getActById(actId);
+		if (act != null) {
+			byte[] imgContent = uploadImageService.getFile(act.getId(),
+					act.getLogo());
+			if (imgContent == null) {
+				timeline.UpdateStatus(content);
+			} else {
+				ImageItem item = new ImageItem(imgContent);
+				timeline.UploadStatus(content, item);
+			}
+		} else {
+			timeline.UpdateStatus(content);
+		}
+	}
+
+	private String subContent(String text, String appLink) {
+		int count = weiboMaxLength - StringUtil.chineseLength(appLink);
+		text = TextTruncateUtil.truncate(text, count - 5, "...") + appLink;
+		return text;
 	}
 
 }

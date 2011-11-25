@@ -142,8 +142,7 @@ public class WeiboController extends BaseController {
 			if (tp != null) {
 				link = tp.getAppUrl();
 			}
-			if (messageService.sendFeed(null, link, null, content, null,
-					authInfo, null, actId)) {
+			if (weiboService.sendFeed(context.getTpId(), context.getUid(), content, actId)) {
 				result.setSuccess(true);
 			} else {
 				result.setSuccess(false);

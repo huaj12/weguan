@@ -19,7 +19,14 @@
 		<!--area end-->
 		<div class="btn">
 			<!--btn begin-->
-			<span><a href="javascript:void(0);" onclick="sendRequest();">分享</a> </span>
+			<div class="sending" id="request_btn_sending" style="display: none">
+				<!--sending begin-->
+				<div class="loading_icon">
+				<img src="${jz:static('/images/loading_icon.gif')}" />
+				</div>
+				<strong>发送中...</strong>
+			</div>
+			<span id="request_btn"><a href="javascript:void(0);" onclick="sendRequest();">分享</a> </span>
 		</div>
 		<!--btn end-->
 	</div>

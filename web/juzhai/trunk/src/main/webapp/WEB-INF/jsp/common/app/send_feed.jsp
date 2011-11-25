@@ -11,7 +11,8 @@
 			<p>
 				<img id="feed_picurl" src="" />
 			</p>
-			<span><textarea name="" id="feed_content" cols="" rows=""></textarea> </span>
+			<span><textarea name="" id="feed_content" cols="" rows=""></textarea>
+			</span>
 		</div>
 		<!--area end-->
 		<div class="btn">
@@ -19,8 +20,16 @@
 			<p>
 				<b><input name="" type="checkbox" id="isFollow" value="1" /> </b><em>关注拒宅网</em>
 			</p>
-				<input id="feed_actId" value="" type="hidden" />
-			<span><a href="javascript:void(0);" onclick="sendfeed();">分享</a> </span>
+			<div class="sending" id="feed_btn_sending" style="display: none">
+				<!--sending begin-->
+				<div class="loading_icon">
+					<img src="${jz:static('/images/loading_icon.gif')}" />
+				</div>
+				<strong>发送中...</strong>
+			</div>
+			<!--sending end-->
+				<input id="feed_actId" value="" type="hidden" /> <span id="feed_btn"><a
+				href="javascript:void(0);" onclick="sendfeed();">分享</a> </span>
 		</div>
 		<!--btn end-->
 	</div>

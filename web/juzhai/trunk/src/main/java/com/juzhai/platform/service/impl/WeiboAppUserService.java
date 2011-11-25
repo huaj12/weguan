@@ -109,11 +109,9 @@ public class WeiboAppUserService extends AbstractUserService {
 			// 获取不到生日需要高级接口
 			String cityName = user.getLocation();
 			City city=null;
-			try{
 			String str[]=cityName.split(" ");
-			city = InitData.getCityByName(str[1]);
-			}catch (Exception e) {
-				//用户没填城市
+			if(null!=str&&str.length>1){
+				city = InitData.getCityByName(str[1]);
 			}
 			if (null != city) {
 				profile.setCity(city.getId());

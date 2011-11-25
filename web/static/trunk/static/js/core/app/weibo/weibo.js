@@ -39,6 +39,7 @@ function request(id) {
 }
 function clearRequest() {
 	$("#request_content").val("");
+	show_btn('request');
 }
 
 function clearfeed() {
@@ -46,12 +47,15 @@ function clearfeed() {
 	$("#feed_picurl").attr("src", "");
 	$("#feed_actId").val("");
 	$("#isFollow").attr('checked', false);
+	show_btn('feed');
 
 }
 function sendRequest() {
+	hide_btn('request');
 	var content = $("#request_content").val();
 	if (trimStr(content).length == 0) {
 		alert("给你的粉丝分享点内容吧！");
+		show_btn('request');
 		return;
 	}
 	$.post('/sendRequest', {
@@ -84,6 +88,7 @@ function sendRequest() {
 }
 
 function sendfeed() {
+	hide_btn('feed');
 	var content = $("#feed_content").val();
 	var actId = $("#feed_actId").val();
 	var isFollow = "";
@@ -92,6 +97,7 @@ function sendfeed() {
 	}
 	if (trimStr(content).length == 0) {
 		alert("给你的粉丝分享点内容吧！");
+		show_btn('feed');
 		return;
 	}
 	$.post('/sendFeed', {

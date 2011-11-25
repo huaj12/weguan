@@ -88,3 +88,13 @@ function closeAllDiv(){
 	};
 }
 
+function show_btn(str){
+	$("#"+str+"_btn").show();
+	$("#"+str+"_btn_sending").hide();
+}
+
+function hide_btn(str){
+	$("#"+str+"_btn").hide();
+	$("#"+str+"_btn_sending").show();
+}
+

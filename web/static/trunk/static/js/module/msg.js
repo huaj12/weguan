@@ -200,6 +200,7 @@
 		});
 	}
 	function clearAbout(){
+		show_btn('about');
 		var isWeibo=false;
 		if($ ("#isWeibo").length>0){
 			isWeibo=true;
@@ -212,9 +213,9 @@
 		$("#about_fid").val('');
 		$("#about_actId").val('');
 		$("#about_name").val('');
-		
 	}
 	function sendAbout(){
+		hide_btn('about');
 		var isWeibo=false;
 		var type_comment="";
 		var type_weibo="";
@@ -240,6 +241,7 @@
 		
 		if(trimStr(content).length==0){
 			alert("给你的好友留点言吧！");
+			show_btn('about');
 			return ;
 		}
 		

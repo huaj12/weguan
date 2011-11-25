@@ -51,8 +51,8 @@
 			<div class="skin_bottom"></div>
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
-		<jsp:include page="/WEB-INF/jsp/common/app/sendMessage.jsp" />
-		<jsp:include page="/WEB-INF/jsp/common/app/sendFeed.jsp" />
+		<jsp:include page="/WEB-INF/jsp/common/app/send_message.jsp" />
+		<jsp:include page="/WEB-INF/jsp/common/app/send_feed.jsp" />
 		<script type="text/javascript" src="${jz:static('/js/module/act.js')}"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){

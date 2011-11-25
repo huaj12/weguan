@@ -40,7 +40,7 @@
 				var data=${data};
 				jQuery.ajax({
 					url: "/access",
-					type: "post",
+					type: "get",
 					data: data,
 					dataType: "json",
 					success: function(result){

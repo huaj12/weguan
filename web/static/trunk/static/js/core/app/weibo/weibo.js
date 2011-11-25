@@ -16,6 +16,11 @@ function feed(id) {
 	});
 
 }
+
+function recommendFeed(id){
+	feed(id);
+}
+
 function request(id) {
 	jQuery.get('/weiboRequest', {
 		random : Math.random()

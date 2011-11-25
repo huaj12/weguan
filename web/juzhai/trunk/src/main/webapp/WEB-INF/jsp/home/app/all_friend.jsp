@@ -39,7 +39,7 @@
 			<div class="skin_bottom"></div>
 		</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
-		<jsp:include page="/WEB-INF/jsp/common/app/sendMessage.jsp" />
+		<jsp:include page="/WEB-INF/jsp/common/app/send_message.jsp" />
 		<script type="text/javascript" src="${jz:static('/js/module/friend.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/common/app/script/app.jsp" />
 		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />

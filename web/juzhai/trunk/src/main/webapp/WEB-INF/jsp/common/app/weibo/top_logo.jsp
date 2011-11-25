@@ -12,7 +12,7 @@
 		<div class="area">
 			<!--area begin-->
 			<p>
-				<img id="request_picurl" src="images/pic.png" />
+				<img id="request_picurl" src="" />
 			</p>
 			<span><textarea name="" id="request_content" cols="" rows=""></textarea> </span>
 		</div>

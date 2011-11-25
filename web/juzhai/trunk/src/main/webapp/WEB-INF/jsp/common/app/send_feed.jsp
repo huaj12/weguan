@@ -2,13 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="jz" uri="http://www.51juzhai.com/jsp/jstl/jz"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<jsp:include page="/WEB-INF/jsp/common/app/artDialog/artDialog.jsp" />
 <div id="feedDiv" style="display: none">
 	<div class="share_wb">
 		<!--share_wb begin-->
 		<div class="area">
 			<!--area begin-->
 			<p>
-				<img id="feed_picurl" src="images/pic.png" />
+				<img id="feed_picurl" src="" />
 			</p>
 			<span><textarea name="" id="feed_content" cols="" rows=""></textarea> </span>
 		</div>

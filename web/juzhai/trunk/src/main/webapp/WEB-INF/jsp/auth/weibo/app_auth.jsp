@@ -20,6 +20,6 @@
 			//可选，默认距顶端120px
 			});
 	</script>
-	<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
+	<%-- <jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" /> --%>
 </body>
 </html>

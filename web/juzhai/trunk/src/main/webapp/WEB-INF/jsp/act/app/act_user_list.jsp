@@ -14,7 +14,7 @@
 				<c:if test="${actUserView.profileCache.uid != context.uid}">
 					<a href="javascript:void(0);" class="btn" id="about_${actUserView.profileCache.uid}" onclick="showAbout('${actUserView.profileCache.nickname}','${act.id}','${act.name}','${actUserView.profileCache.uid}');" >留言</a>
 				</c:if>
-				<span>ta在<c:choose><c:when test="${actUserView.profileCache.cityName != ''}">${actUserView.profileCache.cityName}</c:when><c:otherwise>地球</c:otherwise></c:choose>&nbsp;发布于<font><fmt:formatDate value="${actUserView.createTime}" pattern="yyyy.MM.dd"/></font></span>
+				<span>ta在<c:choose><c:when test="${actUserView.profileCache.city > 0}">${jz:cityName(actUserView.profileCache.city)}</c:when><c:otherwise>地球</c:otherwise></c:choose>&nbsp;发布于<font><fmt:formatDate value="${actUserView.createTime}" pattern="yyyy.MM.dd"/></font></span>
 			</div>
 		</c:forEach>
 	</div><!--item_list end-->

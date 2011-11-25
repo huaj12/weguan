@@ -149,7 +149,7 @@ public class AppHomeController extends BaseController {
 			getRecommend(context, model, 1);
 		} else if (randomValue < specificFeedRate + recommendFeedRate
 				+ questionFeedRate) {
-			getQuestion(context, model, 1);
+			// getQuestion(context, model, 1);
 		}
 	}
 
@@ -160,26 +160,27 @@ public class AppHomeController extends BaseController {
 			if (round >= 3) {
 				return;
 			} else {
-				getQuestion(context, model, round + 1);
+				// getQuestion(context, model, round + 1);
+				return;
 			}
 		} else {
 			putFeedAndTimes(context, model, feed);
 		}
 	}
 
-	private void getQuestion(UserContext context, Model model, int round) {
-		// 获取随机
-		Feed feed = inboxService.showQuestion(context.getUid());
-		if (null == feed) {
-			if (round >= 3) {
-				return;
-			} else {
-				getSpecific(context, model, round + 1);
-			}
-		} else {
-			putFeedAndTimes(context, model, feed);
-		}
-	}
+	// private void getQuestion(UserContext context, Model model, int round) {
+	// // 获取随机
+	// Feed feed = inboxService.showQuestion(context.getUid());
+	// if (null == feed) {
+	// if (round >= 3) {
+	// return;
+	// } else {
+	// getSpecific(context, model, round + 1);
+	// }
+	// } else {
+	// putFeedAndTimes(context, model, feed);
+	// }
+	// }
 
 	private void getSpecific(UserContext context, Model model, int round) {
 		// 获取指定

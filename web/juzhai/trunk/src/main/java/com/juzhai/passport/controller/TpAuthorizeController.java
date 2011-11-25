@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import weibo4j.Oauth;
 
-
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
@@ -181,21 +180,23 @@ public class TpAuthorizeController extends BaseController {
 			return "forward:/appLoad/2";
 		}
 	}
-	
+
 	@RequestMapping(value = "auth/weibo/appLogin")
-	public String weiboLogin(HttpServletRequest request,HttpServletResponse response, String fromUri, Model model) {
+	public String weiboLogin(HttpServletRequest request,
+			HttpServletResponse response, String fromUri, Model model) {
 		Thirdparty tp = InitData.TP_MAP.get(3L);
-		Oauth oauth=new Oauth(tp.getAppKey(),tp.getAppSecret(),tp.getAppUrl());
+		Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
+				tp.getAppUrl());
 		String signedRequest = request.getParameter("signed_request");
-		String uid="";
-		String accessToken="";
+		String uid = "";
+		String accessToken = "";
 		try {
 			oauth.parseSignedRequest(signedRequest);
-			uid=oauth.user_id;
-			accessToken=oauth.getToken();
+			uid = oauth.user_id;
+			accessToken = oauth.getToken();
 		} catch (Exception e) {
 		}
-		if (StringUtils.isEmpty(uid)||StringUtils.isEmpty(accessToken)) {
+		if (StringUtils.isEmpty(uid) || StringUtils.isEmpty(accessToken)) {
 			if (null != tp) {
 				if (log.isDebugEnabled()) {
 					log.debug("thirdparty login[tpname=" + tp.getName() + "]");
@@ -208,8 +209,6 @@ public class TpAuthorizeController extends BaseController {
 			return "forward:/appLoad/3";
 		}
 	}
-	
-	
 
 	@RequestMapping(value = "access/rr/xd_receiver")
 	public String rrCrossDomain() {

@@ -56,7 +56,7 @@ public class WeiboAppUserService extends AbstractUserService {
 					sex = 1;
 				}
 				tpFriend.setGender(sex);
-				tpFriend.setLogoUrl(user.getavatarLarge());
+				tpFriend.setLogoUrl(user.getAvatarLarge());
 				// 微博获取不到生日需要申请高级接口
 				tpFriend.setCity(user.getLocation());
 				friendIdList.add(tpFriend);
@@ -103,12 +103,18 @@ public class WeiboAppUserService extends AbstractUserService {
 				sex = 1;
 			}
 			profile.setGender(sex);
-			profile.setLogoPic(user.getavatarLarge());
+			profile.setLogoPic(user.getAvatarLarge());
 			// 没有家乡用所在地代替
 			profile.setHome(user.getLocation());
 			// 获取不到生日需要高级接口
 			String cityName = user.getLocation();
-			City city = InitData.getCityByName(cityName);
+			City city=null;
+			try{
+			String str[]=cityName.split(" ");
+			city = InitData.getCityByName(str[1]);
+			}catch (Exception e) {
+				//用户没填城市
+			}
 			if (null != city) {
 				profile.setCity(city.getId());
 				profile.setProvince(city.getProvinceId());

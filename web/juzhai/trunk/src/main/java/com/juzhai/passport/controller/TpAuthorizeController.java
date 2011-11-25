@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import weibo4j.Oauth;
@@ -164,6 +163,11 @@ public class TpAuthorizeController extends BaseController {
 	@RequestMapping(value = "auth/rr/appLogin")
 	public String rrLogin(HttpServletRequest request,
 			HttpServletResponse response, String fromUri, Model model) {
+		try {
+			checkLoginForApp(request);
+			return "forward:/appLoad/2";
+		} catch (NeedLoginException e1) {
+		}
 		String sessionKey = request.getParameter("xn_sig_session_key");
 		String uid = request.getParameter("xn_sig_user");
 		if (StringUtils.isEmpty(sessionKey) || StringUtils.isEmpty(uid)) {
@@ -184,6 +188,12 @@ public class TpAuthorizeController extends BaseController {
 	@RequestMapping(value = "auth/weibo/appLogin")
 	public String weiboLogin(HttpServletRequest request,
 			HttpServletResponse response, String fromUri, Model model) {
+		try {
+			checkLoginForApp(request);
+			return "forward:/appLoad/3";
+		} catch (NeedLoginException e1) {
+		}
+
 		Thirdparty tp = InitData.TP_MAP.get(3L);
 		Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
 				tp.getAppUrl());
@@ -196,6 +206,11 @@ public class TpAuthorizeController extends BaseController {
 			accessToken = oauth.getToken();
 		} catch (Exception e) {
 		}
+		System.out.println("signed_request:" + signedRequest
+				+ "******************");
+		System.out.println("uid:" + uid + "***********************");
+		System.out.println("accessToken:" + accessToken
+				+ "***********************");
 		if (StringUtils.isEmpty(uid) || StringUtils.isEmpty(accessToken)) {
 			if (null != tp) {
 				if (log.isDebugEnabled()) {

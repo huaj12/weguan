@@ -9,7 +9,6 @@
 		<link href="${jz:static('/css/jz_kaixin001.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
-		<jsp:include page="/WEB-INF/jsp/common/app/app_kaixin001_top_logo.jsp" />
 		<div class="main"><!--main begin-->
 			<div class="skin_top_new"><!--skin_top_new begin--></div><!--skin_top_new end-->
 			<div class="skin_body"><!--skin_body begin-->

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,11 +38,10 @@ public class WeiboAppUserService extends AbstractUserService {
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
 
-
 	@Override
 	public List<TpFriend> getAllFriends(AuthInfo authInfo) {
 		List<TpFriend> friendIdList = new ArrayList<TpFriend>();
-		String uid =authInfo.getTpIdentity();
+		String uid = authInfo.getTpIdentity();
 		Friendships fm = new Friendships(authInfo.getToken());
 		try {
 			List<User> users = fm.getFriendsBilateral(uid);
@@ -70,7 +70,7 @@ public class WeiboAppUserService extends AbstractUserService {
 
 	@Override
 	public List<String> getAppFriends(AuthInfo authInfo) {
-		String uid=authInfo.getTpIdentity();
+		String uid = authInfo.getTpIdentity();
 		Friendships fm = new Friendships(authInfo.getToken());
 		List<String> fuids = new ArrayList<String>();
 		try {
@@ -108,10 +108,10 @@ public class WeiboAppUserService extends AbstractUserService {
 			profile.setHome(user.getLocation());
 			// 获取不到生日需要高级接口
 			String cityName = user.getLocation();
-			City city=null;
-			String str[]=cityName.split(" ");
-			if(null!=str&&str.length>1){
-				city = InitData.getCityByName(str[1]);
+			City city = null;
+			String[] str = cityName.split(" ");
+			if (ArrayUtils.isNotEmpty(str)) {
+				city = InitData.getCityByName(str[str.length - 1]);
 			}
 			if (null != city) {
 				profile.setCity(city.getId());
@@ -164,8 +164,8 @@ public class WeiboAppUserService extends AbstractUserService {
 		}
 		return oauth;
 	}
-	
-	private String getBigImage(String pic){
+
+	private String getBigImage(String pic) {
 		return pic.replaceAll("/50/", "/180/");
 	}
 

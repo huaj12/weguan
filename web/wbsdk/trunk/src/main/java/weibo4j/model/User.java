@@ -193,13 +193,13 @@ public class User extends WeiboResponse implements java.io.Serializable {
 				createdAt = parseDate(json.getString("created_at"), "EEE MMM dd HH:mm:ss z yyyy");
 				following = getBoolean("following", json);
 				verified = getBoolean("verified", json);
-				verifiedType = json.getInt("verifiedType"); 
-				allowAllActMsg = json.getBoolean("allowAllActMsg");
-				allowAllComment = json.getBoolean("allowAllComment");
-				followMe = json.getBoolean("followMe");
-				avatarLarge = json.getString("avatarLarge");
-				onlineStatus = json.getInt("onlineStatus");
-				biFollowersCount = json.getInt("biFollowersCount");
+				verifiedType = json.getInt("verified_type"); 
+				allowAllActMsg = json.getBoolean("allow_all_act_msg");
+				allowAllComment = json.getBoolean("allow_all_comment");
+				followMe = json.getBoolean("follow_me");
+				avatarLarge = json.getString("avatar_large");
+				onlineStatus = json.getInt("online_status");
+				biFollowersCount = json.getInt("bi_followers_count");
 				remark = json.getString("remark");
 				lang = json.getString("lang");
 				verifiedReason = json.getString("verified_reason");
@@ -406,7 +406,7 @@ public class User extends WeiboResponse implements java.io.Serializable {
 		return followMe;
 	}
 
-	public String getavatarLarge() {
+	public String getAvatarLarge() {
 		return avatarLarge;
 	}
 

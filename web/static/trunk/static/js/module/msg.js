@@ -246,7 +246,6 @@
 			show_btn('about');
 			return ;
 		}
-		return ;
 		$.post('/msg/sendAbout', {
 			content:content,
 			fuid:fuid,

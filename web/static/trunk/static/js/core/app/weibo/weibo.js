@@ -68,7 +68,7 @@ function sendRequest() {
 				top : "50%",
 				width : 305,
 				time : 2,
-				title : "微博分享",
+				title : "微博分享"
 			});
 		} else {
 			closeAllDiv();
@@ -112,7 +112,7 @@ function sendfeed() {
 				top : "50%",
 				width : 305,
 				time : 2,
-				title : "微博分享",
+				title : "微博分享"
 			});
 
 		} else {

@@ -30,7 +30,7 @@
 					</em><span>微薄</span>
 				</p>
 				<p>
-					<em><input name="wb" id="type_comment" type="checkbox"
+					<em><input name="wb" id="type_comment" checked="checked" type="checkbox"
 						value="2" /> </em><span>评论</span>
 				</p>
 			</c:if>

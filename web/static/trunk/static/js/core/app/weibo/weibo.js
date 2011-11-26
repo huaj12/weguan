@@ -9,7 +9,7 @@ function feed(id) {
 		$("#feed_actId").val(data.actId);
 		$.dialog({
 			lock : true,
-			content : document.getElementById('feedDiv'),
+			content :$("#feedDiv")[0],
 			title : "微博分享",
 			top : "50%"
 		});
@@ -29,7 +29,7 @@ function request(id) {
 		$("#request_content").val(data.message);
 		$.dialog({
 			lock : true,
-			content : document.getElementById('requestDiv'),
+			content : $("#requestDiv")[0],
 			title : "微博分享",
 			top : "50%"
 		});

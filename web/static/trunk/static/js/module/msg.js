@@ -206,7 +206,8 @@
 			isWeibo=true;
 		}
 		if(isWeibo){
-			$("#type_weibo").attr('checked',false)
+			$("#type_comment").attr('checked',true);
+			$("#type_weibo").attr('checked',false);
 		}
 		$("#about_content").val('');
 		$("#about_fid").val('');
@@ -220,17 +221,18 @@
 		var type_comment="";
 		var type_weibo="";
 		if($ ("#isWeibo").length>0){
-			if($("#type_comment").attr('checked')!=undefined){
+			if(document.getElementById("type_comment").checked==true){
 				type_comment=$("#type_comment").val();
 			}
-			if($("#type_weibo").attr('checked')!=undefined){
+			if(document.getElementById("type_weibo").checked==true){
 				type_weibo=$("#type_weibo").val();
 			}
 			isWeibo=true;
 		}
 		if(isWeibo){
 			if(type_comment==""&&type_weibo==""){
-				alert("至少选择一个留言渠道哦");
+				alert("请选择通过评论发布还是微博发布。");
+				show_btn('about');
 				return ;
 			}
 		}
@@ -244,7 +246,7 @@
 			show_btn('about');
 			return ;
 		}
-		
+		return ;
 		$.post('/msg/sendAbout', {
 			content:content,
 			fuid:fuid,

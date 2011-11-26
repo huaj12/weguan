@@ -199,6 +199,7 @@
 		    top:"50%"
 		});
 	}
+	
 	function clearAbout(){
 		show_btn('about');
 		var isWeibo=false;
@@ -215,16 +216,16 @@
 		$("#about_name").val('');
 		
 	}
+	
 	function sendAbout(){
-		hide_btn('about');
 		var isWeibo=false;
 		var type_comment="";
 		var type_weibo="";
 		if($ ("#isWeibo").length>0){
-			if(document.getElementById("type_comment").checked==true){
+			if($("#type_comment").is(':checked')){
 				type_comment=$("#type_comment").val();
 			}
-			if(document.getElementById("type_weibo").checked==true){
+			if($("#type_weibo").is(':checked')){
 				type_weibo=$("#type_weibo").val();
 			}
 			isWeibo=true;
@@ -233,19 +234,19 @@
 			if(type_comment==""&&type_weibo==""){
 				alert("请选择通过评论发布还是微博发布。");
 				show_btn('about');
-				return ;
+				return;
 			}
 		}
 		var content=$("#about_content").val();
 		var fuid=$("#about_fid").val();
 		var name=$("#about_name").val();
 		var actId=$("#about_actId").val();
-		
 		if(trimStr(content).length==0){
 			alert("给你的好友留点言吧！");
 			show_btn('about');
 			return ;
 		}
+		hide_btn('about');
 		$.post('/msg/sendAbout', {
 			content:content,
 			fuid:fuid,

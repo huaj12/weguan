@@ -58,7 +58,7 @@
 		<script type="text/javascript">
 			function showEntrance(){
 				$.dialog({
-					content: document.getElementById('entrance'),
+					content:$("#entrance")[0],
 					top:"50%",
 					fixed: true,
 					lock: true,

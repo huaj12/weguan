@@ -12,7 +12,7 @@
 		<div class="area">
 			<!--area begin-->
 			<p>
-				<img id="request_picurl" src="" />
+				<img id="request_picurl" width="120" height="120" src="${jz:static('/images/weibo_request.jpg')}" />
 			</p>
 			<span><textarea name="" id="request_content" cols="" rows=""></textarea> </span>
 		</div>

@@ -181,7 +181,7 @@
 		var content="";
 		if(actName!=null&&actName.length>0){
 			if(isWeibo){
-				content="hi，想不想一起去#"+actName+"#?";
+				content="hi，想不想一起去 "+actName+" ?";
 			}else{
 				content="hi，想不想一起去"+actName+"?";
 			}

@@ -206,13 +206,13 @@
 			isWeibo=true;
 		}
 		if(isWeibo){
-			$("#type_comment").attr('checked',false);
 			$("#type_weibo").attr('checked',false)
 		}
 		$("#about_content").val('');
 		$("#about_fid").val('');
 		$("#about_actId").val('');
 		$("#about_name").val('');
+		
 	}
 	function sendAbout(){
 		hide_btn('about');

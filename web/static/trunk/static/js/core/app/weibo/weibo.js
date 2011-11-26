@@ -27,7 +27,6 @@ function request(id) {
 	}, function(data) {
 		clearRequest();
 		$("#request_content").val(data.message);
-		$("#request_picurl").attr("src", data.picurl);
 		$.dialog({
 			lock : true,
 			content : document.getElementById('requestDiv'),
@@ -48,7 +47,6 @@ function clearfeed() {
 	$("#feed_actId").val("");
 	$("#isFollow").attr('checked', false);
 	show_btn('feed');
-
 }
 function sendRequest() {
 	hide_btn('request');

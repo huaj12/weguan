@@ -88,7 +88,7 @@
 			if(result&&result.success){
 				closeAllDiv();
 				var tagerObj=document.getElementById("invite_btn_"+curIndex);
-				tagerObj.outerHTML="<a class='unhover'>响应已发</a>";
+				//tagerObj.outerHTML="<a class='unhover'>响应已发</a>";
 			}else{
 				//未知错误请刷新页面后重试
 				$.dialog({
@@ -322,29 +322,3 @@
 			}
 		});
 	}
-	
-	//让火狐支持outerHTML方法
-	if(typeof(HTMLElement)!="undefined" && !window.opera)
-	{
-	HTMLElement.prototype.__defineGetter__("outerHTML",function()
-	{
-	var a=this.attributes, str="<"+this.tagName, i=0;for(;i<a.length;i++)
-	if(a[i].specified)
-	str+=" "+a[i].name+'="'+a[i].value+'"';
-	if(!this.canHaveChildren)
-	return str+" />";
-	return str+">"+this.innerHTML+"</"+this.tagName+">";
-	});
-	HTMLElement.prototype.__defineSetter__("outerHTML",function(s)
-	{
-	var r = this.ownerDocument.createRange();
-	r.setStartBefore(this);
-	var df = r.createContextualFragment(s);
-	this.parentNode.replaceChild(df, this);
-	return s;
-	});
-	HTMLElement.prototype.__defineGetter__("canHaveChildren",function()
-	{
-	return !/^(area|base|basefont|col|frame|hr|img|br|input|isindex|link|meta|param)$/.test(this.tagName.toLowerCase());
-	});
-	} 

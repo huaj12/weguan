@@ -22,9 +22,9 @@ public class Oauth extends Weibo {
 	public String access_token;
 	public String user_id;
 
-	private String client_ID = "";
-	private String client_SERCRET = "";
-	private String redirect_URI = "";
+	private String client_ID;
+	private String client_SERCRET;
+	private String redirect_URI;
 
 	public Oauth() {
 		super(null);

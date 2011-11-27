@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+  <classPathEntry location="tool/MBG/mysql-connector-java-5.1.12.jar" />
+
+  <context id="passport" targetRuntime="MyBatis3">
+  	
+  	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
+	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+  
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://localhost:3306/juzhai"
+        userId="root"
+        password="111111">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.juzhai.passport.model" targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="mybatis.passport"  targetProject="src/main/resources">
+      <property name="enableSubPackages" value="false" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.passport.mapper"  targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
+    </javaClientGenerator>
+    
+    <table tableName="tb_city_mapping" domainObjectName="CityMapping">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+    <table tableName="tb_province_mapping" domainObjectName="ProvinceMapping">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+    <!-- <table tableName="tb_thirdparty" domainObjectName="Thirdparty">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+	<table tableName="tb_profile" domainObjectName="Profile" >
+      <property name="useActualColumnNames" value="false"/>
+      <columnOverride column="sub_email" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+    </table>
+    
+   <table tableName="tb_passport" domainObjectName="Passport" >
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
+      <columnOverride column="email_active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+      <columnOverride column="admin" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+    </table>
+    
+    <table tableName="tb_tp_user" domainObjectName="TpUser">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+    <table tableName="tb_tp_user_auth" domainObjectName="TpUserAuth">
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
+    </table>
+    
+   <table tableName="tb_user_guide" domainObjectName="UserGuide" >
+      <property name="useActualColumnNames" value="false"/>
+      <columnOverride column="complete" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+    </table> -->
+
+  </context>
+  
+  
+  <!-- <context id="act" targetRuntime="MyBatis3">
+  
+	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
+	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+  
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://192.168.1.10:3306/juzhai"
+        userId="root"
+        password="111111">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.juzhai.act.model" targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="mybatis.act"  targetProject="src/main/resources">
+      <property name="enableSubPackages" value="false" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.act.mapper"  targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
+    </javaClientGenerator>
+    
+    <table tableName="tb_user_act" domainObjectName="UserAct">
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
+    </table>
+    
+    <table tableName="tb_synonym_act" domainObjectName="SynonymAct" >
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+    <table tableName="tb_act" domainObjectName="Act" >
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
+      <columnOverride column="active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+    </table>
+    
+	<table tableName="tb_hot_act" domainObjectName="HotAct">
+      <property name="useActualColumnNames" value="false"/>
+      <columnOverride column="active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+    </table>
+    
+    <table tableName="tb_act_category" domainObjectName="ActCategory" >
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+
+	<table tableName="tb_question" domainObjectName="Question">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+    <table tableName="tb_category" domainObjectName="Category" >
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+	
+    <table tableName="tb_random_act" domainObjectName="RandomAct">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+    <table tableName="tb_act_charts" domainObjectName="ActCharts">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+  </context> -->
+  
+  <!-- <context id="account" targetRuntime="MyBatis3">
+  
+	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
+	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+  
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://127.0.0.1:3306/juzhai"
+        userId="root"
+        password="111111">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.juzhai.account.model" targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="mybatis.account"  targetProject="src/main/resources">
+      <property name="enableSubPackages" value="false" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.account.mapper"  targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
+    </javaClientGenerator>
+
+	<table tableName="tb_account" domainObjectName="Account">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+  </context> -->
+  
+  <!-- <context id="cms" targetRuntime="MyBatis3">
+  
+	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
+	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+  
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://192.168.1.10:3306/juzhai"
+        userId="root"
+        password="111111">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.juzhai.cms.model" targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="mybatis.cms"  targetProject="src/main/resources">
+      <property name="enableSubPackages" value="false" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.cms.mapper"  targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
+    </javaClientGenerator>
+
+	<table tableName="tb_search_act_action" domainObjectName="SearchActAction">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+	<table tableName="tb_add_act_action" domainObjectName="AddActAction">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+  </context> -->
+  
+  
+</generatorConfiguration>

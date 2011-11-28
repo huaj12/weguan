@@ -206,11 +206,6 @@ public class TpAuthorizeController extends BaseController {
 			accessToken = oauth.getToken();
 		} catch (Exception e) {
 		}
-		System.out.println("signed_request:" + signedRequest
-				+ "******************");
-		System.out.println("uid:" + uid + "***********************");
-		System.out.println("accessToken:" + accessToken
-				+ "***********************");
 		if (StringUtils.isEmpty(uid) || StringUtils.isEmpty(accessToken)) {
 			if (null != tp) {
 				if (log.isDebugEnabled()) {

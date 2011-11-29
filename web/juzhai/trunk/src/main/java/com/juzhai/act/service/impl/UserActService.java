@@ -45,9 +45,9 @@ import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
-import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
+import com.juzhai.stats.counter.service.ICounter;
 
 @Service
 public class UserActService implements IUserActService {
@@ -63,8 +63,6 @@ public class UserActService implements IUserActService {
 	@Autowired
 	private AmqpTemplate updateActFeedRabbitTemplate;
 	@Autowired
-	private IFriendService friendService;
-	@Autowired
 	private IInboxService inboxService;
 	@Autowired
 	private ITpUserService tpUserService;
@@ -78,6 +76,8 @@ public class UserActService implements IUserActService {
 	private IActLiveService actLiveService;
 	@Autowired
 	private IActRankService actRankService;
+	@Autowired
+	private ICounter recommendWantCounter;
 	@Value("${users.same.act.pre.count}")
 	private int usersSameActPreCount;
 
@@ -96,6 +96,7 @@ public class UserActService implements IUserActService {
 			if (isFeed && !actService.isShieldAct(actId)) {
 				appService.sendFeed(actId, uid, tpId);
 			}
+			recommendWantCounter.incr(null, 1L);
 		} else {
 			inboxService.shiftRead(uid, 0, actId, type);
 		}

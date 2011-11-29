@@ -1,4 +1,4 @@
-package com.juzhai.cms.controller;
+package com.juzhai.cms.controller.migrate;
 
 import java.util.ArrayList;
 import java.util.Collections;

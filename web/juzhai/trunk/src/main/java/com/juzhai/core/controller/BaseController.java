@@ -18,7 +18,6 @@ import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
-import com.juzhai.passport.service.IUserSetupService;
 
 public class BaseController {
 
@@ -41,8 +40,6 @@ public class BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private MessageSource messageSource;
-	@Autowired
-	private IUserSetupService userSetupService;
 
 	protected UserContext checkLoginForApp(HttpServletRequest request)
 			throws NeedLoginException {
@@ -56,8 +53,6 @@ public class BaseController {
 		if (context == null || !context.hasLogin()) {
 			throw new NeedLoginException(runType);
 		}
-		// request.setAttribute("isAdvise",
-		// userSetupService.isTpAdvise(context.getUid()));
 		return context;
 	}
 

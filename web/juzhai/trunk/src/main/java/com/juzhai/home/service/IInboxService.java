@@ -125,7 +125,7 @@ public interface IInboxService {
 	 * @param answer
 	 */
 	void answer(long uid, long tpId, long questionId, String identity,
-			int answer);
+			int answer, boolean isAdvise);
 
 	/**
 	 * 获取最后推送时间

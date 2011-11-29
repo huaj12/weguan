@@ -26,6 +26,12 @@
 						</div><!--mid end-->
 						<div class="bot"></div>
 					</div><!--loading_home end-->
+					<c:if test="${context.tpName == 'weibo'}">
+						<div class="judgeAdvise check_box tz <c:choose><c:when test="${isAdvise==null||isAdvise}">tz_secleted</c:when><c:otherwise>tz_link</c:otherwise></c:choose>" onclick="javascript:selectAdvise(this);">
+							<p></p>
+							<span>将我的评价发给对方(通过微博评论)</span>
+						</div>
+					</c:if>
 				</div><!--content_bg end-->
 			</div><!--skin_body end-->
 			<div class="skin_bottom"></div>

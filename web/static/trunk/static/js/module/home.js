@@ -21,9 +21,9 @@ $(document).ready(function(){
 		}
 	});
 	
-	var advise = $(".check_box");
+	var advise = $(".homeAdvise");
 	if(advise.length > 0){
-		$(".check_box > p").bind("click", function(){
+		$(".homeAdvise > p").bind("click", function(){
 			var currentAdvise = advise.hasClass("tz_secleted");
 			//加勾或者取消勾
 			if(currentAdvise){
@@ -85,7 +85,7 @@ function dealFeed(url, data){
 		dataType: "html",
 		success: function(result){
 			showFeedHtml(result);
-			var advise = $(".check_box");
+			var advise = $(".homeAdvise");
 			if(advise.length > 0){
 				advise.removeClass("tz_link").addClass("tz_secleted");
 			}
@@ -110,7 +110,12 @@ function skipInvite(){
 function respQuestion(questionId, answerId, tpIdentity){
 	if(questionId >= 0 && answerId >= 0 &&
 			tpIdentity && tpIdentity != ""){
-		dealFeed("/app/ajax/respJudge", {"questionId": questionId, "tpIdentity": tpIdentity, "answerId": answerId});
+		var isAdvise = true;
+		var advise = $(".judgeAdvise");
+		if(advise.length > 0){
+			isAdvise = advise.hasClass("tz_secleted");
+		}
+		dealFeed("/app/ajax/respJudge", {"questionId": questionId, "tpIdentity": tpIdentity, "answerId": answerId, "advise": isAdvise});
 	}
 }
 
@@ -127,7 +132,7 @@ function respSpecific(type){
 function respRecommend(actId, type){
 	if(actId >= 0 && type && type >= 0 && type <= 2){
 		var isFeed = false;
-		var advise = $(".check_box");
+		var advise = $(".homeAdvise");
 		if(advise.length > 0){
 			isFeed = advise.hasClass("tz_secleted");
 		}
@@ -153,4 +158,23 @@ function showTip(obj, show, arg){
 	}else{
 		$("div.pro_box").hide();
 	}
+}
+
+function selectAdvise(adviseObj){
+	var currentAdvise = $(adviseObj).hasClass("tz_secleted");
+	jQuery.ajax({
+		url : "/app/setupAdvise",
+		type : "post",
+		cache : false,
+		dataType : "json",
+		data : { "isAdvise" : !currentAdvise },
+		success : function(result) {
+			//加勾或者取消勾
+			if(currentAdvise){
+				$(adviseObj).removeClass("tz_secleted").addClass("tz_link");
+			}else{
+				$(adviseObj).removeClass("tz_link").addClass("tz_secleted");
+			}
+		}
+	});
 }

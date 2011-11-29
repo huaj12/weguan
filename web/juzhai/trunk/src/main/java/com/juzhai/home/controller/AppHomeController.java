@@ -24,7 +24,6 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.Feed;
 import com.juzhai.home.bean.ReadFeedType;
-import com.juzhai.home.controller.form.AnswerForm;
 import com.juzhai.home.exception.IndexException;
 import com.juzhai.home.service.IInboxService;
 import com.juzhai.passport.InitData;
@@ -120,16 +119,17 @@ public class AppHomeController extends BaseController {
 		return "home/app/feed_fragment";
 	}
 
-	@RequestMapping(value = "/ajax/respQuestion", method = RequestMethod.POST)
-	public String respQuestion(HttpServletRequest request, Model model,
-			AnswerForm answerForm) throws NeedLoginException {
-		UserContext context = checkLoginForApp(request);
-		inboxService.answer(context.getUid(), context.getTpId(),
-				answerForm.getQuestionId(), answerForm.getTpIdentity(),
-				answerForm.getAnswerId());
-		getNextFeed(context, model);
-		return "home/app/feed_fragment";
-	}
+	// @RequestMapping(value = "/ajax/respQuestion", method =
+	// RequestMethod.POST)
+	// public String respQuestion(HttpServletRequest request, Model model,
+	// AnswerForm answerForm) throws NeedLoginException {
+	// UserContext context = checkLoginForApp(request);
+	// inboxService.answer(context.getUid(), context.getTpId(),
+	// answerForm.getQuestionId(), answerForm.getTpIdentity(),
+	// answerForm.getAnswerId(), answerForm.isAdvise());
+	// getNextFeed(context, model);
+	// return "home/app/feed_fragment";
+	// }
 
 	/**
 	 * 获取下一个feed

@@ -28,13 +28,13 @@
 					</div><!--loading_home end-->
 					<c:choose>
 						<c:when test="${context.tpName == 'kaixin001'}">
-							<div class="check_box tz <c:choose><c:when test="${isAdvise==null||isAdvise}">tz_secleted</c:when><c:otherwise>tz_link</c:otherwise></c:choose>">
+							<div class="homeAdvise check_box tz <c:choose><c:when test="${isAdvise==null||isAdvise}">tz_secleted</c:when><c:otherwise>tz_link</c:otherwise></c:choose>">
 								<p></p>
 								<span>将我想去的分享给好友</span>
 							</div>
 						</c:when>
 						<c:when test="${context.tpName == 'renren'}">
-							<div class="check_box tz tz_secleted" style="display: none;" />
+							<div class="homeAdvise check_box tz tz_secleted" style="display: none;" />
 						</c:when>
 					</c:choose>
 				</div><!--content_bg end-->

@@ -8,6 +8,8 @@ public class AnswerForm {
 
 	private int answerId;
 
+	private boolean advise;
+
 	public long getQuestionId() {
 		return questionId;
 	}
@@ -31,4 +33,13 @@ public class AnswerForm {
 	public void setAnswerId(int answerId) {
 		this.answerId = answerId;
 	}
+
+	public boolean isAdvise() {
+		return advise;
+	}
+
+	public void setAdvise(boolean advise) {
+		this.advise = advise;
+	}
+
 }

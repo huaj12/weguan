@@ -87,7 +87,8 @@ public class PopularizeController {
 						answer = 5;
 					}
 					inboxService.answer(tpUser.getUid(), 1L, feed.getQuestion()
-							.getId(), feed.getTpFriend().getUserId(), answer);
+							.getId(), feed.getTpFriend().getUserId(), answer,
+							true);
 				}
 				log.error("user[" + tpUser.getUid() + "] the " + index
 						+ " question end");

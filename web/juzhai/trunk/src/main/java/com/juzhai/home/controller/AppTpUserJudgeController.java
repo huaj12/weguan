@@ -14,6 +14,7 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.Feed;
 import com.juzhai.home.controller.form.AnswerForm;
 import com.juzhai.home.service.IInboxService;
+import com.juzhai.passport.service.IUserSetupService;
 
 @Controller
 @RequestMapping(value = "app")
@@ -21,12 +22,16 @@ public class AppTpUserJudgeController extends BaseController {
 
 	@Autowired
 	private IInboxService inboxService;
+	@Autowired
+	private IUserSetupService userSetupService;
 
 	@RequestMapping(value = { "/judge" }, method = RequestMethod.GET)
 	public String judge(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		queryProfile(context.getUid(), model);
+		request.setAttribute("isAdvise",
+				userSetupService.isTpAdvise(context.getUid()));
 		return "home/app/judge";
 	}
 
@@ -45,7 +50,7 @@ public class AppTpUserJudgeController extends BaseController {
 		UserContext context = checkLoginForApp(request);
 		inboxService.answer(context.getUid(), context.getTpId(),
 				answerForm.getQuestionId(), answerForm.getTpIdentity(),
-				answerForm.getAnswerId());
+				answerForm.getAnswerId(), answerForm.isAdvise());
 		return showJudge(request, model);
 	}
 }

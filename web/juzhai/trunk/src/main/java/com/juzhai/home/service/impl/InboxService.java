@@ -368,9 +368,10 @@ public class InboxService implements IInboxService {
 
 	@Override
 	public void answer(long uid, long tpId, long questionId, String identity,
-			int answer) {
-		if (appService.sendQuestionMssage(uid, tpId, questionId, identity,
-				answer)) {
+			int answer, boolean isAdvise) {
+		if (!isAdvise
+				|| appService.sendQuestionMssage(uid, tpId, questionId,
+						identity, answer)) {
 			String key = RedisKeyGenerator.genQuestionUsersKey(uid);
 			stringRedisTemplate.opsForSet().add(key, identity);
 			stringRedisTemplate.opsForSet().add(

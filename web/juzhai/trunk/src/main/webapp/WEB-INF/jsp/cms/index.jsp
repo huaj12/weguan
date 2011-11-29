@@ -92,12 +92,6 @@ a:hover {
 		<ul>
 			<li>
 				<a href="/cms/searchActs" target="config">近义词设置</a>
-				<!-- <ul style="display: none;" id="gameConfig" class="child">
-					<li style="background-color: #A4D3EE;"><a
-						style="color: black;" href="showPreference.action?gameName=1"
-						target="config">封神西游</a>
-					</li>
-				</ul> -->
 			</li>
 			<li>
 				<a href="/cms/showShield" target="config">屏蔽词设置</a>
@@ -124,7 +118,13 @@ a:hover {
 				<a href="/cms/showHotAct?active=true&page=1" target="config">推荐项目设置</a>
 			</li>
 			<li>
-				<a href="javascript:;">已读邮件统计</a>
+				<a href="javascript:showChild('statsData');">统计数据</a>
+				<ul style="display: none;" id="statsData" class="child">
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/recommendWantStats"
+						target="config">推荐点击统计</a>
+					</li>
+				</ul>
 			</li>
 			<li>
 				<a href="javascript:;">热门分类</a>

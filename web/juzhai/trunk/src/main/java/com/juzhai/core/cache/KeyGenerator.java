@@ -12,7 +12,7 @@ import com.juzhai.passport.model.Thirdparty;
 
 public abstract class KeyGenerator {
 
-	private static final String CACHE_KEY_SEPARATOR = ".";
+	public static final String CACHE_KEY_SEPARATOR = ".";
 
 	protected static String genKey(long primaryKey, String... funcs) {
 		StringBuilder sb = new StringBuilder();
@@ -24,7 +24,9 @@ public abstract class KeyGenerator {
 		}
 		return sb.toString();
 	}
-	protected static String genKey(long primaryKey1,long primaryKey2,MsgType type, String... funcs) {
+
+	protected static String genKey(long primaryKey1, long primaryKey2,
+			MsgType type, String... funcs) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(primaryKey1);
 		sb.append(CACHE_KEY_SEPARATOR);

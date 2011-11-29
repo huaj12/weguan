@@ -137,8 +137,11 @@ function respRecommend(actId, type){
 			isFeed = advise.hasClass("tz_secleted");
 		}
 		if(type == 1){
-			if(recommendFeed instanceof Function){
-				recommendFeed(actId);
+			try{
+				if(recommendFeed instanceof Function){
+					recommendFeed(actId);
+				}
+			}catch (e) {
 			}
 		}
 		dealFeed("/app/ajax/respRecommend", {"actId": actId, "type": type, "isFeed": isFeed});

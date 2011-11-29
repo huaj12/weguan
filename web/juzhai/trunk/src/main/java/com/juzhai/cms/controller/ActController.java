@@ -33,6 +33,7 @@ import com.juzhai.act.bean.SuitStatus;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.Category;
+import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.cms.controller.form.AddActForm;
@@ -60,6 +61,8 @@ public class ActController {
 	private MessageSource messageSource;
 	@Autowired
 	private IUploadImageService uploadImageService;
+	@Autowired
+	private IActCategoryService actCategoryService;
 
 	@RequestMapping(value = "/searchActs")
 	public String searchActs(HttpServletRequest request, Model model,
@@ -293,12 +296,7 @@ public class ActController {
 				.entrySet()) {
 			provinces.add(entry.getValue());
 		}
-		List<Category> categoryList = new ArrayList<Category>();
-		Set<Long> keys = InitData.CATEGORY_MAP.keySet();
-		for (Long key : keys) {
-			categoryList.add(InitData.CATEGORY_MAP.get(key));
-		}
-
+		List<Category> categoryList =actCategoryService.findAllCategory();
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("citys", citys);
 		model.addAttribute("suitAges", SuitAge.values());

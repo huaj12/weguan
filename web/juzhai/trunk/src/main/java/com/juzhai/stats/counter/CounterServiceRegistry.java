@@ -57,7 +57,6 @@ public class CounterServiceRegistry implements BeanFactoryPostProcessor,
 	@Override
 	public void postProcessBeanFactory(
 			ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		System.out.println("create counter bean.");
 		if (p.isEmpty()) {
 			return;
 		}
@@ -71,10 +70,6 @@ public class CounterServiceRegistry implements BeanFactoryPostProcessor,
 				registerCounter(beanFactory, serviceName);
 				serviceNameSet.add(serviceName);
 			}
-		}
-		for (String name : serviceNameSet) {
-			System.out.println(beanFactory.getBean(name
-					+ COUNTER_BEAN_NAME_SUFFIX));
 		}
 	}
 

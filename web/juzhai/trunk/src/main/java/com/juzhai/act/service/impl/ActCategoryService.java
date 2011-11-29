@@ -13,9 +13,12 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.act.InitData;
 import com.juzhai.act.mapper.ActCategoryMapper;
+import com.juzhai.act.mapper.CategoryMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActCategory;
 import com.juzhai.act.model.ActCategoryExample;
+import com.juzhai.act.model.Category;
+import com.juzhai.act.model.CategoryExample;
 import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IActService;
 
@@ -24,6 +27,8 @@ public class ActCategoryService implements IActCategoryService {
 
 	@Autowired
 	private ActCategoryMapper actCategoryMapper;
+	@Autowired
+	private CategoryMapper categoryMapper;
 	@Autowired
 	private IActService actService;
 	@Value("${show.category.act.size}")
@@ -104,5 +109,13 @@ public class ActCategoryService implements IActCategoryService {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public List<Category> findAllCategory() {
+		CategoryExample example = new CategoryExample();
+		example.setOrderByClause("sequence asc,id asc");
+		List<Category> list = categoryMapper.selectByExample(example);
+		return list;
 	}
 }

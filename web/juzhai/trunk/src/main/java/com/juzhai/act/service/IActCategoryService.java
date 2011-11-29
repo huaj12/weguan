@@ -3,6 +3,7 @@ package com.juzhai.act.service;
 import java.util.List;
 
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.Category;
 
 public interface IActCategoryService {
 
@@ -35,4 +36,6 @@ public interface IActCategoryService {
 	 * @return
 	 */
 	boolean isExistAct(long catId);
+	
+	List<Category> findAllCategory();
 }

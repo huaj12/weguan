@@ -10,18 +10,18 @@
 	<body background="${jz:static('/images/renrenbg.jpg')}">
 		<jsp:include page="/WEB-INF/jsp/common/app/script/script.jsp" />
 		<script type="text/javascript" src="${jz:static('/js/core/app/renren/renren_plugin.js')}"></script>
-			 <script type="text/javascript">
-				  var uiOpts = {
-					  url : "http://graph.renren.com/oauth/authorize",
-					  display : "iframe",
-					  params : {"response_type":"token","client_id":"${tp.appId}","scope":"publish_feed"},
-					  onSuccess: function(r){
-					    top.location = "${tp.appUrl}";
-					  },
-					  onFailure: function(r){} 
-				  };
-				  Renren.ui(uiOpts);
-			  </script>
-		<jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" />
+		<script type="text/javascript">
+			  var uiOpts = {
+				  url : "http://graph.renren.com/oauth/authorize",
+				  display : "iframe",
+				  params : {"response_type":"token","client_id":"${tp.appId}","scope":"publish_feed"},
+				  onSuccess: function(r){
+				    top.location = "${tp.appUrl}";
+				  },
+				  onFailure: function(r){} 
+			  };
+			  Renren.ui(uiOpts);
+		</script>
+		<%-- <jsp:include page="/WEB-INF/jsp/common/app/foot.jsp" /> --%>
 	</body>
 </html>

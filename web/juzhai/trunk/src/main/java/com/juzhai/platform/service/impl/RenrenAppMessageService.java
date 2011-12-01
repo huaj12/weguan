@@ -106,7 +106,7 @@ public class RenrenAppMessageService implements IMessageService {
 			}
 		} catch (Exception e) {
 			log.error("send renren sendMessage is error " + " [error: "
-					+ e.getMessage() + "].");
+					+ e.getMessage() + "]. fuid:"+fuid);
 			return false;
 		}
 	}
@@ -125,7 +125,7 @@ public class RenrenAppMessageService implements IMessageService {
 			}
 		} catch (Exception e) {
 			log.error("send renren sendFeed is error " + " [error: "
-					+ e.getMessage() + "].");
+					+ e.getMessage() + "]. fuid:"+authInfo.getTpIdentity());
 			return false;
 		}
 	}

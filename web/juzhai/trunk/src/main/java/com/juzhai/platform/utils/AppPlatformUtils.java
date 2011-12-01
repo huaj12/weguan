@@ -177,14 +177,17 @@ public class AppPlatformUtils {
 		HttpURLConnection urlConn = null;
 		SSLContext sslContext = null;
 		try {
-			sslContext = SSLContext.getInstance("TLS");
-			X509TrustManager[] xtmArray = new X509TrustManager[] { xtm };
-			sslContext.init(null, xtmArray, new java.security.SecureRandom());
-			if (sslContext != null) {
-				HttpsURLConnection.setDefaultSSLSocketFactory(sslContext
-						.getSocketFactory());
+			if (reqUrl.indexOf("https:") != -1) {
+				sslContext = SSLContext.getInstance("TLS");
+				X509TrustManager[] xtmArray = new X509TrustManager[] { xtm };
+				sslContext.init(null, xtmArray,
+						new java.security.SecureRandom());
+				if (sslContext != null) {
+					HttpsURLConnection.setDefaultSSLSocketFactory(sslContext
+							.getSocketFactory());
+				}
+				HttpsURLConnection.setDefaultHostnameVerifier(hnv);
 			}
-			HttpsURLConnection.setDefaultHostnameVerifier(hnv);
 			urlConn = (HttpURLConnection) ((new URL(reqUrl)).openConnection());
 			urlConn.setRequestMethod("POST");
 			urlConn.setConnectTimeout(5000);// （单位：毫秒）jdk

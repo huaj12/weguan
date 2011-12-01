@@ -92,7 +92,7 @@ public class WeiboAppMessageService implements IMessageService {
 				return true;
 			}
 		} catch (Exception e) {
-			log.error("weibo sendMessage is error." + e.getMessage());
+			log.error("weibo sendMessage is error." + e.getMessage()+"uid:"+authInfo.getTpIdentity());
 			return false;
 		}
 	}
@@ -145,7 +145,7 @@ public class WeiboAppMessageService implements IMessageService {
 			}
 			return true;
 		} catch (Exception e) {
-			log.error("weibo sendQuestionMessage is error." + e.getMessage());
+			log.error("weibo sendQuestionMessage is error." + e.getMessage()+"uid:"+authInfo.getTpIdentity());
 			return false;
 		}
 

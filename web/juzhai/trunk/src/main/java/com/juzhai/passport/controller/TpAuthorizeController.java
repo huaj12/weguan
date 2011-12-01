@@ -163,11 +163,6 @@ public class TpAuthorizeController extends BaseController {
 	@RequestMapping(value = "auth/rr/appLogin")
 	public String rrLogin(HttpServletRequest request,
 			HttpServletResponse response, String fromUri, Model model) {
-		try {
-			checkLoginForApp(request);
-			return "forward:/appLoad/2";
-		} catch (NeedLoginException e1) {
-		}
 		String sessionKey = request.getParameter("xn_sig_session_key");
 		String uid = request.getParameter("xn_sig_user");
 		if (StringUtils.isEmpty(sessionKey) || StringUtils.isEmpty(uid)) {

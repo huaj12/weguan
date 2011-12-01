@@ -29,7 +29,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 import com.juzhai.passport.bean.AuthInfo;
 
 public class AppPlatformUtils {
@@ -39,7 +38,7 @@ public class AppPlatformUtils {
 
 	// 64位编码
 	public static String urlBase64Encode(String str) {
-		String basestr ="";
+		String basestr = "";
 		try {
 			Base64 base64en = new Base64();
 			byte[] bytes = base64en.encode(str.getBytes("UTF-8"));
@@ -58,7 +57,7 @@ public class AppPlatformUtils {
 			str = str.replaceAll("\\*", "\\+").replaceAll("-", "/");
 			Base64 base64en = new Base64();
 			byte[] bytes = base64en.decode(str.getBytes("UTF-8"));
-			result = new String(bytes,"UTF-8");
+			result = new String(bytes, "UTF-8");
 		} catch (Exception e) {
 			log.error("urlBase64Decode is error", e);
 		}
@@ -73,7 +72,7 @@ public class AppPlatformUtils {
 	 */
 	public static String buildQuery(Map<String, String> paramMap,
 			String api_key, String secret, String sessionKey, String v) {
-		Map<String,String> param = new HashMap<String,String>();
+		Map<String, String> param = new HashMap<String, String>();
 		param.putAll(paramMap);
 		param.put("api_key", api_key);
 		param.put("call_id", String.valueOf(System.currentTimeMillis()));
@@ -105,7 +104,7 @@ public class AppPlatformUtils {
 	 */
 	public static String kaiXinBuildQuery(Map<String, String> paramMap,
 			AuthInfo authInfo, String v) {
-		Map<String,String> param = new HashMap<String,String>();
+		Map<String, String> param = new HashMap<String, String>();
 		param.putAll(paramMap);
 		param.put("oauth_consumer_key", authInfo.getAppKey());
 		param.put("oauth_signature_method", "HMAC-SHA1");
@@ -131,8 +130,9 @@ public class AppPlatformUtils {
 		return query;
 	}
 
-	public static String sessionKeyBuildQuery(Map<String,String> paramMap, String session_key) {
-		Map<String,String> param = new HashMap<String,String>();
+	public static String sessionKeyBuildQuery(Map<String, String> paramMap,
+			String session_key) {
+		Map<String, String> param = new HashMap<String, String>();
 		param.putAll(paramMap);
 		param.put("session_key", session_key);
 		String query = httpBuildQuery(param, null);
@@ -143,10 +143,10 @@ public class AppPlatformUtils {
 		StringBuffer strbuf = new StringBuffer();
 		try {
 			if (keyset == null) {
-				Set<Entry<String,String>> set = map.entrySet();
+				Set<Entry<String, String>> set = map.entrySet();
 				Iterator<Entry<String, String>> it = set.iterator();
 				while (it.hasNext()) {
-					Entry<String, String> entry =  it.next();
+					Entry<String, String> entry = it.next();
 					strbuf.append(
 							URLEncoder.encode(entry.getKey().toString(),
 									"UTF-8")).append("=");
@@ -175,9 +175,17 @@ public class AppPlatformUtils {
 
 	private static HttpURLConnection sendPost(String reqUrl, String params) {
 		HttpURLConnection urlConn = null;
+		SSLContext sslContext = null;
 		try {
-			URL url = new URL(reqUrl);
-			urlConn = (HttpURLConnection) url.openConnection();
+			sslContext = SSLContext.getInstance("TLS");
+			X509TrustManager[] xtmArray = new X509TrustManager[] { xtm };
+			sslContext.init(null, xtmArray, new java.security.SecureRandom());
+			if (sslContext != null) {
+				HttpsURLConnection.setDefaultSSLSocketFactory(sslContext
+						.getSocketFactory());
+			}
+			HttpsURLConnection.setDefaultHostnameVerifier(hnv);
+			urlConn = (HttpURLConnection) ((new URL(reqUrl)).openConnection());
 			urlConn.setRequestMethod("POST");
 			urlConn.setConnectTimeout(5000);// （单位：毫秒）jdk
 			urlConn.setReadTimeout(2000);// （单位：毫秒）jdk 1.5换成这个,读操作超时
@@ -208,7 +216,6 @@ public class AppPlatformUtils {
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
-
 		return urlCon;
 	}
 

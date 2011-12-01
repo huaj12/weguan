@@ -83,7 +83,7 @@ abbr,acronym { border: 0;
 
 
 /********************/
-.main{ width:760px; height:auto; display:block; margin:0 auto;}
+.main{ width:760px; min-height:550px; _height:550px; display:block; margin:0 auto; background:url(../images/weibo_bg.jpg) left bottom repeat-x; }
 .skin_top_new{ width:100%; height:10px; background:url(../images/2qi/wb_760_r1_c1.png) no-repeat; overflow:hidden;}
 
 .skin_top{ width:100%; height:65px; }
@@ -640,7 +640,3 @@ abbr,acronym { border: 0;
 .share_wb .sending{ float:right; margin-top:8px; margin-right:3px; display:inline;}
 .share_wb .sending .loading_icon{ float:left;}
 .share_wb .sending strong{ float:left; font-size:14px; color:#999; font-family:"微软雅黑","宋体"; margin-left:5px; display:inline;}
-
-
-
-

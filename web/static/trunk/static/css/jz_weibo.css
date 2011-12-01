@@ -73,9 +73,9 @@ abbr,acronym { border: 0;
 
 
 .top_logo{ width:760px; height:auto; overflow:hidden; margin:0 auto; padding-bottom:15px; margin-top:15px;}
-.top_logo h1{ width:90px; height:24px; float:left; background:url(../images/2qi/renren_logo.jpg) no-repeat; margin-left:3px; display:inline;}
-.top_logo p{ color:#666; float:left; margin-left:12px; margin-top:2px; display:inline;}
-.top_logo span{ float:right; margin-right:5px; display:inline; margin-top:2px;}
+.top_logo h1{ width:97px; height:30px; float:left; background:url(../images/2qi/wb_logo.jpg) no-repeat; margin-left:3px; display:inline;}
+.top_logo p{ color:#666; float:left; margin-left:12px; margin-top:8px; display:inline;}
+.top_logo span{ float:right; margin-right:5px; display:inline; margin-top:8px;}
 .top_logo span a{background:url(../images/2qi/rr_yqhy.jpg) no-repeat; height:16px; padding-left:20px; font-size:14px; color:#417EC5; text-decoration:underline;}
 
 

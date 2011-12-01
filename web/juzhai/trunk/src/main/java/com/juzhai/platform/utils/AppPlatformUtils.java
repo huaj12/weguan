@@ -177,7 +177,7 @@ public class AppPlatformUtils {
 		HttpURLConnection urlConn = null;
 		SSLContext sslContext = null;
 		try {
-			if (reqUrl.indexOf("https:") != -1) {
+			if (reqUrl.startsWith("https:")) {
 				sslContext = SSLContext.getInstance("TLS");
 				X509TrustManager[] xtmArray = new X509TrustManager[] { xtm };
 				sslContext.init(null, xtmArray,

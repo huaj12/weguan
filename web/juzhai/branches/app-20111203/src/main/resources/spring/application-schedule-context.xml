@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		" default-lazy-init="false">
+	<bean id="abstractJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean" abstract="true">
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="handle" />
+	</bean>
+	<bean id="abstractSimpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean" abstract="true">
+		<property name="startDelay" value="${default.start.delay}" />
+	</bean>
+	<bean id="abstractCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean" abstract="true">
+	</bean>
+    
+
+	<bean id="actIndexOptimizationAndCommitTrigger" parent="abstractSimpleTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="actIndexOptimizationAndCommitHandler" />
+			</bean>
+		</property>
+		<property name="startDelay" value="${actIndex.optimization.commit.start.delay}" />
+		<property name="repeatInterval" value="${actIndex.optimization.commit.repeat.interval}" />
+	</bean>
+	
+	<bean id="unreadMsgEmailTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="unreadMsgEmailHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${unread.msg.email.cron}" />
+	</bean>
+	
+	<bean id="actBriefingEmailTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="actBriefingEmailHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${act.briefing.email.cron}" />
+	</bean>
+	
+	
+	<!-- get back feed begin -->
+	<bean id="getBackFeedTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="getBackFeedHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${get.back.feed.cron}" />
+	</bean>
+	<!-- get back feed end -->
+	
+	<!-- reset question users begin -->
+	<bean id="resetQuestionUsersTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="resetQuestionUsersHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${reset.question.users.cron}" />
+	</bean>
+	<!-- reset question users end -->
+	
+	<!-- reset question users begin -->
+	<bean id="showCategoryActListTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="showCategoryActListHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${show.category.act.list.cron}" />
+	</bean>
+	<!-- reset question users end -->
+	
+	<!-- delete user action begin -->
+	<bean id="deleteUserActionTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="deleteUserActionHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${delete.user.action.cron}" />
+	</bean>
+	<!-- delete user action end -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="actIndexOptimizationAndCommitTrigger"/>
+				<!-- <ref bean="getBackFeedTrigger"/> -->
+				<ref bean="resetQuestionUsersTrigger"/>
+				<!-- <ref bean="unreadMsgEmailTrigger"/>
+				<ref bean="actBriefingEmailTrigger"/> -->
+				<ref bean="showCategoryActListTrigger"/>
+				<ref bean="deleteUserActionTrigger"/>
+			</list>
+		</property>
+	</bean>
+</beans>
+

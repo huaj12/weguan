@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.mapper.CityMapper;
 import com.juzhai.passport.mapper.CityMappingMapper;
+import com.juzhai.passport.mapper.ConstellationMapper;
 import com.juzhai.passport.mapper.ProvinceMapper;
 import com.juzhai.passport.mapper.ProvinceMappingMapper;
 import com.juzhai.passport.mapper.ThirdpartyMapper;
@@ -27,6 +28,8 @@ import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.CityExample;
 import com.juzhai.passport.model.CityMapping;
 import com.juzhai.passport.model.CityMappingExample;
+import com.juzhai.passport.model.Constellation;
+import com.juzhai.passport.model.ConstellationExample;
 import com.juzhai.passport.model.Province;
 import com.juzhai.passport.model.ProvinceExample;
 import com.juzhai.passport.model.ProvinceMapping;
@@ -44,6 +47,7 @@ public class InitData {
 	public static final List<Long> GUIDE_STEPS = new ArrayList<Long>();
 	public static final Map<String, Long> CITY_MAPPING = new HashMap<String, Long>();
 	public static final Map<String, Long> PROVINCE_MAPPING = new HashMap<String, Long>();
+	public static final Map<Long, Constellation> CONSTELLATION_MAP = new HashMap<Long, Constellation>();
 
 	@Autowired
 	private ThirdpartyMapper thirdpartyMapper;
@@ -55,6 +59,8 @@ public class InitData {
 	private CityMappingMapper cityMappingMapper;
 	@Autowired
 	private ProvinceMappingMapper provinceMappingMapper;
+	@Autowired
+	private ConstellationMapper constellationMapper;
 	@Value("${freshman.guide.steps}")
 	private String freshmanGuideSteps;
 
@@ -65,6 +71,15 @@ public class InitData {
 		initCity();
 		initGuideSteps();
 		initCityAndProvinceMapping();
+		initConstellation();
+	}
+
+	private void initConstellation() {
+		List<Constellation> list = constellationMapper
+				.selectByExample(new ConstellationExample());
+		for (Constellation constellation : list) {
+			CONSTELLATION_MAP.put(constellation.getId(), constellation);
+		}
 	}
 
 	private void initCityAndProvinceMapping() {
@@ -136,6 +151,22 @@ public class InitData {
 			if (StringUtils.equals(tp.getName(), name)
 					&& StringUtils.equals(tp.getJoinType(), joinType.getName())) {
 				return tp;
+			}
+		}
+		return null;
+	}
+
+	public static Constellation getConstellation(int month, int date) {
+		if (month <= 0 || date <= 0) {
+			return null;
+		}
+		for (Constellation c : CONSTELLATION_MAP.values()) {
+			if (c.getStartMonth() < month
+					|| (c.getStartMonth() == month && c.getStartDate() <= date)) {
+				if (c.getEndMonth() > month
+						|| (c.getEndMonth() == month && c.getEndDate() >= date)) {
+					return c;
+				}
 			}
 		}
 		return null;

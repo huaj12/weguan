@@ -28,14 +28,15 @@ import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
+
 @Service
 public class Kaixin001AppUserService extends AbstractUserService {
 	private static final Log log = LogFactory
-	.getLog(Kaixin001AppUserService.class);
-	
+			.getLog(Kaixin001AppUserService.class);
+
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
-	
+
 	@Override
 	public List<TpFriend> getAllFriends(AuthInfo authInfo) {
 		KxSDK kxSDK = newKxSDK(authInfo.getAppKey(), authInfo.getAppSecret(),
@@ -46,7 +47,7 @@ public class Kaixin001AppUserService extends AbstractUserService {
 			int num = 50;
 			String fields = "uid,name,gender,city,birthday,logo120";
 			while (true) {
-				 List<User> userList = kxSDK.getFriends(fields, start, num);
+				List<User> userList = kxSDK.getFriends(fields, start, num);
 				if (CollectionUtils.isEmpty(userList)) {
 					break;
 				}
@@ -66,9 +67,7 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		}
 		return friendIdList;
 	}
-	
-	
-	
+
 	private TpFriend kxUserTpFriend(User user) {
 		if (null == user) {
 			return null;
@@ -95,7 +94,6 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		tpFriend.setLogoUrl(user.getLogo120());
 		return tpFriend;
 	}
-	
 
 	@Override
 	public List<String> getAppFriends(AuthInfo authInfo) {
@@ -125,7 +123,6 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		return friendIdList;
 	}
 
-
 	@Override
 	protected Profile convertToProfile(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo,
@@ -133,8 +130,9 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		// 调用开心API
 		KxSDK kxSDK = newKxSDK(authInfo.getAppKey(), authInfo.getAppSecret(),
 				authInfo.getSessionKey());
-		String[] fields = new String[] { "name", "gender", "hometown", "city",
-				"logo120", "bodyform", "interest", "school", "company" };
+		String[] fields = new String[] { "name", "gender", "birthday",
+				"hometown", "city", "logo120", "bodyform", "interest",
+				"school", "company" };
 		User user = null;
 		try {
 			user = kxSDK.getMyInfo(StringUtils.join(fields, ","));
@@ -143,7 +141,7 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		}
 		return kxUserToProfile(user);
 	}
-	
+
 	private Profile kxUserToProfile(User user) {
 		if (null == user) {
 			return null;
@@ -160,15 +158,15 @@ public class Kaixin001AppUserService extends AbstractUserService {
 			try {
 				String[] birthdays = user.getBirthday().split("[^0-9]");
 				int birthYear = Integer.valueOf(birthdays[0]);
-				int brithMonth=Integer.valueOf(birthdays[1]);
-				int brithDay=Integer.valueOf(birthdays[2]);
+				int brithMonth = Integer.valueOf(birthdays[1]);
+				int brithDay = Integer.valueOf(birthdays[2]);
 				if (birthYear > 1900) {
 					profile.setBirthYear(birthYear);
 				}
-				if(brithMonth>0&&brithMonth<13){
+				if (brithMonth > 0 && brithMonth < 13) {
 					profile.setBirthMonth(brithMonth);
 				}
-				if(brithDay>0&&brithDay<32){
+				if (brithDay > 0 && brithDay < 32) {
 					profile.setBirthDay(brithDay);
 				}
 			} catch (Exception e) {
@@ -216,7 +214,7 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		String sig = DigestUtils.md5Hex(sessionKey + "_" + appSecret);
 		return StringUtils.equals(sig, request.getParameter("sig"));
 	}
-	
+
 	private KxSDK newKxSDK(String key, String secret, String sessionKey) {
 		KxSDK kxSDK = new KxSDK();
 		kxSDK.setOAuthConsumer(key, secret);

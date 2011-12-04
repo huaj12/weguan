@@ -32,9 +32,11 @@ import com.juzhai.passport.InitData;
 import com.juzhai.passport.mapper.CityMapper;
 import com.juzhai.passport.mapper.CityMappingMapper;
 import com.juzhai.passport.mapper.ProvinceMapper;
+import com.juzhai.passport.mapper.TownMapper;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.CityMapping;
 import com.juzhai.passport.model.Province;
+import com.juzhai.passport.model.Town;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:spring/application-context.xml" })
@@ -46,6 +48,8 @@ public class ProvinceAndCity {
 	private ProvinceMapper provinceMapper;
 	@Autowired
 	private CityMappingMapper cityMappingMapper;
+	@Autowired
+	private TownMapper townMapper;
 
 	@Test
 	public void initKaixinProvinceAndCity() throws HttpException, IOException {
@@ -236,6 +240,36 @@ public class ProvinceAndCity {
 						cityMapping.setMappingCityName(cityName);
 						cityMappingMapper.insertSelective(cityMapping);
 					}
+				}
+			}
+		}
+	}
+
+	@Test
+	public void createTown() throws IOException {
+		Properties p = new Properties();
+		p.load(getClass().getClassLoader().getResourceAsStream(
+				"town.properties"));
+		String[] cityNames = new String[] { "北京", "上海", "天津", "重庆", "广州", "深圳",
+				"武汉", "成都", "杭州", "西安" };
+		for (String cityName : cityNames) {
+			City city = InitData.getCityByName(cityName);
+			if (city == null) {
+				System.out.println(cityName + " is null.");
+				continue;
+			}
+			int sequence = 1;
+			String[] townNames = p.getProperty(cityName).split(",");
+			for (String townName : townNames) {
+				if (StringUtils.isNotEmpty(townName)) {
+					Town town = new Town();
+					town.setCityId(city.getId());
+					town.setName(townName);
+					town.setSequence(sequence);
+					town.setCreateTime(new Date());
+					town.setLastModifyTime(town.getCreateTime());
+					townMapper.insertSelective(town);
+					sequence++;
 				}
 			}
 		}

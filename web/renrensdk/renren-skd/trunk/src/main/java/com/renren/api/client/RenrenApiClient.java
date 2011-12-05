@@ -1,5 +1,14 @@
 package com.renren.api.client;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
+import com.renren.api.client.bean.AccessToken;
 import com.renren.api.client.services.AdminService;
 import com.renren.api.client.services.ConnectService;
 import com.renren.api.client.services.FriendsService;
@@ -18,6 +27,7 @@ import com.renren.api.client.services.impl.PageServiceImpl;
 import com.renren.api.client.services.impl.PayServiceImpl;
 import com.renren.api.client.services.impl.PhotoServiceImpl;
 import com.renren.api.client.services.impl.UserServiceImpl;
+import com.renren.api.client.utils.HttpURLUtils;
 
 /**
  * 注意：在构造第一个RenrenApiClient实例之前，
@@ -27,104 +37,144 @@ import com.renren.api.client.services.impl.UserServiceImpl;
  */
 public class RenrenApiClient {
 
-    private RenrenApiInvoker renrenApiInvoker;
+	private static final long serialVersionUID = -1193420595178024710L;
 
-    private FriendsService friendsService;
+	private RenrenApiInvoker renrenApiInvoker;
 
-    private UserService userService;
+	private RenrenApiConfig apiConfig = new RenrenApiConfig();
 
-    private AdminService adminService;
+	private FriendsService friendsService;
 
-    private ConnectService connectService;
+	private UserService userService;
 
-    private InvitationsService invitationsService;
+	private AdminService adminService;
 
-    private NotificationsService notificationsService;
+	private ConnectService connectService;
 
-    private PageService pageService;
+	private InvitationsService invitationsService;
 
-    private PayService payService;
+	private NotificationsService notificationsService;
 
-    private PhotoService photoService;
+	private PageService pageService;
 
-    /**
-     * 如果sessionKey为空，那么只能调用不需要sessionKey的接口。
-     * 
-     * @param sessionKey
-     */
-    public RenrenApiClient(String sessionKey) {
-        this(sessionKey, false);
-    }
+	private PayService payService;
 
-    /**
-     * 
-     * @param token 访问标识
-     * @param isAccessToken ture:token为accessToken, false:sessionKey
-     */
-    public RenrenApiClient(String token, boolean isAccessToken) {
-        this.renrenApiInvoker = new RenrenApiInvoker(token, isAccessToken);
-        this.checkConfig();
-        this.initService();
-    }
+	private PhotoService photoService;
 
-    private void checkConfig() {
-        if (RenrenApiConfig.renrenApiKey == null || RenrenApiConfig.renrenApiKey.length() < 1
-                || RenrenApiConfig.renrenApiSecret == null
-                || RenrenApiConfig.renrenApiSecret.length() < 1) {
-            throw new RuntimeException(
-                    "Please init com.renren.api.client.RenrenApiConfig.renrenApiKey and com.renren.api.client.RenrenApiConfig.renrenApiSecret!");
-        }
-    }
+	/**
+	 * 如果sessionKey为空，那么只能调用不需要sessionKey的接口。
+	 * 
+	 * @param sessionKey
+	 */
+	public RenrenApiClient(String sessionKey) {
+		this(sessionKey, false);
+	}
 
-    private void initService() {
-        this.friendsService = new FriendsServiceImpl(this.renrenApiInvoker);
-        this.userService = new UserServiceImpl(this.renrenApiInvoker);
-        this.adminService = new AdminServiceImpl(this.renrenApiInvoker);
-        this.connectService = new ConnectServiceImpl(this.renrenApiInvoker);
-        this.invitationsService = new InvitationsServiceImpl(this.renrenApiInvoker);
-        this.notificationsService = new NotificationsServiceImpl(this.renrenApiInvoker);
-        this.pageService = new PageServiceImpl(this.renrenApiInvoker);
-        this.payService = new PayServiceImpl(this.renrenApiInvoker);
-        this.photoService = new PhotoServiceImpl(this.renrenApiInvoker);
-    }
+	public RenrenApiClient(String renrenApiKey, String renrenApiSecret) {
+		this.apiConfig.renrenApiKey = renrenApiKey;
+		this.apiConfig.renrenApiSecret = renrenApiSecret;
+	}
 
-    public RenrenApiInvoker getRenrenApiInvoker() {
-        return renrenApiInvoker;
-    }
+	public void renrenApiOauth(String renrenApiKey, String renrenApiSecret) {
+		this.apiConfig.renrenApiKey = renrenApiKey;
+		this.apiConfig.renrenApiSecret = renrenApiSecret;
+	}
 
-    public AdminService getAdminService() {
-        return adminService;
-    }
+	/**
+	 * 
+	 * @param token
+	 *            访问标识
+	 * @param isAccessToken
+	 *            ture:token为accessToken, false:sessionKey
+	 */
+	public RenrenApiClient(String token, boolean isAccessToken) {
+		this.renrenApiInvoker = new RenrenApiInvoker(token, isAccessToken,
+				apiConfig);
+		this.initService();
+	}
 
-    public FriendsService getFriendsService() {
-        return friendsService;
-    }
+	private void initService() {
+		this.friendsService = new FriendsServiceImpl(this.renrenApiInvoker);
+		this.userService = new UserServiceImpl(this.renrenApiInvoker);
+		this.adminService = new AdminServiceImpl(this.renrenApiInvoker);
+		this.connectService = new ConnectServiceImpl(this.renrenApiInvoker);
+		this.invitationsService = new InvitationsServiceImpl(
+				this.renrenApiInvoker);
+		this.notificationsService = new NotificationsServiceImpl(
+				this.renrenApiInvoker);
+		this.pageService = new PageServiceImpl(this.renrenApiInvoker);
+		this.payService = new PayServiceImpl(this.renrenApiInvoker);
+		this.photoService = new PhotoServiceImpl(this.renrenApiInvoker);
+	}
 
-    public UserService getUserService() {
-        return userService;
-    }
+	public static AccessToken getOAuthAccessTokenFromCode(String code,
+			String appkey, String appSecret, String redirect_uri) {
+		AccessToken accessToken = null;
+		JSONObject tokenJson = null;
+		try {
+			String rrOAuthTokenEndpoint = "https://graph.renren.com/oauth/token";
+			Map<String, String> parameters = new HashMap<String, String>();
+			parameters.put("client_id", appkey);
+			parameters.put("client_secret", appSecret);
+			parameters.put("redirect_uri", redirect_uri);// 这个redirect_uri要和之前传给authorization
+															// endpoint的值一样
+			parameters.put("grant_type", "authorization_code");
+			parameters.put("code", code);
+			String tokenResult = HttpURLUtils.doPost(rrOAuthTokenEndpoint,
+					parameters);
+			tokenJson = (JSONObject) JSONValue.parse(tokenResult);
+			accessToken = new AccessToken(tokenJson);
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage() + "" + tokenJson, e);
+		}
+		return accessToken;
+	}
 
-    public ConnectService getConnectService() {
-        return connectService;
-    }
+	public static String getAuthorizeURLforCode(String appId,
+			String redirect_uri) throws UnsupportedEncodingException {
+		String rrOAuthTokenEndpoint = "https://graph.renren.com/oauth/authorize?";
+		return rrOAuthTokenEndpoint + "client_id=" + appId
+				+ "&response_type=code&redirect_uri="
+				+ URLEncoder.encode(redirect_uri, "UTF-8") + "&display=page";
+	}
 
-    public InvitationsService getInvitationsService() {
-        return invitationsService;
-    }
+	public RenrenApiInvoker getRenrenApiInvoker() {
+		return renrenApiInvoker;
+	}
 
-    public NotificationsService getNotificationsService() {
-        return notificationsService;
-    }
+	public AdminService getAdminService() {
+		return adminService;
+	}
 
-    public PageService getPageService() {
-        return pageService;
-    }
+	public FriendsService getFriendsService() {
+		return friendsService;
+	}
 
-    public PayService getPayService() {
-        return payService;
-    }
+	public UserService getUserService() {
+		return userService;
+	}
 
-    public PhotoService getPhotoService() {
-        return photoService;
-    }
+	public ConnectService getConnectService() {
+		return connectService;
+	}
+
+	public InvitationsService getInvitationsService() {
+		return invitationsService;
+	}
+
+	public NotificationsService getNotificationsService() {
+		return notificationsService;
+	}
+
+	public PageService getPageService() {
+		return pageService;
+	}
+
+	public PayService getPayService() {
+		return payService;
+	}
+
+	public PhotoService getPhotoService() {
+		return photoService;
+	}
 }

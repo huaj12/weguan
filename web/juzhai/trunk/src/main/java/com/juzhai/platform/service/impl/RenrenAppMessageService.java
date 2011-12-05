@@ -56,20 +56,17 @@ public class RenrenAppMessageService implements IMessageService {
 
 	private RenrenApiClient newRenrenApiClient(String key, String secret,
 			String sessionKey) {
-		if (RenrenApiConfig.renrenApiKey == null
-				|| RenrenApiConfig.renrenApiSecret == null) {
-			RenrenApiConfig.renrenApiKey = key;
-			RenrenApiConfig.renrenApiSecret = secret;
-		}
 		RenrenApiClient renrenApiClient = new RenrenApiClient(sessionKey);
+		renrenApiClient.renrenApiOauth(key, secret);
 		return renrenApiClient;
 	}
 
 	@Override
-	public boolean sendMessage(long sendId, String fuid, String fname,String content,
-			AuthInfo authInfo, long actId, String link,String typeWeibo,String typeComment) {
+	public boolean sendMessage(long sendId, String fuid, String fname,
+			String content, AuthInfo authInfo, long actId, String link,
+			String typeWeibo, String typeComment) {
 		try {
-			if (content.trim().length() >30) {
+			if (content.trim().length() > 30) {
 				log.error("about friends  content is too long ");
 				return false;
 			}
@@ -106,26 +103,28 @@ public class RenrenAppMessageService implements IMessageService {
 			}
 		} catch (Exception e) {
 			log.error("send renren sendMessage is error " + " [error: "
-					+ e.getMessage() + "]. uid:"+authInfo.getTpIdentity());
+					+ e.getMessage() + "]. uid:" + authInfo.getTpIdentity());
 			return false;
 		}
 	}
 
 	@Override
 	public boolean sendFeed(String linktext, String link, String word,
-			String text, String picurl, AuthInfo authInfo, String name,long actId) {
+			String text, String picurl, AuthInfo authInfo, String name,
+			long actId) {
 		try {
 			RenrenApiClient client = newRenrenApiClient(authInfo.getAppKey(),
 					authInfo.getAppSecret(), authInfo.getSessionKey());
-			String ret=client.getNotificationsService().sendFeed(linktext, link, word, text, picurl, name);
-			if(StringUtils.isEmpty(ret)){
+			String ret = client.getNotificationsService().sendFeed(linktext,
+					link, word, text, picurl, name);
+			if (StringUtils.isEmpty(ret)) {
 				return false;
-			}else{
+			} else {
 				return true;
 			}
 		} catch (Exception e) {
 			log.error("send renren sendFeed is error " + " [error: "
-					+ e.getMessage() + "]. uid:"+authInfo.getTpIdentity());
+					+ e.getMessage() + "]. uid:" + authInfo.getTpIdentity());
 			return false;
 		}
 	}

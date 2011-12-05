@@ -49,7 +49,7 @@ public class WeiboAppMessageService implements IMessageService {
 	public boolean sendSysMessage(List<String> fuids, String linktext,
 			String link, String word, String text, String picurl,
 			AuthInfo authInfo) {
-		
+
 		return false;
 	}
 
@@ -92,7 +92,8 @@ public class WeiboAppMessageService implements IMessageService {
 				return true;
 			}
 		} catch (Exception e) {
-			log.error("weibo sendMessage is error." + e.getMessage()+"uid:"+authInfo.getTpIdentity());
+			log.error("weibo sendMessage is error." + e.getMessage() + "uid:"
+					+ authInfo.getTpIdentity());
 			return false;
 		}
 	}
@@ -145,7 +146,8 @@ public class WeiboAppMessageService implements IMessageService {
 			}
 			return true;
 		} catch (Exception e) {
-			log.error("weibo sendQuestionMessage is error." + e.getMessage()+"uid:"+authInfo.getTpIdentity());
+			log.error("weibo sendQuestionMessage is error." + e.getMessage()
+					+ "uid:" + authInfo.getTpIdentity());
 			return false;
 		}
 

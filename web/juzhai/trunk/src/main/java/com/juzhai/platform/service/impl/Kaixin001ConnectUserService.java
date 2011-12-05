@@ -6,12 +6,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kx4j.KxException;
-import kx4j.KxSDK;
-import kx4j.UIDs;
-import kx4j.User;
+import kx2_4j.KxException;
+import kx2_4j.KxSDK;
+import kx2_4j.UIDs;
+import kx2_4j.User;
+import kx2_4j.http.AccessToken;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -30,24 +30,22 @@ import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 
 @Service
-public class Kaixin001AppUserService extends AbstractUserService {
+public class Kaixin001ConnectUserService extends AbstractUserService {
 	private static final Log log = LogFactory
-			.getLog(Kaixin001AppUserService.class);
-
+			.getLog(Kaixin001ConnectUserService.class);
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
-
+	
 	@Override
 	public List<TpFriend> getAllFriends(AuthInfo authInfo) {
-		KxSDK kxSDK = newKxSDK(authInfo.getAppKey(), authInfo.getAppSecret(),
-				authInfo.getSessionKey());
+		KxSDK kxSDK = newKxSDK2(authInfo);
 		List<TpFriend> friendIdList = new ArrayList<TpFriend>();
 		try {
 			int start = 0;
 			int num = 50;
 			String fields = "uid,name,gender,city,birthday,logo120";
 			while (true) {
-				List<User> userList = kxSDK.getFriends(fields, start, num);
+				 List<User> userList = kxSDK.getFriends(fields, start, num);
 				if (CollectionUtils.isEmpty(userList)) {
 					break;
 				}
@@ -68,6 +66,33 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		return friendIdList;
 	}
 
+	@Override
+	public List<String> getAppFriends(AuthInfo authInfo) {
+		KxSDK kxSDK = newKxSDK2(authInfo);
+		List<String> friendIdList = new ArrayList<String>();
+		try {
+			int start = 0;
+			int num = 50;
+			while (true) {
+				UIDs uids = kxSDK.getAppFriendUids(start, num);
+				if (null == uids || ArrayUtils.isEmpty(uids.getIDs())) {
+					break;
+				}
+				for (long userId : uids.getIDs()) {
+					friendIdList.add(String.valueOf(userId));
+				}
+				if (uids.getNextCursor() <= start) {
+					break;
+				} else {
+					start = Long.valueOf(uids.getNextCursor()).intValue();
+				}
+			}
+		} catch (KxException e) {
+			log.error(e.getMessage());
+		}
+		return friendIdList;
+	}
+	
 	private TpFriend kxUserTpFriend(User user) {
 		if (null == user) {
 			return null;
@@ -94,45 +119,37 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		tpFriend.setLogoUrl(user.getLogo120());
 		return tpFriend;
 	}
-
+	
+	
 	@Override
-	public List<String> getAppFriends(AuthInfo authInfo) {
-		KxSDK kxSDK = newKxSDK(authInfo.getAppKey(), authInfo.getAppSecret(),
-				authInfo.getSessionKey());
-		List<String> friendIdList = new ArrayList<String>();
-		try {
-			int start = 0;
-			int num = 50;
-			while (true) {
-				UIDs uids = kxSDK.getAppFriendUids(start, num);
-				if (null == uids || ArrayUtils.isEmpty(uids.getIDs())) {
-					break;
-				}
-				for (long userId : uids.getIDs()) {
-					friendIdList.add(String.valueOf(userId));
-				}
-				if (uids.getNextCursor() <= start) {
-					break;
-				} else {
-					start = Long.valueOf(uids.getNextCursor()).intValue();
-				}
-			}
-		} catch (KxException e) {
-			log.error(e.getMessage());
+	public String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
+		if (StringUtils.isEmpty(code)) {
+			return null;
 		}
-		return friendIdList;
+		String token = null;
+		KxSDK kxsdk = new KxSDK();
+		kxsdk.CONSUMER_KEY = tp.getAppKey();
+		kxsdk.CONSUMER_SECRET = tp.getAppSecret();
+		kxsdk.Redirect_uri = tp.getAppUrl();
+		try {
+			kx2_4j.http.AccessToken kxToken = kxsdk
+					.getOAuthAccessTokenFromCode(code);
+			token = kxToken.getToken();
+		} catch (KxException e) {
+			log.error("kaixin getOAuthAccessTokenFromCode is error.  error message:"
+					+ e.getMessage());
+			return null;
+		}
+		return token;
 	}
 
 	@Override
 	protected Profile convertToProfile(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo,
 			String thirdpartyIdentity) {
-		// 调用开心API
-		KxSDK kxSDK = newKxSDK(authInfo.getAppKey(), authInfo.getAppSecret(),
-				authInfo.getSessionKey());
+		KxSDK kxSDK = newKxSDK2(authInfo);
 		String[] fields = new String[] { "name", "gender", "hometown", "city",
-				"logo120", "bodyform", "interest", "school", "company",
-				"birthday" };
+				"logo120", "bodyform", "interest", "school", "company","birthday" };
 		User user = null;
 		try {
 			user = kxSDK.getMyInfo(StringUtils.join(fields, ","));
@@ -141,7 +158,7 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		}
 		return kxUserToProfile(user);
 	}
-
+	
 	private Profile kxUserToProfile(User user) {
 		if (null == user) {
 			return null;
@@ -158,15 +175,15 @@ public class Kaixin001AppUserService extends AbstractUserService {
 			try {
 				String[] birthdays = user.getBirthday().split("[^0-9]");
 				int birthYear = Integer.valueOf(birthdays[0]);
-				int brithMonth = Integer.valueOf(birthdays[1]);
-				int brithDay = Integer.valueOf(birthdays[2]);
+				int brithMonth=Integer.valueOf(birthdays[1]);
+				int brithDay=Integer.valueOf(birthdays[2]);
 				if (birthYear > 1900) {
 					profile.setBirthYear(birthYear);
 				}
-				if (brithMonth > 0 && brithMonth < 13) {
+				if(brithMonth>0&&brithMonth<13){
 					profile.setBirthMonth(brithMonth);
 				}
-				if (brithDay > 0 && brithDay < 32) {
+				if(brithDay>0&&brithDay<32){
 					profile.setBirthDay(brithDay);
 				}
 			} catch (Exception e) {
@@ -181,15 +198,17 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		}
 		return profile;
 	}
-
+	
 	@Override
 	protected String fetchTpIdentity(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
-		String sessionKey = request.getParameter("session_key");
-		if (StringUtils.isEmpty(sessionKey)) {
+		String accessToken = (String) request.getAttribute("accessToken");
+		if (null == accessToken) {
 			return null;
 		}
-		KxSDK kxSDK = newKxSDK(tp.getAppKey(), tp.getAppSecret(), sessionKey);
+		KxSDK kxSDK = new KxSDK();
+		AccessToken kxToken = new AccessToken(accessToken, "");
+		kxSDK.setOAuthAccessToken(kxToken);
 		User user = null;
 		try {
 			user = kxSDK.getMyInfo("uid");
@@ -201,30 +220,35 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		}
 		// 构建authInfo
 		authInfo.setThirdparty(tp);
-		authInfo.setSessionKey(sessionKey);
-
+		authInfo.setTpIdentity(String.valueOf(user.getUid()));
+		authInfo.setToken(accessToken);
 		return String.valueOf(user.getUid());
 	}
 
 	@Override
 	protected boolean checkAuthInfo(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
-		String sessionKey = request.getParameter("session_key");
-		String appSecret = tp.getAppSecret();
-		String sig = DigestUtils.md5Hex(sessionKey + "_" + appSecret);
-		return StringUtils.equals(sig, request.getParameter("sig"));
+		String accessToken = (String) request
+				.getAttribute("accessToken");
+		if (StringUtils.isEmpty(accessToken)) {
+			return false;
+		} else {
+			return true;
+		}
+
 	}
 
-	private KxSDK newKxSDK(String key, String secret, String sessionKey) {
+	private KxSDK newKxSDK2(AuthInfo authInfo) {
 		KxSDK kxSDK = new KxSDK();
-		kxSDK.setOAuthConsumer(key, secret);
-		kxSDK.setToken(sessionKey, "kaixin001");
+		if (StringUtils.isEmpty(kxSDK.CONSUMER_KEY)
+				|| StringUtils.isEmpty(kxSDK.CONSUMER_SECRET)) {
+			kxSDK.CONSUMER_KEY = authInfo.getAppKey();
+			kxSDK.CONSUMER_SECRET = authInfo.getAppSecret();
+		}
+		
+		AccessToken kxToken = new AccessToken(authInfo.getToken(), "");
+		kxSDK.setOAuthAccessToken(kxToken);
 		return kxSDK;
 	}
 
-	@Override
-	public String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

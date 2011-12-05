@@ -14,11 +14,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
+import weibo4j.Account;
 import weibo4j.Friendships;
 import weibo4j.Oauth;
 import weibo4j.Users;
+import weibo4j.http.AccessToken;
 import weibo4j.model.User;
 import weibo4j.model.WeiboException;
+import weibo4j.org.json.JSONObject;
 
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.InitData;
@@ -29,9 +32,9 @@ import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 
 @Service
-public class WeiboAppUserService extends AbstractUserService {
+public class WeiboConnectUserService extends AbstractUserService {
 	private static final Log log = LogFactory
-			.getLog(RenrenAppUserService.class);
+			.getLog(WeiboConnectUserService.class);
 
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
@@ -86,6 +89,23 @@ public class WeiboAppUserService extends AbstractUserService {
 	}
 
 	@Override
+	public String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
+		Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
+				tp.getAppUrl());
+		AccessToken accessToken = null;
+		try {
+			accessToken = oauth.getAccessTokenByCode(code);
+		} catch (WeiboException e) {
+			log.error("weibo getOAuthAccessTokenFromCode is error"
+					+ e.getMessage());
+		}
+		if (null == accessToken) {
+			return null;
+		}
+		return accessToken.getAccessToken();
+	}
+
+	@Override
 	protected Profile convertToProfile(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo,
 			String thirdpartyIdentity) {
@@ -120,53 +140,41 @@ public class WeiboAppUserService extends AbstractUserService {
 			log.error("weibo  convertToProfile is erorr." + e.getMessage());
 			return null;
 		}
-
 	}
 
 	@Override
 	protected String fetchTpIdentity(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
-		Oauth oauth = newOauth(tp, request);
-		if (oauth == null) {
+		String accessToken = (String) request.getAttribute("accessToken");
+		if (StringUtils.isEmpty(accessToken)) {
 			return null;
 		}
-		authInfo.setThirdparty(tp);
-		authInfo.setTpIdentity(oauth.user_id);
-		authInfo.setToken(oauth.getToken());
-		return oauth.user_id;
+		if (null == tp) {
+			return null;
+		}
+		String uid = "";
+		try {
+			Account account = new Account(accessToken);
+			JSONObject jsonObject = account.getUid();
+			uid = String.valueOf(jsonObject.get("uid"));
+			authInfo.setThirdparty(tp);
+			authInfo.setToken(accessToken);
+			authInfo.setTpIdentity(uid);
+		} catch (Exception e) {
+			log.error("weibo fetchTpIdentity is error" + e.getMessage());
+		}
+		return uid;
 	}
 
 	@Override
 	protected boolean checkAuthInfo(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
-		Oauth oauth = newOauth(tp, request);
-		if (oauth != null) {
-			return true;
-		} else {
+		String accessToken = (String) request.getAttribute("accessToken");
+		if (StringUtils.isEmpty(accessToken)) {
 			return false;
+		} else {
+			return true;
 		}
-
-	}
-
-	private Oauth newOauth(Thirdparty tp, HttpServletRequest request) {
-		Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
-				tp.getAppUrl());
-		String signedRequest = request.getParameter("signed_request");
-		try {
-			if (StringUtils.isEmpty(oauth.parseSignedRequest(signedRequest))) {
-				return null;
-			}
-			;
-		} catch (Exception e) {
-			return null;
-		}
-		return oauth;
-	}
-
-	@Override
-	public String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

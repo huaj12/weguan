@@ -6,7 +6,7 @@
 <generatorConfiguration>
   <classPathEntry location="tool/MBG/mysql-connector-java-5.1.12.jar" />
 
-  <context id="passport" targetRuntime="MyBatis3">
+  <!-- <context id="passport" targetRuntime="MyBatis3">
   	
   	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -57,7 +57,7 @@
       <property name="useActualColumnNames" value="false"/>
     </table>
     
-    <!-- <table tableName="tb_city_mapping" domainObjectName="CityMapping">
+    <table tableName="tb_city_mapping" domainObjectName="CityMapping">
       <property name="useActualColumnNames" value="false"/>
     </table>
     
@@ -88,9 +88,9 @@
    <table tableName="tb_user_guide" domainObjectName="UserGuide" >
       <property name="useActualColumnNames" value="false"/>
       <columnOverride column="complete" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-    </table> -->
+    </table>
 
-  </context>
+  </context> -->
   
   
   <context id="act" targetRuntime="MyBatis3">
@@ -121,7 +121,12 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
     
-    <table tableName="tb_act" domainObjectName="Act" >
+    <table tableName="tb_raw_act" domainObjectName="RawAct" >
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
+    </table>
+    
+    <!-- <table tableName="tb_act" domainObjectName="Act" >
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
       <columnOverride column="active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
@@ -150,7 +155,7 @@
       <property name="useActualColumnNames" value="false"/>
     </table>
     
-    <!-- <table tableName="tb_synonym_act" domainObjectName="SynonymAct" >
+    <table tableName="tb_synonym_act" domainObjectName="SynonymAct" >
       <property name="useActualColumnNames" value="false"/>
     </table>
     

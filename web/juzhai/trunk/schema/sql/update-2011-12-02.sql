@@ -198,6 +198,32 @@ CREATE INDEX `idx_interestuid` ON `juzhai`.`tb_interest_user` (`interest_uid` AS
 
 SHOW WARNINGS;
 
+-- -----------------------------------------------------
+-- Table `juzhai`.`tb_raw_act`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `juzhai`.`tb_raw_act` ;
+
+SHOW WARNINGS;
+CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_raw_act` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(100) NOT NULL ,
+  `detail` MEDIUMTEXT NOT NULL ,
+  `category_ids` VARCHAR(45) NULL ,
+  `logo` VARCHAR(100) NULL ,
+  `province` BIGINT NOT NULL DEFAULT 0 ,
+  `city` BIGINT NOT NULL DEFAULT 0 ,
+  `town` BIGINT NOT NULL DEFAULT -1 ,
+  `address` VARCHAR(200) NULL ,
+  `start_time` DATETIME NULL ,
+  `create_time` DATETIME NOT NULL ,
+  `last_modify_time` DATETIME NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci, 
+COMMENT = '用户上传的未发布的项目' ;
+
+SHOW WARNINGS;
 
 
 alter table tb_profile add feature varchar(200) AFTER shape;
@@ -207,7 +233,7 @@ alter table tb_profile change gender gender INT(1);
 alter table tb_profile change town town BIGINT NOT NULL DEFAULT -1;
 alter table tb_profile add has_modify_nickname TINYINT(1) NOT NULL DEFAULT 0 AFTER nickname;
 alter table tb_profile add has_modify_gender TINYINT(1) NOT NULL DEFAULT 0 AFTER gender;
-alter table tb_act add town BIGINT NOT NULL DEFAULT 0 AFTER city;
+alter table tb_act add town BIGINT NOT NULL DEFAULT -1 AFTER city;
 alter table tb_act add key_words varchar(500);
 alter table tb_user_act add gender INT(1) AFTER hot_lev;
 alter table tb_user_act add city BIGINT NOT NULL DEFAULT 0 AFTER gender;

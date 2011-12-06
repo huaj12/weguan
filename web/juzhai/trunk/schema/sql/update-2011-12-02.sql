@@ -208,6 +208,7 @@ alter table tb_profile change town town BIGINT NOT NULL DEFAULT -1;
 alter table tb_profile add has_modify_nickname TINYINT(1) NOT NULL DEFAULT 0 AFTER nickname;
 alter table tb_profile add has_modify_gender TINYINT(1) NOT NULL DEFAULT 0 AFTER gender;
 alter table tb_act add town BIGINT NOT NULL DEFAULT 0 AFTER city;
+alter table tb_act add key_words varchar(500);
 alter table tb_user_act add gender INT(1) AFTER hot_lev;
 alter table tb_user_act add city BIGINT NOT NULL DEFAULT 0 AFTER gender;
 alter table tb_user_act add top TINYINT NOT NULL DEFAULT 0 AFTER city;

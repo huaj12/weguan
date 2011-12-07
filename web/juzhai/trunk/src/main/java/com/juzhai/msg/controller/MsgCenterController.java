@@ -89,7 +89,7 @@ public class MsgCenterController extends BaseController {
 			page = 1;
 		UserContext context = checkLoginForApp(request);
 		doPageUnRead(context.getUid(), page, model);
-		return "msg/app/ajax/unReadContent";
+		return "app/msg/ajax/unReadContent";
 	}
 
 	private void doPageUnRead(long uid, int page, Model model) {
@@ -180,7 +180,7 @@ public class MsgCenterController extends BaseController {
 			page = 1;
 		UserContext context = checkLoginForApp(request);
 		doPageRead(context.getUid(), model, page);
-		return "msg/app/ajax/readContent";
+		return "app/msg/ajax/readContent";
 	}
 
 	private void doPageRead(long uid, Model model, int page) {

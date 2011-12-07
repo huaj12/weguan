@@ -32,7 +32,7 @@ public class AppTpUserJudgeController extends BaseController {
 		queryProfile(context.getUid(), model);
 		request.setAttribute("isAdvise",
 				userSetupService.isTpAdvise(context.getUid()));
-		return "home/app/judge";
+		return "app/home/judge";
 	}
 
 	@RequestMapping(value = "/ajax/showJudge")
@@ -41,7 +41,7 @@ public class AppTpUserJudgeController extends BaseController {
 		UserContext context = checkLoginForApp(request);
 		Feed feed = inboxService.showQuestion(context.getUid());
 		model.addAttribute("feed", feed);
-		return "home/app/judge_fragment";
+		return "app/home/judge_fragment";
 	}
 
 	@RequestMapping(value = "/ajax/respJudge", method = RequestMethod.POST)

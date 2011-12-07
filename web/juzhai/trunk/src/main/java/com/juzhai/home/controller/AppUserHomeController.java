@@ -60,7 +60,7 @@ public class AppUserHomeController extends BaseController {
 		pageMyAct(request, model, 1, uid);
 		model.addAttribute("sameActList", userActService.listUsersSameActList(
 				context.getUid(), uid, usersSameActCount));
-		return "home/app/user_home";
+		return "app/home/user_home";
 	}
 
 	@RequestMapping(value = "/ajax/pageUserAct", method = RequestMethod.GET)
@@ -80,7 +80,7 @@ public class AppUserHomeController extends BaseController {
 					.getUserAct().getCreateTime());
 		}
 		model.addAttribute("uid", uid);
-		return "home/app/user_home_act_list";
+		return "app/home/user_home_act_list";
 	}
 
 	@RequestMapping(value = "/showAllFriend", method = RequestMethod.GET)
@@ -88,7 +88,7 @@ public class AppUserHomeController extends BaseController {
 			throws NeedLoginException {
 		checkLoginForApp(request);
 		pageFriend(request, model, 1);
-		return "home/app/all_friend";
+		return "app/home/all_friend";
 	}
 
 	@RequestMapping(value = "/ajax/pageFriend", method = RequestMethod.GET)
@@ -115,6 +115,6 @@ public class AppUserHomeController extends BaseController {
 
 		model.addAttribute("friendViewList", friendViewList);
 		model.addAttribute("pager", pager);
-		return "home/app/friend_list";
+		return "app/home/friend_list";
 	}
 }

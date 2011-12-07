@@ -86,7 +86,7 @@ public class EmailController extends BaseController {
 		model.addAttribute("profile", profileCache);
 		model.addAttribute("token", token);
 		model.addAttribute("tpMap", InitData.TP_MAP);
-		return "mail/unsub";
+		return "web/mail/unsub";
 	}
 
 	@RequestMapping(value = "/unsubEmail", method = RequestMethod.POST)

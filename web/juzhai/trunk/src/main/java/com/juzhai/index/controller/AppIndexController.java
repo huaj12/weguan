@@ -58,7 +58,7 @@ public class AppIndexController extends BaseController {
 			throws NeedLoginException {
 		checkLoginForApp(request);
 		pageLive(request, model, 1);
-		return "index/app/live";
+		return "app/index/live";
 	}
 
 	@RequestMapping(value = "/ajax/pageLive", method = RequestMethod.GET)
@@ -73,7 +73,7 @@ public class AppIndexController extends BaseController {
 						pager.getMaxResult());
 		model.addAttribute("pager", pager);
 		model.addAttribute("actLiveViewList", actLiveViewList);
-		return "index/app/live_list";
+		return "app/index/live_list";
 	}
 
 	@RequestMapping(value = "/showRank", method = RequestMethod.GET)
@@ -88,7 +88,7 @@ public class AppIndexController extends BaseController {
 							act.getId())).intValue());
 		}
 		model.addAttribute("actList", actList);
-		return "index/app/rank";
+		return "app/index/rank";
 	}
 
 	@RequestMapping(value = "/showCategoryActs", method = RequestMethod.GET)
@@ -103,7 +103,7 @@ public class AppIndexController extends BaseController {
 			categoryId = categoryList.get(0).getId();
 		}
 		pageCategoryAct(request, model, categoryId, 1);
-		return "index/app/category_act";
+		return "app/index/category_act";
 	}
 
 	@RequestMapping(value = "/ajax/pageCategoryAct", method = RequestMethod.GET)
@@ -113,7 +113,7 @@ public class AppIndexController extends BaseController {
 		UserContext context = checkLoginForApp(request);
 		pageCategoryAct(context, model, categoryId, page);
 		model.addAttribute("categoryId", categoryId);
-		return "index/app/category_act_list";
+		return "app/index/category_act_list";
 	}
 
 	private void pageCategoryAct(UserContext context, Model model,

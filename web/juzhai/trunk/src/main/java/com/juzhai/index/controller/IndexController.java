@@ -18,7 +18,7 @@ public class IndexController {
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public String welcome(HttpServletRequest request, Model model) {
 		model.addAttribute("tpMap", InitData.TP_MAP);
-		return "index/welcome";
+		return "web/index/welcome";
 	}
 
 	// @RequestMapping(value = "createIndex", method = RequestMethod.GET)

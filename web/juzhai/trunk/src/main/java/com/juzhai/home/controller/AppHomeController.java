@@ -78,7 +78,7 @@ public class AppHomeController extends BaseController {
 		}
 		model.addAttribute("actCnt",
 				userActService.countUserActByUid(context.getUid()));
-		return "home/app/home";
+		return "app/home/home";
 	}
 
 	@RequestMapping(value = "/ajax/showFeed")
@@ -86,7 +86,7 @@ public class AppHomeController extends BaseController {
 			throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		getNextFeed(context, model);
-		return "home/app/feed_fragment";
+		return "app/home/feed_fragment";
 	}
 
 	@RequestMapping(value = "/ajax/respRecommend", method = RequestMethod.POST)
@@ -97,7 +97,7 @@ public class AppHomeController extends BaseController {
 		userActService.respRecommend(context.getUid(), context.getTpId(),
 				actId, readFeedType, isFeed);
 		getNextFeed(context, model);
-		return "home/app/feed_fragment";
+		return "app/home/feed_fragment";
 	}
 
 	@RequestMapping(value = "/ajax/respSpecific", method = RequestMethod.POST)
@@ -116,7 +116,7 @@ public class AppHomeController extends BaseController {
 			return error_500;
 		}
 		getNextFeed(context, model);
-		return "home/app/feed_fragment";
+		return "app/home/feed_fragment";
 	}
 
 	// @RequestMapping(value = "/ajax/respQuestion", method =

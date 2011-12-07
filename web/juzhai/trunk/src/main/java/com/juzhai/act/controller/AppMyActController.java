@@ -63,7 +63,7 @@ public class AppMyActController extends BaseController {
 		showMyActTips(model);
 		queryProfile(context.getUid(), model);
 		pageMyAct(request, model, 1);
-		return "act/app/my_act";
+		return "app/act/my_act";
 	}
 
 	@RequestMapping(value = "/ajax/addAct", method = RequestMethod.POST)
@@ -124,7 +124,7 @@ public class AppMyActController extends BaseController {
 		}
 		model.addAttribute("userActViewList", userActViewList);
 		model.addAttribute("pager", pager);
-		return "act/app/my_act_list";
+		return "app/act/my_act_list";
 	}
 
 	@RequestMapping(value = "/ajax/recommendAct", method = RequestMethod.GET)

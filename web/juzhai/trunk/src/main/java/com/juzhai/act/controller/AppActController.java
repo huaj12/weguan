@@ -68,7 +68,7 @@ public class AppActController extends BaseController {
 				userActService.countFriendUserActByActId(
 						friendService.getAppFriends(context.getUid()), actId));
 		model.addAttribute("showFriendUser", null != friendUser);
-		return "act/app/act";
+		return "app/act/act";
 	}
 
 	@RequestMapping(value = "/ajax/pageActUser", method = RequestMethod.GET)
@@ -86,7 +86,7 @@ public class AppActController extends BaseController {
 		model.addAttribute("act", actService.getActById(actId));
 		model.addAttribute("actUserViewList", actUserViewList);
 		model.addAttribute("pageFriend", false);
-		return "act/app/act_user_list";
+		return "app/act/act_user_list";
 	}
 
 	@RequestMapping(value = "/ajax/pageActFriend", method = RequestMethod.GET)
@@ -104,7 +104,7 @@ public class AppActController extends BaseController {
 		model.addAttribute("act", actService.getActById(actId));
 		model.addAttribute("actUserViewList", actUserViewList);
 		model.addAttribute("pageFriend", true);
-		return "act/app/act_user_list";
+		return "app/act/act_user_list";
 	}
 
 	@RequestMapping(value = "/ajax/inviteHer", method = RequestMethod.POST)

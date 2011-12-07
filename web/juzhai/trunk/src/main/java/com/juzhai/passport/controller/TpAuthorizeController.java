@@ -4,7 +4,6 @@
 package com.juzhai.passport.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +42,6 @@ import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.platform.service.IUserService;
 import com.renren.api.client.RenrenApiClient;
-import com.renren.api.client.RenrenApiConfig;
 
 /**
  * @author wujiajun Created on 2011-2-15
@@ -69,7 +67,7 @@ public class TpAuthorizeController extends BaseController {
 		Thirdparty tp = InitData.getTpByTpNameAndJoinType(thirdpartyName,
 				JoinTypeEnum.APP);
 		model.addAttribute("tp", tp);
-		return "login/app/login";
+		return "app/login/login";
 	}
 
 	@SuppressWarnings("unchecked")
@@ -89,7 +87,7 @@ public class TpAuthorizeController extends BaseController {
 		} catch (JsonGenerationException e) {
 			log.error(e);
 		}
-		return "common/app/" + loginTp.getName() + "/loading";
+		return "app/common/" + loginTp.getName() + "/loading";
 	}
 
 	@RequestMapping(value = "access")
@@ -181,7 +179,7 @@ public class TpAuthorizeController extends BaseController {
 				model.addAttribute("tp", tp);
 				model.addAttribute("fromUri", fromUri);
 			}
-			return "auth/renren/app_auth";
+			return "app/auth/renren/app_auth";
 		} else {
 			return "forward:/appLoad/2";
 		}
@@ -216,16 +214,16 @@ public class TpAuthorizeController extends BaseController {
 				model.addAttribute("tp", tp);
 				model.addAttribute("fromUri", fromUri);
 			}
-			return "auth/weibo/app_auth";
+			return "app/auth/weibo/app_auth";
 		} else {
 			return "forward:/appLoad/3";
 		}
 	}
 
-	@RequestMapping(value = "access/rr/xd_receiver")
-	public String rrCrossDomain() {
-		return "/renren/xd_receiver";
-	}
+	// @RequestMapping(value = "access/rr/xd_receiver")
+	// public String rrCrossDomain() {
+	// return "/renren/xd_receiver";
+	// }
 
 	// private void saveAuthInfoToCookie(HttpServletRequest request,
 	// HttpServletResponse response, AuthInfo authInfo) {
@@ -258,53 +256,55 @@ public class TpAuthorizeController extends BaseController {
 		}
 		return new AuthInfo();
 	}
+
 	@RequestMapping(value = "kx/connect/login")
-	public String kxConnectLogin(Model model){
+	public String kxConnectLogin(Model model) {
 		Thirdparty tp = InitData.TP_MAP.get(4L);
-		KxSDK kxsdk=new KxSDK();
-		kxsdk.CONSUMER_KEY=tp.getAppKey();
-		kxsdk.CONSUMER_SECRET=tp.getAppSecret();
-		kxsdk.Redirect_uri=tp.getAppUrl();
-		String url=kxsdk.getAuthorizeURLforCode("","", "");
+		KxSDK kxsdk = new KxSDK();
+		kxsdk.CONSUMER_KEY = tp.getAppKey();
+		kxsdk.CONSUMER_SECRET = tp.getAppSecret();
+		kxsdk.Redirect_uri = tp.getAppUrl();
+		String url = kxsdk.getAuthorizeURLforCode("", "", "");
 		model.addAttribute("url", url);
 		return "/login/login";
 	}
-	
+
 	@RequestMapping(value = "rr/connect/login")
-	public String rrConnectLogin(Model model){
+	public String rrConnectLogin(Model model) {
 		Thirdparty tp = InitData.TP_MAP.get(5L);
-		String url="";
+		String url = "";
 		try {
-			url = RenrenApiClient.getAuthorizeURLforCode(tp.getAppId(), tp.getAppUrl());
+			url = RenrenApiClient.getAuthorizeURLforCode(tp.getAppId(),
+					tp.getAppUrl());
 		} catch (UnsupportedEncodingException e) {
 		}
-		model.addAttribute("url",url);
+		model.addAttribute("url", url);
 		return "/login/login";
 	}
-	
+
 	@RequestMapping(value = "wb/connect/login")
-	public String wbConnectLogin(Model model){
+	public String wbConnectLogin(Model model) {
 		Thirdparty tp = InitData.TP_MAP.get(6L);
-		String url="";
+		String url = "";
 		try {
-		Oauth oauth=new Oauth(tp.getAppKey(), tp.getAppSecret(),
-				tp.getAppUrl());
-		url=oauth.authorize("code");
-		model.addAttribute("url",url);
+			Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
+					tp.getAppUrl());
+			url = oauth.authorize("code");
+			model.addAttribute("url", url);
 		} catch (WeiboException e) {
 		}
 		return "/login/login";
 	}
-	
+
 	@RequestMapping(value = "web/access/{tpId}")
 	public String webAccess(HttpServletRequest request,
-			HttpServletResponse response, String  code,@PathVariable long tpId) {
+			HttpServletResponse response, String code, @PathVariable long tpId) {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if (null == tp) {
 			return null;
 		}
-		String accessToken=userService.getOAuthAccessTokenFromCode(tp, code);
-		if(StringUtils.isEmpty(accessToken)){
+		String accessToken = userService.getOAuthAccessTokenFromCode(tp, code);
+		if (StringUtils.isEmpty(accessToken)) {
 			return null;
 		}
 		request.setAttribute("accessToken", accessToken);
@@ -336,6 +336,5 @@ public class TpAuthorizeController extends BaseController {
 
 		return "";
 	}
-	
-	
+
 }

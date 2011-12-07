@@ -66,7 +66,7 @@ public class SearchController extends BaseController {
 				log.error("searchAct uid is not exist");
 			}
 			model.addAttribute("name", name);
-			return "search/app/search";
+			return "app/search/search";
 		}
 	}
 

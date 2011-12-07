@@ -293,4 +293,16 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genTpInstallUsersKey(String tpName) {
 		return tpName + ".installUsers";
 	}
+
+	/*-------------------------------web------------------------------------*/
+
+	/**
+	 * 感兴趣的人列表
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genInterestUsersKey(long uid) {
+		return genKey(uid, "interestUsers");
+	}
 }

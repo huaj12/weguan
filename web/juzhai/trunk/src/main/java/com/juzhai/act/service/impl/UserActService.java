@@ -323,7 +323,7 @@ public class UserActService implements IUserActService {
 	public List<UserActView> pageUserActView(long uid, int start, int maxRows) {
 		UserActExample example = new UserActExample();
 		example.createCriteria().andUidEqualTo(uid);
-		example.setOrderByClause("create_time desc, id desc");
+		example.setOrderByClause("top desc, create_time desc, id desc");
 		example.setLimit(new Limit(start, maxRows));
 		List<UserAct> list = userActMapper.selectByExample(example);
 		List<UserActView> returnList = new ArrayList<UserActView>();

@@ -46,6 +46,11 @@ public class BaseController {
 		return checkLogin(request, NeedLoginException.RunType.APP);
 	}
 
+	protected UserContext checkLoginForWeb(HttpServletRequest request)
+			throws NeedLoginException {
+		return checkLogin(request, NeedLoginException.RunType.WEB);
+	}
+
 	private UserContext checkLogin(HttpServletRequest request,
 			NeedLoginException.RunType runType) throws NeedLoginException {
 		// UserContext context = loginSessionManager.getUserContext(request);

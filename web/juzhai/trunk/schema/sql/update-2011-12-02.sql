@@ -197,6 +197,9 @@ SHOW WARNINGS;
 CREATE INDEX `idx_interestuid` ON `juzhai`.`tb_interest_user` (`interest_uid` ASC) ;
 
 SHOW WARNINGS;
+CREATE UNIQUE INDEX `uidx_uid_interestuid` ON `juzhai`.`tb_interest_user` (`uid` ASC, `interest_uid` ASC) ;
+
+SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `juzhai`.`tb_raw_act`

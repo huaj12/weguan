@@ -17,16 +17,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.juzhai.core.exception.NeedLoginException;
-import com.juzhai.core.exception.NeedLoginException.RunType;
-import com.juzhai.core.web.session.LoginSessionManager;
+import com.juzhai.core.web.cookies.CookiesManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
+import com.juzhai.passport.service.IProfileService;
 
 @Component
-public class CheckLoginFilter implements Filter {
+public class CityChannelFilter implements Filter {
+
+	public static final String SESSION_CHANNEL_NAME = "channelId";
 
 	@Autowired
-	private LoginSessionManager loginSessionManager;
+	private IProfileService profileService;
 
 	@Override
 	public void destroy() {
@@ -39,18 +41,28 @@ public class CheckLoginFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain filterChain) throws IOException, ServletException {
-		HttpServletResponse rep = (HttpServletResponse) response;
 		HttpServletRequest req = (HttpServletRequest) request;
+		long channelId = HttpRequestUtil.getSessionAttributeAsLong(req,
+				SESSION_CHANNEL_NAME, -1L);
+		if (channelId < 0) {
+			UserContext context = (UserContext) req.getAttribute("context");
+			String channel = CookiesManager.getCookie(req,
+					CookiesManager.CHANNEL_NAME);
+			if (StringUtils.isEmpty(channel)) {
+				long uid = context.getUid();
+				if (uid > 0) {
+					channelId = profileService.getUserCityFromCache(uid);
+				}
+			} else {
+				channelId = Long.valueOf(channel);
+			}
+			HttpRequestUtil.setSessionAttribute(req, SESSION_CHANNEL_NAME,
+					channelId);
+		}
 		try {
-			UserContext context = loginSessionManager.getUserContext(req);
-			req.setAttribute("context", context);
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
-			if (e.getCause() instanceof NeedLoginException) {
-				needLoginHandle(req, rep, (NeedLoginException) e.getCause());
-			} else {
-				throw new ServletException(e.getMessage(), e);
-			}
+			throw new ServletException(e.getMessage(), e);
 		}
 	}
 
@@ -68,14 +80,10 @@ public class CheckLoginFilter implements Filter {
 		if (isAjaxRequest(request)) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		} else {
-			if (RunType.APP.equals(e.getRunType())) {
-				String returnLink = URLEncoder.encode(
-						HttpRequestUtil.getRemoteUrl(request), "UTF-8");
-				response.sendRedirect("/login?returnLink=" + returnLink);
-			} else {
-				// TODO 跳到登陆页面
-				response.sendRedirect("/login");
-			}
+			String returnLink = URLEncoder.encode(
+					HttpRequestUtil.getRemoteUrl(request), "UTF-8");
+			// TODO need test
+			response.sendRedirect("/login?returnLink=" + returnLink);
 		}
 	}
 

@@ -1,4 +1,4 @@
-package com.juzhai.act.controller;
+package com.juzhai.act.controller.app;
 
 import java.util.List;
 import java.util.Locale;

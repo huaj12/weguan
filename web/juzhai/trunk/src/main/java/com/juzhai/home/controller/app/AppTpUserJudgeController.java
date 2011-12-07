@@ -1,4 +1,4 @@
-package com.juzhai.home.controller;
+package com.juzhai.home.controller.app;
 
 import javax.servlet.http.HttpServletRequest;
 

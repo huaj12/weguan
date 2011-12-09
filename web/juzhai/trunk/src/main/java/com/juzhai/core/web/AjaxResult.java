@@ -1,8 +1,11 @@
 package com.juzhai.core.web;
 
+import java.util.Locale;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonGenerationException;
+import org.springframework.context.MessageSource;
 
 import com.juzhai.core.util.JackSonSerializer;
 
@@ -54,5 +57,12 @@ public class AjaxResult {
 			log.error("Serialize AjaxResult to json failed", e);
 		}
 		return "{\"result\":false;\"errorCode\":\"serialize.error\"}";
+	}
+
+	public void setError(String errorCode, MessageSource messageSource) {
+		this.setSuccess(false);
+		this.setErrorCode(errorCode);
+		this.setErrorInfo(messageSource.getMessage(errorCode, null,
+				Locale.SIMPLIFIED_CHINESE));
 	}
 }

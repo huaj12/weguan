@@ -12,12 +12,21 @@ public class UserActView {
 	private Act act;
 	private ProfileCache profileCache;
 	private List<ProfileCache> friendList;
+	private boolean hasUsed;
 
 	public UserActView(UserAct userAct, Act act, ProfileCache profileCache) {
 		super();
 		this.userAct = userAct;
 		this.act = act;
 		this.profileCache = profileCache;
+	}
+
+	public boolean isHasUsed() {
+		return hasUsed;
+	}
+
+	public void setHasUsed(boolean hasUsed) {
+		this.hasUsed = hasUsed;
 	}
 
 	public UserAct getUserAct() {

@@ -18,7 +18,7 @@ import com.juzhai.core.web.util.HttpRequestUtil;
 @Controller
 public class CityChannelController {
 
-	@Value(value = "$('channel.cookie.max.age')")
+	@Value(value = "${channel.cookie.max.age}")
 	private int channelCookieMaxAge;
 
 	@ResponseBody

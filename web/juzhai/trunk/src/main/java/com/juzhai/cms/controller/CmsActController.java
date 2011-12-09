@@ -50,7 +50,7 @@ import com.juzhai.passport.model.Province;
 
 @Controller
 @RequestMapping("/cms")
-public class ActController {
+public class CmsActController {
 	private final Log log = LogFactory.getLog(getClass());
 
 	@Autowired

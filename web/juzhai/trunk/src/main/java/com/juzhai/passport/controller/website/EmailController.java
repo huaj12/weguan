@@ -1,4 +1,4 @@
-package com.juzhai.passport.controller;
+package com.juzhai.passport.controller.website;
 
 import java.util.Locale;
 

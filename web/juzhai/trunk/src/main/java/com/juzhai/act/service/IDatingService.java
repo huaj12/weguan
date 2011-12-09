@@ -1,0 +1,105 @@
+package com.juzhai.act.service;
+
+import java.util.List;
+
+import com.juzhai.act.bean.ConsumeType;
+import com.juzhai.act.bean.ContactType;
+import com.juzhai.act.exception.DatingInputException;
+import com.juzhai.act.model.Dating;
+
+public interface IDatingService {
+
+	/**
+	 * 约人
+	 * 
+	 * @param uid
+	 * @param targetId
+	 * @param actId
+	 * @param consumeType
+	 * @param contactType
+	 * @param contactValue
+	 * @throws DatingInputException
+	 */
+	void date(long uid, long targetId, long actId, ConsumeType consumeType,
+			ContactType contactType, String contactValue)
+			throws DatingInputException;
+
+	/**
+	 * 修改约人记录
+	 * 
+	 * @param uid
+	 * @param datingId
+	 * @param actId
+	 * @param consumeType
+	 * @param contactType
+	 * @param contactValue
+	 * @throws DatingInputException
+	 */
+	void modifyDating(long uid, long datingId, long actId,
+			ConsumeType consumeType, ContactType contactType,
+			String contactValue) throws DatingInputException;
+
+	/**
+	 * 删除约人记录
+	 * 
+	 * @param uid
+	 * @param datingId
+	 */
+	void deleteDating(long uid, long datingId);
+
+	/**
+	 * 回应约人记录
+	 * 
+	 * @param uid
+	 * @param datingId
+	 * @param accept
+	 * @throws DatingInputException
+	 */
+	void acceptDating(long uid, long datingId, ContactType contactType,
+			String contactValue) throws DatingInputException;
+
+	/**
+	 * 我约的列表
+	 * 
+	 * @param uid
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Dating> listDating(long uid, int firstResult, int maxResults);
+
+	/**
+	 * 我约的数量
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	int countDating(long uid);
+
+	/**
+	 * 被约的列表
+	 * 
+	 * @param uid
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Dating> listDatingMe(long uid, int firstResult, int maxResults);
+
+	/**
+	 * 被约的数量
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	int countDatingMe(long uid);
+
+	/**
+	 * 获取约会记录
+	 * 
+	 * @param uid
+	 * @param targetUid
+	 * @return
+	 */
+	Dating fetchDating(long uid, long targetUid);
+}

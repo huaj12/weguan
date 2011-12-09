@@ -2,8 +2,8 @@ package com.juzhai.passport.service;
 
 import java.util.List;
 
-import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.exception.InterestUserException;
 
 public interface IInterestUserService {
 
@@ -12,9 +12,9 @@ public interface IInterestUserService {
 	 * 
 	 * @param uid
 	 * @param targetUid
-	 * @throws JuzhaiException
+	 * @throws InterestUserException
 	 */
-	void interestUser(long uid, long targetUid) throws JuzhaiException;
+	void interestUser(long uid, long targetUid) throws InterestUserException;
 
 	/**
 	 * 删除我感兴趣的人
@@ -51,7 +51,7 @@ public interface IInterestUserService {
 	 * @param maxResult
 	 * @return
 	 */
-	List<ProfileCache> listInteresteMeUser(long uid, int firstResult,
+	List<ProfileCache> listInterestMeUser(long uid, int firstResult,
 			int maxResults);
 
 	/**
@@ -60,5 +60,14 @@ public interface IInterestUserService {
 	 * @param uid
 	 * @return
 	 */
-	int countInteresteMeUser(long uid);
+	int countInterestMeUser(long uid);
+
+	/**
+	 * 是否感兴趣
+	 * 
+	 * @param uid
+	 * @param targetUid
+	 * @return
+	 */
+	boolean isInterest(long uid, long targetUid);
 }

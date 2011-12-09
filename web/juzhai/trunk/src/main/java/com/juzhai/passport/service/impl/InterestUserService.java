@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
-import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.exception.InterestUserException;
 import com.juzhai.passport.mapper.InterestUserMapper;
 import com.juzhai.passport.model.InterestUser;
 import com.juzhai.passport.model.InterestUserExample;
@@ -29,14 +29,19 @@ public class InterestUserService implements IInterestUserService {
 	private RedisTemplate<String, Long> redisTemplate;
 
 	@Override
-	public void interestUser(long uid, long targetUid) throws JuzhaiException {
+	public void interestUser(long uid, long targetUid)
+			throws InterestUserException {
 		InterestUserExample example = new InterestUserExample();
 		example.createCriteria().andUidEqualTo(uid)
 				.andInterestUidEqualTo(targetUid);
 		if (uid == targetUid
-				|| profileService.getProfileCacheByUid(targetUid) == null
-				|| interestUserMapper.countByExample(example) > 0) {
-			throw new JuzhaiException(JuzhaiException.ILLEGAL_OPERATION);
+				|| profileService.getProfileCacheByUid(targetUid) == null) {
+			throw new InterestUserException(
+					InterestUserException.ILLEGAL_OPERATION);
+		}
+		if (interestUserMapper.countByExample(example) > 0) {
+			throw new InterestUserException(
+					InterestUserException.INTEREST_USER_EXISTENCE);
 		}
 		// 添加
 		InterestUser interestUser = new InterestUser();
@@ -85,7 +90,7 @@ public class InterestUserService implements IInterestUserService {
 	}
 
 	@Override
-	public List<ProfileCache> listInteresteMeUser(long uid, int firstResult,
+	public List<ProfileCache> listInterestMeUser(long uid, int firstResult,
 			int maxResults) {
 		InterestUserExample example = new InterestUserExample();
 		example.createCriteria().andInterestUidEqualTo(uid);
@@ -101,10 +106,16 @@ public class InterestUserService implements IInterestUserService {
 	}
 
 	@Override
-	public int countInteresteMeUser(long uid) {
+	public int countInterestMeUser(long uid) {
 		InterestUserExample example = new InterestUserExample();
 		example.createCriteria().andInterestUidEqualTo(uid);
 		return interestUserMapper.countByExample(example);
+	}
+
+	@Override
+	public boolean isInterest(long uid, long targetUid) {
+		return redisTemplate.opsForSet().isMember(
+				RedisKeyGenerator.genInterestUsersKey(uid), targetUid);
 	}
 
 }

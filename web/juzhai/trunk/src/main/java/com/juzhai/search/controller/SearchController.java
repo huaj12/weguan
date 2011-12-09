@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.juzhai.act.InitData;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
-import com.juzhai.cms.model.SearchActAction;
 import com.juzhai.cms.service.IUserActionService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
@@ -59,8 +58,8 @@ public class SearchController extends BaseController {
 				if (userActionService.searchActActionMaximum(uid)) {
 					userActionService.createSearchActAction(name, uid,
 							cache.getNickname());
-				}else{
-					log.error("uid:"+uid+" Exceeds the limit");	
+				} else {
+					log.error("uid:" + uid + " Exceeds the limit");
 				}
 			} else {
 				log.error("searchAct uid is not exist");

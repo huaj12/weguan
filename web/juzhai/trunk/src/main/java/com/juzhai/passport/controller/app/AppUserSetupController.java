@@ -1,4 +1,4 @@
-package com.juzhai.passport.controller;
+package com.juzhai.passport.controller.app;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,7 +19,7 @@ import com.juzhai.passport.service.IUserSetupService;
 
 @Controller
 @RequestMapping(value = "app")
-public class UserSetupController extends BaseController {
+public class AppUserSetupController extends BaseController {
 
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired

@@ -1,10 +1,10 @@
-package com.juzhai.passport.controller;
+package com.juzhai.passport.controller.app;
 
 import com.juzhai.core.controller.BaseController;
 
 //@Controller
 //@RequestMapping(value = "app")
-public class UserGuideController extends BaseController {
+public class AppUserGuideController extends BaseController {
 
 	// private final Log log = LogFactory.getLog(getClass());
 	//

@@ -101,7 +101,7 @@ public class AppMyActController extends BaseController {
 			Model model) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		AjaxResult ajaxResult = new AjaxResult();
-		userActService.removeAct(context.getUid(), context.getTpId(), actId);
+		userActService.removeAct(context.getUid(), actId);
 		ajaxResult.setSuccess(true);
 		return ajaxResult;
 	}

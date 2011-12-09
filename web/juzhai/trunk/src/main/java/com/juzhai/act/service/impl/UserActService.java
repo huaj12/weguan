@@ -302,7 +302,7 @@ public class UserActService implements IUserActService {
 	}
 
 	@Override
-	public void removeAct(long uid, long tpId, long actId) {
+	public void removeAct(long uid, long actId) {
 		UserActExample example = new UserActExample();
 		example.createCriteria().andUidEqualTo(uid).andActIdEqualTo(actId);
 		if (userActMapper.deleteByExample(example) >= 1) {

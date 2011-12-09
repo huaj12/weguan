@@ -153,10 +153,10 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_dating` (
   `act_id` BIGINT NOT NULL ,
   `starter_contact_type` INT(2) NOT NULL ,
   `starter_contact_value` VARCHAR(100) NOT NULL ,
-  `receiver_contact_type` INT(2) NOT NULL ,
-  `receiver_contact_value` VARCHAR(100) NOT NULL ,
+  `receiver_contact_type` INT(2) ,
+  `receiver_contact_value` VARCHAR(100) ,
   `consume_type` INT(2) NOT NULL ,
-  `read` INT(1) NOT NULL DEFAULT 0 ,
+  `read` TINYINT(1) NOT NULL DEFAULT 0 ,
   `response` INT(1) NOT NULL DEFAULT 0 ,
   `create_time` DATETIME NOT NULL ,
   `last_modify_time` DATETIME NOT NULL ,
@@ -218,6 +218,7 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_raw_act` (
   `town` BIGINT NOT NULL DEFAULT -1 ,
   `address` VARCHAR(200) NULL ,
   `start_time` DATETIME NULL ,
+  `create_uid` BIGINT NOT NULL ,
   `create_time` DATETIME NOT NULL ,
   `last_modify_time` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )
@@ -225,6 +226,9 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci, 
 COMMENT = '用户上传的未发布的项目' ;
+
+SHOW WARNINGS;
+CREATE INDEX `idx_createuid` ON `juzhai`.`tb_raw_act` (`create_uid` ASC) ;
 
 SHOW WARNINGS;
 

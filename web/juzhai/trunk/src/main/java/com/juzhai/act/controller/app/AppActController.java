@@ -1,12 +1,17 @@
 package com.juzhai.act.controller.app;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,14 +19,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.RawAct;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.service.IActService;
+import com.juzhai.act.service.IRawActService;
 import com.juzhai.act.service.IUserActService;
+import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.app.controller.view.ActUserView;
+import com.juzhai.cms.service.IUploadImageService;
 import com.juzhai.core.controller.BaseController;
+import com.juzhai.core.exception.AddRawActException;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
@@ -44,9 +56,15 @@ public class AppActController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private IMsgMessageService msgMessageService;
+	@Autowired
+	private IUploadImageService uploadImageService;
+	@Autowired
+	private MessageSource messageSource;
 	@Value("${act.user.maxResult}")
 	private int actUserMaxResult;
-
+	@Autowired
+	IRawActService rawActService;
+ 
 	@RequestMapping(value = "/showAct/{actId}", method = RequestMethod.GET)
 	public String showAct(HttpServletRequest request, Model model,
 			@PathVariable long actId, Integer friendUser)
@@ -120,6 +138,88 @@ public class AppActController extends BaseController {
 		AjaxResult result = new AjaxResult();
 		result.setSuccess(true);
 		return result;
+	}
+
+	@RequestMapping(value = "/kindEditor/upload", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> kindEditorUpload(HttpServletRequest request,
+			MultipartFile imgFile) throws NeedLoginException {
+		UserContext context = checkLoginForApp(request);
+		Map<String, String> map = new HashMap<String, String>();
+		String url = "";
+		if (imgFile != null && imgFile.getSize() > 0) {
+			UUID uuid = UUID.randomUUID();
+			String fileName = uuid.toString() + "."
+					+ uploadImageService.getImgType(imgFile);
+			try {
+				url = uploadImageService.uploadEditorTempImg(context.getUid(),
+						fileName, imgFile);
+			} catch (UploadImageException e) {
+				getError(e.getMessage());
+			}
+		} else {
+			return getError(messageSource.getMessage(
+					UploadImageException.UPLOAD_FILE_ISNULL, null,
+					Locale.SIMPLIFIED_CHINESE));
+		}
+		map.put("error", "0");
+		map.put("url", url);
+		return map;
+	}
+
+	@RequestMapping(value = "/ajax/temp/addActImage", method = RequestMethod.POST)
+	@ResponseBody
+	public  Map<String, String>  addActImage(HttpServletRequest request, Model model,
+			MultipartFile imgFile) throws NeedLoginException {
+		UserContext context = checkLoginForApp(request);
+		Map<String, String> map = new HashMap<String, String>();
+		String url = "";
+		if (imgFile != null && imgFile.getSize() > 0) {
+			UUID uuid = UUID.randomUUID();
+			String fileName = uuid.toString() + "."
+					+ uploadImageService.getImgType(imgFile);
+			try {
+				url = uploadImageService.uploadActTempImg(context.getUid(),
+						fileName, imgFile);
+			} catch (UploadImageException e) {
+				getError(e.getMessage());
+			}
+		} else {
+			return getError(messageSource.getMessage(
+					UploadImageException.UPLOAD_FILE_ISNULL, null,
+					Locale.SIMPLIFIED_CHINESE));
+		}
+		map.put("error", "0");
+		map.put("url", url);
+		return map;
+	}
+
+	@RequestMapping(value = "/web/ajax/addAct", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult addAct(HttpServletRequest request, Model model,
+			RawAct rawAct) throws NeedLoginException {
+		UserContext context = checkLoginForApp(request);
+		long uid=context.getUid();
+		AjaxResult result = new AjaxResult();
+		try {
+			if(rawAct!=null){
+				rawAct.setCreateUid(uid);
+			}
+			rawAct=rawActService.addRawAct(rawAct);
+		} catch (Exception e) {
+			result.setErrorCode(e.getMessage());
+			result.setSuccess(false);
+			return result;
+		}
+		result.setSuccess(true);
+		return result;
+	}
+
+	private Map<String, String> getError(String message) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("error", "1");
+		map.put("message", message);
+		return map;
 	}
 
 	private List<ActUserView> assembleActUserView(long uid,

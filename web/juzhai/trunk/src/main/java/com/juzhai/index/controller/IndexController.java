@@ -20,6 +20,11 @@ public class IndexController {
 		model.addAttribute("tpMap", InitData.TP_MAP);
 		return "web/index/welcome";
 	}
+	
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	public String index(HttpServletRequest request, Model model) {
+		return "web/index/index";
+	}
 
 	// @RequestMapping(value = "createIndex", method = RequestMethod.GET)
 	// @ResponseBody

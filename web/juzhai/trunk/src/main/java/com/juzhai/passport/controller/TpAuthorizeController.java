@@ -314,7 +314,7 @@ public class TpAuthorizeController extends BaseController {
 			if (null == loginTp) {
 				return null;
 			}
-			return "";
+			return "web/index/index";
 		} catch (NeedLoginException e) {
 		}
 		long uid = 0;
@@ -331,10 +331,8 @@ public class TpAuthorizeController extends BaseController {
 					+ tp.getJoinType() + "].");
 			return null;
 		}
-
 		tomcatLoginService.login(request, uid, tp.getId());
-
-		return "";
+		return "web/index/index";
 	}
 
 }

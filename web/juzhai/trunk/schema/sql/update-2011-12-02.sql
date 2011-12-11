@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS `juzhai`.`tb_act_detail` ;
 
 SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_act_detail` (
-  `act_id` INT NOT NULL ,
+  `act_id` BIGINT NOT NULL ,
   `detail` MEDIUMTEXT NULL ,
   `show` TINYINT(1) NOT NULL DEFAULT 0 ,
   `create_time` VARCHAR(45) NOT NULL ,
@@ -108,12 +108,12 @@ CREATE INDEX `idx_actid` ON `juzhai`.`tb_act_link` (`act_id` ASC) ;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `juzhai`.`tb_act_ ad`
+-- Table `juzhai`.`tb_act_ad`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `juzhai`.`tb_act_ ad` ;
+DROP TABLE IF EXISTS `juzhai`.`tb_act_ad` ;
 
 SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_act_ ad` (
+CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_act_ad` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `act_id` BIGINT NOT NULL ,
   `name` VARCHAR(300) NOT NULL ,
@@ -128,14 +128,14 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_act_ ad` (
   `source_link` VARCHAR(300) NULL ,
   `sequence` INT(4) NOT NULL ,
   `create_time` DATETIME NOT NULL ,
-  `last_modify_time` DATETIME NOT NULL DEFAULT 0 ,
+  `last_modify_time` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
 SHOW WARNINGS;
-CREATE INDEX `idx_actid` ON `juzhai`.`tb_act_ ad` (`act_id` ASC) ;
+CREATE INDEX `idx_actid` ON `juzhai`.`tb_act_ad` (`act_id` ASC) ;
 
 SHOW WARNINGS;
 

@@ -121,12 +121,21 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
     
+    <table tableName="tb_act_detail" domainObjectName="ActDetail">
+      <property name="useActualColumnNames" value="false"/>
+      <columnOverride column="show" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+    </table>
+    
+    <!-- <table tableName="tb_act_ad" domainObjectName="ActAd">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
     <table tableName="tb_raw_act" domainObjectName="RawAct" >
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
     </table>
     
-    <!-- <table tableName="tb_dating" domainObjectName="Dating">
+    <table tableName="tb_dating" domainObjectName="Dating">
       <property name="useActualColumnNames" value="false"/>
       <columnOverride column="read" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
@@ -141,15 +150,6 @@
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
       <columnOverride column="top" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-    </table>
-    
-    <table tableName="tb_act_detail" domainObjectName="ActDetail">
-      <property name="useActualColumnNames" value="false"/>
-      <columnOverride column="show" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-    </table>
-    
-    <table tableName="tb_act_ad" domainObjectName="ActAd">
-      <property name="useActualColumnNames" value="false"/>
     </table>
     
     <table tableName="tb_act_link" domainObjectName="ActLink">

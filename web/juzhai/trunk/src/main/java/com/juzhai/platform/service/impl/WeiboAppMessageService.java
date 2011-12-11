@@ -20,10 +20,10 @@ import weibo4j.model.WeiboException;
 
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
+import com.juzhai.act.service.IUploadImageService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.act.service.impl.ActService;
 import com.juzhai.app.bean.TpMessageKey;
-import com.juzhai.cms.service.IUploadImageService;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.bean.AuthInfo;

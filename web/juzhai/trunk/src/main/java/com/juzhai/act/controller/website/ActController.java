@@ -1,5 +1,6 @@
 package com.juzhai.act.controller.website;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,10 @@ public class ActController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private IMsgMessageService msgMessageService;
-	@Autowired
-	private MessageSource messageSource;
 	@Value("${act.user.maxResult}")
 	private int actUserMaxResult;
+	@Autowired
+	private MessageSource messageSource;
 
 	@ResponseBody
 	@RequestMapping(value = "/addAct", method = RequestMethod.POST)
@@ -152,4 +153,6 @@ public class ActController extends BaseController {
 	// }
 	// return actUserViewList;
 	// }
+	
+	
 }

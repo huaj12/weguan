@@ -32,10 +32,18 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.act.dao.IActDao;
 import com.juzhai.act.exception.ActInputException;
+import com.juzhai.act.mapper.ActAdMapper;
+import com.juzhai.act.mapper.ActDetailMapper;
+import com.juzhai.act.mapper.ActLinkMapper;
 import com.juzhai.act.mapper.ActMapper;
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.ActAd;
+import com.juzhai.act.model.ActAdExample;
+import com.juzhai.act.model.ActDetail;
 import com.juzhai.act.model.ActExample;
 import com.juzhai.act.model.ActExample.Criteria;
+import com.juzhai.act.model.ActLink;
+import com.juzhai.act.model.ActLinkExample;
 import com.juzhai.act.rabbit.message.ActIndexMessage;
 import com.juzhai.act.rabbit.message.ActIndexMessage.ActionType;
 import com.juzhai.act.service.IActCategoryService;
@@ -72,6 +80,12 @@ public class ActService implements IActService {
 	private IActCategoryService actCategoryService;
 	@Autowired
 	private MemcachedClient memcachedClient;
+	@Autowired
+	private ActDetailMapper actDetailMapper;
+	@Autowired
+	private ActLinkMapper actLinkMapper;
+	@Autowired
+	private ActAdMapper actAdMapper;
 	@Value("${act.name.length.min}")
 	private int actNameLengthMin = 2;
 	@Value("${act.name.length.max}")
@@ -524,6 +538,30 @@ public class ActService implements IActService {
 				log.debug("send act index update message");
 			}
 		}
+	}
+
+	@Override
+	public ActDetail getActDetailById(long actId) {
+		return actDetailMapper.selectByPrimaryKey(actId);
+	}
+
+	@Override
+	public List<ActAd> listActAdByActId(long actId, int count) {
+		ActAdExample example = new ActAdExample();
+		example.createCriteria().andActIdEqualTo(actId)
+				.andEndTimeGreaterThan(new Date());
+		example.setLimit(new Limit(0, count));
+		example.setOrderByClause("sequence asc, last_modify_time desc");
+		return actAdMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<ActLink> listActLinkByActId(long actId, int count) {
+		ActLinkExample example = new ActLinkExample();
+		example.createCriteria().andActIdEqualTo(actId);
+		example.setLimit(new Limit(0, count));
+		example.setOrderByClause("sequence asc, last_modify_time desc");
+		return actLinkMapper.selectByExample(example);
 	}
 
 }

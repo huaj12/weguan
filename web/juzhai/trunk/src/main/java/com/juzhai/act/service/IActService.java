@@ -9,6 +9,9 @@ import java.util.Map;
 
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.ActAd;
+import com.juzhai.act.model.ActDetail;
+import com.juzhai.act.model.ActLink;
 
 public interface IActService {
 
@@ -133,6 +136,7 @@ public interface IActService {
 	 * @param actId
 	 * @return
 	 */
+	@Deprecated
 	List<Long> listSynonymIds(long actId);
 
 	/**
@@ -141,6 +145,7 @@ public interface IActService {
 	 * @param actId
 	 * @return
 	 */
+	@Deprecated
 	List<Act> listSynonymActs(long actId);
 
 	/**
@@ -149,6 +154,7 @@ public interface IActService {
 	 * @param actId1
 	 * @param actId2
 	 */
+	@Deprecated
 	void addSynonym(long actId1, long actId2);
 
 	/**
@@ -158,6 +164,7 @@ public interface IActService {
 	 * @param actName2
 	 * @throws ActInputException
 	 */
+	@Deprecated
 	void addSynonym(long actId1, String actName2) throws ActInputException;
 
 	/**
@@ -166,6 +173,7 @@ public interface IActService {
 	 * @param actId
 	 * @param removeActId
 	 */
+	@Deprecated
 	void removeSynonym(long actId, long removeActId);
 
 	/**
@@ -251,5 +259,35 @@ public interface IActService {
 	 */
 	int searchActsCount(Date beginDate, Date endDate, String name);
 
+	/**
+	 * 更新项目
+	 * 
+	 * @param act
+	 * @param categoryIds
+	 */
 	void updateAct(Act act, List<Long> categoryIds);
+
+	/**
+	 * 获取项目详情
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	ActDetail getActDetailById(long actId);
+
+	/**
+	 * 项目的广告
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	List<ActAd> listActAdByActId(long actId, int count);
+
+	/**
+	 * 项目的相关链接
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	List<ActLink> listActLinkByActId(long actId, int count);
 }

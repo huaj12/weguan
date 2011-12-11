@@ -18,10 +18,9 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.juzhai.act.exception.UploadImageException;
+import com.juzhai.act.service.IUploadImageService;
 import com.juzhai.cms.bean.SizeType;
-import com.juzhai.cms.service.IUploadImageService;
-import com.juzhai.core.exception.NeedLoginException;
-import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;

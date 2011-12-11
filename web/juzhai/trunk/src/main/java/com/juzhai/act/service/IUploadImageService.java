@@ -2,7 +2,8 @@ package com.juzhai.act.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.juzhai.core.exception.UploadImageException;
+import com.juzhai.act.exception.UploadImageException;
+
 
 public interface IUploadImageService {
 	void uploadImg(long id, String fileName, MultipartFile imgFile);

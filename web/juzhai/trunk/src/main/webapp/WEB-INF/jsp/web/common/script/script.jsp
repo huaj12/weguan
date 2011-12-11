@@ -4,3 +4,4 @@
 <script type="text/javascript" src="${jz:static('/js/base/iepng.js')}"></script>
 <link href="${jz:static('/css/skins/black.css')}" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${jz:static('/js/artDialog/jquery.artDialog.js')}"></script>
+<script type="text/javascript" src="${jz:static('/js/web/header.js')}"></script>

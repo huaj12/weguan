@@ -14,8 +14,8 @@ import weibo4j.model.WeiboException;
 
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
+import com.juzhai.act.service.IUploadImageService;
 import com.juzhai.app.service.IWeiboService;
-import com.juzhai.cms.service.IUploadImageService;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.InitData;

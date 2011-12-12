@@ -261,7 +261,7 @@ public class TpAuthorizeController extends BaseController {
 	}
 
 	@RequestMapping(value = "web/login/{tpId}")
-	public String kxConnectLogin(Model model,@PathVariable long tpId) {
+	public String webLogin(Model model,@PathVariable long tpId) {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if(null==tp){
 			return "404";

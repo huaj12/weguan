@@ -41,10 +41,5 @@ public interface IUserService {
 	 * @return
 	 */
 	public List<String> getAppFriends(AuthInfo authInfo);
-	/**
-	 * Connect获取accessToken  
-	 * @param code
-	 * @return
-	 */
-	public String getOAuthAccessTokenFromCode(Thirdparty tp,String code);
+	
 }

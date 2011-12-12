@@ -106,5 +106,11 @@ public abstract class AbstractUserService implements IUserService {
 
 	protected abstract boolean checkAuthInfo(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp);
+	/**
+	 * Connect获取accessToken  
+	 * @param code
+	 * @return
+	 */
+	protected abstract String getOAuthAccessTokenFromCode(Thirdparty tp,String code);
 
 }

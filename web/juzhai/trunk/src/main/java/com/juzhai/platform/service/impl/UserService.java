@@ -63,10 +63,5 @@ public class UserService implements IUserService, BeanFactoryAware {
 		return getUserServiceBean(tp.getName(), tp.getJoinType());
 	}
 
-	@Override
-	public String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
-		return getUserServiceBean(tp.getName(), tp.getJoinType())
-				.getOAuthAccessTokenFromCode(tp, code);
-	}
 
 }

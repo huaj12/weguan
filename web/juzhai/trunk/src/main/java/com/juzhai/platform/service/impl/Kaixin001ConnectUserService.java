@@ -35,7 +35,7 @@ public class Kaixin001ConnectUserService extends AbstractUserService {
 			.getLog(Kaixin001ConnectUserService.class);
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
-	
+
 	@Override
 	public List<TpFriend> getAllFriends(AuthInfo authInfo) {
 		KxSDK kxSDK = newKxSDK2(authInfo);
@@ -45,7 +45,7 @@ public class Kaixin001ConnectUserService extends AbstractUserService {
 			int num = 50;
 			String fields = "uid,name,gender,city,birthday,logo120";
 			while (true) {
-				 List<User> userList = kxSDK.getFriends(fields, start, num);
+				List<User> userList = kxSDK.getFriends(fields, start, num);
 				if (CollectionUtils.isEmpty(userList)) {
 					break;
 				}
@@ -92,7 +92,7 @@ public class Kaixin001ConnectUserService extends AbstractUserService {
 		}
 		return friendIdList;
 	}
-	
+
 	private TpFriend kxUserTpFriend(User user) {
 		if (null == user) {
 			return null;
@@ -119,8 +119,7 @@ public class Kaixin001ConnectUserService extends AbstractUserService {
 		tpFriend.setLogoUrl(user.getLogo120());
 		return tpFriend;
 	}
-	
-	
+
 	@Override
 	public String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
 		if (StringUtils.isEmpty(code)) {
@@ -149,7 +148,8 @@ public class Kaixin001ConnectUserService extends AbstractUserService {
 			String thirdpartyIdentity) {
 		KxSDK kxSDK = newKxSDK2(authInfo);
 		String[] fields = new String[] { "name", "gender", "hometown", "city",
-				"logo120", "bodyform", "interest", "school", "company","birthday" };
+				"logo120", "bodyform", "interest", "school", "company",
+				"birthday" };
 		User user = null;
 		try {
 			user = kxSDK.getMyInfo(StringUtils.join(fields, ","));
@@ -158,7 +158,7 @@ public class Kaixin001ConnectUserService extends AbstractUserService {
 		}
 		return kxUserToProfile(user);
 	}
-	
+
 	private Profile kxUserToProfile(User user) {
 		if (null == user) {
 			return null;
@@ -175,15 +175,15 @@ public class Kaixin001ConnectUserService extends AbstractUserService {
 			try {
 				String[] birthdays = user.getBirthday().split("[^0-9]");
 				int birthYear = Integer.valueOf(birthdays[0]);
-				int brithMonth=Integer.valueOf(birthdays[1]);
-				int brithDay=Integer.valueOf(birthdays[2]);
+				int brithMonth = Integer.valueOf(birthdays[1]);
+				int brithDay = Integer.valueOf(birthdays[2]);
 				if (birthYear > 1900) {
 					profile.setBirthYear(birthYear);
 				}
-				if(brithMonth>0&&brithMonth<13){
+				if (brithMonth > 0 && brithMonth < 13) {
 					profile.setBirthMonth(brithMonth);
 				}
-				if(brithDay>0&&brithDay<32){
+				if (brithDay > 0 && brithDay < 32) {
 					profile.setBirthDay(brithDay);
 				}
 			} catch (Exception e) {
@@ -198,12 +198,19 @@ public class Kaixin001ConnectUserService extends AbstractUserService {
 		}
 		return profile;
 	}
-	
+
 	@Override
 	protected String fetchTpIdentity(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
-		String accessToken = (String) request.getAttribute("accessToken");
-		if (null == accessToken) {
+		String code=request.getParameter("code");
+		if (StringUtils.isEmpty(code)) {
+			return null;
+		}
+		if (null == tp) {
+			return null;
+		}
+		String accessToken = getOAuthAccessTokenFromCode(tp, code);
+		if (StringUtils.isEmpty(accessToken)) {
 			return null;
 		}
 		KxSDK kxSDK = new KxSDK();
@@ -228,13 +235,7 @@ public class Kaixin001ConnectUserService extends AbstractUserService {
 	@Override
 	protected boolean checkAuthInfo(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
-		String accessToken = (String) request
-				.getAttribute("accessToken");
-		if (StringUtils.isEmpty(accessToken)) {
-			return false;
-		} else {
-			return true;
-		}
+		return true;
 
 	}
 
@@ -245,7 +246,7 @@ public class Kaixin001ConnectUserService extends AbstractUserService {
 			kxSDK.CONSUMER_KEY = authInfo.getAppKey();
 			kxSDK.CONSUMER_SECRET = authInfo.getAppSecret();
 		}
-		
+
 		AccessToken kxToken = new AccessToken(authInfo.getToken(), "");
 		kxSDK.setOAuthAccessToken(kxToken);
 		return kxSDK;

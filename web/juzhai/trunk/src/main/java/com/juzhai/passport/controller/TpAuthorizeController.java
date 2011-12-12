@@ -40,6 +40,7 @@ import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.login.ILoginService;
+import com.juzhai.platform.service.IAuthorizeURLService;
 import com.juzhai.platform.service.IUserService;
 import com.renren.api.client.RenrenApiClient;
 
@@ -56,6 +57,8 @@ public class TpAuthorizeController extends BaseController {
 	private IUserService userService;
 	@Autowired
 	private ILoginService tomcatLoginService;
+	@Autowired
+	private IAuthorizeURLService authorizeURLService;
 
 	// @Autowired
 	// private IUserGuideService userGuideService;
@@ -257,44 +260,19 @@ public class TpAuthorizeController extends BaseController {
 		return new AuthInfo();
 	}
 
-	@RequestMapping(value = "kx/connect/login")
-	public String kxConnectLogin(Model model) {
-		Thirdparty tp = InitData.TP_MAP.get(4L);
-		KxSDK kxsdk = new KxSDK();
-		kxsdk.CONSUMER_KEY = tp.getAppKey();
-		kxsdk.CONSUMER_SECRET = tp.getAppSecret();
-		kxsdk.Redirect_uri = tp.getAppUrl();
-		String url = kxsdk.getAuthorizeURLforCode("", "", "");
-		model.addAttribute("url", url);
-		return "/login/login";
+	@RequestMapping(value = "web/login/{tpId}")
+	public String kxConnectLogin(Model model,@PathVariable long tpId) {
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		if(null==tp){
+			return "404";
+		}
+		String url = authorizeURLService.getAuthorizeURLforCode(tp);
+		if(StringUtils.isEmpty(url)){
+			return "404";
+		}
+		return "redirect:"+url;
 	}
 
-	@RequestMapping(value = "rr/connect/login")
-	public String rrConnectLogin(Model model) {
-		Thirdparty tp = InitData.TP_MAP.get(5L);
-		String url = "";
-		try {
-			url = RenrenApiClient.getAuthorizeURLforCode(tp.getAppId(),
-					tp.getAppUrl());
-		} catch (UnsupportedEncodingException e) {
-		}
-		model.addAttribute("url", url);
-		return "/login/login";
-	}
-
-	@RequestMapping(value = "wb/connect/login")
-	public String wbConnectLogin(Model model) {
-		Thirdparty tp = InitData.TP_MAP.get(6L);
-		String url = "";
-		try {
-			Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
-					tp.getAppUrl());
-			url = oauth.authorize("code");
-			model.addAttribute("url", url);
-		} catch (WeiboException e) {
-		}
-		return "/login/login";
-	}
 
 	@RequestMapping(value = "web/access/{tpId}")
 	public String webAccess(HttpServletRequest request,
@@ -303,11 +281,6 @@ public class TpAuthorizeController extends BaseController {
 		if (null == tp) {
 			return null;
 		}
-		String accessToken = userService.getOAuthAccessTokenFromCode(tp, code);
-		if (StringUtils.isEmpty(accessToken)) {
-			return null;
-		}
-		request.setAttribute("accessToken", accessToken);
 		try {
 			UserContext context = checkLoginForApp(request);
 			Thirdparty loginTp = InitData.TP_MAP.get(context.getTpId());

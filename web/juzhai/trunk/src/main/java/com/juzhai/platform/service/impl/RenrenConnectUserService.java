@@ -167,11 +167,15 @@ public class RenrenConnectUserService extends AbstractUserService {
 	@Override
 	protected String fetchTpIdentity(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
-		String accessToken = (String) request.getAttribute("accessToken");
-		if (StringUtils.isEmpty(accessToken)) {
+		String code=request.getParameter("code");
+		if (StringUtils.isEmpty(code)) {
 			return null;
 		}
 		if (null == tp) {
+			return null;
+		}
+		String accessToken = getOAuthAccessTokenFromCode(tp, code);
+		if (StringUtils.isEmpty(accessToken)) {
 			return null;
 		}
 		RenrenApiClient client = new RenrenApiClient(accessToken, true);
@@ -190,12 +194,7 @@ public class RenrenConnectUserService extends AbstractUserService {
 	@Override
 	protected boolean checkAuthInfo(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
-		String accessToken = (String) request.getAttribute("accessToken");
-		if (StringUtils.isEmpty(accessToken)) {
-			return false;
-		} else {
-			return true;
-		}
+		return true;
 	}
 
 	private RenrenApiClient newRenrenApiClient(AuthInfo authInfo) {

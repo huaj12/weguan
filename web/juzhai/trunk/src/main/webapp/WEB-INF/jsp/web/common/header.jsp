@@ -93,7 +93,7 @@
 				<div id="_loginDiv" style="display: none"   class="login_show_box_1" >
 					<h2></h2>
 					<div class="link">
-						<a href="/wb/connect/login"><img src="${jz:static('/images/weibo_btn.gif')}" /> </a>
+						<a href="/web/login/6"><img src="${jz:static('/images/web/weibo_btn.gif')}" /> </a>
 					</div>
 				</div>
 			<!--login_show_box end-->

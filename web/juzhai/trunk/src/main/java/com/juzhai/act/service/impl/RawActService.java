@@ -20,6 +20,8 @@ public class RawActService implements IRawActService {
 	private int actNameLengthMax;
 	@Value(value = "${act.adress.length.max}")
 	private int actAddressLengthMax;
+	@Value(value = "${act.detail.length.max}")
+	private int actDetailLengthMax;
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private RawActMapper rawActMapper;
@@ -27,26 +29,35 @@ public class RawActService implements IRawActService {
 	@Override
 	public RawAct addRawAct(RawAct rawAct) throws AddRawActException {
 		if(null==rawAct){
-			 throw new AddRawActException();
+			 throw new AddRawActException(AddRawActException.ADD_RAWACT_IS_ERROR);
 		}
 		if(StringUtils.isEmpty(rawAct.getName())){
-			throw new AddRawActException();//项目名字不能为空
+			throw new AddRawActException(AddRawActException.NAME_IS_NULL);
 		}
-		if(StringUtils.isEmpty(rawAct.getLogo())){
-			throw new AddRawActException();//请先上传一张项目图片
+		if(rawAct.getCity()==null){
+			throw new AddRawActException(AddRawActException.CITY_IS_NULL);
 		}
-		if(StringUtils.isEmpty(rawAct.getAddress())){
-			throw new AddRawActException();//请填写详细地址
+		if(rawAct.getProvince()==null){
+			throw new AddRawActException(AddRawActException.PROVINCE_IS_NULL);
 		}
 		if(StringUtil.chineseLength(rawAct.getName())>actNameLengthMax){
-			throw new AddRawActException();
+			throw new AddRawActException(AddRawActException.NAME_IS_TOO_LONG);
 		}
 		if(StringUtil.chineseLength(rawAct.getAddress())>actAddressLengthMax){
-			throw new AddRawActException();
+			throw new AddRawActException(AddRawActException.ADDRESS_IS_TOO_LONG);
 		}
+		if(StringUtil.chineseLength(rawAct.getDetail())>actDetailLengthMax){
+			throw new AddRawActException(AddRawActException.DETAIL_IS_TOO_LONG);
+		}
+		try{
 		rawAct.setCreateTime(new Date());
 		rawAct.setLastModifyTime(new Date());
-		rawActMapper.insert(rawAct);
+		rawActMapper.insertSelective(rawAct);
+		}catch (Exception e) {
+			e.printStackTrace();
+			log.error("add rawact is error", e);
+			throw new AddRawActException(AddRawActException.ADD_RAWACT_IS_ERROR);
+		}
 		return rawAct;
 	}
 

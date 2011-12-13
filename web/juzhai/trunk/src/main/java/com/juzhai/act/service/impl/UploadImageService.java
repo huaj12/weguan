@@ -173,6 +173,7 @@ public class UploadImageService implements IUploadImageService {
 						imgFile.getInputStream());
 				String url = StaticUtil.u("/images/"
 						+ sdf.format(date)
+						+ File.separator
 						+ ImageUtil.generateHierarchyImageWebPath(id,
 								SizeType.ORIGINAL) + fileName);
 				return url;

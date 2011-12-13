@@ -5,19 +5,21 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="item_box"><!--item_box begin-->
 	<div class="iwantgo"><!--iwantgo begin-->
+		<div id="questionBox" style="display:none;">
+			<div class="show_box">
+				<h2>确定不再想去么？</h2>
+				<p>你将不再收到相关邀请。</p>
+				<div class="btn"><a href="#" class="ok">确定</a><a href="#" class="cancel">取消</a></div>
+			</div>
+		</div>
 		<c:forEach var="userActView" items="${userActViewList}">
 			<div class="item mouseHover"><!--item begin-->
 				<%-- <div class="show_box">
 					<h2>您已有3个很想去的项目</h2>
 					<p>请先取消1个。</p>
 					<div class="btn"><a href="#" class="ok">知道了</a></div>
-				</div>
-				<div class="show_box">
-					<h2>确定不再想去么？</h2>
-					<p>你将不再收到相关邀请。</p>
-					<div class="btn"><a href="#" class="ok">确定</a><a href="#" class="cancel">取消</a></div>
 				</div> --%>
-				<div class="close"><a href="#"></a></div>
+				<div class="close"><a href="javascript:void(0);" actid="${userActView.act.id}" actname="${userActView.act.name}"></a></div>
 				<%-- <div class="add_fav"><div class="click"><a href="#">很想去</a></div></div> --%>
 				<div class="photo"><img src="${jzr:actLogo(userActView.act.id,userActView.act.logo,180)}" /></div>
 				<div class="dh_infor"><!--dh_infor begin-->

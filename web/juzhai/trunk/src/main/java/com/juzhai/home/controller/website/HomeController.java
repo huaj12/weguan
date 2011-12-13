@@ -53,6 +53,7 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/myActs", method = RequestMethod.GET)
 	public String myActs(HttpServletRequest request, Model model)
 			throws NeedLoginException {
+		checkLoginForWeb(request);
 		return pageMyActs(request, model, 1);
 	}
 

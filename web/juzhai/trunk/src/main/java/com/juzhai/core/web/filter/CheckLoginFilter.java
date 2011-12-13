@@ -46,8 +46,9 @@ public class CheckLoginFilter implements Filter {
 			req.setAttribute("context", context);
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
-			if (e.getCause() instanceof NeedLoginException) {
-				needLoginHandle(req, rep, (NeedLoginException) e.getCause());
+			if (e.getCause().getCause() instanceof NeedLoginException) {
+				needLoginHandle(req, rep, (NeedLoginException) e.getCause()
+						.getCause());
 			} else {
 				throw new ServletException(e.getMessage(), e);
 			}

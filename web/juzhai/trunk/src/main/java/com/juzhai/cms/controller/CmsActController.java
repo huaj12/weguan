@@ -365,18 +365,6 @@ public class CmsActController {
 		return new ModelAndView("redirect:/cms/showCreateAct", mmap);
 	}
 
-	@RequestMapping(value = "/selectCity", method = RequestMethod.GET)
-	public String selectCity(Model model, String proId) {
-		List<City> citys = new ArrayList<City>();
-		for (Entry<Long, City> entry : com.juzhai.passport.InitData.CITY_MAP
-				.entrySet()) {
-			if (proId.equals(String.valueOf(entry.getValue().getProvinceId()))) {
-				citys.add(entry.getValue());
-			}
-		}
-		model.addAttribute("citys", citys);
-		return "cms/ajax/citys_list";
-	}
 
 	@RequestMapping(value = "/updateAct", method = RequestMethod.POST)
 	public ModelAndView updateAct(AddActForm form, HttpServletRequest request) {

@@ -201,6 +201,7 @@ CREATE UNIQUE INDEX `uidx_uid_interestuid` ON `juzhai`.`tb_interest_user` (`uid`
 
 SHOW WARNINGS;
 
+
 -- -----------------------------------------------------
 -- Table `juzhai`.`tb_raw_act`
 -- -----------------------------------------------------
@@ -218,6 +219,7 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_raw_act` (
   `town` BIGINT NOT NULL DEFAULT -1 ,
   `address` VARCHAR(200) NULL ,
   `start_time` DATETIME NULL ,
+  `end_time` DATETIME NULL ,
   `create_uid` BIGINT NOT NULL ,
   `create_time` DATETIME NOT NULL ,
   `last_modify_time` DATETIME NOT NULL ,

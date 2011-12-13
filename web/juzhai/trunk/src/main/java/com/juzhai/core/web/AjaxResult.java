@@ -13,7 +13,7 @@ public class AjaxResult {
 
 	private final Log log = LogFactory.getLog(getClass());
 
-	private boolean success;
+	private boolean success = true;
 	private String errorCode;
 	private String errorInfo;
 	private Object result;

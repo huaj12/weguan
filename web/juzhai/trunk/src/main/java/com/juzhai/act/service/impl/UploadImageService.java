@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -147,23 +145,23 @@ public class UploadImageService implements IUploadImageService {
 	}
 
 	@Override
-	public String uploadEditorTempImg( String fileName,
-			MultipartFile imgFile) throws UploadImageException {
+	public String uploadEditorTempImg(String fileName, MultipartFile imgFile)
+			throws UploadImageException {
 		return uploadTempImage(1, uploadTempImageHome, fileName, imgFile);
 
 	}
 
 	@Override
-	public String uploadActTempImg(String fileName,
-			MultipartFile imgFile) throws UploadImageException {
+	public String uploadActTempImg(String fileName, MultipartFile imgFile)
+			throws UploadImageException {
 		return uploadTempImage(1, uploadTempImageHome, fileName, imgFile);
 	}
 
 	private String uploadTempImage(long id, String path, String fileName,
 			MultipartFile imgFile) throws UploadImageException {
-		Date date=new Date();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-		path=path+sdf.format(date)+File.separator;
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		path = path + sdf.format(date) + File.separator;
 		int code = ImageUtil.validationImage(uploadImageTypes, uploadImageSize,
 				imgFile);
 		if (code == 1) {
@@ -173,8 +171,10 @@ public class UploadImageService implements IUploadImageService {
 								SizeType.ORIGINAL);
 				FileUtil.writeStreamToFile(directoryPath, fileName,
 						imgFile.getInputStream());
-				String url=StaticUtil.u("/images/"+sdf.format(date)+ImageUtil.generateHierarchyImageWebPath(id,
-						SizeType.ORIGINAL) + fileName);
+				String url = StaticUtil.u("/images/"
+						+ sdf.format(date)
+						+ ImageUtil.generateHierarchyImageWebPath(id,
+								SizeType.ORIGINAL) + fileName);
 				return url;
 			} catch (Exception e) {
 				throw new UploadImageException();

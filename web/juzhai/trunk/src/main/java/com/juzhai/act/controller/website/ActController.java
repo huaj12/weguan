@@ -65,6 +65,7 @@ public class ActController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		userActService.removeAct(context.getUid(), actId);
 		AjaxResult result = new AjaxResult();
+		result.setSuccess(true);
 		return result;
 	}
 
@@ -161,6 +162,5 @@ public class ActController extends BaseController {
 	// }
 	// return actUserViewList;
 	// }
-	
-	
+
 }

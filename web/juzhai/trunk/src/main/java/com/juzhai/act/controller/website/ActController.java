@@ -2,6 +2,10 @@ package com.juzhai.act.controller.website;
 
 import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,7 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.passport.model.City;
 
 @Controller
 @RequestMapping(value = "act")
@@ -99,6 +104,7 @@ public class ActController extends BaseController {
 				userActService.countUserActByActId(0, actId));
 		return "app/act/act";
 	}
+
 	// @RequestMapping(value = "/ajax/pageActUser", method = RequestMethod.GET)
 	// public String pageActUser(HttpServletRequest request, Model model,
 	// long actId, int page) throws NeedLoginException {
@@ -162,5 +168,18 @@ public class ActController extends BaseController {
 	// }
 	// return actUserViewList;
 	// }
+
+	@RequestMapping(value = "/selectCity", method = RequestMethod.GET)
+	public String selectCity(Model model, String proId) {
+		List<City> citys = new ArrayList<City>();
+		for (Entry<Long, City> entry : com.juzhai.passport.InitData.CITY_MAP
+				.entrySet()) {
+			if (proId.equals(String.valueOf(entry.getValue().getProvinceId()))) {
+				citys.add(entry.getValue());
+			}
+		}
+		model.addAttribute("citys", citys);
+		return "cms/ajax/citys_list";
+	}
 
 }

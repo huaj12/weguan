@@ -14,6 +14,7 @@ import com.juzhai.passport.InitData;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Thirdparty;
 
+@Deprecated
 public class JzCoreFunction {
 
 	/**
@@ -144,6 +145,7 @@ public class JzCoreFunction {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		return tp == null ? StringUtils.EMPTY : tp.getAppId();
 	}
+
 	/**
 	 * 获取appKey
 	 * 
@@ -154,5 +156,5 @@ public class JzCoreFunction {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		return tp == null ? StringUtils.EMPTY : tp.getAppKey();
 	}
-	
+
 }

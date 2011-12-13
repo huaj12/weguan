@@ -15,12 +15,16 @@ public class ProfileCache implements Serializable {
 	private String logoPic;
 	private Long province;
 	private Long city;
+	private Long town;
 	private Integer gender;
 	private Integer birthYear;
 	private Integer birthMonth;
 	private Integer birthDay;
 	private String email;
 	private Boolean subEmail;
+	private String profession;
+	private Long constellationId;
+	private String feature;
 
 	private String tpIdentity;
 
@@ -118,6 +122,38 @@ public class ProfileCache implements Serializable {
 
 	public void setTpIdentity(String tpIdentity) {
 		this.tpIdentity = tpIdentity;
+	}
+
+	public Long getTown() {
+		return town;
+	}
+
+	public void setTown(Long town) {
+		this.town = town;
+	}
+
+	public String getProfession() {
+		return profession;
+	}
+
+	public void setProfession(String profession) {
+		this.profession = profession;
+	}
+
+	public Long getConstellationId() {
+		return constellationId;
+	}
+
+	public void setConstellationId(Long constellationId) {
+		this.constellationId = constellationId;
+	}
+
+	public String getFeature() {
+		return feature;
+	}
+
+	public void setFeature(String feature) {
+		this.feature = feature;
 	}
 
 	public String getProvinceName() {

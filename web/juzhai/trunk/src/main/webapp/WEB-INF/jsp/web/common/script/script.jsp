@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="jz" uri="http://www.51juzhai.com/jsp/jstl/jz" %>
-<script type="text/javascript" src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
-<script type="text/javascript" src="${jz:static('/js/base/iepng.js')}"></script>
-<link href="${jz:static('/css/skins/black.css')}" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${jz:static('/js/artDialog/jquery.artDialog.js')}"></script>
-<script type="text/javascript" src="${jz:static('/js/web/header.js')}"></script>
+<%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
+<script type="text/javascript" src="${jzr:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
+<link href="${jzr:static('/css/skins/black.css')}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${jzr:static('/js/artDialog/jquery.artDialog.js')}"></script>
+<script type="text/javascript" src="${jzr:static('/js/web/common/base.js')}"></script>
+<script type="text/javascript" src="${jzr:static('/js/web/header.js')}"></script>

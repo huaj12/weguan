@@ -50,8 +50,14 @@ public class HomeController extends BaseController {
 	@Value("${web.dating.me.max.rows}")
 	private int webDatingMeMaxRows;
 
+	@RequestMapping(value = "/myActs", method = RequestMethod.GET)
+	public String myActs(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		return pageMyActs(request, model, 1);
+	}
+
 	@RequestMapping(value = "/myActs/{page}", method = RequestMethod.GET)
-	public String myActs(HttpServletRequest request, Model model,
+	public String pageMyActs(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		showHomeHeader(context, context.getUid(), model);
@@ -61,7 +67,7 @@ public class HomeController extends BaseController {
 				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
 		model.addAttribute("userActViewList", userActViewList);
 		model.addAttribute("pager", pager);
-		return null;
+		return "web/home/acts/acts";
 	}
 
 	@RequestMapping(value = "/myInterests/{page}", method = RequestMethod.GET)
@@ -207,7 +213,7 @@ public class HomeController extends BaseController {
 
 	private void showHomeHeader(UserContext context, long uid, Model model) {
 		queryProfile(uid, model);
-		if (context.getUid() > 0 || context.getUid() != uid) {
+		if (context.getUid() > 0 && context.getUid() != uid) {
 			model.addAttribute("isInterest",
 					interestUserService.isInterest(context.getUid(), uid));
 			model.addAttribute("dating",

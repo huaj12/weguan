@@ -84,6 +84,22 @@
    		<taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
    		<taglib-location>/WEB-INF/tld/fmt.tld</taglib-location>
    	</taglib>
+   	<taglib>
+   		<taglib-uri>http://www.51juzhai.com/jsp/jstl/jz</taglib-uri>
+   		<taglib-location>/WEB-INF/tld/jz.tld</taglib-location>
+   	</taglib>
+   	<taglib>
+   		<taglib-uri>http://www.51juzhai.com/jsp/jstl/jzData</taglib-uri>
+   		<taglib-location>/WEB-INF/tld/jzd.tld</taglib-location>
+   	</taglib>
+   	<taglib>
+   		<taglib-uri>http://www.51juzhai.com/jsp/jstl/jzResource</taglib-uri>
+   		<taglib-location>/WEB-INF/tld/jzr.tld</taglib-location>
+   	</taglib>
+   	<taglib>
+   		<taglib-uri>http://www.51juzhai.com/jsp/jstl/jzUtil</taglib-uri>
+   		<taglib-location>/WEB-INF/tld/jzu.tld</taglib-location>
+   	</taglib>
    </jsp-config>
    
 </web-app>

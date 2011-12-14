@@ -35,10 +35,10 @@
 								<h3>项&nbsp;&nbsp;目&nbsp;&nbsp;名：</h3>
 								<div class="input">
 									<p class="l"></p>
-									<span class="w190"><input name="" type="text" /> </span>
+									<span class="w190"><input name="" id="name" type="text" /> </span>
 									<p class="r"></p>
 								</div>
-								<div class="error">请不要超过10个字！</div>
+								<div class="error" id="name_tip" ></div>
 							</div>
 							<!--x_hang end-->
 							<div class="xhang">
@@ -46,8 +46,11 @@
 
 								<h3>详细信息：</h3>
 								<div class="text_arae">
-									<textarea name="detail"   style="width:700px;height:200px;visibility:hidden;" cols="" rows=""></textarea>
+									<textarea id="detail" name="detail"
+										style="width: 700px; height: 200px; visibility: hidden;"
+										cols="" rows=""></textarea>
 								</div>
+								<div class="error" id="detail_tip" ></div>
 							</div>
 							<!--x_hang end-->
 							<div class="xhang">
@@ -55,15 +58,18 @@
 								<h3>项目封面：</h3>
 								<div class="upload">
 									<!--upload begin-->
-									<a href="#" class="btn">上传</a>
-									<div class="loading">上传中...</div>
-									<div class="error">上传失败。我们只支持2M以内图片哦！</div>
+									<form id="uploadImgForm" method="post"
+										enctype="multipart/form-data">
+										<input type="file" onchange="uploadImage();" name="fileupload" />
+									</form>
+									<div class="loading"></div>
+									<div class="error" id="logo_tip"></div>
 									<div class="load_done">
 										<!--load_done begin-->
 										<p>
-											<img src="images/face_girl.png" />
+											<img id="logo" src="" />
 										</p>
-										<a href="#" class="reload">重新上传</a>
+										<!-- >a href="#" class="reload">重新上传</a -->
 									</div>
 									<!--load_done end-->
 
@@ -80,10 +86,10 @@
 								<div class="select">
 									<!--select begin-->
 
-									<span> <select name="language" id="language">
-
-											<option value="" selected="selected">休闲娱乐</option>
-
+									<span> <select name="category_ids" id="category_ids">
+											<c:forEach var="cats" items="${categoryList}">
+												<option value="${cats.id}">${cats.name }</option>
+											</c:forEach>
 									</select> </span>
 
 								</div>
@@ -101,14 +107,21 @@
 								<div class="select">
 									<!--select begin-->
 
-									<span> <select name="language" id="language">
-
-											<option value="" selected="selected">上海市</option>
-
-									</select> </span> <span> <select name="language" id="language">
-
-											<option value="" selected="selected">浦东新区</option>
-
+									<span> <select name="province" id="province"
+										onchange="selectCity(this)">
+											<c:forEach var="pro" items="${provinces}" varStatus="status">
+												<c:if test="${status.index==0}">
+													<c:set var="s" value="${pro.id}"></c:set>
+												</c:if>
+												<option value="${pro.id}">${pro.name}</option>
+											</c:forEach>
+									</select>
+									</span> <span id="citys"><select id="city" name="city">
+											<c:forEach var="city" items="${citys}">
+												<c:if test="${s==city.provinceId}">
+													<option value="${city.id}">${city.name}</option>
+												</c:if>
+											</c:forEach>
 									</select> </span>
 
 								</div>
@@ -116,10 +129,11 @@
 
 								<div class="input">
 									<p class="l"></p>
-									<span class="w290"><input name="" type="text"
-										value="详细地址" /> </span>
+									<span class="w290"><input name="address" id="address" type="text"
+										value="详细地址" onfocus="if(this.value=='详细地址')this.value=''" onblur="if(this.value=='')this.value='详细地址'" /> </span>
 									<p class="r"></p>
 								</div>
+								<div class="error" id="address_tip" ></div>
 							</div>
 							<!--x_hang end-->
 							<div class="xhang">
@@ -127,45 +141,18 @@
 
 								<h3>时&nbsp;&nbsp;&nbsp;&nbsp;间：</h3>
 
-								<div class="select">
+								<div class="input">
 									<!--select begin-->
 
-									<span> <select name="language" id="language">
-
-											<option value="" selected="selected">2001年</option>
-
-									</select> </span> <span> <select name="language" id="language">
-
-											<option value="" selected="selected">12月</option>
-
-									</select> </span> <span> <select name="language" id="language">
-
-											<option value="" selected="selected">25日</option>
-
-									</select> </span>
-
+									<span class="w190"><input name="" readonly="readonly" id="startTime"
+										onClick="WdatePicker()" type="text" /> </span>
 								</div>
 								<!--select end-->
-
 								<b>到</b>
-
-								<div class="select">
+								<div class="input">
 									<!--select begin-->
-
-									<span> <select name="language" id="language">
-
-											<option value="" selected="selected">2011年</option>
-
-									</select> </span> <span> <select name="language" id="language">
-
-											<option value="" selected="selected">12月</option>
-
-									</select> </span> <span> <select name="language" id="language">
-
-											<option value="" selected="selected">25日</option>
-
-									</select> </span>
-
+									<span class="w190"><input id="endTime" readonly="readonly" onClick="WdatePicker()"
+										name="" type="text" /> </span>
 								</div>
 								<!--select end-->
 
@@ -177,7 +164,7 @@
 							<div class="send_btn">
 								<!--x_hang begin-->
 
-								<a href="#">发送</a>
+								<a href="javascript:;" onclick="addRawAct();">发送</a>
 
 							</div>
 							<!--x_hang end-->
@@ -192,12 +179,12 @@
 
 			</div>
 			<!--content end-->
-			<div class="tj_done_show_box">
+			<div class="tj_done_show_box" id="tj_show_box" style="display: none">
 				<!--tj_done_show_box begin-->
 
-				<h2>谢谢推荐，通过审核后立即发布!</h2>
+				<h2 id="tj_tip"></h2>
 
-				<a href="#" class="done">知道了</a>
+				<a href="#" onclick="closeAllDiv();" class="done">知道了</a>
 			</div>
 			<!--tj_done_show_box end-->
 
@@ -206,9 +193,13 @@
 		<!--main end-->
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 		<jsp:include page="/WEB-INF/jsp/web/common/script/kindEditor.jsp" />
-		<script>
-			
-		</script>
+		<script type="text/javascript" src="${jzr:static('/js/core/validation.js')}"></script>
+		<script type="text/javascript" src="${jzr:static('/js/core/core.js')}"></script>
+		<script type="text/javascript" src="${jzr:static('/js/web/rawAct.js')}"></script>
+		<script type="text/javascript"
+			src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
+		<script type="text/javascript"
+			src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 	</div>
 	<!--warp end-->

@@ -4,4 +4,4 @@
 <link href="${jzr:static('/css/skins/black.css')}" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${jzr:static('/js/artDialog/jquery.artDialog.js')}"></script>
 <script type="text/javascript" src="${jzr:static('/js/web/common/base.js')}"></script>
-<script type="text/javascript" src="${jzr:static('/js/web/header.js')}"></script>
+<script type="text/javascript" src="${jzr:static('/js/web/common/header.js')}"></script>

@@ -242,6 +242,7 @@ alter table tb_profile change gender gender INT(1);
 alter table tb_profile change town town BIGINT NOT NULL DEFAULT -1;
 alter table tb_profile add has_modify_nickname TINYINT(1) NOT NULL DEFAULT 0 AFTER nickname;
 alter table tb_profile add has_modify_gender TINYINT(1) NOT NULL DEFAULT 0 AFTER gender;
+alter table tb_profile add birth_secret TINYINT(1) NOT NULL DEFAULT 0 AFTER birth_day;
 alter table tb_act add town BIGINT NOT NULL DEFAULT -1 AFTER city;
 alter table tb_act add key_words varchar(500);
 alter table tb_user_act add gender INT(1) AFTER hot_lev;

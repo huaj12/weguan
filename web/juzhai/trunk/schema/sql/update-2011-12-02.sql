@@ -156,7 +156,7 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_dating` (
   `receiver_contact_type` INT(2) ,
   `receiver_contact_value` VARCHAR(100) ,
   `consume_type` INT(2) NOT NULL ,
-  `read` TINYINT(1) NOT NULL DEFAULT 0 ,
+  `has_read` TINYINT(1) NOT NULL DEFAULT 0 ,
   `response` INT(1) NOT NULL DEFAULT 0 ,
   `create_time` DATETIME NOT NULL ,
   `last_modify_time` DATETIME NOT NULL ,

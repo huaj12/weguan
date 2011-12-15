@@ -7,11 +7,15 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.rubyeye.xmemcached.MemcachedClient;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.service.IFriendService;
@@ -28,6 +32,10 @@ public abstract class AbstractLoginService implements ILoginService {
 	private IFriendService friendService;
 	@Autowired
 	private PassportMapper passportMapper;
+	@Autowired
+	private MemcachedClient memcachedClient;
+	@Value(value = "${user.online.expire.time}")
+	private int userOnlineExpireTime;
 
 	@Override
 	public void login(HttpServletRequest request, final long uid,
@@ -47,6 +55,7 @@ public abstract class AbstractLoginService implements ILoginService {
 		doLogin(request, uid, tpId, false);
 		// 更新最后登录时间
 		updateLastLoginTime(uid);
+		updateOnlineState(uid);
 		// TODO 用AOP
 		// 启动一个线程来获取和保存
 		taskExecutor.execute(new Runnable() {
@@ -63,6 +72,38 @@ public abstract class AbstractLoginService implements ILoginService {
 		doLogin(request, uid, tpId, admin);
 	}
 
+	@Override
+	public boolean isOnline(long uid) {
+		try {
+			Boolean online = memcachedClient.get(MemcachedKeyGenerator
+					.genUserOnlineKey(uid));
+			return online == null ? false : online;
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return false;
+		}
+	}
+
+	@Override
+	public void updateOnlineState(long uid) {
+		try {
+			memcachedClient.set(MemcachedKeyGenerator.genUserOnlineKey(uid),
+					userOnlineExpireTime, true);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public void logout(HttpServletRequest request, long uid) {
+		doLogout(request);
+		try {
+			memcachedClient.delete(MemcachedKeyGenerator.genUserOnlineKey(uid));
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+	}
+
 	private void updateLastLoginTime(long uid) {
 		Passport updatePassport = new Passport();
 		updatePassport.setId(uid);
@@ -72,5 +113,7 @@ public abstract class AbstractLoginService implements ILoginService {
 
 	protected abstract void doLogin(HttpServletRequest request, long uid,
 			long tpId, boolean admin);
+
+	protected abstract void doLogout(HttpServletRequest request);
 
 }

@@ -33,7 +33,7 @@ public class LoginController {
 	@Autowired
 	private IPassportService passportService;
 	@Autowired
-	private ILoginService tomcatLoginService;
+	private ILoginService loginService;
 	@Value("${cms.secret}")
 	private String cmsSecret;
 
@@ -50,7 +50,7 @@ public class LoginController {
 		if (uid > 0) {
 			Passport passport = passportService.getPassportByUid(uid);
 			if (passport != null && passport.getAdmin()) {
-				tomcatLoginService.cmsLogin(request, uid, 0L, true);
+				loginService.cmsLogin(request, uid, 0L, true);
 				// CMS首页
 				return "cms/index";
 			}

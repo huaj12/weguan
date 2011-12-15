@@ -21,12 +21,15 @@ import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.web.session.LoginSessionManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
+import com.juzhai.passport.service.login.ILoginService;
 
 @Component
 public class CheckLoginFilter implements Filter {
 
 	@Autowired
 	private LoginSessionManager loginSessionManager;
+	@Autowired
+	private ILoginService loginService;
 
 	@Override
 	public void destroy() {
@@ -44,6 +47,9 @@ public class CheckLoginFilter implements Filter {
 		try {
 			UserContext context = loginSessionManager.getUserContext(req);
 			req.setAttribute("context", context);
+			if (context.hasLogin()) {
+				loginService.updateOnlineState(context.getUid());
+			}
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
 			if (e.getCause().getCause() instanceof NeedLoginException) {

@@ -12,13 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.account.service.IAccountService;
-import com.juzhai.home.service.IInboxService;
 import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.service.IMsgService;
+import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.mapper.TpUserMapper;
+import com.juzhai.passport.model.Constellation;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
@@ -47,8 +48,6 @@ public class RegisterService implements IRegisterService {
 	private IProfileService profileService;
 	@Autowired
 	private IAccountService accountService;
-	@Autowired
-	private IInboxService inboxService;
 	@Autowired
 	private IUserGuideService userGuideService;
 	@Autowired
@@ -99,6 +98,14 @@ public class RegisterService implements IRegisterService {
 
 	private void registerProfile(Profile profile, Passport passport) {
 		profile.setUid(passport.getId());
+		if (null != profile.getBirthMonth() && profile.getBirthMonth() > 0
+				&& null != profile.getBirthDay() && profile.getBirthDay() > 0) {
+			Constellation c = InitData.getConstellation(
+					profile.getBirthMonth(), profile.getBirthDay());
+			if (null != c) {
+				profile.setConstellationId(c.getId());
+			}
+		}
 		profile.setSubEmail(false);
 		profile.setCreateTime(passport.getCreateTime());
 		profile.setLastModifyTime(passport.getLastModifyTime());

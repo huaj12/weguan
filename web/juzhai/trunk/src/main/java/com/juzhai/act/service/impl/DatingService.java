@@ -165,7 +165,7 @@ public class DatingService implements IDatingService {
 		dating.setReceiverContactValue(contactValue);
 		dating.setResponse(DatingResponse.ACCEPT.getValue());
 		dating.setLastModifyTime(new Date());
-		dating.setRead(true);
+		dating.setHasRead(true);
 		datingMapper.updateByPrimaryKeySelective(dating);
 
 		// TODO redis

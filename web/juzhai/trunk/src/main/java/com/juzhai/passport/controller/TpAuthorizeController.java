@@ -3,7 +3,6 @@
  */
 package com.juzhai.passport.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,8 +10,6 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import kx2_4j.KxSDK;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -26,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import weibo4j.Oauth;
-import weibo4j.model.WeiboException;
 
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
@@ -42,7 +38,6 @@ import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.platform.service.IAuthorizeURLService;
 import com.juzhai.platform.service.IUserService;
-import com.renren.api.client.RenrenApiClient;
 
 /**
  * @author wujiajun Created on 2011-2-15
@@ -56,7 +51,7 @@ public class TpAuthorizeController extends BaseController {
 	@Autowired
 	private IUserService userService;
 	@Autowired
-	private ILoginService tomcatLoginService;
+	private ILoginService loginService;
 	@Autowired
 	private IAuthorizeURLService authorizeURLService;
 
@@ -126,7 +121,7 @@ public class TpAuthorizeController extends BaseController {
 			return returnError();
 		}
 
-		tomcatLoginService.login(request, uid, tp.getId());
+		loginService.login(request, uid, tp.getId());
 
 		return returnPage(uid, tp, returnTo);
 	}
@@ -261,18 +256,17 @@ public class TpAuthorizeController extends BaseController {
 	}
 
 	@RequestMapping(value = "web/login/{tpId}")
-	public String webLogin(Model model,@PathVariable long tpId) {
+	public String webLogin(Model model, @PathVariable long tpId) {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
-		if(null==tp){
+		if (null == tp) {
 			return "404";
 		}
 		String url = authorizeURLService.getAuthorizeURLforCode(tp);
-		if(StringUtils.isEmpty(url)){
+		if (StringUtils.isEmpty(url)) {
 			return "404";
 		}
-		return "redirect:"+url;
+		return "redirect:" + url;
 	}
-
 
 	@RequestMapping(value = "web/access/{tpId}")
 	public String webAccess(HttpServletRequest request,
@@ -304,7 +298,7 @@ public class TpAuthorizeController extends BaseController {
 					+ tp.getJoinType() + "].");
 			return null;
 		}
-		tomcatLoginService.login(request, uid, tp.getId());
+		loginService.login(request, uid, tp.getId());
 		return "web/index/index";
 	}
 

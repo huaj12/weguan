@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.juzhai.core.web.session.LoginSessionManager;
 import com.juzhai.core.web.util.HttpRequestUtil;
 
-@Service
+@Service(value = "loginService")
 public class TomcatLoginService extends AbstractLoginService {
 
 	@Autowired
@@ -33,4 +33,8 @@ public class TomcatLoginService extends AbstractLoginService {
 		return dfl;
 	}
 
+	@Override
+	protected void doLogout(HttpServletRequest request) {
+		loginSessionManager.logout(request);
+	}
 }

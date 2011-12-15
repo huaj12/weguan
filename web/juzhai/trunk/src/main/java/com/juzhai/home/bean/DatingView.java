@@ -1,5 +1,6 @@
 package com.juzhai.home.bean;
 
+import com.juzhai.act.model.Act;
 import com.juzhai.act.model.Dating;
 import com.juzhai.passport.bean.ProfileCache;
 
@@ -7,9 +8,11 @@ public class DatingView {
 
 	private Dating dating;
 
+	private Act act;
+
 	private ProfileCache profileCache;
 
-	public DatingView(Dating dating, ProfileCache profileCache) {
+	public DatingView(Dating dating, Act act, ProfileCache profileCache) {
 		super();
 		this.dating = dating;
 		this.profileCache = profileCache;
@@ -29,5 +32,13 @@ public class DatingView {
 
 	public void setProfileCache(ProfileCache profileCache) {
 		this.profileCache = profileCache;
+	}
+
+	public Act getAct() {
+		return act;
+	}
+
+	public void setAct(Act act) {
+		this.act = act;
 	}
 }

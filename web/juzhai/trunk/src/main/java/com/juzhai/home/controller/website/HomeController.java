@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.model.Dating;
+import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IDatingService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
@@ -26,11 +27,14 @@ import com.juzhai.home.bean.InterestUserView;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.login.ILoginService;
 
 @Controller
 @RequestMapping(value = "home")
 public class HomeController extends BaseController {
 
+	@Autowired
+	private IActService actService;
 	@Autowired
 	private IUserActService userActService;
 	@Autowired
@@ -39,6 +43,8 @@ public class HomeController extends BaseController {
 	private IDatingService datingService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private ILoginService loginService;
 	@Value("${web.my.act.max.rows}")
 	private int webMyActMaxRows;
 	@Value("${web.interest.user.max.rows}")
@@ -49,15 +55,17 @@ public class HomeController extends BaseController {
 	private int webDatingMaxRows;
 	@Value("${web.dating.me.max.rows}")
 	private int webDatingMeMaxRows;
+	@Value("${interest.user.show.act.count}")
+	private int interestUserShowActCount;
 
-	@RequestMapping(value = "/myActs", method = RequestMethod.GET)
+	@RequestMapping(value = { "/acts", "/", "" }, method = RequestMethod.GET)
 	public String myActs(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		checkLoginForWeb(request);
 		return pageMyActs(request, model, 1);
 	}
 
-	@RequestMapping(value = "/myActs/{page}", method = RequestMethod.GET)
+	@RequestMapping(value = "/acts/{page}", method = RequestMethod.GET)
 	public String pageMyActs(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
@@ -68,10 +76,10 @@ public class HomeController extends BaseController {
 				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
 		model.addAttribute("userActViewList", userActViewList);
 		model.addAttribute("pager", pager);
-		return "web/home/acts/acts";
+		return "web/home/act/acts";
 	}
 
-	@RequestMapping(value = "/myInterests/{page}", method = RequestMethod.GET)
+	@RequestMapping(value = "/interests/{page}", method = RequestMethod.GET)
 	public String myInterests(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
@@ -84,10 +92,10 @@ public class HomeController extends BaseController {
 				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
 		assembleInterestUserView(model, context, profileList, true);
 		model.addAttribute("pager", pager);
-		return null;
+		return "web/home/interest/interests";
 	}
 
-	@RequestMapping(value = "/myInterestMes/{page}", method = RequestMethod.GET)
+	@RequestMapping(value = "/interestMes/{page}", method = RequestMethod.GET)
 	public String myInterestMe(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
@@ -101,7 +109,7 @@ public class HomeController extends BaseController {
 						pager.getMaxResult());
 		assembleInterestUserView(model, context, profileList, null);
 		model.addAttribute("pager", pager);
-		return null;
+		return "web/home/interest/interestMes";
 	}
 
 	private void assembleInterestUserView(Model model, UserContext context,
@@ -111,7 +119,7 @@ public class HomeController extends BaseController {
 			InterestUserView view = new InterestUserView();
 			view.setProfileCache(profileCache);
 			view.setUserActViewList(userActService.pageUserActView(
-					profileCache.getUid(), 1, 7));
+					profileCache.getUid(), 1, interestUserShowActCount));
 			view.setDating(datingService.fetchDating(context.getUid(),
 					profileCache.getUid()));
 			view.setHasInterest(hasInterest != null ? hasInterest
@@ -157,6 +165,7 @@ public class HomeController extends BaseController {
 		List<DatingView> datingViewList = new ArrayList<DatingView>();
 		for (Dating dating : datingList) {
 			DatingView view = new DatingView(dating,
+					actService.getActById(dating.getActId()),
 					profileService.getProfileCacheByUid(isShowDatingMe ? dating
 							.getStarterUid() : dating.getReceiverUid()));
 			datingViewList.add(view);
@@ -164,36 +173,26 @@ public class HomeController extends BaseController {
 		model.addAttribute("datingViewList", datingViewList);
 	}
 
-	@RequestMapping(value = "/{uid}", method = RequestMethod.GET)
-	public String home(HttpServletRequest request, Model model,
+	@RequestMapping(value = { "/{uid}", "/{uid}/acts" }, method = RequestMethod.GET)
+	public String userHome(HttpServletRequest request, Model model,
 			@PathVariable long uid) {
-		UserContext context = null;
-		try {
-			context = checkLoginForWeb(request);
-		} catch (NeedLoginException e) {
-		}
-		if (context.getUid() == uid) {
-			return "redirect:/home";
-		}
-		showHomeHeader(context, uid, model);
-		pageOtherUserActs(context, uid, 1, model);
-		return null;
+		return userHomeActs(request, model, uid, 1);
 	}
 
-	@RequestMapping(value = "/{uid}/userActs/{page}", method = RequestMethod.GET)
-	public String homeActs(HttpServletRequest request, Model model,
+	@RequestMapping(value = "/{uid}/acts/{page}", method = RequestMethod.GET)
+	public String userHomeActs(HttpServletRequest request, Model model,
 			@PathVariable long uid, @PathVariable int page) {
 		UserContext context = null;
 		try {
 			context = checkLoginForWeb(request);
 		} catch (NeedLoginException e) {
 		}
-		if (context.getUid() == uid) {
-			return "redirect:/myActs/" + page;
+		if (context != null && context.getUid() == uid) {
+			return "redirect:/home";
 		}
 		showHomeHeader(context, uid, model);
 		pageOtherUserActs(context, uid, page, model);
-		return null;
+		return "web/home/act/user_acts";
 	}
 
 	private void pageOtherUserActs(UserContext context, long uid, int page,
@@ -202,7 +201,7 @@ public class HomeController extends BaseController {
 		PagerManager pager = new PagerManager(page, webMyActMaxRows, totalCount);
 		List<UserActView> userActViewList = userActService.pageUserActView(uid,
 				pager.getFirstResult(), pager.getMaxResult());
-		if (context.getUid() > 0) {
+		if (context != null && context.getUid() > 0) {
 			for (UserActView userActView : userActViewList) {
 				userActView.setHasUsed(userActService.hasAct(context.getUid(),
 						userActView.getAct().getId()));
@@ -214,11 +213,18 @@ public class HomeController extends BaseController {
 
 	private void showHomeHeader(UserContext context, long uid, Model model) {
 		queryProfile(uid, model);
-		if (context.getUid() > 0 && context.getUid() != uid) {
-			model.addAttribute("isInterest",
-					interestUserService.isInterest(context.getUid(), uid));
-			model.addAttribute("dating",
-					datingService.fetchDating(context.getUid(), uid));
+		if (context == null || context.getUid() != uid) {
+			model.addAttribute("online", loginService.isOnline(uid));
+			if (context != null && context.hasLogin()) {
+				model.addAttribute("isInterest",
+						interestUserService.isInterest(context.getUid(), uid));
+				Dating dating = datingService
+						.fetchDating(context.getUid(), uid);
+				if (null != dating) {
+					model.addAttribute("datingView", new DatingView(dating,
+							actService.getActById(dating.getActId()), null));
+				}
+			}
 		}
 	}
 }

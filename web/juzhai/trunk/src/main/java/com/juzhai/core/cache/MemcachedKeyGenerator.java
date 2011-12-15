@@ -84,4 +84,14 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	public static String genTpMsgReceiveCnt(long uid, MsgType msgType) {
 		return genKey(uid, "tpMsgReceiveCnt_" + msgType.name());
 	}
+
+	/**
+	 * 用户是否在线
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genUserOnlineKey(long uid) {
+		return genKey(uid, "online");
+	}
 }

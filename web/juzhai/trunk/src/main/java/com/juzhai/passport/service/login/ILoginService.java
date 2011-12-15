@@ -32,4 +32,26 @@ public interface ILoginService {
 	 * @return
 	 */
 	boolean isDayFirstLoginAndDel(HttpServletRequest request);
+
+	/**
+	 * 用户是否在线
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	boolean isOnline(long uid);
+
+	/**
+	 * 更新在线状态
+	 * 
+	 * @param uid
+	 */
+	void updateOnlineState(long uid);
+
+	/**
+	 * 下线
+	 * 
+	 * @param uid
+	 */
+	void logout(HttpServletRequest request, long uid);
 }

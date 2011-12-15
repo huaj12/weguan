@@ -6,7 +6,7 @@
 <generatorConfiguration>
   <classPathEntry location="tool/MBG/mysql-connector-java-5.1.12.jar" />
 
-  <context id="passport" targetRuntime="MyBatis3">
+  <!-- <context id="passport" targetRuntime="MyBatis3">
   	
   	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -42,7 +42,7 @@
       <columnOverride column="birth_secret" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
     
-    <!-- <table tableName="tb_interest_user" domainObjectName="InterestUser">
+    <table tableName="tb_interest_user" domainObjectName="InterestUser">
       <property name="useActualColumnNames" value="false"/>
     </table>
     
@@ -89,12 +89,12 @@
    <table tableName="tb_user_guide" domainObjectName="UserGuide" >
       <property name="useActualColumnNames" value="false"/>
       <columnOverride column="complete" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-    </table> -->
+    </table>
 
-  </context>
+  </context> -->
   
   
-  <!-- <context id="act" targetRuntime="MyBatis3">
+  <context id="act" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -122,7 +122,12 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
     
-    <table tableName="tb_raw_act" domainObjectName="RawAct" >
+    <table tableName="tb_dating" domainObjectName="Dating">
+      <property name="useActualColumnNames" value="false"/>
+      <columnOverride column="has_read" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+    </table>
+    
+    <!-- <table tableName="tb_raw_act" domainObjectName="RawAct" >
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
     </table>
@@ -134,11 +139,6 @@
     
     <table tableName="tb_act_ad" domainObjectName="ActAd">
       <property name="useActualColumnNames" value="false"/>
-    </table>
-    
-    <table tableName="tb_dating" domainObjectName="Dating">
-      <property name="useActualColumnNames" value="false"/>
-      <columnOverride column="read" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
     
     <table tableName="tb_act" domainObjectName="Act" >
@@ -184,9 +184,9 @@
     
     <table tableName="tb_act_charts" domainObjectName="ActCharts">
       <property name="useActualColumnNames" value="false"/>
-    </table>
+    </table> -->
     
-  </context> -->
+  </context>
   
   <!-- <context id="account" targetRuntime="MyBatis3">
   

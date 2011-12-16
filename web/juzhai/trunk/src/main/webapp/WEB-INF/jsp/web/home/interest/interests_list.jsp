@@ -5,21 +5,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="item_box"><!--item_box begin-->
-	<div class="ilike"><!--ilike begin-->
+	<c:choose>
+		<c:when test="${tabType=='interests'}"><c:set var="divClass" value="ilike" /></c:when>
+		<c:when test="${tabType=='interestMes'}"><c:set var="divClass" value="likeme" /></c:when>
+	</c:choose>
+	<div class="${divClass}"><!--ilike begin-->
 		<c:forEach var="interestUserView" items="${interestUserViewList}">
 			<div class="item mouseHover <c:choose><c:when test='${interestUserView.profileCache.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--item begin-->
-				<c:if test="${tabType=='interest'}">
+				<c:if test="${tabType=='interests'}">
 					<div class="close"><a href="#"></a></div>
 				</c:if>
 				<div class="btn">
-					<a href="#" class="yueta">约ta</a>
-					<c:if test="${tabType=='interestMe'}">
+					<a href="javascript:void(0);" class="yueta" onclick="javascript:openDating(this);" uid="${interestUserView.profileCache.uid}">约ta</a>
+					<c:if test="${tabType=='interestMes'}">
 						<c:choose>
 							<c:when test="${interestUserView.hasInterest}">
-								<a href="#" class="cancel_like">感兴趣</a>
+								<a href="javascript:void(0);" class="cancel_like" uid="${interestUserView.profileCache.uid}">已感兴趣</a>
 							</c:when>
 							<c:otherwise>
-								<a href="#" class="like">已感兴趣</a>
+								<a href="javascript:void(0);" class="like" uid="${interestUserView.profileCache.uid}">感兴趣</a>
 							</c:otherwise>
 						</c:choose>
 					</c:if>
@@ -59,5 +63,5 @@
 <div class="clear"></div>
 <c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 	<c:param name="pager" value="${pager}"/>
-	<c:param name="url" value="/home/interests" />
+	<c:param name="url" value="/home/${tabType}" />
 </c:import>

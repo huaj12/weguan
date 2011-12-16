@@ -10,6 +10,14 @@ import com.juzhai.act.model.Dating;
 public interface IDatingService {
 
 	/**
+	 * 验证是否有资格
+	 * 
+	 * @param uid
+	 * @throws DatingInputException
+	 */
+	void checkCanDate(long uid, long targetId) throws DatingInputException;
+
+	/**
 	 * 约人
 	 * 
 	 * @param uid

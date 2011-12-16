@@ -109,7 +109,7 @@ public class HomeController extends BaseController {
 						pager.getMaxResult());
 		assembleInterestUserView(model, context, profileList, null);
 		model.addAttribute("pager", pager);
-		return "web/home/interest/interestMes";
+		return "web/home/interest/interest_mes";
 	}
 
 	private void assembleInterestUserView(Model model, UserContext context,
@@ -130,7 +130,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("interestUserViewList", interestUserViewList);
 	}
 
-	@RequestMapping(value = "/myDatings/{page}", method = RequestMethod.GET)
+	@RequestMapping(value = "/datings/{page}", method = RequestMethod.GET)
 	public String myDatings(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
@@ -142,10 +142,10 @@ public class HomeController extends BaseController {
 				pager.getFirstResult(), pager.getMaxResult());
 		assembleDatingView(model, datingList, false);
 		model.addAttribute("pager", pager);
-		return null;
+		return "web/home/dating/datings";
 	}
 
-	@RequestMapping(value = "/myDatingMes/{page}", method = RequestMethod.GET)
+	@RequestMapping(value = "/datingMes/{page}", method = RequestMethod.GET)
 	public String myDatingMe(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
@@ -157,7 +157,7 @@ public class HomeController extends BaseController {
 				pager.getFirstResult(), pager.getMaxResult());
 		assembleDatingView(model, datingList, true);
 		model.addAttribute("pager", pager);
-		return null;
+		return "web/home/dating/dating_mes";
 	}
 
 	private void assembleDatingView(Model model, List<Dating> datingList,

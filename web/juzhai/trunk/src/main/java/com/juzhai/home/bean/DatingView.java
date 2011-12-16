@@ -15,6 +15,7 @@ public class DatingView {
 	public DatingView(Dating dating, Act act, ProfileCache profileCache) {
 		super();
 		this.dating = dating;
+		this.act = act;
 		this.profileCache = profileCache;
 	}
 

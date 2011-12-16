@@ -44,18 +44,9 @@ public class DatingService implements IDatingService {
 	private int contactValueLengthMin;
 
 	@Override
-	public void date(long uid, long targetId, long actId,
-			ConsumeType consumeType, ContactType contactType,
-			String contactValue) throws DatingInputException {
+	public void checkCanDate(long uid, long targetId)
+			throws DatingInputException {
 		checkProfileSimple(uid);
-		ProfileCache targetProfile = profileService
-				.getProfileCacheByUid(targetId);
-		if (null == targetProfile || !userActService.hasAct(targetId, actId)
-				|| null == consumeType || null == contactType) {
-			throw new DatingInputException(
-					DatingInputException.ILLEGAL_OPERATION);
-		}
-		checkContactValue(contactValue);
 		// 是否已经在约中
 		DatingExample example = new DatingExample();
 		example.createCriteria().andStarterUidEqualTo(uid)
@@ -84,7 +75,21 @@ public class DatingService implements IDatingService {
 			throw new DatingInputException(
 					DatingInputException.DATING_TOTAL_LIMIT);
 		}
+	}
 
+	@Override
+	public void date(long uid, long targetId, long actId,
+			ConsumeType consumeType, ContactType contactType,
+			String contactValue) throws DatingInputException {
+		checkCanDate(uid, targetId);
+		ProfileCache targetProfile = profileService
+				.getProfileCacheByUid(targetId);
+		if (null == targetProfile || !userActService.hasAct(targetId, actId)
+				|| null == consumeType || null == contactType) {
+			throw new DatingInputException(
+					DatingInputException.ILLEGAL_OPERATION);
+		}
+		checkContactValue(contactValue);
 		// 开始约会
 		Dating dating = new Dating();
 		dating.setActId(actId);

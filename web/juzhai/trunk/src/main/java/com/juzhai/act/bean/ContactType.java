@@ -1,7 +1,7 @@
 package com.juzhai.act.bean;
 
 public enum ContactType {
-	QQ(1);
+	QQ(1), MSN(2), MOBILE(3), GTALK(4);
 
 	private int value;
 

@@ -8,7 +8,7 @@
 		<h2><a href="/home/${profile.uid}"><c:out value="${profile.nickname}" /></a></h2>
 		<c:if test="${online != null}">
 			<c:choose>
-				<c:when test="${online}"><div class="online">当前在线</div></c:when>
+				<c:when test="${online}"><div class="online">在线</div></c:when>
 				<c:otherwise><div class="offline">当前不在线</div></c:otherwise>
 			</c:choose>
 		</c:if>
@@ -26,12 +26,10 @@
 		<c:if test="${not empty profile.feature}">
 			<div class="tedian"><c:out value="${profile.feature}" /></div>
 		</c:if>
-		<c:if test="${profile.uid!=context.uid && datingView!=null}">
-			<div class="dated"><!--dated begin-->
-				<div class="datefor"><span></span><p>已约ta&nbsp;<c:out value="${datingView.act.name}" /></p><span></span></div>
-				<a href="#">修改</a><a href="javascript:;" class="removeDating" datingid="${datingView.dating.id}">取消</a>
-			</div><!--dated end-->
-		</c:if>
+		<div class="dated" datingid="${datingView.dating.id}" uid="${profile.uid}" <c:if test="${profile.uid==context.uid || datingView==null}">style="display:none;"</c:if>><!--dated begin-->
+			<div class="datefor"><span></span><p>已约ta&nbsp;<font><c:out value="${datingView.act.name}" /></font></p><span></span></div>
+			<a href="javascript:void(0);" class="modifyDating">修改</a><a href="javascript:void(0);" class="removeDating">取消</a>
+		</div><!--dated end-->
 	</div><!--user_infor end-->
 	<c:choose>
 		<c:when test="${profile.uid==context.uid}">
@@ -39,17 +37,9 @@
 		</c:when>
 		<c:otherwise>
 			<div class="ta_user_btn"><!--user_btn begin-->
-				<c:choose>
-					<c:when test="${isInterest}">
-						<a href="javascript:void(0);" class="cancel_like" uid="${profile.uid}">我感兴趣</a>
-					</c:when>
-					<c:otherwise>
-						<a href="javascript:void(0);" class="like" uid="${profile.uid}">感兴趣</a>
-					</c:otherwise>
-				</c:choose>
-				<c:if test="${datingView==null}">
-				<a href="#" class="date">约ta</a>
-				</c:if>
+				<div class="cancel_like" <c:if test="${!isInterest}">style="display:none;"</c:if>><p>已感兴趣</p><a href="javascript:void(0);" class="delete" uid="${profile.uid}"></a></div>
+				<a href="javascript:void(0);" class="like" uid="${profile.uid}" <c:if test="${isInterest}">style="display:none;"</c:if>>感兴趣</a>	
+				<a href="javascript:void(0);" class="date" <c:if test="${datingView!=null}">style="display:none;"</c:if> uid="${profile.uid}">约ta</a>
 			</div><!--user_btn end-->
 		</c:otherwise>
 	</c:choose>

@@ -120,8 +120,14 @@ public class HomeController extends BaseController {
 			view.setProfileCache(profileCache);
 			view.setUserActViewList(userActService.pageUserActView(
 					profileCache.getUid(), 1, interestUserShowActCount));
-			view.setDating(datingService.fetchDating(context.getUid(),
-					profileCache.getUid()));
+			// TODO 用redis
+			Dating dating = datingService.fetchDating(context.getUid(),
+					profileCache.getUid());
+			if (dating != null) {
+				view.setDatingView(new DatingView(dating, actService
+						.getActById(dating.getActId()), null));
+			}
+
 			view.setHasInterest(hasInterest != null ? hasInterest
 					: interestUserService.isInterest(context.getUid(),
 							profileCache.getUid()));

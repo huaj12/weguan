@@ -191,6 +191,9 @@ abbr,acronym { border: 0;
 .input span input{ border:0px; background:none; height:28px; line-height:28px; color:#999; float:left; width:100%;}
 .input .w190{ width:190px;}
 .input .w290{ width:290px;}
+.wrong p.l{ background:url(../images/web/wrong_input_r1_c1.jpg) no-repeat;}
+.wrong p.r{ background:url(../images/web/wrong_input_r1_c5.jpg) no-repeat;}
+.wrong span{ background:url(../images/web/wrong_input_r1_c3.jpg) repeat-x;}
 
 
 .tj_main .xhang .upload{ float:left;}
@@ -351,8 +354,9 @@ abbr,acronym { border: 0;
 
 .item_box .hover .close{ display:block;}
 
-
-
+.item_none{ width:100%; height:auto; display:block; margin-top:100px; color:#999; text-align:center; font-size:14px; padding-bottom:70px;}
+.item_none a{ margin-left:20px; color:#3E8BD9; text-decoration:none;}
+.item_none a:hover{text-decoration:underline;}
 
 .item_box .iwantgo .add_fav{ position:absolute; right:15px; bottom:20px;}
 .item_box .iwantgo .add_fav .click a{ background:url(../images/web/iwantgo_btn.gif) no-repeat; width:50px; height:21p; line-height:21px; overflow:hidden; text-align:center; text-decoration:none; color:#fff; display:none; line-height:23px; line-height:25px\0;}
@@ -401,6 +405,7 @@ abbr,acronym { border: 0;
 .ilike .btn a{ width:85px; height:30px; line-height:30px; line-height:33px\0; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#fff; text-align:center; display:block; text-decoration:none; float:left; margin-left:10px;}
 .ilike .btn a.yueta{ background:url(../images/web/yue_ta.gif) no-repeat;}
 .ilike .btn a.like{ background:url(../images/web/like.gif) no-repeat;}
+.ilike .btn .yueta_done{ background:url(../images/web/yueta_done.gif) no-repeat; cursor:default;}
 
 .ilike .yueta_ts{ float:left; height:38px; position:absolute; right:15px; bottom:47px; filter:alpha(opacity=80); -moz-opacity:0.8; -khtml-opacity: 0.8;opacity: 0.8;}
 .ilike .yueta_ts span{ float:left; width:1px; margin-top:1px; background:#000; overflow:hidden; height:36px;}
@@ -462,13 +467,15 @@ abbr,acronym { border: 0;
 .likeme .btn a{ width:85px; height:30px; line-height:30px; line-height:33px\0; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#fff; text-align:center; display:block; text-decoration:none; float:left; margin-left:10px;}
 .likeme .btn a.yueta{ background:url(../images/web/yue_ta.gif) no-repeat; display:none;}
 .likeme .btn a.like{ background:url(../images/web/like.gif) no-repeat;}
-
+.likeme .btn .yueta_done{ background:url(../images/web/yueta_done.gif) no-repeat; cursor:default;}
 .likeme .hover .btn a.yueta{ display:block;}
 
 
 .ygxq{ float:left; margin-left:10px; width:100px; height:30px; background:url(../images/web/delete100.gif) no-repeat;}
 .ygxq p{ color:#fff; font-size:14px; width:76px; text-align:center; line-height:30px; float:left;}
 .ygxq a.delete{ display:block; width:24px; height:30px; float:left; background:none; margin:0px;}
+
+
 
 .likeme .btn_area a{ width:85px; height:30px; color:#fff; text-align:center; line-height:30px; line-height:35px\9; *line-height:32px; display:block; font-size:14px; text-decoration:none;}
 .likeme .btn_area a.wantgo{ background:url(../images/web/like.gif) no-repeat;}
@@ -938,3 +945,6 @@ _background-image:none;}
 .date_ta_box .btn a.cancel{ background:url(../images/web/date_cancel_btn.gif) no-repeat;}
 .date_ta_box .mzky{ float:left; color:#999; margin-top:10px; margin-left:70px; display:inline; width:100%;}
 .date_ta_box .error{ float:left; color:#FF0000; margin-top:18px;  display:inline;}
+/*自适应弹出层*/
+.show_box_auto{ _height:auto; float:left; overflow:hidden; background:#fff; text-align:center;}
+.show_box_auto h2{ color:#666; font-size:14px; font-weight:bold;}

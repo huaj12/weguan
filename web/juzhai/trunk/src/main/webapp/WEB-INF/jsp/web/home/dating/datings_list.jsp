@@ -13,12 +13,12 @@
 		<c:forEach var="datingView" items="${datingViewList}">
 			<div class="item mouseHover <c:choose><c:when test='${datingView.profileCache.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--item begin-->
 				<c:if test="${tabType=='datings'}">
-					<div class="close"><a href="#"></a></div>
+					<div class="close"><a href="javascript:void(0);" datingid="${datingView.dating.id}"></a></div>
 				</c:if>
 				<c:choose>
 					<c:when test="${tabType=='datings'}">
 						<c:if test="${datingView.dating.response==0}">
-							<div class="date_waiting"><a href="#">修改</a><p>等待回应中...</p></div>
+							<div class="date_waiting"><a href="javascript:void(0);" uid="${datingView.profileCache.uid}" datingid="${datingView.dating.id}">修改</a><p>等待回应中...</p></div>
 						</c:if>
 						<c:if test="${datingView.dating.response==1}">
 							<div class="date_done"><span></span><p>ta已接受你的邀请<br />ta的<c:import url="/WEB-INF/jsp/web/common/fragment/dating_contact_type.jsp">
@@ -58,10 +58,10 @@
 				<div class="date_infor"><!--like_list begin-->
 					<div class="name"><a href="/home/${datingView.profileCache.uid}"><c:out value="${datingView.profileCache.nickname}" /></a><span>上海浦东</span></div>
 					<div class="date_detail"><!--date_detail begin-->
-						<p>我约ta去:<a href="/act/${datingView.act.id}"><c:out value="${datingView.act.name}" /></a></p>
-						<p>费用: <c:import url="/WEB-INF/jsp/web/common/fragment/dating_consume_type.jsp">
+						<p>我约ta去:<a href="/act/${datingView.act.id}" id="actInfo${datingView.profileCache.uid}"><c:out value="${datingView.act.name}" /></a></p>
+						<p>费用: <span id="consumeType${datingView.profileCache.uid}"><c:import url="/WEB-INF/jsp/web/common/fragment/dating_consume_type.jsp">
 							<c:param name="consumeType" value="${datingView.dating.consumeType}"/>
-						</c:import></p>
+						</c:import></span></p>
 						<p>发布于&nbsp;<c:set var="date" value="${datingView.dating.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></p>
 					</div><!--date_detail end-->
 				</div><!--like_list end-->

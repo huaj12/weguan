@@ -3,7 +3,6 @@ package com.juzhai.home.bean;
 import java.util.List;
 
 import com.juzhai.act.controller.view.UserActView;
-import com.juzhai.act.model.Dating;
 import com.juzhai.passport.bean.ProfileCache;
 
 public class InterestUserView {
@@ -12,7 +11,7 @@ public class InterestUserView {
 
 	private List<UserActView> userActViewList;
 
-	private Dating dating;
+	private DatingView datingView;
 
 	private boolean hasInterest;
 
@@ -40,11 +39,12 @@ public class InterestUserView {
 		this.userActViewList = userActViewList;
 	}
 
-	public Dating getDating() {
-		return dating;
+	public DatingView getDatingView() {
+		return datingView;
 	}
 
-	public void setDating(Dating dating) {
-		this.dating = dating;
+	public void setDatingView(DatingView datingView) {
+		this.datingView = datingView;
 	}
+
 }

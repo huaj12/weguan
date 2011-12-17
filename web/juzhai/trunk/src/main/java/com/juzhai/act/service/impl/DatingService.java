@@ -44,16 +44,22 @@ public class DatingService implements IDatingService {
 	private int contactValueLengthMin;
 
 	@Override
-	public void checkCanDate(long uid, long targetId)
+	public void checkCanDate(long uid, long targetId, long datingId)
 			throws DatingInputException {
 		checkProfileSimple(uid);
-		// 是否已经在约中
-		DatingExample example = new DatingExample();
-		example.createCriteria().andStarterUidEqualTo(uid)
-				.andReceiverUidEqualTo(targetId);
-		if (datingMapper.countByExample(example) > 0) {
+		if (userActService.getUserActCountFromCache(targetId) <= 0) {
 			throw new DatingInputException(
-					DatingInputException.DATING_EXISTENCE);
+					DatingInputException.DATING_TARGET_NONE_ACTS);
+		}
+		DatingExample example = new DatingExample();
+		if (datingId <= 0) {
+			// 是否已经在约中
+			example.createCriteria().andStarterUidEqualTo(uid)
+					.andReceiverUidEqualTo(targetId);
+			if (datingMapper.countByExample(example) > 0) {
+				throw new DatingInputException(
+						DatingInputException.DATING_EXISTENCE);
+			}
 		}
 		// 本周是否到达10人
 		example.clear();
@@ -63,7 +69,7 @@ public class DatingService implements IDatingService {
 						getDayOfWeek(null, Calendar.MONDAY))
 				.andCreateTimeLessThanOrEqualTo(
 						DateUtils.addDays(getDayOfWeek(null, Calendar.SUNDAY),
-								1));
+								1)).andIdNotEqualTo(datingId);
 		if (datingMapper.countByExample(example) >= maxDatingWeekLimit) {
 			throw new DatingInputException(
 					DatingInputException.DATING_WEEK_LIMIT);
@@ -78,10 +84,14 @@ public class DatingService implements IDatingService {
 	}
 
 	@Override
-	public void date(long uid, long targetId, long actId,
+	public long date(long uid, long targetId, long actId,
 			ConsumeType consumeType, ContactType contactType,
 			String contactValue) throws DatingInputException {
-		checkCanDate(uid, targetId);
+		checkCanDate(uid, targetId, 0);
+		if (actId <= 0) {
+			throw new DatingInputException(
+					DatingInputException.DATING_ACT_NOT_CHOOSE);
+		}
 		ProfileCache targetProfile = profileService
 				.getProfileCacheByUid(targetId);
 		if (null == targetProfile || !userActService.hasAct(targetId, actId)
@@ -103,14 +113,24 @@ public class DatingService implements IDatingService {
 		datingMapper.insertSelective(dating);
 
 		// TODO redis存储
+		return dating.getId();
 	}
 
 	@Override
-	public void modifyDating(long uid, long datingId, long actId,
+	public long modifyDating(long uid, long datingId, long actId,
 			ConsumeType consumeType, ContactType contactType,
 			String contactValue) throws DatingInputException {
 		Dating dating = datingMapper.selectByPrimaryKey(datingId);
-		if (null == dating || dating.getStarterUid() != uid
+		if (null == dating) {
+			throw new DatingInputException(
+					DatingInputException.ILLEGAL_OPERATION);
+		}
+		checkCanDate(uid, dating.getReceiverUid(), datingId);
+		if (actId <= 0) {
+			throw new DatingInputException(
+					DatingInputException.DATING_ACT_NOT_CHOOSE);
+		}
+		if (dating.getStarterUid() != uid
 				|| null != dating.getReceiverContactType()
 				|| StringUtils.isNotEmpty(dating.getReceiverContactValue())
 				|| dating.getResponse() != 0
@@ -120,29 +140,17 @@ public class DatingService implements IDatingService {
 					DatingInputException.ILLEGAL_OPERATION);
 		}
 		checkContactValue(contactValue);
-		// 本周是否到达10人
-		DatingExample example = new DatingExample();
-		example.createCriteria()
-				.andStarterUidEqualTo(uid)
-				.andCreateTimeGreaterThanOrEqualTo(
-						getDayOfWeek(null, Calendar.MONDAY))
-				.andCreateTimeLessThanOrEqualTo(
-						DateUtils.addDays(getDayOfWeek(null, Calendar.SUNDAY),
-								1)).andIdNotEqualTo(datingId);
-		if (datingMapper.countByExample(example) >= maxDatingWeekLimit) {
-			throw new DatingInputException(
-					DatingInputException.DATING_WEEK_LIMIT);
-		}
 		// 开始修改
 		dating.setConsumeType(consumeType.getValue());
 		dating.setActId(actId);
 		dating.setCreateTime(new Date());
-		dating.setLastModifyTime(dating.getLastModifyTime());
+		dating.setLastModifyTime(dating.getCreateTime());
 		dating.setStarterContactType(contactType.getValue());
 		dating.setStarterContactValue(contactValue);
 		datingMapper.updateByPrimaryKeySelective(dating);
 
 		// TODO redis
+		return dating.getId();
 	}
 
 	@Override
@@ -259,5 +267,10 @@ public class DatingService implements IDatingService {
 			return list.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public Dating getDatingByDatingId(long datingId) {
+		return datingMapper.selectByPrimaryKey(datingId);
 	}
 }

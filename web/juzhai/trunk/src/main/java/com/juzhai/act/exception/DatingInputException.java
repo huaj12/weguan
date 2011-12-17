@@ -26,6 +26,14 @@ public class DatingInputException extends JuzhaiException {
 	 * 联系方式的值超过字数范围
 	 */
 	public static final String DATING_CONTACT_VALUE_INVALID = "30005";
+	/**
+	 * 对方没有项目
+	 */
+	public static final String DATING_TARGET_NONE_ACTS = "30006";
+	/**
+	 * 没有选择项目
+	 */
+	public static final String DATING_ACT_NOT_CHOOSE = "30007";
 
 	public DatingInputException(String errorCode, Throwable cause) {
 		super(errorCode, cause);

@@ -34,13 +34,13 @@ $(document).ready(function() {
 	//添加约
 	$("a.date").bind("click", function(){
 		var uid = $(this).attr("uid");
-		openDating(this, uid, 0);
+		openDating(uid, 0);
 	});
 	//修改约
 	$("div.dated > a.modifyDating").bind("click", function(){
 		var uid = $("div.dated").attr("uid");
 		var datingId = $("div.dated").attr("datingid");
-		openDating(this, uid, datingId);
+		openDating(uid, datingId);
 	});
 });
 

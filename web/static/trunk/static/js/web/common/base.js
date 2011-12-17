@@ -141,9 +141,7 @@ function removeDating(datingId, successCallback){
 
 
 //弹框
-function openDating(buttonObj, uid, datingId){
-//	var uid = $(buttonObj).attr("uid");
-//	var datingId = $(buttonObj).attr("datingid");
+function openDating(uid, datingId){
 	jQuery.ajax({
 		url : "/act/openDating",
 		type : "get",
@@ -151,7 +149,7 @@ function openDating(buttonObj, uid, datingId){
 		data : {"uid": uid, "datingId": datingId},
 		dataType : "html",
 		success : function(result) {
-			openDialog(buttonObj, "openDating", result);
+			openDialog(null, "openDating", result);
 		},
 		statusCode : {
 			401 : function() {
@@ -161,7 +159,53 @@ function openDating(buttonObj, uid, datingId){
 	});
 }
 
+function openDatingResp(datingId){
+	jQuery.ajax({
+		url : "/act/openDatingResp",
+		type : "get",
+		cache : false,
+		data : {"datingId": datingId},
+		dataType : "html",
+		success : function(result) {
+			openDialog(null, "openDatingResp", result);
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login";
+			}
+		}
+	});
+}
 
+//
+function respDating(successCallback){
+	$.ajax({
+		url : "/act/respDating",
+		type : "post",
+		cache : false,
+		data : $("#datingForm").serialize(),
+		dataType : "json",
+		success : function(result) {
+			if(result&&result.success){
+				var content = $("#dialog-success").html().replace("{0}", "好的，我们会通知ta！");
+				closeDialog('openDatingResp');
+				showSuccess(null, content);
+				successCallback(result.result);
+			}else{
+				if(result.errorCode=='30005'){
+					$("div.show_box2 > form > div.cantact > div.input").addClass("wrong");
+				}else{
+					$("div.show_box2 > div.error").text(result.errorInfo).show();
+				}
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login";
+			}
+		}
+	});
+}
 
 function showConfirm(followObj, dialogId, dialogContent, okCallback){
 	closeDialog(dialogId);
@@ -201,9 +245,7 @@ function showSuccess(followObj, dialogContent){
 
 function openDialog(followObj, dialogId, dialogContent){
 	closeDialog(dialogId);
-	$.dialog({
-//		follow : followObj,
-		top : '50%',
+	var options={
 		fixed : true,
 		drag : false,
 		resize : false,
@@ -211,9 +253,14 @@ function openDialog(followObj, dialogId, dialogContent){
 		lock : true,
 		id : dialogId,
 		content : dialogContent
-	});
+	};
+	if(null!=followObj){
+		options["follow"]=followObj;
+	} else {
+		options["top"]="50%";
+	}
+	$.dialog(options);
 }
-
 
 function closeDialog(dialogId){
 	var showBox = $.dialog.list[dialogId];

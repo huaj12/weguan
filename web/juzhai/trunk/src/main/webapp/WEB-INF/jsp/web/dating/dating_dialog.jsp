@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
 <c:choose>
-	<c:when test="${error==null}">
+	<c:when test="${errorCode==null}">
 		<div class="date_ta_box"><!--date_ta_box begin-->
 			<h2><p>约</p><div class="name <c:choose><c:when test='${profile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><a href="#"><c:out value="${profile.nickname}" /></a></div><p>出去玩</p></h2>
 			<div class="con"><!--con begin-->

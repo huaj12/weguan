@@ -13,7 +13,7 @@ $(document).ready(function() {
 	$("div.date_waiting > a").bind("click", function(){
 		var uid = $(this).attr("uid");
 		var datingId = $(this).attr("datingid");
-		openDating(this, uid, datingId);
+		openDating(uid, datingId);
 	});
 });
 

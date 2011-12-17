@@ -23,20 +23,14 @@
 						<c:if test="${datingView.dating.response==1}">
 							<div class="date_done"><span></span><p>ta已接受你的邀请<br />ta的<c:import url="/WEB-INF/jsp/web/common/fragment/dating_contact_type.jsp">
 								<c:param name="contactType" value="${datingView.dating.receiverContactType}"/>
-							</c:import>:<c:out value="${datingView.daing.receiverContactValue}" /></p><span></span></div>
+							</c:import>:<c:out value="${datingView.dating.receiverContactValue}" /></p><span></span></div>
 						</c:if>
 					</c:when>
 					<c:otherwise>
-						<c:if test="${datingView.dating.response==0}">
-							<div class="date_btn"><a href="#">接受邀请</a><p>并交换联系方式</p></div>
-						</c:if>
-						<c:if test="${datingView.dating.response==1}">
-							<div class="date_done"><span></span><p>已接受ta的邀请<br />ta的QQ:123300323</p><span></span></div>
-							
-							<div class="date_done"><span></span><p>已接受ta的邀请<br />ta的<c:import url="/WEB-INF/jsp/web/common/fragment/dating_contact_type.jsp">
-								<c:param name="contactType" value="${datingView.dating.starterContactType}"/>
-							</c:import>:<c:out value="${datingView.daing.starterContactValue}" /></p><span></span></div>
-						</c:if>
+						<div id="respDating${datingView.dating.id}" class="date_btn" <c:if test="${datingView.dating.response==1}">style="display:none;"</c:if>><a href="javascript:void(0);" datingid="${datingView.dating.id}">接受邀请</a><p>并交换联系方式</p></div>
+						<div id="hasRespDating${datingView.dating.id}" class="date_done" <c:if test="${datingView.dating.response==0}">style="display:none;"</c:if>><span></span><p>已接受ta的邀请<br />ta的<c:import url="/WEB-INF/jsp/web/common/fragment/dating_contact_type.jsp">
+							<c:param name="contactType" value="${datingView.dating.starterContactType}"/>
+						</c:import>:<c:out value="${datingView.dating.starterContactValue}" /></p><span></span></div>
 					</c:otherwise>
 				</c:choose>
 				<div></div>

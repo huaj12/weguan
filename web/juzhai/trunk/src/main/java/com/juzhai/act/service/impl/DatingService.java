@@ -84,6 +84,22 @@ public class DatingService implements IDatingService {
 	}
 
 	@Override
+	public Dating checkCanRespDating(long uid, long datingId)
+			throws DatingInputException {
+		// 验证是否是此约会的接收者
+		Dating dating = getDatingByDatingId(datingId);
+		if (null == dating || dating.getReceiverUid() != uid
+				|| null != dating.getReceiverContactType()
+				|| StringUtils.isNotEmpty(dating.getReceiverContactValue())
+				|| dating.getResponse() != 0) {
+			throw new DatingInputException(
+					DatingInputException.ILLEGAL_OPERATION);
+		}
+		checkProfileSimple(uid);
+		return dating;
+	}
+
+	@Override
 	public long date(long uid, long targetId, long actId,
 			ConsumeType consumeType, ContactType contactType,
 			String contactValue) throws DatingInputException {
@@ -99,7 +115,7 @@ public class DatingService implements IDatingService {
 			throw new DatingInputException(
 					DatingInputException.ILLEGAL_OPERATION);
 		}
-		checkContactValue(contactValue);
+		checkContact(contactType, contactValue);
 		// 开始约会
 		Dating dating = new Dating();
 		dating.setActId(actId);
@@ -120,7 +136,7 @@ public class DatingService implements IDatingService {
 	public long modifyDating(long uid, long datingId, long actId,
 			ConsumeType consumeType, ContactType contactType,
 			String contactValue) throws DatingInputException {
-		Dating dating = datingMapper.selectByPrimaryKey(datingId);
+		Dating dating = getDatingByDatingId(datingId);
 		if (null == dating) {
 			throw new DatingInputException(
 					DatingInputException.ILLEGAL_OPERATION);
@@ -139,7 +155,7 @@ public class DatingService implements IDatingService {
 			throw new DatingInputException(
 					DatingInputException.ILLEGAL_OPERATION);
 		}
-		checkContactValue(contactValue);
+		checkContact(contactType, contactValue);
 		// 开始修改
 		dating.setConsumeType(consumeType.getValue());
 		dating.setActId(actId);
@@ -164,16 +180,8 @@ public class DatingService implements IDatingService {
 	@Override
 	public void acceptDating(long uid, long datingId, ContactType contactType,
 			String contactValue) throws DatingInputException {
-		checkProfileSimple(uid);
-		Dating dating = datingMapper.selectByPrimaryKey(datingId);
-		if (null == dating || dating.getReceiverUid() != uid
-				|| null != dating.getReceiverContactType()
-				|| StringUtils.isNotEmpty(dating.getReceiverContactValue())
-				|| dating.getResponse() != 0 || null == contactType) {
-			throw new DatingInputException(
-					DatingInputException.ILLEGAL_OPERATION);
-		}
-		checkContactValue(contactValue);
+		Dating dating = checkCanRespDating(uid, datingId);
+		checkContact(contactType, contactValue);
 		dating.setReceiverContactType(contactType.getValue());
 		dating.setReceiverContactValue(contactValue);
 		dating.setResponse(DatingResponse.ACCEPT.getValue());
@@ -197,8 +205,12 @@ public class DatingService implements IDatingService {
 		}
 	}
 
-	private void checkContactValue(String contactValue)
+	private void checkContact(ContactType contactType, String contactValue)
 			throws DatingInputException {
+		if (null == contactType) {
+			throw new DatingInputException(
+					DatingInputException.DATING_CONTACT_VALUE_INVALID);
+		}
 		int contactValueLength = StringUtil.chineseLength(contactValue);
 		if (contactValueLength < contactValueLengthMin
 				|| contactValueLength > contactValueLengthMax) {

@@ -19,6 +19,16 @@ public interface IDatingService {
 			throws DatingInputException;
 
 	/**
+	 * 验证是否能接受邀请
+	 * 
+	 * @param uid
+	 * @param datingId
+	 * @return 
+	 * @throws DatingInputException
+	 */
+	Dating checkCanRespDating(long uid, long datingId) throws DatingInputException;
+
+	/**
 	 * 约人
 	 * 
 	 * @param uid

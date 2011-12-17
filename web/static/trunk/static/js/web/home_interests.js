@@ -12,7 +12,7 @@ $(document).ready(function() {
 	//添加约
 	$("div.btn > a.yueta").bind("click", function(){
 		var uid = $(this).attr("uid");
-		openDating(this, uid, 0);
+		openDating(uid, 0);
 	});
 });
 

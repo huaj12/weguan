@@ -49,7 +49,6 @@ public class DatingController extends BaseController {
 			@RequestParam(defaultValue = "0") long datingId, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		boolean error = false;
 		try {
 			queryProfile(uid, model);
 			datingService.checkCanDate(context.getUid(), uid, datingId);
@@ -67,11 +66,9 @@ public class DatingController extends BaseController {
 				}
 			}
 		} catch (DatingInputException e) {
-			error = true;
-			String errorInfo = messageSource.getMessage(e.getErrorCode(), null,
-					Locale.SIMPLIFIED_CHINESE);
-			model.addAttribute("error", error);
-			model.addAttribute("errorInfo", errorInfo);
+			model.addAttribute("errorCode", e.getErrorCode());
+			model.addAttribute("errorInfo", messageSource.getMessage(
+					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
 		}
 		return "web/dating/dating_dialog";
 	}
@@ -148,6 +145,40 @@ public class DatingController extends BaseController {
 			result.setError(e.getErrorCode(), messageSource);
 		}
 		datingForm.setDatingId(datingId);
+		return result;
+	}
+
+	@RequestMapping(value = "/openDatingResp", method = RequestMethod.GET)
+	public String openDatingResp(HttpServletRequest request, Model model,
+			long datingId) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		try {
+			datingService.checkCanRespDating(context.getUid(), datingId);
+			model.addAttribute("datingId", datingId);
+		} catch (DatingInputException e) {
+			model.addAttribute("errorCode", e.getErrorCode());
+			model.addAttribute("errorInfo", messageSource.getMessage(
+					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
+		}
+		return "web/dating/dating_resp_dialog";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/respDating", method = RequestMethod.POST)
+	public AjaxResult respDating(HttpServletRequest request,
+			DatingForm datingForm, Model model) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult result = new AjaxResult();
+		try {
+			datingService.acceptDating(context.getUid(), datingForm
+					.getDatingId(), ContactType
+					.getContactTypeByValue(datingForm.getContactType()),
+					datingForm.getContactValue());
+			result.setSuccess(true);
+			result.setResult(datingForm.getDatingId());
+		} catch (DatingInputException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
 		return result;
 	}
 }

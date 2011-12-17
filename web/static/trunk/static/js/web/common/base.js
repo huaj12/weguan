@@ -4,13 +4,6 @@ $(document).ready(function(){
 	}).bind("mouseout", function(){
 		mouseHover(this, false);
 	});
-	
-	$("a.like").bind("click", function() {
-		interest(this);
-	});
-	$("a.cancel_like").bind("click", function(){
-		removeInterest(this);
-	});
 });
 
 function mouseHover(li, isOver){
@@ -21,21 +14,19 @@ function mouseHover(li, isOver){
 	}
 }
 
-function interest(clickObj){
-	var uid = $(clickObj).attr("uid");
+//感兴趣的人操作
+function interest(clickObj, uid, successCallback){
 	jQuery.ajax({
 		url : "/home/interest",
 		type : "post",
 		cache : false,
 		data : {"uid" : uid},
 		dataType : "json",
-		context : $(clickObj),
 		success : function(result) {
 			if (result && result.success) {
-				$(this).removeClass("like").addClass("cancel_like").text("我感兴趣");
-				$(this).unbind("click").bind("click",function(){
-					removeInterest(this);
-				});
+				var content = $("#dialog-success").html().replace("{0}", "加兴趣成功");
+				showSuccess(clickObj, content);
+				successCallback();
 			} else {
 				alert(result.errorInfo);
 			}
@@ -48,36 +39,29 @@ function interest(clickObj){
 	});
 }
 
-function removeInterest(clickObj){
-	var uid = $(clickObj).attr("uid");
-	var content = $("#dialog-remove-interest").html();
-	showConfirm(clickObj, "removeInterest", content, function(){
-		jQuery.ajax({
-			url : "/home/removeInterest",
-			type : "post",
-			cache : false,
-			data : {"uid" : uid},
-			dataType : "json",
-			context : $(clickObj),
-			success : function(result) {
-				if (result && result.success) {
-					$(this).removeClass("cancel_like").addClass("like").text("感兴趣");
-					$(this).unbind("click").bind("click",function(){
-						interest($(this));
-					});
-				} else {
-					alert(result.errorInfo);
-				}
-			},
-			statusCode : {
-				401 : function() {
-					window.location.href = "/login";
-				}
+function removeInterest(uid, successCallback){
+	jQuery.ajax({
+		url : "/home/removeInterest",
+		type : "post",
+		cache : false,
+		data : {"uid" : uid},
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				successCallback();
+			} else {
+				alert(result.errorInfo);
 			}
-		});
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login";
+			}
+		}
 	});
 }
 
+//对项目操作
 function removeAct(actId, successCallback){
 	jQuery.ajax({
 		url : "/act/removeAct",
@@ -102,11 +86,85 @@ function removeAct(actId, successCallback){
 	});
 }
 
+//约会操作
+function date(successCallback){
+	$.ajax({
+		url : "/act/date",
+		type : "post",
+		cache : false,
+		data : $("#datingForm").serialize(),
+		dataType : "json",
+		success : function(result) {
+			if(result&&result.success){
+//				var showBox = $.dialog.list["openDating"];
+				var content = $("#dialog-success").html().replace("{0}", "好的，我们会通知ta！");
+				closeDialog('openDating');
+//				if(showBox!=null){
+//					showBox.content(content);
+//					showBox.time(2);
+//				}
+				showSuccess(null, content);
+				successCallback(result.result);
+			}else{
+				$("div.con > div.error").text(result.errorInfo).show();
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login";
+			}
+		}
+	});
+}
+
+function removeDating(datingId, successCallback){
+	jQuery.ajax({
+		url : "/act/removeDating",
+		type : "post",
+		cache : false,
+		data : {"datingId" : datingId},
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				successCallback();
+			} else {
+				alert(result.errorInfo);
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login";
+			}
+		}
+	});
+}
+
+
+//弹框
+function openDating(buttonObj, uid, datingId){
+//	var uid = $(buttonObj).attr("uid");
+//	var datingId = $(buttonObj).attr("datingid");
+	jQuery.ajax({
+		url : "/act/openDating",
+		type : "get",
+		cache : false,
+		data : {"uid": uid, "datingId": datingId},
+		dataType : "html",
+		success : function(result) {
+			openDialog(buttonObj, "openDating", result);
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login";
+			}
+		}
+	});
+}
+
+
+
 function showConfirm(followObj, dialogId, dialogContent, okCallback){
-	var showBox = $.dialog.list[dialogId];
-	if(showBox != null){
-		showBox.close();
-	}
+	closeDialog(dialogId);
 	$.dialog({
 		follow : followObj,
 		fixed : true,
@@ -124,40 +182,42 @@ function showConfirm(followObj, dialogId, dialogContent, okCallback){
 	});
 }
 
-function openDialog(followObj, dialogId, dialogContent){
-	var showBox = $.dialog.list[dialogId];
-	if(showBox != null){
-		showBox.close();
+function showSuccess(followObj, dialogContent){
+	var options={
+		icon: 'succeed',
+		fixed : true,
+		drag : false,
+		resize : false,
+		content : dialogContent,
+		time: 2
+	};
+	if(null!=followObj){
+		options["follow"]=followObj;
+	} else {
+		options["top"]="50%";
 	}
+	$.dialog(options);
+}
+
+function openDialog(followObj, dialogId, dialogContent){
+	closeDialog(dialogId);
 	$.dialog({
-		follow : followObj,
+//		follow : followObj,
+		top : '50%',
 		fixed : true,
 		drag : false,
 		resize : false,
 		esc : true,
-		lock: true,
+		lock : true,
 		id : dialogId,
 		content : dialogContent
 	});
 }
 
-function openDating(buttonObj){
-	var uid = $(buttonObj).attr("uid");
-	jQuery.ajax({
-		url : "/act/openDating",
-		type : "get",
-		cache : false,
-		data : {
-			"uid" : uid
-		},
-		dataType : "html",
-		success : function(result) {
-			openDialog(buttonObj, "openDating", result);
-		},
-		statusCode : {
-			401 : function() {
-				window.location.href = "/login";
-			}
-		}
-	});
+
+function closeDialog(dialogId){
+	var showBox = $.dialog.list[dialogId];
+	if(showBox != null){
+		showBox.close();
+	}
 }

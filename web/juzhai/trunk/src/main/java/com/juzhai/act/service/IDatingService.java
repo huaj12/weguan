@@ -15,7 +15,8 @@ public interface IDatingService {
 	 * @param uid
 	 * @throws DatingInputException
 	 */
-	void checkCanDate(long uid, long targetId) throws DatingInputException;
+	void checkCanDate(long uid, long targetId, long datingId)
+			throws DatingInputException;
 
 	/**
 	 * 约人
@@ -28,7 +29,7 @@ public interface IDatingService {
 	 * @param contactValue
 	 * @throws DatingInputException
 	 */
-	void date(long uid, long targetId, long actId, ConsumeType consumeType,
+	long date(long uid, long targetId, long actId, ConsumeType consumeType,
 			ContactType contactType, String contactValue)
 			throws DatingInputException;
 
@@ -43,7 +44,7 @@ public interface IDatingService {
 	 * @param contactValue
 	 * @throws DatingInputException
 	 */
-	void modifyDating(long uid, long datingId, long actId,
+	long modifyDating(long uid, long datingId, long actId,
 			ConsumeType consumeType, ContactType contactType,
 			String contactValue) throws DatingInputException;
 
@@ -110,4 +111,12 @@ public interface IDatingService {
 	 * @return
 	 */
 	Dating fetchDating(long uid, long targetUid);
+
+	/**
+	 * 获取dating
+	 * 
+	 * @param datingId
+	 * @return
+	 */
+	Dating getDatingByDatingId(long datingId);
 }

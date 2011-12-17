@@ -13,22 +13,16 @@
 		<c:forEach var="interestUserView" items="${interestUserViewList}">
 			<div class="item mouseHover <c:choose><c:when test='${interestUserView.profileCache.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--item begin-->
 				<c:if test="${tabType=='interests'}">
-					<div class="close"><a href="#"></a></div>
+					<div class="close"><a href="javascript:void(0);" uid="${interestUserView.profileCache.uid}"></a></div>
 				</c:if>
 				<div class="btn">
-					<a href="javascript:void(0);" class="yueta" onclick="javascript:openDating(this);" uid="${interestUserView.profileCache.uid}">约ta</a>
+					<a id="removeDating${interestUserView.profileCache.uid}" href="javascript:void(0);" class="yueta_done" <c:if test="${interestUserView.datingView==null}">style="display:none;"</c:if>>已约ta</a>
+					<a id="dating${interestUserView.profileCache.uid}" href="javascript:void(0);" class="yueta" uid="${interestUserView.profileCache.uid}" <c:if test="${interestUserView.datingView!=null}">style="display:none;"</c:if>>约ta</a>
 					<c:if test="${tabType=='interestMes'}">
-						<c:choose>
-							<c:when test="${interestUserView.hasInterest}">
-								<a href="javascript:void(0);" class="cancel_like" uid="${interestUserView.profileCache.uid}">已感兴趣</a>
-							</c:when>
-							<c:otherwise>
-								<a href="javascript:void(0);" class="like" uid="${interestUserView.profileCache.uid}">感兴趣</a>
-							</c:otherwise>
-						</c:choose>
+						<div id="removeInterest${interestUserView.profileCache.uid}" class="ygxq" <c:if test="${!interestUserView.hasInterest}">style="display:none;"</c:if>><p>已感兴趣</p><a href="javascript:void(0);" class="delete" uid="${interestUserView.profileCache.uid}"></a></div>
+						<a id="interest${interestUserView.profileCache.uid}" href="javascript:void(0);" class="like" uid="${interestUserView.profileCache.uid}" <c:if test="${interestUserView.hasInterest}">style="display:none;"</c:if>>感兴趣</a>
 					</c:if>
 				</div>
-				<!-- <div class="yueta_ts"><span></span><p>好的，我们会告知ta！</p><span></span></div> -->
 				<div></div>
 				<div class="photo"><!--photo begin-->
 					<c:set var="age" value="${jzu:age(interestUserView.profileCache.birthYear)}" />

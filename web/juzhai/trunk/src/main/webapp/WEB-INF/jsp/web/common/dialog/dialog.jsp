@@ -16,3 +16,8 @@
 		<h2>确定不再约ta么？</h2>
 	</div><!--show end-->
 </div>
+<div id="dialog-success" style="display:none">
+	<div class="show_box_auto"><!--show_box_auto begin-->
+		<h2>{0}</h2>
+	</div>
+</div>

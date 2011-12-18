@@ -14,7 +14,7 @@
 	src="${jz:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 <script>
 	function selectCity(obj) {
-		$.get('/cms/selectCity', {
+		$.get('/act/selectCity', {
 			proId : obj.value,
 			random : Math.random()
 		}, function(result) {

@@ -48,7 +48,7 @@ function selectCity(obj) {
 }
 function addRawAct(){
 	var name=$("#name").val();
-	var detail=editor.html();
+	var detail=editor.text();
 	var logo=$("#logo").attr("src");
 	var category_ids=$("#category_ids").val();
 	var address=$("#address").val();
@@ -96,6 +96,7 @@ function addRawAct(){
 		random : Math.random()
 	}, function(result) {
 		if(result.success){
+			$("#tj_tip").html("谢谢推荐，通过审核后立即发布!");
 			$.dialog({
 				content:$("#tj_show_box")[0],
 				top:"50%",
@@ -106,8 +107,9 @@ function addRawAct(){
 				padding: 0
 			});
 		}else{
+			$("#tj_tip").html(result.errorInfo);
 			$.dialog({
-				content:result.errorInfo,
+				content:$("#tj_show_box")[0],
 				top:"50%",
 				fixed: true,
 				lock: true,

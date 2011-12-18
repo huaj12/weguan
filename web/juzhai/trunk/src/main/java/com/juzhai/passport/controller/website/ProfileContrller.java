@@ -35,24 +35,24 @@ import com.juzhai.passport.service.IProfileService;
 
 @Controller
 @RequestMapping(value = "profile")
-public class ProfileContrller  extends BaseController{
+public class ProfileContrller extends BaseController {
 	@Autowired
 	IProfileService profileService;
 	@Autowired
 	private MessageSource messageSource;
-	
+
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String myAct(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		Profile profile=profileService.getProfile(context.getUid());
+		Profile profile = profileService.getProfile(context.getUid());
 		assembleCiteys(model);
-		List<String> list=new ArrayList<String>(4);
-		if(StringUtils.isNotEmpty(profile.getFeature())){
-			for(String s:profile.getFeature().split(",")){
+		List<String> list = new ArrayList<String>(4);
+		if (StringUtils.isNotEmpty(profile.getFeature())) {
+			for (String s : profile.getFeature().split(",")) {
 				list.add(s);
 			}
-		}else{
+		} else {
 			for (int i = 0; i < 3; i++) {
 				list.add("");
 			}
@@ -61,12 +61,14 @@ public class ProfileContrller  extends BaseController{
 		model.addAttribute("featurelist", list);
 		return "web/profile/setting";
 	}
-	
+
 	@RequestMapping(value = "/setting/gender", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult settingGender(HttpServletRequest request,Integer gender, Model model) {
-		AjaxResult ajaxResult=new AjaxResult();
-		UserContext context=null;;
+	public AjaxResult settingGender(HttpServletRequest request, Integer gender,
+			Model model) {
+		AjaxResult ajaxResult = new AjaxResult();
+		UserContext context = null;
+		;
 		try {
 			context = checkLoginForWeb(request);
 		} catch (NeedLoginException e1) {
@@ -85,12 +87,14 @@ public class ProfileContrller  extends BaseController{
 		ajaxResult.setSuccess(true);
 		return ajaxResult;
 	}
-	
+
 	@RequestMapping(value = "/setting/nickname", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult settingNickname(HttpServletRequest request,String nickName, Model model) {
-		AjaxResult ajaxResult=new AjaxResult();
-		UserContext context=null;;
+	public AjaxResult settingNickname(HttpServletRequest request,
+			String nickName, Model model) {
+		AjaxResult ajaxResult = new AjaxResult();
+		UserContext context = null;
+		;
 		try {
 			context = checkLoginForWeb(request);
 		} catch (NeedLoginException e1) {
@@ -109,12 +113,16 @@ public class ProfileContrller  extends BaseController{
 		ajaxResult.setSuccess(true);
 		return ajaxResult;
 	}
+
 	@RequestMapping(value = "/setting", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult setting(HttpServletRequest request,Model model,String feature,String profession,Long professionId
-			,Integer birthYear,Integer birthMonth,Integer birthDay,Boolean birthSecret,Long province,Long city,Long town){
-		AjaxResult ajaxResult=new AjaxResult();
-		UserContext context=null;;
+	public AjaxResult setting(HttpServletRequest request, Model model,
+			String feature, String profession, Long professionId,
+			Integer birthYear, Integer birthMonth, Integer birthDay,
+			Boolean birthSecret, Long province, Long city, Long town) {
+		AjaxResult ajaxResult = new AjaxResult();
+		UserContext context = null;
+		;
 		try {
 			context = checkLoginForWeb(request);
 		} catch (NeedLoginException e1) {
@@ -124,18 +132,18 @@ public class ProfileContrller  extends BaseController{
 			ajaxResult.setSuccess(false);
 			return ajaxResult;
 		}
-		Profile profile=new Profile();
+		Profile profile = new Profile();
 		profile.setProvince(province);
 		profile.setCity(city);
 		profile.setTown(town);
 		profile.setBirthYear(birthYear);
 		profile.setBirthMonth(birthMonth);
 		profile.setBirthDay(birthDay);
-		if(birthSecret==null){
-			birthSecret=false;
+		if (birthSecret == null) {
+			birthSecret = false;
 		}
-		if(professionId==null){
-			professionId=0l;
+		if (professionId == null) {
+			professionId = 0l;
 		}
 		profile.setBirthSecret(birthSecret);
 		profile.setProfession(profession);
@@ -150,7 +158,7 @@ public class ProfileContrller  extends BaseController{
 		ajaxResult.setSuccess(true);
 		return ajaxResult;
 	}
-	
+
 	private void assembleCiteys(Model model) {
 		List<City> citys = new ArrayList<City>();
 		List<Province> provinces = new ArrayList<Province>();
@@ -168,19 +176,16 @@ public class ProfileContrller  extends BaseController{
 				.entrySet()) {
 			towns.add(entry.getValue());
 		}
-		for (Entry<Long, Profession> entry : InitData.PROFESSION_MAP
-				.entrySet()) {
+		for (Entry<Long, Profession> entry : InitData.PROFESSION_MAP.entrySet()) {
 			professions.add(entry.getValue());
 		}
-		
+
 		model.addAttribute("towns", towns);
 		model.addAttribute("citys", citys);
 		model.addAttribute("provinces", provinces);
 		model.addAttribute("years", InitData.YEARS);
 		model.addAttribute("months", InitData.MONTHS);
 		model.addAttribute("days", InitData.DAYS);
-		model.addAttribute("professions",professions );
-		
-		
+		model.addAttribute("professions", professions);
 	}
 }

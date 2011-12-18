@@ -70,7 +70,7 @@ public class HomeController extends BaseController {
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		showHomeHeader(context, context.getUid(), model);
-		int totalCount = userActService.countUserActByUid(context.getUid());
+		int totalCount = (Integer) model.asMap().get("actCount");
 		PagerManager pager = new PagerManager(page, webMyActMaxRows, totalCount);
 		List<UserActView> userActViewList = userActService.pageUserActView(
 				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
@@ -84,8 +84,7 @@ public class HomeController extends BaseController {
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		showHomeHeader(context, context.getUid(), model);
-		int totalCount = interestUserService
-				.countInterestUser(context.getUid());
+		int totalCount = (Integer) model.asMap().get("interestCount");
 		PagerManager pager = new PagerManager(page, webInterestUserMaxRows,
 				totalCount);
 		List<ProfileCache> profileList = interestUserService.listInterestUser(
@@ -100,8 +99,7 @@ public class HomeController extends BaseController {
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		showHomeHeader(context, context.getUid(), model);
-		int totalCount = interestUserService.countInterestMeUser(context
-				.getUid());
+		int totalCount = (Integer) model.asMap().get("interestMeCount");
 		PagerManager pager = new PagerManager(page, webInterestMeMaxRows,
 				totalCount);
 		List<ProfileCache> profileList = interestUserService
@@ -141,7 +139,7 @@ public class HomeController extends BaseController {
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		showHomeHeader(context, context.getUid(), model);
-		int totalCount = datingService.countDating(context.getUid());
+		int totalCount = (Integer) model.asMap().get("datingCount");
 		PagerManager pager = new PagerManager(page, webDatingMaxRows,
 				totalCount);
 		List<Dating> datingList = datingService.listDating(context.getUid(),
@@ -156,7 +154,7 @@ public class HomeController extends BaseController {
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		showHomeHeader(context, context.getUid(), model);
-		int totalCount = datingService.countDatingMe(context.getUid());
+		int totalCount = (Integer) model.asMap().get("datingMeCount");
 		PagerManager pager = new PagerManager(page, webDatingMeMaxRows,
 				totalCount);
 		List<Dating> datingList = datingService.listDatingMe(context.getUid(),
@@ -203,7 +201,7 @@ public class HomeController extends BaseController {
 
 	private void pageOtherUserActs(UserContext context, long uid, int page,
 			Model model) {
-		int totalCount = userActService.countUserActByUid(uid);
+		int totalCount = (Integer) model.asMap().get("actCount");
 		PagerManager pager = new PagerManager(page, webMyActMaxRows, totalCount);
 		List<UserActView> userActViewList = userActService.pageUserActView(uid,
 				pager.getFirstResult(), pager.getMaxResult());
@@ -219,6 +217,7 @@ public class HomeController extends BaseController {
 
 	private void showHomeHeader(UserContext context, long uid, Model model) {
 		queryProfile(uid, model);
+		model.addAttribute("actCount", userActService.countUserActByUid(uid));
 		if (context == null || context.getUid() != uid) {
 			model.addAttribute("online", loginService.isOnline(uid));
 			if (context != null && context.hasLogin()) {
@@ -231,6 +230,14 @@ public class HomeController extends BaseController {
 							actService.getActById(dating.getActId()), null));
 				}
 			}
+		} else {
+			model.addAttribute("interestCount",
+					interestUserService.countInterestUser(uid));
+			model.addAttribute("interestMeCount",
+					interestUserService.countInterestMeUser(uid));
+			model.addAttribute("datingCount", datingService.countDating(uid));
+			model.addAttribute("datingMeCount",
+					datingService.countDatingMe(uid));
 		}
 	}
 }

@@ -3,5 +3,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="user_menu"><!--user_menu begin-->
-	<a href="javascript:void(0);" <c:if test="${tabType=='acts'}">class="active"</c:if>>ta想去的(1254)</a>
+	<a href="javascript:void(0);" <c:if test="${tabType=='acts'}">class="active"</c:if>>ta想去的(${actCount})</a>
 </div><!--user_menu end-->

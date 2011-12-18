@@ -110,7 +110,7 @@ public class RawActController extends BaseController {
 	public String showAddRawAct(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		assembleCiteys(model);
-		return "/web/act/showAddRawAct";
+		return "/web/act/show_add_rawact";
 
 	}
 	
@@ -135,10 +135,20 @@ public class RawActController extends BaseController {
 	@RequestMapping(value = "/web/ajax/addAct", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult addAct(HttpServletRequest request,Long province,Long city, Model model,
-			String name,String detail,String logo,String categoryIds,String address,String startTime,String endTime) throws NeedLoginException {
-		UserContext context = checkLoginForApp(request);
-		long uid = context.getUid();
+			String name,String detail,String logo,String categoryIds,String address,String startTime,String endTime)  {
+		UserContext context=null;
 		AjaxResult result = new AjaxResult();
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e1) {
+			result.setErrorInfo(messageSource.getMessage(
+					NeedLoginException.IS_NOT_LOGIN, null,
+					Locale.SIMPLIFIED_CHINESE));
+			result.setSuccess(false);
+			return result;
+		}
+		long uid = context.getUid();
+		
 		RawAct rawAct=new RawAct();
 		rawAct.setAddress(address);
 		rawAct.setCategoryIds(categoryIds);

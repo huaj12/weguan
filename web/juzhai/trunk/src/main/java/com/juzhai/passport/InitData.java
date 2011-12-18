@@ -21,6 +21,7 @@ import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.mapper.CityMapper;
 import com.juzhai.passport.mapper.CityMappingMapper;
 import com.juzhai.passport.mapper.ConstellationMapper;
+import com.juzhai.passport.mapper.ProfessionMapper;
 import com.juzhai.passport.mapper.ProvinceMapper;
 import com.juzhai.passport.mapper.ProvinceMappingMapper;
 import com.juzhai.passport.mapper.ThirdpartyMapper;
@@ -31,6 +32,8 @@ import com.juzhai.passport.model.CityMapping;
 import com.juzhai.passport.model.CityMappingExample;
 import com.juzhai.passport.model.Constellation;
 import com.juzhai.passport.model.ConstellationExample;
+import com.juzhai.passport.model.Profession;
+import com.juzhai.passport.model.ProfessionExample;
 import com.juzhai.passport.model.Province;
 import com.juzhai.passport.model.ProvinceExample;
 import com.juzhai.passport.model.ProvinceMapping;
@@ -47,11 +50,15 @@ public class InitData {
 	public static final Map<Long, Thirdparty> TP_MAP = new HashMap<Long, Thirdparty>();
 	public static final Map<Long, Province> PROVINCE_MAP = new HashMap<Long, Province>();
 	public static final Map<Long, City> CITY_MAP = new HashMap<Long, City>();
+	public static final Map<Long, Profession> PROFESSION_MAP = new HashMap<Long, Profession>();
 	public static final Map<Long, Town> TOWN_MAP = new HashMap<Long, Town>();
 	public static final List<Long> GUIDE_STEPS = new ArrayList<Long>();
 	public static final Map<String, Long> CITY_MAPPING = new HashMap<String, Long>();
 	public static final Map<String, Long> PROVINCE_MAPPING = new HashMap<String, Long>();
 	public static final Map<Long, Constellation> CONSTELLATION_MAP = new HashMap<Long, Constellation>();
+	public static final List<Integer> YEARS=new ArrayList<Integer> ();
+	public static final List<Integer> MONTHS=new ArrayList<Integer> ();
+	public static final List<Integer> DAYS=new ArrayList<Integer> ();
 
 	@Autowired
 	private ThirdpartyMapper thirdpartyMapper;
@@ -66,10 +73,23 @@ public class InitData {
 	@Autowired
 	private ProvinceMappingMapper provinceMappingMapper;
 	@Autowired
+	private ProfessionMapper professionMapper;
+	@Autowired
 	private ConstellationMapper constellationMapper;
 	@Value("${freshman.guide.steps}")
 	private String freshmanGuideSteps;
-
+	@Value("${birth.year.range.min}")
+	private int birthYearRangeMin;
+	@Value("${birth.year.range.max}")
+	private int birthYearRangeMax;
+	@Value("${birth.month.range.min}")
+	private int birthMonthRangeMin;
+	@Value("${birth.month.range.max}")
+	private int birthMonthRangeMax;
+	@Value("${birth.day.range.min}")
+	private int birthDayRangeMin;
+	@Value("${birth.day.range.max}")
+	private int birthDayRangeMax;
 	@PostConstruct
 	public void init() {
 		initTp();
@@ -79,8 +99,27 @@ public class InitData {
 		initGuideSteps();
 		initCityAndProvinceMapping();
 		initConstellation();
+		initProfession();
+		initBirth();
 	}
-
+	private void initBirth(){
+		for(int i=birthYearRangeMin;i<=birthYearRangeMax;i++){
+			YEARS.add(i);
+		}
+		for(int i=birthMonthRangeMin;i<=birthMonthRangeMax;i++){
+			MONTHS.add(i);
+		}
+		for(int i=birthDayRangeMin;i<=birthDayRangeMax;i++){
+			DAYS.add(i);
+		}
+	}
+	//职业
+	private void initProfession(){
+		List<Profession> list = 	professionMapper.selectByExample(new ProfessionExample());
+		for (Profession profession : list) {
+			PROFESSION_MAP.put(profession.getId(), profession);
+		}
+	}
 	private void initConstellation() {
 		List<Constellation> list = constellationMapper
 				.selectByExample(new ConstellationExample());

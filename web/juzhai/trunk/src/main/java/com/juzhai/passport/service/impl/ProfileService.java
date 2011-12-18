@@ -27,6 +27,7 @@ import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
@@ -51,6 +52,12 @@ public class ProfileService implements IProfileService {
 	private MemcachedClient memcachedClient;
 	@Value("${profile.cache.expire.time}")
 	private int profileCacheExpireTime = 20000;
+	@Value("${nickname.length.max}")
+	private int nickNameLengthMax;
+	@Value("${profession.length.max}")
+	private int professionLengthMax;
+	@Value("${feature.length.max}")
+	private int featureLengthMax;
 
 	@Override
 	public void cacheUserCity(long uid) {
@@ -191,5 +198,154 @@ public class ProfileService implements IProfileService {
 		example.setOrderByClause("last_update_time desc");
 		example.setLimit(new Limit(firstResult, maxResults));
 		return profileMapper.selectByExample(example);
+	}
+
+	@Override
+	public Profile getProfile(long uid) {
+		Profile profile = profileMapper.selectByPrimaryKey(uid);
+		return profile;
+	}
+
+	@Override
+	public void setGender(long uid, Integer gender)
+			throws ProfileInputException {
+		if (gender == null) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_GEBDER_INVALID);
+		}
+		if (gender == 0 || gender == 1) {
+			Profile profile = profileMapper.selectByPrimaryKey(uid);
+			if (null == profile) {
+				throw new ProfileInputException(
+						ProfileInputException.PROFILE_UID_NOT_EXIST);
+			}
+			if (!profile.getHasModifyGender()) {
+				profile.setGender(gender);
+				profile.setHasModifyGender(true);
+				profileMapper.updateByPrimaryKey(profile);
+			} else {
+				throw new ProfileInputException(
+						ProfileInputException.PROFILE_GEBDER_REPEAT_UPDATE);
+			}
+		} else {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_GEBDER_INVALID);
+		}
+
+	}
+
+	@Override
+	public void setNickName(long uid, String nickName)
+			throws ProfileInputException {
+		if (StringUtils.isEmpty(nickName)) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_NICKNAME_IS_NULL);
+		}
+		if (nickName.length() > nickNameLengthMax) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_NICKNAME_IS_TOO_LONG);
+		}
+		Profile profile = profileMapper.selectByPrimaryKey(uid);
+		if (null == profile) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_UID_NOT_EXIST);
+		}
+		if (!profile.getHasModifyNickname()) {
+			if(!isExistNickname(nickName)){
+				profile.setNickname(nickName);
+				profile.setHasModifyNickname(true);
+				profileMapper.updateByPrimaryKey(profile);
+			}else{
+				throw new ProfileInputException(
+						ProfileInputException.PROFILE_NICKNAME_IS_EXIST);
+			}
+		} else {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_NICKNAME_REPEAT_UPDATE);
+		}
+
+	}
+
+	@Override
+	public void updateProfile(Profile profile, long uid)
+			throws ProfileInputException {
+		if (null == profile) {
+			return;
+		}
+		if (profile.getProvince() == null) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_PROVINCE_IS_NULL);
+		}
+		if (profile.getCity() == null) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_CITY_IS_NULL);
+		}
+		if (profile.getBirthYear() == null) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_BIRTH_YEAR_IS_NULL);
+		}
+		if (profile.getBirthMonth() == null) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_BIRTH_MONTH_IS_NULL);
+		}
+		if (profile.getBirthDay() == null) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_BIRTH_DAY_IS_NULL);
+		}
+		if (profile.getProfessionId() == null) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_PROFESSION_ID_IS_NULL);
+		}
+		if (profile.getProfessionId().intValue() == 0
+				&& StringUtils.isEmpty(profile.getProfession())) {
+			// 选择其他职业描述不能为空
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_PROFESSION_IS_NULL);
+		}
+		if (profile.getProfessionId().intValue() == 0
+				&& profile.getProfession().length() > professionLengthMax) {
+			// 职业描述不能大于10个字
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_PROFESSION_IS_TOO_LONG);
+		}
+		if (StringUtils.isEmpty(profile.getFeature())) {
+			// 性格描述不能为空
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_FEATURE_IS_NULL);
+		}
+		String[] str = profile.getFeature().split(",");
+		if(str==null||str.length<3){
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_FEATURE_IS_NULL);
+		}
+		for (String s : str) {
+			if (s.length() > featureLengthMax) {
+				throw new ProfileInputException(
+						ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
+			}
+		}
+		profile.setUid(uid);
+		profile.setLastUpdateTime(new Date());
+		profile.setLastModifyTime(new Date());
+		try {
+			profileMapper.updateByPrimaryKeySelective(profile);
+		} catch (Exception e) {
+			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
+		}
+	}
+
+	@Override
+	public boolean isExistNickname(String nickname) {
+		if (StringUtils.isEmpty(nickname)) {
+			return false;
+		}
+		ProfileExample example = new ProfileExample();
+		example.createCriteria().andNicknameEqualTo(nickname);
+		int count = profileMapper.countByExample(example);
+		if (count > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

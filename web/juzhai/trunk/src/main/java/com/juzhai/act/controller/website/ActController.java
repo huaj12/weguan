@@ -30,6 +30,7 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.model.City;
+import com.juzhai.passport.model.Town;
 
 @Controller
 @RequestMapping(value = "act")
@@ -180,6 +181,19 @@ public class ActController extends BaseController {
 		}
 		model.addAttribute("citys", citys);
 		return "cms/ajax/citys_list";
+	}
+	
+	@RequestMapping(value = "/selectTown", method = RequestMethod.GET)
+	public String selectTown(Model model, String cityId) {
+		List<Town> towns = new ArrayList<Town>();
+		for (Entry<Long, Town> entry : com.juzhai.passport.InitData.TOWN_MAP
+				.entrySet()) {
+			if (cityId.equals(String.valueOf(entry.getValue().getCityId()))) {
+				towns.add(entry.getValue());
+			}
+		}
+		model.addAttribute("towns", towns);
+		return "cms/ajax/towns_list";
 	}
 
 }

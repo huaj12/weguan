@@ -15,6 +15,8 @@ public class InterestUserView {
 
 	private boolean hasInterest;
 
+	private boolean online;
+
 	public boolean isHasInterest() {
 		return hasInterest;
 	}
@@ -45,6 +47,14 @@ public class InterestUserView {
 
 	public void setDatingView(DatingView datingView) {
 		this.datingView = datingView;
+	}
+
+	public boolean isOnline() {
+		return online;
+	}
+
+	public void setOnline(boolean online) {
+		this.online = online;
 	}
 
 }

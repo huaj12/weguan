@@ -8,7 +8,7 @@
 		<h2><a href="/home/${profile.uid}"><c:out value="${profile.nickname}" /></a></h2>
 		<c:if test="${online != null}">
 			<c:choose>
-				<c:when test="${online}"><div class="online">在线</div></c:when>
+				<c:when test="${online}"><div class="online">当前在线</div></c:when>
 				<c:otherwise><div class="offline">当前不在线</div></c:otherwise>
 			</c:choose>
 		</c:if>

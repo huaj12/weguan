@@ -32,12 +32,12 @@
 				<p>
 					<img src="${jzr:static('/images/web/face.png')}" />
 				</p>
-				<a href="#" class="user boy">其实不想走</a> <a href="#" class="set">设置</a>
 				<c:choose>
 				<c:when test="${context.uid==0}">
 				<a href="#" onclick="showLogin();" class="esc">登陆</a>
 				</c:when>
 				<c:otherwise>
+				<a href="#" class="user boy">其实不想走</a> <a href="/profile/index" class="set">设置</a>
 				<a href="#"  class="esc">退出${context.uid}</a>
 				</c:otherwise>
 				</c:choose>

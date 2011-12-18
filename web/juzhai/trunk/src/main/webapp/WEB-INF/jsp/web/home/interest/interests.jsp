@@ -19,7 +19,14 @@
 							<jsp:include page="/WEB-INF/jsp/web/home/common/home_info.jsp" />
 							<c:set var="tabType" value="interests" scope="request" />
 							<jsp:include page="/WEB-INF/jsp/web/home/common/tab.jsp" />
-							<jsp:include page="interests_list.jsp" />
+							<c:choose>
+								<c:when test="${empty interestUserViewList}">
+									<div class="item_none">目前你还没有感兴趣的人哦<a href="#">去找伴儿》</a></div>
+								</c:when>
+								<c:otherwise>
+									<jsp:include page="interests_list.jsp" />
+								</c:otherwise>
+							</c:choose>
 						</div><!--index_page end-->
 					</div><!--m end-->
 					<div class="b"></div>

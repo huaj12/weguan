@@ -39,15 +39,25 @@
 					<c:set var="cityName" value="${jzd:cityName(interestUserView.profileCache.city)}" />
 					<c:set var="townName" value="${jzd:townName(interestUserView.profileCache.town)}" />
 					<div class="city_online"><!--city_online begin-->
-						<span>&nbsp;<c:if test="${not empty cityName || not empty townName}">ta在</c:if><c:if test="${not empty cityName}">${cityName}</c:if><c:if test="${not empty townName}">${townName}</c:if></span><!-- <p class="online">近期来访</p> -->
+						<span>&nbsp;<c:if test="${not empty cityName || not empty townName}">ta在</c:if><c:if test="${not empty cityName}">${cityName}</c:if><c:if test="${not empty townName}">${townName}</c:if></span>
+						<c:if test="${interestUserView.online}">
+							<p class="online">当前在线</p>
+						</c:if>
 					</div><!--city_online end-->
 				</div><!--photo end-->	
 				<div class="ta_like_list"><!--like_list begin-->
 					<div class="name"><a href="/home/${interestUserView.profileCache.uid}"><c:out value="${interestUserView.profileCache.nickname}" /></a><span>周末想去...</span></div>
 					<ul class="list"><!--list begin-->
-						<c:forEach var="userActView" items="${interestUserView.userActViewList}">
-							<li><em>·</em><a href="/act/${userActView.act.id}"><c:out value="${userActView.act.name}" /></a><c:if test="${userActView.userAct.top}"><span>很想去</span></c:if></li>
-						</c:forEach>
+						<c:choose>
+							<c:when test="${empty interestUserView.userActViewList}">
+								<p>ta还未添加想去的项目哦！</p>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="userActView" items="${interestUserView.userActViewList}">
+									<li><em>·</em><a href="/act/${userActView.act.id}"><c:out value="${userActView.act.name}" /></a><c:if test="${userActView.userAct.top}"><span>很想去</span></c:if></li>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</ul><!--list end-->
 				</div><!--like_list end-->
 			</div><!--item end-->

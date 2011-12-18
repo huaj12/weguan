@@ -19,7 +19,14 @@
 							<jsp:include page="/WEB-INF/jsp/web/home/common/home_info.jsp" />
 							<c:set var="tabType" value="acts" scope="request" />
 							<jsp:include page="/WEB-INF/jsp/web/home/common/user_tab.jsp" />
-							<jsp:include page="acts_list.jsp" />
+							<c:choose>
+								<c:when test="${empty userActViewList}">
+									<div class="item_none">ta还未添加想去的项目</div>
+								</c:when>
+								<c:otherwise>
+									<jsp:include page="acts_list.jsp" />
+								</c:otherwise>
+							</c:choose>
 						</div><!--index_page end-->
 					</div><!--m end-->
 					<div class="b"></div>

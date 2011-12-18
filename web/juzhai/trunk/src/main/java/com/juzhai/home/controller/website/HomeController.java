@@ -125,10 +125,10 @@ public class HomeController extends BaseController {
 				view.setDatingView(new DatingView(dating, actService
 						.getActById(dating.getActId()), null));
 			}
-
 			view.setHasInterest(hasInterest != null ? hasInterest
 					: interestUserService.isInterest(context.getUid(),
 							profileCache.getUid()));
+			view.setOnline(loginService.isOnline(profileCache.getUid()));
 			interestUserViewList.add(view);
 		}
 		model.addAttribute("interestUserViewList", interestUserViewList);

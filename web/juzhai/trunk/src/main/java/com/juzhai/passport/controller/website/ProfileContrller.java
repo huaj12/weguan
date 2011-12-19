@@ -96,7 +96,7 @@ public class ProfileContrller extends BaseController {
 			return ajaxResult;
 		}
 		try {
-			profileService.setUserLogo(logo, context.getUid());
+			profileService.setUserLogo(fileName, context.getUid());
 		} catch (ProfileInputException e) {
 			ajaxResult.setError(e.getErrorCode(), messageSource);
 			return ajaxResult;

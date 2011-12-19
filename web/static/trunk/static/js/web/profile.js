@@ -1,5 +1,5 @@
 function selectCity(obj) {
-	$.get('/common/selectCity', {
+	$.get('/base/selectCity', {
 		proId : obj.value,
 		random : Math.random()
 	}, function(result) {
@@ -13,7 +13,7 @@ function selectCity(obj) {
 	});
 }
 function selectTown(id) {
-	$.get('/common/selectTown', {
+	$.get('/base/selectTown', {
 		cityId : id,
 		random : Math.random()
 	}, function(result) {

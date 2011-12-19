@@ -25,6 +25,13 @@
     	<example>${jzr:actLogo(123456,'abc.jpg',120)}</example>
     </function>
     
+     <function>
+    	<name>userLogo</name>
+    	<function-class>com.juzhai.core.web.jstl.JzResourceFunction</function-class>
+    	<function-signature>java.lang.String userLogo(long,java.lang.String,int)</function-signature>
+    	<example>${jzr:userLogo(123456,'abc.jpg',120)}</example>
+    </function>
+    
     <function>
     	<name>tpHomeUrl</name>
     	<function-class>com.juzhai.core.web.jstl.JzResourceFunction</function-class>

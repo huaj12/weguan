@@ -37,9 +37,9 @@
 								<div class="face">
 									<!--face begin-->
 									<p>
-										<img src="${profile.logoPic}" />
+										<img src="${jzr:userLogo(profile.uid,profile.logoPic,120)}" />
 									</p>
-									<a href="#">重新上传</a>
+									<a href="/profile/index/face">重新上传</a>
 								</div>
 								<!--face end-->
 								<div class="infor">

@@ -267,8 +267,7 @@ public class ImageUtil {
 	 * @param newFilePath
 	 * @param sizeReduceRank 
 	 */
-	public static void getUrlImage(String url, String directoryPath,String filename,
-			int width,int height,int x,int y) {
+	public static void getUrlImage(String url, String directoryPath,String filename) {
 		if (url == null) {
 			return;
 		}
@@ -278,7 +277,7 @@ public class ImageUtil {
 			// 更改图片大小 sizeRank是原图的缩小的比例 若为2意思为将下载的文件保存为原理图片长宽的1/2
 			BufferedImage bufferedImage = new BufferedImage(180, 180,
 					BufferedImage.TYPE_INT_RGB);
-			bufferedImage.getGraphics().drawImage(image, x,y,  width, height,
+			bufferedImage.getGraphics().drawImage(image, 0,0,  180, 180,
 					null);
 			File directory = new File(directoryPath);
 			if (!directory.exists()) {

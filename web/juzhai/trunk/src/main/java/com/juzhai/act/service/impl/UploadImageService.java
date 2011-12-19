@@ -207,13 +207,21 @@ public class UploadImageService implements IUploadImageService {
 					+ ImageUtil.generateHierarchyImagePath(id,
 							SizeType.ORIGINAL);
 			String fileName =UUID.randomUUID().toString()+".jpg";
-			ImageUtil.getUrlImage(logo, directoryPath,fileName,width,height,x,y);
+			//获取原图
+			ImageUtil.getUrlImage(logo, directoryPath,fileName);
+			//裁剪团图
+			String cutDirectoryPath=uploadUserImageHome
+			+ ImageUtil.generateHierarchyImagePath(id,
+					SizeType.BIG);
+			ImageUtil.cutImage(directoryPath+fileName, cutDirectoryPath, fileName,SizeType.BIG.getType(),SizeType.BIG.getType(),x,y,width,height);
 			for (SizeType sizeType : SizeType.values()) {
-				if (sizeType.getType() > 0) {
+				if (sizeType.getType() > 0&&sizeType.getType()<SizeType.BIG.getType()) {
 					String distDirectoryPath = uploadUserImageHome
 					+ ImageUtil.generateHierarchyImagePath(id,
 							sizeType);
-			ImageUtil.reduceImage(directoryPath+fileName, distDirectoryPath, fileName,sizeType.getType(),sizeType.getType() );
+					ImageUtil.reduceImage(cutDirectoryPath + fileName,
+							distDirectoryPath, fileName,
+							sizeType.getType(), sizeType.getType());
 				}
 			}
 			return fileName;

@@ -227,10 +227,11 @@ public class ProfileService implements IProfileService {
 			if (!profile.getHasModifyGender()) {
 				profile.setGender(gender);
 				profile.setHasModifyGender(true);
-				try{
+				try {
 					profileMapper.updateByPrimaryKey(profile);
-				}catch (Exception e) {
-					throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
+				} catch (Exception e) {
+					throw new ProfileInputException(
+							ProfileInputException.PROFILE_ERROR);
 				}
 				clearProfileCache(uid);
 			} else {
@@ -261,16 +262,17 @@ public class ProfileService implements IProfileService {
 					ProfileInputException.PROFILE_UID_NOT_EXIST);
 		}
 		if (!profile.getHasModifyNickname()) {
-			if(!isExistNickname(nickName)){
+			if (!isExistNickname(nickName)) {
 				profile.setNickname(nickName);
 				profile.setHasModifyNickname(true);
-				try{
-				profileMapper.updateByPrimaryKey(profile);
-				}catch (Exception e) {
-					throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
+				try {
+					profileMapper.updateByPrimaryKey(profile);
+				} catch (Exception e) {
+					throw new ProfileInputException(
+							ProfileInputException.PROFILE_ERROR);
 				}
 				clearProfileCache(uid);
-			}else{
+			} else {
 				throw new ProfileInputException(
 						ProfileInputException.PROFILE_NICKNAME_IS_EXIST);
 			}
@@ -329,7 +331,7 @@ public class ProfileService implements IProfileService {
 					ProfileInputException.PROFILE_FEATURE_IS_NULL);
 		}
 		String[] str = profile.getFeature().split(",");
-		if(str==null||str.length<3){
+		if (str == null || str.length < 3) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_FEATURE_IS_NULL);
 		}
@@ -367,19 +369,18 @@ public class ProfileService implements IProfileService {
 
 	@Override
 	public void clearProfileCache(long uid) {
-		if(uid==0){
-			return ;
+		if (uid == 0) {
+			return;
 		}
-		String key=MemcachedKeyGenerator
-		.genProfileCacheKey(uid);
+		String key = MemcachedKeyGenerator.genProfileCacheKey(uid);
 		try {
 			memcachedClient.delete(key);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-		ProfileCache profileCache=getProfileCacheByUid(uid);
-		if (null != profileCache 
-				&& profileCache.getCity() != null && profileCache.getCity() > 0) {
+		ProfileCache profileCache = getProfileCacheByUid(uid);
+		if (null != profileCache && profileCache.getCity() != null
+				&& profileCache.getCity() > 0) {
 			redisTemplate.opsForValue().set(
 					RedisKeyGenerator.genUserCityKey(uid),
 					profileCache.getCity());
@@ -388,23 +389,23 @@ public class ProfileService implements IProfileService {
 
 	@Override
 	public void setUserLogo(String logo, long uid) throws ProfileInputException {
-			if(StringUtils.isEmpty(logo)){
-				return ;
-			}
-			Profile profile = profileMapper.selectByPrimaryKey(uid);
-			if (null == profile) {
-				throw new ProfileInputException(
-						ProfileInputException.PROFILE_UID_NOT_EXIST);
-			}
-			try{
-			String oldLogo=profile.getLogoPic();
+		if (StringUtils.isEmpty(logo)) {
+			return;
+		}
+		Profile profile = profileMapper.selectByPrimaryKey(uid);
+		if (null == profile) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_UID_NOT_EXIST);
+		}
+		try {
+			String oldLogo = profile.getLogoPic();
 			profile.setLogoPic(logo);
 			profileMapper.updateByPrimaryKey(profile);
-			uploadImageService.deleteUserImages(uid,oldLogo);
+			uploadImageService.deleteUserImages(uid, oldLogo);
 			clearProfileCache(uid);
-			}catch (Exception e) {
-				throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
-			}
-			
+		} catch (Exception e) {
+			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
+		}
+
 	}
 }

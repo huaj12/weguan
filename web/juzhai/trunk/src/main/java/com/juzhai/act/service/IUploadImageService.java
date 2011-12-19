@@ -8,21 +8,20 @@ import com.juzhai.act.exception.UploadImageException;
 public interface IUploadImageService {
 	void uploadImg(long id, String fileName, MultipartFile imgFile);
 
-	String uploadEditorTempImg(String fileName, MultipartFile imgFile)
+	String uploadTempImg(String fileName, MultipartFile imgFile)
 			throws UploadImageException;
 
-	String uploadActTempImg(String fileName, MultipartFile imgFile)
-			throws UploadImageException;
 
-	void deleteImg(long id, String fileName);
+	void deleteActImages(long id, String fileName);
 	
-	void deleteEditorTempImgs(long id);
 	
-	void deleteActTempImages(long id);
+	void deleteUserImages(long id,String fileName);
 	
-	void copyActImage(String tempLogo,long actId);
 
 	String getImgType(MultipartFile imgFile);
 
-	byte[] getFile(long id, String fileName);
+	byte[] getActFile(long id, String fileName);
+
+	String cutUserImage(String logo, long uid, Integer x, Integer y, Integer height,
+			Integer width);
 }

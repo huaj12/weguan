@@ -42,6 +42,33 @@ public class JzResourceFunction {
 			}
 		}
 	}
+	/**
+	 * 获取UserLogo
+	 * @param actId
+	 * @param fileName
+	 * @param size
+	 * @return
+	 */
+	public static String userLogo(long userid, String fileName, int size){
+		if(ImageUtil.isInternalUrl(fileName)){
+			SizeType sizeType = SizeType.getSizeTypeBySize(size);
+			if (StringUtils.isEmpty(fileName) || userid <= 0 || sizeType == null) {
+				return StaticUtil.u("/images/" + size + "_defaultActLogo.gif");
+			} else {
+				if (ImageUtil.isInternalUrl(fileName)) {
+					return StaticUtil.u("/upload/act/"
+							+ ImageUtil.generateHierarchyImageWebPath(userid,
+									sizeType) + fileName);
+				} else {
+					return fileName;
+				}
+			}
+		}else{
+			return fileName;
+		}
+		
+	}
+	
 
 	/**
 	 * 第三方用户首页

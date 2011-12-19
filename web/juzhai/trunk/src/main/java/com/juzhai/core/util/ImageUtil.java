@@ -7,7 +7,9 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +20,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sun.image.codec.jpeg.ImageFormatException;
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import com.juzhai.cms.bean.SizeType;
 
 /**
@@ -255,5 +260,49 @@ public class ImageUtil {
 			return -2;
 		}
 		return 1;
+	}
+	/**
+	 * 
+	 * @param url
+	 * @param newFilePath
+	 * @param sizeReduceRank 
+	 */
+	public static void getUrlImage(String url, String directoryPath,String filename,
+			int width,int height,int x,int y) {
+		if (url == null) {
+			return;
+		}
+		FileOutputStream out = null;
+		try {
+			Image image = javax.imageio.ImageIO.read(new URL(url));
+			// 更改图片大小 sizeRank是原图的缩小的比例 若为2意思为将下载的文件保存为原理图片长宽的1/2
+			BufferedImage bufferedImage = new BufferedImage(180, 180,
+					BufferedImage.TYPE_INT_RGB);
+			bufferedImage.getGraphics().drawImage(image, x,y,  width, height,
+					null);
+			File directory = new File(directoryPath);
+			if (!directory.exists()) {
+				directory.mkdirs();
+			}
+			out = new FileOutputStream(directoryPath+filename);
+			encode(out, bufferedImage);
+		} catch (Exception e) {
+			log.error("getUrlImage is error."+e.getMessage());
+		} finally {
+			try {
+				out.close();
+			} catch (IOException e) {
+				out = null;
+			}
+		}
+
+	}
+
+	// JPEG编码
+	protected static boolean encode(FileOutputStream out,
+			BufferedImage bufferedImage) throws ImageFormatException, IOException {
+			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
+			encoder.encode(bufferedImage);
+			return true;
 	}
 }

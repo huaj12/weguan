@@ -65,7 +65,7 @@ public class RawActController extends BaseController {
 			String fileName = uuid.toString() + "."
 					+ uploadImageService.getImgType(imgFile);
 			try {
-				url = uploadImageService.uploadEditorTempImg(fileName, imgFile);
+				url = uploadImageService.uploadTempImg(fileName, imgFile);
 			} catch (UploadImageException e) {
 				getError(e.getMessage());
 			}
@@ -92,7 +92,7 @@ public class RawActController extends BaseController {
 			String fileName = uuid.toString() + "."
 					+ uploadImageService.getImgType(imgFile);
 			try {
-				url = uploadImageService.uploadActTempImg(fileName, imgFile);
+				url = uploadImageService.uploadTempImg(fileName, imgFile);
 			} catch (UploadImageException e) {
 				return getError(e.getMessage());
 			}

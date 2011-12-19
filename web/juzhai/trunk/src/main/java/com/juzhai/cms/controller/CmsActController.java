@@ -342,7 +342,7 @@ public class CmsActController {
 					}
 					actService.updateAct(act, form.getCatIds());
 					if (StringUtils.isNotEmpty(oldAct.getLogo())) {
-						uploadImageService.deleteImg(act.getId(),
+						uploadImageService.deleteActImages(act.getId(),
 								oldAct.getLogo());
 					}
 					actId = act.getId();
@@ -401,7 +401,7 @@ public class CmsActController {
 				uploadImageService.uploadImg(form.getId(), fileName,
 						form.getImgFile());
 				if (!StringUtils.isEmpty(act.getLogo())) {
-					uploadImageService.deleteImg(form.getId(), act.getLogo());
+					uploadImageService.deleteActImages(form.getId(), act.getLogo());
 				}
 				act.setLogo(fileName);
 			}

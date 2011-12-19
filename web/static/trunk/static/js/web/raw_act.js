@@ -39,7 +39,7 @@ function uploadImage() {
 }
 
 function selectCity(obj) {
-	$.get('/common/selectCity', {
+	$.get('/base/selectCity', {
 		proId : obj.value,
 		random : Math.random()
 	}, function(result) {

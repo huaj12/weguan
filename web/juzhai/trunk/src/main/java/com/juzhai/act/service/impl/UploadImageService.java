@@ -1,5 +1,6 @@
 package com.juzhai.act.service.impl;
 
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,6 +8,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,8 +29,10 @@ import com.juzhai.core.util.StaticUtil;
 public class UploadImageService implements IUploadImageService {
 	private final Log log = LogFactory.getLog(getClass());
 
-	@Value("${upload.image.home}")
-	private String uploadImageHome;
+	@Value("${upload.act.image.home}")
+	private String uploadActImageHome;
+	@Value("${upload.user.image.home}")
+	private String uploadUserImageHome;
 	@Value("${upload.temp.image.home}")
 	private String uploadTempImageHome;
 	@Value("${upload.image.size}")
@@ -43,14 +47,14 @@ public class UploadImageService implements IUploadImageService {
 		try {
 			if (ImageUtil.validationImage(uploadImageTypes, uploadImageSize,
 					imgFile) == 1) {
-				String directoryPath = uploadImageHome
+				String directoryPath = uploadActImageHome
 						+ ImageUtil.generateHierarchyImagePath(id,
 								SizeType.ORIGINAL);
 				FileUtil.writeStreamToFile(directoryPath, fileName,
 						imgFile.getInputStream());
 				for (SizeType sizeType : SizeType.values()) {
 					if (sizeType.getType() > 0) {
-						String distDirectoryPath = uploadImageHome
+						String distDirectoryPath = uploadActImageHome
 								+ ImageUtil.generateHierarchyImagePath(id,
 										sizeType);
 						ImageUtil.reduceImage(directoryPath + fileName,
@@ -69,15 +73,15 @@ public class UploadImageService implements IUploadImageService {
 	}
 
 	@Override
-	public void deleteImg(long id, String fileName) {
+	public void deleteActImages(long id, String fileName) {
 		try {
-			String directoryPath = uploadImageHome
+			String directoryPath = uploadActImageHome
 					+ ImageUtil.generateHierarchyImagePath(id,
 							SizeType.ORIGINAL);
 			new File(directoryPath + fileName).delete();
 			for (SizeType sizeType : SizeType.values()) {
 				if (sizeType.getType() > 0) {
-					String distDirectoryPath = uploadImageHome
+					String distDirectoryPath = uploadActImageHome
 							+ ImageUtil
 									.generateHierarchyImagePath(id, sizeType);
 					new File(distDirectoryPath + fileName).delete();
@@ -131,9 +135,9 @@ public class UploadImageService implements IUploadImageService {
 	}
 
 	@Override
-	public byte[] getFile(long id, String fileName) {
+	public byte[] getActFile(long id, String fileName) {
 		try {
-			String directoryPath = uploadImageHome
+			String directoryPath = uploadActImageHome
 					+ ImageUtil.generateHierarchyImagePath(id, SizeType.BIG);
 			File file = new File(directoryPath + fileName);
 			return getBytesFromFile(file);
@@ -145,17 +149,12 @@ public class UploadImageService implements IUploadImageService {
 	}
 
 	@Override
-	public String uploadEditorTempImg(String fileName, MultipartFile imgFile)
+	public String uploadTempImg(String fileName, MultipartFile imgFile)
 			throws UploadImageException {
 		return uploadTempImage(1, uploadTempImageHome, fileName, imgFile);
 
 	}
 
-	@Override
-	public String uploadActTempImg(String fileName, MultipartFile imgFile)
-			throws UploadImageException {
-		return uploadTempImage(1, uploadTempImageHome, fileName, imgFile);
-	}
 
 	private String uploadTempImage(long id, String path, String fileName,
 			MultipartFile imgFile) throws UploadImageException {
@@ -197,61 +196,45 @@ public class UploadImageService implements IUploadImageService {
 		}
 	}
 
-	@Override
-	public void deleteEditorTempImgs(long id) {
-		deleteImsg(id, uploadTempImageHome);
-	}
 
-	private void deleteImsg(long id, String path) {
+
+
+	@Override
+	public String cutUserImage(String logo, long id, Integer x, Integer y,
+			Integer height, Integer width) {
 		try {
-			String directoryPath = path
+			String directoryPath = uploadUserImageHome
 					+ ImageUtil.generateHierarchyImagePath(id,
 							SizeType.ORIGINAL);
-			File f = new File(directoryPath);
-			if (f.exists() && f.isDirectory()) {
-				if (f.listFiles().length == 0) {
-					f.delete();
-				} else {
-					File[] files = f.listFiles();
-					for (File file : files) {
-						file.delete();
-					}
-				}
-			}
-		} catch (Exception e) {
-			log.error("deleteImsg is error id=" + id + " errorMessage="
-					+ e.getMessage());
-		}
-	}
-
-	@Override
-	public void deleteActTempImages(long id) {
-		deleteImsg(id, uploadTempImageHome);
-
-	}
-
-	@Override
-	public void copyActImage(String tempLogo, long actId) {
-		try {
-			String directoryPath = uploadImageHome
-					+ ImageUtil.generateHierarchyImagePath(actId,
-							SizeType.ORIGINAL);
-			File srcFile = new File(tempLogo);
-			String fileName = srcFile.getName();
-			FileUtil.writeFileToFile(directoryPath, fileName, srcFile);
+			String fileName =UUID.randomUUID().toString()+".jpg";
+			ImageUtil.getUrlImage(logo, directoryPath,fileName,width,height,x,y);
 			for (SizeType sizeType : SizeType.values()) {
 				if (sizeType.getType() > 0) {
-					String distDirectoryPath = uploadImageHome
-							+ ImageUtil.generateHierarchyImagePath(actId,
-									sizeType);
-					ImageUtil.reduceImage(directoryPath + fileName,
-							distDirectoryPath, fileName, sizeType.getType(),
-							sizeType.getType());
+					String distDirectoryPath = uploadUserImageHome
+					+ ImageUtil.generateHierarchyImagePath(id,
+							sizeType);
+			ImageUtil.reduceImage(directoryPath+fileName, distDirectoryPath, fileName,sizeType.getType(),sizeType.getType() );
 				}
 			}
+			return fileName;
 		} catch (Exception e) {
-			log.error("copyActImage is error tempLogo=" + tempLogo
+			log.error("copyActImage is error tempLogo=" + logo
 					+ " errorMessage=" + e.getMessage());
+			return "";
 		}
+	}
+
+	@Override
+	public void deleteUserImages(long id, String fileName) {
+		for (SizeType sizeType : SizeType.values()) {
+			String path=uploadUserImageHome
+			+ ImageUtil.generateHierarchyImagePath(id,
+					sizeType);
+			File file=new File(path+fileName);
+			if(file.exists()){
+				file.delete();
+			}
+		}
+		
 	}
 }

@@ -17,6 +17,11 @@ public interface IProfileService {
 	 * @param uid
 	 */
 	void cacheUserCity(long uid);
+	/**
+	 * 清除缓存
+	 * @param uid
+	 */
+	void clearProfileCache(long uid);
 
 	/**
 	 * 缓存City属性
@@ -132,5 +137,12 @@ public interface IProfileService {
 	 * @throws ProfileInputException
 	 */
 	void updateProfile(Profile profile,long uid)throws ProfileInputException;
+	/**
+	 * 更新用户头像
+	 * @param logo
+	 * @param uid
+	 * @throws ProfileInputException
+	 */
+	void setUserLogo(String logo,long uid)throws ProfileInputException;
 	
 }

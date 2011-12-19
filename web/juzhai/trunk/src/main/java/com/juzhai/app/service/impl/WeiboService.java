@@ -109,7 +109,7 @@ public class WeiboService implements IWeiboService {
 			throws WeiboException {
 		Act act = actService.getActById(actId);
 		if (act != null) {
-			byte[] imgContent = uploadImageService.getFile(act.getId(),
+			byte[] imgContent = uploadImageService.getActFile(act.getId(),
 					act.getLogo());
 			if (imgContent == null) {
 				timeline.UpdateStatus(content);

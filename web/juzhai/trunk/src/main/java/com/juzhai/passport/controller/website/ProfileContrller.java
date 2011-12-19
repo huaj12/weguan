@@ -20,11 +20,13 @@ import com.juzhai.act.bean.SuitAge;
 import com.juzhai.act.bean.SuitGender;
 import com.juzhai.act.bean.SuitStatus;
 import com.juzhai.act.model.Category;
+import com.juzhai.act.service.IUploadImageService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.InitData;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profession;
@@ -40,9 +42,11 @@ public class ProfileContrller extends BaseController {
 	IProfileService profileService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IUploadImageService uploadImageService;
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String myAct(HttpServletRequest request, Model model)
+	public String index(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		Profile profile = profileService.getProfile(context.getUid());
@@ -59,8 +63,48 @@ public class ProfileContrller extends BaseController {
 		}
 		model.addAttribute("profile", profile);
 		model.addAttribute("featurelist", list);
+		model.addAttribute("page", "index");
 		return "web/profile/setting";
 	}
+	
+	@RequestMapping(value = "/index/face", method = RequestMethod.GET)
+	public String face(HttpServletRequest request, Model model)throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		ProfileCache profile=profileService.getProfileCacheByUid(context.getUid());
+		model.addAttribute("profile",profile);
+		model.addAttribute("page", "face");
+		return "web/profile/face";
+	}
+	@RequestMapping(value = "/upload/logo/cut", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult cut(HttpServletRequest request,String logo,Integer x,Integer y,Integer height,Integer width, Integer gender,
+			Model model) {
+		AjaxResult ajaxResult = new AjaxResult();
+		UserContext context = null;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e1) {
+			ajaxResult.setErrorInfo(messageSource.getMessage(
+					NeedLoginException.IS_NOT_LOGIN, null,
+					Locale.SIMPLIFIED_CHINESE));
+			ajaxResult.setSuccess(false);
+			return ajaxResult;
+		}
+		String fileName=uploadImageService.cutUserImage(logo, context.getUid(),x,y,height,width);
+		if(StringUtils.isEmpty(fileName)){
+			ajaxResult.setSuccess(false);
+			return ajaxResult;
+		}
+		try {
+			profileService.setUserLogo(logo, context.getUid());
+		} catch (ProfileInputException e) {
+			ajaxResult.setError(e.getErrorCode(), messageSource);
+			return ajaxResult;
+		}
+		ajaxResult.setSuccess(true);
+		return ajaxResult;
+	}
+	
 
 	@RequestMapping(value = "/setting/gender", method = RequestMethod.POST)
 	@ResponseBody

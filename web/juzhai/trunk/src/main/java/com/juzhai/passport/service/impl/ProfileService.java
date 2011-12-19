@@ -7,8 +7,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import net.rubyeye.xmemcached.MemcachedClient;
+import net.rubyeye.xmemcached.exception.MemcachedException;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -22,6 +24,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.juzhai.act.service.IUploadImageService;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
@@ -50,6 +53,8 @@ public class ProfileService implements IProfileService {
 	private ITpUserService tpUserService;
 	@Autowired
 	private MemcachedClient memcachedClient;
+	@Autowired
+	private IUploadImageService uploadImageService;
 	@Value("${profile.cache.expire.time}")
 	private int profileCacheExpireTime = 20000;
 	@Value("${nickname.length.max}")
@@ -222,7 +227,12 @@ public class ProfileService implements IProfileService {
 			if (!profile.getHasModifyGender()) {
 				profile.setGender(gender);
 				profile.setHasModifyGender(true);
-				profileMapper.updateByPrimaryKey(profile);
+				try{
+					profileMapper.updateByPrimaryKey(profile);
+				}catch (Exception e) {
+					throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
+				}
+				clearProfileCache(uid);
 			} else {
 				throw new ProfileInputException(
 						ProfileInputException.PROFILE_GEBDER_REPEAT_UPDATE);
@@ -254,7 +264,12 @@ public class ProfileService implements IProfileService {
 			if(!isExistNickname(nickName)){
 				profile.setNickname(nickName);
 				profile.setHasModifyNickname(true);
+				try{
 				profileMapper.updateByPrimaryKey(profile);
+				}catch (Exception e) {
+					throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
+				}
+				clearProfileCache(uid);
 			}else{
 				throw new ProfileInputException(
 						ProfileInputException.PROFILE_NICKNAME_IS_EXIST);
@@ -332,6 +347,7 @@ public class ProfileService implements IProfileService {
 		} catch (Exception e) {
 			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
 		}
+		clearProfileCache(uid);
 	}
 
 	@Override
@@ -347,5 +363,48 @@ public class ProfileService implements IProfileService {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public void clearProfileCache(long uid) {
+		if(uid==0){
+			return ;
+		}
+		String key=MemcachedKeyGenerator
+		.genProfileCacheKey(uid);
+		try {
+			memcachedClient.delete(key);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		ProfileCache profileCache=getProfileCacheByUid(uid);
+		if (null != profileCache 
+				&& profileCache.getCity() != null && profileCache.getCity() > 0) {
+			redisTemplate.opsForValue().set(
+					RedisKeyGenerator.genUserCityKey(uid),
+					profileCache.getCity());
+		}
+	}
+
+	@Override
+	public void setUserLogo(String logo, long uid) throws ProfileInputException {
+			if(StringUtils.isEmpty(logo)){
+				return ;
+			}
+			Profile profile = profileMapper.selectByPrimaryKey(uid);
+			if (null == profile) {
+				throw new ProfileInputException(
+						ProfileInputException.PROFILE_UID_NOT_EXIST);
+			}
+			try{
+			String oldLogo=profile.getLogoPic();
+			profile.setLogoPic(logo);
+			profileMapper.updateByPrimaryKey(profile);
+			uploadImageService.deleteUserImages(uid,oldLogo);
+			clearProfileCache(uid);
+			}catch (Exception e) {
+				throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
+			}
+			
 	}
 }

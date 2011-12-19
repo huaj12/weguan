@@ -170,30 +170,5 @@ public class ActController extends BaseController {
 	// return actUserViewList;
 	// }
 
-	@RequestMapping(value = "/selectCity", method = RequestMethod.GET)
-	public String selectCity(Model model, String proId) {
-		List<City> citys = new ArrayList<City>();
-		for (Entry<Long, City> entry : com.juzhai.passport.InitData.CITY_MAP
-				.entrySet()) {
-			if (proId.equals(String.valueOf(entry.getValue().getProvinceId()))) {
-				citys.add(entry.getValue());
-			}
-		}
-		model.addAttribute("citys", citys);
-		return "cms/ajax/citys_list";
-	}
-	
-	@RequestMapping(value = "/selectTown", method = RequestMethod.GET)
-	public String selectTown(Model model, String cityId) {
-		List<Town> towns = new ArrayList<Town>();
-		for (Entry<Long, Town> entry : com.juzhai.passport.InitData.TOWN_MAP
-				.entrySet()) {
-			if (cityId.equals(String.valueOf(entry.getValue().getCityId()))) {
-				towns.add(entry.getValue());
-			}
-		}
-		model.addAttribute("towns", towns);
-		return "cms/ajax/towns_list";
-	}
 
 }

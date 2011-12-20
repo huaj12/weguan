@@ -7,7 +7,7 @@ SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_act_detail` (
   `act_id` BIGINT NOT NULL ,
   `detail` MEDIUMTEXT NULL ,
-  `show` TINYINT(1) NOT NULL DEFAULT 0 ,
+  `display` TINYINT(1) NOT NULL DEFAULT 0 ,
   `create_time` VARCHAR(45) NOT NULL ,
   `last_modify_time` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`act_id`) )

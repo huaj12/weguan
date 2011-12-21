@@ -37,13 +37,26 @@ function uploadImage() {
 				return false;
 			});
 }
-
 function selectCity(obj) {
 	$.get('/base/selectCity', {
 		proId : obj.value,
 		random : Math.random()
 	}, function(result) {
 		$("#citys").html(result);
+		if($("#c_id")[0]){
+			selectTown($("#c_id").val());
+			$("#towns").show();
+		}else{
+			$("#towns").hide();
+		}
+	});
+}
+function selectTown(id) {
+	$.get('/base/selectTown', {
+		cityId : id,
+		random : Math.random()
+	}, function(result) {
+		$("#towns").html(result);
 	});
 }
 function addRawAct(){
@@ -56,6 +69,11 @@ function addRawAct(){
 	var endTime=$("#endTime").val();
 	var province=$("#province").val();
 	var city=$("#city").val();
+	var town="";
+	//判断是否有town
+	if($("#c_id")[0]){
+		town=$("#town").val();
+	}
 	if(address=="详细地址"){
 		address="";
 	}
@@ -91,6 +109,7 @@ function addRawAct(){
 		address:address,
 		startTime:startTime,
 		endTime:endTime,
+		town:town,
 		city:city,
 		province:province,
 		random : Math.random()

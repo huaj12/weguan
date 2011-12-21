@@ -1,6 +1,7 @@
 package com.juzhai.act.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 import com.juzhai.act.exception.AddRawActException;
 import com.juzhai.act.mapper.RawActMapper;
 import com.juzhai.act.model.RawAct;
+import com.juzhai.act.model.RawActExample;
 import com.juzhai.act.service.IRawActService;
+import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.StringUtil;
 @Service
 public class RawActService implements IRawActService {
@@ -59,6 +62,29 @@ public class RawActService implements IRawActService {
 			throw new AddRawActException(AddRawActException.ADD_RAWACT_IS_ERROR);
 		}
 		return rawAct;
+	}
+
+	@Override
+	public List<RawAct> getRawActs(int firstResult, int maxResults) {
+		RawActExample example=new RawActExample();
+		example.setOrderByClause("last_modify_time desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return 	rawActMapper.selectByExample(example);
+	}
+
+	@Override
+	public int getRawActCount() {
+		return 	rawActMapper.countByExample(new RawActExample());
+	}
+
+	@Override
+	public RawAct getRawAct(long id) {
+		return rawActMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public void delteRawAct(long id) {
+		rawActMapper.deleteByPrimaryKey(id);
 	}
 
 }

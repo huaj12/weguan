@@ -24,4 +24,8 @@ public interface IUploadImageService {
 
 	String cutUserImage(String logo, long uid, Integer x, Integer y, Integer height,
 			Integer width);
+	
+	String intoActLogo(String url,long actId);
+	
+	String intoEditorImg(String detail,long uid);
 }

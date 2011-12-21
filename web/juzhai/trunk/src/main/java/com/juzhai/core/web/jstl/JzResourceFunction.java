@@ -1,6 +1,8 @@
 package com.juzhai.core.web.jstl;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import com.juzhai.cms.bean.SizeType;
 import com.juzhai.core.util.ImageUtil;
@@ -8,7 +10,13 @@ import com.juzhai.core.util.StaticUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.model.Thirdparty;
 
+@Component
 public class JzResourceFunction {
+
+	@Value("${act.web.image.path}")
+	private static String actWebPath;
+	@Value("${user.web.image.path}")
+	private static String userWebPath;
 
 	/**
 	 * 静态资源路径生成
@@ -34,7 +42,7 @@ public class JzResourceFunction {
 			return StaticUtil.u("/images/" + size + "_defaultActLogo.gif");
 		} else {
 			if (ImageUtil.isInternalUrl(fileName)) {
-				return StaticUtil.u("/upload/act/"
+				return StaticUtil.u(actWebPath
 						+ ImageUtil.generateHierarchyImageWebPath(actId,
 								sizeType) + fileName);
 			} else {
@@ -42,33 +50,35 @@ public class JzResourceFunction {
 			}
 		}
 	}
+
 	/**
 	 * 获取UserLogo
+	 * 
 	 * @param actId
 	 * @param fileName
 	 * @param size
 	 * @return
 	 */
-	public static String userLogo(long userid, String fileName, int size){
-		if(ImageUtil.isInternalUrl(fileName)){
+	public static String userLogo(long userid, String fileName, int size) {
+		if (ImageUtil.isInternalUrl(fileName)) {
 			SizeType sizeType = SizeType.getSizeTypeBySize(size);
-			if (StringUtils.isEmpty(fileName) || userid <= 0 || sizeType == null) {
+			if (StringUtils.isEmpty(fileName) || userid <= 0
+					|| sizeType == null) {
 				return StaticUtil.u("/images/" + size + "_defaultActLogo.gif");
 			} else {
 				if (ImageUtil.isInternalUrl(fileName)) {
-					return StaticUtil.u("/upload/act/"
+					return StaticUtil.u(userWebPath
 							+ ImageUtil.generateHierarchyImageWebPath(userid,
 									sizeType) + fileName);
 				} else {
 					return fileName;
 				}
 			}
-		}else{
+		} else {
 			return fileName;
 		}
-		
+
 	}
-	
 
 	/**
 	 * 第三方用户首页

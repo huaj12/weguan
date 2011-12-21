@@ -16,7 +16,7 @@ $(document).ready(function(){
 		},
 		statusCode: {
 		    401: function() {
-		      window.location.href="/login";
+		      window.location.href="/app/login";
 		    }
 		}
 	});
@@ -92,7 +92,7 @@ function dealFeed(url, data){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href="/login";
+		    	window.location.href="/app/login";
 		    }
 		}
 	});

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import weibo4j.Oauth;
@@ -58,7 +59,7 @@ public class TpAuthorizeController extends BaseController {
 	// @Autowired
 	// private IUserGuideService userGuideService;
 
-	@RequestMapping(value = "login")
+	@RequestMapping(value = "app/login")
 	public String login(HttpServletRequest request, Model model) {
 		String requestUrl = HttpRequestUtil.getRemoteUrl(request);
 		String thirdpartyName = SystemConfig.getThirdpartyName(requestUrl);
@@ -276,12 +277,8 @@ public class TpAuthorizeController extends BaseController {
 			return null;
 		}
 		try {
-			UserContext context = checkLoginForApp(request);
-			Thirdparty loginTp = InitData.TP_MAP.get(context.getTpId());
-			if (null == loginTp) {
-				return null;
-			}
-			return "web/index/index";
+			checkLoginForApp(request);
+			return "redirect:/home";
 		} catch (NeedLoginException e) {
 		}
 		long uid = 0;
@@ -296,10 +293,27 @@ public class TpAuthorizeController extends BaseController {
 		if (uid <= 0) {
 			log.error("access failed.[tpName=" + tp.getName() + ", joinType="
 					+ tp.getJoinType() + "].");
-			return null;
+			return error_500;
 		}
 		loginService.login(request, uid, tp.getId());
-		return "web/index/index";
+		return "redirect:/home";
 	}
 
+	@RequestMapping(value = "login", method = RequestMethod.GET)
+	public String webLogin(HttpServletRequest request, Model model) {
+		try {
+			checkLoginForWeb(request);
+			return "redirect:/home";
+		} catch (NeedLoginException e) {
+			return "web/login/login";
+		}
+	}
+
+	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	public String webLogout(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		loginService.logout(request, context.getUid());
+		return "redirect:/login";
+	}
 }

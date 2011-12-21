@@ -29,17 +29,15 @@
 		</div>
 		<div class="login"><!--login begin-->
 			<div class="user_box"><!--user_box begin-->
-				<p>
-					<img src="${jzr:static('/images/web/face.png')}" />
-				</p>
 				<c:choose>
-				<c:when test="${context.uid==0}">
-				<a href="#" onclick="showLogin();" class="esc">登陆</a>
-				</c:when>
-				<c:otherwise>
-				<a href="#" class="user boy">其实不想走</a> <a href="/profile/index" class="set">设置</a>
-				<a href="#"  class="esc">退出${context.uid}</a>
-				</c:otherwise>
+					<c:when test="${context.uid<=0}">
+						<a href="#" onclick="showLogin();" class="esc">登录</a>
+					</c:when>
+					<c:otherwise>
+						<p><img src="${loginUser.logoPic}" height="20" width="20"/></p>
+						<a href="/home" class="user <c:choose><c:when test='${loginUser.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><c:out value="${loginUser.nickname}" /></a><a href="/profile/index" class="set">设置</a>
+						<a href="/logout"  class="esc">退出</a>
+					</c:otherwise>
 				</c:choose>
 			</div><!--user_box end-->
 			<div class="user_message" style="display:none;"><!--user_message begin-->

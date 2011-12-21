@@ -213,12 +213,34 @@ public interface IUserActService {
 			int maxResult);
 
 	/**
+	 * web的项目用户列表
+	 * 
+	 * @param actId
+	 * @param gender
+	 * @param city
+	 * @param firstResult
+	 * @param maxResult
+	 * @return
+	 */
+	List<UserAct> listUserActByActIdAndGenderAndCity(long actId,
+			Integer gender, long city, int firstResult, int maxResult);
+
+	/**
 	 * 加了特定项目的人数
 	 * 
 	 * @param actId
 	 * @return
 	 */
 	int countUserActByActId(long tpId, long actId);
+
+	/**
+	 * 加了特定项目的人数
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	int countUserActByActIdAndGenderAndCity(long actId, Integer gender,
+			long city);
 
 	/**
 	 * 加了特定项目的人数

@@ -13,7 +13,9 @@ import org.springframework.ui.Model;
 
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.ErrorPageDispatcher;
+import com.juzhai.core.web.filter.CityChannelFilter;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
@@ -96,5 +98,10 @@ public class BaseController {
 			String[] tips = tipStrings.split("\\|");
 			model.addAttribute("tips", tips);
 		}
+	}
+
+	protected long fetchCityId(HttpServletRequest request) {
+		return HttpRequestUtil.getSessionAttributeAsLong(request,
+				CityChannelFilter.SESSION_CHANNEL_NAME, 0L);
 	}
 }

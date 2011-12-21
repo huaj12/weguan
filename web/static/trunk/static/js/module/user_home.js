@@ -13,7 +13,7 @@ function pageUserAct(uid, page){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href="/login";
+		    	window.location.href="/app/login";
 		    }
 		}
 	});

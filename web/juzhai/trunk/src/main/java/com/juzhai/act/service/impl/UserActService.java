@@ -495,4 +495,36 @@ public class UserActService implements IUserActService {
 		}
 		return result;
 	}
+
+	@Override
+	public int countUserActByActIdAndGenderAndCity(long actId, Integer gender,
+			long city) {
+		UserActExample example = new UserActExample();
+		UserActExample.Criteria c = example.createCriteria().andActIdEqualTo(
+				actId);
+		if (null != gender) {
+			c.andGenderEqualTo(gender);
+		}
+		if (city > 0) {
+			c.andCityEqualTo(city);
+		}
+		return userActMapper.countByExample(example);
+	}
+
+	@Override
+	public List<UserAct> listUserActByActIdAndGenderAndCity(long actId,
+			Integer gender, long city, int firstResult, int maxResult) {
+		UserActExample example = new UserActExample();
+		UserActExample.Criteria c = example.createCriteria().andActIdEqualTo(
+				actId);
+		if (null != gender) {
+			c.andGenderEqualTo(gender);
+		}
+		if (city > 0) {
+			c.andCityEqualTo(city);
+		}
+		example.setOrderByClause("last_modify_time desc");
+		example.setLimit(new Limit(firstResult, maxResult));
+		return userActMapper.selectByExample(example);
+	}
 }

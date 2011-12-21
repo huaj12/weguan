@@ -21,6 +21,7 @@ import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.web.session.LoginSessionManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
 
 @Component
@@ -30,6 +31,8 @@ public class CheckLoginFilter implements Filter {
 	private LoginSessionManager loginSessionManager;
 	@Autowired
 	private ILoginService loginService;
+	@Autowired
+	private IProfileService profileService;
 
 	@Override
 	public void destroy() {
@@ -49,6 +52,9 @@ public class CheckLoginFilter implements Filter {
 			req.setAttribute("context", context);
 			if (context.hasLogin()) {
 				loginService.updateOnlineState(context.getUid());
+				// 获取登录用户信息
+				req.setAttribute("loginUser",
+						profileService.getProfileCacheByUid(context.getUid()));
 			}
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
@@ -78,7 +84,7 @@ public class CheckLoginFilter implements Filter {
 			if (RunType.APP.equals(e.getRunType())) {
 				String returnLink = URLEncoder.encode(
 						HttpRequestUtil.getRemoteUrl(request), "UTF-8");
-				response.sendRedirect("/login?returnLink=" + returnLink);
+				response.sendRedirect("/app/login?returnLink=" + returnLink);
 			} else {
 				// TODO 跳到登陆页面
 				response.sendRedirect("/login");

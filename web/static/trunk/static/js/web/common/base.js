@@ -75,7 +75,32 @@ function removeAct(actId, successCallback){
 			if (result && result.success) {
 				successCallback();
 			} else {
-				alert("system error.");
+				alert(result.errorInfo);
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login";
+			}
+		}
+	});
+}
+
+//对项目操作
+function addAct(actId, successCallback){
+	jQuery.ajax({
+		url : "/act/addAct",
+		type : "post",
+		cache : false,
+		data : {
+			"actId" : actId
+		},
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				successCallback();
+			} else {
+				alert(result.errorInfos);
 			}
 		},
 		statusCode : {
@@ -211,7 +236,7 @@ function showConfirm(followObj, dialogId, dialogContent, okCallback){
 	closeDialog(dialogId);
 	$.dialog({
 		follow : followObj,
-		fixed : true,
+//		fixed : true,
 		drag : false,
 		resize : false,
 		esc : true,
@@ -229,7 +254,7 @@ function showConfirm(followObj, dialogId, dialogContent, okCallback){
 function showSuccess(followObj, dialogContent){
 	var options={
 		icon: 'succeed',
-		fixed : true,
+//		fixed : true,
 		drag : false,
 		resize : false,
 		content : dialogContent,

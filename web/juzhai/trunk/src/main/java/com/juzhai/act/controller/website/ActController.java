@@ -1,7 +1,5 @@
 package com.juzhai.act.controller.website;
 
-import java.util.List;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -23,14 +21,19 @@ import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActAd;
 import com.juzhai.act.model.ActDetail;
 import com.juzhai.act.model.ActLink;
+import com.juzhai.act.model.UserAct;
 import com.juzhai.act.service.IActService;
+import com.juzhai.act.service.IDatingService;
 import com.juzhai.act.service.IUserActService;
+import com.juzhai.app.controller.view.ActUserView;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.passport.model.City;
-import com.juzhai.passport.model.Town;
+import com.juzhai.passport.service.IInterestUserService;
+import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.login.ILoginService;
 
 @Controller
 @RequestMapping(value = "act")
@@ -42,12 +45,20 @@ public class ActController extends BaseController {
 	private IActService actService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IProfileService profileService;
+	@Autowired
+	private IInterestUserService interestUserService;
+	@Autowired
+	private IDatingService datingService;
+	@Autowired
+	private ILoginService loginService;
 	@Value("${web.act.ad.show.count}")
 	private int webActAdShowCount;
 	@Value("${web.act.link.show.count}")
 	private int webActLinkShowCount;
-	@Value("${act.user.maxResult}")
-	private int actUserMaxResult;
+	@Value("${web.act.user.maxResult}")
+	private int webActUserMaxResult;
 
 	@ResponseBody
 	@RequestMapping(value = "/addAct", method = RequestMethod.POST)
@@ -77,33 +88,103 @@ public class ActController extends BaseController {
 
 	@RequestMapping(value = "/{actId}", method = RequestMethod.GET)
 	public String showAct(HttpServletRequest request, Model model,
-			@PathVariable long actId, Integer friendUser) {
+			@PathVariable long actId) {
+		ActDetail actDetail = actService.getActDetailById(actId);
+		if (null == actDetail || !actDetail.getDisplay()) {
+			return showActUsers(request, model, actId, 1, "all");
+		} else {
+			return showActDetail(request, model, actId);
+		}
+	}
+
+	@RequestMapping(value = "/{actId}/detail", method = RequestMethod.GET)
+	public String showActDetail(HttpServletRequest request, Model model,
+			@PathVariable long actId) {
 		UserContext context = null;
 		try {
 			context = checkLoginForApp(request);
 		} catch (NeedLoginException e) {
 		}
-		Act act = actService.getActById(actId);
-		if (act == null) {
+		Act act = actInfo(context, actId, model);
+		if (null == act) {
 			return error_404;
 		}
 		ActDetail actDetail = actService.getActDetailById(actId);
+		model.addAttribute("actDetail", actDetail);
+		return "web/act/act/show_act_detail";
+	}
+
+	@RequestMapping(value = "/{actId}/users/{genderType}/{page}")
+	public String showActUsers(HttpServletRequest request, Model model,
+			@PathVariable long actId, @PathVariable int page,
+			@PathVariable String genderType) {
+		UserContext context = null;
+		try {
+			context = checkLoginForApp(request);
+		} catch (NeedLoginException e) {
+		}
+		Act act = actInfo(context, actId, model);
+		if (null == act) {
+			return error_404;
+		}
+		Integer gender = null;
+		if (genderType.equals("male")) {
+			gender = 1;
+		} else if (genderType.equals("female")) {
+			gender = 0;
+		}
+		long cityId = fetchCityId(request);
+
+		PagerManager pager = new PagerManager(page, webActUserMaxResult,
+				userActService.countUserActByActIdAndGenderAndCity(actId,
+						gender, cityId));
+		List<UserAct> userActList = userActService
+				.listUserActByActIdAndGenderAndCity(actId, gender, cityId,
+						pager.getFirstResult(), pager.getMaxResult());
+		List<ActUserView> actUserViewList = assembleActUserView(context,
+				userActList);
+		model.addAttribute("pager", pager);
+		model.addAttribute("actUserViewList", actUserViewList);
+		model.addAttribute("genderType", genderType);
+		return "web/act/act/show_act_users";
+	}
+
+	private Act actInfo(UserContext context, long actId, Model model) {
+		Act act = actService.getActById(actId);
+		if (act == null) {
+			return null;
+		}
+		model.addAttribute("act", act);
 		List<ActLink> actLinkList = actService.listActLinkByActId(actId,
 				webActLinkShowCount);
 		List<ActAd> actAdList = actService.listActAdByActId(actId,
 				webActAdShowCount);
 		model.addAttribute("actAdList", actAdList);
 		model.addAttribute("actLinkList", actLinkList);
-		model.addAttribute("actDetail", actDetail);
-		model.addAttribute("act", act);
-		if (context.getUid() > 0) {
+		if (null != context && context.getUid() > 0) {
 			model.addAttribute("hasAct",
 					userActService.hasAct(context.getUid(), actId));
 		}
 		// model.addAttribute("isShield", actService.isShieldAct(actId));
 		model.addAttribute("userActCount",
 				userActService.countUserActByActId(0, actId));
-		return "app/act/act";
+		return act;
+	}
+
+	private List<ActUserView> assembleActUserView(UserContext context,
+			List<UserAct> userActList) {
+		boolean isLogin = context != null && context.hasLogin();
+		List<ActUserView> actUserViewList = new ArrayList<ActUserView>();
+		for (UserAct userAct : userActList) {
+			actUserViewList.add(new ActUserView(profileService
+					.getProfileCacheByUid(userAct.getUid()), userAct
+					.getLastModifyTime(), isLogin ? interestUserService
+					.isInterest(context.getUid(), userAct.getUid()) : null,
+					isLogin ? datingService.fetchDating(context.getUid(),
+							userAct.getUid()) != null : null, loginService
+							.isOnline(userAct.getUid())));
+		}
+		return actUserViewList;
 	}
 
 	// @RequestMapping(value = "/ajax/pageActUser", method = RequestMethod.GET)
@@ -158,17 +239,6 @@ public class ActController extends BaseController {
 	// return result;
 	// }
 	//
-	// private List<ActUserView> assembleActUserView(long uid,
-	// List<UserAct> userActList, boolean needJudgeFriend) {
-	// List<ActUserView> actUserViewList = new ArrayList<ActUserView>();
-	// for (UserAct userAct : userActList) {
-	// actUserViewList.add(new ActUserView(profileService
-	// .getProfileCacheByUid(userAct.getUid()), userAct
-	// .getLastModifyTime(), needJudgeFriend ? friendService
-	// .isAppFriend(uid, userAct.getUid()) : true));
-	// }
-	// return actUserViewList;
-	// }
 
 
 }

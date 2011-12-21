@@ -13,7 +13,7 @@ function pageLive(page){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href="/login";
+		    	window.location.href="/app/login";
 		    }
 		}
 	});
@@ -38,7 +38,7 @@ function wantTo(a){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href="/login";
+		    	window.location.href="/app/login";
 		    }
 		}
 	});
@@ -67,7 +67,7 @@ function addCategoryAct(a){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href="/login";
+		    	window.location.href="/app/login";
 		    }
 		}
 	});
@@ -89,7 +89,7 @@ function switchCategory(a, categoryId){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href="/login";
+		    	window.location.href="/app/login";
 		    }
 		}
 	});
@@ -117,7 +117,7 @@ function pageCategoryAct(categoryId, pageId){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href="/login";
+		    	window.location.href="/app/login";
 		    }
 		}
 	});

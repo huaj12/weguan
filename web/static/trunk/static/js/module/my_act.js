@@ -29,7 +29,7 @@ function removeAct(a, pageId){
 					},
 					statusCode: {
 					    401: function() {
-					    	window.location.href="/login";
+					    	window.location.href="/app/login";
 					    }
 					}
 				});
@@ -55,7 +55,7 @@ function pageMyAct(page){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href="/login";
+		    	window.location.href="/app/login";
 		    }
 		}
 	});
@@ -98,7 +98,7 @@ function add_my_act(){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href="/login";
+		    	window.location.href="/app/login";
 		    }
 		}
 	});

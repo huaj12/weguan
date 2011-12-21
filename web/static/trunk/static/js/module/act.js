@@ -77,7 +77,7 @@ function removeAct(obj){
 					},
 					statusCode: {
 					    401: function() {
-					    	window.location.href="/login";
+					    	window.location.href="/app/login";
 					    }
 					}
 				});
@@ -110,7 +110,7 @@ function addAct(obj){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href="/login";
+		    	window.location.href="/app/login";
 		    }
 		}
 	});
@@ -152,7 +152,7 @@ function showUser(url, page){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href="/login";
+		    	window.location.href="/app/login";
 		    }
 		}
 	});
@@ -184,7 +184,7 @@ function inviteHer(obj, friendId){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href="/login";
+		    	window.location.href="/app/login";
 		    }
 		}
 	});

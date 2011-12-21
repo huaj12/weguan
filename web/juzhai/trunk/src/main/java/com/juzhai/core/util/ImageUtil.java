@@ -304,4 +304,5 @@ public class ImageUtil {
 			encoder.encode(bufferedImage);
 			return true;
 	}
+	
 }

@@ -31,6 +31,10 @@ public class StaticUtil {
 			throw new RuntimeException("Load urls IO error.");
 		}
 	}
+	//获取image web路径
+	public static String getWebImagepath(){
+		return prefix_image;
+	}
 
 	private static void init() throws IOException {
 		InputStream in = StaticUtil.class.getClassLoader().getResourceAsStream(

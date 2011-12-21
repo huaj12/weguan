@@ -6,9 +6,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,12 +37,19 @@ public class UploadImageService implements IUploadImageService {
 	private String uploadActImageHome;
 	@Value("${upload.user.image.home}")
 	private String uploadUserImageHome;
+	@Value("${upload.editor.image.home}")
+	private String uploadEditorImageHome;
 	@Value("${upload.temp.image.home}")
 	private String uploadTempImageHome;
 	@Value("${upload.image.size}")
 	private int uploadImageSize;
 	@Value("${upload.image.types}")
 	private String uploadImageTypes;
+	@Value("${editor.web.image.path}")
+	private String editorWebPath;
+	@Value("${temp.web.image.path}")
+	private String tempWebPath;
+
 	@Autowired
 	private MessageSource messageSource;
 
@@ -155,7 +166,6 @@ public class UploadImageService implements IUploadImageService {
 
 	}
 
-
 	private String uploadTempImage(long id, String path, String fileName,
 			MultipartFile imgFile) throws UploadImageException {
 		Date date = new Date();
@@ -170,7 +180,7 @@ public class UploadImageService implements IUploadImageService {
 								SizeType.ORIGINAL);
 				FileUtil.writeStreamToFile(directoryPath, fileName,
 						imgFile.getInputStream());
-				String url = StaticUtil.u("/images/"
+				String url = StaticUtil.u(tempWebPath
 						+ sdf.format(date)
 						+ File.separator
 						+ ImageUtil.generateHierarchyImageWebPath(id,
@@ -196,9 +206,6 @@ public class UploadImageService implements IUploadImageService {
 		}
 	}
 
-
-
-
 	@Override
 	public String cutUserImage(String logo, long id, Integer x, Integer y,
 			Integer height, Integer width) {
@@ -206,22 +213,24 @@ public class UploadImageService implements IUploadImageService {
 			String directoryPath = uploadUserImageHome
 					+ ImageUtil.generateHierarchyImagePath(id,
 							SizeType.ORIGINAL);
-			String fileName =UUID.randomUUID().toString()+".jpg";
-			//获取原图
-			ImageUtil.getUrlImage(logo, directoryPath,fileName);
-			//裁剪团图
-			String cutDirectoryPath=uploadUserImageHome
-			+ ImageUtil.generateHierarchyImagePath(id,
-					SizeType.BIG);
-			ImageUtil.cutImage(directoryPath+fileName, cutDirectoryPath, fileName,SizeType.BIG.getType(),SizeType.BIG.getType(),x,y,width,height);
+			String fileName = UUID.randomUUID().toString() + ".jpg";
+			// 获取原图
+			ImageUtil.getUrlImage(logo, directoryPath, fileName);
+			// 裁剪团图
+			String cutDirectoryPath = uploadUserImageHome
+					+ ImageUtil.generateHierarchyImagePath(id, SizeType.BIG);
+			ImageUtil.cutImage(directoryPath + fileName, cutDirectoryPath,
+					fileName, SizeType.BIG.getType(), SizeType.BIG.getType(),
+					x, y, width, height);
 			for (SizeType sizeType : SizeType.values()) {
-				if (sizeType.getType() > 0&&sizeType.getType()<SizeType.BIG.getType()) {
+				if (sizeType.getType() > 0
+						&& sizeType.getType() < SizeType.BIG.getType()) {
 					String distDirectoryPath = uploadUserImageHome
-					+ ImageUtil.generateHierarchyImagePath(id,
-							sizeType);
+							+ ImageUtil
+									.generateHierarchyImagePath(id, sizeType);
 					ImageUtil.reduceImage(cutDirectoryPath + fileName,
-							distDirectoryPath, fileName,
-							sizeType.getType(), sizeType.getType());
+							distDirectoryPath, fileName, sizeType.getType(),
+							sizeType.getType());
 				}
 			}
 			return fileName;
@@ -235,14 +244,77 @@ public class UploadImageService implements IUploadImageService {
 	@Override
 	public void deleteUserImages(long id, String fileName) {
 		for (SizeType sizeType : SizeType.values()) {
-			String path=uploadUserImageHome
-			+ ImageUtil.generateHierarchyImagePath(id,
-					sizeType);
-			File file=new File(path+fileName);
-			if(file.exists()){
+			String path = uploadUserImageHome
+					+ ImageUtil.generateHierarchyImagePath(id, sizeType);
+			File file = new File(path + fileName);
+			if (file.exists()) {
 				file.delete();
 			}
 		}
-		
+
 	}
+
+	@Override
+	public String intoActLogo(String url, long actId) {
+		String fileName ="";
+		try {
+			String directoryPath = uploadUserImageHome
+					+ ImageUtil.generateHierarchyImagePath(actId,
+							SizeType.ORIGINAL);
+			fileName = UUID.randomUUID().toString() + ".jpg";
+			// 获取原图
+			ImageUtil.getUrlImage(url, directoryPath, fileName);
+			for (SizeType sizeType : SizeType.values()) {
+				if (sizeType.getType() > 0) {
+					String distDirectoryPath = uploadActImageHome
+							+ ImageUtil.generateHierarchyImagePath(actId,
+									sizeType);
+					ImageUtil.reduceImage(directoryPath + fileName,
+							distDirectoryPath, fileName, sizeType.getType(),
+							sizeType.getType());
+				}
+			}
+		} catch (Exception e) {
+			log.error("intoActLogo is error actId=" + actId + "  url=" + url
+					+ " errorMessage=" + e.getMessage());
+			return null;
+		}
+		return fileName;
+	}
+
+	@Override
+	public String intoEditorImg(String detail,long uid) {
+		try{
+		List<String> list=matchImage(detail);
+		for(String url:list){
+			if(StaticUtil.getWebImagepath().startsWith(url)){
+			String directoryPath = uploadEditorImageHome
+			+ ImageUtil.generateHierarchyImagePath(uid,
+					SizeType.ORIGINAL);
+			String fileName = UUID.randomUUID().toString() + ".jpg";
+			ImageUtil.getUrlImage(url, directoryPath, fileName);
+			String newUrl=StaticUtil.u(editorWebPath
+					+ ImageUtil.generateHierarchyImageWebPath(uid,
+							SizeType.ORIGINAL) + fileName);
+			detail.replaceAll(url, newUrl);
+			}
+		}}catch (Exception e) {
+			log.error("intoEditorImg is error.detail="+detail+" errorMessage="+e.getMessage());
+			return "";
+		}
+		return detail;
+	}
+	
+	private  List<String> matchImage(String str) {
+		List<String> imgList = new ArrayList<String>();
+		String regEx = "<img.*?src=\"(.*?)\"";
+		Pattern pat = Pattern.compile(regEx);
+		Matcher mat = pat.matcher(str);
+		while (mat.find()) {
+		imgList.add(mat.group(1));
+		}
+		return imgList;
+	}
+	
+
 }

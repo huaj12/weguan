@@ -279,6 +279,10 @@ public class ActService implements IActService {
 		if (length < actNameLengthMin || length > actNameLengthMax) {
 			throw new ActInputException(ActInputException.ACT_NAME_INVALID);
 		}
+		Act a = getActByName(act.getName());
+		if (a != null) {
+			throw new ActInputException(ActInputException.ACT_NAME_EXISTENCE);
+		}
 		actDao.inserAct(act, categoryIds);
 		updateActCategory(act.getId(), categoryIds);
 		if (null != act) {

@@ -118,6 +118,9 @@ a:hover {
 				<a href="/cms/showHotAct?active=true&page=1" target="config">推荐项目设置</a>
 			</li>
 			<li>
+				<a href="/cms/showRawActs" target="config">审核用户推荐项目</a>
+			</li>
+			<li>
 				<a href="javascript:showChild('statsData');">统计数据</a>
 				<ul style="display: none;" id="statsData" class="child">
 					<li style="background-color: #A4D3EE;"><a

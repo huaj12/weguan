@@ -119,11 +119,20 @@
 									</span> <span id="citys"><select id="city" name="city">
 											<c:forEach var="city" items="${citys}">
 												<c:if test="${s==city.provinceId}">
+													<c:set var="c" value="${city.id}"></c:set>
 													<option value="${city.id}">${city.name}</option>
 												</c:if>
 											</c:forEach>
 									</select> </span>
-
+										<span id="towns" ><select name="town" id="town">
+													<c:forEach var="town" items="${towns}">
+														<c:if test="${c==town.cityId}">
+															<option
+																<c:if test="${profile.town==town.id}">selected="selected"</c:if>
+																value="${town.id}">${town.name}</option>
+														</c:if>
+													</c:forEach>
+											</select> </span>	
 								</div>
 								<!--select end-->
 

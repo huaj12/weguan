@@ -1,5 +1,6 @@
 package com.juzhai.cms.controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -119,6 +120,15 @@ public class CmsRawActController {
 						new String[] { "yyyy-MM-dd" }));
 			}
 			actService.createAct(act, list);
+		}catch (ActInputException e) {
+			result.setError(e.getErrorCode(), messageSource);
+			return result;
+		} catch (ParseException e) {
+			result.setErrorInfo(e.getMessage());
+			result.setSuccess(false);
+			return result;
+		}	
+		try{	
 			String filename=uploadImageService.intoActLogo(logo, act.getId());
 			act.setLogo(filename);
 			actService.updateAct(act, list);

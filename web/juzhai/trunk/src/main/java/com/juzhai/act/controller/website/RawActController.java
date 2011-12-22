@@ -37,8 +37,11 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.passport.InitData;
 import com.juzhai.passport.model.City;
+import com.juzhai.passport.model.Profession;
 import com.juzhai.passport.model.Province;
+import com.juzhai.passport.model.Town;
 
 @Controller
 @RequestMapping(value = "act")
@@ -117,6 +120,7 @@ public class RawActController extends BaseController {
 	private void assembleCiteys(Model model) {
 		List<City> citys = new ArrayList<City>();
 		List<Province> provinces = new ArrayList<Province>();
+		List<Town> towns = new ArrayList<Town>();
 		for (Entry<Long, City> entry : com.juzhai.passport.InitData.CITY_MAP
 				.entrySet()) {
 			citys.add(entry.getValue());
@@ -125,6 +129,12 @@ public class RawActController extends BaseController {
 				.entrySet()) {
 			provinces.add(entry.getValue());
 		}
+		for (Entry<Long, Town> entry : com.juzhai.passport.InitData.TOWN_MAP
+				.entrySet()) {
+			towns.add(entry.getValue());
+		}
+
+		model.addAttribute("towns", towns);
 		List<Category> categoryList =actCategoryService.findAllCategory();
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("citys", citys);
@@ -134,7 +144,7 @@ public class RawActController extends BaseController {
 
 	@RequestMapping(value = "/web/ajax/addAct", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult addAct(HttpServletRequest request,Long province,Long city, Model model,
+	public AjaxResult addAct(HttpServletRequest request,Long town,Long province,Long city, Model model,
 			String name,String detail,String logo,String categoryIds,String address,String startTime,String endTime)  {
 		UserContext context=null;
 		AjaxResult result = new AjaxResult();
@@ -154,6 +164,7 @@ public class RawActController extends BaseController {
 		rawAct.setCategoryIds(categoryIds);
 		rawAct.setCity(city);
 		rawAct.setProvince(province);
+		rawAct.setTown(town);
 		rawAct.setLogo(logo);
 		rawAct.setDetail(detail);
 		rawAct.setName(name);

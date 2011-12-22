@@ -9,6 +9,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>审核推荐项目</title>
+<script type="text/javascript"
+		src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 <script type="text/javascript">
 	function removeRawAct(id){
 		jQuery.ajax({
@@ -96,10 +98,10 @@
 		</tr>
 		<tr>
 			<td>时间</td>
-			<td><input name=""  value="<fmt:formatDate value="${rawAct.startTime}"
+			<td><input name="" readonly="readonly" value="<fmt:formatDate value="${rawAct.startTime}"
 						pattern="yyyy-MM-dd" />" id="startTime"
 				onclick="WdatePicker()" type="text" />到 <input id="endTime"
-				 onclick="WdatePicker()" name="" value="<fmt:formatDate value="${rawAct.endTime}"
+				readonly="readonly" onclick="WdatePicker()" name="" value="<fmt:formatDate value="${rawAct.endTime}"
 						pattern="yyyy-MM-dd" />" type="text" />
 						<input id="createUid" value="${rawAct.createUid}" type="hidden"/>
 			</td>
@@ -116,8 +118,6 @@
 	<script type="text/javascript" src="${jzr:static('/js/core/core.js')}"></script>
 	<script type="text/javascript"
 		src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
-	<script type="text/javascript"
-		src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 		<script>
 		var editor;
 		KindEditor.ready(function(K) {

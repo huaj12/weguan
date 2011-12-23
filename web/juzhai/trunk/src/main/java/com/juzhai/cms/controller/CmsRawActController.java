@@ -97,7 +97,7 @@ public class CmsRawActController {
 	
 	@RequestMapping(value = "/ajax/AgreeRawAct", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult AgreeRawAct(@RequestParam(defaultValue = "0")  long id,HttpServletRequest request,Long town,Long province,Long city, Model model,
+	public AjaxResult agreeRawAct(@RequestParam(defaultValue = "0")  long id,HttpServletRequest request,Long town,Long province,Long city, Model model,
 			String name,String detail,String logo,Long categoryIds,String address,String startTime,String endTime,@RequestParam(defaultValue = "0")Long createUid){
 		UserContext context = (UserContext) request.getAttribute("context");
 		AjaxResult result = new AjaxResult();
@@ -108,6 +108,7 @@ public class CmsRawActController {
 		act.setTown(town);
 		act.setName(name);
 		act.setCreateUid(createUid);
+		act.setLogo(logo);
 		List<Long> list=new ArrayList<Long>();
 		list.add(categoryIds);
 		try {
@@ -119,25 +120,15 @@ public class CmsRawActController {
 				act.setEndTime( DateUtils.parseDate(endTime,
 						new String[] { "yyyy-MM-dd" }));
 			}
-			actService.createAct(act, list);
-		}catch (ActInputException e) {
-			result.setError(e.getErrorCode(), messageSource);
-			return result;
 		} catch (ParseException e) {
 			result.setErrorInfo(e.getMessage());
 			result.setSuccess(false);
 			return result;
 		}	
-		try{	
-			String filename=uploadImageService.intoActLogo(logo, act.getId());
-			act.setLogo(filename);
-			actService.updateAct(act, list);
-			detail=uploadImageService.intoEditorImg(detail, context.getUid());
-			actDetailService.addActDetail(act.getId(), detail);
-			rawActService.delteRawAct(id);
-		} catch (Exception e) {
-			result.setErrorInfo(e.getMessage());
-			result.setSuccess(false);
+		try {
+			rawActService.agreeRawAct(act, list, detail, context.getUid(), id);
+		} catch (ActInputException e) {
+			result.setError(e.getErrorCode(), messageSource);
 			return result;
 		}
 		result.setSuccess(true);

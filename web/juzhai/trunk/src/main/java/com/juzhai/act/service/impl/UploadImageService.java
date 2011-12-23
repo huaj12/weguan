@@ -256,14 +256,20 @@ public class UploadImageService implements IUploadImageService {
 
 	@Override
 	public String intoActLogo(String url, long actId) {
-		String fileName ="";
+		String fileName = "";
 		try {
-			String directoryPath = uploadUserImageHome
+			if (!url.startsWith((StaticUtil.getWebImagepath() + tempWebPath))) {
+				log.error("intoActLogo url is error");
+				return "";
+			}
+			url = url
+					.replaceAll(StaticUtil.getWebImagepath() + tempWebPath, "");
+			File srcFile = new File(uploadTempImageHome + url);
+			fileName=srcFile.getName();
+			String directoryPath = uploadActImageHome
 					+ ImageUtil.generateHierarchyImagePath(actId,
 							SizeType.ORIGINAL);
-			fileName = UUID.randomUUID().toString() + ".jpg";
-			// 获取原图
-			ImageUtil.getUrlImage(url, directoryPath, fileName);
+			FileUtil.writeFileToFile(directoryPath, fileName, srcFile);
 			for (SizeType sizeType : SizeType.values()) {
 				if (sizeType.getType() > 0) {
 					String distDirectoryPath = uploadActImageHome
@@ -283,38 +289,42 @@ public class UploadImageService implements IUploadImageService {
 	}
 
 	@Override
-	public String intoEditorImg(String detail,long uid) {
-		try{
-		List<String> list=matchImage(detail);
-		for(String url:list){
-			if(StaticUtil.getWebImagepath().startsWith(url)){
-			String directoryPath = uploadEditorImageHome
-			+ ImageUtil.generateHierarchyImagePath(uid,
-					SizeType.ORIGINAL);
-			String fileName = UUID.randomUUID().toString() + ".jpg";
-			ImageUtil.getUrlImage(url, directoryPath, fileName);
-			String newUrl=StaticUtil.u(editorWebPath
-					+ ImageUtil.generateHierarchyImageWebPath(uid,
-							SizeType.ORIGINAL) + fileName);
-			detail.replaceAll(url, newUrl);
+	public String intoEditorImg(String detail, long uid) {
+		try {
+			List<String> list = matchImage(detail);
+			for (String url : list) {
+				if (url.startsWith((StaticUtil.getWebImagepath() + tempWebPath))) {
+					url = url.replaceAll(StaticUtil.getWebImagepath()
+							+ tempWebPath, "");
+					File srcFile = new File(uploadTempImageHome + url);
+					String directoryPath = uploadEditorImageHome
+							+ ImageUtil.generateHierarchyImagePath(uid,
+									SizeType.ORIGINAL);
+					FileUtil.writeFileToFile(directoryPath, srcFile.getName(),
+							srcFile);
+					String newUrl = StaticUtil.u(editorWebPath
+							+ ImageUtil.generateHierarchyImageWebPath(uid,
+									SizeType.ORIGINAL) + srcFile.getName());
+					detail.replaceAll(url, newUrl);
+				}
 			}
-		}}catch (Exception e) {
-			log.error("intoEditorImg is error.detail="+detail+" errorMessage="+e.getMessage());
+		} catch (Exception e) {
+			log.error("intoEditorImg is error.detail=" + detail
+					+ " errorMessage=" + e.getMessage());
 			return "";
 		}
 		return detail;
 	}
-	
-	private  List<String> matchImage(String str) {
+
+	private List<String> matchImage(String str) {
 		List<String> imgList = new ArrayList<String>();
 		String regEx = "<img.*?src=\"(.*?)\"";
 		Pattern pat = Pattern.compile(regEx);
 		Matcher mat = pat.matcher(str);
 		while (mat.find()) {
-		imgList.add(mat.group(1));
+			imgList.add(mat.group(1));
 		}
 		return imgList;
 	}
-	
 
 }

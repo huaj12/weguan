@@ -22,6 +22,15 @@ public class ActInputException extends JuzhaiException {
 	 * act uid或者name为空
 	 */
 	public static final String ACT_FIELD_ISNULL = "10004";
+	/**
+	 * act logo不合法
+	 */
+	public static final String ACT_LOGO_INVALID = "10005";
+	/**
+	 * act detail里面的图片地址不合法
+	 */
+	public static final String ACT_DETAIL_LOGO_INVALID = "10006";
+	
 
 	public ActInputException(String errorCode, Throwable cause) {
 		super(errorCode, cause);

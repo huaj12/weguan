@@ -1,6 +1,5 @@
 package com.juzhai.act.service.impl;
 
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +15,7 @@ public class ActDetailService implements IActDetailService {
 	public void addActDetail(long actId, String detail) {
 		ActDetail a=new ActDetail();
 		a.setActId(actId);
+		a.setDisplay(false);
 //		a.setCreateTime(new Date());
 		a.setDetail(detail);
 //		a.setLastModifyTime(new Date());

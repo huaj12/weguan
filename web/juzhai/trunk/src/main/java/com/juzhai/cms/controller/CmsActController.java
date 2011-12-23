@@ -17,6 +17,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,8 +33,10 @@ import com.juzhai.act.bean.SuitGender;
 import com.juzhai.act.bean.SuitStatus;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.ActDetail;
 import com.juzhai.act.model.Category;
 import com.juzhai.act.service.IActCategoryService;
+import com.juzhai.act.service.IActDetailService;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUploadImageService;
 import com.juzhai.act.service.IUserActService;
@@ -63,6 +66,12 @@ public class CmsActController {
 	private IUploadImageService uploadImageService;
 	@Autowired
 	private IActCategoryService actCategoryService;
+	@Autowired
+	private IActDetailService actDetailService;
+	
+	@Value("${	act.detail.length.max}")
+	private int actDetailLengthMax;
+
 
 	@RequestMapping(value = "/searchActs")
 	public String searchActs(HttpServletRequest request, Model model,
@@ -275,8 +284,10 @@ public class CmsActController {
 		if (actId == null)
 			actId = 0l;
 		Act act = actService.getActById(actId);
+		ActDetail actDetail= actDetailService.getActDetail(actId);
 		assembleCiteys(model);
 		model.addAttribute("act", act);
+		model.addAttribute("actDetail", actDetail);
 		model.addAttribute("logoWebPath",
 				JzCoreFunction.actLogo(act.getId(), act.getLogo(), 0));
 		model.addAttribute("age", SuitAge.getByIndex(act.getSuitAge()));
@@ -322,6 +333,11 @@ public class CmsActController {
 						userActService.addAct(addUid, a.getId());
 					}
 					actId = a.getId();
+					if(StringUtils.isNotEmpty( form.getDetail())){
+						if(form.getDetail().length()<actDetailLengthMax){
+							actDetailService.addActDetail(actId, form.getDetail());
+						}
+					}
 					logo = a.getLogo();
 					mmap.addAttribute("msg", "create is success");
 				} else {
@@ -373,6 +389,11 @@ public class CmsActController {
 		try {
 			if (form.getCatIds() != null) {
 				actService.updateAct(act, form.getCatIds());
+				if(StringUtils.isNotEmpty( form.getDetail())){
+					if(form.getDetail().length()<actDetailLengthMax){
+						actDetailService.addActDetail(act.getId(), form.getDetail());
+					}
+				}
 			} else {
 				mmap.addAttribute("msg", "create act catIds is null");
 				log.error("create act catIds is null");

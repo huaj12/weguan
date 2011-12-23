@@ -94,6 +94,12 @@
 				</td>
 			</tr>
 			<tr>
+			<td>详情（选填）：</td>
+				<td><textarea id="detail"  name="detail"></textarea>
+				</td>
+			
+			</tr>
+			<tr>
 				<td>分类：</td>
 				<td><c:forEach var="cats" items="${categoryList}"
 						varStatus="step">
@@ -189,5 +195,23 @@
 			</tr>
 		</table>
 	</form>
+	<jsp:include page="/WEB-INF/jsp/web/common/script/kindEditor.jsp" />
+	<script>
+		var editor;
+		KindEditor.ready(function(K) {
+			editor = K.create('textarea[name="detail"]', {
+				resizeType : 1,
+				uploadJson : '/act/kindEditor/upload',
+				allowPreviewEmoticons : false,
+				allowImageUpload : true,
+				items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
+						'bold', 'italic', 'underline',
+
+						'removeformat', '|', 'justifyleft', 'justifycenter',
+						'justifyright', 'insertorderedlist', 'insertunorderedlist',
+						'|', 'emoticons', 'image', 'link' ]
+			});
+		});
+	</script>
 </body>
 </html>

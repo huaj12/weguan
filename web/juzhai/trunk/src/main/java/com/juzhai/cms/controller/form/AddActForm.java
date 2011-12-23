@@ -33,6 +33,8 @@ public class AddActForm {
 	private String fullName;
 
 	private String intro;
+	
+	private String detail;
 
 	private List<Long>  catIds;
 
@@ -84,6 +86,14 @@ public class AddActForm {
 
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
 	}
 
 	public String getIntro() {

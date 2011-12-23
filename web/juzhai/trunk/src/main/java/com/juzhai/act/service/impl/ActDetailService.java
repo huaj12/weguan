@@ -21,5 +21,9 @@ public class ActDetailService implements IActDetailService {
 //		a.setLastModifyTime(new Date());
 		actDetailMapper.insert(a);
 	}
+	@Override
+	public ActDetail getActDetail(long actId) {
+		return actDetailMapper.selectByPrimaryKey(actId);
+	}
 
 }

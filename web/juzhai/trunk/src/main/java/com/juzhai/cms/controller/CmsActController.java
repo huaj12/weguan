@@ -337,10 +337,9 @@ public class CmsActController {
 						userActService.addAct(addUid, a.getId());
 					}
 					actId = a.getId();
-					if (StringUtils.isNotEmpty(form.getDetail())) {
-						if (form.getDetail().length() < actDetailLengthMax) {
-							actDetailService.addActDetail(actId,
-									form.getDetail());
+					if(StringUtils.isNotEmpty( form.getDetail())){
+						if(form.getDetail().length()<detailLengthMax){
+							actDetailService.addActDetail(actId, form.getDetail());
 						}
 					}
 					logo = a.getLogo();
@@ -389,10 +388,9 @@ public class CmsActController {
 		try {
 			if (form.getCatIds() != null) {
 				actService.updateAct(act, form.getCatIds());
-				if (StringUtils.isNotEmpty(form.getDetail())) {
-					if (form.getDetail().length() < actDetailLengthMax) {
-						actDetailService.addActDetail(act.getId(),
-								form.getDetail());
+				if(StringUtils.isNotEmpty( form.getDetail())){
+					if(form.getDetail().length()<detailLengthMax){
+						actDetailService.addActDetail(act.getId(), form.getDetail());
 					}
 				}
 			} else {

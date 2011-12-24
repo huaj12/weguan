@@ -44,18 +44,11 @@ public class CmsRawActController {
 	private IRawActService rawActService;
 	@Autowired
 	private IActCategoryService actCategoryService;
-	@Autowired
-	// TODO (review) 不用的就删掉吧
-	private IActService actService;
+	// TODO (done) 不用的就删掉吧
 	@Autowired
 	private MessageSource messageSource;
-	@Autowired
-	// TODO (review) 不用的就删掉吧
-	private IUploadImageService uploadImageService;
-	@Autowired
-	// TODO (review) 不用的就删掉吧
-	private IActDetailService actDetailService;
-
+	// TODO (done) 不用的就删掉吧
+	// TODO (done) 不用的就删掉吧
 	@RequestMapping(value = "/showRawActs", method = RequestMethod.GET)
 	public String showRawActs(@RequestParam(defaultValue = "1") int pageId,
 			Model model) {
@@ -101,8 +94,8 @@ public class CmsRawActController {
 		return result;
 	}
 
-	// TODO (review) 注意规范！规范比任何都重要！！
-	@RequestMapping(value = "/ajax/AgreeRawAct", method = RequestMethod.POST)
+	// TODO (done) 注意规范！规范比任何都重要！！
+	@RequestMapping(value = "/ajax/agreeRawAct", method = RequestMethod.POST)
 	@ResponseBody
 	// TODO (review) 参数过多，应该封装成一个form
 	public AjaxResult agreeRawAct(@RequestParam(defaultValue = "0") long id,

@@ -26,14 +26,14 @@ import com.juzhai.core.util.StringUtil;
 
 @Service
 public class RawActService implements IRawActService {
+	// TODO (done) 通常static和final的都定义在类顶部
+	private final Log log = LogFactory.getLog(getClass());
 	@Value(value = "${act.name.length.max}")
 	private int actNameLengthMax;
 	@Value(value = "${act.adress.length.max}")
 	private int actAddressLengthMax;
 	@Value(value = "${act.detail.length.max}")
 	private int actDetailLengthMax;
-	// TODO (review) 通常static和final的都定义在类顶部
-	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private RawActMapper rawActMapper;
 	@Autowired
@@ -53,12 +53,12 @@ public class RawActService implements IRawActService {
 		if (StringUtils.isEmpty(rawAct.getName())) {
 			throw new AddRawActException(AddRawActException.NAME_IS_NULL);
 		}
-		// TODO (review) 判断0
-		if (rawAct.getCity() == null) {
+		// TODO (done) 判断0
+		if (rawAct.getCity() == null||rawAct.getCity() == 0) {
 			throw new AddRawActException(AddRawActException.CITY_IS_NULL);
 		}
-		// TODO (review) 判断0
-		if (rawAct.getProvince() == null) {
+		// TODO (done) 判断0
+		if (rawAct.getProvince() == null||rawAct.getProvince() == 0) {
 			throw new AddRawActException(AddRawActException.PROVINCE_IS_NULL);
 		}
 		if (StringUtil.chineseLength(rawAct.getName()) > actNameLengthMax) {
@@ -75,8 +75,7 @@ public class RawActService implements IRawActService {
 			rawAct.setLastModifyTime(new Date());
 			rawActMapper.insertSelective(rawAct);
 		} catch (Exception e) {
-			// TODO (review) 忘了删了吧！哈哈
-			e.printStackTrace();
+			// TODO (done) 忘了删了吧！哈哈
 			log.error("add rawact is error", e);
 			throw new AddRawActException(AddRawActException.ADD_RAWACT_IS_ERROR);
 		}

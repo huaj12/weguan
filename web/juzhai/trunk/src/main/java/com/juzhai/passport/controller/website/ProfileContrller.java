@@ -184,14 +184,13 @@ public class ProfileContrller extends BaseController {
 		profile.setProfessionId(professionId);
 		// TODO (review) 用户输入的内容就存在逗号怎么办？
 		profile.setFeature(feature);
+		profile.setUid(context.getUid());
 		try {
-			profileService.updateProfile(profile, context.getUid());
+			profileService.updateProfile(profile);
 		} catch (ProfileInputException e) {
 			ajaxResult.setError(e.getErrorCode(), messageSource);
-			return ajaxResult;
 		}
-		// TODO (review) new完之后默认就是true，所以这里不需要赋值，另外catch里的return可以删掉，少一行代码
-		ajaxResult.setSuccess(true);
+		// TODO (done) new完之后默认就是true，所以这里不需要赋值，另外catch里的return可以删掉，少一行代码
 		return ajaxResult;
 	}
 

@@ -25,6 +25,8 @@ public interface IProfileService {
 	 * @param uid
 	 */
 	void clearProfileCache(long uid);
+	
+	
 
 	/**
 	 * 缓存City属性
@@ -153,7 +155,7 @@ public interface IProfileService {
 	 * @param profile
 	 * @throws ProfileInputException
 	 */
-	void updateProfile(Profile profile, long uid) throws ProfileInputException;
+	void updateProfile(Profile profile) throws ProfileInputException;
 
 	/**
 	 * 更新用户头像

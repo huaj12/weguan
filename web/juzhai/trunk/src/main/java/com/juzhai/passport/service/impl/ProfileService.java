@@ -199,7 +199,7 @@ public class ProfileService implements IProfileService {
 		}
 		ProfileExample example = new ProfileExample();
 		example.createCriteria().andUidIn(uids);
-		example.setOrderByClause("last_update_time desc");
+		example.setOrderByClause("last_modify_time desc");
 		example.setLimit(new Limit(firstResult, maxResults));
 		return profileMapper.selectByExample(example);
 	}
@@ -224,8 +224,9 @@ public class ProfileService implements IProfileService {
 						ProfileInputException.PROFILE_UID_NOT_EXIST);
 			}
 			if (!profile.getHasModifyGender()) {
-				// TODO (review)最后修改时间字段不需要修改？
+				// TODO (done)最后修改时间字段不需要修改？
 				profile.setGender(gender);
+				profile.setLastModifyTime(new Date());
 				profile.setHasModifyGender(true);
 				try {
 					profileMapper.updateByPrimaryKey(profile);
@@ -267,8 +268,9 @@ public class ProfileService implements IProfileService {
 		if (!profile.getHasModifyNickname()) {
 			// TODO (review) 当用户修改的昵称是自己当前使用的昵称，能不能修改？
 			if (!isExistNickname(nickName)) {
-				// TODO (review)最后修改时间字段不需要修改？
+				// TODO (done)最后修改时间字段不需要修改？
 				profile.setNickname(nickName);
+				profile.setLastModifyTime(new Date());
 				profile.setHasModifyNickname(true);
 				try {
 					profileMapper.updateByPrimaryKey(profile);
@@ -289,12 +291,13 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
-	// TODO (review)有了profile参数，为什么还要uid参数？
-	public void updateProfile(Profile profile, long uid)
+	// TODO (done)有了profile参数，为什么还要uid参数？
+	public void updateProfile(Profile profile)
 			throws ProfileInputException {
-		if (null == profile) {
+		if (null == profile||profile.getUid()==0) {
 			return;
 		}
+		long uid=profile.getUid();
 		if (profile.getProvince() == null) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROVINCE_IS_NULL);
@@ -350,8 +353,8 @@ public class ProfileService implements IProfileService {
 			}
 		}
 		profile.setUid(uid);
-		// TODO (review) 这里是我不好，lastUpdateTime是最后更新项目时间，所以这里不需要更新
-		profile.setLastUpdateTime(new Date());
+		// TODO (done) 这里是我不好，lastUpdateTime是最后更新项目时间，所以这里不需要更新
+//		profile.setLastUpdateTime(new Date());
 		profile.setLastModifyTime(new Date());
 		try {
 			profileMapper.updateByPrimaryKeySelective(profile);
@@ -359,6 +362,8 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
 		}
 		clearProfileCache(uid);
+		// TODO (done)更新redis里用户的所在地，非常好，但是代码用错地方，这个里更新逻辑应该放在用户真正修改所在地的地方。
+		cacheUserCity(uid);
 	}
 
 	@Override
@@ -368,13 +373,8 @@ public class ProfileService implements IProfileService {
 		}
 		ProfileExample example = new ProfileExample();
 		example.createCriteria().andNicknameEqualTo(nickname);
-		// TODO (review)以下代码可以直接使用三元运算，简化代码行数
-		int count = profileMapper.countByExample(example);
-		if (count > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		// TODO (done)以下代码可以直接使用三元运算，简化代码行数
+		 return profileMapper.countByExample(example)>0?true:false;
 	}
 
 	@Override
@@ -388,15 +388,14 @@ public class ProfileService implements IProfileService {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-		// TODO (review)这里既然是清楚缓存，就不需要再取了，当其他地方需要用的时候，自然会缓存
-		ProfileCache profileCache = getProfileCacheByUid(uid);
-		// TODO (review)更新redis里用户的所在地，非常好，但是代码用错地方，这个里更新逻辑应该放在用户真正修改所在地的地方。
-		if (null != profileCache && profileCache.getCity() != null
-				&& profileCache.getCity() > 0) {
-			redisTemplate.opsForValue().set(
-					RedisKeyGenerator.genUserCityKey(uid),
-					profileCache.getCity());
-		}
+		// TODO (done)这里既然是清楚缓存，就不需要再取了，当其他地方需要用的时候，自然会缓存
+//		ProfileCache profileCache = getProfileCacheByUid(uid);
+//		if (null != profileCache && profileCache.getCity() != null
+//				&& profileCache.getCity() > 0) {
+//			redisTemplate.opsForValue().set(
+//					RedisKeyGenerator.genUserCityKey(uid),
+//					profileCache.getCity());
+//		}
 	}
 
 	@Override

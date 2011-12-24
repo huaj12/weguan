@@ -67,9 +67,9 @@ public class CmsActController {
 	private IActCategoryService actCategoryService;
 	@Autowired
 	private IActDetailService actDetailService;
-
-	@Value("${	act.detail.length.max}")
-	private int actDetailLengthMax;
+	// TODO (review) 显然actDetailLengthMax逻辑放在controller里不合适
+	// @Value("${act.detail.length.max}")
+	// private int actDetailLengthMax;
 
 	/*--------------------------------近义词屏蔽词------------------------------*/
 	@RequestMapping(value = "/searchActs")

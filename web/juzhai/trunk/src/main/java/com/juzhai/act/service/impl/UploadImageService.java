@@ -33,22 +33,22 @@ import com.juzhai.core.util.StaticUtil;
 public class UploadImageService implements IUploadImageService {
 	private final Log log = LogFactory.getLog(getClass());
 
-	@Value("${upload.act.image.home}")
-	private String uploadActImageHome;
-	@Value("${upload.user.image.home}")
-	private String uploadUserImageHome;
-	@Value("${upload.editor.image.home}")
-	private String uploadEditorImageHome;
-	@Value("${upload.temp.image.home}")
-	private String uploadTempImageHome;
-	@Value("${upload.image.size}")
-	private int uploadImageSize;
-	@Value("${upload.image.types}")
-	private String uploadImageTypes;
-	@Value("${editor.web.image.path}")
-	private String editorWebPath;
-	@Value("${temp.web.image.path}")
-	private String tempWebPath;
+//	@Value("${upload.act.image.home}")
+//	private String uploadActImageHome;
+//	@Value("${upload.user.image.home}")
+//	private String uploadUserImageHome;
+//	@Value("${upload.editor.image.home}")
+//	private String uploadEditorImageHome;
+//	@Value("${upload.temp.image.home}")
+//	private String uploadTempImageHome;
+//	@Value("${upload.image.size}")
+//	private int uploadImageSize;
+//	@Value("${upload.image.types}")
+//	private String uploadImageTypes;
+//	@Value("${editor.web.image.path}")
+//	private String editorWebPath;
+//	@Value("${temp.web.image.path}")
+//	private String tempWebPath;
 
 	@Autowired
 	private MessageSource messageSource;

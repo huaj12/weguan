@@ -1,4 +1,4 @@
-package com.juzhai.index.controller;
+package com.juzhai.index.controller.app;
 
 import java.util.ArrayList;
 import java.util.Date;

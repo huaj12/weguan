@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="jz" uri="http://www.51juzhai.com/jsp/jstl/jz" %>
+<%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
 <ul>
 	<c:forEach var="actLiveView" items="${actLiveViewList}">
 		<li onmouseover="javascript:mouseHover(this, true);" onmouseout="javascript:mouseHover(this, false);">
@@ -9,7 +10,7 @@
 				<a href="javascript:void(0);" onclick="javascript:wantTo(this);" actid="${actLiveView.act.id}" class="iwg" title="接收相关邀请">❤ 我想去</a>
 				<a href="javascript:void(0);" onclick="showAbout('${actLiveView.profileCache.nickname}','${actLiveView.act.id}','${actLiveView.act.name}','${actLiveView.profileCache.uid}');" class="whg">给ta留言</a>
 			</c:if>
-			<div class="photo1"><a href="/app/${actLiveView.profileCache.uid}"><img src="${actLiveView.profileCache.logoPic}"  width="80" height="80"/></a></div>
+			<div class="photo1"><a href="/app/${actLiveView.profileCache.uid}"><img src="${jzr:userLogo(actLiveView.profileCache.uid,actLiveView.profileCache.logoPic,80)}"  width="80" height="80"/></a></div>
 			<div class="photo2"><a href="/app/showAct/${actLiveView.act.id}"><img src="${jz:actLogo(actLiveView.act.id,actLiveView.act.logo,80)}"  width="80" height="80"/></a></div>
 			<h2><a href="/app/${actLiveView.profileCache.uid}" class="u"><c:out value="${actLiveView.profileCache.nickname}" /></a>最近想去<a href="/app/showAct/${actLiveView.act.id}" class="v"><c:out value="${actLiveView.act.name}" /></a></h2>
 			<span>${jz:truncate(feed.act.intro,50,'...')}</span>

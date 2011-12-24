@@ -19,11 +19,13 @@ import weibo4j.model.Status;
 import weibo4j.model.WeiboException;
 
 import com.juzhai.act.model.Act;
+import com.juzhai.act.service.IActImageService;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUploadImageService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.act.service.impl.ActService;
 import com.juzhai.app.bean.TpMessageKey;
+import com.juzhai.cms.bean.SizeType;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.bean.AuthInfo;
@@ -38,7 +40,7 @@ public class WeiboAppMessageService implements IMessageService {
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
-	private IUploadImageService uploadImageService;
+	private IActImageService actImageService;
 	@Autowired
 	private IActService actService;
 	@Value("${show.feed.count}")
@@ -102,8 +104,9 @@ public class WeiboAppMessageService implements IMessageService {
 			throws WeiboException {
 		Act act = actService.getActById(actId);
 		if (act != null) {
-			byte[] imgContent = uploadImageService.getActFile(act.getId(),
-					act.getLogo());
+			// TODO (review) 这里代码我有改动过，检查一下是否有问题
+			byte[] imgContent = actImageService.getActFile(act.getId(),
+					act.getLogo(), SizeType.BIG);
 			if (imgContent == null) {
 				timeline.UpdateStatus(content);
 			} else {

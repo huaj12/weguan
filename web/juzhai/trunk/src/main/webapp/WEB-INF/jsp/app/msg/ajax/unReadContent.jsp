@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <c:choose>
 	<c:when test="${!empty actMsgViewList}">
@@ -20,7 +21,7 @@
 					<!--item_style1 begin-->
 
 					<div class="photo fl">
-						<img src="${actMsg.profileCache.logoPic}" width="80" height="80" />
+						<img src="${jzr:userLogo(actMsg.profileCache.uid,actMsg.profileCache.logoPic,80)}" width="80" height="80" />
 					</div>
 
 					<div class="infor fl">

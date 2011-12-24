@@ -13,9 +13,10 @@ import weibo4j.http.ImageItem;
 import weibo4j.model.WeiboException;
 
 import com.juzhai.act.model.Act;
+import com.juzhai.act.service.IActImageService;
 import com.juzhai.act.service.IActService;
-import com.juzhai.act.service.IUploadImageService;
 import com.juzhai.app.service.IWeiboService;
+import com.juzhai.cms.bean.SizeType;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.InitData;
@@ -34,7 +35,8 @@ public class WeiboService implements IWeiboService {
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
-	private IUploadImageService uploadImageService;
+	private IActImageService actImageService;
+
 	@Override
 	public void follow(long tpId, long uid) {
 		try {
@@ -109,8 +111,9 @@ public class WeiboService implements IWeiboService {
 			throws WeiboException {
 		Act act = actService.getActById(actId);
 		if (act != null) {
-			byte[] imgContent = uploadImageService.getActFile(act.getId(),
-					act.getLogo());
+			// TODO (review) 这里代码我有改动过，检查一下是否有问题
+			byte[] imgContent = actImageService.getActFile(act.getId(),
+					act.getLogo(), SizeType.BIG);
 			if (imgContent == null) {
 				timeline.UpdateStatus(content);
 			} else {

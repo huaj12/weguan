@@ -51,7 +51,7 @@
 							</c:if>
 							<div class="face_photo"><!--face_photo begin-->
 								<span>
-									<a href="/home/${actUserView.profileCache.uid}"><img src="${actUserView.profileCache.logoPic}" height="180"/></a>
+									<a href="/home/${actUserView.profileCache.uid}"><img src="${jzr:userLogo(actUserView.profileCache.uid,actUserView.profileCache.logoPic,180)}" height="180"/></a>
 								</span>
 							</div><!--face_photo end-->
 							<div class="name"><!--name begin-->

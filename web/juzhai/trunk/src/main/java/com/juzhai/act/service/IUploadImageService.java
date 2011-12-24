@@ -4,28 +4,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.exception.UploadImageException;
 
-
 public interface IUploadImageService {
-	void uploadImg(long id, String fileName, MultipartFile imgFile);
+	// void uploadImg(long id, String fileName, MultipartFile imgFile);
 
-	String uploadTempImg(String fileName, MultipartFile imgFile)
-			throws UploadImageException;
+	// String uploadTempImg(String fileName, MultipartFile imgFile)
+	// throws UploadImageException;
 
+	// void deleteActImages(long id, String fileName);
 
-	void deleteActImages(long id, String fileName);
-	
-	
-	void deleteUserImages(long id,String fileName);
-	
+	// void deleteUserImages(long id, String fileName);
 
-	String getImgType(MultipartFile imgFile);
+	// String getImgType(MultipartFile imgFile);
 
-	byte[] getActFile(long id, String fileName);
+	// byte[] getActFile(long id, String fileName);
 
-	String cutUserImage(String logo, long uid, Integer x, Integer y, Integer height,
-			Integer width);
-	
-	String intoActLogo(String url,long actId);
-	
-	String intoEditorImg(String detail,long uid);
+	// String cutUserImage(String logo, long uid, Integer x, Integer y,
+	// Integer height, Integer width);
+
 }

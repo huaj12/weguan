@@ -13,10 +13,10 @@ import com.juzhai.passport.model.Thirdparty;
 @Component
 public class JzResourceFunction {
 
-	@Value("${act.web.image.path}")
-	private static String actWebPath;
-	@Value("${user.web.image.path}")
-	private static String userWebPath;
+	@Value("${web.act.image.path}")
+	private static String webActImagePath;
+	@Value("${web.user.image.path}")
+	private static String webUserImagePath;
 
 	/**
 	 * 静态资源路径生成
@@ -42,7 +42,7 @@ public class JzResourceFunction {
 			return StaticUtil.u("/images/" + size + "_defaultActLogo.gif");
 		} else {
 			if (ImageUtil.isInternalUrl(fileName)) {
-				return StaticUtil.u(actWebPath
+				return StaticUtil.u(webActImagePath
 						+ ImageUtil.generateHierarchyImageWebPath(actId,
 								sizeType) + fileName);
 			} else {
@@ -60,19 +60,18 @@ public class JzResourceFunction {
 	 * @return
 	 */
 	public static String userLogo(long userid, String fileName, int size) {
+		if (userid == 4652L) {
+			System.out.println(fileName + "******");
+		}
 		if (ImageUtil.isInternalUrl(fileName)) {
 			SizeType sizeType = SizeType.getSizeTypeBySize(size);
 			if (StringUtils.isEmpty(fileName) || userid <= 0
 					|| sizeType == null) {
-				return StaticUtil.u("/images/" + size + "_defaultActLogo.gif");
+				return StaticUtil.u("/images/" + size + "_defaultUserLogo.gif");
 			} else {
-				if (ImageUtil.isInternalUrl(fileName)) {
-					return StaticUtil.u(userWebPath
-							+ ImageUtil.generateHierarchyImageWebPath(userid,
-									sizeType) + fileName);
-				} else {
-					return fileName;
-				}
+				return StaticUtil.u(webUserImagePath
+						+ ImageUtil.generateHierarchyImageWebPath(userid,
+								sizeType) + fileName);
 			}
 		} else {
 			return fileName;

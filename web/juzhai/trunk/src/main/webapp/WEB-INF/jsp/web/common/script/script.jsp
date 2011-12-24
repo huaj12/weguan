@@ -4,5 +4,7 @@
 <link href="${jzr:static('/css/skins/simple.css')}" rel="stylesheet" type="text/css" />
 <jsp:include page="/WEB-INF/jsp/web/common/dialog/dialog.jsp" />
 <script type="text/javascript" src="${jzr:static('/js/artDialog/jquery.artDialog.js')}"></script>
+<script type="text/javascript" src="${jzr:static('/js/core/core.js')}"></script>
+<script type="text/javascript" src="${jzr:static('/js/core/validation.js')}"></script>
 <script type="text/javascript" src="${jzr:static('/js/web/common/base.js')}"></script>
 <script type="text/javascript" src="${jzr:static('/js/web/common/header.js')}"></script>

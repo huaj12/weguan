@@ -34,7 +34,7 @@
 						<a href="#" onclick="showLogin();" class="esc">登录</a>
 					</c:when>
 					<c:otherwise>
-						<p><img src="${loginUser.logoPic}" height="20" width="20"/></p>
+						<p><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}" height="20" width="20"/></p>
 						<a href="/home" class="user <c:choose><c:when test='${loginUser.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><c:out value="${loginUser.nickname}" /></a><a href="/profile/index" class="set">设置</a>
 						<a href="/logout"  class="esc">退出</a>
 					</c:otherwise>

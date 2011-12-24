@@ -18,10 +18,10 @@ public class StaticUtil {
 	private final static Log log = LogFactory.getLog(StaticUtil.class);
 
 	private static String STATIC_CONFIG_PATH = "/properties/static.properties";
-	private static String prefix_css = null;
-	private static String prefix_js = null;
-	private static String prefix_image = null;
-	private static String prefix_static = null;
+	private static String prefixCss = null;
+	private static String prefixJs = null;
+	private static String prefixImage = null;
+	private static String prefixStatic = null;
 	private static String version;
 
 	static {
@@ -30,10 +30,6 @@ public class StaticUtil {
 		} catch (IOException e) {
 			throw new RuntimeException("Load urls IO error.");
 		}
-	}
-	//获取image web路径
-	public static String getWebImagepath(){
-		return prefix_image;
 	}
 
 	private static void init() throws IOException {
@@ -49,10 +45,10 @@ public class StaticUtil {
 
 		// configInfo = prop;
 
-		prefix_css = prop.getProperty("prefix_css");
-		prefix_js = prop.getProperty("prefix_js");
-		prefix_image = prop.getProperty("prefix_image");
-		prefix_static = prop.getProperty("prefix_static");
+		prefixCss = prop.getProperty("prefix_css");
+		prefixJs = prop.getProperty("prefix_js");
+		prefixImage = prop.getProperty("prefix_image");
+		prefixStatic = prop.getProperty("prefix_static");
 		version = prop.getProperty("version", "");
 	}
 
@@ -77,18 +73,34 @@ public class StaticUtil {
 				&& startIndex != key.length() - 1 && startIndex < endIndex) {
 			String suffix = key.substring(startIndex + 1, endIndex);
 			if (suffix.equalsIgnoreCase("css")) {
-				url = prefix_css + key;
+				url = prefixCss + key;
 			} else if (suffix.equalsIgnoreCase("js")) {
-				url = prefix_js + key;
+				url = prefixJs + key;
 			} else if (suffix.equalsIgnoreCase("images")) {
-				url = prefix_image + key;
+				url = prefixImage + key;
 			} else {
-				return prefix_static + key;
+				return prefixStatic + key;
 			}
 		}
 		if (log.isDebugEnabled()) {
 			log.debug("static resource converting:" + key + "->" + url);
 		}
 		return url + (StringUtils.isEmpty(version) ? "" : ("?" + version));
+	}
+
+	public static String getPrefixCss() {
+		return prefixCss;
+	}
+
+	public static String getPrefixJs() {
+		return prefixJs;
+	}
+
+	public static String getPrefixImage() {
+		return prefixImage;
+	}
+
+	public static String getPrefixStatic() {
+		return prefixStatic;
 	}
 }

@@ -8,15 +8,32 @@ import com.juzhai.act.model.Act;
 import com.juzhai.act.model.RawAct;
 
 public interface IRawActService {
+	/**
+	 * 添加项目
+	 * 
+	 * @param rawAct
+	 * @return
+	 * @throws AddRawActException
+	 */
 	RawAct addRawAct(RawAct rawAct) throws AddRawActException;
-	
+
 	List<RawAct> getRawActs(int firstResult, int maxResults);
-	
+
 	RawAct getRawAct(long id);
-	
+
 	void delteRawAct(long id);
-	
+
 	int getRawActCount();
-	
-	void agreeRawAct(Act act,List<Long> categoryId,String detail,long uid,long rawActid)throws ActInputException ;
+
+	/**
+	 * 审核通过项目
+	 * 
+	 * @param act
+	 * @param categoryId
+	 * @param detail
+	 * @param rawActId
+	 * @throws ActInputException
+	 */
+	void agreeRawAct(Act act, List<Long> categoryId, String detail,
+			long rawActId) throws ActInputException;
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="jz" uri="http://www.51juzhai.com/jsp/jstl/jz" %>
+<%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -28,7 +29,7 @@
 								<c:when test="${step==6}"><c:set var="classSuffix" value="food" /></c:when>
 							</c:choose>
 							<div class="basic_yd sec_${classSuffix}"><!--basic_yd begin-->
-								<h3 class="fl"><img src="${profile.logoPic}"  width="80" height="80"/></h3>
+								<h3 class="fl"><img src="${jzr:userLogo(profile.uid,profile.logoPic,80)}"  width="80" height="80"/></h3>
 								<div class="sec fr"><!--sec begin-->
 									<%--  <h2>选择你最近感兴趣的${actCategory.name}项目</h2> --%>
 									<h2>我最近想找朋友去:(添加最多5个兴趣)</h2>

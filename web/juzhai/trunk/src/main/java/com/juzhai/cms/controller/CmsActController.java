@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,8 +36,8 @@ import com.juzhai.act.model.ActDetail;
 import com.juzhai.act.model.Category;
 import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IActDetailService;
+import com.juzhai.act.service.IActImageService;
 import com.juzhai.act.service.IActService;
-import com.juzhai.act.service.IUploadImageService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.cms.controller.form.AddActForm;
 import com.juzhai.cms.controller.form.SearchActForm;
@@ -63,16 +62,16 @@ public class CmsActController {
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
-	private IUploadImageService uploadImageService;
+	private IActImageService actImageService;
 	@Autowired
 	private IActCategoryService actCategoryService;
 	@Autowired
 	private IActDetailService actDetailService;
-	
+
 	@Value("${	act.detail.length.max}")
 	private int actDetailLengthMax;
 
-
+	/*--------------------------------近义词屏蔽词------------------------------*/
 	@RequestMapping(value = "/searchActs")
 	public String searchActs(HttpServletRequest request, Model model,
 			SearchActForm form) {
@@ -186,6 +185,8 @@ public class CmsActController {
 		return "cms/shield_list";
 	}
 
+	/*--------------------------------近义词屏蔽词------------------------------*/
+
 	@RequestMapping(value = "/showActManager", method = RequestMethod.GET)
 	public String showActManager(HttpServletRequest request, Model model) {
 		assembleCiteys(model);
@@ -219,6 +220,7 @@ public class CmsActController {
 
 		List<CmsActMagerView> viewList = new ArrayList<CmsActMagerView>(
 				acts.size());
+		// TODO (review) 一下代码为什么不能在CmsActMagerView用？CmsActMagerView里我看有act
 		for (Act act : acts) {
 			String age = SuitAge.getByIndex(act.getSuitAge()).getType();
 			String status = SuitStatus.getByIndex(act.getSuitStatus())
@@ -284,7 +286,7 @@ public class CmsActController {
 		if (actId == null)
 			actId = 0l;
 		Act act = actService.getActById(actId);
-		ActDetail actDetail= actDetailService.getActDetail(actId);
+		ActDetail actDetail = actDetailService.getActDetail(actId);
 		assembleCiteys(model);
 		model.addAttribute("act", act);
 		model.addAttribute("actDetail", actDetail);
@@ -296,6 +298,7 @@ public class CmsActController {
 		return "cms/updateAct";
 	}
 
+	// TODO (review) 别再复制了
 	private void assembleCiteys(Model model) {
 		List<City> citys = new ArrayList<City>();
 		List<Province> provinces = new ArrayList<Province>();
@@ -307,7 +310,7 @@ public class CmsActController {
 				.entrySet()) {
 			provinces.add(entry.getValue());
 		}
-		List<Category> categoryList =actCategoryService.findAllCategory();
+		List<Category> categoryList = actCategoryService.findAllCategory();
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("citys", citys);
 		model.addAttribute("suitAges", SuitAge.values());
@@ -316,6 +319,7 @@ public class CmsActController {
 		model.addAttribute("provinces", provinces);
 	}
 
+	// TODO (review) 以下所有代码重构一下，太乱了。精简代码！！！另外上传图片的代码我已经重构，根据我重构完的调用
 	@RequestMapping(value = "/createAct", method = RequestMethod.POST)
 	public ModelAndView createAct(AddActForm form, Long addUid,
 			HttpServletRequest request) {
@@ -333,9 +337,10 @@ public class CmsActController {
 						userActService.addAct(addUid, a.getId());
 					}
 					actId = a.getId();
-					if(StringUtils.isNotEmpty( form.getDetail())){
-						if(form.getDetail().length()<actDetailLengthMax){
-							actDetailService.addActDetail(actId, form.getDetail());
+					if (StringUtils.isNotEmpty(form.getDetail())) {
+						if (form.getDetail().length() < actDetailLengthMax) {
+							actDetailService.addActDetail(actId,
+									form.getDetail());
 						}
 					}
 					logo = a.getLogo();
@@ -357,10 +362,6 @@ public class CmsActController {
 						act.setCity(0l);
 					}
 					actService.updateAct(act, form.getCatIds());
-					if (StringUtils.isNotEmpty(oldAct.getLogo())) {
-						uploadImageService.deleteActImages(act.getId(),
-								oldAct.getLogo());
-					}
 					actId = act.getId();
 					logo = act.getLogo();
 					mmap.addAttribute("msg", "replace is success");
@@ -381,7 +382,6 @@ public class CmsActController {
 		return new ModelAndView("redirect:/cms/showCreateAct", mmap);
 	}
 
-
 	@RequestMapping(value = "/updateAct", method = RequestMethod.POST)
 	public ModelAndView updateAct(AddActForm form, HttpServletRequest request) {
 		Act act = converAct(form, 0L);
@@ -389,9 +389,10 @@ public class CmsActController {
 		try {
 			if (form.getCatIds() != null) {
 				actService.updateAct(act, form.getCatIds());
-				if(StringUtils.isNotEmpty( form.getDetail())){
-					if(form.getDetail().length()<actDetailLengthMax){
-						actDetailService.addActDetail(act.getId(), form.getDetail());
+				if (StringUtils.isNotEmpty(form.getDetail())) {
+					if (form.getDetail().length() < actDetailLengthMax) {
+						actDetailService.addActDetail(act.getId(),
+								form.getDetail());
 					}
 				}
 			} else {
@@ -422,7 +423,8 @@ public class CmsActController {
 				uploadImageService.uploadImg(form.getId(), fileName,
 						form.getImgFile());
 				if (!StringUtils.isEmpty(act.getLogo())) {
-					uploadImageService.deleteActImages(form.getId(), act.getLogo());
+					uploadImageService.deleteActImages(form.getId(),
+							act.getLogo());
 				}
 				act.setLogo(fileName);
 			}

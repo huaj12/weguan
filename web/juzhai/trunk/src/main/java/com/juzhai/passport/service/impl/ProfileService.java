@@ -7,10 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 import net.rubyeye.xmemcached.MemcachedClient;
-import net.rubyeye.xmemcached.exception.MemcachedException;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -24,7 +22,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.juzhai.act.service.IUploadImageService;
+import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
@@ -35,6 +33,7 @@ import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
 import com.juzhai.passport.model.TpUser;
+import com.juzhai.passport.service.IProfileImageService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
 
@@ -54,7 +53,7 @@ public class ProfileService implements IProfileService {
 	@Autowired
 	private MemcachedClient memcachedClient;
 	@Autowired
-	private IUploadImageService uploadImageService;
+	private IProfileImageService profileImageService;
 	@Value("${profile.cache.expire.time}")
 	private int profileCacheExpireTime = 20000;
 	@Value("${nickname.length.max}")
@@ -225,6 +224,7 @@ public class ProfileService implements IProfileService {
 						ProfileInputException.PROFILE_UID_NOT_EXIST);
 			}
 			if (!profile.getHasModifyGender()) {
+				// TODO (review)最后修改时间字段不需要修改？
 				profile.setGender(gender);
 				profile.setHasModifyGender(true);
 				try {
@@ -239,6 +239,7 @@ public class ProfileService implements IProfileService {
 						ProfileInputException.PROFILE_GEBDER_REPEAT_UPDATE);
 			}
 		} else {
+			// TODO (review)和上面那个PROFILE_GEBDER_INVALID异常，可以合并
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_GEBDER_INVALID);
 		}
@@ -252,6 +253,7 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_NICKNAME_IS_NULL);
 		}
+		// TODO (review)不需要考虑中文？在使用中文长度之前，先看一下是否已经有方法可以用了
 		if (nickName.length() > nickNameLengthMax) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_NICKNAME_IS_TOO_LONG);
@@ -261,8 +263,11 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_UID_NOT_EXIST);
 		}
+		// TODO (review)优化判断的思路，减少嵌套层数（不理解找我）
 		if (!profile.getHasModifyNickname()) {
+			// TODO (review) 当用户修改的昵称是自己当前使用的昵称，能不能修改？
 			if (!isExistNickname(nickName)) {
+				// TODO (review)最后修改时间字段不需要修改？
 				profile.setNickname(nickName);
 				profile.setHasModifyNickname(true);
 				try {
@@ -284,6 +289,7 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
+	// TODO (review)有了profile参数，为什么还要uid参数？
 	public void updateProfile(Profile profile, long uid)
 			throws ProfileInputException {
 		if (null == profile) {
@@ -313,6 +319,7 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROFESSION_ID_IS_NULL);
 		}
+		// TODO (review)为什么要用intValue()?
 		if (profile.getProfessionId().intValue() == 0
 				&& StringUtils.isEmpty(profile.getProfession())) {
 			// 选择其他职业描述不能为空
@@ -336,12 +343,14 @@ public class ProfileService implements IProfileService {
 					ProfileInputException.PROFILE_FEATURE_IS_NULL);
 		}
 		for (String s : str) {
+			// TODO (review)中文长度怎么判断？
 			if (s.length() > featureLengthMax) {
 				throw new ProfileInputException(
 						ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
 			}
 		}
 		profile.setUid(uid);
+		// TODO (review) 这里是我不好，lastUpdateTime是最后更新项目时间，所以这里不需要更新
 		profile.setLastUpdateTime(new Date());
 		profile.setLastModifyTime(new Date());
 		try {
@@ -359,6 +368,7 @@ public class ProfileService implements IProfileService {
 		}
 		ProfileExample example = new ProfileExample();
 		example.createCriteria().andNicknameEqualTo(nickname);
+		// TODO (review)以下代码可以直接使用三元运算，简化代码行数
 		int count = profileMapper.countByExample(example);
 		if (count > 0) {
 			return true;
@@ -378,7 +388,9 @@ public class ProfileService implements IProfileService {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
+		// TODO (review)这里既然是清楚缓存，就不需要再取了，当其他地方需要用的时候，自然会缓存
 		ProfileCache profileCache = getProfileCacheByUid(uid);
+		// TODO (review)更新redis里用户的所在地，非常好，但是代码用错地方，这个里更新逻辑应该放在用户真正修改所在地的地方。
 		if (null != profileCache && profileCache.getCity() != null
 				&& profileCache.getCity() > 0) {
 			redisTemplate.opsForValue().set(
@@ -388,24 +400,18 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
-	public void setUserLogo(String logo, long uid) throws ProfileInputException {
+	public void updateLogo(long uid, String filePath, int scaledW, int scaledH,
+			int x, int y, int w, int h) throws UploadImageException {
+		String logo = profileImageService.cutAndReduceLogo(uid, filePath,
+				scaledW, scaledH, x, y, w, h);
 		if (StringUtils.isEmpty(logo)) {
 			return;
 		}
-		Profile profile = profileMapper.selectByPrimaryKey(uid);
-		if (null == profile) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_UID_NOT_EXIST);
-		}
-		try {
-			String oldLogo = profile.getLogoPic();
-			profile.setLogoPic(logo);
-			profileMapper.updateByPrimaryKey(profile);
-			uploadImageService.deleteUserImages(uid, oldLogo);
-			clearProfileCache(uid);
-		} catch (Exception e) {
-			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
-		}
-
+		Profile profile = new Profile();
+		profile.setUid(uid);
+		profile.setLogoPic(logo);
+		profile.setLastModifyTime(new Date());
+		profileMapper.updateByPrimaryKeySelective(profile);
+		clearProfileCache(uid);
 	}
 }

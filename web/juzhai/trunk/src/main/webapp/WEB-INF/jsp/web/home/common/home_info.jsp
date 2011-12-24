@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
+<%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="head_area"><!--head_area begin-->
-	<div class="face"><a href="/home/${profile.uid}"><img src="${profile.logoPic}" /></a></div>
+	<div class="face"><a href="/home/${profile.uid}"><img src="${jzr:userLogo(profile.uid,profile.logoPic,180)}" /></a></div>
 	<div class="user_infor"><!--user_infor begin-->
 		<h2><a href="/home/${profile.uid}"><c:out value="${profile.nickname}" /></a></h2>
 		<c:if test="${online != null}">

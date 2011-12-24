@@ -14,7 +14,7 @@
 			<div class="title"><!--title begin-->
 				<h2>想约个人一起去玩<c:out value="${act.name}" />么？</h2>
 				<span>
-					<select name="language" id="genderSelect" actid="${act.id}">
+					<select name="genderSelect" id="language" actid="${act.id}">
 						<option value="all" <c:if test="${genderType=='all'}">selected="selected"</c:if>>性别不限</option>
 						<option value="male" <c:if test="${genderType=='male'}">selected="selected"</c:if>>男性</option>
 						<option value="female" <c:if test="${genderType=='female'}">selected="selected"</c:if>>女性</option>
@@ -55,7 +55,7 @@
 								</span>
 							</div><!--face_photo end-->
 							<div class="name"><!--name begin-->
-								<p><c:out value="${actUserView.profileCache.nickname}" /></p><c:if test="${actUserView.online}"><span class="online">当前在线</span></c:if>
+								<a href="/home/${actUserView.profileCache.uid}"><c:out value="${actUserView.profileCache.nickname}" /></a><c:if test="${actUserView.online}"><span class="online">当前在线</span></c:if>
 							</div><!--name end-->
 						</div><!--photo end-->
 					</li><!--li end-->

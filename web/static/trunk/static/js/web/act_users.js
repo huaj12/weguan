@@ -15,7 +15,7 @@ $(document).ready(function() {
 		openDating(uid, 0);
 	});
 	
-	$("#genderSelect").bind("change", function(){
+	$("div.title > span > select").bind("change", function(){
 		var actId = $(this).attr("actid");
 		var genderType = $(this).children('option:selected').val();
 		window.location.href="/act/" + actId + "/users/" + genderType + "/1";

@@ -212,7 +212,7 @@
 			if(!checkValLength(address, 0, 60)){
 				alert("详细地址必须少于30个字！");
 			}
-			$.post('/cms/ajax/AgreeRawAct', {
+			$.post('/cms/ajax/agreeRawAct', {
 				name : name,
 				detail:detail,
 				logo:logo,

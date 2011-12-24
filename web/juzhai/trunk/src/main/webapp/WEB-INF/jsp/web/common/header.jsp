@@ -1,14 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
+<%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="top"><!--top begin-->
 	<h1></h1>
 	<div class="area"><!--area begin-->
-		<p>上海</p>
+		<c:choose>
+			<c:when test="${channelId==0}">
+				<p>全国</p>
+			</c:when>
+			<c:otherwise>
+				<p>${jzd:cityName(channelId)}</p>
+			</c:otherwise>
+		</c:choose>
 		<div class="area_list" style="display:none;">
 			<!--about_list begin-->
-			<a href="#">上海</a> <a href="#">北京</a> <a href="#">深圳</a> <a
-				href="#">上海</a> <a href="#">北京</a>
+			<a href="javascript:void(0);" cityid="2">上海</a>
+			<a href="javascript:void(0);" cityid="1">北京</a>
+			<a href="javascript:void(0);" cityid="0">全国</a>
 		</div><!--about_list end-->
 	</div><!--area end-->
 	<div class="menu"><!--menu begin-->

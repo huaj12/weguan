@@ -1,7 +1,6 @@
 package com.juzhai.core.web.jstl;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.juzhai.cms.bean.SizeType;
@@ -13,10 +12,10 @@ import com.juzhai.passport.model.Thirdparty;
 @Component
 public class JzResourceFunction {
 
-	@Value("${web.act.image.path}")
-	private static String webActImagePath;
-	@Value("${web.user.image.path}")
-	private static String webUserImagePath;
+	// @Value("${web.act.image.path}")
+	// private static String webActImagePath;
+	// @Value("${web.user.image.path}")
+	// private static String webUserImagePath;
 
 	/**
 	 * 静态资源路径生成
@@ -42,7 +41,7 @@ public class JzResourceFunction {
 			return StaticUtil.u("/images/" + size + "_defaultActLogo.gif");
 		} else {
 			if (ImageUtil.isInternalUrl(fileName)) {
-				return StaticUtil.u(webActImagePath
+				return StaticUtil.u("/upload/act/"
 						+ ImageUtil.generateHierarchyImageWebPath(actId,
 								sizeType) + fileName);
 			} else {
@@ -60,16 +59,13 @@ public class JzResourceFunction {
 	 * @return
 	 */
 	public static String userLogo(long userid, String fileName, int size) {
-		if (userid == 4652L) {
-			System.out.println(fileName + "******");
-		}
 		if (ImageUtil.isInternalUrl(fileName)) {
 			SizeType sizeType = SizeType.getSizeTypeBySize(size);
 			if (StringUtils.isEmpty(fileName) || userid <= 0
 					|| sizeType == null) {
 				return StaticUtil.u("/images/" + size + "_defaultUserLogo.gif");
 			} else {
-				return StaticUtil.u(webUserImagePath
+				return StaticUtil.u("/upload/user/"
 						+ ImageUtil.generateHierarchyImageWebPath(userid,
 								sizeType) + fileName);
 			}

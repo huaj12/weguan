@@ -1,27 +1,15 @@
-function showLogin(){
-	$.dialog({
-		content:$("#_loginDiv")[0],
-		top:"50%",
-		fixed: true,
-		lock: true,
-		title:"加入拒宅",
-		id: 'login_div_box',
-		padding: 0
-	});
-}
-
 $(document).ready(function(){
 	$("div.area > p").bind("click", function(){
 		$("div.area_list").fadeIn(500);
-		registerClosChannel();
 	});
 	$("div.area_list > a").bind("click", function(){
 		var cityId = $(this).attr("cityid");
 		switchChannel(cityId);
 	});
-	$("div.area_list").hover(function(){
+	$("div.area").hover(function(){
 		$("body").unbind("mousedown");
 	}, registerClosChannel);
+	$("div.user_box > a.esc").bind("click", showLogin);
 });
 
 function registerClosChannel(){
@@ -44,5 +32,15 @@ function switchChannel(cityId){
 				alert(result.errorInfo);
 			}
 		}
+	});
+}
+
+function showLogin(){
+	$.dialog({
+		content:$("#dialog-login").html(),
+		top:"50%",
+		fixed: true,
+		lock: true,
+		id: 'login_div_box'
 	});
 }

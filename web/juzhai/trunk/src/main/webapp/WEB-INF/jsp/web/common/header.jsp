@@ -40,7 +40,7 @@
 			<div class="user_box"><!--user_box begin-->
 				<c:choose>
 					<c:when test="${context.uid<=0}">
-						<a href="#" onclick="showLogin();" class="esc">登录</a>
+						<a href="javascript:void(0);" class="esc">登录</a>
 					</c:when>
 					<c:otherwise>
 						<p><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}" height="20" width="20"/></p>
@@ -72,7 +72,3 @@
 		</div><!--xl_menu end-->
 	</div><!--search end-->
 </div><!--top end-->
-<div id="_loginDiv" style="display: none" class="login_show_box_1" >
-	<h2></h2>
-	<div class="link"><a href="/web/login/6"><img src="${jzr:static('/images/web/weibo_btn.gif')}" /></a></div>
-</div>

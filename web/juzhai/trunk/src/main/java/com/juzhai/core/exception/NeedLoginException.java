@@ -7,7 +7,7 @@ public class NeedLoginException extends JuzhaiException {
 	}
 
 	private static final long serialVersionUID = 2003130278035357678L;
-	
+
 	public static final String IS_NOT_LOGIN = "00003";
 	private RunType runType;
 
@@ -18,5 +18,10 @@ public class NeedLoginException extends JuzhaiException {
 
 	public RunType getRunType() {
 		return runType;
+	}
+
+	@Override
+	public String getErrorCode() {
+		return IS_NOT_LOGIN;
 	}
 }

@@ -21,3 +21,9 @@
 		<h2>{0}</h2>
 	</div>
 </div>
+<div id="dialog-rawAct-success" style="display: none;">
+	<div class="tj_done_show_box"><!--tj_done_show_box begin-->
+		<h2>谢谢推荐，通过审核后立即发布!</h2>
+		<a href="#" class="done">知道了</a>
+	</div><!--tj_done_show_box end-->
+</div>

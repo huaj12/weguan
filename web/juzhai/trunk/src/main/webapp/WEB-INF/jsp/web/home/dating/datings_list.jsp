@@ -45,7 +45,7 @@
 					</c:if>
 					<div class="face_photo"><!--face_photo begin-->
 						<span>
-							<a href="/home/${datingView.profileCache.uid}"><img src="${datingView.profileCache.logoPic}" width="180"/></a>
+							<a href="/home/${datingView.profileCache.uid}"><img src="${jzr:userLogo(datingView.profileCache.uid,datingView.profileCache.logoPic,180)}" width="180"/></a>
 						</span>
 					</div><!--face_photo end-->
 				</div><!--photo end-->

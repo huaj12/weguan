@@ -254,68 +254,6 @@ public class UploadImageService implements IUploadImageService {
 
 	}
 
-	@Override
-	public String intoActLogo(String url, long actId) {
-		String fileName = "";
-		try {
-			if (!url.startsWith((StaticUtil.getWebImagepath() + tempWebPath))) {
-				log.error("intoActLogo url is error");
-				return "";
-			}
-			url = url
-					.replaceAll(StaticUtil.getWebImagepath() + tempWebPath, "");
-			File srcFile = new File(uploadTempImageHome + url);
-			fileName=srcFile.getName();
-			String directoryPath = uploadActImageHome
-					+ ImageUtil.generateHierarchyImagePath(actId,
-							SizeType.ORIGINAL);
-			FileUtil.writeFileToFile(directoryPath, fileName, srcFile);
-			for (SizeType sizeType : SizeType.values()) {
-				if (sizeType.getType() > 0) {
-					String distDirectoryPath = uploadActImageHome
-							+ ImageUtil.generateHierarchyImagePath(actId,
-									sizeType);
-					ImageUtil.reduceImage(directoryPath + fileName,
-							distDirectoryPath, fileName, sizeType.getType(),
-							sizeType.getType());
-				}
-			}
-		} catch (Exception e) {
-			log.error("intoActLogo is error actId=" + actId + "  url=" + url
-					+ " errorMessage=" + e.getMessage());
-			return null;
-		}
-		return fileName;
-	}
-
-	@Override
-	public String intoEditorImg(String detail, long uid) {
-		try {
-			List<String> list = matchImage(detail);
-			for (String url : list) {
-				if (url.startsWith((StaticUtil.getWebImagepath() + tempWebPath))) {
-					url = url.replaceAll(StaticUtil.getWebImagepath()
-							+ tempWebPath, "");
-					File srcFile = new File(uploadTempImageHome + url);
-					String directoryPath = uploadEditorImageHome
-							+ ImageUtil.generateHierarchyImagePath(uid,
-									SizeType.ORIGINAL);
-					FileUtil.writeFileToFile(directoryPath, srcFile.getName(),
-							srcFile);
-					String newUrl = StaticUtil.u(editorWebPath
-							+ ImageUtil.generateHierarchyImageWebPath(uid,
-									SizeType.ORIGINAL) + srcFile.getName());
-					detail.replaceAll(url, newUrl);
-				}
-			}
-		} catch (Exception e) {
-			log.error("intoEditorImg is error.detail=" + detail
-					+ " errorMessage=" + e.getMessage());
-			return "";
-		}
-		return detail;
-	}
-
 	private List<String> matchImage(String str) {
 		List<String> imgList = new ArrayList<String>();
 		String regEx = "<img.*?src=\"(.*?)\"";

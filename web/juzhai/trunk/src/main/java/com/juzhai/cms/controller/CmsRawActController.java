@@ -3,7 +3,6 @@ package com.juzhai.cms.controller;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +31,6 @@ import com.juzhai.act.service.IRawActService;
 import com.juzhai.act.service.IUploadImageService;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
-import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Province;
 import com.juzhai.passport.model.Town;
@@ -47,17 +45,21 @@ public class CmsRawActController {
 	@Autowired
 	private IActCategoryService actCategoryService;
 	@Autowired
+	// TODO (review) 不用的就删掉吧
 	private IActService actService;
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
+	// TODO (review) 不用的就删掉吧
 	private IUploadImageService uploadImageService;
 	@Autowired
+	// TODO (review) 不用的就删掉吧
 	private IActDetailService actDetailService;
 
 	@RequestMapping(value = "/showRawActs", method = RequestMethod.GET)
 	public String showRawActs(@RequestParam(defaultValue = "1") int pageId,
 			Model model) {
+		// TODO（review）每页显示一个？
 		PagerManager pager = new PagerManager(pageId, 1,
 				rawActService.getRawActCount());
 		List<RawAct> rawActs = rawActService.getRawActs(pager.getFirstResult(),
@@ -67,14 +69,16 @@ public class CmsRawActController {
 		return "cms/show_raw_act";
 	}
 
-
 	@RequestMapping(value = "/showManagerRawAct", method = RequestMethod.GET)
-	public String showManagerRawAct(Model model,@RequestParam(defaultValue = "0")  long id) {
+	public String showManagerRawAct(Model model,
+			@RequestParam(defaultValue = "0") long id) {
 		try {
 			model.addAttribute("rawAct", rawActService.getRawAct(id));
+			// TODO (review) 这部分代码看到太多了，想过公用吗？
 			assembleCiteys(model);
 		} catch (Exception e) {
 			log.error("showManagerRawAct is error." + e.getMessage());
+			// TODO (review) 返回空字符串是什么意思？
 			return "";
 		}
 		return "cms/show_manager_raw_act";
@@ -82,7 +86,9 @@ public class CmsRawActController {
 
 	@RequestMapping(value = "/ajax/delRawAct", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult delRawAct(Model model,@RequestParam(defaultValue = "0")  long id) {
+	public AjaxResult delRawAct(Model model,
+			@RequestParam(defaultValue = "0") long id) {
+		// TODO (review) 为什么要有defaultValue=0?首先已经是0了，然后下面是不是应该判断一下是否>0呢？
 		AjaxResult result = new AjaxResult();
 		try {
 			rawActService.delteRawAct(id);
@@ -94,14 +100,20 @@ public class CmsRawActController {
 		result.setSuccess(true);
 		return result;
 	}
-	
+
+	// TODO (review) 注意规范！规范比任何都重要！！
 	@RequestMapping(value = "/ajax/AgreeRawAct", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult agreeRawAct(@RequestParam(defaultValue = "0")  long id,HttpServletRequest request,Long town,Long province,Long city, Model model,
-			String name,String detail,String logo,Long categoryIds,String address,String startTime,String endTime,@RequestParam(defaultValue = "0")Long createUid){
-		UserContext context = (UserContext) request.getAttribute("context");
+	// TODO (review) 参数过多，应该封装成一个form
+	public AjaxResult agreeRawAct(@RequestParam(defaultValue = "0") long id,
+			HttpServletRequest request, Long town, Long province, Long city,
+			Model model, String name, String detail, String logo,
+			Long categoryIds, String address, String startTime, String endTime,
+			@RequestParam(defaultValue = "0") Long createUid) {
+		// UserContext context = (UserContext) request.getAttribute("context");
 		AjaxResult result = new AjaxResult();
-		Act act=new Act();
+		// TODO (review) 封装到service里去吧
+		Act act = new Act();
 		act.setAddress(address);
 		act.setCity(city);
 		act.setProvince(province);
@@ -109,24 +121,24 @@ public class CmsRawActController {
 		act.setName(name);
 		act.setCreateUid(createUid);
 		act.setLogo(logo);
-		List<Long> list=new ArrayList<Long>();
+		List<Long> list = new ArrayList<Long>();
 		list.add(categoryIds);
 		try {
 			if (StringUtils.isNotEmpty(startTime)) {
-				act.setStartTime( DateUtils.parseDate(startTime,
+				act.setStartTime(DateUtils.parseDate(startTime,
 						new String[] { "yyyy-MM-dd" }));
 			}
 			if (StringUtils.isNotEmpty(endTime)) {
-				act.setEndTime( DateUtils.parseDate(endTime,
+				act.setEndTime(DateUtils.parseDate(endTime,
 						new String[] { "yyyy-MM-dd" }));
 			}
 		} catch (ParseException e) {
 			result.setErrorInfo(e.getMessage());
 			result.setSuccess(false);
 			return result;
-		}	
+		}
 		try {
-			rawActService.agreeRawAct(act, list, detail, context.getUid(), id);
+			rawActService.agreeRawAct(act, list, detail, id);
 		} catch (ActInputException e) {
 			result.setError(e.getErrorCode(), messageSource);
 			return result;
@@ -134,9 +146,8 @@ public class CmsRawActController {
 		result.setSuccess(true);
 		return result;
 	}
-	
-	
 
+	// TODO (review)想想怎么公用?另外下面的循环是否有必要?
 	private void assembleCiteys(Model model) {
 		List<City> citys = new ArrayList<City>();
 		List<Province> provinces = new ArrayList<Province>();
@@ -155,7 +166,7 @@ public class CmsRawActController {
 		}
 
 		model.addAttribute("towns", towns);
-		List<Category> categoryList =actCategoryService.findAllCategory();
+		List<Category> categoryList = actCategoryService.findAllCategory();
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("citys", citys);
 		model.addAttribute("provinces", provinces);

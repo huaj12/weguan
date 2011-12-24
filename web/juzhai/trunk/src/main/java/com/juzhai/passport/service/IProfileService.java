@@ -5,6 +5,7 @@ package com.juzhai.passport.service;
 
 import java.util.List;
 
+import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.Profile;
@@ -17,8 +18,10 @@ public interface IProfileService {
 	 * @param uid
 	 */
 	void cacheUserCity(long uid);
+
 	/**
 	 * 清除缓存
+	 * 
 	 * @param uid
 	 */
 	void clearProfileCache(long uid);
@@ -109,40 +112,57 @@ public interface IProfileService {
 	 */
 	List<Profile> listProfileByIdsOrderByLastUpdateTime(List<Long> uids,
 			int firstResult, int maxResults);
+
 	/**
 	 * 查询Profile(用户资料设置使用)
+	 * 
 	 * @param uid
 	 * @return
 	 */
 	Profile getProfile(long uid);
-	
+
+	/**
+	 * 昵称是否存在
+	 * 
+	 * @param nickname
+	 * @return
+	 */
 	boolean isExistNickname(String nickname);
+
 	/**
 	 * 更新性别
+	 * 
 	 * @param uid
 	 * @param gender
 	 * @throws ProfileInputException
 	 */
-	void setGender(long uid,Integer gender)throws ProfileInputException;
-	/**		
+	void setGender(long uid, Integer gender) throws ProfileInputException;
+
+	/**
 	 * 更新昵称
+	 * 
 	 * @param uid
 	 * @param nickName
 	 * @throws ProfileInputException
 	 */
-	void setNickName(long uid,String nickName)throws ProfileInputException;
+	void setNickName(long uid, String nickName) throws ProfileInputException;
+
 	/**
 	 * 跟新用户信息
+	 * 
 	 * @param profile
 	 * @throws ProfileInputException
 	 */
-	void updateProfile(Profile profile,long uid)throws ProfileInputException;
+	void updateProfile(Profile profile, long uid) throws ProfileInputException;
+
 	/**
 	 * 更新用户头像
+	 * 
 	 * @param logo
 	 * @param uid
-	 * @throws ProfileInputException
+	 * @throws UploadImageException
 	 */
-	void setUserLogo(String logo,long uid)throws ProfileInputException;
-	
+	void updateLogo(long uid, String filePath, int scaledW, int scaledH, int x,
+			int y, int w, int h) throws UploadImageException;
+
 }

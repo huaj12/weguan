@@ -21,6 +21,17 @@ public class FileUtil {
 	private static final Log log = LogFactory.getLog(FileUtil.class);
 
 	/**
+	 * 文件读取成二进制
+	 * 
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 */
+	public static byte[] readFileToByteArray(File file) throws IOException {
+		return FileUtils.readFileToByteArray(file);
+	}
+
+	/**
 	 * 创建file，自动创建目录
 	 * 
 	 * @param directoryPath

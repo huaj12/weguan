@@ -3,26 +3,16 @@
  */
 package com.juzhai.core.util;
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sun.image.codec.jpeg.ImageFormatException;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import com.juzhai.cms.bean.SizeType;
 
 /**
@@ -105,103 +95,11 @@ public class ImageUtil {
 	 */
 	public static boolean isInternalUrl(String picUrl) {
 		if (StringUtils.isEmpty(picUrl)) {
-			return false;
+			return true;
 		} else {
 			return picUrl.indexOf(EXTERNAL_URL_CHAR) < 0;
 		}
 
-	}
-
-	/**
-	 * 剪切图片
-	 * 
-	 * @param srcPath
-	 *            原图文件路径
-	 * @param distDirectoryPath
-	 *            保存新图片目录路径
-	 * @param distFileName
-	 *            保存新图片文件名
-	 * @param srcScaledWidth
-	 *            原图缩放宽度
-	 * @param srcScaledHeight
-	 *            原图缩放高度
-	 * @param srcCutX
-	 *            原图剪切起始X坐标
-	 * @param srcCutY
-	 *            原图剪切起始Y坐标
-	 * @param distWidth
-	 *            目标图片宽度
-	 * @param distHeight
-	 *            目标图片高度
-	 * @return 剪切成功返回true，否则返回false
-	 */
-	public static boolean cutImage(String srcPath, String distDirectoryPath,
-			String distFileName, int srcScaledWidth, int srcScaledHeight,
-			int srcCutX, int srcCutY, int distWidth, int distHeight) {
-		// FileOutputStream out = null;
-		try {
-			File srcFile = new File(srcPath);
-			if (!srcFile.exists()) {
-				log.error("image file dose not exist[path=" + srcPath + "].");
-				return false;
-			}
-			Image srcImage = ImageIO.read(srcFile);
-			BufferedImage bufferedImage = new BufferedImage(distWidth,
-					distHeight, BufferedImage.TYPE_INT_RGB);
-			bufferedImage.getGraphics().drawImage(
-					srcImage.getScaledInstance(srcScaledWidth, srcScaledHeight,
-							Image.SCALE_SMOOTH), 0, 0, distWidth, distHeight,
-					srcCutX, srcCutY, srcCutX + distWidth,
-					srcCutY + distHeight, Color.white, null);
-
-			File distFile = FileUtil.newFile(distDirectoryPath, distFileName);
-			if (null == distFile) {
-				log.error("Create dist image file fail[distDirectoryPath="
-						+ distDirectoryPath + ",distFileName=" + distFileName
-						+ "].");
-				return false;
-			}
-			// out = new FileOutputStream(distFile);
-			ImageIO.write(bufferedImage, "JPEG", distFile);
-			// JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-			// encoder.encode(bufferedImage);
-			// out.close();
-			return true;
-		} catch (IOException e) {
-			log.error(e.getMessage(), e);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		} finally {
-			// if (null != out) {
-			// try {
-			// out.close();
-			// } catch (IOException e) {
-			// log.error(e.getMessage(), e);
-			// }
-			// }
-		}
-		return false;
-	}
-
-	/**
-	 * 缩略图
-	 * 
-	 * @param srcPath
-	 *            原图文件路径
-	 * @param distDirectoryPath
-	 *            保存新图片目录路径
-	 * @param distFileName
-	 *            保存新图片文件名
-	 * @param scaledWidth
-	 *            缩放宽度
-	 * @param scaledHeight
-	 *            缩放高度
-	 * @return 生成缩略图成功返回true，否则返回false
-	 */
-	public static boolean reduceImage(String srcPath, String distDirectoryPath,
-			String distFileName, int scaledWidth, int scaledHeight) {
-		return cutImage(srcPath, distDirectoryPath, distFileName, scaledWidth,
-				scaledHeight, 0, 0, scaledWidth, scaledHeight);
 	}
 
 	/**
@@ -261,48 +159,4 @@ public class ImageUtil {
 		}
 		return 1;
 	}
-	/**
-	 * 
-	 * @param url
-	 * @param newFilePath
-	 * @param sizeReduceRank 
-	 */
-	public static void getUrlImage(String url, String directoryPath,String filename) {
-		if (url == null) {
-			return;
-		}
-		FileOutputStream out = null;
-		try {
-			Image image = javax.imageio.ImageIO.read(new URL(url));
-			// 更改图片大小 sizeRank是原图的缩小的比例 若为2意思为将下载的文件保存为原理图片长宽的1/2
-			BufferedImage bufferedImage = new BufferedImage(180, 180,
-					BufferedImage.TYPE_INT_RGB);
-			bufferedImage.getGraphics().drawImage(image, 0,0,  180, 180,
-					null);
-			File directory = new File(directoryPath);
-			if (!directory.exists()) {
-				directory.mkdirs();
-			}
-			out = new FileOutputStream(directoryPath+filename);
-			encode(out, bufferedImage);
-		} catch (Exception e) {
-			log.error("getUrlImage is error."+e.getMessage());
-		} finally {
-			try {
-				out.close();
-			} catch (IOException e) {
-				out = null;
-			}
-		}
-
-	}
-
-	// JPEG编码
-	protected static boolean encode(FileOutputStream out,
-			BufferedImage bufferedImage) throws ImageFormatException, IOException {
-			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-			encoder.encode(bufferedImage);
-			return true;
-	}
-	
 }

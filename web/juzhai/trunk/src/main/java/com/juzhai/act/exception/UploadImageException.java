@@ -1,26 +1,21 @@
 package com.juzhai.act.exception;
 
+import com.juzhai.core.exception.JuzhaiException;
 
-public class UploadImageException extends Exception {
+public class UploadImageException extends JuzhaiException {
 	private static final long serialVersionUID = -3616006775719455060L;
-	
-	public static final String UPLOAD_SIZE_ERROR  = "uoload.size.error";
-	public static final String UPLOAD_TYPE_ERROR  = "upload.type.error";
-	public static final String UPLOAD_FILE_ISNULL="upload.file.isnull";
-	public static final String UPLOAD_ERROR  = "upload.error";
+
+	public static final String UPLOAD_ERROR = "50001";
+	public static final String UPLOAD_SIZE_ERROR = "50002";
+	public static final String UPLOAD_TYPE_ERROR = "50003";
+	public static final String UPLOAD_CUT_ERROR = "50004";
+	public static final String UPLOAD_REDUCE_ERROR = "50005";
+
 	public UploadImageException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}
 
 	public UploadImageException(String errorCode) {
 		super(errorCode);
-	}
-
-	public UploadImageException() {
-		super();
-	}
-
-	public String getErrorCode() {
-		return super.getMessage();
 	}
 }

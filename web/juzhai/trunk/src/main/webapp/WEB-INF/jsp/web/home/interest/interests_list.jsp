@@ -34,7 +34,7 @@
 						</div><!--infor_show end-->
 					</c:if>
 					<div class="face_photo"><!--face_photo begin-->
-						<span><a href="/home/${interestUserView.profileCache.uid}"><img src="${interestUserView.profileCache.logoPic}" width="180"/></a></span>
+						<span><a href="/home/${interestUserView.profileCache.uid}"><img src="${jzr:userLogo(interestUserView.profileCache.uid,interestUserView.profileCache.logoPic,180)}" width="180"/></a></span>
 					</div><!--face_photo end-->
 					<c:set var="cityName" value="${jzd:cityName(interestUserView.profileCache.city)}" />
 					<c:set var="townName" value="${jzd:townName(interestUserView.profileCache.town)}" />

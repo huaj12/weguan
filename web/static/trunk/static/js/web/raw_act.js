@@ -7,36 +7,43 @@ KindEditor.ready(function(K) {
 		allowImageUpload : true,
 		items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
 				'bold', 'italic', 'underline',
-
 				'removeformat', '|', 'justifyleft', 'justifycenter',
 				'justifyright', 'insertorderedlist', 'insertunorderedlist',
 				'|', 'emoticons', 'image', 'link' ]
 	});
 });
 
+$(document).ready(function() {
+	
+});
+
 function uploadImage() {
-	$(document).ready(
-			function() {
-				var options = {
-					url : "/act/ajax/temp/addActImage",
-					type : "POST",
-					dataType : "json",
-					success : function(data) {
-						if (data.error==0) {
-							$("#logo_tip").html("上传成功");
-							$("#logo").attr("src",data.url);
-						} else {
-							$("#logo_tip").html(data.message);
-						}
-					},
-					error:function(data){
-						$("#logo_tip").html("上传失败");
-					}
-				};
-				$("#uploadImgForm").ajaxSubmit(options);
-				return false;
-			});
+	$("#logo_tip").hide();
+	$(".loading").show();
+	var options = {
+		url : "/act/logo/upload",
+		type : "POST",
+		dataType : "json",
+		success : function(result) {
+			$(".loading").hide();
+			if (result.success) {
+				$(".load_done > p > img").attr("src", result.result[0]);
+				$(".load_done").attr("filePath", result.result[1]).show();
+			} else if (result.error == "00003") {
+				window.location.href = "/login";
+			} else {
+				$("#logo_tip").text(result.errorInfo).show();
+			}
+		},
+		error : function(data) {
+			$(".loading").hide();
+			$("#logo_tip").text("上传失败").show();
+		}
+	};
+	$("#uploadImgForm").ajaxSubmit(options);
+	return false;
 }
+
 function selectCity(obj) {
 	$.get('/base/selectCity', {
 		proId : obj.value,
@@ -51,6 +58,7 @@ function selectCity(obj) {
 		}
 	});
 }
+
 function selectTown(id) {
 	$.get('/base/selectTown', {
 		cityId : id,
@@ -59,88 +67,81 @@ function selectTown(id) {
 		$("#towns").html(result);
 	});
 }
-function addRawAct(){
-	var name=$("#name").val();
-	var detail=editor.text();
-	var logo=$("#logo").attr("src");
-	var category_ids=$("#category_ids").val();
-	var address=$("#address").val();
-	var startTime=$("#startTime").val();
-	var endTime=$("#endTime").val();
-	var province=$("#province").val();
-	var city=$("#city").val();
+
+function addRawAct() {
+	var name = $("#name").val();
+	var detail = editor.html();
+	var filePath = $(".load_done").attr("filePath");
+	var categoryId = $("#category_ids").val();
+	var address = $("#address").val();
+	var startTime = $("#startTime").val();
+	var endTime = $("#endTime").val();
+	var province = $("#province").val();
+	var city = $("#city").val();
 	var town="";
 	//判断是否有town
 	if($("#c_id")[0]){
 		town=$("#town").val();
 	}
-	if(address=="详细地址"){
-		address="";
+	if (address == "详细地址") {
+		address = "";
 	}
-	if(!checkValLength(name, 2, 20)){
+	if (!checkValLength(name, 2, 20)) {
 		$("#name")[0].focus();
-		$("#name_tip").html("项目名控制在1－10个中文内！").stop(true, true).show()
-		.fadeOut(4000);
-		return ;
+		$("#name_tip").html("项目名控制在1－10个中文内！").stop(true, true).show().fadeOut(
+				4000);
+		return;
 	}
 	var detail_length = getByteLen(detail);
-	if(detail_length>4000){
+	if (detail_length > 4000) {
 		editor.focus();
-		$("#detail_tip").html("详细信息不能超过2000个中文当前"+(detail_length/2)+"字").stop(true, true).show()
-		.fadeOut(4000);
-		return ;
+		$("#detail_tip").html("详细信息不能超过2000个中文当前" + (detail_length / 2) + "字")
+				.stop(true, true).show().fadeOut(4000);
+		return;
 	}
-//	if(logo==null||logo==""){
-//		$("#logo")[0].focus();
-//		$("#logo_tip").html("项目图片不能为空").stop(true, true).show()
-//		.fadeOut(4000);
-//		return ;
-//	}
-	if(!checkValLength(address, 0, 60)){
+	 if (filePath == null || filePath == "") {
+		$("#logo")[0].focus();
+		$("#logo_tip").text("项目图片不能为空").stop(true, true).show().fadeOut(4000);
+		return;
+	}
+	if (!checkValLength(address, 0, 60)) {
 		$("#address")[0].focus();
 		$("#address_tip").html("详细地址必须少于30个字！").stop(true, true).show()
-		.fadeOut(4000);
+				.fadeOut(4000);
 	}
-	$.post('/act/web/ajax/addAct', {
-		name : name,
-		detail:detail,
-		logo:logo,
-		categoryIds:category_ids,
-		address:address,
-		startTime:startTime,
-		endTime:endTime,
-		town:town,
-		city:city,
-		province:province,
-		random : Math.random()
-	}, function(result) {
-		if(result.success){
-			$("#tj_tip").html("谢谢推荐，通过审核后立即发布!");
-			$.dialog({
-				content:$("#tj_show_box")[0],
-				top:"50%",
-				fixed: true,
-				lock: true,
-				title:"",
-				id: 'tj_div',
-				padding: 0
-			});
-		}else{
-			$("#tj_tip").html(result.errorInfo);
-			$.dialog({
-				content:$("#tj_show_box")[0],
-				top:"50%",
-				fixed: true,
-				lock: true,
-				title:"",
-				id: 'tj_div',
-				padding: 0
-			});
+	
+	jQuery.ajax({
+		url : "/act/addRawAct",
+		type : "post",
+		cache : false,
+		data : {
+			"name" : name,
+			"detail" : detail,
+			"filePath" : filePath,
+			"categoryId" : categoryId,
+			"address" : address,
+			"startTime" : startTime,
+			"endTime" : endTime,
+			"town":town,
+			"city" : city,
+			"province" : province
+		},
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				var url = window.location.href;
+				if(url.indexOf("?success=true") < 0){
+					url = url + "?success=true";
+				}
+				window.location.href = url;
+			} else {
+				alert(result.errorInfo);
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login";
+			}
 		}
 	});
-	
-	
-	
-	
 }
-	

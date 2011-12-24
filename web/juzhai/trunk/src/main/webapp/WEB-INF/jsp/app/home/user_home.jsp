@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="jz" uri="http://www.51juzhai.com/jsp/jstl/jz" %>
+<%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -23,7 +24,7 @@
 							<div class="my_page"><!--my_page begin-->
 								<div class="more_friend"><a href="javascript:void(0);" onclick="javascript:history.go(-1);">返回上一页&gt;&gt;</a></div>
 								<div class="head_area"><!--head_area begin-->
-									<div class="photo"><a href="${jz:tpHomeUrl(profile.tpIdentity,context.tpId)}" target="_blank"><img src="${profile.logoPic}"  width="80" height="80"/></a></div>
+									<div class="photo"><a href="${jz:tpHomeUrl(profile.tpIdentity,context.tpId)}" target="_blank"><img src="${jzr:userLogo(profile.uid,profile.logoPic,80)}"  width="80" height="80"/></a></div>
 									<h2><a href="${jz:tpHomeUrl(profile.tpIdentity,context.tpId)}" target="_blank" class="uname"><c:out value="${profile.nickname}"/></a><a href="/app/showLive" class="fxgd">发现更多>></a></h2>
 									<p>ta在<c:choose><c:when test="${profile.city > 0}">${jz:cityName(profile.city)}</c:when><c:otherwise>地球</c:otherwise></c:choose><c:if test="${lastUpdateTime!=null}">&nbsp;&nbsp;最近更新于<fmt:formatDate value="${lastUpdateTime}" pattern="yyyy.MM.dd"/></c:if></p>
 									<span><a onclick="showAbout('${profile.nickname}','${act.id}','${act.name}','${profile.uid}');" href="javascript:void(0);">给ta留言</a></span>

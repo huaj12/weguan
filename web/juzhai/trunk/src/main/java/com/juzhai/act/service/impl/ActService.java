@@ -265,7 +265,7 @@ public class ActService implements IActService {
 	public Act createAct(Act act, List<Long> categoryIds)
 			throws ActInputException {
 		if (act == null || act.getName() == null || act.getCreateUid() == 0) {
-			throw new ActInputException(ActInputException.ACT_NAME_FORBID);
+			throw new ActInputException(ActInputException.ILLEGAL_OPERATION);
 		}
 		try {
 			if (wordFilterService.wordFilter(actNameWordfilterApplication,

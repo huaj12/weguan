@@ -1,4 +1,4 @@
-package com.juzhai.passport.controller.website;
+package com.juzhai.common.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

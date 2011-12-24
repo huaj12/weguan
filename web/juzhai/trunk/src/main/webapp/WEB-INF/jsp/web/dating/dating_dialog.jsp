@@ -11,7 +11,7 @@
 				</c:if>
 				<div class="x"><!--x begin-->
 					<h3>约ta</h3>
-					<div class="select w190"><!--select begin-->
+					<div class="select w190" id="uboxstyle"><!--select begin-->
 						<span>
 							<select name="actId" id="language">
 								<option value="0">选择ta最新想去的</option>
@@ -26,7 +26,7 @@
 				</div><!--x end-->
 				<div class="x"><!--x begin-->
 					<h3>费用</h3>
-					<div class="select w190"><!--select begin-->
+					<div class="select w190" id="uboxstyle"><!--select begin-->
 						<span>
 							<select name="consumeType" id="language">
 								<option value="1" <c:if test="${dating!=null&&dating.consumeType==1}">selected="selected"</c:if>>我请客</option>
@@ -39,7 +39,7 @@
 				</div><!--x end-->
 				<div class="x"><!--x begin-->
 					<h3>联系方式</h3>
-					<div class="select w70"><!--select begin-->
+					<div class="select w70" id="uboxstyle"><!--select begin-->
 						<span>
 							<select name="contactType" id="language">
 								<option value="1" <c:if test="${dating!=null&&dating.starterContactType==1}">selected="selected"</c:if>>QQ</option>

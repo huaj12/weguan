@@ -1,4 +1,4 @@
-package com.juzhai.index.controller;
+package com.juzhai.index.controller.website;
 
 import javax.servlet.http.HttpServletRequest;
 

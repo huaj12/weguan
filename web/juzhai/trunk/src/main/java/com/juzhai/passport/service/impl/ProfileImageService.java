@@ -22,7 +22,7 @@ public class ProfileImageService implements IProfileImageService {
 	@Override
 	public String[] uploadLogo(long uid, MultipartFile image)
 			throws UploadImageException {
-		return imageManager.uploadTempImage(uid, image);
+		return imageManager.uploadTempImage(image);
 	}
 
 	@Override

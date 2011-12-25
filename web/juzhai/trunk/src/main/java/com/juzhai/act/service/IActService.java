@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActAd;
@@ -265,7 +267,7 @@ public interface IActService {
 	 * @param act
 	 * @param categoryIds
 	 */
-	void updateAct(Act act, List<Long> categoryIds);
+	void updateAct(Act act, List<Long> categoryIds,String detail)throws ActInputException ;
 
 	/**
 	 * 获取项目详情
@@ -290,4 +292,6 @@ public interface IActService {
 	 * @return
 	 */
 	List<ActLink> listActLinkByActId(long actId, int count);
+	
+	void cmsCreateAct(Act act, List<Long> categoryIds,long addUid,String detail,MultipartFile imgFile);
 }

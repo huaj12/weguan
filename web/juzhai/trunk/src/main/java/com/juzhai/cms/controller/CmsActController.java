@@ -59,18 +59,9 @@ public class CmsActController extends BaseController{
 	@Autowired
 	private IActService actService;
 	@Autowired
-	private IUserActService userActService;
-	@Autowired
 	private MessageSource messageSource;
 	@Autowired
-	private IActImageService actImageService;
-	@Autowired
-	private IActCategoryService actCategoryService;
-	@Autowired
 	private IActDetailService actDetailService;
-	// TODO (review) 显然actDetailLengthMax逻辑放在controller里不合适
-	// @Value("${act.detail.length.max}")
-	// private int actDetailLengthMax;
 
 	/*--------------------------------近义词屏蔽词------------------------------*/
 	@RequestMapping(value = "/searchActs")
@@ -275,46 +266,7 @@ public class CmsActController extends BaseController{
 			String logo = null;
 			long actId = 0;
 			if (act != null && act.getName() != null) {
-				Act oldAct = actService.getActByName(act.getName());
-				if (oldAct == null) {
-					Act a = actService.createAct(act, form.getCatIds());
-					if (addUid != null) {
-						userActService.addAct(addUid, a.getId());
-					}
-					actId = a.getId();
-					if(StringUtils.isNotEmpty( form.getDetail())){
-						if(form.getDetail().length()<detailLengthMax){
-							actDetailService.addActDetail(actId, form.getDetail());
-						}
-					}
-					logo = a.getLogo();
-					mmap.addAttribute("msg", "create is success");
-				} else {
-					act.setId(oldAct.getId());
-					act.setActive(oldAct.getActive());
-					if (CollectionUtils.isNotEmpty(form.getCatIds())) {
-						act.setCategoryIds(StringUtils.join(form.getCatIds(),
-								","));
-					}
-					act.setCreateTime(oldAct.getCreateTime());
-					act.setCreateUid(oldAct.getCreateUid());
-					act.setPopularity(oldAct.getPopularity());
-					if (act.getProvince() == null) {
-						act.setProvince(0l);
-					}
-					if (act.getCity() == null) {
-						act.setCity(0l);
-					}
-					actService.updateAct(act, form.getCatIds());
-					actId = act.getId();
-					logo = act.getLogo();
-					mmap.addAttribute("msg", "replace is success");
-				}
-				if (logo != null && form.getImgFile() != null
-						&& form.getImgFile().getSize() > 0 && actId > 0) {
-					uploadImageService
-							.uploadImg(actId, logo, form.getImgFile());
-				}
+				
 
 			} else {
 				mmap.addAttribute("msg", "create act name is null");
@@ -332,19 +284,13 @@ public class CmsActController extends BaseController{
 		ModelMap mmap = new ModelMap();
 		try {
 			if (form.getCatIds() != null) {
-				actService.updateAct(act, form.getCatIds());
-				if(StringUtils.isNotEmpty( form.getDetail())){
-					if(form.getDetail().length()<detailLengthMax){
-						actDetailService.addActDetail(act.getId(), form.getDetail());
-					}
-				}
+				actService.updateAct(act, form.getCatIds(),form.getDetail());
 			} else {
 				mmap.addAttribute("msg", "create act catIds is null");
 				log.error("create act catIds is null");
 			}
 		} catch (Exception e) {
-			mmap.addAttribute("msg", "update act is error.");
-			log.error("update act is error.", e);
+			mmap.addAttribute("msg", "update act is error."+e.getMessage());
 		}
 		return new ModelAndView("redirect:/cms/showActManager", mmap);
 	}

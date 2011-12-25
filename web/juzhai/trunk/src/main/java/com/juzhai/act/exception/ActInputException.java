@@ -30,6 +30,14 @@ public class ActInputException extends JuzhaiException {
 	 * act detail里面的图片地址不合法
 	 */
 	public static final String ACT_DETAIL_LOGO_INVALID = "10006";
+	/**
+	 * act detail超过长度限制
+	 */
+	public static final String ACT_DETAIL_IS_TOO_LONG="10007";
+	/**
+	 * act detail不能为空
+	 */	
+	public static final String ACT_DETAIL_IS_NULL="10008";
 	
 
 	public ActInputException(String errorCode, Throwable cause) {

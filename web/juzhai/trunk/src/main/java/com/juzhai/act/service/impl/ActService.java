@@ -29,9 +29,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.dao.IActDao;
 import com.juzhai.act.exception.ActInputException;
+import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.act.mapper.ActAdMapper;
 import com.juzhai.act.mapper.ActDetailMapper;
 import com.juzhai.act.mapper.ActLinkMapper;
@@ -47,7 +50,10 @@ import com.juzhai.act.model.ActLinkExample;
 import com.juzhai.act.rabbit.message.ActIndexMessage;
 import com.juzhai.act.rabbit.message.ActIndexMessage.ActionType;
 import com.juzhai.act.service.IActCategoryService;
+import com.juzhai.act.service.IActDetailService;
+import com.juzhai.act.service.IActImageService;
 import com.juzhai.act.service.IActService;
+import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
@@ -94,6 +100,15 @@ public class ActService implements IActService {
 	private int actNameWordfilterApplication = 0;
 	@Value("${act.cache.expire.time}")
 	private int actCacheExpireTime = 0;
+	// TODO (done) 显然actDetailLengthMax逻辑放在controller里不合适
+	@Value("${detail.length.max}")
+	private int detailLengthMax;
+	@Autowired
+	private IUserActService userActService;
+	@Autowired
+	private IActDetailService actDetailService;
+	@Autowired
+	private IActImageService actImageService;
 
 	@Override
 	public boolean actExist(long actId) {
@@ -523,11 +538,21 @@ public class ActService implements IActService {
 	}
 
 	@Override
-	public void updateAct(Act act, List<Long> categoryIds) {
+	@Transactional
+	public void updateAct(Act act, List<Long> categoryIds, String detail)throws ActInputException {
 		act.setLastModifyTime(new Date());
 		actMapper.updateByPrimaryKey(act);
 		updateActCategory(act.getId(), categoryIds);
 		clearActCache(act.getId());
+		if (StringUtils.isNotEmpty(detail)) {
+			if (detail.length() < detailLengthMax) {
+				actDetailService.addActDetail(act.getId(), detail);
+			}else{
+				throw new  ActInputException(ActInputException.ACT_DETAIL_IS_TOO_LONG);
+			}
+		}else{
+			throw new  ActInputException(ActInputException.ACT_DETAIL_IS_NULL);
+		}
 		if (null != act) {
 			// // 加载Act
 			// actInitData.loadAct(act);
@@ -566,6 +591,51 @@ public class ActService implements IActService {
 		example.setLimit(new Limit(0, count));
 		example.setOrderByClause("sequence asc, last_modify_time desc");
 		return actLinkMapper.selectByExample(example);
+	}
+
+	@Override
+	public void cmsCreateAct(Act act, List<Long> categoryIds,long addUid,String detail,MultipartFile imgFile) throws UploadImageException {
+		Act oldAct = getActByName(act.getName());
+		long actId=0;
+		String logo="";
+		if (oldAct == null) {
+			Act a =createAct(act, categoryIds);
+			userActService.addAct(addUid, a.getId());
+			actId = a.getId();
+			if(StringUtils.isNotEmpty(detail)){
+				if(detail.length()<detailLengthMax){
+					actDetailService.addActDetail(actId, detail);
+				}
+			}
+			logo = a.getLogo();
+//			mmap.addAttribute("msg", "create is success");
+		} else {
+			act.setId(oldAct.getId());
+			act.setActive(oldAct.getActive());
+			if (CollectionUtils.isNotEmpty(categoryIds)) {
+				act.setCategoryIds(StringUtils.join(categoryIds,
+						","));
+			}
+			act.setCreateTime(oldAct.getCreateTime());
+			act.setCreateUid(oldAct.getCreateUid());
+			act.setPopularity(oldAct.getPopularity());
+			if (act.getProvince() == null) {
+				act.setProvince(0l);
+			}
+			if (act.getCity() == null) {
+				act.setCity(0l);
+			}
+			updateAct(act,categoryIds,detail);
+			actId = act.getId();
+			logo = act.getLogo();
+//			mmap.addAttribute("msg", "replace is success");
+		}
+		if (logo != null && imgFile!= null
+				&&imgFile.getSize() > 0 && actId > 0) {
+			actImageService.uploadActLogo(0, actId, imgFile);
+			//TODO缺少一个删除以前图片的方法
+//					.uploadImg(actId, logo,imgFile);
+		}
 	}
 
 }

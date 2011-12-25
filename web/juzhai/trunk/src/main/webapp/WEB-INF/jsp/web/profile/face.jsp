@@ -11,6 +11,7 @@
 <body>
 	<div class="warp"><!--warp begin--> 
 		<div class="main"><!--main begin-->
+		<c:set var="page" value="face" scope="request"/>
 			<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
 			<div class="content"><!--content begin-->
 				<div class="t"></div>

@@ -11,6 +11,7 @@
 	<body>
 		<div class="warp"><!--warp begin-->
 			<div class="main"><!--main begin-->
+			<c:set var="page" value="index" scope="request"/>
 				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
 				<div class="content"><!--content begin-->
 					<div class="t"></div>
@@ -96,17 +97,17 @@
 											<h3>生&nbsp;&nbsp;&nbsp;&nbsp;日：</h3>
 											<div class="select"><!--select begin-->
 												<span><select  id="birthYear">
-													<c:forEach items="${years}" var="year">
+													<c:forEach begin="1900" end="2012" var="year">
 														<option value="${year}"  <c:if test="${year==profile.birthYear}"> selected="selected" </c:if>>${year }年</option>
 													</c:forEach>
 												</select></span>
 												<span><select id="birthMonth">
-													<c:forEach items="${months}" var="month">
+													<c:forEach begin="1" end="12"  var="month">
 														<option value="${month}"  <c:if test="${month==profile.birthMonth}"> selected="selected" </c:if>>${month}月</option>
 													</c:forEach>	
 												</select></span>
 												<span><select  id="birthDay">
-													<c:forEach items="${days}" var="day">
+													<c:forEach begin="1" end="31"  var="day">
 														<option value="${day}"  <c:if test="${day==profile.birthDay}"> selected="selected" </c:if>>${day}日</option>
 													</c:forEach>	
 												</select></span>

@@ -44,38 +44,54 @@ function setNickname(){
 		$("#error_nickname").html("控制在1-10个中文内！");
 		return ;
 	}
-	$.post('/profile/setting/nickname', {
-		nickName : name,
-		random : Math.random()
-	}, function(result) {
-		if(result.success){
-			$("#nickname_xg").html("");
-			cancel_updateDiv('nickname');
-			$("#new_nickname").html(name);
-			$("#error_nickname").html("");
-		}else{
-			$("#error_nickname").html(result.errorInfo);
+	jQuery.ajax({
+		url: "/profile/setting/nickname",
+		type: "post",
+		data: {"nickName" : name},
+		dataType: "json",
+		success: function(result){
+			if(result.success){
+				$("#nickname_xg").html("");
+				cancel_updateDiv('nickname');
+				$("#new_nickname").html(name);
+				$("#error_nickname").html("");
+			}else{
+				$("#error_nickname").html(result.errorInfo);
+			}
+		},
+		statusCode: {
+		    401: function() {
+		      alert("未登录");
+		    }
 		}
 	});
 }
 function setGender(){
 	$("#ts_gender").hide();
 	var gender=$("#gender").val();
-	$.post('/profile/setting/gender', {
-		gender : gender,
-		random : Math.random()
-	}, function(result) {
-		if(result.success){
-			$("#gender_xg").html("");
-			cancel_updateDiv('gender');
-			if(gender==1){
-				$("#new_gender").html('男');	
+	jQuery.ajax({
+		url: "/profile/setting/gender",
+		type: "post",
+		data: {"gender" : gender},
+		dataType: "json",
+		success: function(result){
+			if(result.success){
+				$("#gender_xg").html("");
+				cancel_updateDiv('gender');
+				if(gender==1){
+					$("#new_gender").html('男');	
+				}else{
+					$("#new_gender").html('女');
+				}
+				$("#error_nickname").html("");
 			}else{
-				$("#new_gender").html('女');
+				$("#error_gender").html(result.errorInfo);
 			}
-			$("#error_nickname").html("");
-		}else{
-			$("#error_gender").html(result.errorInfo);
+		},
+		statusCode: {
+		    401: function() {
+		      alert("未登录");
+		    }
 		}
 	});
 }
@@ -119,24 +135,28 @@ function setting(){
 	if(professionId!=0){
 		profession="";
 	}
-	$.post('/profile/setting', {
-		province : province,
-		city : city,
-		town : town,
-		birthYear : birthYear,
-		birthMonth : birthMonth,
-		birthDay : birthDay,
-		birthSecret : birthSecret,
-		professionId : professionId,
-		profession : profession,
-		feature : features,
-		random : Math.random()
-	}, function(result) {
-		if(result.success){
-			//保存成功后跳转
-			alert('跳转');
-		}else{
-			$(".pj_error").html(result.errorInfo);
+	jQuery.ajax({
+		url: "/profile/setting",
+		type: "post",
+		data: {"province":province,"city" : city,"town" : town,"birthYear" : birthYear,"birthMonth" : birthMonth,
+			"birthDay" : birthDay,
+			"birthSecret" : birthSecret,
+			"professionId" : professionId,
+			"profession" : profession,
+			"feature" : features},
+		dataType: "json",
+		success: function(result){
+			if(result.success){
+				//保存成功后跳转
+				alert('跳转');
+			}else{
+				$(".pj_error").html(result.errorInfo);
+			}
+		},
+		statusCode: {
+		    401: function() {
+		      alert("未登录");
+		    }
 		}
 	});
 	

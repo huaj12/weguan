@@ -17,10 +17,13 @@ public class RawActInputException extends JuzhaiException {
 	public static final String RAW_ACT_ID_IS_NULL = "60002";
 	
 	/**
-	 * raw_act图片不合法
+	 * raw_act logo不合法
 	 */
 	public static final String RAW_ACT_LOGO_INVALID = "60003";
 	
+	/**
+	 * raw_act 富文本图片url不合法
+	 */
 	public static final String RAW_ACT_DETAIL_LOGO_INVALID="60004";
 	
 	public RawActInputException(String errorCode, Throwable cause) {

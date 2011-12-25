@@ -1,6 +1,9 @@
 package com.juzhai.core.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,13 +14,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.ui.Model;
 
+import com.juzhai.act.bean.SuitAge;
+import com.juzhai.act.bean.SuitGender;
+import com.juzhai.act.bean.SuitStatus;
+import com.juzhai.act.model.Category;
+import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.ErrorPageDispatcher;
 import com.juzhai.core.web.filter.CityChannelFilter;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
+import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.model.City;
+import com.juzhai.passport.model.Province;
+import com.juzhai.passport.model.Town;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
 
@@ -42,6 +54,8 @@ public class BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IActCategoryService actCategoryService;
 
 	protected UserContext checkLoginForApp(HttpServletRequest request)
 			throws NeedLoginException {
@@ -103,5 +117,19 @@ public class BaseController {
 	protected long fetchCityId(HttpServletRequest request) {
 		return HttpRequestUtil.getSessionAttributeAsLong(request,
 				CityChannelFilter.SESSION_CHANNEL_NAME, 0L);
+	}
+	
+	// TODO (done)公共的方法，可以移到BaseController里
+	// TODO (done) 别再复制了
+	protected void assembleCiteys(Model model) {
+		// TODO (done) 为什么要循环？values()不行吗
+		model.addAttribute("towns", InitData.TOWN_MAP.values());
+		List<Category> categoryList = actCategoryService.findAllCategory();
+		model.addAttribute("categoryList", categoryList);
+		model.addAttribute("citys", InitData.CITY_MAP.values());
+		model.addAttribute("provinces", InitData.PROVINCE_MAP.values());
+		model.addAttribute("suitAges", SuitAge.values());
+		model.addAttribute("suitGenders", SuitGender.values());
+		model.addAttribute("suitStatus", SuitStatus.values());
 	}
 }

@@ -43,6 +43,7 @@ import com.juzhai.cms.controller.form.AddActForm;
 import com.juzhai.cms.controller.form.SearchActForm;
 import com.juzhai.cms.controller.view.CmsActMagerView;
 import com.juzhai.cms.controller.view.CmsActView;
+import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.jstl.JzCoreFunction;
@@ -52,7 +53,7 @@ import com.juzhai.passport.model.Province;
 
 @Controller
 @RequestMapping("/cms")
-public class CmsActController {
+public class CmsActController extends BaseController{
 	private final Log log = LogFactory.getLog(getClass());
 
 	@Autowired
@@ -298,26 +299,8 @@ public class CmsActController {
 		return "cms/updateAct";
 	}
 
-	// TODO (review) 别再复制了
-	private void assembleCiteys(Model model) {
-		List<City> citys = new ArrayList<City>();
-		List<Province> provinces = new ArrayList<Province>();
-		for (Entry<Long, City> entry : com.juzhai.passport.InitData.CITY_MAP
-				.entrySet()) {
-			citys.add(entry.getValue());
-		}
-		for (Entry<Long, Province> entry : com.juzhai.passport.InitData.PROVINCE_MAP
-				.entrySet()) {
-			provinces.add(entry.getValue());
-		}
-		List<Category> categoryList = actCategoryService.findAllCategory();
-		model.addAttribute("categoryList", categoryList);
-		model.addAttribute("citys", citys);
-		model.addAttribute("suitAges", SuitAge.values());
-		model.addAttribute("suitGenders", SuitGender.values());
-		model.addAttribute("suitStatus", SuitStatus.values());
-		model.addAttribute("provinces", provinces);
-	}
+	
+
 
 	// TODO (review) 以下所有代码重构一下，太乱了。精简代码！！！另外上传图片的代码我已经重构，根据我重构完的调用
 	@RequestMapping(value = "/createAct", method = RequestMethod.POST)

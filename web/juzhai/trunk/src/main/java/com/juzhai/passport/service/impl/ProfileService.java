@@ -27,6 +27,7 @@ import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.encrypt.DESUtils;
+import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.ProfileMapper;
@@ -213,36 +214,31 @@ public class ProfileService implements IProfileService {
 	@Override
 	public void setGender(long uid, Integer gender)
 			throws ProfileInputException {
-		if (gender == null) {
+		// TODO (done)和上面那个PROFILE_GEBDER_INVALID异常，可以合并
+		if (gender == null || gender == 0 || gender == 1) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_GEBDER_INVALID);
 		}
-		if (gender == 0 || gender == 1) {
-			Profile profile = profileMapper.selectByPrimaryKey(uid);
-			if (null == profile) {
-				throw new ProfileInputException(
-						ProfileInputException.PROFILE_UID_NOT_EXIST);
-			}
-			if (!profile.getHasModifyGender()) {
-				// TODO (done)最后修改时间字段不需要修改？
-				profile.setGender(gender);
-				profile.setLastModifyTime(new Date());
-				profile.setHasModifyGender(true);
-				try {
-					profileMapper.updateByPrimaryKey(profile);
-				} catch (Exception e) {
-					throw new ProfileInputException(
-							ProfileInputException.PROFILE_ERROR);
-				}
-				clearProfileCache(uid);
-			} else {
-				throw new ProfileInputException(
-						ProfileInputException.PROFILE_GEBDER_REPEAT_UPDATE);
-			}
-		} else {
-			// TODO (review)和上面那个PROFILE_GEBDER_INVALID异常，可以合并
+		Profile profile = profileMapper.selectByPrimaryKey(uid);
+		if (null == profile) {
 			throw new ProfileInputException(
-					ProfileInputException.PROFILE_GEBDER_INVALID);
+					ProfileInputException.PROFILE_UID_NOT_EXIST);
+		}
+		if (!profile.getHasModifyGender()) {
+			// TODO (done)最后修改时间字段不需要修改？
+			profile.setGender(gender);
+			profile.setLastModifyTime(new Date());
+			profile.setHasModifyGender(true);
+			try {
+				profileMapper.updateByPrimaryKey(profile);
+			} catch (Exception e) {
+				throw new ProfileInputException(
+						ProfileInputException.PROFILE_ERROR);
+			}
+			clearProfileCache(uid);
+		} else {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_GEBDER_REPEAT_UPDATE);
 		}
 
 	}
@@ -254,8 +250,8 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_NICKNAME_IS_NULL);
 		}
-		// TODO (review)不需要考虑中文？在使用中文长度之前，先看一下是否已经有方法可以用了
-		if (nickName.length() > nickNameLengthMax) {
+		// TODO (done)不需要考虑中文？在使用中文长度之前，先看一下是否已经有方法可以用了
+		if (StringUtil.chineseLength(nickName) > nickNameLengthMax) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_NICKNAME_IS_TOO_LONG);
 		}
@@ -264,10 +260,11 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_UID_NOT_EXIST);
 		}
-		// TODO (review)优化判断的思路，减少嵌套层数（不理解找我）
-		if (!profile.getHasModifyNickname()) {
-			// TODO (review) 当用户修改的昵称是自己当前使用的昵称，能不能修改？
-			if (!isExistNickname(nickName)) {
+
+		// TODO (done) 当用户修改的昵称是自己当前使用的昵称，能不能修改？
+		if (!isExistNickname(nickName, uid)) {
+			// TODO (done)优化判断的思路，减少嵌套层数（不理解找我）
+			if (!profile.getHasModifyNickname()) {
 				// TODO (done)最后修改时间字段不需要修改？
 				profile.setNickname(nickName);
 				profile.setLastModifyTime(new Date());
@@ -281,23 +278,22 @@ public class ProfileService implements IProfileService {
 				clearProfileCache(uid);
 			} else {
 				throw new ProfileInputException(
-						ProfileInputException.PROFILE_NICKNAME_IS_EXIST);
+						ProfileInputException.PROFILE_NICKNAME_REPEAT_UPDATE);
 			}
 		} else {
 			throw new ProfileInputException(
-					ProfileInputException.PROFILE_NICKNAME_REPEAT_UPDATE);
+					ProfileInputException.PROFILE_NICKNAME_IS_EXIST);
 		}
 
 	}
 
 	@Override
 	// TODO (done)有了profile参数，为什么还要uid参数？
-	public void updateProfile(Profile profile)
-			throws ProfileInputException {
-		if (null == profile||profile.getUid()==0) {
+	public void updateProfile(Profile profile) throws ProfileInputException {
+		if (null == profile || profile.getUid() == 0) {
 			return;
 		}
-		long uid=profile.getUid();
+		long uid = profile.getUid();
 		if (profile.getProvince() == null) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROVINCE_IS_NULL);
@@ -354,7 +350,7 @@ public class ProfileService implements IProfileService {
 		}
 		profile.setUid(uid);
 		// TODO (done) 这里是我不好，lastUpdateTime是最后更新项目时间，所以这里不需要更新
-//		profile.setLastUpdateTime(new Date());
+		// profile.setLastUpdateTime(new Date());
 		profile.setLastModifyTime(new Date());
 		try {
 			profileMapper.updateByPrimaryKeySelective(profile);
@@ -367,14 +363,15 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
-	public boolean isExistNickname(String nickname) {
-		if (StringUtils.isEmpty(nickname)) {
+	public boolean isExistNickname(String nickname, long uid) {
+		if (StringUtils.isEmpty(nickname) || uid == 0) {
 			return false;
 		}
 		ProfileExample example = new ProfileExample();
-		example.createCriteria().andNicknameEqualTo(nickname);
+		example.createCriteria().andNicknameEqualTo(nickname)
+				.andUidNotEqualTo(uid);
 		// TODO (done)以下代码可以直接使用三元运算，简化代码行数
-		 return profileMapper.countByExample(example)>0?true:false;
+		return profileMapper.countByExample(example) > 0 ? true : false;
 	}
 
 	@Override
@@ -389,13 +386,13 @@ public class ProfileService implements IProfileService {
 			log.error(e.getMessage(), e);
 		}
 		// TODO (done)这里既然是清楚缓存，就不需要再取了，当其他地方需要用的时候，自然会缓存
-//		ProfileCache profileCache = getProfileCacheByUid(uid);
-//		if (null != profileCache && profileCache.getCity() != null
-//				&& profileCache.getCity() > 0) {
-//			redisTemplate.opsForValue().set(
-//					RedisKeyGenerator.genUserCityKey(uid),
-//					profileCache.getCity());
-//		}
+		// ProfileCache profileCache = getProfileCacheByUid(uid);
+		// if (null != profileCache && profileCache.getCity() != null
+		// && profileCache.getCity() > 0) {
+		// redisTemplate.opsForValue().set(
+		// RedisKeyGenerator.genUserCityKey(uid),
+		// profileCache.getCity());
+		// }
 	}
 
 	@Override

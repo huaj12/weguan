@@ -150,25 +150,16 @@ public class ProfileContrller extends BaseController {
 	public AjaxResult setting(HttpServletRequest request, Model model,
 			String feature, String profession, Long professionId,
 			Integer birthYear, Integer birthMonth, Integer birthDay,
-			Boolean birthSecret, Long province, Long city, Long town) {
+			Boolean birthSecret, Long province, Long city, Long town) throws NeedLoginException {
 		AjaxResult ajaxResult = new AjaxResult();
 		UserContext context = null;
-		// TODO (review)“;”复制代码也要注意复制的对不对
-		;
+		// TODO (done)“;”复制代码也要注意复制的对不对
 		// TODO (review)ajax也是通过filter来抛出未登录的异常，js里通过401的返回值处理
-		try {
-			context = checkLoginForWeb(request);
-		} catch (NeedLoginException e1) {
-			ajaxResult.setErrorInfo(messageSource.getMessage(
-					NeedLoginException.IS_NOT_LOGIN, null,
-					Locale.SIMPLIFIED_CHINESE));
-			ajaxResult.setSuccess(false);
-			return ajaxResult;
-		}
+		context = checkLoginForWeb(request);
 		Profile profile = new Profile();
 		profile.setProvince(province);
 		profile.setCity(city);
-		// TODO (review) town=-1表示没有选择 =0表示选择其他 >0表示具体的区，是否有注意到这点？
+		// TODO (done) town=-1表示没有选择 =0表示选择其他 >0表示具体的区，是否有注意到这点？
 		profile.setTown(town);
 		profile.setBirthYear(birthYear);
 		profile.setBirthMonth(birthMonth);
@@ -194,31 +185,6 @@ public class ProfileContrller extends BaseController {
 		return ajaxResult;
 	}
 
-	private void assembleCiteys(Model model) {
-		// TODO (review) 为什么要循环？values()不行吗
-		List<City> citys = new ArrayList<City>();
-		List<Province> provinces = new ArrayList<Province>();
-		List<Town> towns = new ArrayList<Town>();
-		List<Profession> professions = new ArrayList<Profession>();
-		for (Entry<Long, City> entry : InitData.CITY_MAP.entrySet()) {
-			citys.add(entry.getValue());
-		}
-		for (Entry<Long, Province> entry : InitData.PROVINCE_MAP.entrySet()) {
-			provinces.add(entry.getValue());
-		}
-		for (Entry<Long, Town> entry : InitData.TOWN_MAP.entrySet()) {
-			towns.add(entry.getValue());
-		}
-		for (Entry<Long, Profession> entry : InitData.PROFESSION_MAP.entrySet()) {
-			professions.add(entry.getValue());
-		}
-
-		model.addAttribute("towns", towns);
-		model.addAttribute("citys", citys);
-		model.addAttribute("provinces", provinces);
-		model.addAttribute("professions", professions);
-		model.addAttribute("years", InitData.YEARS);
-		model.addAttribute("months", InitData.MONTHS);
-		model.addAttribute("days", InitData.DAYS);
-	}
+	
+	
 }

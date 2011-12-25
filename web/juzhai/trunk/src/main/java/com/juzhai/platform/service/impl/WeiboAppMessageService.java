@@ -104,7 +104,7 @@ public class WeiboAppMessageService implements IMessageService {
 			throws WeiboException {
 		Act act = actService.getActById(actId);
 		if (act != null) {
-			// TODO (review) 这里代码我有改动过，检查一下是否有问题
+			// TODO (done) 这里代码我有改动过，检查一下是否有问题
 			byte[] imgContent = actImageService.getActFile(act.getId(),
 					act.getLogo(), SizeType.BIG);
 			if (imgContent == null) {

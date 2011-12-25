@@ -56,10 +56,6 @@ public class InitData {
 	public static final Map<String, Long> CITY_MAPPING = new HashMap<String, Long>();
 	public static final Map<String, Long> PROVINCE_MAPPING = new HashMap<String, Long>();
 	public static final Map<Long, Constellation> CONSTELLATION_MAP = new HashMap<Long, Constellation>();
-	public static final List<Integer> YEARS = new ArrayList<Integer>();
-	public static final List<Integer> MONTHS = new ArrayList<Integer>();
-	public static final List<Integer> DAYS = new ArrayList<Integer>();
-
 	@Autowired
 	private ThirdpartyMapper thirdpartyMapper;
 	@Autowired
@@ -79,19 +75,7 @@ public class InitData {
 	@Value("${freshman.guide.steps}")
 	private String freshmanGuideSteps;
 
-	// TODO (review) 年月日为什么要在java里初始化？没有必要
-	@Value("${birth.year.range.min}")
-	private int birthYearRangeMin;
-	@Value("${birth.year.range.max}")
-	private int birthYearRangeMax;
-	@Value("${birth.month.range.min}")
-	private int birthMonthRangeMin;
-	@Value("${birth.month.range.max}")
-	private int birthMonthRangeMax;
-	@Value("${birth.day.range.min}")
-	private int birthDayRangeMin;
-	@Value("${birth.day.range.max}")
-	private int birthDayRangeMax;
+	// TODO (done) 年月日为什么要在java里初始化？没有必要
 
 	@PostConstruct
 	public void init() {
@@ -103,20 +87,9 @@ public class InitData {
 		initCityAndProvinceMapping();
 		initConstellation();
 		initProfession();
-		initBirth();
 	}
 
-	private void initBirth() {
-		for (int i = birthYearRangeMin; i <= birthYearRangeMax; i++) {
-			YEARS.add(i);
-		}
-		for (int i = birthMonthRangeMin; i <= birthMonthRangeMax; i++) {
-			MONTHS.add(i);
-		}
-		for (int i = birthDayRangeMin; i <= birthDayRangeMax; i++) {
-			DAYS.add(i);
-		}
-	}
+	
 
 	// 职业
 	private void initProfession() {

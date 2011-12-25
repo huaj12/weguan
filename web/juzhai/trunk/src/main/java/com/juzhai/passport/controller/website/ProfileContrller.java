@@ -62,7 +62,7 @@ public class ProfileContrller extends BaseController {
 		}
 		model.addAttribute("profile", profile);
 		model.addAttribute("featureList", list);
-		// TODO 直接在页面上用c:set
+		// TODO (done)直接在页面上用c:set
 		// model.addAttribute("page", "index");
 		return "web/profile/setting";
 	}
@@ -72,7 +72,6 @@ public class ProfileContrller extends BaseController {
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		queryProfile(context.getUid(), model);
-		// model.addAttribute("page", "face");
 		return "web/profile/face";
 	}
 
@@ -150,11 +149,12 @@ public class ProfileContrller extends BaseController {
 	public AjaxResult setting(HttpServletRequest request, Model model,
 			String feature, String profession, Long professionId,
 			Integer birthYear, Integer birthMonth, Integer birthDay,
-			Boolean birthSecret, Long province, Long city, Long town) throws NeedLoginException {
+			Boolean birthSecret, Long province, Long city, Long town)
+			throws NeedLoginException {
 		AjaxResult ajaxResult = new AjaxResult();
 		UserContext context = null;
 		// TODO (done)“;”复制代码也要注意复制的对不对
-		// TODO (review)ajax也是通过filter来抛出未登录的异常，js里通过401的返回值处理
+		// TODO (done)ajax也是通过filter来抛出未登录的异常，js里通过401的返回值处理
 		context = checkLoginForWeb(request);
 		Profile profile = new Profile();
 		profile.setProvince(province);
@@ -185,6 +185,4 @@ public class ProfileContrller extends BaseController {
 		return ajaxResult;
 	}
 
-	
-	
 }

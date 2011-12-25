@@ -94,7 +94,7 @@
 			</tr>
 				<tr>
 				<td>详情（选填）：</td>
-				<td><textarea rows="5" cols="40" id="detail" name="detail">"${actDetail.detail}</textarea></td>
+				<td><textarea rows="5" cols="40" id="detail" name="detail">${actDetail.detail}</textarea></td>
 			</tr>
 			<tr>
 				<td>分类：</td>

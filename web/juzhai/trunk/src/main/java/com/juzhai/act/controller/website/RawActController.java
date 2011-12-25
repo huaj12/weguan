@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.juzhai.act.controller.form.AddRawActForm;
 import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.act.model.Category;
 import com.juzhai.act.model.RawAct;
@@ -90,7 +91,7 @@ public class RawActController extends BaseController {
 	@RequestMapping(value = "/showAddRawAct", method = RequestMethod.GET)
 	public String showAddRawAct(HttpServletRequest request, Model model,
 			Boolean success) throws NeedLoginException {
-		// TODO (review)验证是否登录
+		// TODO (done)验证是否登录
 		checkLoginForWeb(request);// code by wujiajun
 		assembleCiteys(model);
 		if (null != success) {
@@ -104,28 +105,27 @@ public class RawActController extends BaseController {
 
 	@RequestMapping(value = "/addRawAct", method = RequestMethod.POST)
 	@ResponseBody
-	// TODO (review) 参数过多，应该封装成一个form
-	public AjaxResult addAct(HttpServletRequest request, long province,
-			long city, long town, Model model, String name, String detail,
-			String filePath, long categoryId, String address, String startTime,
-			String endTime) throws NeedLoginException {
+	// TODO (done) 参数过多，应该封装成一个form
+	public AjaxResult addRawAct(HttpServletRequest request,Model model,AddRawActForm addRawActForm ) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
 		RawAct rawAct = new RawAct();
-		rawAct.setAddress(address);
-		rawAct.setCategoryIds(String.valueOf(categoryId));
-		rawAct.setCity(city);
-		rawAct.setProvince(province);
-		rawAct.setTown(town);
-		rawAct.setLogo(filePath);
-		rawAct.setDetail(detail);
-		rawAct.setName(name);
+		rawAct.setAddress(addRawActForm.getAddress());
+		rawAct.setCategoryIds(String.valueOf(addRawActForm.getCategoryId()));
+		rawAct.setCity(addRawActForm.getCity());
+		rawAct.setProvince(addRawActForm.getProvince());
+		rawAct.setTown(addRawActForm.getTown());
+		rawAct.setLogo(addRawActForm.getFilePath());
+		rawAct.setDetail(addRawActForm.getDetail());
+		rawAct.setName(addRawActForm.getName());
 		rawAct.setCreateUid(context.getUid());
 		try {
+			String startTime=addRawActForm.getStartTime();
 			if (StringUtils.isNotEmpty(startTime)) {
 				rawAct.setStartTime(DateUtils.parseDate(startTime,
 						new String[] { "yyyy-MM-dd" }));
 			}
+			String endTime=addRawActForm.getEndTime();
 			if (StringUtils.isNotEmpty(endTime)) {
 				rawAct.setEndTime(DateUtils.parseDate(endTime,
 						new String[] { "yyyy-MM-dd" }));

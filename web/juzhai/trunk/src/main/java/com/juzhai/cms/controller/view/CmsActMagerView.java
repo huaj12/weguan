@@ -2,7 +2,15 @@ package com.juzhai.cms.controller.view;
 
 import java.io.Serializable;
 
+import com.juzhai.act.InitData;
+import com.juzhai.act.bean.SuitAge;
+import com.juzhai.act.bean.SuitGender;
+import com.juzhai.act.bean.SuitStatus;
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.Category;
+import com.juzhai.core.web.jstl.JzCoreFunction;
+import com.juzhai.passport.model.City;
+import com.juzhai.passport.model.Province;
 
 public class CmsActMagerView implements Serializable {
 	private static final long serialVersionUID = -1871387836944777684L;
@@ -25,19 +33,51 @@ public class CmsActMagerView implements Serializable {
 
 	private String cityName;
 
-	public CmsActMagerView(Act act, String logoWebPath, String proName,
-			String cityName, String address, String age, String gender,
-			String status, String category) {
+	public CmsActMagerView(Act act){
+		String age = SuitAge.getByIndex(act.getSuitAge()).getType();
+		String status = SuitStatus.getByIndex(act.getSuitStatus())
+				.getType();
+		String gender = SuitGender.getByIndex(act.getSuitGender())
+				.getType();
+		City city = com.juzhai.passport.InitData.CITY_MAP
+				.get(act.getCity());
+		Province pro = com.juzhai.passport.InitData.PROVINCE_MAP.get(act
+				.getProvince());
+		String proName = "";
+		String cityName = "";
+		if (pro != null) {
+			proName = pro.getName();
+		}
+		if (city != null) {
+			cityName = city.getName();
+		}
+		String address = "";
+		if (act.getAddress() != null) {
+			address = act.getAddress();
+		}
+		String logoWebPath = "";
+		if (act.getLogo() != null) {
+			logoWebPath = JzCoreFunction.actLogo(act.getId(),
+					act.getLogo(), 0);
+		}
+		StringBuffer categorys = new StringBuffer();
+		String cats = act.getCategoryIds();
+		if (cats != null) {
+			for (String cat : cats.split(",")) {
+				Category c = InitData.CATEGORY_MAP.get(Long.valueOf(cat));
+				if (c != null) {
+					categorys.append(c.getName() + " ");
+				}
+			}
+		}
 		this.act = act;
 		this.logoWebPath = logoWebPath;
 		this.address = address;
-		this.category = category;
+		this.category = categorys.toString();
 		this.status = status;
 		this.age = age;
 		this.gender = gender;
 		this.proName = proName;
-		this.cityName = cityName;
-
 	}
 
 	public Act getAct() {

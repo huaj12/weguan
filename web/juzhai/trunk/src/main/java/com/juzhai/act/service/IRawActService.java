@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.exception.AddRawActException;
+import com.juzhai.act.exception.RawActInputException;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.RawAct;
+import com.juzhai.cms.controller.form.AgreeRawActForm;
 
 public interface IRawActService {
 	/**
@@ -34,6 +36,5 @@ public interface IRawActService {
 	 * @param rawActId
 	 * @throws ActInputException
 	 */
-	void agreeRawAct(Act act, List<Long> categoryId, String detail,
-			long rawActId) throws ActInputException;
+	void agreeRawAct(AgreeRawActForm agreeRawActForm) throws ActInputException,RawActInputException;
 }

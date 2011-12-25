@@ -1,17 +1,22 @@
 package com.juzhai.act.service.impl;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.exception.AddRawActException;
+import com.juzhai.act.exception.RawActInputException;
 import com.juzhai.act.mapper.ActMapper;
 import com.juzhai.act.mapper.RawActMapper;
 import com.juzhai.act.model.Act;
@@ -21,6 +26,7 @@ import com.juzhai.act.service.IActDetailService;
 import com.juzhai.act.service.IActImageService;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IRawActService;
+import com.juzhai.cms.controller.form.AgreeRawActForm;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.StringUtil;
 
@@ -54,11 +60,11 @@ public class RawActService implements IRawActService {
 			throw new AddRawActException(AddRawActException.NAME_IS_NULL);
 		}
 		// TODO (done) 判断0
-		if (rawAct.getCity() == null||rawAct.getCity() == 0) {
+		if (rawAct.getCity() == null || rawAct.getCity() == 0) {
 			throw new AddRawActException(AddRawActException.CITY_IS_NULL);
 		}
 		// TODO (done) 判断0
-		if (rawAct.getProvince() == null||rawAct.getProvince() == 0) {
+		if (rawAct.getProvince() == null || rawAct.getProvince() == 0) {
 			throw new AddRawActException(AddRawActException.PROVINCE_IS_NULL);
 		}
 		if (StringUtil.chineseLength(rawAct.getName()) > actNameLengthMax) {
@@ -106,27 +112,58 @@ public class RawActService implements IRawActService {
 	}
 
 	@Override
-	// @Transactional
-	public void agreeRawAct(Act act, List<Long> categoryId, String detail,
-			long rawActId) throws ActInputException {
-		if (null == act) {
-			return;
+	@Transactional
+	public void agreeRawAct(AgreeRawActForm agreeRawActForm)
+			throws ActInputException, RawActInputException {
+		// TODO (done) 封装到service里去吧
+		Act act = new Act();
+		act.setAddress(agreeRawActForm.getAddress());
+		act.setCity(agreeRawActForm.getCity());
+		act.setProvince(agreeRawActForm.getProvince());
+		act.setTown(agreeRawActForm.getTown());
+		act.setName(agreeRawActForm.getName());
+		act.setCreateUid(agreeRawActForm.getCreateUid());
+		act.setLogo(agreeRawActForm.getLogo());
+		List<Long> list = new ArrayList<Long>();
+		list.add(agreeRawActForm.getCategoryIds());
+		try {
+			if (StringUtils.isNotEmpty(agreeRawActForm.getStartTime())) {
+				act.setStartTime(DateUtils.parseDate(
+						agreeRawActForm.getStartTime(),
+						new String[] { "yyyy-MM-dd" }));
+			}
+			String endTime = agreeRawActForm.getEndTime();
+			if (StringUtils.isNotEmpty(endTime)) {
+				act.setEndTime(DateUtils.parseDate(endTime,
+						new String[] { "yyyy-MM-dd" }));
+			}
+		} catch (ParseException e) {
+			throw new RawActInputException(
+					RawActInputException.RAW_ACT_TIME_INVALID);
 		}
-		actService.createAct(act, categoryId);
+		String detail = agreeRawActForm.getDetail();
+		long rawActId = agreeRawActForm.getId();
+		if (rawActId == 0) {
+			throw new RawActInputException(
+					RawActInputException.RAW_ACT_ID_IS_NULL);
+		}
+		actService.createAct(act, list);
 		String filename = actImageService.intoActLogo(act.getId(),
 				act.getLogo());
-		if (StringUtils.isNotEmpty(filename)) {
-			Act updateAct = new Act();
-			updateAct.setLogo(filename);
-			updateAct.setId(act.getId());
-			actMapper.updateByPrimaryKeySelective(updateAct);
+		if (StringUtils.isEmpty(filename)) {
+			throw new RawActInputException(
+					RawActInputException.RAW_ACT_LOGO_INVALID);
 		}
+		Act updateAct = new Act();
+		updateAct.setLogo(filename);
+		updateAct.setId(act.getId());
+		actMapper.updateByPrimaryKeySelective(updateAct);
 		detail = actImageService.intoEditorImg(act.getId(), detail);
-		if (StringUtils.isNotEmpty(detail)) {
-			actDetailService.addActDetail(act.getId(), detail);
-			// throw new ActInputException(
-			// ActInputException.ACT_DETAIL_LOGO_INVALID);
+		if (StringUtils.isEmpty(detail)) {
+			 throw new RawActInputException(
+					 RawActInputException.RAW_ACT_DETAIL_LOGO_INVALID);
 		}
+		actDetailService.addActDetail(act.getId(), detail);
 		delteRawAct(rawActId);
 	}
 }

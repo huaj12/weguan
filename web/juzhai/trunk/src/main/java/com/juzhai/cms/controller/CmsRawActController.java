@@ -29,6 +29,7 @@ import com.juzhai.act.service.IActDetailService;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IRawActService;
 import com.juzhai.act.service.IUploadImageService;
+import com.juzhai.cms.controller.form.AgreeRawActForm;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
@@ -102,41 +103,13 @@ public class CmsRawActController extends BaseController {
 	// TODO (done) 注意规范！规范比任何都重要！！
 	@RequestMapping(value = "/ajax/agreeRawAct", method = RequestMethod.POST)
 	@ResponseBody
-	// TODO (review) 参数过多，应该封装成一个form
-	public AjaxResult agreeRawAct(@RequestParam(defaultValue = "0") long id,
-			HttpServletRequest request, Long town, Long province, Long city,
-			Model model, String name, String detail, String logo,
-			Long categoryIds, String address, String startTime, String endTime,
-			@RequestParam(defaultValue = "0") Long createUid) {
+	// TODO (done) 参数过多，应该封装成一个form
+	public AjaxResult agreeRawAct(HttpServletRequest request,Model model,AgreeRawActForm agreeRawActForm) {
 		// UserContext context = (UserContext) request.getAttribute("context");
 		AjaxResult result = new AjaxResult();
-		// TODO (review) 封装到service里去吧
-		Act act = new Act();
-		act.setAddress(address);
-		act.setCity(city);
-		act.setProvince(province);
-		act.setTown(town);
-		act.setName(name);
-		act.setCreateUid(createUid);
-		act.setLogo(logo);
-		List<Long> list = new ArrayList<Long>();
-		list.add(categoryIds);
+		
 		try {
-			if (StringUtils.isNotEmpty(startTime)) {
-				act.setStartTime(DateUtils.parseDate(startTime,
-						new String[] { "yyyy-MM-dd" }));
-			}
-			if (StringUtils.isNotEmpty(endTime)) {
-				act.setEndTime(DateUtils.parseDate(endTime,
-						new String[] { "yyyy-MM-dd" }));
-			}
-		} catch (ParseException e) {
-			result.setErrorInfo(e.getMessage());
-			result.setSuccess(false);
-			return result;
-		}
-		try {
-			rawActService.agreeRawAct(act, list, detail, id);
+			rawActService.agreeRawAct(agreeRawActForm);
 		} catch (ActInputException e) {
 			result.setError(e.getErrorCode(), messageSource);
 			return result;

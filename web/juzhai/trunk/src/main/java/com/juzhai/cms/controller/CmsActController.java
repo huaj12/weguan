@@ -221,47 +221,9 @@ public class CmsActController extends BaseController{
 
 		List<CmsActMagerView> viewList = new ArrayList<CmsActMagerView>(
 				acts.size());
-		// TODO (review) 一下代码为什么不能在CmsActMagerView用？CmsActMagerView里我看有act
+		// TODO (done) 以下代码为什么不能在CmsActMagerView用？CmsActMagerView里我看有act
 		for (Act act : acts) {
-			String age = SuitAge.getByIndex(act.getSuitAge()).getType();
-			String status = SuitStatus.getByIndex(act.getSuitStatus())
-					.getType();
-			String gender = SuitGender.getByIndex(act.getSuitGender())
-					.getType();
-			City city = com.juzhai.passport.InitData.CITY_MAP
-					.get(act.getCity());
-			Province pro = com.juzhai.passport.InitData.PROVINCE_MAP.get(act
-					.getProvince());
-			String proName = "";
-			String cityName = "";
-			if (pro != null) {
-				proName = pro.getName();
-			}
-			if (city != null) {
-				cityName = city.getName();
-			}
-			String address = "";
-			if (act.getAddress() != null) {
-				address = act.getAddress();
-			}
-			String logoWebPath = "";
-			if (act.getLogo() != null) {
-				logoWebPath = JzCoreFunction.actLogo(act.getId(),
-						act.getLogo(), 0);
-			}
-			StringBuffer categorys = new StringBuffer();
-			String cats = act.getCategoryIds();
-			if (cats != null) {
-				for (String cat : cats.split(",")) {
-					Category c = InitData.CATEGORY_MAP.get(Long.valueOf(cat));
-					if (c != null) {
-						categorys.append(c.getName() + " ");
-					}
-				}
-			}
-			viewList.add(new CmsActMagerView(act, logoWebPath, proName,
-					cityName, address, age, gender, status, categorys
-							.toString()));
+			viewList.add(new CmsActMagerView(act));
 		}
 		model.addAttribute("cmsActMagerViews", viewList);
 		model.addAttribute("pager", pager);

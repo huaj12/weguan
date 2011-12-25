@@ -318,8 +318,8 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROFESSION_ID_IS_NULL);
 		}
-		// TODO (review)为什么要用intValue()?
-		if (profile.getProfessionId().intValue() == 0
+		// TODO (done)为什么要用intValue()?
+		if (profile.getProfessionId()== 0
 				&& StringUtils.isEmpty(profile.getProfession())) {
 			// 选择其他职业描述不能为空
 			throw new ProfileInputException(

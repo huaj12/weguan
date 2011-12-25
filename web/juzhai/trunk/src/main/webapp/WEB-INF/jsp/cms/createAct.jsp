@@ -95,7 +95,7 @@
 			</tr>
 			<tr>
 			<td>详情（选填）：</td>
-				<td><textarea id="detail"  name="detail"></textarea>
+				<td><textarea id="detail" style="width: 700px; height: 200px; visibility: hidden;" name="detail"></textarea>
 				</td>
 			
 			</tr>

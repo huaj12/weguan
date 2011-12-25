@@ -43,8 +43,7 @@ public class RawActController extends BaseController {
 	private MessageSource messageSource;
 	@Autowired
 	private IRawActService rawActService;
-	@Autowired
-	private IActCategoryService actCategoryService;
+
 	@Autowired
 	private IActImageService actImageService;
 
@@ -101,30 +100,7 @@ public class RawActController extends BaseController {
 
 	}
 
-	// TODO (review)公共的方法，可以移到BaseController里
-	private void assembleCiteys(Model model) {
-		List<City> citys = new ArrayList<City>();
-		List<Province> provinces = new ArrayList<Province>();
-		List<Town> towns = new ArrayList<Town>();
-		for (Entry<Long, City> entry : com.juzhai.passport.InitData.CITY_MAP
-				.entrySet()) {
-			citys.add(entry.getValue());
-		}
-		for (Entry<Long, Province> entry : com.juzhai.passport.InitData.PROVINCE_MAP
-				.entrySet()) {
-			provinces.add(entry.getValue());
-		}
-		for (Entry<Long, Town> entry : com.juzhai.passport.InitData.TOWN_MAP
-				.entrySet()) {
-			towns.add(entry.getValue());
-		}
-
-		model.addAttribute("towns", towns);
-		List<Category> categoryList = actCategoryService.findAllCategory();
-		model.addAttribute("categoryList", categoryList);
-		model.addAttribute("citys", citys);
-		model.addAttribute("provinces", provinces);
-	}
+	
 
 	@RequestMapping(value = "/addRawAct", method = RequestMethod.POST)
 	@ResponseBody

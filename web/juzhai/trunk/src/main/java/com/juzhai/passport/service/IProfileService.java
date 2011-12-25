@@ -124,12 +124,12 @@ public interface IProfileService {
 	Profile getProfile(long uid);
 
 	/**
-	 * 昵称是否存在
+	 * 昵称是否存在排除自己
 	 * 
 	 * @param nickname
 	 * @return
 	 */
-	boolean isExistNickname(String nickname);
+	boolean isExistNickname(String nickname,long uid);
 
 	/**
 	 * 更新性别

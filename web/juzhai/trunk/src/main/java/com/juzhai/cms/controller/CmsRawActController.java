@@ -29,6 +29,7 @@ import com.juzhai.act.service.IActDetailService;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IRawActService;
 import com.juzhai.act.service.IUploadImageService;
+import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.passport.model.City;
@@ -37,9 +38,9 @@ import com.juzhai.passport.model.Town;
 
 @Controller
 @RequestMapping("/cms")
-public class CmsRawActController {
+public class CmsRawActController extends BaseController {
 	private final Log log = LogFactory.getLog(getClass());
-
+	private static final String ERROR = "cms/error";
 	@Autowired
 	private IRawActService rawActService;
 	@Autowired
@@ -47,6 +48,7 @@ public class CmsRawActController {
 	// TODO (done) 不用的就删掉吧
 	@Autowired
 	private MessageSource messageSource;
+
 	// TODO (done) 不用的就删掉吧
 	// TODO (done) 不用的就删掉吧
 	@RequestMapping(value = "/showRawActs", method = RequestMethod.GET)
@@ -67,12 +69,12 @@ public class CmsRawActController {
 			@RequestParam(defaultValue = "0") long id) {
 		try {
 			model.addAttribute("rawAct", rawActService.getRawAct(id));
-			// TODO (review) 这部分代码看到太多了，想过公用吗？
+			// TODO (done) 这部分代码看到太多了，想过公用吗？
 			assembleCiteys(model);
 		} catch (Exception e) {
 			log.error("showManagerRawAct is error." + e.getMessage());
-			// TODO (review) 返回空字符串是什么意思？
-			return "";
+			// TODO (done) 返回空字符串是什么意思？
+			return ERROR;
 		}
 		return "cms/show_manager_raw_act";
 	}
@@ -81,16 +83,19 @@ public class CmsRawActController {
 	@ResponseBody
 	public AjaxResult delRawAct(Model model,
 			@RequestParam(defaultValue = "0") long id) {
-		// TODO (review) 为什么要有defaultValue=0?首先已经是0了，然后下面是不是应该判断一下是否>0呢？
+		// TODO (done) 为什么要有defaultValue=0?首先已经是0了，然后下面是不是应该判断一下是否>0呢？
 		AjaxResult result = new AjaxResult();
 		try {
-			rawActService.delteRawAct(id);
+			if (id > 0) {
+				rawActService.delteRawAct(id);
+			} else {
+				result.setSuccess(false);
+				result.setErrorInfo("showManagerRawAct is error. id is null" );
+			}
 		} catch (Exception e) {
 			result.setSuccess(false);
 			result.setErrorInfo("showManagerRawAct is error." + e.getMessage());
-			return result;
 		}
-		result.setSuccess(true);
 		return result;
 	}
 
@@ -140,28 +145,5 @@ public class CmsRawActController {
 		return result;
 	}
 
-	// TODO (review)想想怎么公用?另外下面的循环是否有必要?
-	private void assembleCiteys(Model model) {
-		List<City> citys = new ArrayList<City>();
-		List<Province> provinces = new ArrayList<Province>();
-		List<Town> towns = new ArrayList<Town>();
-		for (Entry<Long, City> entry : com.juzhai.passport.InitData.CITY_MAP
-				.entrySet()) {
-			citys.add(entry.getValue());
-		}
-		for (Entry<Long, Province> entry : com.juzhai.passport.InitData.PROVINCE_MAP
-				.entrySet()) {
-			provinces.add(entry.getValue());
-		}
-		for (Entry<Long, Town> entry : com.juzhai.passport.InitData.TOWN_MAP
-				.entrySet()) {
-			towns.add(entry.getValue());
-		}
-
-		model.addAttribute("towns", towns);
-		List<Category> categoryList = actCategoryService.findAllCategory();
-		model.addAttribute("categoryList", categoryList);
-		model.addAttribute("citys", citys);
-		model.addAttribute("provinces", provinces);
-	}
+	// TODO (done)想想怎么公用?另外下面的循环是否有必要?
 }

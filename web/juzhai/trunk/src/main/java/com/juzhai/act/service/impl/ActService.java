@@ -539,7 +539,8 @@ public class ActService implements IActService {
 
 	@Override
 	@Transactional
-	public void updateAct(Act act, List<Long> categoryIds, String detail)throws ActInputException {
+	public void updateAct(Act act, List<Long> categoryIds, String detail)
+			throws ActInputException {
 		act.setLastModifyTime(new Date());
 		actMapper.updateByPrimaryKey(act);
 		updateActCategory(act.getId(), categoryIds);
@@ -547,11 +548,12 @@ public class ActService implements IActService {
 		if (StringUtils.isNotEmpty(detail)) {
 			if (detail.length() < detailLengthMax) {
 				actDetailService.addActDetail(act.getId(), detail);
-			}else{
-				throw new  ActInputException(ActInputException.ACT_DETAIL_IS_TOO_LONG);
+			} else {
+				throw new ActInputException(
+						ActInputException.ACT_DETAIL_IS_TOO_LONG);
 			}
-		}else{
-			throw new  ActInputException(ActInputException.ACT_DETAIL_IS_NULL);
+		} else {
+			throw new ActInputException(ActInputException.ACT_DETAIL_IS_NULL);
 		}
 		if (null != act) {
 			// // 加载Act
@@ -594,27 +596,29 @@ public class ActService implements IActService {
 	}
 
 	@Override
-	public void cmsCreateAct(Act act, List<Long> categoryIds,long addUid,String detail,MultipartFile imgFile) throws UploadImageException {
+	@Transactional
+	public void cmsCreateAct(Act act, List<Long> categoryIds, long addUid,
+			String detail, MultipartFile imgFile) throws UploadImageException,
+			ActInputException {
 		Act oldAct = getActByName(act.getName());
-		long actId=0;
-		String logo="";
+		long actId = 0;
+		String logo = "";
 		if (oldAct == null) {
-			Act a =createAct(act, categoryIds);
+			Act a = createAct(act, categoryIds);
 			userActService.addAct(addUid, a.getId());
 			actId = a.getId();
-			if(StringUtils.isNotEmpty(detail)){
-				if(detail.length()<detailLengthMax){
+			if (StringUtils.isNotEmpty(detail)) {
+				if (detail.length() < detailLengthMax) {
 					actDetailService.addActDetail(actId, detail);
 				}
 			}
 			logo = a.getLogo();
-//			mmap.addAttribute("msg", "create is success");
+			// mmap.addAttribute("msg", "create is success");
 		} else {
 			act.setId(oldAct.getId());
 			act.setActive(oldAct.getActive());
 			if (CollectionUtils.isNotEmpty(categoryIds)) {
-				act.setCategoryIds(StringUtils.join(categoryIds,
-						","));
+				act.setCategoryIds(StringUtils.join(categoryIds, ","));
 			}
 			act.setCreateTime(oldAct.getCreateTime());
 			act.setCreateUid(oldAct.getCreateUid());
@@ -625,16 +629,16 @@ public class ActService implements IActService {
 			if (act.getCity() == null) {
 				act.setCity(0l);
 			}
-			updateAct(act,categoryIds,detail);
+			updateAct(act, categoryIds, detail);
 			actId = act.getId();
 			logo = act.getLogo();
-//			mmap.addAttribute("msg", "replace is success");
+			// mmap.addAttribute("msg", "replace is success");
 		}
-		if (logo != null && imgFile!= null
-				&&imgFile.getSize() > 0 && actId > 0) {
+		if (logo != null && imgFile != null && imgFile.getSize() > 0
+				&& actId > 0) {
 			actImageService.uploadActLogo(0, actId, imgFile);
-			//TODO缺少一个删除以前图片的方法
-//					.uploadImg(actId, logo,imgFile);
+			// TODO缺少一个删除以前图片的方法
+			// .uploadImg(actId, logo,imgFile);
 		}
 	}
 

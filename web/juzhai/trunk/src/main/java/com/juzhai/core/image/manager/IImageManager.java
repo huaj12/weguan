@@ -30,8 +30,8 @@ public interface IImageManager {
 	 */
 	String uploadImage(String directoryPath, MultipartFile image)
 			throws UploadImageException;
-
-	void deleteImage();
+	
+	void deleteImage(long id, String fileName);
 
 	/**
 	 * 复制图片

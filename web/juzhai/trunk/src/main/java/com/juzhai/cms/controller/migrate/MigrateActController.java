@@ -15,6 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.mapper.ActMapper;
 import com.juzhai.act.mapper.SynonymActMapper;
 import com.juzhai.act.mapper.UserActMapper;
@@ -205,7 +206,10 @@ public class MigrateActController {
 			if (hotAct != null) {
 				int oldPopularitry = hotAct.getPopularity();
 				hotAct.setPopularity(oldPopularitry + popularity);
-				actService.updateAct(hotAct, null);
+				try {
+					actService.updateAct(hotAct, null,null);
+				} catch (ActInputException e) {
+				}
 			}
 		}
 

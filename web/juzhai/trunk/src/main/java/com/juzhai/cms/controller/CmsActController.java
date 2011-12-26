@@ -255,7 +255,7 @@ public class CmsActController extends BaseController{
 	
 
 
-	// TODO (review) 以下所有代码重构一下，太乱了。精简代码！！！另外上传图片的代码我已经重构，根据我重构完的调用
+	// TODO (done) 以下所有代码重构一下，太乱了。精简代码！！！另外上传图片的代码我已经重构，根据我重构完的调用
 	@RequestMapping(value = "/createAct", method = RequestMethod.POST)
 	public ModelAndView createAct(AddActForm form, Long addUid,
 			HttpServletRequest request) {
@@ -263,11 +263,8 @@ public class CmsActController extends BaseController{
 		Act act = converAct(form, context.getUid());
 		ModelMap mmap = new ModelMap();
 		try {
-			String logo = null;
-			long actId = 0;
 			if (act != null && act.getName() != null) {
-				
-
+				actService.cmsCreateAct(act, form.getCatIds(), addUid, form.getDetail(), form.getImgFile());
 			} else {
 				mmap.addAttribute("msg", "create act name is null");
 			}
@@ -305,29 +302,9 @@ public class CmsActController extends BaseController{
 			if (act == null) {
 				return null;
 			}
-			if (form.getImgFile() != null && form.getImgFile().getSize() > 0) {
-				UUID uuid = UUID.randomUUID();
-				String fileName = uuid.toString() + "."
-						+ uploadImageService.getImgType(form.getImgFile());
-				uploadImageService.uploadImg(form.getId(), fileName,
-						form.getImgFile());
-				if (!StringUtils.isEmpty(act.getLogo())) {
-					uploadImageService.deleteActImages(form.getId(),
-							act.getLogo());
-				}
-				act.setLogo(fileName);
-			}
 		} else {
 			act = new Act();
 			act.setCreateUid(uid);
-			if (form.getImgFile() != null && form.getImgFile().getSize() > 0) {
-				UUID uuid = UUID.randomUUID();
-				if (form.getImgFile() != null) {
-					String fileName = uuid.toString() + "."
-							+ uploadImageService.getImgType(form.getImgFile());
-					act.setLogo(fileName);
-				}
-			}
 		}
 		if (!form.getCheckAddress()) {
 			act.setAddress(form.getAddress());

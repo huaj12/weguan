@@ -21,7 +21,7 @@
 				<div class="cqw"><!--cqw begin-->
 					<div class="title"><!--title begin-->
 						<h2 class="<c:choose><c:when test='${loginUser.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>">
-							<span>其实不想走</span>,这周末想怎么过？
+							<span><c:choose><c:when test="${loginUser!=null}"><c:out value="${loginUser.nickname}" /></c:when><c:otherwise>小宅</c:otherwise></c:choose></span>，这周末想怎么过？
 						</h2>
 						<div class="select"><!--select begin-->
 							<span><select name="language" id="language" categoryid="${categoryId}">

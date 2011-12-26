@@ -217,7 +217,7 @@ public class ImageManager implements IImageManager {
 	}
 
 	@Override
-	public void deleteImage() {
+	public void deleteImage(long id, String fileName) {
 		// TODO Auto-generated method stub
 
 	}

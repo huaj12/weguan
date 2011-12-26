@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.exception.ActInputException;
+import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActAd;
 import com.juzhai.act.model.ActDetail;
@@ -293,5 +294,5 @@ public interface IActService {
 	 */
 	List<ActLink> listActLinkByActId(long actId, int count);
 	
-	void cmsCreateAct(Act act, List<Long> categoryIds,long addUid,String detail,MultipartFile imgFile);
+	void cmsCreateAct(Act act, List<Long> categoryIds,long addUid,String detail,MultipartFile imgFile)throws UploadImageException, ActInputException ;
 }

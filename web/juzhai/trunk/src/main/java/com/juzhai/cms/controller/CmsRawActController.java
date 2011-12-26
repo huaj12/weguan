@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.act.exception.ActInputException;
+import com.juzhai.act.exception.RawActInputException;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.Category;
 import com.juzhai.act.model.RawAct;
@@ -108,9 +109,9 @@ public class CmsRawActController extends BaseController {
 			rawActService.agreeRawAct(agreeRawActForm);
 		} catch (ActInputException e) {
 			result.setError(e.getErrorCode(), messageSource);
-			return result;
+		} catch (RawActInputException e) {
+			result.setError(e.getErrorCode(), messageSource);
 		}
-		result.setSuccess(true);
 		return result;
 	}
 

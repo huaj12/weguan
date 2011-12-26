@@ -82,6 +82,8 @@ function addRawAct() {
 	//判断是否有town
 	if($("#c_id")[0]){
 		town=$("#town").val();
+	}else{
+		town="-1";
 	}
 	if (address == "详细地址") {
 		address = "";
@@ -92,10 +94,11 @@ function addRawAct() {
 				4000);
 		return;
 	}
-	var detail_length = getByteLen(detail);
-	if (detail_length > 4000) {
+	var detailCount = editor.text();
+	var detail_length = getByteLen(detailCount);
+	if (detail_length > 8000) {
 		editor.focus();
-		$("#detail_tip").html("详细信息不能超过2000个中文当前" + (detail_length / 2) + "字")
+		$("#detail_tip").html("详细信息不能超过4000个中文当前" + (detail_length / 2) + "字")
 				.stop(true, true).show().fadeOut(4000);
 		return;
 	}

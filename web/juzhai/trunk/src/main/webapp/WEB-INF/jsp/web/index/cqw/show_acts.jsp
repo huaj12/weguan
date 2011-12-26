@@ -30,8 +30,9 @@
 							</select></span>
 						</div><!--select end-->
 						<div class="title_right">
+							<a href="/showActs/${orderType}/0/1" <c:if test="${categoryId==0}">class="active"</c:if>>全部</a>
 							<c:forEach var="category" items="${categoryList}">
-								<a href="/showActs/${orderType}/${category.id}/1">${category.name}</a>
+								<a href="/showActs/${orderType}/${category.id}/1" <c:if test="${categoryId==category.id}">class="active"</c:if>>${category.name}</a>
 							</c:forEach>
 						</div>
 					</div><!--title end-->

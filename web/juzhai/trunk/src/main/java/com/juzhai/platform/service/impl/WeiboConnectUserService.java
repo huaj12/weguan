@@ -122,6 +122,8 @@ public class WeiboConnectUserService extends AbstractUserService {
 			}
 			profile.setGender(sex);
 			profile.setLogoPic(user.getAvatarLarge());
+			//用户简介
+			profile.setFeature(user.getDescription());
 			// 没有家乡用所在地代替
 			profile.setHome(user.getLocation());
 			// 获取不到生日需要高级接口

@@ -100,8 +100,8 @@ public class ActService implements IActService {
 	private int actNameWordfilterApplication = 0;
 	@Value("${act.cache.expire.time}")
 	private int actCacheExpireTime = 0;
-	@Value("${detail.length.max}")
-	private int detailLengthMax;
+	@Value("${act.detail.length.max}")
+	private int actDetailLengthMax;
 	@Autowired
 	private IUserActService userActService;
 	@Autowired
@@ -545,7 +545,7 @@ public class ActService implements IActService {
 		updateActCategory(act.getId(), categoryIds);
 		clearActCache(act.getId());
 		if (StringUtils.isNotEmpty(detail)) {
-			if (detail.length() < detailLengthMax) {
+			if (StringUtil.chineseLength(detail) < actDetailLengthMax) {
 				actDetailService.addActDetail(act.getId(), detail);
 			} else {
 				throw new ActInputException(
@@ -607,7 +607,7 @@ public class ActService implements IActService {
 			userActService.addAct(addUid, a.getId());
 			actId = a.getId();
 			if (StringUtils.isNotEmpty(detail)) {
-				if (detail.length() < detailLengthMax) {
+				if (StringUtil.chineseLength(detail) < actDetailLengthMax) {
 					actDetailService.addActDetail(actId, detail);
 				}
 			}

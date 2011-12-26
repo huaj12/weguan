@@ -50,19 +50,8 @@ public class ProfileContrller extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		Profile profile = profileService.getProfile(context.getUid());
 		assembleCiteys(model);
-		List<String> list = new ArrayList<String>(4);
-		if (StringUtils.isNotEmpty(profile.getFeature())) {
-			for (String s : profile.getFeature().split(",")) {
-				list.add(s);
-			}
-		} else {
-			// TODO (review)确认是否有bug
-			for (int i = 0; i < 3; i++) {
-				list.add("");
-			}
-		}
+		model.addAttribute("professions", InitData.PROFESSION_MAP.values());
 		model.addAttribute("profile", profile);
-		model.addAttribute("featureList", list);
 		return "web/profile/setting";
 	}
 
@@ -170,7 +159,7 @@ public class ProfileContrller extends BaseController {
 		profile.setBirthSecret(birthSecret);
 		profile.setProfession(settingForm.getProfession());
 		profile.setProfessionId(professionId);
-		// TODO (review) 用户输入的内容就存在逗号怎么办？
+		// TODO (done) 用户输入的内容就存在逗号怎么办？
 		profile.setFeature(settingForm.getFeature());
 		profile.setUid(context.getUid());
 		try {

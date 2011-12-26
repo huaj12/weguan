@@ -25,6 +25,7 @@ import com.juzhai.act.service.IActImageService;
 import com.juzhai.act.service.IRawActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 
@@ -98,7 +99,18 @@ public class RawActController extends BaseController {
 			AddRawActForm addRawActForm) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
-		// TODO (review) 封装到Service里
+		RawAct rawAct = converAct(addRawActForm, context.getUid());
+		try {
+			rawAct = rawActService.addRawAct(rawAct);
+		} catch (Exception e) {
+			result.setError(e.getMessage(), messageSource);
+			return result;
+		}
+		return result;
+	}
+
+	private RawAct converAct(AddRawActForm addRawActForm, long uid) {
+		// TODO (done) 封装到Service里
 		RawAct rawAct = new RawAct();
 		rawAct.setAddress(addRawActForm.getAddress());
 		rawAct.setCategoryIds(String.valueOf(addRawActForm.getCategoryId()));
@@ -108,24 +120,22 @@ public class RawActController extends BaseController {
 		rawAct.setLogo(addRawActForm.getFilePath());
 		rawAct.setDetail(addRawActForm.getDetail());
 		rawAct.setName(addRawActForm.getName());
-		rawAct.setCreateUid(context.getUid());
+		rawAct.setCreateUid(uid);
+		String startTime = addRawActForm.getStartTime();
 		try {
-			String startTime = addRawActForm.getStartTime();
 			if (StringUtils.isNotEmpty(startTime)) {
 				rawAct.setStartTime(DateUtils.parseDate(startTime,
-						new String[] { "yyyy-MM-dd" }));
+						DateFormat.datePattern));
 			}
 			String endTime = addRawActForm.getEndTime();
 			if (StringUtils.isNotEmpty(endTime)) {
 				rawAct.setEndTime(DateUtils.parseDate(endTime,
-						new String[] { "yyyy-MM-dd" }));
+						DateFormat.datePattern));
 			}
-			rawAct = rawActService.addRawAct(rawAct);
 		} catch (Exception e) {
-			result.setError(e.getMessage(), messageSource);
-			return result;
+			return null;
 		}
-		return result;
+		return rawAct;
 	}
 
 	private Map<String, Object> getError(String errorCode) {

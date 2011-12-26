@@ -36,8 +36,10 @@ import com.juzhai.cms.controller.view.CmsActMagerView;
 import com.juzhai.cms.controller.view.CmsActView;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.pager.PagerManager;
+import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.jstl.JzCoreFunction;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 
 @Controller
@@ -60,9 +62,9 @@ public class CmsActController extends BaseController {
 				&& StringUtils.isNotEmpty(form.getEndDate())) {
 			try {
 				Date startDate = DateUtils.parseDate(form.getStartDate(),
-						new String[] { "yyyy-MM-dd" });
+						DateFormat.datePattern);
 				Date endDate = DateUtils.parseDate(form.getEndDate(),
-						new String[] { "yyyy-MM-dd" });
+						DateFormat.datePattern);
 
 				PagerManager pager = new PagerManager(form.getPageId(), 10,
 						actService.countNewActs(startDate, endDate));
@@ -185,11 +187,11 @@ public class CmsActController extends BaseController {
 		try {
 			if (!StringUtils.isEmpty(bDate)) {
 				startDate = DateUtils.parseDate(bDate,
-						new String[] { "yyyy-MM-dd" });
+						DateFormat.datePattern);
 			}
 			if (!StringUtils.isEmpty(eDate)) {
 				endDate = DateUtils.parseDate(eDate,
-						new String[] { "yyyy-MM-dd" });
+						DateFormat.datePattern);
 			}
 		} catch (ParseException e) {
 			log.error("parse search date error.", e);
@@ -233,7 +235,7 @@ public class CmsActController extends BaseController {
 		model.addAttribute("act", act);
 		model.addAttribute("actDetail", actDetail);
 		model.addAttribute("logoWebPath",
-				JzCoreFunction.actLogo(act.getId(), act.getLogo(), 0));
+				JzResourceFunction.actLogo(act.getId(), act.getLogo(), 0));
 		model.addAttribute("age", SuitAge.getByIndex(act.getSuitAge()));
 		model.addAttribute("gender", SuitGender.getByIndex(act.getSuitGender()));
 		model.addAttribute("stauts", SuitStatus.getByIndex(act.getSuitStatus()));
@@ -302,12 +304,12 @@ public class CmsActController extends BaseController {
 		try {
 			if (!StringUtils.isEmpty(form.getStartTime())) {
 				startTime = DateUtils.parseDate(form.getStartTime(),
-						new String[] { "yyyy-MM-dd" });
+						DateFormat.datePattern);
 				act.setStartTime(startTime);
 			}
 			if (!StringUtils.isEmpty(form.getEndTime())) {
 				endTime = DateUtils.parseDate(form.getEndTime(),
-						new String[] { "yyyy-MM-dd" });
+						DateFormat.datePattern);
 				act.setEndTime(endTime);
 			}
 		} catch (ParseException e) {

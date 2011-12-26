@@ -118,11 +118,8 @@ public class BaseController {
 		return HttpRequestUtil.getSessionAttributeAsLong(request,
 				CityChannelFilter.SESSION_CHANNEL_NAME, 0L);
 	}
-	
-	// TODO (done)公共的方法，可以移到BaseController里
-	// TODO (done) 别再复制了
+
 	protected void assembleCiteys(Model model) {
-		// TODO (done) 为什么要循环？values()不行吗
 		model.addAttribute("towns", InitData.TOWN_MAP.values());
 		List<Category> categoryList = actCategoryService.findAllCategory();
 		model.addAttribute("categoryList", categoryList);

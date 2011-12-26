@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import weibo4j.Comments;
 import weibo4j.Timeline;
-import weibo4j.Weibo;
 import weibo4j.http.ImageItem;
 import weibo4j.model.Status;
 import weibo4j.model.WeiboException;
@@ -21,17 +20,11 @@ import weibo4j.model.WeiboException;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActImageService;
 import com.juzhai.act.service.IActService;
-import com.juzhai.act.service.IUploadImageService;
-import com.juzhai.act.service.IUserActService;
-import com.juzhai.act.service.impl.ActService;
 import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.cms.bean.SizeType;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.service.IProfileService;
-import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.service.IMessageService;
 
 @Service
@@ -104,7 +97,6 @@ public class WeiboAppMessageService implements IMessageService {
 			throws WeiboException {
 		Act act = actService.getActById(actId);
 		if (act != null) {
-			// TODO (done) 这里代码我有改动过，检查一下是否有问题
 			byte[] imgContent = actImageService.getActFile(act.getId(),
 					act.getLogo(), SizeType.BIG);
 			if (imgContent == null) {

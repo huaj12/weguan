@@ -75,8 +75,6 @@ public class InitData {
 	@Value("${freshman.guide.steps}")
 	private String freshmanGuideSteps;
 
-	// TODO (done) 年月日为什么要在java里初始化？没有必要
-
 	@PostConstruct
 	public void init() {
 		initTp();
@@ -88,8 +86,6 @@ public class InitData {
 		initConstellation();
 		initProfession();
 	}
-
-	
 
 	// 职业
 	private void initProfession() {

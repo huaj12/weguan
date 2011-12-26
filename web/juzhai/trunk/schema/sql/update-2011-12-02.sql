@@ -235,7 +235,7 @@ CREATE INDEX `idx_createuid` ON `juzhai`.`tb_raw_act` (`create_uid` ASC) ;
 SHOW WARNINGS;
 
 
-alter table tb_profile add feature varchar(200) AFTER shape;
+alter table tb_profile add feature varchar(800) AFTER shape;
 alter table tb_profile add profession_id BIGINT NOT NULL DEFAULT 0 AFTER company;
 alter table tb_profile change constellation constellation_id BIGINT NOT NULL DEFAULT 0;
 alter table tb_profile change gender gender INT(1);

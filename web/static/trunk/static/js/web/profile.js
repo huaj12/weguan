@@ -105,7 +105,7 @@ function setting(){
 	var birthSecret="0";
 	var professionId=$("#professionId").val();
 	var profession=$("#profession").val();
-	var features="";
+	var feature=$("#feature").val();
 	if(professionId==0&&(profession==""||profession=="10个字以内描述")){
 		 $(".pj_error").html("请输入您的职业描述");
 		 return ;
@@ -115,19 +115,14 @@ function setting(){
 		 $(".pj_error").html("描述在1-10个字之间");
 		 return ;
 	}
-	$("input[name='feature']").each(function (index, obj) { 
-		   var str=$(obj).val();
-		   if(!checkValLength(str, 1, 14)){
-			   $(obj)[0].focus();
-			   $(".pj_error").html("请在1-7个中文之间哦！");
-			   return false;
-		   }else{
-			   features=features+str+",";
-			   return true;
-		   }
-		});
+	if(!checkValLength(feature, 0, 70)){
+		$("#feature")[0].focus();
+		 $("#feature_tp").html("不要超过70个字哦!");
+		 return ;
+	}
+	
 	if($("#towns").css("display")=="none"){
-		town="";
+		town="-1";
 	}
 	if($("#birthSecret").is(':checked')){
 		birthSecret="1";
@@ -143,7 +138,7 @@ function setting(){
 			"birthSecret" : birthSecret,
 			"professionId" : professionId,
 			"profession" : profession,
-			"feature" : features},
+			"feature" : feature},
 		dataType: "json",
 		success: function(result){
 			if(result.success){

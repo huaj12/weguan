@@ -28,6 +28,7 @@ import weibo4j.Oauth;
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.util.JackSonSerializer;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
@@ -122,7 +123,7 @@ public class TpAuthorizeController extends BaseController {
 			return returnError();
 		}
 
-		loginService.login(request, uid, tp.getId());
+		loginService.login(request, uid, tp.getId(), RunType.APP);
 
 		return returnPage(uid, tp, returnTo);
 	}
@@ -295,7 +296,7 @@ public class TpAuthorizeController extends BaseController {
 					+ tp.getJoinType() + "].");
 			return error_500;
 		}
-		loginService.login(request, uid, tp.getId());
+		loginService.login(request, uid, tp.getId(), RunType.CONNET);
 		return "redirect:/home";
 	}
 

@@ -5,18 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map.Entry;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,19 +22,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.juzhai.act.InitData;
 import com.juzhai.act.bean.SuitAge;
 import com.juzhai.act.bean.SuitGender;
 import com.juzhai.act.bean.SuitStatus;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActDetail;
-import com.juzhai.act.model.Category;
-import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IActDetailService;
-import com.juzhai.act.service.IActImageService;
 import com.juzhai.act.service.IActService;
-import com.juzhai.act.service.IUserActService;
 import com.juzhai.cms.controller.form.AddActForm;
 import com.juzhai.cms.controller.form.SearchActForm;
 import com.juzhai.cms.controller.view.CmsActMagerView;
@@ -48,12 +39,10 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.jstl.JzCoreFunction;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.passport.model.City;
-import com.juzhai.passport.model.Province;
 
 @Controller
 @RequestMapping("/cms")
-public class CmsActController extends BaseController{
+public class CmsActController extends BaseController {
 	private final Log log = LogFactory.getLog(getClass());
 
 	@Autowired
@@ -212,7 +201,6 @@ public class CmsActController extends BaseController{
 
 		List<CmsActMagerView> viewList = new ArrayList<CmsActMagerView>(
 				acts.size());
-		// TODO (done) 以下代码为什么不能在CmsActMagerView用？CmsActMagerView里我看有act
 		for (Act act : acts) {
 			viewList.add(new CmsActMagerView(act));
 		}
@@ -252,9 +240,6 @@ public class CmsActController extends BaseController{
 		return "cms/updateAct";
 	}
 
-	
-
-
 	// TODO (done) 以下所有代码重构一下，太乱了。精简代码！！！另外上传图片的代码我已经重构，根据我重构完的调用
 	@RequestMapping(value = "/createAct", method = RequestMethod.POST)
 	public ModelAndView createAct(AddActForm form, Long addUid,
@@ -264,7 +249,8 @@ public class CmsActController extends BaseController{
 		ModelMap mmap = new ModelMap();
 		try {
 			if (act != null && act.getName() != null) {
-				actService.cmsCreateAct(act, form.getCatIds(), addUid, form.getDetail(), form.getImgFile());
+				actService.cmsCreateAct(act, form.getCatIds(), addUid,
+						form.getDetail(), form.getImgFile());
 			} else {
 				mmap.addAttribute("msg", "create act name is null");
 			}
@@ -281,13 +267,13 @@ public class CmsActController extends BaseController{
 		ModelMap mmap = new ModelMap();
 		try {
 			if (form.getCatIds() != null) {
-				actService.updateAct(act, form.getCatIds(),form.getDetail());
+				actService.updateAct(act, form.getCatIds(), form.getDetail());
 			} else {
 				mmap.addAttribute("msg", "create act catIds is null");
 				log.error("create act catIds is null");
 			}
 		} catch (Exception e) {
-			mmap.addAttribute("msg", "update act is error."+e.getMessage());
+			mmap.addAttribute("msg", "update act is error." + e.getMessage());
 		}
 		return new ModelAndView("redirect:/cms/showActManager", mmap);
 	}

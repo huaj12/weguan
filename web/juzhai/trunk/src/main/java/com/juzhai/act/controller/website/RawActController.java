@@ -1,11 +1,8 @@
 package com.juzhai.act.controller.website;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,18 +20,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.controller.form.AddRawActForm;
 import com.juzhai.act.exception.UploadImageException;
-import com.juzhai.act.model.Category;
 import com.juzhai.act.model.RawAct;
-import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IActImageService;
 import com.juzhai.act.service.IRawActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.passport.model.City;
-import com.juzhai.passport.model.Province;
-import com.juzhai.passport.model.Town;
 
 @Controller
 @RequestMapping(value = "act")
@@ -91,7 +83,6 @@ public class RawActController extends BaseController {
 	@RequestMapping(value = "/showAddRawAct", method = RequestMethod.GET)
 	public String showAddRawAct(HttpServletRequest request, Model model,
 			Boolean success) throws NeedLoginException {
-		// TODO (done)验证是否登录
 		checkLoginForWeb(request);// code by wujiajun
 		assembleCiteys(model);
 		if (null != success) {
@@ -101,14 +92,13 @@ public class RawActController extends BaseController {
 
 	}
 
-	
-
 	@RequestMapping(value = "/addRawAct", method = RequestMethod.POST)
 	@ResponseBody
-	// TODO (done) 参数过多，应该封装成一个form
-	public AjaxResult addRawAct(HttpServletRequest request,Model model,AddRawActForm addRawActForm ) throws NeedLoginException {
+	public AjaxResult addRawAct(HttpServletRequest request, Model model,
+			AddRawActForm addRawActForm) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
+		// TODO (review) 封装到Service里
 		RawAct rawAct = new RawAct();
 		rawAct.setAddress(addRawActForm.getAddress());
 		rawAct.setCategoryIds(String.valueOf(addRawActForm.getCategoryId()));
@@ -120,12 +110,12 @@ public class RawActController extends BaseController {
 		rawAct.setName(addRawActForm.getName());
 		rawAct.setCreateUid(context.getUid());
 		try {
-			String startTime=addRawActForm.getStartTime();
+			String startTime = addRawActForm.getStartTime();
 			if (StringUtils.isNotEmpty(startTime)) {
 				rawAct.setStartTime(DateUtils.parseDate(startTime,
 						new String[] { "yyyy-MM-dd" }));
 			}
-			String endTime=addRawActForm.getEndTime();
+			String endTime = addRawActForm.getEndTime();
 			if (StringUtils.isNotEmpty(endTime)) {
 				rawAct.setEndTime(DateUtils.parseDate(endTime,
 						new String[] { "yyyy-MM-dd" }));

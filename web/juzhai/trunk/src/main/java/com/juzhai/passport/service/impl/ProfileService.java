@@ -214,7 +214,7 @@ public class ProfileService implements IProfileService {
 	@Override
 	public void setGender(long uid, Integer gender)
 			throws ProfileInputException {
-		// TODO (done)和上面那个PROFILE_GEBDER_INVALID异常，可以合并
+		// TODO (review) 这个逻辑没有问题？
 		if (gender == null || gender == 0 || gender == 1) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_GEBDER_INVALID);
@@ -225,7 +225,6 @@ public class ProfileService implements IProfileService {
 					ProfileInputException.PROFILE_UID_NOT_EXIST);
 		}
 		if (!profile.getHasModifyGender()) {
-			// TODO (done)最后修改时间字段不需要修改？
 			profile.setGender(gender);
 			profile.setLastModifyTime(new Date());
 			profile.setHasModifyGender(true);
@@ -250,7 +249,6 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_NICKNAME_IS_NULL);
 		}
-		// TODO (done)不需要考虑中文？在使用中文长度之前，先看一下是否已经有方法可以用了
 		if (StringUtil.chineseLength(nickName) > nickNameLengthMax) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_NICKNAME_IS_TOO_LONG);
@@ -261,11 +259,9 @@ public class ProfileService implements IProfileService {
 					ProfileInputException.PROFILE_UID_NOT_EXIST);
 		}
 
-		// TODO (done) 当用户修改的昵称是自己当前使用的昵称，能不能修改？
 		if (!isExistNickname(nickName, uid)) {
-			// TODO (done)优化判断的思路，减少嵌套层数（不理解找我）
+			// TODO (review) 优化判断的思路，减少嵌套层数（不理解找我）
 			if (!profile.getHasModifyNickname()) {
-				// TODO (done)最后修改时间字段不需要修改？
 				profile.setNickname(nickName);
 				profile.setLastModifyTime(new Date());
 				profile.setHasModifyNickname(true);
@@ -288,7 +284,6 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
-	// TODO (done)有了profile参数，为什么还要uid参数？
 	public void updateProfile(Profile profile) throws ProfileInputException {
 		if (null == profile || profile.getUid() == 0) {
 			return;
@@ -318,8 +313,7 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROFESSION_ID_IS_NULL);
 		}
-		// TODO (done)为什么要用intValue()?
-		if (profile.getProfessionId()== 0
+		if (profile.getProfessionId() == 0
 				&& StringUtils.isEmpty(profile.getProfession())) {
 			// 选择其他职业描述不能为空
 			throw new ProfileInputException(
@@ -342,15 +336,14 @@ public class ProfileService implements IProfileService {
 					ProfileInputException.PROFILE_FEATURE_IS_NULL);
 		}
 		for (String s : str) {
-			// TODO (review)中文长度怎么判断？
+			// TODO (review) 中文长度怎么判断？
 			if (s.length() > featureLengthMax) {
 				throw new ProfileInputException(
 						ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
 			}
 		}
+		// TODO (review) 从profile里getUid，再在这里setUid，多余了
 		profile.setUid(uid);
-		// TODO (done) 这里是我不好，lastUpdateTime是最后更新项目时间，所以这里不需要更新
-		// profile.setLastUpdateTime(new Date());
 		profile.setLastModifyTime(new Date());
 		try {
 			profileMapper.updateByPrimaryKeySelective(profile);
@@ -358,7 +351,6 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
 		}
 		clearProfileCache(uid);
-		// TODO (done)更新redis里用户的所在地，非常好，但是代码用错地方，这个里更新逻辑应该放在用户真正修改所在地的地方。
 		cacheUserCity(uid);
 	}
 
@@ -370,7 +362,6 @@ public class ProfileService implements IProfileService {
 		ProfileExample example = new ProfileExample();
 		example.createCriteria().andNicknameEqualTo(nickname)
 				.andUidNotEqualTo(uid);
-		// TODO (done)以下代码可以直接使用三元运算，简化代码行数
 		return profileMapper.countByExample(example) > 0 ? true : false;
 	}
 
@@ -385,14 +376,6 @@ public class ProfileService implements IProfileService {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-		// TODO (done)这里既然是清楚缓存，就不需要再取了，当其他地方需要用的时候，自然会缓存
-		// ProfileCache profileCache = getProfileCacheByUid(uid);
-		// if (null != profileCache && profileCache.getCity() != null
-		// && profileCache.getCity() > 0) {
-		// redisTemplate.opsForValue().set(
-		// RedisKeyGenerator.genUserCityKey(uid),
-		// profileCache.getCity());
-		// }
 	}
 
 	@Override

@@ -111,7 +111,6 @@ public class RawActService implements IRawActService {
 	@Transactional
 	public void agreeRawAct(AgreeRawActForm agreeRawActForm)
 			throws ActInputException, RawActInputException {
-		// TODO (done) 封装到service里去吧
 		Act act = new Act();
 		act.setAddress(agreeRawActForm.getAddress());
 		act.setCity(agreeRawActForm.getCity());
@@ -122,6 +121,7 @@ public class RawActService implements IRawActService {
 		act.setLogo(agreeRawActForm.getLogo());
 		List<Long> list = new ArrayList<Long>();
 		list.add(agreeRawActForm.getCategoryIds());
+		// TODO (review) yyy-MM-dd一个就够了，不用每次都new
 		try {
 			if (StringUtils.isNotEmpty(agreeRawActForm.getStartTime())) {
 				act.setStartTime(DateUtils.parseDate(
@@ -156,8 +156,8 @@ public class RawActService implements IRawActService {
 		actMapper.updateByPrimaryKeySelective(updateAct);
 		detail = actImageService.intoEditorImg(act.getId(), detail);
 		if (StringUtils.isEmpty(detail)) {
-			 throw new RawActInputException(
-					 RawActInputException.RAW_ACT_DETAIL_LOGO_INVALID);
+			throw new RawActInputException(
+					RawActInputException.RAW_ACT_DETAIL_LOGO_INVALID);
 		}
 		actDetailService.addActDetail(act.getId(), detail);
 		delteRawAct(rawActId);

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.juzhai.core.cache.MemcachedKeyGenerator;
+import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.service.IFriendService;
@@ -39,7 +40,7 @@ public abstract class AbstractLoginService implements ILoginService {
 
 	@Override
 	public void login(HttpServletRequest request, final long uid,
-			final long tpId) {
+			final long tpId, RunType runType) {
 		// 判断是不是当天第一次登陆
 		Passport passport = passportMapper.selectByPrimaryKey(uid);
 		if (null == passport) {
@@ -54,7 +55,7 @@ public abstract class AbstractLoginService implements ILoginService {
 
 		doLogin(request, uid, tpId, false);
 		// 更新最后登录时间
-		updateLastLoginTime(uid);
+		updateLastLoginTime(uid, runType);
 		updateOnlineState(uid);
 		// TODO 用AOP
 		// 启动一个线程来获取和保存
@@ -104,10 +105,20 @@ public abstract class AbstractLoginService implements ILoginService {
 		}
 	}
 
-	private void updateLastLoginTime(long uid) {
+	private void updateLastLoginTime(long uid, RunType runType) {
 		Passport updatePassport = new Passport();
 		updatePassport.setId(uid);
-		updatePassport.setLastLoginTime(new Date());
+		switch (runType) {
+		case APP:
+			updatePassport.setLastLoginTime(new Date());
+			break;
+		case WEB:
+			updatePassport.setLastWebLoginTime(new Date());
+			break;
+		case CONNET:
+			updatePassport.setLastWebLoginTime(new Date());
+			break;
+		}
 		passportMapper.updateByPrimaryKeySelective(updatePassport);
 	}
 

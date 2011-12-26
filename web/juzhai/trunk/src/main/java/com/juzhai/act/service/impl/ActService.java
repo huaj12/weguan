@@ -100,7 +100,6 @@ public class ActService implements IActService {
 	private int actNameWordfilterApplication = 0;
 	@Value("${act.cache.expire.time}")
 	private int actCacheExpireTime = 0;
-	// TODO (done) 显然actDetailLengthMax逻辑放在controller里不合适
 	@Value("${detail.length.max}")
 	private int detailLengthMax;
 	@Autowired

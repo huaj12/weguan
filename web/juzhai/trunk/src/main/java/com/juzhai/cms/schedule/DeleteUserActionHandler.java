@@ -36,13 +36,13 @@ public class DeleteUserActionHandler extends AbstractScheduleHandler {
 	}
 
 	private void deleteAddActAction() {
+		// TODO (review) 想分批处理对吧？不是这样写的哦!
 		try {
 			PagerManager pager = new PagerManager(1, 50,
 					userActionService.getAddActActionCount());
 			for (int i = 1; i <= pager.getTotalPage(); i++) {
-				List<AddActAction> list = userActionService
-						.getAddActAction((i - 1) * pager.getResults(),
-								pager.getResults());
+				List<AddActAction> list = userActionService.getAddActAction(
+						(i - 1) * pager.getResults(), pager.getResults());
 				for (AddActAction act : list) {
 					addActActionMapper.deleteByPrimaryKey(act.getId());
 				}
@@ -51,7 +51,9 @@ public class DeleteUserActionHandler extends AbstractScheduleHandler {
 			log.error("deleteAddActAction is error Date=" + new Date(), e);
 		}
 	}
+
 	private void deleteSearchActAction() {
+		// TODO (review) 想分批处理对吧？不是这样写的哦!
 		try {
 			PagerManager pager = new PagerManager(1, 50,
 					userActionService.getSearchActActionCount());

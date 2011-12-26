@@ -24,7 +24,6 @@ public class ActDetailService implements IActDetailService {
 	public void addActDetail(long actId, String detail) {
 		ActDetail a = new ActDetail();
 		a.setActId(actId);
-		// TODO (done) display字段用于判断项目页是否显示富文本？判断条件问max或者看demo
 		List<String> list = matchImage(detail);
 		if (CollectionUtils.isEmpty(list)) {
 			a.setDisplay(false);

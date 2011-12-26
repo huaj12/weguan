@@ -181,7 +181,6 @@ public class ProfileContrller extends BaseController {
 		} catch (ProfileInputException e) {
 			ajaxResult.setError(e.getErrorCode(), messageSource);
 		}
-		// TODO (done) new完之后默认就是true，所以这里不需要赋值，另外catch里的return可以删掉，少一行代码
 		return ajaxResult;
 	}
 

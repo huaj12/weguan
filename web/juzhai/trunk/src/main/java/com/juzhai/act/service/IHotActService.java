@@ -1,8 +1,10 @@
 package com.juzhai.act.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.juzhai.act.model.Act;
+import com.juzhai.act.model.HotAct;
 
 public interface IHotActService {
 
@@ -43,6 +45,25 @@ public interface IHotActService {
 	 * @return
 	 */
 	List<Act> listHotAct(boolean active, int firstResult, int maxResults);
+
+	/**
+	 * 列出推荐的Act
+	 * 
+	 * @param active
+	 *            是否当前有效
+	 * @return
+	 */
+	List<Act> listHotActByCreateTime(Date lastUpdateTime, boolean active,
+			int firstResult, int maxResults);
+
+	/**
+	 * 列出推荐的Act
+	 * 
+	 * @param active
+	 *            是否当前有效
+	 * @return
+	 */
+	List<HotAct> hotActList(boolean active, int firstResult, int maxResults);
 
 	/**
 	 * 推荐的Act数量

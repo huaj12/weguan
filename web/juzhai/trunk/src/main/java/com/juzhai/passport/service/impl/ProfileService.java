@@ -327,17 +327,10 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_FEATURE_IS_NULL);
 		}
-		String[] str = profile.getFeature().split(",");
-		if (str == null || str.length < 3) {
+		// TODO (done) 中文长度怎么判断？
+		if(StringUtil.chineseLength(profile.getFeature())>featureLengthMax){
 			throw new ProfileInputException(
-					ProfileInputException.PROFILE_FEATURE_IS_NULL);
-		}
-		for (String s : str) {
-			// TODO (review) 中文长度怎么判断？
-			if (s.length() > featureLengthMax) {
-				throw new ProfileInputException(
-						ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
-			}
+					ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
 		}
 		// TODO (done) 从profile里getUid，再在这里setUid，多余了
 		profile.setLastModifyTime(new Date());

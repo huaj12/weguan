@@ -410,6 +410,14 @@ public class UserActService implements IUserActService {
 		return userActMapper.countByExample(example);
 	}
 
+	@Override
+	public int countActRecentUsers(long actId, Date startDate, Date endDate) {
+		UserActExample example = new UserActExample();
+		example.createCriteria().andActIdEqualTo(actId)
+				.andLastModifyTimeBetween(startDate, endDate);
+		return userActMapper.countByExample(example);
+	}
+
 	// @Override
 	// public boolean existUserAct(long uid, long actId) {
 	// Long rank = redisTemplate.opsForZSet().rank(

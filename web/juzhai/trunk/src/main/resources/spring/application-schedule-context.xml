@@ -98,7 +98,7 @@
 	</bean>
 	<!-- delete user action end -->
 	
-		<!-- delete temp image begin -->
+	<!-- delete temp image begin -->
 	<bean id="deleteTempImageTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
@@ -108,6 +108,18 @@
 		<property name="cronExpression" value="${delete.temp.image.cron}" />
 	</bean>
 	<!-- delete temp image end -->
+	
+	<!-- update show act begin -->
+	<bean id="updateShowActsTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="updateShowActsHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${update.show.acts.cron}" />
+	</bean>
+	<!-- update show act end -->
+	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
@@ -119,6 +131,7 @@
 				<ref bean="showCategoryActListTrigger"/>
 				<ref bean="deleteUserActionTrigger"/>
 				<ref bean="deleteTempImageTrigger"/>
+				<ref bean="updateShowActsTrigger"/>
 			</list>
 		</property>
 	</bean>

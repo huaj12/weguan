@@ -192,6 +192,15 @@ public interface IUserActService {
 	 */
 	int countFriendsRecentAct(Collection<Long> friendIds, Date startDate);
 
+	/**
+	 * 统计项目最近的流行度
+	 * 
+	 * @param actId
+	 * @param startDate
+	 * @return
+	 */
+	int countActRecentUsers(long actId, Date startDate, Date endDate);
+
 	// /**
 	// * 用户是否有某个兴趣
 	// *

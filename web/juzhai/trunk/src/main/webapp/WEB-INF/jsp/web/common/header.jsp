@@ -21,7 +21,7 @@
 		</div><!--about_list end-->
 	</div><!--area end-->
 	<div class="menu"><!--menu begin-->
-		<a href="#" title="" class="selceted">找伴儿</a> <a href="#" title="">出去玩</a>
+		<a href="#" title="找伴儿" <c:if test="${pageType=='zbw'}">class="selceted"</c:if>>找伴儿</a> <a href="/showActs" title="出去玩" <c:if test="${pageType=='cqw'}">class="selceted"</c:if>>出去玩</a>
 	</div><!--menu end-->
 	<div class="about"><!--about begin-->
 		<p>关于</p>

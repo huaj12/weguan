@@ -74,17 +74,46 @@ public class HotActService implements IHotActService {
 	}
 
 	@Override
-	public List<Act> listHotAct(boolean active, int firestResult, int maxResult) {
+	public List<Act> listHotAct(boolean active, int firstResult, int maxResults) {
 		HotActExample example = new HotActExample();
 		example.createCriteria().andActiveEqualTo(active);
 		example.setOrderByClause("last_modify_time desc");
-		example.setLimit(new Limit(firestResult, maxResult));
+		example.setLimit(new Limit(firstResult, maxResults));
 		List<HotAct> hotActList = hotActMapper.selectByExample(example);
 		List<Long> actIds = new ArrayList<Long>();
 		for (HotAct hotAct : hotActList) {
 			actIds.add(hotAct.getActId());
 		}
 		return actService.getActListByIds(actIds);
+	}
+
+	@Override
+	public List<Act> listHotActByCreateTime(Date lastUpdateTime,
+			boolean active, int firstResult, int maxResults) {
+		HotActExample example = new HotActExample();
+		HotActExample.Criteria c = example.createCriteria().andActiveEqualTo(
+				active);
+		if (null != lastUpdateTime) {
+			c.andCreateTimeGreaterThanOrEqualTo(lastUpdateTime);
+		}
+		example.setOrderByClause("last_modify_time desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		List<HotAct> hotActList = hotActMapper.selectByExample(example);
+		List<Long> actIds = new ArrayList<Long>();
+		for (HotAct hotAct : hotActList) {
+			actIds.add(hotAct.getActId());
+		}
+		return actService.getActListByIds(actIds);
+	}
+
+	@Override
+	public List<HotAct> hotActList(boolean active, int firestResult,
+			int maxResult) {
+		HotActExample example = new HotActExample();
+		example.createCriteria().andActiveEqualTo(active);
+		example.setOrderByClause("last_modify_time desc");
+		example.setLimit(new Limit(firestResult, maxResult));
+		return hotActMapper.selectByExample(example);
 	}
 
 	@Override

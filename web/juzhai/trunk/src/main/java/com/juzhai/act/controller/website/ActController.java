@@ -57,8 +57,8 @@ public class ActController extends BaseController {
 	private int webActAdShowCount;
 	@Value("${web.act.link.show.count}")
 	private int webActLinkShowCount;
-	@Value("${web.act.user.maxResult}")
-	private int webActUserMaxResult;
+	@Value("${web.act.user.max.rows}")
+	private int webActUserMaxRows;
 
 	@ResponseBody
 	@RequestMapping(value = "/addAct", method = RequestMethod.POST)
@@ -135,7 +135,7 @@ public class ActController extends BaseController {
 		}
 		long cityId = fetchCityId(request);
 
-		PagerManager pager = new PagerManager(page, webActUserMaxResult,
+		PagerManager pager = new PagerManager(page, webActUserMaxRows,
 				userActService.countUserActByActIdAndGenderAndCity(actId,
 						gender, cityId));
 		List<UserAct> userActList = userActService
@@ -239,6 +239,5 @@ public class ActController extends BaseController {
 	// return result;
 	// }
 	//
-
 
 }

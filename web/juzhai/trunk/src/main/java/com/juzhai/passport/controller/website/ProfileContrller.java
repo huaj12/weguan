@@ -24,6 +24,7 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.InitData;
+import com.juzhai.passport.controller.form.SettingForm;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profession;
@@ -144,34 +145,33 @@ public class ProfileContrller extends BaseController {
 
 	@RequestMapping(value = "/setting", method = RequestMethod.POST)
 	@ResponseBody
-	// TODO (review) 参数过多封装form，并且controller里注意哪些代码应该放入service
-	public AjaxResult setting(HttpServletRequest request, Model model,
-			String feature, String profession, Long professionId,
-			Integer birthYear, Integer birthMonth, Integer birthDay,
-			Boolean birthSecret, Long province, Long city, Long town)
+	// TODO (done) 参数过多封装form，并且controller里注意哪些代码应该放入service
+	public AjaxResult setting(HttpServletRequest request, Model model,SettingForm settingForm)
 			throws NeedLoginException {
 		AjaxResult ajaxResult = new AjaxResult();
 		UserContext context = null;
-		// TODO (review) js里遇到401应该如何处理，参加我在js里写的代码
+		// TODO (done) js里遇到401应该如何处理，参加我在js里写的代码
 		context = checkLoginForWeb(request);
 		Profile profile = new Profile();
-		profile.setProvince(province);
-		profile.setCity(city);
-		profile.setTown(town);
-		profile.setBirthYear(birthYear);
-		profile.setBirthMonth(birthMonth);
-		profile.setBirthDay(birthDay);
-		if (birthSecret == null) {
+		profile.setProvince(settingForm.getProvince());
+		profile.setCity(settingForm.getCity());
+		profile.setTown(settingForm.getTown());
+		profile.setBirthYear(settingForm.getBirthYear());
+		profile.setBirthMonth(settingForm.getBirthMonth());
+		profile.setBirthDay(settingForm.getBirthDay());
+		Boolean birthSecret=settingForm.getBirthSecret();
+		if (settingForm.getBirthSecret() == null) {
 			birthSecret = false;
 		}
+		Long professionId=settingForm.getProfessionId();
 		if (professionId == null) {
 			professionId = 0l;
 		}
 		profile.setBirthSecret(birthSecret);
-		profile.setProfession(profession);
+		profile.setProfession(settingForm.getProfession());
 		profile.setProfessionId(professionId);
 		// TODO (review) 用户输入的内容就存在逗号怎么办？
-		profile.setFeature(feature);
+		profile.setFeature(settingForm.getFeature());
 		profile.setUid(context.getUid());
 		try {
 			profileService.updateProfile(profile);

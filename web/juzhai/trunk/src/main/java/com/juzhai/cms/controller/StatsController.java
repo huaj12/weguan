@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.stats.counter.service.ICounter;
 
@@ -34,7 +35,7 @@ public class StatsController {
 		Date date;
 		try {
 			date = DateUtils
-					.parseDate(queryDate, new String[] { "yyyy-MM-dd" });
+					.parseDate(queryDate, DateFormat.datePattern);
 		} catch (ParseException e) {
 			return null;
 		}

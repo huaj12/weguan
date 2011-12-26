@@ -27,6 +27,7 @@ import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.web.jstl.JzCoreFunction;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.msg.service.IMsgMessageService;
 import com.juzhai.passport.InitData;
@@ -177,7 +178,7 @@ public class KaiXinController extends BaseController {
 			if (act != null) {
 				logo = act.getLogo();
 			}
-			String picurl = JzCoreFunction.actLogo(actId, logo, 120);
+			String picurl = JzResourceFunction.actLogo(actId, logo, 120);
 			// 拼凑参数
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("method", "actions.sendNewsFeed");
@@ -271,7 +272,7 @@ public class KaiXinController extends BaseController {
 			String word = messageSource.getMessage(
 					TpMessageKey.INVITE_FRIEND_WORD, null,
 					Locale.SIMPLIFIED_CHINESE);
-			String picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(),
+			String picurl = JzResourceFunction.actLogo(act.getId(), act.getLogo(),
 					120);
 			response.setContentType("text/plain");
 			out = response.getWriter();

@@ -32,6 +32,7 @@ import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.jstl.JzCoreFunction;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.service.IMsgMessageService;
@@ -103,7 +104,7 @@ public class RenrenController extends BaseController {
 			if (act != null) {
 				logo = act.getLogo();
 			}
-			String picurl = JzCoreFunction.actLogo(id, logo, 120);
+			String picurl = JzResourceFunction.actLogo(id, logo, 120);
 			map.put("message", message);
 			map.put("image", picurl);
 			map.put("url", action_link);

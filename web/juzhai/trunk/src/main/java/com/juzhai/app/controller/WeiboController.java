@@ -37,6 +37,7 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.jstl.JzCoreFunction;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.msg.service.IMsgMessageService;
 import com.juzhai.passport.InitData;
@@ -89,7 +90,7 @@ public class WeiboController extends BaseController {
 			if (act != null) {
 				logo = act.getLogo();
 			}
-			String picurl = JzCoreFunction.actLogo(id, logo, 120);
+			String picurl = JzResourceFunction.actLogo(id, logo, 120);
 			map.put("actId", String.valueOf(act.getId()));
 			map.put("message", message);
 			map.put("picurl", picurl);
@@ -109,7 +110,7 @@ public class WeiboController extends BaseController {
 			UserContext context = checkLoginForApp(request);
 			Thirdparty tp = InitData.TP_MAP.get(context.getTpId());
 
-			String picurl = JzCoreFunction.actLogo(0, null, 120);
+			String picurl = JzResourceFunction.actLogo(0, null, 120);
 			String message = messageSource.getMessage(
 					TpMessageKey.WEIBO_INVITE_TEXT, null,
 					Locale.SIMPLIFIED_CHINESE);

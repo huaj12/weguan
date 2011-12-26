@@ -9,6 +9,7 @@ import com.juzhai.act.bean.SuitStatus;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.Category;
 import com.juzhai.core.web.jstl.JzCoreFunction;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Province;
 
@@ -40,34 +41,34 @@ public class CmsActMagerView implements Serializable {
 		City city = com.juzhai.passport.InitData.CITY_MAP.get(act.getCity());
 		Province pro = com.juzhai.passport.InitData.PROVINCE_MAP.get(act
 				.getProvince());
-		// TODO (review) 不要用""来初始化字符串，每次都新建了一个""字符串
-		String proName = "";
-		// TODO (review) 代码提示了警告，不觉得有问题？
-		String cityName = "";
+		// TODO (done) 不要用""来初始化字符串，每次都新建了一个""字符串
+		String proName = null;
+		// TODO (done) 代码提示了警告，不觉得有问题？
 		if (pro != null) {
 			proName = pro.getName();
 		}
 		if (city != null) {
-			cityName = city.getName();
+			this.cityName = city.getName();
 		}
-		String address = "";
+		String address = null;
 		if (act.getAddress() != null) {
 			address = act.getAddress();
 		}
-		String logoWebPath = "";
+		String logoWebPath = null;
 		if (act.getLogo() != null) {
-			// TODO (review) @Deprecated的代码还用？
-			logoWebPath = JzCoreFunction.actLogo(act.getId(), act.getLogo(), 0);
+			// TODO (done) @Deprecated的代码还用？
+			logoWebPath = JzResourceFunction.actLogo(act.getId(), act.getLogo(), 0);
 		}
-		//TODO (review) 这里没有线程不安全，所以不要用StringBuffer，用StringBuilder
-		StringBuffer categorys = new StringBuffer();
+		//TODO (done) 这里没有线程不安全，所以不要用StringBuffer，用StringBuilder
+		StringBuilder categorys = new StringBuilder();
 		String cats = act.getCategoryIds();
 		if (cats != null) {
+			String separator=" ";
 			for (String cat : cats.split(",")) {
 				Category c = InitData.CATEGORY_MAP.get(Long.valueOf(cat));
 				if (c != null) {
-					// TODO (review) " "循环外面定义，循环里会每次新建字符串
-					categorys.append(c.getName() + " ");
+					// TODO (done) " "循环外面定义，循环里会每次新建字符串
+					categorys.append(c.getName() + separator);
 				}
 			}
 		}

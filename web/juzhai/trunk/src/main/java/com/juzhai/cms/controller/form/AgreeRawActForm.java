@@ -8,8 +8,8 @@ public class AgreeRawActForm {
 	private String name;
 	private String detail;
 	private String logo;
-	// TODO (review) 如果是多个分类，那用long是不够的；如果是一个分类，那命名是不规范的
-	private long categoryIds;
+	// TODO (done) 如果是多个分类，那用long是不够的；如果是一个分类，那命名是不规范的
+	private long categoryId;
 	private String address;
 	private String startTime;
 	private String endTime;
@@ -29,6 +29,14 @@ public class AgreeRawActForm {
 
 	public void setTown(long town) {
 		this.town = town;
+	}
+
+	public long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public long getProvince() {
@@ -71,13 +79,7 @@ public class AgreeRawActForm {
 		this.logo = logo;
 	}
 
-	public long getCategoryIds() {
-		return categoryIds;
-	}
-
-	public void setCategoryIds(long categoryIds) {
-		this.categoryIds = categoryIds;
-	}
+	
 
 	public String getAddress() {
 		return address;

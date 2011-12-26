@@ -21,6 +21,7 @@ import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.app.service.IAppService;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.jstl.JzCoreFunction;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
@@ -90,7 +91,7 @@ public class AppService implements IAppService {
 			for (String fuid : fuids.split(",")) {
 				receiverIdentitys.add(fuid);
 			}
-			String picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(),
+			String picurl = JzResourceFunction.actLogo(act.getId(), act.getLogo(),
 					120);
 			// 发送系统消息
 			messageService.sendMatchMessage(sendId, receiverIdentitys,
@@ -116,7 +117,7 @@ public class AppService implements IAppService {
 			log.error("send Feed authInfo is null");
 			return false;
 		}
-		String picurl = JzCoreFunction.actLogo(act.getId(), act.getLogo(), 120);
+		String picurl = JzResourceFunction.actLogo(act.getId(), act.getLogo(), 120);
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		int count = userActService.countUserActByActId(tp.getName(), actId);
 		String text = "";

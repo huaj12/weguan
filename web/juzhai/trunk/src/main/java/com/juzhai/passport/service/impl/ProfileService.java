@@ -214,8 +214,8 @@ public class ProfileService implements IProfileService {
 	@Override
 	public void setGender(long uid, Integer gender)
 			throws ProfileInputException {
-		// TODO (review) 这个逻辑没有问题？
-		if (gender == null || gender == 0 || gender == 1) {
+		// TODO (done) 这个逻辑没有问题？
+		if (gender == null || (gender != 0 && gender != 1)) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_GEBDER_INVALID);
 		}
@@ -258,28 +258,25 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_UID_NOT_EXIST);
 		}
-
-		if (!isExistNickname(nickName, uid)) {
-			// TODO (review) 优化判断的思路，减少嵌套层数（不理解找我）
-			if (!profile.getHasModifyNickname()) {
-				profile.setNickname(nickName);
-				profile.setLastModifyTime(new Date());
-				profile.setHasModifyNickname(true);
-				try {
-					profileMapper.updateByPrimaryKey(profile);
-				} catch (Exception e) {
-					throw new ProfileInputException(
-							ProfileInputException.PROFILE_ERROR);
-				}
-				clearProfileCache(uid);
-			} else {
-				throw new ProfileInputException(
-						ProfileInputException.PROFILE_NICKNAME_REPEAT_UPDATE);
-			}
-		} else {
+		if (profile.getHasModifyNickname()) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_NICKNAME_REPEAT_UPDATE);
+		}
+		if (isExistNickname(nickName, uid)) {
+			// TODO (done) 优化判断的思路，减少嵌套层数（不理解找我）
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_NICKNAME_IS_EXIST);
 		}
+		profile.setNickname(nickName);
+		profile.setLastModifyTime(new Date());
+		profile.setHasModifyNickname(true);
+		try {
+			profileMapper.updateByPrimaryKey(profile);
+		} catch (Exception e) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_ERROR);
+		}
+		clearProfileCache(uid);
 
 	}
 
@@ -342,8 +339,7 @@ public class ProfileService implements IProfileService {
 						ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
 			}
 		}
-		// TODO (review) 从profile里getUid，再在这里setUid，多余了
-		profile.setUid(uid);
+		// TODO (done) 从profile里getUid，再在这里setUid，多余了
 		profile.setLastModifyTime(new Date());
 		try {
 			profileMapper.updateByPrimaryKeySelective(profile);

@@ -28,6 +28,7 @@ import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IRawActService;
 import com.juzhai.cms.controller.form.AgreeRawActForm;
 import com.juzhai.core.dao.Limit;
+import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
 
 @Service
@@ -120,18 +121,18 @@ public class RawActService implements IRawActService {
 		act.setCreateUid(agreeRawActForm.getCreateUid());
 		act.setLogo(agreeRawActForm.getLogo());
 		List<Long> list = new ArrayList<Long>();
-		list.add(agreeRawActForm.getCategoryIds());
-		// TODO (review) yyy-MM-dd一个就够了，不用每次都new
+		list.add(agreeRawActForm.getCategoryId());
+		// TODO (done) yyy-MM-dd一个就够了，不用每次都new
 		try {
 			if (StringUtils.isNotEmpty(agreeRawActForm.getStartTime())) {
 				act.setStartTime(DateUtils.parseDate(
 						agreeRawActForm.getStartTime(),
-						new String[] { "yyyy-MM-dd" }));
+						DateFormat.datePattern));
 			}
 			String endTime = agreeRawActForm.getEndTime();
 			if (StringUtils.isNotEmpty(endTime)) {
 				act.setEndTime(DateUtils.parseDate(endTime,
-						new String[] { "yyyy-MM-dd" }));
+						DateFormat.datePattern));
 			}
 		} catch (ParseException e) {
 			throw new RawActInputException(

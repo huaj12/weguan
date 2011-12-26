@@ -200,11 +200,10 @@ public class FileUtil {
 	 * @param fileName
 	 * @return
 	 */
-	public static boolean forceDeleteOnExit(String directoryPath,
-			String fileName) {
+	public static boolean forceDelete(String directoryPath, String fileName) {
 		File file = newFile(directoryPath, fileName);
 		try {
-			FileUtils.forceDeleteOnExit(file);
+			FileUtils.forceDelete(file);
 		} catch (IOException e) {
 			log.debug("delete file error.[directoryPath=" + directoryPath
 					+ ",fileName=" + fileName + "]");

@@ -42,6 +42,11 @@ public class IndexController extends BaseController {
 	@Value("${web.show.acts.max.rows}")
 	private int webShowActsMaxRows;
 
+	@RequestMapping(value = { "", "/" }, method = RequestMethod.GET)
+	public String index(HttpServletRequest request, Model model) {
+		return showActs(request, model);
+	}
+
 	@RequestMapping(value = "/showActs", method = RequestMethod.GET)
 	public String showActs(HttpServletRequest request, Model model) {
 		return pageShowActs(request, model, ShowActOrder.HOT_TIME.getType(),
@@ -78,10 +83,5 @@ public class IndexController extends BaseController {
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("pageType", "cqw");
 		return "web/index/cqw/show_acts";
-	}
-
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(HttpServletRequest request, Model model) {
-		return "web/index/index";
 	}
 }

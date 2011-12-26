@@ -213,6 +213,7 @@ float:left;
 .cqw .title .title_right{ float:right; margin-right:15px; display:inline; margin-top:4px;}
 .cqw .title .title_right a{ font-size:14px; color:#333; text-decoration:none; float:left; margin-left:15px;}
 .cqw .title .title_right a:hover{ text-decoration:underline;}
+.cqw .title .title_right a.active{text-decoration:underline; cursor:default;}
 
 
 

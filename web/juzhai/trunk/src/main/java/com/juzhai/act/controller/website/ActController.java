@@ -2,7 +2,6 @@ package com.juzhai.act.controller.website;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -91,7 +90,7 @@ public class ActController extends BaseController {
 			@PathVariable long actId) {
 		ActDetail actDetail = actService.getActDetailById(actId);
 		if (null == actDetail || !actDetail.getDisplay()) {
-			return showActUsers(request, model, actId, 1, "all");
+			return showActUsers(request, model, actId, 1, "all", null);
 		} else {
 			return showActDetail(request, model, actId);
 		}
@@ -114,10 +113,10 @@ public class ActController extends BaseController {
 		return "web/act/act/show_act_detail";
 	}
 
-	@RequestMapping(value = "/{actId}/users/{genderType}/{page}")
+	@RequestMapping(value = "/{actId}/users_{genderType}_{cityId}/{page}")
 	public String showActUsers(HttpServletRequest request, Model model,
 			@PathVariable long actId, @PathVariable int page,
-			@PathVariable String genderType) {
+			@PathVariable String genderType, @PathVariable Long cityId) {
 		UserContext context = null;
 		try {
 			context = checkLoginForApp(request);
@@ -133,7 +132,9 @@ public class ActController extends BaseController {
 		} else if (genderType.equals("female")) {
 			gender = 0;
 		}
-		long cityId = fetchCityId(request);
+		if (null == cityId) {
+			cityId = fetchCityId(request);
+		}
 
 		PagerManager pager = new PagerManager(page, webActUserMaxRows,
 				userActService.countUserActByActIdAndGenderAndCity(actId,
@@ -146,6 +147,7 @@ public class ActController extends BaseController {
 		model.addAttribute("pager", pager);
 		model.addAttribute("actUserViewList", actUserViewList);
 		model.addAttribute("genderType", genderType);
+		model.addAttribute("cityId", cityId);
 		return "web/act/act/show_act_users";
 	}
 

@@ -4,6 +4,36 @@
 <%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
 <%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <div class="project_want_go"><!--project_want_go begin-->
+	<div class="title"><!--title begin-->
+		<h2>想约个人一起去玩<c:out value="${act.name}" />么？</h2>
+		<span>
+			<select id="genderSelect" actid="${act.id}" cityid="${cityId}">
+				<option value="all" <c:if test="${genderType=='all'}">selected="selected"</c:if>>性别不限</option>
+				<option value="male" <c:if test="${genderType=='male'}">selected="selected"</c:if>>男性</option>
+				<option value="female" <c:if test="${genderType=='female'}">selected="selected"</c:if>>女性</option>
+			</select>
+		</span>
+		<span>
+			<select id="citySelect" actid="${act.id}" gendertype="${genderType}">
+				<option value="0" <c:if test="${cityId==0}">selected="selected"</c:if>>不限</option>
+				<option value="2" <c:if test="${cityId==2}">selected="selected"</c:if>>上海</option>
+				<option value="1" <c:if test="${cityId==1}">selected="selected"</c:if>>北京</option>
+				<option value="181" <c:if test="${cityId==181}">selected="selected"</c:if>>广州</option>
+				<option value="183" <c:if test="${cityId==183}">selected="selected"</c:if>>深圳</option>
+				<option value="108" <c:if test="${cityId==108}">selected="selected"</c:if>>武汉</option>
+				<option value="3" <c:if test="${cityId==3}">selected="selected"</c:if>>天津</option>
+				<option value="69" <c:if test="${cityId==69}">selected="selected"</c:if>>西安</option>
+				<option value="157" <c:if test="${cityId==157}">selected="selected"</c:if>>南京</option>
+				<option value="343" <c:if test="${cityId==343}">selected="selected"</c:if>>杭州</option>
+				<option value="241" <c:if test="${cityId==241}">selected="selected"</c:if>>成都</option>
+				<option value="4" <c:if test="${cityId==4}">selected="selected"</c:if>>重庆</option>
+				<option value="27" <c:if test="${cityId==27}">selected="selected"</c:if>>沈阳</option>
+				<option value="90" <c:if test="${cityId==90}">selected="selected"</c:if>>郑州</option>
+				<option value="125" <c:if test="${cityId==125}">selected="selected"</c:if>>长沙</option>
+				<option value="363" <c:if test="${cityId==363}">selected="selected"</c:if>>香港</option>
+			</select>
+		</span>
+	</div><!--title end-->
 	<c:choose>
 		<c:when test="${empty actUserViewList}">
 			<div class="none">
@@ -11,16 +41,6 @@
 			</div>
 		</c:when>
 		<c:otherwise>
-			<div class="title"><!--title begin-->
-				<h2>想约个人一起去玩<c:out value="${act.name}" />么？</h2>
-				<span>
-					<select name="genderSelect" id="language" actid="${act.id}">
-						<option value="all" <c:if test="${genderType=='all'}">selected="selected"</c:if>>性别不限</option>
-						<option value="male" <c:if test="${genderType=='male'}">selected="selected"</c:if>>男性</option>
-						<option value="female" <c:if test="${genderType=='female'}">selected="selected"</c:if>>女性</option>
-					</select>
-				</span>
-			</div><!--title end-->
 			<ul>
 				<c:forEach var="actUserView" items="${actUserViewList}">
 					<li class="mouseHover"><!--li begin-->
@@ -64,7 +84,7 @@
 			<div class="clear"></div>
 			<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 				<c:param name="pager" value="${pager}"/>
-				<c:param name="url" value="/act/${act.id}/users/${genderType}" />
+				<c:param name="url" value="/act/${act.id}/users_${genderType}_${cityId}" />
 			</c:import>
 		</c:otherwise>
 	</c:choose>

@@ -32,7 +32,7 @@ function switchChannel(cityId){
 		dataType : "json",
 		success : function(result) {
 			if (result && result.success) {
-				window.location.reload();
+				window.location.href = window.location.href;
 			} else {
 				alert(result.errorInfo);
 			}

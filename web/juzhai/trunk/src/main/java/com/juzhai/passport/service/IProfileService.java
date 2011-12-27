@@ -25,8 +25,6 @@ public interface IProfileService {
 	 * @param uid
 	 */
 	void clearProfileCache(long uid);
-	
-	
 
 	/**
 	 * 缓存City属性
@@ -129,7 +127,7 @@ public interface IProfileService {
 	 * @param nickname
 	 * @return
 	 */
-	boolean isExistNickname(String nickname,long uid);
+	boolean isExistNickname(String nickname, long uid);
 
 	/**
 	 * 更新性别
@@ -167,4 +165,24 @@ public interface IProfileService {
 	void updateLogo(long uid, String filePath, int scaledW, int scaledH, int x,
 			int y, int w, int h) throws UploadImageException;
 
+	/**
+	 * web登录用户倒序列表
+	 * 
+	 * @param gender
+	 * @param city
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Profile> listProfileOrderByLoginWebTime(Integer gender, Long city,
+			List<Long> exceptUids, int firstResult, int maxResults);
+
+	/**
+	 * 数量
+	 * 
+	 * @param gender
+	 * @param city
+	 * @return
+	 */
+	int countProfile(Integer gender, Long city, List<Long> exceptUids);
 }

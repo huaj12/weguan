@@ -1,0 +1,66 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
+<%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
+<%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<div class="zbr_item_list"><!--zbr_item_list begin-->
+	<c:forEach var="showUserView" items="${showUserViewList}">
+		<div class="item_zbr mouseHover <c:choose><c:when test='${showUserView.profile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--item_zbr begin-->
+			<!-- <div class="close"><a href="#"></a></div> -->
+			<c:if test="${context.uid > 0}">
+				<!-- <div class="btn"><a href="#" class="yueta_done">已约ta</a><a href="#" class="like">感兴趣</a></div> -->
+				<div class="btn">
+					<a id="removeDating${showUserView.profile.uid}" href="javascript:void(0);" class="yueta_done" <c:if test="${!showUserView.hasDating}">style="display:none;"</c:if>>已约ta</a>
+					<a id="dating${showUserView.profile.uid}" href="javascript:void(0);" class="yueta" uid="${showUserView.profile.uid}" <c:if test="${showUserView.hasDating}">style="display:none;"</c:if>>约ta</a>
+					<div id="removeInterest${showUserView.profile.uid}" class="ygxq" <c:if test="${!showUserView.hasInterest}">style="display:none;"</c:if>><p>已感兴趣</p><a href="javascript:void(0);" class="delete" uid="${showUserView.profile.uid}"></a></div>
+					<a id="interest${showUserView.profile.uid}" href="javascript:void(0);" class="like" uid="${showUserView.profile.uid}" <c:if test="${showUserView.hasInterest}">style="display:none;"</c:if>>感兴趣</a>
+				</div>
+			</c:if>
+			<div></div>
+			<div class="photo"><!--photo begin-->
+				<c:set var="age" value="${jzu:age(showUserView.profile.birthYear)}" />
+				<c:set var="constellationName" value="${jzd:constellationName(showUserView.profile.constellationId)}" />
+				<c:if test="${age>=0 || not empty constellationName || not empty showUserView.profile.profession || not empty showUserView.profile.feature}">
+					<div class="infor_show"><!--infor_show begin-->
+						<c:if test="${not empty constellationName}"><p>${constellationName}</p></c:if><c:if test="${age>=0}"><p>${age}岁</p></c:if><c:if test="${not empty showUserView.profile.profession}"><p>${showUserView.profile.profession}</p></c:if>
+						<c:if test="${not empty showUserView.profile.feature}"><br /><span><c:out value="${showUserView.profile.feature}" /></span></c:if>
+					</div><!--infor_show end-->
+				</c:if>
+				<div class="face_photo"><!--face_photo begin-->
+					<span>
+						<a href="/home/${showUserView.profile.uid}"><img src="${jzr:userLogo(showUserView.profile.uid,showUserView.profile.logoPic,180)}" height="180"/></a>
+					</span>
+				</div><!--face_photo end-->
+				<c:set var="cityName" value="${jzd:cityName(showUserView.profile.city)}" />
+				<c:set var="townName" value="${jzd:townName(showUserView.profile.town)}" />
+				<div class="city_online"><!--city_online begin-->
+					<span>&nbsp;<c:if test="${not empty cityName || not empty townName}">ta在</c:if><c:if test="${not empty cityName}">${cityName}</c:if><c:if test="${not empty townName}">${townName}</c:if></span>
+					<c:if test="${showUserView.online}">
+						<p class="online">当前在线</p>
+					</c:if>
+				</div><!--city_online end-->
+			</div><!--photo end-->
+			<div class="ta_like_list"><!--like_list begin-->
+				<div class="name"><a href="/home/${showUserView.profile.uid}"><c:out value="${showUserView.profile.nickname}" /></a><span>周末想去...</span></div>
+				<ul class="list"><!--list begin-->
+					<c:choose>
+						<c:when test="${empty showUserView.userActViewList}">
+							<p>ta还未添加想去的项目哦！</p>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="userActView" items="${showUserView.userActViewList}">
+								<li><em>·</em><a href="/act/${userActView.act.id}"><c:out value="${userActView.act.name}" /></a><c:if test="${userActView.userAct.top}"><span>很想去</span></c:if></li>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</ul><!--list end-->
+			</div><!--like_list end-->
+		</div><!--item_zbr end-->
+	</c:forEach>
+</div><!--zbr_item_list end-->
+<div class="clear"></div>
+<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
+	<c:param name="pager" value="${pager}"/>
+	<c:param name="url" value="/showUsers/${genderType}" />
+</c:import>

@@ -18,7 +18,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.passport.mapper.PassportMapper;
+import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Passport;
+import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IFriendService;
 
 public abstract class AbstractLoginService implements ILoginService {
@@ -33,6 +35,8 @@ public abstract class AbstractLoginService implements ILoginService {
 	private IFriendService friendService;
 	@Autowired
 	private PassportMapper passportMapper;
+	@Autowired
+	private ProfileMapper profileMapper;
 	@Autowired
 	private MemcachedClient memcachedClient;
 	@Value(value = "${user.online.expire.time}")
@@ -106,20 +110,18 @@ public abstract class AbstractLoginService implements ILoginService {
 	}
 
 	private void updateLastLoginTime(long uid, RunType runType) {
+		Date cDate = new Date();
 		Passport updatePassport = new Passport();
 		updatePassport.setId(uid);
-		switch (runType) {
-		case APP:
-			updatePassport.setLastLoginTime(new Date());
-			break;
-		case WEB:
-			updatePassport.setLastWebLoginTime(new Date());
-			break;
-		case CONNET:
-			updatePassport.setLastWebLoginTime(new Date());
-			break;
-		}
+		updatePassport.setLastLoginTime(cDate);
 		passportMapper.updateByPrimaryKeySelective(updatePassport);
+
+		Profile updateProfile = new Profile();
+		updateProfile.setUid(uid);
+		if (RunType.CONNET == runType || RunType.WEB == runType) {
+			updateProfile.setLastWebLoginTime(cDate);
+			profileMapper.updateByPrimaryKeySelective(updateProfile);
+		}
 	}
 
 	protected abstract void doLogin(HttpServletRequest request, long uid,

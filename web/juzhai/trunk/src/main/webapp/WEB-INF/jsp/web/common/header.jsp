@@ -21,7 +21,7 @@
 		</div><!--about_list end-->
 	</div><!--area end-->
 	<div class="menu"><!--menu begin-->
-		<a href="#" title="找伴儿" <c:if test="${pageType=='zbw'}">class="selceted"</c:if>>找伴儿</a> <a href="/showActs" title="出去玩" <c:if test="${pageType=='cqw'}">class="selceted"</c:if>>出去玩</a>
+		<a href="/showUsers" title="找伴儿" <c:if test="${pageType=='zbe'}">class="selceted"</c:if>>找伴儿</a> <a href="/showActs" title="出去玩" <c:if test="${pageType=='cqw'}">class="selceted"</c:if>>出去玩</a>
 	</div><!--menu end-->
 	<div class="about"><!--about begin-->
 		<p>关于</p>
@@ -40,7 +40,7 @@
 			<div class="user_box"><!--user_box begin-->
 				<c:choose>
 					<c:when test="${context.uid<=0}">
-						<a href="javascript:void(0);" class="esc">登录</a>
+						<a href="javascript:void(0);" class="esc login">登录</a>
 					</c:when>
 					<c:otherwise>
 						<p><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}" height="20" width="20"/></p>

@@ -273,8 +273,7 @@ public class ProfileService implements IProfileService {
 		try {
 			profileMapper.updateByPrimaryKey(profile);
 		} catch (Exception e) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_ERROR);
+			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
 		}
 		clearProfileCache(uid);
 
@@ -381,5 +380,40 @@ public class ProfileService implements IProfileService {
 		profile.setLastModifyTime(new Date());
 		profileMapper.updateByPrimaryKeySelective(profile);
 		clearProfileCache(uid);
+	}
+
+	@Override
+	public List<Profile> listProfileOrderByLoginWebTime(Integer gender,
+			Long city, List<Long> exceptUids, int firstResult, int maxResults) {
+		ProfileExample example = new ProfileExample();
+		ProfileExample.Criteria c = example.createCriteria();
+		if (null != gender) {
+			c.andGenderEqualTo(gender);
+		}
+		if (null != city && city > 0) {
+			c.andCityEqualTo(city);
+		}
+		if (CollectionUtils.isNotEmpty(exceptUids)) {
+			c.andUidNotIn(exceptUids);
+		}
+		example.setOrderByClause("last_web_login_time desc, uid desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return profileMapper.selectByExample(example);
+	}
+
+	@Override
+	public int countProfile(Integer gender, Long city, List<Long> exceptUids) {
+		ProfileExample example = new ProfileExample();
+		ProfileExample.Criteria c = example.createCriteria();
+		if (null != gender) {
+			c.andGenderEqualTo(gender);
+		}
+		if (null != city && city > 0) {
+			c.andCityEqualTo(city);
+		}
+		if (CollectionUtils.isNotEmpty(exceptUids)) {
+			c.andUidNotIn(exceptUids);
+		}
+		return profileMapper.countByExample(example);
 	}
 }

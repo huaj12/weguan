@@ -30,4 +30,4 @@ CREATE INDEX `idx_hotcreatetime` ON `juzhai`.`tb_show_act` (`hot_create_time` DE
 SHOW WARNINGS;
 
 
-alter table tb_passport add last_web_login_time DATETIME;
+alter table tb_profile add last_web_login_time DATETIME;

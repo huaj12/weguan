@@ -214,7 +214,6 @@ public class ProfileService implements IProfileService {
 	@Override
 	public void setGender(long uid, Integer gender)
 			throws ProfileInputException {
-		// TODO (done) 这个逻辑没有问题？
 		if (gender == null || (gender != 0 && gender != 1)) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_GEBDER_INVALID);
@@ -263,7 +262,6 @@ public class ProfileService implements IProfileService {
 					ProfileInputException.PROFILE_NICKNAME_REPEAT_UPDATE);
 		}
 		if (isExistNickname(nickName, uid)) {
-			// TODO (done) 优化判断的思路，减少嵌套层数（不理解找我）
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_NICKNAME_IS_EXIST);
 		}
@@ -326,12 +324,10 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_FEATURE_IS_NULL);
 		}
-		// TODO (done) 中文长度怎么判断？
-		if(StringUtil.chineseLength(profile.getFeature())>featureLengthMax){
+		if (StringUtil.chineseLength(profile.getFeature()) > featureLengthMax) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
 		}
-		// TODO (done) 从profile里getUid，再在这里setUid，多余了
 		profile.setLastModifyTime(new Date());
 		try {
 			profileMapper.updateByPrimaryKeySelective(profile);

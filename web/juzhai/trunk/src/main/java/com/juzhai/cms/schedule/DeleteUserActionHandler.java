@@ -42,32 +42,30 @@ public class DeleteUserActionHandler extends AbstractScheduleHandler {
 	}
 
 	private void deleteAddActAction() {
-		// TODO (done) 想分批处理对吧？不是这样写的哦!
 		try {
-		AddActActionExample example = new AddActActionExample();
-		example.setOrderByClause("id asc");
-		int firstResult = 0;
-		int maxResults = 200;
-		while (true) {
-			example.setLimit(new Limit(firstResult, maxResults));
-			List<AddActAction> actList = addActActionMapper.selectByExample(example);
-			if (CollectionUtils.isEmpty(actList)) {
-				break;
+			AddActActionExample example = new AddActActionExample();
+			example.setOrderByClause("id asc");
+			int firstResult = 0;
+			int maxResults = 200;
+			while (true) {
+				example.setLimit(new Limit(firstResult, maxResults));
+				List<AddActAction> actList = addActActionMapper
+						.selectByExample(example);
+				if (CollectionUtils.isEmpty(actList)) {
+					break;
+				}
+				for (AddActAction act : actList) {
+					addActActionMapper.deleteByPrimaryKey(act.getId());
+				}
+				firstResult += maxResults;
 			}
-			for (AddActAction act : actList) {
-				addActActionMapper.deleteByPrimaryKey(act.getId());
-			}
-			firstResult += maxResults;
-		}
 		} catch (Exception e) {
 			log.error("deleteAddActAction is error Date=" + new Date(), e);
 		}
-		
-		
+
 	}
 
 	private void deleteSearchActAction() {
-		// TODO (done) 想分批处理对吧？不是这样写的哦!
 		try {
 			SearchActActionExample example = new SearchActActionExample();
 			example.setOrderByClause("id asc");
@@ -75,7 +73,8 @@ public class DeleteUserActionHandler extends AbstractScheduleHandler {
 			int maxResults = 200;
 			while (true) {
 				example.setLimit(new Limit(firstResult, maxResults));
-				List<SearchActAction> actList = searchActActionMapper.selectByExample(example);
+				List<SearchActAction> actList = searchActActionMapper
+						.selectByExample(example);
 				if (CollectionUtils.isEmpty(actList)) {
 					break;
 				}
@@ -84,8 +83,8 @@ public class DeleteUserActionHandler extends AbstractScheduleHandler {
 				}
 				firstResult += maxResults;
 			}
-			} catch (Exception e) {
-				log.error("deleteSearchActAction is error Date=" + new Date(), e);
-			}
+		} catch (Exception e) {
+			log.error("deleteSearchActAction is error Date=" + new Date(), e);
+		}
 	}
 }

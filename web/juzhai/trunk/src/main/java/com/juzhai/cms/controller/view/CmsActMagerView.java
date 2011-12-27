@@ -8,7 +8,6 @@ import com.juzhai.act.bean.SuitGender;
 import com.juzhai.act.bean.SuitStatus;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.Category;
-import com.juzhai.core.web.jstl.JzCoreFunction;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Province;
@@ -41,9 +40,7 @@ public class CmsActMagerView implements Serializable {
 		City city = com.juzhai.passport.InitData.CITY_MAP.get(act.getCity());
 		Province pro = com.juzhai.passport.InitData.PROVINCE_MAP.get(act
 				.getProvince());
-		// TODO (done) 不要用""来初始化字符串，每次都新建了一个""字符串
 		String proName = null;
-		// TODO (done) 代码提示了警告，不觉得有问题？
 		if (pro != null) {
 			proName = pro.getName();
 		}
@@ -56,18 +53,16 @@ public class CmsActMagerView implements Serializable {
 		}
 		String logoWebPath = null;
 		if (act.getLogo() != null) {
-			// TODO (done) @Deprecated的代码还用？
-			logoWebPath = JzResourceFunction.actLogo(act.getId(), act.getLogo(), 0);
+			logoWebPath = JzResourceFunction.actLogo(act.getId(),
+					act.getLogo(), 0);
 		}
-		//TODO (done) 这里没有线程不安全，所以不要用StringBuffer，用StringBuilder
 		StringBuilder categorys = new StringBuilder();
 		String cats = act.getCategoryIds();
 		if (cats != null) {
-			String separator=" ";
+			String separator = " ";
 			for (String cat : cats.split(",")) {
 				Category c = InitData.CATEGORY_MAP.get(Long.valueOf(cat));
 				if (c != null) {
-					// TODO (done) " "循环外面定义，循环里会每次新建字符串
 					categorys.append(c.getName() + separator);
 				}
 			}

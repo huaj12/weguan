@@ -78,11 +78,9 @@ function addRawAct() {
 	var endTime = $("#endTime").val();
 	var province = $("#province").val();
 	var city = $("#city").val();
-	var town="";
+	var town=$("#town").val();
 	//判断是否有town
-	if($("#c_id")[0]){
-		town=$("#town").val();
-	}else{
+	if($("#towns").css("display")=="none"){
 		town="-1";
 	}
 	if (address == "详细地址") {

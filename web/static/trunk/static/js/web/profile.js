@@ -61,7 +61,7 @@ function setNickname(){
 		},
 		statusCode: {
 		    401: function() {
-		      alert("未登录");
+		    	window.location.href = "/login";
 		    }
 		}
 	});
@@ -90,7 +90,7 @@ function setGender(){
 		},
 		statusCode: {
 		    401: function() {
-		      alert("未登录");
+		    	window.location.href = "/login";
 		    }
 		}
 	});
@@ -150,7 +150,7 @@ function setting(){
 		},
 		statusCode: {
 		    401: function() {
-		      alert("未登录");
+		    	window.location.href = "/login";
 		    }
 		}
 	});

@@ -134,7 +134,6 @@ public class ProfileContrller extends BaseController {
 
 	@RequestMapping(value = "/setting", method = RequestMethod.POST)
 	@ResponseBody
-	// TODO (done) 参数过多封装form，并且controller里注意哪些代码应该放入service
 	public AjaxResult setting(HttpServletRequest request, Model model,
 			SettingForm settingForm) throws NeedLoginException {
 		AjaxResult ajaxResult = new AjaxResult();

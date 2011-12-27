@@ -110,7 +110,6 @@ public class RawActController extends BaseController {
 	}
 
 	private RawAct converAct(AddRawActForm addRawActForm, long uid) {
-		// TODO (done) 封装到Service里
 		RawAct rawAct = new RawAct();
 		rawAct.setAddress(addRawActForm.getAddress());
 		rawAct.setCategoryIds(String.valueOf(addRawActForm.getCategoryId()));

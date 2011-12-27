@@ -19,12 +19,18 @@ import com.juzhai.act.controller.view.CategoryActView;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.Category;
 import com.juzhai.act.service.ICategoryService;
+import com.juzhai.act.service.IDatingService;
 import com.juzhai.act.service.IShowActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.bean.ShowActOrder;
+import com.juzhai.index.controller.view.ShowUserView;
+import com.juzhai.passport.model.Profile;
+import com.juzhai.passport.service.IInterestUserService;
+import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.login.ILoginService;
 
 @Controller
 public class IndexController extends BaseController {
@@ -37,10 +43,22 @@ public class IndexController extends BaseController {
 	private ICategoryService categoryService;
 	@Autowired
 	private IUserActService userActService;
+	@Autowired
+	private IProfileService profileService;
+	@Autowired
+	private IInterestUserService interestUserService;
+	@Autowired
+	private ILoginService loginService;
+	@Autowired
+	private IDatingService datingService;
 	@Value("${web.show.category.size}")
 	private int webShowCategorySize;
 	@Value("${web.show.acts.max.rows}")
 	private int webShowActsMaxRows;
+	@Value("${web.show.users.max.rows}")
+	private int webShowUsersMaxRows;
+	@Value("${show.user.show.act.count}")
+	private int showUserShowActCount;
 
 	@RequestMapping(value = { "", "/" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
@@ -83,5 +101,53 @@ public class IndexController extends BaseController {
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("pageType", "cqw");
 		return "web/index/cqw/show_acts";
+	}
+
+	@RequestMapping(value = "/showUsers", method = RequestMethod.GET)
+	public String showUsers(HttpServletRequest request, Model model) {
+		return pageShowUsers(request, model, "all", 1);
+	}
+
+	@RequestMapping(value = "/showUsers/{genderType}/{page}", method = RequestMethod.GET)
+	public String pageShowUsers(HttpServletRequest request, Model model,
+			@PathVariable String genderType, @PathVariable int page) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		long cityId = fetchCityId(request);
+		Integer gender = null;
+		if (genderType.equals("male")) {
+			gender = 1;
+		} else if (genderType.equals("female")) {
+			gender = 0;
+		}
+		List<Long> exceptUids = null;
+		if (context.hasLogin()) {
+			exceptUids = new ArrayList<Long>();
+			exceptUids.add(context.getUid());
+		}
+		PagerManager pager = new PagerManager(page, webShowUsersMaxRows,
+				profileService.countProfile(gender, cityId, exceptUids));
+		List<Profile> profileList = profileService
+				.listProfileOrderByLoginWebTime(gender, cityId, exceptUids,
+						pager.getFirstResult(), pager.getMaxResult());
+		List<ShowUserView> showUserViewList = new ArrayList<ShowUserView>();
+		for (Profile profile : profileList) {
+			ShowUserView view = new ShowUserView();
+			view.setProfile(profile);
+			view.setUserActViewList(userActService.pageUserActView(
+					profile.getUid(), 1, showUserShowActCount));
+			if (context.hasLogin()) {
+				view.setHasDating(null != datingService.fetchDating(
+						context.getUid(), profile.getUid()));
+				view.setHasInterest(interestUserService.isInterest(
+						context.getUid(), profile.getUid()));
+			}
+			view.setOnline(loginService.isOnline(profile.getUid()));
+			showUserViewList.add(view);
+		}
+		model.addAttribute("showUserViewList", showUserViewList);
+		model.addAttribute("pager", pager);
+		model.addAttribute("genderType", genderType);
+		model.addAttribute("pageType", "zbe");
+		return "web/index/zbe/show_users";
 	}
 }

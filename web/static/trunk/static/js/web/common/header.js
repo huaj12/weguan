@@ -1,6 +1,11 @@
 $(document).ready(function(){
 	$("div.area > p").bind("click", function(){
-		$("div.area_list").fadeIn(500);
+		var obj = $("div.area_list");
+		if(obj.is(":visible")){
+			$("div.area_list").fadeOut(200);
+		} else {	
+			$("div.area_list").fadeIn(500);
+		}
 	});
 	$("div.area_list > a").bind("click", function(){
 		var cityId = $(this).attr("cityid");
@@ -9,7 +14,7 @@ $(document).ready(function(){
 	$("div.area").hover(function(){
 		$("body").unbind("mousedown");
 	}, registerClosChannel);
-	$("div.user_box > a.esc").bind("click", showLogin);
+	$("div.user_box > a.login").bind("click", showLogin);
 });
 
 function registerClosChannel(){

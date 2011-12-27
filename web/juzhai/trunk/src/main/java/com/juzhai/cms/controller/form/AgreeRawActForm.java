@@ -8,7 +8,6 @@ public class AgreeRawActForm {
 	private String name;
 	private String detail;
 	private String logo;
-	// TODO (done) 如果是多个分类，那用long是不够的；如果是一个分类，那命名是不规范的
 	private long categoryId;
 	private String address;
 	private String startTime;
@@ -78,8 +77,6 @@ public class AgreeRawActForm {
 	public void setLogo(String logo) {
 		this.logo = logo;
 	}
-
-	
 
 	public String getAddress() {
 		return address;

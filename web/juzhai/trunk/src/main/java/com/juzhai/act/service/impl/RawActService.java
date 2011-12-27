@@ -122,12 +122,10 @@ public class RawActService implements IRawActService {
 		act.setLogo(agreeRawActForm.getLogo());
 		List<Long> list = new ArrayList<Long>();
 		list.add(agreeRawActForm.getCategoryId());
-		// TODO (done) yyy-MM-dd一个就够了，不用每次都new
 		try {
 			if (StringUtils.isNotEmpty(agreeRawActForm.getStartTime())) {
 				act.setStartTime(DateUtils.parseDate(
-						agreeRawActForm.getStartTime(),
-						DateFormat.datePattern));
+						agreeRawActForm.getStartTime(), DateFormat.datePattern));
 			}
 			String endTime = agreeRawActForm.getEndTime();
 			if (StringUtils.isNotEmpty(endTime)) {

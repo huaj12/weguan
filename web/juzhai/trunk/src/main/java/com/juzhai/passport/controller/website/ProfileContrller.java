@@ -135,11 +135,10 @@ public class ProfileContrller extends BaseController {
 	@RequestMapping(value = "/setting", method = RequestMethod.POST)
 	@ResponseBody
 	// TODO (done) 参数过多封装form，并且controller里注意哪些代码应该放入service
-	public AjaxResult setting(HttpServletRequest request, Model model,SettingForm settingForm)
-			throws NeedLoginException {
+	public AjaxResult setting(HttpServletRequest request, Model model,
+			SettingForm settingForm) throws NeedLoginException {
 		AjaxResult ajaxResult = new AjaxResult();
 		UserContext context = null;
-		// TODO (done) js里遇到401应该如何处理，参加我在js里写的代码
 		context = checkLoginForWeb(request);
 		Profile profile = new Profile();
 		profile.setProvince(settingForm.getProvince());
@@ -148,18 +147,17 @@ public class ProfileContrller extends BaseController {
 		profile.setBirthYear(settingForm.getBirthYear());
 		profile.setBirthMonth(settingForm.getBirthMonth());
 		profile.setBirthDay(settingForm.getBirthDay());
-		Boolean birthSecret=settingForm.getBirthSecret();
+		Boolean birthSecret = settingForm.getBirthSecret();
 		if (settingForm.getBirthSecret() == null) {
 			birthSecret = false;
 		}
-		Long professionId=settingForm.getProfessionId();
+		Long professionId = settingForm.getProfessionId();
 		if (professionId == null) {
 			professionId = 0l;
 		}
 		profile.setBirthSecret(birthSecret);
 		profile.setProfession(settingForm.getProfession());
 		profile.setProfessionId(professionId);
-		// TODO (done) 用户输入的内容就存在逗号怎么办？
 		profile.setFeature(settingForm.getFeature());
 		profile.setUid(context.getUid());
 		try {

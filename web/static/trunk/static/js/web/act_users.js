@@ -15,10 +15,18 @@ $(document).ready(function() {
 		openDating(uid, 0);
 	});
 	
-	$("div.title > span > select").bind("change", function(){
+	$("div.title > span > select#genderSelect").bind("change", function(){
 		var actId = $(this).attr("actid");
+		var cityId = $(this).attr("cityid");
 		var genderType = $(this).children('option:selected').val();
-		window.location.href="/act/" + actId + "/users/" + genderType + "/1";
+		window.location.href="/act/" + actId + "/users_" + genderType + "_" + cityId + "/1";
+	});
+	
+	$("div.title > span > select#citySelect").bind("change", function(){
+		var actId = $(this).attr("actid");
+		var genderType = $(this).attr("gendertype");
+		var cityId = $(this).children('option:selected').val();
+		window.location.href="/act/" + actId + "/users_" + genderType + "_" + cityId + "/1";
 	});
 });
 

@@ -225,6 +225,11 @@ public class UserActService implements IUserActService {
 		userAct.setActId(actId);
 		userAct.setHotLev(hotLev);
 		userAct.setUid(uid);
+		ProfileCache profileCache = profileService.getProfileCacheByUid(uid);
+		if (null != profileCache) {
+			userAct.setGender(profileCache.getGender());
+			userAct.setCity(profileCache.getCity());
+		}
 		if (tpUser != null && StringUtils.isNotEmpty(tpUser.getTpName())) {
 			userAct.setTpName(tpUser.getTpName());
 		}

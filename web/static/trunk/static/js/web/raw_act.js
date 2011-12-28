@@ -14,12 +14,16 @@ KindEditor.ready(function(K) {
 });
 
 $(document).ready(function() {
-	
+	$("div.upload > div.load_done > a").bind("click", function(){
+		$(this).parent().removeAttr("filePath").hide();
+		$("div.upload > div.sc_btn").show();
+	});
 });
 
 function uploadImage() {
-	$("#logo_tip").hide();
-	$(".loading").show();
+	$("div.upload > div.sc_btn").hide();
+	$("div.upload > div.error").hide();
+	$("div.upload > div.loading").show();
 	var options = {
 		url : "/act/logo/upload",
 		type : "POST",
@@ -27,17 +31,21 @@ function uploadImage() {
 		success : function(result) {
 			$(".loading").hide();
 			if (result.success) {
-				$(".load_done > p > img").attr("src", result.result[0]);
-				$(".load_done").attr("filePath", result.result[1]).show();
+				$("div.upload > div.load_done > p > img").attr("src", result.result[0]);
+				$("div.upload > div.loading").hide();
+				$("div.upload > div.load_done").attr("filePath", result.result[1]).show();
 			} else if (result.error == "00003") {
 				window.location.href = "/login";
 			} else {
-				$("#logo_tip").text(result.errorInfo).show();
+				$("div.upload > div.loading").hide();
+				$("div.upload > div.error").text(result.errorInfo).show();
+				$("div.upload > div.sc_btn").show();
 			}
 		},
 		error : function(data) {
-			$(".loading").hide();
-			$("#logo_tip").text("上传失败").show();
+			$("div.upload > div.loading").hide();
+			$("div.upload > div.error").text("上传失败").show();
+			$("div.upload > div.sc_btn").show();
 		}
 	};
 	$("#uploadImgForm").ajaxSubmit(options);

@@ -92,6 +92,7 @@ function releaseLogo() {
 function uploadImage() {
 	var fileName = $(".btn_file_molding").val();
 	$("div.upload_area > div.btns").hide();
+	$("div.upload_area > div.error").hide();
 	$("div.upload_area > div.uploading").show();
 	var options = {
 		url : "/profile/logo/upload",

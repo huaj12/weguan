@@ -34,7 +34,7 @@ function uploadImage() {
 				$("div.upload > div.load_done > p > img").attr("src", result.result[0]);
 				$("div.upload > div.loading").hide();
 				$("div.upload > div.load_done").attr("filePath", result.result[1]).show();
-			} else if (result.error == "00003") {
+			} else if (result.errorCode == "00003") {
 				window.location.href = "/login";
 			} else {
 				$("div.upload > div.loading").hide();

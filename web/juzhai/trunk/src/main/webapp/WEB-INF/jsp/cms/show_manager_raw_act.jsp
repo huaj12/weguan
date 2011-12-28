@@ -106,7 +106,7 @@
 	<script type="text/javascript" src="${jzr:static('/js/core/core.js')}"></script>
 	<script type="text/javascript"
 		src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
-	<script>
+	<script type="text/javascript">
 		var editor;
 		KindEditor.ready(function(K) {
 			editor = K.create('textarea[name="detail"]', {
@@ -171,7 +171,7 @@
 			var rawActId = $("#id").val();
 			var name = $("#name").val();
 			var detail = editor.html();
-			var logo = $("#logo");
+			var logo = $("#logo").val();
 			var category_ids = $("#category_ids").val();
 			var address = $("#address").val();
 			var startTime = $("#startTime").val();

@@ -238,18 +238,27 @@ public class DatingService implements IDatingService {
 	}
 
 	@Override
-	public List<Dating> listDating(long uid, int firstResult, int maxResults) {
+	public List<Dating> listDating(long uid, Integer response, int firstResult,
+			int maxResults) {
 		DatingExample example = new DatingExample();
-		example.createCriteria().andStarterUidEqualTo(uid);
+		DatingExample.Criteria c = example.createCriteria()
+				.andStarterUidEqualTo(uid);
+		if (null != response) {
+			c.andResponseEqualTo(response);
+		}
 		example.setLimit(new Limit(firstResult, maxResults));
 		example.setOrderByClause("last_modify_time desc, id desc");
 		return datingMapper.selectByExample(example);
 	}
 
 	@Override
-	public int countDating(long uid) {
+	public int countDating(long uid, Integer response) {
 		DatingExample example = new DatingExample();
-		example.createCriteria().andStarterUidEqualTo(uid);
+		DatingExample.Criteria c = example.createCriteria()
+				.andStarterUidEqualTo(uid);
+		if (null != response) {
+			c.andResponseEqualTo(response);
+		}
 		return datingMapper.countByExample(example);
 	}
 

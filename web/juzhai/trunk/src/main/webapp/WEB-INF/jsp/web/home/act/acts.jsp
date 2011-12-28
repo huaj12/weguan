@@ -21,7 +21,7 @@
 							<jsp:include page="/WEB-INF/jsp/web/home/common/tab.jsp" />
 							<c:choose>
 								<c:when test="${empty userActViewList}">
-									<div class="item_none">你还未添加想去的项目<a href="#">去添加》</a></div>
+									<div class="item_none">你还未添加想去的项目<a href="/showActs">去添加》</a></div>
 								</c:when>
 								<c:otherwise>
 									<jsp:include page="acts_list.jsp" />

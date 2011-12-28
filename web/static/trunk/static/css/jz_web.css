@@ -79,7 +79,7 @@ abbr,acronym { border: 0;
 
 /*主体*/
 .warp{ width:100%; height:auto; display:block; background:url(../images/web/top_bg.jpg) repeat-x;} 
-.main{ width:960px; height:auto; overflow:hidden; margin:0 auto;}
+.main{ width:960px; height:auto;  margin:0 auto;}
 
 
 /*头部*/
@@ -105,11 +105,28 @@ abbr,acronym { border: 0;
 
 
 .top .about{ float:right; margin-right:15px; display:inline; margin-top:18px; position:relative;}
-.about p{ background:url(../images/web/arrow_down.gif) no-repeat right; color:#999; cursor:pointer; padding-right:12px;}
+.about p{color:#999; cursor:pointer;}
 .about .about_list{ position:absolute; right:-5px; top:32px; width:108px; height:auto; overflow:hidden; display:block; background:#000; padding:1px; filter:alpha(opacity=80);opacity:0.8; -moz-opacity:0.8; -khtml-opacity:0.8;}
 
 .about .about_list a{ height:30px; display:block; overflow:hidden;  line-height:30px;  padding-left:20px; padding-right:17px; color:#666; text-decoration:none; position:relative; z-index:999; }
 .about .about_list a:hover{ background:#448EDA; color:#fff; background:#65A1DC\0;}
+
+
+
+
+.top .my_message{ float:right; margin-right:15px; display:inline; margin-top:18px; position:relative;}
+.top .my_message p a{ color:#ccc; text-decoration:none; float:left;  background:url(../images/web/arrow_down.gif) no-repeat right; padding-right:12px;}
+
+.top .my_message_show{position:absolute; right:0px; top:32px; width:168px; height:auto; overflow:hidden; display:block; background:#000;  filter:alpha(opacity=80);opacity:0.8; -moz-opacity:0.8; -khtml-opacity:0.8; padding:1px;}
+.top .my_message_show span{ float:left; position:relative; display:block; width:168px;}
+.top .my_message_show a{ height:30px; display:block; overflow:hidden;  line-height:30px;  padding-left:20px; padding-right:17px;  color:#666; text-decoration:none; position:relative; z-index:999;}
+.top .my_message_show em{ position:absolute; right:10px; top:5px; color:#ccc; z-index:999; font-family:Arial, Helvetica, sans-serif; font-size:10px; font-weight:bold;}
+
+.top .my_message_show a:hover{background:#448EDA; color:#fff; background:#65A1DC\0;}
+
+
+
+
 
 
 
@@ -120,7 +137,7 @@ abbr,acronym { border: 0;
 
 
 
-.user_area .login{}
+.user_area .login{ float:left;}
 
 .user_area .login .user_box p{ width:20px; height:20px; float:left; border:1px solid #000; margin-top:-3px; _z-index:999; _position:relative;}
 .user_area .login .user_box a{ float:left; margin-left:15px; display:inline; color:#666; text-decoration:none;}
@@ -130,11 +147,11 @@ abbr,acronym { border: 0;
 .user_area .login .user_box a.boy:hover{ color:#3E8BD9;}
 .user_area .login .user_box a.girl:hover{ color:#FF6699;}
 
-.user_area .login .user_message{ position:absolute; left:0px; top:32px; width:150px; height:auto; overflow:hidden; display:block; background:#000;  filter:alpha(opacity=80);opacity:0.8; -moz-opacity:0.8; -khtml-opacity:0.8; padding:10px 15px;} 
 
-.user_area .login .user_message p{ color:#e5e5e5;  line-height:200%; float:left; display:block;}
-.user_area .login .user_message p a{ color:#3E8BD9; margin-left:3px; margin-right:3px; text-decoration:none;} 
-.user_area .login .user_message p a:hover{ text-decoration:underline;}
+.user_area .login .use_set_center{ position:absolute; right:0px; top:32px; width:78px; height:auto; overflow:hidden; display:block; background:#000;  filter:alpha(opacity=80);opacity:0.8; -moz-opacity:0.8; -khtml-opacity:0.8; padding:1px;} 
+
+.user_area .login .use_set_center a{ height:30px; display:block; overflow:hidden;  line-height:30px; text-align:center; color:#666; text-decoration:none; position:relative; z-index:999;}
+.user_area .login .use_set_center a:hover{background:#448EDA; color:#fff; background:#65A1DC\0;}
 
 
 
@@ -509,8 +526,7 @@ float:left;
 .upload_area .uploading_ok a{ color:#3E8BD9; text-decoration:none; margin-left:10px; font-size:14px;}
 .upload_area .uploading_ok a:hover{ text-decoration:underline;}
 
-/* .my_face .edit_face_area{ float:left; width:450px; height:200px; background:#f5f5f5; } */
-.my_face .edit_face_area{ float:left; width:450px; background:#f5f5f5; }
+.my_face .edit_face_area{ float:left; width:450px; height:auto; overflow:hidden; background:#f5f5f5; }
 .my_face .preview_face{ float:right; width:180px; height:auto; overflow:hidden;}
 .my_face .preview_face p{ font-size:14px; color:#999; width:100%; float:left;  font-weight:bold;}
 .my_face .preview_face span{ float:left; width:180px; height:180px; overflow:hidden; margin-top:5px;}
@@ -556,6 +572,14 @@ float:left;
 .user_menu{ width:100%; height:45px; overflow:hidden; margin-top:20px;}
 .user_menu a{ width:175px; height:45px; overflow:hidden; margin-right:1px; display:inline block; float:left; text-align:center; line-height:40px; background:url(../images/web/user_menu_link.gif) no-repeat; color:#666; text-decoration:none;}
 .user_menu a:hover{ background:url(../images/web/user_menu_hover_boy.gif) no-repeat; color:#fff;}
+
+
+
+
+.sx_menu{ margin-top:15px; width:100%; overflow:hidden; height:auto;}
+.sx_menu a{ color:#999; text-decoration:none; font-size:14px; float:left; margin-right:20px; display:inline; margin-left:5px;}
+.sx_menu a:hover{ text-decoration:underline;}
+.sx_menu a.active{ text-decoration:underline; cursor:default; color:#666; font-weight:bold;}
 
 
 .item_box{ width:100%; height:auto; display:block; margin-top:15px; position:relative;}
@@ -1101,11 +1125,43 @@ _background-image:none;}
 .l_right p{ width:504px; float:right; font-family:"微软雅黑","宋体"; font-size:14px; margin-top:15px; padding-bottom:15px; line-height:150%;}
 
 
+/*系统通知*/
+.ty_frame{width:100%; height:auto; overflow:hidden;}
+.ty_frame .title{ width:100%; height:75px; background:url(../images/web/tj_project_title_bg.jpg) left bottom repeat-x; line-height:70px;}
+.ty_frame .title span{ float:left; margin-left:28px; display:inline;}
+.ty_frame .title span.tz{ background:url(../images/web/system_tz_icon.jpg) no-repeat; width:24px; height:33px; margin-top:15px;}
+.ty_frame .title h2{ float:left; color:#999; font-family:"微软雅黑","宋体"; font-weight:bold; font-size:20px; margin-left:8px; display:inline;}
 
+.ty_frame .system_tz{ width:880px; height:auto; overflow:hidden; margin:0 auto; margin-top:5px; padding-bottom:20px;}
 
+.ty_frame .system_tz ul{ float:left;}
+.ty_frame .system_tz ul li{ width:880px; height:auto; overflow:hidden; float:left; border-bottom:1px dashed #f0f0f0; padding-top:10px; padding-bottom:10px;}
+.ty_frame .system_tz ul li em{ font-family:Verdana, Arial; font-size:11px; color:#ccc; float:left; margin-right:10px; display:inline;}
+.ty_frame .system_tz ul li p{ float:left; color:#999; width:740px; line-height:200%;}
+.ty_frame .system_tz ul li p b{ background:url(../images/web/tz_new.gif) no-repeat; width:18px; height:18px; float:left; display:inline; margin-right:10px; display:none; margin-top:2px;}
+.ty_frame .system_tz ul li p font{ color:#666; margin:0 10px; font-size:12px;}
+.ty_frame .system_tz ul li p a{ color:#3E8BD9; text-decoration:none; margin-left:10px; white-space:nowrap;}
+.ty_frame .system_tz ul li p a:hover{ text-decoration:underline;}
+.ty_frame .system_tz ul .new p b{ display:inline;} 
 
+.ty_frame .system_tz ul  span{ float:right; display:none;}
+.ty_frame .system_tz ul .hover span{ display:inline;}
+.ty_frame .system_tz ul li span a{ background:url(../images/web/tz_delete.gif) no-repeat; overflow:hidden; width:40px; height:21px; line-height:22px; line-height:25px\0; *line-height:23px; text-align:center; color:#fff; text-decoration:none; display:block; }
 
+.tz_page{height:auto; overflow:hidden; float:right; margin-top:20px;}
+.tz_page a{ text-decoration:none; margin:0 5px; color:#999; font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:11px; float:left; display:block;}
+.tz_page a.page_arrow{ width:5px; height:10px; overflow:hidden; margin-top:6px;}
+.tz_page a.arrow_left{ background:url(../images/web/tz_arrow_left_link.gif) no-repeat;}
+.tz_page a.arrow_left:hover{ background:url(../images/web/tz_arrow_left_hover.gif) no-repeat;}
 
+.tz_page a.arrow_right{ background:url(../images/web/tz_arrow_right_link.gif) no-repeat;}
+.tz_page a.arrow_right:hover{ background:url(../images/web/tz_arrow_right_hover.gif) no-repeat;}
+
+.tz_page a.page_num{ color:#999; text-decoration:none;}
+.tz_page a.page_num:hover{ color:#3E8BD9;}
+.tz_page a.active{color:#3E8BD9; cursor:default; color:#3E8BD9;}
+
+.none_tz{ color:#999; font-size:14px; text-align:center; margin-top:100px; padding-bottom:90px;}
 
 
 

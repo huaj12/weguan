@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.juzhai.act.bean.DatingResponse;
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.model.Dating;
 import com.juzhai.act.service.IActService;
@@ -134,6 +135,23 @@ public class HomeController extends BaseController {
 		model.addAttribute("interestUserViewList", interestUserViewList);
 	}
 
+	@RequestMapping(value = "/datings/accept/{page}", method = RequestMethod.GET)
+	public String myAcceptDatings(HttpServletRequest request, Model model,
+			@PathVariable int page) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		showHomeHeader(context, context.getUid(), model);
+		PagerManager pager = new PagerManager(page, webDatingMaxRows,
+				datingService.countDating(context.getUid(),
+						DatingResponse.ACCEPT.getValue()));
+		List<Dating> datingList = datingService.listDating(context.getUid(),
+				DatingResponse.ACCEPT.getValue(), pager.getFirstResult(),
+				pager.getMaxResult());
+		assembleDatingView(model, datingList, false);
+		model.addAttribute("pager", pager);
+		model.addAttribute("response", "accept");
+		return "web/home/dating/datings";
+	}
+
 	@RequestMapping(value = "/datings/{page}", method = RequestMethod.GET)
 	public String myDatings(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {
@@ -143,7 +161,7 @@ public class HomeController extends BaseController {
 		PagerManager pager = new PagerManager(page, webDatingMaxRows,
 				totalCount);
 		List<Dating> datingList = datingService.listDating(context.getUid(),
-				pager.getFirstResult(), pager.getMaxResult());
+				null, pager.getFirstResult(), pager.getMaxResult());
 		assembleDatingView(model, datingList, false);
 		model.addAttribute("pager", pager);
 		return "web/home/dating/datings";
@@ -235,7 +253,8 @@ public class HomeController extends BaseController {
 					interestUserService.countInterestUser(uid));
 			model.addAttribute("interestMeCount",
 					interestUserService.countInterestMeUser(uid));
-			model.addAttribute("datingCount", datingService.countDating(uid));
+			model.addAttribute("datingCount",
+					datingService.countDating(uid, null));
 			model.addAttribute("datingMeCount",
 					datingService.countDatingMe(uid));
 		}

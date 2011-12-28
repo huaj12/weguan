@@ -143,7 +143,7 @@ function setting(){
 		success: function(result){
 			if(result.success){
 				//保存成功后跳转
-				alert('跳转');
+				window.location.href = "/showUsers";
 			}else{
 				$(".pj_error").html(result.errorInfo);
 			}

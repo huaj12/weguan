@@ -8,6 +8,7 @@ import org.apache.commons.lang.time.DateUtils;
 
 import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.msg.bean.ActMsg.MsgType;
+import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.model.Thirdparty;
 
@@ -304,5 +305,16 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 */
 	public static String genInterestUsersKey(long uid) {
 		return genKey(uid, "interestUsers");
+	}
+
+	/**
+	 * 通知数量
+	 * 
+	 * @param uid
+	 * @param noticeType
+	 * @return
+	 */
+	public static String genUserNoticeNumKey(long uid, NoticeType noticeType) {
+		return genKey(uid, noticeType.getType() + "_noticeNum");
 	}
 }

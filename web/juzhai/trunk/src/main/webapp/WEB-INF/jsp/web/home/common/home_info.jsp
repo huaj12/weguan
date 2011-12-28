@@ -27,10 +27,14 @@
 		<c:if test="${not empty profile.feature}">
 			<div class="tedian"><c:out value="${profile.feature}" /></div>
 		</c:if>
-		<div class="dated" datingid="${datingView.dating.id}" uid="${profile.uid}" <c:if test="${profile.uid==context.uid || datingView==null}">style="display:none;"</c:if>><!--dated begin-->
-			<div class="datefor"><span></span><p>已约ta&nbsp;<font><c:out value="${datingView.act.name}" /></font></p><span></span></div>
-			<a href="javascript:void(0);" class="modifyDating">修改</a><a href="javascript:void(0);" class="removeDating">取消</a>
-		</div><!--dated end-->
+		<c:if test="${profile.uid!=context.uid}">
+			<div class="dated" datingid="${datingView.dating.id}" uid="${profile.uid}" <c:if test="${datingView==null}">style="display:none;"</c:if>><!--dated begin-->
+				<div class="datefor"><span></span><p>已约ta&nbsp;<font class="_act"><c:out value="${datingView.act.name}" /></font><font class="_contact"><c:if test="${datingView.dating.response==1}">ta的<c:import url="/WEB-INF/jsp/web/common/fragment/dating_contact_type.jsp">
+					<c:param name="contactType" value="${datingView.dating.receiverContactType}"/>
+				</c:import>:<c:out value="${datingView.dating.receiverContactValue}" /></c:if></font></p><span></span></div>
+				<a <c:if test="${datingView.dating.response!=0}">style="display:none;"</c:if> href="javascript:void(0);" class="modifyDating">修改</a><a href="javascript:void(0);" class="removeDating">取消</a>
+			</div><!--dated end-->
+		</c:if>
 	</div><!--user_infor end-->
 	<c:choose>
 		<c:when test="${profile.uid==context.uid}">

@@ -134,7 +134,7 @@ public class IndexController extends BaseController {
 			ShowUserView view = new ShowUserView();
 			view.setProfile(profile);
 			view.setUserActViewList(userActService.pageUserActView(
-					profile.getUid(), 1, showUserShowActCount));
+					profile.getUid(), 0, showUserShowActCount));
 			if (context.hasLogin()) {
 				view.setHasDating(null != datingService.fetchDating(
 						context.getUid(), profile.getUid()));

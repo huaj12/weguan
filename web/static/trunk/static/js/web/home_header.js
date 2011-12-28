@@ -48,7 +48,9 @@ function submitDating(uid){
 	date(function(result){
 		$("a.date").hide();
 		$("div.dated").attr("datingid", result.datingId);
-		$("div.dated > div.datefor > p > font").text(result.actName);
+		$("div.dated > div.datefor > p > font._act").text(result.actName);
+		$("div.dated > div.datefor > p > font._contact").text("");
+		$("div.dated > a.modifyDating").show();
 		$("div.dated").show();
 	});
 }

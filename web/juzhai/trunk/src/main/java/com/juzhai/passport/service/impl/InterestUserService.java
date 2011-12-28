@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
+import com.juzhai.notice.bean.NoticeType;
+import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.InterestUserException;
 import com.juzhai.passport.mapper.InterestUserMapper;
@@ -27,6 +29,8 @@ public class InterestUserService implements IInterestUserService {
 	private IProfileService profileService;
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
+	@Autowired
+	private INoticeService noticeService;
 
 	@Override
 	public void interestUser(long uid, long targetUid)
@@ -53,6 +57,7 @@ public class InterestUserService implements IInterestUserService {
 		// TODO redis
 		redisTemplate.opsForSet().add(
 				RedisKeyGenerator.genInterestUsersKey(uid), targetUid);
+		noticeService.incrNotice(targetUid, NoticeType.INTERESTME);
 	}
 
 	@Override

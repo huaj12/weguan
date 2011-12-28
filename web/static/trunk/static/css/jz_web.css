@@ -89,10 +89,10 @@ abbr,acronym { border: 0;
 
 .top .area{ float:left; margin-left:10px; display:inline; margin-top:18px; position:relative;}
 .area p{ background:url(../images/web/arrow_down.gif) no-repeat right; color:#ccc; cursor:pointer; padding-right:12px;}
-.area .area_list { position:absolute; left:0px; top:32px; width:250px; height:auto; overflow:hidden; display:block; background:#000;  filter:alpha(opacity=80);opacity:0.8; -moz-opacity:0.8; -khtml-opacity:0.8; padding:0 8px; *padding-bottom:2px; width:238px\0;}
+.area .area_list { position:absolute; left:0px; top:32px; width:250px; height:auto; overflow:hidden; display:block; background:#4C4C4C; padding:0 8px; *padding-bottom:2px; width:238px\0;}
 
 .area .area_list a{  margin-left:1px; overflow:hidden; color:#e5e5e5; font-size:14px; text-align:center; line-height:40px; text-decoration:none; padding:5px 8px; white-space:nowrap; position:relative; z-index:999; }
-.area .area_list a:hover{background:#448EDA; color:#fff; background:#65A1DC\0;}
+.area .area_list a:hover{background:#448EDA; color:#fff; }
 
 
 
@@ -104,25 +104,30 @@ abbr,acronym { border: 0;
 .menu a.selceted{color:#fff; background:url(../images/web/menu_hover_bg.jpg) repeat-x; cursor:default;}
 
 
-.top .about{ float:right; margin-right:15px; display:inline; margin-top:18px; position:relative;}
-.about p{color:#999; cursor:pointer;}
-.about .about_list{ position:absolute; right:-5px; top:32px; width:108px; height:auto; overflow:hidden; display:block; background:#000; padding:1px; filter:alpha(opacity=80);opacity:0.8; -moz-opacity:0.8; -khtml-opacity:0.8;}
+.top .acc{ float:right; margin-right:10px; display:inline; margin-top:11px; position:relative;}
 
-.about .about_list a{ height:30px; display:block; overflow:hidden;  line-height:30px;  padding-left:20px; padding-right:17px; color:#666; text-decoration:none; position:relative; z-index:999; }
-.about .about_list a:hover{ background:#448EDA; color:#fff; background:#65A1DC\0;}
+.top .acc p a{color:#ccc; text-decoration:none; float:left; display:block; width:40px; height:24px; padding-top:6px; padding-left:8px; }
+.top .acc .hover a{ color:#ccc; text-decoration:none; float:left;  background:url(../images/web/arrow_down.gif) no-repeat 33px 12px #4C4C4C; border:1px solid #202020; display:block; width:40px; height:24px; padding-top:6px; padding-left:8px; border-bottom:none; position:relative; z-index:1999;}
 
 
+.acc .acc_list{position:absolute;  right:0px; top:30px; width:88px; height:auto; border:1px solid #202020; overflow:hidden; display:block; background:#4C4C4C; }
+
+.acc .acc_list a{ height:30px; display:block; overflow:hidden;  line-height:30px; text-align:center; color:#ccc; text-decoration:none; position:relative; z-index:999; }
+.acc .acc_list a:hover{ background:#448EDA; color:#fff; }
 
 
-.top .my_message{ float:right; margin-right:15px; display:inline; margin-top:18px; position:relative;}
-.top .my_message p a{ color:#ccc; text-decoration:none; float:left;  background:url(../images/web/arrow_down.gif) no-repeat right; padding-right:12px;}
 
-.top .my_message_show{position:absolute; right:0px; top:32px; width:168px; height:auto; overflow:hidden; display:block; background:#000;  filter:alpha(opacity=80);opacity:0.8; -moz-opacity:0.8; -khtml-opacity:0.8; padding:1px;}
-.top .my_message_show span{ float:left; position:relative; display:block; width:168px;}
-.top .my_message_show a{ height:30px; display:block; overflow:hidden;  line-height:30px;  padding-left:20px; padding-right:17px;  color:#666; text-decoration:none; position:relative; z-index:999;}
+
+.top .my_message{ float:right; margin-right:10px; display:inline; margin-top:11px; position:relative;}
+.top .my_message p a{color:#ccc; text-decoration:none; float:left;  display:block; width:40px; height:24px; padding-top:6px; padding-left:8px; }
+.top .my_message .hover a{ color:#ccc; text-decoration:none; float:left;  background:url(../images/web/arrow_down.gif) no-repeat 33px 12px #4C4C4C; border:1px solid #202020; display:block; width:40px; height:24px; padding-top:6px; padding-left:8px; border-bottom:none; position:relative; z-index:1999;}
+
+.top .my_message_show{position:absolute;  right:0px; top:30px; width:148px; height:auto; border:1px solid #202020; overflow:hidden; display:block; background:#4C4C4C;}
+.top .my_message_show span{ float:left; position:relative; display:block; width:148px;}
+.top .my_message_show a{ height:30px; display:block; overflow:hidden;  line-height:30px;  padding-left:12px; padding-right:17px;  color:#ccc; text-decoration:none; position:relative; z-index:999;}
 .top .my_message_show em{ position:absolute; right:10px; top:5px; color:#ccc; z-index:999; font-family:Arial, Helvetica, sans-serif; font-size:10px; font-weight:bold;}
 
-.top .my_message_show a:hover{background:#448EDA; color:#fff; background:#65A1DC\0;}
+.top .my_message_show a:hover{background:#448EDA; color:#fff; }
 
 
 
@@ -130,7 +135,7 @@ abbr,acronym { border: 0;
 
 
 
-.top .user_area{float:right; margin-right:15px; display:inline; margin-top:18px; position:relative;}
+.top .user_area{float:right; margin-right:10px; display:inline; margin-top:18px; position:relative;}
 .user_area .unlogin{}
 .user_area .unlogin a{ color:#666; text-decoration:none;}
 .user_area .unlogin a:hover{ color:#999;}
@@ -148,10 +153,6 @@ abbr,acronym { border: 0;
 .user_area .login .user_box a.girl:hover{ color:#FF6699;}
 
 
-.user_area .login .use_set_center{ position:absolute; right:0px; top:32px; width:78px; height:auto; overflow:hidden; display:block; background:#000;  filter:alpha(opacity=80);opacity:0.8; -moz-opacity:0.8; -khtml-opacity:0.8; padding:1px;} 
-
-.user_area .login .use_set_center a{ height:30px; display:block; overflow:hidden;  line-height:30px; text-align:center; color:#666; text-decoration:none; position:relative; z-index:999;}
-.user_area .login .use_set_center a:hover{background:#448EDA; color:#fff; background:#65A1DC\0;}
 
 
 
@@ -163,11 +164,11 @@ abbr,acronym { border: 0;
 .search .s_m input{ width:147px; border:0px; line-height:28px; color:#666; background:none; height:28px; font-size:12px; float:left; margin-left:3px; display:inline;}
 .search .s_r a{ display:block; width:30px; height:28px;}
 
-.search .xl_menu{ position:absolute; left:0px; top:28px; width:190px; height:auto; overflow:hidden; display:block; background:#000;  filter:alpha(opacity=80);opacity:0.8; -moz-opacity:0.8; -khtml-opacity:0.8; padding:1px;}
+.search .xl_menu{ position:absolute; left:0px; top:28px; width:190px; height:auto; overflow:hidden; display:block; background:#4C4C4C; border:1px solid #202020;}
 
-.search .xl_menu a{height:30px; display:block; overflow:hidden;  line-height:30px;  padding-left:20px; padding-right:17px; color:#666; text-decoration:none; position:relative; z-index:999;}
+.search .xl_menu a{height:30px; display:block; overflow:hidden;  line-height:30px;  padding-left:20px; padding-right:17px; color:#ccc; text-decoration:none; position:relative; z-index:999;}
 
-.search .xl_menu a:hover{ background:#448EDA; color:#fff; background:#65A1DC\0;}
+.search .xl_menu a:hover{ background:#448EDA; color:#fff; }
 
 
 
@@ -178,7 +179,8 @@ abbr,acronym { border: 0;
 .bottom{ width:100%; height:auto; display:block;  text-align:center; margin-top:37px;}
 .bottom .link{ color:#8C8C8C; margin-top:10px; float:left; width:100%; margin-top:10px; padding-bottom:30px;}
 .bottom a{ margin-left:10px; margin-right:10px; color:#8C8C8C; text-decoration:none;}
-.bottom a:hover{ color:#fff;}
+.bottom a:hover{ color:#3E8BD9; text-decoration:underline;}
+
 .bottom p{text-align:center; padding-bottom:20px; color:#666; line-height:200%;}
 
 

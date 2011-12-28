@@ -30,8 +30,6 @@ public class ImageManager implements IImageManager {
 	private final Log log = LogFactory.getLog(getClass());
 	private final static SimpleDateFormat SDF = new SimpleDateFormat(
 			"yyyy-MM-dd");
-	@Autowired
-	private MessageSource messageSource;
 	@Value("${upload.temp.image.home}")
 	private String uploadTempImageHome;
 	@Value("${web.temp.image.path}")
@@ -60,25 +58,19 @@ public class ImageManager implements IImageManager {
 
 	private void checkImage(MultipartFile image) throws UploadImageException {
 		if (null == image) {
-			throw new UploadImageException(messageSource.getMessage(
-					UploadImageException.UPLOAD_ERROR, null,
-					Locale.SIMPLIFIED_CHINESE));
+			throw new UploadImageException(UploadImageException.UPLOAD_ERROR);
 		}
 		int code = ImageUtil.validationImage(uploadImageTypes, uploadImageSize,
 				image);
 		switch (code) {
 		case 0:
-			throw new UploadImageException(messageSource.getMessage(
-					UploadImageException.UPLOAD_ERROR, null,
-					Locale.SIMPLIFIED_CHINESE));
+			throw new UploadImageException(UploadImageException.UPLOAD_ERROR);
 		case -1:
-			throw new UploadImageException(messageSource.getMessage(
-					UploadImageException.UPLOAD_TYPE_ERROR, null,
-					Locale.SIMPLIFIED_CHINESE));
+			throw new UploadImageException(
+					UploadImageException.UPLOAD_TYPE_ERROR);
 		case -2:
-			throw new UploadImageException(messageSource.getMessage(
-					UploadImageException.UPLOAD_SIZE_ERROR, null,
-					Locale.SIMPLIFIED_CHINESE));
+			throw new UploadImageException(
+					UploadImageException.UPLOAD_SIZE_ERROR);
 		}
 	}
 

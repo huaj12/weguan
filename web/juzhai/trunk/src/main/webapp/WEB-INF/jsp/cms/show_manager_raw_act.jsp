@@ -200,6 +200,7 @@
 			}
 			if (!checkValLength(address, 0, 60)) {
 				alert("详细地址必须少于30个字！");
+				return;
 			}
 			jQuery.ajax({
 				url : "/cms/ajax/agreeRawAct",

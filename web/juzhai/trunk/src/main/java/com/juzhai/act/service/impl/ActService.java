@@ -546,7 +546,7 @@ public class ActService implements IActService {
 		clearActCache(act.getId());
 		if (StringUtils.isNotEmpty(detail)) {
 			if (StringUtil.chineseLength(detail) < actDetailLengthMax) {
-				actDetailService.addActDetail(act.getId(), detail);
+				actDetailService.updateActDetail(act.getId(), detail);
 			} else {
 				throw new ActInputException(
 						ActInputException.ACT_DETAIL_IS_TOO_LONG);
@@ -596,9 +596,12 @@ public class ActService implements IActService {
 
 	@Override
 	@Transactional
-	public void cmsCreateAct(Act act, List<Long> categoryIds, long addUid,
+	public void cmsCreateAct(Act act, List<Long> categoryIds, Long addUid,
 			String detail, MultipartFile imgFile) throws UploadImageException,
 			ActInputException {
+		if(addUid==null){
+			throw new ActInputException(ActInputException.ACT_FIELD_ISNULL);
+		}
 		Act oldAct = getActByName(act.getName());
 		long actId = 0;
 		String logo = "";
@@ -635,9 +638,7 @@ public class ActService implements IActService {
 		}
 		if (logo != null && imgFile != null && imgFile.getSize() > 0
 				&& actId > 0) {
-			actImageService.uploadActLogo(0, actId, imgFile);
-			// TODO缺少一个删除以前图片的方法
-			// .uploadImg(actId, logo,imgFile);
+			actImageService.uploadActLogo(addUid, actId, imgFile);
 		}
 	}
 

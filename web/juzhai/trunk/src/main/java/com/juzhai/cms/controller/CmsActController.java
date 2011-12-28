@@ -251,6 +251,9 @@ public class CmsActController extends BaseController {
 		ModelMap mmap = new ModelMap();
 		try {
 			if (act != null && act.getName() != null) {
+				if(addUid==null){
+					addUid=context.getUid();
+				}
 				actService.cmsCreateAct(act, form.getCatIds(), addUid,
 						form.getDetail(), form.getImgFile());
 			} else {
@@ -298,6 +301,11 @@ public class CmsActController extends BaseController {
 			act.setAddress(form.getAddress());
 			act.setCity(form.getCity());
 			act.setProvince(form.getProvince());
+			long town=-1;
+			if(form.getTown()!=null){
+				town=form.getTown();
+			}
+			act.setTown(town);
 		}
 		Date startTime = null;
 		Date endTime = null;

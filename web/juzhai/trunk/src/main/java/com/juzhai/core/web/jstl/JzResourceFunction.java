@@ -1,6 +1,7 @@
 package com.juzhai.core.web.jstl;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.juzhai.cms.bean.SizeType;
@@ -12,11 +13,12 @@ import com.juzhai.passport.model.Thirdparty;
 @Component
 public class JzResourceFunction {
 
-	// @Value("${web.act.image.path}")
-	// private static String webActImagePath;
-	// @Value("${web.user.image.path}")
-	// private static String webUserImagePath;
-
+//	@Value("${web.act.image.path}")
+	public static String webActImagePath="/images/act/";
+//	@Value("${web.user.image.path}")
+	public static String webUserImagePath="/images/user/";
+//	@Value("${web.temp.image.path}")
+	private static String webTempImagePath="/images/temp/";
 	/**
 	 * 静态资源路径生成
 	 * 
@@ -41,7 +43,7 @@ public class JzResourceFunction {
 			return StaticUtil.u("/images/" + size + "_defaultActLogo.gif");
 		} else {
 			if (ImageUtil.isInternalUrl(fileName)) {
-				return StaticUtil.u("/upload/act/"
+				return StaticUtil.u(webActImagePath
 						+ ImageUtil.generateHierarchyImageWebPath(actId,
 								sizeType) + fileName);
 			} else {
@@ -49,7 +51,13 @@ public class JzResourceFunction {
 			}
 		}
 	}
-
+	public static String actTempLogo(String fileName){
+		if (StringUtils.isEmpty(fileName)) {
+			return StaticUtil.u("/images/120_defaultActLogo.gif");
+		}else{
+			return StaticUtil.u(webTempImagePath+fileName);
+		}
+	}
 	/**
 	 * 获取UserLogo
 	 * 
@@ -65,7 +73,7 @@ public class JzResourceFunction {
 					|| sizeType == null) {
 				return StaticUtil.u("/images/" + size + "_defaultUserLogo.gif");
 			} else {
-				return StaticUtil.u("/upload/user/"
+				return StaticUtil.u(webUserImagePath
 						+ ImageUtil.generateHierarchyImageWebPath(userid,
 								sizeType) + fileName);
 			}

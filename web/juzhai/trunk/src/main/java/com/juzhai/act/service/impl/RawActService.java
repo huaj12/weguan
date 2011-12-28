@@ -137,7 +137,7 @@ public class RawActService implements IRawActService {
 					RawActInputException.RAW_ACT_TIME_INVALID);
 		}
 		String detail = agreeRawActForm.getDetail();
-		long rawActId = agreeRawActForm.getId();
+		long rawActId = agreeRawActForm.getRawActId();
 		if (rawActId == 0) {
 			throw new RawActInputException(
 					RawActInputException.RAW_ACT_ID_IS_NULL);

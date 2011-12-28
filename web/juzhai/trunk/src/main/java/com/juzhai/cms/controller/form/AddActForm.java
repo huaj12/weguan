@@ -15,7 +15,7 @@ public class AddActForm {
 	}
 
 	private MultipartFile imgFile;
-	
+
 	private Boolean checkAddress;
 
 	public Boolean getCheckAddress() {
@@ -33,14 +33,16 @@ public class AddActForm {
 	private String fullName;
 
 	private String intro;
-	
+
 	private String detail;
 
-	private List<Long>  catIds;
+	private List<Long> catIds;
 
 	private Long province;
 
 	private Long city;
+
+	private Long town;
 
 	private String suitGender;
 
@@ -61,8 +63,6 @@ public class AddActForm {
 	private Integer minCharge;
 
 	private Integer maxCharge;
-
-
 
 	public MultipartFile getImgFile() {
 		return imgFile;
@@ -88,6 +88,14 @@ public class AddActForm {
 		this.fullName = fullName;
 	}
 
+	public Long getTown() {
+		return town;
+	}
+
+	public void setTown(Long town) {
+		this.town = town;
+	}
+
 	public String getDetail() {
 		return detail;
 	}
@@ -103,7 +111,6 @@ public class AddActForm {
 	public void setIntro(String intro) {
 		this.intro = intro;
 	}
-
 
 	public List<Long> getCatIds() {
 		return catIds;
@@ -129,7 +136,6 @@ public class AddActForm {
 		this.city = city;
 	}
 
-
 	public String getSuiAge() {
 		return suiAge;
 	}
@@ -137,7 +143,6 @@ public class AddActForm {
 	public void setSuiAge(String suiAge) {
 		this.suiAge = suiAge;
 	}
-
 
 	public String getSuitGender() {
 		return suitGender;

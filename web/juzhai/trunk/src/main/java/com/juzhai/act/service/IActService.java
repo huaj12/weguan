@@ -294,5 +294,5 @@ public interface IActService {
 	 */
 	List<ActLink> listActLinkByActId(long actId, int count);
 	
-	void cmsCreateAct(Act act, List<Long> categoryIds,long addUid,String detail,MultipartFile imgFile)throws UploadImageException, ActInputException ;
+	void cmsCreateAct(Act act, List<Long> categoryIds,Long addUid,String detail,MultipartFile imgFile)throws UploadImageException, ActInputException ;
 }

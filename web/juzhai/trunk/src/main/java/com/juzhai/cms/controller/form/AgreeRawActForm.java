@@ -1,7 +1,7 @@
 package com.juzhai.cms.controller.form;
 
 public class AgreeRawActForm {
-	private long id;
+	private long rawActId;
 	private long town;
 	private long province;
 	private long city;
@@ -14,12 +14,13 @@ public class AgreeRawActForm {
 	private String endTime;
 	private long createUid;
 
-	public long getId() {
-		return id;
+
+	public long getRawActId() {
+		return rawActId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setRawActId(long rawActId) {
+		this.rawActId = rawActId;
 	}
 
 	public long getTown() {

@@ -1,19 +1,18 @@
 package com.juzhai.act.controller.form;
 
-import org.springframework.ui.Model;
 
 public class AddRawActForm {
-	// TODO (review) 还是作用域问题，这里需要default？另外代码整理以及不必要的impot去除
-	long province;
-	long city;
-	long town;
-	String name;
-	String detail;
-	String filePath;
-	long categoryId;
-	String address;
-	String startTime;
-	String endTime;
+	// TODO (done) 还是作用域问题，这里需要default？另外代码整理以及不必要的impot去除
+	private long province;
+	private long city;
+	private long town;
+	private String name;
+	private String detail;
+	private String filePath;
+	private long categoryId;
+	private String address;
+	private String startTime;
+	private String endTime;
 
 	public long getProvince() {
 		return province;

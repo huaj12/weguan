@@ -25,19 +25,21 @@
 							</div>
 							<div class="my_face"><!--my_face begin-->
 								<div class="upload_area"><!--upload_area begin-->
-									<div class="btn">
+									<div class="btns">
 										<form id="uploadImgForm" method="post" enctype="multipart/form-data">
-											<!-- <a href="#" class="upload_btn"><em>上传</em><q><input type="file" contenteditable="false" name="profileLogo" /></q></a> -->
-											<input type="file" name="profileLogo" onchange="javascript:uploadImage();"/>
-											<!-- <input class="btn_file_molding" size=6 type="file" />  
-											<a href="#">上传头像</a> -->
+											<input class="btn_file_molding" size=6 type="file" name="profileLogo" onchange="javascript:uploadImage();"/>  
+											<a href="#">上传头像</a> 
 										</form>
 									</div>
-									<div class="uploading" style="display: none;">上传中...</div>
+									<div class="uploading" style="display:none;">上传中...</div>
+									<div class="error" style="display:none;"></div>
+									<div class="uploading_ok" style="display:none;"><font></font><a href="javascript:void(0);">重新上传</a></div>
+									
+									<!-- <div class="uploading" style="display: none;">上传中...</div>
 									<div class="error" id="logo_tip" ></div>
 									<div class="uploading_ok" style="display: none">
 										已成功上传 my_photo.jpg<a href="#">重新上传</a>
-									</div>
+									</div> -->
 								</div><!--upload_area end-->
 								<div class="edit_face_area">
 									<img id="target" src="" style="width: 450px"/>

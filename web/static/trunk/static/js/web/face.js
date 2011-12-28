@@ -15,6 +15,10 @@ $(document).ready(function() {
 		$("#logoCutForm").submit();
 		return false;
 	});
+	$("div.upload_area > div.uploading_ok > a").bind("click", function(){
+		$(this).parent().hide();
+		$("div.upload_area > div.btns").show();
+	});
 });
 
 var jcrop_api;
@@ -86,6 +90,9 @@ function releaseLogo() {
 }
 
 function uploadImage() {
+	var fileName = $(".btn_file_molding").val();
+	$("div.upload_area > div.btns").hide();
+	$("div.upload_area > div.uploading").show();
 	var options = {
 		url : "/profile/logo/upload",
 		type : "POST",
@@ -101,15 +108,21 @@ function uploadImage() {
 					jcrop_api.destroy();
 				}
 				prepareJcrop();
-				$("#logo_tip").html("上传成功");
+				$("div.upload_area > div.uploading").hide();
+				$("div.upload_area > div.uploading_ok > font").text("已成功上传 " + fileName);
+				$("div.upload_area > div.uploading_ok").show();
 			} else if (result.error == "00003") {
 				window.location.href = "/login";
 			} else {
-				$("#logo_tip").html(result.errorInfo);
+				$("div.upload_area > div.uploading").hide();
+				$("div.upload_area > div.error").text(result.errorInfo).show();
+				$("div.upload_area > div.btns").show();
 			}
 		},
 		error : function(data) {
-			$("#logo_tip").html("上传失败");
+			$("div.upload_area > div.uploading").hide();
+			$("div.upload_area > div.error").text("上传失败").show();
+			$("div.upload_area > div.btns").show();
 		}
 	};
 	$("#uploadImgForm").ajaxSubmit(options);

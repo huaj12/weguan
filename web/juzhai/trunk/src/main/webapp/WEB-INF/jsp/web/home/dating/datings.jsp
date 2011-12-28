@@ -19,9 +19,18 @@
 							<jsp:include page="/WEB-INF/jsp/web/home/common/home_info.jsp" />
 							<c:set var="tabType" value="datings" scope="request" />
 							<jsp:include page="/WEB-INF/jsp/web/home/common/tab.jsp" />
+							<c:if test="${tabType=='datings'}">
+								<div class="sx_menu">
+									<a href="/home/datings/1" <c:if test="${response!='accept'}">class="active"</c:if>>所有我约过的</a>
+									<a href="/home/datings/accept/1" <c:if test="${response=='accept'}">class="active"</c:if>>接受我邀约的</a>
+								</div>
+							</c:if>
 							<c:choose>
 								<c:when test="${empty datingViewList}">
-									<div class="item_none">目前你还没约任何人哦<a href="#">去找伴儿》</a></div>
+									<c:choose>
+										<c:when test="${response!='accept'}"><div class="item_none">目前你还没约任何人哦<a href="/showUsers">去找伴儿》</a></div></c:when>
+										<c:otherwise><div class="item_none">还没有人接受你的邀约哦<a href="/showUsers">去找伴儿》</a></div></c:otherwise>
+									</c:choose>
 								</c:when>
 								<c:otherwise>
 									<jsp:include page="datings_list.jsp" />

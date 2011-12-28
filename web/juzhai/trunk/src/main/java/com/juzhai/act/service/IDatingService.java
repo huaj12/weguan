@@ -23,10 +23,11 @@ public interface IDatingService {
 	 * 
 	 * @param uid
 	 * @param datingId
-	 * @return 
+	 * @return
 	 * @throws DatingInputException
 	 */
-	Dating checkCanRespDating(long uid, long datingId) throws DatingInputException;
+	Dating checkCanRespDating(long uid, long datingId)
+			throws DatingInputException;
 
 	/**
 	 * 约人
@@ -85,7 +86,8 @@ public interface IDatingService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Dating> listDating(long uid, int firstResult, int maxResults);
+	List<Dating> listDating(long uid, Integer response, int firstResult,
+			int maxResults);
 
 	/**
 	 * 我约的数量
@@ -93,7 +95,7 @@ public interface IDatingService {
 	 * @param uid
 	 * @return
 	 */
-	int countDating(long uid);
+	int countDating(long uid, Integer response);
 
 	/**
 	 * 被约的列表

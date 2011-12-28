@@ -64,6 +64,9 @@
 	</div><!--idate end-->
 </div><!--item_box end-->
 <div class="clear"></div>
+<c:if test="${response=='accept'}">
+	<c:set var="tabType" value="${tabType}/accept" />
+</c:if>
 <c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 	<c:param name="pager" value="${pager}"/>
 	<c:param name="url" value="/home/${tabType}" />

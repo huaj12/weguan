@@ -1,7 +1,10 @@
 package com.juzhai.core.web.jstl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.juzhai.cms.bean.SizeType;
@@ -12,13 +15,29 @@ import com.juzhai.passport.model.Thirdparty;
 
 @Component
 public class JzResourceFunction {
+	private static final String FILE_CONFIG_PATH = "/properties/file.properties";
+	private static String webActImagePath;
+	private static String webUserImagePath;
+	private static String webTempImagePath;
 
-//	@Value("${web.act.image.path}")
-	public static String webActImagePath="/images/act/";
-//	@Value("${web.user.image.path}")
-	public static String webUserImagePath="/images/user/";
-//	@Value("${web.temp.image.path}")
-	private static String webTempImagePath="/images/temp/";
+	static {
+		InputStream in = StaticUtil.class.getClassLoader().getResourceAsStream(
+				FILE_CONFIG_PATH);
+		if (in == null) {
+			throw new RuntimeException(
+					"The file: /properties/file.properties can't be found in Classpath.");
+		}
+		Properties prop = new Properties();
+		try {
+			prop.load(in);
+			webActImagePath = prop.getProperty("web.act.image.path");
+			webUserImagePath = prop.getProperty("web.user.image.path");
+			webTempImagePath = prop.getProperty("web.temp.image.path");
+		} catch (IOException e) {
+			throw new RuntimeException("Load urls IO error.");
+		}
+	}
+
 	/**
 	 * 静态资源路径生成
 	 * 
@@ -51,13 +70,15 @@ public class JzResourceFunction {
 			}
 		}
 	}
-	public static String actTempLogo(String fileName){
+
+	public static String actTempLogo(String fileName) {
 		if (StringUtils.isEmpty(fileName)) {
 			return StaticUtil.u("/images/120_defaultActLogo.gif");
-		}else{
-			return StaticUtil.u(webTempImagePath+fileName);
+		} else {
+			return StaticUtil.u(webTempImagePath + fileName);
 		}
 	}
+
 	/**
 	 * 获取UserLogo
 	 * 

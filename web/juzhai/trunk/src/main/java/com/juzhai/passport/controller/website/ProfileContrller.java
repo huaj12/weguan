@@ -1,13 +1,9 @@
 package com.juzhai.passport.controller.website;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -26,11 +22,7 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.controller.form.SettingForm;
 import com.juzhai.passport.exception.ProfileInputException;
-import com.juzhai.passport.model.City;
-import com.juzhai.passport.model.Profession;
 import com.juzhai.passport.model.Profile;
-import com.juzhai.passport.model.Province;
-import com.juzhai.passport.model.Town;
 import com.juzhai.passport.service.IProfileImageService;
 import com.juzhai.passport.service.IProfileService;
 
@@ -100,8 +92,9 @@ public class ProfileContrller extends BaseController {
 			model.addAttribute("errorCode", e.getErrorCode());
 			model.addAttribute("error", messageSource.getMessage(
 					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
+			return face(request, model);
 		}
-		return face(request, model);
+		return "redirect:/profile/index";
 	}
 
 	@RequestMapping(value = "/setting/gender", method = RequestMethod.POST)

@@ -175,8 +175,6 @@ function openDating(uid, datingId){
 		dataType : "html",
 		success : function(result) {
 			openDialog(null, "openDating", result);
-			rSelects();
-			showSelect();
 		},
 		statusCode : {
 			401 : function() {

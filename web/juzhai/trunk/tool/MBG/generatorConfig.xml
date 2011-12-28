@@ -94,7 +94,7 @@
   </context> -->
   
   
-  <context id="act" targetRuntime="MyBatis3">
+  <!-- <context id="act" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -126,7 +126,7 @@
       <property name="useActualColumnNames" value="false"/>
     </table>
     
-    <!-- <table tableName="tb_show_act" domainObjectName="ShowAct">
+    <table tableName="tb_show_act" domainObjectName="ShowAct">
       <property name="useActualColumnNames" value="false"/>
     </table>
     
@@ -189,9 +189,9 @@
     
     <table tableName="tb_act_charts" domainObjectName="ActCharts">
       <property name="useActualColumnNames" value="false"/>
-    </table> -->
+    </table>
     
-  </context>
+  </context> -->
   
   <!-- <context id="account" targetRuntime="MyBatis3">
   
@@ -265,5 +265,38 @@
     
   </context> -->
   
+  <context id="notice" targetRuntime="MyBatis3">
+  
+	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
+	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+  
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://127.0.0.1:3306/juzhai"
+        userId="root"
+        password="111111">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.juzhai.notice.model" targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="mybatis.notice"  targetProject="src/main/resources">
+      <property name="enableSubPackages" value="false" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.notice.mapper"  targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
+    </javaClientGenerator>
+
+	<table tableName="tb_sys_notice" domainObjectName="Notice">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+  </context>
   
 </generatorConfiguration>

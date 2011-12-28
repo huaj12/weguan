@@ -106,9 +106,11 @@ abbr,acronym { border: 0;
 
 .top .acc{ float:right; margin-right:10px; display:inline; margin-top:11px; position:relative;}
 
-.top .acc p a{color:#ccc; text-decoration:none; float:left; display:block; width:40px; height:24px; padding-top:6px; padding-left:8px; }
-.top .acc .hover a{ color:#ccc; text-decoration:none; float:left;  background:url(../images/web/arrow_down.gif) no-repeat 33px 12px #4C4C4C; border:1px solid #202020; display:block; width:40px; height:24px; padding-top:6px; padding-left:8px; border-bottom:none; position:relative; z-index:1999;}
+.top .acc p a{color:#ccc; text-decoration:none; float:left; display:block; width:41px; height:24px; padding-top:7px; padding-left:9px; background:url(../images/web/arrow_down.gif) no-repeat 34px 13px; }
+.top .acc p a:hover{ background:url(../images/web/arrow_down.gif) no-repeat 33px 12px #4C4C4C;  width:40px; height:24px;  padding-top:6px; padding-left:8px; border:1px solid #202020; }
 
+.top .acc .hover a{ color:#ccc; text-decoration:none; float:left;  background:url(../images/web/arrow_down.gif) no-repeat 33px 12px #4C4C4C; border:1px solid #202020; display:block; width:40px; height:24px; padding-top:6px; padding-left:8px; border-bottom:none; position:relative; z-index:1999;}
+.top .acc p.hover a:hover{ border-bottom:none;}
 
 .acc .acc_list{position:absolute;  right:0px; top:30px; width:88px; height:auto; border:1px solid #202020; overflow:hidden; display:block; background:#4C4C4C; }
 
@@ -118,9 +120,13 @@ abbr,acronym { border: 0;
 
 
 
-.top .my_message{ float:right; margin-right:10px; display:inline; margin-top:11px; position:relative;}
-.top .my_message p a{color:#ccc; text-decoration:none; float:left;  display:block; width:40px; height:24px; padding-top:6px; padding-left:8px; }
+.top .my_message{ float:right; margin-right:1px;  display:inline; margin-top:11px; position:relative;}
+.top .my_message p a{color:#ccc; text-decoration:none; float:left; display:block; width:41px; height:24px; padding-top:7px; padding-left:9px; background:url(../images/web/arrow_down.gif) no-repeat 34px 13px;  }
+.top .my_message p a:hover{ background:url(../images/web/arrow_down.gif) no-repeat 33px 12px #4C4C4C;  width:40px; height:24px;  padding-top:6px; padding-left:8px; border:1px solid #202020; }
+
+
 .top .my_message .hover a{ color:#ccc; text-decoration:none; float:left;  background:url(../images/web/arrow_down.gif) no-repeat 33px 12px #4C4C4C; border:1px solid #202020; display:block; width:40px; height:24px; padding-top:6px; padding-left:8px; border-bottom:none; position:relative; z-index:1999;}
+.top .my_message p.hover a:hover{ border-bottom:none;}
 
 .top .my_message_show{position:absolute;  right:0px; top:30px; width:148px; height:auto; border:1px solid #202020; overflow:hidden; display:block; background:#4C4C4C;}
 .top .my_message_show span{ float:left; position:relative; display:block; width:148px;}

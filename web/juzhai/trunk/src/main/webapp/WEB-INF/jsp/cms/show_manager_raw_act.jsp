@@ -10,29 +10,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>审核推荐项目</title>
 <script type="text/javascript"
-		src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
-<script type="text/javascript">
-	function removeRawAct(id){
-		jQuery.ajax({
-			url: "/cms/ajax/delRawAct",
-			type: "post",
-			data: {"id":id},
-			dataType: "json",
-			success: function(result){
-				if(result&&result.success){
-					location.href="/cms/showRawActs";
-				}else{
-					alert(result.errorInfo);
-				}
-			},
-			statusCode: {
-			    401: function() {
-			      alert("未登录");
-			    }
-			}
-		});
-	}
-</script>
+	src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 <style type="text/css">
 </style>
 </head>
@@ -41,74 +19,84 @@
 	<table border="0">
 		<tr>
 			<td>项目名</td>
-			<td><input id="name" type="text"  value="${rawAct.name}"/></td>
+			<td><input id="name" type="text" value="${rawAct.name}" />
+			</td>
 		</tr>
 		<tr>
 			<td>详细信息</td>
-			<td><textarea id="detail" name="detail" 
+			<td><textarea id="detail" name="detail"
 					style="width: 700px; height: 200px; visibility: hidden;" cols=""
-					rows="">${rawAct.detail}</textarea></td>
+					rows="">${rawAct.detail}</textarea>
+			</td>
 		</tr>
 		<tr>
-			<td>
-				上传图片：
-			</td>
+			<td>上传图片：</td>
 			<td><form id="uploadImgForm" method="post"
 					enctype="multipart/form-data">
-					<input type="file" onchange="uploadImage();" name="fileupload" />
-				</form><img id="logo" src="${rawAct.logo}" /><div id="logo_tip"></div></td>
+					<input type="file" onchange="uploadImage();" name="profileLogo" />
+				</form>
+				<img id="logo_path" width="120" height="120"
+				src="${jzr:actTempLogo(rawAct.logo)}" />
+			<div id="logo_tip"></div> <input id="logo" type="hidden"
+				value="${rawAct.logo}" /></td>
 		</tr>
 		<tr>
 			<td>分类</td>
 			<td><select name="category_ids" id="category_ids">
 					<c:forEach var="cats" items="${categoryList}">
-						
-						<option value="${cats.id}" <c:if test="${rawAct.categoryIds==cats.id}" >selected="selected" </c:if> >${cats.name }</option>
+						<option value="${cats.id}"
+							<c:if test="${rawAct.categoryIds==cats.id}" >selected="selected" </c:if>>${cats.name
+							}</option>
 					</c:forEach>
-			</select></td>
+			</select>
+			</td>
 		</tr>
 		<tr>
 			<td>地点</td>
 			<td><span> <select id="province"
-												onchange="selectCity(this)">
-													<c:forEach var="pro" items="${provinces}">
-														<option
-															<c:if test="${rawAct.province==pro.id}">selected="selected"</c:if>
-															value="${pro.id}">${pro.name}</option>
-													</c:forEach>
-											</select> </span> <span id="citys" > <select  id="city">
-													<c:forEach var="city" items="${citys}">
-														<c:if test="${rawAct.province==city.provinceId}">
-															<option
-																<c:if test="${rawAct.city==city.id}">selected="selected"</c:if>
-																value="${city.id}">${city.name}</option>
-														</c:if>
-													</c:forEach>
-											</select> </span> 
-											
-											<span id="towns" <c:if test="${rawAct.town=='-1'}"> style="display: none" </c:if> ><select name="town" id="town">
-													<c:forEach var="town" items="${towns}">
-														<c:if test="${rawAct.town==town.cityId}">
-															<option
-																<c:if test="${rawAct.town==town.id}">selected="selected"</c:if>
-																value="${town.id}">${town.name}</option>
-														</c:if>
-													</c:forEach>
-											</select> </span> <input name="address" id="address" type="text" value="${rawAct.address}"  /></td>
-		</tr>
-		<tr>
-			<td>时间</td>
-			<td><input name="" readonly="readonly" value="<fmt:formatDate value="${rawAct.startTime}"
-						pattern="yyyy-MM-dd" />" id="startTime"
-				onclick="WdatePicker()" type="text" />到 <input id="endTime"
-				readonly="readonly" onclick="WdatePicker()" name="" value="<fmt:formatDate value="${rawAct.endTime}"
-						pattern="yyyy-MM-dd" />" type="text" />
-						<input id="createUid" value="${rawAct.createUid}" type="hidden"/>
+					onchange="selectCity(this)">
+						<c:forEach var="pro" items="${provinces}">
+							<option
+								<c:if test="${rawAct.province==pro.id}">selected="selected"</c:if>
+								value="${pro.id}">${pro.name}</option>
+						</c:forEach>
+				</select> </span> <span id="citys"> <select id="city">
+						<c:forEach var="city" items="${citys}">
+							<c:if test="${rawAct.province==city.provinceId}">
+								<option
+									<c:if test="${rawAct.city==city.id}">selected="selected"</c:if>
+									value="${city.id}">${city.name}</option>
+							</c:if>
+						</c:forEach>
+				</select> </span> <span id="towns"
+				<c:if test="${rawAct.town=='-1'}"> style="display: none" </c:if>><select
+					name="town" id="town">
+						<c:forEach var="town" items="${towns}">
+							<c:if test="${rawAct.town==town.cityId}">
+								<option
+									<c:if test="${rawAct.town==town.id}">selected="selected"</c:if>
+									value="${town.id}">${town.name}</option>
+							</c:if>
+						</c:forEach>
+				</select> </span> <input name="address" id="address" type="text"
+				value="${rawAct.address}" />
 			</td>
 		</tr>
 		<tr>
-			<td><input type="button" onclick="addRawAct();" value="通过"/> </td>
-			<td><input type="button" onclick="removeRawAct('${rawAct.id}')" value="删除"/> </td>
+			<td>时间</td>
+			<td><input name="" readonly="readonly"
+				value="<fmt:formatDate value="${rawAct.startTime}"
+						pattern="yyyy-MM-dd" />"
+				id="startTime" onclick="WdatePicker()" type="text" />到 <input
+				id="endTime" readonly="readonly" onclick="WdatePicker()" name=""
+				value="<fmt:formatDate value="${rawAct.endTime}"
+						pattern="yyyy-MM-dd" />"
+				type="text" /> <input id="createUid" value="${rawAct.createUid}"
+				type="hidden" /></td>
+		</tr>
+		<tr>
+			<input id="id" type="hidden" value="${rawAct.id}" />
+			<td><input type="button" onclick="addRawAct();" value="通过" /></td>
 		</tr>
 	</table>
 	<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
@@ -118,121 +106,133 @@
 	<script type="text/javascript" src="${jzr:static('/js/core/core.js')}"></script>
 	<script type="text/javascript"
 		src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
-		<script>
+	<script>
 		var editor;
 		KindEditor.ready(function(K) {
 			editor = K.create('textarea[name="detail"]', {
 				resizeType : 1,
-				uploadJson : '/act/kindEditor/upload',
+				uploadJson : '/cms/kindEditor/upload',
 				allowPreviewEmoticons : false,
 				allowImageUpload : true,
-				items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
-						'bold', 'italic', 'underline',
+				items : [ 'fontname', 'fontsize', '|', 'forecolor',
+						'hilitecolor', 'bold', 'italic', 'underline',
 
 						'removeformat', '|', 'justifyleft', 'justifycenter',
-						'justifyright', 'insertorderedlist', 'insertunorderedlist',
-						'|', 'emoticons', 'image', 'link' ]
+						'justifyright', 'insertorderedlist',
+						'insertunorderedlist', '|', 'emoticons', 'image',
+						'link' ]
 			});
 		});
 		function uploadImage() {
-			$(document).ready(
-					function() {
-						var options = {
-							url : "/act/ajax/temp/addActImage",
-							type : "POST",
-							dataType : "json",
-							success : function(data) {
-								if (data.error==0) {
-									$("#logo_tip").html("上传成功");
-									$("#logo").attr("src",data.url);
-								} else {
-									$("#logo_tip").html(data.message);
-								}
-							},
-							error:function(data){
-								$("#logo_tip").html("上传失败");
-							}
-						};
-						$("#uploadImgForm").ajaxSubmit(options);
-						return false;
-					});
+			var options = {
+				url : "/cms/logo/upload",
+				type : "POST",
+				dataType : "json",
+				success : function(result) {
+					if (result.success) {
+						$("#logo_tip").html("上传成功");
+						$("#logo_path").attr("src", result.result[0]);
+						$("#logo").val(result.result[1]);
+					} else {
+						$("#logo_tip").text(result.errorInfo).show();
+					}
+
+				},
+				error : function(data) {
+					$("#logo_tip").html("上传失败");
+				}
+			};
+			$("#uploadImgForm").ajaxSubmit(options);
+			return false;
 		}
 		function selectCity(obj) {
-			$.get('/base/selectCity', {
+			jQuery.get('/base/selectCity', {
 				proId : obj.value,
 				random : Math.random()
 			}, function(result) {
 				$("#citys").html(result);
-				if($("#c_id")[0]){
+				if ($("#c_id")[0]) {
 					selectTown($("#c_id").val());
 					$("#towns").show();
-				}else{
+				} else {
 					$("#towns").hide();
 				}
 			});
 		}
 		function selectTown(id) {
-			$.get('/base/selectTown', {
+			jQuery.get('/base/selectTown', {
 				cityId : id,
 				random : Math.random()
 			}, function(result) {
 				$("#towns").html(result);
 			});
 		}
-		function addRawAct(){
-			var name=$("#name").val();
-			var detail=editor.text();
-			var logo=$("#logo").attr("src");
-			var category_ids=$("#category_ids").val();
-			var address=$("#address").val();
-			var startTime=$("#startTime").val();
-			var endTime=$("#endTime").val();
-			var province=$("#province").val();
-			var city=$("#city").val();
-			var createUid=$("#createUid").val();
-			createUid
-			var town="";
+		function addRawAct() {
+			var rawActId = $("#id").val();
+			var name = $("#name").val();
+			var detail = editor.html();
+			var logo = $("#logo");
+			var category_ids = $("#category_ids").val();
+			var address = $("#address").val();
+			var startTime = $("#startTime").val();
+			var endTime = $("#endTime").val();
+			var province = $("#province").val();
+			var city = $("#city").val();
+			var createUid = $("#createUid").val();
+			var town = $("#town").val();
 			//判断是否有town
-			if($("#c_id")[0]){
-				town=$("#town").val();
+			if ($("#towns").css("display") == "none") {
+				town = "-1";
 			}
-			if(!checkValLength(name, 2, 20)){
+			if (!checkValLength(name, 2, 20)) {
 				alert("项目名控制在1－10个中文内！");
-				return ;
+				return;
 			}
-			var detail_length = getByteLen(detail);
-			if(detail_length>4000){
-				alert("详细信息不能超过2000个中文当前"+(detail_length/2)+"字");
-				return ;
+			var detailCount = editor.text();
+			var detail_length = getByteLen(detailCount);
+			if (detail_length > 8000) {
+				alert("详细信息不能超过4000个中文当前" + (detail_length / 2) + "字");
+				return;
 			}
-			if(logo==null||logo==""){
+			if (logo == null || logo == "") {
 				alert("项目图片不能为空");
-				return ;
+				return;
 			}
-			if(!checkValLength(address, 0, 60)){
+			if (!checkValLength(address, 0, 60)) {
 				alert("详细地址必须少于30个字！");
 			}
-			$.post('/cms/ajax/agreeRawAct', {
-				name : name,
-				detail:detail,
-				logo:logo,
-				categoryIds:category_ids,
-				address:address,
-				startTime:startTime,
-				endTime:endTime,
-				town:town,
-				city:city,
-				province:province,
-				createUid:createUid,
-				random : Math.random()
-			}, function(result) {
-				if(result.success){
-					location.href="/cms/showRawActs";
-				}else{
-					alert(result.errorInfo);
+			jQuery.ajax({
+				url : "/cms/ajax/agreeRawAct",
+				type : "post",
+				data : {
+					"rawActId" : rawActId,
+					"name" : name,
+					"detail" : detail,
+					"logo" : logo,
+					"categoryId" : category_ids,
+					"address" : address,
+					"startTime" : startTime,
+					"endTime" : endTime,
+					"town" : town,
+					"city" : city,
+					"province" : province,
+					"createUid" : createUid
+				},
+				dataType : "json",
+				success : function(result) {
+					if (result.success) {
+						location.href = "/cms/showRawActs";
+					} else {
+						alert(result.errorInfo);
+					}
+				},
+				statusCode : {
+					401 : function() {
+						alert("请先登陆");
+					}
 				}
 			});
 		}
-		</script>
+	</script>
 </body>
 </html>

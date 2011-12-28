@@ -34,7 +34,7 @@
 	</div><!--user_infor end-->
 	<c:choose>
 		<c:when test="${profile.uid==context.uid}">
-			<div class="user_btn"><!--user_btn begin--><a href="#">个人设置</a></div><!--user_btn end-->
+			<div class="user_btn"><!--user_btn begin--><a href="/profile/index">个人设置</a></div><!--user_btn end-->
 		</c:when>
 		<c:otherwise>
 			<div class="ta_user_btn"><!--user_btn begin-->

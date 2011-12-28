@@ -22,6 +22,8 @@ import com.juzhai.act.service.IDatingService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.notice.bean.NoticeType;
+import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 
@@ -34,6 +36,8 @@ public class DatingService implements IDatingService {
 	private DatingMapper datingMapper;
 	@Autowired
 	private IUserActService userActService;
+	@Autowired
+	private INoticeService noticeService;
 	@Value("${max.dating.week.limit}")
 	private int maxDatingWeekLimit;
 	@Value("${max.dating.total.limit}")
@@ -129,6 +133,8 @@ public class DatingService implements IDatingService {
 		datingMapper.insertSelective(dating);
 
 		// TODO redis存储
+
+		noticeService.incrNotice(targetId, NoticeType.DATINGME);
 		return dating.getId();
 	}
 
@@ -166,6 +172,8 @@ public class DatingService implements IDatingService {
 		datingMapper.updateByPrimaryKeySelective(dating);
 
 		// TODO redis
+
+		noticeService.incrNotice(dating.getReceiverUid(), NoticeType.DATINGME);
 		return dating.getId();
 	}
 
@@ -190,6 +198,9 @@ public class DatingService implements IDatingService {
 		datingMapper.updateByPrimaryKeySelective(dating);
 
 		// TODO redis
+
+		noticeService.incrNotice(dating.getStarterUid(),
+				NoticeType.ACCEPTDATING);
 	}
 
 	private void checkProfileSimple(long uid) throws DatingInputException {

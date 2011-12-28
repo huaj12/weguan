@@ -14,6 +14,7 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.exception.InterestUserException;
 import com.juzhai.passport.service.IInterestUserService;
 

@@ -14,8 +14,67 @@ $(document).ready(function(){
 	$("div.area").hover(function(){
 		$("body").unbind("mousedown");
 	}, registerClosChannel);
-	$("div.user_box > a.login").bind("click", showLogin);
+	$("div.unlogin > a").bind("click", showLogin);
+	
+	var messageTimerId = null;
+	$("div.my_message").hover(function(){
+		if(messageTimerId){
+			clearTimeout(messageTimerId);
+		}
+		messageTimerId = setTimeout(function(){
+			$("div.my_message > p").addClass("hover");
+			$("div.my_message > div").show();
+		}, 300);
+	}, function(){
+		if(messageTimerId){
+			clearTimeout(messageTimerId);
+		}
+		messageTimerId = setTimeout(function(){
+			$("div.my_message > p").removeClass("hover");
+			$("div.my_message > div").hide();
+		}, 300);
+	});
+	var accTimerId = null;
+	$("div.acc").hover(function(){
+		if(accTimerId){
+			clearTimeout(accTimerId);
+		}
+		accTimerId = setTimeout(function(){
+			$("div.acc > p").addClass("hover");
+			$("div.acc > div").show();
+		}, 300);
+	}, function(){
+		if(accTimerId){
+			clearTimeout(accTimerId);
+		}
+		accTimerId = setTimeout(function(){
+			$("div.acc > p").removeClass("hover");
+			$("div.acc > div").hide();
+		}, 300);
+	});
+	
+	if($("div.my_message").is(":visible")){
+		setInterval(queryNotice, 10000);
+	}
 });
+
+function queryNotice(){
+	jQuery.ajax({
+		url : "/notice/nums",
+		type : "get",
+		cache : false,
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				for(var key in result.result){
+					$("div.my_message_show > span.#notice" + key + " > em").text(result.result[key]);
+				}
+			} else {
+				alert(result.errorInfo);
+			}
+		}
+	});
+}
 
 function registerClosChannel(){
 	$("body").bind("mousedown",function(){

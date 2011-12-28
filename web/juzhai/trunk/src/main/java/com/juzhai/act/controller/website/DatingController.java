@@ -53,7 +53,7 @@ public class DatingController extends BaseController {
 			queryProfile(uid, model);
 			datingService.checkCanDate(context.getUid(), uid, datingId);
 			model.addAttribute("userActViewList",
-					userActService.pageUserActView(uid, 1, datingUserActCount));
+					userActService.pageUserActView(uid, 0, datingUserActCount));
 			if (datingId > 0) {
 				Dating dating = datingService.getDatingByDatingId(datingId);
 				if (null != dating) {

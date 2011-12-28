@@ -25,6 +25,8 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.DatingView;
 import com.juzhai.home.bean.InterestUserView;
+import com.juzhai.notice.bean.NoticeType;
+import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
@@ -46,6 +48,8 @@ public class HomeController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private ILoginService loginService;
+	@Autowired
+	private INoticeService noticeService;
 	@Value("${web.my.act.max.rows}")
 	private int webMyActMaxRows;
 	@Value("${web.interest.user.max.rows}")
@@ -108,6 +112,7 @@ public class HomeController extends BaseController {
 						pager.getMaxResult());
 		assembleInterestUserView(model, context, profileList, null);
 		model.addAttribute("pager", pager);
+		noticeService.emptyNotice(context.getUid(), NoticeType.INTERESTME);
 		return "web/home/interest/interest_mes";
 	}
 
@@ -118,7 +123,7 @@ public class HomeController extends BaseController {
 			InterestUserView view = new InterestUserView();
 			view.setProfileCache(profileCache);
 			view.setUserActViewList(userActService.pageUserActView(
-					profileCache.getUid(), 1, interestUserShowActCount));
+					profileCache.getUid(), 0, interestUserShowActCount));
 			// TODO 用redis
 			Dating dating = datingService.fetchDating(context.getUid(),
 					profileCache.getUid());
@@ -149,6 +154,7 @@ public class HomeController extends BaseController {
 		assembleDatingView(model, datingList, false);
 		model.addAttribute("pager", pager);
 		model.addAttribute("response", "accept");
+		noticeService.emptyNotice(context.getUid(), NoticeType.ACCEPTDATING);
 		return "web/home/dating/datings";
 	}
 
@@ -179,6 +185,7 @@ public class HomeController extends BaseController {
 				pager.getFirstResult(), pager.getMaxResult());
 		assembleDatingView(model, datingList, true);
 		model.addAttribute("pager", pager);
+		noticeService.emptyNotice(context.getUid(), NoticeType.DATINGME);
 		return "web/home/dating/dating_mes";
 	}
 

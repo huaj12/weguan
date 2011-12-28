@@ -107,6 +107,7 @@ CREATE INDEX `idx_actid` ON `juzhai`.`tb_act_link` (`act_id` ASC) ;
 
 SHOW WARNINGS;
 
+
 -- -----------------------------------------------------
 -- Table `juzhai`.`tb_act_ad`
 -- -----------------------------------------------------
@@ -120,10 +121,13 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_act_ad` (
   `pic_url` VARCHAR(300) NOT NULL ,
   `link` VARCHAR(300) NOT NULL ,
   `city` BIGINT NOT NULL DEFAULT 0 ,
-  `address` VARCHAR(100) NULL ,
+  `district` VARCHAR(200) NULL ,
+  `address` VARCHAR(200) NULL ,
   `start_time` DATETIME NULL ,
   `end_time` DATETIME NULL ,
+  `prime price` VARCHAR(45) NULL ,
   `price` VARCHAR(45) NULL ,
+  `discount` DOUBLE NULL ,
   `source` VARCHAR(60) NOT NULL ,
   `source_link` VARCHAR(300) NULL ,
   `sequence` INT(4) NOT NULL ,

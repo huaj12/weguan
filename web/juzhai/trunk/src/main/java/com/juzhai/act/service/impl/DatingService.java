@@ -209,8 +209,16 @@ public class DatingService implements IDatingService {
 			throw new DatingInputException(
 					DatingInputException.ILLEGAL_OPERATION);
 		}
-		// TODO 个人资料是否完善
-		if (profile.getBirthYear() == null) {
+		// 个人资料是否完善
+		if (StringUtils.isEmpty(profile.getNickname())
+				|| null == profile.getGender() || null == profile.getProvince()
+				|| profile.getProvince() <= 0 || null == profile.getCity()
+				|| profile.getCity() <= 0 || null == profile.getBirthYear()
+				|| null == profile.getBirthMonth()
+				|| null == profile.getBirthDay()
+				|| StringUtils.isEmpty(profile.getProfession())
+				|| StringUtils.isEmpty(profile.getFeature())
+				|| StringUtils.isEmpty(profile.getLogoPic())) {
 			throw new DatingInputException(
 					DatingInputException.DATING_PROFILE_SIMPLE);
 		}

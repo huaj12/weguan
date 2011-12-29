@@ -28,9 +28,11 @@ import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.ProfileMapper;
+import com.juzhai.passport.model.Profession;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
 import com.juzhai.passport.model.TpUser;
@@ -313,7 +315,8 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROFESSION_IS_NULL);
 		}
-		if (profile.getProfessionId().intValue() == 0
+		// TODO (review) 用中文字数。自己再检查一下其他地方
+		if (profile.getProfessionId() == 0
 				&& profile.getProfession().length() > professionLengthMax) {
 			// 职业描述不能大于10个字
 			throw new ProfileInputException(
@@ -327,6 +330,13 @@ public class ProfileService implements IProfileService {
 		if (StringUtil.chineseLength(profile.getFeature()) > featureLengthMax) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
+		}
+		if (profile.getProfessionId() > 0) {
+			Profession p = InitData.PROFESSION_MAP.get(profile
+					.getProfessionId());
+			if (null != p) {
+				profile.setProfession(p.getName());
+			}
 		}
 		profile.setLastModifyTime(new Date());
 		try {

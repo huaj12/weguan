@@ -2,6 +2,7 @@ package com.juzhai.notice.service;
 
 import java.util.List;
 
+import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.notice.bean.SysNoticeType;
 import com.juzhai.notice.model.SysNotice;
 
@@ -33,4 +34,12 @@ public interface ISysNoticeService {
 	 * @return
 	 */
 	int countSysNoticeByUid(long uid);
+
+	/**
+	 * 删除系统通知
+	 * 
+	 * @param sysNoticeId
+	 * @throws JuzhaiException
+	 */
+	void delSysNotice(long uid, long sysNoticeId) throws JuzhaiException;
 }

@@ -112,7 +112,9 @@ public class HomeController extends BaseController {
 						pager.getMaxResult());
 		assembleInterestUserView(model, context, profileList, null);
 		model.addAttribute("pager", pager);
-		noticeService.emptyNotice(context.getUid(), NoticeType.INTERESTME);
+		if (page <= 1) {
+			noticeService.emptyNotice(context.getUid(), NoticeType.INTEREST_ME);
+		}
 		return "web/home/interest/interest_mes";
 	}
 
@@ -154,7 +156,10 @@ public class HomeController extends BaseController {
 		assembleDatingView(model, datingList, false);
 		model.addAttribute("pager", pager);
 		model.addAttribute("response", "accept");
-		noticeService.emptyNotice(context.getUid(), NoticeType.ACCEPTDATING);
+		if (page <= 1) {
+			noticeService.emptyNotice(context.getUid(),
+					NoticeType.ACCEPT_DATING);
+		}
 		return "web/home/dating/datings";
 	}
 
@@ -185,7 +190,9 @@ public class HomeController extends BaseController {
 				pager.getFirstResult(), pager.getMaxResult());
 		assembleDatingView(model, datingList, true);
 		model.addAttribute("pager", pager);
-		noticeService.emptyNotice(context.getUid(), NoticeType.DATINGME);
+		if (page <= 1) {
+			noticeService.emptyNotice(context.getUid(), NoticeType.DATING_ME);
+		}
 		return "web/home/dating/dating_mes";
 	}
 

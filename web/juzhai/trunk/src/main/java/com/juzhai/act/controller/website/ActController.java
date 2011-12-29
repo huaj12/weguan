@@ -90,7 +90,7 @@ public class ActController extends BaseController {
 			@PathVariable long actId) {
 		ActDetail actDetail = actService.getActDetailById(actId);
 		if (null == actDetail || !actDetail.getDisplay()) {
-			return showActUsers(request, model, actId, 1, "all", null);
+			return showActUsers(request, model, actId);
 		} else {
 			return showActDetail(request, model, actId);
 		}
@@ -113,8 +113,14 @@ public class ActController extends BaseController {
 		return "web/act/act/show_act_detail";
 	}
 
-	@RequestMapping(value = "/{actId}/users_{genderType}_{cityId}/{page}")
+	@RequestMapping(value = "/{actId}/users", method = RequestMethod.GET)
 	public String showActUsers(HttpServletRequest request, Model model,
+			@PathVariable long actId) {
+		return pageActUsers(request, model, actId, 1, "all", null);
+	}
+
+	@RequestMapping(value = "/{actId}/users_{genderType}_{cityId}/{page}")
+	public String pageActUsers(HttpServletRequest request, Model model,
 			@PathVariable long actId, @PathVariable int page,
 			@PathVariable String genderType, @PathVariable Long cityId) {
 		UserContext context = null;

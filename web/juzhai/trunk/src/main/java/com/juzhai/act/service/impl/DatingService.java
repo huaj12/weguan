@@ -134,7 +134,7 @@ public class DatingService implements IDatingService {
 
 		// TODO redis存储
 
-		noticeService.incrNotice(targetId, NoticeType.DATINGME);
+		noticeService.incrNotice(targetId, NoticeType.DATING_ME);
 		return dating.getId();
 	}
 
@@ -173,7 +173,7 @@ public class DatingService implements IDatingService {
 
 		// TODO redis
 
-		noticeService.incrNotice(dating.getReceiverUid(), NoticeType.DATINGME);
+		noticeService.incrNotice(dating.getReceiverUid(), NoticeType.DATING_ME);
 		return dating.getId();
 	}
 
@@ -200,7 +200,7 @@ public class DatingService implements IDatingService {
 		// TODO redis
 
 		noticeService.incrNotice(dating.getStarterUid(),
-				NoticeType.ACCEPTDATING);
+				NoticeType.ACCEPT_DATING);
 	}
 
 	private void checkProfileSimple(long uid) throws DatingInputException {

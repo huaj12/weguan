@@ -57,7 +57,7 @@ public class InterestUserService implements IInterestUserService {
 		// TODO redis
 		redisTemplate.opsForSet().add(
 				RedisKeyGenerator.genInterestUsersKey(uid), targetUid);
-		noticeService.incrNotice(targetUid, NoticeType.INTERESTME);
+		noticeService.incrNotice(targetUid, NoticeType.INTEREST_ME);
 	}
 
 	@Override

@@ -67,7 +67,7 @@ function queryNotice(){
 		success : function(result) {
 			if (result && result.success) {
 				for(var key in result.result){
-					$("div.my_message_show > span.#notice" + key + " > em").text(result.result[key]);
+					$("div.my_message_show > span.#notice" + key + " > em").text(result.result[key] > 0 ? result.result[key] : "");
 				}
 			} else {
 				alert(result.errorInfo);

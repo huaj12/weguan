@@ -21,9 +21,7 @@ public class DeleteTempImageHandler extends AbstractScheduleHandler {
 		c.add(Calendar.DAY_OF_MONTH, -6);
 		for (int i = 0; i <= 7; i++) {
 			c.add(Calendar.DAY_OF_MONTH, -1);
-			// TODO (done) 不觉得下面调用的方式，参数很怪？
-			FileUtil.forceDelete(uploadTempImageHome ,
-					 sdf.format(c.getTime()));
+			FileUtil.forceDelete(uploadTempImageHome, sdf.format(c.getTime()));
 		}
 
 	}

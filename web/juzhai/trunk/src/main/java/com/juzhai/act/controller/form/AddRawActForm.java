@@ -1,8 +1,6 @@
 package com.juzhai.act.controller.form;
 
-
 public class AddRawActForm {
-	// TODO (done) 还是作用域问题，这里需要default？另外代码整理以及不必要的impot去除
 	private long province;
 	private long city;
 	private long town;

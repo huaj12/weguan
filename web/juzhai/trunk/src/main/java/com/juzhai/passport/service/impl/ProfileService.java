@@ -315,9 +315,9 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROFESSION_IS_NULL);
 		}
-		// TODO (review) 用中文字数。自己再检查一下其他地方
+		// TODO (done) 用中文字数。自己再检查一下其他地方
 		if (profile.getProfessionId() == 0
-				&& profile.getProfession().length() > professionLengthMax) {
+				&& StringUtil.chineseLength(profile.getProfession())> professionLengthMax) {
 			// 职业描述不能大于10个字
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROFESSION_IS_TOO_LONG);

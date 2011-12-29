@@ -8,6 +8,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.dao.Limit;
+import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.bean.SysNoticeType;
 import com.juzhai.notice.mapper.SysNoticeMapper;
@@ -53,6 +54,15 @@ public class SysNoticeService implements ISysNoticeService {
 		SysNoticeExample example = new SysNoticeExample();
 		example.createCriteria().andUidEqualTo(uid);
 		return sysNoticeMapper.countByExample(example);
+	}
+
+	@Override
+	public void delSysNotice(long uid, long sysNoticeId) throws JuzhaiException {
+		SysNoticeExample example = new SysNoticeExample();
+		example.createCriteria().andIdEqualTo(sysNoticeId).andUidEqualTo(uid);
+		if (sysNoticeMapper.deleteByExample(example) <= 0) {
+			throw new JuzhaiException(JuzhaiException.ILLEGAL_OPERATION);
+		}
 	}
 
 }

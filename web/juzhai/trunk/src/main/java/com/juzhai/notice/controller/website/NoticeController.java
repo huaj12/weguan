@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.core.controller.BaseController;
+import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
@@ -31,6 +33,8 @@ public class NoticeController extends BaseController {
 	private INoticeService noticeService;
 	@Autowired
 	private ISysNoticeService sysNoticeService;
+	@Autowired
+	private MessageSource messageSource;
 	@Value("${web.sys.notice.max.rows}")
 	private int webSysNoticeMaxRows;
 
@@ -64,5 +68,19 @@ public class NoticeController extends BaseController {
 			noticeService.emptyNotice(context.getUid(), NoticeType.SYS_NOTICE);
 		}
 		return "web/notice/sys_notice";
+	}
+
+	@RequestMapping(value = "/delSysNotice", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult delSysNotice(HttpServletRequest request, Model model,
+			long sysNoticeId) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult result = new AjaxResult();
+		try {
+			sysNoticeService.delSysNotice(context.getUid(), sysNoticeId);
+		} catch (JuzhaiException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
+		return result;
 	}
 }

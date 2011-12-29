@@ -35,3 +35,8 @@
 		</div>
 	</div>
 </div>
+<div id="dialog-remove-sysnotice" style="display:none;">
+	<div class="show_box"><!--show box-->
+		<h2>确定要删除吗？</h2>
+	</div><!--show end-->
+</div>

@@ -18,7 +18,7 @@
 						<div class="tj_project"><!--tj_project begin-->
 							<div class="title">
 								<h2>推荐拒宅项目</h2>
-								<a href="#">返回首页</a>
+								<a href="/showActs">返回首页</a>
 							</div>
 							<div class="tj_main"><!--tj_main begin-->
 								<div class="xhang"><!--x_hang begin-->

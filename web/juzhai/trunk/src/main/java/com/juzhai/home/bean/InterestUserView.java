@@ -11,7 +11,7 @@ public class InterestUserView {
 
 	private List<UserActView> userActViewList;
 
-	private DatingView datingView;
+	private boolean hasDating;
 
 	private boolean hasInterest;
 
@@ -41,12 +41,12 @@ public class InterestUserView {
 		this.userActViewList = userActViewList;
 	}
 
-	public DatingView getDatingView() {
-		return datingView;
+	public boolean isHasDating() {
+		return hasDating;
 	}
 
-	public void setDatingView(DatingView datingView) {
-		this.datingView = datingView;
+	public void setHasDating(boolean hasDating) {
+		this.hasDating = hasDating;
 	}
 
 	public boolean isOnline() {

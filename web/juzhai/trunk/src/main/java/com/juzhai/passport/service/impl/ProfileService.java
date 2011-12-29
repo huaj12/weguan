@@ -315,9 +315,8 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROFESSION_IS_NULL);
 		}
-		// TODO (done) 用中文字数。自己再检查一下其他地方
 		if (profile.getProfessionId() == 0
-				&& StringUtil.chineseLength(profile.getProfession())> professionLengthMax) {
+				&& StringUtil.chineseLength(profile.getProfession()) > professionLengthMax) {
 			// 职业描述不能大于10个字
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROFESSION_IS_TOO_LONG);
@@ -338,6 +337,8 @@ public class ProfileService implements IProfileService {
 				profile.setProfession(p.getName());
 			}
 		}
+		profile.setConstellationId(InitData.getConstellation(
+				profile.getBirthMonth(), profile.getBirthDay()).getId());
 		profile.setLastModifyTime(new Date());
 		try {
 			profileMapper.updateByPrimaryKeySelective(profile);

@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.act.bean.ConsumeType;
@@ -20,6 +21,7 @@ import com.juzhai.act.model.Dating;
 import com.juzhai.act.model.DatingExample;
 import com.juzhai.act.service.IDatingService;
 import com.juzhai.act.service.IUserActService;
+import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.notice.bean.NoticeType;
@@ -38,6 +40,8 @@ public class DatingService implements IDatingService {
 	private IUserActService userActService;
 	@Autowired
 	private INoticeService noticeService;
+	@Autowired
+	private RedisTemplate<String, Long> redisTemplate;
 	@Value("${max.dating.week.limit}")
 	private int maxDatingWeekLimit;
 	@Value("${max.dating.total.limit}")
@@ -132,7 +136,9 @@ public class DatingService implements IDatingService {
 		dating.setStarterContactValue(contactValue);
 		datingMapper.insertSelective(dating);
 
-		// TODO redis存储
+		// redis
+		redisTemplate.opsForSet().add(RedisKeyGenerator.genDatingUsersKey(uid),
+				targetId);
 
 		noticeService.incrNotice(targetId, NoticeType.DATING_ME);
 		return dating.getId();
@@ -171,18 +177,20 @@ public class DatingService implements IDatingService {
 		dating.setStarterContactValue(contactValue);
 		datingMapper.updateByPrimaryKeySelective(dating);
 
-		// TODO redis
-
 		noticeService.incrNotice(dating.getReceiverUid(), NoticeType.DATING_ME);
 		return dating.getId();
 	}
 
 	@Override
 	public void deleteDating(long uid, long datingId) {
-		DatingExample example = new DatingExample();
-		example.createCriteria().andIdEqualTo(datingId)
-				.andStarterUidEqualTo(uid);
-		datingMapper.deleteByExample(example);
+		Dating dating = getDatingByDatingId(datingId);
+		if (null != dating && dating.getStarterUid() == uid) {
+			datingMapper.deleteByPrimaryKey(datingId);
+			// redis
+			redisTemplate.opsForSet().remove(
+					RedisKeyGenerator.genDatingUsersKey(uid),
+					dating.getReceiverUid());
+		}
 	}
 
 	@Override
@@ -196,8 +204,6 @@ public class DatingService implements IDatingService {
 		dating.setLastModifyTime(new Date());
 		dating.setHasRead(true);
 		datingMapper.updateByPrimaryKeySelective(dating);
-
-		// TODO redis
 
 		noticeService.incrNotice(dating.getStarterUid(),
 				NoticeType.ACCEPT_DATING);
@@ -312,5 +318,11 @@ public class DatingService implements IDatingService {
 	@Override
 	public Dating getDatingByDatingId(long datingId) {
 		return datingMapper.selectByPrimaryKey(datingId);
+	}
+
+	@Override
+	public boolean hasDating(long uid, long targetUid) {
+		return redisTemplate.opsForSet().isMember(
+				RedisKeyGenerator.genDatingUsersKey(uid), targetUid);
 	}
 }

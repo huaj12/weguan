@@ -131,4 +131,13 @@ public interface IDatingService {
 	 * @return
 	 */
 	Dating getDatingByDatingId(long datingId);
+
+	/**
+	 * 是否已经约
+	 * 
+	 * @param uid
+	 * @param targetUid
+	 * @return
+	 */
+	boolean hasDating(long uid, long targetUid);
 }

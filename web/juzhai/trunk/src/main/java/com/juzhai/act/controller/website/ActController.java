@@ -188,8 +188,8 @@ public class ActController extends BaseController {
 					.getProfileCacheByUid(userAct.getUid()), userAct
 					.getLastModifyTime(), isLogin ? interestUserService
 					.isInterest(context.getUid(), userAct.getUid()) : null,
-					isLogin ? datingService.fetchDating(context.getUid(),
-							userAct.getUid()) != null : null, loginService
+					isLogin ? datingService.hasDating(context.getUid(),
+							userAct.getUid()) : null, loginService
 							.isOnline(userAct.getUid())));
 		}
 		return actUserViewList;

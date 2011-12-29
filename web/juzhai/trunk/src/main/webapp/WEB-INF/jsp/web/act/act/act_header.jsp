@@ -39,6 +39,6 @@
 <div class="project_menu"><!--project_menu begin-->
 	<div class="dw">
 		<a href="/act/${act.id}/detail" <c:if test="${menuType=='detail'}">class="active"</c:if>>详细介绍</a>
-		<a href="/act/${act.id}/users/all/1" <c:if test="${menuType=='users'}">class="active"</c:if>>想去的人(${userActCount})</a>
+		<a href="/act/${act.id}/users" <c:if test="${menuType=='users'}">class="active"</c:if>>想去的人(${userActCount})</a>
 	</div>
 </div><!--project_menu end-->

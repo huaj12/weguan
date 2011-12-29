@@ -24,13 +24,11 @@ import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.exception.RawActInputException;
 import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.act.model.RawAct;
-import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IActImageService;
 import com.juzhai.act.service.IRawActService;
 import com.juzhai.cms.controller.form.AgreeRawActForm;
 import com.juzhai.cms.controller.view.CmsRawActView;
 import com.juzhai.core.controller.BaseController;
-import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
@@ -86,13 +84,11 @@ public class CmsRawActController extends BaseController {
 	@RequestMapping(value = "/ajax/delRawAct", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult delRawAct(Model model,
-			@RequestParam(defaultValue = "0") long id, String reasonMsg,
-			long receive) {
+			@RequestParam(defaultValue = "0") long id, String reasonMsg) {
 		AjaxResult result = new AjaxResult();
 		try {
 			if (id > 0) {
-				rawActService.delteRawAct(id);
-				// TODO 发送删除原因receive接收者 拒绝原因reasonMsg
+				rawActService.rejectRawAct(id, reasonMsg);
 			} else {
 				result.setSuccess(false);
 				result.setErrorInfo("showManagerRawAct is error. id is null");

@@ -5,7 +5,6 @@ import java.util.List;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.exception.AddRawActException;
 import com.juzhai.act.exception.RawActInputException;
-import com.juzhai.act.model.Act;
 import com.juzhai.act.model.RawAct;
 import com.juzhai.cms.controller.form.AgreeRawActForm;
 
@@ -36,5 +35,14 @@ public interface IRawActService {
 	 * @param rawActId
 	 * @throws ActInputException
 	 */
-	void agreeRawAct(AgreeRawActForm agreeRawActForm) throws ActInputException,RawActInputException;
+	void agreeRawAct(AgreeRawActForm agreeRawActForm) throws ActInputException,
+			RawActInputException;
+
+	/**
+	 * 拒绝项目
+	 * 
+	 * @param rawActId
+	 * @param reasonMsg
+	 */
+	void rejectRawAct(long rawActId, String reasonMsg);
 }

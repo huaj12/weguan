@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS `juzhai`.`tb_sys_notice` ;
 
 SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_sys_notice` (
-  `id` BIGINT NOT NULL ,
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `content` TEXT NOT NULL ,
   `uid` BIGINT NOT NULL ,
   `create_time` DATETIME NOT NULL ,

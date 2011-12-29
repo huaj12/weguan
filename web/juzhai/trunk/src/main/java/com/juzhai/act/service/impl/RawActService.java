@@ -30,6 +30,8 @@ import com.juzhai.cms.controller.form.AgreeRawActForm;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.notice.bean.SysNoticeType;
+import com.juzhai.notice.service.ISysNoticeService;
 
 @Service
 public class RawActService implements IRawActService {
@@ -50,6 +52,8 @@ public class RawActService implements IRawActService {
 	private IActDetailService actDetailService;
 	@Autowired
 	private IActImageService actImageService;
+	@Autowired
+	private ISysNoticeService sysNoticeService;
 
 	@Override
 	public RawAct addRawAct(RawAct rawAct) throws AddRawActException {
@@ -160,5 +164,19 @@ public class RawActService implements IRawActService {
 		}
 		actDetailService.addActDetail(act.getId(), detail);
 		delteRawAct(rawActId);
+
+		// 发送系统通知
+		sysNoticeService.sendSysNotice(act.getCreateUid(),
+				SysNoticeType.ADD_ACT_SUCCESS, act.getName(), act.getId());
+	}
+
+	@Override
+	public void rejectRawAct(long rawActId, String reasonMsg) {
+		RawAct rawAct = getRawAct(rawActId);
+		if (null != rawAct) {
+			delteRawAct(rawActId);
+			sysNoticeService.sendSysNotice(rawAct.getCreateUid(),
+					SysNoticeType.ADD_ACT_FAILURE, rawAct.getName(), reasonMsg);
+		}
 	}
 }

@@ -39,7 +39,7 @@
 				<span id="notice1"><a href="/home/interestMes/1">对我感兴趣的人</a><em></em></span>
 				<span id="notice2"><a href="/home/datingMes/1">约我的人</a><em></em></span>
 				<span id="notice3"><a href="/home/datings/accept/1">接受我约的人</a><em></em></span>
-				<span id="notice4"><a href="#">系统通知</a><em></em></span>
+				<span id="notice4"><a href="/notice/sysNotices">系统通知</a><em></em></span>
 			</div><!--use_set_center end-->
 		</div><!--my_message end-->
 	</c:if>

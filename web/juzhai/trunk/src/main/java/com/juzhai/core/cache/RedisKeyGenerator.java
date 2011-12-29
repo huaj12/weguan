@@ -308,6 +308,16 @@ public class RedisKeyGenerator extends KeyGenerator {
 	}
 
 	/**
+	 * 约的人列表
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genDatingUsersKey(long uid) {
+		return genKey(uid, "datingUsers");
+	}
+
+	/**
 	 * 通知数量
 	 * 
 	 * @param uid

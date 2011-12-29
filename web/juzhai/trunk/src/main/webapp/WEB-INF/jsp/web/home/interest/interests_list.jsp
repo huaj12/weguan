@@ -16,8 +16,8 @@
 					<div class="close"><a href="javascript:void(0);" uid="${interestUserView.profileCache.uid}"></a></div>
 				</c:if>
 				<div class="btn">
-					<a id="removeDating${interestUserView.profileCache.uid}" href="javascript:void(0);" class="yueta_done" <c:if test="${interestUserView.datingView==null}">style="display:none;"</c:if>>已约ta</a>
-					<a id="dating${interestUserView.profileCache.uid}" href="javascript:void(0);" class="yueta" uid="${interestUserView.profileCache.uid}" <c:if test="${interestUserView.datingView!=null}">style="display:none;"</c:if>>约ta</a>
+					<a id="removeDating${interestUserView.profileCache.uid}" href="javascript:void(0);" class="yueta_done" <c:if test="${!interestUserView.hasDating}">style="display:none;"</c:if>>已约ta</a>
+					<a id="dating${interestUserView.profileCache.uid}" href="javascript:void(0);" class="yueta" uid="${interestUserView.profileCache.uid}" <c:if test="${interestUserView.hasDating}">style="display:none;"</c:if>>约ta</a>
 					<c:if test="${tabType=='interestMes'}">
 						<div id="removeInterest${interestUserView.profileCache.uid}" class="ygxq" <c:if test="${!interestUserView.hasInterest}">style="display:none;"</c:if>><p>已感兴趣</p><a href="javascript:void(0);" class="delete" uid="${interestUserView.profileCache.uid}"></a></div>
 						<a id="interest${interestUserView.profileCache.uid}" href="javascript:void(0);" class="like" uid="${interestUserView.profileCache.uid}" <c:if test="${interestUserView.hasInterest}">style="display:none;"</c:if>>感兴趣</a>

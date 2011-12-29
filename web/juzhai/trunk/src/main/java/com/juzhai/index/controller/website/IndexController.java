@@ -136,8 +136,8 @@ public class IndexController extends BaseController {
 			view.setUserActViewList(userActService.pageUserActView(
 					profile.getUid(), 0, showUserShowActCount));
 			if (context.hasLogin()) {
-				view.setHasDating(null != datingService.fetchDating(
-						context.getUid(), profile.getUid()));
+				view.setHasDating(datingService.hasDating(context.getUid(),
+						profile.getUid()));
 				view.setHasInterest(interestUserService.isInterest(
 						context.getUid(), profile.getUid()));
 			}

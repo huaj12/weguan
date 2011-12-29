@@ -54,7 +54,7 @@ public class InterestUserService implements IInterestUserService {
 		interestUser.setCreateTime(new Date());
 		interestUser.setLastModifyTime(interestUser.getCreateTime());
 		interestUserMapper.insertSelective(interestUser);
-		// TODO redis
+		// redis
 		redisTemplate.opsForSet().add(
 				RedisKeyGenerator.genInterestUsersKey(uid), targetUid);
 		noticeService.incrNotice(targetUid, NoticeType.INTEREST_ME);

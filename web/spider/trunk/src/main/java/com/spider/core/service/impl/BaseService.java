@@ -52,6 +52,8 @@ public class BaseService implements IBaseService {
 			content = httpclient.execute(accessget, responseHandler);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			httpclient.getConnectionManager().shutdown();
 		}
 		return content;
 	}

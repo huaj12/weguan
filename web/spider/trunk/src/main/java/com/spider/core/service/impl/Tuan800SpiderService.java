@@ -46,7 +46,7 @@ public class Tuan800SpiderService extends AbstractSpiderService {
 				RegexUtils.getRegEx(target, "allPageRegEx"));
 		int count = 0;
 		try {
-			allCount = Integer.parseInt(allPage);
+//			allCount = Integer.parseInt(allPage);
 			count = Integer.parseInt(allPage)
 					/ Integer.parseInt(RegexUtils.getRegEx(target, "count"));
 			if (Integer.parseInt(allPage)

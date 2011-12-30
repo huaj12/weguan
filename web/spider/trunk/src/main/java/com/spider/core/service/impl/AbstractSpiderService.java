@@ -3,8 +3,10 @@ package com.spider.core.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -19,13 +21,14 @@ public abstract class AbstractSpiderService implements ISpiderService {
 	protected IBaseService baseService = new BaseService();
 	public static ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<String>();
 	public static AtomicInteger index =new AtomicInteger();
-	public static int allCount = 0;
+//	public static int allCount = 0;
 	private ExecutorService executor = Executors.newFixedThreadPool(30);
 
 	public void spiderProduct(String link, Target tager) {
 		List<String> urls = getPageUrl(link, tager);
 		for (String url : urls) {
 //			System.out.println(url);
+			
 			// 用多线程处理getProductUrl将明细页面url放入队列里
 			// analysis从队列里取数据且进行分析
 			executor.submit(new SpiderProductTask(baseService, url, tager));
@@ -62,10 +65,17 @@ public abstract class AbstractSpiderService implements ISpiderService {
 	 * @return
 	 */
 	protected void analysis(Target target) {
-		System.out.println(allCount);
-		while (allCount != index.get()) {
+//		System.out.println(allCount);
+		while (true) {
 			if(queue.size()>0){
-				executor.submit(new AnalysisTask(baseService, target, this));
+				Future<Boolean> fitire=executor.submit(new AnalysisTask(baseService, target, this));
+				try {
+					if(!fitire.get()){
+						break;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
 			}
 		}
 	}

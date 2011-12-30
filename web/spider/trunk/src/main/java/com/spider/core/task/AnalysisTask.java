@@ -25,6 +25,7 @@ public class AnalysisTask implements Callable<Boolean> {
 		if(StringUtils.isEmpty(url)){
 			return Boolean.FALSE;
 		}
+		try{
 		AbstractSpiderService.index.getAndIncrement();
 		String content=baseService.getContent(url);
 		String img=baseService.findContent(content, RegexUtils.getRegEx(target,
@@ -63,6 +64,10 @@ public class AnalysisTask implements Callable<Boolean> {
 		System.out.println(source);
 		System.out.println(targetUrl);
 		System.out.println("-------------------------------------------------");
+//		System.out.println("||||||||||||||||||"+AbstractSpiderService.queue.size());
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		return Boolean.TRUE;
 	}
 

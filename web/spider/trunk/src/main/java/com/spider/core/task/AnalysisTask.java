@@ -20,7 +20,7 @@ public class AnalysisTask implements Callable<Boolean> {
 	}
 	public Boolean call() throws Exception {
 		String url=AbstractSpiderService.queue.getQueue();
-		String content=baseService.getContent("http://www.tuan800.com/deal/ansijin29y_2021354");
+		String content=baseService.getContent(url);
 		String img=baseService.findContent(content, RegexUtils.getRegEx(target,
 		"img"));
 		String address=baseService.findContent(content, RegexUtils.getRegEx(target,
@@ -45,17 +45,18 @@ public class AnalysisTask implements Callable<Boolean> {
 		String targetUrl=baseService.findContent(content, RegexUtils.getRegEx(target,
 		"targetUrl"));
 		targetUrl=spiderService.getTargetUrl(targetUrl, target);
+		System.out.println(title);
 		System.out.println(img);
 		System.out.println(address);
 		System.out.println(city);
 		System.out.println(original);
 		System.out.println(price);
 		System.out.println(discount);
-		System.out.println(title);
 		System.out.println(startDate);
 		System.out.println(endDate);
 		System.out.println(source);
 		System.out.println(targetUrl);
+		System.out.println("-------------------------------------------------");
 		return Boolean.TRUE;
 	}
 

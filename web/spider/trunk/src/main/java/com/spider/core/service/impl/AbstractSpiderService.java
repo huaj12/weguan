@@ -26,7 +26,7 @@ public abstract class AbstractSpiderService implements ISpiderService {
 	public static Queue queue = new Queue();
 	public static int index = 0;
 	public static int allCount = 0;
-	private ExecutorService executor = Executors.newFixedThreadPool(20);
+	private ExecutorService executor = Executors.newFixedThreadPool(30);
 
 	public void spiderProduct(String link, Target tager) {
 		List<String> urls = getPageUrl(link, tager);

@@ -25,6 +25,7 @@ public class AnalysisTask implements Callable<Boolean> {
 		if(StringUtils.isEmpty(url)){
 			return Boolean.FALSE;
 		}
+		AbstractSpiderService.index.getAndIncrement();
 		String content=baseService.getContent(url);
 		String img=baseService.findContent(content, RegexUtils.getRegEx(target,
 		"img"));

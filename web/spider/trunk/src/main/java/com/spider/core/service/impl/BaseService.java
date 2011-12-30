@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -14,7 +15,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import com.spider.core.service.IBaseService;
 
 public class BaseService implements IBaseService {
-	
 
 
 	private List<String> find(String content, String regEx) {
@@ -51,7 +51,13 @@ public class BaseService implements IBaseService {
 		try {
 			content = httpclient.execute(accessget, responseHandler);
 		} catch (Exception e) {
-			e.printStackTrace();
+			try {
+				content = httpclient.execute(accessget, responseHandler);
+			} catch (Exception e1){
+				System.out.println("|||||||||||||||||||||||||||||||");
+				System.out.println(url+":重新请求也失败了:"+e.getMessage());
+				System.out.println("|||||||||||||||||||||||||||||||");
+			}
 		}finally{
 			httpclient.getConnectionManager().shutdown();
 		}

@@ -25,7 +25,7 @@ public class SpiderProductTask implements Callable<Boolean> {
 			List<String> list = baseService.findContents(link,
 					RegexUtils.getRegEx(target, "productUrl"));
 			for (String s : list) {
-				// System.out.println(s+":"+AbstractSpiderService.index);
+//				System.out.println("========="+AbstractSpiderService.queue.size());
 				AbstractSpiderService.queue.add(s);
 			}
 		} catch (Throwable e) {

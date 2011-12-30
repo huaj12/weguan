@@ -41,4 +41,9 @@ public class RegexUtils {
 			throw new RuntimeException("Load urls IO error.");
 		}
 	}
+	
+	public static String getRegEx(Target tager,String regEx){
+		Map<String,String> map=RegexUtils.TARGET_REGEX.get(tager.getName());
+		return map.get(tager.getName()+"_"+regEx);
+	}
 }

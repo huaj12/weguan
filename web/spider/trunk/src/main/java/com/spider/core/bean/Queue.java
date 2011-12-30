@@ -11,11 +11,11 @@ public class Queue {
 		this.data = new String[capacity];
 	}
 
-	public int getSize() {
+	public synchronized int getSize() {
 		return (this.rear - this.front);
 	}
 
-	public void getQueue(String t) {
+	public synchronized void setQueue(String t) {
 		if (rear >= data.length - 1) {
 			capacity += increament;
 			String[] newdata = new String[capacity];
@@ -28,7 +28,7 @@ public class Queue {
 		rear++;
 	}
 
-	public String setQueue() {
+	public synchronized String getQueue() {
 		String temp = null;
 		if ((rear - front) > 0) {
 			temp = data[front];

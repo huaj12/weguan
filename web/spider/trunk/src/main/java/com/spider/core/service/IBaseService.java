@@ -4,7 +4,13 @@ import java.util.List;
 
 public interface IBaseService {
 	
-	String findContent(String url,String regEx);
+	String findContentByUrl(String url,String regEx);
+	
+	String findContent(String content,String regEx);
+	
+	String getContent(String url);
 	
 	List<String> findContents(String url,String regEx);
+	
+	
 }

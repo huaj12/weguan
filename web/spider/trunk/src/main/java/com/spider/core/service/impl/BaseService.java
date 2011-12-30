@@ -14,21 +14,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import com.spider.core.service.IBaseService;
 
 public class BaseService implements IBaseService {
-	private DefaultHttpClient httpclient = new DefaultHttpClient();
+	
 
-	private String getContentByUrl(String url, String regEx) {
-		ResponseHandler<String> responseHandler = new BasicResponseHandler();
-		HttpGet accessget = new HttpGet(url);
-		String content = "";
-		try {
-			content = httpclient.execute(accessget, responseHandler);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally{
-			httpclient.getConnectionManager().shutdown();
-		}
-		return content;
-	}
 
 	private List<String> find(String content, String regEx) {
 		List<String> list = new ArrayList<String>();
@@ -40,14 +27,32 @@ public class BaseService implements IBaseService {
 		return list;
 	}
 
-	public String findContent(String url, String regEx) {
-		String content=getContentByUrl(url, regEx);
+	public String findContent(String content, String regEx) {
 		List<String> list=find(content, regEx);
 		return list.size()>0?list.get(0):null;
 	}
 
 	public List<String> findContents(String url, String regEx) {
-		String content=getContentByUrl(url, regEx);
+		String content=getContent(url);
 		return find(content, regEx);
+	}
+
+	public String findContentByUrl(String url, String regEx) {
+		String content=getContent(url);
+		List<String> list=find(content, regEx);
+		return list.size()>0?list.get(0):null;
+	}
+
+	public  String getContent(String url) {
+		DefaultHttpClient httpclient = new DefaultHttpClient();
+		ResponseHandler<String> responseHandler = new BasicResponseHandler();
+		HttpGet accessget = new HttpGet(url);
+		String content = "";
+		try {
+			content = httpclient.execute(accessget, responseHandler);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return content;
 	}
 }

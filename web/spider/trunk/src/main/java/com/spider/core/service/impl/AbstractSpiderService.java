@@ -46,26 +46,12 @@ public abstract class AbstractSpiderService implements ISpiderService {
 	 * @param url
 	 * @return
 	 */
-	public List<String> getPageUrl(String link, Target tager) {
+	public List<String> getPageUrl(String link, Target target) {
 		String content = baseService.getContent(link);
-		String allPage = baseService.findContent(content,
-				RegexUtils.getRegEx(tager, "allPageRegEx"));
+		int count=getPageCount(content, target);
+		String domain = RegexUtils.getRegEx(target, "domain");
 		String pageUrl = baseService.findContent(content,
-				RegexUtils.getRegEx(tager, "pageUrlRegEx"));
-
-		int count = 0;
-		try {
-			allCount = Integer.parseInt(allPage);
-			count = Integer.parseInt(allPage)
-					/ Integer.parseInt(RegexUtils.getRegEx(tager, "count"));
-			if (Integer.parseInt(allPage)
-					% Integer.parseInt(RegexUtils.getRegEx(tager, "count")) != 0) {
-				count++;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		String domain = RegexUtils.getRegEx(tager, "domain");
+				RegexUtils.getRegEx(target, "pageUrlRegEx"));
 		List<String> list = new ArrayList<String>();
 		for (int i = 1; i <= count; i++) {
 			pageUrl = pageUrl.replaceAll("\\d", String.valueOf(i));
@@ -98,10 +84,11 @@ public abstract class AbstractSpiderService implements ISpiderService {
 		return date;
 	}
 
-	public String getTargetUrl(String url, Target tager) {
+	public String getTargetUrl(String url, Target target) {
 		return url;
 	}
-
+	
+	public abstract int getPageCount(String content ,Target target);
 	
 
 }

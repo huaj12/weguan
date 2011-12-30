@@ -104,7 +104,7 @@ abbr,acronym { border: 0;
 .menu a.selceted{color:#fff; background:url(../images/web/menu_hover_bg.jpg) repeat-x; cursor:default;}
 
 
-.top .acc{ float:right; margin-right:10px; display:inline; margin-top:11px; position:relative;}
+.top .acc{ float:right; margin-right:10px; display:inline; margin-top:11px; position:relative; z-index:999;}
 
 .top .acc p a{color:#ccc; text-decoration:none; float:left; display:block; width:41px; height:24px; padding-top:7px; padding-left:9px; background:url(../images/web/arrow_down.gif) no-repeat 34px 13px; }
 .top .acc p a:hover{ background:url(../images/web/arrow_down.gif) no-repeat 33px 12px #4C4C4C;  width:40px; height:24px;  padding-top:6px; padding-left:8px; border:1px solid #202020; }
@@ -119,6 +119,21 @@ abbr,acronym { border: 0;
 
 
 
+
+/* .top .my_message{ float:right; margin-right:1px;  display:inline; margin-top:11px; position:relative;}
+.top .my_message p a{color:#ccc; text-decoration:none; float:left; display:block; width:41px; height:24px; padding-top:7px; padding-left:9px; background:url(../images/web/arrow_down.gif) no-repeat 34px 13px;  }
+.top .my_message p a:hover{ background:url(../images/web/arrow_down.gif) no-repeat 33px 12px #4C4C4C;  width:40px; height:24px;  padding-top:6px; padding-left:8px; border:1px solid #202020; }
+
+
+.top .my_message .hover a{ color:#ccc; text-decoration:none; float:left;  background:url(../images/web/arrow_down.gif) no-repeat 33px 12px #4C4C4C; border:1px solid #202020; display:block; width:40px; height:24px; padding-top:6px; padding-left:8px; border-bottom:none; position:relative;}
+.top .my_message p.hover a:hover{ border-bottom:none;}
+
+.top .my_message_show{position:absolute;  right:0px; top:30px; width:148px; height:auto; border:1px solid #202020; overflow:hidden; display:block; background:#4C4C4C;}
+.top .my_message_show span{ float:left; position:relative; display:block; width:148px;}
+.top .my_message_show a{ height:30px; display:block; overflow:hidden;  line-height:30px;  padding-left:12px; padding-right:17px;  color:#ccc; text-decoration:none; position:relative; z-index:999;}
+.top .my_message_show em{ position:absolute; right:10px; top:5px; color:#ccc; z-index:999; font-family:Arial, Helvetica, sans-serif; font-size:10px; font-weight:bold;}
+
+.top .my_message_show a:hover{background:#448EDA; color:#fff; } */
 
 .top .my_message{ float:right; margin-right:1px;  display:inline; margin-top:11px; position:relative;}
 .top .my_message p a{color:#ccc; text-decoration:none; float:left; display:block; width:41px; height:24px; padding-top:7px; padding-left:9px; background:url(../images/web/arrow_down.gif) no-repeat 34px 13px;  }
@@ -157,6 +172,18 @@ abbr,acronym { border: 0;
 .user_area .login .user_box a.user{ color:#fff; text-decoration:none; margin-left:8px;}
 .user_area .login .user_box a.boy:hover{ color:#3E8BD9;}
 .user_area .login .user_box a.girl:hover{ color:#FF6699;}
+
+
+
+.user_area .login .user_message{ position:absolute; left:0px; top:32px; width:148px; height:auto; overflow:hidden; display:block; background:#4C4C4C;  padding:10px 15px; z-index:1;border:1px solid #202020; } 
+
+.user_area .login .user_message p{ color:#e5e5e5;  line-height:200%; float:left; display:block; }
+.user_area .login .user_message p a{ color:#3E8BD9; margin-left:3px; margin-right:3px; text-decoration:none;} 
+.user_area .login .user_message p a:hover{ text-decoration:underline;}
+
+
+
+
 
 
 
@@ -201,14 +228,14 @@ abbr,acronym { border: 0;
 /*悬浮提示*/
 
 *html{background-image:url(about:blank);background-attachment:fixed;}
-.float_box{ width:100%; height:90px; position:fixed; bottom:0px; left:0px; filter:alpha(opacity=80); -moz-opacity:0.8; -khtml-opacity: 0.8;opacity: 0.8; z-index:1000;
+.float_box{ width:100%; height:90px; position:fixed; bottom:0px; left:0px; z-index:1000;
 _position:absolute;
 _bottom:auto;
 _top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));
 float:left;
 }
-.float_box p{ height:1px; margin-left:1px; margin-right:1px; overflow:hidden; background:#000; }
-.float_box .con{ width:100%; height:89px; background:#000;}
+.float_box p{ height:1px; margin-left:1px; margin-right:1px; overflow:hidden; background:#4C4C4C; }
+.float_box .con{ width:100%; height:89px; background:#4C4C4C;}
 .float_box .con .close{ float:right; margin-right:10px; margin-top:9px; display:inline;}
 .float_box .con .close a{ background:url(../images/web/dy_close_btn.gif) no-repeat; width:12px; height:12px; display:block; }
 
@@ -225,6 +252,22 @@ float:left;
 .box_con2 .wb_logon_btn{ float:right;}
 .box_con2 .wb_logon_btn a{ background:url(../images/web/web_btn_login.gif) no-repeat; width:179px; height:36px; display:block;}
 
+/*挂牌*/
+
+
+
+.float_box .gp{ width:860px; height:auto; overflow:hidden; margin:0 auto; font-family:"微软雅黑","宋体"; padding-top:20px;}
+
+.float_box .gp .title{ float:left; color:#fff; font-size:18px; margin-top:15px;}
+
+.float_box .gp .week_day{ float:left; margin-left:15px; display:inline;}
+.float_box .gp .week_day a{ background:url(../images/web/week_day_link.gif) no-repeat; width:70px; height:50px; display:block inline; float:left; margin-left:1px; margin-right:1px; color:#333; font-size:14px; font-weight:bold; line-height:50px; text-align:center; text-decoration:none;}
+.float_box .gp .week_day a:hover{ background:url(../images/web/week_day_hover.gif) no-repeat; color:#fff; cursor:pointer;}
+.float_box .gp .week_day a.active{background:url(../images/web/week_day_active.gif) no-repeat; color:#fff; }
+.float_box .gp .week_day a.today{ line-height:120%; padding-top:8px; height:42px;}
+
+.float_box .gp .ok_btn{display:inline; float:left; margin-left:15px; }
+.float_box .gp .ok_btn a{ background:url(../images/web/ok_btn.gif) no-repeat; width:120px; height:50px; text-align:center; line-height:50px; display:block;color:#fff; text-decoration:none; font-size:16px; font-weight:bold;}
 
 
 /*主页-出去玩*/
@@ -333,13 +376,13 @@ float:left;
 
 
 .item_zbr .ta_like_list{ float:right; width:215px; height:auto; overflow:hidden; }
-.item_zbr .ta_like_list .name{ width:100%; float:left; margin-top:3px;}
-.item_zbr .ta_like_list .name a{ float:left; font-family:"微软雅黑","宋体"; font-size:16px; color:#3E8BD9; font-weight:bold; text-decoration:none;}
-.item_zbr .ta_like_list .name span{ float:left; margin-left:5px; display:inline; color:#999; font-size:14px; margin-top:2px; _margin-top:0px;}
-
-.item_zbr .ta_like_list .list{ width:100%; float:left; margin-top:10px;}
+.item_zbr .ta_like_list .name{ width:100%; float:left; }
+.item_zbr .ta_like_list .name a{ float:left; font-family:"微软雅黑","宋体"; font-size:16px; color:#3E8BD9; font-weight:bold; text-decoration:none; margin-right:5px; display:inline;}
+.item_zbr .ta_like_list .name span{ display:inline; color:#666; margin-top:2px; _margin-top:0px; font-size:12px;font-family:"微软雅黑","宋体"; }
+.item_zbr .ta_like_list .tazmxq{ float:left; margin-top:8px; color:#999;}
+.item_zbr .ta_like_list .list{ width:100%; float:left; margin-top:3px;}
 .item_zbr .ta_like_list .list p{ font-size:14px; color:#666;}
-.item_zbr .ta_like_list .list li{ line-height:160%; width:100%; float:left; font-size:14px;}
+.item_zbr .ta_like_list .list li{ line-height:145%; width:100%; float:left; font-size:14px;}
 .item_zbr .ta_like_list .list li em{ float:left; color:#666; margin-right:2px; font-weight:bold;}
 .item_zbr .ta_like_list .list li a{ float:left; color:#666; font-size:14px; text-decoration:none;}
 .item_zbr .ta_like_list .list li a:hover{ text-decoration:underline;}

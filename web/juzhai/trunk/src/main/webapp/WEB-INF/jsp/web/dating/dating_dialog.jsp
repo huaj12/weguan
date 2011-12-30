@@ -69,7 +69,3 @@
 		</div><!--tj_done_show_box end-->
 	</c:otherwise>
 </c:choose>
-<script type="text/javascript">
-	
-	
-</script>

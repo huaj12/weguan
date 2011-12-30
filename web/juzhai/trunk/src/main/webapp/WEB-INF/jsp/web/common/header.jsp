@@ -33,13 +33,21 @@
 				<a href="/logout">退出</a>
 			</div><!--acc_list end-->
 		</div><!--acc end-->
-		<div class="my_message" ><!--my_message begin-->
-			<p class=""><a href="javascript:void(0);">消息</a></p>
-			<div class="my_message_show" style="display: none;"><!--use_set_center begin-->
-				<span id="notice1"><a href="/home/interestMes/1">对我感兴趣的人</a><em></em></span>
-				<span id="notice2"><a href="/home/datingMes/1">约我的人</a><em></em></span>
-				<span id="notice3"><a href="/home/datings/accept/1">接受我约的人</a><em></em></span>
-				<span id="notice4"><a href="/notice/sysNotices">系统通知</a><em></em></span>
+		<div class="my_message"><!--my_message begin-->
+			<div id="messageSelect">
+				<p class=""><a href="javascript:void(0);">消息</a></p>
+				<div class="my_message_show" style="display: none; z-index: 999"><!--use_set_center begin-->
+					<span id="notice1"><a href="/home/interestMes/1">对我感兴趣的人</a><em></em></span>
+					<span id="notice2"><a href="/home/datingMes/1">约我的人</a><em></em></span>
+					<span id="notice3"><a href="/home/datings/accept/1">接受我约的人</a><em></em></span>
+					<span id="notice4"><a href="/notice/sysNotices">系统通知</a><em></em></span>
+				</div><!--use_set_center end-->
+			</div>
+			<div class="my_message_show" style="z-index: 1"><!--use_set_center begin-->
+				<span id="notice1" style="display: none;"><a href="/home/interestMes/1">对我感兴趣的人</a><em></em></span>
+				<span id="notice2" style="display: none;"><a href="/home/datingMes/1">约我的人</a><em></em></span>
+				<span id="notice3" style="display: none;"><a href="/home/datings/accept/1">接受我约的人</a><em></em></span>
+				<span id="notice4" style="display: none;"><a href="/notice/sysNotices">系统通知</a><em></em></span>
 			</div><!--use_set_center end-->
 		</div><!--my_message end-->
 	</c:if>

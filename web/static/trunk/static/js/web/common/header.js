@@ -17,21 +17,21 @@ $(document).ready(function(){
 	$("div.unlogin > a").bind("click", showLogin);
 	
 	var messageTimerId = null;
-	$("div.my_message").hover(function(){
+	$("div.my_message > div#messageSelect").hover(function(){
 		if(messageTimerId){
 			clearTimeout(messageTimerId);
 		}
 		messageTimerId = setTimeout(function(){
-			$("div.my_message > p").addClass("hover");
-			$("div.my_message > div").show();
+			$("div.my_message > div#messageSelect > p").addClass("hover");
+			$("div.my_message > div#messageSelect > div").first().show();
 		}, 300);
 	}, function(){
 		if(messageTimerId){
 			clearTimeout(messageTimerId);
 		}
 		messageTimerId = setTimeout(function(){
-			$("div.my_message > p").removeClass("hover");
-			$("div.my_message > div").hide();
+			$("div.my_message > div#messageSelect > p").removeClass("hover");
+			$("div.my_message > div#messageSelect > div").first().hide();
 		}, 300);
 	});
 	var accTimerId = null;
@@ -54,6 +54,7 @@ $(document).ready(function(){
 	});
 	
 	if($("div.my_message").is(":visible")){
+		queryNotice();
 		setInterval(queryNotice, 10000);
 	}
 });
@@ -67,7 +68,12 @@ function queryNotice(){
 		success : function(result) {
 			if (result && result.success) {
 				for(var key in result.result){
-					$("div.my_message_show > span.#notice" + key + " > em").text(result.result[key] > 0 ? result.result[key] : "");
+					if(result.result[key] > 0){
+						$("div.my_message > div.my_message_show > span#notice" + key).show();
+					}else{
+						$("div.my_message > div.my_message_show > span#notice" + key).hide();
+					}
+					$("div.my_message_show > span#notice" + key + " > em").text(result.result[key] > 0 ? result.result[key] : "");
 				}
 			} else {
 				alert(result.errorInfo);

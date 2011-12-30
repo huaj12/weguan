@@ -125,7 +125,7 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_act_ad` (
   `address` VARCHAR(200) NULL ,
   `start_time` DATETIME NULL ,
   `end_time` DATETIME NULL ,
-  `prime price` VARCHAR(45) NULL ,
+  `prime_price` VARCHAR(45) NULL ,
   `price` VARCHAR(45) NULL ,
   `discount` DOUBLE NULL ,
   `source` VARCHAR(60) NOT NULL ,

@@ -23,7 +23,7 @@ public class Tuan800SpiderService extends AbstractSpiderService {
 	public String getEndDate(String time, Target tager) {
 		Date d=new Date();
 		d.setTime(Long.valueOf(time));
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.format(d);
 	}
 
@@ -38,6 +38,25 @@ public class Tuan800SpiderService extends AbstractSpiderService {
 		} else {
 			return URLEncodeUtils.decodeURL(u);
 		}
+	}
+
+	@Override
+	public int getPageCount(String content, Target target) {
+		String allPage = baseService.findContent(content,
+				RegexUtils.getRegEx(target, "allPageRegEx"));
+		int count = 0;
+		try {
+			allCount = Integer.parseInt(allPage);
+			count = Integer.parseInt(allPage)
+					/ Integer.parseInt(RegexUtils.getRegEx(target, "count"));
+			if (Integer.parseInt(allPage)
+					% Integer.parseInt(RegexUtils.getRegEx(target, "count")) != 0) {
+				count++;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 }

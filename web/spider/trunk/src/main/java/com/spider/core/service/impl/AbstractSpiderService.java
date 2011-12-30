@@ -1,19 +1,13 @@
 package com.spider.core.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.management.Query;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-
-import com.spider.core.bean.Queue;
 import com.spider.core.bean.Target;
 import com.spider.core.service.IBaseService;
 import com.spider.core.service.ISpiderService;
@@ -23,8 +17,8 @@ import com.spider.core.utils.RegexUtils;
 
 public abstract class AbstractSpiderService implements ISpiderService {
 	protected IBaseService baseService = new BaseService();
-	public static Queue queue = new Queue();
-	public static int index = 0;
+	public static ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<String>();
+	public static AtomicInteger index =new AtomicInteger();
 	public static int allCount = 0;
 	private ExecutorService executor = Executors.newFixedThreadPool(30);
 
@@ -69,8 +63,8 @@ public abstract class AbstractSpiderService implements ISpiderService {
 	 */
 	protected void analysis(Target target) {
 		System.out.println(allCount);
-		while (allCount != index) {
-			if(queue.getSize()>0){
+		while (allCount != index.get()) {
+			if(queue.size()>0){
 				executor.submit(new AnalysisTask(baseService, target, this));
 			}
 		}

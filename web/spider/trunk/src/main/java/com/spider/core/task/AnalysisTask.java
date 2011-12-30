@@ -2,6 +2,8 @@ package com.spider.core.task;
 
 import java.util.concurrent.Callable;
 
+import org.apache.commons.lang.StringUtils;
+
 
 import com.spider.core.bean.Target;
 import com.spider.core.service.IBaseService;
@@ -19,7 +21,10 @@ public class AnalysisTask implements Callable<Boolean> {
 		this.spiderService=spiderService;
 	}
 	public Boolean call() throws Exception {
-		String url=AbstractSpiderService.queue.getQueue();
+		String url=AbstractSpiderService.queue.poll();
+		if(StringUtils.isEmpty(url)){
+			return Boolean.FALSE;
+		}
 		String content=baseService.getContent(url);
 		String img=baseService.findContent(content, RegexUtils.getRegEx(target,
 		"img"));

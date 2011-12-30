@@ -28,7 +28,7 @@ public class SpiderProductTask implements Callable<Boolean> {
 				synchronized (s) {
 					AbstractSpiderService.index++;
 				}
-				System.out.println(s+":"+AbstractSpiderService.index);
+//				System.out.println(s+":"+AbstractSpiderService.index);
 				AbstractSpiderService.queue.setQueue(s);
 			}
 		} catch (Throwable e) {

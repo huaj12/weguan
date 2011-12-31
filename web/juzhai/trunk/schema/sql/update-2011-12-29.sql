@@ -47,77 +47,36 @@ CREATE UNIQUE INDEX `idx_uid_freedate` ON `juzhai`.`tb_user_free_date` (`uid` AS
 
 SHOW WARNINGS;
 
-
-
-
 -- -----------------------------------------------------
-
 -- Table `juzhai`.`tb_raw_ad`
-
 -- -----------------------------------------------------
-
 DROP TABLE IF EXISTS `juzhai`.`tb_raw_ad` ;
 
-
-
 SHOW WARNINGS;
-
 CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_raw_ad` (
-
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
-
   `title` VARCHAR(300) NULL ,
-
   `img` VARCHAR(300) NULL ,
-
   `address` VARCHAR(100) NULL ,
-
   `city` BIGINT NOT NULL DEFAULT 0 ,
-
   `original` VARCHAR(45) NULL ,
-
   `price` VARCHAR(45) NULL ,
-
   `discount` DOUBLE NULL ,
-
   `start_date` DATETIME NULL ,
-
   `end_date` DATETIME NULL ,
-
   `source` VARCHAR(45) NULL ,
-
   `target_url` VARCHAR(300) NULL ,
-
   `from_name` VARCHAR(45) NULL ,
-
   `from_link` VARCHAR(300) NULL ,
-
   `md5_target_url` VARCHAR(45) NULL ,
-
-  `create_date` DATETIME NOT NULL ,
-
+  `create_time` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )
-
 ENGINE = InnoDB
-
 DEFAULT CHARACTER SET = utf8
-
-COLLATE = utf8_general_ci
-
+COLLATE = utf8_general_ci, 
 COMMENT = '导入进来的团购信息' ;
 
-
-
 SHOW WARNINGS;
-
 CREATE UNIQUE INDEX `uidx_md5_url` ON `juzhai`.`tb_raw_ad` (`md5_target_url` ASC) ;
 
-
-
 SHOW WARNINGS;
-
-
-
-
-
-

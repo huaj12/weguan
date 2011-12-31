@@ -6,7 +6,7 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
-import com.juzhai.cms.bean.SizeType;
+import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;
 import com.juzhai.core.util.TextTruncateUtil;
@@ -90,7 +90,7 @@ public class JzCoreFunction {
 	 * @return
 	 */
 	public static String actLogo(long actId, String fileName, int size) {
-		SizeType sizeType = SizeType.getSizeTypeBySize(size);
+		LogoSizeType sizeType = LogoSizeType.getSizeTypeBySize(size);
 		if (StringUtils.isEmpty(fileName) || actId <= 0 || sizeType == null) {
 			return StaticUtil.u("/images/" + size + "_defaultActLogo.gif");
 		} else {

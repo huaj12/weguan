@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.act.service.IActImageService;
-import com.juzhai.cms.bean.SizeType;
+import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.image.manager.IImageManager;
 import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.ImageUtil;
@@ -44,10 +44,10 @@ public class ActImageService implements IActImageService {
 			throws UploadImageException {
 		String directoryPath = uploadActImageHome
 				+ ImageUtil
-						.generateHierarchyImagePath(actId, SizeType.ORIGINAL);
+						.generateHierarchyImagePath(actId, LogoSizeType.ORIGINAL);
 		String fileName = imageManager.uploadImage(directoryPath, image);
 		String srcFileName = directoryPath + fileName;
-		for (SizeType sizeType : SizeType.values()) {
+		for (LogoSizeType sizeType : LogoSizeType.values()) {
 			if (sizeType.getType() > 0) {
 				String distDirectoryPath = uploadActImageHome
 						+ ImageUtil.generateHierarchyImagePath(actId, sizeType);
@@ -66,9 +66,9 @@ public class ActImageService implements IActImageService {
 			String fileName = srcFile.getName();
 			String directoryPath = uploadActImageHome
 					+ ImageUtil.generateHierarchyImagePath(actId,
-							SizeType.ORIGINAL);
+							LogoSizeType.ORIGINAL);
 			FileUtil.writeFileToFile(directoryPath, fileName, srcFile);
-			for (SizeType sizeType : SizeType.values()) {
+			for (LogoSizeType sizeType : LogoSizeType.values()) {
 				if (sizeType.getType() > 0) {
 					String distDirectoryPath = uploadActImageHome
 							+ ImageUtil.generateHierarchyImagePath(actId,
@@ -99,14 +99,14 @@ public class ActImageService implements IActImageService {
 				File srcFile = new File(srcFileName);
 				String directoryPath = uploadActImageHome
 						+ ImageUtil.generateHierarchyImagePath(actId,
-								SizeType.ORIGINAL);
+								LogoSizeType.ORIGINAL);
 				if (!FileUtil.writeFileToFile(directoryPath, srcFile.getName(),
 						srcFile)) {
 					return null;
 				}
 				String newUrl = StaticUtil.u(webActImagePath
 						+ ImageUtil.generateHierarchyImageWebPath(actId,
-								SizeType.ORIGINAL) + srcFile.getName());
+								LogoSizeType.ORIGINAL) + srcFile.getName());
 				detail.replace(url, newUrl);
 			}
 		}
@@ -125,7 +125,7 @@ public class ActImageService implements IActImageService {
 	}
 
 	@Override
-	public byte[] getActFile(long actId, String fileName, SizeType sizeType) {
+	public byte[] getActFile(long actId, String fileName, LogoSizeType sizeType) {
 		try {
 			String directoryPath = uploadActImageHome
 					+ ImageUtil.generateHierarchyImagePath(actId, sizeType);

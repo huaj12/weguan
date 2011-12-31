@@ -35,6 +35,7 @@
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 		</div><!--warp end-->
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
+		<script type="text/javascript" src="${jzr:static('/js/web/home_header.js')}"></script>
 		<script type="text/javascript" src="${jzr:static('/js/web/home_dating_mes.js')}"></script>
 	</body>
 </html>

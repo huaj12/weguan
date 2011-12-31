@@ -1,5 +1,6 @@
 package com.juzhai.home.bean;
 
+import java.util.Date;
 import java.util.List;
 
 import com.juzhai.act.controller.view.UserActView;
@@ -16,6 +17,8 @@ public class InterestUserView {
 	private boolean hasInterest;
 
 	private boolean online;
+
+	private List<Date> freeDateList;
 
 	public boolean isHasInterest() {
 		return hasInterest;
@@ -55,6 +58,14 @@ public class InterestUserView {
 
 	public void setOnline(boolean online) {
 		this.online = online;
+	}
+
+	public List<Date> getFreeDateList() {
+		return freeDateList;
+	}
+
+	public void setFreeDateList(List<Date> freeDateList) {
+		this.freeDateList = freeDateList;
 	}
 
 }

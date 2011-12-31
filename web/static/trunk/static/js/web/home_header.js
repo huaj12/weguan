@@ -42,6 +42,10 @@ $(document).ready(function() {
 		var datingId = $("div.dated").attr("datingid");
 		openDating(uid, datingId);
 	});
+	
+	$("div.kongxian > a").bind("click", function(){
+		$("div#freeDateForm").fadeIn(100);
+	});
 });
 
 function submitDating(uid){
@@ -53,4 +57,33 @@ function submitDating(uid){
 		$("div.dated > a.modifyDating").show();
 		$("div.dated").show();
 	});
+}
+
+function updateFreeDateShow(){
+	var showString = "";
+	var todayOfWeek = $("div.week_day > a.today").attr("dayoftheweek");
+	$("div.week_day > a").each(function(){
+		if($(this).hasClass("active")){
+			var dayOfWeek = $(this).attr("dayoftheweek");
+			if(showString != ""){
+				showString += ",";
+			}
+			if($(this).hasClass("today")){
+				showString += "今天";
+			}else if (dayOfWeek == todayOfWeek + 1
+					|| (dayOfWeek == 1 && todayOfWeek == 7)) {
+				showString += "明天";
+			} else if (dayOfWeek > todayOfWeek || dayOfWeek == 1) {
+				showString += "本" + $(this).text();
+			} else {
+				showString += "下" + $(this).text();
+			}
+		}
+	});
+	if(showString == ""){
+		showString = "还未标注空闲时间";
+	}else{
+		showString += " 有空";
+	}
+	$("div.kongxian > font").text(showString);
 }

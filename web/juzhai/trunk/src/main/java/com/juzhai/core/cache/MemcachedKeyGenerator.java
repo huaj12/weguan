@@ -94,4 +94,14 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	public static String genUserOnlineKey(long uid) {
 		return genKey(uid, "online");
 	}
+
+	/**
+	 * 空闲时间列表
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genUserFreeDateListKey(long uid) {
+		return genKey(uid, "userFreeDateList");
+	}
 }

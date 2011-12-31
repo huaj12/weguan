@@ -14,7 +14,7 @@ import com.juzhai.passport.model.Town;
 
 @Controller
 @RequestMapping(value = "base")
-public class JzDateController {
+public class JzDataController {
 	@RequestMapping(value = "/selectCity", method = RequestMethod.GET)
 	public String selectCity(Model model, String proId) {
 		List<City> citys = new ArrayList<City>();

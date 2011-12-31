@@ -76,6 +76,7 @@
 							</div><!--face_photo end-->
 							<div class="name"><!--name begin-->
 								<a href="/home/${actUserView.profileCache.uid}"><c:out value="${actUserView.profileCache.nickname}" /></a><c:if test="${actUserView.online}"><span class="online">当前在线</span></c:if>
+								<p title="<c:choose><c:when test='${not empty actUserView.freeDateList}'>${jzu:showFreeDates(actUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose>"><c:choose><c:when test="${not empty actUserView.freeDateList}">${jzu:showFreeDates(actUserView.freeDateList,4)}</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose></p>
 							</div><!--name end-->
 						</div><!--photo end-->
 					</li><!--li end-->

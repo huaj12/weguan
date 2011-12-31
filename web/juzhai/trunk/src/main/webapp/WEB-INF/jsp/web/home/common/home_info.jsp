@@ -3,6 +3,10 @@
 <%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:if test="${profile.uid==context.uid}">
+	<c:set var="freeDateFormHide" value="true" scope="request" />
+	<jsp:include page="/WEB-INF/jsp/web/common/set_free_date.jsp" />
+</c:if>
 <div class="head_area"><!--head_area begin-->
 	<div class="face"><a href="/home/${profile.uid}"><img src="${jzr:userLogo(profile.uid,profile.logoPic,180)}" /></a></div>
 	<div class="user_infor"><!--user_infor begin-->
@@ -14,15 +18,14 @@
 			</c:choose>
 		</c:if>
 		<div class="clear"></div>
+		<div class="kongxian"><font><c:choose><c:when test="${not empty freeDateList}">${jzu:showFreeDates(freeDateList,7)}&nbsp;有空</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose></font><c:if test="${profile.uid==context.uid}"><a href="javascript:void(0);">设置</a></c:if></div>
+		<div class="clear"></div>
 		<c:set var="cityName" value="${jzd:cityName(profile.city)}" />
 		<c:set var="townName" value="${jzd:townName(profile.town)}" />
-		<c:if test="${not empty cityName || not empty townName}">
-			<div class="city"><c:if test="${not empty cityName}">${cityName}</c:if><c:if test="${not empty townName}">${townName}</c:if></div>
-		</c:if>
 		<c:set var="age" value="${jzu:age(profile.birthYear)}" />
 		<c:set var="constellationName" value="${jzd:constellationName(profile.constellationId)}" />
-		<c:if test="${age>=0 || not empty constellationName || not empty profile.profession}">
-			<div class="ziye"><c:if test="${age>=0}"><span>${age}岁</span></c:if><c:if test="${not empty constellationName}"><span>${constellationName}</span></c:if><c:if test="${not empty profile.profession}"><span>${profile.profession}</span></c:if></div>
+		<c:if test="${not empty cityName || not empty townName || age>=0 || not empty constellationName || not empty profile.profession}">
+			<div class="ziye"><span><c:if test="${not empty cityName}">${cityName}</c:if><c:if test="${not empty townName}">${townName}</c:if></span><c:if test="${age>=0}"><span>${age}岁</span></c:if><c:if test="${not empty constellationName}"><span>${constellationName}</span></c:if><c:if test="${not empty profile.profession}"><span>${profile.profession}</span></c:if></div>
 		</c:if>
 		<c:if test="${not empty profile.feature}">
 			<div class="tedian"><c:out value="${profile.feature}" /></div>

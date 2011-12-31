@@ -1,10 +1,14 @@
 package com.juzhai.index.controller.website;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,8 @@ import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.home.controller.form.DateView;
+import com.juzhai.home.service.IUserFreeDateService;
 import com.juzhai.index.bean.ShowActOrder;
 import com.juzhai.index.controller.view.ShowUserView;
 import com.juzhai.passport.model.Profile;
@@ -51,6 +57,8 @@ public class IndexController extends BaseController {
 	private ILoginService loginService;
 	@Autowired
 	private IDatingService datingService;
+	@Autowired
+	private IUserFreeDateService userFreeDateService;
 	@Value("${web.show.category.size}")
 	private int webShowCategorySize;
 	@Value("${web.show.acts.max.rows}")
@@ -105,7 +113,26 @@ public class IndexController extends BaseController {
 
 	@RequestMapping(value = "/showUsers", method = RequestMethod.GET)
 	public String showUsers(HttpServletRequest request, Model model) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		if (context.hasLogin()) {
+			freeDate(context.getUid(), model);
+		}
 		return pageShowUsers(request, model, "all", 1);
+	}
+
+	private void freeDate(long uid, Model model) {
+		// List<Date> freeDateList = userFreeDateService.userFreeDateList(uid);
+		int freeDateCount = userFreeDateService.countFreeDate(uid);
+		if (freeDateCount <= 0) {
+			List<DateView> dateViewList = new ArrayList<DateView>();
+			Date date = DateUtils.truncate(new Date(), Calendar.DATE);
+			for (int i = 0; i < 7; i++) {
+				dateViewList.add(new DateView(date, false));
+				date = DateUtils.addDays(date, 1);
+			}
+			model.addAttribute("dateViewList", dateViewList);
+			model.addAttribute("setFreeDate", true);
+		}
 	}
 
 	@RequestMapping(value = "/showUsers/{genderType}/{page}", method = RequestMethod.GET)
@@ -142,6 +169,8 @@ public class IndexController extends BaseController {
 						context.getUid(), profile.getUid()));
 			}
 			view.setOnline(loginService.isOnline(profile.getUid()));
+			view.setFreeDateList(userFreeDateService.userFreeDateList(profile
+					.getUid()));
 			showUserViewList.add(view);
 		}
 		model.addAttribute("showUserViewList", showUserViewList);

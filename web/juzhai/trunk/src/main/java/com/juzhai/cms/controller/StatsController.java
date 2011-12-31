@@ -34,8 +34,7 @@ public class StatsController {
 			String queryDate) {
 		Date date;
 		try {
-			date = DateUtils
-					.parseDate(queryDate, DateFormat.datePattern);
+			date = DateUtils.parseDate(queryDate, DateFormat.DATE_PATTERN);
 		} catch (ParseException e) {
 			return null;
 		}

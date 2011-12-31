@@ -1,10 +1,13 @@
 package com.juzhai.home.controller.website;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,8 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.DatingView;
 import com.juzhai.home.bean.InterestUserView;
+import com.juzhai.home.controller.form.DateView;
+import com.juzhai.home.service.IUserFreeDateService;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.bean.ProfileCache;
@@ -50,6 +55,8 @@ public class HomeController extends BaseController {
 	private ILoginService loginService;
 	@Autowired
 	private INoticeService noticeService;
+	@Autowired
+	private IUserFreeDateService userFreeDateService;
 	@Value("${web.my.act.max.rows}")
 	private int webMyActMaxRows;
 	@Value("${web.interest.user.max.rows}")
@@ -132,6 +139,8 @@ public class HomeController extends BaseController {
 					: interestUserService.isInterest(context.getUid(),
 							profileCache.getUid()));
 			view.setOnline(loginService.isOnline(profileCache.getUid()));
+			view.setFreeDateList(userFreeDateService
+					.userFreeDateList(profileCache.getUid()));
 			interestUserViewList.add(view);
 		}
 		model.addAttribute("interestUserViewList", interestUserViewList);
@@ -245,6 +254,8 @@ public class HomeController extends BaseController {
 	private void showHomeHeader(UserContext context, long uid, Model model) {
 		queryProfile(uid, model);
 		model.addAttribute("actCount", userActService.countUserActByUid(uid));
+		List<Date> freeDateList = userFreeDateService.userFreeDateList(uid);
+		model.addAttribute("freeDateList", freeDateList);
 		if (context == null || context.getUid() != uid) {
 			model.addAttribute("online", loginService.isOnline(uid));
 			if (context != null && context.hasLogin()) {
@@ -258,6 +269,20 @@ public class HomeController extends BaseController {
 				}
 			}
 		} else {
+			List<Long> freeDateLongList = new ArrayList<Long>(
+					freeDateList.size());
+			for (Date freeDate : freeDateList) {
+				freeDateLongList.add(freeDate.getTime());
+			}
+			List<DateView> dateViewList = new ArrayList<DateView>();
+			Date date = DateUtils.truncate(new Date(), Calendar.DATE);
+			for (int i = 0; i < 7; i++) {
+				dateViewList.add(new DateView(date, freeDateLongList
+						.contains(date.getTime())));
+				date = DateUtils.addDays(date, 1);
+			}
+			model.addAttribute("dateViewList", dateViewList);
+
 			model.addAttribute("interestCount",
 					interestUserService.countInterestUser(uid));
 			model.addAttribute("interestMeCount",

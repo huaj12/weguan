@@ -53,4 +53,11 @@
     	<example>${jzu:age(1983)}</example>
     </function>
     
+    <function>
+    	<name>showFreeDates</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.String showFreeDates(java.util.List,int)</function-signature>
+    	<example>${jzu:showFreeDates(freeDateList,4)}</example>
+    </function>
+    
 </taglib>

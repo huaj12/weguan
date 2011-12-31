@@ -50,6 +50,16 @@ SHOW WARNINGS;
 
 
 
+-- -----------------------------------------------------
+
+-- Table `juzhai`.`tb_raw_ad`
+
+-- -----------------------------------------------------
+
+DROP TABLE IF EXISTS `juzhai`.`tb_raw_ad` ;
+
+
+
 SHOW WARNINGS;
 
 CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_raw_ad` (
@@ -78,9 +88,9 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_raw_ad` (
 
   `target_url` VARCHAR(300) NULL ,
 
-  `from` VARCHAR(45) NULL ,
+  `from_name` VARCHAR(45) NULL ,
 
-  `fromLink` VARCHAR(300) NULL ,
+  `from_link` VARCHAR(300) NULL ,
 
   `md5_target_url` VARCHAR(45) NULL ,
 
@@ -103,3 +113,5 @@ CREATE UNIQUE INDEX `uidx_md5_url` ON `juzhai`.`tb_raw_ad` (`md5_target_url` ASC
 
 
 SHOW WARNINGS;
+
+

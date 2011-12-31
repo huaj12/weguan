@@ -3,7 +3,7 @@ package com.juzhai.act.service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.exception.UploadImageException;
-import com.juzhai.cms.bean.SizeType;
+import com.juzhai.core.image.LogoSizeType;
 
 public interface IActImageService {
 
@@ -52,5 +52,5 @@ public interface IActImageService {
 	 * @param fileName
 	 * @return
 	 */
-	byte[] getActFile(long actId, String fileName, SizeType sizeType);
+	byte[] getActFile(long actId, String fileName, LogoSizeType sizeType);
 }

@@ -16,7 +16,7 @@ import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActImageService;
 import com.juzhai.act.service.IActService;
 import com.juzhai.app.service.IWeiboService;
-import com.juzhai.cms.bean.SizeType;
+import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.InitData;
@@ -112,7 +112,7 @@ public class WeiboService implements IWeiboService {
 		Act act = actService.getActById(actId);
 		if (act != null) {
 			byte[] imgContent = actImageService.getActFile(act.getId(),
-					act.getLogo(), SizeType.BIG);
+					act.getLogo(), LogoSizeType.BIG);
 			if (imgContent == null) {
 				timeline.UpdateStatus(content);
 			} else {

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.exception.UploadImageException;
-import com.juzhai.cms.bean.SizeType;
+import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.image.manager.IImageManager;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.passport.service.IProfileImageService;
@@ -31,14 +31,14 @@ public class ProfileImageService implements IProfileImageService {
 			throws UploadImageException {
 		filePath = imageManager.getUploadTempImageHome() + filePath;
 		String distDirectoryPath = uploadUserImageHome
-				+ ImageUtil.generateHierarchyImagePath(uid, SizeType.ORIGINAL);
+				+ ImageUtil.generateHierarchyImagePath(uid, LogoSizeType.ORIGINAL);
 		String distFileName = ImageUtil.generateUUIDJpgFileName();
 		if (!imageManager.cutImage(filePath, distDirectoryPath, distFileName,
 				scaledW, scaledH, x, y, w, h)) {
 			throw new UploadImageException(
 					UploadImageException.UPLOAD_CUT_ERROR);
 		}
-		for (SizeType sizeType : SizeType.values()) {
+		for (LogoSizeType sizeType : LogoSizeType.values()) {
 			if (sizeType.getType() > 0) {
 				String ddp = uploadUserImageHome
 						+ ImageUtil.generateHierarchyImagePath(uid, sizeType);

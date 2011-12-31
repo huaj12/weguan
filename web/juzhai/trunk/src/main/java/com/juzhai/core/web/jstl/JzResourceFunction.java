@@ -7,7 +7,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
-import com.juzhai.cms.bean.SizeType;
+import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;
 import com.juzhai.passport.InitData;
@@ -57,7 +57,7 @@ public class JzResourceFunction {
 	 * @return
 	 */
 	public static String actLogo(long actId, String fileName, int size) {
-		SizeType sizeType = SizeType.getSizeTypeBySize(size);
+		LogoSizeType sizeType = LogoSizeType.getSizeTypeBySize(size);
 		if (StringUtils.isEmpty(fileName) || actId <= 0 || sizeType == null) {
 			return StaticUtil.u("/images/" + size + "_defaultActLogo.gif");
 		} else {
@@ -89,7 +89,7 @@ public class JzResourceFunction {
 	 */
 	public static String userLogo(long userid, String fileName, int size) {
 		if (ImageUtil.isInternalUrl(fileName)) {
-			SizeType sizeType = SizeType.getSizeTypeBySize(size);
+			LogoSizeType sizeType = LogoSizeType.getSizeTypeBySize(size);
 			if (StringUtils.isEmpty(fileName) || userid <= 0
 					|| sizeType == null) {
 				return StaticUtil.u("/images/" + size + "_defaultUserLogo.gif");

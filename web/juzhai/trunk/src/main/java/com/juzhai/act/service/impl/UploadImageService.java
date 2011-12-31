@@ -24,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.act.service.IUploadImageService;
-import com.juzhai.cms.bean.SizeType;
+import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;

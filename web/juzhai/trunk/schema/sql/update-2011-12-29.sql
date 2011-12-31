@@ -94,6 +94,8 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_raw_ad` (
 
   `md5_target_url` VARCHAR(45) NULL ,
 
+  `create_date` DATETIME NOT NULL ,
+
   PRIMARY KEY (`id`) )
 
 ENGINE = InnoDB
@@ -113,5 +115,9 @@ CREATE UNIQUE INDEX `uidx_md5_url` ON `juzhai`.`tb_raw_ad` (`md5_target_url` ASC
 
 
 SHOW WARNINGS;
+
+
+
+
 
 

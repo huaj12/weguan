@@ -126,11 +126,15 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
     
-    <table tableName="tb_act_ad" domainObjectName="ActAd">
+    <table tableName="tb_raw_ad" domainObjectName="RawAd">
       <property name="useActualColumnNames" value="false"/>
     </table>
     
-    <!-- <table tableName="tb_show_act" domainObjectName="ShowAct">
+    <!-- <table tableName="tb_act_ad" domainObjectName="ActAd">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+    <table tableName="tb_show_act" domainObjectName="ShowAct">
       <property name="useActualColumnNames" value="false"/>
     </table>
     

@@ -120,6 +120,17 @@
 	</bean>
 	<!-- update show act end -->
 	
+	<!-- delete out free date begin -->
+	<bean id="delOutFreeDateTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="delOutFreeDateHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${del.out.free.date.cron}" />
+	</bean>
+	<!-- delete out free date end -->
+	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>

@@ -62,9 +62,9 @@ public class CmsActController extends BaseController {
 				&& StringUtils.isNotEmpty(form.getEndDate())) {
 			try {
 				Date startDate = DateUtils.parseDate(form.getStartDate(),
-						DateFormat.datePattern);
+						DateFormat.DATE_PATTERN);
 				Date endDate = DateUtils.parseDate(form.getEndDate(),
-						DateFormat.datePattern);
+						DateFormat.DATE_PATTERN);
 
 				PagerManager pager = new PagerManager(form.getPageId(), 10,
 						actService.countNewActs(startDate, endDate));
@@ -186,12 +186,10 @@ public class CmsActController extends BaseController {
 		Date endDate = null;
 		try {
 			if (!StringUtils.isEmpty(bDate)) {
-				startDate = DateUtils.parseDate(bDate,
-						DateFormat.datePattern);
+				startDate = DateUtils.parseDate(bDate, DateFormat.DATE_PATTERN);
 			}
 			if (!StringUtils.isEmpty(eDate)) {
-				endDate = DateUtils.parseDate(eDate,
-						DateFormat.datePattern);
+				endDate = DateUtils.parseDate(eDate, DateFormat.DATE_PATTERN);
 			}
 		} catch (ParseException e) {
 			log.error("parse search date error.", e);
@@ -251,8 +249,8 @@ public class CmsActController extends BaseController {
 		ModelMap mmap = new ModelMap();
 		try {
 			if (act != null && act.getName() != null) {
-				if(addUid==null){
-					addUid=context.getUid();
+				if (addUid == null) {
+					addUid = context.getUid();
 				}
 				actService.cmsCreateAct(act, form.getCatIds(), addUid,
 						form.getDetail(), form.getImgFile());
@@ -301,9 +299,9 @@ public class CmsActController extends BaseController {
 			act.setAddress(form.getAddress());
 			act.setCity(form.getCity());
 			act.setProvince(form.getProvince());
-			long town=-1;
-			if(form.getTown()!=null){
-				town=form.getTown();
+			long town = -1;
+			if (form.getTown() != null) {
+				town = form.getTown();
 			}
 			act.setTown(town);
 		}
@@ -312,12 +310,12 @@ public class CmsActController extends BaseController {
 		try {
 			if (!StringUtils.isEmpty(form.getStartTime())) {
 				startTime = DateUtils.parseDate(form.getStartTime(),
-						DateFormat.datePattern);
+						DateFormat.DATE_PATTERN);
 				act.setStartTime(startTime);
 			}
 			if (!StringUtils.isEmpty(form.getEndTime())) {
 				endTime = DateUtils.parseDate(form.getEndTime(),
-						DateFormat.datePattern);
+						DateFormat.DATE_PATTERN);
 				act.setEndTime(endTime);
 			}
 		} catch (ParseException e) {

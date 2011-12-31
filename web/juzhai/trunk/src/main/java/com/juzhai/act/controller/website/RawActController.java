@@ -124,12 +124,12 @@ public class RawActController extends BaseController {
 		try {
 			if (StringUtils.isNotEmpty(startTime)) {
 				rawAct.setStartTime(DateUtils.parseDate(startTime,
-						DateFormat.datePattern));
+						DateFormat.DATE_PATTERN));
 			}
 			String endTime = addRawActForm.getEndTime();
 			if (StringUtils.isNotEmpty(endTime)) {
 				rawAct.setEndTime(DateUtils.parseDate(endTime,
-						DateFormat.datePattern));
+						DateFormat.DATE_PATTERN));
 			}
 		} catch (Exception e) {
 			return null;

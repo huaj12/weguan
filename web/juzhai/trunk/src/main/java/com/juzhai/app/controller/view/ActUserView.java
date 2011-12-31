@@ -2,6 +2,7 @@ package com.juzhai.app.controller.view;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import com.juzhai.passport.bean.ProfileCache;
 
@@ -21,6 +22,8 @@ public class ActUserView implements Serializable {
 
 	private Boolean hasDating;
 
+	private List<Date> freeDateList;
+
 	public ActUserView(ProfileCache profileCache, Date createTime,
 			boolean friend) {
 		super();
@@ -30,13 +33,15 @@ public class ActUserView implements Serializable {
 	}
 
 	public ActUserView(ProfileCache profileCache, Date createTime,
-			Boolean hasInterest, Boolean hasDating, boolean online) {
+			Boolean hasInterest, Boolean hasDating, boolean online,
+			List<Date> freeDateList) {
 		super();
 		this.profileCache = profileCache;
 		this.createTime = createTime;
 		this.hasInterest = hasInterest;
 		this.hasDating = hasDating;
 		this.online = online;
+		this.freeDateList = freeDateList;
 	}
 
 	public ProfileCache getProfileCache() {
@@ -85,5 +90,13 @@ public class ActUserView implements Serializable {
 
 	public void setHasDating(Boolean hasDating) {
 		this.hasDating = hasDating;
+	}
+
+	public List<Date> getFreeDateList() {
+		return freeDateList;
+	}
+
+	public void setFreeDateList(List<Date> freeDateList) {
+		this.freeDateList = freeDateList;
 	}
 }

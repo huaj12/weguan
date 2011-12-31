@@ -10,6 +10,9 @@
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
+		<c:if test="${setFreeDate!=null||setFreeDate}">
+			<jsp:include page="/WEB-INF/jsp/web/common/set_free_date.jsp" />
+		</c:if>
 		<div class="warp"><!--warp begin-->
 			<div class="main"><!--main begin-->
 				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />

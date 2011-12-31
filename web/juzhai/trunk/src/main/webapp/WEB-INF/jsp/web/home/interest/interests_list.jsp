@@ -46,7 +46,8 @@
 					</div><!--city_online end-->
 				</div><!--photo end-->	
 				<div class="ta_like_list"><!--like_list begin-->
-					<div class="name"><a href="/home/${interestUserView.profileCache.uid}"><c:out value="${interestUserView.profileCache.nickname}" /></a><span>周末想去...</span></div>
+					<div class="name"><a href="/home/${interestUserView.profileCache.uid}"><c:out value="${interestUserView.profileCache.nickname}" /></a><span><c:choose><c:when test='${not empty interestUserView.freeDateList}'>${jzu:showFreeDates(interestUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose></span></div>
+					<div class="tazmxq">ta最近想去...</div>
 					<ul class="list"><!--list begin-->
 						<c:choose>
 							<c:when test="${empty interestUserView.userActViewList}">

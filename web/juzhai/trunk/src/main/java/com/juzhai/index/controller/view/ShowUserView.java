@@ -1,5 +1,6 @@
 package com.juzhai.index.controller.view;
 
+import java.util.Date;
 import java.util.List;
 
 import com.juzhai.act.controller.view.UserActView;
@@ -16,6 +17,8 @@ public class ShowUserView {
 	private boolean hasDating;
 
 	private boolean online;
+
+	private List<Date> freeDateList;
 
 	public Profile getProfile() {
 		return profile;
@@ -55,5 +58,13 @@ public class ShowUserView {
 
 	public void setUserActViewList(List<UserActView> userActViewList) {
 		this.userActViewList = userActViewList;
+	}
+
+	public List<Date> getFreeDateList() {
+		return freeDateList;
+	}
+
+	public void setFreeDateList(List<Date> freeDateList) {
+		this.freeDateList = freeDateList;
 	}
 }

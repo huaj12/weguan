@@ -129,12 +129,12 @@ public class RawActService implements IRawActService {
 		try {
 			if (StringUtils.isNotEmpty(agreeRawActForm.getStartTime())) {
 				act.setStartTime(DateUtils.parseDate(
-						agreeRawActForm.getStartTime(), DateFormat.datePattern));
+						agreeRawActForm.getStartTime(), DateFormat.DATE_PATTERN));
 			}
 			String endTime = agreeRawActForm.getEndTime();
 			if (StringUtils.isNotEmpty(endTime)) {
 				act.setEndTime(DateUtils.parseDate(endTime,
-						DateFormat.datePattern));
+						DateFormat.DATE_PATTERN));
 			}
 		} catch (ParseException e) {
 			throw new RawActInputException(

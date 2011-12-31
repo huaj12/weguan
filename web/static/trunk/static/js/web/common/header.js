@@ -1,4 +1,17 @@
 $(document).ready(function(){
+//	var n = 0; //top值
+//	var obj = $("div.fix_top"); //position:fixed对象
+//	$(window).bind("scroll", function(){
+//		obj.css("top", function(){
+//			return (document.body.scrollTop||document.documentElement.scrollTop)+n+'px';
+//		});
+//	});
+//	$(window).bind("resize", function(){
+//		obj.css("top", function(){
+//			return (document.body.scrollTop||document.documentElement.scrollTop)+n+'px';
+//		});
+//	});
+	
 	$("div.area > p").bind("click", function(){
 		var obj = $("div.area_list");
 		if(obj.is(":visible")){

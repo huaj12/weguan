@@ -30,6 +30,7 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.home.service.IUserFreeDateService;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
@@ -52,6 +53,8 @@ public class ActController extends BaseController {
 	private IDatingService datingService;
 	@Autowired
 	private ILoginService loginService;
+	@Autowired
+	private IUserFreeDateService userFreeDateService;
 	@Value("${web.act.ad.show.count}")
 	private int webActAdShowCount;
 	@Value("${web.act.link.show.count}")
@@ -190,7 +193,8 @@ public class ActController extends BaseController {
 					.isInterest(context.getUid(), userAct.getUid()) : null,
 					isLogin ? datingService.hasDating(context.getUid(),
 							userAct.getUid()) : null, loginService
-							.isOnline(userAct.getUid())));
+							.isOnline(userAct.getUid()), userFreeDateService
+							.userFreeDateList(userAct.getUid())));
 		}
 		return actUserViewList;
 	}

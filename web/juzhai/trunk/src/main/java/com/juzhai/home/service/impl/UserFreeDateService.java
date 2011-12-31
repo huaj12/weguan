@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.MemcachedKeyGenerator;
+import com.juzhai.core.dao.Limit;
 import com.juzhai.home.service.IUserFreeDateService;
 import com.juzhai.passport.mapper.UserFreeDateMapper;
 import com.juzhai.passport.model.UserFreeDate;
@@ -98,12 +99,30 @@ public class UserFreeDateService implements IUserFreeDateService {
 		return userFreeDateMapper.countByExample(example);
 	}
 
-	private void clearCache(long uid) {
+	@Override
+	public void clearCache(long uid) {
 		try {
 			memcachedClient.delete(MemcachedKeyGenerator
 					.genUserFreeDateListKey(uid));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
+	}
+
+	@Override
+	public List<UserFreeDate> listOutFreeDate(int firstResult, int maxResults) {
+		UserFreeDateExample example = new UserFreeDateExample();
+		example.createCriteria().andFreeDateLessThan(
+				DateUtils.truncate(new Date(), Calendar.DATE));
+		example.setLimit(new Limit(firstResult, maxResults));
+		example.setOrderByClause("create_time asc");
+		return userFreeDateMapper.selectByExample(example);
+	}
+
+	@Override
+	public void deleteUserFreeDate(List<Long> userFreeDateIdList) {
+		UserFreeDateExample example = new UserFreeDateExample();
+		example.createCriteria().andIdIn(userFreeDateIdList);
+		userFreeDateMapper.deleteByExample(example);
 	}
 }

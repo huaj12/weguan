@@ -3,6 +3,8 @@ package com.juzhai.home.service;
 import java.util.Date;
 import java.util.List;
 
+import com.juzhai.passport.model.UserFreeDate;
+
 public interface IUserFreeDateService {
 
 	/**
@@ -36,4 +38,27 @@ public interface IUserFreeDateService {
 	 * @return
 	 */
 	int countFreeDate(long uid);
+
+	/**
+	 * 过期的休闲时间
+	 * 
+	 * @param firstResult
+	 * @param MaxResults
+	 * @return
+	 */
+	List<UserFreeDate> listOutFreeDate(int firstResult, int maxResults);
+
+	/**
+	 * 删除
+	 * 
+	 * @param userFreeDateId
+	 */
+	void deleteUserFreeDate(List<Long> userFreeDateIdList);
+
+	/**
+	 * 清除缓存
+	 * 
+	 * @param uid
+	 */
+	void clearCache(long uid);
 }

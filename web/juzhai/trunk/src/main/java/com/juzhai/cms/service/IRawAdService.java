@@ -1,5 +1,7 @@
 package com.juzhai.cms.service;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.model.RawAd;
@@ -17,4 +19,9 @@ public interface IRawAdService {
 	void createRawAd(RawAd rawAd);
 	
 	boolean isUrlExist(String md5Link);
+	
+	int countRawAd();
+	
+	List<RawAd> showRawAdList(int firstResult,
+			int maxResults);
 }

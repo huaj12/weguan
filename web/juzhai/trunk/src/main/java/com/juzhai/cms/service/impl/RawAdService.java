@@ -3,6 +3,7 @@ package com.juzhai.cms.service.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -20,6 +21,7 @@ import com.juzhai.act.model.RawAdExample;
 import com.juzhai.cms.exception.RawAdInputException;
 import com.juzhai.cms.service.IRawAdService;
 import com.juzhai.cms.task.ImportAdTask;
+import com.juzhai.core.dao.Limit;
 
 @Service
 public class RawAdService implements IRawAdService {
@@ -100,6 +102,20 @@ public class RawAdService implements IRawAdService {
 		example.createCriteria().andMd5TargetUrlEqualTo(md5Link);
 		return rawAdMapper.countByExample(example) > 0 ? true : false;
 
+	}
+
+	@Override
+	public List<RawAd> showRawAdList(int firstResult, int maxResults) {
+		RawAdExample example = new RawAdExample();
+		example.setLimit(new Limit(firstResult, maxResults));
+		example.setOrderByClause("start_date desc,end_date asc");
+		return rawAdMapper.selectByExample(example);
+	}
+
+	@Override
+	public int countRawAd() {
+		RawAdExample example = new RawAdExample();
+		return rawAdMapper.countByExample(example);
 	}
 
 }

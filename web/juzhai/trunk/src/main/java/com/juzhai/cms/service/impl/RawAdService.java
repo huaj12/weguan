@@ -1,0 +1,105 @@
+package com.juzhai.cms.service.impl;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.juzhai.act.mapper.RawAdMapper;
+import com.juzhai.act.model.RawAd;
+import com.juzhai.act.model.RawAdExample;
+import com.juzhai.cms.exception.RawAdInputException;
+import com.juzhai.cms.service.IRawAdService;
+import com.juzhai.cms.task.ImportAdTask;
+
+@Service
+public class RawAdService implements IRawAdService {
+	private final Log log = LogFactory.getLog(getClass());
+	private final String SEPARATOR = "-------------------------------------------------";
+
+	@Autowired
+	private ThreadPoolTaskExecutor taskExecutor;
+
+	@Autowired
+	private RawAdMapper rawAdMapper;
+
+	@Override
+	public int importAd(MultipartFile rawAd) throws RawAdInputException {
+		if (rawAd == null || rawAd.getSize() == 0) {
+			// 导入文件不能为空
+			throw new RawAdInputException(
+					RawAdInputException.RAW_AD_FILE_IS_NULL);
+		}
+		StringBuilder fileContent = new StringBuilder();
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					rawAd.getInputStream(), "UTF-8"));
+			String line;
+			while ((line = br.readLine()) != null) {
+				fileContent.append(line);
+				fileContent.append("\r\n");
+			}
+		} catch (Exception e) {
+			log.error("importAd is error." + e.getMessage());
+			// 读取文件失败
+			throw new RawAdInputException(
+					RawAdInputException.RAW_AD_READ_FILE_IS_INVALID);
+		}
+		String[] contents = fileContent.toString().split(SEPARATOR);
+		if (contents == null || contents.length == 0) {
+			// 文件没有内容或者内容格式错误
+			throw new RawAdInputException(
+					RawAdInputException.RAW_AD_FILE_CONTENT_INVALID);
+
+		}
+		CountDownLatch down = new CountDownLatch(contents.length);
+		AtomicInteger index = new AtomicInteger();
+		for (String content : contents) {
+			Future<Boolean> future = taskExecutor.submit(new ImportAdTask(
+					content, this, down));
+			try {
+				if (future.get() != null && future.get().booleanValue()) {
+					index.getAndIncrement();
+				}
+			} catch (Exception e) {
+				log.error("get future is error." + e.getMessage());
+			}
+		}
+		try {
+			down.await();
+		} catch (InterruptedException e) {
+			log.error("importAd down.await()." + e.getMessage());
+		}
+		return index.get();
+	}
+
+	@Override
+	public void createRawAd(RawAd rawAd) {
+		if (null == rawAd) {
+			return;
+		}
+		try {
+			rawAdMapper.insert(rawAd);
+		} catch (Exception e) {
+			log.error("createRawAd is error." + e.getMessage());
+		}
+	}
+
+	@Override
+	public boolean isUrlExist(String md5Link) {
+		RawAdExample example = new RawAdExample();
+		example.createCriteria().andMd5TargetUrlEqualTo(md5Link);
+		return rawAdMapper.countByExample(example) > 0 ? true : false;
+
+	}
+
+}

@@ -10,10 +10,4 @@ public interface ISpiderService {
 	 */
 	void spiderProduct(String url, Target tager);
 
-	String getStartDate(String date, Target tager);
-
-	String getEndDate(String date, Target tager);
-
-	String getTargetUrl(String url, Target tager);
-
 }

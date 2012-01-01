@@ -121,6 +121,9 @@ a:hover {
 				<a href="/cms/showRawActs" target="config">审核用户推荐项目</a>
 			</li>
 			<li>
+				<a href="/cms/show/ad/manager" target="config">优惠信息管理</a>
+			</li>	
+			<li>
 				<a href="javascript:showChild('statsData');">统计数据</a>
 				<ul style="display: none;" id="statsData" class="child">
 					<li style="background-color: #A4D3EE;"><a
@@ -134,6 +137,9 @@ a:hover {
 			</li>
 			<li>
 				<a href="javascript:;">男女兴趣排行榜</a>
+			</li>
+			<li>
+				<a href="/cms/show/raw/ad" target="config">导入团购信息</a>
 			</li>
 		</ul>
 	</div>

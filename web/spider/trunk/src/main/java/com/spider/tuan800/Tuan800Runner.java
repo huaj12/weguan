@@ -21,6 +21,8 @@ public class Tuan800Runner {
 //		"img"));
 //		String address=baseService.findContent(content, RegexUtils.getRegEx(tager,
 //		"address"));
+//		String circle=baseService.findContent(content, RegexUtils.getRegEx(tager,
+//		"circle"));
 //		String city=baseService.findContent(content, RegexUtils.getRegEx(tager,
 //		"city"));
 //		String original=baseService.findContent(content, RegexUtils.getRegEx(tager,
@@ -49,9 +51,9 @@ public class Tuan800Runner {
 //		}else{
 //			System.out.println(URLEncodeUtils.decodeURL(u));
 //		}
-		
 //		System.out.println(img);
 //		System.out.println(address);
+//		System.out.println(circle);
 //		System.out.println(city);
 //		System.out.println(original);
 //		System.out.println(price);
@@ -60,6 +62,6 @@ public class Tuan800Runner {
 //		System.out.println(startDate);
 //		System.out.println(endDate);
 //		System.out.println(source);
-		new SpiderService().spiderProduct("http://www.tuan800.com/shanghai/shenghuoyule", Target.TUAN800);
+		new SpiderService().spiderProduct("http://www.tuan800.com/beijing/shenghuoyule", Target.TUAN800);
 	}
 }

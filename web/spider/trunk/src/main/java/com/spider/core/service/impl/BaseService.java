@@ -51,9 +51,12 @@ public class BaseService implements IBaseService {
 		try {
 			content = httpclient.execute(accessget, responseHandler);
 		} catch (Exception e) {
+			System.out.println(url);
+			e.printStackTrace();
 			try {
 				content = httpclient.execute(accessget, responseHandler);
 			} catch (Exception e1){
+				e1.printStackTrace();
 				System.out.println("|||||||||||||||||||||||||||||||");
 				System.out.println(url+":重新请求也失败了:"+e.getMessage());
 				System.out.println("|||||||||||||||||||||||||||||||");

@@ -28,16 +28,5 @@ public class SpiderService implements ISpiderService {
 		new SpiderService().getUserServiceBean(Target.TUAN800);
 	}
 
-	public String getStartDate(String date, Target tager) {
-		return getUserServiceBean(tager).getStartDate(date, tager);
-	}
-
-	public String getEndDate(String date, Target tager) {
-		return getUserServiceBean(tager).getEndDate(date, tager);
-	}
-
-	public String getTargetUrl(String url, Target tager) {
-		return getUserServiceBean(tager).getTargetUrl(url, tager);
-	}
 
 }

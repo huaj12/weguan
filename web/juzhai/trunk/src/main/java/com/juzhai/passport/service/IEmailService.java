@@ -1,5 +1,7 @@
 package com.juzhai.passport.service;
 
+import com.juzhai.notice.bean.NoticeType;
+import com.juzhai.passport.controller.form.EmailForm;
 import com.juzhai.passport.exception.ProfileInputException;
 
 public interface IEmailService {
@@ -35,4 +37,21 @@ public interface IEmailService {
 	 * @return
 	 */
 	long getOpenEmailStat();
+
+	/**
+	 * 设置订阅
+	 * 
+	 * @param emailForm
+	 * @throws ProfileInputException
+	 */
+	void setupSub(long uid, EmailForm emailForm) throws ProfileInputException;
+
+	/**
+	 * 是否订阅通知
+	 * 
+	 * @param uid
+	 * @param noticeType
+	 * @return
+	 */
+	boolean isSubNotice(long uid, NoticeType noticeType);
 }

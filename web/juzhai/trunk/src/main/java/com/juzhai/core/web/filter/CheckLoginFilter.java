@@ -27,6 +27,8 @@ import com.juzhai.passport.service.login.ILoginService;
 @Component
 public class CheckLoginFilter implements Filter {
 
+	public static final String LOGIN_USER_KEY = "loginUser";
+
 	@Autowired
 	private LoginSessionManager loginSessionManager;
 	@Autowired
@@ -53,7 +55,7 @@ public class CheckLoginFilter implements Filter {
 			if (context.hasLogin()) {
 				loginService.updateOnlineState(context.getUid());
 				// 获取登录用户信息
-				req.setAttribute("loginUser",
+				req.setAttribute(LOGIN_USER_KEY,
 						profileService.getProfileCacheByUid(context.getUid()));
 			}
 			filterChain.doFilter(request, response);

@@ -98,7 +98,7 @@
   </context> -->
   
   
-  <context id="act" targetRuntime="MyBatis3">
+  <!-- <context id="act" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -126,11 +126,7 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
     
-    <table tableName="tb_raw_ad" domainObjectName="RawAd">
-      <property name="useActualColumnNames" value="false"/>
-    </table>
-    
-    <!-- <table tableName="tb_act_ad" domainObjectName="ActAd">
+    <table tableName="tb_act_ad" domainObjectName="ActAd">
       <property name="useActualColumnNames" value="false"/>
     </table>
     
@@ -197,9 +193,9 @@
     
     <table tableName="tb_act_charts" domainObjectName="ActCharts">
       <property name="useActualColumnNames" value="false"/>
-    </table> -->
+    </table>
     
-  </context>
+  </context> -->
   
   <!-- <context id="account" targetRuntime="MyBatis3">
   
@@ -235,13 +231,13 @@
     
   </context> -->
   
-  <!-- <context id="cms" targetRuntime="MyBatis3">
+  <context id="cms" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
   
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-        connectionURL="jdbc:mysql://192.168.1.10:3306/juzhai"
+        connectionURL="jdbc:mysql://localhost:3306/juzhai"
         userId="root"
         password="111111">
     </jdbcConnection>
@@ -263,15 +259,23 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
 
-	<table tableName="tb_search_act_action" domainObjectName="SearchActAction">
+	<table tableName="tb_raw_ad" domainObjectName="RawAd">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+    <table tableName="tb_ad_source" domainObjectName="AdSource">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+
+	<!-- <table tableName="tb_search_act_action" domainObjectName="SearchActAction">
       <property name="useActualColumnNames" value="false"/>
     </table>
     
 	<table tableName="tb_add_act_action" domainObjectName="AddActAction">
       <property name="useActualColumnNames" value="false"/>
-    </table>
+    </table> -->
     
-  </context> -->
+  </context>
   
   <!-- <context id="notice" targetRuntime="MyBatis3">
   

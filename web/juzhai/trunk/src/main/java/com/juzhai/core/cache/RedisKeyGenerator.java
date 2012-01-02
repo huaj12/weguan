@@ -327,4 +327,15 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genUserNoticeNumKey(long uid, NoticeType noticeType) {
 		return genKey(uid, noticeType.getType() + "_noticeNum");
 	}
+
+	/**
+	 * 订阅通知Key
+	 * 
+	 * @param uid
+	 * @param noticeType
+	 * @return
+	 */
+	public static String genUserSubNoticeKey(long uid, NoticeType noticeType) {
+		return genKey(uid, noticeType.getType() + "_emailSub");
+	}
 }

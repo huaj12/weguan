@@ -9,7 +9,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.controller.form.EmailForm;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
@@ -29,6 +31,8 @@ public class EmailService implements IEmailService {
 	private ProfileMapper profileMapper;
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
+	@Autowired
+	private RedisTemplate<String, Boolean> boolRedisTemplate;
 
 	@Override
 	public boolean subEmail(long uid, String email)
@@ -100,4 +104,34 @@ public class EmailService implements IEmailService {
 		return value == null ? 0 : value;
 	}
 
+	@Override
+	public void setupSub(long uid, EmailForm emailForm)
+			throws ProfileInputException {
+		if (subEmail(uid, emailForm.getEmail())) {
+			setupSubNotice(uid, NoticeType.INTEREST_ME,
+					emailForm.isInterestMe());
+			setupSubNotice(uid, NoticeType.DATING_ME, emailForm.isDatingMe());
+			setupSubNotice(uid, NoticeType.ACCEPT_DATING,
+					emailForm.isAcceptDating());
+			setupSubNotice(uid, NoticeType.SYS_NOTICE, emailForm.isSysNotice());
+		}
+
+	}
+
+	private void setupSubNotice(long uid, NoticeType noticeType, boolean isSub) {
+		String key = RedisKeyGenerator.genUserSubNoticeKey(uid, noticeType);
+		boolean hasKey = boolRedisTemplate.hasKey(key);
+		if (!hasKey && isSub) {
+			boolRedisTemplate.opsForValue().set(key, true);
+		} else if (hasKey && !isSub) {
+			boolRedisTemplate.delete(key);
+		}
+	}
+
+	@Override
+	public boolean isSubNotice(long uid, NoticeType noticeType) {
+		Boolean isSub = boolRedisTemplate.opsForValue().get(
+				RedisKeyGenerator.genUserSubNoticeKey(uid, noticeType));
+		return isSub == null ? false : isSub;
+	}
 }

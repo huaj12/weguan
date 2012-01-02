@@ -57,19 +57,23 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_raw_ad` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `title` VARCHAR(300) NULL ,
   `img` VARCHAR(300) NULL ,
-  `address` VARCHAR(100) NULL ,
+  `act_ids` VARCHAR(300) NULL ,
+  `address` VARCHAR(200) NULL ,
+  `circle` VARCHAR(45) NULL ,
   `city` BIGINT NOT NULL DEFAULT 0 ,
   `original` VARCHAR(45) NULL ,
   `price` VARCHAR(45) NULL ,
   `discount` DOUBLE NULL ,
   `start_date` DATETIME NULL ,
   `end_date` DATETIME NULL ,
-  `source` VARCHAR(45) NULL ,
+  `source` BIGINT NOT NULL ,
   `target_url` VARCHAR(300) NULL ,
   `from_name` VARCHAR(45) NULL ,
   `from_link` VARCHAR(300) NULL ,
+  `status` INT(2) NOT NULL DEFAULT 0 ,
   `md5_target_url` VARCHAR(45) NULL ,
   `create_time` DATETIME NOT NULL ,
+  `last_modify_time` DATETIME NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
@@ -78,5 +82,23 @@ COMMENT = '导入进来的团购信息' ;
 
 SHOW WARNINGS;
 CREATE UNIQUE INDEX `uidx_md5_url` ON `juzhai`.`tb_raw_ad` (`md5_target_url` ASC) ;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `juzhai`.`tb_ad_source`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `juzhai`.`tb_ad_source` ;
+
+SHOW WARNINGS;
+CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_ad_source` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  `create_date` DATETIME NOT NULL ,
+  `last_modify_time` DATETIME NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;
 
 SHOW WARNINGS;

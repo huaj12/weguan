@@ -30,7 +30,7 @@
 						<div class="set_right">
 							<!--set_right begin-->
 							<div class="title">
-								<h2>设置我的个人形象</h2>
+								<h2>设置我的个人资料</h2>
 							</div>
 							<div class="my_infor">
 								<!--my_infor begin-->

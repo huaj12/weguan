@@ -65,6 +65,6 @@ public class EmailController extends BaseController {
 			model.addAttribute("emailForm", emailForm);
 			return "web/profile/mail";
 		}
-		return "redirect:/proifle/email";
+		return "redirect:/profile/email";
 	}
 }

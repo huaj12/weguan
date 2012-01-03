@@ -131,19 +131,31 @@
 	</bean>
 	<!-- delete out free date end -->
 	
+	<!-- send notice email start -->
+	<bean id="noticeEmailTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="noticeEmailHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${notice.email.cron}" />
+	</bean>
+	<!-- send notice email end -->
+	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<ref bean="actIndexOptimizationAndCommitTrigger"/>
-				<!-- <ref bean="getBackFeedTrigger"/> -->
-				<ref bean="resetQuestionUsersTrigger"/>
-				<!-- <ref bean="unreadMsgEmailTrigger"/>
+				<!-- <ref bean="getBackFeedTrigger"/>
+				<ref bean="unreadMsgEmailTrigger"/>
 				<ref bean="actBriefingEmailTrigger"/> -->
+				<ref bean="actIndexOptimizationAndCommitTrigger"/>
+				<ref bean="resetQuestionUsersTrigger"/>
 				<ref bean="showCategoryActListTrigger"/>
 				<ref bean="deleteUserActionTrigger"/>
 				<ref bean="deleteTempImageTrigger"/>
 				<ref bean="updateShowActsTrigger"/>
 				<ref bean="delOutFreeDateTrigger"/>
+				<!-- <ref bean="noticeEmailTrigger"/> -->
 			</list>
 		</property>
 	</bean>

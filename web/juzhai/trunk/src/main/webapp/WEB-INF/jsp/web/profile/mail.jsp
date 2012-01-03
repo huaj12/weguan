@@ -20,7 +20,7 @@
 							<c:set var="page" value="mail" scope="request" />
 							<jsp:include page="/WEB-INF/jsp/web/profile/common/left.jsp" />
 							<div class="set_right"><!--set_right begin-->
-								<form action="/profile/updateEmail" id="updateEmail">
+								<form action="/profile/updateEmail" id="updateEmail" method="post">
 									<div class="title"><h2>用email订阅下面的消息</h2></div>
 									<div class="rss"><!--rss begin-->
 										<div class="rss_x"><div class="check"><span><input name="interestMe" type="checkbox" <c:if test="${emailForm.interestMe}">checked="checked"</c:if> value="true" /></span><p>有人觉得我不错</p></div></div>
@@ -46,6 +46,6 @@
 		</div><!--warp end-->
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 		<jsp:include page="/WEB-INF/jsp/web/common/script/jcrop.jsp" />
-		<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
+		<script type="text/javascript" src="${jzr:static('/js/web/sub_email.js')}"></script>
 	</body>
 </html>

@@ -21,4 +21,12 @@ public enum NoticeType {
 		return type;
 	}
 
+	public static NoticeType getNoticeTypeByType(int type) {
+		for (NoticeType noticeType : values()) {
+			if (noticeType.getType() == type) {
+				return noticeType;
+			}
+		}
+		return null;
+	}
 }

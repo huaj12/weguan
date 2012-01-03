@@ -47,6 +47,7 @@ CREATE UNIQUE INDEX `idx_uid_freedate` ON `juzhai`.`tb_user_free_date` (`uid` AS
 
 SHOW WARNINGS;
 
+
 -- -----------------------------------------------------
 -- Table `juzhai`.`tb_raw_ad`
 -- -----------------------------------------------------
@@ -66,7 +67,7 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_raw_ad` (
   `discount` DOUBLE NULL ,
   `start_date` DATETIME NULL ,
   `end_date` DATETIME NULL ,
-  `source` BIGINT NOT NULL ,
+  `source` VARCHAR(100) NULL ,
   `target_url` VARCHAR(300) NULL ,
   `from_name` VARCHAR(45) NULL ,
   `from_link` VARCHAR(300) NULL ,
@@ -75,7 +76,7 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_raw_ad` (
   `create_time` DATETIME NOT NULL ,
   `last_modify_time` DATETIME NULL ,
   PRIMARY KEY (`id`) )
-ENGINE = InnoDB
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci, 
 COMMENT = '导入进来的团购信息' ;
@@ -84,6 +85,10 @@ SHOW WARNINGS;
 CREATE UNIQUE INDEX `uidx_md5_url` ON `juzhai`.`tb_raw_ad` (`md5_target_url` ASC) ;
 
 SHOW WARNINGS;
+CREATE INDEX `idx_source` ON `juzhai`.`tb_raw_ad` (`source` ASC) ;
+
+SHOW WARNINGS;
+
 
 -- -----------------------------------------------------
 -- Table `juzhai`.`tb_ad_source`
@@ -97,7 +102,7 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_ad_source` (
   `create_date` DATETIME NOT NULL ,
   `last_modify_time` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )
-ENGINE = InnoDB
+ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 

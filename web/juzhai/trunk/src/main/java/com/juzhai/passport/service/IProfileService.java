@@ -174,8 +174,9 @@ public interface IProfileService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Profile> listProfileOrderByLoginWebTime(Integer gender, Long city,
-			List<Long> exceptUids, int firstResult, int maxResults);
+	List<Profile> listProfileOrderByLoginWebTime(List<Long> uids,
+			Integer gender, Long city, List<Long> exceptUids, int firstResult,
+			int maxResults);
 
 	/**
 	 * 数量
@@ -184,5 +185,6 @@ public interface IProfileService {
 	 * @param city
 	 * @return
 	 */
-	int countProfile(Integer gender, Long city, List<Long> exceptUids);
+	int countProfile(List<Long> uids, Integer gender, Long city,
+			List<Long> exceptUids);
 }

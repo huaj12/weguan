@@ -390,10 +390,14 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
-	public List<Profile> listProfileOrderByLoginWebTime(Integer gender,
-			Long city, List<Long> exceptUids, int firstResult, int maxResults) {
+	public List<Profile> listProfileOrderByLoginWebTime(List<Long> uids,
+			Integer gender, Long city, List<Long> exceptUids, int firstResult,
+			int maxResults) {
 		ProfileExample example = new ProfileExample();
 		ProfileExample.Criteria c = example.createCriteria();
+		if (CollectionUtils.isNotEmpty(uids)) {
+			c.andUidIn(uids);
+		}
 		if (null != gender) {
 			c.andGenderEqualTo(gender);
 		}
@@ -409,9 +413,13 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
-	public int countProfile(Integer gender, Long city, List<Long> exceptUids) {
+	public int countProfile(List<Long> uids, Integer gender, Long city,
+			List<Long> exceptUids) {
 		ProfileExample example = new ProfileExample();
 		ProfileExample.Criteria c = example.createCriteria();
+		if (CollectionUtils.isNotEmpty(uids)) {
+			c.andUidIn(uids);
+		}
 		if (null != gender) {
 			c.andGenderEqualTo(gender);
 		}

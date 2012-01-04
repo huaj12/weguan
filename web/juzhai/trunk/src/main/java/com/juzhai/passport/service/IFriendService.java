@@ -38,6 +38,14 @@ public interface IFriendService {
 	List<Long> getAppFriends(long uid);
 
 	/**
+	 * 获取安装的认识的人列表
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	List<Long> listInstallFollowUids(long uid);
+
+	/**
 	 * 安装应用的好友数
 	 * 
 	 * @param uid
@@ -46,7 +54,7 @@ public interface IFriendService {
 	int countAppFriends(long uid);
 
 	/**
-	 * 获取所有的好友
+	 * 获取未安装的好友
 	 * 
 	 * @param uid
 	 * @return

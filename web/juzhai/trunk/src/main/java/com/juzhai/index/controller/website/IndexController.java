@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,6 +26,7 @@ import com.juzhai.act.service.IDatingService;
 import com.juzhai.act.service.IShowActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
+import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.controller.form.DateView;
@@ -34,6 +34,7 @@ import com.juzhai.home.service.IUserFreeDateService;
 import com.juzhai.index.bean.ShowActOrder;
 import com.juzhai.index.controller.view.ShowUserView;
 import com.juzhai.passport.model.Profile;
+import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
@@ -59,6 +60,8 @@ public class IndexController extends BaseController {
 	private IDatingService datingService;
 	@Autowired
 	private IUserFreeDateService userFreeDateService;
+	@Autowired
+	private IFriendService friendService;
 	@Value("${web.show.category.size}")
 	private int webShowCategorySize;
 	@Value("${web.show.acts.max.rows}")
@@ -152,10 +155,21 @@ public class IndexController extends BaseController {
 			exceptUids.add(context.getUid());
 		}
 		PagerManager pager = new PagerManager(page, webShowUsersMaxRows,
-				profileService.countProfile(gender, cityId, exceptUids));
+				profileService.countProfile(null, gender, cityId, exceptUids));
 		List<Profile> profileList = profileService
-				.listProfileOrderByLoginWebTime(gender, cityId, exceptUids,
-						pager.getFirstResult(), pager.getMaxResult());
+				.listProfileOrderByLoginWebTime(null, gender, cityId,
+						exceptUids, pager.getFirstResult(),
+						pager.getMaxResult());
+		model.addAttribute("showUserViewList",
+				assembleShowUserView(context, profileList));
+		model.addAttribute("pager", pager);
+		model.addAttribute("genderType", genderType);
+		model.addAttribute("pageType", "zbe");
+		return "web/index/zbe/show_users";
+	}
+
+	private List<ShowUserView> assembleShowUserView(UserContext context,
+			List<Profile> profileList) {
 		List<ShowUserView> showUserViewList = new ArrayList<ShowUserView>();
 		for (Profile profile : profileList) {
 			ShowUserView view = new ShowUserView();
@@ -173,7 +187,32 @@ public class IndexController extends BaseController {
 					.getUid()));
 			showUserViewList.add(view);
 		}
-		model.addAttribute("showUserViewList", showUserViewList);
+		return showUserViewList;
+	}
+
+	@RequestMapping(value = "/showFollows/{genderType}/{page}")
+	public String pageFollowUsers(HttpServletRequest request, Model model,
+			@PathVariable String genderType, @PathVariable int page)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		long cityId = fetchCityId(request);
+		Integer gender = null;
+		if (genderType.equals("male")) {
+			gender = 1;
+		} else if (genderType.equals("female")) {
+			gender = 0;
+		}
+		List<Long> installFollowUids = friendService
+				.listInstallFollowUids(context.getUid());
+		PagerManager pager = new PagerManager(page, webShowUsersMaxRows,
+				profileService.countProfile(installFollowUids, gender, cityId,
+						null));
+		List<Profile> profileList = profileService
+				.listProfileOrderByLoginWebTime(installFollowUids, gender,
+						cityId, null, pager.getFirstResult(),
+						pager.getMaxResult());
+		model.addAttribute("showUserViewList",
+				assembleShowUserView(context, profileList));
 		model.addAttribute("pager", pager);
 		model.addAttribute("genderType", genderType);
 		model.addAttribute("pageType", "zbe");

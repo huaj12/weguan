@@ -5,7 +5,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>我想去的</title>
+		<meta name="keywords" content="<c:out value="${act.name}" /> 详细介绍 图片 优惠价 找伴儿同去" />
+		<meta name="description" content="<c:out value="${act.name}" />，查看最近也想去<c:out value="${act.name}" />的人，找伴儿一起去<c:out value="${act.name}" />，查看<c:out value="${act.name}" />的详细介绍" />
+		<title><c:out value="${act.name}" />-拒宅网</title>
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" />
 	</head>
 	<body>

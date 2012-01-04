@@ -227,4 +227,10 @@ public class Kaixin001AppUserService extends AbstractUserService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<String> getInstallFollows(AuthInfo authInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

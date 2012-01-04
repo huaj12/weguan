@@ -169,4 +169,23 @@ public class WeiboAppUserService extends AbstractUserService {
 		return null;
 	}
 
+	@Override
+	public List<String> getInstallFollows(AuthInfo authInfo) {
+		String uid = authInfo.getTpIdentity();
+		Friendships fm = new Friendships(authInfo.getToken());
+		List<String> fuids = new ArrayList<String>();
+		try {
+			String[] ids = fm.getFriendsIds(uid);
+			for (String id : ids) {
+				if (isInstalled(authInfo.getThirdpartyName(), id)) {
+					fuids.add(id);
+				}
+			}
+		} catch (WeiboException e) {
+			log.error("weibo  getAppFriends is erorr." + e.getMessage());
+			return null;
+		}
+		return fuids;
+	}
+
 }

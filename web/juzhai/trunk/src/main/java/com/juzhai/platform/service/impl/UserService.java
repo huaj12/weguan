@@ -59,9 +59,13 @@ public class UserService implements IUserService, BeanFactoryAware {
 				authInfo.getJoinType()).getAppFriends(authInfo);
 	}
 
+	@Override
+	public List<String> getInstallFollows(AuthInfo authInfo) {
+		return getUserServiceBean(authInfo.getThirdpartyName(),
+				authInfo.getJoinType()).getInstallFollows(authInfo);
+	}
+
 	private IUserService getUserServiceBean(Thirdparty tp) {
 		return getUserServiceBean(tp.getName(), tp.getJoinType());
 	}
-
-
 }

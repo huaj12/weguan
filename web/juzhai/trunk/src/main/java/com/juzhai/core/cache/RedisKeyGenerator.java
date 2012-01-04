@@ -25,24 +25,13 @@ public class RedisKeyGenerator extends KeyGenerator {
 	}
 
 	/**
-	 * 还有列表(zset)
+	 * 好友列表(zset)
 	 * 
 	 * @param uid
 	 * @return
 	 */
 	public static String genFriendsKey(long uid) {
 		return genKey(uid, "friends");
-	}
-
-	/**
-	 * 第三方好友列表(value)
-	 * 
-	 * @param uid
-	 * @return
-	 */
-	@Deprecated
-	public static String genTpFriendsKey(long uid) {
-		return genKey(uid, "tpFriends");
 	}
 
 	/**
@@ -53,6 +42,16 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 */
 	public static String genUnInstallFriendsKey(long uid) {
 		return genKey(uid, "unInstallFriends");
+	}
+
+	/**
+	 * 第三方安装的认识的人列表
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genInstallFollowsKey(long uid) {
+		return genKey(uid, "installFollows");
 	}
 
 	/**

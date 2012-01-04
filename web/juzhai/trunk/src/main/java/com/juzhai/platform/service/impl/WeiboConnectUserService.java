@@ -26,10 +26,13 @@ import weibo4j.org.json.JSONObject;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.Municipal;
+import com.juzhai.passport.bean.OtherCity;
 import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.passport.model.Town;
 
 @Service
 public class WeiboConnectUserService extends AbstractUserService {
@@ -129,13 +132,31 @@ public class WeiboConnectUserService extends AbstractUserService {
 			// 获取不到生日需要高级接口
 			String cityName = user.getLocation();
 			City city = null;
+			Town town = null;
 			String[] str = cityName.split(" ");
 			if (ArrayUtils.isNotEmpty(str)) {
-				city = InitData.getCityByName(str[str.length - 1]);
+				// 直辖市
+				if (Municipal.getMunicipalEnum(str[0]) != null) {
+					city = InitData.getCityByName(str[0]);
+					if (city != null) {
+						town = InitData.getTownByNameAndCityId(city.getId(),
+								str[str.length - 1]);
+					}
+
+				} else if (OtherCity.getOtherCityEnum(str[0]) != null) {
+					city = InitData.getCityByName(str[0]);
+				} else {
+					// 非直辖市
+					city = InitData.getCityByName(str[str.length - 1]);
+				}
+
 			}
 			if (null != city) {
 				profile.setCity(city.getId());
 				profile.setProvince(city.getProvinceId());
+				if (null != town) {
+					profile.setTown(town.getId());
+				}
 			}
 			return profile;
 		} catch (Exception e) {

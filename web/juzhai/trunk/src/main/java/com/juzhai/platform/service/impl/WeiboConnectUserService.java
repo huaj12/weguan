@@ -27,7 +27,6 @@ import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.Municipal;
-import com.juzhai.passport.bean.OtherCity;
 import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profile;
@@ -142,10 +141,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 						town = InitData.getTownByNameAndCityId(city.getId(),
 								str[str.length - 1]);
 					}
-				//台湾 澳门香港
-				} else if (OtherCity.getOtherCityEnum(str[0]) != null) {
-					city = InitData.getCityByName(str[0]);
-				} else {
+				}  else {
 					// 非直辖市
 					city = InitData.getCityByName(str[str.length - 1]);
 				}

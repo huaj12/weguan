@@ -3,11 +3,13 @@ package com.juzhai.cms.service.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,11 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.juzhai.act.mapper.RawAdMapper;
-import com.juzhai.act.model.RawAd;
-import com.juzhai.act.model.RawAdExample;
+import com.juzhai.cms.model.RawAdExample.Criteria;
 import com.juzhai.cms.exception.RawAdInputException;
+import com.juzhai.cms.mapper.RawAdMapper;
+import com.juzhai.cms.model.RawAd;
+import com.juzhai.cms.model.RawAdExample;
 import com.juzhai.cms.service.IRawAdService;
 import com.juzhai.cms.task.ImportAdTask;
 import com.juzhai.core.dao.Limit;
@@ -116,6 +119,62 @@ public class RawAdService implements IRawAdService {
 	public int countRawAd() {
 		RawAdExample example = new RawAdExample();
 		return rawAdMapper.countByExample(example);
+	}
+
+	@Override
+	public List<RawAd> searchRawAd(String status, Long cityId, String source,
+			int firstResult, int maxResults) {
+		RawAdExample example = getSearchRawAdExample(status, cityId, source);
+		example.setLimit(new Limit(firstResult, maxResults));
+		example.setOrderByClause("start_date desc,end_date asc");
+		return rawAdMapper.selectByExample(example);
+	}
+
+	private RawAdExample getSearchRawAdExample(String status, Long cityId,
+			String source) {
+		RawAdExample example = new RawAdExample();
+		Criteria criteria = example.createCriteria();
+		if (StringUtils.isNotEmpty(status)) {
+			if ("0".equals(status)) {
+				criteria.andStatusEqualTo(0);
+			} else if ("1".equals(status)) {
+				criteria.andStatusEqualTo(1);
+			} else if ("2".equals(status)) {
+				criteria.andEndDateLessThan(new Date());
+			}
+		}
+		if (cityId != null && cityId != 0) {
+			criteria.andCityEqualTo(cityId);
+		}
+		if (StringUtils.isNotEmpty(source)) {
+			criteria.andSourceEqualTo(source);
+		}
+		return example;
+	}
+
+	@Override
+	public int countSearchRawAd(String status, Long cityId, String source) {
+		RawAdExample example = getSearchRawAdExample(status, cityId, source);
+		return rawAdMapper.countByExample(example);
+	}
+
+	@Override
+	public RawAd getRawAd(long id) {
+		return rawAdMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public void updateRawAd(RawAd rawAd) {
+		rawAd.setLastModifyTime(new Date());
+		rawAdMapper.updateByPrimaryKeySelective(rawAd);
+	}
+
+	@Override
+	public RawAd getRawAd(String url) {
+		RawAdExample example = new RawAdExample();
+		example.createCriteria().andTargetUrlEqualTo(url);
+		List<RawAd>list=rawAdMapper.selectByExample(example);
+		return list.size()>0?list.get(0):null;
 	}
 
 }

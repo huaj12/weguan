@@ -9,7 +9,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
-import com.juzhai.act.model.RawAd;
+import com.juzhai.cms.model.AdSource;
+import com.juzhai.cms.model.RawAd;
 import com.juzhai.cms.service.IRawAdService;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.model.City;
@@ -49,12 +50,16 @@ public class ImportAdTask implements Callable<Boolean> {
 			rawAd.setStartDate(startDate);
 			rawAd.setEndDate(endDate);
 			rawAd.setDiscount(discount);
-			rawAd.setSource(findContent(content, "source"));
+			rawAd.setCircle(findContent(content, "circle"));
+			String source = findContent(content, "source");
+			rawAd.setSource(source);
 			String targetUrl = findContent(content, "targetUrl");
 			rawAd.setTargetUrl(targetUrl);
 			rawAd.setFromName(findContent(content, "from"));
 			rawAd.setFromLink(findContent(content, "fromLink"));
+			rawAd.setStatus(0);
 			rawAd.setCreateTime(new Date());
+			rawAd.setLastModifyTime(new Date());
 			if (StringUtils.isEmpty(targetUrl)) {
 				return Boolean.FALSE;
 			}
@@ -79,7 +84,7 @@ public class ImportAdTask implements Callable<Boolean> {
 			String str[] = content.split("\\r\\n");
 			for (String s : str) {
 				if (s.split("=")[0].startsWith(name)) {
-					result =s.substring(name.length()+1);
+					result = s.substring(name.length() + 1);
 					break;
 				}
 			}

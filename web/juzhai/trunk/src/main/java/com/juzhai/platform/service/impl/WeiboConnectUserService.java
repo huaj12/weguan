@@ -142,7 +142,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 						town = InitData.getTownByNameAndCityId(city.getId(),
 								str[str.length - 1]);
 					}
-
+				//台湾 澳门香港
 				} else if (OtherCity.getOtherCityEnum(str[0]) != null) {
 					city = InitData.getCityByName(str[0]);
 				} else {

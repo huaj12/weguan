@@ -157,6 +157,16 @@ public class InitData {
 		}
 	}
 
+	public static Town getTownByNameAndCityId(long cityId, String name) {
+		for (Town town : TOWN_MAP.values()) {
+			if (town.getCityId() == cityId
+					&& StringUtils.equals(town.getName(), name)) {
+				return town;
+			}
+		}
+		return null;
+	}
+
 	public static City getCityByName(String name) {
 		City returnCity = null;
 		for (City city : CITY_MAP.values()) {

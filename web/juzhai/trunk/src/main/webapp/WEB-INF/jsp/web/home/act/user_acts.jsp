@@ -5,7 +5,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>我想去的</title>
+		<c:set var="actNames" value="" />
+		<c:forEach begin="0" end="4" var="userActView" items="${userActViewList}" varStatus="status">
+			<c:choose>
+				<c:when test="${status.first}"><c:set var="actNames" value="${userActView.act.name}" /></c:when>
+				<c:otherwise><c:set var="actNames" value="${actNames}，${userActView.act.name}" /></c:otherwise>
+			</c:choose>
+		</c:forEach>
+		<meta name="keywords" content="拒宅 找伴儿 出去玩 约会 交友" />
+		<meta name="description" content="<c:out value="${profile.nickname}" />的拒宅，最近想去 ${actNames}"  />
+		<title><c:out value="${profile.nickname}" />的拒宅-拒宅网</title>
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" />
 	</head>
 	<body>

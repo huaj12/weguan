@@ -122,7 +122,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 			}
 			profile.setGender(sex);
 			profile.setLogoPic(user.getAvatarLarge());
-			//用户简介
+			// 用户简介
 			profile.setFeature(user.getDescription());
 			// 没有家乡用所在地代替
 			profile.setHome(user.getLocation());
@@ -147,7 +147,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 	@Override
 	protected String fetchTpIdentity(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
-		String code=request.getParameter("code");
+		String code = request.getParameter("code");
 		if (StringUtils.isEmpty(code)) {
 			return null;
 		}
@@ -176,6 +176,25 @@ public class WeiboConnectUserService extends AbstractUserService {
 	protected boolean checkAuthInfo(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
 		return true;
+	}
+
+	@Override
+	public List<String> getInstallFollows(AuthInfo authInfo) {
+		String uid = authInfo.getTpIdentity();
+		Friendships fm = new Friendships(authInfo.getToken());
+		List<String> fuids = new ArrayList<String>();
+		try {
+			String[] ids = fm.getFriendsIds(uid);
+			for (String id : ids) {
+				if (isInstalled(authInfo.getThirdpartyName(), id)) {
+					fuids.add(id);
+				}
+			}
+		} catch (WeiboException e) {
+			log.error("weibo  getAppFriends is erorr." + e.getMessage());
+			return null;
+		}
+		return fuids;
 	}
 
 }

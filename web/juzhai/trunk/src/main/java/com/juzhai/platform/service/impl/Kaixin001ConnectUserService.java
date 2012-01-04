@@ -252,4 +252,10 @@ public class Kaixin001ConnectUserService extends AbstractUserService {
 		return kxSDK;
 	}
 
+	@Override
+	public List<String> getInstallFollows(AuthInfo authInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

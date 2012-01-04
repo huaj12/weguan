@@ -205,4 +205,10 @@ public class RenrenConnectUserService extends AbstractUserService {
 		return renrenApiClient;
 	}
 
+	@Override
+	public List<String> getInstallFollows(AuthInfo authInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

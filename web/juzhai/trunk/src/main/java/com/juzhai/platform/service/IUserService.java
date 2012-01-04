@@ -41,5 +41,13 @@ public interface IUserService {
 	 * @return
 	 */
 	public List<String> getAppFriends(AuthInfo authInfo);
-	
+
+	/**
+	 * 获取安装的可能认识的
+	 * 
+	 * @param authInfo
+	 * @return
+	 */
+	public List<String> getInstallFollows(AuthInfo authInfo);
+
 }

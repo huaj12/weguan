@@ -54,6 +54,8 @@ public class FriendService implements IFriendService {
 	@Autowired
 	private RedisTemplate<String, Long> longRedisTemplate;
 	@Autowired
+	private RedisTemplate<String, List<Long>> listLongRedisTemplate;
+	@Autowired
 	private TpUserMapper tpUserMapper;
 	@Autowired
 	private IProfileService profileService;
@@ -115,6 +117,14 @@ public class FriendService implements IFriendService {
 	public void updateExpiredFriends(long uid, long tpId, AuthInfo authInfo) {
 		if (isExpired(uid)) {
 			if (null != authInfo) {
+				List<String> installFollows = userService
+						.getInstallFollows(authInfo);
+				if (null != installFollows) {
+					listLongRedisTemplate.opsForValue().set(
+							RedisKeyGenerator.genInstallFollowsKey(uid),
+							getAppFriendUids(installFollows, tpId));
+				}
+
 				// 第三方安装应用好友
 				List<String> appFriendIds = userService.getAppFriends(authInfo);
 
@@ -244,5 +254,11 @@ public class FriendService implements IFriendService {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public List<Long> listInstallFollowUids(long uid) {
+		return listLongRedisTemplate.opsForValue().get(
+				RedisKeyGenerator.genInstallFollowsKey(uid));
 	}
 }

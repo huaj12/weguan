@@ -20,7 +20,7 @@
 							<div class="l_left"><!--l_left begin-->
 								<h2><p>加入拒宅</p><span>助你找伴儿出去玩</span></h2>
 								<div class="btn">
-									<a href="/web/login/6"><img src="${jzr:static('/images/web/48.png')}" /></a>
+									<a href="/web/login/6?turnTo=${turnTo}"><img src="${jzr:static('/images/web/48.png')}" /></a>
 								</div>
 							</div><!--l_left end-->
 							<div class="l_right">

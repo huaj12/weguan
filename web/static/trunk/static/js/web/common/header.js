@@ -27,7 +27,9 @@ $(document).ready(function(){
 	$("div.area").hover(function(){
 		$("body").unbind("mousedown");
 	}, registerClosChannel);
-	$("div.unlogin > a").bind("click", showLogin);
+	$("div.unlogin > a").bind("click", function(){
+		showLogin(window.location.href);
+	});
 	
 	var messageTimerId = null;
 	$("div.my_message > div#messageSelect").hover(function(){
@@ -118,9 +120,13 @@ function switchChannel(cityId){
 	});
 }
 
-function showLogin(){
+function showLogin(turnTo){
+	if(turnTo==null||turnTo==""){
+		turnTo="";
+	}
+	var content = $("#dialog-login").html().replace("[0]", turnTo);
 	$.dialog({
-		content:$("#dialog-login").html(),
+		content:content,
 		top:"50%",
 		fixed: true,
 		lock: true,

@@ -258,12 +258,12 @@ public class TpAuthorizeController extends BaseController {
 	}
 
 	@RequestMapping(value = "web/login/{tpId}")
-	public String webLogin(Model model, @PathVariable long tpId) {
+	public String webLogin(Model model, @PathVariable long tpId, String turnTo) {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if (null == tp) {
 			return "404";
 		}
-		String url = authorizeURLService.getAuthorizeURLforCode(tp);
+		String url = authorizeURLService.getAuthorizeURLforCode(tp, turnTo);
 		if (StringUtils.isEmpty(url)) {
 			return "404";
 		}
@@ -272,14 +272,16 @@ public class TpAuthorizeController extends BaseController {
 
 	@RequestMapping(value = "web/access/{tpId}")
 	public String webAccess(HttpServletRequest request,
-			HttpServletResponse response, String code, @PathVariable long tpId) {
+			HttpServletResponse response, String code, @PathVariable long tpId,
+			String turnTo) {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if (null == tp) {
 			return null;
 		}
 		try {
 			checkLoginForApp(request);
-			return "redirect:/home";
+			return "redirect:"
+					+ (StringUtils.isEmpty(turnTo) ? "/home" : turnTo);
 		} catch (NeedLoginException e) {
 		}
 		long uid = 0;
@@ -297,15 +299,19 @@ public class TpAuthorizeController extends BaseController {
 			return error_500;
 		}
 		loginService.login(request, uid, tp.getId(), RunType.CONNET);
-		return "redirect:/home";
+		return "redirect:" + (StringUtils.isEmpty(turnTo) ? "/home" : turnTo);
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
-	public String webLogin(HttpServletRequest request, Model model) {
+	public String webLogin(HttpServletRequest request, Model model,
+			String turnTo) {
 		try {
 			checkLoginForWeb(request);
 			return "redirect:/home";
 		} catch (NeedLoginException e) {
+			if (StringUtils.isNotEmpty(turnTo)) {
+				model.addAttribute("turnTo", turnTo);
+			}
 			return "web/login/login";
 		}
 	}

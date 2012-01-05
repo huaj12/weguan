@@ -12,8 +12,8 @@ public class Kaixin001ConnectAuthorizeURLService implements
 		IAuthorizeURLService {
 
 	@Override
-	public String getAuthorizeURLforCode(Thirdparty tp) {
-		if (null == tp){
+	public String getAuthorizeURLforCode(Thirdparty tp, String turnTo) {
+		if (null == tp) {
 			return "";
 		}
 		KxSDK kxsdk = new KxSDK();

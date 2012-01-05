@@ -88,8 +88,12 @@ public class CheckLoginFilter implements Filter {
 						HttpRequestUtil.getRemoteUrl(request), "UTF-8");
 				response.sendRedirect("/app/login?returnLink=" + returnLink);
 			} else {
-				// TODO 跳到登陆页面
-				response.sendRedirect("/login");
+				String redirectURI = "/login";
+				String turnTo = HttpRequestUtil.getRemoteUrl(request);
+				if (StringUtils.isNotEmpty(turnTo)) {
+					redirectURI = redirectURI + "?turnTo=" + turnTo;
+				}
+				response.sendRedirect(redirectURI);
 			}
 		}
 	}

@@ -1388,3 +1388,21 @@ _background-image:none;}
 /*自适应弹出层*/
 .show_box_auto{ _height:auto; float:left; overflow:hidden; background:#fff; text-align:center;}
 .show_box_auto h2{ color:#666; font-size:14px; font-weight:bold;}
+/*微博分享1*/
+.share_box{ width:500px; height:auto; overflow:hidden; float:left;background:#fff; }
+.share_box h2{ float:left; font-size:14px; color:#666; width:100%; font-weight:bold; padding-bottom:10px;}
+.share_box p{ float:left; width:180px; height:180px; overflow:hidden;}
+.share_box .share_right{ float:right; width:300px; height:auto; overflow:hidden;}
+.share_box .share_right .text_area{ float:left; width:100%; height:auto; overflow:hidden;}
+.share_box .share_right .text_area textarea{ width:278px; height:118px; float:left; border:1px solid #E0E0E0; background:url(../images/web/area_bg.gif) no-repeat; overflow:hidden; padding:10px; color:#999; font-size:12px;}
+.share_box .share_right .btn{ float:left; width:100%; margin-top:10px;}
+.share_box .share_right .btn em{ float:left; color:#ccc; margin-left:5px; display:inline; margin-top:8px;}
+.share_box .share_right .btn a{ float:right; color:#fff; text-align:center; text-decoration:none; display:block; width:85px;  height:30px; line-height:30px;   background:url(../images/web/yue_ta.gif) no-repeat; overflow:hidden; font-size:14px;}
+/*微博分享2*/
+.share_box2{ width:400px; height:auto; overflow:hidden; float:left;background:#fff; }
+.share_box2 h2{ float:left; font-size:14px; color:#666; width:100%; font-weight:bold; padding-bottom:10px;}
+.share_box2 .share_con .text_area{ float:left; width:100%; height:auto; overflow:hidden;}
+.share_box2 .share_con .text_area textarea{ width:378px; height:78px; float:left; border:1px solid #E0E0E0; background:url(../images/web/area_bg.gif) no-repeat; overflow:hidden; padding:10px; color:#999; font-size:12px;}
+.share_box2 .btn{ float:left; width:100%; margin-top:10px;}
+.share_box2 .btn em{ float:left; color:#ccc; margin-left:5px; display:inline; margin-top:8px;}
+.share_box2 .btn a{ float:right; color:#fff; text-align:center; text-decoration:none; display:block; width:85px;  height:30px; line-height:30px;   background:url(../images/web/yue_ta.gif) no-repeat; overflow:hidden; font-size:14px;}

@@ -34,5 +34,6 @@
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 		<script type="text/javascript" src="${jzr:static('/js/web/act_header.js')}"></script>
 		<script type="text/javascript" src="${jzr:static('/js/web/act_users.js')}"></script>
+		<script type="text/javascript" src="http://v2.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
 	</body>
 </html>

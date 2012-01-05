@@ -24,9 +24,10 @@
 					<p></p>
 				</div><!--back_top end-->
 				<div class="zbr"><!--zbr begin-->
-					<c:set var="userType" value="showUsers" scope="request"/>
+					<c:set var="userType" value="showFollows" scope="request"/>
 					<jsp:include page="title.jsp" />
 					<jsp:include page="user_list.jsp" />
+					<jsp:include page="invite_user.jsp" />
 				</div><!--zbr end-->
 			</div><!--main end-->
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />

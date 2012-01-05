@@ -2,11 +2,13 @@ package com.juzhai.index.controller.website;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,6 +35,7 @@ import com.juzhai.home.controller.form.DateView;
 import com.juzhai.home.service.IUserFreeDateService;
 import com.juzhai.index.bean.ShowActOrder;
 import com.juzhai.index.controller.view.ShowUserView;
+import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IInterestUserService;
@@ -70,6 +73,10 @@ public class IndexController extends BaseController {
 	private int webShowUsersMaxRows;
 	@Value("${show.user.show.act.count}")
 	private int showUserShowActCount;
+	@Value("${show.follow.count}")
+	private int showFollowCount;
+	@Value("${show.invite.users.max.rows}")
+	private int showInviteUsersMaxRows;
 
 	@RequestMapping(value = { "", "/" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
@@ -190,7 +197,64 @@ public class IndexController extends BaseController {
 		return showUserViewList;
 	}
 
-	@RequestMapping(value = "/showFollows/{genderType}/{page}")
+	@RequestMapping(value = "/showFollows", method = RequestMethod.GET)
+	public String followUser(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		long cityId = fetchCityId(request);
+		List<Long> installFollowUids = friendService
+				.listInstallFollowUids(context.getUid());
+		List<Profile> profileList = profileService
+				.listProfileOrderByLoginWebTime(installFollowUids, null,
+						cityId, null, 0, showFollowCount);
+		model.addAttribute("showUserViewList",
+				assembleShowUserView(context, profileList));
+		model.addAttribute("showUserCount", profileService.countProfile(
+				installFollowUids, null, cityId, null));
+		model.addAttribute("pageType", "zbe");
+
+		// 邀请的人
+		List<TpFriend> inviteUserList = friendService
+				.getUnInstallFriends(context.getUid());
+		if (CollectionUtils.isNotEmpty(inviteUserList)) {
+			int toIndex = Math.min(showInviteUsersMaxRows,
+					inviteUserList.size());
+			model.addAttribute("inviteUserList",
+					inviteUserList.subList(0, toIndex));
+			PagerManager pager = new PagerManager(1, showInviteUsersMaxRows,
+					inviteUserList.size());
+			model.addAttribute("totalPage", pager.getTotalPage());
+		} else {
+			model.addAttribute("inviteUserList", Collections.emptyList());
+			model.addAttribute("pageCount", 0);
+		}
+
+		return "web/index/zbe/show_follows";
+	}
+
+	@RequestMapping(value = "/pageInviteUser", method = RequestMethod.GET)
+	public String pageInviteUser(HttpServletRequest request, Model model,
+			int page) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		// 邀请的人
+		List<TpFriend> inviteUserList = friendService
+				.getUnInstallFriends(context.getUid());
+		if (page <= 0) {
+			page = 1;
+		}
+		if (CollectionUtils.isNotEmpty(inviteUserList)) {
+			int fromIndex = (page - 1) * showInviteUsersMaxRows;
+			int toIndex = Math.min(fromIndex + showInviteUsersMaxRows,
+					inviteUserList.size());
+			model.addAttribute("inviteUserList",
+					inviteUserList.subList(fromIndex, toIndex));
+		} else {
+			model.addAttribute("inviteUserList", Collections.emptyList());
+		}
+		return "web/index/zbe/invite_user_list";
+	}
+
+	@RequestMapping(value = "/showFollows/{genderType}/{page}", method = RequestMethod.GET)
 	public String pageFollowUsers(HttpServletRequest request, Model model,
 			@PathVariable String genderType, @PathVariable int page)
 			throws NeedLoginException {
@@ -216,6 +280,6 @@ public class IndexController extends BaseController {
 		model.addAttribute("pager", pager);
 		model.addAttribute("genderType", genderType);
 		model.addAttribute("pageType", "zbe");
-		return "web/index/zbe/show_users";
+		return "web/index/zbe/show_follows";
 	}
 }

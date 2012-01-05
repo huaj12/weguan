@@ -60,8 +60,17 @@
 		</div><!--item_zbr end-->
 	</c:forEach>
 </div><!--zbr_item_list end-->
-<div class="clear"></div>
-<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
-	<c:param name="pager" value="${pager}"/>
-	<c:param name="url" value="/showUsers/${genderType}" />
-</c:import>
+<c:choose>
+	<c:when test="${pager==null}">
+		<c:if test="${showUserCount!=null&&showUserCount>10}">
+			<div class="zbr_more"><a href="/${userType}/all/1">查看更多</a></div>
+		</c:if>
+	</c:when>
+	<c:otherwise>
+		<div class="clear"></div>
+		<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
+			<c:param name="pager" value="${pager}"/>
+			<c:param name="url" value="/${userType}/${genderType}" />
+		</c:import>
+	</c:otherwise>
+</c:choose>

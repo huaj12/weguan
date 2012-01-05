@@ -1,9 +1,12 @@
 package com.spider.core.service.impl;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -74,8 +77,10 @@ public abstract class AbstractSpiderService implements ISpiderService {
 		if(writer==null){
 			try {
 				FileOutputStream out=new FileOutputStream(new File("F:"+File.separator+"tuan"+File.separator+target.getName()+".txt"), true);
-				writer=new PrintWriter(out);
+				writer=new PrintWriter(new BufferedWriter(new OutputStreamWriter(out,"UTF-8")));
 			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
 		}

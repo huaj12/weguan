@@ -22,6 +22,6 @@ $(document).ready(function() {
 	$("div.title > div.select > span > select").bind("change", function(){
 		var categoryId = $(this).attr("categoryid");
 		var orderType = $(this).children('option:selected').val();
-		window.location.href="/showActs/" + orderType + "/" + categoryId + "/1";
+		window.location.href="/showActs/" + orderType + "_" + categoryId + "/1";
 	});
 });

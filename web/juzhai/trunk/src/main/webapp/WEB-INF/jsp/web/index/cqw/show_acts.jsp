@@ -33,9 +33,9 @@
 							</select></span>
 						</div><!--select end-->
 						<div class="title_right">
-							<a href="/showActs/${orderType}/0/1" <c:if test="${categoryId==0}">class="active"</c:if>>全部</a>
+							<span <c:if test="${categoryId==0}">class="active"</c:if>><p class="fr"></p><a href="/showActs/${orderType}_0/1">全部</a><p class="fl"></p></span>
 							<c:forEach var="category" items="${categoryList}">
-								<a href="/showActs/${orderType}/${category.id}/1" <c:if test="${categoryId==category.id}">class="active"</c:if>>${category.name}</a>
+								<span <c:if test="${categoryId==category.id}">class="active"</c:if>><p class="fr"></p><a href="/showActs/${orderType}_${category.id}/1">${category.name}</a><p class="fl"></p></span>
 							</c:forEach>
 						</div>
 					</div><!--title end-->

@@ -51,5 +51,5 @@
 <div class="clear"></div>
 <c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 	<c:param name="pager" value="${pager}"/>
-	<c:param name="url" value="/showActs/${orderType}/${categoryId}" />
+	<c:param name="url" value="/showActs/${orderType}_${categoryId}" />
 </c:import>

@@ -275,11 +275,14 @@ float:left;
 .cqw .title .girl span{ color:#f69; color:#333;}
 .cqw .title .select{ _margin-top:2px; float:left; margin-left:3px; display:inline; position:relative; z-index:1;}
 .cqw .title .title_right{ float:right; margin-right:15px; display:inline; margin-top:4px;}
-.cqw .title .title_right a{ font-size:14px; color:#333; text-decoration:none; float:left; margin-left:15px;}
+.cqw .title .title_right span{ float:left;}
+.cqw .title .title_right span p{ width:1px; height:24px; margin-top:1px; display:inline; float:left;}
+.cqw .title .title_right a{ font-size:14px; color:#333; text-decoration:none; float:left; padding-left:10px; padding-right:10px;  height:26px; text-align:center; display:block; text-decoration:none; line-height:28px;}
+
 .cqw .title .title_right a:hover{ text-decoration:underline;}
-.cqw .title .title_right a.active{text-decoration:underline; cursor:default;}
-
-
+.cqw .title .title_right .active p{background:#d1d1d1; }
+.cqw .title .title_right .active a{background:#d1d1d1; cursor:default;}
+.cqw .title .title_right .active a:hover{text-decoration:none; cursor:default;}
 
 .cqw_item_list{ width:100%; height:auto; overflow:hidden; position:relative; z-index:0;}
 .cqw_item_list .cqw_item{ background:url(../images/web/cqw_item_bg_link.gif) no-repeat; width:420px; height:180px; padding:20px; position:relative; margin:20px 10px auto 10px; float:left; display:inline;}
@@ -307,6 +310,8 @@ float:left;
 
 /*主页-找伴儿*/
 
+.zbr_item_list_none{ font-size:14px; color:#999; float:left; margin-left:15px; display:inline; margin-top:10px;}
+.none_yq{font-size:14px; color:#999; float:left;  display:inline; margin-top:10px;}
 
 .zbr{ width:100%; _width:960px; height:auto; display:block; overflow:hidden; margin:0 auto; margin-top:75px; *padding-top:75px;}
 .zbr .title{ width:100%; height:auto; overflow:hidden;}
@@ -317,9 +322,9 @@ float:left;
 .zbr .title .select{ _margin-top:2px; float:left; margin-left:3px; display:inline; }
 
 
-.zbr .title .title_right a{ font-size:14px; color:#333; text-decoration:none; float:left; margin-left:15px;}
+.zbr .title .title_right a{ font-size:14px; color:#333; text-decoration:none; float:left; margin-left:15px;  width:65px; height:26px; display:block; line-height:28px; text-decoration:none; text-align:center;}
 .zbr .title .title_right a:hover{ text-decoration:underline;}
-.zbr .title .title_right a.active{text-decoration:underline; cursor:default;}
+.zbr .title .title_right a.active{ cursor:default;background:url(../images/web/active2.gif) no-repeat; color:#fff;}
 
 
 .zbr_item_list{ width:100%; width:960px; margin:0 auto; height:auto; overflow:hidden; position:relative; z-index:0;}
@@ -420,7 +425,7 @@ float:left;
 
 
 .zbr_yq  .btn_area{ float:left; width:100%; margin-top:20px;}
-.zbr_yq  .btn_area p{ float:left;margin-left:5px; display:inline;font-family:"微软雅黑","宋体"; font-size:15px; color:#999; margin-top:8px;}
+.zbr_yq  .btn_area p{ float:left;margin-left:15px; display:inline;font-family:"微软雅黑","宋体"; font-size:15px; color:#999; margin-top:8px;}
 .zbr_yq  .btn_area p a{font-size:15px;text-decoration:none;color:#3E8BD9;font-family:"微软雅黑","宋体";}
 .zbr_yq  .btn_area span{ float:right; margin-right:5px; display:inline;}
 .zbr_yq  .btn_area span a{ background:url(../images/web/upload_btn.gif) no-repeat; width:120px; height:40px; font-family:"微软雅黑","宋体"; font-size:18px; line-height:40px; color:#fff; text-align:center; display:block; text-decoration:none;}

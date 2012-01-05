@@ -89,7 +89,7 @@ public class IndexController extends BaseController {
 				0L, 1);
 	}
 
-	@RequestMapping(value = "/showActs/{orderType}/{categoryId}/{page}", method = RequestMethod.GET)
+	@RequestMapping(value = "/showActs/{orderType}_{categoryId}/{page}", method = RequestMethod.GET)
 	public String pageShowActs(HttpServletRequest request, Model model,
 			@PathVariable String orderType, @PathVariable long categoryId,
 			@PathVariable int page) {
@@ -226,9 +226,8 @@ public class IndexController extends BaseController {
 			model.addAttribute("totalPage", pager.getTotalPage());
 		} else {
 			model.addAttribute("inviteUserList", Collections.emptyList());
-			model.addAttribute("pageCount", 0);
+			model.addAttribute("totalPage", 0);
 		}
-
 		return "web/index/zbe/show_follows";
 	}
 

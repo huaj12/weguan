@@ -38,7 +38,7 @@ abbr,acronym { border: 0;
 
 
 
-
+.t_iframe{position:absolute; top:0px; left:0px; display:none;}
 /*公用*/
 
 
@@ -273,7 +273,7 @@ float:left;
 .cqw .title h2 { font-size:20px; color:#333; font-family:"微软雅黑","宋体"; float:left; margin-left:15px; display:inline; font-weight:bold; _line-height:normal;}
 .cqw .title .boy span{ color:#3E8BD9; color:#333;}
 .cqw .title .girl span{ color:#f69; color:#333;}
-.cqw .title .select{ _margin-top:2px; float:left; margin-left:3px; display:inline;}
+.cqw .title .select{ _margin-top:2px; float:left; margin-left:3px; display:inline; position:relative; z-index:1;}
 .cqw .title .title_right{ float:right; margin-right:15px; display:inline; margin-top:4px;}
 .cqw .title .title_right a{ font-size:14px; color:#333; text-decoration:none; float:left; margin-left:15px;}
 .cqw .title .title_right a:hover{ text-decoration:underline;}
@@ -314,7 +314,12 @@ float:left;
 .zbr .title .boy span{ color:#3E8BD9; color:#333;}
 .zbr .title .girl span{ color:#f69; color:#333;}
 .zbr .title .title_right{ float:right; margin-right:15px; display:inline; margin-top:4px;}
-.zbr .title .title_right .select{ float:left;}
+.zbr .title .select{ _margin-top:2px; float:left; margin-left:3px; display:inline; }
+
+
+.zbr .title .title_right a{ font-size:14px; color:#333; text-decoration:none; float:left; margin-left:15px;}
+.zbr .title .title_right a:hover{ text-decoration:underline;}
+.zbr .title .title_right a.active{text-decoration:underline; cursor:default;}
 
 
 .zbr_item_list{ width:100%; width:960px; margin:0 auto; height:auto; overflow:hidden; position:relative; z-index:0;}
@@ -383,6 +388,50 @@ float:left;
 .item_zbr .ta_like_list .list li a{ float:left; color:#666; font-size:14px; text-decoration:none;}
 .item_zbr .ta_like_list .list li a:hover{ text-decoration:underline;}
 .item_zbr .ta_like_list .list li span{ float:right; color:#666; background:url(../images/web/iwantgo_unclick.gif) no-repeat; width:43px; height:21px; overflow:hidden; line-height:21px; color:#F8A13F; padding-left:7px; font-size:12px;}
+
+/*认识的*/
+.zbr_more{ width:100%; float:left; margin-top:20px; margin-left:10px; display:inline;}
+.zbr_more a{background:url(../images/web/zbr_more_link.gif) no-repeat; width:940px; height:50px; text-align:center; overflow:hidden; text-decoration:none; font-family:"微软雅黑","宋体"; color:#999; font-size:15px; line-height:50px; display:block;}
+.zbr_more a:hover{ background:url(../images/web/zbr_more_hover.gif) no-repeat; color:#3E8BD9;}
+
+/*邀请列表*/
+.zbr_yq{ float:left; width:100%; margin-top:20px; }
+.zbr_yq .title{ width:100%; float:left; font-size:20px; color:#333; font-family:"微软雅黑","宋体"; float:left; margin-left:10px; display:inline; font-weight:bold; _line-height:normal; line-height:30px;}
+.zbr_yq .friend_list{ width:940px; height:auto; overflow:hidden; margin:0 auto;}
+.zbr_yq .friend_list ul{ float:left;}
+
+.zbr_yq .friend_list .boy span a{ color:#3E8BD9;}
+.zbr_yq .friend_list .girl span a{ color:#f69;}
+.zbr_yq .friend_list .hover{ background:url(../images/web/zbr_friend_list_hover.gif) no-repeat;}
+.zbr_yq .friend_list .active{ background:url(../images/web/zbr_friend_list_active.gif) no-repeat;}
+.zbr_yq .friend_list ul .mr0{ margin-right:0px;}
+.zbr_yq .friend_list ul li{ width:200px; height:50px; padding:10px; overflow:hidden; float:left; margin-right:20px; display:inline; background:url(../images/web/zbr_friend_list_link.gif) no-repeat; margin-top:20px; cursor:pointer;} 
+
+.zbr_yq .friend_list ul li p{ float:left; width:50px; height:50px; overflow:hidden; margin-right:10px; display:inline;}
+.zbr_yq .friend_list ul li span{ font-size:14px; float:left; color:#3E8BD9; width:120px; margin-top:3px;}
+.zbr_yq .friend_list ul li span a{font-size:14px;text-decoration:none;color:#3E8BD9;}
+.zbr_yq .friend_list ul li span a:hover{text-decoration:underline;}
+.zbr_yq .friend_list ul li em{ float:left; color:#999;width:120px; margin-top:5px;}
+
+
+
+
+
+
+
+.zbr_yq  .btn_area{ float:left; width:100%; margin-top:20px;}
+.zbr_yq  .btn_area p{ float:left;margin-left:5px; display:inline;font-family:"微软雅黑","宋体"; font-size:15px; color:#999; margin-top:8px;}
+.zbr_yq  .btn_area p a{font-size:15px;text-decoration:none;color:#3E8BD9;font-family:"微软雅黑","宋体";}
+.zbr_yq  .btn_area span{ float:right; margin-right:5px; display:inline;}
+.zbr_yq  .btn_area span a{ background:url(../images/web/upload_btn.gif) no-repeat; width:120px; height:40px; font-family:"微软雅黑","宋体"; font-size:18px; line-height:40px; color:#fff; text-align:center; display:block; text-decoration:none;}
+.zbr_yq  .btn_area em{ float:right; color:#FF0000; margin-right:15px; margin-top:10px; display:inline;}
+
+
+
+
+
+
+
 
 
 
@@ -1018,7 +1067,7 @@ float:left;
 .project_box h2{ color:#666; float:left; font-weight:bold; font-size:14px;}
 .project_box .share{ width:100%; height:auto; overflow:hidden; float:left; margin-top:20px;}
 .project_box .share p{ color:#999; float:left;}
-.project_box .share a{ float:left; margin-left:5px; margin-right:5px; display:inline;}
+.project_box .share a{ float:left; /* margin-left:5px; margin-right:5px; */ display:inline;}
 
 
 .project_box .link{ width:100%; height:auto; overflow:hidden; float:left; margin-top:20px;}
@@ -1159,6 +1208,29 @@ _background-image:none;}
 .project_con{ width:630px; height:auto; overflow:hidden; margin-top:20px; color:#666; font-size:14px; line-height:200%;}
 .project_con .img{ margin-top:20px; margin-bottom:25px;}
 
+
+
+/*项目页-邀请好友同去 */
+
+.yq_friends{ width:630px; height:auto; overflow:hidden; margin:0 auto; }
+.yq_friends h3{ float:left; font-size:14px; font-weight:bold; color:#444; margin-top:15px; width:100%; margin-left:8px; display:inline; padding-bottom:5px;}
+.yq_friends ul{ float:left;}
+.yq_friends .boy span a{ color:#3E8BD9;}
+.yq_friends .girl span a{ color:#f69;}
+.yq_friends ul .hover{ background:url(../images/web/yq_friend_bg_hover.gif) no-repeat;}
+.yq_friends ul .active{ background:url(../images/web/yq_friend_bg_active.gif) no-repeat;}
+.yq_friends ul li{ float:left; width:180px; height:50px; padding:10px;  margin-left:5px; margin-right:5px; margin-top:10px; display:inline; background:url(../images/web/yq_friend_bg_link.gif) no-repeat; overflow:hidden; cursor:pointer;}
+.yq_friends ul li p{ float:left; width:50px; height:50px; overflow:hidden; margin-right:10px; display:inline;}
+.yq_friends ul li span{ font-size:14px; float:left; color:#3E8BD9; width:120px; margin-top:3px;}
+.yq_friends ul li span a{font-size:14px;text-decoration:none;color:#3E8BD9;}
+.yq_friends ul li span a:hover{text-decoration:underline;}
+.yq_friends ul li em{ float:left; color:#999;width:120px; margin-top:5px;}
+.yq_friends .btn_area{ float:left; width:100%; margin-top:20px;}
+.yq_friends .btn_area p{ float:left;margin-left:5px; display:inline;font-family:"微软雅黑","宋体"; font-size:15px; color:#999; margin-top:8px;}
+.yq_friends .btn_area p a{font-size:15px;text-decoration:none;color:#3E8BD9;font-family:"微软雅黑","宋体";}
+.yq_friends .btn_area span{ float:right; margin-right:5px; display:inline;}
+.yq_friends .btn_area span a{ background:url(../images/web/upload_btn.gif) no-repeat; width:120px; height:40px; font-family:"微软雅黑","宋体"; font-size:18px; line-height:40px; color:#fff; text-align:center; display:block; text-decoration:none;}
+.yq_friends .btn_area em{ float:right; color:#FF0000; margin-right:15px; margin-top:10px; display:inline;}
 
 
 /*项目页-没人 */

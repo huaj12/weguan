@@ -7,10 +7,17 @@
 	<div class="project_box"><!--project_box begin-->
 		<h2>召集好友同去</h2>
 		<div class="share"><!--share begin-->
-			<p>分享到：</p>
-			<a href="#"><img src="${jzr:static('/images/web/wb_s.jpg')}" /></a>
-			<a href="#"><img src="${jzr:static('/images/web/rr_s.jpg')}" /></a>
-			<a href="#"><img src="${jzr:static('/images/web/kx_s.jpg')}" /></a>
+			<!-- JiaThis Button BEGIN -->
+			<div id="ckepop">
+				<span class="jiathis_txt">分享到：</span>
+				<a class="jiathis_button_tsina"></a>
+				<a class="jiathis_button_renren"></a>
+				<a class="jiathis_button_qzone"></a>
+				<a class="jiathis_button_kaixin001"></a>
+				<a class="jiathis_button_tqq"></a>
+				<a class="jiathis_button_douban"></a>
+			</div>
+			<!-- JiaThis Button END -->
 		</div><!--share end-->
 	</div><!--project_box end-->
 	<div class="project_box"><!--project_box begin-->
@@ -34,3 +41,11 @@
 		</div><!--tuangou end-->
 	</div><!--project_box end-->
 </div><!--p_right end-->
+<script type="text/javascript">
+	var jiathis_config = {
+		url : "http://www.51juzhai.com/act/" + "${act.id}",
+		title : "【我要拒宅】",
+		summary : "最近想去 " + "${act.name}" + "，有人响应么？",
+		pic : "${jzr:actLogo(act.id,act.logo,180)}"
+	};
+</script>

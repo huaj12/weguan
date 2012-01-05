@@ -33,7 +33,7 @@ function interest(clickObj, uid, successCallback){
 		},
 		statusCode : {
 			401 : function() {
-				window.location.href = "/login";
+				window.location.href = "/login?turnTo=" + window.location.href;
 			}
 		}
 	});
@@ -55,7 +55,7 @@ function removeInterest(uid, successCallback){
 		},
 		statusCode : {
 			401 : function() {
-				window.location.href = "/login";
+				window.location.href = "/login?turnTo=" + window.location.href;
 			}
 		}
 	});
@@ -80,7 +80,7 @@ function removeAct(actId, successCallback){
 		},
 		statusCode : {
 			401 : function() {
-				window.location.href = "/login";
+				window.location.href = "/login?turnTo=" + window.location.href;
 			}
 		}
 	});
@@ -105,7 +105,7 @@ function addAct(actId, successCallback){
 		},
 		statusCode : {
 			401 : function() {
-				window.location.href = "/login";
+				window.location.href = "/login?turnTo=" + window.location.href;
 			}
 		}
 	});
@@ -136,7 +136,7 @@ function date(successCallback){
 		},
 		statusCode : {
 			401 : function() {
-				window.location.href = "/login";
+				window.location.href = "/login?turnTo=" + window.location.href;
 			}
 		}
 	});
@@ -158,7 +158,7 @@ function removeDating(datingId, successCallback){
 		},
 		statusCode : {
 			401 : function() {
-				window.location.href = "/login";
+				window.location.href = "/login?turnTo=" + window.location.href;
 			}
 		}
 	});
@@ -178,7 +178,7 @@ function openDating(uid, datingId){
 		},
 		statusCode : {
 			401 : function() {
-				window.location.href = "/login";
+				window.location.href = "/login?turnTo=" + window.location.href;
 			}
 		}
 	});
@@ -196,7 +196,7 @@ function openDatingResp(datingId){
 		},
 		statusCode : {
 			401 : function() {
-				window.location.href = "/login";
+				window.location.href = "/login?turnTo=" + window.location.href;
 			}
 		}
 	});
@@ -226,7 +226,7 @@ function respDating(successCallback){
 		},
 		statusCode : {
 			401 : function() {
-				window.location.href = "/login";
+				window.location.href = "/login?turnTo=" + window.location.href;
 			}
 		}
 	});

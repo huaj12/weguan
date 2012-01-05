@@ -61,7 +61,7 @@ function setNickname(){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href = "/login";
+		    	window.location.href = "/login?turnTo=" + window.location.href;
 		    }
 		}
 	});
@@ -90,7 +90,7 @@ function setGender(){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href = "/login";
+		    	window.location.href = "/login?turnTo=" + window.location.href;
 		    }
 		}
 	});
@@ -150,7 +150,7 @@ function setting(){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href = "/login";
+		    	window.location.href = "/login?turnTo=" + window.location.href;
 		    }
 		}
 	});

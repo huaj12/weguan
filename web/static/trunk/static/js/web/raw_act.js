@@ -35,7 +35,7 @@ function uploadImage() {
 				$("div.upload > div.loading").hide();
 				$("div.upload > div.load_done").attr("filePath", result.result[1]).show();
 			} else if (result.errorCode == "00003") {
-				window.location.href = "/login";
+				window.location.href = "/login?turnTo=" + window.location.href;
 			} else {
 				$("div.upload > div.loading").hide();
 				$("div.upload > div.error").text(result.errorInfo).show();
@@ -149,7 +149,7 @@ function addRawAct() {
 		},
 		statusCode : {
 			401 : function() {
-				window.location.href = "/login";
+				window.location.href = "/login?turnTo=" + window.location.href;
 			}
 		}
 	});

@@ -31,7 +31,7 @@
 	<div class="login_show_box_1"><!--login_show_box begin-->
 		<h2>加入拒宅</h2>
 		<div class="link">
-			<a href="/web/login/6"><img src="${jzr:static('/images/web/weibo_btn.gif')}" /></a>
+			<a href="/web/login/6?turnTo=[0]"><img src="${jzr:static('/images/web/weibo_btn.gif')}" /></a>
 		</div>
 	</div>
 </div>

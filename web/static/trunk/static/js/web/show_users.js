@@ -64,7 +64,7 @@ function showMoreInviteUser(){
 		},
 		statusCode : {
 			401 : function() {
-				window.location.href = "/login";
+				window.location.href = "/login?turnTo=" + window.location.href;
 			}
 		}
 	});

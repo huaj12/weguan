@@ -1,4 +1,5 @@
 package com.juzhai.mybatisPlugin;
+
 import java.util.List;
 
 import org.mybatis.generator.api.IntrospectedTable;
@@ -10,6 +11,7 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.api.dom.xml.Attribute;
+import org.mybatis.generator.api.dom.xml.Element;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 
@@ -60,6 +62,11 @@ public class ModelExampleLimitPlugin extends PluginAdapter {
 	@Override
 	public boolean sqlMapSelectByExampleWithBLOBsElementGenerated(
 			XmlElement element, IntrospectedTable introspectedTable) {
+		List<Element> elementList = element.getElements();
+		XmlElement orderByElement = (XmlElement) elementList.get(elementList
+				.size() - 1);
+		orderByElement.getElements().set(0,
+				new TextElement("order by ${orderByClause}"));
 		addLimitSqlMapCode(element);
 		return true;
 	}

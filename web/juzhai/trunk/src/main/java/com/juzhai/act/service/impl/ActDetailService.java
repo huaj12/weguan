@@ -54,17 +54,31 @@ public class ActDetailService implements IActDetailService {
 
 	@Override
 	public void updateActDetail(long actId, String detail) {
-		ActDetail a=new ActDetail();
-		a.setActId(actId);
-		List<String> list = matchImage(detail);
-		if (CollectionUtils.isEmpty(list)) {
-			a.setDisplay(false);
+		ActDetail a = actDetailMapper.selectByPrimaryKey(actId);
+		if (a == null) {
+			a=new ActDetail();
+			a.setActId(actId);
+			List<String> list = matchImage(detail);
+			if (CollectionUtils.isEmpty(list)) {
+				a.setDisplay(false);
+			} else {
+				a.setDisplay(true);
+			}
+			a.setDetail(detail);
+			a.setCreateTime(new Date());
+			a.setLastModifyTime(new Date());
+			actDetailMapper.insert(a);
 		} else {
-			a.setDisplay(true);
+			List<String> list = matchImage(detail);
+			if (CollectionUtils.isEmpty(list)) {
+				a.setDisplay(false);
+			} else {
+				a.setDisplay(true);
+			}
+			a.setDetail(detail);
+			a.setLastModifyTime(new Date());
+			actDetailMapper.updateByPrimaryKeySelective(a);
 		}
-		a.setDetail(detail);
-		a.setLastModifyTime(new Date());
-		actDetailMapper.updateByPrimaryKeySelective(a);
 	}
 
 }

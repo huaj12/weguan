@@ -40,11 +40,9 @@ public class WeiboInviteController extends BaseController {
 	IWeiboIviteService weiboIviteService;
 
 	@RequestMapping(value = { "/weibo/invite" }, method = RequestMethod.GET)
-	@ResponseBody
-	public Map<String, String> weiboIvite(HttpServletRequest request,
+	public String weiboIvite(HttpServletRequest request,
 			HttpServletResponse response, Model model, String uids)
 			throws NeedLoginException {
-		Map<String, String> map = new HashMap<String, String>();
 		UserContext context = checkLoginForWeb(request);
 		String message = "";
 		try {
@@ -53,12 +51,11 @@ public class WeiboInviteController extends BaseController {
 					TpMessageKey.WEIBO_CONNECT_INVITE_TEXT,
 					new Object[] { StringUtils.join(list, " ") },
 					Locale.SIMPLIFIED_CHINESE);
-
 		} catch (Exception e) {
-			log.error("weibo Ivite  is error", e);
+			log.error("weiboIvite is error."+e.getMessage());
 		}
-		map.put("message", message);
-		return map;
+		model.addAttribute("message", message);
+		return "web/dating/dating_invite_dialog";
 	}
 
 	@RequestMapping(value = { "/weibo/invite/send" }, method = RequestMethod.POST)

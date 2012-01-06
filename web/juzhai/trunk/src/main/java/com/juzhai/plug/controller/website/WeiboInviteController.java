@@ -1,10 +1,7 @@
 package com.juzhai.plug.controller.website;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,8 +26,6 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.service.IProfileService;
 import com.juzhai.plug.service.IWeiboIviteService;
 
 @Controller
@@ -46,7 +41,7 @@ public class WeiboInviteController extends BaseController {
 
 	@RequestMapping(value = { "/weibo/invite" }, method = RequestMethod.GET)
 	public String weiboIvite(HttpServletRequest request,
-			HttpServletResponse response, Model model, String uids,@RequestParam(defaultValue = "0")long actId)
+			HttpServletResponse response, Model model, String uids,String names,@RequestParam(defaultValue = "0")long actId)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		String message = "";
@@ -60,6 +55,11 @@ public class WeiboInviteController extends BaseController {
 				 picurl = JzResourceFunction.actLogo(actId, logo, 120);
 			}
 			List<String> list=weiboIviteService.getInviteReceiverName(uids, context.getTpId(), context.getUid());
+			if(StringUtils.isNotEmpty(names)){
+				for(String name:names.split(",")){
+					list.add("@"+name);
+				}
+			}
 			message = messageSource.getMessage(
 					TpMessageKey.WEIBO_CONNECT_INVITE_TEXT,
 					new Object[] { StringUtils.join(list, " ") },

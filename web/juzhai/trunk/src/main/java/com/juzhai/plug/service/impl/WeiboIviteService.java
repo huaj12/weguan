@@ -30,8 +30,6 @@ public class WeiboIviteService implements IWeiboIviteService {
 	private IMessageService messageService;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
-	@Autowired
-	private IAuthorizeURLService authorizeURLService;
 
 	@Override
 	public boolean sendWeiboIvite(String content, long actId, long tpId,
@@ -70,7 +68,6 @@ public class WeiboIviteService implements IWeiboIviteService {
 				}
 			}
 		}
-
 		return list;
 	}
 }

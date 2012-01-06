@@ -37,7 +37,7 @@
 	<c:choose>
 		<c:when test="${empty actUserViewList}">
 			<div class="none">
-				目前还没有人想玩密室脱逃！
+				目前还没有人想玩${act.name}！
 			</div>
 		</c:when>
 		<c:otherwise>

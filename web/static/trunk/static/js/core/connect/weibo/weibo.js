@@ -1,4 +1,4 @@
-function invite(uids,actId){
+function invite(names,uids,actId){
 	if(undefined==actId){
 		actId=0;
 	}
@@ -7,7 +7,8 @@ function invite(uids,actId){
 			type: "get",
 			data: {
 				"uids" : uids,
-				"actId":actId
+				"actId":actId,
+				"names":names
 			},
 			dataType: "html",
 			success: function(data){

@@ -23,8 +23,8 @@
 					<p><a href="javascript:void(0);" id="showMoreInvite">查看更多</a></p>
 					<p id="showMoreInviteLoading" style="display: none;">正在加载中...</p>
 				</c:if>
-				<span><a href="javascript:void(0);">邀请他们</a></span>
-				<em style="display:none;">每次邀请不要超过10个人哦</em>
+				<span><a id="inviteBtn" href="javascript:void(0);">邀请他们</a></span>
+				<em id="inviteError" style="display:none;">每次邀请不要超过10个人哦</em>
 			</div><!--btn_area end-->
 		</c:if>
 	</div><!--zbr_yq end-->

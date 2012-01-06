@@ -35,6 +35,29 @@ $(document).ready(function() {
 	$("a#showMoreInvite").bind("click", function(){
 		showMoreInviteUser();
 	});
+	
+	$("a#inviteBtn").bind("click", function(){
+		var activeLi = $("div.friend_list > ul >li.active");
+		if(activeLi.length > 10){
+			$("em#inviteError").text("每次邀请不要超过10个人哦").show();
+			return;
+		}
+		if(activeLi.length <= 0){
+			$("em#inviteError").text("请选择邀请的人").show();
+			return;
+		}
+		var uNames = "";
+		var i = 0;
+		activeLi.each(function(){
+			if(i > 0){
+				uNames += ",";
+			}
+			uNames += $(this).attr("name");
+			i++;
+		});
+		invite(uNames);
+		$("em#inviteError").hide();
+	});
 });
 
 function showMoreInviteUser(){

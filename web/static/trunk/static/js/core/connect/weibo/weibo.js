@@ -39,13 +39,12 @@ function send_invite(){
 		dataType: "json",
 		success: function(result){
 			if(result.success){
+				closeAllDiv();
 				var content = $("#dialog-success").html().replace("{0}", "发送成功");
 				showSuccess(null, content);
-				successCallback();
 			}else{
 				var content = $("#dialog-success").html().replace("{0}", "发送失败");
 				showSuccess(null, content);
-				successCallback();
 			}
 		},
 		statusCode: {

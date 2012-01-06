@@ -6,12 +6,12 @@ function invite(uids,actId){
 			url: "/plug/weibo/invite",
 			type: "get",
 			data: {
-				"uids" : uids
+				"uids" : uids,
+				"actId":actId
 			},
 			dataType: "html",
 			success: function(data){
 				openDialog(null, 'invite_dialog', data);
-				$("#invite_act_id").val(actId);
 			},
 			statusCode: {
 			    401: function() {

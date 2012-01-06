@@ -21,7 +21,7 @@ function invite(uids,actId){
 			},
 			statusCode: {
 			    401: function() {
-			    	window.location.href = "/login";
+			    	window.location.href = "/login?turnTo=" + window.location.href;
 			    }
 			}
 		});
@@ -52,7 +52,7 @@ function send_invite(){
 		},
 		statusCode: {
 		    401: function() {
-		    	window.location.href = "/login";
+		    	window.location.href = "/login?turnTo=" + window.location.href;
 		    }
 		}
 	});

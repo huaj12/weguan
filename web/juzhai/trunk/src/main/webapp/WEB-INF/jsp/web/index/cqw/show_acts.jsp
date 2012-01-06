@@ -24,12 +24,12 @@
 				<div class="cqw"><!--cqw begin-->
 					<div class="title"><!--title begin-->
 						<h2 class="<c:choose><c:when test='${loginUser.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>">
-							<span><c:choose><c:when test="${loginUser!=null}"><c:out value="${loginUser.nickname}" /></c:when><c:otherwise>小宅</c:otherwise></c:choose></span>，这周末想怎么过？
+							<span><c:choose><c:when test="${loginUser!=null}"><c:out value="${loginUser.nickname}" /></c:when><c:otherwise>小宅</c:otherwise></c:choose></span>，最近想出去玩什么？
 						</h2>
 						<div class="select"><!--select begin-->
 							<span><select name="language" id="language" categoryid="${categoryId}">
 								<option value="time" <c:if test="${orderType=='time'}">selected="selected"</c:if>>最新</option>
-								<option value="pop" <c:if test="${orderType=='pop'}">selected="selected"</c:if>>流行度</option>
+								<option value="pop" <c:if test="${orderType=='pop'}">selected="selected"</c:if>>最热</option>
 							</select></span>
 						</div><!--select end-->
 						<div class="title_right">

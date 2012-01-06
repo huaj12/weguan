@@ -11,7 +11,7 @@
 				<div class="title">告诉大家你最近哪天有空</div>
 				<div class="week_day"><!--week_day begin-->
 					<c:forEach var="dateView" items="${dateViewList}" varStatus="status">
-						<a href="javascript:void(0);" onclick="javascript:setFreeDate(this)" dayoftheweek="${dateView.dayOfTheWeek}" stringdate="<fmt:formatDate value="${dateView.date}" pattern="yyyy-MM-dd" />" class="<c:if test='${status.first}'>today</c:if> <c:if test='${dateView.free}'>active</c:if>" title="点击选择">周<c:choose><c:when test="${dateView.dayOfTheWeek==1}">日</c:when><c:when test="${dateView.dayOfTheWeek==2}">一</c:when><c:when test="${dateView.dayOfTheWeek==3}">二</c:when><c:when test="${dateView.dayOfTheWeek==4}">三</c:when><c:when test="${dateView.dayOfTheWeek==5}">四</c:when><c:when test="${dateView.dayOfTheWeek==6}">五</c:when><c:when test="${dateView.dayOfTheWeek==7}">六</c:when></c:choose><c:if test='${status.first}'><br />今天</c:if></a>
+						<a href="javascript:void(0);" onclick="javascript:setFreeDate(this)" dayoftheweek="${dateView.dayOfTheWeek}" stringdate="<fmt:formatDate value="${dateView.date}" pattern="yyyy-MM-dd" />" class="<c:if test='${status.first}'>today</c:if> <c:if test='${dateView.free}'>active</c:if>" title="<c:choose><c:when test="${dateView.free}">点击取消</c:when><c:otherwise>点击选择</c:otherwise></c:choose>">周<c:choose><c:when test="${dateView.dayOfTheWeek==1}">日</c:when><c:when test="${dateView.dayOfTheWeek==2}">一</c:when><c:when test="${dateView.dayOfTheWeek==3}">二</c:when><c:when test="${dateView.dayOfTheWeek==4}">三</c:when><c:when test="${dateView.dayOfTheWeek==5}">四</c:when><c:when test="${dateView.dayOfTheWeek==6}">五</c:when><c:when test="${dateView.dayOfTheWeek==7}">六</c:when></c:choose><c:if test='${status.first}'><br />今天</c:if></a>
 					</c:forEach>
 				</div><!--week_day end-->
 				<div class="ok_btn"><a href="javascript:void(0)" onclick="javascript:$('#freeDateForm').fadeOut(500);">确定</a></div>
@@ -33,9 +33,9 @@
 			success : function(result) {
 				if (result && result.success) {
 					if(isSet){
-						$(this).addClass("active");
+						$(this).addClass("active").attr("title", "点击取消");
 					}else{
-						$(this).removeClass("active");
+						$(this).removeClass("active").attr("title", "点击选择");
 					}
 					try{
 						updateFreeDateShow();

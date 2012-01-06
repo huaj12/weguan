@@ -31,6 +31,7 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.service.IUserFreeDateService;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
@@ -119,7 +120,16 @@ public class ActController extends BaseController {
 	@RequestMapping(value = "/{actId}/users", method = RequestMethod.GET)
 	public String showActUsers(HttpServletRequest request, Model model,
 			@PathVariable long actId) {
-		return pageActUsers(request, model, actId, 1, "all", null);
+		String genderType = "all";
+		ProfileCache loginUser = getLoginUserCache(request);
+		if (null != loginUser && loginUser.getGender() != null) {
+			if (loginUser.getGender() == 0) {
+				genderType = "male";
+			} else {
+				genderType = "female";
+			}
+		}
+		return pageActUsers(request, model, actId, 1, genderType, null);
 	}
 
 	@RequestMapping(value = "/{actId}/users_{genderType}_{cityId}/{page}")

@@ -12,12 +12,12 @@
 				<div class="item_zbr mouseHover <c:choose><c:when test='${showUserView.profile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--item_zbr begin-->
 					<!-- <div class="close"><a href="#"></a></div> -->
 					<c:if test="${context.uid > 0}">
-						<!-- <div class="btn"><a href="#" class="yueta_done">已约ta</a><a href="#" class="like">感兴趣</a></div> -->
+						<%-- <div class="btn"><a href="#" class="yueta_done">已约ta</a><a href="#" class="like">敲门</a></div> --%>
 						<div class="btn">
 							<a id="removeDating${showUserView.profile.uid}" href="javascript:void(0);" class="yueta_done" <c:if test="${!showUserView.hasDating}">style="display:none;"</c:if>>已约ta</a>
 							<a id="dating${showUserView.profile.uid}" href="javascript:void(0);" class="yueta" uid="${showUserView.profile.uid}" <c:if test="${showUserView.hasDating}">style="display:none;"</c:if>>约ta</a>
-							<div id="removeInterest${showUserView.profile.uid}" class="ygxq" <c:if test="${!showUserView.hasInterest}">style="display:none;"</c:if>><p>已感兴趣</p><a href="javascript:void(0);" class="delete" uid="${showUserView.profile.uid}"></a></div>
-							<a id="interest${showUserView.profile.uid}" href="javascript:void(0);" class="like" uid="${showUserView.profile.uid}" <c:if test="${showUserView.hasInterest}">style="display:none;"</c:if>>感兴趣</a>
+							<div id="removeInterest${showUserView.profile.uid}" class="ygxq" <c:if test="${!showUserView.hasInterest}">style="display:none;"</c:if>><p>已敲门</p><a href="javascript:void(0);" class="delete" uid="${showUserView.profile.uid}"></a></div>
+							<a id="interest${showUserView.profile.uid}" href="javascript:void(0);" class="like" uid="${showUserView.profile.uid}" <c:if test="${showUserView.hasInterest}">style="display:none;"</c:if>>敲门</a>
 						</div>
 					</c:if>
 					<div></div>
@@ -45,7 +45,7 @@
 						</div><!--city_online end-->
 					</div><!--photo end-->
 					<div class="ta_like_list"><!--like_list begin-->
-						<div class="name"><a href="/home/${showUserView.profile.uid}"><c:out value="${showUserView.profile.nickname}" /></a><span><c:choose><c:when test='${not empty showUserView.freeDateList}'>${jzu:showFreeDates(showUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose></span></div>
+						<div class="name"><a href="/home/${showUserView.profile.uid}"><c:out value="${showUserView.profile.nickname}" /></a><span><c:choose><c:when test='${not empty showUserView.freeDateList}'>${jzu:showFreeDates(showUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise><%-- 还未标注空闲时间 --%></c:otherwise></c:choose></span></div>
 						<div class="tazmxq">ta最近想去...</div>
 						<ul class="list"><!--list begin-->
 							<c:choose>
@@ -69,7 +69,7 @@
 	<c:choose>
 		<c:when test="${pager==null}">
 			<c:if test="${showUserCount!=null&&showUserCount>10}">
-				<div class="zbr_more"><a href="/${userType}/all/1">查看更多</a></div>
+				<div class="zbr_more"><a href="/${userType}/<c:choose><c:when test='${loginUser.gender==1}'>female</c:when><c:otherwise>male</c:otherwise></c:choose>/1">查看更多</a></div>
 			</c:if>
 		</c:when>
 		<c:otherwise>

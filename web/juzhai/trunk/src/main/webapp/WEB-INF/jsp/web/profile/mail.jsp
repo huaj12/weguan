@@ -23,11 +23,11 @@
 								<form action="/profile/updateEmail" id="updateEmail" method="post">
 									<div class="title"><h2>用email订阅下面的消息</h2></div>
 									<div class="rss"><!--rss begin-->
-										<div class="rss_x"><div class="check"><span><input name="interestMe" type="checkbox" <c:if test="${emailForm.interestMe}">checked="checked"</c:if> value="true" /></span><p>有人觉得我不错</p></div></div>
+										<div class="rss_x"><div class="check"><span><input name="interestMe" type="checkbox" <c:if test="${emailForm.interestMe}">checked="checked"</c:if> value="true" /></span><p>有人敲我的门</p></div></div>
 										<div class="rss_x"><div class="check"><span><input name="datingMe" type="checkbox" <c:if test="${emailForm.datingMe}">checked="checked"</c:if> value="true" /></span><p>有人约我</p></div></div>
-										<div class="rss_x"><div class="check"><span><input name="acceptDating" type="checkbox" <c:if test="${emailForm.acceptDating}">checked="checked"</c:if> value="true" /></span><p>有人接受了我的邀请</p></div></div>
+										<div class="rss_x"><div class="check"><span><input name="acceptDating" type="checkbox" <c:if test="${emailForm.acceptDating}">checked="checked"</c:if> value="true" /></span><p>有人接受了我的邀约</p></div></div>
 										<div class="line"></div>
-										<div class="rss_x"><div class="check"><span><input name="sysNotice" type="checkbox" <c:if test="${emailForm.sysNotice}">checked="checked"</c:if> value="true" /></span><p>关于我的系统通知</p></div></div>
+										<div class="rss_x"><div class="check"><span><input name="sysNotice" type="checkbox" <c:if test="${emailForm.sysNotice}">checked="checked"</c:if> value="true" /></span><p>我的通知</p></div></div>
 										<div class="rss_x">
 											<div class="tit">订阅邮箱：</div>
 											<div class="input"><p class="l"></p><span class="w190"><input id="subEmail" name="email" type="text" value="${emailForm.email}"/></span><p class="r"></p></div>

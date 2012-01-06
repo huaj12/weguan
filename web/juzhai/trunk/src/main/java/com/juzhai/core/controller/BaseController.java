@@ -1,9 +1,7 @@
 package com.juzhai.core.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,15 +19,13 @@ import com.juzhai.act.model.Category;
 import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.ErrorPageDispatcher;
+import com.juzhai.core.web.filter.CheckLoginFilter;
 import com.juzhai.core.web.filter.CityChannelFilter;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.model.City;
-import com.juzhai.passport.model.Province;
-import com.juzhai.passport.model.Town;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
 
@@ -75,6 +71,12 @@ public class BaseController {
 			throw new NeedLoginException(runType);
 		}
 		return context;
+	}
+
+	protected ProfileCache getLoginUserCache(HttpServletRequest request) {
+		ProfileCache loginUser = (ProfileCache) request
+				.getAttribute(CheckLoginFilter.LOGIN_USER_KEY);
+		return loginUser;
 	}
 
 	// protected void queryPoint(long uid, Model model) {

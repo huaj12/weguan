@@ -15,7 +15,7 @@
 		</span>
 		<span>
 			<select id="citySelect" actid="${act.id}" gendertype="${genderType}">
-				<option value="0" <c:if test="${cityId==0}">selected="selected"</c:if>>不限</option>
+				<option value="0" <c:if test="${cityId==0}">selected="selected"</c:if>>全国</option>
 				<option value="2" <c:if test="${cityId==2}">selected="selected"</c:if>>上海</option>
 				<option value="1" <c:if test="${cityId==1}">selected="selected"</c:if>>北京</option>
 				<option value="181" <c:if test="${cityId==181}">selected="selected"</c:if>>广州</option>
@@ -47,10 +47,10 @@
 						<div class="photo boy"><!--photo begin-->
 							<c:if test="${actUserView.hasInterest!=null&&context.uid!=actUserView.profileCache.uid}">
 								<div class="link_t" <c:if test="${actUserView.hasInterest}">style="display:none;"</c:if>><!--link_t begin-->
-									<p></p><a href="javascript:void(0);" uid="${actUserView.profileCache.uid}">感兴趣</a><p></p>
+									<p></p><a href="javascript:void(0);" uid="${actUserView.profileCache.uid}">敲门</a><p></p>
 								</div><!--link_t end-->
 								<div id="hasInterest${actUserView.profileCache.uid}" class="link_t_done" <c:if test="${!actUserView.hasInterest}">style="display:none;"</c:if>><!--link_t_done begin-->
-									<p></p><span>已感兴趣</span><p></p>
+									<p></p><span>已敲门</span><p></p>
 								</div><!--link_t_done end-->
 							</c:if>
 							<c:if test="${actUserView.hasDating!=null&&context.uid!=actUserView.profileCache.uid}">
@@ -76,7 +76,7 @@
 							</div><!--face_photo end-->
 							<div class="name"><!--name begin-->
 								<a href="/home/${actUserView.profileCache.uid}"><c:out value="${actUserView.profileCache.nickname}" /></a><c:if test="${actUserView.online}"><span class="online">当前在线</span></c:if>
-								<p title="<c:choose><c:when test='${not empty actUserView.freeDateList}'>${jzu:showFreeDates(actUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose>"><c:choose><c:when test="${not empty actUserView.freeDateList}">${jzu:showFreeDates(actUserView.freeDateList,4)}</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose></p>
+								<p title="<c:choose><c:when test='${not empty actUserView.freeDateList}'>${jzu:showFreeDates(actUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose>"><c:choose><c:when test="${not empty actUserView.freeDateList}">${jzu:showFreeDates(actUserView.freeDateList,4)}&nbsp;有空</c:when><c:otherwise><%-- 还未标注空闲时间 --%></c:otherwise></c:choose></p>
 							</div><!--name end-->
 						</div><!--photo end-->
 					</li><!--li end-->

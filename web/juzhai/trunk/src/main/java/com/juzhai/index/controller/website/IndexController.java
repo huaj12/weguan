@@ -78,7 +78,7 @@ public class IndexController extends BaseController {
 	@Value("${show.invite.users.max.rows}")
 	private int showInviteUsersMaxRows;
 
-	@RequestMapping(value = { "", "/" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "", "/", "/index" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
 		return showActs(request, model);
 	}

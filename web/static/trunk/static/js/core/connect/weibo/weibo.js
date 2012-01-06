@@ -1,4 +1,7 @@
 function invite(uids,actId){
+	if(undefined==actId){
+		actId=0;
+	}
 	jQuery.ajax({
 			url: "/plug/weibo/invite",
 			type: "get",

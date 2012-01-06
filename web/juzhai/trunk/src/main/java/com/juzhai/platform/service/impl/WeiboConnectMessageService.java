@@ -75,7 +75,7 @@ public class WeiboConnectMessageService implements IMessageService {
 					return false;
 				}
 			} else {
-				sendWeibo(actId, timeline, content);
+				sendWeibo(actId, timeline, text);
 				return true;
 			}
 		} catch (Exception e) {

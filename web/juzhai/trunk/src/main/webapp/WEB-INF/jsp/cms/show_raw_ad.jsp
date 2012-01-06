@@ -13,7 +13,7 @@
 </style>
 </head>
 <body>
-	<h2>审核推荐项目列表</h2>
+	<h2>导入团购信息</h2>
 	<div align="center">
 		<form action="/cms/raw/ad/import" enctype="multipart/form-data" method="post">
 			<input type="file" name="rawAd"/>

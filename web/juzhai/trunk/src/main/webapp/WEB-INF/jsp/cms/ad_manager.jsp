@@ -142,8 +142,8 @@ function addAd(){
 		</tr>
 		<tr style="background-color: #CCCCCC;">
 			<td width="100">操作</td>
-			<td width="100">图片</td>
-			<td width="180">名称</td>
+			<td width="220">图片</td>
+			<td width="360">名称</td>
 			<td width="50">价格</td>
 			<td width="50">原价</td>
 			<td width="50">折扣</td>
@@ -165,7 +165,7 @@ function addAd(){
 					</c:when>
 				</c:choose>
 			</td>
-			<td><a href="${ad.targetUrl}" target="_blank"><img src="${ad.img}" width="100" height="100"/></a></td>
+			<td><a href="${ad.targetUrl}" target="_blank"><img src="${ad.img}" width="210" height="120"/></a></td>
 			<td><a href="${ad.targetUrl}" target="_blank">${ad.title}</a></td>
 			<td>${ad.price}</td>
 			<td>${ad.original}</td>

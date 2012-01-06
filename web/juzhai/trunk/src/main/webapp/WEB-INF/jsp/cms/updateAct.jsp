@@ -113,7 +113,7 @@ function selectTown(id) {
 			</tr>
 			<tr>
 				<td>详情（选填）：</td>
-				<td><textarea rows="5" cols="40" id="detail" name="detail">${actDetail.detail}</textarea>
+				<td><textarea rows="5" cols="40" style="width: 700px; height: 200px; visibility: hidden;" id="detail" name="detail">${actDetail.detail}</textarea>
 				</td>
 			</tr>
 			<tr>

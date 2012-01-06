@@ -18,7 +18,7 @@
 			</c:choose>
 		</c:if>
 		<div class="clear"></div>
-		<div class="kongxian"><font><c:choose><c:when test="${not empty freeDateList}">${jzu:showFreeDates(freeDateList,7)}&nbsp;有空</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose></font><c:if test="${profile.uid==context.uid}"><a href="javascript:void(0);">设置</a></c:if></div>
+		<div class="kongxian"><font><c:choose><c:when test="${not empty freeDateList}">${jzu:showFreeDates(freeDateList,7)}&nbsp;有空</c:when><c:otherwise><%-- 还未标注空闲时间 --%></c:otherwise></c:choose></font><c:if test="${profile.uid==context.uid}"><a href="javascript:void(0);">设置</a></c:if></div>
 		<div class="clear"></div>
 		<c:set var="cityName" value="${jzd:cityName(profile.city)}" />
 		<c:set var="townName" value="${jzd:townName(profile.town)}" />
@@ -45,8 +45,8 @@
 		</c:when>
 		<c:otherwise>
 			<div class="ta_user_btn"><!--user_btn begin-->
-				<div class="cancel_like" <c:if test="${!isInterest}">style="display:none;"</c:if>><p>已感兴趣</p><a href="javascript:void(0);" class="delete" uid="${profile.uid}"></a></div>
-				<a href="javascript:void(0);" class="like" uid="${profile.uid}" <c:if test="${isInterest}">style="display:none;"</c:if>>感兴趣</a>	
+				<div class="cancel_like" <c:if test="${!isInterest}">style="display:none;"</c:if>><p>已敲门</p><a href="javascript:void(0);" class="delete" uid="${profile.uid}"></a></div>
+				<a href="javascript:void(0);" class="like" uid="${profile.uid}" <c:if test="${isInterest}">style="display:none;"</c:if>>敲门</a>	
 				<a href="javascript:void(0);" class="date" <c:if test="${datingView!=null}">style="display:none;"</c:if> uid="${profile.uid}">约ta</a>
 			</div><!--user_btn end-->
 		</c:otherwise>

@@ -200,9 +200,11 @@ public class InitData {
 			return null;
 		}
 		for (Constellation c : CONSTELLATION_MAP.values()) {
-			if (c.getStartMonth() < month
+			if (c.getStartMonth() + 1 == month
+					|| (c.getStartMonth() == 12 && month == 1)
 					|| (c.getStartMonth() == month && c.getStartDate() <= date)) {
-				if (c.getEndMonth() > month
+				if (c.getEndMonth() == month + 1
+						|| (c.getEndMonth() == 1 && month == 12)
 						|| (c.getEndMonth() == month && c.getEndDate() >= date)) {
 					return c;
 				}

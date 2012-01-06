@@ -19,8 +19,8 @@
 					<a id="removeDating${interestUserView.profileCache.uid}" href="javascript:void(0);" class="yueta_done" <c:if test="${!interestUserView.hasDating}">style="display:none;"</c:if>>已约ta</a>
 					<a id="dating${interestUserView.profileCache.uid}" href="javascript:void(0);" class="yueta" uid="${interestUserView.profileCache.uid}" <c:if test="${interestUserView.hasDating}">style="display:none;"</c:if>>约ta</a>
 					<c:if test="${tabType=='interestMes'}">
-						<div id="removeInterest${interestUserView.profileCache.uid}" class="ygxq" <c:if test="${!interestUserView.hasInterest}">style="display:none;"</c:if>><p>已感兴趣</p><a href="javascript:void(0);" class="delete" uid="${interestUserView.profileCache.uid}"></a></div>
-						<a id="interest${interestUserView.profileCache.uid}" href="javascript:void(0);" class="like" uid="${interestUserView.profileCache.uid}" <c:if test="${interestUserView.hasInterest}">style="display:none;"</c:if>>感兴趣</a>
+						<div id="removeInterest${interestUserView.profileCache.uid}" class="ygxq" <c:if test="${!interestUserView.hasInterest}">style="display:none;"</c:if>><p>已敲门</p><a href="javascript:void(0);" class="delete" uid="${interestUserView.profileCache.uid}"></a></div>
+						<a id="interest${interestUserView.profileCache.uid}" href="javascript:void(0);" class="like" uid="${interestUserView.profileCache.uid}" <c:if test="${interestUserView.hasInterest}">style="display:none;"</c:if>>敲门</a>
 					</c:if>
 				</div>
 				<div></div>
@@ -46,7 +46,7 @@
 					</div><!--city_online end-->
 				</div><!--photo end-->	
 				<div class="ta_like_list"><!--like_list begin-->
-					<div class="name"><a href="/home/${interestUserView.profileCache.uid}"><c:out value="${interestUserView.profileCache.nickname}" /></a><span><c:choose><c:when test='${not empty interestUserView.freeDateList}'>${jzu:showFreeDates(interestUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose></span></div>
+					<div class="name"><a href="/home/${interestUserView.profileCache.uid}"><c:out value="${interestUserView.profileCache.nickname}" /></a><span><c:choose><c:when test='${not empty interestUserView.freeDateList}'>${jzu:showFreeDates(interestUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise><%-- 还未标注空闲时间 --%></c:otherwise></c:choose></span></div>
 					<div class="tazmxq">ta最近想去...</div>
 					<ul class="list"><!--list begin-->
 						<c:choose>

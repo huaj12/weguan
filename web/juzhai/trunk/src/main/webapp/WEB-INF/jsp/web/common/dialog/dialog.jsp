@@ -8,7 +8,7 @@
 </div>
 <div id="dialog-remove-interest" style="display:none;">
 	<div class="show_box"><!--show box-->
-		<h2>确定不再对ta感兴趣么？</h2>
+		<h2>确定收回这次敲门么？</h2>
 	</div><!--show end-->
 </div>
 <div id="dialog-remove-dating" style="display:none;">

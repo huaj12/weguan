@@ -92,7 +92,9 @@ public class ShowActService implements IShowActService {
 		ShowActExample example = new ShowActExample();
 		ShowActExample.Criteria c = example.createCriteria();
 		if (cityId > 0) {
-			c.andCityEqualTo(cityId);
+			example.or().andCityEqualTo(cityId);
+			example.or().andCityEqualTo(0L);
+			example.or().andCityIsNull();
 		}
 		if (categoryId > 0) {
 			c.andCategoryIdsLike("%|" + categoryId + "|%");
@@ -112,7 +114,9 @@ public class ShowActService implements IShowActService {
 		ShowActExample example = new ShowActExample();
 		ShowActExample.Criteria c = example.createCriteria();
 		if (cityId > 0) {
-			c.andCityEqualTo(cityId);
+			example.or().andCityEqualTo(cityId);
+			example.or().andCityEqualTo(0L);
+			example.or().andCityIsNull();
 		}
 		if (categoryId > 0) {
 			c.andCategoryIdsLike("%|" + categoryId + "|%");

@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>对我感兴趣的人-拒宅网</title>
+		<title>敲过我门的人-拒宅网</title>
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" />
 	</head>
 	<body>
@@ -21,7 +21,7 @@
 							<jsp:include page="/WEB-INF/jsp/web/home/common/tab.jsp" />
 							<c:choose>
 								<c:when test="${empty interestUserViewList}">
-									<div class="item_none">目前还没有人对你感兴趣哦<a href="#">去找伴儿》</a></div>
+									<div class="item_none">目前还没有人敲过你门哦<a href="#">去找伴儿》</a></div>
 								</c:when>
 								<c:otherwise>
 									<jsp:include page="interests_list.jsp" />

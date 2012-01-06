@@ -24,7 +24,7 @@ function interest(clickObj, uid, successCallback){
 		dataType : "json",
 		success : function(result) {
 			if (result && result.success) {
-				var content = $("#dialog-success").html().replace("{0}", "加兴趣成功");
+				var content = $("#dialog-success").html().replace("{0}", "好的，ta会看到你");
 				showSuccess(clickObj, content);
 				successCallback();
 			} else {

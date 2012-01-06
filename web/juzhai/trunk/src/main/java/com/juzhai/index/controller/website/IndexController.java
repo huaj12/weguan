@@ -35,6 +35,7 @@ import com.juzhai.home.controller.form.DateView;
 import com.juzhai.home.service.IUserFreeDateService;
 import com.juzhai.index.bean.ShowActOrder;
 import com.juzhai.index.controller.view.ShowUserView;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IFriendService;
@@ -127,7 +128,16 @@ public class IndexController extends BaseController {
 		if (context.hasLogin()) {
 			freeDate(context.getUid(), model);
 		}
-		return pageShowUsers(request, model, "all", 1);
+		String genderType = "all";
+		ProfileCache loginUser = getLoginUserCache(request);
+		if (null != loginUser && loginUser.getGender() != null) {
+			if (loginUser.getGender() == 0) {
+				genderType = "male";
+			} else {
+				genderType = "female";
+			}
+		}
+		return pageShowUsers(request, model, genderType, 1);
 	}
 
 	private void freeDate(long uid, Model model) {

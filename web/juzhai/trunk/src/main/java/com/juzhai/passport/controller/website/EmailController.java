@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
-import com.juzhai.core.web.filter.CheckLoginFilter;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.passport.bean.ProfileCache;
@@ -43,8 +42,7 @@ public class EmailController extends BaseController {
 				NoticeType.ACCEPT_DATING));
 		emailForm.setSysNotice(emailService.isSubNotice(context.getUid(),
 				NoticeType.SYS_NOTICE));
-		ProfileCache loginUser = (ProfileCache) request
-				.getAttribute(CheckLoginFilter.LOGIN_USER_KEY);
+		ProfileCache loginUser = getLoginUserCache(request);
 		if (null != loginUser) {
 			emailForm.setEmail(loginUser.getEmail());
 		}

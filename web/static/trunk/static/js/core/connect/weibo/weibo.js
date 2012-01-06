@@ -8,16 +8,10 @@ function invite(uids,actId){
 			data: {
 				"uids" : uids
 			},
-			dataType: "json",
+			dataType: "html",
 			success: function(data){
-				$("#invite_content").val(data.message);
+				openDialog(null, 'invite_dialog', data);
 				$("#invite_act_id").val(actId);
-				$.dialog({
-					lock : true,
-					content :$("#weibo_ivite")[0],
-					top : "50%"
-				});
-				
 			},
 			statusCode: {
 			    401: function() {
@@ -42,13 +36,13 @@ function send_invite(){
 		dataType: "json",
 		success: function(result){
 			if(result.success){
-				closeAllDiv();
 				var content = $("#dialog-success").html().replace("{0}", "发送成功");
 				showSuccess(null, content);
 			}else{
 				var content = $("#dialog-success").html().replace("{0}", "发送失败");
 				showSuccess(null, content);
 			}
+			closeDialog('invite_dialog');
 		},
 		statusCode: {
 		    401: function() {

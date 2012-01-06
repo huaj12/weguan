@@ -3,6 +3,7 @@ package com.juzhai.plug.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.core.SystemConfig;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.model.Thirdparty;
@@ -30,7 +31,7 @@ public class WeiboIviteService implements IWeiboIviteService{
 		if(tp==null){
 			return false;
 		}
-		String link=authorizeURLService.getAuthorizeURLforCode(tp);
+		String link=SystemConfig.getDomain();
 		return messageService.sendMessage(uid, null, null, content, authInfo, actId, link, "1", null);
 	}
 }

@@ -37,8 +37,6 @@ public class WeiboInviteController extends BaseController {
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
-	private IProfileService profileService;
-	@Autowired
 	IWeiboIviteService weiboIviteService;
 
 	@RequestMapping(value = { "/weibo/invite" }, method = RequestMethod.GET)
@@ -50,16 +48,7 @@ public class WeiboInviteController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		String message = "";
 		try {
-			List<String> list = new ArrayList<String>();
-			if (StringUtils.isNotEmpty(uids)) {
-				for (String uid : uids.split(",")) {
-					ProfileCache profileCache = profileService
-							.getProfileCacheByUid(Long.valueOf(uid));
-					if (profileCache != null) {
-						list.add("@" + profileCache.getNickname());
-					}
-				}
-			}
+			List<String> list=weiboIviteService.getInviteReceiverName(uids, context.getTpId(), context.getUid());
 			message = messageSource.getMessage(
 					TpMessageKey.WEIBO_CONNECT_INVITE_TEXT,
 					new Object[] { StringUtils.join(list, " ") },

@@ -32,6 +32,7 @@ public class TpMessageKey {
 	public static final String INVITE_FRIEND = "invite.friend";
 	public static final String INVITE_FRIEND_WORD = "invite.friend.word";
 	public static final String WEIBO_INVITE_TEXT = "weibo.invite.text";
+	public static final String WEIBO_CONNECT_INVITE_TEXT="weibo.connect.invite.text";
 	
 	
 	public static final String RECOMMEND_FRIEND = "recommend.friend";

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ import com.juzhai.act.service.IRawActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.util.DateFormat;
+import com.juzhai.core.util.JackSonSerializer;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 
@@ -42,28 +44,29 @@ public class RawActController extends BaseController {
 	private IActImageService actImageService;
 
 	@RequestMapping(value = "/kindEditor/upload")
-	@ResponseBody
-	public Map<String, Object> kindEditorUpload(HttpServletRequest request,
-			@RequestParam("imgFile") MultipartFile imgFile) {
+	public String kindEditorUpload(HttpServletRequest request,
+			@RequestParam("imgFile") MultipartFile imgFile, Model model)
+			throws JsonGenerationException {
+		Map<String, Object> map = null;
 		try {
 			UserContext context = checkLoginForWeb(request);
 			String[] urls = actImageService.uploadRawActLogo(context.getUid(),
 					imgFile);
-			Map<String, Object> map = new HashMap<String, Object>();
+			map = new HashMap<String, Object>();
 			map.put("error", 0);
 			map.put("url", urls[0]);
-			return map;
 		} catch (UploadImageException e) {
-			return getError(e.getErrorCode());
+			map = getError(e.getErrorCode());
 		} catch (NeedLoginException e) {
-			return getError(e.getErrorCode());
+			map = getError(e.getErrorCode());
 		}
-
+		String jsonString = JackSonSerializer.toString(map);
+		model.addAttribute("result", jsonString);
+		return "web/common/ajax/ajax_result";
 	}
 
 	@RequestMapping(value = "/logo/upload", method = RequestMethod.POST)
-	@ResponseBody
-	public AjaxResult addActImage(HttpServletRequest request, Model model,
+	public String addActImage(HttpServletRequest request, Model model,
 			@RequestParam("rawActLogo") MultipartFile rawActLogo) {
 		AjaxResult result = new AjaxResult();
 		try {
@@ -78,7 +81,8 @@ public class RawActController extends BaseController {
 		} catch (NeedLoginException e) {
 			result.setError(NeedLoginException.IS_NOT_LOGIN, messageSource);
 		}
-		return result;
+		model.addAttribute("result", result.toJson());
+		return "web/common/ajax/ajax_result";
 	}
 
 	@RequestMapping(value = "/showAddRawAct", method = RequestMethod.GET)

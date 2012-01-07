@@ -16,6 +16,7 @@ KindEditor.ready(function(K) {
 $(document).ready(function() {
 	$("div.upload > div.load_done > a").bind("click", function(){
 		$(this).parent().removeAttr("filePath").hide();
+		$("div.upload > div.load_done > p > img").attr("src", "");
 		$("div.upload > div.sc_btn").show();
 	});
 });
@@ -28,6 +29,7 @@ function uploadImage() {
 		url : "/act/logo/upload",
 		type : "POST",
 		dataType : "json",
+		iframe : "true",
 		success : function(result) {
 			$(".loading").hide();
 			if (result.success) {

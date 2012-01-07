@@ -56,8 +56,7 @@ public class ProfileContrller extends BaseController {
 	}
 
 	@RequestMapping(value = "/logo/upload", method = RequestMethod.POST)
-	@ResponseBody
-	public AjaxResult addActImage(HttpServletRequest request, Model model,
+	public String addActImage(HttpServletRequest request, Model model,
 			@RequestParam("profileLogo") MultipartFile profileLogo) {
 		AjaxResult result = new AjaxResult();
 		try {
@@ -72,7 +71,8 @@ public class ProfileContrller extends BaseController {
 		} catch (NeedLoginException e) {
 			result.setError(NeedLoginException.IS_NOT_LOGIN, messageSource);
 		}
-		return result;
+		model.addAttribute("result", result.toJson());
+		return "web/common/ajax/ajax_result";
 	}
 
 	@RequestMapping(value = "/logo/cut", method = RequestMethod.POST)

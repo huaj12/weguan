@@ -45,7 +45,7 @@
 				<c:forEach var="actUserView" items="${actUserViewList}">
 					<li class="mouseHover"><!--li begin-->
 						<div class="photo boy"><!--photo begin-->
-							<c:if test="${actUserView.hasInterest!=null&&context.uid!=actUserView.profileCache.uid}">
+							<c:if test="${context.uid!=actUserView.profileCache.uid}">
 								<div class="link_t" <c:if test="${actUserView.hasInterest}">style="display:none;"</c:if>><!--link_t begin-->
 									<p></p><a href="javascript:void(0);" uid="${actUserView.profileCache.uid}">敲门</a><p></p>
 								</div><!--link_t end-->
@@ -53,7 +53,7 @@
 									<p></p><span>已敲门</span><p></p>
 								</div><!--link_t_done end-->
 							</c:if>
-							<c:if test="${actUserView.hasDating!=null&&context.uid!=actUserView.profileCache.uid}">
+							<c:if test="${context.uid!=actUserView.profileCache.uid}">
 								<div id="date${actUserView.profileCache.uid}" class="date_t" <c:if test="${actUserView.hasDating}">style="display:none;"</c:if>><!--date_t begin-->
 									<p></p><a href="javascript:void(0);" uid="${actUserView.profileCache.uid}">约ta</a><p></p>
 								</div><!--date_t end-->

@@ -30,7 +30,7 @@
 				<div class="acc_list" style="display:none;"><!--acc_list begin-->
 					<a href="/profile/index">我的资料</a>
 					<a href="/profile/index/face">个人形象</a>
-					<a href="/profile/email">订阅通知</a>
+					<a href="/profile/email">订阅设置</a>
 					<a href="/logout">退出</a>
 				</div><!--acc_list end-->
 			</div><!--acc end-->

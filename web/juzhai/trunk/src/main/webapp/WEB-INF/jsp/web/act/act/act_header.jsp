@@ -5,12 +5,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="project_show guoqi"><!--project_show begin-->
-	<c:if test="${context.uid>0}">
-		<div class="btn_area">
-			<a href="javascript:void(0);" class="wantgo" <c:if test="${hasAct}">style="display:none;"</c:if> actid="${act.id}">我想去</a>
-			<div class="cancel_add" <c:if test="${!hasAct}">style="display:none;"</c:if>><p>已添加</p><a href="javascript:void(0);" class="delete" actid="${act.id}" actname="${act.name}"></a></div>
-		</div>
-	</c:if>
+	<div class="btn_area">
+		<a href="javascript:void(0);" class="wantgo" <c:if test="${hasAct}">style="display:none;"</c:if> actid="${act.id}">我想去</a>
+		<div class="cancel_add" <c:if test="${!hasAct}">style="display:none;"</c:if>><p>已添加</p><a href="javascript:void(0);" class="delete" actid="${act.id}" actname="${act.name}"></a></div>
+	</div>
 	<c:if test="${act.endTime != null&&jzu:dateAfter(act.endTime)}">
 		<div class="gq"></div>
 	</c:if>

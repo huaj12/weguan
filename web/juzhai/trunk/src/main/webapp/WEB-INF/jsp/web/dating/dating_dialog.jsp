@@ -62,6 +62,18 @@
 			</div><!--con end-->
 		</div><!--date_ta_box end-->
 	</c:when>
+	<c:when test="${errorCode=='30001'}">
+		<div class="tj_done_show_box"><!--tj_done_show_box begin-->
+			<h2>${errorInfo}</h2>
+			<a href="/profile/index" class="done">去完善资料</a>
+		</div><!--tj_done_show_box end-->
+	</c:when>
+	<c:when test="${errorCode=='30002'||errorCode=='30003'||errorCode=='30004'}">
+		<div class="tj_done_show_box"><!--tj_done_show_box begin-->
+			<h2>${errorInfo}</h2>
+			<a href="/home/datings/1" class="done">去看看</a>
+		</div><!--tj_done_show_box end-->
+	</c:when>
 	<c:otherwise>
 		<div class="tj_done_show_box"><!--tj_done_show_box begin-->
 			<h2>${errorInfo}</h2>

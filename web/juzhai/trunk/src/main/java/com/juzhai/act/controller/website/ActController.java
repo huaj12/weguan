@@ -31,7 +31,6 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.service.IUserFreeDateService;
-import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
@@ -108,7 +107,7 @@ public class ActController extends BaseController {
 			context = checkLoginForApp(request);
 		} catch (NeedLoginException e) {
 		}
-		Act act = actInfo(context, actId, model,request);
+		Act act = actInfo(context, actId, model, request);
 		if (null == act) {
 			return error_404;
 		}
@@ -120,16 +119,7 @@ public class ActController extends BaseController {
 	@RequestMapping(value = "/{actId}/users", method = RequestMethod.GET)
 	public String showActUsers(HttpServletRequest request, Model model,
 			@PathVariable long actId) {
-		String genderType = "all";
-		ProfileCache loginUser = getLoginUserCache(request);
-		if (null != loginUser && loginUser.getGender() != null) {
-			if (loginUser.getGender() == 0) {
-				genderType = "male";
-			} else {
-				genderType = "female";
-			}
-		}
-		return pageActUsers(request, model, actId, 1, genderType, null);
+		return pageActUsers(request, model, actId, 1, "all", null);
 	}
 
 	@RequestMapping(value = "/{actId}/users_{genderType}_{cityId}/{page}")
@@ -141,7 +131,7 @@ public class ActController extends BaseController {
 			context = checkLoginForApp(request);
 		} catch (NeedLoginException e) {
 		}
-		Act act = actInfo(context, actId, model,request);
+		Act act = actInfo(context, actId, model, request);
 		if (null == act) {
 			return error_404;
 		}
@@ -170,16 +160,17 @@ public class ActController extends BaseController {
 		return "web/act/act/show_act_users";
 	}
 
-	private Act actInfo(UserContext context, long actId, Model model,HttpServletRequest request) {
+	private Act actInfo(UserContext context, long actId, Model model,
+			HttpServletRequest request) {
 		Act act = actService.getActById(actId);
 		if (act == null) {
 			return null;
 		}
-		long cityId=fetchCityId(request);
+		long cityId = fetchCityId(request);
 		model.addAttribute("act", act);
 		List<ActLink> actLinkList = actService.listActLinkByActId(actId,
 				webActLinkShowCount);
-		List<ActAd> actAdList = actService.listActAdByActId(actId,cityId,
+		List<ActAd> actAdList = actService.listActAdByActId(actId, cityId,
 				webActAdShowCount);
 		model.addAttribute("actAdList", actAdList);
 		model.addAttribute("actLinkList", actLinkList);
@@ -201,9 +192,9 @@ public class ActController extends BaseController {
 			actUserViewList.add(new ActUserView(profileService
 					.getProfileCacheByUid(userAct.getUid()), userAct
 					.getLastModifyTime(), isLogin ? interestUserService
-					.isInterest(context.getUid(), userAct.getUid()) : null,
+					.isInterest(context.getUid(), userAct.getUid()) : false,
 					isLogin ? datingService.hasDating(context.getUid(),
-							userAct.getUid()) : null, loginService
+							userAct.getUid()) : false, loginService
 							.isOnline(userAct.getUid()), userFreeDateService
 							.userFreeDateList(userAct.getUid())));
 		}

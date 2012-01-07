@@ -108,7 +108,7 @@ public class ActController extends BaseController {
 			context = checkLoginForApp(request);
 		} catch (NeedLoginException e) {
 		}
-		Act act = actInfo(context, actId, model);
+		Act act = actInfo(context, actId, model,request);
 		if (null == act) {
 			return error_404;
 		}
@@ -141,7 +141,7 @@ public class ActController extends BaseController {
 			context = checkLoginForApp(request);
 		} catch (NeedLoginException e) {
 		}
-		Act act = actInfo(context, actId, model);
+		Act act = actInfo(context, actId, model,request);
 		if (null == act) {
 			return error_404;
 		}
@@ -170,15 +170,16 @@ public class ActController extends BaseController {
 		return "web/act/act/show_act_users";
 	}
 
-	private Act actInfo(UserContext context, long actId, Model model) {
+	private Act actInfo(UserContext context, long actId, Model model,HttpServletRequest request) {
 		Act act = actService.getActById(actId);
 		if (act == null) {
 			return null;
 		}
+		long cityId=fetchCityId(request);
 		model.addAttribute("act", act);
 		List<ActLink> actLinkList = actService.listActLinkByActId(actId,
 				webActLinkShowCount);
-		List<ActAd> actAdList = actService.listActAdByActId(actId,
+		List<ActAd> actAdList = actService.listActAdByActId(actId,cityId,
 				webActAdShowCount);
 		model.addAttribute("actAdList", actAdList);
 		model.addAttribute("actLinkList", actLinkList);

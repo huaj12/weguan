@@ -576,10 +576,14 @@ public class ActService implements IActService {
 	}
 
 	@Override
-	public List<ActAd> listActAdByActId(long actId, int count) {
+	public List<ActAd> listActAdByActId(long actId,long cityId, int count) {
 		ActAdExample example = new ActAdExample();
-		example.createCriteria().andActIdEqualTo(actId)
-				.andEndTimeGreaterThan(new Date());
+		com.juzhai.act.model.ActAdExample.Criteria criteria=example.createCriteria();
+		criteria.andActIdEqualTo(actId);
+		criteria.andEndTimeGreaterThan(new Date());
+		if(cityId>0){
+			criteria.andCityEqualTo(cityId);
+		}
 		example.setLimit(new Limit(0, count));
 		example.setOrderByClause("sequence asc, last_modify_time desc");
 		return actAdMapper.selectByExample(example);

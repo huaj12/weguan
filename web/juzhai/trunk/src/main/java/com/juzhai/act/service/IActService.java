@@ -284,7 +284,7 @@ public interface IActService {
 	 * @param actId
 	 * @return
 	 */
-	List<ActAd> listActAdByActId(long actId, int count);
+	List<ActAd> listActAdByActId(long actId,long cityId,int count);
 
 	/**
 	 * 项目的相关链接

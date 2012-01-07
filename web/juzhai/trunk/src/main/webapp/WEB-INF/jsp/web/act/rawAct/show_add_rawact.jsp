@@ -66,7 +66,7 @@
 									</div><!--select end-->
 								</div><!--x_hang end-->
 								<div class="xhang"><!--x_hang begin-->
-									<h3>地&nbsp;&nbsp;&nbsp;&nbsp;点：</h3>
+									<h3>地&nbsp;点(选填)：</h3>
 									<div class="select"><!--select begin-->
 										<span><select name="province" id="province" onchange="selectCity(this)">
 											<c:forEach var="pro" items="${provinces}" varStatus="status">
@@ -105,7 +105,7 @@
 									<div class="error" id="address_tip"></div>
 								</div><!--x_hang end-->
 								<div class="xhang"><!--x_hang begin-->
-									<h3>时&nbsp;&nbsp;&nbsp;&nbsp;间：</h3>
+									<h3>时&nbsp;间(选填)：</h3>
 									<div class="input"><!--select begin-->
 										<span class="w190"><input name="startTime"
 											readonly="readonly" id="startTime" onclick="WdatePicker()"

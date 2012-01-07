@@ -128,6 +128,7 @@
 				url : "/cms/logo/upload",
 				type : "POST",
 				dataType : "json",
+				iframe : "true",
 				success : function(result) {
 					if (result.success) {
 						$("#logo_tip").html("上传成功");

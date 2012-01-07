@@ -118,8 +118,7 @@ public class CmsRawActController extends BaseController {
 	}
 
 	@RequestMapping(value = "/logo/upload")
-	@ResponseBody
-	public AjaxResult logoUpload(HttpServletRequest request, Model model,
+	public String logoUpload(HttpServletRequest request, Model model,
 			@RequestParam("profileLogo") MultipartFile profileLogo) {
 		AjaxResult result = new AjaxResult();
 		UserContext context = (UserContext) request.getAttribute("context");
@@ -130,7 +129,8 @@ public class CmsRawActController extends BaseController {
 		} catch (UploadImageException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		}
-		return result;
+		model.addAttribute("result", result.toJson());
+		return "web/common/ajax/ajax_result";
 	}
 
 	@RequestMapping(value = "/kindEditor/upload")

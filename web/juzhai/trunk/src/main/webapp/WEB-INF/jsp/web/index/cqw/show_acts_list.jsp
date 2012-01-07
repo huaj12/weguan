@@ -36,14 +36,12 @@
 				<div></div>
 				<span>共<a href="/act/${categoryActView.act.id}">${categoryActView.act.popularity}</a>人想去</span>
 				<div class="clear"></div>
-				<c:if test="${context.uid > 0}">
-					<div id="want${categoryActView.act.id}" class="btn_area" <c:if test="${categoryActView.hasUsed}">style="display:none;"</c:if>>
-						<a href="javascript:void(0);" actid="${categoryActView.act.id}">我想去</a>
-					</div>
-					<div id="dwant${categoryActView.act.id}" class="delete_add" <c:if test="${!categoryActView.hasUsed}">style="display:none;"</c:if>>
-						<strong>已添加</strong><a href="javascript:void(0);" actid="${categoryActView.act.id}" actname="${categoryActView.act.name}"></a>
-					</div>
-				</c:if>
+				<div id="want${categoryActView.act.id}" class="btn_area" <c:if test="${categoryActView.hasUsed}">style="display:none;"</c:if>>
+					<a href="javascript:void(0);" actid="${categoryActView.act.id}">我想去</a>
+				</div>
+				<div id="dwant${categoryActView.act.id}" class="delete_add" <c:if test="${!categoryActView.hasUsed}">style="display:none;"</c:if>>
+					<strong>已添加</strong><a href="javascript:void(0);" actid="${categoryActView.act.id}" actname="${categoryActView.act.name}"></a>
+				</div>
 			</div><!--dh_infor end-->
 		</div><!--cqw_item end-->
 	</c:forEach>

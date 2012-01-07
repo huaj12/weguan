@@ -10,16 +10,12 @@
 		<c:otherwise>
 			<c:forEach var="showUserView" items="${showUserViewList}">
 				<div class="item_zbr mouseHover <c:choose><c:when test='${showUserView.profile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--item_zbr begin-->
-					<!-- <div class="close"><a href="#"></a></div> -->
-					<c:if test="${context.uid > 0}">
-						<%-- <div class="btn"><a href="#" class="yueta_done">已约ta</a><a href="#" class="like">敲门</a></div> --%>
-						<div class="btn">
-							<a id="removeDating${showUserView.profile.uid}" href="javascript:void(0);" class="yueta_done" <c:if test="${!showUserView.hasDating}">style="display:none;"</c:if>>已约ta</a>
-							<a id="dating${showUserView.profile.uid}" href="javascript:void(0);" class="yueta" uid="${showUserView.profile.uid}" <c:if test="${showUserView.hasDating}">style="display:none;"</c:if>>约ta</a>
-							<div id="removeInterest${showUserView.profile.uid}" class="ygxq" <c:if test="${!showUserView.hasInterest}">style="display:none;"</c:if>><p>已敲门</p><a href="javascript:void(0);" class="delete" uid="${showUserView.profile.uid}"></a></div>
-							<a id="interest${showUserView.profile.uid}" href="javascript:void(0);" class="like" uid="${showUserView.profile.uid}" <c:if test="${showUserView.hasInterest}">style="display:none;"</c:if>>敲门</a>
-						</div>
-					</c:if>
+					<div class="btn">
+						<a id="removeDating${showUserView.profile.uid}" href="javascript:void(0);" class="yueta_done" <c:if test="${!showUserView.hasDating}">style="display:none;"</c:if>>已约ta</a>
+						<a id="dating${showUserView.profile.uid}" href="javascript:void(0);" class="yueta" uid="${showUserView.profile.uid}" <c:if test="${showUserView.hasDating}">style="display:none;"</c:if>>约ta</a>
+						<div id="removeInterest${showUserView.profile.uid}" class="ygxq" <c:if test="${!showUserView.hasInterest}">style="display:none;"</c:if>><p>已敲门</p><a href="javascript:void(0);" class="delete" uid="${showUserView.profile.uid}"></a></div>
+						<a id="interest${showUserView.profile.uid}" href="javascript:void(0);" class="like" uid="${showUserView.profile.uid}" <c:if test="${showUserView.hasInterest}">style="display:none;"</c:if>>敲门</a>
+					</div>
 					<div></div>
 					<div class="photo"><!--photo begin-->
 						<c:set var="age" value="${jzu:age(showUserView.profile.birthYear)}" />

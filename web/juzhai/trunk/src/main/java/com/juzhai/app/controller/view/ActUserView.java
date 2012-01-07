@@ -18,9 +18,9 @@ public class ActUserView implements Serializable {
 
 	private boolean online;
 
-	private Boolean hasInterest;
+	private boolean hasInterest;
 
-	private Boolean hasDating;
+	private boolean hasDating;
 
 	private List<Date> freeDateList;
 
@@ -76,19 +76,19 @@ public class ActUserView implements Serializable {
 		this.online = online;
 	}
 
-	public Boolean getHasInterest() {
+	public boolean getHasInterest() {
 		return hasInterest;
 	}
 
-	public void setHasInterest(Boolean hasInterest) {
+	public void setHasInterest(boolean hasInterest) {
 		this.hasInterest = hasInterest;
 	}
 
-	public Boolean getHasDating() {
+	public boolean getHasDating() {
 		return hasDating;
 	}
 
-	public void setHasDating(Boolean hasDating) {
+	public void setHasDating(boolean hasDating) {
 		this.hasDating = hasDating;
 	}
 

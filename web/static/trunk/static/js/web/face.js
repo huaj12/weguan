@@ -98,6 +98,7 @@ function uploadImage() {
 		url : "/profile/logo/upload",
 		type : "POST",
 		dataType : "json",
+		iframe : "true",
 		success : function(result) {
 			if (result.success) {
 				$("#target").attr("src", result.result[0]);

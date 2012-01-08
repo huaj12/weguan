@@ -101,7 +101,7 @@ function uploadImage() {
 		iframe : "true",
 		success : function(result) {
 			if (result.success) {
-				$("#target").attr("src", result.result[0]);
+				$("#target").attr("src", result.result[0]).show();
 				$("#preview_180").attr("src", result.result[0]);
 				$('#filePath').val(result.result[1]);
 				// $("#preview_50").attr("src",result.result);

@@ -34,15 +34,9 @@
 									<div class="uploading" style="display:none;">上传中...</div>
 									<div class="error" style="display:none;"></div>
 									<div class="uploading_ok" style="display:none;"><font></font><a href="javascript:void(0);">重新上传</a></div>
-									
-									<!-- <div class="uploading" style="display: none;">上传中...</div>
-									<div class="error" id="logo_tip" ></div>
-									<div class="uploading_ok" style="display: none">
-										已成功上传 my_photo.jpg<a href="#">重新上传</a>
-									</div> -->
 								</div><!--upload_area end-->
 								<div class="edit_face_area">
-									<img id="target" src="" style="width: 450px"/>
+									<img id="target" style="width: 450px;display: none;" />
 									<form id="logoCutForm" action="/profile/logo/cut" method="post">
 										<input id="filePath" name="filePath" type="hidden"/>
 										<input id="scaledW" name="scaledW" value="450" type="hidden"/>

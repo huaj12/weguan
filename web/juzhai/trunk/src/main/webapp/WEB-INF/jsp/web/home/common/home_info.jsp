@@ -18,7 +18,7 @@
 			</c:choose>
 		</c:if>
 		<div class="clear"></div>
-		<div class="kongxian"><font><c:choose><c:when test="${not empty freeDateList}">${jzu:showFreeDates(freeDateList,7)}&nbsp;有空</c:when><c:otherwise><%-- 还未标注空闲时间 --%></c:otherwise></c:choose></font><c:if test="${profile.uid==context.uid}"><a href="javascript:void(0);">设置</a></c:if></div>
+		<div class="kongxian"><font><c:choose><c:when test="${not empty freeDateList}">${jzu:showFreeDates(freeDateList,7)}&nbsp;有空</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose></font><c:if test="${profile.uid==context.uid}"><a href="javascript:void(0);">设置</a></c:if></div>
 		<div class="clear"></div>
 		<c:set var="cityName" value="${jzd:cityName(profile.city)}" />
 		<c:set var="townName" value="${jzd:townName(profile.town)}" />

@@ -6,7 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="title"><!--title begin-->
 	<h2 class="<c:choose><c:when test='${loginUser.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>">
-		<span><c:choose><c:when test="${loginUser!=null}"><c:out value="${loginUser.nickname}" /></c:when><c:otherwise>小宅</c:otherwise></c:choose></span>,最近想找个伴儿么？
+		<span><c:choose><c:when test="${loginUser!=null}"><c:out value="${loginUser.nickname}" /></c:when><c:otherwise>小宅</c:otherwise></c:choose></span>，最近想找个伴儿么？
 	</h2>
 	<c:if test="${inviteUserList==null}">
 		<div class="select" id="genderSelect" requesturi="${userType}"><!--select begin-->

@@ -104,4 +104,14 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	public static String genUserFreeDateListKey(long uid) {
 		return genKey(uid, "userFreeDateList");
 	}
+
+	/**
+	 * 对话内容对象
+	 * 
+	 * @param dialogContentId
+	 * @return
+	 */
+	public static String genDialogContentKey(long dialogContentId) {
+		return genKey(dialogContentId, "dialogContent");
+	}
 }

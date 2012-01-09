@@ -14,13 +14,6 @@ public class PagerManager {
 	private int results = 10;
 
 	private int totalResults = 0;
-	
-	private String ajaxId;
-
-	public String url;
-	
-	public String param;
-	
 
 	public PagerManager(int page, int results, int totalResults) {
 		super();
@@ -28,17 +21,6 @@ public class PagerManager {
 		this.currentPage = page;
 		this.results = results;
 		this.totalResults = totalResults;
-	}
-	
-	public PagerManager(int page, int results, int totalResults,String url,String param,String ajaxId) {
-		super();
-		page = page <= 0 ? 1 : page;
-		this.currentPage = page;
-		this.results = results;
-		this.totalResults = totalResults;
-		this.url=url;
-		this.param=param;
-		this.ajaxId=ajaxId;
 	}
 
 	public PagerManager(int currentPage, int preOffset, int nextOffset,
@@ -145,33 +127,4 @@ public class PagerManager {
 		}
 		this.nextOffset = nextOffset;
 	}
-	
-	public String getAjaxId() {
-		return ajaxId;
-	}
-
-	public void setAjaxId(String ajaxId) {
-		this.ajaxId = ajaxId;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getParam() {
-		return param;
-	}
-
-	public void setParam(String param) {
-		this.param = param;
-	}
-
-
-	
-	
-
 }

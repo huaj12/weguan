@@ -337,4 +337,14 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genUserSubNoticeKey(long uid, NoticeType noticeType) {
 		return genKey(uid, noticeType.getType() + "_emailSub");
 	}
+
+	/**
+	 * 对话内容列表
+	 * 
+	 * @param dialogId
+	 * @return
+	 */
+	public static String genDialogContentsKey(long dialogId) {
+		return genKey(dialogId, "dialogContentList");
+	}
 }

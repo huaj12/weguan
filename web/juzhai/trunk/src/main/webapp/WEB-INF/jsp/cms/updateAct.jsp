@@ -106,9 +106,7 @@ function selectTown(id) {
 			</tr>
 			<tr>
 				<td>简介（选填）：</td>
-				<td><textarea rows="5" cols="40" id="intro" name="intro">
-						<c:out value="${act.intro}"></c:out>
-					</textarea>
+				<td><textarea rows="5" cols="40" id="intro" name="intro"><c:out value="${act.intro}"></c:out></textarea>
 				</td>
 			</tr>
 			<tr>

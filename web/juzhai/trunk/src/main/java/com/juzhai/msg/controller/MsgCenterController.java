@@ -18,14 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.juzhai.account.bean.ConsumeAction;
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
 import com.juzhai.app.service.IAppService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
-import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.msg.bean.ActMsg;
@@ -40,7 +38,6 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
-import com.juzhai.passport.service.impl.TpUserService;
 
 @Controller
 @RequestMapping(value = "msg")
@@ -88,28 +85,28 @@ public class MsgCenterController extends BaseController {
 		if (null == page)
 			page = 1;
 		UserContext context = checkLoginForApp(request);
-		doPageUnRead(context.getUid(), page, model);
+		// doPageUnRead(context.getUid(), page, model);
 		return "app/msg/ajax/unReadContent";
 	}
 
-	private void doPageUnRead(long uid, int page, Model model) {
-		long totalCount = mergerActMsgService.countUnRead(uid);
-		PagerManager pager = new PagerManager(getPage(totalCount, page,
-				unReadActMsgRows), unReadActMsgRows, Long.valueOf(totalCount)
-				.intValue(), "/msg/pageUnRead", null, "unReadContent");
-		List<MergerActMsg> actMsgList = mergerActMsgService.pageUnRead(uid,
-				pager.getFirstResult(), pager.getMaxResult());
-		List<ActMsgView> actMsgViewList = assembleActMsgView(uid, actMsgList);
-		model.addAttribute("actMsgViewList", actMsgViewList);
-		model.addAttribute("readCount", mergerActMsgService.countRead(uid));
-		model.addAttribute("pager", pager);
-		model.addAttribute("invitePoint", Math
-				.abs(com.juzhai.account.InitData.CONSUME_ACTION_RULE
-						.get(ConsumeAction.OPEN_MESSAGE_INVITE)));
-		model.addAttribute("recommendPoint", Math
-				.abs(com.juzhai.account.InitData.CONSUME_ACTION_RULE
-						.get(ConsumeAction.OPEN_MESSAGE_RECOMMEND)));
-	}
+	// private void doPageUnRead(long uid, int page, Model model) {
+	// long totalCount = mergerActMsgService.countUnRead(uid);
+	// PagerManager pager = new PagerManager(getPage(totalCount, page,
+	// unReadActMsgRows), unReadActMsgRows, Long.valueOf(totalCount)
+	// .intValue(), "/msg/pageUnRead", null, "unReadContent");
+	// List<MergerActMsg> actMsgList = mergerActMsgService.pageUnRead(uid,
+	// pager.getFirstResult(), pager.getMaxResult());
+	// List<ActMsgView> actMsgViewList = assembleActMsgView(uid, actMsgList);
+	// model.addAttribute("actMsgViewList", actMsgViewList);
+	// model.addAttribute("readCount", mergerActMsgService.countRead(uid));
+	// model.addAttribute("pager", pager);
+	// model.addAttribute("invitePoint", Math
+	// .abs(com.juzhai.account.InitData.CONSUME_ACTION_RULE
+	// .get(ConsumeAction.OPEN_MESSAGE_INVITE)));
+	// model.addAttribute("recommendPoint", Math
+	// .abs(com.juzhai.account.InitData.CONSUME_ACTION_RULE
+	// .get(ConsumeAction.OPEN_MESSAGE_RECOMMEND)));
+	// }
 
 	private int getPage(long totalCount, int curpage, int msgRows) {
 		int page = 1;
@@ -167,7 +164,7 @@ public class MsgCenterController extends BaseController {
 		if (profileCache != null && !profileCache.getSubEmail()) {
 			showNotSubEmailTip(model);
 		}
-		doPageRead(context.getUid(), model, page);
+		// doPageRead(context.getUid(), model, page);
 		// 清空消息数目
 		mergerActMsgService.clearMergerActMsgCount(context.getUid());
 		return "redirect:/app/index";
@@ -179,23 +176,23 @@ public class MsgCenterController extends BaseController {
 		if (null == page)
 			page = 1;
 		UserContext context = checkLoginForApp(request);
-		doPageRead(context.getUid(), model, page);
+		// doPageRead(context.getUid(), model, page);
 		return "app/msg/ajax/readContent";
 	}
 
-	private void doPageRead(long uid, Model model, int page) {
-		long totalCount = mergerActMsgService.countRead(uid);
-		PagerManager pager = new PagerManager(getPage(totalCount, page,
-				readActMsgRows), readActMsgRows, Long.valueOf(totalCount)
-				.intValue(), "/msg/pageRead", "", "readContent");
-		List<MergerActMsg> actMsgList = mergerActMsgService.pageRead(uid,
-				pager.getFirstResult(), pager.getMaxResult());
-		List<ActMsgView> actMsgViewList = assembleActMsgView(uid, actMsgList);
-		model.addAttribute("actMsgViewList", actMsgViewList);
-		model.addAttribute("pager", pager);
-		model.addAttribute("unReadCount", mergerActMsgService.countUnRead(uid));
-		model.addAttribute("citys", com.juzhai.passport.InitData.CITY_MAP);
-	}
+	// private void doPageRead(long uid, Model model, int page) {
+	// long totalCount = mergerActMsgService.countRead(uid);
+	// PagerManager pager = new PagerManager(getPage(totalCount, page,
+	// readActMsgRows), readActMsgRows, Long.valueOf(totalCount)
+	// .intValue(), "/msg/pageRead", "", "readContent");
+	// List<MergerActMsg> actMsgList = mergerActMsgService.pageRead(uid,
+	// pager.getFirstResult(), pager.getMaxResult());
+	// List<ActMsgView> actMsgViewList = assembleActMsgView(uid, actMsgList);
+	// model.addAttribute("actMsgViewList", actMsgViewList);
+	// model.addAttribute("pager", pager);
+	// model.addAttribute("unReadCount", mergerActMsgService.countUnRead(uid));
+	// model.addAttribute("citys", com.juzhai.passport.InitData.CITY_MAP);
+	// }
 
 	/**
 	 * 打开未读信息
@@ -340,11 +337,11 @@ public class MsgCenterController extends BaseController {
 			if (!StringUtils.isEmpty(fids)) {
 				AuthInfo authInfo = tpUserAuthService.getAuthInfo(
 						context.getUid(), context.getTpId());
-//				if (appService.sendMessage(fids, content, authInfo)) {
-//					result.setSuccess(true);
-//				} else {
-//					result.setSuccess(false);
-//				}
+				// if (appService.sendMessage(fids, content, authInfo)) {
+				// result.setSuccess(true);
+				// } else {
+				// result.setSuccess(false);
+				// }
 			} else {
 				result.setSuccess(false);
 			}
@@ -358,7 +355,8 @@ public class MsgCenterController extends BaseController {
 	@RequestMapping(value = "/sendAbout")
 	@ResponseBody
 	public AjaxResult sendAbout(HttpServletRequest request, String content,
-			Long fuid, Long actId, Model model,String typeWeibo,String typeComment) throws NeedLoginException {
+			Long fuid, Long actId, Model model, String typeWeibo,
+			String typeComment) throws NeedLoginException {
 		UserContext context = checkLoginForApp(request);
 		AjaxResult result = new AjaxResult();
 		try {
@@ -375,7 +373,7 @@ public class MsgCenterController extends BaseController {
 				fuids.add(tpUser.getTpIdentity());
 			}
 			if (appService.aboutFriends(fuids, content, context.getUid(),
-					context.getTpId(), actId,typeWeibo,typeComment)) {
+					context.getTpId(), actId, typeWeibo, typeComment)) {
 				result.setSuccess(true);
 			} else {
 				result.setSuccess(false);

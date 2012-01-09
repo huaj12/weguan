@@ -2,7 +2,8 @@ package com.juzhai.notice.bean;
 
 public enum NoticeType {
 	INTEREST_ME("/home/interestMes", 1), DATING_ME("/home/datingMes", 2), ACCEPT_DATING(
-			"/home/datings/accept", 3), SYS_NOTICE("/sysnotice/list", 4);
+			"/home/datings/accept", 3), SYS_NOTICE("/sysnotice/list", 4), DIALOG(
+			"/home/dialog", 5);
 
 	private String uri;
 

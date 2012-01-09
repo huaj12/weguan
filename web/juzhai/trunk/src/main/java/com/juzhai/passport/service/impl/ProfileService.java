@@ -333,9 +333,13 @@ public class ProfileService implements IProfileService {
 		if (profile.getProfessionId() > 0) {
 			Profession p = InitData.PROFESSION_MAP.get(profile
 					.getProfessionId());
+			String professionName = "";
 			if (null != p) {
-				profile.setProfession(p.getName());
+				professionName = p.getName();
+			} else {
+				professionName = "";
 			}
+			profile.setProfession(professionName);
 		}
 		profile.setConstellationId(InitData.getConstellation(
 				profile.getBirthMonth(), profile.getBirthDay()).getId());

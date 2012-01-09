@@ -48,6 +48,10 @@ CREATE UNIQUE INDEX `idx_uid_freedate` ON `juzhai`.`tb_user_free_date` (`uid` AS
 SHOW WARNINGS;
 
 
+CREATE SCHEMA IF NOT EXISTS `juzhai` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+SHOW WARNINGS;
+USE `juzhai` ;
+
 -- -----------------------------------------------------
 -- Table `juzhai`.`tb_raw_ad`
 -- -----------------------------------------------------
@@ -73,8 +77,9 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_raw_ad` (
   `from_link` VARCHAR(300) NULL ,
   `status` INT(2) NOT NULL DEFAULT 0 ,
   `md5_target_url` VARCHAR(45) NULL ,
+  `category` VARCHAR(45) NULL ,
   `create_time` DATETIME NOT NULL ,
-  `last_modify_time` DATETIME NULL ,
+  `last_modify_time` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8

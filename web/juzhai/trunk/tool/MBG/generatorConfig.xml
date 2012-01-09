@@ -263,11 +263,11 @@
       <property name="useActualColumnNames" value="false"/>
     </table>
     
-    <table tableName="tb_ad_source" domainObjectName="AdSource">
+    <!-- <table tableName="tb_ad_source" domainObjectName="AdSource">
       <property name="useActualColumnNames" value="false"/>
     </table>
 
-	<!-- <table tableName="tb_search_act_action" domainObjectName="SearchActAction">
+	<table tableName="tb_search_act_action" domainObjectName="SearchActAction">
       <property name="useActualColumnNames" value="false"/>
     </table>
     
@@ -307,6 +307,47 @@
 
 	<table tableName="tb_sys_notice" domainObjectName="SysNotice">
       <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+  </context> -->
+  
+  <!-- <context id="home" targetRuntime="MyBatis3">
+  
+	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
+	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+  
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://127.0.0.1:3306/juzhai"
+        userId="root"
+        password="111111">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.juzhai.home.model" targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="mybatis.home"  targetProject="src/main/resources">
+      <property name="enableSubPackages" value="false" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.home.mapper"  targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
+    </javaClientGenerator>
+
+	<table tableName="tb_dialog" domainObjectName="Dialog">
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
+      <columnOverride column="has_new" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+    </table>
+    
+    <table tableName="tb_dialog_content" domainObjectName="DialogContent">
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
     </table>
     
   </context> -->

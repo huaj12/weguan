@@ -1,13 +1,13 @@
 package com.juzhai.act.controller.form;
 
 public class AddRawActForm {
-	private long province;
-	private long city;
-	private long town;
+	private Long province;
+	private Long city;
+	private Long town;
 	private String name;
 	private String detail;
 	private String filePath;
-	private long categoryId;
+	private Long categoryId;
 	private String address;
 	private String startTime;
 	private String endTime;

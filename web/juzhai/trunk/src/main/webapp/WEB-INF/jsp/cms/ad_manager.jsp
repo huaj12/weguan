@@ -7,7 +7,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="arrayvalue" value="未发布,已发布,已过期" />
 <c:set var="delim" value=","/> 
-<c:set var="array" value="${fn:split(arrayvalue, delim)}"/> 
+<c:set var="array" value="${fn:split(arrayvalue, delim)}"/>
+<c:set var="categoryvalue" value="娱乐,美食,生活服务" /> 
+<c:set var="categorys" value="${fn:split(categoryvalue, delim)}"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -124,6 +126,12 @@ function addAd(){
 		<c:forEach var="value" items="${array}" varStatus="v">
 			<option value="${v.index }" <c:if test="${v.index ==status}">selected="selected"</c:if> >${value}</option>
 		</c:forEach>
+	</select>
+	<select  name="category" onchange="seachRawAd();">
+			<option <c:if test="${empty category }">selected="selected"</c:if> value="">所有类别</option>
+			<c:forEach items="${categorys }" var="cat">
+			<option value="${cat }" <c:if test="${cat==category}">selected="selected"</c:if> >${cat}</option>
+			</c:forEach>
 	</select>
 	</form>
 	<table border="0" cellspacing="4">

@@ -259,11 +259,15 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
 
-	<table tableName="tb_raw_ad" domainObjectName="RawAd">
+	<table tableName="tb_spider_url" domainObjectName="SpiderUrl">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+
+	<!-- <table tableName="tb_raw_ad" domainObjectName="RawAd">
       <property name="useActualColumnNames" value="false"/>
     </table>
     
-    <!-- <table tableName="tb_ad_source" domainObjectName="AdSource">
+    <table tableName="tb_ad_source" domainObjectName="AdSource">
       <property name="useActualColumnNames" value="false"/>
     </table>
 

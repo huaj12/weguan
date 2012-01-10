@@ -100,15 +100,29 @@ public class CmsActAdController {
 	@RequestMapping(value = "/remove/act/ad", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult removeActAd(HttpServletRequest request, Model model,
-			@RequestParam(defaultValue = "0")long  rawAdId, @RequestParam(defaultValue = "0") long actId) {
+			@RequestParam(defaultValue = "0")long  actAdId) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			actAdService.remove(actId, rawAdId);
+			actAdService.remove(actAdId);
 		} catch (ActAdInputException e) {
 			ajaxResult.setError(e.getErrorCode(), messageSource);
 		}
 		return ajaxResult;
 	}
+	
+	@RequestMapping(value = "/remove/raw/ad", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult removeRawAd(HttpServletRequest request, Model model,
+			@RequestParam(defaultValue = "0")long  rawAdId) {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			rawAdService.remove(rawAdId);
+		} catch (RawAdInputException e) {
+			ajaxResult.setError(e.getErrorCode(), messageSource);
+		}
+		return ajaxResult;
+	}
+	
 
 	@RequestMapping(value = "/ajax/show/act/ads", method = RequestMethod.GET)
 	public String showActAds(Long rawAdId, Model model) {

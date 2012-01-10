@@ -36,5 +36,7 @@ public interface IRawAdService {
 	List<RawAd> showRawAdList(int firstResult, int maxResults);
 
 	RawAd getRawAd(long id);
+	
+	void remove(long rawId)throws RawAdInputException;
 
 }

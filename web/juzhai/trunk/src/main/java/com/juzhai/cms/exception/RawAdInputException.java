@@ -19,6 +19,7 @@ public class RawAdInputException extends JuzhaiException {
 	 */
 	public static final String RAW_AD_FILE_CONTENT_INVALID = "70003";
 	
+	public static final String RAW_AD_REMOVE_ID_IS_NULL = "70004";
 	
 	public RawAdInputException(String errorCode, Throwable cause) {
 		super(errorCode, cause);

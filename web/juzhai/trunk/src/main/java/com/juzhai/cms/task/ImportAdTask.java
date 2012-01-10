@@ -9,9 +9,11 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
+import com.juzhai.cms.mapper.SpiderUrlMapper;
 import com.juzhai.cms.model.AdSource;
 import com.juzhai.cms.model.RawAd;
 import com.juzhai.cms.service.IRawAdService;
+import com.juzhai.cms.service.ISpiderUrlService;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.model.City;
 
@@ -19,12 +21,14 @@ public class ImportAdTask implements Callable<Boolean> {
 	private String content;
 	private IRawAdService rawAdService;
 	private CountDownLatch down;
+	private ISpiderUrlService spiderUrlService;
 
 	public ImportAdTask(String content, IRawAdService rawAdService,
-			CountDownLatch down) {
+			CountDownLatch down,ISpiderUrlService spiderUrlService) {
 		this.content = content;
 		this.rawAdService = rawAdService;
 		this.down = down;
+		this.spiderUrlService=spiderUrlService;
 	}
 
 	@Override
@@ -67,7 +71,7 @@ public class ImportAdTask implements Callable<Boolean> {
 			String MD5_link = DigestUtils.md5Hex(targetUrl);
 			rawAd.setMd5TargetUrl(MD5_link);
 			// 已经爬取过的链接
-			if (rawAdService.isUrlExist(MD5_link)) {
+			if (spiderUrlService.isUrlExist(MD5_link)) {
 				return Boolean.FALSE;
 			}
 			rawAdService.createRawAd(rawAd);

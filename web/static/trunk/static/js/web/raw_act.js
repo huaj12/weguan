@@ -105,20 +105,18 @@ function addRawAct() {
 	var detailCount = editor.text();
 	var detail_length = getByteLen(detailCount);
 	if (detail_length > 8000) {
-		editor.focus();
-		$("#detail_tip").html("详细信息不能超过4000个中文当前" + (detail_length / 2) + "字")
+		$("#detail_tip").html("详细信息不能超过4000个中文当前" + Math.floor(detail_length / 2) + "字")
 				.stop(true, true).show().fadeOut(4000);
 		return;
 	}
 	 if (filePath == null || filePath == "") {
-		$("#logo")[0].focus();
 		$("#logo_tip").text("项目图片不能为空").stop(true, true).show().fadeOut(4000);
 		return;
 	}
 	if (!checkValLength(address, 0, 60)) {
-		$("#address")[0].focus();
 		$("#address_tip").html("详细地址必须少于30个字！").stop(true, true).show()
 				.fadeOut(4000);
+		return;
 	}
 	
 	jQuery.ajax({

@@ -110,7 +110,7 @@ function addRawAct() {
 		return;
 	}
 	 if (filePath == null || filePath == "") {
-		$("#logo_tip").text("项目图片不能为空").stop(true, true).show().fadeOut(4000);
+		 $("div.upload > div.error").text("项目图片不能为空").stop(true, true).show().fadeOut(4000);
 		return;
 	}
 	if (!checkValLength(address, 0, 60)) {

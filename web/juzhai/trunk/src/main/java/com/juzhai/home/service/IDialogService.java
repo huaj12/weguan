@@ -35,7 +35,7 @@ public interface IDialogService {
 	 * @param targetUid
 	 * @param dialogContentId
 	 */
-	boolean deleteDialogContent(long uid, long targetUid, long dialogContentId);
+	long deleteDialogContent(long uid, long targetUid, long dialogContentId);
 
 	/**
 	 * 对话列表

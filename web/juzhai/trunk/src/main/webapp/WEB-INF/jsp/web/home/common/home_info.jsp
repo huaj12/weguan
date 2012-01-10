@@ -49,6 +49,7 @@
 				<a href="javascript:void(0);" class="like" uid="${profile.uid}" <c:if test="${isInterest}">style="display:none;"</c:if>>敲门</a>	
 				<a href="javascript:void(0);" class="date" <c:if test="${datingView!=null}">style="display:none;"</c:if> uid="${profile.uid}">约ta</a>
 			</div><!--user_btn end-->
+			<a href="javascript:void(0);" class="open-dialog" target-uid="${profile.uid}" target-nickname="${profile.nickname}">发私信</a>
 		</c:otherwise>
 	</c:choose>
 </div><!--head_area end-->

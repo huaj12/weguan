@@ -42,6 +42,7 @@ public class JzUtilFunction {
 	 * @return
 	 */
 	public static long beforeSeconds(Date date) {
+		System.out.println(date+"**************");
 		return (System.currentTimeMillis() - date.getTime()) / 1000;
 	}
 

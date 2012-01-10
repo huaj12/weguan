@@ -25,6 +25,7 @@ import com.juzhai.home.exception.DialogException;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
+import com.juzhai.passport.service.IProfileService;
 
 @Controller
 @RequestMapping(value = "home")
@@ -36,6 +37,8 @@ public class DialogController extends BaseController {
 	private INoticeService noticeService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IProfileService profileService;
 	@Value("${show.dialogs.max.rows}")
 	private int showDialogsMaxRows;
 	@Value("${show.dialog.contents.max.rows}")
@@ -67,7 +70,8 @@ public class DialogController extends BaseController {
 						pager.getFirstResult(), pager.getMaxResult());
 		model.addAttribute("dialogContentViewList", dialogContentViewList);
 		model.addAttribute("pager", pager);
-		model.addAttribute("targetUid", uid);
+		model.addAttribute("targetProfile",
+				profileService.getProfileCacheByUid(uid));
 		return "web/home/dialog/dialog_content";
 	}
 
@@ -86,17 +90,18 @@ public class DialogController extends BaseController {
 	@RequestMapping(value = "/deleteDialogContent", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult deleteDialogContent(HttpServletRequest request,
-			Model model, long uid, long dialogContentId)
+			Model model, long targetUid, long dialogContentId)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		boolean success = dialogService.deleteDialogContent(context.getUid(),
-				uid, dialogContentId);
+		long dialogContentCnt = dialogService.deleteDialogContent(
+				context.getUid(), targetUid, dialogContentId);
 		AjaxResult result = new AjaxResult();
-		result.setSuccess(success);
+		result.setResult(dialogContentCnt);
 		return result;
 	}
 
 	@RequestMapping(value = "/sendMessage", method = RequestMethod.POST)
+	@ResponseBody
 	public AjaxResult sendSMS(HttpServletRequest request, Model model,
 			String content, long targetUid) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
@@ -108,4 +113,17 @@ public class DialogController extends BaseController {
 		}
 		return result;
 	}
+
+	// @RequestMapping(value = "/replyMessage", method = RequestMethod.POST)
+	// @ResponseBody
+	// public AjaxResult replySMS(HttpServletRequest request, Model model,
+	// String content, long targetUid) throws NeedLoginException {
+	// UserContext context = checkLoginForWeb(request);
+	// try {
+	// dialogService.sendSMS(context.getUid(), targetUid, content);
+	// } catch (DialogException e) {
+	// result.setError(e.getErrorCode(), messageSource);
+	// }
+	// return result;
+	// }
 }

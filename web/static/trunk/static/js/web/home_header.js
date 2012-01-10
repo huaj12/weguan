@@ -11,24 +11,18 @@ $(document).ready(function() {
 	$("div.ta_user_btn > div.cancel_like > a.delete").bind("click", function() {
 		var uid = $(this).attr("uid");
 		var obj = $(this);
-		var content = $("#dialog-remove-interest").html();
-		showConfirm(this, "removeInterest", content, function(){
-			removeInterest(uid, function(){
-				$(obj).parent().hide();
-				$("div.ta_user_btn > a.like").show();
-			});
+		removeInterestConfirm(uid, this, function(){
+			$(obj).parent().hide();
+			$("div.ta_user_btn > a.like").show();
 		});
 	});
 	
 	//删除约
 	$("div.dated > a.removeDating").bind("click", function() {
 		var datingId = $("div.dated").attr("datingid");
-		var content = $("#dialog-remove-dating").html();
-		showConfirm(this, "removeDating", content, function() {
-			removeDating(datingId, function() {
-				$("div.dated").hide();
-				$("a.date").show();
-			});
+		removeDatingConfirm(datingId, this, function(){
+			$("div.dated").hide();
+			$("a.date").show();
 		});
 	});
 	//添加约
@@ -45,6 +39,12 @@ $(document).ready(function() {
 	
 	$("div.kongxian > a").bind("click", function(){
 		$("div#freeDateForm").fadeIn(100);
+	});
+	
+	$("a.open-dialog").bind("click", function(){
+		var uid = $(this).attr("target-uid");
+		var nickname = $(this).attr("target-nickname");
+		openMessage(uid, nickname);
 	});
 });
 

@@ -27,7 +27,7 @@
     
     <function>
     	<name>beforeSeconds</name>
-    	<function-class>com.juzhai.core.web.jstl.JzUrilFunction</function-class>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
     	<function-signature>long beforeSeconds(java.util.Date)</function-signature>
     	<example>${jzu:beforeSeconds(date)}</example>
     </function>

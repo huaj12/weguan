@@ -48,7 +48,7 @@
 											</form>
 										</div><!--sc_btn end-->
 										<div class="loading" style="display: none;">上传中...</div>
-										<div class="error" style="display: none;"></div>
+										<div class="error"  style="display: none;"></div>
 										<div class="load_done" style="display: none;"><!--load_done begin-->
 											<p><img id="logo" src="" width="180" height="180" /></p>
 											<a href="javascript:void(0);" class="reload">重新上传</a>
@@ -107,16 +107,20 @@
 								<div class="xhang"><!--x_hang begin-->
 									<h3>时&nbsp;间(选填)：</h3>
 									<div class="input"><!--select begin-->
-										<span class="w190"><input name="startTime"
+										<p class="l"></p>
+										<span class="w75"><input name="startTime"
 											readonly="readonly" id="startTime" onclick="WdatePicker()"
 											type="text" />
 										</span>
+										<p class="r"></p>
 									</div><!--select end-->
-									<b>到</b>
+									<b>&nbsp;到</b>
 									<div class="input"><!--select begin-->
-										<span class="w190"><input name="endTime" id="endTime"
+										<p class="l"></p>
+										<span class="w75"><input name="endTime" id="endTime"
 											readonly="readonly" onclick="WdatePicker()" type="text" />
 										</span>
+										<p class="r"></p>
 									</div><!--select end-->
 								</div><!--x_hang end-->
 								<div class="send_btn"><!--x_hang begin-->

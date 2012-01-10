@@ -62,6 +62,8 @@ public class AnalysisTask implements Callable<Boolean> {
 		String targetUrl=baseService.findContent(content, RegexUtils.getRegEx(target,
 		"targetUrl"));
 		targetUrl=analysisService.getTargetUrl(targetUrl, target);
+		String category=baseService.findContent(content, RegexUtils.getRegEx(target,
+		"category"));
 		StringBuffer fileContent=new StringBuffer() ;
 		fileContent.append("-------------------------------------------------");
 		fileContent.append("\r\n");
@@ -92,6 +94,8 @@ public class AnalysisTask implements Callable<Boolean> {
 		fileContent.append("from="+target.getName());
 		fileContent.append("\r\n");
 		fileContent.append("fromLink="+url);
+		fileContent.append("\r\n");
+		fileContent.append("category="+category);
 		fileContent.append("\r\n");
 		synchronized(writer){
 			writer.write(fileContent.toString());

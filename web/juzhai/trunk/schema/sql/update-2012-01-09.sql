@@ -49,3 +49,24 @@ SHOW WARNINGS;
 CREATE INDEX `idx_receiveruid` ON `juzhai`.`tb_dialog_content` (`receiver_uid` ASC) ;
 
 SHOW WARNINGS;
+
+
+-- -----------------------------------------------------
+-- Table `juzhai`.`tb_spider_url`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `juzhai`.`tb_spider_url` ;
+
+SHOW WARNINGS;
+CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_spider_url` (
+  `md5_url` VARCHAR(32) NOT NULL ,
+  `url` VARCHAR(300) NOT NULL ,
+  `create_time` DATETIME NOT NULL )
+ENGINE = MyISAM
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci, 
+COMMENT = '爬虫爬过的url' ;
+
+SHOW WARNINGS;
+CREATE UNIQUE INDEX `uidx_md5url` ON `juzhai`.`tb_spider_url` (`md5_url` ASC) ;
+
+SHOW WARNINGS;

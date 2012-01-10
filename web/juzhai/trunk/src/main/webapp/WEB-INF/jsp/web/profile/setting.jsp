@@ -221,7 +221,7 @@
 									</div>
 									<div class="save_btn">
 										<!--save_btn begin-->
-										<a href="#" onclick="setting()">保存</a>
+										<a href="javascript:void(0);" onclick="setting()">保存</a>
 									</div>
 									<!--save_btn end-->
 									<div class="clear"></div>

@@ -15,7 +15,7 @@
 				<div class="content"><!--content begin-->
 					<div class="t"></div>
 					<div class="m"><!--m begin-->
-						<div class="index_page  <c:choose><c:when test='${profile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--index_page begin-->
+						<div class="index_page <c:choose><c:when test='${profile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--index_page begin-->
 							<jsp:include page="/WEB-INF/jsp/web/home/common/home_info.jsp" />
 							<c:set var="tabType" value="interestMes" scope="request" />
 							<jsp:include page="/WEB-INF/jsp/web/home/common/tab.jsp" />

@@ -90,7 +90,7 @@ SHOW WARNINGS;
 CREATE UNIQUE INDEX `uidx_md5_url` ON `juzhai`.`tb_raw_ad` (`md5_target_url` ASC) ;
 
 SHOW WARNINGS;
-CREATE INDEX `idx_source` ON `juzhai`.`tb_raw_ad` (`source` ASC) ;
+CREATE INDEX `idx_city_source_status_category` ON `juzhai`.`tb_raw_ad` (`city` ASC, `source` ASC, `status` ASC, `category` ASC) ;
 
 SHOW WARNINGS;
 

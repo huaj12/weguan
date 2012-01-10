@@ -122,16 +122,16 @@ public class RawAdService implements IRawAdService {
 	}
 
 	@Override
-	public List<RawAd> searchRawAd(String status, Long cityId, String source,
+	public List<RawAd> searchRawAd(String status, Long cityId, String source,String category,
 			int firstResult, int maxResults) {
-		RawAdExample example = getSearchRawAdExample(status, cityId, source);
+		RawAdExample example = getSearchRawAdExample(status, cityId, source,category);
 		example.setLimit(new Limit(firstResult, maxResults));
 		example.setOrderByClause("start_date desc,end_date asc");
 		return rawAdMapper.selectByExample(example);
 	}
 
 	private RawAdExample getSearchRawAdExample(String status, Long cityId,
-			String source) {
+			String source,String category) {
 		RawAdExample example = new RawAdExample();
 		Criteria criteria = example.createCriteria();
 		if (StringUtils.isNotEmpty(status)) {
@@ -149,12 +149,15 @@ public class RawAdService implements IRawAdService {
 		if (StringUtils.isNotEmpty(source)) {
 			criteria.andSourceEqualTo(source);
 		}
+		if (StringUtils.isNotEmpty(category)) {
+			criteria.andCategoryEqualTo(category);
+		}
 		return example;
 	}
 
 	@Override
-	public int countSearchRawAd(String status, Long cityId, String source) {
-		RawAdExample example = getSearchRawAdExample(status, cityId, source);
+	public int countSearchRawAd(String status, Long cityId, String source,String category) {
+		RawAdExample example = getSearchRawAdExample(status, cityId, source,category);
 		return rawAdMapper.countByExample(example);
 	}
 

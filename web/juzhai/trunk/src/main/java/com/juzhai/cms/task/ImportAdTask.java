@@ -57,6 +57,7 @@ public class ImportAdTask implements Callable<Boolean> {
 			rawAd.setTargetUrl(targetUrl);
 			rawAd.setFromName(findContent(content, "from"));
 			rawAd.setFromLink(findContent(content, "fromLink"));
+			rawAd.setCategory(findContent(content, "category"));
 			rawAd.setStatus(0);
 			rawAd.setCreateTime(new Date());
 			rawAd.setLastModifyTime(new Date());

@@ -28,10 +28,10 @@ public interface IRawAdService {
 
 	int countRawAd();
 
-	List<RawAd> searchRawAd(String status, Long cityId, String source,
+	List<RawAd> searchRawAd(String status, Long cityId, String source,String category,
 			int firstResult, int maxResults);
 
-	int countSearchRawAd(String status, Long cityId, String source);
+	int countSearchRawAd(String status, Long cityId, String source,String category);
 
 	List<RawAd> showRawAdList(int firstResult, int maxResults);
 

@@ -2,11 +2,8 @@ $(document).ready(function() {
 	$("div.item > div.close > a").bind("click", function() {
 		var datingId = $(this).attr("datingid");
 		var obj = $(this);
-		var content = $("#dialog-remove-dating").html();
-		showConfirm(this, "removeDating", content, function() {
-			removeDating(datingId, function() {
-				$(obj).parent().parent().remove();
-			});
+		removeDatingConfirm(datingId, this, function(){
+			$(obj).parent().parent().remove();
 		});
 	});
 	//修改约会

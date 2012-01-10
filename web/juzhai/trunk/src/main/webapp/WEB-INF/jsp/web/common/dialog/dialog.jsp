@@ -6,26 +6,15 @@
 		<p>你将不再收到相关邀请。</p>
 	</div><!--show end-->
 </div>
-<div id="dialog-remove-interest" style="display:none;">
+<div id="dialog-confirm" style="display:none;">
 	<div class="show_box"><!--show box-->
-		<h2>确定收回这次敲门么？</h2>
-	</div><!--show end-->
-</div>
-<div id="dialog-remove-dating" style="display:none;">
-	<div class="show_box"><!--show box-->
-		<h2>确定不再约ta么？</h2>
+		<h2>{0}</h2>
 	</div><!--show end-->
 </div>
 <div id="dialog-success" style="display:none">
 	<div class="show_box_auto"><!--show_box_auto begin-->
 		<h2>{0}</h2>
 	</div>
-</div>
-<div id="dialog-rawAct-success" style="display: none;">
-	<div class="tj_done_show_box"><!--tj_done_show_box begin-->
-		<h2>谢谢推荐，通过审核后立即发布!</h2>
-		<a href="#" class="done">知道了</a>
-	</div><!--tj_done_show_box end-->
 </div>
 <div id="dialog-login" style="display:none;">
 	<div class="login_show_box_1"><!--login_show_box begin-->
@@ -35,8 +24,12 @@
 		</div>
 	</div>
 </div>
-<div id="dialog-remove-sysnotice" style="display:none;">
-	<div class="show_box"><!--show box-->
-		<h2>确定要删除吗？</h2>
-	</div><!--show end-->
+<div id="dialog-message" style="display: none;">
+	<div class="message_box"><!--share_box2 begin-->
+		<h2>给&nbsp;{0}&nbsp;发私信&nbsp;&nbsp;(200字以内)</h2>
+		<div class="message_box_con"><!--message_box_con begin-->
+		<div class="text_area"><textarea name="content" cols="" rows=""></textarea></div>
+		<div class="btn"><a class="send" href="javascript:void(0);" onclick="javascript:sendMessage(this);" target-uid="[0]">发给ta</a><a href="javascript:void(0);" class="sending" style="display: none;">发送中...</a><b style="display:none;"></b></div>
+		</div><!--message_box_con end-->
+	</div><!--share_box2 end-->
 </div>

@@ -2,12 +2,9 @@ $(document).ready(function() {
 	$("div.btn > div.ygxq > a.delete").bind("click", function() {
 		var uid = $(this).attr("uid");
 		var obj = $(this);
-		var content = $("#dialog-remove-interest").html();
-		showConfirm(this, "removeInterest", content, function(){
-			removeInterest(uid, function(){
-				$(obj).parent().hide();
-				$("#interest" + uid).show();
-			});
+		removeInterestConfirm(uid, this, function(){
+			$(obj).parent().hide();
+			$("#interest" + uid).show();
 		});
 	});
 	$("div.btn > a.like").bind("click", function() {

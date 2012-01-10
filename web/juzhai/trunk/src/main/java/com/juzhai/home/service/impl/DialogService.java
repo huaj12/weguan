@@ -116,16 +116,20 @@ public class DialogService implements IDialogService {
 	}
 
 	@Override
-	public boolean deleteDialogContent(long uid, long targetUid,
+	public long deleteDialogContent(long uid, long targetUid,
 			long dialogContentId) {
 		Dialog dialog = getDialogByUidAndTargetUid(uid, targetUid);
 		if (null != dialog && dialog.getUid() == uid) {
 			redisTemplate.opsForList().remove(
 					RedisKeyGenerator.genDialogContentsKey(dialog.getId()), 1,
 					dialogContentId);
-			return true;
+			long count = getDialogContentCnt(dialog.getId());
+			if (count <= 0) {
+				deleteDialog(uid, dialog.getId());
+			}
+			return count;
 		}
-		return false;
+		return 0L;
 	}
 
 	private Dialog getDialogByUidAndTargetUid(long uid, long targetUid) {

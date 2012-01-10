@@ -48,7 +48,7 @@
 											</form>
 										</div><!--sc_btn end-->
 										<div class="loading" style="display: none;">上传中...</div>
-										<div class="error" id="logo_tip" style="display: none;"></div>
+										<div class="error" style="display: none;"></div>
 										<div class="load_done" style="display: none;"><!--load_done begin-->
 											<p><img id="logo" src="" width="180" height="180" /></p>
 											<a href="javascript:void(0);" class="reload">重新上传</a>
@@ -129,6 +129,12 @@
 				</div><!--content end-->
 			</div><!--main end-->
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
+			<div id="dialog-rawAct-success" style="display: none;">
+				<div class="tj_done_show_box"><!--tj_done_show_box begin-->
+					<h2>谢谢推荐，通过审核后立即发布!</h2>
+					<a href="#" class="done">知道了</a>
+				</div><!--tj_done_show_box end-->
+			</div>
 		</div><!--warp end-->
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 		<jsp:include page="/WEB-INF/jsp/web/common/script/kindEditor.jsp" />

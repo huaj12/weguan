@@ -1,10 +1,14 @@
 $(document).ready(function(){
+	bindMouseHover();
+});
+
+function bindMouseHover(){
 	$(".mouseHover").bind("mouseover", function(){
 		mouseHover(this, true);
 	}).bind("mouseout", function(){
 		mouseHover(this, false);
 	});
-});
+}
 
 function mouseHover(li, isOver){
 	if(isOver){
@@ -58,6 +62,24 @@ function removeInterest(uid, successCallback){
 				window.location.href = "/login?turnTo=" + window.location.href;
 			}
 		}
+	});
+}
+
+function removeInterestConfirm(uid, followObj, callback){
+	var content = $("#dialog-confirm").html().replace("{0}", "确定收回这次敲门么？");
+	showConfirm(followObj, "removeInterest", content, function(){
+		removeInterest(uid, function(){
+			callback();
+		});
+	});
+}
+
+function removeDatingConfirm(datingId, followObj, callback){
+	var content = $("#dialog-confirm").html().replace("{0}", "确定不再约ta么？");
+	showConfirm(followObj, "removeDating", content, function() {
+		removeDating(datingId, function() {
+			callback();
+		});
 	});
 }
 
@@ -121,13 +143,8 @@ function date(successCallback){
 		dataType : "json",
 		success : function(result) {
 			if(result&&result.success){
-//				var showBox = $.dialog.list["openDating"];
 				var content = $("#dialog-success").html().replace("{0}", "好的，我们会通知ta！");
 				closeDialog('openDating');
-//				if(showBox!=null){
-//					showBox.content(content);
-//					showBox.time(2);
-//				}
 				showSuccess(null, content);
 				successCallback(result.result);
 			}else{
@@ -236,7 +253,6 @@ function showConfirm(followObj, dialogId, dialogContent, okCallback){
 	closeDialog(dialogId);
 	$.dialog({
 		follow : followObj,
-//		fixed : true,
 		drag : false,
 		resize : false,
 		esc : true,
@@ -254,7 +270,6 @@ function showConfirm(followObj, dialogId, dialogContent, okCallback){
 function showSuccess(followObj, dialogContent){
 	var options={
 		icon: 'succeed',
-//		fixed : true,
 		drag : false,
 		resize : false,
 		content : dialogContent,
@@ -292,4 +307,43 @@ function closeDialog(dialogId){
 	if(showBox != null){
 		showBox.close();
 	}
+}
+
+function openMessage(targetUid, nickname){
+	var content = $("#dialog-message").html().replace("{0}", nickname).replace("[0]", targetUid);
+	openDialog(null, "openMessage", content);
+}
+
+function sendMessage(obj){
+	var targetUid = $(obj).attr("target-uid");
+	var content = $(obj).parent().prev().children("textarea").val();
+	if(!checkValLength(content, 1, 400)){
+		$(obj).next().next().text("私聊内容字数控制在1-200个汉字内").show();
+		return;
+	}
+	$(obj).hide();
+	$(obj).next().show();
+	jQuery.ajax({
+		url : "/home/sendMessage",
+		type : "post",
+		cache : false,
+		data : {"targetUid" : targetUid, "content" : content},
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				var content = $("#dialog-success").html().replace("{0}", "恭喜，发送私信成功！");
+				closeDialog("openMessage");
+				showSuccess(null, content);
+			} else {
+				$(obj).next().next().text(result.errorInfo).show();
+				$(obj).next().hide();
+				$(obj).show();
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
 }

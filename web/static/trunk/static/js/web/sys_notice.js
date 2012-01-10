@@ -3,7 +3,7 @@ $(document).ready(function() {
 	$("div.system_tz > ul > li > span > a").bind("click", function(){
 		var sysNoticeId = $(this).attr("sysnoticeId");
 		var obj = this;
-		var content = $("#dialog-remove-sysnotice").html();
+		var content = $("#dialog-confirm").html().replace("{0}", "确定要删除吗？");
 		showConfirm(obj, "delSysNotice", content, function(){
 			delSysNotice(obj, sysNoticeId);
 		});

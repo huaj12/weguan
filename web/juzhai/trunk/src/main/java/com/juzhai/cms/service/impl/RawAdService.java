@@ -20,9 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.juzhai.cms.model.RawAdExample.Criteria;
 import com.juzhai.cms.exception.RawAdInputException;
 import com.juzhai.cms.mapper.RawAdMapper;
+import com.juzhai.cms.mapper.SpiderUrlMapper;
 import com.juzhai.cms.model.RawAd;
 import com.juzhai.cms.model.RawAdExample;
+import com.juzhai.cms.model.SpiderUrl;
 import com.juzhai.cms.service.IRawAdService;
+import com.juzhai.cms.service.ISpiderUrlService;
 import com.juzhai.cms.task.ImportAdTask;
 import com.juzhai.core.dao.Limit;
 
@@ -36,6 +39,8 @@ public class RawAdService implements IRawAdService {
 
 	@Autowired
 	private RawAdMapper rawAdMapper;
+	@Autowired
+	private ISpiderUrlService spiderUrlService;
 
 	@Override
 	public int importAd(MultipartFile rawAd) throws RawAdInputException {
@@ -70,7 +75,7 @@ public class RawAdService implements IRawAdService {
 		AtomicInteger index = new AtomicInteger();
 		for (String content : contents) {
 			Future<Boolean> future = taskExecutor.submit(new ImportAdTask(
-					content, this, down));
+					content, this, down,spiderUrlService));
 			try {
 				if (future.get() != null && future.get().booleanValue()) {
 					index.getAndIncrement();
@@ -122,16 +127,17 @@ public class RawAdService implements IRawAdService {
 	}
 
 	@Override
-	public List<RawAd> searchRawAd(String status, Long cityId, String source,String category,
-			int firstResult, int maxResults) {
-		RawAdExample example = getSearchRawAdExample(status, cityId, source,category);
+	public List<RawAd> searchRawAd(String status, Long cityId, String source,
+			String category, int firstResult, int maxResults) {
+		RawAdExample example = getSearchRawAdExample(status, cityId, source,
+				category);
 		example.setLimit(new Limit(firstResult, maxResults));
 		example.setOrderByClause("start_date desc,end_date asc");
 		return rawAdMapper.selectByExample(example);
 	}
 
 	private RawAdExample getSearchRawAdExample(String status, Long cityId,
-			String source,String category) {
+			String source, String category) {
 		RawAdExample example = new RawAdExample();
 		Criteria criteria = example.createCriteria();
 		if (StringUtils.isNotEmpty(status)) {
@@ -156,8 +162,10 @@ public class RawAdService implements IRawAdService {
 	}
 
 	@Override
-	public int countSearchRawAd(String status, Long cityId, String source,String category) {
-		RawAdExample example = getSearchRawAdExample(status, cityId, source,category);
+	public int countSearchRawAd(String status, Long cityId, String source,
+			String category) {
+		RawAdExample example = getSearchRawAdExample(status, cityId, source,
+				category);
 		return rawAdMapper.countByExample(example);
 	}
 
@@ -176,8 +184,17 @@ public class RawAdService implements IRawAdService {
 	public RawAd getRawAd(String url) {
 		RawAdExample example = new RawAdExample();
 		example.createCriteria().andTargetUrlEqualTo(url);
-		List<RawAd>list=rawAdMapper.selectByExample(example);
-		return list.size()>0?list.get(0):null;
+		List<RawAd> list = rawAdMapper.selectByExample(example);
+		return list.size() > 0 ? list.get(0) : null;
+	}
+
+	@Override
+	public void remove(long rawId) throws RawAdInputException {
+		if(rawId==0){
+			throw new RawAdInputException(
+					RawAdInputException.RAW_AD_REMOVE_ID_IS_NULL);
+		}
+		rawAdMapper.deleteByPrimaryKey(rawId);
 	}
 
 }

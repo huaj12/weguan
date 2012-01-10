@@ -120,43 +120,41 @@ public class ActAdService implements IActAdService {
 		return actAdMapper.countByExample(example) > 0 ? true : false;
 	}
 
-	@Override
-	@Transactional
-	public void remove(long actId, long rawAdId) throws ActAdInputException {
-		RawAd rawAd = rawAdService.getRawAd(rawAdId);
-		if (rawAd == null) {
-			throw new ActAdInputException(
-					ActAdInputException.REMOVE_ACT_AD_IS_NOT_EXIST);
-		}
-		ActAdExample example = new ActAdExample();
-		example.createCriteria().andLinkEqualTo(rawAd.getTargetUrl())
-				.andActIdEqualTo(actId);
-		List<ActAd> lists = actAdMapper.selectByExample(example);
-		if (CollectionUtils.isEmpty(lists)) {
-			throw new ActAdInputException(
-					ActAdInputException.REMOVE_ACT_AD_IS_NOT_EXIST);
-		}
-		try {
-			ActAd ad = lists.get(0);
-			actAdMapper.deleteByPrimaryKey(ad.getId());
-			String actIds = rawAd.getActIds();
-			String[] ids = actIds.split(",");
-			List<String> newIds = new ArrayList<String>();
-			for (int i = 0; i < ids.length; i++) {
-				if (!String.valueOf(actId).equals(ids[i])) {
-					newIds.add(ids[i]);
-				}
-			}
-			if (CollectionUtils.isEmpty(newIds)) {
-				rawAd.setStatus(0);
-			}
-			rawAd.setActIds(StringUtils.join(newIds, ","));
-			rawAdService.updateRawAd(rawAd);
-		} catch (Exception e) {
-			throw new ActAdInputException(
-					ActAdInputException.REMOVE_ACT_AD_IS_ERROR);
-		}
-	}
+//	public void remove(long actId, long rawAdId) throws ActAdInputException {
+//		RawAd rawAd = rawAdService.getRawAd(rawAdId);
+//		if (rawAd == null) {
+//			throw new ActAdInputException(
+//					ActAdInputException.REMOVE_ACT_AD_IS_NOT_EXIST);
+//		}
+//		ActAdExample example = new ActAdExample();
+//		example.createCriteria().andLinkEqualTo(rawAd.getTargetUrl())
+//				.andActIdEqualTo(actId);
+//		List<ActAd> lists = actAdMapper.selectByExample(example);
+//		if (CollectionUtils.isEmpty(lists)) {
+//			throw new ActAdInputException(
+//					ActAdInputException.REMOVE_ACT_AD_IS_NOT_EXIST);
+//		}
+//		try {
+//			ActAd ad = lists.get(0);
+//			actAdMapper.deleteByPrimaryKey(ad.getId());
+//			String actIds = rawAd.getActIds();
+//			String[] ids = actIds.split(",");
+//			List<String> newIds = new ArrayList<String>();
+//			for (int i = 0; i < ids.length; i++) {
+//				if (!String.valueOf(actId).equals(ids[i])) {
+//					newIds.add(ids[i]);
+//				}
+//			}
+//			if (CollectionUtils.isEmpty(newIds)) {
+//				rawAd.setStatus(0);
+//			}
+//			rawAd.setActIds(StringUtils.join(newIds, ","));
+//			rawAdService.updateRawAd(rawAd);
+//		} catch (Exception e) {
+//			throw new ActAdInputException(
+//					ActAdInputException.REMOVE_ACT_AD_IS_ERROR);
+//		}
+//	}
 
 	@Override
 	public List<Act> getActByRawAd(long rawAdId) {
@@ -182,6 +180,27 @@ public class ActAdService implements IActAdService {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public List<ActAd> getActAds(long actId) {
+		ActAdExample example = new ActAdExample();
+		example.createCriteria().andActIdEqualTo(actId);
+		return actAdMapper.selectByExample(example);
+	}
+
+	@Override
+	public void remove(long actAdId) throws ActAdInputException {
+		if(actAdId==0){
+			throw new ActAdInputException(
+					ActAdInputException.REMOVE_ACT_AD_IS_NOT_EXIST);
+		}
+		try{
+		actAdMapper.deleteByPrimaryKey(actAdId);
+		}catch (Exception e) {
+			throw new ActAdInputException(
+					ActAdInputException.REMOVE_ACT_AD_IS_ERROR);
+		}
 	}
 
 }

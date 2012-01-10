@@ -28,6 +28,7 @@ import com.juzhai.act.bean.SuitStatus;
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActDetail;
+import com.juzhai.act.service.IActAdService;
 import com.juzhai.act.service.IActDetailService;
 import com.juzhai.act.service.IActService;
 import com.juzhai.cms.controller.form.AddActForm;
@@ -53,6 +54,8 @@ public class CmsActController extends BaseController {
 	private MessageSource messageSource;
 	@Autowired
 	private IActDetailService actDetailService;
+	@Autowired
+	private IActAdService actAdService;
 
 	/*--------------------------------近义词屏蔽词------------------------------*/
 	@RequestMapping(value = "/searchActs")
@@ -237,6 +240,7 @@ public class CmsActController extends BaseController {
 		model.addAttribute("age", SuitAge.getByIndex(act.getSuitAge()));
 		model.addAttribute("gender", SuitGender.getByIndex(act.getSuitGender()));
 		model.addAttribute("stauts", SuitStatus.getByIndex(act.getSuitStatus()));
+		model.addAttribute("ads",actAdService.getActAds(actId));
 		return "cms/updateAct";
 	}
 

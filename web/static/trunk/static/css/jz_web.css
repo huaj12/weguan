@@ -504,6 +504,7 @@ float:left;
 .input p.r{ background:url(../images/web/input_bg_r1_c5.jpg) no-repeat;}
 .input span{ height:28px; overflow:hidden; background:url(../images/web/input_bg_r1_c3.jpg) repeat-x; float:left;}
 .input span input{ border:0px; background:none; height:28px; line-height:28px; color:#999; float:left; width:100%;}
+.input .w75{ width:75px;}
 .input .w190{ width:190px;}
 .input .w290{ width:290px;}
 .wrong p.l{ background:url(../images/web/wrong_input_r1_c1.jpg) no-repeat;}

@@ -28,7 +28,28 @@ function selectCity(obj) {
 		}
 	});
 }
-
+function removeAd(actAdId){
+	jQuery.ajax({
+		url : "/cms/remove/act/ad",
+		type : "post",
+		data : {
+			"actAdId" : actAdId
+		},
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				location.reload();
+			} else {
+				alert(result.errorInfo);
+			}
+		},
+		statusCode : {
+			401 : function() {
+				alert("未登录");
+			}
+		}
+	});
+}
 function selectTown(id) {
 	$.get('/base/selectTown', {
 		cityId : id,
@@ -234,6 +255,21 @@ function selectTown(id) {
 			</tr>
 		</table>
 	</form>
+	<h2>优惠信息</h2>
+	<table>
+	<tr>
+		<td>操作</td>
+		<td>标题</td>
+		<td>图片</td>
+	</tr>
+		<c:forEach var="ad" items="${ads }">
+		<tr>
+			<td><input type="button" value="删除" onclick="removeAd('${ad.id}');" /></td>
+			<td><a href="${ad.link }"> ${ad.name }</a></td>
+			<td><a href="${ad.link }"> <img width="120" height="120" src=" ${ad.picUrl}"/></a></td>
+		</tr>
+		</c:forEach>
+	</table>
 	<jsp:include page="/WEB-INF/jsp/web/common/script/kindEditor.jsp" />
 	<script>
 		var editor;

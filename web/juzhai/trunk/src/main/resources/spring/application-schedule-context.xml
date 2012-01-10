@@ -142,6 +142,30 @@
 	</bean>
 	<!-- send notice email end -->
 	
+	
+	<!-- delete expired ad  start -->
+	<bean id="deleteExpiredAdTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="deleteExpiredAdHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${del.expired.ad.cron}" />
+	</bean>
+	<!-- delete expired ad end -->
+	
+		<!-- delete expired raw ad  start -->
+	<bean id="deleteExpiredRawAdTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="deleteExpiredRawAdHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${del.expired.raw.ad.cron}" />
+	</bean>
+	<!-- delete expired raw ad end -->
+	
+	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
@@ -155,6 +179,8 @@
 				<ref bean="deleteTempImageTrigger"/>
 				<ref bean="updateShowActsTrigger"/>
 				<ref bean="delOutFreeDateTrigger"/>
+				<ref bean="deleteExpiredAdTrigger"/>
+				<ref bean="deleteExpiredRawAdTrigger"/>
 				<!-- <ref bean="noticeEmailTrigger"/> -->
 			</list>
 		</property>

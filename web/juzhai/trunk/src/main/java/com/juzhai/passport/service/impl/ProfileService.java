@@ -331,7 +331,11 @@ public class ProfileService implements IProfileService {
 					ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
 		}
 		if (profile.getProfessionId() > 0) {
-			profile.setProfession("");
+			Profession p = InitData.PROFESSION_MAP.get(profile
+					.getProfessionId());
+			if (null != p) {
+				profile.setProfession(p.getName());
+			}
 		}
 		profile.setConstellationId(InitData.getConstellation(
 				profile.getBirthMonth(), profile.getBirthDay()).getId());

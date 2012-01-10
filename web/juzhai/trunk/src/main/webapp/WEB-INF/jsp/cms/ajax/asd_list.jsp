@@ -4,6 +4,6 @@
  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <table>
 	<c:forEach var="act" items="${acts}">
-	<tr><td>${act.name}  <a href="#" onclick="removeAd('${rawId}','${act.id}')">取消</a></td></tr>
+	<tr><td>${act.name}  <a href="/cms/showUpdate?actId=${act.id}">取消</a></td></tr>
 	</c:forEach>
 </table>

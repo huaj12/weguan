@@ -20,18 +20,17 @@
 function seachRawAd(){
 	  document.rawAdForm.submit();
 }
-function removeAd(rawAdId,actId){
+function removeAd(rawAdId){
 	jQuery.ajax({
-		url : "/cms/remove/act/ad",
+		url : "/cms/remove/raw/ad",
 		type : "post",
 		data : {
-			"rawAdId" : rawAdId,
-			"actId":actId,
+			"rawAdId" : rawAdId
 		},
 		dataType : "json",
 		success : function(result) {
 			if (result && result.success) {
-				showActs(rawAdId);
+				location.reload();
 			} else {
 				alert(result.errorInfo);
 			}
@@ -164,6 +163,7 @@ function addAd(){
 		<c:forEach var="ad" items="${ads}">
 		<tr>
 			<td>
+				<input type="button" value="删除" onclick="removeAd('${ad.id}','false')"/>
 				<c:choose>
 					<c:when test="${ad.status==0}">
 						<input type="button" value="发布" onclick="actAdManager('${ad.id}','false')"/>

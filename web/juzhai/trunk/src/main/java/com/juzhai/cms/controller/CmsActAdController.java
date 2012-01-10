@@ -66,10 +66,10 @@ public class CmsActAdController {
 	@RequestMapping(value = "/show/ad/manager")
 	public String showAdManager(String msg, Model model,
 			@RequestParam(defaultValue = "1") int pageId, Long cityId,
-			String source, String status) {
+			String source, String status,String category) {
 		PagerManager pager = new PagerManager(pageId, 20,
-				rawAdService.countSearchRawAd(status, cityId, source));
-		List<RawAd> ads = rawAdService.searchRawAd(status, cityId, source,
+				rawAdService.countSearchRawAd(status, cityId, source,category));
+		List<RawAd> ads = rawAdService.searchRawAd(status, cityId, source,category,
 				pager.getFirstResult(), pager.getMaxResult());
 		model.addAttribute("msg", msg);
 		model.addAttribute("ads", ads);
@@ -80,6 +80,7 @@ public class CmsActAdController {
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("source", source);
 		model.addAttribute("status", status);
+		model.addAttribute("category", category);
 		return "/cms/ad_manager";
 	}
 

@@ -48,7 +48,7 @@
 											</form>
 										</div><!--sc_btn end-->
 										<div class="loading" style="display: none;">上传中...</div>
-										<div class="error" style="display: none;"></div>
+										<div class="error" id="logo_tip" style="display: none;"></div>
 										<div class="load_done" style="display: none;"><!--load_done begin-->
 											<p><img id="logo" src="" width="180" height="180" /></p>
 											<a href="javascript:void(0);" class="reload">重新上传</a>

@@ -23,6 +23,7 @@ function selectTown(id) {
 function profession(obj){
 	if(obj.value==0){
 		$("#profession_input").show();
+		$("#profession_tip").html("");
 	}else{
 		$("#profession_input").hide();
 	}
@@ -108,12 +109,12 @@ function setting(){
 	var profession=$("#profession").val();
 	var feature=$("#feature").val();
 	if(professionId==0&&(profession==""||profession=="10个字以内描述")){
-		 $(".pj_error").html("请输入您的职业描述");
+		 $("#profession_tip").html("请输入!");
 		 return ;
 	}
 	if(professionId==0&&!checkValLength(profession, 1, 20)){
 		$("#profession")[0].focus();
-		 $(".pj_error").html("描述在1-10个字之间");
+		 $("#profession_tip").html("不要超过10个字哦!");
 		 return ;
 	}
 	if(!checkValLength(feature, 0, 70)){

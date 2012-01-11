@@ -20,6 +20,7 @@ public class ProfileCache implements Serializable {
 	private Integer birthYear;
 	private Integer birthMonth;
 	private Integer birthDay;
+	private Boolean birthSecret;
 	private String email;
 	private Boolean subEmail;
 	private String profession;
@@ -154,6 +155,14 @@ public class ProfileCache implements Serializable {
 
 	public void setFeature(String feature) {
 		this.feature = feature;
+	}
+
+	public Boolean getBirthSecret() {
+		return birthSecret;
+	}
+
+	public void setBirthSecret(Boolean birthSecret) {
+		this.birthSecret = birthSecret;
 	}
 
 	public String getProvinceName() {

@@ -16,12 +16,14 @@
 					<div class="t"></div>
 					<div class="m"><!--m begin-->
 						<div class="message"><!--message begin-->
-							<div class="title" id="respond"><span class="sx"></span><h2>我与&nbsp;<c:out value="${targetProfile.nickname}" />&nbsp;的私信</h2><a href="/showActs">返回首页</a><a href="/home/dialog/1">返回所有私信</a></div>
+							<div class="title" id="respond"><span class="sx"></span><h2>我与&nbsp;<c:out value="${targetProfile.nickname}" />&nbsp;的私信<em>共${pager.totalResults}条</em></h2><a href="/showActs">返回首页</a><a href="/home/dialog/1">返回所有私信</a></div>
 							<div class="message_repy <c:choose><c:when test='${targetProfile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--message_repy begin-->
+								<div class="sender_photo"><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}"  width="80" height="80"/></div>
 								<div class="repy_area"><!--repy_area begin-->
-									<p><img src="${jzr:userLogo(targetProfile.uid,targetProfile.logoPic,80)}"  width="80" height="80"/></p>
+									<div class="arrow"></div>
+									<div></div>
 									<span><h4>我回复</h4><a href="/home/${targetProfile.uid}"><c:out value="${targetProfile.nickname}" /></a></span>
-									<div class="text_area"><em><textarea name="content" cols="" rows=""></textarea></em><a href="javascript:void(0);" target-uid="${targetProfile.uid}">回复</a></div>
+									<div class="text_area"><em><textarea name="content" cols="" rows=""></textarea></em><p>200字以内</p><a href="javascript:void(0);" class="send" target-uid="${targetProfile.uid}">回复</a><a href="javascript:void(0);" class="waiting" style="display:none">发送中</a><b style="display: none;"></b></div>
 								</div><!--repy_area end-->
 								<jsp:include page="dialog_content_list.jsp" />
 							</div><!--message_repy end-->

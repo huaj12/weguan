@@ -11,7 +11,7 @@
 					<div class="close"><a href="javascript:void(0);" actid="${userActView.act.id}" actname="${userActView.act.name}"></a></div>
 				</c:if>
 				<%-- <div class="add_fav"><div class="click"><a href="#">很想去</a></div></div> --%>
-				<div class="photo"><a href="/act/${userActView.act.id}"><img src="${jzr:actLogo(userActView.act.id,userActView.act.logo,180)}" /></a></div>
+				<div class="photo"><a href="/act/${userActView.act.id}"><img data-original="${jzr:actLogo(userActView.act.id,userActView.act.logo,180)}" src="${jzr:static('/images/web/1px.gif')}" height="180" width="180" /></a></div>
 				<div class="dh_infor"><!--dh_infor begin-->
 					<h2><a href="/act/${userActView.act.id}"><c:out value="${userActView.act.name}" /></a></h2>
 					<p>${jzu:truncate(userActView.act.intro,60,'...')}<a href="/act/${userActView.act.id}">详情</a></p>

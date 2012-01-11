@@ -18,7 +18,7 @@
 					</div>
 					<div></div>
 					<div class="photo"><!--photo begin-->
-						<c:set var="age" value="${jzu:age(showUserView.profile.birthYear)}" />
+						<c:set var="age" value="${jzu:age(showUserView.profile.birthYear, showUserView.profile.birthSecret)}" />
 						<c:set var="constellationName" value="${jzd:constellationName(showUserView.profile.constellationId)}" />
 						<c:if test="${age>=0 || not empty constellationName || not empty showUserView.profile.profession || not empty showUserView.profile.feature}">
 							<div class="infor_show"><!--infor_show begin-->
@@ -28,7 +28,7 @@
 						</c:if>
 						<div class="face_photo"><!--face_photo begin-->
 							<span>
-								<a href="/home/${showUserView.profile.uid}"><img src="${jzr:userLogo(showUserView.profile.uid,showUserView.profile.logoPic,180)}" height="180"/></a>
+								<a href="/home/${showUserView.profile.uid}"><img data-original="${jzr:userLogo(showUserView.profile.uid,showUserView.profile.logoPic,180)}" src="${jzr:static('/images/web/1px.gif')}" height="180" width="180"/></a>
 							</span>
 						</div><!--face_photo end-->
 						<c:set var="cityName" value="${jzd:cityName(showUserView.profile.city)}" />

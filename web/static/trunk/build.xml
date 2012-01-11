@@ -34,6 +34,7 @@
 		<delete dir="/Users/wujiajun/work/nginx/html/static/css" />
 		<delete dir="/Users/wujiajun/work/nginx/html/static/js" />
 		<delete dir="/Users/wujiajun/work/nginx/html/static/images" />
+		<delete dir="/Users/wujiajun/work/nginx/html/static/error" />
 		<copydir dest="/Users/wujiajun/work/nginx/html/static" src="static" />
 	</target>
 	

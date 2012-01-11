@@ -5,7 +5,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="repy_list"><!--repy_list begin-->
-	<div class="repy_title">我和<a href="/home/${targetProfile.uid}"><c:out value="${targetProfile.nickname}" /></a>之间有<em>${pager.totalResults}</em>条私信</div>
 	<div class="repy_list_body"><!--repy_list_body begin-->
 		<c:forEach var="dialogContentView" items="${dialogContentViewList}">
 			<c:set var="dialogContentView" value="${dialogContentView}" scope="request" />

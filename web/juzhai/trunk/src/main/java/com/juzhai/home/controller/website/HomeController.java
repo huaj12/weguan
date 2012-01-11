@@ -23,6 +23,7 @@ import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IDatingService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
+import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
@@ -81,7 +82,11 @@ public class HomeController extends BaseController {
 	public String pageMyActs(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeHeader(context, context.getUid(), model);
+		try {
+			showHomeHeader(context, context.getUid(), model);
+		} catch (JuzhaiException e) {
+			return error_404;
+		}
 		int totalCount = (Integer) model.asMap().get("actCount");
 		PagerManager pager = new PagerManager(page, webMyActMaxRows, totalCount);
 		List<UserActView> userActViewList = userActService.pageUserActView(
@@ -95,7 +100,11 @@ public class HomeController extends BaseController {
 	public String myInterests(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeHeader(context, context.getUid(), model);
+		try {
+			showHomeHeader(context, context.getUid(), model);
+		} catch (JuzhaiException e) {
+			return error_404;
+		}
 		int totalCount = (Integer) model.asMap().get("interestCount");
 		PagerManager pager = new PagerManager(page, webInterestUserMaxRows,
 				totalCount);
@@ -110,7 +119,11 @@ public class HomeController extends BaseController {
 	public String myInterestMe(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeHeader(context, context.getUid(), model);
+		try {
+			showHomeHeader(context, context.getUid(), model);
+		} catch (JuzhaiException e) {
+			return error_404;
+		}
 		int totalCount = (Integer) model.asMap().get("interestMeCount");
 		PagerManager pager = new PagerManager(page, webInterestMeMaxRows,
 				totalCount);
@@ -150,7 +163,11 @@ public class HomeController extends BaseController {
 	public String myAcceptDatings(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeHeader(context, context.getUid(), model);
+		try {
+			showHomeHeader(context, context.getUid(), model);
+		} catch (JuzhaiException e) {
+			return error_404;
+		}
 		PagerManager pager = new PagerManager(page, webDatingMaxRows,
 				datingService.countDating(context.getUid(),
 						DatingResponse.ACCEPT.getValue()));
@@ -171,7 +188,11 @@ public class HomeController extends BaseController {
 	public String myDatings(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeHeader(context, context.getUid(), model);
+		try {
+			showHomeHeader(context, context.getUid(), model);
+		} catch (JuzhaiException e) {
+			return error_404;
+		}
 		int totalCount = (Integer) model.asMap().get("datingCount");
 		PagerManager pager = new PagerManager(page, webDatingMaxRows,
 				totalCount);
@@ -186,7 +207,11 @@ public class HomeController extends BaseController {
 	public String myDatingMe(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeHeader(context, context.getUid(), model);
+		try {
+			showHomeHeader(context, context.getUid(), model);
+		} catch (JuzhaiException e) {
+			return error_404;
+		}
 		int totalCount = (Integer) model.asMap().get("datingMeCount");
 		PagerManager pager = new PagerManager(page, webDatingMeMaxRows,
 				totalCount);
@@ -230,7 +255,11 @@ public class HomeController extends BaseController {
 		if (context != null && context.getUid() == uid) {
 			return "redirect:/home";
 		}
-		showHomeHeader(context, uid, model);
+		try {
+			showHomeHeader(context, uid, model);
+		} catch (JuzhaiException e) {
+			return error_404;
+		}
 		pageOtherUserActs(context, uid, page, model);
 		return "web/home/act/user_acts";
 	}
@@ -251,8 +280,11 @@ public class HomeController extends BaseController {
 		model.addAttribute("pager", pager);
 	}
 
-	private void showHomeHeader(UserContext context, long uid, Model model) {
-		queryProfile(uid, model);
+	private void showHomeHeader(UserContext context, long uid, Model model)
+			throws JuzhaiException {
+		if (null == queryProfile(uid, model)) {
+			throw new JuzhaiException(JuzhaiException.ILLEGAL_OPERATION);
+		}
 		model.addAttribute("actCount", userActService.countUserActByUid(uid));
 		List<Date> freeDateList = userFreeDateService.userFreeDateList(uid);
 		model.addAttribute("freeDateList", freeDateList);

@@ -1,5 +1,8 @@
 $(document).ready(function(){
-	bindMouseHover();
+    $("img").lazyload({
+        effect : "fadeIn"
+    });
+    bindMouseHover();
 });
 
 function bindMouseHover(){

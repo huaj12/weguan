@@ -8,7 +8,7 @@
 	<c:forEach var="categoryActView" items="${categoryActViewList}">
 		<div class="cqw_item mouseHover"><!--cqw_item begin-->
 			<div class="photo">
-				<a href="/act/${categoryActView.act.id}"><img src="${jzr:actLogo(categoryActView.act.id,categoryActView.act.logo,180)}" /></a>
+				<a href="/act/${categoryActView.act.id}"><img data-original="${jzr:actLogo(categoryActView.act.id,categoryActView.act.logo,180)}" src="${jzr:static('/images/web/1px.gif')}" width="180" height="180" /></a>
 			</div>
 			<div class="dh_infor"><!--dh_infor begin-->
 				<h2>

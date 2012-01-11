@@ -61,7 +61,7 @@
 									<p></p><span>已约</span><p></p>
 								</div><!--date_t_done end-->
 							</c:if>
-							<c:set var="age" value="${jzu:age(actUserView.profileCache.birthYear)}" />
+							<c:set var="age" value="${jzu:age(actUserView.profileCache.birthYear, actUserView.profileCache.birthSecret)}" />
 							<c:set var="constellationName" value="${jzd:constellationName(actUserView.profileCache.constellationId)}" />
 							<c:if test="${age>=0 || not empty constellationName || not empty actUserView.profileCache.profession || not empty actUserView.profileCache.feature}">
 								<div class="infor_show"><!--infor_show begin-->
@@ -71,7 +71,7 @@
 							</c:if>
 							<div class="face_photo"><!--face_photo begin-->
 								<span>
-									<a href="/home/${actUserView.profileCache.uid}"><img src="${jzr:userLogo(actUserView.profileCache.uid,actUserView.profileCache.logoPic,180)}" height="180"/></a>
+									<a href="/home/${actUserView.profileCache.uid}"><img data-original="${jzr:userLogo(actUserView.profileCache.uid,actUserView.profileCache.logoPic,180)}" src="${jzr:static('/images/web/1px.gif')}" height="180" width="180"/></a>
 								</span>
 							</div><!--face_photo end-->
 							<div class="name"><!--name begin-->

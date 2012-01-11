@@ -49,8 +49,8 @@
     <function>
     	<name>age</name>
     	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
-    	<function-signature>int age(java.lang.Integer)</function-signature>
-    	<example>${jzu:age(1983)}</example>
+    	<function-signature>int age(java.lang.Integer, boolean)</function-signature>
+    	<example>${jzu:age(1983, true)}</example>
     </function>
     
     <function>

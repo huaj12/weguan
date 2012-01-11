@@ -10,7 +10,7 @@
 			<div class="item_w link" onmouseover="javascript:actUserHover(this,true);" onmouseout="javascript:actUserHover(this,false);">
 				<em class="l"></em>
 				<em class="r"></em>
-				<p><a href="/app/${actUserView.profileCache.uid}"><img src="${jzr:userLogo(actUserView.profileCache.uid,actUserView.profileCache.logoPic,80)}" width="50" height="50"/></a></p>
+				<p><a href="/app/${actUserView.profileCache.uid}"><img data-original="${jzr:userLogo(actUserView.profileCache.uid,actUserView.profileCache.logoPic,80)}" src="${jzr:static('/images/web/1px.gif')}" width="50" height="50"/></a></p>
 				<h3><a href="/app/${actUserView.profileCache.uid}" class="user"><c:out value="${actUserView.profileCache.nickname}" /></a></h3>
 				<c:if test="${actUserView.profileCache.uid != context.uid}">
 					<a href="javascript:void(0);" class="btn" id="about_${actUserView.profileCache.uid}" onclick="showAbout('${actUserView.profileCache.nickname}','${act.id}','${act.name}','${actUserView.profileCache.uid}');" >留言</a>

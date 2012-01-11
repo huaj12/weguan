@@ -36,7 +36,7 @@
 			<div class="tuangou"><!--tuangou begin-->
 				<c:forEach var="actAd" items="${actAdList}">
 					<div class="item_tg"><!--item_tg begin-->
-						<div class="tg_pic"><a href="${actAd.link}"><img src="${actAd.picUrl}" width="210" height="153" /></a></div>
+						<div class="tg_pic"><a href="${actAd.link}"><img data-original="${actAd.picUrl}" src="${jzr:static('/images/web/1px.gif')}" width="210" height="153" /></a></div>
 						<a href="${actAd.link}">${jzu:truncate(actAd.name,70,'...')}</a>
 						<h3><p>团购价：<b>${actAd.price}元</b></p><em>${actAd.district}</em></h3>
 					</div><!--item_tg end-->

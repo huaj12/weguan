@@ -291,4 +291,9 @@ public class IndexController extends BaseController {
 		model.addAttribute("pageType", "zbe");
 		return "web/index/zbe/show_follows";
 	}
+
+	@RequestMapping(value = "/aboutUs", method = RequestMethod.GET)
+	public String aboutUs(HttpServletRequest request, Model model) {
+		return "web/index/about_us";
+	}
 }

@@ -72,7 +72,10 @@ public class JzUtilFunction {
 	 * @param year
 	 * @return
 	 */
-	public static int age(Integer year) {
+	public static int age(Integer year, boolean birthSecret) {
+		if (birthSecret) {
+			return -1;
+		}
 		if (null == year || year <= 1900) {
 			return -1;
 		}

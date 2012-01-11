@@ -314,30 +314,22 @@ function openMessage(targetUid, nickname){
 	openDialog(null, "openMessage", content);
 }
 
-function sendMessage(obj){
-	var targetUid = $(obj).attr("target-uid");
-	var content = $(obj).parent().prev().children("textarea").val();
+function doPostMessage(url, targetUid, content, errorCallback, completeCallback){
 	if(!checkValLength(content, 1, 400)){
-		$(obj).next().next().text("私聊内容字数控制在1-200个汉字内").show();
+		errorCallback("私聊内容字数控制在1-200个汉字内");
 		return;
 	}
-	$(obj).hide();
-	$(obj).next().show();
 	jQuery.ajax({
-		url : "/home/sendMessage",
+		url : url,
 		type : "post",
 		cache : false,
 		data : {"targetUid" : targetUid, "content" : content},
 		dataType : "json",
 		success : function(result) {
 			if (result && result.success) {
-				var content = $("#dialog-success").html().replace("{0}", "恭喜，发送私信成功！");
-				closeDialog("openMessage");
-				showSuccess(null, content);
+				completeCallback(result.result);
 			} else {
-				$(obj).next().next().text(result.errorInfo).show();
-				$(obj).next().hide();
-				$(obj).show();
+				errorCallback(result.errorInfo);
 			}
 		},
 		statusCode : {
@@ -345,5 +337,21 @@ function sendMessage(obj){
 				window.location.href = "/login?turnTo=" + window.location.href;
 			}
 		}
+	});
+}
+
+function sendMessage(obj){
+	$(obj).hide();
+	$(obj).next().show();
+	var targetUid = $(obj).attr("target-uid");
+	var content = $(obj).parent().prev().children("textarea").val();
+	doPostMessage("/home/sendMessage", targetUid, content, function(errorInfo){
+		$(obj).next().next().text(errorInfo).show();
+		$(obj).next().hide();
+		$(obj).show();
+	}, function(result){
+		var successContent = $("#dialog-success").html().replace("{0}", "恭喜，发送私信成功！");
+		closeDialog("openMessage");
+		showSuccess(null, successContent);
 	});
 }

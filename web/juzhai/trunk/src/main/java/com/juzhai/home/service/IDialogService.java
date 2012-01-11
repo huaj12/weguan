@@ -17,7 +17,7 @@ public interface IDialogService {
 	 * @param content
 	 * @throws DialogException
 	 */
-	void sendSMS(long uid, long targetUid, String content)
+	long sendSMS(long uid, long targetUid, String content)
 			throws DialogException;
 
 	/**

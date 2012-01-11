@@ -1,6 +1,7 @@
 package com.juzhai.home.controller.website;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -114,16 +115,28 @@ public class DialogController extends BaseController {
 		return result;
 	}
 
-	// @RequestMapping(value = "/replyMessage", method = RequestMethod.POST)
-	// @ResponseBody
-	// public AjaxResult replySMS(HttpServletRequest request, Model model,
-	// String content, long targetUid) throws NeedLoginException {
-	// UserContext context = checkLoginForWeb(request);
-	// try {
-	// dialogService.sendSMS(context.getUid(), targetUid, content);
-	// } catch (DialogException e) {
-	// result.setError(e.getErrorCode(), messageSource);
-	// }
-	// return result;
-	// }
+	@RequestMapping(value = "/replyMessage", method = RequestMethod.POST)
+	public String replySMS(HttpServletRequest request, Model model,
+			String content, long targetUid) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		try {
+			long dialogContentId = dialogService.sendSMS(context.getUid(),
+					targetUid, content);
+			model.addAttribute("success", true);
+			DialogContentView view = new DialogContentView();
+			view.setDialogContent(dialogService
+					.getDialogContent(dialogContentId));
+			view.setProfile(profileService.getProfileCacheByUid(view
+					.getDialogContent().getSenderUid()));
+			model.addAttribute("dialogContentView", view);
+			model.addAttribute("targetProfile",
+					profileService.getProfileCacheByUid(targetUid));
+		} catch (DialogException e) {
+			model.addAttribute("success", false);
+			model.addAttribute("errorCode", e.getErrorCode());
+			model.addAttribute("errorInfo", messageSource.getMessage(
+					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
+		}
+		return "web/home/dialog/dialog_content_fragment";
+	}
 }

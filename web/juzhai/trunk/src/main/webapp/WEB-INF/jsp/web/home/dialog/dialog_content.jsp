@@ -21,7 +21,7 @@
 								<div class="repy_area"><!--repy_area begin-->
 									<p><img src="${jzr:userLogo(targetProfile.uid,targetProfile.logoPic,80)}"  width="80" height="80"/></p>
 									<span><h4>我回复</h4><a href="/home/${targetProfile.uid}"><c:out value="${targetProfile.nickname}" /></a></span>
-									<div class="text_area"><em><textarea name="content" cols="" rows=""></textarea></em><a href="#">回复</a></div>
+									<div class="text_area"><em><textarea name="content" cols="" rows=""></textarea></em><a href="javascript:void(0);" target-uid="${targetProfile.uid}">回复</a></div>
 								</div><!--repy_area end-->
 								<jsp:include page="dialog_content_list.jsp" />
 							</div><!--message_repy end-->

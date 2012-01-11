@@ -63,7 +63,7 @@ public class DialogService implements IDialogService {
 	private int dialogContentCacheExpireTime = 0;
 
 	@Override
-	public void sendSMS(long uid, long targetUid, String content)
+	public long sendSMS(long uid, long targetUid, String content)
 			throws DialogException {
 		if (null != content) {
 			content = content.trim();
@@ -101,6 +101,7 @@ public class DialogService implements IDialogService {
 				RedisKeyGenerator.genDialogContentsKey(receiverDialogId),
 				dialogContent.getId());
 		noticeService.incrNotice(targetUid, NoticeType.DIALOG);
+		return dialogContent.getId();
 	}
 
 	@Override

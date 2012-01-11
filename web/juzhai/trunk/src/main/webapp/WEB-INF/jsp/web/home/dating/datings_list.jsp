@@ -35,7 +35,7 @@
 				</c:choose>
 				<div></div>
 				<div class="photo"><!--photo begin-->
-					<c:set var="age" value="${jzu:age(datingView.profileCache.birthYear)}" />
+					<c:set var="age" value="${jzu:age(datingView.profileCache.birthYear, datingView.profileCache.birthSecret)}" />
 					<c:set var="constellationName" value="${jzd:constellationName(datingView.profileCache.constellationId)}" />
 					<c:if test="${age>=0 || not empty constellationName || not empty datingView.profileCache.profession || not empty datingView.profileCache.feature}">
 						<div class="infor_show"><!--infor_show begin-->
@@ -45,7 +45,7 @@
 					</c:if>
 					<div class="face_photo"><!--face_photo begin-->
 						<span>
-							<a href="/home/${datingView.profileCache.uid}"><img src="${jzr:userLogo(datingView.profileCache.uid,datingView.profileCache.logoPic,180)}" width="180"/></a>
+							<a href="/home/${datingView.profileCache.uid}"><img data-original="${jzr:userLogo(datingView.profileCache.uid,datingView.profileCache.logoPic,180)}" src="${jzr:static('/images/web/1px.gif')}" width="180" height="180"/></a>
 						</span>
 					</div><!--face_photo end-->
 				</div><!--photo end-->

@@ -34,17 +34,16 @@ $(document).ready(function(){
 		openMessage(targetUid, targetName);
 	});
 	
-	$("div.message_repy > div.repy_area > div.text_area > a").bind("click", function(){
-//		$(this).hide();
-//		$(this).next().show();
+	$("div.message_repy > div.repy_area > div.text_area > a.send").bind("click", function(){
+		$(this).hide();
+		$(this).next().show();
 		var targetUid = $(this).attr("target-uid");
-		var content = $(this).prev().children("textarea").val();
+		var content = $(this).prev().prev().children("textarea").val();
 		var obj = this;
 		if(!checkValLength(content, 1, 400)){
-			alert("私聊内容字数控制在1-200个汉字内");
-//			$(obj).next().next().text("私聊内容字数控制在1-200个汉字内").show();
-//			$(obj).next().hide();
-//			$(obj).show();
+			$(obj).next().next().text("私聊内容字数控制在1-200个汉字内").show();
+			$(obj).next().hide();
+			$(obj).show();
 			return;
 		}
 		jQuery.ajax({
@@ -57,12 +56,9 @@ $(document).ready(function(){
 				result = result.trim();
 				if(/^{.*}$/.test(result)){
 					var jsonResult = (new Function("return " + result))();
-					alert(jsonResult.errorInfo);
-//					$(obj).next().next().text("私聊内容字数控制在1-200个汉字内").show();
-//					$(obj).next().hide();
-//					$(obj).show();
+					$(obj).next().next().text("私聊内容字数控制在1-200个汉字内").show();
 				} else {
-					$(obj).prev().children("textarea").val("");
+					$(obj).prev().prev().children("textarea").val("");
 					$("div.repy_list_body").prepend(result);
 				}
 			},
@@ -72,6 +68,8 @@ $(document).ready(function(){
 				}
 			}
 		});
+		$(obj).next().hide();
+		$(obj).show();
 	});
 	
 	bindReply();

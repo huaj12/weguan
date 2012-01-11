@@ -22,7 +22,7 @@
 		<div class="clear"></div>
 		<c:set var="cityName" value="${jzd:cityName(profile.city)}" />
 		<c:set var="townName" value="${jzd:townName(profile.town)}" />
-		<c:set var="age" value="${jzu:age(profile.birthYear)}" />
+		<c:set var="age" value="${jzu:age(profile.birthYear, profile.birthSecret)}" />
 		<c:set var="constellationName" value="${jzd:constellationName(profile.constellationId)}" />
 		<c:if test="${not empty cityName || not empty townName || age>=0 || not empty constellationName || not empty profile.profession}">
 			<div class="ziye"><span><c:if test="${not empty cityName}">${cityName}</c:if><c:if test="${not empty townName}">${townName}</c:if></span><c:if test="${age>=0}"><span>${age}岁</span></c:if><c:if test="${not empty constellationName}"><span>${constellationName}</span></c:if><c:if test="${not empty profile.profession}"><span>${profile.profession}</span></c:if></div>
@@ -48,8 +48,8 @@
 				<div class="cancel_like" <c:if test="${!isInterest}">style="display:none;"</c:if>><p>已敲门</p><a href="javascript:void(0);" class="delete" uid="${profile.uid}"></a></div>
 				<a href="javascript:void(0);" class="like" uid="${profile.uid}" <c:if test="${isInterest}">style="display:none;"</c:if>>敲门</a>	
 				<a href="javascript:void(0);" class="date" <c:if test="${datingView!=null}">style="display:none;"</c:if> uid="${profile.uid}">约ta</a>
+				<a href="javascript:void(0);" class="message_ta open-dialog" target-uid="${profile.uid}" target-nickname="${profile.nickname}">私信</a>
 			</div><!--user_btn end-->
-			<a href="javascript:void(0);" class="open-dialog" target-uid="${profile.uid}" target-nickname="${profile.nickname}">发私信</a>
 		</c:otherwise>
 	</c:choose>
 </div><!--head_area end-->

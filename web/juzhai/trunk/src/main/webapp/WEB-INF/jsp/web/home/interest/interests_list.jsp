@@ -25,7 +25,7 @@
 				</div>
 				<div></div>
 				<div class="photo"><!--photo begin-->
-					<c:set var="age" value="${jzu:age(interestUserView.profileCache.birthYear)}" />
+					<c:set var="age" value="${jzu:age(interestUserView.profileCache.birthYear, interestUserView.profileCache.birthSecret)}" />
 					<c:set var="constellationName" value="${jzd:constellationName(interestUserView.profileCache.constellationId)}" />
 					<c:if test="${age>=0 || not empty constellationName || not empty interestUserView.profileCache.profession || not empty interestUserView.profileCache.feature}">
 						<div class="infor_show"><!--infor_show begin-->
@@ -34,7 +34,7 @@
 						</div><!--infor_show end-->
 					</c:if>
 					<div class="face_photo"><!--face_photo begin-->
-						<span><a href="/home/${interestUserView.profileCache.uid}"><img src="${jzr:userLogo(interestUserView.profileCache.uid,interestUserView.profileCache.logoPic,180)}" width="180"/></a></span>
+						<span><a href="/home/${interestUserView.profileCache.uid}"><img data-original="${jzr:userLogo(interestUserView.profileCache.uid,interestUserView.profileCache.logoPic,180)}" src="${jzr:static('/images/web/1px.gif')}" width="180" height="180"/></a></span>
 					</div><!--face_photo end-->
 					<c:set var="cityName" value="${jzd:cityName(interestUserView.profileCache.city)}" />
 					<c:set var="townName" value="${jzd:townName(interestUserView.profileCache.town)}" />

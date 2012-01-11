@@ -201,6 +201,7 @@
 												onfocus="if(this.value=='10个字以内描述')this.value=''"
 												onblur="if(this.value=='')this.value='10个字以内描述'" /> </span>
 											<p class="r"></p>
+											<div class="error" id="profession_tip" ></div>
 										</div>
 										<!--input end-->
 									</div>

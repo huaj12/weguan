@@ -43,8 +43,7 @@ function send_invite(){
 				var content = $("#dialog-success").html().replace("{0}", "发送成功");
 				showSuccess(null, content);
 			}else{
-				var content = $("#dialog-success").html().replace("{0}", "发送失败");
-				showSuccess(null, content);
+				 $("#plug_invite_tip").html( "发送失败");
 			}
 			closeDialog('invite_dialog');
 		},

@@ -36,6 +36,7 @@ function cancel_updateDiv(str){
 	$("#user_"+str).show();
 	$("#input_"+str).hide();
 	$("#ts_"+str).hide();
+	$("#error_"+str).html("");
 }
 function setNickname(){
 	$("#ts_nickname").hide();

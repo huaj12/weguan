@@ -41,7 +41,7 @@
 				</div>
 				<div class="btn">
 					<em>通过微博发布</em><a href="javascript:void(0);"
-						onclick="send_invite()">发布</a>
+						onclick="send_invite()">发布</a><b id="plug_invite_tip"'></b>
 				</div>
 			</div>
 			<!--share_con end-->

@@ -43,7 +43,7 @@ function setNickname(){
 	$("#ts_nickname").hide();
 	var name=$("#nickname").val();
 	if(!checkValLength(name, 1, 20)){
-		$("#error_nickname").html("控制在1-10个中文内！");
+		$("#error_nickname").html("不要超过10个字哦!");
 		return ;
 	}
 	jQuery.ajax({

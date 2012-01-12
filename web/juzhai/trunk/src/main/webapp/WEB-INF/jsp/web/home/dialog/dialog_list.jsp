@@ -41,10 +41,12 @@
 					<div class="item_t"></div>
 				</div>
 			</c:forEach>
-			<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
-				<c:param name="pager" value="${pager}"/>
-				<c:param name="url" value="/home/dialog" />
-			</c:import>
+			<c:if test="${pager.totalPage > 1}">
+				<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
+					<c:param name="pager" value="${pager}"/>
+					<c:param name="url" value="/home/dialog" />
+				</c:import>
+			</c:if>
 		</c:otherwise>
 	</c:choose>
 </div><!--message_list end-->

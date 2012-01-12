@@ -2,7 +2,7 @@
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
 <div id="dialog-remove-act" style="display:none;">
 	<div class="show_box"><!--show box-->
-		<h2>确定不再想去&nbsp;{0}&nbsp;么？</h2>
+		<h2>确定不再想去么？</h2>
 		<p>你将不再收到相关邀请。</p>
 	</div><!--show end-->
 </div>

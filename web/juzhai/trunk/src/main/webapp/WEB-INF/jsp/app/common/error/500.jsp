@@ -8,7 +8,7 @@
 		<link href="${jz:static('/css/jz.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
-		<jsp:include page="/WEB-INF/jsp/common/app/${context.tpName}/top_logo.jsp" />
+		<jsp:include page="/WEB-INF/jsp/app/common/${context.tpName}/top_logo.jsp" />
 		<div class="main"><!--main begin-->
 			<div class="skin_body"><!--skin_body begin-->
 				<div class="skin_top_bg"><!--content_bg begin-->

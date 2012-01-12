@@ -12,7 +12,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.exception.AddRawActException;
@@ -113,7 +112,7 @@ public class RawActService implements IRawActService {
 	}
 
 	@Override
-	@Transactional
+	// @Transactional
 	public void agreeRawAct(AgreeRawActForm agreeRawActForm)
 			throws ActInputException, RawActInputException {
 		Act act = new Act();

@@ -69,7 +69,7 @@ function removeInterest(uid, successCallback){
 }
 
 function removeInterestConfirm(uid, followObj, callback){
-	var content = $("#dialog-confirm").html().replace("{0}", "确定收回这次敲门么？");
+	var content = $("#dialog-confirm").html().replace("{0}", "确定取消敲门么？");
 	showConfirm(followObj, "removeInterest", content, function(){
 		removeInterest(uid, function(){
 			callback();
@@ -123,6 +123,8 @@ function addAct(actId, successCallback){
 		dataType : "json",
 		success : function(result) {
 			if (result && result.success) {
+				var content = $("#dialog-success").html().replace("{0}", "好的，同兴趣的人会看到你");
+				showSuccess(clickObj, content);
 				successCallback();
 			} else {
 				alert(result.errorInfos);
@@ -146,7 +148,7 @@ function date(successCallback){
 		dataType : "json",
 		success : function(result) {
 			if(result&&result.success){
-				var content = $("#dialog-success").html().replace("{0}", "好的，我们会通知ta！");
+				var content = $("#dialog-success").html().replace("{0}", "好的，我们会通知ta");
 				closeDialog('openDating');
 				showSuccess(null, content);
 				successCallback(result.result);
@@ -353,7 +355,7 @@ function sendMessage(obj){
 		$(obj).next().hide();
 		$(obj).show();
 	}, function(result){
-		var successContent = $("#dialog-success").html().replace("{0}", "恭喜，发送私信成功！");
+		var successContent = $("#dialog-success").html().replace("{0}", "发送成功！");
 		closeDialog("openMessage");
 		showSuccess(null, successContent);
 	});

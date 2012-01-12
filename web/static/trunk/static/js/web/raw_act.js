@@ -60,15 +60,9 @@ function selectCity(obj) {
 		random : Math.random()
 	}, function(result) {
 		$("#citys").html(result);
-		if($("#c_id")[0]){
-			selectTown($("#c_id").val());
-			$("#towns").show();
-		}else{
-			$("#towns").hide();
-		}
+		selectTown($("#c_id").val());
 	});
 }
-
 function selectTown(id) {
 	$.get('/base/selectTown', {
 		cityId : id,
@@ -89,7 +83,9 @@ function addRawAct() {
 	var province = $("#province").val();
 	var city = $("#city").val();
 	var town=$("#town").val();
-	//判断是否有town
+	if(town==''||town=="null"){
+		town=-1;
+	}
 	if($("#towns").css("display")=="none"){
 		town="-1";
 	}

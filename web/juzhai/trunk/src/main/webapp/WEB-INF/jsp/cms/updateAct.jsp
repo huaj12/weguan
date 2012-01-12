@@ -20,7 +20,17 @@ function selectCity(obj) {
 		random : Math.random()
 	}, function(result) {
 		$("#citys").html(result);
+		alert(result);
 		selectTown($("#c_id").val());
+	});
+}
+function selectTown(id) {
+	$.get('/base/selectTown', {
+		cityId : id,
+		random : Math.random()
+	}, function(result) {
+		$("#towns").show();
+		$("#towns").html(result);
 	});
 }
 function removeAd(actAdId){
@@ -45,14 +55,7 @@ function removeAd(actAdId){
 		}
 	});
 }
-function selectTown(id) {
-	$.get('/base/selectTown', {
-		cityId : id,
-		random : Math.random()
-	}, function(result) {
-		$("#towns").html(result);
-	});
-}
+
 	function showAddress() {
 		document.getElementById("myaddress").style.display = "";
 	}

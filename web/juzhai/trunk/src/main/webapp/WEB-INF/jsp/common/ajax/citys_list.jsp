@@ -2,12 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<select name="city" id="city">
-							<c:forEach var="city" items="${citys}">
-								<c:set var="s" value="${city.id}"></c:set>
-								<option value="${city.id}">${city.name}</option>
-							</c:forEach>
+<select name="city" id="city" onchange="selectTown(this.value)">
+	<c:forEach var="city" items="${citys}" varStatus="step">
+		<c:if test="${step.index==0}">
+			<c:set var="s" value="${city.id}"></c:set>
+		</c:if>
+		<option value="${city.id}">${city.name}</option>
+	</c:forEach>
 </select>
-<c:if test="${fn:length(citys)==1}">
-<input type="hidden" value="${s}" id="c_id"/>
-</c:if>
+<input type="hidden" value="${s}" id="c_id" />

@@ -11,8 +11,10 @@
 			<jsp:include page="dialog_content_fragment.jsp" />
 		</c:forEach>
 	</div><!--repy_list_body end-->
-	<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
-		<c:param name="pager" value="${pager}"/>
-		<c:param name="url" value="/home/dialogContent/${targetProfile.uid}" />
-	</c:import>
+	<c:if test="${pager.totalPage > 1}">
+		<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
+			<c:param name="pager" value="${pager}"/>
+			<c:param name="url" value="/home/dialogContent/${targetProfile.uid}" />
+		</c:import>
+	</c:if>
 </div><!--repy_list end-->

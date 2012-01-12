@@ -76,7 +76,7 @@
 												<option value="${pro.id}">${pro.name}</option>
 											</c:forEach>
 										</select></span>
-										<span id="citys"><select id="city" name="city">
+										<span id="citys"><select id="city" name="city" onchange="selectTown(this.value)">
 											<c:forEach var="city" items="${citys}"  varStatus="status">
 												<c:if test="${status.index==0}">
 													<c:set var="c" value="${city.id}"></c:set>

@@ -20,12 +20,7 @@ function selectCity(obj) {
 		random : Math.random()
 	}, function(result) {
 		$("#citys").html(result);
-		if($("#c_id")[0]){
-			selectTown($("#c_id").val());
-			$("#towns").show();
-		}else{
-			$("#towns").hide();
-		}
+		selectTown($("#c_id").val());
 	});
 }
 function removeAd(actAdId){
@@ -174,7 +169,7 @@ function selectTown(id) {
 									<c:if test="${act.province==pro.id}">selected="selected"</c:if>
 									value="${pro.id}">${pro.name}</option>
 							</c:forEach>
-					</select> </span> <span id="citys"> <select name="city" id="city">
+					</select> </span> <span id="citys"> <select name="city"  onchange="selectTown(this.value)" id="city">
 							<c:forEach var="city" items="${citys}">
 								<c:if test="${act.province==city.provinceId}">
 									<option

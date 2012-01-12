@@ -114,7 +114,7 @@
 															value="${pro.id}">${pro.name}</option>
 													</c:forEach>
 											</select>
-											</span> <span id="citys"> <select id="city">
+											</span> <span id="citys"> <select id="city" onchange="selectTown(this.value)">
 													<c:forEach var="city" items="${citys}">
 														<c:if test="${profile.province==city.provinceId}">
 															<option
@@ -123,8 +123,8 @@
 														</c:if>
 													</c:forEach>
 											</select>
-											</span> <span id="towns"
-												<c:if test="${profile.town=='-1'}"> style="display: none" </c:if>><select
+											</span><span id="towns"
+												<c:if test="${profile.town=='-1'||profile.town=='0'}"> style="display: none" </c:if>><select
 												name="town" id="town">
 													<c:forEach var="town" items="${towns}">
 														<c:if test="${profile.city==town.cityId}">

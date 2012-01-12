@@ -60,7 +60,7 @@
 								<c:if test="${rawAct.province==pro.id}">selected="selected"</c:if>
 								value="${pro.id}">${pro.name}</option>
 						</c:forEach>
-				</select> </span> <span id="citys"> <select id="city">
+				</select> </span> <span id="citys"> <select id="city" onchange="selectTown(this.value)">
 						<c:forEach var="city" items="${citys}">
 							<c:if test="${rawAct.province==city.provinceId}">
 								<option
@@ -152,12 +152,7 @@
 				random : Math.random()
 			}, function(result) {
 				$("#citys").html(result);
-				if ($("#c_id")[0]) {
-					selectTown($("#c_id").val());
-					$("#towns").show();
-				} else {
-					$("#towns").hide();
-				}
+				selectTown($("#c_id").val());
 			});
 		}
 		function selectTown(id) {

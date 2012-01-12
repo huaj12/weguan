@@ -53,14 +53,17 @@ $(document).ready(function(){
 			data : {"targetUid" : targetUid, "content" : content},
 			dataType : "html",
 			success : function(result) {
-				result = result.trim();
-				if(/^{.*}$/.test(result)){
+				result = $.trim(result);
+				var isJson = /^{.*}$/.test(result); 
+				if(isJson){
 					var jsonResult = (new Function("return " + result))();
-					$(obj).next().next().text("私聊内容字数控制在1-200个汉字内").show();
+					$(obj).next().next().text(jsonResult.errorInfo).show();
 				} else {
 					$(obj).prev().prev().children("textarea").val("");
 					$("div.repy_list_body").prepend(result);
 				}
+				$(obj).next().hide();
+				$(obj).show();
 			},
 			statusCode : {
 				401 : function() {
@@ -68,8 +71,6 @@ $(document).ready(function(){
 				}
 			}
 		});
-		$(obj).next().hide();
-		$(obj).show();
 	});
 	
 	bindReply();

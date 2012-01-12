@@ -4,7 +4,7 @@ $(document).ready(function(){
 		var dialogId = $(this).attr("dialog-id");
 		var targetName = $(this).attr("target-name");
 		var obj = this;
-		var content = $("#dialog-confirm").html().replace("{0}", "确定删除所有与 " + targetName + " 的私信么？");
+		var content = $("#dialog-confirm").html().replace("{0}", "确定删除与 " + targetName + " 的所有私信么？");
 		showConfirm(this, "delDialog", content, function(){
 			jQuery.ajax({
 				url : "/home/deleteDialog",
@@ -92,7 +92,7 @@ function bindDelDialogContent(){
 		var dialogContentId = $(this).attr("dialog-content-id");
 		var targetUid = $(this).attr("target-uid");
 		var obj = this;
-		var content = $("#dialog-confirm").html().replace("{0}", "确定删除么？");
+		var content = $("#dialog-confirm").html().replace("{0}", "确定删除这条私信么？");
 		showConfirm(this, "delDialogContent", content, function(){
 			jQuery.ajax({
 				url : "/home/deleteDialogContent",

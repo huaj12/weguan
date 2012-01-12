@@ -117,7 +117,7 @@ function setting(){
 		 $("#feature_tp").html("不要超过70个字哦!");
 		 return ;
 	}
-	if(town==''||town=="null"){
+	if(town==''||town==null){
 		town=-1;
 	}
 	if($("#towns").css("display")=="none"){

@@ -83,7 +83,7 @@ function addRawAct() {
 	var province = $("#province").val();
 	var city = $("#city").val();
 	var town=$("#town").val();
-	if(town==''||town=="null"){
+	if(town==''||town==null){
 		town=-1;
 	}
 	if($("#towns").css("display")=="none"){

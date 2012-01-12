@@ -98,23 +98,23 @@ function addRawAct() {
 	}
 	if (!checkValLength(name, 2, 20)) {
 		$("#name")[0].focus();
-		$("#name_tip").html("项目名控制在1－10个中文内！").stop(true, true).show().fadeOut(
+		$("#name_tip").html("请不要超过10个字").stop(true, true).show().fadeOut(
 				4000);
 		return;
 	}
 	var detailCount = editor.text();
 	var detail_length = getByteLen(detailCount);
 	if (detail_length > 8000) {
-		$("#detail_tip").html("详细信息不能超过4000个中文当前" + Math.floor(detail_length / 2) + "字")
+		$("#detail_tip").html("内容过多，请精简一些!")
 				.stop(true, true).show().fadeOut(4000);
 		return;
 	}
 	 if (filePath == null || filePath == "") {
-		 $("div.upload > div.error").text("项目图片不能为空").stop(true, true).show().fadeOut(4000);
+		 $("div.upload > div.error").text("请上传！").stop(true, true).show().fadeOut(4000);
 		return;
 	}
 	if (!checkValLength(address, 0, 60)) {
-		$("#address_tip").html("详细地址必须少于30个字！").stop(true, true).show()
+		$("#address_tip").html("请不要超过30个字！").stop(true, true).show()
 				.fadeOut(4000);
 		return;
 	}

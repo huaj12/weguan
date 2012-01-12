@@ -20,7 +20,6 @@ function selectCity(obj) {
 		random : Math.random()
 	}, function(result) {
 		$("#citys").html(result);
-		alert(result);
 		selectTown($("#c_id").val());
 	});
 }

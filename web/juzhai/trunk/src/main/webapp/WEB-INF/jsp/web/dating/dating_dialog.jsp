@@ -65,7 +65,7 @@
 	<c:when test="${errorCode=='30001'}">
 		<div class="tj_done_show_box"><!--tj_done_show_box begin-->
 			<h2>${errorInfo}</h2>
-			<a href="/profile/index" class="done">去完善资料</a>
+			<a href="/profile/index" class="done">完善资料</a>
 		</div><!--tj_done_show_box end-->
 	</c:when>
 	<c:when test="${errorCode=='30002'||errorCode=='30003'||errorCode=='30004'}">

@@ -23,6 +23,18 @@
 			<div class="btn"><a href="javascript:void(0);" onclick="javascript:submitRespDating(${datingId});">接受邀请,并查看ta的联系方式</a></div>
 		</div><!--show_box2 end-->
 	</c:when>
+	<c:when test="${errorCode=='30001'}">
+		<div class="tj_done_show_box"><!--tj_done_show_box begin-->
+			<h2>${errorInfo}</h2>
+			<a href="/profile/index" class="done">完善资料</a>
+		</div><!--tj_done_show_box end-->
+	</c:when>
+	<c:when test="${errorCode=='30002'||errorCode=='30003'||errorCode=='30004'}">
+		<div class="tj_done_show_box"><!--tj_done_show_box begin-->
+			<h2>${errorInfo}</h2>
+			<a href="/home/datings/1" class="done">去看看</a>
+		</div><!--tj_done_show_box end-->
+	</c:when>
 	<c:otherwise>
 		<div class="tj_done_show_box"><!--tj_done_show_box begin-->
 			<h2>${errorInfo}</h2>

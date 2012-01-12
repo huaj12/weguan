@@ -89,14 +89,24 @@ public class ShowActService implements IShowActService {
 	@Override
 	public List<Act> listShowActs(long cityId, long categoryId,
 			ShowActOrder order, int firstResult, int maxResults) {
+		// TODO 暂时能解决的最快方法，想办法改造
 		ShowActExample example = new ShowActExample();
 		ShowActExample.Criteria c = example.createCriteria();
 		if (cityId > 0) {
-			example.or().andCityEqualTo(cityId);
-			example.or().andCityEqualTo(0L);
-			example.or().andCityIsNull();
-		}
-		if (categoryId > 0) {
+			if (categoryId > 0) {
+				example.or().andCityEqualTo(cityId)
+						.andCategoryIdsLike("%|" + categoryId + "|%");
+				example.or().andCityEqualTo(0L)
+						.andCategoryIdsLike("%|" + categoryId + "|%");
+				example.or().andCityIsNull()
+						.andCategoryIdsLike("%|" + categoryId + "|%");
+			} else {
+				example.or().andCityEqualTo(cityId);
+				example.or().andCityEqualTo(0L);
+				example.or().andCityIsNull();
+			}
+
+		} else if (categoryId > 0) {
 			c.andCategoryIdsLike("%|" + categoryId + "|%");
 		}
 		example.setOrderByClause(order.getColumn() + " desc, act_id desc");
@@ -111,14 +121,24 @@ public class ShowActService implements IShowActService {
 
 	@Override
 	public int countShowActs(long cityId, long categoryId) {
+		// TODO 暂时能解决的最快方法，想办法改造
 		ShowActExample example = new ShowActExample();
 		ShowActExample.Criteria c = example.createCriteria();
 		if (cityId > 0) {
-			example.or().andCityEqualTo(cityId);
-			example.or().andCityEqualTo(0L);
-			example.or().andCityIsNull();
-		}
-		if (categoryId > 0) {
+			if (categoryId > 0) {
+				example.or().andCityEqualTo(cityId)
+						.andCategoryIdsLike("%|" + categoryId + "|%");
+				example.or().andCityEqualTo(0L)
+						.andCategoryIdsLike("%|" + categoryId + "|%");
+				example.or().andCityIsNull()
+						.andCategoryIdsLike("%|" + categoryId + "|%");
+			} else {
+				example.or().andCityEqualTo(cityId);
+				example.or().andCityEqualTo(0L);
+				example.or().andCityIsNull();
+			}
+
+		} else if (categoryId > 0) {
 			c.andCategoryIdsLike("%|" + categoryId + "|%");
 		}
 		return showActMapper.countByExample(example);

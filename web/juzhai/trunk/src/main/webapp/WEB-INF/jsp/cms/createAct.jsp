@@ -28,6 +28,7 @@ function selectTown(id) {
 		cityId : id,
 		random : Math.random()
 	}, function(result) {
+		$("#towns").show();
 		$("#towns").html(result);
 	});
 }

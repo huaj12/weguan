@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,11 +34,13 @@ public class JzDataController {
 		List<Town> towns = new ArrayList<Town>();
 		for (Entry<Long, Town> entry : com.juzhai.passport.InitData.TOWN_MAP
 				.entrySet()) {
-			if (cityId.equals(String.valueOf(entry.getValue().getCityId()))) {
+			if (String.valueOf(entry.getValue().getCityId()).equals(cityId)) {
 				towns.add(entry.getValue());
 			}
 		}
-		model.addAttribute("towns", towns);
+		if(CollectionUtils.isNotEmpty(towns)){
+			model.addAttribute("towns", towns);	
+		}
 		return "common/ajax/towns_list";
 	}
 }

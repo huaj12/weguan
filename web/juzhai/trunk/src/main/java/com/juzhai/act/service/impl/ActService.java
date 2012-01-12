@@ -537,7 +537,7 @@ public class ActService implements IActService {
 	}
 
 	@Override
-	@Transactional
+	// @Transactional
 	public void updateAct(Act act, List<Long> categoryIds, String detail)
 			throws ActInputException {
 		act.setLastModifyTime(new Date());
@@ -576,12 +576,13 @@ public class ActService implements IActService {
 	}
 
 	@Override
-	public List<ActAd> listActAdByActId(long actId,long cityId, int count) {
+	public List<ActAd> listActAdByActId(long actId, long cityId, int count) {
 		ActAdExample example = new ActAdExample();
-		com.juzhai.act.model.ActAdExample.Criteria criteria=example.createCriteria();
+		com.juzhai.act.model.ActAdExample.Criteria criteria = example
+				.createCriteria();
 		criteria.andActIdEqualTo(actId);
 		criteria.andEndTimeGreaterThan(new Date());
-		if(cityId>0){
+		if (cityId > 0) {
 			criteria.andCityEqualTo(cityId);
 		}
 		example.setLimit(new Limit(0, count));
@@ -599,11 +600,11 @@ public class ActService implements IActService {
 	}
 
 	@Override
-	@Transactional
+	// @Transactional
 	public void cmsCreateAct(Act act, List<Long> categoryIds, Long addUid,
 			String detail, MultipartFile imgFile) throws UploadImageException,
 			ActInputException {
-		if(addUid==null){
+		if (addUid == null) {
 			throw new ActInputException(ActInputException.ACT_FIELD_ISNULL);
 		}
 		Act oldAct = getActByName(act.getName());

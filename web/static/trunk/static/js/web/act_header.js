@@ -3,7 +3,7 @@ $(document).ready(function() {
 	$("a.wantgo").bind("click", function() {
 		var actId = $(this).attr("actid");
 		var obj = this;
-		addAct(actId, function(){
+		addAct(this, actId, function(){
 			$(obj).hide();
 			$("div.cancel_add").show();
 		});

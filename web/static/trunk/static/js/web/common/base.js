@@ -112,7 +112,7 @@ function removeAct(actId, successCallback){
 }
 
 //对项目操作
-function addAct(actId, successCallback){
+function addAct(clickObj, actId, successCallback){
 	jQuery.ajax({
 		url : "/act/addAct",
 		type : "post",
@@ -278,7 +278,7 @@ function showSuccess(followObj, dialogContent){
 		drag : false,
 		resize : false,
 		content : dialogContent,
-		time: 2
+		time: 1
 	};
 	if(null!=followObj){
 		options["follow"]=followObj;

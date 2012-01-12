@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$("div.dh_infor > div.btn_area > a").bind("click", function() {
 		var actId = $(this).attr("actid");
-		addAct(actId, function() {
+		addAct(this, actId, function() {
 			$("#want" + actId).hide();
 			$("#dwant" + actId).show();
 		});

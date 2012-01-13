@@ -62,7 +62,7 @@ public class ShowActService implements IShowActService {
 					showAct.setCategoryIds(categoryIds);
 				}
 				showAct.setRecentPopularity(userActService.countActRecentUsers(
-						actId, cDate, DateUtils.addDays(cDate, -7)));
+						actId, DateUtils.addDays(cDate, -7), cDate));
 				showAct.setCity(act.getCity());
 				showAct.setHotCreateTime(hotAct.getCreateTime());
 				showAct.setLastModifyTime(cDate);

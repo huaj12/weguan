@@ -2,7 +2,6 @@ package com.juzhai.act.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +45,18 @@ public class CategoryService implements ICategoryService {
 	}
 
 	@Override
+	public void updateShowCategories() {
+		CategoryExample example = new CategoryExample();
+		example.createCriteria().andSequenceNotEqualTo(0);
+		example.setOrderByClause("sequence asc,id asc");
+		List<Category> list = categoryMapper.selectByExample(example);
+		InitData.CATEGORY_MAP.clear();
+		for (Category category : list) {
+			InitData.CATEGORY_MAP.put(category.getId(), category);
+		}
+	}
+
+	@Override
 	public List<Category> getAllCategory() {
 		CategoryExample example = new CategoryExample();
 		example.setOrderByClause("sequence asc,id asc");
@@ -54,7 +65,7 @@ public class CategoryService implements ICategoryService {
 	}
 
 	@Override
-	public void updateCategor(CategoryLiatFrom listform) {
+	public void updateCategory(CategoryLiatFrom listform) {
 		if (listform == null || listform.getCategoryFroms() == null) {
 			return;
 		}
@@ -63,9 +74,9 @@ public class CategoryService implements ICategoryService {
 			String hide = catFroms.get(i).getHide();
 			Long catId = catFroms.get(i).getId();
 			String name = catFroms.get(i).getName();
-			Integer sequence=catFroms.get(i).getSequence();
-			if(sequence==null){
-				sequence=0;
+			Integer sequence = catFroms.get(i).getSequence();
+			if (sequence == null) {
+				sequence = 0;
 			}
 			if (catId != null) {
 				Category record = categoryMapper.selectByPrimaryKey(catId);
@@ -97,7 +108,7 @@ public class CategoryService implements ICategoryService {
 	}
 
 	@Override
-	public boolean deleteCategor(Long id) {
+	public boolean deleteCategory(Long id) {
 		if (id == null) {
 			return false;
 		}

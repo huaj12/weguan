@@ -40,7 +40,7 @@ public class CmsCategoryController {
 
 	@RequestMapping(value = "/cmsUpdateCategory", method = RequestMethod.GET)
 	public String cmsUpdateCategory(CategoryLiatFrom categoryForm) {
-		categoryService.updateCategor(categoryForm);
+		categoryService.updateCategory(categoryForm);
 		return "redirect:/cms/cmsShowCategoryList";
 	}
 
@@ -49,7 +49,7 @@ public class CmsCategoryController {
 	public AjaxResult cmsDeleteCategory(
 			@RequestParam(defaultValue = "0") long catId) {
 		AjaxResult ajaxResult = new AjaxResult();
-		if (categoryService.deleteCategor(catId)) {
+		if (categoryService.deleteCategory(catId)) {
 			ajaxResult.setSuccess(true);
 		} else {
 			ajaxResult.setErrorInfo("该分类下有内容");

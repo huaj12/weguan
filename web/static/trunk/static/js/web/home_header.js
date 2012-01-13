@@ -38,7 +38,7 @@ $(document).ready(function() {
 	});
 	
 	$("div.kongxian > a").bind("click", function(){
-		$("div#freeDateForm").fadeIn(100);
+		$("div#freeDateForm").show().animate({bottom:"+=100"}, 1000);
 	});
 	
 	$("a.open-dialog").bind("click", function(){

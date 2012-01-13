@@ -55,6 +55,8 @@ $(document).ready(function() {
 		invite(uNames);
 		$("em#inviteError").hide();
 	});
+	
+	$("div#freeDateForm").show().animate({bottom:"+=100"}, 1000);
 });
 
 function showMoreInviteUser(){

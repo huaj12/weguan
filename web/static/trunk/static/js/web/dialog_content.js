@@ -61,6 +61,7 @@ $(document).ready(function(){
 				} else {
 					$(obj).prev().prev().children("textarea").val("");
 					$("div.repy_list_body").prepend(result);
+					$("div.repy_list_item").first().fadeIn("slow");
 				}
 				$(obj).next().hide();
 				$(obj).show();

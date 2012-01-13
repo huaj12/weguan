@@ -38,7 +38,10 @@ $(document).ready(function() {
 	});
 	
 	$("div.kongxian > a").bind("click", function(){
-		$("div#freeDateForm").show().animate({bottom:"+=100"}, 1000);
+		var obj = $("div#freeDateForm");
+		if(!obj.is(":visible")){
+			obj.show().animate({bottom:"+=100"}, 1000);
+		}
 	});
 	
 	$("a.open-dialog").bind("click", function(){

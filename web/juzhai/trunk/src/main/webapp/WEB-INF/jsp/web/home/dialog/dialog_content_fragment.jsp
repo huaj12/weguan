@@ -6,7 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:choose>
 	<c:when test="${dialogContentView!=null}">
-		<div class="repy_list_item <c:choose><c:when test='${dialogContentView.dialogContent.senderUid==context.uid}'>me</c:when><c:otherwise>ta</c:otherwise></c:choose>"><!--repy_list_item begin-->
+		<div <c:if test="${pager==null}">style="display:none;"</c:if> class="repy_list_item <c:choose><c:when test='${dialogContentView.dialogContent.senderUid==context.uid}'>me</c:when><c:otherwise>ta</c:otherwise></c:choose>"><!--repy_list_item begin-->
 			<div class="photo"><img src="${jzr:userLogo(dialogContentView.profile.uid,dialogContentView.profile.logoPic,80)}"  width="80" height="80"/></div>
 			<div class="repy_box mouseHover"><!--repy_box begin-->
 				<div class="arrow"></div>

@@ -211,7 +211,7 @@
 										<h3>自我评价：</h3>
 										<div class="pj_box">
 											<!--pj_box begin-->
-											<textarea rows="2" id="feature" cols="40" name="">${profile.feature}</textarea>
+											<textarea rows="4" id="feature" cols="40" name="">${profile.feature}</textarea>
 										</div>
 										<!--pj_box end-->
 										<div class="pj_error" id="feature_tp" >

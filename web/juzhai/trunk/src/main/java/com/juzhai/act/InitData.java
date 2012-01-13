@@ -25,13 +25,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.juzhai.act.mapper.CategoryMapper;
 import com.juzhai.act.mapper.HotActMapper;
 import com.juzhai.act.mapper.QuestionMapper;
 import com.juzhai.act.mapper.SynonymActMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.Category;
-import com.juzhai.act.model.CategoryExample;
 import com.juzhai.act.model.HotAct;
 import com.juzhai.act.model.HotActExample;
 import com.juzhai.act.model.Question;
@@ -40,6 +38,7 @@ import com.juzhai.act.model.SynonymAct;
 import com.juzhai.act.model.SynonymActExample;
 import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IActService;
+import com.juzhai.act.service.ICategoryService;
 import com.juzhai.core.util.JackSonSerializer;
 
 @Component("actInitData")
@@ -61,8 +60,8 @@ public class InitData {
 
 	// @Autowired
 	// private ActMapper actMapper;
-	@Autowired
-	private CategoryMapper categoryMapper;
+	// @Autowired
+	// private CategoryMapper categoryMapper;
 	// @Autowired
 	// private HotActMapper hotActMapper;
 	// @Autowired
@@ -77,7 +76,8 @@ public class InitData {
 	private HotActMapper hotActMapper;
 	@Autowired
 	private SynonymActMapper synonymActMapper;
-
+	@Autowired
+	private ICategoryService categoryService;
 	@Value("${recommend.category.rates}")
 	private String recommendCategoryRates;
 
@@ -230,14 +230,7 @@ public class InitData {
 	// }
 
 	private void initCategoryMap() {
-		CategoryExample example = new CategoryExample();
-		example.createCriteria().andSequenceNotEqualTo(0);
-		example.setOrderByClause("sequence asc,id asc");
-		List<Category> list = categoryMapper.selectByExample(example);
-		CATEGORY_MAP.clear();
-		for (Category category : list) {
-			CATEGORY_MAP.put(category.getId(), category);
-		}
+		categoryService.updateShowCategories();
 	}
 
 	// private void initActCategoryActList() {

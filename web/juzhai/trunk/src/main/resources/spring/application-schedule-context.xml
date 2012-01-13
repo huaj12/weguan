@@ -98,6 +98,10 @@
 	</bean>
 	<!-- delete user action end -->
 	
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	
+	
 	<!-- delete temp image begin -->
 	<bean id="deleteTempImageTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
@@ -154,7 +158,7 @@
 	</bean>
 	<!-- delete expired ad end -->
 	
-		<!-- delete expired raw ad  start -->
+	<!-- delete expired raw ad  start -->
 	<bean id="deleteExpiredRawAdTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
@@ -165,6 +169,16 @@
 	</bean>
 	<!-- delete expired raw ad end -->
 	
+	<!-- update show act begin -->
+	<bean id="updateShowCategoriesTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="updateShowCategoriesHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${update.show.categories.cron}" />
+	</bean>
+	<!-- update show act end -->
 	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
@@ -172,15 +186,16 @@
 				<!-- <ref bean="getBackFeedTrigger"/>
 				<ref bean="unreadMsgEmailTrigger"/>
 				<ref bean="actBriefingEmailTrigger"/> -->
-				<ref bean="actIndexOptimizationAndCommitTrigger"/>
 				<ref bean="resetQuestionUsersTrigger"/>
 				<ref bean="showCategoryActListTrigger"/>
 				<ref bean="deleteUserActionTrigger"/>
+				<ref bean="actIndexOptimizationAndCommitTrigger"/>
 				<ref bean="deleteTempImageTrigger"/>
 				<ref bean="updateShowActsTrigger"/>
 				<ref bean="delOutFreeDateTrigger"/>
 				<ref bean="deleteExpiredAdTrigger"/>
 				<ref bean="deleteExpiredRawAdTrigger"/>
+				<ref bean="updateShowCategoriesTrigger"/>
 				<!-- <ref bean="noticeEmailTrigger"/> -->
 			</list>
 		</property>

@@ -1,23 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="jz" uri="http://www.51juzhai.com/jsp/jstl/jz"%>
+<%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>拒宅项目管理</title>
-<script type="text/javascript"
-	src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
-	<script type="text/javascript"
-	src="${jz:static('/js/My97DatePicker/WdatePicker.js')}"></script>
+<script type="text/javascript" src="${jzr:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
+<script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 <script>
-	function searchAct() {
+	function queryAct() {
 		var bDate = $("#bDate").val();
 		var eDate = $("#eDate").val();
 		var name = $("#name").val();
-		$.get('/cms/searchAct', {
+		$.get('/cms/queryAct', {
 			name : name,
 			bDate : bDate,
 			eDate : eDate,
@@ -27,7 +25,7 @@
 		});
 	}
 	function actManagerPage(pageId, bDate, eDate, name) {
-		$.get('/cms/searchAct', {
+		$.get('/cms/queryAct', {
 			name : name,
 			bDate : bDate,
 			eDate : eDate,
@@ -62,7 +60,7 @@
 		<tr>
 			<td>简称:</td>
 			<td><input type="text" id="name" /> <input type="button"
-				value="查找" onclick="searchAct()" />
+				value="查找" onclick="queryAct()" />
 			</td>
 		</tr>
 	</table>

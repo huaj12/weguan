@@ -91,16 +91,52 @@ a:hover {
 	<div class="leftInfo">
 		<ul>
 			<li>
+				<a href="javascript:showChild('actData');">拒宅项目管理</a>
+				<ul style="display: none;" id="actData" class="child">
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/showCreateAct"
+						target="config">添加拒宅项目</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/showActManager"
+						target="config">修改拒宅项目</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/cmsShowCategoryList"
+						target="config">拒宅分类管理</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/showHotAct?active=true&page=1"
+						target="config">系统推荐项目设置</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/showRawActs"
+						target="config">审核用户添加项目</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/ad/manager"
+						target="config">优惠信息管理</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/raw/ad"
+						target="config">导入团购信息</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="javascript:showChild('statsData');">统计数据</a>
+				<ul style="display: none;" id="statsData" class="child">
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/recommendWantStats"
+						target="config">推荐点击统计</a>
+					</li>
+				</ul>
+			</li>
+			<!-- <li>
 				<a href="/cms/searchActs" target="config">近义词设置</a>
 			</li>
 			<li>
 				<a href="/cms/showShield" target="config">屏蔽词设置</a>
-			</li>
-			<li>
-				<a href="/cms/showCreateAct" target="config">添加拒宅项目</a>
-			</li>
-			<li>
-				<a href="/cms/showActManager" target="config">拒宅项目管理</a>
 			</li>
 			<li>
 				<a href="/cms/showSearchActAction" target="config">用户找伴记录</a>
@@ -112,39 +148,15 @@ a:hover {
 				<a href="/cms/showSynonymActs" target="config">指向词管理</a>
 			</li>
 			<li>
-				<a href="/cms/cmsShowCategoryList" target="config">类别管理</a>
-			</li>
-			<li>
-				<a href="/cms/showHotAct?active=true&page=1" target="config">推荐项目设置</a>
-			</li>
-			<li>
-				<a href="/cms/showRawActs" target="config">审核用户推荐项目</a>
-			</li>
-			<li>
-				<a href="/cms/show/ad/manager" target="config">优惠信息管理</a>
-			</li>	
-			<li>
-				<a href="javascript:showChild('statsData');">统计数据</a>
-				<ul style="display: none;" id="statsData" class="child">
-					<li style="background-color: #A4D3EE;"><a
-						style="color: black;" href="/cms/recommendWantStats"
-						target="config">推荐点击统计</a>
-					</li>
-				</ul>
-			</li>
-			<li>
 				<a href="javascript:;">热门分类</a>
 			</li>
 			<li>
 				<a href="javascript:;">男女兴趣排行榜</a>
-			</li>
-			<li>
-				<a href="/cms/show/raw/ad" target="config">导入团购信息</a>
-			</li>
+			</li> -->
 		</ul>
 	</div>
 	<div class="rightInfo">
-		<iframe frameborder="0" width="100%" name="config" height="100%">
+		<iframe frameborder="0" width="100%" name="config" height="3000">
 		</iframe>
 	</div>
 </body>

@@ -1,30 +1,12 @@
 package com.juzhai.cms.controller.form;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
 public class AddActForm {
-	public String getAddress() {
-		return address;
-	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	private MultipartFile imgFile;
-
-	private Boolean checkAddress;
-
-	public Boolean getCheckAddress() {
-		return checkAddress;
-	}
-
-	public void setCheckAddress(Boolean checkAddress) {
-		this.checkAddress = checkAddress;
-	}
+	private Long addUid;
 
 	private Long id;
 
@@ -44,13 +26,13 @@ public class AddActForm {
 
 	private Long town;
 
-	private String suitGender;
-
-	private String suiAge;
-
 	private String address;
 
-	private String suitStatu;
+	private String suitGender;
+
+	private String suitAge;
+
+	private String suitStatus;
 
 	private Integer minRoleNum;
 
@@ -63,6 +45,10 @@ public class AddActForm {
 	private Integer minCharge;
 
 	private Integer maxCharge;
+
+	private String keyWords;
+
+	private MultipartFile imgFile;
 
 	public MultipartFile getImgFile() {
 		return imgFile;
@@ -136,14 +122,6 @@ public class AddActForm {
 		this.city = city;
 	}
 
-	public String getSuiAge() {
-		return suiAge;
-	}
-
-	public void setSuiAge(String suiAge) {
-		this.suiAge = suiAge;
-	}
-
 	public String getSuitGender() {
 		return suitGender;
 	}
@@ -152,12 +130,20 @@ public class AddActForm {
 		this.suitGender = suitGender;
 	}
 
-	public String getSuitStatu() {
-		return suitStatu;
+	public String getSuitAge() {
+		return suitAge;
 	}
 
-	public void setSuitStatu(String suitStatu) {
-		this.suitStatu = suitStatu;
+	public void setSuitAge(String suitAge) {
+		this.suitAge = suitAge;
+	}
+
+	public String getSuitStatus() {
+		return suitStatus;
+	}
+
+	public void setSuitStatus(String suitStatus) {
+		this.suitStatus = suitStatus;
 	}
 
 	public Integer getMinRoleNum() {
@@ -214,6 +200,30 @@ public class AddActForm {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Long getAddUid() {
+		return addUid;
+	}
+
+	public void setAddUid(Long addUid) {
+		this.addUid = addUid;
+	}
+
+	public String getKeyWords() {
+		return keyWords;
+	}
+
+	public void setKeyWords(String keyWords) {
+		this.keyWords = keyWords;
 	}
 
 }

@@ -25,7 +25,7 @@ import com.juzhai.passport.service.login.ILoginService;
 
 @Controller
 @RequestMapping("/cms")
-public class LoginController {
+public class CmsLoginController {
 	private final Log log = LogFactory.getLog(getClass());
 
 	private static final String ERROR = "cms/error";

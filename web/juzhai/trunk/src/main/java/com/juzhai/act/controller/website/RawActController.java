@@ -89,7 +89,7 @@ public class RawActController extends BaseController {
 	public String showAddRawAct(HttpServletRequest request, Model model,
 			Boolean success) throws NeedLoginException {
 		checkLoginForWeb(request);// code by wujiajun
-		assembleCiteys(model);
+		assembleBaseDates(model);
 		if (null != success) {
 			model.addAttribute("success", success);
 		}

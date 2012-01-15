@@ -33,12 +33,23 @@ public class ActInputException extends JuzhaiException {
 	/**
 	 * act detail超过长度限制
 	 */
-	public static final String ACT_DETAIL_IS_TOO_LONG="10007";
+	public static final String ACT_DETAIL_IS_TOO_LONG = "10007";
 	/**
 	 * act detail不能为空
-	 */	
-	public static final String ACT_DETAIL_IS_NULL="10008";
-	
+	 */
+	public static final String ACT_DETAIL_IS_NULL = "10008";
+	/**
+	 * 全名长度不合法
+	 */
+	public static final String ACT_FULL_NAME_INVALID = "10009";
+	/**
+	 * 简介长度不合法
+	 */
+	public static final String ACT_INTRO_INVALID = "10010";
+	/**
+	 * 地址长度不合法
+	 */
+	public static final String ACT_ADDRESS_INVALID = "10011";
 
 	public ActInputException(String errorCode, Throwable cause) {
 		super(errorCode, cause);

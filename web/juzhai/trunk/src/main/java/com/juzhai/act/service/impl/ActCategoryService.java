@@ -21,6 +21,7 @@ import com.juzhai.act.model.Category;
 import com.juzhai.act.model.CategoryExample;
 import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IActService;
+import com.juzhai.act.service.ISynonymActService;
 
 @Service
 public class ActCategoryService implements IActCategoryService {
@@ -31,6 +32,8 @@ public class ActCategoryService implements IActCategoryService {
 	private CategoryMapper categoryMapper;
 	@Autowired
 	private IActService actService;
+	@Autowired
+	private ISynonymActService synonymActService;
 	@Value("${show.category.act.size}")
 	private int showCategoryActSize = 30;
 
@@ -42,13 +45,11 @@ public class ActCategoryService implements IActCategoryService {
 			actCategoryMapper.deleteByExample(example);
 			Date cDate = new Date();
 			for (long categoryId : categoryIds) {
-				if (null != InitData.CATEGORY_MAP.get(categoryId)) {
-					ActCategory actCategory = new ActCategory();
-					actCategory.setActId(actId);
-					actCategory.setCategoryId(categoryId);
-					actCategory.setCreateTime(cDate);
-					actCategoryMapper.insertSelective(actCategory);
-				}
+				ActCategory actCategory = new ActCategory();
+				actCategory.setActId(actId);
+				actCategory.setCategoryId(categoryId);
+				actCategory.setCreateTime(cDate);
+				actCategoryMapper.insertSelective(actCategory);
 			}
 		}
 	}
@@ -64,7 +65,7 @@ public class ActCategoryService implements IActCategoryService {
 		}
 		List<Long> actIds = new ArrayList<Long>();
 		for (ActCategory actCategory : actCategoryList) {
-			if (!actService.isShieldAct(actCategory.getActId())) {
+			if (!synonymActService.isShieldAct(actCategory.getActId())) {
 				actIds.add(actCategory.getActId());
 			}
 		}

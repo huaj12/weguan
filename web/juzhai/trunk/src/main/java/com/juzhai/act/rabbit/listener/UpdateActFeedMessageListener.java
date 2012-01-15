@@ -12,12 +12,10 @@ import org.springframework.stereotype.Component;
 
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.rabbit.message.ActUpdateMessage;
-import com.juzhai.act.service.IActService;
-import com.juzhai.act.service.IUserActService;
+import com.juzhai.act.service.ISynonymActService;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
 import com.juzhai.home.service.IInboxService;
 import com.juzhai.passport.service.IFriendService;
-import com.juzhai.passport.service.IProfileService;
 
 @Component
 public class UpdateActFeedMessageListener implements
@@ -30,11 +28,7 @@ public class UpdateActFeedMessageListener implements
 	@Autowired
 	private IInboxService inboxService;
 	@Autowired
-	private IProfileService profileService;
-	@Autowired
-	private IUserActService userActService;
-	@Autowired
-	private IActService actService;
+	private ISynonymActService synonymActService;
 
 	@Override
 	public Object handleMessage(ActUpdateMessage actUpdateMessage) {
@@ -42,7 +36,7 @@ public class UpdateActFeedMessageListener implements
 			return null;
 		}
 		UserAct userAct = actUpdateMessage.getBody();
-		if (actService.isShieldAct(userAct.getActId())) {
+		if (synonymActService.isShieldAct(userAct.getActId())) {
 			if (log.isDebugEnabled()) {
 				log.debug("act[id=" + userAct.getActId() + "] is shield.");
 			}

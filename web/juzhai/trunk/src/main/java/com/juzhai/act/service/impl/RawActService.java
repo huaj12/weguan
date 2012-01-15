@@ -140,6 +140,10 @@ public class RawActService implements IRawActService {
 					RawActInputException.RAW_ACT_TIME_INVALID);
 		}
 		String detail = agreeRawActForm.getDetail();
+		if (StringUtils.isEmpty(detail)) {
+			throw new RawActInputException(
+					RawActInputException.RAW_ACT_DETAIL_LOGO_INVALID);
+		}
 		long rawActId = agreeRawActForm.getRawActId();
 		if (rawActId == 0) {
 			throw new RawActInputException(
@@ -156,12 +160,7 @@ public class RawActService implements IRawActService {
 		updateAct.setLogo(filename);
 		updateAct.setId(act.getId());
 		actMapper.updateByPrimaryKeySelective(updateAct);
-		detail = actImageService.intoEditorImg(act.getId(), detail);
-		if (StringUtils.isEmpty(detail)) {
-			throw new RawActInputException(
-					RawActInputException.RAW_ACT_DETAIL_LOGO_INVALID);
-		}
-		actDetailService.addActDetail(act.getId(), detail);
+		actDetailService.updateActDetail(act.getId(), detail);
 		delteRawAct(rawActId);
 
 		// 发送系统通知

@@ -43,8 +43,8 @@ public class ActImageService implements IActImageService {
 	public String uploadActLogo(long uid, long actId, MultipartFile image)
 			throws UploadImageException {
 		String directoryPath = uploadActImageHome
-				+ ImageUtil
-						.generateHierarchyImagePath(actId, LogoSizeType.ORIGINAL);
+				+ ImageUtil.generateHierarchyImagePath(actId,
+						LogoSizeType.ORIGINAL);
 		String fileName = imageManager.uploadImage(directoryPath, image);
 		String srcFileName = directoryPath + fileName;
 		for (LogoSizeType sizeType : LogoSizeType.values()) {
@@ -107,7 +107,7 @@ public class ActImageService implements IActImageService {
 				String newUrl = StaticUtil.u(webActImagePath
 						+ ImageUtil.generateHierarchyImageWebPath(actId,
 								LogoSizeType.ORIGINAL) + srcFile.getName());
-				detail.replace(url, newUrl);
+				detail = detail.replace(url, newUrl);
 			}
 		}
 		return detail;

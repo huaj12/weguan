@@ -29,6 +29,7 @@ import com.juzhai.act.model.UserAct;
 import com.juzhai.act.model.UserActExample;
 import com.juzhai.act.rabbit.message.ActUpdateMessage;
 import com.juzhai.act.service.IActService;
+import com.juzhai.act.service.ISynonymActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.app.service.IAppService;
 import com.juzhai.core.cache.RedisKeyGenerator;
@@ -77,6 +78,8 @@ public class UserActService implements IUserActService {
 	@Autowired
 	private IActRankService actRankService;
 	@Autowired
+	private ISynonymActService synonymActService;
+	@Autowired
 	private ICounter recommendWantCounter;
 	@Value("${users.same.act.pre.count}")
 	private int usersSameActPreCount;
@@ -93,7 +96,7 @@ public class UserActService implements IUserActService {
 			} catch (ActInputException e) {
 				log.error(e.getMessage() + " actId: " + actId);
 			}
-			if (isFeed && !actService.isShieldAct(actId)) {
+			if (isFeed && !synonymActService.isShieldAct(actId)) {
 				appService.sendFeed(actId, uid, tpId);
 			}
 			recommendWantCounter.incr(null, 1L);
@@ -381,7 +384,7 @@ public class UserActService implements IUserActService {
 		} else if (actIds.contains(actId)) {
 			return true;
 		} else {
-			List<Long> synonymIds = actService.listSynonymIds(actId);
+			List<Long> synonymIds = synonymActService.listSynonymIds(actId);
 			if (CollectionUtils.containsAny(actIds, synonymIds)) {
 				return true;
 			} else {

@@ -21,6 +21,8 @@ import com.juzhai.act.model.ActAd;
 import com.juzhai.act.model.ActDetail;
 import com.juzhai.act.model.ActLink;
 import com.juzhai.act.model.UserAct;
+import com.juzhai.act.service.IActAdService;
+import com.juzhai.act.service.IActDetailService;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IDatingService;
 import com.juzhai.act.service.IUserActService;
@@ -44,6 +46,8 @@ public class ActController extends BaseController {
 	@Autowired
 	private IActService actService;
 	@Autowired
+	private IActAdService actAdService;
+	@Autowired
 	private MessageSource messageSource;
 	@Autowired
 	private IProfileService profileService;
@@ -55,6 +59,8 @@ public class ActController extends BaseController {
 	private ILoginService loginService;
 	@Autowired
 	private IUserFreeDateService userFreeDateService;
+	@Autowired
+	private IActDetailService actDetailService;
 	@Value("${web.act.ad.show.count}")
 	private int webActAdShowCount;
 	@Value("${web.act.link.show.count}")
@@ -91,7 +97,7 @@ public class ActController extends BaseController {
 	@RequestMapping(value = "/{actId}", method = RequestMethod.GET)
 	public String showAct(HttpServletRequest request, Model model,
 			@PathVariable long actId) {
-		ActDetail actDetail = actService.getActDetailById(actId);
+		ActDetail actDetail = actDetailService.getActDetail(actId);
 		if (null == actDetail || !actDetail.getDisplay()) {
 			return showActUsers(request, model, actId);
 		} else {
@@ -111,7 +117,7 @@ public class ActController extends BaseController {
 		if (null == act) {
 			return error_404;
 		}
-		ActDetail actDetail = actService.getActDetailById(actId);
+		ActDetail actDetail = actDetailService.getActDetail(actId);
 		model.addAttribute("actDetail", actDetail);
 		return "web/act/act/show_act_detail";
 	}
@@ -170,7 +176,7 @@ public class ActController extends BaseController {
 		model.addAttribute("act", act);
 		List<ActLink> actLinkList = actService.listActLinkByActId(actId,
 				webActLinkShowCount);
-		List<ActAd> actAdList = actService.listActAdByActId(actId, cityId,
+		List<ActAd> actAdList = actAdService.listActAdByActId(actId, cityId,
 				webActAdShowCount);
 		model.addAttribute("actAdList", actAdList);
 		model.addAttribute("actLinkList", actLinkList);

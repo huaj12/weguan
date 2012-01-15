@@ -1,4 +1,4 @@
-package com.juzhai.act.rabbit.listener;
+package com.juzhai.search.rabbit.listener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.juzhai.act.model.Act;
-import com.juzhai.act.rabbit.message.ActIndexMessage;
 import com.juzhai.core.lucene.index.Indexer;
 import com.juzhai.core.lucene.searcher.IndexSearcherManager;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
+import com.juzhai.search.rabbit.message.ActIndexMessage;
 
 @Component
 public class ActIndexMessageListener implements

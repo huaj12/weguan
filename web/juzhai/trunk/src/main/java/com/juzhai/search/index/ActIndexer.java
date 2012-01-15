@@ -1,8 +1,9 @@
-package com.juzhai.act.lucene.index;
+package com.juzhai.search.index;
 
 import java.io.IOException;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
@@ -23,8 +24,6 @@ public class ActIndexer implements Indexer<Act> {
 	@Override
 	public void addIndex(Act act, boolean isCommit)
 			throws CorruptIndexException, IOException {
-		// TODO 分类进行存储，今后再更新
-		// StringBuilder categorys = new StringBuilder();
 		Document doc = buildDoc(act);
 		actIndexWriter.addDocument(doc);
 		if (isCommit) {
@@ -38,8 +37,9 @@ public class ActIndexer implements Indexer<Act> {
 				Field.Index.NOT_ANALYZED));
 		doc.add(new Field("name", act.getName(), Field.Store.YES,
 				Field.Index.ANALYZED));
-		// doc.add(new Field("categorys", categorys, Field.Store.NO,
-		// Field.Index.ANALYZED));
+		doc.add(new Field("keywords",
+				null == act.getKeyWords() ? StringUtils.EMPTY : act
+						.getKeyWords(), Field.Store.NO, Field.Index.ANALYZED));
 		float boost = (BooleanUtils.isTrue(act.getActive()) ? 5F : 0F)
 				+ (act.getPopularity() == null ? 1 : act.getPopularity())
 				* 0.1f;

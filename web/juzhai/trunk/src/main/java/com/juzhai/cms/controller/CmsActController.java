@@ -138,9 +138,11 @@ public class CmsActController extends BaseController {
 			addActForm.setDetail(actDetail.getDetail());
 		}
 		List<Long> catIds = new ArrayList<Long>();
-		for (String catId : StringUtils.split(act.getCategoryIds(), ",")) {
-			if (StringUtils.isNotEmpty(catId)) {
-				catIds.add(Long.valueOf(catId));
+		if (StringUtils.isNotEmpty(act.getCategoryIds())) {
+			for (String catId : StringUtils.split(act.getCategoryIds(), ",")) {
+				if (StringUtils.isNotEmpty(catId)) {
+					catIds.add(Long.valueOf(catId));
+				}
 			}
 		}
 		addActForm.setCatIds(catIds);

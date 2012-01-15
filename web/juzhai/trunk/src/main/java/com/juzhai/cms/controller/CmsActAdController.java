@@ -66,11 +66,11 @@ public class CmsActAdController {
 	@RequestMapping(value = "/show/ad/manager")
 	public String showAdManager(String msg, Model model,
 			@RequestParam(defaultValue = "1") int pageId, Long cityId,
-			String source, String status,String category) {
+			String source, String status, String category) {
 		PagerManager pager = new PagerManager(pageId, 20,
-				rawAdService.countSearchRawAd(status, cityId, source,category));
-		List<RawAd> ads = rawAdService.searchRawAd(status, cityId, source,category,
-				pager.getFirstResult(), pager.getMaxResult());
+				rawAdService.countSearchRawAd(status, cityId, source, category));
+		List<RawAd> ads = rawAdService.searchRawAd(status, cityId, source,
+				category, pager.getFirstResult(), pager.getMaxResult());
 		model.addAttribute("msg", msg);
 		model.addAttribute("ads", ads);
 		model.addAttribute("pager", pager);
@@ -100,7 +100,7 @@ public class CmsActAdController {
 	@RequestMapping(value = "/remove/act/ad", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult removeActAd(HttpServletRequest request, Model model,
-			@RequestParam(defaultValue = "0")long  actAdId) {
+			@RequestParam(defaultValue = "0") long actAdId) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
 			actAdService.remove(actAdId);
@@ -109,11 +109,11 @@ public class CmsActAdController {
 		}
 		return ajaxResult;
 	}
-	
+
 	@RequestMapping(value = "/remove/raw/ad", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult removeRawAd(HttpServletRequest request, Model model,
-			@RequestParam(defaultValue = "0")long  rawAdId) {
+			@RequestParam(defaultValue = "0") long rawAdId) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
 			rawAdService.remove(rawAdId);
@@ -122,7 +122,6 @@ public class CmsActAdController {
 		}
 		return ajaxResult;
 	}
-	
 
 	@RequestMapping(value = "/ajax/show/act/ads", method = RequestMethod.GET)
 	public String showActAds(Long rawAdId, Model model) {
@@ -133,4 +132,5 @@ public class CmsActAdController {
 		return "/cms/ajax/asd_list";
 	}
 
+	// TODO (review) 项目优惠信息列表单独做
 }

@@ -59,7 +59,7 @@ public class JzResourceFunction {
 	public static String actLogo(long actId, String fileName, int size) {
 		LogoSizeType sizeType = LogoSizeType.getSizeTypeBySize(size);
 		if (StringUtils.isEmpty(fileName) || actId <= 0 || sizeType == null) {
-			return StaticUtil.u("/images/" + size + "_defaultActLogo.gif");
+			return StaticUtil.u("/images/act_" + size + ".jpg");
 		} else {
 			if (ImageUtil.isInternalUrl(fileName)) {
 				return StaticUtil.u(webActImagePath
@@ -73,7 +73,7 @@ public class JzResourceFunction {
 
 	public static String actTempLogo(String fileName) {
 		if (StringUtils.isEmpty(fileName)) {
-			return StaticUtil.u("/images/120_defaultActLogo.gif");
+			return StaticUtil.u("/images/act_120.jpg");
 		} else {
 			return StaticUtil.u(webTempImagePath + fileName);
 		}
@@ -92,7 +92,7 @@ public class JzResourceFunction {
 			LogoSizeType sizeType = LogoSizeType.getSizeTypeBySize(size);
 			if (StringUtils.isEmpty(fileName) || userid <= 0
 					|| sizeType == null) {
-				return StaticUtil.u("/images/" + size + "_defaultUserLogo.gif");
+				return StaticUtil.u("/images/face_" + size + ".jpg");
 			} else {
 				return StaticUtil.u(webUserImagePath
 						+ ImageUtil.generateHierarchyImageWebPath(userid,

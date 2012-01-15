@@ -5,22 +5,19 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import javax.imageio.ImageIO;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.core.image.manager.IImageManager;
+import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;
@@ -28,8 +25,7 @@ import com.juzhai.core.util.StaticUtil;
 @Component
 public class ImageManager implements IImageManager {
 	private final Log log = LogFactory.getLog(getClass());
-	private final static SimpleDateFormat SDF = new SimpleDateFormat(
-			"yyyy-MM-dd");
+
 	@Value("${upload.temp.image.home}")
 	private String uploadTempImageHome;
 	@Value("${web.temp.image.path}")
@@ -78,7 +74,7 @@ public class ImageManager implements IImageManager {
 	public String[] uploadTempImage(MultipartFile image)
 			throws UploadImageException {
 		checkImage(image);
-		String dateFolder = SDF.format(new Date());
+		String dateFolder = DateFormat.SDF.format(new Date());
 		String directoryPath = uploadTempImageHome + dateFolder
 				+ File.separator;
 		String fileName = ImageUtil.generateUUIDJpgFileName();

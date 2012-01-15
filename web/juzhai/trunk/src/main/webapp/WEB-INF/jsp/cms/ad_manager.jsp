@@ -42,7 +42,7 @@ function removeAd(rawAdId){
 		}
 	});
 }
-function actAdManager(rawAdId,flag){
+function actAdManager(obj, rawAdId,flag){
 	$("#actName").val("");
 	//是否需要加载act
 	if(flag){
@@ -51,7 +51,7 @@ function actAdManager(rawAdId,flag){
 	$.dialog({
 	    lock: true,
 	    content: $("#adManager")[0],
-	    top:"50%"
+	    follow: obj
 	});
 	$("#rawAdId").val(rawAdId);
 }
@@ -166,10 +166,10 @@ function addAd(){
 				<input type="button" value="删除" onclick="removeAd('${ad.id}','false')"/>
 				<c:choose>
 					<c:when test="${ad.status==0}">
-						<input type="button" value="发布" onclick="actAdManager('${ad.id}','false')"/>
+						<input type="button" value="发布" onclick="actAdManager(this,'${ad.id}','false')"/>
 					</c:when>
 					<c:when test="${ad.status==1}">
-						<input type="button" value="修改发布" onclick="actAdManager('${ad.id}',true)"/>
+						<input type="button" value="修改发布" onclick="actAdManager(this,'${ad.id}',true)"/>
 					</c:when>
 				</c:choose>
 			</td>

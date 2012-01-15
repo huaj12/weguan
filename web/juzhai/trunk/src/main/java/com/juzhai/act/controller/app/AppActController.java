@@ -1,17 +1,12 @@
 package com.juzhai.act.controller.app;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,15 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.model.Act;
-import com.juzhai.act.model.RawAct;
 import com.juzhai.act.model.UserAct;
 import com.juzhai.act.service.IActService;
-import com.juzhai.act.service.IRawActService;
+import com.juzhai.act.service.ISynonymActService;
 import com.juzhai.act.service.IUserActService;
-import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.app.controller.view.ActUserView;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
@@ -53,9 +45,11 @@ public class AppActController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private IMsgMessageService msgMessageService;
+	@Autowired
+	private ISynonymActService synonymActService;
 	@Value("${act.user.maxResult}")
 	private int actUserMaxResult;
- 
+
 	@RequestMapping(value = "/showAct/{actId}", method = RequestMethod.GET)
 	public String showAct(HttpServletRequest request, Model model,
 			@PathVariable long actId, Integer friendUser)
@@ -68,7 +62,7 @@ public class AppActController extends BaseController {
 		model.addAttribute("act", act);
 		model.addAttribute("hasAct",
 				userActService.hasAct(context.getUid(), actId));
-		model.addAttribute("isShield", actService.isShieldAct(actId));
+		model.addAttribute("isShield", synonymActService.isShieldAct(actId));
 
 		model.addAttribute("userActCount",
 				userActService.countUserActByActId(context.getTpId(), actId));
@@ -130,8 +124,6 @@ public class AppActController extends BaseController {
 		result.setSuccess(true);
 		return result;
 	}
-
-	
 
 	private List<ActUserView> assembleActUserView(long uid,
 			List<UserAct> userActList, boolean needJudgeFriend) {

@@ -1,4 +1,4 @@
-package com.juzhai.act.schedule;
+package com.juzhai.search.schedule;
 
 import java.io.IOException;
 

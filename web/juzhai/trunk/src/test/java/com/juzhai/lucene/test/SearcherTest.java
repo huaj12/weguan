@@ -16,6 +16,7 @@ import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
 import com.juzhai.core.lucene.index.Indexer;
 import com.juzhai.core.lucene.searcher.IndexSearcherManager;
+import com.juzhai.search.service.IActSearchService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:spring/application-context.xml" })
@@ -23,6 +24,8 @@ public class SearcherTest {
 
 	@Autowired
 	private IActService actService;
+	@Autowired
+	private IActSearchService actSearchService;
 	@Autowired
 	private Indexer<Act> actIndexer;
 	@Autowired
@@ -44,7 +47,7 @@ public class SearcherTest {
 		actIndexer.addIndex(act, true);
 		// actIndexer.deleteIndex(act, true);
 		searcherManager.maybeReopen();
-		List<String> results = actService.indexSearchName("喝茶", 10);
+		List<String> results = actSearchService.indexSearchName("喝茶", 10);
 		for (String result : results) {
 			System.out.println(result);
 		}

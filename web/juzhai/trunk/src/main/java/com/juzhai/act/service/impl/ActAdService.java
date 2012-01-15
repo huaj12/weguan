@@ -1,17 +1,14 @@
 package com.juzhai.act.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.juzhai.act.exception.ActAdInputException;
 import com.juzhai.act.mapper.ActAdMapper;
@@ -22,6 +19,7 @@ import com.juzhai.act.service.IActAdService;
 import com.juzhai.act.service.IActService;
 import com.juzhai.cms.model.RawAd;
 import com.juzhai.cms.service.IRawAdService;
+import com.juzhai.core.dao.Limit;
 
 @Service
 public class ActAdService implements IActAdService {
@@ -203,4 +201,18 @@ public class ActAdService implements IActAdService {
 		}
 	}
 
+	@Override
+	public List<ActAd> listActAdByActId(long actId, long cityId, int count) {
+		ActAdExample example = new ActAdExample();
+		com.juzhai.act.model.ActAdExample.Criteria criteria = example
+				.createCriteria();
+		criteria.andActIdEqualTo(actId);
+		criteria.andEndTimeGreaterThan(new Date());
+		if (cityId > 0) {
+			criteria.andCityEqualTo(cityId);
+		}
+		example.setLimit(new Limit(0, count));
+		example.setOrderByClause("sequence asc, last_modify_time desc");
+		return actAdMapper.selectByExample(example);
+	}
 }

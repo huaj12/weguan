@@ -12,12 +12,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.juzhai.act.exception.ActInputException;
 import com.juzhai.act.mapper.ActMapper;
-import com.juzhai.act.mapper.SynonymActMapper;
 import com.juzhai.act.mapper.UserActMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.UserAct;
@@ -46,8 +42,6 @@ public class MigrateActController {
 	@Autowired
 	private ActMapper actMapper;
 	@Autowired
-	private SynonymActMapper synonymActMapper;
-	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private RedisTemplate<String, MergerActMsg> redisMergerActMsgTemplate;
@@ -57,9 +51,9 @@ public class MigrateActController {
 		Set<String> synonymKeys = redisTemplate.keys("*synonym");
 		// migrateSynonym(synonymKeys);
 		for (String key : synonymKeys) {
-			List<Long> actIds = actService.listSynonymIds(getActId(key));
+			List<Long> actIds = synonymActService.listSynonymIds(getActId(key));
 			for (long actId : actIds) {
-				actService.addSynonym(getActId(key), actId);
+				synonymActService.addSynonym(getActId(key), actId);
 			}
 		}
 
@@ -69,7 +63,7 @@ public class MigrateActController {
 			if (actId == null) {
 				continue;
 			}
-			List<Act> acts = actService.listSynonymActs(actId);
+			List<Act> acts = synonymActService.listSynonymActs(actId);
 			acts.add(actService.getActById(actId));
 			Collections.sort(acts, new Comparator<Act>() {
 				@Override
@@ -194,25 +188,24 @@ public class MigrateActController {
 	 * @param actMaps
 	 */
 	private void opTableAct(Map<Long, Long> actMaps) {
-		for (Entry<Long, Long> entry : actMaps.entrySet()) {
-			long hotActId = entry.getValue();
-			long actId = entry.getKey();
-			Act act = actService.getActById(actId);
-			int popularity = 0;
-			if (act != null) {
-				popularity = act.getPopularity();
-			}
-			Act hotAct = actService.getActById(hotActId);
-			if (hotAct != null) {
-				int oldPopularitry = hotAct.getPopularity();
-				hotAct.setPopularity(oldPopularitry + popularity);
-				try {
-					actService.updateAct(hotAct, null,null);
-				} catch (ActInputException e) {
-				}
-			}
-		}
-
+		// for (Entry<Long, Long> entry : actMaps.entrySet()) {
+		// long hotActId = entry.getValue();
+		// long actId = entry.getKey();
+		// Act act = actService.getActById(actId);
+		// int popularity = 0;
+		// if (act != null) {
+		// popularity = act.getPopularity();
+		// }
+		// Act hotAct = actService.getActById(hotActId);
+		// if (hotAct != null) {
+		// int oldPopularitry = hotAct.getPopularity();
+		// hotAct.setPopularity(oldPopularitry + popularity);
+		// try {
+		// actService.updateAct(hotAct, null, null);
+		// } catch (ActInputException e) {
+		// }
+		// }
+		// }
 	}
 
 	private void opTableUserAct(Map<Long, Long> actMaps) {

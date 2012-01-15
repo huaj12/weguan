@@ -26,6 +26,7 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.search.service.IActSearchService;
 
 @Controller
 public class SearchController extends BaseController {
@@ -34,6 +35,8 @@ public class SearchController extends BaseController {
 	private IUserActionService userActionService;
 	@Autowired
 	private IActService actService;
+	@Autowired
+	private IActSearchService actSearchService;
 	@Autowired
 	private IProfileService profileService;
 
@@ -77,7 +80,8 @@ public class SearchController extends BaseController {
 		}
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		if (StringUtils.isNotEmpty(q)) {
-			List<String> queryResults = actService.indexSearchName(q, limit);
+			List<String> queryResults = actSearchService.indexSearchName(q,
+					limit);
 			for (String name : queryResults) {
 				Map<String, Object> nameMap = new HashMap<String, Object>();
 				nameMap.put("name", name);

@@ -8,33 +8,19 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 
 import com.juzhai.act.mapper.ActDetailMapper;
 import com.juzhai.act.model.ActDetail;
 import com.juzhai.act.service.IActDetailService;
+import com.juzhai.act.service.IActImageService;
 
 @Service
 public class ActDetailService implements IActDetailService {
 	@Autowired
 	private ActDetailMapper actDetailMapper;
-
-	@Override
-	public void addActDetail(long actId, String detail) {
-		ActDetail a = new ActDetail();
-		a.setActId(actId);
-		List<String> list = matchImage(detail);
-		if (CollectionUtils.isEmpty(list)) {
-			a.setDisplay(false);
-		} else {
-			a.setDisplay(true);
-		}
-		a.setCreateTime(new Date());
-		a.setDetail(detail);
-		a.setLastModifyTime(new Date());
-		actDetailMapper.insert(a);
-	}
+	@Autowired
+	private IActImageService actImageService;
 
 	@Override
 	public ActDetail getActDetail(long actId) {
@@ -54,27 +40,20 @@ public class ActDetailService implements IActDetailService {
 
 	@Override
 	public void updateActDetail(long actId, String detail) {
+		detail = actImageService.intoEditorImg(actId, detail);
+		// TODO (review) 找到一个图片即可返回
+		List<String> list = matchImage(detail);
 		ActDetail a = actDetailMapper.selectByPrimaryKey(actId);
 		if (a == null) {
-			a=new ActDetail();
+			a = new ActDetail();
 			a.setActId(actId);
-			List<String> list = matchImage(detail);
-			if (CollectionUtils.isEmpty(list)) {
-				a.setDisplay(false);
-			} else {
-				a.setDisplay(true);
-			}
+			a.setDisplay(CollectionUtils.isNotEmpty(list));
 			a.setDetail(detail);
 			a.setCreateTime(new Date());
 			a.setLastModifyTime(new Date());
-			actDetailMapper.insert(a);
+			actDetailMapper.insertSelective(a);
 		} else {
-			List<String> list = matchImage(detail);
-			if (CollectionUtils.isEmpty(list)) {
-				a.setDisplay(false);
-			} else {
-				a.setDisplay(true);
-			}
+			a.setDisplay(CollectionUtils.isNotEmpty(list));
 			a.setDetail(detail);
 			a.setLastModifyTime(new Date());
 			actDetailMapper.updateByPrimaryKeySelective(a);

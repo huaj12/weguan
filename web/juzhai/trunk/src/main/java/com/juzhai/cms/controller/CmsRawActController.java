@@ -73,7 +73,7 @@ public class CmsRawActController extends BaseController {
 			@RequestParam(defaultValue = "0") long id) {
 		try {
 			model.addAttribute("rawAct", rawActService.getRawAct(id));
-			assembleCiteys(model);
+			assembleBaseDates(model);
 		} catch (Exception e) {
 			log.error("showManagerRawAct is error." + e.getMessage());
 			return ERROR;

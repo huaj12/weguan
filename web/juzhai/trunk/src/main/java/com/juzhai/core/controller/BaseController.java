@@ -121,7 +121,7 @@ public class BaseController {
 				CityChannelFilter.SESSION_CHANNEL_NAME, 0L);
 	}
 
-	protected void assembleCiteys(Model model) {
+	protected void assembleBaseDates(Model model) {
 		model.addAttribute("towns", InitData.TOWN_MAP.values());
 		List<Category> categoryList = actCategoryService.findAllCategory();
 		model.addAttribute("categoryList", categoryList);

@@ -186,9 +186,10 @@
 				<!-- <ref bean="getBackFeedTrigger"/>
 				<ref bean="unreadMsgEmailTrigger"/>
 				<ref bean="actBriefingEmailTrigger"/> -->
-				<ref bean="resetQuestionUsersTrigger"/>
+				<!-- <ref bean="resetQuestionUsersTrigger"/>
 				<ref bean="showCategoryActListTrigger"/>
 				<ref bean="deleteUserActionTrigger"/>
+				<ref bean="deleteUserActionTrigger"/> -->
 				<ref bean="actIndexOptimizationAndCommitTrigger"/>
 				<ref bean="deleteTempImageTrigger"/>
 				<ref bean="updateShowActsTrigger"/>

@@ -15,6 +15,13 @@ public class PagerManager {
 
 	private int totalResults = 0;
 
+	public PagerManager(int page, int results) {
+		super();
+		page = page <= 0 ? 1 : page;
+		this.currentPage = page;
+		this.results = results;
+	}
+
 	public PagerManager(int page, int results, int totalResults) {
 		super();
 		page = page <= 0 ? 1 : page;

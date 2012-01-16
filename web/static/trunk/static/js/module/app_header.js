@@ -6,8 +6,8 @@ $(document).ready(function() {
 	addActInput.bindAutocomplete();
 	
 	// 注册搜索Act事件
-	$("#_searchActs").bind("click", function() {
-		_searchActs();
+	$("#_queryActs").bind("click", function() {
+		_queryActs();
 	});
 });
 
@@ -64,7 +64,7 @@ function showActTip(inputObj, infoObj){
 	}
 }
 
-function _searchActs(){
+function _queryActs(){
 	var value = $("#addAct").attr("value");
 	if (!value || value == ""||value=='输入拒宅项目,如:逛街') {
 		$("#headAddActError").html("<em>请先输入</em>").stop(true, true).show()
@@ -76,5 +76,5 @@ function _searchActs(){
 				2000);
 		return false;
 	}
-	location.href="/searchAct?name="+value;
+	location.href="/queryAct?name="+value;
 }

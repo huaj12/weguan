@@ -1,6 +1,7 @@
 package com.juzhai.search.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.juzhai.act.model.Act;
 
@@ -25,7 +26,8 @@ public interface IActSearchService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Long> searchAct(String queryString, int firstResult, int maxResults);
+	Map<Integer, List<Act>> searchActs(String queryString, int firstResult,
+			int maxResults);
 
 	/**
 	 * 建索引

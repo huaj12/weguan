@@ -69,18 +69,14 @@
 				</c:otherwise>
 			</c:choose>
 		</div><!--user_area end-->
-		<div class="search"><!--search begin-->
-			<div class="s_l"></div>
-			<div class="s_m"><!--s_m begin-->
-				<input name="" type="text"  value="输入拒宅项目,如:打台球"/>
-			</div><!--s_m end-->
-			<div class="s_r"><a href="#"></a></div>
-			<div class="xl_menu" style="display: none;"><!--xl_menu begin-->
-				<a href="#">打篮球</a>
-				<a href="#">打台球</a>
-				<a href="#">打电动</a>
-				<a href="#">打篮球</a>
-			</div><!--xl_menu end-->
-		</div><!--search end-->
+		<form id="searchActsForm" action="/searchActs" method="get">
+			<div class="search"><!--search begin-->
+				<div class="s_l"></div>
+				<div class="s_m"><!--s_m begin-->
+					<input name="searchWords" type="text" value="${searchWords}" init-msg="输入拒宅项目,如:打台球"/>
+				</div><!--s_m end-->
+				<div class="s_r"><a href="javascript:void(0);"></a></div>
+			</div><!--search end-->
+		</form>
 	</div><!--top end-->
 </div>

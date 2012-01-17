@@ -3,6 +3,10 @@
  */
 package com.juzhai.passport.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.util.BitSet;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +15,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import weibo4j.Oauth;
 
+import com.juzhai.core.Constants;
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
@@ -258,12 +264,14 @@ public class TpAuthorizeController extends BaseController {
 	}
 
 	@RequestMapping(value = "web/login/{tpId}")
-	public String webLogin(Model model, @PathVariable long tpId, String turnTo) {
+	public String webLogin(Model model, @PathVariable long tpId, String turnTo)
+			throws UnsupportedEncodingException {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if (null == tp) {
 			return "404";
 		}
-		String url = authorizeURLService.getAuthorizeURLforCode(tp, turnTo);
+		String url = authorizeURLService.getAuthorizeURLforCode(tp,
+				URLEncoder.encode(turnTo, Constants.UTF8));
 		if (StringUtils.isEmpty(url)) {
 			return "404";
 		}
@@ -273,7 +281,8 @@ public class TpAuthorizeController extends BaseController {
 	@RequestMapping(value = "web/access/{tpId}")
 	public String webAccess(HttpServletRequest request,
 			HttpServletResponse response, String code, @PathVariable long tpId,
-			String turnTo) {
+			String turnTo) throws UnsupportedEncodingException,
+			MalformedURLException {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if (null == tp) {
 			return null;
@@ -299,12 +308,43 @@ public class TpAuthorizeController extends BaseController {
 			return error_500;
 		}
 		loginService.login(request, uid, tp.getId(), RunType.CONNET);
+
+		BitSet urlsafe = new BitSet();
+		// alpha characters
+		for (int i = 'a'; i <= 'z'; i++) {
+			urlsafe.set(i);
+		}
+		for (int i = 'A'; i <= 'Z'; i++) {
+			urlsafe.set(i);
+		}
+		// numeric characters
+		for (int i = '0'; i <= '9'; i++) {
+			urlsafe.set(i);
+		}
+		// special chars
+		urlsafe.set('-');
+		urlsafe.set('_');
+		urlsafe.set('.');
+		urlsafe.set('*');
+		// blank to be replaced with +
+		urlsafe.set(' ');
+		urlsafe.set(':');
+		urlsafe.set('/');
+		urlsafe.set('=');
+		urlsafe.set('#');
+		urlsafe.set('?');
+		urlsafe.set('&');
+		urlsafe.set('%');
+
+		turnTo = new String(URLCodec.encodeUrl(urlsafe,
+				turnTo.getBytes(Constants.UTF8)));
+		System.out.println(turnTo);
 		return "redirect:" + (StringUtils.isEmpty(turnTo) ? "/home" : turnTo);
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
-	public String webLogin(HttpServletRequest request, Model model,
-			String turnTo) {
+	public String login(HttpServletRequest request, Model model, String turnTo)
+			throws UnsupportedEncodingException {
 		try {
 			checkLoginForWeb(request);
 			return "redirect:/home";

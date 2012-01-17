@@ -16,7 +16,8 @@ KindEditor.ready(function(K) {
 $(document).ready(function() {
 	$("div.upload > div.load_done > a").bind("click", function(){
 		$(this).parent().removeAttr("filePath").hide();
-		$("div.upload > div.load_done > p > img").attr("src", "");
+		var imgObj = $("div.upload > div.load_done > p > img");
+		imgObj.attr("src", imgObj.attr("loading-src"));
 		$("div.upload > div.sc_btn").show();
 	});
 });

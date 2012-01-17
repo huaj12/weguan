@@ -21,6 +21,7 @@ import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.act.mapper.ActCategoryMapper;
@@ -189,8 +190,10 @@ public class MigrateController {
 	}
 
 	@RequestMapping(value = "migrateActIndex")
+	@ResponseBody
 	public String migrateActIndex(HttpServletRequest request) {
 		ActExample example = new ActExample();
+		example.createCriteria().andActiveEqualTo(true);
 		example.setOrderByClause("id asc");
 		int firstResult = 0;
 		int maxResults = 200;
@@ -216,7 +219,7 @@ public class MigrateController {
 		} catch (Exception e) {
 			log.error("reopen indexReader failed when migrate index");
 		}
-		return null;
+		return "success";
 	}
 
 	public String initHotAct(HttpServletRequest request, Model model) {

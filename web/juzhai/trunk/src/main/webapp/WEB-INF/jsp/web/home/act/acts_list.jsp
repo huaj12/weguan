@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -25,8 +26,8 @@
 							</c:choose>
 						</h3>
 					</c:if>
-					<c:if test="${userActView.act.address != null && userActView.act.address != ''}">
-						<h3 class="place"><strong>地点:</strong>${userActView.act.address}</h3>
+					<c:if test="${not empty userActView.act.address}">
+						<h3 class="place"><strong>地点:</strong>${jzd:townName(userActView.act.town)}${userActView.act.address}</h3>
 					</c:if>
 					<c:if test="${userActView.act.minCharge > 0 || userActView.act.maxCharge > 0}">
 						<h3 class="cost"><strong>费用:</strong>人均<c:choose><c:when test="${userActView.act.minCharge==userActView.act.maxCharge}">${userActView.act.minCharge}</c:when><c:otherwise>${userActView.act.minCharge}--${userActView.act.maxCharge}</c:otherwise></c:choose>元</h3>

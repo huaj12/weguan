@@ -72,6 +72,31 @@ $(document).ready(function(){
 		queryNotice();
 		setInterval(queryNotice, 10000);
 	}
+	
+	var searchInput = $("div.search > div.s_m > input");
+	var initMsg = searchInput.attr("init-msg");
+	searchInput.bind("focus", function(){
+		if(searchInput.val() == initMsg){
+			searchInput.val("");
+		}
+	}).bind("blur", function(){
+		if(searchInput.val() == ""){
+			searchInput.val(initMsg);
+		}
+	});
+	searchInput.trigger("blur");
+	$("#searchActsForm").submit(function(){
+		if(searchInput.val() == initMsg){
+			return false;
+		}
+		if(!checkValLength($("div.search > div.s_m > input").val(), 2, 100)){
+			return false;
+		}
+		return true;
+	});
+	$("div.search > div.s_r > a").bind("click", function(){
+		$("#searchActsForm").submit();
+	});
 });
 
 function queryNotice(){

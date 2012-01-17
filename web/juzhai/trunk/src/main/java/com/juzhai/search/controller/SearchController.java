@@ -100,14 +100,16 @@ public class SearchController extends BaseController {
 		return result;
 	}
 
+	@RequestMapping(value = "/searchActs", method = RequestMethod.GET)
+	public String searchActs(HttpServletRequest request, Model model,
+			String searchWords) {
+		return pageSearchActs(request, model, 1, searchWords);
+	}
+
 	@RequestMapping(value = "/searchActs/{page}", method = RequestMethod.GET)
 	public String pageSearchActs(HttpServletRequest request, Model model,
 			@PathVariable int page, String searchWords) {
-		UserContext context = null;
-		try {
-			context = checkLoginForWeb(request);
-		} catch (NeedLoginException e) {
-		}
+		UserContext context = (UserContext) request.getAttribute("context");
 		if (StringUtils.isEmpty(searchWords)) {
 			return "redirect:/showActs";
 		}
@@ -136,6 +138,6 @@ public class SearchController extends BaseController {
 		model.addAttribute("searchActViewList", searchActViewList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("searchWords", searchWords);
-		return "";
+		return "web/search/search_acts";
 	}
 }

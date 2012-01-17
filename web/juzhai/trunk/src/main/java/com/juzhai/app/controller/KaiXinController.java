@@ -24,6 +24,7 @@ import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
 import com.juzhai.app.bean.TpMessageKey;
+import com.juzhai.core.Constants;
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.web.jstl.JzCoreFunction;
@@ -97,7 +98,7 @@ public class KaiXinController extends BaseController {
 				word = messageSource.getMessage(TpMessageKey.FEED_WORD, null,
 						Locale.SIMPLIFIED_CHINESE);
 			}
-			text = URLEncoder.encode(text, "UTF-8");
+			text = URLEncoder.encode(text, Constants.UTF8);
 			String linktext = messageSource
 					.getMessage(TpMessageKey.FEED_LINKTEXT, null,
 							Locale.SIMPLIFIED_CHINESE);
@@ -272,8 +273,8 @@ public class KaiXinController extends BaseController {
 			String word = messageSource.getMessage(
 					TpMessageKey.INVITE_FRIEND_WORD, null,
 					Locale.SIMPLIFIED_CHINESE);
-			String picurl = JzResourceFunction.actLogo(act.getId(), act.getLogo(),
-					120);
+			String picurl = JzResourceFunction.actLogo(act.getId(),
+					act.getLogo(), 120);
 			response.setContentType("text/plain");
 			out = response.getWriter();
 			out.println("http://api.kaixin001.com/dialog/sysnews?display=iframe&linktext="

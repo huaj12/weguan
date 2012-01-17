@@ -1,7 +1,6 @@
 package com.juzhai.cms.service.impl;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.List;
@@ -17,16 +16,15 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.juzhai.cms.model.RawAdExample.Criteria;
 import com.juzhai.cms.exception.RawAdInputException;
 import com.juzhai.cms.mapper.RawAdMapper;
-import com.juzhai.cms.mapper.SpiderUrlMapper;
 import com.juzhai.cms.model.RawAd;
 import com.juzhai.cms.model.RawAdExample;
-import com.juzhai.cms.model.SpiderUrl;
+import com.juzhai.cms.model.RawAdExample.Criteria;
 import com.juzhai.cms.service.IRawAdService;
 import com.juzhai.cms.service.ISpiderUrlService;
 import com.juzhai.cms.task.ImportAdTask;
+import com.juzhai.core.Constants;
 import com.juzhai.core.dao.Limit;
 
 @Service
@@ -52,7 +50,7 @@ public class RawAdService implements IRawAdService {
 		StringBuilder fileContent = new StringBuilder();
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					rawAd.getInputStream(), "UTF-8"));
+					rawAd.getInputStream(), Constants.UTF8));
 			String line;
 			while ((line = br.readLine()) != null) {
 				fileContent.append(line);
@@ -75,7 +73,7 @@ public class RawAdService implements IRawAdService {
 		AtomicInteger index = new AtomicInteger();
 		for (String content : contents) {
 			Future<Boolean> future = taskExecutor.submit(new ImportAdTask(
-					content, this, down,spiderUrlService));
+					content, this, down, spiderUrlService));
 			try {
 				if (future.get() != null && future.get().booleanValue()) {
 					index.getAndIncrement();
@@ -190,7 +188,7 @@ public class RawAdService implements IRawAdService {
 
 	@Override
 	public void remove(long rawId) throws RawAdInputException {
-		if(rawId==0){
+		if (rawId == 0) {
 			throw new RawAdInputException(
 					RawAdInputException.RAW_AD_REMOVE_ID_IS_NULL);
 		}

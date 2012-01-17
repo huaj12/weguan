@@ -99,7 +99,7 @@ public class ActSearchService implements IActSearchService {
 					actIdList.add(Long.valueOf(doc.get("id")));
 				}
 				Map<Integer, List<Act>> result = new HashMap<Integer, List<Act>>();
-				result.put(indexSearcher.maxDoc(),
+				result.put(topDocs.totalHits,
 						actService.getActListByIds(actIdList));
 				return (T) result;
 			}

@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.juzhai.core.Constants;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.web.session.LoginSessionManager;
@@ -85,7 +86,7 @@ public class CheckLoginFilter implements Filter {
 		} else {
 			if (RunType.APP.equals(e.getRunType())) {
 				String returnLink = URLEncoder.encode(
-						HttpRequestUtil.getRemoteUrl(request), "UTF-8");
+						HttpRequestUtil.getRemoteUrl(request), Constants.UTF8);
 				response.sendRedirect("/app/login?returnLink=" + returnLink);
 			} else {
 				String redirectURI = "/login";

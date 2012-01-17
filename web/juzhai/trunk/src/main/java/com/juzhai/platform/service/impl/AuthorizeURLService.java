@@ -1,5 +1,7 @@
 package com.juzhai.platform.service.impl;
 
+import java.io.UnsupportedEncodingException;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,7 +19,8 @@ public class AuthorizeURLService implements IAuthorizeURLService {
 	private static final Log log = LogFactory.getLog(AuthorizeURLService.class);
 
 	@Override
-	public String getAuthorizeURLforCode(Thirdparty tp, String turnTo) {
+	public String getAuthorizeURLforCode(Thirdparty tp, String turnTo)
+			throws UnsupportedEncodingException {
 		return getUserServiceBean(tp.getName(), tp.getJoinType())
 				.getAuthorizeURLforCode(tp, turnTo);
 	}

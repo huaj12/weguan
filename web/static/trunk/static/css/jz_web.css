@@ -1477,6 +1477,23 @@ _background-image:none;}
 .about .mail_box p a:hover{ text-decoration:underline; color:#3E8BD9;}
 
 
+/*搜索*/
+
+.search_result{ width:100%; _width:960px; height:auto; display:block; overflow:hidden; margin:0 auto; margin-top:75px; *padding-top:75px;}
+.search_result .title{ width:100%; height:auto; overflow:hidden;}
+.search_result .title h2 { font-size:20px; color:#666; font-family:"微软雅黑","宋体"; float:left; margin-left:15px; display:inline; font-weight:bold; _line-height:normal;}
+.search_result .title h2 b{ color:#FA9530; margin:0 5px;}
+.search_result .title a{ float:right; color:#3E8BD9; font-size:14px; margin-right:15px; display:inline; line-height:28px; height:26px;}
+
+
+.search_none{ width:960px; height:auto; overflow:hidden; margin-top:20px;}
+.search_none .t{ width:958px; float:left; height:1px; overflow:hidden; margin-left:1px; display:inline; background:#fff;}
+.search_none .m{ width:880px; height:auto; overflow:hidden; padding:30px 40px; float:left; background:#fff;}
+.search_none .m p{ background:url(../images/web/404.gif) no-repeat; width:84px; height:95px; float:left; margin-right:20px; display:inline;}
+.search_none .m span{ float:left; width:700px; font-family:"微软雅黑","宋体"; font-size:20px; color:#555; margin-top:20px;}
+.search_none .m span b{color:#FA9530; font-weight:normal;}
+.search_none .m a{ float:left;color:#3E8BD9; font-size:14px; margin-top:10px; white-space:nowrap;}
+
 
 /***************************所有的弹出层******************************************/
 /*推荐成功弹出层*/
@@ -1574,3 +1591,4 @@ _background-image:none;}
 .message_box .btn a{ float:right; color:#fff; text-align:center; text-decoration:none; display:block; width:85px;  height:30px; line-height:30px; overflow:hidden; font-size:14px;}
 .message_box .btn a.send{   background:url(../images/web/yue_ta.gif) no-repeat;}
 .message_box .btn a.sending{   background:url(../images/web/sending_btn.gif) no-repeat;}
+

@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.juzhai.core.Constants;
 import com.juzhai.passport.bean.AuthInfo;
 
 public class AppPlatformUtils {
@@ -41,8 +42,8 @@ public class AppPlatformUtils {
 		String basestr = "";
 		try {
 			Base64 base64en = new Base64();
-			byte[] bytes = base64en.encode(str.getBytes("UTF-8"));
-			basestr = new String(bytes, "UTF-8");
+			byte[] bytes = base64en.encode(str.getBytes(Constants.UTF8));
+			basestr = new String(bytes, Constants.UTF8);
 		} catch (Exception e) {
 			log.error("urlBase64Encode is error", e);
 		}
@@ -56,8 +57,8 @@ public class AppPlatformUtils {
 		try {
 			str = str.replaceAll("\\*", "\\+").replaceAll("-", "/");
 			Base64 base64en = new Base64();
-			byte[] bytes = base64en.decode(str.getBytes("UTF-8"));
-			result = new String(bytes, "UTF-8");
+			byte[] bytes = base64en.decode(str.getBytes(Constants.UTF8));
+			result = new String(bytes, Constants.UTF8);
 		} catch (Exception e) {
 			log.error("urlBase64Decode is error", e);
 		}
@@ -149,19 +150,19 @@ public class AppPlatformUtils {
 					Entry<String, String> entry = it.next();
 					strbuf.append(
 							URLEncoder.encode(entry.getKey().toString(),
-									"UTF-8")).append("=");
+									Constants.UTF8)).append("=");
 					strbuf.append(
 							URLEncoder.encode(entry.getValue().toString(),
-									"UTF-8")).append("&");
+									Constants.UTF8)).append("&");
 				}
 			} else {
 				for (int i = 0; i < keyset.length; i++) {
 					strbuf.append(
-							URLEncoder.encode(keyset[i].toString(), "UTF-8"))
-							.append("=");
+							URLEncoder.encode(keyset[i].toString(),
+									Constants.UTF8)).append("=");
 					strbuf.append(
-							URLEncoder.encode(map.get(keyset[i]), "UTF-8"))
-							.append("&");
+							URLEncoder.encode(map.get(keyset[i]),
+									Constants.UTF8)).append("&");
 				}
 			}
 		} catch (UnsupportedEncodingException e) {
@@ -227,7 +228,7 @@ public class AppPlatformUtils {
 			String responseContent = null;
 			InputStream in = urlConn.getInputStream();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(in,
-					"UTF-8"));
+					Constants.UTF8));
 			String tempLine = rd.readLine();
 			StringBuffer tempStr = new StringBuffer();
 			String crlf = System.getProperty("line.separator");

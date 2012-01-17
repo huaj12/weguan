@@ -316,6 +316,7 @@ public class ActService implements IActService {
 		if (null == act) {
 			throw new ActInputException(ActInputException.ILLEGAL_OPERATION);
 		}
+		boolean oldActive = act.getActive();
 		validationAddActForm(addActForm);
 		// 先上传图片
 		String logo = null;
@@ -326,7 +327,11 @@ public class ActService implements IActService {
 		}
 		assembleAct(uid, addActForm, act, logo);
 		actMapper.updateByPrimaryKey(act);
-		actSearchService.updateIndex(act);
+		if (oldActive) {
+			actSearchService.updateIndex(act);
+		} else {
+			actSearchService.createIndex(act);
+		}
 		updateActCategory(act.getId(), addActForm.getCatIds());
 		clearActCache(act.getId());
 		if (StringUtils.isNotEmpty(addActForm.getDetail())) {

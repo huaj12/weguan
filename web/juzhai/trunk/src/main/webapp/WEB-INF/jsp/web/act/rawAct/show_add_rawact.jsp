@@ -25,7 +25,7 @@
 									<h3>项&nbsp;&nbsp;目&nbsp;&nbsp;名：</h3>
 									<div class="input">
 										<p class="l"></p>
-										<span class="w190"><input name="name" id="name" type="text" /> </span>
+										<span class="w190"><input name="name" id="name" type="text" value="${name}" /> </span>
 										<p class="r"></p>
 									</div>
 									<div class="error" id="name_tip"></div>
@@ -50,7 +50,7 @@
 										<div class="loading" style="display: none;">上传中...</div>
 										<div class="error"  style="display: none;"></div>
 										<div class="load_done" style="display: none;"><!--load_done begin-->
-											<p><img id="logo" src="" width="180" height="180" /></p>
+											<p><img id="logo" src="${jzr:static('/images/web/1px.gif')}" width="180" height="180" loading-src="${jzr:static('/images/web/1px.gif')}"/></p>
 											<a href="javascript:void(0);" class="reload">重新上传</a>
 										</div><!--load_done end-->
 									</div><!--upload end-->

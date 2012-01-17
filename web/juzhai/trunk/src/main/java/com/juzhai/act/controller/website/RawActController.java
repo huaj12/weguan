@@ -87,9 +87,10 @@ public class RawActController extends BaseController {
 
 	@RequestMapping(value = "/showAddRawAct", method = RequestMethod.GET)
 	public String showAddRawAct(HttpServletRequest request, Model model,
-			Boolean success) throws NeedLoginException {
-		checkLoginForWeb(request);// code by wujiajun
+			Boolean success, String name) throws NeedLoginException {
+		checkLoginForWeb(request);
 		assembleBaseDates(model);
+		model.addAttribute("name", name);
 		if (null != success) {
 			model.addAttribute("success", success);
 		}

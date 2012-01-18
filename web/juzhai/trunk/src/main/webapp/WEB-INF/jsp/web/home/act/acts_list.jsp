@@ -27,7 +27,7 @@
 						</h3>
 					</c:if>
 					<c:if test="${not empty userActView.act.address}">
-						<h3 class="place"><strong>地点:</strong>${jzd:townName(userActView.act.town)}${userActView.act.address}</h3>
+						<h3 class="place"><strong>地点:</strong>${jzd:cityName(userActView.act.city)}${jzd:townName(userActView.act.town)}${userActView.act.address}</h3>
 					</c:if>
 					<c:if test="${userActView.act.minCharge > 0 || userActView.act.maxCharge > 0}">
 						<h3 class="cost"><strong>费用:</strong>人均<c:choose><c:when test="${userActView.act.minCharge==userActView.act.maxCharge}">${userActView.act.minCharge}</c:when><c:otherwise>${userActView.act.minCharge}--${userActView.act.maxCharge}</c:otherwise></c:choose>元</h3>

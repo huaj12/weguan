@@ -20,6 +20,12 @@ $(document).ready(function() {
 		var uid = $(this).attr("uid");
 		openDating(uid, 0);
 	});
+	
+	$("div.item > div.btn > a.mail").bind("click", function(){
+		var uid = $(this).attr("target-uid");
+		var nickname = $(this).attr("target-nickname");
+		openMessage(uid, nickname);
+	});
 });
 
 function submitDating(uid){

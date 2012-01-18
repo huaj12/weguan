@@ -1,4 +1,21 @@
 $(document).ready(function(){
+	if($("div.back_top").length > 0){
+		$.waypoints.settings.scrollThrottle = 30;
+		$("div.warp").waypoint(function(event, direction) {
+			if(direction === "up"){
+				$("div.back_top").fadeOut(200);
+			}else{
+				$("div.back_top").fadeIn(200);
+			}
+		}, {
+			offset: '-100%'
+		});
+		$body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');// 这行是 Opera 的补丁, 少了它 Opera 是直接用跳的而且画面闪烁 by willin
+		$("div.back_top > span > a").bind("click", function(){
+			$body.animate({scrollTop: "0px"}, 500, function(){});
+			return false;
+		});
+	}
     $("img").lazyload({
         effect : "fadeIn"
     });
@@ -6,11 +23,16 @@ $(document).ready(function(){
 });
 
 function bindMouseHover(){
-	$(".mouseHover").bind("mouseover", function(){
+	$(".mouseHover").mouseenter(function(){
 		mouseHover(this, true);
-	}).bind("mouseout", function(){
+	}).mouseleave(function(){
 		mouseHover(this, false);
 	});
+//	$(".mouseHover").bind("mouseover", function(){
+//		mouseHover(this, true);
+//	}).bind("mouseout", function(){
+//		mouseHover(this, false);
+//	});
 }
 
 function mouseHover(li, isOver){

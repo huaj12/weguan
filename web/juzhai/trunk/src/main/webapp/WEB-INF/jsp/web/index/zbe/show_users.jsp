@@ -18,11 +18,7 @@
 		<div class="warp"><!--warp begin-->
 			<div class="main"><!--main begin-->
 				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
-				<div class="back_top" style="display: none;"><!--back_top begin-->
-					<p></p>
-					<span><a href="#"></a></span>
-					<p></p>
-				</div><!--back_top end-->
+				<jsp:include page="/WEB-INF/jsp/web/common/back_top.jsp" />
 				<div class="zbr"><!--zbr begin-->
 					<c:set var="userType" value="showUsers" scope="request"/>
 					<jsp:include page="title.jsp" />

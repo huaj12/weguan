@@ -4,8 +4,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="fix_top">
 	<div class="top"><!--top begin-->
-		<h1></h1>
+		<h1><a href="http://www.51juzhai.com"></a></h1>
 		<div class="area"><!--area begin-->
+			<c:choose>
+				<c:when test="${channelId==0}">
+					<p><a href="javascript:void(0);">全国</a></p>
+				</c:when>
+				<c:otherwise>
+					<p><a href="javascript:void(0);">${jzd:cityName(channelId)}</a></p>
+				</c:otherwise>
+			</c:choose>
+			<div class="area_list" style="display:none;">
+				<!--about_list begin-->
+				<a href="javascript:void(0);" cityid="2">上海</a>
+				<a href="javascript:void(0);" cityid="1">北京</a>
+				<a href="javascript:void(0);" cityid="0">全国</a>
+			</div><!--about_list end-->
+		</div><!--area end-->
+		<%-- <div class="area"><!--area begin-->
 			<c:choose>
 				<c:when test="${channelId==0}">
 					<p>全国</p>
@@ -20,7 +36,7 @@
 				<a href="javascript:void(0);" cityid="1">北京</a>
 				<a href="javascript:void(0);" cityid="0">全国</a>
 			</div><!--about_list end-->
-		</div><!--area end-->
+		</div><!--area end--> --%>
 		<div class="menu"><!--menu begin-->
 			<a href="/showUsers" title="找伴儿" <c:if test="${pageType=='zbe'}">class="selceted"</c:if>>找伴儿</a> <a href="/showActs" title="出去玩" <c:if test="${pageType=='cqw'}">class="selceted"</c:if>>出去玩</a>
 		</div><!--menu end-->

@@ -1,6 +1,6 @@
 $(document).ready(function() {
-	//添加项目
-	$("div.link_t > a").bind("click", function() {
+	//敲门
+	$("a.qm_sbtn").bind("click", function() {
 		var uid = $(this).attr("uid");
 		var obj = $(this);
 		interest(this, uid, function(){
@@ -8,9 +8,18 @@ $(document).ready(function() {
 			$("#hasInterest" + uid).show();
 		});
 	});
+	//取消敲门
+	$("div.cancel_qm > a.delete").bind("click", function() {
+		var uid = $(this).attr("uid");
+		var obj = $(this);
+		removeInterestConfirm(uid, this, function(){
+			$(obj).parent().hide();
+			$("#interest" + uid).show();
+		});
+	});
 	
 	//添加约
-	$("div.date_t > a").bind("click", function(){
+	$("a.yueta_sbtn").bind("click", function(){
 		var uid = $(this).attr("uid");
 		openDating(uid, 0);
 	});
@@ -27,6 +36,12 @@ $(document).ready(function() {
 		var genderType = $(this).attr("gendertype");
 		var cityId = $(this).children('option:selected').val();
 		window.location.href="/act/" + actId + "/users_" + genderType + "_" + cityId + "/1";
+	});
+	
+	$("a.message_sbtn").bind("click", function(){
+		var uid = $(this).attr("target-uid");
+		var nickname = $(this).attr("target-nickname");
+		openMessage(uid, nickname);
 	});
 });
 

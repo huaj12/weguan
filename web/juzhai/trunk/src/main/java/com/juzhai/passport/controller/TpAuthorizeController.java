@@ -6,7 +6,6 @@ package com.juzhai.passport.controller;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
-import java.util.BitSet;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +14,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,6 +34,7 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.util.JackSonSerializer;
+import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
@@ -290,7 +289,8 @@ public class TpAuthorizeController extends BaseController {
 		try {
 			checkLoginForApp(request);
 			return "redirect:"
-					+ (StringUtils.isEmpty(turnTo) ? "/home" : turnTo);
+					+ (StringUtils.isEmpty(turnTo) ? "/home" : StringUtil
+							.encodeURI(turnTo, Constants.UTF8));
 		} catch (NeedLoginException e) {
 		}
 		long uid = 0;
@@ -308,38 +308,9 @@ public class TpAuthorizeController extends BaseController {
 			return error_500;
 		}
 		loginService.login(request, uid, tp.getId(), RunType.CONNET);
-
-		BitSet urlsafe = new BitSet();
-		// alpha characters
-		for (int i = 'a'; i <= 'z'; i++) {
-			urlsafe.set(i);
-		}
-		for (int i = 'A'; i <= 'Z'; i++) {
-			urlsafe.set(i);
-		}
-		// numeric characters
-		for (int i = '0'; i <= '9'; i++) {
-			urlsafe.set(i);
-		}
-		// special chars
-		urlsafe.set('-');
-		urlsafe.set('_');
-		urlsafe.set('.');
-		urlsafe.set('*');
-		// blank to be replaced with +
-		urlsafe.set(' ');
-		urlsafe.set(':');
-		urlsafe.set('/');
-		urlsafe.set('=');
-		urlsafe.set('#');
-		urlsafe.set('?');
-		urlsafe.set('&');
-		urlsafe.set('%');
-
-		turnTo = new String(URLCodec.encodeUrl(urlsafe,
-				turnTo.getBytes(Constants.UTF8)));
-		System.out.println(turnTo);
-		return "redirect:" + (StringUtils.isEmpty(turnTo) ? "/home" : turnTo);
+		return "redirect:"
+				+ (StringUtils.isEmpty(turnTo) ? "/home" : StringUtil
+						.encodeURI(turnTo, Constants.UTF8));
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)

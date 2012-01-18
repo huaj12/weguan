@@ -20,6 +20,7 @@
 		<div class="cqw_item_list"><!--cqw_item_list begin-->
 			<c:forEach var="searchActView" items="${searchActViewList}">
 				<div class="cqw_item mouseHover"><!--cqw_item begin-->
+					<div class="more"><a href="/act/${searchActView.act.id}" title="点击进入"></a></div>
 					<div class="photo">
 						<a href="/act/${searchActView.act.id}"><img data-original="${jzr:actLogo(searchActView.act.id,searchActView.act.logo,180)}" src="${jzr:static('/images/web/1px.gif')}" width="180" height="180" /></a>
 					</div>

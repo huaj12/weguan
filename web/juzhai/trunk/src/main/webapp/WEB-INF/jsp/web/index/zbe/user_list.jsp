@@ -10,7 +10,9 @@
 		<c:otherwise>
 			<c:forEach var="showUserView" items="${showUserViewList}">
 				<div class="item_zbr mouseHover <c:choose><c:when test='${showUserView.profile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--item_zbr begin-->
+					<div class="more"><a href="/home/${showUserView.profile.uid}" title="点击进入"></a></div>
 					<div class="btn">
+						<a href="javascript:void(0);" class="mail" target-uid="${showUserView.profile.uid}" target-nickname="${showUserView.profile.nickname}">私信</a>
 						<a id="removeDating${showUserView.profile.uid}" href="javascript:void(0);" class="yueta_done" <c:if test="${!showUserView.hasDating}">style="display:none;"</c:if>>已约ta</a>
 						<a id="dating${showUserView.profile.uid}" href="javascript:void(0);" class="yueta" uid="${showUserView.profile.uid}" <c:if test="${showUserView.hasDating}">style="display:none;"</c:if>>约ta</a>
 						<div id="removeInterest${showUserView.profile.uid}" class="ygxq" <c:if test="${!showUserView.hasInterest}">style="display:none;"</c:if>><p>已敲门</p><a href="javascript:void(0);" class="delete" uid="${showUserView.profile.uid}"></a></div>
@@ -31,18 +33,17 @@
 								<a href="/home/${showUserView.profile.uid}"><img data-original="${jzr:userLogo(showUserView.profile.uid,showUserView.profile.logoPic,180)}" src="${jzr:static('/images/web/1px.gif')}" height="180" width="180"/></a>
 							</span>
 						</div><!--face_photo end-->
-						<c:set var="cityName" value="${jzd:cityName(showUserView.profile.city)}" />
-						<c:set var="townName" value="${jzd:townName(showUserView.profile.town)}" />
-						<div class="city_online"><!--city_online begin-->
-							<span>&nbsp;<c:if test="${not empty cityName || not empty townName}">ta在</c:if><c:if test="${not empty cityName}">${cityName}</c:if><c:if test="${not empty townName}">${townName}</c:if></span>
-							<c:if test="${showUserView.online}">
-								<p class="online">当前在线</p>
-							</c:if>
-						</div><!--city_online end-->
 					</div><!--photo end-->
 					<div class="ta_like_list"><!--like_list begin-->
-						<div class="name"><a href="/home/${showUserView.profile.uid}"><c:out value="${showUserView.profile.nickname}" /></a><span><c:choose><c:when test='${not empty showUserView.freeDateList}'>${jzu:showFreeDates(showUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise><%-- 还未标注空闲时间 --%></c:otherwise></c:choose></span></div>
-						<div class="tazmxq">ta最近想去...</div>
+						<div class="name"><a href="/home/${showUserView.profile.uid}"><c:out value="${showUserView.profile.nickname}" /></a><c:if test="${showUserView.online}"><p class="online">当前在线</p></c:if></div>
+						<c:set var="cityName" value="${jzd:cityName(showUserView.profile.city)}" />
+						<c:set var="townName" value="${jzd:townName(showUserView.profile.town)}" />
+						<div class="time">
+							<c:if test="${not empty cityName || not empty townName}">
+								<span><c:if test="${not empty cityName}">${cityName}</c:if><c:if test="${not empty townName}">${townName}</c:if><em>|</em></span>
+							</c:if>
+							<p><c:choose><c:when test='${not empty showUserView.freeDateList}'>${jzu:showFreeDates(showUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose></p>
+						</div>
 						<ul class="list"><!--list begin-->
 							<c:choose>
 								<c:when test="${empty showUserView.userActViewList}">

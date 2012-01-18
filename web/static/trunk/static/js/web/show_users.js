@@ -29,6 +29,12 @@ $(document).ready(function() {
 		});
 	});
 	
+	$("div.item_zbr > div.btn > a.mail").bind("click", function(){
+		var uid = $(this).attr("target-uid");
+		var nickname = $(this).attr("target-nickname");
+		openMessage(uid, nickname);
+	});
+	
 	$("a#showMoreInvite").bind("click", function(){
 		showMoreInviteUser();
 	});

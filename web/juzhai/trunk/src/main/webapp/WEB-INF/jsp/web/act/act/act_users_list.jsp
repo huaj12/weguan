@@ -43,9 +43,27 @@
 		<c:otherwise>
 			<ul>
 				<c:forEach var="actUserView" items="${actUserViewList}">
-					<li class="mouseHover"><!--li begin-->
-						<div class="photo boy"><!--photo begin-->
+					<li class="mouseHover <c:choose><c:when test='${actUserView.profileCache.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--li begin-->
+						<div class="photo"><a href="/home/${actUserView.profileCache.uid}"><img data-original="${jzr:userLogo(actUserView.profileCache.uid,actUserView.profileCache.logoPic,80)}" src="${jzr:static('/images/web/1px.gif')}" height="80" width="80"/></a></div>
+						<div class="name"><a href="/home/${actUserView.profileCache.uid}"><c:out value="${actUserView.profileCache.nickname}" /></a><c:if test="${actUserView.online}"><p class="online">当前在线</p></c:if></div>
+						<c:set var="cityName" value="${jzd:cityName(actUserView.profileCache.city)}" />
+						<c:set var="townName" value="${jzd:townName(actUserView.profileCache.town)}" />
+						<div class="time">
+							<c:if test="${not empty cityName || not empty townName}">
+								<span><c:if test="${not empty cityName}">${cityName}</c:if><c:if test="${not empty townName}">${townName}</c:if><em>|</em></span>
+							</c:if>
+							<p><c:choose><c:when test='${not empty actUserView.freeDateList}'>${jzu:showFreeDates(actUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose></p>
+						</div>
+						<div></div>
+						<div class="btn">
 							<c:if test="${context.uid!=actUserView.profileCache.uid}">
+								<a href="javascript:void(0);" class="message_sbtn" target-uid="${actUserView.profileCache.uid}" target-nickname="${actUserView.profileCache.nickname}">私信</a>
+								<a id="date${actUserView.profileCache.uid}" href="javascript:void(0);" class="yueta_sbtn" <c:if test="${actUserView.hasDating}">style="display:none;"</c:if> uid="${actUserView.profileCache.uid}">约ta</a>
+								<a id="hasDate${actUserView.profileCache.uid}" href="javascript:void(0);" class="yueta_done_sbtn" <c:if test="${!actUserView.hasDating}">style="display:none;"</c:if>>已约</a>
+								<a id="interest${actUserView.profileCache.uid}" href="javascript:void(0);" class="qm_sbtn" <c:if test="${actUserView.hasInterest}">style="display:none;"</c:if> uid="${actUserView.profileCache.uid}">敲门</a>
+								<div id="hasInterest${actUserView.profileCache.uid}" class="cancel_qm" <c:if test="${!actUserView.hasInterest}">style="display:none;"</c:if>><p>已敲门</p><a href="javascript:void(0);" class="delete" uid="${actUserView.profileCache.uid}"></a></div>
+							</c:if>
+							<%-- <c:if test="${context.uid!=actUserView.profileCache.uid}">
 								<div class="link_t" <c:if test="${actUserView.hasInterest}">style="display:none;"</c:if>><!--link_t begin-->
 									<p></p><a href="javascript:void(0);" uid="${actUserView.profileCache.uid}">敲门</a><p></p>
 								</div><!--link_t end-->
@@ -60,25 +78,8 @@
 								<div id="hasDate${actUserView.profileCache.uid}" class="date_t_done" <c:if test="${!actUserView.hasDating}">style="display:none;"</c:if>><!--date_t_done begin-->
 									<p></p><span>已约</span><p></p>
 								</div><!--date_t_done end-->
-							</c:if>
-							<c:set var="age" value="${jzu:age(actUserView.profileCache.birthYear, actUserView.profileCache.birthSecret)}" />
-							<c:set var="constellationName" value="${jzd:constellationName(actUserView.profileCache.constellationId)}" />
-							<c:if test="${age>=0 || not empty constellationName || not empty actUserView.profileCache.profession || not empty actUserView.profileCache.feature}">
-								<div class="infor_show"><!--infor_show begin-->
-									<c:if test="${not empty constellationName}"><p>${constellationName}</p></c:if><c:if test="${age>=0}"><p>${age}岁</p></c:if><c:if test="${not empty actUserView.profileCache.profession}"><p>${actUserView.profileCache.profession}</p></c:if>
-									<c:if test="${not empty actUserView.profileCache.feature}"><br /><span><c:out value="${actUserView.profileCache.feature}" /></span></c:if>
-								</div><!--infor_show end-->
-							</c:if>
-							<div class="face_photo"><!--face_photo begin-->
-								<span>
-									<a href="/home/${actUserView.profileCache.uid}"><img data-original="${jzr:userLogo(actUserView.profileCache.uid,actUserView.profileCache.logoPic,180)}" src="${jzr:static('/images/web/1px.gif')}" height="180" width="180"/></a>
-								</span>
-							</div><!--face_photo end-->
-							<div class="name"><!--name begin-->
-								<a href="/home/${actUserView.profileCache.uid}"><c:out value="${actUserView.profileCache.nickname}" /></a><c:if test="${actUserView.online}"><span class="online">当前在线</span></c:if>
-								<p title="<c:choose><c:when test='${not empty actUserView.freeDateList}'>${jzu:showFreeDates(actUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose>"><c:choose><c:when test="${not empty actUserView.freeDateList}">${jzu:showFreeDates(actUserView.freeDateList,4)}&nbsp;有空</c:when><c:otherwise><%-- 还未标注空闲时间 --%></c:otherwise></c:choose></p>
-							</div><!--name end-->
-						</div><!--photo end-->
+							</c:if> --%>
+						</div>
 					</li><!--li end-->
 				</c:forEach>
 			</ul>

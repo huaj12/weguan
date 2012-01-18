@@ -15,9 +15,11 @@ $(document).ready(function(){
 	$("div.area > p").bind("click", function(){
 		var obj = $("div.area_list");
 		if(obj.is(":visible")){
-			$("div.area_list").fadeOut(200);
-		} else {	
-			$("div.area_list").fadeIn(500);
+			$(this).removeClass("hover");
+			$("div.area_list").hide();
+		} else {
+			$(this).addClass("hover");
+			$("div.area_list").show();
 		}
 	});
 	$("div.area_list > a").bind("click", function(){
@@ -124,7 +126,8 @@ function queryNotice(){
 
 function registerClosChannel(){
 	$("body").bind("mousedown",function(){
-		$("div.area_list").fadeOut(200);
+		$("div.area > p").removeClass("hover");
+		$("div.area_list").hide();
 	});
 }
 

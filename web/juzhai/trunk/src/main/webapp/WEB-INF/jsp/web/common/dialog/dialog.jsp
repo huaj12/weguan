@@ -17,12 +17,19 @@
 	</div>
 </div>
 <div id="dialog-login" style="display:none;">
-	<div class="login_show_box_1"><!--login_show_box begin-->
-		<h2>加入拒宅</h2>
-		<div class="link">
-			<a href="/web/login/6?turnTo=[0]"><img src="${jzr:static('/images/web/weibo_btn.gif')}" /></a>
+	<div class="login_box"><!--login_show_box begin-->
+		<div class="box_left">
+			<h2>加入拒宅</h2><em>找伴出去玩</em>
+			<a href="/web/login/6?turnTo=[0]"><img src="${jzr:static('/images/web/login_btn.gif')}" /></a>
 		</div>
-	</div>
+		<div class="box_right">
+			<b>你是这样的小宅么？</b><br />
+			你微薄上有几百个粉丝，手机通讯录里有几百个联系人，但节假日仍要宅在家里。<br /><br />
+			<b>拒宅网如何帮助小宅们找伴儿出去玩？</b><br />
+			告诉拒宅网你的空闲时间、你想出去玩什么；就可能会有同样爱好的人约你出去。<br /><br />
+			拒宅其实就这么简单；为何不就此开始呢？
+		</div>
+	</div><!--login_show_box end-->
 </div>
 <div id="dialog-message" style="display: none;">
 	<div class="message_box"><!--share_box2 begin-->

@@ -16,6 +16,7 @@
 					<div class="close"><a href="javascript:void(0);" uid="${interestUserView.profileCache.uid}"></a></div>
 				</c:if>
 				<div class="btn">
+					<a href="javascript:void(0);" class="mail" target-uid="${interestUserView.profileCache.uid}" target-nickname="${interestUserView.profileCache.nickname}">私信</a>
 					<a id="removeDating${interestUserView.profileCache.uid}" href="javascript:void(0);" class="yueta_done" <c:if test="${!interestUserView.hasDating}">style="display:none;"</c:if>>已约ta</a>
 					<a id="dating${interestUserView.profileCache.uid}" href="javascript:void(0);" class="yueta" uid="${interestUserView.profileCache.uid}" <c:if test="${interestUserView.hasDating}">style="display:none;"</c:if>>约ta</a>
 					<c:if test="${tabType=='interestMes'}">
@@ -23,7 +24,6 @@
 						<a id="interest${interestUserView.profileCache.uid}" href="javascript:void(0);" class="like" uid="${interestUserView.profileCache.uid}" <c:if test="${interestUserView.hasInterest}">style="display:none;"</c:if>>敲门</a>
 					</c:if>
 				</div>
-				<div></div>
 				<div class="photo"><!--photo begin-->
 					<c:set var="age" value="${jzu:age(interestUserView.profileCache.birthYear, interestUserView.profileCache.birthSecret)}" />
 					<c:set var="constellationName" value="${jzd:constellationName(interestUserView.profileCache.constellationId)}" />
@@ -36,18 +36,17 @@
 					<div class="face_photo"><!--face_photo begin-->
 						<span><a href="/home/${interestUserView.profileCache.uid}"><img data-original="${jzr:userLogo(interestUserView.profileCache.uid,interestUserView.profileCache.logoPic,180)}" src="${jzr:static('/images/web/1px.gif')}" width="180" height="180"/></a></span>
 					</div><!--face_photo end-->
+				</div><!--photo end-->
+				<div class="ta_like_list"><!--like_list begin-->
+					<div class="name"><a href="/home/${interestUserView.profileCache.uid}"><c:out value="${interestUserView.profileCache.nickname}" /></a><c:if test="${interestUserView.online}"><p class="online">当前在线</p></c:if></div>
 					<c:set var="cityName" value="${jzd:cityName(interestUserView.profileCache.city)}" />
 					<c:set var="townName" value="${jzd:townName(interestUserView.profileCache.town)}" />
-					<div class="city_online"><!--city_online begin-->
-						<span>&nbsp;<c:if test="${not empty cityName || not empty townName}">ta在</c:if><c:if test="${not empty cityName}">${cityName}</c:if><c:if test="${not empty townName}">${townName}</c:if></span>
-						<c:if test="${interestUserView.online}">
-							<p class="online">当前在线</p>
+					<div class="time">
+						<c:if test="${not empty cityName || not empty townName}">
+							<span><c:if test="${not empty cityName}">${cityName}</c:if><c:if test="${not empty townName}">${townName}</c:if><em>|</em></span>
 						</c:if>
-					</div><!--city_online end-->
-				</div><!--photo end-->	
-				<div class="ta_like_list"><!--like_list begin-->
-					<div class="name"><a href="/home/${interestUserView.profileCache.uid}"><c:out value="${interestUserView.profileCache.nickname}" /></a><span><c:choose><c:when test='${not empty interestUserView.freeDateList}'>${jzu:showFreeDates(interestUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise><%-- 还未标注空闲时间 --%></c:otherwise></c:choose></span></div>
-					<div class="tazmxq">ta最近想去...</div>
+						<p><c:choose><c:when test='${not empty interestUserView.freeDateList}'>${jzu:showFreeDates(interestUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose></p>
+					</div>
 					<ul class="list"><!--list begin-->
 						<c:choose>
 							<c:when test="${empty interestUserView.userActViewList}">

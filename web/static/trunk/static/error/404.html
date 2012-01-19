@@ -10,7 +10,7 @@
 			<div class="main"><!--main begin-->
 				<div class="fix_top"><!--fix_top begin-->
 					<div class="top"><!--top begin-->
-						<h1></h1>
+						<h1><a href="http://www.51juzhai.com"></a></h1>
 						<div class="area"><!--area begin-->
 						</div><!--area end-->
 						<div class="menu"><!--menu begin-->
@@ -20,13 +20,15 @@
 						<div class="user_area"><!--user_area begin-->
 							<div class="unlogin"><a href="/login">加入拒宅</a></div>
 						</div><!--user_area end-->
-						<div class="search"><!--search begin-->
-							<div class="s_l"></div>
-							<div class="s_m"><!--s_m begin-->
-								<input name="" type="text"  value="输入拒宅项目,如:打台球"/>
-							</div><!--s_m end-->
-							<div class="s_r"><a href="#"></a></div>
-						</div><!--search end-->
+						<form id="searchActsForm" action="/searchActs" method="get">
+							<div class="search"><!--search begin-->
+								<div class="s_l"></div>
+								<div class="s_m"><!--s_m begin-->
+									<input name="searchWords" type="text" value="" init-msg="输入拒宅项目,如:打台球"/>
+								</div><!--s_m end-->
+								<div class="s_r"><a href="javascript:void(0);"></a></div>
+							</div><!--search end-->
+						</form>
 					</div><!--top end-->
 				</div><!--fix_top end-->
 				<div class="content"><!--content begin-->
@@ -45,5 +47,32 @@
 				<p>拒宅网©2011&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank">沪ICP备11031778号</a>&nbsp;&nbsp;<a href="/aboutUs">关于我们</a><a href="/act/showAddRawAct">推荐项目</a></p>
 			</div><!--bottom end-->
 		</div><!--warp end-->
+		<script type="text/javascript" src="http://js.51juzhai.com/js/jquery/jquery-1.6.3.min.js"></script>
+		<script type="text/javascript">
+			var searchInput = $("div.search > div.s_m > input");
+			var initMsg = searchInput.attr("init-msg");
+			searchInput.bind("focus", function(){
+				if(searchInput.val() == initMsg){
+					searchInput.val("");
+				}
+			}).bind("blur", function(){
+				if(searchInput.val() == ""){
+					searchInput.val(initMsg);
+				}
+			});
+			searchInput.trigger("blur");
+			$("#searchActsForm").submit(function(){
+				if(searchInput.val() == initMsg){
+					return false;
+				}
+				if(!checkValLength($("div.search > div.s_m > input").val(), 2, 100)){
+					return false;
+				}
+				return true;
+			});
+			$("div.search > div.s_r > a").bind("click", function(){
+				$("#searchActsForm").submit();
+			});
+		</script>
 	</body>
 </html>

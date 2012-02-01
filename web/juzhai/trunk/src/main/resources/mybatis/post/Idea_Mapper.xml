@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Idea_Mapper">
+	<update id="incrUseCount" parameterType="map">
+	    update tb_idea set use_count = use_count + #{p} where id = #{id}
+	</update>
+	
+	<update id="addFirstUser" parameterType="map">
+	    update tb_idea set use_count = use_count + 1, first_uid = #{uid} where id = #{id} and first_uid = 0
+	</update>
+	
+</mapper>

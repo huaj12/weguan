@@ -347,4 +347,14 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genDialogContentsKey(long dialogId) {
 		return genKey(dialogId, "dialogContentList");
 	}
+
+	/**
+	 * 用户最新一条post
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genUserLatestPostKey(long uid) {
+		return genKey(uid, "latestPost");
+	}
 }

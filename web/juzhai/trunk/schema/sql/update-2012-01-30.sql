@@ -33,6 +33,9 @@ SHOW WARNINGS;
 CREATE UNIQUE INDEX `uidx_createuid_ideaid` ON `juzhai`.`tb_post` (`create_uid` ASC, `idea_id` ASC) ;
 
 SHOW WARNINGS;
+CREATE UNIQUE INDEX `uidx_createuid_contentmd5` ON `juzhai`.`tb_post` (`create_uid` ASC, `content_md5` ASC) ;
+
+SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `juzhai`.`tb_post_response`
@@ -50,7 +53,10 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_post_response` (
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `uidx_uid_dateid` ON `juzhai`.`tb_post_response` (`uid` ASC, `post_id` ASC) ;
+CREATE UNIQUE INDEX `uidx_uid_postid` ON `juzhai`.`tb_post_response` (`uid` ASC, `post_id` ASC) ;
+
+SHOW WARNINGS;
+CREATE INDEX `idx_postid` ON `juzhai`.`tb_post_response` (`post_id` ASC) ;
 
 SHOW WARNINGS;
 
@@ -67,6 +73,7 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_idea` (
   `place` VARCHAR(200) NULL ,
   `pic` VARCHAR(100) NULL ,
   `link` VARCHAR(200) NULL ,
+  `date` DATETIME NULL ,
   `category_id` BIGINT NOT NULL DEFAULT 0 ,
   `city` BIGINT NOT NULL DEFAULT 0 ,
   `use_count` INT(8) NOT NULL DEFAULT 0 ,
@@ -84,5 +91,8 @@ CREATE INDEX `idx_city_createtime` ON `juzhai`.`tb_idea` (`city` ASC, `create_ti
 
 SHOW WARNINGS;
 CREATE INDEX `idx_city_usecount` ON `juzhai`.`tb_idea` (`city` ASC, `use_count` DESC) ;
+
+SHOW WARNINGS;
+CREATE UNIQUE INDEX `uidx_contentmd5` ON `juzhai`.`tb_idea` (`content_md5` ASC) ;
 
 SHOW WARNINGS;

@@ -6,7 +6,7 @@
 <generatorConfiguration>
   <classPathEntry location="tool/MBG/mysql-connector-java-5.1.12.jar" />
 
-  <!-- <context id="passport" targetRuntime="MyBatis3">
+  <context id="passport" targetRuntime="MyBatis3">
   	
   	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -34,7 +34,15 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
     
-    <table tableName="tb_user_free_date" domainObjectName="UserFreeDate">
+    <table tableName="tb_profile" domainObjectName="Profile" >
+      <property name="useActualColumnNames" value="false"/>
+      <columnOverride column="sub_email" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+      <columnOverride column="has_modify_nickname" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+      <columnOverride column="has_modify_gender" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+      <columnOverride column="birth_secret" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+    </table>
+    
+    <!-- <table tableName="tb_user_free_date" domainObjectName="UserFreeDate">
       <property name="useActualColumnNames" value="false"/>
     </table>
     
@@ -43,14 +51,6 @@
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
       <columnOverride column="email_active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
       <columnOverride column="admin" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-    </table>
-    
-    <table tableName="tb_profile" domainObjectName="Profile" >
-      <property name="useActualColumnNames" value="false"/>
-      <columnOverride column="sub_email" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-      <columnOverride column="has_modify_nickname" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-      <columnOverride column="has_modify_gender" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-      <columnOverride column="birth_secret" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
     
     <table tableName="tb_interest_user" domainObjectName="InterestUser">
@@ -93,9 +93,9 @@
 	<table tableName="tb_user_guide" domainObjectName="UserGuide" >
       <property name="useActualColumnNames" value="false"/>
       <columnOverride column="complete" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-    </table>
+    </table> -->
 
-  </context> -->
+  </context>
   
   
   <!-- <context id="act" targetRuntime="MyBatis3">
@@ -356,7 +356,7 @@
     
   </context> -->
   
-  <context id="post" targetRuntime="MyBatis3">
+  <!-- <context id="post" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -399,6 +399,6 @@
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
     </table>
     
-  </context>
+  </context> -->
   
 </generatorConfiguration>

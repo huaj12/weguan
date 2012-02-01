@@ -85,6 +85,8 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 		return genKey(uid, "tpMsgReceiveCnt_" + msgType.name());
 	}
 
+	/*------------------------web----------------------------*/
+
 	/**
 	 * 用户是否在线
 	 * 
@@ -113,5 +115,15 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	 */
 	public static String genDialogContentKey(long dialogContentId) {
 		return genKey(dialogContentId, "dialogContent");
+	}
+
+	/**
+	 * 禁止用户post
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genPostForbidKey(long uid) {
+		return genKey(uid, "postForbid");
 	}
 }

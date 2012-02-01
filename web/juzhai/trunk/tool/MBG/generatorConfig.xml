@@ -231,7 +231,7 @@
     
   </context> -->
   
-  <context id="cms" targetRuntime="MyBatis3">
+  <!-- <context id="cms" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -263,7 +263,7 @@
       <property name="useActualColumnNames" value="false"/>
     </table>
 
-	<!-- <table tableName="tb_raw_ad" domainObjectName="RawAd">
+	<table tableName="tb_raw_ad" domainObjectName="RawAd">
       <property name="useActualColumnNames" value="false"/>
     </table>
     
@@ -277,9 +277,9 @@
     
 	<table tableName="tb_add_act_action" domainObjectName="AddActAction">
       <property name="useActualColumnNames" value="false"/>
-    </table> -->
+    </table>
     
-  </context>
+  </context> -->
   
   <!-- <context id="notice" targetRuntime="MyBatis3">
   
@@ -355,5 +355,50 @@
     </table>
     
   </context> -->
+  
+  <context id="post" targetRuntime="MyBatis3">
+  
+	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
+	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+  
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://127.0.0.1:3306/juzhai"
+        userId="root"
+        password="111111">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.juzhai.post.model" targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="mybatis.post"  targetProject="src/main/resources">
+      <property name="enableSubPackages" value="false" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.post.mapper"  targetProject="src/main/java">
+      <property name="enableSubPackages" value="false" />
+    </javaClientGenerator>
+
+	<table tableName="tb_post" domainObjectName="Post">
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
+      <columnOverride column="defunct" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+    </table>
+    
+    <table tableName="tb_post_response" domainObjectName="PostResponse">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+    <table tableName="tb_idea" domainObjectName="Idea">
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
+    </table>
+    
+  </context>
   
 </generatorConfiguration>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.juzhai.act.controller.view.UserActView;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.post.model.Post;
 
 public class InterestUserView {
 
@@ -19,6 +20,8 @@ public class InterestUserView {
 	private boolean online;
 
 	private List<Date> freeDateList;
+
+	private Post latestPost;
 
 	public boolean isHasInterest() {
 		return hasInterest;
@@ -68,4 +71,11 @@ public class InterestUserView {
 		this.freeDateList = freeDateList;
 	}
 
+	public Post getLatestPost() {
+		return latestPost;
+	}
+
+	public void setLatestPost(Post latestPost) {
+		this.latestPost = latestPost;
+	}
 }

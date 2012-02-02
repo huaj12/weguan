@@ -70,4 +70,12 @@ public interface IInterestUserService {
 	 * @return
 	 */
 	boolean isInterest(long uid, long targetUid);
+
+	/**
+	 * 感兴趣的人Id列表
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	List<Long> interestUids(long uid);
 }

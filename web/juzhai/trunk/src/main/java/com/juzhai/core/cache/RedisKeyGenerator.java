@@ -357,4 +357,24 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genUserLatestPostKey(long uid) {
 		return genKey(uid, "latestPost");
 	}
+
+	/**
+	 * 响应的Post列表
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genResponsePostsKey(long uid) {
+		return genKey(uid, "responsePosts");
+	}
+
+	/**
+	 * 好主意使用者
+	 * 
+	 * @param ideaId
+	 * @return
+	 */
+	public static String genIdeaUsersKey(long ideaId) {
+		return genKey(ideaId, "ideaUsers");
+	}
 }

@@ -23,7 +23,7 @@ public class PostImageService implements IPostImageService {
 	private String uploadPostImageHome;
 
 	@Override
-	public String[] uploadLogo(MultipartFile image) throws UploadImageException {
+	public String[] uploadPic(MultipartFile image) throws UploadImageException {
 		return imageManager.uploadTempImage(image);
 	}
 

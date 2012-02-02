@@ -1,9 +1,12 @@
 package com.juzhai.passport.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -121,6 +124,17 @@ public class InterestUserService implements IInterestUserService {
 	public boolean isInterest(long uid, long targetUid) {
 		return redisTemplate.opsForSet().isMember(
 				RedisKeyGenerator.genInterestUsersKey(uid), targetUid);
+	}
+
+	@Override
+	public List<Long> interestUids(long uid) {
+		Set<Long> uids = redisTemplate.opsForSet().members(
+				RedisKeyGenerator.genInterestUsersKey(uid));
+		if (CollectionUtils.isNotEmpty(uids)) {
+			return new ArrayList<Long>(uids);
+		} else {
+			return Collections.emptyList();
+		}
 	}
 
 }

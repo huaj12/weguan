@@ -35,4 +35,13 @@ public interface IIdeaService {
 	 * @param uid
 	 */
 	void removeUser(long ideaId, long uid);
+
+	/**
+	 * 是否使用了idea
+	 * 
+	 * @param uid
+	 * @param ideaId
+	 * @return
+	 */
+	boolean isUseIdea(long uid, long ideaId);
 }

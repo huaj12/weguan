@@ -1,8 +1,10 @@
 package com.juzhai.post.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.post.dao.IIdeaDao;
 import com.juzhai.post.mapper.IdeaMapper;
 import com.juzhai.post.model.Idea;
@@ -15,6 +17,8 @@ public class IdeaService implements IIdeaService {
 	private IdeaMapper ideaMapper;
 	@Autowired
 	private IIdeaDao ideaDao;
+	@Autowired
+	private RedisTemplate<String, Long> redisTemplate;
 
 	@Override
 	public Idea getIdeaById(long ideaId) {
@@ -24,19 +28,22 @@ public class IdeaService implements IIdeaService {
 	@Override
 	public void addFirstUser(long ideaId, long uid) {
 		ideaDao.addFirstUser(ideaId, uid);
-		// TODO 添加使用者列表
+		redisTemplate.opsForSet().add(
+				RedisKeyGenerator.genIdeaUsersKey(ideaId), uid);
 	}
 
 	@Override
 	public void addUser(long ideaId, long uid) {
 		incrUseCount(ideaId);
-		// TODO 添加使用者列表
+		redisTemplate.opsForSet().add(
+				RedisKeyGenerator.genIdeaUsersKey(ideaId), uid);
 	}
 
 	@Override
 	public void removeUser(long ideaId, long uid) {
 		decrUseCount(ideaId);
-		// TODO 移除使用者列表
+		redisTemplate.opsForSet().remove(
+				RedisKeyGenerator.genIdeaUsersKey(ideaId), uid);
 	}
 
 	private void incrUseCount(long ideaId) {
@@ -45,5 +52,11 @@ public class IdeaService implements IIdeaService {
 
 	private void decrUseCount(long ideaId) {
 		ideaDao.incrOrDecrUseCount(ideaId, -1);
+	}
+
+	@Override
+	public boolean isUseIdea(long uid, long ideaId) {
+		return redisTemplate.opsForSet().isMember(
+				RedisKeyGenerator.genIdeaUsersKey(ideaId), uid);
 	}
 }

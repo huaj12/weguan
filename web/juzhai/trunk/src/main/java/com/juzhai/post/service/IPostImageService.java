@@ -13,7 +13,7 @@ public interface IPostImageService {
 	 * @return
 	 * @throws UploadImageException
 	 */
-	String[] uploadLogo(MultipartFile image) throws UploadImageException;
+	String[] uploadPic(MultipartFile image) throws UploadImageException;
 
 	/**
 	 * 保存图片

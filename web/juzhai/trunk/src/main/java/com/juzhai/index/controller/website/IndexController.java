@@ -43,7 +43,7 @@ import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
 
-@Controller
+//@Controller
 public class IndexController extends BaseController {
 
 	private final Log log = LogFactory.getLog(getClass());

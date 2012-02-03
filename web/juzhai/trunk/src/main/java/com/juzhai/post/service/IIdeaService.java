@@ -1,5 +1,8 @@
 package com.juzhai.post.service;
 
+import java.util.List;
+
+import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.post.model.Idea;
 
 public interface IIdeaService {
@@ -44,4 +47,22 @@ public interface IIdeaService {
 	 * @return
 	 */
 	boolean isUseIdea(long uid, long ideaId);
+
+	/**
+	 * 好主意列表
+	 * 
+	 * @param oderType
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Idea> listIdeaByCity(Long cityId, ShowIdeaOrder oderType,
+			int firstResult, int maxResults);
+
+	/**
+	 * 好主意数量
+	 * 
+	 * @return
+	 */
+	int countIdeaByCity(Long cityId);
 }

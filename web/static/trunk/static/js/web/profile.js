@@ -93,6 +93,22 @@ function setGender(){
 		}
 	});
 }
+
+function parseMonthlyIncome(str){
+	var arr=new Array();
+	if(str.indexOf("<")!=-1){
+		arr[0]=0;
+		arr[1]=str.substring(1);
+	}else if(str.indexOf(">")!=-1){
+		arr[0]=str.substring(1);
+		arr[1]=0;
+	}else{
+		arr[0]=0;
+		arr[1]=0;
+	}
+	return arr;
+}
+
 function setting(){
 	var province=$("#province").val();
 	var city=$("#city").val();
@@ -104,6 +120,15 @@ function setting(){
 	var professionId=$("#professionId").val();
 	var profession=$("#profession").val();
 	var feature=$("#feature").val();
+	var blog=$("#blog").val();
+	var height=$("#height").val();
+	var bloodType=$("#bloodType").val();
+	var education=$("#education").val();
+	var house=$("#house").val();
+	var car=$("#car").val();
+	var home=$("#home").val();
+	var monthlyIncome=$("#monthlyIncome").val();
+	var arr=parseMonthlyIncome(monthlyIncome);
 	if(professionId==0&&(profession==""||profession=="10个字以内描述")){
 		 $("#profession_tip").html("请输入!");
 		 return ;
@@ -113,11 +138,23 @@ function setting(){
 		 $("#profession_tip").html("不要超过10个字哦!");
 		 return ;
 	}
-	if(!checkValLength(feature, 0, 70)){
+	if(!checkValLength(feature, 0, 140)){
 		$("#feature")[0].focus();
 		 $("#feature_tp").html("不要超过70个字哦!");
 		 return ;
 	}
+	if(!checkValLength(blog, 0, 70)){
+		$("#blog")[0].focus();
+		 $("#blog_tp").html("请输入正确的格式！");
+		 return ;
+	}
+	if(!checkValLength(home, 0, 20)){
+		$("#home")[0].focus();
+		 $("#home_tp").html("不要超过10个字哦!");
+		 return ;
+	}
+	
+	
 	if(town==''||town==null){
 		town=-1;
 	}
@@ -138,7 +175,17 @@ function setting(){
 			"birthSecret" : birthSecret,
 			"professionId" : professionId,
 			"profession" : profession,
-			"feature" : feature},
+			"feature" : feature,
+			"blog":blog,
+			"height":height,
+			"bloodType":bloodType,
+			"education":education,
+			"house":house,
+			"car":car,
+			"home":home,
+			"minMonthlyIncome":arr[0],
+			"maxMonthlyIncome":arr[1]
+			},
 		dataType: "json",
 		success: function(result){
 			if(result.success){

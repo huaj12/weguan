@@ -26,6 +26,38 @@ public interface IPostService {
 	 */
 	void deletePost(long uid, long postId) throws InputPostException;
 
+	void deletePost(long postId) throws InputPostException;
+
+	/**
+	 * 屏蔽拒宅
+	 * 
+	 * @param postId
+	 */
+	void shieldPost(long postId) throws InputPostException;
+
+	/**
+	 * 取消屏蔽拒宅
+	 * 
+	 * @param postId
+	 * @throws InputPostException
+	 */
+	void unShieldPost(long postId) throws InputPostException;
+
+	/**
+	 * 标记为已处理拒宅
+	 * 
+	 * @param postIds
+	 */
+	void handlePost(List<Long> postIds) throws InputPostException;
+
+	/**
+	 * 标记为好主意
+	 * 
+	 * @param postId
+	 * @throws InputPostException
+	 */
+	void postToIdea(long postId) throws InputPostException;
+
 	/**
 	 * 是否发布过此idea
 	 * 
@@ -158,4 +190,53 @@ public interface IPostService {
 	 * @return
 	 */
 	int countUserPost(long uid);
+
+	/**
+	 * 后台未处理的拒宅列表
+	 * 
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Post> listUnhandlePost(int firstResult, int maxResults);
+
+	/**
+	 * 后台屏蔽拒宅列表
+	 * 
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Post> listShieldPost(int firstResult, int maxResults);
+
+	/**
+	 * 后台处理的拒宅列表
+	 * 
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Post> listHandlePost(int firstResult, int maxResults);
+
+	/**
+	 * 未处理拒宅数量
+	 * 
+	 * @return
+	 */
+	int countUnhandlePost();
+
+	/**
+	 * 屏蔽的拒宅数量
+	 * 
+	 * @return
+	 */
+	int countShieldPost();
+
+	/**
+	 * 合格的拒宅数量
+	 * 
+	 * @return
+	 */
+	int countHandlePost();
+
 }

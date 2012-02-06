@@ -30,7 +30,7 @@ DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `uidx_createuid_ideaid` ON `juzhai`.`tb_post` (`create_uid` ASC, `idea_id` ASC) ;
+CREATE INDEX `uidx_createuid_ideaid` ON `juzhai`.`tb_post` (`create_uid` ASC, `idea_id` ASC) ;
 
 SHOW WARNINGS;
 CREATE UNIQUE INDEX `uidx_createuid_contentmd5` ON `juzhai`.`tb_post` (`create_uid` ASC, `content_md5` ASC) ;

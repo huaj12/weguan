@@ -157,7 +157,7 @@ public class PostService implements IPostService {
 
 		Post post = new Post();
 		post.setContent(postForm.getContent());
-		post.setContent(postForm.getContentMd5());
+		post.setContentMd5(postForm.getContentMd5());
 		post.setLink(postForm.getLink());
 		post.setPlace(postForm.getPlace());
 		post.setDateTime(postForm.getDate());

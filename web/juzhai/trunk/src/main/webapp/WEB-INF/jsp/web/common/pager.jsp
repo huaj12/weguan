@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pageUrl" value="${param.url}" />
 <c:set var="queryParams" value="${param.queryParams}" />
-<div class="page"><!--page begin-->
+<div class="page index"><!--page begin-->
 	<c:choose>
 		<c:when test="${pager.currentPage != 1}"><a href="${pageUrl}/1${queryParams}" class="link pre"><p class="l"></p><strong class="c">首页</strong><p class="r"></p></a></c:when>
 		<c:otherwise><a href="javascript:void(0);" class="link pre"><p class="l"></p><strong class="c">首页</strong><p class="r"></p></a></c:otherwise>

@@ -45,7 +45,24 @@ public class ProfileContrller extends BaseController {
 		assembleBaseDates(model);
 		model.addAttribute("professions", InitData.PROFESSION_MAP.values());
 		model.addAttribute("profile", profile);
+		String monthlyIncome = parseMonthlyIncome(
+				profile.getMinMonthlyIncome(), profile.getMaxMonthlyIncome());
+		model.addAttribute("income", monthlyIncome);
 		return "web/profile/setting";
+	}
+
+	private String parseMonthlyIncome(Integer min, Integer max) {
+		if (min == null)
+			min = 0;
+		if (max == null)
+			max = 0;
+		if (min == 0 && max > 0) {
+			return "&lt;" + max;
+		} else if (min > 0 && max == 0) {
+			return "&gt;" + min;
+		} else {
+			return null;
+		}
 	}
 
 	@RequestMapping(value = "/index/face", method = RequestMethod.GET)
@@ -153,6 +170,16 @@ public class ProfileContrller extends BaseController {
 		profile.setProfessionId(professionId);
 		profile.setFeature(settingForm.getFeature());
 		profile.setUid(context.getUid());
+
+		profile.setBlog(settingForm.getBlog());
+		profile.setHeight(settingForm.getHeight());
+		profile.setBloodType(settingForm.getBloodType());
+		profile.setEducation(settingForm.getEducation());
+		profile.setHouse(settingForm.getHouse());
+		profile.setCar(settingForm.getCar());
+		profile.setHome(settingForm.getHome());
+		profile.setMinMonthlyIncome(settingForm.getMinMonthlyIncome());
+		profile.setMaxMonthlyIncome(settingForm.getMaxMonthlyIncome());
 		try {
 			profileService.updateProfile(profile);
 		} catch (ProfileInputException e) {

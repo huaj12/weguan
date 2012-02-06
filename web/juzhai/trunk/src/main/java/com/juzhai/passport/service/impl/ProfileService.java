@@ -65,6 +65,10 @@ public class ProfileService implements IProfileService {
 	private int professionLengthMax;
 	@Value("${feature.length.max}")
 	private int featureLengthMax;
+	@Value("${blog.length.max}")
+	private int blogLengthMax;
+	@Value("${home.length.max}")
+	private int homeLengthMax;
 
 	@Override
 	public void cacheUserCity(long uid) {
@@ -330,6 +334,18 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
 		}
+		// 验证个人主页长度
+		if (StringUtil.chineseLength(profile.getBlog()) > blogLengthMax) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_BLOG_IS_TOO_LONG);
+		}
+
+		// 验证家乡长度
+		if (StringUtil.chineseLength(profile.getHome()) > homeLengthMax) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_HOME_IS_TOO_LONG);
+		}
+
 		if (profile.getProfessionId() > 0) {
 			Profession p = InitData.PROFESSION_MAP.get(profile
 					.getProfessionId());

@@ -11,6 +11,87 @@ public class SettingForm {
 	private Long province;
 	private Long city;
 	private Long town;
+	private Integer height;
+	private Integer bloodType;
+	private String education;
+	private String house;
+	private String car;
+	private String blog;
+	private Integer minMonthlyIncome;
+	private Integer maxMonthlyIncome;
+	private String home;
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
+	}
+
+	public Integer getBloodType() {
+		return bloodType;
+	}
+
+	public void setBloodType(Integer bloodType) {
+		this.bloodType = bloodType;
+	}
+
+	public String getEducation() {
+		return education;
+	}
+
+	public void setEducation(String education) {
+		this.education = education;
+	}
+
+	public String getHouse() {
+		return house;
+	}
+
+	public void setHouse(String house) {
+		this.house = house;
+	}
+
+	public String getCar() {
+		return car;
+	}
+
+	public void setCar(String car) {
+		this.car = car;
+	}
+
+	public String getBlog() {
+		return blog;
+	}
+
+	public void setBlog(String blog) {
+		this.blog = blog;
+	}
+
+	public Integer getMinMonthlyIncome() {
+		return minMonthlyIncome;
+	}
+
+	public void setMinMonthlyIncome(Integer minMonthlyIncome) {
+		this.minMonthlyIncome = minMonthlyIncome;
+	}
+
+	public Integer getMaxMonthlyIncome() {
+		return maxMonthlyIncome;
+	}
+
+	public void setMaxMonthlyIncome(Integer maxMonthlyIncome) {
+		this.maxMonthlyIncome = maxMonthlyIncome;
+	}
+
+	public String getHome() {
+		return home;
+	}
+
+	public void setHome(String home) {
+		this.home = home;
+	}
 
 	public String getFeature() {
 		return feature;

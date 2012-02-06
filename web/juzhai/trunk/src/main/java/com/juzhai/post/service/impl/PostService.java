@@ -378,6 +378,95 @@ public class PostService implements IPostService {
 		}
 	}
 
+	@Override
+	public void deletePost(long postId) throws InputPostException {
+		Post post = postMapper.selectByPrimaryKey(postId);
+		if (post == null) {
+			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
+		}
+		long uid = post.getCreateUid();
+		if (post.getIdeaId() > 0) {
+			ideaService.removeUser(post.getIdeaId(), uid);
+		}
+		PostResponseExample example = new PostResponseExample();
+		example.createCriteria().andPostIdEqualTo(postId);
+		List<PostResponse> prList = postResponseMapper.selectByExample(example);
+		for (PostResponse pr : prList) {
+			longRedisTemplate.opsForSet().remove(
+					RedisKeyGenerator.genResponsePostsKey(pr.getUid()), postId);
+		}
+		postResponseMapper.deleteByExample(example);
+		// 标注删除的拒宅信息
+		post.setDefunct(true);
+		postMapper.updateByPrimaryKeySelective(post);
+
+		// 更新用户最新一条拒宅
+		Post latestPost = getUserLatestPost(uid);
+		if (null != latestPost && latestPost.getId() == postId) {
+			PostExample postExample = new PostExample();
+			postExample.createCriteria().andCreateUidEqualTo(uid)
+					.andDefunctEqualTo(false);
+			postExample.setLimit(new Limit(0, 1));
+			postExample.setOrderByClause("create_time desc");
+			List<Post> list = postMapper.selectByExample(postExample);
+			if (CollectionUtils.isNotEmpty(list)) {
+				setUserLatestPost(uid, list.get(0));
+			} else {
+				redisTemplate.delete(RedisKeyGenerator
+						.genUserLatestPostKey(uid));
+			}
+		}
+	}
+
+	@Override
+	public void shieldPost(long postId) throws InputPostException {
+		Post post = postMapper.selectByPrimaryKey(postId);
+		if (post == null) {
+			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
+		}
+		post.setLastModifyTime(new Date());
+		post.setVerifyType(2);
+		postMapper.updateByPrimaryKeySelective(post);
+	}
+
+	@Override
+	public void unShieldPost(long postId) throws InputPostException {
+		Post post = postMapper.selectByPrimaryKey(postId);
+		if (post == null) {
+			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
+		}
+		post.setLastModifyTime(new Date());
+		post.setVerifyType(1);
+		postMapper.updateByPrimaryKeySelective(post);
+	}
+
+	@Override
+	public void handlePost(List<Long> postIds) throws InputPostException {
+		if (CollectionUtils.isEmpty(postIds)) {
+			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
+		}
+		for (Long postId : postIds) {
+			Post post = postMapper.selectByPrimaryKey(postId);
+			if (post != null) {
+				post.setLastModifyTime(new Date());
+				post.setVerifyType(1);
+				postMapper.updateByPrimaryKeySelective(post);
+			}
+
+		}
+	}
+
+	@Override
+	public void postToIdea(long postId) throws InputPostException {
+		Post post = postMapper.selectByPrimaryKey(postId);
+		if (post == null) {
+			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
+		}
+		post.setLastModifyTime(new Date());
+		post.setVerifyType(3);
+		postMapper.updateByPrimaryKeySelective(post);
+	}
+
 	private void setUserLatestPost(long uid, Post post) {
 		redisTemplate.opsForValue().set(
 				RedisKeyGenerator.genUserLatestPostKey(uid), post);
@@ -534,4 +623,51 @@ public class PostService implements IPostService {
 				.andDefunctEqualTo(false);
 		return postMapper.countByExample(example);
 	}
+
+	@Override
+	public List<Post> listUnhandlePost(int firstResult, int maxResults) {
+		return cmsListPost(0, firstResult, maxResults);
+	}
+
+	@Override
+	public List<Post> listShieldPost(int firstResult, int maxResults) {
+		return cmsListPost(2, firstResult, maxResults);
+	}
+
+	@Override
+	public List<Post> listHandlePost(int firstResult, int maxResults) {
+		return cmsListPost(1, firstResult, maxResults);
+	}
+
+	private List<Post> cmsListPost(int type, int firstResult, int maxResults) {
+		PostExample example = new PostExample();
+		example.createCriteria().andVerifyTypeEqualTo(type)
+				.andDefunctEqualTo(false);
+		example.setOrderByClause("create_time desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return postMapper.selectByExample(example);
+	}
+
+	@Override
+	public int countUnhandlePost() {
+		return cmsCountPost(0);
+	}
+
+	@Override
+	public int countShieldPost() {
+		return cmsCountPost(2);
+	}
+
+	@Override
+	public int countHandlePost() {
+		return cmsCountPost(1);
+	}
+
+	private int cmsCountPost(int type) {
+		PostExample example = new PostExample();
+		example.createCriteria().andVerifyTypeEqualTo(type)
+				.andDefunctEqualTo(false);
+		return postMapper.countByExample(example);
+	}
+
 }

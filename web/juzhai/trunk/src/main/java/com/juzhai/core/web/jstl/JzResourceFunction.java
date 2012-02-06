@@ -79,6 +79,26 @@ public class JzResourceFunction {
 		}
 	}
 
+	public static String postPic(long postId, String fileName) {
+		if (StringUtils.isEmpty(fileName) || postId <= 0) {
+			return "";
+		} else {
+			return StaticUtil.u(webActImagePath
+					+ ImageUtil.generateHierarchyImageWebPath(postId,
+							LogoSizeType.ORIGINAL) + fileName);
+		}
+	}
+
+	public static String ideaPic(long ideaId, String fileName) {
+		if (StringUtils.isEmpty(fileName) || ideaId <= 0) {
+			return "";
+		} else {
+			return StaticUtil.u(webActImagePath
+					+ ImageUtil.generateHierarchyImageWebPath(ideaId,
+							LogoSizeType.ORIGINAL) + fileName);
+		}
+	}
+
 	/**
 	 * 获取UserLogo
 	 * 

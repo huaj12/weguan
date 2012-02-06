@@ -1,0 +1,90 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>已发布的好主意</title>
+<script type="text/javascript" src="${jzr:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
+<script>
+function del(id){
+	if(confirm("是否删除该条好主意")){
+			jQuery.ajax({
+				url : "/cms/idea/del",
+				type : "post",
+				data : {
+					"ideaId" : id
+				},
+				dataType : "json",
+				success : function(result) {
+					if (result.success!=null&&result.success) {
+						location.reload();
+					} else {
+						alert("删除失败");
+					}
+				},
+				statusCode : {
+					401 : function() {
+						alert("请先登陆");
+					}
+				}
+			});
+		}
+}
+</script>
+</head>
+<body>
+	<h2>已发布的好主意----<a href="/cms/show/idea/add">添加好主意</a></h2>
+	<table border="0" cellspacing="4">
+		<tr style="background-color: #CCCCCC;">
+			<td width="100">我想去</td>
+			<td width="100">发起人</td>
+			<td width="100">地点</td>
+			<td width="100">图片</td>
+			<td width="100">城市</td>
+			<td width="100">拒宅时间</td>
+			<td width="100">发布时间</td>
+			<td width="100">操作</td>
+		</tr>
+		<c:forEach var="view" items="${ideaViews}" >
+			<tr>
+				<td>${view.idea.content}</td>
+				<td>${view.userName}</td>
+				<td>${view.idea.place}</td>
+				<td><img src="${jzr:ideaPic(view.idea.id,view.idea.pic)}"/></td>
+				<td>
+				<c:choose>
+					<c:when test="${empty view.cityName }">全国</c:when>
+					<c:otherwise>${view.cityName}</c:otherwise>
+				</c:choose></td>
+				<td><fmt:formatDate value="${view.idea.date}"
+						pattern="yyyy-MM-dd hh:mm:ss" /></td>
+				<td><fmt:formatDate value="${view.idea.createTime}"
+						pattern="yyyy-MM-dd hh:mm:ss" /></td>
+				<td>
+				<a href="javascript:;" onclick="del('${view.idea.id}')">取消好主意</a>
+				<a href="/cms/show/idea/update?ideaId=${view.idea.id}">修改好主意</a>
+				</td>
+			</tr>
+		</c:forEach>
+		<tr>
+			<td colspan="7">
+				<c:forEach var="pageId" items="${pager.showPages}">
+					<c:choose>
+						<c:when test="${pageId!=pager.currentPage}">
+							<a href="/cms/show/idea?pageId=${pageId}">${pageId}</a>
+						</c:when>
+						<c:otherwise>
+							<strong>${pageId}</strong>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</td>
+		</tr>
+	</table>
+	<div id="synonym"></div>
+</body>
+</html>

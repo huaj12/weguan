@@ -43,8 +43,6 @@ public class HomeController extends BaseController {
 	@Autowired
 	private IInterestUserService interestUserService;
 	@Autowired
-	private IDatingService datingService;
-	@Autowired
 	private IProfileService profileService;
 	@Autowired
 	private ILoginService loginService;
@@ -54,8 +52,6 @@ public class HomeController extends BaseController {
 	private IUserFreeDateService userFreeDateService;
 	@Autowired
 	private IPostService postService;
-	// @Value("${web.my.act.max.rows}")
-	// private int webMyActMaxRows;
 	@Value("${web.home.post.max.rows}")
 	private int webHomePostMaxRows;
 	@Value("${web.user.home.post.rows}")
@@ -66,10 +62,6 @@ public class HomeController extends BaseController {
 	private int webInterestUserMaxRows;
 	@Value("${web.interest.me.max.rows}")
 	private int webInterestMeMaxRows;
-	// @Value("${web.dating.max.rows}")
-	// private int webDatingMaxRows;
-	// @Value("${web.dating.me.max.rows}")
-	// private int webDatingMeMaxRows;
 	@Value("${interest.user.show.act.count}")
 	private int interestUserShowActCount;
 
@@ -109,6 +101,7 @@ public class HomeController extends BaseController {
 			@PathVariable long cityId, @PathVariable String genderType,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
+		queryProfile(context.getUid(), model);
 		showHomeRight(context, model);
 		Integer gender = null;
 		if (genderType.equals("male")) {
@@ -121,10 +114,13 @@ public class HomeController extends BaseController {
 		List<Post> postList = postService.listNewestPost(context.getUid(),
 				cityId, gender, pager.getFirstResult(), pager.getMaxResult());
 		List<PostView> postViewList = assembleUserPostViewList(context,
-				postList, true);
+				postList, true, true);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
-		return "web/home/home";
+		model.addAttribute("queryType", "showNewPosts");
+		model.addAttribute("cityId", cityId);
+		model.addAttribute("genderType", genderType);
+		return "web/home/index/home";
 	}
 
 	@RequestMapping(value = "/showRespPosts/{cityId}_{genderType}/{page}", method = RequestMethod.GET)
@@ -132,6 +128,7 @@ public class HomeController extends BaseController {
 			@PathVariable long cityId, @PathVariable String genderType,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
+		queryProfile(context.getUid(), model);
 		showHomeRight(context, model);
 		Integer gender = null;
 		if (genderType.equals("male")) {
@@ -144,10 +141,13 @@ public class HomeController extends BaseController {
 		List<Post> postList = postService.listResponsePost(context.getUid(),
 				cityId, gender, pager.getFirstResult(), pager.getMaxResult());
 		List<PostView> postViewList = assembleUserPostViewList(context,
-				postList, true);
+				postList, true, true);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
-		return "web/home/home";
+		model.addAttribute("queryType", "showRespPosts");
+		model.addAttribute("cityId", cityId);
+		model.addAttribute("genderType", genderType);
+		return "web/home/index/home";
 	}
 
 	@RequestMapping(value = "/showIntPosts/{cityId}_{genderType}/{page}", method = RequestMethod.GET)
@@ -155,6 +155,7 @@ public class HomeController extends BaseController {
 			@PathVariable long cityId, @PathVariable String genderType,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
+		queryProfile(context.getUid(), model);
 		showHomeRight(context, model);
 		Integer gender = null;
 		if (genderType.equals("male")) {
@@ -169,10 +170,13 @@ public class HomeController extends BaseController {
 				context.getUid(), cityId, gender, pager.getFirstResult(),
 				pager.getMaxResult());
 		List<PostView> postViewList = assembleUserPostViewList(context,
-				postList, true);
+				postList, true, true);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
-		return "web/home/home";
+		model.addAttribute("queryType", "showIntPosts");
+		model.addAttribute("cityId", cityId);
+		model.addAttribute("genderType", genderType);
+		return "web/home/index/home";
 	}
 
 	private void showHomeRight(UserContext context, Model model) {
@@ -257,8 +261,8 @@ public class HomeController extends BaseController {
 			view.setProfileCache(profileCache);
 			view.setUserActViewList(userActService.pageUserActView(
 					profileCache.getUid(), 0, interestUserShowActCount));
-			view.setHasDating(datingService.hasDating(context.getUid(),
-					profileCache.getUid()));
+			// view.setHasDating(datingService.hasDating(context.getUid(),
+			// profileCache.getUid()));
 			view.setHasInterest(hasInterest != null ? hasInterest
 					: interestUserService.isInterest(context.getUid(),
 							profileCache.getUid()));
@@ -413,7 +417,7 @@ public class HomeController extends BaseController {
 		List<Post> postList = postService.listUserPost(uid, 0,
 				webUserHomePostRows);
 		List<PostView> postViewList = assembleUserPostViewList(context,
-				postList, false);
+				postList, false, false);
 		model.addAttribute("postViewList", postViewList);
 
 		// TODO 微博
@@ -455,13 +459,13 @@ public class HomeController extends BaseController {
 		List<Post> postList = postService.listUserPost(uid,
 				pager.getFirstResult(), pager.getMaxResult());
 		List<PostView> postViewList = assembleUserPostViewList(context,
-				postList, false);
+				postList, false, false);
 		model.addAttribute("postViewList", postViewList);
 		model.addAttribute("pager", pager);
 	}
 
 	private List<PostView> assembleUserPostViewList(UserContext context,
-			List<Post> postList, boolean needProfile) {
+			List<Post> postList, boolean needProfile, boolean needHasInterest) {
 		List<PostView> postViewList = new ArrayList<PostView>();
 		for (Post post : postList) {
 			PostView postView = new PostView();
@@ -473,6 +477,10 @@ public class HomeController extends BaseController {
 			if (context != null && context.getUid() > 0) {
 				postView.setHasResponse(postService.isResponsePost(
 						context.getUid(), post.getId()));
+				if (needHasInterest) {
+					postView.setHasInterest(interestUserService.isInterest(
+							context.getUid(), post.getCreateUid()));
+				}
 			}
 			postViewList.add(postView);
 		}

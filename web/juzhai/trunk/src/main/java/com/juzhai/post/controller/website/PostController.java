@@ -23,7 +23,7 @@ import com.juzhai.post.service.IPostImageService;
 import com.juzhai.post.service.IPostService;
 
 @Controller
-@RequestMapping(value = "/post")
+@RequestMapping(value = "post")
 public class PostController extends BaseController {
 
 	@Autowired
@@ -33,7 +33,7 @@ public class PostController extends BaseController {
 	@Autowired
 	private IPostImageService postImageService;
 
-	@RequestMapping(value = "responsePost", method = RequestMethod.POST)
+	@RequestMapping(value = "/responsePost", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult responsePost(HttpServletRequest request, Model model,
 			long postId) throws NeedLoginException {
@@ -47,7 +47,8 @@ public class PostController extends BaseController {
 		return result;
 	}
 
-	@RequestMapping(value = "postIdea", method = RequestMethod.POST)
+	@RequestMapping(value = "/postIdea", method = RequestMethod.POST)
+	@ResponseBody
 	public AjaxResult postIdea(HttpServletRequest request, Model model,
 			PostForm postForm) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
@@ -79,7 +80,8 @@ public class PostController extends BaseController {
 		return "web/common/ajax/ajax_result";
 	}
 
-	@RequestMapping(value = "createPost", method = RequestMethod.POST)
+	@RequestMapping(value = "/createPost", method = RequestMethod.POST)
+	@ResponseBody
 	public AjaxResult createPost(HttpServletRequest request, Model model,
 			PostForm postForm, boolean sendWeibo) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);

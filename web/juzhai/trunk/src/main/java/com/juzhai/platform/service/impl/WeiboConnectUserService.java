@@ -123,6 +123,8 @@ public class WeiboConnectUserService extends AbstractUserService {
 				sex = 1;
 			}
 			profile.setGender(sex);
+//			//获取用户个人主页
+			profile.setBlog(user.getUserDomain());
 			profile.setLogoPic(user.getAvatarLarge());
 			// 用户简介
 			profile.setFeature(user.getDescription());

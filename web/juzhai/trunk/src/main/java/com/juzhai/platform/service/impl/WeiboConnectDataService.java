@@ -27,6 +27,8 @@ public class WeiboConnectDataService implements IDataService {
 	private final Log log = LogFactory.getLog(getClass());
 	@Value("${user.weibo.expire.time}")
 	private int userWeiboExpireTime;
+	@Value("${user.weibo.size}")
+	private int userWeiboSize;
 	@Autowired
 	private MemcachedClient memcachedClient;
 
@@ -52,7 +54,7 @@ public class WeiboConnectDataService implements IDataService {
 		List<UserWeibo> userWeibos = new ArrayList<UserWeibo>();
 		Timeline timeline = new Timeline(authInfo.getToken());
 		List<Status> status = timeline.getUserTimeline(
-				authInfo.getTpIdentity(), null, 3, null, 0, 1);
+				authInfo.getTpIdentity(), null, userWeiboSize, null, 0, 1);
 		if (CollectionUtils.isNotEmpty(status)) {
 			for (Status s : status) {
 				UserWeibo userWeibo = new UserWeibo();

@@ -80,7 +80,9 @@ public class JzResourceFunction {
 	}
 
 	public static String postPic(long postId, String fileName) {
+		//TODO 这里要改一下到时候，阳仔先不管
 		if (StringUtils.isEmpty(fileName) || postId <= 0) {
+			//TODO (review) 别返回(""),新建一个字符串没必要。要么使用StringUtils.emptyString或者直接返回null
 			return "";
 		} else {
 			return StaticUtil.u(webActImagePath
@@ -91,6 +93,7 @@ public class JzResourceFunction {
 
 	public static String ideaPic(long ideaId, String fileName) {
 		if (StringUtils.isEmpty(fileName) || ideaId <= 0) {
+			//TODO (review) 别返回(""),新建一个字符串没必要。要么使用StringUtils.emptyString或者直接返回null
 			return "";
 		} else {
 			return StaticUtil.u(webActImagePath

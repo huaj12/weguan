@@ -26,47 +26,6 @@ public interface IPostService {
 	 */
 	void deletePost(long uid, long postId) throws InputPostException;
 
-	void deletePost(long postId) throws InputPostException;
-
-	/**
-	 * 屏蔽拒宅
-	 * 
-	 * @param postId
-	 */
-	void shieldPost(long postId) throws InputPostException;
-
-	/**
-	 * 取消屏蔽拒宅
-	 * 
-	 * @param postId
-	 * @throws InputPostException
-	 */
-	void unShieldPost(long postId) throws InputPostException;
-
-	/**
-	 * 标记为已处理拒宅
-	 * 
-	 * @param postIds
-	 */
-	void handlePost(List<Long> postIds) throws InputPostException;
-
-	/**
-	 * 标记为好主意
-	 * 
-	 * @param postId
-	 * @throws InputPostException
-	 */
-	void postToIdea(long postId) throws InputPostException;
-
-	/**
-	 * 是否发布过此idea
-	 * 
-	 * @param uid
-	 * @param ideaId
-	 * @return
-	 */
-	boolean hasPostIdea(long uid, long ideaId);
-
 	/**
 	 * 修改拒宅
 	 * 
@@ -190,6 +149,49 @@ public interface IPostService {
 	 * @return
 	 */
 	int countUserPost(long uid);
+
+	// TODO (review) 注释
+	void deletePost(long postId) throws InputPostException;
+
+	/**
+	 * 屏蔽拒宅
+	 * 
+	 * @param postId
+	 */
+	void shieldPost(long postId) throws InputPostException;
+
+	/**
+	 * 取消屏蔽拒宅
+	 * 
+	 * @param postId
+	 * @throws InputPostException
+	 */
+	void unShieldPost(long postId) throws InputPostException;
+
+	/**
+	 * 标记为已处理拒宅
+	 * 
+	 * @param postIds
+	 */
+	void handlePost(List<Long> postIds) throws InputPostException;
+
+	/**
+	 * 标记为好主意
+	 * 
+	 * @param postId
+	 * @throws InputPostException
+	 */
+	// TODO (review) 方法名意思不对
+	void postToIdea(long postId) throws InputPostException;
+
+	/**
+	 * 是否发布过此idea
+	 * 
+	 * @param uid
+	 * @param ideaId
+	 * @return
+	 */
+	boolean hasPostIdea(long uid, long ideaId);
 
 	/**
 	 * 后台未处理的拒宅列表

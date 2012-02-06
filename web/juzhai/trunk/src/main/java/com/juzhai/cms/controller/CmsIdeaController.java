@@ -58,6 +58,7 @@ public class CmsIdeaController {
 		for (Idea idea : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(idea
 					.getFirstUid());
+			//TODO (review) jstl可以获取cityName
 			City city = InitData.CITY_MAP.get(idea.getCity());
 			String cityName = null;
 			if (city != null) {
@@ -74,6 +75,7 @@ public class CmsIdeaController {
 	public String showIdeaAdd(Model model, String msg,
 			@RequestParam(defaultValue = "0") long postId, String content,
 			String date, String pic, String place, Long createUid) {
+		//TODO (review) form不能用？
 		model.addAttribute("picPath", JzResourceFunction.postPic(postId, pic));
 		model.addAttribute("postId", postId);
 		model.addAttribute("content", content);
@@ -89,6 +91,7 @@ public class CmsIdeaController {
 	@RequestMapping(value = "/show/idea/update", method = RequestMethod.GET)
 	public String showIdeaUpdate(Model model, Long ideaId, String msg) {
 		Idea idea = ideaService.getIdeaById(ideaId);
+		//TODO (review) 为什么不用idea返回到页面？
 		if (idea != null) {
 			model.addAttribute("content", idea.getContent());
 			model.addAttribute("date", idea.getDate());

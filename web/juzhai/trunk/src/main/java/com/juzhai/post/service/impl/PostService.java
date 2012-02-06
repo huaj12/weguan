@@ -378,6 +378,7 @@ public class PostService implements IPostService {
 		}
 	}
 
+	// TODO 代码重构
 	@Override
 	public void deletePost(long postId) throws InputPostException {
 		Post post = postMapper.selectByPrimaryKey(postId);
@@ -420,24 +421,32 @@ public class PostService implements IPostService {
 
 	@Override
 	public void shieldPost(long postId) throws InputPostException {
+		//TODO (review) 用不着select一下
 		Post post = postMapper.selectByPrimaryKey(postId);
 		if (post == null) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
 		post.setLastModifyTime(new Date());
+		//TODO (review) 为什么不用 enum VerifyType
 		post.setVerifyType(2);
 		postMapper.updateByPrimaryKeySelective(post);
+		
+		//TODO (review) 最新一条拒宅不用更新了吗？
 	}
 
 	@Override
 	public void unShieldPost(long postId) throws InputPostException {
+		//TODO (review) 用不着select一下
 		Post post = postMapper.selectByPrimaryKey(postId);
 		if (post == null) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
 		post.setLastModifyTime(new Date());
+		//TODO (review) 为什么不用 enum VerifyType
 		post.setVerifyType(1);
 		postMapper.updateByPrimaryKeySelective(post);
+		
+		//TODO (review) 最新一条拒宅不用更新了吗？
 	}
 
 	@Override
@@ -445,10 +454,12 @@ public class PostService implements IPostService {
 		if (CollectionUtils.isEmpty(postIds)) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
+		//TODO (review) 用不着select
 		for (Long postId : postIds) {
 			Post post = postMapper.selectByPrimaryKey(postId);
 			if (post != null) {
 				post.setLastModifyTime(new Date());
+				//TODO (review) 为什么不用 enum VerifyType
 				post.setVerifyType(1);
 				postMapper.updateByPrimaryKeySelective(post);
 			}
@@ -457,12 +468,14 @@ public class PostService implements IPostService {
 	}
 
 	@Override
+	//TODO (review) 封装逻辑有问题
 	public void postToIdea(long postId) throws InputPostException {
 		Post post = postMapper.selectByPrimaryKey(postId);
 		if (post == null) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
 		post.setLastModifyTime(new Date());
+		//TODO (review) 为什么不用 enum VerifyType
 		post.setVerifyType(3);
 		postMapper.updateByPrimaryKeySelective(post);
 	}
@@ -624,21 +637,25 @@ public class PostService implements IPostService {
 		return postMapper.countByExample(example);
 	}
 
+	//TODO (review) 为什么不用 enum VerifyType
 	@Override
 	public List<Post> listUnhandlePost(int firstResult, int maxResults) {
 		return cmsListPost(0, firstResult, maxResults);
 	}
 
+	//TODO (review) 为什么不用 enum VerifyType
 	@Override
 	public List<Post> listShieldPost(int firstResult, int maxResults) {
 		return cmsListPost(2, firstResult, maxResults);
 	}
 
+	//TODO (review) 为什么不用 enum VerifyType
 	@Override
 	public List<Post> listHandlePost(int firstResult, int maxResults) {
 		return cmsListPost(1, firstResult, maxResults);
 	}
 
+	//TODO (review) 为什么不用 enum VerifyType
 	private List<Post> cmsListPost(int type, int firstResult, int maxResults) {
 		PostExample example = new PostExample();
 		example.createCriteria().andVerifyTypeEqualTo(type)
@@ -648,21 +665,25 @@ public class PostService implements IPostService {
 		return postMapper.selectByExample(example);
 	}
 
+	//TODO (review) 为什么不用 enum VerifyType
 	@Override
 	public int countUnhandlePost() {
 		return cmsCountPost(0);
 	}
 
+	//TODO (review) 为什么不用 enum VerifyType
 	@Override
 	public int countShieldPost() {
 		return cmsCountPost(2);
 	}
 
+	//TODO (review) 为什么不用 enum VerifyType
 	@Override
 	public int countHandlePost() {
 		return cmsCountPost(1);
 	}
 
+	//TODO (review) 为什么不用 enum VerifyType
 	private int cmsCountPost(int type) {
 		PostExample example = new PostExample();
 		example.createCriteria().andVerifyTypeEqualTo(type)

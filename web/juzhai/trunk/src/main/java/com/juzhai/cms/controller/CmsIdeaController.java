@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.juzhai.act.exception.UploadImageException;
+import com.juzhai.cms.controller.form.AddIdeaForm;
 import com.juzhai.cms.controller.form.IdeaForm;
 import com.juzhai.cms.controller.view.CmsIdeaView;
 import com.juzhai.core.pager.PagerManager;
@@ -58,13 +59,8 @@ public class CmsIdeaController {
 		for (Idea idea : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(idea
 					.getFirstUid());
-			//TODO (review) jstl可以获取cityName
-			City city = InitData.CITY_MAP.get(idea.getCity());
-			String cityName = null;
-			if (city != null) {
-				cityName = city.getName();
-			}
-			ideaViews.add(new CmsIdeaView(idea, cache.getNickname(), cityName));
+			//TODO (done) jstl可以获取cityName
+			ideaViews.add(new CmsIdeaView(idea, cache.getNickname()));
 		}
 		model.addAttribute("ideaViews", ideaViews);
 		model.addAttribute("pager", pager);
@@ -72,17 +68,9 @@ public class CmsIdeaController {
 	}
 
 	@RequestMapping(value = "/show/idea/add", method = RequestMethod.GET)
-	public String showIdeaAdd(Model model, String msg,
-			@RequestParam(defaultValue = "0") long postId, String content,
-			String date, String pic, String place, Long createUid) {
-		//TODO (review) form不能用？
-		model.addAttribute("picPath", JzResourceFunction.postPic(postId, pic));
-		model.addAttribute("postId", postId);
-		model.addAttribute("content", content);
-		model.addAttribute("date", date);
-		model.addAttribute("pic", pic);
-		model.addAttribute("place", place);
-		model.addAttribute("createUid", createUid);
+	public String showIdeaAdd(Model model, String msg,AddIdeaForm addIdeaForm) {
+		//TODO (done) form不能用？
+		model.addAttribute("addIdeaForm", addIdeaForm);
 		model.addAttribute("msg", msg);
 		model.addAttribute("citys", InitData.CITY_MAP.values());
 		return "/cms/idea/add";
@@ -91,29 +79,17 @@ public class CmsIdeaController {
 	@RequestMapping(value = "/show/idea/update", method = RequestMethod.GET)
 	public String showIdeaUpdate(Model model, Long ideaId, String msg) {
 		Idea idea = ideaService.getIdeaById(ideaId);
-		//TODO (review) 为什么不用idea返回到页面？
+		//TODO (done) 为什么不用idea返回到页面？
 		if (idea != null) {
-			model.addAttribute("content", idea.getContent());
-			model.addAttribute("date", idea.getDate());
-			model.addAttribute("pic", idea.getPic());
-			model.addAttribute("place", idea.getPlace());
-			model.addAttribute("picPath",
-					JzResourceFunction.postPic(idea.getId(), idea.getPic()));
-			model.addAttribute("link", idea.getLink());
-			model.addAttribute("city", idea.getCity());
+			model.addAttribute("idea", idea);
 			model.addAttribute("msg", msg);
 			model.addAttribute("citys", InitData.CITY_MAP.values());
-			model.addAttribute("ideaId", idea.getId());
 		}
 		return "/cms/idea/update";
 	}
 
 	@RequestMapping(value = "/add/idea", method = RequestMethod.POST)
 	public ModelAndView addIdea(IdeaForm ideaForm, HttpServletRequest request) {
-		if (ideaForm.getCreateUid() == null) {
-			UserContext context = (UserContext) request.getAttribute("context");
-			ideaForm.setCreateUid(context.getUid());
-		}
 		ModelMap mmap = new ModelMap();
 		String url = "/cms/show/idea";
 		try {
@@ -148,7 +124,7 @@ public class CmsIdeaController {
 		try {
 			ideaService.removeIdea(ideaId);
 		} catch (Exception e) {
-			ajaxResult.setSuccess(false);
+			ajaxResult.setError(e.getMessage(), messageSource);
 		}
 		return ajaxResult;
 	}

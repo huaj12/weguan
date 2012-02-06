@@ -6,7 +6,6 @@ import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.cms.controller.form.IdeaForm;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.post.exception.InputIdeaException;
-import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.model.Idea;
 
 public interface IIdeaService {
@@ -43,6 +42,7 @@ public interface IIdeaService {
 	 */
 	void removeUser(long ideaId, long uid);
 
+	//TODO (review) 注释
 	void removeIdea(long ideaId);
 
 	/**

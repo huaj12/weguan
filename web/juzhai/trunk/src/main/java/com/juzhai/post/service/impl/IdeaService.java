@@ -93,6 +93,7 @@ public class IdeaService implements IIdeaService {
 
 	@Override
 	public void removeIdea(long ideaId) {
+		//TODO (review) 逻辑调整 有人使用的情况下不能删除idea
 		redisTemplate.delete(RedisKeyGenerator.genIdeaUsersKey(ideaId));
 		ideaMapper.deleteByPrimaryKey(ideaId);
 	}
@@ -142,6 +143,7 @@ public class IdeaService implements IIdeaService {
 		idea.setContentMd5(ideaForm.getContentMd5());
 		idea.setCreateTime(new Date());
 		idea.setDate(ideaForm.getDate());
+		//TODO (review) 理解第一使用者的意思吗？再结合你controller里的代码看看，逻辑有问题
 		idea.setFirstUid(ideaForm.getCreateUid());
 		idea.setLastModifyTime(new Date());
 		idea.setLink(ideaForm.getLink());
@@ -156,6 +158,7 @@ public class IdeaService implements IIdeaService {
 		}
 		ideaMapper.insertSelective(idea);
 
+		//TODO (review) 第一使用者逻辑混乱，修改的时候来找我
 		Long ideaId = idea.getId();
 		if (ideaId != null) {
 			addFirstUser(ideaId, idea.getFirstUid());
@@ -169,6 +172,7 @@ public class IdeaService implements IIdeaService {
 
 	}
 
+	//TODO (review) 图片处理的代码又乱放了⋯⋯，逻辑也有问题，修改的时候找我
 	private String ideaPic(IdeaForm ideaForm, Long ideaId)
 			throws UploadImageException {
 		String fileName = null;
@@ -239,6 +243,7 @@ public class IdeaService implements IIdeaService {
 		// 验证日期格式
 		if (StringUtils.isNotEmpty(ideaForm.getDateString())) {
 			try {
+				//TODO (review) 日期格式错误
 				ideaForm.setDate(DateUtils.parseDate(ideaForm.getDateString(),
 						DateFormat.DATE_TIME_PATTERN));
 			} catch (ParseException e) {

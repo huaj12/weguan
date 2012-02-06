@@ -85,6 +85,7 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 		return genKey(uid, "tpMsgReceiveCnt_" + msgType.name());
 	}
 	
+	//TODO (reveiw) 注释写上，并且移到下面去（------web--------）
 	public static String genUserWeiboKey(long uid){
 		return genKey(uid, "userWeibo");
 	}

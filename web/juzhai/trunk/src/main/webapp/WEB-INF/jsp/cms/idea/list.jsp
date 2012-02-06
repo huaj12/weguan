@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
+<%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
@@ -57,8 +58,8 @@ function del(id){
 				<td><img src="${jzr:ideaPic(view.idea.id,view.idea.pic)}"/></td>
 				<td>
 				<c:choose>
-					<c:when test="${empty view.cityName }">全国</c:when>
-					<c:otherwise>${view.cityName}</c:otherwise>
+					<c:when test="${empty jzd:cityName(view.idea.city)}">全国</c:when>
+					<c:otherwise>${jzd:cityName(view.idea.city)}</c:otherwise>
 				</c:choose></td>
 				<td><fmt:formatDate value="${view.idea.date}"
 						pattern="yyyy-MM-dd hh:mm:ss" /></td>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jz"%>
+<%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
@@ -30,20 +30,20 @@
 			内容：
 			</td>
 			<td>
-				<textarea rows="10" name="content" cols="20">${content}</textarea>
+				<textarea rows="10" name="content" cols="20">${addIdeaForm.content}</textarea>
 			</td>
 		</tr>
 		<tr>	
 			<td>
 			日期:
 			</td>
-			<td><input type="text" name="dateString" readonly="readonly" onclick="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'});" value="${date}" /></td>
+			<td><input type="text" name="dateString" readonly="readonly" onclick="WdatePicker();" value="${addIdeaForm.date}" /></td>
 		</tr>
 		<tr>	
 		<td>
 			地点:
 		</td>
-			<td><input type="text" name="place"  value="${place}" /></td>
+			<td><input type="text" name="place"  value="${addIdeaForm.place}" /></td>
 		</tr>
 		<tr>	
 		<td>
@@ -51,9 +51,9 @@
 		</td>
 			<td><input type="file" name="newpic"/>
 			<c:choose>
-			<c:when test="${!empty picPath}">
-			<img src="${picPath }"/>
-			<input name="pic" type="hidden" value="${pic}"/>
+			<c:when test="${!empty jzr:postPic(view.post.id,view.post.pic)}">
+			<img src="${jzr:postPic(view.post.id,view.post.pic)}"/>
+			<input name="pic" type="hidden" value="${addIdeaForm.pic}"/>
 			</c:when>
 			<c:otherwise>
 				无图片
@@ -72,9 +72,8 @@
 		<tr>
 			<td></td>
 			<td>
-			<input name="postId" type="hidden" value="${postId}" />
-			<input name="ideaId" type="hidden" value="${ideaId}" />
-			<input name="createUid" type="hidden" value="${createUid }"></input>
+			<input name="postId" type="hidden" value="${addIdeaForm.postId}" />
+			<input name="createUid" type="hidden" value="${addIdeaForm.createUid }"></input>
 			<input type="submit" value="添加" /> </td>
 		</tr>
 	</table>

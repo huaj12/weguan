@@ -84,6 +84,10 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	public static String genTpMsgReceiveCnt(long uid, MsgType msgType) {
 		return genKey(uid, "tpMsgReceiveCnt_" + msgType.name());
 	}
+	
+	public static String genUserWeiboKey(long uid){
+		return genKey(uid, "userWeibo");
+	}
 
 	/*------------------------web----------------------------*/
 

@@ -1,3 +1,53 @@
+var SelectInput =  Class.extend({
+	init: function(div){
+		this.selectDiv = div;
+    	var name = $(this.selectDiv).find("a.selected").text();
+    	var value = $(this.selectDiv).find("a.selected").attr("value");
+    	$(this.selectDiv).find("p > a").text(name);
+    	var inputName = $(this.selectDiv).attr("name");
+    	if(null != inputName){
+    		$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
+    	}
+	},
+	bindBlur:function(){
+		var selectDiv = this.selectDiv;
+		$("body").bind("mousedown",function(event){
+			if($(event.target).closest(selectDiv).length <= 0){
+				$(selectDiv).removeClass("select_active");
+			}
+		});
+//		$(selectDiv).hover(function(){
+//    		$("body").unbind("mousedown");
+//    	}, function(){
+//    		$("body").bind("mousedown",function(){
+//    			$(selectDiv).removeClass("select_active");
+//    		});
+//    	});
+	},
+	bindClick:function(){
+		var selectDiv = this.selectDiv;
+		$(selectDiv).find("p > a").bind("click", function(){
+			if($(selectDiv).hasClass("select_active")){
+				$(selectDiv).removeClass("select_active");
+	    	}else{
+	    		$(selectDiv).addClass("select_active");
+			}
+		});
+	},
+	bindSelect:function(){
+		var selectDiv = this.selectDiv;
+		$(selectDiv).find("div.select_box > span > a").bind("click", function(){
+        	var name = $(this).text();
+        	var value = $(this).attr("value");
+        	$(this).parent().children("a").removeClass("selected");
+        	$(this).addClass("selected");
+        	$(selectDiv).find("p > a").text(name);
+        	$(selectDiv).find("input[type='hidden']").val(value);
+        	$(selectDiv).removeClass("select_active");
+        });
+	}
+});
+
 $(document).ready(function(){
 	if($("div.back_top").length > 0){
 		$.waypoints.settings.scrollThrottle = 30;
@@ -19,7 +69,16 @@ $(document).ready(function(){
     $("img").lazyload({
         effect : "fadeIn"
     });
+    
     bindMouseHover();
+    
+    //select
+    $("div.select_menu").each(function(){
+    	var select = new SelectInput(this);
+    	select.bindBlur();
+    	select.bindClick();
+    	select.bindSelect();
+    });
 });
 
 function bindMouseHover(){
@@ -28,11 +87,6 @@ function bindMouseHover(){
 	}).mouseleave(function(){
 		mouseHover(this, false);
 	});
-//	$(".mouseHover").bind("mouseover", function(){
-//		mouseHover(this, true);
-//	}).bind("mouseout", function(){
-//		mouseHover(this, false);
-//	});
 }
 
 function mouseHover(li, isOver){

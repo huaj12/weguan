@@ -3,6 +3,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="jzr"
 	uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="bloodTypeValue" value="O型,A型,B型,AB型" />
+<c:set var="delim" value=","/> 
+<c:set var="bloodType" value="${fn:split(bloodTypeValue, delim)}"/>
+<c:set var="educationValue" value="初中及一下,中专,高中,本科,硕士,博士及以上" />
+<c:set var="education" value="${fn:split(educationValue, delim)}"/>
+<c:set var="houseValue" value="自有住房,与家人同住,独自租房,与人合租" />
+<c:set var="house" value="${fn:split(houseValue, delim)}"/>
+<c:set var="carValue" value="以购车,未购车,有自行车" />
+<c:set var="car" value="${fn:split(carValue, delim)}"/>
+<c:set var="monthlyIncomeValue" value="&lt;2000,&gt;2000,&gt;5000,&gt;10000,&gt;20000,&gt;30000,&gt;50000" />
+<c:set var="monthlyIncome" value="${fn:split(monthlyIncomeValue, delim)}"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -220,6 +232,107 @@
 										</div>
 										<!--pj_error end-->
 									</div>
+									<div class="infor_x"><!--infor_x begin-->
+										<h3>个人主页：</h3>
+										<div class="input"><!--input begin-->
+										<div class="http">http://</div>
+										<p class="l"></p><span class="w180"><input  type="text" id="blog" value="${profile.blog}"  /></span><p class="r"></p>
+										</div><!--input end-->
+										<div class="error" id="blog_tp"></div>
+									</div><!--infor_x end-->
+									<div class="infor_x"><!--infor_x begin-->
+										<h3>身&nbsp;&nbsp;&nbsp;&nbsp;高：</h3>
+										<div class="select"><!--select begin-->
+										<span>
+										<select  id="height">
+										<option value="0" <c:if test="${empty profile.height||profile.height==0}">selected="selected"</c:if>  >可不填</option>
+										<c:forEach begin="140" end="210" var="h">
+										<option value="${h}" <c:if test="${profile.height==h}">selected="selected"</c:if> >${h}</option>
+										</c:forEach>
+										</select>
+										</span>
+										</div><!--select end-->
+									</div><!--infor_x end-->
+									
+									<div class="infor_x"><!--infor_x begin-->
+										<h3>血&nbsp;&nbsp;&nbsp;&nbsp;型：</h3>
+										<div class="select"><!--select begin-->
+										<span>
+										<select  id="bloodType">
+										<option value="0"  <c:if test="${empty profile.bloodType||profile.bloodType==0}">selected="selected"</c:if>>可不填</option>
+										<c:forEach items="${bloodType}" var="bt" varStatus="index">
+											<option value="${index.index+1}" <c:if test="${profile.bloodType==(index.index+1)}">selected="selected"</c:if> >${bt}</option>
+										</c:forEach>
+										</select>
+										</span>
+										</div><!--select end-->
+									</div><!--infor_x end-->
+									
+									<div class="infor_x"><!--infor_x begin-->
+										<h3>学&nbsp;&nbsp;&nbsp;&nbsp;历：</h3>
+										<div class="select"><!--select begin-->
+										<span>
+										<select id="education">
+										<option value=""  <c:if test="${empty profile.education}">selected="selected"</c:if>>可不填</option>
+										<c:forEach items="${education}" var="ed" >
+											<option value="${ed}" <c:if test="${profile.education==ed}">selected="selected"</c:if> >${ed}</option>
+										</c:forEach>
+										</select>
+										</span>
+										</div><!--select end-->
+									</div><!--infor_x end-->
+									
+									<div class="infor_x"><!--infor_x begin-->
+										<h3>月&nbsp;&nbsp;收&nbsp;&nbsp;入：</h3>
+										<div class="select"><!--select begin-->
+										<span>
+										<select id="monthlyIncome">
+										<option value=""  <c:if test="${empty income}">selected="selected"</c:if>>可不填</option>
+										<c:forEach items="${monthlyIncome}" var="m" >
+										<option value="${m}" <c:if test="${income==m}">selected="selected"</c:if> >${m}</option>
+										</c:forEach>
+										</select>
+										</span>
+										</div><!--select end-->
+									</div><!--infor_x end-->
+									
+									<div class="infor_x"><!--infor_x begin-->
+										<h3>居&nbsp;&nbsp;&nbsp;&nbsp;所：</h3>
+										<div class="select"><!--select begin-->
+										<span>
+										<select  id="house">
+										<option value="" <c:if test="${empty profile.house}">selected="selected"</c:if>>可不填</option>
+										<c:forEach items="${house}" var="h" >
+											<option value="${h}" <c:if test="${profile.house==h}">selected="selected"</c:if> >${h}</option>
+										</c:forEach>
+										</select>
+										</span>
+										</div><!--select end-->
+									</div><!--infor_x end-->
+									
+									<div class="infor_x"><!--infor_x begin-->
+										<h3>购&nbsp;&nbsp;&nbsp;&nbsp;车：</h3>
+										<div class="select"><!--select begin-->
+										<span>
+										<select  id="car">
+										<option value=""  <c:if test="${empty profile.house}">selected="selected"</c:if> >可不填</option>
+										<c:forEach items="${car}" var="c" >
+											<option value="${c}" <c:if test="${profile.car==c}">selected="selected"</c:if> >${c}</option>
+										</c:forEach>
+										</select>
+										</span>
+										</div><!--select end-->
+									</div><!--infor_x end-->
+									
+									<div class="infor_x"><!--infor_x begin-->
+										<h3>家&nbsp;&nbsp;&nbsp;&nbsp;乡：</h3>
+										<div class="input"><!--input begin-->
+										<div class="http"></div>
+										<p class="l"></p><span class="w180"><input  type="text" id="home" value="${profile.home}"  /></span><p class="r"></p>
+										</div><!--input end-->
+										<div class="error" id="home_tp"></div>
+									</div><!--infor_x end-->
+									
 									<div class="save_btn">
 										<!--save_btn begin-->
 										<a href="javascript:void(0);" onclick="setting()">保存</a>

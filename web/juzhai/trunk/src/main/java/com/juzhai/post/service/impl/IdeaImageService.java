@@ -34,9 +34,7 @@ public class IdeaImageService implements IIdeaImageService {
 		if (image != null && image.getSize() != 0) {
 			fileName = imageManager.uploadImage(directoryPath, image);
 		}
-		if (postId == null || postId == 0) {
-			fileName = picName;
-		} else {
+		if (postId != null && postId != 0) {
 			File srcFile = new File(uploadPostImageHome
 					+ ImageUtil.generateHierarchyImagePath(
 							Long.valueOf(postId), LogoSizeType.ORIGINAL)

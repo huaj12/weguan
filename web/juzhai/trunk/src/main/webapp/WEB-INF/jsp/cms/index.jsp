@@ -132,6 +132,27 @@ a:hover {
 					</li>
 				</ul>
 			</li>
+			<li>
+				<a href="javascript:showChild('managerJz');">管理拒宅</a>
+				<ul style="display: none;" id="managerJz" class="child">
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/post/unhandle"
+						target="config">未处理内容</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/post/handle"
+						target="config">合格内容</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/post/shield"
+						target="config">屏蔽内容</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/idea"
+						target="config">拒宅好主意</a>
+					</li>
+				</ul>
+			</li>
 			<!-- <li>
 				<a href="/cms/searchActs" target="config">近义词设置</a>
 			</li>

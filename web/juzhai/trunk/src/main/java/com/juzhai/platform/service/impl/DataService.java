@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.model.TpUser;
+import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.bean.UserWeibo;
 import com.juzhai.platform.service.IDataService;
 
@@ -19,6 +22,9 @@ import com.juzhai.platform.service.IDataService;
 public class DataService implements IDataService, BeanFactoryAware {
 	@Autowired
 	private BeanFactory beanFactory;
+	@Autowired
+	private ITpUserAuthService tpUserAuthService;
+	
 	private static final Log log = LogFactory.getLog(DataService.class);
 
 	private IDataService getDataServiceBean(String tpName, String jionType) {
@@ -39,13 +45,15 @@ public class DataService implements IDataService, BeanFactoryAware {
 	}
 
 	@Override
-	public List<UserWeibo> listWeibo(long uid,AuthInfo authInfo) {
-		return getDataServiceBean(authInfo.getThirdpartyName(), authInfo.getJoinType()).listWeibo(uid,authInfo);
+	public List<UserWeibo> listWeibo(long uid,long tpId) {
+		AuthInfo authInfo=tpUserAuthService.getAuthInfo(uid, tpId);
+		return getDataServiceBean(authInfo.getThirdpartyName(), authInfo.getJoinType()).listWeibo(uid,tpId);
 	}
 
 	@Override
-	public List<UserWeibo> refreshListWeibo(long uid, AuthInfo authInfo) {
-		return getDataServiceBean(authInfo.getThirdpartyName(), authInfo.getJoinType()).refreshListWeibo(uid, authInfo);
+	public List<UserWeibo> refreshListWeibo(long uid, long tpId) {
+		AuthInfo authInfo=tpUserAuthService.getAuthInfo(uid, tpId);
+		return getDataServiceBean(authInfo.getThirdpartyName(), authInfo.getJoinType()).refreshListWeibo(uid, tpId);
 	}
 
 }

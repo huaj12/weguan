@@ -36,6 +36,7 @@ import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.IdeaExample;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostExample;
+import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
 
@@ -56,12 +57,8 @@ public class IdeaService implements IIdeaService {
 	private int ideaPlaceLengthMin;
 	@Value("${idea.place.length.max}")
 	private int ideaPlaceLengthMax;
-	@Value("${upload.idea.image.home}")
-	private String uploadIdeaImageHome;
-	@Value("${upload.post.image.home}")
-	private String uploadPostImageHome;
 	@Autowired
-	private IImageManager imageManager;
+	private IIdeaImageService ideaImageService;
 	@Autowired
 	private IPostService postService;
 
@@ -92,8 +89,12 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public void removeIdea(long ideaId) {
-		//TODO (review) 逻辑调整 有人使用的情况下不能删除idea
+	public void removeIdea(long ideaId) throws InputIdeaException{
+		// TODO (done) 逻辑调整 有人使用的情况下不能删除idea
+		Idea idea=getIdeaById(ideaId);
+		if(idea.getUseCount()>0){
+			throw new InputIdeaException(InputIdeaException.IDEA_CAN_NOT_DELETE);
+		}
 		redisTemplate.delete(RedisKeyGenerator.genIdeaUsersKey(ideaId));
 		ideaMapper.deleteByPrimaryKey(ideaId);
 	}
@@ -143,60 +144,36 @@ public class IdeaService implements IIdeaService {
 		idea.setContentMd5(ideaForm.getContentMd5());
 		idea.setCreateTime(new Date());
 		idea.setDate(ideaForm.getDate());
-		//TODO (review) 理解第一使用者的意思吗？再结合你controller里的代码看看，逻辑有问题
-		idea.setFirstUid(ideaForm.getCreateUid());
 		idea.setLastModifyTime(new Date());
 		idea.setLink(ideaForm.getLink());
 		idea.setPlace(ideaForm.getPlace());
 		if (ideaForm.getPostId() != null && ideaForm.getPostId() != 0) {
-			try {
-				postService.postToIdea(ideaForm.getPostId());
-			} catch (InputPostException e) {
-				throw new InputIdeaException(
-						InputIdeaException.ILLEGAL_OPERATION);
-			}
+			// TODO (done) 理解第一使用者的意思吗？再结合你controller里的代码看看，逻辑有问题
+			idea.setFirstUid(ideaForm.getCreateUid());
 		}
 		ideaMapper.insertSelective(idea);
 
-		//TODO (review) 第一使用者逻辑混乱，修改的时候来找我
+		// TODO (done) 第一使用者逻辑混乱，修改的时候来找我
 		Long ideaId = idea.getId();
 		if (ideaId != null) {
-			addFirstUser(ideaId, idea.getFirstUid());
-			String fileName = ideaPic(ideaForm, ideaId);
+			String fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(), ideaForm.getNewpic(), ideaId, ideaForm.getPic());
 			if (StringUtils.isNotEmpty(fileName)) {
 				idea.setPic(fileName);
 				ideaMapper.updateByPrimaryKeySelective(idea);
 			}
 		}
-		addFirstUser(ideaId, ideaForm.getCreateUid());
-
-	}
-
-	//TODO (review) 图片处理的代码又乱放了⋯⋯，逻辑也有问题，修改的时候找我
-	private String ideaPic(IdeaForm ideaForm, Long ideaId)
-			throws UploadImageException {
-		String fileName = null;
-		// 没有上传图片则复制post的图片
-		String directoryPath = uploadIdeaImageHome
-				+ ImageUtil.generateHierarchyImagePath(ideaId,
-						LogoSizeType.ORIGINAL);
-		if (ideaForm.getNewpic() == null || ideaForm.getNewpic().getSize() == 0) {
-			if (ideaForm.getPostId() == null || ideaForm.getPostId() == 0) {
-				fileName = ideaForm.getPic();
-			} else {
-				File srcFile = new File(uploadPostImageHome
-						+ ImageUtil.generateHierarchyImagePath(
-								Long.valueOf(ideaForm.getPostId()),
-								LogoSizeType.ORIGINAL) + ideaForm.getPic());
-				fileName = UUID.randomUUID().toString();
-				imageManager.copyImage(directoryPath, fileName, srcFile);
+		if (ideaForm.getPostId() != null && ideaForm.getPostId() != 0) {
+			try {
+				postService.markIdea(ideaForm.getPostId(), ideaId);
+			} catch (InputPostException e) {
+				throw new InputIdeaException(
+						InputIdeaException.ILLEGAL_OPERATION);
 			}
-		} else {
-			fileName = imageManager.uploadImage(directoryPath,
-					ideaForm.getNewpic());
+			addFirstUser(ideaId, ideaForm.getCreateUid());
 		}
-		return fileName;
+
 	}
+
 
 	@Override
 	public void updateIdea(IdeaForm ideaForm) throws InputIdeaException,
@@ -212,7 +189,7 @@ public class IdeaService implements IIdeaService {
 		idea.setPlace(ideaForm.getPlace());
 		Long ideaId = ideaForm.getIdeaId();
 		idea.setId(ideaId);
-		String fileName = ideaPic(ideaForm, ideaId);
+		String fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(), ideaForm.getNewpic(), ideaId, ideaForm.getPic());
 		idea.setPic(fileName);
 		ideaMapper.updateByPrimaryKeySelective(idea);
 	}
@@ -243,9 +220,9 @@ public class IdeaService implements IIdeaService {
 		// 验证日期格式
 		if (StringUtils.isNotEmpty(ideaForm.getDateString())) {
 			try {
-				//TODO (review) 日期格式错误
+				// TODO (done) 日期格式错误
 				ideaForm.setDate(DateUtils.parseDate(ideaForm.getDateString(),
-						DateFormat.DATE_TIME_PATTERN));
+						DateFormat.DATE_PATTERN));
 			} catch (ParseException e) {
 				throw new InputIdeaException(
 						InputIdeaException.ILLEGAL_OPERATION);

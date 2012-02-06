@@ -13,6 +13,8 @@ public class InputIdeaException extends JuzhaiException {
 	public static final String IDEA_PLACE_LENGTH_ERROR = "110003";
 
 	public static final String IDEA_CITY_IS_NULL = "110004";
+	
+	public static final String IDEA_CAN_NOT_DELETE = "110005";
 
 	public InputIdeaException(String errorCode, Throwable cause) {
 		super(errorCode, cause);

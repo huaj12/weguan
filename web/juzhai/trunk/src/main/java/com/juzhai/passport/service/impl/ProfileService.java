@@ -447,4 +447,38 @@ public class ProfileService implements IProfileService {
 		}
 		return profileMapper.countByExample(example);
 	}
+
+	@Override
+	public int countSearchProfile(Integer gender, long city, int minYear,
+			int maxYear) {
+		ProfileExample example = getProfileExample(gender, city, minYear,
+				maxYear);
+		return profileMapper.countByExample(example);
+	}
+
+	@Override
+	public List<Profile> searchProfile(Integer gender, long city, int minYear,
+			int maxYear, int firstResult, int maxResults) {
+		ProfileExample example = getProfileExample(gender, city, minYear,
+				maxYear);
+		example.setOrderByClause("last_web_login_time desc, uid desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return profileMapper.selectByExample(example);
+	}
+
+	private ProfileExample getProfileExample(Integer gender, long city,
+			int minYear, int maxYear) {
+		ProfileExample example = new ProfileExample();
+		ProfileExample.Criteria c = example.createCriteria();
+		if (city != 0) {
+			c.andCityEqualTo(city);
+		}
+		if (gender != null) {
+			c.andGenderEqualTo(gender);
+		}
+		if (maxYear != 0 && minYear != 0) {
+			c.andBirthYearBetween(minYear, maxYear);
+		}
+		return example;
+	}
 }

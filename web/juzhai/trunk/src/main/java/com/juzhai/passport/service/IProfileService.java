@@ -187,4 +187,23 @@ public interface IProfileService {
 	 */
 	int countProfile(List<Long> uids, Integer gender, Long city,
 			List<Long> exceptUids);
+	/**
+	 * 找伴搜索数量
+	 * @param gender
+	 * @param city
+	 * @param minYear
+	 * @param maxYear
+	 * @return
+	 */
+	int countSearchProfile(Integer gender,long city,int minYear,int maxYear);
+	/**
+	 * 找伴搜索
+	 * @param gender
+	 * @param city
+	 * @param minYear
+	 * @param maxYear
+	 * @return
+	 */
+	List<Profile> searchProfile(Integer gender,long city,int minYear,int maxYear, int firstResult,
+			int maxResults);
 }

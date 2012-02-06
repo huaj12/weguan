@@ -19,6 +19,7 @@ import weibo4j.model.Status;
 
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.bean.UserWeibo;
 import com.juzhai.platform.service.IDataService;
 
@@ -31,9 +32,12 @@ public class WeiboConnectDataService implements IDataService {
 	private int userWeiboSize;
 	@Autowired
 	private MemcachedClient memcachedClient;
+	@Autowired
+	private ITpUserAuthService tpUserAuthService;
 
 	@Override
-	public List<UserWeibo> listWeibo(long uid, AuthInfo authInfo) {
+	public List<UserWeibo> listWeibo(long uid, long tpId) {
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
 		List<UserWeibo> userWeibos = null;
 		try {
 			userWeibos = memcachedClient.get(MemcachedKeyGenerator
@@ -69,7 +73,8 @@ public class WeiboConnectDataService implements IDataService {
 	}
 
 	@Override
-	public List<UserWeibo> refreshListWeibo(long uid, AuthInfo authInfo) {
+	public List<UserWeibo> refreshListWeibo(long uid, long tpId) {
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
 		List<UserWeibo> userWeibos = null;
 		try {
 			userWeibos = getWeibos(uid, authInfo);

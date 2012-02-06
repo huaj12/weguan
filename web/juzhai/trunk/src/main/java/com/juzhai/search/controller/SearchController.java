@@ -1,6 +1,7 @@
 package com.juzhai.search.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.act.InitData;
@@ -30,8 +32,13 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.login.ILoginService;
+import com.juzhai.post.model.Post;
+import com.juzhai.post.service.IPostService;
 import com.juzhai.search.controller.view.SearchActView;
+import com.juzhai.search.controller.view.SearchUserView;
 import com.juzhai.search.service.IActSearchService;
 
 @Controller
@@ -45,6 +52,10 @@ public class SearchController extends BaseController {
 	private IActSearchService actSearchService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private ILoginService loginService;
+	@Autowired
+	private IPostService postService;
 	@Autowired
 	private IUserActService userActService;
 	@Value("${web.search.act.max.rows}")
@@ -140,4 +151,50 @@ public class SearchController extends BaseController {
 		model.addAttribute("searchWords", searchWords);
 		return "web/search/search_acts";
 	}
+
+	@RequestMapping(value = "/searchUser", method = RequestMethod.GET)
+	public String pageSearchActs(HttpServletRequest request, Model model,
+			@RequestParam(defaultValue = "1") int pageId,
+			@RequestParam(defaultValue = "0") long cityId, String genderType,
+			int maxAge, int minAge) {
+		Integer gender = null;
+		if (genderType.equals("male")) {
+			gender = 1;
+		} else if (genderType.equals("female")) {
+			gender = 0;
+		}
+		int minYear = 0;
+		int maxYear = 0;
+		if (minAge > maxAge) {
+			maxYear = ageToYear(minAge);
+			minYear = ageToYear(maxAge);
+		} else {
+			minYear = ageToYear(minAge);
+			maxYear = ageToYear(maxAge);
+		}
+		PagerManager pager = new PagerManager(pageId,
+				profileService.countSearchProfile(gender, cityId, minYear,
+						maxYear));
+		List<Profile> list = profileService.searchProfile(gender, cityId,
+				minYear, maxYear, pager.getFirstResult(), pager.getMaxResult());
+		List<SearchUserView> userViews = new ArrayList<SearchUserView>();
+		for (Profile profile : list) {
+			long uid = profile.getUid();
+			Post post = postService.getUserLatestPost(uid);
+			SearchUserView userView = new SearchUserView(profile,
+					loginService.isOnline(uid), post);
+			userViews.add(userView);
+		}
+		model.addAttribute("userViews", userViews);
+		return null;
+	}
+
+	private int ageToYear(int age) {
+		if (age == 0)
+			return 0;
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		return year - age;
+	}
+
 }

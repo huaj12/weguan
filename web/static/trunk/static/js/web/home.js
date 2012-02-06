@@ -3,6 +3,7 @@ $(document).ready(function(){
 	$("#send-post-date > p > a.time").click(function(){
 		var timeClick = $(this);
 		WdatePicker({
+			errDealMode : 3,
 			dateFmt:"MM-dd",
 			onpicked:function(){
 				var value = $dp.cal.getP('y') + "-" + $dp.cal.getP('M') + "-" + $dp.cal.getP('d');
@@ -123,6 +124,32 @@ $(document).ready(function(){
 		var gender = $(this).attr("value");
 		var cityId = $("#city-select").find("a.selected").attr("value");
 		window.location.href = "/home/" + queryType + "/" + cityId + "_" + gender + "/1";
+	});
+	
+	//列表
+	$("div.post-response > a").click(function(){
+		var postId = $(this).attr("post-id");
+		var obj = $(this);
+		responsePost(this, postId, function(){
+			var currentCnt = parseInt(obj.find("font").text());
+			obj.find("font").text(currentCnt + 1);
+			obj.text("已" + obj.text()).unbind("click").parent().addClass("done");
+		});
+	});
+	
+	$("div.user-remove-interest > a.done").bind("click", function() {
+		var uid = $(this).attr("uid");
+		removeInterestConfirm(uid, this, function(){
+			$("div.remove-interest-" + uid).hide();
+			$("div.interest-" + uid).show();
+		});
+	});
+	$("div.user-add-interest > a").bind("click", function() {
+		var uid = $(this).attr("uid");
+		interest(this, uid, function(){
+			$("div.interest-" + uid).hide();
+			$("div.remove-interest-" + uid).show();
+		});
 	});
 });
 

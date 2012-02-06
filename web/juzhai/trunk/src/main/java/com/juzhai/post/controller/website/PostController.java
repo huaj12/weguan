@@ -33,7 +33,7 @@ public class PostController extends BaseController {
 	@Autowired
 	private IPostImageService postImageService;
 
-	@RequestMapping(value = "/responsePost", method = RequestMethod.POST)
+	@RequestMapping(value = "/response", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult responsePost(HttpServletRequest request, Model model,
 			long postId) throws NeedLoginException {

@@ -436,3 +436,28 @@ function sendMessage(obj){
 		showSuccess(null, successContent);
 	});
 }
+
+//感兴趣的人操作
+function responsePost(clickObj, postId, successCallback){
+	jQuery.ajax({
+		url : "/post/response",
+		type : "post",
+		cache : false,
+		data : {"postId" : postId},
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				var content = $("#dialog-success").html().replace("{0}", "操作成功");
+				showSuccess(clickObj, content);
+				successCallback();
+			} else {
+				alert(result.errorInfo);
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+}

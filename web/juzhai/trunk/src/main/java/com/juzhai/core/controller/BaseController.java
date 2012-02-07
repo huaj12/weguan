@@ -131,4 +131,11 @@ public class BaseController {
 		model.addAttribute("suitGenders", SuitGender.values());
 		model.addAttribute("suitStatus", SuitStatus.values());
 	}
+	
+	protected void assembleCitys(Model model){
+		model.addAttribute("towns", InitData.TOWN_MAP.values());
+		model.addAttribute("citys", InitData.CITY_MAP.values());
+		model.addAttribute("provinces", InitData.PROVINCE_MAP.values());
+	}
+	
 }

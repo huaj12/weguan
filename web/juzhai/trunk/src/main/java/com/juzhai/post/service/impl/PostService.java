@@ -131,7 +131,7 @@ public class PostService implements IPostService {
 		Post post = new Post();
 		post.setContent(idea.getContent());
 		post.setContentMd5(idea.getContentMd5());
-		// post.setLink(idea.getLink());
+		post.setLink(idea.getLink());
 		post.setPlace(idea.getPlace());
 		post.setDateTime(idea.getDate());
 		post.setCategoryId(post.getCategoryId());
@@ -421,32 +421,32 @@ public class PostService implements IPostService {
 
 	@Override
 	public void shieldPost(long postId) throws InputPostException {
-		//TODO (done) 用不着select一下
+		// TODO (done) 用不着select一下
 		if (postId == 0) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
-		Post post=new Post();
+		Post post = new Post();
 		post.setId(postId);
 		post.setLastModifyTime(new Date());
-		//TODO (done) 为什么不用 enum VerifyType
+		// TODO (done) 为什么不用 enum VerifyType
 		post.setVerifyType(VerifyType.SHIELD.getType());
 		postMapper.updateByPrimaryKeySelective(post);
-		
+
 	}
 
 	@Override
 	public void unShieldPost(long postId) throws InputPostException {
-		//TODO (done) 用不着select一下
+		// TODO (done) 用不着select一下
 		if (postId == 0) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
-		Post post=new Post();
+		Post post = new Post();
 		post.setId(postId);
 		post.setLastModifyTime(new Date());
-		//TODO (done) 为什么不用 enum VerifyType
+		// TODO (done) 为什么不用 enum VerifyType
 		post.setVerifyType(VerifyType.QUALIFIED.getType());
 		postMapper.updateByPrimaryKeySelective(post);
-		
+
 	}
 
 	@Override
@@ -454,13 +454,13 @@ public class PostService implements IPostService {
 		if (CollectionUtils.isEmpty(postIds)) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
-		//TODO (done) 用不着select
+		// TODO (done) 用不着select
 		for (Long postId : postIds) {
 			if (postId != 0) {
-				Post post=new Post();
+				Post post = new Post();
 				post.setId(postId);
 				post.setLastModifyTime(new Date());
-				//TODO (done) 为什么不用 enum VerifyType
+				// TODO (done) 为什么不用 enum VerifyType
 				post.setVerifyType(VerifyType.QUALIFIED.getType());
 				postMapper.updateByPrimaryKeySelective(post);
 			}
@@ -469,8 +469,8 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	//TODO (done) 封装逻辑有问题
-	public void markIdea(long postId,long ideaId) throws InputPostException {
+	// TODO (done) 封装逻辑有问题
+	public void markIdea(long postId, long ideaId) throws InputPostException {
 		Post post = postMapper.selectByPrimaryKey(postId);
 		if (post == null) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
@@ -638,26 +638,27 @@ public class PostService implements IPostService {
 		return postMapper.countByExample(example);
 	}
 
-	//TODO (done) 为什么不用 enum VerifyType
+	// TODO (done) 为什么不用 enum VerifyType
 	@Override
 	public List<Post> listUnhandlePost(int firstResult, int maxResults) {
 		return cmsListPost(VerifyType.RAW, firstResult, maxResults);
 	}
 
-	//TODO (done) 为什么不用 enum VerifyType
+	// TODO (done) 为什么不用 enum VerifyType
 	@Override
 	public List<Post> listShieldPost(int firstResult, int maxResults) {
 		return cmsListPost(VerifyType.SHIELD, firstResult, maxResults);
 	}
 
-	//TODO (done) 为什么不用 enum VerifyType
+	// TODO (done) 为什么不用 enum VerifyType
 	@Override
 	public List<Post> listHandlePost(int firstResult, int maxResults) {
 		return cmsListPost(VerifyType.QUALIFIED, firstResult, maxResults);
 	}
 
-	//TODO (done) 为什么不用 enum VerifyType
-	private List<Post> cmsListPost(VerifyType verifyType, int firstResult, int maxResults) {
+	// TODO (done) 为什么不用 enum VerifyType
+	private List<Post> cmsListPost(VerifyType verifyType, int firstResult,
+			int maxResults) {
 		PostExample example = new PostExample();
 		example.createCriteria().andVerifyTypeEqualTo(verifyType.getType())
 				.andDefunctEqualTo(false);
@@ -666,25 +667,25 @@ public class PostService implements IPostService {
 		return postMapper.selectByExample(example);
 	}
 
-	//TODO (done) 为什么不用 enum VerifyType
+	// TODO (done) 为什么不用 enum VerifyType
 	@Override
 	public int countUnhandlePost() {
 		return cmsCountPost(VerifyType.RAW);
 	}
 
-	//TODO (done) 为什么不用 enum VerifyType
+	// TODO (done) 为什么不用 enum VerifyType
 	@Override
 	public int countShieldPost() {
 		return cmsCountPost(VerifyType.SHIELD);
 	}
 
-	//TODO (done) 为什么不用 enum VerifyType
+	// TODO (done) 为什么不用 enum VerifyType
 	@Override
 	public int countHandlePost() {
 		return cmsCountPost(VerifyType.QUALIFIED);
 	}
 
-	//TODO (done) 为什么不用 enum VerifyType
+	// TODO (done) 为什么不用 enum VerifyType
 	private int cmsCountPost(VerifyType verifyType) {
 		PostExample example = new PostExample();
 		example.createCriteria().andVerifyTypeEqualTo(verifyType.getType())

@@ -18,6 +18,8 @@ public class JzResourceFunction {
 	private static final String FILE_CONFIG_PATH = "/properties/file.properties";
 	private static String webActImagePath;
 	private static String webUserImagePath;
+	private static String webPostImagePath;
+	private static String webIdeaImagePath;
 	private static String webTempImagePath;
 
 	static {
@@ -33,6 +35,8 @@ public class JzResourceFunction {
 			webActImagePath = prop.getProperty("web.act.image.path");
 			webUserImagePath = prop.getProperty("web.user.image.path");
 			webTempImagePath = prop.getProperty("web.temp.image.path");
+			webPostImagePath = prop.getProperty("web.post.image.path");
+			webIdeaImagePath = prop.getProperty("web.idea.image.path");
 		} catch (IOException e) {
 			throw new RuntimeException("Load urls IO error.");
 		}
@@ -80,12 +84,13 @@ public class JzResourceFunction {
 	}
 
 	public static String postPic(long postId, String fileName) {
-		//TODO 这里要改一下到时候，阳仔先不管
+		// TODO 这里要改一下到时候，阳仔先不管
 		if (StringUtils.isEmpty(fileName) || postId <= 0) {
-			//TODO (done) 别返回(""),新建一个字符串没必要。要么使用StringUtils.emptyString或者直接返回null
+			// TODO (done)
+			// 别返回(""),新建一个字符串没必要。要么使用StringUtils.emptyString或者直接返回null
 			return null;
 		} else {
-			return StaticUtil.u(webActImagePath
+			return StaticUtil.u(webPostImagePath
 					+ ImageUtil.generateHierarchyImageWebPath(postId,
 							LogoSizeType.ORIGINAL) + fileName);
 		}
@@ -93,10 +98,11 @@ public class JzResourceFunction {
 
 	public static String ideaPic(long ideaId, String fileName) {
 		if (StringUtils.isEmpty(fileName) || ideaId <= 0) {
-			//TODO (done) 别返回(""),新建一个字符串没必要。要么使用StringUtils.emptyString或者直接返回null
+			// TODO (done)
+			// 别返回(""),新建一个字符串没必要。要么使用StringUtils.emptyString或者直接返回null
 			return null;
 		} else {
-			return StaticUtil.u(webActImagePath
+			return StaticUtil.u(webIdeaImagePath
 					+ ImageUtil.generateHierarchyImageWebPath(ideaId,
 							LogoSizeType.ORIGINAL) + fileName);
 		}

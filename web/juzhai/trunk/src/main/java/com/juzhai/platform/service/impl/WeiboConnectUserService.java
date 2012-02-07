@@ -124,7 +124,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 			}
 			profile.setGender(sex);
 //			//获取用户个人主页
-			profile.setBlog(user.getUserDomain());
+			profile.setBlog("www.weibo.com/"+user.getUserDomain());
 			profile.setLogoPic(user.getAvatarLarge());
 			// 用户简介
 			profile.setFeature(user.getDescription());

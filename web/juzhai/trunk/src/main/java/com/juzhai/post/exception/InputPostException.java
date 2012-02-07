@@ -35,6 +35,14 @@ public class InputPostException extends JuzhaiException {
 	 * 发布拒宅太频繁
 	 */
 	public static final String POST_TOO_FREQUENT = "100006";
+	/**
+	 * 拒宅id不存在
+	 */
+	public static final String POST_ID_NOT_EXIST="100007";
+	/**
+	 * 该拒宅已添加过了
+	 */
+	public static final String POST_ID_REPEAT_ADD = "100008";
 
 	public InputPostException(String errorCode, Throwable cause) {
 		super(errorCode, cause);

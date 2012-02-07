@@ -1,7 +1,6 @@
 package com.juzhai.search.controller;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.act.InitData;
@@ -32,13 +30,8 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IProfileService;
-import com.juzhai.passport.service.login.ILoginService;
-import com.juzhai.post.model.Post;
-import com.juzhai.post.service.IPostService;
 import com.juzhai.search.controller.view.SearchActView;
-import com.juzhai.search.controller.view.SearchUserView;
 import com.juzhai.search.service.IActSearchService;
 
 @Controller
@@ -147,7 +140,5 @@ public class SearchController extends BaseController {
 		model.addAttribute("searchWords", searchWords);
 		return "web/search/search_acts";
 	}
-
-	
 
 }

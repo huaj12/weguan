@@ -14,14 +14,14 @@
 				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
 				<div class="main_part"><!--main_part begin-->
 					<div class="main_left"><!--main_left begin-->
-						<div class="content w660 z900"><!--content begin-->
+						<div class="content_box w660 z900"><!--content begin-->
 							<div class="t"></div>
 							<div class="m">
 								<jsp:include page="send_post.jsp" />
 							</div>
 							<div class="t"></div>
 						</div><!--content end-->
-						<div class="content w660 800"><!--content begin-->
+						<div class="content_box w660 800"><!--content begin-->
 							<div class="t"></div>
 							<div class="m">
 								<jsp:include page="post_list.jsp" />

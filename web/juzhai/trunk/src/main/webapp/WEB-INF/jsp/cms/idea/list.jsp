@@ -62,7 +62,7 @@ function del(id){
 					<c:otherwise>${jzd:cityName(view.idea.city)}</c:otherwise>
 				</c:choose></td>
 				<td><fmt:formatDate value="${view.idea.date}"
-						pattern="yyyy-MM-dd hh:mm:ss" /></td>
+						pattern="yyyy-MM-dd" /></td>
 				<td><fmt:formatDate value="${view.idea.createTime}"
 						pattern="yyyy-MM-dd hh:mm:ss" /></td>
 				<td>

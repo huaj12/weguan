@@ -108,7 +108,7 @@ function handle(){
 				<td>${view.post.place}</td>
 				<td>${jzr:postPic(view.post.id,view.post.pic)}</td>
 				<td><fmt:formatDate value="${view.post.dateTime}"
-						pattern="yyyy-MM-dd hh:mm:ss" /></td>
+						pattern="yyyy-MM-dd" /></td>
 				<td><fmt:formatDate value="${view.post.createTime}"
 						pattern="yyyy-MM-dd hh:mm:ss" /></td>
 				<td>

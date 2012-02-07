@@ -139,19 +139,14 @@ public class IdeaService implements IIdeaService {
 		ideaMapper.insertSelective(idea);
 
 		Long ideaId = idea.getId();
-		// TODO (done)
-		// 这里不需要判断ideaId是否为null，即使是判断了，那下面的一个代码段也用到了ideaId，但是没在这个判断控制范围内
 		String fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(),
 				ideaForm.getNewpic(), ideaId, ideaForm.getPic());
 		if (StringUtils.isNotEmpty(fileName)) {
-			// TODO (review) 重新new一个仅仅保存fileName对象
 			Idea picIdea = new Idea();
 			picIdea.setId(ideaId);
 			picIdea.setPic(fileName);
 			ideaMapper.updateByPrimaryKeySelective(picIdea);
 		}
-		// TODO (done) postId是负数呢？另外，是不是要判断一下createUid是否有呢？
-		// TODO (done) 和最下面的addFirstUser调用，重复了吗？该去掉哪段代码呢？
 		if (ideaForm.getPostId() != null && ideaForm.getPostId() > 0) {
 			try {
 				postService.markIdea(ideaForm.getPostId(), ideaId);

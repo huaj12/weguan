@@ -2,6 +2,7 @@ package com.juzhai.post.service.impl;
 
 import java.io.File;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class IdeaImageService implements IIdeaImageService {
 	@Override
 	public String uploadIdeaPic(Long postId, MultipartFile image, Long ideaId,
 			String picName) throws UploadImageException {
-		String fileName = null;
+		String fileName = picName;
 		// 没有上传图片则复制post的图片
 		String directoryPath = uploadIdeaImageHome
 				+ ImageUtil.generateHierarchyImagePath(ideaId,
@@ -33,17 +34,15 @@ public class IdeaImageService implements IIdeaImageService {
 		if (image != null && image.getSize() != 0) {
 			fileName = imageManager.uploadImage(directoryPath, image);
 		}
-		// TODO (review) postId负数呢？
-		// TODO (reivew) picName不存在呢
-		if (postId != null && postId != 0) {
+		// TODO (done) postId负数呢？
+		// TODO (done) picName不存在呢
+		if (postId != null && postId > 0 && StringUtils.isNotEmpty(picName)) {
 			File srcFile = new File(uploadPostImageHome
 					+ ImageUtil.generateHierarchyImagePath(
-					// TODO (review) 为什么要用Long.valueOf?
-							Long.valueOf(postId), LogoSizeType.ORIGINAL)
-					+ picName);
-			// TODO (review) 如果有新图片了，还要保存post的图片名到idea中？
-			fileName = picName;
-			imageManager.copyImage(directoryPath, fileName, srcFile);
+					// TODO (done) 为什么要用Long.valueOf?
+							postId, LogoSizeType.ORIGINAL) + picName);
+			// TODO (done) 如果有新图片了，还要保存post的图片名到idea中？
+			imageManager.copyImage(directoryPath, picName, srcFile);
 		}
 		return fileName;
 	}

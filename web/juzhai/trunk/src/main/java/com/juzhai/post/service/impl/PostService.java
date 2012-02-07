@@ -424,7 +424,6 @@ public class PostService implements IPostService {
 
 	@Override
 	public void shieldPost(long postId) throws InputPostException {
-		// TODO (done) 传入负数呢？类似问题不要再犯了
 		if (postId <= 0) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
@@ -438,7 +437,6 @@ public class PostService implements IPostService {
 
 	@Override
 	public void unShieldPost(long postId) throws InputPostException {
-		// TODO (done) 传入负数呢？类似问题不要再犯了
 		if (postId <= 0) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
@@ -455,23 +453,21 @@ public class PostService implements IPostService {
 		if (CollectionUtils.isEmpty(postIds)) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
-		// TODO (done) 为什么不用in？
-		PostExample example=new PostExample();
+		PostExample example = new PostExample();
 		Post post = new Post();
 		post.setLastModifyTime(new Date());
 		post.setVerifyType(VerifyType.QUALIFIED.getType());
 		example.createCriteria().andIdIn(postIds);
 		postMapper.updateByExampleSelective(post, example);
-		
+
 	}
 
 	@Override
 	public void markIdea(long postId, long ideaId) throws InputPostException {
-		// TODO (done) 不需要select一下
-		if (postId<=0) {
+		if (postId <= 0) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
-		Post post=new Post();
+		Post post = new Post();
 		post.setId(postId);
 		post.setLastModifyTime(new Date());
 		post.setIdeaId(ideaId);

@@ -34,14 +34,10 @@ public class IdeaImageService implements IIdeaImageService {
 		if (image != null && image.getSize() != 0) {
 			fileName = imageManager.uploadImage(directoryPath, image);
 		}
-		// TODO (done) postId负数呢？
-		// TODO (done) picName不存在呢
 		if (postId != null && postId > 0 && StringUtils.isNotEmpty(picName)) {
 			File srcFile = new File(uploadPostImageHome
-					+ ImageUtil.generateHierarchyImagePath(
-					// TODO (done) 为什么要用Long.valueOf?
-							postId, LogoSizeType.ORIGINAL) + picName);
-			// TODO (done) 如果有新图片了，还要保存post的图片名到idea中？
+					+ ImageUtil.generateHierarchyImagePath(postId,
+							LogoSizeType.ORIGINAL) + picName);
 			imageManager.copyImage(directoryPath, picName, srcFile);
 		}
 		return fileName;

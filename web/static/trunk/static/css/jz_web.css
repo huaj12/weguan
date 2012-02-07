@@ -337,7 +337,7 @@ _filter:none;
 
 
 
-.send_box .send_area .random_select{ float:right;}
+.send_box .send_area .random_select{ float:right; margin-top:5px;}
 .send_box .send_area .random_select a{ background:url(../images/web2/icon_link_r1_c9.jpg) no-repeat; width:16px; height:16px; padding-left:20px; color:#999; }
 .send_box .send_area .random_select a:hover{ background:url(../images/web2/icon_hover_r1_c9.jpg) no-repeat; color:#3E8BD9;}
 
@@ -547,7 +547,7 @@ _filter:none;
 .jz_main .wtg .keep{ float:left; margin-top:10px; margin-left:5px; display:none;}
 .jz_main .wtg .keep a{ background:url(../images/web2/wtg_btn_r5_c2.jpg) no-repeat; padding-left:20px; color:#999;}
 .jz_main .wtg .keep a:hover{ background:url(../images/web2/wtg_btn_r2_c1.jpg) no-repeat; color:#3E8BD9;}
-.jz_main .wtg .keep .done{background:url(../images/web2/wtg_btn_r2_c1.jpg) no-repeat; color:#999; cursor:default;}
+.jz_main .wtg .keep .done{background:url(../images/web2/wtg_btn_r2_c1.jpg) no-repeat; color:#999; }
 .jz_main .wtg .keep .done:hover{color:#999;}
 
 .jz_main .wtg .zfa{ float:right; margin-right:10px;  margin-top:15px; display:none;}
@@ -566,6 +566,15 @@ _filter:none;
 .jz_main .wtg .btn .done span.l{ background:url(../images/web2/like_done_r1_c1.jpg) no-repeat;}
 .jz_main .wtg .btn .done span.r{ background:url(../images/web2/like_done_r1_c5.jpg) no-repeat;}
 .jz_main .wtg .btn .done a{  color:#fff; background:none; background:#999; cursor:default;}
+
+
+
+.jz_main .none{ width:100%; text-align:center; margin-top:100px; padding-bottom:100px; float:left; color:#666;}
+
+.jz_main .unjoin{ width:100%;  margin-top:100px;float:left; }
+.jz_main .unjoin p{ float:left; width:100%;color:#666;text-align:center;}
+.jz_main .unjoin a{ float:right; color:#3E8BD9; display:inline; margin-top:90px; padding-bottom:15px;}
+
 
 
 

@@ -35,66 +35,73 @@
 			<span <c:if test="${queryType == 'showRespPosts'}">class="act"</c:if>><p></p><a href="/home/showRespPosts/${cityId}_${genderType}/1">我感兴趣的</a><p></p></span>
 			<span <c:if test="${queryType == 'showIntPosts'}">class="act"</c:if>><p></p><a href="/home/showIntPosts/${cityId}_${genderType}/1">我❤的人</a><p></p></span>
 		</div><!--category end-->
-	</div><!--title end-->
+	</div><!--title end-->		
 	<div class="jz_main"><!--jz_main begin-->
-		<c:forEach var="postView" items="${postViewList}">
-		<div class="jz_item mouseHover <c:choose><c:when test="${postView.profileCache.gender == 1}">boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--jz_item begin-->
-			<div class="face_infor"><!--face_infor begin-->
-				<p><a href="/home/${postView.profileCache.uid}"><img src="${jzr:userLogo(postView.profileCache.uid,postView.profileCache.logoPic,120)}" width="120" height="120" /></a></p>
-				<a href="/home/${postView.profileCache.uid}"><c:out value="${postView.profileCache.nickname}" /></a>
-				<c:set var="age" value="${jzu:age(postView.profileCache.birthYear, postView.profileCache.birthSecret)}" />
-				<c:set var="constellationName" value="${jzd:constellationName(postView.profileCache.constellationId)}" />
-				<span><c:if test="${age >= 0}">${age}岁&nbsp;</c:if><c:if test="${postView.profileCache.city != null && postView.profileCache.city > 0}">${jzd:cityName(postView.profileCache.city)}<c:if test="${postView.profileCache.town != null && postView.profileCache.town > 0}">${jzd:townName(postView.profileCache.town)}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty postView.profileCache.profession}">${postView.profileCache.profession}</c:if></span>
-			</div><!--face_infor end-->
-			<div class="wtg"><!--wtg begin-->
-				<div class="w_t"></div>
-				<div class="w_m"><!--w_m begin-->
-					<div class="arrow"></div>
-					<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${postView.post.purposeType}"/></c:import>:</font><a href="#"><c:out value="${postView.post.content}" /></a></p>
-					<div class="infor"><!--infor begin-->
-						<span>更新于<c:set var="date" value="${postView.post.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></span>
-						<c:if test="${not empty postView.post.place}">
-							<span class="adress"><c:out value="${postView.post.place}" /></span>
-						</c:if>
-						<c:if test="${postView.post.dateTime != null}">
-							<span class="time"><fmt:formatDate value="${postView.post.dateTime}" pattern="yyyy.MM.dd"/></span>
-						</c:if>
-						<c:if test="${not empty postView.post.link}">
-							<span class="link"><a href="${postView.post.link}" target="_blank">查看相关链接</a></span>
-						</c:if>
-						<c:if test="${not empty postView.post.pic}">
-							<div class="img"><img src="${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic)}" /></div>
-						</c:if>
-					</div><!--infor end-->
-				</div><!--w_m end-->
-				<div class="clear"></div>
-				<div class="w_b"></div>
-				<div class="keep user-remove-interest remove-interest-${postView.profileCache.uid}" <c:if test="${!postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${postView.profileCache.uid}" title="点击取消收藏">已收藏</a></div>
-				<div class="keep user-add-interest interest-${postView.profileCache.uid}" <c:if test="${postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${postView.profileCache.uid}" title="点击收藏">收藏ta</a></div>
-				<c:choose>
-					<c:when test="${postView.hasInterest}"></c:when>
-					<c:otherwise></c:otherwise>
-				</c:choose>
-				<div class="btn"><!--btn begin-->
-					<div class="message"><a href="#">私信</a></div>
-					<c:choose>
-						<c:when test="${postView.hasResponse}">
-							<div class="like done"><span class="l"></span><a href="javascript:void(0);" >已感兴趣&nbsp;&nbsp;${postView.post.responseCnt}</a><span class="r"></span></div>
-						</c:when>
-						<c:otherwise>
-							<div class="like post-response" id="response${postView.post.id}"><span class="l"></span><a href="javascript:void(0);" post-id="${postView.post.id}">感兴趣&nbsp;&nbsp;<font>${postView.post.responseCnt}</font></a><span class="r"></span></div>
-						</c:otherwise>
-					</c:choose>
-				</div><!--btn end--> 
-				<div class="zfa"><a href="javascript:void(0);">转发</a></div>
-			</div><!--wtg end-->
-		</div><!--jz_item end-->
-		</c:forEach>
+		<c:choose>
+			<c:when test="${empty postViewList}"><div class="none">这里还没有人发布拒宅哦</div></c:when>
+			<c:otherwise>
+				<c:forEach var="postView" items="${postViewList}">
+					<div class="jz_item mouseHover <c:choose><c:when test="${postView.profileCache.gender == 1}">boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--jz_item begin-->
+						<div class="face_infor"><!--face_infor begin-->
+							<p><a href="/home/${postView.profileCache.uid}"><img src="${jzr:userLogo(postView.profileCache.uid,postView.profileCache.logoPic,120)}" width="120" height="120" /></a></p>
+							<a href="/home/${postView.profileCache.uid}"><c:out value="${postView.profileCache.nickname}" /></a>
+							<c:set var="age" value="${jzu:age(postView.profileCache.birthYear, postView.profileCache.birthSecret)}" />
+							<c:set var="constellationName" value="${jzd:constellationName(postView.profileCache.constellationId)}" />
+							<span><c:if test="${age >= 0}">${age}岁&nbsp;</c:if><c:if test="${postView.profileCache.city != null && postView.profileCache.city > 0}">${jzd:cityName(postView.profileCache.city)}<c:if test="${postView.profileCache.town != null && postView.profileCache.town > 0}">${jzd:townName(postView.profileCache.town)}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty postView.profileCache.profession}">${postView.profileCache.profession}</c:if></span>
+						</div><!--face_infor end-->
+						<div class="wtg"><!--wtg begin-->
+							<div class="w_t"></div>
+							<div class="w_m"><!--w_m begin-->
+								<div class="arrow"></div>
+								<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${postView.post.purposeType}"/></c:import>:</font><a href="#"><c:out value="${postView.post.content}" /></a></p>
+								<div class="infor"><!--infor begin-->
+									<span>更新于<c:set var="date" value="${postView.post.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></span>
+									<c:if test="${not empty postView.post.place}">
+										<span class="adress"><c:out value="${postView.post.place}" /></span>
+									</c:if>
+									<c:if test="${postView.post.dateTime != null}">
+										<span class="time"><fmt:formatDate value="${postView.post.dateTime}" pattern="yyyy.MM.dd"/></span>
+									</c:if>
+									<c:if test="${not empty postView.post.link}">
+										<span class="link"><a href="${postView.post.link}" target="_blank">查看相关链接</a></span>
+									</c:if>
+									<c:if test="${not empty postView.post.pic}">
+										<div class="img"><img src="${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic)}" /></div>
+									</c:if>
+								</div><!--infor end-->
+							</div><!--w_m end-->
+							<div class="clear"></div>
+							<div class="w_b"></div>
+							<div class="keep user-remove-interest remove-interest-${postView.profileCache.uid}" <c:if test="${!postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${postView.profileCache.uid}" title="点击取消收藏">已收藏</a></div>
+							<div class="keep user-add-interest interest-${postView.profileCache.uid}" <c:if test="${postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${postView.profileCache.uid}" title="点击收藏">收藏ta</a></div>
+							<c:choose>
+								<c:when test="${postView.hasInterest}"></c:when>
+								<c:otherwise></c:otherwise>
+							</c:choose>
+							<div class="btn"><!--btn begin-->
+								<div class="message"><a href="#">私信</a></div>
+								<c:choose>
+									<c:when test="${postView.hasResponse}">
+										<div class="like done"><span class="l"></span><a href="javascript:void(0);" >已感兴趣&nbsp;&nbsp;${postView.post.responseCnt}</a><span class="r"></span></div>
+									</c:when>
+									<c:otherwise>
+										<div class="like post-response" id="response${postView.post.id}"><span class="l"></span><a href="javascript:void(0);" post-id="${postView.post.id}">感兴趣&nbsp;&nbsp;<font>${postView.post.responseCnt}</font></a><span class="r"></span></div>
+									</c:otherwise>
+								</c:choose>
+							</div><!--btn end--> 
+							<div class="zfa"><a href="javascript:void(0);">转发</a></div>
+						</div><!--wtg end-->
+					</div><!--jz_item end-->
+				</c:forEach>
+			</c:otherwise>
+		</c:choose>
 	</div><!--jz_main end-->
 </div><!--jz_list end-->
 <div class="clear"></div>
 <div class="line"></div>
-<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
-	<c:param name="pager" value="${pager}"/>
-	<c:param name="url" value="/home/${queryType}/${cityId}_${genderType}" />
-</c:import>
+<c:if test="${not empty postViewList}">
+	<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
+		<c:param name="pager" value="${pager}"/>
+		<c:param name="url" value="/home/${queryType}/${cityId}_${genderType}" />
+	</c:import>
+</c:if>

@@ -7,11 +7,11 @@
 <c:set var="bloodTypeValue" value="O型,A型,B型,AB型" />
 <c:set var="delim" value=","/> 
 <c:set var="bloodType" value="${fn:split(bloodTypeValue, delim)}"/>
-<c:set var="educationValue" value="初中及一下,中专,高中,本科,硕士,博士及以上" />
+<c:set var="educationValue" value="初中及以下,中专,高中,本科,硕士,博士及以上" />
 <c:set var="education" value="${fn:split(educationValue, delim)}"/>
 <c:set var="houseValue" value="自有住房,与家人同住,独自租房,与人合租" />
 <c:set var="house" value="${fn:split(houseValue, delim)}"/>
-<c:set var="carValue" value="以购车,未购车,有自行车" />
+<c:set var="carValue" value="已购车,未购车,有自行车" />
 <c:set var="car" value="${fn:split(carValue, delim)}"/>
 <c:set var="monthlyIncomeValue" value="&lt;2000,&gt;2000,&gt;5000,&gt;10000,&gt;20000,&gt;30000,&gt;50000" />
 <c:set var="monthlyIncome" value="${fn:split(monthlyIncomeValue, delim)}"/>
@@ -248,7 +248,7 @@
 										<c:forEach begin="140" end="210" var="h">
 										<option value="${h}" <c:if test="${profile.height==h}">selected="selected"</c:if> >${h}</option>
 										</c:forEach>
-										</select>
+										</select>cm
 										</span>
 										</div><!--select end-->
 									</div><!--infor_x end-->
@@ -290,7 +290,7 @@
 										<c:forEach items="${monthlyIncome}" var="m" >
 										<option value="${m}" <c:if test="${income==m}">selected="selected"</c:if> >${m}</option>
 										</c:forEach>
-										</select>
+										</select>元
 										</span>
 										</div><!--select end-->
 									</div><!--infor_x end-->

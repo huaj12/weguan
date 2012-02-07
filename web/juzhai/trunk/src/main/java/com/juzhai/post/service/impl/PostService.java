@@ -424,8 +424,8 @@ public class PostService implements IPostService {
 
 	@Override
 	public void shieldPost(long postId) throws InputPostException {
-		// TODO (review) 传入负数呢？类似问题不要再犯了
-		if (postId == 0) {
+		// TODO (done) 传入负数呢？类似问题不要再犯了
+		if (postId <= 0) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
 		Post post = new Post();
@@ -438,8 +438,8 @@ public class PostService implements IPostService {
 
 	@Override
 	public void unShieldPost(long postId) throws InputPostException {
-		// TODO (review) 传入负数呢？类似问题不要再犯了
-		if (postId == 0) {
+		// TODO (done) 传入负数呢？类似问题不要再犯了
+		if (postId <= 0) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
 		Post post = new Post();
@@ -455,18 +455,14 @@ public class PostService implements IPostService {
 		if (CollectionUtils.isEmpty(postIds)) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
-		// TODO (review) 为什么不用in？
-		for (Long postId : postIds) {
-			// TODO (review) 传入负数呢？类似问题不要再犯了
-			if (postId != 0) {
-				Post post = new Post();
-				post.setId(postId);
-				post.setLastModifyTime(new Date());
-				post.setVerifyType(VerifyType.QUALIFIED.getType());
-				postMapper.updateByPrimaryKeySelective(post);
-			}
-
-		}
+		// TODO (done) 为什么不用in？
+		PostExample example=new PostExample();
+		Post post = new Post();
+		post.setLastModifyTime(new Date());
+		post.setVerifyType(VerifyType.QUALIFIED.getType());
+		example.createCriteria().andIdeaIdIn(postIds);
+		postMapper.updateByExampleSelective(post, example);
+		
 	}
 
 	@Override

@@ -467,11 +467,12 @@ public class PostService implements IPostService {
 
 	@Override
 	public void markIdea(long postId, long ideaId) throws InputPostException {
-		// TODO (review) 不需要select一下
-		Post post = postMapper.selectByPrimaryKey(postId);
-		if (post == null) {
+		// TODO (done) 不需要select一下
+		if (postId<=0) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
+		Post post=new Post();
+		post.setId(postId);
 		post.setLastModifyTime(new Date());
 		post.setIdeaId(ideaId);
 		post.setVerifyType(VerifyType.QUALIFIED.getType());

@@ -4,7 +4,7 @@
 <%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
 <%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<div class="content w280"><!--content begin-->
+<div class="content_box w280"><!--content begin-->
 	<div class="t"></div>
 	<div class="m">
 		<div class="right_title"><h2>拒宅好主意</h2><a href="/showIdeas">更多</a></div>
@@ -33,7 +33,7 @@
 	</div>
 	<div class="t"></div>
 </div><!--content end-->
-<div class="content w280"><!--content begin-->
+<div class="content_box w280"><!--content begin-->
 	<div class="t"></div>
 	<div class="m">
 		<div class="right_title"><h2>新加入的小宅</h2><a href="#">更多</a></div>
@@ -48,7 +48,7 @@
 	</div>
 	<div class="t"></div>
 </div><!--content end-->
-<!-- <div class="content w280">content begin
+<!-- <div class="content_box w280">content begin
 	<div class="t"></div>
 	<div class="m">
 		<div class="right_title"><h2>拒宅小贴士</h2></div>

@@ -79,7 +79,7 @@
 								<c:otherwise></c:otherwise>
 							</c:choose>
 							<div class="btn"><!--btn begin-->
-								<div class="message"><a href="#">私信</a></div>
+								<div class="message_s1"><a href="javascript:void(0);" target-uid="${postView.profileCache.uid}" target-nickname="${postView.profileCache.nickname}">私信</a></div>
 								<c:choose>
 									<c:when test="${postView.hasResponse}">
 										<div class="like done"><span class="l"></span><a href="javascript:void(0);" >已感兴趣&nbsp;&nbsp;${postView.post.responseCnt}</a><span class="r"></span></div>

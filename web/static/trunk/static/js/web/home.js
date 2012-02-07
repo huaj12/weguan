@@ -151,6 +151,11 @@ $(document).ready(function(){
 			$("div.remove-interest-" + uid).attr("style", "");
 		});
 	});
+	$("div.message_s1 > a").bind("click", function(){
+		var uid = $(this).attr("target-uid");
+		var nickname = $(this).attr("target-nickname");
+		openMessage(uid, nickname);
+	});
 	
 	//右侧idea
 	$("div.idea").find("div.send > a").click(function(){

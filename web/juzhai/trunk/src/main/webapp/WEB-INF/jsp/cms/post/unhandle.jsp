@@ -103,7 +103,7 @@ function handle(){
 		</tr>
 		<c:forEach var="view" items="${postView}" >
 			<tr>
-				<td>${view.purposeName}:${view.post.content}</td>
+				<td><c:param name="purposeType" value="${view.post.purposeType}"/>:${view.post.content}</td>
 				<td>${view.username}</td>
 				<td>${view.post.place}</td>
 				<td>${jzr:postPic(view.post.id,view.post.pic)}</td>

@@ -470,16 +470,20 @@ public class ProfileService implements IProfileService {
 			int minYear, int maxYear) {
 		ProfileExample example = new ProfileExample();
 		ProfileExample.Criteria c = example.createCriteria();
-		// TODO (review) 如果city传入负数呢？
-		if (city != 0) {
+		// TODO (done) 如果city传入负数呢？
+		if (city >0) {
 			c.andCityEqualTo(city);
 		}
 		if (gender != null) {
 			c.andGenderEqualTo(gender);
 		}
-		// TODO (review) 如果maxYear,minYear传入负数呢？
-		// TODO (review) maxYear和minYear必须同时有值才能作为查询条件吗？
-		if (maxYear != 0 && minYear != 0) {
+		// TODO (done) 如果maxYear,minYear传入负数呢？
+		// TODO (done) maxYear和minYear必须同时有值才能作为查询条件吗？
+		if (maxYear ==0 && minYear >0) {
+			c.andBirthYearGreaterThanOrEqualTo(minYear);
+		}else if(maxYear >0 && minYear==0){
+			c.andBirthYearLessThanOrEqualTo(maxYear);
+		}else if(maxYear>0&&minYear>0){
 			c.andBirthYearBetween(minYear, maxYear);
 		}
 		return example;

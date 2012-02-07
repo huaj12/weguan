@@ -679,4 +679,24 @@ public class PostService implements IPostService {
 		return postMapper.countByExample(example);
 	}
 
+	@Override
+	public Post getPostById(long postId) {
+		return postMapper.selectByPrimaryKey(postId);
+	}
+
+	@Override
+	public List<ProfileCache> listResponseUser(long postId, int firstResult,
+			int maxResults) {
+		PostResponseExample example = new PostResponseExample();
+		example.createCriteria().andPostIdEqualTo(postId);
+		example.setOrderByClause("create_time desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		List<PostResponse> list = postResponseMapper.selectByExample(example);
+		List<ProfileCache> profileList = new ArrayList<ProfileCache>(
+				list.size());
+		for (PostResponse pr : list) {
+			profileList.add(profileService.getProfileCacheByUid(pr.getUid()));
+		}
+		return profileList;
+	}
 }

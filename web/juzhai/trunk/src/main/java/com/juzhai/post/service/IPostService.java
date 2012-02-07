@@ -2,6 +2,7 @@ package com.juzhai.post.service;
 
 import java.util.List;
 
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.controller.form.PostForm;
 import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.model.Post;
@@ -245,4 +246,22 @@ public interface IPostService {
 	 */
 	int countHandlePost();
 
+	/**
+	 * 根据id查询post
+	 * 
+	 * @param postId
+	 * @return
+	 */
+	Post getPostById(long postId);
+
+	/**
+	 * 拒宅的
+	 * 
+	 * @param postId
+	 * @param firestResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<ProfileCache> listResponseUser(long postId, int firstResult,
+			int maxResults);
 }

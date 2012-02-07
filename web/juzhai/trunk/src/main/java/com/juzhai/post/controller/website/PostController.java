@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,8 +18,12 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.service.IInterestUserService;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.form.PostForm;
 import com.juzhai.post.exception.InputPostException;
+import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostImageService;
 import com.juzhai.post.service.IPostService;
 
@@ -32,6 +37,10 @@ public class PostController extends BaseController {
 	private MessageSource messageSource;
 	@Autowired
 	private IPostImageService postImageService;
+	@Autowired
+	private IInterestUserService interestUserService;
+	@Autowired
+	private IProfileService profileService;
 
 	@RequestMapping(value = "/response", method = RequestMethod.POST)
 	@ResponseBody
@@ -95,5 +104,24 @@ public class PostController extends BaseController {
 			// TODO 发送微博
 		}
 		return result;
+	}
+
+	@RequestMapping(value = "/detail/{postId}", method = RequestMethod.GET)
+	public String detail(HttpServletRequest request, Model model,
+			@PathVariable long postId) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		Post post = postService.getPostById(postId);
+		ProfileCache profileCache = profileService.getProfileCacheByUid(post
+				.getCreateUid());
+		if (context.hasLogin() && context.getUid() != post.getCreateUid()) {
+			boolean hasInterest = interestUserService.isInterest(
+					context.getUid(), post.getCreateUid());
+			boolean hasResponse = postService.isResponsePost(context.getUid(),
+					post.getId());
+		}
+
+		// List<ProfileCache> profileCacheList = postService.listResponseUser(
+		// postId, firstResult, maxResults);
+		return null;
 	}
 }

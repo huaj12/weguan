@@ -384,12 +384,16 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
 
-    <table tableName="tb_idea" domainObjectName="Idea">
+	<table tableName="tb_post_window" domainObjectName="PostWindow">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+
+    <!-- <table tableName="tb_idea" domainObjectName="Idea">
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
     </table>
     
-	<!-- <table tableName="tb_post" domainObjectName="Post">
+	<table tableName="tb_post" domainObjectName="Post">
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
       <columnOverride column="defunct" javaType="java.lang.Boolean" jdbcType="TINYINT" />

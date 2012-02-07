@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS `juzhai`.`tb_post` ;
 SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_post` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
-  `content` VARCHAR(400) NOT NULL ,
+  `content` VARCHAR(800) NOT NULL ,
   `content_md5` VARCHAR(80) NOT NULL ,
   `place` VARCHAR(200) NULL ,
   `pic` VARCHAR(100) NULL ,
@@ -68,7 +68,7 @@ DROP TABLE IF EXISTS `juzhai`.`tb_idea` ;
 SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_idea` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
-  `content` VARCHAR(400) NOT NULL ,
+  `content` VARCHAR(800) NOT NULL ,
   `content_md5` VARCHAR(80) NOT NULL ,
   `place` VARCHAR(200) NULL ,
   `pic` VARCHAR(100) NULL ,

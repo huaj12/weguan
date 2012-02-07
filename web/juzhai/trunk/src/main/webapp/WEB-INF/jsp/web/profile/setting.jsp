@@ -20,8 +20,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>我的个人资料-拒宅网</title>
-<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet"
-	type="text/css" />
+<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div class="warp">

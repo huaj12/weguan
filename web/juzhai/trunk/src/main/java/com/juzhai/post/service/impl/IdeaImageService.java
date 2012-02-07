@@ -22,7 +22,6 @@ public class IdeaImageService implements IIdeaImageService {
 	@Autowired
 	private IImageManager imageManager;
 
-	// TODO (done) 图片处理的代码又乱放了⋯⋯，逻辑也有问题，修改的时候找我
 	@Override
 	public String uploadIdeaPic(Long postId, MultipartFile image, Long ideaId,
 			String picName) throws UploadImageException {
@@ -34,11 +33,15 @@ public class IdeaImageService implements IIdeaImageService {
 		if (image != null && image.getSize() != 0) {
 			fileName = imageManager.uploadImage(directoryPath, image);
 		}
+		// TODO (review) postId负数呢？
+		// TODO (reivew) picName不存在呢
 		if (postId != null && postId != 0) {
 			File srcFile = new File(uploadPostImageHome
 					+ ImageUtil.generateHierarchyImagePath(
+					// TODO (review) 为什么要用Long.valueOf?
 							Long.valueOf(postId), LogoSizeType.ORIGINAL)
 					+ picName);
+			// TODO (review) 如果有新图片了，还要保存post的图片名到idea中？
 			fileName = picName;
 			imageManager.copyImage(directoryPath, fileName, srcFile);
 		}

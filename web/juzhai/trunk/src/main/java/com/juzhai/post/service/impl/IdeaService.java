@@ -1,11 +1,8 @@
 package com.juzhai.post.service.impl;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
@@ -15,27 +12,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import weibo4j.model.IDs;
-
 import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.cms.controller.form.IdeaForm;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
-import com.juzhai.core.image.LogoSizeType;
-import com.juzhai.core.image.manager.IImageManager;
 import com.juzhai.core.util.DateFormat;
-import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.post.dao.IIdeaDao;
 import com.juzhai.post.exception.InputIdeaException;
 import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.mapper.IdeaMapper;
-import com.juzhai.post.mapper.PostMapper;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.IdeaExample;
-import com.juzhai.post.model.Post;
-import com.juzhai.post.model.PostExample;
 import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
@@ -90,7 +79,6 @@ public class IdeaService implements IIdeaService {
 
 	@Override
 	public void removeIdea(long ideaId) throws InputIdeaException {
-		// TODO (done) 逻辑调整 有人使用的情况下不能删除idea
 		Idea idea = getIdeaById(ideaId);
 		if (idea.getUseCount() > 0) {
 			throw new InputIdeaException(InputIdeaException.IDEA_CAN_NOT_DELETE);
@@ -147,23 +135,26 @@ public class IdeaService implements IIdeaService {
 		idea.setLastModifyTime(new Date());
 		idea.setLink(ideaForm.getLink());
 		idea.setPlace(ideaForm.getPlace());
+		// TODO (review) postId是负数呢？另外，是不是要判断一下createUid是否有呢？
 		if (ideaForm.getPostId() != null && ideaForm.getPostId() != 0) {
-			// TODO (done) 理解第一使用者的意思吗？再结合你controller里的代码看看，逻辑有问题
+			// TODO (review) 和最下面的addFirstUser调用，重复了吗？该去掉哪段代码呢？
 			idea.setFirstUid(ideaForm.getCreateUid());
 		}
 		ideaMapper.insertSelective(idea);
 
-		// TODO (done) 第一使用者逻辑混乱，修改的时候来找我
 		Long ideaId = idea.getId();
+		// TODO (review) 这里不需要判断ideaId是否为null，即使是判断了，那下面的一个代码段也用到了ideaId，但是没在这个判断控制范围内
 		if (ideaId != null) {
 			String fileName = ideaImageService.uploadIdeaPic(
 					ideaForm.getPostId(), ideaForm.getNewpic(), ideaId,
 					ideaForm.getPic());
 			if (StringUtils.isNotEmpty(fileName)) {
+				// TODO (review) 重新new一个仅仅保存fileName对象
 				idea.setPic(fileName);
 				ideaMapper.updateByPrimaryKeySelective(idea);
 			}
 		}
+		// TODO (review) postId是负数呢？
 		if (ideaForm.getPostId() != null && ideaForm.getPostId() != 0) {
 			try {
 				postService.markIdea(ideaForm.getPostId(), ideaId);

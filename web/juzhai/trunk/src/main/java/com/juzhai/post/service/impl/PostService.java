@@ -138,6 +138,7 @@ public class PostService implements IPostService {
 		post.setIdeaId(idea.getId());
 		post.setCity(idea.getCity());
 		post.setPic(idea.getPic());
+		post.setVerifyType(VerifyType.QUALIFIED.getType());
 
 		createPost(uid, post, null);
 
@@ -304,7 +305,9 @@ public class PostService implements IPostService {
 		post.setDateTime(postForm.getDate());
 		post.setPic(postForm.getPic());
 		post.setPurposeType(postForm.getPurposeType());
-		post.setVerifyType(VerifyType.RAW.getType());
+		if (post.getIdeaId() <= 0) {
+			post.setVerifyType(VerifyType.RAW.getType());
+		}
 		post.setLastModifyTime(post.getLastModifyTime());
 		post.setUserCity(profile.getCity());
 		post.setUserGender(profile.getGender());
@@ -467,8 +470,8 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	// TODO (done) 封装逻辑有问题
 	public void markIdea(long postId, long ideaId) throws InputPostException {
+		// TODO (review) 不需要select一下
 		Post post = postMapper.selectByPrimaryKey(postId);
 		if (post == null) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);

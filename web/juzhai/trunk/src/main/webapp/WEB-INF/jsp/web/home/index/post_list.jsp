@@ -63,7 +63,7 @@
 							<span class="link"><a href="${postView.post.link}" target="_blank">查看相关链接</a></span>
 						</c:if>
 						<c:if test="${not empty postView.post.pic}">
-							<div class="img"><img src="" /></div>
+							<div class="img"><img src="${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic)}" /></div>
 						</c:if>
 					</div><!--infor end-->
 				</div><!--w_m end-->

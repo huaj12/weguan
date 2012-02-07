@@ -187,23 +187,38 @@ public interface IProfileService {
 	 */
 	int countProfile(List<Long> uids, Integer gender, Long city,
 			List<Long> exceptUids);
+
 	/**
 	 * 找伴搜索数量
+	 * 
 	 * @param gender
 	 * @param city
 	 * @param minYear
 	 * @param maxYear
 	 * @return
 	 */
-	int countSearchProfile(Integer gender,long city,int minYear,int maxYear);
+	int countSearchProfile(Integer gender, long city, int minYear, int maxYear);
+
 	/**
 	 * 找伴搜索
+	 * 
 	 * @param gender
 	 * @param city
 	 * @param minYear
 	 * @param maxYear
 	 * @return
 	 */
-	List<Profile> searchProfile(Integer gender,long city,int minYear,int maxYear, int firstResult,
-			int maxResults);
+	List<Profile> searchProfile(Integer gender, long city, int minYear,
+			int maxYear, int firstResult, int maxResults);
+
+	/**
+	 * 根据cityId筛选最新注册的人
+	 * 
+	 * @param cityId
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Profile> listProfileByCityIdOrderCreateTime(Long cityId,
+			int firstResult, int maxResults);
 }

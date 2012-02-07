@@ -470,15 +470,31 @@ public class ProfileService implements IProfileService {
 			int minYear, int maxYear) {
 		ProfileExample example = new ProfileExample();
 		ProfileExample.Criteria c = example.createCriteria();
+		// TODO (review) 如果city传入负数呢？
 		if (city != 0) {
 			c.andCityEqualTo(city);
 		}
 		if (gender != null) {
 			c.andGenderEqualTo(gender);
 		}
+		// TODO (review) 如果maxYear,minYear传入负数呢？
+		// TODO (review) maxYear和minYear必须同时有值才能作为查询条件吗？
 		if (maxYear != 0 && minYear != 0) {
 			c.andBirthYearBetween(minYear, maxYear);
 		}
 		return example;
+	}
+
+	@Override
+	public List<Profile> listProfileByCityIdOrderCreateTime(Long cityId,
+			int firstResult, int maxResults) {
+		ProfileExample example = new ProfileExample();
+		ProfileExample.Criteria c = example.createCriteria();
+		if (null != cityId && cityId > 0) {
+			c.andCityEqualTo(cityId);
+		}
+		example.setOrderByClause("create_time desc, uid desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return profileMapper.selectByExample(example);
 	}
 }

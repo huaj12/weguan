@@ -51,8 +51,8 @@
 		</td>
 			<td><input type="file" name="newpic"/>
 			<c:choose>
-			<c:when test="${!empty jzr:postPic(view.post.id,view.post.pic)}">
-			<img src="${jzr:postPic(view.post.id,view.post.pic)}"/>
+			<c:when test="${!empty jzr:postPic(view.post.id, view.post.ideaId, view.post.pic)}">
+			<img src="${jzr:postPic(view.post.id, view.post.ideaId, view.post.pic)}"/>
 			<input name="pic" type="hidden" value="${addIdeaForm.pic}"/>
 			</c:when>
 			<c:otherwise>

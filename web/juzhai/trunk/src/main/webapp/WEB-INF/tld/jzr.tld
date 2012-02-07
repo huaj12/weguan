@@ -40,8 +40,8 @@
      <function>
     	<name>postPic</name>
     	<function-class>com.juzhai.core.web.jstl.JzResourceFunction</function-class>
-    	<function-signature>java.lang.String postPic(long,java.lang.String)</function-signature>
-    	<example>${jzr:postPic(123456,'abc.jpg')}</example>
+    	<function-signature>java.lang.String postPic(long,long,java.lang.String)</function-signature>
+    	<example>${jzr:postPic(123456,3456,'abc.jpg')}</example>
     </function>
     <function>
     	<name>ideaPic</name>

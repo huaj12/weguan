@@ -55,7 +55,7 @@ function del(id){
 				<td>${view.idea.content}</td>
 				<td>${view.userName}</td>
 				<td>${view.idea.place}</td>
-				<td><img src="${jzr:ideaPic(view.idea.id,view.idea.pic)}"/></td>
+				<td><img width="70" height="70" src="${jzr:ideaPic(view.idea.id,view.idea.pic)}"/></td>
 				<td>
 				<c:choose>
 					<c:when test="${empty jzd:cityName(view.idea.city)}">全国</c:when>

@@ -460,7 +460,7 @@ public class PostService implements IPostService {
 		Post post = new Post();
 		post.setLastModifyTime(new Date());
 		post.setVerifyType(VerifyType.QUALIFIED.getType());
-		example.createCriteria().andIdeaIdIn(postIds);
+		example.createCriteria().andIdIn(postIds);
 		postMapper.updateByExampleSelective(post, example);
 		
 	}

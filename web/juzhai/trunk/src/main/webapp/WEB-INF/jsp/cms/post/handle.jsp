@@ -74,7 +74,7 @@ function shield(id){
 		</tr>
 		<c:forEach var="view" items="${postView}" >
 			<tr>
-				<td><c:param name="purposeType" value="${view.post.purposeType}"/>:${view.post.content}</td>
+				<td><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:${view.post.content}</td>
 				<td>${view.username}</td>
 				<td>${view.post.place}</td>
 				<td>${jzr:postPic(view.post.id,view.post.pic)}</td>

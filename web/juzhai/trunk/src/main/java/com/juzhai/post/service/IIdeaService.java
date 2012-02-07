@@ -41,13 +41,13 @@ public interface IIdeaService {
 	 * @param uid
 	 */
 	void removeUser(long ideaId, long uid);
-	
+
 	/**
 	 * 移除好主意
+	 * 
 	 * @param ideaId
 	 */
-	//TODO (done) 注释
-	void removeIdea(long ideaId)throws InputIdeaException;
+	void removeIdea(long ideaId) throws InputIdeaException;
 
 	/**
 	 * 是否使用了idea

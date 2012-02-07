@@ -150,9 +150,9 @@ public interface IPostService {
 	 */
 	int countUserPost(long uid);
 
-	// TODO (done) 注释
 	/**
-	 * 删除拒宅
+	 * 后台删除拒宅
+	 * 
 	 * @param postId
 	 * @throws InputPostException
 	 */
@@ -186,8 +186,7 @@ public interface IPostService {
 	 * @param postId
 	 * @throws InputPostException
 	 */
-	// TODO (done) 方法名意思不对
-	void markIdea(long postId,long ideaId) throws InputPostException;
+	void markIdea(long postId, long ideaId) throws InputPostException;
 
 	/**
 	 * 是否发布过此idea

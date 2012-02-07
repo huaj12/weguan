@@ -89,10 +89,10 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public void removeIdea(long ideaId) throws InputIdeaException{
+	public void removeIdea(long ideaId) throws InputIdeaException {
 		// TODO (done) 逻辑调整 有人使用的情况下不能删除idea
-		Idea idea=getIdeaById(ideaId);
-		if(idea.getUseCount()>0){
+		Idea idea = getIdeaById(ideaId);
+		if (idea.getUseCount() > 0) {
 			throw new InputIdeaException(InputIdeaException.IDEA_CAN_NOT_DELETE);
 		}
 		redisTemplate.delete(RedisKeyGenerator.genIdeaUsersKey(ideaId));
@@ -156,7 +156,9 @@ public class IdeaService implements IIdeaService {
 		// TODO (done) 第一使用者逻辑混乱，修改的时候来找我
 		Long ideaId = idea.getId();
 		if (ideaId != null) {
-			String fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(), ideaForm.getNewpic(), ideaId, ideaForm.getPic());
+			String fileName = ideaImageService.uploadIdeaPic(
+					ideaForm.getPostId(), ideaForm.getNewpic(), ideaId,
+					ideaForm.getPic());
 			if (StringUtils.isNotEmpty(fileName)) {
 				idea.setPic(fileName);
 				ideaMapper.updateByPrimaryKeySelective(idea);
@@ -174,7 +176,6 @@ public class IdeaService implements IIdeaService {
 
 	}
 
-
 	@Override
 	public void updateIdea(IdeaForm ideaForm) throws InputIdeaException,
 			UploadImageException {
@@ -189,7 +190,8 @@ public class IdeaService implements IIdeaService {
 		idea.setPlace(ideaForm.getPlace());
 		Long ideaId = ideaForm.getIdeaId();
 		idea.setId(ideaId);
-		String fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(), ideaForm.getNewpic(), ideaId, ideaForm.getPic());
+		String fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(),
+				ideaForm.getNewpic(), ideaId, ideaForm.getPic());
 		idea.setPic(fileName);
 		ideaMapper.updateByPrimaryKeySelective(idea);
 	}
@@ -220,7 +222,6 @@ public class IdeaService implements IIdeaService {
 		// 验证日期格式
 		if (StringUtils.isNotEmpty(ideaForm.getDateString())) {
 			try {
-				// TODO (done) 日期格式错误
 				ideaForm.setDate(DateUtils.parseDate(ideaForm.getDateString(),
 						DateFormat.DATE_PATTERN));
 			} catch (ParseException e) {

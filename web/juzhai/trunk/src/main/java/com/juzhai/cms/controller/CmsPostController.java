@@ -47,8 +47,7 @@ public class CmsPostController {
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
 					.getCreateUid());
-			listView.add(new CmsPostView(post, cache.getNickname(), post
-					.getPurposeType()));
+			listView.add(new CmsPostView(post, cache.getNickname()));
 		}
 		model.addAttribute("postView", listView);
 		model.addAttribute("pager", pager);
@@ -66,8 +65,7 @@ public class CmsPostController {
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
 					.getCreateUid());
-			listView.add(new CmsPostView(post, cache.getNickname(), post
-					.getPurposeType()));
+			listView.add(new CmsPostView(post, cache.getNickname()));
 		}
 		model.addAttribute("postView", listView);
 		model.addAttribute("pager", pager);
@@ -85,8 +83,7 @@ public class CmsPostController {
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
 					.getCreateUid());
-			listView.add(new CmsPostView(post, cache.getNickname(), post
-					.getPurposeType()));
+			listView.add(new CmsPostView(post, cache.getNickname()));
 		}
 		model.addAttribute("postView", listView);
 		model.addAttribute("pager", pager);

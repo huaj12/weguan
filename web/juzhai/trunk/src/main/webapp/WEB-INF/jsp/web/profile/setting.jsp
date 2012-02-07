@@ -248,7 +248,7 @@
 										<c:forEach begin="140" end="210" var="h">
 										<option value="${h}" <c:if test="${profile.height==h}">selected="selected"</c:if> >${h}</option>
 										</c:forEach>
-										</select>cm
+										</select>&nbsp;cm
 										</span>
 										</div><!--select end-->
 									</div><!--infor_x end-->
@@ -290,7 +290,7 @@
 										<c:forEach items="${monthlyIncome}" var="m" >
 										<option value="${m}" <c:if test="${income==m}">selected="selected"</c:if> >${m}</option>
 										</c:forEach>
-										</select>元
+										</select>&nbsp;元
 										</span>
 										</div><!--select end-->
 									</div><!--infor_x end-->

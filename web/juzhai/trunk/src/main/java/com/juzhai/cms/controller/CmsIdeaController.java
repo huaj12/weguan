@@ -57,10 +57,15 @@ public class CmsIdeaController {
 				pager.getMaxResult());
 		List<CmsIdeaView> ideaViews = new ArrayList<CmsIdeaView>();
 		for (Idea idea : list) {
+	
 			ProfileCache cache = profileService.getProfileCacheByUid(idea
 					.getFirstUid());
+			String username=null;
+			if(cache!=null){
+				username=cache.getNickname();
+			}
 			//TODO (done) jstl可以获取cityName
-			ideaViews.add(new CmsIdeaView(idea, cache.getNickname()));
+			ideaViews.add(new CmsIdeaView(idea, username));
 		}
 		model.addAttribute("ideaViews", ideaViews);
 		model.addAttribute("pager", pager);

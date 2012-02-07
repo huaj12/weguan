@@ -1,9 +1,9 @@
-package com.juzhai.search.controller.view;
+package com.juzhai.index.controller.view;
 
 import com.juzhai.passport.model.Profile;
 import com.juzhai.post.model.Post;
 
-public class SearchUserView {
+public class QueryUserView {
 
 	private Profile profile;
 
@@ -11,7 +11,7 @@ public class SearchUserView {
 
 	private Post post;
 
-	public SearchUserView(Profile profile, boolean isOnline, Post post) {
+	public QueryUserView(Profile profile, boolean isOnline, Post post) {
 		this.profile=profile;
 		this.isOnline=isOnline;
 		this.post=post;

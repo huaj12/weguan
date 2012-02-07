@@ -23,6 +23,7 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.bean.ShowActOrder;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.index.controller.view.IdeaView;
+import com.juzhai.index.controller.view.QueryUserView;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
@@ -30,7 +31,6 @@ import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
-import com.juzhai.search.controller.view.SearchUserView;
 
 @Controller
 public class NewIndexController extends BaseController {
@@ -89,7 +89,7 @@ public class NewIndexController extends BaseController {
 	public String aboutUs(HttpServletRequest request, Model model) {
 		return "web/index/about_us";
 	}
-	
+
 	@RequestMapping(value = "/searchUser", method = RequestMethod.GET)
 	public String pageSearchActs(HttpServletRequest request, Model model,
 			@RequestParam(defaultValue = "1") int pageId,
@@ -115,11 +115,11 @@ public class NewIndexController extends BaseController {
 						maxYear));
 		List<Profile> list = profileService.searchProfile(gender, cityId,
 				minYear, maxYear, pager.getFirstResult(), pager.getMaxResult());
-		List<SearchUserView> userViews = new ArrayList<SearchUserView>();
+		List<QueryUserView> userViews = new ArrayList<QueryUserView>();
 		for (Profile profile : list) {
 			long uid = profile.getUid();
 			Post post = postService.getUserLatestPost(uid);
-			SearchUserView userView = new SearchUserView(profile,
+			QueryUserView userView = new QueryUserView(profile,
 					loginService.isOnline(uid), post);
 			userViews.add(userView);
 		}
@@ -134,5 +134,5 @@ public class NewIndexController extends BaseController {
 		int year = cal.get(Calendar.YEAR);
 		return year - age;
 	}
-	
+
 }

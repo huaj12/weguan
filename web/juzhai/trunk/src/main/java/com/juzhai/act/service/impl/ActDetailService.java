@@ -41,7 +41,7 @@ public class ActDetailService implements IActDetailService {
 	@Override
 	public void updateActDetail(long actId, String detail) {
 		detail = actImageService.intoEditorImg(actId, detail);
-		// TODO (review) 找到一个图片即可返回
+		// TODO (old) 找到一个图片即可返回
 		List<String> list = matchImage(detail);
 		ActDetail a = actDetailMapper.selectByPrimaryKey(actId);
 		if (a == null) {

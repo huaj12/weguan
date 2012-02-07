@@ -132,5 +132,5 @@ public class CmsActAdController {
 		return "/cms/ajax/asd_list";
 	}
 
-	// TODO (review) 项目优惠信息列表单独做
+	// TODO (old) 项目优惠信息列表单独做
 }

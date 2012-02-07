@@ -475,7 +475,7 @@ public class ActService implements IActService {
 		}
 	}
 
-	// TODO (review) 下面两个方法需要重构
+	// TODO (old) 下面两个方法需要重构
 
 	@Override
 	public Act createAct(long uid, String actName, List<Long> categoryIds)

@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -16,23 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.cms.controller.form.AddIdeaForm;
 import com.juzhai.cms.controller.form.IdeaForm;
 import com.juzhai.cms.controller.view.CmsIdeaView;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
-import com.juzhai.core.web.jstl.JzResourceFunction;
-import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.model.City;
 import com.juzhai.passport.service.IProfileService;
-import com.juzhai.post.exception.InputIdeaException;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaService;
 
@@ -57,14 +50,13 @@ public class CmsIdeaController {
 				pager.getMaxResult());
 		List<CmsIdeaView> ideaViews = new ArrayList<CmsIdeaView>();
 		for (Idea idea : list) {
-	
+
 			ProfileCache cache = profileService.getProfileCacheByUid(idea
 					.getFirstUid());
-			String username=null;
-			if(cache!=null){
-				username=cache.getNickname();
+			String username = null;
+			if (cache != null) {
+				username = cache.getNickname();
 			}
-			//TODO (done) jstl可以获取cityName
 			ideaViews.add(new CmsIdeaView(idea, username));
 		}
 		model.addAttribute("ideaViews", ideaViews);
@@ -73,8 +65,7 @@ public class CmsIdeaController {
 	}
 
 	@RequestMapping(value = "/show/idea/add", method = RequestMethod.GET)
-	public String showIdeaAdd(Model model, String msg,AddIdeaForm addIdeaForm) {
-		//TODO (done) form不能用？
+	public String showIdeaAdd(Model model, String msg, AddIdeaForm addIdeaForm) {
 		model.addAttribute("addIdeaForm", addIdeaForm);
 		model.addAttribute("msg", msg);
 		model.addAttribute("citys", InitData.CITY_MAP.values());
@@ -84,7 +75,6 @@ public class CmsIdeaController {
 	@RequestMapping(value = "/show/idea/update", method = RequestMethod.GET)
 	public String showIdeaUpdate(Model model, Long ideaId, String msg) {
 		Idea idea = ideaService.getIdeaById(ideaId);
-		//TODO (done) 为什么不用idea返回到页面？
 		if (idea != null) {
 			model.addAttribute("idea", idea);
 			model.addAttribute("msg", msg);

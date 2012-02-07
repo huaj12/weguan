@@ -41,7 +41,6 @@ public class ProfileContrller extends BaseController {
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		Profile profile = profileService.getProfile(context.getUid());
-		// TODO (done) 获取了很多多余的数据
 		assembleCitys(model);
 		model.addAttribute("professions", InitData.PROFESSION_MAP.values());
 		model.addAttribute("profile", profile);

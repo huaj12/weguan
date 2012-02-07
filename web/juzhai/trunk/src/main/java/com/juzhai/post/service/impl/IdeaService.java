@@ -150,7 +150,6 @@ public class IdeaService implements IIdeaService {
 			picIdea.setPic(fileName);
 			ideaMapper.updateByPrimaryKeySelective(picIdea);
 		}
-		// TODO (done) postId是负数呢？
 		// TODO (done) postId是负数呢？另外，是不是要判断一下createUid是否有呢？
 		// TODO (done) 和最下面的addFirstUser调用，重复了吗？该去掉哪段代码呢？
 		if (ideaForm.getPostId() != null && ideaForm.getPostId() > 0) {

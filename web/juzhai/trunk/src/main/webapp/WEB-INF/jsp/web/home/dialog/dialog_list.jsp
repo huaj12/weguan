@@ -19,16 +19,17 @@
 							<div class="btn"><a href="javascript:void(0);" class="delete" dialog-id="${dialogView.dialog.id}" target-name="${dialogView.targetProfile.nickname}">删除</a><a href="javascript:void(0);" class="repy" target-name="${dialogView.targetProfile.nickname}" target-uid="${dialogView.targetProfile.uid}">回复</a></div>
 							<div></div>
 							<div class="photo"><a href="/home/${dialogView.targetProfile.uid}"><img src="${jzr:userLogo(dialogView.targetProfile.uid,dialogView.targetProfile.logoPic,80)}"  width="80" height="80"/></a></div>
+							<c:set var="age" value="${jzu:age(dialogView.targetProfile.birthYear, dialogView.targetProfile.birthSecret)}" />
+							<c:set var="constellationName" value="${jzd:constellationName(dialogView.targetProfile.constellationId)}" />
+							<div class="information"><a href="/home/${dialogView.targetProfile.uid}"><c:out value="${dialogView.targetProfile.nickname}" /></a><span><c:if test="${age >= 0}">${age}岁&nbsp;</c:if><c:if test="${dialogView.targetProfile.city != null && dialogView.targetProfile.city > 0}">${jzd:cityName(dialogView.targetProfile.city)}<c:if test="${dialogView.targetProfile.town != null && dialogView.targetProfile.town > 0}">${jzd:townName(dialogView.targetProfile.town)}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty dialogView.targetProfile.profession}">${dialogView.targetProfile.profession}</c:if></span></div>
 							<div class="msg_content">
 								<span>
 									<c:choose>
 										<c:when test="${context.uid==dialogView.dialogContent.receiverUid}">
-										<a href="/home/${dialogView.targetProfile.uid}"><c:out value="${dialogView.targetProfile.nickname}" /></a>
 										<h3>发给我</h3>
 									</c:when>
 									<c:otherwise>
-										<h4>我发给</h4>
-										<a href="/home/${dialogView.targetProfile.uid}"><c:out value="${dialogView.targetProfile.nickname}" /></a>
+										<h4>我发给ta</h4>
 									</c:otherwise>
 									</c:choose>
 									<strong><c:set var="date" value="${dialogView.dialogContent.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></strong>

@@ -2,6 +2,7 @@ package com.juzhai.home.service;
 
 import java.util.List;
 
+import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.controller.view.DialogContentView;
 import com.juzhai.home.controller.view.DialogView;
 import com.juzhai.home.exception.DialogException;
@@ -19,6 +20,17 @@ public interface IDialogService {
 	 */
 	long sendSMS(long uid, long targetUid, String content)
 			throws DialogException;
+
+	/**
+	 * 根据模版发送私信
+	 * 
+	 * @param uid
+	 * @param targetUid
+	 * @param template
+	 * @return
+	 */
+	long sendSMS(long uid, long targetUid, DialogContentTemplate template,
+			Object... params);
 
 	/**
 	 * 删除对话

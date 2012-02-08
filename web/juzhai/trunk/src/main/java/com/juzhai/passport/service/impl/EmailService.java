@@ -108,12 +108,13 @@ public class EmailService implements IEmailService {
 	public void setupSub(long uid, EmailForm emailForm)
 			throws ProfileInputException {
 		if (subEmail(uid, emailForm.getEmail())) {
-			setupSubNotice(uid, NoticeType.INTEREST_ME,
-					emailForm.isInterestMe());
-			setupSubNotice(uid, NoticeType.DATING_ME, emailForm.isDatingMe());
-			setupSubNotice(uid, NoticeType.ACCEPT_DATING,
-					emailForm.isAcceptDating());
-			setupSubNotice(uid, NoticeType.SYS_NOTICE, emailForm.isSysNotice());
+			// setupSubNotice(uid, NoticeType.INTEREST_ME,
+			// emailForm.isInterestMe());
+			// setupSubNotice(uid, NoticeType.DATING_ME,
+			// emailForm.isDatingMe());
+			// setupSubNotice(uid, NoticeType.ACCEPT_DATING,
+			// emailForm.isAcceptDating());
+			//	setupSubNotice(uid, NoticeType.SYS_NOTICE, emailForm.isSysNotice());
 		}
 
 	}

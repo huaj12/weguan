@@ -26,6 +26,8 @@ import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.home.bean.DialogContentTemplate;
+import com.juzhai.home.service.IDialogService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
@@ -73,6 +75,8 @@ public class PostService implements IPostService {
 	private IInterestUserService interestUserService;
 	@Autowired
 	private IWordFilterService wordFilterService;
+	@Autowired
+	private IDialogService dialogService;
 	@Value("${post.content.wordfilter.application}")
 	private int postContentWordfilterApplication;
 	@Value("${post.content.length.min}")
@@ -342,6 +346,9 @@ public class PostService implements IPostService {
 		// response列表缓存
 		longRedisTemplate.opsForSet().add(
 				RedisKeyGenerator.genResponsePostsKey(uid), postId);
+		// 发送私信
+		dialogService.sendSMS(uid, post.getCreateUid(),
+				DialogContentTemplate.RESPONSE_POST, post.getContent());
 	}
 
 	@Override

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.exception.JuzhaiException;
-import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.bean.SysNoticeType;
 import com.juzhai.notice.mapper.SysNoticeMapper;
 import com.juzhai.notice.model.SysNotice;
@@ -23,8 +22,9 @@ public class SysNoticeService implements ISysNoticeService {
 	private SysNoticeMapper sysNoticeMapper;
 	@Autowired
 	private MessageSource messageSource;
-	@Autowired
-	private NoticeService noticeService;
+
+	// @Autowired
+	// private NoticeService noticeService;
 
 	@Override
 	public void sendSysNotice(long uid, SysNoticeType sysNoticeType,
@@ -36,7 +36,7 @@ public class SysNoticeService implements ISysNoticeService {
 		sysNotice.setContent(messageSource.getMessage(sysNoticeType.getName(),
 				params, null));
 		sysNoticeMapper.insertSelective(sysNotice);
-		noticeService.incrNotice(uid, NoticeType.SYS_NOTICE);
+//		noticeService.incrNotice(uid, NoticeType.SYS_NOTICE);
 	}
 
 	@Override

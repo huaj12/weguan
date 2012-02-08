@@ -24,8 +24,6 @@ import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.StringUtil;
-import com.juzhai.notice.bean.NoticeType;
-import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 
@@ -38,8 +36,8 @@ public class DatingService implements IDatingService {
 	private DatingMapper datingMapper;
 	@Autowired
 	private IUserActService userActService;
-	@Autowired
-	private INoticeService noticeService;
+	// @Autowired
+	// private INoticeService noticeService;
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
 	@Value("${max.dating.week.limit}")
@@ -140,7 +138,7 @@ public class DatingService implements IDatingService {
 		redisTemplate.opsForSet().add(RedisKeyGenerator.genDatingUsersKey(uid),
 				targetId);
 
-		noticeService.incrNotice(targetId, NoticeType.DATING_ME);
+		// noticeService.incrNotice(targetId, NoticeType.DATING_ME);
 		return dating.getId();
 	}
 
@@ -177,7 +175,8 @@ public class DatingService implements IDatingService {
 		dating.setStarterContactValue(contactValue);
 		datingMapper.updateByPrimaryKeySelective(dating);
 
-		noticeService.incrNotice(dating.getReceiverUid(), NoticeType.DATING_ME);
+		// noticeService.incrNotice(dating.getReceiverUid(),
+		// NoticeType.DATING_ME);
 		return dating.getId();
 	}
 
@@ -205,8 +204,8 @@ public class DatingService implements IDatingService {
 		dating.setHasRead(true);
 		datingMapper.updateByPrimaryKeySelective(dating);
 
-		noticeService.incrNotice(dating.getStarterUid(),
-				NoticeType.ACCEPT_DATING);
+		// noticeService.incrNotice(dating.getStarterUid(),
+		// NoticeType.ACCEPT_DATING);
 	}
 
 	private void checkProfileSimple(long uid) throws DatingInputException {

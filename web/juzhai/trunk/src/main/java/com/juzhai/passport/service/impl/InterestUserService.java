@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
+import com.juzhai.home.bean.DialogContentTemplate;
+import com.juzhai.home.service.IDialogService;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.bean.ProfileCache;
@@ -33,7 +35,7 @@ public class InterestUserService implements IInterestUserService {
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
-	private INoticeService noticeService;
+	private IDialogService dialogService;
 
 	@Override
 	public void interestUser(long uid, long targetUid)
@@ -60,7 +62,9 @@ public class InterestUserService implements IInterestUserService {
 		// redis
 		redisTemplate.opsForSet().add(
 				RedisKeyGenerator.genInterestUsersKey(uid), targetUid);
-		noticeService.incrNotice(targetUid, NoticeType.INTEREST_ME);
+		// 发送私信
+		dialogService.sendSMS(uid, targetUid,
+				DialogContentTemplate.INTEREST_USER);
 	}
 
 	@Override

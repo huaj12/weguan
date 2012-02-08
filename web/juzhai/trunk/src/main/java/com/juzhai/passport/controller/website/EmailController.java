@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.controller.form.EmailForm;
 import com.juzhai.passport.exception.ProfileInputException;
@@ -34,14 +33,14 @@ public class EmailController extends BaseController {
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		EmailForm emailForm = new EmailForm();
-		emailForm.setInterestMe(emailService.isSubNotice(context.getUid(),
-				NoticeType.INTEREST_ME));
-		emailForm.setDatingMe(emailService.isSubNotice(context.getUid(),
-				NoticeType.DATING_ME));
-		emailForm.setAcceptDating(emailService.isSubNotice(context.getUid(),
-				NoticeType.ACCEPT_DATING));
-		emailForm.setSysNotice(emailService.isSubNotice(context.getUid(),
-				NoticeType.SYS_NOTICE));
+		// emailForm.setInterestMe(emailService.isSubNotice(context.getUid(),
+		// NoticeType.INTEREST_ME));
+		// emailForm.setDatingMe(emailService.isSubNotice(context.getUid(),
+		// NoticeType.DATING_ME));
+		// emailForm.setAcceptDating(emailService.isSubNotice(context.getUid(),
+		// NoticeType.ACCEPT_DATING));
+		// emailForm.setSysNotice(emailService.isSubNotice(context.getUid(),
+		// NoticeType.SYS_NOTICE));
 		ProfileCache loginUser = getLoginUserCache(request);
 		if (null != loginUser) {
 			emailForm.setEmail(loginUser.getEmail());

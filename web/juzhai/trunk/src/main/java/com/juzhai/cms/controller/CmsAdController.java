@@ -17,28 +17,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.juzhai.act.exception.ActAdInputException;
-import com.juzhai.act.service.IActAdService;
-import com.juzhai.act.service.IActService;
-import com.juzhai.cms.exception.RawAdInputException;
 import com.juzhai.cms.bean.AdSource;
+import com.juzhai.cms.exception.RawAdInputException;
 import com.juzhai.cms.model.RawAd;
 import com.juzhai.cms.service.IRawAdService;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.passport.InitData;
+import com.juzhai.post.exception.InputAdException;
+import com.juzhai.post.service.IAdService;
 
 @Controller
 @RequestMapping("/cms")
-public class CmsActAdController {
+public class CmsAdController {
 	@Autowired
 	private IRawAdService rawAdService;
 	@Autowired
-	private IActAdService actAdService;
-	@Autowired
-	private IActService actService;
-	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IAdService adService;
 
 	@RequestMapping(value = "/show/raw/ad", method = RequestMethod.GET)
 	public String showRawAd(String msg, Model model) {
@@ -84,27 +81,14 @@ public class CmsActAdController {
 		return "/cms/ad_manager";
 	}
 
-	@RequestMapping(value = "/add/act/ad", method = RequestMethod.POST)
+	@RequestMapping(value = "/publish/ad", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult addActAd(HttpServletRequest request, Model model,
-			String actName, @RequestParam(defaultValue = "0") long rawAdId) {
+			@RequestParam(defaultValue = "0") long rawAdId) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			actAdService.createActAd(actName, rawAdId);
-		} catch (ActAdInputException e) {
-			ajaxResult.setError(e.getErrorCode(), messageSource);
-		}
-		return ajaxResult;
-	}
-
-	@RequestMapping(value = "/remove/act/ad", method = RequestMethod.POST)
-	@ResponseBody
-	public AjaxResult removeActAd(HttpServletRequest request, Model model,
-			@RequestParam(defaultValue = "0") long actAdId) {
-		AjaxResult ajaxResult = new AjaxResult();
-		try {
-			actAdService.remove(actAdId);
-		} catch (ActAdInputException e) {
+			rawAdService.publishAd(rawAdId);
+		} catch (InputAdException e) {
 			ajaxResult.setError(e.getErrorCode(), messageSource);
 		}
 		return ajaxResult;
@@ -123,14 +107,31 @@ public class CmsActAdController {
 		return ajaxResult;
 	}
 
-	@RequestMapping(value = "/ajax/show/act/ads", method = RequestMethod.GET)
-	public String showActAds(Long rawAdId, Model model) {
-		if (rawAdId != null) {
-			model.addAttribute("acts", actAdService.getActByRawAd(rawAdId));
-			model.addAttribute("rawId", rawAdId);
-		}
-		return "/cms/ajax/asd_list";
+	@RequestMapping(value = "/list/ad", method = RequestMethod.GET)
+	public String listAd(@RequestParam(defaultValue = "1") int pageId,
+			Model model, @RequestParam(defaultValue = "0") long cityId) {
+		PagerManager pager = new PagerManager(pageId, 20,
+				adService.countAd(cityId));
+		model.addAttribute(
+				"ads",
+				adService.listAd(cityId, pager.getFirstResult(),
+						pager.getMaxResult()));
+		model.addAttribute("citys", InitData.CITY_MAP.values());
+		model.addAttribute("cityId", cityId);
+		return "/cms/ad/list";
 	}
 
-	// TODO (old) 项目优惠信息列表单独做
+	@RequestMapping(value = "/remove/ad", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult removeAd(HttpServletRequest request, Model model,
+			@RequestParam(defaultValue = "0") long id) {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			adService.remove(id);
+		} catch (Exception e) {
+			ajaxResult.setSuccess(false);
+		}
+		return ajaxResult;
+	}
+
 }

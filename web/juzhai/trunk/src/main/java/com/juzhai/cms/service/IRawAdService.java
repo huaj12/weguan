@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.cms.exception.RawAdInputException;
 import com.juzhai.cms.model.RawAd;
+import com.juzhai.post.exception.InputAdException;
 
 public interface IRawAdService {
 	/**
@@ -21,22 +22,29 @@ public interface IRawAdService {
 	void createRawAd(RawAd rawAd);
 
 	void updateRawAd(RawAd rawAd);
+	/**
+	 * 发布优惠信息
+	 * @param rawAdId
+	 * @throws InputAdException
+	 */
+	void publishAd(long rawAdId) throws InputAdException;
 
 	boolean isUrlExist(String md5Link);
-	
+
 	RawAd getRawAd(String url);
 
 	int countRawAd();
 
-	List<RawAd> searchRawAd(String status, Long cityId, String source,String category,
-			int firstResult, int maxResults);
+	List<RawAd> searchRawAd(String status, Long cityId, String source,
+			String category, int firstResult, int maxResults);
 
-	int countSearchRawAd(String status, Long cityId, String source,String category);
+	int countSearchRawAd(String status, Long cityId, String source,
+			String category);
 
 	List<RawAd> showRawAdList(int firstResult, int maxResults);
 
 	RawAd getRawAd(long id);
-	
-	void remove(long rawId)throws RawAdInputException;
+
+	void remove(long rawId) throws RawAdInputException;
 
 }

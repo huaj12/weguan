@@ -53,7 +53,7 @@
 							<div class="w_t"></div>
 							<div class="w_m"><!--w_m begin-->
 								<div class="arrow"></div>
-								<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${postView.post.purposeType}"/></c:import>:</font><a href="/post/detail/${postView.post.id}"><c:out value="${postView.post.content}" /></a></p>
+								<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${postView.post.purposeType}"/></c:import>:</font><a href="/post/${postView.post.id}"><c:out value="${postView.post.content}" /></a></p>
 								<div class="infor"><!--infor begin-->
 									<span>更新于<c:set var="date" value="${postView.post.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></span>
 									<c:if test="${not empty postView.post.place}">
@@ -66,7 +66,7 @@
 										<span class="link"><a href="${postView.post.link}" target="_blank">查看相关链接</a></span>
 									</c:if>
 									<c:if test="${not empty postView.post.pic}">
-										<div class="img"><img src="${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic)}" /></div>
+										<div class="img"><img data-original="${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic)}" src="${jzr:static('/images/web/1px.gif')}" width="200"/></div>
 									</c:if>
 								</div><!--infor end-->
 							</div><!--w_m end-->

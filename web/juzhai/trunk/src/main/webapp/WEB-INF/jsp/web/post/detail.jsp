@@ -26,10 +26,10 @@
 										<div class="pub_box_m"><!--pub_box_m begin-->
 											<div class="arrow"></div>
 											<div></div>
-											<div class="con"><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${post.purposeType}"/></c:import>:</font><a href="/post/detail/${post.id}"><c:out value="${post.content}" /></a></div>
+											<div class="con"><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${post.purposeType}"/></c:import>:</font><a href="/post/${post.id}"><c:out value="${post.content}" /></a></div>
 											<div class="infor"><!--infor begin-->
 												<c:if test="${not empty post.pic}">
-													<div class="img"><img src="${jzr:postPic(post.id, post.ideaId, post.pic)}" /></div>
+													<div class="img"><img src="${jzr:postPic(post.id, post.ideaId, post.pic)}" width="580"/></div>
 												</c:if>
 												<span><c:set var="date" value="${post.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span>
 												<c:if test="${not empty post.place}">
@@ -54,13 +54,20 @@
 									<div class="btn"><!--btn begin-->
 										<c:choose>
 											<c:when test="${context.uid != postProfile.uid}">
-												<div class="message_s1"><a href="#">私信</a></div>
-												<div class="like"><span class="l"></span><a href="#">已感兴趣  23</a><span class="r"></span></div>
+												<div class="message_s1"><a class="send-message" href="javascript:void(0)" target-uid="${postProfile.uid}" target-nickname="${postProfile.nickname}">私信</a></div>
+												<c:choose>
+													<c:when test="${hasResponse}">
+														<div class="like done"><span class="l"></span><a href="javascript:void(0);">已感兴趣&nbsp;&nbsp;${post.responseCnt}</a><span class="r"></span></div>
+													</c:when>
+													<c:otherwise>
+														<div class="like post-response" id="response${post.id}"><span class="l"></span><a href="javascript:void(0);" post-id="${post.id}">感兴趣&nbsp;&nbsp;<font>${post.responseCnt}</font></a><span class="r"></span></div>
+													</c:otherwise>
+												</c:choose>
 											</c:when>
 											<c:otherwise>
 												<div class="own_btn">
 													<a href="#" class="edit">编辑</a>
-													<a href="#" class="delete">删除</a>
+													<a href="javascript:void(0);" class="delete" post-id="${post.id}">删除</a>
 												</div>
 											</c:otherwise>
 										</c:choose>

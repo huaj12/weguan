@@ -45,9 +45,11 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_ad` (
   `prime_price` VARCHAR(45) NULL ,
   `price` VARCHAR(45) NULL ,
   `discount` DOUBLE NULL ,
-  `source` BIGINT NOT NULL ,
+  `source` VARCHAR(60) NOT NULL ,
   `source_link` VARCHAR(300) NULL ,
   `sequence` INT(4) NULL ,
+  `link` VARCHAR(300) NOT NULL ,
+  `md5_link` VARCHAR(45) NOT NULL ,
   `create_time` DATETIME NOT NULL ,
   `last_modify_time` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )
@@ -60,4 +62,6 @@ SHOW WARNINGS;
 CREATE INDEX `idx_city` ON `juzhai`.`tb_ad` (`city` ASC) ;
 
 SHOW WARNINGS;
+CREATE UNIQUE INDEX `uidx_linkmd5` ON `juzhai`.`tb_ad` (`md5_link` ASC) ;
 
+SHOW WARNINGS;

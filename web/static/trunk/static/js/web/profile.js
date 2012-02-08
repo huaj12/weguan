@@ -129,6 +129,12 @@ function setting(){
 	var home=$("#home").val();
 	var monthlyIncome=$("#monthlyIncome").val();
 	var arr=parseMonthlyIncome(monthlyIncome);
+	
+	if(birthYear==0||birthMonth==0||birthDay==0){
+		$("#birthSecret")[0].focus();
+		 $("#birth_tp").html("&nbsp;&nbsp;&nbsp;您还没有选择生日!");
+	}
+	
 	if(professionId==0&&(profession==""||profession=="10个字以内描述")){
 		 $("#profession_tip").html("请输入!");
 		 return ;

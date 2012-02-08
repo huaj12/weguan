@@ -26,3 +26,38 @@ SHOW WARNINGS;
 CREATE UNIQUE INDEX `uidx_postid` ON `juzhai`.`tb_post_window` (`post_id` ASC) ;
 
 SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `juzhai`.`tb_ad`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `juzhai`.`tb_ad` ;
+
+SHOW WARNINGS;
+CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_ad` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(300) NOT NULL ,
+  `pic_url` VARCHAR(300) NOT NULL ,
+  `city` BIGINT NOT NULL ,
+  `district` VARCHAR(200) NULL ,
+  `address` VARCHAR(200) NULL ,
+  `start_time` DATETIME NULL ,
+  `end_time` DATETIME NULL ,
+  `prime_price` VARCHAR(45) NULL ,
+  `price` VARCHAR(45) NULL ,
+  `discount` DOUBLE NULL ,
+  `source` BIGINT NOT NULL ,
+  `source_link` VARCHAR(300) NULL ,
+  `sequence` INT(4) NULL ,
+  `create_time` DATETIME NOT NULL ,
+  `last_modify_time` DATETIME NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci, 
+COMMENT = '优惠信息(前台)' ;
+
+SHOW WARNINGS;
+CREATE INDEX `idx_city` ON `juzhai`.`tb_ad` (`city` ASC) ;
+
+SHOW WARNINGS;
+

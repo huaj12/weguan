@@ -1,10 +1,12 @@
 package com.juzhai.core.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,11 +25,15 @@ import com.juzhai.core.web.filter.CheckLoginFilter;
 import com.juzhai.core.web.filter.CityChannelFilter;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
+import com.juzhai.index.bean.ShowIdeaOrder;
+import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.post.model.Idea;
+import com.juzhai.post.service.IIdeaService;
 
 public class BaseController {
 
@@ -52,6 +58,8 @@ public class BaseController {
 	private MessageSource messageSource;
 	@Autowired
 	private IActCategoryService actCategoryService;
+	@Autowired
+	private IIdeaService ideaService;
 
 	protected UserContext checkLoginForApp(HttpServletRequest request)
 			throws NeedLoginException {
@@ -131,11 +139,42 @@ public class BaseController {
 		model.addAttribute("suitGenders", SuitGender.values());
 		model.addAttribute("suitStatus", SuitStatus.values());
 	}
-	
-	protected void assembleCitys(Model model){
+
+	protected void assembleCitys(Model model) {
 		model.addAttribute("towns", InitData.TOWN_MAP.values());
 		model.addAttribute("citys", InitData.CITY_MAP.values());
 		model.addAttribute("provinces", InitData.PROVINCE_MAP.values());
 	}
-	
+
+	protected void ideaWidget(UserContext context, long cityId, Model model,
+			int count) {
+		// TODO 是否要改成未发布的最新idea
+		if (count <= 0) {
+			count = 5;
+		}
+		List<Idea> ideaList = ideaService.listIdeaByCity(cityId,
+				ShowIdeaOrder.HOT_TIME, 0, count);
+		if (CollectionUtils.isEmpty(ideaList) && cityId > 0) {
+			ideaList = ideaService.listIdeaByCity(0L, ShowIdeaOrder.HOT_TIME,
+					0, count);
+		}
+
+		List<IdeaView> ideaViewList = new ArrayList<IdeaView>();
+		for (Idea idea : ideaList) {
+			IdeaView ideaView = new IdeaView();
+			ideaView.setIdea(idea);
+			ideaView.setHasUsed(ideaService.isUseIdea(context.getUid(),
+					idea.getId()));
+			ideaViewList.add(ideaView);
+		}
+		model.addAttribute("ideaViewList", ideaViewList);
+	}
+
+	protected void newUserWidget(long cityId, Model model, int count) {
+		if (count <= 0) {
+			count = 12;
+		}
+		model.addAttribute("profileList", profileService
+				.listProfileByCityIdOrderCreateTime(cityId, 0, count));
+	}
 }

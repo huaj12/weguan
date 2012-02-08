@@ -42,53 +42,17 @@ function removeAd(rawAdId){
 		}
 	});
 }
-function actAdManager(obj, rawAdId,flag){
-	$("#actName").val("");
-	//是否需要加载act
-	if(flag){
-		showActs(rawAdId);
-	}
-	$.dialog({
-	    lock: true,
-	    content: $("#adManager")[0],
-	    follow: obj
-	});
-	$("#rawAdId").val(rawAdId);
-}
-function showActs(rawAdId){
+function addAd(rawAdId){
 	jQuery.ajax({
-		url : "/cms/ajax/show/act/ads",
-		type : "get",
-		data : {
-			"rawAdId":rawAdId,
-		},
-		dataType : "text",
-		success : function(result) {
-			$("#my_acts").html(result);
-		},
-		statusCode : {
-			401 : function() {
-				alert("未登录");
-			}
-		}
-	});
-}
-function addAd(){
-	var actName=$("#actName").val();
-	var rawAdId=$("#rawAdId").val();
-	
-	jQuery.ajax({
-		url : "/cms/add/act/ad",
+		url : "/cms/publish/ad",
 		type : "post",
 		data : {
-			"actName" : actName,
-			"rawAdId":rawAdId,
+			"rawAdId":rawAdId
 		},
 		dataType : "json",
 		success : function(result) {
 			if (result && result.success) {
-				showActs(rawAdId);
-				$("#actName").val("");
+				location.reload();
 			} else {
 				alert(result.errorInfo);
 			}
@@ -134,12 +98,12 @@ function addAd(){
 	</select>
 	</form>
 	<table border="0" cellspacing="4">
-	<tr>
+		<tr>
 			<td colspan="4"><c:forEach var="pageId"
 					items="${pager.showPages}">
 					<c:choose>
 						<c:when test="${pageId!=pager.currentPage}">
-							<a href="/cms/show/ad/manager?pageId=${pageId}">${pageId}</a>
+							<a href="/cms/show/ad/manager?pageId=${pageId}&source=${source}&cityId=${cityId}&status=${status}">${pageId}</a>
 						</c:when>
 						<c:otherwise>
 							<strong>${pageId}</strong>
@@ -166,10 +130,10 @@ function addAd(){
 				<input type="button" value="删除" onclick="removeAd('${ad.id}','false')"/>
 				<c:choose>
 					<c:when test="${ad.status==0}">
-						<input type="button" value="发布" onclick="actAdManager(this,'${ad.id}','false')"/>
+						<input type="button" value="发布" onclick="addAd('${ad.id}')"/>
 					</c:when>
 					<c:when test="${ad.status==1}">
-						<input type="button" value="修改发布" onclick="actAdManager(this,'${ad.id}',true)"/>
+						已发布
 					</c:when>
 				</c:choose>
 			</td>
@@ -203,22 +167,6 @@ function addAd(){
 				</c:forEach></td>
 		</tr>
 	</table>
-	<div id="adManager" style="display: none">
-		<table>
-			<tr>
-				<td  colspan="2">发布哪几个项目</td>
-			</tr>
-			<tr>
-				<td colspan="2" id="my_acts"></td>
-			</tr>
-			<tr>
-				<td><input type="text" id="actName"/>
-					<input type="hidden" id="rawAdId"/>
-				 </td>
-				<td><input type="button" onclick="addAd();" value="添加"/> </td>
-			</tr>
-		</table>
-	</div>
 	<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 	<script type="text/javascript" src="${jzr:static('/js/core/core.js')}"></script>
 </body>

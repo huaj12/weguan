@@ -113,14 +113,6 @@ a:hover {
 						style="color: black;" href="/cms/showRawActs"
 						target="config">审核用户添加项目</a>
 					</li>
-					<li style="background-color: #A4D3EE;"><a
-						style="color: black;" href="/cms/show/ad/manager"
-						target="config">优惠信息管理</a>
-					</li>
-					<li style="background-color: #A4D3EE;"><a
-						style="color: black;" href="/cms/show/raw/ad"
-						target="config">导入团购信息</a>
-					</li>
 				</ul>
 			</li>
 			<li>
@@ -159,6 +151,23 @@ a:hover {
 					<li style="background-color: #A4D3EE;"><a
 						style="color: black;" href="/cms/show/postwindow/list"
 						target="config">橱窗内容列表</a>
+					</li>
+				</ul>
+			</li>
+				<li>
+				<a href="javascript:showChild('adManager_');">优惠信息管理</a>
+				<ul style="display: none;" id="adManager_" class="child">
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/list/ad"
+						target="config">已发布优惠信息管理</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/ad/manager"
+						target="config">优惠信息管理</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/raw/ad"
+						target="config">导入团购信息</a>
 					</li>
 				</ul>
 				

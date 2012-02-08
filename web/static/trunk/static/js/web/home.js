@@ -156,38 +156,6 @@ $(document).ready(function(){
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);
 	});
-	
-	//右侧idea
-	$("div.idea").find("div.send > a").click(function(){
-		var ideaId = $(this).attr("idea-id");
-		var send = $(this).parent().hide();
-		var sending = send.prev().show();
-		$.ajax({
-			url : "/post/postIdea",
-			type : "post",
-			cache : false,
-			data : {"ideaId" : ideaId},
-			dataType : "json",
-			success : function(result) {
-				if(result&&result.success){
-					sending.attr("class", "sended").children("a").text("已发布");
-					send.unbind("click");
-					$("#useCount-" + ideaId).text(parseInt($("#useCount-" + ideaId).text()) + 1);
-					var content = $("#dialog-success").html().replace("{0}", "发布成功！");
-					showSuccess(sending[0], content);
-				}else{
-					alert(result.errorInfo);
-					sending.hide();
-					send.show();
-				}
-			},
-			statusCode : {
-				401 : function() {
-					window.location.href = "/login?turnTo=" + window.location.href;
-				}
-			}
-		});
-	});
 });
 
 function resetSendPostForm(){

@@ -117,11 +117,24 @@ public class PostController extends BaseController {
 		return result;
 	}
 
-	@RequestMapping(value = "/detail/{postId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/deletePost", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult deletePost(HttpServletRequest request, Model model,
+			long postId) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult result = new AjaxResult();
+		try {
+			postService.deletePost(context.getUid(), postId);
+		} catch (InputPostException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/{postId}", method = RequestMethod.GET)
 	public String detail(HttpServletRequest request, Model model,
 			@PathVariable long postId) {
-		pageResponseUser(request, model, postId, 1);
-		return "web/post/detail";
+		return pageResponseUser(request, model, postId, 1);
 	}
 
 	@RequestMapping(value = "/{postId}/responseUser/{page}", method = RequestMethod.GET)
@@ -129,6 +142,9 @@ public class PostController extends BaseController {
 			@PathVariable long postId, @PathVariable int page) {
 		UserContext context = (UserContext) request.getAttribute("context");
 		Post post = postService.getPostById(postId);
+		if (null == post || post.getDefunct()) {
+			return error_404;
+		}
 		model.addAttribute("post", post);
 		ProfileCache profileCache = profileService.getProfileCacheByUid(post
 				.getCreateUid());

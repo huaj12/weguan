@@ -156,6 +156,7 @@
 										<div class="select">
 											<!--select begin-->
 											<span><select id="birthYear">
+													<option value="0" <c:if test="${0==profile.birthYear}"> selected="selected" </c:if>>请选择</option>
 													<c:forEach begin="1900" end="2012" var="year">
 														<option value="${year}"
 															<c:if test="${year==profile.birthYear}"> selected="selected" </c:if>>${year
@@ -163,12 +164,14 @@
 													</c:forEach>
 											</select>
 											</span> <span><select id="birthMonth">
+													<option value="0" <c:if test="${0==profile.birthMonth}"> selected="selected" </c:if> >请选择</option>
 													<c:forEach begin="1" end="12" var="month">
 														<option value="${month}"
 															<c:if test="${month==profile.birthMonth}"> selected="selected" </c:if>>${month}月</option>
 													</c:forEach>
 											</select>
 											</span> <span><select id="birthDay">
+													<option value="0" <c:if test="${0==profile.birthDay}"> selected="selected" </c:if>>请选择</option>
 													<c:forEach begin="1" end="31" var="day">
 														<option value="${day}"
 															<c:if test="${day==profile.birthDay}"> selected="selected" </c:if>>${day}日</option>
@@ -183,6 +186,7 @@
 											</div>
 										</div>
 										<!--select end-->
+										<div class="error" id="birth_tp"></div>
 									</div>
 									<!--infor_x end-->
 									<div class="infor_x">

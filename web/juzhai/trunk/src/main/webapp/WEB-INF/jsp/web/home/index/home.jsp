@@ -17,7 +17,10 @@
 						<div class="content_box w660 z900"><!--content begin-->
 							<div class="t"></div>
 							<div class="m">
-								<jsp:include page="send_post.jsp" />
+								<div class="send_box"><!--send_box begin-->
+									<div class="face"><a href="javascript:void(0);"><img src="${jzr:userLogo(profile.uid,profile.logoPic,120)}" width="120" height="120" /></a></div>
+									<jsp:include page="send_post.jsp" />
+								</div>
 							</div>
 							<div class="t"></div>
 						</div><!--content end-->

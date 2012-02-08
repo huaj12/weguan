@@ -493,3 +493,153 @@ function responsePost(clickObj, postId, successCallback){
 		}
 	});
 }
+
+var PostSender =  Class.extend({
+	init: function(sendForm){
+		this.sendForm = sendForm;
+		this.sendPostDate = sendForm.find("#send-post-date");
+		this.sendPostAddress = sendForm.find("#send-post-address");
+		this.sendPostPic = sendForm.find("#send-post-pic");
+		this.sendPostTb = sendForm.find("div.tb");
+		this.initDate();
+		this.initAddress();
+		this.initPic();
+		this.initTb();
+	},
+	initDate : function(){
+		//date
+		var sendPostDate = this.sendPostDate;
+		sendPostDate.find("p > a.time").click(function(){
+			var timeClick = $(this);
+			WdatePicker({
+				errDealMode : 3,
+				dateFmt:"MM-dd",
+				onpicked:function(){
+					var value = $dp.cal.getP('y') + "-" + $dp.cal.getP('M') + "-" + $dp.cal.getP('d');
+					sendPostDate.find("input[name='dateString']").val(value);
+					sendPostDate.addClass("done");
+				},
+				oncleared:function(){
+					sendPostDate.find("input[name='dateString']").val("");
+					timeClick.text("时间");
+					sendPostDate.removeClass("done");
+				}
+			});
+		});
+	},
+	initAddress : function(){
+		//place
+		var sendPostAddress = this.sendPostAddress;
+		sendPostAddress.find("p > a").bind("click", function(){
+			sendPostAddress.addClass("active");
+		});
+		sendPostAddress.find("div.show_area > div.area_title > a").click(function(){
+			sendPostAddress.removeClass("active");
+		});
+		$("body").bind("mousedown",function(event){
+			if($(event.target).closest(sendPostAddress).length <= 0){
+				sendPostAddress.removeClass("active");
+			}
+		});
+		sendPostAddress.find("div.show_area > div.ok_btn > a").bind("click", function(){
+			var value = sendPostAddress.find("div.input > span > input").val();
+			//check place
+			if(!checkValLength(value, 0, 40)){
+				sendPostAddress.find(".error").text("地点字数控制在20字以内").show();
+				return;
+			}
+			sendPostAddress.find('input[name="place"]').val(value);
+			sendPostAddress.removeClass("active");
+			sendPostAddress.find("p > a").attr("title", value);
+			if(value != null && value != ""){
+				sendPostAddress.addClass("done");
+			}else{
+				sendPostAddress.removeClass("done");
+			}
+			sendPostAddress.find(".error").hide();
+		});
+	},
+	initPic : function(){
+		//pic
+		var sendPostPic = this.sendPostPic;
+		var sendForm = this.sendForm;
+		sendPostPic.find("p > a.photo").click(function(){
+			sendPostPic.addClass("active");
+		});
+		
+		$("body").bind("mousedown",function(event){
+			if($(event.target).closest(sendPostPic).length <= 0){
+				sendPostPic.removeClass("active");
+			}
+		});
+		sendPostPic.find("div.upload_photo_area > div.close1 > a").click(function(){
+			sendPostPic.removeClass("active");
+		});
+		sendPostPic.find("input.btn_file_molding").change(function(){
+			sendPostPic.find("div.show_area > div.upload_photo_area > div.upload").hide();
+			sendPostPic.find("div.load_error").hide();
+			//$("div.upload > div.loading").show();
+			var options = {
+				url : "/post/pic/upload",
+				type : "POST",
+				dataType : "json",
+				iframe : "true",
+				success : function(result) {
+					if (result.success) {
+						sendPostPic.find("input[name='pic']").val(result.result[1]);
+						sendPostPic.find("div.upload_ok > div.img > img").attr("src", result.result[0]);
+						sendPostPic.find("div.upload_ok").show();
+						sendPostPic.addClass("done");
+						//$("div.upload > div.loading").hide();
+					} else if (result.errorCode == "00003") {
+						window.location.href = "/login?turnTo=" + window.location.href;
+					} else {
+						//$("div.upload > div.loading").hide();
+						sendPostPic.find("div.load_error").text(result.errorInfo).show();
+						sendPostPic.find("div.show_area > div.upload_photo_area > div.upload").show();
+					}
+				},
+				error : function(data) {
+					//$("div.upload > div.loading").hide();
+					sendPostPic.find("div.load_error").text("上传失败").show();
+					sendPostPic.find("div.show_area > div.upload_photo_area > div.upload-input").show();
+				}
+			};
+			sendForm.ajaxSubmit(options);
+			return false;
+		});
+		sendPostPic.find("div.upload_ok > em > a").click(function(){
+			sendPostPic.removeClass("done");
+			sendPostPic.find("input[name='pic']").val("");
+			sendPostPic.find("div.upload_ok > div.img > img").attr("src", sendPostPic.find("div.upload_ok > div.img > img").attr("init-pic"));
+			sendPostPic.find("div.upload_ok").hide();
+			sendPostPic.find("div.load_error").hide();
+			sendPostPic.find("div.show_area > div.upload_photo_area > div.upload").show();
+		});
+	},
+	initTb : function(){
+		this.sendPostTb.bind("click", function(){
+			if($(this).hasClass("tb_click")){
+				$(this).removeClass("tb_click");
+				$(this).find('input[name="sendWeibo"]').val(false);
+			}else{
+				$(this).addClass("tb_click");
+				$(this).find('input[name="sendWeibo"]').val(true);
+			}
+		});
+	},
+	bindSubmit : function(submitHandler){
+		//submit
+		var sendForm = this.sendForm;
+		sendForm.find("div.btn > a").bind("click", function(){
+			var content = sendForm.find("div.textarea > textarea").val();
+			if(!checkValLength(content, 10, 280)){
+				sendForm.find(".send_box_error").text("内容控制在5-140个汉字内").show();
+				return;
+			}
+			$(this).parent().hide();
+			sendForm.find("div.sending").show();
+			submitHandler(sendForm);
+		});
+	}
+});

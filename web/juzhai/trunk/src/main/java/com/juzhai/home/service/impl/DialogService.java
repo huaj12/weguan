@@ -5,14 +5,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.controller.view.DialogContentView;
 import com.juzhai.home.controller.view.DialogView;
 import com.juzhai.home.exception.DialogException;
@@ -53,6 +57,8 @@ public class DialogService implements IDialogService {
 	private IProfileService profileService;
 	@Autowired
 	private INoticeService noticeService;
+	@Autowired
+	private MessageSource messageSource;
 	@Value("${dialog.content.length.max}")
 	private int dialogContentLengthMax;
 	@Value("${dialog.content.length.min}")
@@ -102,6 +108,21 @@ public class DialogService implements IDialogService {
 				dialogContent.getId());
 		noticeService.incrNotice(targetUid, NoticeType.DIALOG);
 		return dialogContent.getId();
+	}
+
+	@Override
+	public long sendSMS(long uid, long targetUid,
+			DialogContentTemplate template, Object... params) {
+		String content = messageSource.getMessage(template.getName(), params,
+				Locale.SIMPLIFIED_CHINESE);
+		if (StringUtils.isEmpty(content)) {
+			return 0L;
+		}
+		try {
+			return sendSMS(uid, targetUid, content);
+		} catch (DialogException e) {
+			return 0L;
+		}
 	}
 
 	@Override

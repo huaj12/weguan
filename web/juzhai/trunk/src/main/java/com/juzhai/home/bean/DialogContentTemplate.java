@@ -1,0 +1,17 @@
+package com.juzhai.home.bean;
+
+public enum DialogContentTemplate {
+
+	INTEREST_USER("interest.dialog.content"), RESPONSE_POST(
+			"response.dialog.content");
+
+	private String name;
+
+	private DialogContentTemplate(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+}

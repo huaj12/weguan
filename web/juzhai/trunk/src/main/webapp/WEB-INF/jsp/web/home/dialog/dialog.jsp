@@ -16,7 +16,7 @@
 					<div class="t"></div>
 					<div class="m"><!--m begin-->
 						<div class="message"><!--message begin-->
-							<div class="title"><span class="sx"></span><h2>我的私信</h2><a href="/showActs">返回首页</a></div>
+							<div class="title"><span class="sx"></span><h2>我的私信</h2><a href="/home">返回首页</a></div>
 							<jsp:include page="dialog_list.jsp" />
 						</div><!--message end-->
 					</div><!--m end-->

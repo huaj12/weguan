@@ -23,8 +23,6 @@ import com.juzhai.home.bean.InterestUserView;
 import com.juzhai.home.service.IUserFreeDateService;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.index.controller.view.IdeaView;
-import com.juzhai.notice.bean.NoticeType;
-import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
@@ -49,8 +47,8 @@ public class HomeController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private ILoginService loginService;
-	@Autowired
-	private INoticeService noticeService;
+	// @Autowired
+	// private INoticeService noticeService;
 	@Autowired
 	private IUserFreeDateService userFreeDateService;
 	@Autowired
@@ -267,9 +265,9 @@ public class HomeController extends BaseController {
 						pager.getMaxResult());
 		assembleInterestUserView(model, context, profileList, null);
 		model.addAttribute("pager", pager);
-		if (page <= 1) {
-			noticeService.emptyNotice(context.getUid(), NoticeType.INTEREST_ME);
-		}
+		// if (page <= 1) {
+		// noticeService.emptyNotice(context.getUid(), NoticeType.INTEREST_ME);
+		// }
 		return "web/home/interest/interest_mes";
 	}
 

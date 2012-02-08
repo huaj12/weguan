@@ -2,10 +2,12 @@ package com.juzhai.index.controller.website;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +20,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.juzhai.core.controller.BaseController;
+import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.bean.ShowActOrder;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.index.controller.view.QueryUserView;
+import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Profile;
+import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.post.model.Idea;
@@ -44,8 +49,12 @@ public class NewIndexController extends BaseController {
 	private IIdeaService ideaService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IFriendService friendService;
 	@Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows;
+	@Value("${show.invite.users.max.rows}")
+	private int showInviteUsersMaxRows;
 
 	@RequestMapping(value = { "", "/", "/index" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
@@ -88,6 +97,50 @@ public class NewIndexController extends BaseController {
 	@RequestMapping(value = "/aboutUs", method = RequestMethod.GET)
 	public String aboutUs(HttpServletRequest request, Model model) {
 		return "web/index/about_us";
+	}
+
+	@RequestMapping(value = "/showInviteUsers", method = RequestMethod.GET)
+	public String followUser(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+
+		List<TpFriend> inviteUserList = friendService
+				.getUnInstallFriends(context.getUid());
+		if (CollectionUtils.isNotEmpty(inviteUserList)) {
+			int toIndex = Math.min(showInviteUsersMaxRows,
+					inviteUserList.size());
+			model.addAttribute("inviteUserList",
+					inviteUserList.subList(0, toIndex));
+			PagerManager pager = new PagerManager(1, showInviteUsersMaxRows,
+					inviteUserList.size());
+			model.addAttribute("totalPage", pager.getTotalPage());
+		} else {
+			model.addAttribute("inviteUserList", Collections.emptyList());
+			model.addAttribute("totalPage", 0);
+		}
+		return "web/index/zbe/show_invite_users";
+	}
+
+	@RequestMapping(value = "/pageInviteUser", method = RequestMethod.GET)
+	public String pageInviteUser(HttpServletRequest request, Model model,
+			int page) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		// 邀请的人
+		List<TpFriend> inviteUserList = friendService
+				.getUnInstallFriends(context.getUid());
+		if (page <= 0) {
+			page = 1;
+		}
+		if (CollectionUtils.isNotEmpty(inviteUserList)) {
+			int fromIndex = (page - 1) * showInviteUsersMaxRows;
+			int toIndex = Math.min(fromIndex + showInviteUsersMaxRows,
+					inviteUserList.size());
+			model.addAttribute("inviteUserList",
+					inviteUserList.subList(fromIndex, toIndex));
+		} else {
+			model.addAttribute("inviteUserList", Collections.emptyList());
+		}
+		return "web/index/zbe/invite_user_list";
 	}
 
 	@RequestMapping(value = "/searchUser", method = RequestMethod.GET)

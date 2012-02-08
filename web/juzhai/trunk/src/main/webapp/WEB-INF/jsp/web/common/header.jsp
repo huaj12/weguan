@@ -5,40 +5,10 @@
 <div class="fix_top">
 	<div class="top"><!--top begin-->
 		<h1><a href="http://www.51juzhai.com"></a></h1>
-		<div class="area"><!--area begin-->
-			<c:choose>
-				<c:when test="${channelId==0}">
-					<p><a href="javascript:void(0);">全国</a></p>
-				</c:when>
-				<c:otherwise>
-					<p><a href="javascript:void(0);">${jzd:cityName(channelId)}</a></p>
-				</c:otherwise>
-			</c:choose>
-			<div class="area_list" style="display:none;">
-				<!--about_list begin-->
-				<a href="javascript:void(0);" cityid="2">上海</a>
-				<a href="javascript:void(0);" cityid="1">北京</a>
-				<a href="javascript:void(0);" cityid="0">全国</a>
-			</div><!--about_list end-->
-		</div><!--area end-->
-		<%-- <div class="area"><!--area begin-->
-			<c:choose>
-				<c:when test="${channelId==0}">
-					<p>全国</p>
-				</c:when>
-				<c:otherwise>
-					<p>${jzd:cityName(channelId)}</p>
-				</c:otherwise>
-			</c:choose>
-			<div class="area_list" style="display:none;">
-				<!--about_list begin-->
-				<a href="javascript:void(0);" cityid="2">上海</a>
-				<a href="javascript:void(0);" cityid="1">北京</a>
-				<a href="javascript:void(0);" cityid="0">全国</a>
-			</div><!--about_list end-->
-		</div><!--area end--> --%>
 		<div class="menu"><!--menu begin-->
-			<a href="/showUsers" title="找伴儿" <c:if test="${pageType=='zbe'}">class="selceted"</c:if>>找伴儿</a> <a href="/showActs" title="出去玩" <c:if test="${pageType=='cqw'}">class="selceted"</c:if>>出去玩</a>
+			<a href="/" title="">首页</a>
+			<a href="/showUsers" title="找伴儿" <c:if test="${pageType=='zbe'}">class="selceted"</c:if>>找伴儿</a>
+			<a href="/showActs" title="出去玩" <c:if test="${pageType=='cqw'}">class="selceted"</c:if>>出去玩</a>
 		</div><!--menu end-->
 		<c:if test="${context.uid>0}">
 			<div class="acc"><!--acc begin-->
@@ -46,28 +16,12 @@
 				<div class="acc_list" style="display:none;"><!--acc_list begin-->
 					<a href="/profile/index">我的资料</a>
 					<a href="/profile/index/face">个人形象</a>
-					<a href="/profile/email">订阅设置</a>
+					<!-- <a href="/profile/email">订阅设置</a> -->
 					<a href="/logout">退出</a>
 				</div><!--acc_list end-->
 			</div><!--acc end-->
-			<div class="my_message"><!--my_message begin-->
-				<div id="messageSelect">
-					<p class=""><a href="javascript:void(0);">消息</a></p>
-					<div class="my_message_show" style="display: none; z-index: 999"><!--use_set_center begin-->
-						<span id="notice1"><a href="/home/interestMes/1">敲过我门的人</a><em></em></span>
-						<span id="notice5"><a href="/home/dialog/1">私信</a><em></em></span>
-						<span id="notice2"><a href="/home/datingMes/1">约我的人</a><em></em></span>
-						<span id="notice3"><a href="/home/datings/accept/1">接受我约的人</a><em></em></span>
-						<span id="notice4"><a href="/notice/sysNotices">系统通知</a><em></em></span>
-					</div><!--use_set_center end-->
-				</div>
-				<div class="my_message_show" style="z-index: 1"><!--use_set_center begin-->
-					<span id="notice1" style="display: none;"><a href="/home/interestMes/1">敲过我门的人</a><em></em></span>
-					<span id="notice5" style="display: none;"><a href="/home/dialog/1">私信</a><em></em></span>
-					<span id="notice2" style="display: none;"><a href="/home/datingMes/1">约我的人</a><em></em></span>
-					<span id="notice3" style="display: none;"><a href="/home/datings/accept/1">接受我约的人</a><em></em></span>
-					<span id="notice4" style="display: none;"><a href="/notice/sysNotices">系统通知</a><em></em></span>
-				</div><!--use_set_center end-->
+			<div class="my_message" ><!--my_message begin-->
+				<a href="/home/dialog/1"><p>消息</p><span style="display: none;" id="notice5">1</span></a>
 			</div><!--my_message end-->
 		</c:if>
 		<div class="user_area"><!--user_area begin-->

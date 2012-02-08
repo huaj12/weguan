@@ -12,45 +12,49 @@ $(document).ready(function(){
 //		});
 //	});
 	
-	$("div.area > p").bind("click", function(){
-		var obj = $("div.area_list");
-		if(obj.is(":visible")){
-			$(this).removeClass("hover");
-			$("div.area_list").hide();
-		} else {
-			$(this).addClass("hover");
-			$("div.area_list").show();
-		}
-	});
-	$("div.area_list > a").bind("click", function(){
-		var cityId = $(this).attr("cityid");
-		switchChannel(cityId);
-	});
-	$("div.area").hover(function(){
-		$("body").unbind("mousedown");
-	}, registerClosChannel);
+//	$("div.area > p").bind("click", function(){
+//		var obj = $("div.area_list");
+//		if(obj.is(":visible")){
+//			$(this).removeClass("hover");
+//			$("div.area_list").hide();
+//		} else {
+//			$(this).addClass("hover");
+//			$("div.area_list").show();
+//		}
+//	});
+//	$("div.area_list > a").bind("click", function(){
+//		var cityId = $(this).attr("cityid");
+//		switchChannel(cityId);
+//	});
+//	$("div.area").hover(function(){
+//		$("body").unbind("mousedown");
+//	}, registerClosChannel);
+	
+	//登录
 	$("div.unlogin > a").bind("click", function(){
 		showLogin(window.location.href);
 	});
 	
-	var messageTimerId = null;
-	$("div.my_message > div#messageSelect").hover(function(){
-		if(messageTimerId){
-			clearTimeout(messageTimerId);
-		}
-		messageTimerId = setTimeout(function(){
-			$("div.my_message > div#messageSelect > p").addClass("hover");
-			$("div.my_message > div#messageSelect > div").first().show();
-		}, 300);
-	}, function(){
-		if(messageTimerId){
-			clearTimeout(messageTimerId);
-		}
-		messageTimerId = setTimeout(function(){
-			$("div.my_message > div#messageSelect > p").removeClass("hover");
-			$("div.my_message > div#messageSelect > div").first().hide();
-		}, 300);
-	});
+//	var messageTimerId = null;
+//	$("div.my_message > div#messageSelect").hover(function(){
+//		if(messageTimerId){
+//			clearTimeout(messageTimerId);
+//		}
+//		messageTimerId = setTimeout(function(){
+//			$("div.my_message > div#messageSelect > p").addClass("hover");
+//			$("div.my_message > div#messageSelect > div").first().show();
+//		}, 300);
+//	}, function(){
+//		if(messageTimerId){
+//			clearTimeout(messageTimerId);
+//		}
+//		messageTimerId = setTimeout(function(){
+//			$("div.my_message > div#messageSelect > p").removeClass("hover");
+//			$("div.my_message > div#messageSelect > div").first().hide();
+//		}, 300);
+//	});
+	
+	//账号
 	var accTimerId = null;
 	$("div.acc").hover(function(){
 		if(accTimerId){
@@ -75,6 +79,7 @@ $(document).ready(function(){
 		setInterval(queryNotice, 10000);
 	}
 	
+	//search
 	var searchInput = $("div.search > div.s_m > input");
 	var initMsg = searchInput.attr("init-msg");
 	searchInput.bind("focus", function(){
@@ -111,11 +116,10 @@ function queryNotice(){
 			if (result && result.success) {
 				for(var key in result.result){
 					if(result.result[key] > 0){
-						$("div.my_message > div.my_message_show > span#notice" + key).show();
+						$("div.my_message > a > span#notice" + key).text(result.result[key]).show();
 					}else{
-						$("div.my_message > div.my_message_show > span#notice" + key).hide();
+						$("div.my_message > a > span#notice" + key).hide();
 					}
-					$("div.my_message_show > span#notice" + key + " > em").text(result.result[key] > 0 ? result.result[key] : "");
 				}
 			} else {
 				alert(result.errorInfo);
@@ -124,12 +128,12 @@ function queryNotice(){
 	});
 }
 
-function registerClosChannel(){
-	$("body").bind("mousedown",function(){
-		$("div.area > p").removeClass("hover");
-		$("div.area_list").hide();
-	});
-}
+//function registerClosChannel(){
+//	$("body").bind("mousedown",function(){
+//		$("div.area > p").removeClass("hover");
+//		$("div.area_list").hide();
+//	});
+//}
 
 function switchChannel(cityId){
 	jQuery.ajax({

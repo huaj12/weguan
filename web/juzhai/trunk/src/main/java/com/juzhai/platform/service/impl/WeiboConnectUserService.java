@@ -129,7 +129,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 			// 用户简介
 			profile.setFeature(user.getDescription());
 			// 没有家乡用所在地代替
-			profile.setHome(user.getLocation());
+//			profile.setHome(user.getLocation());
 			// 获取不到生日需要高级接口
 			String cityName = user.getLocation();
 			City city = null;

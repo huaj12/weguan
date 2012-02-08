@@ -26,6 +26,8 @@ import com.juzhai.cms.service.ISpiderUrlService;
 import com.juzhai.cms.task.ImportAdTask;
 import com.juzhai.core.Constants;
 import com.juzhai.core.dao.Limit;
+import com.juzhai.post.exception.InputAdException;
+import com.juzhai.post.service.IAdService;
 
 @Service
 public class RawAdService implements IRawAdService {
@@ -39,6 +41,8 @@ public class RawAdService implements IRawAdService {
 	private RawAdMapper rawAdMapper;
 	@Autowired
 	private ISpiderUrlService spiderUrlService;
+	@Autowired
+	private IAdService adService;
 
 	@Override
 	public int importAd(MultipartFile rawAd) throws RawAdInputException {
@@ -193,6 +197,15 @@ public class RawAdService implements IRawAdService {
 					RawAdInputException.RAW_AD_REMOVE_ID_IS_NULL);
 		}
 		rawAdMapper.deleteByPrimaryKey(rawId);
+	}
+
+	@Override
+	public void publishAd(long rawAdId) throws InputAdException {
+		adService.addAd(rawAdId);
+		RawAd rawAd = new RawAd();
+		rawAd.setId(rawAdId);
+		rawAd.setStatus(1);
+		updateRawAd(rawAd);
 	}
 
 }

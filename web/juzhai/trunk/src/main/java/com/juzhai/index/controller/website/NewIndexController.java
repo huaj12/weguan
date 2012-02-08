@@ -177,7 +177,7 @@ public class NewIndexController extends BaseController {
 			userViews.add(userView);
 		}
 		model.addAttribute("userViews", userViews);
-		return null;
+		return "web/index/zbe/query_user_list";
 	}
 
 	private int ageToYear(int age) {

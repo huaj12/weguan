@@ -21,24 +21,18 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.InterestUserView;
 import com.juzhai.home.service.IUserFreeDateService;
-import com.juzhai.index.bean.ShowIdeaOrder;
-import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.post.controller.view.PostView;
-import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
-import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
 
 @Controller
 @RequestMapping(value = "home")
 public class HomeController extends BaseController {
 
-	@Autowired
-	private IIdeaService ideaService;
 	@Autowired
 	private IUserActService userActService;
 	@Autowired
@@ -65,10 +59,10 @@ public class HomeController extends BaseController {
 	private int webInterestMeMaxRows;
 	@Value("${interest.user.show.act.count}")
 	private int interestUserShowActCount;
-	@Value("${web.home.right.idea.rows}")
-	private int webHomeRightIdeaRows;
 	@Value("${web.home.right.user.rows}")
 	private int webHomeRightUserRows;
+	@Value("${web.home.right.idea.rows}")
+	private int webHomeRightIdeaRows;
 
 	// @RequestMapping(value = { "/acts", "/", "" }, method = RequestMethod.GET)
 	// public String myActs(HttpServletRequest request, Model model)
@@ -185,22 +179,8 @@ public class HomeController extends BaseController {
 	}
 
 	private void showHomeRight(UserContext context, long cityId, Model model) {
-		// TODO 是否要改成未发布的最新idea
-		List<Idea> ideaList = ideaService.listIdeaByCity(cityId,
-				ShowIdeaOrder.HOT_TIME, 0, webHomeRightIdeaRows);
-		List<IdeaView> ideaViewList = new ArrayList<IdeaView>();
-		for (Idea idea : ideaList) {
-			IdeaView ideaView = new IdeaView();
-			ideaView.setIdea(idea);
-			ideaView.setHasUsed(ideaService.isUseIdea(context.getUid(),
-					idea.getId()));
-			ideaViewList.add(ideaView);
-		}
-		model.addAttribute("ideaViewList", ideaViewList);
-
-		model.addAttribute("profileList", profileService
-				.listProfileByCityIdOrderCreateTime(cityId, 0,
-						webHomeRightUserRows));
+		ideaWidget(context, cityId, model, webHomeRightIdeaRows);
+		newUserWidget(cityId, model, webHomeRightUserRows);
 	}
 
 	@RequestMapping(value = "/posts", method = RequestMethod.GET)

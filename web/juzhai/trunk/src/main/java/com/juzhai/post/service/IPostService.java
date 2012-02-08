@@ -6,6 +6,7 @@ import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.controller.form.PostForm;
 import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.model.Post;
+import com.juzhai.post.model.PostResponse;
 
 public interface IPostService {
 
@@ -255,7 +256,7 @@ public interface IPostService {
 	Post getPostById(long postId);
 
 	/**
-	 * 拒宅的
+	 * 拒宅的响应者列表
 	 * 
 	 * @param postId
 	 * @param firestResult
@@ -264,4 +265,23 @@ public interface IPostService {
 	 */
 	List<ProfileCache> listResponseUser(long postId, int firstResult,
 			int maxResults);
+
+	/**
+	 * 拒宅的响应列表
+	 * 
+	 * @param postId
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<PostResponse> listPostResponse(long postId, int firstResult,
+			int maxResults);
+
+	/**
+	 * 拒宅的响应者数量
+	 * 
+	 * @param postId
+	 * @return
+	 */
+	int countResponseUser(long postId);
 }

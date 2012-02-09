@@ -204,7 +204,8 @@ public class IdeaService implements IIdeaService {
 		}
 
 		// 验证内容是否重复
-		ideaForm.setContentMd5(checkContentDuplicate(ideaForm.getContent()));
+		ideaForm.setContentMd5(checkContentDuplicate(ideaForm.getContent(),
+				ideaForm.getIdeaId()));
 
 		// 验证地点字数
 		int placeLength = StringUtil.chineseLength(ideaForm.getPlace());
@@ -225,14 +226,18 @@ public class IdeaService implements IIdeaService {
 		}
 	}
 
-	private String checkContentDuplicate(String content)
+	private String checkContentDuplicate(String content, Long id)
 			throws InputIdeaException {
 		String contentMd5 = null;
 		if (StringUtils.isNotEmpty(content)) {
 			contentMd5 = DigestUtils.md5Hex(content);
 		}
 		IdeaExample example = new IdeaExample();
-		example.createCriteria().andContentMd5EqualTo(contentMd5);
+		IdeaExample.Criteria criteria = example.createCriteria();
+		criteria.andContentMd5EqualTo(contentMd5);
+		if (id != null) {
+			criteria.andIdNotEqualTo(id);
+		}
 		if (ideaMapper.countByExample(example) > 0) {
 			throw new InputIdeaException(
 					InputIdeaException.IDEA_CONTENT_DUPLICATE);

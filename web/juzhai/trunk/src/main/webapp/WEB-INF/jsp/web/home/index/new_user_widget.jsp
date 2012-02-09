@@ -11,7 +11,7 @@
 		<div class="new_member"><!--new_member begin-->
 			<ul>
 				<c:forEach var="profile" items="${profileList}">
-					<li><a href="/home/${profile.uid}" title="${profile.nickname}"><img data-original="${jzr:userLogo(profile.uid, profile.logoPic, 80)}" src="${jzr:static('/images/web/1px.gif')}" width="50"  height="50"/></a></li>
+					<li><a href="/home/${profile.uid}" title="${profile.nickname}"><img src="${jzr:userLogo(profile.uid, profile.logoPic, 80)}" width="50"  height="50"/></a></li>
 				</c:forEach>
 			</ul>
 			<div class="yq"><a href="/showInviteUsers">邀请好友</a></div>

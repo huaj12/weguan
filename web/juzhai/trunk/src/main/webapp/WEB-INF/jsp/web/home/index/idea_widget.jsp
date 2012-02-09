@@ -14,7 +14,7 @@
 					<li class="mouseHover">
 						<p><c:out value="${ideaView.idea.content}" /></p>
 						<c:if test="${not empty ideaView.idea.pic}">
-							<div class="img"><img data-original="${jzr:ideaPic(ideaView.idea.id, ideaView.idea.pic)}" src="${jzr:static('/images/web/1px.gif')}" width="220"/></div>
+							<div class="img"><img src="${jzr:ideaPic(ideaView.idea.id, ideaView.idea.pic)}" width="220"/></div>
 						</c:if>
 						<span><a href="#" id="useCount-${ideaView.idea.id}">${ideaView.idea.useCount}</a>人想去</span>
 						<c:choose>

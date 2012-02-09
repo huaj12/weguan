@@ -477,9 +477,9 @@ public class ProfileService implements IProfileService {
 			c.andGenderEqualTo(gender);
 		}
 		if (maxYear == 0 && minYear > 0) {
-			c.andBirthYearLessThanOrEqualTo(minYear);
+			c.andBirthYearGreaterThanOrEqualTo(minYear);
 		} else if (maxYear > 0 && minYear == 0) {
-			c.andBirthYearGreaterThanOrEqualTo(maxYear);
+			c.andBirthYearLessThanOrEqualTo(maxYear);
 		} else if (maxYear > 0 && minYear > 0) {
 			c.andBirthYearBetween(minYear, maxYear);
 		}

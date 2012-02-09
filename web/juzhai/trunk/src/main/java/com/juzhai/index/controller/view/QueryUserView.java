@@ -11,11 +11,7 @@ public class QueryUserView {
 
 	private Post post;
 
-	public QueryUserView(Profile profile, boolean online, Post post) {
-		this.profile = profile;
-		this.online = online;
-		this.post = post;
-	}
+	private boolean hasInterest;
 
 	public Profile getProfile() {
 		return profile;
@@ -39,6 +35,14 @@ public class QueryUserView {
 
 	public void setPost(Post post) {
 		this.post = post;
+	}
+
+	public boolean isHasInterest() {
+		return hasInterest;
+	}
+
+	public void setHasInterest(boolean hasInterest) {
+		this.hasInterest = hasInterest;
 	}
 
 }

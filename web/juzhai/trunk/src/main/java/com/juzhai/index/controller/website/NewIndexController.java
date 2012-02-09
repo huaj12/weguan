@@ -8,8 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -26,14 +24,13 @@ import com.juzhai.index.bean.ShowActOrder;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.index.controller.view.QueryUserView;
-import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IFriendService;
+import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.post.model.Idea;
-import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IAdService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
@@ -41,7 +38,6 @@ import com.juzhai.post.service.IPostService;
 @Controller
 public class NewIndexController extends BaseController {
 
-	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private ILoginService loginService;
 	@Autowired
@@ -52,12 +48,16 @@ public class NewIndexController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private IFriendService friendService;
+	@Autowired
+	private IAdService adService;
+	@Autowired
+	private IInterestUserService interestUserService;
 	@Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows;
 	@Value("${show.invite.users.max.rows}")
 	private int showInviteUsersMaxRows;
-	@Autowired
-	private IAdService adService;
+	@Value("${query.users.right.user.rows}")
+	private int queryUsersRightUserRows;
 
 	@RequestMapping(value = { "", "/", "/index" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
@@ -150,46 +150,46 @@ public class NewIndexController extends BaseController {
 	}
 
 	@RequestMapping(value = "/queryUser", method = RequestMethod.GET)
-	public String queryUser(Model model) {
-		return pageQueryUser(model, 1, 0, null, null, null);
+	public String queryUser(HttpServletRequest request, Model model) {
+		return pageQueryUser(request, model, 1, 0, null, null, null);
 	}
 
 	@RequestMapping(value = "/queryUser/{cityId}_{sex}_{minStringAge}_{maxStringAge}/{pageId}", method = RequestMethod.GET)
-	public String pageQueryUser(Model model, @PathVariable int pageId,
-			@PathVariable long cityId, @PathVariable String sex,
-			@PathVariable String maxStringAge, @PathVariable String minStringAge) {
+	public String pageQueryUser(HttpServletRequest request, Model model,
+			@PathVariable int pageId, @PathVariable long cityId,
+			@PathVariable String sex, @PathVariable String maxStringAge,
+			@PathVariable String minStringAge) {
+		UserContext context = (UserContext) request.getAttribute("context");
 		Integer gender = null;
 		if ("male".equals(sex)) {
 			gender = 1;
 		} else if ("female".equals(sex)) {
 			gender = 0;
 		}
-		int minYear = 0;
-		int maxYear = 0;
 		int maxAge = getIntAge(maxStringAge);
 		int minAge = getIntAge(minStringAge);
-		if (minAge > maxAge) {
-			maxYear = ageToYear(minAge);
-			minYear = ageToYear(maxAge);
-		} else {
-			minYear = ageToYear(minAge);
-			maxYear = ageToYear(maxAge);
-		}
-		PagerManager pager = new PagerManager(pageId,
+		int maxYear = ageToYear(minAge);
+		int minYear = ageToYear(maxAge);
+		PagerManager pager = new PagerManager(pageId, 20,
 				profileService.countQueryProfile(gender, cityId, minYear,
 						maxYear));
 		List<Profile> list = profileService.queryProfile(gender, cityId,
 				minYear, maxYear, pager.getFirstResult(), pager.getMaxResult());
-		List<QueryUserView> userViews = new ArrayList<QueryUserView>();
+		List<QueryUserView> userViews = new ArrayList<QueryUserView>(
+				list.size());
 		for (Profile profile : list) {
-			long uid = profile.getUid();
-			Post post = postService.getUserLatestPost(uid);
-			QueryUserView userView = new QueryUserView(profile,
-					loginService.isOnline(uid), post);
-			userViews.add(userView);
+			QueryUserView view = new QueryUserView();
+			view.setOnline(loginService.isOnline(profile.getUid()));
+			view.setProfile(profile);
+			view.setPost(postService.getUserLatestPost(profile.getUid()));
+			if (context.hasLogin()) {
+				view.setHasInterest(interestUserService.isInterest(
+						context.getUid(), profile.getUid()));
+			}
+			userViews.add(view);
 		}
+		newUserWidget(cityId, model, queryUsersRightUserRows);
 		model.addAttribute("userViews", userViews);
-		model.addAttribute("citys", InitData.CITY_MAP.values());
 		model.addAttribute("pager", pager);
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("sex", sex);
@@ -203,9 +203,6 @@ public class NewIndexController extends BaseController {
 		try {
 			age = Integer.parseInt(stringAge);
 		} catch (Exception e) {
-		}
-		if (age > 80 || age < 16) {
-			age = 0;
 		}
 		return age;
 	}

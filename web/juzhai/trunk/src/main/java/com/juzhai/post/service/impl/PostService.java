@@ -360,6 +360,12 @@ public class PostService implements IPostService {
 			ideaService.removeUser(breakIdeaId, uid);
 		}
 
+		// 更新最新一条拒宅
+		Post oldPost = getUserLatestPost(uid);
+		if (post.getId().longValue() == oldPost.getId().longValue()) {
+			setUserLatestPost(uid, post);
+		}
+
 		// TODO update lucene索引
 	}
 

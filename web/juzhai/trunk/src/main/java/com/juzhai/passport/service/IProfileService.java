@@ -197,7 +197,7 @@ public interface IProfileService {
 	 * @param maxYear
 	 * @return
 	 */
-	int countSearchProfile(Integer gender, long city, int minYear, int maxYear);
+	int countQueryProfile(Integer gender, long city, int minYear, int maxYear);
 
 	/**
 	 * 找伴搜索
@@ -208,7 +208,7 @@ public interface IProfileService {
 	 * @param maxYear
 	 * @return
 	 */
-	List<Profile> searchProfile(Integer gender, long city, int minYear,
+	List<Profile> queryProfile(Integer gender, long city, int minYear,
 			int maxYear, int firstResult, int maxResults);
 
 	/**

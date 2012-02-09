@@ -449,7 +449,7 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
-	public int countSearchProfile(Integer gender, long city, int minYear,
+	public int countQueryProfile(Integer gender, long city, int minYear,
 			int maxYear) {
 		ProfileExample example = getProfileExample(gender, city, minYear,
 				maxYear);
@@ -457,7 +457,7 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
-	public List<Profile> searchProfile(Integer gender, long city, int minYear,
+	public List<Profile> queryProfile(Integer gender, long city, int minYear,
 			int maxYear, int firstResult, int maxResults) {
 		ProfileExample example = getProfileExample(gender, city, minYear,
 				maxYear);
@@ -477,9 +477,9 @@ public class ProfileService implements IProfileService {
 			c.andGenderEqualTo(gender);
 		}
 		if (maxYear == 0 && minYear > 0) {
-			c.andBirthYearGreaterThanOrEqualTo(minYear);
+			c.andBirthYearLessThanOrEqualTo(minYear);
 		} else if (maxYear > 0 && minYear == 0) {
-			c.andBirthYearLessThanOrEqualTo(maxYear);
+			c.andBirthYearGreaterThanOrEqualTo(maxYear);
 		} else if (maxYear > 0 && minYear > 0) {
 			c.andBirthYearBetween(minYear, maxYear);
 		}

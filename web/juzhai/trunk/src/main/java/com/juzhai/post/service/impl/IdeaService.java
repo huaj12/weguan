@@ -1,8 +1,10 @@
 package com.juzhai.post.service.impl;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
@@ -10,6 +12,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.act.exception.UploadImageException;
@@ -19,6 +22,8 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.index.bean.ShowIdeaOrder;
+import com.juzhai.passport.service.IProfileService;
+import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.dao.IIdeaDao;
 import com.juzhai.post.exception.InputIdeaException;
 import com.juzhai.post.exception.InputPostException;
@@ -38,6 +43,8 @@ public class IdeaService implements IIdeaService {
 	private IIdeaDao ideaDao;
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
+	@Autowired
+	private IProfileService profileService;
 	@Value("${idea.content.length.min}")
 	private int ideaContentLengthMin;
 	@Value("${idea.content.length.max}")
@@ -59,21 +66,23 @@ public class IdeaService implements IIdeaService {
 	@Override
 	public void addFirstUser(long ideaId, long uid) {
 		ideaDao.addFirstUser(ideaId, uid);
-		redisTemplate.opsForSet().add(
-				RedisKeyGenerator.genIdeaUsersKey(ideaId), uid);
+		redisTemplate.opsForZSet().add(
+				RedisKeyGenerator.genIdeaUsersKey(ideaId), uid,
+				System.currentTimeMillis());
 	}
 
 	@Override
 	public void addUser(long ideaId, long uid) {
 		incrUseCount(ideaId);
-		redisTemplate.opsForSet().add(
-				RedisKeyGenerator.genIdeaUsersKey(ideaId), uid);
+		redisTemplate.opsForZSet().add(
+				RedisKeyGenerator.genIdeaUsersKey(ideaId), uid,
+				System.currentTimeMillis());
 	}
 
 	@Override
 	public void removeUser(long ideaId, long uid) {
 		decrUseCount(ideaId);
-		redisTemplate.opsForSet().remove(
+		redisTemplate.opsForZSet().remove(
 				RedisKeyGenerator.genIdeaUsersKey(ideaId), uid);
 	}
 
@@ -97,8 +106,8 @@ public class IdeaService implements IIdeaService {
 
 	@Override
 	public boolean isUseIdea(long uid, long ideaId) {
-		return redisTemplate.opsForSet().isMember(
-				RedisKeyGenerator.genIdeaUsersKey(ideaId), uid);
+		return redisTemplate.opsForZSet().score(
+				RedisKeyGenerator.genIdeaUsersKey(ideaId), uid) != null;
 	}
 
 	@Override
@@ -229,6 +238,30 @@ public class IdeaService implements IIdeaService {
 					InputIdeaException.IDEA_CONTENT_DUPLICATE);
 		}
 		return contentMd5;
+	}
+
+	@Override
+	public List<IdeaUserView> listIdeaUsers(long ideaId, int firstResult,
+			int maxResults) {
+		List<IdeaUserView> ideaUserViewList = new ArrayList<IdeaUserView>();
+		Set<TypedTuple<Long>> users = redisTemplate.opsForZSet()
+				.reverseRangeWithScores(
+						RedisKeyGenerator.genIdeaUsersKey(ideaId), firstResult,
+						firstResult + maxResults - 1);
+		for (TypedTuple<Long> user : users) {
+			IdeaUserView view = new IdeaUserView();
+			view.setProfileCache(profileService.getProfileCacheByUid(user
+					.getValue()));
+			view.setCreateTime(new Date(user.getScore().longValue()));
+			ideaUserViewList.add(view);
+		}
+		return ideaUserViewList;
+	}
+
+	@Override
+	public int countIdeaUsers(long ideaId) {
+		return redisTemplate.opsForZSet()
+				.size(RedisKeyGenerator.genIdeaUsersKey(ideaId)).intValue();
 	}
 
 }

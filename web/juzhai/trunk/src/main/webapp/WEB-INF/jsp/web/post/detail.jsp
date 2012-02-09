@@ -41,11 +41,6 @@
 												<c:if test="${not empty post.link}">
 													<span class="link"><a href="${post.link}" target="_blank">查看相关链接</a></span>
 												</c:if>
-												<!-- <div class="img"><img src="images/web2/pic2.jpg"  width="450" height="300"/></div>
-												<span>12秒前更新</span>
-												<span class="adress">张江故园餐厅</span>
-												<span class="time">01.21 周一</span>
-												<span class="link"><a href="#">查看相关链接</a></span> -->
 											</div><!--infor end-->
 										</div><!--pub_box_m end-->
 										<div class="clear"></div>

@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
@@ -27,6 +26,7 @@ import com.juzhai.index.bean.ShowActOrder;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.index.controller.view.QueryUserView;
+import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IFriendService;
@@ -34,6 +34,7 @@ import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
+import com.juzhai.post.service.IAdService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
 
@@ -55,6 +56,8 @@ public class NewIndexController extends BaseController {
 	private int webShowIdeasMaxRows;
 	@Value("${show.invite.users.max.rows}")
 	private int showInviteUsersMaxRows;
+	@Autowired
+	private IAdService adService;
 
 	@RequestMapping(value = { "", "/", "/index" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
@@ -85,8 +88,11 @@ public class NewIndexController extends BaseController {
 				ideaView.setHasUsed(ideaService.isUseIdea(context.getUid(),
 						idea.getId()));
 			}
+			ideaView.setIdeaUserViews(ideaService.listIdeaUsers(idea.getId(),
+					0, 5));
 			ideaViewList.add(ideaView);
 		}
+		model.addAttribute("ads", adService.listAd(cityId, 0, 2));
 		model.addAttribute("pager", pager);
 		model.addAttribute("orderType", orderType);
 		model.addAttribute("cityId", cityId);
@@ -143,19 +149,25 @@ public class NewIndexController extends BaseController {
 		return "web/index/zbe/invite_user_list";
 	}
 
-	@RequestMapping(value = "/searchUser", method = RequestMethod.GET)
-	public String pageSearchActs(HttpServletRequest request, Model model,
-			@RequestParam(defaultValue = "1") int pageId,
-			@RequestParam(defaultValue = "0") long cityId, String genderType,
-			int maxAge, int minAge) {
+	@RequestMapping(value = "/queryUser", method = RequestMethod.GET)
+	public String queryUser(Model model) {
+		return pageQueryUser(model, 1, 0, null, null, null);
+	}
+
+	@RequestMapping(value = "/queryUser/{cityId}_{sex}_{minStringAge}_{maxStringAge}/{pageId}", method = RequestMethod.GET)
+	public String pageQueryUser(Model model, @PathVariable int pageId,
+			@PathVariable long cityId, @PathVariable String sex,
+			@PathVariable String maxStringAge, @PathVariable String minStringAge) {
 		Integer gender = null;
-		if (genderType.equals("male")) {
+		if ("male".equals(sex)) {
 			gender = 1;
-		} else if (genderType.equals("female")) {
+		} else if ("female".equals(sex)) {
 			gender = 0;
 		}
 		int minYear = 0;
 		int maxYear = 0;
+		int maxAge = getIntAge(maxStringAge);
+		int minAge = getIntAge(minStringAge);
 		if (minAge > maxAge) {
 			maxYear = ageToYear(minAge);
 			minYear = ageToYear(maxAge);
@@ -163,10 +175,10 @@ public class NewIndexController extends BaseController {
 			minYear = ageToYear(minAge);
 			maxYear = ageToYear(maxAge);
 		}
-		PagerManager pager = new PagerManager(pageId,
-				profileService.countSearchProfile(gender, cityId, minYear,
+		PagerManager pager = new PagerManager(pageId, 2,
+				profileService.countQueryProfile(gender, cityId, minYear,
 						maxYear));
-		List<Profile> list = profileService.searchProfile(gender, cityId,
+		List<Profile> list = profileService.queryProfile(gender, cityId,
 				minYear, maxYear, pager.getFirstResult(), pager.getMaxResult());
 		List<QueryUserView> userViews = new ArrayList<QueryUserView>();
 		for (Profile profile : list) {
@@ -177,7 +189,25 @@ public class NewIndexController extends BaseController {
 			userViews.add(userView);
 		}
 		model.addAttribute("userViews", userViews);
-		return "web/index/zbe/query_user_list";
+		model.addAttribute("citys", InitData.CITY_MAP.values());
+		model.addAttribute("pager", pager);
+		model.addAttribute("cityId", cityId);
+		model.addAttribute("sex", sex);
+		model.addAttribute("maxStringAge", maxStringAge);
+		model.addAttribute("minStringAge", minStringAge);
+		return "web/index/zbe/query_user";
+	}
+
+	private int getIntAge(String stringAge) {
+		int age = 0;
+		try {
+			age = Integer.parseInt(stringAge);
+		} catch (Exception e) {
+		}
+		if (age > 80 || age < 16) {
+			age = 0;
+		}
+		return age;
 	}
 
 	private int ageToYear(int age) {

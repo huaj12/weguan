@@ -85,30 +85,9 @@ $(document).ready(function(){
 		var ideaId = $(this).attr("idea-id");
 		var send = $(this).parent().hide();
 		var sending = send.prev().show();
-		$.ajax({
-			url : "/post/postIdea",
-			type : "post",
-			cache : false,
-			data : {"ideaId" : ideaId},
-			dataType : "json",
-			success : function(result) {
-				if(result&&result.success){
-					sending.attr("class", "sended").children("a").text("已发布");
-					send.unbind("click");
-					$("#useCount-" + ideaId).text(parseInt($("#useCount-" + ideaId).text()) + 1);
-					var content = $("#dialog-success").html().replace("{0}", "发布成功！");
-					showSuccess(sending[0], content);
-				}else{
-					alert(result.errorInfo);
-					sending.hide();
-					send.show();
-				}
-			},
-			statusCode : {
-				401 : function() {
-					window.location.href = "/login?turnTo=" + window.location.href;
-				}
-			}
+		postIdea(ideaId, send, sending, function(){
+			sendingBtn.attr("class", "sended").children("a").text("已发布");
+			$("#useCount-" + ideaId).text(parseInt($("#useCount-" + ideaId).text()) + 1);
 		});
 	});
 });
@@ -127,6 +106,34 @@ function mouseHover(li, isOver){
 	}else {
 		$(li).removeClass("hover");
 	}
+}
+
+//发布好主意
+function postIdea(ideaId, sendBtn, sendingBtn, successCallback){
+	$.ajax({
+		url : "/post/postIdea",
+		type : "post",
+		cache : false,
+		data : {"ideaId" : ideaId},
+		dataType : "json",
+		success : function(result) {
+			if(result&&result.success){
+				successCallback();
+				sendBtn.unbind("click");
+				var content = $("#dialog-success").html().replace("{0}", "发布成功！");
+				showSuccess(sendingBtn[0], content);
+			}else{
+				alert(result.errorInfo);
+				sendingBtn.hide();
+				sendBtn.show();
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
 }
 
 //感兴趣的人操作

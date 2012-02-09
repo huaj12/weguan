@@ -61,13 +61,15 @@
 											</c:when>
 											<c:otherwise>
 												<div class="own_btn">
-													<a href="#" class="edit">编辑</a>
+													<a href="javascript:void(0);" class="edit" post-id="${post.id}">编辑</a>
 													<a href="javascript:void(0);" class="delete" post-id="${post.id}">删除</a>
 												</div>
 											</c:otherwise>
 										</c:choose>
 									</div><!--btn end--> 
-									<div class="zfa"><a href="#">转发</a></div>
+									<c:if test="${context.uid != postProfile.uid}">
+										<div class="zfa"><a href="javascript:void(0);" post-id="${post.id}">转发</a></div>
+									</c:if>
 								</div><!--detail end-->
 								<div class="response"><!--response begin-->
 									<jsp:include page="response_user_list.jsp" />

@@ -53,4 +53,14 @@ $(document).ready(function(){
 			});
 		});
 	});
+	
+	$("div.own_btn > a.edit").click(function(){
+		var postId = $(this).attr("post-id");
+		prepareModifyPost(postId);
+	});
+	
+	$("div.zfa > a").click(function(){
+		var postId = $(this).attr("post-id");
+		prepareRepost(postId);
+	});
 });

@@ -71,6 +71,11 @@ $(document).ready(function(){
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);
 	});
+	
+	$("div.zfa > a").click(function(){
+		var postId = $(this).attr("post-id");
+		prepareRepost(postId);
+	});
 });
 
 function resetSendPostForm(sendForm){

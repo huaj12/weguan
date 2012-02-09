@@ -144,7 +144,7 @@ public class PostService implements IPostService {
 		post.setPic(idea.getPic());
 		post.setVerifyType(VerifyType.QUALIFIED.getType());
 
-		createPost(uid, post, null);
+		createPost(uid, post, null, null);
 
 		// 添加idea的useCount或者firstUser
 		if (idea.getUseCount() == 0) {
@@ -157,6 +157,17 @@ public class PostService implements IPostService {
 
 	private void createPostByForm(long uid, PostForm postForm)
 			throws InputPostException {
+		Post repost = null;
+		if (postForm.getPostId() > 0) {
+			// 转发
+			repost = postMapper.selectByPrimaryKey(postForm.getPostId());
+			if (repost == null || repost.getDefunct()
+					|| repost.getCreateUid() == uid) {
+				throw new InputPostException(
+						InputPostException.ILLEGAL_OPERATION);
+			}
+		}
+
 		// 验证
 		validatePostForm(uid, postForm);
 
@@ -168,7 +179,7 @@ public class PostService implements IPostService {
 		post.setDateTime(postForm.getDate());
 		post.setPurposeType(postForm.getPurposeType());
 
-		createPost(uid, post, postForm.getPic());
+		createPost(uid, post, repost, postForm.getPic());
 	}
 
 	private void validatePostForm(long uid, PostForm postForm)
@@ -220,8 +231,8 @@ public class PostService implements IPostService {
 		}
 	}
 
-	private void createPost(long uid, Post post, String tmpImgFilePath)
-			throws InputPostException {
+	private void createPost(long uid, Post post, Post repost,
+			String tmpImgFilePath) throws InputPostException {
 		ProfileCache profile = profileService.getProfileCacheByUid(uid);
 		if (null == profile) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
@@ -233,10 +244,23 @@ public class PostService implements IPostService {
 		post.setUserGender(profile.getGender());
 		postMapper.insertSelective(post);
 
-		// 处理图片
 		if (StringUtils.isNotEmpty(tmpImgFilePath)) {
-			String fileName = postImageService.saveImg(post.getId(),
-					tmpImgFilePath);
+			String fileName = null;
+			if (null != repost
+					&& StringUtils.equals(repost.getPic(), tmpImgFilePath)) {
+				// 使用转发的图片
+				if (repost.getIdeaId() != null && repost.getIdeaId() > 0) {
+					postImageService.copyImgFromIdea(post.getId(),
+							repost.getIdeaId(), repost.getPic());
+				} else {
+					postImageService.copyImgFromPost(post.getId(),
+							repost.getId(), repost.getPic());
+				}
+				fileName = repost.getPic();
+			} else {
+				fileName = postImageService.saveImg(post.getId(),
+						tmpImgFilePath);
+			}
 			if (StringUtils.isNotEmpty(fileName)) {
 				Post updatePost = new Post();
 				updatePost.setId(post.getId());
@@ -244,7 +268,6 @@ public class PostService implements IPostService {
 				postMapper.updateByPrimaryKeySelective(updatePost);
 			}
 		}
-
 		// TODO 建lucene索引
 
 		// 更新用户最新一条拒宅
@@ -302,12 +325,28 @@ public class PostService implements IPostService {
 				post.setIdeaId(0L);
 			}
 		}
+		// 处理图片
+		if (StringUtils.isEmpty(postForm.getPic())) {
+			// 删除了图片
+			post.setPic(StringUtils.EMPTY);
+		} else if (!StringUtils.equals(post.getPic(), postForm.getPic())) {
+			// 重新上传
+			String fileName = postImageService.saveImg(post.getId(),
+					postForm.getPic());
+			if (StringUtils.isNotEmpty(fileName)) {
+				post.setPic(fileName);
+			}
+		} else if (breakIdeaId > 0) {
+			// 图片复制
+			postImageService.copyImgFromIdea(post.getId(), breakIdeaId,
+					postForm.getPic());
+		}
+
 		post.setContent(postForm.getContent());
-		post.setContent(postForm.getContentMd5());
+		post.setContentMd5(postForm.getContentMd5());
 		post.setLink(postForm.getLink());
 		post.setPlace(postForm.getPlace());
 		post.setDateTime(postForm.getDate());
-		post.setPic(postForm.getPic());
 		post.setPurposeType(postForm.getPurposeType());
 		if (post.getIdeaId() <= 0) {
 			post.setVerifyType(VerifyType.RAW.getType());

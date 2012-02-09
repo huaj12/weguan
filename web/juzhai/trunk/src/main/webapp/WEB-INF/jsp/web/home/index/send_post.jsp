@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<form name=sendPost method="post" enctype="multipart/form-data">
+<form name="sendPost${postForm.postId}" method="post" enctype="multipart/form-data">
 	<c:if test="${postForm != null}">
 		<input type="hidden" name="postId" value="${postForm.postId}" />
 	</c:if>
@@ -21,16 +21,16 @@
 			</div><!--select_box end-->
 		</div><!--select_menu end-->
 		<div class="send_box_error" style="display: none;"></div>
-		<div class="random_select"><c:if test="${postForm != null}"><a href="#">没想好？随机一个吧</a></c:if></div>
+		<div class="random_select"><c:if test="${postForm == null}"><a href="#">没想好？随机一个吧</a></c:if></div>
 		<div class="textarea"><textarea name="content" cols="" rows="">${postForm.content}</textarea></div>
 		<div class="jh"><!--jh begin-->
-			<div id="send-post-date" class="menu_item" <c:if test='${postForm != null && postForm.date != null}'>done</c:if>><!--menu_item begin-->
+			<div id="send-post-date" class="menu_item <c:if test='${postForm != null && postForm.date != null}'>done</c:if>"><!--menu_item begin-->
 				<input type="hidden" name="dateString" value="<fmt:formatDate value='${postForm.date}' pattern='yyyy-MM-dd'/>" />
 				<p><a href="javascript:void(0);" class="time"><c:choose><c:when test="${postForm != null && postForm.date != null}"><fmt:formatDate value="${postForm.date}" pattern="MM-dd"/></c:when><c:otherwise>时间</c:otherwise></c:choose></a></p>
 			</div><!--menu_item end-->
 			<div id="send-post-address" class="menu_item <c:if test='${not empty postForm.place}'>done</c:if>"><!--menu_item begin-->
 				<input type="hidden" name="place" value="${postForm.place}" />
-				<p><a href="javascript:void(0);" class="adress" title="">地点</a></p>
+				<p><a href="javascript:void(0);" class="adress" title="${postForm.place}">地点</a></p>
 				<div class="show_area w230"><!--show_area begin-->
 					<div class="area_title"><h5>填写在哪里拒宅</h5><a href="javascript:void(0);"></a></div>
 					<div class="input"><em class="l"></em><span class="w140"><input type="text" init-msg="详细地址" value="${postForm.place}"/></span><em class="r"></em></div>
@@ -39,12 +39,11 @@
 				</div><!--show_area end-->
 			</div><!--menu_item end-->
 			<div id="send-post-pic" class="menu_item <c:if test='${not empty postForm.pic}'>done</c:if>"><!--menu_item begin-->
-				<input type="hidden" name="pic" value="" />
+				<input type="hidden" name="pic" value="${postForm.pic}" />
 				<p><a href="javascript:void(0);" class="photo">图片</a></p>
 				<div class="show_area w280"><!--show_area begin-->
 					<div class="upload_photo_area"><!--upload_photo_arae begin-->
 						<div class="close1"><a href="javascript:void(0);"></a></div>
-						
 						<div class="upload" <c:if test="${not empty postForm.pic}">style="display: none;"</c:if>><!--upload begin-->
 							<div class="upload_btn"><!--upload_btn begin-->
 								<input class="btn_file_molding" size=6 type="file" name="postPic" />
@@ -54,10 +53,13 @@
 							<div class="clear"></div>
 							<div class="ts">仅支持JPG GIF PNG图片文件,文件小于5M</div>
 						</div><!--upload end-->
-						
 						<div class="upload_ok" <c:if test="${empty postForm.pic}">style="display: none;"</c:if>><!--upload_ok begin-->
 							<em><a href="javascript:void(0);">重新上传</a></em>
-							<div class="img"><img src="${jzr:static('/images/web/1px.gif')}" init-pic="${jzr:static('/images/web/1px.gif')}" width="250" /></div>
+							<c:choose>
+								<c:when test="${empty postForm.pic}"><c:set var="initImgUrl" value="${jzr:static('/images/web/1px.gif')}" /></c:when>
+								<c:otherwise><c:set var="initImgUrl" value="${jzr:postPic(postForm.postId, postForm.ideaId, postForm.pic)}" /></c:otherwise>
+							</c:choose>
+							<div class="img"><img src="${initImgUrl}" init-pic="${jzr:static('/images/web/1px.gif')}" width="250" /></div>
 						</div><!--upload_ok end-->
 					</div><!--upload_photo_arae end-->
 				</div><!--show_area end-->
@@ -78,3 +80,76 @@
 		</div>
 	</div><!--send_area end-->
 </form>
+<c:if test="${postForm != null}">
+	<c:choose>
+		<c:when test="${isRepost == null||!isRepost}">
+			<script type="text/javascript">
+				function submitPost(sendForm){
+					$.ajax({
+						url : "/post/modifyPost",
+						type : "post",
+						cache : false,
+						data : sendForm.serialize(),
+						dataType : "json",
+						success : function(result) {
+							sendForm.find("div.sending").hide();
+							sendForm.find("div.btn").show();
+							if(result&&result.success){
+								var content = $("#dialog-success").html().replace("{0}", "发布成功！");
+								showSuccess(null, content);
+								window.location.href =  window.location.href;
+							}else{
+								sendForm.find(".send_box_error").text(result.errorInfo).show();
+							}
+						},
+						statusCode : {
+							401 : function() {
+								window.location.href = "/login?turnTo=" + window.location.href;
+							}
+						}
+					});
+				}
+			</script>
+		</c:when>
+		<c:otherwise>
+			<script type="text/javascript">
+				function submitPost(sendForm){
+					$.ajax({
+						url : "/post/createPost",
+						type : "post",
+						cache : false,
+						data : sendForm.serialize(),
+						dataType : "json",
+						success : function(result) {
+							sendForm.find("div.sending").hide();
+							sendForm.find("div.btn").show();
+							if(result&&result.success){
+								closeDialog("openPostSender");
+								var content = $("#dialog-success").html().replace("{0}", "发布成功！");
+								showSuccess(null, content);
+							}else{
+								sendForm.find(".send_box_error").text(result.errorInfo).show();
+							}
+						},
+						statusCode : {
+							401 : function() {
+								window.location.href = "/login?turnTo=" + window.location.href;
+							}
+						}
+					});
+				}
+			</script>
+		</c:otherwise>
+	</c:choose>
+	<script type="text/javascript">
+	    $("div.select_menu").each(function(){
+	    	var select = new SelectInput(this);
+	    	select.bindBlur();
+	    	select.bindClick();
+	    	select.bindSelect();
+	    });
+	    
+		var postSender = new PostSender($("form[name='sendPost${postForm.postId}']"));
+		postSender.bindSubmit(submitPost);
+	</script>
+</c:if>

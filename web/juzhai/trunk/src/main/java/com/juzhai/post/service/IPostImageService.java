@@ -23,4 +23,22 @@ public interface IPostImageService {
 	 * @return
 	 */
 	String saveImg(long postId, String filePath);
+
+	/**
+	 * 从idea复制图片
+	 * 
+	 * @param postId
+	 * @param ideaId
+	 * @param imgName
+	 */
+	void copyImgFromIdea(long postId, long ideaId, String imgName);
+
+	/**
+	 * 从post复制图片
+	 * 
+	 * @param postId
+	 * @param destPostId
+	 * @param imgName
+	 */
+	void copyImgFromPost(long postId, long destPostId, String imgName);
 }

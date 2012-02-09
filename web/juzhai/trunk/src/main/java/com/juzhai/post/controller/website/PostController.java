@@ -117,6 +117,45 @@ public class PostController extends BaseController {
 		return result;
 	}
 
+	@RequestMapping(value = "/prepareModifyPost", method = RequestMethod.GET)
+	public String prepareModifyPost(HttpServletRequest request, Model model,
+			long postId) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		Post post = postService.getPostById(postId);
+		if (null == post || post.getCreateUid() != context.getUid()) {
+			return error_404;
+		}
+		initPostForm(model, post);
+		return "web/home/index/send_post";
+	}
+
+	@RequestMapping(value = "/prepareRepost", method = RequestMethod.GET)
+	public String prepareRepost(HttpServletRequest request, Model model,
+			long postId) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		Post post = postService.getPostById(postId);
+		if (null == post || post.getCreateUid() == context.getUid()) {
+			return error_404;
+		}
+		initPostForm(model, post);
+
+		model.addAttribute("isRepost", true);
+		return "web/home/index/send_post";
+	}
+
+	private void initPostForm(Model model, Post post) {
+		PostForm postForm = new PostForm();
+		postForm.setIdeaId(post.getIdeaId());
+		postForm.setPostId(post.getId());
+		postForm.setContent(post.getContent());
+		postForm.setDate(post.getDateTime());
+		postForm.setLink(post.getLink());
+		postForm.setPlace(post.getPlace());
+		postForm.setPic(post.getPic());
+		postForm.setPurposeType(post.getPurposeType());
+		model.addAttribute("postForm", postForm);
+	}
+
 	@RequestMapping(value = "/deletePost", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult deletePost(HttpServletRequest request, Model model,
@@ -127,6 +166,23 @@ public class PostController extends BaseController {
 			postService.deletePost(context.getUid(), postId);
 		} catch (InputPostException e) {
 			result.setError(e.getErrorCode(), messageSource);
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/modifyPost", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult modifyPost(HttpServletRequest request, Model model,
+			PostForm postForm, boolean sendWeibo) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult result = new AjaxResult();
+		try {
+			postService.modifyPost(context.getUid(), postForm);
+		} catch (InputPostException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
+		if (sendWeibo) {
+			// TODO 发送微博
 		}
 		return result;
 	}

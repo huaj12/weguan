@@ -86,7 +86,7 @@ $(document).ready(function(){
 		var send = $(this).parent().hide();
 		var sending = send.prev().show();
 		postIdea(ideaId, send, sending, function(){
-			sendingBtn.attr("class", "sended").children("a").text("已发布");
+			sending.attr("class", "sended").children("a").text("已发布");
 			$("#useCount-" + ideaId).text(parseInt($("#useCount-" + ideaId).text()) + 1);
 		});
 	});
@@ -406,7 +406,7 @@ function showSuccess(followObj, dialogContent){
 function openDialog(followObj, dialogId, dialogContent){
 	closeDialog(dialogId);
 	var options={
-		fixed : true,
+		fixed : false,
 		drag : false,
 		resize : false,
 		esc : true,
@@ -650,3 +650,39 @@ var PostSender =  Class.extend({
 		});
 	}
 });
+
+function prepareModifyPost(postId){
+	jQuery.ajax({
+		url : "/post/prepareModifyPost",
+		type : "get",
+		cache : false,
+		data : {"postId": postId},
+		dataType : "html",
+		success : function(result) {
+			openDialog(null, "openPostSender", result);
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+}
+
+function prepareRepost(postId){
+	jQuery.ajax({
+		url : "/post/prepareRepost",
+		type : "get",
+		cache : false,
+		data : {"postId": postId},
+		dataType : "html",
+		success : function(result) {
+			openDialog(null, "openPostSender", result);
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+}

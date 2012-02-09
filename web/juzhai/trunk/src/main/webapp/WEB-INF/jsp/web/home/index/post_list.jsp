@@ -89,7 +89,7 @@
 									</c:otherwise>
 								</c:choose>
 							</div><!--btn end--> 
-							<div class="zfa"><a href="javascript:void(0);">转发</a></div>
+							<div class="zfa"><a href="javascript:void(0);" post-id="${postView.post.id}">转发</a></div>
 						</div><!--wtg end-->
 					</div><!--jz_item end-->
 				</c:forEach>

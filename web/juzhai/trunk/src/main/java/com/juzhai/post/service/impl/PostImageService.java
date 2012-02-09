@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.image.manager.IImageManager;
-import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.post.service.IPostImageService;
 
@@ -21,6 +20,8 @@ public class PostImageService implements IPostImageService {
 	private IImageManager imageManager;
 	@Value("${upload.post.image.home}")
 	private String uploadPostImageHome;
+	@Value("${upload.idea.image.home}")
+	private String uploadIdeaImageHome;
 
 	@Override
 	public String[] uploadPic(MultipartFile image) throws UploadImageException {
@@ -35,8 +36,30 @@ public class PostImageService implements IPostImageService {
 		String directoryPath = uploadPostImageHome
 				+ ImageUtil.generateHierarchyImagePath(postId,
 						LogoSizeType.ORIGINAL);
-		FileUtil.writeFileToFile(directoryPath, fileName, srcFile);
+		imageManager.copyImage(directoryPath, fileName, srcFile);
 		return fileName;
+	}
+
+	@Override
+	public void copyImgFromIdea(long postId, long ideaId, String imgName) {
+		String directoryPath = uploadPostImageHome
+				+ ImageUtil.generateHierarchyImagePath(postId,
+						LogoSizeType.ORIGINAL);
+		File srcFile = new File(uploadIdeaImageHome
+				+ ImageUtil.generateHierarchyImagePath(ideaId,
+						LogoSizeType.ORIGINAL) + imgName);
+		imageManager.copyImage(directoryPath, imgName, srcFile);
+	}
+
+	@Override
+	public void copyImgFromPost(long postId, long destPostId, String imgName) {
+		String directoryPath = uploadPostImageHome
+				+ ImageUtil.generateHierarchyImagePath(postId,
+						LogoSizeType.ORIGINAL);
+		File srcFile = new File(uploadPostImageHome
+				+ ImageUtil.generateHierarchyImagePath(destPostId,
+						LogoSizeType.ORIGINAL) + imgName);
+		imageManager.copyImage(directoryPath, imgName, srcFile);
 	}
 
 }

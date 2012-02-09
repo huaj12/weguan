@@ -175,7 +175,7 @@ public class NewIndexController extends BaseController {
 			minYear = ageToYear(minAge);
 			maxYear = ageToYear(maxAge);
 		}
-		PagerManager pager = new PagerManager(pageId, 2,
+		PagerManager pager = new PagerManager(pageId,
 				profileService.countQueryProfile(gender, cityId, minYear,
 						maxYear));
 		List<Profile> list = profileService.queryProfile(gender, cityId,

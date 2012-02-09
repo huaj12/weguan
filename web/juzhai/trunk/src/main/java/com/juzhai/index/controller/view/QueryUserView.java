@@ -7,14 +7,14 @@ public class QueryUserView {
 
 	private Profile profile;
 
-	private boolean isOnline;
+	private boolean online;
 
 	private Post post;
 
-	public QueryUserView(Profile profile, boolean isOnline, Post post) {
-		this.profile=profile;
-		this.isOnline=isOnline;
-		this.post=post;
+	public QueryUserView(Profile profile, boolean online, Post post) {
+		this.profile = profile;
+		this.online = online;
+		this.post = post;
 	}
 
 	public Profile getProfile() {
@@ -26,11 +26,11 @@ public class QueryUserView {
 	}
 
 	public boolean isOnline() {
-		return isOnline;
+		return online;
 	}
 
-	public void setOnline(boolean isOnline) {
-		this.isOnline = isOnline;
+	public void setOnline(boolean online) {
+		this.online = online;
 	}
 
 	public Post getPost() {

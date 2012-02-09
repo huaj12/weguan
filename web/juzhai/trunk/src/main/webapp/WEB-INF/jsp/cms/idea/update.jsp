@@ -54,7 +54,7 @@
 			<c:set value="${jzr:ideaPic(idea.id,idea.pic) }" var="picPath"></c:set>
 			<c:choose>
 			<c:when test="${!empty picPath}">
-			<img src="${picPath }"/>
+			<img src="${picPath }" width="100" height="100"/>
 			<input name="pic" type="hidden" value="${idea.pic}"/>
 			</c:when>
 			<c:otherwise>

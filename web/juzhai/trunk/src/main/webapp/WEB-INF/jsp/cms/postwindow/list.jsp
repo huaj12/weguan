@@ -154,7 +154,7 @@ function tableSort(){
 		</tr>
 		<c:forEach var="view" items="${postWindowViews}" varStatus="c">
 			<tr>
-				<td><img src="${view.userLogo}" / width="70" height="70">
+				<td><img src="${view.userLogo}"  width="70" height="70">
 				</td>
 				<td><c:import
 						url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp">

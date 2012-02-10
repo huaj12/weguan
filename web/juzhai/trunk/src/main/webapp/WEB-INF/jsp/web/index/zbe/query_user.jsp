@@ -131,6 +131,5 @@
 		</div><!--warp end-->
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 		<script type="text/javascript" src="${jzr:static('/js/web/query_user.js')}"></script>
-		<jsp:include page="/WEB-INF/jsp/web/common/script/invite_plug.jsp" />
 	</body>
 </html>

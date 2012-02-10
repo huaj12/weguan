@@ -71,13 +71,7 @@
 						</div><!--content end-->
 					</div><!--main_left end-->
 					<div class="main_right"><!--main_right begin-->
-						<div class="content_box w285"><!--content begin-->
-							<div class="t"></div>
-							<div class="m">
-								<!-- 优惠信息 -->
-							</div>
-							<div class="t"></div>
-						</div><!--content end-->
+						<jsp:include page="/WEB-INF/jsp/web/index/cqw/idea_ad_widget.jsp" />
 					</div><!--main_right end-->
 				</div><!--main_part end-->
 			</div><!--main end-->

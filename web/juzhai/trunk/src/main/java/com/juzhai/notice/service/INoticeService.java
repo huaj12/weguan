@@ -3,6 +3,8 @@ package com.juzhai.notice.service;
 import java.util.Map;
 
 import com.juzhai.notice.bean.NoticeType;
+import com.juzhai.passport.bean.ThirdpartyNameEnum;
+import com.juzhai.platform.exception.AdminException;
 
 public interface INoticeService {
 
@@ -39,4 +41,14 @@ public interface INoticeService {
 	 * @return
 	 */
 	Long getNoticeNum(long uid, NoticeType noticeType);
+
+	/**
+	 * 通知用户未读消息数
+	 * 
+	 * @param uid
+	 * @param tpId
+	 * @return
+	 */
+	boolean noticeUserUnReadNum(ThirdpartyNameEnum thirdpartyNameEnum,
+			long receiver, int num) throws AdminException;
 }

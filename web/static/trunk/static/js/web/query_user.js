@@ -35,5 +35,5 @@ function search_user(){
 //	if(maxStringAge == ""){
 //		maxStringAge = 0;
 //	}
-	window.location.href = "/queryUser/" + cityId + "_" + sex + "_" + minStringAge + "_" + maxStringAge + "/1";
+	window.location.href = "/queryUsers/" + cityId + "_" + sex + "_" + minStringAge + "_" + maxStringAge + "/1";
 }

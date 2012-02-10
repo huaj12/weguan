@@ -115,7 +115,7 @@
 								<div class="clear"></div>
 								<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 									<c:param name="pager" value="${pager}"/>
-									<c:param name="url" value="/queryUser/${cityId}_${sex}_${minStringAge}_${maxStringAge}" />
+									<c:param name="url" value="/queryUsers/${cityId}_${sex}_${minStringAge}_${maxStringAge}" />
 								</c:import>
 								</c:if>
 							</div>

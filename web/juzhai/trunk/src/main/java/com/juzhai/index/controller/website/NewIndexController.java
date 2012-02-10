@@ -31,7 +31,6 @@ import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.post.model.Idea;
-import com.juzhai.post.service.IAdService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
 
@@ -49,8 +48,6 @@ public class NewIndexController extends BaseController {
 	@Autowired
 	private IFriendService friendService;
 	@Autowired
-	private IAdService adService;
-	@Autowired
 	private IInterestUserService interestUserService;
 	@Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows;
@@ -65,7 +62,12 @@ public class NewIndexController extends BaseController {
 
 	@RequestMapping(value = { "", "/", "/index" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
-		return showIdeas(request, model);
+		UserContext context = (UserContext) request.getAttribute("context");
+		if (context.hasLogin()) {
+			return "redirect:/home";
+		} else {
+			return showIdeas(request, model);
+		}
 	}
 
 	@RequestMapping(value = "/showIdeas", method = RequestMethod.GET)
@@ -153,12 +155,12 @@ public class NewIndexController extends BaseController {
 		return "web/index/zbe/invite_user_list";
 	}
 
-	@RequestMapping(value = "/queryUser", method = RequestMethod.GET)
+	@RequestMapping(value = "/showUsers", method = RequestMethod.GET)
 	public String queryUser(HttpServletRequest request, Model model) {
 		return pageQueryUser(request, model, 1, 0, null, null, null);
 	}
 
-	@RequestMapping(value = "/queryUser/{cityId}_{sex}_{minStringAge}_{maxStringAge}/{pageId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/queryUsers/{cityId}_{sex}_{minStringAge}_{maxStringAge}/{pageId}", method = RequestMethod.GET)
 	public String pageQueryUser(HttpServletRequest request, Model model,
 			@PathVariable int pageId, @PathVariable long cityId,
 			@PathVariable String sex, @PathVariable String maxStringAge,

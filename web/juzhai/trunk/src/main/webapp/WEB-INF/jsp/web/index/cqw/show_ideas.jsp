@@ -82,9 +82,9 @@
 																<c:if test="${not empty ideaView.ideaUserViews}">
 																	<div class="fb_members">
 																		<c:forEach items="${ideaView.ideaUserViews}"  var="ideaUser">
-																			<em><a href="#"><img src="${jzr:userLogo(ideaUser.profileCache.uid,ideaUser.profileCache.logoPic,80)}" width="40" height="40"/></a></em>
+																			<em><a href="/home/${ideaUser.profileCache.uid}"><img src="${jzr:userLogo(ideaUser.profileCache.uid,ideaUser.profileCache.logoPic,80)}" width="40" height="40"/></a></em>
 																		</c:forEach>
-																		<b><a href="#">共${ideaView.idea.useCount}人想去</a></b>
+																		<b><a href="/idea/${ideaView.idea.id}">共${ideaView.idea.useCount}人想去</a></b>
 																	</div>
 																</c:if>
 																<c:choose>

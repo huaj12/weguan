@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.model.Idea;
@@ -30,6 +31,8 @@ public class IdeaController extends BaseController {
 	private IInterestUserService interestUserService;
 	@Value("${idea.user.max.rows}")
 	private int ideaUserMaxRows;
+	@Value("${idea.detail.ad.count}")
+	private int ideaDetailAdCount;
 
 	@RequestMapping(value = "/{ideaId}", method = RequestMethod.GET)
 	public String detail(HttpServletRequest request, Model model,
@@ -50,7 +53,14 @@ public class IdeaController extends BaseController {
 			boolean hasUsed = ideaService.isUseIdea(context.getUid(), ideaId);
 			model.addAttribute("hasUsed", hasUsed);
 		}
-		// TODO 右侧优惠信息(可以尝试ajax)
+		Long cityId = 0L;
+		if (context.hasLogin()) {
+			ProfileCache profile = getLoginUserCache(request);
+			if (null != profile) {
+				cityId = profile.getCity();
+			}
+		}
+		ideaAdWidget(cityId, model, ideaDetailAdCount);
 
 		PagerManager pager = new PagerManager(page, ideaUserMaxRows,
 				ideaService.countIdeaUsers(ideaId));

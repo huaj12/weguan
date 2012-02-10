@@ -54,10 +54,14 @@ public class NewIndexController extends BaseController {
 	private IInterestUserService interestUserService;
 	@Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows;
+	@Value("${web.show.ideas.user.count}")
+	private int webShowIdeasUserCount;
 	@Value("${show.invite.users.max.rows}")
 	private int showInviteUsersMaxRows;
 	@Value("${query.users.right.user.rows}")
 	private int queryUsersRightUserRows;
+	@Value("${web.show.ideas.ad.count}")
+	private int webShowIdeasAdCount;
 
 	@RequestMapping(value = { "", "/", "/index" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
@@ -89,10 +93,10 @@ public class NewIndexController extends BaseController {
 						idea.getId()));
 			}
 			ideaView.setIdeaUserViews(ideaService.listIdeaUsers(idea.getId(),
-					0, 5));
+					0, webShowIdeasUserCount));
 			ideaViewList.add(ideaView);
 		}
-		model.addAttribute("ads", adService.listAd(cityId, 0, 2));
+		ideaAdWidget(cityId, model, webShowIdeasAdCount);
 		model.addAttribute("pager", pager);
 		model.addAttribute("orderType", orderType);
 		model.addAttribute("cityId", cityId);

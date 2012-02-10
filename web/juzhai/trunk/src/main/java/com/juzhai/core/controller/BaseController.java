@@ -32,7 +32,9 @@ import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.post.model.Ad;
 import com.juzhai.post.model.Idea;
+import com.juzhai.post.service.IAdService;
 import com.juzhai.post.service.IIdeaService;
 
 public class BaseController {
@@ -60,6 +62,8 @@ public class BaseController {
 	private IActCategoryService actCategoryService;
 	@Autowired
 	private IIdeaService ideaService;
+	@Autowired
+	private IAdService adService;
 
 	protected UserContext checkLoginForApp(HttpServletRequest request)
 			throws NeedLoginException {
@@ -176,5 +180,16 @@ public class BaseController {
 		}
 		model.addAttribute("profileList", profileService
 				.listProfileByCityIdOrderCreateTime(cityId, 0, count));
+	}
+
+	protected void ideaAdWidget(long cityId, Model model, int count) {
+		if (count <= 0) {
+			count = 2;
+		}
+		List<Ad> list = adService.listAd(cityId, 0, count);
+		if (CollectionUtils.isEmpty(list) && cityId <= 0) {
+			list = adService.listAd(0, 0, count);
+		}
+		model.addAttribute("ads", list);
 	}
 }

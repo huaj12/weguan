@@ -3,6 +3,7 @@ package com.juzhai.platform.service.impl;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,7 +45,25 @@ public class WeiboConnectMessageService implements IMessageService {
 	public boolean sendSysMessage(List<String> fuids, String linktext,
 			String link, String word, String text, String picurl,
 			AuthInfo authInfo) {
-		// TODO Auto-generated method stub
+		if (CollectionUtils.isEmpty(fuids)) {
+			return false;
+		}
+		String fuid = fuids.get(0);
+		try {
+			text = subContent(text, null);
+			Comments comment = new Comments(authInfo.getToken());
+			Timeline timeline = new Timeline(authInfo.getToken());
+			List<Status> status = timeline.getUserTimeline(fuid, "", 1, null,
+					0, 1);
+			if (status != null && status.size() > 0) {
+				String id = status.get(0).getId();
+				comment.createComment(text, id);
+				return true;
+			}
+		} catch (Exception e) {
+			log.error("connect weibo sendSysMessage is error." + e.getMessage()
+					+ "fuid:" + fuid);
+		}
 		return false;
 	}
 
@@ -57,7 +76,7 @@ public class WeiboConnectMessageService implements IMessageService {
 		}
 		try {
 			String text = content;
-			text = subContent(text, link);
+			text = subContent(text, "");
 			Comments comment = new Comments(authInfo.getToken());
 			Timeline timeline = new Timeline(authInfo.getToken());
 			if (StringUtils.isNotEmpty(typeComment)) {
@@ -79,18 +98,17 @@ public class WeiboConnectMessageService implements IMessageService {
 				return true;
 			}
 		} catch (Exception e) {
-			log.error("connect weibo sendMessage is error." + e.getMessage() + "uid:"
-					+ authInfo.getTpIdentity());
+			log.error("connect weibo sendMessage is error." + e.getMessage()
+					+ "uid:" + authInfo.getTpIdentity());
 			return false;
 		}
 	}
-	
+
 	private String subContent(String text, String appLink) {
 		int count = weiboMaxLength - StringUtil.chineseLength(appLink);
 		text = TextTruncateUtil.truncate(text, count - 5, "...") + appLink;
 		return text;
 	}
-
 
 	private void sendWeibo(long actId, Timeline timeline, String content)
 			throws WeiboException {

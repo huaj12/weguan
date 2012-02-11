@@ -71,17 +71,19 @@ public class NoticeService implements INoticeService {
 	}
 
 	@Override
-	public boolean noticeUserUnReadNum(ThirdpartyNameEnum thirdpartyNameEnum,
+	public boolean noticeUserUnReadNum(
 			long receiver, int num) throws AdminException {
-		long uid = NoticeConfig.getValue(thirdpartyNameEnum, "uid");
-		long tpId = NoticeConfig.getValue(thirdpartyNameEnum, "tpId");
+		TpUser user = tpUserService.getTpUserByUid(receiver);
+		
+		long uid = NoticeConfig.getValue(ThirdpartyNameEnum.valueOf(user.getTpName()), "uid");
+		long tpId = NoticeConfig.getValue(ThirdpartyNameEnum.valueOf(user.getTpName()), "tpId");
 		if (!adminService.isAllocation(uid, tpId)) {
 			// 超过配额
 			throw new AdminException(AdminException.ADMIN_API_EXCEED_LIMIT);
 		}
 
 		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
-		TpUser user = tpUserService.getTpUserByUid(receiver);
+	
 		String fuid = user.getTpIdentity();
 		List<String> fuids = new ArrayList<String>();
 		fuids.add(fuid);

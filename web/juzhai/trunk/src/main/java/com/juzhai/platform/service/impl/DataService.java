@@ -45,15 +45,15 @@ public class DataService implements IDataService, BeanFactoryAware {
 	}
 
 	@Override
-	public List<UserWeibo> listWeibo(long uid,long tpId) {
+	public List<UserWeibo> listWeibo(long uid,long fuid,long tpId) {
 		AuthInfo authInfo=tpUserAuthService.getAuthInfo(uid, tpId);
-		return getDataServiceBean(authInfo.getThirdpartyName(), authInfo.getJoinType()).listWeibo(uid,tpId);
+		return getDataServiceBean(authInfo.getThirdpartyName(), authInfo.getJoinType()).listWeibo(uid,fuid,tpId);
 	}
 
 	@Override
-	public List<UserWeibo> refreshListWeibo(long uid, long tpId) {
+	public List<UserWeibo> refreshListWeibo(long uid,long fuid, long tpId) {
 		AuthInfo authInfo=tpUserAuthService.getAuthInfo(uid, tpId);
-		return getDataServiceBean(authInfo.getThirdpartyName(), authInfo.getJoinType()).refreshListWeibo(uid, tpId);
+		return getDataServiceBean(authInfo.getThirdpartyName(), authInfo.getJoinType()).refreshListWeibo(uid,fuid,tpId);
 	}
 
 }

@@ -24,7 +24,7 @@ public class DataService implements IDataService, BeanFactoryAware {
 	private BeanFactory beanFactory;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
-	
+
 	private static final Log log = LogFactory.getLog(DataService.class);
 
 	private IDataService getDataServiceBean(String tpName, String jionType) {
@@ -45,15 +45,19 @@ public class DataService implements IDataService, BeanFactoryAware {
 	}
 
 	@Override
-	public List<UserWeibo> listWeibo(long uid,long fuid,long tpId) {
-		AuthInfo authInfo=tpUserAuthService.getAuthInfo(uid, tpId);
-		return getDataServiceBean(authInfo.getThirdpartyName(), authInfo.getJoinType()).listWeibo(uid,fuid,tpId);
+	public List<UserWeibo> listWeibo(long uid, long fuid, long tpId) {
+		// TODO (review) 这里需要authInfo？
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		return getDataServiceBean(authInfo.getThirdpartyName(),
+				authInfo.getJoinType()).listWeibo(uid, fuid, tpId);
 	}
 
 	@Override
-	public List<UserWeibo> refreshListWeibo(long uid,long fuid, long tpId) {
-		AuthInfo authInfo=tpUserAuthService.getAuthInfo(uid, tpId);
-		return getDataServiceBean(authInfo.getThirdpartyName(), authInfo.getJoinType()).refreshListWeibo(uid,fuid,tpId);
+	public List<UserWeibo> refreshListWeibo(long uid, long fuid, long tpId) {
+		// TODO (review) 这里需要authInfo？
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		return getDataServiceBean(authInfo.getThirdpartyName(),
+				authInfo.getJoinType()).refreshListWeibo(uid, fuid, tpId);
 	}
 
 }

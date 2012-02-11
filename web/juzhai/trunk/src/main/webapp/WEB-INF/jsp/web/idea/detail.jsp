@@ -47,6 +47,9 @@
 													</c:if>
 												</div><!--infor end-->
 												<div class="fb_area"><!--fb_area begin-->
+													<c:if test="${pager.totalResults <= 0}">
+														<div class="fb_ts">点击右侧发布拒宅按钮，抢沙发</div>
+													</c:if>
 													<c:choose>
 														<c:when test="${hasUsed}">
 															<div class="send_done"><a href="javascript:void(0);">已发布</a></div>

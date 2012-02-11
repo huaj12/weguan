@@ -12,7 +12,7 @@ public class SettingForm {
 	private Long city;
 	private Long town;
 	private Integer height;
-	private Integer bloodType;
+	private String bloodType;
 	private String education;
 	private String house;
 	private String car;
@@ -29,11 +29,11 @@ public class SettingForm {
 		this.height = height;
 	}
 
-	public Integer getBloodType() {
+	public String getBloodType() {
 		return bloodType;
 	}
 
-	public void setBloodType(Integer bloodType) {
+	public void setBloodType(String bloodType) {
 		this.bloodType = bloodType;
 	}
 

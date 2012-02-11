@@ -95,18 +95,19 @@ function setGender(){
 }
 
 function parseMonthlyIncome(str){
-	var arr=new Array();
-	if(str.indexOf("<")!=-1){
-		arr[0]=0;
-		arr[1]=str.substring(1);
-	}else if(str.indexOf(">")!=-1){
-		arr[0]=str.substring(1);
-		arr[1]=0;
-	}else{
-		arr[0]=0;
-		arr[1]=0;
-	}
-	return arr;
+//	var arr = new Array();
+	return str.split("-");
+//	if(str.s){
+//		arr[0]=0;
+//		arr[1]=str.substring(1);
+//	}else if(str.indexOf(">")!=-1){
+//		arr[0]=str.substring(1);
+//		arr[1]=0;
+//	}else{
+//		arr[0]=0;
+//		arr[1]=0;
+//	}
+//	return arr;
 }
 
 function setting(){

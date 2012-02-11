@@ -50,6 +50,7 @@ public class ProfileContrller extends BaseController {
 		return "web/profile/setting";
 	}
 
+	// TODO (review) 重构
 	private String parseMonthlyIncome(Integer min, Integer max) {
 		if (min == null)
 			min = 0;
@@ -57,7 +58,7 @@ public class ProfileContrller extends BaseController {
 			max = 0;
 		if (min == 0 && max > 0) {
 			return "&lt;" + max;
-		} else if (min > 0 && max == 0) {
+		} else if (min > 0) {
 			return "&gt;" + min;
 		} else {
 			return null;

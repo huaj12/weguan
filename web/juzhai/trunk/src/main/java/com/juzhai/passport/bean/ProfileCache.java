@@ -26,6 +26,15 @@ public class ProfileCache implements Serializable {
 	private String profession;
 	private Long constellationId;
 	private String feature;
+	private Integer height;
+	private String bloodType;
+	private String education;
+	private String house;
+	private String car;
+	private String home;
+	private Integer minMonthlyIncome;
+	private Integer maxMonthlyIncome;
+	private String blog;
 
 	private String tpIdentity;
 
@@ -163,6 +172,78 @@ public class ProfileCache implements Serializable {
 
 	public void setBirthSecret(Boolean birthSecret) {
 		this.birthSecret = birthSecret;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
+	}
+
+	public String getBloodType() {
+		return bloodType;
+	}
+
+	public void setBloodType(String bloodType) {
+		this.bloodType = bloodType;
+	}
+
+	public String getEducation() {
+		return education;
+	}
+
+	public void setEducation(String education) {
+		this.education = education;
+	}
+
+	public String getHouse() {
+		return house;
+	}
+
+	public void setHouse(String house) {
+		this.house = house;
+	}
+
+	public String getCar() {
+		return car;
+	}
+
+	public void setCar(String car) {
+		this.car = car;
+	}
+
+	public String getHome() {
+		return home;
+	}
+
+	public void setHome(String home) {
+		this.home = home;
+	}
+
+	public Integer getMinMonthlyIncome() {
+		return minMonthlyIncome;
+	}
+
+	public void setMinMonthlyIncome(Integer minMonthlyIncome) {
+		this.minMonthlyIncome = minMonthlyIncome;
+	}
+
+	public Integer getMaxMonthlyIncome() {
+		return maxMonthlyIncome;
+	}
+
+	public void setMaxMonthlyIncome(Integer maxMonthlyIncome) {
+		this.maxMonthlyIncome = maxMonthlyIncome;
+	}
+
+	public String getBlog() {
+		return blog;
+	}
+
+	public void setBlog(String blog) {
+		this.blog = blog;
 	}
 
 	public String getProvinceName() {

@@ -13,18 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
-import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.home.bean.InterestUserView;
-import com.juzhai.home.service.IUserFreeDateService;
-import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
-import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
@@ -34,60 +28,17 @@ import com.juzhai.post.service.IPostService;
 public class HomeController extends BaseController {
 
 	@Autowired
-	private IUserActService userActService;
-	@Autowired
 	private IInterestUserService interestUserService;
 	@Autowired
 	private IProfileService profileService;
 	@Autowired
-	private ILoginService loginService;
-	// @Autowired
-	// private INoticeService noticeService;
-	@Autowired
-	private IUserFreeDateService userFreeDateService;
-	@Autowired
 	private IPostService postService;
 	@Value("${web.home.post.max.rows}")
 	private int webHomePostMaxRows;
-	@Value("${web.user.home.post.rows}")
-	private int webUserHomePostRows;
-	@Value("${web.my.post.max.rows}")
-	private int webMyPostMaxRows;
-	@Value("${web.interest.user.max.rows}")
-	private int webInterestUserMaxRows;
-	@Value("${web.interest.me.max.rows}")
-	private int webInterestMeMaxRows;
-	@Value("${interest.user.show.act.count}")
-	private int interestUserShowActCount;
 	@Value("${web.home.right.user.rows}")
 	private int webHomeRightUserRows;
 	@Value("${web.home.right.idea.rows}")
 	private int webHomeRightIdeaRows;
-
-	// @RequestMapping(value = { "/acts", "/", "" }, method = RequestMethod.GET)
-	// public String myActs(HttpServletRequest request, Model model)
-	// throws NeedLoginException {
-	// checkLoginForWeb(request);
-	// return pageMyActs(request, model, 1);
-	// }
-	//
-	// @RequestMapping(value = "/acts/{page}", method = RequestMethod.GET)
-	// public String pageMyActs(HttpServletRequest request, Model model,
-	// @PathVariable int page) throws NeedLoginException {
-	// UserContext context = checkLoginForWeb(request);
-	// try {
-	// showHomeHeader(context, context.getUid(), model);
-	// } catch (JuzhaiException e) {
-	// return error_404;
-	// }
-	// int totalCount = (Integer) model.asMap().get("actCount");
-	// PagerManager pager = new PagerManager(page, webMyActMaxRows, totalCount);
-	// List<UserActView> userActViewList = userActService.pageUserActView(
-	// context.getUid(), pager.getFirstResult(), pager.getMaxResult());
-	// model.addAttribute("userActViewList", userActViewList);
-	// model.addAttribute("pager", pager);
-	// return "web/home/act/acts";
-	// }
 
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)
@@ -113,7 +64,7 @@ public class HomeController extends BaseController {
 		List<Post> postList = postService.listNewestPost(context.getUid(),
 				cityId, gender, pager.getFirstResult(), pager.getMaxResult());
 		List<PostView> postViewList = assembleUserPostViewList(context,
-				postList, true, true);
+				postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
 		model.addAttribute("queryType", "showNewPosts");
@@ -140,7 +91,7 @@ public class HomeController extends BaseController {
 		List<Post> postList = postService.listResponsePost(context.getUid(),
 				cityId, gender, pager.getFirstResult(), pager.getMaxResult());
 		List<PostView> postViewList = assembleUserPostViewList(context,
-				postList, true, true);
+				postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
 		model.addAttribute("queryType", "showRespPosts");
@@ -169,7 +120,7 @@ public class HomeController extends BaseController {
 				context.getUid(), cityId, gender, pager.getFirstResult(),
 				pager.getMaxResult());
 		List<PostView> postViewList = assembleUserPostViewList(context,
-				postList, true, true);
+				postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
 		model.addAttribute("queryType", "showIntPosts");
@@ -181,97 +132,6 @@ public class HomeController extends BaseController {
 	private void showHomeRight(UserContext context, long cityId, Model model) {
 		ideaWidget(context, cityId, model, webHomeRightIdeaRows);
 		newUserWidget(cityId, model, webHomeRightUserRows);
-	}
-
-	@RequestMapping(value = "/posts", method = RequestMethod.GET)
-	public String myPosts(HttpServletRequest request, Model model)
-			throws NeedLoginException {
-		checkLoginForWeb(request);
-		return pageMyPosts(request, model, 1);
-	}
-
-	@RequestMapping(value = "/posts/{page}", method = RequestMethod.GET)
-	public String pageMyPosts(HttpServletRequest request, Model model,
-			@PathVariable int page) throws NeedLoginException {
-		UserContext context = checkLoginForWeb(request);
-		try {
-			showUserPageRight(context, context.getUid(), model);
-		} catch (JuzhaiException e) {
-			return error_404;
-		}
-		int totalCount = (Integer) model.asMap().get("postCount");
-		PagerManager pager = new PagerManager(page, webMyPostMaxRows,
-				totalCount);
-		List<Post> postList = postService.listUserPost(context.getUid(),
-				pager.getFirstResult(), pager.getMaxResult());
-		model.addAttribute("postList", postList);
-		model.addAttribute("pager", pager);
-		return "web/home/post/posts";
-	}
-
-	@RequestMapping(value = "/interests/{page}", method = RequestMethod.GET)
-	public String myInterests(HttpServletRequest request, Model model,
-			@PathVariable int page) throws NeedLoginException {
-		UserContext context = checkLoginForWeb(request);
-		try {
-			showUserPageRight(context, context.getUid(), model);
-		} catch (JuzhaiException e) {
-			return error_404;
-		}
-		int totalCount = (Integer) model.asMap().get("interestCount");
-		PagerManager pager = new PagerManager(page, webInterestUserMaxRows,
-				totalCount);
-		List<ProfileCache> profileList = interestUserService.listInterestUser(
-				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
-		assembleInterestUserView(model, context, profileList, true);
-		model.addAttribute("pager", pager);
-		return "web/home/interest/interests";
-	}
-
-	@RequestMapping(value = "/interestMes/{page}", method = RequestMethod.GET)
-	public String myInterestMe(HttpServletRequest request, Model model,
-			@PathVariable int page) throws NeedLoginException {
-		UserContext context = checkLoginForWeb(request);
-		try {
-			showUserPageRight(context, context.getUid(), model);
-		} catch (JuzhaiException e) {
-			return error_404;
-		}
-		int totalCount = (Integer) model.asMap().get("interestMeCount");
-		PagerManager pager = new PagerManager(page, webInterestMeMaxRows,
-				totalCount);
-		List<ProfileCache> profileList = interestUserService
-				.listInterestMeUser(context.getUid(), pager.getFirstResult(),
-						pager.getMaxResult());
-		assembleInterestUserView(model, context, profileList, null);
-		model.addAttribute("pager", pager);
-		// if (page <= 1) {
-		// noticeService.emptyNotice(context.getUid(), NoticeType.INTEREST_ME);
-		// }
-		return "web/home/interest/interest_mes";
-	}
-
-	private void assembleInterestUserView(Model model, UserContext context,
-			List<ProfileCache> profileList, Boolean hasInterest) {
-		List<InterestUserView> interestUserViewList = new ArrayList<InterestUserView>();
-		for (ProfileCache profileCache : profileList) {
-			InterestUserView view = new InterestUserView();
-			view.setProfileCache(profileCache);
-			view.setUserActViewList(userActService.pageUserActView(
-					profileCache.getUid(), 0, interestUserShowActCount));
-			// view.setHasDating(datingService.hasDating(context.getUid(),
-			// profileCache.getUid()));
-			view.setHasInterest(hasInterest != null ? hasInterest
-					: interestUserService.isInterest(context.getUid(),
-							profileCache.getUid()));
-			view.setOnline(loginService.isOnline(profileCache.getUid()));
-			view.setFreeDateList(userFreeDateService
-					.userFreeDateList(profileCache.getUid()));
-			view.setLatestPost(postService.getUserLatestPost(profileCache
-					.getUid()));
-			interestUserViewList.add(view);
-		}
-		model.addAttribute("interestUserViewList", interestUserViewList);
 	}
 
 	// @RequestMapping(value = "/datings/accept/{page}", method =
@@ -397,112 +257,23 @@ public class HomeController extends BaseController {
 	// model.addAttribute("pager", pager);
 	// }
 
-	@RequestMapping(value = "/{uid}", method = RequestMethod.GET)
-	public String userHome(HttpServletRequest request, Model model,
-			@PathVariable long uid) {
-		UserContext context = (UserContext) request.getAttribute("context");
-		if (context != null && context.getUid() == uid) {
-			return "redirect:/home";
-		}
-		try {
-			showUserPageRight(context, uid, model);
-		} catch (JuzhaiException e) {
-			return error_404;
-		}
-		// 前三条
-		int postCount = postService.countUserPost(uid);
-		model.addAttribute("showMore", postCount > webUserHomePostRows);
-		List<Post> postList = postService.listUserPost(uid, 0,
-				webUserHomePostRows);
-		List<PostView> postViewList = assembleUserPostViewList(context,
-				postList, false, false);
-		model.addAttribute("postViewList", postViewList);
-
-		// TODO 微博
-
-		return "web/home/user_home";
-	}
-
-	@RequestMapping(value = "/{uid}/posts", method = RequestMethod.GET)
-	public String userPosts(HttpServletRequest request, Model model,
-			@PathVariable long uid) {
-		return pageUserPosts(request, model, uid, 1);
-	}
-
-	@RequestMapping(value = "/{uid}/posts/{page}", method = RequestMethod.GET)
-	public String pageUserPosts(HttpServletRequest request, Model model,
-			@PathVariable long uid, @PathVariable int page) {
-		UserContext context = null;
-		try {
-			context = checkLoginForWeb(request);
-		} catch (NeedLoginException e) {
-		}
-		if (context != null && context.getUid() == uid) {
-			return "redirect:/home/posts";
-		}
-		try {
-			showUserPageRight(context, uid, model);
-		} catch (JuzhaiException e) {
-			return error_404;
-		}
-		pageUserPosts(context, uid, page, model);
-		return "web/home/post/user_posts";
-	}
-
-	private void pageUserPosts(UserContext context, long uid, int page,
-			Model model) {
-		int totalCount = postService.countUserPost(uid);
-		PagerManager pager = new PagerManager(page, webMyPostMaxRows,
-				totalCount);
-		List<Post> postList = postService.listUserPost(uid,
-				pager.getFirstResult(), pager.getMaxResult());
-		List<PostView> postViewList = assembleUserPostViewList(context,
-				postList, false, false);
-		model.addAttribute("postViewList", postViewList);
-		model.addAttribute("pager", pager);
-	}
-
 	private List<PostView> assembleUserPostViewList(UserContext context,
-			List<Post> postList, boolean needProfile, boolean needHasInterest) {
+			List<Post> postList) {
 		List<PostView> postViewList = new ArrayList<PostView>();
 		for (Post post : postList) {
 			PostView postView = new PostView();
 			postView.setPost(post);
-			if (needProfile) {
-				postView.setProfileCache(profileService
-						.getProfileCacheByUid(post.getCreateUid()));
-			}
+			postView.setProfileCache(profileService.getProfileCacheByUid(post
+					.getCreateUid()));
 			if (context != null && context.getUid() > 0) {
 				postView.setHasResponse(postService.isResponsePost(
 						context.getUid(), post.getId()));
-				if (needHasInterest) {
-					postView.setHasInterest(interestUserService.isInterest(
-							context.getUid(), post.getCreateUid()));
-				}
+				postView.setHasInterest(interestUserService.isInterest(
+						context.getUid(), post.getCreateUid()));
 			}
 			postViewList.add(postView);
 		}
 		return postViewList;
-	}
-
-	private void showUserPageRight(UserContext context, long uid, Model model)
-			throws JuzhaiException {
-		if (null == queryProfile(uid, model)) {
-			throw new JuzhaiException(JuzhaiException.ILLEGAL_OPERATION);
-		}
-		if (context == null || context.getUid() != uid) {
-			model.addAttribute("online", loginService.isOnline(uid));
-			if (context != null && context.hasLogin()) {
-				model.addAttribute("isInterest",
-						interestUserService.isInterest(context.getUid(), uid));
-			}
-		} else {
-			model.addAttribute("interestCount",
-					interestUserService.countInterestUser(uid));
-			model.addAttribute("interestMeCount",
-					interestUserService.countInterestMeUser(uid));
-			model.addAttribute("postCount", postService.countUserPost(uid));
-		}
 	}
 
 	// private void showHomeHeader(UserContext context, long uid, Model model)

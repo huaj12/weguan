@@ -19,9 +19,12 @@
 							<div class="t"></div>
 							<div class="m">
 								<div class="my_index"><!--my_index begin-->
-									<c:set var="tabType" value="interestMes" scope="request"/>
-									<jsp:include page="../common/new_tab.jsp" />
-									<jsp:include page="interests_list.jsp" />
+									<div class="title"><!--title begin-->
+										<div class="category"><!--category begin-->
+											<span class="act"><p></p><a href="/home/posts">ta的拒宅</a><p></p></span>
+										</div><!--category end-->
+									</div><!--title end-->
+									<jsp:include page="posts_list.jsp" />
 								</div><!--my_index end-->
 							</div>
 							<div class="t"></div>
@@ -35,6 +38,8 @@
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 		</div><!--warp end-->
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-		<script type="text/javascript" src="${jzr:static('/js/web/home_interests.js')}"></script>
+		<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
+		<script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
+		<script type="text/javascript" src="${jzr:static('/js/web/home_posts.js')}"></script>
 	</body>
 </html>

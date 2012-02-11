@@ -1,8 +1,10 @@
 package com.juzhai.post.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.platform.exception.AdminException;
 import com.juzhai.post.controller.form.PostForm;
 import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.model.Post;
@@ -284,4 +286,17 @@ public interface IPostService {
 	 * @return
 	 */
 	int countResponseUser(long postId);
+	
+	/**
+	 * 同步微博
+	 * @param content 
+	 * @param place 
+	 * @param date 
+	 * @param link
+	 * @param uid
+	 * @param tpId
+	 */
+	void  synchronizeWeibo(long postId,long uid,long tpId) throws AdminException;
+	
+	
 }

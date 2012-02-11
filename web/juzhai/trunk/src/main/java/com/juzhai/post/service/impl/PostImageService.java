@@ -1,6 +1,7 @@
 package com.juzhai.post.service.impl;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.image.manager.IImageManager;
+import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.post.service.IPostImageService;
 
@@ -60,6 +62,19 @@ public class PostImageService implements IPostImageService {
 				+ ImageUtil.generateHierarchyImagePath(destPostId,
 						LogoSizeType.ORIGINAL) + imgName);
 		imageManager.copyImage(directoryPath, imgName, srcFile);
+	}
+
+	@Override
+	public byte[] getPostFile(long postId, String fileName,
+			LogoSizeType sizeType) {
+		try {
+			String directoryPath = uploadPostImageHome
+					+ ImageUtil.generateHierarchyImagePath(postId, sizeType);
+			File file = new File(directoryPath + fileName);
+			return FileUtil.readFileToByteArray(file);
+		} catch (IOException e) {
+			return null;
+		}
 	}
 
 }

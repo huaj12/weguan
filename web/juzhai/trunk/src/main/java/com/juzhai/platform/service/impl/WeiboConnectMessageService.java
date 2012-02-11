@@ -27,6 +27,8 @@ import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.platform.service.IMessageService;
+import com.juzhai.post.model.Post;
+import com.juzhai.post.service.IPostService;
 
 @Service
 public class WeiboConnectMessageService implements IMessageService {
@@ -36,7 +38,7 @@ public class WeiboConnectMessageService implements IMessageService {
 	@Autowired
 	private IActImageService actImageService;
 	@Autowired
-	private IActService actService;
+	private IPostService postService;
 	@Value("${show.feed.count}")
 	private int feedCount = 3;
 	private int weiboMaxLength = 280;
@@ -69,7 +71,7 @@ public class WeiboConnectMessageService implements IMessageService {
 
 	@Override
 	public boolean sendMessage(long sendId, String fuids, String fname,
-			String content, AuthInfo authInfo, long actId, String link,
+			String content, AuthInfo authInfo, long postId, String link,
 			String typeWeibo, String typeComment) {
 		if (StringUtils.isEmpty(typeComment) && StringUtils.isEmpty(typeWeibo)) {
 			return false;
@@ -94,7 +96,7 @@ public class WeiboConnectMessageService implements IMessageService {
 					return false;
 				}
 			} else {
-				sendWeibo(actId, timeline, text);
+				sendWeibo(postId, timeline, text);
 				return true;
 			}
 		} catch (Exception e) {
@@ -110,12 +112,12 @@ public class WeiboConnectMessageService implements IMessageService {
 		return text;
 	}
 
-	private void sendWeibo(long actId, Timeline timeline, String content)
+	private void sendWeibo(long postId, Timeline timeline, String content)
 			throws WeiboException {
-		Act act = actService.getActById(actId);
-		if (act != null) {
-			byte[] imgContent = actImageService.getActFile(act.getId(),
-					act.getLogo(), LogoSizeType.BIG);
+		Post post =postService.getPostById(postId);
+		if (post != null) {
+			byte[] imgContent = actImageService.getActFile(post.getId(),
+					post.getPic(), LogoSizeType.BIG);
 			if (imgContent == null) {
 				timeline.UpdateStatus(content);
 			} else {

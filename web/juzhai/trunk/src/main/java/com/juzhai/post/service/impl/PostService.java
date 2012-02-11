@@ -2,10 +2,12 @@ package com.juzhai.post.service.impl;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import net.rubyeye.xmemcached.MemcachedClient;
@@ -18,6 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +31,16 @@ import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
+import com.juzhai.notice.bean.NoticeUserTemplate;
+import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.platform.exception.AdminException;
+import com.juzhai.platform.service.IMessageService;
 import com.juzhai.post.bean.PurposeType;
+import com.juzhai.post.bean.SynchronizeWeiboTemplate;
 import com.juzhai.post.bean.VerifyType;
 import com.juzhai.post.controller.form.PostForm;
 import com.juzhai.post.dao.IPostDao;
@@ -52,7 +61,7 @@ import com.juzhai.wordfilter.service.IWordFilterService;
 public class PostService implements IPostService {
 
 	private final Log log = LogFactory.getLog(getClass());
-
+	private final String[] purposeType = { "我想去", "我想找伴儿", "我想找一个男生", "我想找一个女生" };
 	@Autowired
 	private PostMapper postMapper;
 	@Autowired
@@ -89,6 +98,18 @@ public class PostService implements IPostService {
 	private int postPlaceLengthMax;
 	@Value("${post.interval.expire.time}")
 	private int postIntervalExpireTime;
+	@Value("${synchronize.content.length.max}")
+	private int synchronizeContentLengthMax;
+	@Value("${synchronize.address.length.max}")
+	private int synchronizeAddressLengthMax;
+	@Value("${synchronize.time.length.max}")
+	private int synchronizeTimeLengthMax;
+	@Autowired
+	private MessageSource messageSource;
+	@Autowired
+	private ITpUserAuthService tpUserAuthService;
+	@Autowired
+	private IMessageService messageService;
 
 	@Override
 	public void createPost(long uid, PostForm postForm)
@@ -764,5 +785,43 @@ public class PostService implements IPostService {
 		PostResponseExample example = new PostResponseExample();
 		example.createCriteria().andPostIdEqualTo(postId);
 		return postResponseMapper.countByExample(example);
+	}
+
+	@Override
+	public void synchronizeWeibo(long postId, long uid, long tpId)
+			throws AdminException {
+		Post post = getPostById(postId);
+		Date date = post.getDateTime();
+		String content = purposeType[post.getPurposeType()] + post.getContent();
+		String place = post.getPlace();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String time = null;
+		try {
+			time = sdf.format(date);
+		} catch (Exception e) {
+		}
+		try {
+			if (StringUtil.chineseLength(content) > synchronizeContentLengthMax) {
+				throw new AdminException(
+						AdminException.ADMIN_API_WEIBO_CONTENT_TOO_LONG);
+			}
+			if (StringUtil.chineseLength(place) > synchronizeAddressLengthMax) {
+				throw new AdminException(
+						AdminException.ADMIN_API_WEIBO_ADDRESS_TOO_LONG);
+			}
+			if (StringUtil.chineseLength(time) > synchronizeTimeLengthMax) {
+				throw new AdminException(
+						AdminException.ADMIN_API_WEIBO_TIME_TOO_LONG);
+			}
+			AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+			String text = messageSource.getMessage(
+					SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_TEXT.getName(),
+					new Object[] { content, time, place, uid },
+					Locale.SIMPLIFIED_CHINESE);
+			messageService.sendMessage(0, null, null, text, authInfo, 0, null,
+					"1", null);
+		} catch (Exception e) {
+			log.error("synchronizeWeibo is error " + e.getMessage());
+		}
 	}
 }

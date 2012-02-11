@@ -33,7 +33,7 @@
 					<div class="login"><!--login begin-->
 						<div class="user_box"><!--user_box begin-->
 							<p><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}" height="20" width="20" /></p>
-							<a href="/home" class="user <c:choose><c:when test='${loginUser.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><c:out value="${loginUser.nickname}" /></a>
+							<a href="/home/${loginUser.uid}" class="user <c:choose><c:when test='${loginUser.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><c:out value="${loginUser.nickname}" /></a>
 						</div><!--user_box end-->
 					</div><!--login end-->
 				</c:otherwise>

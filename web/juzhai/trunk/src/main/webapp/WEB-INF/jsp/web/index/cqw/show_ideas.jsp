@@ -61,7 +61,7 @@
 													<div class="pub_box mouseHover"><!--pub_box begin-->
 														<div class="pub_box_t"></div>
 														<div class="pub_box_m"><!--pub_box_m begin-->
-															<p><a href="/idea/${ideaView.idea.id}">${ideaView.idea.content}</a></p>
+															<p><a href="/idea/${ideaView.idea.id}"><c:out value="${ideaView.idea.content}" /></a></p>
 															<div class="infor"><!--infor begin-->
 																<c:if test="${not empty ideaView.idea.pic}">
 																	<div class="img"><a href="/idea/${ideaView.idea.id}"><img src="${jzr:ideaPic(ideaView.idea.id,ideaView.idea.pic)}" width="580" /></a></div>
@@ -79,14 +79,19 @@
 																</c:if>
 															</div><!--infor end-->
 															<div class="fb_area"><!--fb_area begin-->
-																<c:if test="${not empty ideaView.ideaUserViews}">
-																	<div class="fb_members">
-																		<c:forEach items="${ideaView.ideaUserViews}"  var="ideaUser">
-																			<em><a href="/home/${ideaUser.profileCache.uid}"><img src="${jzr:userLogo(ideaUser.profileCache.uid,ideaUser.profileCache.logoPic,80)}" width="40" height="40"/></a></em>
-																		</c:forEach>
-																		<b><a href="/idea/${ideaView.idea.id}">共${ideaView.idea.useCount}人想去</a></b>
-																	</div>
-																</c:if>
+																<c:choose>
+																	<c:when test="${empty ideaView.ideaUserViews}">
+																		<div class="fb_members_none">点击右侧发布拒宅按钮，抢沙发</div>
+																	</c:when>
+																	<c:otherwise>
+																		<div class="fb_members">
+																			<c:forEach items="${ideaView.ideaUserViews}"  var="ideaUser">
+																				<em><a href="/home/${ideaUser.profileCache.uid}"><img src="${jzr:userLogo(ideaUser.profileCache.uid,ideaUser.profileCache.logoPic,80)}" width="40" height="40"/></a></em>
+																			</c:forEach>
+																			<b><a href="/idea/${ideaView.idea.id}">共${ideaView.idea.useCount}人想去</a></b>
+																		</div>
+																	</c:otherwise>
+																</c:choose>
 																<c:choose>
 																	<c:when test="${ideaView.hasUsed}">
 																		<div class="send_done"><a href="javascript:void(0);">已发布</a></div>

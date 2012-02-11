@@ -19,9 +19,9 @@
 							<div class="t"></div>
 							<div class="m">
 								<div class="my_index"><!--my_index begin-->
-									<c:set var="tabType" value="interestMes" scope="request"/>
+									<c:set var="tabType" value="posts" scope="request"/>
 									<jsp:include page="../common/new_tab.jsp" />
-									<jsp:include page="interests_list.jsp" />
+									<jsp:include page="posts_list.jsp" />
 								</div><!--my_index end-->
 							</div>
 							<div class="t"></div>
@@ -35,6 +35,8 @@
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 		</div><!--warp end-->
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-		<script type="text/javascript" src="${jzr:static('/js/web/home_interests.js')}"></script>
+		<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
+		<script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
+		<script type="text/javascript" src="${jzr:static('/js/web/home_posts.js')}"></script>
 	</body>
 </html>

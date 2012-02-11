@@ -4,17 +4,15 @@
 <%@ taglib prefix="jzr"
 	uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<c:set var="bloodTypeValue" value="O型,A型,B型,AB型" />
-<c:set var="delim" value=","/> 
-<c:set var="bloodType" value="${fn:split(bloodTypeValue, delim)}"/>
+<c:set var="delim" value=","/>
 <c:set var="educationValue" value="初中及以下,中专,高中,本科,硕士,博士及以上" />
 <c:set var="education" value="${fn:split(educationValue, delim)}"/>
 <c:set var="houseValue" value="自有住房,与家人同住,独自租房,与人合租" />
 <c:set var="house" value="${fn:split(houseValue, delim)}"/>
 <c:set var="carValue" value="已购车,未购车,有自行车" />
 <c:set var="car" value="${fn:split(carValue, delim)}"/>
-<c:set var="monthlyIncomeValue" value="&lt;2000,&gt;2000,&gt;5000,&gt;10000,&gt;20000,&gt;30000,&gt;50000" />
-<c:set var="monthlyIncome" value="${fn:split(monthlyIncomeValue, delim)}"/>
+<%-- <c:set var="monthlyIncomeValue" value="&lt;2000,&gt;2000,&gt;5000,&gt;10000,&gt;20000,&gt;30000,&gt;50000" />
+<c:set var="monthlyIncome" value="${fn:split(monthlyIncomeValue, delim)}"/> --%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -59,7 +57,7 @@
 										<!--infor_x begin-->
 										<h3>名&nbsp;&nbsp;&nbsp;&nbsp;字：</h3>
 										<div class="user" id="user_nickname">
-											<p id="new_nickname">${profile.nickname}</p>
+											<p id="new_nickname"><c:out value="${profile.nickname}" /></p>
 											<c:if test="${!profile.hasModifyNickname}">
 												<span id="nickname_xg"><a href="javascript:void(0);"
 													onclick="show_updateDiv('nickname');">修改</a>
@@ -262,10 +260,11 @@
 										<div class="select"><!--select begin-->
 										<span>
 										<select  id="bloodType">
-										<option value="0"  <c:if test="${empty profile.bloodType||profile.bloodType==0}">selected="selected"</c:if>>可不填</option>
-										<c:forEach items="${bloodType}" var="bt" varStatus="index">
-											<option value="${index.index+1}" <c:if test="${profile.bloodType==(index.index+1)}">selected="selected"</c:if> >${bt}</option>
-										</c:forEach>
+											<option value="" <c:if test="${empty profile.bloodType}">selected="selected"</c:if>>可不填</option>
+											<option value="O" <c:if test="${profile.bloodType == 'O'}">selected="selected"</c:if>>O型</option>
+											<option value="A" <c:if test="${profile.bloodType == 'A'}">selected="selected"</c:if>>A型</option>
+											<option value="B" <c:if test="${profile.bloodType == 'B'}">selected="selected"</c:if>>B型</option>
+											<option value="AB" <c:if test="${profile.bloodType == 'AB'}">selected="selected"</c:if>>AB型</option>
 										</select>
 										</span>
 										</div><!--select end-->
@@ -290,7 +289,14 @@
 										<div class="select"><!--select begin-->
 										<span>
 										<select id="monthlyIncome">
-										<option value=""  <c:if test="${empty income}">selected="selected"</c:if>>可不填</option>
+										<option value="0-0"  <c:if test="${(empty profile.minMonthlyIncome||profile.minMonthlyIncome<=0)&&(empty profile.maxMonthlyIncome||profile.maxMonthlyIncome<=0)}">selected="selected"</c:if>>可不填</option>
+										<option value="0-2000"  <c:if test="${profile.minMonthlyIncome==0&&profile.maxMonthlyIncome==2000}">selected="selected"</c:if>>&lt;2000</option>
+										<option value="2000-5000"  <c:if test="${profile.minMonthlyIncome==2000}">selected="selected"</c:if>>&gt;2000</option>
+										<option value="5000-10000"  <c:if test="${profile.minMonthlyIncome==5000}">selected="selected"</c:if>>&gt;5000</option>
+										<option value="10000-20000"  <c:if test="${profile.minMonthlyIncome==10000}">selected="selected"</c:if>>&gt;10000</option>
+										<option value="20000-30000"  <c:if test="${profile.minMonthlyIncome==20000}">selected="selected"</c:if>>&gt;20000</option>
+										<option value="30000-50000"  <c:if test="${profile.minMonthlyIncome==30000}">selected="selected"</c:if>>&gt;30000</option>
+										<option value="50000-0"  <c:if test="${profile.minMonthlyIncome==50000}">selected="selected"</c:if>>&gt;50000</option>
 										<c:forEach items="${monthlyIncome}" var="m" >
 										<option value="${m}" <c:if test="${income==m}">selected="selected"</c:if> >${m}</option>
 										</c:forEach>

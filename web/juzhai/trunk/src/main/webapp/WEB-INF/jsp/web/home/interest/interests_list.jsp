@@ -4,68 +4,46 @@
 <%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<div class="item_box"><!--item_box begin-->
-	<c:choose>
-		<c:when test="${tabType=='interests'}"><c:set var="divClass" value="ilike" /></c:when>
-		<c:when test="${tabType=='interestMes'}"><c:set var="divClass" value="likeme" /></c:when>
-	</c:choose>
-	<div class="${divClass}"><!--ilike begin-->
-		<c:forEach var="interestUserView" items="${interestUserViewList}">
-			<div class="item mouseHover <c:choose><c:when test='${interestUserView.profileCache.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--item begin-->
-				<c:if test="${tabType=='interests'}">
-					<div class="close"><a href="javascript:void(0);" uid="${interestUserView.profileCache.uid}"></a></div>
-				</c:if>
-				<div class="btn">
-					<a href="javascript:void(0);" class="mail" target-uid="${interestUserView.profileCache.uid}" target-nickname="${interestUserView.profileCache.nickname}">私信</a>
-					<a id="removeDating${interestUserView.profileCache.uid}" href="javascript:void(0);" class="yueta_done" <c:if test="${!interestUserView.hasDating}">style="display:none;"</c:if>>已约ta</a>
-					<a id="dating${interestUserView.profileCache.uid}" href="javascript:void(0);" class="yueta" uid="${interestUserView.profileCache.uid}" <c:if test="${interestUserView.hasDating}">style="display:none;"</c:if>>约ta</a>
-					<c:if test="${tabType=='interestMes'}">
-						<div id="removeInterest${interestUserView.profileCache.uid}" class="ygxq" <c:if test="${!interestUserView.hasInterest}">style="display:none;"</c:if>><p>已敲门</p><a href="javascript:void(0);" class="delete" uid="${interestUserView.profileCache.uid}"></a></div>
-						<a id="interest${interestUserView.profileCache.uid}" href="javascript:void(0);" class="like" uid="${interestUserView.profileCache.uid}" <c:if test="${interestUserView.hasInterest}">style="display:none;"</c:if>>敲门</a>
-					</c:if>
-				</div>
-				<div class="photo"><!--photo begin-->
-					<c:set var="age" value="${jzu:age(interestUserView.profileCache.birthYear, interestUserView.profileCache.birthSecret)}" />
-					<c:set var="constellationName" value="${jzd:constellationName(interestUserView.profileCache.constellationId)}" />
-					<c:if test="${age>=0 || not empty constellationName || not empty interestUserView.profileCache.profession || not empty interestUserView.profileCache.feature}">
-						<div class="infor_show"><!--infor_show begin-->
-							<c:if test="${not empty constellationName}"><p>${constellationName}</p></c:if><c:if test="${age>=0}"><p>${age}岁</p></c:if><c:if test="${not empty interestUserView.profileCache.profession}"><p>${interestUserView.profileCache.profession}</p></c:if>
-							<c:if test="${not empty interestUserView.profileCache.feature}"><br /><span><c:out value="${interestUserView.profileCache.feature}" /></span></c:if>
-						</div><!--infor_show end-->
-					</c:if>
-					<div class="face_photo"><!--face_photo begin-->
-						<span><a href="/home/${interestUserView.profileCache.uid}"><img data-original="${jzr:userLogo(interestUserView.profileCache.uid,interestUserView.profileCache.logoPic,180)}" src="${jzr:static('/images/web/1px.gif')}" width="180" height="180"/></a></span>
-					</div><!--face_photo end-->
-				</div><!--photo end-->
-				<div class="ta_like_list"><!--like_list begin-->
-					<div class="name"><a href="/home/${interestUserView.profileCache.uid}"><c:out value="${interestUserView.profileCache.nickname}" /></a><c:if test="${interestUserView.online}"><p class="online">当前在线</p></c:if></div>
-					<c:set var="cityName" value="${jzd:cityName(interestUserView.profileCache.city)}" />
-					<c:set var="townName" value="${jzd:townName(interestUserView.profileCache.town)}" />
-					<div class="time">
-						<c:if test="${not empty cityName || not empty townName}">
-							<span><c:if test="${not empty cityName}">${cityName}</c:if><c:if test="${not empty townName}">${townName}</c:if><em>|</em></span>
+<c:choose>
+	<c:when test="${empty interestUserViewList}">
+		<div class="my_fav"><!--my_fav begin-->
+			<div class="none">
+				<c:choose>
+					<c:when test="${tabType=='interests'}">没有人被你收藏过</c:when>
+					<c:otherwise>还没人收藏过你</c:otherwise>
+				</c:choose>
+			</div>
+		</div><!--my_fav end-->
+	</c:when>
+	<c:otherwise>
+		<div class="my_fav"><!--my_fav begin-->
+			<c:forEach var="interestUserView" items="${interestUserViewList}">
+				<div class="pub_box mouseHover <c:choose><c:when test='${interestUserView.profileCache.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--pub_box begin-->
+					<div class="pub_box_t"></div>
+					<div class="pub_box_m"><!--pub_box_m begin-->
+						<p><a href="/home/${interestUserView.profileCache.uid}"><img src="${jzr:userLogo(interestUserView.profileCache.uid,interestUserView.profileCache.logoPic,80)}" width="80" height="80" /></a></p>
+						<h2><a href="/home/${interestUserView.profileCache.uid}"><c:out value="${interestUserView.profileCache.nickname}" /></a></h2><c:if test="${interestUserView.online}"><strong class="online">当前在线</strong></c:if>
+						<c:set var="cityName" value="${jzd:cityName(interestUserView.profileCache.city)}" />
+						<c:set var="townName" value="${jzd:townName(interestUserView.profileCache.town)}" />
+						<c:set var="age" value="${jzu:age(interestUserView.profileCache.birthYear,interestUserView.profileCache.birthSecret)}" />
+						<c:set var="constellationName" value="${jzd:constellationName(interestUserView.profileCache.constellationId)}" />
+						<em><c:if test="${age >= 0}">${age}岁&nbsp;</c:if><c:if test="${not empty cityName}">${cityName}<c:if test="${not empty townName}">${townName}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty interestUserView.profileCache.profession}">${interestUserView.profileCache.profession}</c:if></em>
+						<c:if test="${interestUserView.latestPost != null}">
+						<b><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${interestUserView.latestPost.purposeType}"/></c:import>:</font><a href="/post/${interestUserView.latestPost.id}"><c:out value="${interestUserView.latestPost.content}" /></a></b>
 						</c:if>
-						<p><c:choose><c:when test='${not empty interestUserView.freeDateList}'>${jzu:showFreeDates(interestUserView.freeDateList,7)}&nbsp;有空</c:when><c:otherwise>还未标注空闲时间</c:otherwise></c:choose></p>
-					</div>
-					<ul class="list"><!--list begin-->
-						<c:choose>
-							<c:when test="${empty interestUserView.userActViewList}">
-								<p>ta还未添加想去的项目哦！</p>
-							</c:when>
-							<c:otherwise>
-								<c:forEach var="userActView" items="${interestUserView.userActViewList}">
-									<li><em>·</em><a href="/act/${userActView.act.id}"><c:out value="${userActView.act.name}" /></a><c:if test="${userActView.userAct.top}"><span>很想去</span></c:if></li>
-								</c:forEach>
-							</c:otherwise>
-						</c:choose>
-					</ul><!--list end-->
-				</div><!--like_list end-->
-			</div><!--item end-->
-		</c:forEach>
-	</div><!--ilike end-->
-</div><!--item_box end-->
-<div class="clear"></div>
-<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
-	<c:param name="pager" value="${pager}"/>
-	<c:param name="url" value="/home/${tabType}" />
-</c:import>
+						<span><a class="send-message" href="javascript:void(0);" target-uid="${interestUserView.profileCache.uid}" target-nickname="${interestUserView.profileCache.nickname}">私信</a></span>
+						<div class="keep user-remove-interest remove-interest-${interestUserView.profileCache.uid}" <c:if test="${!interestUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${interestUserView.profileCache.uid}" title="点击取消收藏">已收藏</a></div>
+						<div class="keep user-add-interest interest-${interestUserView.profileCache.uid}" <c:if test="${interestUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${interestUserView.profileCache.uid}" title="点击收藏">收藏ta</a></div>
+					</div><!--pub_box_m end-->
+					<div class="clear"></div>
+					<div class="pub_box_b"></div>
+				</div><!--pub_box end-->
+			</c:forEach>
+		</div><!--my_fav end-->
+		<div class="clear"></div>
+		<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
+			<c:param name="pager" value="${pager}"/>
+			<c:param name="url" value="/home/${tabType}" />
+		</c:import>
+	</c:otherwise>
+</c:choose>

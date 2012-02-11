@@ -1,14 +1,5 @@
-$(document).ready(function(){
-	$("div.post-response > a").click(function(){
-		var postId = $(this).attr("post-id");
-		var obj = $(this);
-		responsePost(this, postId, function(){
-			var currentCnt = parseInt(obj.find("font").text());
-			obj.find("font").text(currentCnt + 1);
-			obj.text("已" + obj.text()).unbind("click").parent().addClass("done");
-		});
-	});
-	$("a.send-message").bind("click", function(){
+$(document).ready(function() {
+	$("div.ta_btn > a").click(function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);
@@ -27,8 +18,7 @@ $(document).ready(function(){
 			$("div.remove-interest-" + uid).attr("style", "");
 		});
 	});
-	
-	$("div.own_btn > a.delete").click(function(){
+	$("div.con_btn > a.delete").click(function(){
 		var postId = $(this).attr("post-id");
 		var content = $("#dialog-confirm").html().replace("{0}", "确定删除此条拒宅么？");
 		showConfirm(this, "removePost", content, function(){
@@ -36,13 +26,21 @@ $(document).ready(function(){
 		});
 	});
 	
-	$("div.own_btn > a.edit").click(function(){
+	$("div.con_btn > a.edit").click(function(){
 		var postId = $(this).attr("post-id");
 		prepareModifyPost(postId);
 	});
-	
 	$("div.zfa > a").click(function(){
 		var postId = $(this).attr("post-id");
 		prepareRepost(postId);
+	});
+	$("div.post-response > a").click(function(){
+		var postId = $(this).attr("post-id");
+		var obj = $(this);
+		responsePost(this, postId, function(){
+			var currentCnt = parseInt(obj.find("font").text());
+			obj.find("font").text(currentCnt + 1);
+			obj.text("已" + obj.text()).unbind("click").parent().addClass("done");
+		});
 	});
 });

@@ -1,27 +1,21 @@
 $(document).ready(function() {
-	$("div.item > div.close > a").bind("click", function() {
+	$("div.user-remove-interest > a.done").bind("click", function() {
 		var uid = $(this).attr("uid");
-		var obj = $(this);
 		removeInterestConfirm(uid, this, function(){
-			$(obj).parent().parent().remove();
+			$("div.remove-interest-" + uid).hide();
+			$("div.interest-" + uid).attr("style", "");
 		});
 	});
-	//添加约
-	$("div.btn > a.yueta").bind("click", function(){
+	$("div.user-add-interest > a").bind("click", function() {
 		var uid = $(this).attr("uid");
-		openDating(uid, 0);
+		interest(this, uid, function(){
+			$("div.interest-" + uid).hide();
+			$("div.remove-interest-" + uid).attr("style", "");
+		});
 	});
-	
-	$("div.item > div.btn > a.mail").bind("click", function(){
+	$("span > a.send-message").bind("click", function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);
 	});
 });
-
-function submitDating(uid){
-	date(function(){
-		$("#dating"+uid).hide();
-		$("#removeDating"+uid).show();
-	});
-}

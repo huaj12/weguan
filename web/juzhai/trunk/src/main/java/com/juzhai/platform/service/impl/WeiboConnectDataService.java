@@ -41,6 +41,7 @@ public class WeiboConnectDataService implements IDataService {
 
 	@Override
 	public List<UserWeibo> listWeibo(long uid, long fuid, long tpId) {
+		// TODO (review) 应该先判断缓存
 		AuthInfo authInfo = getAuthInfo(uid, fuid, tpId);
 
 		List<UserWeibo> userWeibos = null;
@@ -80,7 +81,7 @@ public class WeiboConnectDataService implements IDataService {
 
 	private AuthInfo getAuthInfo(long uid, long fuid, long tpId) {
 		TpUser fUser = tpUserService.getTpUserByUid(fuid);
-
+		//TODO (review) 逻辑错了，判断是否一个平台，是根据tpName。应该根据uid获取tpUser，然后和fUser判断tpName
 		TpUser user = tpUserService.getTpUserByTpIdAndIdentity(tpId,
 				fUser.getTpIdentity());
 		if (user == null) {

@@ -88,9 +88,9 @@ public class WeiboConnectDataService implements IDataService {
 			// 来访者和被访者不是同一个tpid
 			// 获取小秘书的authinfo
 			long tagerUid = NoticeConfig.getValue(
-					ThirdpartyNameEnum.valueOf(fUser.getTpName()), "uid");
+					ThirdpartyNameEnum.getThirdpartyNameEnum(fUser.getTpName()), "uid");
 			long tagerTpId = NoticeConfig.getValue(
-					ThirdpartyNameEnum.valueOf(fUser.getTpName()), "tpId");
+					ThirdpartyNameEnum.getThirdpartyNameEnum(fUser.getTpName()), "tpId");
 			return tpUserAuthService.getAuthInfo(tagerUid, tagerTpId);
 		} else {
 			return tpUserAuthService.getAuthInfo(uid, tpId);

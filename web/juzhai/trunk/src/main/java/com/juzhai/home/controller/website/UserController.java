@@ -22,6 +22,7 @@ import com.juzhai.home.bean.InterestUserView;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.login.ILoginService;
+import com.juzhai.platform.service.IDataService;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
@@ -36,6 +37,8 @@ public class UserController extends BaseController {
 	private ILoginService loginService;
 	@Autowired
 	private IPostService postService;
+	@Autowired
+	private IDataService dataService;
 	@Value("${web.user.home.post.rows}")
 	private int webUserHomePostRows;
 	@Value("${web.my.post.max.rows}")
@@ -70,7 +73,11 @@ public class UserController extends BaseController {
 					postList);
 			model.addAttribute("postViewList", postViewList);
 
-			// TODO 微博
+			// 微博
+			model.addAttribute(
+					"userWeiboList",
+					dataService.listWeibo(context.getUid(), uid,
+							context.getTpId()));
 
 			return "web/home/user_home";
 		}

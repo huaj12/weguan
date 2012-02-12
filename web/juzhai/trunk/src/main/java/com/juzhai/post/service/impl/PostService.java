@@ -31,7 +31,6 @@ import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
-import com.juzhai.notice.bean.NoticeUserTemplate;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
@@ -112,7 +111,7 @@ public class PostService implements IPostService {
 	private IMessageService messageService;
 
 	@Override
-	public void createPost(long uid, PostForm postForm)
+	public long createPost(long uid, PostForm postForm)
 			throws InputPostException {
 		Boolean isForbid = null;
 		try {
@@ -123,11 +122,12 @@ public class PostService implements IPostService {
 		if (null != isForbid && isForbid) {
 			throw new InputPostException(InputPostException.POST_TOO_FREQUENT);
 		}
+		long postId = 0L;
 		if (postForm.getIdeaId() > 0) {
 			// 发表from idea
-			createPostByIdea(uid, postForm.getIdeaId());
+			postId = createPostByIdea(uid, postForm.getIdeaId());
 		} else {
-			createPostByForm(uid, postForm);
+			postId = createPostByForm(uid, postForm);
 		}
 		try {
 			memcachedClient.setWithNoReply(
@@ -135,9 +135,10 @@ public class PostService implements IPostService {
 					postIntervalExpireTime, true);
 		} catch (Exception e) {
 		}
+		return postId;
 	}
 
-	private void createPostByIdea(long uid, long ideaId)
+	private long createPostByIdea(long uid, long ideaId)
 			throws InputPostException {
 		Idea idea = ideaService.getIdeaById(ideaId);
 		if (null == idea) {
@@ -150,7 +151,7 @@ public class PostService implements IPostService {
 		try {
 			checkContentDuplicate(uid, null, idea.getContentMd5(), 0);
 		} catch (InputPostException e) {
-			return;
+			return 0L;
 		}
 
 		Post post = new Post();
@@ -173,10 +174,10 @@ public class PostService implements IPostService {
 		} else {
 			ideaService.addUser(ideaId, uid);
 		}
-
+		return post.getId();
 	}
 
-	private void createPostByForm(long uid, PostForm postForm)
+	private long createPostByForm(long uid, PostForm postForm)
 			throws InputPostException {
 		Post repost = null;
 		if (postForm.getPostId() > 0) {
@@ -201,6 +202,8 @@ public class PostService implements IPostService {
 		post.setPurposeType(postForm.getPurposeType());
 
 		createPost(uid, post, repost, postForm.getPic());
+
+		return post.getId();
 	}
 
 	private void validatePostForm(long uid, PostForm postForm)
@@ -319,7 +322,7 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public void modifyPost(long uid, PostForm postForm)
+	public long modifyPost(long uid, PostForm postForm)
 			throws InputPostException {
 		Post post = postMapper.selectByPrimaryKey(postForm.getPostId());
 		if (null == post || post.getDefunct() || post.getCreateUid() != uid) {
@@ -388,6 +391,8 @@ public class PostService implements IPostService {
 		}
 
 		// TODO update lucene索引
+
+		return post.getId();
 	}
 
 	@Override
@@ -814,6 +819,9 @@ public class PostService implements IPostService {
 						AdminException.ADMIN_API_WEIBO_TIME_TOO_LONG);
 			}
 			AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+			if (null == authInfo) {
+				return;
+			}
 			String text = messageSource.getMessage(
 					SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_TEXT.getName(),
 					new Object[] { content, time, place, uid },

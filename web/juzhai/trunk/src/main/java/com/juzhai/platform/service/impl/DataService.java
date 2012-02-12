@@ -11,7 +11,9 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
@@ -46,18 +48,18 @@ public class DataService implements IDataService, BeanFactoryAware {
 
 	@Override
 	public List<UserWeibo> listWeibo(long uid, long fuid, long tpId) {
-		// TODO (review) 这里需要authInfo？
-		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
-		return getDataServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).listWeibo(uid, fuid, tpId);
+		// TODO (done) 这里需要authInfo？
+		Thirdparty thirdparty=InitData.TP_MAP.get(tpId);
+		return getDataServiceBean(thirdparty.getName(),
+				thirdparty.getJoinType()).listWeibo(uid, fuid, tpId);
 	}
 
 	@Override
 	public List<UserWeibo> refreshListWeibo(long uid, long fuid, long tpId) {
-		// TODO (review) 这里需要authInfo？
-		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
-		return getDataServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).refreshListWeibo(uid, fuid, tpId);
+		// TODO (done) 这里需要authInfo？
+		Thirdparty thirdparty=InitData.TP_MAP.get(tpId);
+		return getDataServiceBean(thirdparty.getName(),
+				thirdparty.getJoinType()).refreshListWeibo(uid, fuid, tpId);
 	}
 
 }

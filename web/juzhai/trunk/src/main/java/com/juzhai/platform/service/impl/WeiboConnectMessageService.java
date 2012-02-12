@@ -28,6 +28,7 @@ import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.platform.service.IMessageService;
 import com.juzhai.post.model.Post;
+import com.juzhai.post.service.IPostImageService;
 import com.juzhai.post.service.IPostService;
 
 @Service
@@ -36,7 +37,7 @@ public class WeiboConnectMessageService implements IMessageService {
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
-	private IActImageService actImageService;
+	private IPostImageService postImageService;
 	@Autowired
 	private IPostService postService;
 	@Value("${show.feed.count}")
@@ -116,7 +117,7 @@ public class WeiboConnectMessageService implements IMessageService {
 			throws WeiboException {
 		Post post =postService.getPostById(postId);
 		if (post != null) {
-			byte[] imgContent = actImageService.getActFile(post.getId(),
+			byte[] imgContent = postImageService.getPostFile(post.getId(),post.getIdeaId(),
 					post.getPic(), LogoSizeType.BIG);
 			if (imgContent == null) {
 				timeline.UpdateStatus(content);

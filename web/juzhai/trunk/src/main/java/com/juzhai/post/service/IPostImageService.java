@@ -51,5 +51,5 @@ public interface IPostImageService {
 	 * @param sizeType
 	 * @return
 	 */
-	byte[] getPostFile(long postId, String fileName, LogoSizeType sizeType);
+	byte[] getPostFile(long postId,long ideaId, String fileName, LogoSizeType sizeType);
 }

@@ -1,6 +1,5 @@
 package com.juzhai.post.service;
 
-import java.util.Date;
 import java.util.List;
 
 import com.juzhai.passport.bean.ProfileCache;
@@ -19,7 +18,7 @@ public interface IPostService {
 	 * @param postForm
 	 * @throws InputPostException
 	 */
-	void createPost(long uid, PostForm postForm) throws InputPostException;
+	long createPost(long uid, PostForm postForm) throws InputPostException;
 
 	/**
 	 * 移除拒宅
@@ -37,7 +36,7 @@ public interface IPostService {
 	 * @param postForm
 	 * @throws InputPostException
 	 */
-	void modifyPost(long uid, PostForm postForm) throws InputPostException;
+	long modifyPost(long uid, PostForm postForm) throws InputPostException;
 
 	/**
 	 * 响应拒宅
@@ -286,17 +285,18 @@ public interface IPostService {
 	 * @return
 	 */
 	int countResponseUser(long postId);
-	
+
 	/**
 	 * 同步微博
-	 * @param content 
-	 * @param place 
-	 * @param date 
+	 * 
+	 * @param content
+	 * @param place
+	 * @param date
 	 * @param link
 	 * @param uid
 	 * @param tpId
 	 */
-	void  synchronizeWeibo(long postId,long uid,long tpId) throws AdminException;
-	
-	
+	void synchronizeWeibo(long postId, long uid, long tpId)
+			throws AdminException;
+
 }

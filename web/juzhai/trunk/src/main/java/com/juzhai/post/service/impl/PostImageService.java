@@ -13,7 +13,9 @@ import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.image.manager.IImageManager;
 import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.ImageUtil;
+import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostImageService;
+import com.juzhai.post.service.IPostService;
 
 @Service
 public class PostImageService implements IPostImageService {
@@ -24,6 +26,8 @@ public class PostImageService implements IPostImageService {
 	private String uploadPostImageHome;
 	@Value("${upload.idea.image.home}")
 	private String uploadIdeaImageHome;
+	@Autowired
+	private IPostService postService;
 
 	@Override
 	public String[] uploadPic(MultipartFile image) throws UploadImageException {
@@ -65,11 +69,19 @@ public class PostImageService implements IPostImageService {
 	}
 
 	@Override
-	public byte[] getPostFile(long postId, String fileName,
+	public byte[] getPostFile(long postId, long ideaId, String fileName,
 			LogoSizeType sizeType) {
 		try {
-			String directoryPath = uploadPostImageHome
-					+ ImageUtil.generateHierarchyImagePath(postId, sizeType);
+			String directoryPath = null;
+			if (ideaId > 0) {
+				directoryPath = uploadIdeaImageHome
+						+ ImageUtil.generateHierarchyImagePath(ideaId,
+								LogoSizeType.ORIGINAL);
+			} else {
+				directoryPath = uploadPostImageHome
+						+ ImageUtil
+								.generateHierarchyImagePath(postId, sizeType);
+			}
 			File file = new File(directoryPath + fileName);
 			return FileUtil.readFileToByteArray(file);
 		} catch (IOException e) {

@@ -60,7 +60,7 @@ import com.juzhai.wordfilter.service.IWordFilterService;
 public class PostService implements IPostService {
 
 	private final Log log = LogFactory.getLog(getClass());
-	private final String[] purposeType = { "我想去", "我想找伴儿", "我想找一个男生", "我想找一个女生" };
+
 	@Autowired
 	private PostMapper postMapper;
 	@Autowired
@@ -797,7 +797,10 @@ public class PostService implements IPostService {
 			throws AdminException {
 		Post post = getPostById(postId);
 		Date date = post.getDateTime();
-		String content = purposeType[post.getPurposeType()] + post.getContent();
+		String purposeType = messageSource.getMessage(
+				"purpose.type." + post.getPurposeType(), null,
+				Locale.SIMPLIFIED_CHINESE);
+		String content = purposeType + post.getContent();
 		String place = post.getPlace();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String time = null;

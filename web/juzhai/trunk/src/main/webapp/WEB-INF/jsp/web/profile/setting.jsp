@@ -11,8 +11,6 @@
 <c:set var="house" value="${fn:split(houseValue, delim)}"/>
 <c:set var="carValue" value="已购车,未购车,有自行车" />
 <c:set var="car" value="${fn:split(carValue, delim)}"/>
-<%-- <c:set var="monthlyIncomeValue" value="&lt;2000,&gt;2000,&gt;5000,&gt;10000,&gt;20000,&gt;30000,&gt;50000" />
-<c:set var="monthlyIncome" value="${fn:split(monthlyIncomeValue, delim)}"/> --%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -297,9 +295,6 @@
 										<option value="20000-30000"  <c:if test="${profile.minMonthlyIncome==20000}">selected="selected"</c:if>>&gt;20000</option>
 										<option value="30000-50000"  <c:if test="${profile.minMonthlyIncome==30000}">selected="selected"</c:if>>&gt;30000</option>
 										<option value="50000-0"  <c:if test="${profile.minMonthlyIncome==50000}">selected="selected"</c:if>>&gt;50000</option>
-										<c:forEach items="${monthlyIncome}" var="m" >
-										<option value="${m}" <c:if test="${income==m}">selected="selected"</c:if> >${m}</option>
-										</c:forEach>
 										</select>&nbsp;元
 										</span>
 										</div><!--select end-->

@@ -65,7 +65,7 @@ public class WeiboConnectDataService implements IDataService {
 		Timeline timeline = new Timeline(authInfo.getToken());
 		TpUser fUser = tpUserService.getTpUserByUid(fuid);
 		List<Status> status = timeline.getUserTimeline(fUser.getTpIdentity(),
-				null, userWeiboSize, null, 0, 1);
+				"", userWeiboSize, null, 0, 1);
 		if (CollectionUtils.isNotEmpty(status)) {
 			for (Status s : status) {
 				UserWeibo userWeibo = new UserWeibo();

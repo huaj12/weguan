@@ -44,25 +44,7 @@ public class ProfileContrller extends BaseController {
 		assembleCitys(model);
 		model.addAttribute("professions", InitData.PROFESSION_MAP.values());
 		model.addAttribute("profile", profile);
-		String monthlyIncome = parseMonthlyIncome(
-				profile.getMinMonthlyIncome(), profile.getMaxMonthlyIncome());
-		model.addAttribute("income", monthlyIncome);
 		return "web/profile/setting";
-	}
-
-	// TODO (review) 重构
-	private String parseMonthlyIncome(Integer min, Integer max) {
-		if (min == null)
-			min = 0;
-		if (max == null)
-			max = 0;
-		if (min == 0 && max > 0) {
-			return "&lt;" + max;
-		} else if (min > 0) {
-			return "&gt;" + min;
-		} else {
-			return null;
-		}
 	}
 
 	@RequestMapping(value = "/index/face", method = RequestMethod.GET)

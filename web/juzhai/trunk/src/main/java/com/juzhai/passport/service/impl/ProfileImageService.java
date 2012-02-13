@@ -31,7 +31,8 @@ public class ProfileImageService implements IProfileImageService {
 			throws UploadImageException {
 		filePath = imageManager.getUploadTempImageHome() + filePath;
 		String distDirectoryPath = uploadUserImageHome
-				+ ImageUtil.generateHierarchyImagePath(uid, LogoSizeType.ORIGINAL);
+				+ ImageUtil.generateHierarchyImagePath(uid,
+						LogoSizeType.ORIGINAL.getType());
 		String distFileName = ImageUtil.generateUUIDJpgFileName();
 		if (!imageManager.cutImage(filePath, distDirectoryPath, distFileName,
 				scaledW, scaledH, x, y, w, h)) {
@@ -41,7 +42,8 @@ public class ProfileImageService implements IProfileImageService {
 		for (LogoSizeType sizeType : LogoSizeType.values()) {
 			if (sizeType.getType() > 0) {
 				String ddp = uploadUserImageHome
-						+ ImageUtil.generateHierarchyImagePath(uid, sizeType);
+						+ ImageUtil.generateHierarchyImagePath(uid,
+								sizeType.getType());
 				imageManager.reduceImage(distDirectoryPath + distFileName, ddp,
 						distFileName, sizeType.getType(), sizeType.getType());
 			}

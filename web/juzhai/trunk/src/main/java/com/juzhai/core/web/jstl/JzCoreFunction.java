@@ -97,7 +97,7 @@ public class JzCoreFunction {
 			if (ImageUtil.isInternalUrl(fileName)) {
 				return StaticUtil.u("/upload/act/"
 						+ ImageUtil.generateHierarchyImageWebPath(actId,
-								sizeType) + fileName);
+								sizeType.getType()) + fileName);
 			} else {
 				return fileName;
 			}

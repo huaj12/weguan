@@ -13,8 +13,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.juzhai.core.image.LogoSizeType;
-
 /**
  * @author wujiajun Created on 2010-8-10
  */
@@ -42,9 +40,9 @@ public class ImageUtil {
 	 *            大小尺寸(0表示原图)
 	 * @return 路劲
 	 */
-	public static String generateHierarchyImagePath(long id, LogoSizeType size) {
+	public static String generateHierarchyImagePath(long id, int size) {
 		String path = FileUtil.generateHierarchyPath(id);
-		return path + File.separator + size.getType() + File.separator;
+		return path + File.separator + size + File.separator;
 	}
 
 	/**
@@ -63,10 +61,10 @@ public class ImageUtil {
 	 * @param size
 	 * @return 图片web路径
 	 */
-	public static String generateHierarchyImageWebPath(long id, LogoSizeType size) {
+	public static String generateHierarchyImageWebPath(long id, int size) {
 		StringBuilder path = new StringBuilder();
 		path.append(FileUtil.generateHierarchyWebPath(id)).append(webSeparator)
-				.append(size.getType()).append(webSeparator);
+				.append(size).append(webSeparator);
 		return path.toString();
 	}
 

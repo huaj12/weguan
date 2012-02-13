@@ -10,7 +10,7 @@
 			<c:choose>
 				<c:when test="${context.uid != profile.uid}">
 					<h2>ta的档案</h2>
-					<a href="javascript:void(0);">邀请ta完善档案</a>
+					<a id="inviteEditProfile" uid="${profile.uid}" href="javascript:void(0);">邀请ta完善档案</a>
 				</c:when>
 				<c:otherwise>
 					<h2>我的档案</h2>

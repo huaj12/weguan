@@ -50,14 +50,10 @@ public class UserController extends BaseController {
 
 	@RequestMapping(value = "/{uid}", method = RequestMethod.GET)
 	public String userHome(HttpServletRequest request, Model model,
-			@PathVariable long uid) {
+			@PathVariable long uid) throws NeedLoginException {
 		UserContext context = (UserContext) request.getAttribute("context");
 		if (context.hasLogin() && context.getUid() == uid) {
-			try {
-				return myPosts(request, model);
-			} catch (NeedLoginException e) {
-				return error_404;
-			}
+			return myPosts(request, model);
 		} else {
 			try {
 				showUserPageRight(context, uid, model);

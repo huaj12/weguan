@@ -96,7 +96,6 @@ public class ImageManager implements IImageManager {
 	public boolean cutImage(String srcPath, String distDirectoryPath,
 			String distFileName, int srcScaledWidth, int srcScaledHeight,
 			int srcCutX, int srcCutY, int distWidth, int distHeight) {
-		// FileOutputStream out = null;
 		try {
 			File srcFile = new File(srcPath);
 			if (!srcFile.exists()) {
@@ -118,11 +117,6 @@ public class ImageManager implements IImageManager {
 			distHeight = new Double(distHeight * scale).intValue();
 			BufferedImage bufferedImage = new BufferedImage(distWidth,
 					distHeight, BufferedImage.TYPE_INT_RGB);
-			// bufferedImage.getGraphics().drawImage(
-			// srcImage.getScaledInstance(srcScaledWidth, srcScaledHeight,
-			// Image.SCALE_SMOOTH), 0, 0, distWidth, distHeight,
-			// srcCutX, srcCutY, srcCutX + distWidth,
-			// srcCutY + distHeight, Color.white, null);
 			bufferedImage.getGraphics().drawImage(srcImage, 0, 0, distWidth,
 					distHeight, srcCutX, srcCutY, srcCutX + distWidth,
 					srcCutY + distHeight, Color.white, null);
@@ -134,24 +128,13 @@ public class ImageManager implements IImageManager {
 						+ "].");
 				return false;
 			}
-			// out = new FileOutputStream(distFile);
 			ImageIO.write(bufferedImage, "JPEG", distFile);
-			// JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-			// encoder.encode(bufferedImage);
-			// out.close();
 			return true;
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		} finally {
-			// if (null != out) {
-			// try {
-			// out.close();
-			// } catch (IOException e) {
-			// log.error(e.getMessage(), e);
-			// }
-			// }
 		}
 		return false;
 	}
@@ -166,6 +149,81 @@ public class ImageManager implements IImageManager {
 				return false;
 			}
 			Image srcImage = ImageIO.read(srcFile);
+			return reduceImage(srcImage, distDirectoryPath, distFileName,
+					scaledWidth, scaledHeight);
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		} finally {
+		}
+		return false;
+	}
+
+	@Override
+	public boolean reduceImage(String srcPath, String distDirectoryPath,
+			String distFileName, int scaledWidthOrHeight) {
+		try {
+			File srcFile = new File(srcPath);
+			if (!srcFile.exists()) {
+				log.error("image file dose not exist[path=" + srcPath + "].");
+				return false;
+			}
+			Image srcImage = ImageIO.read(srcFile);
+			int width = srcImage.getWidth(null);
+			int height = srcImage.getHeight(null);
+			double scale = Math.max(width, height) * 1.0 / scaledWidthOrHeight;
+			int scaledHeight = scale > 1 ? new Double(height * 1.0 / scale)
+					.intValue() : height;
+			int scaledWidth = scale > 1 ? new Double(width * 1.0 / scale)
+					.intValue() : width;
+			return reduceImage(srcImage, distDirectoryPath, distFileName,
+					scaledWidth, scaledHeight);
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		} finally {
+		}
+		return false;
+	}
+
+	@Override
+	public boolean reduceImageWidth(String srcPath, String distDirectoryPath,
+			String distFileName, int scaledWidth) {
+		try {
+			File srcFile = new File(srcPath);
+			if (!srcFile.exists()) {
+				log.error("image file dose not exist[path=" + srcPath + "].");
+				return false;
+			}
+			Image srcImage = ImageIO.read(srcFile);
+			int width = srcImage.getWidth(null);
+			int height = srcImage.getHeight(null);
+			double scale = width * 1.0 / scaledWidth;
+			if (scale < 1) {
+				scaledWidth = width;
+			}
+			int scaledHeight = scale > 1 ? new Double(height * 1.0 / scale)
+					.intValue() : height;
+			return reduceImage(srcImage, distDirectoryPath, distFileName,
+					scaledWidth, scaledHeight);
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		} finally {
+		}
+		return false;
+	}
+
+	private boolean reduceImage(Image srcImage, String distDirectoryPath,
+			String distFileName, int scaledWidth, int scaledHeight) {
+		try {
+			if (srcImage == null) {
+				log.error("src image is null.");
+				return false;
+			}
 			BufferedImage bufferedImage = new BufferedImage(scaledWidth,
 					scaledHeight, BufferedImage.TYPE_INT_RGB);
 			bufferedImage.getGraphics().drawImage(
@@ -202,11 +260,5 @@ public class ImageManager implements IImageManager {
 	@Override
 	public boolean copyImage(String directoryPath, String fileName, File srcFile) {
 		return FileUtil.writeFileToFile(directoryPath, fileName, srcFile);
-	}
-
-	@Override
-	public void deleteImage(long id, String fileName) {
-		// TODO Auto-generated method stub
-
 	}
 }

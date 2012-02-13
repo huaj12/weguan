@@ -414,7 +414,6 @@ public class InboxService implements IInboxService {
 	// if (null == tp) {
 	// return false;
 	// }
-	// // TODO
 	// messageService.sendSysMessage(fuids, linktext,
 	// tp.getAppUrl(), word, text, StringUtils.EMPTY,
 	// authInfo);

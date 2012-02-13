@@ -41,15 +41,16 @@ public class WeiboConnectDataService implements IDataService {
 
 	@Override
 	public List<UserWeibo> listWeibo(long uid, long fuid, long tpId) {
-
 		List<UserWeibo> userWeibos = null;
 		try {
 			userWeibos = memcachedClient.get(MemcachedKeyGenerator
 					.genUserWeiboKey(fuid));
 
 			if (CollectionUtils.isEmpty(userWeibos)) {
-				// TODO (none) 应该先判断缓存
 				AuthInfo authInfo = getAuthInfo(uid, fuid, tpId);
+				if (null == authInfo) {
+					return null;
+				}
 				userWeibos = getWeibos(fuid, authInfo);
 			}
 		} catch (Exception e) {
@@ -81,16 +82,19 @@ public class WeiboConnectDataService implements IDataService {
 
 	private AuthInfo getAuthInfo(long uid, long fuid, long tpId) {
 		TpUser fUser = tpUserService.getTpUserByUid(fuid);
-		// TODO (none)
-		// 逻辑错了，判断是否一个平台，是根据tpName。应该根据uid获取tpUser，然后和fUser判断tpName
+		if (fUser == null) {
+			return null;
+		}
 		TpUser user = tpUserService.getTpUserByUid(uid);
-		if (!user.getTpName().equals(fUser.getTpName())) {
+		if (user == null || !user.getTpName().equals(fUser.getTpName())) {
 			// 来访者和被访者不是同一个tpid
 			// 获取小秘书的authinfo
-			long tagerUid = NoticeConfig.getValue(
-					ThirdpartyNameEnum.getThirdpartyNameEnum(fUser.getTpName()), "uid");
-			long tagerTpId = NoticeConfig.getValue(
-					ThirdpartyNameEnum.getThirdpartyNameEnum(fUser.getTpName()), "tpId");
+			long tagerUid = NoticeConfig
+					.getValue(ThirdpartyNameEnum.getThirdpartyNameEnum(fUser
+							.getTpName()), "uid");
+			long tagerTpId = NoticeConfig
+					.getValue(ThirdpartyNameEnum.getThirdpartyNameEnum(fUser
+							.getTpName()), "tpId");
 			return tpUserAuthService.getAuthInfo(tagerUid, tagerTpId);
 		} else {
 			return tpUserAuthService.getAuthInfo(uid, tpId);

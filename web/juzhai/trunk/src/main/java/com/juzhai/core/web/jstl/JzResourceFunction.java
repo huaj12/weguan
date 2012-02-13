@@ -7,6 +7,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
+import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;
@@ -68,7 +69,7 @@ public class JzResourceFunction {
 			if (ImageUtil.isInternalUrl(fileName)) {
 				return StaticUtil.u(webActImagePath
 						+ ImageUtil.generateHierarchyImageWebPath(actId,
-								sizeType) + fileName);
+								sizeType.getType()) + fileName);
 			} else {
 				return fileName;
 			}
@@ -83,25 +84,34 @@ public class JzResourceFunction {
 		}
 	}
 
-	public static String postPic(long postId, long ideaId, String fileName) {
+	public static String postPic(long postId, long ideaId, String fileName,
+			int size) {
 		if (ideaId > 0) {
-			return ideaPic(ideaId, fileName);
+			return ideaPic(ideaId, fileName, size);
 		} else if (StringUtils.isEmpty(fileName) || postId <= 0) {
 			return null;
 		} else {
+			JzImageSizeType sizeType = JzImageSizeType.getSizeTypeBySize(size);
+			if (null == sizeType) {
+				return null;
+			}
 			return StaticUtil.u(webPostImagePath
 					+ ImageUtil.generateHierarchyImageWebPath(postId,
-							LogoSizeType.ORIGINAL) + fileName);
+							sizeType.getType()) + fileName);
 		}
 	}
 
-	public static String ideaPic(long ideaId, String fileName) {
+	public static String ideaPic(long ideaId, String fileName, int size) {
 		if (StringUtils.isEmpty(fileName) || ideaId <= 0) {
 			return null;
 		} else {
+			JzImageSizeType sizeType = JzImageSizeType.getSizeTypeBySize(size);
+			if (null == sizeType) {
+				return null;
+			}
 			return StaticUtil.u(webIdeaImagePath
 					+ ImageUtil.generateHierarchyImageWebPath(ideaId,
-							LogoSizeType.ORIGINAL) + fileName);
+							sizeType.getType()) + fileName);
 		}
 	}
 
@@ -122,7 +132,7 @@ public class JzResourceFunction {
 			} else {
 				return StaticUtil.u(webUserImagePath
 						+ ImageUtil.generateHierarchyImageWebPath(userid,
-								sizeType) + fileName);
+								sizeType.getType()) + fileName);
 			}
 		} else {
 			return fileName;

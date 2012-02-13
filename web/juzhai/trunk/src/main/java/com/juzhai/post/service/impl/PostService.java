@@ -2,7 +2,6 @@ package com.juzhai.post.service.impl;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -27,6 +26,7 @@ import org.springframework.stereotype.Service;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
+import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.home.bean.DialogContentTemplate;
@@ -36,8 +36,7 @@ import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
-import com.juzhai.platform.exception.AdminException;
-import com.juzhai.platform.service.IMessageService;
+import com.juzhai.platform.service.ISynchronizeService;
 import com.juzhai.post.bean.PurposeType;
 import com.juzhai.post.bean.SynchronizeWeiboTemplate;
 import com.juzhai.post.bean.VerifyType;
@@ -108,7 +107,7 @@ public class PostService implements IPostService {
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
-	private IMessageService messageService;
+	private ISynchronizeService synchronizeService;
 
 	@Override
 	public long createPost(long uid, PostForm postForm)
@@ -793,44 +792,30 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public void synchronizeWeibo(long postId, long uid, long tpId)
-			throws AdminException {
+	public void synchronizeWeibo(long uid, long tpId, long postId) {
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		if (authInfo == null) {
+			return;
+		}
 		Post post = getPostById(postId);
-		Date date = post.getDateTime();
 		String purposeType = messageSource.getMessage(
 				"purpose.type." + post.getPurposeType(), null,
 				Locale.SIMPLIFIED_CHINESE);
 		String content = purposeType + post.getContent();
 		String place = post.getPlace();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String time = null;
+		String time = DateFormat.SDF.format(post.getDateTime());
+
 		try {
-			time = sdf.format(date);
-		} catch (Exception e) {
-		}
-		try {
-			if (StringUtil.chineseLength(content) > synchronizeContentLengthMax) {
-				throw new AdminException(
-						AdminException.ADMIN_API_WEIBO_CONTENT_TOO_LONG);
-			}
-			if (StringUtil.chineseLength(place) > synchronizeAddressLengthMax) {
-				throw new AdminException(
-						AdminException.ADMIN_API_WEIBO_ADDRESS_TOO_LONG);
-			}
-			if (StringUtil.chineseLength(time) > synchronizeTimeLengthMax) {
-				throw new AdminException(
-						AdminException.ADMIN_API_WEIBO_TIME_TOO_LONG);
-			}
-			AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
-			if (null == authInfo) {
-				return;
-			}
 			String text = messageSource.getMessage(
 					SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_TEXT.getName(),
 					new Object[] { content, time, place, uid },
 					Locale.SIMPLIFIED_CHINESE);
-			messageService.sendMessage(0, null, null, text, authInfo, 0, null,
-					"1", null);
+			byte[] image = null;
+			if (StringUtils.isNotEmpty(post.getPic())) {
+				image = postImageService.getPostFile(postId, post.getIdeaId(),
+						post.getPic(), JzImageSizeType.ORIGINAL);
+			}
+			synchronizeService.sendMessage(authInfo, text, image);
 		} catch (Exception e) {
 			log.error("synchronizeWeibo is error " + e.getMessage());
 		}

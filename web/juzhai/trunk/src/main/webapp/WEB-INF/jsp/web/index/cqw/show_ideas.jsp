@@ -64,7 +64,7 @@
 															<p><a href="/idea/${ideaView.idea.id}"><c:out value="${ideaView.idea.content}" /></a></p>
 															<div class="infor"><!--infor begin-->
 																<c:if test="${not empty ideaView.idea.pic}">
-																	<div class="img"><a href="/idea/${ideaView.idea.id}"><img src="${jzr:ideaPic(ideaView.idea.id,ideaView.idea.pic)}" width="580" /></a></div>
+																	<div class="img"><a href="/idea/${ideaView.idea.id}"><img src="${jzr:ideaPic(ideaView.idea.id,ideaView.idea.pic)}" width="200" height="200" /></a></div>
 																</c:if>
 																<!-- <div class="clear"></div> -->
 																<span><c:set var="date" value="${ideaView.idea.lastModifyTime}" scope="request"/><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span>

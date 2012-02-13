@@ -31,7 +31,6 @@ import com.juzhai.act.rabbit.message.ActUpdateMessage;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.ISynonymActService;
 import com.juzhai.act.service.IUserActService;
-import com.juzhai.app.service.IAppService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.home.bean.ReadFeedType;
@@ -72,8 +71,6 @@ public class UserActService implements IUserActService {
 	@Autowired
 	private IMsgMessageService msgMessageService;
 	@Autowired
-	private IAppService appService;
-	@Autowired
 	private IActLiveService actLiveService;
 	@Autowired
 	private IActRankService actRankService;
@@ -97,7 +94,7 @@ public class UserActService implements IUserActService {
 				log.error(e.getMessage() + " actId: " + actId);
 			}
 			if (isFeed && !synonymActService.isShieldAct(actId)) {
-				appService.sendFeed(actId, uid, tpId);
+				// appService.sendFeed(actId, uid, tpId);
 			}
 			recommendWantCounter.incr(null, 1L);
 		} else {

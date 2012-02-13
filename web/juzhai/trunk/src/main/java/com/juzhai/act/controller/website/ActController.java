@@ -1,6 +1,5 @@
 package com.juzhai.act.controller.website;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,16 +19,13 @@ import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActAd;
 import com.juzhai.act.model.ActDetail;
 import com.juzhai.act.model.ActLink;
-import com.juzhai.act.model.UserAct;
 import com.juzhai.act.service.IActAdService;
 import com.juzhai.act.service.IActDetailService;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IDatingService;
 import com.juzhai.act.service.IUserActService;
-import com.juzhai.app.controller.view.ActUserView;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
-import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.service.IUserFreeDateService;
@@ -94,16 +90,16 @@ public class ActController extends BaseController {
 		return result;
 	}
 
-	@RequestMapping(value = "/{actId}", method = RequestMethod.GET)
-	public String showAct(HttpServletRequest request, Model model,
-			@PathVariable long actId) {
-		ActDetail actDetail = actDetailService.getActDetail(actId);
-		if (null == actDetail || !actDetail.getDisplay()) {
-			return showActUsers(request, model, actId);
-		} else {
-			return showActDetail(request, model, actId);
-		}
-	}
+	// @RequestMapping(value = "/{actId}", method = RequestMethod.GET)
+	// public String showAct(HttpServletRequest request, Model model,
+	// @PathVariable long actId) {
+	// ActDetail actDetail = actDetailService.getActDetail(actId);
+	// if (null == actDetail || !actDetail.getDisplay()) {
+	// return showActUsers(request, model, actId);
+	// } else {
+	// return showActDetail(request, model, actId);
+	// }
+	// }
 
 	@RequestMapping(value = "/{actId}/detail", method = RequestMethod.GET)
 	public String showActDetail(HttpServletRequest request, Model model,
@@ -122,49 +118,49 @@ public class ActController extends BaseController {
 		return "web/act/act/show_act_detail";
 	}
 
-	@RequestMapping(value = "/{actId}/users", method = RequestMethod.GET)
-	public String showActUsers(HttpServletRequest request, Model model,
-			@PathVariable long actId) {
-		return pageActUsers(request, model, actId, 1, "all", null);
-	}
+	// @RequestMapping(value = "/{actId}/users", method = RequestMethod.GET)
+	// public String showActUsers(HttpServletRequest request, Model model,
+	// @PathVariable long actId) {
+	// return pageActUsers(request, model, actId, 1, "all", null);
+	// }
 
-	@RequestMapping(value = "/{actId}/users_{genderType}_{cityId}/{page}")
-	public String pageActUsers(HttpServletRequest request, Model model,
-			@PathVariable long actId, @PathVariable int page,
-			@PathVariable String genderType, @PathVariable Long cityId) {
-		UserContext context = null;
-		try {
-			context = checkLoginForApp(request);
-		} catch (NeedLoginException e) {
-		}
-		Act act = actInfo(context, actId, model, request);
-		if (null == act) {
-			return error_404;
-		}
-		Integer gender = null;
-		if (genderType.equals("male")) {
-			gender = 1;
-		} else if (genderType.equals("female")) {
-			gender = 0;
-		}
-		if (null == cityId) {
-			cityId = fetchCityId(request);
-		}
-
-		PagerManager pager = new PagerManager(page, webActUserMaxRows,
-				userActService.countUserActByActIdAndGenderAndCity(actId,
-						gender, cityId));
-		List<UserAct> userActList = userActService
-				.listUserActByActIdAndGenderAndCity(actId, gender, cityId,
-						pager.getFirstResult(), pager.getMaxResult());
-		List<ActUserView> actUserViewList = assembleActUserView(context,
-				userActList);
-		model.addAttribute("pager", pager);
-		model.addAttribute("actUserViewList", actUserViewList);
-		model.addAttribute("genderType", genderType);
-		model.addAttribute("cityId", cityId);
-		return "web/act/act/show_act_users";
-	}
+	// @RequestMapping(value = "/{actId}/users_{genderType}_{cityId}/{page}")
+	// public String pageActUsers(HttpServletRequest request, Model model,
+	// @PathVariable long actId, @PathVariable int page,
+	// @PathVariable String genderType, @PathVariable Long cityId) {
+	// UserContext context = null;
+	// try {
+	// context = checkLoginForApp(request);
+	// } catch (NeedLoginException e) {
+	// }
+	// Act act = actInfo(context, actId, model, request);
+	// if (null == act) {
+	// return error_404;
+	// }
+	// Integer gender = null;
+	// if (genderType.equals("male")) {
+	// gender = 1;
+	// } else if (genderType.equals("female")) {
+	// gender = 0;
+	// }
+	// if (null == cityId) {
+	// cityId = fetchCityId(request);
+	// }
+	//
+	// PagerManager pager = new PagerManager(page, webActUserMaxRows,
+	// userActService.countUserActByActIdAndGenderAndCity(actId,
+	// gender, cityId));
+	// List<UserAct> userActList = userActService
+	// .listUserActByActIdAndGenderAndCity(actId, gender, cityId,
+	// pager.getFirstResult(), pager.getMaxResult());
+	// List<ActUserView> actUserViewList = assembleActUserView(context,
+	// userActList);
+	// model.addAttribute("pager", pager);
+	// model.addAttribute("actUserViewList", actUserViewList);
+	// model.addAttribute("genderType", genderType);
+	// model.addAttribute("cityId", cityId);
+	// return "web/act/act/show_act_users";
+	// }
 
 	private Act actInfo(UserContext context, long actId, Model model,
 			HttpServletRequest request) {
@@ -190,22 +186,22 @@ public class ActController extends BaseController {
 		return act;
 	}
 
-	private List<ActUserView> assembleActUserView(UserContext context,
-			List<UserAct> userActList) {
-		boolean isLogin = context != null && context.hasLogin();
-		List<ActUserView> actUserViewList = new ArrayList<ActUserView>();
-		for (UserAct userAct : userActList) {
-			actUserViewList.add(new ActUserView(profileService
-					.getProfileCacheByUid(userAct.getUid()), userAct
-					.getLastModifyTime(), isLogin ? interestUserService
-					.isInterest(context.getUid(), userAct.getUid()) : false,
-					isLogin ? datingService.hasDating(context.getUid(),
-							userAct.getUid()) : false, loginService
-							.isOnline(userAct.getUid()), userFreeDateService
-							.userFreeDateList(userAct.getUid())));
-		}
-		return actUserViewList;
-	}
+	// private List<ActUserView> assembleActUserView(UserContext context,
+	// List<UserAct> userActList) {
+	// boolean isLogin = context != null && context.hasLogin();
+	// List<ActUserView> actUserViewList = new ArrayList<ActUserView>();
+	// for (UserAct userAct : userActList) {
+	// actUserViewList.add(new ActUserView(profileService
+	// .getProfileCacheByUid(userAct.getUid()), userAct
+	// .getLastModifyTime(), isLogin ? interestUserService
+	// .isInterest(context.getUid(), userAct.getUid()) : false,
+	// isLogin ? datingService.hasDating(context.getUid(),
+	// userAct.getUid()) : false, loginService
+	// .isOnline(userAct.getUid()), userFreeDateService
+	// .userFreeDateList(userAct.getUid())));
+	// }
+	// return actUserViewList;
+	// }
 
 	// @RequestMapping(value = "/ajax/pageActUser", method = RequestMethod.GET)
 	// public String pageActUser(HttpServletRequest request, Model model,

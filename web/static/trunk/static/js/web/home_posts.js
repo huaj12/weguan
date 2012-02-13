@@ -54,7 +54,7 @@ $(document).ready(function() {
 			dataType : "json",
 			success : function(result) {
 				if(result&&result.success){
-					obj.unbind("click").text("已邀请");
+					obj.unbind("click").attr("class", "done").text("已邀请");
 				}else{
 					alert(result.errorInfo);
 				}

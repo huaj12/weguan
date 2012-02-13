@@ -29,11 +29,11 @@
 								</div><!--my_index end-->
 								<div class="weibo"><!--weibo begin-->
 									<h2>ta的最近微薄</h2>
-									<c:forEach var="userWeibo" items="${userWeiboList}">
+									<c:forEach var="userStatus" items="${userStatusList}">
 										<ul>
 											<li>
-												<p>"${userWeibo.content}"</p>
-												<span>发布于 <fmt:formatDate value="${userWeibo.time}" pattern="yyyy.MM.dd"/></span>
+												<p>"${userStatus.content}"</p>
+												<span>发布于 <fmt:formatDate value="${userStatus.time}" pattern="yyyy.MM.dd"/></span>
 											</li>
 										</ul>
 									</c:forEach>

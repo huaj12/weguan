@@ -6,11 +6,10 @@ function invite(names,uids,actId){
 		uids="";
 	}
 	jQuery.ajax({
-			url: "/plug/weibo/invite",
+			url: "/plug/show/invite",
 			type: "get",
 			data: {
 				"uids" : uids,
-				"actId":actId,
 				"names":names
 			},
 			dataType: "html",
@@ -26,16 +25,11 @@ function invite(names,uids,actId){
 }
 function send_invite(){
 	var content=$("#invite_content").val();
-	var actId=$("#invite_act_id").val();
-	if(actId==""||actId==null){
-		actId=0;
-	}
 	jQuery.ajax({
-		url: "/plug/weibo/invite/send",
+		url: "/plug/invite/send",
 		type: "post",
 		data: {
-			"content" : content,
-			"actId" : actId
+			"content" : content
 		},
 		dataType: "json",
 		success: function(result){

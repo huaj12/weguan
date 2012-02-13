@@ -26,7 +26,6 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
-import com.juzhai.platform.exception.AdminException;
 import com.juzhai.post.controller.form.PostForm;
 import com.juzhai.post.controller.view.ResponseUserView;
 import com.juzhai.post.exception.InputPostException;
@@ -115,10 +114,6 @@ public class PostController extends BaseController {
 			}
 		} catch (InputPostException e) {
 			result.setError(e.getErrorCode(), messageSource);
-		} catch (AdminException e) {
-			if (log.isDebugEnabled()) {
-				log.debug(e.getMessage(), e);
-			}
 		}
 		return result;
 	}
@@ -191,10 +186,6 @@ public class PostController extends BaseController {
 			}
 		} catch (InputPostException e) {
 			result.setError(e.getErrorCode(), messageSource);
-		} catch (AdminException e) {
-			if (log.isDebugEnabled()) {
-				log.debug(e.getMessage(), e);
-			}
 		}
 		return result;
 	}

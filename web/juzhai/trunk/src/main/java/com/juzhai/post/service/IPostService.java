@@ -296,7 +296,6 @@ public interface IPostService {
 	 * @param uid
 	 * @param tpId
 	 */
-	void synchronizeWeibo(long postId, long uid, long tpId)
-			throws AdminException;
+	void synchronizeWeibo(long uid, long tpId, long postId);
 
 }

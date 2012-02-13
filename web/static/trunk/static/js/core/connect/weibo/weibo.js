@@ -1,50 +1,51 @@
-function invite(names,uids,actId){
-	if(undefined==actId){
-		actId=0;
+function invite(names, uids, actId) {
+	if (undefined == actId) {
+		actId = 0;
 	}
-	if(undefined==uids){
-		uids="";
+	if (undefined == uids) {
+		uids = "";
 	}
 	jQuery.ajax({
-			url: "/plug/show/invite",
-			type: "get",
-			data: {
-				"uids" : uids,
-				"names":names
-			},
-			dataType: "html",
-			success: function(data){
-				openDialog(null, 'invite_dialog', data);
-			},
-			statusCode: {
-			    401: function() {
-			    	window.location.href = "/login?turnTo=" + window.location.href;
-			    }
+		url : "/plug/show/invite",
+		type : "get",
+		data : {
+			"uids" : uids,
+			"names" : names
+		},
+		dataType : "html",
+		success : function(data) {
+			openDialog(null, 'invite_dialog', data);
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
 			}
-		});
+		}
+	});
 }
-function send_invite(){
-	var content=$("#invite_content").val();
+function send_invite() {
+	var content = $("#invite_content").val();
 	jQuery.ajax({
-		url: "/plug/invite/send",
-		type: "post",
-		data: {
+		url : "/plug/invite/send",
+		type : "post",
+		data : {
 			"content" : content
 		},
-		dataType: "json",
-		success: function(result){
-			if(result.success){
-				var content = $("#dialog-success").html().replace("{0}", "发送成功");
+		dataType : "json",
+		success : function(result) {
+			if (result.success) {
+				var content = $("#dialog-success").html()
+						.replace("{0}", "发送成功");
 				showSuccess(null, content);
-			}else{
-				 $("#plug_invite_tip").html( "发送失败");
+			} else {
+				$("#plug_invite_tip").html("发送失败");
 			}
 			closeDialog('invite_dialog');
 		},
-		statusCode: {
-		    401: function() {
-		    	window.location.href = "/login?turnTo=" + window.location.href;
-		    }
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
 		}
 	});
 }

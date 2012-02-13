@@ -30,8 +30,6 @@ public interface IImageManager {
 	 */
 	String uploadImage(String directoryPath, MultipartFile image)
 			throws UploadImageException;
-	
-	void deleteImage(long id, String fileName);
 
 	/**
 	 * 复制图片
@@ -86,6 +84,38 @@ public interface IImageManager {
 	 */
 	boolean reduceImage(String srcPath, String distDirectoryPath,
 			String distFileName, int scaledWidth, int scaledHeight);
+
+	/**
+	 * 缩略图
+	 * 
+	 * @param srcPath
+	 *            原图文件路径
+	 * @param distDirectoryPath
+	 *            保存新图片目录路径
+	 * @param distFileName
+	 *            保存新图片文件名
+	 * @param scaledWidthOrHeight
+	 *            缩放宽度
+	 * @return 生成缩略图成功返回true，否则返回false
+	 */
+	boolean reduceImage(String srcPath, String distDirectoryPath,
+			String distFileName, int scaledWidthOrHeight);
+
+	/**
+	 * 缩略图
+	 * 
+	 * @param srcPath
+	 *            原图文件路径
+	 * @param distDirectoryPath
+	 *            保存新图片目录路径
+	 * @param distFileName
+	 *            保存新图片文件名
+	 * @param scaledWidth
+	 *            缩放宽度
+	 * @return 生成缩略图成功返回true，否则返回false
+	 */
+	boolean reduceImageWidth(String srcPath, String distDirectoryPath,
+			String distFileName, int scaledWidth);
 
 	/**
 	 * 获取临时目录路径

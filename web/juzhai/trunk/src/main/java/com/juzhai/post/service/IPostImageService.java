@@ -3,6 +3,7 @@ package com.juzhai.post.service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.exception.UploadImageException;
+import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.image.LogoSizeType;
 
 public interface IPostImageService {
@@ -51,5 +52,6 @@ public interface IPostImageService {
 	 * @param sizeType
 	 * @return
 	 */
-	byte[] getPostFile(long postId,long ideaId, String fileName, LogoSizeType sizeType);
+	byte[] getPostFile(long postId, long ideaId, String fileName,
+			JzImageSizeType sizeType);
 }

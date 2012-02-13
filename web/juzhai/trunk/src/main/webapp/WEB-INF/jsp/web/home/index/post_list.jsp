@@ -56,7 +56,7 @@
 								<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${postView.post.purposeType}"/></c:import>:</font><a href="/post/${postView.post.id}"><c:out value="${postView.post.content}" /></a></p>
 								<div class="infor"><!--infor begin-->
 									<c:if test="${not empty postView.post.pic}">
-										<div class="img"><img data-original="${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic)}" src="${jzr:static('/images/web/1px.gif')}" width="200"/></div>
+										<div class="img"><a href="/post/${postView.post.id}"><img data-original="${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic, 200)}" src="${jzr:static('/images/web/1px.gif')}"/></a></div>
 									</c:if>
 									<span><c:set var="date" value="${postView.post.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span>
 									<c:if test="${not empty postView.post.place}">

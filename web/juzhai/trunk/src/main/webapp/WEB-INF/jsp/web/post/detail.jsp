@@ -29,7 +29,7 @@
 											<div class="con"><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${post.purposeType}"/></c:import>:</font><a href="/post/${post.id}"><c:out value="${post.content}" /></a></div>
 											<div class="infor"><!--infor begin-->
 												<c:if test="${not empty post.pic}">
-													<div class="img"><img src="${jzr:postPic(post.id, post.ideaId, post.pic)}" width="580"/></div>
+													<div class="img"><a href="${jzr:postPic(post.id, post.ideaId, post.pic, 0)}" target="_blank"><img src="${jzr:postPic(post.id, post.ideaId, post.pic, 450)}"/></a></div>
 												</c:if>
 												<span><c:set var="date" value="${post.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span>
 												<c:if test="${not empty post.place}">

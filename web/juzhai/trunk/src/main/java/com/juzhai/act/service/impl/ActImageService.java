@@ -44,13 +44,14 @@ public class ActImageService implements IActImageService {
 			throws UploadImageException {
 		String directoryPath = uploadActImageHome
 				+ ImageUtil.generateHierarchyImagePath(actId,
-						LogoSizeType.ORIGINAL);
+						LogoSizeType.ORIGINAL.getType());
 		String fileName = imageManager.uploadImage(directoryPath, image);
 		String srcFileName = directoryPath + fileName;
 		for (LogoSizeType sizeType : LogoSizeType.values()) {
 			if (sizeType.getType() > 0) {
 				String distDirectoryPath = uploadActImageHome
-						+ ImageUtil.generateHierarchyImagePath(actId, sizeType);
+						+ ImageUtil.generateHierarchyImagePath(actId,
+								sizeType.getType());
 				imageManager.reduceImage(srcFileName, distDirectoryPath,
 						fileName, sizeType.getType(), sizeType.getType());
 			}
@@ -66,13 +67,13 @@ public class ActImageService implements IActImageService {
 			String fileName = srcFile.getName();
 			String directoryPath = uploadActImageHome
 					+ ImageUtil.generateHierarchyImagePath(actId,
-							LogoSizeType.ORIGINAL);
+							LogoSizeType.ORIGINAL.getType());
 			FileUtil.writeFileToFile(directoryPath, fileName, srcFile);
 			for (LogoSizeType sizeType : LogoSizeType.values()) {
 				if (sizeType.getType() > 0) {
 					String distDirectoryPath = uploadActImageHome
 							+ ImageUtil.generateHierarchyImagePath(actId,
-									sizeType);
+									sizeType.getType());
 					imageManager.reduceImage(directoryPath + fileName,
 							distDirectoryPath, fileName, sizeType.getType(),
 							sizeType.getType());
@@ -99,14 +100,15 @@ public class ActImageService implements IActImageService {
 				File srcFile = new File(srcFileName);
 				String directoryPath = uploadActImageHome
 						+ ImageUtil.generateHierarchyImagePath(actId,
-								LogoSizeType.ORIGINAL);
+								LogoSizeType.ORIGINAL.getType());
 				if (!FileUtil.writeFileToFile(directoryPath, srcFile.getName(),
 						srcFile)) {
 					return null;
 				}
 				String newUrl = StaticUtil.u(webActImagePath
 						+ ImageUtil.generateHierarchyImageWebPath(actId,
-								LogoSizeType.ORIGINAL) + srcFile.getName());
+								LogoSizeType.ORIGINAL.getType())
+						+ srcFile.getName());
 				detail = detail.replace(url, newUrl);
 			}
 		}
@@ -128,7 +130,8 @@ public class ActImageService implements IActImageService {
 	public byte[] getActFile(long actId, String fileName, LogoSizeType sizeType) {
 		try {
 			String directoryPath = uploadActImageHome
-					+ ImageUtil.generateHierarchyImagePath(actId, sizeType);
+					+ ImageUtil.generateHierarchyImagePath(actId,
+							sizeType.getType());
 			File file = new File(directoryPath + fileName);
 			return FileUtil.readFileToByteArray(file);
 		} catch (IOException e) {

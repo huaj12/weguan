@@ -12,10 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.passport.InitData;
-import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
-import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.bean.UserWeibo;
 import com.juzhai.platform.service.IDataService;
@@ -25,7 +24,7 @@ public class DataService implements IDataService, BeanFactoryAware {
 	@Autowired
 	private BeanFactory beanFactory;
 	@Autowired
-	private ITpUserAuthService tpUserAuthService;
+	private ITpUserService tpUserService;
 
 	private static final Log log = LogFactory.getLog(DataService.class);
 
@@ -48,18 +47,51 @@ public class DataService implements IDataService, BeanFactoryAware {
 
 	@Override
 	public List<UserWeibo> listWeibo(long uid, long fuid, long tpId) {
-		// TODO (done) 这里需要authInfo？
-		Thirdparty thirdparty=InitData.TP_MAP.get(tpId);
-		return getDataServiceBean(thirdparty.getName(),
-				thirdparty.getJoinType()).listWeibo(uid, fuid, tpId);
+		String tpName = null;
+		String joinType = JoinTypeEnum.CONNECT.getName();
+		if (tpId <= 0) {
+			TpUser tpUser = tpUserService.getTpUserByUid(fuid);
+			if (null == tpUser) {
+				return null;
+			}
+			tpName = tpUser.getTpName();
+		} else {
+			Thirdparty thirdparty = InitData.TP_MAP.get(tpId);
+			if (null == thirdparty) {
+				return null;
+			}
+			tpName = thirdparty.getName();
+			joinType = thirdparty.getJoinType();
+		}
+		IDataService service = getDataServiceBean(tpName, joinType);
+		if (null == service) {
+			return null;
+		}
+		return service.listWeibo(uid, fuid, tpId);
 	}
 
 	@Override
 	public List<UserWeibo> refreshListWeibo(long uid, long fuid, long tpId) {
-		// TODO (done) 这里需要authInfo？
-		Thirdparty thirdparty=InitData.TP_MAP.get(tpId);
-		return getDataServiceBean(thirdparty.getName(),
-				thirdparty.getJoinType()).refreshListWeibo(uid, fuid, tpId);
+		String tpName = null;
+		String joinType = JoinTypeEnum.CONNECT.getName();
+		if (tpId <= 0) {
+			TpUser tpUser = tpUserService.getTpUserByUid(fuid);
+			if (null == tpUser) {
+				return null;
+			}
+			tpName = tpUser.getTpName();
+		} else {
+			Thirdparty thirdparty = InitData.TP_MAP.get(tpId);
+			if (null == thirdparty) {
+				return null;
+			}
+			tpName = thirdparty.getName();
+			joinType = thirdparty.getJoinType();
+		}
+		IDataService service = getDataServiceBean(tpName, joinType);
+		if (null == service) {
+			return null;
+		}
+		return service.refreshListWeibo(uid, fuid, tpId);
 	}
-
 }

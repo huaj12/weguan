@@ -33,7 +33,7 @@
 												<div class="infor"><!--infor begin-->
 													<div class="clear"></div>
 													<c:if test="${not empty idea.pic}">
-														<div class="img"><a href="${jzr:ideaPic(idea.id, idea.pic)}"><img src="${jzr:ideaPic(idea.id, idea.pic)}" width="580"/></a></div>
+														<div class="img"><a href="${jzr:ideaPic(idea.id, idea.pic, 0)}" target="_blank"><img src="${jzr:ideaPic(idea.id, idea.pic,450)}"/></a></div>
 													</c:if>
 													<span><c:set var="date" value="${idea.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span>
 													<c:if test="${not empty idea.place}">

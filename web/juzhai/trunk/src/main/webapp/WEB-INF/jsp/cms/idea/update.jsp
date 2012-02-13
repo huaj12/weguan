@@ -51,7 +51,7 @@
 			图片:
 		</td>
 			<td><input type="file" name="newpic"/>
-			<c:set value="${jzr:ideaPic(idea.id,idea.pic) }" var="picPath"></c:set>
+			<c:set value="${jzr:ideaPic(idea.id,idea.pic,200) }" var="picPath"></c:set>
 			<c:choose>
 			<c:when test="${!empty picPath}">
 			<img src="${picPath }" width="100" height="100"/>

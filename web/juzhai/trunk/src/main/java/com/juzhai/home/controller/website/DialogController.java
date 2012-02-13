@@ -20,6 +20,7 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.controller.view.DialogContentView;
 import com.juzhai.home.controller.view.DialogView;
 import com.juzhai.home.exception.DialogException;
@@ -138,5 +139,16 @@ public class DialogController extends BaseController {
 					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
 		}
 		return "web/home/dialog/dialog_content_fragment";
+	}
+
+	@RequestMapping(value = "/inviteEditProfile", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult inviteEditProfile(HttpServletRequest request,
+			Model model, long uid) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult result = new AjaxResult();
+		dialogService.sendSMS(context.getUid(), uid,
+				DialogContentTemplate.EDIT_PROFILE);
+		return result;
 	}
 }

@@ -1,7 +1,6 @@
 package com.juzhai.platform.service.impl;
 
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -18,11 +17,7 @@ import weibo4j.http.ImageItem;
 import weibo4j.model.Status;
 import weibo4j.model.WeiboException;
 
-import com.juzhai.act.model.Act;
-import com.juzhai.act.service.IActImageService;
-import com.juzhai.act.service.IActService;
-import com.juzhai.app.bean.TpMessageKey;
-import com.juzhai.core.image.LogoSizeType;
+import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.bean.AuthInfo;
@@ -115,10 +110,10 @@ public class WeiboConnectMessageService implements IMessageService {
 
 	private void sendWeibo(long postId, Timeline timeline, String content)
 			throws WeiboException {
-		Post post =postService.getPostById(postId);
+		Post post = postService.getPostById(postId);
 		if (post != null) {
-			byte[] imgContent = postImageService.getPostFile(post.getId(),post.getIdeaId(),
-					post.getPic(), LogoSizeType.BIG);
+			byte[] imgContent = postImageService.getPostFile(post.getId(),
+					post.getIdeaId(), post.getPic(), JzImageSizeType.ORIGINAL);
 			if (imgContent == null) {
 				timeline.UpdateStatus(content);
 			} else {

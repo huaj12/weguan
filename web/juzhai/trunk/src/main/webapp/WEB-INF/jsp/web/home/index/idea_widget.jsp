@@ -12,9 +12,9 @@
 			<ul>
 				<c:forEach var="ideaView" items="${ideaViewList}">
 					<li class="mouseHover">
-						<p><c:out value="${ideaView.idea.content}" /></p>
+						<p><a href="/idea/${ideaView.idea.id}"><c:out value="${ideaView.idea.content}" /></a></p>
 						<c:if test="${not empty ideaView.idea.pic}">
-							<div class="img"><img src="${jzr:ideaPic(ideaView.idea.id, ideaView.idea.pic)}" width="220"/></div>
+							<div class="img"><a href="/idea/${ideaView.idea.id}"><img src="${jzr:ideaPic(ideaView.idea.id, ideaView.idea.pic, 200)}"/></a></div>
 						</c:if>
 						<span><a href="#" id="useCount-${ideaView.idea.id}">${ideaView.idea.useCount}</a>人想去</span>
 						<c:choose>

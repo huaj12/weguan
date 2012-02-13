@@ -109,8 +109,8 @@ public class PostController extends BaseController {
 		try {
 			long postId = postService.createPost(context.getUid(), postForm);
 			if (sendWeibo && postId > 0) {
-				postService.synchronizeWeibo(postId, context.getUid(),
-						context.getTpId());
+				postService.synchronizeWeibo(context.getUid(),
+						context.getTpId(), postId);
 			}
 		} catch (InputPostException e) {
 			result.setError(e.getErrorCode(), messageSource);
@@ -181,8 +181,8 @@ public class PostController extends BaseController {
 			long postId = postService.modifyPost(context.getUid(), postForm);
 
 			if (sendWeibo && postId > 0) {
-				postService.synchronizeWeibo(postId, context.getUid(),
-						context.getTpId());
+				postService.synchronizeWeibo(context.getUid(),
+						context.getTpId(), postId);
 			}
 		} catch (InputPostException e) {
 			result.setError(e.getErrorCode(), messageSource);

@@ -38,8 +38,15 @@ public class SynchronizeService implements ISynchronizeService,
 	@Override
 	// TODO 应该按照fuid的平台来找service
 	public List<UserStatus> listStatus(AuthInfo authInfo, long fuid, int size) {
-		return getSynchronizeServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).listStatus(authInfo, fuid, size);
+		if (null == authInfo) {
+			return null;
+		}
+		ISynchronizeService service = getSynchronizeServiceBean(
+				authInfo.getThirdpartyName(), authInfo.getJoinType());
+		if (null == service) {
+			return null;
+		}
+		return service.listStatus(authInfo, fuid, size);
 	}
 
 	// private ISynchronizeService getSynchronizeService(long uid, long fuid,

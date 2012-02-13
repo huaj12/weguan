@@ -24,7 +24,9 @@
 									<jsp:include page="common/new_tab.jsp" /> --%>
 									<div class="my_jz"><!--my_jz begin-->
 										<jsp:include page="post/post_view.jsp" />
-										<div class="more"><a href="/home/${profile.uid}/posts">查看全部</a></div>
+										<c:if test="${showMore}">
+											<div class="more"><a href="/home/${profile.uid}/posts">查看全部</a></div>
+										</c:if>
 									</div><!--my_jz end-->
 								</div><!--my_index end-->
 								<div class="weibo"><!--weibo begin-->
@@ -37,7 +39,7 @@
 											</li>
 										</ul>
 									</c:forEach>
-									<div class="wb_more"><a href="#">更多</a></div>
+									<div class="wb_more"><a href="#"></a></div>
 								</div><!--weibo end-->
 							</div>
 							<div class="t"></div>

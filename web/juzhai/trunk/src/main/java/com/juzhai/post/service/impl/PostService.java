@@ -803,9 +803,19 @@ public class PostService implements IPostService {
 				Locale.SIMPLIFIED_CHINESE);
 		String content = purposeType + post.getContent();
 		String place = post.getPlace();
-		String time = DateFormat.SDF.format(post.getDateTime());
+		String time = null;
+		if (post.getDateTime() != null) {
+			time = DateFormat.SDF.format(post.getDateTime());
+		}
 
 		try {
+			if (StringUtils.isNotEmpty(time)) {
+
+			}
+			if (StringUtils.isNotEmpty(place)) {
+
+			}
+
 			String text = messageSource.getMessage(
 					SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_TEXT.getName(),
 					new Object[] { content, time, place, uid },

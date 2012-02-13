@@ -63,11 +63,12 @@ public class InviteService implements IInviteService {
 		if (StringUtils.isNotEmpty(names)) {
 			list.addAll(Arrays.asList(names.split(",")));
 		}
+		List<String> atNames = new ArrayList<String>(list.size());
 		for (String str : list) {
-			list.add("@" + str);
+			atNames.add("@" + str);
 		}
 		return messageSource.getMessage(TpMessageKey.WEIBO_CONNECT_INVITE_TEXT,
-				new Object[] { StringUtils.join(list, " ") },
+				new Object[] { StringUtils.join(atNames, " ") },
 				Locale.SIMPLIFIED_CHINESE);
 	}
 }

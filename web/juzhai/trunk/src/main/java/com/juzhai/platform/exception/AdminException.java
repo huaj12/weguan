@@ -10,12 +10,6 @@ public class AdminException extends JuzhaiException {
 	 */
 	public static final String ADMIN_API_EXCEED_LIMIT = "130001";
 
-	public static final String ADMIN_API_WEIBO_CONTENT_TOO_LONG = "130002";
-
-	public static final String ADMIN_API_WEIBO_ADDRESS_TOO_LONG = "130003";
-
-	public static final String ADMIN_API_WEIBO_TIME_TOO_LONG = "130004";
-
 	public AdminException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

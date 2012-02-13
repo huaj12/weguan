@@ -641,7 +641,7 @@ var PostSender =  Class.extend({
 		sendForm.find("div.btn > a").bind("click", function(){
 			var content = sendForm.find("div.textarea > textarea").val();
 			if(!checkValLength(content, 10, 280)){
-				sendForm.find(".send_box_error").text("内容控制在5-140个汉字内").show();
+				sendForm.find(".send_box_error").text("内容控制在2-80个汉字内").show();
 				return;
 			}
 			$(this).parent().hide();

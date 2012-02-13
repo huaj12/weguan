@@ -12,36 +12,39 @@ import org.springframework.stereotype.Service;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.service.IAdminService;
-import com.juzhai.platform.service.IDataService;
+
 @Service
-public class AdminService implements IAdminService,BeanFactoryAware {
+public class AdminService implements IAdminService, BeanFactoryAware {
 	@Autowired
 	private BeanFactory beanFactory;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
-	
-	private static final Log log = LogFactory.getLog(DataService.class);
+
+	private final Log log = LogFactory.getLog(getClass());
 
 	private IAdminService getAdminServiceBean(String tpName, String jionType) {
 		String joinType = StringUtils.upperCase(String.valueOf(jionType
 				.charAt(0))) + StringUtils.substring(jionType, 1);
 		String beanName = tpName + joinType + this.getClass().getSimpleName();
-		IAdminService adminService = (IAdminService) beanFactory.getBean(beanName);
+		IAdminService adminService = (IAdminService) beanFactory
+				.getBean(beanName);
 		if (log.isDebugEnabled()) {
 			log.debug("get bean" + beanName + ".");
 		}
 		return adminService;
 	}
+
 	@Override
-	public boolean isAllocation(long uid,long tpId) {
-		AuthInfo authInfo=tpUserAuthService.getAuthInfo(uid, tpId);
-		return getAdminServiceBean(authInfo.getThirdpartyName(), authInfo.getJoinType()).isAllocation(uid, tpId);
+	public boolean isAllocation(long uid, long tpId) {
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		return getAdminServiceBean(authInfo.getThirdpartyName(),
+				authInfo.getJoinType()).isAllocation(uid, tpId);
 	}
 
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-		this.beanFactory=beanFactory;
-		
+		this.beanFactory = beanFactory;
+
 	}
 
 }

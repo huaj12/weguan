@@ -1,11 +1,14 @@
 package com.juzhai.platform.service.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -15,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 import weibo4j.Account;
-import weibo4j.Friendships;
 import weibo4j.Oauth;
 import weibo4j.Users;
 import weibo4j.http.AccessToken;
@@ -23,11 +25,11 @@ import weibo4j.model.User;
 import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONObject;
 
+import com.juzhai.core.Constants;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.Municipal;
-import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
@@ -40,55 +42,6 @@ public class WeiboConnectUserService extends AbstractUserService {
 
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
-
-	@Override
-	public List<TpFriend> getAllFriends(AuthInfo authInfo) {
-		List<TpFriend> friendIdList = new ArrayList<TpFriend>();
-		String uid = authInfo.getTpIdentity();
-		Friendships fm = new Friendships(authInfo.getToken());
-		try {
-			List<User> users = fm.getFriendsBilateral(uid);
-			for (User user : users) {
-				TpFriend tpFriend = new TpFriend();
-				tpFriend.setUserId(user.getId());
-				tpFriend.setName(user.getName());
-				// 值1表示男性；值0表示女性
-				String gender = user.getGender();
-				int sex = 0;
-				if ("m".equals(gender)) {
-					sex = 1;
-				}
-				tpFriend.setGender(sex);
-				tpFriend.setLogoUrl(user.getAvatarLarge());
-				// 微博获取不到生日需要申请高级接口
-				tpFriend.setCity(user.getLocation());
-				friendIdList.add(tpFriend);
-			}
-		} catch (WeiboException e) {
-			log.error("weibo  getAllFriends is erorr." + e.getMessage());
-			return null;
-		}
-		return friendIdList;
-	}
-
-	@Override
-	public List<String> getAppFriends(AuthInfo authInfo) {
-		String uid = authInfo.getTpIdentity();
-		Friendships fm = new Friendships(authInfo.getToken());
-		List<String> fuids = new ArrayList<String>();
-		try {
-			String[] ids = fm.getFriendsBilateralIds(uid);
-			for (String id : ids) {
-				if (isInstalled(authInfo.getThirdpartyName(), id)) {
-					fuids.add(id);
-				}
-			}
-		} catch (WeiboException e) {
-			log.error("weibo  getAppFriends is erorr." + e.getMessage());
-			return null;
-		}
-		return fuids;
-	}
 
 	@Override
 	public String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
@@ -123,17 +76,17 @@ public class WeiboConnectUserService extends AbstractUserService {
 				sex = 1;
 			}
 			profile.setGender(sex);
-//			//获取用户个人主页
-			String blog=user.getUserDomain();
-			if(StringUtils.isEmpty(blog)){
-				blog=user.getId();
+			// //获取用户个人主页
+			String blog = user.getUserDomain();
+			if (StringUtils.isEmpty(blog)) {
+				blog = user.getId();
 			}
-			profile.setBlog("www.weibo.com/"+blog);
+			profile.setBlog("www.weibo.com/" + blog);
 			profile.setLogoPic(user.getAvatarLarge());
 			// 用户简介
 			profile.setFeature(user.getDescription());
 			// 没有家乡用所在地代替
-//			profile.setHome(user.getLocation());
+			// profile.setHome(user.getLocation());
 			// 获取不到生日需要高级接口
 			String cityName = user.getLocation();
 			City city = null;
@@ -147,7 +100,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 						town = InitData.getTownByNameAndCityId(city.getId(),
 								str[str.length - 1]);
 					}
-				}  else {
+				} else {
 					// 非直辖市
 					city = InitData.getCityByName(str[str.length - 1]);
 				}
@@ -202,22 +155,43 @@ public class WeiboConnectUserService extends AbstractUserService {
 	}
 
 	@Override
-	public List<String> getInstallFollows(AuthInfo authInfo) {
-		String uid = authInfo.getTpIdentity();
-		Friendships fm = new Friendships(authInfo.getToken());
-		List<String> fuids = new ArrayList<String>();
+	public String getAuthorizeURLforCode(Thirdparty tp, String turnTo)
+			throws UnsupportedEncodingException {
+		String url = null;
+		String redirectURL = tp.getAppUrl();
+		if (StringUtils.isNotEmpty(turnTo)) {
+			redirectURL = redirectURL + "?turnTo=" + turnTo;
+		}
 		try {
-			String[] ids = fm.getFriendsIds(uid);
-			for (String id : ids) {
-				if (isInstalled(authInfo.getThirdpartyName(), id)) {
-					fuids.add(id);
+			Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
+					URLEncoder.encode(redirectURL, Constants.UTF8));
+			url = oauth.authorize("code");
+		} catch (WeiboException e) {
+		}
+		return url;
+	}
+
+	@Override
+	public List<String> getUserNames(AuthInfo authInfo, List<String> fuids) {
+		List<String> list = new ArrayList<String>();
+		if (authInfo != null) {
+			Users users = new Users(authInfo.getToken());
+			if (CollectionUtils.isNotEmpty(fuids)) {
+				for (String fuid : fuids) {
+					User user = null;
+					try {
+						user = users.showUserById(fuid);
+					} catch (WeiboException e) {
+						log.error("getInviteReceiverName is error"
+								+ e.getMessage());
+					}
+					if (user != null) {
+						list.add(user.getName());
+					}
 				}
 			}
-		} catch (WeiboException e) {
-			log.error("weibo  getAppFriends is erorr." + e.getMessage());
-			return null;
 		}
-		return fuids;
+		return list;
 	}
 
 }

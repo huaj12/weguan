@@ -49,6 +49,5 @@ public interface INoticeService {
 	 * @param tpId
 	 * @return
 	 */
-	boolean noticeUserUnReadNum(
-			long receiver, int num) throws AdminException;
+	void noticeUserUnReadNum(long receiver, int num) throws AdminException;
 }

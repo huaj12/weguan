@@ -43,7 +43,6 @@ import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.login.ILoginService;
-import com.juzhai.platform.service.IAuthorizeURLService;
 import com.juzhai.platform.service.IUserService;
 
 /**
@@ -59,9 +58,7 @@ public class TpAuthorizeController extends BaseController {
 	private IUserService userService;
 	@Autowired
 	private ILoginService loginService;
-	@Autowired
-	private IAuthorizeURLService authorizeURLService;
-
+	
 	// @Autowired
 	// private IUserGuideService userGuideService;
 
@@ -269,7 +266,7 @@ public class TpAuthorizeController extends BaseController {
 		if (null == tp) {
 			return "404";
 		}
-		String url = authorizeURLService.getAuthorizeURLforCode(tp,
+		String url = userService.getAuthorizeURLforCode(tp,
 				URLEncoder.encode(turnTo, Constants.UTF8));
 		if (StringUtils.isEmpty(url)) {
 			return "404";

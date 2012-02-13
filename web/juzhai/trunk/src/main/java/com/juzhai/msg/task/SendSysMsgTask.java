@@ -6,8 +6,8 @@ import java.util.concurrent.Callable;
 import org.springframework.context.MessageSource;
 
 import com.juzhai.account.service.IAccountService;
-import com.juzhai.app.bean.TpMessageKey;
 import com.juzhai.app.service.IAppService;
+import com.juzhai.common.bean.TpMessageKey;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.model.Thirdparty;

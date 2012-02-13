@@ -1,5 +1,6 @@
 package com.juzhai.platform.service.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.platform.service.IUserService;
 
@@ -47,25 +47,18 @@ public class UserService implements IUserService, BeanFactoryAware {
 		return getUserServiceBean(tp).access(request, response, authInfo, tp);
 	}
 
-	@Override
-	public List<TpFriend> getAllFriends(AuthInfo authInfo) {
-		return getUserServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).getAllFriends(authInfo);
-	}
-
-	@Override
-	public List<String> getAppFriends(AuthInfo authInfo) {
-		return getUserServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).getAppFriends(authInfo);
-	}
-
-	@Override
-	public List<String> getInstallFollows(AuthInfo authInfo) {
-		return getUserServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).getInstallFollows(authInfo);
-	}
-
 	private IUserService getUserServiceBean(Thirdparty tp) {
 		return getUserServiceBean(tp.getName(), tp.getJoinType());
+	}
+
+	@Override
+	public String getAuthorizeURLforCode(Thirdparty tp, String turnTo)
+			throws UnsupportedEncodingException {
+		return getUserServiceBean(tp).getAuthorizeURLforCode(tp, turnTo);
+	}
+
+	@Override
+	public List<String> getUserNames(AuthInfo authInfo, List<String> fuids) {
+		return getUserServiceBean(authInfo.getThirdpartyName(),authInfo.getJoinType()).getUserNames(authInfo, fuids);
 	}
 }

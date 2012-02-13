@@ -1,8 +1,7 @@
 package com.juzhai.plug.service;
 
-import java.util.List;
 
-public interface IIviteService {
+public interface IInviteService {
 	/**
 	 * 发送邀请
 	 * 

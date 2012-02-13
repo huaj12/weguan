@@ -36,7 +36,6 @@ public class SynchronizeService implements ISynchronizeService,
 	}
 
 	@Override
-	// TODO 应该按照fuid的平台来找service
 	public List<UserStatus> listStatus(AuthInfo authInfo, long fuid, int size) {
 		if (null == authInfo) {
 			return null;

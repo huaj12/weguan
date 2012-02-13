@@ -59,12 +59,15 @@ public class UserStatusService implements IUserStatusService {
 		if (user == null || !user.getTpName().equals(fUser.getTpName())) {
 			// 来访者和被访者不是同一个tpid
 			// 获取小秘书的authinfo
-			long tagerUid = NoticeConfig
+			Long tagerUid = NoticeConfig
 					.getValue(ThirdpartyNameEnum.getThirdpartyNameEnum(fUser
 							.getTpName()), "uid");
-			long tagerTpId = NoticeConfig
+			Long tagerTpId = NoticeConfig
 					.getValue(ThirdpartyNameEnum.getThirdpartyNameEnum(fUser
 							.getTpName()), "tpId");
+			if (null == tagerUid || null == tagerTpId) {
+				return null;
+			}
 			authInfo = tpUserAuthService.getAuthInfo(tagerUid, tagerTpId);
 		} else {
 			authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
@@ -81,5 +84,4 @@ public class UserStatusService implements IUserStatusService {
 		}
 		return userStatusList;
 	}
-
 }

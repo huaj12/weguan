@@ -20,25 +20,48 @@
 							<div class="t"></div>
 							<div class="m">
 								<div class="my_index"><!--my_index begin-->
-									<%-- <c:set var="tabType" value="posts" scope="request"/>
-									<jsp:include page="common/new_tab.jsp" /> --%>
+									<div class="title"><!--title begin-->
+										<div class="category"><!--category begin-->
+											<span class="act"><p></p><a href="javascript:void(0);">ta的拒宅</a><p></p></span>
+										</div><!--category end-->
+									</div><!--title end-->
 									<div class="my_jz"><!--my_jz begin-->
-										<jsp:include page="post/post_view.jsp" />
-										<c:if test="${showMore}">
-											<div class="more"><a href="/home/${profile.uid}/posts">查看全部</a></div>
-										</c:if>
+										<c:choose>
+											<c:when test="${empty postViewList}">
+												<div class="none">ta没有发布过拒宅哦</div>
+											</c:when>
+											<c:otherwise>
+												<jsp:include page="post/post_view.jsp" />
+												<c:if test="${showMore}">
+													<div class="more"><a href="/home/${profile.uid}/posts">查看全部</a></div>
+												</c:if>
+											</c:otherwise>
+										</c:choose>
 									</div><!--my_jz end-->
 								</div><!--my_index end-->
+							</div>
+							<div class="t"></div>
+						</div><!--content end-->
+						<div class="content_box w660"><!--content begin-->
+							<div class="t"></div>
+							<div class="m">
 								<div class="weibo"><!--weibo begin-->
 									<h2>ta的最近微薄</h2>
-									<c:forEach var="userStatus" items="${userStatusList}">
-										<ul>
-											<li>
-												<p>"${userStatus.content}"</p>
-												<span>发布于 <fmt:formatDate value="${userStatus.time}" pattern="yyyy.MM.dd"/></span>
-											</li>
-										</ul>
-									</c:forEach>
+									<ul>
+										<c:choose>
+											<c:when test="${empty userStatusList}">
+												<div class="none">ta还没有原创的微博</div>
+											</c:when>
+											<c:otherwise>
+												<c:forEach var="userStatus" items="${userStatusList}">
+													<li>
+														<p>"${userStatus.content}"</p>
+														<span>发布于 <fmt:formatDate value="${userStatus.time}" pattern="yyyy.MM.dd"/></span>
+													</li>
+												</c:forEach>
+											</c:otherwise>
+										</c:choose>
+									</ul>
 									<div class="wb_more"><a href="#"></a></div>
 								</div><!--weibo end-->
 							</div>

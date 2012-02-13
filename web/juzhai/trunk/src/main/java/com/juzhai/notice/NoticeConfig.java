@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import org.apache.commons.collections.MapUtils;
+
 import com.juzhai.passport.bean.ThirdpartyNameEnum;
 
 public class NoticeConfig {
@@ -44,6 +46,9 @@ public class NoticeConfig {
 
 	public static Long getValue(ThirdpartyNameEnum tager, String name) {
 		Map<String, Long> map = SECRETARY.get(tager.getName());
+		if (MapUtils.isEmpty(map)) {
+			return null;
+		}
 		return map.get(tager.getName() + "." + name);
 	}
 }

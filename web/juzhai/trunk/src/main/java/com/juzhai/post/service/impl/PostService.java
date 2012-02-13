@@ -803,22 +803,28 @@ public class PostService implements IPostService {
 				Locale.SIMPLIFIED_CHINESE);
 		String content = purposeType + post.getContent();
 		String place = post.getPlace();
-		String time = null;
+		String time = "";
 		if (post.getDateTime() != null) {
 			time = DateFormat.SDF.format(post.getDateTime());
 		}
 
 		try {
 			if (StringUtils.isNotEmpty(time)) {
-
+				time = " "+messageSource.getMessage(
+						SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_TIME
+								.getName(), new Object[] { time },
+						Locale.SIMPLIFIED_CHINESE)+" ";
 			}
 			if (StringUtils.isNotEmpty(place)) {
-
+				place =" "+messageSource.getMessage(
+						SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_ADDRESS
+								.getName(), new Object[] { place },
+						Locale.SIMPLIFIED_CHINESE)+" ";
 			}
 
 			String text = messageSource.getMessage(
 					SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_TEXT.getName(),
-					new Object[] { content, time, place, uid },
+					new Object[] { content, time, place, postId },
 					Locale.SIMPLIFIED_CHINESE);
 			byte[] image = null;
 			if (StringUtils.isNotEmpty(post.getPic())) {

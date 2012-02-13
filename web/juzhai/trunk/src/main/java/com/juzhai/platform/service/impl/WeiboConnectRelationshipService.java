@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
 
 import weibo4j.Friendships;
 import weibo4j.model.User;
@@ -16,7 +17,7 @@ import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.platform.service.IRelationshipService;
-
+@Service
 public class WeiboConnectRelationshipService implements IRelationshipService {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired

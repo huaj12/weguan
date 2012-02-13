@@ -20,10 +20,10 @@ import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.service.ISynchronizeService;
 import com.juzhai.platform.service.IUserService;
-import com.juzhai.plug.service.IIviteService;
+import com.juzhai.plug.service.IInviteService;
 
 @Service
-public class IviteService implements IIviteService {
+public class InviteService implements IInviteService {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
@@ -34,7 +34,6 @@ public class IviteService implements IIviteService {
 	@Autowired
 	private MessageSource messageSource;
 
-	@Autowired
 	@Override
 	public boolean sendIvite(String content, long tpId, long uid) {
 		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);

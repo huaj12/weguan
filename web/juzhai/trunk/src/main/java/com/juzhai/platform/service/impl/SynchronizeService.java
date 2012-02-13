@@ -9,11 +9,13 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.platform.bean.UserStatus;
 import com.juzhai.platform.service.ISynchronizeService;
 
+@Service
 public class SynchronizeService implements ISynchronizeService,
 		BeanFactoryAware {
 	private final Log log = LogFactory.getLog(SynchronizeService.class);

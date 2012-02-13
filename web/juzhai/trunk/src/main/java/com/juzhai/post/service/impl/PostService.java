@@ -803,7 +803,7 @@ public class PostService implements IPostService {
 				Locale.SIMPLIFIED_CHINESE);
 		String content = purposeType + post.getContent();
 		String place = post.getPlace();
-		String time = "";
+		String time = null;
 		if (post.getDateTime() != null) {
 			time = DateFormat.SDF.format(post.getDateTime());
 		}
@@ -824,7 +824,7 @@ public class PostService implements IPostService {
 
 			String text = messageSource.getMessage(
 					SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_TEXT.getName(),
-					new Object[] { content, time, place, postId },
+					new Object[] { content, time==null?"":time, place, postId },
 					Locale.SIMPLIFIED_CHINESE);
 			byte[] image = null;
 			if (StringUtils.isNotEmpty(post.getPic())) {

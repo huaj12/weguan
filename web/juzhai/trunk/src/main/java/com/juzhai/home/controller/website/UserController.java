@@ -19,10 +19,10 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.InterestUserView;
+import com.juzhai.home.service.IUserStatusService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.login.ILoginService;
-import com.juzhai.platform.service.IDataService;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
@@ -38,7 +38,7 @@ public class UserController extends BaseController {
 	@Autowired
 	private IPostService postService;
 	@Autowired
-	private IDataService dataService;
+	private IUserStatusService userStatusService;
 	@Value("${web.user.home.post.rows}")
 	private int webUserHomePostRows;
 	@Value("${web.my.post.max.rows}")
@@ -71,9 +71,9 @@ public class UserController extends BaseController {
 
 			// 微博
 			model.addAttribute(
-					"userWeiboList",
-					dataService.listWeibo(context.getUid(), uid,
-							context.getTpId()));
+					"userStatusList",
+					userStatusService.listUserStatus(context.getUid(),
+							context.getTpId(), uid));
 
 			return "web/home/user_home";
 		}

@@ -1,8 +1,5 @@
 package com.juzhai.act.controller.app;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.act.model.Act;
-import com.juzhai.act.model.UserAct;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.ISynonymActService;
 import com.juzhai.act.service.IUserActService;
-import com.juzhai.app.controller.view.ActUserView;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
-import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.msg.bean.ActMsg;
@@ -74,41 +68,42 @@ public class AppActController extends BaseController {
 		return "app/act/act";
 	}
 
-	@RequestMapping(value = "/ajax/pageActUser", method = RequestMethod.GET)
-	public String pageActUser(HttpServletRequest request, Model model,
-			long actId, int page) throws NeedLoginException {
-		UserContext context = checkLoginForApp(request);
-		PagerManager pager = new PagerManager(page, actUserMaxResult,
-				userActService.countUserActByActId(context.getTpId(), actId));
-		List<UserAct> userActList = userActService.listUserActByActId(
-				context.getTpId(), actId, pager.getFirstResult(),
-				pager.getMaxResult());
-		List<ActUserView> actUserViewList = assembleActUserView(
-				context.getUid(), userActList, true);
-		model.addAttribute("pager", pager);
-		model.addAttribute("act", actService.getActById(actId));
-		model.addAttribute("actUserViewList", actUserViewList);
-		model.addAttribute("pageFriend", false);
-		return "app/act/act_user_list";
-	}
+	// @RequestMapping(value = "/ajax/pageActUser", method = RequestMethod.GET)
+	// public String pageActUser(HttpServletRequest request, Model model,
+	// long actId, int page) throws NeedLoginException {
+	// UserContext context = checkLoginForApp(request);
+	// PagerManager pager = new PagerManager(page, actUserMaxResult,
+	// userActService.countUserActByActId(context.getTpId(), actId));
+	// List<UserAct> userActList = userActService.listUserActByActId(
+	// context.getTpId(), actId, pager.getFirstResult(),
+	// pager.getMaxResult());
+	// List<ActUserView> actUserViewList = assembleActUserView(
+	// context.getUid(), userActList, true);
+	// model.addAttribute("pager", pager);
+	// model.addAttribute("act", actService.getActById(actId));
+	// model.addAttribute("actUserViewList", actUserViewList);
+	// model.addAttribute("pageFriend", false);
+	// return "app/act/act_user_list";
+	// }
 
-	@RequestMapping(value = "/ajax/pageActFriend", method = RequestMethod.GET)
-	public String pageActFriend(HttpServletRequest request, Model model,
-			long actId, int page) throws NeedLoginException {
-		UserContext context = checkLoginForApp(request);
-		List<Long> friendIds = friendService.getAppFriends(context.getUid());
-		PagerManager pager = new PagerManager(page, actUserMaxResult,
-				userActService.countFriendUserActByActId(friendIds, actId));
-		List<UserAct> userActList = userActService.listFriendUserActByActId(
-				friendIds, actId, pager.getFirstResult(), pager.getMaxResult());
-		List<ActUserView> actUserViewList = assembleActUserView(
-				context.getUid(), userActList, false);
-		model.addAttribute("pager", pager);
-		model.addAttribute("act", actService.getActById(actId));
-		model.addAttribute("actUserViewList", actUserViewList);
-		model.addAttribute("pageFriend", true);
-		return "app/act/act_user_list";
-	}
+	// @RequestMapping(value = "/ajax/pageActFriend", method =
+	// RequestMethod.GET)
+	// public String pageActFriend(HttpServletRequest request, Model model,
+	// long actId, int page) throws NeedLoginException {
+	// UserContext context = checkLoginForApp(request);
+	// List<Long> friendIds = friendService.getAppFriends(context.getUid());
+	// PagerManager pager = new PagerManager(page, actUserMaxResult,
+	// userActService.countFriendUserActByActId(friendIds, actId));
+	// List<UserAct> userActList = userActService.listFriendUserActByActId(
+	// friendIds, actId, pager.getFirstResult(), pager.getMaxResult());
+	// List<ActUserView> actUserViewList = assembleActUserView(
+	// context.getUid(), userActList, false);
+	// model.addAttribute("pager", pager);
+	// model.addAttribute("act", actService.getActById(actId));
+	// model.addAttribute("actUserViewList", actUserViewList);
+	// model.addAttribute("pageFriend", true);
+	// return "app/act/act_user_list";
+	// }
 
 	@RequestMapping(value = "/ajax/inviteHer", method = RequestMethod.POST)
 	@ResponseBody
@@ -125,15 +120,15 @@ public class AppActController extends BaseController {
 		return result;
 	}
 
-	private List<ActUserView> assembleActUserView(long uid,
-			List<UserAct> userActList, boolean needJudgeFriend) {
-		List<ActUserView> actUserViewList = new ArrayList<ActUserView>();
-		for (UserAct userAct : userActList) {
-			actUserViewList.add(new ActUserView(profileService
-					.getProfileCacheByUid(userAct.getUid()), userAct
-					.getLastModifyTime(), needJudgeFriend ? friendService
-					.isAppFriend(uid, userAct.getUid()) : true));
-		}
-		return actUserViewList;
-	}
+	// private List<ActUserView> assembleActUserView(long uid,
+	// List<UserAct> userActList, boolean needJudgeFriend) {
+	// List<ActUserView> actUserViewList = new ArrayList<ActUserView>();
+	// for (UserAct userAct : userActList) {
+	// actUserViewList.add(new ActUserView(profileService
+	// .getProfileCacheByUid(userAct.getUid()), userAct
+	// .getLastModifyTime(), needJudgeFriend ? friendService
+	// .isAppFriend(uid, userAct.getUid()) : true));
+	// }
+	// return actUserViewList;
+	// }
 }

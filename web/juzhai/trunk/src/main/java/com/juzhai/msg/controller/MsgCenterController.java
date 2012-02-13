@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.juzhai.account.service.IAccountService;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.service.IActService;
-import com.juzhai.app.service.IAppService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
@@ -58,8 +57,6 @@ public class MsgCenterController extends BaseController {
 	private IAccountService accountService;
 	@Autowired
 	private ITpUserService tpUserService;
-	@Autowired
-	private IAppService appService;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
@@ -372,12 +369,12 @@ public class MsgCenterController extends BaseController {
 			if (tpUser != null) {
 				fuids.add(tpUser.getTpIdentity());
 			}
-			if (appService.aboutFriends(fuids, content, context.getUid(),
-					context.getTpId(), actId, typeWeibo, typeComment)) {
-				result.setSuccess(true);
-			} else {
-				result.setSuccess(false);
-			}
+			// if (appService.aboutFriends(fuids, content, context.getUid(),
+			// context.getTpId(), actId, typeWeibo, typeComment)) {
+			// result.setSuccess(true);
+			// } else {
+			// result.setSuccess(false);
+			// }
 		} catch (Exception e) {
 			result.setSuccess(false);
 			log.error("sendBoard is error", e);

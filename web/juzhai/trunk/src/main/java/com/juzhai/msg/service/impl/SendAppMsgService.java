@@ -11,11 +11,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.account.service.IAccountService;
-import com.juzhai.app.service.IAppService;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.msg.service.ISendAppMsgService;
-import com.juzhai.msg.task.SendSysMsgTask;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.bean.ProfileCache;
@@ -29,8 +27,6 @@ public class SendAppMsgService implements ISendAppMsgService {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
-	@Autowired
-	private IAppService appService;
 	@Autowired
 	private IAccountService accountService;
 	@Autowired
@@ -80,8 +76,8 @@ public class SendAppMsgService implements ISendAppMsgService {
 			log.error("send message find authInfo is null");
 			return;
 		}
-		taskExecutor.submit(new SendSysMsgTask(thirdparty, appService,
-				receiverIdentity, authInfo, type, actId,uid));
+		// taskExecutor.submit(new SendSysMsgTask(thirdparty, appService,
+		// receiverIdentity, authInfo, type, actId,uid));
 
 	}
 

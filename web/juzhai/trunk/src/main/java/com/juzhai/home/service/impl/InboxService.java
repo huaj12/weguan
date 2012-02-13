@@ -30,8 +30,6 @@ import com.juzhai.act.model.Act;
 import com.juzhai.act.model.Question;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IUserActService;
-import com.juzhai.app.service.IAppService;
-import com.juzhai.common.bean.TpMessageKey;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.home.bean.Feed;
@@ -39,16 +37,13 @@ import com.juzhai.home.bean.Feed.FeedType;
 import com.juzhai.home.bean.ReadFeed;
 import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.home.service.IInboxService;
-import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
-import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
-import com.juzhai.platform.service.IMessageService;
 
 @Service
 public class InboxService implements IInboxService {
@@ -79,13 +74,9 @@ public class InboxService implements IInboxService {
 	@Autowired
 	private ITpUserService tpUserService;
 	@Autowired
-	private IMessageService messageService;
-	@Autowired
 	private MessageSource messageSource;
 	@Autowired
 	private MemcachedClient memcachedClient;
-	@Autowired
-	private IAppService appService;
 	@Value("${random.feed.myAct.count}")
 	private int randomFeedMyActCount = 5;
 	@Value("${random.feed.act.count}")
@@ -369,9 +360,7 @@ public class InboxService implements IInboxService {
 	@Override
 	public void answer(long uid, long tpId, long questionId, String identity,
 			int answer, boolean isAdvise) {
-		if (!isAdvise
-				|| appService.sendQuestionMssage(uid, tpId, questionId,
-						identity, answer)) {
+		if (!isAdvise) {
 			String key = RedisKeyGenerator.genQuestionUsersKey(uid);
 			stringRedisTemplate.opsForSet().add(key, identity);
 			stringRedisTemplate.opsForSet().add(

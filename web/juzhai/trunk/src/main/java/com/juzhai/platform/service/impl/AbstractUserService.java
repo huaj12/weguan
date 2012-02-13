@@ -92,10 +92,6 @@ public abstract class AbstractUserService implements IUserService {
 		return uid;
 	}
 
-	protected boolean isInstalled(String tpName, String tpIdentity) {
-		return redisTemplate.opsForSet().isMember(
-				RedisKeyGenerator.genTpInstallUsersKey(tpName), tpIdentity);
-	}
 
 	protected abstract Profile convertToProfile(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo,

@@ -1,12 +1,12 @@
 package com.juzhai.platform.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Thirdparty;
 
 public interface IUserService {
@@ -27,27 +27,21 @@ public interface IUserService {
 			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp);
 
 	/**
-	 * 获取好友列表
+	 * 授权地址
 	 * 
-	 * @param authInfo
+	 * @param tp
+	 * @param turnTo
 	 * @return
+	 * @throws UnsupportedEncodingException
 	 */
-	public List<TpFriend> getAllFriends(AuthInfo authInfo);
-
+	String getAuthorizeURLforCode(Thirdparty tp, String turnTo)
+			throws UnsupportedEncodingException;
 	/**
-	 * 获取安装了应用的好友列表
-	 * 
+	 * 获取用户名字
 	 * @param authInfo
+	 * @param uids
 	 * @return
 	 */
-	public List<String> getAppFriends(AuthInfo authInfo);
-
-	/**
-	 * 获取安装的可能认识的
-	 * 
-	 * @param authInfo
-	 * @return
-	 */
-	public List<String> getInstallFollows(AuthInfo authInfo);
+	List<String> getUserNames(AuthInfo authInfo, List<String> fuids);
 
 }

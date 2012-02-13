@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +22,6 @@ import com.juzhai.plug.service.IInviteService;
 @RequestMapping("/plug")
 public class InviteController extends BaseController {
 	private final Log log = LogFactory.getLog(getClass());
-	@Autowired
-	private MessageSource messageSource;
 	@Autowired
 	private IInviteService inviteService;
 

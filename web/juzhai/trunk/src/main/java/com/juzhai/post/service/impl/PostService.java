@@ -96,12 +96,6 @@ public class PostService implements IPostService {
 	private int postPlaceLengthMax;
 	@Value("${post.interval.expire.time}")
 	private int postIntervalExpireTime;
-	@Value("${synchronize.content.length.max}")
-	private int synchronizeContentLengthMax;
-	@Value("${synchronize.address.length.max}")
-	private int synchronizeAddressLengthMax;
-	@Value("${synchronize.time.length.max}")
-	private int synchronizeTimeLengthMax;
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
@@ -810,22 +804,26 @@ public class PostService implements IPostService {
 
 		try {
 			if (StringUtils.isNotEmpty(time)) {
-				time = " "+messageSource.getMessage(
-						SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_TIME
-								.getName(), new Object[] { time },
-						Locale.SIMPLIFIED_CHINESE)+" ";
+				time = " "
+						+ messageSource.getMessage(
+								SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_TIME
+										.getName(), new Object[] { time },
+								Locale.SIMPLIFIED_CHINESE) + " ";
 			}
 			if (StringUtils.isNotEmpty(place)) {
-				place =" "+messageSource.getMessage(
-						SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_ADDRESS
-								.getName(), new Object[] { place },
-						Locale.SIMPLIFIED_CHINESE)+" ";
+				place = " "
+						+ messageSource
+								.getMessage(
+										SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_ADDRESS
+												.getName(),
+										new Object[] { place },
+										Locale.SIMPLIFIED_CHINESE) + " ";
 			}
 
 			String text = messageSource.getMessage(
 					SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_TEXT.getName(),
-					new Object[] { content, time==null?"":time, place, postId },
-					Locale.SIMPLIFIED_CHINESE);
+					new Object[] { content, time == null ? "" : time, place,
+							postId }, Locale.SIMPLIFIED_CHINESE);
 			byte[] image = null;
 			if (StringUtils.isNotEmpty(post.getPic())) {
 				image = postImageService.getPostFile(postId, post.getIdeaId(),

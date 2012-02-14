@@ -30,7 +30,7 @@
 										<li>
 											<p><img src="${jzr:userLogo(view.profileCache.uid, view.profileCache.logoPic, 120)}" width="120" height="120"/></p>
 											<span><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.postWindow.purposeType}" /></c:import>: </span>
-											<em>一个拒宅第一个拒访问第一个拒宅第一个拒宅第一个拒宅第一个拒宅第一个拒宅份额<%-- <c:out value="${jzu:truncate(view.postWindow.content, 74, '...')}" /> --%></em>
+											<em><c:out value="${jzu:truncate(view.postWindow.content, 74, '...')}" /></em>
 										</li>
 									</c:forEach>
 								</ul>

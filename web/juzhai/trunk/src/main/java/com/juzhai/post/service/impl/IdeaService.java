@@ -144,8 +144,11 @@ public class IdeaService implements IIdeaService {
 		idea.setLastModifyTime(new Date());
 		idea.setLink(ideaForm.getLink());
 		idea.setPlace(ideaForm.getPlace());
-		if(ideaForm.getGender()!=null){
+		if (ideaForm.getGender() != null) {
 			idea.setGender(ideaForm.getGender());
+		}
+		if (ideaForm.getCategoryId() != null) {
+			idea.setCategoryId(ideaForm.getCategoryId());
 		}
 
 		ideaMapper.insertSelective(idea);
@@ -185,8 +188,11 @@ public class IdeaService implements IIdeaService {
 		idea.setLastModifyTime(new Date());
 		idea.setLink(ideaForm.getLink());
 		idea.setPlace(ideaForm.getPlace());
-		if(ideaForm.getGender()!=null){
+		if (ideaForm.getGender() != null) {
 			idea.setGender(ideaForm.getGender());
+		}
+		if (ideaForm.getCategoryId() != null) {
+			idea.setCategoryId(ideaForm.getCategoryId());
 		}
 		Long ideaId = ideaForm.getIdeaId();
 		idea.setId(ideaId);

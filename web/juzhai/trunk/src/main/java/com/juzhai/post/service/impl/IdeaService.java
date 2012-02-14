@@ -144,6 +144,9 @@ public class IdeaService implements IIdeaService {
 		idea.setLastModifyTime(new Date());
 		idea.setLink(ideaForm.getLink());
 		idea.setPlace(ideaForm.getPlace());
+		if(ideaForm.getGender()!=null){
+			idea.setGender(ideaForm.getGender());
+		}
 
 		ideaMapper.insertSelective(idea);
 
@@ -182,6 +185,9 @@ public class IdeaService implements IIdeaService {
 		idea.setLastModifyTime(new Date());
 		idea.setLink(ideaForm.getLink());
 		idea.setPlace(ideaForm.getPlace());
+		if(ideaForm.getGender()!=null){
+			idea.setGender(ideaForm.getGender());
+		}
 		Long ideaId = ideaForm.getIdeaId();
 		idea.setId(ideaId);
 		String fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(),

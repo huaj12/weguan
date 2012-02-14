@@ -16,26 +16,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.juzhai.cms.controller.view.CmsPostWindowView;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
-import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.pager.PagerManager;
-import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.bean.ShowActOrder;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.index.controller.view.IdeaView;
+import com.juzhai.index.controller.view.PostWindowView;
 import com.juzhai.index.controller.view.QueryUserView;
-import com.juzhai.notice.service.INoticeService;
-import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
-import com.juzhai.platform.exception.AdminException;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.PostWindow;
 import com.juzhai.post.service.IIdeaService;
@@ -76,22 +71,20 @@ public class NewIndexController extends BaseController {
 		if (context.hasLogin()) {
 			return "redirect:/home";
 		} else {
-			return showIdeas(request, model);
+			return welcome(request, model);
 		}
 	}
-	@RequestMapping(value = {"/welcome" }, method = RequestMethod.GET)
-	public String welcome( Model model){
+
+	@RequestMapping(value = { "/welcome" }, method = RequestMethod.GET)
+	public String welcome(HttpServletRequest request, Model model) {
 		List<PostWindow> list = postWindowService.listPostWindow();
-		List<CmsPostWindowView> postWindowViews = new ArrayList<CmsPostWindowView>();
+		List<PostWindowView> postWindowViews = new ArrayList<PostWindowView>();
 		for (PostWindow window : list) {
-			ProfileCache cache = profileService.getProfileCacheByUid(window
-					.getUid());
-			String userLogo = null;
-			if (cache != null) {
-				userLogo = JzResourceFunction.userLogo(cache.getUid(),
-						cache.getLogoPic(), LogoSizeType.MIDDLE.getType());
-			}
-			postWindowViews.add(new CmsPostWindowView(window, userLogo));
+			PostWindowView view = new PostWindowView();
+			view.setPostWindow(window);
+			view.setProfileCache(profileService.getProfileCacheByUid(window
+					.getUid()));
+			postWindowViews.add(view);
 		}
 		model.addAttribute("postWindowViews", postWindowViews);
 		return "web/index/welcome";

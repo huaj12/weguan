@@ -154,12 +154,12 @@ function tableSort(){
 		</tr>
 		<c:forEach var="view" items="${postWindowViews}" varStatus="c">
 			<tr>
-				<td><img src="${view.userLogo}"  width="70" height="70">
+				<td><img src="${jzr:userLogo(view.profileCache.uid, view.profileCache.logoPic, 80)}"  width="70" height="70" />
 				</td>
 				<td><c:import
 						url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp">
 						<c:param name="purposeType" value="${view.postWindow.purposeType}" />
-					</c:import>:${view.postWindow.content}</td>
+					</c:import>:<c:out value="${view.postWindow.content}" /></td>
 				<td>
 				<input type="hidden" value="${view.postWindow.id}" name="postWindowSortForm[${c.index }].id" />
 				<input type="hidden" id="sequence_${c.index }" name="postWindowSortForm[${c.index}].sequence" value="${view.postWindow.sequence}"/>

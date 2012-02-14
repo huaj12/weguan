@@ -16,23 +16,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.juzhai.cms.controller.view.CmsPostWindowView;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.pager.PagerManager;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.bean.ShowActOrder;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.index.controller.view.QueryUserView;
+import com.juzhai.notice.service.INoticeService;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
+import com.juzhai.platform.exception.AdminException;
 import com.juzhai.post.model.Idea;
+import com.juzhai.post.model.PostWindow;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.post.service.IPostWindowService;
 
 @Controller
 public class NewIndexController extends BaseController {
@@ -59,6 +67,8 @@ public class NewIndexController extends BaseController {
 	private int queryUsersRightUserRows;
 	@Value("${web.show.ideas.ad.count}")
 	private int webShowIdeasAdCount;
+	@Autowired
+	private IPostWindowService postWindowService;
 
 	@RequestMapping(value = { "", "/", "/index" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
@@ -68,6 +78,23 @@ public class NewIndexController extends BaseController {
 		} else {
 			return showIdeas(request, model);
 		}
+	}
+	@RequestMapping(value = {"/welcome" }, method = RequestMethod.GET)
+	public String welcome( Model model){
+		List<PostWindow> list = postWindowService.listPostWindow();
+		List<CmsPostWindowView> postWindowViews = new ArrayList<CmsPostWindowView>();
+		for (PostWindow window : list) {
+			ProfileCache cache = profileService.getProfileCacheByUid(window
+					.getUid());
+			String userLogo = null;
+			if (cache != null) {
+				userLogo = JzResourceFunction.userLogo(cache.getUid(),
+						cache.getLogoPic(), LogoSizeType.MIDDLE.getType());
+			}
+			postWindowViews.add(new CmsPostWindowView(window, userLogo));
+		}
+		model.addAttribute("postWindowViews", postWindowViews);
+		return "web/index/welcome";
 	}
 
 	@RequestMapping(value = "/showIdeas", method = RequestMethod.GET)

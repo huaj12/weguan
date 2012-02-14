@@ -1,6 +1,9 @@
 var step=0;
 var length=5;
 var all=$("#all").val();
+$("div.welcome_login > a").bind("click", function(){
+	showLogin(window.location.href);
+});
 $(document).ready(function(){
 	$("div.arrow_left > a").bind("click", function(){
 		if(step>0){

@@ -267,7 +267,7 @@ public class TpAuthorizeController extends BaseController {
 			return "404";
 		}
 		String url = userService.getAuthorizeURLforCode(tp,
-				URLEncoder.encode(turnTo, Constants.UTF8));
+				turnTo==null?"":URLEncoder.encode(turnTo, Constants.UTF8));
 		if (StringUtils.isEmpty(url)) {
 			return "404";
 		}

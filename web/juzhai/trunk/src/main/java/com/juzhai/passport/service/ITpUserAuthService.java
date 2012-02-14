@@ -6,6 +6,7 @@ package com.juzhai.passport.service;
 import javax.servlet.http.HttpServletRequest;
 
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.ThirdpartyNameEnum;
 
 public interface ITpUserAuthService {
 
@@ -42,4 +43,12 @@ public interface ITpUserAuthService {
 	 * @param authInfo
 	 */
 	void saveAuthInfoToSession(HttpServletRequest request, AuthInfo authInfo);
+
+	/**
+	 * 获取小秘书的authinfo
+	 * 
+	 * @param tpName
+	 * @return
+	 */
+	AuthInfo getSecretary(String tpName);
 }

@@ -17,7 +17,6 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.bean.UserStatus;
-import com.juzhai.platform.service.IAdminService;
 import com.juzhai.platform.service.ISynchronizeService;
 
 @Service
@@ -35,8 +34,6 @@ public class UserStatusService implements IUserStatusService {
 	private ITpUserService tpUserService;
 	@Autowired
 	private ISynchronizeService synchronizeService;
-	@Autowired
-	private IAdminService adminService;
 
 	@Override
 	public List<UserStatus> listUserStatus(long uid, long tpId, long fuid) {

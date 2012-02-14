@@ -109,7 +109,7 @@
 												</c:forEach>
 											</c:when>
 											<c:otherwise>
-												无内容
+												<div class="none">这里还没有内容</div>
 											</c:otherwise>
 										</c:choose>
 									</div><!--good_idea end-->

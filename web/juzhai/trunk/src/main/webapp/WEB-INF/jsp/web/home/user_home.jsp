@@ -22,7 +22,7 @@
 								<div class="my_index"><!--my_index begin-->
 									<div class="title"><!--title begin-->
 										<div class="category"><!--category begin-->
-											<span class="act"><p></p><a href="javascript:void(0);">ta的拒宅</a><p></p></span>
+											<span><p></p><a href="javascript:void(0);">ta的拒宅</a><p></p></span>
 										</div><!--category end-->
 									</div><!--title end-->
 									<div class="my_jz"><!--my_jz begin-->

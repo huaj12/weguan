@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.juzhai.act.model.Category;
 import com.juzhai.cms.controller.form.AddIdeaForm;
 import com.juzhai.cms.controller.form.IdeaForm;
 import com.juzhai.cms.controller.view.CmsIdeaView;
@@ -50,14 +51,19 @@ public class CmsIdeaController {
 				pager.getMaxResult());
 		List<CmsIdeaView> ideaViews = new ArrayList<CmsIdeaView>();
 		for (Idea idea : list) {
-
 			ProfileCache cache = profileService.getProfileCacheByUid(idea
 					.getFirstUid());
 			String username = null;
 			if (cache != null) {
 				username = cache.getNickname();
 			}
-			ideaViews.add(new CmsIdeaView(idea, username));
+			Category cat = com.juzhai.post.InitData.CATEGORY_MAP.get(idea
+					.getCategoryId());
+			String categoryName = null;
+			if (cat != null) {
+				categoryName = cat.getName();
+			}
+			ideaViews.add(new CmsIdeaView(idea, username, categoryName));
 		}
 		model.addAttribute("ideaViews", ideaViews);
 		model.addAttribute("pager", pager);
@@ -69,6 +75,8 @@ public class CmsIdeaController {
 		model.addAttribute("addIdeaForm", addIdeaForm);
 		model.addAttribute("msg", msg);
 		model.addAttribute("citys", InitData.CITY_MAP.values());
+		model.addAttribute("categoryList",
+				com.juzhai.post.InitData.CATEGORY_MAP.values());
 		return "/cms/idea/add";
 	}
 
@@ -79,6 +87,8 @@ public class CmsIdeaController {
 			model.addAttribute("idea", idea);
 			model.addAttribute("msg", msg);
 			model.addAttribute("citys", InitData.CITY_MAP.values());
+			model.addAttribute("categoryList",
+					com.juzhai.post.InitData.CATEGORY_MAP.values());
 		}
 		return "/cms/idea/update";
 	}

@@ -18,8 +18,16 @@ public class IdeaForm {
 	private String contentMd5;
 	private Long createUid;
 	private Integer gender;
+	private Long categoryId;
 
-	
+	public Long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
+	}
+
 	public Integer getGender() {
 		return gender;
 	}

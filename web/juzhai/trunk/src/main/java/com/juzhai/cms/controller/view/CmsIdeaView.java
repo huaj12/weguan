@@ -7,10 +7,20 @@ public class CmsIdeaView {
 
 	private String userName;
 
+	private String categoryName;
 
-	public CmsIdeaView(Idea idea, String userName) {
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public CmsIdeaView(Idea idea, String userName, String categoryName) {
 		this.idea = idea;
 		this.userName = userName;
+		this.categoryName = categoryName;
 	}
 
 	public Idea getIdea() {
@@ -28,6 +38,5 @@ public class CmsIdeaView {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
 
 }

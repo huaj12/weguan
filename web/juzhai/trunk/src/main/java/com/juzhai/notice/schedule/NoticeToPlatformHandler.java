@@ -1,44 +1,37 @@
 package com.juzhai.notice.schedule;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
 import com.juzhai.platform.exception.AdminException;
-import com.juzhai.platform.service.ISynchronizeService;
 
 @Component
-public class NoticeUnreadMessageHandler extends AbstractScheduleHandler {
+public class NoticeToPlatformHandler extends AbstractScheduleHandler {
 	@Autowired
 	private INoticeService noticeService;
-	@Autowired
-	private RedisTemplate<String, Long> redisTemplate;
 
 	@Override
 	protected void doHandle() {
-		List<Long> uids = new ArrayList<Long>();
-		for (long uid : uids) {
-			int num = 0;
-			for (NoticeType noticeType : NoticeType.values()){
-				num += redisTemplate.opsForValue().get(
-						RedisKeyGenerator.genUserNoticeNumKey(uid, noticeType));
+		while (true) {
+			List<Long> uids = noticeService.getNoticUserList(200);
+			if (CollectionUtils.isEmpty(uids)) {
+				return;
 			}
-			if(num>0){
+			for (long uid : uids) {
+				long num = noticeService.getNoticeNum(uid, NoticeType.DIALOG);
 				try {
 					noticeService.noticeUserUnReadNum(uid, num);
 				} catch (AdminException e) {
-					return ;
+					return;
 				}
+				noticeService.removeFromNoticeUsers(uid);
 			}
 		}
-
 	}
-
 }

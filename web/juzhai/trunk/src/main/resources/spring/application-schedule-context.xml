@@ -180,14 +180,14 @@
 	</bean>
 	<!-- update show act end -->
 	
-	<!-- notice unread msg begin -->
-	<bean id="noticeUnreadMessageTrigger" parent="abstractCronTrigger">
+	<!-- notice to platform begin -->
+	<bean id="noticeToPlatformTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="noticeUnreadMessageHandler" />
+				<property name="targetObject" ref="noticeToPlatformHandler" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="${notice.unread.msg.cron}" />
+		<property name="cronExpression" value="${notice.to.platform.cron}" />
 	</bean>
 	<!-- notice unread msg end -->
 	
@@ -210,7 +210,7 @@
 				<ref bean="deleteExpiredAdTrigger"/>
 				<ref bean="deleteExpiredRawAdTrigger"/>
 				<ref bean="updateShowCategoriesTrigger"/>
-				<ref bean="noticeUnreadMessageTrigger"/>
+				<ref bean="noticeToPlatformTrigger"/>
 				<!-- <ref bean="noticeEmailTrigger"/> -->
 			</list>
 		</property>

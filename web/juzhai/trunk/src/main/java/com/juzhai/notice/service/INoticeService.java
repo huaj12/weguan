@@ -1,9 +1,9 @@
 package com.juzhai.notice.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.juzhai.notice.bean.NoticeType;
-import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.platform.exception.AdminException;
 
 public interface INoticeService {
@@ -43,11 +43,27 @@ public interface INoticeService {
 	Long getNoticeNum(long uid, NoticeType noticeType);
 
 	/**
+	 * 获取前N个需要被通知的人
+	 * 
+	 * @param count
+	 * @return
+	 */
+	List<Long> getNoticUserList(int count);
+
+	/**
+	 * 从通知人列表里移除用户
+	 * 
+	 * @param uid
+	 */
+	void removeFromNoticeUsers(long uid);
+
+	/**
 	 * 通知用户未读消息数
 	 * 
 	 * @param uid
 	 * @param tpId
 	 * @return
 	 */
-	void noticeUserUnReadNum(long receiver, int num) throws AdminException;
+	void noticeUserUnReadNum(long receiver, long num) throws AdminException;
+
 }

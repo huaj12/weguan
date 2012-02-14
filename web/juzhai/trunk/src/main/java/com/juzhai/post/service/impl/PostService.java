@@ -562,7 +562,8 @@ public class PostService implements IPostService {
 			int firstResult, int maxResults) {
 		PostExample example = new PostExample();
 		PostExample.Criteria c = example.createCriteria()
-				.andCreateUidNotEqualTo(uid).andVerifyTypeNotEqualTo(2)
+				.andCreateUidNotEqualTo(uid)
+				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
 				.andDefunctEqualTo(false);
 		if (null != cityId && cityId > 0) {
 			c.andUserCityEqualTo(cityId);
@@ -579,7 +580,8 @@ public class PostService implements IPostService {
 	public int countNewestPost(long uid, Long cityId, Integer gender) {
 		PostExample example = new PostExample();
 		PostExample.Criteria c = example.createCriteria()
-				.andCreateUidNotEqualTo(uid).andVerifyTypeNotEqualTo(2)
+				.andCreateUidNotEqualTo(uid)
+				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
 				.andDefunctEqualTo(false);
 		if (null != cityId && cityId > 0) {
 			c.andUserCityEqualTo(cityId);
@@ -599,7 +601,8 @@ public class PostService implements IPostService {
 		}
 		PostExample example = new PostExample();
 		PostExample.Criteria c = example.createCriteria().andIdIn(postIds)
-				.andVerifyTypeNotEqualTo(2).andDefunctEqualTo(false);
+				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
+				.andDefunctEqualTo(false);
 		if (null != cityId && cityId > 0) {
 			c.andUserCityEqualTo(cityId);
 		}
@@ -619,7 +622,8 @@ public class PostService implements IPostService {
 		}
 		PostExample example = new PostExample();
 		PostExample.Criteria c = example.createCriteria().andIdIn(postIds)
-				.andVerifyTypeNotEqualTo(2).andDefunctEqualTo(false);
+				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
+				.andDefunctEqualTo(false);
 		if (null != cityId && cityId > 0) {
 			c.andUserCityEqualTo(cityId);
 		}
@@ -638,7 +642,8 @@ public class PostService implements IPostService {
 		}
 		PostExample example = new PostExample();
 		PostExample.Criteria c = example.createCriteria().andCreateUidIn(uids)
-				.andVerifyTypeNotEqualTo(2).andDefunctEqualTo(false);
+				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
+				.andDefunctEqualTo(false);
 		if (null != cityId && cityId > 0) {
 			c.andUserCityEqualTo(cityId);
 		}
@@ -658,7 +663,8 @@ public class PostService implements IPostService {
 		}
 		PostExample example = new PostExample();
 		PostExample.Criteria c = example.createCriteria().andCreateUidIn(uids)
-				.andVerifyTypeNotEqualTo(2).andDefunctEqualTo(false);
+				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
+				.andDefunctEqualTo(false);
 		if (null != cityId && cityId > 0) {
 			c.andUserCityEqualTo(cityId);
 		}

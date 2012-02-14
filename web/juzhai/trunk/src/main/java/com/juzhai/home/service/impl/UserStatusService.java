@@ -2,10 +2,8 @@ package com.juzhai.home.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 import net.rubyeye.xmemcached.MemcachedClient;
-import net.rubyeye.xmemcached.exception.MemcachedException;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.home.service.IUserStatusService;
-import com.juzhai.notice.NoticeConfig;
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
@@ -60,34 +56,7 @@ public class UserStatusService implements IUserStatusService {
 		}
 		TpUser user = tpUserService.getTpUserByUid(uid);
 		if (user == null || !user.getTpName().equals(fUser.getTpName())) {
-			// 来访者和被访者不是同一个tpid
-			// 获取小秘书的authinfo
-
-			List<Long> tagerUids = NoticeConfig
-					.getValue(ThirdpartyNameEnum.getThirdpartyNameEnum(fUser
-							.getTpName()), "uid");
-
-			List<Long> tagerTpIds = NoticeConfig
-					.getValue(ThirdpartyNameEnum.getThirdpartyNameEnum(fUser
-							.getTpName()), "tpId");
-
-			if (CollectionUtils.isEmpty(tagerTpIds)
-					|| CollectionUtils.isEmpty(tagerUids)) {
-				return null;
-			}
-			long tagerUid = 0;
-			long tagerTpId = 0;
-			for (Long tUid : tagerUids) {
-				if (adminService.isAllocation(tUid, tagerTpIds.get(0))) {
-					tagerUid = tUid;
-					tagerTpId = tagerTpIds.get(0);
-					break;
-				}
-			}
-			if (0 == tagerUid || 0 == tagerTpId) {
-				return null;
-			}
-			authInfo = tpUserAuthService.getAuthInfo(tagerUid, tagerTpId);
+			authInfo = tpUserAuthService.getSecretary(fUser.getTpName());
 		} else {
 			authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
 		}

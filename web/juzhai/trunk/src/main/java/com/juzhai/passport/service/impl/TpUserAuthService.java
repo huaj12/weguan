@@ -21,11 +21,14 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.web.util.HttpRequestUtil;
+import com.juzhai.notice.NoticeConfig;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.mapper.TpUserAuthMapper;
 import com.juzhai.passport.model.TpUserAuth;
 import com.juzhai.passport.model.TpUserAuthExample;
 import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.platform.service.IAdminService;
 
 @Service
 public class TpUserAuthService implements ITpUserAuthService {
@@ -40,6 +43,8 @@ public class TpUserAuthService implements ITpUserAuthService {
 	private MemcachedClient memcachedClient;
 	@Value("${authInfo.cache.expire.time}")
 	private int authInfoCacheExpireTime;
+	@Autowired
+	private IAdminService adminService;
 
 	@Override
 	public void updateTpUserAuth(long uid, long tpId, AuthInfo authInfo) {
@@ -126,6 +131,32 @@ public class TpUserAuthService implements ITpUserAuthService {
 			AuthInfo authInfo) {
 		HttpRequestUtil.setSessionAttribute(request, SESSION_AUTHINFO_NAME,
 				authInfo);
+	}
+
+	@Override
+	public AuthInfo getSecretary(String tpName) {
+		// TODO (done) 获取有配额的小秘书，是不是应该在AdminService里封装呢？获取微博的地方就需要用到一样的代码
+		List<Long> tagerUids = NoticeConfig.getValue(
+				ThirdpartyNameEnum.getThirdpartyNameEnum(tpName), "uid");
+		List<Long> tagerTpIds = NoticeConfig.getValue(
+				ThirdpartyNameEnum.getThirdpartyNameEnum(tpName), "tpId");
+		if (CollectionUtils.isEmpty(tagerTpIds)
+				|| CollectionUtils.isEmpty(tagerUids)) {
+			return null;
+		}
+		AuthInfo authInfo = null;
+		for (Long tUid : tagerUids) {
+			// TODO (none)
+			// 是不是应该参数用AuthInfo？或者isAllocation返回AuthInfo？因为下面又从库搜了一次authInfo
+			authInfo = getAuthInfo(tUid, tagerTpIds.get(0));
+			if (adminService.isAllocation(authInfo)) {
+				break;
+			} else {
+				authInfo = null;
+			}
+		}
+		// TODO (none) 这里判断不适合了吧
+		return authInfo;
 	}
 
 }

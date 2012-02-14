@@ -180,6 +180,19 @@
 	</bean>
 	<!-- update show act end -->
 	
+	<!-- notice unread msg begin -->
+	<bean id="noticeUnreadMessageTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="noticeUnreadMessageHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${notice.unread.msg.cron}" />
+	</bean>
+	<!-- notice unread msg end -->
+	
+	
+	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
@@ -197,6 +210,7 @@
 				<ref bean="deleteExpiredAdTrigger"/>
 				<ref bean="deleteExpiredRawAdTrigger"/>
 				<ref bean="updateShowCategoriesTrigger"/>
+				<ref bean="noticeUnreadMessageTrigger"/>
 				<!-- <ref bean="noticeEmailTrigger"/> -->
 			</list>
 		</property>

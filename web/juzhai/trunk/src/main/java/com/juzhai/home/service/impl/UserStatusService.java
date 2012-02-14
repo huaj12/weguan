@@ -21,6 +21,7 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.bean.UserStatus;
+import com.juzhai.platform.service.IAdminService;
 import com.juzhai.platform.service.ISynchronizeService;
 
 @Service
@@ -38,6 +39,8 @@ public class UserStatusService implements IUserStatusService {
 	private ITpUserService tpUserService;
 	@Autowired
 	private ISynchronizeService synchronizeService;
+	@Autowired
+	private IAdminService adminService;
 
 	@Override
 	public List<UserStatus> listUserStatus(long uid, long tpId, long fuid) {
@@ -59,18 +62,38 @@ public class UserStatusService implements IUserStatusService {
 		if (user == null || !user.getTpName().equals(fUser.getTpName())) {
 			// 来访者和被访者不是同一个tpid
 			// 获取小秘书的authinfo
-			Long tagerUid = NoticeConfig
+
+			List<Long> tagerUids = NoticeConfig
 					.getValue(ThirdpartyNameEnum.getThirdpartyNameEnum(fUser
 							.getTpName()), "uid");
-			Long tagerTpId = NoticeConfig
+
+			List<Long> tagerTpIds = NoticeConfig
 					.getValue(ThirdpartyNameEnum.getThirdpartyNameEnum(fUser
 							.getTpName()), "tpId");
-			if (null == tagerUid || null == tagerTpId) {
+
+			if (CollectionUtils.isEmpty(tagerTpIds)
+					|| CollectionUtils.isEmpty(tagerUids)) {
+				return null;
+			}
+			long tagerUid = 0;
+			long tagerTpId = 0;
+			for (Long tUid : tagerUids) {
+				if (adminService.isAllocation(tUid, tagerTpIds.get(0))) {
+					tagerUid = tUid;
+					tagerTpId = tagerTpIds.get(0);
+					break;
+				}
+			}
+			if (0 == tagerUid || 0 == tagerTpId) {
 				return null;
 			}
 			authInfo = tpUserAuthService.getAuthInfo(tagerUid, tagerTpId);
 		} else {
 			authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		}
+
+		if (authInfo == null) {
+			return null;
 		}
 		userStatusList = synchronizeService.listStatus(authInfo, fuid,
 				userStatusSize);

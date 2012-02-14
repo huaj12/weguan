@@ -1,9 +1,11 @@
 package com.juzhai.notice.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -71,17 +73,29 @@ public class NoticeService implements INoticeService {
 			throws AdminException {
 		TpUser user = tpUserService.getTpUserByUid(receiver);
 
-		long uid = NoticeConfig.getValue(
-				ThirdpartyNameEnum.valueOf(user.getTpName()), "uid");
-		long tpId = NoticeConfig.getValue(
-				ThirdpartyNameEnum.valueOf(user.getTpName()), "tpId");
-		if (!adminService.isAllocation(uid, tpId)) {
-			// 超过配额
+		List<Long> tagerUids = NoticeConfig.getValue(
+				ThirdpartyNameEnum.getThirdpartyNameEnum(user.getTpName()),
+				"uid");
+		List<Long> tagerTpIds = NoticeConfig.getValue(
+				ThirdpartyNameEnum.getThirdpartyNameEnum(user.getTpName()),
+				"tpId");
+		if (CollectionUtils.isEmpty(tagerTpIds)
+				|| CollectionUtils.isEmpty(tagerUids)) {
+			return;
+		}
+		long uid = 0;
+		long tpId = 0;
+		for (Long tUid : tagerUids) {
+			if (adminService.isAllocation(tUid, tagerTpIds.get(0))) {
+				uid = tUid;
+				tpId = tagerTpIds.get(0);
+				break;
+			}
+		}
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		if (authInfo == null) {
 			throw new AdminException(AdminException.ADMIN_API_EXCEED_LIMIT);
 		}
-
-		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
-
 		String fuid = user.getTpIdentity();
 		String[] fuids = new String[] { fuid };
 		String text = messageSource.getMessage(

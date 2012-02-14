@@ -23,7 +23,12 @@
 			<c:forEach var="c" items="${citys}">
 				<option <c:if test="${idea.city==c.id}"> selected="selected"</c:if> value="${c.id }">${c.name}</option>
 			</c:forEach>	
-			</select></td>
+			</select>
+			<select name="gender">
+				<option <c:if test="${idea.gender==1}"> selected="selected"</c:if> value="1">男</option>
+				<option <c:if test="${idea.gender==0}"> selected="selected"</c:if> value="0">女</option>
+			</select>
+			</td>
 		</tr>
 		<tr>
 			<td>

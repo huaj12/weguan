@@ -377,4 +377,13 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genIdeaUsersKey(long ideaId) {
 		return genKey(ideaId, "ideaUsers");
 	}
+
+	/**
+	 * 需要被通知的人列表
+	 * 
+	 * @return
+	 */
+	public static String genNoticeUsersKey() {
+		return "noticeUserList";
+	}
 }

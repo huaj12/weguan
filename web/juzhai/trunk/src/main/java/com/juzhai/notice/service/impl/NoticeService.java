@@ -1,14 +1,18 @@
 package com.juzhai.notice.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
@@ -43,14 +47,22 @@ public class NoticeService implements INoticeService {
 
 	@Override
 	public long incrNotice(long uid, NoticeType noticeType) {
-		return redisTemplate.opsForValue().increment(
+		long value = redisTemplate.opsForValue().increment(
 				RedisKeyGenerator.genUserNoticeNumKey(uid, noticeType), 1);
+		if (value > 0) {
+			redisTemplate.opsForZSet().add(
+					RedisKeyGenerator.genNoticeUsersKey(), uid,
+					System.currentTimeMillis());
+		}
+		return value;
 	}
 
 	@Override
 	public void emptyNotice(long uid, NoticeType noticeType) {
 		redisTemplate.delete(RedisKeyGenerator.genUserNoticeNumKey(uid,
 				noticeType));
+		redisTemplate.opsForZSet().remove(
+				RedisKeyGenerator.genNoticeUsersKey(), uid);
 	}
 
 	@Override
@@ -69,10 +81,11 @@ public class NoticeService implements INoticeService {
 	}
 
 	@Override
-	public void noticeUserUnReadNum(long receiver, int num)
+	public void noticeUserUnReadNum(long receiver, long num)
 			throws AdminException {
 		TpUser user = tpUserService.getTpUserByUid(receiver);
 
+		// TODO (review) 获取有配额的小秘书，是不是应该在AdminService里封装呢？获取微博的地方就需要用到一样的代码
 		List<Long> tagerUids = NoticeConfig.getValue(
 				ThirdpartyNameEnum.getThirdpartyNameEnum(user.getTpName()),
 				"uid");
@@ -86,6 +99,7 @@ public class NoticeService implements INoticeService {
 		long uid = 0;
 		long tpId = 0;
 		for (Long tUid : tagerUids) {
+			// TODO (review) 是不是应该参数用AuthInfo？或者isAllocation返回AuthInfo？因为下面又从库搜了一次authInfo
 			if (adminService.isAllocation(tUid, tagerTpIds.get(0))) {
 				uid = tUid;
 				tpId = tagerTpIds.get(0);
@@ -93,6 +107,7 @@ public class NoticeService implements INoticeService {
 			}
 		}
 		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		// TODO (review) 这里判断不适合了吧
 		if (authInfo == null) {
 			throw new AdminException(AdminException.ADMIN_API_EXCEED_LIMIT);
 		}
@@ -102,6 +117,26 @@ public class NoticeService implements INoticeService {
 				NoticeUserTemplate.NOTICE_USER_TEXT_DEFAULT.getName(),
 				new Object[] { num }, Locale.SIMPLIFIED_CHINESE);
 		synchronizeService.notifyMessage(authInfo, fuids, text);
+	}
 
+	@Override
+	public List<Long> getNoticUserList(int count) {
+		Set<TypedTuple<Long>> users = redisTemplate.opsForZSet()
+				.rangeWithScores(RedisKeyGenerator.genNoticeUsersKey(), 0,
+						count - 1);
+		if (CollectionUtils.isEmpty(users)) {
+			return Collections.emptyList();
+		}
+		List<Long> userIdList = new ArrayList<Long>(users.size());
+		for (TypedTuple<Long> user : users) {
+			userIdList.add(user.getValue());
+		}
+		return userIdList;
+	}
+
+	@Override
+	public void removeFromNoticeUsers(long uid) {
+		redisTemplate.opsForZSet().remove(
+				RedisKeyGenerator.genNoticeUsersKey(), uid);
 	}
 }

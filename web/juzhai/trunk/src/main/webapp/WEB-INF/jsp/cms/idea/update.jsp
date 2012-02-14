@@ -24,9 +24,15 @@
 				<option <c:if test="${idea.city==c.id}"> selected="selected"</c:if> value="${c.id }">${c.name}</option>
 			</c:forEach>	
 			</select>
-			<select name="gender">
+			性别:<select name="gender">
 				<option <c:if test="${idea.gender==1}"> selected="selected"</c:if> value="1">男</option>
 				<option <c:if test="${idea.gender==0}"> selected="selected"</c:if> value="0">女</option>
+			</select>
+			类别:<select name="categoryId">
+				<option <c:if test="${idea.categoryId==0}"> selected="selected"</c:if> value="0">不限</option>
+				<c:forEach items="${categoryList}" var="cat">
+					<option <c:if test="${cat.id==idea.categoryId}"> selected="selected"</c:if> value="${cat.id}">${cat.name}</option>
+				</c:forEach>
 			</select>
 			</td>
 		</tr>

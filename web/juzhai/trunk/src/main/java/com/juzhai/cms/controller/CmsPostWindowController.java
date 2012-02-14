@@ -3,7 +3,6 @@ package com.juzhai.cms.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jdt.internal.compiler.ast.ArrayAllocationExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -13,13 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.juzhai.cms.controller.form.PostWindowSortForm;
 import com.juzhai.cms.controller.form.PostWindowSortListForm;
-import com.juzhai.cms.controller.view.CmsPostWindowView;
-import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.web.AjaxResult;
-import com.juzhai.core.web.jstl.JzResourceFunction;
-import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.index.controller.view.PostWindowView;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.exception.InputPostWindowException;
@@ -39,16 +34,13 @@ public class CmsPostWindowController {
 	@RequestMapping(value = "/show/postwindow/list", method = RequestMethod.GET)
 	public String showPostWindowList(Model model) {
 		List<PostWindow> list = postWindowService.listPostWindow();
-		List<CmsPostWindowView> postWindowViews = new ArrayList<CmsPostWindowView>();
+		List<PostWindowView> postWindowViews = new ArrayList<PostWindowView>();
 		for (PostWindow window : list) {
-			ProfileCache cache = profileService.getProfileCacheByUid(window
-					.getUid());
-			String userLogo = null;
-			if (cache != null) {
-				userLogo = JzResourceFunction.userLogo(cache.getUid(),
-						cache.getLogoPic(), LogoSizeType.MIDDLE.getType());
-			}
-			postWindowViews.add(new CmsPostWindowView(window, userLogo));
+			PostWindowView view = new PostWindowView();
+			view.setPostWindow(window);
+			view.setProfileCache(profileService.getProfileCacheByUid(window
+					.getUid()));
+			postWindowViews.add(view);
 		}
 		model.addAttribute("postWindowViews", postWindowViews);
 		return "/cms/postwindow/list";
@@ -66,9 +58,10 @@ public class CmsPostWindowController {
 		}
 		return ajaxResult;
 	}
+
 	@RequestMapping(value = "/del/postwindow", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult delPostWindow(@RequestParam(defaultValue = "0") long id){
+	public AjaxResult delPostWindow(@RequestParam(defaultValue = "0") long id) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
 			postWindowService.removePostWindow(id);
@@ -77,10 +70,9 @@ public class CmsPostWindowController {
 		}
 		return ajaxResult;
 	}
-	
-	
+
 	@RequestMapping(value = "/sort/postwindow", method = RequestMethod.POST)
-	public String sortPostWindow(PostWindowSortListForm form){
+	public String sortPostWindow(PostWindowSortListForm form) {
 		postWindowService.sortPostWindow(form.getPostWindowSortForm());
 		return "redirect:/cms/show/postwindow/list";
 	}

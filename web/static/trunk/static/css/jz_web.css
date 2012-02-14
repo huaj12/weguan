@@ -1556,7 +1556,7 @@ i{ color:#FF0000; font-style:normal;}
 .welcome .welcome_m{ background:url(../images/web2/welcome_con_r3_c1.jpg) repeat-y; width:100%; height:412px; overflow:hidden; position:relative; padding-bottom:30px; float:left;}
 
 .welcome .welcome_m h2{ width:100%; height:auto; color:#438DD9; text-align:center; font-size:24px; font-family:"微软雅黑"; margin-top:50px; line-height:normal;}
-.welcome .welcome_m ul{ width:100px; margin:0 auto; width:750px; margin-top:60px;}
+.welcome .welcome_m ul{ margin:0 auto; /* width:750px; */ margin-top:60px;}
 .welcome .welcome_m ul li{ float:left; width:120px; height:auto; margin-left:15px; margin-right:15px; overflow:hidden; display:inline;}
 .welcome .welcome_m ul li p{ width:120px; height:120px; overflow:hidden; float:left;}
 .welcome .welcome_m ul li span{ width:100%; float:left; color:#bbb; line-height:20px; margin-top:5px;}

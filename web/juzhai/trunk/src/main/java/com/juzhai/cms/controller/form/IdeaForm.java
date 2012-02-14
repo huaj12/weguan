@@ -17,6 +17,16 @@ public class IdeaForm {
 	private String content;
 	private String contentMd5;
 	private Long createUid;
+	private Integer gender;
+
+	
+	public Integer getGender() {
+		return gender;
+	}
+
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
 
 	public Long getIdeaId() {
 		return ideaId;

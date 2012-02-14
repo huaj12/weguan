@@ -29,7 +29,7 @@ public class InitData {
 
 	@PostConstruct
 	public void init() {
-		initActionRule();
+		// initActionRule();
 	}
 
 	private void initActionRule() {

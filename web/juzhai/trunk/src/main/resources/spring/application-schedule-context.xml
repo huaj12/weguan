@@ -202,14 +202,14 @@
 				<!-- <ref bean="resetQuestionUsersTrigger"/>
 				<ref bean="showCategoryActListTrigger"/>
 				<ref bean="deleteUserActionTrigger"/>
-				<ref bean="deleteUserActionTrigger"/> -->
-				<ref bean="actIndexOptimizationAndCommitTrigger"/>
-				<ref bean="deleteTempImageTrigger"/>
+				<ref bean="deleteUserActionTrigger"/>
 				<ref bean="updateShowActsTrigger"/>
 				<ref bean="delOutFreeDateTrigger"/>
+				<ref bean="updateShowCategoriesTrigger"/>
+				<ref bean="actIndexOptimizationAndCommitTrigger"/> -->
+				<ref bean="deleteTempImageTrigger"/>
 				<ref bean="deleteExpiredAdTrigger"/>
 				<ref bean="deleteExpiredRawAdTrigger"/>
-				<ref bean="updateShowCategoriesTrigger"/>
 				<ref bean="noticeToPlatformTrigger"/>
 				<!-- <ref bean="noticeEmailTrigger"/> -->
 			</list>

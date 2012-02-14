@@ -81,7 +81,7 @@ public class InitData {
 		initProvince();
 		initCity();
 		initTown();
-		initGuideSteps();
+		// initGuideSteps();
 		initCityAndProvinceMapping();
 		initConstellation();
 		initProfession();

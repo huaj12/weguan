@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.account.service.IAccountService;
-import com.juzhai.msg.bean.MergerActMsg;
-import com.juzhai.msg.service.IMsgService;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.mapper.PassportMapper;
@@ -50,8 +48,6 @@ public class RegisterService implements IRegisterService {
 	private IAccountService accountService;
 	@Autowired
 	private IUserGuideService userGuideService;
-	@Autowired
-	private IMsgService<MergerActMsg> msgService;
 
 	@Override
 	public long autoRegister(Thirdparty tp, String identity, AuthInfo authInfo,
@@ -64,8 +60,8 @@ public class RegisterService implements IRegisterService {
 			return 0L;
 		}
 		registerProfile(profile, passport);
-		registerAccount(passport);
-		registerUserGuide(passport);
+		// registerAccount(passport);
+		// registerUserGuide(passport);
 		registerTpUser(tp, identity, passport);
 		tpUserAuthService.updateTpUserAuth(passport.getId(), tp.getId(),
 				authInfo);
@@ -82,8 +78,8 @@ public class RegisterService implements IRegisterService {
 		// // 4.拉数据
 		// inboxService.syncInboxByTask(passport.getId());
 		// 5.预存消息转正
-		msgService.getPrestore(identity, tp.getId(), passport.getId(),
-				MergerActMsg.class);
+		// msgService.getPrestore(identity, tp.getId(), passport.getId(),
+		// MergerActMsg.class);
 
 		return passport.getId();
 	}

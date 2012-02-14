@@ -85,15 +85,15 @@ public class InitData {
 	public void init() throws JsonGenerationException {
 		// initActMap();
 		// 分类
-		initCategoryMap();
+		// initCategoryMap();
 		// 分类下的显示项目
-		initCategoryActListMap();
+		// initCategoryActListMap();
 		// initRandomActMap();
 		// 推荐分类的随机百分比
-		initRecommendCategoryRateMap();
-		initRecommendActMap();
-		intiQuestionMap();
-		initSynonymMap();
+		// initRecommendCategoryRateMap();
+		// initRecommendActMap();
+		// intiQuestionMap();
+		// initSynonymMap();
 	}
 
 	private void initSynonymMap() {

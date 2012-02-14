@@ -1,5 +1,6 @@
 package com.juzhai.platform.service;
 
+import com.juzhai.passport.bean.AuthInfo;
 
 /**
  * 系统管理接口
@@ -14,5 +15,6 @@ public interface IAdminService {
 	 * @param authInfo
 	 * @return
 	 */
-	boolean isAllocation(long uid, long tpId);
+	boolean isAllocation(AuthInfo authInfo);
+
 }

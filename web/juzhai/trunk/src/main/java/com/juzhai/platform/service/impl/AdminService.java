@@ -10,15 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.service.IAdminService;
 
 @Service
 public class AdminService implements IAdminService, BeanFactoryAware {
 	@Autowired
 	private BeanFactory beanFactory;
-	@Autowired
-	private ITpUserAuthService tpUserAuthService;
 
 	private final Log log = LogFactory.getLog(getClass());
 
@@ -35,10 +32,9 @@ public class AdminService implements IAdminService, BeanFactoryAware {
 	}
 
 	@Override
-	public boolean isAllocation(long uid, long tpId) {
-		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+	public boolean isAllocation(AuthInfo authInfo) {
 		return getAdminServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).isAllocation(uid, tpId);
+				authInfo.getJoinType()).isAllocation(authInfo);
 	}
 
 	@Override

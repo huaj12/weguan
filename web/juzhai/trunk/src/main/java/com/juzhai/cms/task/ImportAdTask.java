@@ -9,8 +9,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
-import com.juzhai.cms.mapper.SpiderUrlMapper;
-import com.juzhai.cms.model.AdSource;
 import com.juzhai.cms.model.RawAd;
 import com.juzhai.cms.service.IRawAdService;
 import com.juzhai.cms.service.ISpiderUrlService;

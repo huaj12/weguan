@@ -44,6 +44,7 @@ function del(id){
 			<td width="100">我想去</td>
 			<td width="100">发起人</td>
 			<td width="100">地点</td>
+			<td width="100">类别</td>
 			<td width="100">图片</td>
 			<td width="100">城市</td>
 			<td width="100">拒宅时间</td>
@@ -55,6 +56,16 @@ function del(id){
 				<td>${view.idea.content}</td>
 				<td>${view.userName}</td>
 				<td>${view.idea.place}</td>
+				<td>
+				<c:choose>
+					<c:when test="${empty view.categoryName}">
+						不限
+					</c:when>
+					<c:otherwise>
+					${view.categoryName}
+					</c:otherwise>
+				</c:choose>
+				</td>
 				<td><img width="70" height="70" src="${jzr:ideaPic(view.idea.id,view.idea.pic, 200)}"/></td>
 				<td>
 				<c:choose>

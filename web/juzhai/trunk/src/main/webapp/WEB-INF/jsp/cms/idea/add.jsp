@@ -18,12 +18,16 @@
 	<table>
 		<tr>
 			<td>添加好主意到:<select name="city">
-			
 			<option value="0">全国</option>
 			<c:forEach var="c" items="${citys}">
 				<option value="${c.id }">${c.name}</option>
 			</c:forEach>	
-			</select></td>
+			</select>
+			<select name="gender">
+				<option value="1">男</option>
+				<option value="0">女</option>
+			</select>
+			</td>
 		</tr>
 		<tr>
 			<td>

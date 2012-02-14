@@ -16,17 +16,14 @@ import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
-import com.juzhai.notice.NoticeConfig;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.bean.NoticeUserTemplate;
 import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.exception.AdminException;
-import com.juzhai.platform.service.IAdminService;
 import com.juzhai.platform.service.ISynchronizeService;
 
 @Service
@@ -34,8 +31,6 @@ public class NoticeService implements INoticeService {
 
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
-	@Autowired
-	private IAdminService adminService;
 	@Autowired
 	private ISynchronizeService synchronizeService;
 	@Autowired
@@ -85,29 +80,7 @@ public class NoticeService implements INoticeService {
 			throws AdminException {
 		TpUser user = tpUserService.getTpUserByUid(receiver);
 
-		// TODO (review) 获取有配额的小秘书，是不是应该在AdminService里封装呢？获取微博的地方就需要用到一样的代码
-		List<Long> tagerUids = NoticeConfig.getValue(
-				ThirdpartyNameEnum.getThirdpartyNameEnum(user.getTpName()),
-				"uid");
-		List<Long> tagerTpIds = NoticeConfig.getValue(
-				ThirdpartyNameEnum.getThirdpartyNameEnum(user.getTpName()),
-				"tpId");
-		if (CollectionUtils.isEmpty(tagerTpIds)
-				|| CollectionUtils.isEmpty(tagerUids)) {
-			return;
-		}
-		long uid = 0;
-		long tpId = 0;
-		for (Long tUid : tagerUids) {
-			// TODO (review) 是不是应该参数用AuthInfo？或者isAllocation返回AuthInfo？因为下面又从库搜了一次authInfo
-			if (adminService.isAllocation(tUid, tagerTpIds.get(0))) {
-				uid = tUid;
-				tpId = tagerTpIds.get(0);
-				break;
-			}
-		}
-		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
-		// TODO (review) 这里判断不适合了吧
+		AuthInfo authInfo = tpUserAuthService.getSecretary(user.getTpName());
 		if (authInfo == null) {
 			throw new AdminException(AdminException.ADMIN_API_EXCEED_LIMIT);
 		}

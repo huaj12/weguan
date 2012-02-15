@@ -1,3 +1,7 @@
+$(document).ready(function(){
+	selectCity($("#province")[0]);
+});
+
 function selectCity(obj) {
 	$.get('/base/selectCity', {
 		proId : obj.value,
@@ -16,8 +20,6 @@ function selectTown(id) {
 		$("#towns").html(result);
 	});
 }
-
-selectCity($("#province")[0]);
 function profession(obj){
 	if(obj.value==0){
 		$("#profession_input").show();

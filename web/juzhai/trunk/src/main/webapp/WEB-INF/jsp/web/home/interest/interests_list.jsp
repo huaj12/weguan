@@ -29,7 +29,7 @@
 						<c:set var="constellationName" value="${jzd:constellationName(interestUserView.profileCache.constellationId)}" />
 						<em><c:if test="${age >= 0}">${age}岁&nbsp;</c:if><c:if test="${not empty cityName}">${cityName}<c:if test="${not empty townName}">${townName}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty interestUserView.profileCache.profession}">${interestUserView.profileCache.profession}</c:if></em>
 						<c:if test="${interestUserView.latestPost != null}">
-						<b><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${interestUserView.latestPost.purposeType}"/></c:import>:</font><a href="/post/${interestUserView.latestPost.id}"><c:out value="${interestUserView.latestPost.content}" /></a></b>
+						<b><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${interestUserView.latestPost.purposeType}"/></c:import>:</font><a href="/post/${interestUserView.latestPost.id}"><c:out value="${jzu:truncate(interestUserView.latestPost.content,42,'...')}" /></a></b>
 						</c:if>
 						<span><a class="send-message" href="javascript:void(0);" target-uid="${interestUserView.profileCache.uid}" target-nickname="${interestUserView.profileCache.nickname}">私信</a></span>
 						<div class="keep user-remove-interest remove-interest-${interestUserView.profileCache.uid}" <c:if test="${!interestUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${interestUserView.profileCache.uid}" title="点击取消收藏">已收藏</a></div>

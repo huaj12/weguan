@@ -180,7 +180,8 @@ public class IdeaService implements IIdeaService {
 	public void updateIdea(IdeaForm ideaForm) throws InputIdeaException,
 			UploadImageException {
 		validateIdea(ideaForm);
-		Idea idea = new Idea();
+		Long ideaId = ideaForm.getIdeaId();
+		Idea idea=getIdeaById(ideaId);
 		idea.setCity(ideaForm.getCity());
 		idea.setContent(ideaForm.getContent());
 		idea.setContentMd5(ideaForm.getContentMd5());
@@ -188,18 +189,13 @@ public class IdeaService implements IIdeaService {
 		idea.setLastModifyTime(new Date());
 		idea.setLink(ideaForm.getLink());
 		idea.setPlace(ideaForm.getPlace());
-		if (ideaForm.getGender() != null) {
-			idea.setGender(ideaForm.getGender());
-		}
-		if (ideaForm.getCategoryId() != null) {
-			idea.setCategoryId(ideaForm.getCategoryId());
-		}
-		Long ideaId = ideaForm.getIdeaId();
-		idea.setId(ideaId);
+		idea.setGender(ideaForm.getGender());
+		idea.setCategoryId(ideaForm.getCategoryId());
+	
 		String fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(),
 				ideaForm.getNewpic(), ideaId, ideaForm.getPic());
 		idea.setPic(fileName);
-		ideaMapper.updateByPrimaryKeySelective(idea);
+		ideaMapper.updateByPrimaryKey(idea);
 	}
 
 	private void validateIdea(IdeaForm ideaForm) throws InputIdeaException {

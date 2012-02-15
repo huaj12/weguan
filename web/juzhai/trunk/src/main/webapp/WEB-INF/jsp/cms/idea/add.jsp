@@ -23,7 +23,8 @@
 				<option value="${c.id }">${c.name}</option>
 			</c:forEach>	
 			</select>
-			性别：<select name="gender">
+			性别<select name="gender">
+				<option value="">不限</option>
 				<option value="1">男</option>
 				<option value="0">女</option>
 			</select>

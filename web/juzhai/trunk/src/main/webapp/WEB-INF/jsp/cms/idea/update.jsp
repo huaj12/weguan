@@ -25,6 +25,7 @@
 			</c:forEach>	
 			</select>
 			性别:<select name="gender">
+				<option <c:if test="${empty idea.gender}"> selected="selected"</c:if>value="">不限</option>
 				<option <c:if test="${idea.gender==1}"> selected="selected"</c:if> value="1">男</option>
 				<option <c:if test="${idea.gender==0}"> selected="selected"</c:if> value="0">女</option>
 			</select>

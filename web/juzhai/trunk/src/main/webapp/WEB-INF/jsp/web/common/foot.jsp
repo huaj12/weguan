@@ -6,7 +6,7 @@
 </c:choose>
 <div class="${footClass}"><!--bottom_welcome begin-->
 	<div class="bottom_area">
-		<p>拒宅网©2011&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank">沪ICP备11031778号</a></p><a href="http://weibo.com/51juzhai" target="_blank">官方微博</a><a href="/showUsers">找伴儿</a><a href="/showIdeas">出去玩</a><a href="/aboutUs">关于我们</a>
+		<p>拒宅网©2011&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank">沪ICP备11031778号</a></p><a href="http://weibo.com/51juzhai" target="_blank">官方微博</a><a href="/showIdeas">出去玩</a><a href="/showUsers">找伴儿</a><a href="/aboutUs">关于我们</a>
 	</div>
 </div><!--bottom_welcome end-->
 <!-- <script type="text/javascript">

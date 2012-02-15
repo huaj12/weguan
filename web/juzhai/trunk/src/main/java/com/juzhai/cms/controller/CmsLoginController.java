@@ -61,7 +61,7 @@ public class CmsLoginController {
 	public static void main(String[] args) {
 		try {
 			System.out.println(DESUtils.encryptToHexString(
-					"51juzhai.wujiajun.max.kooks".getBytes(), "1".getBytes()));
+					"51juzhai.wujiajun.max.kooks".getBytes(), "2".getBytes()));
 		} catch (InvalidKeyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

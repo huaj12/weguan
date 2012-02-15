@@ -123,6 +123,7 @@ public class NewIndexController extends BaseController {
 		model.addAttribute("orderType", orderType);
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("ideaViewList", ideaViewList);
+		model.addAttribute("pageType", "cqw");
 		return "web/index/cqw/show_ideas";
 	}
 
@@ -221,6 +222,7 @@ public class NewIndexController extends BaseController {
 		model.addAttribute("sex", sex);
 		model.addAttribute("maxStringAge", maxStringAge);
 		model.addAttribute("minStringAge", minStringAge);
+		model.addAttribute("pageType", "zbe");
 		return "web/index/zbe/query_user";
 	}
 

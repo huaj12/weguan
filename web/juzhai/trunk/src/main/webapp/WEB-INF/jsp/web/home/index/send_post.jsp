@@ -13,7 +13,7 @@
 			<div class="select_box"><!--select_box begin-->
 				<span>
 					<a href="javascript:void(0);" value="0" <c:if test="${postForm.purposeType == 0}">class="selected"</c:if>>我想去</a>
-					<a href="javascript:void(0);" value="1" <c:if test="${postForm == null || postForm.purposeType == 1}">class="selected"</c:if>>我想找伴儿</a>
+					<a href="javascript:void(0);" value="1" <c:if test="${postForm == null || postForm.purposeType == 1}">class="selected"</c:if>>我想找伴儿去</a>
 					<a href="javascript:void(0);" value="2" <c:if test="${postForm.purposeType == 2}">class="selected"</c:if>>我想找一个男生</a>
 					<a href="javascript:void(0);" value="3" <c:if test="${postForm.purposeType == 3}">class="selected"</c:if>>我想找一个女生</a>
 				</span>
@@ -47,11 +47,11 @@
 						<div class="upload" <c:if test="${not empty postForm.pic}">style="display: none;"</c:if>><!--upload begin-->
 							<div class="upload_btn"><!--upload_btn begin-->
 								<input class="btn_file_molding" size=6 type="file" name="postPic" />
-								<a href="javascript:void(0);">上传头像</a>
+								<a href="javascript:void(0);">上传图片</a>
 							</div><!--upload_btn end-->
 							<div class="load_error" style="display:none;"></div>
 							<div class="clear"></div>
-							<div class="ts">仅支持JPG GIF PNG图片文件,文件小于5M</div>
+							<div class="ts">仅支持JPG GIF PNG BMP图片文件,文件小于2M</div>
 						</div><!--upload end-->
 						<div class="upload_ok" <c:if test="${empty postForm.pic}">style="display: none;"</c:if>><!--upload_ok begin-->
 							<em><a href="javascript:void(0);">重新上传</a></em>

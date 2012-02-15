@@ -74,6 +74,7 @@ public class IdeaController extends BaseController {
 		}
 		model.addAttribute("pager", pager);
 		model.addAttribute("ideaUserViewList", ideaUserViewList);
+		model.addAttribute("pageType", "cqw");
 		return "web/idea/detail";
 	}
 }

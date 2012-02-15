@@ -13,15 +13,15 @@ import org.apache.commons.collections.CollectionUtils;
 
 import com.juzhai.passport.bean.ThirdpartyNameEnum;
 
-public class NoticeConfig {
-	private static final String FILE_CONFIG_PATH = "properties/notice.properties";
+public class TpHelperConfig {
+	private static final String FILE_CONFIG_PATH = "properties/tpHelper.properties";
 	private static final Map<String, Map<String, List<Long>>> SECRETARY = new HashMap<String, Map<String, List<Long>>>();
 	static {
-		InputStream in = NoticeConfig.class.getClassLoader()
+		InputStream in = TpHelperConfig.class.getClassLoader()
 				.getResourceAsStream(FILE_CONFIG_PATH);
 		if (in == null) {
 			throw new RuntimeException(
-					"The file: /porperties/notice.properties can't be found in Classpath.");
+					"The file: /porperties/tpHelper.properties can't be found in Classpath.");
 		}
 		Properties prop = new Properties();
 		try {

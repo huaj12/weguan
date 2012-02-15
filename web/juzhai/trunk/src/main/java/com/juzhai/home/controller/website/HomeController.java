@@ -70,6 +70,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("queryType", "showNewPosts");
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("genderType", genderType);
+		model.addAttribute("pageType", "home");
 		return "web/home/index/home";
 	}
 
@@ -97,6 +98,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("queryType", "showRespPosts");
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("genderType", genderType);
+		model.addAttribute("pageType", "home");
 		return "web/home/index/home";
 	}
 
@@ -126,6 +128,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("queryType", "showIntPosts");
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("genderType", genderType);
+		model.addAttribute("pageType", "home");
 		return "web/home/index/home";
 	}
 

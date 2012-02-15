@@ -184,7 +184,7 @@ function removeInterest(uid, successCallback){
 }
 
 function removeInterestConfirm(uid, followObj, callback){
-	var content = $("#dialog-confirm").html().replace("{0}", "确定取消敲门么？");
+	var content = $("#dialog-confirm").html().replace("{0}", "确定取消收藏么？");
 	showConfirm(followObj, "removeInterest", content, function(){
 		removeInterest(uid, function(){
 			callback();
@@ -486,7 +486,7 @@ function responsePost(clickObj, postId, successCallback){
 		dataType : "json",
 		success : function(result) {
 			if (result && result.success) {
-				var content = $("#dialog-success").html().replace("{0}", "操作成功");
+				var content = $("#dialog-success").html().replace("{0}", "好的，我们会通知ta！");
 				showSuccess(clickObj, content);
 				successCallback();
 			} else {
@@ -641,7 +641,7 @@ var PostSender =  Class.extend({
 		sendForm.find("div.btn > a").bind("click", function(){
 			var content = sendForm.find("div.textarea > textarea").val();
 			if(!checkValLength(content, 4, 160)){
-				sendForm.find(".send_box_error").text("内容控制在2-80个汉字内").show();
+				sendForm.find(".send_box_error").text("发布内容请控制在2~80字以内").show();
 				return;
 			}
 			$(this).parent().hide();

@@ -13,11 +13,11 @@
 				<ul>
 					<c:forEach var="ideaView" items="${ideaViewList}">
 						<li class="mouseHover">
-							<p><a href="/idea/${ideaView.idea.id}"><c:out value="${ideaView.idea.content}" /></a></p>
+							<p><a href="/idea/${ideaView.idea.id}" target="_blank"><c:out value="${ideaView.idea.content}" /></a></p>
 							<c:if test="${not empty ideaView.idea.pic}">
-								<div class="img"><a href="/idea/${ideaView.idea.id}"><img src="${jzr:ideaPic(ideaView.idea.id, ideaView.idea.pic, 200)}"/></a></div>
+								<div class="img"><a href="/idea/${ideaView.idea.id}" target="_blank"><img src="${jzr:ideaPic(ideaView.idea.id, ideaView.idea.pic, 200)}"/></a></div>
 							</c:if>
-							<span><a href="#" id="useCount-${ideaView.idea.id}">${ideaView.idea.useCount}</a>人想去</span>
+							<span><a href="/idea/${ideaView.idea.id}" target="_blank" id="useCount-${ideaView.idea.id}">${ideaView.idea.useCount}</a>人想去</span>
 							<c:choose>
 								<c:when test="${ideaView.hasUsed}">
 									<div class="sended"><a href="javascript:void(0);">已发布</a></div>

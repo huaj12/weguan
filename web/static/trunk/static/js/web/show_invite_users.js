@@ -63,7 +63,9 @@ function showMoreInviteUser(){
 function clickInviteUser(obj){
 	if($(obj).hasClass("active")){
 		$(obj).removeClass("active");
+		$(obj).attr("title", "点击添加");
 	}else{
 		$(obj).addClass("active");
+		$(obj).attr("title", "点击取消");
 	}
 }

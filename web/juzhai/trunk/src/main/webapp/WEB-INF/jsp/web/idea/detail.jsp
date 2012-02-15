@@ -23,7 +23,7 @@
 								<div class="jz_list"><!--jz_list begin-->
 									<div class="search_title"><!--search_title begin-->
 										<h2>拒宅好主意</h2>
-										<div class="back"><a href="#">查看全部</a></div>
+										<div class="back"><a href="/showIdeas">查看全部</a></div>
 									</div><!--search_title end-->
 									<div class="good_idea_detail"><!--good_idea_detail begin-->
 										<div class="pub_box"><!--pub_box begin-->

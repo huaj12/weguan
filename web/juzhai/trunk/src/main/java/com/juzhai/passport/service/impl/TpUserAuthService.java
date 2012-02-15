@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.web.util.HttpRequestUtil;
-import com.juzhai.notice.NoticeConfig;
+import com.juzhai.notice.TpHelperConfig;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.mapper.TpUserAuthMapper;
@@ -136,9 +136,9 @@ public class TpUserAuthService implements ITpUserAuthService {
 	@Override
 	public AuthInfo getSecretary(String tpName) {
 		// TODO (done) 获取有配额的小秘书，是不是应该在AdminService里封装呢？获取微博的地方就需要用到一样的代码
-		List<Long> tagerUids = NoticeConfig.getValue(
+		List<Long> tagerUids = TpHelperConfig.getValue(
 				ThirdpartyNameEnum.getThirdpartyNameEnum(tpName), "uid");
-		List<Long> tagerTpIds = NoticeConfig.getValue(
+		List<Long> tagerTpIds = TpHelperConfig.getValue(
 				ThirdpartyNameEnum.getThirdpartyNameEnum(tpName), "tpId");
 		if (CollectionUtils.isEmpty(tagerTpIds)
 				|| CollectionUtils.isEmpty(tagerUids)) {

@@ -46,7 +46,7 @@
 							<div class="t"></div>
 							<div class="m">
 								<div class="weibo"><!--weibo begin-->
-									<h2>ta的最近微薄</h2>
+									<h2>ta的最新微博</h2>
 									<ul>
 										<c:choose>
 											<c:when test="${empty userStatusList}">

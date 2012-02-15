@@ -52,10 +52,10 @@
 												<div class="message_s1"><a class="send-message" href="javascript:void(0)" target-uid="${postProfile.uid}" target-nickname="${postProfile.nickname}">私信</a></div>
 												<c:choose>
 													<c:when test="${hasResponse}">
-														<div class="like done"><span class="l"></span><a href="javascript:void(0);">已感兴趣&nbsp;&nbsp;${post.responseCnt}</a><span class="r"></span></div>
+														<div class="like done"><span class="l"></span><a href="javascript:void(0);">已响应&nbsp;&nbsp;${post.responseCnt}</a><span class="r"></span></div>
 													</c:when>
 													<c:otherwise>
-														<div class="like post-response" id="response${post.id}"><span class="l"></span><a href="javascript:void(0);" post-id="${post.id}">感兴趣&nbsp;&nbsp;<font>${post.responseCnt}</font></a><span class="r"></span></div>
+														<div class="like post-response" id="response${post.id}"><span class="l"></span><a href="javascript:void(0);" post-id="${post.id}">响应&nbsp;&nbsp;<font>${post.responseCnt}</font></a><span class="r"></span></div>
 													</c:otherwise>
 												</c:choose>
 											</c:when>

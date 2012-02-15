@@ -11,9 +11,16 @@
 			<div></div>
 			<div class="select_box"><!--select_box begin-->
 				<span>
-					<a href="javascript:void(0);" value="0" <c:if test="${cityId == 0}">class="selected"</c:if>>城市不限</a>
-					<a href="javascript:void(0);" value="2" <c:if test="${cityId == 2}">class="selected"</c:if>>上海</a>
-					<a href="javascript:void(0);" value="1" <c:if test="${cityId == 1}">class="selected"</c:if>>北京</a>
+					<a href="javascript:void(0);" value="0"   <c:if test="${cityId == 0}">class="selected"</c:if>>全国</a>
+					<a href="javascript:void(0);" value="2"   <c:if test="${cityId==2}">class="selected"</c:if>>上海</a>
+					<a href="javascript:void(0);" value="1"   <c:if test="${cityId==1}">class="selected"</c:if>>北京</a>
+					<a href="javascript:void(0);" value="181" <c:if test="${cityId==181}">class="selected"</c:if>>广州</a>
+					<a href="javascript:void(0);" value="183" <c:if test="${cityId==183}">class="selected"</c:if>>深圳</a>
+					<a href="javascript:void(0);" value="343" <c:if test="${cityId==343}">class="selected"</c:if>>杭州</a>
+					<a href="javascript:void(0);" value="157" <c:if test="${cityId==157}">class="selected"</c:if>>南京</a>
+					<a href="javascript:void(0);" value="4"   <c:if test="${cityId==4}">class="selected"</c:if>>重庆</a>
+					<a href="javascript:void(0);" value="241" <c:if test="${cityId==241}">class="selected"</c:if>>成都</a>
+					<a href="javascript:void(0);" value="108" <c:if test="${cityId==108}">class="selected"</c:if>>武汉</a>
 				</span>
 				<em></em>
 			</div><!--select_box end-->
@@ -24,15 +31,15 @@
 			<div class="select_box"><!--select_box begin-->
 				<span>
 					<a href="javascript:void(0);" value="all" <c:if test="${genderType == 'all'}">class="selected"</c:if>>性别不限</a>
-					<a href="javascript:void(0);" value="male" <c:if test="${genderType == 'male'}">class="selected"</c:if>>男</a>
-					<a href="javascript:void(0);" value="female" <c:if test="${genderType == 'female'}">class="selected"</c:if>>女</a>
+					<a href="javascript:void(0);" value="male" <c:if test="${genderType == 'male'}">class="selected"</c:if>>男生</a>
+					<a href="javascript:void(0);" value="female" <c:if test="${genderType == 'female'}">class="selected"</c:if>>女生</a>
 				</span>
 				<em></em>
 			</div><!--select_box end-->
 		</div><!--select_menu end-->
 		<div class="category" queryType="${queryType}"><!--category begin-->
 			<span <c:if test="${queryType == 'showNewPosts'}">class="act"</c:if>><p></p><a href="/home/showNewPosts/${cityId}_${genderType}/1">最新的</a><p></p></span>
-			<span <c:if test="${queryType == 'showRespPosts'}">class="act"</c:if>><p></p><a href="/home/showRespPosts/${cityId}_${genderType}/1">我感兴趣的</a><p></p></span>
+			<span <c:if test="${queryType == 'showRespPosts'}">class="act"</c:if>><p></p><a href="/home/showRespPosts/${cityId}_${genderType}/1">我响应的</a><p></p></span>
 			<span <c:if test="${queryType == 'showIntPosts'}">class="act"</c:if>><p></p><a href="/home/showIntPosts/${cityId}_${genderType}/1">我❤的人</a><p></p></span>
 		</div><!--category end-->
 	</div><!--title end-->		
@@ -82,10 +89,10 @@
 								<div class="message_s1"><a href="javascript:void(0);" target-uid="${postView.profileCache.uid}" target-nickname="${postView.profileCache.nickname}">私信</a></div>
 								<c:choose>
 									<c:when test="${postView.hasResponse}">
-										<div class="like done"><span class="l"></span><a href="javascript:void(0);" >已感兴趣&nbsp;&nbsp;${postView.post.responseCnt}</a><span class="r"></span></div>
+										<div class="like done"><span class="l"></span><a href="javascript:void(0);" >已响应&nbsp;&nbsp;${postView.post.responseCnt}</a><span class="r"></span></div>
 									</c:when>
 									<c:otherwise>
-										<div class="like post-response" id="response${postView.post.id}"><span class="l"></span><a href="javascript:void(0);" post-id="${postView.post.id}">感兴趣&nbsp;&nbsp;<font>${postView.post.responseCnt}</font></a><span class="r"></span></div>
+										<div class="like post-response" id="response${postView.post.id}"><span class="l"></span><a href="javascript:void(0);" post-id="${postView.post.id}">响应&nbsp;&nbsp;<font>${postView.post.responseCnt}</font></a><span class="r"></span></div>
 									</c:otherwise>
 								</c:choose>
 							</div><!--btn end--> 

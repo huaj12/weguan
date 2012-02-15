@@ -576,7 +576,7 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_idea` (
   `city` BIGINT NOT NULL DEFAULT 0 ,
   `use_count` INT(8) NOT NULL DEFAULT 0 ,
   `first_uid` BIGINT NOT NULL DEFAULT 0 ,
-  `gender` INT(1) NOT NULL DEFAULT 0 ,
+  `gender` INT(1) NULL ,
   `create_time` DATETIME NOT NULL ,
   `last_modify_time` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) )

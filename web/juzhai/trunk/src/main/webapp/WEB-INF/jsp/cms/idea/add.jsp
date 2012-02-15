@@ -19,12 +19,18 @@
 		<tr>
 			<td>添加好主意到:<select name="city">
 			<option value="0">全国</option>
-			<c:forEach var="c" items="${citys}">
-				<option value="${c.id }">${c.name}</option>
-			</c:forEach>	
+								<option value="2"   >上海</option>
+								<option value="1"   >北京</option>
+								<option value="181" >广州</option>
+								<option value="183" >深圳</option>
+								<option value="343" >杭州</option>
+								<option value="157" >南京</option>
+								<option value="4"   >重庆</option>
+								<option value="241" >成都</option>
+								<option value="108" >武汉</option>
 			</select>
 			性别<select name="gender">
-				<option value="">不限</option>
+				<option value="" >不限</option>
 				<option value="1">男</option>
 				<option value="0">女</option>
 			</select>

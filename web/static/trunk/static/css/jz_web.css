@@ -295,7 +295,7 @@ _filter:none;
 /*主页*/
 
 .main_part{ width:960px; height:auto; display:block; margin:0 auto;  margin-top:70px; *padding-top:70px;}
-.main_part .main_left{ width:660px; height:auto; display:block;  float:left; }
+.main_part .main_left{ width:660px; min-height:700px; _height:700px; display:block;  float:left; }
 .main_part .main_right{width:285px; height:auto; overflow:hidden; float:right;}
 
 
@@ -348,7 +348,7 @@ _filter:none;
 .send_area .random_select a:hover{ background:url(../images/web2/icon_hover_r1_c9.jpg) no-repeat; color:#3E8BD9;}
 
 .send_area .textarea{ background:url(../images/web2/text_area_bg.jpg) no-repeat; width:480px; height:55px; overflow:hidden; margin-top:7px; float:left; _margin-top:5px;}
-.send_area .textarea textarea{ border:none; background:none; width:460px; float:left; margin-left:10px; margin-top:10px; display:inline; height:35px; color:#999; font-size:12px; overflow:hidden;}
+.send_area .textarea textarea{ border:none; background:none; width:460px; float:left; margin-left:10px; margin-top:10px; display:inline; height:35px; color:#666; font-size:12px; overflow:hidden;}
 
 .send_area .jh{ float:left; position:relative; margin-top:10px;}
 
@@ -690,7 +690,7 @@ _filter:none;
 .set .set_left a.active{background:url(../images/web2/set_btn_hover.gif) no-repeat; color:#fff; cursor:default;}
 
 
-.set .set_right{ float:right; width:700px; height:auto; min-height:500px; _height:500px; overflow:hidden; background:url(../images/web2/set_right_bg.jpg) repeat-y;} 
+.set .set_right{ float:right; width:700px;  min-height:500px; _height:auto; overflow:hidden; background:url(../images/web2/set_right_bg.jpg) repeat-y;} 
 
 .set_right .title{ width:100%; height:75px; background:url(../images/web2/tj_project_title_bg.jpg) left bottom repeat-x; line-height:70px;}
 .set_right .title h2{ display:block; height:75px; overflow:hidden; background:url(../images/web2/set_right_title_bg.jpg) left bottom no-repeat; padding-left:20px; font-size:14px; color:#999; font-weight:bold;}
@@ -811,7 +811,7 @@ _filter:none;
 
 /* 私信 */
 
-.message{width:100%; min-height:600px; _height:600px; display:block;}
+.message{width:100%; height:auto; display:block;}
 .message .title{ width:100%; height:75px; background:url(../images/web2/tj_project_title_bg.jpg) left bottom repeat-x; line-height:70px;}
 .message .title span{ float:left; margin-left:28px; display:inline;}
 .message .title span.sx{ background:url(../images/web2/message_title_icon.jpg) no-repeat; width:24px; height:33px; margin-top:18px;}
@@ -852,10 +852,10 @@ _filter:none;
 .message_item span strong{ position:absolute; top:15px; right:15px; color:#ccc; }
 .message_item p{ float:left; width:100%; margin-top:3px; color:#666; font-size:14px; line-height:180%;}
 .message_item p a{ color:#666; text-decoration:none; font-size:14px;}
-.message_item p a:hover{ text-decoration:underline;}
+.message_item p a:hover{ }
 .message_item em{float:left; margin-top:8px; }
-.message_item em a{color:#999; text-decoration:none;}
-.message_item em a font{margin:0 5px; font-weight:bold; color:#666; font-size:12px;}
+.message_item em a{color:#3E8BD9; text-decoration:none;}
+.message_item em a font{margin:0 5px; font-weight:bold; color:#3E8BD9; font-size:12px;}
 .message_item em a:hover{ text-decoration:underline;}
 .message_item .btn{ position:absolute; bottom:15px; right:15px;}
 .message_item .btn a{ width:40px; height:21px; display:block; float:left; margin-left:10px; display:inline; color:#fff; text-align:center; line-height:25px; text-decoration:none; overflow:hidden; *line-height:23px;}
@@ -1133,7 +1133,7 @@ _filter:none;
 
 
 /*找伴*/
-.search_result{width:624px; min-height:600px; _height:600px; display:block; margin:0 auto; position:relative; margin-top:15px;}
+.search_result{width:624px; height:auto; display:block; margin:0 auto; position:relative; margin-top:15px;}
 .search_result .pub_box .pub_box_m{ height:120px;}
 .search_result .pub_box{ margin-top:10px;}
 
@@ -1246,7 +1246,7 @@ _filter:none;
 .search_title .category{ margin-right:24px;}
 
 
-.good_idea{width:624px; min-height:600px; height:600px; display:block; margin:0 auto; position:relative; margin-top:15px;}
+.good_idea{width:624px; height:auto; display:block; margin:0 auto; position:relative; margin-top:15px;}
 .good_idea .pub_box .pub_box_m{ padding:17px 22px; width:580px; height:auto;}
 .good_idea .pub_box{ }
 
@@ -1422,10 +1422,10 @@ _filter:none;
 .my_jz .infor span a:hover{color:#3E8BD9;}
 .my_jz .infor .img{ float:left; width:100%; padding-bottom:10px;}
 
-.my_jz .con_btn{ position:absolute; right:22px; bottom:17px; display:none;}
-.my_jz .con_btn a{ width:55px; height:23px; overflow:hidden; text-align:center; color:#fff; line-height:23px; line-height:25px\9; line-height:27px\0; display:block inline; float:left; margin-left:10px;}
-.my_jz .con_btn a.edit{ background:url(../images/web2/message_btn.gif) no-repeat;}
-.my_jz .con_btn a.delete{ background:url(../images/web2/delete.gif) no-repeat;}
+.my_jz .con_btn{ width:100%; float:left; margin-top:8px; }
+.my_jz .con_btn a{color:#3E8BD9; float:right; margin-left:10px; display:inline;}
+.my_jz .con_btn a.edit{ }
+.my_jz .con_btn a.delete{}
 
 .my_jz .hover .con_btn{ display:inline;}
 

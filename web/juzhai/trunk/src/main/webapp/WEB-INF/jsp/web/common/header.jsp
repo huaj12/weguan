@@ -33,7 +33,7 @@
 					<div class="login"><!--login begin-->
 						<div class="user_box"><!--user_box begin-->
 							<c:choose>
-							<c:when test="${context.tpName == 'weibo'}"><p><img src="${jzr:static('images/web2/sina_icon.png')}" /></p></c:when>
+							<c:when test="${context.tpName == 'weibo'}"><p><img src="${jzr:static('/images/web2/sina_icon.png')}" /></p></c:when>
 							<c:otherwise>
 								<p><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}" height="20" width="20" /></p>
 							</c:otherwise>

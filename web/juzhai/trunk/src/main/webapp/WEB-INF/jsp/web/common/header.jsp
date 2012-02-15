@@ -39,7 +39,7 @@
 				</c:otherwise>
 			</c:choose>
 		</div><!--user_area end-->
-		<form id="searchActsForm" action="/searchActs" method="get">
+		<%-- <form id="searchActsForm" action="/searchActs" method="get">
 			<div class="search"><!--search begin-->
 				<div class="s_l"></div>
 				<div class="s_m"><!--s_m begin-->
@@ -47,6 +47,6 @@
 				</div><!--s_m end-->
 				<div class="s_r"><a href="javascript:void(0);"></a></div>
 			</div><!--search end-->
-		</form>
+		</form> --%>
 	</div><!--top end-->
 </div>

@@ -153,7 +153,7 @@
 											<!--select begin-->
 											<span><select id="birthYear">
 													<option value="0" <c:if test="${0==profile.birthYear}"> selected="selected" </c:if>>请选择</option>
-													<c:forEach begin="1900" end="2012" var="year">
+													<c:forEach begin="1949" end="2012" var="year">
 														<option value="${year}"
 															<c:if test="${year==profile.birthYear}"> selected="selected" </c:if>>${year
 															}年</option>
@@ -339,7 +339,7 @@
 									
 									<div class="save_btn">
 										<!--save_btn begin-->
-										<a href="javascript:void(0);" onclick="setting()">保存</a>
+										<a href="javascript:void(0);" onclick="setting('${profile.uid}')">保存</a>
 									</div>
 									<!--save_btn end-->
 									<div class="clear"></div>

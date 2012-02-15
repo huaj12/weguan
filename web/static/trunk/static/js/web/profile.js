@@ -110,7 +110,7 @@ function parseMonthlyIncome(str){
 //	return arr;
 }
 
-function setting(){
+function setting(uid){
 	var province=$("#province").val();
 	var city=$("#city").val();
 	var town=$("#town").val();
@@ -197,7 +197,7 @@ function setting(){
 		success: function(result){
 			if(result.success){
 				//保存成功后跳转
-				window.location.href = "/showUsers";
+				window.location.href = "/home/"+uid;
 			}else{
 				$(".pj_error").html(result.errorInfo);
 			}

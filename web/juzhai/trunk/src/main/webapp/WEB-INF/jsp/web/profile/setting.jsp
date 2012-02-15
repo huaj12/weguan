@@ -207,7 +207,7 @@
 											<c:if test="${profile.professionId!=0}">style="display: none"</c:if>>
 											<!--input begin-->
 											<p class="l"></p>
-											<span class="w190"> <input id="profession" type="text"
+											<span class="w120"> <input id="profession" type="text"
 												value="<c:if test="${profile.professionId==0}">${profile.profession}</c:if>"
 												onfocus="if(this.value=='10个字以内描述')this.value=''"
 												onblur="if(this.value=='')this.value='10个字以内描述'" /> </span>

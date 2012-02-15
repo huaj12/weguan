@@ -17,7 +17,7 @@
 			<div class="main"><!--main begin-->
 				<div class="fix_top"><!--fix_top begin-->
 					<div class="top"><!--top begin-->
-						<h2><a href="#"></a></h2>
+						<h2><a href="javascript:void(0);"></a></h2>
 						<div class="welcome_login"><p>加入拒宅:</p><a href="/web/login/6?turnTo=${turnTo}"></a></div>
 					</div><!--top end-->
 				</div><!--fix_top end-->
@@ -44,6 +44,7 @@
 					<div class="welcome_b"></div>
 				</div><!--welcome end-->
 			</div><!--main end-->
+			<c:set var="footType" value="welcome" scope="request"/>
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 		</div><!--warp end-->
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />

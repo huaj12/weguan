@@ -83,7 +83,7 @@
 															<c:set var="age" value="${jzu:age(view.profile.birthYear,view.profile.birthSecret)}" />
 															<c:set var="constellationName" value="${jzd:constellationName(view.profile.constellationId)}" />
 															<em><c:if test="${age >= 0}">${age}岁&nbsp;</c:if><c:if test="${not empty cityName}">${cityName}<c:if test="${not empty townName}">${townName}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty view.profile.profession}">${view.profile.profession}</c:if></em>
-															<div class="zbq">${view.post.purposeType}<font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import></font><a href="/post/${view.post.id}">${jzu:truncate(view.post.content,50,'...')}</a></div>
+															<div class="zbq"><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import></font><a href="/post/${view.post.id}">${jzu:truncate(view.post.content,50,'...')}</a></div>
 															<c:choose>
 																<c:when test="${!empty view.online && view.online}"><b class="online">当前在线</b></c:when>
 																<c:otherwise>

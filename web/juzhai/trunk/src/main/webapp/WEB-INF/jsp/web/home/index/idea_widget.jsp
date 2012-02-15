@@ -17,7 +17,7 @@
 							<c:if test="${not empty ideaView.idea.pic}">
 								<div class="img"><a href="/idea/${ideaView.idea.id}" target="_blank"><img src="${jzr:ideaPic(ideaView.idea.id, ideaView.idea.pic, 200)}"/></a></div>
 							</c:if>
-							<span><a href="/idea/${ideaView.idea.id}" target="_blank" id="useCount-${ideaView.idea.id}">${ideaView.idea.useCount}</a>人想去</span>
+							<span><a href="/idea/${ideaView.idea.id}" target="_blank"><font id="useCount-${ideaView.idea.id}">${ideaView.idea.useCount}</font>人想去</a></span>
 							<c:choose>
 								<c:when test="${ideaView.hasUsed}">
 									<div class="sended"><a href="javascript:void(0);">已发布</a></div>

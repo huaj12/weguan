@@ -277,11 +277,14 @@ public class TpAuthorizeController extends BaseController {
 	@RequestMapping(value = "web/access/{tpId}")
 	public String webAccess(HttpServletRequest request,
 			HttpServletResponse response, String code, @PathVariable long tpId,
-			String turnTo) throws UnsupportedEncodingException,
+			String turnTo,String error_code) throws UnsupportedEncodingException,
 			MalformedURLException {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if (null == tp) {
 			return null;
+		}
+		if(StringUtils.isNotEmpty(error_code)){
+			return "redirect:/";
 		}
 		try {
 			checkLoginForApp(request);

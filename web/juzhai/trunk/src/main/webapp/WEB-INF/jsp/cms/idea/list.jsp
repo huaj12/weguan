@@ -41,7 +41,7 @@ function del(id){
 	<h2>已发布的好主意----<a href="/cms/show/idea/add">添加好主意</a></h2>
 	<table border="0" cellspacing="4">
 		<tr style="background-color: #CCCCCC;">
-			<td width="100">我想去</td>
+			<td width="200">我想去</td>
 			<td width="100">发起人</td>
 			<td width="100">地点</td>
 			<td width="40">性别</td>

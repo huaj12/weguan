@@ -27,7 +27,7 @@
 											<span><p></p><a href="javascript:void(0);">ta的拒宅</a><p></p></span>
 										</div><!--category end-->
 									</div><!--title end-->
-									<div class="my_jz"><!--my_jz begin-->
+									<div class="my_jz pbm20"><!--my_jz begin-->
 										<c:choose>
 											<c:when test="${empty postViewList}">
 												<div class="none">ta没有发布过拒宅哦</div>

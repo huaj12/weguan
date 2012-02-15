@@ -16,6 +16,8 @@ function selectTown(id) {
 		$("#towns").html(result);
 	});
 }
+
+selectCity($("#province")[0]);
 function profession(obj){
 	if(obj.value==0){
 		$("#profession_input").show();

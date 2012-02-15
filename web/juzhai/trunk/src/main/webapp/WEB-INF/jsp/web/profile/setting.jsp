@@ -68,7 +68,7 @@
 											<span class="w90"><input name="" id="nickname"
 												type="text" /> </span>
 											<p class="r"></p>
-											<a href="#" onclick="setNickname()" class="ok">确定</a> <a
+											<a href="javascript:void(0);" onclick="setNickname()" class="ok">确定</a> <a
 												href="javascript:void(0);"
 												onclick="cancel_updateDiv('nickname');" class="cancel">取消</a>
 										</div>
@@ -99,7 +99,7 @@
 													<option value="1" selected="selected">男</option>
 													<option value="0">女</option>
 											</select>
-											</span> <a href="#" onclick="setGender();" class="ok">确定</a> <a
+											</span> <a href="javascript:void(0);" onclick="setGender();" class="ok">确定</a> <a
 												href="javascript:void(0);"
 												onclick="cancel_updateDiv('gender');" class="cancel">取消</a>
 										</div>

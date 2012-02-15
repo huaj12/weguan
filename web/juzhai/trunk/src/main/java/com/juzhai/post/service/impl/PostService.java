@@ -150,6 +150,7 @@ public class PostService implements IPostService {
 		Post post = new Post();
 		post.setContent(idea.getContent());
 		post.setContentMd5(idea.getContentMd5());
+		post.setPurposeType(0);
 		post.setLink(idea.getLink());
 		post.setPlace(idea.getPlace());
 		post.setDateTime(idea.getDate());

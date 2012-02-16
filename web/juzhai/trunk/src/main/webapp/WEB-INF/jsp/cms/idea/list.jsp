@@ -48,6 +48,7 @@ function del(id){
 			<td width="100">类别</td>
 			<td width="100">图片</td>
 			<td width="100">城市</td>
+			<td width="60">是否推荐到随机库</td>
 			<td width="100">拒宅时间</td>
 			<td width="100">发布时间</td>
 			<td width="100">操作</td>
@@ -85,6 +86,12 @@ function del(id){
 					<c:when test="${empty jzd:cityName(view.idea.city)}">全国</c:when>
 					<c:otherwise>${jzd:cityName(view.idea.city)}</c:otherwise>
 				</c:choose></td>
+				<td>
+					<c:choose>
+						<c:when test="${view.idea.random}">是</c:when>
+						<c:otherwise>否</c:otherwise>
+					</c:choose>
+				</td>
 				<td><fmt:formatDate value="${view.idea.date}"
 						pattern="yyyy-MM-dd" /></td>
 				<td><fmt:formatDate value="${view.idea.createTime}"

@@ -34,6 +34,10 @@
 				<option value="1">男</option>
 				<option value="0">女</option>
 			</select>
+			推荐到随即库:<select name="random">
+				<option value="0">否</option>
+				<option value="1">是</option>
+			</select>
 			类别：<select name="categoryId">
 				<option value="0">不限</option>
 				<c:forEach items="${categoryList}" var="cat">

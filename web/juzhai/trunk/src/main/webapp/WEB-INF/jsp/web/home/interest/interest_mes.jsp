@@ -6,7 +6,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>收藏我的人_拒宅网</title>
-		<meta name="keywords" content="拒宅 找伴 出去玩 约会 交友" />
+		<meta name="keywords" content="拒宅 ,找伴,出去玩,约会,交友" />
 		<meta name="description" content="收藏我的人_不想宅在家,找伴儿,出去玩,发现出去玩的好主意和同兴趣的朋友,促成约会" />
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />
 	</head>

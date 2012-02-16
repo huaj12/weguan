@@ -7,8 +7,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>${profile.nickname}的拒宅-拒宅网</title>
-		<meta name="keywords" content="拒宅 找伴 出去玩 约会 交友" />
-		<meta name="description" content="${profile.nickname}的拒宅,不想宅在家，找伴儿，出去玩，发现出去玩的好主意和同兴趣的朋友，促成约会" />
+		<meta name="keywords" content="拒宅,找伴,出去玩,约会,交友" />
+		<meta name="description" content="${profile.nickname}的拒宅,不想宅在家,找伴儿,出去玩,发现出去玩的好主意和同兴趣的朋友,促成约会" />
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>

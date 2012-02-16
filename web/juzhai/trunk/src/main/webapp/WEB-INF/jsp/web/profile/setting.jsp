@@ -5,7 +5,7 @@
 	uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="delim" value=","/>
-<c:set var="educationValue" value="初中及以下,中专,高中,本科,硕士,博士及以上" />
+<c:set var="educationValue" value="初中及以下,中专,高中,大专,本科,硕士,博士及以上" />
 <c:set var="education" value="${fn:split(educationValue, delim)}"/>
 <c:set var="houseValue" value="自有住房,与家人同住,独自租房,与人合租" />
 <c:set var="house" value="${fn:split(houseValue, delim)}"/>

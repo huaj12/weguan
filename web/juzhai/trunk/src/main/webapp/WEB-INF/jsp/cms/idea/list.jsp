@@ -35,6 +35,29 @@ function del(id){
 			});
 		}
 }
+function operateIdeaRandom(id,random){
+	jQuery.ajax({
+		url : "/cms/operate/idea/random",
+		type : "get",
+		data : {
+			"ideaId" : id,
+			"random":random
+		},
+		dataType : "json",
+		success : function(result) {
+			if (result.success!=null&&result.success) {
+				location.reload();
+			} else {
+				alert("操作失败刷新后重试");
+			}
+		},
+		statusCode : {
+			401 : function() {
+				alert("请先登陆");
+			}
+		}
+	});
+}
 </script>
 </head>
 <body>
@@ -99,6 +122,10 @@ function del(id){
 				<td>
 				<a href="javascript:;" onclick="del('${view.idea.id}')">取消好主意</a>
 				<a href="/cms/show/idea/update?ideaId=${view.idea.id}">修改好主意</a>
+				<c:choose>
+						<c:when test="${view.idea.random}"><a href="javascript:void(0);" onclick="operateIdeaRandom('${view.idea.id}',0)">取消推荐到随即库</a></c:when>
+						<c:otherwise><a href="javascript:void(0);" onclick="operateIdeaRandom('${view.idea.id}',1)">推荐到随即库</a></c:otherwise>
+					</c:choose>
 				</td>
 			</tr>
 		</c:forEach>

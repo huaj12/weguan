@@ -19,6 +19,15 @@ public class IdeaForm {
 	private Long createUid;
 	private Integer gender;
 	private Long categoryId;
+	private Boolean random;
+
+	public Boolean getRandom() {
+		return random;
+	}
+
+	public void setRandom(Boolean random) {
+		this.random = random;
+	}
 
 	public Long getCategoryId() {
 		return categoryId;

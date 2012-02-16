@@ -1,7 +1,6 @@
 $(document).ready(function(){
-	selectCity($("#province")[0]);
+	selectTown($("#city").val());
 });
-
 function selectCity(obj) {
 	$.get('/base/selectCity', {
 		proId : obj.value,

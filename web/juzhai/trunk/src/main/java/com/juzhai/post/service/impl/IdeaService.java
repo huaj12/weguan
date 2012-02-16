@@ -279,4 +279,12 @@ public class IdeaService implements IIdeaService {
 				.size(RedisKeyGenerator.genIdeaUsersKey(ideaId)).intValue();
 	}
 
+	@Override
+	public void ideaRandom(long ideaId, boolean random) {
+		Idea idea = new Idea();
+		idea.setId(ideaId);
+		idea.setRandom(random);
+		ideaMapper.updateByPrimaryKeySelective(idea);
+	}
+
 }

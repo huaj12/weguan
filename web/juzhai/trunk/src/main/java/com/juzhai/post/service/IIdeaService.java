@@ -114,4 +114,11 @@ public interface IIdeaService {
 	 * @return
 	 */
 	int countIdeaUsers(long ideaId);
+
+	/**
+	 * 标记是否加入到随即库
+	 * 
+	 * @param random
+	 */
+	void ideaRandom(long ideaId, boolean random);
 }

@@ -90,7 +90,7 @@ a:hover {
 	</div>
 	<div class="leftInfo">
 		<ul>
-			<li>
+			<!-- <li>
 				<a href="javascript:showChild('actData');">拒宅项目管理</a>
 				<ul style="display: none;" id="actData" class="child">
 					<li style="background-color: #A4D3EE;"><a
@@ -123,7 +123,7 @@ a:hover {
 						target="config">推荐点击统计</a>
 					</li>
 				</ul>
-			</li>
+			</li> -->
 			<li>
 				<a href="javascript:showChild('managerJz');">管理拒宅</a>
 				<ul style="display: none;" id="managerJz" class="child">
@@ -142,6 +142,10 @@ a:hover {
 					<li style="background-color: #A4D3EE;"><a
 						style="color: black;" href="/cms/show/idea"
 						target="config">拒宅好主意</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/cmsShowCategoryList"
+						target="config">拒宅分类管理</a>
 					</li>
 				</ul>
 			</li>

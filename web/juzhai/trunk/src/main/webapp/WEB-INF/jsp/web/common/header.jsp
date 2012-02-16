@@ -6,7 +6,7 @@
 	<div class="top"><!--top begin-->
 		<h1><a href="http://www.51juzhai.com"></a></h1>
 		<div class="menu"><!--menu begin-->
-			<a href="/" title="首页" <c:if test="${pageType=='home'}">class="selected"</c:if>>首页</a>
+			<a href="/home" title="首页" <c:if test="${pageType=='home'}">class="selected"</c:if>>首页</a>
 			<a href="/showUsers" title="找伴儿" <c:if test="${pageType=='zbe'}">class="selected"</c:if>>找伴儿</a>
 			<a href="/showIdeas" title="出去玩" <c:if test="${pageType=='cqw'}">class="selected"</c:if>>出去玩</a>
 		</div><!--menu end-->

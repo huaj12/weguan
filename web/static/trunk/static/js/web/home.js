@@ -76,6 +76,46 @@ $(document).ready(function(){
 		var postId = $(this).attr("post-id");
 		prepareRepost(postId);
 	});
+	
+	$("div.random_select > a").click(function(){
+		$.ajax({
+			url : "/idea/random",
+			type : "post",
+			cache : false,
+			data : {},
+			dataType : "json",
+			success : function(result) {
+				if(result && result.success){
+					var content = result.result.content;
+					var dateTime = result.result.dateTime;
+					var place = result.result.place;
+					
+					$("textarea[name='content']").val(content);
+					
+					//place
+					$("div#send-post-address").find("input[name='place']").val(place!=null&&place!=""?place:"");
+					$("div#send-post-address").find("input[type='text']").val(place!=null&&place!=""?place:"");
+					$("div#send-post-address").toggleClass("done", place!=null&&place!="");
+					
+					//date
+					if(null!=dateTime&&dateTime!=""){
+						$("div#send-post-date").find("input[name='dateString']").val(dateTime);
+						var array =  dateTime.split("-");
+						$("div#send-post-date").find("p > a").text(array[1] + "-" + array[2]);
+					}else{
+						$("div#send-post-date").find("input[name='dateString']").val("");
+						$("div#send-post-date").find("p > a").text("时间");
+					}
+					$("div#send-post-date").toggleClass("done", null!=dateTime&&dateTime!="")
+				}
+			},
+			statusCode : {
+				401 : function() {
+					window.location.href = "/login?turnTo=" + window.location.href;
+				}
+			}
+		});
+	});
 });
 
 function resetSendPostForm(sendForm){

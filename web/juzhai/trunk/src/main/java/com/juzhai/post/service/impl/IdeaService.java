@@ -150,6 +150,7 @@ public class IdeaService implements IIdeaService {
 		if (ideaForm.getCategoryId() != null) {
 			idea.setCategoryId(ideaForm.getCategoryId());
 		}
+		idea.setRandom(ideaForm.getRandom());
 
 		ideaMapper.insertSelective(idea);
 
@@ -181,7 +182,7 @@ public class IdeaService implements IIdeaService {
 			UploadImageException {
 		validateIdea(ideaForm);
 		Long ideaId = ideaForm.getIdeaId();
-		Idea idea=getIdeaById(ideaId);
+		Idea idea = getIdeaById(ideaId);
 		idea.setCity(ideaForm.getCity());
 		idea.setContent(ideaForm.getContent());
 		idea.setContentMd5(ideaForm.getContentMd5());
@@ -191,7 +192,8 @@ public class IdeaService implements IIdeaService {
 		idea.setPlace(ideaForm.getPlace());
 		idea.setGender(ideaForm.getGender());
 		idea.setCategoryId(ideaForm.getCategoryId());
-	
+		idea.setRandom(ideaForm.getRandom());
+
 		String fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(),
 				ideaForm.getNewpic(), ideaId, ideaForm.getPic());
 		idea.setPic(fileName);

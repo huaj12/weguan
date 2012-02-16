@@ -21,7 +21,7 @@
 			</div><!--select_box end-->
 		</div><!--select_menu end-->
 		<div class="send_box_error" style="display: none;"></div>
-		<div class="random_select"><c:if test="${postForm == null}"><a href="#">没想好？随机一个吧</a></c:if></div>
+		<div class="random_select"><c:if test="${postForm == null}"><a href="javascript:void(0);">没想好？随机一个吧</a></c:if></div>
 		<div class="textarea"><textarea name="content" cols="" rows="">${postForm.content}</textarea></div>
 		<div class="jh"><!--jh begin-->
 			<div id="send-post-date" class="menu_item <c:if test='${postForm != null && postForm.date != null}'>done</c:if>"><!--menu_item begin-->

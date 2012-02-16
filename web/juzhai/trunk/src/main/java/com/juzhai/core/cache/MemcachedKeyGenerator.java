@@ -133,4 +133,14 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	public static String genUserWeiboKey(long uid) {
 		return genKey(uid, "userWeibo");
 	}
+
+	/**
+	 * 用户总的被响应数
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genAllResponseCnt(long uid) {
+		return genKey(uid, "allResponseCnt");
+	}
 }

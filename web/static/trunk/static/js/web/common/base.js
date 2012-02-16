@@ -87,7 +87,11 @@ $(document).ready(function(){
 		var sending = send.prev().show();
 		postIdea(ideaId, send, sending, function(){
 			sending.attr("class", "sended").children("a").text("已发布");
-			$("#useCount-" + ideaId).text(parseInt($("#useCount-" + ideaId).text()) + 1);
+			if($("#useCount-" + ideaId).is(":visible")){
+				$("#useCount-" + ideaId).text(parseInt($("#useCount-" + ideaId).text()) + 1);
+			}else{
+				$("#useCountShow-" + ideaId).text("1人想去");
+			}
 		});
 	});
 });

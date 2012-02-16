@@ -74,7 +74,7 @@ function operateIdeaRandom(id,random){
 			<td width="60">是否推荐到随机库</td>
 			<td width="100">拒宅时间</td>
 			<td width="100">发布时间</td>
-			<td width="100">操作</td>
+			<td width="150">操作</td>
 		</tr>
 		<c:forEach var="view" items="${ideaViews}" >
 			<tr>
@@ -120,11 +120,11 @@ function operateIdeaRandom(id,random){
 				<td><fmt:formatDate value="${view.idea.createTime}"
 						pattern="yyyy-MM-dd hh:mm:ss" /></td>
 				<td>
-				<a href="javascript:;" onclick="del('${view.idea.id}')">取消好主意</a>
-				<a href="/cms/show/idea/update?ideaId=${view.idea.id}">修改好主意</a>
+				<a href="javascript:;" onclick="del('${view.idea.id}')">取消好主意</a><br />
+				<a href="/cms/show/idea/update?ideaId=${view.idea.id}">修改好主意</a><br />
 				<c:choose>
-						<c:when test="${view.idea.random}"><a href="javascript:void(0);" onclick="operateIdeaRandom('${view.idea.id}',0)">取消推荐到随即库</a></c:when>
-						<c:otherwise><a href="javascript:void(0);" onclick="operateIdeaRandom('${view.idea.id}',1)">推荐到随即库</a></c:otherwise>
+						<c:when test="${view.idea.random}"><a href="javascript:void(0);" onclick="operateIdeaRandom('${view.idea.id}',0)">移出随即库</a></c:when>
+						<c:otherwise><a href="javascript:void(0);" onclick="operateIdeaRandom('${view.idea.id}',1)">进入随即库</a></c:otherwise>
 					</c:choose>
 				</td>
 			</tr>

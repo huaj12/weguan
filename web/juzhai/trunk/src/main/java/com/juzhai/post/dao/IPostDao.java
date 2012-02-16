@@ -9,4 +9,12 @@ public interface IPostDao {
 	 * @param p
 	 */
 	void incrOrDecrResponseCnt(long postId, int p);
+
+	/**
+	 * 计算某一个用户获得响应数
+	 * 
+	 * @param uid
+	 * @return 数量
+	 */
+	int sumResponseCntByCreateUid(long uid);
 }

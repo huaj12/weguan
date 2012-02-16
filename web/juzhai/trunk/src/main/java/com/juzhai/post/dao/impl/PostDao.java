@@ -23,4 +23,13 @@ public class PostDao implements IPostDao {
 		sqlSession.update("Post_Mapper.incrResponseCount", params);
 	}
 
+	@Override
+	public int sumResponseCntByCreateUid(long uid) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("uid", uid);
+		Object cnt = sqlSession.selectOne(
+				"Post_Mapper.sumResponseCntByCreateUid", params);
+		return cnt == null ? 0 : (Integer) cnt;
+	}
+
 }

@@ -3,7 +3,6 @@ package com.juzhai.post.service;
 import java.util.List;
 
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.platform.exception.AdminException;
 import com.juzhai.post.controller.form.PostForm;
 import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.model.Post;
@@ -298,4 +297,11 @@ public interface IPostService {
 	 */
 	void synchronizeWeibo(long uid, long tpId, long postId);
 
+	/**
+	 * 获取总的响应数，半小时缓存
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	int getAllResponseCnt(long uid);
 }

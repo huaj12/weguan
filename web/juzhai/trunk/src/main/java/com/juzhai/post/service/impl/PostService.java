@@ -84,6 +84,12 @@ public class PostService implements IPostService {
 	private IWordFilterService wordFilterService;
 	@Autowired
 	private IDialogService dialogService;
+	@Autowired
+	private MessageSource messageSource;
+	@Autowired
+	private ITpUserAuthService tpUserAuthService;
+	@Autowired
+	private ISynchronizeService synchronizeService;
 	@Value("${post.content.wordfilter.application}")
 	private int postContentWordfilterApplication;
 	@Value("${post.content.length.min}")
@@ -96,12 +102,8 @@ public class PostService implements IPostService {
 	private int postPlaceLengthMax;
 	@Value("${post.interval.expire.time}")
 	private int postIntervalExpireTime;
-	@Autowired
-	private MessageSource messageSource;
-	@Autowired
-	private ITpUserAuthService tpUserAuthService;
-	@Autowired
-	private ISynchronizeService synchronizeService;
+	@Value("${all.response.cnt.expire.time}")
+	private int allResponseCntExpireTime;
 
 	@Override
 	public long createPost(long uid, PostForm postForm)
@@ -840,5 +842,31 @@ public class PostService implements IPostService {
 		} catch (Exception e) {
 			log.error("synchronizeWeibo is error " + e.getMessage());
 		}
+	}
+
+	@Override
+	public int getAllResponseCnt(long uid) {
+		Integer cnt = null;
+		try {
+			cnt = memcachedClient.get(MemcachedKeyGenerator
+					.genAllResponseCnt(uid));
+		} catch (Exception e) {
+			if (log.isDebugEnabled()) {
+				log.debug(e.getMessage(), e);
+			}
+		}
+		if (null == cnt) {
+			cnt = postDao.sumResponseCntByCreateUid(uid);
+			try {
+				memcachedClient.set(
+						MemcachedKeyGenerator.genAllResponseCnt(uid),
+						allResponseCntExpireTime, cnt);
+			} catch (Exception e) {
+				if (log.isDebugEnabled()) {
+					log.debug(e.getMessage(), e);
+				}
+			}
+		}
+		return cnt;
 	}
 }

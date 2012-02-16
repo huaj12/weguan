@@ -1,9 +1,12 @@
 package com.juzhai.post.controller.website;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -11,9 +14,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.core.controller.BaseController;
+import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
+import com.juzhai.core.util.DateFormat;
+import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
@@ -76,5 +83,35 @@ public class IdeaController extends BaseController {
 		model.addAttribute("ideaUserViewList", ideaUserViewList);
 		model.addAttribute("pageType", "cqw");
 		return "web/idea/detail";
+	}
+
+	@RequestMapping(value = "/random")
+	@ResponseBody
+	public AjaxResult randomIdea(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		checkLoginForWeb(request);
+		ProfileCache loginUser = getLoginUserCache(request);
+		AjaxResult result = new AjaxResult();
+		if (loginUser != null) {
+			Idea idea = ideaService
+					.getRandomIdea(loginUser.getCity() == null ? 0 : loginUser
+							.getCity());
+			if (null != idea) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("id", idea.getId());
+				map.put("content", idea.getContent());
+				if (null != idea.getDate()) {
+					map.put("dateTime", DateFormat.SDF.format(idea.getDate()));
+				}
+				if (StringUtils.isNotEmpty(idea.getPlace())) {
+					map.put("place", idea.getPlace());
+				}
+				map.put("categoryId", idea.getCategoryId());
+				result.setResult(map);
+				return result;
+			}
+		}
+		result.setSuccess(false);
+		return result;
 	}
 }

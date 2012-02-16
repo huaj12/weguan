@@ -116,6 +116,14 @@ public interface IIdeaService {
 	int countIdeaUsers(long ideaId);
 
 	/**
+	 * 城市随机
+	 * 
+	 * @param gender
+	 * @return
+	 */
+	Idea getRandomIdea(long cityId);
+	
+	/**
 	 * 标记是否加入到随即库
 	 * 
 	 * @param random

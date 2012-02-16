@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +25,7 @@ import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.post.InitData;
 import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.dao.IIdeaDao;
 import com.juzhai.post.exception.InputIdeaException;
@@ -150,7 +153,6 @@ public class IdeaService implements IIdeaService {
 		if (ideaForm.getCategoryId() != null) {
 			idea.setCategoryId(ideaForm.getCategoryId());
 		}
-		idea.setRandom(ideaForm.getRandom());
 
 		ideaMapper.insertSelective(idea);
 
@@ -280,11 +282,32 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
+	public Idea getRandomIdea(long cityId) {
+		List<Idea> list = new ArrayList<Idea>();
+		List<Idea> ideaList = InitData.RANDOM_IDEA.get(cityId);
+		if (CollectionUtils.isNotEmpty(ideaList)) {
+			list.addAll(ideaList);
+		}
+		if (cityId > 0) {
+			ideaList = InitData.RANDOM_IDEA.get(0L);
+			if (CollectionUtils.isNotEmpty(ideaList)) {
+				list.addAll(ideaList);
+			}
+		}
+		System.out.println("size:" + list.size());
+		if (CollectionUtils.isEmpty(list)) {
+			return null;
+		}
+		int index = RandomUtils.nextInt(list.size());
+		System.out.println("index:" + index);
+		return list.get(index);
+	}
+	
+	@Override
 	public void ideaRandom(long ideaId, boolean random) {
 		Idea idea = new Idea();
 		idea.setId(ideaId);
 		idea.setRandom(random);
 		ideaMapper.updateByPrimaryKeySelective(idea);
 	}
-
 }

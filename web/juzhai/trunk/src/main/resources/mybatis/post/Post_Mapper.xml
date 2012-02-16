@@ -7,4 +7,8 @@
 	    update tb_post set response_cnt = response_cnt + #{p} where id = #{id}
 	</update>
 	
+	<select id="sumResponseCntByCreateUid" resultType="java.lang.Integer" parameterMap="map">
+	   select sum(response_cnt) from tb_post where create_uid = #{uid} group by create_uid
+	</select>
+	
 </mapper>

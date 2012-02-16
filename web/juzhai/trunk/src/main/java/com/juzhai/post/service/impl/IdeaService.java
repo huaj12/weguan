@@ -153,6 +153,7 @@ public class IdeaService implements IIdeaService {
 		if (ideaForm.getCategoryId() != null) {
 			idea.setCategoryId(ideaForm.getCategoryId());
 		}
+		idea.setRandom(ideaForm.getRandom());
 
 		ideaMapper.insertSelective(idea);
 

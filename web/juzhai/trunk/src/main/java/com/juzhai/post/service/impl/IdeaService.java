@@ -294,15 +294,13 @@ public class IdeaService implements IIdeaService {
 				list.addAll(ideaList);
 			}
 		}
-		System.out.println("size:" + list.size());
 		if (CollectionUtils.isEmpty(list)) {
 			return null;
 		}
 		int index = RandomUtils.nextInt(list.size());
-		System.out.println("index:" + index);
 		return list.get(index);
 	}
-	
+
 	@Override
 	public void ideaRandom(long ideaId, boolean random) {
 		Idea idea = new Idea();

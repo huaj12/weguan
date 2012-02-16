@@ -134,4 +134,18 @@ public class CmsIdeaController {
 		return ajaxResult;
 	}
 
+	@RequestMapping(value = "/operate/idea/random", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult operateIdeaRandom(
+			@RequestParam(defaultValue = "0") long ideaId,
+			@RequestParam(defaultValue = "false") boolean random) {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			ideaService.ideaRandom(ideaId, random);
+		} catch (Exception e) {
+			ajaxResult.setSuccess(false);
+		}
+		return ajaxResult;
+	}
+
 }

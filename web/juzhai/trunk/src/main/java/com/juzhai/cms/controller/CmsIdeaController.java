@@ -21,6 +21,7 @@ import com.juzhai.act.model.Category;
 import com.juzhai.cms.controller.form.AddIdeaForm;
 import com.juzhai.cms.controller.form.IdeaForm;
 import com.juzhai.cms.controller.view.CmsIdeaView;
+import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.index.bean.ShowIdeaOrder;
@@ -32,7 +33,7 @@ import com.juzhai.post.service.IIdeaService;
 
 @Controller
 @RequestMapping("/cms")
-public class CmsIdeaController {
+public class CmsIdeaController extends BaseController {
 
 	@Autowired
 	private IIdeaService ideaService;
@@ -87,8 +88,7 @@ public class CmsIdeaController {
 			model.addAttribute("idea", idea);
 			model.addAttribute("msg", msg);
 			model.addAttribute("citys", InitData.CITY_MAP.values());
-			model.addAttribute("categoryList",
-					com.juzhai.post.InitData.CATEGORY_MAP.values());
+			loadCategoryList(model);
 		}
 		return "/cms/idea/update";
 	}

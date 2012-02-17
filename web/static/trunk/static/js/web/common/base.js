@@ -508,14 +508,38 @@ function responsePost(clickObj, postId, successCallback){
 var PostSender =  Class.extend({
 	init: function(sendForm){
 		this.sendForm = sendForm;
+		this.sendPostCategory = sendForm.find("#send-post-category");
 		this.sendPostDate = sendForm.find("#send-post-date");
 		this.sendPostAddress = sendForm.find("#send-post-address");
 		this.sendPostPic = sendForm.find("#send-post-pic");
 		this.sendPostTb = sendForm.find("div.tb");
+		this.initCategory();
 		this.initDate();
 		this.initAddress();
 		this.initPic();
 		this.initTb();
+	},
+	initCategory : function(){
+		//category
+		var sendPostCategory = this.sendPostCategory;
+		sendPostCategory.find("p > a").bind("click", function(){
+			sendPostCategory.addClass("active");
+		});
+		$("body").bind("mousedown",function(event){
+			if($(event.target).closest(sendPostCategory).length <= 0){
+				sendPostCategory.removeClass("active");
+			}
+		});
+		sendPostCategory.find("div.tag_list > a").click(function(){
+			var value = $(this).attr("value");
+			var name = $(this).text();
+			sendPostCategory.find('input[name="categoryId"]').val(value);
+			sendPostCategory.find("p > a").text(name);
+			sendPostCategory.find("div.tag_list > a").removeClass("act");
+			$(this).addClass("act");
+			sendPostCategory.toggleClass("done", value>0);
+			sendPostCategory.removeClass("active");
+		});
 	},
 	initDate : function(){
 		//date

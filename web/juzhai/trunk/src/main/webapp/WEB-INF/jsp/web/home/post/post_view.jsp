@@ -15,11 +15,12 @@
 				</c:if>
 				<!-- <div class="clear"></div> -->
 				<span><c:set var="date" value="${postView.post.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span>
-				<c:if test="${not empty postView.post.place}">
-					<span class="adress"><c:out value="${postView.post.place}" /></span>
-				</c:if>
+				<span class="tag">${jzd:categoryName(postView.post.categoryId)}</span>
 				<c:if test="${postView.post.dateTime != null}">
 					<span class="time"><fmt:formatDate value="${postView.post.dateTime}" pattern="yyyy.MM.dd"/></span>
+				</c:if>
+				<c:if test="${not empty postView.post.place}">
+					<span class="adress"><c:out value="${postView.post.place}" /></span>
 				</c:if>
 				<c:if test="${not empty postView.post.link}">
 					<span class="link"><a href="${postView.post.link}" target="_blank">查看相关链接</a></span>

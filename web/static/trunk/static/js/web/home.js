@@ -89,24 +89,41 @@ $(document).ready(function(){
 					var content = result.result.content;
 					var dateTime = result.result.dateTime;
 					var place = result.result.place;
+					var categoryId = result.result.categoryId;
 					
+					resetSendPostForm($("form[name='sendPost']"));
 					$("textarea[name='content']").val(content);
-					
 					//place
-					$("div#send-post-address").find("input[name='place']").val(place!=null&&place!=""?place:"");
-					$("div#send-post-address").find("input[type='text']").val(place!=null&&place!=""?place:"");
-					$("div#send-post-address").toggleClass("done", place!=null&&place!="");
-					
+					if(place != null && place != ""){
+						$("div#send-post-address").find("input[name='place']").val(place);
+						$("div#send-post-address").find("input[type='text']").val(place);
+						$("div#send-post-address").addClass("done");
+					}
 					//date
-					if(null!=dateTime&&dateTime!=""){
+					if(null != dateTime && dateTime != ""){
 						$("div#send-post-date").find("input[name='dateString']").val(dateTime);
 						var array =  dateTime.split("-");
 						$("div#send-post-date").find("p > a").text(array[1] + "-" + array[2]);
-					}else{
-						$("div#send-post-date").find("input[name='dateString']").val("");
-						$("div#send-post-date").find("p > a").text("时间");
+						$("div#send-post-date").addClass("done");
 					}
-					$("div#send-post-date").toggleClass("done", null!=dateTime&&dateTime!="")
+					//date
+					if(null != dateTime && dateTime != ""){
+						$("div#send-post-date").find("input[name='dateString']").val(dateTime);
+						var array =  dateTime.split("-");
+						$("div#send-post-date").find("p > a").text(array[1] + "-" + array[2]);
+						$("div#send-post-date").addClass("done");
+					}
+					//category
+					if(categoryId > 0){
+						var selectCategory = $("div#send-post-category").find("div.tag_list > a[value='" + categoryId + "']");
+						if(null != selectCategory){
+							$("div#send-post-category").find("div.tag_list > a").first().removeClass("act");
+							selectCategory.addClass("act");
+							$("div#send-post-category").find("input[name='categoryId']").val(selectCategory.attr("value"));
+							$("div#send-post-category").find("p > a").text(selectCategory.text());
+							$("div#send-post-category").addClass("done");
+						}
+					}
 				}
 			},
 			statusCode : {
@@ -120,10 +137,15 @@ $(document).ready(function(){
 
 function resetSendPostForm(sendForm){
 	sendForm[0].reset();
+	sendForm.find('input[name="categoryId"]').val(0);
 	sendForm.find('input[name="place"]').val("");
 	sendForm.find("input[name='dateString']").val("");
 	sendForm.find("input[name='pic']").val("");
 	sendForm.find(".send_box_error").hide();
+	
+	var initText = sendForm.find("#send-post-category").find("div.tag_list > a").removeClass("act").first().addClass("act").text();
+	sendForm.find("#send-post-category > p > a").text(initText);
+	sendForm.find("#send-post-category").removeClass("done").removeClass("active");
 	
 	sendForm.find("#send-post-address").find("input[type='text']").val("");
 	sendForm.find("#send-post-address").removeClass("done").removeClass("active");

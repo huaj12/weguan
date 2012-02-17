@@ -7,10 +7,23 @@ public class CmsPostView {
 	private Post post;
 
 	private String username;
+	
+	private String userLogo;
+	
+	
 
-	public CmsPostView(Post post, String username) {
+	public String getUserLogo() {
+		return userLogo;
+	}
+
+	public void setUserLogo(String userLogo) {
+		this.userLogo = userLogo;
+	}
+
+	public CmsPostView(Post post, String username,String userLogo) {
 		this.post = post;
 		this.username = username;
+		this.userLogo=userLogo;
 	}
 
 	public Post getPost() {

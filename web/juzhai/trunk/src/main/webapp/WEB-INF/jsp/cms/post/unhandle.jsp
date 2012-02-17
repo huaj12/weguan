@@ -104,9 +104,9 @@ function handle(){
 		</tr>
 		<c:forEach var="view" items="${postView}" >
 			<tr>
-			<td><img src="${view.userLogo}" width="80" height="80"/></td>
+			<td><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,120)}" width="80" height="80"/></td>
 				<td><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:${view.post.content}</td>
-				<td>${view.username}</td>
+				<td>${view.profileCache.nickname}</td>
 				<td>${view.post.place}</td>
 				<td>${jzr:postPic(view.post.id, view.post.ideaId, view.post.pic, 200)}</td>
 				<td><fmt:formatDate value="${view.post.dateTime}"

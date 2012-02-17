@@ -114,14 +114,14 @@
 										<div class="select">
 											<!--select begin-->
 											<span><select id="province"
-												onchange="selectCity(this)">
+												onchange="selectProvince(this)">
 													<c:forEach var="pro" items="${provinces}">
 														<option
 															<c:if test="${profile.province==pro.id}">selected="selected"</c:if>
 															value="${pro.id}">${pro.name}</option>
 													</c:forEach>
 											</select>
-											</span> <span id="citys"> <select id="city" onchange="selectTown(this.value)">
+											</span> <span id="citys"> <select id="city" onchange="selectCity(this)">
 													<c:forEach var="city" items="${citys}">
 														<c:if test="${profile.province==city.provinceId}">
 															<option

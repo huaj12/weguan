@@ -38,11 +38,14 @@
 														<div class="img"><a href="${jzr:ideaPic(idea.id, idea.pic, 0)}" target="_blank"><img src="${jzr:ideaPic(idea.id, idea.pic,450)}"/></a></div>
 													</c:if>
 													<span><c:set var="date" value="${idea.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span>
-													<c:if test="${not empty idea.place}">
-														<span class="adress"><c:out value="${idea.place}" /></span>
+													<c:if test="${idea.categoryId > 0}">
+														<span class="tag">${jzd:categoryName(idea.categoryId)}</span>
 													</c:if>
 													<c:if test="${idea.date != null}">
 														<span class="time"><fmt:formatDate value="${idea.date}" pattern="yyyy.MM.dd"/></span>
+													</c:if>
+													<c:if test="${not empty idea.place}">
+														<span class="adress"><c:out value="${idea.place}" /></span>
 													</c:if>
 													<c:if test="${not empty idea.link}">
 														<span class="link"><a href="${idea.link}" target="_blank">查看相关链接</a></span>

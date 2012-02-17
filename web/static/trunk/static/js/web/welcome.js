@@ -22,4 +22,8 @@ $(document).ready(function(){
 			}
 		}
 	});
+	
+	$("a.go-login").click(function(){
+		showLogin(window.location.href);
+	});
 });

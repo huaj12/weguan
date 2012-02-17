@@ -33,6 +33,13 @@
     </function>
     
     <function>
+    	<name>categoryName</name>
+    	<function-class>com.juzhai.core.web.jstl.JzDataFunction</function-class>
+    	<function-signature>java.lang.String categoryName(long)</function-signature>
+    	<example>${jzd:categoryName(1)}</example>
+    </function>
+    
+    <function>
     	<name>appId</name>
     	<function-class>com.juzhai.core.web.jstl.JzDataFunction</function-class>
     	<function-signature>java.lang.String appId(long)</function-signature>

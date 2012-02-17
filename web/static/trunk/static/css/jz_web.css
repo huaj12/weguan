@@ -69,6 +69,8 @@ a{text-decoration:none;}
 
 
 
+
+
 /*框架*/
 
 
@@ -94,6 +96,8 @@ _bottom:auto;
 _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval(document.documentElement.scrollTop));
 
  }
+ 
+.main .fix_top .beta{ background:url(../images/web2/beta.jpg) no-repeat; width:50px; height:50px; overflow:hidden; float:left;}
  
 .main .top{ width:960px; height:50px; display:block; margin:0 auto;}
 
@@ -399,7 +403,7 @@ _filter:none;
 .send_area .jh .done p a.photo{ background:url(../images/web2/icon_hover_r6_c5.jpg) no-repeat;}
 .send_area .jh .done p a.link{ background:url(../images/web2/icon_hover_r6_c7.jpg) no-repeat;}
 
-
+.send_area .jh .done p a.tag{ background:url(../images/web2/tag_link_done.jpg) no-repeat;}
 
 
 
@@ -509,7 +513,7 @@ _filter:none;
 
 
 .show_area2 .tag_list{  padding:2px; display:block;}
-.show_area2 .tag_list a{ width:100%; text-align:center; height:25px; line-height:27px\9; display:block; background:#fafafa; margin-top:2px; color:#999;}
+.show_area2 .tag_list a{ width:100%; text-align:center; height:25px; line-height:25px; line-height:27px\9; display:block; background:#fafafa; margin-top:2px; color:#999;}
 .show_area2 .tag_list a:hover{ color:#666; background:#f5f5f5;}
 .show_area2 .tag_list a.act{background:#3E8BD9; color:#fff;}
 .show_area2 .tag_list a.act:hover{background:#3E8BD9; color:#fff; cursor:default; }
@@ -1587,12 +1591,13 @@ i{ color:#FF0000; font-style:normal;}
 .welcome .welcome_m{ background:url(../images/web2/welcome_con_r3_c1.jpg) repeat-y; width:100%; height:412px; overflow:hidden; position:relative; padding-bottom:30px; float:left;}
 
 .welcome .welcome_m h2{ width:100%; height:auto; color:#438DD9; text-align:center; font-size:24px; font-family:"微软雅黑"; margin-top:50px; line-height:normal;}
+.welcome .welcome_m h2 a{ color:#438DD9;}
 .welcome .welcome_m ul{  margin:0 auto;  margin-top:60px;}
 .welcome .welcome_m ul li{ float:left; width:120px; height:auto; margin-left:15px; margin-right:15px; overflow:hidden; display:inline;}
 .welcome .welcome_m ul li p{ width:120px; height:120px; overflow:hidden; float:left;}
 .welcome .welcome_m ul li span{ width:100%; float:left; color:#bbb; line-height:20px; margin-top:5px;}
 .welcome .welcome_m ul li em{ width:100%; float:left; color:#8f8f8f; line-height:20px;}
-
+.welcome .welcome_m ul li em a{ color:#8f8f8f;}
 
 .welcome .welcome_m .arrow_left{ position:absolute; left:40px; top:190px;}
 .welcome .welcome_m .arrow_right{ position:absolute; right:40px; top:190px;}
@@ -1643,7 +1648,7 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 
 .bottom_welcome_wel p{float:left; margin-left:5px; display:inline;}
 .bottom_welcome_wel p em{ float:left; color:#666; margin-right:10px; display:inline;}
-.bottom_welcome_wel p a{color:#666;float:left; margin-right:5px; display:inline; line-height:27px; margin-left:5px;}
+.bottom_welcome_wel p a{color:#666; margin-right:5px; display:inline; line-height:27px; margin-left:5px;}
 .bottom_welcome_wel p a:hover{color:#3E8BD9; text-decoration:underline;}
 .bottom_welcome_wel span{ float:right; margin-right:5px; display:inline;}
 .bottom_welcome_wel span a{ color:#444; line-height:27px; margin-left:5px; margin-right:5px;}

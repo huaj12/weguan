@@ -14,6 +14,8 @@ public class PostForm {
 
 	private String contentMd5;
 
+	private long categoryId;
+
 	private String place;
 
 	private String dateString;
@@ -103,4 +105,13 @@ public class PostForm {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+
+	public long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
+	}
+
 }

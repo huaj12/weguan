@@ -2,6 +2,7 @@ package com.juzhai.core.web.jstl;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.juzhai.act.model.Category;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Constellation;
@@ -51,6 +52,21 @@ public class JzDataFunction {
 			return null;
 		} else {
 			Constellation c = InitData.CONSTELLATION_MAP.get(constellationId);
+			return null == c ? null : c.getName();
+		}
+	}
+
+	/**
+	 * 获取分类名称
+	 * 
+	 * @param categoryId
+	 * @return
+	 */
+	public static String categoryName(long categoryId) {
+		if (categoryId <= 0) {
+			return null;
+		} else {
+			Category c = com.juzhai.post.InitData.CATEGORY_MAP.get(categoryId);
 			return null == c ? null : c.getName();
 		}
 	}

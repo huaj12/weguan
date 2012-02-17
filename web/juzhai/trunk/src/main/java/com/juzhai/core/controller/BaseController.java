@@ -133,6 +133,11 @@ public class BaseController {
 				CityChannelFilter.SESSION_CHANNEL_NAME, 0L);
 	}
 
+	protected void loadCategoryList(Model model) {
+		model.addAttribute("categoryList",
+				com.juzhai.post.InitData.CATEGORY_MAP.values());
+	}
+
 	protected void assembleBaseDates(Model model) {
 		model.addAttribute("towns", InitData.TOWN_MAP.values());
 		List<Category> categoryList = actCategoryService.findAllCategory();

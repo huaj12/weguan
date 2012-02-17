@@ -34,11 +34,12 @@
 													<div class="img"><a href="${jzr:postPic(post.id, post.ideaId, post.pic, 0)}" target="_blank"><img src="${jzr:postPic(post.id, post.ideaId, post.pic, 450)}"/></a></div>
 												</c:if>
 												<span><c:set var="date" value="${post.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span>
-												<c:if test="${not empty post.place}">
-													<span class="adress"><c:out value="${post.place}" /></span>
-												</c:if>
+												<span class="tag">${jzd:categoryName(post.categoryId)}</span>
 												<c:if test="${post.dateTime != null}">
 													<span class="time"><fmt:formatDate value="${post.dateTime}" pattern="yyyy.MM.dd"/></span>
+												</c:if>
+												<c:if test="${not empty post.place}">
+													<span class="adress"><c:out value="${post.place}" /></span>
 												</c:if>
 												<c:if test="${not empty post.link}">
 													<span class="link"><a href="${post.link}" target="_blank">查看相关链接</a></span>

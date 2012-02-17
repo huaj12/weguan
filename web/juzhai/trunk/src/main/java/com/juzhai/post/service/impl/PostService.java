@@ -37,6 +37,7 @@ import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.service.ISynchronizeService;
+import com.juzhai.post.InitData;
 import com.juzhai.post.bean.PurposeType;
 import com.juzhai.post.bean.SynchronizeWeiboTemplate;
 import com.juzhai.post.bean.VerifyType;
@@ -156,7 +157,8 @@ public class PostService implements IPostService {
 		post.setLink(idea.getLink());
 		post.setPlace(idea.getPlace());
 		post.setDateTime(idea.getDate());
-		post.setCategoryId(post.getCategoryId());
+		post.setCategoryId(idea.getCategoryId() <= 0 ? InitData.OTHER_CATEGORY_ID
+				: idea.getCategoryId());
 		post.setIdeaId(idea.getId());
 		post.setCity(idea.getCity());
 		post.setPic(idea.getPic());
@@ -193,6 +195,8 @@ public class PostService implements IPostService {
 		post.setContent(postForm.getContent());
 		post.setContentMd5(postForm.getContentMd5());
 		post.setLink(postForm.getLink());
+		post.setCategoryId(postForm.getCategoryId() <= 0 ? InitData.OTHER_CATEGORY_ID
+				: postForm.getCategoryId());
 		post.setPlace(postForm.getPlace());
 		post.setDateTime(postForm.getDate());
 		post.setPurposeType(postForm.getPurposeType());
@@ -365,6 +369,8 @@ public class PostService implements IPostService {
 		post.setContent(postForm.getContent());
 		post.setContentMd5(postForm.getContentMd5());
 		post.setLink(postForm.getLink());
+		post.setCategoryId(postForm.getCategoryId() <= 0 ? InitData.OTHER_CATEGORY_ID
+				: postForm.getCategoryId());
 		post.setPlace(postForm.getPlace());
 		post.setDateTime(postForm.getDate());
 		post.setPurposeType(postForm.getPurposeType());
@@ -464,8 +470,9 @@ public class PostService implements IPostService {
 		}
 		long uid = post.getCreateUid();
 		if (post.getIdeaId() > 0) {
-			throw new InputPostException(InputPostException.POST_DEL_IDEA_ID_EXIST);
-//			ideaService.removeUser(post.getIdeaId(), uid);
+			throw new InputPostException(
+					InputPostException.POST_DEL_IDEA_ID_EXIST);
+			// ideaService.removeUser(post.getIdeaId(), uid);
 		}
 		PostResponseExample example = new PostResponseExample();
 		example.createCriteria().andPostIdEqualTo(postId);

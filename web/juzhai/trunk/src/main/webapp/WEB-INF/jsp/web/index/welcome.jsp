@@ -24,15 +24,15 @@
 				<div class="welcome"><!--welcome begin-->
 					<div class="welcome_t"></div>
 					<div class="welcome_m">
-						<h2>寻找一份久违了的阳光周末</h2>
+						<h2><a href="javascript:void(0);" class="go-login">寻找一份久违了的阳光周末</a></h2>
 						<div style="height: 290px;position: relative;overflow: hidden;margin: 0px 100px;">
 							<div id="window-box" style="position: absolute;height: 250px;width: 2550px;left: 5px;">
 								<ul window-count="${fn:length(postWindowViews)}">
 									<c:forEach items="${postWindowViews}" varStatus="index" var="view">
 										<li>
-											<p><img src="${jzr:userLogo(view.profileCache.uid, view.profileCache.logoPic, 120)}" width="120" height="120"/></p>
+											<p><a href="javascript:void(0);" class="go-login"><img src="${jzr:userLogo(view.profileCache.uid, view.profileCache.logoPic, 120)}" width="120" height="120"/></a></p>
 											<span><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.postWindow.purposeType}" /></c:import>: </span>
-											<em><c:out value="${jzu:truncate(view.postWindow.content, 74, '...')}" /></em>
+											<em><a href="javascript:void(0);" class="go-login"><c:out value="${jzu:truncate(view.postWindow.content, 74, '...')}" /></a></em>
 										</li>
 									</c:forEach>
 								</ul>

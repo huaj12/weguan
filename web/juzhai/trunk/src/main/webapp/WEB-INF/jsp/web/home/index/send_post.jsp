@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
+<%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <form name="sendPost${postForm.postId}" method="post" enctype="multipart/form-data">
 	<c:if test="${postForm != null}">
@@ -24,6 +25,24 @@
 		<div class="random_select"><c:if test="${postForm == null}"><a href="javascript:void(0);">没想好？随机一个吧</a></c:if></div>
 		<div class="textarea"><textarea name="content" cols="" rows="">${postForm.content}</textarea></div>
 		<div class="jh"><!--jh begin-->
+			<c:choose>
+				<c:when test="${postForm!=null}"><c:set var="categoryId" value="${postForm.categoryId}" /></c:when>
+				<c:otherwise><c:set var="categoryId" value="0" /></c:otherwise>
+			</c:choose>
+			<div id="send-post-category" class="menu_item <c:if test='${categoryId > 0}'>done</c:if>"><!--menu_item begin-->
+				<input type="hidden" name="categoryId" value="${categoryId}" />
+				<p><a href="javascript:void(0);" class="tag"><c:choose><c:when test="${categoryId > 0}">${jzd:categoryName(categoryId)}</c:when><c:otherwise>分类</c:otherwise></c:choose></a><b></b></p>
+				<div class="show_area2 w100pst"><!--show_area begin-->
+					<div class="tag_list">
+						<c:if test="${categoryId <= 0}">
+							<a href="javascript:void(0);" value="0" <c:if test="${categoryId == 0}">class="act"</c:if>>分类</a>
+						</c:if>
+						<c:forEach var="category" items="${categoryList}">
+							<a href="javascript:void(0);" value="${category.id}" <c:if test="${categoryId == category.id}">class="act"</c:if>>${category.name}</a>
+						</c:forEach>
+					</div>
+				</div><!--show_area end-->
+			</div><!--menu_item end-->
 			<div id="send-post-date" class="menu_item <c:if test='${postForm != null && postForm.date != null}'>done</c:if>"><!--menu_item begin-->
 				<input type="hidden" name="dateString" value="<fmt:formatDate value='${postForm.date}' pattern='yyyy-MM-dd'/>" />
 				<p><a href="javascript:void(0);" class="time"><c:choose><c:when test="${postForm != null && postForm.date != null}"><fmt:formatDate value="${postForm.date}" pattern="MM-dd"/></c:when><c:otherwise>时间</c:otherwise></c:choose></a></p>

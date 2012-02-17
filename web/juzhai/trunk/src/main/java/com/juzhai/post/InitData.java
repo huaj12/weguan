@@ -21,6 +21,10 @@ import com.juzhai.post.model.IdeaExample;
 @Lazy(false)
 public class InitData {
 
+	/**
+	 * 分类-其他的Id
+	 */
+	public static final long OTHER_CATEGORY_ID = 8L;
 	public static final Map<Long, Category> CATEGORY_MAP = new HashMap<Long, Category>();
 	public static final Map<Long, List<Idea>> RANDOM_IDEA = new HashMap<Long, List<Idea>>();
 

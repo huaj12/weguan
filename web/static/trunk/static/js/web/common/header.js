@@ -31,8 +31,9 @@ $(document).ready(function(){
 //	}, registerClosChannel);
 	
 	//登录
-	$("div.unlogin > a").bind("click", function(){
-		showLogin(window.location.href);
+	$("div.welcome_login > a").bind("click", function(){
+		window.location.href = "/web/login/6?turnTo=" + window.location.href; 
+		//showLogin(window.location.href);
 	});
 	
 //	var messageTimerId = null;
@@ -103,6 +104,16 @@ $(document).ready(function(){
 	});
 	$("div.search > div.s_r > a").bind("click", function(){
 		$("#searchActsForm").submit();
+	});
+	$("a#feedback").click(function(){
+		var hasLogin = $(this).attr("has-login") == "true";
+		if(!hasLogin){
+			window.location.href = "/login?turnTo=" + window.location.href;
+			return;
+		}
+		var uid = $(this).attr("target-uid");
+		var nickname = $(this).attr("target-nickname");
+		openMessage(uid, nickname);
 	});
 });
 

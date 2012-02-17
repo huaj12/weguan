@@ -149,12 +149,14 @@ public class PostController extends BaseController {
 		postForm.setIdeaId(post.getIdeaId());
 		postForm.setPostId(post.getId());
 		postForm.setContent(post.getContent());
+		postForm.setCategoryId(post.getCategoryId());
 		postForm.setDate(post.getDateTime());
 		postForm.setLink(post.getLink());
 		postForm.setPlace(post.getPlace());
 		postForm.setPic(post.getPic());
 		postForm.setPurposeType(post.getPurposeType());
 		model.addAttribute("postForm", postForm);
+		loadCategoryList(model);
 	}
 
 	@RequestMapping(value = "/deletePost", method = RequestMethod.POST)

@@ -3,7 +3,6 @@ package com.juzhai.home.controller.app;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +15,7 @@ import com.juzhai.home.controller.form.AnswerForm;
 import com.juzhai.home.service.IInboxService;
 import com.juzhai.passport.service.IUserSetupService;
 
-@Controller
+//@Controller
 @RequestMapping(value = "app")
 public class AppTpUserJudgeController extends BaseController {
 

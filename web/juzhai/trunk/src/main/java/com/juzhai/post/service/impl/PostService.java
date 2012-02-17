@@ -464,7 +464,8 @@ public class PostService implements IPostService {
 		}
 		long uid = post.getCreateUid();
 		if (post.getIdeaId() > 0) {
-			ideaService.removeUser(post.getIdeaId(), uid);
+			throw new InputPostException(InputPostException.POST_DEL_IDEA_ID_EXIST);
+//			ideaService.removeUser(post.getIdeaId(), uid);
 		}
 		PostResponseExample example = new PostResponseExample();
 		example.createCriteria().andPostIdEqualTo(postId);

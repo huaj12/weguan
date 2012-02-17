@@ -16,6 +16,7 @@
 		<div class="warp"><!--warp begin-->
 			<div class="main"><!--main begin-->
 				<div class="fix_top"><!--fix_top begin-->
+					<div class="beta"></div>
 					<div class="top"><!--top begin-->
 						<h2></h2>
 						<div class="welcome_login"><p>加入拒宅:</p><a href="/web/login/6?turnTo=${turnTo}"></a></div>

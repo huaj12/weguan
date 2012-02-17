@@ -54,13 +54,13 @@
 		<tr>
 			<td>地点</td>
 			<td><span> <select id="province"
-					onchange="selectCity(this)">
+					onchange="selectProvince(this)">
 						<c:forEach var="pro" items="${provinces}">
 							<option
 								<c:if test="${rawAct.province==pro.id}">selected="selected"</c:if>
 								value="${pro.id}">${pro.name}</option>
 						</c:forEach>
-				</select> </span> <span id="citys"> <select id="city" onchange="selectTown(this.value)">
+				</select> </span> <span id="citys"> <select id="city" onchange="selectCity(this)">
 						<c:forEach var="city" items="${citys}">
 							<c:if test="${rawAct.province==city.provinceId}">
 								<option
@@ -146,18 +146,18 @@
 			$("#uploadImgForm").ajaxSubmit(options);
 			return false;
 		}
-		function selectCity(obj) {
-			jQuery.get('/base/selectCity', {
+		function selectProvince(obj) {
+			jQuery.get('/base/selectProvince', {
 				proId : obj.value,
 				random : Math.random()
 			}, function(result) {
 				$("#citys").html(result);
-				selectTown($("#c_id").val());
+				selectCity($("#c_id")[0]);
 			});
 		}
-		function selectTown(id) {
-			jQuery.get('/base/selectTown', {
-				cityId : id,
+		function selectCity(obj) {
+			jQuery.get('/base/selectCity', {
+				cityId : obj.value,
 				random : Math.random()
 			}, function(result) {
 				$("#towns").show();

@@ -11,7 +11,6 @@ import org.apache.commons.lang.time.DateUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,7 +30,7 @@ import com.juzhai.core.util.JackSonSerializer;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 
-@Controller
+//@Controller
 @RequestMapping(value = "act")
 public class RawActController extends BaseController {
 

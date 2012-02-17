@@ -27,7 +27,7 @@
 						<c:set var="townName" value="${jzd:townName(interestUserView.profileCache.town)}" />
 						<c:set var="age" value="${jzu:age(interestUserView.profileCache.birthYear,interestUserView.profileCache.birthSecret)}" />
 						<c:set var="constellationName" value="${jzd:constellationName(interestUserView.profileCache.constellationId)}" />
-						<em><c:if test="${age >= 0}">${age}岁&nbsp;</c:if><c:if test="${not empty cityName}">${cityName}<c:if test="${not empty townName}">${townName}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty interestUserView.profileCache.profession}">${interestUserView.profileCache.profession}</c:if></em>
+						<em><c:if test="${age > 0}">${age}岁&nbsp;</c:if><c:if test="${not empty cityName}">${cityName}<c:if test="${not empty townName}">${townName}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty interestUserView.profileCache.profession}">${interestUserView.profileCache.profession}</c:if></em>
 						<c:if test="${interestUserView.latestPost != null}">
 						<b><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${interestUserView.latestPost.purposeType}"/></c:import>:</font><a href="/post/${interestUserView.latestPost.id}"><c:out value="${jzu:truncate(interestUserView.latestPost.content,42,'...')}" /></a></b>
 						</c:if>

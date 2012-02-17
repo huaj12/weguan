@@ -43,6 +43,10 @@ public class InputPostException extends JuzhaiException {
 	 * 该拒宅已添加过了
 	 */
 	public static final String POST_ID_REPEAT_ADD = "100008";
+	/**
+	 * 该拒宅添加过idea不能删除
+	 */
+	public static final String POST_DEL_IDEA_ID_EXIST = "100009";
 
 	public InputPostException(String errorCode, Throwable cause) {
 		super(errorCode, cause);

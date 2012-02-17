@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<select name="city" id="city" onchange="selectTown(this.value)">
+<select name="city" id="city" onchange="selectCity(this)">
 	<c:forEach var="city" items="${citys}" varStatus="step">
 		<c:if test="${step.index==0}">
 			<c:set var="s" value="${city.id}"></c:set>

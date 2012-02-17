@@ -1,29 +1,25 @@
 package com.juzhai.cms.controller.view;
 
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.model.Post;
 
 public class CmsPostView {
 
 	private Post post;
 
-	private String username;
-	
-	private String userLogo;
-	
-	
+	private ProfileCache profileCache;
 
-	public String getUserLogo() {
-		return userLogo;
-	}
-
-	public void setUserLogo(String userLogo) {
-		this.userLogo = userLogo;
-	}
-
-	public CmsPostView(Post post, String username,String userLogo) {
+	public CmsPostView(Post post, ProfileCache profileCache) {
 		this.post = post;
-		this.username = username;
-		this.userLogo=userLogo;
+		this.profileCache = profileCache;
+	}
+
+	public ProfileCache getProfileCache() {
+		return profileCache;
+	}
+
+	public void setProfileCache(ProfileCache profileCache) {
+		this.profileCache = profileCache;
 	}
 
 	public Post getPost() {
@@ -32,14 +28,6 @@ public class CmsPostView {
 
 	public void setPost(Post post) {
 		this.post = post;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 }

@@ -40,6 +40,7 @@ function unshield(id){
 	<h2>屏蔽内容</h2>
 	<table border="0" cellspacing="4">
 		<tr style="background-color: #CCCCCC;">
+			<td width="100">用户头像</td>
 			<td width="100">我想去</td>
 			<td width="100">发起人</td>
 			<td width="100">地点</td>
@@ -50,6 +51,7 @@ function unshield(id){
 		</tr>
 		<c:forEach var="view" items="${postView}" >
 			<tr>
+				<td><img src="${view.userLogo}" width="80" height="80"/></td>
 				<td><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:${view.post.content}</td>
 				<td>${view.username}</td>
 				<td>${view.post.place}</td>

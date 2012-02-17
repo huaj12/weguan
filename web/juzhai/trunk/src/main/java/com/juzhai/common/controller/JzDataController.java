@@ -69,8 +69,8 @@ public class JzDataController {
 		return result;
 	}
 
-	@RequestMapping(value = "/selectCity", method = RequestMethod.GET)
-	public String selectCity(Model model, String proId) {
+	@RequestMapping(value = "/selectProvince", method = RequestMethod.GET)
+	public String selectProvince(Model model, String proId) {
 		List<City> citys = new ArrayList<City>();
 		for (Entry<Long, City> entry : com.juzhai.passport.InitData.CITY_MAP
 				.entrySet()) {
@@ -82,8 +82,8 @@ public class JzDataController {
 		return "common/ajax/citys_list";
 	}
 
-	@RequestMapping(value = "/selectTown", method = RequestMethod.GET)
-	public String selectTown(Model model, String cityId) {
+	@RequestMapping(value = "/selectCity", method = RequestMethod.GET)
+	public String selectCity(Model model, String cityId) {
 		List<Town> towns = new ArrayList<Town>();
 		for (Entry<Long, Town> entry : com.juzhai.passport.InitData.TOWN_MAP
 				.entrySet()) {

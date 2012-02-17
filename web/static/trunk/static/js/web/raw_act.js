@@ -55,18 +55,18 @@ function uploadImage() {
 	return false;
 }
 
-function selectCity(obj) {
-	$.get('/base/selectCity', {
+function selectProvince(obj) {
+	$.get('/base/selectProvince', {
 		proId : obj.value,
 		random : Math.random()
 	}, function(result) {
 		$("#citys").html(result);
-		selectTown($("#c_id").val());
+		selectCity($("#c_id")[0]);
 	});
 }
-function selectTown(id) {
-	$.get('/base/selectTown', {
-		cityId : id,
+function selectCity(obj) {
+	$.get('/base/selectCity', {
+		cityId : obj.value,
 		random : Math.random()
 	}, function(result) {
 		$("#towns").show();

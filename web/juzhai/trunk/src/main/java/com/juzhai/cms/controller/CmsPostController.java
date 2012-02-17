@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.cms.controller.view.CmsPostView;
+import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.exception.InputPostException;
@@ -44,7 +46,9 @@ public class CmsPostController {
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
 					.getCreateUid());
-			listView.add(new CmsPostView(post, cache.getNickname()));
+			String userLogo = JzResourceFunction.userLogo(cache.getUid(),
+					cache.getLogoPic(), JzImageSizeType.MIDDLE.getType());
+			listView.add(new CmsPostView(post, cache.getNickname(), userLogo));
 		}
 		model.addAttribute("postView", listView);
 		model.addAttribute("pager", pager);
@@ -62,7 +66,9 @@ public class CmsPostController {
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
 					.getCreateUid());
-			listView.add(new CmsPostView(post, cache.getNickname()));
+			String userLogo = JzResourceFunction.userLogo(cache.getUid(),
+					cache.getLogoPic(), JzImageSizeType.MIDDLE.getType());
+			listView.add(new CmsPostView(post, cache.getNickname(), userLogo));
 		}
 		model.addAttribute("postView", listView);
 		model.addAttribute("pager", pager);
@@ -80,7 +86,9 @@ public class CmsPostController {
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
 					.getCreateUid());
-			listView.add(new CmsPostView(post, cache.getNickname()));
+			String userLogo = JzResourceFunction.userLogo(cache.getUid(),
+					cache.getLogoPic(), JzImageSizeType.MIDDLE.getType());
+			listView.add(new CmsPostView(post, cache.getNickname(), userLogo));
 		}
 		model.addAttribute("postView", listView);
 		model.addAttribute("pager", pager);
@@ -145,6 +153,5 @@ public class CmsPostController {
 		}
 		return ajaxResult;
 	}
-	
-	
+
 }

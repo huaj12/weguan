@@ -46,9 +46,7 @@ public class CmsPostController {
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
 					.getCreateUid());
-			String userLogo = JzResourceFunction.userLogo(cache.getUid(),
-					cache.getLogoPic(), JzImageSizeType.MIDDLE.getType());
-			listView.add(new CmsPostView(post, cache.getNickname(), userLogo));
+			listView.add(new CmsPostView(post, cache));
 		}
 		model.addAttribute("postView", listView);
 		model.addAttribute("pager", pager);
@@ -66,9 +64,7 @@ public class CmsPostController {
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
 					.getCreateUid());
-			String userLogo = JzResourceFunction.userLogo(cache.getUid(),
-					cache.getLogoPic(), JzImageSizeType.MIDDLE.getType());
-			listView.add(new CmsPostView(post, cache.getNickname(), userLogo));
+			listView.add(new CmsPostView(post, cache));
 		}
 		model.addAttribute("postView", listView);
 		model.addAttribute("pager", pager);
@@ -86,9 +82,7 @@ public class CmsPostController {
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
 					.getCreateUid());
-			String userLogo = JzResourceFunction.userLogo(cache.getUid(),
-					cache.getLogoPic(), JzImageSizeType.MIDDLE.getType());
-			listView.add(new CmsPostView(post, cache.getNickname(), userLogo));
+			listView.add(new CmsPostView(post, cache));
 		}
 		model.addAttribute("postView", listView);
 		model.addAttribute("pager", pager);

@@ -68,7 +68,7 @@
 								<div class="xhang"><!--x_hang begin-->
 									<h3>地&nbsp;点(选填)：</h3>
 									<div class="select"><!--select begin-->
-										<span><select name="province" id="province" onchange="selectCity(this)">
+										<span><select name="province" id="province" onchange="selectProvince(this)">
 											<c:forEach var="pro" items="${provinces}" varStatus="status">
 												<c:if test="${status.index==0}">
 													<c:set var="s" value="${pro.id}"></c:set>
@@ -76,7 +76,7 @@
 												<option value="${pro.id}">${pro.name}</option>
 											</c:forEach>
 										</select></span>
-										<span id="citys"><select id="city" name="city" onchange="selectTown(this.value)">
+										<span id="citys"><select id="city" name="city" onchange="selectCity(this)">
 											<c:forEach var="city" items="${citys}"  varStatus="status">
 												<c:if test="${status.index==0}">
 													<c:set var="c" value="${city.id}"></c:set>

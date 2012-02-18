@@ -29,6 +29,7 @@
 			<c:choose>
 				<c:when test="${context.uid == profile.uid}">
 					<div class="con_btn">
+						<c:choose><c:when test="${postView.post.responseCnt > 0}"><a href="/post/${postView.post.id}">有${postView.post.responseCnt}人响应</a></c:when><c:otherwise><em>无人响应</em></c:otherwise></c:choose>
 						<a href="javascript:void(0);" class="edit" post-id="${postView.post.id}">编辑</a>
 						<a href="javascript:void(0);" class="delete" post-id="${postView.post.id}">删除</a>
 					</div>

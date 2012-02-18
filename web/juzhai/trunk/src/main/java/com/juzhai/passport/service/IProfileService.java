@@ -221,4 +221,11 @@ public interface IProfileService {
 	 */
 	List<Profile> listProfileByCityIdOrderCreateTime(Long cityId,
 			int firstResult, int maxResults);
+
+	/**
+	 * 个人资料完成度，满分100分
+	 * 
+	 * @return
+	 */
+	int getProfileCompletion(long uid);
 }

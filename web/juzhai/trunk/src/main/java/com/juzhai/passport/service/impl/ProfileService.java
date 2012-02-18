@@ -498,4 +498,64 @@ public class ProfileService implements IProfileService {
 		example.setLimit(new Limit(firstResult, maxResults));
 		return profileMapper.selectByExample(example);
 	}
+
+	@Override
+	public int getProfileCompletion(long uid) {
+		int result = 0;
+		ProfileCache profileCache = getProfileCacheByUid(uid);
+		if (null != profileCache) {
+			if (StringUtils.isNotEmpty(profileCache.getNickname())) {
+				result += 5;
+			}
+			if (null != profileCache.getGender()) {
+				result += 5;
+			}
+			if (null != profileCache.getCity() && profileCache.getCity() > 0) {
+				result += 10;
+			}
+			if (null != profileCache.getBirthYear()
+					&& profileCache.getBirthYear() > 0
+					&& null != profileCache.getBirthMonth()
+					&& profileCache.getBirthMonth() > 0
+					&& null != profileCache.getBirthDay()
+					&& profileCache.getBirthDay() > 0) {
+				result += 10;
+			}
+			if (StringUtils.isNotEmpty(profileCache.getProfession())) {
+				result += 10;
+			}
+			if (StringUtils.isNotEmpty(profileCache.getFeature())) {
+				result += 10;
+			}
+			if (StringUtils.isNotEmpty(profileCache.getBlog())) {
+				result += 5;
+			}
+			if (null != profileCache.getHeight()
+					&& profileCache.getHeight() > 0) {
+				result += 10;
+			}
+			if (StringUtils.isNotEmpty(profileCache.getBloodType())) {
+				result += 5;
+			}
+			if (StringUtils.isNotEmpty(profileCache.getEducation())) {
+				result += 10;
+			}
+			if ((null != profileCache.getMinMonthlyIncome() && profileCache
+					.getMinMonthlyIncome() > 0)
+					|| (null != profileCache.getMaxMonthlyIncome() && profileCache
+							.getMaxMonthlyIncome() > 0)) {
+				result += 5;
+			}
+			if (StringUtils.isNotEmpty(profileCache.getHouse())) {
+				result += 5;
+			}
+			if (StringUtils.isNotEmpty(profileCache.getCar())) {
+				result += 5;
+			}
+			if (StringUtils.isNotEmpty(profileCache.getHome())) {
+				result += 5;
+			}
+		}
+		return result;
+	}
 }

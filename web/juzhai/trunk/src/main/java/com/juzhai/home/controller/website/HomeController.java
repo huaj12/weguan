@@ -51,7 +51,6 @@ public class HomeController extends BaseController {
 			@PathVariable long cityId, @PathVariable String genderType,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		queryProfile(context.getUid(), model);
 		showHomeRight(context, cityId, model);
 		Integer gender = null;
 		if (genderType.equals("male")) {
@@ -80,7 +79,6 @@ public class HomeController extends BaseController {
 			@PathVariable long cityId, @PathVariable String genderType,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		queryProfile(context.getUid(), model);
 		showHomeRight(context, cityId, model);
 		Integer gender = null;
 		if (genderType.equals("male")) {
@@ -109,7 +107,6 @@ public class HomeController extends BaseController {
 			@PathVariable long cityId, @PathVariable String genderType,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		queryProfile(context.getUid(), model);
 		showHomeRight(context, cityId, model);
 		Integer gender = null;
 		if (genderType.equals("male")) {
@@ -136,6 +133,13 @@ public class HomeController extends BaseController {
 	}
 
 	private void showHomeRight(UserContext context, long cityId, Model model) {
+		// queryProfile(context.getUid(), model);
+		model.addAttribute("postCount",
+				postService.countUserPost(context.getUid()));
+		model.addAttribute("responseCount",
+				postService.getAllResponseCnt(context.getUid()));
+		model.addAttribute("completion",
+				profileService.getProfileCompletion(context.getUid()));
 		ideaWidget(context, cityId, model, webHomeRightIdeaRows);
 		newUserWidget(cityId, model, webHomeRightUserRows);
 	}

@@ -319,6 +319,12 @@ _filter:none;
 .send_box .face{ float:left; width:120px; height:120px; overflow:hidden;}
 .send_area{ float:right; width:480px; height:120px; }
 
+.send_box .send_area{ width:620px;}
+.send_box .send_area .textarea{ background:url(../images/web2/text_area_bg.jpg) no-repeat; }
+
+
+
+
 .send_area .send_box_error{float:left; margin-top:6px; color:#FF0000;}
 
 
@@ -351,8 +357,8 @@ _filter:none;
 .send_area .random_select a{ background:url(../images/web2/icon_link_r1_c9.jpg) no-repeat; width:16px; height:16px; padding-left:20px; color:#999; }
 .send_area .random_select a:hover{ background:url(../images/web2/icon_hover_r1_c9.jpg) no-repeat; color:#3E8BD9;}
 
-.send_area .textarea{ background:url(../images/web2/text_area_bg.jpg) no-repeat; width:480px; height:55px; overflow:hidden; margin-top:7px; float:left; _margin-top:5px;}
-.send_area .textarea textarea{ border:none; background:none; width:460px; float:left; margin-left:10px; margin-top:10px; display:inline; height:35px; color:#666; font-size:12px; overflow:hidden;}
+.send_area .textarea{ background:url(../images/web2/text_area_bg2.jpg) no-repeat; width:100%;  height:55px; overflow:hidden; margin-top:7px; float:left; _margin-top:5px;}
+.send_area .textarea textarea{ border:none; background:none; width:100%; float:left; margin-left:10px; margin-top:10px; display:inline; height:35px; color:#666; font-size:12px; overflow:hidden;}
 
 .send_area .jh{ float:left; position:relative; margin-top:10px;}
 
@@ -639,13 +645,33 @@ _filter:none;
 .right_title a{color:#3E8BD9; float:right;}
 .right_title a.done{ color:#ccc; cursor:default;}
 
+
+
+.my_jz_infor{width:230px; margin:0 auto; display:block; margin-top:15px; height:auto;}
+.my_jz_infor .infor{ float:left; width:150px;}
+.my_jz_infor .infor p{ float:left; width:100%; color:#999;}
+.my_jz_infor .infor p a{color:#3E8BD9; margin-left:5px;}
+.my_jz_infor .infor span{ float:left; color:#999; width:100%; margin-top:3px;}
+.my_jz_infor .infor em{ float:left; width:100%; color:#999;margin-top:15px;}
+.my_jz_infor .infor em a{ color:#3E8BD9; margin-left:10px;}
+
+.h158 .m{ height:160px;}
+
+.my_jz_infor .face{ float:right; width:80px; height:auto; overflow:hidden; margin-top:-20px;}
+.my_jz_infor .face p{ float:left;}
+.my_jz_infor .face span{ float:left; width:100%; overflow:hidden; text-align:center; color:#ccc; height:25px; line-height:25px;}
+
+
+
+
+
 .idea{width:230px; margin:0 auto; overflow:hidden; margin-top:8px; height:auto; padding-bottom:10px;}
 .idea ul{ float:left;}
 .idea ul li{ width:100%; float:left; overflow:hidden; border-bottom:1px dashed #E5E5E5; padding-bottom:12px; margin-top:7px;}
 .idea ul li p{ width:230px; float:left; color:#999; line-height:180%; padding-bottom:5px;}
 .idea ul li p a{ color:#999;}
 .idea ul li p a:hover{ text-decoration:underline;}
-.idea ul li .img{ float:left; padding-bottom:7px;}
+.idea ul li .img{ float:left; padding-bottom:7px; width:100%;}
 .idea ul li span{ float:left; color:#ccc; white-space:nowrap;}
 .idea ul li span a{color:#3E8BD9; font-family:Tahoma; font-size:11px;}
 .idea ul li span a:hover{ text-decoration:underline;}
@@ -659,7 +685,6 @@ _filter:none;
 .idea ul li .send a{ background:url(../images/web2/like_btn1.gif) no-repeat; width:60px; height:23px; overflow:hidden; line-height:23px; display:block; color:#fff; text-align:center; line-height:25px\0;}
 .idea ul li .sending a{background:url(../images/web2/like_btn.gif) no-repeat; width:60px; height:23px; overflow:hidden; line-height:23px; display:block; color:#B6B6B6; text-align:center; line-height:25px\0; cursor:default;}
 .idea ul li .sended a{background:url(../images/web2/like_btn.gif) no-repeat; width:60px; height:23px; overflow:hidden; line-height:23px; display:block; color:#B6B6B6; text-align:center; line-height:25px\0; cursor:default;}
-
 
 .idea ul li.hover .zfa{ display:inline;}
 .idea ul li.bn{ border:none;}
@@ -1456,6 +1481,7 @@ _filter:none;
 .my_jz .infor .img{ float:left; width:100%; padding-bottom:10px;}
 
 .my_jz .con_btn{ width:100%; float:left; margin-top:8px; }
+.my_jz .con_btn em{ color:#ccc; float:right; margin-left:10px; display:inline;}
 .my_jz .con_btn a{color:#3E8BD9; float:right; margin-left:10px; display:inline;}
 .my_jz .con_btn a.edit{ }
 .my_jz .con_btn a.delete{}

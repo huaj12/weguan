@@ -20,7 +20,6 @@
 							<div class="t"></div>
 							<div class="m">
 								<div class="send_box"><!--send_box begin-->
-									<div class="face"><a href="javascript:void(0);"><img src="${jzr:userLogo(profile.uid,profile.logoPic,120)}" width="120" height="120" /></a></div>
 									<jsp:include page="send_post.jsp" />
 								</div>
 							</div>
@@ -35,6 +34,21 @@
 						</div><!--content end-->
 					</div><!--main_left end-->
 					<div class="main_right"><!--main_right begin-->
+						<div class="content_box w285 h158"><!--content begin-->
+							<div class="t"></div>
+							<div class="m">
+								<div class="right_title"><h2>我的拒宅</h2></div>
+								<div class="my_jz_infor"><!--my_jz_infor begin-->
+									<div class="infor">
+										<p><c:choose><c:when test="${postCount > 0}">我发布了<a href="/home/posts">${postCount}条拒宅</a></c:when><c:otherwise>我还未发布拒宅</c:otherwise></c:choose></p>
+										<span><c:choose><c:when test="${responseCount > 0}">共获得${responseCount}次响应</c:when><c:otherwise>还未获得响应</c:otherwise></c:choose></span>
+										<em>个人档案:${completion}%<a href="/profile/index"><c:choose><c:when test="${completion==100}">修改</c:when><c:otherwise>完善</c:otherwise></c:choose></a></em>
+									</div>
+									<div class="face"><p><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}"  width="80" height="80"/></p><!-- <span>未通过审核</span> --></div>
+								</div><!--my_jz_infor end-->
+							</div>
+							<div class="t"></div>
+						</div><!--content end-->
 						<jsp:include page="index_right.jsp" />
 					</div><!--main_right end-->
 				</div><!--main_part end-->

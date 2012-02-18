@@ -31,7 +31,7 @@
 										<div class="pub_box"><!--pub_box begin-->
 											<div class="pub_box_t"></div>
 											<div class="pub_box_m"><!--pub_box_m begin-->
-												<p><a href="/idea/${idea.id}"><c:out value="${idea.content}" /></a></p>
+												<p><c:out value="${idea.content}" /></p>
 												<div class="infor"><!--infor begin-->
 													<div class="clear"></div>
 													<c:if test="${not empty idea.pic}">

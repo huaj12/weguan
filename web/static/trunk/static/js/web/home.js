@@ -90,38 +90,48 @@ $(document).ready(function(){
 					var dateTime = result.result.dateTime;
 					var place = result.result.place;
 					var categoryId = result.result.categoryId;
+					var pic = result.result.pic;
+					var picUrl = result.result.picUrl;
+					var ideaId = result.result.id;
 					
 					resetSendPostForm($("form[name='sendPost']"));
 					$("textarea[name='content']").val(content);
 					//place
 					if(place != null && place != ""){
-						$("div#send-post-address").find("input[name='place']").val(place);
-						$("div#send-post-address").find("input[type='text']").val(place);
-						$("div#send-post-address").addClass("done");
+						var sendPostAddress = $("div#send-post-address");
+						sendPostAddress.find("input[name='place']").val(place);
+						sendPostAddress.find("input[type='text']").val(place);
+						sendPostAddress.addClass("done");
 					}
 					//date
 					if(null != dateTime && dateTime != ""){
-						$("div#send-post-date").find("input[name='dateString']").val(dateTime);
+						var sendPostDate = $("div#send-post-date");
+						sendPostDate.find("input[name='dateString']").val(dateTime);
 						var array =  dateTime.split("-");
-						$("div#send-post-date").find("p > a").text(array[1] + "-" + array[2]);
-						$("div#send-post-date").addClass("done");
+						sendPostDate.find("p > a").text(array[1] + "-" + array[2]);
+						sendPostDate.addClass("done");
 					}
-					//date
-					if(null != dateTime && dateTime != ""){
-						$("div#send-post-date").find("input[name='dateString']").val(dateTime);
-						var array =  dateTime.split("-");
-						$("div#send-post-date").find("p > a").text(array[1] + "-" + array[2]);
-						$("div#send-post-date").addClass("done");
+					//pic
+					if(null != pic && pic != "" && null != picUrl && picUrl != ""){
+						var sendPostPic = $("div#send-post-pic");
+						sendPostPic.find("div.show_area > div.upload_photo_area > div.upload").hide();
+						sendPostPic.find("div.load_error").hide();
+						sendPostPic.find("input[name='pic']").val(pic);
+						sendPostPic.find("input[name='picIdeaId']").val(ideaId);
+						sendPostPic.find("div.upload_ok > div.img > img").attr("src", picUrl);
+						sendPostPic.find("div.upload_ok").show();
+						sendPostPic.addClass("done");
 					}
 					//category
 					if(categoryId > 0){
-						var selectCategory = $("div#send-post-category").find("div.tag_list > a[value='" + categoryId + "']");
+						var sendPostCategory = $("div#send-post-category");
+						var selectCategory = sendPostCategory.find("div.tag_list > a[value='" + categoryId + "']");
 						if(null != selectCategory){
-							$("div#send-post-category").find("div.tag_list > a").first().removeClass("act");
+							sendPostCategory.find("div.tag_list > a").first().removeClass("act");
 							selectCategory.addClass("act");
-							$("div#send-post-category").find("input[name='categoryId']").val(selectCategory.attr("value"));
-							$("div#send-post-category").find("p > a").text(selectCategory.text());
-							$("div#send-post-category").addClass("done");
+							sendPostCategory.find("input[name='categoryId']").val(selectCategory.attr("value"));
+							sendPostCategory.find("p > a").text(selectCategory.text());
+							sendPostCategory.addClass("done");
 						}
 					}
 				}

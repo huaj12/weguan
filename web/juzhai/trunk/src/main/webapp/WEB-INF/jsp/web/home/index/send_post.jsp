@@ -59,6 +59,7 @@
 			</div><!--menu_item end-->
 			<div id="send-post-pic" class="menu_item <c:if test='${not empty postForm.pic}'>done</c:if>"><!--menu_item begin-->
 				<input type="hidden" name="pic" value="${postForm.pic}" />
+				<input type="hidden" name="picIdeaId" value="0" />
 				<p><a href="javascript:void(0);" class="photo">图片</a></p>
 				<div class="show_area w280"><!--show_area begin-->
 					<div class="upload_photo_area"><!--upload_photo_arae begin-->

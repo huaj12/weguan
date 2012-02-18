@@ -20,6 +20,8 @@ public class PostForm {
 
 	private String dateString;
 
+	private long picIdeaId;
+
 	private String pic;
 
 	private String link;
@@ -112,6 +114,14 @@ public class PostForm {
 
 	public void setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public long getPicIdeaId() {
+		return picIdeaId;
+	}
+
+	public void setPicIdeaId(long picIdeaId) {
+		this.picIdeaId = picIdeaId;
 	}
 
 }

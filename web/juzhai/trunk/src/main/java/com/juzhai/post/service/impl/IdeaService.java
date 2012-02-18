@@ -118,7 +118,8 @@ public class IdeaService implements IIdeaService {
 			int firstResult, int maxResults) {
 		IdeaExample example = new IdeaExample();
 		if (null != cityId && cityId > 0) {
-			example.createCriteria().andCityEqualTo(cityId);
+			example.or().andCityEqualTo(cityId);
+			example.or().andCityEqualTo(0L);
 		}
 		example.setOrderByClause(orderType.getColumn() + " desc");
 		example.setLimit(new Limit(firstResult, maxResults));
@@ -129,7 +130,8 @@ public class IdeaService implements IIdeaService {
 	public int countIdeaByCity(Long cityId) {
 		IdeaExample example = new IdeaExample();
 		if (null != cityId && cityId > 0) {
-			example.createCriteria().andCityEqualTo(cityId);
+			example.or().andCityEqualTo(cityId);
+			example.or().andCityEqualTo(0L);
 		}
 		return ideaMapper.countByExample(example);
 	}

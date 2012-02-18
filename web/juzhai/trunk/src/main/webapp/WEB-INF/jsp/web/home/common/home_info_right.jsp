@@ -23,6 +23,7 @@
 			<p>年龄：<c:choose><c:when test="${age > 0}"><span>${age}岁</span></c:when><c:otherwise><span class="unknow">未填</span></c:otherwise></c:choose></p>
 			<c:set var="constellationName" value="${jzd:constellationName(profile.constellationId)}" />
 			<p>星座：<c:choose><c:when test="${not empty constellationName}"><span>${constellationName}</span></c:when><c:otherwise><span class="unknow">未填</span></c:otherwise></c:choose></p>
+			<p>职业：<c:choose><c:when test="${not empty profile.profession}"><span>${profile.profession}</span></c:when><c:otherwise><span class="unknow">未填</span></c:otherwise></c:choose></p>
 			<p>身高：<c:choose><c:when test="${profile.height!=null&&profile.height>0}"><span>${profile.height}cm</span></c:when><c:otherwise><span class="unknow">未填</span></c:otherwise></c:choose></p>
 			<p>血型：<c:choose><c:when test="${not empty profile.bloodType}"><span>${profile.bloodType}型</span></c:when><c:otherwise><span class="unknow">未填</span></c:otherwise></c:choose></p>
 			<p>学历：<c:choose><c:when test="${not empty profile.education}"><span>${profile.education}</span></c:when><c:otherwise><span class="unknow">未填</span></c:otherwise></c:choose></p>

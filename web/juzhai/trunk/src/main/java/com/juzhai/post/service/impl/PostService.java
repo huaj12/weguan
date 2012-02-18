@@ -164,7 +164,7 @@ public class PostService implements IPostService {
 		post.setPic(idea.getPic());
 		post.setVerifyType(VerifyType.QUALIFIED.getType());
 
-		createPost(uid, post, null, null);
+		createPost(uid, post, null, null, null);
 
 		// 添加idea的useCount或者firstUser
 		if (idea.getUseCount() == 0) {
@@ -187,6 +187,14 @@ public class PostService implements IPostService {
 						InputPostException.ILLEGAL_OPERATION);
 			}
 		}
+		Idea picIdea = null;
+		if (postForm.getPicIdeaId() > 0) {
+			picIdea = ideaService.getIdeaById(postForm.getPicIdeaId());
+			if (null == picIdea) {
+				throw new InputPostException(
+						InputPostException.ILLEGAL_OPERATION);
+			}
+		}
 
 		// 验证
 		validatePostForm(uid, postForm);
@@ -201,7 +209,7 @@ public class PostService implements IPostService {
 		post.setDateTime(postForm.getDate());
 		post.setPurposeType(postForm.getPurposeType());
 
-		createPost(uid, post, repost, postForm.getPic());
+		createPost(uid, post, repost, picIdea, postForm.getPic());
 
 		return post.getId();
 	}
@@ -255,7 +263,7 @@ public class PostService implements IPostService {
 		}
 	}
 
-	private void createPost(long uid, Post post, Post repost,
+	private void createPost(long uid, Post post, Post repost, Idea picIdea,
 			String tmpImgFilePath) throws InputPostException {
 		ProfileCache profile = profileService.getProfileCacheByUid(uid);
 		if (null == profile) {
@@ -270,7 +278,12 @@ public class PostService implements IPostService {
 
 		if (StringUtils.isNotEmpty(tmpImgFilePath)) {
 			String fileName = null;
-			if (null != repost
+			if (null != picIdea
+					&& StringUtils.equals(picIdea.getPic(), tmpImgFilePath)) {
+				postImageService.copyImgFromIdea(post.getId(), picIdea.getId(),
+						picIdea.getPic());
+				fileName = picIdea.getPic();
+			} else if (null != repost
 					&& StringUtils.equals(repost.getPic(), tmpImgFilePath)) {
 				// 使用转发的图片
 				if (repost.getIdeaId() != null && repost.getIdeaId() > 0) {

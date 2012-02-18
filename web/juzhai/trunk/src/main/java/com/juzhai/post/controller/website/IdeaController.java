@@ -18,9 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.AjaxResult;
+import com.juzhai.core.web.jstl.JzDataFunction;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
@@ -107,6 +110,13 @@ public class IdeaController extends BaseController {
 					map.put("place", idea.getPlace());
 				}
 				map.put("categoryId", idea.getCategoryId());
+				map.put("pic", idea.getPic());
+				if (StringUtils.isNotEmpty(idea.getPic())) {
+					map.put("picUrl",
+							JzResourceFunction.ideaPic(idea.getId(),
+									idea.getPic(),
+									JzImageSizeType.MIDDLE.getType()));
+				}
 				result.setResult(map);
 				return result;
 			}

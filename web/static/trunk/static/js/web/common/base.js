@@ -646,6 +646,7 @@ var PostSender =  Class.extend({
 		sendPostPic.find("div.upload_ok > em > a").click(function(){
 			sendPostPic.removeClass("done");
 			sendPostPic.find("input[name='pic']").val("");
+			sendPostPic.find("input[name='picIdeaId']").val(0);
 			sendPostPic.find("div.upload_ok > div.img > img").attr("src", sendPostPic.find("div.upload_ok > div.img > img").attr("init-pic"));
 			sendPostPic.find("div.upload_ok").hide();
 			sendPostPic.find("div.load_error").hide();

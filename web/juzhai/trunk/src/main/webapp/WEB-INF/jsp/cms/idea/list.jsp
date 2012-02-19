@@ -118,7 +118,7 @@ function operateIdeaRandom(id,random){
 				<td><fmt:formatDate value="${view.idea.date}"
 						pattern="yyyy-MM-dd" /></td>
 				<td><fmt:formatDate value="${view.idea.createTime}"
-						pattern="yyyy-MM-dd hh:mm:ss" /></td>
+						pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td>
 				<a href="javascript:;" onclick="del('${view.idea.id}')">取消好主意</a><br />
 				<a href="/cms/show/idea/update?ideaId=${view.idea.id}">修改好主意</a><br />

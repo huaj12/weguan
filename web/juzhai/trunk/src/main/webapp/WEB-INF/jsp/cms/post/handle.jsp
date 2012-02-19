@@ -83,7 +83,7 @@ function shield(id){
 				<td><fmt:formatDate value="${view.post.dateTime}"
 						pattern="yyyy-MM-dd" /></td>
 				<td><fmt:formatDate value="${view.post.createTime}"
-						pattern="yyyy-MM-dd hh:mm:ss" /></td>
+						pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td>
 				<a href="javascript:;" onclick="shield('${view.post.id}')">屏蔽</a></br>
 				<a href="javascript:;" onclick="del('${view.post.id}')">删除</a></br>

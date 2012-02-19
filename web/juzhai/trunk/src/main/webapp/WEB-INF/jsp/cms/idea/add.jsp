@@ -13,7 +13,7 @@
 </head>
 <body>
 	<h2><a href="/cms/show/idea">已发布的好主意</a>----添加好主意</h2>
-	<h3>${msg}</h3>
+	<h3><font color="red">${msg}</font></h3>
 	<form action="/cms/add/idea" method="post" enctype="multipart/form-data">
 	<table>
 		<tr>

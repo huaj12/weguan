@@ -59,7 +59,7 @@ function unshield(id){
 				<td><fmt:formatDate value="${view.post.dateTime}"
 						pattern="yyyy-MM-dd" /></td>
 				<td><fmt:formatDate value="${view.post.createTime}"
-						pattern="yyyy-MM-dd hh:mm:ss" /></td>
+						pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td>
 				<a href="javascript:;" onclick="unshield('${view.post.id}')">取消屏蔽</a></br>
 				</td>

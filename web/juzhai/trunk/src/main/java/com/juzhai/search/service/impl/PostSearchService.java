@@ -90,7 +90,8 @@ public class PostSearchService implements IPostSearchService {
 	}
 
 	@Override
-	public void createIndex(Post post) {
+	public void createIndex(long postId) {
+		Post post = postService.getPostById(postId);
 		PostIndexMessage msgMessage = new PostIndexMessage();
 		msgMessage.buildBody(post).buildActionType(ActionType.CREATE);
 		postIndexCreateRabbitTemplate.convertAndSend(msgMessage);
@@ -100,7 +101,8 @@ public class PostSearchService implements IPostSearchService {
 	}
 
 	@Override
-	public void updateIndex(Post post) {
+	public void updateIndex(long postId) {
+		Post post = postService.getPostById(postId);
 		PostIndexMessage msgMessage = new PostIndexMessage();
 		msgMessage.buildBody(post).buildActionType(ActionType.UPDATE);
 		postIndexCreateRabbitTemplate.convertAndSend(msgMessage);
@@ -163,6 +165,17 @@ public class PostSearchService implements IPostSearchService {
 				return (T) postService.getPostListByIds(postIdList);
 			}
 		});
+	}
+
+	@Override
+	public void deleteIndex(long postId) {
+		Post post = postService.getPostById(postId);
+		PostIndexMessage msgMessage = new PostIndexMessage();
+		msgMessage.buildBody(post).buildActionType(ActionType.DELETE);
+		postIndexCreateRabbitTemplate.convertAndSend(msgMessage);
+		if (log.isDebugEnabled()) {
+			log.debug("send post index delete message");
+		}
 	}
 
 }

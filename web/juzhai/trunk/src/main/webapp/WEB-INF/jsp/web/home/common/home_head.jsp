@@ -7,7 +7,10 @@
 	<div class="t"></div>
 	<div class="m">
 		<div class="my_head_area"><!--my_head_area begin-->
-			<div class="face"><a href="/home/${profile.uid}"><img src="${jzr:userLogo(profile.uid,profile.logoPic,180)}" width="180" height="180" /></a></div>
+			<c:choose>
+				<c:when test="${context.uid != profile.uid}"><div class="face"><a href="/home/${profile.uid}"><img src="${jzr:userLogo(profile.uid,profile.logoPic,180)}" width="180" height="180" /></a></div></c:when>
+				<c:otherwise><div class="face"><a href="/home/${profile.uid}"><img src="${jzr:userLogo(profile.uid,profile.newLogoPic,180)}" width="180" height="180" /></a></div></c:otherwise>
+			</c:choose>
 			<div class="my_infor <c:choose><c:when test='${profile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--my_infor begin-->
 				<h2><a href="/home/${profile.uid}"><c:out value="${profile.nickname}" /></a></h2>
 				<p>${jzd:cityName(profile.city)}${jzd:townName(profile.town)}</p>

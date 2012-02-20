@@ -125,6 +125,23 @@ a:hover {
 				</ul>
 			</li> -->
 			<li>
+				<a href="javascript:showChild('managerLogo');">头像审核</a>
+				<ul style="display: none;" id="managerLogo" class="child">
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/profile/listVerifyingLogo?page=1"
+						target="config">待审核头像列表</a>
+					</li>
+					<!-- <li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/profile/listVerifiedLogo?page=1"
+						target="config">已通过头像列表</a>
+					</li> -->
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/profile/listUnVerifiedLogo?page=1"
+						target="config">未通过头像列表</a>
+					</li>
+				</ul>
+			</li>
+			<li>
 				<a href="javascript:showChild('managerJz');">管理拒宅</a>
 				<ul style="display: none;" id="managerJz" class="child">
 					<li style="background-color: #A4D3EE;"><a

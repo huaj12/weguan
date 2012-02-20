@@ -29,6 +29,7 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.InitData;
+import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.ProfileMapper;
@@ -399,7 +400,9 @@ public class ProfileService implements IProfileService {
 		}
 		Profile profile = new Profile();
 		profile.setUid(uid);
-		profile.setLogoPic(logo);
+		profile.setNewLogoPic(logo);
+		profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
+		// profile.setLogoPic(logo);
 		profile.setLastModifyTime(new Date());
 		profileMapper.updateByPrimaryKeySelective(profile);
 		clearProfileCache(uid);
@@ -469,7 +472,8 @@ public class ProfileService implements IProfileService {
 	private ProfileExample getProfileExample(Integer gender, long city,
 			int minYear, int maxYear) {
 		ProfileExample example = new ProfileExample();
-		ProfileExample.Criteria c = example.createCriteria();
+		ProfileExample.Criteria c = example.createCriteria()
+				.andLogoPicIsNotNull().andLogoPicNotEqualTo(StringUtils.EMPTY);
 		if (city > 0) {
 			c.andCityEqualTo(city);
 		}
@@ -490,7 +494,8 @@ public class ProfileService implements IProfileService {
 	public List<Profile> listProfileByCityIdOrderCreateTime(Long cityId,
 			int firstResult, int maxResults) {
 		ProfileExample example = new ProfileExample();
-		ProfileExample.Criteria c = example.createCriteria();
+		ProfileExample.Criteria c = example.createCriteria()
+				.andLogoPicIsNotNull().andLogoPicNotEqualTo(StringUtils.EMPTY);
 		if (null != cityId && cityId > 0) {
 			c.andCityEqualTo(cityId);
 		}

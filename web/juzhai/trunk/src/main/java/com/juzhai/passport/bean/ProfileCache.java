@@ -35,6 +35,8 @@ public class ProfileCache implements Serializable {
 	private Integer minMonthlyIncome;
 	private Integer maxMonthlyIncome;
 	private String blog;
+	private String newLogoPic;
+	private int logoVerifyState;
 
 	private String tpIdentity;
 
@@ -244,6 +246,22 @@ public class ProfileCache implements Serializable {
 
 	public void setBlog(String blog) {
 		this.blog = blog;
+	}
+
+	public String getNewLogoPic() {
+		return newLogoPic;
+	}
+
+	public void setNewLogoPic(String newLogoPic) {
+		this.newLogoPic = newLogoPic;
+	}
+
+	public int getLogoVerifyState() {
+		return logoVerifyState;
+	}
+
+	public void setLogoVerifyState(int logoVerifyState) {
+		this.logoVerifyState = logoVerifyState;
 	}
 
 	public String getProvinceName() {

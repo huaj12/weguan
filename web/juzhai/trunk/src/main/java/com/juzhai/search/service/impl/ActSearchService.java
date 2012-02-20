@@ -31,7 +31,7 @@ import com.juzhai.act.service.IActService;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
 import com.juzhai.search.rabbit.message.ActIndexMessage;
-import com.juzhai.search.rabbit.message.ActIndexMessage.ActionType;
+import com.juzhai.search.rabbit.message.ActionType;
 import com.juzhai.search.service.IActSearchService;
 
 @Service

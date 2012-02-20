@@ -2,14 +2,15 @@ package com.juzhai.search.rabbit.message;
 
 import com.juzhai.act.model.Act;
 import com.juzhai.core.rabbit.message.RabbitMessage;
+import com.juzhai.post.model.Post;
 
-public class ActIndexMessage extends RabbitMessage<ActIndexMessage, Act> {
+public class PostIndexMessage extends RabbitMessage<PostIndexMessage, Post> {
 
-	private static final long serialVersionUID = -8699381814854095649L;
+	private static final long serialVersionUID = 2313362104998235207L;
 
 	private ActionType actionType;
 
-	public ActIndexMessage buildActionType(ActionType actionType) {
+	public PostIndexMessage buildActionType(ActionType actionType) {
 		this.actionType = actionType;
 		return this;
 	}

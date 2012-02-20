@@ -40,6 +40,7 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IProfileImageService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
+import com.juzhai.search.service.IProfileSearchService;
 
 @Service
 public class ProfileService implements IProfileService {
@@ -56,6 +57,8 @@ public class ProfileService implements IProfileService {
 	private ITpUserService tpUserService;
 	@Autowired
 	private MemcachedClient memcachedClient;
+	@Autowired
+	private IProfileSearchService profileSearchService;
 	@Autowired
 	private IProfileImageService profileImageService;
 	@Value("${profile.cache.expire.time}")
@@ -246,6 +249,8 @@ public class ProfileService implements IProfileService {
 					ProfileInputException.PROFILE_GEBDER_REPEAT_UPDATE);
 		}
 
+		profileSearchService.updateIndex(uid);
+
 	}
 
 	@Override
@@ -281,6 +286,7 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
 		}
 		clearProfileCache(uid);
+		profileSearchService.updateIndex(uid);
 
 	}
 
@@ -364,6 +370,7 @@ public class ProfileService implements IProfileService {
 		}
 		clearProfileCache(uid);
 		cacheUserCity(uid);
+		profileSearchService.updateIndex(uid);
 	}
 
 	@Override

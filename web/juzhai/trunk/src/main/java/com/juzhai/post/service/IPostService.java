@@ -1,7 +1,9 @@
 package com.juzhai.post.service;
 
 import java.util.List;
+import java.util.Map;
 
+import com.juzhai.act.model.Act;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.controller.form.PostForm;
 import com.juzhai.post.exception.InputPostException;
@@ -304,4 +306,20 @@ public interface IPostService {
 	 * @return
 	 */
 	int getAllResponseCnt(long uid);
+
+	/**
+	 * 获取多个post
+	 * 
+	 * @param postIds
+	 * @return
+	 */
+	List<Post> getPostListByIds(List<Long> postIds);
+
+	/**
+	 * 获取多个Post
+	 * 
+	 * @param postIds
+	 * @return
+	 */
+	Map<Long, Post> getMultiPostByIds(List<Long> postIds);
 }

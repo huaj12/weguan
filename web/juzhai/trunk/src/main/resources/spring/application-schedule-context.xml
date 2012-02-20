@@ -192,6 +192,16 @@
 	<!-- notice unread msg end -->
 	
 	
+		<bean id="postIndexOptimizationAndCommitTrigger" parent="abstractSimpleTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="postIndexOptimizationAndCommitHandler" />
+			</bean>
+		</property>
+		<property name="startDelay" value="${postIndex.optimization.commit.start.delay}" />
+		<property name="repeatInterval" value="${postIndex.optimization.commit.repeat.interval}" />
+	</bean>
+	
 	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
@@ -211,6 +221,7 @@
 				<ref bean="deleteExpiredAdTrigger"/>
 				<ref bean="deleteExpiredRawAdTrigger"/>
 				<ref bean="noticeToPlatformTrigger"/>
+				<ref bean="postIndexOptimizationAndCommitTrigger"/>
 				<!-- <ref bean="noticeEmailTrigger"/> -->
 			</list>
 		</property>

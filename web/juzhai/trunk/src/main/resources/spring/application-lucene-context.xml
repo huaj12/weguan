@@ -38,4 +38,32 @@
 		<property name="searcherManager" ref="actIndexSearcherManager" />
 	</bean>
 
+<!-- postSearch begin -->
+<bean id="postIKAnalyzer" class="org.wltea.analyzer.lucene.IKAnalyzer">
+		<property name="maxWordLength" value="${post.analyzer.maxWordLength}" />
+	</bean>
+
+	<bean id="postIndexWriter" class="com.juzhai.core.lucene.index.FSDirectoryIndexWriter"
+		destroy-method="close">
+		<property name="indexPath" value="${post.index.path}" />
+		<property name="version" value="${version}" />
+		<property name="maxBufferedDeleteTerms" value="${post.maxBufferedDeleteTerms}" />
+		<property name="maxBufferedDocs" value="${post.maxBufferedDocs}" />
+		<property name="maxThreadStates" value="${post.maxThreadStates}" />
+		<property name="ramBufferSizeMB" value="${post.ramBufferSizeMB}" />
+		<property name="readerPooling" value="${post.readerPooling}" />
+		<property name="writeLockTimeout" value="${post.writeLockTimeout}" />
+		<property name="analyzer" ref="postIKAnalyzer" />
+	</bean>
+
+	<bean id="postIndexSearcherManager" class="com.juzhai.core.lucene.searcher.IndexSearcherManager"
+		init-method="init" destroy-method="close">
+		<property name="indexWriter" ref="postIndexWriter" />
+	</bean>
+
+	<bean id="postIndexSearcherTemplate" class="com.juzhai.core.lucene.searcher.IndexSearcherTemplate">
+		<property name="searcherManager" ref="postIndexSearcherManager" />
+	</bean>
+<!-- postSearch end -->
+
 </beans>

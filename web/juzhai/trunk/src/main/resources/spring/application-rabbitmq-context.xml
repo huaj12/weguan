@@ -121,6 +121,29 @@
 	</rabbit:listener-container>
 	<!-- act msg-->
 	
+	
+		<!-- post index begin-->
+	<rabbit:queue name="${rabbitmq.queue.actMsg}" durable="true"/>
+	<rabbit:direct-exchange name="${rabbitmq.exchange.actMsg}" durable="true">
+		<rabbit:bindings>
+			<rabbit:binding queue="${rabbitmq.queue.actMsg}" key="${rabbitmq.queue.actMsg}"/>
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+	<rabbit:template id="actMsgRabbitTemplate"
+		connection-factory="rabbitConnectionFactory"
+		exchange="${rabbitmq.exchange.postIndex}"
+		queue="${rabbitmq.queue.postIndex.create}"
+		routing-key="${rabbitmq.queue.postIndex.create}"
+		encoding="UTF-8"/>
+	<bean id="postIndexListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
+		<property name="delegate" ref="postIndexMessageListener" />
+	</bean>
+	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.postIndex}" prefetch="1">
+	    <rabbit:listener queue-names="${rabbitmq.queue.postIndex.create}" ref="postIndexListener" />
+	</rabbit:listener-container>
+	<!-- post index end-->
+	
+	
 	<!-- act index-->
 	<rabbit:queue name="${rabbitmq.queue.actIndex.create}" durable="true"/>
 	<rabbit:direct-exchange name="${rabbitmq.exchange.actIndex}" durable="true">
@@ -136,6 +159,8 @@
 		queue="${rabbitmq.queue.actIndex.create}"
 		routing-key="${rabbitmq.queue.actIndex.create}"
 		encoding="UTF-8"/>
+	
+	
 		
 	<!-- <rabbit:template id="actIndexUpdateRabbitTemplate"
 		connection-factory="rabbitConnectionFactory"

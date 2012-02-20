@@ -2,11 +2,8 @@ package com.juzhai.search.index;
 
 import java.io.IOException;
 
-import org.apache.commons.httpclient.util.DateUtil;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.FieldSelectorResult;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;

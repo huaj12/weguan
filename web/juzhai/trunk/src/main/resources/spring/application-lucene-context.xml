@@ -66,4 +66,31 @@
 	</bean>
 <!-- postSearch end -->
 
+<!-- profile Search begin -->
+<bean id="profileIKAnalyzer" class="org.wltea.analyzer.lucene.IKAnalyzer">
+		<property name="maxWordLength" value="${profile.analyzer.maxWordLength}" />
+	</bean>
+
+	<bean id="profileIndexWriter" class="com.juzhai.core.lucene.index.FSDirectoryIndexWriter"
+		destroy-method="close">
+		<property name="indexPath" value="${profile.index.path}" />
+		<property name="version" value="${version}" />
+		<property name="maxBufferedDeleteTerms" value="${profile.maxBufferedDeleteTerms}" />
+		<property name="maxBufferedDocs" value="${profile.maxBufferedDocs}" />
+		<property name="maxThreadStates" value="${profile.maxThreadStates}" />
+		<property name="ramBufferSizeMB" value="${profile.ramBufferSizeMB}" />
+		<property name="readerPooling" value="${profile.readerPooling}" />
+		<property name="writeLockTimeout" value="${profile.writeLockTimeout}" />
+		<property name="analyzer" ref="profileIKAnalyzer" />
+	</bean>
+
+	<bean id="profileIndexSearcherManager" class="com.juzhai.core.lucene.searcher.IndexSearcherManager"
+		init-method="init" destroy-method="close">
+		<property name="indexWriter" ref="profileIndexWriter" />
+	</bean>
+
+	<bean id="profileIndexSearcherTemplate" class="com.juzhai.core.lucene.searcher.IndexSearcherTemplate">
+		<property name="searcherManager" ref="profileIndexSearcherManager" />
+	</bean>
+<!-- profile Search end -->
 </beans>

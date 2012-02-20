@@ -54,6 +54,7 @@ import com.juzhai.post.model.PostResponseExample;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostImageService;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.search.service.IPostSearchService;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
 @Service
@@ -91,6 +92,8 @@ public class PostService implements IPostService {
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
 	private ISynchronizeService synchronizeService;
+	@Autowired
+	private IPostSearchService postSearchService;
 	@Value("${post.content.wordfilter.application}")
 	private int postContentWordfilterApplication;
 	@Value("${post.content.length.min}")
@@ -409,8 +412,8 @@ public class PostService implements IPostService {
 			setUserLatestPost(uid, post);
 		}
 
-		// TODO update lucene索引
-
+		// TODO delete lucene索引
+		postSearchService.deleteIndex(post.getId());
 		return post.getId();
 	}
 
@@ -519,6 +522,8 @@ public class PostService implements IPostService {
 						.genUserLatestPostKey(uid));
 			}
 		}
+		// 删除索引
+		postSearchService.deleteIndex(postId);
 	}
 
 	@Override
@@ -531,6 +536,8 @@ public class PostService implements IPostService {
 		post.setLastModifyTime(new Date());
 		post.setVerifyType(VerifyType.SHIELD.getType());
 		postMapper.updateByPrimaryKeySelective(post);
+
+		postSearchService.deleteIndex(postId);
 
 	}
 
@@ -545,6 +552,8 @@ public class PostService implements IPostService {
 		post.setVerifyType(VerifyType.QUALIFIED.getType());
 		postMapper.updateByPrimaryKeySelective(post);
 
+		postSearchService.createIndex(postId);
+
 	}
 
 	@Override
@@ -558,7 +567,10 @@ public class PostService implements IPostService {
 		post.setVerifyType(VerifyType.QUALIFIED.getType());
 		example.createCriteria().andIdIn(postIds);
 		postMapper.updateByExampleSelective(post, example);
-
+		// 加入索引
+		for (Long id : postIds) {
+			postSearchService.createIndex(id);
+		}
 	}
 
 	@Override
@@ -901,12 +913,9 @@ public class PostService implements IPostService {
 		if (CollectionUtils.isEmpty(postIds)) {
 			return Collections.emptyList();
 		}
-		PostExample example=new PostExample();
+		PostExample example = new PostExample();
 		example.createCriteria().andIdIn(postIds);
-		return	postMapper.selectByExample(example);
+		return postMapper.selectByExample(example);
 	}
-
-	
-	
 
 }

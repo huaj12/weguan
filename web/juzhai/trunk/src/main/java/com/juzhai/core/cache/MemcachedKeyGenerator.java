@@ -143,7 +143,7 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	public static String genAllResponseCnt(long uid) {
 		return genKey(uid, "allResponseCnt");
 	}
-	
+
 	/**
 	 * post缓存
 	 * 

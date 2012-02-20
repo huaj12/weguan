@@ -26,6 +26,7 @@ import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.IUserGuideService;
+import com.juzhai.search.service.IProfileSearchService;
 
 @Service
 public class RegisterService implements IRegisterService {
@@ -48,6 +49,8 @@ public class RegisterService implements IRegisterService {
 	private IAccountService accountService;
 	@Autowired
 	private IUserGuideService userGuideService;
+	@Autowired
+	private IProfileSearchService profileSearchService;
 
 	@Override
 	public long autoRegister(Thirdparty tp, String identity, AuthInfo authInfo,
@@ -107,6 +110,8 @@ public class RegisterService implements IRegisterService {
 		profile.setLastModifyTime(passport.getLastModifyTime());
 		profile.setLastUpdateTime(passport.getCreateTime());
 		profileMapper.insertSelective(profile);
+		// 创建用户索引
+		profileSearchService.createIndex(passport.getId());
 	}
 
 	private void registerTpUser(Thirdparty tp, String identity,

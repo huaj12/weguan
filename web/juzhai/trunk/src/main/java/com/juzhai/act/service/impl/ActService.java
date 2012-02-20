@@ -53,7 +53,7 @@ import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.search.rabbit.message.ActIndexMessage;
-import com.juzhai.search.rabbit.message.ActIndexMessage.ActionType;
+import com.juzhai.search.rabbit.message.ActionType;
 import com.juzhai.search.service.IActSearchService;
 import com.juzhai.wordfilter.service.IWordFilterService;
 

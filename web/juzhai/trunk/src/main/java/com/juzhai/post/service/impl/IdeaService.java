@@ -11,6 +11,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.tomcat.util.buf.UDecoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -206,6 +207,10 @@ public class IdeaService implements IIdeaService {
 	}
 
 	private void validateIdea(IdeaForm ideaForm) throws InputIdeaException {
+		if (ideaForm.getCategoryId() == null || ideaForm.getCategoryId() == 0) {
+			throw new InputIdeaException(
+					InputIdeaException.IDEA_CATEGORY_IS_NULL);
+		}
 		// 验证城市
 		if (ideaForm.getCity() == null) {
 			throw new InputIdeaException(InputIdeaException.IDEA_CITY_IS_NULL);

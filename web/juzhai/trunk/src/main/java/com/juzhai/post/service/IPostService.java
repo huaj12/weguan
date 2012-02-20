@@ -315,11 +315,5 @@ public interface IPostService {
 	 */
 	List<Post> getPostListByIds(List<Long> postIds);
 
-	/**
-	 * 获取多个Post
-	 * 
-	 * @param postIds
-	 * @return
-	 */
-	Map<Long, Post> getMultiPostByIds(List<Long> postIds);
+	
 }

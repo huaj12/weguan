@@ -5,10 +5,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
 import net.rubyeye.xmemcached.MemcachedClient;
@@ -107,8 +105,6 @@ public class PostService implements IPostService {
 	private int postIntervalExpireTime;
 	@Value("${all.response.cnt.expire.time}")
 	private int allResponseCntExpireTime;
-	@Value("${post.cache.expire.time}")
-	private int postCacheExpireTime = 0;
 
 	@Override
 	public long createPost(long uid, PostForm postForm)
@@ -905,71 +901,12 @@ public class PostService implements IPostService {
 		if (CollectionUtils.isEmpty(postIds)) {
 			return Collections.emptyList();
 		}
-		List<Post> postList = new ArrayList<Post>(postIds.size());
-		Map<Long, Post> postMap = getMultiPostByIds(postIds);
-		for (long postId : postIds) {
-			Post post = postMap.get(postId);
-			if (null != post) {
-				postList.add(post);
-			}
-		}
-		return postList;
+		PostExample example=new PostExample();
+		example.createCriteria().andIdIn(postIds);
+		return	postMapper.selectByExample(example);
 	}
 
-	@Override
-	public Map<Long, Post> getMultiPostByIds(List<Long> postIds) {
-		// 判断是否为空
-		if (CollectionUtils.isEmpty(postIds)) {
-			return Collections.emptyMap();
-		}
-		// 组装Key
-		Map<String, Long> postKeyMap = new HashMap<String, Long>(postIds.size());
-		for (long postId : postIds) {
-			postKeyMap.put(MemcachedKeyGenerator.genPostCacheKey(postId),
-					postId);
-		}
-		// 缓存搜索
-		Map<Long, Post> postMap = new HashMap<Long, Post>();
-		try {
-			Map<String, Post> postCacheMap = memcachedClient.get(postKeyMap
-					.keySet());
-			for (Map.Entry<String, Post> entry : postCacheMap.entrySet()) {
-				postMap.put(postKeyMap.get(entry.getKey()), entry.getValue());
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
-
-		// 数据库搜索未被缓存的
-		if (postMap.size() != postIds.size()) {
-			// 组装需要数据库搜索的postId
-			List<Long> searchPostIds = new ArrayList<Long>();
-			for (long postId : postIds) {
-				if (!postMap.containsKey(postId)) {
-					searchPostIds.add(postId);
-				}
-			}
-			if (CollectionUtils.isNotEmpty(searchPostIds)) {
-				// 数据库搜索
-				PostExample example = new PostExample();
-				example.createCriteria().andIdIn(searchPostIds);
-				List<Post> postList = postMapper.selectByExample(example);
-				for (Post post : postList) {
-					// 更新缓存
-					try {
-						memcachedClient.set(MemcachedKeyGenerator
-								.genPostCacheKey(post.getId()),
-								postCacheExpireTime, post);
-					} catch (Exception e) {
-						log.error(e.getMessage(), e);
-					}
-					// 放入返回Map中
-					postMap.put(post.getId(), post);
-				}
-			}
-		}
-
-		return postMap;
-	}
+	
+	
 
 }

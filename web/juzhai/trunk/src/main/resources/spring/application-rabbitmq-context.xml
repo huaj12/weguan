@@ -123,13 +123,13 @@
 	
 	
 		<!-- post index begin-->
-	<rabbit:queue name="${rabbitmq.queue.actMsg}" durable="true"/>
-	<rabbit:direct-exchange name="${rabbitmq.exchange.actMsg}" durable="true">
+	<rabbit:queue name="${rabbitmq.queue.postIndex.create}" durable="true"/>
+	<rabbit:direct-exchange name="${rabbitmq.exchange.postIndex}" durable="true">
 		<rabbit:bindings>
-			<rabbit:binding queue="${rabbitmq.queue.actMsg}" key="${rabbitmq.queue.actMsg}"/>
+				<rabbit:binding queue="${rabbitmq.queue.postIndex.create}" key="${rabbitmq.queue.postIndex.create}"/>
 		</rabbit:bindings>
 	</rabbit:direct-exchange>
-	<rabbit:template id="actMsgRabbitTemplate"
+	<rabbit:template id="postIndexCreateRabbitTemplate"
 		connection-factory="rabbitConnectionFactory"
 		exchange="${rabbitmq.exchange.postIndex}"
 		queue="${rabbitmq.queue.postIndex.create}"
@@ -142,6 +142,29 @@
 	    <rabbit:listener queue-names="${rabbitmq.queue.postIndex.create}" ref="postIndexListener" />
 	</rabbit:listener-container>
 	<!-- post index end-->
+	
+	
+	<!-- profile index begin-->
+	<rabbit:queue name="${rabbitmq.queue.profileIndex.create}" durable="true"/>
+	<rabbit:direct-exchange name="${rabbitmq.exchange.profileIndex}" durable="true">
+		<rabbit:bindings>
+				<rabbit:binding queue="${rabbitmq.queue.profileIndex.create}" key="${rabbitmq.queue.profileIndex.create}"/>
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+	<rabbit:template id="profileIndexCreateRabbitTemplate"
+		connection-factory="rabbitConnectionFactory"
+		exchange="${rabbitmq.exchange.profileIndex}"
+		queue="${rabbitmq.queue.profileIndex.create}"
+		routing-key="${rabbitmq.queue.profileIndex.create}"
+		encoding="UTF-8"/>
+	<bean id="profileIndexListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
+		<property name="delegate" ref="profileIndexMessageListener" />
+	</bean>
+	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.profileIndex}" prefetch="1">
+	    <rabbit:listener queue-names="${rabbitmq.queue.profileIndex.create}" ref="profileIndexListener" />
+	</rabbit:listener-container>
+	<!-- profile index end-->
+	
 	
 	
 	<!-- act index-->

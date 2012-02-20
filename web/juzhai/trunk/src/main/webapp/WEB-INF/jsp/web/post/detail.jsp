@@ -85,7 +85,7 @@
 						<div class="content_box w285"><!--content begin-->
 							<div class="t"></div>
 							<div class="m">
-								<div class="person <c:choose><c:when test="${responseUserView.profileCache.gender == 1}">boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--person begin-->
+								<div class="person <c:choose><c:when test="${postProfile.gender == 1}">boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--person begin-->
 									<p><a href="/home/${postProfile.uid}"><img src="${jzr:userLogo(postProfile.uid, postProfile.logoPic, 80)}"  width="80" height="80"/></a></p>
 									<div class="personname"><a href="/home/${postProfile.uid}"><c:out value="${postProfile.nickname}" /></a></div>
 									<c:set var="age" value="${jzu:age(postProfile.birthYear, postProfile.birthSecret)}" />

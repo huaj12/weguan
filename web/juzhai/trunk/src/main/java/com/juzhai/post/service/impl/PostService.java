@@ -162,6 +162,7 @@ public class PostService implements IPostService {
 		post.setIdeaId(idea.getId());
 		post.setCity(idea.getCity());
 		post.setPic(idea.getPic());
+
 		post.setVerifyType(VerifyType.QUALIFIED.getType());
 
 		createPost(uid, post, null, null, null);
@@ -274,6 +275,9 @@ public class PostService implements IPostService {
 		post.setLastModifyTime(post.getCreateTime());
 		post.setUserCity(profile.getCity());
 		post.setUserGender(profile.getGender());
+		if (StringUtils.isEmpty(profile.getLogoPic())) {
+			post.setVerifyType(VerifyType.RAW.getType());
+		}
 		postMapper.insertSelective(post);
 
 		if (StringUtils.isNotEmpty(tmpImgFilePath)) {

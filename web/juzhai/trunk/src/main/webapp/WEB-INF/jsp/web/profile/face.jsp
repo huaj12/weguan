@@ -48,7 +48,7 @@
 								</div>
 								<div class="preview_face"><!--preview_face begin-->
 									<p>预览效果</p>
-									<span><img src="${jzr:userLogo(profile.uid,profile.logoPic,180)}" id="preview_180" width="180" height="180" /></span>
+									<span><img src="${jzr:userLogo(profile.uid,profile.newLogoPic,180)}" id="preview_180" width="180" height="180" /></span>
 								</div><!--preview_face end-->
 								<div class="btn_area">
 									<a href="javascript;void(0);" class="save">保存</a>

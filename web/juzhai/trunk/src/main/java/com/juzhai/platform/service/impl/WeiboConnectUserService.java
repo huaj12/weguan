@@ -29,6 +29,7 @@ import com.juzhai.core.Constants;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.Municipal;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profile;
@@ -82,7 +83,9 @@ public class WeiboConnectUserService extends AbstractUserService {
 				blog = user.getId();
 			}
 			profile.setBlog("www.weibo.com/" + blog);
-			profile.setLogoPic(user.getAvatarLarge());
+			profile.setNewLogoPic(user.getAvatarLarge());
+			profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
+			// profile.setLogoPic(user.getAvatarLarge());
 			// 用户简介
 			profile.setFeature(user.getDescription());
 			// 没有家乡用所在地代替

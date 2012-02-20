@@ -189,7 +189,7 @@ public interface IProfileService {
 			List<Long> exceptUids);
 
 	/**
-	 * 找伴搜索数量
+	 * 找伴搜索数量(排除默认头像的人)
 	 * 
 	 * @param gender
 	 * @param city
@@ -200,7 +200,7 @@ public interface IProfileService {
 	int countQueryProfile(Integer gender, long city, int minYear, int maxYear);
 
 	/**
-	 * 找伴搜索
+	 * 找伴搜索(排除默认头像的人)
 	 * 
 	 * @param gender
 	 * @param city
@@ -212,7 +212,7 @@ public interface IProfileService {
 			int maxYear, int firstResult, int maxResults);
 
 	/**
-	 * 根据cityId筛选最新注册的人
+	 * 根据cityId筛选最新注册的人(排除没有头像的)
 	 * 
 	 * @param cityId
 	 * @param firstResult

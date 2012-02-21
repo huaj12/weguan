@@ -86,6 +86,28 @@ function handle(){
 	});
 }
 
+function handleById(id){
+	jQuery.ajax({
+		url : "/cms/post/handle",
+		type : "get",
+		data : {
+			"postIds" : id
+		},
+		dataType : "json",
+		success : function(result) {
+			if (result.success!=null&&result.success) {
+				location.reload();
+			} else {
+				alert("标记错误请重试");
+			}
+		},
+		statusCode : {
+			401 : function() {
+				alert("请先登陆");
+			}
+		}
+	});
+}
 
 </script>
 </head>
@@ -114,6 +136,7 @@ function handle(){
 				<td><fmt:formatDate value="${view.post.createTime}"
 						pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td>
+				<a href="javascript:;" onclick="handleById('${view.post.id}')">通过</a></br>
 				<a href="javascript:;" onclick="del('${view.post.id}')">删除</a></br>
 				<a href="javascript:;" onclick="shield('${view.post.id}')">屏蔽</a></br>
 				<a href="/cms/show/idea/add?postId=${view.post.id}&content=${view.post.content}&date=<fmt:formatDate value="${view.post.dateTime}" pattern="yyyy-MM-dd" />&pic=${view.post.pic}&place=${view.post.place}&createUid=${view.post.createUid}" >好注意</a>

@@ -12,6 +12,7 @@
 		<meta name="keywords" content="${jzd:cityName(idea.city )}拒宅 ,${jzd:cityName(idea.city)}好主意,${jzd:cityName(idea.city )}出去玩,${jzd:cityName(idea.city )}约会地点,${jzd:cityName(idea.city )}约会,${jzd:cityName(idea.city )}交友" />
 		<meta name="description" content="<c:if test="${!empty jzd:cityName(idea.city )}">在jzd:cityName(idea.city )}</c:if>周末不想宅在家拒宅网帮你出好主意,<c:out value="${jzu:truncate(idea.content, 120, '...')}" />_" />
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 	</head>
 	<body>
 		<div class="warp"><!--warp begin-->
@@ -87,7 +88,6 @@
 		</div><!--warp end-->
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 		<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
-		<script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 		<script type="text/javascript" src="${jzr:static('/js/web/idea_detail.js')}"></script>
 	</body>
 </html>

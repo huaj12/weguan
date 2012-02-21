@@ -16,13 +16,6 @@ var SelectInput =  Class.extend({
 				$(selectDiv).removeClass("select_active");
 			}
 		});
-//		$(selectDiv).hover(function(){
-//    		$("body").unbind("mousedown");
-//    	}, function(){
-//    		$("body").bind("mousedown",function(){
-//    			$(selectDiv).removeClass("select_active");
-//    		});
-//    	});
 	},
 	bindClick:function(){
 		var selectDiv = this.selectDiv;
@@ -127,7 +120,8 @@ function postIdea(ideaId, sendBtn, sendingBtn, successCallback){
 				var content = $("#dialog-success").html().replace("{0}", "发布成功！");
 				showSuccess(sendingBtn[0], content);
 			}else{
-				alert(result.errorInfo);
+				var content = $("#dialog-success").html().replace("{0}", result.errorInfo);
+				showError(sendingBtn[0], content);
 				sendingBtn.hide();
 				sendBtn.show();
 			}
@@ -394,6 +388,22 @@ function showConfirm(followObj, dialogId, dialogContent, okCallback){
 function showSuccess(followObj, dialogContent){
 	var options={
 		icon: 'succeed',
+		drag : false,
+		resize : false,
+		content : dialogContent,
+		time: 1
+	};
+	if(null!=followObj){
+		options["follow"]=followObj;
+	} else {
+		options["top"]="50%";
+	}
+	$.dialog(options);
+}
+
+function showError(followObj, dialogContent){
+	var options={
+		icon: 'error',
 		drag : false,
 		resize : false,
 		content : dialogContent,

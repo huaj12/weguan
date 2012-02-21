@@ -28,6 +28,7 @@
 						<value>classpath:properties/mail.properties</value>
 						<value>classpath:properties/schedule.properties</value>
 						<value>classpath:properties/file.properties</value>
+						<value>classpath:properties/tpHelper.properties</value>
 					</list>
 				</property>
 			</bean>

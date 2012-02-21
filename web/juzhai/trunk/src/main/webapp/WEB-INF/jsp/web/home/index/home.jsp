@@ -44,7 +44,14 @@
 										<span><c:choose><c:when test="${responseCount > 0}">共获得${responseCount}次响应</c:when><c:otherwise>还未获得响应</c:otherwise></c:choose></span>
 										<em>个人档案:${completion}%<a href="/profile/index"><c:choose><c:when test="${completion==100}">修改</c:when><c:otherwise>完善</c:otherwise></c:choose></a></em>
 									</div>
-									<div class="face"><p><img src="${jzr:userLogo(loginUser.uid,loginUser.newLogoPic,80)}"  width="80" height="80"/></p><!-- <span>未通过审核</span> --></div>
+									<div class="face">
+										<p><img src="${jzr:userLogo(loginUser.uid,loginUser.newLogoPic,80)}"  width="80" height="80"/></p>
+										<c:choose>
+											<c:when test="${loginUser.logoVerifyState == 1}"><span>审核中...</span></c:when>
+											<c:when test="${loginUser.logoVerifyState == 3}"><em><a href="/profile/index/face">未通过审核</a></em></c:when>
+										</c:choose>
+										<!-- <div class="clear"></div> -->
+									</div>
 								</div><!--my_jz_infor end-->
 							</div>
 							<div class="t"></div>

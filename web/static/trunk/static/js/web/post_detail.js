@@ -1,10 +1,10 @@
 $(document).ready(function(){
-	$("div.post-response > a").click(function(){
+	$("div.post-response > a.xy").click(function(){
 		var postId = $(this).attr("post-id");
 		var obj = $(this);
 		responsePost(this, postId, function(){
-			var currentCnt = parseInt(obj.find("font").text());
-			obj.find("font").text(currentCnt + 1);
+			var currentCnt = parseInt(obj.next().find("font").text());
+			obj.next().find("font").text(currentCnt + 1);
 			obj.text("已" + obj.text()).unbind("click").parent().addClass("done");
 		});
 	});

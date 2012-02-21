@@ -54,3 +54,4 @@
 		</form> --%>
 	</div><!--top end-->
 </div>
+<jsp:include page="/WEB-INF/jsp/web/common/back_top.jsp" />

@@ -64,19 +64,21 @@
 	</h2>
 	<table border="0" cellspacing="4">
 		<tr style="background-color: #CCCCCC;">
+			<td width="50">id</td>
 			<td width="150">用户昵称</td>
 			<td width="50">性别</td>
-			<td width="80">用户头像</td>
+			<td width="180">用户头像</td>
 			<td width="200">处理</td>
 		</tr>
 		<c:forEach var="profile" items="${profileList}" >
 			<tr>
+				<td>${profile.uid}</td>
 				<td><c:out value="${profile.nickname}" /></td>
 				<td><c:choose><c:when test="${profile.gender == 1}">男</c:when><c:otherwise>女</c:otherwise></c:choose></td>
-				<td><img src="${jzr:userLogo(profile.uid, profile.newLogoPic, 80)}" width="80" height="80"/></td>
+				<td><img src="${jzr:userLogo(profile.uid, profile.newLogoPic, 180)}" width="180" height="180"/></td>
 				<td>
-					<c:if test="${type != 'listVerifiedLogo'}"><a href="javascript:;" onclick="passLogo(${profile.uid},'${profile.nickname}')" id="pass-logo-${profile.uid}">通过</a><br /></c:if>
-					<c:if test="${type == 'listVerifyingLogo'}"><a href="javascript:;" onclick="denyLogo(${profile.uid})" id="deny-logo-${profile.uid}">拒绝</a><br /></c:if>
+					<c:if test="${type != 'listVerifiedLogo'}"><a href="javascript:void(0);" onclick="passLogo(${profile.uid},'${profile.nickname}')" id="pass-logo-${profile.uid}">通过</a><br /></c:if>
+					<c:if test="${type == 'listVerifyingLogo'}"><a href="javascript:void(0);" onclick="denyLogo(${profile.uid})" id="deny-logo-${profile.uid}">拒绝</a><br /></c:if>
 					<a href="/home/${profile.uid}" target="_blank">发私信</a>
 				</td>
 			</tr>

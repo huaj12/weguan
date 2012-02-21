@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" import="com.juzhai.core.SystemConfig" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:choose>
 	<c:when test="${footType == 'fixed'}"><c:set var="footClass" value="bottom_welcome" /></c:when>
@@ -13,18 +13,14 @@
 		</c:choose>
 	</div>
 </div><!--bottom_welcome end-->
-<%if("http://test.51juzhai.com".equals(SystemConfig.getDomain())){
-	%>
 			<script type="text/javascript">
-		var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-		document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F8eb3ef477c849f4cc74c953bebe4d0e2' type='text/javascript'%3E%3C/script%3E"));
+			var host=document.domain;
+			if(host=="test.51juzhai.com"){
+				var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+				document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F8eb3ef477c849f4cc74c953bebe4d0e2' type='text/javascript'%3E%3C/script%3E"));
+			}else{
+				var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+				document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F0626a9e13c77bc0eeb042f151c2e0aa5' type='text/javascript'%3E%3C/script%3E"));
+			}
+		
 		</script>
-	<%
-}else{
-	%>
-		<script type="text/javascript">
-		var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-		document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F0626a9e13c77bc0eeb042f151c2e0aa5' type='text/javascript'%3E%3C/script%3E"));
-		</script>
-	<%
-} %>

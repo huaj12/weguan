@@ -14,7 +14,6 @@
 		<div class="warp"><!--warp begin-->
 			<div class="main"><!--main begin-->
 				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
-				<jsp:include page="/WEB-INF/jsp/web/common/back_top.jsp" />
 				<div class="content"><!--content begin-->
 					<div class="t"></div>
 					<div class="m"><!--" begin-->

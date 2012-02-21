@@ -10,25 +10,27 @@
 <title>头像管理</title>
 <script type="text/javascript" src="${jzr:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 <script>
-	function passLogo(uid){
-		jQuery.ajax({
-			url : "/cms/profile/passLogo",
-			type : "post",
-			data : {"uid" : uid},
-			dataType : "json",
-			success : function(result) {
-				if (result.success!=null&&result.success) {
-					$("#pass-logo-" + uid).removeAttr("onclick").text("已通过");
-				} else {
-					alert(result.errorInfo);
+	function passLogo(uid, nickname){
+		if(confirm("确认要通过 " + nickname + " 的头像吗？")){
+			jQuery.ajax({
+				url : "/cms/profile/passLogo",
+				type : "post",
+				data : {"uid" : uid},
+				dataType : "json",
+				success : function(result) {
+					if (result.success!=null&&result.success) {
+						$("#pass-logo-" + uid).removeAttr("onclick").text("已通过");
+					} else {
+						alert(result.errorInfo);
+					}
+				},
+				statusCode : {
+					401 : function() {
+						alert("请先登陆");
+					}
 				}
-			},
-			statusCode : {
-				401 : function() {
-					alert("请先登陆");
-				}
-			}
-		});
+			});
+		}
 	}
 	function denyLogo(uid){
 		jQuery.ajax({
@@ -62,17 +64,20 @@
 	</h2>
 	<table border="0" cellspacing="4">
 		<tr style="background-color: #CCCCCC;">
-			<td width="200">用户昵称</td>
+			<td width="150">用户昵称</td>
+			<td width="50">性别</td>
 			<td width="80">用户头像</td>
 			<td width="200">处理</td>
 		</tr>
 		<c:forEach var="profile" items="${profileList}" >
 			<tr>
 				<td><c:out value="${profile.nickname}" /></td>
+				<td><c:choose><c:when test="${profile.gender == 1}">男</c:when><c:otherwise>女</c:otherwise></c:choose></td>
 				<td><img src="${jzr:userLogo(profile.uid, profile.newLogoPic, 80)}" width="80" height="80"/></td>
 				<td>
-					<c:if test="${type != 'listVerifiedLogo'}"><a href="javascript:;" onclick="passLogo(${profile.uid})" id="pass-logo-${profile.uid}">通过</a><br /></c:if>
-					<c:if test="${type == 'listVerifyingLogo'}"><a href="javascript:;" onclick="denyLogo(${profile.uid})" id="deny-logo-${profile.uid}">拒绝</a></c:if>
+					<c:if test="${type != 'listVerifiedLogo'}"><a href="javascript:;" onclick="passLogo(${profile.uid},'${profile.nickname}')" id="pass-logo-${profile.uid}">通过</a><br /></c:if>
+					<c:if test="${type == 'listVerifyingLogo'}"><a href="javascript:;" onclick="denyLogo(${profile.uid})" id="deny-logo-${profile.uid}">拒绝</a><br /></c:if>
+					<a href="/home/${profile.uid}" target="_blank">发私信</a>
 				</td>
 			</tr>
 		</c:forEach>

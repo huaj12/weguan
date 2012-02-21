@@ -16,7 +16,6 @@
 		<div class="warp"><!--warp begin-->
 			<div class="main"><!--main begin-->
 				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
-				<jsp:include page="/WEB-INF/jsp/web/common/back_top.jsp" />
 				<div class="cqw"><!--cqw begin-->
 					<div class="title"><!--title begin-->
 						<h2 class="<c:choose><c:when test='${loginUser.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>">

@@ -38,10 +38,10 @@
 					<div class="btn"><!--btn begin-->
 						<c:choose>
 							<c:when test="${postView.hasResponse}">
-								<div class="like done"><span class="l"></span><a href="javascript:void(0);" >已响应&nbsp;&nbsp;${postView.post.responseCnt}</a><span class="r"></span></div>
+								<div class="like done"><a href="javascript:void(0);" class="xy">已响应</a><a href="/post/${postView.post.id}" class="xy_num">(${postView.post.responseCnt})</a></div>
 							</c:when>
 							<c:otherwise>
-								<div class="like post-response" id="response${postView.post.id}"><span class="l"></span><a href="javascript:void(0);" post-id="${postView.post.id}">响应&nbsp;&nbsp;<font>${postView.post.responseCnt}</font></a><span class="r"></span></div>
+								<div class="like post-response" id="response${postView.post.id}"><a href="javascript:void(0);" class="xy" post-id="${postView.post.id}">响应</a><a href="/post/${postView.post.id}" class="xy_num">(<font>${postView.post.responseCnt}</font>)</a></div>
 							</c:otherwise>
 						</c:choose>
 						<!-- <div class="message_s1"><a href="javascript:void(0);">私信</a></div> -->

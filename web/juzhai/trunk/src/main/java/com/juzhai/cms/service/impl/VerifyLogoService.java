@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.cms.service.IVerifyLogoService;
 import com.juzhai.core.dao.Limit;
+import com.juzhai.home.bean.DialogContentTemplate;
+import com.juzhai.home.service.IDialogService;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
@@ -21,6 +24,10 @@ public class VerifyLogoService implements IVerifyLogoService {
 	private ProfileMapper profileMapper;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IDialogService dialogService;
+	@Value("${official.notice.uid}")
+	private long officialNoticeUid;
 
 	@Override
 	public List<Profile> listVerifyLogoProfile(LogoVerifyState logoVerifyState,
@@ -54,6 +61,8 @@ public class VerifyLogoService implements IVerifyLogoService {
 					.setLogoVerifyState(LogoVerifyState.VERIFIED.getType());
 			if (profileMapper.updateByPrimaryKeySelective(updateProfile) > 0) {
 				profileService.clearProfileCache(uid);
+				dialogService.sendSMS(officialNoticeUid, uid,
+						DialogContentTemplate.PASS_LOGO);
 			}
 		}
 	}

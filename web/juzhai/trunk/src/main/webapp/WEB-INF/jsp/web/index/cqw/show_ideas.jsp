@@ -19,7 +19,6 @@
 		<div class="warp"><!--warp begin-->
 			<div class="main"><!--main begin-->
 				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
-				<jsp:include page="/WEB-INF/jsp/web/common/back_top.jsp" />
 				<div class="main_part"><!--main_part begin-->
 					<div class="main_left"><!--main_left begin-->
 						<div class="content_box w660 800"><!--content begin-->

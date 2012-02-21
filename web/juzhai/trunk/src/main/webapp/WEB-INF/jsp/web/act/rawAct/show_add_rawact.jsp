@@ -7,6 +7,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>推荐拒宅项目-拒宅网-拒宅网</title>
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 	</head>
 	<body>
 		<div class="warp"><!--warp begin-->
@@ -144,7 +145,6 @@
 		<jsp:include page="/WEB-INF/jsp/web/common/script/kindEditor.jsp" />
 		<script type="text/javascript" src="${jzr:static('/js/web/raw_act.js')}"></script>
 		<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
-		<script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 		<c:if test="${success}">
 			<script type="text/javascript">
 				$(document).ready(function(){

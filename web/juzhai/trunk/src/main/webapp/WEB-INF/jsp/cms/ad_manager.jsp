@@ -73,10 +73,16 @@ function addAd(rawAdId){
 	<c:if test="${!empty msg}"><h3>成功导入${msg }个优惠信息</h3></c:if>
 	<form action="/cms/show/ad/manager" name="rawAdForm" method="post">
 	城市：<select name="cityId" onchange="seachRawAd();">
-	<option <c:if test="${empty cityId||cityId==0 }">selected="selected"</c:if> value="0">所有城市</option>
-	<c:forEach var="city" items="${citys}">
-		<option value="${city.id }" <c:if test="${city.id==cityId }">selected="selected"</c:if> >${city.name }</option>
-	</c:forEach>
+								<option value="0"  <c:if test="${cityId==0}"> selected="selected"</c:if> >全国</option>
+								<option value="2"   <c:if test="${cityId==2}">selected="selected"</c:if>>上海</option>
+								<option value="1"   <c:if test="${cityId==1}">selected="selected"</c:if>>北京</option>
+								<option value="181" <c:if test="${cityId==181}">selected="selected"</c:if>>广州</option>
+								<option value="183" <c:if test="${cityId==183}">selected="selected"</c:if>>深圳</option>
+								<option value="343" <c:if test="${cityId==343}">selected="selected"</c:if>>杭州</option>
+								<option value="157" <c:if test="${cityId==157}">selected="selected"</c:if>>南京</option>
+								<option value="4"   <c:if test="${cityId==4}">selected="selected"</c:if>>重庆</option>
+								<option value="241" <c:if test="${cityId==241}">selected="selected"</c:if>>成都</option>
+								<option value="108" <c:if test="${cityId==108}">selected="selected"</c:if>>武汉</option>
 	</select>
 	<select name="source" onchange="seachRawAd();">
 	<option <c:if test="${empty source }">selected="selected"</c:if> value="">所有来源</option>

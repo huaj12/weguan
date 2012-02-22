@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.juzhai.common.bean.InitData;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.view.PostView;
@@ -43,7 +45,14 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)
 			throws NeedLoginException {
-		return showNewPosts(request, model, 0L, "all", 1);
+		checkLoginForWeb(request);
+		ProfileCache loginUser = getLoginUserCache(request);
+		long city = 0L;
+		if (loginUser != null && loginUser.getCity() != null
+				&& InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
+			city = loginUser.getCity();
+		}
+		return showNewPosts(request, model, city, "all", 1);
 	}
 
 	@RequestMapping(value = "/showNewPosts/{cityId}_{genderType}/{page}", method = RequestMethod.GET)

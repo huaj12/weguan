@@ -35,25 +35,28 @@ public class ProfileIndexMessageListener implements
 			case CREATE:
 				profileIndexer.addIndex(profile, true);
 				if (log.isDebugEnabled()) {
-					log.debug("create profile index. uid is " + profile.getUid());
+					log.debug("create profile index. uid is "
+							+ profile.getUid());
 				}
 				break;
 			case UPDATE:
 				profileIndexer.updateIndex(profile, true);
 				if (log.isDebugEnabled()) {
-					log.debug("update profile index. uid is " + profile.getUid());
+					log.debug("update profile index. uid is "
+							+ profile.getUid());
 				}
 				break;
 			case DELETE:
 				profileIndexer.deleteIndex(profile, true);
 				if (log.isDebugEnabled()) {
-					log.debug("delete profile index. uid is " + profile.getUid());
+					log.debug("delete profile index. uid is "
+							+ profile.getUid());
 				}
 				break;
 			}
 		} catch (Exception e) {
-			log.error("create profile index failed.[uid:" +profile.getUid()+ "]",
-					e);
+			log.error("create profile index failed.[uid:" + profile.getUid()
+					+ "]", e);
 		}
 		try {
 			postIndexSearcherManager.maybeReopen();

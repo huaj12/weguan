@@ -32,23 +32,24 @@ public class ProfileIndexer implements Indexer<Profile> {
 		Document doc = new Document();
 		doc.add(new Field("uid", profile.getUid().toString(), Field.Store.YES,
 				Field.Index.NOT_ANALYZED));
+		doc.add(new Field("name", profile.getNickname().toString(), Field.Store.YES,
+				Field.Index.ANALYZED));
 		doc.add(new Field("city", profile.getCity().toString(), Field.Store.NO,
-				Field.Index.ANALYZED));
+				Field.Index.NOT_ANALYZED));
 		doc.add(new Field("town", profile.getTown().toString(), Field.Store.NO,
-				Field.Index.ANALYZED));
+				Field.Index.NOT_ANALYZED));
 		doc.add(new Field("gender", profile.getGender().toString(),
-				Field.Store.NO, Field.Index.ANALYZED));
+				Field.Store.NO, Field.Index.NOT_ANALYZED_NO_NORMS));
 		doc.add(new Field("age", profile.getBirthYear().toString(),
-				Field.Store.NO, Field.Index.ANALYZED));
+				Field.Store.NO, Field.Index.NOT_ANALYZED));
 		doc.add(new Field("education", profile.getEducation().toString(),
-				Field.Store.NO, Field.Index.ANALYZED));
+				Field.Store.NO, Field.Index.NOT_ANALYZED));
 		doc.add(new Field("minMonthlyIncome", profile.getMinMonthlyIncome()
-				.toString(), Field.Store.NO, Field.Index.ANALYZED));
+				.toString(), Field.Store.NO, Field.Index.NOT_ANALYZED));
 		doc.add(new Field("maxMonthlyIncome", profile.getMaxMonthlyIncome()
-				.toString(), Field.Store.NO, Field.Index.ANALYZED));
+				.toString(), Field.Store.NO, Field.Index.NOT_ANALYZED));
 		doc.add(new Field("height", profile.getHeight().toString(),
-				Field.Store.NO, Field.Index.ANALYZED));
-
+				Field.Store.NO, Field.Index.NOT_ANALYZED));
 		return doc;
 	}
 

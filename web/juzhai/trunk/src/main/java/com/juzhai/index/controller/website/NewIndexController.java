@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.juzhai.common.bean.InitData;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
@@ -25,6 +26,7 @@ import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.index.controller.view.PostWindowView;
 import com.juzhai.index.controller.view.QueryUserView;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IFriendService;
@@ -92,8 +94,14 @@ public class NewIndexController extends BaseController {
 
 	@RequestMapping(value = "/showIdeas", method = RequestMethod.GET)
 	public String showIdeas(HttpServletRequest request, Model model) {
+		ProfileCache loginUser = getLoginUserCache(request);
+		long city = 0L;
+		if (loginUser != null && loginUser.getCity() != null
+				&& InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
+			city = loginUser.getCity();
+		}
 		return pageShowIdeas(request, model, ShowActOrder.HOT_TIME.getType(),
-				0L, 1);
+				city, 1);
 	}
 
 	@RequestMapping(value = "/showIdeas/{orderType}_{cityId}/{page}", method = RequestMethod.GET)
@@ -178,7 +186,13 @@ public class NewIndexController extends BaseController {
 
 	@RequestMapping(value = "/showUsers", method = RequestMethod.GET)
 	public String queryUser(HttpServletRequest request, Model model) {
-		return pageQueryUser(request, model, 1, 0, null, null, null);
+		ProfileCache loginUser = getLoginUserCache(request);
+		long city = 0L;
+		if (loginUser != null && loginUser.getCity() != null
+				&& InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
+			city = loginUser.getCity();
+		}
+		return pageQueryUser(request, model, 1, city, null, null, null);
 	}
 
 	@RequestMapping(value = "/queryUsers/{cityId}_{sex}_{minStringAge}_{maxStringAge}/{pageId}", method = RequestMethod.GET)

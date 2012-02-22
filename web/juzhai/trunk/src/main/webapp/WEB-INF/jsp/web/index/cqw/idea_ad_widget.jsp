@@ -12,7 +12,7 @@
 			<div class="preferential"><!--preferential begin-->
 				<c:forEach items="${ads}" var="ad">
 					<div class="item"><!--item begin-->
-						<p><a href="${ad.link }" target="_blank"><img src="${ad.picUrl }" /></a></p>
+						<p><a href="${ad.link }" target="_blank"><img src="${ad.picUrl }" width="250" height="170" /></a></p>
 						<span><a href="${ad.link }" target="_blank">${jzu:truncate(ad.name,70,'...')}</a></span>
 						<b>团购价：${ad.price}元</b>
 						<strong>${ad.district}</strong>

@@ -215,6 +215,17 @@
 	</bean>
 	<!-- profile index  end -->
 	
+	
+	<!-- create site map begin -->
+	<bean id="createSitemapTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="createSitemapHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${site.map.cron}" />
+	</bean>
+	<!-- create site map end -->
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
@@ -235,6 +246,7 @@
 				<ref bean="noticeToPlatformTrigger"/>
 				<ref bean="postIndexOptimizationAndCommitTrigger"/>
 				<ref bean="profileIndexOptimizationAndCommitTrigger"/>
+				<ref bean="createSitemapTrigger"/>
 				<!-- <ref bean="noticeEmailTrigger"/> -->
 			</list>
 		</property>

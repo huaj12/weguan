@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -18,16 +19,10 @@
 	<table>
 		<tr>
 			<td>添加好主意到:<select name="city">
-								<option value="0"  <c:if test="${idea.city==0}"> selected="selected"</c:if> >全国</option>
-								<option value="2"   <c:if test="${idea.city==2}">selected="selected"</c:if>>上海</option>
-								<option value="1"   <c:if test="${idea.city==1}">selected="selected"</c:if>>北京</option>
-								<option value="181" <c:if test="${idea.city==181}">selected="selected"</c:if>>广州</option>
-								<option value="183" <c:if test="${idea.city==183}">selected="selected"</c:if>>深圳</option>
-								<option value="343" <c:if test="${idea.city==343}">selected="selected"</c:if>>杭州</option>
-								<option value="157" <c:if test="${idea.city==157}">selected="selected"</c:if>>南京</option>
-								<option value="4"   <c:if test="${idea.city==4}">selected="selected"</c:if>>重庆</option>
-								<option value="241" <c:if test="${idea.city==241}">selected="selected"</c:if>>成都</option>
-								<option value="108" <c:if test="${idea.city==108}">selected="selected"</c:if>>武汉</option>
+				<option value="0"  <c:if test="${idea.city==0}"> selected="selected"</c:if> >全国</option>
+				<c:forEach var="specialCity" items="${jzd:specialCityList()}">
+					<option value="${specialCity.id}" <c:if test="${idea.city==specialCity.id}">selected="selected"</c:if>>${specialCity.name}</option>
+				</c:forEach>
 			</select>
 			性别:<select name="gender">
 				<option <c:if test="${empty idea.gender}"> selected="selected"</c:if>value="">不限</option>

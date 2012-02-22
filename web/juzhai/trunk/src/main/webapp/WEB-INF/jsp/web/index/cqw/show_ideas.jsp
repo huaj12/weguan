@@ -34,15 +34,9 @@
 												<div class="select_box"><!--select_box begin-->
 													<span id="city-options">
 														<a href="javascript:void(0);" value="0"   <c:if test="${cityId==null || cityId==0}">class="selected"</c:if>>全国</a>
-														<a href="javascript:void(0);" value="2"   <c:if test="${cityId==2}">class="selected"</c:if>>上海</a>
-														<a href="javascript:void(0);" value="1"   <c:if test="${cityId==1}">class="selected"</c:if>>北京</a>
-														<a href="javascript:void(0);" value="181" <c:if test="${cityId==181}">class="selected"</c:if>>广州</a>
-														<a href="javascript:void(0);" value="183" <c:if test="${cityId==183}">class="selected"</c:if>>深圳</a>
-														<a href="javascript:void(0);" value="343" <c:if test="${cityId==343}">class="selected"</c:if>>杭州</a>
-														<a href="javascript:void(0);" value="157" <c:if test="${cityId==157}">class="selected"</c:if>>南京</a>
-														<a href="javascript:void(0);" value="4"   <c:if test="${cityId==4}">class="selected"</c:if>>重庆</a>
-														<a href="javascript:void(0);" value="241" <c:if test="${cityId==241}">class="selected"</c:if>>成都</a>
-														<a href="javascript:void(0);" value="108" <c:if test="${cityId==108}">class="selected"</c:if>>武汉</a>
+														<c:forEach var="specialCity" items="${jzd:specialCityList()}">
+															<a href="javascript:void(0);" value="${specialCity.id}"   <c:if test="${cityId==specialCity.id}">class="selected"</c:if>>${specialCity.name}</a>
+														</c:forEach>
 													</span>
 													<em></em>
 												</div><!--select_box end-->

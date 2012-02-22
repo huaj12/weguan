@@ -1,10 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="jzr"
-	uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
+<%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource"%> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <c:set var="arrayvalue" value="未发布,已发布,已过期" />
 <c:set var="delim" value=","/> 
 <c:set var="array" value="${fn:split(arrayvalue, delim)}"/>
@@ -73,16 +72,10 @@ function addAd(rawAdId){
 	<c:if test="${!empty msg}"><h3>成功导入${msg }个优惠信息</h3></c:if>
 	<form action="/cms/show/ad/manager" name="rawAdForm" method="post">
 	城市：<select name="cityId" onchange="seachRawAd();">
-								<option value="0"  <c:if test="${cityId==0}"> selected="selected"</c:if> >全国</option>
-								<option value="2"   <c:if test="${cityId==2}">selected="selected"</c:if>>上海</option>
-								<option value="1"   <c:if test="${cityId==1}">selected="selected"</c:if>>北京</option>
-								<option value="181" <c:if test="${cityId==181}">selected="selected"</c:if>>广州</option>
-								<option value="183" <c:if test="${cityId==183}">selected="selected"</c:if>>深圳</option>
-								<option value="343" <c:if test="${cityId==343}">selected="selected"</c:if>>杭州</option>
-								<option value="157" <c:if test="${cityId==157}">selected="selected"</c:if>>南京</option>
-								<option value="4"   <c:if test="${cityId==4}">selected="selected"</c:if>>重庆</option>
-								<option value="241" <c:if test="${cityId==241}">selected="selected"</c:if>>成都</option>
-								<option value="108" <c:if test="${cityId==108}">selected="selected"</c:if>>武汉</option>
+		<option value="0"  <c:if test="${cityId==0}"> selected="selected"</c:if> >全国</option>
+		<c:forEach var="specialCity" items="${jzd:specialCityList()}">
+			<option value="${specialCity.id}" <c:if test="${cityId==specialCity.id}">selected="selected"</c:if>>${specialCity.name}</option>
+		</c:forEach>
 	</select>
 	<select name="source" onchange="seachRawAd();">
 	<option <c:if test="${empty source }">selected="selected"</c:if> value="">所有来源</option>

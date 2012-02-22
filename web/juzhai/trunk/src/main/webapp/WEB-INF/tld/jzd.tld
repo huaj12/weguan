@@ -40,6 +40,13 @@
     </function>
     
     <function>
+    	<name>specialCityList</name>
+    	<function-class>com.juzhai.core.web.jstl.JzDataFunction</function-class>
+    	<function-signature>java.util.List specialCityList()</function-signature>
+    	<example>${jzd:specialCityList()}</example>
+    </function>
+    
+    <function>
     	<name>appId</name>
     	<function-class>com.juzhai.core.web.jstl.JzDataFunction</function-class>
     	<function-signature>java.lang.String appId(long)</function-signature>

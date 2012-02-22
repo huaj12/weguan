@@ -130,4 +130,10 @@ public interface IImageManager {
 	 * @return
 	 */
 	String getWebTempImagePath();
+	/**
+	 * 验证图片是否合法
+	 * @param image
+	 * @throws UploadImageException
+	 */
+	void checkImage(MultipartFile image) throws UploadImageException;
 }

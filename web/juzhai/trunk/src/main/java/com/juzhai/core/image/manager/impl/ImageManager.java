@@ -51,8 +51,8 @@ public class ImageManager implements IImageManager {
 			throw new UploadImageException(UploadImageException.SYSTEM_ERROR, e);
 		}
 	}
-
-	private void checkImage(MultipartFile image) throws UploadImageException {
+	@Override
+	public void checkImage(MultipartFile image) throws UploadImageException {
 		if (null == image) {
 			throw new UploadImageException(UploadImageException.UPLOAD_ERROR);
 		}

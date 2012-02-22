@@ -1,5 +1,8 @@
 package com.juzhai.core.web.jstl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 
 import com.juzhai.act.model.Category;
@@ -24,6 +27,23 @@ public class JzDataFunction {
 			City cityObj = InitData.CITY_MAP.get(cityId);
 			return null == cityObj ? null : cityObj.getName();
 		}
+	}
+
+	/**
+	 * 特定城市列表
+	 * 
+	 * @return
+	 */
+	public static List<City> specialCityList() {
+		List<City> cityList = new ArrayList<City>(
+				com.juzhai.common.bean.InitData.SPECIAL_CITY_LIST.size());
+		for (long cityId : com.juzhai.common.bean.InitData.SPECIAL_CITY_LIST) {
+			City city = InitData.CITY_MAP.get(cityId);
+			if (null != city) {
+				cityList.add(city);
+			}
+		}
+		return cityList;
 	}
 
 	/**

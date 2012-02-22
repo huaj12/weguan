@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -18,16 +19,10 @@
 	<table>
 		<tr>
 			<td>添加好主意到:<select name="city">
-			<option value="0">全国</option>
-								<option value="2"   >上海</option>
-								<option value="1"   >北京</option>
-								<option value="181" >广州</option>
-								<option value="183" >深圳</option>
-								<option value="343" >杭州</option>
-								<option value="157" >南京</option>
-								<option value="4"   >重庆</option>
-								<option value="241" >成都</option>
-								<option value="108" >武汉</option>
+				<option value="0">全国</option>
+				<c:forEach var="specialCity" items="${jzd:specialCityList()}">
+					<option value="${specialCity.id}" >${specialCity.name}</option>
+				</c:forEach>
 			</select>
 			性别<select name="gender">
 				<option value="" >不限</option>

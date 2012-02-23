@@ -22,7 +22,7 @@
 			</div><!--select_box end-->
 		</div><!--select_menu end-->
 		<div class="send_box_error" style="display: none;"></div>
-		<div class="random_select"><c:if test="${postForm == null}"><a href="javascript:void(0);">没想好？随机一个吧</a></c:if></div>
+		<div class="random_select"><c:if test="${postForm == null}"><a href="javascript:void(0);" class="random">随机一个</a><a href="/showIdeas" class="sel">去选一个</a></c:if></div>
 		<div class="textarea"><textarea name="content" cols="" rows="">${postForm.content}</textarea></div>
 		<div class="jh"><!--jh begin-->
 			<c:choose>

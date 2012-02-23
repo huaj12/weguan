@@ -77,7 +77,7 @@ $(document).ready(function(){
 		prepareRepost(postId);
 	});
 	
-	$("div.random_select > a").click(function(){
+	$("div.random_select > a.random").click(function(){
 		$.ajax({
 			url : "/idea/random",
 			type : "post",

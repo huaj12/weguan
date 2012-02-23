@@ -1,8 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="jzr"
-	uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
+<%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="delim" value=","/>
 <c:set var="educationValue" value="初中及以下,中专,高中,大专,本科,硕士,博士及以上" />
@@ -131,8 +129,6 @@
 											</span><span id="towns"
 												<c:if test="${profile.town=='-1'}"> style="display: none" </c:if>><select
 												name="town" id="town">
-													<option <c:if test="${profile.town==0}">selected="selected"</c:if>
-																value="0">其他</option>
 													<c:forEach var="town" items="${towns}">
 														<c:if test="${profile.city==town.cityId}">
 															<option
@@ -140,6 +136,8 @@
 																value="${town.id}">${town.name}</option>
 														</c:if>
 													</c:forEach>
+													<option <c:if test="${profile.town==0}">selected="selected"</c:if>
+																value="0">其他</option>
 											</select>
 											</span>
 										</div>
@@ -362,7 +360,6 @@
 	</div>
 	<!--warp end-->
 	<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-	<script type="text/javascript"
-		src="${jzr:static('/js/web/profile.js')}"></script>
+	<script type="text/javascript" src="${jzr:static('/js/web/profile.js')}"></script>
 </body>
 </html>

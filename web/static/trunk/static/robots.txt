@@ -2,4 +2,4 @@ User-agent: *
 
 Disallow: /cms/
  
-Sitemap: http://www.51juzhai.com/sitemap_index.xml
+Sitemap: http://www.51juzhai.com/sitemap/sitemap_index.xml

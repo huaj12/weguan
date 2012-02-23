@@ -68,9 +68,7 @@
 													<c:forEach begin="1" end="31" var="day">
 														<option value="${day}" <c:if test="${day==settingForm.birthDay}"> selected="selected" </c:if>>${day}日</option>
 													</c:forEach>
-											</select>
-											</span>
-											<div class="dis_age"><b><input type="checkbox" <c:if test="${settingForm.birthSecret}"> checked="checked"</c:if> id="birthSecret" value="true" name="birthSecret" /> </b><p>隐藏年龄</p></div>
+											</select></span>
 										</div><!--select end-->
 										<div id="birth-error" class="error" style="display: none"></div>
 									</div><!--infor_x end-->

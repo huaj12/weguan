@@ -12,6 +12,7 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.passport.bean.LogoVerifyState;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
@@ -60,9 +61,14 @@ public class VerifyLogoService implements IVerifyLogoService {
 			updateProfile
 					.setLogoVerifyState(LogoVerifyState.VERIFIED.getType());
 			if (profileMapper.updateByPrimaryKeySelective(updateProfile) > 0) {
-				profileService.clearProfileCache(uid);
-				dialogService.sendSMS(officialNoticeUid, uid,
-						DialogContentTemplate.PASS_LOGO);
+				ProfileCache profileCache = profileService
+						.getProfileCacheByUid(uid);
+				if (null != profileCache) {
+					profileService.clearProfileCache(uid);
+					dialogService.sendSMS(officialNoticeUid, uid,
+							DialogContentTemplate.PASS_LOGO,
+							profileCache.getNickname());
+				}
 			}
 		}
 	}
@@ -73,7 +79,14 @@ public class VerifyLogoService implements IVerifyLogoService {
 		updateProfile.setUid(uid);
 		updateProfile.setLogoVerifyState(LogoVerifyState.UNVERIFIED.getType());
 		if (profileMapper.updateByPrimaryKeySelective(updateProfile) > 0) {
-			profileService.clearProfileCache(uid);
+			ProfileCache profileCache = profileService
+					.getProfileCacheByUid(uid);
+			if (null != profileCache) {
+				profileService.clearProfileCache(uid);
+				dialogService.sendSMS(officialNoticeUid, uid,
+						DialogContentTemplate.DENY_LOGO,
+						profileCache.getNickname());
+			}
 		}
 	}
 }

@@ -63,6 +63,20 @@
 		</c:choose>头像列表
 	</h2>
 	<table border="0" cellspacing="4">
+		<tr>
+			<td colspan="7">
+				<c:forEach var="pageId" items="${pager.showPages}">
+					<c:choose>
+						<c:when test="${pageId!=pager.currentPage}">
+							<a href="/cms/profile/${type}?pageId=${pageId}">${pageId}</a>
+						</c:when>
+						<c:otherwise>
+							<strong>${pageId}</strong>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</td>
+		</tr>
 		<tr style="background-color: #CCCCCC;">
 			<td width="50">id</td>
 			<td width="150">用户昵称</td>

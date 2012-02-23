@@ -3,11 +3,16 @@ package com.juzhai.passport.service.impl;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.home.bean.DialogContentTemplate;
+import com.juzhai.home.service.IDialogService;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.dao.IUserGuideDao;
 import com.juzhai.passport.mapper.UserGuideMapper;
 import com.juzhai.passport.model.UserGuide;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IUserGuideService;
 
 @Service
@@ -17,6 +22,12 @@ public class UserGuideService implements IUserGuideService {
 	private UserGuideMapper userGuideMapper;
 	@Autowired
 	private IUserGuideDao userGuideDao;
+	@Autowired
+	private IProfileService profileService;
+	@Autowired
+	private IDialogService dialogService;
+	@Value("${official.notice.uid}")
+	private long officialNoticeUid;
 
 	@Override
 	public void craeteUserGuide(long uid) {
@@ -36,6 +47,8 @@ public class UserGuideService implements IUserGuideService {
 		userGuide.setCreateTime(new Date());
 		userGuide.setLastModifyTime(userGuide.getCreateTime());
 		userGuideMapper.insertSelective(userGuide);
+
+		sendWelcomeDialog(uid);
 	}
 
 	@Override
@@ -57,6 +70,16 @@ public class UserGuideService implements IUserGuideService {
 	@Override
 	public void completeGuide(long uid) {
 		userGuideDao.complete(uid);
+
+		sendWelcomeDialog(uid);
 	}
 
+	private void sendWelcomeDialog(long uid) {
+		ProfileCache profileCache = profileService.getProfileCacheByUid(uid);
+		if (null != profileCache) {
+			dialogService.sendSMS(officialNoticeUid, profileCache.getUid(),
+					DialogContentTemplate.WELCOME_USER,
+					profileCache.getNickname());
+		}
+	}
 }

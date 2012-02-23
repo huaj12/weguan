@@ -6,5 +6,6 @@
 								<c:forEach var="town" items="${towns}">
 									<option value="${town.id}">${town.name}</option>
 								</c:forEach>
+								<option value="0">其他</option>	
 	</select>
 </c:if>

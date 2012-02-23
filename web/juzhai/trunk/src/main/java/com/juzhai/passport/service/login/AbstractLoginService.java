@@ -22,6 +22,7 @@ import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IFriendService;
+import com.juzhai.stats.counter.service.ICounter;
 
 public abstract class AbstractLoginService implements ILoginService {
 
@@ -39,6 +40,8 @@ public abstract class AbstractLoginService implements ILoginService {
 	private ProfileMapper profileMapper;
 	@Autowired
 	private MemcachedClient memcachedClient;
+	@Autowired
+	private ICounter loginCounter;
 	@Value(value = "${user.online.expire.time}")
 	private int userOnlineExpireTime;
 
@@ -69,6 +72,7 @@ public abstract class AbstractLoginService implements ILoginService {
 				friendService.updateExpiredFriends(uid, tpId);
 			}
 		});
+		loginCounter.incr(null, 1);
 	}
 
 	@Override

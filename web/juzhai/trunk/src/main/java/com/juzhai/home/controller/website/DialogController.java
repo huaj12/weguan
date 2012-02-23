@@ -28,6 +28,7 @@ import com.juzhai.home.service.IDialogService;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.stats.counter.service.ICounter;
 
 @Controller
 @RequestMapping(value = "home")
@@ -41,6 +42,8 @@ public class DialogController extends BaseController {
 	private MessageSource messageSource;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private ICounter dialogContentCounter;
 	@Value("${show.dialogs.max.rows}")
 	private int showDialogsMaxRows;
 	@Value("${show.dialog.contents.max.rows}")
@@ -110,6 +113,7 @@ public class DialogController extends BaseController {
 		AjaxResult result = new AjaxResult();
 		try {
 			dialogService.sendSMS(context.getUid(), targetUid, content);
+			dialogContentCounter.incr(null, 1L);
 		} catch (DialogException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		}
@@ -132,6 +136,7 @@ public class DialogController extends BaseController {
 			model.addAttribute("dialogContentView", view);
 			model.addAttribute("targetProfile",
 					profileService.getProfileCacheByUid(targetUid));
+			dialogContentCounter.incr(null, 1L);
 		} catch (DialogException e) {
 			model.addAttribute("success", false);
 			model.addAttribute("errorCode", e.getErrorCode());

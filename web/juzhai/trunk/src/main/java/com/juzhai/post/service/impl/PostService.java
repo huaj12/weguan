@@ -54,6 +54,7 @@ import com.juzhai.post.model.PostResponseExample;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostImageService;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.stats.counter.service.ICounter;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
 @Service
@@ -87,6 +88,14 @@ public class PostService implements IPostService {
 	private IDialogService dialogService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private ICounter responsePostCounter;
+	@Autowired
+	private ICounter auditPostCounter;
+	@Autowired
+	private ICounter postIdeaCounter;
+	@Autowired
+	private ICounter postCounter;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
@@ -173,6 +182,8 @@ public class PostService implements IPostService {
 		} else {
 			ideaService.addUser(ideaId, uid);
 		}
+		// 每日发布idea统计
+		postIdeaCounter.incr(null, 1L);
 		return post.getId();
 	}
 
@@ -211,7 +222,8 @@ public class PostService implements IPostService {
 		post.setPurposeType(postForm.getPurposeType());
 
 		createPost(uid, post, repost, picIdea, postForm.getPic());
-
+		// 每日发布拒宅统计
+		postCounter.incr(null, 1L);
 		return post.getId();
 	}
 
@@ -439,6 +451,8 @@ public class PostService implements IPostService {
 		// 发送私信
 		dialogService.sendSMS(uid, post.getCreateUid(),
 				DialogContentTemplate.RESPONSE_POST, post.getContent());
+
+		responsePostCounter.incr(null, 1L);
 	}
 
 	@Override
@@ -534,8 +548,6 @@ public class PostService implements IPostService {
 
 	}
 
-
-
 	@Override
 	public void handlePost(List<Long> postIds) throws InputPostException {
 		if (CollectionUtils.isEmpty(postIds)) {
@@ -546,8 +558,9 @@ public class PostService implements IPostService {
 		post.setLastModifyTime(new Date());
 		post.setVerifyType(VerifyType.QUALIFIED.getType());
 		example.createCriteria().andIdIn(postIds);
-		postMapper.updateByExampleSelective(post, example);
-
+		if (postMapper.updateByExampleSelective(post, example) > 0) {
+			auditPostCounter.incr(null, 1L);
+		}
 	}
 
 	@Override
@@ -883,5 +896,5 @@ public class PostService implements IPostService {
 		}
 		return cnt;
 	}
-	
+
 }

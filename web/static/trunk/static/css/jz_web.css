@@ -264,8 +264,8 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 
 
 .send_area .random_select{ float:right; margin-top:5px;}
-.send_area .random_select a{ background:url(../images/web2/icon_link_r1_c9.jpg) no-repeat; width:16px; height:16px; padding-left:20px; color:#999; }
-.send_area .random_select a:hover{ background:url(../images/web2/icon_hover_r1_c9.jpg) no-repeat; color:#3E8BD9;}
+.send_area .random_select a{ background:url(../images/web2/icon_hover_r1_c9.jpg) no-repeat; width:16px; height:16px; padding-left:20px; color:#999; }
+.send_area .random_select a:hover{  color:#3E8BD9;}
 
 .send_area .textarea{ background:url(../images/web2/text_area_bg2.jpg) no-repeat; width:100%;  height:55px; overflow:hidden; margin-top:7px; float:left; _margin-top:5px;}
 .send_area .textarea textarea{ border:none; background:none; width:97%; float:left; margin-left:10px; margin-top:10px; display:inline; height:35px; color:#666; font-size:12px; overflow:hidden;}
@@ -532,7 +532,7 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 .jz_main .wtg .btn .like{ float:left;}
 .jz_main .wtg .btn .like span{ width:2px; overflow:hidden; height:23px; float:left;}
 .jz_main .wtg .btn .like a.xy{ background:url(../images/web2/xiangyin.png) no-repeat; height:15px; display:block; color:#3E8BD9; padding-left:22px; float:left;}
-.jz_main .wtg .btn .like a.xy_num{ color:#3E8BD9; /* float:left; */ font-family:Arial, Helvetica, sans-serif; font-size:11px; height:16px; overflow:hidden; margin-top:-1px; margin-left:5px; display:inline;}
+.jz_main .wtg .btn .like a.xy_num{ color:#3E8BD9; font-family:Arial, Helvetica, sans-serif; font-size:11px; height:16px; overflow:hidden; margin-top:-1px; margin-left:5px; display:inline;}
 .jz_main .wtg .btn .like a.xy_num:hover{ text-decoration:underline;}
 
 
@@ -672,8 +672,8 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 .my_infor .infor{ width:480px;  height:auto; overflow:hidden; float:left;}
 .my_infor .infor .h1{ font-size:14px; font-weight:bold; color:#666; float:left; width:100%; padding-bottom:20px; margin-top:10px;}
 .my_infor .infor .infor_x{height:auto;  width:100%; padding-bottom:20px; float:left; }
-.infor_x h3{font-size:14px; color:#999; float:left; margin-top:5px; margin-right:5px; margin-left:5px; display:inline; width:80px; text-align:right;}
-.infor_x .user{ float:left; height:28px;}
+.infor_x h3{font-size:14px; color:#999; float:left;  margin-right:5px; margin-left:5px; display:inline; width:80px; text-align:right;}
+.infor_x .user{ float:left; height:28px; margin-top:-5px;}
 .infor_x .user p{ color:#666; font-size:14px; font-weight:bold; float:left; margin-top:5px;}
 .infor_x .user a{ float:left; margin-left:5px; display:inline; color:#3E8BD9; text-decoration:none; margin-top:7px;}
 .infor_x .user a:hover{ text-decoration:underline;}
@@ -1012,12 +1012,12 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 .detail .con a{ color:#666;}
 .detail .con a:hover{ text-decoration:underline;}
 .detail .infor{ float:left; width:100%; margin-top:10px;}
-.detail .infor span{ color:#ccc; height:16px; float:left; margin-right:8px; display:inline; margin-top:10px;}
+.detail .infor span{ color:#999; height:16px; float:left; margin-right:8px; display:inline; margin-top:10px;}
 .detail .infor span.time{ background:url(../images/web2/wtg_icon_r1_c4.jpg) no-repeat; padding-left:18px;}
 .detail .infor span.adress{ background:url(../images/web2/wtg_icon_r1_c1.jpg) no-repeat; padding-left:18px;}
 .detail .infor span.tag{ background:url(../images/web2/tag_infor_icon.jpg) no-repeat; padding-left:18px;}
 .detail .infor span.link{ background:url(../images/web2/wtg_icon_r1_c6.jpg) no-repeat;  padding-left:18px;}
-.detail .infor span a{ color:#ccc; text-decoration:underline;}
+.detail .infor span a{ color:#999; text-decoration:underline;}
 .detail .infor span a:hover{color:#3E8BD9;}
 .detail .infor .img{ float:left; width:100%;}
 
@@ -1040,7 +1040,7 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 .detail .btn .like span.r{ background:url(../images/web2/wtg_btn_r1_c16.jpg) no-repeat;}
 
 .detail .btn .like a.xy{ background:url(../images/web2/xiangyin.png) no-repeat; height:15px; display:block; color:#3E8BD9; padding-left:22px; float:left;}
-.detail .btn .like a.xy_num{ color:#3E8BD9; /* float:left; */ font-family:Arial, Helvetica, sans-serif; font-size:11px; height:16px; overflow:hidden; margin-top:-1px; margin-left:5px; display:inline;}
+.detail .btn .like a.xy_num{ color:#3E8BD9; float:left; font-family:Arial, Helvetica, sans-serif; font-size:11px; height:16px; overflow:hidden; margin-top:-1px; margin-left:5px; display:inline;}
 .detail .btn .like a.xy_num:hover{ text-decoration:underline;}
 
 
@@ -1103,9 +1103,9 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 
 
 .person .keep{ float:left; margin-top:5px; width:160px;}
-.person .keep a{ background:url(../images/web2/person_keep_icon_r1_c1.jpg) no-repeat; padding-left:20px; color:#999;}
-.person .keep a:hover{background:url(../images/web2/person_keep_icon_r3_c3.jpg)  no-repeat; color:#3E8BD9;}
-.person .keep .done{background:url(../images/web2/person_keep_icon_r3_c3.jpg) no-repeat;  color:#999; }
+.person .keep a{ background:url(../images/web2/fav_link.png) no-repeat; padding-left:20px; color:#999;}
+.person .keep a:hover{background:url(../images/web2/fav_hover.png)  no-repeat; color:#3E8BD9;}
+.person .keep .done{background:url(../images/web2/fav_link.png) no-repeat;  color:#999; }
 .person .keep .done:hover{color:#999;}
 
 
@@ -1500,7 +1500,7 @@ filter:alpha(opacity=50);opacity:0.5; -moz-opacity:0.5; -khtml-opacity:0.5; font
 .my_jz .btn .like{ float:right;}
 .my_jz .btn .like span{ width:2px; overflow:hidden; height:23px; float:left;}
 .my_jz .btn .like a.xy{ background:url(../images/web2/xiangyin.png) no-repeat; height:15px; display:block; color:#3E8BD9; padding-left:22px; float:left;}
-.my_jz .btn .like a.xy_num{ color:#3E8BD9; /* float:left; */ font-family:Arial, Helvetica, sans-serif; font-size:11px; height:16px; overflow:hidden; margin-top:-1px; margin-left:5px; display:inline;}
+.my_jz .btn .like a.xy_num{ color:#3E8BD9; float:left; font-family:Arial, Helvetica, sans-serif; font-size:11px; height:16px; overflow:hidden; margin-top:-1px; margin-left:5px; display:inline;}
 .my_jz .btn .like a.xy_num:hover{ text-decoration:underline;}
 
 
@@ -1650,13 +1650,36 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 
 
 
+/*引导页-确认信息*/
+
+.exit{ float:right; margin-right:10px; display:inline; margin-top:16px;}
+.exit a{ color:#999;}
+.exit a:hover{color:#3E8BD9;}
+
+.qrxx{ width:960px; height:auto; overflow:hidden; margin:0 auto; margin-top:100px; *padding-top:100px;}
+
+.qrxx .qrxx_t{ background:url(../images/web2/welcome_con_r1_c1.jpg) no-repeat; width:100%; height:6px; overflow:hidden; float:left;}
+.qrxx .qrxx_b{ background:url(../images/web2/welcome_con_r9_c1.jpg) no-repeat; width:100%; height:6px; overflow:hidden; float:left;}
+.qrxx .qrxx_m{ background:url(../images/web2/welcome_con_r3_c1.jpg) repeat-y; width:100%; height:412px; overflow:hidden; position:relative; padding-bottom:30px; float:left;}
+
+
+.qrxx .qrxx_m .m_box{ background:url(../images/web2/qrxx_img.jpg) no-repeat 480px 0px; width:100%; height:460px;}
+
+.qrxx .qrxx_m .title{ float:left; width:100%; margin-left:50px; display:inline; margin-top:50px;}
+.qrxx .qrxx_m .title h2{ width:100%; float:left; font-family:"微软雅黑"; font-size:18px; color:#555;}
+.qrxx .qrxx_m .title p{ width:100%; float:left; color:#B3B3B3; margin-top:20px;}
 
 
 
 
 
 
+.qrxx .qrxx_m .m_box .infor{ width:480px;  height:auto; overflow:hidden; float:left; margin-left:30px; display:inline; margin-top:40px;}
+.qrxx .qrxx_m .m_box .infor .infor_x{height:auto;  width:100%; padding-bottom:25px; float:left; }
 
+
+.qrxx .qrxx_m .m_box .save_btn{float:left; margin-left:120px; width:100%; display:inline;}
+.qrxx .qrxx_m .m_box .save_btn a{background:url(../images/web2/qrxx_btn.gif) no-repeat; width:120px; height:40px; font-family:"微软雅黑","宋体"; font-size:18px; color:#fff; text-align:center; text-decoration:none; line-height:40px; display:block;}
 
 
 
@@ -1683,6 +1706,29 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 .login_box .box_left a{ float:left; width:100%; margin-top:15px;} 
 .login_box .box_right{ float:left; height:auto; overflow:hidden; margin-left:25px; display:inline; width:335px; color:#999; line-height:180%; }
 .login_box .box_right b{ color:#999;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

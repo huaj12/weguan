@@ -42,6 +42,7 @@ import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.platform.service.IUserService;
 
@@ -58,9 +59,8 @@ public class TpAuthorizeController extends BaseController {
 	private IUserService userService;
 	@Autowired
 	private ILoginService loginService;
-	
-	// @Autowired
-	// private IUserGuideService userGuideService;
+	@Autowired
+	private IUserGuideService userGuideService;
 
 	@RequestMapping(value = "app/login")
 	public String login(HttpServletRequest request, Model model) {
@@ -222,22 +222,6 @@ public class TpAuthorizeController extends BaseController {
 		}
 	}
 
-	// @RequestMapping(value = "access/rr/xd_receiver")
-	// public String rrCrossDomain() {
-	// return "/renren/xd_receiver";
-	// }
-
-	// private void saveAuthInfoToCookie(HttpServletRequest request,
-	// HttpServletResponse response, AuthInfo authInfo) {
-	// try {
-	// cookieManager.addCookie(request, response, REQUEST_TOKEN_ATTR_NAME,
-	// authInfo.toJsonString(), -1);
-	// cookieManager.dealIEPrivacy(response);
-	// } catch (JsonGenerationException e) {
-	// log.error(e.getMessage(), e);
-	// }
-	// }
-
 	private AuthInfo getAuthInfoFromCookie(HttpServletRequest request) {
 		if (request != null && request.getCookies() != null) {
 			String value = null;
@@ -266,8 +250,8 @@ public class TpAuthorizeController extends BaseController {
 		if (null == tp) {
 			return "404";
 		}
-		String url = userService.getAuthorizeURLforCode(tp,
-				turnTo==null?"":URLEncoder.encode(turnTo, Constants.UTF8));
+		String url = userService.getAuthorizeURLforCode(tp, turnTo == null ? ""
+				: URLEncoder.encode(turnTo, Constants.UTF8));
 		if (StringUtils.isEmpty(url)) {
 			return "404";
 		}
@@ -277,13 +261,13 @@ public class TpAuthorizeController extends BaseController {
 	@RequestMapping(value = "web/access/{tpId}")
 	public String webAccess(HttpServletRequest request,
 			HttpServletResponse response, String code, @PathVariable long tpId,
-			String turnTo,String error_code) throws UnsupportedEncodingException,
-			MalformedURLException {
+			String turnTo, String error_code)
+			throws UnsupportedEncodingException, MalformedURLException {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if (null == tp) {
 			return null;
 		}
-		if(StringUtils.isNotEmpty(error_code)){
+		if (StringUtils.isNotEmpty(error_code)) {
 			return "redirect:/";
 		}
 		try {
@@ -308,6 +292,9 @@ public class TpAuthorizeController extends BaseController {
 			return error_500;
 		}
 		loginService.login(request, uid, tp.getId(), RunType.CONNET);
+		if (!userGuideService.isCompleteGuide(uid)) {
+			return "redirect:/home/guide";
+		}
 		return "redirect:"
 				+ (StringUtils.isEmpty(turnTo) ? "/home" : StringUtil
 						.encodeURI(turnTo, Constants.UTF8));

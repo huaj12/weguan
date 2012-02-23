@@ -2,16 +2,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<select id="province-select" name="province" select-data="${param.provinceId}">
-	<option value="0">请选择</option>
-</select>
-<select id="city-select" name="city" select-data="${param.cityId}">
-	<option value="0">请选择</option>
-</select>
-<select id="town-select" name="town" id="town" select-data="${param.townId}" style="display: none;">
-	<option value="-1">请选择</option>
-</select>
-<script type="text/javascript">
+<span>
+	<select id="province-select" name="province" select-data="${param.provinceId}">
+		<option value="0">请选择</option>
+	</select>
+</span>
+<span>
+	<select id="city-select" name="city" select-data="${param.cityId}">
+		<option value="0">请选择</option>
+	</select>
+</span>
+<span>
+	<select id="town-select" name="town" id="town" select-data="${param.townId}" style="display: none;">
+		<option value="-1">请选择</option>
+	</select>
+</span>
+<!-- <script type="text/javascript">
 	$(document).ready(function(){
 		var provinceSelect = $("select#province-select");
 		var citySelect = $("select#city-select");
@@ -72,4 +78,4 @@
 			jselect.trigger("change");
 		}
 	}
-</script>
+</script> -->

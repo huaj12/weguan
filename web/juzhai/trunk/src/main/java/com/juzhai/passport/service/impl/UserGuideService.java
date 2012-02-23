@@ -28,8 +28,18 @@ public class UserGuideService implements IUserGuideService {
 	}
 
 	@Override
+	public void createAndCompleteGuide(long uid) {
+		UserGuide userGuide = new UserGuide();
+		userGuide.setUid(uid);
+		userGuide.setComplete(true);
+		userGuide.setGuideStep(1);
+		userGuide.setCreateTime(new Date());
+		userGuide.setLastModifyTime(userGuide.getCreateTime());
+		userGuideMapper.insertSelective(userGuide);
+	}
+
+	@Override
 	public UserGuide getUserGuide(long uid) {
-		// TODO 考虑缓存
 		return userGuideMapper.selectByPrimaryKey(uid);
 	}
 

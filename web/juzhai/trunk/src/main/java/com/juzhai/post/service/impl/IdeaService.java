@@ -22,6 +22,7 @@ import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.cms.controller.form.IdeaForm;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
+import com.juzhai.core.image.manager.IImageManager;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.index.bean.ShowIdeaOrder;
@@ -61,7 +62,8 @@ public class IdeaService implements IIdeaService {
 	private IIdeaImageService ideaImageService;
 	@Autowired
 	private IPostService postService;
-
+	@Autowired
+	private IImageManager imageManager;
 	@Override
 	public Idea getIdeaById(long ideaId) {
 		return ideaMapper.selectByPrimaryKey(ideaId);
@@ -141,6 +143,10 @@ public class IdeaService implements IIdeaService {
 	public void addIdea(IdeaForm ideaForm) throws InputIdeaException,
 			UploadImageException {
 		validateIdea(ideaForm);
+		//如果有上传图片验证合法性
+		if (ideaForm.getNewpic() != null && ideaForm.getNewpic().getSize() != 0) {
+			imageManager.checkImage(ideaForm.getNewpic());
+		}
 		Idea idea = new Idea();
 		idea.setCity(ideaForm.getCity());
 		idea.setContent(ideaForm.getContent());
@@ -187,6 +193,10 @@ public class IdeaService implements IIdeaService {
 	public void updateIdea(IdeaForm ideaForm) throws InputIdeaException,
 			UploadImageException {
 		validateIdea(ideaForm);
+		//如果有上传图片验证合法性
+		if (ideaForm.getNewpic() != null && ideaForm.getNewpic().getSize() != 0) {
+			imageManager.checkImage(ideaForm.getNewpic());
+		}
 		Long ideaId = ideaForm.getIdeaId();
 		Idea idea = getIdeaById(ideaId);
 		idea.setCity(ideaForm.getCity());

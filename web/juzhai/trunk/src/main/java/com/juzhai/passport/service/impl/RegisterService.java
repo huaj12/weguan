@@ -26,6 +26,7 @@ import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.IUserGuideService;
+import com.juzhai.stats.counter.service.ICounter;
 
 @Service
 public class RegisterService implements IRegisterService {
@@ -46,6 +47,8 @@ public class RegisterService implements IRegisterService {
 	private IProfileService profileService;
 	@Autowired
 	private IAccountService accountService;
+	@Autowired
+	private ICounter registerCounter;
 	@Autowired
 	private IUserGuideService userGuideService;
 
@@ -80,7 +83,9 @@ public class RegisterService implements IRegisterService {
 		// 5.预存消息转正
 		// msgService.getPrestore(identity, tp.getId(), passport.getId(),
 		// MergerActMsg.class);
-
+		
+		//统计注册数
+		registerCounter.incr(null, 1);
 		return passport.getId();
 	}
 

@@ -130,9 +130,9 @@ public class ProfileContrller extends BaseController {
 	public AjaxResult setting(HttpServletRequest request, Model model,
 			SettingForm settingForm) throws NeedLoginException {
 		AjaxResult ajaxResult = new AjaxResult();
-		UserContext context = null;
-		context = checkLoginForWeb(request);
+		UserContext context = checkLoginForWeb(request);
 		Profile profile = new Profile();
+		profile.setUid(context.getUid());
 		profile.setProvince(settingForm.getProvince());
 		profile.setCity(settingForm.getCity());
 		profile.setTown(settingForm.getTown());
@@ -151,7 +151,6 @@ public class ProfileContrller extends BaseController {
 		profile.setProfession(settingForm.getProfession());
 		profile.setProfessionId(professionId);
 		profile.setFeature(settingForm.getFeature());
-		profile.setUid(context.getUid());
 
 		profile.setBlog(settingForm.getBlog());
 		profile.setHeight(settingForm.getHeight());

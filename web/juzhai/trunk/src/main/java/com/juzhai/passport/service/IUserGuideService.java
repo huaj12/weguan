@@ -41,4 +41,11 @@ public interface IUserGuideService {
 	 * @param uid
 	 */
 	void completeGuide(long uid);
+
+	/**
+	 * 创建和完成guide
+	 * 
+	 * @param uid
+	 */
+	void createAndCompleteGuide(long uid);
 }

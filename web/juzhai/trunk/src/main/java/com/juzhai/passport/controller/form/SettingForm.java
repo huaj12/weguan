@@ -1,6 +1,7 @@
 package com.juzhai.passport.controller.form;
 
 public class SettingForm {
+	private Integer gender;
 	private String feature;
 	private String profession;
 	private Long professionId;
@@ -20,6 +21,14 @@ public class SettingForm {
 	private Integer minMonthlyIncome;
 	private Integer maxMonthlyIncome;
 	private String home;
+
+	public Integer getGender() {
+		return gender;
+	}
+
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
 
 	public Integer getHeight() {
 		return height;

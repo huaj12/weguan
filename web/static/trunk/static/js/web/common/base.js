@@ -690,6 +690,70 @@ var PostSender =  Class.extend({
 	}
 });
 
+var LocationWidget =  Class.extend({
+	init: function(){
+		var provinceSelect = $("select#province-select");
+		var citySelect = $("select#city-select");
+		var townSelect = $("select#town-select");
+		
+		var initSelect = this.initSelect;
+		
+		$.get('/base/initProvince', {
+			random : Math.random()
+		}, function(result) {
+			initSelect(provinceSelect, result.result);
+		});
+		
+		provinceSelect.bind("change", function(){
+			citySelect.val("0");
+			citySelect.trigger("change");
+			citySelect.children("option[value!='0']").remove(); 
+			if($(this).val() > 0){
+				$.get('/base/initCity', {
+					provinceId : $(this).val(),
+					random : Math.random()
+				}, function(result) {
+					initSelect(citySelect, result.result);
+				});
+			}
+		});
+		
+		citySelect.bind("change", function(){
+			townSelect.val("-1");
+			townSelect.children("option[value!='-1']").remove(); 
+			if($(this).val() > 0){
+				$.get('/base/initTown', {
+					cityId : $(this).val(),
+					random : Math.random()
+				}, function(result) {
+					if(!result.success){
+						townSelect.hide();
+					}else{
+						townSelect.show();
+						initSelect(townSelect, result.result);
+						townSelect.append("<option value=\"" + 0 + "\">其他</option>");
+					}
+				});
+			}else{
+				townSelect.hide();
+			}
+		});
+	},
+	initSelect: function(jselect, listResult){
+		if(listResult!=null){
+			for(key in listResult){
+				jselect.append("<option value=\"" + key + "\">" + listResult[key] + "</option>");
+			}
+		}
+		var selectData = jselect.attr("select-data");
+		if(selectData!=null && selectData!=""){
+			jselect.val(selectData);
+			jselect.removeAttr("select-data");
+			jselect.trigger("change");
+		}
+	}
+});
+
 function prepareModifyPost(postId){
 	jQuery.ajax({
 		url : "/post/prepareModifyPost",

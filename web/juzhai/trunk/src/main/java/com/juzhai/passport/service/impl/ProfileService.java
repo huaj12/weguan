@@ -40,7 +40,6 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IProfileImageService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
-import com.juzhai.search.service.IProfileSearchService;
 
 @Service
 public class ProfileService implements IProfileService {
@@ -57,8 +56,6 @@ public class ProfileService implements IProfileService {
 	private ITpUserService tpUserService;
 	@Autowired
 	private MemcachedClient memcachedClient;
-	@Autowired
-	private IProfileSearchService profileSearchService;
 	@Autowired
 	private IProfileImageService profileImageService;
 	@Value("${profile.cache.expire.time}")
@@ -249,8 +246,6 @@ public class ProfileService implements IProfileService {
 					ProfileInputException.PROFILE_GEBDER_REPEAT_UPDATE);
 		}
 
-		profileSearchService.updateIndex(uid);
-
 	}
 
 	@Override
@@ -286,7 +281,6 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
 		}
 		clearProfileCache(uid);
-		profileSearchService.updateIndex(uid);
 
 	}
 
@@ -332,14 +326,16 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROFESSION_IS_TOO_LONG);
 		}
-		if (StringUtils.isEmpty(profile.getFeature())) {
-			// 性格描述不能为空
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_FEATURE_IS_NULL);
-		}
-		if (StringUtil.chineseLength(profile.getFeature()) > featureLengthMax) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
+		if (null != profile.getFeature()) {
+			if (StringUtils.isEmpty(profile.getFeature())) {
+				// 性格描述不能为空
+				throw new ProfileInputException(
+						ProfileInputException.PROFILE_FEATURE_IS_NULL);
+			}
+			if (StringUtil.chineseLength(profile.getFeature()) > featureLengthMax) {
+				throw new ProfileInputException(
+						ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
+			}
 		}
 		// 验证个人主页长度
 		if (StringUtil.chineseLength(profile.getBlog()) > blogLengthMax) {
@@ -370,7 +366,6 @@ public class ProfileService implements IProfileService {
 		}
 		clearProfileCache(uid);
 		cacheUserCity(uid);
-		profileSearchService.updateIndex(uid);
 	}
 
 	@Override
@@ -570,4 +565,5 @@ public class ProfileService implements IProfileService {
 		}
 		return result;
 	}
+
 }

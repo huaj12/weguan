@@ -167,13 +167,6 @@ public interface IPostService {
 	 */
 	void shieldPost(long postId) throws InputPostException;
 
-	/**
-	 * 取消屏蔽拒宅
-	 * 
-	 * @param postId
-	 * @throws InputPostException
-	 */
-	void unShieldPost(long postId) throws InputPostException;
 
 	/**
 	 * 标记为已处理拒宅

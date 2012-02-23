@@ -534,18 +534,7 @@ public class PostService implements IPostService {
 
 	}
 
-	@Override
-	public void unShieldPost(long postId) throws InputPostException {
-		if (postId <= 0) {
-			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
-		}
-		Post post = new Post();
-		post.setId(postId);
-		post.setLastModifyTime(new Date());
-		post.setVerifyType(VerifyType.QUALIFIED.getType());
-		postMapper.updateByPrimaryKeySelective(post);
 
-	}
 
 	@Override
 	public void handlePost(List<Long> postIds) throws InputPostException {

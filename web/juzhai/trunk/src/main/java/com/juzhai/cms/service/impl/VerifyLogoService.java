@@ -17,6 +17,7 @@ import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.stats.counter.service.ICounter;
 
 @Service
 public class VerifyLogoService implements IVerifyLogoService {
@@ -27,6 +28,8 @@ public class VerifyLogoService implements IVerifyLogoService {
 	private IProfileService profileService;
 	@Autowired
 	private IDialogService dialogService;
+	@Autowired
+	private ICounter auditLogoCounter;
 	@Value("${official.notice.uid}")
 	private long officialNoticeUid;
 
@@ -68,6 +71,7 @@ public class VerifyLogoService implements IVerifyLogoService {
 					dialogService.sendSMS(officialNoticeUid, uid,
 							DialogContentTemplate.PASS_LOGO,
 							profileCache.getNickname());
+					auditLogoCounter.incr(null, 1L);
 				}
 			}
 		}

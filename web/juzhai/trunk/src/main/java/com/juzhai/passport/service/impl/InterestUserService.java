@@ -15,8 +15,6 @@ import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
-import com.juzhai.notice.bean.NoticeType;
-import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.InterestUserException;
 import com.juzhai.passport.mapper.InterestUserMapper;
@@ -24,6 +22,7 @@ import com.juzhai.passport.model.InterestUser;
 import com.juzhai.passport.model.InterestUserExample;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.stats.counter.service.ICounter;
 
 @Service
 public class InterestUserService implements IInterestUserService {
@@ -36,6 +35,8 @@ public class InterestUserService implements IInterestUserService {
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private IDialogService dialogService;
+	@Autowired
+	private ICounter interestUserCounter;
 
 	@Override
 	public void interestUser(long uid, long targetUid)
@@ -65,6 +66,8 @@ public class InterestUserService implements IInterestUserService {
 		// 发送私信
 		dialogService.sendSMS(uid, targetUid,
 				DialogContentTemplate.INTEREST_USER);
+
+		interestUserCounter.incr(null, 1L);
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.juzhai.stats.service.IStatsService;
+import com.juzhai.cms.service.IStatsService;
 
 @Controller
 @RequestMapping("/cms")

@@ -1,4 +1,4 @@
-package com.juzhai.stats.counter;
+package com.juzhai.stats.counter.registry;
 
 import com.juzhai.stats.counter.server.ICounterServer;
 import com.juzhai.stats.counter.service.Counter;

@@ -45,7 +45,6 @@ import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.platform.service.IUserService;
-import com.juzhai.stats.counter.service.ICounter;
 
 /**
  * @author wujiajun Created on 2011-2-15
@@ -62,8 +61,6 @@ public class TpAuthorizeController extends BaseController {
 	private ILoginService loginService;
 	@Autowired
 	private IUserGuideService userGuideService;
-	@Autowired
-	private ICounter loginCounter;
 
 	@RequestMapping(value = "app/login")
 	public String login(HttpServletRequest request, Model model) {

@@ -27,6 +27,6 @@
 		</property>
 	</bean>
 
-	<bean class="com.juzhai.stats.counter.CounterServiceRegistry" />
+	<bean class="com.juzhai.stats.counter.registry.CounterServiceRegistry" />
 
 </beans>

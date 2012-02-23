@@ -76,8 +76,6 @@ public class UserActService implements IUserActService {
 	private IActRankService actRankService;
 	@Autowired
 	private ISynonymActService synonymActService;
-	@Autowired
-	private ICounter recommendWantCounter;
 	@Value("${users.same.act.pre.count}")
 	private int usersSameActPreCount;
 
@@ -96,7 +94,6 @@ public class UserActService implements IUserActService {
 			if (isFeed && !synonymActService.isShieldAct(actId)) {
 				// appService.sendFeed(actId, uid, tpId);
 			}
-			recommendWantCounter.incr(null, 1L);
 		} else {
 			inboxService.shiftRead(uid, 0, actId, type);
 		}

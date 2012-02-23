@@ -44,8 +44,10 @@ public class CreateSitemapHandler extends AbstractScheduleHandler {
 	private IdeaMapper ideamapper;
 	@Value("${sitemap.page.count}")
 	private int sitemapPageCount;
+	@Value("${sitemap.web.path}")
+	private String sitemapWebPath;
 	private List<SiteMap> siteMaps = new ArrayList<SiteMap>();
-	private String domian = "http://" + SystemConfig.getDomain();
+	private String domian = SystemConfig.getDomain();
 
 	@Override
 	protected void doHandle() {
@@ -137,7 +139,7 @@ public class CreateSitemapHandler extends AbstractScheduleHandler {
 		}
 		Element ele = root.addElement("sitemap");
 		ele.addElement("loc").addText(
-				domian + "/sitemap_index_" + index + ".xml");
+				domian+sitemapWebPath+"/sitemap_index_" + index + ".xml");
 		ele.addElement("lastmod").addText(DateFormat.SDF.format(new Date()));
 		xmlWriter(docment, filePath + "sitemap_index.xml");
 	}

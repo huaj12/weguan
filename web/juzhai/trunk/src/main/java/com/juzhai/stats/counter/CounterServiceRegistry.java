@@ -27,7 +27,7 @@ public class CounterServiceRegistry implements BeanFactoryPostProcessor,
 	private static final String DEFAULT_SERVER = "redis";
 	private static final String DEFAULT_TIMEUNIT = "DATE";
 
-	private static final String COUNTER_SERVICES_KEY = "counter.services";
+	public static final String COUNTER_SERVICES_KEY = "counter.services";
 	private static final String ASYN_KEY_SUFFIX = ".asyn";
 	private static final String TIMEUNIT_KEY_SUFFIX = ".timeunit";
 	private static final String SERVER_KEY_SUFFIX = ".server";
@@ -35,7 +35,7 @@ public class CounterServiceRegistry implements BeanFactoryPostProcessor,
 	private static final String COUNTER_BEAN_NAME_SUFFIX = "Counter";
 	private static final String SERVER_BEAN_NAME_SUFFIX = "CounterServer";
 
-	private Properties p = new Properties();
+	public static Properties p = new Properties();
 
 	private void registerCounter(ConfigurableListableBeanFactory beanFactory,
 			String serviceName) {

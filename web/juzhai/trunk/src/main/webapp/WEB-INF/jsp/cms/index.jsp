@@ -193,6 +193,17 @@ a:hover {
 				</ul>
 				
 			</li>
+			<li>
+				<a href="javascript:showChild('stats_');">数据统计</a>
+				<ul style="display: none;" id="stats_" class="child">
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/showStats"
+						target="config">数据统计</a>
+					</li>
+				</ul>
+				
+			</li>
+	
 			<!-- <li>
 				<a href="/cms/searchActs" target="config">近义词设置</a>
 			</li>

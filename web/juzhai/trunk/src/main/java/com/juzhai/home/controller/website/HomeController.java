@@ -150,7 +150,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("completion",
 				profileService.getProfileCompletion(context.getUid()));
 		ideaWidget(context, cityId, model, webHomeRightIdeaRows);
-		newUserWidget(cityId, model, webHomeRightUserRows);
+		newUserWidget(0L, model, webHomeRightUserRows);
 	}
 
 	// @RequestMapping(value = "/datings/accept/{page}", method =

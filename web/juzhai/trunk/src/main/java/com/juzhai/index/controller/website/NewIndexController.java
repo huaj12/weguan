@@ -229,7 +229,7 @@ public class NewIndexController extends BaseController {
 			}
 			userViews.add(view);
 		}
-		newUserWidget(cityId, model, queryUsersRightUserRows);
+		newUserWidget(0L, model, queryUsersRightUserRows);
 		model.addAttribute("userViews", userViews);
 		model.addAttribute("pager", pager);
 		model.addAttribute("cityId", cityId);

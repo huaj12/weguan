@@ -1,12 +1,10 @@
 package com.juzhai.stats.service.impl;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang.time.DateUtils;

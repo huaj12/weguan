@@ -131,8 +131,7 @@
 											</span><span id="towns"
 												<c:if test="${profile.town=='-1'}"> style="display: none" </c:if>><select
 												name="town" id="town">
-													<option
-																<c:if test="${profile.town==0}">selected="selected"</c:if>
+													<option <c:if test="${profile.town==0}">selected="selected"</c:if>
 																value="0">其他</option>
 													<c:forEach var="town" items="${towns}">
 														<c:if test="${profile.city==town.cityId}">

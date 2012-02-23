@@ -111,17 +111,6 @@ public class CmsPostController {
 		return ajaxResult;
 	}
 
-	@RequestMapping(value = "/post/unshield", method = RequestMethod.GET)
-	@ResponseBody
-	public AjaxResult postUnShield(Integer postId) {
-		AjaxResult ajaxResult = new AjaxResult();
-		try {
-			postService.unShieldPost(postId);
-		} catch (InputPostException e) {
-			ajaxResult.setError(e.getErrorCode(), messageSource);
-		}
-		return ajaxResult;
-	}
 
 	@RequestMapping(value = "/post/handle", method = RequestMethod.GET)
 	@ResponseBody

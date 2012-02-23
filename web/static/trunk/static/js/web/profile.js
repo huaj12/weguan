@@ -1,5 +1,7 @@
 $(document).ready(function(){
-	selectCity($("#city")[0]);
+	if($("#towns").css("display")=="none"){
+		selectCity($("#city")[0]);
+	}
 });
 function selectProvince(obj) {
 	$.get('/base/selectProvince', {

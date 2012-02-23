@@ -13,10 +13,10 @@
 function unshield(id){
 	if(confirm("是否取消屏蔽")){
 		jQuery.ajax({
-			url : "/cms/post/unshield",
+			url : "/cms/post/handle",
 			type : "get",
 			data : {
-				"postId" : id
+				"postIds" : id
 			},
 			dataType : "json",
 			success : function(result) {

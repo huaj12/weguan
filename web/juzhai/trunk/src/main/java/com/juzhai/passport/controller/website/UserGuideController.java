@@ -23,6 +23,7 @@ import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.UserGuide;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IUserGuideService;
+import com.juzhai.stats.counter.service.ICounter;
 
 @Controller
 @RequestMapping(value = "home")

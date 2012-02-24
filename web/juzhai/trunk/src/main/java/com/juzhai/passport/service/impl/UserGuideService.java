@@ -13,6 +13,7 @@ import com.juzhai.passport.mapper.UserGuideMapper;
 import com.juzhai.passport.model.UserGuide;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IUserGuideService;
+import com.juzhai.stats.counter.service.ICounter;
 
 @Service
 public class UserGuideService implements IUserGuideService {
@@ -25,6 +26,8 @@ public class UserGuideService implements IUserGuideService {
 	private IProfileService profileService;
 	@Autowired
 	private IDialogService dialogService;
+	@Autowired
+	private ICounter guideCounter;
 
 	@Override
 	public void craeteUserGuide(long uid) {
@@ -46,6 +49,7 @@ public class UserGuideService implements IUserGuideService {
 		userGuideMapper.insertSelective(userGuide);
 
 		sendWelcomeDialog(uid);
+		statGuide();
 	}
 
 	@Override
@@ -69,6 +73,7 @@ public class UserGuideService implements IUserGuideService {
 		userGuideDao.complete(uid);
 
 		sendWelcomeDialog(uid);
+		statGuide();
 	}
 
 	private void sendWelcomeDialog(long uid) {
@@ -78,5 +83,9 @@ public class UserGuideService implements IUserGuideService {
 					DialogContentTemplate.WELCOME_USER,
 					profileCache.getNickname());
 		}
+	}
+
+	private void statGuide() {
+		guideCounter.incr(null, 1L);
 	}
 }

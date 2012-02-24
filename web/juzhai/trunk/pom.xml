@@ -198,6 +198,12 @@
   			<version>0.0.1-SNAPSHOT</version>
 			<type>jar</type>
 		</dependency>
+			<dependency>
+			<groupId>com.juzhai</groupId>
+			<artifactId>dbsdk</artifactId>
+			<version>0.0.1</version>
+			<type>jar</type>
+		</dependency>
 		<dependency>
 			<groupId>com.googlecode.xmemcached</groupId>
 			<artifactId>xmemcached</artifactId>

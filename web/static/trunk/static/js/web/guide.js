@@ -32,11 +32,11 @@ $(document).ready(function(){
 			return false;
 		}
 		if(professionId == 0 && (profession == ""|| profession == "10个字以内描述")){
-			$("#profession-error").html("请输入职业!");
+			$("#profession-error").html("请输入职业!").show();
 			return false;
 		}
 		if(professionId == 0 && !checkValLength(profession, 1, 20)){
-			$("#profession-error").html("不要超过10个字哦!");
+			$("#profession-error").html("不要超过10个字哦!").show();
 			return false;
 		}
 		return true;

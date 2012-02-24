@@ -2,12 +2,15 @@ package com.juzhai.index.controller.view;
 
 import java.util.List;
 
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.model.Idea;
 
 public class IdeaView {
 
 	private Idea idea;
+
+	private ProfileCache profileCache;
 
 	private boolean hasUsed;
 
@@ -35,6 +38,14 @@ public class IdeaView {
 
 	public void setHasUsed(boolean hasUsed) {
 		this.hasUsed = hasUsed;
+	}
+
+	public ProfileCache getProfileCache() {
+		return profileCache;
+	}
+
+	public void setProfileCache(ProfileCache profileCache) {
+		this.profileCache = profileCache;
 	}
 
 }

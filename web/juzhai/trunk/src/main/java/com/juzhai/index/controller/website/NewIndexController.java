@@ -122,6 +122,10 @@ public class NewIndexController extends BaseController {
 				ideaView.setHasUsed(ideaService.isUseIdea(context.getUid(),
 						idea.getId()));
 			}
+			if (idea.getCreateUid() > 0) {
+				ideaView.setProfileCache(profileService
+						.getProfileCacheByUid(idea.getCreateUid()));
+			}
 			ideaView.setIdeaUserViews(ideaService.listIdeaUsers(idea.getId(),
 					0, webShowIdeasUserCount));
 			ideaViewList.add(ideaView);

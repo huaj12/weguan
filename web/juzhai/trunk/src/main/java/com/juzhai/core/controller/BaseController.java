@@ -174,6 +174,10 @@ public class BaseController {
 			ideaView.setIdea(idea);
 			ideaView.setHasUsed(ideaService.isUseIdea(context.getUid(),
 					idea.getId()));
+			if (idea.getCreateUid() > 0) {
+				ideaView.setProfileCache(profileService
+						.getProfileCacheByUid(idea.getCreateUid()));
+			}
 			ideaViewList.add(ideaView);
 		}
 		model.addAttribute("ideaViewList", ideaViewList);

@@ -86,7 +86,7 @@ public class UserGuideController extends BaseController {
 		profile.setBirthDay(settingForm.getBirthDay());
 		Boolean birthSecret = settingForm.getBirthSecret();
 		if (settingForm.getBirthSecret() == null) {
-			birthSecret = true;
+			birthSecret = false;
 		}
 		profile.setBirthSecret(birthSecret);
 		profile.setProfession(settingForm.getProfession());

@@ -515,19 +515,41 @@ function responsePost(clickObj, postId, successCallback){
 	});
 }
 
+function registerInitMsg(inputObj){
+	var initMsg = $(inputObj).attr("init-msg");
+	$(inputObj).bind("focus", function(){
+		if($(inputObj).val() == initMsg){
+			$(inputObj).val("");
+		}
+	}).bind("blur", function(){
+		if($(inputObj).val() == ""){
+			$(inputObj).val(initMsg);
+		}
+	});
+	$(inputObj).trigger("blur");
+}
+
 var PostSender =  Class.extend({
 	init: function(sendForm){
 		this.sendForm = sendForm;
+		this.sendPostContent = sendForm.find("textarea[name='content']");
+		this.contentInitMsg = this.sendPostContent.attr("init-msg");
 		this.sendPostCategory = sendForm.find("#send-post-category");
 		this.sendPostDate = sendForm.find("#send-post-date");
 		this.sendPostAddress = sendForm.find("#send-post-address");
 		this.sendPostPic = sendForm.find("#send-post-pic");
 		this.sendPostTb = sendForm.find("div.tb");
+		this.initContent();
 		this.initCategory();
 		this.initDate();
 		this.initAddress();
 		this.initPic();
 		this.initTb();
+	},
+	initContent : function(){
+		var sendPostContent = this.sendPostContent;
+		registerInitMsg(sendPostContent);
+		sendPostContent.trigger("blur");
 	},
 	initCategory : function(){
 		//category
@@ -575,6 +597,9 @@ var PostSender =  Class.extend({
 	initAddress : function(){
 		//place
 		var sendPostAddress = this.sendPostAddress;
+		var addressInput = sendPostAddress.find("div.input > span > input");
+		registerInitMsg(addressInput);
+		addressInput.trigger("blur");
 		sendPostAddress.find("p > a").bind("click", function(){
 			sendPostAddress.addClass("active");
 		});
@@ -587,7 +612,10 @@ var PostSender =  Class.extend({
 			}
 		});
 		sendPostAddress.find("div.show_area > div.ok_btn > a").bind("click", function(){
-			var value = sendPostAddress.find("div.input > span > input").val();
+			var value = addressInput.val();
+			if(value == addressInput.attr("init-msg")){
+				value = "";
+			}
 			//check place
 			if(!checkValLength(value, 0, 40)){
 				sendPostAddress.find(".error").text("地点字数控制在20字以内").show();
@@ -677,9 +705,10 @@ var PostSender =  Class.extend({
 	bindSubmit : function(submitHandler){
 		//submit
 		var sendForm = this.sendForm;
+		var initMsg = this.contentInitMsg;
 		sendForm.find("div.btn > a").bind("click", function(){
 			var content = sendForm.find("div.textarea > textarea").val();
-			if(!checkValLength(content, 4, 160)){
+			if(content == initMsg || !checkValLength(content, 4, 160)){
 				sendForm.find(".send_box_error").text("发布内容请控制在2~80字以内").show();
 				return;
 			}

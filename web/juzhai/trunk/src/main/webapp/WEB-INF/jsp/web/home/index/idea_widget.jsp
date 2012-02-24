@@ -13,7 +13,7 @@
 				<ul>
 					<c:forEach var="ideaView" items="${ideaViewList}">
 						<li class="mouseHover">
-							<p><a href="/idea/${ideaView.idea.id}" target="_blank"><c:out value="${ideaView.idea.content}" /></a></p>
+							<p><a href="/idea/${ideaView.idea.id}" target="_blank"><c:out value="${ideaView.idea.content}" /></a><c:if test="${ideaView.profileCache != null}"><a href="/home/${ideaView.profileCache.uid}" class="from">来自&nbsp;<c:out value="${ideaView.profileCache.nickname}" /></a></c:if></p>
 							<c:if test="${not empty ideaView.idea.pic}">
 								<div class="img"><a href="/idea/${ideaView.idea.id}" target="_blank"><img src="${jzr:ideaPic(ideaView.idea.id, ideaView.idea.pic, 200)}"/></a></div>
 							</c:if>

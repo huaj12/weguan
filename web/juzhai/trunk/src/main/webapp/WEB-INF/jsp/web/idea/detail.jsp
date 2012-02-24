@@ -31,7 +31,7 @@
 										<div class="pub_box"><!--pub_box begin-->
 											<div class="pub_box_t"></div>
 											<div class="pub_box_m"><!--pub_box_m begin-->
-												<p><c:out value="${idea.content}" /></p>
+												<p><c:out value="${idea.content}" /><c:if test="${ideaCreateUser != null}"><a href="/home/${ideaCreateUser.uid}" class="from">来自&nbsp;<c:out value="${ideaCreateUser.nickname}" /></a></c:if></p>
 												<div class="infor"><!--infor begin-->
 													<div class="clear"></div>
 													<c:if test="${not empty idea.pic}">

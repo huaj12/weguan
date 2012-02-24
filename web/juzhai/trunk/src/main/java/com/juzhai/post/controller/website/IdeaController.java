@@ -22,11 +22,11 @@ import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.AjaxResult;
-import com.juzhai.core.web.jstl.JzDataFunction;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaService;
@@ -39,6 +39,8 @@ public class IdeaController extends BaseController {
 	private IIdeaService ideaService;
 	@Autowired
 	private IInterestUserService interestUserService;
+	@Autowired
+	private IProfileService profileService;
 	@Value("${idea.user.max.rows}")
 	private int ideaUserMaxRows;
 	@Value("${idea.detail.ad.count}")
@@ -57,6 +59,10 @@ public class IdeaController extends BaseController {
 		Idea idea = ideaService.getIdeaById(ideaId);
 		if (null == idea) {
 			return error_404;
+		}
+		if (idea.getCreateUid() > 0) {
+			model.addAttribute("ideaCreateUser",
+					profileService.getProfileCacheByUid(idea.getCreateUid()));
 		}
 		model.addAttribute("idea", idea);
 		if (context.hasLogin()) {

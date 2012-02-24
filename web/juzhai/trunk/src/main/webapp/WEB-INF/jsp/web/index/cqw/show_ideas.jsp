@@ -54,7 +54,7 @@
 													<div class="pub_box mouseHover"><!--pub_box begin-->
 														<div class="pub_box_t"></div>
 														<div class="pub_box_m"><!--pub_box_m begin-->
-															<p><a href="/idea/${ideaView.idea.id}"><c:out value="${ideaView.idea.content}" /></a></p>
+															<p><a href="/idea/${ideaView.idea.id}"><c:out value="${ideaView.idea.content}" /></a><c:if test="${ideaView.profileCache != null}"><a href="/home/${ideaView.profileCache.uid}" class="from">来自&nbsp;<c:out value="${ideaView.profileCache.nickname}" /></a></c:if></p>
 															<div class="infor"><!--infor begin-->
 																<c:if test="${not empty ideaView.idea.pic}">
 																	<div class="img"><a href="/idea/${ideaView.idea.id}"><img src="${jzr:static('/images/web/1px.gif')}" data-original="${jzr:ideaPic(ideaView.idea.id,ideaView.idea.pic, 200)}" /></a></div>

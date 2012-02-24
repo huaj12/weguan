@@ -23,7 +23,7 @@
 		</div><!--select_menu end-->
 		<div class="send_box_error" style="display: none;"></div>
 		<div class="random_select"><c:if test="${postForm == null}"><a href="javascript:void(0);" class="random">随机一个</a><a href="/showIdeas" class="sel">去选一个</a></c:if></div>
-		<div class="textarea"><textarea name="content" cols="" rows="">${postForm.content}</textarea></div>
+		<div class="textarea"><textarea name="content" init-msg="说出你的拒宅好主意">${postForm.content}</textarea></div>
 		<div class="jh"><!--jh begin-->
 			<c:choose>
 				<c:when test="${postForm!=null}"><c:set var="categoryId" value="${postForm.categoryId}" /></c:when>

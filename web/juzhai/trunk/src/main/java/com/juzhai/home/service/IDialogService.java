@@ -33,6 +33,17 @@ public interface IDialogService {
 			Object... params);
 
 	/**
+	 * 官方发送私信
+	 * 
+	 * @param targetUid
+	 * @param template
+	 * @param params
+	 * @return
+	 */
+	long sendOfficialSMS(long targetUid, DialogContentTemplate template,
+			Object... params);
+
+	/**
 	 * 删除对话
 	 * 
 	 * @param uid

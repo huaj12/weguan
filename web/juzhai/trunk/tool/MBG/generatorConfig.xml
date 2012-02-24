@@ -6,7 +6,7 @@
 <generatorConfiguration>
   <classPathEntry location="tool/MBG/mysql-connector-java-5.1.12.jar" />
 
-  <context id="passport" targetRuntime="MyBatis3">
+  <!-- <context id="passport" targetRuntime="MyBatis3">
   	
   	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -42,7 +42,7 @@
       <columnOverride column="birth_secret" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
     
-   	<!-- <table tableName="tb_user_free_date" domainObjectName="UserFreeDate">
+   	<table tableName="tb_user_free_date" domainObjectName="UserFreeDate">
       <property name="useActualColumnNames" value="false"/>
     </table>
     
@@ -93,9 +93,9 @@
 	<table tableName="tb_user_guide" domainObjectName="UserGuide" >
       <property name="useActualColumnNames" value="false"/>
       <columnOverride column="complete" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-    </table> -->
+    </table>
 
-  </context>
+  </context> -->
   
   
   <!-- <context id="act" targetRuntime="MyBatis3">
@@ -356,7 +356,7 @@
     
   </context> -->
   
-  <!-- <context id="post" targetRuntime="MyBatis3">
+  <context id="post" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -390,7 +390,7 @@
       <columnOverride column="random" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
 
-	<table tableName="tb_ad" domainObjectName="Ad">
+	<!-- <table tableName="tb_ad" domainObjectName="Ad">
       <property name="useActualColumnNames" value="false"/>
     </table>
 
@@ -406,8 +406,8 @@
     
     <table tableName="tb_post_response" domainObjectName="PostResponse">
       <property name="useActualColumnNames" value="false"/>
-    </table>
+    </table> -->
     
-  </context> -->
+  </context>
   
 </generatorConfiguration>

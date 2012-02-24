@@ -11,7 +11,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.tomcat.util.buf.UDecoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -25,7 +24,11 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.core.image.manager.IImageManager;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.core.util.TextTruncateUtil;
+import com.juzhai.home.bean.DialogContentTemplate;
+import com.juzhai.home.service.IDialogService;
 import com.juzhai.index.bean.ShowIdeaOrder;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.InitData;
 import com.juzhai.post.controller.view.IdeaUserView;
@@ -35,6 +38,7 @@ import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.mapper.IdeaMapper;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.IdeaExample;
+import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
@@ -50,6 +54,14 @@ public class IdeaService implements IIdeaService {
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IIdeaImageService ideaImageService;
+	@Autowired
+	private IPostService postService;
+	@Autowired
+	private IImageManager imageManager;
+	@Autowired
+	private IDialogService dialogService;
 	@Value("${idea.content.length.min}")
 	private int ideaContentLengthMin;
 	@Value("${idea.content.length.max}")
@@ -58,12 +70,7 @@ public class IdeaService implements IIdeaService {
 	private int ideaPlaceLengthMin;
 	@Value("${idea.place.length.max}")
 	private int ideaPlaceLengthMax;
-	@Autowired
-	private IIdeaImageService ideaImageService;
-	@Autowired
-	private IPostService postService;
-	@Autowired
-	private IImageManager imageManager;
+
 	@Override
 	public Idea getIdeaById(long ideaId) {
 		return ideaMapper.selectByPrimaryKey(ideaId);
@@ -143,9 +150,13 @@ public class IdeaService implements IIdeaService {
 	public void addIdea(IdeaForm ideaForm) throws InputIdeaException,
 			UploadImageException {
 		validateIdea(ideaForm);
-		//如果有上传图片验证合法性
+		// 如果有上传图片验证合法性
 		if (ideaForm.getNewpic() != null && ideaForm.getNewpic().getSize() != 0) {
 			imageManager.checkImage(ideaForm.getNewpic());
+		}
+		Post post = null;
+		if (ideaForm.getPostId() != null && ideaForm.getPostId() > 0) {
+			post = postService.getPostById(ideaForm.getPostId());
 		}
 		Idea idea = new Idea();
 		idea.setCity(ideaForm.getCity());
@@ -163,7 +174,9 @@ public class IdeaService implements IIdeaService {
 			idea.setCategoryId(ideaForm.getCategoryId());
 		}
 		idea.setRandom(ideaForm.getRandom());
-
+		if (post != null) {
+			idea.setCreateUid(post.getCreateUid());
+		}
 		ideaMapper.insertSelective(idea);
 
 		Long ideaId = idea.getId();
@@ -175,15 +188,23 @@ public class IdeaService implements IIdeaService {
 			picIdea.setPic(fileName);
 			ideaMapper.updateByPrimaryKeySelective(picIdea);
 		}
-		if (ideaForm.getPostId() != null && ideaForm.getPostId() > 0) {
+		if (null != post) {
 			try {
-				postService.markIdea(ideaForm.getPostId(), ideaId);
+				postService.markIdea(post.getId(), ideaId);
 			} catch (InputPostException e) {
 				throw new InputIdeaException(
 						InputIdeaException.ILLEGAL_OPERATION);
 			}
-			if (ideaForm.getCreateUid() != null && ideaForm.getCreateUid() > 0) {
-				addFirstUser(ideaId, ideaForm.getCreateUid());
+			addFirstUser(ideaId, post.getCreateUid());
+			// 发私信通知
+			ProfileCache profileCache = profileService
+					.getProfileCacheByUid(post.getCreateUid());
+			if (null != profileCache) {
+				dialogService
+						.sendOfficialSMS(post.getCreateUid(),
+								DialogContentTemplate.BECOME_IDEA, profileCache
+										.getNickname(), TextTruncateUtil
+										.truncate(post.getContent(), 40, "..."));
 			}
 		}
 
@@ -193,7 +214,7 @@ public class IdeaService implements IIdeaService {
 	public void updateIdea(IdeaForm ideaForm) throws InputIdeaException,
 			UploadImageException {
 		validateIdea(ideaForm);
-		//如果有上传图片验证合法性
+		// 如果有上传图片验证合法性
 		if (ideaForm.getNewpic() != null && ideaForm.getNewpic().getSize() != 0) {
 			imageManager.checkImage(ideaForm.getNewpic());
 		}

@@ -266,19 +266,16 @@
 			<groupId>com.juzhai</groupId>
 			<artifactId>kxsdk</artifactId>
 			<version>0.0.2</version>
-			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>com.juzhai</groupId>
   			<artifactId>wbsdk</artifactId>
   			<version>0.0.1-SNAPSHOT</version>
-			<type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>com.juzhai</groupId>
 			<artifactId>dbsdk</artifactId>
 			<version>0.0.1</version>
-			<type>jar</type>
 		</dependency>
 	</dependencies>
 

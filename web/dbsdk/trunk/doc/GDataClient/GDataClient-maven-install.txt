@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=gdata-client-1.0.jar -DgroupId=com.google.gdata -DartifactId=gdata-client -Dversion=1.0 -Dpackaging=jar

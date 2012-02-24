@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=oauth-1.3.jar -DgroupId=net.oauth -DartifactId=oauth -Dversion=1.3 -Dpackaging=jar

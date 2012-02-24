@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=gdata-core-1.0.jar -DgroupId=com.google.gdata -DartifactId=gdata-core -Dversion=1.0 -Dpackaging=jar

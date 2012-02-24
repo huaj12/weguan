@@ -515,15 +515,21 @@ function responsePost(clickObj, postId, successCallback){
 	});
 }
 
-function registerInitMsg(inputObj){
+function registerInitMsg(inputObj, callback){
 	var initMsg = $(inputObj).attr("init-msg");
 	$(inputObj).bind("focus", function(){
 		if($(inputObj).val() == initMsg){
 			$(inputObj).val("");
+			if(null != callback){
+				callback(true);
+			}
 		}
 	}).bind("blur", function(){
 		if($(inputObj).val() == ""){
 			$(inputObj).val(initMsg);
+			if(null != callback){
+				callback(false);
+			}
 		}
 	});
 	$(inputObj).trigger("blur");
@@ -548,7 +554,9 @@ var PostSender =  Class.extend({
 	},
 	initContent : function(){
 		var sendPostContent = this.sendPostContent;
-		registerInitMsg(sendPostContent);
+		registerInitMsg(sendPostContent, function(isEdit){
+			sendPostContent.parent().toggleClass("ts", !isEdit);
+		});
 		sendPostContent.trigger("blur");
 	},
 	initCategory : function(){

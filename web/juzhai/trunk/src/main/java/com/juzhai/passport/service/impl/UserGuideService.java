@@ -3,7 +3,6 @@ package com.juzhai.passport.service.impl;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.home.bean.DialogContentTemplate;
@@ -26,8 +25,6 @@ public class UserGuideService implements IUserGuideService {
 	private IProfileService profileService;
 	@Autowired
 	private IDialogService dialogService;
-	@Value("${official.notice.uid}")
-	private long officialNoticeUid;
 
 	@Override
 	public void craeteUserGuide(long uid) {
@@ -77,7 +74,7 @@ public class UserGuideService implements IUserGuideService {
 	private void sendWelcomeDialog(long uid) {
 		ProfileCache profileCache = profileService.getProfileCacheByUid(uid);
 		if (null != profileCache) {
-			dialogService.sendSMS(officialNoticeUid, profileCache.getUid(),
+			dialogService.sendOfficialSMS(profileCache.getUid(),
 					DialogContentTemplate.WELCOME_USER,
 					profileCache.getNickname());
 		}

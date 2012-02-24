@@ -67,6 +67,8 @@ public class DialogService implements IDialogService {
 	private int dialogContentWordfilterApplication;
 	@Value("${dialog.content.cache.expire.time}")
 	private int dialogContentCacheExpireTime = 0;
+	@Value("${official.notice.uid}")
+	private long officialNoticeUid;
 
 	@Override
 	public long sendSMS(long uid, long targetUid, String content)
@@ -123,6 +125,12 @@ public class DialogService implements IDialogService {
 		} catch (DialogException e) {
 			return 0L;
 		}
+	}
+
+	@Override
+	public long sendOfficialSMS(long targetUid, DialogContentTemplate template,
+			Object... params) {
+		return sendSMS(officialNoticeUid, targetUid, template, params);
 	}
 
 	@Override

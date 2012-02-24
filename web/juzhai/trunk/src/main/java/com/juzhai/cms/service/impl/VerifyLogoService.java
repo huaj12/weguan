@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.cms.service.IVerifyLogoService;
@@ -30,8 +29,6 @@ public class VerifyLogoService implements IVerifyLogoService {
 	private IDialogService dialogService;
 	@Autowired
 	private ICounter auditLogoCounter;
-	@Value("${official.notice.uid}")
-	private long officialNoticeUid;
 
 	@Override
 	public List<Profile> listVerifyLogoProfile(LogoVerifyState logoVerifyState,
@@ -68,7 +65,7 @@ public class VerifyLogoService implements IVerifyLogoService {
 						.getProfileCacheByUid(uid);
 				if (null != profileCache) {
 					profileService.clearProfileCache(uid);
-					dialogService.sendSMS(officialNoticeUid, uid,
+					dialogService.sendOfficialSMS(uid,
 							DialogContentTemplate.PASS_LOGO,
 							profileCache.getNickname());
 					auditLogoCounter.incr(null, 1L);
@@ -87,7 +84,7 @@ public class VerifyLogoService implements IVerifyLogoService {
 					.getProfileCacheByUid(uid);
 			if (null != profileCache) {
 				profileService.clearProfileCache(uid);
-				dialogService.sendSMS(officialNoticeUid, uid,
+				dialogService.sendOfficialSMS(uid,
 						DialogContentTemplate.DENY_LOGO,
 						profileCache.getNickname());
 			}

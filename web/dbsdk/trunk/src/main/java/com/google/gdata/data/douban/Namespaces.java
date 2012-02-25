@@ -20,6 +20,7 @@ public class Namespaces {
   public static final String reviewCreateURL = "http://api.douban.com/reviews";
   public static final String noteCreateURL = "http://api.douban.com/notes";
   public static final String sayingCreateURL = "http://api.douban.com/miniblog/saying";
+  public static final String sendDoumailURL="http://api.douban.com/doumails";
 
   
   public static final String doubanNamespace = "http://www.douban.com/xmlns/";

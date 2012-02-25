@@ -271,7 +271,7 @@ public class TpAuthorizeController extends BaseController {
 			return "redirect:/";
 		}
 		try {
-			checkLoginForApp(request);
+			checkLoginForWeb(request);
 			return "redirect:"
 					+ (StringUtils.isEmpty(turnTo) ? "/home" : StringUtil
 							.encodeURI(turnTo, Constants.UTF8));

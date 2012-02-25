@@ -28,8 +28,8 @@
 							<c:choose>
 								<c:when test="${empty datingViewList}">
 									<c:choose>
-										<c:when test="${response!='accept'}"><div class="item_none">目前你还没约任何人哦<a href="/showUsers">去找伴儿》</a></div></c:when>
-										<c:otherwise><div class="item_none">还没有人接受你的邀约哦<a href="/showUsers">去找伴儿》</a></div></c:otherwise>
+										<c:when test="${response!='accept'}"><div class="item_none">目前你还没约任何人哦<a href="/showusers">去找伴儿》</a></div></c:when>
+										<c:otherwise><div class="item_none">还没有人接受你的邀约哦<a href="/showusers">去找伴儿》</a></div></c:otherwise>
 									</c:choose>
 								</c:when>
 								<c:otherwise>

@@ -23,7 +23,6 @@ import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.UserGuide;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IUserGuideService;
-import com.juzhai.stats.counter.service.ICounter;
 
 @Controller
 @RequestMapping(value = "home")
@@ -69,7 +68,7 @@ public class UserGuideController extends BaseController {
 	@RequestMapping(value = "/guide/next", method = RequestMethod.POST)
 	public String next(HttpServletRequest request, SettingForm settingForm,
 			Model model) throws NeedLoginException {
-		UserContext context = checkLoginForApp(request);
+		UserContext context = checkLoginForWeb(request);
 		UserGuide userGuide = userGuideService.getUserGuide(context.getUid());
 		if (null != userGuide && userGuide.getComplete()) {
 			return "redirect:/home";

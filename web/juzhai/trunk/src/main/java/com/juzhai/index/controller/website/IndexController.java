@@ -121,7 +121,7 @@ public class IndexController extends BaseController {
 		return "web/index/cqw/show_acts";
 	}
 
-	@RequestMapping(value = "/showUsers", method = RequestMethod.GET)
+	@RequestMapping(value = "/showusers", method = RequestMethod.GET)
 	public String showUsers(HttpServletRequest request, Model model) {
 		UserContext context = (UserContext) request.getAttribute("context");
 		if (context.hasLogin()) {
@@ -154,7 +154,7 @@ public class IndexController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "/showUsers/{genderType}/{page}", method = RequestMethod.GET)
+	@RequestMapping(value = "/showusers/{genderType}/{page}", method = RequestMethod.GET)
 	public String pageShowUsers(HttpServletRequest request, Model model,
 			@PathVariable String genderType, @PathVariable int page) {
 		UserContext context = (UserContext) request.getAttribute("context");

@@ -1564,16 +1564,19 @@ i{ color:#FF0000; font-style:normal;}
 
 
 /*欢迎*/
+.welcome{ width:960px; height:auto; display:block; margin:0 auto; margin-top:100px; *padding-top:100px; }
+.welcome .begin_btn{ position:absolute; bottom:-30px; left:407px;}
 
-.welcome{ width:960px; height:auto; overflow:hidden; margin:0 auto; margin-top:100px; *padding-top:100px;}
+.welcome .begin_btn a{ background:url(../images/web2/begin_jz_link.jpg) no-repeat; width:150px; height:50px; display:block; overflow:hidden;}
+.welcome .begin_btn a:hover{ background:url(../images/web2/begin_jz_hover.jpg) no-repeat; }
 
 .welcome .welcome_t{ background:url(../images/web2/welcome_con_r1_c1.jpg) no-repeat; width:100%; height:6px; overflow:hidden; float:left;}
-.welcome .welcome_b{ background:url(../images/web2/welcome_con_r9_c1.jpg) no-repeat; width:100%; height:6px; overflow:hidden; float:left;}
-.welcome .welcome_m{ background:url(../images/web2/welcome_con_r3_c1.jpg) repeat-y; width:100%; height:412px; overflow:hidden; position:relative; padding-bottom:30px; float:left;}
+.welcome .welcome_b{ background:url(../images/web2/welcome_con_r9_c1.jpg) no-repeat; width:100%; height:6px; overflow:hidden; float:left; padding-bottom:50px;}
+.welcome .welcome_m{ background:url(../images/web2/welcome_con_r3_c1.jpg) repeat-y; width:100%; height:382px;  display:block;  position:relative; padding-bottom:30px; float:left;}
 
-.welcome .welcome_m h2{ width:100%; height:auto; color:#438DD9; text-align:center; font-size:24px; font-family:"微软雅黑"; margin-top:50px; line-height:normal;}
+.welcome .welcome_m h2{ width:100%; height:auto; color:#438DD9; text-align:center; font-size:24px; font-family:"微软雅黑"; margin-top:40px; line-height:normal; *padding-top:40px;}
 .welcome .welcome_m h2 a{ color:#438DD9;}
-.welcome .welcome_m ul{  margin:0 auto;  margin-top:60px;}
+.welcome .welcome_m ul{  margin:0 auto;  margin-top:45px;}
 .welcome .welcome_m ul li{ float:left; width:120px; height:auto; margin-left:15px; margin-right:15px; overflow:hidden; display:inline;}
 .welcome .welcome_m ul li p{ width:120px; height:120px; overflow:hidden; float:left;}
 .welcome .welcome_m ul li span{ width:100%; float:left; color:#bbb; line-height:20px; margin-top:5px;}

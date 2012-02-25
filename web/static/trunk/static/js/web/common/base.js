@@ -735,19 +735,19 @@ var LocationWidget =  Class.extend({
 		
 		var initSelect = this.initSelect;
 		
-		$.get('/base/initProvince', {
-			random : Math.random()
-		}, function(result) {
-			initSelect(provinceSelect, result.result);
-		});
-		
 		provinceSelect.bind("change", function(){
 			citySelect.val("0");
 			citySelect.trigger("change");
-			citySelect.children("option[value!='0']").remove(); 
-			if($(this).val() > 0){
+			citySelect.children("option[value!='0']").remove();
+			var selectValue;
+			if($.browser.msie && $.browser.version=="6.0") { 
+				selectValue = this.value; 
+		    }else{
+		    	selectValue = $(this).val();
+		    }
+			if(selectValue > 0){
 				$.get('/base/initCity', {
-					provinceId : $(this).val(),
+					provinceId : selectValue,
 					random : Math.random()
 				}, function(result) {
 					initSelect(citySelect, result.result);
@@ -757,10 +757,16 @@ var LocationWidget =  Class.extend({
 		
 		citySelect.bind("change", function(){
 			townSelect.val("-1");
-			townSelect.children("option[value!='-1']").remove(); 
-			if($(this).val() > 0){
+			townSelect.children("option[value!='-1']").remove();
+			var selectValue;
+			if($.browser.msie && $.browser.version=="6.0") { 
+				selectValue = this.value; 
+		    }else{
+		    	selectValue = $(this).val();
+		    }
+			if(selectValue > 0){
 				$.get('/base/initTown', {
-					cityId : $(this).val(),
+					cityId : selectValue,
 					random : Math.random()
 				}, function(result) {
 					if(!result.success){
@@ -775,6 +781,12 @@ var LocationWidget =  Class.extend({
 				townSelect.hide();
 			}
 		});
+		
+		$.get('/base/initProvince', {
+			random : Math.random()
+		}, function(result) {
+			initSelect(provinceSelect, result.result);
+		});
 	},
 	initSelect: function(jselect, listResult){
 		if(listResult!=null){
@@ -784,9 +796,24 @@ var LocationWidget =  Class.extend({
 		}
 		var selectData = jselect.attr("select-data");
 		if(selectData!=null && selectData!=""){
-			jselect.val(selectData);
+//			var count = jselect[0].length;
+//			for(var i=0;i<count;i++){
+//			   if(jselect.get(0).options[i].value == selectData){
+//				   jselect.get(0).options[i].selected = true;
+//			       break;
+//			   }
+//			}
+			if($.browser.msie && $.browser.version=="6.0") { 
+		        setTimeout(function(){ 
+		        	jselect.val(selectData);
+					jselect.trigger("change"); 
+		        },1); 
+		    }else { 
+		    	jselect.val(selectData);
+				jselect.trigger("change"); 
+		    }
+//			jselect.val(selectData);
 			jselect.removeAttr("select-data");
-			jselect.trigger("change");
 		}
 	}
 });

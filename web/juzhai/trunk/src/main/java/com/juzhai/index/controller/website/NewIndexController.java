@@ -92,7 +92,7 @@ public class NewIndexController extends BaseController {
 		return "web/index/welcome";
 	}
 
-	@RequestMapping(value = "/showideas", method = RequestMethod.GET)
+	@RequestMapping(value = { "/showideas", "showIdeas" }, method = RequestMethod.GET)
 	public String showIdeas(HttpServletRequest request, Model model) {
 		ProfileCache loginUser = getLoginUserCache(request);
 		long city = 0L;
@@ -104,7 +104,8 @@ public class NewIndexController extends BaseController {
 				city, 1);
 	}
 
-	@RequestMapping(value = "/showideas/{orderType}_{cityId}/{page}", method = RequestMethod.GET)
+	@RequestMapping(value = { "/showideas/{orderType}_{cityId}/{page}",
+			"/showIdeas/{orderType}_{cityId}/{page}" }, method = RequestMethod.GET)
 	public String pageShowIdeas(HttpServletRequest request, Model model,
 			@PathVariable String orderType, @PathVariable long cityId,
 			@PathVariable int page) {
@@ -188,7 +189,7 @@ public class NewIndexController extends BaseController {
 		return "web/index/zbe/invite_user_list";
 	}
 
-	@RequestMapping(value = "/showusers", method = RequestMethod.GET)
+	@RequestMapping(value = { "/showusers", "/showUsers" }, method = RequestMethod.GET)
 	public String queryUser(HttpServletRequest request, Model model) {
 		ProfileCache loginUser = getLoginUserCache(request);
 		long city = 0L;
@@ -199,7 +200,9 @@ public class NewIndexController extends BaseController {
 		return pageQueryUser(request, model, 1, city, null, null, null);
 	}
 
-	@RequestMapping(value = "/queryusers/{cityId}_{sex}_{minStringAge}_{maxStringAge}/{pageId}", method = RequestMethod.GET)
+	@RequestMapping(value = {
+			"/queryusers/{cityId}_{sex}_{minStringAge}_{maxStringAge}/{pageId}",
+			"/queryUsers/{cityId}_{sex}_{minStringAge}_{maxStringAge}/{pageId}" }, method = RequestMethod.GET)
 	public String pageQueryUser(HttpServletRequest request, Model model,
 			@PathVariable int pageId, @PathVariable long cityId,
 			@PathVariable String sex, @PathVariable String maxStringAge,

@@ -25,6 +25,7 @@
 				<div class="welcome"><!--welcome begin-->
 					<div class="welcome_t"></div>
 					<div class="welcome_m">
+						<div class="begin_btn"><a href="javascript:void(0);" class="go-login"></a></div>
 						<h2><a href="javascript:void(0);" class="go-login">寻找一份久违了的阳光周末</a></h2>
 						<div style="height: 290px;position: relative;overflow: hidden;margin: 0px 100px;">
 							<div id="window-box" style="position: absolute;height: 250px;width: 2550px;left: 5px;">

@@ -29,6 +29,8 @@ import com.google.gdata.data.TextConstruct;
 import com.google.gdata.data.douban.Attribute;
 import com.google.gdata.data.douban.CollectionEntry;
 import com.google.gdata.data.douban.CollectionFeed;
+import com.google.gdata.data.douban.DoumailEntry;
+import com.google.gdata.data.douban.Entity;
 import com.google.gdata.data.douban.MiniblogEntry;
 import com.google.gdata.data.douban.MiniblogFeed;
 import com.google.gdata.data.douban.Namespaces;
@@ -45,6 +47,7 @@ import com.google.gdata.data.douban.TagEntry;
 import com.google.gdata.data.douban.TagFeed;
 import com.google.gdata.data.douban.UserEntry;
 import com.google.gdata.data.douban.UserFeed;
+import com.google.gdata.data.extensions.ContactFeed;
 import com.google.gdata.data.extensions.Rating;
 import com.google.gdata.util.ContentType;
 import com.google.gdata.util.ServiceException;
@@ -93,7 +96,7 @@ public class DoubanService extends Service {
 		profile.addDeclarations(new TagEntry());
 		profile.addDeclarations(new NoteEntry());
 		profile.addDeclarations(new MiniblogEntry());
-		
+
 		requestFactory = new GoogleGDataRequest.Factory();
 		this.accessor = null;
 
@@ -114,7 +117,7 @@ public class DoubanService extends Service {
 	 * @param apiKey
 	 *            douban的api key
 	 * @param secret
-	 *     		   douban的api私钥
+	 *            douban的api私钥
 	 */
 	public DoubanService(String applicationName, String apiKey, String secret) {
 		this(applicationName, apiKey);
@@ -126,13 +129,13 @@ public class DoubanService extends Service {
 
 		this.client = new OAuthConsumer(null, apiKey, secret, provider);
 		this.accessor = new OAuthAccessor(this.client);
-	
+
 		this.requestAccessor = new OAuthAccessor(this.client);
-		
+
 		this.client.setProperty("oauth_signature_method", OAuth.HMAC_SHA1);
 		this.private_read = false;
 	}
-	
+
 	/**
 	 * 构造豆瓣服务实例，支持使用私钥验证的只读操作
 	 * 
@@ -141,11 +144,12 @@ public class DoubanService extends Service {
 	 * @param apiKey
 	 *            douban的api key
 	 * @param secret
-	 *     		   douban的api私钥
+	 *            douban的api私钥
 	 * @param private_read
-	 * 				是否支持私钥验证的只读操作
+	 *            是否支持私钥验证的只读操作
 	 */
-	public DoubanService(String applicationName, String apiKey, String secret, boolean private_read) {
+	public DoubanService(String applicationName, String apiKey, String secret,
+			boolean private_read) {
 		this(applicationName, apiKey);
 
 		this.apiKey = apiKey;
@@ -155,16 +159,15 @@ public class DoubanService extends Service {
 
 		this.client = new OAuthConsumer(null, apiKey, secret, provider);
 		this.accessor = new OAuthAccessor(this.client);
-	
+
 		this.requestAccessor = new OAuthAccessor(this.client);
-		
+
 		this.client.setProperty("oauth_signature_method", OAuth.HMAC_SHA1);
 		this.private_read = private_read;
 	}
 
 	/**
-	 * 获取授权的URL
-	 * 需要授权的用户通过该URL进行授权，授权成功后跳转到callback指向的URL
+	 * 获取授权的URL 需要授权的用户通过该URL进行授权，授权成功后跳转到callback指向的URL
 	 * 
 	 * @param callback
 	 *            如果包含这个参数，认证成功后浏览器会被重定向到该URL
@@ -183,23 +186,41 @@ public class DoubanService extends Service {
 		}
 		return authorization_url;
 	}
-	
+
 	public String getRequestToken() {
 		return this.requestAccessor.requestToken;
 	}
-	
+
 	public void setRequestToken(String token) {
 		this.requestAccessor.requestToken = token;
 	}
-	
+
 	public String getRequestTokenSecret() {
 		return this.requestAccessor.tokenSecret;
 	}
-	
+
 	public void setRequestTokenSecret(String tokenSecret) {
 		this.requestAccessor.tokenSecret = tokenSecret;
 	}
-	
+
+	/**
+	 * 获取豆瓣实例
+	 * 
+	 * @param accessToken
+	 * @param appKey
+	 * @param appSecret
+	 * @return
+	 */
+	public static DoubanService getDoubanService(String accessToken,
+			String appKey, String appSecret) {
+		DoubanService doubanService = new DoubanService("51juzhai", appKey,
+				appSecret);
+		String[] str = accessToken.split(",");
+		String oauth_token = str[0];
+		String oauth_token_secret = str[1];
+		doubanService.setAccessToken(oauth_token, oauth_token_secret);
+		return doubanService;
+	}
 
 	/**
 	 * 设置访问token
@@ -210,7 +231,8 @@ public class DoubanService extends Service {
 	 * @param oauth_token_secret
 	 *            用户授权后得到的访问token的秘钥
 	 */
-	public ArrayList<String> setAccessToken(String oauth_token, String oauth_token_secret) {
+	public ArrayList<String> setAccessToken(String oauth_token,
+			String oauth_token_secret) {
 		this.accessor.accessToken = oauth_token;
 		this.accessor.tokenSecret = oauth_token_secret;
 		ArrayList<String> tokens = new ArrayList<String>(2);
@@ -218,14 +240,14 @@ public class DoubanService extends Service {
 		tokens.add(this.accessor.tokenSecret);
 		return tokens;
 	}
-	
+
 	/**
 	 * 获取访问token
 	 * 
 	 */
-	public  ArrayList<String> getAccessToken() {
+	public ArrayList<String> getAccessToken() {
 		OAuthMessage result;
-		
+
 		try {
 			result = CLIENT.invoke(this.requestAccessor,
 					accessor.consumer.serviceProvider.accessTokenURL, OAuth
@@ -238,7 +260,7 @@ public class DoubanService extends Service {
 			this.accessor.accessToken = responseParameters.get("oauth_token");
 			this.accessor.tokenSecret = responseParameters
 					.get("oauth_token_secret");
-			
+
 			ArrayList<String> tokens = new ArrayList<String>(2);
 			tokens.add(this.accessor.accessToken);
 			tokens.add(this.accessor.tokenSecret);
@@ -258,23 +280,25 @@ public class DoubanService extends Service {
 			ServiceException {
 		GDataRequest request = null;
 		OAuthMessage oauthRequest = null;
-	    setTimeouts(request);
-	    
-		if(this.accessor == null){
+		setTimeouts(request);
+
+		if (this.accessor == null) {
 			List<CustomParameter> customParams = query.getCustomParameters();
 			customParams.add(new CustomParameter("apikey", this.apiKey));
-			request =super.requestFactory.getRequest(query, super.getContentType());
+			request = super.requestFactory.getRequest(query,
+					super.getContentType());
 			return request;
 		}
-		
-	    request =super.requestFactory.getRequest(query, super.getContentType());
-	    try {
+
+		request = super.requestFactory
+				.getRequest(query, super.getContentType());
+		try {
 			Collection<Map.Entry<String, String>> p = new ArrayList<Map.Entry<String, String>>();
 
 			p.add(new OAuth.Parameter("oauth_version", "1.0"));
 			String methodType = "GET";
-			GDataRequest.RequestType type= GDataRequest.RequestType.QUERY;
-			
+			GDataRequest.RequestType type = GDataRequest.RequestType.QUERY;
+
 			switch (type) {
 
 			case INSERT:
@@ -287,16 +311,16 @@ public class DoubanService extends Service {
 			case DELETE:
 				methodType = "DELETE";
 				break;
-			
+
 			}
-			if(this.private_read == true) {
-				oauthRequest = this.requestAccessor.newRequestMessage(methodType, 
-					query.getUrl().toString(), p);
+			if (this.private_read == true) {
+				oauthRequest = this.requestAccessor.newRequestMessage(
+						methodType, query.getUrl().toString(), p);
 			} else {
 				oauthRequest = this.accessor.newRequestMessage(methodType,
-					query.getUrl().toString(), p);
+						query.getUrl().toString(), p);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -315,7 +339,7 @@ public class DoubanService extends Service {
 		request.setHeader("Authorization", url);
 		return request;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public GDataRequest createRequest(GDataRequest.RequestType type,
@@ -323,28 +347,25 @@ public class DoubanService extends Service {
 			ServiceException {
 		GDataRequest request = null;
 		OAuthMessage oauthRequest = null;
-		
-		if(this.accessor == null){
+
+		if (this.accessor == null) {
 			String url = requestUrl.toString();
-			if(url.indexOf('?')==-1){
+			if (url.indexOf('?') == -1) {
 				url = url + "?" + this.apiParam;
 			} else {
 				url = url + "&" + this.apiParam;
 			}
-			request = super.createRequest(type, new URL(url),
-					contentType);
+			request = super.createRequest(type, new URL(url), contentType);
 			return request;
 		}
-		
-		
-		request = super.createRequest(type, requestUrl,
-				contentType);
+
+		request = super.createRequest(type, requestUrl, contentType);
 		try {
 			Collection<Map.Entry<String, String>> p = new ArrayList<Map.Entry<String, String>>();
 
 			p.add(new OAuth.Parameter("oauth_version", "1.0"));
 			String methodType = "GET";
-			
+
 			switch (type) {
 
 			case INSERT:
@@ -358,10 +379,10 @@ public class DoubanService extends Service {
 				methodType = "DELETE";
 				break;
 			}
-			
-			if(this.private_read == true) {
-				oauthRequest = this.requestAccessor.newRequestMessage(methodType, 
-					requestUrl.toString(), p);
+
+			if (this.private_read == true) {
+				oauthRequest = this.requestAccessor.newRequestMessage(
+						methodType, requestUrl.toString(), p);
 			} else {
 				oauthRequest = this.accessor.newRequestMessage(methodType,
 						requestUrl.toString(), p);
@@ -385,12 +406,10 @@ public class DoubanService extends Service {
 		return request;
 	}
 
-	
 	public <E extends BaseEntry<?>> E getEntry(String entryUrl,
 			Class<E> entryClass) throws IOException, ServiceException {
 		return super.getEntry(new URL(entryUrl), entryClass);
 	}
-
 
 	/**
 	 * 得到用户信息
@@ -403,12 +422,12 @@ public class DoubanService extends Service {
 		String url = Namespaces.userURL + "/" + userId;
 		return getEntry(url, UserEntry.class);
 	}
-	public UserEntry getAuthorizedUser() throws IOException,
-			ServiceException {
+
+	public UserEntry getAuthorizedUser() throws IOException, ServiceException {
 		String url = Namespaces.userURL + "/%40me";
 		return getEntry(url, UserEntry.class);
 	}
-	
+
 	/**
 	 * 查找用户信息
 	 * 
@@ -428,7 +447,7 @@ public class DoubanService extends Service {
 
 		return query(query, UserFeed.class);
 	}
-	
+
 	/**
 	 * 获得用户的朋友信息
 	 * 
@@ -439,15 +458,15 @@ public class DoubanService extends Service {
 	 * @param maxResult
 	 *            最大返回结果数目
 	 */
-	public UserFeed getUserFriends(String userId,int startIndex, int maxResult) throws IOException,
-			ServiceException {
+	public UserFeed getUserFriends(String userId, int startIndex, int maxResult)
+			throws IOException, ServiceException {
 		String url = Namespaces.userURL + "/" + userId + "/friends";
 		DoubanQuery query = new DoubanQuery(new URL(url));
 		query.setStartIndex(startIndex);
 		query.setMaxResults(maxResult);
 		return getFeed(query, UserFeed.class);
 	}
-	
+
 	/**
 	 * 获得图书条目信息
 	 * 
@@ -462,7 +481,7 @@ public class DoubanService extends Service {
 		}
 		return getEntry(url, SubjectEntry.class);
 	}
-	
+
 	/**
 	 * 获得图书条目信息
 	 * 
@@ -474,7 +493,7 @@ public class DoubanService extends Service {
 		String url = Namespaces.bookSubjectURL + "/" + bookId;
 		return getEntry(url, SubjectEntry.class);
 	}
-	
+
 	/**
 	 * 获得音乐条目信息
 	 * 
@@ -501,7 +520,7 @@ public class DoubanService extends Service {
 		String url = Namespaces.musicSubjectURL + "/" + musicId;
 		return getEntry(url, SubjectEntry.class);
 	}
-	
+
 	/**
 	 * 获得电影条目信息
 	 * 
@@ -516,7 +535,7 @@ public class DoubanService extends Service {
 		}
 		return getEntry(url, SubjectEntry.class);
 	}
-	
+
 	/**
 	 * 获得电影条目信息
 	 * 
@@ -535,11 +554,12 @@ public class DoubanService extends Service {
 	 * @param noteId
 	 *            要查询的日记id字符串
 	 */
-	public NoteEntry getNote(String noteId) throws IOException, ServiceException {
+	public NoteEntry getNote(String noteId) throws IOException,
+			ServiceException {
 		String url = Namespaces.noteURL + "/" + noteId;
 		return getEntry(url, NoteEntry.class);
 	}
-	
+
 	/**
 	 * 获得用户的日记信息
 	 * 
@@ -550,7 +570,8 @@ public class DoubanService extends Service {
 	 * @param maxResult
 	 *            最大返回结果数目
 	 */
-	public NoteFeed getUserNotes(String userId, int startIndex, int maxResult) throws IOException, ServiceException {
+	public NoteFeed getUserNotes(String userId, int startIndex, int maxResult)
+			throws IOException, ServiceException {
 		String url = Namespaces.userURL + "/" + userId + "/notes";
 		DoubanQuery query = new DoubanQuery(new URL(url));
 		query.setStartIndex(startIndex);
@@ -558,7 +579,7 @@ public class DoubanService extends Service {
 
 		return query(query, NoteFeed.class);
 	}
-	
+
 	/**
 	 * 创建日记
 	 * 
@@ -569,14 +590,14 @@ public class DoubanService extends Service {
 	 * @param privacy
 	 *            隐私设置（public|private|friend）
 	 * @param can_reply
-	 *  			是否可以回复（yes|no）
+	 *            是否可以回复（yes|no）
 	 */
-	public NoteEntry createNote(
-			TextConstruct title, TextConstruct content, String privacy, String can_reply)
-			throws IOException, ServiceException {
+	public NoteEntry createNote(TextConstruct title, TextConstruct content,
+			String privacy, String can_reply) throws IOException,
+			ServiceException {
 		String url = Namespaces.noteCreateURL;
 		NoteEntry ne = new NoteEntry();
-		
+
 		if (title != null) {
 			ne.setTitle(title);
 		}
@@ -592,11 +613,11 @@ public class DoubanService extends Service {
 		a2.setContent(can_reply);
 		atts.add(a1);
 		atts.add(a2);
-		ne.setAttributes(atts);		
+		ne.setAttributes(atts);
 
 		return insert(new URL(url), ne);
 	}
-	
+
 	/**
 	 * 更新日记
 	 * 
@@ -609,10 +630,11 @@ public class DoubanService extends Service {
 	 * @param privacy
 	 *            隐私设置（public|private|friend）
 	 * @param can_reply
-	 *  			是否可以回复（yes|no）
+	 *            是否可以回复（yes|no）
 	 */
-	public NoteEntry updateNote(NoteEntry ne, TextConstruct title, TextConstruct content, String privacy, String can_reply) throws MalformedURLException,
-			IOException, ServiceException {
+	public NoteEntry updateNote(NoteEntry ne, TextConstruct title,
+			TextConstruct content, String privacy, String can_reply)
+			throws MalformedURLException, IOException, ServiceException {
 
 		if (title != null) {
 			ne.setTitle(title);
@@ -629,11 +651,11 @@ public class DoubanService extends Service {
 		a2.setContent(can_reply);
 		atts.add(a1);
 		atts.add(a2);
-		ne.setAttributes(atts);	
-		 
+		ne.setAttributes(atts);
+
 		return update(new URL(ne.getId()), ne);
 	}
-	
+
 	/**
 	 * 删除日记
 	 * 
@@ -644,7 +666,7 @@ public class DoubanService extends Service {
 			IOException, ServiceException {
 		delete(new URL(ne.getId()));
 	}
-	
+
 	/**
 	 * 获得用户的迷你博客信息
 	 * 
@@ -655,7 +677,8 @@ public class DoubanService extends Service {
 	 * @param maxResult
 	 *            最大返回结果数目
 	 */
-	public MiniblogFeed getUserMiniblogs(String userId, int startIndex, int maxResult) throws IOException, ServiceException {
+	public MiniblogFeed getUserMiniblogs(String userId, int startIndex,
+			int maxResult) throws IOException, ServiceException {
 		String url = Namespaces.userURL + "/" + userId + "/miniblog";
 		DoubanQuery query = new DoubanQuery(new URL(url));
 		query.setStartIndex(startIndex);
@@ -663,7 +686,7 @@ public class DoubanService extends Service {
 
 		return query(query, MiniblogFeed.class);
 	}
-	
+
 	/**
 	 * 获得友邻的迷你博客信息
 	 * 
@@ -674,34 +697,52 @@ public class DoubanService extends Service {
 	 * @param maxResult
 	 *            最大返回结果数目
 	 */
-	public MiniblogFeed getContactsMiniblogs(String userId, int startIndex, int maxResult) throws IOException, ServiceException {
+	public MiniblogFeed getContactsMiniblogs(String userId, int startIndex,
+			int maxResult) throws IOException, ServiceException {
 		String url = Namespaces.userURL + "/" + userId + "/miniblog/contacts";
 		DoubanQuery query = new DoubanQuery(new URL(url));
 		query.setStartIndex(startIndex);
 		query.setMaxResults(maxResult);
-
 		return query(query, MiniblogFeed.class);
 	}
-	
+
+	/**
+	 * 获取用户关注的人信息
+	 * 
+	 * @param userId
+	 *            要查询的用户id
+	 * @param startIndex
+	 *            开始索引
+	 * @param maxResult
+	 *            最大返回结果数目
+	 */
+	public ContactFeed getContacts(String userId, int startIndex, int maxResult)
+			throws IOException, ServiceException {
+		String url = Namespaces.userURL + "/" + userId + "/contacts";
+		DoubanQuery query = new DoubanQuery(new URL(url));
+		query.setStartIndex(startIndex);
+		query.setMaxResults(maxResult);
+		return query(query, ContactFeed.class);
+	}
+
 	/**
 	 * 创建我说
 	 * 
 	 * @param content
 	 *            我说的内容
 	 */
-	public MiniblogEntry createSaying(
-			TextConstruct content)
+	public MiniblogEntry createSaying(TextConstruct content)
 			throws IOException, ServiceException {
 		String url = Namespaces.sayingCreateURL;
 		MiniblogEntry me = new MiniblogEntry();
-		
+
 		if (content != null) {
 			me.setContent(content);
 		}
-		 
+
 		return insert(new URL(url), me);
 	}
-	
+
 	/**
 	 * 删除我说
 	 * 
@@ -712,7 +753,6 @@ public class DoubanService extends Service {
 			IOException, ServiceException {
 		delete(new URL(me.getId()));
 	}
-	
 
 	/**
 	 * 查找图书
@@ -787,12 +827,11 @@ public class DoubanService extends Service {
 	}
 
 	/**
-	 * @deprecated 受限制的api，如果需要使用请联系douban开发团队
-	 * 得到图书的相关条目信息
+	 * @deprecated 受限制的api，如果需要使用请联系douban开发团队 得到图书的相关条目信息
 	 * 
 	 * @param bookId
 	 *            图书id
-	  * @param startIndex
+	 * @param startIndex
 	 *            开始索引
 	 * @param maxResult
 	 *            最大返回结果数目
@@ -809,8 +848,7 @@ public class DoubanService extends Service {
 	}
 
 	/**
-	 * @deprecated 受限制的api，如果需要使用请联系douban开发团队
-	 * 得到电影的相关条目信息
+	 * @deprecated 受限制的api，如果需要使用请联系douban开发团队 得到电影的相关条目信息
 	 * 
 	 * @param movieId
 	 *            电影id
@@ -831,10 +869,9 @@ public class DoubanService extends Service {
 	}
 
 	/**
-	 * @deprecated 受限制的api，如果需要使用请联系douban开发团队
-	 * 得到音乐的相关条目信息
+	 * @deprecated 受限制的api，如果需要使用请联系douban开发团队 得到音乐的相关条目信息
 	 * 
-	 * @param musicId 
+	 * @param musicId
 	 *            音乐id
 	 * @param startIndex
 	 *            开始索引
@@ -947,11 +984,11 @@ public class DoubanService extends Service {
 	 * @param userId
 	 *            用户id
 	 * @param cat
-	 * 				类别
+	 *            类别
 	 * @param tag
 	 *            标记的tag
 	 * @param status
-	 * 				收藏的状态
+	 *            收藏的状态
 	 * @param startIndex
 	 *            开始索引
 	 * @param maxResult
@@ -978,8 +1015,8 @@ public class DoubanService extends Service {
 	 * @param cid
 	 *            收藏id
 	 */
-	public CollectionEntry getCollection(String cid)
-			throws IOException, ServiceException {
+	public CollectionEntry getCollection(String cid) throws IOException,
+			ServiceException {
 
 		String url = Namespaces.collectionURL + "/" + cid;
 		return getEntry(url, CollectionEntry.class);
@@ -1026,11 +1063,11 @@ public class DoubanService extends Service {
 
 		return query(query, TagFeed.class);
 	}
-	
+
 	/**
 	 * 获取音乐的标签信息
 	 * 
-	 * @param musicId 
+	 * @param musicId
 	 *            音乐Id
 	 * @param startIndex
 	 *            开始索引
@@ -1052,7 +1089,7 @@ public class DoubanService extends Service {
 	 * 获取用户的标签信息
 	 * 
 	 * @param userId
-	 *           用户Id
+	 *            用户Id
 	 * @param cat
 	 *            类别（movie|music|book ）
 	 * @param startIndex
@@ -1081,7 +1118,7 @@ public class DoubanService extends Service {
 	 * @param content
 	 *            内容（至少50字）
 	 * @param rating
-	 *			   对条目的打分(1-5)
+	 *            对条目的打分(1-5)
 	 */
 	public ReviewEntry createReview(SubjectEntry subjectEntry,
 			TextConstruct title, TextConstruct content, Rating rating)
@@ -1149,9 +1186,8 @@ public class DoubanService extends Service {
 	 * 创建一个条目的收藏
 	 * 
 	 * @param status
-	 *            待收藏条目的状态（book:wish|reading|read
-	 *            movie:wish|watched tv:wish|watching|watched 
-	 *            music:wish|listening|listened）
+	 *            待收藏条目的状态（book:wish|reading|read movie:wish|watched
+	 *            tv:wish|watching|watched music:wish|listening|listened）
 	 * @param se
 	 *            被搜藏的条目
 	 * @param tags
@@ -1187,9 +1223,8 @@ public class DoubanService extends Service {
 	 * @param ce
 	 *            要更新的收藏
 	 * @param status
-	 *            待收藏条目的状态（book:wish|reading|read
-	 *            movie:wish|watched tv:wish|watching|watched 
-	 *            music:wish|listening|listened）
+	 *            待收藏条目的状态（book:wish|reading|read movie:wish|watched
+	 *            tv:wish|watching|watched music:wish|listening|listened）
 	 * @param tags
 	 *            收藏的标签
 	 * @param rating
@@ -1228,11 +1263,71 @@ public class DoubanService extends Service {
 	 * 删除一条收藏
 	 * 
 	 * @param ce
-	 *           待删除的收藏
+	 *            待删除的收藏
 	 */
 	public void deleteCollection(CollectionEntry ce)
 			throws MalformedURLException, IOException, ServiceException {
 		delete(new URL(ce.getId()));
+	}
+
+	/**
+	 * 发送豆邮带验证码的
+	 * 
+	 * @param content
+	 * @param title
+	 * @param userEntry
+	 * @return
+	 */
+	public DoumailEntry sendDoumail(TextConstruct content, TextConstruct title,
+			UserEntry userEntry, String captcha_token, String captcha_string)
+			throws IOException, ServiceException {
+		String url = Namespaces.sendDoumailURL;
+		DoumailEntry doumail = newDoumailEntry(content, title, userEntry);
+
+		ArrayList<Attribute> atts = new ArrayList<Attribute>(2);
+		Attribute a1 = new Attribute();
+		a1.setName("captcha_token");
+		a1.setContent(captcha_token);
+		Attribute a2 = new Attribute();
+		a2.setName("captcha_string");
+		a2.setContent(captcha_string);
+		atts.add(a1);
+		atts.add(a2);
+		doumail.setAttributes(atts);
+
+		return insert(new URL(url), doumail);
+	}
+
+	/**
+	 * 发送豆邮
+	 * 
+	 * @param content
+	 * @param title
+	 * @param userEntry
+	 * @return
+	 * @throws IOException
+	 * @throws ServiceException
+	 */
+	public DoumailEntry sendDoumail(TextConstruct content, TextConstruct title,
+			UserEntry userEntry) throws IOException, ServiceException {
+		String url = Namespaces.sendDoumailURL;
+		DoumailEntry doumail = newDoumailEntry(content, title, userEntry);
+		return insert(new URL(url), doumail);
+	}
+
+	private DoumailEntry newDoumailEntry(TextConstruct content,
+			TextConstruct title, UserEntry userEntry) {
+		String id = userEntry.getId();
+
+		DoumailEntry doumail = new DoumailEntry();
+		Entity entity = new Entity();
+		entity.setName("receiver");
+		entity.setId(id);
+
+		doumail.setEntity(entity);
+		doumail.setContent(content);
+		doumail.setTitle(title);
+		return doumail;
 	}
 
 }

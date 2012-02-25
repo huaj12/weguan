@@ -18,6 +18,9 @@
         <dependent-module archiveName="dbsdk-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dbsdk/dbsdk">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="qqsdk-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/qqsdk/qqsdk">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/juzhai/target/classes"/>
         <property name="context-root" value="/"/>
     </wb-module>

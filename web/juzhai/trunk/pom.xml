@@ -277,6 +277,11 @@
 			<artifactId>dbsdk</artifactId>
 			<version>0.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.juzhai</groupId>
+			<artifactId>qqsdk</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>

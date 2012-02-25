@@ -76,9 +76,9 @@ public class CreateSitemapHandler extends AbstractScheduleHandler {
 			createIndexDoc(i);
 		}
 		// 写入数据到sitemap里
-		siteMaps.add(new SiteMap(domian + "/showUsers", DateFormat.SDF
+		siteMaps.add(new SiteMap(domian + "/showusers", DateFormat.SDF
 				.format(new Date()), "1.0", "always"));
-		siteMaps.add(new SiteMap(domian + "/showIdeas", DateFormat.SDF
+		siteMaps.add(new SiteMap(domian + "/showideas", DateFormat.SDF
 				.format(new Date()), "1.0", "always"));
 		writeDocument(i);
 

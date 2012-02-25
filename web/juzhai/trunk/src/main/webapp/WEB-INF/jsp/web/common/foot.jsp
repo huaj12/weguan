@@ -8,7 +8,7 @@
 <div class="${footClass}"><!--bottom_welcome begin-->
 	<div class="bottom_area">
 		<c:choose>
-			<c:when test="${footType == 'welcome'}"><p><em>拒宅网©2012&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank">沪ICP备11031778号</a></em><a href="http://weibo.com/51juzhai" target="_blank">官方微博</a><a href="/aboutUs">关于我们</a></p><span><a href="/showUsers">找伴儿</a><a href="/showIdeas">出去玩</a><b>|</b><a href="/showIdeas/pop_2/1">上海约会地点</a><a href="/showIdeas/pop_1/1">北京约会地点</a></span></c:when>
+			<c:when test="${footType == 'welcome'}"><p><em>拒宅网©2012&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank">沪ICP备11031778号</a></em><a href="http://weibo.com/51juzhai" target="_blank">官方微博</a><a href="/aboutUs">关于我们</a></p><span><a href="/showusers">找伴儿</a><a href="/showideas">出去玩</a><b>|</b><a href="/showIdeas/pop_2/1">上海约会地点</a><a href="/showIdeas/pop_1/1">北京约会地点</a></span></c:when>
 			<c:otherwise><p>拒宅网©2012&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank">沪ICP备11031778号</a></p><a href="/aboutUs">关于我们</a><a href="javascript:void(0);" target-uid="3" target-nickname="拒宅妹妹" id="feedback" has-login="${context.uid > 0}">意见反馈</a><a href="http://weibo.com/51juzhai" target="_blank">官方微博</a></c:otherwise>
 		</c:choose>
 	</div>

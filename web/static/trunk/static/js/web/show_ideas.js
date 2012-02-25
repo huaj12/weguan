@@ -2,7 +2,7 @@ $(document).ready(function(){
 	$("span#city-options > a").click(function(){
 		var orderType = $("div.category").attr("order-type");
 		var cityId = $(this).attr("value");
-		window.location.href = "/showIdeas/" + orderType + "_" + cityId + "/1";
+		window.location.href = "/showideas/" + orderType + "_" + cityId + "/1";
 	});
 	
 	$("div.fb_area > div.fb_btn > a").click(function(){

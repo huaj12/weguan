@@ -19,7 +19,7 @@
 			<div class="main"><!--main begin-->
 				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
 				<div class="zbr"><!--zbr begin-->
-					<c:set var="userType" value="showUsers" scope="request"/>
+					<c:set var="userType" value="showusers" scope="request"/>
 					<jsp:include page="title.jsp" />
 					<jsp:include page="user_list.jsp" />
 				</div><!--zbr end-->

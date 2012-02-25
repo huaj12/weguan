@@ -20,7 +20,7 @@
 		</div><!--select end-->
 	</c:if>
 	<div class="title_right"><!--title_right begin-->
-		<a href="/showUsers" <c:if test="${userType=='showUsers'}">class="active"</c:if>>有缘的人</a>
+		<a href="/showusers" <c:if test="${userType=='showusers'}">class="active"</c:if>>有缘的人</a>
 		<a href="/showFollows" <c:if test="${userType=='showFollows'}">class="active"</c:if>>你认识的人</a>
 	</div><!--title_right end-->
 </div><!--title end-->

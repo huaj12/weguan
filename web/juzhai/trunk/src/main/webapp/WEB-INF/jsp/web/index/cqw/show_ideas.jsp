@@ -43,8 +43,8 @@
 											</div><!--select_menu end-->
 										</div><!--w70 end-->
 										<div class="category" order-type="${orderType}"><!--category begin-->
-											<span <c:if test="${empty orderType||'time'==orderType}"> class="act"</c:if>><p></p><a href="/showIdeas/time_${cityId}/1">最新</a><p></p></span>
-											<span <c:if test="${'pop'==orderType}"> class="act"</c:if>><p></p><a href="/showIdeas/pop_${cityId}/1" >最热</a><p></p></span>
+											<span <c:if test="${empty orderType||'time'==orderType}"> class="act"</c:if>><p></p><a href="/showideas/time_${cityId}/1">最新</a><p></p></span>
+											<span <c:if test="${'pop'==orderType}"> class="act"</c:if>><p></p><a href="/showideas/pop_${cityId}/1" >最热</a><p></p></span>
 										</div><!--category end-->
 									</div><!--search_title end-->
 									<div class="good_idea"><!--good_idea begin-->
@@ -114,7 +114,7 @@
 								<c:if test="${not empty ideaViewList}">
 									<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 										<c:param name="pager" value="${pager}"/>
-										<c:param name="url" value="/showIdeas/${orderType}_${cityId}" />
+										<c:param name="url" value="/showideas/${orderType}_${cityId}" />
 									</c:import>
 								</c:if>
 							</div>

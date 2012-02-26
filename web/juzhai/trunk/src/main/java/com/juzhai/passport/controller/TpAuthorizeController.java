@@ -260,7 +260,7 @@ public class TpAuthorizeController extends BaseController {
 
 	@RequestMapping(value = "web/access/{tpId}")
 	public String webAccess(HttpServletRequest request,
-			HttpServletResponse response, String code, @PathVariable long tpId,
+			HttpServletResponse response, @PathVariable long tpId,
 			String turnTo, String error_code)
 			throws UnsupportedEncodingException, MalformedURLException {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);

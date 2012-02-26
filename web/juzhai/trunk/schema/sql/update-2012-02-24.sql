@@ -1,1 +1,2 @@
 alter table tb_idea add create_uid BIGINT NOT NULL default 0 AFTER random;
+insert into `tb_thirdparty` (`id`, `name`, `join_type`, `app_id`, `app_key`, `app_secret`, `app_url`, `user_home_url`) values('7','douban','connect','00fb7fece2b96fd202f27fc6a82c4f76','00fb7fece2b96fd202f27fc6a82c4f76','a1041f198d4f46f9','http://test.51juzhai.com/web/access/7','http://www.douban.com/people/{0}');

@@ -39,7 +39,7 @@ public class DoubanConnectSynchronizeService implements ISynchronizeService {
 	private void send(AuthInfo authInfo, String text, byte[] image) {
 		try {
 			DoubanService doubanService = DoubanService.getDoubanService(
-					authInfo.getToken(), authInfo.getAppKey(),
+					authInfo.getToken(),authInfo.getTokenSecret(), authInfo.getAppKey(),
 					authInfo.getAppSecret());
 			doubanService.createSaying(new PlainTextConstruct(text));
 		} catch (Exception e) {
@@ -61,7 +61,7 @@ public class DoubanConnectSynchronizeService implements ISynchronizeService {
 		for (String fuid : fuids) {
 			try {
 				DoubanService doubanService = DoubanService.getDoubanService(
-						authInfo.getToken(), authInfo.getAppKey(),
+						authInfo.getToken(),authInfo.getTokenSecret(), authInfo.getAppKey(),
 						authInfo.getAppSecret());
 				UserEntry entry = new UserEntry();
 				entry.setId(Namespaces.userURL + "/" + fuid);
@@ -81,7 +81,7 @@ public class DoubanConnectSynchronizeService implements ISynchronizeService {
 		List<UserStatus> userStatusList = new ArrayList<UserStatus>();
 		try {
 			DoubanService doubanService = DoubanService.getDoubanService(
-					authInfo.getToken(), authInfo.getAppKey(),
+					authInfo.getToken(),authInfo.getTokenSecret(), authInfo.getAppKey(),
 					authInfo.getAppSecret());
 			TpUser fUser = tpUserService.getTpUserByUid(fuid);
 			MiniblogFeed miniblogFeed = doubanService.getUserMiniblogs(

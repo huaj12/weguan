@@ -366,11 +366,15 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 .send_area .tb{ float:right; margin-right:10px; margin-top:13px; display:inline; cursor:pointer;}
 .send_area .tb span{ background:url(../images/web2/tb_link.jpg) no-repeat; width:13px; height:13px; overflow:hidden; float:left; margin-top:4px; margin-top:5px\0;}
 .send_area .tb p{ float:left; color:#ccc; margin-left:5px; display:inline; margin-top:1px; margin-top:3px\0; *margin-top:2px;}
-.send_area .tb em{ background:url(../images/web2/weibo_link.jpg) no-repeat; width:20px; height:20px; float:left; margin-left:5px;}
 
 .send_area .tb_click span{background:url(../images/web2/tb_active.jpg) no-repeat;}
 
-.send_area .tb_click em{ background:url(../images/web2/weibo_active.jpg) no-repeat;}
+.send_area .tb em{float:left; margin-left:5px; display:inline;}
+.send_area .tb em.wb{ background:url(../images/web2/weibo_link.jpg) no-repeat; width:20px; height:20px; }
+.send_area .tb_click em.wb{ background:url(../images/web2/weibo_active.jpg) no-repeat;}
+
+.send_area .tb em.db{ background:url(../images/web2/link_db16.png) no-repeat; width:16px; height:16px; margin-top:3px;}
+.send_area .tb_click em.db{ background:url(../images/web2/db16.png) no-repeat;}
 
 
 
@@ -1491,6 +1495,9 @@ filter:alpha(opacity=50);opacity:0.5; -moz-opacity:0.5; -khtml-opacity:0.5; font
 .my_head_area .keep .done:hover{color:#999;}
 
 
+.my_head_area .yq_load_face{ position:absolute;bottom:23px; left:220px;}
+.my_head_area .yq_load_face a{ color:#3E8BD9;}
+.my_head_area .yq_load_face a.done{ color:#ccc; cursor:default;}
 
 
 
@@ -1564,6 +1571,7 @@ i{ color:#FF0000; font-style:normal;}
 
 
 /*欢迎*/
+
 .welcome{ width:960px; height:auto; display:block; margin:0 auto; margin-top:100px; *padding-top:100px; }
 .welcome .begin_btn{ position:absolute; bottom:-30px; left:407px;}
 
@@ -1595,11 +1603,11 @@ i{ color:#FF0000; font-style:normal;}
 
 
 
-.welcome_login{ float:right; margin-top:12px;}
-.welcome_login p{ float:left; margin-right:8px; display:inline; color:#999; margin-top:4px;}
-.welcome_login a{ display:block; background:url(../images/web2/weibo_login.gif) no-repeat; width:126px; height:24px; float:left;}
-
-
+.welcome_login{ float:right; margin-top:18px;}
+.welcome_login p{ float:left; margin-right:8px; display:inline; color:#999; }
+.welcome_login a{ display:block; width:16px; height:16px; float:left; margin-right:10px; display:inline; overflow:hidden;}
+.welcome_login a.wb{ background:url(../images/web2/wb16.png) no-repeat;}
+.welcome_login a.db{background:url(../images/web2/db16.png) no-repeat;}
 
 
 .bottom_welcome{
@@ -1653,7 +1661,7 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 .l_left .btn a{ margin-top:10px; float:left;}
 
 
-.l_right p{ width:504px; float:right; font-family:"微软雅黑","宋体"; font-size:12px; margin-top:15px; padding-bottom:15px; line-height:150%;}
+.l_right p{ width:504px; float:right; font-family:"微软雅黑","宋体"; font-size:12px; margin-top:15px; padding-bottom:15px; line-height:180%;}
 
 .l_right p font{ font-weight:bold; color:#666; font-size:14px;}
 

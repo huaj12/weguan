@@ -20,7 +20,8 @@
 	<div class="login_box"><!--login_show_box begin-->
 		<div class="box_left">
 			<h2>加入拒宅</h2><em>找伴出去玩</em>
-			<a href="/web/login/6?turnTo=[0]"><img src="${jzr:static('/images/web/login_btn.gif')}" /></a>
+			<a href="/web/login/6?turnTo=[0]"><img src="${jzr:static('/images/web2/login_btn.gif')}" /></a>
+			<a href="/web/login/7?turnTo=[0]"><img src="${jzr:static('/images/web2/db_login_btn.gif')}" /></a>
 		</div>
 		<div class="box_right">
 			<b>你是这样的小宅么？</b><br />

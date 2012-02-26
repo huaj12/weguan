@@ -94,7 +94,7 @@
 									</div><!--infor_x end-->
 								</div><!--infor end-->
 							</form>
-							<div class="save_btn"><a href="javascript:void(0);">开始拒宅</a></div>
+							<div class="save_btn"><a href="javascript:void(0);">确认&gt;&gt;</a></div>
 						</div><!--m_box end-->
 						<div class="clear"></div>
 					</div>

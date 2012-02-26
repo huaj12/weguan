@@ -6,7 +6,8 @@ public enum DialogContentTemplate {
 			"response.dialog.content"), EDIT_PROFILE("profile.dialog.content"), PASS_LOGO(
 			"pass.logo.dialog.content"), DENY_LOGO("deny.logo.dialog.content"), WELCOME_USER(
 			"welcome.user.dialog.content"), BECOME_IDEA(
-			"become.idea.dialog.content");
+			"become.idea.dialog.content"), UPLOAD_LOGO(
+			"upload.logo.dialog.content");
 
 	private String name;
 

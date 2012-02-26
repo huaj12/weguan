@@ -21,18 +21,19 @@
 							<div class="l_left"><!--l_left begin-->
 								<h2><p>加入拒宅</p><span>助你找伴儿出去玩</span></h2>
 								<div class="btn">
-									<a href="/web/login/6?turnTo=${turnTo}"><img src="${jzr:static('/images/web/48.png')}" /></a>
+									<a href="/web/login/6?turnTo=${turnTo}"><img src="${jzr:static('/images/web2/weibo_btn.gif')}" /></a>
+									<a href="/web/login/7?turnTo=${turnTo}"><img src="${jzr:static('/images/web2/douban_btn.gif')}" /></a>
 								</div>
 							</div><!--l_left end-->
 							<div class="l_right">
 								<p>
-									<font>你是这样的小宅么？</font><br /><br />
-									你qq上有上百个好友，微博上有几百个粉丝；但在节假日里，却找不到人陪你出去玩。
-									<br /><br />
-									<br />
-									<font>拒宅网助你脱宅</font><br /><br />
+									<font>你是这样的小宅么？</font><br />
+									你qq上有上百个好友，微博上有几百个粉丝；但在节假日里，却找不到人陪你出去玩。<br /><br />
+									<font>拒宅网助你脱宅</font><br />
 									拒宅网搭建了一个找伴儿出去玩的平台。在这里小宅们说出各种新奇、有趣的拒宅好主意；大家交流，认识，并相约一起出去玩。<br /><br />
-									拒宅网每位用户都来源于微博。通过ta的微博你可以更真实的了解一个人的所思所想，ta的品味，圈子，甚至性格。当然,这个人是真是假自然也骗不过聪明的你咯。<br />
+									<font>一起打造一个阳光社区</font><br />
+									厌倦了单刀直入物欲横流的交友社区么？难道交友约会就不能和阳光清新搭配么？
+									如果您也有同感，就与我们一起营造这样的阳光社区吧。上传真实头像，发布你的拒宅好主意，积极的与感兴趣的小宅们互动。希望每位小宅都能找到属于自己的阳光周末。
 								</p>
 							</div>
 						</div><!--singe_login end-->

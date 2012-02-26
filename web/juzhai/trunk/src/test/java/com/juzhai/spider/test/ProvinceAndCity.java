@@ -4,9 +4,11 @@
 package com.juzhai.spider.test;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -27,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.JackSonSerializer;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.mapper.CityMapper;
@@ -273,5 +276,33 @@ public class ProvinceAndCity {
 				}
 			}
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void douban() throws IOException {
+		byte[] bytes = FileUtil.readFileToByteArray(new File(getClass()
+				.getClassLoader().getResource("douban.properties").getFile()));
+		String content = new String(bytes);
+		Map<String, Object> map = JackSonSerializer.toMap(content);
+		List<Map<String, Object>> locations = (List<Map<String, Object>>) map
+				.get("locations");
+		int i = 0;
+		for (Map<String, Object> locMap : locations) {
+			String provinceName = String.valueOf(locMap.get("name"));
+			System.out.print(provinceName + ": ");
+			List<Map<String, Object>> cityList = (List<Map<String, Object>>) locMap
+					.get("children");
+			for (Map<String, Object> cityMap : cityList) {
+				String cityName = String.valueOf(cityMap.get("name"));
+				City city = InitData.getCityByName(cityName);
+				if (city == null) {
+					i++;
+					System.out.print(cityName + ",");
+				}
+			}
+			System.out.println();
+		}
+		System.out.println("total:" + i);
 	}
 }

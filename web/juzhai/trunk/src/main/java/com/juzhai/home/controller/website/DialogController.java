@@ -156,4 +156,15 @@ public class DialogController extends BaseController {
 				DialogContentTemplate.EDIT_PROFILE);
 		return result;
 	}
+
+	@RequestMapping(value = "/inviteUploadLogo", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult inviteUploadLogo(HttpServletRequest request, Model model,
+			long uid) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult result = new AjaxResult();
+		dialogService.sendSMS(context.getUid(), uid,
+				DialogContentTemplate.UPLOAD_LOGO);
+		return result;
+	}
 }

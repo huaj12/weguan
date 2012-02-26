@@ -21,7 +21,9 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.InterestUserView;
 import com.juzhai.home.service.IUserStatusService;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IInterestUserService;
+import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Post;
@@ -39,6 +41,8 @@ public class UserController extends BaseController {
 	private IPostService postService;
 	@Autowired
 	private IUserStatusService userStatusService;
+	@Autowired
+	private ITpUserService tpUserService;
 	@Value("${web.user.home.post.rows}")
 	private int webUserHomePostRows;
 	@Value("${web.my.post.max.rows}")
@@ -74,6 +78,8 @@ public class UserController extends BaseController {
 					"userStatusList",
 					userStatusService.listUserStatus(context.getUid(),
 							context.getTpId(), uid));
+			TpUser tpUser = tpUserService.getTpUserByUid(uid);
+			model.addAttribute("tpUser", tpUser);
 
 			return "web/home/user_home";
 		}

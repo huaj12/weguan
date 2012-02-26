@@ -211,13 +211,12 @@ public class DoubanService extends Service {
 	 * @param appSecret
 	 * @return
 	 */
-	public static DoubanService getDoubanService(String accessToken,
+	public static DoubanService getDoubanService(String accessToken,String TokenSecret,
 			String appKey, String appSecret) {
 		DoubanService doubanService = new DoubanService("51juzhai", appKey,
 				appSecret);
-		String[] str = accessToken.split(",");
-		String oauth_token = str[0];
-		String oauth_token_secret = str[1];
+		String oauth_token = accessToken;
+		String oauth_token_secret = TokenSecret;
 		doubanService.setAccessToken(oauth_token, oauth_token_secret);
 		return doubanService;
 	}

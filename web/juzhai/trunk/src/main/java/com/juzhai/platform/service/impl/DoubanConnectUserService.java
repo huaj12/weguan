@@ -104,9 +104,10 @@ public class DoubanConnectUserService extends AbstractUserService {
 					profile.setBlog(link.getHref());
 				}
 			}
-
+			//TODO (review) 如果不取头像就删掉这行
 			profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
 			// 用户简介
+			//TODO (review) 像昵称一样，通过截字控制长度，防止报错
 			profile.setFeature(user.getContent().getLang());
 			String cityName = user.getLocation();
 			City city = null;
@@ -180,6 +181,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 
 	@Override
 	protected String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
+		//TODO (review) 豆瓣没有appId的概念，是不是把applicationName存进appId字段呢？
 		DoubanService doubanService = new DoubanService("51juzhai",
 				tp.getAppKey(), tp.getAppSecret());
 		doubanService.setRequestToken(code);

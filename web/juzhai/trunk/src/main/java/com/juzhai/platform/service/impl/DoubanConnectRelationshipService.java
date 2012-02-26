@@ -13,8 +13,6 @@ import com.google.gdata.client.douban.DoubanService;
 import com.google.gdata.data.Link;
 import com.google.gdata.data.douban.UserEntry;
 import com.google.gdata.data.douban.UserFeed;
-import com.google.gdata.data.extensions.ContactEntry;
-import com.google.gdata.data.extensions.ContactFeed;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.TpFriend;
@@ -31,10 +29,11 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 		List<TpFriend> friendIdList = new ArrayList<TpFriend>();
 		String uid = authInfo.getTpIdentity();
 		DoubanService doubanService = DoubanService.getDoubanService(
-				authInfo.getToken(), authInfo.getTokenSecret(),authInfo.getAppKey(),
-				authInfo.getAppSecret());
+				authInfo.getToken(), authInfo.getTokenSecret(),
+				authInfo.getAppKey(), authInfo.getAppSecret());
 		try {
 			while (true) {
+				// TODO (review) 不会死循环？
 				int i = 1;
 				UserFeed userFeed = doubanService.getUserFriends(uid, i, 50);
 				List<UserEntry> users = userFeed.getEntries();
@@ -67,10 +66,11 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 		List<String> fuids = new ArrayList<String>();
 		String uid = authInfo.getTpIdentity();
 		DoubanService doubanService = DoubanService.getDoubanService(
-				authInfo.getToken(), authInfo.getTokenSecret(),authInfo.getAppKey(),
-				authInfo.getAppSecret());
+				authInfo.getToken(), authInfo.getTokenSecret(),
+				authInfo.getAppKey(), authInfo.getAppSecret());
 		try {
 			while (true) {
+				// TODO (review) 不会死循环？
 				int i = 1;
 				UserFeed userFeed = doubanService.getUserFriends(uid, i, 50);
 				List<UserEntry> users = userFeed.getEntries();
@@ -95,15 +95,15 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 		List<String> fuids = new ArrayList<String>();
 		String uid = authInfo.getTpIdentity();
 		DoubanService doubanService = DoubanService.getDoubanService(
-				authInfo.getToken(), authInfo.getTokenSecret(),authInfo.getAppKey(),
-				authInfo.getAppSecret());
+				authInfo.getToken(), authInfo.getTokenSecret(),
+				authInfo.getAppKey(), authInfo.getAppSecret());
 		try {
 			while (true) {
 				int i = 1;
 				UserFeed userFeed = doubanService.getContacts(uid, i, 50);
 				List<UserEntry> users = userFeed.getEntries();
 				for (UserEntry user : users) {
-					if (isInstalled(authInfo.getThirdpartyName(),user.getUid())) {
+					if (isInstalled(authInfo.getThirdpartyName(), user.getUid())) {
 						fuids.add(user.getUid());
 					}
 				}
@@ -122,9 +122,10 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 		return redisTemplate.opsForSet().isMember(
 				RedisKeyGenerator.genTpInstallUsersKey(tpName), tpIdentity);
 	}
-	
-	public static void main(String []arg){
-		AuthInfo authInfo =new AuthInfo();
+
+	//TODO (review) 删了吧
+	public static void main(String[] arg) {
+		AuthInfo authInfo = new AuthInfo();
 		authInfo.setToken("25b2c8f2cd31421071185ad86793c630");
 		authInfo.setTokenSecret("f922fcdd0a49e320");
 		authInfo.setAppKey("00fb7fece2b96fd202f27fc6a82c4f76");

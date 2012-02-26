@@ -66,4 +66,28 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	$("a#inviteUploadLogo").click(function(){
+		var uid = $(this).attr("uid");
+		var obj = $(this);
+		$.ajax({
+			url : "/home/inviteUploadLogo",
+			type : "post",
+			cache : false,
+			data : {"uid" : uid},
+			dataType : "json",
+			success : function(result) {
+				if(result&&result.success){
+					obj.unbind("click").attr("class", "done").text("已邀请");
+				}else{
+					alert(result.errorInfo);
+				}
+			},
+			statusCode : {
+				401 : function() {
+					window.location.href = "/login?turnTo=" + window.location.href;
+				}
+			}
+		});
+	});
 });

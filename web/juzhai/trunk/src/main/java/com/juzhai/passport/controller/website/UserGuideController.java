@@ -17,6 +17,8 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.InitData;
+import com.juzhai.passport.bean.LogoVerifyState;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.controller.form.SettingForm;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.Profile;
@@ -113,6 +115,15 @@ public class UserGuideController extends BaseController {
 		} else {
 			userGuideService.completeGuide(context.getUid());
 		}
-		return "redirect:/home";
+		ProfileCache profileCache = profileService.getProfileCacheByUid(context
+				.getUid());
+		if (null == profileCache) {
+			return error_500;
+		} else if (profileCache.getLogoVerifyState() != LogoVerifyState.VERIFIED
+				.getType()) {
+			return "redirect:/profile/index/face";
+		} else {
+			return "redirect:/home";
+		}
 	}
 }

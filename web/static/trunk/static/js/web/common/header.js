@@ -31,9 +31,11 @@ $(document).ready(function(){
 //	}, registerClosChannel);
 	
 	//登录
-	$("div.welcome_login > a").bind("click", function(){
+	$("div.welcome_login > a.wb").bind("click", function(){
 		window.location.href = "/web/login/6?turnTo=" + window.location.href; 
-		//showLogin(window.location.href);
+	});
+	$("div.welcome_login > a.db").bind("click", function(){
+		window.location.href = "/web/login/7?turnTo=" + window.location.href; 
 	});
 	
 //	var messageTimerId = null;
@@ -167,7 +169,7 @@ function showLogin(turnTo){
 	if(turnTo==null||turnTo==""){
 		turnTo="";
 	}
-	var content = $("#dialog-login").html().replace("[0]", turnTo);
+	var content = $("#dialog-login").html().replace(/\[0\]/ig, turnTo);
 	$.dialog({
 		content:content,
 		top:"50%",

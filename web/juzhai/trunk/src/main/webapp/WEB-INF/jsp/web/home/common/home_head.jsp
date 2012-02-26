@@ -23,6 +23,7 @@
 			</div><!--my_infor end-->
 			<c:choose>
 				<c:when test="${context.uid != profile.uid}">
+					<c:if test="${profile.logoVerifyState == 3}"><div class="yq_load_face"><a href="javascript:void(0);" id="inviteUploadLogo" uid="${profile.uid}">邀请ta上传头像</a></div></c:if>
 					<div class="keep user-remove-interest remove-interest-${profile.uid}" <c:if test="${!isInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${profile.uid}" title="点击取消收藏">已收藏</a></div>
 					<div class="keep user-add-interest interest-${profile.uid}" <c:if test="${isInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${profile.uid}" title="点击收藏">收藏ta</a></div>
 					<div class="ta_btn"><a href="javascript:void(0);" target-uid="${profile.uid}" target-nickname="${profile.nickname}">私信</a></div>

@@ -60,8 +60,8 @@ public class DoubanConnectUserService extends AbstractUserService {
 		List<String> list = new ArrayList<String>();
 		if (authInfo != null) {
 			DoubanService doubanService = DoubanService.getDoubanService(
-					authInfo.getToken(), authInfo.getAppKey(),
-					authInfo.getAppSecret());
+					authInfo.getToken(), authInfo.getTokenSecret(),
+					authInfo.getAppKey(), authInfo.getAppSecret());
 			if (CollectionUtils.isNotEmpty(fuids)) {
 				for (String fuid : fuids) {
 					UserEntry user = null;
@@ -87,8 +87,8 @@ public class DoubanConnectUserService extends AbstractUserService {
 			String thirdpartyIdentity) {
 		try {
 			DoubanService doubanService = DoubanService.getDoubanService(
-					authInfo.getToken(), authInfo.getAppKey(),
-					authInfo.getAppSecret());
+					authInfo.getToken(), authInfo.getTokenSecret(),
+					authInfo.getAppKey(), authInfo.getAppSecret());
 			UserEntry user = doubanService.getAuthorizedUser();
 			Profile profile = new Profile();
 			profile.setNickname(TextTruncateUtil.truncate(
@@ -156,12 +156,14 @@ public class DoubanConnectUserService extends AbstractUserService {
 		}
 		String uid = "";
 		try {
+			String[] str = accessToken.split(",");
 			DoubanService doubanService = DoubanService.getDoubanService(
-					accessToken, tp.getAppKey(), tp.getAppSecret());
+					str[0], str[1], tp.getAppKey(), tp.getAppSecret());
 			UserEntry user = doubanService.getAuthorizedUser();
 			uid = user.getUid();
 			authInfo.setThirdparty(tp);
-			authInfo.setToken(accessToken);
+			authInfo.setToken(str[0]);
+			authInfo.setTokenSecret(str[1]);
 			authInfo.setTpIdentity(uid);
 		} catch (Exception e) {
 			log.error("douban fetchTpIdentity is error" + e.getMessage());

@@ -31,7 +31,7 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 		List<TpFriend> friendIdList = new ArrayList<TpFriend>();
 		String uid = authInfo.getTpIdentity();
 		DoubanService doubanService = DoubanService.getDoubanService(
-				authInfo.getToken(), authInfo.getAppKey(),
+				authInfo.getToken(), authInfo.getTokenSecret(),authInfo.getAppKey(),
 				authInfo.getAppSecret());
 		try {
 			while (true) {
@@ -66,7 +66,7 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 		List<String> fuids = new ArrayList<String>();
 		String uid = authInfo.getTpIdentity();
 		DoubanService doubanService = DoubanService.getDoubanService(
-				authInfo.getToken(), authInfo.getAppKey(),
+				authInfo.getToken(), authInfo.getTokenSecret(),authInfo.getAppKey(),
 				authInfo.getAppSecret());
 		try {
 			while (true) {
@@ -94,7 +94,7 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 		List<String> fuids = new ArrayList<String>();
 		String uid = authInfo.getTpIdentity();
 		DoubanService doubanService = DoubanService.getDoubanService(
-				authInfo.getToken(), authInfo.getAppKey(),
+				authInfo.getToken(), authInfo.getTokenSecret(),authInfo.getAppKey(),
 				authInfo.getAppSecret());
 		try {
 			while (true) {

@@ -715,13 +715,13 @@ public class DoubanService extends Service {
 	 * @param maxResult
 	 *            最大返回结果数目
 	 */
-	public ContactFeed getContacts(String userId, int startIndex, int maxResult)
+	public UserFeed  getContacts(String userId, int startIndex, int maxResult)
 			throws IOException, ServiceException {
 		String url = Namespaces.userURL + "/" + userId + "/contacts";
 		DoubanQuery query = new DoubanQuery(new URL(url));
 		query.setStartIndex(startIndex);
 		query.setMaxResults(maxResult);
-		return query(query, ContactFeed.class);
+		return query(query, UserFeed.class);
 	}
 
 	/**

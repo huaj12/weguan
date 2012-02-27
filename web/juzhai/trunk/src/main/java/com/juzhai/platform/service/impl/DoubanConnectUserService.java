@@ -108,7 +108,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 
 			List<Link> links = user.getLinks();
 			for (Link link : links) {
-				if ("homepage".equals(link.getRel())) {
+				if ("alternate".equals(link.getRel())) {
 					// //获取用户个人主页
 					profile.setBlog(link.getHref());
 				}

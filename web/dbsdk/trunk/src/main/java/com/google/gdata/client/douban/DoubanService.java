@@ -266,7 +266,6 @@ public class DoubanService extends Service {
 			tokens.add(this.accessor.tokenSecret);
 			return tokens;
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return null;
 	}

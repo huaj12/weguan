@@ -243,7 +243,7 @@
 				<ref bean="deleteTempImageTrigger"/>
 				<ref bean="deleteExpiredAdTrigger"/>
 				<ref bean="deleteExpiredRawAdTrigger"/>
-				<ref bean="noticeToPlatformTrigger"/>
+				<!-- <ref bean="noticeToPlatformTrigger"/> -->
 				<ref bean="postIndexOptimizationAndCommitTrigger"/>
 				<ref bean="profileIndexOptimizationAndCommitTrigger"/>
 				<ref bean="createSitemapTrigger"/>

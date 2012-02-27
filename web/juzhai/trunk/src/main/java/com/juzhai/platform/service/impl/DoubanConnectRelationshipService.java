@@ -39,7 +39,6 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 				authInfo.getAppKey(), authInfo.getAppSecret(), tp.getAppId());
 
 		try {
-			// TODO (done) 不会死循环？
 			int i = 1;
 			while (true) {
 				UserFeed userFeed = doubanService.getUserFriends(uid, i, 50);
@@ -80,7 +79,6 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 				authInfo.getToken(), authInfo.getTokenSecret(),
 				authInfo.getAppKey(), authInfo.getAppSecret(), tp.getAppId());
 		try {
-			// TODO (done) 不会死循环？
 			int i = 1;
 			while (true) {
 				UserFeed userFeed = doubanService.getUserFriends(uid, i, 50);
@@ -138,7 +136,4 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 		return redisTemplate.opsForSet().isMember(
 				RedisKeyGenerator.genTpInstallUsersKey(tpName), tpIdentity);
 	}
-
-	// TODO (done) 删了吧
-
 }

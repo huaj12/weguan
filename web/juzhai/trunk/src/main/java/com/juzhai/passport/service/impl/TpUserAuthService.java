@@ -135,7 +135,6 @@ public class TpUserAuthService implements ITpUserAuthService {
 
 	@Override
 	public AuthInfo getSecretary(String tpName) {
-		// TODO (done) 获取有配额的小秘书，是不是应该在AdminService里封装呢？获取微博的地方就需要用到一样的代码
 		List<Long> tagerUids = TpHelperConfig.getValue(
 				ThirdpartyNameEnum.getThirdpartyNameEnum(tpName), "uid");
 		List<Long> tagerTpIds = TpHelperConfig.getValue(
@@ -146,8 +145,6 @@ public class TpUserAuthService implements ITpUserAuthService {
 		}
 		AuthInfo authInfo = null;
 		for (Long tUid : tagerUids) {
-			// TODO (none)
-			// 是不是应该参数用AuthInfo？或者isAllocation返回AuthInfo？因为下面又从库搜了一次authInfo
 			authInfo = getAuthInfo(tUid, tagerTpIds.get(0));
 			if (adminService.isAllocation(authInfo)) {
 				break;
@@ -155,7 +152,6 @@ public class TpUserAuthService implements ITpUserAuthService {
 				authInfo = null;
 			}
 		}
-		// TODO (none) 这里判断不适合了吧
 		return authInfo;
 	}
 

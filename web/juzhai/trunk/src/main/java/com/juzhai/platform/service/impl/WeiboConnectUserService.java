@@ -43,6 +43,8 @@ public class WeiboConnectUserService extends AbstractUserService {
 
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
+	@Value(value = "${feature.length.max}")
+	private int featureLengthMax;
 
 	@Override
 	public String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
@@ -87,7 +89,9 @@ public class WeiboConnectUserService extends AbstractUserService {
 			profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
 			// profile.setLogoPic(user.getAvatarLarge());
 			// 用户简介
-			profile.setFeature(user.getDescription());
+			profile.setFeature(TextTruncateUtil.truncate(
+					HtmlUtils.htmlUnescape(user.getDescription()),
+					featureLengthMax, StringUtils.EMPTY));
 			// 没有家乡用所在地代替
 			// profile.setHome(user.getLocation());
 			// 获取不到生日需要高级接口

@@ -32,9 +32,9 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 				authInfo.getToken(), authInfo.getTokenSecret(),
 				authInfo.getAppKey(), authInfo.getAppSecret());
 		try {
+			// TODO (done) 不会死循环？
+			int i = 1;
 			while (true) {
-				// TODO (review) 不会死循环？
-				int i = 1;
 				UserFeed userFeed = doubanService.getUserFriends(uid, i, 50);
 				List<UserEntry> users = userFeed.getEntries();
 				for (UserEntry user : users) {
@@ -53,6 +53,7 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 				if (users.size() < 50) {
 					break;
 				}
+				i += 50;
 			}
 		} catch (Exception e) {
 			log.error("douban  getAllFriends is erorr." + e.getMessage());
@@ -69,9 +70,9 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 				authInfo.getToken(), authInfo.getTokenSecret(),
 				authInfo.getAppKey(), authInfo.getAppSecret());
 		try {
+			// TODO (done) 不会死循环？
+			int i = 1;
 			while (true) {
-				// TODO (review) 不会死循环？
-				int i = 1;
 				UserFeed userFeed = doubanService.getUserFriends(uid, i, 50);
 				List<UserEntry> users = userFeed.getEntries();
 				for (UserEntry user : users) {
@@ -82,6 +83,7 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 				if (users.size() < 50) {
 					break;
 				}
+				i += 50;
 			}
 		} catch (Exception e) {
 			log.error("douban  getAppFriends is erorr." + e.getMessage());
@@ -98,8 +100,8 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 				authInfo.getToken(), authInfo.getTokenSecret(),
 				authInfo.getAppKey(), authInfo.getAppSecret());
 		try {
+			int i = 1;
 			while (true) {
-				int i = 1;
 				UserFeed userFeed = doubanService.getContacts(uid, i, 50);
 				List<UserEntry> users = userFeed.getEntries();
 				for (UserEntry user : users) {
@@ -110,6 +112,7 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 				if (users.size() < 50) {
 					break;
 				}
+				i += 50;
 			}
 		} catch (Exception e) {
 			log.error("douban  getAppFriends is erorr." + e.getMessage());
@@ -123,15 +126,6 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 				RedisKeyGenerator.genTpInstallUsersKey(tpName), tpIdentity);
 	}
 
-	//TODO (review) 删了吧
-	public static void main(String[] arg) {
-		AuthInfo authInfo = new AuthInfo();
-		authInfo.setToken("25b2c8f2cd31421071185ad86793c630");
-		authInfo.setTokenSecret("f922fcdd0a49e320");
-		authInfo.setAppKey("00fb7fece2b96fd202f27fc6a82c4f76");
-		authInfo.setAppSecret("a1041f198d4f46f9");
-		authInfo.setTpIdentity("ILdanjie");
-		new DoubanConnectRelationshipService().getInstallFollows(authInfo);
-	}
+	// TODO (done) 删了吧
 
 }

@@ -48,7 +48,7 @@
 							<div class="t"></div>
 							<div class="m">
 								<div class="weibo"><!--weibo begin-->
-									<h2>ta的<c:choose><c:when test="${tpUser.tpName == 'weibo'}">最新微博</c:when><c:when test="${tpUser.tpName == 'douban'}"></c:when></c:choose></h2>
+									<h2>ta的<c:choose><c:when test="${tpUser.tpName == 'weibo'}">最新微博</c:when><c:when test="${tpUser.tpName == 'douban'}">豆瓣广播</c:when></c:choose></h2>
 									<ul>
 										<c:choose>
 											<c:when test="${empty userStatusList}">

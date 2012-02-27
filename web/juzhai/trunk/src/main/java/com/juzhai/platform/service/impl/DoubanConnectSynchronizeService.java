@@ -56,28 +56,28 @@ public class DoubanConnectSynchronizeService implements ISynchronizeService {
 	}
 
 	@Override
-	public void inviteMessage(AuthInfo authInfo, String text, byte[] image,List<String> fuids) {
+	public void inviteMessage(AuthInfo authInfo, String text, byte[] image,
+			List<String> fuids) {
 		if (CollectionUtils.isEmpty(fuids)) {
 			return;
 		}
+		String userIds = "";
 		for (String fuid : fuids) {
-			try {
-				Thirdparty tp = InitData.getTpByTpNameAndJoinType(
-						authInfo.getThirdpartyName(),
-						JoinTypeEnum.getJoinTypeEnum(authInfo.getJoinType()));
-				DoubanService doubanService = DoubanService.getDoubanService(
-						authInfo.getToken(), authInfo.getTokenSecret(),
-						authInfo.getAppKey(), authInfo.getAppSecret(),
-						tp.getAppId());
-				UserEntry entry = new UserEntry();
-				entry.setId(Namespaces.userURL + "/" + fuid);
-				DoumailEntry doumail = doubanService.sendDoumail(
-						new PlainTextConstruct(text), new PlainTextConstruct(
-								text), entry);
-			} catch (Exception e) {
-				log.error("connect douban sendSysMessage is error."
-						+ e.getMessage() + "fuid:" + fuid);
-			}
+			userIds += "@" + fuid + " ";
+		}
+		try {
+			Thirdparty tp = InitData.getTpByTpNameAndJoinType(
+					authInfo.getThirdpartyName(),
+					JoinTypeEnum.getJoinTypeEnum(authInfo.getJoinType()));
+			DoubanService doubanService = DoubanService.getDoubanService(
+					authInfo.getToken(), authInfo.getTokenSecret(),
+					authInfo.getAppKey(), authInfo.getAppSecret(),
+					tp.getAppId());
+
+			doubanService.createSaying(new PlainTextConstruct(userIds + text));
+		} catch (Exception e) {
+			log.error("connect douban sendSysMessage is error."
+					+ e.getMessage() + "fuid:" + fuids);
 		}
 	}
 
@@ -95,11 +95,10 @@ public class DoubanConnectSynchronizeService implements ISynchronizeService {
 						authInfo.getToken(), authInfo.getTokenSecret(),
 						authInfo.getAppKey(), authInfo.getAppSecret(),
 						tp.getAppId());
-				UserEntry entry = new UserEntry();
-				entry.setId(Namespaces.userURL + "/" + fuid);
+				UserEntry entry = doubanService.getUser(fuid);
 				DoumailEntry doumail = doubanService.sendDoumail(
-						new PlainTextConstruct(text), new PlainTextConstruct(
-								text), entry);
+						new PlainTextConstruct(text.trim()),
+						new PlainTextConstruct(text.trim()), entry);
 			} catch (Exception e) {
 				log.error("connect douban sendSysMessage is error."
 						+ e.getMessage() + "fuid:" + fuid);

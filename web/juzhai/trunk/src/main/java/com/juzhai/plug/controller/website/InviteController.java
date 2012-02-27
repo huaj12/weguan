@@ -48,7 +48,7 @@ public class InviteController extends BaseController {
 		AjaxResult ajaxResult = new AjaxResult();
 		UserContext context = checkLoginForWeb(request);
 		List<String> list = null;
-		if (StringUtils.isEmpty(fuids)) {
+		if (StringUtils.isNotEmpty(fuids)) {
 			list = Arrays.asList(fuids.split(","));
 		}
 		try {
@@ -61,5 +61,6 @@ public class InviteController extends BaseController {
 
 		return ajaxResult;
 	}
+	
 
 }

@@ -14,8 +14,11 @@ import com.google.gdata.data.Link;
 import com.google.gdata.data.douban.UserEntry;
 import com.google.gdata.data.douban.UserFeed;
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.bean.TpFriend;
+import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.platform.service.IRelationshipService;
 
 @Service
@@ -28,9 +31,13 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 	public List<TpFriend> getAllFriends(AuthInfo authInfo) {
 		List<TpFriend> friendIdList = new ArrayList<TpFriend>();
 		String uid = authInfo.getTpIdentity();
+		Thirdparty tp = InitData.getTpByTpNameAndJoinType(
+				authInfo.getThirdpartyName(),
+				JoinTypeEnum.valueOf(authInfo.getJoinType()));
 		DoubanService doubanService = DoubanService.getDoubanService(
 				authInfo.getToken(), authInfo.getTokenSecret(),
-				authInfo.getAppKey(), authInfo.getAppSecret());
+				authInfo.getAppKey(), authInfo.getAppSecret(), tp.getAppId());
+
 		try {
 			// TODO (done) 不会死循环？
 			int i = 1;
@@ -66,9 +73,12 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 	public List<String> getAppFriends(AuthInfo authInfo) {
 		List<String> fuids = new ArrayList<String>();
 		String uid = authInfo.getTpIdentity();
+		Thirdparty tp = InitData.getTpByTpNameAndJoinType(
+				authInfo.getThirdpartyName(),
+				JoinTypeEnum.valueOf(authInfo.getJoinType()));
 		DoubanService doubanService = DoubanService.getDoubanService(
 				authInfo.getToken(), authInfo.getTokenSecret(),
-				authInfo.getAppKey(), authInfo.getAppSecret());
+				authInfo.getAppKey(), authInfo.getAppSecret(), tp.getAppId());
 		try {
 			// TODO (done) 不会死循环？
 			int i = 1;
@@ -96,9 +106,12 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 	public List<String> getInstallFollows(AuthInfo authInfo) {
 		List<String> fuids = new ArrayList<String>();
 		String uid = authInfo.getTpIdentity();
+		Thirdparty tp = InitData.getTpByTpNameAndJoinType(
+				authInfo.getThirdpartyName(),
+				JoinTypeEnum.valueOf(authInfo.getJoinType()));
 		DoubanService doubanService = DoubanService.getDoubanService(
 				authInfo.getToken(), authInfo.getTokenSecret(),
-				authInfo.getAppKey(), authInfo.getAppSecret());
+				authInfo.getAppKey(), authInfo.getAppSecret(), tp.getAppId());
 		try {
 			int i = 1;
 			while (true) {

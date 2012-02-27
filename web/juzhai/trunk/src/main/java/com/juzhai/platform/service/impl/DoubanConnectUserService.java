@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,8 +29,8 @@ import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.Municipal;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profile;
+import com.juzhai.passport.model.Province;
 import com.juzhai.passport.model.Thirdparty;
-import com.juzhai.passport.model.Town;
 
 @Service
 public class DoubanConnectUserService extends AbstractUserService {
@@ -113,34 +112,30 @@ public class DoubanConnectUserService extends AbstractUserService {
 					profile.setBlog(link.getHref());
 				}
 			}
+			profile.setLogoVerifyState(LogoVerifyState.NONE.getType());
 			// 用户简介
 			profile.setFeature(TextTruncateUtil.truncate(
 					HtmlUtils.htmlUnescape(user.getContent().getLang()),
 					featureLengthMax, StringUtils.EMPTY));
-			String cityName = user.getLocation();
+
 			City city = null;
-			Town town = null;
-			String[] str = cityName.split(" ");
-			if (ArrayUtils.isNotEmpty(str)) {
-				// 直辖市
-				if (Municipal.getMunicipalEnum(str[0]) != null) {
-					city = InitData.getCityByName(str[0]);
-					if (city != null) {
-						town = InitData.getTownByNameAndCityId(city.getId(),
-								str[str.length - 1]);
-					}
+			String cityName = user.getLocation();
+			if (StringUtils.isNotEmpty(cityName)) {
+				if (Municipal.getMunicipalEnum(cityName) != null) {
+					city = InitData.getCityByName(cityName);
 				} else {
 					// 非直辖市
-					city = InitData.getCityByName(str[str.length - 1]);
+					for (Province p : InitData.PROVINCE_MAP.values()) {
+						if (cityName.startsWith(p.getName())) {
+							city = InitData.getCityByName(cityName.substring(p
+									.getName().length()));
+						}
+					}
 				}
-
 			}
 			if (null != city) {
 				profile.setCity(city.getId());
 				profile.setProvince(city.getProvinceId());
-				if (null != town) {
-					profile.setTown(town.getId());
-				}
 			}
 			return profile;
 		} catch (Exception e) {

@@ -41,7 +41,7 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 		try {
 			int i = 1;
 			while (true) {
-				UserFeed userFeed = doubanService.getUserFriends(uid, i, 50);
+				UserFeed userFeed = doubanService.getContacts(uid, i, 50);
 				List<UserEntry> users = userFeed.getEntries();
 				for (UserEntry user : users) {
 					TpFriend tpFriend = new TpFriend();
@@ -81,7 +81,7 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 		try {
 			int i = 1;
 			while (true) {
-				UserFeed userFeed = doubanService.getUserFriends(uid, i, 50);
+				UserFeed userFeed = doubanService.getContacts(uid, i, 50);
 				List<UserEntry> users = userFeed.getEntries();
 				for (UserEntry user : users) {
 					if (isInstalled(authInfo.getThirdpartyName(), user.getUid())) {

@@ -117,13 +117,13 @@ public class FriendService implements IFriendService {
 	public void updateExpiredFriends(long uid, long tpId, AuthInfo authInfo) {
 		if (isExpired(uid)) {
 			if (null != authInfo) {
-				List<String> installFollows = relationshipService
-						.getInstallFollows(authInfo);
-				if (null != installFollows) {
-					listLongRedisTemplate.opsForValue().set(
-							RedisKeyGenerator.genInstallFollowsKey(uid),
-							getAppFriendUids(installFollows, tpId));
-				}
+				// List<String> installFollows = relationshipService
+				// .getInstallFollows(authInfo);
+				// if (null != installFollows) {
+				// listLongRedisTemplate.opsForValue().set(
+				// RedisKeyGenerator.genInstallFollowsKey(uid),
+				// getAppFriendUids(installFollows, tpId));
+				// }
 
 				// 第三方安装应用好友
 				List<String> appFriendIds = relationshipService

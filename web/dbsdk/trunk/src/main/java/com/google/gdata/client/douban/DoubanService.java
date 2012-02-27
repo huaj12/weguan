@@ -20,8 +20,8 @@ import net.oauth.client.OAuthHttpClient;
 import org.apache.commons.httpclient.HttpClient;
 
 import com.google.gdata.client.Query;
-import com.google.gdata.client.Service;
 import com.google.gdata.client.Query.CustomParameter;
+import com.google.gdata.client.Service;
 import com.google.gdata.client.http.GoogleGDataRequest;
 import com.google.gdata.data.BaseEntry;
 import com.google.gdata.data.ExtensionProfile;
@@ -47,7 +47,6 @@ import com.google.gdata.data.douban.TagEntry;
 import com.google.gdata.data.douban.TagFeed;
 import com.google.gdata.data.douban.UserEntry;
 import com.google.gdata.data.douban.UserFeed;
-import com.google.gdata.data.extensions.ContactFeed;
 import com.google.gdata.data.extensions.Rating;
 import com.google.gdata.util.ContentType;
 import com.google.gdata.util.ServiceException;

@@ -33,7 +33,7 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 		String uid = authInfo.getTpIdentity();
 		Thirdparty tp = InitData.getTpByTpNameAndJoinType(
 				authInfo.getThirdpartyName(),
-				JoinTypeEnum.valueOf(authInfo.getJoinType()));
+				JoinTypeEnum.getJoinTypeEnum(authInfo.getJoinType()));
 		DoubanService doubanService = DoubanService.getDoubanService(
 				authInfo.getToken(), authInfo.getTokenSecret(),
 				authInfo.getAppKey(), authInfo.getAppSecret(), tp.getAppId());
@@ -74,7 +74,7 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 		String uid = authInfo.getTpIdentity();
 		Thirdparty tp = InitData.getTpByTpNameAndJoinType(
 				authInfo.getThirdpartyName(),
-				JoinTypeEnum.valueOf(authInfo.getJoinType()));
+				JoinTypeEnum.getJoinTypeEnum(authInfo.getJoinType()));
 		DoubanService doubanService = DoubanService.getDoubanService(
 				authInfo.getToken(), authInfo.getTokenSecret(),
 				authInfo.getAppKey(), authInfo.getAppSecret(), tp.getAppId());
@@ -106,7 +106,7 @@ public class DoubanConnectRelationshipService implements IRelationshipService {
 		String uid = authInfo.getTpIdentity();
 		Thirdparty tp = InitData.getTpByTpNameAndJoinType(
 				authInfo.getThirdpartyName(),
-				JoinTypeEnum.valueOf(authInfo.getJoinType()));
+				JoinTypeEnum.getJoinTypeEnum(authInfo.getJoinType()));
 		DoubanService doubanService = DoubanService.getDoubanService(
 				authInfo.getToken(), authInfo.getTokenSecret(),
 				authInfo.getAppKey(), authInfo.getAppSecret(), tp.getAppId());

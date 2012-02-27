@@ -49,7 +49,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 		if (StringUtils.isNotEmpty(turnTo)) {
 			redirectURL = redirectURL + "?turnTo=" + turnTo;
 		}
-		DoubanService doubanService = new DoubanService("51juzhai",
+		DoubanService doubanService = new DoubanService(tp.getAppId(),
 				tp.getAppKey(), tp.getAppSecret());
 		url = doubanService.getAuthorizationUrl(redirectURL);
 		tokenMap.put(doubanService.getRequestToken(),
@@ -99,9 +99,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 
 			List<Link> links = user.getLinks();
 			for (Link link : links) {
-				if ("icon".equals(link.getRel())) {
-					profile.setNewLogoPic(link.getHref());
-				} else if ("homepage".equals(link.getRel())) {
+				if ("homepage".equals(link.getRel())) {
 					// //获取用户个人主页
 					profile.setBlog(link.getHref());
 				}

@@ -14,15 +14,27 @@ $(document).ready(function() {
 			return;
 		}
 		var uNames = "";
+		var uids = "";
 		var i = 0;
 		activeLi.each(function(){
-			if(i > 0){
-				uNames += ",";
+			var name = $(this).attr("name");
+			if(null != name){
+				if(i > 0){
+					uNames += ",";
+				}
+				uNames += name;
 			}
-			uNames += $(this).attr("name");
+
+			var uid = $(this).attr("uid");
+			if(null != uid){
+				if(i > 0){
+					uids += ",";
+				}
+				uids += uid;
+			}
 			i++;
 		});
-		invite(uNames);
+		invite(uNames, uids);
 		$("em#inviteError").hide();
 	});
 });

@@ -49,7 +49,7 @@ public class WeiboConnectSynchronizeService implements ISynchronizeService {
 	}
 
 	@Override
-	public void inviteMessage(AuthInfo authInfo, String text, byte[] image) {
+	public void inviteMessage(AuthInfo authInfo, String text, byte[] image,List<String> fuids) {
 		send(authInfo, text, image);
 	}
 

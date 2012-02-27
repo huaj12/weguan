@@ -56,8 +56,29 @@ public class DoubanConnectSynchronizeService implements ISynchronizeService {
 	}
 
 	@Override
-	public void inviteMessage(AuthInfo authInfo, String text, byte[] image) {
-		send(authInfo, text, image);
+	public void inviteMessage(AuthInfo authInfo, String text, byte[] image,List<String> fuids) {
+		if (CollectionUtils.isEmpty(fuids)) {
+			return;
+		}
+		for (String fuid : fuids) {
+			try {
+				Thirdparty tp = InitData.getTpByTpNameAndJoinType(
+						authInfo.getThirdpartyName(),
+						JoinTypeEnum.getJoinTypeEnum(authInfo.getJoinType()));
+				DoubanService doubanService = DoubanService.getDoubanService(
+						authInfo.getToken(), authInfo.getTokenSecret(),
+						authInfo.getAppKey(), authInfo.getAppSecret(),
+						tp.getAppId());
+				UserEntry entry = new UserEntry();
+				entry.setId(Namespaces.userURL + "/" + fuid);
+				DoumailEntry doumail = doubanService.sendDoumail(
+						new PlainTextConstruct(text), new PlainTextConstruct(
+								text), entry);
+			} catch (Exception e) {
+				log.error("connect douban sendSysMessage is error."
+						+ e.getMessage() + "fuid:" + fuid);
+			}
+		}
 	}
 
 	@Override

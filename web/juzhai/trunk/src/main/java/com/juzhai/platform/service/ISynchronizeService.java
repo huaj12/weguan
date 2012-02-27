@@ -36,7 +36,7 @@ public interface ISynchronizeService {
 	 * @param text
 	 * @param image
 	 */
-	void inviteMessage(AuthInfo authInfo, String text, byte[] image);
+	void inviteMessage(AuthInfo authInfo, String text, byte[] image,List<String> fuids);
 
 	/**
 	 * 发送通知

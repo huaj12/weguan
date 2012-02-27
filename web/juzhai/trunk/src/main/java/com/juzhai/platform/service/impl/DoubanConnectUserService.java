@@ -64,7 +64,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 		if (authInfo != null) {
 			Thirdparty tp = InitData.getTpByTpNameAndJoinType(
 					authInfo.getThirdpartyName(),
-					JoinTypeEnum.valueOf(authInfo.getJoinType()));
+					JoinTypeEnum.getJoinTypeEnum(authInfo.getJoinType()));
 			DoubanService doubanService = DoubanService.getDoubanService(
 					authInfo.getToken(), authInfo.getTokenSecret(),
 					authInfo.getAppKey(), authInfo.getAppSecret(),
@@ -95,7 +95,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 		try {
 			Thirdparty tp = InitData.getTpByTpNameAndJoinType(
 					authInfo.getThirdpartyName(),
-					JoinTypeEnum.valueOf(authInfo.getJoinType()));
+					JoinTypeEnum.getJoinTypeEnum(authInfo.getJoinType()));
 			DoubanService doubanService = DoubanService.getDoubanService(
 					authInfo.getToken(), authInfo.getTokenSecret(),
 					authInfo.getAppKey(), authInfo.getAppSecret(),

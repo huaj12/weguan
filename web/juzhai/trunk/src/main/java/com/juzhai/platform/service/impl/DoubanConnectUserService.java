@@ -113,10 +113,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 					profile.setBlog(link.getHref());
 				}
 			}
-			// TODO (done) 如果不取头像就删掉这行
-			profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
 			// 用户简介
-			// TODO (done) 像昵称一样，通过截字控制长度，防止报错
 			profile.setFeature(TextTruncateUtil.truncate(
 					HtmlUtils.htmlUnescape(user.getContent().getLang()),
 					featureLengthMax, StringUtils.EMPTY));
@@ -193,7 +190,6 @@ public class DoubanConnectUserService extends AbstractUserService {
 
 	@Override
 	protected String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
-		// TODO (none) 豆瓣没有appId的概念，是不是把applicationName存进appId字段呢？
 		DoubanService doubanService = new DoubanService(tp.getAppId(),
 				tp.getAppKey(), tp.getAppSecret());
 		doubanService.setRequestToken(code);

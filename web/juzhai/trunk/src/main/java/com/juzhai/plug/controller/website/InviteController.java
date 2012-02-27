@@ -1,5 +1,7 @@
 package com.juzhai.plug.controller.website;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,19 +34,20 @@ public class InviteController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		model.addAttribute("message", inviteService.showInvite(uids, names,
 				context.getTpId(), context.getUid()));
+		model.addAttribute("fuids", uids);
 		return "web/plug/invite/plug_invite_dialog";
 	}
 
 	@RequestMapping(value = { "/invite/send" }, method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult snedWeiboInvite(HttpServletRequest request,
-			HttpServletResponse response, Model model, String content)
-			throws NeedLoginException {
+			HttpServletResponse response, Model model, String content,
+			List<String> fuids) throws NeedLoginException {
 		AjaxResult ajaxResult = new AjaxResult();
 		UserContext context = checkLoginForWeb(request);
 		try {
 			ajaxResult.setSuccess(inviteService.sendIvite(content,
-					context.getTpId(), context.getUid()));
+					context.getTpId(), context.getUid(), fuids));
 		} catch (Exception e) {
 			log.error("weibo Ivite  is error", e);
 			ajaxResult.setSuccess(false);

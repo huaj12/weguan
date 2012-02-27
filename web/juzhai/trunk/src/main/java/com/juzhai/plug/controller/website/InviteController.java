@@ -1,10 +1,12 @@
 package com.juzhai.plug.controller.website;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +44,16 @@ public class InviteController extends BaseController {
 	@ResponseBody
 	public AjaxResult snedWeiboInvite(HttpServletRequest request,
 			HttpServletResponse response, Model model, String content,
-			List<String> fuids) throws NeedLoginException {
+			String fuids) throws NeedLoginException {
 		AjaxResult ajaxResult = new AjaxResult();
 		UserContext context = checkLoginForWeb(request);
+		List<String> list = null;
+		if (StringUtils.isEmpty(fuids)) {
+			list = Arrays.asList(fuids.split(","));
+		}
 		try {
 			ajaxResult.setSuccess(inviteService.sendIvite(content,
-					context.getTpId(), context.getUid(), fuids));
+					context.getTpId(), context.getUid(), list));
 		} catch (Exception e) {
 			log.error("weibo Ivite  is error", e);
 			ajaxResult.setSuccess(false);

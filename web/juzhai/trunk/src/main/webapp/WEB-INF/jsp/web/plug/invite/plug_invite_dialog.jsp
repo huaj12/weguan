@@ -11,6 +11,7 @@
 					<textarea name="" id="invite_content" cols="" rows="">${message}</textarea>
 				</div>
 				<div class="btn">
+					<input type="hidden" id="fuids" value="${fuids}"/>
 					<em>通过微博发布</em><a href="javascript:void(0);"
 						onclick="send_invite()">发布</a><b id="plug_invite_tip"'></b>
 				</div>

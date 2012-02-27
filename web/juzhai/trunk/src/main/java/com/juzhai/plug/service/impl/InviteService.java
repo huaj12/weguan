@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,9 +37,6 @@ public class InviteService implements IInviteService {
 	@Override
 	public boolean sendIvite(String content, long tpId, long uid,
 			List<String> fuids) {
-		if (CollectionUtils.isEmpty(fuids)) {
-			return false;
-		}
 		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
 		if (authInfo == null) {
 			return false;

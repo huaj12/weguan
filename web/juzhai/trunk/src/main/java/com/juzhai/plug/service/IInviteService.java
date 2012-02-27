@@ -1,5 +1,6 @@
 package com.juzhai.plug.service;
 
+import java.util.List;
 
 public interface IInviteService {
 	/**
@@ -11,7 +12,7 @@ public interface IInviteService {
 	 * @param uid
 	 * @return
 	 */
-	boolean sendIvite(String content, long tpId, long uid);
+	boolean sendIvite(String content, long tpId, long uid, List<String> fuids);
 
 	/**
 	 * 显示邀请内容

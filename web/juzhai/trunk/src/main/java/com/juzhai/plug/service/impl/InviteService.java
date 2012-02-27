@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,7 +36,11 @@ public class InviteService implements IInviteService {
 	private MessageSource messageSource;
 
 	@Override
-	public boolean sendIvite(String content, long tpId, long uid) {
+	public boolean sendIvite(String content, long tpId, long uid,
+			List<String> fuids) {
+		if (CollectionUtils.isEmpty(fuids)) {
+			return false;
+		}
 		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
 		if (authInfo == null) {
 			return false;
@@ -45,7 +50,7 @@ public class InviteService implements IInviteService {
 			return false;
 		}
 		String link = SystemConfig.getDomain();
-		synchronizeService.inviteMessage(authInfo, content + link, null);
+		synchronizeService.inviteMessage(authInfo, content + link, null, fuids);
 		return true;
 	}
 
@@ -67,7 +72,7 @@ public class InviteService implements IInviteService {
 		for (String str : list) {
 			atNames.add("@" + str);
 		}
-		return messageSource.getMessage(TpMessageKey.WEIBO_CONNECT_INVITE_TEXT,
+		return messageSource.getMessage(TpMessageKey.CONNECT_INVITE_TEXT,
 				new Object[] { StringUtils.join(atNames, " ") },
 				Locale.SIMPLIFIED_CHINESE);
 	}

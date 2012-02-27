@@ -25,6 +25,7 @@ import com.google.gdata.data.douban.UserEntry;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.Municipal;
 import com.juzhai.passport.model.City;
@@ -38,7 +39,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 	private static Map<String, String> tokenMap = new HashMap<String, String>();
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
-	@Value(value="${feature.length.max}")
+	@Value(value = "${feature.length.max}")
 	private int featureLengthMax;
 
 	@Override
@@ -61,9 +62,13 @@ public class DoubanConnectUserService extends AbstractUserService {
 	public List<String> getUserNames(AuthInfo authInfo, List<String> fuids) {
 		List<String> list = new ArrayList<String>();
 		if (authInfo != null) {
+			Thirdparty tp = InitData.getTpByTpNameAndJoinType(
+					authInfo.getThirdpartyName(),
+					JoinTypeEnum.valueOf(authInfo.getJoinType()));
 			DoubanService doubanService = DoubanService.getDoubanService(
 					authInfo.getToken(), authInfo.getTokenSecret(),
-					authInfo.getAppKey(), authInfo.getAppSecret());
+					authInfo.getAppKey(), authInfo.getAppSecret(),
+					tp.getAppId());
 			if (CollectionUtils.isNotEmpty(fuids)) {
 				for (String fuid : fuids) {
 					UserEntry user = null;
@@ -88,9 +93,13 @@ public class DoubanConnectUserService extends AbstractUserService {
 			HttpServletResponse response, AuthInfo authInfo,
 			String thirdpartyIdentity) {
 		try {
+			Thirdparty tp = InitData.getTpByTpNameAndJoinType(
+					authInfo.getThirdpartyName(),
+					JoinTypeEnum.valueOf(authInfo.getJoinType()));
 			DoubanService doubanService = DoubanService.getDoubanService(
 					authInfo.getToken(), authInfo.getTokenSecret(),
-					authInfo.getAppKey(), authInfo.getAppSecret());
+					authInfo.getAppKey(), authInfo.getAppSecret(),
+					tp.getAppId());
 			UserEntry user = doubanService.getAuthorizedUser();
 			Profile profile = new Profile();
 			profile.setNickname(TextTruncateUtil.truncate(
@@ -104,10 +113,10 @@ public class DoubanConnectUserService extends AbstractUserService {
 					profile.setBlog(link.getHref());
 				}
 			}
-			//TODO (done) 如果不取头像就删掉这行
+			// TODO (done) 如果不取头像就删掉这行
 			profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
 			// 用户简介
-			//TODO (done) 像昵称一样，通过截字控制长度，防止报错
+			// TODO (done) 像昵称一样，通过截字控制长度，防止报错
 			profile.setFeature(TextTruncateUtil.truncate(
 					HtmlUtils.htmlUnescape(user.getContent().getLang()),
 					featureLengthMax, StringUtils.EMPTY));
@@ -161,7 +170,8 @@ public class DoubanConnectUserService extends AbstractUserService {
 		try {
 			String[] str = accessToken.split(",");
 			DoubanService doubanService = DoubanService.getDoubanService(
-					str[0], str[1], tp.getAppKey(), tp.getAppSecret());
+					str[0], str[1], tp.getAppKey(), tp.getAppSecret(),
+					tp.getAppId());
 			UserEntry user = doubanService.getAuthorizedUser();
 			uid = user.getUid();
 			authInfo.setThirdparty(tp);
@@ -183,7 +193,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 
 	@Override
 	protected String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
-		//TODO (none) 豆瓣没有appId的概念，是不是把applicationName存进appId字段呢？
+		// TODO (none) 豆瓣没有appId的概念，是不是把applicationName存进appId字段呢？
 		DoubanService doubanService = new DoubanService(tp.getAppId(),
 				tp.getAppKey(), tp.getAppSecret());
 		doubanService.setRequestToken(code);

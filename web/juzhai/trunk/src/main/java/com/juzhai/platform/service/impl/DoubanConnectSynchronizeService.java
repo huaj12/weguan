@@ -19,7 +19,10 @@ import com.google.gdata.data.douban.MiniblogEntry;
 import com.google.gdata.data.douban.MiniblogFeed;
 import com.google.gdata.data.douban.Namespaces;
 import com.google.gdata.data.douban.UserEntry;
+import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.JoinTypeEnum;
+import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.bean.UserStatus;
@@ -38,9 +41,13 @@ public class DoubanConnectSynchronizeService implements ISynchronizeService {
 
 	private void send(AuthInfo authInfo, String text, byte[] image) {
 		try {
+			Thirdparty tp = InitData.getTpByTpNameAndJoinType(
+					authInfo.getThirdpartyName(),
+					JoinTypeEnum.valueOf(authInfo.getJoinType()));
 			DoubanService doubanService = DoubanService.getDoubanService(
-					authInfo.getToken(),authInfo.getTokenSecret(), authInfo.getAppKey(),
-					authInfo.getAppSecret());
+					authInfo.getToken(), authInfo.getTokenSecret(),
+					authInfo.getAppKey(), authInfo.getAppSecret(),
+					tp.getAppId());
 			doubanService.createSaying(new PlainTextConstruct(text));
 		} catch (Exception e) {
 			log.error("douban connect sendMessage is error. " + e.getMessage(),
@@ -60,9 +67,13 @@ public class DoubanConnectSynchronizeService implements ISynchronizeService {
 		}
 		for (String fuid : fuids) {
 			try {
+				Thirdparty tp = InitData.getTpByTpNameAndJoinType(
+						authInfo.getThirdpartyName(),
+						JoinTypeEnum.valueOf(authInfo.getJoinType()));
 				DoubanService doubanService = DoubanService.getDoubanService(
-						authInfo.getToken(),authInfo.getTokenSecret(), authInfo.getAppKey(),
-						authInfo.getAppSecret());
+						authInfo.getToken(), authInfo.getTokenSecret(),
+						authInfo.getAppKey(), authInfo.getAppSecret(),
+						tp.getAppId());
 				UserEntry entry = new UserEntry();
 				entry.setId(Namespaces.userURL + "/" + fuid);
 				DoumailEntry doumail = doubanService.sendDoumail(
@@ -80,9 +91,13 @@ public class DoubanConnectSynchronizeService implements ISynchronizeService {
 	public List<UserStatus> listStatus(AuthInfo authInfo, long fuid, int size) {
 		List<UserStatus> userStatusList = new ArrayList<UserStatus>();
 		try {
+			Thirdparty tp = InitData.getTpByTpNameAndJoinType(
+					authInfo.getThirdpartyName(),
+					JoinTypeEnum.valueOf(authInfo.getJoinType()));
 			DoubanService doubanService = DoubanService.getDoubanService(
-					authInfo.getToken(),authInfo.getTokenSecret(), authInfo.getAppKey(),
-					authInfo.getAppSecret());
+					authInfo.getToken(), authInfo.getTokenSecret(),
+					authInfo.getAppKey(), authInfo.getAppSecret(),
+					tp.getAppId());
 			TpUser fUser = tpUserService.getTpUserByUid(fuid);
 			MiniblogFeed miniblogFeed = doubanService.getUserMiniblogs(
 					fUser.getTpIdentity(), 1, size);
@@ -90,7 +105,8 @@ public class DoubanConnectSynchronizeService implements ISynchronizeService {
 			if (CollectionUtils.isNotEmpty(status)) {
 				for (MiniblogEntry s : status) {
 					UserStatus userStatus = new UserStatus();
-					userStatus.setContent(((TextContent)s.getContent()).getContent().getPlainText());
+					userStatus.setContent(((TextContent) s.getContent())
+							.getContent().getPlainText());
 					userStatus.setTime(new Date(s.getPublished().getValue()));
 					userStatusList.add(userStatus);
 				}

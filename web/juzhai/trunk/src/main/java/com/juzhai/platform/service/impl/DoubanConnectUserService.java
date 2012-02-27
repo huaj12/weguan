@@ -2,6 +2,7 @@ package com.juzhai.platform.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.lucene.util.CollectionUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
@@ -59,32 +61,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 
 	@Override
 	public List<String> getUserNames(AuthInfo authInfo, List<String> fuids) {
-		List<String> list = new ArrayList<String>();
-		if (authInfo != null) {
-			Thirdparty tp = InitData.getTpByTpNameAndJoinType(
-					authInfo.getThirdpartyName(),
-					JoinTypeEnum.getJoinTypeEnum(authInfo.getJoinType()));
-			DoubanService doubanService = DoubanService.getDoubanService(
-					authInfo.getToken(), authInfo.getTokenSecret(),
-					authInfo.getAppKey(), authInfo.getAppSecret(),
-					tp.getAppId());
-			if (CollectionUtils.isNotEmpty(fuids)) {
-				for (String fuid : fuids) {
-					UserEntry user = null;
-					try {
-						user = doubanService.getUser(fuid);
-					} catch (Exception e) {
-						log.error("douban getInviteReceiverName is error"
-								+ e.getMessage());
-					}
-					if (user != null) {
-						TextConstruct title = user.getTitle();
-						list.add(title.getPlainText());
-					}
-				}
-			}
-		}
-		return list;
+		return Collections.emptyList();
 	}
 
 	@Override
@@ -109,7 +86,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 			for (Link link : links) {
 				if ("alternate".equals(link.getRel())) {
 					// //获取用户个人主页
-					profile.setBlog(link.getHref());
+					profile.setBlog(link.getHref().replaceFirst("http://", ""));
 				}
 			}
 			profile.setLogoVerifyState(LogoVerifyState.NONE.getType());

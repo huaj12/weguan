@@ -27,7 +27,8 @@ public interface ISynchronizeService {
 	 * @param fuid
 	 * @param image
 	 */
-	void sendMessage(AuthInfo authInfo, String text, byte[] image);
+	void sendMessage(AuthInfo authInfo, String title, String text, String link,
+			byte[] image, String imageUrl);
 
 	/**
 	 * 发送邀请
@@ -36,7 +37,8 @@ public interface ISynchronizeService {
 	 * @param text
 	 * @param image
 	 */
-	void inviteMessage(AuthInfo authInfo, String text, byte[] image,List<String> fuids);
+	void inviteMessage(AuthInfo authInfo, String text, byte[] image,
+			List<String> fuids);
 
 	/**
 	 * 发送通知

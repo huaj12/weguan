@@ -35,11 +35,12 @@ public class DoubanConnectSynchronizeService implements ISynchronizeService {
 	private ITpUserService tpUserService;
 
 	@Override
-	public void sendMessage(AuthInfo authInfo, String text, byte[] image) {
-		send(authInfo, text, image);
+	public void sendMessage(AuthInfo authInfo, String title, String text,
+			String link, byte[] image, String imageUrl) {
+		send(authInfo, text + link);
 	}
 
-	private void send(AuthInfo authInfo, String text, byte[] image) {
+	private void send(AuthInfo authInfo, String text) {
 		try {
 			Thirdparty tp = InitData.getTpByTpNameAndJoinType(
 					authInfo.getThirdpartyName(),
@@ -65,7 +66,7 @@ public class DoubanConnectSynchronizeService implements ISynchronizeService {
 		for (String fuid : fuids) {
 			userIds += "@" + fuid + " ";
 		}
-		send(authInfo, userIds + text, image);
+		send(authInfo, userIds + text);
 	}
 
 	@Override

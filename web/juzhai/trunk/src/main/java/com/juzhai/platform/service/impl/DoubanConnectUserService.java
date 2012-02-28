@@ -14,14 +14,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.lucene.util.CollectionUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 import com.google.gdata.client.douban.DoubanService;
 import com.google.gdata.data.Link;
-import com.google.gdata.data.TextConstruct;
 import com.google.gdata.data.douban.UserEntry;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.passport.InitData;
@@ -116,7 +114,8 @@ public class DoubanConnectUserService extends AbstractUserService {
 			}
 			return profile;
 		} catch (Exception e) {
-			log.error("weibo  convertToProfile is erorr." + e.getMessage());
+			log.error("douban content convertToProfile is error."
+					+ e.getMessage());
 			return null;
 		}
 	}
@@ -170,6 +169,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 		try {
 			list = doubanService.getAccessToken();
 		} catch (Exception e) {
+			log.error("douban content getOAuthAccessTokenFromCode is error."+e.getMessage());
 		}
 		// 删除token_secret
 		tokenMap.remove(code);

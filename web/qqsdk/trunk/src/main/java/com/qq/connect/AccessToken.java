@@ -5,6 +5,8 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -12,6 +14,7 @@ import org.apache.http.message.BasicNameValuePair;
 import com.qq.oauth.Config;
 import com.qq.oauth.OAuth;
 import com.qq.util.HttpClientUtils;
+import com.qq.util.ParseString;
 
 public class AccessToken extends Config {
 
@@ -19,9 +22,9 @@ public class AccessToken extends Config {
 		super(appKey, appSecret);
 	}
 
-	public String getAccessToken(String oauth_token, String oauth_token_secret,
-			String oauth_vericode) throws IOException, InvalidKeyException,
-			NoSuchAlgorithmException {
+	public Map<String, String> getAccessToken(String oauth_token,
+			String oauth_token_secret, String oauth_vericode)
+			throws IOException, InvalidKeyException, NoSuchAlgorithmException {
 
 		String url = "http://openapi.qzone.qq.com/oauth/qzoneoauth_access_token";
 
@@ -45,8 +48,7 @@ public class AccessToken extends Config {
 
 		url += "?" + OAuth.getSerialParameters(parameters, true);
 		DefaultHttpClient httpclient = HttpClientUtils.getHttpClient();
-		String html = HttpClientUtils.getHtml(httpclient, url, "UTF-8");
-
-		return html;
+		String content = HttpClientUtils.getHtml(httpclient, url, "UTF-8");
+		return ParseString.parseTokenString(content);
 	}
 }

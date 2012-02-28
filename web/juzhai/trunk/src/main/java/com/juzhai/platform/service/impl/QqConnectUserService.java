@@ -50,9 +50,10 @@ public class QqConnectUserService extends AbstractUserService {
 		try {
 			RequestToken rt = new RequestToken(tp.getAppKey(),
 					tp.getAppSecret());
-			String requesttoken = rt.getRequestToken();
+			String requestToken = rt.getRequestToken();
+			//TODO (review) sdk里去搞
 			HashMap<String, String> tokens = ParseString
-					.parseTokenString(requesttoken);
+					.parseTokenString(requestToken);
 			tokenMap.put(tokens.get("oauth_token"),
 					tokens.get("oauth_token_secret"));
 			RedirectToken ret = new RedirectToken(tp.getAppKey(),
@@ -139,12 +140,16 @@ public class QqConnectUserService extends AbstractUserService {
 		String[] str = code.split(",");
 		String oauth_token = str[0];
 		String oauth_vericode = str[1];
+		// TODO (review) 不要初始化空字符串
 		String accessToken = "";
 		try {
+			// TODO (review) tokenMap的里用完没有删除
 			String content = new AccessToken(tp.getAppKey(), tp.getAppSecret())
 					.getAccessToken(oauth_token, tokenMap.get(oauth_token),
 							oauth_vericode);
+			// TODO (review) 这个parseTokenString写到sdk里吧
 			Map<String, String> map = ParseString.parseTokenString(content);
+			// TODO (review) 下面这种方式拼接字符串的话就用StringBuilder 否则就连着+下去
 			accessToken += map.get("oauth_token");
 			accessToken += "," + map.get("oauth_token_secret");
 			accessToken += "," + map.get("openid");

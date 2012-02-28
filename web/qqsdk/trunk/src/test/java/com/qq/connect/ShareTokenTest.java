@@ -19,8 +19,11 @@ public class ShareTokenTest {
 		String oauth_token_secret = "KhzgDDqF6eTmS5JA";
 
 		Map<String, String> shares = new HashMap<String, String>();
-		shares.put("title", "我开始使用B3log了，快来看看吧!");
-		shares.put("url", "http://www.51juzhai.com");
+		shares.put("images",
+				"http://t2.qlogo.cn/mbloghead/a9d7a7ec3847e59b0954/180");
+		shares.put("title", "我开始使用拒宅网了，快来看看吧!");
+		shares.put("url", "http://www.51juzhai.com/home");
+		shares.put("summary", "lalal");
 		System.out.println(new ShareToken("100249114",
 				"570f9120b30fb9e43a1080f6d0449336").addShare(
 				"18187558463735926225", "gb7QvXuvKWMaDuq9",

@@ -14,6 +14,8 @@ public enum ThirdpartyNameEnum {
 	WEIBO("weibo"),
 	// 人人
 	RENREN("renren"),
+	// qqzone
+	QQ("qq"),
 	// 腾讯微博
 	TQQ("tQQ"),
 	// 豆瓣

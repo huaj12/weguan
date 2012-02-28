@@ -6,6 +6,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -31,7 +33,6 @@ public class ShareToken extends Config {
 
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("format", "json"));
-		parameters.add(new BasicNameValuePair("images", shares.get("images")));
 		parameters
 				.add(new BasicNameValuePair(OAuth.OAUTH_CONSUMER_KEY, appKey));
 		parameters.add(new BasicNameValuePair(OAuth.OAUTH_NONCE, OAuth
@@ -44,8 +45,10 @@ public class ShareToken extends Config {
 		parameters.add(new BasicNameValuePair(OAuth.OAUTH_VERSION,
 				OAuth.OAUTH_VERSION_VALUE));
 		parameters.add(new BasicNameValuePair(OAuth.OPENID, openid));
-		parameters.add(new BasicNameValuePair("title", shares.get("title")));
-		parameters.add(new BasicNameValuePair("url", shares.get("url")));
+		for (Entry<String, String> object : shares.entrySet()) {
+			parameters.add(new BasicNameValuePair(object.getKey(), object
+					.getValue()));
+		}
 		parameters.add(new BasicNameValuePair(OAuth.OAUTH_SIGNATURE, OAuth
 				.getOauthSignature("POST", url, parameters, oauth_token_secret,
 						appSecret)));
@@ -62,5 +65,4 @@ public class ShareToken extends Config {
 		return JackSonSerializer.toMap(HttpClientUtils.getHtml(loginPostRes,
 				"UTF-8", false));
 	}
-
 }

@@ -37,7 +37,8 @@ public class QqConnectSynchronizeService implements ISynchronizeService {
 			Map<String, String> code = share.addShare(authInfo.getToken(),
 					authInfo.getTokenSecret(), authInfo.getTpIdentity(), map);
 			if (!"ok".equals(code.get("msg"))) {
-				log.error("QQ content sendMessage is error." + code.get("msg"));
+				log.error("QQ content sendMessage is error. msg="
+						+ code.get("msg") + "| ret=" + code.get("ret"));
 			}
 		} catch (Exception e) {
 			log.error("QQ content sendMessage is error." + e.getMessage());

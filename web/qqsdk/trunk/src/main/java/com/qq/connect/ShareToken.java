@@ -25,7 +25,7 @@ public class ShareToken extends Config {
 	}
 
 	// 参数顺序不能改改了会出现签名的错误。
-	public Map<String, String> addShare(String oauth_token,
+	public Map<String, Object> addShare(String oauth_token,
 			String oauth_token_secret, String openid, Map<String, String> shares)
 			throws IOException, InvalidKeyException, NoSuchAlgorithmException {
 

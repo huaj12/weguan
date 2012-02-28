@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
@@ -29,6 +30,7 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
@@ -115,6 +117,8 @@ public class PostService implements IPostService {
 	private int postIntervalExpireTime;
 	@Value("${all.response.cnt.expire.time}")
 	private int allResponseCntExpireTime;
+	@Value("${synchronize.title.length.max}")
+	private int synchronizeTitleLengthMax;
 
 	@Override
 	public long createPost(long uid, PostForm postForm)
@@ -859,11 +863,11 @@ public class PostService implements IPostService {
 					SynchronizeWeiboTemplate.SYNCHRONIZE_TEXT.getName(),
 					new Object[] { content, time == null ? "" : time, place,
 							postId }, Locale.SIMPLIFIED_CHINESE);
-			String link = messageSource.getMessage(
-					SynchronizeWeiboTemplate.SYNCHRONIZE_LINK.getName(),
-					new Object[] { postId }, Locale.SIMPLIFIED_CHINESE);
+			String link = TextTruncateUtil.truncate(
+					HtmlUtils.htmlUnescape(content), synchronizeTitleLengthMax,
+					"...");
 			String title = messageSource.getMessage(
-					SynchronizeWeiboTemplate.SYNCHRONIZE_TITLE.getName(), null,
+					"synchronize.title." + post.getPurposeType(), null,
 					Locale.SIMPLIFIED_CHINESE);
 			byte[] image = null;
 			String imageUrl = null;

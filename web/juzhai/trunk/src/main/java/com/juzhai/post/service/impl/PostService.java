@@ -29,6 +29,7 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.passport.bean.AuthInfo;
@@ -860,12 +861,22 @@ public class PostService implements IPostService {
 					SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_TEXT.getName(),
 					new Object[] { content, time == null ? "" : time, place,
 							postId }, Locale.SIMPLIFIED_CHINESE);
+			String link = messageSource.getMessage(
+					SynchronizeWeiboTemplate.SYNCHRONIZE_LINK.getName(),
+					new Object[] { postId }, Locale.SIMPLIFIED_CHINESE);
+			String title = messageSource.getMessage(
+					SynchronizeWeiboTemplate.SYNCHRONIZE_TITLE.getName(), null,
+					Locale.SIMPLIFIED_CHINESE);
 			byte[] image = null;
+			String imageUrl = null;
 			if (StringUtils.isNotEmpty(post.getPic())) {
 				image = postImageService.getPostFile(postId, post.getIdeaId(),
 						post.getPic(), JzImageSizeType.ORIGINAL);
+				imageUrl = JzResourceFunction.postPic(postId, post.getIdeaId(),
+						post.getPic(), JzImageSizeType.MIDDLE.getType());
 			}
-			synchronizeService.sendMessage(authInfo, text, image);
+			synchronizeService.sendMessage(authInfo, title, text, link, image,
+					imageUrl);
 		} catch (Exception e) {
 			log.error("synchronizeWeibo is error " + e.getMessage());
 		}

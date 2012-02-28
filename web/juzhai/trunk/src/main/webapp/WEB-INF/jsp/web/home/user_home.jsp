@@ -44,31 +44,33 @@
 							</div>
 							<div class="t"></div>
 						</div><!--content end-->
-						<div class="content_box w660"><!--content begin-->
-							<div class="t"></div>
-							<div class="m">
-								<div class="weibo"><!--weibo begin-->
-									<h2>ta的<c:choose><c:when test="${tpUser.tpName == 'weibo'}">最新微博</c:when><c:when test="${tpUser.tpName == 'douban'}">豆瓣广播</c:when></c:choose></h2>
-									<ul>
-										<c:choose>
-											<c:when test="${empty userStatusList}">
-												<div class="none">ta还没有原创的微博</div>
-											</c:when>
-											<c:otherwise>
-												<c:forEach var="userStatus" items="${userStatusList}">
-													<li>
-														<p>"${userStatus.content}"</p>
-														<span>发布于 <fmt:formatDate value="${userStatus.time}" pattern="yyyy.MM.dd"/></span>
-													</li>
-												</c:forEach>
-											</c:otherwise>
-										</c:choose>
-									</ul>
-									<div class="wb_more"><a href="#"></a></div>
-								</div><!--weibo end-->
-							</div>
-							<div class="t"></div>
-						</div><!--content end-->
+						<c:if test="${tpUser != null && tpUser.tpName != 'qq'}">
+							<div class="content_box w660"><!--content begin-->
+								<div class="t"></div>
+								<div class="m">
+									<div class="weibo"><!--weibo begin-->
+										<h2>ta的<c:choose><c:when test="${tpUser.tpName == 'weibo'}">最新微博</c:when><c:when test="${tpUser.tpName == 'douban'}">豆瓣广播</c:when></c:choose></h2>
+										<ul>
+											<c:choose>
+												<c:when test="${empty userStatusList}">
+													<div class="none">ta还没有原创的微博</div>
+												</c:when>
+												<c:otherwise>
+													<c:forEach var="userStatus" items="${userStatusList}">
+														<li>
+															<p>"${userStatus.content}"</p>
+															<span>发布于 <fmt:formatDate value="${userStatus.time}" pattern="yyyy.MM.dd"/></span>
+														</li>
+													</c:forEach>
+												</c:otherwise>
+											</c:choose>
+										</ul>
+										<div class="wb_more"><a href="#"></a></div>
+									</div><!--weibo end-->
+								</div>
+								<div class="t"></div>
+							</div><!--content end-->
+						</c:if>
 					</div><!--main_left end-->
 					<div class="main_right"><!--main_right begin-->
 						<jsp:include page="common/home_info_right.jsp" />

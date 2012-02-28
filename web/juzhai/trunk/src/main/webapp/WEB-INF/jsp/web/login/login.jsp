@@ -23,6 +23,7 @@
 								<div class="btn">
 									<a href="/web/login/6?turnTo=${turnTo}"><img src="${jzr:static('/images/web2/weibo_btn.gif')}" /></a>
 									<a href="/web/login/7?turnTo=${turnTo}"><img src="${jzr:static('/images/web2/douban_btn.gif')}" /></a>
+									<a href="/web/login/8?turnTo=${turnTo}"><img src="${jzr:static('/images/web2/qq_btn.gif')}" /></a>
 								</div>
 							</div><!--l_left end-->
 							<div class="l_right">

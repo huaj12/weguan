@@ -31,11 +31,9 @@ $(document).ready(function(){
 //	}, registerClosChannel);
 	
 	//登录
-	$("div.welcome_login > a.wb").bind("click", function(){
-		window.location.href = "/web/login/6?turnTo=" + window.location.href; 
-	});
-	$("div.welcome_login > a.db").bind("click", function(){
-		window.location.href = "/web/login/7?turnTo=" + window.location.href; 
+	$("div.welcome_login > a").bind("click", function(){
+		var uri = $(this).attr("go-uri");
+		window.location.href = uri + "?turnTo=" + window.location.href; 
 	});
 	
 //	var messageTimerId = null;

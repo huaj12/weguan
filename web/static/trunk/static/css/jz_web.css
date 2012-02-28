@@ -376,7 +376,8 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 .send_area .tb em.db{ background:url(../images/web2/link_db16.png) no-repeat; width:16px; height:16px; margin-top:3px;}
 .send_area .tb_click em.db{ background:url(../images/web2/db16.png) no-repeat;}
 
-
+.send_area .tb em.qq{ background:url(../images/web2/link_qq16.png) no-repeat; width:16px; height:16px; margin-top:3px;}
+.send_area .tb_click em.qq{ background:url(../images/web2/qq16.png) no-repeat;}
 
 
 .send_area .input{ float:left; margin-left:10px; margin-top:10px; display:inline; }
@@ -1608,7 +1609,7 @@ i{ color:#FF0000; font-style:normal;}
 .welcome_login a{ display:block; width:16px; height:16px; float:left; margin-right:10px; display:inline; overflow:hidden;}
 .welcome_login a.wb{ background:url(../images/web2/wb16.png) no-repeat;}
 .welcome_login a.db{background:url(../images/web2/db16.png) no-repeat;}
-
+.welcome_login a.qq{background:url(../images/web2/qq16.png) no-repeat;}
 
 .bottom_welcome{
 width:100%; position:fixed; bottom:0px; left:0px; z-index:1000;

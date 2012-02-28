@@ -96,7 +96,13 @@
 		<div class="sending" style="display:none;"><a href="javascript:void(0)">发布中</a></div>
 		<div class="tb">
 			<input type="hidden" name="sendWeibo" value="false"/>
-			<span></span><p>同步到:</p><c:choose><c:when test="${context.tpName == 'weibo'}"><em class="wb"></em></c:when><c:when test="${context.tpName == 'douban'}"><em class="db"></em></c:when></c:choose>
+			<span></span>
+			<p>同步到:</p>
+			<c:choose>
+				<c:when test="${context.tpName == 'weibo'}"><em class="wb"></em></c:when>
+				<c:when test="${context.tpName == 'douban'}"><em class="db"></em></c:when>
+				<c:when test="${context.tpName == 'qq'}"><em class="qq"></em></c:when>
+			</c:choose>
 		</div>
 	</div><!--send_area end-->
 </form>

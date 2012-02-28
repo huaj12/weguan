@@ -26,7 +26,11 @@
 			</div><!--my_message end-->
 		</c:if>
 		<c:if test="${context.uid<=0}">
-			<div class="welcome_login"><p>登录:</p><a href="javascript:void(0);" class="wb" title="使用微博账号登录"></a><a href="javascript:void(0);" class="db"  title="使用豆瓣账号登录"></a></div>
+			<div class="welcome_login"><p>登录:</p>
+				<a href="javascript:void(0);" class="wb" title="使用微博账号登录" go-uri="/web/login/6"></a>
+				<a href="javascript:void(0);" class="db"  title="使用豆瓣账号登录" go-uri="/web/login/7"></a>
+				<a href="javascript:void(0);" class="qq"  title="使用QQ账号登录" go-uri="/web/login/8"></a>
+			</div>
 		</c:if>
 		<div class="user_area"><!--user_area begin-->
 			<c:if test="${context.uid > 0}">
@@ -36,6 +40,7 @@
 							<c:choose>
 								<c:when test="${context.tpName == 'weibo'}"><img src="${jzr:static('/images/web2/sina_icon.png')}" /></c:when>
 								<c:when test="${context.tpName == 'douban'}"><img src="${jzr:static('/images/web2/db16.png')}" /></c:when>
+								<c:when test="${context.tpName == 'qq'}"><img src="${jzr:static('/images/web2/qq16.png')}" /></c:when>
 								<c:otherwise><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}" height="20" width="20" /></c:otherwise>
 							</c:choose>
 						</p>

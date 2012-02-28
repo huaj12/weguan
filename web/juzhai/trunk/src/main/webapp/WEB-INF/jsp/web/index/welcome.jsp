@@ -19,7 +19,11 @@
 					<div class="beta"></div>
 					<div class="top"><!--top begin-->
 						<h2></h2>
-						<div class="welcome_login"><p>登录:</p><a href="/web/login/6?turnTo=${turnTo}" class="wb" title="使用微博账号登录"></a><a href="/web/login/7?turnTo=${turnTo}" class="db"  title="使用豆瓣账号登录"></a></div>
+						<div class="welcome_login"><p>登录:</p>
+							<a href="/web/login/6?turnTo=${turnTo}" class="wb" title="使用微博账号登录"></a>
+							<a href="/web/login/7?turnTo=${turnTo}" class="db"  title="使用豆瓣账号登录"></a>
+							<a href="/web/login/8?turnTo=${turnTo}" class="qq"  title="使用QQ账号登录"></a>
+						</div>
 					</div><!--top end-->
 				</div><!--fix_top end-->
 				<div class="welcome"><!--welcome begin-->

@@ -29,8 +29,9 @@ public class WeiboConnectSynchronizeService implements ISynchronizeService {
 	private ITpUserService tpUserService;
 
 	@Override
-	public void sendMessage(AuthInfo authInfo, String text, byte[] image) {
-		send(authInfo, text, image);
+	public void sendMessage(AuthInfo authInfo, String title, String text,
+			String link, byte[] image, String imageUrl) {
+		send(authInfo, text + link, image);
 	}
 
 	private void send(AuthInfo authInfo, String text, byte[] image) {
@@ -49,7 +50,8 @@ public class WeiboConnectSynchronizeService implements ISynchronizeService {
 	}
 
 	@Override
-	public void inviteMessage(AuthInfo authInfo, String text, byte[] image,List<String> fuids) {
+	public void inviteMessage(AuthInfo authInfo, String text, byte[] image,
+			List<String> fuids) {
 		send(authInfo, text, image);
 	}
 

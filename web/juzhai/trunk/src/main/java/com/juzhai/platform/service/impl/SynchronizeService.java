@@ -81,15 +81,19 @@ public class SynchronizeService implements ISynchronizeService,
 	}
 
 	@Override
-	public void sendMessage(AuthInfo authInfo, String text, byte[] image) {
+	public void sendMessage(AuthInfo authInfo, String title, String text,
+			String link, byte[] image, String imageUrl) {
 		getSynchronizeServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).sendMessage(authInfo, text, image);
+				authInfo.getJoinType()).sendMessage(authInfo, title, text,
+				link, image, imageUrl);
 	}
 
 	@Override
-	public void inviteMessage(AuthInfo authInfo, String text, byte[] image,List<String> fuids) {
+	public void inviteMessage(AuthInfo authInfo, String text, byte[] image,
+			List<String> fuids) {
 		getSynchronizeServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).inviteMessage(authInfo, text, image,fuids);
+				authInfo.getJoinType()).inviteMessage(authInfo, text, image,
+				fuids);
 	}
 
 	@Override

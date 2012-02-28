@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
@@ -26,14 +27,15 @@ public class QqConnectSynchronizeService implements ISynchronizeService {
 		try {
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("title", title);
-			map.put("link", link);
-			map.put("summary", text);
-			map.put("images", imageUrl);
-			map.put("format", "json");
-			map.put("source", "1");
-			map.put("type", "4");
-			share.addShare(authInfo.getToken(), authInfo.getTokenSecret(),
-					authInfo.getTpIdentity(), map);
+			map.put("url", link);
+			if (StringUtils.isNotEmpty(text)) {
+				map.put("summary", text);
+			}
+			if (StringUtils.isNotEmpty(imageUrl)) {
+				map.put("images", imageUrl);
+			}
+			System.out.println(share.addShare(authInfo.getToken(),
+					authInfo.getTokenSecret(), authInfo.getTpIdentity(), map));
 		} catch (Exception e) {
 			log.error("QQ content sendMessage is error." + e.getMessage());
 		}

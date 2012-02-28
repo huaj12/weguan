@@ -17,7 +17,6 @@ import com.google.gdata.data.TextContent;
 import com.google.gdata.data.douban.DoumailEntry;
 import com.google.gdata.data.douban.MiniblogEntry;
 import com.google.gdata.data.douban.MiniblogFeed;
-import com.google.gdata.data.douban.Namespaces;
 import com.google.gdata.data.douban.UserEntry;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;

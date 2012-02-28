@@ -84,7 +84,7 @@ public class QqConnectUserService extends AbstractUserService {
 					HtmlUtils.htmlUnescape(map.get("nickname")),
 					nicknameLengthMax, StringUtils.EMPTY));
 			profile.setNewLogoPic(map.get("figureurl_2"));
-			profile.setLogoVerifyState(LogoVerifyState.NONE.getType());
+			profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
 
 			String male = messageSource.getMessage("gender.male", null,
 					Locale.SIMPLIFIED_CHINESE);

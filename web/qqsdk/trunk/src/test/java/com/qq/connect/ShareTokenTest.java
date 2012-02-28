@@ -5,6 +5,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.junit.Test;
 
 public class ShareTokenTest {
@@ -18,13 +19,12 @@ public class ShareTokenTest {
 		String oauth_token_secret = "KhzgDDqF6eTmS5JA";
 
 		Map<String, String> shares = new HashMap<String, String>();
-		shares.put("title", "我开始使用B3log了，快来看看吧!" + System.currentTimeMillis());
-		shares.put("url",
-				"http://www.b3log.org/?time=" + System.currentTimeMillis());
-		shares.put("images", "http://www.b3log.org/images/logo.png)?time="
-				+ System.currentTimeMillis());
-		new ShareToken("app_key","app_secret").addShare(oauth_token, oauth_token_secret, openid,
-				shares);
+		shares.put("title", "我开始使用B3log了，快来看看吧!");
+		shares.put("url", "http://www.51juzhai.com");
+		System.out.println(new ShareToken("100249114",
+				"570f9120b30fb9e43a1080f6d0449336").addShare(
+				"18187558463735926225", "gb7QvXuvKWMaDuq9",
+				"7EAB62E8E1769DD371C93F114986E425", shares));
 	}
 
 }

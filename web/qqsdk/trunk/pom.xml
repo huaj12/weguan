@@ -6,13 +6,9 @@
 	<artifactId>qqsdk</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>qqsdk</name>
-	<url>http://open-qq.googlecode.com</url>
-	<description>QQ OpenAPI for Java.</description>
-	<inceptionYear>2011</inceptionYear>
 
 	<properties>
-		<finalName>connect</finalName>
+		<finalName>qqsdk</finalName>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.8.2</junit.version>
 		<hamcrest.version>1.1</hamcrest.version>
@@ -20,30 +16,8 @@
 		<compiler.plugin.version>2.0.2</compiler.plugin.version>
 		<httpclient.version>4.1.1</httpclient.version>
 		<servlet.version>2.5</servlet.version>
-		<maven-checkstyle-plugin.version>2.6</maven-checkstyle-plugin.version>
 	</properties>
 
-	<licenses>
-		<license>
-			<name>Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
-		</license>
-	</licenses>
-
-	<distributionManagement>
-		<repository>
-			<id>release</id>
-			<name>Maven Repository at Google</name>
-			<url>dav:https://m2-rep.googlecode.com/svn/release</url>
-		</repository>
-
-		<snapshotRepository>
-			<id>snapshot</id>
-			<name>Maven Repository at Google</name>
-			<url>dav:https://m2-rep.googlecode.com/svn/snapshot</url>
-			<uniqueVersion>true</uniqueVersion>
-		</snapshotRepository>
-	</distributionManagement>
 
 	<dependencies>
 		<dependency>
@@ -77,66 +51,25 @@
 			<version>${servlet.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+			<version>1.8.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
-
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<excludes>
-					<exclude>**/etc/beyondtrack_checks.xml</exclude>
-					<exclude>**/connect.properties</exclude>
-				</excludes>
-			</resource>
-		</resources>
-
+		<finalName>qqsdk</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.4.2</version>
-				<configuration>
-					<skipTests>true</skipTests>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${compiler.plugin.version}</version>
+				<version>2.3.2</version>
 				<configuration>
-					<source>${compiler.version}</source>
-					<target>${compiler.version}</target>
-					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<configuration>
-					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
-			</plugin>
-			<!-- For source code style check -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>${maven-checkstyle-plugin.version}</version>
-				<configuration>
-					<configLocation>${basedir}/src/main/resources/etc/beyondtrack_checks.xml</configLocation>
-					<includeTestSourceDirectory>true</includeTestSourceDirectory>
-					<excludes>
-						com/qq/oauth/Config.java,
-						<!-- com/qq/util/*.java -->
-					</excludes>
-					<consoleOutput>true</consoleOutput>
-					<failOnViolation>true</failOnViolation>
-					<failsOnError>true</failsOnError>
-					<encoding>${project.build.sourceEncoding}</encoding>
-					<!-- Do NOT skip code style check before committing -->
-					<skip>false</skip>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>${finalName}-${version}</finalName>
 	</build>
 </project>

@@ -843,22 +843,20 @@ public class PostService implements IPostService {
 			if (StringUtils.isNotEmpty(time)) {
 				time = " "
 						+ messageSource.getMessage(
-								SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_TIME
+								SynchronizeWeiboTemplate.SYNCHRONIZE_TIME
 										.getName(), new Object[] { time },
 								Locale.SIMPLIFIED_CHINESE) + " ";
 			}
 			if (StringUtils.isNotEmpty(place)) {
 				place = " "
-						+ messageSource
-								.getMessage(
-										SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_ADDRESS
-												.getName(),
-										new Object[] { place },
-										Locale.SIMPLIFIED_CHINESE) + " ";
+						+ messageSource.getMessage(
+								SynchronizeWeiboTemplate.SYNCHRONIZE_ADDRESS
+										.getName(), new Object[] { place },
+								Locale.SIMPLIFIED_CHINESE) + " ";
 			}
 
 			String text = messageSource.getMessage(
-					SynchronizeWeiboTemplate.SYNCHRONIZE_WEIBO_TEXT.getName(),
+					SynchronizeWeiboTemplate.SYNCHRONIZE_TEXT.getName(),
 					new Object[] { content, time == null ? "" : time, place,
 							postId }, Locale.SIMPLIFIED_CHINESE);
 			String link = messageSource.getMessage(

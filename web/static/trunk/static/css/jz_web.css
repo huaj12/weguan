@@ -503,7 +503,7 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 .jz_main .face_infor{ width:120px; height:auto; overflow:hidden; float:left;}
 .jz_main .face_infor p{ width:120px; height:120px; overflow:hidden; padding-bottom:5px;}
 .jz_main .face_infor a{ font-weight:bold; float:left;}
-.jz_main .face_infor span{ width:100%; float:left; line-height:110%; color:#ccc;}
+.jz_main .face_infor span{ width:100%; float:left; line-height:110%; color:#acacac;}
 
 
 .jz_main .wtg{ float:right; width:488px; height:auto; display:block;}

@@ -861,14 +861,14 @@ public class PostService implements IPostService {
 
 			String text = messageSource.getMessage(
 					SynchronizeWeiboTemplate.SYNCHRONIZE_TEXT.getName(),
-					new Object[] { content, time == null ? "" : time, place,
-							postId }, Locale.SIMPLIFIED_CHINESE);
-			String link = TextTruncateUtil.truncate(
+					new Object[] { content, time == null ? "" : time, place },
+					Locale.SIMPLIFIED_CHINESE);
+			String title = TextTruncateUtil.truncate(
 					HtmlUtils.htmlUnescape(content), synchronizeTitleLengthMax,
 					"...");
-			String title = messageSource.getMessage(
-					"synchronize.title." + post.getPurposeType(), null,
-					Locale.SIMPLIFIED_CHINESE);
+			String link = messageSource.getMessage(
+					SynchronizeWeiboTemplate.SYNCHRONIZE_LINK.getName(),
+					new Object[] { postId }, Locale.SIMPLIFIED_CHINESE);
 			byte[] image = null;
 			String imageUrl = null;
 			if (StringUtils.isNotEmpty(post.getPic())) {

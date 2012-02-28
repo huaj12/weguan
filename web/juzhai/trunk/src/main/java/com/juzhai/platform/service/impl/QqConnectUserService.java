@@ -28,7 +28,6 @@ import com.qq.connect.AccessToken;
 import com.qq.connect.InfoToken;
 import com.qq.connect.RedirectToken;
 import com.qq.connect.RequestToken;
-import com.qq.util.ParseString;
 
 @Service
 public class QqConnectUserService extends AbstractUserService {
@@ -50,10 +49,8 @@ public class QqConnectUserService extends AbstractUserService {
 		try {
 			RequestToken rt = new RequestToken(tp.getAppKey(),
 					tp.getAppSecret());
-			String requestToken = rt.getRequestToken();
-			//TODO (review) sdk里去搞
-			HashMap<String, String> tokens = ParseString
-					.parseTokenString(requestToken);
+			// TODO (done) sdk里去搞
+			Map<String, String> tokens = rt.getRequestToken();
 			tokenMap.put(tokens.get("oauth_token"),
 					tokens.get("oauth_token_secret"));
 			RedirectToken ret = new RedirectToken(tp.getAppKey(),
@@ -140,24 +137,23 @@ public class QqConnectUserService extends AbstractUserService {
 		String[] str = code.split(",");
 		String oauth_token = str[0];
 		String oauth_vericode = str[1];
-		// TODO (review) 不要初始化空字符串
-		String accessToken = "";
+		// TODO (done) 不要初始化空字符串
+		String accessToken = null;
 		try {
-			// TODO (review) tokenMap的里用完没有删除
-			String content = new AccessToken(tp.getAppKey(), tp.getAppSecret())
-					.getAccessToken(oauth_token, tokenMap.get(oauth_token),
-							oauth_vericode);
-			// TODO (review) 这个parseTokenString写到sdk里吧
-			Map<String, String> map = ParseString.parseTokenString(content);
-			// TODO (review) 下面这种方式拼接字符串的话就用StringBuilder 否则就连着+下去
-			accessToken += map.get("oauth_token");
-			accessToken += "," + map.get("oauth_token_secret");
-			accessToken += "," + map.get("openid");
+			// TODO (done) tokenMap的里用完没有删除
+
+			// TODO (done) 这个parseTokenString写到sdk里吧
+			Map<String, String> map = new AccessToken(tp.getAppKey(),
+					tp.getAppSecret()).getAccessToken(oauth_token,
+					tokenMap.get(oauth_token), oauth_vericode);
+			tokenMap.remove(oauth_token);
+			// TODO (done) 下面这种方式拼接字符串的话就用StringBuilder 否则就连着+下去
+			accessToken = map.get("oauth_token") + ","
+					+ map.get("oauth_token_secret") + "," + map.get("openid");
 		} catch (Exception e) {
 			log.equals("QQ content getOAuthAccessTokenFromCode is error."
 					+ e.getMessage());
 		}
 		return accessToken;
 	}
-
 }

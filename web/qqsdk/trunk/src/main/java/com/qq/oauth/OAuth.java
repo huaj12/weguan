@@ -45,13 +45,13 @@ public final class OAuth {
         return str;
     }
 
-    public static String getOauthSignature(String method, String url, List<NameValuePair> parameters, String oauth_token_secret)
+    public static String getOauthSignature(String method, String url, List<NameValuePair> parameters, String oauth_token_secret,String appSecret)
             throws UnsupportedEncodingException, InvalidKeyException, NoSuchAlgorithmException {
         String stepA1 = method;
         String stepA2 = URLEncoder.encode(url, "UTF-8");
         String stepA3 = getSerialParameters(parameters, false);
         String stepA = stepA1 + "&" + stepA2 + "&" + stepA3;
-        String stepB = Config.APP_KEY + "&" + oauth_token_secret;
+        String stepB = appSecret+ "&" + oauth_token_secret;
         return getBase64Mac(stepA, stepB);
     }
 

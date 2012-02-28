@@ -1,35 +1,29 @@
 package com.qq.oauth;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+public class Config {
 
-public final class Config {
-    
-    public static final String FILE_NAME = "connect.properties";
-    public static String APP_ID = "";
-    public static String APP_KEY = "";
-    public static String OAUTH_CALLBACK = "http://www.domain.com/connect/qq/callback";
+	public String appKey;
+	public String appSecret;
 
-    static {
-        InputStream in = Config.class.getClassLoader().getResourceAsStream(FILE_NAME);
-        Properties properties = new Properties();
-        try {
-            properties.load(in);
-            APP_ID = properties.getProperty("APP_ID");
-            APP_KEY = properties.getProperty("APP_KEY");
-            OAUTH_CALLBACK = properties.getProperty("OAUTH_CALLBACK", OAUTH_CALLBACK);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	public Config(String appKey, String appSecret) {
+		this.appKey = appKey;
+		this.appSecret = appSecret;
+	}
 
-    private static Config config = new Config();
+	public String getAppKey() {
+		return appKey;
+	}
 
-    private Config() {
-    }
+	public void setAppKey(String appKey) {
+		this.appKey = appKey;
+	}
 
-    public static Config getInstance() {
-        return config;
-    }
+	public String getAppSecret() {
+		return appSecret;
+	}
+
+	public void setAppSecret(String appSecret) {
+		this.appSecret = appSecret;
+	}
+
 }

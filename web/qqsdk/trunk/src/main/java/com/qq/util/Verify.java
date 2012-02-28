@@ -10,19 +10,21 @@ import com.qq.oauth.OAuth;
 
 public final class Verify {
 
-    private static Verify verify = new Verify();
+	private static Verify verify = new Verify();
 
-    private Verify() {
-    }
+	private Verify() {
+	}
 
-    public static Verify getInstance() {
-        return verify;
-    }
+	public static Verify getInstance() {
+		return verify;
+	}
 
-    public static boolean verifyOpenID(String openid, String timestamp, String oauth_signature) throws UnsupportedEncodingException,
-            InvalidKeyException, NoSuchAlgorithmException {
-        String str = openid + timestamp;
-        String signature = OAuth.getBase64Mac(str, Config.APP_KEY);
-        return signature.equals(URLDecoder.decode(oauth_signature, "UTF-8"));
-    }
+	public static boolean verifyOpenID(String openid, String timestamp,
+			String oauth_signature, String appSecret)
+			throws UnsupportedEncodingException, InvalidKeyException,
+			NoSuchAlgorithmException {
+		String str = openid + timestamp;
+		String signature = OAuth.getBase64Mac(str, appSecret);
+		return signature.equals(URLDecoder.decode(oauth_signature, "UTF-8"));
+	}
 }

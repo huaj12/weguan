@@ -16,38 +16,51 @@ import org.apache.http.message.BasicNameValuePair;
 import com.qq.oauth.Config;
 import com.qq.oauth.OAuth;
 import com.qq.util.HttpClientUtils;
+import com.qq.util.JackSonSerializer;
 
-public class ShareToken {
+public class ShareToken extends Config {
+	public ShareToken(String appKey, String appSecret) {
+		super(appKey, appSecret);
+	}
 
-    public String addShare(String oauth_token, String oauth_token_secret, String openid, String format, Map<String, String> shares)
-            throws IOException, InvalidKeyException, NoSuchAlgorithmException {
+	public Map<String, String> addShare(String oauth_token,
+			String oauth_token_secret, String openid, Map<String, String> shares)
+			throws IOException, InvalidKeyException, NoSuchAlgorithmException {
 
-        String url = "http://openapi.qzone.qq.com/share/add_share";
+		String url = "http://openapi.qzone.qq.com/share/add_share";
 
-        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-        parameters.add(new BasicNameValuePair("format", format));
-        parameters.add(new BasicNameValuePair("images", shares.get("images")));
-        parameters.add(new BasicNameValuePair(OAuth.OAUTH_CONSUMER_KEY, Config.APP_ID));
-        parameters.add(new BasicNameValuePair(OAuth.OAUTH_NONCE, OAuth.getOauthNonce()));
-        parameters.add(new BasicNameValuePair(OAuth.OAUTH_SIGNATURE_METHOD, OAuth.OAUTH_SIGNATURE_METHOD_VALUE));
-        parameters.add(new BasicNameValuePair(OAuth.OAUTH_TIMESTAMP, OAuth.getOauthTimestamp()));
-        parameters.add(new BasicNameValuePair(OAuth.OAUTH_TOKEN, oauth_token));
-        parameters.add(new BasicNameValuePair(OAuth.OAUTH_VERSION, OAuth.OAUTH_VERSION_VALUE));
-        parameters.add(new BasicNameValuePair(OAuth.OPENID, openid));
-        parameters.add(new BasicNameValuePair("title", shares.get("title")));
-        parameters.add(new BasicNameValuePair("url", shares.get("url")));
-        parameters.add(new BasicNameValuePair(OAuth.OAUTH_SIGNATURE, OAuth.getOauthSignature("POST", url, parameters, oauth_token_secret)));
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("format", "json"));
+		parameters.add(new BasicNameValuePair("images", shares.get("images")));
+		parameters
+				.add(new BasicNameValuePair(OAuth.OAUTH_CONSUMER_KEY, appKey));
+		parameters.add(new BasicNameValuePair(OAuth.OAUTH_NONCE, OAuth
+				.getOauthNonce()));
+		parameters.add(new BasicNameValuePair(OAuth.OAUTH_SIGNATURE_METHOD,
+				OAuth.OAUTH_SIGNATURE_METHOD_VALUE));
+		parameters.add(new BasicNameValuePair(OAuth.OAUTH_TIMESTAMP, OAuth
+				.getOauthTimestamp()));
+		parameters.add(new BasicNameValuePair(OAuth.OAUTH_TOKEN, oauth_token));
+		parameters.add(new BasicNameValuePair(OAuth.OAUTH_VERSION,
+				OAuth.OAUTH_VERSION_VALUE));
+		parameters.add(new BasicNameValuePair(OAuth.OPENID, openid));
+		parameters.add(new BasicNameValuePair("title", shares.get("title")));
+		parameters.add(new BasicNameValuePair("url", shares.get("url")));
+		parameters.add(new BasicNameValuePair(OAuth.OAUTH_SIGNATURE, OAuth
+				.getOauthSignature("POST", url, parameters, oauth_token_secret,
+						appSecret)));
 
-        HttpPost sharePost = new HttpPost(url);
-        sharePost.setHeader("Referer", "http://openapi.qzone.qq.com");
-        sharePost.setHeader("Host", "openapi.qzone.qq.com");
-        sharePost.setHeader("Accept-Language", "zh-cn");
-        sharePost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-        sharePost.setEntity(new UrlEncodedFormEntity(parameters, "UTF-8"));
-        DefaultHttpClient httpclient = HttpClientUtils.getHttpClient();
-        HttpResponse loginPostRes = httpclient.execute(sharePost);
-        String shareHtml = HttpClientUtils.getHtml(loginPostRes, "UTF-8", false);
-        return shareHtml;
-    }
+		HttpPost sharePost = new HttpPost(url);
+		sharePost.setHeader("Referer", "http://openapi.qzone.qq.com");
+		sharePost.setHeader("Host", "openapi.qzone.qq.com");
+		sharePost.setHeader("Accept-Language", "zh-cn");
+		sharePost
+				.setHeader("Content-Type", "application/x-www-form-urlencoded");
+		sharePost.setEntity(new UrlEncodedFormEntity(parameters, "UTF-8"));
+		DefaultHttpClient httpclient = HttpClientUtils.getHttpClient();
+		HttpResponse loginPostRes = httpclient.execute(sharePost);
+		return JackSonSerializer.toMap(HttpClientUtils.getHtml(loginPostRes,
+				"UTF-8", false));
+	}
 
 }

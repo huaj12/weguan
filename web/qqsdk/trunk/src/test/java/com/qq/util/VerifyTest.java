@@ -11,19 +11,21 @@ import org.junit.Test;
 
 public class VerifyTest {
 
-    @Test
-    public void testGetInstance() {
+	@Test
+	public void testGetInstance() {
 
-    }
+	}
 
-    @SuppressWarnings("static-access")
-    @Test
-    public void testVerifyOpenID() throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException {
-        String openid = "openid";
-        String timestamp = "timestamp";
-        String oauth_signature = "oauth_signature";
-        Verify verify = Verify.getInstance();
-        assertThat(verify.verifyOpenID(openid, timestamp, oauth_signature), is(false));
-    }
+	@SuppressWarnings("static-access")
+	@Test
+	public void testVerifyOpenID() throws InvalidKeyException,
+			UnsupportedEncodingException, NoSuchAlgorithmException {
+		String openid = "openid";
+		String timestamp = "timestamp";
+		String oauth_signature = "oauth_signature";
+		Verify verify = Verify.getInstance();
+		assertThat(verify.verifyOpenID(openid, timestamp, oauth_signature,
+				"app_secret"), is(false));
+	}
 
 }

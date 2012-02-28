@@ -23,7 +23,7 @@ public class ShareTokenTest {
 				"http://www.b3log.org/?time=" + System.currentTimeMillis());
 		shares.put("images", "http://www.b3log.org/images/logo.png)?time="
 				+ System.currentTimeMillis());
-		new ShareToken().addShare(oauth_token, oauth_token_secret, openid,
+		new ShareToken("app_key","app_secret").addShare(oauth_token, oauth_token_secret, openid,
 				shares);
 	}
 

@@ -11,7 +11,7 @@ public class RequestTokenTest {
 
     @Test
     public void testGetRequestToken() throws IOException, InvalidKeyException, NoSuchAlgorithmException {
-        final RequestToken rt = new RequestToken();
+        final RequestToken rt = new RequestToken("app_key","app_secret");
         final String html = rt.getRequestToken();
         System.out.println(html);
         assertThat(html, startsWith("oauth_token="));

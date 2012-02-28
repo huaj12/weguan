@@ -13,25 +13,35 @@ import com.qq.oauth.Config;
 import com.qq.oauth.OAuth;
 import com.qq.util.HttpClientUtils;
 
-public class RequestToken {
+public class RequestToken extends Config {
 
-    public String getRequestToken() throws IOException, InvalidKeyException, NoSuchAlgorithmException {
+	public RequestToken(String appKey, String appSecret) {
+		super(appKey, appSecret);
+	}
 
-        String url = "http://openapi.qzone.qq.com/oauth/qzoneoauth_request_token";
+	public String getRequestToken() throws IOException, InvalidKeyException,
+			NoSuchAlgorithmException {
 
-        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-        parameters.add(new BasicNameValuePair(OAuth.OAUTH_CONSUMER_KEY, Config.APP_ID));
-        parameters.add(new BasicNameValuePair(OAuth.OAUTH_NONCE, OAuth.getOauthNonce()));
-        parameters.add(new BasicNameValuePair(OAuth.OAUTH_SIGNATURE_METHOD, OAuth.OAUTH_SIGNATURE_METHOD_VALUE));
-        parameters.add(new BasicNameValuePair(OAuth.OAUTH_TIMESTAMP, OAuth.getOauthTimestamp()));
-        parameters.add(new BasicNameValuePair(OAuth.OAUTH_VERSION, OAuth.OAUTH_VERSION_VALUE));
-        parameters.add(new BasicNameValuePair(OAuth.OAUTH_SIGNATURE, OAuth.getOauthSignature("GET", url, parameters, "")));
+		String url = "http://openapi.qzone.qq.com/oauth/qzoneoauth_request_token";
 
-        url += "?" + OAuth.getSerialParameters(parameters, true);
-        DefaultHttpClient httpclient = HttpClientUtils.getHttpClient();
-        String html = HttpClientUtils.getHtml(httpclient, url, "UTF-8");
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters
+				.add(new BasicNameValuePair(OAuth.OAUTH_CONSUMER_KEY, appKey));
+		parameters.add(new BasicNameValuePair(OAuth.OAUTH_NONCE, OAuth
+				.getOauthNonce()));
+		parameters.add(new BasicNameValuePair(OAuth.OAUTH_SIGNATURE_METHOD,
+				OAuth.OAUTH_SIGNATURE_METHOD_VALUE));
+		parameters.add(new BasicNameValuePair(OAuth.OAUTH_TIMESTAMP, OAuth
+				.getOauthTimestamp()));
+		parameters.add(new BasicNameValuePair(OAuth.OAUTH_VERSION,
+				OAuth.OAUTH_VERSION_VALUE));
+		parameters.add(new BasicNameValuePair(OAuth.OAUTH_SIGNATURE, OAuth
+				.getOauthSignature("GET", url, parameters, "", appSecret)));
+		url += "?" + OAuth.getSerialParameters(parameters, true);
+		DefaultHttpClient httpclient = HttpClientUtils.getHttpClient();
+		String html = HttpClientUtils.getHtml(httpclient, url, "UTF-8");
 
-        return html;
-    }
+		return html;
+	}
 
 }

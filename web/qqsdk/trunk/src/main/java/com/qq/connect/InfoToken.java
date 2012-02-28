@@ -4,22 +4,17 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 
 import com.qq.oauth.Config;
 import com.qq.oauth.OAuth;
 import com.qq.util.HttpClientUtils;
 import com.qq.util.JackSonSerializer;
-import com.qq.util.ParseString;
 
 public class InfoToken extends Config {
 	public InfoToken(String appKey, String appSecret) {

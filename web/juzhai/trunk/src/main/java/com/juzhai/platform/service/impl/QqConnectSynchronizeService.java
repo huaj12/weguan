@@ -34,8 +34,11 @@ public class QqConnectSynchronizeService implements ISynchronizeService {
 			if (StringUtils.isNotEmpty(imageUrl)) {
 				map.put("images", imageUrl);
 			}
-			System.out.println(share.addShare(authInfo.getToken(),
-					authInfo.getTokenSecret(), authInfo.getTpIdentity(), map));
+			Map<String, String> code = share.addShare(authInfo.getToken(),
+					authInfo.getTokenSecret(), authInfo.getTpIdentity(), map);
+			if (!"ok".equals(code.get("msg"))) {
+				log.error("QQ content sendMessage is error." + code.get("msg"));
+			}
 		} catch (Exception e) {
 			log.error("QQ content sendMessage is error." + e.getMessage());
 		}

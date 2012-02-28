@@ -6,7 +6,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -25,6 +24,7 @@ public class ShareToken extends Config {
 		super(appKey, appSecret);
 	}
 
+	// 参数顺序不能改改了会出现签名的错误。
 	public Map<String, String> addShare(String oauth_token,
 			String oauth_token_secret, String openid, Map<String, String> shares)
 			throws IOException, InvalidKeyException, NoSuchAlgorithmException {
@@ -33,6 +33,11 @@ public class ShareToken extends Config {
 
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("format", "json"));
+		if (shares.get("images") != null && shares.get("images").length() > 0) {
+			parameters.add(new BasicNameValuePair("images", shares
+					.get("images")));
+		}
+
 		parameters
 				.add(new BasicNameValuePair(OAuth.OAUTH_CONSUMER_KEY, appKey));
 		parameters.add(new BasicNameValuePair(OAuth.OAUTH_NONCE, OAuth
@@ -45,10 +50,13 @@ public class ShareToken extends Config {
 		parameters.add(new BasicNameValuePair(OAuth.OAUTH_VERSION,
 				OAuth.OAUTH_VERSION_VALUE));
 		parameters.add(new BasicNameValuePair(OAuth.OPENID, openid));
-		for (Entry<String, String> object : shares.entrySet()) {
-			parameters.add(new BasicNameValuePair(object.getKey(), object
-					.getValue()));
+		if (shares.get("summary") != null && shares.get("summary").length() > 0) {
+			parameters.add(new BasicNameValuePair("summary", shares
+					.get("summary")));
 		}
+		parameters.add(new BasicNameValuePair("title", shares.get("title")));
+		parameters.add(new BasicNameValuePair("url", shares.get("url")));
+
 		parameters.add(new BasicNameValuePair(OAuth.OAUTH_SIGNATURE, OAuth
 				.getOauthSignature("POST", url, parameters, oauth_token_secret,
 						appSecret)));

@@ -1,6 +1,7 @@
 package com.juzhai.home.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import net.rubyeye.xmemcached.MemcachedClient;
@@ -59,7 +60,7 @@ public class UserStatusService implements IUserStatusService {
 		}
 
 		if (authInfo == null) {
-			return null;
+			return Collections.emptyList();
 		}
 		userStatusList = synchronizeService.listStatus(authInfo, fuid,
 				userStatusSize);

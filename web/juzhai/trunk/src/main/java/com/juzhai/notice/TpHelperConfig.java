@@ -3,7 +3,6 @@ package com.juzhai.notice;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +55,7 @@ public class TpHelperConfig {
 	public static List<Long> getValue(ThirdpartyNameEnum tager, String name) {
 		Map<String, List<Long>> map = SECRETARY.get(tager.getName());
 		if (map == null) {
-			return Collections.emptyList();
+			return null;
 		}
 		return map.get(name);
 	}

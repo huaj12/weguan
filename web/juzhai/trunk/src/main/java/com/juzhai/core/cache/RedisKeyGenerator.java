@@ -386,4 +386,8 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genNoticeUsersKey() {
 		return "noticeUserList";
 	}
+
+	public static String genIdeaWindowSortKey() {
+		return "ideaWindowSortList";
+	}
 }

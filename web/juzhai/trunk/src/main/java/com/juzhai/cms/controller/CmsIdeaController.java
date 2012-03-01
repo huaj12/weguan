@@ -134,14 +134,40 @@ public class CmsIdeaController extends BaseController {
 		return ajaxResult;
 	}
 
-	@RequestMapping(value = "/operate/idea/random", method = RequestMethod.GET)
+	@RequestMapping(value = "/operate/idea/random", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult operateIdeaRandom(
+	public AjaxResult operateIdeaRandow(
 			@RequestParam(defaultValue = "0") long ideaId,
 			@RequestParam(defaultValue = "false") boolean random) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
 			ideaService.ideaRandom(ideaId, random);
+		} catch (Exception e) {
+			ajaxResult.setSuccess(false);
+		}
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/operate/idea/window", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult operateIdeaWindow(
+			@RequestParam(defaultValue = "0") long ideaId,
+			@RequestParam(defaultValue = "false") boolean window) {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			ideaService.ideaWindow(ideaId, window);
+		} catch (Exception e) {
+			ajaxResult.setSuccess(false);
+		}
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/operate/idea/update/window", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult operateIdeaUpdateWindow() {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			ideaService.ideaWindowSort();
 		} catch (Exception e) {
 			ajaxResult.setSuccess(false);
 		}

@@ -53,6 +53,8 @@ public class IdeaService implements IIdeaService {
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
+	private RedisTemplate<String, Idea> ideaRedisTemplate;
+	@Autowired
 	private IProfileService profileService;
 	@Autowired
 	private IIdeaImageService ideaImageService;
@@ -70,6 +72,8 @@ public class IdeaService implements IIdeaService {
 	private int ideaPlaceLengthMin;
 	@Value("${idea.place.length.max}")
 	private int ideaPlaceLengthMax;
+	@Value("${idea.window.max.rows}")
+	private int ideaWindowMaxRows;
 
 	@Override
 	public Idea getIdeaById(long ideaId) {
@@ -346,5 +350,35 @@ public class IdeaService implements IIdeaService {
 		idea.setId(ideaId);
 		idea.setRandom(random);
 		ideaMapper.updateByPrimaryKeySelective(idea);
+	}
+
+	@Override
+	public void ideaWindow(long ideaId, boolean window) {
+		Idea idea = new Idea();
+		idea.setId(ideaId);
+		idea.setWindow(window);
+		ideaMapper.updateByPrimaryKeySelective(idea);
+
+	}
+
+	@Override
+	public void ideaWindowSort() {
+		IdeaExample example = new IdeaExample();
+		example.createCriteria().andWindowEqualTo(true);
+		example.setOrderByClause("use_count desc");
+		example.setLimit(new Limit(0, ideaWindowMaxRows));
+		List<Idea> ideas = ideaMapper.selectByExample(example);
+		String key = RedisKeyGenerator.genIdeaWindowSortKey();
+		ideaRedisTemplate.delete(key);
+		for (Idea idea : ideas) {
+			ideaRedisTemplate.opsForList().leftPush(key, idea);
+		}
+	}
+
+	@Override
+	public List<Idea> listIdeaWindow() {
+		String key = RedisKeyGenerator.genIdeaWindowSortKey();
+		return ideaRedisTemplate.opsForList().range(key, 0,
+				ideaWindowMaxRows - 1);
 	}
 }

@@ -122,11 +122,30 @@ public interface IIdeaService {
 	 * @return
 	 */
 	Idea getRandomIdea(long cityId);
-	
+
 	/**
 	 * 标记是否加入到随即库
 	 * 
 	 * @param random
 	 */
 	void ideaRandom(long ideaId, boolean random);
+
+	/**
+	 * 标记是否加入到欢迎页
+	 * 
+	 * @param random
+	 */
+	void ideaWindow(long ideaId, boolean window);
+
+	/**
+	 * 好主意橱窗排序
+	 */
+	void ideaWindowSort();
+
+	/**
+	 * 获取好主意橱窗内容
+	 * 
+	 * @return
+	 */
+	List<Idea> listIdeaWindow();
 }

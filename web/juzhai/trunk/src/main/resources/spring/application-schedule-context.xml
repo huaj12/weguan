@@ -226,6 +226,19 @@
 		<property name="cronExpression" value="${site.map.cron}" />
 	</bean>
 	<!-- create site map end -->
+	
+	<!-- idea window begin -->
+	<bean id="ideaWindowSortTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="ideaWindowSortHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${idea.window.cron}" />
+	</bean>
+	<!-- idea window end -->
+	
+	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
@@ -247,6 +260,7 @@
 				<ref bean="postIndexOptimizationAndCommitTrigger"/>
 				<ref bean="profileIndexOptimizationAndCommitTrigger"/>
 				<ref bean="createSitemapTrigger"/>
+				<!--ref bean="ideaWindowSortTrigger"/-->
 				<!-- <ref bean="noticeEmailTrigger"/> -->
 			</list>
 		</property>

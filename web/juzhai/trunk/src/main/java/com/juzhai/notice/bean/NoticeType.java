@@ -5,7 +5,7 @@ public enum NoticeType {
 	// DATING_ME("/home/datingMes", 2),
 	// ACCEPT_DATING("/home/datings/accept", 3),
 	// SYS_NOTICE("/sysnotice/list", 4),
-	DIALOG("/home/dialog", 5);
+	DIALOG("/home/dialog", 5), COMMENT("/home/comment/inbox/1", 6);
 
 	private String uri;
 

@@ -52,13 +52,12 @@
 									<div class="btn"><!--btn begin-->
 										<c:choose>
 											<c:when test="${context.uid != postProfile.uid}">
-												<div class="message_s1"><a class="send-message" href="javascript:void(0)" target-uid="${postProfile.uid}" target-nickname="${postProfile.nickname}">私信</a></div>
 												<c:choose>
 													<c:when test="${hasResponse}">
-														<div class="like done"><a href="javascript:void(0);" class="xy">已响应</a><a href="/post/${post.id}" class="xy_num">(${post.responseCnt})</a></div>
+														<div class="like done"><a href="javascript:void(0);" class="xy">已响应</a><div class="xy_num"><p class="l"></p><a href="/post/${post.id}">${post.responseCnt}</a><p class="r"></p></div></div>
 													</c:when>
 													<c:otherwise>
-														<div class="like post-response" id="response${post.id}"><a href="javascript:void(0);" class="xy" post-id="${post.id}">响应</a><a href="/post/${post.id}" class="xy_num">(<font>${post.responseCnt}</font>)</a></div>
+														<div class="like post-response" id="response${post.id}"><a href="javascript:void(0);" class="xy" post-id="${post.id}">响应</a><div class="xy_num"><p class="l"></p><a href="/post/${post.id}"><font>${post.responseCnt}</font></a><p class="r"></p></div></div>
 													</c:otherwise>
 												</c:choose>
 											</c:when>
@@ -75,7 +74,16 @@
 									</c:if>
 								</div><!--detail end-->
 								<div class="response"><!--response begin-->
-									<jsp:include page="response_user_list.jsp" />
+									<div class="title"><!--title begin-->
+										<div class="tab">
+											<span <c:if test="${pageType == 'comment'}">class="act"</c:if>><p></p><a href="/post/${post.id}/comment">${commentTotalCnt}条留言</a><p></p></span>
+											<span <c:if test="${pageType == 'response'}">class="act"</c:if>><p></p><a href="/post/${post.id}/respuser">${respTotalCnt}人响应</a><p></p></span>
+										</div>
+									</div><!--title end-->
+									<c:choose>
+										<c:when test="${pageType == 'comment'}"><c:set var="postId" value="${post.id}" scope="request"/><jsp:include page="comment_user_list.jsp" /></c:when>
+										<c:when test="${pageType == 'response'}"><jsp:include page="response_user_list.jsp" /></c:when>
+									</c:choose>
 								</div><!--response end-->
 							</div>
 							<div class="t"></div>
@@ -94,6 +102,7 @@
 									<c:if test="${context.uid != postProfile.uid}">
 										<div class="keep user-remove-interest remove-interest-${postProfile.uid}" <c:if test="${!hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${postProfile.uid}" title="点击取消收藏">已收藏</a></div>
 										<div class="keep user-add-interest interest-${postProfile.uid}" <c:if test="${hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${postProfile.uid}" title="点击收藏">收藏ta</a></div>
+										<div class="mail"><a class="send-message" href="javascript:void(0);" title="发私信给ta" target-uid="${postProfile.uid}" target-nickname="${postProfile.nickname}">私信</a></div>
 									</c:if>
 								</div><!--person end-->
 							</div>

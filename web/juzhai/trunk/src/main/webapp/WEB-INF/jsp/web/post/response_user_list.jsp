@@ -4,7 +4,6 @@
 <%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
 <%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<div class="title"><h2>共有${pager.totalResults}人响应</h2></div>
 <c:if test="${not empty responseUserViewList}">
 	<div class="response_list"><!--response_list begin-->
 		<c:forEach var="responseUserView" items="${responseUserViewList}">
@@ -31,6 +30,6 @@
 	<div class="clear"></div>
 	<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 		<c:param name="pager" value="${pager}"/>
-		<c:param name="url" value="/post/${post.id}/responseUser" />
+		<c:param name="url" value="/post/${post.id}/respuser" />
 	</c:import>
 </c:if>

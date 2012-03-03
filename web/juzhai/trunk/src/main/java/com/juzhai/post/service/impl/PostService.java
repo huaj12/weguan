@@ -55,6 +55,7 @@ import com.juzhai.post.model.PostExample;
 import com.juzhai.post.model.PostResponse;
 import com.juzhai.post.model.PostResponseExample;
 import com.juzhai.post.service.IIdeaService;
+import com.juzhai.post.service.IPostCommentService;
 import com.juzhai.post.service.IPostImageService;
 import com.juzhai.post.service.IPostService;
 import com.juzhai.stats.counter.service.ICounter;
@@ -103,6 +104,8 @@ public class PostService implements IPostService {
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
 	private ISynchronizeService synchronizeService;
+	@Autowired
+	private IPostCommentService postCommentService;
 	@Value("${post.content.wordfilter.application}")
 	private int postContentWordfilterApplication;
 	@Value("${post.content.length.min}")
@@ -494,6 +497,7 @@ public class PostService implements IPostService {
 				redisTemplate.delete(RedisKeyGenerator
 						.genUserLatestPostKey(uid));
 			}
+			postCommentService.defunctComment(postId);
 		}
 	}
 
@@ -538,6 +542,7 @@ public class PostService implements IPostService {
 						.genUserLatestPostKey(uid));
 			}
 		}
+		postCommentService.defunctComment(postId);
 	}
 
 	@Override

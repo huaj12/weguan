@@ -36,6 +36,7 @@ import com.juzhai.post.model.Ad;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IAdService;
 import com.juzhai.post.service.IIdeaService;
+import com.juzhai.post.service.IPostService;
 
 public class BaseController {
 
@@ -64,6 +65,8 @@ public class BaseController {
 	private IIdeaService ideaService;
 	@Autowired
 	private IAdService adService;
+	@Autowired
+	private IPostService postService;
 
 	protected UserContext checkLoginForApp(HttpServletRequest request)
 			throws NeedLoginException {
@@ -200,5 +203,14 @@ public class BaseController {
 			list = adService.listAd(0, 0, count);
 		}
 		model.addAttribute("ads", list);
+	}
+
+	protected void showHomeLogo(UserContext context, Model model) {
+		model.addAttribute("postCount",
+				postService.countUserPost(context.getUid()));
+		model.addAttribute("responseCount",
+				postService.getAllResponseCnt(context.getUid()));
+		model.addAttribute("completion",
+				profileService.getProfileCompletion(context.getUid()));
 	}
 }

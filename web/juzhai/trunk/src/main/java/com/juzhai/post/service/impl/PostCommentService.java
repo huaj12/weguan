@@ -23,6 +23,8 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
+import com.juzhai.passport.model.Passport;
+import com.juzhai.passport.service.IPassportService;
 import com.juzhai.post.controller.form.PostCommentForm;
 import com.juzhai.post.dao.IPostDao;
 import com.juzhai.post.exception.InputPostCommentException;
@@ -51,6 +53,8 @@ public class PostCommentService implements IPostCommentService {
 	private INoticeService noticeService;
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
+	@Autowired
+	private IPassportService passportService;
 	@Value("${post.comment.content.length.min}")
 	private int postCommentContentLengthMin;
 	@Value("${post.comment.content.length.max}")
@@ -166,8 +170,11 @@ public class PostCommentService implements IPostCommentService {
 		}
 		if (postComment.getPostCreateUid() != uid
 				&& postComment.getCreateUid() != uid) {
-			throw new InputPostCommentException(
-					InputPostCommentException.ILLEGAL_OPERATION);
+			Passport passport = passportService.getPassportByUid(uid);
+			if (null == passport || !passport.getAdmin()) {
+				throw new InputPostCommentException(
+						InputPostCommentException.ILLEGAL_OPERATION);
+			}
 		}
 
 		// 通知里删除

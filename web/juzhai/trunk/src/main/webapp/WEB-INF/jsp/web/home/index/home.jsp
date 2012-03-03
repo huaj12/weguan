@@ -19,6 +19,10 @@
 						<div class="content_box w660 z900"><!--content begin-->
 							<div class="t"></div>
 							<div class="m">
+								<div class="tips" style="display: none;"><!--tips begin-->
+									<p>没想好去哪玩？试试这个</p>
+									<a href="javascript:void(0);"></a>
+								</div><!--tips end-->
 								<div class="send_box"><!--send_box begin-->
 									<jsp:include page="send_post.jsp" />
 								</div>

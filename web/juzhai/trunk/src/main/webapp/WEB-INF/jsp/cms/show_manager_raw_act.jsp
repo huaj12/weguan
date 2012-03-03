@@ -101,8 +101,6 @@
 	</table>
 	<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 	<jsp:include page="/WEB-INF/jsp/web/common/script/kindEditor.jsp" />
-	<script type="text/javascript"
-		src="${jzr:static('/js/core/validation.js')}"></script>
 	<script type="text/javascript" src="${jzr:static('/js/core/core.js')}"></script>
 	<script type="text/javascript"
 		src="${jzr:static('/js/jquery/jquery.form.js')}"></script>

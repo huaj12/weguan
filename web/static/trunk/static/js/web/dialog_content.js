@@ -79,7 +79,6 @@ $(document).ready(function(){
 });
 
 function bindReply(){
-	$body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');// 这行是 Opera 的补丁, 少了它 Opera 是直接用跳的而且画面闪烁 by willin
 	$("a#repy-btn").bind("click", function(){
 		$body.animate({scrollTop: $("#respond").offset().top}, 500, function(){
 			$("div.text_area > em > textarea").focus();

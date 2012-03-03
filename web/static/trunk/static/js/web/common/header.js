@@ -36,24 +36,24 @@ $(document).ready(function(){
 		window.location.href = uri + "?turnTo=" + window.location.href; 
 	});
 	
-//	var messageTimerId = null;
-//	$("div.my_message > div#messageSelect").hover(function(){
-//		if(messageTimerId){
-//			clearTimeout(messageTimerId);
-//		}
-//		messageTimerId = setTimeout(function(){
-//			$("div.my_message > div#messageSelect > p").addClass("hover");
-//			$("div.my_message > div#messageSelect > div").first().show();
-//		}, 300);
-//	}, function(){
-//		if(messageTimerId){
-//			clearTimeout(messageTimerId);
-//		}
-//		messageTimerId = setTimeout(function(){
-//			$("div.my_message > div#messageSelect > p").removeClass("hover");
-//			$("div.my_message > div#messageSelect > div").first().hide();
-//		}, 300);
-//	});
+	var messageTimerId = null;
+	$("div.my_message > div#messageSelect").hover(function(){
+		if(messageTimerId){
+			clearTimeout(messageTimerId);
+		}
+		messageTimerId = setTimeout(function(){
+			$("div.my_message > div#messageSelect > p").addClass("hover");
+			$("div.my_message > div#messageSelect > div").first().show();
+		}, 300);
+	}, function(){
+		if(messageTimerId){
+			clearTimeout(messageTimerId);
+		}
+		messageTimerId = setTimeout(function(){
+			$("div.my_message > div#messageSelect > p").removeClass("hover");
+			$("div.my_message > div#messageSelect > div").first().hide();
+		}, 300);
+	});
 	
 	//账号
 	var accTimerId = null;
@@ -126,14 +126,18 @@ function queryNotice(){
 		success : function(result) {
 			if (result && result.success) {
 				for(var key in result.result){
+//					if(result.result[key] > 0){
+//						$("div.my_message > a > span#notice" + key).text(result.result[key]).show();
+//					}else{
+//						$("div.my_message > a > span#notice" + key).hide();
+//					}
 					if(result.result[key] > 0){
-						$("div.my_message > a > span#notice" + key).text(result.result[key]).show();
+						$("div.my_message > div.my_message_show > span#notice" + key).show();
 					}else{
-						$("div.my_message > a > span#notice" + key).hide();
+						$("div.my_message > div.my_message_show > span#notice" + key).hide();
 					}
+					$("div.my_message_show > span#notice" + key + " > em").text(result.result[key] > 0 ? result.result[key] : "");
 				}
-			} else {
-				alert(result.errorInfo);
 			}
 		}
 	});

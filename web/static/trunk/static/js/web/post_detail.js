@@ -45,4 +45,12 @@ $(document).ready(function(){
 		var postId = $(this).attr("post-id");
 		prepareRepost(postId);
 	});
+	
+	if($("form#comment-form").length > 0){
+		var commentWidget = new CommentWidget($("form#comment-form"), $("div.comment-list"));
+		commentWidget.bindReply();
+		commentWidget.bindAllReplyLink();
+		commentWidget.bindAllDelLink();
+	}
+	
 });

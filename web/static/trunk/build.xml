@@ -22,7 +22,7 @@
             <scp remoteToDir="@{username}:@{password}@${remote.server}:@{staticdir}/static" trust="true" verbose="true" passphrase="">
             	<fileset dir="static"/>
             </scp>
-        </sequential>           
+        </sequential>
     </macrodef>
 	
 	<target name="deploy-static-test" description="发布静态">

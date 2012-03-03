@@ -4,7 +4,7 @@
 <%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
 <%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<form id="comment-form">
+<form id="comment-form" onsubmit="javascript:return false;">
 	<c:if test="${parentId == null}">
 		<c:set var="parentId" value="0" />
 	</c:if>

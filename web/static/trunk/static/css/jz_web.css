@@ -168,7 +168,9 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 .user_area .login .user_box a.girl:hover{ color:#FF6699;}
 
 
+/*.top .search{float:right; margin-right:15px; display:inline; margin-top:11px; position:relative;}*/
 .top .search{float:right; margin-right:-20px; display:inline; margin-top:15px; position:relative;}
+
 .search .s_l{ background:url(../images/web2/search2_r1_c1.jpg) no-repeat; width:5px; height:28px; float:left; overflow:hidden;}
 .search .s_m{ background:url(../images/web2/search2_r1_c2.jpg) no-repeat; width:157px; height:28px; float:left; overflow:hidden;}
 .search .s_r{ background:url(../images/web2/search2_r1_c3.jpg) no-repeat; width:30px; height:28px; float:left; overflow:hidden;}
@@ -1973,12 +1975,13 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 
 /*发布好主意*/
 
-.send_idea{ width:550px; height:auto; display:block; background:#f7f7f7;}
+.send_idea{height:auto; display:block; background:#f7f7f7;}
 
-.send_idea .photo{ float:left; width:200px; height:auto; overflow:hidden; display:inline;}
+.send_idea .photo{ float:left; height:auto; overflow:hidden; display:inline;}
+.send_idea .photo img{ float:left; margin-right:20px; display:inline;}
 .sd_right{ float:right; width:330px; height:auto; display:block;}
 
-.sd_right .select_menu{ width:130px; height:28px; float:left; position:relative; z-index:100; margin-right:10px;}
+.sd_right .select_menu{ width:130px; height:28px; float:left; position:relative; z-index:100; margin-right:20px;}
 .sd_right .select_menu p{ float:left;}
 .sd_right .select_menu p a{ width:120px; height:28px; display:block; background:url(../images/web2/select_list_head1.gif) no-repeat; line-height:28px; line-height:30px\9; color:#666; padding-left:12px; text-decoration:none;}
 .sd_right .select_menu p a:hover{ background:url(../images/web2/select_list_head_hover1.gif) no-repeat;}
@@ -1996,7 +1999,8 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 .sd_right .select_active em{ display:block;}
 
 
-
+.sd_right .error{ color:#FF0000; float:left; margin-top:5px;
+}
 
 
 

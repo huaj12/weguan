@@ -23,6 +23,7 @@
 					<em></em>
 				</div><!--select_box end-->
 			</div><!--select_menu end-->
+			<div class="error" style="display: none;"></div>
 			<div>
 				<div class="ms"><c:out value="${idea.content}" /></div>
 				<div class="infor"><!--infor begin-->

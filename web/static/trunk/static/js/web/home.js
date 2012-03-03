@@ -1,4 +1,14 @@
 $(document).ready(function(){
+	var closePostTipsCookieName = 'C_POST_TIPS';
+	//判断cookie是否显示tips
+	var closePostTips= $.cookie(closePostTipsCookieName);
+	if(null == closePostTips){
+		$("div.tips").show();
+	}
+	$("div.tips > a").click(function(){
+		$(this).parent().remove();
+		$.cookie(closePostTipsCookieName, true, {expires: 0, path: '/', domain: '51juzhai.com', secure: false});
+	});
 	var postSender = new PostSender($("form[name='sendPost']"));
 	postSender.bindSubmit(function(sendForm){
 		$.ajax({

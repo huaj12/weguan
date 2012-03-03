@@ -10,7 +10,6 @@
 <script type="text/javascript" src="${jzr:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 <script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 <script type="text/javascript" src="${jzr:static('/js/core/core.js')}"></script>
-<script type="text/javascript" src="${jzr:static('/js/core/validation.js')}"></script>
 <script type="text/javascript">
 	function checkData(){
 		var name=$("#name").val();

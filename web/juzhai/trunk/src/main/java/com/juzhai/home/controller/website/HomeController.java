@@ -21,6 +21,7 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
@@ -35,6 +36,8 @@ public class HomeController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private IPostService postService;
+	@Autowired
+	private ILoginService loginService;
 	@Value("${web.home.post.max.rows}")
 	private int webHomePostMaxRows;
 	@Value("${web.home.right.user.rows}")
@@ -164,7 +167,7 @@ public class HomeController extends BaseController {
 			postViewList.add(postView);
 		}
 		return postViewList;
-	} 
+	}
 
 	// @RequestMapping(value = "/datings/accept/{page}", method =
 	// RequestMethod.GET)

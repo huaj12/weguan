@@ -168,7 +168,7 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 .user_area .login .user_box a.girl:hover{ color:#FF6699;}
 
 
-.top .search{float:right; margin-right:15px; display:inline; margin-top:11px; position:relative;}
+.top .search{float:right; margin-right:-20px; display:inline; margin-top:15px; position:relative;}
 .search .s_l{ background:url(../images/web2/search2_r1_c1.jpg) no-repeat; width:5px; height:28px; float:left; overflow:hidden;}
 .search .s_m{ background:url(../images/web2/search2_r1_c2.jpg) no-repeat; width:157px; height:28px; float:left; overflow:hidden;}
 .search .s_r{ background:url(../images/web2/search2_r1_c3.jpg) no-repeat; width:30px; height:28px; float:left; overflow:hidden;}

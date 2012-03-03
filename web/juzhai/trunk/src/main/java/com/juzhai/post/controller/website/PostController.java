@@ -27,10 +27,13 @@ import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.form.PostForm;
+import com.juzhai.post.controller.view.PostCommentView;
 import com.juzhai.post.controller.view.ResponseUserView;
 import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.model.Post;
+import com.juzhai.post.model.PostComment;
 import com.juzhai.post.model.PostResponse;
+import com.juzhai.post.service.IPostCommentService;
 import com.juzhai.post.service.IPostImageService;
 import com.juzhai.post.service.IPostService;
 
@@ -47,7 +50,11 @@ public class PostController extends BaseController {
 	@Autowired
 	private IInterestUserService interestUserService;
 	@Autowired
+	private IPostCommentService postCommentService;
+	@Autowired
 	private IProfileService profileService;
+	@Value("${post.comment.user.max.rows}")
+	private int postCommentUserMaxRows;
 	@Value("${post.response.user.max.rows}")
 	private int postResponseUserMaxRows;
 	@Value("${post.detail.right.idea.rows}")
@@ -195,16 +202,88 @@ public class PostController extends BaseController {
 	@RequestMapping(value = "/{postId}", method = RequestMethod.GET)
 	public String detail(HttpServletRequest request, Model model,
 			@PathVariable long postId) {
+		return commentUser(request, model, postId);
+	}
+
+	@RequestMapping(value = "/{postId}/comment", method = RequestMethod.GET)
+	public String commentUser(HttpServletRequest request, Model model,
+			@PathVariable long postId) {
+		return pageCommentUser(request, model, postId, 1);
+	}
+
+	@RequestMapping(value = "/{postId}/comment/{page}", method = RequestMethod.GET)
+	public String pageCommentUser(HttpServletRequest request, Model model,
+			@PathVariable long postId, @PathVariable int page) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		if (!postDetail(request, model, postId, context)) {
+			return error_404;
+		}
+		int totalCnt = (Integer) model.asMap().get("commentTotalCnt");
+		PagerManager pager = new PagerManager(page, postCommentUserMaxRows,
+				totalCnt);
+		List<PostComment> list = postCommentService.listPostComment(postId,
+				pager.getFirstResult(), pager.getMaxResult());
+		List<PostCommentView> postCommentViewList = new ArrayList<PostCommentView>(
+				list.size());
+		for (PostComment pc : list) {
+			PostCommentView view = new PostCommentView();
+			view.setPostComment(pc);
+			view.setCreateUser(profileService.getProfileCacheByUid(pc
+					.getCreateUid()));
+			if (pc.getParentCreateUid() > 0) {
+				view.setParentUser(profileService.getProfileCacheByUid(pc
+						.getParentCreateUid()));
+			}
+			postCommentViewList.add(view);
+		}
+		model.addAttribute("pager", pager);
+		model.addAttribute("postCommentViewList", postCommentViewList);
+		model.addAttribute("pageType", "comment");
+		return "web/post/detail";
+	}
+
+	@RequestMapping(value = "/{postId}/respuser", method = RequestMethod.GET)
+	public String responseUser(HttpServletRequest request, Model model,
+			@PathVariable long postId) {
 		return pageResponseUser(request, model, postId, 1);
 	}
 
-	@RequestMapping(value = "/{postId}/responseUser/{page}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{postId}/respuser/{page}", method = RequestMethod.GET)
 	public String pageResponseUser(HttpServletRequest request, Model model,
 			@PathVariable long postId, @PathVariable int page) {
 		UserContext context = (UserContext) request.getAttribute("context");
+		if (!postDetail(request, model, postId, context)) {
+			return error_404;
+		}
+		int totalCnt = (Integer) model.asMap().get("respTotalCnt");
+		PagerManager pager = new PagerManager(page, postResponseUserMaxRows,
+				totalCnt);
+		List<PostResponse> postResponseList = postService.listPostResponse(
+				postId, pager.getFirstResult(), pager.getMaxResult());
+		List<ResponseUserView> responseUserViewList = new ArrayList<ResponseUserView>(
+				postResponseList.size());
+		for (PostResponse pr : postResponseList) {
+			ResponseUserView view = new ResponseUserView();
+			view.setProfileCache(profileService.getProfileCacheByUid(pr
+					.getUid()));
+			view.setCreateTime(pr.getCreateTime());
+			if (context.hasLogin() && context.getUid() != pr.getUid()) {
+				view.setHasInterest(interestUserService.isInterest(
+						context.getUid(), pr.getUid()));
+			}
+			responseUserViewList.add(view);
+		}
+		model.addAttribute("pager", pager);
+		model.addAttribute("responseUserViewList", responseUserViewList);
+		model.addAttribute("pageType", "response");
+		return "web/post/detail";
+	}
+
+	private boolean postDetail(HttpServletRequest request, Model model,
+			long postId, UserContext context) {
 		Post post = postService.getPostById(postId);
 		if (null == post || post.getDefunct()) {
-			return error_404;
+			return false;
 		}
 		model.addAttribute("post", post);
 		ProfileCache profileCache = profileService.getProfileCacheByUid(post
@@ -226,26 +305,10 @@ public class PostController extends BaseController {
 			}
 		}
 		ideaWidget(context, cityId, model, postDetailRightIdeaRows);
-
-		PagerManager pager = new PagerManager(page, postResponseUserMaxRows,
+		model.addAttribute("commentTotalCnt",
+				postCommentService.countPostComment(postId));
+		model.addAttribute("respTotalCnt",
 				postService.countResponseUser(postId));
-		List<PostResponse> postResponseList = postService.listPostResponse(
-				postId, pager.getFirstResult(), pager.getMaxResult());
-		List<ResponseUserView> responseUserViewList = new ArrayList<ResponseUserView>(
-				postResponseList.size());
-		for (PostResponse pr : postResponseList) {
-			ResponseUserView view = new ResponseUserView();
-			view.setProfileCache(profileService.getProfileCacheByUid(pr
-					.getUid()));
-			view.setCreateTime(pr.getCreateTime());
-			if (context.hasLogin() && context.getUid() != pr.getUid()) {
-				view.setHasInterest(interestUserService.isInterest(
-						context.getUid(), pr.getUid()));
-			}
-			responseUserViewList.add(view);
-		}
-		model.addAttribute("pager", pager);
-		model.addAttribute("responseUserViewList", responseUserViewList);
-		return "web/post/detail";
+		return true;
 	}
 }

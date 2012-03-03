@@ -21,9 +21,22 @@
 					<a href="/logout">退出</a>
 				</div><!--acc_list end-->
 			</div><!--acc end-->
-			<div class="my_message" ><!--my_message begin-->
-				<a href="/home/dialog/1"><p>消息</p><span style="display: none;" id="notice5">1</span></a>
+			<div class="my_message"><!--my_message begin-->
+				<div id="messageSelect">
+					<p class=""><a href="javascript:void(0);">消息</a></p>
+					<div class="my_message_show" style="display: none; z-index: 999"><!--use_set_center begin-->
+						<span id="notice5"><a href="/home/dialog/1">私信</a><em></em></span>
+						<span id="notice6"><a href="/home/comment/inbox/1">留言</a><em></em></span>
+					</div><!--use_set_center end-->
+				</div>
+				<div class="my_message_show" style="z-index: 1"><!--use_set_center begin-->
+					<span id="notice5" style="display: none;"><a href="/home/dialog/1">私信</a><em></em></span>
+					<span id="notice6" style="display: none;"><a href="/home/comment/inbox/1">留言</a><em></em></span>
+				</div><!--use_set_center end-->
 			</div><!--my_message end-->
+			<!-- <div class="my_message" >my_message begin
+				<a href="/home/dialog/1"><p>消息</p><span style="display: none;" id="notice5">1</span></a>
+			</div>my_message end -->
 		</c:if>
 		<c:if test="${context.uid<=0}">
 			<div class="welcome_login"><p>登录:</p>

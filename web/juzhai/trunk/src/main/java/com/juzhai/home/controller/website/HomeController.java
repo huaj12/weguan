@@ -142,16 +142,29 @@ public class HomeController extends BaseController {
 	}
 
 	private void showHomeRight(UserContext context, long cityId, Model model) {
-		// queryProfile(context.getUid(), model);
-		model.addAttribute("postCount",
-				postService.countUserPost(context.getUid()));
-		model.addAttribute("responseCount",
-				postService.getAllResponseCnt(context.getUid()));
-		model.addAttribute("completion",
-				profileService.getProfileCompletion(context.getUid()));
+		showHomeLogo(context, model);
 		ideaWidget(context, cityId, model, webHomeRightIdeaRows);
 		newUserWidget(0L, model, webHomeRightUserRows);
 	}
+
+	private List<PostView> assembleUserPostViewList(UserContext context,
+			List<Post> postList) {
+		List<PostView> postViewList = new ArrayList<PostView>();
+		for (Post post : postList) {
+			PostView postView = new PostView();
+			postView.setPost(post);
+			postView.setProfileCache(profileService.getProfileCacheByUid(post
+					.getCreateUid()));
+			if (context != null && context.getUid() > 0) {
+				postView.setHasResponse(postService.isResponsePost(
+						context.getUid(), post.getId()));
+				postView.setHasInterest(interestUserService.isInterest(
+						context.getUid(), post.getCreateUid()));
+			}
+			postViewList.add(postView);
+		}
+		return postViewList;
+	} 
 
 	// @RequestMapping(value = "/datings/accept/{page}", method =
 	// RequestMethod.GET)
@@ -275,25 +288,6 @@ public class HomeController extends BaseController {
 	// model.addAttribute("userActViewList", userActViewList);
 	// model.addAttribute("pager", pager);
 	// }
-
-	private List<PostView> assembleUserPostViewList(UserContext context,
-			List<Post> postList) {
-		List<PostView> postViewList = new ArrayList<PostView>();
-		for (Post post : postList) {
-			PostView postView = new PostView();
-			postView.setPost(post);
-			postView.setProfileCache(profileService.getProfileCacheByUid(post
-					.getCreateUid()));
-			if (context != null && context.getUid() > 0) {
-				postView.setHasResponse(postService.isResponsePost(
-						context.getUid(), post.getId()));
-				postView.setHasInterest(interestUserService.isInterest(
-						context.getUid(), post.getCreateUid()));
-			}
-			postViewList.add(postView);
-		}
-		return postViewList;
-	}
 
 	// private void showHomeHeader(UserContext context, long uid, Model model)
 	// throws JuzhaiException {

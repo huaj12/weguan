@@ -74,24 +74,37 @@
 							</div><!--w_m end-->
 							<div class="clear"></div>
 							<div class="w_b"></div>
-							<div class="keep user-remove-interest remove-interest-${postView.profileCache.uid}" <c:if test="${!postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${postView.profileCache.uid}" title="点击取消收藏">已收藏</a></div>
-							<div class="keep user-add-interest interest-${postView.profileCache.uid}" <c:if test="${postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${postView.profileCache.uid}" title="点击收藏">收藏ta</a></div>
-							<c:choose>
-								<c:when test="${postView.hasInterest}"></c:when>
-								<c:otherwise></c:otherwise>
-							</c:choose>
 							<div class="btn"><!--btn begin-->
-								<div class="message_s1"><a href="javascript:void(0);" target-uid="${postView.profileCache.uid}" target-nickname="${postView.profileCache.nickname}">私信</a></div>
+								<div class="keep user-remove-interest remove-interest-${postView.profileCache.uid}" <c:if test="${!postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${postView.profileCache.uid}" title="点击取消收藏">已收藏</a></div>
+								<div class="keep user-add-interest interest-${postView.profileCache.uid}" <c:if test="${postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${postView.profileCache.uid}" title="点击收藏">收藏ta</a></div>
+								<div class="mail"><a href="javascript:void(0);" title="给ta发私信" target-uid="${postView.profileCache.uid}" target-nickname="${postView.profileCache.nickname}">私信</a></div>
+								<div class="message_s2"><a href="javascript:void(0);" post-id="${postView.post.id}">留言<c:if test="${postView.post.commentCnt > 0}">(${postView.post.commentCnt})</c:if></a></div>
 								<c:choose>
 									<c:when test="${postView.hasResponse}">
-										<div class="like done"><a href="javascript:void(0);" class="xy">已响应</a><a href="/post/${postView.post.id}" class="xy_num">(${postView.post.responseCnt})</a></div>
+										<div class="like done"><a href="javascript:void(0);" class="xy">已响应</a><div class="xy_num"><p class="l"></p><a href="/post/${postView.post.id}/respuser">${postView.post.responseCnt}</a><p class="r"></p></div></div>
 									</c:when>
 									<c:otherwise>
-										<div class="like post-response" id="response${postView.post.id}"><a href="javascript:void(0);" class="xy" post-id="${postView.post.id}">响应</a><a href="/post/${postView.post.id}" class="xy_num">(<font>${postView.post.responseCnt}</font>)</a></div>
+										<div class="like post-response" id="response${postView.post.id}"><a href="javascript:void(0);" class="xy" post-id="${postView.post.id}">响应</a><div class="xy_num"><p class="l"></p><a href="/post/${postView.post.id}/respuser"><font>${postView.post.responseCnt}</font></a><p class="r"></p></div></div>
 									</c:otherwise>
 								</c:choose>
-							</div><!--btn end--> 
-							<div class="zfa"><a href="javascript:void(0);" post-id="${postView.post.id}">转发</a></div>
+								<div class="zfa"><a href="javascript:void(0);" post-id="${postView.post.id}">转发</a></div>
+							</div><!--btn end-->
+							<div class="clear"></div>
+							<div class="message_s2_box" id="comment-box-${postView.post.id}" loaded="false" style="display: none;"><!--message_box begin-->
+								<div class="box_top"></div>
+								<div class="box_main"><!--box_main begin-->
+									<div class="arrow"></div>
+									<c:set var="postId" value="${postView.post.id}" scope="request"/>
+									<jsp:include page="/WEB-INF/jsp/web/post/comment_send_box.jsp" />
+									<div class="comment-list">
+										<div class="repy_list_s2 bd_line">
+											<div class="list_loading"><em><img src="${jzr:static('/images/web2/list_loading.gif')}"  width="16" height="16"/></em><p>留言加载中...</p></div>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div><!--box_main end-->
+								<div class="box_bottom"></div>
+							</div><!--message_box end-->
 						</div><!--wtg end-->
 					</div><!--jz_item end-->
 				</c:forEach>

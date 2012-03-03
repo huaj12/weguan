@@ -7,6 +7,10 @@
 	    update tb_post set response_cnt = response_cnt + #{p} where id = #{id}
 	</update>
 	
+	<update id="incrCommentCount" parameterType="map">
+	    update tb_post set comment_cnt = comment_cnt + #{p} where id = #{id}
+	</update>
+	
 	<select id="sumResponseCntByCreateUid" resultType="java.lang.Integer" parameterType="map">
 	   select sum(response_cnt) from tb_post where create_uid = #{uid} group by create_uid
 	</select>

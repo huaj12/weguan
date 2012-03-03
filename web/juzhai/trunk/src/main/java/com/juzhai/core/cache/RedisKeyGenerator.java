@@ -387,7 +387,20 @@ public class RedisKeyGenerator extends KeyGenerator {
 		return "noticeUserList";
 	}
 
+	/**
+	 * 欢迎页idea数据
+	 */
 	public static String genIdeaWindowSortKey() {
 		return "ideaWindowSortList";
+	}
+
+	/**
+	 * 评论收件箱Key
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genCommentInboxKey(long uid) {
+		return genKey(uid, "commentIndex");
 	}
 }

@@ -32,4 +32,12 @@ public class PostDao implements IPostDao {
 		return cnt == null ? 0 : (Integer) cnt;
 	}
 
+	@Override
+	public void incrOrDecrCommentCnt(long postId, int p) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", postId);
+		params.put("p", p);
+		sqlSession.update("Post_Mapper.incrCommentCount", params);
+	}
+
 }

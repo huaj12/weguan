@@ -94,6 +94,18 @@ public class IdeaController extends BaseController {
 		return "web/idea/detail";
 	}
 
+	@RequestMapping(value = "/presendidea", method = RequestMethod.GET)
+	public String prepareSendIdea(HttpServletRequest request, Model model,
+			long ideaId) throws NeedLoginException {
+		checkLoginForWeb(request);
+		Idea idea = ideaService.getIdeaById(ideaId);
+		if (null == idea) {
+			return error_404;
+		}
+		model.addAttribute("idea", idea);
+		return "web/idea/send_idea";
+	}
+
 	@RequestMapping(value = "/random")
 	@ResponseBody
 	public AjaxResult randomIdea(HttpServletRequest request, Model model)

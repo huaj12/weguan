@@ -31,19 +31,9 @@ $(document).ready(function(){
     	select.bindSelect();
     });
     
-    //右侧idea
-	$("div.idea").find("div.send > a").click(function(){
+	$("div.idea-btn > a").click(function(){
 		var ideaId = $(this).attr("idea-id");
-		var send = $(this).parent().hide();
-		var sending = send.prev().show();
-		postIdea(ideaId, send, sending, function(){
-			sending.attr("class", "sended").children("a").text("已发布");
-			if($("#useCount-" + ideaId).is(":visible")){
-				$("#useCount-" + ideaId).text(parseInt($("#useCount-" + ideaId).text()) + 1);
-			}else{
-				$("#useCountShow-" + ideaId).text("1人想去");
-			}
-		});
+		prepareSendIdea(ideaId);
 	});
 });
 
@@ -72,24 +62,21 @@ function mouseHover(li, isOver){
 }
 
 //发布好主意
-function postIdea(ideaId, sendBtn, sendingBtn, successCallback){
+function postIdea(form, successCallback){
 	$.ajax({
 		url : "/post/postIdea",
 		type : "post",
 		cache : false,
-		data : {"ideaId" : ideaId},
+		data : form.serialize(),
 		dataType : "json",
 		success : function(result) {
 			if(result&&result.success){
-				successCallback();
-				sendBtn.unbind("click");
+				closeDialog("openIdeaSender");
 				var content = $("#dialog-success").html().replace("{0}", "发布成功！");
-				showSuccess(sendingBtn[0], content);
+				showSuccess(null, content);
+				successCallback();
 			}else{
-				var content = $("#dialog-success").html().replace("{0}", result.errorInfo);
-				showError(sendingBtn[0], content);
-				sendingBtn.hide();
-				sendBtn.show();
+				form.find(".error").text(result.errorInfo).show();
 			}
 		},
 		statusCode : {
@@ -499,6 +486,24 @@ function registerInitMsg(inputObj, callback){
 		}
 	});
 	$(inputObj).trigger("blur");
+}
+
+function prepareSendIdea(ideaId){
+	jQuery.ajax({
+		url : "/idea/presendidea",
+		type : "get",
+		cache : false,
+		data : {"ideaId": ideaId},
+		dataType : "html",
+		success : function(result) {
+			openDialog(null, "openIdeaSender", result);
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
 }
 
 function prepareModifyPost(postId){

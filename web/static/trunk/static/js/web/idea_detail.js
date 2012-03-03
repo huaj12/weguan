@@ -18,12 +18,4 @@ $(document).ready(function(){
 			$("div.remove-interest-" + uid).attr("style", "");
 		});
 	});
-	$("div.fb_area > div.fb_btn > a").click(function(){
-		var ideaId = $(this).attr("idea-id");
-		var send = $(this).parent().hide();
-		var sending = send.prev().show();
-		postIdea(ideaId, send, sending, function(){
-			sending.attr("class", "send_done").children("a").text("已发布");
-		});
-	});
 });

@@ -36,8 +36,6 @@ public class HomeController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private IPostService postService;
-	@Autowired
-	private ILoginService loginService;
 	@Value("${web.home.post.max.rows}")
 	private int webHomePostMaxRows;
 	@Value("${web.home.right.user.rows}")
@@ -55,7 +53,7 @@ public class HomeController extends BaseController {
 				&& InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
 			city = loginUser.getCity();
 		}
-		return showNewPosts(request, model, city, "all", 1);
+		return showNewPosts(request, model, city, "female", 1);
 	}
 
 	@RequestMapping(value = "/showNewPosts/{cityId}_{genderType}/{page}", method = RequestMethod.GET)

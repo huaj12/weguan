@@ -1,46 +1,4 @@
-var SelectInput =  Class.extend({
-	init: function(div){
-		this.selectDiv = div;
-    	var name = $(this.selectDiv).find("a.selected").text();
-    	var value = $(this.selectDiv).find("a.selected").attr("value");
-    	$(this.selectDiv).find("p > a").text(name);
-    	var inputName = $(this.selectDiv).attr("name");
-    	if(null != inputName){
-    		$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
-    	}
-	},
-	bindBlur:function(){
-		var selectDiv = this.selectDiv;
-		$("body").bind("mousedown",function(event){
-			if($(event.target).closest(selectDiv).length <= 0){
-				$(selectDiv).removeClass("select_active");
-			}
-		});
-	},
-	bindClick:function(){
-		var selectDiv = this.selectDiv;
-		$(selectDiv).find("p > a").bind("click", function(){
-			if($(selectDiv).hasClass("select_active")){
-				$(selectDiv).removeClass("select_active");
-	    	}else{
-	    		$(selectDiv).addClass("select_active");
-			}
-		});
-	},
-	bindSelect:function(){
-		var selectDiv = this.selectDiv;
-		$(selectDiv).find("div.select_box > span > a").bind("click", function(){
-        	var name = $(this).text();
-        	var value = $(this).attr("value");
-        	$(this).parent().children("a").removeClass("selected");
-        	$(this).addClass("selected");
-        	$(selectDiv).find("p > a").text(name);
-        	$(selectDiv).find("input[type='hidden']").val(value);
-        	$(selectDiv).removeClass("select_active");
-        });
-	}
-});
-
+$body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');// 这行是 Opera 的补丁, 少了它 Opera 是直接用跳的而且画面闪烁 by willin
 $(document).ready(function(){
 	if($("div.back_top").length > 0){
 		$.waypoints.settings.scrollThrottle = 30;
@@ -88,6 +46,14 @@ $(document).ready(function(){
 		});
 	});
 });
+
+function bindItemMouseHover(item){
+	$(item).mouseenter(function(){
+		mouseHover(this, true);
+	}).mouseleave(function(){
+		mouseHover(this, false);
+	});
+}
 
 function bindMouseHover(){
 	$(".mouseHover").mouseenter(function(){
@@ -535,6 +501,107 @@ function registerInitMsg(inputObj, callback){
 	$(inputObj).trigger("blur");
 }
 
+function prepareModifyPost(postId){
+	jQuery.ajax({
+		url : "/post/prepareModifyPost",
+		type : "get",
+		cache : false,
+		data : {"postId": postId},
+		dataType : "html",
+		success : function(result) {
+			openDialog(null, "openPostSender", result);
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+}
+
+function prepareRepost(postId){
+	jQuery.ajax({
+		url : "/post/prepareRepost",
+		type : "get",
+		cache : false,
+		data : {"postId": postId},
+		dataType : "html",
+		success : function(result) {
+			openDialog(null, "openPostSender", result);
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+}
+
+function deletePost(postId, successCallback){
+	jQuery.ajax({
+		url : "/post/deletePost",
+		type : "post",
+		cache : false,
+		data : {"postId" : postId},
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				successCallback();
+			} else {
+				alert(result.errorInfo);
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+}
+
+var SelectInput =  Class.extend({
+	init: function(div){
+		this.selectDiv = div;
+    	var name = $(this.selectDiv).find("a.selected").text();
+    	var value = $(this.selectDiv).find("a.selected").attr("value");
+    	$(this.selectDiv).find("p > a").text(name);
+    	var inputName = $(this.selectDiv).attr("name");
+    	if(null != inputName){
+    		$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
+    	}
+	},
+	bindBlur:function(){
+		var selectDiv = this.selectDiv;
+		$("body").bind("mousedown",function(event){
+			if($(event.target).closest(selectDiv).length <= 0){
+				$(selectDiv).removeClass("select_active");
+			}
+		});
+	},
+	bindClick:function(){
+		var selectDiv = this.selectDiv;
+		$(selectDiv).find("p > a").bind("click", function(){
+			if($(selectDiv).hasClass("select_active")){
+				$(selectDiv).removeClass("select_active");
+	    	}else{
+	    		$(selectDiv).addClass("select_active");
+			}
+		});
+	},
+	bindSelect:function(){
+		var selectDiv = this.selectDiv;
+		$(selectDiv).find("div.select_box > span > a").bind("click", function(){
+        	var name = $(this).text();
+        	var value = $(this).attr("value");
+        	$(this).parent().children("a").removeClass("selected");
+        	$(this).addClass("selected");
+        	$(selectDiv).find("p > a").text(name);
+        	$(selectDiv).find("input[type='hidden']").val(value);
+        	$(selectDiv).removeClass("select_active");
+        });
+	}
+});
+
 var PostSender =  Class.extend({
 	init: function(sendForm){
 		this.sendForm = sendForm;
@@ -727,7 +794,7 @@ var PostSender =  Class.extend({
 	}
 });
 
-var LocationWidget =  Class.extend({
+var LocationWidget = Class.extend({
 	init: function(){
 		var provinceSelect = $("select#province-select");
 		var citySelect = $("select#city-select");
@@ -796,13 +863,6 @@ var LocationWidget =  Class.extend({
 		}
 		var selectData = jselect.attr("select-data");
 		if(selectData!=null && selectData!=""){
-//			var count = jselect[0].length;
-//			for(var i=0;i<count;i++){
-//			   if(jselect.get(0).options[i].value == selectData){
-//				   jselect.get(0).options[i].selected = true;
-//			       break;
-//			   }
-//			}
 			if($.browser.msie && $.browser.version=="6.0") { 
 		        setTimeout(function(){ 
 		        	jselect.val(selectData);
@@ -812,66 +872,176 @@ var LocationWidget =  Class.extend({
 		    	jselect.val(selectData);
 				jselect.trigger("change"); 
 		    }
-//			jselect.val(selectData);
 			jselect.removeAttr("select-data");
 		}
 	}
 });
 
-function prepareModifyPost(postId){
-	jQuery.ajax({
-		url : "/post/prepareModifyPost",
-		type : "get",
-		cache : false,
-		data : {"postId": postId},
-		dataType : "html",
-		success : function(result) {
-			openDialog(null, "openPostSender", result);
-		},
-		statusCode : {
-			401 : function() {
-				window.location.href = "/login?turnTo=" + window.location.href;
-			}
+var CommentWidget = Class.extend({
+	init: function(commentForm, commentList){
+		if(null != commentForm && commentForm.length > 0){
+			this.postId = commentForm.find("input[name='postId']").val();
 		}
-	});
-}
-
-function prepareRepost(postId){
-	jQuery.ajax({
-		url : "/post/prepareRepost",
-		type : "get",
-		cache : false,
-		data : {"postId": postId},
-		dataType : "html",
-		success : function(result) {
-			openDialog(null, "openPostSender", result);
-		},
-		statusCode : {
-			401 : function() {
-				window.location.href = "/login?turnTo=" + window.location.href;
-			}
+		this.commentForm = commentForm;
+		this.commentList = commentList;
+	},
+	loadList: function(){
+		if(this.commentList.length <= 0){
+			return;
 		}
-	});
-}
-
-function deletePost(postId, successCallback){
-	jQuery.ajax({
-		url : "/post/deletePost",
-		type : "post",
-		cache : false,
-		data : {"postId" : postId},
-		dataType : "json",
-		success : function(result) {
-			if (result && result.success) {
-				successCallback();
-			} else {
-				alert(result.errorInfo);
+		var postId = this.postId;
+		var commentList = this.commentList;
+		var commentForm = this.commentForm;
+		var bindReplyLink = this.bindReplyLink;
+		var bindDelLink = this.bindDelLink;
+		$.ajax({
+			url : "/post/newcomment",
+			type : "get",
+			cache : false,
+			data : {"postId" : postId},
+			dataType : "html",
+			success : function(result) {
+				commentList.html(result);
+				commentList.find("div.repy_list_s2 > ul > li").each(function(){
+					bindItemMouseHover(this);
+					bindReplyLink(this, commentForm);
+					bindDelLink(this);
+				});
+			},
+			statusCode : {
+				401 : function() {
+					window.location.href = "/login?turnTo=" + window.location.href;
+				}
 			}
-		},
-		statusCode : {
-			401 : function() {
-				window.location.href = "/login?turnTo=" + window.location.href;
-			}
+		});
+	},
+	initForm: function(){
+		this.privateInitForm(this.commentForm);
+	},
+	privateInitForm: function(commentForm){
+		commentForm.find("input[name='content']").val("");
+		commentForm.find("input[name='parentId']").val(0);
+		commentForm.find("div.repy_for").hide();
+		commentForm.find(".error").text("").hide();
+	},
+	bindCloseRepyFor : function(commentForm){
+		if(null == this.commentList || this.commentList.length <= 0){
+			return;
 		}
-	});
-}
+		var commentForm = this.commentForm;
+		commentForm.find("div.repy_for > a").click(function(){
+			commentForm.find("input[name='parentId']").val(0);
+			commentForm.find("div.repy_for").hide();
+		});
+	},
+	bindReply: function(){
+		var commentForm = this.commentForm;
+		var commentList = this.commentList;
+		if(commentForm.length <= 0){
+			return;
+		}
+		var privateInitForm = this.privateInitForm;
+		var bindDelLink = this.bindDelLink;
+		commentForm.find("div.repy_btn > a").click(function(){
+			var sendBtn = $(this);
+			if(sendBtn.hasClass("done")){
+				return;
+			}
+			var content = commentForm.find("input[name='content']").val();
+			if(!checkValLength(content, 4, 280)){
+				commentForm.find(".error").text("留言内容控制在2~140个汉字内").show();
+				return;
+			}
+			sendBtn.text("发布中").addClass("done");
+			$.ajax({
+				url : "/post/quickcomment",
+				type : "post",
+				cache : false,
+				data : commentForm.serialize(),
+				dataType : "html",
+				success : function(result) {
+					sendBtn.text("发布留言").removeClass("done");
+					result = $.trim(result);
+					var isJson = /^{.*}$/.test(result); 
+					if(isJson){
+						var jsonResult = (new Function("return " + result))();
+						if(!jsonResult.success){
+							commentForm.find(".error").text(jsonResult.errorInfo).show();
+							return;
+						}
+					} else {
+						privateInitForm(commentForm);
+						if(null != commentList && commentList.length > 0){
+							var item = $(result);
+							bindItemMouseHover(item);
+							bindDelLink(item);
+							commentList.find("div.repy_list_s2").addClass("bd_line").find("ul").prepend(item);
+							item.fadeIn("slow");	
+						}
+					}
+					var content = $("#dialog-success").html().replace("{0}", "好的，ta会看到你");
+					showSuccess(sendBtn[0], content);
+				},
+				statusCode : {
+					401 : function() {
+						window.location.href = "/login?turnTo=" + window.location.href;
+					}
+				}
+			});
+		});
+		this.bindCloseRepyFor();
+	},
+	bindReplyLink: function(item, commentForm){
+		$(item).find("a.reply-link").click(function(){
+			var nickname = $(this).attr("nickname");
+			var content = $(this).attr("content");
+			var postCommentId = $(this).attr("post-comment-id");
+			var replyInfo = commentForm.find("div.repy_for");
+			replyInfo.find("font.reply-nickname").html(nickname);
+			replyInfo.find("font.reply-content").html(content);
+			commentForm.find("input[name='parentId']").val(postCommentId);
+			replyInfo.show();
+			$body.animate({scrollTop: commentForm.offset().top - 200}, 300, function(){
+				commentForm.find("input[name='content']").focus();
+			});
+		});
+	},
+	bindAllReplyLink: function(){
+		this.bindReplyLink(this.commentList.find("div.repy_list_s2 > ul > li"), this.commentForm);
+	},
+	bindDelLink: function(item){
+		$(item).find("a.delete-link").click(function(){
+			var delBtn = this;
+			var postCommentId = $(delBtn).attr("post-comment-id");
+			var content = $("#dialog-confirm").html().replace("{0}", "确定删除留言么？");
+			showConfirm(delBtn, "removeComment", content, function(){
+				$.ajax({
+					url : "/post/delcomment",
+					type : "post",
+					cache : false,
+					data : {"postCommentId" : postCommentId},
+					dataType : "json",
+					success : function(result) {
+						if (result && result.success) {
+							$(item).remove();
+						}else{
+							var content = $("#dialog-success").html().replace("{0}", result.errorInfo);
+							showError(delBtn, content);
+						}
+					},
+					statusCode : {
+						401 : function() {
+							window.location.href = "/login?turnTo=" + window.location.href;
+						}
+					}
+				});
+			});
+		});
+	},
+	bindAllDelLink: function(){
+		var bindDelLink = this.bindDelLink;
+		this.commentList.find("div.repy_list_s2 > ul > li").each(function(){
+			bindDelLink(this);
+		});
+	}
+});

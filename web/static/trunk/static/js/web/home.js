@@ -42,6 +42,24 @@ $(document).ready(function(){
 	});
 	
 	//列表
+	$("div.message_s2 > a").click(function(){
+		var postId = $(this).attr("post-id");
+		var commentListBox = $("div#comment-box-" + postId);
+		var commentWidget = new CommentWidget(commentListBox.find("form"), commentListBox.find("div.comment-list"));
+		if(commentListBox.attr("loaded") == "false"){
+			commentListBox.attr("loaded", true);
+			commentWidget.bindReply();
+			commentWidget.loadList();
+		}
+		if(commentListBox.is(":visible")){
+			commentListBox.fadeOut(100, function(){
+				commentWidget.initForm();
+			});
+		}else{
+			commentListBox.fadeIn(200);
+		}
+	});
+	
 	$("div.post-response > a.xy").click(function(){
 		var postId = $(this).attr("post-id");
 		var obj = $(this);
@@ -66,7 +84,7 @@ $(document).ready(function(){
 			$("div.remove-interest-" + uid).attr("style", "");
 		});
 	});
-	$("div.message_s1 > a").bind("click", function(){
+	$("div.mail > a").bind("click", function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);

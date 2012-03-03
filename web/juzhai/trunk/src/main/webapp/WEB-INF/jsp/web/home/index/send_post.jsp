@@ -94,8 +94,8 @@
 		</div><!--jh end-->
 		<div class="btn"><a href="javascript:void(0);">发布拒宅</a></div>
 		<div class="sending" style="display:none;"><a href="javascript:void(0)">发布中</a></div>
-		<div class="tb">
-			<input type="hidden" name="sendWeibo" value="false"/>
+		<div class="tb tb_click">
+			<input type="hidden" name="sendWeibo" value="true"/>
 			<span></span>
 			<p>同步到:</p>
 			<c:choose>

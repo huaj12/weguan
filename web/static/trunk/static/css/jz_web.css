@@ -229,6 +229,18 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 .z800{ position:relative; z-index:800;}
 
 
+.tips{ position:absolute; background:url(../images/web2/tips.png) no-repeat; width:184px; height:53px; overflow:hidden; top:-25px; right:160px;}
+.tips p{ float:left; color:#fff; margin-top:10px;  margin-top:12px\0;  *margin-top:10px; margin-left:15px; display:inline; }
+
+.tips a{ float:right; margin-right:4px; _margin-right:2px; margin-top:3px; display:inline; width:14px; height:14px; display:block;  background:url(../images/web2/close_btn3.gif) no-repeat 4px  4px;}
+
+
+
+
+
+
+
+
 
 
 .send_box{ width:620px; height:140px; float:left; margin-top:20px; margin-left:20px;  display:inline;}
@@ -1589,8 +1601,8 @@ filter:alpha(opacity=50);opacity:0.5; -moz-opacity:0.5; -khtml-opacity:0.5; font
 .my_jz .con_btn{ width:100%; float:left; margin-top:15px; }
 .my_jz .con_btn em{ color:#ccc; float:right; margin-left:10px; display:inline;}
 .my_jz .con_btn a{color:#3E8BD9; float:right; margin-left:10px; display:inline;}
-.my_jz .con_btn a.edit{ display:none;}
-.my_jz .con_btn a.delete{display:none;}
+.my_jz .con_btn a.edit{ }
+.my_jz .con_btn a.delete{}
 .my_jz .con_btn a.ly{ background:url(../images/web2/liuyan.png) no-repeat; height:16px; display:block; color:#3E8BD9; padding-left:20px; float:right; }
 .my_jz .con_btn a.xy{ background:url(../images/web2/xiangyin.png) no-repeat; height:15px; display:block; color:#3E8BD9; padding-left:22px; float:right;}
 
@@ -1949,15 +1961,89 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 
 
 
-
-
-
-
 /*欢迎新*/
 .huanying{ background:url(../images/web2/huanying.jpg) no-repeat; width:660px; height:63px; overflow:hidden; margin-top:15px;}
 .huanying p{ font-size:15px; font-family:"微软雅黑"; color:#3E8BD9; float:left; margin-top:21px; margin-left:20px; display:inline;}
 .huanying span{ float:right; margin-top:18px; margin-right:10px; display:inline;}
 .huanying span a{ float:left; margin-right:10px; display:inline;}
+
+
+
+
+
+/*发布好主意*/
+
+.send_idea{ width:550px; height:auto; display:block; background:#f7f7f7;}
+
+.send_idea .photo{ float:left; width:200px; height:auto; overflow:hidden; display:inline;}
+.sd_right{ float:right; width:330px; height:auto; display:block;}
+
+.sd_right .select_menu{ width:130px; height:28px; float:left; position:relative; z-index:100; margin-right:10px;}
+.sd_right .select_menu p{ float:left;}
+.sd_right .select_menu p a{ width:120px; height:28px; display:block; background:url(../images/web2/select_list_head1.gif) no-repeat; line-height:28px; line-height:30px\9; color:#666; padding-left:12px; text-decoration:none;}
+.sd_right .select_menu p a:hover{ background:url(../images/web2/select_list_head_hover1.gif) no-repeat;}
+.sd_right .select_active p a{ background:url(../images/web2/select_list_head_active1.gif) no-repeat;}
+.sd_right .select_active p a:hover{background:url(../images/web2/select_list_head_active1.gif) no-repeat;}
+
+.sd_right .select_menu .select_box{ display:none; position:absolute;top:28px; left:0;  }
+.sd_right .select_menu span{ background:url(../images/web2/select_list_span_bg1.gif) repeat-y; padding:4px 5px; float:left; width:120px; height:auto; overflow:hidden;  }
+.sd_right .select_menu span a{ width:115px; height:26px; overflow:hidden; display:block;line-height:28px; line-height:30px\9; color:#666;text-decoration:none; padding-left:7px;}
+.sd_right .select_menu span a:hover{background:url(../images/web2/select_list_span_a1.gif) no-repeat;}
+.sd_right .select_menu span a.selected{background:url(../images/web2/select_list_span_a_active1.gif) no-repeat; color:#fff;}
+.sd_right .select_menu span a.selected:hover{background:url(../images/web2/select_list_span_a_active1.gif) no-repeat; color:#fff;}
+.sd_right .select_menu em{ background:url(../images/web2/select_list_span_bottom1.gif) no-repeat; width:130px; overflow:hidden; height:1px; float:left; display:black;}
+.sd_right .select_active .select_box{ display:block;}
+.sd_right .select_active em{ display:block;}
+
+
+
+
+
+
+.sd_right .ms{ width:100%; height:auto; overflow:hidden; float:left; color:#999; margin-top:10px;}
+
+.sd_right .infor{ float:left; width:100%; margin-top:10px; padding-bottom:5px;}
+.sd_right .infor span{ color:#ccc; height:16px; float:left; margin-right:8px; display:inline;}
+.sd_right .infor span.time{ background:url(../images/web2/icon_link_r5_c1.jpg) no-repeat; padding-left:18px;}
+.sd_right .infor span.adress{ background:url(../images/web2/icon_link_r5_c3.jpg) no-repeat; padding-left:18px;}
+
+
+
+
+
+
+.sd_right .btn{ float:right; margin-top:8px;}
+.sd_right .btn a{ background:url(../images/web2/upload_btn_s1.gif) no-repeat; width:80px; height:30px; overflow:hidden; display:block; color:#fff; text-align:center; font-size:14px; line-height:30px; line-height:32px\9;}
+.sd_right .sending{ float:right; margin-top:8px;}
+.sd_right .sending a{background:url(../images/web2/sending_btn_s1.gif) no-repeat; width:50px; height:30px; overflow:hidden; display:block; color:#999;font-size:14px; line-height:30px; line-height:32px\9; padding-left:30px; cursor:default;}
+
+
+.sd_right .tb{ float:right; margin-right:10px; margin-top:13px; display:inline; cursor:pointer;}
+.sd_right .tb span{ background:url(../images/web2/tb_link.jpg) no-repeat; width:13px; height:13px; overflow:hidden; float:left; margin-top:4px; margin-top:5px\0;}
+.sd_right .tb p{ float:left; color:#ccc; margin-left:5px; display:inline; margin-top:1px; margin-top:3px\0; *margin-top:2px;}
+
+.sd_right .tb_click span{background:url(../images/web2/tb_active.jpg) no-repeat;}
+
+.sd_right .tb em{float:left; margin-left:5px; display:inline;}
+.sd_right .tb em.wb{ background:url(../images/web2/weibo_link.jpg) no-repeat; width:20px; height:20px; }
+.sd_right .tb_click em.wb{ background:url(../images/web2/weibo_active.jpg) no-repeat;}
+
+.sd_right .tb em.db{ background:url(../images/web2/link_db16.png) no-repeat; width:16px; height:16px; margin-top:3px;}
+.sd_right .tb_click em.db{ background:url(../images/web2/db16.png) no-repeat;}
+
+.sd_right .tb em.qq{ background:url(../images/web2/link_qq16.png) no-repeat; width:16px; height:16px; margin-top:3px;}
+.sd_right .tb_click em.qq{ background:url(../images/web2/qq16.png) no-repeat;}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

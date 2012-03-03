@@ -77,11 +77,15 @@ public class PostController extends BaseController {
 	@RequestMapping(value = "/postIdea", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult postIdea(HttpServletRequest request, Model model,
-			PostForm postForm) throws NeedLoginException {
+			PostForm postForm, boolean sendWeibo) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
 		try {
-			postService.createPost(context.getUid(), postForm);
+			long postId = postService.createPost(context.getUid(), postForm);
+			if (sendWeibo && postId > 0) {
+				postService.synchronizeWeibo(context.getUid(),
+						context.getTpId(), postId);
+			}
 		} catch (InputPostException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		}

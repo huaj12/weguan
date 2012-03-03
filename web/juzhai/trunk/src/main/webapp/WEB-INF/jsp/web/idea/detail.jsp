@@ -57,11 +57,10 @@
 													</c:if>
 													<c:choose>
 														<c:when test="${hasUsed}">
-															<div class="send_done"><a href="javascript:void(0);">已发布</a></div>
+															<div class="send_done"><a href="javascript:void(0);">已想去</a></div>
 														</c:when>
 														<c:otherwise>
-															<div class="sending" style="display: none;"><a href="javascript:void(0);">发布中</a></div>
-															<div class="fb_btn"><a href="javascript:void(0);" idea-id="${idea.id}">发布拒宅</a></div>															
+															<div class="fb_btn idea-btn" id="idea-btn-${idea.id}"><a href="javascript:void(0);" idea-id="${idea.id}">我想去</a></div>															
 														</c:otherwise>
 													</c:choose>
 												</div><!--fb_area end-->

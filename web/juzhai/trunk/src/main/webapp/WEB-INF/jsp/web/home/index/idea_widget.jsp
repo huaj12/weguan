@@ -20,11 +20,10 @@
 							<span><a href="/idea/${ideaView.idea.id}" target="_blank" id="useCountShow-${ideaView.idea.id}"><c:if test="${ideaView.idea.useCount > 0}"><font id="useCount-${ideaView.idea.id}">${ideaView.idea.useCount}</font>人想去</c:if></a></span>
 							<c:choose>
 								<c:when test="${ideaView.hasUsed}">
-									<div class="sended"><a href="javascript:void(0);">已发布</a></div>
+									<div class="sended"><a href="javascript:void(0);">已想去</a></div>
 								</c:when>
 								<c:otherwise>
-									<div class="sending" style="display: none;"><a href="javascript:void(0);">发布中..</a></div>
-									<div class="send"><a href="javascript:void(0);" idea-id="${ideaView.idea.id}">发布拒宅</a></div>
+									<div class="send idea-btn" id="idea-btn-${ideaView.idea.id}"><a href="javascript:void(0);" idea-id="${ideaView.idea.id}">我想去</a></div>
 								</c:otherwise>
 							</c:choose>
 						</li>

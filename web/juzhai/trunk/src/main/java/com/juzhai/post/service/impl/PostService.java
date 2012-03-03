@@ -138,7 +138,7 @@ public class PostService implements IPostService {
 		long postId = 0L;
 		if (postForm.getIdeaId() > 0) {
 			// 发表from idea
-			postId = createPostByIdea(uid, postForm.getIdeaId());
+			postId = createPostByIdea(uid, postForm);
 		} else {
 			postId = createPostByForm(uid, postForm);
 		}
@@ -151,8 +151,9 @@ public class PostService implements IPostService {
 		return postId;
 	}
 
-	private long createPostByIdea(long uid, long ideaId)
+	private long createPostByIdea(long uid, PostForm postForm)
 			throws InputPostException {
+		long ideaId = postForm.getIdeaId();
 		Idea idea = ideaService.getIdeaById(ideaId);
 		if (null == idea) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
@@ -170,7 +171,7 @@ public class PostService implements IPostService {
 		Post post = new Post();
 		post.setContent(idea.getContent());
 		post.setContentMd5(idea.getContentMd5());
-		post.setPurposeType(0);
+		post.setPurposeType(postForm.getPurposeType());
 		post.setLink(idea.getLink());
 		post.setPlace(idea.getPlace());
 		post.setDateTime(idea.getDate());

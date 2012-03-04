@@ -63,6 +63,10 @@ function mouseHover(li, isOver){
 
 //发布好主意
 function postIdea(form, successCallback){
+	if(form.find("div.send-ing").length > 0){
+		return;
+	}
+	form.find("div.btn").addClass("send-ing");
 	$.ajax({
 		url : "/post/postIdea",
 		type : "post",
@@ -77,6 +81,7 @@ function postIdea(form, successCallback){
 				successCallback();
 			}else{
 				form.find(".error").text(result.errorInfo).show();
+				form.find("div.send-ing").removeClass("send-ing");
 			}
 		},
 		statusCode : {

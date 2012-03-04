@@ -168,7 +168,7 @@
 		</c:otherwise>
 	</c:choose>
 	<script type="text/javascript">
-	    $("div.select_menu").each(function(){
+	    $("form[name='sendPost${postForm.postId}']").find("div.select_menu").each(function(){
 	    	var select = new SelectInput(this);
 	    	select.bindBlur();
 	    	select.bindClick();

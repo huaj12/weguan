@@ -116,7 +116,7 @@ function handleById(id){
 	<table border="0" cellspacing="4">
 		<tr style="background-color: #CCCCCC;">
 			<td width="100">用户头像</td>
-			<td width="100">我想去</td>
+			<td width="300">我想去</td>
 			<td width="100">发起人</td>
 			<td width="100">地点</td>
 			<td width="100">图片</td>
@@ -130,7 +130,7 @@ function handleById(id){
 				<td><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:${view.post.content}</td>
 				<td>${view.profileCache.nickname}</td>
 				<td>${view.post.place}</td>
-				<td>${jzr:postPic(view.post.id, view.post.ideaId, view.post.pic, 200)}</td>
+				<td><img src="${jzr:postPic(view.post.id, view.post.ideaId, view.post.pic, 200)}"  /> </td>
 				<td><fmt:formatDate value="${view.post.dateTime}"
 						pattern="yyyy-MM-dd" /></td>
 				<td><fmt:formatDate value="${view.post.createTime}"

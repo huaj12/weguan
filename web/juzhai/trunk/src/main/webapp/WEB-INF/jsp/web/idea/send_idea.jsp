@@ -3,7 +3,7 @@
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
 <%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<form id="send-idea">
+<form id="send-idea" onsubmit="javascript:return false;">
 	<input type="hidden" name="ideaId" value="${idea.id}" />
 	<div class="send_idea"><!--send_idea begin-->
 		<c:if test="${not empty idea.pic}">
@@ -52,7 +52,7 @@
 	</div><!--send_idea end-->
 </form>
 <script type="text/javascript">
-    $("div.select_menu").each(function(){
+	$("form#send-idea").find("div.select_menu").each(function(){
     	var select = new SelectInput(this);
     	select.bindBlur();
     	select.bindClick();

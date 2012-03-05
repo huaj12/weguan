@@ -106,11 +106,6 @@ $(document).ready(function(){
 		$("#searchActsForm").submit();
 	});
 	$("a#feedback").click(function(){
-		var hasLogin = $(this).attr("has-login") == "true";
-		if(!hasLogin){
-			window.location.href = "/login?turnTo=" + window.location.href;
-			return;
-		}
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);

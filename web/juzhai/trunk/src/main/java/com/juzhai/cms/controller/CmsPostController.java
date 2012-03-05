@@ -35,11 +35,12 @@ public class CmsPostController {
 
 	@RequestMapping(value = "/show/post/unhandle", method = RequestMethod.GET)
 	public String showPostUnhandle(Model model,
+			@RequestParam(defaultValue = "0") long city,
 			@RequestParam(defaultValue = "1") int pageId) {
 		PagerManager pager = new PagerManager(pageId, 30,
-				postService.countUnhandlePost());
-		List<Post> list = postService.listUnhandlePost(pager.getFirstResult(),
-				pager.getMaxResult());
+				postService.countUnhandlePost(city));
+		List<Post> list = postService.listUnhandlePost(city,
+				pager.getFirstResult(), pager.getMaxResult());
 		List<CmsPostView> listView = new ArrayList<CmsPostView>();
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
@@ -48,16 +49,18 @@ public class CmsPostController {
 		}
 		model.addAttribute("postView", listView);
 		model.addAttribute("pager", pager);
+		model.addAttribute("city", city);
 		return "/cms/post/unhandle";
 	}
 
 	@RequestMapping(value = "/show/post/shield", method = RequestMethod.GET)
 	public String showPostShield(Model model,
-			@RequestParam(defaultValue = "1") int pageId) {
+			@RequestParam(defaultValue = "1") int pageId,
+			@RequestParam(defaultValue = "0") long city) {
 		PagerManager pager = new PagerManager(pageId, 30,
-				postService.countShieldPost());
-		List<Post> list = postService.listShieldPost(pager.getFirstResult(),
-				pager.getMaxResult());
+				postService.countShieldPost(city));
+		List<Post> list = postService.listShieldPost(city,
+				pager.getFirstResult(), pager.getMaxResult());
 		List<CmsPostView> listView = new ArrayList<CmsPostView>();
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
@@ -66,16 +69,18 @@ public class CmsPostController {
 		}
 		model.addAttribute("postView", listView);
 		model.addAttribute("pager", pager);
+		model.addAttribute("city", city);
 		return "/cms/post/shield";
 	}
 
 	@RequestMapping(value = "/show/post/handle", method = RequestMethod.GET)
 	public String showPosthandle(Model model,
+			@RequestParam(defaultValue = "0") long city,
 			@RequestParam(defaultValue = "1") int pageId) {
 		PagerManager pager = new PagerManager(pageId, 30,
-				postService.countHandlePost());
-		List<Post> list = postService.listHandlePost(pager.getFirstResult(),
-				pager.getMaxResult());
+				postService.countHandlePost(city));
+		List<Post> list = postService.listHandlePost(city,
+				pager.getFirstResult(), pager.getMaxResult());
 		List<CmsPostView> listView = new ArrayList<CmsPostView>();
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
@@ -84,6 +89,7 @@ public class CmsPostController {
 		}
 		model.addAttribute("postView", listView);
 		model.addAttribute("pager", pager);
+		model.addAttribute("city", city);
 		return "/cms/post/handle";
 	}
 
@@ -110,7 +116,6 @@ public class CmsPostController {
 		}
 		return ajaxResult;
 	}
-
 
 	@RequestMapping(value = "/post/handle", method = RequestMethod.GET)
 	@ResponseBody

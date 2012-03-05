@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -113,6 +114,12 @@ function handleById(id){
 </head>
 <body>
 	<h2>未处理内容</h2><a href="javascript:;" onclick="handle();">将本页标记为已处理</a>
+	<select name="city" onchange="javascript:location.href='/cms/show/post/unhandle?city='+this.value+''">
+				<option value="0">全国</option>
+				<c:forEach var="specialCity" items="${jzd:specialCityList()}">
+					<option value="${specialCity.id}" <c:if test="${city==specialCity.id}">selected="selected"</c:if>>${specialCity.name}</option>
+		</c:forEach>
+	</select>
 	<table border="0" cellspacing="4">
 		<tr style="background-color: #CCCCCC;">
 			<td width="100">用户头像</td>
@@ -126,7 +133,7 @@ function handleById(id){
 		</tr>
 		<c:forEach var="view" items="${postView}" >
 			<tr>
-			<td><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,120)}" width="80" height="80"/></td>
+			<td><a href="/home/${view.profileCache.uid}" target="_blank"><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,120)}" width="80" height="80"/></a></td>
 				<td><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:${view.post.content}</td>
 				<td>${view.profileCache.nickname}</td>
 				<td>${view.post.place}</td>
@@ -149,7 +156,7 @@ function handleById(id){
 				<c:forEach var="pageId" items="${pager.showPages}">
 					<c:choose>
 						<c:when test="${pageId!=pager.currentPage}">
-							<a href="/cms/show/post/unhandle?pageId=${pageId}">${pageId}</a>
+							<a href="/cms/show/post/unhandle?pageId=${pageId}&city=${city}">${pageId}</a>
 						</c:when>
 						<c:otherwise>
 							<strong>${pageId}</strong>

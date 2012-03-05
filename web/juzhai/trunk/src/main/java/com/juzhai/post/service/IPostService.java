@@ -167,7 +167,6 @@ public interface IPostService {
 	 */
 	void shieldPost(long postId) throws InputPostException;
 
-
 	/**
 	 * 标记为已处理拒宅
 	 * 
@@ -199,7 +198,7 @@ public interface IPostService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Post> listUnhandlePost(int firstResult, int maxResults);
+	List<Post> listUnhandlePost(long city, int firstResult, int maxResults);
 
 	/**
 	 * 后台屏蔽拒宅列表
@@ -208,7 +207,7 @@ public interface IPostService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Post> listShieldPost(int firstResult, int maxResults);
+	List<Post> listShieldPost(long city, int firstResult, int maxResults);
 
 	/**
 	 * 后台处理的拒宅列表
@@ -217,28 +216,28 @@ public interface IPostService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Post> listHandlePost(int firstResult, int maxResults);
+	List<Post> listHandlePost(long city, int firstResult, int maxResults);
 
 	/**
 	 * 未处理拒宅数量
 	 * 
 	 * @return
 	 */
-	int countUnhandlePost();
+	int countUnhandlePost(long city);
 
 	/**
 	 * 屏蔽的拒宅数量
 	 * 
 	 * @return
 	 */
-	int countShieldPost();
+	int countShieldPost(long city);
 
 	/**
 	 * 合格的拒宅数量
 	 * 
 	 * @return
 	 */
-	int countHandlePost();
+	int countHandlePost(long city);
 
 	/**
 	 * 根据id查询post
@@ -297,5 +296,5 @@ public interface IPostService {
 	 * @return
 	 */
 	int getAllResponseCnt(long uid);
-	
+
 }

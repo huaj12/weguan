@@ -751,49 +751,58 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public List<Post> listUnhandlePost(int firstResult, int maxResults) {
-		return cmsListPost(VerifyType.RAW, firstResult, maxResults);
-	}
-
-	@Override
-	public List<Post> listShieldPost(int firstResult, int maxResults) {
-		return cmsListPost(VerifyType.SHIELD, firstResult, maxResults);
-	}
-
-	@Override
-	public List<Post> listHandlePost(int firstResult, int maxResults) {
-		return cmsListPost(VerifyType.QUALIFIED, firstResult, maxResults);
-	}
-
-	private List<Post> cmsListPost(VerifyType verifyType, int firstResult,
+	public List<Post> listUnhandlePost(long city, int firstResult,
 			int maxResults) {
+		return cmsListPost(city, VerifyType.RAW, firstResult, maxResults);
+	}
+
+	@Override
+	public List<Post> listShieldPost(long city, int firstResult, int maxResults) {
+		return cmsListPost(city, VerifyType.SHIELD, firstResult, maxResults);
+	}
+
+	@Override
+	public List<Post> listHandlePost(long city, int firstResult, int maxResults) {
+		return cmsListPost(city, VerifyType.QUALIFIED, firstResult, maxResults);
+	}
+
+	private List<Post> cmsListPost(long city, VerifyType verifyType,
+			int firstResult, int maxResults) {
 		PostExample example = new PostExample();
-		example.createCriteria().andVerifyTypeEqualTo(verifyType.getType())
-				.andDefunctEqualTo(false);
+		PostExample.Criteria criteria = example.createCriteria();
+		criteria.andVerifyTypeEqualTo(verifyType.getType()).andDefunctEqualTo(
+				false);
+		if (city > 0) {
+			criteria.andCityEqualTo(city);
+		}
 		example.setOrderByClause("create_time desc");
 		example.setLimit(new Limit(firstResult, maxResults));
 		return postMapper.selectByExample(example);
 	}
 
 	@Override
-	public int countUnhandlePost() {
-		return cmsCountPost(VerifyType.RAW);
+	public int countUnhandlePost(long city) {
+		return cmsCountPost(VerifyType.RAW, city);
 	}
 
 	@Override
-	public int countShieldPost() {
-		return cmsCountPost(VerifyType.SHIELD);
+	public int countShieldPost(long city) {
+		return cmsCountPost(VerifyType.SHIELD, city);
 	}
 
 	@Override
-	public int countHandlePost() {
-		return cmsCountPost(VerifyType.QUALIFIED);
+	public int countHandlePost(long city) {
+		return cmsCountPost(VerifyType.QUALIFIED, city);
 	}
 
-	private int cmsCountPost(VerifyType verifyType) {
+	private int cmsCountPost(VerifyType verifyType, long city) {
 		PostExample example = new PostExample();
-		example.createCriteria().andVerifyTypeEqualTo(verifyType.getType())
-				.andDefunctEqualTo(false);
+		PostExample.Criteria criteria = example.createCriteria();
+		if (city > 0) {
+			criteria.andCityEqualTo(city);
+		}
+		criteria.andVerifyTypeEqualTo(verifyType.getType()).andDefunctEqualTo(
+				false);
 		return postMapper.countByExample(example);
 	}
 

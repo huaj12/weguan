@@ -403,7 +403,12 @@ function closeDialog(dialogId){
 
 function openMessage(targetUid, nickname){
 	var content = $("#dialog-message").html().replace("{0}", nickname).replace("[0]", targetUid);
-	openDialog(null, "openMessage", content);
+	var login = $(content).attr("login");
+	if(login=="false"){
+		window.location.href = "/login?turnTo=" + window.location.href;
+	}else{
+		openDialog(null, "openMessage", content);
+	}
 }
 
 function doPostMessage(url, targetUid, content, errorCallback, completeCallback){
@@ -987,10 +992,11 @@ var CommentWidget = Class.extend({
 							bindDelLink(item);
 							commentList.find("div.repy_list_s2").addClass("bd_line").find("ul").prepend(item);
 							item.fadeIn("slow");	
+						}else{
+							var content = $("#dialog-success").html().replace("{0}", "好的，ta会看到你");
+							showSuccess(sendBtn[0], content);
 						}
 					}
-					var content = $("#dialog-success").html().replace("{0}", "好的，ta会看到你");
-					showSuccess(sendBtn[0], content);
 				},
 				statusCode : {
 					401 : function() {

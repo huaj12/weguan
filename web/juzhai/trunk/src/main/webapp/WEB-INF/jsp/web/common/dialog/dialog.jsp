@@ -27,13 +27,13 @@
 		<div class="box_right">
 			<b>你是这样的小宅么？</b><br />
 			你qq上有上百个好友，微博上有几百个粉丝；但在节假日里，却找不到人陪你出去玩。<br /><br />
-			<b>拒宅网如何帮助小宅们找伴儿出去玩？</b><br />
-			拒宅网搭建了一个找伴儿出去玩的平台。在这里小宅们说出各种新奇、有趣的拒宅好主意；大家交流，认识，并相约一起出去玩。<br />
+			<b>拒宅网助你脱宅：</b><br />
+			我们搭建了一个找伴儿出去玩的社区。在这里小宅们说出各种新奇、有趣的拒宅好主意；大家交流，认识，并相约一起出去玩。<br />
 		</div>
 	</div><!--login_show_box end-->
 </div>
 <div id="dialog-message" style="display: none;">
-	<div class="message_box"><!--share_box2 begin-->
+	<div class="message_box" login="${context.uid > 0}"><!--share_box2 begin-->
 		<h2>给&nbsp;{0}&nbsp;发私信</h2>
 		<div class="message_box_con"><!--message_box_con begin-->
 		<div class="text_area"><textarea name="content" cols="" rows=""></textarea></div>

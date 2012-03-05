@@ -18,6 +18,7 @@ $(document).ready(function() {
 	$("div.upload_area > div.uploading_ok > a").bind("click", function(){
 		$(this).parent().hide();
 		$("div.upload_area > div.btns").show();
+		$("div.upload_area > div.upload_ts").show();
 	});
 });
 
@@ -39,7 +40,7 @@ function prepareJcrop() {
 		boundx = bounds[0];
 		boundy = bounds[1];
 		jcrop_api = this;
-		jcrop_api.animateTo([ 0, 0, 90, 90 ]);
+		jcrop_api.animateTo([ 135, 135, 315, 315 ]);
 		jcrop_api.setOptions(this.checked ? {
 			minSize : [ 90, 90 ]
 		} : {
@@ -93,6 +94,7 @@ function uploadImage() {
 	var fileName = $(".btn_file_molding").val();
 	$("div.upload_area > div.btns").hide();
 	$("div.upload_area > div.error").hide();
+	$("div.upload_area > div.upload_ts").hide();
 	$("div.upload_area > div.uploading").show();
 	var options = {
 		url : "/profile/logo/upload",

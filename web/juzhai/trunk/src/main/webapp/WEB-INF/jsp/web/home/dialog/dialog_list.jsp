@@ -26,7 +26,7 @@
 								<span>
 									<c:choose>
 										<c:when test="${context.uid==dialogView.dialogContent.receiverUid}">
-										<h3>发给我</h3>
+										<h3>ta发给我</h3>
 									</c:when>
 									<c:otherwise>
 										<h4>我发给ta</h4>

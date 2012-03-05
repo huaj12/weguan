@@ -37,6 +37,8 @@ abbr,acronym { border: 0;
 
 
 a{text-decoration:none;}
+*html{background-image:url(about:blank);background-attachment:fixed;}
+
 
 
 .index{display:inline; margin-right:10px;}
@@ -86,7 +88,7 @@ a{text-decoration:none;}
 
 /*主体*/
 .warp{ width:100%; height:auto; display:block; background:url(../images/web2/top_bg.jpg) repeat-x;} 
-.main{ width:960px;_width:100%; height:auto;  margin:0 auto; overflow:hidden; }
+.main{ width:960px; _width:100%; height:auto;  margin:0 auto; overflow:hidden;}
 
 
 /*头部*/
@@ -213,19 +215,35 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 
 
 
+.suggestion{ width:40px; height:94px; position:fixed; top:200px; right:0px; overflow:hidden; z-index:1999;
+_position:absolute;
+_bottom:auto;
+_top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
+}
+
+
+.suggestion a{ background:url(../images/web2/suggestion.jpg) no-repeat; overflow:hidden; width:40px; height:94px; display:block;}
+
+
+
+
+
+
+
+
 
 /*主页*/
 
-.main_part{ width:960px; height:auto; display:block; margin:0 auto;  margin-top:70px; *padding-top:70px;}
+.main_part{ width:960px; height:auto; display:block; margin:0 auto; margin-top:70px; *padding-top:70px;}
 .main_part .main_left{ width:660px; min-height:700px; _height:700px; display:block;  float:left; }
-.main_part .main_right{width:285px; height:auto; overflow:hidden; float:right;}
+.main_part .main_right{width:285px; height:auto; display:block; float:right;}
 
 
 .content_box{ width:100%; height:auto; display:block; margin-top:15px; float:left;}
 .content_box .t{ float:left; margin-left:1px; display:inline; height:1px; overflow:hidden; background:#f7f7f7; }
 .w660 .t{ width:658px;}
 .content_box .m{ float:left;  height:auto;  background:#F7F5F4; display:block; width:100%;}
-.w285 .m{ background:#F7F5F4;}
+.w285 .m{ background:#F7F5F4; position:relative;}
 .w285 .t{ width:283px; background:#fff;}
 .z900{ position:relative; z-index:900;}
 .z800{ position:relative; z-index:800;}
@@ -238,6 +256,10 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 
 
 
+.tips_upload{ position:absolute; background:url(../images/web2/tips.png) no-repeat; width:184px; height:53px; overflow:hidden;  top:-25px; right:30px; z-index:900;}
+
+.tips_upload a.txt{ float:left; text-align:center; color:#fff; width:155px; padding-left:10px; margin-top:12px; display:inline; line-height:130%;}
+.tips_upload a.close{ float:right; margin-right:4px; _margin-right:2px; margin-top:3px; display:inline; width:14px; height:14px; display:block;  background:url(../images/web2/close_btn3.gif) no-repeat 4px  4px;}
 
 
 
@@ -949,7 +971,7 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 .message_list .list_item .message_item{ float:left; width:829px; height:auto; overflow:hidden; padding:10px; position:relative; border-left:1px solid #fff;}
 .message_item .photo{ width:80px; height:80px; float:left; overflow:hidden; margin-right:15px; display:inline;}
 
-.message_item .information{ float:left; height:80px; width:120px; display:inline; margin-top:2px;}
+.message_item .information{ float:left; height:80px; width:100px; margin-right:15px; display:inline; margin-top:2px;}
 .message_item .information a{float:left; font-size:12px; color:#666; text-decoration:none; font-weight:bold;}
 .message_item .information a:hover{text-decoration:underline;}
 .message_item .information span{ color:#999; width:100%; float:left;}
@@ -964,8 +986,8 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 .message_item span{ float:left; width:100%; margin-top:2px;}
 .message_item span a{ float:left; font-size:12px; color:#666; text-decoration:none; font-weight:bold;}
 .message_item span a:hover{ text-decoration:underline;}
-.message_item span h3{ float:left; font-size:12px; color:#999;}
-.message_item span h4{ float:left; font-size:12px; margin-right:5px; display:inline; color:#999;}
+.message_item span h3{ float:left; font-size:12px; color:#999;  background:url(../images/web2/send_me_icon.png) no-repeat; padding-left:20px;}
+.message_item span h4{ float:left; font-size:12px; margin-right:5px; display:inline; color:#999; background:url(../images/web2/i_send_icon.png) no-repeat; padding-left:20px;}
 .message_item span strong{ position:absolute; top:15px; right:15px; color:#ccc; }
 .message_item p{ float:left; width:100%; margin-top:3px; color:#666; font-size:14px; line-height:180%;}
 .message_item p a{ color:#666; text-decoration:none; font-size:14px;}
@@ -975,7 +997,7 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 .message_item em a font{margin:0 5px; font-weight:bold; color:#3E8BD9; font-size:12px;}
 .message_item em a:hover{ text-decoration:underline;}
 .message_item .btn{ position:absolute; bottom:15px; right:15px;}
-.message_item .btn a{ width:40px; height:21px; display:block; float:left; margin-left:10px; display:inline; color:#fff; text-align:center; line-height:25px; text-decoration:none; overflow:hidden; *line-height:23px;}
+.message_item .btn a{ width:40px; height:21px; display:block; float:left; margin-left:10px; display:inline; color:#fff; text-align:center; line-height:21px; text-decoration:none; overflow:hidden; *line-height:23px;}
 
 .message_item .btn a.repy{ background:url(../images/web2/tz_delete.gif) no-repeat;}
 .message_item .btn a.delete{ background:url(../images/web2/message_delete.gif) no-repeat; display:none;}
@@ -2020,9 +2042,9 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 
 
 
-.sd_right .btn{ float:right; margin-top:8px; position:absolute; right:0px; bottom:0px;}
+.sd_right .btn{ position:absolute; right:0px; bottom:0px;}
 .sd_right .btn a{ background:url(../images/web2/upload_btn_s1.gif) no-repeat; width:80px; height:30px; overflow:hidden; display:block; color:#fff; text-align:center; font-size:14px; line-height:30px; line-height:32px\9;}
-.sd_right .sending{ float:right; margin-top:8px; right:0px; bottom:0px;}
+.sd_right .sending{  position:absolute;  right:0px; bottom:0px;}
 .sd_right .sending a{background:url(../images/web2/sending_btn_s1.gif) no-repeat; width:50px; height:30px; overflow:hidden; display:block; color:#999;font-size:14px; line-height:30px; line-height:32px\9; padding-left:30px; cursor:default;}
 
 

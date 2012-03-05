@@ -13,6 +13,7 @@
 		</c:choose>
 	</div>
 </div><!--bottom_welcome end-->
+<script src="http://s4.cnzz.com/stat.php?id=3886571&web_id=3886571" language="JavaScript"></script>
 <script type="text/javascript">
 	var host=document.domain;
 	var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");

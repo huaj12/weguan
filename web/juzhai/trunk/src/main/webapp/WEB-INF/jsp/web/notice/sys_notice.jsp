@@ -42,9 +42,9 @@
 					<div class="b"></div>
 				</div><!--content end-->
 			</div><!--main end-->
+			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
+			<script type="text/javascript" src="${jzr:static('/js/web/sys_notice.js')}"></script>
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 		</div><!--warp end-->
-		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-		<script type="text/javascript" src="${jzr:static('/js/web/sys_notice.js')}"></script>
 	</body>
 </html>

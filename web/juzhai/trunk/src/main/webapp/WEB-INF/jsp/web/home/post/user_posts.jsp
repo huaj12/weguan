@@ -37,11 +37,11 @@
 					</div><!--main_right end-->
 				</div><!--main_part end-->
 			</div><!--main end-->
+			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 			<script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
+			<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
+			<script type="text/javascript" src="${jzr:static('/js/web/home_posts.js')}"></script>
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 		</div><!--warp end-->
-		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-		<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
-		<script type="text/javascript" src="${jzr:static('/js/web/home_posts.js')}"></script>
 	</body>
 </html>

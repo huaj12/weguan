@@ -132,7 +132,19 @@
 					<div class="b"></div>
 				</div><!--content end-->
 			</div><!--main end-->
+			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 			<script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
+			<jsp:include page="/WEB-INF/jsp/web/common/script/kindEditor.jsp" />
+			<script type="text/javascript" src="${jzr:static('/js/web/raw_act.js')}"></script>
+			<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
+			<c:if test="${success}">
+				<script type="text/javascript">
+					$(document).ready(function(){
+						var content = $("#dialog-success").html().replace("{0}", "谢谢推荐，通过审核后立即发布!");
+						showSuccess(null, content);
+					});
+				</script>
+			</c:if>
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 			<div id="dialog-rawAct-success" style="display: none;">
 				<div class="tj_done_show_box"><!--tj_done_show_box begin-->
@@ -141,17 +153,5 @@
 				</div><!--tj_done_show_box end-->
 			</div>
 		</div><!--warp end-->
-		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-		<jsp:include page="/WEB-INF/jsp/web/common/script/kindEditor.jsp" />
-		<script type="text/javascript" src="${jzr:static('/js/web/raw_act.js')}"></script>
-		<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
-		<c:if test="${success}">
-			<script type="text/javascript">
-				$(document).ready(function(){
-					var content = $("#dialog-success").html().replace("{0}", "谢谢推荐，通过审核后立即发布!");
-					showSuccess(null, content);
-				});
-			</script>
-		</c:if>
 	</body>
 </html>

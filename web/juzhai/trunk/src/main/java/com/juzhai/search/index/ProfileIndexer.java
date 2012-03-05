@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.NumericField;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
@@ -32,24 +33,32 @@ public class ProfileIndexer implements Indexer<Profile> {
 		Document doc = new Document();
 		doc.add(new Field("uid", profile.getUid().toString(), Field.Store.YES,
 				Field.Index.NOT_ANALYZED));
-		doc.add(new Field("name", profile.getNickname().toString(), Field.Store.YES,
-				Field.Index.ANALYZED));
+		doc.add(new Field("name", profile.getNickname().toString(),
+				Field.Store.YES, Field.Index.ANALYZED));
+		doc.add(new Field("province", profile.getProvince().toString(),
+				Field.Store.NO, Field.Index.NOT_ANALYZED));
 		doc.add(new Field("city", profile.getCity().toString(), Field.Store.NO,
 				Field.Index.NOT_ANALYZED));
 		doc.add(new Field("town", profile.getTown().toString(), Field.Store.NO,
 				Field.Index.NOT_ANALYZED));
 		doc.add(new Field("gender", profile.getGender().toString(),
 				Field.Store.NO, Field.Index.NOT_ANALYZED_NO_NORMS));
-		doc.add(new Field("age", profile.getBirthYear().toString(),
-				Field.Store.NO, Field.Index.NOT_ANALYZED));
+		doc.add(new NumericField("age", Field.Store.NO, true)
+				.setIntValue(profile.getBirthYear()));
 		doc.add(new Field("education", profile.getEducation().toString(),
 				Field.Store.NO, Field.Index.NOT_ANALYZED));
 		doc.add(new Field("minMonthlyIncome", profile.getMinMonthlyIncome()
 				.toString(), Field.Store.NO, Field.Index.NOT_ANALYZED));
 		doc.add(new Field("maxMonthlyIncome", profile.getMaxMonthlyIncome()
 				.toString(), Field.Store.NO, Field.Index.NOT_ANALYZED));
-		doc.add(new Field("height", profile.getHeight().toString(),
-				Field.Store.NO, Field.Index.NOT_ANALYZED));
+		doc.add(new NumericField("minIncomeNum", Field.Store.NO, true)
+				.setIntValue(profile.getMinMonthlyIncome()));
+		doc.add(new NumericField("height", Field.Store.NO, true)
+				.setIntValue(profile.getHeight()));
+		doc.add(new Field("constellationId", profile.getConstellationId()
+				.toString(), Field.Store.NO, Field.Index.NOT_ANALYZED));
+		doc.add(new Field("home", profile.getHome(), Field.Store.YES,
+				Field.Index.ANALYZED));
 		return doc;
 	}
 

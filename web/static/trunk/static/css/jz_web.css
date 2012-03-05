@@ -895,7 +895,12 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 
 .upload_area .btns a{ background:url(../images/web2/upload_btn.gif) no-repeat; width:120px; height:40px; color:#fff; text-align:center; text-decoration:none; font-size:18px;font-family:"微软雅黑","宋体"; display:block; line-height:40px;}
 
-.upload_area .error { float:left; margin-left:10px; color:#CC3300; font-size:14px; margin-top:10px;}
+.upload_area .error { float:left; margin-left:10px; color:#CC3300; font-size:14px; margin-top:12px;}
+
+
+.upload_area .upload_ts{ float:left; margin-left:10px; color:#999; font-size:14px; margin-top:12px;}
+
+
 
 .upload_area .uploading{ background:url(../images/web2/uploading.gif) no-repeat; float:left; width:120px; height:40px; color:#fff; text-align:center; font-size:18px;font-family:"微软雅黑","宋体"; line-height:40px;}
 

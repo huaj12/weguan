@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>我的个人形象-拒宅网</title>
+<title>我的头像-拒宅网</title>
 <link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -21,7 +21,7 @@
 						<jsp:include page="/WEB-INF/jsp/web/profile/common/left.jsp" />
 						<div class="set_right"><!--set_right begin-->
 							<div class="title">
-								<h2>设置我的个人形象</h2>
+								<h2>设置我的真实头像</h2>
 							</div>
 							<div class="my_face"><!--my_face begin-->
 								<div class="upload_area"><!--upload_area begin-->
@@ -31,6 +31,7 @@
 											<a href="#">上传头像</a> 
 										</form>
 									</div>
+									<div class="upload_ts">请上传真实头像，未通过头像审核的用户将无法被别人看到</div>
 									<div class="uploading" style="display:none;">上传中...</div>
 									<div class="error" style="display:none;"></div>
 									<div class="uploading_ok" style="display:none;"><font></font><a href="javascript:void(0);">重新上传</a></div>
@@ -47,11 +48,11 @@
 									</form>
 								</div>
 								<div class="preview_face"><!--preview_face begin-->
-									<p>预览效果</p>
+									<p>裁剪后的效果</p>
 									<span><img src="${jzr:userLogo(profile.uid,profile.newLogoPic,180)}" id="preview_180" width="180" height="180" /></span>
 								</div><!--preview_face end-->
 								<div class="btn_area">
-									<a href="javascript;void(0);" class="save">保存</a>
+									<a href="javascript;void(0);" class="save">好了</a>
 									<!-- <a href="#" onclick="releaseLogo();" class="cancel">取消</a> -->
 								</div>
 							</div><!--my_face end-->
@@ -61,11 +62,11 @@
 				<div class="b"></div>
 			</div><!--content end-->
 		</div><!--main end-->
+		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
+		<jsp:include page="/WEB-INF/jsp/web/common/script/jcrop.jsp" />
+		<script type="text/javascript" src="${jzr:static('/js/web/face.js')}"></script>
+		<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 	</div><!--warp end-->
-	<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-	<jsp:include page="/WEB-INF/jsp/web/common/script/jcrop.jsp" />
-	<script type="text/javascript" src="${jzr:static('/js/web/face.js')}"></script>
-	<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
 </body>
 </html>

@@ -34,6 +34,7 @@ import com.juzhai.post.model.PostComment;
 import com.juzhai.post.model.PostCommentExample;
 import com.juzhai.post.service.IPostCommentService;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.stats.counter.service.ICounter;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
 @Service
@@ -55,6 +56,8 @@ public class PostCommentService implements IPostCommentService {
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private IPassportService passportService;
+	@Autowired
+	private ICounter postCommentCounter;
 	@Value("${post.comment.content.length.min}")
 	private int postCommentContentLengthMin;
 	@Value("${post.comment.content.length.max}")
@@ -148,6 +151,7 @@ public class PostCommentService implements IPostCommentService {
 				addToCommentInbox(noticeUid, postComment.getId());
 			}
 		}
+		postCommentCounter.incr(null, 1L);
 		return postComment;
 	}
 

@@ -24,9 +24,9 @@
 					<jsp:include page="search_acts_list.jsp" />
 				</div><!--search_result end-->
 			</div><!--main end-->
+			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
+			<script type="text/javascript" src="${jzr:static('/js/web/search_acts.js')}"></script>
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 		</div><!--warp end-->
-		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-		<script type="text/javascript" src="${jzr:static('/js/web/search_acts.js')}"></script>
 	</body>
 </html>

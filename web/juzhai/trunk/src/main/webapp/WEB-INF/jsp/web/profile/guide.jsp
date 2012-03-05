@@ -101,10 +101,10 @@
 					<div class="qrxx_b"></div>
 				</div><!--qrxx end-->
 			</div><!--main end-->
+			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
+			<script type="text/javascript" src="${jzr:static('/js/web/guide.js')}"></script>
 			<c:set var="footType" value="fixed" scope="request"/>
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 		</div><!--warp end-->
-		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-		<script type="text/javascript" src="${jzr:static('/js/web/guide.js')}"></script>
 	</body>
 </html>

@@ -37,9 +37,9 @@
 					<jsp:include page="show_acts_list.jsp" />
 				</div><!--cqw end-->
 			</div><!--main end-->
+			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
+			<script type="text/javascript" src="${jzr:static('/js/web/show_acts.js')}"></script>
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 		</div><!--warp end-->
-		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-		<script type="text/javascript" src="${jzr:static('/js/web/show_acts.js')}"></script>
 	</body>
 </html>

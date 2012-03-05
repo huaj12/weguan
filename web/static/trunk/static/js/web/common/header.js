@@ -105,7 +105,7 @@ $(document).ready(function(){
 	$("div.search > div.s_r > a").bind("click", function(){
 		$("#searchActsForm").submit();
 	});
-	$("a#feedback").click(function(){
+	$("a.feed-back").click(function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);

@@ -77,3 +77,8 @@
 	</div><!--top end-->
 </div>
 <jsp:include page="/WEB-INF/jsp/web/common/back_top.jsp" />
+<div class="suggestion"><!--suggestion begin-->
+	<span>
+		<a href="javascript:void(0);" target-uid="2" target-nickname="拒宅网" class="feed-back"></a>
+	</span>
+</div><!--suggestion end-->

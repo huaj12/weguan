@@ -171,7 +171,7 @@ function updateIdeaWindow(){
 						pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td>
 				<a href="javascript:;" onclick="del('${view.idea.id}')">取消好主意</a><br />
-				<a href="/cms/show/idea/update?ideaId=${view.idea.id}">修改好主意</a><br />
+				<a href="/cms/show/idea/update?id=${view.idea.id}">修改好主意</a><br />
 				<c:choose>
 						<c:when test="${view.idea.random}"><a href="javascript:void(0);" onclick="operateIdeaRandom('${view.idea.id}',0)">移出随即库</a></c:when>
 						<c:otherwise><a href="javascript:void(0);" onclick="operateIdeaRandom('${view.idea.id}',1)">进入随即库</a></c:otherwise>

@@ -87,9 +87,11 @@ public class NoticeService implements INoticeService {
 		}
 		String fuid = user.getTpIdentity();
 		String[] fuids = new String[] { fuid };
-		String text = messageSource.getMessage(
-				NoticeUserTemplate.NOTICE_USER_TEXT_DEFAULT.getName(),
-				new Object[] { num }, Locale.SIMPLIFIED_CHINESE);
+		String text = messageSource
+				.getMessage(
+						NoticeUserTemplate.NOTICE_USER_TEXT_DEFAULT.getName(),
+						new Object[] { String.valueOf(num) },
+						Locale.SIMPLIFIED_CHINESE);
 		synchronizeService.notifyMessage(authInfo, fuids, text);
 	}
 

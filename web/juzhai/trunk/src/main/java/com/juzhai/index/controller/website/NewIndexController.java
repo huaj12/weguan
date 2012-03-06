@@ -216,6 +216,12 @@ public class NewIndexController extends BaseController {
 		}
 		int maxAge = getIntAge(maxStringAge);
 		int minAge = getIntAge(minStringAge);
+		if (maxAge < minAge) {
+			int age = 0;
+			age = maxAge;
+			maxAge = minAge;
+			minAge = age;
+		}
 		int maxYear = ageToYear(minAge);
 		int minYear = ageToYear(maxAge);
 		PagerManager pager = new PagerManager(pageId, 20,

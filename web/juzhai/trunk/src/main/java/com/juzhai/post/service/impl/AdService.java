@@ -95,4 +95,15 @@ public class AdService implements IAdService {
 		adMapper.deleteByPrimaryKey(id);
 	}
 
+	@Override
+	public void removeAllExpiredAd() {
+		AdExample example = new AdExample();
+		example.createCriteria().andEndTimeLessThan(new Date());
+		List<Ad> ads = adMapper.selectByExample(example);
+		for (Ad ad : ads) {
+			adMapper.deleteByPrimaryKey(ad.getId());
+		}
+
+	}
+
 }

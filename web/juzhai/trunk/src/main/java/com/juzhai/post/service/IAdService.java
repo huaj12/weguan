@@ -35,4 +35,10 @@ public interface IAdService {
 	 * @param id
 	 */
 	void remove(long id);
+
+	/**
+	 * 删除所有已发布过期的优惠信息
+	 */
+	void removeAllExpiredAd();
+
 }

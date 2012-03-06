@@ -7,11 +7,13 @@ $(document).ready(function(){
 			obj.next().find("font").text(currentCnt + 1);
 			obj.text("已" + obj.text()).unbind("click").parent().addClass("done");
 		});
+		return false;
 	});
 	$("a.send-message").bind("click", function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);
+		return false;
 	});
 	$("div.user-remove-interest > a.done").bind("click", function() {
 		var uid = $(this).attr("uid");
@@ -19,6 +21,7 @@ $(document).ready(function(){
 			$("div.remove-interest-" + uid).hide();
 			$("div.interest-" + uid).attr("style", "");
 		});
+		return false;
 	});
 	$("div.user-add-interest > a").bind("click", function() {
 		var uid = $(this).attr("uid");
@@ -26,6 +29,7 @@ $(document).ready(function(){
 			$("div.interest-" + uid).hide();
 			$("div.remove-interest-" + uid).attr("style", "");
 		});
+		return false;
 	});
 	
 	$("div.own_btn > a.delete").click(function(){
@@ -34,16 +38,19 @@ $(document).ready(function(){
 		showConfirm(this, "removePost", content, function(){
 			deletePost(postId, function(){window.location.href = "/home/posts";});
 		});
+		return false;
 	});
 	
 	$("div.own_btn > a.edit").click(function(){
 		var postId = $(this).attr("post-id");
 		prepareModifyPost(postId);
+		return false;
 	});
 	
 	$("div.zfa > a").click(function(){
 		var postId = $(this).attr("post-id");
 		prepareRepost(postId);
+		return false;
 	});
 	
 	if($("form#comment-form").length > 0){

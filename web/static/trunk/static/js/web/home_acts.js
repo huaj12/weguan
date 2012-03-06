@@ -9,5 +9,6 @@ $(document).ready(function() {
 				$(obj).parent().parent().remove();
 			});
 		});
+		return false;
 	});
 });

@@ -66,6 +66,7 @@
 			$(this).addClass("tb_click");
 			$(this).find('input[name="sendWeibo"]').val(true);
 		}
+		return false;
 	});
     $("form#send-idea").find("div.btn > a").click(function(){
     	var ideaId = $(this).attr("idea-id");
@@ -77,5 +78,6 @@
 				$("#useCountShow-" + ideaId).text("1人想去");
 			}
     	});
+    	return false;
     });
 </script>

@@ -54,8 +54,8 @@
 				</div><!--x end-->
 				</form>
 				<div class="btn">
-					<a href="javascript:void(0);" class="ok" onclick="javascript:submitDating(${profile.uid});">确定约ta</a>
-					<a href="javascript:void(0);" class="cancel" onclick="javascript:closeDialog('openDating');">取消</a>
+					<a href="javascript:void(0);" class="ok" onclick="javascript:submitDating(${profile.uid});return false;">确定约ta</a>
+					<a href="javascript:void(0);" class="cancel" onclick="javascript:closeDialog('openDating');return false;">取消</a>
 				</div>
 				<div class="mzky error" style="display:none;">抱歉，发送失败！</div>
 				<div class="mzky">每周可约10个人</div>
@@ -77,7 +77,7 @@
 	<c:otherwise>
 		<div class="tj_done_show_box"><!--tj_done_show_box begin-->
 			<h2>${errorInfo}</h2>
-			<a href="javascript:void(0);" class="done" onclick="javascript:closeDialog('openDating');">知道了</a>
+			<a href="javascript:void(0);" class="done" onclick="javascript:closeDialog('openDating');return false;">知道了</a>
 		</div><!--tj_done_show_box end-->
 	</c:otherwise>
 </c:choose>

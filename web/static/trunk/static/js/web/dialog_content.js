@@ -26,12 +26,14 @@ $(document).ready(function(){
 				}
 			});
 		});
+		return false;
 	});
 	
 	$("div.message_item > div.btn > a.repy").bind("click", function(){
 		var targetUid = $(this).attr("target-uid");
 		var targetName = $(this).attr("target-name");
 		openMessage(targetUid, targetName);
+		return false;
 	});
 	
 	$("div.message_repy > div.repy_area > div.text_area > a.send").bind("click", function(){
@@ -44,7 +46,7 @@ $(document).ready(function(){
 			$(obj).next().next().text("私聊内容字数控制在1-200个汉字内").show();
 			$(obj).next().hide();
 			$(obj).show();
-			return;
+			return false;
 		}
 		jQuery.ajax({
 			url : "/home/replyMessage",
@@ -72,6 +74,7 @@ $(document).ready(function(){
 				}
 			}
 		});
+		return false;
 	});
 	
 	bindReply();
@@ -118,5 +121,6 @@ function bindDelDialogContent(){
 				}
 			});
 		});
+		return false;
 	});
 }

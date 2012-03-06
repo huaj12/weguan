@@ -5,12 +5,14 @@ $(document).ready(function() {
 		removeDatingConfirm(datingId, this, function(){
 			$(obj).parent().parent().remove();
 		});
+		return false;
 	});
 	//修改约会
 	$("div.date_waiting > a").bind("click", function(){
 		var uid = $(this).attr("uid");
 		var datingId = $(this).attr("datingid");
 		openDating(uid, datingId);
+		return false;
 	});
 });
 

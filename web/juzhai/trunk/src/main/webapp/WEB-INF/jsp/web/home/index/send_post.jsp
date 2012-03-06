@@ -9,7 +9,7 @@
 	</c:if>
 	<div class="send_area"><!--send_area begin-->
 		<div class="select_menu" name="purposeType"><!--select_menu begin-->
-			<p><a href="javascript:void(0);">请选择</a></p>
+			<p><a href="javascript:void(0);" hidefocus>请选择</a></p>
 			<div></div>
 			<div class="select_box"><!--select_box begin-->
 				<span>

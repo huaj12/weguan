@@ -7,6 +7,7 @@ $(document).ready(function() {
 			$(obj).hide();
 			$("#hasInterest" + uid).show();
 		});
+		return false;
 	});
 	//取消敲门
 	$("div.cancel_qm > a.delete").bind("click", function() {
@@ -16,12 +17,14 @@ $(document).ready(function() {
 			$(obj).parent().hide();
 			$("#interest" + uid).show();
 		});
+		return false;
 	});
 	
 	//添加约
 	$("a.yueta_sbtn").bind("click", function(){
 		var uid = $(this).attr("uid");
 		openDating(uid, 0);
+		return false;
 	});
 	
 	$("div.title > span > select#genderSelect").bind("change", function(){
@@ -42,6 +45,7 @@ $(document).ready(function() {
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);
+		return false;
 	});
 });
 

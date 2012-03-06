@@ -5,6 +5,7 @@ $(document).ready(function() {
 			$("#want" + actId).hide();
 			$("#dwant" + actId).show();
 		});
+		return false;
 	});
 
 	$("div.dh_infor > div.delete_add > a").bind("click", function() {
@@ -17,5 +18,6 @@ $(document).ready(function() {
 				$("#want" + actId).show();
 			});
 		});
+		return false;
 	});
 });

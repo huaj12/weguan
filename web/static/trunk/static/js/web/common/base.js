@@ -34,6 +34,7 @@ $(document).ready(function(){
 	$("div.idea-btn > a").click(function(){
 		var ideaId = $(this).attr("idea-id");
 		prepareSendIdea(ideaId);
+		return false;
 	});
 });
 
@@ -602,6 +603,7 @@ var SelectInput =  Class.extend({
 	    		$(selectDiv).addClass("select_active");
 			}
 		});
+		return false;
 	},
 	bindSelect:function(){
 		var selectDiv = this.selectDiv;
@@ -613,6 +615,7 @@ var SelectInput =  Class.extend({
         	$(selectDiv).find("p > a").text(name);
         	$(selectDiv).find("input[type='hidden']").val(value);
         	$(selectDiv).removeClass("select_active");
+    		return false;
         });
 	}
 });
@@ -646,6 +649,7 @@ var PostSender =  Class.extend({
 		var sendPostCategory = this.sendPostCategory;
 		sendPostCategory.find("p > a").bind("click", function(){
 			sendPostCategory.addClass("active");
+			return false;
 		});
 		$("body").bind("mousedown",function(event){
 			if($(event.target).closest(sendPostCategory).length <= 0){
@@ -661,6 +665,7 @@ var PostSender =  Class.extend({
 			$(this).addClass("act");
 			sendPostCategory.toggleClass("done", value>0);
 			sendPostCategory.removeClass("active");
+			return false;
 		});
 	},
 	initDate : function(){
@@ -682,6 +687,7 @@ var PostSender =  Class.extend({
 					sendPostDate.removeClass("done");
 				}
 			});
+			return false;
 		});
 	},
 	initAddress : function(){
@@ -692,9 +698,11 @@ var PostSender =  Class.extend({
 		addressInput.trigger("blur");
 		sendPostAddress.find("p > a").bind("click", function(){
 			sendPostAddress.addClass("active");
+			return false;
 		});
 		sendPostAddress.find("div.show_area > div.area_title > a").click(function(){
 			sendPostAddress.removeClass("active");
+			return false;
 		});
 		$("body").bind("mousedown",function(event){
 			if($(event.target).closest(sendPostAddress).length <= 0){
@@ -709,7 +717,7 @@ var PostSender =  Class.extend({
 			//check place
 			if(!checkValLength(value, 0, 40)){
 				sendPostAddress.find(".error").text("地点字数控制在20字以内").show();
-				return;
+				return false;;
 			}
 			sendPostAddress.find('input[name="place"]').val(value);
 			sendPostAddress.removeClass("active");
@@ -720,6 +728,7 @@ var PostSender =  Class.extend({
 				sendPostAddress.removeClass("done");
 			}
 			sendPostAddress.find(".error").hide();
+			return false;
 		});
 	},
 	initPic : function(){
@@ -728,6 +737,7 @@ var PostSender =  Class.extend({
 		var sendForm = this.sendForm;
 		sendPostPic.find("p > a.photo").click(function(){
 			sendPostPic.addClass("active");
+			return false;
 		});
 		
 		$("body").bind("mousedown",function(event){
@@ -779,6 +789,7 @@ var PostSender =  Class.extend({
 			sendPostPic.find("div.upload_ok").hide();
 			sendPostPic.find("div.load_error").hide();
 			sendPostPic.find("div.show_area > div.upload_photo_area > div.upload").show();
+			return false;
 		});
 	},
 	initTb : function(){
@@ -790,6 +801,7 @@ var PostSender =  Class.extend({
 				$(this).addClass("tb_click");
 				$(this).find('input[name="sendWeibo"]').val(true);
 			}
+			return false;
 		});
 	},
 	bindSubmit : function(submitHandler){
@@ -805,6 +817,7 @@ var PostSender =  Class.extend({
 			$(this).parent().hide();
 			sendForm.find("div.sending").show();
 			submitHandler(sendForm);
+			return false;
 		});
 	}
 });
@@ -947,6 +960,7 @@ var CommentWidget = Class.extend({
 		commentForm.find("div.repy_for > a").click(function(){
 			commentForm.find("input[name='parentId']").val(0);
 			commentForm.find("div.repy_for").hide();
+			return false;
 		});
 	},
 	bindReply: function(){
@@ -960,12 +974,12 @@ var CommentWidget = Class.extend({
 		commentForm.find("div.repy_btn > a").click(function(){
 			var sendBtn = $(this);
 			if(sendBtn.hasClass("done")){
-				return;
+				return false;
 			}
 			var content = commentForm.find("input[name='content']").val();
 			if(!checkValLength(content, 4, 280)){
 				commentForm.find(".error").text("留言内容控制在2~140个汉字内").show();
-				return;
+				return false;
 			}
 			sendBtn.text("发布中").addClass("done");
 			$.ajax({
@@ -1004,6 +1018,7 @@ var CommentWidget = Class.extend({
 					}
 				}
 			});
+			return false;
 		});
 		this.bindCloseRepyFor();
 	},
@@ -1020,6 +1035,7 @@ var CommentWidget = Class.extend({
 			$body.animate({scrollTop: commentForm.offset().top - 200}, 300, function(){
 				commentForm.find("input[name='content']").focus();
 			});
+			return false;
 		});
 	},
 	bindAllReplyLink: function(){
@@ -1052,6 +1068,7 @@ var CommentWidget = Class.extend({
 					}
 				});
 			});
+			return false;
 		});
 	},
 	bindAllDelLink: function(){

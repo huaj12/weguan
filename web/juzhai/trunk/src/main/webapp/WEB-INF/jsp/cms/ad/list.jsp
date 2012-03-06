@@ -38,6 +38,25 @@ function removeAd(id){
 function showAdList(obj){
 	location.href="/cms/list/ad?cityId="+obj.value;
 }
+function delAllad(){
+	jQuery.ajax({
+		url : "/cms/remove/all/ad",
+		type : "get",
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				location.reload();
+			} else {
+				alert("操作失败请刷新页面后重试");
+			}
+		},
+		statusCode : {
+			401 : function() {
+				alert("未登录");
+			}
+		}
+	});
+}
 </script>
 <style type="text/css">
 </style>
@@ -50,6 +69,7 @@ function showAdList(obj){
 		<option value="${city.id }" <c:if test="${city.id==cityId }">selected="selected"</c:if> >${city.name }</option>
 	</c:forEach>
 	</select>
+	<input type="button"  onclick="delAllad();" value="删除所有过期的优惠信息" />
 	<table border="0" cellspacing="4">
 	<tr>
 			<td colspan="4"><c:forEach var="pageId"

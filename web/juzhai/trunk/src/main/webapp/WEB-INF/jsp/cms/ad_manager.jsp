@@ -63,6 +63,26 @@ function addAd(rawAdId){
 		}
 	});
 }
+
+function delAllRawad(){
+	jQuery.ajax({
+		url : "/cms/remove/all/raw/ad",
+		type : "get",
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				location.reload();
+			} else {
+				alert("操作失败请刷新页面后重试");
+			}
+		},
+		statusCode : {
+			401 : function() {
+				alert("未登录");
+			}
+		}
+	});
+}
 </script>
 <style type="text/css">
 </style>
@@ -96,6 +116,7 @@ function addAd(rawAdId){
 			</c:forEach>
 	</select>
 	</form>
+	<input type="button"  onclick="delAllRawad();" value="删除所有过期的优惠信息" />
 	<table border="0" cellspacing="4">
 		<tr>
 			<td colspan="4"><c:forEach var="pageId"

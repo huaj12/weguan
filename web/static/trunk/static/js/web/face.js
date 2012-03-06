@@ -19,6 +19,7 @@ $(document).ready(function() {
 		$(this).parent().hide();
 		$("div.upload_area > div.btns").show();
 		$("div.upload_area > div.upload_ts").show();
+		return false;
 	});
 });
 

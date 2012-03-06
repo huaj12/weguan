@@ -19,6 +19,7 @@ $(document).ready(function() {
 		var imgObj = $("div.upload > div.load_done > p > img");
 		imgObj.attr("src", imgObj.attr("loading-src"));
 		$("div.upload > div.sc_btn").show();
+		return false;
 	});
 });
 

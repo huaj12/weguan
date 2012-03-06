@@ -7,6 +7,7 @@ $(document).ready(function() {
 			$(obj).hide();
 			$("div.cancel_add").show();
 		});
+		return false;
 	});
 	//添加约
 	$("div.cancel_add > a.delete").bind("click", function(){
@@ -20,5 +21,6 @@ $(document).ready(function() {
 				$("a.wantgo").show();
 			});
 		});
+		return false;
 	});
 });

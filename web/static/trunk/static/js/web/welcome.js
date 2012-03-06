@@ -10,6 +10,7 @@ $(document).ready(function(){
 				}, 500);
 			}
 		}
+		return false;
 	});
 	
 	$("div.arrow_right > a").bind("click", function(){
@@ -21,9 +22,11 @@ $(document).ready(function(){
 				}, 500);
 			}
 		}
+		return false;
 	});
 	
 	$("a.go-login").click(function(){
 		showLogin(window.location.href);
+		return false;
 	});
 });

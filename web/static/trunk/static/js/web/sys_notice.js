@@ -7,7 +7,7 @@ $(document).ready(function() {
 		showConfirm(obj, "delSysNotice", content, function(){
 			delSysNotice(obj, sysNoticeId);
 		});
-		
+		return false;
 	});
 });
 

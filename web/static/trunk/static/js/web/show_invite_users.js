@@ -1,17 +1,18 @@
 $(document).ready(function() {
 	$("a#showMoreInvite").bind("click", function(){
 		showMoreInviteUser();
+		return false;
 	});
 	
 	$("a#inviteBtn").bind("click", function(){
 		var activeLi = $("div.friend_list > ul >li.active");
 		if(activeLi.length > 10){
 			$("em#inviteError").text("每次邀请不要超过10个人哦").show();
-			return;
+			return false;
 		}
 		if(activeLi.length <= 0){
 			$("em#inviteError").text("请选择邀请的人").show();
-			return;
+			return false;
 		}
 		var uNames = "";
 		var uids = "";
@@ -36,6 +37,7 @@ $(document).ready(function() {
 		});
 		invite(uNames, uids);
 		$("em#inviteError").hide();
+		return false;
 	});
 });
 

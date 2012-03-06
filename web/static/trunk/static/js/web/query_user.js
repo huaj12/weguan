@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	$("a.query-btn").click(function(){
 		search_user();
+		return false;
 	});
 	$("div.user-remove-interest > a.done").bind("click", function() {
 		var uid = $(this).attr("uid");
@@ -8,6 +9,7 @@ $(document).ready(function(){
 			$("div.remove-interest-" + uid).hide();
 			$("div.interest-" + uid).attr("style", "");
 		});
+		return false;
 	});
 	$("div.user-add-interest > a").bind("click", function() {
 		var uid = $(this).attr("uid");
@@ -15,11 +17,13 @@ $(document).ready(function(){
 			$("div.interest-" + uid).hide();
 			$("div.remove-interest-" + uid).attr("style", "");
 		});
+		return false;
 	});
 	$("span > a.message_u1").bind("click", function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);
+		return false;
 	});
 });
 

@@ -3,6 +3,7 @@ $(document).ready(function() {
 	$("div.date_btn > a").bind("click", function(){
 		var datingId = $(this).attr("datingid");
 		openDatingResp(datingId);
+		return false;
 	});
 });
 

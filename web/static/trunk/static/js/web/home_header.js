@@ -7,6 +7,7 @@ $(document).ready(function() {
 			$(obj).hide();
 			$("div.ta_user_btn > div.cancel_like").show();
 		});
+		return false;
 	});
 	$("div.ta_user_btn > div.cancel_like > a.delete").bind("click", function() {
 		var uid = $(this).attr("uid");
@@ -15,6 +16,7 @@ $(document).ready(function() {
 			$(obj).parent().hide();
 			$("div.ta_user_btn > a.like").show();
 		});
+		return false;
 	});
 	
 	//删除约
@@ -24,17 +26,20 @@ $(document).ready(function() {
 			$("div.dated").hide();
 			$("a.date").show();
 		});
+		return false;
 	});
 	//添加约
 	$("a.date").bind("click", function(){
 		var uid = $(this).attr("uid");
 		openDating(uid, 0);
+		return false;
 	});
 	//修改约
 	$("div.dated > a.modifyDating").bind("click", function(){
 		var uid = $("div.dated").attr("uid");
 		var datingId = $("div.dated").attr("datingid");
 		openDating(uid, datingId);
+		return false;
 	});
 	
 	$("div.kongxian > a").bind("click", function(){
@@ -42,12 +47,14 @@ $(document).ready(function() {
 		if(!obj.is(":visible")){
 			obj.show().animate({bottom:"+=100"}, 1000);
 		}
+		return false;
 	});
 	
 	$("a.open-dialog").bind("click", function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);
+		return false;
 	});
 });
 

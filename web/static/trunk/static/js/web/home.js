@@ -8,6 +8,7 @@ $(document).ready(function(){
 	$("div.tips > a").click(function(){
 		$(this).parent().remove();
 		$.cookie(closePostTipsCookieName, true, {expires: 0, path: '/', domain: '51juzhai.com', secure: false});
+		return false;
 	});
 	var postSender = new PostSender($("form[name='sendPost']"));
 	postSender.bindSubmit(function(sendForm){
@@ -43,12 +44,14 @@ $(document).ready(function(){
 		var cityId = $(this).attr("value");
 		var gender = $("#gender-select").find("a.selected").attr("value");
 		window.location.href = "/home/" + queryType + "/" + cityId + "_" + gender + "/1";
+		return false;
 	});
 	$("#gender-select").find("span > a").bind("click", function(){
 		var queryType = $("div.category").attr("queryType");
 		var gender = $(this).attr("value");
 		var cityId = $("#city-select").find("a.selected").attr("value");
 		window.location.href = "/home/" + queryType + "/" + cityId + "_" + gender + "/1";
+		return false;
 	});
 	
 	//列表
@@ -68,6 +71,7 @@ $(document).ready(function(){
 		}else{
 			commentListBox.fadeIn(200);
 		}
+		return false;
 	});
 	
 	$("div.post-response > a.xy").click(function(){
@@ -78,6 +82,7 @@ $(document).ready(function(){
 			obj.next().find("font").text(currentCnt + 1);
 			obj.text("已" + obj.text()).unbind("click").parent().addClass("done");
 		});
+		return false;
 	});
 	
 	$("div.user-remove-interest > a.done").bind("click", function() {
@@ -86,6 +91,7 @@ $(document).ready(function(){
 			$("div.remove-interest-" + uid).hide();
 			$("div.interest-" + uid).attr("style", "");
 		});
+		return false;
 	});
 	$("div.user-add-interest > a").bind("click", function() {
 		var uid = $(this).attr("uid");
@@ -93,16 +99,19 @@ $(document).ready(function(){
 			$("div.interest-" + uid).hide();
 			$("div.remove-interest-" + uid).attr("style", "");
 		});
+		return false;
 	});
 	$("div.mail > a").bind("click", function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);
+		return false;
 	});
 	
 	$("div.zfa > a").click(function(){
 		var postId = $(this).attr("post-id");
 		prepareRepost(postId);
+		return false;
 	});
 	
 	$("div.random_select > a.random").click(function(){
@@ -170,6 +179,7 @@ $(document).ready(function(){
 				}
 			}
 		});
+		return false;
 	});
 });
 

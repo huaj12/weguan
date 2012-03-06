@@ -20,7 +20,7 @@
 				</div><!--cantact end-->
 			</form>
 			<div class="mzky error" style="display:none;">抱歉，发送失败！</div>
-			<div class="btn"><a href="javascript:void(0);" onclick="javascript:submitRespDating(${datingId});">接受邀请,并查看ta的联系方式</a></div>
+			<div class="btn"><a href="javascript:void(0);" onclick="javascript:submitRespDating(${datingId});return false;">接受邀请,并查看ta的联系方式</a></div>
 		</div><!--show_box2 end-->
 	</c:when>
 	<c:when test="${errorCode=='30001'}">
@@ -38,7 +38,7 @@
 	<c:otherwise>
 		<div class="tj_done_show_box"><!--tj_done_show_box begin-->
 			<h2>${errorInfo}</h2>
-			<a href="javascript:void(0);" class="done" onclick="javascript:closeDialog('openDatingResp');">知道了</a>
+			<a href="javascript:void(0);" class="done" onclick="javascript:closeDialog('openDatingResp');return false;">知道了</a>
 		</div><!--tj_done_show_box end-->
 	</c:otherwise>
 </c:choose>

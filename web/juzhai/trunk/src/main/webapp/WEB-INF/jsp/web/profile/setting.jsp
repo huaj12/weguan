@@ -54,7 +54,7 @@
 											<p id="new_nickname"><c:out value="${profile.nickname}" /></p>
 											<c:if test="${!profile.hasModifyNickname}">
 												<span id="nickname_xg"><a href="javascript:void(0);"
-													onclick="show_updateDiv('nickname');">修改</a>
+													onclick="javascript:show_updateDiv('nickname');return false;">修改</a>
 												</span>
 											</c:if>
 										</div>
@@ -64,9 +64,9 @@
 											<span class="w90"><input name="" id="nickname"
 												type="text" /> </span>
 											<p class="r"></p>
-											<a href="javascript:void(0);" onclick="setNickname()" class="ok">确定</a> <a
+											<a href="javascript:void(0);" onclick="javascript:setNickname();return false;" class="ok">确定</a> <a
 												href="javascript:void(0);"
-												onclick="cancel_updateDiv('nickname');" class="cancel">取消</a>
+												onclick="javascript:cancel_updateDiv('nickname');return false;" class="cancel">取消</a>
 										</div>
 										<!--input end-->
 										<div class="ts" id="ts_nickname" style="display: none;">只能修改一次,谨慎操作!</div>
@@ -85,7 +85,7 @@
 											</p>
 											<c:if test="${!profile.hasModifyGender}">
 												<span id="gender_xg"><a href="javascript:void(0);"
-													onclick="show_updateDiv('gender');">修改</a>
+													onclick="javascript:show_updateDiv('gender');return false;">修改</a>
 												</span>
 											</c:if>
 										</div>
@@ -95,9 +95,9 @@
 													<option value="1" selected="selected">男</option>
 													<option value="0">女</option>
 											</select>
-											</span> <a href="javascript:void(0);" onclick="setGender();" class="ok">确定</a> <a
+											</span> <a href="javascript:void(0);" onclick="javascript:setGender();return false;" class="ok">确定</a> <a
 												href="javascript:void(0);"
-												onclick="cancel_updateDiv('gender');" class="cancel">取消</a>
+												onclick="javascript:cancel_updateDiv('gender');return false;" class="cancel">取消</a>
 										</div>
 										<!--select end-->
 										<div class="ts" id="ts_gender" style="display: none">只能修改一次,谨慎操作!</div>
@@ -337,7 +337,7 @@
 									
 									<div class="save_btn">
 										<!--save_btn begin-->
-										<a href="javascript:void(0);" onclick="setting('${profile.uid}')">保存</a>
+										<a href="javascript:void(0);" onclick="javascript:setting('${profile.uid}');return false;">保存</a>
 									</div>
 									<!--save_btn end-->
 									<div class="clear"></div>

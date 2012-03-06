@@ -14,5 +14,6 @@ $(document).ready(function(){
 	
 	$("#updateEmailBtn").bind("click", function(){
 		$("#updateEmail").submit();
+		return false;
 	});
 });

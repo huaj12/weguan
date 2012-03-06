@@ -21,10 +21,12 @@ $(document).ready(function(){
 //			$(this).addClass("hover");
 //			$("div.area_list").show();
 //		}
+//		return false;
 //	});
 //	$("div.area_list > a").bind("click", function(){
 //		var cityId = $(this).attr("cityid");
 //		switchChannel(cityId);
+//		return false;
 //	});
 //	$("div.area").hover(function(){
 //		$("body").unbind("mousedown");
@@ -34,6 +36,7 @@ $(document).ready(function(){
 	$("div.welcome_login > a").bind("click", function(){
 		var uri = $(this).attr("go-uri");
 		window.location.href = uri + "?turnTo=" + window.location.href; 
+		return false;
 	});
 	
 	var messageTimerId = null;
@@ -104,11 +107,13 @@ $(document).ready(function(){
 	});
 	$("div.search > div.s_r > a").bind("click", function(){
 		$("#searchActsForm").submit();
+		return false;
 	});
 	$("a.feed-back").click(function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);
+		return false;
 	});
 });
 

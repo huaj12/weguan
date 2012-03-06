@@ -10,6 +10,7 @@ $(document).ready(function() {
 	$("div.btn > a.yueta").bind("click", function(){
 		var uid = $(this).attr("uid");
 		openDating(uid, 0);
+		return false;
 	});
 	
 	$("div.btn > div.ygxq > a.delete").bind("click", function() {
@@ -19,6 +20,7 @@ $(document).ready(function() {
 			$(obj).parent().hide();
 			$("#interest" + uid).show();
 		});
+		return false;
 	});
 	$("div.btn > a.like").bind("click", function() {
 		var uid = $(this).attr("uid");
@@ -27,27 +29,30 @@ $(document).ready(function() {
 			$(obj).hide();
 			$("#removeInterest" + uid).show();
 		});
+		return false;
 	});
 	
 	$("div.item_zbr > div.btn > a.mail").bind("click", function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);
+		return false;
 	});
 	
 	$("a#showMoreInvite").bind("click", function(){
 		showMoreInviteUser();
+		return false;
 	});
 	
 	$("a#inviteBtn").bind("click", function(){
 		var activeLi = $("div.friend_list > ul >li.active");
 		if(activeLi.length > 10){
 			$("em#inviteError").text("每次邀请不要超过10个人哦").show();
-			return;
+			return false;
 		}
 		if(activeLi.length <= 0){
 			$("em#inviteError").text("请选择邀请的人").show();
-			return;
+			return false;
 		}
 		var uNames = "";
 		var i = 0;
@@ -60,6 +65,7 @@ $(document).ready(function() {
 		});
 		invite(uNames);
 		$("em#inviteError").hide();
+		return false;
 	});
 	
 	$("div#freeDateForm").show().animate({bottom:"+=100"}, 1000);

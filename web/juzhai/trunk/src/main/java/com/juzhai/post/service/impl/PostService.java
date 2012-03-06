@@ -773,7 +773,7 @@ public class PostService implements IPostService {
 		criteria.andVerifyTypeEqualTo(verifyType.getType()).andDefunctEqualTo(
 				false);
 		if (city > 0) {
-			criteria.andCityEqualTo(city);
+			criteria.andUserCityEqualTo(city);
 		}
 		example.setOrderByClause("create_time desc");
 		example.setLimit(new Limit(firstResult, maxResults));
@@ -799,7 +799,7 @@ public class PostService implements IPostService {
 		PostExample example = new PostExample();
 		PostExample.Criteria criteria = example.createCriteria();
 		if (city > 0) {
-			criteria.andCityEqualTo(city);
+			criteria.andUserCityEqualTo(city);
 		}
 		criteria.andVerifyTypeEqualTo(verifyType.getType()).andDefunctEqualTo(
 				false);

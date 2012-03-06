@@ -10,26 +10,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.juzhai.act.model.Category;
-import com.juzhai.cms.controller.form.AddIdeaForm;
 import com.juzhai.cms.controller.form.IdeaForm;
 import com.juzhai.cms.controller.view.CmsIdeaView;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.pager.PagerManager;
+import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.model.Idea;
+import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IIdeaService;
+import com.juzhai.post.service.IPostService;
 
 @Controller
 @RequestMapping("/cms")
@@ -37,6 +37,8 @@ public class CmsIdeaController extends BaseController {
 
 	@Autowired
 	private IIdeaService ideaService;
+	@Autowired
+	private IPostService postService;
 	@Autowired
 	private IProfileService profileService;
 	@Autowired
@@ -72,8 +74,24 @@ public class CmsIdeaController extends BaseController {
 	}
 
 	@RequestMapping(value = "/show/idea/add", method = RequestMethod.GET)
-	public String showIdeaAdd(Model model, String msg, AddIdeaForm addIdeaForm) {
-		model.addAttribute("addIdeaForm", addIdeaForm);
+	public String showIdeaAdd(Model model, String msg, IdeaForm ideaForm,
+			Long postId) {
+		if (postId != null) {
+			Post post = postService.getPostById(postId);
+			if (post != null) {
+				ideaForm.setContent(post.getContent());
+				try {
+					ideaForm.setDateString(DateFormat.SDF.format(post
+							.getDateTime()));
+				} catch (Exception e) {
+				}
+				ideaForm.setPic(post.getPic());
+				ideaForm.setPlace(post.getPlace());
+				ideaForm.setPostId(postId);
+				ideaForm.setCreateUid(post.getCreateUid());
+			}
+		}
+		model.addAttribute("ideaForm", ideaForm);
 		model.addAttribute("msg", msg);
 		model.addAttribute("citys", InitData.CITY_MAP.values());
 		model.addAttribute("categoryList",
@@ -82,9 +100,27 @@ public class CmsIdeaController extends BaseController {
 	}
 
 	@RequestMapping(value = "/show/idea/update", method = RequestMethod.GET)
-	public String showIdeaUpdate(Model model, Long ideaId, String msg) {
-		Idea idea = ideaService.getIdeaById(ideaId);
+	public String showIdeaUpdate(Model model, Long id, String msg,
+			IdeaForm ideaForm) {
+		Idea idea = ideaService.getIdeaById(id);
 		if (idea != null) {
+			if (ideaForm == null || ideaForm.getIdeaId() == null) {
+				ideaForm = new IdeaForm();
+				ideaForm.setCategoryId(idea.getCategoryId());
+				ideaForm.setCity(idea.getCity());
+				ideaForm.setGender(idea.getGender());
+				ideaForm.setRandom(idea.getRandom());
+				ideaForm.setContent(idea.getContent());
+				try {
+					ideaForm.setDateString(DateFormat.SDF.format(idea.getDate()));
+				} catch (Exception e) {
+				}
+				ideaForm.setPlace(idea.getPlace());
+				ideaForm.setPic(idea.getPic());
+				ideaForm.setIdeaId(id);
+				ideaForm.setLink(idea.getLink());
+			}
+			model.addAttribute("ideaForm", ideaForm);
 			model.addAttribute("idea", idea);
 			model.addAttribute("msg", msg);
 			model.addAttribute("citys", InitData.CITY_MAP.values());
@@ -94,32 +130,28 @@ public class CmsIdeaController extends BaseController {
 	}
 
 	@RequestMapping(value = "/add/idea", method = RequestMethod.POST)
-	public ModelAndView addIdea(IdeaForm ideaForm, HttpServletRequest request) {
-		ModelMap mmap = new ModelMap();
-		String url = "/cms/show/idea";
+	public String addIdea(IdeaForm ideaForm, HttpServletRequest request,
+			Model model) {
 		try {
 			ideaService.addIdea(ideaForm);
 		} catch (Exception e) {
-			url = "/cms/show/idea/add";
-			mmap.addAttribute("msg", messageSource.getMessage(e.getMessage(),
-					null, Locale.SIMPLIFIED_CHINESE));
+			String msg = messageSource.getMessage(e.getMessage(), null,
+					Locale.SIMPLIFIED_CHINESE);
+			return showIdeaAdd(model, msg, ideaForm, null);
 		}
-		return new ModelAndView("redirect:" + url, mmap);
+		return showIdea(model, 1);
 	}
 
 	@RequestMapping(value = "/update/idea", method = RequestMethod.POST)
-	public ModelAndView updateIdea(IdeaForm ideaForm) {
-		ModelMap mmap = new ModelMap();
-		mmap.addAttribute("ideaId", ideaForm.getIdeaId());
-		String url = "/cms/show/idea";
+	public String updateIdea(Model model, IdeaForm ideaForm) {
 		try {
 			ideaService.updateIdea(ideaForm);
 		} catch (Exception e) {
-			url = "/cms/show/idea/update";
-			mmap.addAttribute("msg", messageSource.getMessage(e.getMessage(),
-					null, Locale.SIMPLIFIED_CHINESE));
+			return showIdeaUpdate(model, ideaForm.getIdeaId(),
+					messageSource.getMessage(e.getMessage(), null,
+							Locale.SIMPLIFIED_CHINESE), ideaForm);
 		}
-		return new ModelAndView("redirect:" + url, mmap);
+		return showIdea(model, 1);
 	}
 
 	@RequestMapping(value = "/idea/del", method = RequestMethod.POST)

@@ -46,7 +46,7 @@
 												<c:param name="townId" value="${settingForm.town}"/>
 											</c:import>
 										</div><!--select end-->
-										<div id="location-error" class="error" style="display: none"></div>
+										<div id="location-error" class="error_warning" style="display: none;"><em></em><b></b></div>
 									</div><!--infor_x end-->
 									<div class="infor_x"><!--infor_x begin-->
 										<h3>生&nbsp;&nbsp;&nbsp;&nbsp;日：</h3>
@@ -70,7 +70,7 @@
 													</c:forEach>
 											</select></span>
 										</div><!--select end-->
-										<div id="birth-error" class="error" style="display: none"></div>
+										<div id="birth-error" class="error_warning" style="display: none;"><em></em><b></b></div>
 									</div><!--infor_x end-->
 									<div class="infor_x"><!--infor_x begin-->
 										<h3>职&nbsp;&nbsp;&nbsp;&nbsp;业：</h3>
@@ -90,11 +90,11 @@
 											
 											<div class="clear"></div>
 										</div><!--input end-->
-										<div id="profession-error" class="error" style="display: none"></div>
+										<div id="profession-error" class="error_warning" style="display: none;"><em></em><b></b></div>
 									</div><!--infor_x end-->
 								</div><!--infor end-->
 							</form>
-							<div class="save_btn"><a href="javascript:void(0);">确认&gt;&gt;</a></div>
+							<div class="save_btn"><a href="javascript:void(0);">确认&gt;&gt;</a><div id="general-error" class="error" style="display: none;"></div></div>
 						</div><!--m_box end-->
 						<div class="clear"></div>
 					</div>

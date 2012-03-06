@@ -883,7 +883,8 @@ public class PostService implements IPostService {
 					"...");
 			String link = messageSource.getMessage(
 					SynchronizeWeiboTemplate.SYNCHRONIZE_LINK.getName(),
-					new Object[] { postId }, Locale.SIMPLIFIED_CHINESE);
+					new Object[] { String.valueOf(postId) },
+					Locale.SIMPLIFIED_CHINESE);
 			byte[] image = null;
 			String imageUrl = null;
 			if (StringUtils.isNotEmpty(post.getPic())) {

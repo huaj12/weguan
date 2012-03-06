@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -81,6 +82,7 @@
 			<td width="50">id</td>
 			<td width="150">用户昵称</td>
 			<td width="50">性别</td>
+			<td width="100">城市</td>
 			<td width="180">用户头像</td>
 			<td width="200">处理</td>
 		</tr>
@@ -89,6 +91,7 @@
 				<td>${profile.uid}</td>
 				<td><c:out value="${profile.nickname}" /></td>
 				<td><c:choose><c:when test="${profile.gender == 1}">男</c:when><c:otherwise>女</c:otherwise></c:choose></td>
+				<td><c:out value="${jzd:cityName(profile.city)}" /></td>
 				<td><img src="${jzr:userLogo(profile.uid, profile.newLogoPic, 180)}" width="180" height="180"/></td>
 				<td>
 					<c:if test="${type != 'listVerifiedLogo'}"><a href="javascript:void(0);" onclick='passLogo(${profile.uid},"<c:out value='${profile.nickname}' />")' id="pass-logo-${profile.uid}">通过</a><br /></c:if>

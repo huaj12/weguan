@@ -21,23 +21,24 @@
 			<td>添加好主意到:<select name="city">
 				<option value="0">全国</option>
 				<c:forEach var="specialCity" items="${jzd:specialCityList()}">
-					<option value="${specialCity.id}" >${specialCity.name}</option>
+					<option value="${specialCity.id}" <c:if test="${ideaForm.city==specialCity.id}">selected="selected"</c:if> >${specialCity.name}</option>
 				</c:forEach>
 			</select>
 			性别<select name="gender">
-				<option value="" >不限</option>
-				<option value="1">男</option>
-				<option value="0">女</option>
+				<option value="" <c:if test="${empty ideaForm.gender}">selected="selected"</c:if>>不限</option>
+				<option value="1" <c:if test="${1==ideaForm.gender}">selected="selected"</c:if> >男</option>
+				<option value="0" <c:if test="${0==ideaForm.gender}">selected="selected"</c:if> >女</option>
 			</select>
 			推荐到随即库:<select name="random">
-				<option value="0">否</option>
-				<option value="1">是</option>
+				<option value="0" <c:if test="${!ideaForm.random}">selected="selected"</c:if> >否</option>
+				<option value="1" <c:if test="${ideaForm.random}">selected="selected"</c:if>>是</option>
 			</select>
 			类别：<select name="categoryId">
 				<option value="0">不限</option>
 				<c:forEach items="${categoryList}" var="cat">
-					<option value="${cat.id}">${cat.name}</option>
+					<option value="${cat.id}"  <c:if test="${cat.id==ideaForm.categoryId}">selected="selected"</c:if>>${cat.name}</option>
 				</c:forEach>
+				
 			</select>
 			</td>
 		</tr>
@@ -46,20 +47,20 @@
 			内容：
 			</td>
 			<td>
-				<textarea rows="10" name="content" cols="20">${addIdeaForm.content}</textarea>
+				<textarea rows="10" name="content" cols="20">${ideaForm.content}</textarea>
 			</td>
 		</tr>
 		<tr>	
 			<td>
 			日期:
 			</td>
-			<td><input type="text" name="dateString" readonly="readonly" onclick="WdatePicker();" value="${addIdeaForm.date}" /></td>
+			<td><input type="text" name="dateString" readonly="readonly" onclick="WdatePicker();" value="${ideaForm.dateString}" /></td>
 		</tr>
 		<tr>	
 		<td>
 			地点:
 		</td>
-			<td><input type="text" name="place"  value="${addIdeaForm.place}" /></td>
+			<td><input type="text" name="place"  value="${ideaForm.place}" /></td>
 		</tr>
 		<tr>	
 		<td>
@@ -67,9 +68,9 @@
 		</td>
 			<td><input type="file" name="newpic"/>
 			<c:choose>
-			<c:when test="${!empty jzr:postPic(addIdeaForm.postId,0, addIdeaForm.pic,200)}">
-			<img src="${jzr:postPic(addIdeaForm.postId,0, addIdeaForm.pic,200)}"/>
-			<input name="pic" type="hidden" value="${addIdeaForm.pic}"/>
+			<c:when test="${!empty jzr:postPic(ideaForm.postId,0, ideaForm.pic,200)}">
+			<img src="${jzr:postPic(ideaForm.postId,0, ideaForm.pic,200)}"/>
+			<input name="pic" type="hidden" value="${ideaForm.pic}"/>
 			</c:when>
 			<c:otherwise>
 				无图片
@@ -82,14 +83,14 @@
 				详情链接
 			</td>
 			<td>
-				<input type="text" name="link" value="" />
+				<input type="text" name="link" value="${ideaForm.link}" />
 			</td>
 		</tr>
 		<tr>
 			<td></td>
 			<td>
-			<input name="postId" type="hidden" value="${addIdeaForm.postId}" />
-			<input name="createUid" type="hidden" value="${addIdeaForm.createUid }"></input>
+			<input name="postId" type="hidden" value="${ideaForm.postId}" />
+			<input name="createUid" type="hidden" value="${ideaForm.createUid }"></input>
 			<input type="submit" value="添加" /> </td>
 		</tr>
 	</table>

@@ -107,6 +107,18 @@ public class CmsAdController {
 		return ajaxResult;
 	}
 
+	@RequestMapping(value = "/remove/all/raw/ad", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult removeAllRawAd(HttpServletRequest request, Model model) {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			rawAdService.removeAllExpiredRawAd();
+		} catch (Exception e) {
+			ajaxResult.setSuccess(false);
+		}
+		return ajaxResult;
+	}
+
 	@RequestMapping(value = "/list/ad", method = RequestMethod.GET)
 	public String listAd(@RequestParam(defaultValue = "1") int pageId,
 			Model model, @RequestParam(defaultValue = "0") long cityId) {
@@ -128,6 +140,18 @@ public class CmsAdController {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
 			adService.remove(id);
+		} catch (Exception e) {
+			ajaxResult.setSuccess(false);
+		}
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/remove/all/ad", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult removeAllAd(HttpServletRequest request) {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			adService.removeAllExpiredAd();
 		} catch (Exception e) {
 			ajaxResult.setSuccess(false);
 		}

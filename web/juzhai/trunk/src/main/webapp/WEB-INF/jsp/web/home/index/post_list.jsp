@@ -6,6 +6,35 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="jz_list"><!--jz_list begin-->
 	<div class="title"><!--title begin-->
+		<%-- <div class="l_select_menu l_active"><!--l_select_menu begin-->
+			<p><a href="javascript:void(0);" hidefocus>请选择</a></p>
+			<div></div>
+			<div class="l_select_menu_box"><!--city_list begin-->
+				<div class="l_select_menu_box_t"></div>
+				<div class="l_select_menu_box_m"><!--l_select_menu_box_m begin-->
+					<div class="vip_city"><!--vip_city begin-->
+						<h3>主要城市:</h3>
+						<div class="list"><!--list begin-->
+							<c:forEach var="specialCity" items="${jzd:specialCityList()}">
+								<a href="javascript:void(0);" value="${specialCity.id}" <c:if test="${cityId==specialCity.id}">class="act"</c:if>>${specialCity.name}</a>
+							</c:forEach>
+							<a href="javascript:void(0);" value="0" <c:if test="${cityId == 0}">class="act"</c:if>>全国</a>
+						</div><!--list end-->
+					</div><!--vip_city end-->
+					<div class="all_city"><!--all_city begin-->
+						<h3>其他城市:</h3>
+						<div class="list"><!--list begin-->
+							<div class="sheng">
+							</div>
+							<div class="shi" style="display: none;"><!--city_area begin-->
+								<a href="#" class="act">浦东新区</a>
+							</div><!--city_area end-->
+						</div><!--list end-->
+					</div><!--all_city end-->
+				</div><!--l_menu_box_m end-->
+				<div class="l_select_menu_box_b"></div>
+			</div><!--l_select_menu_box end-->
+		</div><!--l_select_menu end--> --%>
 		<div id="city-select" class="select_menu"><!--select_menu begin-->
 			<p><a href="javascript:void(0);"></a></p>
 			<div></div>
@@ -20,7 +49,7 @@
 			</div><!--select_box end-->
 		</div><!--select_menu end-->
 		<div id="gender-select" class="select_menu"><!--select_menu begin-->
-			<p><a href="javascript:void(0);"></a></p>
+			<p><a href="javascript:void(0);" hidefocus></a></p>
 			<div></div>
 			<div class="select_box"><!--select_box begin-->
 				<span>

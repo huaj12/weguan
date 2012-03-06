@@ -497,22 +497,77 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .jz_list{ width:100%; float:left; display:block; height:auto;}
 .jz_list .title{ background:url(../images/web2/list_title_bg.jpg) repeat-x; height:55px; padding-left:15px;}
 
-.jz_list .title .select_menu{ width:100px; height:28px; float:left; position:relative; z-index:40; margin-right:10px; margin-top:11px;}
-.jz_list .title .select_menu p{ float:left;}
-.jz_list .title .select_menu p a{ width:90px; height:28px; display:block; background:url(../images/web2/select_list_head.gif) no-repeat; line-height:28px; line-height:30px\9; color:#666; padding-left:12px; text-decoration:none;}
-.jz_list .title .select_menu p a:hover{ background:url(../images/web2/select_list_head_hover.gif) no-repeat;}
-.jz_list .title .select_active p a{ background:url(../images/web2/select_list_head_active.gif) no-repeat;}
-.jz_list .title .select_active p a:hover{background:url(../images/web2/select_list_head_active.gif) no-repeat;}
 
-.jz_list .title .select_menu .select_box{ display:none; position:absolute;top:28px; left:0; z-index:30;}
-.jz_list .title .select_menu span{ background:url(../images/web2/select_list_span_bg.gif) repeat-y; padding:4px 5px; float:left; width:90px; height:auto; overflow:hidden;  }
-.jz_list .title .select_menu span a{ width:85px; height:26px; overflow:hidden; display:block;line-height:28px; line-height:30px\9; color:#666;text-decoration:none; padding-left:7px;}
-.jz_list .title .select_menu span a:hover{background:url(../images/web2/select_list_span_a.gif) no-repeat;}
-.jz_list .title .select_menu span a.selected{background:url(../images/web2/select_list_span_a_active.gif) no-repeat; color:#fff;}
-.jz_list .title .select_menu span a.selected:hover{background:url(../images/web2/select_list_span_a_active.gif) no-repeat; color:#fff;}
-.jz_list .title .select_menu em{ background:url(../images/web2/select_list_span_bottom.gif) no-repeat; width:100px; overflow:hidden; height:1px; float:left; display:block;}
-.jz_list .title .select_active .select_box{ display:block;}
-.jz_list .title .select_active em{ display:block;}
+/*性别选择*/
+
+.select_menu{ width:100px; height:28px; float:left; position:relative; z-index:40; margin-right:10px; margin-top:10px;}
+.select_menu p{ float:left;}
+.select_menu p a{ width:90px; height:28px; display:block; background:url(../images/web2/select_list_head.gif) no-repeat; line-height:28px; line-height:30px\9; color:#666; padding-left:12px; text-decoration:none;  outline:none;}
+.select_menu p a:hover{ background:url(../images/web2/select_list_head_hover.gif) no-repeat;}
+.select_active p a{ background:url(../images/web2/select_list_head_active.gif) no-repeat;}
+.select_active p a:hover{background:url(../images/web2/select_list_head_active.gif) no-repeat;}
+
+.select_menu .select_box{ display:none; position:absolute;top:28px; left:0; z-index:30;}
+.select_menu span{ background:url(../images/web2/select_list_span_bg.gif) repeat-y; padding:4px 5px; float:left; width:90px; height:auto; overflow:hidden;  }
+.select_menu span a{ width:85px; height:26px; overflow:hidden; display:block;line-height:28px; line-height:30px\9; color:#666;text-decoration:none; padding-left:7px;}
+.select_menu span a:hover{background:url(../images/web2/select_list_span_a.gif) no-repeat;}
+.select_menu span a.selected{background:url(../images/web2/select_list_span_a_active.gif) no-repeat; color:#fff;}
+.select_menu span a.selected:hover{background:url(../images/web2/select_list_span_a_active.gif) no-repeat; color:#fff;}
+.select_menu em{ background:url(../images/web2/select_list_span_bottom.gif) no-repeat; width:100px; overflow:hidden; height:1px; float:left; display:block;}
+.select_active .select_box{ display:block;}
+.select_active em{ display:block;}
+
+
+
+
+
+
+/*城市选择*/
+
+.l_select_menu{ width:100px; height:28px; float:left; position:relative; z-index:40; margin-right:10px; margin-top:10px;}
+.l_select_menu p{ float:left;}
+.l_select_menu p a{ width:90px; height:28px; display:block; background:url(../images/web2/select_list_head.gif) no-repeat; line-height:28px; line-height:30px\9; color:#666; padding-left:12px; text-decoration:none; outline:none;}
+.l_select_menu p a:hover{ background:url(../images/web2/select_list_head_hover.gif) no-repeat;}
+.l_active p a{ background:url(../images/web2/city_active.gif) no-repeat;}
+.l_active p a:hover{background:url(../images/web2/city_active.gif) no-repeat; cursor:default;}
+.l_active .l_select_menu_box{ display:block;}
+
+
+.l_select_menu_box{display:none; position:absolute; top:28px; left:0; z-index:30; width:535px; height:auto; overflow:hidden;}
+
+.l_select_menu_box .l_select_menu_box_t{ background:url(../images/web2/city_choose_r2_c1.gif) no-repeat; height:5px; width:100%; overflow:hidden;}
+.l_select_menu_box .l_select_menu_box_b{ background:url(../images/web2/city_choose_r6_c1.gif) no-repeat; height:2px; width:100%; overflow:hidden;}
+.l_select_menu_box .l_select_menu_box_m{ background:url(../images/web2/city_choose_r4_c1.gif) repeat-y; height:auto; width:100%; overflow:hidden;}
+
+.l_select_menu_box .vip_city{ width:505px; height:auto; overflow:hidden; padding:15px;}
+.l_select_menu_box h3{ float:left; font-weight:bold; color:#999; margin-right:5px; display:inline; line-height:24px; height:24px;}
+.l_select_menu_box .list{ float:left; width:440px; height:auto; overflow:hidden; }
+
+.l_select_menu_box a{float:left; padding-left:8px; padding-right:8px; line-height:22px; line-height:26px\9; color:#666; height:24px; display:block inline; white-space:nowrap; border-radius:2px; overflow:hidden; margin-left:2px; }
+
+.l_select_menu_box a:hover{background:#f0f0f0; color:#666;}
+.l_select_menu_box a.act{background:#3E8BD9; color:#fff;}
+.l_select_menu_box a.act:hover{background:#3E8BD9; color:#fff; cursor:default;}
+
+
+
+
+
+
+
+
+
+
+.l_select_menu_box .all_city{ width:505px; height:auto; overflow:hidden; padding:15px; border-top:1px solid #f4f4f4;}
+.l_select_menu_box .all_city .list .sheng{ float:left; width:100%; overflow:hidden; height:auto;}
+
+.l_select_menu_box .all_city .list .shi{ width:100%; padding-top:15px; float:left; background:url(../images/web2/city_area_line_bg.jpg) repeat-x top left; margin-top:15px;}
+
+
+
+
+
+
 
 
 
@@ -851,7 +906,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .infor_x .input a.cancel{ background:url(../images/web2/cancel.gif) no-repeat;}
 
 .infor_x .ts{ float:left; color:#FA9530;  margin-left:10px; display:inline; margin-top:5px;}
-.infor_x .error{ float:left; color:#CC3300; margin-left:10px; display:inline; margin-top:5px;}
+.infor_x .error{ float:left; color:#FF0000; margin-left:10px; display:inline; margin-top:5px;}
 
 
 .select span{ margin-right:8px; float:left; display:inline;}
@@ -1095,7 +1150,8 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .error404{ width:530px; height:auto; overflow:hidden; margin:0 auto; margin-top:100px; padding-bottom:100px;}
 .error404 p{ background:url(../images/web2/404.gif) no-repeat; width:84px; height:95px; float:left; margin-right:20px; display:inline;}
 .error404 span{ color:#555; font-size:20px; font-family:"微软雅黑"; line-height:normal; margin-top:5px; float:left; width:400px; margin-top:15px;}
-
+.error404 em{ float:left; margin-top:17px; color:#999;}
+.error404 em font{ font-size:16px; margin-right:5px;}
 .error404 a{ float:left; color:#3E8BD9; font-family:"微软雅黑"; font-size:16px;  text-decoration:none; text-align:center; margin-top:5px; margin-top:15px; margin-left:5px; display:inline; white-space:nowrap;}
 .error404 a:hover{ text-decoration:underline;}
 
@@ -1801,8 +1857,14 @@ i{ color:#FF0000; font-style:normal;}
 .welcome .welcome_b{ background:url(../images/web2/welcome_con_r9_c1.jpg) no-repeat; width:100%; height:6px; overflow:hidden; float:left; padding-bottom:50px;}
 .welcome .welcome_m{ background:url(../images/web2/welcome_con_r3_c1.jpg) repeat-y; width:100%; height:382px;  display:block;  position:relative; padding-bottom:30px; float:left;}
 
-.welcome .welcome_m h2{ width:100%; height:auto; color:#438DD9; text-align:center; font-size:24px; font-family:"微软雅黑"; margin-top:40px; line-height:normal; *padding-top:40px;}
-.welcome .welcome_m h2 a{ color:#438DD9;}
+.welcome .welcome_m h2{ font-family:"微软雅黑"; margin-top:50px; line-height:normal; float:left; margin-left:260px; display:inline;}
+.welcome .welcome_m h2 a{background:url(../images/web2/welcome_brgin_btn.jpg) no-repeat; text-align:center; color:#fff; font-size:16px; display:block; float:left; width:120px; height:28px; overflow:hidden; line-height:28px; margin-top:3px;} 
+
+.welcome .welcome_m h2 b{font-size:24px; float:left; color:#438DD9; font-weight:normal; margin-right:20px; display:inline;}
+
+
+
+
 .welcome .welcome_m ul{  margin:0 auto;  margin-top:45px;}
 .welcome .welcome_m ul li{ float:left; width:120px; height:auto; margin-left:15px; margin-right:15px; overflow:hidden; display:inline;}
 .welcome .welcome_m ul li p{ width:120px; height:120px; overflow:hidden; float:left;}
@@ -1912,12 +1974,19 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 
 
 
-.qrxx .qrxx_m .m_box .infor{ width:480px;  height:auto; overflow:hidden; float:left; margin-left:30px; display:inline; margin-top:40px;}
+.qrxx .qrxx_m .m_box .infor{ width:580px;  height:auto; overflow:hidden; float:left; margin-left:30px; display:inline; margin-top:40px;}
 .qrxx .qrxx_m .m_box .infor .infor_x{height:auto;  width:100%; padding-bottom:25px; float:left; }
 
 
 .qrxx .qrxx_m .m_box .save_btn{float:left; margin-left:120px; width:100%; display:inline;}
-.qrxx .qrxx_m .m_box .save_btn a{background:url(../images/web2/qrxx_btn.gif) no-repeat; width:120px; height:40px; font-family:"微软雅黑","宋体"; font-size:18px; color:#fff; text-align:center; text-decoration:none; line-height:40px; display:block;}
+.qrxx .qrxx_m .m_box .save_btn a{background:url(../images/web2/qrxx_btn.gif) no-repeat; width:120px; height:40px; font-family:"微软雅黑","宋体"; font-size:18px; color:#fff; text-align:center; text-decoration:none; line-height:40px; display:block; float:left;}
+
+.qrxx .qrxx_m .m_box .save_btn .error{ float:left; color:#FF0000; margin-left:15px; margin-top:12px; display:inline;}
+
+
+.error_warning{ float:left; margin-top:3px; margin-left:10px; display:inline;}
+.error_warning em{ width:16px; height:16px; background:url(../images/web2/error_warning.jpg) no-repeat; float:left;}
+.error_warning b{  color:#AA1111; float:left; margin-left:5px; display:inline;}
 
 
 

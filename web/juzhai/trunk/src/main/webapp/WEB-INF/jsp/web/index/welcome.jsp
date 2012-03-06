@@ -20,17 +20,17 @@
 					<div class="top"><!--top begin-->
 						<h2></h2>
 						<div class="welcome_login"><p>登录:</p>
-							<a href="/web/login/6?turnTo=${turnTo}" class="wb" title="使用微博账号登录"></a>
-							<a href="/web/login/7?turnTo=${turnTo}" class="db"  title="使用豆瓣账号登录"></a>
-							<a href="/web/login/8?turnTo=${turnTo}" class="qq"  title="使用QQ账号登录"></a>
+							<a href="javascript:void(0);" go-uri="/web/login/6" class="wb" title="使用微博账号登录"></a>
+							<a href="javascript:void(0);" go-uri="/web/login/7" class="db"  title="使用豆瓣账号登录"></a>
+							<a href="javascript:void(0);" go-uri="/web/login/8" class="qq"  title="使用QQ账号登录"></a>
 						</div>
 					</div><!--top end-->
 				</div><!--fix_top end-->
 				<div class="welcome"><!--welcome begin-->
 					<div class="welcome_t"></div>
 					<div class="welcome_m">
-						<div class="begin_btn"><a href="javascript:void(0);" class="go-login"></a></div>
-						<h2><a href="javascript:void(0);" class="go-login">寻找一份久违了的阳光周末</a></h2>
+						<h2><b>寻找一份属于你的阳光周末&nbsp;&gt;</b><a href="javascript:void(0);" class="go-login">立即加入</a></h2>
+						<div class="clear"></div>
 						<div style="height: 290px;position: relative;overflow: hidden;margin: 0px 100px;">
 							<div id="window-box" style="position: absolute;height: 250px;width: 2550px;left: 5px;">
 								<ul window-count="${fn:length(postWindowViews)}">

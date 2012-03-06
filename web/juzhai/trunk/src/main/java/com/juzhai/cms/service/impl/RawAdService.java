@@ -208,4 +208,14 @@ public class RawAdService implements IRawAdService {
 		updateRawAd(rawAd);
 	}
 
+	@Override
+	public void removeAllExpiredRawAd() {
+		RawAdExample example = new RawAdExample();
+		example.createCriteria().andEndDateLessThan(new Date());
+		List<RawAd> list = rawAdMapper.selectByExample(example);
+		for (RawAd rawAd : list) {
+			rawAdMapper.deleteByPrimaryKey(rawAd.getId());
+		}
+	}
+
 }

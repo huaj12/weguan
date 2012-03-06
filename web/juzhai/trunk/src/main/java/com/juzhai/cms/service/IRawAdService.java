@@ -22,8 +22,10 @@ public interface IRawAdService {
 	void createRawAd(RawAd rawAd);
 
 	void updateRawAd(RawAd rawAd);
+
 	/**
 	 * 发布优惠信息
+	 * 
 	 * @param rawAdId
 	 * @throws InputAdException
 	 */
@@ -46,5 +48,10 @@ public interface IRawAdService {
 	RawAd getRawAd(long id);
 
 	void remove(long rawId) throws RawAdInputException;
+
+	/**
+	 * 删除所有过期的优惠信息
+	 */
+	void removeAllExpiredRawAd();
 
 }

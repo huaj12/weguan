@@ -664,7 +664,7 @@ var CitySelectInput =  Class.extend({
         	var value = $(this).attr("value");
         	$(this).parent().children("a").removeClass("act");
         	$(this).addClass("act");
-        	$(selectDiv).find("p > a").text(name);
+        	$(selectDiv).find("p > a").attr("city-id", value).text(name);
         	$(selectDiv).find("input[type='hidden']").val(value);
         	$(selectDiv).removeClass("l_active");
         	if(null!=callback){

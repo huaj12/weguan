@@ -37,7 +37,7 @@
 						<div class="error404"><!--error404 begin-->
 							<p></p>
 							<span>抱歉，你访问的页面没有找到！</span>
-							<a href="/">带我离开这里</a>
+							<em><font>5</font>秒后</em><a href="/">带我离开这里</a>
 						</div><!--error404 end-->
 					</div><!--m end-->
 					<div class="b"></div>
@@ -51,6 +51,14 @@
 		</div><!--warp end-->
 		<script type="text/javascript" src="http://js.51juzhai.com/js/jquery/jquery-1.6.3.min.js"></script>
 		<script type="text/javascript">
+			setInterval(function(){
+				var second = parseInt($("div.error404").find("font").text());
+				if(second > 0){
+					$("div.error404").find("font").text(second-1);
+				}else{
+					window.location.href = "/";
+				}
+			}, 1000);
 			var searchInput = $("div.search > div.s_m > input");
 			var initMsg = searchInput.attr("init-msg");
 			searchInput.bind("focus", function(){

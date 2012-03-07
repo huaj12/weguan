@@ -74,10 +74,8 @@ public class UserController extends BaseController {
 			model.addAttribute("postViewList", postViewList);
 
 			// 微博
-			model.addAttribute(
-					"userStatusList",
-					userStatusService.listUserStatus(context.getUid(),
-							context.getTpId(), uid));
+			model.addAttribute("userStatusList",
+					userStatusService.listUserStatus(uid));
 			TpUser tpUser = tpUserService.getTpUserByUid(uid);
 			model.addAttribute("tpUser", tpUser);
 

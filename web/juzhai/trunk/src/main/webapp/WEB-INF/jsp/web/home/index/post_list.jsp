@@ -72,7 +72,7 @@
 				<c:otherwise>
 					<div class="other_recom"><!--other_recom begin-->
 						<em></em>
-						<p>这里还没有人，先看看其他城市的拒宅吧</p>
+						<p>这里还没人发布拒宅，先看看下面其他城市的拒宅吧</p>
 					</div><!--other_recom end-->
 				</c:otherwise>
 			</c:choose>

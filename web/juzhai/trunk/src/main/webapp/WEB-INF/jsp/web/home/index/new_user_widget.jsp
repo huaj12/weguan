@@ -15,9 +15,9 @@
 						<li><a href="/home/${profile.uid}" title="${profile.nickname}"><img src="${jzr:userLogo(profile.uid, profile.logoPic, 80)}" width="50"  height="50"/></a></li>
 					</c:forEach>
 				</ul>
-				<c:if test="${context.tpName != 'qq'}">
+				<%-- <c:if test="${context.tpName != 'qq'}">
 					<div class="yq"><a href="/showInviteUsers">邀请好友</a></div>
-				</c:if>
+				</c:if> --%>
 			</div><!--new_member end-->
 		</div>
 		<div class="t"></div>

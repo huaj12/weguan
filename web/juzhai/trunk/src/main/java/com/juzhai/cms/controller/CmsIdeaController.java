@@ -89,7 +89,6 @@ public class CmsIdeaController extends BaseController {
 				ideaForm.setPlace(post.getPlace());
 				ideaForm.setPostId(postId);
 				ideaForm.setCreateUid(post.getCreateUid());
-				ideaForm.setIdeaId(post.getIdeaId());
 			}
 		}
 		model.addAttribute("ideaForm", ideaForm);

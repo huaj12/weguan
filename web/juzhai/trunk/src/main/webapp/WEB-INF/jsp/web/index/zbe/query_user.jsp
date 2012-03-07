@@ -134,6 +134,7 @@
 						</div><!--content end-->
 					</div><!--main_left end-->
 					<div class="main_right"><!--main_right begin-->
+						<jsp:include page="/WEB-INF/jsp/web/home/index/share_widget.jsp" />
 						<jsp:include page="/WEB-INF/jsp/web/home/index/new_user_widget.jsp" />
 					</div><!--main_right end-->
 				</div><!--main_part end-->

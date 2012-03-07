@@ -52,7 +52,7 @@ $(document).ready(function(){
 	$("#gender-select").find("span > a").bind("click", function(){
 		var queryType = $("div.category").attr("queryType");
 		var gender = $(this).attr("value");
-		var cityId = $("#city-select").find("div.city-list > a.act").attr("value");
+		var cityId = $("#city-select").find("p > a").attr("city-id");
 		window.location.href = "/home/" + queryType + "/" + cityId + "_" + gender + "/1";
 		return false;
 	});

@@ -96,8 +96,8 @@ public class NewIndexController extends BaseController {
 	public String showIdeas(HttpServletRequest request, Model model) {
 		ProfileCache loginUser = getLoginUserCache(request);
 		long city = 0L;
-		if (loginUser != null && loginUser.getCity() != null
-				&& InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
+		if (loginUser != null && loginUser.getCity() != null) {
+			// && InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
 			city = loginUser.getCity();
 		}
 		return pageShowIdeas(request, model, ShowActOrder.HOT_TIME.getType(),
@@ -193,8 +193,8 @@ public class NewIndexController extends BaseController {
 	public String queryUser(HttpServletRequest request, Model model) {
 		ProfileCache loginUser = getLoginUserCache(request);
 		long city = 0L;
-		if (loginUser != null && loginUser.getCity() != null
-				&& InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
+		if (loginUser != null && loginUser.getCity() != null) {
+			// && InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
 			city = loginUser.getCity();
 		}
 		return pageQueryUser(request, model, 1, city, null, null, null);

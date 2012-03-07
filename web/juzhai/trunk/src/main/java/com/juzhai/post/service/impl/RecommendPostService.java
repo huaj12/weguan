@@ -34,7 +34,10 @@ public class RecommendPostService implements IRecommendPostService {
 	public List<Post> listRecommendPost() {
 		List<Post> list = redisTemplate.opsForValue().get(
 				RedisKeyGenerator.genIndexRecommendPostKey());
-		return CollectionUtils.isEmpty(list) ? Collections.EMPTY_LIST : list;
+		if (CollectionUtils.isEmpty(list)) {
+			return Collections.emptyList();
+		}
+		return list;
 	}
 
 	@Override

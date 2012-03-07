@@ -52,8 +52,8 @@ public class HomeController extends BaseController {
 		checkLoginForWeb(request);
 		ProfileCache loginUser = getLoginUserCache(request);
 		long city = 0L;
-		if (loginUser != null && loginUser.getCity() != null
-				&& InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
+		if (loginUser != null && loginUser.getCity() != null) {
+			// && InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
 			city = loginUser.getCity();
 		}
 		return showNewPosts(request, model, city, "female", 1);

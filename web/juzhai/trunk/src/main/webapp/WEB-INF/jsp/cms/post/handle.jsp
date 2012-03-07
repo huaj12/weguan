@@ -94,7 +94,7 @@ function shield(id){
 				<td>
 				<a href="javascript:;" onclick="shield('${view.post.id}')">屏蔽</a></br>
 				<a href="javascript:;" onclick="del('${view.post.id}')">删除</a></br>
-				<a href="/cms/show/idea/add?postId=${view.post.id}" >好注意</a>
+				<c:if test="${empty view.post.ideaId}"><a href="/cms/show/idea/add?postId=${view.post.id}" >好注意</a></c:if>
 				</td>
 			</tr>
 		</c:forEach>

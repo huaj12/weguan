@@ -146,7 +146,7 @@
 				</div><!--jz_item end-->
 			</c:forEach>
 			<c:if test="${pager.totalResults < 5}">
-				<div class="more_fx"><a href="/home/showNewPosts/0_all/1">发现更多</a></div>
+				<div class="more_fx"><a href="/home/showNewPosts/0_all/1">切换到全国看更多</a></div>
 			</c:if>
 		</c:if>
 	</div><!--jz_main end-->

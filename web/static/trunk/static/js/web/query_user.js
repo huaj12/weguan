@@ -1,4 +1,10 @@
 $(document).ready(function(){
+	$("#city-select").each(function(){
+		var citySelect = new CitySelectInput(this, function(cityId){return false;});
+		citySelect.bindBlur();
+		citySelect.bindClick();
+    });
+	
 	$("a.query-btn").click(function(){
 		search_user();
 		return false;

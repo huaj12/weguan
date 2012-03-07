@@ -38,18 +38,21 @@ $(document).ready(function(){
 		});
 	});
 	
-	//绑定下拉框
-	$("#city-select").find("span > a").bind("click", function(){
-		var queryType = $("div.category").attr("queryType");
-		var cityId = $(this).attr("value");
-		var gender = $("#gender-select").find("a.selected").attr("value");
-		window.location.href = "/home/" + queryType + "/" + cityId + "_" + gender + "/1";
-		return false;
-	});
+	//绑定下拉框	
+	$("#city-select").each(function(){
+		var citySelect = new CitySelectInput(this, function(cityId){
+			var queryType = $("div.category").attr("queryType");
+			var gender = $("#gender-select").find("a.selected").attr("value");
+			window.location.href = "/home/" + queryType + "/" + cityId + "_" + gender + "/1";
+			return false;
+		});
+		citySelect.bindBlur();
+		citySelect.bindClick();
+    });
 	$("#gender-select").find("span > a").bind("click", function(){
 		var queryType = $("div.category").attr("queryType");
 		var gender = $(this).attr("value");
-		var cityId = $("#city-select").find("a.selected").attr("value");
+		var cityId = $("#city-select").find("div.city-list > a.act").attr("value");
 		window.location.href = "/home/" + queryType + "/" + cityId + "_" + gender + "/1";
 		return false;
 	});

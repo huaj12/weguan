@@ -26,19 +26,34 @@
 									<div class="search_title"><!--search_title begin-->
 										<h2>搜索小宅</h2>
 										<div class="w70"><!--w70 begin-->
-											<div class="select_menu" name="city"><!--select_menu begin-->
-												<p><a href="javascript:void(0);">全国</a></p>
+											<div id="city-select" class="l_select_menu" name="city"><!--l_select_menu begin-->
+												<p><a href="javascript:void(0);" hidefocus city-id="${cityId}"><c:choose><c:when test="${cityId == 0}">全国</c:when><c:otherwise>${jzd:cityName(cityId)}</c:otherwise></c:choose></a></p>
 												<div></div>
-												<div class="select_box"><!--select_box begin-->
-													<span>
-														<a href="javascript:void(0);" value="0"   <c:if test="${cityId==null || cityId==0}">class="selected"</c:if>>全国</a>
-														<c:forEach var="specialCity" items="${jzd:specialCityList()}">
-															<a href="javascript:void(0);" value="${specialCity.id}"   <c:if test="${cityId==specialCity.id}">class="selected"</c:if>>${specialCity.name}</a>
-														</c:forEach>
-													</span>
-													<em></em>
-												</div><!--select_box end-->
-											</div><!--select_menu end-->
+												<div class="l_select_menu_box"><!--city_list begin-->
+													<div class="l_select_menu_box_t"></div>
+													<div class="l_select_menu_box_m"><!--l_select_menu_box_m begin-->
+														<div class="vip_city"><!--vip_city begin-->
+															<h3>主要城市:</h3>
+															<div class="list city-list"><!--list begin-->
+																<c:forEach var="specialCity" items="${jzd:specialCityList()}">
+																	<a href="javascript:void(0);" value="${specialCity.id}" <c:if test="${cityId==specialCity.id}">class="act"</c:if>>${specialCity.name}</a>
+																</c:forEach>
+																<a href="javascript:void(0);" value="0" <c:if test="${cityId == 0}">class="act"</c:if>>全国</a>
+															</div><!--list end-->
+														</div><!--vip_city end-->
+														<div class="all_city"><!--all_city begin-->
+															<h3>所有城市:</h3>
+															<div class="list"><!--list begin-->
+																<div class="sheng">
+																</div>
+																<div class="shi city-list" style="display: none;"><!--city_area begin-->
+																</div><!--city_area end-->
+															</div><!--list end-->
+														</div><!--all_city end-->
+													</div><!--l_menu_box_m end-->
+													<div class="l_select_menu_box_b"></div>
+												</div><!--l_select_menu_box end-->
+											</div><!--l_select_menu end-->
 										</div><!--w70 end-->
 										<div class="w100"><!--w100 begin-->
 											<div class="select_menu" name="sex"><!--select_menu begin-->
@@ -97,19 +112,22 @@
 														<div class="pub_box_b"></div>
 													</div><!--pub_box end-->
 												</c:forEach>
+												<c:if test="${pager.totalResults <= 5}">
+													<div class="more_fx"><a href="/queryusers/0___/1">目前这里人比较少，先来看看其他的吧</a></div>
+												</c:if>
 											</c:when>
 											<c:otherwise>
-												<div class="none">暂时没有合适的人！</div>
+												<div class="none">暂时没有合适的人,<a href="/queryusers/0___/1">先来看看其他的吧</a>！</div>
 											</c:otherwise>
 										</c:choose>
 									</div><!--search_result end-->
 								</div><!--jz_list end-->
-								<c:if test="${not empty userViews}">
-								<div class="clear"></div>
-								<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
-									<c:param name="pager" value="${pager}"/>
-									<c:param name="url" value="/queryusers/${cityId}_${sex}_${minStringAge}_${maxStringAge}" />
-								</c:import>
+								<c:if test="${pager.totalResults > 0}">
+									<div class="clear"></div>
+									<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
+										<c:param name="pager" value="${pager}"/>
+										<c:param name="url" value="/queryusers/${cityId}_${sex}_${minStringAge}_${maxStringAge}" />
+									</c:import>
 								</c:if>
 							</div>
 							<div class="t"></div>

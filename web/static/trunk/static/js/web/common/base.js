@@ -575,6 +575,106 @@ function deletePost(postId, successCallback){
 	});
 }
 
+var CitySelectInput =  Class.extend({
+	init: function(div, selectCallback){
+		this.selectDiv = div;
+		this.selectCallback = selectCallback;
+    	var value = $(this.selectDiv).find("p > a").attr("city-id");
+    	var inputName = $(this.selectDiv).attr("name");
+    	if(null != inputName){
+    		$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
+    	}
+    	this.bindSelect(this.selectDiv, $(this.selectDiv).find("div.vip_city"), selectCallback);
+    	this.bindSelect(this.selectDiv, $(this.selectDiv).find("div.shi"), selectCallback);
+	},
+	bindBlur:function(){
+		var selectDiv = this.selectDiv;
+		$("body").bind("mousedown",function(event){
+			if($(event.target).closest(selectDiv).length <= 0){
+				$(selectDiv).removeClass("l_active");
+			}
+		});
+	},
+	bindProvinceSelect: function(selectDiv, bindSelect, citySelectCallback){
+		var provinceDiv = $(selectDiv).find("div.sheng");
+		$(provinceDiv).find("a").click(function(){
+			$(this).parent().children("a").removeClass("act");
+        	$(this).addClass("act");
+			var provinceId = $(this).attr("value");
+			jQuery.ajax({
+				url : "/base/initCity",
+				type : "get",
+				data : {"provinceId" : provinceId},
+				cache : false,
+				dataType : "json",
+				success : function(result) {
+					if (result && result.success) {
+						$(provinceDiv).next().find("a").remove();
+						for(var key in result.result){
+							if(key > 0){
+								$(provinceDiv).next().append('<a href=\"javascript:void(0);\" value=\"' + key + '\">' + result.result[key] + '</a>');
+							}
+						}
+						$(provinceDiv).next().show();
+						bindSelect(selectDiv, $(provinceDiv).next(), citySelectCallback);
+						if($(provinceDiv).next().find("a").length == 1){
+							$(provinceDiv).next().find("a").trigger("click");
+						}
+					}
+				}
+			});
+			return false;
+		});
+	},
+	bindClick:function(){
+		var selectDiv = this.selectDiv;
+		var selectCallback = this.selectCallback;
+		var bindProvinceSelect = this.bindProvinceSelect;
+		var bindSelect =  this.bindSelect;
+		$(selectDiv).find("p > a").bind("click", function(){
+			if($(selectDiv).hasClass("l_active")){
+				$(selectDiv).removeClass("l_active");
+	    	}else{
+	    		$(selectDiv).addClass("l_active");
+	    		if($(selectDiv).find("div.sheng > a").length == 0){
+	    			jQuery.ajax({
+	    				url : "/base/initProvince",
+	    				type : "get",
+	    				cache : false,
+	    				dataType : "json",
+	    				success : function(result) {
+	    					if (result && result.success) {
+	    						for(var key in result.result){
+	    							if(key > 0){
+	    								$(selectDiv).find("div.sheng").append('<a href=\"javascript:void(0);\" value=\"' + key + '\">' + result.result[key] + '</a>');
+	    							}
+	    						}
+	    						bindProvinceSelect(selectDiv, bindSelect, selectCallback);
+	    					}
+	    				}
+	    			});
+	    		}
+			}
+		});
+		return false;
+	},
+	bindSelect:function(selectDiv, cityList, callback){
+		$(cityList).find("a").bind("click", function(){
+        	var name = $(this).text();
+        	var value = $(this).attr("value");
+        	$(this).parent().children("a").removeClass("act");
+        	$(this).addClass("act");
+        	$(selectDiv).find("p > a").text(name);
+        	$(selectDiv).find("input[type='hidden']").val(value);
+        	$(selectDiv).removeClass("l_active");
+        	if(null!=callback){
+        		callback(value);
+        	}
+    		return false;
+        });
+	}
+});
+
 var SelectInput =  Class.extend({
 	init: function(div){
 		this.selectDiv = div;

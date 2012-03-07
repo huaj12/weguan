@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,10 +22,10 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
-import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.post.service.IRecommendPostService;
 
 @Controller
 @RequestMapping(value = "home")
@@ -36,6 +37,8 @@ public class HomeController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private IPostService postService;
+	@Autowired
+	private IRecommendPostService recommendPostService;
 	@Value("${web.home.post.max.rows}")
 	private int webHomePostMaxRows;
 	@Value("${web.home.right.user.rows}")
@@ -70,8 +73,22 @@ public class HomeController extends BaseController {
 		}
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
 				postService.countNewestPost(context.getUid(), cityId, gender));
-		List<Post> postList = postService.listNewestPost(context.getUid(),
-				cityId, gender, pager.getFirstResult(), pager.getMaxResult());
+		List<Post> postList = null;
+		if (pager.getTotalResults() > 0) {
+			postList = postService.listNewestPost(context.getUid(), cityId,
+					gender, pager.getFirstResult(), pager.getMaxResult());
+		} else {
+			List<Post> recommendPostList = recommendPostService
+					.listRecommendPost();
+			postList = new ArrayList<Post>();
+			if (CollectionUtils.isNotEmpty(recommendPostList)) {
+				for (Post post : recommendPostList) {
+					if (post.getCreateUid() != context.getUid()) {
+						postList.add(post);
+					}
+				}
+			}
+		}
 		List<PostView> postViewList = assembleUserPostViewList(context,
 				postList);
 		model.addAttribute("pager", pager);

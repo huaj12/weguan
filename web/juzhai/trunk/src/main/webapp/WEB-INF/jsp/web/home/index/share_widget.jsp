@@ -20,7 +20,7 @@
 			<script type="text/javascript">
 				var jiathis_config = {
 					url : "http://www.51juzhai.com/",
-					title : "加入拒宅找伴儿出去玩",
+					title : " ",
 					summary : "大家周末是不是又要一个人宅在家了？不如来拒宅网跟我们一起脱宅吧!",
 					pic: "${jzr:static('/images/share_pic.jpg')}"
 				};

@@ -22,9 +22,9 @@ public class RecommendPostHandler extends AbstractScheduleHandler {
 	@Autowired
 	private RedisTemplate<String, Post> redisTemplate;
 
-	@Value("{recommend.post.max.rows}")
+	@Value("${recommend.post.max.rows}")
 	private int recommendPostMaxRows;
-	@Value("{recommend.post.time.interval}")
+	@Value("${recommend.post.time.interval}")
 	private int recommendPostTimeInterval;
 
 	@Override

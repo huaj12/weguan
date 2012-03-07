@@ -117,7 +117,7 @@
 												</c:if>
 											</c:when>
 											<c:otherwise>
-												<div class="none">暂时没有合适的人,<a href="/queryusers/0___/1">先来看看其他的吧</a>！</div>
+												<div class="none">暂时没有合适的人,<a href="/queryusers/0___/1">先来看看其他地区的吧</a>！</div>
 											</c:otherwise>
 										</c:choose>
 									</div><!--search_result end-->

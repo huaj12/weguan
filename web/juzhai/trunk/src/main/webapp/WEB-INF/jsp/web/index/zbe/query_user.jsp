@@ -113,7 +113,7 @@
 													</div><!--pub_box end-->
 												</c:forEach>
 												<c:if test="${pager.totalResults <= 5}">
-													<div class="more_fx"><a href="/queryusers/0___/1">目前这里人比较少，先来看看其他的吧</a></div>
+													<div class="more_fx"><a href="/queryusers/0___/1">目前这个城市人还比较少，先切换到全国看看吧</a></div>
 												</c:if>
 											</c:when>
 											<c:otherwise>

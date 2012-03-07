@@ -67,13 +67,15 @@
 	</div><!--title end-->		
 	<div class="jz_main"><!--jz_main begin-->
 		<c:if test="${pager.totalResults <= 0}">
-			<div class="none">这里还没有人发布拒宅哦</div>
-			<c:if test="${not empty postViewList}">
-				<div class="other_recom"><!--other_recom begin-->
-					<em></em>
-					<p>下面是其他城市的推荐拒宅，先看看吧</p>
-				</div><!--other_recom end-->
-			</c:if>
+			<c:choose>
+				<c:when test="${empty postViewList}"><div class="none">这里还没有人发布拒宅哦</div></c:when>
+				<c:otherwise>
+					<div class="other_recom"><!--other_recom begin-->
+						<em></em>
+						<p>这里还没有人，先看看其他城市的拒宅吧</p>
+					</div><!--other_recom end-->
+				</c:otherwise>
+			</c:choose>
 		</c:if>
 		<c:if test="${not empty postViewList}">
 			<c:forEach var="postView" items="${postViewList}">

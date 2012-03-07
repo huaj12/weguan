@@ -403,4 +403,24 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genCommentInboxKey(long uid) {
 		return genKey(uid, "commentIndex");
 	}
+
+	/**
+	 * 首页无内容推荐key
+	 * 
+	 * @return
+	 */
+	public static String genIndexRecommendPostKey() {
+		return "indexRecommendPost";
+	}
+
+	/**
+	 * 用户微博list key
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genUserStatusKey(long uid) {
+		return genKey(uid, "userStatus");
+	}
+
 }

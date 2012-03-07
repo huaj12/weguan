@@ -238,6 +238,17 @@
 	</bean>
 	<!-- idea window end -->
 	
+	<!-- Recommend Post begin -->
+	<bean id="recommendPostTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="recommendPostHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${recommend.post.cron}" />
+	</bean>
+	<!-- Recommend Post end -->
+	
 	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
@@ -260,6 +271,7 @@
 				<ref bean="postIndexOptimizationAndCommitTrigger"/>
 				<ref bean="profileIndexOptimizationAndCommitTrigger"/>
 				<ref bean="createSitemapTrigger"/>
+				<ref bean="recommendPostTrigger"/>
 				<!--ref bean="ideaWindowSortTrigger"/-->
 				<!-- <ref bean="noticeEmailTrigger"/> -->
 			</list>

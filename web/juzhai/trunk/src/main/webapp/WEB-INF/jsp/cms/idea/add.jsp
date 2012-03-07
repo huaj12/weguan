@@ -68,8 +68,8 @@
 		</td>
 			<td><input type="file" name="newpic"/>
 			<c:choose>
-			<c:when test="${!empty jzr:postPic(ideaForm.postId,0, ideaForm.pic,200)}">
-			<img src="${jzr:postPic(ideaForm.postId,0, ideaForm.pic,200)}"/>
+			<c:when test="${!empty jzr:postPic(ideaForm.postId,ideaForm.ideaId, ideaForm.pic,200)}">
+			<img src="${jzr:postPic(ideaForm.postId,ideaForm.ideaId, ideaForm.pic,200)}"/>
 			<input name="pic" type="hidden" value="${ideaForm.pic}"/>
 			</c:when>
 			<c:otherwise>
@@ -90,6 +90,7 @@
 			<td></td>
 			<td>
 			<input name="postId" type="hidden" value="${ideaForm.postId}" />
+			<input name="ideaId" type="hidden" value="${ideaForm.ideaId}" />
 			<input name="createUid" type="hidden" value="${ideaForm.createUid }"></input>
 			<input type="submit" value="添加" /> </td>
 		</tr>

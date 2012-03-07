@@ -36,7 +36,7 @@ public class RecommendPostService implements IRecommendPostService {
 	@Override
 	public void updateRecommendPost() {
 		Calendar c = Calendar.getInstance();
-		c.add(Calendar.HOUR_OF_DAY, -(recommendPostTimeInterval));
+		c.add(Calendar.HOUR_OF_DAY, -recommendPostTimeInterval);
 		PostExample example = new PostExample();
 		example.createCriteria().andCreateTimeGreaterThan(c.getTime());
 		example.setOrderByClause("response_cnt desc,comment_cnt desc,create_time desc");

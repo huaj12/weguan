@@ -17,6 +17,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.exception.NeedLoginException.RunType;
+import com.juzhai.home.service.IUserStatusService;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Passport;
@@ -34,6 +35,8 @@ public abstract class AbstractLoginService implements ILoginService {
 	private ThreadPoolTaskExecutor taskExecutor;
 	@Autowired
 	private IFriendService friendService;
+	@Autowired
+	private IUserStatusService iUserStatusService;
 	@Autowired
 	private PassportMapper passportMapper;
 	@Autowired
@@ -70,6 +73,7 @@ public abstract class AbstractLoginService implements ILoginService {
 			@Override
 			public void run() {
 				friendService.updateExpiredFriends(uid, tpId);
+				iUserStatusService.updateUserStatus(uid, tpId);
 			}
 		});
 		loginCounter.incr(null, 1);

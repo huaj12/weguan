@@ -19,7 +19,7 @@
 			<script type="text/javascript" id="bdshell_js"></script>
 			<script type="text/javascript">
 			var bds_config = {
-					'bdPic':'${jzr:static("/images/share_pic.jpg")}',	
+					'bdPic':'${jzr:static("/images/share_pic.jpg")}'
 				}
 				document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?t=" + new Date().getHours();
 			</script>
@@ -35,7 +35,7 @@
 			<script type="text/javascript">
 				var bds_config = {
 						'bdComment':'加入拒宅找伴儿出去玩',	
-						'bdPic':'${jzr:static("/images/share_pic.jpg")}',	
+						'bdPic':'${jzr:static("/images/share_pic.jpg")}'
 					}
 				document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?t=" + new Date().getHours();
 			</script>

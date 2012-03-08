@@ -15,7 +15,7 @@
 			        <a class="bds_tqq"></a>
 			        <a class="bds_douban"></a>
 			    </div>
-			    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'大家周末是不是又要一个人宅在家了？不如来拒宅网跟我们一起脱宅吧!'}">
+			    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'大家周末是不是又要一个人宅在家了？不如来拒宅网跟我们一起脱宅吧!','url':'http://www.51juzhai.com/'}">
 			         <a class="bds_renren"></a>
 			    </div>
 			    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'加入拒宅找伴儿出去玩!','url':'http://www.51juzhai.com/','comment':'大家周末是不是又要一个人宅在家了？不如来拒宅网跟我们一起脱宅吧!','pic':'${jzr:static('/images/share_pic.jpg')}'}">

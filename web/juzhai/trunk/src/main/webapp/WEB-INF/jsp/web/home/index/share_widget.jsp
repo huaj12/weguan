@@ -15,7 +15,7 @@
 			        <a class="bds_tqq"></a>
 			        <a class="bds_douban"></a>
 			    </div>
-			    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'大家周末是不是又要一个人宅在家了？不如来拒宅网跟我们一起脱宅吧!','url':'http://www.51juzhai.com/'}">
+			    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'大家周末是不是又要一个人宅在家了？不如来拒宅网跟我们一起脱宅吧!'}">
 			         <a class="bds_renren"></a>
 			    </div>
 			    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'加入拒宅找伴儿出去玩!','url':'http://www.51juzhai.com/','comment':'大家周末是不是又要一个人宅在家了？不如来拒宅网跟我们一起脱宅吧!','pic':'${jzr:static('/images/share_pic.jpg')}'}">
@@ -25,6 +25,7 @@
 			<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=593065" ></script>
 			<script type="text/javascript" id="bdshell_js"></script>
 			<script type="text/javascript">
+			var bds_config = {'snsKey':{'tsina':'3631414437'}};
 				document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?t=" + new Date().getHours();
 			</script>
 			<!-- Baidu Button END -->

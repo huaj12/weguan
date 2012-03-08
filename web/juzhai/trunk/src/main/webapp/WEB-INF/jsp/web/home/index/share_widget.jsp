@@ -25,7 +25,7 @@
 			<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=593065" ></script>
 			<script type="text/javascript" id="bdshell_js"></script>
 			<script type="text/javascript">
-			var bds_config = {'snsKey':{'tsina':'3631414437'}};
+			var bds_config = {'snsKey':{'tsina':'3631414437','qzone':'100249114','douban':'00fb7fece2b96fd202f27fc6a82c4f76'}};
 				document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?t=" + new Date().getHours();
 			</script>
 			<!-- Baidu Button END -->

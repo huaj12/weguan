@@ -15,14 +15,6 @@
 			        <a class="bds_tqq"></a>
 			        <a class="bds_douban"></a>
 			    </div>
-			<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=593065" ></script>
-			<script type="text/javascript" id="bdshell_js"></script>
-			<script type="text/javascript">
-			var bds_config = {
-					'bdPic':'${jzr:static("/images/share_pic.jpg")}'
-				}
-				document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?t=" + new Date().getHours();
-			</script>
 			<!-- Baidu Button END -->
 			<!-- Baidu Button BEGIN -->
 			    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'大家周末是不是又要一个人宅在家了？不如来拒宅网跟我们一起脱宅吧!','url':'http://www.51juzhai.com/'}">

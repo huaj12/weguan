@@ -197,7 +197,8 @@ public interface IProfileService {
 	 * @param maxYear
 	 * @return
 	 */
-	int countQueryProfile(Integer gender, long city, int minYear, int maxYear);
+	int countQueryProfile(long excludeUid, Integer gender, long city,
+			int minYear, int maxYear);
 
 	/**
 	 * 找伴搜索(排除默认头像的人)
@@ -208,8 +209,8 @@ public interface IProfileService {
 	 * @param maxYear
 	 * @return
 	 */
-	List<Profile> queryProfile(Integer gender, long city, int minYear,
-			int maxYear, int firstResult, int maxResults);
+	List<Profile> queryProfile(long excludeUid, Integer gender, long city,
+			int minYear, int maxYear, int firstResult, int maxResults);
 
 	/**
 	 * 根据cityId筛选最新注册的人(排除没有头像的)

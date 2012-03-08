@@ -135,6 +135,11 @@ public class PostService implements IPostService {
 		if (null != isForbid && isForbid) {
 			throw new InputPostException(InputPostException.POST_TOO_FREQUENT);
 		}
+		// 判断是否有头像
+		ProfileCache profile = profileService.getProfileCacheByUid(uid);
+		if (StringUtils.isEmpty(profile.getLogoPic())) {
+			throw new InputPostException(InputPostException.PROFILE_LOGO_EMPTY);
+		}
 		long postId = 0L;
 		if (postForm.getIdeaId() > 0) {
 			// 发表from idea

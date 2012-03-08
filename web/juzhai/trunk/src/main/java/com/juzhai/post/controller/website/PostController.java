@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -145,6 +146,10 @@ public class PostController extends BaseController {
 	public String prepareRepost(HttpServletRequest request, Model model,
 			long postId) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
+		ProfileCache loginUser = getLoginUserCache(request);
+		if (StringUtils.isEmpty(loginUser.getLogoPic())) {
+			return "/web/profile/face_dialog_" + loginUser.getLogoVerifyState();
+		}
 		Post post = postService.getPostById(postId);
 		if (null == post || post.getCreateUid() == context.getUid()) {
 			return error_404;

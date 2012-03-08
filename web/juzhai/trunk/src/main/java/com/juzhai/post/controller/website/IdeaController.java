@@ -98,6 +98,10 @@ public class IdeaController extends BaseController {
 	public String prepareSendIdea(HttpServletRequest request, Model model,
 			long ideaId) throws NeedLoginException {
 		checkLoginForWeb(request);
+		ProfileCache loginUser = getLoginUserCache(request);
+		if (StringUtils.isEmpty(loginUser.getLogoPic())) {
+			return "/web/profile/face_dialog_" + loginUser.getLogoVerifyState();
+		}
 		Idea idea = ideaService.getIdeaById(ideaId);
 		if (null == idea) {
 			return error_404;

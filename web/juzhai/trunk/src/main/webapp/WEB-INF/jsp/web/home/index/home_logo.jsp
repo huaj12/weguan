@@ -7,7 +7,7 @@
 <div class="content_box w285 h158"><!--content begin-->
 	<div class="t"></div>
 	<div class="m">
-		<c:if test="${loginUser.logoVerifyState == 3 || loginUser.logoVerifyState == 0}">
+		<c:if test="${empty loginUser.logoPic && (loginUser.logoVerifyState == 3 || loginUser.logoVerifyState == 0)}">
 			<div class="tips_upload"><!--tips_upload begin-->
 				<a href="/profile/index/face" class="txt"><c:choose><c:when test="${loginUser.logoVerifyState == 3}">头像未过审核</c:when><c:otherwise>你还没有头像</c:otherwise></c:choose>,大家看不到你</a>
 				<a href="javascript:void(0);" onclick="javascript:$(this).parent().remove();return false;" class="close"></a>

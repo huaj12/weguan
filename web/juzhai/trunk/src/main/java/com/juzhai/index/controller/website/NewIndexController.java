@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.juzhai.common.bean.InitData;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
@@ -219,10 +218,11 @@ public class NewIndexController extends BaseController {
 		int maxYear = ageToYear(Math.min(minAge, maxAge));
 		int minYear = ageToYear(Math.max(minAge, maxAge));
 		PagerManager pager = new PagerManager(pageId, 20,
-				profileService.countQueryProfile(gender, cityId, minYear,
-						maxYear));
-		List<Profile> list = profileService.queryProfile(gender, cityId,
-				minYear, maxYear, pager.getFirstResult(), pager.getMaxResult());
+				profileService.countQueryProfile(context.getUid(), gender,
+						cityId, minYear, maxYear));
+		List<Profile> list = profileService.queryProfile(context.getUid(),
+				gender, cityId, minYear, maxYear, pager.getFirstResult(),
+				pager.getMaxResult());
 		List<QueryUserView> userViews = new ArrayList<QueryUserView>(
 				list.size());
 		for (Profile profile : list) {

@@ -454,28 +454,31 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
-	public int countQueryProfile(Integer gender, long city, int minYear,
-			int maxYear) {
-		ProfileExample example = getProfileExample(gender, city, minYear,
-				maxYear);
+	public int countQueryProfile(long excludeUid, Integer gender, long city,
+			int minYear, int maxYear) {
+		ProfileExample example = getProfileExample(excludeUid, gender, city,
+				minYear, maxYear);
 		return profileMapper.countByExample(example);
 	}
 
 	@Override
-	public List<Profile> queryProfile(Integer gender, long city, int minYear,
-			int maxYear, int firstResult, int maxResults) {
-		ProfileExample example = getProfileExample(gender, city, minYear,
-				maxYear);
+	public List<Profile> queryProfile(long excludeUid, Integer gender,
+			long city, int minYear, int maxYear, int firstResult, int maxResults) {
+		ProfileExample example = getProfileExample(excludeUid, gender, city,
+				minYear, maxYear);
 		example.setOrderByClause("last_web_login_time desc, uid desc");
 		example.setLimit(new Limit(firstResult, maxResults));
 		return profileMapper.selectByExample(example);
 	}
 
-	private ProfileExample getProfileExample(Integer gender, long city,
-			int minYear, int maxYear) {
+	private ProfileExample getProfileExample(long excludeUid, Integer gender,
+			long city, int minYear, int maxYear) {
 		ProfileExample example = new ProfileExample();
 		ProfileExample.Criteria c = example.createCriteria()
 				.andLogoPicIsNotNull().andLogoPicNotEqualTo(StringUtils.EMPTY);
+		if (excludeUid > 0) {
+			c.andUidNotEqualTo(excludeUid);
+		}
 		if (city > 0) {
 			c.andCityEqualTo(city);
 		}

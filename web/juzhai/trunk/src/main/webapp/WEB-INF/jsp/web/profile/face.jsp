@@ -52,7 +52,7 @@
 									<span><img src="${jzr:userLogo(profile.uid,profile.newLogoPic,180)}" id="preview_180" width="180" height="180" /></span>
 								</div><!--preview_face end-->
 								<div class="btn_area">
-									<a href="javascript;void(0);" class="save">好了</a>
+									<a href="javascript:void(0);" class="save">好了</a>
 									<!-- <a href="#" onclick="releaseLogo();" class="cancel">取消</a> -->
 								</div>
 							</div><!--my_face end-->

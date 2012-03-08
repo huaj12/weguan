@@ -1491,7 +1491,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .search_result .none a{ color:#3E8BD9;}
 .search_result .none a:hover{ text-decoration:underline;}
 
-.share_icons{ width:250px; height:auto; overflow:hidden; margin:0 auto; display:block; margin-top:20px; padding-bottom:20px;}
+.share_icons{ width:230px; height:auto; overflow:hidden; margin:0 auto; display:block; margin-top:20px; padding-bottom:20px;}
 
 
 
@@ -2202,17 +2202,19 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 
 
 
+/*上传头衔弹出提示层*/
 
 
 
 
+.face_show_box{ width:450px; height:auto; overflow:hidden;}
+.face_show_box .face_area{ float:left; width:100px; height:100px; overflow:hidden; margin-right:20px; display:inline;}
+.face_show_box .area_right{ float:left; width:330px;}
 
-
-
-
-
-
-
+.face_show_box .area_right h2{ float:left; width:100%; font-size:14px; color:#666; font-weight:bold;}
+.face_show_box .area_right p{ float:left; width:100%; color:#999; margin-top:10px; padding-bottom:8px;}
+.face_show_box .area_right span{ float:left; color:#ccc; margin-top:8px;}
+.face_show_box .area_right a{ background:url(../images/web2/send_area_btn.gif) no-repeat; width:80px; height:30px; overflow:hidden; display:block; float:right; color:#fff; text-align:center; line-height:30px; text-decoration:none;}
 
 
 

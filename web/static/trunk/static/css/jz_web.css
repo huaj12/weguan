@@ -2213,7 +2213,7 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 .login_box .box_left{ float:left;  width:150px; height:auto; overflow:hidden; }
 .login_box .box_left h2{ font-size:18px;  font-family:"微软雅黑","宋体"; color:#333; float:left; font-weight:bold;}
 .login_box .box_left em{ float:left; color:#999;  margin-left:10px; display:inline; margin-top:5px;}
-.login_box .box_left a{ width:100%; margin-top:15px; display:block;} 
+.login_box .box_left a{ width:100%; margin-top:15px; float:left;} 
 .login_box .box_right{ float:left; height:auto; overflow:hidden; margin-left:25px; display:inline; width:305px; color:#999; line-height:180%; }
 .login_box .box_right b{ color:#999;}
 

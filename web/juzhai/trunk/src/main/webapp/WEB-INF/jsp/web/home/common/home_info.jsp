@@ -48,7 +48,7 @@
 				<div class="cancel_like" <c:if test="${!isInterest}">style="display:none;"</c:if>><p>已敲门</p><a href="javascript:void(0);" class="delete" uid="${profile.uid}"></a></div>
 				<a href="javascript:void(0);" class="like" uid="${profile.uid}" <c:if test="${isInterest}">style="display:none;"</c:if>>敲门</a>	
 				<a href="javascript:void(0);" class="date" <c:if test="${datingView!=null}">style="display:none;"</c:if> uid="${profile.uid}">约ta</a>
-				<a href="javascript:void(0);" class="message_ta open-dialog" target-uid="${profile.uid}" target-nickname="${profile.nickname}">私信</a>
+				<a href="javascript:void(0);" class="message_ta open-dialog" target-uid="${profile.uid}" target-nickname="<c:out value="${profile.nickname}"/>">私信</a>
 			</div><!--user_btn end-->
 		</c:otherwise>
 	</c:choose>

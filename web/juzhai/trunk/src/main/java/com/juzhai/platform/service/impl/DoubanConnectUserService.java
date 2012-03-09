@@ -125,13 +125,16 @@ public class DoubanConnectUserService extends AbstractUserService {
 			AuthInfo authInfo, Thirdparty tp) {
 		String code = request.getParameter("oauth_token");
 		if (StringUtils.isEmpty(code)) {
+			log.error("douban get oauth_token is null");
 			return null;
 		}
 		if (null == tp) {
+			log.error("douban  Thirdparty is null");
 			return null;
 		}
 		String accessToken = getOAuthAccessTokenFromCode(tp, code);
 		if (StringUtils.isEmpty(accessToken)) {
+			log.error("douban accessToken is null");
 			return null;
 		}
 		String uid = "";
@@ -169,7 +172,8 @@ public class DoubanConnectUserService extends AbstractUserService {
 		try {
 			list = doubanService.getAccessToken();
 		} catch (Exception e) {
-			log.error("douban content getOAuthAccessTokenFromCode is error."+e.getMessage());
+			log.error("douban content getOAuthAccessTokenFromCode is error."
+					+ e.getMessage());
 		}
 		// 删除token_secret
 		tokenMap.remove(code);

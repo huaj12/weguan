@@ -78,7 +78,8 @@ public interface IIdeaService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Idea> listUnUsedIdea(long uid, int firstResult, int maxResults);
+	List<Idea> listUnUsedIdea(long uid, Long cityId, int firstResult,
+			int maxResults);
 
 	/**
 	 * 好主意数量

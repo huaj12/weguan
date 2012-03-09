@@ -122,8 +122,15 @@ public class IdeaController extends BaseController {
 	public String showIdeaWidget(HttpServletRequest request, Model model,
 			@RequestParam(defaultValue = "1") int page) {
 		UserContext context = (UserContext) request.getAttribute("context");
+		Long cityId = 0L;
+		if (context.hasLogin()) {
+			ProfileCache profile = getLoginUserCache(request);
+			if (null != profile) {
+				cityId = profile.getCity();
+			}
+		}
 		List<Idea> ideaList = ideaService.listUnUsedIdea(context.getUid(),
-				page - 1, 1);
+				cityId, page - 1, 1);
 		if (CollectionUtils.isNotEmpty(ideaList)) {
 			Idea idea = ideaList.get(0);
 			IdeaView ideaView = new IdeaView();

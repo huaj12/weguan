@@ -161,7 +161,7 @@ public class HomeController extends BaseController {
 
 	private void showHomeRight(UserContext context, long cityId, Model model) {
 		showHomeLogo(context, model);
-		ideaWidget(context, cityId, model, webHomeRightIdeaRows);
+		// ideaWidget(context, cityId, model, webHomeRightIdeaRows);
 		newUserWidget(0L, model, webHomeRightUserRows);
 	}
 

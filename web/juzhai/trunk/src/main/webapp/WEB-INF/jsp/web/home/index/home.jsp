@@ -20,10 +20,20 @@
 						<div class="content_box w660 z900"><!--content begin-->
 							<div class="t"></div>
 							<div class="m">
-								<div class="tips" style="display: none;"><!--tips begin-->
-									<p>没想好去哪玩？试试这个</p>
-									<a href="javascript:void(0);"></a>
-								</div><!--tips end-->
+								<c:choose>
+									<c:when test="${not empty loginUser.logoPic || loginUser.logoVerifyState == 1}">
+										<div class="tips" style="display: none;"><!--tips begin-->
+											<p>没想好去哪玩？试试这个</p>
+											<a href="javascript:void(0);"></a>
+										</div><!--tips end-->
+									</c:when>
+									<c:otherwise>
+										<div class="disable_lock"><!--disable_lock begin-->
+											<em></em>
+											<p><a href="/profile/index/face">通过头像审核的用户才能发布拒宅哦</a></p>
+										</div><!--disable_lock end-->
+									</c:otherwise>
+								</c:choose>
 								<div class="send_box"><!--send_box begin-->
 									<jsp:include page="send_post.jsp" />
 								</div>

@@ -116,6 +116,7 @@ function uploadImage() {
 				$("div.upload_area > div.uploading").hide();
 				$("div.upload_area > div.uploading_ok > font").text("已成功上传 " + fileName);
 				$("div.upload_area > div.uploading_ok").show();
+				$("div.btn_area > a").show();
 			} else if (result.errorCode == "00003") {
 				window.location.href = "/login?turnTo=" + window.location.href;
 			} else {

@@ -24,6 +24,7 @@ import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
@@ -99,7 +100,9 @@ public class IdeaController extends BaseController {
 			long ideaId) throws NeedLoginException {
 		checkLoginForWeb(request);
 		ProfileCache loginUser = getLoginUserCache(request);
-		if (StringUtils.isEmpty(loginUser.getLogoPic())) {
+		if (StringUtils.isEmpty(loginUser.getLogoPic())
+				&& loginUser.getLogoVerifyState() != LogoVerifyState.VERIFYING
+						.getType()) {
 			return "/web/profile/face_dialog_" + loginUser.getLogoVerifyState();
 		}
 		Idea idea = ideaService.getIdeaById(ideaId);

@@ -264,10 +264,15 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 
 
+.disable_lock{ width:100%; height:162px; position:absolute; z-index:600; left:0; top:0px; background:#ccc;filter:alpha(opacity=50);opacity:0.5; -moz-opacity:0.5; -khtml-opacity:0.5;}
 
+.disable_lock em{ background:url(../images/web2/lock.png) no-repeat; width:31px; height:42px; float:left; margin-left:315px; display:inline; margin-top:38px;}
 
+.disable_lock p{ float:left; width:100%; text-align:center; margin-top:10px; color:000;}
+.disable_lock p a{ color:#000;}
+.disable_lock p a:hover{ text-decoration:underline;}
 
-.send_box{ width:620px; height:140px; float:left; margin-top:20px; margin-left:20px;  display:inline;}
+.send_box{ width:620px; height:140px; float:left; margin-top:20px; margin-left:20px;  display:inline; position:relative; z-index:500;}
 .send_box .face{ float:left; width:120px; height:120px; overflow:hidden;}
 .send_area{ float:right; width:480px; height:120px; }
 
@@ -312,9 +317,11 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .send_area .random_select .random{background:url(../images/web2/icon_hover_r1_c9.jpg) no-repeat;}
 
 
-.send_area .textarea{ background:url(../images/web2/text_area_bg2.jpg) no-repeat; width:100%;  height:55px; overflow:hidden; margin-top:7px; float:left; _margin-top:5px;}
-.send_area .textarea textarea{ border:none; background:none; width:97%; float:left; margin-left:10px; margin-top:10px; display:inline; height:35px; color:#666; font-size:12px; overflow:hidden;}
+.send_area .textarea{ background:url(../images/web2/text_area_bg2.jpg) no-repeat; width:100%;  height:55px; margin-top:7px; float:left; _margin-top:5px;}
+.send_area .textarea textarea{ border:none; background:none; width:97%; float:left; margin-left:10px; margin-top:10px; display:inline; height:35px; color:#666; font-size:14px; overflow:hidden;}
 .send_area .ts textarea{ color:#999;}
+
+
 
 .send_area .jh{ float:left; position:relative; margin-top:10px;}
 
@@ -2182,16 +2189,16 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 /*登录弹出层*/
 
 
-.login_box{ width:550px; height:auto; overflow:hidden; float:left; display:inline;}
+.login_box{ width:480px; height:auto; overflow:hidden; float:left; display:inline;}
 
 
 
 
-.login_box .box_left{ float:left;  width:190px; height:auto; overflow:hidden; }
+.login_box .box_left{ float:left;  width:150px; height:auto; overflow:hidden; }
 .login_box .box_left h2{ font-size:18px;  font-family:"微软雅黑","宋体"; color:#333; float:left; font-weight:bold;}
-.login_box .box_left em{ float:left; color:#999; float:left; margin-left:10px; display:inline; margin-top:5px;}
-.login_box .box_left a{ float:left; width:100%; margin-top:15px;} 
-.login_box .box_right{ float:left; height:auto; overflow:hidden; margin-left:25px; display:inline; width:335px; color:#999; line-height:180%; }
+.login_box .box_left em{ float:left; color:#999;  margin-left:10px; display:inline; margin-top:5px;}
+.login_box .box_left a{ width:100%; margin-top:15px; display:block;} 
+.login_box .box_right{ float:left; height:auto; overflow:hidden; margin-left:25px; display:inline; width:305px; color:#999; line-height:180%; }
 .login_box .box_right b{ color:#999;}
 
 
@@ -2212,7 +2219,7 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 .face_show_box .area_right{ float:left; width:330px;}
 
 .face_show_box .area_right h2{ float:left; width:100%; font-size:14px; color:#666; font-weight:bold;}
-.face_show_box .area_right p{ float:left; width:100%; color:#999; margin-top:10px; padding-bottom:8px;}
+.face_show_box .area_right p{ float:left; width:100%; color:#999; margin-top:10px; padding-bottom:8px; height:36px;}
 .face_show_box .area_right span{ float:left; color:#ccc; margin-top:8px;}
 .face_show_box .area_right a{ background:url(../images/web2/send_area_btn.gif) no-repeat; width:80px; height:30px; overflow:hidden; display:block; float:right; color:#fff; text-align:center; line-height:30px; text-decoration:none;}
 

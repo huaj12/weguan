@@ -35,6 +35,7 @@ import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
@@ -137,7 +138,9 @@ public class PostService implements IPostService {
 		}
 		// 判断是否有头像
 		ProfileCache profile = profileService.getProfileCacheByUid(uid);
-		if (StringUtils.isEmpty(profile.getLogoPic())) {
+		if (StringUtils.isEmpty(profile.getLogoPic())
+				&& profile.getLogoVerifyState() != LogoVerifyState.VERIFYING
+						.getType()) {
 			throw new InputPostException(InputPostException.PROFILE_LOGO_EMPTY);
 		}
 		long postId = 0L;

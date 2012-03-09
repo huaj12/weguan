@@ -24,6 +24,7 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
@@ -147,7 +148,9 @@ public class PostController extends BaseController {
 			long postId) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		ProfileCache loginUser = getLoginUserCache(request);
-		if (StringUtils.isEmpty(loginUser.getLogoPic())) {
+		if (StringUtils.isEmpty(loginUser.getLogoPic())
+				&& loginUser.getLogoVerifyState() != LogoVerifyState.VERIFYING
+						.getType()) {
 			return "/web/profile/face_dialog_" + loginUser.getLogoVerifyState();
 		}
 		Post post = postService.getPostById(postId);

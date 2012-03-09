@@ -130,7 +130,7 @@ function updateIdeaWindow(){
 				</td>
 				<td><c:out value="${view.idea.content}"></c:out></td>
 				<td><c:out value="${view.userName}"></c:out></td>
-				<td>${view.idea.place}</td>
+				<td><c:out value="${view.idea.place}"></c:out></td>
 					<td>
 					<c:choose>
 						<c:when test="${view.idea.gender==0}">

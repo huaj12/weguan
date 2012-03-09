@@ -36,9 +36,11 @@ import com.juzhai.post.dao.IIdeaDao;
 import com.juzhai.post.exception.InputIdeaException;
 import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.mapper.IdeaMapper;
+import com.juzhai.post.mapper.PostMapper;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.IdeaExample;
 import com.juzhai.post.model.Post;
+import com.juzhai.post.model.PostExample;
 import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
@@ -62,6 +64,8 @@ public class IdeaService implements IIdeaService {
 	private IPostService postService;
 	@Autowired
 	private IImageManager imageManager;
+	@Autowired
+	private PostMapper postMapper;
 	@Autowired
 	private IDialogService dialogService;
 	@Value("${idea.content.length.min}")
@@ -380,5 +384,28 @@ public class IdeaService implements IIdeaService {
 		String key = RedisKeyGenerator.genIdeaWindowSortKey();
 		return ideaRedisTemplate.opsForList().range(key, 0,
 				ideaWindowMaxRows - 1);
+	}
+
+	@Override
+	public List<Idea> listUnUsedIdea(long uid, int firstResult, int maxResults) {
+		List<Long> ideaIdList = null;
+		if (uid > 0) {
+			PostExample example = new PostExample();
+			example.createCriteria().andCreateUidEqualTo(uid)
+					.andIdeaIdGreaterThan(0L);
+			List<Post> postList = postMapper.selectByExample(example);
+			ideaIdList = new ArrayList<Long>(postList.size());
+			for (Post post : postList) {
+				ideaIdList.add(post.getIdeaId());
+			}
+		}
+
+		IdeaExample ideaExample = new IdeaExample();
+		if (CollectionUtils.isNotEmpty(ideaIdList)) {
+			ideaExample.createCriteria().andIdNotIn(ideaIdList);
+		}
+		ideaExample.setOrderByClause("use_count asc, create_time desc");
+		ideaExample.setLimit(new Limit(firstResult, maxResults));
+		return ideaMapper.selectByExample(ideaExample);
 	}
 }

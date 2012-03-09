@@ -4,33 +4,13 @@
 <%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
 <%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:if test="${not empty ideaViewList}">
-	<div class="content_box w285"><!--content begin-->
-		<div class="t"></div>
-		<div class="m">
-			<div class="right_title"><h2>拒宅好主意</h2><a href="/showideas">更多</a></div>
-			<div class="idea"><!--idea begin-->
-				<ul>
-					<c:forEach var="ideaView" items="${ideaViewList}">
-						<li class="mouseHover">
-							<p><a href="/idea/${ideaView.idea.id}" target="_blank"><c:out value="${ideaView.idea.content}" /></a><c:if test="${ideaView.profileCache != null}"><a href="/home/${ideaView.profileCache.uid}" class="from">来自&nbsp;<c:out value="${ideaView.profileCache.nickname}" /></a></c:if></p>
-							<c:if test="${not empty ideaView.idea.pic}">
-								<div class="img"><a href="/idea/${ideaView.idea.id}" target="_blank"><img src="${jzr:ideaPic(ideaView.idea.id, ideaView.idea.pic, 200)}"/></a></div>
-							</c:if>
-							<span><a href="/idea/${ideaView.idea.id}" target="_blank" id="useCountShow-${ideaView.idea.id}"><c:if test="${ideaView.idea.useCount > 0}"><font id="useCount-${ideaView.idea.id}">${ideaView.idea.useCount}</font>人想去</c:if></a></span>
-							<c:choose>
-								<c:when test="${ideaView.hasUsed}">
-									<div class="sended"><a href="javascript:void(0);">已想去</a></div>
-								</c:when>
-								<c:otherwise>
-									<div class="send idea-btn" id="idea-btn-${ideaView.idea.id}"><a href="javascript:void(0);" idea-id="${ideaView.idea.id}">我想去</a></div>
-								</c:otherwise>
-							</c:choose>
-						</li>
-					</c:forEach>
-				</ul>
-			</div><!--idea end-->
-		</div>
-		<div class="t"></div>
-	</div><!--content end-->
-</c:if>
+<div class="content_box w285"><!--content begin-->
+	<div class="t"></div>
+	<div class="m">
+		<div class="right_title"><h2>今日拒宅好主意</h2><a href="/showideas">更多</a></div>
+		<div id="idea-widget" class="idea"><!--idea begin-->
+			
+		</div><!--idea end-->
+	</div>
+	<div class="t"></div>
+</div><!--content end-->

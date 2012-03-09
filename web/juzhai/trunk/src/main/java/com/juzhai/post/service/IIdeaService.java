@@ -71,6 +71,16 @@ public interface IIdeaService {
 			int firstResult, int maxResults);
 
 	/**
+	 * 未使用的好主意
+	 * 
+	 * @param uid
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Idea> listUnUsedIdea(long uid, int firstResult, int maxResults);
+
+	/**
 	 * 好主意数量
 	 * 
 	 * @return

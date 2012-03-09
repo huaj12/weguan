@@ -805,15 +805,31 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 .idea{width:230px; margin:0 auto; overflow:hidden; margin-top:8px; height:auto; padding-bottom:10px;}
 .idea ul{ float:left;}
-.idea ul li{ width:100%; float:left; overflow:hidden; border-bottom:1px dashed #E5E5E5; padding-bottom:12px; margin-top:7px;}
+.idea ul li{ width:100%; float:left; overflow:hidden; padding-bottom:15px; margin-top:7px;}
 .idea ul li p{ width:230px; float:left; color:#999; line-height:180%; padding-bottom:5px;}
-.idea ul li p a{ color:#999;}
+.idea ul li p a{ color:#666;}
 .idea ul li p a:hover{ text-decoration:underline;}
-.idea ul li .img{ float:left; padding-bottom:7px; width:100%;}
-.idea ul li span{ float:left; color:#ccc; white-space:nowrap;}
+.idea ul li .img{ float:left; width:100%;}
+.idea ul li em{ float:left; margin-top:10px;}
+.idea ul li em a{ float:left; margin-right:10px; width:40px; height:40px; overflow:hidden;}
+.idea ul li span{ float:left; color:#ccc; white-space:nowrap; font-weight:bold; margin-top:10px; width:100%; text-align:center;}
 .idea ul li span a{color:#3E8BD9; font-family:Tahoma;}
 .idea ul li span a:hover{ text-decoration:underline;}
 .idea ul li p a.from{ color:#ccc; margin-left:10px;}
+
+.idea ul li .btn{ width:180px; height:auto; float:left; overflow:hidden; margin-left:25px; display:inline; margin-top:10px;}
+.idea ul li .btn a{ width:80px; height:25px; text-align:center; color:#fff; line-height:25px; line-height:27px\9; overflow:hidden; display:block inline; margin-left:5px; margin-right:5px; float:left;}
+.idea ul li .btn a.wtgo{ background:url(../images/web2/woxq.gif) no-repeat;}
+.idea ul li .btn a.hyge{ background:url(../images/web2/hyge.gif) no-repeat;}
+.idea ul li .btn a.none{ background:url(../images/web2/myla.gif) no-repeat; color:#666; cursor:default;}
+.idea ul li .btn a.h_loading{ background:url(../images/web2/h_loading.gif) no-repeat; text-align:left; width:55px; padding-left:25px;}
+
+
+
+.idea .none_jz{ width:100%; margin-top:50px; padding-bottom:50px; text-align:center; float:left; color:#999;}
+
+
+
 
 .idea .boy span a{ color:#3E8BD9;}
 .idea .girl span a{ color:#f69;}
@@ -1498,7 +1514,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .search_result .none a{ color:#3E8BD9;}
 .search_result .none a:hover{ text-decoration:underline;}
 
-.share_icons{ width:230px; height:auto; overflow:hidden; margin:0 auto; display:block; margin-top:20px; padding-bottom:20px;}
+.share_icons{ width:240px; height:auto; overflow:hidden; margin:0 auto; display:block; margin-top:20px; padding-bottom:20px;}
 
 
 
@@ -1643,7 +1659,10 @@ filter:alpha(opacity=50);opacity:0.5; -moz-opacity:0.5; -khtml-opacity:0.5; font
 .my_head_area .my_infor h2{ float:left; }
 .my_head_area .my_infor h2 a{font-family:"微软雅黑"; font-size:20px; line-height:normal; color:#666;}
 .my_head_area .my_infor h2 a:hover{ text-decoration:underline;}
-.my_head_area .my_infor em{ float:left; margin-top:8px; margin-left:10px; display:inline;}
+.my_head_area .my_infor em{ float:left; margin-top:5px; margin-left:10px; display:inline;}
+.my_head_area .my_infor em.offline{ color:#ccc;}
+.my_head_area .my_infor em.online{ color:#090;}
+
 .my_head_area .my_infor p{ float:left; width:100%; color:#666; margin-top:5px;}
 .my_head_area .my_infor span{ float:left; width:100%; color:#999; margin-top:5px;}
 

@@ -16,7 +16,7 @@
 					<div class="item_m">
 						<div class="icon"><span><em></em></span></div>
 						<div class="message_item">
-							<div class="btn"><a href="javascript:void(0);" class="delete" dialog-id="${dialogView.dialog.id}" target-name="<c:out value="${dialogView.targetProfile.nickname}"></c:out>">删除</a><a href="javascript:void(0);" class="repy" target-name="${dialogView.targetProfile.nickname}" target-uid="${dialogView.targetProfile.uid}">回复</a></div>
+							<div class="btn"><a href="javascript:void(0);" class="delete" dialog-id="${dialogView.dialog.id}" target-name="<c:out value='${dialogView.targetProfile.nickname}'></c:out>">删除</a><a href="javascript:void(0);" class="repy" target-name="${dialogView.targetProfile.nickname}" target-uid="${dialogView.targetProfile.uid}">回复</a></div>
 							<div></div>
 							<div class="photo"><a href="/home/${dialogView.targetProfile.uid}"><img src="${jzr:userLogo(dialogView.targetProfile.uid,dialogView.targetProfile.logoPic,80)}"  width="80" height="80"/></a></div>
 							<c:set var="age" value="${jzu:age(dialogView.targetProfile.birthYear, dialogView.targetProfile.birthSecret)}" />

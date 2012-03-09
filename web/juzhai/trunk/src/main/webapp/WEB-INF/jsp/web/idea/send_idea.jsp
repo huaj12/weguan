@@ -52,7 +52,7 @@
 	</div><!--send_idea end-->
 </form>
 <script type="text/javascript">
-	$("form#send-idea").find("div.select_menu").each(function(){
+	/* $("form#send-idea").find("div.select_menu").each(function(){
     	var select = new SelectInput(this);
     	select.bindBlur();
     	select.bindClick();
@@ -79,5 +79,5 @@
 			}
     	});
     	return false;
-    });
+    }); */
 </script>

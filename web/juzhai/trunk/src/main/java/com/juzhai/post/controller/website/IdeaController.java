@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.core.controller.BaseController;
@@ -24,6 +26,7 @@ import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
@@ -46,6 +49,8 @@ public class IdeaController extends BaseController {
 	private int ideaUserMaxRows;
 	@Value("${idea.detail.ad.count}")
 	private int ideaDetailAdCount;
+	@Value("${idea.widget.idea.user.count}")
+	private int ideaWidgetIdeaUserCount;
 
 	@RequestMapping(value = "/{ideaId}", method = RequestMethod.GET)
 	public String detail(HttpServletRequest request, Model model,
@@ -111,6 +116,27 @@ public class IdeaController extends BaseController {
 		}
 		model.addAttribute("idea", idea);
 		return "web/idea/send_idea";
+	}
+
+	@RequestMapping(value = "/showwidget", method = RequestMethod.GET)
+	public String showIdeaWidget(HttpServletRequest request, Model model,
+			@RequestParam(defaultValue = "1") int page) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		List<Idea> ideaList = ideaService.listUnUsedIdea(context.getUid(),
+				page - 1, 1);
+		if (CollectionUtils.isNotEmpty(ideaList)) {
+			Idea idea = ideaList.get(0);
+			IdeaView ideaView = new IdeaView();
+			ideaView.setIdea(idea);
+			if (idea.getCreateUid() > 0) {
+				ideaView.setProfileCache(profileService
+						.getProfileCacheByUid(idea.getCreateUid()));
+			}
+			ideaView.setIdeaUserViews(ideaService.listIdeaUsers(idea.getId(),
+					0, ideaWidgetIdeaUserCount));
+			model.addAttribute("ideaView", ideaView);
+		}
+		return "web/home/index/idea_widget_fragment";
 	}
 
 	@RequestMapping(value = "/random")

@@ -12,7 +12,7 @@
 				<div class="item_zbr mouseHover <c:choose><c:when test='${showUserView.profile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--item_zbr begin-->
 					<div class="more"><a href="/home/${showUserView.profile.uid}" title="点击进入"></a></div>
 					<div class="btn">
-						<a href="javascript:void(0);" class="mail" target-uid="${showUserView.profile.uid}" target-nickname="${showUserView.profile.nickname}">私信</a>
+						<a href="javascript:void(0);" class="mail" target-uid="${showUserView.profile.uid}" target-nickname="<c:out value="${showUserView.profile.nickname}"/>">私信</a>
 						<a id="removeDating${showUserView.profile.uid}" href="javascript:void(0);" class="yueta_done" <c:if test="${!showUserView.hasDating}">style="display:none;"</c:if>>已约ta</a>
 						<a id="dating${showUserView.profile.uid}" href="javascript:void(0);" class="yueta" uid="${showUserView.profile.uid}" <c:if test="${showUserView.hasDating}">style="display:none;"</c:if>>约ta</a>
 						<div id="removeInterest${showUserView.profile.uid}" class="ygxq" <c:if test="${!showUserView.hasInterest}">style="display:none;"</c:if>><p>已敲门</p><a href="javascript:void(0);" class="delete" uid="${showUserView.profile.uid}"></a></div>

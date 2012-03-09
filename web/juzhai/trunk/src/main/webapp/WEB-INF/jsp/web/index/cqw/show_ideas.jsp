@@ -83,7 +83,7 @@
 																	<span class="time"><fmt:formatDate value="${ideaView.idea.date}" pattern="yyyy-MM-dd" /></span>
 																</c:if>
 																<c:if test="${not empty ideaView.idea.place}">
-																	<span class="adress">${ideaView.idea.place}</span>
+																	<span class="adress"><c:out value="${ideaView.idea.place}"></c:out></span>
 																</c:if>
 																<c:if test="${!empty ideaView.idea.link }">
 																	<span class="link"><a href="${ideaView.idea.link}">查看相关链接</a></span>

@@ -387,7 +387,8 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public List<Idea> listUnUsedIdea(long uid, int firstResult, int maxResults) {
+	public List<Idea> listUnUsedIdea(long uid, Long cityId, int firstResult,
+			int maxResults) {
 		List<Long> ideaIdList = null;
 		if (uid > 0) {
 			PostExample example = new PostExample();
@@ -401,7 +402,14 @@ public class IdeaService implements IIdeaService {
 		}
 
 		IdeaExample ideaExample = new IdeaExample();
-		if (CollectionUtils.isNotEmpty(ideaIdList)) {
+		if (null != cityId && cityId > 0) {
+			IdeaExample.Criteria c1 = ideaExample.or().andCityEqualTo(cityId);
+			IdeaExample.Criteria c2 = ideaExample.or().andCityEqualTo(0L);
+			if (CollectionUtils.isNotEmpty(ideaIdList)) {
+				c1.andIdNotIn(ideaIdList);
+				c2.andIdNotIn(ideaIdList);
+			}
+		} else if (CollectionUtils.isNotEmpty(ideaIdList)) {
 			ideaExample.createCriteria().andIdNotIn(ideaIdList);
 		}
 		ideaExample.setOrderByClause("use_count asc, create_time desc");

@@ -158,33 +158,33 @@ public class BaseController {
 		model.addAttribute("provinces", InitData.PROVINCE_MAP.values());
 	}
 
-	protected void ideaWidget(UserContext context, long cityId, Model model,
-			int count) {
-		// TODO 是否要改成未发布的最新idea
-		if (count <= 0) {
-			count = 5;
-		}
-		List<Idea> ideaList = ideaService.listIdeaByCity(cityId,
-				ShowIdeaOrder.HOT_TIME, 0, count);
-		if (CollectionUtils.isEmpty(ideaList) && cityId > 0) {
-			ideaList = ideaService.listIdeaByCity(0L, ShowIdeaOrder.HOT_TIME,
-					0, count);
-		}
-
-		List<IdeaView> ideaViewList = new ArrayList<IdeaView>();
-		for (Idea idea : ideaList) {
-			IdeaView ideaView = new IdeaView();
-			ideaView.setIdea(idea);
-			ideaView.setHasUsed(ideaService.isUseIdea(context.getUid(),
-					idea.getId()));
-			if (idea.getCreateUid() > 0) {
-				ideaView.setProfileCache(profileService
-						.getProfileCacheByUid(idea.getCreateUid()));
-			}
-			ideaViewList.add(ideaView);
-		}
-		model.addAttribute("ideaViewList", ideaViewList);
-	}
+	// protected void ideaWidget(UserContext context, long cityId, Model model,
+	// int count) {
+	// // TODO 是否要改成未发布的最新idea
+	// if (count <= 0) {
+	// count = 5;
+	// }
+	// List<Idea> ideaList = ideaService.listIdeaByCity(cityId,
+	// ShowIdeaOrder.HOT_TIME, 0, count);
+	// if (CollectionUtils.isEmpty(ideaList) && cityId > 0) {
+	// ideaList = ideaService.listIdeaByCity(0L, ShowIdeaOrder.HOT_TIME,
+	// 0, count);
+	// }
+	//
+	// List<IdeaView> ideaViewList = new ArrayList<IdeaView>();
+	// for (Idea idea : ideaList) {
+	// IdeaView ideaView = new IdeaView();
+	// ideaView.setIdea(idea);
+	// ideaView.setHasUsed(ideaService.isUseIdea(context.getUid(),
+	// idea.getId()));
+	// if (idea.getCreateUid() > 0) {
+	// ideaView.setProfileCache(profileService
+	// .getProfileCacheByUid(idea.getCreateUid()));
+	// }
+	// ideaViewList.add(ideaView);
+	// }
+	// model.addAttribute("ideaViewList", ideaViewList);
+	// }
 
 	protected void newUserWidget(long cityId, Model model, int count) {
 		if (count <= 0) {

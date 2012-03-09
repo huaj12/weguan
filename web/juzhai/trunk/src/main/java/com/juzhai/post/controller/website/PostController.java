@@ -316,7 +316,7 @@ public class PostController extends BaseController {
 				cityId = profile.getCity();
 			}
 		}
-		ideaWidget(context, cityId, model, postDetailRightIdeaRows);
+		// ideaWidget(context, cityId, model, postDetailRightIdeaRows);
 		model.addAttribute("commentTotalCnt",
 				postCommentService.countPostComment(postId));
 		model.addAttribute("respTotalCnt",

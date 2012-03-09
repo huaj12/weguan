@@ -128,8 +128,8 @@ function updateIdeaWindow(){
 						<c:otherwise>否</c:otherwise>
 					</c:choose>
 				</td>
-				<td>${view.idea.content}</td>
-				<td>${view.userName}</td>
+				<td><c:out value="${view.idea.content}"></c:out></td>
+				<td><c:out value="${view.userName}"></c:out></td>
 				<td>${view.idea.place}</td>
 					<td>
 					<c:choose>

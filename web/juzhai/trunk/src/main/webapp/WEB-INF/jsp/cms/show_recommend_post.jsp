@@ -25,7 +25,7 @@
 		<c:forEach var="view" items="${postView}" >
 			<tr>
 			<td><a href="/home/${view.profileCache.uid}" target="_blank"><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,120)}" width="80" height="80"/></a></td>
-				<td><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:${view.post.content}</td>
+				<td><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:<c:out value="${view.post.content}"></c:out></td>
 				<td>${view.profileCache.nickname}</td>
 				<td>${view.post.place}</td>
 				<td><img src="${jzr:postPic(view.post.id, view.post.ideaId, view.post.pic, 200)}"  /> </td>

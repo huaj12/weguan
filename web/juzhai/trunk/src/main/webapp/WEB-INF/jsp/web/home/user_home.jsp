@@ -59,7 +59,7 @@
 												<c:otherwise>
 													<c:forEach var="userStatus" items="${userStatusList}">
 														<li>
-															<p>"<c:out value="${userStatus.content}"/>"</p>
+															<p>"<c:out value='${userStatus.content}'/>"</p>
 															<span>发布于 <fmt:formatDate value="${userStatus.time}" pattern="yyyy.MM.dd"/></span>
 														</li>
 													</c:forEach>

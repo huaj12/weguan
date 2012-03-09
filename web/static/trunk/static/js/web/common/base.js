@@ -36,7 +36,37 @@ $(document).ready(function(){
 		prepareSendIdea(ideaId);
 		return false;
 	});
+	
+	if($("div#idea-widget").length > 0){
+		nextIdeaWidget($("div#idea-widget"), 1);
+	}
 });
+
+function nextIdeaWidget(containDiv, page){
+	$(containDiv).find("a.hyge").attr("class", "h_loading").unbind("click");
+	$.ajax({
+		url : "/idea/showwidget",
+		type : "get",
+		cache : false,
+		data : {page: page},
+		dataType : "html",
+		success : function(result) {
+			$(containDiv).html(result);
+			//bind事件
+			$(containDiv).find("a.hyge").click(function(){
+				nextIdeaWidget(containDiv, page + 1);
+				return false;
+			});
+			$(containDiv).find("a.wtgo").click(function(){
+				var ideaId = $(this).attr("idea-id");
+				prepareSendIdea(ideaId, function(){
+					nextIdeaWidget(containDiv, page);
+				});
+				return false;
+			});
+		}
+	});
+}
 
 function bindItemMouseHover(item){
 	$(item).mouseenter(function(){
@@ -499,7 +529,7 @@ function registerInitMsg(inputObj, callback){
 	$(inputObj).trigger("blur");
 }
 
-function prepareSendIdea(ideaId){
+function prepareSendIdea(ideaId, callback){
 	jQuery.ajax({
 		url : "/idea/presendidea",
 		type : "get",
@@ -508,6 +538,37 @@ function prepareSendIdea(ideaId){
 		dataType : "html",
 		success : function(result) {
 			openDialog(null, "openIdeaSender", result);
+			$("form#send-idea").find("div.select_menu").each(function(){
+		    	var select = new SelectInput(this);
+		    	select.bindBlur();
+		    	select.bindClick();
+		    	select.bindSelect();
+		    });
+		    $("form#send-idea").find("div.tb").bind("click", function(){
+				if($(this).hasClass("tb_click")){
+					$(this).removeClass("tb_click");
+					$(this).find('input[name="sendWeibo"]').val(false);
+				}else{
+					$(this).addClass("tb_click");
+					$(this).find('input[name="sendWeibo"]').val(true);
+				}
+				return false;
+			});
+		    $("form#send-idea").find("div.btn > a").click(function(){
+		    	var ideaId = $(this).attr("idea-id");
+		    	postIdea($("form#send-idea"), function(){
+		    		$("#idea-btn-" + ideaId).attr("class", "sended send_done").children("a").text("已想去").unbind("click");
+					if($("#useCount-" + ideaId).is(":visible")){
+						$("#useCount-" + ideaId).text(parseInt($("#useCount-" + ideaId).text()) + 1);
+					}else{
+						$("#useCountShow-" + ideaId).text("1人想去");
+					}
+					if(callback != null){
+						callback();
+					}
+		    	});
+		    	return false;
+		    });
 		},
 		statusCode : {
 			401 : function() {

@@ -21,8 +21,10 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.InterestUserView;
 import com.juzhai.home.service.IUserStatusService;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IInterestUserService;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.post.controller.view.PostView;
@@ -43,6 +45,8 @@ public class UserController extends BaseController {
 	private IUserStatusService userStatusService;
 	@Autowired
 	private ITpUserService tpUserService;
+	@Autowired
+	private IProfileService profileService;
 	@Value("${web.user.home.post.rows}")
 	private int webUserHomePostRows;
 	@Value("${web.my.post.max.rows}")
@@ -74,8 +78,7 @@ public class UserController extends BaseController {
 			model.addAttribute("postViewList", postViewList);
 
 			// 微博
-			model.addAttribute(
-					"userStatusList",
+			model.addAttribute("userStatusList",
 					userStatusService.listUserStatus(uid));
 			TpUser tpUser = tpUserService.getTpUserByUid(uid);
 			model.addAttribute("tpUser", tpUser);
@@ -244,9 +247,14 @@ public class UserController extends BaseController {
 
 	private void showUserPageRight(UserContext context, long uid, Model model)
 			throws JuzhaiException {
-		if (null == queryProfile(uid, model)) {
+		// if (null == queryProfile(uid, model)) {
+		// throw new JuzhaiException(JuzhaiException.ILLEGAL_OPERATION);
+		// }
+		Profile profile = profileService.getProfile(uid);
+		if (null == profile) {
 			throw new JuzhaiException(JuzhaiException.ILLEGAL_OPERATION);
 		}
+		model.addAttribute("profile", profile);
 		if (context == null || context.getUid() != uid) {
 			model.addAttribute("online", loginService.isOnline(uid));
 			if (context != null && context.hasLogin()) {

@@ -132,13 +132,16 @@ public class WeiboConnectUserService extends AbstractUserService {
 			AuthInfo authInfo, Thirdparty tp) {
 		String code = request.getParameter("code");
 		if (StringUtils.isEmpty(code)) {
+			log.error("weibo get code is null");
 			return null;
 		}
 		if (null == tp) {
+			log.error("weibo  Thirdparty is null");
 			return null;
 		}
 		String accessToken = getOAuthAccessTokenFromCode(tp, code);
 		if (StringUtils.isEmpty(accessToken)) {
+			log.error("weibo  accessToken is null");
 			return null;
 		}
 		String uid = "";

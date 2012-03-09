@@ -102,18 +102,22 @@ public class QqConnectUserService extends AbstractUserService {
 			AuthInfo authInfo, Thirdparty tp) {
 		String oauth_token = request.getParameter("oauth_token");
 		if (StringUtils.isEmpty(oauth_token)) {
+			log.error("QQ  oauth_token is null");
 			return null;
 		}
 		String oauth_vericode = request.getParameter("oauth_vericode");
 		if (StringUtils.isEmpty(oauth_vericode)) {
+			log.error("QQ  oauth_vericode is null");
 			return null;
 		}
 		if (null == tp) {
+			log.error("QQ  Thirdparty is null");
 			return null;
 		}
 		String accessToken = getOAuthAccessTokenFromCode(tp, oauth_token + ","
 				+ oauth_vericode);
 		if (StringUtils.isEmpty(accessToken)) {
+			log.error("QQ  accessToken is null");
 			return null;
 		}
 		String[] str = accessToken.split(",");

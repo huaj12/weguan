@@ -1514,7 +1514,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .search_result .none a{ color:#3E8BD9;}
 .search_result .none a:hover{ text-decoration:underline;}
 
-.share_icons{ width:240px; height:auto; overflow:hidden; margin:0 auto; display:block; margin-top:20px; padding-bottom:20px;}
+.share_icons{ width:250px; height:auto; overflow:hidden; margin:0 auto; display:block; margin-top:20px; padding-bottom:20px;}
 
 
 
@@ -2338,3 +2338,7 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 .message_box .btn a{ float:right; color:#fff; text-align:center; text-decoration:none; display:block; width:85px;  height:30px; line-height:30px; overflow:hidden; font-size:14px;}
 .message_box .btn a.send{   background:url(../images/web2/yue_ta.gif) no-repeat;}
 .message_box .btn a.sending{   background:url(../images/web2/sending_btn.gif) no-repeat;}
+
+
+
+

@@ -19,6 +19,9 @@
 					<div class="beta"></div>
 					<div class="top"><!--top begin-->
 						<h2></h2>
+						<div class="menu" style="margin-top: 15px" ><!--menu begin-->
+						<iframe width="150" height="24" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" scrolling="no" border="0" src="http://widget.weibo.com/relationship/followbutton.php?language=zh_cn&width=136&height=24&uid=2294103501&style=2&dpc=1"></iframe>
+						</div><!--menu end-->
 						<div class="welcome_login"><p>登录:</p>
 							<a href="javascript:void(0);" go-uri="/web/login/6" class="wb" title="使用微博账号登录"></a>
 							<a href="javascript:void(0);" go-uri="/web/login/7" class="db"  title="使用豆瓣账号登录"></a>

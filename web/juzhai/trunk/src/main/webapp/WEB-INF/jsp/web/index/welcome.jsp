@@ -47,8 +47,8 @@
 								</ul>
 							</div>
 						</div>
-						<div class="arrow_left"><a href="javascript:void(0);"></a></div>
-						<div class="arrow_right"><a href="javascript:void(0);"></a></div>
+						<div class="arrow_left" style="display: none;"><a href="javascript:void(0);"></a></div>
+						<div class="arrow_right" style="display: none;"><a href="javascript:void(0);"></a></div>
 					</div>
 					<div class="welcome_b"></div>
 				</div><!--welcome end-->

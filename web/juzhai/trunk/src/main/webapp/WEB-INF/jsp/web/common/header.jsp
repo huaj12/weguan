@@ -21,7 +21,7 @@
 					<a href="/logout">退出</a>
 				</div><!--acc_list end-->
 			</div><!--acc end-->
-			<div class="my_message"><!--my_message begin-->
+			<div class="my_message" <c:if test="${messageHide}">style="display: none"</c:if>><!--my_message begin-->
 				<div id="messageSelect">
 					<p class=""><a href="javascript:void(0);">消息</a></p>
 					<div class="my_message_show" style="display: none; z-index: 999"><!--use_set_center begin-->

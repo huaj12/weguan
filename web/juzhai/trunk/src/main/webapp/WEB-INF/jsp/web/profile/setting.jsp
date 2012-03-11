@@ -22,6 +22,7 @@
 		<div class="main">
 			<!--main begin-->
 			<c:set var="page" value="index" scope="request" />
+			<c:set var="messageHide" value="true" scope="request" />
 			<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
 			<div class="content">
 				<!--content begin-->

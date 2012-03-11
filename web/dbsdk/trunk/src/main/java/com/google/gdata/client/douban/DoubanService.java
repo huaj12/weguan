@@ -18,6 +18,8 @@ import net.oauth.client.OAuthClient;
 import net.oauth.client.OAuthHttpClient;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.google.gdata.client.Query;
 import com.google.gdata.client.Query.CustomParameter;
@@ -52,7 +54,7 @@ import com.google.gdata.util.ContentType;
 import com.google.gdata.util.ServiceException;
 
 public class DoubanService extends Service {
-
+	private final Log log = LogFactory.getLog(this.getClass());
 	protected String apiKey;
 	protected String apiParam;
 	protected String secret;
@@ -210,8 +212,8 @@ public class DoubanService extends Service {
 	 * @param appSecret
 	 * @return
 	 */
-	public static DoubanService getDoubanService(String accessToken,String TokenSecret,
-			String appKey, String appSecret,String appId) {
+	public static DoubanService getDoubanService(String accessToken,
+			String TokenSecret, String appKey, String appSecret, String appId) {
 		DoubanService doubanService = new DoubanService(appId, appKey,
 				appSecret);
 		String oauth_token = accessToken;
@@ -219,8 +221,6 @@ public class DoubanService extends Service {
 		doubanService.setAccessToken(oauth_token, oauth_token_secret);
 		return doubanService;
 	}
-	
-	
 
 	/**
 	 * 设置访问token
@@ -266,6 +266,7 @@ public class DoubanService extends Service {
 			tokens.add(this.accessor.tokenSecret);
 			return tokens;
 		} catch (Exception e) {
+			log.error(" dbsdk getAccessToken is error", e);
 		}
 		return null;
 	}
@@ -715,7 +716,7 @@ public class DoubanService extends Service {
 	 * @param maxResult
 	 *            最大返回结果数目
 	 */
-	public UserFeed  getContacts(String userId, int startIndex, int maxResult)
+	public UserFeed getContacts(String userId, int startIndex, int maxResult)
 			throws IOException, ServiceException {
 		String url = Namespaces.userURL + "/" + userId + "/contacts";
 		DoubanQuery query = new DoubanQuery(new URL(url));

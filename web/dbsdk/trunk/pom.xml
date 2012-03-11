@@ -5,6 +5,7 @@
 	<groupId>com.juzhai</groupId>
 	<artifactId>dbsdk</artifactId>
 	<version>0.0.1</version>
+	<packaging>jar</packaging>
 	
 	<name>dbsdk</name>
 	<url>http://maven.apache.org</url>

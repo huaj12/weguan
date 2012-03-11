@@ -774,6 +774,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 .right_title{ width:250px; margin:0 auto; overflow:hidden; margin-top:15px; height:auto; }
 .right_title h2{ float:left; font-size:14px; font-weight:bold; color:#666;}
+.right_title p{ float:left; color:#ccc; margin-left:5px; display:inline;}
 .right_title a{color:#3E8BD9; float:right;}
 .right_title a.done{ color:#ccc; cursor:default;}
 
@@ -993,7 +994,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 .upload_area .btns .btn_file_molding{position:absolute;left:0;top:0;z-index:1;border:0 none;filter:alpha(opacity=0);opacity:0; cursor:pointer;}/*file的z-index要大于button*/ 
 
-.upload_area .btns a{ background:url(../images/web2/upload_btn.gif) no-repeat; width:120px; height:40px; color:#fff; text-align:center; text-decoration:none; font-size:18px;font-family:"微软雅黑","宋体"; display:block; line-height:40px;}
+.upload_area .btns a{ background:url(../images/web2/upload_btn.gif) no-repeat; width:120px; height:40px; color:#fff; text-align:center; text-decoration:none; font-size:16px;font-family:"微软雅黑","宋体"; display:block; line-height:40px;}
 
 .upload_area .error { float:left; margin-left:10px; color:#CC3300; font-size:14px; margin-top:12px;}
 
@@ -1002,7 +1003,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 
 
-.upload_area .uploading{ background:url(../images/web2/uploading.gif) no-repeat; float:left; width:120px; height:40px; color:#fff; text-align:center; font-size:18px;font-family:"微软雅黑","宋体"; line-height:40px;}
+.upload_area .uploading{ background:url(../images/web2/uploading.gif) no-repeat; float:left; width:120px; height:40px; color:#fff; text-align:center; font-size:16px;font-family:"微软雅黑","宋体"; line-height:40px;}
 
 .upload_area .uploading_ok{ font-size:14px; color:#999; float:left; margin-top:12px;}
 .upload_area .uploading_ok a{ color:#3E8BD9; text-decoration:none; margin-left:10px; font-size:14px;}
@@ -2338,7 +2339,3 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 .message_box .btn a{ float:right; color:#fff; text-align:center; text-decoration:none; display:block; width:85px;  height:30px; line-height:30px; overflow:hidden; font-size:14px;}
 .message_box .btn a.send{   background:url(../images/web2/yue_ta.gif) no-repeat;}
 .message_box .btn a.sending{   background:url(../images/web2/sending_btn.gif) no-repeat;}
-
-
-
-

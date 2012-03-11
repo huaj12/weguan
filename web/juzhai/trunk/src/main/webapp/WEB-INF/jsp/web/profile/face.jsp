@@ -28,10 +28,10 @@
 									<div class="btns">
 										<form id="uploadImgForm" method="post" enctype="multipart/form-data">
 											<input class="btn_file_molding" size=6 type="file" name="profileLogo" onchange="javascript:uploadImage();"/>  
-											<a href="#">上传头像</a> 
+											<a href="#">上传真实头像</a> 
 										</form>
 									</div>
-									<div class="upload_ts">请上传真实头像，未通过头像审核的用户将无法被别人看到</div>
+									<div class="upload_ts">头像通过审核后才能被大家看到哦</div>
 									<div class="uploading" style="display:none;">上传中...</div>
 									<div class="error" style="display:none;"></div>
 									<div class="uploading_ok" style="display:none;"><font></font><a href="javascript:void(0);">重新上传</a></div>

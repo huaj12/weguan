@@ -192,11 +192,18 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
-	public void updateLastUpdateTime(long uid) {
+	public void updateLastUpdateTime(long uid, Date date) {
 		Profile profile = new Profile();
 		profile.setUid(uid);
-		profile.setLastUpdateTime(new Date());
+		profile.setLastUpdateTime(date);
 		profileMapper.updateByPrimaryKeySelective(profile);
+	}
+
+	@Override
+	public void delLastUpdateTime(long uid) {
+		Profile profile = getProfile(uid);
+		profile.setLastUpdateTime(null);
+		profileMapper.updateByPrimaryKey(profile);
 	}
 
 	@Override
@@ -568,5 +575,4 @@ public class ProfileService implements IProfileService {
 		}
 		return result;
 	}
-
 }

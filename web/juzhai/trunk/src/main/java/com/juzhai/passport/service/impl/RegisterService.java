@@ -83,8 +83,8 @@ public class RegisterService implements IRegisterService {
 		// 5.预存消息转正
 		// msgService.getPrestore(identity, tp.getId(), passport.getId(),
 		// MergerActMsg.class);
-		
-		//统计注册数
+
+		// 统计注册数
 		registerCounter.incr(null, 1);
 		return passport.getId();
 	}
@@ -110,7 +110,7 @@ public class RegisterService implements IRegisterService {
 		profile.setSubEmail(false);
 		profile.setCreateTime(passport.getCreateTime());
 		profile.setLastModifyTime(passport.getLastModifyTime());
-		profile.setLastUpdateTime(passport.getCreateTime());
+		// profile.setLastUpdateTime(passport.getCreateTime());
 		profileMapper.insertSelective(profile);
 	}
 

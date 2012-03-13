@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,6 +34,7 @@ import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.post.model.Idea;
+import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostWindow;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
@@ -223,13 +225,20 @@ public class NewIndexController extends BaseController {
 		List<Profile> list = profileService.queryProfile(context.getUid(),
 				gender, cityId, minYear, maxYear, pager.getFirstResult(),
 				pager.getMaxResult());
+
+		List<Long> uidList = new ArrayList<Long>();
+		for (Profile profile : list) {
+			uidList.add(profile.getUid());
+		}
+		Map<Long, Post> userLatestPostMap = postService
+				.getMultiUserLatestPosts(uidList);
 		List<QueryUserView> userViews = new ArrayList<QueryUserView>(
 				list.size());
 		for (Profile profile : list) {
 			QueryUserView view = new QueryUserView();
 			view.setOnline(loginService.isOnline(profile.getUid()));
 			view.setProfile(profile);
-			view.setPost(postService.getUserLatestPost(profile.getUid()));
+			view.setPost(userLatestPostMap.get(profile.getUid()));
 			if (context.hasLogin()) {
 				view.setHasInterest(interestUserService.isInterest(
 						context.getUid(), profile.getUid()));

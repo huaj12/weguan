@@ -1,6 +1,7 @@
 package com.juzhai.post.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.controller.form.PostForm;
@@ -52,7 +53,7 @@ public interface IPostService {
 	 * @param uid
 	 * @return 如果返回null，表示没有
 	 */
-	Post getUserLatestPost(long uid);
+	Long getUserLatestPost(long uid);
 
 	/**
 	 * 用户响应的PostId列表
@@ -61,6 +62,14 @@ public interface IPostService {
 	 * @return
 	 */
 	List<Long> responsePostIds(long uid);
+
+	/**
+	 * 获取多个拒宅
+	 * 
+	 * @param postIdList
+	 * @return
+	 */
+	Map<Long, Post> getMultiUserLatestPosts(List<Long> uidList);
 
 	/**
 	 * 首页post列表

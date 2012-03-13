@@ -243,7 +243,7 @@ public class UserActService implements IUserActService {
 			// 加平台的Act人气
 			actService.inOrDeTpActPopularity(tpUser.getTpName(), actId, 1);
 		}
-		profileService.updateLastUpdateTime(uid);
+		// profileService.updateLastUpdateTime(uid);
 		inboxService.remove(uid, actId);
 		actLiveService.addNewLive(uid, actId, userAct.getCreateTime());
 		actRankService.incrScore(actId, userAct.getCreateTime());

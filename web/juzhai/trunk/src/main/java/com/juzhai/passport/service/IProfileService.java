@@ -3,6 +3,7 @@
  */
 package com.juzhai.passport.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.juzhai.act.exception.UploadImageException;
@@ -102,7 +103,14 @@ public interface IProfileService {
 	 * 
 	 * @param uid
 	 */
-	void updateLastUpdateTime(long uid);
+	void updateLastUpdateTime(long uid, Date date);
+
+	/**
+	 * 更新最后更新时间
+	 * 
+	 * @param uid
+	 */
+	void delLastUpdateTime(long uid);
 
 	/**
 	 * 根据给出的ID列表，根据最后更新时间排序

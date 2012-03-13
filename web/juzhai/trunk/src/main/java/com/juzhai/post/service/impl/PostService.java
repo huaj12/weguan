@@ -5,8 +5,10 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import net.rubyeye.xmemcached.MemcachedClient;
@@ -37,6 +39,9 @@ import com.juzhai.home.service.IDialogService;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.mapper.ProfileMapper;
+import com.juzhai.passport.model.Profile;
+import com.juzhai.passport.model.ProfileExample;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
@@ -82,9 +87,7 @@ public class PostService implements IPostService {
 	@Autowired
 	private MemcachedClient memcachedClient;
 	@Autowired
-	private RedisTemplate<String, Post> redisTemplate;
-	@Autowired
-	private RedisTemplate<String, Long> longRedisTemplate;
+	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private IInterestUserService interestUserService;
 	@Autowired
@@ -107,6 +110,8 @@ public class PostService implements IPostService {
 	private ISynchronizeService synchronizeService;
 	@Autowired
 	private IPostCommentService postCommentService;
+	@Autowired
+	private ProfileMapper profileMapper;
 	@Value("${post.content.wordfilter.application}")
 	private int postContentWordfilterApplication;
 	@Value("${post.content.length.min}")
@@ -199,6 +204,9 @@ public class PostService implements IPostService {
 		} else {
 			ideaService.addUser(ideaId, uid);
 		}
+		// 更新用户最新一条拒宅
+		setUserLatestPost(post);
+
 		// 每日发布idea统计
 		postIdeaCounter.incr(null, 1L);
 		return post.getId();
@@ -339,9 +347,6 @@ public class PostService implements IPostService {
 			}
 		}
 		// TODO 建lucene索引
-
-		// 更新用户最新一条拒宅
-		setUserLatestPost(uid, post);
 	}
 
 	private String checkContentDuplicate(long uid, String content,
@@ -432,12 +437,6 @@ public class PostService implements IPostService {
 			ideaService.removeUser(breakIdeaId, uid);
 		}
 
-		// 更新最新一条拒宅
-		Post oldPost = getUserLatestPost(uid);
-		if (post.getId().longValue() == oldPost.getId().longValue()) {
-			setUserLatestPost(uid, post);
-		}
-
 		// TODO update lucene索引
 
 		return post.getId();
@@ -463,7 +462,7 @@ public class PostService implements IPostService {
 		postResponseMapper.insertSelective(postResponse);
 
 		// response列表缓存
-		longRedisTemplate.opsForSet().add(
+		redisTemplate.opsForSet().add(
 				RedisKeyGenerator.genResponsePostsKey(uid), postId);
 		// 发送私信
 		dialogService.sendSMS(uid, post.getCreateUid(),
@@ -485,29 +484,13 @@ public class PostService implements IPostService {
 		example.createCriteria().andPostIdEqualTo(postId);
 		List<PostResponse> prList = postResponseMapper.selectByExample(example);
 		for (PostResponse pr : prList) {
-			longRedisTemplate.opsForSet().remove(
+			redisTemplate.opsForSet().remove(
 					RedisKeyGenerator.genResponsePostsKey(pr.getUid()), postId);
 		}
 		postResponseMapper.deleteByExample(example);
 		postMapper.deleteByPrimaryKey(postId);
-
-		// 更新用户最新一条拒宅
-		Post latestPost = getUserLatestPost(uid);
-		if (null != latestPost && latestPost.getId() == postId) {
-			PostExample postExample = new PostExample();
-			postExample.createCriteria().andCreateUidEqualTo(uid)
-					.andDefunctEqualTo(false);
-			postExample.setLimit(new Limit(0, 1));
-			postExample.setOrderByClause("create_time desc");
-			List<Post> list = postMapper.selectByExample(postExample);
-			if (CollectionUtils.isNotEmpty(list)) {
-				setUserLatestPost(uid, list.get(0));
-			} else {
-				redisTemplate.delete(RedisKeyGenerator
-						.genUserLatestPostKey(uid));
-			}
-			postCommentService.defunctComment(postId);
-		}
+		postCommentService.defunctComment(postId);
+		updateUserLatestPost(post);
 	}
 
 	// TODO 代码重构
@@ -517,7 +500,6 @@ public class PostService implements IPostService {
 		if (post == null) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
-		long uid = post.getCreateUid();
 		if (post.getIdeaId() > 0) {
 			throw new InputPostException(
 					InputPostException.POST_DEL_IDEA_ID_EXIST);
@@ -527,31 +509,15 @@ public class PostService implements IPostService {
 		example.createCriteria().andPostIdEqualTo(postId);
 		List<PostResponse> prList = postResponseMapper.selectByExample(example);
 		for (PostResponse pr : prList) {
-			longRedisTemplate.opsForSet().remove(
+			redisTemplate.opsForSet().remove(
 					RedisKeyGenerator.genResponsePostsKey(pr.getUid()), postId);
 		}
 		postResponseMapper.deleteByExample(example);
 		// 标注删除的拒宅信息
 		post.setDefunct(true);
 		postMapper.updateByPrimaryKeySelective(post);
-
-		// 更新用户最新一条拒宅
-		Post latestPost = getUserLatestPost(uid);
-		if (null != latestPost && latestPost.getId() == postId) {
-			PostExample postExample = new PostExample();
-			postExample.createCriteria().andCreateUidEqualTo(uid)
-					.andDefunctEqualTo(false);
-			postExample.setLimit(new Limit(0, 1));
-			postExample.setOrderByClause("create_time desc");
-			List<Post> list = postMapper.selectByExample(postExample);
-			if (CollectionUtils.isNotEmpty(list)) {
-				setUserLatestPost(uid, list.get(0));
-			} else {
-				redisTemplate.delete(RedisKeyGenerator
-						.genUserLatestPostKey(uid));
-			}
-		}
 		postCommentService.defunctComment(postId);
+		updateUserLatestPost(post);
 	}
 
 	@Override
@@ -564,7 +530,7 @@ public class PostService implements IPostService {
 		post.setLastModifyTime(new Date());
 		post.setVerifyType(VerifyType.SHIELD.getType());
 		postMapper.updateByPrimaryKeySelective(post);
-
+		updateUserLatestPost(getPostById(postId));
 	}
 
 	@Override
@@ -580,6 +546,11 @@ public class PostService implements IPostService {
 		if (postMapper.updateByExampleSelective(post, example) > 0) {
 			auditPostCounter.incr(null, 1L);
 		}
+		for (Long postId : postIds) {
+			if (postId != null && postId > 0) {
+				setUserLatestPost(getPostById(postId));
+			}
+		}
 	}
 
 	@Override
@@ -593,15 +564,69 @@ public class PostService implements IPostService {
 		post.setIdeaId(ideaId);
 		post.setVerifyType(VerifyType.QUALIFIED.getType());
 		postMapper.updateByPrimaryKeySelective(post);
+
+		setUserLatestPost(getPostById(postId));
 	}
 
-	private void setUserLatestPost(long uid, Post post) {
-		redisTemplate.opsForValue().set(
-				RedisKeyGenerator.genUserLatestPostKey(uid), post);
+	private void setUserLatestPost(Post post) {
+		if (null == post) {
+			if (log.isDebugEnabled()) {
+				log.debug("set latest post is null.");
+			}
+			return;
+		}
+		Long latestPostId = getUserLatestPost(post.getCreateUid());
+		if (null == latestPostId
+				|| latestPostId.longValue() != post.getId().longValue()) {
+			Profile profile = profileService.getProfile(post.getCreateUid());
+			if (null != profile
+					&& (profile.getLastUpdateTime() == null || profile
+							.getLastUpdateTime().before(post.getCreateTime()))) {
+				profileService.updateLastUpdateTime(post.getCreateUid(),
+						post.getCreateTime());
+				redisTemplate.opsForValue().set(
+						RedisKeyGenerator.genUserLatestPostKey(post
+								.getCreateUid()), post.getId());
+			}
+		}
+	}
+
+	private void updateUserLatestPost(Post delPost) {
+		if (null == delPost) {
+			if (log.isDebugEnabled()) {
+				log.debug("update latest post is null.");
+			}
+			return;
+		}
+		long uid = delPost.getCreateUid();
+		// 更新用户最新一条拒宅
+		Long latestPostId = getUserLatestPost(uid);
+		if (null != latestPostId
+				&& latestPostId.longValue() == delPost.getId().longValue()) {
+			PostExample postExample = new PostExample();
+			postExample.createCriteria().andCreateUidEqualTo(uid)
+					.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
+					.andDefunctEqualTo(false);
+			postExample.setLimit(new Limit(0, 1));
+			postExample.setOrderByClause("create_time desc");
+			List<Post> list = postMapper.selectByExample(postExample);
+			if (CollectionUtils.isNotEmpty(list)) {
+				Post post = list.get(0);
+				// 更新
+				profileService.updateLastUpdateTime(uid, post.getCreateTime());
+				redisTemplate.opsForValue().set(
+						RedisKeyGenerator.genUserLatestPostKey(uid),
+						post.getId());
+			} else {
+				profileService.delLastUpdateTime(uid);
+				redisTemplate.delete(RedisKeyGenerator
+						.genUserLatestPostKey(uid));
+			}
+		}
 	}
 
 	@Override
-	public Post getUserLatestPost(long uid) {
+	public Long getUserLatestPost(long uid) {
 		return redisTemplate.opsForValue().get(
 				RedisKeyGenerator.genUserLatestPostKey(uid));
 	}
@@ -609,36 +634,79 @@ public class PostService implements IPostService {
 	@Override
 	public List<Post> listNewestPost(long uid, Long cityId, Integer gender,
 			int firstResult, int maxResults) {
-		PostExample example = new PostExample();
-		PostExample.Criteria c = example.createCriteria()
-				.andCreateUidNotEqualTo(uid)
-				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
-				.andDefunctEqualTo(false);
+		// PostExample example = new PostExample();
+		// PostExample.Criteria c = example.createCriteria()
+		// .andCreateUidNotEqualTo(uid)
+		// .andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
+		// .andDefunctEqualTo(false);
+		// if (null != cityId && cityId > 0) {
+		// c.andUserCityEqualTo(cityId);
+		// }
+		// if (null != gender && gender >= 0) {
+		// c.andUserGenderEqualTo(gender);
+		// }
+		// example.setOrderByClause("create_time desc");
+		// example.setLimit(new Limit(firstResult, maxResults));
+		// return postMapper.selectByExample(example);
+
+		ProfileExample example = new ProfileExample();
+		ProfileExample.Criteria c = example.createCriteria();
+		if (uid > 0) {
+			c.andUidNotEqualTo(uid);
+		}
 		if (null != cityId && cityId > 0) {
-			c.andUserCityEqualTo(cityId);
+			c.andCityEqualTo(cityId);
 		}
-		if (null != gender && gender >= 0) {
-			c.andUserGenderEqualTo(gender);
+		if (gender != null) {
+			c.andGenderEqualTo(gender);
 		}
-		example.setOrderByClause("create_time desc");
+		c.andLastUpdateTimeIsNotNull();
 		example.setLimit(new Limit(firstResult, maxResults));
-		return postMapper.selectByExample(example);
+		example.setOrderByClause("last_update_time desc");
+		List<Profile> profileList = profileMapper.selectByExample(example);
+		List<Long> uidList = new ArrayList<Long>();
+		for (Profile profile : profileList) {
+			uidList.add(profile.getUid());
+		}
+		Map<Long, Post> postMap = getMultiUserLatestPosts(uidList);
+		List<Post> postList = new ArrayList<Post>();
+		for (long userId : uidList) {
+			Post post = postMap.get(userId);
+			if (null != post) {
+				postList.add(post);
+			}
+		}
+		return postList;
 	}
 
 	@Override
 	public int countNewestPost(long uid, Long cityId, Integer gender) {
-		PostExample example = new PostExample();
-		PostExample.Criteria c = example.createCriteria()
-				.andCreateUidNotEqualTo(uid)
-				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
-				.andDefunctEqualTo(false);
+		// PostExample example = new PostExample();
+		// PostExample.Criteria c = example.createCriteria()
+		// .andCreateUidNotEqualTo(uid)
+		// .andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
+		// .andDefunctEqualTo(false);
+		// if (null != cityId && cityId > 0) {
+		// c.andUserCityEqualTo(cityId);
+		// }
+		// if (null != gender && gender >= 0) {
+		// c.andUserGenderEqualTo(gender);
+		// }
+		// return postMapper.countByExample(example);
+
+		ProfileExample example = new ProfileExample();
+		ProfileExample.Criteria c = example.createCriteria();
+		if (uid > 0) {
+			c.andUidNotEqualTo(uid);
+		}
 		if (null != cityId && cityId > 0) {
-			c.andUserCityEqualTo(cityId);
+			c.andCityEqualTo(cityId);
 		}
-		if (null != gender && gender >= 0) {
-			c.andUserGenderEqualTo(gender);
+		if (gender != null) {
+			c.andGenderEqualTo(gender);
 		}
-		return postMapper.countByExample(example);
+		c.andLastUpdateTimeIsNotNull();
+		return profileMapper.countByExample(example);
 	}
 
 	@Override
@@ -725,7 +793,7 @@ public class PostService implements IPostService {
 
 	@Override
 	public List<Long> responsePostIds(long uid) {
-		Set<Long> postIds = longRedisTemplate.opsForSet().members(
+		Set<Long> postIds = redisTemplate.opsForSet().members(
 				RedisKeyGenerator.genResponsePostsKey(uid));
 		if (CollectionUtils.isEmpty(postIds)) {
 			return Collections.emptyList();
@@ -736,7 +804,7 @@ public class PostService implements IPostService {
 
 	@Override
 	public boolean isResponsePost(long uid, long postId) {
-		return longRedisTemplate.opsForSet().isMember(
+		return redisTemplate.opsForSet().isMember(
 				RedisKeyGenerator.genResponsePostsKey(uid), postId);
 	}
 
@@ -932,6 +1000,30 @@ public class PostService implements IPostService {
 			}
 		}
 		return cnt;
+	}
+
+	@Override
+	public Map<Long, Post> getMultiUserLatestPosts(List<Long> uidList) {
+		List<Long> postIdList = new ArrayList<Long>();
+		for (Long uid : uidList) {
+			if (uid != null && uid > 0) {
+				Long postId = getUserLatestPost(uid);
+				if (postId != null && postId > 0) {
+					postIdList.add(postId);
+				}
+			}
+		}
+		if (CollectionUtils.isEmpty(postIdList)) {
+			return Collections.emptyMap();
+		}
+		PostExample example = new PostExample();
+		example.createCriteria().andIdIn(postIdList);
+		List<Post> postList = postMapper.selectByExample(example);
+		Map<Long, Post> map = new HashMap<Long, Post>(postList.size());
+		for (Post post : postList) {
+			map.put(post.getCreateUid(), post);
+		}
+		return map;
 	}
 
 }

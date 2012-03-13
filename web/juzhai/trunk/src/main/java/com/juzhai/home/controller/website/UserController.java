@@ -2,6 +2,7 @@ package com.juzhai.home.controller.website;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -175,6 +176,12 @@ public class UserController extends BaseController {
 
 	private void assembleInterestUserView(Model model, UserContext context,
 			List<ProfileCache> profileList, Boolean hasInterest) {
+		List<Long> uidList = new ArrayList<Long>();
+		for (ProfileCache profile : profileList) {
+			uidList.add(profile.getUid());
+		}
+		Map<Long, Post> userLatestPostMap = postService
+				.getMultiUserLatestPosts(uidList);
 		List<InterestUserView> interestUserViewList = new ArrayList<InterestUserView>();
 		for (ProfileCache profileCache : profileList) {
 			InterestUserView view = new InterestUserView();
@@ -183,8 +190,7 @@ public class UserController extends BaseController {
 					: interestUserService.isInterest(context.getUid(),
 							profileCache.getUid()));
 			view.setOnline(loginService.isOnline(profileCache.getUid()));
-			view.setLatestPost(postService.getUserLatestPost(profileCache
-					.getUid()));
+			view.setLatestPost(userLatestPostMap.get(profileCache.getUid()));
 			interestUserViewList.add(view);
 		}
 		model.addAttribute("interestUserViewList", interestUserViewList);

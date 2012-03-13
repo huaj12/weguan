@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.juzhai.common.bean.InitData;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
@@ -43,8 +42,9 @@ public class HomeController extends BaseController {
 	private int webHomePostMaxRows;
 	@Value("${web.home.right.user.rows}")
 	private int webHomeRightUserRows;
-	@Value("${web.home.right.idea.rows}")
-	private int webHomeRightIdeaRows;
+
+	// @Value("${web.home.right.idea.rows}")
+	// private int webHomeRightIdeaRows;
 
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)

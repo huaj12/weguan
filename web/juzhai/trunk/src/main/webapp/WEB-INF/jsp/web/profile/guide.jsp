@@ -53,7 +53,8 @@
 										<div class="select"><!--select begin-->
 											<span><select id="birthYear" name="birthYear">
 													<option value="0">请选择</option>
-													<c:forEach begin="1949" end="2012" var="year">
+													<c:forEach begin="0" end="63" var="i">
+														<c:set var="year" value="${2012-i}"/>
 														<option value="${year}" <c:if test="${year==settingForm.birthYear}"> selected="selected" </c:if>>${year}年</option>
 													</c:forEach>
 											</select>

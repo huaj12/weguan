@@ -1,4 +1,5 @@
 ALTER TABLE `juzhai`.`tb_profile` CHANGE COLUMN `last_update_time` `last_update_time` DATETIME NULL  ;
+update tb_profile set last_update_time = null where uid > 0;
 
 -- -----------------------------------------------------
 -- Table `juzhai`.`tb_preference`
@@ -32,7 +33,7 @@ SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_user_preference` (
   `id` BIGINT NOT NULL AUTO_INCREMENT ,
   `uid` BIGINT NOT NULL ,
-  `question_id` BIGINT NOT NULL ,
+  `preference_id` BIGINT NOT NULL ,
   `answer` VARCHAR(200) NOT NULL ,
   `create_time` DATETIME NOT NULL ,
   `last_modify_time` DATETIME NOT NULL ,

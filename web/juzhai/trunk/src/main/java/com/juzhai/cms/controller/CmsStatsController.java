@@ -13,7 +13,7 @@ import com.juzhai.cms.service.IStatsService;
 
 @Controller
 @RequestMapping("/cms")
-public class StatsController {
+public class CmsStatsController {
 
 	@Autowired
 	private IStatsService statsService;

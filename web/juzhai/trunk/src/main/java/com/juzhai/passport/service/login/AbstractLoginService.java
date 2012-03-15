@@ -72,7 +72,7 @@ public abstract class AbstractLoginService implements ILoginService {
 		taskExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
-				friendService.updateExpiredFriends(uid, tpId);
+				// friendService.updateExpiredFriends(uid, tpId);
 				iUserStatusService.updateUserStatus(uid, tpId);
 			}
 		});

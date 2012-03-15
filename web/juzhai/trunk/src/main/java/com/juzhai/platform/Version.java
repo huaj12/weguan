@@ -26,9 +26,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.juzhai.platform;
 
-/**
- * @author Yusuke Yamamoto - yusuke at mac.com
- */
 public class Version {
 	public static String WEIBOVERSION = "2.0";
 	public final static String WEIBOV2 = "2.0";

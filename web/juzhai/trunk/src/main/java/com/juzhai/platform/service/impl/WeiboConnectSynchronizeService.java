@@ -36,7 +36,9 @@ public class WeiboConnectSynchronizeService implements ISynchronizeService {
 
 	private void send(AuthInfo authInfo, String text, byte[] image) {
 		try {
-			Timeline timeline = new Timeline(authInfo.getToken());
+			Timeline timeline = new Timeline(authInfo.getToken(),
+					authInfo.getTokenSecret(), authInfo.getAppKey(),
+					authInfo.getAppSecret());
 			if (image != null) {
 				ImageItem item = new ImageItem(image);
 				timeline.UploadStatus(text, item);
@@ -83,7 +85,9 @@ public class WeiboConnectSynchronizeService implements ISynchronizeService {
 	public List<UserStatus> listStatus(AuthInfo authInfo, long fuid, int size) {
 		List<UserStatus> userStatusList = new ArrayList<UserStatus>();
 		try {
-			Timeline timeline = new Timeline(authInfo.getToken());
+			Timeline timeline = new Timeline(authInfo.getToken(),
+					authInfo.getTokenSecret(), authInfo.getAppKey(),
+					authInfo.getAppSecret());
 			TpUser fUser = tpUserService.getTpUserByUid(fuid);
 			List<Status> status = timeline.getUserTimeline(
 					fUser.getTpIdentity(), "", size, null, 0, 1);

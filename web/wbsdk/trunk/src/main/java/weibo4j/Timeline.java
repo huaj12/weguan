@@ -211,7 +211,7 @@ public class Timeline extends Weibo {
 	public List<Status> getUserTimeline(String uid, String screen_name,
 			Integer count, Paging page, Integer base_app, Integer feature)
 			throws WeiboException {
-		if (getTokenSecret() != null) {
+		if (getTokenSecret() != null && getTokenSecret().length() > 0) {
 			Map<String, String> maps = new HashMap<String, String>();
 			if (base_app != null) {
 				maps.put("base_app", base_app.toString());
@@ -649,7 +649,7 @@ public class Timeline extends Weibo {
 		if (!URLEncodeUtils.isURLEncoded(status)) {
 			status = URLEncodeUtils.encodeURL(status);
 		}
-		if (getTokenSecret() != null) {
+		if (getTokenSecret() != null && getTokenSecret().length() > 0) {
 			weibo4j.http.v1.HttpClient http = new weibo4j.http.v1.HttpClient();
 			http.setOAuthConsumer(getAppkey(), getAppSecret());
 			http.setToken(getToken(), getTokenSecret());

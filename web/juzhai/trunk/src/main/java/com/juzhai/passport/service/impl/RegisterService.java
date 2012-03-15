@@ -76,8 +76,8 @@ public class RegisterService implements IRegisterService {
 		// 2.所在城市
 		profileService.cacheUserCity(profile);
 		// 3.好友列表
-		friendService.updateExpiredFriends(passport.getId(), tp.getId(),
-				authInfo);
+		// friendService.updateExpiredFriends(passport.getId(), tp.getId(),
+		// authInfo);
 		// // 4.拉数据
 		// inboxService.syncInboxByTask(passport.getId());
 		// 5.预存消息转正

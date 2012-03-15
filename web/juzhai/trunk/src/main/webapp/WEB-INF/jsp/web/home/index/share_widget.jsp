@@ -10,7 +10,7 @@
 		<div class="right_title"><h2>邀请朋友拒宅</h2></div>
 		<div class="share_icons"><!--share_icons begin-->
 			<!-- Baidu Button BEGIN -->
-			    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'大家周末是不是又要一个人宅在家了？不如来拒宅网跟我们一起脱宅吧!','url':'http://www.51juzhai.com/','pic':'${jzr:static('/images/share_pic.jpg')}'}">
+			    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'大家周末是不是又要一个人宅在家了？不如来拒宅网跟我们一起脱宅吧!','wbuid':'2294103501','url':'http://www.51juzhai.com/','pic':'${jzr:static('/images/share_pic.jpg')}'}">
 			        <a class="bds_tsina"></a>
 			        <a class="bds_tqq"></a>
 			        <a class="bds_douban"></a>

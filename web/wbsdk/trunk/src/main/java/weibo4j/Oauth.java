@@ -10,6 +10,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import weibo4j.http.AccessToken;
 import weibo4j.http.BASE64Encoder;
+import weibo4j.http.v1.RequestToken;
 import weibo4j.model.PostParameter;
 import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONException;
@@ -87,7 +88,7 @@ public class Oauth extends Weibo {
 	}
 
 	/*----------------------------Oauth接口--------------------------------------*/
-
+	// auth2.0
 	public AccessToken getAccessTokenByCode(String code) throws WeiboException {
 		return new AccessToken(client.post(
 				WeiboConfig.getValue("accessTokenURL"), new PostParameter[] {
@@ -104,4 +105,39 @@ public class Oauth extends Weibo {
 				+ client_ID.trim() + "&redirect_uri=" + redirect_URI.trim()
 				+ "&response_type=" + response_type;
 	}
+
+	/*----------------------------auth1.0接口--------------------------------------*/
+	public RequestToken getRequestToken() {
+		weibo4j.http.v1.HttpClient client = new weibo4j.http.v1.HttpClient();
+		client.setOAuthConsumer(client_ID, client_SERCRET);
+		RequestToken requestToken = null;
+		try {
+			requestToken = client.getOauthRequestToken(redirect_URI);
+		} catch (WeiboException e) {
+			e.printStackTrace();
+		}
+		return requestToken;
+	}
+
+	public String getAuthorizeV1(RequestToken requestToken) {
+		weibo4j.http.v1.HttpClient client = new weibo4j.http.v1.HttpClient();
+		client.setOAuthConsumer(client_ID, client_SERCRET);
+		return client.getAuthorizationURL(requestToken, redirect_URI);
+
+	}
+
+	public weibo4j.http.v1.AccessToken getOAuthAccessToken(String token,
+			String tokenSecret, String oauth_verifier) {
+		weibo4j.http.v1.HttpClient client = new weibo4j.http.v1.HttpClient();
+		client.setOAuthConsumer(client_ID, client_SERCRET);
+		weibo4j.http.v1.AccessToken accessToken = null;
+		try {
+			accessToken = client.getOAuthAccessToken(token, tokenSecret,
+					oauth_verifier);
+		} catch (WeiboException e) {
+			e.printStackTrace();
+		}
+		return accessToken;
+	}
+
 }

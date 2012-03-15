@@ -26,7 +26,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package weibo4j;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import weibo4j.http.HttpClient;
+import weibo4j.model.Configuration;
+import weibo4j.model.Paging;
+import weibo4j.model.PostParameter;
+import weibo4j.model.WeiboException;
 
 /**
  * @author sinaWeibo
@@ -39,8 +47,24 @@ public class Weibo implements java.io.Serializable {
 
 	protected HttpClient client = new HttpClient();
 
+	private String tokenSecret;
+	private String token;
+	private String appkey;
+	private String appSecret;
+
+	private String baseURL = Configuration.getScheme() + "api.t.sina.com.cn/";
+
 	public Weibo(String token) {
 		this.client.setToken(token);
+	}
+
+	public Weibo(String token, String tokenSecret, String appkey,
+			String appSecret) {
+		this.client.setToken(token);
+		this.token = token;
+		this.tokenSecret = tokenSecret;
+		this.appkey = appkey;
+		this.appSecret = appSecret;
 	}
 
 	/**
@@ -55,4 +79,115 @@ public class Weibo implements java.io.Serializable {
 	public HttpClient getClient() {
 		return this.client;
 	}
+
+	public String getTokenSecret() {
+		return tokenSecret;
+	}
+
+	public void setTokenSecret(String tokenSecret) {
+		this.tokenSecret = tokenSecret;
+	}
+
+	public String getBaseURL() {
+		return baseURL;
+	}
+
+	public String getAppkey() {
+		return appkey;
+	}
+
+	public void setAppkey(String appkey) {
+		this.appkey = appkey;
+	}
+
+	public String getAppSecret() {
+		return appSecret;
+	}
+
+	public void setAppSecret(String appSecret) {
+		this.appSecret = appSecret;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	protected String getEncodeUrl(String url, PostParameter[] params)
+			throws WeiboException {
+		if (null != params && params.length > 0) {
+			String encodedParams = HttpClient.encodeParameters(params);
+			if (-1 == url.indexOf("?")) {
+				url += "?" + encodedParams;
+			} else {
+				url += "&" + encodedParams;
+			}
+		}
+		return url;
+	}
+
+	protected PostParameter[] generateParameterArray(Map<String, String> parames)
+			throws WeiboException {
+		PostParameter[] array = new PostParameter[parames.size()];
+		int i = 0;
+		for (String key : parames.keySet()) {
+			if (parames.get(key) != null) {
+				array[i] = new PostParameter(key, parames.get(key));
+				i++;
+			}
+		}
+		return array;
+	}
+
+	protected String getEncodeUrl(String url, PostParameter[] params,
+			Paging paging) throws WeiboException {
+		if (null != paging) {
+			List<PostParameter> pagingParams = new ArrayList<PostParameter>(4);
+			if (-1 != paging.getMaxId()) {
+				pagingParams.add(new PostParameter("max_id", String
+						.valueOf(paging.getMaxId())));
+			}
+			if (-1 != paging.getSinceId()) {
+				pagingParams.add(new PostParameter("since_id", String
+						.valueOf(paging.getSinceId())));
+			}
+			if (-1 != paging.getPage()) {
+				pagingParams.add(new PostParameter("page", String
+						.valueOf(paging.getPage())));
+			}
+			if (-1 != paging.getCount()) {
+				if (-1 != url.indexOf("search")) {
+					// search api takes "rpp"
+					pagingParams.add(new PostParameter("rpp", String
+							.valueOf(paging.getCount())));
+				} else {
+					pagingParams.add(new PostParameter("count", String
+							.valueOf(paging.getCount())));
+				}
+			}
+			PostParameter[] newparams = null;
+			PostParameter[] arrayPagingParams = pagingParams
+					.toArray(new PostParameter[pagingParams.size()]);
+			if (null != params) {
+				newparams = new PostParameter[params.length
+						+ pagingParams.size()];
+				System.arraycopy(params, 0, newparams, 0, params.length);
+				System.arraycopy(arrayPagingParams, 0, newparams,
+						params.length, pagingParams.size());
+			} else {
+				if (0 != arrayPagingParams.length) {
+					String encodedParams = HttpClient
+							.encodeParameters(arrayPagingParams);
+					if (-1 != url.indexOf("?")) {
+						url += "&source=" + appkey + "&" + encodedParams;
+					} else {
+						url += "?source=" + appkey + "&" + encodedParams;
+					}
+				}
+			}
+			return getEncodeUrl(url, newparams);
+		} else {
+			return getEncodeUrl(url, params);
+		}
+	}
+
 }

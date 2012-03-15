@@ -13,6 +13,11 @@ public class Users extends Weibo {
 		super(token);
 	}
 
+	public Users(String token, String tokenSecret, String appkey,
+			String appSecret) {
+		super(token, tokenSecret, appkey, appSecret);
+	}
+
 	/*----------------------------用户接口----------------------------------------*/
 	/**
 	 * 根据用户ID获取用户信息
@@ -27,10 +32,20 @@ public class Users extends Weibo {
 	 * @since JDK 1.5
 	 */
 	public User showUserById(String uid) throws WeiboException {
-		return new User(client.get(
-				WeiboConfig.getValue("baseURL") + "users/show.json",
-				new PostParameter[] { new PostParameter("uid", uid) })
-				.asJSONObject());
+
+		if (getTokenSecret() != null) {
+			weibo4j.http.v1.HttpClient http = new weibo4j.http.v1.HttpClient();
+			http.setOAuthConsumer(getAppkey(), getAppSecret());
+			http.setToken(getToken(), getTokenSecret());
+			String url = getEncodeUrl(getBaseURL() + "users/show.json",
+					new PostParameter[] { new PostParameter("id", uid) });
+			return new User(http.get(url, true).asJSONObject());
+		} else {
+			return new User(client.get(
+					WeiboConfig.getValue("baseURL") + "users/show.json",
+					new PostParameter[] { new PostParameter("uid", uid) })
+					.asJSONObject());
+		}
 	}
 
 	/**

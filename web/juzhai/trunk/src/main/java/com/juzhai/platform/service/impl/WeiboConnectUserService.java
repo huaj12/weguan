@@ -109,7 +109,12 @@ public class WeiboConnectUserService extends AbstractUserService {
 				blog = user.getId();
 			}
 			profile.setBlog("www.weibo.com/" + blog);
-			profile.setNewLogoPic(user.getAvatarLarge());
+			if (StringUtils.isEmpty(authInfo.getTokenSecret())) {
+				profile.setNewLogoPic(user.getAvatarLarge());
+			} else {
+				profile.setNewLogoPic(user.getProfileImageUrl());
+			}
+
 			profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
 			// profile.setLogoPic(user.getAvatarLarge());
 			// 用户简介

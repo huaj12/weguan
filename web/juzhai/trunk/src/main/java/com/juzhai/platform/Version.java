@@ -30,7 +30,7 @@ package com.juzhai.platform;
  * @author Yusuke Yamamoto - yusuke at mac.com
  */
 public class Version {
-	public static String WEIBOVERSION = "1.0";
+	public static String WEIBOVERSION = "2.0";
 	public final static String WEIBOV2 = "2.0";
 	public final static String WEIBOV1 = "1.0";
 

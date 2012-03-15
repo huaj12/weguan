@@ -185,8 +185,6 @@ public class HttpClient implements java.io.Serializable {
 	 *      Using Weibo</a>
 	 */
 	public void setOAuthConsumer(String consumerKey, String consumerSecret) {
-		consumerKey = Configuration.getOAuthConsumerKey(consumerKey);
-		consumerSecret = Configuration.getOAuthConsumerSecret(consumerSecret);
 		if (null != consumerKey && null != consumerSecret
 				&& 0 != consumerKey.length() && 0 != consumerSecret.length()) {
 			this.oauth = new OAuth(consumerKey, consumerSecret);
@@ -226,6 +224,12 @@ public class HttpClient implements java.io.Serializable {
 				new PostParameter[] { new PostParameter("oauth_callback",
 						callback_url) }, true), this);
 		return (RequestToken) this.oauthToken;
+	}
+
+	public String getAuthorizationURL(RequestToken requestToken,
+			String callback_url) {
+		return authorizationURL + "?oauth_token=" + requestToken.getToken()
+				+ "&oauth_callback=" + callback_url;
 	}
 
 	/**

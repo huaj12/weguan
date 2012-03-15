@@ -28,9 +28,10 @@ public interface IDialogService {
 	 * @param targetUid
 	 * @param template
 	 * @return
+	 * @throws DialogException
 	 */
 	long sendSMS(long uid, long targetUid, DialogContentTemplate template,
-			Object... params);
+			Object... params) throws DialogException;
 
 	/**
 	 * 官方发送私信

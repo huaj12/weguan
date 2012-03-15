@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -28,6 +29,8 @@ import com.juzhai.home.service.IDialogService;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.post.model.Idea;
+import com.juzhai.post.service.IIdeaService;
 import com.juzhai.stats.counter.service.ICounter;
 
 @Controller
@@ -44,6 +47,8 @@ public class DialogController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private ICounter dialogContentCounter;
+	@Autowired
+	private IIdeaService ideaService;
 	@Value("${show.dialogs.max.rows}")
 	private int showDialogsMaxRows;
 	@Value("${show.dialog.contents.max.rows}")
@@ -120,6 +125,31 @@ public class DialogController extends BaseController {
 		return result;
 	}
 
+	@RequestMapping(value = "/senddate", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult sendDate(HttpServletRequest request, Model model,
+			String content, long targetUid, Long ideaId)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult result = new AjaxResult();
+		if (null != ideaId && ideaId > 0) {
+			Idea idea = ideaService.getIdeaById(ideaId);
+			if (null != idea) {
+				content = idea.getContent();
+			}
+		}
+		try {
+			if (StringUtils.isNotEmpty(content)) {
+				dialogService.sendSMS(context.getUid(), targetUid,
+						DialogContentTemplate.PRIVATE_DATE, content);
+				// dialogContentCounter.incr(null, 1L);
+			}
+		} catch (DialogException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
+		return result;
+	}
+
 	@RequestMapping(value = "/replyMessage", method = RequestMethod.POST)
 	public String replySMS(HttpServletRequest request, Model model,
 			String content, long targetUid) throws NeedLoginException {
@@ -152,8 +182,11 @@ public class DialogController extends BaseController {
 			Model model, long uid) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
-		dialogService.sendSMS(context.getUid(), uid,
-				DialogContentTemplate.EDIT_PROFILE);
+		try {
+			dialogService.sendSMS(context.getUid(), uid,
+					DialogContentTemplate.EDIT_PROFILE);
+		} catch (DialogException e) {
+		}
 		return result;
 	}
 
@@ -163,8 +196,11 @@ public class DialogController extends BaseController {
 			long uid) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
-		dialogService.sendSMS(context.getUid(), uid,
-				DialogContentTemplate.UPLOAD_LOGO);
+		try {
+			dialogService.sendSMS(context.getUid(), uid,
+					DialogContentTemplate.UPLOAD_LOGO);
+		} catch (DialogException e) {
+		}
 		return result;
 	}
 }

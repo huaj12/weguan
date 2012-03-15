@@ -1,8 +1,14 @@
 $(document).ready(function() {
-	$("div.ta_btn > a").click(function(){
+	$("div.message_icon > a").click(function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openMessage(uid, nickname);
+		return false;
+	});
+	$("div.ta_btn > a").click(function(){
+		var uid = $(this).attr("target-uid");
+		var nickname = $(this).attr("target-nickname");
+		openDate(uid, nickname);
 		return false;
 	});
 	$("div.user-remove-interest > a.done").bind("click", function() {
@@ -38,16 +44,6 @@ $(document).ready(function() {
 	$("div.zfa > a").click(function(){
 		var postId = $(this).attr("post-id");
 		prepareRepost(postId);
-		return false;
-	});
-	$("div.post-response > a.xy").click(function(){
-		var postId = $(this).attr("post-id");
-		var obj = $(this);
-		responsePost(this, postId, function(){
-			var currentCnt = parseInt(obj.next().find("font").text());
-			obj.next().find("font").text(currentCnt + 1);
-			obj.text("已" + obj.text()).unbind("click").parent().addClass("done");
-		});
 		return false;
 	});
 	$("a#inviteEditProfile").click(function(){

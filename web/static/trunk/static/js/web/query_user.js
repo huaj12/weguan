@@ -1,4 +1,10 @@
 $(document).ready(function(){
+	$("div.date > a").click(function(){
+		var uid = $(this).attr("target-uid");
+		var nickname = $(this).attr("target-nickname");
+		openDate(uid, nickname);
+		return false;
+	});
 	$("#city-select").each(function(){
 		var citySelect = new CitySelectInput(this, function(cityId){return false;});
 		citySelect.bindBlur();

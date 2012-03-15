@@ -121,13 +121,15 @@ function uploadImage() {
 				window.location.href = "/login?turnTo=" + window.location.href;
 			} else {
 				$("div.upload_area > div.uploading").hide();
-				$("div.upload_area > div.error").text(result.errorInfo).show();
+				$("div.upload_area > div.error > b").text(result.errorInfo);
+				$("div.upload_area > div.error").show();
 				$("div.upload_area > div.btns").show();
 			}
 		},
 		error : function(data) {
 			$("div.upload_area > div.uploading").hide();
-			$("div.upload_area > div.error").text("上传失败").show();
+			$("div.upload_area > div.error > b").text("上传失败");
+			$("div.upload_area > div.error").show();
 			$("div.upload_area > div.btns").show();
 		}
 	};

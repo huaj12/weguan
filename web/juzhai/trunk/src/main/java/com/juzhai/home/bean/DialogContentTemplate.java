@@ -7,7 +7,8 @@ public enum DialogContentTemplate {
 			"pass.logo.dialog.content"), DENY_LOGO("deny.logo.dialog.content"), WELCOME_USER(
 			"welcome.user.dialog.content"), BECOME_IDEA(
 			"become.idea.dialog.content"), UPLOAD_LOGO(
-			"upload.logo.dialog.content");
+			"upload.logo.dialog.content"), PRIVATE_DATE(
+			"private.date.dialog.content");
 
 	private String name;
 

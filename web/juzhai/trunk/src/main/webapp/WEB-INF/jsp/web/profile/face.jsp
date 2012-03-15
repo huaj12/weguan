@@ -34,7 +34,7 @@
 									</div>
 									<div class="upload_ts">头像通过审核后才能被大家看到哦</div>
 									<div class="uploading" style="display:none;">上传中...</div>
-									<div class="error" style="display:none;"></div>
+									<div class="error" style="display:none;"><em></em><b></b></div>
 									<div class="uploading_ok" style="display:none;"><font></font><a href="javascript:void(0);">重新上传</a></div>
 								</div><!--upload_area end-->
 								<div class="edit_face_area">

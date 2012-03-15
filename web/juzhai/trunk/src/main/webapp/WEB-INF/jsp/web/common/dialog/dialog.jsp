@@ -41,3 +41,14 @@
 		</div><!--message_box_con end-->
 	</div><!--share_box2 end-->
 </div>
+<div id="dialog-date" style="display:none;">
+	<div class="send_area" login="${context.uid > 0}"><!--send_area begin-->
+		<div class="date_title">想约<font>{0}</font>玩什么?</div>
+		<div class="random_select"><p>没想好？</p><a href="javascript:void(0);" class="random ml0">帮我选一个</a></div>
+		<div class="textarea"><textarea init-msg="写下你的约会计划..."></textarea></div>
+		<div class="date_error" style="display:none;"></div>
+		<div class="btn"><a href="javascript:void(0);">约ta</a></div>
+		<div class="sending" style="display:none;"><a href="javascript:void(0);">发送中</a></div>
+		<div class="kj">仅你们俩可见</div>
+	</div><!--send_area end-->
+</div>

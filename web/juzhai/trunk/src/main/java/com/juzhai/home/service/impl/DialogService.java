@@ -114,23 +114,24 @@ public class DialogService implements IDialogService {
 
 	@Override
 	public long sendSMS(long uid, long targetUid,
-			DialogContentTemplate template, Object... params) {
+			DialogContentTemplate template, Object... params)
+			throws DialogException {
 		String content = messageSource.getMessage(template.getName(), params,
 				Locale.SIMPLIFIED_CHINESE);
 		if (StringUtils.isEmpty(content)) {
 			return 0L;
 		}
-		try {
-			return sendSMS(uid, targetUid, content);
-		} catch (DialogException e) {
-			return 0L;
-		}
+		return sendSMS(uid, targetUid, content);
 	}
 
 	@Override
 	public long sendOfficialSMS(long targetUid, DialogContentTemplate template,
 			Object... params) {
-		return sendSMS(officialNoticeUid, targetUid, template, params);
+		try {
+			return sendSMS(officialNoticeUid, targetUid, template, params);
+		} catch (DialogException e) {
+			return 0L;
+		}
 	}
 
 	@Override

@@ -35,6 +35,7 @@ import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.home.bean.DialogContentTemplate;
+import com.juzhai.home.exception.DialogException;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.LogoVerifyState;
@@ -465,8 +466,11 @@ public class PostService implements IPostService {
 		redisTemplate.opsForSet().add(
 				RedisKeyGenerator.genResponsePostsKey(uid), postId);
 		// 发送私信
-		dialogService.sendSMS(uid, post.getCreateUid(),
-				DialogContentTemplate.RESPONSE_POST, post.getContent());
+		try {
+			dialogService.sendSMS(uid, post.getCreateUid(),
+					DialogContentTemplate.RESPONSE_POST, post.getContent());
+		} catch (DialogException e) {
+		}
 
 		responsePostCounter.incr(null, 1L);
 	}

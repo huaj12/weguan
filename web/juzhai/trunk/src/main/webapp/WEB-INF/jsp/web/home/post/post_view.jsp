@@ -50,10 +50,10 @@
 						<div class="message_s2"><a href="/post/${postView.post.id}/comment" post-id="${postView.post.id}">留言<c:if test="${postView.post.commentCnt > 0}">(${postView.post.commentCnt})</c:if></a></div>
 						<c:choose>
 							<c:when test="${postView.hasResponse}">
-								<div class="like done"><a href="javascript:void(0);" class="xy">已响应</a><div class="xy_num"><p class="l"></p><a href="/post/${postView.post.id}/respuser">${postView.post.responseCnt}</a><p class="r"></p></div></div>
+								<div class="like done"><a href="javascript:void(0);" class="xy">已响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${postView.post.responseCnt}</a><p class="r"></p></div></div>
 							</c:when>
 							<c:otherwise>
-								<div class="like post-response" id="response${postView.post.id}"><a href="javascript:void(0);" class="xy" post-id="${postView.post.id}">响应</a><div class="xy_num"><p class="l"></p><a href="/post/${postView.post.id}/respuser"><font>${postView.post.responseCnt}</font></a><p class="r"></p></div></div>
+								<div class="like post-response" id="response${postView.post.id}" post-id="${postView.post.id}"><a href="javascript:void(0);" class="xy">响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);"><font>${postView.post.responseCnt}</font></a><p class="r"></p></div></div>
 							</c:otherwise>
 						</c:choose>
 						<div class="zfa"><a href="javascript:void(0);" post-id="${postView.post.id}">转发</a></div>

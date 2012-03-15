@@ -40,6 +40,18 @@ $(document).ready(function(){
 	if($("div#idea-widget").length > 0){
 		nextIdeaWidget($("div#idea-widget"), 1);
 	}
+	
+	$("div.post-response").click(function(){
+		var postId = $(this).attr("post-id");
+		var obj = $(this);
+		responsePost(this, postId, function(){
+			var currentCnt = parseInt(obj.find("font").text());
+			obj.find("font").text(currentCnt + 1);
+			obj.find("a.xy").text("已" + obj.find("a.xy").text());
+			obj.unbind("click").addClass("done");
+		});
+		return false;
+	});
 });
 
 function nextIdeaWidget(containDiv, page){
@@ -422,7 +434,7 @@ function openDialog(followObj, dialogId, dialogContent){
 	} else {
 		options["top"]="50%";
 	}
-	$.dialog(options);
+	return $.dialog(options);
 }
 
 function closeDialog(dialogId){
@@ -439,6 +451,46 @@ function openMessage(targetUid, nickname){
 		window.location.href = "/login?turnTo=" + window.location.href;
 	}else{
 		openDialog(null, "openMessage", content);
+	}
+}
+
+function openDate(targetUid, nickname){
+	var content = $("#dialog-date").html().replace("{0}", nickname).replace("[0]", targetUid);
+	var login = $(content).attr("login");
+	if(login=="false"){
+		window.location.href = "/login?turnTo=" + window.location.href;
+	}else{
+		var dialog = openDialog(null, "openDate", content);
+		//绑定事件
+		var textarea = $(dialog.content()).find("textarea");
+		registerInitMsg(textarea, function(isEdit){
+			textarea.parent().toggleClass("ts", !isEdit);
+		});
+		textarea.trigger("blur");
+		$(dialog.content()).find("div.btn > a").click(function(){
+			sendDate(targetUid, $(this).parent());
+		});
+		$(dialog.content()).find("div.random_select > a.random").click(function(){
+			$.ajax({
+				url : "/idea/random",
+				type : "post",
+				cache : false,
+				data : {},
+				dataType : "json",
+				success : function(result) {
+					if(result && result.success){
+						var content = result.result.content;
+						textarea.val(content);
+					}
+				},
+				statusCode : {
+					401 : function() {
+						window.location.href = "/login?turnTo=" + window.location.href;
+					}
+				}
+			});
+			return false;
+		});
 	}
 }
 
@@ -482,6 +534,50 @@ function sendMessage(obj){
 		closeDialog("openMessage");
 		showSuccess(null, successContent);
 	});
+}
+
+function sendDate(uid, btn, ideaId, followBtn, successCallback){
+	var content = null;
+	var initMsg = null;
+	if($(btn).length > 0){
+		$(btn).hide();
+		$(btn).next().show();
+		content = $(btn).parent().find("textarea").val();
+		initMsg = $(btn).parent().find("textarea").attr("init-msg");
+	}
+	if($(btn).length > 0 && (content == initMsg || !checkValLength(content, 1, 160))){
+		$(btn).parent().find("div.date_error").text("约会内容控制在1-160个汉字以内").show();
+		$(btn).next().hide();
+		$(btn).show();
+		return;
+	}
+	jQuery.ajax({
+		url : "/home/senddate",
+		type : "post",
+		cache : false,
+		data : {"targetUid" : uid, "content" : content, "ideaId" : ideaId},
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				var successContent = $("#dialog-success").html().replace("{0}", "发送成功！");
+				closeDialog("openDate");
+				showSuccess(followBtn, successContent);
+				if(null != successCallback){
+					successCallback();
+				}
+			} else {
+				$(btn).parent().find("div.date_error").text(result.errorInfo).show();
+				$(btn).next().hide();
+				$(btn).show();
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+	return false;
 }
 
 //感兴趣的人操作

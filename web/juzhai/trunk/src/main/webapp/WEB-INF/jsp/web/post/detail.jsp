@@ -55,10 +55,10 @@
 											<c:when test="${context.uid != postProfile.uid}">
 												<c:choose>
 													<c:when test="${hasResponse}">
-														<div class="like done"><a href="javascript:void(0);" class="xy">已响应</a><div class="xy_num"><p class="l"></p><a href="/post/${post.id}">${post.responseCnt}</a><p class="r"></p></div></div>
+														<div class="like done"><a href="javascript:void(0);" class="xy">已响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${post.responseCnt}</a><p class="r"></p></div></div>
 													</c:when>
 													<c:otherwise>
-														<div class="like post-response" id="response${post.id}"><a href="javascript:void(0);" class="xy" post-id="${post.id}">响应</a><div class="xy_num"><p class="l"></p><a href="/post/${post.id}"><font>${post.responseCnt}</font></a><p class="r"></p></div></div>
+														<div class="like post-response" id="response${post.id}" post-id="${post.id}"><a href="javascript:void(0);" class="xy">响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);"><font>${post.responseCnt}</font></a><p class="r"></p></div></div>
 													</c:otherwise>
 												</c:choose>
 											</c:when>

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.home.bean.DialogContentTemplate;
+import com.juzhai.home.exception.DialogException;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.InterestUserException;
@@ -64,8 +65,11 @@ public class InterestUserService implements IInterestUserService {
 		redisTemplate.opsForSet().add(
 				RedisKeyGenerator.genInterestUsersKey(uid), targetUid);
 		// 发送私信
-		dialogService.sendSMS(uid, targetUid,
-				DialogContentTemplate.INTEREST_USER);
+		try {
+			dialogService.sendSMS(uid, targetUid,
+					DialogContentTemplate.INTEREST_USER);
+		} catch (DialogException e) {
+		}
 
 		interestUserCounter.incr(null, 1L);
 	}

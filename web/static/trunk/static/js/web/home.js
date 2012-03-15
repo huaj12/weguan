@@ -76,18 +76,6 @@ $(document).ready(function(){
 		}
 		return false;
 	});
-	
-	$("div.post-response > a.xy").click(function(){
-		var postId = $(this).attr("post-id");
-		var obj = $(this);
-		responsePost(this, postId, function(){
-			var currentCnt = parseInt(obj.next().find("font").text());
-			obj.next().find("font").text(currentCnt + 1);
-			obj.text("已" + obj.text()).unbind("click").parent().addClass("done");
-		});
-		return false;
-	});
-	
 	$("div.user-remove-interest > a.done").bind("click", function() {
 		var uid = $(this).attr("uid");
 		removeInterestConfirm(uid, this, function(){
@@ -117,7 +105,7 @@ $(document).ready(function(){
 		return false;
 	});
 	
-	$("div.random_select > a.random").click(function(){
+	$("div.send_box").find("div.random_select > a.random").click(function(){
 		$.ajax({
 			url : "/idea/random",
 			type : "post",

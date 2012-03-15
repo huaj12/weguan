@@ -3,7 +3,9 @@ package com.juzhai.platform.service.impl;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,7 @@ import weibo4j.Account;
 import weibo4j.Oauth;
 import weibo4j.Users;
 import weibo4j.http.AccessToken;
+import weibo4j.http.v1.RequestToken;
 import weibo4j.model.User;
 import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONObject;
@@ -35,12 +38,13 @@ import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.Town;
+import com.juzhai.platform.Version;
 
 @Service
 public class WeiboConnectUserService extends AbstractUserService {
 	private static final Log log = LogFactory
 			.getLog(WeiboConnectUserService.class);
-
+	private static Map<String, String> tokenMap = new HashMap<String, String>();
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
 	@Value(value = "${feature.length.max}")
@@ -50,9 +54,27 @@ public class WeiboConnectUserService extends AbstractUserService {
 	public String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
 		Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
 				tp.getAppUrl());
-		AccessToken accessToken = null;
+		String accessToken = null;
+
+		String str[] = code.split(",");
 		try {
-			accessToken = oauth.getAccessTokenByCode(code);
+			if (str[0].equals("null")) {
+				String oauth_token = str[1];
+				String oauth_verifier = str[2];
+				weibo4j.http.v1.AccessToken token = oauth.getOAuthAccessToken(
+						oauth_token, tokenMap.get(oauth_token), oauth_verifier);
+				tokenMap.remove(oauth_token);
+				StringBuffer sb = new StringBuffer();
+				sb.append(token.getToken());
+				sb.append(",");
+				sb.append(token.getTokenSecret());
+				sb.append(",");
+				sb.append(token.getUserId());
+				accessToken = sb.toString();
+			} else {
+				AccessToken token = oauth.getAccessTokenByCode(str[0]);
+				accessToken = token.getAccessToken();
+			}
 		} catch (WeiboException e) {
 			log.error("weibo getOAuthAccessTokenFromCode is error"
 					+ e.getMessage());
@@ -60,7 +82,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 		if (null == accessToken) {
 			return null;
 		}
-		return accessToken.getAccessToken();
+		return accessToken;
 	}
 
 	@Override
@@ -68,7 +90,9 @@ public class WeiboConnectUserService extends AbstractUserService {
 			HttpServletResponse response, AuthInfo authInfo,
 			String thirdpartyIdentity) {
 		try {
-			Users users = new Users(authInfo.getToken());
+			Users users = new Users(authInfo.getToken(),
+					authInfo.getTokenSecret(), authInfo.getAppKey(),
+					authInfo.getAppSecret());
 			User user = users.showUserById(authInfo.getTpIdentity());
 			Profile profile = new Profile();
 			profile.setNickname(TextTruncateUtil.truncate(
@@ -131,27 +155,45 @@ public class WeiboConnectUserService extends AbstractUserService {
 	protected String fetchTpIdentity(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
 		String code = request.getParameter("code");
-		if (StringUtils.isEmpty(code)) {
-			log.error("weibo get code is null");
+		String oauth_token = request.getParameter("oauth_token");
+		String oauth_verifier = request.getParameter("oauth_verifier");
+
+		if (StringUtils.isEmpty(code) && StringUtils.isEmpty(oauth_token)
+				&& StringUtils.isEmpty(oauth_verifier)) {
+			log.error("weibo get code is " + code + ":oauth_token="
+					+ oauth_token + ":oauth_verifier=" + oauth_verifier);
 			return null;
 		}
 		if (null == tp) {
 			log.error("weibo  Thirdparty is null");
 			return null;
 		}
-		String accessToken = getOAuthAccessTokenFromCode(tp, code);
-		if (StringUtils.isEmpty(accessToken)) {
+		String token = getOAuthAccessTokenFromCode(tp, code + "," + oauth_token
+				+ "," + oauth_verifier);
+		if (StringUtils.isEmpty(token)) {
 			log.error("weibo  accessToken is null");
 			return null;
 		}
+
 		String uid = "";
 		try {
-			Account account = new Account(accessToken);
-			JSONObject jsonObject = account.getUid();
-			uid = String.valueOf(jsonObject.get("uid"));
+			String[] str = token.split(",");
+			String accessToken = null;
+			String tokenSecret = null;
+			if (str.length > 1) {
+				accessToken = str[0];
+				tokenSecret = str[1];
+				uid = str[2];
+			} else {
+				accessToken = token;
+				Account account = new Account(accessToken);
+				JSONObject jsonObject = account.getUid();
+				uid = String.valueOf(jsonObject.get("uid"));
+			}
 			authInfo.setThirdparty(tp);
 			authInfo.setToken(accessToken);
 			authInfo.setTpIdentity(uid);
+			authInfo.setTokenSecret(tokenSecret);
 		} catch (Exception e) {
 			log.error("weibo fetchTpIdentity is error" + e.getMessage());
 		}
@@ -175,8 +217,16 @@ public class WeiboConnectUserService extends AbstractUserService {
 		try {
 			Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
 					URLEncoder.encode(redirectURL, Constants.UTF8));
-			url = oauth.authorize("code");
+			if (Version.WEIBOV2.equals(Version.getWeiboVersion())) {
+				url = oauth.authorize("code");
+			} else {
+				RequestToken requestToken = oauth.getRequestToken();
+				tokenMap.put(requestToken.getToken(),
+						requestToken.getTokenSecret());
+				url = oauth.getAuthorizeV1(requestToken);
+			}
 		} catch (WeiboException e) {
+			log.error("getAuthorizeURLforCode is error" + e.getMessage());
 		}
 		return url;
 	}

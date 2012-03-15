@@ -33,7 +33,7 @@ public class Users extends Weibo {
 	 */
 	public User showUserById(String uid) throws WeiboException {
 
-		if (getTokenSecret() != null) {
+		if (getTokenSecret() != null && getTokenSecret().length() > 0) {
 			weibo4j.http.v1.HttpClient http = new weibo4j.http.v1.HttpClient();
 			http.setOAuthConsumer(getAppkey(), getAppSecret());
 			http.setToken(getToken(), getTokenSecret());

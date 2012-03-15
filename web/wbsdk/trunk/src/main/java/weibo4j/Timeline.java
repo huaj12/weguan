@@ -646,9 +646,7 @@ public class Timeline extends Weibo {
 	 */
 	public Status UploadStatus(String status, ImageItem item)
 			throws WeiboException {
-		if (!URLEncodeUtils.isURLEncoded(status)) {
-			status = URLEncodeUtils.encodeURL(status);
-		}
+
 		if (getTokenSecret() != null && getTokenSecret().length() > 0) {
 			weibo4j.http.v1.HttpClient http = new weibo4j.http.v1.HttpClient();
 			http.setOAuthConsumer(getAppkey(), getAppSecret());
@@ -659,6 +657,9 @@ public class Timeline extends Weibo {
 						new PostParameter[] { new PostParameter("status",
 								status) }, true));
 			} else {
+				if (!URLEncodeUtils.isURLEncoded(status)) {
+					status = URLEncodeUtils.encodeURL(status);
+				}
 				return new Status(http.multPartURL(getBaseURL()
 						+ "statuses/upload.json", new PostParameter[] {
 						new PostParameter("status", status),
@@ -671,6 +672,9 @@ public class Timeline extends Weibo {
 						new PostParameter[] { new PostParameter("status",
 								status) }));
 			} else {
+				if (!URLEncodeUtils.isURLEncoded(status)) {
+					status = URLEncodeUtils.encodeURL(status);
+				}
 				return new Status(client.multPartURL(
 						WeiboConfig.getValue("baseURL")
 								+ "statuses/upload.json",

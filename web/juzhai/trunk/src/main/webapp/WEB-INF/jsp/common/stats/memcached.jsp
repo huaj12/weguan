@@ -39,7 +39,7 @@
 	}
 	out.println("<pre>");
 	for (String key : keys) {
-		out.println(key + "=" + statsMap.get(key));
+		out.println(key + ":" + statsMap.get(key));
 	}
 	out.println("</pre>");
 %>

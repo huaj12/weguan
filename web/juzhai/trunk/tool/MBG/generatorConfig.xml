@@ -6,7 +6,7 @@
 <generatorConfiguration>
   <classPathEntry location="tool/MBG/mysql-connector-java-5.1.12.jar" />
 
-  <context id="passport" targetRuntime="MyBatis3">
+  <!-- <context id="passport" targetRuntime="MyBatis3">
   	
   	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -45,7 +45,7 @@
       <columnOverride column="open" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
     
-    <!-- <table tableName="tb_profile" domainObjectName="Profile" >
+    <table tableName="tb_profile" domainObjectName="Profile" >
       <property name="useActualColumnNames" value="false"/>
       <columnOverride column="sub_email" javaType="java.lang.Boolean" jdbcType="TINYINT" />
       <columnOverride column="has_modify_nickname" javaType="java.lang.Boolean" jdbcType="TINYINT" />
@@ -104,9 +104,9 @@
 	<table tableName="tb_user_guide" domainObjectName="UserGuide" >
       <property name="useActualColumnNames" value="false"/>
       <columnOverride column="complete" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-    </table> -->
+    </table>
 
-  </context>
+  </context> -->
   
   
   <!-- <context id="act" targetRuntime="MyBatis3">
@@ -367,7 +367,7 @@
     
   </context> -->
   
-  <!-- <context id="post" targetRuntime="MyBatis3">
+  <context id="post" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -395,7 +395,15 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
     
-    <table tableName="tb_post_comment" domainObjectName="PostComment">
+    <table tableName="tb_idea" domainObjectName="Idea">
+      <property name="useActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
+      <columnOverride column="random" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+      <columnOverride column="window" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+      <columnOverride column="defunct" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+    </table>
+    
+    <!-- <table tableName="tb_post_comment" domainObjectName="PostComment">
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
       <columnOverride column="defunct" javaType="java.lang.Boolean" jdbcType="TINYINT" />
@@ -405,13 +413,6 @@
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
       <columnOverride column="defunct" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-    </table>
-    
-    <table tableName="tb_idea" domainObjectName="Idea">
-      <property name="useActualColumnNames" value="false"/>
-      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
-      <columnOverride column="random" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-      <columnOverride column="window" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
 
 	<table tableName="tb_ad" domainObjectName="Ad">
@@ -424,8 +425,8 @@
     
     <table tableName="tb_post_response" domainObjectName="PostResponse">
       <property name="useActualColumnNames" value="false"/>
-    </table>
+    </table> -->
     
-  </context> -->
+  </context>
   
 </generatorConfiguration>

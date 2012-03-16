@@ -51,6 +51,20 @@ public interface IIdeaService {
 	void removeIdea(long ideaId) throws InputIdeaException;
 
 	/**
+	 * 屏蔽好主意
+	 * 
+	 * @param ideaId
+	 */
+	void defunctIdea(long ideaId);
+
+	/**
+	 * 取消屏蔽
+	 * 
+	 * @param ideaId
+	 */
+	void cancelDefunctIdea(long ideaId);
+
+	/**
 	 * 是否使用了idea
 	 * 
 	 * @param uid
@@ -87,6 +101,22 @@ public interface IIdeaService {
 	 * @return
 	 */
 	int countIdeaByCity(Long cityId);
+
+	/**
+	 * 被屏蔽好主意数量
+	 * 
+	 * @return
+	 */
+	int countDefunctIdea();
+
+	/**
+	 * 被屏蔽的好主意列表
+	 * 
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Idea> listDefunctIdea(int firstResult, int maxResults);
 
 	/**
 	 * 添加好主意

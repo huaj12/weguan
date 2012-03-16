@@ -1,26 +1,16 @@
 package com.juzhai.cms.controller.view;
 
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.model.Idea;
 
 public class CmsIdeaView {
 	private Idea idea;
 
-	private String userName;
+	private ProfileCache createUser;
 
-	private String categoryName;
-
-	public String getCategoryName() {
-		return categoryName;
-	}
-
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
-
-	public CmsIdeaView(Idea idea, String userName, String categoryName) {
+	public CmsIdeaView(Idea idea, ProfileCache createUser) {
 		this.idea = idea;
-		this.userName = userName;
-		this.categoryName = categoryName;
+		this.createUser = createUser;
 	}
 
 	public Idea getIdea() {
@@ -31,12 +21,11 @@ public class CmsIdeaView {
 		this.idea = idea;
 	}
 
-	public String getUserName() {
-		return userName;
+	public ProfileCache getCreateUser() {
+		return createUser;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setCreateUser(ProfileCache createUser) {
+		this.createUser = createUser;
 	}
-
 }

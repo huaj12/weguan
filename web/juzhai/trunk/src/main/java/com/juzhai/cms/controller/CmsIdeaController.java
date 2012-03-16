@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.juzhai.act.model.Category;
 import com.juzhai.cms.controller.form.IdeaForm;
 import com.juzhai.cms.controller.view.CmsIdeaView;
 import com.juzhai.core.controller.BaseController;
@@ -47,30 +46,39 @@ public class CmsIdeaController extends BaseController {
 	@RequestMapping(value = "/show/idea", method = RequestMethod.GET)
 	public String showIdea(Model model,
 			@RequestParam(defaultValue = "1") int pageId) {
-		PagerManager pager = new PagerManager(pageId, 30,
+		PagerManager pager = new PagerManager(pageId, 20,
 				ideaService.countIdeaByCity(0l));
 		List<Idea> list = ideaService.listIdeaByCity(0l,
 				ShowIdeaOrder.HOT_TIME, pager.getFirstResult(),
 				pager.getMaxResult());
-		List<CmsIdeaView> ideaViews = new ArrayList<CmsIdeaView>();
-		for (Idea idea : list) {
-			ProfileCache cache = profileService.getProfileCacheByUid(idea
-					.getFirstUid());
-			String username = null;
-			if (cache != null) {
-				username = cache.getNickname();
-			}
-			Category cat = com.juzhai.post.InitData.CATEGORY_MAP.get(idea
-					.getCategoryId());
-			String categoryName = null;
-			if (cat != null) {
-				categoryName = cat.getName();
-			}
-			ideaViews.add(new CmsIdeaView(idea, username, categoryName));
-		}
+		List<CmsIdeaView> ideaViews = assembleCmsIdeaView(list);
 		model.addAttribute("ideaViews", ideaViews);
 		model.addAttribute("pager", pager);
 		return "/cms/idea/list";
+	}
+
+	@RequestMapping(value = "/show/defunctidea", method = RequestMethod.GET)
+	public String showDefunctIdea(Model model,
+			@RequestParam(defaultValue = "1") int pageId) {
+		PagerManager pager = new PagerManager(pageId, 20,
+				ideaService.countDefunctIdea());
+		List<Idea> list = ideaService.listDefunctIdea(pager.getFirstResult(),
+				pager.getMaxResult());
+		List<CmsIdeaView> ideaViews = assembleCmsIdeaView(list);
+		model.addAttribute("ideaViews", ideaViews);
+		model.addAttribute("pager", pager);
+		model.addAttribute("isDefunct", true);
+		return "/cms/idea/list";
+	}
+
+	private List<CmsIdeaView> assembleCmsIdeaView(List<Idea> list) {
+		List<CmsIdeaView> ideaViews = new ArrayList<CmsIdeaView>();
+		for (Idea idea : list) {
+			ProfileCache createUser = profileService.getProfileCacheByUid(idea
+					.getCreateUid());
+			ideaViews.add(new CmsIdeaView(idea, createUser));
+		}
+		return ideaViews;
 	}
 
 	@RequestMapping(value = "/show/idea/add", method = RequestMethod.GET)
@@ -160,6 +168,31 @@ public class CmsIdeaController extends BaseController {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
 			ideaService.removeIdea(ideaId);
+		} catch (Exception e) {
+			ajaxResult.setError(e.getMessage(), messageSource);
+		}
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/idea/defunct", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult defunctIdea(@RequestParam(defaultValue = "0") long ideaId) {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			ideaService.defunctIdea(ideaId);
+		} catch (Exception e) {
+			ajaxResult.setError(e.getMessage(), messageSource);
+		}
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/idea/canceldefunct", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult cancelDefunctIdea(
+			@RequestParam(defaultValue = "0") long ideaId) {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			ideaService.cancelDefunctIdea(ideaId);
 		} catch (Exception e) {
 			ajaxResult.setError(e.getMessage(), messageSource);
 		}

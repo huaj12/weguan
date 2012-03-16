@@ -35,6 +35,54 @@ function del(id){
 			});
 		}
 }
+function defunct(obj, id){
+	if(confirm("是否屏蔽该条好主意")){
+			jQuery.ajax({
+				url : "/cms/idea/defunct",
+				type : "post",
+				data : {
+					"ideaId" : id
+				},
+				dataType : "json",
+				success : function(result) {
+					if (result.success!=null&&result.success) {
+						$(obj).removeAttr("onclick").text("已屏蔽");
+					} else {
+						alert("屏蔽失败");
+					}
+				},
+				statusCode : {
+					401 : function() {
+						alert("请先登陆");
+					}
+				}
+			});
+		}
+}
+function cancelDefunct(obj, id){
+	if(confirm("是否取消屏蔽该条好主意")){
+			jQuery.ajax({
+				url : "/cms/idea/canceldefunct",
+				type : "post",
+				data : {
+					"ideaId" : id
+				},
+				dataType : "json",
+				success : function(result) {
+					if (result.success!=null&&result.success) {
+						$(obj).removeAttr("onclick").text("已取消屏蔽");
+					} else {
+						alert("屏蔽失败");
+					}
+				},
+				statusCode : {
+					401 : function() {
+						alert("请先登陆");
+					}
+				}
+			});
+		}
+}
 function operateIdeaRandom(id,random){
 	jQuery.ajax({
 		url : "/cms/operate/idea/random",
@@ -104,7 +152,14 @@ function updateIdeaWindow(){
 </script>
 </head>
 <body>
-	<h2>已发布的好主意----<a href="/cms/show/idea/add">添加好主意</a><input type="button" onclick="updateIdeaWindow();" value="更新欢迎页内容"/></h2>
+	<c:choose>
+		<c:when test="${!isDefunct}">
+			<h2>已发布的好主意----<a href="/cms/show/idea/add">添加好主意</a><input type="button" onclick="updateIdeaWindow();" value="更新欢迎页内容"/></h2>
+		</c:when>
+		<c:otherwise>
+			<h2>已屏蔽的好主意</h2>
+		</c:otherwise>
+	</c:choose>
 	<table border="0" cellspacing="4">
 		<tr style="background-color: #CCCCCC;">
 			<td width="40">是否推荐到橱窗</td>
@@ -122,65 +177,47 @@ function updateIdeaWindow(){
 		</tr>
 		<c:forEach var="view" items="${ideaViews}" >
 			<tr>
-				<td>
-					<c:choose>
-						<c:when test="${view.idea.window}">是</c:when>
-						<c:otherwise>否</c:otherwise>
-					</c:choose>
-				</td>
+				<td><c:choose>
+					<c:when test="${view.idea.window}">是</c:when>
+					<c:otherwise>否</c:otherwise>
+				</c:choose></td>
 				<td><c:out value="${view.idea.content}"></c:out></td>
-				<td><c:out value="${view.userName}"></c:out></td>
+				<td><c:out value="${view.createUser.nickname}"></c:out></td>
 				<td><c:out value="${view.idea.place}"></c:out></td>
-					<td>
-					<c:choose>
-						<c:when test="${view.idea.gender==0}">
-							女
-						</c:when>
-						<c:when test="${view.idea.gender==1}">
-							男
-						</c:when>
-						<c:otherwise>
-							不限
-						</c:otherwise>
-					</c:choose> </td>
-				<td>
-				<c:choose>
-					<c:when test="${empty view.categoryName}">
-						不限
-					</c:when>
-					<c:otherwise>
-					${view.categoryName}
-					</c:otherwise>
-				</c:choose>
-				</td>
+				<td><c:choose><c:when test="${view.idea.gender==0}">女</c:when><c:when test="${view.idea.gender==1}">男</c:when><c:otherwise>不限</c:otherwise></c:choose></td>
+				<td>${jzd:categoryName(view.idea.categoryId)}</td>
 				<td><img width="70" height="70" src="${jzr:ideaPic(view.idea.id,view.idea.pic, 200)}"/></td>
-				<td>
-				<c:choose>
+				<td><c:choose>
 					<c:when test="${empty jzd:cityName(view.idea.city)}">全国</c:when>
 					<c:otherwise>${jzd:cityName(view.idea.city)}</c:otherwise>
 				</c:choose></td>
+				<td><c:choose>
+					<c:when test="${view.idea.random}">是</c:when>
+					<c:otherwise>否</c:otherwise>
+				</c:choose></td>
+				<td><fmt:formatDate value="${view.idea.date}" pattern="yyyy-MM-dd" /></td>
+				<td><fmt:formatDate value="${view.idea.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td>
 					<c:choose>
-						<c:when test="${view.idea.random}">是</c:when>
-						<c:otherwise>否</c:otherwise>
+						<c:when test="${!view.idea.defunct}">
+							<a href="javascript:void(0);" onclick="del('${view.idea.id}')">取消好主意</a><br />
+							<a href="/cms/show/idea/update?id=${view.idea.id}">修改好主意</a><br />
+							<c:choose>
+									<c:when test="${view.idea.random}"><a href="javascript:void(0);" onclick="operateIdeaRandom('${view.idea.id}',0)">移出随即库</a></c:when>
+									<c:otherwise><a href="javascript:void(0);" onclick="operateIdeaRandom('${view.idea.id}',1)">进入随即库</a></c:otherwise>
+							</c:choose>
+							<br />
+							<c:choose>
+									<c:when test="${view.idea.window}"><a href="javascript:void(0);" onclick="operateIdeaWindow('${view.idea.id}',0)">移出橱窗</a></c:when>
+									<c:otherwise><a href="javascript:void(0);" onclick="operateIdeaWindow('${view.idea.id}',1)">进入橱窗</a></c:otherwise>
+							</c:choose>
+							<br />
+							<a href="javascript:void(0);" onclick="defunct(this, '${view.idea.id}')">屏蔽好主意</a><br />
+						</c:when>
+						<c:otherwise>
+							<a href="javascript:void(0);" onclick="cancelDefunct(this, '${view.idea.id}')">取消屏蔽</a><br />
+						</c:otherwise>
 					</c:choose>
-				</td>
-				<td><fmt:formatDate value="${view.idea.date}"
-						pattern="yyyy-MM-dd" /></td>
-				<td><fmt:formatDate value="${view.idea.createTime}"
-						pattern="yyyy-MM-dd HH:mm:ss" /></td>
-				<td>
-				<a href="javascript:;" onclick="del('${view.idea.id}')">取消好主意</a><br />
-				<a href="/cms/show/idea/update?id=${view.idea.id}">修改好主意</a><br />
-				<c:choose>
-						<c:when test="${view.idea.random}"><a href="javascript:void(0);" onclick="operateIdeaRandom('${view.idea.id}',0)">移出随即库</a></c:when>
-						<c:otherwise><a href="javascript:void(0);" onclick="operateIdeaRandom('${view.idea.id}',1)">进入随即库</a></c:otherwise>
-				</c:choose>
-				<br />
-				<c:choose>
-						<c:when test="${view.idea.window}"><a href="javascript:void(0);" onclick="operateIdeaWindow('${view.idea.id}',0)">移出橱窗</a></c:when>
-						<c:otherwise><a href="javascript:void(0);" onclick="operateIdeaWindow('${view.idea.id}',1)">进入橱窗</a></c:otherwise>
-				</c:choose>
 				</td>
 			</tr>
 		</c:forEach>
@@ -189,7 +226,7 @@ function updateIdeaWindow(){
 				<c:forEach var="pageId" items="${pager.showPages}">
 					<c:choose>
 						<c:when test="${pageId!=pager.currentPage}">
-							<a href="/cms/show/idea?pageId=${pageId}">${pageId}</a>
+							<a href="/cms/show/<c:if test='${isDefunct}'>defunct</c:if>idea?pageId=${pageId}">${pageId}</a>
 						</c:when>
 						<c:otherwise>
 							<strong>${pageId}</strong>

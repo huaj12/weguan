@@ -136,8 +136,10 @@ public class IdeaService implements IIdeaService {
 			int firstResult, int maxResults) {
 		IdeaExample example = new IdeaExample();
 		if (null != cityId && cityId > 0) {
-			example.or().andCityEqualTo(cityId);
-			example.or().andCityEqualTo(0L);
+			example.or().andCityEqualTo(cityId).andDefunctEqualTo(false);
+			example.or().andCityEqualTo(0L).andDefunctEqualTo(false);
+		} else {
+			example.createCriteria().andDefunctEqualTo(false);
 		}
 		example.setOrderByClause(orderType.getColumn() + " desc");
 		example.setLimit(new Limit(firstResult, maxResults));
@@ -148,8 +150,10 @@ public class IdeaService implements IIdeaService {
 	public int countIdeaByCity(Long cityId) {
 		IdeaExample example = new IdeaExample();
 		if (null != cityId && cityId > 0) {
-			example.or().andCityEqualTo(cityId);
-			example.or().andCityEqualTo(0L);
+			example.or().andCityEqualTo(cityId).andDefunctEqualTo(false);
+			example.or().andCityEqualTo(0L).andDefunctEqualTo(false);
+		} else {
+			example.createCriteria().andDefunctEqualTo(false);
 		}
 		return ideaMapper.countByExample(example);
 	}
@@ -415,5 +419,37 @@ public class IdeaService implements IIdeaService {
 		ideaExample.setOrderByClause("use_count asc, create_time desc");
 		ideaExample.setLimit(new Limit(firstResult, maxResults));
 		return ideaMapper.selectByExample(ideaExample);
+	}
+
+	@Override
+	public int countDefunctIdea() {
+		IdeaExample example = new IdeaExample();
+		example.createCriteria().andDefunctEqualTo(true);
+		return ideaMapper.countByExample(example);
+	}
+
+	@Override
+	public List<Idea> listDefunctIdea(int firstResult, int maxResults) {
+		IdeaExample example = new IdeaExample();
+		example.createCriteria().andDefunctEqualTo(true);
+		example.setOrderByClause("create_time desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return ideaMapper.selectByExample(example);
+	}
+
+	@Override
+	public void defunctIdea(long ideaId) {
+		Idea idea = new Idea();
+		idea.setId(ideaId);
+		idea.setDefunct(true);
+		ideaMapper.updateByPrimaryKeySelective(idea);
+	}
+
+	@Override
+	public void cancelDefunctIdea(long ideaId) {
+		Idea idea = new Idea();
+		idea.setId(ideaId);
+		idea.setDefunct(false);
+		ideaMapper.updateByPrimaryKeySelective(idea);
 	}
 }

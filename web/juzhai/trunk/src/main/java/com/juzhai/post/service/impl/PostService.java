@@ -205,8 +205,10 @@ public class PostService implements IPostService {
 		} else {
 			ideaService.addUser(ideaId, uid);
 		}
-		// 更新用户最新一条拒宅
-		setUserLatestPost(post);
+		if (post.getVerifyType().intValue() == VerifyType.QUALIFIED.getType()) {
+			// 更新用户最新一条拒宅
+			setUserLatestPost(post);
+		}
 
 		// 每日发布idea统计
 		postIdeaCounter.incr(null, 1L);

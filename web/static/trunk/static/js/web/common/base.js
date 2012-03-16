@@ -63,18 +63,21 @@ function nextIdeaWidget(containDiv, page){
 		data : {page: page},
 		dataType : "html",
 		success : function(result) {
-			$(containDiv).html(result);
-			//bind事件
-			$(containDiv).find("a.hyge").click(function(){
-				nextIdeaWidget(containDiv, page + 1);
-				return false;
-			});
-			$(containDiv).find("a.wtgo").click(function(){
-				var ideaId = $(this).attr("idea-id");
-				prepareSendIdea(ideaId, function(){
-					nextIdeaWidget(containDiv, page);
+			$(containDiv).fadeOut(400, function(){
+				$(this).html(result).fadeIn(400, function(){
+					//bind事件
+					$(containDiv).find("a.hyge").click(function(){
+						nextIdeaWidget(containDiv, page + 1);
+						return false;
+					});
+					$(containDiv).find("a.wtgo").click(function(){
+						var ideaId = $(this).attr("idea-id");
+						prepareSendIdea(ideaId, function(){
+							nextIdeaWidget(containDiv, page);
+						});
+						return false;
+					});
 				});
-				return false;
 			});
 		}
 	});

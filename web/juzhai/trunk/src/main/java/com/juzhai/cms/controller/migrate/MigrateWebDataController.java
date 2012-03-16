@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,7 +19,7 @@ import com.juzhai.passport.model.Constellation;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
 
-@Controller
+//@Controller
 @RequestMapping("/cms")
 public class MigrateWebDataController {
 

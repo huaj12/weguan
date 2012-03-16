@@ -18,7 +18,6 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,7 +45,7 @@ import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
 
 @Deprecated
-@Controller
+// @Controller
 @RequestMapping("/cms")
 public class MigrateController {
 

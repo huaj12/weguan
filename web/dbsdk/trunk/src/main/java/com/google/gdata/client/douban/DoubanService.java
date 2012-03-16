@@ -18,6 +18,9 @@ import net.oauth.client.OAuthClient;
 import net.oauth.client.OAuthHttpClient;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.params.HttpClientParams;
+import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -65,7 +68,15 @@ public class DoubanService extends Service {
 				// This trivial 'pool' simply allocates a new client every time.
 				// More efficient implementations are possible.
 				public HttpClient getHttpClient(URL server) {
-					return new HttpClient();
+					MultiThreadedHttpConnectionManager connectionManager = new MultiThreadedHttpConnectionManager();
+					HttpConnectionManagerParams params = connectionManager
+							.getParams();
+					params.setConnectionTimeout(10000);
+					params.setSoTimeout(10000);
+					HttpClientParams clientParams = new HttpClientParams();
+					HttpClient http = new HttpClient(clientParams,
+							connectionManager);
+					return http;
 				}
 			});
 	protected OAuthAccessor accessor;

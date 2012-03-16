@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -15,7 +14,7 @@ import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.comparator.DescDateComparator;
 
-@Controller
+//@Controller
 @RequestMapping("/cms")
 public class MigrateUnreadController {
 	@Autowired

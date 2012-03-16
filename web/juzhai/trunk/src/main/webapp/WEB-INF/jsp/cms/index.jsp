@@ -157,18 +157,22 @@ a:hover {
 						target="config">屏蔽内容</a>
 					</li>
 					<li style="background-color: #A4D3EE;"><a
-						style="color: black;" href="/cms/show/idea"
-						target="config">拒宅好主意</a>
-					</li>
-					<li style="background-color: #A4D3EE;"><a
 						style="color: black;" href="/cms/cmsShowCategoryList"
 						target="config">拒宅分类管理</a>
 					</li>
 				</ul>
 			</li>
 			<li>
-				<a href="javascript:showChild('postWindow_');">橱窗内容管理</a>
+				<a href="javascript:showChild('postWindow_');">好主意管理</a>
 				<ul style="display: none;" id="postWindow_" class="child">
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/idea"
+						target="config">拒宅好主意</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/defunctidea"
+						target="config">被屏蔽的好主意</a>
+					</li>
 					<li style="background-color: #A4D3EE;"><a
 						style="color: black;" href="/cms/show/postwindow/list"
 						target="config">橱窗内容列表</a>

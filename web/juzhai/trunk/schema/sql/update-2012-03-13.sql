@@ -45,6 +45,6 @@ DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `uidx_uid_questionid` ON `juzhai`.`tb_user_preference` (`uid` ASC, `question_id` ASC) ;
+CREATE UNIQUE INDEX `uidx_uid_questionid` ON `juzhai`.`tb_user_preference` (`uid` ASC, `preference_id` ASC) ;
 
 SHOW WARNINGS;

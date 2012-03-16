@@ -48,6 +48,8 @@ public class DialogController extends BaseController {
 	@Autowired
 	private ICounter dialogContentCounter;
 	@Autowired
+	private ICounter privateDateCounter;
+	@Autowired
 	private IIdeaService ideaService;
 	@Value("${show.dialogs.max.rows}")
 	private int showDialogsMaxRows;
@@ -142,7 +144,7 @@ public class DialogController extends BaseController {
 			if (StringUtils.isNotEmpty(content)) {
 				dialogService.sendSMS(context.getUid(), targetUid,
 						DialogContentTemplate.PRIVATE_DATE, content);
-				// dialogContentCounter.incr(null, 1L);
+				privateDateCounter.incr(null, 1L);
 			}
 		} catch (DialogException e) {
 			result.setError(e.getErrorCode(), messageSource);

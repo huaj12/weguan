@@ -51,7 +51,7 @@ public class UserPreferenceService implements IUserPreferenceService {
 				userPreference.setPreferenceId(userPreferenceForm
 						.getPreferenceId());
 				userPreference.setUid(uid);
-				userPreferenceMapper.insert(userPreference);
+				userPreferenceMapper.insertSelective(userPreference);
 			} else {
 				userPreference.setAnswer(userPreferenceForm.getAnswer());
 				userPreference.setDescription(userPreferenceForm
@@ -92,6 +92,13 @@ public class UserPreferenceService implements IUserPreferenceService {
 		if (userPreferenceForm.getOpen() == null) {
 			userPreferenceForm.setOpen(false);
 		}
+	}
+
+	@Override
+	public List<UserPreference> listUserPreference(Long uid) {
+		UserPreferenceExample example = new UserPreferenceExample();
+		example.createCriteria().andUidEqualTo(uid);
+		return userPreferenceMapper.selectByExample(example);
 	}
 
 }

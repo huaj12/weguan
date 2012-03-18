@@ -41,7 +41,7 @@ public class PreferenceService implements IPreferenceService {
 		preference.setOpen(form.getOpen());
 		preference.setSequence(getPreferenceCount() + 1);
 		preference.setType(form.getType());
-		preferenceMapper.insert(preference);
+		preferenceMapper.insertSelective(preference);
 	}
 
 	private void validatePreference(PreferenceForm form)
@@ -68,9 +68,6 @@ public class PreferenceService implements IPreferenceService {
 					InputPreferenceException.PREFERENCE_INPUT_IS_NULL);
 		}
 		form.setInputString(inputString);
-		if (form.getOpen() == null) {
-			form.setOpen(false);
-		}
 	}
 
 	private int getPreferenceCount() {

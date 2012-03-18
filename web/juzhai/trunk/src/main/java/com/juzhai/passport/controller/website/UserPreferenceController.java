@@ -54,7 +54,6 @@ public class UserPreferenceController extends BaseController {
 						views.add(new UserPreferenceView(preference,
 								userPreference, Input.convertToBean(preference
 										.getInput())));
-						// TODO (done) 很典型的错误！匹配到了，还要继续userPerence的循环？
 						break;
 					}
 				}

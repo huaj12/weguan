@@ -213,12 +213,27 @@ a:hover {
 				
 			</li>
 			
-				<li>
+			<li>
 				<a href="javascript:showChild('recommend_');">推荐内容管理</a>
 				<ul style="display: none;" id="recommend_" class="child">
 					<li style="background-color: #A4D3EE;"><a
 						style="color: black;" href="/cms//show/recommend/post"
 						target="config">首页推荐拒宅内容</a>
+					</li>
+				</ul>
+				
+			</li>
+			
+			<li>
+				<a href="javascript:showChild('preference_');">偏好设置管理</a>
+				<ul style="display: none;" id="preference_" class="child">
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/add/preference"
+						target="config">添加偏好设置问题</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/list/preference"
+						target="config">偏好设置问题列表</a>
 					</li>
 				</ul>
 				

@@ -8,7 +8,7 @@ public class PreferenceForm {
 	private Input input;
 	private String inputString;
 	private Integer type;
-	private Boolean open;
+	private boolean open;
 	private Integer sequence;
 
 	public String getName() {
@@ -35,11 +35,11 @@ public class PreferenceForm {
 		this.type = type;
 	}
 
-	public Boolean getOpen() {
+	public boolean getOpen() {
 		return open;
 	}
 
-	public void setOpen(Boolean open) {
+	public void setOpen(boolean open) {
 		this.open = open;
 	}
 

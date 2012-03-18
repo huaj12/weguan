@@ -67,13 +67,3 @@ $(document).ready(function() {
 	
 });
 
-function   isNum(a)
-{
-    var   type="^[0-9]{1,2}$"; 
-    var   re   =   new   RegExp(type); 
-    if(a.match(re)==null) 
-    { 
-	    return false;
-    } 
-    return true;
-}

@@ -68,6 +68,9 @@ public class PreferenceService implements IPreferenceService {
 					InputPreferenceException.PREFERENCE_INPUT_IS_NULL);
 		}
 		form.setInputString(inputString);
+		if (form.getOpen() == null) {
+			form.setOpen(false);
+		}
 	}
 
 	private int getPreferenceCount() {

@@ -143,13 +143,11 @@ function checkEmail(email){
 		return true;
 	}
 }
-function   isNum(a)
+function isNum(str)
 {
-    var   type="^[0-9]{1,2}$"; 
-    var   re   =   new   RegExp(type); 
-    if(a.match(re)==null) 
-    { 
-	    return false;
-    } 
-    return true;
+		if(""==str){ 
+		return false; 
+		} 
+		var reg = /\D/; 
+		return str.match(reg)==null; 
 }

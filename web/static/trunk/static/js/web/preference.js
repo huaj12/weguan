@@ -24,7 +24,7 @@ $(document).ready(function() {
 				var min=$("#minText_"+i).val();
 				var max=$("#maxText_"+i).val();
 				if(!isNum(min)||!isNum(max)){
-					 $("#error_"+i).html("请输入0-100数字！").stop(true, true).show()
+					 $("#error_"+i).html("请输入0-99数字！").stop(true, true).show()
 						.fadeOut(4000);
 				        return ;
 				}

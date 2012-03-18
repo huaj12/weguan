@@ -22,6 +22,7 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.controller.form.UserPreferenceListForm;
 import com.juzhai.passport.controller.view.UserPreferenceView;
 import com.juzhai.passport.model.Preference;
+import com.juzhai.passport.model.UserPreference;
 import com.juzhai.preference.bean.Input;
 import com.juzhai.preference.service.IPreferenceService;
 import com.juzhai.preference.service.IUserPreferenceService;
@@ -43,13 +44,18 @@ public class UserPreferenceController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		List<Preference> preferences = preferenceService.listPreference();
 		List<UserPreferenceView> views = new ArrayList<UserPreferenceView>();
-		// TODO (review) 如果有10个偏好设置，打开一次页面，要进行10次sql查询？你先自己考虑怎么处理，然后沟通一下
+		List<UserPreference> userPreferences = userPreferenceService
+				.listUserPreference(context.getUid());
+		// TODO (done) 如果有10个偏好设置，打开一次页面，要进行10次sql查询？你先自己考虑怎么处理，然后沟通一下
 		for (Preference preference : preferences) {
 			try {
-				views.add(new UserPreferenceView(preference,
-						userPreferenceService.getUserPreference(
-								preference.getId(), context.getUid()), Input
-								.convertToBean(preference.getInput())));
+				for (UserPreference userPreference : userPreferences) {
+					if (userPreference.getPreferenceId() == preference.getId()) {
+						views.add(new UserPreferenceView(preference,
+								userPreference, Input.convertToBean(preference
+										.getInput())));
+					}
+				}
 			} catch (Exception e) {
 				log.error("preference convertToBean json is error ");
 			}
@@ -59,9 +65,9 @@ public class UserPreferenceController extends BaseController {
 	}
 
 	@ResponseBody
-	// TODO (review) 请求名字和方法名意义有误
-	@RequestMapping(value = "/add/preference", method = RequestMethod.POST)
-	public AjaxResult add(HttpServletRequest request, Model model,
+	// TODO (done) 请求名字和方法名意义有误
+	@RequestMapping(value = "/preference/save", method = RequestMethod.POST)
+	public AjaxResult save(HttpServletRequest request, Model model,
 			UserPreferenceListForm userPreferenceListForm)
 			throws NeedLoginException {
 		AjaxResult ajaxResult = new AjaxResult();

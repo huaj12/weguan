@@ -52,7 +52,6 @@ public class CmsRawActController extends BaseController {
 	@RequestMapping(value = "/showRawActs", method = RequestMethod.GET)
 	public String showRawActs(@RequestParam(defaultValue = "1") int pageId,
 			Model model) {
-		// TODO（done）每页显示一个？
 		PagerManager pager = new PagerManager(pageId, 20,
 				rawActService.getRawActCount());
 		List<RawAct> rawActs = rawActService.getRawActs(pager.getFirstResult(),

@@ -43,6 +43,7 @@ public class UserPreferenceController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		List<Preference> preferences = preferenceService.listPreference();
 		List<UserPreferenceView> views = new ArrayList<UserPreferenceView>();
+		// TODO (review) 如果有10个偏好设置，打开一次页面，要进行10次sql查询？你先自己考虑怎么处理，然后沟通一下
 		for (Preference preference : preferences) {
 			try {
 				views.add(new UserPreferenceView(preference,
@@ -58,6 +59,7 @@ public class UserPreferenceController extends BaseController {
 	}
 
 	@ResponseBody
+	// TODO (review) 请求名字和方法名意义有误
 	@RequestMapping(value = "/add/preference", method = RequestMethod.POST)
 	public AjaxResult add(HttpServletRequest request, Model model,
 			UserPreferenceListForm userPreferenceListForm)

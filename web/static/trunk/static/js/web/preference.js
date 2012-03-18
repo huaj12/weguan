@@ -28,6 +28,12 @@ $(document).ready(function() {
 						.fadeOut(4000);
 				        return ;
 				}
+				if(max<min){
+					var t=0;
+					t=max;
+					max=min;
+					min=t;
+				}
 				answer=min+","+max;
 			}
 			$("#answerDiv_"+i).html("");

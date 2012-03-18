@@ -83,7 +83,7 @@
 				</c:forEach>
 				<div class="save_btn"><!--save_btn begin-->
 				
-				<a href="javascript:void(0);" onclick="addPrefernce();return false;">保存</a>
+				<a href="javascript:void(0);" class="save">保存</a>
 				
 				</div><!--save_btn end-->
 				

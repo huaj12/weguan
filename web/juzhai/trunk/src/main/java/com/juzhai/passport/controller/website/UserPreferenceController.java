@@ -49,7 +49,9 @@ public class UserPreferenceController extends BaseController {
 		// TODO Preference能进行缓存，这次版本不改了
 		for (Preference preference : preferences) {
 			try {
+				// TODO (review) 如果我没有UserPreference，那页面上还有preference显示吗？
 				for (UserPreference userPreference : userPreferences) {
+					// TODO (review) 这里永远不会有相等的情况
 					if (userPreference.getPreferenceId() == preference.getId()) {
 						views.add(new UserPreferenceView(preference,
 								userPreference, Input.convertToBean(preference

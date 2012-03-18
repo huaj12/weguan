@@ -24,15 +24,22 @@ $(document).ready(function() {
 				var min=$("#minText_"+i).val();
 				var max=$("#maxText_"+i).val();
 				if(!isNum(min)||!isNum(max)){
-					 $("#error_"+i).html("请输入0-99之间的数字！").stop(true, true).show()
+					 $("#error_"+i).html("请输入数字！").stop(true, true).show()
 						.fadeOut(4000);
-				        return ;
+				        return ;	
 				}
+				min=parseInt(min);
+				max=parseInt(max);
 				if(max<min){
 					var t=0;
 					t=max;
 					max=min;
 					min=t;
+				}
+				if(min<18||max>50){
+					 $("#error_"+i).html("请输入18-50之间的数字！").stop(true, true).show()
+						.fadeOut(4000);
+				        return ;	
 				}
 				answer=min+","+max;
 			}

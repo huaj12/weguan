@@ -46,7 +46,7 @@ public class UserPreferenceController extends BaseController {
 		List<UserPreferenceView> views = new ArrayList<UserPreferenceView>();
 		List<UserPreference> userPreferences = userPreferenceService
 				.listUserPreference(context.getUid());
-		// TODO (done) 如果有10个偏好设置，打开一次页面，要进行10次sql查询？你先自己考虑怎么处理，然后沟通一下
+		// TODO Preference能进行缓存，这次版本不改了
 		for (Preference preference : preferences) {
 			try {
 				for (UserPreference userPreference : userPreferences) {
@@ -54,6 +54,7 @@ public class UserPreferenceController extends BaseController {
 						views.add(new UserPreferenceView(preference,
 								userPreference, Input.convertToBean(preference
 										.getInput())));
+						// TODO (review) 很典型的错误！匹配到了，还要继续userPerence的循环？
 					}
 				}
 			} catch (Exception e) {
@@ -65,7 +66,6 @@ public class UserPreferenceController extends BaseController {
 	}
 
 	@ResponseBody
-	// TODO (done) 请求名字和方法名意义有误
 	@RequestMapping(value = "/preference/save", method = RequestMethod.POST)
 	public AjaxResult save(HttpServletRequest request, Model model,
 			UserPreferenceListForm userPreferenceListForm)

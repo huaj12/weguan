@@ -103,8 +103,8 @@
 				</div>
 				<div id="optionDiv">
 					<c:forEach items="${view.input.options}" var="option" varStatus="index">
-						<input value="${option.name}" name="input.options[${index.index}].name" type="text"/>
-						<input value="${option.value}" name="input.options[${index.index}].value" type="hidden"/>
+						<input value="${option.name}"  id="input_id_${index.index}" name="input.options[${index.index}].name" type="text"/>
+						<input value="${option.value}" id="hidden_input_id_${index.index}" name="input.options[${index.index}].value" type="hidden"/>
 					</c:forEach>
 				</div>
 			</td>

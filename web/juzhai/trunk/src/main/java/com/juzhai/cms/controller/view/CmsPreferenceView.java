@@ -1,7 +1,7 @@
 package com.juzhai.cms.controller.view;
 
-import com.juzhai.passport.model.Preference;
 import com.juzhai.preference.bean.Input;
+import com.juzhai.preference.model.Preference;
 
 public class CmsPreferenceView {
 	private Preference preference;

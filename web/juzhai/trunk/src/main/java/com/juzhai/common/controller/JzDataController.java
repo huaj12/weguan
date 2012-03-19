@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.juzhai.common.InitData;
 import com.juzhai.core.web.AjaxResult;
-import com.juzhai.passport.InitData;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Province;
 import com.juzhai.passport.model.Town;
@@ -72,8 +72,7 @@ public class JzDataController {
 	@RequestMapping(value = "/selectProvince", method = RequestMethod.GET)
 	public String selectProvince(Model model, String proId) {
 		List<City> citys = new ArrayList<City>();
-		for (Entry<Long, City> entry : com.juzhai.passport.InitData.CITY_MAP
-				.entrySet()) {
+		for (Entry<Long, City> entry : InitData.CITY_MAP.entrySet()) {
 			if (proId.equals(String.valueOf(entry.getValue().getProvinceId()))) {
 				citys.add(entry.getValue());
 			}
@@ -85,8 +84,7 @@ public class JzDataController {
 	@RequestMapping(value = "/selectCity", method = RequestMethod.GET)
 	public String selectCity(Model model, String cityId) {
 		List<Town> towns = new ArrayList<Town>();
-		for (Entry<Long, Town> entry : com.juzhai.passport.InitData.TOWN_MAP
-				.entrySet()) {
+		for (Entry<Long, Town> entry : InitData.TOWN_MAP.entrySet()) {
 			if (String.valueOf(entry.getValue().getCityId()).equals(cityId)) {
 				towns.add(entry.getValue());
 			}

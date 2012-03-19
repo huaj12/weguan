@@ -12,7 +12,7 @@ import org.apache.commons.lang.time.DateUtils;
 import com.juzhai.cms.model.RawAd;
 import com.juzhai.cms.service.IRawAdService;
 import com.juzhai.cms.service.ISpiderUrlService;
-import com.juzhai.passport.InitData;
+import com.juzhai.common.InitData;
 import com.juzhai.passport.model.City;
 
 public class ImportAdTask implements Callable<Boolean> {
@@ -22,11 +22,11 @@ public class ImportAdTask implements Callable<Boolean> {
 	private ISpiderUrlService spiderUrlService;
 
 	public ImportAdTask(String content, IRawAdService rawAdService,
-			CountDownLatch down,ISpiderUrlService spiderUrlService) {
+			CountDownLatch down, ISpiderUrlService spiderUrlService) {
 		this.content = content;
 		this.rawAdService = rawAdService;
 		this.down = down;
-		this.spiderUrlService=spiderUrlService;
+		this.spiderUrlService = spiderUrlService;
 	}
 
 	@Override

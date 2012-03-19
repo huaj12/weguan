@@ -15,9 +15,9 @@ import com.juzhai.cms.controller.form.PreferenceForm;
 import com.juzhai.cms.controller.form.PreferenceListForm;
 import com.juzhai.cms.controller.view.CmsPreferenceView;
 import com.juzhai.core.web.AjaxResult;
-import com.juzhai.passport.model.Preference;
 import com.juzhai.preference.bean.Input;
 import com.juzhai.preference.exception.InputPreferenceException;
+import com.juzhai.preference.model.Preference;
 import com.juzhai.preference.service.IPreferenceService;
 
 @Controller

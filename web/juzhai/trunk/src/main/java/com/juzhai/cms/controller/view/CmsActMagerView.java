@@ -37,8 +37,8 @@ public class CmsActMagerView implements Serializable {
 		String age = SuitAge.getByIndex(act.getSuitAge()).getType();
 		String status = SuitStatus.getByIndex(act.getSuitStatus()).getType();
 		String gender = SuitGender.getByIndex(act.getSuitGender()).getType();
-		City city = com.juzhai.passport.InitData.CITY_MAP.get(act.getCity());
-		Province pro = com.juzhai.passport.InitData.PROVINCE_MAP.get(act
+		City city = com.juzhai.common.InitData.CITY_MAP.get(act.getCity());
+		Province pro = com.juzhai.common.InitData.PROVINCE_MAP.get(act
 				.getProvince());
 		String proName = null;
 		if (pro != null) {

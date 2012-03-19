@@ -2,7 +2,7 @@ package com.juzhai.passport.bean;
 
 import java.io.Serializable;
 
-import com.juzhai.passport.InitData;
+import com.juzhai.common.InitData;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Province;
 

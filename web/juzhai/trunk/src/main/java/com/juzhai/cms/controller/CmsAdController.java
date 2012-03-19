@@ -21,9 +21,9 @@ import com.juzhai.cms.bean.AdSource;
 import com.juzhai.cms.exception.RawAdInputException;
 import com.juzhai.cms.model.RawAd;
 import com.juzhai.cms.service.IRawAdService;
+import com.juzhai.common.InitData;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
-import com.juzhai.passport.InitData;
 import com.juzhai.post.exception.InputAdException;
 import com.juzhai.post.service.IAdService;
 

@@ -1,6 +1,5 @@
 package com.juzhai.core.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,21 +18,18 @@ import com.juzhai.act.bean.SuitGender;
 import com.juzhai.act.bean.SuitStatus;
 import com.juzhai.act.model.Category;
 import com.juzhai.act.service.IActCategoryService;
+import com.juzhai.common.InitData;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.ErrorPageDispatcher;
 import com.juzhai.core.web.filter.CheckLoginFilter;
 import com.juzhai.core.web.filter.CityChannelFilter;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
-import com.juzhai.index.bean.ShowIdeaOrder;
-import com.juzhai.index.controller.view.IdeaView;
-import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.post.model.Ad;
-import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IAdService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;

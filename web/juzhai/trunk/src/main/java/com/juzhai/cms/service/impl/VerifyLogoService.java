@@ -38,7 +38,7 @@ public class VerifyLogoService implements IVerifyLogoService {
 				.andNewLogoPicIsNotNull()
 				.andLogoVerifyStateEqualTo(logoVerifyState.getType());
 		example.setLimit(new Limit(firstResult, maxResult));
-		example.setOrderByClause("last_modify_time asc");
+		example.setOrderByClause("last_modify_time desc");
 		return profileMapper.selectByExample(example);
 	}
 

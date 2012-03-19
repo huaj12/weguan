@@ -1,15 +1,20 @@
 package com.juzhai.passport.service.impl;
 
 import java.util.Date;
+import java.util.Locale;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.common.bean.InitData;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.dao.IUserGuideDao;
 import com.juzhai.passport.mapper.UserGuideMapper;
+import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.UserGuide;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IUserGuideService;
@@ -28,6 +33,8 @@ public class UserGuideService implements IUserGuideService {
 	private IDialogService dialogService;
 	@Autowired
 	private ICounter guideCounter;
+	@Autowired
+	private MessageSource messageSource;
 
 	@Override
 	public void craeteUserGuide(long uid) {
@@ -79,9 +86,20 @@ public class UserGuideService implements IUserGuideService {
 	private void sendWelcomeDialog(long uid) {
 		ProfileCache profileCache = profileService.getProfileCacheByUid(uid);
 		if (null != profileCache) {
+			Long cityId = profileCache.getCity();
+			String qq = InitData.SPECIAL_CITY_QQ_MAP.get(cityId);
+
+			City city = com.juzhai.passport.InitData.CITY_MAP.get(profileCache
+					.getCity());
+			String qqContent = StringUtils.EMPTY;
+			if (StringUtils.isNotEmpty(qq) && null != city) {
+				qqContent = messageSource.getMessage(
+						DialogContentTemplate.WELCOME_USER.getName() + ".qq",
+						new Object[] { city.getName(), qq },
+						Locale.SIMPLIFIED_CHINESE);
+			}
 			dialogService.sendOfficialSMS(profileCache.getUid(),
-					DialogContentTemplate.WELCOME_USER,
-					profileCache.getNickname());
+					DialogContentTemplate.WELCOME_USER, qqContent);
 		}
 	}
 

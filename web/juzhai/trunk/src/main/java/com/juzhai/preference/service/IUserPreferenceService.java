@@ -3,8 +3,8 @@ package com.juzhai.preference.service;
 import java.util.List;
 
 import com.juzhai.passport.controller.form.UserPreferenceListForm;
-import com.juzhai.passport.model.UserPreference;
 import com.juzhai.preference.exception.InputUserPreferenceException;
+import com.juzhai.preference.model.UserPreference;
 
 public interface IUserPreferenceService {
 	/**

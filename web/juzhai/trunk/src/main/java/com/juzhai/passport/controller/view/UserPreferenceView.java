@@ -1,8 +1,8 @@
 package com.juzhai.passport.controller.view;
 
-import com.juzhai.passport.model.Preference;
-import com.juzhai.passport.model.UserPreference;
 import com.juzhai.preference.bean.Input;
+import com.juzhai.preference.model.Preference;
+import com.juzhai.preference.model.UserPreference;
 
 public class UserPreferenceView {
 	private Preference preference;

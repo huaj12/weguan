@@ -28,9 +28,9 @@ import weibo4j.model.User;
 import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONObject;
 
+import com.juzhai.common.InitData;
 import com.juzhai.core.Constants;
 import com.juzhai.core.util.TextTruncateUtil;
-import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.Municipal;

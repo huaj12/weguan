@@ -97,13 +97,15 @@ public class DoubanConnectUserService extends AbstractUserService {
 			String cityName = user.getLocation();
 			if (StringUtils.isNotEmpty(cityName)) {
 				if (Municipal.getMunicipalEnum(cityName) != null) {
-					city = InitData.getCityByName(cityName);
+					city = com.juzhai.common.InitData.getCityByName(cityName);
 				} else {
 					// 非直辖市
-					for (Province p : InitData.PROVINCE_MAP.values()) {
+					for (Province p : com.juzhai.common.InitData.PROVINCE_MAP
+							.values()) {
 						if (cityName.startsWith(p.getName())) {
-							city = InitData.getCityByName(cityName.substring(p
-									.getName().length()));
+							city = com.juzhai.common.InitData
+									.getCityByName(cityName.substring(p
+											.getName().length()));
 						}
 					}
 				}

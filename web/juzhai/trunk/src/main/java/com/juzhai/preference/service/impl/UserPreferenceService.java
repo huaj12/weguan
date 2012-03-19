@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.controller.form.UserPreferenceForm;
 import com.juzhai.passport.controller.form.UserPreferenceListForm;
-import com.juzhai.passport.mapper.UserPreferenceMapper;
-import com.juzhai.passport.model.UserPreference;
-import com.juzhai.passport.model.UserPreferenceExample;
 import com.juzhai.preference.exception.InputUserPreferenceException;
+import com.juzhai.preference.mapper.UserPreferenceMapper;
+import com.juzhai.preference.model.UserPreference;
+import com.juzhai.preference.model.UserPreferenceExample;
 import com.juzhai.preference.service.IUserPreferenceService;
 
 @Service

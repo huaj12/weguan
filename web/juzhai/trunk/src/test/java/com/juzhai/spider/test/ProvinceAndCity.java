@@ -29,9 +29,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.juzhai.common.InitData;
 import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.JackSonSerializer;
-import com.juzhai.passport.InitData;
 import com.juzhai.passport.mapper.CityMapper;
 import com.juzhai.passport.mapper.CityMappingMapper;
 import com.juzhai.passport.mapper.ProvinceMapper;

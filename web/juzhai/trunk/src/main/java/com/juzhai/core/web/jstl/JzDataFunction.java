@@ -24,7 +24,7 @@ public class JzDataFunction {
 		if (cityId <= 0) {
 			return null;
 		} else {
-			City cityObj = InitData.CITY_MAP.get(cityId);
+			City cityObj = com.juzhai.common.InitData.CITY_MAP.get(cityId);
 			return null == cityObj ? null : cityObj.getName();
 		}
 	}
@@ -36,9 +36,9 @@ public class JzDataFunction {
 	 */
 	public static List<City> specialCityList() {
 		List<City> cityList = new ArrayList<City>(
-				com.juzhai.common.bean.InitData.SPECIAL_CITY_LIST.size());
-		for (long cityId : com.juzhai.common.bean.InitData.SPECIAL_CITY_LIST) {
-			City city = InitData.CITY_MAP.get(cityId);
+				com.juzhai.common.InitData.SPECIAL_CITY_LIST.size());
+		for (long cityId : com.juzhai.common.InitData.SPECIAL_CITY_LIST) {
+			City city = com.juzhai.common.InitData.CITY_MAP.get(cityId);
 			if (null != city) {
 				cityList.add(city);
 			}
@@ -56,7 +56,7 @@ public class JzDataFunction {
 		if (townId <= 0) {
 			return null;
 		} else {
-			Town townObj = InitData.TOWN_MAP.get(townId);
+			Town townObj = com.juzhai.common.InitData.TOWN_MAP.get(townId);
 			return null == townObj ? null : townObj.getName();
 		}
 	}
@@ -101,8 +101,7 @@ public class JzDataFunction {
 		if (cityId <= 0) {
 			return null;
 		} else {
-			return com.juzhai.common.bean.InitData.SPECIAL_CITY_QQ_MAP
-					.get(cityId);
+			return com.juzhai.common.InitData.SPECIAL_CITY_QQ_MAP.get(cityId);
 		}
 	}
 

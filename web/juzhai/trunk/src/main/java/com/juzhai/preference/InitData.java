@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.juzhai.passport.model.Preference;
+import com.juzhai.preference.model.Preference;
 import com.juzhai.preference.service.IPreferenceService;
 
 @Component("preferenceInitData")

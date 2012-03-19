@@ -21,9 +21,9 @@ import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.controller.form.UserPreferenceListForm;
 import com.juzhai.passport.controller.view.UserPreferenceView;
-import com.juzhai.passport.model.Preference;
-import com.juzhai.passport.model.UserPreference;
 import com.juzhai.preference.bean.Input;
+import com.juzhai.preference.model.Preference;
+import com.juzhai.preference.model.UserPreference;
 import com.juzhai.preference.service.IPreferenceService;
 import com.juzhai.preference.service.IUserPreferenceService;
 

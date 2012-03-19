@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.common.bean.InitData;
+import com.juzhai.common.InitData;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.passport.bean.ProfileCache;
@@ -89,8 +89,7 @@ public class UserGuideService implements IUserGuideService {
 			Long cityId = profileCache.getCity();
 			String qq = InitData.SPECIAL_CITY_QQ_MAP.get(cityId);
 
-			City city = com.juzhai.passport.InitData.CITY_MAP.get(profileCache
-					.getCity());
+			City city = InitData.CITY_MAP.get(profileCache.getCity());
 			String qqContent = StringUtils.EMPTY;
 			if (StringUtils.isNotEmpty(qq) && null != city) {
 				qqContent = messageSource.getMessage(

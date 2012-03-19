@@ -6,11 +6,11 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
+import com.juzhai.common.InitData;
 import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;
 import com.juzhai.core.util.TextTruncateUtil;
-import com.juzhai.passport.InitData;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Thirdparty;
 
@@ -112,7 +112,7 @@ public class JzCoreFunction {
 	 * @return
 	 */
 	public static String tpHomeUrl(String tpIdentity, long tpId) {
-		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		Thirdparty tp = com.juzhai.passport.InitData.TP_MAP.get(tpId);
 		if (null != tp && StringUtils.isNotEmpty(tp.getUserHomeUrl())
 				&& StringUtils.isNotEmpty(tpIdentity)) {
 			return tp.getUserHomeUrl().replace("{0}", tpIdentity);
@@ -142,7 +142,7 @@ public class JzCoreFunction {
 	 * @return
 	 */
 	public static String appId(long tpId) {
-		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		Thirdparty tp = com.juzhai.passport.InitData.TP_MAP.get(tpId);
 		return tp == null ? StringUtils.EMPTY : tp.getAppId();
 	}
 
@@ -153,7 +153,7 @@ public class JzCoreFunction {
 	 * @return
 	 */
 	public static String appKey(long tpId) {
-		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		Thirdparty tp = com.juzhai.passport.InitData.TP_MAP.get(tpId);
 		return tp == null ? StringUtils.EMPTY : tp.getAppKey();
 	}
 

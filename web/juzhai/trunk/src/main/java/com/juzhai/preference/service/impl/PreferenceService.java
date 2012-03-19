@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 import com.juzhai.cms.controller.form.PreferenceForm;
 import com.juzhai.cms.controller.form.PreferenceListForm;
 import com.juzhai.core.util.StringUtil;
-import com.juzhai.passport.mapper.PreferenceMapper;
-import com.juzhai.passport.model.Preference;
-import com.juzhai.passport.model.PreferenceExample;
 import com.juzhai.preference.InitData;
 import com.juzhai.preference.exception.InputPreferenceException;
+import com.juzhai.preference.mapper.PreferenceMapper;
+import com.juzhai.preference.model.Preference;
+import com.juzhai.preference.model.PreferenceExample;
 import com.juzhai.preference.service.IPreferenceService;
 
 @Service

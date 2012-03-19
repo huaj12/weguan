@@ -17,6 +17,13 @@ public interface IPreferenceService {
 	void addPreference(PreferenceForm form) throws InputPreferenceException;
 
 	/**
+	 * 获取所有用户偏好问题从缓存里取
+	 * 
+	 * @return
+	 */
+	List<Preference> listCachePreference();
+
+	/**
 	 * 获取所有用户偏好问题
 	 * 
 	 * @return

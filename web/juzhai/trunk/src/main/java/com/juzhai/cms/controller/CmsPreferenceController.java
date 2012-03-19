@@ -76,7 +76,7 @@ public class CmsPreferenceController {
 
 	@RequestMapping(value = "/list/preference", method = RequestMethod.GET)
 	public String listPreference(Model model) {
-		List<Preference> list = preferenceService.listPreference();
+		List<Preference> list = preferenceService.listCachePreference();
 		model.addAttribute("prefernces", list);
 		return "/cms/preference/list_preference";
 	}

@@ -42,7 +42,7 @@ public class UserPreferenceController extends BaseController {
 	public String index(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		List<Preference> preferences = preferenceService.listPreference();
+		List<Preference> preferences = preferenceService.listCachePreference();
 		List<UserPreferenceView> views = new ArrayList<UserPreferenceView>();
 		List<UserPreference> userPreferences = userPreferenceService
 				.listUserPreference(context.getUid());

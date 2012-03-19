@@ -14,7 +14,7 @@ import com.juzhai.preference.service.IPreferenceService;
 @Component("preferenceInitData")
 public class InitData {
 
-	public final static List<Preference> preferenceList = new ArrayList<Preference>();
+	public final static List<Preference> PREFERENCE_LIST = new ArrayList<Preference>();
 
 	@Autowired
 	private IPreferenceService preferenceService;
@@ -25,7 +25,7 @@ public class InitData {
 	}
 
 	void initPreference() {
-		preferenceList.addAll(preferenceService.listPreference());
+		PREFERENCE_LIST.addAll(preferenceService.listPreference());
 	}
 
 }

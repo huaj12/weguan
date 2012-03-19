@@ -92,6 +92,21 @@ public class JzDataFunction {
 	}
 
 	/**
+	 * 获取分类名称
+	 * 
+	 * @param categoryId
+	 * @return
+	 */
+	public static String qqGroup(long cityId) {
+		if (cityId <= 0) {
+			return null;
+		} else {
+			return com.juzhai.common.bean.InitData.SPECIAL_CITY_QQ_MAP
+					.get(cityId);
+		}
+	}
+
+	/**
 	 * 获取appId
 	 * 
 	 * @param tpId

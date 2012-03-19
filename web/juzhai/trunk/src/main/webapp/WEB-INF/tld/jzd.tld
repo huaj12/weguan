@@ -47,6 +47,13 @@
     </function>
     
     <function>
+    	<name>qqGroup</name>
+    	<function-class>com.juzhai.core.web.jstl.JzDataFunction</function-class>
+    	<function-signature>java.lang.String qqGroup(long)</function-signature>
+    	<example>${jzd:qqGroup(1)}</example>
+    </function>
+    
+    <function>
     	<name>appId</name>
     	<function-class>com.juzhai.core.web.jstl.JzDataFunction</function-class>
     	<function-signature>java.lang.String appId(long)</function-signature>

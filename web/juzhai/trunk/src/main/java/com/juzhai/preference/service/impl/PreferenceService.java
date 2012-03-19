@@ -43,7 +43,6 @@ public class PreferenceService implements IPreferenceService {
 		preference.setSequence(getPreferenceCount() + 1);
 		preference.setType(form.getType());
 		preferenceMapper.insertSelective(preference);
-		updatePreferenceCache();
 	}
 
 	private void validatePreference(PreferenceForm form)
@@ -87,7 +86,6 @@ public class PreferenceService implements IPreferenceService {
 		preference.setId(id);
 		preference.setDefunct(true);
 		preferenceMapper.updateByPrimaryKeySelective(preference);
-		updatePreferenceCache();
 	}
 
 	@Override
@@ -113,7 +111,6 @@ public class PreferenceService implements IPreferenceService {
 				preferenceMapper.updateByPrimaryKeySelective(p);
 			}
 		}
-		updatePreferenceCache();
 	}
 
 	@Override
@@ -128,7 +125,6 @@ public class PreferenceService implements IPreferenceService {
 		preference.setType(form.getType());
 		preference.setLastModifyTime(new Date());
 		preferenceMapper.updateByPrimaryKeySelective(preference);
-		updatePreferenceCache();
 	}
 
 	@Override
@@ -136,11 +132,6 @@ public class PreferenceService implements IPreferenceService {
 		if (id == null)
 			return null;
 		return preferenceMapper.selectByPrimaryKey(id);
-	}
-
-	private void updatePreferenceCache() {
-		InitData.preferenceList.clear();
-		InitData.preferenceList.addAll(listPreference());
 	}
 
 	@Override

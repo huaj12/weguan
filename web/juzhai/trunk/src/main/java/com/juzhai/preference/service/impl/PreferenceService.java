@@ -1,10 +1,15 @@
 package com.juzhai.preference.service.impl;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import net.rubyeye.xmemcached.MemcachedClient;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.cms.controller.form.PreferenceForm;
 import com.juzhai.cms.controller.form.PreferenceListForm;
+import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.mapper.PreferenceMapper;
 import com.juzhai.passport.model.Preference;
@@ -21,12 +27,21 @@ import com.juzhai.preference.service.IPreferenceService;
 
 @Service
 public class PreferenceService implements IPreferenceService {
+
+	private final Log log = LogFactory.getLog(getClass());
+
 	@Value("${preference.name.length.min}")
 	private int preferenceNameLengthMin;
 	@Value("${preference.name.length.max}")
 	private int preferenceNameLengthMax;
+	@Value("${preference.cache.expire.time}")
+	private int preferenceCacheExpireTime = 0;
+	@Value("${preference.list.cache.expire.time}")
+	private int preferenceListCacheExpireTime = 0;
 	@Autowired
 	private PreferenceMapper preferenceMapper;
+	@Autowired
+	private MemcachedClient memcachedClient;
 
 	@Override
 	public void addPreference(PreferenceForm form)
@@ -42,6 +57,8 @@ public class PreferenceService implements IPreferenceService {
 		preference.setSequence(getPreferenceCount() + 1);
 		preference.setType(form.getType());
 		preferenceMapper.insertSelective(preference);
+		// 更新缓存
+		cacheListPreference();
 	}
 
 	private void validatePreference(PreferenceForm form)
@@ -76,10 +93,39 @@ public class PreferenceService implements IPreferenceService {
 
 	@Override
 	public List<Preference> listPreference() {
+		String key = MemcachedKeyGenerator.genPreferenceListCacheKey();
+		List<Preference> preferences = null;
+		try {
+			preferences = memcachedClient.get(key);
+			if (CollectionUtils.isNotEmpty(preferences)) {
+				return preferences;
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+
+		return cacheListPreference();
+	}
+
+	private List<Preference> cacheListPreference() {
+		String key = MemcachedKeyGenerator.genPreferenceListCacheKey();
+		List<Preference> preferences = null;
 		PreferenceExample example = new PreferenceExample();
 		example.createCriteria().andDefunctEqualTo(false);
 		example.setOrderByClause("sequence");
-		return preferenceMapper.selectByExample(example);
+		preferences = preferenceMapper.selectByExample(example);
+		if (CollectionUtils.isNotEmpty(preferences)) {
+			try {
+				memcachedClient.set(key, preferenceListCacheExpireTime,
+						preferences);
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+			}
+			return preferences;
+		} else {
+			return Collections.emptyList();
+		}
+
 	}
 
 	@Override
@@ -88,6 +134,7 @@ public class PreferenceService implements IPreferenceService {
 		preference.setId(id);
 		preference.setDefunct(true);
 		preferenceMapper.updateByPrimaryKeySelective(preference);
+		cacheListPreference();
 	}
 
 	@Override
@@ -113,6 +160,7 @@ public class PreferenceService implements IPreferenceService {
 				preferenceMapper.updateByPrimaryKeySelective(p);
 			}
 		}
+		cacheListPreference();
 	}
 
 	@Override
@@ -127,12 +175,32 @@ public class PreferenceService implements IPreferenceService {
 		preference.setType(form.getType());
 		preference.setLastModifyTime(new Date());
 		preferenceMapper.updateByPrimaryKeySelective(preference);
+		cacheListPreference();
 	}
 
 	@Override
 	public Preference getPreference(Long id) {
-		if (id == null)
+		String key = MemcachedKeyGenerator.genPreferenceCacheKey(id);
+		if (id == null) {
 			return null;
-		return preferenceMapper.selectByPrimaryKey(id);
+		}
+		Preference preference = null;
+		try {
+			preference = memcachedClient.get(key);
+			if (null != preference) {
+				return preference;
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		preference = preferenceMapper.selectByPrimaryKey(id);
+		if (preference != null) {
+			try {
+				memcachedClient.set(key, preferenceCacheExpireTime, preference);
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+			}
+		}
+		return preference;
 	}
 }

@@ -143,4 +143,24 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	public static String genAllResponseCnt(long uid) {
 		return genKey(uid, "allResponseCnt");
 	}
+
+	/**
+	 * Preference 缓存
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static String genPreferenceCacheKey(long id) {
+		return genKey(id, "preferenceCache");
+	}
+
+	/**
+	 * PreferenceList 缓存
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static String genPreferenceListCacheKey() {
+		return "preferenceListCache";
+	}
 }

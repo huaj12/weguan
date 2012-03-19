@@ -33,7 +33,7 @@ $(document).ready(function(){
 //	}, registerClosChannel);
 	
 	//登录
-	$("div.welcome_login > a").bind("click", function(){
+	$("a.login-btn").bind("click", function(){
 		var uri = $(this).attr("go-uri");
 		window.location.href = uri + "?turnTo=" + window.location.href; 
 		return false;

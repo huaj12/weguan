@@ -19,6 +19,7 @@
 			<div class="main"><!--main begin-->
 				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
 				<div class="main_part"><!--main_part begin-->
+					<jsp:include page="/WEB-INF/jsp/web/common/youke_login.jsp" />
 					<div class="main_left"><!--main_left begin-->
 						<div class="content_box w660 z900"><!--content begin-->
 							<div class="t"></div>

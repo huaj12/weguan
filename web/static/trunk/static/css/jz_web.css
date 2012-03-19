@@ -230,6 +230,16 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 
 
+.youke_login{ margin:0 auto; margin-top:-20px; *padding-top:-20px;  width:537px; height:61px; background:url(../images/web2/youke_tishi.gif) no-repeat; overflow:hidden;}
+
+.youke_login h4{ float:left; text-align:center; width:120px; margin-top:12px;}
+.youke_login h4 p{ font-size:14px; color:#666; font-weight:bold;}
+.youke_login h4 b{ color:#929CA7;}
+
+.youke_login span{ float:left; margin-top:18px;}
+.youke_login span a{ width:122px; height:25px; display:block inline; float:left; margin:0 5px;}
+
+
 
 
 
@@ -2251,14 +2261,7 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 
 
 
-.youke_login{ margin:0 auto; width:537px; height:61px; background:url(../images/web2/youke_tishi.gif) no-repeat; overflow:hidden;}
 
-.youke_login h4{ float:left; text-align:center; width:120px; margin-top:12px;}
-.youke_login h4 p{ font-size:14px; color:#666; font-weight:bold;}
-.youke_login h4 b{ color:#929CA7;}
-
-.youke_login span{ float:left; margin-top:18px;}
-.youke_login span a{ width:122px; height:25px; display:block inline; float:left; margin:0 5px;}
 
 
 
@@ -2406,4 +2409,3 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 .random_select p{ color:#999; float:left; margin-right:-15px; _margin-right:-20px; display:inline;}
 .send_area .kj{ float:right; color:#ccc; margin-right:10px; margin-top:15px; display:inline;}
 .send_area .date_error{ float:left; color:#FF0000; margin-top:15px;}
-

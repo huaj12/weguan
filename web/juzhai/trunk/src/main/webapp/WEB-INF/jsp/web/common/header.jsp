@@ -41,9 +41,9 @@
 		</c:if>
 		<c:if test="${context.uid<=0}">
 			<div class="welcome_login"><p>登录:</p>
-				<a href="javascript:void(0);" class="wb" title="使用微博账号登录" go-uri="/web/login/6"></a>
-				<a href="javascript:void(0);" class="db"  title="使用豆瓣账号登录" go-uri="/web/login/7"></a>
-				<a href="javascript:void(0);" class="qq"  title="使用QQ账号登录" go-uri="/web/login/8"></a>
+				<a href="javascript:void(0);" class="wb login-btn" title="使用微博账号登录" go-uri="/web/login/6"></a>
+				<a href="javascript:void(0);" class="db login-btn"  title="使用豆瓣账号登录" go-uri="/web/login/7"></a>
+				<a href="javascript:void(0);" class="qq login-btn"  title="使用QQ账号登录" go-uri="/web/login/8"></a>
 			</div>
 		</c:if>
 		<div class="user_area"><!--user_area begin-->

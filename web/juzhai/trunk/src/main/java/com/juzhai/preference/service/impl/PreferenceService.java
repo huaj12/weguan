@@ -77,7 +77,7 @@ public class PreferenceService implements IPreferenceService {
 
 	@Override
 	public List<Preference> listCachePreference() {
-		return InitData.preferenceList;
+		return InitData.PREFERENCE_LIST;
 	}
 
 	@Override

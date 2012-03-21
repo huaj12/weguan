@@ -12,8 +12,11 @@
 <script type="text/javascript" src="${jzr:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 <script>
 	var i=0;
+	var type=3;
 	function select_input(obj){
+		type=obj.value;
 		i=0;
+		document.getElementById("min_max_div").style.display="none";
 		document.getElementById("addDiv").style.display="none";
 		document.getElementById("optionDiv").innerHTML="";
 		if(obj.value==0){
@@ -22,6 +25,8 @@
 		}else if(obj.value==1){
 			addInput();
 			document.getElementById("addDiv").style.display="";
+		}else if(obj.value==2){
+			document.getElementById("min_max_div").style.display="";
 		}
 	}
 	function addInput(){
@@ -36,6 +41,14 @@
         hidden_input.id="hidden_input_id_"+i;
         hidden_input.type="hidden";
         option.appendChild(hidden_input);
+ 		if(type==0){       
+	    	var box_input = document.createElement("input");   
+			box_input.name="box_name";
+			box_input.id="input_box_id_"+i;
+			box_input.type="checkbox";
+			box_input.value=i;
+	        option.appendChild(box_input);	
+ 		}
         i++;
 	}
 	function deleteInput(){
@@ -45,7 +58,37 @@
 		var option=document.getElementById("optionDiv");
 		option.removeChild(document.getElementById("hidden_input_id_"+(i-1)));
 		option.removeChild(document.getElementById("input_id_"+(i-1)));
+		if(type==2){
+			option.removeChild(document.getElementById("input_box_id_"+(i-1)));
+		}
 		i--;
+	}
+	function setDefault(){
+		var answer="";
+		if(type==2){
+		var min=$("input[name='min_input']").val();
+		var max=$("input[name='max_input']").val();
+		min=parseInt(min);
+		max=parseInt(max);
+		if(max<min){
+			var t=0;
+			t=max;
+			max=min;
+			min=t;
+		}
+		answer=min+","+max;
+		}else if(type==0){
+			$('input[name=box_name]').each(function(){
+				var v="";
+				if(this.checked){
+					flag=true;
+					v=this.value;
+				}
+				answer=answer+v+",";
+			});
+		}
+		$("#answer").val(answer);
+		return true;
 	}
 </script>
 </head>
@@ -54,24 +97,34 @@
 		添加偏好
 		<font color="red">${msg}</font>
 	</h2>
-	<form action="/cms/add/preference" method="post">
+	<form action="/cms/add/preference" onsubmit="return setDefault();" method="post">
+	
 	<table>
 		<tr>
 			<td>标题</td>
-			<td><input name="name" type="text"/> </td>
+			<td><input name="name" type="text"/>
+			<input type="hidden" name="defaultAnswer" id="answer"/>
+			 </td>
+			
 		</tr>
 		<tr>
 			<td>输入框类型</td>
 			<td> 
 				<select name="input.inputType" onchange="select_input(this)">	
+					<option value="3">文本框</option>
 					<option value="0">复选</option>
 					<option value="1">单选</option>
 					<option value="2">min-max</option>
-					<option value="3">文本框</option>
+					
 				</select>
 				<div id="addDiv" style="display: none">
 					<a href="#" onclick="addInput()" >继续添加</a>
 					<a href="#" onclick="deleteInput()" >删除按钮</a>
+				</div>
+				<div id="min_max_div" style="display: none">
+				默认值：
+				<input type="text" name="min_input"/>
+				<input type="text" name="max_input"/>
 				</div>
 				<div id="optionDiv">
 				</div>

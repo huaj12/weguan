@@ -463,10 +463,10 @@
       <columnOverride column="open" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
     
-    <table tableName="tb_user_preference" domainObjectName="UserPreference" >
+    <!-- <table tableName="tb_user_preference" domainObjectName="UserPreference" >
       <property name="useActualColumnNames" value="false"/>
       <columnOverride column="open" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-    </table>
+    </table> -->
 
   </context>
   

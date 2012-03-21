@@ -1,7 +1,8 @@
 package com.juzhai.preference;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -14,7 +15,7 @@ import com.juzhai.preference.service.IPreferenceService;
 @Component("preferenceInitData")
 public class InitData {
 
-	public final static List<Preference> PREFERENCE_LIST = new ArrayList<Preference>();
+	public final static Map<Long, Preference> PREFERENCE_MAP = new HashMap<Long, Preference>();
 
 	@Autowired
 	private IPreferenceService preferenceService;
@@ -25,7 +26,10 @@ public class InitData {
 	}
 
 	void initPreference() {
-		PREFERENCE_LIST.addAll(preferenceService.listPreference());
+		List<Preference> list = preferenceService.listPreference();
+		for (Preference preference : list) {
+			PREFERENCE_MAP.put(preference.getId(), preference);
+		}
 	}
 
 }

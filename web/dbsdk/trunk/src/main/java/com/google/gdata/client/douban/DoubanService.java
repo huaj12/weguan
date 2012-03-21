@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.oauth.OAuth;
 import net.oauth.OAuthAccessor;
 import net.oauth.OAuthConsumer;
 import net.oauth.OAuthMessage;
+import net.oauth.OAuthProblemException;
 import net.oauth.OAuthServiceProvider;
 import net.oauth.client.HttpClientPool;
 import net.oauth.client.OAuthClient;
@@ -276,8 +278,16 @@ public class DoubanService extends Service {
 			tokens.add(this.accessor.accessToken);
 			tokens.add(this.accessor.tokenSecret);
 			return tokens;
-		} catch (Exception e) {
-			log.error(" dbsdk getAccessToken is error", e);
+		} catch (OAuthProblemException e) {
+			for (Entry<String, Object> entry : e.getParameters().entrySet()) {
+				if (entry.getValue() != null && entry.getKey() != null) {
+					log.error(" dbsdk getAccessToken is error key="
+							+ entry.getKey() + " value="
+							+ entry.getValue().toString());
+				}
+			}
+		} catch (Exception e1) {
+			log.error(" dbsdk getAccessToken is error", e1);
 		}
 		return null;
 	}

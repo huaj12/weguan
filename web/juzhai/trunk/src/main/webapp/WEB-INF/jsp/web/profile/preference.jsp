@@ -40,10 +40,8 @@
 				<c:choose>
 					<c:when test="${view.input.inputType==0}">
 					<div class="select"><!--select begin-->
-						<c:set var="delim" value=","/>
-						<c:set var="boxs" value="${fn:split(view.userPreference.answer, delim)}"/>
 						<c:forEach items="${view.input.options}" var="option">
-						<div class="dis_age"><b><input name="inputBoxs_${index.index }" type="checkbox" <c:forEach items="${boxs }" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach>  value="${option.value }" /></b><p>${option.name }</p></div>
+						<div class="dis_age"><b><input name="userPreferences[${index.index }].answer" type="checkbox" <c:forEach items="${view.answer}" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach>  value="${option.value }" /></b><p>${option.name }</p></div>
 						</c:forEach>
 					</div><!--select end-->
 					</c:when>
@@ -60,14 +58,12 @@
 					</div><!--select end-->
 					</c:when>
 					<c:when test="${view.input.inputType==2 }">
-					<c:set var="delim" value=","/>
-										<c:set var="minMax" value="${fn:split(view.userPreference.answer, delim)}"/>
 					<div class="input"><!--input begin-->
-					<p class="l"></p><span class="width70"><input type="text" id="minText_${index.index }" value="<c:out value="${minMax[0]}"/>"/></span><p class="r"></p><em>到</em>
+					<p class="l"></p><span class="width70"><input type="text" name="userPreferences[${index.index }].answer" id="minText_${index.index }" value="<c:out value="${view.answer[0]}"/>"/></span><p class="r"></p><em>到</em>
 					</div><!--input end-->
 					<div class="input"><!--input begin-->
 					
-					<p class="l"></p><span class="width70"><input type="text" id="maxText_${index.index }" value="<c:out value="${minMax[1]}"/>" /></span><p class="r"></p><em>岁</em>
+					<p class="l"></p><span class="width70"><input type="text" name="userPreferences[${index.index }].answer" id="maxText_${index.index }" value="<c:out value="${view.answer[1]}"/>" /></span><p class="r"></p><em>岁</em>
 					
 					</div><!--input end-->
 					</c:when>

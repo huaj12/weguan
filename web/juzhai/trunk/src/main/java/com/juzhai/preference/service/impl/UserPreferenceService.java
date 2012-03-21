@@ -1,5 +1,6 @@
 package com.juzhai.preference.service.impl;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -14,8 +15,10 @@ import com.juzhai.passport.controller.form.UserPreferenceForm;
 import com.juzhai.passport.controller.form.UserPreferenceListForm;
 import com.juzhai.preference.exception.InputUserPreferenceException;
 import com.juzhai.preference.mapper.UserPreferenceMapper;
+import com.juzhai.preference.model.Preference;
 import com.juzhai.preference.model.UserPreference;
 import com.juzhai.preference.model.UserPreferenceExample;
+import com.juzhai.preference.service.IPreferenceService;
 import com.juzhai.preference.service.IUserPreferenceService;
 
 @Service
@@ -26,6 +29,8 @@ public class UserPreferenceService implements IUserPreferenceService {
 	private int userPreferenceDescriptionLengthMax;
 	@Autowired
 	private UserPreferenceMapper userPreferenceMapper;
+	@Autowired
+	private IPreferenceService preferenceService;
 
 	@Override
 	public void addUserPreference(
@@ -101,4 +106,23 @@ public class UserPreferenceService implements IUserPreferenceService {
 		return userPreferenceMapper.selectByExample(example);
 	}
 
+	@Override
+	public List<String> getUserAnswer(long uid, long preferenceId) {
+		Preference preference = preferenceService.getPreference(preferenceId);
+		if (preference == null) {
+			return null;
+		}
+		UserPreference userPreference = getUserPreference(preferenceId, uid);
+		if (userPreference == null) {
+			return null;
+		}
+		String answer = null;
+		if (StringUtils.isEmpty(userPreference.getAnswer())) {
+			answer = preference.getDefaultAnswer();
+		} else {
+			answer = userPreference.getAnswer();
+		}
+		String array[] = answer.split(",");
+		return Arrays.asList(array);
+	}
 }

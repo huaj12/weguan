@@ -42,6 +42,7 @@ public class PreferenceService implements IPreferenceService {
 		preference.setOpen(form.getOpen());
 		preference.setSequence(getPreferenceCount() + 1);
 		preference.setType(form.getType());
+		preference.setDefaultAnswer(form.getDefaultAnswer());
 		preferenceMapper.insertSelective(preference);
 	}
 
@@ -124,6 +125,7 @@ public class PreferenceService implements IPreferenceService {
 		preference.setOpen(form.getOpen());
 		preference.setType(form.getType());
 		preference.setLastModifyTime(new Date());
+		preference.setDefaultAnswer(form.getDefaultAnswer());
 		preferenceMapper.updateByPrimaryKeySelective(preference);
 	}
 

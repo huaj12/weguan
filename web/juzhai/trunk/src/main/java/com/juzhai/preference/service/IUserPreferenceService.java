@@ -31,4 +31,13 @@ public interface IUserPreferenceService {
 	 * @return
 	 */
 	List<UserPreference> listUserPreference(Long uid);
+
+	/**
+	 * 
+	 * @param uid
+	 * @param preferenceId
+	 * @return 如果是文本框或者单选框取第一个元素 如果是min——max 第一个元素是min值 第二个元素是max值 复选框有多个值 分隔符,
+	 *         不存在返回null
+	 */
+	List<String> getUserAnswer(long uid, long preferenceId);
 }

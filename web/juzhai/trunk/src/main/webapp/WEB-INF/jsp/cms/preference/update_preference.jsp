@@ -57,7 +57,7 @@
 		var option=document.getElementById("optionDiv");
 		option.removeChild(document.getElementById("hidden_input_id_"+(i-1)));
 		option.removeChild(document.getElementById("input_id_"+(i-1)));
-		if(type==2){
+		if(type==0){
 			option.removeChild(document.getElementById("input_box_id_"+(i-1)));
 		}
 		i--;

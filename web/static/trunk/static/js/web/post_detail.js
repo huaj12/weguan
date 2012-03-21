@@ -1,4 +1,15 @@
 $(document).ready(function(){
+	
+	$("a.detail-response").click(function(){
+		var postId = $(this).attr("post-id");
+		var respCount = $(this).attr("resp-count");
+		var obj = $(this);
+		openResponse(postId, respCount, function(){
+			obj.unbind("click").addClass("done").text("已响应");
+		});
+		return false;
+	});
+	
 	$("a.send-message").bind("click", function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");

@@ -3,37 +3,29 @@ package com.juzhai.index.controller.website;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.time.DateUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.juzhai.act.controller.view.CategoryActView;
-import com.juzhai.act.model.Act;
-import com.juzhai.act.model.Category;
-import com.juzhai.act.service.ICategoryService;
-import com.juzhai.act.service.IDatingService;
-import com.juzhai.act.service.IShowActService;
-import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.home.controller.form.DateView;
-import com.juzhai.home.service.IUserFreeDateService;
 import com.juzhai.index.bean.ShowActOrder;
-import com.juzhai.index.controller.view.ShowUserView;
+import com.juzhai.index.bean.ShowIdeaOrder;
+import com.juzhai.index.controller.view.IdeaView;
+import com.juzhai.index.controller.view.PostWindowView;
+import com.juzhai.index.controller.view.QueryUserView;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Profile;
@@ -41,188 +33,124 @@ import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
+import com.juzhai.post.model.Idea;
+import com.juzhai.post.model.Post;
+import com.juzhai.post.model.PostWindow;
+import com.juzhai.post.service.IIdeaService;
+import com.juzhai.post.service.IPostService;
+import com.juzhai.post.service.IPostWindowService;
 
-//@Controller
+@Controller
 public class IndexController extends BaseController {
 
-	private final Log log = LogFactory.getLog(getClass());
-
-	@Autowired
-	private IShowActService showActService;
-	@Autowired
-	private ICategoryService categoryService;
-	@Autowired
-	private IUserActService userActService;
-	@Autowired
-	private IProfileService profileService;
-	@Autowired
-	private IInterestUserService interestUserService;
 	@Autowired
 	private ILoginService loginService;
 	@Autowired
-	private IDatingService datingService;
+	private IPostService postService;
 	@Autowired
-	private IUserFreeDateService userFreeDateService;
+	private IIdeaService ideaService;
+	@Autowired
+	private IProfileService profileService;
 	@Autowired
 	private IFriendService friendService;
-	@Value("${web.show.category.size}")
-	private int webShowCategorySize;
-	@Value("${web.show.acts.max.rows}")
-	private int webShowActsMaxRows;
-	@Value("${web.show.users.max.rows}")
-	private int webShowUsersMaxRows;
-	@Value("${show.user.show.act.count}")
-	private int showUserShowActCount;
-	@Value("${show.follow.count}")
-	private int showFollowCount;
+	@Autowired
+	private IInterestUserService interestUserService;
+	@Value("${web.show.ideas.max.rows}")
+	private int webShowIdeasMaxRows;
+	@Value("${web.show.ideas.user.count}")
+	private int webShowIdeasUserCount;
 	@Value("${show.invite.users.max.rows}")
 	private int showInviteUsersMaxRows;
+	@Value("${query.users.right.user.rows}")
+	private int queryUsersRightUserRows;
+	@Value("${web.show.ideas.ad.count}")
+	private int webShowIdeasAdCount;
+	@Autowired
+	private IPostWindowService postWindowService;
 
 	@RequestMapping(value = { "", "/", "/index" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
-		return showActs(request, model);
+		UserContext context = (UserContext) request.getAttribute("context");
+		if (context.hasLogin()) {
+			return "redirect:/home";
+		} else {
+			return welcome(request, model);
+		}
 	}
 
-	@RequestMapping(value = "/showActs", method = RequestMethod.GET)
-	public String showActs(HttpServletRequest request, Model model) {
-		return pageShowActs(request, model, ShowActOrder.HOT_TIME.getType(),
-				0L, 1);
+	@RequestMapping(value = { "/welcome" }, method = RequestMethod.GET)
+	public String welcome(HttpServletRequest request, Model model) {
+		List<PostWindow> list = postWindowService.listPostWindow();
+		List<PostWindowView> postWindowViews = new ArrayList<PostWindowView>();
+		for (PostWindow window : list) {
+			PostWindowView view = new PostWindowView();
+			view.setPostWindow(window);
+			view.setProfileCache(profileService.getProfileCacheByUid(window
+					.getUid()));
+			postWindowViews.add(view);
+		}
+		model.addAttribute("postWindowViews", postWindowViews);
+		return "web/index/welcome";
 	}
 
-	@RequestMapping(value = "/showActs/{orderType}_{categoryId}/{page}", method = RequestMethod.GET)
-	public String pageShowActs(HttpServletRequest request, Model model,
-			@PathVariable String orderType, @PathVariable long categoryId,
+	@RequestMapping(value = { "/showideas", "showIdeas" }, method = RequestMethod.GET)
+	public String showIdeas(HttpServletRequest request, Model model) {
+		ProfileCache loginUser = getLoginUserCache(request);
+		long city = 0L;
+		if (loginUser != null && loginUser.getCity() != null) {
+			// && InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
+			city = loginUser.getCity();
+		}
+		return pageShowIdeas(request, model, ShowActOrder.HOT_TIME.getType(),
+				city, 1);
+	}
+
+	@RequestMapping(value = { "/showideas/{orderType}_{cityId}/{page}",
+			"/showIdeas/{orderType}_{cityId}/{page}" }, method = RequestMethod.GET)
+	public String pageShowIdeas(HttpServletRequest request, Model model,
+			@PathVariable String orderType, @PathVariable long cityId,
 			@PathVariable int page) {
 		UserContext context = (UserContext) request.getAttribute("context");
-		List<Category> categoryList = categoryService
-				.listCategories(webShowCategorySize);
-		ShowActOrder order = ShowActOrder.getShowActOrderByType(orderType);
-		long cityId = fetchCityId(request);
-		PagerManager pager = new PagerManager(page, webShowActsMaxRows,
-				showActService.countShowActs(cityId, categoryId));
-		List<Act> actList = showActService.listShowActs(cityId, categoryId,
-				order, pager.getFirstResult(), pager.getMaxResult());
-		List<CategoryActView> categoryActViewList = new ArrayList<CategoryActView>();
-		for (Act act : actList) {
-			CategoryActView view = new CategoryActView();
-			view.setAct(act);
+		ShowIdeaOrder order = ShowIdeaOrder.getShowIdeaOrderByType(orderType);
+		PagerManager pager = new PagerManager(page, webShowIdeasMaxRows,
+				ideaService.countIdeaByCity(cityId));
+		List<Idea> ideaList = ideaService.listIdeaByCity(cityId, order,
+				pager.getFirstResult(), pager.getMaxResult());
+		List<IdeaView> ideaViewList = new ArrayList<IdeaView>();
+		for (Idea idea : ideaList) {
+			IdeaView ideaView = new IdeaView();
+			ideaView.setIdea(idea);
 			if (context.hasLogin()) {
-				view.setHasUsed(userActService.hasAct(context.getUid(),
-						act.getId()));
+				ideaView.setHasUsed(ideaService.isUseIdea(context.getUid(),
+						idea.getId()));
 			}
-			categoryActViewList.add(view);
+			if (idea.getCreateUid() > 0) {
+				ideaView.setProfileCache(profileService
+						.getProfileCacheByUid(idea.getCreateUid()));
+			}
+			ideaView.setIdeaUserViews(ideaService.listIdeaUsers(idea.getId(),
+					0, webShowIdeasUserCount));
+			ideaViewList.add(ideaView);
 		}
-		model.addAttribute("categoryActViewList", categoryActViewList);
+		ideaAdWidget(cityId, model, webShowIdeasAdCount);
 		model.addAttribute("pager", pager);
 		model.addAttribute("orderType", orderType);
-		model.addAttribute("categoryId", categoryId);
-		model.addAttribute("categoryList", categoryList);
+		model.addAttribute("cityId", cityId);
+		model.addAttribute("ideaViewList", ideaViewList);
 		model.addAttribute("pageType", "cqw");
-		return "web/index/cqw/show_acts";
+		return "web/index/cqw/show_ideas";
 	}
 
-	@RequestMapping(value = "/showusers", method = RequestMethod.GET)
-	public String showUsers(HttpServletRequest request, Model model) {
-		UserContext context = (UserContext) request.getAttribute("context");
-		if (context.hasLogin()) {
-			freeDate(context.getUid(), model);
-		}
-		String genderType = "all";
-		ProfileCache loginUser = getLoginUserCache(request);
-		if (null != loginUser && loginUser.getGender() != null) {
-			if (loginUser.getGender() == 0) {
-				genderType = "male";
-			} else {
-				genderType = "female";
-			}
-		}
-		return pageShowUsers(request, model, genderType, 1);
+	@RequestMapping(value = "/aboutUs", method = RequestMethod.GET)
+	public String aboutUs(HttpServletRequest request, Model model) {
+		return "web/index/about_us";
 	}
 
-	private void freeDate(long uid, Model model) {
-		// List<Date> freeDateList = userFreeDateService.userFreeDateList(uid);
-		int freeDateCount = userFreeDateService.countFreeDate(uid);
-		if (freeDateCount <= 0) {
-			List<DateView> dateViewList = new ArrayList<DateView>();
-			Date date = DateUtils.truncate(new Date(), Calendar.DATE);
-			for (int i = 0; i < 7; i++) {
-				dateViewList.add(new DateView(date, false));
-				date = DateUtils.addDays(date, 1);
-			}
-			model.addAttribute("dateViewList", dateViewList);
-			model.addAttribute("setFreeDate", true);
-		}
-	}
-
-	@RequestMapping(value = "/showusers/{genderType}/{page}", method = RequestMethod.GET)
-	public String pageShowUsers(HttpServletRequest request, Model model,
-			@PathVariable String genderType, @PathVariable int page) {
-		UserContext context = (UserContext) request.getAttribute("context");
-		long cityId = fetchCityId(request);
-		Integer gender = null;
-		if (genderType.equals("male")) {
-			gender = 1;
-		} else if (genderType.equals("female")) {
-			gender = 0;
-		}
-		List<Long> exceptUids = null;
-		if (context.hasLogin()) {
-			exceptUids = new ArrayList<Long>();
-			exceptUids.add(context.getUid());
-		}
-		PagerManager pager = new PagerManager(page, webShowUsersMaxRows,
-				profileService.countProfile(null, gender, cityId, exceptUids));
-		List<Profile> profileList = profileService
-				.listProfileOrderByLoginWebTime(null, gender, cityId,
-						exceptUids, pager.getFirstResult(),
-						pager.getMaxResult());
-		model.addAttribute("showUserViewList",
-				assembleShowUserView(context, profileList));
-		model.addAttribute("pager", pager);
-		model.addAttribute("genderType", genderType);
-		model.addAttribute("pageType", "zbe");
-		return "web/index/zbe/show_users";
-	}
-
-	private List<ShowUserView> assembleShowUserView(UserContext context,
-			List<Profile> profileList) {
-		List<ShowUserView> showUserViewList = new ArrayList<ShowUserView>();
-		for (Profile profile : profileList) {
-			ShowUserView view = new ShowUserView();
-			view.setProfile(profile);
-			view.setUserActViewList(userActService.pageUserActView(
-					profile.getUid(), 0, showUserShowActCount));
-			if (context.hasLogin()) {
-				view.setHasDating(datingService.hasDating(context.getUid(),
-						profile.getUid()));
-				view.setHasInterest(interestUserService.isInterest(
-						context.getUid(), profile.getUid()));
-			}
-			view.setOnline(loginService.isOnline(profile.getUid()));
-			view.setFreeDateList(userFreeDateService.userFreeDateList(profile
-					.getUid()));
-			showUserViewList.add(view);
-		}
-		return showUserViewList;
-	}
-
-	@RequestMapping(value = "/showFollows", method = RequestMethod.GET)
+	@RequestMapping(value = "/showInviteUsers", method = RequestMethod.GET)
 	public String followUser(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		long cityId = fetchCityId(request);
-		List<Long> installFollowUids = friendService
-				.listInstallFollowUids(context.getUid());
-		List<Profile> profileList = profileService
-				.listProfileOrderByLoginWebTime(installFollowUids, null,
-						cityId, null, 0, showFollowCount);
-		model.addAttribute("showUserViewList",
-				assembleShowUserView(context, profileList));
-		model.addAttribute("showUserCount", profileService.countProfile(
-				installFollowUids, null, cityId, null));
-		model.addAttribute("pageType", "zbe");
 
-		// 邀请的人
 		List<TpFriend> inviteUserList = friendService
 				.getUnInstallFriends(context.getUid());
 		if (CollectionUtils.isNotEmpty(inviteUserList)) {
@@ -237,7 +165,7 @@ public class IndexController extends BaseController {
 			model.addAttribute("inviteUserList", Collections.emptyList());
 			model.addAttribute("totalPage", 0);
 		}
-		return "web/index/zbe/show_follows";
+		return "web/index/zbe/show_invite_users";
 	}
 
 	@RequestMapping(value = "/pageInviteUser", method = RequestMethod.GET)
@@ -262,37 +190,93 @@ public class IndexController extends BaseController {
 		return "web/index/zbe/invite_user_list";
 	}
 
-	@RequestMapping(value = "/showFollows/{genderType}/{page}", method = RequestMethod.GET)
-	public String pageFollowUsers(HttpServletRequest request, Model model,
-			@PathVariable String genderType, @PathVariable int page)
-			throws NeedLoginException {
-		UserContext context = checkLoginForWeb(request);
-		long cityId = fetchCityId(request);
-		Integer gender = null;
-		if (genderType.equals("male")) {
-			gender = 1;
-		} else if (genderType.equals("female")) {
-			gender = 0;
+	@RequestMapping(value = { "/showusers", "/showUsers" }, method = RequestMethod.GET)
+	public String queryUser(HttpServletRequest request, Model model) {
+		ProfileCache loginUser = getLoginUserCache(request);
+		long city = 0L;
+		if (loginUser != null && loginUser.getCity() != null) {
+			// && InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
+			city = loginUser.getCity();
 		}
-		List<Long> installFollowUids = friendService
-				.listInstallFollowUids(context.getUid());
-		PagerManager pager = new PagerManager(page, webShowUsersMaxRows,
-				profileService.countProfile(installFollowUids, gender, cityId,
-						null));
-		List<Profile> profileList = profileService
-				.listProfileOrderByLoginWebTime(installFollowUids, gender,
-						cityId, null, pager.getFirstResult(),
-						pager.getMaxResult());
-		model.addAttribute("showUserViewList",
-				assembleShowUserView(context, profileList));
-		model.addAttribute("pager", pager);
-		model.addAttribute("genderType", genderType);
-		model.addAttribute("pageType", "zbe");
-		return "web/index/zbe/show_follows";
+		return pageQueryUser(request, model, 1, city, null, null, null);
 	}
 
-	@RequestMapping(value = "/aboutUs", method = RequestMethod.GET)
-	public String aboutUs(HttpServletRequest request, Model model) {
-		return "web/index/about_us";
+	@RequestMapping(value = {
+			"/queryusers/{cityId}_{sex}_{minStringAge}_{maxStringAge}/{pageId}",
+			"/queryUsers/{cityId}_{sex}_{minStringAge}_{maxStringAge}/{pageId}" }, method = RequestMethod.GET)
+	public String pageQueryUser(HttpServletRequest request, Model model,
+			@PathVariable int pageId, @PathVariable long cityId,
+			@PathVariable String sex, @PathVariable String maxStringAge,
+			@PathVariable String minStringAge) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		Integer gender = null;
+		if ("male".equals(sex)) {
+			gender = 1;
+		} else if ("female".equals(sex)) {
+			gender = 0;
+		}
+		int maxAge = getIntAge(maxStringAge);
+		int minAge = getIntAge(minStringAge);
+		int maxYear = ageToYear(Math.min(minAge, maxAge));
+		int minYear = ageToYear(Math.max(minAge, maxAge));
+		PagerManager pager = new PagerManager(pageId, 20,
+				profileService.countQueryProfile(context.getUid(), gender,
+						cityId, minYear, maxYear));
+		List<Profile> list = profileService.queryProfile(context.getUid(),
+				gender, cityId, minYear, maxYear, pager.getFirstResult(),
+				pager.getMaxResult());
+
+		List<Long> uidList = new ArrayList<Long>();
+		for (Profile profile : list) {
+			uidList.add(profile.getUid());
+		}
+		Map<Long, Post> userLatestPostMap = postService
+				.getMultiUserLatestPosts(uidList);
+		List<QueryUserView> userViews = new ArrayList<QueryUserView>(
+				list.size());
+		for (Profile profile : list) {
+			QueryUserView view = new QueryUserView();
+			view.setOnline(loginService.isOnline(profile.getUid()));
+			view.setProfile(profile);
+			view.setPost(userLatestPostMap.get(profile.getUid()));
+			if (context.hasLogin()) {
+				view.setHasInterest(interestUserService.isInterest(
+						context.getUid(), profile.getUid()));
+			}
+			userViews.add(view);
+		}
+		newUserWidget(0L, model, queryUsersRightUserRows);
+		model.addAttribute("userViews", userViews);
+		model.addAttribute("pager", pager);
+		model.addAttribute("cityId", cityId);
+		model.addAttribute("sex", sex);
+		model.addAttribute("maxStringAge", maxStringAge);
+		model.addAttribute("minStringAge", minStringAge);
+		model.addAttribute("pageType", "zbe");
+		return "web/index/zbe/query_user";
+	}
+
+	private int getIntAge(String stringAge) {
+		int age = 0;
+		try {
+			age = Integer.parseInt(stringAge);
+		} catch (Exception e) {
+		}
+		return age;
+	}
+
+	private int ageToYear(int age) {
+		if (age == 0)
+			return 0;
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		return year - age;
+	}
+
+	@RequestMapping(value = "/rescueuser", method = RequestMethod.GET)
+	public String rescueUser(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		return "web/index/rescue/index";
 	}
 }

@@ -129,6 +129,12 @@ public class PostService implements IPostService {
 	private int allResponseCntExpireTime;
 	@Value("${synchronize.title.length.max}")
 	private int synchronizeTitleLengthMax;
+	@Value("${post.response.content.length.min}")
+	private int postResponseContentLengthMin;
+	@Value("${post.response.content.length.max}")
+	private int postResponseContentLengthMax;
+	@Value("${dialog.content.wordfilter.application}")
+	private int dialogContentWordfilterApplication;
 
 	@Override
 	public long createPost(long uid, PostForm postForm)
@@ -446,7 +452,25 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public void responsePost(long uid, long postId) throws InputPostException {
+	public void responsePost(long uid, long postId, String content)
+			throws InputPostException {
+		// validate content
+		int contentLength = StringUtil.chineseLength(content);
+		if (contentLength < postResponseContentLengthMin
+				|| contentLength > postResponseContentLengthMax) {
+			throw new InputPostException(
+					InputPostException.POST_RESPONSE_CONTENT_LENGTH_ERROR);
+		}
+		try {
+			if (wordFilterService.wordFilter(
+					dialogContentWordfilterApplication, uid, null,
+					content.getBytes("GBK")) < 0) {
+				throw new InputPostException(
+						InputPostException.POST_RESPONSE_CONTENT_FORBID);
+			}
+		} catch (IOException e) {
+			log.error("Wordfilter service down.", e);
+		}
 		Post post = postMapper.selectByPrimaryKey(postId);
 		if (post == null || post.getDefunct() || post.getCreateUid() == uid) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
@@ -470,7 +494,8 @@ public class PostService implements IPostService {
 		// 发送私信
 		try {
 			dialogService.sendSMS(uid, post.getCreateUid(),
-					DialogContentTemplate.RESPONSE_POST, post.getContent());
+					DialogContentTemplate.RESPONSE_POST, post.getContent(),
+					content == null ? StringUtils.EMPTY : content);
 		} catch (DialogException e) {
 		}
 

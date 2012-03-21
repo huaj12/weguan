@@ -22,11 +22,19 @@
 						<div class="menu" style="margin-top: 15px" ><!--menu begin-->
 						<iframe width="150" height="24" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" scrolling="no" border="0" src="http://widget.weibo.com/relationship/followbutton.php?language=zh_cn&width=136&height=24&uid=2294103501&style=2&dpc=1"></iframe>
 						</div><!--menu end-->
-						<div class="welcome_login"><p>登录:</p>
+						<%-- <div class="welcome_login"><p>登录:</p>
 							<a href="javascript:void(0);" go-uri="/web/login/6" class="wb" title="使用微博账号登录"></a>
 							<a href="javascript:void(0);" go-uri="/web/login/7" class="db"  title="使用豆瓣账号登录"></a>
 							<a href="javascript:void(0);" go-uri="/web/login/8" class="qq"  title="使用QQ账号登录"></a>
-						</div>
+						</div> --%>
+						<div class="login_btns"><!--login_btns begin-->
+							<p>加入拒宅：</p>
+							<span>
+								<a href="javascript:void(0);" class="wb login-btn" title="使用微博账号登录" go-uri="/web/login/6">登录</a>
+								<a href="javascript:void(0);" class="db login-btn"  title="使用豆瓣账号登录" go-uri="/web/login/7">登录</a>
+								<a href="javascript:void(0);" class="qq login-btn"  title="使用QQ账号登录" go-uri="/web/login/8">登录</a>
+							</span>
+						</div><!--login_btns end-->
 					</div><!--top end-->
 				</div><!--fix_top end-->
 				<div class="welcome"><!--welcome begin-->

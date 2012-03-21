@@ -59,17 +59,18 @@ public class PostController extends BaseController {
 	private int postCommentUserMaxRows;
 	@Value("${post.response.user.max.rows}")
 	private int postResponseUserMaxRows;
-	@Value("${post.detail.right.idea.rows}")
-	private int postDetailRightIdeaRows;
+
+	// @Value("${post.detail.right.idea.rows}")
+	// private int postDetailRightIdeaRows;
 
 	@RequestMapping(value = "/response", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult responsePost(HttpServletRequest request, Model model,
-			long postId) throws NeedLoginException {
+			long postId, String content) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
 		try {
-			postService.responsePost(context.getUid(), postId);
+			postService.responsePost(context.getUid(), postId, content);
 		} catch (InputPostException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		}

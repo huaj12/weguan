@@ -40,11 +40,19 @@
 			</div>my_message end -->
 		</c:if>
 		<c:if test="${context.uid<=0}">
-			<div class="welcome_login"><p>登录:</p>
+			<%-- <div class="welcome_login"><p>登录:</p>
 				<a href="javascript:void(0);" class="wb login-btn" title="使用微博账号登录" go-uri="/web/login/6"></a>
 				<a href="javascript:void(0);" class="db login-btn"  title="使用豆瓣账号登录" go-uri="/web/login/7"></a>
 				<a href="javascript:void(0);" class="qq login-btn"  title="使用QQ账号登录" go-uri="/web/login/8"></a>
-			</div>
+			</div> --%>
+			<div class="login_btns"><!--login_btns begin-->
+				<p>加入拒宅：</p>
+				<span>
+					<a href="javascript:void(0);" class="wb login-btn" title="使用微博账号登录" go-uri="/web/login/6">登录</a>
+					<a href="javascript:void(0);" class="db login-btn"  title="使用豆瓣账号登录" go-uri="/web/login/7">登录</a>
+					<a href="javascript:void(0);" class="qq login-btn"  title="使用QQ账号登录" go-uri="/web/login/8">登录</a>
+				</span>
+			</div><!--login_btns end-->
 		</c:if>
 		<div class="user_area"><!--user_area begin-->
 			<c:if test="${context.uid > 0}">
@@ -72,9 +80,11 @@
 				<div class="s_r"><a href="javascript:void(0);"></a></div>
 			</div><!--search end-->
 		</form> --%>
-		<div class="search" >
-			<iframe width="150" height="24" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" scrolling="no" border="0" src="http://widget.weibo.com/relationship/followbutton.php?language=zh_cn&width=136&height=24&uid=2294103501&style=2&dpc=1"></iframe>
-		</div>
+		<c:if test="${context.uid > 0}">
+			<div class="search" >
+				<iframe width="150" height="24" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" scrolling="no" border="0" src="http://widget.weibo.com/relationship/followbutton.php?language=zh_cn&width=136&height=24&uid=2294103501&style=2&dpc=1"></iframe>
+			</div>
+		</c:if>
 	</div><!--top end-->
 </div>
 <jsp:include page="/WEB-INF/jsp/web/common/back_top.jsp" />

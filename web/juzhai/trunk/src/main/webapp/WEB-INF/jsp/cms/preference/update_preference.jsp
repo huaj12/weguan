@@ -11,8 +11,11 @@
 <script type="text/javascript" src="${jzr:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 <script>
 	var i='${fn:length(view.input.options)}';
+	var type='${view.input.inputType}';
 	function select_input(obj){
+		type=obj.value;
 		i=0;
+		document.getElementById("min_max_div").style.display="none";
 		document.getElementById("addDiv").style.display="none";
 		document.getElementById("optionDiv").innerHTML="";
 		if(obj.value==0){
@@ -21,6 +24,8 @@
 		}else if(obj.value==1){
 			addInput();
 			document.getElementById("addDiv").style.display="";
+		}else if(obj.value==2){
+			document.getElementById("min_max_div").style.display="";
 		}
 	}
 	function addInput(){
@@ -35,6 +40,14 @@
         hidden_input.id="hidden_input_id_"+i;
         hidden_input.type="hidden";
         option.appendChild(hidden_input);
+        if(type==0){       
+	    	var box_input = document.createElement("input");   
+			box_input.name="box_name";
+			box_input.id="input_box_id_"+i;
+			box_input.type="checkbox";
+			box_input.value=i;
+	        option.appendChild(box_input);	
+ 		}
         i++;
 	}
 	function deleteInput(){
@@ -44,10 +57,37 @@
 		var option=document.getElementById("optionDiv");
 		option.removeChild(document.getElementById("hidden_input_id_"+(i-1)));
 		option.removeChild(document.getElementById("input_id_"+(i-1)));
+		if(type==2){
+			option.removeChild(document.getElementById("input_box_id_"+(i-1)));
+		}
 		i--;
 	}
 	
 	function add(){
+		var answer="";
+		if(type==2){
+		var min=$("input[name='min_input']").val();
+		var max=$("input[name='max_input']").val();
+		min=parseInt(min);
+		max=parseInt(max);
+		if(max<min){
+			var t=0;
+			t=max;
+			max=min;
+			min=t;
+		}
+		answer=min+","+max;
+		}else if(type==0){
+			$('input[name=box_name]').each(function(){
+				var v="";
+				if(this.checked){
+					flag=true;
+					v=this.value;
+				}
+				answer=answer+v+",";
+			});
+		}
+		$("#answer").val(answer);
 		jQuery.ajax({
 			url : "/cms/update/preference",
 			type : "post",
@@ -85,6 +125,7 @@
 			<td>标题</td>
 			<td><input name="name" type="text" value="${view.preference.name }"/>
 				<input name="id" type="hidden" value="${view.preference.id}" />
+				<input type="hidden" name="defaultAnswer" id="answer"/>
 			 </td>
 		</tr>
 		<tr>
@@ -101,16 +142,24 @@
 					<a href="#" onclick="addInput()" >继续添加</a>
 					<a href="#" onclick="deleteInput()" >删除按钮</a>
 				</div>
+				<div id="min_max_div" <c:if test="${view.input.inputType!=2}">style="display: none"</c:if>>
+				默认值：
+				<c:set var="delim" value=","/>
+				<c:set var="values" value="${fn:split(view.preference.defaultAnswer, delim)}"/>
+				<input type="text" value="${values[0] }" name="min_input"/>
+				<input type="text" value="${values[1] }" name="max_input"/>
+				</div>
 				<div id="optionDiv">
 					<c:forEach items="${view.input.options}" var="option" varStatus="index">
 						<input value="${option.name}"  id="input_id_${index.index}" name="input.options[${index.index}].name" type="text"/>
+						<input type="checkbox" name="box_name" id="input_box_id_${index.index}" <c:forEach items="${values }" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach> value="${option.value}" />
 						<input value="${option.value}" id="hidden_input_id_${index.index}" name="input.options[${index.index}].value" type="hidden"/>
 					</c:forEach>
 				</div>
 			</td>
 		</tr>
 		<tr>
-			<td>偏好类型${view.preference.type }</td>
+			<td>偏好类型</td>
 			<td> 
 				<select name="type">
 					<option value="0" <c:if test="${view.preference.type==0}">selected="selected" </c:if> >用于显示</option>

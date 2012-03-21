@@ -121,6 +121,9 @@ public class UserPreferenceService implements IUserPreferenceService {
 		} else {
 			answer = userPreference.getAnswer();
 		}
+		if (answer == null) {
+			return null;
+		}
 		String array[] = answer.split(",");
 		return Arrays.asList(array);
 	}

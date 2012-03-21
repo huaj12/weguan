@@ -2,6 +2,7 @@ package com.juzhai.preference.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -77,8 +78,8 @@ public class PreferenceService implements IPreferenceService {
 	}
 
 	@Override
-	public List<Preference> listCachePreference() {
-		return InitData.PREFERENCE_LIST;
+	public Map<Long, Preference> listCachePreference() {
+		return InitData.PREFERENCE_MAP;
 	}
 
 	@Override

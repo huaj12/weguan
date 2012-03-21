@@ -114,12 +114,9 @@ public class UserPreferenceService implements IUserPreferenceService {
 			return null;
 		}
 		UserPreference userPreference = getUserPreference(preferenceId, uid);
-		if (userPreference == null) {
-			userPreference = new UserPreference();
-			userPreference.setAnswer(preference.getDefaultAnswer());
-		}
 		String answer = null;
-		if (StringUtils.isEmpty(userPreference.getAnswer())) {
+		if (null == userPreference
+				|| StringUtils.isEmpty(userPreference.getAnswer())) {
 			answer = preference.getDefaultAnswer();
 		} else {
 			answer = userPreference.getAnswer();

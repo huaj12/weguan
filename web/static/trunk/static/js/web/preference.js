@@ -4,16 +4,12 @@ $(document).ready(function() {
 		for(var i=0;i<preference_count;i++){
 			var preferenceId=$("#preferenceId_"+i).val();
 			var type=$("#inputType_"+i).val();
-			var answer="";
 			if(type==0){
 				var flag=false;
-				$('input[name=inputBoxs_'+i+']').each(function(){
-					var v="";
+				$('input[name="userPreferences['+i+'].answer"]').each(function(){
 					if(this.checked){
 						flag=true;
-						v=this.value;
 					}
-					answer=answer+v+",";
 				});
 				if(!flag){
 					$("#error_"+i).html("至少选择一个选项！").stop(true, true).show()
@@ -41,7 +37,8 @@ $(document).ready(function() {
 						.fadeOut(4000);
 				        return ;	
 				}
-				answer=min+","+max;
+				$("#minText_"+i).val(min);
+				$("#maxText_"+i).val(max);
 			}
 			$("#answerDiv_"+i).html("");
 			var obj=$("#answerDiv_"+i)[0];
@@ -50,11 +47,6 @@ $(document).ready(function() {
 			preferenceIdInput.type="hidden";
 			preferenceIdInput.value=preferenceId;
 	        obj.appendChild(preferenceIdInput);
-	        var answerInput = document.createElement("input");   
-	        answerInput.name="userPreferences["+i+"].answer";
-	        answerInput.type="hidden";
-	        answerInput.value=answer;
-	        obj.appendChild(answerInput);
 		}
 		jQuery.ajax({
 			url: "/profile/preference/save",

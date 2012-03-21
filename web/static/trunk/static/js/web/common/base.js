@@ -43,9 +43,10 @@ $(document).ready(function(){
 	
 	$("div.post-response").click(function(){
 		var postId = $(this).attr("post-id");
+		var respCount = $(this).attr("resp-count");
 		var obj = $(this);
-		responsePost(this, postId, function(){
-			var currentCnt = parseInt(obj.find("font").text());
+		openResponse(postId, respCount, function(){
+			var currentCnt = parseInt(respCount);
 			obj.find("font").text(currentCnt + 1);
 			obj.find("a.xy").text("已" + obj.find("a.xy").text());
 			obj.unbind("click").addClass("done");
@@ -194,183 +195,6 @@ function removeInterestConfirm(uid, followObj, callback){
 	});
 }
 
-function removeDatingConfirm(datingId, followObj, callback){
-	var content = $("#dialog-confirm").html().replace("{0}", "确定不再约ta么？");
-	showConfirm(followObj, "removeDating", content, function() {
-		removeDating(datingId, function() {
-			callback();
-		});
-	});
-}
-
-//对项目操作
-function removeAct(actId, successCallback){
-	jQuery.ajax({
-		url : "/act/removeAct",
-		type : "post",
-		cache : false,
-		data : {
-			"actId" : actId
-		},
-		dataType : "json",
-		success : function(result) {
-			if (result && result.success) {
-				successCallback();
-			} else {
-				alert(result.errorInfo);
-			}
-		},
-		statusCode : {
-			401 : function() {
-				window.location.href = "/login?turnTo=" + window.location.href;
-			}
-		}
-	});
-}
-
-//对项目操作
-function addAct(clickObj, actId, successCallback){
-	jQuery.ajax({
-		url : "/act/addAct",
-		type : "post",
-		cache : false,
-		data : {
-			"actId" : actId
-		},
-		dataType : "json",
-		success : function(result) {
-			if (result && result.success) {
-				var content = $("#dialog-success").html().replace("{0}", "好的，同兴趣的人会看到你");
-				showSuccess(clickObj, content);
-				successCallback();
-			} else {
-				alert(result.errorInfos);
-			}
-		},
-		statusCode : {
-			401 : function() {
-				window.location.href = "/login?turnTo=" + window.location.href;
-			}
-		}
-	});
-}
-
-//约会操作
-function date(successCallback){
-	$.ajax({
-		url : "/act/date",
-		type : "post",
-		cache : false,
-		data : $("#datingForm").serialize(),
-		dataType : "json",
-		success : function(result) {
-			if(result&&result.success){
-				var content = $("#dialog-success").html().replace("{0}", "好的，我们会通知ta");
-				closeDialog('openDating');
-				showSuccess(null, content);
-				successCallback(result.result);
-			}else{
-				$("div.con > div.error").text(result.errorInfo).show();
-			}
-		},
-		statusCode : {
-			401 : function() {
-				window.location.href = "/login?turnTo=" + window.location.href;
-			}
-		}
-	});
-}
-
-function removeDating(datingId, successCallback){
-	jQuery.ajax({
-		url : "/act/removeDating",
-		type : "post",
-		cache : false,
-		data : {"datingId" : datingId},
-		dataType : "json",
-		success : function(result) {
-			if (result && result.success) {
-				successCallback();
-			} else {
-				alert(result.errorInfo);
-			}
-		},
-		statusCode : {
-			401 : function() {
-				window.location.href = "/login?turnTo=" + window.location.href;
-			}
-		}
-	});
-}
-
-
-//弹框
-function openDating(uid, datingId){
-	jQuery.ajax({
-		url : "/act/openDating",
-		type : "get",
-		cache : false,
-		data : {"uid": uid, "datingId": datingId},
-		dataType : "html",
-		success : function(result) {
-			openDialog(null, "openDating", result);
-		},
-		statusCode : {
-			401 : function() {
-				window.location.href = "/login?turnTo=" + window.location.href;
-			}
-		}
-	});
-}
-
-function openDatingResp(datingId){
-	jQuery.ajax({
-		url : "/act/openDatingResp",
-		type : "get",
-		cache : false,
-		data : {"datingId": datingId},
-		dataType : "html",
-		success : function(result) {
-			openDialog(null, "openDatingResp", result);
-		},
-		statusCode : {
-			401 : function() {
-				window.location.href = "/login?turnTo=" + window.location.href;
-			}
-		}
-	});
-}
-
-//
-function respDating(successCallback){
-	$.ajax({
-		url : "/act/respDating",
-		type : "post",
-		cache : false,
-		data : $("#datingForm").serialize(),
-		dataType : "json",
-		success : function(result) {
-			if(result&&result.success){
-				var content = $("#dialog-success").html().replace("{0}", "好的，我们会通知ta！");
-				closeDialog('openDatingResp');
-				showSuccess(null, content);
-				successCallback(result.result);
-			}else{
-				if(result.errorCode=='30005'){
-					$("div.show_box2 > form > div.cantact > div.input").addClass("wrong");
-				}else{
-					$("div.show_box2 > div.error").text(result.errorInfo).show();
-				}
-			}
-		},
-		statusCode : {
-			401 : function() {
-				window.location.href = "/login?turnTo=" + window.location.href;
-			}
-		}
-	});
-}
-
 function showConfirm(followObj, dialogId, dialogContent, okCallback){
 	closeDialog(dialogId);
 	$.dialog({
@@ -472,6 +296,7 @@ function openDate(targetUid, nickname){
 		textarea.trigger("blur");
 		$(dialog.content()).find("div.btn > a").click(function(){
 			sendDate(targetUid, $(this).parent());
+			return false;
 		});
 		$(dialog.content()).find("div.random_select > a.random").click(function(){
 			$.ajax({
@@ -552,7 +377,7 @@ function sendDate(uid, btn, ideaId, followBtn, successCallback){
 		$(btn).parent().find("div.date_error").text("约会内容控制在1-160个汉字以内").show();
 		$(btn).next().hide();
 		$(btn).show();
-		return;
+		return false;
 	}
 	jQuery.ajax({
 		url : "/home/senddate",
@@ -583,21 +408,61 @@ function sendDate(uid, btn, ideaId, followBtn, successCallback){
 	return false;
 }
 
-//感兴趣的人操作
-function responsePost(clickObj, postId, successCallback){
+function openResponse(postId, respCount, clickCallback){
+	var content = $("#dialog-response").html().replace("{0}", respCount);
+	var login = $(content).attr("login");
+	if(login=="false"){
+		window.location.href = "/login?turnTo=" + window.location.href;
+	}else{
+		var dialog = openDialog(null, "openResponse", content);
+		//绑定事件
+		var textarea = $(dialog.content()).find("textarea");
+		registerInitMsg(textarea, function(isEdit){
+			textarea.parent().toggleClass("ts", !isEdit);
+		});
+		textarea.trigger("blur");
+		$(dialog.content()).find("a.resp-btn").click(function(){
+			//换loading按钮
+			var sendBtn = this;
+			$(sendBtn).parent().hide();
+			$(sendBtn).parent().next().show();
+			var content = "";
+			if(trimStr(textarea.val()) != "" && textarea.val() != textarea.attr("init-msg")){
+				content = "附言：" + textarea.val();
+			}
+			responsePost(postId, content, function(){
+				closeDialog("openResponse");
+				clickCallback();
+			}, function(errorInfo){
+				//回复发布按钮
+				$(sendBtn).parent().next().hide();
+				$(sendBtn).parent().show();
+				//显示错误
+				$(dialog.content()).find("div.error").text(errorInfo).show();
+			});
+			return false;
+		});
+	}
+}
+
+//响应
+function responsePost(postId, content, successCallback, errorCallback){
+	if(!checkValLength(content, 0, 160)){
+		errorCallback("附言内容请控制在0~80字以内");
+	}
 	jQuery.ajax({
 		url : "/post/response",
 		type : "post",
 		cache : false,
-		data : {"postId" : postId},
+		data : {"postId" : postId, "content" : content},
 		dataType : "json",
 		success : function(result) {
 			if (result && result.success) {
-				var content = $("#dialog-success").html().replace("{0}", "好的，我们会通知ta！");
-				showSuccess(clickObj, content);
 				successCallback();
+				var content = $("#dialog-success").html().replace("{0}", "好的，我们会通知ta！");
+				showSuccess(null, content);
 			} else {
-				alert(result.errorInfo);
+				errorCallback(result.errorInfo);
 			}
 		},
 		statusCode : {

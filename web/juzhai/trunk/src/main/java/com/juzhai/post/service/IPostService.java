@@ -45,7 +45,8 @@ public interface IPostService {
 	 * @param postId
 	 * @throws InputPostException
 	 */
-	void responsePost(long uid, long postId) throws InputPostException;
+	void responsePost(long uid, long postId, String content)
+			throws InputPostException;
 
 	/**
 	 * 获取用户最新一条post

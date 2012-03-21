@@ -56,10 +56,10 @@
 											<c:when test="${context.uid != postProfile.uid}">
 												<c:choose>
 													<c:when test="${hasResponse}">
-														<div class="like done"><a href="javascript:void(0);" class="xy">已响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${post.responseCnt}</a><p class="r"></p></div></div>
+														<div class="xiangyin_btn"><a href="javascript:void(0);" class="done">已响应</a></div>
 													</c:when>
 													<c:otherwise>
-														<div class="like post-response" id="response${post.id}" post-id="${post.id}"><a href="javascript:void(0);" class="xy">响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);"><font>${post.responseCnt}</font></a><p class="r"></p></div></div>
+														<div class="xiangyin_btn"><a href="javascript:void(0);" class="detail-response" post-id="${post.id}" resp-count="${post.responseCnt}">我要响应</a></div>
 													</c:otherwise>
 												</c:choose>
 											</c:when>
@@ -82,6 +82,7 @@
 											<span <c:if test="${pageType == 'response'}">class="act"</c:if>><p></p><a href="/post/${post.id}/respuser">${respTotalCnt}人响应</a><p></p></span>
 										</div>
 									</div><!--title end-->
+									<div class="clear"></div>
 									<c:choose>
 										<c:when test="${pageType == 'comment'}"><c:set var="postId" value="${post.id}" scope="request"/><jsp:include page="comment_user_list.jsp" /></c:when>
 										<c:when test="${pageType == 'response'}"><jsp:include page="response_user_list.jsp" /></c:when>

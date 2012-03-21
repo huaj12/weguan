@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -56,7 +57,7 @@ public class HomeController extends BaseController {
 			// && InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
 			city = loginUser.getCity();
 		}
-		return showNewPosts(request, model, city, "female", 1);
+		return showNewPosts(request, model, city, "all", 1);
 	}
 
 	@RequestMapping(value = "/showNewPosts/{cityId}_{genderType}/{page}", method = RequestMethod.GET)
@@ -66,9 +67,9 @@ public class HomeController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		showHomeRight(context, cityId, model);
 		Integer gender = null;
-		if (genderType.equals("male")) {
+		if (StringUtils.equals(genderType, "male")) {
 			gender = 1;
-		} else if (genderType.equals("female")) {
+		} else if (StringUtils.equals(genderType, "female")) {
 			gender = 0;
 		}
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,

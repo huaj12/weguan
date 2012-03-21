@@ -1,7 +1,6 @@
 package com.juzhai.preference.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.juzhai.cms.controller.form.PreferenceForm;
 import com.juzhai.cms.controller.form.PreferenceListForm;
@@ -22,7 +21,7 @@ public interface IPreferenceService {
 	 * 
 	 * @return
 	 */
-	Map<Long, Preference> listCachePreference();
+	List<Preference> listCachePreference();
 
 	/**
 	 * 获取所有用户偏好问题

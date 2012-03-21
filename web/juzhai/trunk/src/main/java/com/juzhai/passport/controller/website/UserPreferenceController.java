@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,9 +57,19 @@ public class UserPreferenceController extends BaseController {
 					// TODO (done) 这里永远不会有相等的情况
 					if (userPreference.getPreferenceId().longValue() == preference
 							.getId().longValue()) {
+						if (StringUtils.isEmpty(userPreference.getAnswer())) {
+							userPreference.setAnswer(preference
+									.getDefaultAnswer());
+						}
 						view.setUserPreference(userPreference);
 						break;
 					}
+				}
+				if (view.getUserPreference() == null) {
+					UserPreference defaultUserPreference = new UserPreference();
+					defaultUserPreference.setAnswer(preference
+							.getDefaultAnswer());
+					view.setUserPreference(defaultUserPreference);
 				}
 				views.add(view);
 			} catch (Exception e) {

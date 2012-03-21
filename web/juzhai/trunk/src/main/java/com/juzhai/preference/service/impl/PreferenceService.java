@@ -15,6 +15,8 @@ import com.juzhai.cms.controller.form.PreferenceForm;
 import com.juzhai.cms.controller.form.PreferenceListForm;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.preference.InitData;
+import com.juzhai.preference.bean.Input;
+import com.juzhai.preference.bean.InputType;
 import com.juzhai.preference.exception.InputPreferenceException;
 import com.juzhai.preference.mapper.PreferenceMapper;
 import com.juzhai.preference.model.Preference;
@@ -34,6 +36,7 @@ public class PreferenceService implements IPreferenceService {
 	public void addPreference(PreferenceForm form)
 			throws InputPreferenceException {
 		validatePreference(form);
+		handleDefaultAnswer(form);
 		Preference preference = new Preference();
 		preference.setCreateTime(new Date());
 		preference.setDefunct(false);
@@ -43,8 +46,29 @@ public class PreferenceService implements IPreferenceService {
 		preference.setOpen(form.getOpen());
 		preference.setSequence(getPreferenceCount() + 1);
 		preference.setType(form.getType());
-		preference.setDefaultAnswer(form.getDefaultAnswer());
+		preference.setDefaultAnswer(StringUtils.join(form.getDefaultAnswer(),
+				StringUtil.separator));
 		preferenceMapper.insertSelective(preference);
+	}
+
+	private void handleDefaultAnswer(PreferenceForm form) {
+		Input input = form.getInput();
+		if (InputType.MINANDMAX.getType() == input.getInputType()) {
+			String str[] = form.getDefaultAnswer();
+			int min = 0;
+			int max = 0;
+			try {
+				min = Integer.parseInt(str[0]);
+			} catch (Exception e) {
+			}
+			try {
+				max = Integer.parseInt(str[1]);
+			} catch (Exception e) {
+			}
+			form.setDefaultAnswer(new String[] {
+					String.valueOf(Math.min(min, max)),
+					String.valueOf(Math.max(min, max)) });
+		}
 	}
 
 	private void validatePreference(PreferenceForm form)
@@ -121,6 +145,7 @@ public class PreferenceService implements IPreferenceService {
 	public void updatePreference(PreferenceForm form)
 			throws InputPreferenceException {
 		validatePreference(form);
+		handleDefaultAnswer(form);
 		Preference preference = new Preference();
 		preference.setId(form.getId());
 		preference.setName(form.getName());
@@ -128,7 +153,8 @@ public class PreferenceService implements IPreferenceService {
 		preference.setOpen(form.getOpen());
 		preference.setType(form.getType());
 		preference.setLastModifyTime(new Date());
-		preference.setDefaultAnswer(form.getDefaultAnswer());
+		preference.setDefaultAnswer(StringUtils.join(form.getDefaultAnswer(),
+				StringUtil.separator));
 		preferenceMapper.updateByPrimaryKeySelective(preference);
 	}
 

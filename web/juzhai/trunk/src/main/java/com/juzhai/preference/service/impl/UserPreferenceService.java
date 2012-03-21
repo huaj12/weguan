@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,7 +41,7 @@ public class UserPreferenceService implements IUserPreferenceService {
 		List<UserPreferenceForm> userPreferenceForms = userPreferenceListForm
 				.getUserPreferences();
 		for (UserPreferenceForm userPreferenceForm : userPreferenceForms) {
-			if (StringUtils.isEmpty(userPreferenceForm.getAnswer())) {
+			if (ArrayUtils.isEmpty(userPreferenceForm.getAnswer())) {
 				continue;
 			}
 			validate(userPreferenceForm);
@@ -48,7 +49,8 @@ public class UserPreferenceService implements IUserPreferenceService {
 					userPreferenceForm.getPreferenceId(), uid);
 			if (userPreference == null) {
 				userPreference = new UserPreference();
-				userPreference.setAnswer(userPreferenceForm.getAnswer());
+				userPreference.setAnswer(StringUtils.join(
+						userPreferenceForm.getAnswer(), StringUtil.separator));
 				userPreference.setCreateTime(new Date());
 				userPreference.setDescription(userPreferenceForm
 						.getDescription());
@@ -59,7 +61,8 @@ public class UserPreferenceService implements IUserPreferenceService {
 				userPreference.setUid(uid);
 				userPreferenceMapper.insertSelective(userPreference);
 			} else {
-				userPreference.setAnswer(userPreferenceForm.getAnswer());
+				userPreference.setAnswer(StringUtils.join(
+						userPreferenceForm.getAnswer(), StringUtil.separator));
 				userPreference.setDescription(userPreferenceForm
 						.getDescription());
 				userPreference.setOpen(userPreferenceForm.getOpen());
@@ -83,8 +86,11 @@ public class UserPreferenceService implements IUserPreferenceService {
 
 	private void validate(UserPreferenceForm userPreferenceForm)
 			throws InputUserPreferenceException {
-		int answerLength = StringUtil.chineseLength(userPreferenceForm
-				.getAnswer());
+		StringBuffer sb = new StringBuffer();
+		for (String answer : userPreferenceForm.getAnswer()) {
+			sb.append(answer);
+		}
+		int answerLength = StringUtil.chineseLength(sb.toString());
 		if (answerLength > userPreferenceAnswerLengthMax) {
 			throw new InputUserPreferenceException(
 					InputUserPreferenceException.PREFERENCE_ANSWER_IS_INVALID);

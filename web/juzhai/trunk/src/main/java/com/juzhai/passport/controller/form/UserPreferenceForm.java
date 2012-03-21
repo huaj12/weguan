@@ -1,7 +1,7 @@
 package com.juzhai.passport.controller.form;
 
 public class UserPreferenceForm {
-	private String answer;
+	private String[] answer;
 	private Boolean open;
 	private String description;
 	private Long preferenceId;
@@ -14,11 +14,11 @@ public class UserPreferenceForm {
 		this.preferenceId = preferenceId;
 	}
 
-	public String getAnswer() {
+	public String[] getAnswer() {
 		return answer;
 	}
 
-	public void setAnswer(String answer) {
+	public void setAnswer(String[] answer) {
 		this.answer = answer;
 	}
 

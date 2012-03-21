@@ -8,6 +8,7 @@ public class UserPreferenceView {
 	private Preference preference;
 	private UserPreference userPreference;
 	private Input input;
+	private String answer[];
 
 	public UserPreferenceView(Preference preference,
 			UserPreference userPreference, Input input) {
@@ -38,6 +39,14 @@ public class UserPreferenceView {
 
 	public void setInput(Input input) {
 		this.input = input;
+	}
+
+	public String[] getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(String[] answer) {
+		this.answer = answer;
 	}
 
 }

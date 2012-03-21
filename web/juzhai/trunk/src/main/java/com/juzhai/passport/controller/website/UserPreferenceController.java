@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.controller.form.UserPreferenceListForm;
@@ -50,6 +51,7 @@ public class UserPreferenceController extends BaseController {
 		// TODO Preference能进行缓存，这次版本不改了
 		for (Preference preference : preferences) {
 			try {
+				String answer = null;
 				UserPreferenceView view = new UserPreferenceView(preference,
 						null, Input.convertToBean(preference.getInput()));
 				// TODO (done) 如果我没有UserPreference，那页面上还有preference显示吗？
@@ -58,8 +60,8 @@ public class UserPreferenceController extends BaseController {
 					if (userPreference.getPreferenceId().longValue() == preference
 							.getId().longValue()) {
 						if (StringUtils.isEmpty(userPreference.getAnswer())) {
-							userPreference.setAnswer(preference
-									.getDefaultAnswer());
+							answer = preference.getDefaultAnswer();
+							userPreference.setAnswer(answer);
 						}
 						view.setUserPreference(userPreference);
 						break;
@@ -67,10 +69,12 @@ public class UserPreferenceController extends BaseController {
 				}
 				if (view.getUserPreference() == null) {
 					UserPreference defaultUserPreference = new UserPreference();
-					defaultUserPreference.setAnswer(preference
-							.getDefaultAnswer());
+					answer = preference.getDefaultAnswer();
+					defaultUserPreference.setAnswer(answer);
 					view.setUserPreference(defaultUserPreference);
 				}
+				view.setAnswer(StringUtils.split(view.getUserPreference()
+						.getAnswer(), StringUtil.separator));
 				views.add(view);
 			} catch (Exception e) {
 				log.error("preference convertToBean json is error ");

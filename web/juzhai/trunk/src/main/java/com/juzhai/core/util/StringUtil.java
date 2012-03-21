@@ -7,6 +7,7 @@ import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.lang.StringUtils;
 
 public class StringUtil {
+	public static char separator = (char) 036;
 
 	public static int chineseLength(String text) {
 		if (StringUtils.isEmpty(text)) {

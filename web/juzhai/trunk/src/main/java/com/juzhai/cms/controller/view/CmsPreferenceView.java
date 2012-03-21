@@ -6,6 +6,7 @@ import com.juzhai.preference.model.Preference;
 public class CmsPreferenceView {
 	private Preference preference;
 	private Input input;
+	private String[] defaultValues;
 
 	public Preference getPreference() {
 		return preference;
@@ -21,6 +22,14 @@ public class CmsPreferenceView {
 
 	public void setInput(Input input) {
 		this.input = input;
+	}
+
+	public String[] getDefaultValues() {
+		return defaultValues;
+	}
+
+	public void setDefaultValues(String[] defaultValues) {
+		this.defaultValues = defaultValues;
 	}
 
 }

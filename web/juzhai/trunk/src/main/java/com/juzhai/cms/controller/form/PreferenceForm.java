@@ -10,7 +10,7 @@ public class PreferenceForm {
 	private Integer type;
 	private boolean open;
 	private Integer sequence;
-	private String defaultAnswer;
+	private String[] defaultAnswer;
 
 	public String getName() {
 		return name;
@@ -68,11 +68,11 @@ public class PreferenceForm {
 		this.sequence = sequence;
 	}
 
-	public String getDefaultAnswer() {
+	public String[] getDefaultAnswer() {
 		return defaultAnswer;
 	}
 
-	public void setDefaultAnswer(String defaultAnswer) {
+	public void setDefaultAnswer(String[] defaultAnswer) {
 		this.defaultAnswer = defaultAnswer;
 	}
 

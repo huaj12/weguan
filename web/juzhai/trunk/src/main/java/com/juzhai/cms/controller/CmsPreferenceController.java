@@ -3,6 +3,7 @@ package com.juzhai.cms.controller;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.juzhai.cms.controller.form.PreferenceForm;
 import com.juzhai.cms.controller.form.PreferenceListForm;
 import com.juzhai.cms.controller.view.CmsPreferenceView;
+import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.preference.bean.Input;
 import com.juzhai.preference.exception.InputPreferenceException;
@@ -41,6 +43,8 @@ public class CmsPreferenceController {
 		CmsPreferenceView view = new CmsPreferenceView();
 		try {
 			Preference preference = preferenceService.getPreference(id);
+			view.setDefaultValues(StringUtils.split(
+					preference.getDefaultAnswer(), StringUtil.separator));
 			view.setPreference(preference);
 			view.setInput(Input.convertToBean(preference.getInput()));
 		} catch (Exception e) {

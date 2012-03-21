@@ -1,6 +1,7 @@
 package com.juzhai.passport.controller.website;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +44,8 @@ public class UserPreferenceController extends BaseController {
 	public String index(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		List<Preference> preferences = preferenceService.listCachePreference();
+		Collection<Preference> preferences = preferenceService
+				.listCachePreference().values();
 		List<UserPreferenceView> views = new ArrayList<UserPreferenceView>();
 		List<UserPreference> userPreferences = userPreferenceService
 				.listUserPreference(context.getUid());

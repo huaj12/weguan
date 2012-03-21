@@ -42,7 +42,7 @@
         option.appendChild(hidden_input);
         if(type==0){       
 	    	var box_input = document.createElement("input");   
-			box_input.name="box_name";
+			box_input.name="defaultAnswer";
 			box_input.id="input_box_id_"+i;
 			box_input.type="checkbox";
 			box_input.value=i;
@@ -64,30 +64,11 @@
 	}
 	
 	function add(){
-		var answer="";
-		if(type==2){
-		var min=$("input[name='min_input']").val();
-		var max=$("input[name='max_input']").val();
-		min=parseInt(min);
-		max=parseInt(max);
-		if(max<min){
-			var t=0;
-			t=max;
-			max=min;
-			min=t;
+		if(type==0){
+			document.getElementById("min_max_div").innerHTML="";
+		}else if(type==2){
+			document.getElementById("optionDiv").innerHTML="";
 		}
-		answer=min+","+max;
-		}else if(type==0){
-			$('input[name=box_name]').each(function(){
-				var v="";
-				if(this.checked){
-					flag=true;
-					v=this.value;
-				}
-				answer=answer+v+",";
-			});
-		}
-		$("#answer").val(answer);
 		jQuery.ajax({
 			url : "/cms/update/preference",
 			type : "post",
@@ -125,7 +106,6 @@
 			<td>标题</td>
 			<td><input name="name" type="text" value="${view.preference.name }"/>
 				<input name="id" type="hidden" value="${view.preference.id}" />
-				<input type="hidden" name="defaultAnswer" id="answer"/>
 			 </td>
 		</tr>
 		<tr>
@@ -144,15 +124,13 @@
 				</div>
 				<div id="min_max_div" <c:if test="${view.input.inputType!=2}">style="display: none"</c:if>>
 				默认值：
-				<c:set var="delim" value=","/>
-				<c:set var="values" value="${fn:split(view.preference.defaultAnswer, delim)}"/>
-				<input type="text" value="${values[0] }" name="min_input"/>
-				<input type="text" value="${values[1] }" name="max_input"/>
+				<input type="text" value="${view.defaultValues[0] }" name="defaultAnswer"/>
+				<input type="text" value="${view.defaultValues[1] }" name="defaultAnswer"/>
 				</div>
 				<div id="optionDiv">
 					<c:forEach items="${view.input.options}" var="option" varStatus="index">
 						<input value="${option.name}"  id="input_id_${index.index}" name="input.options[${index.index}].name" type="text"/>
-						<input type="checkbox" name="box_name" id="input_box_id_${index.index}" <c:forEach items="${values }" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach> value="${option.value}" />
+						<input type="checkbox" name="defaultAnswer" id="input_box_id_${index.index}" <c:forEach items="${view.defaultValues }" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach> value="${option.value}" />
 						<input value="${option.value}" id="hidden_input_id_${index.index}" name="input.options[${index.index}].value" type="hidden"/>
 					</c:forEach>
 				</div>

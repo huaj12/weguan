@@ -43,7 +43,7 @@
         option.appendChild(hidden_input);
  		if(type==0){       
 	    	var box_input = document.createElement("input");   
-			box_input.name="box_name";
+			box_input.name="defaultAnswer";
 			box_input.id="input_box_id_"+i;
 			box_input.type="checkbox";
 			box_input.value=i;
@@ -64,30 +64,11 @@
 		i--;
 	}
 	function setDefault(){
-		var answer="";
-		if(type==2){
-		var min=$("input[name='min_input']").val();
-		var max=$("input[name='max_input']").val();
-		min=parseInt(min);
-		max=parseInt(max);
-		if(max<min){
-			var t=0;
-			t=max;
-			max=min;
-			min=t;
+		if(type==0){
+			document.getElementById("min_max_div").innerHTML="";
+		}else if(type==2){
+			document.getElementById("optionDiv").innerHTML="";
 		}
-		answer=min+","+max;
-		}else if(type==0){
-			$('input[name=box_name]').each(function(){
-				var v="";
-				if(this.checked){
-					flag=true;
-					v=this.value;
-				}
-				answer=answer+v+",";
-			});
-		}
-		$("#answer").val(answer);
 		return true;
 	}
 </script>
@@ -103,7 +84,6 @@
 		<tr>
 			<td>标题</td>
 			<td><input name="name" type="text"/>
-			<input type="hidden" name="defaultAnswer" id="answer"/>
 			 </td>
 			
 		</tr>
@@ -123,8 +103,8 @@
 				</div>
 				<div id="min_max_div" style="display: none">
 				默认值：
-				<input type="text" name="min_input"/>
-				<input type="text" name="max_input"/>
+				<input type="text" name="defaultAnswer"/>
+				<input type="text" name="defaultAnswer"/>
 				</div>
 				<div id="optionDiv">
 				</div>

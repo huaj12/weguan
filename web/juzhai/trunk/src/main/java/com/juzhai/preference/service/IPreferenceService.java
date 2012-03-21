@@ -1,6 +1,7 @@
 package com.juzhai.preference.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.juzhai.cms.controller.form.PreferenceForm;
 import com.juzhai.cms.controller.form.PreferenceListForm;
@@ -21,7 +22,7 @@ public interface IPreferenceService {
 	 * 
 	 * @return
 	 */
-	List<Preference> listCachePreference();
+	Map<Long, Preference> listCachePreference();
 
 	/**
 	 * 获取所有用户偏好问题
@@ -52,7 +53,7 @@ public interface IPreferenceService {
 	void updatePreference(PreferenceForm form) throws InputPreferenceException;
 
 	/**
-	 * 获取偏好
+	 * 获取偏好(不从缓存取用于后台cms)
 	 * 
 	 * @param Id
 	 * @return

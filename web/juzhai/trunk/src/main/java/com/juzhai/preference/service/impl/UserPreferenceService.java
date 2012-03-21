@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.controller.form.UserPreferenceForm;
 import com.juzhai.passport.controller.form.UserPreferenceListForm;
+import com.juzhai.preference.InitData;
 import com.juzhai.preference.exception.InputUserPreferenceException;
 import com.juzhai.preference.mapper.UserPreferenceMapper;
 import com.juzhai.preference.model.Preference;
@@ -108,13 +109,14 @@ public class UserPreferenceService implements IUserPreferenceService {
 
 	@Override
 	public List<String> getUserAnswer(long uid, long preferenceId) {
-		Preference preference = preferenceService.getPreference(preferenceId);
+		Preference preference = InitData.PREFERENCE_MAP.get(preferenceId);
 		if (preference == null) {
 			return null;
 		}
 		UserPreference userPreference = getUserPreference(preferenceId, uid);
 		if (userPreference == null) {
-			return null;
+			userPreference = new UserPreference();
+			userPreference.setAnswer(preference.getDefaultAnswer());
 		}
 		String answer = null;
 		if (StringUtils.isEmpty(userPreference.getAnswer())) {

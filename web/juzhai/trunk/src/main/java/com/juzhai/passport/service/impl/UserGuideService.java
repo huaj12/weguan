@@ -6,11 +6,13 @@ import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.common.InitData;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
+import com.juzhai.home.service.IGuessYouService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.dao.IUserGuideDao;
 import com.juzhai.passport.mapper.UserGuideMapper;
@@ -35,6 +37,10 @@ public class UserGuideService implements IUserGuideService {
 	private ICounter guideCounter;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IGuessYouService guessYouService;
+	@Autowired
+	private ThreadPoolTaskExecutor taskExecutor;
 
 	@Override
 	public void craeteUserGuide(long uid) {
@@ -57,6 +63,7 @@ public class UserGuideService implements IUserGuideService {
 
 		sendWelcomeDialog(uid);
 		statGuide();
+		obtainLikeUser(uid);
 	}
 
 	@Override
@@ -81,6 +88,7 @@ public class UserGuideService implements IUserGuideService {
 
 		sendWelcomeDialog(uid);
 		statGuide();
+		obtainLikeUser(uid);
 	}
 
 	private void sendWelcomeDialog(long uid) {
@@ -104,5 +112,17 @@ public class UserGuideService implements IUserGuideService {
 
 	private void statGuide() {
 		guideCounter.incr(null, 1L);
+	}
+
+	private void obtainLikeUser(final long uid) {
+		if (!guessYouService.existLikeUsers(uid)) {
+			// 启动一个线程来获取和保存
+			taskExecutor.execute(new Runnable() {
+				@Override
+				public void run() {
+					guessYouService.updateLikeUsers(uid);
+				}
+			});
+		}
 	}
 }

@@ -21,32 +21,17 @@
 						<div class="title"><!--title begin-->
 							<div class="jj_time"><p></p><span>离周末还有1天34小时</span></div>
 							<div class="jj_title">解救小宅</div>
-							<div class="view_btn"><a href="#" class="kw">调整口味</a><a href="#" class="jj">我要被解救</a></div>
-							<div class="kw_show" style="display:none;"><p>我们会根据你的拒宅偏好，为您推荐合适的人</p><a href="#">去设置偏好</a></div>
-							<div class="jj_show" ><p>发布一条拒宅即可被更新到被解救的队列中哦</p><a href="#">去发布拒宅</a></div>
+							<div class="view_btn"><a href="javascript:void(0);" class="kw">调整口味</a><a href="javascript:void(0);" class="jj">我要被解救</a></div>
+							<div class="kw_show" style="display:none;"><p>我们会根据你的拒宅偏好，为您推荐合适的人</p><a href="/profile/preference">去设置偏好</a></div>
+							<div class="jj_show" style="display:none;"><p>发布一条拒宅即可被更新到被解救的队列中哦</p><a href="/home">去发布拒宅</a></div>
 						</div><!--title end-->
 						<div class="clear"></div>
 						<div class="jjxz_con"><!--jjxz_con begin-->
 							<div class="jj_top"></div>
 							<div class="jj_mid"><!--jj_mid begin-->
-								<div class="card girl"><!--card begin-->
-									<div class="card_top"></div>
-									<div class="card_mid"><!--card_mid begin-->
-										<div class="photo"><img src="images/web2/face_girl.png" /></div>
-										<div class="card_infor"><!--card_infor begin-->
-											<p><font>我想找伴儿去:</font><a href="#">好累好累的说。。。。。。好想呆在安静的地方休息休息，看看书，听听音乐~~~</a></p>
-											<div class="infor"><!--infor begin-->
-												<span class="adress">张江故园餐厅</span>
-												<span class="time">01.21 周一</span>
-												<span class="tag">演出活动</span>
-												<span class="link"><a href="#">查看相关链接</a></span>
-											</div><!--infor end-->
-											<div class="ta_infor"><a href="#">其实不想走</a><span>8岁, 上海浦东新区   双鱼座, it行业</span></div>
-										</div><!--card_infor end-->
-									</div><!--card_mid end-->
-									<div class="card_bot"></div>
-								</div><!--card end-->
-								<div class="btn"><a href="#" class="xy">响应ta</a> <a href="#" class="next">换一个</a></div>
+								<div>
+									<jsp:include page="card.jsp" />
+								</div>
 							</div><!--jj_mid end-->
 							<div class="jj_bot"></div>
 						</div><!--jjxz_con end-->
@@ -54,7 +39,8 @@
 				</div><!--main_part end-->
 			</div><!--main end-->
 			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-			<script type="text/javascript" src="${jzr:static('/js/web/welcome.js')}"></script>
+			<script type="text/javascript" src="${jzr:static('/js/web/rescue.js')}"></script>
+			<c:set var="footType" value="fixed" scope="request"/>
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 		</div><!--warp end-->
 	</body>

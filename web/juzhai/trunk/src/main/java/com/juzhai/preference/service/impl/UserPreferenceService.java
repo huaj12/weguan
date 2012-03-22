@@ -9,9 +9,11 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.home.service.IGuessYouService;
 import com.juzhai.passport.controller.form.UserPreferenceForm;
 import com.juzhai.passport.controller.form.UserPreferenceListForm;
 import com.juzhai.preference.InitData;
@@ -30,10 +32,14 @@ public class UserPreferenceService implements IUserPreferenceService {
 	private int userPreferenceDescriptionLengthMax;
 	@Autowired
 	private UserPreferenceMapper userPreferenceMapper;
+	@Autowired
+	private ThreadPoolTaskExecutor taskExecutor;
+	@Autowired
+	private IGuessYouService guessYouService;
 
 	@Override
 	public void addUserPreference(
-			UserPreferenceListForm userPreferenceListForm, Long uid)
+			UserPreferenceListForm userPreferenceListForm, final Long uid)
 			throws InputUserPreferenceException {
 		boolean flag = false;
 		List<UserPreferenceForm> userPreferenceForms = userPreferenceListForm
@@ -84,7 +90,13 @@ public class UserPreferenceService implements IUserPreferenceService {
 
 		}
 		if (flag) {
-			// TODO 有修改过
+			taskExecutor.execute(new Runnable() {
+				@Override
+				public void run() {
+					guessYouService.clearRescueUsers(uid);
+					guessYouService.updateLikeUsers(uid);
+				}
+			});
 		}
 	}
 

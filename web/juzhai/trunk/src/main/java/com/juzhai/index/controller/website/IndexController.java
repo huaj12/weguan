@@ -21,6 +21,7 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.home.service.IGuessYouService;
 import com.juzhai.index.bean.ShowActOrder;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.index.controller.view.IdeaView;
@@ -33,6 +34,7 @@ import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
+import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostWindow;
@@ -55,6 +57,8 @@ public class IndexController extends BaseController {
 	private IFriendService friendService;
 	@Autowired
 	private IInterestUserService interestUserService;
+	@Autowired
+	private IGuessYouService guessYouService;
 	@Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows;
 	@Value("${web.show.ideas.user.count}")
@@ -277,6 +281,19 @@ public class IndexController extends BaseController {
 	public String rescueUser(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
+		PostView postView = guessYouService.randomRescue(context.getUid());
+		model.addAttribute("postView", postView);
+		model.addAttribute("pageType", "rescue");
 		return "web/index/rescue/index";
+	}
+
+	@RequestMapping(value = "/changerescueuser", method = RequestMethod.POST)
+	public String changeRescueUser(HttpServletRequest request, Model model,
+			long rescueUid) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		guessYouService.removeFromRescueUsers(context.getUid(), rescueUid);
+		PostView postView = guessYouService.randomRescue(context.getUid());
+		model.addAttribute("postView", postView);
+		return "web/index/rescue/card";
 	}
 }

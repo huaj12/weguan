@@ -249,6 +249,16 @@
 	</bean>
 	<!-- Recommend Post end -->
 	
+	<!-- Recommend Post begin -->
+	<bean id="guessYouLikeUsersTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="guessYouLikeUsersHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${guess.you.like.users.cron}" />
+	</bean>
+	<!-- Recommend Post end -->
 	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
@@ -272,6 +282,7 @@
 				<ref bean="profileIndexOptimizationAndCommitTrigger"/>
 				<ref bean="createSitemapTrigger"/>
 				<ref bean="recommendPostTrigger"/>
+				<ref bean="guessYouLikeUsersTrigger"/>
 				<!--ref bean="ideaWindowSortTrigger"/-->
 				<!-- <ref bean="noticeEmailTrigger"/> -->
 			</list>

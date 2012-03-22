@@ -20,7 +20,6 @@ import com.juzhai.preference.mapper.UserPreferenceMapper;
 import com.juzhai.preference.model.Preference;
 import com.juzhai.preference.model.UserPreference;
 import com.juzhai.preference.model.UserPreferenceExample;
-import com.juzhai.preference.service.IPreferenceService;
 import com.juzhai.preference.service.IUserPreferenceService;
 
 @Service
@@ -31,8 +30,6 @@ public class UserPreferenceService implements IUserPreferenceService {
 	private int userPreferenceDescriptionLengthMax;
 	@Autowired
 	private UserPreferenceMapper userPreferenceMapper;
-	@Autowired
-	private IPreferenceService preferenceService;
 
 	@Override
 	public void addUserPreference(

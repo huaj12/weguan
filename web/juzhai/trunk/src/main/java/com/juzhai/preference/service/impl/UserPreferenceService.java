@@ -66,9 +66,9 @@ public class UserPreferenceService implements IUserPreferenceService {
 				userPreferenceMapper.insertSelective(userPreference);
 			} else {
 				// TODO 是否修改过回答
-				if (answer.equals(userPreference.getAnswer())) {
+				if (!answer.equals(userPreference.getAnswer())) {
 					System.out
-							.println("=======================================");
+							.println("=================修改过======================");
 				}
 				userPreference.setAnswer(StringUtils.join(
 						userPreferenceForm.getAnswer(), StringUtil.separator));

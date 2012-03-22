@@ -38,8 +38,10 @@ public class UserPreferenceService implements IUserPreferenceService {
 	public void addUserPreference(
 			UserPreferenceListForm userPreferenceListForm, Long uid)
 			throws InputUserPreferenceException {
+		boolean flag = false;
 		List<UserPreferenceForm> userPreferenceForms = userPreferenceListForm
 				.getUserPreferences();
+		List<UserPreference> userList = listUserPreference(uid);
 		for (UserPreferenceForm userPreferenceForm : userPreferenceForms) {
 			if (ArrayUtils.isEmpty(userPreferenceForm.getAnswer())) {
 				continue;
@@ -47,12 +49,17 @@ public class UserPreferenceService implements IUserPreferenceService {
 			validate(userPreferenceForm);
 			String answer = StringUtils.join(userPreferenceForm.getAnswer(),
 					StringUtil.separator);
+			UserPreference userPreference = null;
+			for (UserPreference user : userList) {
+				if (user.getPreferenceId().longValue() == userPreferenceForm
+						.getPreferenceId().longValue()) {
+					userPreference = user;
+					break;
+				}
+			}
 
-			UserPreference userPreference = getUserPreference(
-					userPreferenceForm.getPreferenceId(), uid);
 			if (userPreference == null) {
-				// TODO 新增用户回答
-
+				flag = true;
 				userPreference = new UserPreference();
 				userPreference.setAnswer(answer);
 				userPreference.setCreateTime(new Date());
@@ -65,10 +72,8 @@ public class UserPreferenceService implements IUserPreferenceService {
 				userPreference.setUid(uid);
 				userPreferenceMapper.insertSelective(userPreference);
 			} else {
-				// TODO 是否修改过回答
 				if (!answer.equals(userPreference.getAnswer())) {
-					System.out
-							.println("=================修改过======================");
+					flag = true;
 				}
 				userPreference.setAnswer(StringUtils.join(
 						userPreferenceForm.getAnswer(), StringUtil.separator));
@@ -80,6 +85,9 @@ public class UserPreferenceService implements IUserPreferenceService {
 						.updateByPrimaryKeySelective(userPreference);
 			}
 
+		}
+		if (flag) {
+			// TODO 有修改过
 		}
 	}
 

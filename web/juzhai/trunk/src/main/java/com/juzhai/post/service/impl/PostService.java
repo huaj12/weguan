@@ -478,7 +478,9 @@ public class PostService implements IPostService {
 		PostResponseExample example = new PostResponseExample();
 		example.createCriteria().andUidEqualTo(uid).andPostIdEqualTo(postId);
 		if (postResponseMapper.countByExample(example) > 0) {
-			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
+			return;
+			// throw new
+			// InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
 		postDao.incrOrDecrResponseCnt(postId, 1);
 		PostResponse postResponse = new PostResponse();

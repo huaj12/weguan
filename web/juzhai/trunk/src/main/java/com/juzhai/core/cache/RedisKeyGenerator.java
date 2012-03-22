@@ -423,4 +423,23 @@ public class RedisKeyGenerator extends KeyGenerator {
 		return genKey(uid, "userStatus");
 	}
 
+	/**
+	 * 猜你喜欢的用户列表key
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genGuessYouLikeUsersKey(long uid) {
+		return genKey(uid, "guessYouLikeUsers");
+	}
+
+	/**
+	 * 解救小宅的列表Key
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genRescueUsersKey(long uid) {
+		return genKey(uid, "rescueUsers");
+	}
 }

@@ -39,9 +39,9 @@
 				<input type="hidden" id="inputType_${index.index }" value="${view.input.inputType}"/>
 				<c:choose>
 					<c:when test="${view.input.inputType==0}">
-					<div class="select"><!--select begin-->
+					<div class="ck" ><!--select begin-->
 						<c:forEach items="${view.input.options}" var="option">
-						<div class="dis_age"><b><input name="userPreferences[${index.index }].answer" type="checkbox" <c:forEach items="${view.answer}" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach>  value="${option.value }" /></b><p>${option.name }</p></div>
+						<div class="check_sex"><b><input name="userPreferences[${index.index }].answer" type="checkbox" <c:forEach items="${view.answer}" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach>  value="${option.value }" /></b><p>${option.name }</p></div>
 						</c:forEach>
 					</div><!--select end-->
 					</c:when>

@@ -32,7 +32,7 @@ $(document).ready(function() {
 					max=min;
 					min=t;
 				}
-				if(min<18||max>50){
+				if(min<16||max>50){
 					 $("#error_"+i).html("请输入18-50之间的数字！").stop(true, true).show()
 						.fadeOut(4000);
 				        return ;	

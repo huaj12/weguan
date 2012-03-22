@@ -45,12 +45,16 @@ public class UserPreferenceService implements IUserPreferenceService {
 				continue;
 			}
 			validate(userPreferenceForm);
+			String answer = StringUtils.join(userPreferenceForm.getAnswer(),
+					StringUtil.separator);
+
 			UserPreference userPreference = getUserPreference(
 					userPreferenceForm.getPreferenceId(), uid);
 			if (userPreference == null) {
+				// TODO 新增用户回答
+
 				userPreference = new UserPreference();
-				userPreference.setAnswer(StringUtils.join(
-						userPreferenceForm.getAnswer(), StringUtil.separator));
+				userPreference.setAnswer(answer);
 				userPreference.setCreateTime(new Date());
 				userPreference.setDescription(userPreferenceForm
 						.getDescription());
@@ -61,6 +65,11 @@ public class UserPreferenceService implements IUserPreferenceService {
 				userPreference.setUid(uid);
 				userPreferenceMapper.insertSelective(userPreference);
 			} else {
+				// TODO 是否修改过回答
+				if (answer.equals(userPreference.getAnswer())) {
+					System.out
+							.println("=======================================");
+				}
 				userPreference.setAnswer(StringUtils.join(
 						userPreferenceForm.getAnswer(), StringUtil.separator));
 				userPreference.setDescription(userPreferenceForm

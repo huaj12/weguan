@@ -144,7 +144,7 @@ public class UserPreferenceService implements IUserPreferenceService {
 		if (answer == null) {
 			return null;
 		}
-		String array[] = answer.split(",");
+		String array[] = StringUtils.split(answer, StringUtil.separator);
 		return Arrays.asList(array);
 	}
 }

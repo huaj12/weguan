@@ -33,6 +33,7 @@ $(document).ready(function(){
 		var rescueUid = $(this).attr("rescue-uid");
 		var obj = this;
 		openResponse(obj, postId, respCount, function(){
+			$(obj).unbind("click");
 			changeRescueUser(rescueUid);
 		});
 		return false;

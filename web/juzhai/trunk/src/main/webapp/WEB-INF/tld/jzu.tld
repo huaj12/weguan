@@ -60,4 +60,11 @@
     	<example>${jzu:showFreeDates(freeDateList,4)}</example>
     </function>
     
+    <function>
+    	<name>gapWeekendHours</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>long gapWeekendHours()</function-signature>
+    	<example>${jzu:gapWeekendHours()}</example>
+    </function>
+    
 </taglib>

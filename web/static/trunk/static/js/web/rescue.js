@@ -22,6 +22,7 @@ $(document).ready(function(){
 	
 	$("a.next").click(function(){
 		var rescueUid = $(this).attr("rescue-uid");
+		$(this).unbind("click").attr("class", "loading").text("加载中");
 		changeRescueUser(rescueUid);
 		return false;
 	});
@@ -50,6 +51,7 @@ function changeRescueUser(rescueUid){
 				$("div.jj_mid > div").html(result).fadeIn(500, function(){
 					$("div.jj_mid > div").find("a.next").click(function(){
 						var rescueUid = $(this).attr("rescue-uid");
+						$(this).unbind("click").attr("class", "loading").text("加载中");
 						changeRescueUser(rescueUid);
 						return false;
 					});

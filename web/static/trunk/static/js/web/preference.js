@@ -33,7 +33,7 @@ $(document).ready(function() {
 					min=t;
 				}
 				if(min<16||max>50){
-					 $("#error_"+i).html("请输入18-50之间的数字！").stop(true, true).show()
+					 $("#error_"+i).html("请输入16-50之间的数字！").stop(true, true).show()
 						.fadeOut(4000);
 				        return ;	
 				}

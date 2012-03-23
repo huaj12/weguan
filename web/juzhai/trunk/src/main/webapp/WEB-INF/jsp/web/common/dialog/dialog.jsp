@@ -54,13 +54,13 @@
 </div>
 <div id="dialog-response" style="display:none;">
 	<div class="fy_show_box" login="${context.uid > 0}"><!--fy_show_box begin-->
-		<h2>响应附言（可不填）</h2>
-		<div class="error" style="display:none;"></div>
-		<div class="text_area"><textarea init-msg="建议附上你的qq或手机，方便对方联系你(仅对方可见)"></textarea></div>
+		<h2>响应<font>{0}</font>的拒宅</h2>	
+		<p>{1}</p>
+		<div class="text_area"><textarea init-msg="响应附言：建议附上你的qq或手机(仅对方可见)"></textarea></div>
 		<div class="btn_area">
-			<p><a href="javascript:void(0);">有{0}人响应</a></p>
+			<div class="error" style="display:none;"></div>
 			<span><a href="javascript:void(0);" class="resp-btn">我要响应</a></span>
 			<span style="display:none;" class="sending"><a href="javascript:void(0);">发送中</a></span>
 		</div>
-	</div>
+	</div><!--fy_show_box end-->
 </div><!--fy_show_box end-->

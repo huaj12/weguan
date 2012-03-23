@@ -121,7 +121,7 @@
 									<div class="like done"><a href="javascript:void(0);" class="xy">已响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${postView.post.responseCnt}</a><p class="r"></p></div></div>
 								</c:when>
 								<c:otherwise>
-									<div class="like post-response" id="response${postView.post.id}" post-id="${postView.post.id}" resp-count="${postView.post.responseCnt}"><a href="javascript:void(0);" class="xy">响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);"><font>${postView.post.responseCnt}</font></a><p class="r"></p></div></div>
+									<div class="like post-response" id="response${postView.post.id}" post-id="${postView.post.id}" resp-count="${postView.post.responseCnt}" nickname="<c:out value='${postView.profileCache.nickname}' />" post-content="<c:out value="${jzu:truncate(postView.post.content,50,'...')}" />"><a href="javascript:void(0);" class="xy">响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);"><font>${postView.post.responseCnt}</font></a><p class="r"></p></div></div>
 								</c:otherwise>
 							</c:choose>
 							<div class="zfa"><a href="javascript:void(0);" post-id="${postView.post.id}">转发</a></div>

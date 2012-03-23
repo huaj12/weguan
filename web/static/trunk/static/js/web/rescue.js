@@ -21,24 +21,32 @@ $(document).ready(function(){
 	});
 	
 	$("a.next").click(function(){
-		var rescueUid = $(this).attr("rescue-uid");
-		$(this).unbind("click").attr("class", "loading").text("加载中");
-		changeRescueUser(rescueUid);
-		return false;
+		next(this);
 	});
 	
 	$("a.xy").click(function(){
-		var postId = $(this).attr("post-id");
-		var respCount = $(this).attr("resp-count");
-		var rescueUid = $(this).attr("rescue-uid");
-		var obj = this;
-		openResponse(obj, postId, respCount, function(){
-			$(obj).unbind("click");
-			changeRescueUser(rescueUid);
-		});
-		return false;
+		responseClick(this);
 	});
 });
+
+function next(btn){
+	var rescueUid = $(btn).attr("rescue-uid");
+	$(btn).unbind("click").attr("class", "loading").text("加载中");
+	changeRescueUser(rescueUid);
+	return false;
+}
+
+function responseClick(btn){
+	var postId = $(btn).attr("post-id");
+	var rescueUid = $(btn).attr("rescue-uid");
+	var nickname = $(btn).attr("nickname");
+	var postContent = $(btn).attr("post-content");
+	openResponse(btn, postId, nickname, postContent, function(){
+		$(btn).unbind("click");
+		changeRescueUser(rescueUid);
+	});
+	return false;
+}
 
 function changeRescueUser(rescueUid){
 	$.ajax({
@@ -51,19 +59,10 @@ function changeRescueUser(rescueUid){
 			$("div.jj_mid > div").fadeOut(500, function(){
 				$("div.jj_mid > div").html(result).fadeIn(500, function(){
 					$("div.jj_mid > div").find("a.next").click(function(){
-						var rescueUid = $(this).attr("rescue-uid");
-						$(this).unbind("click").attr("class", "loading").text("加载中");
-						changeRescueUser(rescueUid);
-						return false;
+						next(this);
 					});
 					$("div.jj_mid > div").find("a.xy").click(function(){
-						var postId = $(this).attr("post-id");
-						var respCount = $(this).attr("resp-count");
-						var rescueUid = $(this).attr("rescue-uid");
-						openResponse(postId, respCount, function(){
-							changeRescueUser(rescueUid);
-						});
-						return false;
+						responseClick(this);
 					});
 				});
 			});

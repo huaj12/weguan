@@ -44,12 +44,12 @@ $(document).ready(function(){
 	$("div.post-response").click(function(){
 		var postId = $(this).attr("post-id");
 		var respCount = $(this).attr("resp-count");
-		var obj = $(this);
-		openResponse(postId, respCount, function(){
+		var obj = this;
+		openResponse(obj, postId, respCount, function(){
 			var currentCnt = parseInt(respCount);
-			obj.find("font").text(currentCnt + 1);
-			obj.find("a.xy").text("已" + obj.find("a.xy").text());
-			obj.unbind("click").addClass("done");
+			$(obj).find("font").text(currentCnt + 1);
+			$(obj).find("a.xy").text("已" + $(obj).find("a.xy").text());
+			$(obj).unbind("click").addClass("done");
 		});
 		return false;
 	});
@@ -252,14 +252,15 @@ function openDialog(followObj, dialogId, dialogContent){
 		drag : false,
 		resize : false,
 		esc : true,
-		lock : true,
 		id : dialogId,
 		content : dialogContent
 	};
 	if(null!=followObj){
 		options["follow"]=followObj;
+		options["lock"]=false;
 	} else {
 		options["top"]="50%";
+		options["lock"]=true;
 	}
 	return $.dialog(options);
 }
@@ -408,13 +409,13 @@ function sendDate(uid, btn, ideaId, followBtn, successCallback){
 	return false;
 }
 
-function openResponse(postId, respCount, clickCallback){
+function openResponse(obj, postId, respCount, clickCallback){
 	var content = $("#dialog-response").html().replace("{0}", respCount);
 	var login = $(content).attr("login");
 	if(login=="false"){
 		window.location.href = "/login?turnTo=" + window.location.href;
 	}else{
-		var dialog = openDialog(null, "openResponse", content);
+		var dialog = openDialog(obj, "openResponse", content);
 		//绑定事件
 		var textarea = $(dialog.content()).find("textarea");
 		registerInitMsg(textarea, function(isEdit){

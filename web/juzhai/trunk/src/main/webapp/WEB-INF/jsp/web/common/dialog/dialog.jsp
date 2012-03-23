@@ -56,7 +56,7 @@
 	<div class="fy_show_box" login="${context.uid > 0}"><!--fy_show_box begin-->
 		<h2>响应附言（可不填）</h2>
 		<div class="error" style="display:none;"></div>
-		<div class="text_area"><textarea init-msg="写下你的约会计划..."></textarea></div>
+		<div class="text_area"><textarea init-msg="建议附上你的qq或手机，方便对方联系你(仅对方可见)"></textarea></div>
 		<div class="btn_area">
 			<p><a href="javascript:void(0);">有{0}人响应</a></p>
 			<span><a href="javascript:void(0);" class="resp-btn">我要响应</a></span>

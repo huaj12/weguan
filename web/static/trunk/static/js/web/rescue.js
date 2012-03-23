@@ -30,7 +30,8 @@ $(document).ready(function(){
 		var postId = $(this).attr("post-id");
 		var respCount = $(this).attr("resp-count");
 		var rescueUid = $(this).attr("rescue-uid");
-		openResponse(postId, respCount, function(){
+		var obj = this;
+		openResponse(obj, postId, respCount, function(){
 			changeRescueUser(rescueUid);
 		});
 		return false;

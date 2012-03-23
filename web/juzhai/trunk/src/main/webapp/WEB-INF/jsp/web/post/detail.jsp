@@ -59,7 +59,7 @@
 														<div class="xiangyin_btn"><a href="javascript:void(0);" class="done">已响应</a></div>
 													</c:when>
 													<c:otherwise>
-														<div class="xiangyin_btn"><a href="javascript:void(0);" class="detail-response" post-id="${post.id}" resp-count="${post.responseCnt}">我要响应</a></div>
+														<div class="xiangyin_btn"><a href="javascript:void(0);" class="detail-response" post-id="${post.id}" resp-count="${post.responseCnt}" nickname="<c:out value='${postProfile.nickname}' />" post-content="<c:out value="${jzu:truncate(post.content,50,'...')}" />">我要响应</a></div>
 													</c:otherwise>
 												</c:choose>
 											</c:when>

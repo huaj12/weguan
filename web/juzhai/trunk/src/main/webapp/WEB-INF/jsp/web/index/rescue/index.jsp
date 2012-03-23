@@ -28,7 +28,7 @@
 									<c:when test="${gapWeekendHours > 0}">
 										<span>离周末还有<c:if test="${gapDays > 0}">${gapDays}天</c:if><c:if test="${gapHours > 0}">${gapHours}小时</c:if></span>
 									</c:when>
-									<c:otherwise>今天是周末，你还没脱宅么</c:otherwise>
+									<c:otherwise><span>今天是周末，你还没脱宅么</span></c:otherwise>
 								</c:choose>
 							</div>
 							<div class="jj_title">解救小宅</div>

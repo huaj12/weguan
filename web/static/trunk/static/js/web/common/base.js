@@ -44,8 +44,10 @@ $(document).ready(function(){
 	$("div.post-response").click(function(){
 		var postId = $(this).attr("post-id");
 		var respCount = $(this).attr("resp-count");
+		var nickname = $(this).attr("nickname");
+		var postContent = $(this).attr("post-content");
 		var obj = this;
-		openResponse(obj, postId, respCount, function(){
+		openResponse(obj, postId, nickname, postContent, function(){
 			var currentCnt = parseInt(respCount);
 			$(obj).find("font").text(currentCnt + 1);
 			$(obj).find("a.xy").text("已" + $(obj).find("a.xy").text());
@@ -409,13 +411,13 @@ function sendDate(uid, btn, ideaId, followBtn, successCallback){
 	return false;
 }
 
-function openResponse(obj, postId, respCount, clickCallback){
-	var content = $("#dialog-response").html().replace("{0}", respCount);
+function openResponse(obj, postId, nickname, postContent, clickCallback){
+	var content = $("#dialog-response").html().replace("{0}", nickname).replace("{1}", postContent);
 	var login = $(content).attr("login");
 	if(login=="false"){
 		window.location.href = "/login?turnTo=" + window.location.href;
 	}else{
-		var dialog = openDialog(obj, "openResponse", content);
+		var dialog = openDialog(null, "openResponse", content);
 		//绑定事件
 		var textarea = $(dialog.content()).find("textarea");
 		registerInitMsg(textarea, function(isEdit){

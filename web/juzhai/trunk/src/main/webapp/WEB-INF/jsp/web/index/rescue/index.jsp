@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -19,7 +19,18 @@
 				<div class="main_part"><!--main_part begin-->
 					<div class="jjxz"><!--jjxz begin-->
 						<div class="title"><!--title begin-->
-							<div class="jj_time"><p></p><span>离周末还有1天34小时</span></div>
+							<c:set var="gapWeekendHours" value="${jzu:gapWeekendHours()}" />
+							<c:set var="gapDays"><fmt:parseNumber value="${gapWeekendHours / 24}" integerOnly="true"/></c:set>
+							<c:set var="gapHours" value="${gapWeekendHours%24}" />
+							<div class="jj_time">
+								<p></p>
+								<c:choose>
+									<c:when test="${gapWeekendHours > 0}">
+										<span>离周末还有<c:if test="${gapDays > 0}">${gapDays}天</c:if><c:if test="${gapHours > 0}">${gapHours}小时</c:if></span>
+									</c:when>
+									<c:otherwise>今天是周末，你还没脱宅么</c:otherwise>
+								</c:choose>
+							</div>
 							<div class="jj_title">解救小宅</div>
 							<div class="view_btn"><a href="javascript:void(0);" class="kw">调整口味</a><a href="javascript:void(0);" class="jj">我要被解救</a></div>
 							<div class="kw_show" style="display:none;"><p>我们会根据你的拒宅偏好，为您推荐合适的人</p><a href="/profile/preference">去设置偏好</a></div>

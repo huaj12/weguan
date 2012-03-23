@@ -133,6 +133,10 @@ public class JzUtilFunction {
 	 */
 	public static long gapWeekendHours() {
 		Calendar c = Calendar.getInstance();
+		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+		if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
+			return 0;
+		}
 		c.setFirstDayOfWeek(Calendar.MONDAY);
 		c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
 		c.set(Calendar.AM_PM, Calendar.AM);

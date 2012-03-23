@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,8 @@ import com.juzhai.post.mapper.PostMapper;
 @Controller
 @RequestMapping("/cms")
 public class MigratePostController {
+
+	private final Log log = LogFactory.getLog(getClass());
 
 	@Autowired
 	private ProfileMapper profileMapper;
@@ -94,6 +98,8 @@ public class MigratePostController {
 				guessYouService.updateLikeUsers(profile.getUid());
 			}
 			firstResult += maxResults;
+			log.error("guess you like success users[" + list.get(0).getUid() + "-"
+					+ list.get(list.size() - 1).getUid() + "].");
 		}
 		return "success";
 	}

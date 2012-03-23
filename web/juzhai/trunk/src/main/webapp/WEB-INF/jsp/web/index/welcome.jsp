@@ -40,7 +40,7 @@
 				<div class="welcome"><!--welcome begin-->
 					<div class="welcome_t"></div>
 					<div class="welcome_m">
-						<h2><b>寻找一份属于你的阳光周末&nbsp;&gt;</b><a href="javascript:void(0);" class="go-login">立即加入</a></h2>
+						<h2><b>寻找一份属于你的阳光周末&nbsp;&gt;</b><a href="javascript:void(0);" class="go-login">立即体验</a></h2>
 						<div class="clear"></div>
 						<div style="height: 290px;position: relative;overflow: hidden;margin: 0px 100px;">
 							<div id="window-box" style="position: absolute;height: 250px;width: 2550px;left: 5px;">

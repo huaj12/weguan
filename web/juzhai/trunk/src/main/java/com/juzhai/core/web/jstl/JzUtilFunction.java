@@ -124,4 +124,26 @@ public class JzUtilFunction {
 
 		return sb.toString();
 	}
+
+	/**
+	 * 离周末还有多少小时
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static long gapWeekendHours() {
+		Calendar c = Calendar.getInstance();
+		c.setFirstDayOfWeek(Calendar.MONDAY);
+		c.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+		c.set(Calendar.AM_PM, Calendar.AM);
+		c.set(Calendar.HOUR, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		System.out.println(c.getTime());
+		return (c.getTimeInMillis() - System.currentTimeMillis()) / 3600000;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(gapWeekendHours());
+	}
 }

@@ -2353,7 +2353,7 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 
 
 
-.jjxz .title .jj_title{ float:left; margin-left:280px; display:inline;  font-size:24px; color:#666;  font-family:"微软雅黑"; line-height:normal; font-weight:bold;}
+.jjxz .title .jj_title{  font-size:24px; color:#666;  font-family:"微软雅黑"; line-height:normal; font-weight:bold; position:absolute; left:430px; top:-5px;}
 
 .jjxz .title .jj_time{ float:left; margin-top:5px;}
 .jjxz .title .jj_time p{ float:left; background:url(../images/web2/jj_time.png) no-repeat; width:16px; height:16px; margin-top:2px; margin-top:1px\9;}

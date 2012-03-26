@@ -143,11 +143,6 @@ public class JzUtilFunction {
 		c.set(Calendar.HOUR, 0);
 		c.set(Calendar.MINUTE, 0);
 		c.set(Calendar.SECOND, 0);
-		System.out.println(c.getTime());
 		return (c.getTimeInMillis() - System.currentTimeMillis()) / 3600000;
-	}
-
-	public static void main(String[] args) {
-		System.out.println(gapWeekendHours());
 	}
 }

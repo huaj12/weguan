@@ -53,7 +53,7 @@ public class GuessYouService implements IGuessYouService {
 			return;
 		}
 		ProfileExample example = new ProfileExample();
-		example.setOrderByClause("create_time asc");
+		example.setOrderByClause("last_update_time desc");
 		ProfileExample.Criteria c = example.createCriteria()
 				.andCityEqualTo(profile.getCity()).andLastUpdateTimeIsNotNull()
 				.andLogoPicIsNotNull().andLogoPicNotEqualTo(StringUtils.EMPTY)
@@ -82,26 +82,26 @@ public class GuessYouService implements IGuessYouService {
 				log.error("User[" + uid + "] age sift error", e);
 			}
 		}
-		int firstResult = 0;
-		int maxResults = 200;
-		List<Profile> likeUserList = null;
 		redisTemplate.delete(RedisKeyGenerator.genGuessYouLikeUsersKey(uid));
-		while (true) {
-			example.setLimit(new Limit(firstResult, maxResults));
-			likeUserList = profileMapper.selectByExample(example);
-			if (CollectionUtils.isEmpty(likeUserList)) {
-				break;
-			}
-			for (Profile lickUser : likeUserList) {
-				redisTemplate.opsForZSet().add(
-						RedisKeyGenerator.genGuessYouLikeUsersKey(uid),
-						lickUser.getUid(),
-						lickUser.getLastUpdateTime() != null ? lickUser
-								.getLastUpdateTime().getTime() : lickUser
-								.getCreateTime().getTime());
-			}
-			firstResult += maxResults;
+		int firstResult = 0;
+		int maxResults = 2 * rescueUsersTotalCount;
+		List<Profile> likeUserList = null;
+		// while (true) {
+		example.setLimit(new Limit(firstResult, maxResults));
+		likeUserList = profileMapper.selectByExample(example);
+		// if (CollectionUtils.isEmpty(likeUserList)) {
+		// break;
+		// }
+		for (Profile lickUser : likeUserList) {
+			redisTemplate.opsForZSet().add(
+					RedisKeyGenerator.genGuessYouLikeUsersKey(uid),
+					lickUser.getUid(),
+					lickUser.getLastUpdateTime() != null ? lickUser
+							.getLastUpdateTime().getTime() : lickUser
+							.getCreateTime().getTime());
 		}
+		// firstResult += maxResults;
+		// }
 		if (!existRescueUsers(uid)) {
 			// 复制数据进解救
 			Set<Long> uids = redisTemplate.opsForZSet().reverseRange(

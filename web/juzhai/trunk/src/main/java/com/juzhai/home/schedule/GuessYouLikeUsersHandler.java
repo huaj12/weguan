@@ -23,6 +23,7 @@ public class GuessYouLikeUsersHandler extends AbstractScheduleHandler {
 
 	@Override
 	protected void doHandle() {
+		log.error("start guess you like.");
 		int firstResult = 0;
 		int maxResults = 200;
 		ProfileExample example = new ProfileExample();
@@ -40,5 +41,6 @@ public class GuessYouLikeUsersHandler extends AbstractScheduleHandler {
 			}
 			firstResult += maxResults;
 		}
+		log.error("end guess you like.");
 	}
 }

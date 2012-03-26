@@ -1062,6 +1062,7 @@ var CommentWidget = Class.extend({
 					bindItemMouseHover(this);
 					bindReplyLink(this, commentForm);
 					bindDelLink(this);
+					//TODO 调用 bindReportLink
 				});
 			},
 			statusCode : {
@@ -1205,4 +1206,6 @@ var CommentWidget = Class.extend({
 			bindDelLink(this);
 		});
 	}
+	//TODO 定义 bindReportLink
+	//TODO 定义 bindAllReportLink
 });

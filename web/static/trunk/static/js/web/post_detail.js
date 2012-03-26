@@ -60,6 +60,7 @@ $(document).ready(function(){
 		commentWidget.bindReply();
 		commentWidget.bindAllReplyLink();
 		commentWidget.bindAllDelLink();
+		//TODO 调用 bindAllReportLink
 	}
 	
 });

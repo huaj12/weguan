@@ -36,6 +36,13 @@ $(document).ready(function(){
 		return false;
 	});
 	
+	$("div.message_item > div.btn > a.jubao").bind("click", function(){
+		var targetUid = $(this).attr("target-uid");
+		var targetContent = $(this).attr("target-content");
+		report(targetUid,'1',targetContent,targetUid);
+		return false;
+	});
+	
 	$("div.message_repy > div.repy_area > div.text_area > a.send").bind("click", function(){
 		$(this).hide();
 		$(this).next().show();
@@ -79,6 +86,7 @@ $(document).ready(function(){
 	
 	bindReply();
 	bindDelDialogContent();
+	bindReport();
 });
 
 function bindReply(){
@@ -86,6 +94,14 @@ function bindReply(){
 		$body.animate({scrollTop: $("#respond").offset().top}, 500, function(){
 			$("div.text_area > em > textarea").focus();
 		});
+		return false;
+	});
+}
+function bindReport(){
+	$("div.repy_box > span > div.btn > a#report-btn").bind("click", function(){
+		var dialogContent = $(this).attr("dialog-content");
+		var targetUid = $(this).attr("target-uid");
+		report(targetUid,'1',dialogContent,targetUid);
 		return false;
 	});
 }

@@ -1050,6 +1050,7 @@ var CommentWidget = Class.extend({
 		var commentForm = this.commentForm;
 		var bindReplyLink = this.bindReplyLink;
 		var bindDelLink = this.bindDelLink;
+		var bindReportLink=this.bindReportLink;
 		$.ajax({
 			url : "/post/newcomment",
 			type : "get",
@@ -1062,7 +1063,7 @@ var CommentWidget = Class.extend({
 					bindItemMouseHover(this);
 					bindReplyLink(this, commentForm);
 					bindDelLink(this);
-					//TODO 调用 bindReportLink
+					bindReportLink(this);
 				});
 			},
 			statusCode : {
@@ -1205,7 +1206,20 @@ var CommentWidget = Class.extend({
 		this.commentList.find("div.repy_list_s2 > ul > li").each(function(){
 			bindDelLink(this);
 		});
+	},
+	bindReportLink: function(item){
+		$(item).find("a#report-conment").click(function(){
+			var postId = $(this).attr("post-id");
+			var targetUid = $(this).attr("uid");
+			var content = $(this).attr("content");
+			report(targetUid,'2',content,postId);
+			return false;
+		});
+	},
+	bindAllReportLink: function(){
+		var bindReportLink=this.bindReportLink;
+		this.commentList.find("div.repy_list_s2 > ul > li").each(function(){
+			bindReportLink(this);
+		});
 	}
-	//TODO 定义 bindReportLink
-	//TODO 定义 bindAllReportLink
 });

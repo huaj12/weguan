@@ -29,4 +29,16 @@ $(document).ready(function(){
 		showLogin(window.location.href);
 		return false;
 	});
+	
+	setInterval(function(){
+		jQuery.ajax({
+			url : "/welcomenum",
+			type : "get",
+			cache : false,
+			dataType : "html",
+			success : function(result) {
+				$("div.wel_num").html(result);
+			}
+		});
+	}, 5000);
 });

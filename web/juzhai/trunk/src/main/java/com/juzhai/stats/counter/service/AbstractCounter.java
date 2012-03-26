@@ -20,8 +20,10 @@ public abstract class AbstractCounter implements ICounter {
 				key.append(KeyGenerator.CACHE_KEY_SEPARATOR).append(obj);
 			}
 		}
-		key.append(KeyGenerator.CACHE_KEY_SEPARATOR).append(
-				DateUtils.truncate(date, timeUnit.getField()).getTime());
+		if (null != timeUnit && null != timeUnit.getField()) {
+			key.append(KeyGenerator.CACHE_KEY_SEPARATOR).append(
+					DateUtils.truncate(date, timeUnit.getField()).getTime());
+		}
 		return key.toString();
 	}
 }

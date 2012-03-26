@@ -264,4 +264,9 @@ public class PostCommentService implements IPostCommentService {
 		example.createCriteria().andPostIdEqualTo(postId);
 		return postCommentMapper.countByExample(example);
 	}
+
+	@Override
+	public int totalCount() {
+		return postCommentMapper.countByExample(new PostCommentExample());
+	}
 }

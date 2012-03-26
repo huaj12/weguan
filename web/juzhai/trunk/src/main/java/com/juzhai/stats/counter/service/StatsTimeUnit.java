@@ -4,15 +4,15 @@ import java.util.Calendar;
 
 public enum StatsTimeUnit {
 	MINUTE(Calendar.MINUTE), HOUR(Calendar.HOUR), DATE(Calendar.DATE), MONTH(
-			Calendar.MONTH), YEAR(Calendar.YEAR);
+			Calendar.MONTH), YEAR(Calendar.YEAR), NONE(null);
 
-	private int field;
+	private Integer field;
 
-	private StatsTimeUnit(int field) {
+	private StatsTimeUnit(Integer field) {
 		this.field = field;
 	}
 
-	public int getField() {
+	public Integer getField() {
 		return field;
 	}
 }

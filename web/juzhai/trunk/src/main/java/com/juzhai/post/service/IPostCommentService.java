@@ -89,4 +89,11 @@ public interface IPostCommentService {
 	 * @return
 	 */
 	int countPostComment(long postId);
+
+	/**
+	 * 留言总数
+	 * 
+	 * @return
+	 */
+	int totalCount();
 }

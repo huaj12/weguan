@@ -1059,4 +1059,14 @@ public class PostService implements IPostService {
 		return map;
 	}
 
+	@Override
+	public int totalCount() {
+		return postMapper.countByExample(new PostExample());
+	}
+
+	@Override
+	public int responseTotalCount() {
+		return postResponseMapper.countByExample(new PostResponseExample());
+	}
+
 }

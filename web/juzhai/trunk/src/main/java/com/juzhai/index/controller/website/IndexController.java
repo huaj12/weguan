@@ -32,6 +32,7 @@ import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IInterestUserService;
+import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.post.controller.view.PostView;
@@ -39,6 +40,7 @@ import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostWindow;
 import com.juzhai.post.service.IIdeaService;
+import com.juzhai.post.service.IPostCommentService;
 import com.juzhai.post.service.IPostService;
 import com.juzhai.post.service.IPostWindowService;
 
@@ -59,6 +61,10 @@ public class IndexController extends BaseController {
 	private IInterestUserService interestUserService;
 	@Autowired
 	private IGuessYouService guessYouService;
+	@Autowired
+	private IPassportService passportService;
+	@Autowired
+	private IPostCommentService postCommentService;
 	@Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows;
 	@Value("${web.show.ideas.user.count}")
@@ -94,7 +100,38 @@ public class IndexController extends BaseController {
 			postWindowViews.add(view);
 		}
 		model.addAttribute("postWindowViews", postWindowViews);
+		welcomNum(request, model);
 		return "web/index/welcome";
+	}
+
+	@RequestMapping(value = { "/welcomenum" }, method = RequestMethod.GET)
+	public String welcomNum(HttpServletRequest request, Model model) {
+		int totalUserCount = passportService.totalCount();
+		model.addAttribute("userCount", totalUserCount);
+		int totalPostCount = postService.totalCount();
+		model.addAttribute("postCount", totalPostCount);
+		int totalInteractCount = postService.responseTotalCount()
+				+ postCommentService.totalCount();
+		model.addAttribute("interactCount", totalInteractCount);
+
+		model.addAttribute("userNumList", convertToNumList(totalUserCount));
+		model.addAttribute("postNumList", convertToNumList(totalPostCount));
+		model.addAttribute("interactNumList",
+				convertToNumList(totalInteractCount));
+		return "web/index/stats_num";
+	}
+
+	private List<Integer> convertToNumList(int totalCount) {
+		List<Integer> numList = new ArrayList<Integer>(7);
+		while (true) {
+			numList.add(totalCount % 10);
+			totalCount = totalCount / 10;
+			if (totalCount <= 0) {
+				break;
+			}
+		}
+		Collections.reverse(numList);
+		return numList;
 	}
 
 	@RequestMapping(value = { "/showideas", "showIdeas" }, method = RequestMethod.GET)

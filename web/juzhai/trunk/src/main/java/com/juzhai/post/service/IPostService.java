@@ -307,4 +307,17 @@ public interface IPostService {
 	 */
 	int getAllResponseCnt(long uid);
 
+	/**
+	 * 拒宅总数
+	 * 
+	 * @return
+	 */
+	int totalCount();
+
+	/**
+	 * 响应总数
+	 * 
+	 * @return
+	 */
+	int responseTotalCount();
 }

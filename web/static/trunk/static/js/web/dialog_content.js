@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	
-	$("div.message_item > div.btn > a.delete").bind("click", function(){
+	$("div.delete > a").bind("click", function(){
 		var dialogId = $(this).attr("dialog-id");
 		var targetName = $(this).attr("target-name");
 		var obj = this;

@@ -60,6 +60,7 @@
 					</div>
 					<div class="welcome_b"></div>
 				</div><!--welcome end-->
+				<jsp:include page="stats_num.jsp" />
 			</div><!--main end-->
 			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 			<script type="text/javascript" src="${jzr:static('/js/web/welcome.js')}"></script>

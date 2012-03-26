@@ -1099,7 +1099,12 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .message .title span.sx{ background:url(../images/web2/message_title_icon.jpg) no-repeat; width:24px; height:33px; margin-top:18px;}
 .message .title em{ color:#999; margin-left:10px; font-size:12px;}
 .message .title h2{ float:left; color:#999; font-family:"微软雅黑","宋体"; font-weight:bold; font-size:20px; margin-left:8px; display:inline;}
+ 
 .message .title a{ float:right; margin-right:28px; display:inline; line-height:70px; text-decoration:underline; color:#3E8BD9; font-size:14px; }
+
+.message .title p{ float:right; margin-right:28px; display:inline; line-height:70px; color:#999;}
+.message .title p b{ color:#666;}
+.message .title p a{ margin:0 5px; color:#3E8BD9; font-size:12px; float:none; text-decoration:none;}
 
 
 .message .message_list{width:880px; height:auto; overflow:hidden; margin:0 auto; margin-top:15px; padding-bottom:20px;}
@@ -2067,7 +2072,7 @@ _filter:none;
 
 width:100%; height:25px; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:25px;
 }
-
+/*
 .bottom_welcome_wel{
 width:100%; height:25px; position:fixed; bottom:0px; left:0px; z-index:1000;
 _position:absolute;
@@ -2078,6 +2083,17 @@ _filter:none;
 
 width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:25px;
 }
+
+*/
+.bottom_welcome_wel{
+width:100%; height:25px;
+float:left;overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:25px;
+}
+
+
+
+
+
 
 
 .bottom_welcome a{ color:#666;float:right; margin-right:5px; display:inline; line-height:27px; margin-left:5px;}
@@ -2430,15 +2446,39 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 
 
 
+/*统计*/
+.wel_num{ text-align:center; line-height:20px; font-size:14px; font-family:"微软雅黑"; margin:0 auto; width:960px; float:left; padding-bottom:50px;}
+/*
+.wel_num p{ color:#666; margin-left:5px; margin-right:5px; display:inline; *float:left;}
+
+.wel_num b{ width:20px; background:url(../images/web2/num_welcome.gif) repeat-x; height:20px; color:#fff; font-weight:normal; text-align:center; margin-left:1px; overflow:hidden; display:inline-table;  *display:block inline; *float:left; }
+*/
+
+.wel_num p{ color:#666; margin-left:5px; margin-right:5px;}
+
+.wel_num b{ padding-left:6px; padding-right:6px; background:url(../images/web2/num_welcome.gif) no-repeat; height:20px; color:#fff; font-weight:normal; text-align:center; margin-left:1px; overflow:hidden; }
 
 
+/*管理明细*/
+.other_page{ width:900px;margin:0 auto; height:auto; overflow:hidden;}
+
+.other_page .other_left{ width:630px; min-height:400px; _height:400px; display:block;  float:right;padding-bottom:40px; padding-top:10px; border-left:1px solid #f0f0f0; padding-left:30px; padding-right:20px;}
+
+.other_left h2{ font-size:18px; width:100%; font-weight:bold; line-height:normal; color:#333; font-family:"微软雅黑";margin-top:30px; }
+.other_left h3{ width:100%; font-size:12px; color:#666; margin-top:25px; font-weight:bold; padding-bottom:5px;}
+.other_left p{ color:#999; font-size:12px; margin-top:5px; line-height:180%;}
+.other_left a{ color:#3E8BD9; margin-top:30px; float:left;}
+.other_left a:hover{ text-decoration:underline;}
+.other_left p a{ margin:0; float:none;}
 
 
+.other_page .other_right{ width:200px; float:left; height:auto; overflow:hidden; margin-top:35px;}
 
+.other_right a{ width:185px; height:35px; overflow:hidden; padding-left:15px; font-size:14px; color:#666; display:block; line-height:35px; line-height:37px\9; margin-top:5px;}
+.other_right a:hover{ color:#3E8BD9;}
+.other_right a.select{ background:#3E8BD9; color:#fff;}
 
-
-
-
+.other_right a.select:hover{ cursor:default;}
 
 /*登录弹出层*/
 
@@ -2606,3 +2646,35 @@ width:100%; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:2
 
 
 .fy_show_box .btn_area  .sending a{background:url(../images/web2/sending_btn_s1.gif) no-repeat; width:50px; height:30px; overflow:hidden; display:block; color:#999;font-size:14px; line-height:30px; line-height:32px\9; padding-left:30px; cursor:default; text-align:left;}
+
+
+
+/*举报弹出层*/
+
+.jb_show_box{ width:350px; height:auto; overflow:hidden;}
+
+.jb_show_box h2{ float:left ; width:100%; line-height:180%; color:#666; font-size:14px;}
+.jb_show_box h2 a{ margin-left:5px; margin-right:5px;}
+.jb_show_box h2 a.user{}
+.jb_show_box h2 a.user:hover{ text-decoration:underline;}
+.jb_show_box h2 a.mess{ color:#3E8BD9;}
+
+.jb_show_box .choose{ float:left; margin-top:10px; width:100%;}
+.jb_show_box .choose p{ float:left; width:100%; color:#999; padding-bottom:5px;}
+.jb_show_box .choose span{ float:left; margin-right:15px;}
+.jb_show_box .choose span b{ float:left; margin-top:2px; *margin-top:-2px;}
+.jb_show_box .choose span em{ color:#999; float:left; margin-left:2px;}
+
+
+.jb_show_box .bcsm{ float:left; width:100%; margin-top:20px;}
+.jb_show_box .bcsm p{ float:left; color:#999; padding-bottom:5px;}
+.jb_show_box .bcsm .error{ float:right; color:#FF0000}
+.jb_show_box .bcsm span{ float:left; width:350px; height:65px; overflow:hidden; background:url(../images/web2/jb_text_ng.jpg) no-repeat; margin-top:5px;}
+.jb_show_box .bcsm span textarea{ float:left; width:330px; height:55px; line-height:160%; overflow:hidden; border:none; background:none; color:#666; padding:5px 10px; font-size:12px;}
+
+.jb_show_box .bcsm em{ float:left; color:#ccc; margin-top:15px;}
+.jb_show_box .bcsm a{ float:right; background:url(../images/web2/send_area_btn.gif) no-repeat; overflow:hidden; display:block; width:80px; height:30px; color:#fff; font-size:14px; text-align:center; line-height:30px; line-height:32px\9; margin-top:10px;}
+
+
+.jb_show_box .boy a.user{ color:#3E8BD9;}
+.jb_show_box .girl a.user{ color:#f69;}

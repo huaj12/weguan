@@ -11,4 +11,11 @@ public interface IPassportService {
 	 * @return
 	 */
 	Passport getPassportByUid(long uid);
+
+	/**
+	 * 总数
+	 * 
+	 * @return
+	 */
+	int totalCount();
 }

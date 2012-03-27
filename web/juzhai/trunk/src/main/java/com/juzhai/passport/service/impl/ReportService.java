@@ -33,7 +33,6 @@ public class ReportService implements IReportService {
 	private MessageSource messageSource;
 
 	@Override
-	// TODO (done) uid不能放在form里？
 	public void save(ReportForm form, long createUid)
 			throws InputReportException {
 		validateReport(form, createUid);
@@ -41,7 +40,6 @@ public class ReportService implements IReportService {
 		report.setCreateTime(new Date());
 		report.setDescription(form.getDescription());
 		report.setHandle(ReportHandleEnum.HANDLEING.getType());
-		// TODO (done) lastModifyTime的值能不能用上面的createTime？
 		report.setLastModifyTime(report.getCreateTime());
 		report.setReportType(form.getReportType());
 		report.setReportUid(form.getReportUid());
@@ -53,8 +51,6 @@ public class ReportService implements IReportService {
 
 	private void validateReport(ReportForm reportForm, long createUid)
 			throws InputReportException {
-		// TODO (done) url需要验证长度吗？用户输入的？
-		// TODO (done) 为什么打开弹框，需要url？如果不需要组装url的话，打开举报框，需要进服务端请求吗？
 		try {
 			String url = null;
 			String reportUrlTemplate = ReportContentType
@@ -84,6 +80,7 @@ public class ReportService implements IReportService {
 			}
 			reportForm.setContentUrl(url);
 		} catch (Exception e) {
+			// TODO (review) 会出现什么异常？可知的还是未知的？
 			throw new InputReportException(
 					InputReportException.ILLEGAL_OPERATION);
 		}
@@ -98,7 +95,6 @@ public class ReportService implements IReportService {
 
 	@Override
 	public List<Report> listReport(int firstResult, int maxResults, int type) {
-		// TODO (done) 一个方法调用，需要提取出来吗？
 		ReportExample example = new ReportExample();
 		example.createCriteria().andHandleEqualTo(type);
 		example.setLimit(new Limit(firstResult, maxResults));
@@ -110,7 +106,6 @@ public class ReportService implements IReportService {
 	public void shieldUser(long id, Long uid, long time) {
 		Report report = new Report();
 		report.setId(id);
-		// TODO (done) handle为什么没有枚举？
 		report.setHandle(ReportHandleEnum.HANDLED.getType());
 		report.setLastModifyTime(new Date());
 		reportMapper.updateByPrimaryKeySelective(report);
@@ -120,14 +115,13 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	// TODO (done) 解锁需要依赖于report?解锁不应该改变report的状态吧，report处理过就处理过了，状态不应该能还原
+	// TODO (review) 为什么还有reportId参数？另外做一个被锁用户列表，只能在那列表里进行解锁操作
 	public void unShieldUser(long id, Long uid) {
 		passportService.lockUser(uid, 0);
 		// TODO 调用发私信接口 解除屏蔽
 	}
 
 	@Override
-	// TODO (done) 方法名取的不好，count开头吧
 	public int countListReport(int type) {
 		ReportExample example = new ReportExample();
 		example.createCriteria().andHandleEqualTo(type);
@@ -135,10 +129,10 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
+	// TODO (review) 忽略的话，方法名字改了，并且请求名字也改了
 	public void handleReport(long id) {
 		Report report = new Report();
 		report.setId(id);
-		// TODO (done) handle为什么没有枚举？有几种状态？“未处理，已处理，无效”我的理解
 		report.setHandle(ReportHandleEnum.INVALID.getType());
 		report.setLastModifyTime(new Date());
 		reportMapper.updateByPrimaryKeySelective(report);

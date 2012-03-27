@@ -55,30 +55,38 @@ public class ReportService implements IReportService {
 			throws InputReportException {
 		// TODO (done) url需要验证长度吗？用户输入的？
 		// TODO (done) 为什么打开弹框，需要url？如果不需要组装url的话，打开举报框，需要进服务端请求吗？
-		String url = null;
-		String reportUrlTemplate = ReportContentType
-				.getReportUrlTemplate(reportForm.getContentType());
-		switch (ReportContentType.getReportContentTypeEnum(reportForm
-				.getContentType())) {
-		case COMMENT:
-			url = messageSource.getMessage(reportUrlTemplate,
-					new Object[] { String.valueOf(reportForm.getContentId()) },
-					Locale.SIMPLIFIED_CHINESE);
-			break;
-		case MESSAGE:
-			url = messageSource.getMessage(reportUrlTemplate,
-					new Object[] { String.valueOf(reportForm.getReportUid()),
-							String.valueOf(createUid) },
-					Locale.SIMPLIFIED_CHINESE);
-			break;
-		case PROFILE:
-			url = messageSource.getMessage(reportUrlTemplate,
-					new Object[] { String.valueOf(reportForm.getReportUid()) },
-					Locale.SIMPLIFIED_CHINESE);
-			break;
+		try {
+			String url = null;
+			String reportUrlTemplate = ReportContentType
+					.getReportUrlTemplate(reportForm.getContentType());
+			switch (ReportContentType.getReportContentTypeEnum(reportForm
+					.getContentType())) {
+			case COMMENT:
+				url = messageSource
+						.getMessage(reportUrlTemplate, new Object[] { String
+								.valueOf(reportForm.getContentId()) },
+								Locale.SIMPLIFIED_CHINESE);
+				break;
+			case MESSAGE:
+				url = messageSource.getMessage(
+						reportUrlTemplate,
+						new Object[] {
+								String.valueOf(reportForm.getReportUid()),
+								String.valueOf(createUid) },
+						Locale.SIMPLIFIED_CHINESE);
+				break;
+			case PROFILE:
+				url = messageSource
+						.getMessage(reportUrlTemplate, new Object[] { String
+								.valueOf(reportForm.getReportUid()) },
+								Locale.SIMPLIFIED_CHINESE);
+				break;
+			}
+			reportForm.setContentUrl(url);
+		} catch (Exception e) {
+			throw new InputReportException(
+					InputReportException.ILLEGAL_OPERATION);
 		}
-		reportForm.setContentUrl(url);
-
 		int descriptionLength = StringUtil.chineseLength(reportForm
 				.getDescription());
 		if (descriptionLength > reportDescriptionLengthMax) {

@@ -1260,14 +1260,14 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 
 /*被封号*/
-.bfh{width:530px; height:auto; overflow:hidden; margin:0 auto; margin-top:100px; padding-bottom:100px;}
-.bfh p{ background:url(../images/web2/bfh.gif) no-repeat; width:84px; height:95px; float:left; margin-right:20px; display:inline;}
-.bfh span{ float:left;font-size:18px; font-family:"微软雅黑"; line-height:normal;  float:left; width:400px; margin-top:5px; color:#555;}
+.bfh{width:600px; height:auto; overflow:hidden; margin:0 auto; margin-top:100px; padding-bottom:100px;}
+.bfh p{ background:url(../images/web2/bfh.gif) no-repeat; width:84px; height:95px; float:left; margin-right:16px; display:inline;}
+.bfh span{ float:left;font-size:18px; font-family:"微软雅黑"; line-height:normal;  float:left; width:500px; margin-top:5px; color:#555;}
 .bfh span a{}
 .bfh span a:hover{ text-decoration:underline;}
-.bfh em{ float:left; margin-top:10px; color:#777; font-size:14px; line-height:180%;}
-
-.bfh b{ float:left; margin-top:10px; font-weight:normal; float:left; color:#999; width:400px;}
+.bfh em{ float:left; margin-top:10px; color:#777; font-size:14px; line-height:180%;  width:500px;}
+.bfh em a{ color:#3E8BD9; margin-left:5px;}
+.bfh b{ float:left; margin-top:10px; font-weight:normal; float:left; color:#999; width:500px;}
 .bfh b a{ color:#3E8BD9;}
 .bfh .girl a{color:#f69;}
 .bfh .boy a{color:#3E8BD9;}
@@ -1773,6 +1773,12 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .my_jz .none{ float:left; width:100%; margin-top:100px; padding-bottom:100px; color:#999; text-align:center;}
 
 .my_head_area{ width:620px; height:182px; padding:19px 20px; position:relative;}
+
+.my_head_area .jb{ position:absolute; top:20px; right:20px;}
+.my_head_area .jb a{ color:#3E8BD9; }
+.my_head_area .jb a:hover{ text-decoration:underline;}
+
+
 .my_head_area .face{ width:180px; height:180px; overflow:hidden; float:left; margin-right:20px; display:inline; position:relative;}
 
 .my_head_area b{ position:absolute; bottom:0; left:0; background:#000; width:180px; height:25px; text-align:center; line-height:25px; line-height:27px\9; color:#fff;
@@ -2218,6 +2224,7 @@ float:left;overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:25
 .liuyan_box .ly_conetent .ly_m em a{ float:right; margin-left:10px; display:inline; color:#3E8BD9; }
 .liuyan_box .ly_conetent .ly_m em a:hover{ text-decoration:underline;}
 .liuyan_box .ly_conetent .ly_m em a.delete{ display:none;}
+.liuyan_box .ly_conetent .ly_m em a.jb{ float:left; margin-left:10px; display:none;}
 .liuyan_box .ly_conetent .ly_m em .time{ float:left; margin:0px; color:#acacac;}
 
 
@@ -2228,7 +2235,7 @@ float:left;overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:25
 .liuyan_box .girl .ly_m strong a.u{ color:#f69;}
 
 .liuyan_box .hover .ly_m em a.delete{ display:inline;}
-
+.liuyan_box .hover .ly_m em a.jb{ display:inline;}
 
 
 .liuyan_box .repy_area_s2{ width:500px; margin:0 auto; margin-top:10px; display:none;}

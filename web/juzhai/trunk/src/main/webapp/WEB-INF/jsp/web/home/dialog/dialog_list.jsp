@@ -11,12 +11,13 @@
 		</c:when>
 		<c:otherwise>
 			<c:forEach var="dialogView" items="${dialogViewList}">
+				<c:set var="flag" value="${context.uid==dialogView.dialogContent.receiverUid}"></c:set>
 				<div class="list_item mouseHover <c:choose><c:when test='${dialogView.targetProfile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose> <c:choose><c:when test='${context.uid==dialogView.dialogContent.receiverUid}'>m_s</c:when><c:otherwise>m_r</c:otherwise></c:choose>">
 					<div class="item_t"></div>
 					<div class="item_m">
 						<div class="icon"><span><em></em></span></div>
 						<div class="message_item">
-							<div class="btn"><a href="javascript:void(0);" class="repy" target-name="${dialogView.targetProfile.nickname}" target-uid="${dialogView.targetProfile.uid}">回复</a></div><div class="delete"><a href="javascript:void(0);" dialog-id="${dialogView.dialog.id}" target-name="<c:out value='${dialogView.targetProfile.nickname}'></c:out>"></a></div>
+							<div class="btn"><c:if test="${flag}"> <a href="javascript:void(0);" target-content="${dialogView.dialogContent.content}" target-uid="${dialogView.targetProfile.uid}" class="jubao">举报</a></c:if><a href="javascript:void(0);" class="repy" target-name="${dialogView.targetProfile.nickname}" target-uid="${dialogView.targetProfile.uid}">回复</a></div><div class="delete"><a href="javascript:void(0);" dialog-id="${dialogView.dialog.id}" target-name="<c:out value='${dialogView.targetProfile.nickname}'></c:out>"></a></div>
 							<div></div>
 							<div class="photo"><a href="/home/${dialogView.targetProfile.uid}"><img src="${jzr:userLogo(dialogView.targetProfile.uid,dialogView.targetProfile.logoPic,80)}"  width="80" height="80"/></a></div>
 							<c:set var="age" value="${jzu:age(dialogView.targetProfile.birthYear, dialogView.targetProfile.birthSecret)}" />
@@ -25,7 +26,7 @@
 							<div class="msg_content">
 								<span>
 									<c:choose>
-										<c:when test="${context.uid==dialogView.dialogContent.receiverUid}">
+										<c:when test="${flag}">
 										<h3>ta发给我</h3>
 									</c:when>
 									<c:otherwise>

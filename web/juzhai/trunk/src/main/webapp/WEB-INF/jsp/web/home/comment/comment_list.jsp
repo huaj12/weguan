@@ -6,7 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="jz_list"><!--jz_list begin-->
 	<div class="title"><!--title begin-->
-		<h2>我的留言</h2>
+		<h2>我的留言222</h2>
 		<div class="ly_menu"><!--ly_menu begin-->
 			<span <c:if test="${commentType == 'inbox'}">class="act"</c:if>><p></p><a href="/home/comment/inbox/1">我收到的</a><p></p></span>
 			<span <c:if test="${commentType == 'outbox'}">class="act"</c:if>><p></p><a href="/home/comment/outbox/1">我发出的</a><p></p></span>
@@ -57,6 +57,7 @@
 								<em>
 									<div class="time">发布于&nbsp;<c:set var="date" value="${postCommentView.postComment.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></div>
 									<c:if test="${!isMe}">
+										<a href="javascript:void(0);" nickname="<c:out value='${postCommentView.createUser.nickname}' />" content="<c:out value='${postCommentView.postComment.content}' />" post-comment-id="${postCommentView.postComment.id}" class="jb">举报</a>
 										<a href="javascript:void(0);" nickname="<c:out value='${postCommentView.createUser.nickname}' />" content="<c:out value='${postCommentView.postComment.content}' />" post-comment-id="${postCommentView.postComment.id}" class="reply-link">回复</a>
 									</c:if>
 									<c:if test="${isMe || loginUser.uid == postCommentView.postComment.postCreateUid}">

@@ -6,7 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="jz_list"><!--jz_list begin-->
 	<div class="title"><!--title begin-->
-		<h2>我的留言222</h2>
+		<h2>我的留言</h2>
 		<div class="ly_menu"><!--ly_menu begin-->
 			<span <c:if test="${commentType == 'inbox'}">class="act"</c:if>><p></p><a href="/home/comment/inbox/1">我收到的</a><p></p></span>
 			<span <c:if test="${commentType == 'outbox'}">class="act"</c:if>><p></p><a href="/home/comment/outbox/1">我发出的</a><p></p></span>
@@ -44,7 +44,7 @@
 							<c:set var="target" value="拒宅" />
 						</c:otherwise>
 					</c:choose>
-					<div class="item <c:choose><c:when test="${targetUser.gender == 1}">boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--item begin-->
+					<div class="item mouseHover <c:choose><c:when test="${targetUser.gender == 1}">boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--item begin-->
 						<div class="face"><!--face begin-->
 							<a href="/home/${targetUser.uid}"><img src="${jzr:userLogo(targetUser.uid,targetUser.logoPic,80)}" width="80" /></a>
 						</div><!--face end-->

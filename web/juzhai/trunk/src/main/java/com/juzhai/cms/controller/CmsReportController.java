@@ -15,13 +15,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.cms.controller.view.CmsReportView;
+import com.juzhai.cms.controller.view.UserLockView;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.home.controller.view.DialogContentView;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.passport.bean.LockUserLevel;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Report;
+import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IReportService;
 
@@ -36,6 +39,8 @@ public class CmsReportController {
 	private IProfileService profileService;
 	@Autowired
 	private IDialogService dialogService;
+	@Autowired
+	private IPassportService passportService;
 
 	@RequestMapping(value = "/report/show", method = RequestMethod.GET)
 	public String showReport(Model model,
@@ -135,4 +140,23 @@ public class CmsReportController {
 		return "/cms/report/message";
 	}
 
+	@RequestMapping(value = "/show/lock/user", method = RequestMethod.GET)
+	public String showLockUser(Model model,
+			@RequestParam(defaultValue = "1") int pageId) {
+		PagerManager pager = new PagerManager(pageId, 50,
+				passportService.countLockUser());
+		List<Passport> list = passportService.listLockUser(
+				pager.getFirstResult(), pager.getMaxResult());
+		List<UserLockView> views = new ArrayList<UserLockView>();
+		for (Passport passport : list) {
+			UserLockView view = new UserLockView();
+			view.setPassport(passport);
+			view.setProfile(profileService.getProfileCacheByUid(passport
+					.getId()));
+			views.add(view);
+		}
+		model.addAttribute("views", views);
+		model.addAttribute("pager", pager);
+		return "/cms/report/lock_user_list";
+	}
 }

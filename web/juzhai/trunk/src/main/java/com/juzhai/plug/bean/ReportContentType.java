@@ -21,4 +21,20 @@ public enum ReportContentType {
 		return null;
 	}
 
+	public static String getReportUrlTemplate(int type) {
+		String str = null;
+		switch (ReportContentType.getReportContentTypeEnum(type)) {
+		case MESSAGE:
+			str = "report.message.url";
+			break;
+		case COMMENT:
+			str = "report.comment.url";
+			break;
+		case PROFILE:
+			str = "report.profile.url";
+			break;
+		}
+		return str;
+	}
+
 }

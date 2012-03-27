@@ -6,6 +6,7 @@ package com.juzhai.passport.controller;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +42,9 @@ import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.JoinTypeEnum;
+import com.juzhai.passport.exception.LoginException;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.passport.service.IReportService;
 import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.platform.service.IUserService;
@@ -61,6 +64,8 @@ public class TpAuthorizeController extends BaseController {
 	private ILoginService loginService;
 	@Autowired
 	private IUserGuideService userGuideService;
+	@Autowired
+	private IReportService reportService;
 
 	@RequestMapping(value = "app/login")
 	public String login(HttpServletRequest request, Model model) {
@@ -125,7 +130,10 @@ public class TpAuthorizeController extends BaseController {
 			return returnError();
 		}
 
-		loginService.login(request, uid, tp.getId(), RunType.APP);
+		try {
+			loginService.login(request, uid, tp.getId(), RunType.APP);
+		} catch (LoginException e) {
+		}
 
 		return returnPage(uid, tp, returnTo);
 	}
@@ -261,7 +269,7 @@ public class TpAuthorizeController extends BaseController {
 	@RequestMapping(value = "web/access/{tpId}")
 	public String webAccess(HttpServletRequest request,
 			HttpServletResponse response, @PathVariable long tpId,
-			String turnTo, String error_code)
+			String turnTo, String error_code, Model model)
 			throws UnsupportedEncodingException, MalformedURLException {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if (null == tp) {
@@ -291,7 +299,12 @@ public class TpAuthorizeController extends BaseController {
 					+ tp.getJoinType() + "].");
 			return error_500;
 		}
-		loginService.login(request, uid, tp.getId(), RunType.CONNET);
+		try {
+			loginService.login(request, uid, tp.getId(), RunType.CONNET);
+		} catch (LoginException e) {
+			model.addAttribute("shieldTime", new Date(e.getShieldTime()));
+			return "web/login/login_error";
+		}
 		if (!userGuideService.isCompleteGuide(uid)) {
 			return "redirect:/home/guide";
 		}

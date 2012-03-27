@@ -31,12 +31,14 @@ public class ReportService implements IReportService {
 	private int reportContentUrlLengthMax;
 
 	@Override
+	// TODO (review) uid不能放在form里？
 	public void save(ReportForm form, long uid) throws InputReportException {
 		validateReport(form);
 		Report report = new Report();
 		report.setCreateTime(new Date());
 		report.setDescription(form.getDescription());
 		report.setHandle(0);
+		// TODO (review) lastModifyTime的值能不能用上面的createTime？
 		report.setLastModifyTime(new Date());
 		report.setReportType(form.getReportType());
 		report.setReportUid(form.getReportUid());
@@ -48,6 +50,7 @@ public class ReportService implements IReportService {
 
 	private void validateReport(ReportForm reportForm)
 			throws InputReportException {
+		// TODO (review) url需要验证长度吗？用户输入的？
 		int contentUrlLength = StringUtil.chineseLength(reportForm
 				.getContentUrl());
 		if (contentUrlLength > reportContentUrlLengthMax
@@ -71,6 +74,7 @@ public class ReportService implements IReportService {
 				maxResults));
 	}
 
+	// TODO (review) 一个方法调用，需要提取出来吗？
 	private ReportExample getListExample(int handle, int firstResult,
 			int maxResults) {
 		ReportExample example = new ReportExample();
@@ -84,6 +88,7 @@ public class ReportService implements IReportService {
 	public void shieldUser(long id, Long uid, long time) {
 		Report report = new Report();
 		report.setId(id);
+		// TODO (review) handle为什么没有枚举？
 		report.setHandle(2);
 		report.setLastModifyTime(new Date());
 		reportMapper.updateByPrimaryKeySelective(report);
@@ -93,9 +98,11 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
+	// TODO (review) 解锁需要依赖于report?解锁不应该改变report的状态吧，report处理过就处理过了，状态不应该能还原
 	public void unShieldUser(long id, Long uid) {
 		Report report = new Report();
 		report.setId(id);
+		// TODO (review) handle为什么没有枚举？
 		report.setHandle(1);
 		report.setLastModifyTime(new Date());
 		reportMapper.updateByPrimaryKeySelective(report);
@@ -104,6 +111,7 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
+	// TODO (review) 方法名取的不好，count开头吧
 	public int listReportCount(int type) {
 		ReportExample example = new ReportExample();
 		example.createCriteria().andHandleEqualTo(type);
@@ -114,6 +122,7 @@ public class ReportService implements IReportService {
 	public void handleReport(long id) {
 		Report report = new Report();
 		report.setId(id);
+		// TODO (review) handle为什么没有枚举？有几种状态？“未处理，已处理，无效”我的理解
 		report.setHandle(1);
 		report.setLastModifyTime(new Date());
 		reportMapper.updateByPrimaryKeySelective(report);
@@ -125,6 +134,7 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
+	// TODO (review) 被举报的人只有一条report？
 	public Report getUserReport(long uid) {
 		ReportExample example = new ReportExample();
 		example.createCriteria().andHandleEqualTo(2).andReportUidEqualTo(uid);

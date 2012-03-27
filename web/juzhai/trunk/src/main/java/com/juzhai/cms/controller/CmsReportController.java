@@ -56,6 +56,7 @@ public class CmsReportController {
 					.getProfileCacheByUid(report.getUid());
 			ProfileCache reportProfileCache = profileService
 					.getProfileCacheByUid(report.getReportUid());
+			// TODO (review) 为什么不放两个profile？如果需要显示头像或者链接，性别，怎么办？再改java？
 			CmsReportView view = new CmsReportView(
 					reportProfileCache.getNickname(),
 					profileCache.getNickname(), report);
@@ -71,6 +72,7 @@ public class CmsReportController {
 		try {
 			reportService.handleReport(id);
 		} catch (Exception e) {
+			// TODO (review) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
 			ajaxResult.setSuccess(false);
 		}
 		return ajaxResult;
@@ -82,20 +84,25 @@ public class CmsReportController {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
 			Date date = new Date();
+			// TODO (review) 锁定时间不应该页面传进来，页面仅仅传入锁定级别，具体时间应该是服务器里配置的时间
 			reportService.shieldUser(id, uid, date.getTime() + time);
 		} catch (Exception e) {
+			// TODO (review) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
 			ajaxResult.setSuccess(false);
 		}
 		return ajaxResult;
 	}
 
+	// TODO (review) 这个请求url不好，通常应该是“/模块/操作”,"/un/shield/"比较奇怪
 	@RequestMapping(value = "/un/shield/report", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult unShieldReport(long id, long uid) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
+			// TODO (review) 解锁不应该还原report的状态
 			reportService.unShieldUser(id, uid);
 		} catch (Exception e) {
+			// TODO (review) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
 			ajaxResult.setSuccess(false);
 		}
 		return ajaxResult;
@@ -108,6 +115,7 @@ public class CmsReportController {
 		try {
 			reportService.deleteReport(id);
 		} catch (Exception e) {
+			// TODO (review) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
 			ajaxResult.setSuccess(false);
 		}
 		return ajaxResult;

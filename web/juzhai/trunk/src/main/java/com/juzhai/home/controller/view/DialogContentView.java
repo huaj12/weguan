@@ -7,8 +7,12 @@ public class DialogContentView {
 
 	private DialogContent dialogContent;
 
+	/**
+	 * 发送者Profile
+	 */
 	private ProfileCache profile;
 
+	// TODO (review) 换名字，叫receiverProfile
 	private ProfileCache myProfile;
 
 	public DialogContent getDialogContent() {

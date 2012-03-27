@@ -13,10 +13,11 @@
 				<div></div>
 				<p></p>
 				<span>
-					<h3><c:choose><c:when test="${dialogContentView.dialogContent.senderUid==context.uid}">我:</c:when><c:otherwise><a href="/home/${dialogContentView.profile.uid}"><c:out value="${dialogContentView.profile.nickname}" />:</a></c:otherwise></c:choose></h3>
+					<c:set value="${dialogContentView.dialogContent.senderUid==context.uid}" var="isMe"></c:set>
+					<h3><c:choose><c:when test="${isMe}">我:</c:when><c:otherwise><a href="/home/${dialogContentView.profile.uid}"><c:out value="${dialogContentView.profile.nickname}" />:</a></c:otherwise></c:choose></h3>
 					<em>“<c:out value="${dialogContentView.dialogContent.content}" />”</em>
 					<b><c:set var="date" value="${dialogContentView.dialogContent.createTime}" scope="request" /><jsp:include page="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></b>
-					<div class="btn"><a href="javascript:void(0);" id="report-btn" dialog-content="<c:out value="${dialogContentView.dialogContent.content}" />" target-uid="${targetProfile.uid}">举报</a><a href="javascript:void(0);" id="del-btn" dialog-content-id="${dialogContentView.dialogContent.id}" target-uid="${targetProfile.uid}">删除</a><a href="javascript:void(0);" id="repy-btn">回复</a></div>
+					<div class="btn"><c:if test="${!isMe }"><a href="javascript:void(0);" id="report-btn" dialog-content="<c:out value="${dialogContentView.dialogContent.content}" />" target-uid="${targetProfile.uid}">举报</a></c:if><a href="javascript:void(0);" id="del-btn" dialog-content-id="${dialogContentView.dialogContent.id}" target-uid="${targetProfile.uid}">删除</a><a href="javascript:void(0);" id="repy-btn">回复</a></div>
 				</span>
 				<p></p>
 			</div><!--repy_box end-->

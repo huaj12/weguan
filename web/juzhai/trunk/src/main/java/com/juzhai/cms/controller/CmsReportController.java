@@ -19,7 +19,6 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.home.controller.view.DialogContentView;
 import com.juzhai.home.service.IDialogService;
-import com.juzhai.passport.bean.LockUserLevel;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.Report;
 import com.juzhai.passport.service.IProfileService;
@@ -71,7 +70,7 @@ public class CmsReportController {
 	public AjaxResult handleReport(long id) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			reportService.handleReport(id);
+			reportService.ignoreReport(id);
 		} catch (Exception e) {
 			log.error("handleReport is error", e);
 			ajaxResult.setSuccess(false);
@@ -84,8 +83,8 @@ public class CmsReportController {
 	public AjaxResult shieldReport(long id, int level, long uid) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			// TODO (review) 方法接口不应该直接传入时间，应该传入等级，具体哪个等级是多少时间，是业务需求，不应该在控制层
-			reportService.shieldUser(id, uid, LockUserLevel.getLockTime(level));
+			// TODO (done) 方法接口不应该直接传入时间，应该传入等级，具体哪个等级是多少时间，是业务需求，不应该在控制层
+			reportService.shieldUser(id, uid, level);
 		} catch (Exception e) {
 			log.error("shieldReport is error", e);
 			ajaxResult.setSuccess(false);
@@ -98,8 +97,8 @@ public class CmsReportController {
 	public AjaxResult unShieldReport(long id, long uid) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			// TODO (review) 还需要reportId？另外需要单独做一个被锁用户列表
-			reportService.unShieldUser(id, uid);
+			// TODO (done) 还需要reportId？另外需要单独做一个被锁用户列表
+			reportService.unShieldUser(uid);
 		} catch (Exception e) {
 			log.error("unShieldReport is error", e);
 			ajaxResult.setSuccess(false);

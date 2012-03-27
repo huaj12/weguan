@@ -42,6 +42,7 @@
 					<div class="keep user-add-interest interest-${profile.uid}" <c:if test="${isInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${profile.uid}" title="点击收藏">收藏ta</a></div>
 					<div class="message_icon"><a href="javascript:void(0);" target-uid="${profile.uid}" target-nickname="<c:out value='${profile.nickname}'/>">私信</a></div>
 					<div class="ta_btn"><a href="javascript:void(0);" target-uid="${profile.uid}" target-nickname="<c:out value='${profile.nickname}'/>">约ta</a></div>
+					<div class="jb"><a href="javascript:void(0);" target-uid="${profile.uid}" id="report-profile" >举报</a></div>
 				</c:when>
 				<c:otherwise>
 					<div class="btn"><a href="/home">发布拒宅</a></div>

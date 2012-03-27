@@ -19,6 +19,7 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.home.controller.view.DialogContentView;
 import com.juzhai.home.service.IDialogService;
+import com.juzhai.passport.bean.LockUserLevel;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.Report;
 import com.juzhai.passport.service.IProfileService;
@@ -84,7 +85,8 @@ public class CmsReportController {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
 			// TODO (done) 方法接口不应该直接传入时间，应该传入等级，具体哪个等级是多少时间，是业务需求，不应该在控制层
-			reportService.shieldUser(id, uid, level);
+			reportService.shieldUser(id, uid,
+					LockUserLevel.getLockUserLevelEnum(level));
 		} catch (Exception e) {
 			log.error("shieldReport is error", e);
 			ajaxResult.setSuccess(false);

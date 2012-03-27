@@ -8,7 +8,7 @@ public class LoginException extends JuzhaiException {
 	/**
 	 * 用户已被锁定
 	 */
-	public static final String USER_IS_SHIELD = "160001";
+	public static final String USER_IS_SHIELD = "00004";
 
 	public LoginException(String errorCode, Throwable cause) {
 		super(errorCode, cause);

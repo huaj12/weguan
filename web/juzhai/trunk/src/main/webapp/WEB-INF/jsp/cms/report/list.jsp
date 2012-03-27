@@ -14,7 +14,7 @@
 	function delete_report(id){
 		if(confirm("是否删除该条举报")){
 			jQuery.ajax({
-				url : "/cms/delete/report",
+				url : "/cmsreport/delete",
 				type : "post",
 				data : {
 					"id" : id
@@ -37,7 +37,7 @@
 	}
 	function handle_report(id){
 			jQuery.ajax({
-				url : "/cms/handle/report",
+				url : "/cms/report/handle",
 				type : "post",
 				data : {
 					"id" : id
@@ -59,7 +59,7 @@
 	}
 	function un_shield_report(id,uid){
 		jQuery.ajax({
-			url : "/cms/un/shield/report",
+			url : "/cms/report/unshield",
 			type : "post",
 			data : {
 				"id" : id,
@@ -81,16 +81,15 @@
 		});
 	}
 	
-	function shield_report(id,uid,time){
-		if(confirm("是否确定屏蔽该用户"+time+"天")){
-			time=time*24*3600*1000;
+	function shield_report(id,uid,level){
+		if(confirm("是否确定屏蔽该用户")){
 		jQuery.ajax({
-			url : "/cms/shield/report",
+			url : "/cms/report/shield/",
 			type : "post",
 			data : {
 				"id" : id,
 				"uid":uid,
-				"time":time
+				"level":level
 			},
 			dataType : "json",
 			success : function(result) {
@@ -114,11 +113,10 @@
 </head>
 <body>
 	<h2>
-	<c:choose><c:when test="${type!=0}"><a href="/cms/show/report?type=0">待审核</a></c:when><c:otherwise>待审核</c:otherwise>	</c:choose><br/>
-	<c:choose><c:when test="${type!=1}"><a href="/cms/show/report?type=1">已处理</a></c:when><c:otherwise>已处理</c:otherwise>	</c:choose><br/>
-		<c:choose><c:when test="${type!=2}"><a href="/cms/show/report?type=2">已屏蔽</a></c:when><c:otherwise>已屏蔽</c:otherwise>	</c:choose><br/>
+	<c:choose><c:when test="${type!=0}"><a href="/cms/report/show?type=0">待审核</a></c:when><c:otherwise>待审核</c:otherwise>	</c:choose><br/>
+	<c:choose><c:when test="${type!=1}"><a href="/cms/report/show?type=1">已处理</a></c:when><c:otherwise>已处理</c:otherwise>	</c:choose><br/>
+		<c:choose><c:when test="${type!=2}"><a href="/cms/report/show?type=2">已屏蔽</a></c:when><c:otherwise>已屏蔽</c:otherwise>	</c:choose><br/>
 	</h2>
-	<form action="/cms/cmsUpdateCategory" method="get">
 		<table border="0" id="DynaTable" cellspacing="4">
 			<tr style="background-color: #CCCCCC;">
 				<td width="100">被举报人</td>
@@ -129,7 +127,7 @@
 				<td width="250">举报者</td>
 				<c:forEach items="${views }" var="view">
 				<tr>
-					<td>${view.reportNickname}</td>
+					<td>${view.reportProfile.nickname}</td>
 					<td><a href="${view.report.contentUrl}" target="_blank">点击查看内容</a></td>
 					<td><c:import url="/WEB-INF/jsp/web/common/fragment/report_type.jsp">
 					<c:param name="reportType" value="${view.report.reportType}"/>
@@ -138,22 +136,22 @@
 						<c:choose>
 							<c:when test="${type==0}">
 							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','1')">屏蔽1天</a>
-							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','7')">屏蔽7天</a>
-							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','999')">永久屏蔽</a>
+							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','2')">屏蔽7天</a>
+							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','3')">永久屏蔽</a>
 							<a href="#" onclick="handle_report('${view.report.id}')">忽略</a>
 							</c:when>
 							<c:when test="${type==1 }">
 							<a onclick="delete_report('${view.report.id}')" href="#">删除</a>
 							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','1')">屏蔽1天</a>
-							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','7')">屏蔽7天</a>
-							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','999')">永久屏蔽</a>
+							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','2')">屏蔽7天</a>
+							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','3')">永久屏蔽</a>
 							</c:when>
 							<c:when test="${type==2 }">
 							<a onclick="un_shield_report('${view.report.id}','${view.report.reportUid}')" href="#">解禁</a></c:when>
 						</c:choose>
 					</td>
 					<td><fmt:formatDate value="${view.report.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-					<td>${view.nickname}</td>
+					<td>${view.createProfile.nickname}</td>
 				</tr>
 				</c:forEach>
 			</tr>
@@ -172,7 +170,5 @@
 			</td>
 		</tr>
 		</table>
-		<!--  >input type="submit" value="保存" /-->
-	</form>
 </body>
 </html>

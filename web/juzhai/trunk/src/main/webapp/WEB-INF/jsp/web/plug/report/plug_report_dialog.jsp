@@ -9,7 +9,7 @@
 													<!--jb_show_box begin-->
 													<form id="report_form">
 														<h2 class="girl">
-															确定要举报<a href="#" class="user">${nickname}</a>
+															确定要举报<a href="#" class="user">${profile.nickname}</a>
 															<c:if test="${contentType!=3}">
 															的
 															<c:import
@@ -44,7 +44,7 @@
 														</div>
 														<!--bcsm end-->
 														<input type="hidden" value="${uid}" name="reportUid" /> <input
-															type="hidden" value="${url}" name="contentUrl" />
+															type="hidden" value="${contentId}" name="contentId" />
 														<input type="hidden" value="${contentType}" name="contentType"/>	
 													</form>
 												</div>

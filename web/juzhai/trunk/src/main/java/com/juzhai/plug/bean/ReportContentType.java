@@ -9,6 +9,7 @@ public enum ReportContentType {
 
 	private ReportContentType(int type, String url) {
 		this.type = type;
+		this.url = url;
 	}
 
 	public int getType() {

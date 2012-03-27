@@ -242,7 +242,7 @@ a:hover {
 				<a href="javascript:showChild('report_');">举报管理</a>
 				<ul style="display: none;" id="report_" class="child">
 					<li style="background-color: #A4D3EE;"><a
-						style="color: black;" href="/cms/show/report"
+						style="color: black;" href="/cms/report/show"
 						target="config">举报管理</a>
 					</li>
 				</ul>

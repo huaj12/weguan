@@ -9,6 +9,8 @@ public class DialogContentView {
 
 	private ProfileCache profile;
 
+	private ProfileCache myProfile;
+
 	public DialogContent getDialogContent() {
 		return dialogContent;
 	}
@@ -24,4 +26,13 @@ public class DialogContentView {
 	public void setProfile(ProfileCache profile) {
 		this.profile = profile;
 	}
+
+	public ProfileCache getMyProfile() {
+		return myProfile;
+	}
+
+	public void setMyProfile(ProfileCache myProfile) {
+		this.myProfile = myProfile;
+	}
+
 }

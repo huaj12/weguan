@@ -14,7 +14,7 @@
 	function deleteReport(id){
 		if(confirm("是否删除该条举报")){
 			jQuery.ajax({
-				url : "/cmsreport/delete",
+				url : "/cms/report/delete",
 				type : "post",
 				data : {
 					"id" : id

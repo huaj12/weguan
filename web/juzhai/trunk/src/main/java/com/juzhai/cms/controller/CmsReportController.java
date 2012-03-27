@@ -59,7 +59,6 @@ public class CmsReportController {
 					.getProfileCacheByUid(report.getCreateUid());
 			ProfileCache reportProfileCache = profileService
 					.getProfileCacheByUid(report.getReportUid());
-			// TODO (done) 为什么不放两个profile？如果需要显示头像或者链接，性别，怎么办？再改java？
 			CmsReportView view = new CmsReportView(reportProfileCache,
 					createProfile, report);
 			views.add(view);
@@ -74,7 +73,6 @@ public class CmsReportController {
 		try {
 			reportService.handleReport(id);
 		} catch (Exception e) {
-			// TODO (done) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
 			log.error("handleReport is error", e);
 			ajaxResult.setSuccess(false);
 		}
@@ -86,26 +84,23 @@ public class CmsReportController {
 	public AjaxResult shieldReport(long id, int level, long uid) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			// TODO (done) 锁定时间不应该页面传进来，页面仅仅传入锁定级别，具体时间应该是服务器里配置的时间
+			// TODO (review) 方法接口不应该直接传入时间，应该传入等级，具体哪个等级是多少时间，是业务需求，不应该在控制层
 			reportService.shieldUser(id, uid, LockUserLevel.getLockTime(level));
 		} catch (Exception e) {
-			// TODO (done) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
 			log.error("shieldReport is error", e);
 			ajaxResult.setSuccess(false);
 		}
 		return ajaxResult;
 	}
 
-	// TODO (done) 这个请求url不好，通常应该是“/模块/操作”,"/un/shield/"比较奇怪
 	@RequestMapping(value = "/report/unshield", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult unShieldReport(long id, long uid) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			// TODO (done) 解锁不应该还原report的状态
+			// TODO (review) 还需要reportId？另外需要单独做一个被锁用户列表
 			reportService.unShieldUser(id, uid);
 		} catch (Exception e) {
-			// TODO (done) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
 			log.error("unShieldReport is error", e);
 			ajaxResult.setSuccess(false);
 		}
@@ -119,7 +114,6 @@ public class CmsReportController {
 		try {
 			reportService.deleteReport(id);
 		} catch (Exception e) {
-			// TODO (done) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
 			log.error("deleteReport is error", e);
 			ajaxResult.setSuccess(false);
 		}

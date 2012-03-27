@@ -12,7 +12,6 @@ public class DialogContentView {
 	 */
 	private ProfileCache profile;
 
-	// TODO (done) 换名字，叫receiverProfile
 	private ProfileCache receiverProfile;
 
 	public DialogContent getDialogContent() {

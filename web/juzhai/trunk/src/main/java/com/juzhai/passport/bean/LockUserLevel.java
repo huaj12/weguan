@@ -24,6 +24,7 @@ public enum LockUserLevel {
 
 	public static long getLockTime(int type) {
 		long time = 0;
+		// TODO (review) 通过配置文件，load进内存
 		switch (LockUserLevel.getLockUserLevelEnum(type)) {
 		case LEVEL1:
 			time = 1 * 24 * 60 * 60 * 1000;

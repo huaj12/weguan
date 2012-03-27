@@ -33,18 +33,15 @@ public class ReportContrller extends BaseController {
 	@Autowired
 	private IProfileService profileService;
 
-	// TODO (done) content作为参数，就不要用get了，有风险
 	@RequestMapping(value = { "/report/show" }, method = RequestMethod.POST)
 	public String showIvite(HttpServletRequest request,
 			HttpServletResponse response, Model model,
 			@RequestParam(defaultValue = "0") int uid, String content,
 			@RequestParam(defaultValue = "1") int contentType, int contentId)
 			throws NeedLoginException {
-		UserContext context = checkLoginForWeb(request);
+		checkLoginForWeb(request);
 		ProfileCache cache = profileService.getProfileCacheByUid(uid);
-		String url = null;
 		if (null != cache) {
-			// TODO (done) 为什么不放profile
 			model.addAttribute("profile", cache);
 		}
 

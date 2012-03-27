@@ -38,19 +38,19 @@ public interface IReportService {
 	/**
 	 * 屏蔽某人
 	 */
-	void shieldUser(long id, Long uid, long time);
+	void shieldUser(long id, Long uid, int level);
 
 	/**
 	 * 取消屏蔽
 	 */
-	void unShieldUser(long id, Long uid);
+	void unShieldUser(Long uid);
 
 	/**
 	 * 忽略该举报
 	 * 
 	 * @param id
 	 */
-	void handleReport(long id);
+	void ignoreReport(long id);
 
 	/**
 	 * 删除举报

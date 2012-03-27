@@ -95,4 +95,10 @@ $(document).ready(function() {
 		});
 		return false;
 	});
+	
+	$("div.my_head_area > div.jb > a#report-profile").bind("click", function(){
+		var targetUid = $(this).attr("target-uid");
+		report(targetUid,'3','',targetUid);
+		return false;
+	});
 });

@@ -61,7 +61,7 @@
 					<div class="welcome_b"></div>
 				</div><!--welcome end-->
 				<div class="wel_num"><!--wel_num begin-->
-					<jsp:include page="stats_num.jsp" />
+					<jsp:include page="welcome_num.jsp" />
 				</div><!--wel_num end-->
 			</div><!--main end-->
 			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />

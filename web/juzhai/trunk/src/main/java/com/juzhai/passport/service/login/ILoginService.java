@@ -6,6 +6,7 @@ package com.juzhai.passport.service.login;
 import javax.servlet.http.HttpServletRequest;
 
 import com.juzhai.core.exception.NeedLoginException.RunType;
+import com.juzhai.passport.exception.LoginException;
 
 public interface ILoginService {
 
@@ -15,7 +16,8 @@ public interface ILoginService {
 	 * @param request
 	 * @param uid
 	 */
-	void login(HttpServletRequest request, long uid, long tpId, RunType runType);
+	void login(HttpServletRequest request, long uid, long tpId, RunType runType)
+			throws LoginException;
 
 	/**
 	 * cms登录

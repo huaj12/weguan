@@ -18,6 +18,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.home.service.IUserStatusService;
+import com.juzhai.passport.exception.LoginException;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Passport;
@@ -50,7 +51,7 @@ public abstract class AbstractLoginService implements ILoginService {
 
 	@Override
 	public void login(HttpServletRequest request, final long uid,
-			final long tpId, RunType runType) {
+			final long tpId, RunType runType) throws LoginException {
 		// 判断是不是当天第一次登陆
 		Passport passport = passportMapper.selectByPrimaryKey(uid);
 		if (null == passport) {
@@ -62,7 +63,11 @@ public abstract class AbstractLoginService implements ILoginService {
 		// accountService.profitPoint(uid, ProfitAction.DAY_LOGIN);
 		// HttpRequestUtil.setSessionAttribute(request, DAY_FIRST_LOGIN, true);
 		// }
-
+		Date shield = passport.getShieldTime();
+		if (shield != null && shield.getTime() > new Date().getTime()) {
+			throw new LoginException(LoginException.USER_IS_SHIELD,
+					shield.getTime());
+		}
 		doLogin(request, uid, tpId, false);
 		// 更新最后登录时间
 		updateLastLoginTime(uid, runType);

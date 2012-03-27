@@ -11,4 +11,3 @@
 <script type="text/javascript" src="${jzr:static('/js/core/core.js')}"></script>
 <script type="text/javascript" src="${jzr:static('/js/web/common/base.js')}"></script>
 <script type="text/javascript" src="${jzr:static('/js/web/common/header.js')}"></script>
-<script type="text/javascript" src="${jzr:static('/js/plug/report.js')}"></script>

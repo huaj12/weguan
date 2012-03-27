@@ -64,8 +64,8 @@ public abstract class AbstractLoginService implements ILoginService {
 		// HttpRequestUtil.setSessionAttribute(request, DAY_FIRST_LOGIN, true);
 		// }
 		Date shield = passport.getShieldTime();
-		// TODO (review) 获取当前时间long的方法，用System里的方法
-		if (shield != null && shield.getTime() > new Date().getTime()) {
+		// TODO (done) 获取当前时间long的方法，用System里的方法
+		if (shield != null && shield.getTime() > System.currentTimeMillis()) {
 			throw new LoginException(LoginException.USER_IS_SHIELD,
 					shield.getTime());
 		}

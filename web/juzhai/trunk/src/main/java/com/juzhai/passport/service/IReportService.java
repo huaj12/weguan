@@ -14,7 +14,13 @@ import com.juzhai.plug.controller.form.ReportForm;
  */
 public interface IReportService {
 
-	// TODO (review) 注释
+	/**
+	 * 保存用户举报信息
+	 * 
+	 * @param reportForm
+	 * @param uid
+	 * @throws InputReportException
+	 */
 	void save(ReportForm reportForm, long uid) throws InputReportException;
 
 	/**
@@ -27,7 +33,7 @@ public interface IReportService {
 	 */
 	List<Report> listReport(int firstResult, int maxResults, int type);
 
-	int listReportCount(int type);
+	int countListReport(int type);
 
 	/**
 	 * 屏蔽某人
@@ -52,13 +58,5 @@ public interface IReportService {
 	 * @param id
 	 */
 	void deleteReport(long id);
-
-	/**
-	 * 被封号用户的被举报信息
-	 * 
-	 * @param uid
-	 * @return
-	 */
-	Report getUserReport(long uid);
 
 }

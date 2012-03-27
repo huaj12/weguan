@@ -240,7 +240,7 @@ public class DialogService implements IDialogService {
 			view.setDialogContent(getDialogContent(dialogContentId));
 			view.setProfile(profileService.getProfileCacheByUid(view
 					.getDialogContent().getSenderUid()));
-			view.setMyProfile(profileService.getProfileCacheByUid(view
+			view.setReceiverProfile(profileService.getProfileCacheByUid(view
 					.getDialogContent().getReceiverUid()));
 			viewList.add(view);
 		}

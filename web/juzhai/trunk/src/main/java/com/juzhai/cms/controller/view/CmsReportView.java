@@ -1,32 +1,34 @@
 package com.juzhai.cms.controller.view;
 
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.Report;
 
 public class CmsReportView {
-	private String reportNickname;
-	private String nickname;
+	private ProfileCache reportProfile;
+	private ProfileCache createProfile;
 	private Report report;
 
-	public CmsReportView(String reportNickname, String nickname, Report report) {
+	public CmsReportView(ProfileCache reportProfile,
+			ProfileCache createProfile, Report report) {
 		this.report = report;
-		this.nickname = nickname;
-		this.reportNickname = reportNickname;
+		this.reportProfile = reportProfile;
+		this.createProfile = createProfile;
 	}
 
-	public String getReportNickname() {
-		return reportNickname;
+	public ProfileCache getReportProfile() {
+		return reportProfile;
 	}
 
-	public void setReportNickname(String reportNickname) {
-		this.reportNickname = reportNickname;
+	public void setReportProfile(ProfileCache reportProfile) {
+		this.reportProfile = reportProfile;
 	}
 
-	public String getNickname() {
-		return nickname;
+	public ProfileCache getCreateProfile() {
+		return createProfile;
 	}
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setCreateProfile(ProfileCache createProfile) {
+		this.createProfile = createProfile;
 	}
 
 	public Report getReport() {

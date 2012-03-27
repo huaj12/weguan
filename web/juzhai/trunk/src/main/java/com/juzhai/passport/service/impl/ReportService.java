@@ -58,7 +58,6 @@ public class ReportService implements IReportService {
 			throw new InputReportException(
 					InputReportException.ILLEGAL_OPERATION);
 		}
-		// TODO (done) 代码写的不够漂亮
 		String url = null;
 		String urlTemplate = reportContentType.getUrl();
 		switch (reportContentType) {

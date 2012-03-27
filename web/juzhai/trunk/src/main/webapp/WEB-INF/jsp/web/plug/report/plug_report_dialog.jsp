@@ -16,7 +16,7 @@
 																url="/WEB-INF/jsp/web/common/fragment/report_content_type.jsp">
 																<c:param name="reportContentType" value="${contentType}" />
 															</c:import>
-															<a href="#" class="mess">"${jz:truncate(content,52,'...')}"</a>
+															<a href="javascript:void(0)" class="mess">"${jz:truncate(content,52,'...')}"</a>
 															</c:if>
 															么？
 														</h2>

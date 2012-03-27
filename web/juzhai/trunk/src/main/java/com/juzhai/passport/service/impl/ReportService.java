@@ -58,25 +58,23 @@ public class ReportService implements IReportService {
 			throw new InputReportException(
 					InputReportException.ILLEGAL_OPERATION);
 		}
-		// TODO (review) 代码写的不够漂亮
+		// TODO (done) 代码写的不够漂亮
 		String url = null;
-		String reportUrlTemplate = ReportContentType.getReportContentTypeEnum(
-				reportForm.getContentType()).getUrl();
-		switch (ReportContentType.getReportContentTypeEnum(reportForm
-				.getContentType())) {
+		String urlTemplate = reportContentType.getUrl();
+		switch (reportContentType) {
 		case COMMENT:
-			url = messageSource.getMessage(reportUrlTemplate,
+			url = messageSource.getMessage(urlTemplate,
 					new Object[] { String.valueOf(reportForm.getContentId()) },
 					Locale.SIMPLIFIED_CHINESE);
 			break;
 		case MESSAGE:
-			url = messageSource.getMessage(reportUrlTemplate,
+			url = messageSource.getMessage(urlTemplate,
 					new Object[] { String.valueOf(reportForm.getReportUid()),
 							String.valueOf(createUid) },
 					Locale.SIMPLIFIED_CHINESE);
 			break;
 		case PROFILE:
-			url = messageSource.getMessage(reportUrlTemplate,
+			url = messageSource.getMessage(urlTemplate,
 					new Object[] { String.valueOf(reportForm.getReportUid()) },
 					Locale.SIMPLIFIED_CHINESE);
 			break;

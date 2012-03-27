@@ -1,5 +1,7 @@
 package com.juzhai.plug.controller.website;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,6 +23,7 @@ import com.juzhai.passport.exception.InputReportException;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IReportService;
 import com.juzhai.plug.bean.ReportContentType;
+import com.juzhai.plug.bean.ReportUrlTemplate;
 import com.juzhai.plug.controller.form.ReportForm;
 
 @Controller
@@ -49,13 +52,23 @@ public class ReportContrller extends BaseController {
 
 		switch (ReportContentType.getReportContentTypeEnum(contentType)) {
 		case COMMENT:
-			url = "/post/" + contentId + "/comment";
+			url = messageSource.getMessage(
+					ReportUrlTemplate.COMMENT_URL.getName(),
+					new Object[] { String.valueOf(contentId) },
+					Locale.SIMPLIFIED_CHINESE);
 			break;
 		case MESSAGE:
-			url = "/cms/report/message/" + uid + "/" + context.getUid();
+			url = messageSource.getMessage(
+					ReportUrlTemplate.MESSAGE_URL.getName(),
+					new Object[] { String.valueOf(uid),
+							String.valueOf(context.getUid()) },
+					Locale.SIMPLIFIED_CHINESE);
 			break;
 		case PROFILE:
-			url = "/home/" + uid;
+			url = messageSource.getMessage(
+					ReportUrlTemplate.COMMENT_URL.getName(),
+					new Object[] { String.valueOf(uid) },
+					Locale.SIMPLIFIED_CHINESE);
 			break;
 		}
 		model.addAttribute("content", content);

@@ -37,7 +37,7 @@ public class CmsReportController {
 	@Autowired
 	private IDialogService dialogService;
 
-	@RequestMapping(value = "/report/show/", method = RequestMethod.GET)
+	@RequestMapping(value = "/report/show", method = RequestMethod.GET)
 	public String showReport(Model model,
 			@RequestParam(defaultValue = "1") int pageId,
 			@RequestParam(defaultValue = "0") int type) {
@@ -66,7 +66,6 @@ public class CmsReportController {
 		return views;
 	}
 
-	// TODO (done) 请求名字改了
 	@RequestMapping(value = "/report/ignore", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult handleReport(long id) {
@@ -96,7 +95,6 @@ public class CmsReportController {
 
 	@RequestMapping(value = "/report/unshield", method = RequestMethod.POST)
 	@ResponseBody
-	// TODO (done) id不需要就不要传进来了
 	public AjaxResult unShieldReport(long uid) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {

@@ -39,7 +39,8 @@ public interface IReportService {
 	/**
 	 * 屏蔽某人
 	 */
-	void shieldUser(long id, Long uid, LockUserLevel lockUserLevel);
+	void shieldUser(long id, Long uid, LockUserLevel lockUserLevel)
+			throws InputReportException;
 
 	/**
 	 * 取消屏蔽

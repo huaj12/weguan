@@ -66,8 +66,8 @@ public class CmsReportController {
 		return views;
 	}
 
-	// TODO (review) 请求名字改了
-	@RequestMapping(value = "/report/handle", method = RequestMethod.POST)
+	// TODO (done) 请求名字改了
+	@RequestMapping(value = "/report/ignore", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult handleReport(long id) {
 		AjaxResult ajaxResult = new AjaxResult();
@@ -96,8 +96,8 @@ public class CmsReportController {
 
 	@RequestMapping(value = "/report/unshield", method = RequestMethod.POST)
 	@ResponseBody
-	// TODO (review) id不需要就不要传进来了
-	public AjaxResult unShieldReport(long id, long uid) {
+	// TODO (done) id不需要就不要传进来了
+	public AjaxResult unShieldReport(long uid) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
 			reportService.unShieldUser(uid);

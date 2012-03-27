@@ -1,8 +1,8 @@
 package com.juzhai.plug.bean;
 
 public enum ReportUrlTemplate {
-	MESSAGE_URL("report_message_url"), COMMENT_URL("report_comment_url"), PROFILE_URL(
-			"report_profile_url");
+	MESSAGE_URL("report.message.url"), COMMENT_URL("report.comment.url"), PROFILE_URL(
+			"report.profile.url");
 
 	private String name;
 

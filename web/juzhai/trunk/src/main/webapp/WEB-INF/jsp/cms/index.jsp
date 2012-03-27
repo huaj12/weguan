@@ -245,6 +245,10 @@ a:hover {
 						style="color: black;" href="/cms/report/show"
 						target="config">举报管理</a>
 					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/lock/user"
+						target="config">被锁定用户列表</a>
+					</li>
 				</ul>
 				
 			</li>

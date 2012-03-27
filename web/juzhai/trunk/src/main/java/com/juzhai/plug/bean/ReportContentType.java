@@ -32,7 +32,4 @@ public enum ReportContentType {
 		}
 		return null;
 	}
-
-	// TODO (done) 合并的方式错了。应该把url对应的key作为枚举里的一个成员变量。
-
 }

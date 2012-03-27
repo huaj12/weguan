@@ -22,10 +22,12 @@ public class PassportService implements IPassportService {
 	}
 
 	@Override
+	// TODO (review) 接口用Date更友好
 	public void lockUser(long uid, long time) {
 		Passport passport = getPassportByUid(uid);
 		if (time > 0) {
 			Date date = new Date(time);
+			// TODO (review) 如果传入的时间在当前时间之前，没必要数据库更新
 			passport.setShieldTime(date);
 		} else {
 			passport.setShieldTime(null);
@@ -34,6 +36,7 @@ public class PassportService implements IPassportService {
 		passportMapper.updateByPrimaryKey(passport);
 
 	}
+
 	@Override
 	public int totalCount() {
 		return passportMapper.countByExample(new PassportExample());

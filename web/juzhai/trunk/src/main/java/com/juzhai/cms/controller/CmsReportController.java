@@ -1,9 +1,10 @@
 package com.juzhai.cms.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.home.controller.view.DialogContentView;
 import com.juzhai.home.service.IDialogService;
+import com.juzhai.passport.bean.LockUserLevel;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.Report;
 import com.juzhai.passport.service.IProfileService;
@@ -26,6 +28,7 @@ import com.juzhai.passport.service.IReportService;
 @Controller
 @RequestMapping("/cms")
 public class CmsReportController {
+	private final Log log = LogFactory.getLog(getClass());
 
 	@Autowired
 	private IReportService reportService;
@@ -34,12 +37,12 @@ public class CmsReportController {
 	@Autowired
 	private IDialogService dialogService;
 
-	@RequestMapping(value = "/show/report", method = RequestMethod.GET)
+	@RequestMapping(value = "/report/show/", method = RequestMethod.GET)
 	public String showReport(Model model,
 			@RequestParam(defaultValue = "1") int pageId,
 			@RequestParam(defaultValue = "0") int type) {
 		PagerManager pager = new PagerManager(pageId, 20,
-				reportService.listReportCount(type));
+				reportService.countListReport(type));
 		List<Report> list = reportService.listReport(pager.getFirstResult(),
 				pager.getMaxResult(), type);
 		List<CmsReportView> views = assembleCmsReportView(list);
@@ -52,70 +55,72 @@ public class CmsReportController {
 	private List<CmsReportView> assembleCmsReportView(List<Report> list) {
 		List<CmsReportView> views = new ArrayList<CmsReportView>();
 		for (Report report : list) {
-			ProfileCache profileCache = profileService
-					.getProfileCacheByUid(report.getUid());
+			ProfileCache createProfile = profileService
+					.getProfileCacheByUid(report.getCreateUid());
 			ProfileCache reportProfileCache = profileService
 					.getProfileCacheByUid(report.getReportUid());
-			// TODO (review) 为什么不放两个profile？如果需要显示头像或者链接，性别，怎么办？再改java？
-			CmsReportView view = new CmsReportView(
-					reportProfileCache.getNickname(),
-					profileCache.getNickname(), report);
+			// TODO (done) 为什么不放两个profile？如果需要显示头像或者链接，性别，怎么办？再改java？
+			CmsReportView view = new CmsReportView(reportProfileCache,
+					createProfile, report);
 			views.add(view);
 		}
 		return views;
 	}
 
-	@RequestMapping(value = "/handle/report", method = RequestMethod.POST)
+	@RequestMapping(value = "/report/handle", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult handleReport(long id) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
 			reportService.handleReport(id);
 		} catch (Exception e) {
-			// TODO (review) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
+			// TODO (done) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
+			log.error("handleReport is error", e);
 			ajaxResult.setSuccess(false);
 		}
 		return ajaxResult;
 	}
 
-	@RequestMapping(value = "/shield/report", method = RequestMethod.POST)
+	@RequestMapping(value = "/report/shield", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult shieldReport(long id, long time, long uid) {
+	public AjaxResult shieldReport(long id, int level, long uid) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			Date date = new Date();
-			// TODO (review) 锁定时间不应该页面传进来，页面仅仅传入锁定级别，具体时间应该是服务器里配置的时间
-			reportService.shieldUser(id, uid, date.getTime() + time);
+			// TODO (done) 锁定时间不应该页面传进来，页面仅仅传入锁定级别，具体时间应该是服务器里配置的时间
+			reportService.shieldUser(id, uid, LockUserLevel.getLockTime(level));
 		} catch (Exception e) {
-			// TODO (review) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
+			// TODO (done) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
+			log.error("shieldReport is error", e);
 			ajaxResult.setSuccess(false);
 		}
 		return ajaxResult;
 	}
 
-	// TODO (review) 这个请求url不好，通常应该是“/模块/操作”,"/un/shield/"比较奇怪
-	@RequestMapping(value = "/un/shield/report", method = RequestMethod.POST)
+	// TODO (done) 这个请求url不好，通常应该是“/模块/操作”,"/un/shield/"比较奇怪
+	@RequestMapping(value = "/report/unshield", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult unShieldReport(long id, long uid) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			// TODO (review) 解锁不应该还原report的状态
+			// TODO (done) 解锁不应该还原report的状态
 			reportService.unShieldUser(id, uid);
 		} catch (Exception e) {
-			// TODO (review) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
+			// TODO (done) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
+			log.error("unShieldReport is error", e);
 			ajaxResult.setSuccess(false);
 		}
 		return ajaxResult;
 	}
 
-	@RequestMapping(value = "/delete/report", method = RequestMethod.POST)
+	@RequestMapping(value = "/report/delete", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult deleteReport(long id) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
 			reportService.deleteReport(id);
 		} catch (Exception e) {
-			// TODO (review) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
+			// TODO (done) handleReport会抛异常吗？就算这里为了安全，捕获异常，也应该把错误打出来。
+			log.error("deleteReport is error", e);
 			ajaxResult.setSuccess(false);
 		}
 		return ajaxResult;

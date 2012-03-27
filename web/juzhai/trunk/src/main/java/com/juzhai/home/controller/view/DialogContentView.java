@@ -12,8 +12,8 @@ public class DialogContentView {
 	 */
 	private ProfileCache profile;
 
-	// TODO (review) 换名字，叫receiverProfile
-	private ProfileCache myProfile;
+	// TODO (done) 换名字，叫receiverProfile
+	private ProfileCache receiverProfile;
 
 	public DialogContent getDialogContent() {
 		return dialogContent;
@@ -31,12 +31,12 @@ public class DialogContentView {
 		this.profile = profile;
 	}
 
-	public ProfileCache getMyProfile() {
-		return myProfile;
+	public ProfileCache getReceiverProfile() {
+		return receiverProfile;
 	}
 
-	public void setMyProfile(ProfileCache myProfile) {
-		this.myProfile = myProfile;
+	public void setReceiverProfile(ProfileCache receiverProfile) {
+		this.receiverProfile = receiverProfile;
 	}
 
 }

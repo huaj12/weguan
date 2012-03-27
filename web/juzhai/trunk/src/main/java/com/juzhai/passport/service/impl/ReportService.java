@@ -105,7 +105,6 @@ public class ReportService implements IReportService {
 			throw new InputReportException(
 					InputReportException.ILLEGAL_OPERATION);
 		}
-		// TODO (done) lockUserLevel会不会可能是null？有想到吗？
 		long time = lockUserLevel.getLockTime();
 		Report report = new Report();
 		report.setId(id);
@@ -118,7 +117,6 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	// TODO (done) 为什么还有reportId参数？另外做一个被锁用户列表，只能在那列表里进行解锁操作
 	public void unShieldUser(Long uid) {
 		passportService.lockUser(uid, null);
 	}

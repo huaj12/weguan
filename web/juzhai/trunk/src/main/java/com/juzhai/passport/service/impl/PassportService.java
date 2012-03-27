@@ -22,11 +22,9 @@ public class PassportService implements IPassportService {
 	}
 
 	@Override
-	// TODO (done) 接口用Date更友好
 	public void lockUser(long uid, Date time) {
 		Passport passport = getPassportByUid(uid);
 		if (time != null) {
-			// TODO (done) 如果传入的时间在当前时间之前，没必要数据库更新
 			if (time.getTime() < System.currentTimeMillis()) {
 				return;
 			}

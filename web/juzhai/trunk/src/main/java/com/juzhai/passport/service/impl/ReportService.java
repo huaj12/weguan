@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.passport.bean.LockUserLevel;
 import com.juzhai.passport.bean.ReportHandleEnum;
 import com.juzhai.passport.exception.InputReportException;
 import com.juzhai.passport.mapper.ReportMapper;
@@ -51,39 +52,34 @@ public class ReportService implements IReportService {
 
 	private void validateReport(ReportForm reportForm, long createUid)
 			throws InputReportException {
-		try {
-			String url = null;
-			String reportUrlTemplate = ReportContentType
-					.getReportUrlTemplate(reportForm.getContentType());
-			switch (ReportContentType.getReportContentTypeEnum(reportForm
-					.getContentType())) {
-			case COMMENT:
-				url = messageSource
-						.getMessage(reportUrlTemplate, new Object[] { String
-								.valueOf(reportForm.getContentId()) },
-								Locale.SIMPLIFIED_CHINESE);
-				break;
-			case MESSAGE:
-				url = messageSource.getMessage(
-						reportUrlTemplate,
-						new Object[] {
-								String.valueOf(reportForm.getReportUid()),
-								String.valueOf(createUid) },
-						Locale.SIMPLIFIED_CHINESE);
-				break;
-			case PROFILE:
-				url = messageSource
-						.getMessage(reportUrlTemplate, new Object[] { String
-								.valueOf(reportForm.getReportUid()) },
-								Locale.SIMPLIFIED_CHINESE);
-				break;
-			}
-			reportForm.setContentUrl(url);
-		} catch (Exception e) {
-			// TODO (review) 会出现什么异常？可知的还是未知的？
+		if (reportForm.getContentType() > ReportContentType.values().length
+				|| reportForm.getContentType() < 0) {
 			throw new InputReportException(
 					InputReportException.ILLEGAL_OPERATION);
 		}
+		String url = null;
+		String reportUrlTemplate = ReportContentType.getReportContentTypeEnum(
+				reportForm.getContentType()).getUrl();
+		switch (ReportContentType.getReportContentTypeEnum(reportForm
+				.getContentType())) {
+		case COMMENT:
+			url = messageSource.getMessage(reportUrlTemplate,
+					new Object[] { String.valueOf(reportForm.getContentId()) },
+					Locale.SIMPLIFIED_CHINESE);
+			break;
+		case MESSAGE:
+			url = messageSource.getMessage(reportUrlTemplate,
+					new Object[] { String.valueOf(reportForm.getReportUid()),
+							String.valueOf(createUid) },
+					Locale.SIMPLIFIED_CHINESE);
+			break;
+		case PROFILE:
+			url = messageSource.getMessage(reportUrlTemplate,
+					new Object[] { String.valueOf(reportForm.getReportUid()) },
+					Locale.SIMPLIFIED_CHINESE);
+			break;
+		}
+		reportForm.setContentUrl(url);
 		int descriptionLength = StringUtil.chineseLength(reportForm
 				.getDescription());
 		if (descriptionLength > reportDescriptionLengthMax) {
@@ -103,7 +99,8 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	public void shieldUser(long id, Long uid, long time) {
+	public void shieldUser(long id, Long uid, int level) {
+		long time = LockUserLevel.getLockTime(level);
 		Report report = new Report();
 		report.setId(id);
 		report.setHandle(ReportHandleEnum.HANDLED.getType());
@@ -115,8 +112,8 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	// TODO (review) 为什么还有reportId参数？另外做一个被锁用户列表，只能在那列表里进行解锁操作
-	public void unShieldUser(long id, Long uid) {
+	// TODO (done) 为什么还有reportId参数？另外做一个被锁用户列表，只能在那列表里进行解锁操作
+	public void unShieldUser(Long uid) {
 		passportService.lockUser(uid, 0);
 		// TODO 调用发私信接口 解除屏蔽
 	}
@@ -129,8 +126,8 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	// TODO (review) 忽略的话，方法名字改了，并且请求名字也改了
-	public void handleReport(long id) {
+	// TODO (done) 忽略的话，方法名字改了，并且请求名字也改了
+	public void ignoreReport(long id) {
 		Report report = new Report();
 		report.setId(id);
 		report.setHandle(ReportHandleEnum.INVALID.getType());

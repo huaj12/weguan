@@ -6,6 +6,15 @@ public class ReportForm {
 	private int reportType;
 	private String description;
 	private int contentType;
+	private long contentId;
+
+	public long getContentId() {
+		return contentId;
+	}
+
+	public void setContentId(long contentId) {
+		this.contentId = contentId;
+	}
 
 	public String getContentUrl() {
 		return contentUrl;

@@ -1,7 +1,5 @@
 package com.juzhai.plug.controller.website;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,8 +20,6 @@ import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.InputReportException;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IReportService;
-import com.juzhai.plug.bean.ReportContentType;
-import com.juzhai.plug.bean.ReportUrlTemplate;
 import com.juzhai.plug.controller.form.ReportForm;
 
 @Controller
@@ -37,8 +33,8 @@ public class ReportContrller extends BaseController {
 	@Autowired
 	private IProfileService profileService;
 
-	// TODO (review) content作为参数，就不要用get了，有风险
-	@RequestMapping(value = { "/report/show" }, method = RequestMethod.GET)
+	// TODO (done) content作为参数，就不要用get了，有风险
+	@RequestMapping(value = { "/report/show" }, method = RequestMethod.POST)
 	public String showIvite(HttpServletRequest request,
 			HttpServletResponse response, Model model,
 			@RequestParam(defaultValue = "0") int uid, String content,
@@ -48,36 +44,14 @@ public class ReportContrller extends BaseController {
 		ProfileCache cache = profileService.getProfileCacheByUid(uid);
 		String url = null;
 		if (null != cache) {
-			// TODO (review) 为什么不放profile
-			model.addAttribute("nickname", cache.getNickname());
+			// TODO (done) 为什么不放profile
+			model.addAttribute("profile", cache);
 		}
 
-		// TODO (review) 为什么打开弹框，需要url？如果不需要组装url的话，打开举报框，需要进服务端请求吗？
-		switch (ReportContentType.getReportContentTypeEnum(contentType)) {
-		case COMMENT:
-			url = messageSource.getMessage(
-					ReportUrlTemplate.COMMENT_URL.getName(),
-					new Object[] { String.valueOf(contentId) },
-					Locale.SIMPLIFIED_CHINESE);
-			break;
-		case MESSAGE:
-			url = messageSource.getMessage(
-					ReportUrlTemplate.MESSAGE_URL.getName(),
-					new Object[] { String.valueOf(uid),
-							String.valueOf(context.getUid()) },
-					Locale.SIMPLIFIED_CHINESE);
-			break;
-		case PROFILE:
-			url = messageSource.getMessage(
-					ReportUrlTemplate.COMMENT_URL.getName(),
-					new Object[] { String.valueOf(uid) },
-					Locale.SIMPLIFIED_CHINESE);
-			break;
-		}
 		model.addAttribute("content", content);
 		model.addAttribute("contentType", contentType);
+		model.addAttribute("contentId", contentId);
 		model.addAttribute("uid", uid);
-		model.addAttribute("url", url);
 		return "web/plug/report/plug_report_dialog";
 	}
 

@@ -2,12 +2,6 @@
 ALTER TABLE `juzhai`.`tb_passport` ADD `shield_time`  datetime AFTER last_login_time;
 
 
--- ----------------------------------------------------
-
--- Table `juzhai`.`tb_report`
-
--- -----------------------------------------------------
-
 DROP TABLE IF EXISTS `juzhai`.`tb_report` ;
 
 
@@ -28,7 +22,7 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_report` (
 
   `last_modify_time` DATETIME NOT NULL ,
 
-  `uid` BIGINT NOT NULL ,
+  `create_uid` BIGINT NOT NULL ,
 
   `handle` INT(1) NOT NULL DEFAULT 0 ,
 

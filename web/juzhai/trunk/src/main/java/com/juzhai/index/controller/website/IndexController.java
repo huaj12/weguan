@@ -101,7 +101,7 @@ public class IndexController extends BaseController {
 		}
 		model.addAttribute("postWindowViews", postWindowViews);
 		welcomNum(request, model);
-		return "web/index/welcome";
+		return "web/index/welcome/welcome";
 	}
 
 	@RequestMapping(value = { "/welcomenum" }, method = RequestMethod.GET)
@@ -118,7 +118,7 @@ public class IndexController extends BaseController {
 		model.addAttribute("postNumList", convertToNumList(totalPostCount));
 		model.addAttribute("interactNumList",
 				convertToNumList(totalInteractCount));
-		return "web/index/stats_num";
+		return "web/index/welcome/welcome_num";
 	}
 
 	private List<Integer> convertToNumList(int totalCount) {
@@ -182,9 +182,10 @@ public class IndexController extends BaseController {
 		return "web/index/cqw/show_ideas";
 	}
 
-	@RequestMapping(value = "/aboutUs", method = RequestMethod.GET)
-	public String aboutUs(HttpServletRequest request, Model model) {
-		return "web/index/about_us";
+	@RequestMapping(value = "/about/{pageType}", method = RequestMethod.GET)
+	public String aboutUs(HttpServletRequest request, Model model,
+			@PathVariable String pageType) {
+		return "web/index/about/" + pageType;
 	}
 
 	@RequestMapping(value = "/showInviteUsers", method = RequestMethod.GET)

@@ -1,6 +1,7 @@
 package com.juzhai.passport.service;
 
 import java.util.Date;
+import java.util.List;
 
 import com.juzhai.passport.model.Passport;
 
@@ -22,6 +23,22 @@ public interface IPassportService {
 	 *            ==0则解锁
 	 */
 	void lockUser(long uid, Date time);
+
+	/**
+	 * 获取所有锁定用户
+	 * 
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Passport> listLockUser(int firstResult, int maxResults);
+
+	/**
+	 * 获取锁定用户数量
+	 * 
+	 * @return
+	 */
+	int countLockUser();
 
 	/**
 	 * 总数

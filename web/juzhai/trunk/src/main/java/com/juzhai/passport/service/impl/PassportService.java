@@ -1,10 +1,12 @@
 package com.juzhai.passport.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.core.dao.Limit;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.PassportExample;
@@ -38,6 +40,22 @@ public class PassportService implements IPassportService {
 	@Override
 	public int totalCount() {
 		return passportMapper.countByExample(new PassportExample());
+	}
+
+	@Override
+	public List<Passport> listLockUser(int firstResult, int maxResults) {
+		PassportExample example = new PassportExample();
+		example.createCriteria().andShieldTimeGreaterThan(new Date());
+		example.setLimit(new Limit(firstResult, maxResults));
+		example.setOrderByClause("last_modify_time desc ");
+		return passportMapper.selectByExample(example);
+	}
+
+	@Override
+	public int countLockUser() {
+		PassportExample example = new PassportExample();
+		example.createCriteria().andShieldTimeGreaterThan(new Date());
+		return passportMapper.countByExample(example);
 	}
 
 }

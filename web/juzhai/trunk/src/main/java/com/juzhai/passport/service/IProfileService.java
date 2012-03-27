@@ -237,4 +237,5 @@ public interface IProfileService {
 	 * @return
 	 */
 	int getProfileCompletion(long uid);
+
 }

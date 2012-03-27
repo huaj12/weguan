@@ -2,6 +2,7 @@ package com.juzhai.passport.service;
 
 import java.util.List;
 
+import com.juzhai.passport.bean.LockUserLevel;
 import com.juzhai.passport.exception.InputReportException;
 import com.juzhai.passport.model.Report;
 import com.juzhai.plug.controller.form.ReportForm;
@@ -38,7 +39,7 @@ public interface IReportService {
 	/**
 	 * 屏蔽某人
 	 */
-	void shieldUser(long id, Long uid, int level);
+	void shieldUser(long id, Long uid, LockUserLevel lockUserLevel);
 
 	/**
 	 * 取消屏蔽

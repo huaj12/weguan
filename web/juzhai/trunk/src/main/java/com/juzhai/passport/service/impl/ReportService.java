@@ -99,14 +99,14 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	public void shieldUser(long id, Long uid, int level) {
-		long time = LockUserLevel.getLockTime(level);
+	public void shieldUser(long id, Long uid, LockUserLevel lockUserLevel) {
+		long time = lockUserLevel.getLockTime();
 		Report report = new Report();
 		report.setId(id);
 		report.setHandle(ReportHandleEnum.HANDLED.getType());
 		report.setLastModifyTime(new Date());
 		reportMapper.updateByPrimaryKeySelective(report);
-		passportService.lockUser(uid, time);
+		passportService.lockUser(uid, System.currentTimeMillis() + time);
 		// TODO 调用发私信接口 已屏蔽
 
 	}

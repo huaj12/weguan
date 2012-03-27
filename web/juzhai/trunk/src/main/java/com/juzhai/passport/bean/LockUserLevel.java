@@ -5,11 +5,11 @@ import com.juzhai.passport.LockLevelConfig;
 public enum LockUserLevel {
 	LEVEL1(1, "level_1"), LEVEL2(2, "level_2"), LEVEL3(3, "level_3");
 
-	private int type;
+	private int level;
 	private String name;
 
-	private LockUserLevel(int type, String name) {
-		this.type = type;
+	private LockUserLevel(int level, String name) {
+		this.level = level;
 		this.name = name;
 	}
 
@@ -21,34 +21,25 @@ public enum LockUserLevel {
 		this.name = name;
 	}
 
-	public int getType() {
-		return type;
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public long getLockTime() {
+		return LockLevelConfig.LOCKLEVEL_MAP.get(this.name);
 	}
 
 	public static LockUserLevel getLockUserLevelEnum(int type) {
 		for (LockUserLevel lockUserLevel : values()) {
-			if (type == lockUserLevel.getType()) {
+			if (type == lockUserLevel.getLevel()) {
 				return lockUserLevel;
 			}
 		}
 		return null;
 	}
 
-	public static long getLockTime(int type) {
-		long time = 0;
-		// TODO (done) 通过配置文件，load进内存
-		switch (LockUserLevel.getLockUserLevelEnum(type)) {
-		case LEVEL1:
-			time = LockLevelConfig.LOCKLEVEL_MAP.get(LEVEL1.name);
-			break;
-		case LEVEL2:
-			time = LockLevelConfig.LOCKLEVEL_MAP.get(LEVEL2.name);
-			break;
-		case LEVEL3:
-			time = LockLevelConfig.LOCKLEVEL_MAP.get(LEVEL3.name);
-			break;
-		}
-		time = System.currentTimeMillis() + time;
-		return time;
-	}
 }

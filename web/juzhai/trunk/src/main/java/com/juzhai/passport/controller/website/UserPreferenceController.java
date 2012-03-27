@@ -48,15 +48,12 @@ public class UserPreferenceController extends BaseController {
 		List<UserPreferenceView> views = new ArrayList<UserPreferenceView>();
 		List<UserPreference> userPreferences = userPreferenceService
 				.listUserPreference(context.getUid());
-		// TODO Preference能进行缓存，这次版本不改了
 		for (Preference preference : preferences) {
 			try {
 				String answer = null;
 				UserPreferenceView view = new UserPreferenceView(preference,
 						null, Input.convertToBean(preference.getInput()));
-				// TODO (done) 如果我没有UserPreference，那页面上还有preference显示吗？
 				for (UserPreference userPreference : userPreferences) {
-					// TODO (done) 这里永远不会有相等的情况
 					if (userPreference.getPreferenceId().longValue() == preference
 							.getId().longValue()) {
 						if (StringUtils.isEmpty(userPreference.getAnswer())) {

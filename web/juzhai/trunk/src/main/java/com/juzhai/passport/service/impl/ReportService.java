@@ -111,7 +111,7 @@ public class ReportService implements IReportService {
 		Report report = new Report();
 		report.setId(id);
 		// TODO (done) handle为什么没有枚举？
-		report.setHandle(ReportHandleEnum.INVALID.getType());
+		report.setHandle(ReportHandleEnum.HANDLED.getType());
 		report.setLastModifyTime(new Date());
 		reportMapper.updateByPrimaryKeySelective(report);
 		passportService.lockUser(uid, time);
@@ -139,7 +139,7 @@ public class ReportService implements IReportService {
 		Report report = new Report();
 		report.setId(id);
 		// TODO (done) handle为什么没有枚举？有几种状态？“未处理，已处理，无效”我的理解
-		report.setHandle(ReportHandleEnum.HANDLED.getType());
+		report.setHandle(ReportHandleEnum.INVALID.getType());
 		report.setLastModifyTime(new Date());
 		reportMapper.updateByPrimaryKeySelective(report);
 	}

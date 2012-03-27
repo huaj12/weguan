@@ -37,6 +37,7 @@ public class ReportContrller extends BaseController {
 	@Autowired
 	private IProfileService profileService;
 
+	// TODO (review) content作为参数，就不要用get了，有风险
 	@RequestMapping(value = { "/report/show" }, method = RequestMethod.GET)
 	public String showIvite(HttpServletRequest request,
 			HttpServletResponse response, Model model,
@@ -47,9 +48,11 @@ public class ReportContrller extends BaseController {
 		ProfileCache cache = profileService.getProfileCacheByUid(uid);
 		String url = null;
 		if (null != cache) {
+			// TODO (review) 为什么不放profile
 			model.addAttribute("nickname", cache.getNickname());
 		}
 
+		// TODO (review) 为什么打开弹框，需要url？如果不需要组装url的话，打开举报框，需要进服务端请求吗？
 		switch (ReportContentType.getReportContentTypeEnum(contentType)) {
 		case COMMENT:
 			url = messageSource.getMessage(

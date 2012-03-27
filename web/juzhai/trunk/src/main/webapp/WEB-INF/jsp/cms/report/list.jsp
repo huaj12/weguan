@@ -63,7 +63,7 @@
 	function shieldReport(id,uid,level){
 		if(confirm("是否确定屏蔽该用户")){
 		jQuery.ajax({
-			url : "/cms/report/shield/",
+			url : "/cms/report/shield",
 			type : "post",
 			data : {
 				"id" : id,

@@ -11,7 +11,9 @@
 <script type="text/javascript"
 	src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 	<script>
-	function un_shield_report(uid){
+	
+	function unShieldReport(uid){
+		if(confirm("是否为该用户解除锁定")){
 		jQuery.ajax({
 			url : "/cms/report/unshield",
 			type : "post",
@@ -32,6 +34,7 @@
 				}
 			}
 		});
+		}
 	}
 	</script>
 </head>
@@ -49,7 +52,7 @@
 					<td>${view.profile.uid}</td>
 					<td><a href="/home/${view.profile.uid}" target="_blank">${view.profile.nickname}</a></td>
 					<td>
-							<a onclick="un_shield_report('${view.profile.uid}')" href="#">解禁</a>
+							<a onclick="unShieldReport('${view.profile.uid}')" href="#">解禁</a>
 					</td>
 				</tr>
 				</c:forEach>

@@ -11,7 +11,7 @@
 <script type="text/javascript"
 	src="${jz:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 	<script>
-	function delete_report(id){
+	function deleteReport(id){
 		if(confirm("是否删除该条举报")){
 			jQuery.ajax({
 				url : "/cmsreport/delete",
@@ -35,7 +35,8 @@
 			});
 		}
 	}
-	function ignore_report(id){
+	function ignoreReport(id){
+		if(confirm("是否忽略该举报")){
 			jQuery.ajax({
 				url : "/cms/report/ignore",
 				type : "post",
@@ -56,31 +57,10 @@
 					}
 				}
 			});
-	}
-	function un_shield_report(uid){
-		jQuery.ajax({
-			url : "/cms/report/unshield",
-			type : "post",
-			data : {
-				"uid":uid
-			},
-			dataType : "json",
-			success : function(result) {
-				if (result.success!=null&&result.success) {
-					location.reload();
-				} else {
-					alert("处理失败");
-				}
-			},
-			statusCode : {
-				401 : function() {
-					alert("请先登陆");
-				}
-			}
-		});
+		}
 	}
 	
-	function shield_report(id,uid,level){
+	function shieldReport(id,uid,level){
 		if(confirm("是否确定屏蔽该用户")){
 		jQuery.ajax({
 			url : "/cms/report/shield/",
@@ -120,33 +100,33 @@
 			<tr style="background-color: #CCCCCC;">
 				<td width="100">被举报人</td>
 				<td width="200">举报内容</td>
+				<td width="400">用户描述</td>
 				<td width="250">举报类型</td>
 				<td width="250">操作</td>
 				<td width="250">举报时间</td>
 				<td width="250">举报者</td>
 				<c:forEach items="${views }" var="view">
 				<tr>
-					<td>${view.reportProfile.nickname}</td>
+					<td><c:out value="${view.reportProfile.nickname}"></c:out></td>
 					<td><a href="${view.report.contentUrl}" target="_blank">点击查看内容</a></td>
+					<td><c:out value="${view.report.description}"></c:out> </td>
 					<td><c:import url="/WEB-INF/jsp/web/common/fragment/report_type.jsp">
 					<c:param name="reportType" value="${view.report.reportType}"/>
 				</c:import></td>
 					<td>
 						<c:choose>
 							<c:when test="${type==0}">
-							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','1')">屏蔽1天</a>
-							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','2')">屏蔽7天</a>
-							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','3')">永久屏蔽</a>
-							<a href="#" onclick="ignore_report('${view.report.id}')">忽略</a>
+							<a href="#" onclick="shieldReport('${view.report.id}','${view.report.reportUid}','1')">屏蔽7天</a>
+							<a href="#" onclick="shieldReport('${view.report.id}','${view.report.reportUid}','2')">屏蔽30天</a>
+							<a href="#" onclick="shieldReport('${view.report.id}','${view.report.reportUid}','3')">永久屏蔽</a>
+							<a href="#" onclick="ignoreReport('${view.report.id}')">忽略</a>
 							</c:when>
 							<c:when test="${type==1 }">
-							<a onclick="delete_report('${view.report.id}')" href="#">删除</a>
-							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','1')">屏蔽1天</a>
-							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','2')">屏蔽7天</a>
-							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','3')">永久屏蔽</a>
+							<a onclick="deleteReport('${view.report.id}')" href="#">删除</a>
+							<a href="#" onclick="shieldReport('${view.report.id}','${view.report.reportUid}','1')">屏蔽7天</a>
+							<a href="#" onclick="shieldReport('${view.report.id}','${view.report.reportUid}','2')">屏蔽30天</a>
+							<a href="#" onclick="shieldReport('${view.report.id}','${view.report.reportUid}','3')">永久屏蔽</a>
 							</c:when>
-							<c:when test="${type==2 }">
-							<a onclick="un_shield_report('${view.report.reportUid}')" href="#">解禁</a></c:when>
 						</c:choose>
 					</td>
 					<td><fmt:formatDate value="${view.report.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>

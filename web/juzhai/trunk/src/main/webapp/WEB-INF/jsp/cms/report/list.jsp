@@ -35,9 +35,9 @@
 			});
 		}
 	}
-	function handle_report(id){
+	function ignore_report(id){
 			jQuery.ajax({
-				url : "/cms/report/handle",
+				url : "/cms/report/ignore",
 				type : "post",
 				data : {
 					"id" : id
@@ -57,12 +57,11 @@
 				}
 			});
 	}
-	function un_shield_report(id,uid){
+	function un_shield_report(uid){
 		jQuery.ajax({
 			url : "/cms/report/unshield",
 			type : "post",
 			data : {
-				"id" : id,
 				"uid":uid
 			},
 			dataType : "json",
@@ -138,7 +137,7 @@
 							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','1')">屏蔽1天</a>
 							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','2')">屏蔽7天</a>
 							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','3')">永久屏蔽</a>
-							<a href="#" onclick="handle_report('${view.report.id}')">忽略</a>
+							<a href="#" onclick="ignore_report('${view.report.id}')">忽略</a>
 							</c:when>
 							<c:when test="${type==1 }">
 							<a onclick="delete_report('${view.report.id}')" href="#">删除</a>
@@ -147,7 +146,7 @@
 							<a href="#" onclick="shield_report('${view.report.id}','${view.report.reportUid}','3')">永久屏蔽</a>
 							</c:when>
 							<c:when test="${type==2 }">
-							<a onclick="un_shield_report('${view.report.id}','${view.report.reportUid}')" href="#">解禁</a></c:when>
+							<a onclick="un_shield_report('${view.report.reportUid}')" href="#">解禁</a></c:when>
 						</c:choose>
 					</td>
 					<td><fmt:formatDate value="${view.report.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>

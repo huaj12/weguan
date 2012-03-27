@@ -52,8 +52,9 @@ public class ReportService implements IReportService {
 
 	private void validateReport(ReportForm reportForm, long createUid)
 			throws InputReportException {
-		if (reportForm.getContentType() > ReportContentType.values().length
-				|| reportForm.getContentType() < 0) {
+		ReportContentType reportContentType = ReportContentType
+				.getReportContentTypeEnum(reportForm.getContentType());
+		if (reportContentType == null) {
 			throw new InputReportException(
 					InputReportException.ILLEGAL_OPERATION);
 		}
@@ -100,24 +101,28 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	public void shieldUser(long id, Long uid, LockUserLevel lockUserLevel) {
-		// TODO (review) lockUserLevel会不会可能是null？有想到吗？
+	public void shieldUser(long id, Long uid, LockUserLevel lockUserLevel)
+			throws InputReportException {
+		if (lockUserLevel == null) {
+			throw new InputReportException(
+					InputReportException.ILLEGAL_OPERATION);
+		}
+		// TODO (done) lockUserLevel会不会可能是null？有想到吗？
 		long time = lockUserLevel.getLockTime();
 		Report report = new Report();
 		report.setId(id);
 		report.setHandle(ReportHandleEnum.HANDLED.getType());
 		report.setLastModifyTime(new Date());
 		reportMapper.updateByPrimaryKeySelective(report);
-		passportService.lockUser(uid, System.currentTimeMillis() + time);
-		// TODO 调用发私信接口 已屏蔽
+		passportService.lockUser(uid, new Date(System.currentTimeMillis()
+				+ time));
 
 	}
 
 	@Override
-	// TODO (review) 为什么还有reportId参数？另外做一个被锁用户列表，只能在那列表里进行解锁操作
+	// TODO (done) 为什么还有reportId参数？另外做一个被锁用户列表，只能在那列表里进行解锁操作
 	public void unShieldUser(Long uid) {
-		passportService.lockUser(uid, 0);
-		// TODO 调用发私信接口 解除屏蔽
+		passportService.lockUser(uid, null);
 	}
 
 	@Override

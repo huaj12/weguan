@@ -1,5 +1,7 @@
 package com.juzhai.passport.service;
 
+import java.util.Date;
+
 import com.juzhai.passport.model.Passport;
 
 public interface IPassportService {
@@ -19,7 +21,7 @@ public interface IPassportService {
 	 * @param time锁定时间time
 	 *            ==0则解锁
 	 */
-	void lockUser(long uid, long time);
+	void lockUser(long uid, Date time);
 
 	/**
 	 * 总数

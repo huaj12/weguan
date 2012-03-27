@@ -25,7 +25,7 @@
 				<tr>
 					<td>${view.profile.nickname }</td>
 					<td>${view.dialogContent.content }</td>
-					<td>${view.myProfile.nickname }</td>
+					<td>${view.receiverProfile.nickname }</td>
 				</tr>
 			</c:forEach>
 			<td colspan="3">

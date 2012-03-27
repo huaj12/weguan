@@ -66,6 +66,7 @@ public class CmsReportController {
 		return views;
 	}
 
+	// TODO (review) 请求名字改了
 	@RequestMapping(value = "/report/handle", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult handleReport(long id) {
@@ -84,7 +85,6 @@ public class CmsReportController {
 	public AjaxResult shieldReport(long id, int level, long uid) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			// TODO (done) 方法接口不应该直接传入时间，应该传入等级，具体哪个等级是多少时间，是业务需求，不应该在控制层
 			reportService.shieldUser(id, uid,
 					LockUserLevel.getLockUserLevelEnum(level));
 		} catch (Exception e) {
@@ -96,10 +96,10 @@ public class CmsReportController {
 
 	@RequestMapping(value = "/report/unshield", method = RequestMethod.POST)
 	@ResponseBody
+	// TODO (review) id不需要就不要传进来了
 	public AjaxResult unShieldReport(long id, long uid) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			// TODO (done) 还需要reportId？另外需要单独做一个被锁用户列表
 			reportService.unShieldUser(uid);
 		} catch (Exception e) {
 			log.error("unShieldReport is error", e);

@@ -57,6 +57,7 @@ public class ReportService implements IReportService {
 			throw new InputReportException(
 					InputReportException.ILLEGAL_OPERATION);
 		}
+		// TODO (review) 代码写的不够漂亮
 		String url = null;
 		String reportUrlTemplate = ReportContentType.getReportContentTypeEnum(
 				reportForm.getContentType()).getUrl();
@@ -100,6 +101,7 @@ public class ReportService implements IReportService {
 
 	@Override
 	public void shieldUser(long id, Long uid, LockUserLevel lockUserLevel) {
+		// TODO (review) lockUserLevel会不会可能是null？有想到吗？
 		long time = lockUserLevel.getLockTime();
 		Report report = new Report();
 		report.setId(id);
@@ -112,7 +114,7 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	// TODO (done) 为什么还有reportId参数？另外做一个被锁用户列表，只能在那列表里进行解锁操作
+	// TODO (review) 为什么还有reportId参数？另外做一个被锁用户列表，只能在那列表里进行解锁操作
 	public void unShieldUser(Long uid) {
 		passportService.lockUser(uid, 0);
 		// TODO 调用发私信接口 解除屏蔽
@@ -126,7 +128,6 @@ public class ReportService implements IReportService {
 	}
 
 	@Override
-	// TODO (done) 忽略的话，方法名字改了，并且请求名字也改了
 	public void ignoreReport(long id) {
 		Report report = new Report();
 		report.setId(id);

@@ -24,7 +24,7 @@
 															<!--choose begin-->
 															<p>请选择举报类型:</p>
 															<span><b><input name="reportType"
-																	checked="checked" type="radio" value="0" /> </b><em>其他</em>
+																	checked="checked" type="radio" value="0" /> </b><em>其他</em></span>
 																<span><b><input name="reportType"
 																		type="radio" value="1" /> </b><em>色情</em> </span> <span><b><input
 																		name="reportType" type="radio" value="2" /> </b><em>人身攻击</em>

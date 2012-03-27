@@ -238,7 +238,16 @@ a:hover {
 				</ul>
 				
 			</li>
-	
+		<li>
+				<a href="javascript:showChild('report_');">举报管理</a>
+				<ul style="display: none;" id="report_" class="child">
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/report"
+						target="config">举报管理</a>
+					</li>
+				</ul>
+				
+			</li>
 			<!-- <li>
 				<a href="/cms/searchActs" target="config">近义词设置</a>
 			</li>

@@ -28,7 +28,7 @@
 					<div class="bfh">
 						<!--bfh begin-->
 						<p></p>
-						<span class="girl">您的账号已被管理员封禁,解封时间<fmt:formatDate value="${shieldTime}" pattern="yyyy-MM-dd HH:mm" /></span> <em>原因：您的言行可能违反了 拒宅网社区管理细则</em>
+						<span class="girl">您的账号已被管理员封禁，解封时间<fmt:formatDate value="${shieldTime}" pattern="yyyy-MM-dd HH:mm" /></span> <em>原因：您的言行可能违反了 <a href="/about/rule">拒宅网社区管理细则</a></em>
 						<b>如有疑问请email我们：<a href="mailto:feedback@51juzhai.com">feedback@51juzhai.com</a>
 						</b>
 					</div>

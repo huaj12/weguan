@@ -6,10 +6,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:choose>
 	<c:when test="${postCommentView!=null}">
+		<c:set value="${loginUser.uid != postCommentView.postComment.createUid}" var="isMe"></c:set>
 		<li <c:if test="${postCommentViewList==null}">style="display:none;"</c:if> class="mouseHover <c:choose><c:when test="${postCommentView.createUser.gender == 1}">boy</c:when><c:otherwise>girl</c:otherwise></c:choose>">
 			<p><a href="/home/${postCommentView.createUser.uid}"><img src="${jzr:userLogo(postCommentView.createUser.uid,postCommentView.createUser.logoPic,80)}" width="50" height="50" /></a></p>
 			<span><a href="/home/${postCommentView.createUser.uid}"><c:out value="${postCommentView.createUser.nickname}" />:</a><c:if test="${null != postCommentView.parentUser}"><i>回复<c:out value="${postCommentView.parentUser.nickname}" />:</i></c:if><c:out value="${postCommentView.postComment.content}" /></span>
-			<em><b><c:set var="date" value="${postCommentView.postComment.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></b><strong><c:if test="${loginUser.uid != postCommentView.postComment.createUid}"><a href="javascript:void(0);" nickname="<c:out value='${postCommentView.createUser.nickname}' />" content="<c:out value='${postCommentView.postComment.content}' />" post-comment-id="${postCommentView.postComment.id}" class="reply-link">回复</a></c:if><c:if test="${loginUser.uid == postCommentView.postComment.createUid || loginUser.uid == postCommentView.postComment.postCreateUid || context.admin}"><a href="javascript:void(0);" class="delete delete-link" post-comment-id="${postCommentView.postComment.id}">删除</a></c:if></strong></em>
+			<em><b><c:set var="date" value="${postCommentView.postComment.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></b>
+			<div class="jubao"><c:if test="${isMe}"><a href="javascript:void(0);" id="report-conment" uid="<c:out value='${postCommentView.postComment.createUid}' />" content="<c:out value='${postCommentView.postComment.content}' />" post-id="${postCommentView.postComment.postId}" >举报</a></c:if></div>
+			<strong><c:if test="${isMe}"><a href="javascript:void(0);" nickname="<c:out value='${postCommentView.createUser.nickname}' />" content="<c:out value='${postCommentView.postComment.content}' />" post-comment-id="${postCommentView.postComment.id}" class="reply-link">回复</a></c:if><c:if test="${loginUser.uid == postCommentView.postComment.createUid || loginUser.uid == postCommentView.postComment.postCreateUid || context.admin}"><a href="javascript:void(0);" class="delete delete-link" post-comment-id="${postCommentView.postComment.id}">删除</a></c:if></strong></em>
 		</li>
 	</c:when>
 	<c:otherwise>

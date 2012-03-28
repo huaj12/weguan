@@ -26,7 +26,7 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_report` (
 
   `handle` INT(1) NOT NULL DEFAULT 0 ,
 
-  `description` VARCHAR(500) NULL ,
+  `description` VARCHAR(600) NULL ,
 
   `content_type` INT(2) NOT NULL ,
 

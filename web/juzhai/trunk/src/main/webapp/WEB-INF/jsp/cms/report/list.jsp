@@ -122,12 +122,12 @@
 							<a href="#" onclick="ignoreReport('${view.report.id}')">忽略</a>
 							</c:when>
 							<c:when test="${type==1 }">
-							<a onclick="deleteReport('${view.report.id}')" href="#">删除</a>
 							<a href="#" onclick="shieldReport('${view.report.id}','${view.report.reportUid}','1')">屏蔽7天</a>
 							<a href="#" onclick="shieldReport('${view.report.id}','${view.report.reportUid}','2')">屏蔽30天</a>
 							<a href="#" onclick="shieldReport('${view.report.id}','${view.report.reportUid}','3')">永久屏蔽</a>
 							</c:when>
 						</c:choose>
+						<a onclick="deleteReport('${view.report.id}')" href="#">删除</a>
 					</td>
 					<td><fmt:formatDate value="${view.report.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 					<td>${view.createProfile.nickname}</td>

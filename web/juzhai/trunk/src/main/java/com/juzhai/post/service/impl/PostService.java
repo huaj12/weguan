@@ -684,9 +684,6 @@ public class PostService implements IPostService {
 
 		ProfileExample example = new ProfileExample();
 		ProfileExample.Criteria c = example.createCriteria();
-		if (uid > 0) {
-			c.andUidNotEqualTo(uid);
-		}
 		if (null != cityId && cityId > 0) {
 			c.andCityEqualTo(cityId);
 		}
@@ -729,9 +726,6 @@ public class PostService implements IPostService {
 
 		ProfileExample example = new ProfileExample();
 		ProfileExample.Criteria c = example.createCriteria();
-		if (uid > 0) {
-			c.andUidNotEqualTo(uid);
-		}
 		if (null != cityId && cityId > 0) {
 			c.andCityEqualTo(cityId);
 		}

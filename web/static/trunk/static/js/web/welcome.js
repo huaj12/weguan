@@ -30,15 +30,15 @@ $(document).ready(function(){
 		return false;
 	});
 	
-	setInterval(function(){
-		jQuery.ajax({
-			url : "/welcomenum",
-			type : "get",
-			cache : false,
-			dataType : "html",
-			success : function(result) {
-				$("div.wel_num").html(result);
-			}
-		});
-	}, 5000);
+//	setInterval(function(){
+//		jQuery.ajax({
+//			url : "/welcomenum",
+//			type : "get",
+//			cache : false,
+//			dataType : "html",
+//			success : function(result) {
+//				$("div.wel_num").html(result);
+//			}
+//		});
+//	}, 5000);
 });

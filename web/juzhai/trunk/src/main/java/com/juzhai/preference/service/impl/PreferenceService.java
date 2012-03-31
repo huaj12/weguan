@@ -154,7 +154,6 @@ public class PreferenceService implements IPreferenceService {
 			throw new InputPreferenceException(
 					InputPreferenceException.ILLEGAL_OPERATION);
 		}
-		// TODO (done) preference是null怎么办
 		preference.setId(form.getId());
 		preference.setName(form.getName());
 		preference.setInput(form.getInputString());

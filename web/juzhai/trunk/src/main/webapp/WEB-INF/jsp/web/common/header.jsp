@@ -19,7 +19,7 @@
 				<div class="acc_list" style="display:none;"><!--acc_list begin-->
 					<a href="/profile/index">我的资料</a>
 					<a href="/profile/index/face">我的头像</a>
-					<a href="/profile/preference">偏好设置</a>
+					<a href="/profile/preference">拒宅偏好</a>
 					<!-- <a href="/profile/email">订阅设置</a> -->
 					<a href="/logout">退出</a>
 				</div><!--acc_list end-->

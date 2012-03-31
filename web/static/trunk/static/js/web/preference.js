@@ -5,41 +5,47 @@ $(document).ready(function() {
 		for(var i=0;i<preference_count;i++){
 			var preferenceId=$("#preferenceId_"+i).val();
 			var type=$("#inputType_"+i).val();
+			var preferenceType=$("#preferenceType_"+i).val();
 			if(type==0){
-				var flag=false;
-				$('input[name="userPreferences['+i+'].answer"]').each(function(){
-					if(this.checked){
-						flag=true;
+				//不等于筛选是必填
+				if(preferenceType==1){
+					var flag=false;
+					$('input[name="userPreferences['+i+'].answer"]').each(function(){
+						if(this.checked){
+							flag=true;
+						}
+					});
+					if(!flag){
+						$("#error_"+i).html("至少选择一个选项！").stop(true, true).show()
+						.fadeOut(4000);
+				        return ;
 					}
-				});
-				if(!flag){
-					$("#error_"+i).html("至少选择一个选项！").stop(true, true).show()
-					.fadeOut(4000);
-			        return ;
 				}
 			}else if(type==2){
 				var min=$("#minText_"+i).val();
 				var max=$("#maxText_"+i).val();
-				if(!isNum(min)||!isNum(max)){
-					 $("#error_"+i).html("请输入数字！").stop(true, true).show()
-						.fadeOut(4000);
-				        return ;	
+				if(preferenceType==1||min!=""||max!=""){
+					if(!isNum(min)||!isNum(max)){
+						 $("#error_"+i).html("请输入数字！").stop(true, true).show()
+							.fadeOut(4000);
+					        return ;	
+					}
+					min=parseInt(min);
+					max=parseInt(max);
+					if(max<min){
+						var t=0;
+						t=max;
+						max=min;
+						min=t;
+					}
+					if(min<16||max>50){
+						 $("#error_"+i).html("请输入16-50之间的数字！").stop(true, true).show()
+							.fadeOut(4000);
+					        return ;	
+					}
+					$("#minText_"+i).val(min);
+					$("#maxText_"+i).val(max);
 				}
-				min=parseInt(min);
-				max=parseInt(max);
-				if(max<min){
-					var t=0;
-					t=max;
-					max=min;
-					min=t;
-				}
-				if(min<16||max>50){
-					 $("#error_"+i).html("请输入16-50之间的数字！").stop(true, true).show()
-						.fadeOut(4000);
-				        return ;	
-				}
-				$("#minText_"+i).val(min);
-				$("#maxText_"+i).val(max);
 			}else if(type==3){
 				if(getByteLen($('textarea[name="userPreferences['+i+'].answer"]').val())>100){
 					 $("#error_"+i).html("内容不能大于50个字").stop(true, true).show()

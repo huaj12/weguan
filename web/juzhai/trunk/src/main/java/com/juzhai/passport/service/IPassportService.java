@@ -46,4 +46,12 @@ public interface IPassportService {
 	 * @return
 	 */
 	int totalCount();
+
+	/**
+	 * 获取邀请的人
+	 * 
+	 * @param inviterUid
+	 * @return
+	 */
+	List<Long> listInviteUsers(long inviterUid);
 }

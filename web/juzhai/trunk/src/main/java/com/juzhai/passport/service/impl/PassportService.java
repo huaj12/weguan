@@ -1,5 +1,6 @@
 package com.juzhai.passport.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -56,6 +57,19 @@ public class PassportService implements IPassportService {
 		PassportExample example = new PassportExample();
 		example.createCriteria().andShieldTimeGreaterThan(new Date());
 		return passportMapper.countByExample(example);
+	}
+
+	@Override
+	public List<Long> listInviteUsers(long inviterUid) {
+		PassportExample example = new PassportExample();
+		example.createCriteria().andInviterUidEqualTo(inviterUid);
+		example.setOrderByClause("create_time desc");
+		List<Passport> list = passportMapper.selectByExample(example);
+		List<Long> uids = new ArrayList<Long>(list.size());
+		for (Passport passport : list) {
+			uids.add(passport.getId());
+		}
+		return uids;
 	}
 
 }

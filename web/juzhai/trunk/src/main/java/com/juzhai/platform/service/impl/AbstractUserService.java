@@ -34,7 +34,8 @@ public abstract class AbstractUserService implements IUserService {
 
 	@Override
 	public long access(HttpServletRequest request,
-			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp) {
+			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp,
+			long inviterUid) {
 		if (authInfo == null) {
 			authInfo = new AuthInfo();
 		}
@@ -48,12 +49,13 @@ public abstract class AbstractUserService implements IUserService {
 			return 0L;
 		}
 		authInfo.setTpIdentity(tpIdentity);
-		return completeAccessUser(request, response, authInfo, tpIdentity, tp);
+		return completeAccessUser(request, response, authInfo, tpIdentity, tp,
+				inviterUid);
 	}
 
 	private long completeAccessUser(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo, String tpIdentity,
-			Thirdparty tp) {
+			Thirdparty tp, long inviterUid) {
 		log.debug("completeAssessUser");
 		TpUser tpUser = tpUserDao.selectTpUserByTpNameAndTpIdentity(
 				tp.getName(), tpIdentity);
@@ -70,7 +72,7 @@ public abstract class AbstractUserService implements IUserService {
 				return 0;
 			}
 			uid = registerService.autoRegister(tp, tpIdentity, authInfo,
-					profile);
+					profile, inviterUid);
 			// redis记录已安装App的用户
 			redisTemplate.opsForSet().add(
 					RedisKeyGenerator.genTpInstallUsersKey(tp.getName()),
@@ -92,6 +94,18 @@ public abstract class AbstractUserService implements IUserService {
 		return uid;
 	}
 
+	protected String buildAuthorizeURLParams(Thirdparty tp, String turnTo,
+			String incode) {
+		StringBuilder redirectURL = new StringBuilder(tp.getAppUrl());
+		if (StringUtils.isNotEmpty(turnTo)) {
+			redirectURL.append("?turnTo=").append(turnTo);
+		}
+		if (StringUtils.isNotEmpty(incode)) {
+			redirectURL.append(StringUtils.isNotEmpty(turnTo) ? "&" : "?");
+			redirectURL.append("incode=").append(incode);
+		}
+		return redirectURL.toString();
+	}
 
 	protected abstract Profile convertToProfile(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo,
@@ -102,11 +116,14 @@ public abstract class AbstractUserService implements IUserService {
 
 	protected abstract boolean checkAuthInfo(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp);
+
 	/**
-	 * Connect获取accessToken  
+	 * Connect获取accessToken
+	 * 
 	 * @param code
 	 * @return
 	 */
-	protected abstract String getOAuthAccessTokenFromCode(Thirdparty tp,String code);
+	protected abstract String getOAuthAccessTokenFromCode(Thirdparty tp,
+			String code);
 
 }

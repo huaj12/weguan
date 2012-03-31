@@ -24,7 +24,8 @@ public interface IUserService {
 	 * @return 授权成功返回用户ID,否则返回0
 	 */
 	public long access(HttpServletRequest request,
-			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp);
+			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp,
+			long inviterUid);
 
 	/**
 	 * 授权地址
@@ -34,10 +35,12 @@ public interface IUserService {
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	String getAuthorizeURLforCode(Thirdparty tp, String turnTo)
+	String getAuthorizeURLforCode(Thirdparty tp, String turnTo, String incode)
 			throws UnsupportedEncodingException;
+
 	/**
 	 * 获取用户名字
+	 * 
 	 * @param authInfo
 	 * @param uids
 	 * @return

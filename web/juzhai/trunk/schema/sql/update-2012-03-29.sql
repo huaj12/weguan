@@ -1,0 +1,1 @@
+ALTER TABLE `juzhai`.`tb_passport` ADD `inviter_uid` BIGINT NOT NULL DEFAULT 0 AFTER admin;

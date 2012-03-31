@@ -54,9 +54,9 @@ public class RegisterService implements IRegisterService {
 
 	@Override
 	public long autoRegister(Thirdparty tp, String identity, AuthInfo authInfo,
-			Profile profile) {
+			Profile profile, long inviterUid) {
 		Passport passport = registerPassport("@" + tp.getName() + "_"
-				+ identity, "", "");
+				+ identity, "", "", inviterUid);
 		if (null == passport || null == passport.getId()
 				|| passport.getId() <= 0) {
 			log.error("Register passport failed by DB.");
@@ -126,13 +126,14 @@ public class RegisterService implements IRegisterService {
 	}
 
 	private Passport registerPassport(String loginName, String email,
-			String password) {
+			String password, long inviterUid) {
 		Passport passport = new Passport();
 		passport.setLoginName(loginName);
 		passport.setPassword(DigestUtils.md5Hex(password));
 		passport.setEmail(email);
 		passport.setCreateTime(new Date());
 		passport.setLastModifyTime(passport.getCreateTime());
+		passport.setInviterUid(inviterUid);
 		if (passportMapper.insertSelective(passport) == 1) {
 			return passport;
 		}

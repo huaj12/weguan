@@ -29,9 +29,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import weibo4j.Oauth;
 
+import com.juzhai.activity.controller.ActivityController;
 import com.juzhai.core.Constants;
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
+import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.util.JackSonSerializer;
@@ -44,7 +46,6 @@ import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.exception.LoginException;
 import com.juzhai.passport.model.Thirdparty;
-import com.juzhai.passport.service.IReportService;
 import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.platform.service.IUserService;
@@ -64,8 +65,6 @@ public class TpAuthorizeController extends BaseController {
 	private ILoginService loginService;
 	@Autowired
 	private IUserGuideService userGuideService;
-	@Autowired
-	private IReportService reportService;
 
 	@RequestMapping(value = "app/login")
 	public String login(HttpServletRequest request, Model model) {
@@ -122,7 +121,7 @@ public class TpAuthorizeController extends BaseController {
 						+ ", joinType=" + tp.getJoinType() + "]");
 			}
 			AuthInfo authInfo = getAuthInfoFromCookie(request);
-			uid = userService.access(request, response, authInfo, tp);
+			uid = userService.access(request, response, authInfo, tp, 0L);
 		}
 		if (uid <= 0) {
 			log.error("access failed.[tpName=" + tp.getName() + ", joinType="
@@ -252,14 +251,14 @@ public class TpAuthorizeController extends BaseController {
 	}
 
 	@RequestMapping(value = "web/login/{tpId}")
-	public String webLogin(Model model, @PathVariable long tpId, String turnTo)
-			throws UnsupportedEncodingException {
+	public String webLogin(Model model, @PathVariable long tpId, String incode,
+			String turnTo) throws UnsupportedEncodingException {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if (null == tp) {
 			return "404";
 		}
 		String url = userService.getAuthorizeURLforCode(tp, turnTo == null ? ""
-				: URLEncoder.encode(turnTo, Constants.UTF8));
+				: URLEncoder.encode(turnTo, Constants.UTF8), incode);
 		if (StringUtils.isEmpty(url)) {
 			return "404";
 		}
@@ -269,7 +268,7 @@ public class TpAuthorizeController extends BaseController {
 	@RequestMapping(value = "web/access/{tpId}")
 	public String webAccess(HttpServletRequest request,
 			HttpServletResponse response, @PathVariable long tpId,
-			String turnTo, String error_code, Model model)
+			String turnTo, String incode, String error_code, Model model)
 			throws UnsupportedEncodingException, MalformedURLException {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if (null == tp) {
@@ -292,7 +291,8 @@ public class TpAuthorizeController extends BaseController {
 						+ ", joinType=" + tp.getJoinType() + "]");
 			}
 			AuthInfo authInfo = getAuthInfoFromCookie(request);
-			uid = userService.access(request, response, authInfo, tp);
+			uid = userService.access(request, response, authInfo, tp,
+					decryptInviteUid(incode));
 		}
 		if (uid <= 0) {
 			log.error("access failed.[tpName=" + tp.getName() + ", joinType="

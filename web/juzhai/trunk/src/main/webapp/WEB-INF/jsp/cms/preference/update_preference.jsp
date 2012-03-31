@@ -68,6 +68,8 @@
 			document.getElementById("min_max_div").innerHTML="";
 		}else if(type==2){
 			document.getElementById("optionDiv").innerHTML="";
+		}else if(type==1){
+			document.getElementById("min_max_div").innerHTML="";
 		}
 		jQuery.ajax({
 			url : "/cms/update/preference",
@@ -144,7 +146,7 @@
 				<div id="optionDiv">
 					<c:forEach items="${view.input.options}" var="option" varStatus="index">
 						<input value="${option.name}"  id="input_id_${index.index}" name="input.options[${index.index}].name" type="text"/>
-						<input type="${boxType}" name="defaultAnswer" id="input_box_id_${index.index}" <c:forEach items="${view.defaultValues }" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach> value="${option.value}" />
+						<input type="${boxType}"  name="defaultAnswer" id="input_box_id_${index.index}" <c:forEach items="${view.defaultValues }" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach> value="${option.value}" />
 						<input value="${option.value}" id="hidden_input_id_${index.index}" name="input.options[${index.index}].value" type="hidden"/>
 					</c:forEach>
 				</div>

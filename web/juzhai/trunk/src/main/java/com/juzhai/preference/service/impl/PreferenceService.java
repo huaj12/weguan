@@ -148,7 +148,8 @@ public class PreferenceService implements IPreferenceService {
 			throws InputPreferenceException {
 		validatePreference(form);
 		handleDefaultAnswer(form);
-		Preference preference = new Preference();
+		// 为了设置清空setDefaultAnswer
+		Preference preference = getPreference(form.getId());
 		preference.setId(form.getId());
 		preference.setName(form.getName());
 		preference.setInput(form.getInputString());
@@ -158,7 +159,7 @@ public class PreferenceService implements IPreferenceService {
 		preference.setDefaultAnswer(StringUtils.join(form.getDefaultAnswer(),
 				StringUtil.separator));
 		preference.setOpenDescription(form.getOpenDescription());
-		preferenceMapper.updateByPrimaryKeySelective(preference);
+		preferenceMapper.updateByPrimaryKey(preference);
 	}
 
 	@Override

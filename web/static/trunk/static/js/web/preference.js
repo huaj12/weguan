@@ -64,18 +64,18 @@ $(document).ready(function() {
 				}
 			}
 			var des=$('input[name="userPreferences['+i+'].description"]').val();
-			if (undefined == des) {
-				des="";
+			if (undefined != des) {
+				if(getByteLen(des)>100){
+					 $("#error_"+i).html("描述内容不能大于50个字").stop(true, true).show()
+						.fadeOut(4000);
+				        return ;	
+				}
+				var initDes=$('input[name="userPreferences['+i+'].description"]').attr("init-des");
+				if(des==initDes){
+					des="";
+				}
+				$('input[name="userPreferences['+i+'].description"]').val(des);
 			}
-			if(getByteLen(des)>100){
-				 $("#error_"+i).html("描述内容不能大于50个字").stop(true, true).show()
-					.fadeOut(4000);
-			        return ;	
-			}
-			var initDes=$('input[name="userPreferences['+i+'].description"]').attr("init-des");
-			if(des==initDes){
-				des="";
-			}			
 			$("#answerDiv_"+i).html("");
 			var obj=$("#answerDiv_"+i)[0];
 			var preferenceIdInput = document.createElement("input");   

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	registerInitDes($("span.width250 >input"));
 	$(".save").bind("click", function() {
 		var preference_count=$("#preference_count").val();
 		for(var i=0;i<preference_count;i++){
@@ -39,7 +40,26 @@ $(document).ready(function() {
 				}
 				$("#minText_"+i).val(min);
 				$("#maxText_"+i).val(max);
+			}else if(type==3){
+				if(getByteLen($('textarea[name="userPreferences['+i+'].answer"]').val())>100){
+					 $("#error_"+i).html("内容不能大于50个字").stop(true, true).show()
+						.fadeOut(4000);
+				        return ;	
+				}
 			}
+			var des=$('input[name="userPreferences['+i+'].description"]').val();
+			if (undefined == des) {
+				des="";
+			}
+			if(getByteLen(des)>100){
+				 $("#error_"+i).html("描述内容不能大于50个字").stop(true, true).show()
+					.fadeOut(4000);
+			        return ;	
+			}
+			var initDes=$('input[name="userPreferences['+i+'].description"]').attr("init-des");
+			if(des==initDes){
+				des="";
+			}			
 			$("#answerDiv_"+i).html("");
 			var obj=$("#answerDiv_"+i)[0];
 			var preferenceIdInput = document.createElement("input");   
@@ -72,3 +92,16 @@ $(document).ready(function() {
 	
 });
 
+function registerInitDes(inputObj){
+	var initDes = $(inputObj).attr("init-des");
+	$(inputObj).bind("focus", function(){
+		if($(inputObj).val() == initDes){
+			$(inputObj).val("");
+		}
+	}).bind("blur", function(){
+		if($(inputObj).val() == ""){
+			$(inputObj).val(initDes);
+		}
+	});
+	$(inputObj).trigger("blur");
+}

@@ -52,6 +52,16 @@ $(document).ready(function() {
 						.fadeOut(4000);
 				        return ;	
 				}
+			}else if(type==1){
+				//不等于筛选是必填
+				if(preferenceType==1){
+					var answer=$('select[name="userPreferences['+i+'].answer"]').val();
+					if(answer==""){
+						$("#error_"+i).html("至少选择一个选项！").stop(true, true).show()
+						.fadeOut(4000);
+				        return ;
+					}
+				}
 			}
 			var des=$('input[name="userPreferences['+i+'].description"]').val();
 			if (undefined == des) {

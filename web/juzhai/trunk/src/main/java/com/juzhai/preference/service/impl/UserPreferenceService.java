@@ -175,6 +175,7 @@ public class UserPreferenceService implements IUserPreferenceService {
 				for (UserPreference userPreference : userPreferences) {
 					if (userPreference.getPreferenceId().longValue() == preference
 							.getId().longValue()) {
+						// TODO (review) 如果用户就是设置空字符串，那这样取出来就变默认值了，所以要用空字符表示用户输入空，null表示用户没填过，检查目前代码是不是这样处理的
 						if (StringUtils.isEmpty(userPreference.getAnswer())) {
 							answer = preference.getDefaultAnswer();
 							userPreference.setAnswer(answer);
@@ -211,6 +212,7 @@ public class UserPreferenceService implements IUserPreferenceService {
 				for (UserPreference userPreference : userPreferences) {
 					if (userPreference.getPreferenceId().longValue() == preference
 							.getId().longValue()) {
+						// TODO (review) 如果用户就是设置空字符串，那这样取出来就变默认值了，所以要用空字符表示用户输入空，null表示用户没填过，检查目前代码是不是这样处理的
 						if (StringUtils.isEmpty(userPreference.getAnswer())) {
 							answer = preference.getDefaultAnswer();
 							userPreference.setAnswer(answer);

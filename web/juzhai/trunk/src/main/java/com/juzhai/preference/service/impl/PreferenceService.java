@@ -150,6 +150,7 @@ public class PreferenceService implements IPreferenceService {
 		handleDefaultAnswer(form);
 		// 为了设置清空setDefaultAnswer
 		Preference preference = getPreference(form.getId());
+		// TODO (review) preference是null怎么办
 		preference.setId(form.getId());
 		preference.setName(form.getName());
 		preference.setInput(form.getInputString());
@@ -177,7 +178,6 @@ public class PreferenceService implements IPreferenceService {
 		return preferenceMapper.selectByExample(example);
 	}
 
-	// TODO (done) 从总的map里循环就行了
 	@Override
 	public List<Preference> listCacheShowPreference() {
 		List<Preference> list = new ArrayList<Preference>();

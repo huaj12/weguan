@@ -16,8 +16,6 @@ import com.juzhai.preference.service.IPreferenceService;
 public class InitData {
 
 	public final static Map<Long, Preference> PREFERENCE_MAP = new HashMap<Long, Preference>();
-	// 用于显示的用户偏好
-	// TODO (done) 从总的map里循环就行了
 	@Autowired
 	private IPreferenceService preferenceService;
 

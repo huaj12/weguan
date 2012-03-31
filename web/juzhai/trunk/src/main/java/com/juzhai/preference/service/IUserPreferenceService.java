@@ -50,7 +50,6 @@ public interface IUserPreferenceService {
 	 * @param preferences
 	 * @return
 	 */
-	// TODO (done) 注释
 	List<UserPreferenceView> convertToUserPreferenceView(
 			List<UserPreference> userPreferences, List<Preference> preferences);
 

@@ -53,4 +53,14 @@ public interface IUserPreferenceService {
 	// TODO (done) 注释
 	List<UserPreferenceView> convertToUserPreferenceView(
 			List<UserPreference> userPreferences, List<Preference> preferences);
+
+	/**
+	 * 用户偏好列表（answer==null不显示）
+	 * 
+	 * @param userPreferences
+	 * @param preferences
+	 * @return
+	 */
+	List<UserPreferenceView> convertToUserHomePreferenceView(
+			List<UserPreference> userPreferences, List<Preference> preferences);
 }

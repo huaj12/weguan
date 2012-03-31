@@ -198,4 +198,44 @@ public class UserPreferenceService implements IUserPreferenceService {
 		}
 		return views;
 	}
+
+	@Override
+	public List<UserPreferenceView> convertToUserHomePreferenceView(
+			List<UserPreference> userPreferences, List<Preference> preferences) {
+		List<UserPreferenceView> views = new ArrayList<UserPreferenceView>();
+		for (Preference preference : preferences) {
+			try {
+				String answer = null;
+				UserPreferenceView view = new UserPreferenceView(preference,
+						null, Input.convertToBean(preference.getInput()));
+				for (UserPreference userPreference : userPreferences) {
+					if (userPreference.getPreferenceId().longValue() == preference
+							.getId().longValue()) {
+						if (StringUtils.isEmpty(userPreference.getAnswer())) {
+							answer = preference.getDefaultAnswer();
+							userPreference.setAnswer(answer);
+						}
+						view.setUserPreference(userPreference);
+						break;
+					}
+				}
+				if (view.getUserPreference() == null) {
+					UserPreference defaultUserPreference = new UserPreference();
+					answer = preference.getDefaultAnswer();
+					defaultUserPreference.setAnswer(answer);
+					view.setUserPreference(defaultUserPreference);
+				}
+				// 如果用户没有设置值并且没有默认值则不显示
+				if (StringUtils.isEmpty(view.getUserPreference().getAnswer())) {
+					break;
+				}
+				view.setAnswer(StringUtils.split(view.getUserPreference()
+						.getAnswer(), StringUtil.separator));
+				views.add(view);
+			} catch (Exception e) {
+				log.error("preference convertToBean json is error ");
+			}
+		}
+		return views;
+	}
 }

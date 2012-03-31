@@ -14,14 +14,25 @@
 							<c:forEach items="${preferenceListviews}" var="view">
 								<c:if test="${!view.userPreference.open||not empty isMe}">
 									<li>
-										<p>${view.preference.name}</p>
-										<c:forEach items="${view.input.options}" var="option">
-												<c:forEach items="${view.answer}" var="box"><c:if test="${box==option.value}">
-													<span>${option.name}</span>
-												</c:if></c:forEach> 	
-										</c:forEach>
+										<p><c:out value="${view.preference.name}"/></p>
+										<c:choose>
+										<c:when test="${view.input.inputType==1||view.input.inputType==0}">
+											<c:forEach items="${view.input.options}" var="option">
+													<c:forEach items="${view.answer}" var="box"><c:if test="${box==option.value}">
+														<span><c:out value="${option.name}"/></span>
+													</c:if></c:forEach> 	
+											</c:forEach>
+										</c:when>
+										<c:when test="${view.input.inputType==2}">
+											<span><c:out value="${view.answer[0]}"/></span>
+											<span><c:out value="${view.answer[1]}"/></span>
+										</c:when>
+										<c:when test="${view.input.inputType==3}">
+											<span><c:out value="${view.answer[0]}"/></span>
+										</c:when>
+										</c:choose>
 											<c:if test="${view.preference.openDescription}" >
-													<em>${view.userPreference.description}</em>
+													<em>补充说明：<c:out value="${view.userPreference.description}"/></em>
 											</c:if>
 									</li>
 								</c:if>

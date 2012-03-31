@@ -11,6 +11,7 @@ public class PreferenceForm {
 	private boolean open;
 	private Integer sequence;
 	private String[] defaultAnswer;
+	private boolean openDescription;
 
 	public String getName() {
 		return name;
@@ -74,6 +75,14 @@ public class PreferenceForm {
 
 	public void setDefaultAnswer(String[] defaultAnswer) {
 		this.defaultAnswer = defaultAnswer;
+	}
+
+	public boolean getOpenDescription() {
+		return openDescription;
+	}
+
+	public void setOpenDescription(boolean openDescription) {
+		this.openDescription = openDescription;
 	}
 
 }

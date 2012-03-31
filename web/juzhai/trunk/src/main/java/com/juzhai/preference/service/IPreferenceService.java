@@ -59,4 +59,17 @@ public interface IPreferenceService {
 	 */
 	Preference getPreference(Long id);
 
+	/**
+	 * 用于显示的用户偏好
+	 * 
+	 * @return
+	 */
+	List<Preference> listShowPreference();
+
+	/**
+	 * 用于显示的用户偏好
+	 * 
+	 * @return
+	 */
+	List<Preference> listCacheShowPreference();
 }

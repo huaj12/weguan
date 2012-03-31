@@ -22,6 +22,7 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.InterestUserView;
 import com.juzhai.home.service.IUserStatusService;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.controller.view.UserPreferenceView;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IInterestUserService;
@@ -31,6 +32,10 @@ import com.juzhai.passport.service.login.ILoginService;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.preference.model.Preference;
+import com.juzhai.preference.model.UserPreference;
+import com.juzhai.preference.service.IPreferenceService;
+import com.juzhai.preference.service.IUserPreferenceService;
 
 @Controller
 @RequestMapping(value = "home")
@@ -48,6 +53,10 @@ public class UserController extends BaseController {
 	private ITpUserService tpUserService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IPreferenceService preferenceService;
+	@Autowired
+	private IUserPreferenceService userPreferenceService;
 	@Value("${web.user.home.post.rows}")
 	private int webUserHomePostRows;
 	@Value("${web.my.post.max.rows}")
@@ -83,7 +92,8 @@ public class UserController extends BaseController {
 					userStatusService.listUserStatus(uid));
 			TpUser tpUser = tpUserService.getTpUserByUid(uid);
 			model.addAttribute("tpUser", tpUser);
-
+			// 获取用户偏好
+			getUserPreference(model, uid);
 			return "web/home/user_home";
 		}
 	}
@@ -274,5 +284,28 @@ public class UserController extends BaseController {
 			// interestUserService.countInterestMeUser(uid));
 			// model.addAttribute("postCount", postService.countUserPost(uid));
 		}
+	}
+
+	@RequestMapping(value = "/preference", method = RequestMethod.GET)
+	public String myPreference(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		try {
+			showUserPageRight(context, context.getUid(), model);
+		} catch (JuzhaiException e) {
+			return error_404;
+		}
+		getUserPreference(model, context.getUid());
+		return "web/home/preference/preference";
+	}
+
+	private void getUserPreference(Model model, long uid) {
+		List<Preference> preferences = preferenceService
+				.listCacheShowPreference();
+		List<UserPreference> userPreferences = userPreferenceService
+				.listUserPreference(uid);
+		List<UserPreferenceView> views = userPreferenceService
+				.convertToUserPreferenceView(userPreferences, preferences);
+		model.addAttribute("preferenceListviews", views);
 	}
 }

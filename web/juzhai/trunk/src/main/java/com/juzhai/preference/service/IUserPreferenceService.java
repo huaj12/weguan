@@ -3,7 +3,9 @@ package com.juzhai.preference.service;
 import java.util.List;
 
 import com.juzhai.passport.controller.form.UserPreferenceListForm;
+import com.juzhai.passport.controller.view.UserPreferenceView;
 import com.juzhai.preference.exception.InputUserPreferenceException;
+import com.juzhai.preference.model.Preference;
 import com.juzhai.preference.model.UserPreference;
 
 public interface IUserPreferenceService {
@@ -40,4 +42,7 @@ public interface IUserPreferenceService {
 	 *         不存在返回null
 	 */
 	List<String> getUserAnswer(long uid, long preferenceId);
+
+	List<UserPreferenceView> convertToUserPreferenceView(
+			List<UserPreference> userPreferences, List<Preference> preferences);
 }

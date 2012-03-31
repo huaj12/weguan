@@ -2,7 +2,7 @@ package com.juzhai.passport.controller.form;
 
 public class UserPreferenceForm {
 	private String[] answer;
-	private Boolean open;
+	private boolean open;
 	private String description;
 	private Long preferenceId;
 
@@ -22,20 +22,20 @@ public class UserPreferenceForm {
 		this.answer = answer;
 	}
 
-	public Boolean getOpen() {
-		return open;
-	}
-
-	public void setOpen(Boolean open) {
-		this.open = open;
-	}
-
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public boolean isOpen() {
+		return open;
+	}
+
+	public void setOpen(boolean open) {
+		this.open = open;
 	}
 
 }

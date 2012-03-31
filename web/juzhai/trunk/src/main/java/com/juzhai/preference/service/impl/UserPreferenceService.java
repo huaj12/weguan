@@ -1,5 +1,6 @@
 package com.juzhai.preference.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -16,7 +19,9 @@ import com.juzhai.core.util.StringUtil;
 import com.juzhai.home.service.IGuessYouService;
 import com.juzhai.passport.controller.form.UserPreferenceForm;
 import com.juzhai.passport.controller.form.UserPreferenceListForm;
+import com.juzhai.passport.controller.view.UserPreferenceView;
 import com.juzhai.preference.InitData;
+import com.juzhai.preference.bean.Input;
 import com.juzhai.preference.exception.InputUserPreferenceException;
 import com.juzhai.preference.mapper.UserPreferenceMapper;
 import com.juzhai.preference.model.Preference;
@@ -26,6 +31,7 @@ import com.juzhai.preference.service.IUserPreferenceService;
 
 @Service
 public class UserPreferenceService implements IUserPreferenceService {
+	protected final Log log = LogFactory.getLog(getClass());
 	@Value("${user.preference.answer.length.max}")
 	private int userPreferenceAnswerLengthMax;
 	@Value("${user.preference.description.length.max}")
@@ -69,7 +75,7 @@ public class UserPreferenceService implements IUserPreferenceService {
 				userPreference.setDescription(userPreferenceForm
 						.getDescription());
 				userPreference.setLastModifyTime(new Date());
-				userPreference.setOpen(userPreferenceForm.getOpen());
+				userPreference.setOpen(userPreferenceForm.isOpen());
 				userPreference.setPreferenceId(userPreferenceForm
 						.getPreferenceId());
 				userPreference.setUid(uid);
@@ -82,7 +88,7 @@ public class UserPreferenceService implements IUserPreferenceService {
 						userPreferenceForm.getAnswer(), StringUtil.separator));
 				userPreference.setDescription(userPreferenceForm
 						.getDescription());
-				userPreference.setOpen(userPreferenceForm.getOpen());
+				userPreference.setOpen(userPreferenceForm.isOpen());
 				userPreference.setLastModifyTime(new Date());
 				userPreferenceMapper
 						.updateByPrimaryKeySelective(userPreference);
@@ -127,9 +133,6 @@ public class UserPreferenceService implements IUserPreferenceService {
 			throw new InputUserPreferenceException(
 					InputUserPreferenceException.PREFERENCE_DESCRIPTION_IS_INVALID);
 		}
-		if (userPreferenceForm.getOpen() == null) {
-			userPreferenceForm.setOpen(false);
-		}
 	}
 
 	@Override
@@ -158,5 +161,41 @@ public class UserPreferenceService implements IUserPreferenceService {
 		}
 		String array[] = StringUtils.split(answer, StringUtil.separator);
 		return Arrays.asList(array);
+	}
+
+	@Override
+	public List<UserPreferenceView> convertToUserPreferenceView(
+			List<UserPreference> userPreferences, List<Preference> preferences) {
+		List<UserPreferenceView> views = new ArrayList<UserPreferenceView>();
+		for (Preference preference : preferences) {
+			try {
+				String answer = null;
+				UserPreferenceView view = new UserPreferenceView(preference,
+						null, Input.convertToBean(preference.getInput()));
+				for (UserPreference userPreference : userPreferences) {
+					if (userPreference.getPreferenceId().longValue() == preference
+							.getId().longValue()) {
+						if (StringUtils.isEmpty(userPreference.getAnswer())) {
+							answer = preference.getDefaultAnswer();
+							userPreference.setAnswer(answer);
+						}
+						view.setUserPreference(userPreference);
+						break;
+					}
+				}
+				if (view.getUserPreference() == null) {
+					UserPreference defaultUserPreference = new UserPreference();
+					answer = preference.getDefaultAnswer();
+					defaultUserPreference.setAnswer(answer);
+					view.setUserPreference(defaultUserPreference);
+				}
+				view.setAnswer(StringUtils.split(view.getUserPreference()
+						.getAnswer(), StringUtil.separator));
+				views.add(view);
+			} catch (Exception e) {
+				log.error("preference convertToBean json is error ");
+			}
+		}
+		return views;
 	}
 }

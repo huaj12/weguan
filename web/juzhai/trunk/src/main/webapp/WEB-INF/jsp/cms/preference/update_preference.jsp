@@ -89,6 +89,11 @@
 		});
 		
 	}
+	function cleanInput(){
+		$('input[name="defaultAnswer"]').each(function(){
+			this.checked=false;
+		});
+	}
 </script>
 </head>
 <body>
@@ -129,6 +134,7 @@
 				<div id="addDiv" <c:if test="${view.input.inputType==2||view.input.inputType==3 }">style="display: none"</c:if> >
 					<a href="#" onclick="addInput()" >继续添加</a>
 					<a href="#" onclick="deleteInput()" >删除按钮</a>
+					<a href="#" onclick="cleanInput()" >清空选项</a>
 				</div>
 				<div id="min_max_div" <c:if test="${view.input.inputType!=2}">style="display: none"</c:if>>
 				默认值：

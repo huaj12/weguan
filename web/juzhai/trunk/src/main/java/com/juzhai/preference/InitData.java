@@ -17,6 +17,7 @@ public class InitData {
 
 	public final static Map<Long, Preference> PREFERENCE_MAP = new HashMap<Long, Preference>();
 	// 用于显示的用户偏好
+	// TODO (review) 从总的map里循环就行了
 	public final static Map<Long, Preference> SHOW_PREFERENCE_MAP = new HashMap<Long, Preference>();
 	@Autowired
 	private IPreferenceService preferenceService;

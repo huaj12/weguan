@@ -18,5 +18,5 @@ public interface IRegisterService {
 	 * @return
 	 */
 	public long autoRegister(Thirdparty tp, String identity, AuthInfo authInfo,
-			Profile profile);
+			Profile profile, long inviterUid);
 }

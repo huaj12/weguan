@@ -39,13 +39,9 @@ public class QqConnectUserService extends AbstractUserService {
 	private MessageSource messageSource;
 
 	@Override
-	public String getAuthorizeURLforCode(Thirdparty tp, String turnTo)
-			throws UnsupportedEncodingException {
+	public String getAuthorizeURLforCode(Thirdparty tp, String turnTo,
+			String incode) throws UnsupportedEncodingException {
 		String url = null;
-		String redirectURL = tp.getAppUrl();
-		if (StringUtils.isNotEmpty(turnTo)) {
-			redirectURL = redirectURL + "?turnTo=" + turnTo;
-		}
 		try {
 			RequestToken rt = new RequestToken(tp.getAppKey(),
 					tp.getAppSecret());
@@ -54,7 +50,8 @@ public class QqConnectUserService extends AbstractUserService {
 					tokens.get("oauth_token_secret"));
 			RedirectToken ret = new RedirectToken(tp.getAppKey(),
 					tp.getAppSecret());
-			url = ret.getRedirectURL(tokens, redirectURL);
+			url = ret.getRedirectURL(tokens,
+					buildAuthorizeURLParams(tp, turnTo, incode));
 		} catch (Exception e) {
 			log.equals("QQ content getAuthorizeURLforCode is error."
 					+ e.getMessage());

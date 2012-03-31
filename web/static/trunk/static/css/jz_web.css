@@ -2505,12 +2505,26 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 
 
 .card_infor .ta_infor{ float:left; width:100%; margin-top:30px; padding-bottom:5px;}
-.card_infor .ta_infor a{ font-family:"微软雅黑"; line-height:normal; font-size:18px;}
+.card_infor .ta_infor a{ font-family:"微软雅黑"; line-height:normal; font-size:18px; float:left;}
 .card_infor .ta_infor a:hover{ text-decoration:underline;}
-.card_infor .ta_infor span{ font-size:14px; color:#999; width:100%; display:block; margin-top:5px;}
+.card_infor .ta_infor span{ font-size:14px; color:#999; width:100%; display:block; margin-top:5px; float:left;}
 
 .jjxz .girl .ta_infor a{ color:#f69;}
 .jjxz .boy .ta_infor a{ color:#3E8BD9;}
+
+
+.card_infor .ta_infor .keep{ float:left; margin-top:5px; margin-left:10px; display:inline;}
+.card_infor .ta_infor .keep a{ background:url(../images/web2/person_keep_icon_r1_c1.jpg) no-repeat; padding-left:20px; color:#999; *display:block; font-size:12px;}
+.card_infor .ta_infor .keep a:hover{ background:url(../images/web2/person_keep_icon_r3_c3.jpg) no-repeat; color:#3E8BD9; text-decoration:none;}
+.card_infor .ta_infor .keep .done{background:url(../images/web2/person_keep_icon_r3_c3.jpg) no-repeat; color:#999; }
+.card_infor .ta_infor .keep .done:hover{color:#999;}
+
+
+
+
+
+
+
 
 
 
@@ -2847,10 +2861,3 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 
 .jb_show_box .boy a.user{ color:#3E8BD9;}
 .jb_show_box .girl a.user{ color:#f69;}
-
-
-
-
-
-
-

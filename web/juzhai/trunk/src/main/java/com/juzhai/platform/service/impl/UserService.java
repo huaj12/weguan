@@ -43,8 +43,10 @@ public class UserService implements IUserService, BeanFactoryAware {
 
 	@Override
 	public long access(HttpServletRequest request,
-			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp) {
-		return getUserServiceBean(tp).access(request, response, authInfo, tp);
+			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp,
+			long inviterUid) {
+		return getUserServiceBean(tp).access(request, response, authInfo, tp,
+				inviterUid);
 	}
 
 	private IUserService getUserServiceBean(Thirdparty tp) {
@@ -52,13 +54,15 @@ public class UserService implements IUserService, BeanFactoryAware {
 	}
 
 	@Override
-	public String getAuthorizeURLforCode(Thirdparty tp, String turnTo)
-			throws UnsupportedEncodingException {
-		return getUserServiceBean(tp).getAuthorizeURLforCode(tp, turnTo);
+	public String getAuthorizeURLforCode(Thirdparty tp, String turnTo,
+			String incode) throws UnsupportedEncodingException {
+		return getUserServiceBean(tp)
+				.getAuthorizeURLforCode(tp, turnTo, incode);
 	}
 
 	@Override
 	public List<String> getUserNames(AuthInfo authInfo, List<String> fuids) {
-		return getUserServiceBean(authInfo.getThirdpartyName(),authInfo.getJoinType()).getUserNames(authInfo, fuids);
+		return getUserServiceBean(authInfo.getThirdpartyName(),
+				authInfo.getJoinType()).getUserNames(authInfo, fuids);
 	}
 }

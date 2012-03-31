@@ -18,7 +18,9 @@ import com.juzhai.act.bean.SuitGender;
 import com.juzhai.act.bean.SuitStatus;
 import com.juzhai.act.model.Category;
 import com.juzhai.act.service.IActCategoryService;
+import com.juzhai.activity.controller.ActivityController;
 import com.juzhai.common.InitData;
+import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.ErrorPageDispatcher;
 import com.juzhai.core.web.filter.CheckLoginFilter;
@@ -208,5 +210,20 @@ public class BaseController {
 				postService.getAllResponseCnt(context.getUid()));
 		model.addAttribute("completion",
 				profileService.getProfileCompletion(context.getUid()));
+	}
+
+	protected long decryptInviteUid(String token) {
+		if (StringUtils.isEmpty(token)) {
+			return 0L;
+		}
+		long realUid = 0L;
+		try {
+			realUid = Long.valueOf(DESUtils.decryptToString(
+					ActivityController.INVITE_SECRET.getBytes(), token));
+		} catch (Exception e) {
+			log.error("decrypt inviter uid error.", e);
+			return 0L;
+		}
+		return realUid;
 	}
 }

@@ -27,6 +27,23 @@ $(document).ready(function(){
 	$("a.xy").click(function(){
 		responseClick(this);
 	});
+	
+	$("div.user-remove-interest > a.done").bind("click", function() {
+		var uid = $(this).attr("uid");
+		removeInterestConfirm(uid, this, function(){
+			$("div.remove-interest-" + uid).hide();
+			$("div.interest-" + uid).attr("style", "");
+		});
+		return false;
+	});
+	$("div.user-add-interest > a").bind("click", function() {
+		var uid = $(this).attr("uid");
+		interest(this, uid, function(){
+			$("div.interest-" + uid).hide();
+			$("div.remove-interest-" + uid).attr("style", "");
+		});
+		return false;
+	});
 });
 
 function next(btn){

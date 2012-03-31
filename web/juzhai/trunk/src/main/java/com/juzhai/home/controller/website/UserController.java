@@ -304,6 +304,7 @@ public class UserController extends BaseController {
 				.listCacheShowPreference();
 		List<UserPreference> userPreferences = userPreferenceService
 				.listUserPreference(uid);
+		// TODO (review) 确认是要怎么显示未填的偏好，是不显示还是显示默认值?
 		List<UserPreferenceView> views = userPreferenceService
 				.convertToUserPreferenceView(userPreferences, preferences);
 		model.addAttribute("preferenceListviews", views);

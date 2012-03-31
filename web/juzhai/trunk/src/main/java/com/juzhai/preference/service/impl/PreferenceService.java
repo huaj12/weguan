@@ -177,6 +177,7 @@ public class PreferenceService implements IPreferenceService {
 	}
 
 	@Override
+	// TODO (review) 从总的map里循环就行了
 	public List<Preference> listShowPreference() {
 		PreferenceExample example = new PreferenceExample();
 		example.createCriteria().andDefunctEqualTo(false)
@@ -185,6 +186,7 @@ public class PreferenceService implements IPreferenceService {
 		return preferenceMapper.selectByExample(example);
 	}
 
+	// TODO (review) 从总的map里循环就行了
 	@Override
 	public List<Preference> listCacheShowPreference() {
 		List<Preference> list = new ArrayList<Preference>();

@@ -20,6 +20,7 @@ import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
+import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.service.IPostService;
@@ -41,6 +42,8 @@ public class GuessYouService implements IGuessYouService {
 	private IProfileService profileService;
 	@Autowired
 	private IPostService postService;
+	@Autowired
+	private IInterestUserService interestUserService;
 	@Value("${rescue.users.total.count}")
 	private int rescueUsersTotalCount;
 
@@ -152,7 +155,8 @@ public class GuessYouService implements IGuessYouService {
 				PostView postView = new PostView();
 				postView.setProfileCache(profile);
 				postView.setPost(postService.getPostById(postId));
-
+				postView.setHasInterest(interestUserService.isInterest(uid,
+						postView.getPost().getCreateUid()));
 				redisTemplate.opsForSet().add(key, rescueUid);
 				return postView;
 			}

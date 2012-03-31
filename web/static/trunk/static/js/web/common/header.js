@@ -35,7 +35,12 @@ $(document).ready(function(){
 	//登录
 	$("a.login-btn").bind("click", function(){
 		var uri = $(this).attr("go-uri");
-		window.location.href = uri + "?turnTo=" + window.location.href; 
+		var incode = $(this).attr("incode");
+		var url = uri + "?turnTo=" + window.location.href;
+		if(incode != null && incode != ""){
+			url = url + "&incode=" + incode;
+		}
+		window.location.href = url;
 		return false;
 	});
 	

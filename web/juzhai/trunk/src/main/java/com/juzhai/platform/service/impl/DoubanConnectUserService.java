@@ -42,16 +42,13 @@ public class DoubanConnectUserService extends AbstractUserService {
 	private int featureLengthMax;
 
 	@Override
-	public String getAuthorizeURLforCode(Thirdparty tp, String turnTo)
-			throws UnsupportedEncodingException {
+	public String getAuthorizeURLforCode(Thirdparty tp, String turnTo,
+			String incode) throws UnsupportedEncodingException {
 		String url = null;
-		String redirectURL = tp.getAppUrl();
-		if (StringUtils.isNotEmpty(turnTo)) {
-			redirectURL = redirectURL + "?turnTo=" + turnTo;
-		}
 		DoubanService doubanService = new DoubanService(tp.getAppId(),
 				tp.getAppKey(), tp.getAppSecret());
-		url = doubanService.getAuthorizationUrl(redirectURL);
+		url = doubanService.getAuthorizationUrl(buildAuthorizeURLParams(tp,
+				turnTo, incode));
 		tokenMap.put(doubanService.getRequestToken(),
 				doubanService.getRequestTokenSecret());
 		return url;

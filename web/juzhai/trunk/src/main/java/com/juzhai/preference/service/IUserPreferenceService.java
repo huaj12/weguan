@@ -43,7 +43,14 @@ public interface IUserPreferenceService {
 	 */
 	List<String> getUserAnswer(long uid, long preferenceId);
 
-	// TODO (review) 注释
+	/**
+	 * 偏好设置列表
+	 * 
+	 * @param userPreferences
+	 * @param preferences
+	 * @return
+	 */
+	// TODO (done) 注释
 	List<UserPreferenceView> convertToUserPreferenceView(
 			List<UserPreference> userPreferences, List<Preference> preferences);
 }

@@ -176,22 +176,15 @@ public class PreferenceService implements IPreferenceService {
 		return preferenceMapper.selectByExample(example);
 	}
 
-	@Override
-	// TODO (review) 从总的map里循环就行了
-	public List<Preference> listShowPreference() {
-		PreferenceExample example = new PreferenceExample();
-		example.createCriteria().andDefunctEqualTo(false)
-				.andTypeNotEqualTo(PreferenceType.FILTER.getType());
-		example.setOrderByClause("sequence");
-		return preferenceMapper.selectByExample(example);
-	}
-
-	// TODO (review) 从总的map里循环就行了
+	// TODO (done) 从总的map里循环就行了
 	@Override
 	public List<Preference> listCacheShowPreference() {
 		List<Preference> list = new ArrayList<Preference>();
-		list.addAll(InitData.SHOW_PREFERENCE_MAP.values());
+		for (Preference preference : InitData.PREFERENCE_MAP.values()) {
+			if (PreferenceType.FILTER.getType() != preference.getType()) {
+				list.add(preference);
+			}
+		}
 		return list;
 	}
-
 }

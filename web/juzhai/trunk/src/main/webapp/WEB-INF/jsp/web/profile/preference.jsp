@@ -19,90 +19,87 @@
 			<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
 			<form  id="preferenceForm">
 			<div class="content"><!--content begin-->
-				<div class="t"></div>
-				<div class="m"><!--m begin-->
-				<div class="set"><!--set begin-->
-				<c:set var="page" value="preference" scope="request" />
-				<jsp:include page="/WEB-INF/jsp/web/profile/common/left.jsp" /><!--set_left end-->
-				<div class="set_right"><!--set_right begin-->
-				<div class="title"><h2>你对哪些人的拒宅信息感兴趣？</h2></div>
-				<div class="my_infor"><!--my_infor begin-->
-				<div class="infor"><!--infor begin-->
-				<input type="hidden" value="${fn:length(views)}" id="preference_count" />
-				<c:forEach items="${views}" var="view" varStatus="index">
-				<div class="infor_x"><!--infor_x begin-->
-				<div id="answerDiv_${index.index}">
-					
-				</div>
-				<h3>${view.preference.name}：</h3>
-				<input type="hidden" id="preferenceId_${index.index }" value="${view.preference.id}"/>
-				<input type="hidden" id="inputType_${index.index }" value="${view.input.inputType}"/>
-				<c:choose>
-					<c:when test="${view.input.inputType==0}">
-					<div class="ck" ><!--select begin-->
-						<c:forEach items="${view.input.options}" var="option">
-						<div class="check_sex"><b><input name="userPreferences[${index.index }].answer" type="checkbox" <c:forEach items="${view.answer}" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach>  value="${option.value }" /></b><p>${option.name }</p></div>
-						</c:forEach>
-					</div><!--select end-->
-					</c:when>
-					<c:when test="${view.input.inputType==1}">
-					<div class="select"><!--select begin-->
-					<span>	
-							<select>
-							
-						<c:forEach items="${view.input.options}" var="option">
-							<option value="${option.value}" <c:if test="${option.value==view.userPreference.answer}"> selected="selected"</c:if> >${option.name}</option>
-						</c:forEach>			
-							</select>
-					</span>
-					</div><!--select end-->
-					</c:when>
-					<c:when test="${view.input.inputType==2 }">
-					<div class="input"><!--input begin-->
-					<p class="l"></p><span class="width70"><input type="text" name="userPreferences[${index.index }].answer" id="minText_${index.index }" value="<c:out value="${view.answer[0]}"/>"/></span><p class="r"></p><em>到</em>
-					</div><!--input end-->
-					<div class="input"><!--input begin-->
-					
-					<p class="l"></p><span class="width70"><input type="text" name="userPreferences[${index.index }].answer" id="maxText_${index.index }" value="<c:out value="${view.answer[1]}"/>" /></span><p class="r"></p><em>岁</em>
-					
-					</div><!--input end-->
-					</c:when>
-					<c:otherwise>
-						<div class="pj_box">
-											<!--pj_box begin-->
-											<textarea rows="4" cols="40" name="">${view.userPreference.answer}</textarea>
-						</div>
-					</c:otherwise>
-				</c:choose>
-				<div class="error" id="error_${index.index }" style="margin-top:0px;"></div>
-				</div><!--infor_x end-->
-				</c:forEach>
-				<div class="save_btn"><!--save_btn begin-->
-				
-				<a href="javascript:void(0);" class="save">保存</a>
-				
-				</div><!--save_btn end-->
-				
-				<div class="clear"></div>
-				
-				</div><!--infor end-->
-				
-				
-				
-				</div><!--my_infor end-->
-				
-				</div><!--set_right end-->
-				
-				</div><!--set end-->
-				
-				
-				</div><!--m end-->
-				
-				<div class="b"></div>
-				
-				</div><!--content end-->
+						<div class="t"></div>
+						<div class="m"><!--m begin-->
+							<div class="set"><!--set begin-->
+								<c:set var="page" value="preference" scope="request" />
+								<jsp:include page="/WEB-INF/jsp/web/profile/common/left.jsp" /><!--set_left end-->
+								<div class="set_right"><!--set_right begin-->
+								<div class="my_infor"><!--my_infor begin-->
+								<div class="ph"><!--ph begin-->
+								<input type="hidden" value="${fn:length(views)}" id="preference_count" />
+								<c:forEach items="${views}" var="view" varStatus="index">
+										<div id="answerDiv_${index.index}">
+										</div>
+										<input type="hidden" id="preferenceId_${index.index }" value="${view.preference.id}"/>
+										<input type="hidden" id="inputType_${index.index }" value="${view.input.inputType}"/>
+										<div class="quuestion">
+													<h2>${view.preference.name}</h2>
+													<c:if test="${view.preference.open}" >
+														<div class="check_sex"><b><input name="userPreferences[${index.index }].open" type="checkbox"   <c:if test="${view.userPreference.open}"> checked="checked" </c:if>  value="true" /></b><p>不对外显示</p></div>
+													</c:if>
+										</div>
+										<c:choose>
+											<c:when test="${view.input.inputType==2}">
+											<div class="ph_x"><!--ph_x begin-->
+												<div class="input"><!--input begin-->
+												<p class="l"></p><span class="width20"><input type="text" name="userPreferences[${index.index }].answer" id="minText_${index.index }" value="<c:out value="${view.answer[0]}"/>"/></span><p class="r"></p><em>到</em>
+												</div><!--input end-->
+												<div class="input"><!--input begin-->
+												<p class="l"></p><span class="width20"><input type="text" name="userPreferences[${index.index }].answer" id="maxText_${index.index }" value="<c:out value="${view.answer[1]}"/>" /></span><p class="r"></p><em>岁</em>
+												</div><!--input end-->
+											</div><!--ph_x end-->
+											</c:when>
+											<c:when test="${view.input.inputType==0}">
+											<div class="ph_x"><!--ph_x begin-->
+												<ul>
+													<c:forEach items="${view.input.options}" var="option">
+														<li><b><input name="userPreferences[${index.index }].answer" type="checkbox" <c:forEach items="${view.answer}" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach>  value="${option.value }" /></b><p>${option.name}</p></li>
+													</c:forEach>	
+												</ul>
+											</div><!--ph_x end-->
+											</c:when>
+											<c:when test="${view.input.inputType==1}">
+												<div class="ph_x"><!--ph_x begin-->
+												<div class="selt"><!--selt begin-->
+												<select name="userPreferences[${index.index }].answer" >
+													<c:forEach items="${view.input.options}" var="option">
+														<option value="${option.value }"  <c:if test="${view.answer[0]==option.value}">  selected="selected" </c:if>>${option.name}</option>
+													</c:forEach>
+												</select>
+												</div><!--selt end-->
+												</div><!--ph_x end-->
+											</c:when>
+											<c:when test="${view.input.inputType==3}">
+											<div class="ph_x"><!--ph_x begin-->
+												<div class="textarea"><textarea  name="userPreferences[${index.index }].answer"  cols="" rows="">${view.answer[0]}</textarea></div>
+											</div><!--ph_x end-->
+											</c:when>
+										</c:choose>
+										<div class="ph_x"><!--ph_x begin-->
+											<c:if test="${view.preference.openDescription}" >
+												<div class="input"><!--input begin-->
+												<p class="l"></p>
+												<span class="width250"><input name="userPreferences[${index.index }].description" type="text"  init-des="补充说明（可不填）" value="${view.userPreference.description}" /></span><p class="r"></p>
+												</div><!--input end-->
+											</c:if>
+												<div class="error"  id="error_${index.index }"></div>
+										</div><!--ph_x end-->
+										<div class="clear"></div>
+								</c:forEach>
+								<div class="save_btn"><!--save_btn begin-->
+									<a href="javascript:void(0);" class="save">保存</a>
+								</div><!--save_btn end-->
+								
+								<div class="clear"></div>
+								</div><!--ph end-->
+								</div><!--my_infor end-->
+								</div><!--set_right end-->
+								</div><!--set end-->
+							</div><!--m end-->
+						<div class="b"></div>
+						</div><!--content end-->
 			</form>
-			
 		</div>
 		<!--main end-->
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />

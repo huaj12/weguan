@@ -96,6 +96,14 @@
 		更新偏好
 	</h2>
 	<c:choose>
+		<c:when test="${view.input.inputType==1}">
+			<c:set value="radio" var="boxType"></c:set>
+		</c:when>
+		<c:otherwise>
+			<c:set value="checkbox" var="boxType"></c:set>
+		</c:otherwise>
+	</c:choose>
+	<c:choose>
 		<c:when test="${empty view }">
 			返回上级页面重试
 		</c:when>
@@ -130,7 +138,7 @@
 				<div id="optionDiv">
 					<c:forEach items="${view.input.options}" var="option" varStatus="index">
 						<input value="${option.name}"  id="input_id_${index.index}" name="input.options[${index.index}].name" type="text"/>
-						<input type="checkbox" name="defaultAnswer" id="input_box_id_${index.index}" <c:forEach items="${view.defaultValues }" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach> value="${option.value}" />
+						<input type="${boxType}" name="defaultAnswer" id="input_box_id_${index.index}" <c:forEach items="${view.defaultValues }" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach> value="${option.value}" />
 						<input value="${option.value}" id="hidden_input_id_${index.index}" name="input.options[${index.index}].value" type="hidden"/>
 					</c:forEach>
 				</div>
@@ -150,6 +158,12 @@
 			<td></td>
 			<td> 
 				<input type="checkbox" name="open" <c:if test="${view.preference.open}">checked="checked"</c:if> value="true"/>让用户选择是否隐藏该偏好
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td> 
+				<input type="checkbox" name="openDescription" <c:if test="${view.preference.openDescription}">checked="checked"</c:if> value="true"/>是否有补充说明
 			</td>
 		</tr>
 		<tr>

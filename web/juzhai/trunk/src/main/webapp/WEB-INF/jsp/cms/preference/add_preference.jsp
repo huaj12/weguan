@@ -48,6 +48,13 @@
 			box_input.type="checkbox";
 			box_input.value=i;
 	        option.appendChild(box_input);	
+ 		}else if(type==1){       
+	    	var box_input = document.createElement("input");   
+			box_input.name="defaultAnswer";
+			box_input.id="input_box_id_"+i;
+			box_input.type="radio";
+			box_input.value=i;
+	        option.appendChild(box_input);	
  		}
         i++;
 	}
@@ -59,6 +66,8 @@
 		option.removeChild(document.getElementById("hidden_input_id_"+(i-1)));
 		option.removeChild(document.getElementById("input_id_"+(i-1)));
 		if(type==0){
+			option.removeChild(document.getElementById("input_box_id_"+(i-1)));
+		}else if(type==1){
 			option.removeChild(document.getElementById("input_box_id_"+(i-1)));
 		}
 		i--;
@@ -126,6 +135,13 @@
 				<input type="checkbox" name="open" value="true"/>让用户选择是否隐藏该偏好
 			</td>
 		</tr>
+		<tr>
+			<td></td>
+			<td> 
+				<input type="checkbox" name="openDescription" value="true"/>是否有补充说明
+			</td>
+		</tr>
+		
 		<tr>
 			<td></td>
 			<td> 

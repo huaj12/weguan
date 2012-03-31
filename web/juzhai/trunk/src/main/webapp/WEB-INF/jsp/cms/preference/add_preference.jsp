@@ -80,6 +80,11 @@
 		}
 		return true;
 	}
+	function cleanInput(){
+		$('input[name="defaultAnswer"]').each(function(){
+			this.checked=false;
+		});
+	}
 </script>
 </head>
 <body>
@@ -109,6 +114,7 @@
 				<div id="addDiv" style="display: none">
 					<a href="#" onclick="addInput()" >继续添加</a>
 					<a href="#" onclick="deleteInput()" >删除按钮</a>
+					<a href="#" onclick="cleanInput()" >清空选项</a>
 				</div>
 				<div id="min_max_div" style="display: none">
 				默认值：

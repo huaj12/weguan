@@ -64,12 +64,5 @@ public interface IPreferenceService {
 	 * 
 	 * @return
 	 */
-	List<Preference> listShowPreference();
-
-	/**
-	 * 用于显示的用户偏好
-	 * 
-	 * @return
-	 */
 	List<Preference> listCacheShowPreference();
 }

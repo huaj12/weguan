@@ -46,13 +46,27 @@
 							</div>
 							<div class="t"></div>
 						</div><!--content end-->
+						
+								<div class="content_box w660"><!--content begin-->
+								<div class="t"></div>
+									<div class="m">
+									<div class="title2"><h2>ta的拒宅偏好</h2><a href="#" class="done"></a></div>
+									<jsp:include page="./preference/preference_list.jsp" />
+									</div>
+								<div class="t"></div>
+								<div class="clear"></div>
+								</div><!--content end-->
+						
+					</div><!--main_left end-->
+					<div class="main_right"><!--main_right begin-->
+						<jsp:include page="common/home_info_right.jsp" />
 						<c:if test="${tpUser != null && tpUser.tpName != 'qq'}">
-							<div class="content_box w660"><!--content begin-->
+							<div class="content_box w285"><!--content begin-->
 								<div class="t"></div>
 								<div class="m">
-									<div class="weibo"><!--weibo begin-->
-										<h2>ta的<c:choose><c:when test="${tpUser.tpName == 'weibo'}">最新微博</c:when><c:when test="${tpUser.tpName == 'douban'}">豆瓣广播</c:when></c:choose></h2>
-										<ul>
+								<div class="right_title"><h2>ta的<c:choose><c:when test="${tpUser.tpName == 'weibo'}">最新微博</c:when><c:when test="${tpUser.tpName == 'douban'}">豆瓣广播</c:when></c:choose></h2><a href="#"></a></div>
+								<div class="weibo"><!--weibo begin-->
+									<ul>
 											<c:choose>
 												<c:when test="${empty userStatusList}">
 													<div class="none">ta还没有原创的微博</div>
@@ -66,16 +80,12 @@
 													</c:forEach>
 												</c:otherwise>
 											</c:choose>
-										</ul>
-										<div class="wb_more"><a href="#"></a></div>
-									</div><!--weibo end-->
+									</ul>
+								</div><!--weibo end-->
 								</div>
 								<div class="t"></div>
 							</div><!--content end-->
 						</c:if>
-					</div><!--main_left end-->
-					<div class="main_right"><!--main_right begin-->
-						<jsp:include page="common/home_info_right.jsp" />
 					</div><!--main_right end-->
 				</div><!--main_part end-->
 			</div><!--main end-->

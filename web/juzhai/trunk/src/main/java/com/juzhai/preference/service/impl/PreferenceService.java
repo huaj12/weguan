@@ -17,6 +17,7 @@ import com.juzhai.core.util.StringUtil;
 import com.juzhai.preference.InitData;
 import com.juzhai.preference.bean.Input;
 import com.juzhai.preference.bean.InputType;
+import com.juzhai.preference.bean.PreferenceType;
 import com.juzhai.preference.exception.InputPreferenceException;
 import com.juzhai.preference.mapper.PreferenceMapper;
 import com.juzhai.preference.model.Preference;
@@ -48,6 +49,7 @@ public class PreferenceService implements IPreferenceService {
 		preference.setType(form.getType());
 		preference.setDefaultAnswer(StringUtils.join(form.getDefaultAnswer(),
 				StringUtil.separator));
+		preference.setOpenDescription(form.getOpenDescription());
 		preferenceMapper.insertSelective(preference);
 	}
 
@@ -155,6 +157,7 @@ public class PreferenceService implements IPreferenceService {
 		preference.setLastModifyTime(new Date());
 		preference.setDefaultAnswer(StringUtils.join(form.getDefaultAnswer(),
 				StringUtil.separator));
+		preference.setOpenDescription(form.getOpenDescription());
 		preferenceMapper.updateByPrimaryKeySelective(preference);
 	}
 
@@ -171,6 +174,22 @@ public class PreferenceService implements IPreferenceService {
 		example.createCriteria().andDefunctEqualTo(false);
 		example.setOrderByClause("sequence");
 		return preferenceMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<Preference> listShowPreference() {
+		PreferenceExample example = new PreferenceExample();
+		example.createCriteria().andDefunctEqualTo(false)
+				.andTypeNotEqualTo(PreferenceType.FILTER.getType());
+		example.setOrderByClause("sequence");
+		return preferenceMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<Preference> listCacheShowPreference() {
+		List<Preference> list = new ArrayList<Preference>();
+		list.addAll(InitData.SHOW_PREFERENCE_MAP.values());
+		return list;
 	}
 
 }

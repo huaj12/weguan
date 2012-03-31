@@ -16,13 +16,23 @@ import com.juzhai.preference.service.IPreferenceService;
 public class InitData {
 
 	public final static Map<Long, Preference> PREFERENCE_MAP = new HashMap<Long, Preference>();
-
+	// 用于显示的用户偏好
+	public final static Map<Long, Preference> SHOW_PREFERENCE_MAP = new HashMap<Long, Preference>();
 	@Autowired
 	private IPreferenceService preferenceService;
 
 	@PostConstruct
 	public void init() {
 		initPreference();
+		initShowPreference();
+	}
+
+	private void initShowPreference() {
+		List<Preference> list = preferenceService.listShowPreference();
+		for (Preference preference : list) {
+			SHOW_PREFERENCE_MAP.put(preference.getId(), preference);
+		}
+
 	}
 
 	void initPreference() {

@@ -33,6 +33,7 @@
 										</div>
 										<input type="hidden" id="preferenceId_${index.index }" value="${view.preference.id}"/>
 										<input type="hidden" id="inputType_${index.index }" value="${view.input.inputType}"/>
+										<input type="hidden" id="preferenceType_${index.index }" value="${view.preference.type}"/>
 										<div class="quuestion">
 													<h2>${view.preference.name}</h2>
 													<c:if test="${view.preference.open}" >
@@ -63,6 +64,7 @@
 												<div class="ph_x"><!--ph_x begin-->
 												<div class="selt"><!--selt begin-->
 												<select name="userPreferences[${index.index }].answer" >
+													<option value="">请选择</option>
 													<c:forEach items="${view.input.options}" var="option">
 														<option value="${option.value }"  <c:if test="${view.answer[0]==option.value}">  selected="selected" </c:if>>${option.name}</option>
 													</c:forEach>

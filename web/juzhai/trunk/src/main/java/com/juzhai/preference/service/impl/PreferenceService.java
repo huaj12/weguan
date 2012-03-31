@@ -150,7 +150,11 @@ public class PreferenceService implements IPreferenceService {
 		handleDefaultAnswer(form);
 		// 为了设置清空setDefaultAnswer
 		Preference preference = getPreference(form.getId());
-		// TODO (review) preference是null怎么办
+		if (preference == null) {
+			throw new InputPreferenceException(
+					InputPreferenceException.ILLEGAL_OPERATION);
+		}
+		// TODO (done) preference是null怎么办
 		preference.setId(form.getId());
 		preference.setName(form.getName());
 		preference.setInput(form.getInputString());

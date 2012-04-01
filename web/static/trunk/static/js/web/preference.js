@@ -99,6 +99,10 @@ $(document).ready(function() {
 				}else{
 					alert(result.errorInfo);
 				}
+				$("span.width250 >input").each(function(){
+					$(this).trigger("blur");;
+				});
+				
 			},
 			statusCode: {
 			    401: function() {

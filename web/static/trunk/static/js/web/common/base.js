@@ -374,7 +374,7 @@ function sendDate(uid, btn, ideaId, followBtn, successCallback){
 		$(btn).hide();
 		$(btn).next().show();
 		content = $(btn).parent().find("textarea").val();
-		initMsg = $(btn).parent().find("textarea").attr("init-msg");
+		initMsg = $(btn).parent().find("textarea").attr("init-tip");
 	}
 	if($(btn).length > 0 && (content == initMsg || !checkValLength(content, 1, 160))){
 		$(btn).parent().find("div.date_error").text("约会内容控制在1-160个汉字以内").show();
@@ -430,7 +430,7 @@ function openResponse(obj, postId, nickname, postContent, clickCallback){
 			$(sendBtn).parent().hide();
 			$(sendBtn).parent().next().show();
 			var content = "";
-			if(trimStr(textarea.val()) != "" && textarea.val() != textarea.attr("init-msg")){
+			if(trimStr(textarea.val()) != "" && textarea.val() != textarea.attr("init-tip")){
 				content = "附言：" + textarea.val();
 			}
 			responsePost(postId, content, function(){
@@ -477,7 +477,7 @@ function responsePost(postId, content, successCallback, errorCallback){
 }
 
 function registerInitMsg(inputObj, callback){
-	var initMsg = $(inputObj).attr("init-msg");
+	var initMsg = $(inputObj).attr("init-tip");
 	$(inputObj).bind("focus", function(){
 		if($(inputObj).val() == initMsg){
 			$(inputObj).val("");
@@ -752,7 +752,7 @@ var PostSender =  Class.extend({
 	init: function(sendForm){
 		this.sendForm = sendForm;
 		this.sendPostContent = sendForm.find("textarea[name='content']");
-		this.contentInitMsg = this.sendPostContent.attr("init-msg");
+		this.contentInitMsg = this.sendPostContent.attr("init-tip");
 		this.sendPostCategory = sendForm.find("#send-post-category");
 		this.sendPostDate = sendForm.find("#send-post-date");
 		this.sendPostAddress = sendForm.find("#send-post-address");
@@ -839,7 +839,7 @@ var PostSender =  Class.extend({
 		});
 		sendPostAddress.find("div.show_area > div.ok_btn > a").bind("click", function(){
 			var value = addressInput.val();
-			if(value == addressInput.attr("init-msg")){
+			if(value == addressInput.attr("init-tip")){
 				value = "";
 			}
 			//check place

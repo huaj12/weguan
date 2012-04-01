@@ -90,7 +90,7 @@ $(document).ready(function(){
 	
 	//search
 	var searchInput = $("div.search > div.s_m > input");
-	var initMsg = searchInput.attr("init-msg");
+	var initMsg = searchInput.attr("init-tip");
 	searchInput.bind("focus", function(){
 		if(searchInput.val() == initMsg){
 			searchInput.val("");

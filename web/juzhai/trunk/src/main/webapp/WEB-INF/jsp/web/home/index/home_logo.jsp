@@ -20,6 +20,7 @@
 				<p><c:choose><c:when test="${postCount > 0}">我发布了<a href="/home/posts">${postCount}条拒宅</a></c:when><c:otherwise>我还未发布拒宅</c:otherwise></c:choose></p>
 				<span><c:choose><c:when test="${responseCount > 0}">共获得${responseCount}次<b>&nbsp;&nbsp;&nbsp;&nbsp;</b>响应</c:when><c:otherwise>还未获得响应</c:otherwise></c:choose></span>
 				<em>个人档案:${completion}%<a href="/profile/index"><c:choose><c:when test="${completion==100}">修改</c:when><c:otherwise>完善</c:otherwise></c:choose></a></em>
+				<em>拒宅偏好:<a href="/profile/preference">设置</a></em>
 			</div>
 			<div class="face">
 				<p><a href="/home/${loginUser.uid}"><img src="${jzr:userLogo(loginUser.uid,loginUser.newLogoPic,80)}"  width="80" height="80"/></a></p>

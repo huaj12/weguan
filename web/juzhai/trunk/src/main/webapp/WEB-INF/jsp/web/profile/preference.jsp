@@ -31,12 +31,12 @@
 								<input type="hidden" value="${fn:length(views)}" id="preference_count" />
 								<div class="quuestion"><h2>你对哪些人的拒宅信息感兴趣？</h2></div>
 								<c:forEach items="${filterViews}" var="view" varStatus="index">
+										<div class="ph_x"><!--ph_x begin-->
 											<div id="answerDiv_${index.index}">
 											</div>
 											<input type="hidden" id="preferenceId_${index.index}" value="${view.preference.id}"/>
 											<input type="hidden" id="inputType_${index.index}" value="${view.input.inputType}"/>
 											<input type="hidden" id="preferenceType_${index.index}" value="${view.preference.type}"/>
-										<div class="ph_x"><!--ph_x begin-->
 											<h3>${view.preference.name}</h3>
 									<c:choose>
 										<c:when test="${view.input.inputType==0}">
@@ -59,7 +59,6 @@
 											<div class="error" id="error_${index.index}"></div>
 										</div><!--ph_x end-->
 								</c:forEach>	
-									<div class="clear"></div>
 								<c:forEach items="${views}" var="view" varStatus="index">
 										<div id="answerDiv_${index.index+fn:length(filterViews)}">
 										</div>

@@ -22,6 +22,7 @@ import com.juzhai.passport.controller.form.UserPreferenceListForm;
 import com.juzhai.passport.controller.view.UserPreferenceView;
 import com.juzhai.preference.InitData;
 import com.juzhai.preference.bean.Input;
+import com.juzhai.preference.bean.PreferenceType;
 import com.juzhai.preference.exception.InputUserPreferenceException;
 import com.juzhai.preference.mapper.UserPreferenceMapper;
 import com.juzhai.preference.model.Preference;
@@ -81,7 +82,12 @@ public class UserPreferenceService implements IUserPreferenceService {
 				userPreference.setUid(uid);
 				userPreferenceMapper.insertSelective(userPreference);
 			} else {
-				if (!answer.equals(userPreference.getAnswer())) {
+				Preference preference = InitData.PREFERENCE_MAP
+						.get(userPreference.getPreferenceId());
+				// 回答有变化且问题的类型不属于显示
+				if (!answer.equals(userPreference.getAnswer())
+						&& preference.getType() != PreferenceType.SHOW
+								.getType()) {
 					flag = true;
 				}
 				userPreference.setAnswer(StringUtils.join(

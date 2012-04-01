@@ -1,5 +1,8 @@
 $(document).ready(function() {
-	registerInitDes($("span.width250 >input"));
+	$("span.width250 >input").each(function(){
+		registerInitDes($(this));
+	});
+
 	$(".save").bind("click", function() {
 		var preference_count=$("#preference_count").val();
 		for(var i=0;i<preference_count;i++){

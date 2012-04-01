@@ -67,9 +67,17 @@ public class UserPreferenceService implements IUserPreferenceService {
 					break;
 				}
 			}
-
+			Preference preference = InitData.PREFERENCE_MAP
+					.get(userPreferenceForm.getPreferenceId());
+			boolean isShow = false;
+			if (preference.getType() == PreferenceType.SHOW.getType()) {
+				isShow = true;
+			}
 			if (userPreference == null) {
-				flag = true;
+				// 问题的类型不属于显示
+				if (!isShow) {
+					flag = true;
+				}
 				userPreference = new UserPreference();
 				userPreference.setAnswer(answer);
 				userPreference.setCreateTime(new Date());
@@ -82,12 +90,8 @@ public class UserPreferenceService implements IUserPreferenceService {
 				userPreference.setUid(uid);
 				userPreferenceMapper.insertSelective(userPreference);
 			} else {
-				Preference preference = InitData.PREFERENCE_MAP
-						.get(userPreference.getPreferenceId());
 				// 回答有变化且问题的类型不属于显示
-				if (!answer.equals(userPreference.getAnswer())
-						&& preference.getType() != PreferenceType.SHOW
-								.getType()) {
+				if (!answer.equals(userPreference.getAnswer()) && !isShow) {
 					flag = true;
 				}
 				userPreference.setAnswer(StringUtils.join(

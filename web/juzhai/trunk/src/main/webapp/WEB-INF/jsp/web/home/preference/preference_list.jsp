@@ -31,7 +31,7 @@
 											<span><c:out value="${view.answer[0]}"/></span>
 										</c:when>
 										</c:choose>
-											<c:if test="${view.preference.openDescription}" >
+											<c:if test="${view.preference.openDescription||empty view.userPreference.description||view.userPreference.description!=''}" >
 													<em>补充说明：<c:out value="${view.userPreference.description}"/></em>
 											</c:if>
 									</li>
@@ -40,5 +40,7 @@
 						</ul>
 				</c:otherwise>
 			</c:choose>
-			<div class="bjph"><a href="/profile/preference">编辑我的拒宅偏好</a></div>
+			<c:if test="${not empty isMe}">
+				<div class="bjph"><a href="/profile/preference">编辑我的拒宅偏好</a></div>
+			</c:if>
 		</div>

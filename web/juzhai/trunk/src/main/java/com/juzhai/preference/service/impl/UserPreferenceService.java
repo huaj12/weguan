@@ -227,7 +227,7 @@ public class UserPreferenceService implements IUserPreferenceService {
 				}
 				// 如果用户没有设置值并且没有默认值则不显示
 				if (StringUtils.isEmpty(view.getUserPreference().getAnswer())) {
-					break;
+					continue;
 				}
 				view.setAnswer(StringUtils.split(view.getUserPreference()
 						.getAnswer(), StringUtil.separator));

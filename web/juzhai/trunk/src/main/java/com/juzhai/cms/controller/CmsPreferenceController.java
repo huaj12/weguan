@@ -104,4 +104,27 @@ public class CmsPreferenceController {
 		return ajaxResult;
 	}
 
+	@RequestMapping(value = "/load/preference", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult loadPrefernce() {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			preferenceService.loadPreferenceCache();
+		} catch (Exception e) {
+			ajaxResult.setSuccess(false);
+		}
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/update/sort/preference", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult updatePreferenceSort(PreferenceListForm preferenceListForm) {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			preferenceService.updatePreferenceSort(preferenceListForm);
+		} catch (Exception e) {
+			ajaxResult.setSuccess(false);
+		}
+		return ajaxResult;
+	}
 }

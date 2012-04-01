@@ -31,7 +31,7 @@
 											<span><c:out value="${view.answer[0]}"/></span>
 										</c:when>
 										</c:choose>
-											<c:if test="${view.preference.openDescription||not empty view.userPreference.description||view.userPreference.description!=''}" >
+											<c:if test="${view.preference.openDescription && not empty view.userPreference.description && view.userPreference.description!=''}" >
 													<em>补充说明：<c:out value="${view.userPreference.description}"/></em>
 											</c:if>
 									</li>

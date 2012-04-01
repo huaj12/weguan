@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$("span.width250 >input").each(function(){
-		registerInitDes($(this));
+		registerInitMsg($(this),null);
 	});
 
 	$(".save").bind("click", function() {
@@ -111,17 +111,3 @@ $(document).ready(function() {
 	});
 	
 });
-
-function registerInitDes(inputObj){
-	var initDes = $(inputObj).attr("init-des");
-	$(inputObj).bind("focus", function(){
-		if($(inputObj).val() == initDes){
-			$(inputObj).val("");
-		}
-	}).bind("blur", function(){
-		if($(inputObj).val() == ""){
-			$(inputObj).val(initDes);
-		}
-	});
-	$(inputObj).trigger("blur");
-}

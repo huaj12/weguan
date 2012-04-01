@@ -4,8 +4,9 @@ $(document).ready(function() {
 	});
 
 	$(".save").bind("click", function() {
-		var preference_count=$("#preference_count").val();
-		for(var i=0;i<preference_count;i++){
+		var preference_count=parseInt($("#preference_count").val());
+		var filterPreference_count=parseInt($("#filterPreference_count").val());
+		for(var i=0;i<(preference_count+filterPreference_count);i++){
 			var preferenceId=$("#preferenceId_"+i).val();
 			var type=$("#inputType_"+i).val();
 			var preferenceType=$("#preferenceType_"+i).val();
@@ -20,6 +21,7 @@ $(document).ready(function() {
 					});
 					if(!flag){
 						$("#error_"+i).html("至少选择一个选项！").stop(true, true).show();
+						
 				        return ;
 					}
 				}
@@ -28,6 +30,7 @@ $(document).ready(function() {
 				var max=$("#maxText_"+i).val();
 				if(preferenceType==1||min!=""||max!=""){
 					if(!isNum(min)||!isNum(max)){
+						 
 						 $("#error_"+i).html("请输入数字！").stop(true, true).show();
 					        return ;	
 					}
@@ -40,6 +43,7 @@ $(document).ready(function() {
 						min=t;
 					}
 					if(min<16||max>50){
+						 
 						 $("#error_"+i).html("请输入16-50之间的数字！").stop(true, true).show();
 					        return ;	
 					}
@@ -48,6 +52,7 @@ $(document).ready(function() {
 				}
 			}else if(type==3){
 				if(getByteLen($('textarea[name="userPreferences['+i+'].answer"]').val())>100){
+					 
 					 $("#error_"+i).html("内容不能大于50个字").stop(true, true).show();
 				        return ;	
 				}
@@ -56,6 +61,7 @@ $(document).ready(function() {
 				if(preferenceType==1){
 					var answer=$('select[name="userPreferences['+i+'].answer"]').val();
 					if(answer==""){
+						
 						$("#error_"+i).html("至少选择一个选项！").stop(true, true).show();
 				        return ;
 					}
@@ -64,6 +70,7 @@ $(document).ready(function() {
 			var des=$('input[name="userPreferences['+i+'].description"]').val();
 			if (undefined != des) {
 				if(getByteLen(des)>100){
+					
 					 $("#error_"+i).html("描述内容不能大于50个字").stop(true, true).show();
 				        return ;	
 				}

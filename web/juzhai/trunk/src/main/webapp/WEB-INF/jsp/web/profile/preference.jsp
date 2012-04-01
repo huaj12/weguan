@@ -117,7 +117,7 @@
 											<c:if test="${view.preference.openDescription}" >
 												<div class="input"><!--input begin-->
 												<p class="l"></p>
-												<span class="width250"><input name="userPreferences[${index.index+fn:length(filterViews) }].description" type="text"  init-msg="补充说明（可不填）" value="${view.userPreference.description}" /></span><p class="r"></p>
+												<span class="width250"><input name="userPreferences[${index.index+fn:length(filterViews) }].description" type="text"  init-tip="补充说明（可不填）" value="${view.userPreference.description}" /></span><p class="r"></p>
 												</div><!--input end-->
 												<div class="error"  id="error_${index.index+fn:length(filterViews) }"></div>
 											</c:if>

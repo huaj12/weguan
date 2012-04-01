@@ -109,7 +109,7 @@ public class ImageUtil {
 	public static int validationImage(String imageSuffix, int imageSize,
 			MultipartFile image) {
 		String[] types = StringUtils.split(imageSuffix, "|");
-		String contentType = image.getContentType();
+		String contentType = image.getContentType().toLowerCase();
 		boolean validType = false;
 		for (String type : types) {
 			if (StringUtils.contains(contentType, type)) {

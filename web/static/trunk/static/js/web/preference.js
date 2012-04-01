@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$("span.width250 >input").each(function(){
-		registerInitMsg($(this),null);
+		registerInitMsg($(this));
 	});
 
 	$(".save").bind("click", function() {
@@ -21,7 +21,6 @@ $(document).ready(function() {
 					});
 					if(!flag){
 						$("#error_"+i).html("至少选择一个选项！").stop(true, true).show();
-						
 				        return ;
 					}
 				}
@@ -74,7 +73,7 @@ $(document).ready(function() {
 					 $("#error_"+i).html("描述内容不能大于50个字").stop(true, true).show();
 				        return ;	
 				}
-				var initDes=$('input[name="userPreferences['+i+'].description"]').attr("init-des");
+				var initDes=$('input[name="userPreferences['+i+'].description"]').attr("init-tip");
 				if(des==initDes){
 					des="";
 				}

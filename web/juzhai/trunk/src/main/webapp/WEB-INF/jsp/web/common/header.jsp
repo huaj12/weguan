@@ -77,7 +77,7 @@
 			<div class="search"><!--search begin-->
 				<div class="s_l"></div>
 				<div class="s_m"><!--s_m begin-->
-					<input name="searchWords" type="text" value="${searchWords}" init-msg="输入拒宅项目,如:打台球"/>
+					<input name="searchWords" type="text" value="${searchWords}" init-tip="输入拒宅项目,如:打台球"/>
 				</div><!--s_m end-->
 				<div class="s_r"><a href="javascript:void(0);"></a></div>
 			</div><!--search end-->

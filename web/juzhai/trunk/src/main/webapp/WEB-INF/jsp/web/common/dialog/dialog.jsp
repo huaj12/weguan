@@ -45,7 +45,7 @@
 	<div class="send_area" login="${context.uid > 0}"><!--send_area begin-->
 		<div class="date_title">想约<font>{0}</font>玩什么?</div>
 		<div class="random_select"><p>没想好？</p><a href="javascript:void(0);" class="random ml0">帮我选一个</a></div>
-		<div class="textarea"><textarea init-msg="写下你的约会计划..."></textarea></div>
+		<div class="textarea"><textarea init-tip="写下你的约会计划..."></textarea></div>
 		<div class="date_error" style="display:none;"></div>
 		<div class="btn"><a href="javascript:void(0);">约ta</a></div>
 		<div class="sending" style="display:none;"><a href="javascript:void(0);">发送中</a></div>
@@ -56,7 +56,7 @@
 	<div class="fy_show_box" login="${context.uid > 0}"><!--fy_show_box begin-->
 		<h2>响应<font>{0}</font>的拒宅</h2>	
 		<p>{1}</p>
-		<div class="text_area"><textarea init-msg="响应附言：建议附上你的qq或手机(仅对方可见)"></textarea></div>
+		<div class="text_area"><textarea init-tip="响应附言：建议附上你的qq或手机(仅对方可见)"></textarea></div>
 		<div class="btn_area">
 			<div class="error" style="display:none;"></div>
 			<span><a href="javascript:void(0);" class="resp-btn">我要响应</a></span>

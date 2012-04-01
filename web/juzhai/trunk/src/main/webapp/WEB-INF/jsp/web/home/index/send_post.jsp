@@ -23,7 +23,7 @@
 		</div><!--select_menu end-->
 		<div class="send_box_error" style="display: none;"></div>
 		<div class="random_select"><c:if test="${postForm == null}"><a href="javascript:void(0);" class="random">随机一个</a><a href="/showideas" class="sel">去选一个</a></c:if></div>
-		<div class="textarea"><textarea name="content" init-msg="说说这个周末想出去玩什么...">${postForm.content}</textarea></div>
+		<div class="textarea"><textarea name="content" init-tip="说说这个周末想出去玩什么...">${postForm.content}</textarea></div>
 		<div class="jh"><!--jh begin-->
 			<c:choose>
 				<c:when test="${postForm!=null}"><c:set var="categoryId" value="${postForm.categoryId}" /></c:when>
@@ -52,7 +52,7 @@
 				<p><a href="javascript:void(0);" class="adress" title="${postForm.place}">地点</a></p>
 				<div class="show_area w230"><!--show_area begin-->
 					<div class="area_title"><h5>填写在哪里拒宅</h5><a href="javascript:void(0);"></a></div>
-					<div class="input"><em class="l"></em><span class="w140"><input type="text" init-msg="详细地址" value="${postForm.place}"/></span><em class="r"></em></div>
+					<div class="input"><em class="l"></em><span class="w140"><input type="text" init-tip="详细地址" value="${postForm.place}"/></span><em class="r"></em></div>
 					<div class="ok_btn"><a href="javascript:void(0);">确认</a></div>
 					<div class="error" style="display: none;">不要超过20个字哦</div>
 				</div><!--show_area end-->

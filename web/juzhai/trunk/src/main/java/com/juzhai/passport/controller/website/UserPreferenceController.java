@@ -1,5 +1,6 @@
 package com.juzhai.passport.controller.website;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.controller.form.UserPreferenceListForm;
 import com.juzhai.passport.controller.view.UserPreferenceView;
+import com.juzhai.preference.bean.PreferenceType;
 import com.juzhai.preference.model.Preference;
 import com.juzhai.preference.model.UserPreference;
 import com.juzhai.preference.service.IPreferenceService;
@@ -43,9 +45,21 @@ public class UserPreferenceController extends BaseController {
 		List<Preference> preferences = preferenceService.listCachePreference();
 		List<UserPreference> userPreferences = userPreferenceService
 				.listUserPreference(context.getUid());
-		List<UserPreferenceView> views = userPreferenceService
+		List<UserPreferenceView> allViews = userPreferenceService
 				.convertToUserPreferenceView(userPreferences, preferences);
-		model.addAttribute("views", views);
+		// 如果是筛选选项移到filterViews里
+		List<UserPreferenceView> filterViews = new ArrayList<UserPreferenceView>();
+		List<UserPreferenceView> otherViews = new ArrayList<UserPreferenceView>();
+		for (UserPreferenceView view : allViews) {
+			if (view.getPreference().getType() == PreferenceType.FILTER
+					.getType()) {
+				filterViews.add(view);
+			} else {
+				otherViews.add(view);
+			}
+		}
+		model.addAttribute("views", otherViews);
+		model.addAttribute("filterViews", filterViews);
 		return "web/profile/preference";
 	}
 

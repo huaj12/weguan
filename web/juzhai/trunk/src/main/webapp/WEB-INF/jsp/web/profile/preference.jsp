@@ -80,6 +80,7 @@
 												<div class="input"><!--input begin-->
 												<p class="l"></p><span class="width20"><input type="text" name="userPreferences[${index.index+fn:length(filterViews) }].answer" id="maxText_${index.index+fn:length(filterViews) }" value="<c:out value="${view.answer[1]}"/>" /></span><p class="r"></p><em>岁</em>
 												</div><!--input end-->
+												<c:if test="${!view.preference.openDescription}" ><div class="error"  id="error_${index.index+fn:length(filterViews) }"></div></c:if>
 											</div><!--ph_x end-->
 											</c:when>
 											<c:when test="${view.input.inputType==0}">
@@ -89,6 +90,7 @@
 														<li><b><input name="userPreferences[${index.index+fn:length(filterViews) }].answer" type="checkbox" <c:forEach items="${view.answer}" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach>  value="${option.value }" /></b><p>${option.name}</p></li>
 													</c:forEach>	
 												</ul>
+												<c:if test="${!view.preference.openDescription}" ><div class="error"  id="error_${index.index+fn:length(filterViews) }"></div></c:if>
 											</div><!--ph_x end-->
 											</c:when>
 											<c:when test="${view.input.inputType==1}">
@@ -101,22 +103,24 @@
 													</c:forEach>
 												</select>
 												</div><!--selt end-->
+												<c:if test="${!view.preference.openDescription}" ><div class="error"  id="error_${index.index+fn:length(filterViews) }"></div></c:if>
 												</div><!--ph_x end-->
 											</c:when>
 											<c:when test="${view.input.inputType==3}">
 											<div class="ph_x"><!--ph_x begin-->
 												<div class="textarea"><textarea  name="userPreferences[${index.index+fn:length(filterViews) }].answer"  cols="" rows="">${view.answer[0]}</textarea></div>
+												<c:if test="${!view.preference.openDescription}" ><div class="error"  id="error_${index.index+fn:length(filterViews) }"></div></c:if>
 											</div><!--ph_x end-->
 											</c:when>
 										</c:choose>
-										<div class="ph_x"><!--ph_x begin-->
+										<div class="ph_x" <c:if test="${!view.preference.openDescription}" > style="display: none;"</c:if> ><!--ph_x begin-->
 											<c:if test="${view.preference.openDescription}" >
 												<div class="input"><!--input begin-->
 												<p class="l"></p>
 												<span class="width250"><input name="userPreferences[${index.index+fn:length(filterViews) }].description" type="text"  init-des="补充说明（可不填）" value="${view.userPreference.description}" /></span><p class="r"></p>
 												</div><!--input end-->
-											</c:if>
 												<div class="error"  id="error_${index.index+fn:length(filterViews) }"></div>
+											</c:if>
 										</div><!--ph_x end-->
 										<div class="clear"></div>
 								</c:forEach>

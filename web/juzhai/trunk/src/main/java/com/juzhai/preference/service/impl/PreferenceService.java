@@ -191,4 +191,13 @@ public class PreferenceService implements IPreferenceService {
 		}
 		return list;
 	}
+
+	@Override
+	public void loadPreferenceCache() {
+		InitData.PREFERENCE_MAP.clear();
+		List<Preference> list = listPreference();
+		for (Preference preference : list) {
+			InitData.PREFERENCE_MAP.put(preference.getId(), preference);
+		}
+	}
 }

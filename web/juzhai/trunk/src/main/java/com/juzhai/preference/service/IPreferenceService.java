@@ -65,4 +65,9 @@ public interface IPreferenceService {
 	 * @return
 	 */
 	List<Preference> listCacheShowPreference();
+
+	/**
+	 * 更新偏好缓存
+	 */
+	void loadPreferenceCache();
 }

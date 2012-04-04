@@ -107,7 +107,7 @@
 				<td width="250">举报者</td>
 				<c:forEach items="${views }" var="view">
 				<tr>
-					<td><c:out value="${view.reportProfile.nickname}"></c:out></td>
+					<td><a href="/home/${view.reportProfile.uid}" target="_blank"><c:out value="${view.reportProfile.nickname}"></c:out></a></td>
 					<td><a href="${view.report.contentUrl}" target="_blank">点击查看内容</a></td>
 					<td><c:out value="${view.report.description}"></c:out> </td>
 					<td><c:import url="/WEB-INF/jsp/web/common/fragment/report_type.jsp">
@@ -130,7 +130,7 @@
 						<a onclick="deleteReport('${view.report.id}')" href="#">删除</a>
 					</td>
 					<td><fmt:formatDate value="${view.report.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-					<td>${view.createProfile.nickname}</td>
+					<td><a href="/home/${view.createProfile.uid}" target="_blank">${view.createProfile.nickname}</a></td>
 				</tr>
 				</c:forEach>
 			</tr>

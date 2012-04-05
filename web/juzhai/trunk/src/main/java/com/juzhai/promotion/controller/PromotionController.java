@@ -13,16 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.core.SystemConfig;
-import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.promotion.PromotionConfig;
 import com.juzhai.promotion.service.IPromotionImageService;
@@ -33,7 +30,7 @@ import com.qq.connect.RequestToken;
 import com.qq.connect.ShareToken;
 
 @Controller
-@RequestMapping(value = "promotion")
+@RequestMapping(value = "occasional")
 public class PromotionController {
 	private final Log log = LogFactory.getLog(this.getClass());
 	private final static Map<String, String> tokenMap = new HashMap<String, String>();
@@ -43,85 +40,77 @@ public class PromotionController {
 	private MessageSource messageSource;
 	@Autowired
 	private IPromotionImageService promotionImageService;
-	// TODO (review) tb_thirdparty表里新插入数据的sql，传了吗？
-	// TODO (review) 此页面仅仅显示app首页，提供哪些第三方，我们并不知道
-	@RequestMapping(value = "/{path}/{tpId}", method = RequestMethod.GET)
-	public String begin(@PathVariable String path, @PathVariable long tpId,
-			Model model) {
-		Thirdparty tp = InitData.TP_MAP.get(tpId);
-		String turnTo = SystemConfig.getDomain() + "/promotion/" + path
-				+ "/step1/" + tpId;
+	private String appKey = "100258588";
+	private String appSecret = "a2cc637f7b69e63dcc6337818b34acdf";
 
+	// TODO (done) tb_thirdparty表里新插入数据的sql，传了吗？
+	// TODO (done) 此页面仅仅显示app首页，提供哪些第三方，我们并不知道
+	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
+	public String begin(Model model) {
+		return "web/promotion/occasional/begin";
+	}
+
+	// TODO (done)
+	// 需要一个login请求，类似于web登录的login，获取url，进行授权页跳转，并且判断，传入的tpId是否是app的tpId
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(Model model) {
+		String turnTo = SystemConfig.getDomain() + "/occasional/access";
 		String url = null;
 		try {
-			RequestToken rt = new RequestToken(tp.getAppKey(),
-					tp.getAppSecret());
+			RequestToken rt = new RequestToken(appKey, appSecret);
 			Map<String, String> tokens = rt.getRequestToken();
 			tokenMap.put(tokens.get("oauth_token"),
 					tokens.get("oauth_token_secret"));
-			RedirectToken ret = new RedirectToken(tp.getAppKey(),
-					tp.getAppSecret());
+			RedirectToken ret = new RedirectToken(appKey, appSecret);
 			url = ret.getRedirectURL(tokens, turnTo);
 		} catch (Exception e) {
-			log.equals("app QQ content " + path + " begin is error."
-					+ e.getMessage());
+			log.equals("app QQ content  login is error." + e.getMessage());
 		}
-		model.addAttribute("url", url);
-		return "web/promotion/" + path + "/begin";
+		return "redirect:" + url;
 	}
 
-	// TODO (review) 需要一个login请求，类似于web登录的login，获取url，进行授权页跳转，并且判断，传入的tpId是否是app的tpId
-	// TODO (review) 不要使用step1，step2的url，使用具体含义，也不要使用path来区分不同应用，这个架构达不起来的
-	@RequestMapping(value = "/{path}/step1/{tpId}", method = RequestMethod.GET)
-	public String step1(HttpServletRequest request, @PathVariable long tpId,
-			@PathVariable String path) {
-		Thirdparty tp = InitData.TP_MAP.get(tpId);
+	// TODO (done) 不要使用step1，step2的url，使用具体含义，也不要使用path来区分不同应用，这个架构达不起来的
+	@RequestMapping(value = "/access", method = RequestMethod.GET)
+	public String access(HttpServletRequest request) {
 		String oauth_token = request.getParameter("oauth_token");
 		String oauth_vericode = request.getParameter("oauth_vericode");
-		String accessToken = getOAuthAccessTokenFromCode(tp, oauth_token + ","
+		String accessToken = getOAuthAccessTokenFromCode(oauth_token + ","
 				+ oauth_vericode);
 		String[] str = accessToken.split(",");
 		String uid = str[2];
 		AuthInfo authInfo = new AuthInfo();
-		authInfo.setThirdparty(tp);
 		authInfo.setToken(str[0]);
 		authInfo.setTokenSecret(str[1]);
 		authInfo.setTpIdentity(uid);
+		authInfo.setAppKey(appKey);
+		authInfo.setAppSecret(appSecret);
 		request.getSession().setAttribute("promotion_authInfo", authInfo);
-		request.getSession().setAttribute("tpId", tp.getId());
-		return "web/promotion/" + path + "/step1";
+		return "redirect:/occasional/begin";
 	}
 
-	// TODO (review) 此请求似乎没有任何作用
-	@RequestMapping(value = "/{path}/step2/", method = RequestMethod.GET)
-	public String step2(HttpServletRequest request, @PathVariable String path,
-			Model model) {
-		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
-				"promotion_authInfo");
-		if (authInfo == null) {
-			return "redirect:/promotion/" + path + "/begin";
-		}
-		model.addAttribute("path", path);
-		return "web/promotion/" + path + "/step2";
+	@RequestMapping(value = "/begin", method = RequestMethod.GET)
+	public String begin(HttpServletRequest request) {
+		return "web/promotion/occasional/step1";
 	}
+
+	// TODO (done) 此请求似乎没有任何作用
 
 	// 计算并发布结果
-	@RequestMapping(value = "/{path}/step3/", method = RequestMethod.GET)
-	public String step3(HttpServletRequest request, @PathVariable String path,
-			Model model) {
+	@RequestMapping(value = "/send", method = RequestMethod.GET)
+	public String step3(HttpServletRequest request, Model model) {
 		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
 				"promotion_authInfo");
-		String tpId = String.valueOf(request.getSession().getAttribute("tpId"));
 		if (authInfo == null) {
-			return "redirect:/promotion/" + path + "/begin";
+			return "redirect:/occasional/";
 		}
 		InfoToken info = new InfoToken(authInfo.getAppKey(),
 				authInfo.getAppSecret());
 		try {
 			Map<String, String> map = info.getInfo(authInfo.getToken(),
 					authInfo.getTokenSecret(), authInfo.getTpIdentity());
-			// TODO (review) 昵称性别在授权完就取出，放入session
+			// TODO (done) 昵称性别在授权完就取出，放入session
 			String nickname = map.get("nickname");
+			request.getSession().setAttribute("nickname", nickname);
 			// 获取匹配内容
 			String address = PromotionConfig.randomOccasional();
 			String male = messageSource.getMessage("gender.male", null,
@@ -135,14 +124,14 @@ public class PromotionController {
 			}
 			long uid = PromotionConfig.randomUser(sex);
 			ProfileCache cache = profileService.getProfileCacheByUid(uid);
-			String title = messageSource.getMessage(path + ".title",
+			String title = messageSource.getMessage("occasional.title",
 					new Object[] { address }, Locale.SIMPLIFIED_CHINESE);
-			String link = messageSource.getMessage(path + ".link",
-					new Object[] { path, tpId }, Locale.SIMPLIFIED_CHINESE);
-			String textBegin = messageSource.getMessage(path + ".text.begin",
-					null, Locale.SIMPLIFIED_CHINESE);
-			String textEnd = messageSource.getMessage(path + ".text.end", null,
+			String link = messageSource.getMessage("occasional.link", null,
 					Locale.SIMPLIFIED_CHINESE);
+			String textBegin = messageSource.getMessage(
+					"occasional.text.begin", null, Locale.SIMPLIFIED_CHINESE);
+			String textEnd = messageSource.getMessage("occasional.text.end",
+					null, Locale.SIMPLIFIED_CHINESE);
 			String imageUrl = null;
 			try {
 				imageUrl = promotionImageService.getOccasionalImageUrl(uid,
@@ -156,22 +145,22 @@ public class PromotionController {
 			model.addAttribute("profile", cache);
 			model.addAttribute("content", address);
 		} catch (Exception e) {
-			log.error("qq  app " + path + "step3", e);
+			log.error("qq  app occasional send", e);
 			// TODO (review) return null 表达什么意思?
 			return null;
 		}
-		return "web/promotion/" + path + "/step3";
+		return "web/promotion/occasional/step3";
 	}
 
-	private String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
+	private String getOAuthAccessTokenFromCode(String code) {
 		String[] str = code.split(",");
 		String oauth_token = str[0];
 		String oauth_vericode = str[1];
 		String accessToken = null;
 		try {
-			Map<String, String> map = new AccessToken(tp.getAppKey(),
-					tp.getAppSecret()).getAccessToken(oauth_token,
-					tokenMap.get(oauth_token), oauth_vericode);
+			Map<String, String> map = new AccessToken(appKey, appSecret)
+					.getAccessToken(oauth_token, tokenMap.get(oauth_token),
+							oauth_vericode);
 			tokenMap.remove(oauth_token);
 			accessToken = map.get("oauth_token") + ","
 					+ map.get("oauth_token_secret") + "," + map.get("openid");

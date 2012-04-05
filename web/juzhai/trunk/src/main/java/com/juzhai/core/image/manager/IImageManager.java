@@ -1,7 +1,6 @@
 package com.juzhai.core.image.manager;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
 
@@ -179,19 +178,7 @@ public interface IImageManager {
 	 * @param image
 	 * @throws UploadImageException
 	 */
-	void uploadImage(String directoryPath, String filename, BufferedImage tag)
-			throws UploadImageException;
-
-	/**
-	 * 截取image
-	 * 
-	 * @param width
-	 * @param height
-	 * @param x
-	 * @param y
-	 * @param image
-	 * @return
-	 */
-	BufferedImage cutImage(int width, int height, int x, int y, Image image);
+	void uploadImage(String directoryPath, String filename, Image image,
+			int width, int height, int x, int y) throws UploadImageException;
 
 }

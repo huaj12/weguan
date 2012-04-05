@@ -344,8 +344,17 @@ public class ImageManager implements IImageManager {
 	}
 
 	@Override
-	public void uploadImage(String directoryPath, String filename,
-			BufferedImage tag) throws UploadImageException {
+	public void uploadImage(String directoryPath, String filename, Image image,
+			int width, int height, int x, int y) throws UploadImageException {
+
+		// TODO (done)
+		// 空行独立开的这段代码，能不能想办法放入imageManager里，因为涉及到底层画图的代码了试着传入Image和最终生成的图片大小为参数
+		// TODO (done)
+		// 我的初衷不是要提一个方法出来，没意义的一个方法。我是说，这段创建BufferedImage方法为什么不能放入uploadImage方法？
+		BufferedImage tag = new BufferedImage(width, height,
+				BufferedImage.TYPE_INT_RGB);
+		tag.getGraphics().drawImage(image, x, y, width, height, null);
+
 		FileOutputStream out = null;
 		try {
 			File directory = new File(directoryPath);
@@ -386,14 +395,4 @@ public class ImageManager implements IImageManager {
 						"xxoo.jpg", 198, 133, 0, list);
 	}
 
-	@Override
-	public BufferedImage cutImage(int width, int height, int x, int y,
-			Image image) {
-		// TODO (review) 空行独立开的这段代码，能不能想办法放入imageManager里，因为涉及到底层画图的代码了试着传入Image和最终生成的图片大小为参数
-		// TODO (review) 我的初衷不是要提一个方法出来，没意义的一个方法。我是说，这段创建BufferedImage方法为什么不能放入uploadImage方法？
-		BufferedImage tag = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_RGB);
-		tag.getGraphics().drawImage(image, x, y, width, height, null);
-		return tag;
-	}
 }

@@ -70,11 +70,11 @@
 						<div class="sen_area"><!--sen_area begin-->
 						<div class="sen3"><!--sen1 begin-->
 						<div class="loading_icon"></div>
-						<div class="loading_text" id="loading_text1"><img src="${jzr:static('images/promotion/loading_txt1.jpg')}" /></div>
-						<div class="loading_text" id="loading_text2" style="display:none"><img src="${jzr:static('images/promotion/loading_txt2.jpg')}" /></div>
-						<div class="loading_text" id="loading_text3" style="display:none"><img src="${jzr:static('images/promotion/loading_txt3.jpg')}" /></div>
-						<div class="loading_text" id="loading_text4" style="display:none"><img src="${jzr:static('images/promotion/loading_txt4.jpg')}" /></div>
-						<div class="loading_text" id="loading_text5" style="display:none"><img src="${jzr:static('images/promotion/loading_txt5.jpg')}" /></div>
+						<div class="loading_text" id="loading_text1"><img src="${jzr:static('/images/promotion/loading_txt1.jpg')}" /></div>
+						<div class="loading_text" id="loading_text2" style="display:none"><img src="${jzr:static('/images/promotion/loading_txt2.jpg')}" /></div>
+						<div class="loading_text" id="loading_text3" style="display:none"><img src="${jzr:static('/images/promotion/loading_txt3.jpg')}" /></div>
+						<div class="loading_text" id="loading_text4" style="display:none"><img src="${jzr:static('/images/promotion/loading_txt4.jpg')}" /></div>
+						<div class="loading_text" id="loading_text5" style="display:none"><img src="${jzr:static('/images/promotion/loading_txt5.jpg')}" /></div>
 						</div><!--sen1 end-->
 						</div><!--sen_area end-->
 						</div><!--APP end-->

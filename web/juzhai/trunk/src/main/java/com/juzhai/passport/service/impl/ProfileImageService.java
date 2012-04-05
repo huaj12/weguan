@@ -6,6 +6,7 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -74,19 +75,11 @@ public class ProfileImageService implements IProfileImageService {
 			srcFile = ImageIO.read(new URL(url));
 			for (LogoSizeType sizeType : LogoSizeType.values()) {
 				if (sizeType.getType() > 0) {
-					
-					
-					
-					//TODO (review) 空行独立开的这段代码，能不能想办法放入imageManager里，因为涉及到底层画图的代码了试着传入Image和最终生成的图片大小为参数
-					BufferedImage tag = new BufferedImage(sizeType.getType(),
-							sizeType.getType(), BufferedImage.TYPE_INT_RGB);
-					tag.getGraphics().drawImage(srcFile, 0, 0,
-							sizeType.getType(), sizeType.getType(), null);
-					
-					
-					
-					
-					
+
+					BufferedImage tag = imageManager.cutImage(
+							sizeType.getType(), sizeType.getType(), 0, 0,
+							srcFile);
+
 					String directoryPath = uploadUserImageHome
 							+ ImageUtil.generateHierarchyImagePath(uid,
 									sizeType.getType());
@@ -105,23 +98,25 @@ public class ProfileImageService implements IProfileImageService {
 		if (cache == null) {
 			return null;
 		}
+		// TODO (done) 有没有考虑过用户没有logo(没有有效头像的用户)？
+		if (StringUtils.isEmpty(cache.getLogoPic())) {
+			return null;
+		}
 		String logoPic = null;
-		//TODO (review) 有没有考虑过用户没有logo(没有有效头像的用户)？
+		String filename = null;
 		if (ImageUtil.isInternalUrl(cache.getLogoPic())) {
-			logoPic = ImageUtil.generateHierarchyImagePath(cache.getUid(),
-					LogoSizeType.BIG.getType()) + cache.getLogoPic();
+			filename = cache.getLogoPic();
 		} else {
-			String filename = null;
 			filename = uploadLogo(uid, cache.getLogoPic());
 			Profile profile = new Profile();
 			profile.setUid(uid);
 			profile.setLogoPic(filename);
 			profileMapper.updateByPrimaryKeySelective(profile);
 			profileService.clearProfileCache(uid);
-			//TODO (review) 下面的代码是不是和if里的有重复呢？
-			logoPic = ImageUtil.generateHierarchyImagePath(cache.getUid(),
-					LogoSizeType.BIG.getType()) + filename;
 		}
+		// TODO (done) 下面的代码是不是和if里的有重复呢？
+		logoPic = ImageUtil.generateHierarchyImagePath(cache.getUid(),
+				LogoSizeType.BIG.getType()) + filename;
 		return uploadUserImageHome + logoPic;
 	}
 }

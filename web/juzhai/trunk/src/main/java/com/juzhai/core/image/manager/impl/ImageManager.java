@@ -328,7 +328,7 @@ public class ImageManager implements IImageManager {
 			if (!directory.exists()) {
 				directory.mkdirs();
 			}
-			os = new FileOutputStream(targerPath + filename);
+			os = new FileOutputStream(targerPath + File.separator + filename);
 			// 生成图片
 			ImageIO.write(buffImg, "JPG", os);
 		} catch (Exception e) {

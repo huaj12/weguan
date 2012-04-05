@@ -57,13 +57,11 @@ public class PromotionImageService implements IPromotionImageService {
 		long directoryName = redisTemplate.opsForValue().increment(
 				RedisKeyGenerator.genOccasionalId(), 1)
 				% promotionImageDirectory;
-
-		// TODO (reveiew) 仔细查看参数调用的对不对
 		imageManager.markImage(logoPic, webPromotionOccasionalBackgroundImage,
-				webPromotionOccasionalImageHome + File.separator
-						+ directoryName, filename, 198, 133, 0, list);
+				webPromotionOccasionalImageHome + directoryName, filename, 198,
+				133, 0, list);
 		String imageUrl = StaticUtil.u(webPromotionOccasionalImagePath
-				+ directoryName + filename);
+				+ directoryName + File.separator + filename);
 		return imageUrl;
 	}
 }

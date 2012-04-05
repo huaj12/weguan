@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.juzhai.act.exception.UploadImageException;
+import com.juzhai.core.SystemConfig;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
@@ -61,7 +62,7 @@ public class PromotionController {
 		// TODO (review) 不是说过用二级域名吗？app.51juzhai.com 映射到
 		// 127.0.0.1:8080/occasional
 
-		String turnTo = "http://app.51juzhai.com/occasional/access";
+		String turnTo = SystemConfig.getDomain("app.qq") + "/access";
 		String url = null;
 		try {
 			RequestToken rt = new RequestToken(appKey, appSecret);
@@ -102,8 +103,18 @@ public class PromotionController {
 					authInfo.getTokenSecret(), authInfo.getTpIdentity());
 			String nickname = map.get("nickname");
 			String gender = map.get("gender");
+			String male = messageSource.getMessage("gender.male", null,
+					Locale.SIMPLIFIED_CHINESE);
+			// TODO (done) 这里的判断在存入session的时候就能做判断了
+			// 获取异性性别
+			int sex = 0;
+			if (male.equals(gender)) {
+				sex = 0;
+			} else {
+				sex = 1;
+			}
 			request.getSession().setAttribute("nickname", nickname);
-			request.getSession().setAttribute("gender", gender);
+			request.getSession().setAttribute("sex", sex);
 		} catch (Exception e) {
 			log.error("app qq access is error", e);
 		}
@@ -132,42 +143,33 @@ public class PromotionController {
 		try {
 			String nickname = (String) request.getSession().getAttribute(
 					"nickname");
-			String gender = (String) request.getSession()
-					.getAttribute("gender");
+			Integer sex = (Integer) request.getSession().getAttribute("sex");
 			// 获取匹配内容
 			String address = PromotionConfig.randomOccasional();
-			String male = messageSource.getMessage("gender.male", null,
-					Locale.SIMPLIFIED_CHINESE);
-			// TODO (review) 这里的判断在存入session的时候就能做判断了
-			// 获取异性性别
-			int sex = 0;
-			if (male.equals(gender)) {
-				sex = 0;
-			} else {
-				sex = 1;
-			}
 			long uid = PromotionConfig.randomUser(sex);
-			ProfileCache cache = profileService.getProfileCacheByUid(uid);
-			String title = messageSource.getMessage("occasional.title",
-					new Object[] { address }, Locale.SIMPLIFIED_CHINESE);
-			String link = messageSource.getMessage("occasional.link", null,
-					Locale.SIMPLIFIED_CHINESE);
-			String textBegin = messageSource.getMessage(
-					"occasional.text.begin", null, Locale.SIMPLIFIED_CHINESE);
-			String textEnd = messageSource.getMessage("occasional.text.end",
-					null, Locale.SIMPLIFIED_CHINESE);
-			String imageUrl = null;
-			try {
-				imageUrl = promotionImageService.getOccasionalImageUrl(uid,
-						nickname, address, textBegin, textEnd);
-			} catch (UploadImageException e) {
-				log.error("app qq getOccasionalImageUrl is error", e);
+			if (uid > 0) {
+				ProfileCache cache = profileService.getProfileCacheByUid(uid);
+				String title = messageSource.getMessage("occasional.title",
+						new Object[] { address }, Locale.SIMPLIFIED_CHINESE);
+				String link = SystemConfig.getDomain("app.qq");
+				String textBegin = messageSource.getMessage(
+						"occasional.text.begin", null,
+						Locale.SIMPLIFIED_CHINESE);
+				String textEnd = messageSource.getMessage(
+						"occasional.text.end", null, Locale.SIMPLIFIED_CHINESE);
+				String imageUrl = null;
+				try {
+					imageUrl = promotionImageService.getOccasionalImageUrl(uid,
+							nickname, address, textBegin, textEnd);
+				} catch (UploadImageException e) {
+					log.error("app qq getOccasionalImageUrl is error", e);
+				}
+				if (StringUtils.isNotEmpty(imageUrl)) {
+					sendMessage(authInfo, title, null, link, imageUrl);
+				}
+				model.addAttribute("profile", cache);
+				model.addAttribute("content", address);
 			}
-			if (StringUtils.isNotEmpty(imageUrl)) {
-				sendMessage(authInfo, title, null, link, imageUrl);
-			}
-			model.addAttribute("profile", cache);
-			model.addAttribute("content", address);
 		} catch (Exception e) {
 			log.error("qq  app occasional send", e);
 		}
@@ -181,7 +183,7 @@ public class PromotionController {
 		String oauth_vericode = str[1];
 		String accessToken = null;
 		String oauthTokenSecret = (String) request.getSession().getAttribute(
-				"oauth_token");
+				oauth_token);
 		try {
 			Map<String, String> map = new AccessToken(appKey, appSecret)
 					.getAccessToken(oauth_token, oauthTokenSecret,

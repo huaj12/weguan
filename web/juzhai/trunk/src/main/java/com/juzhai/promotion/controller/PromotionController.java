@@ -33,7 +33,6 @@ import com.qq.connect.ShareToken;
 @RequestMapping(value = "occasional")
 public class PromotionController {
 	private final Log log = LogFactory.getLog(this.getClass());
-	private final static Map<String, String> tokenMap = new HashMap<String, String>();
 	@Autowired
 	private IProfileService profileService;
 	@Autowired
@@ -53,13 +52,13 @@ public class PromotionController {
 	// TODO (done)
 	// 需要一个login请求，类似于web登录的login，获取url，进行授权页跳转，并且判断，传入的tpId是否是app的tpId
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model) {
+	public String login(Model model, HttpServletRequest request) {
 		String turnTo = SystemConfig.getDomain() + "/occasional/access";
 		String url = null;
 		try {
 			RequestToken rt = new RequestToken(appKey, appSecret);
 			Map<String, String> tokens = rt.getRequestToken();
-			tokenMap.put(tokens.get("oauth_token"),
+			request.getSession().setAttribute(tokens.get("oauth_token"),
 					tokens.get("oauth_token_secret"));
 			RedirectToken ret = new RedirectToken(appKey, appSecret);
 			url = ret.getRedirectURL(tokens, turnTo);
@@ -74,8 +73,8 @@ public class PromotionController {
 	public String access(HttpServletRequest request) {
 		String oauth_token = request.getParameter("oauth_token");
 		String oauth_vericode = request.getParameter("oauth_vericode");
-		String accessToken = getOAuthAccessTokenFromCode(oauth_token + ","
-				+ oauth_vericode);
+		String accessToken = getOAuthAccessTokenFromCode(request, oauth_token
+				+ "," + oauth_vericode);
 		String[] str = accessToken.split(",");
 		String uid = str[2];
 		AuthInfo authInfo = new AuthInfo();
@@ -157,16 +156,18 @@ public class PromotionController {
 		return "web/promotion/occasional/step3";
 	}
 
-	private String getOAuthAccessTokenFromCode(String code) {
+	private String getOAuthAccessTokenFromCode(HttpServletRequest request,
+			String code) {
 		String[] str = code.split(",");
 		String oauth_token = str[0];
 		String oauth_vericode = str[1];
 		String accessToken = null;
+		String oauthTokenSecret = (String) request.getSession().getAttribute(
+				"oauth_token");
 		try {
 			Map<String, String> map = new AccessToken(appKey, appSecret)
-					.getAccessToken(oauth_token, tokenMap.get(oauth_token),
+					.getAccessToken(oauth_token, oauthTokenSecret,
 							oauth_vericode);
-			tokenMap.remove(oauth_token);
 			accessToken = map.get("oauth_token") + ","
 					+ map.get("oauth_token_secret") + "," + map.get("openid");
 		} catch (Exception e) {

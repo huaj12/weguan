@@ -55,6 +55,10 @@ $(document).ready(function(){
 		});
 		return false;
 	});
+	
+	$("div.bq").each(function(){
+		new FaceWidget($(this));
+	});
 });
 
 function nextIdeaWidget(containDiv, page){
@@ -274,55 +278,36 @@ function closeDialog(dialogId){
 	}
 }
 
-function openMessage(targetUid, nickname){
-	var content = $("#dialog-message").html().replace("{0}", nickname).replace("[0]", targetUid);
-	var login = $(content).attr("login");
-	if(login=="false"){
-		window.location.href = "/login?turnTo=" + window.location.href;
-	}else{
-		openDialog(null, "openMessage", content);
-	}
-}
-
-function openDate(targetUid, nickname){
-	var content = $("#dialog-date").html().replace("{0}", nickname).replace("[0]", targetUid);
-	var login = $(content).attr("login");
-	if(login=="false"){
-		window.location.href = "/login?turnTo=" + window.location.href;
-	}else{
-		var dialog = openDialog(null, "openDate", content);
-		//绑定事件
-		var textarea = $(dialog.content()).find("textarea");
-		registerInitMsg(textarea, function(isEdit){
-			textarea.parent().toggleClass("ts", !isEdit);
-		});
-		textarea.trigger("blur");
-		$(dialog.content()).find("div.btn > a").click(function(){
-			sendDate(targetUid, $(this).parent());
-			return false;
-		});
-		$(dialog.content()).find("div.random_select > a.random").click(function(){
-			$.ajax({
-				url : "/idea/random",
-				type : "post",
-				cache : false,
-				data : {},
-				dataType : "json",
-				success : function(result) {
-					if(result && result.success){
-						var content = result.result.content;
-						textarea.val(content);
-					}
-				},
-				statusCode : {
-					401 : function() {
-						window.location.href = "/login?turnTo=" + window.location.href;
-					}
-				}
+function openMessage(targetUid){
+//	var content = $("#dialog-message").html().replace("{0}", nickname).replace("[0]", targetUid);
+//	var login = $(content).attr("login");
+//	if(login=="false"){
+//		window.location.href = "/login?turnTo=" + window.location.href;
+//	}else{
+//		openDialog(null, "openMessage", content);
+//	}
+	jQuery.ajax({
+		url : "/home/presendmsg",
+		type : "get",
+		cache : false,
+		data : {"targetUid": targetUid},
+		dataType : "html",
+		success : function(result) {
+			var dialog = openDialog(null, "openMessage", result);
+			//绑定事件
+			$(dialog.content()).find("div.btn > a.send").click(function(){
+				sendMessage(this);
+				return false;
 			});
-			return false;
-		});
-	}
+			new FaceWidget($(dialog.content()).find("div.bq"));
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+	
 }
 
 function doPostMessage(url, targetUid, content, errorCallback, completeCallback){
@@ -365,6 +350,47 @@ function sendMessage(obj){
 		closeDialog("openMessage");
 		showSuccess(null, successContent);
 	});
+}
+
+function openDate(targetUid, nickname){
+	var content = $("#dialog-date").html().replace("{0}", nickname).replace("[0]", targetUid);
+	var login = $(content).attr("login");
+	if(login=="false"){
+		window.location.href = "/login?turnTo=" + window.location.href;
+	}else{
+		var dialog = openDialog(null, "openDate", content);
+		//绑定事件
+		var textarea = $(dialog.content()).find("textarea");
+		registerInitMsg(textarea, function(isEdit){
+			textarea.parent().toggleClass("ts", !isEdit);
+		});
+		textarea.trigger("blur");
+		$(dialog.content()).find("div.btn > a").click(function(){
+			sendDate(targetUid, $(this).parent());
+			return false;
+		});
+		$(dialog.content()).find("div.random_select > a.random").click(function(){
+			$.ajax({
+				url : "/idea/random",
+				type : "post",
+				cache : false,
+				data : {},
+				dataType : "json",
+				success : function(result) {
+					if(result && result.success){
+						var content = result.result.content;
+						textarea.val(content);
+					}
+				},
+				statusCode : {
+					401 : function() {
+						window.location.href = "/login?turnTo=" + window.location.href;
+					}
+				}
+			});
+			return false;
+		});
+	}
 }
 
 function sendDate(uid, btn, ideaId, followBtn, successCallback){
@@ -1224,6 +1250,40 @@ var CommentWidget = Class.extend({
 	}
 });
 
+var FaceWidget = Class.extend({
+	init : function(bqDiv){
+		this.bqDiv = bqDiv;
+		this.bindShow();
+		this.bindHide();
+		this.bindClick();
+	},
+	bindShow : function(){
+		var bqDiv = this.bqDiv;
+		$(bqDiv).find("p").click(function(){
+			//bq选中状态
+			$(bqDiv).addClass("bq_hover");
+		});
+	},
+	bindHide : function(){
+		var bqDiv = this.bqDiv;
+		$("body").bind("mousedown",function(event){
+			if($(event.target).closest(bqDiv).length <= 0){
+				bqDiv.removeClass("bq_hover");
+			}
+		});
+	},
+	bindClick : function(){
+		var bqDiv = this.bqDiv;
+		var inputObj = $("#" + $(bqDiv).find("p").attr("input-div-id"));
+		$(bqDiv).find("div.bq_showbox > ul > li").click(function(){
+			inputObj.focus();
+			var value = $(this).find("img").attr("title");
+			$(inputObj).val($(inputObj).val() + "[" + value + "]");
+			bqDiv.removeClass("bq_hover");
+		});
+	}
+});
+
 
 function report(uid,contentType,content,contentId) {
 	jQuery.ajax({
@@ -1247,7 +1307,7 @@ function report(uid,contentType,content,contentId) {
 	});
 }
 
-function save_report(){
+function saveReport(){
 	var description=$("input[name=description]").val();
 	if(getByteLen(description)>400){
 		$("#report_description_tip").html("字数控制在200字以内").stop(true, true).show()

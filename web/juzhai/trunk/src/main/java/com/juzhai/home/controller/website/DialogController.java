@@ -28,6 +28,7 @@ import com.juzhai.home.exception.DialogException;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaService;
@@ -84,6 +85,7 @@ public class DialogController extends BaseController {
 		model.addAttribute("pager", pager);
 		model.addAttribute("targetProfile",
 				profileService.getProfileCacheByUid(uid));
+		loadFaces(model);
 		return "web/home/dialog/dialog_content";
 	}
 
@@ -110,6 +112,20 @@ public class DialogController extends BaseController {
 		AjaxResult result = new AjaxResult();
 		result.setResult(dialogContentCnt);
 		return result;
+	}
+
+	@RequestMapping(value = "/presendmsg", method = RequestMethod.GET)
+	public String preSendMessage(HttpServletRequest request, Model model,
+			long targetUid) throws NeedLoginException {
+		checkLoginForWeb(request);
+		ProfileCache profile = profileService.getProfileCacheByUid(targetUid);
+		if (null == profile) {
+			return error_500;
+		}
+		model.addAttribute("targetUid", profile.getUid());
+		model.addAttribute("targetNickname", profile.getNickname());
+		loadFaces(model);
+		return "web/home/dialog/send_box";
 	}
 
 	@RequestMapping(value = "/sendMessage", method = RequestMethod.POST)

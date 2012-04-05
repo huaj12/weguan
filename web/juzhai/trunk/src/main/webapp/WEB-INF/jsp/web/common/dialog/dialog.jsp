@@ -32,15 +32,6 @@
 		</div>
 	</div><!--login_show_box end-->
 </div>
-<div id="dialog-message" style="display: none;">
-	<div class="message_box" login="${context.uid > 0}"><!--share_box2 begin-->
-		<h2>给&nbsp;{0}&nbsp;发私信</h2>
-		<div class="message_box_con"><!--message_box_con begin-->
-		<div class="text_area"><textarea name="content" cols="" rows=""></textarea></div>
-		<div class="btn"><span>200字以内</span><a class="send" href="javascript:void(0);" onclick="javascript:sendMessage(this);return false;" target-uid="[0]">发给ta</a><a href="javascript:void(0);" class="sending" style="display: none;">发送中...</a><b style="display:none;"></b></div>
-		</div><!--message_box_con end-->
-	</div><!--share_box2 end-->
-</div>
 <div id="dialog-date" style="display:none;">
 	<div class="send_area" login="${context.uid > 0}"><!--send_area begin-->
 		<div class="date_title">想约<font>{0}</font>玩什么?</div>

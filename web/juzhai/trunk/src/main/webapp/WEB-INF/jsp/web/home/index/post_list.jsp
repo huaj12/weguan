@@ -112,19 +112,23 @@
 						<div class="clear"></div>
 						<div class="w_b"></div>
 						<div class="btn"><!--btn begin-->
-							<div class="keep user-remove-interest remove-interest-${postView.profileCache.uid}" <c:if test="${!postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${postView.profileCache.uid}" title="点击取消收藏">已收藏</a></div>
-							<div class="keep user-add-interest interest-${postView.profileCache.uid}" <c:if test="${postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${postView.profileCache.uid}" title="点击收藏">收藏ta</a></div>
-							<div class="mail"><a href="javascript:void(0);" title="给ta发私信" target-uid="${postView.profileCache.uid}" target-nickname="<c:out value='${postView.profileCache.nickname}' />">私信</a></div>
+							<c:if test="${postView.profileCache.uid != context.uid}">
+								<div class="keep user-remove-interest remove-interest-${postView.profileCache.uid}" <c:if test="${!postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${postView.profileCache.uid}" title="点击取消收藏">已收藏</a></div>
+								<div class="keep user-add-interest interest-${postView.profileCache.uid}" <c:if test="${postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${postView.profileCache.uid}" title="点击收藏">收藏ta</a></div>
+								<div class="mail"><a href="javascript:void(0);" title="给ta发私信" target-uid="${postView.profileCache.uid}" target-nickname="<c:out value='${postView.profileCache.nickname}' />">私信</a></div>
+							</c:if>
 							<div class="message_s2"><a href="javascript:void(0);" post-id="${postView.post.id}">留言<c:if test="${postView.post.commentCnt > 0}">(${postView.post.commentCnt})</c:if></a></div>
-							<c:choose>
-								<c:when test="${postView.hasResponse}">
-									<div class="like done"><a href="javascript:void(0);" class="xy">已响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${postView.post.responseCnt}</a><p class="r"></p></div></div>
-								</c:when>
-								<c:otherwise>
-									<div class="like post-response" id="response${postView.post.id}" post-id="${postView.post.id}" resp-count="${postView.post.responseCnt}" nickname="<c:out value='${postView.profileCache.nickname}' />" post-content="<c:out value="${jzu:truncate(postView.post.content,50,'...')}" />"><a href="javascript:void(0);" class="xy">响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);"><font>${postView.post.responseCnt}</font></a><p class="r"></p></div></div>
-								</c:otherwise>
-							</c:choose>
-							<div class="zfa"><a href="javascript:void(0);" post-id="${postView.post.id}">转发</a></div>
+							<c:if test="${postView.profileCache.uid != context.uid}">
+								<c:choose>
+									<c:when test="${postView.hasResponse}">
+										<div class="like done"><a href="javascript:void(0);" class="xy">已响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${postView.post.responseCnt}</a><p class="r"></p></div></div>
+									</c:when>
+									<c:otherwise>
+										<div class="like post-response" id="response${postView.post.id}" post-id="${postView.post.id}" resp-count="${postView.post.responseCnt}" nickname="<c:out value='${postView.profileCache.nickname}' />" post-content="<c:out value="${jzu:truncate(postView.post.content,50,'...')}" />"><a href="javascript:void(0);" class="xy">响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);"><font>${postView.post.responseCnt}</font></a><p class="r"></p></div></div>
+									</c:otherwise>
+								</c:choose>
+								<div class="zfa"><a href="javascript:void(0);" post-id="${postView.post.id}">转发</a></div>
+							</c:if>
 						</div><!--btn end-->
 						<div class="clear"></div>
 						<div class="message_s2_box" id="comment-box-${postView.post.id}" loaded="false" style="display: none;"><!--message_box begin-->

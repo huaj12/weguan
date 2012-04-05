@@ -99,6 +99,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("genderType", genderType);
 		model.addAttribute("pageType", "home");
 		loadCategoryList(model);
+		loadFaces(model);
 		return "web/home/index/home";
 	}
 
@@ -127,6 +128,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("genderType", genderType);
 		model.addAttribute("pageType", "home");
 		loadCategoryList(model);
+		loadFaces(model);
 		return "web/home/index/home";
 	}
 
@@ -157,6 +159,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("genderType", genderType);
 		model.addAttribute("pageType", "home");
 		loadCategoryList(model);
+		loadFaces(model);
 		return "web/home/index/home";
 	}
 

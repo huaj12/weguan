@@ -53,6 +53,7 @@ public class CommentController extends BaseController {
 				assemblePostCommentViewList(list));
 		model.addAttribute("pager", pager);
 		noticeService.emptyNotice(context.getUid(), NoticeType.COMMENT);
+		loadFaces(model);
 		return "web/home/comment/inbox";
 	}
 
@@ -69,6 +70,7 @@ public class CommentController extends BaseController {
 		model.addAttribute("postCommentViewList",
 				assemblePostCommentViewList(list));
 		model.addAttribute("pager", pager);
+		loadFaces(model);
 		return "web/home/comment/outbox";
 	}
 

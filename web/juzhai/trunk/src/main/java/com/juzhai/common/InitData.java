@@ -2,6 +2,7 @@ package com.juzhai.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -15,6 +16,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import com.juzhai.common.mapper.FaceMapper;
+import com.juzhai.common.model.Face;
+import com.juzhai.common.model.FaceExample;
 import com.juzhai.core.util.JackSonSerializer;
 import com.juzhai.passport.mapper.CityMapper;
 import com.juzhai.passport.mapper.CityMappingMapper;
@@ -43,6 +47,7 @@ public class InitData {
 	public static final Map<String, Long> PROVINCE_MAPPING = new HashMap<String, Long>();
 	public static final List<Long> SPECIAL_CITY_LIST = new ArrayList<Long>();
 	public static final Map<Long, String> SPECIAL_CITY_QQ_MAP = new HashMap<Long, String>();
+	public static final Map<String, Face> FACE_MAP = new LinkedHashMap<String, Face>();
 
 	@Autowired
 	private ProvinceMapper provinceMapper;
@@ -54,6 +59,8 @@ public class InitData {
 	private CityMappingMapper cityMappingMapper;
 	@Autowired
 	private ProvinceMappingMapper provinceMappingMapper;
+	@Autowired
+	private FaceMapper faceMapper;
 	@Value("${special.city.ids}")
 	private String specialCityIds;
 	@Value("${special.city.qq}")
@@ -67,6 +74,16 @@ public class InitData {
 		initCity();
 		initTown();
 		initCityAndProvinceMapping();
+		initFace();
+	}
+
+	private void initFace() {
+		FaceExample example = new FaceExample();
+		example.setOrderByClause("id asc");
+		List<Face> faceList = faceMapper.selectByExample(example);
+		for (Face face : faceList) {
+			FACE_MAP.put(face.getName(), face);
+		}
 	}
 
 	private void initSpecialCityQq() throws JsonGenerationException {

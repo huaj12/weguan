@@ -67,4 +67,11 @@
     	<example>${jzu:gapWeekendHours()}</example>
     </function>
     
+    <function>
+    	<name>convertFace</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.String convertFace(java.lang.String)</function-signature>
+    	<example>${jzu:convertFace('[嘻嘻]')}</example>
+    </function>
+    
 </taglib>

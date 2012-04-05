@@ -2,7 +2,6 @@ package com.juzhai.platform.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -32,21 +31,21 @@ import com.qq.connect.RequestToken;
 @Service
 public class QqConnectUserService extends AbstractUserService {
 	private final Log log = LogFactory.getLog(getClass());
-	private static Map<String, String> tokenMap = new HashMap<String, String>();
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
 	@Autowired
 	private MessageSource messageSource;
 
 	@Override
-	public String getAuthorizeURLforCode(Thirdparty tp, String turnTo,
-			String incode) throws UnsupportedEncodingException {
+	public String getAuthorizeURLforCode(HttpServletRequest request,
+			Thirdparty tp, String turnTo, String incode)
+			throws UnsupportedEncodingException {
 		String url = null;
 		try {
 			RequestToken rt = new RequestToken(tp.getAppKey(),
 					tp.getAppSecret());
 			Map<String, String> tokens = rt.getRequestToken();
-			tokenMap.put(tokens.get("oauth_token"),
+			request.getSession().setAttribute(tokens.get("oauth_token"),
 					tokens.get("oauth_token_secret"));
 			RedirectToken ret = new RedirectToken(tp.getAppKey(),
 					tp.getAppSecret());
@@ -111,8 +110,14 @@ public class QqConnectUserService extends AbstractUserService {
 			log.error("QQ  Thirdparty is null");
 			return null;
 		}
+		String oauthTokenSecret = (String) request.getSession().getAttribute(
+				oauth_token);
+		if (StringUtils.isEmpty(oauthTokenSecret)) {
+			log.error("QQ  oauthTokenSecret is null");
+			return null;
+		}
 		String accessToken = getOAuthAccessTokenFromCode(tp, oauth_token + ","
-				+ oauth_vericode);
+				+ oauth_vericode + "," + oauthTokenSecret);
 		if (StringUtils.isEmpty(accessToken)) {
 			log.error("QQ  accessToken is null");
 			return null;
@@ -137,12 +142,12 @@ public class QqConnectUserService extends AbstractUserService {
 		String[] str = code.split(",");
 		String oauth_token = str[0];
 		String oauth_vericode = str[1];
+		String oauthTokenSecret = str[2];
 		String accessToken = null;
 		try {
 			Map<String, String> map = new AccessToken(tp.getAppKey(),
 					tp.getAppSecret()).getAccessToken(oauth_token,
-					tokenMap.get(oauth_token), oauth_vericode);
-			tokenMap.remove(oauth_token);
+					oauthTokenSecret, oauth_vericode);
 			accessToken = map.get("oauth_token") + ","
 					+ map.get("oauth_token_secret") + "," + map.get("openid");
 		} catch (Exception e) {

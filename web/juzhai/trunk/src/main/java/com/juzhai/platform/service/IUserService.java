@@ -35,8 +35,8 @@ public interface IUserService {
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	String getAuthorizeURLforCode(Thirdparty tp, String turnTo, String incode)
-			throws UnsupportedEncodingException;
+	String getAuthorizeURLforCode(HttpServletRequest request, Thirdparty tp,
+			String turnTo, String incode) throws UnsupportedEncodingException;
 
 	/**
 	 * 获取用户名字

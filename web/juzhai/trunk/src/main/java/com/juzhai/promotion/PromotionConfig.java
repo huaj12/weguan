@@ -17,7 +17,7 @@ public class PromotionConfig {
 
 	private static final String OCCASIONAL_CONFIG_PATH = "properties/occasional.properties";
 	private static final String USER_MAN_CONFIG_PATH = "properties/nicemanuser.properties";
-	private static final String USER_WOMEN_CONFIG_PATH = "properties/nicemanuser.properties";
+	private static final String USER_WOMEN_CONFIG_PATH = "properties/nicewomenuser.properties";
 	private static final Random random = new Random();
 
 	private static final List<String> OCCASIONAL_LIST = new ArrayList<String>();

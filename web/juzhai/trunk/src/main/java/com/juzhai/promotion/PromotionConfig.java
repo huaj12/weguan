@@ -77,11 +77,16 @@ public class PromotionConfig {
 	}
 
 	public static Long randomUser(int sex) {
-		// TODO (review) list size为0，会报错
-		if (sex == 1) {
-			return USER_MAN_LIST.get(random.nextInt(USER_MAN_LIST.size()));
-		} else {
-			return USER_WOMEN_LIST.get(random.nextInt(USER_WOMEN_LIST.size()));
+		// TODO (done) list size为0，会报错
+		try {
+			if (sex == 1) {
+				return USER_MAN_LIST.get(random.nextInt(USER_MAN_LIST.size()));
+			} else {
+				return USER_WOMEN_LIST.get(random.nextInt(USER_WOMEN_LIST
+						.size()));
+			}
+		} catch (Exception e) {
+			return 0l;
 		}
 	}
 }

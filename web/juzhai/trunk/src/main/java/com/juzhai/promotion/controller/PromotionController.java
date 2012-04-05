@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.juzhai.act.exception.UploadImageException;
-import com.juzhai.core.SystemConfig;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
@@ -43,16 +42,28 @@ public class PromotionController {
 	private String appSecret = "a2cc637f7b69e63dcc6337818b34acdf";
 
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
-	public String begin(Model model) {
-		// TODO (review) 如果是登录状态访问此页面呢？
+	public String begin(Model model, HttpServletRequest request) {
+		// TODO (done) 如果是登录状态访问此页面呢？
+		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
+				"promotion_authInfo");
+		if (authInfo != null) {
+			return "redirect:/occasional/begin";
+		}
 		return "web/promotion/occasional/begin";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model, HttpServletRequest request) {
-		// TODO (review) 不是说过用二级域名吗？app.51juzhai.com 映射到 127.0.0.1:8080/occasional
-		// TODO (review) 如果登录状态访问呢？
-		String turnTo = SystemConfig.getDomain() + "/occasional/access";
+		// TODO (done) 如果登录状态访问呢？
+		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
+				"promotion_authInfo");
+		if (authInfo != null) {
+			return "redirect:/occasional/begin";
+		}
+		// TODO (done) 不是说过用二级域名吗？app.51juzhai.com 映射到
+		// 127.0.0.1:8080/occasional
+
+		String turnTo = "http://app.51juzhai.com/occasional/access";
 		String url = null;
 		try {
 			RequestToken rt = new RequestToken(appKey, appSecret);
@@ -69,19 +80,37 @@ public class PromotionController {
 
 	@RequestMapping(value = "/access", method = RequestMethod.GET)
 	public String access(HttpServletRequest request) {
-		// TODO (review) 如果登录状态访问呢？
+		// TODO (done) 如果登录状态访问呢？
+		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
+				"promotion_authInfo");
+		if (authInfo != null) {
+			return "redirect:/occasional/begin";
+		}
 		String oauth_token = request.getParameter("oauth_token");
 		String oauth_vericode = request.getParameter("oauth_vericode");
 		String accessToken = getOAuthAccessTokenFromCode(request, oauth_token
 				+ "," + oauth_vericode);
 		String[] str = accessToken.split(",");
 		String uid = str[2];
-		AuthInfo authInfo = new AuthInfo();
+		authInfo = new AuthInfo();
 		authInfo.setToken(str[0]);
 		authInfo.setTokenSecret(str[1]);
 		authInfo.setTpIdentity(uid);
 		authInfo.setAppKey(appKey);
 		authInfo.setAppSecret(appSecret);
+		InfoToken info = new InfoToken(authInfo.getAppKey(),
+				authInfo.getAppSecret());
+		try {
+			Map<String, String> map = info.getInfo(authInfo.getToken(),
+					authInfo.getTokenSecret(), authInfo.getTpIdentity());
+			// TODO (done) 昵称性别在授权完就取出，放入session
+			String nickname = map.get("nickname");
+			String gender = map.get("gender");
+			request.getSession().setAttribute("nickname", nickname);
+			request.getSession().setAttribute("gender", gender);
+		} catch (Exception e) {
+			log.error("app qq access is error", e);
+		}
 		request.getSession().setAttribute("promotion_authInfo", authInfo);
 		return "redirect:/occasional/begin";
 	}
@@ -104,21 +133,18 @@ public class PromotionController {
 		if (authInfo == null) {
 			return "redirect:/occasional/";
 		}
-		InfoToken info = new InfoToken(authInfo.getAppKey(),
-				authInfo.getAppSecret());
 		try {
-			Map<String, String> map = info.getInfo(authInfo.getToken(),
-					authInfo.getTokenSecret(), authInfo.getTpIdentity());
-			// TODO (review) 昵称性别在授权完就取出，放入session
-			String nickname = map.get("nickname");
-			request.getSession().setAttribute("nickname", nickname);
+			String nickname = (String) request.getSession().getAttribute(
+					"nickname");
+			String gender = (String) request.getSession()
+					.getAttribute("gender");
 			// 获取匹配内容
 			String address = PromotionConfig.randomOccasional();
 			String male = messageSource.getMessage("gender.male", null,
 					Locale.SIMPLIFIED_CHINESE);
 			// 获取异性性别
 			int sex = 0;
-			if (male.equals(map.get("gender"))) {
+			if (male.equals(gender)) {
 				sex = 0;
 			} else {
 				sex = 1;

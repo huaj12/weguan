@@ -332,7 +332,6 @@ public class ImageManager implements IImageManager {
 			// 生成图片
 			ImageIO.write(buffImg, "JPG", os);
 		} catch (Exception e) {
-			// TODO (done) 打印日志
 			log.error(e.getMessage(), e);
 		} finally {
 			try {
@@ -354,7 +353,6 @@ public class ImageManager implements IImageManager {
 				directory.mkdirs();
 			}
 			out = new FileOutputStream(directoryPath + filename);
-			// TODO (done) 用javax包里的sdk，别用sun下面的
 			ImageIO.write(tag, "jpg", out);
 		} catch (Exception e) {
 			throw new UploadImageException(UploadImageException.SYSTEM_ERROR);
@@ -391,8 +389,8 @@ public class ImageManager implements IImageManager {
 	@Override
 	public BufferedImage cutImage(int width, int height, int x, int y,
 			Image image) {
-		// TODO (done)
-		// 空行独立开的这段代码，能不能想办法放入imageManager里，因为涉及到底层画图的代码了试着传入Image和最终生成的图片大小为参数
+		// TODO (review) 空行独立开的这段代码，能不能想办法放入imageManager里，因为涉及到底层画图的代码了试着传入Image和最终生成的图片大小为参数
+		// TODO (review) 我的初衷不是要提一个方法出来，没意义的一个方法。我是说，这段创建BufferedImage方法为什么不能放入uploadImage方法？
 		BufferedImage tag = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_RGB);
 		tag.getGraphics().drawImage(image, x, y, width, height, null);

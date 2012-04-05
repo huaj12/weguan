@@ -98,7 +98,6 @@ public class ProfileImageService implements IProfileImageService {
 		if (cache == null) {
 			return null;
 		}
-		// TODO (done) 有没有考虑过用户没有logo(没有有效头像的用户)？
 		if (StringUtils.isEmpty(cache.getLogoPic())) {
 			return null;
 		}
@@ -114,7 +113,7 @@ public class ProfileImageService implements IProfileImageService {
 			profileMapper.updateByPrimaryKeySelective(profile);
 			profileService.clearProfileCache(uid);
 		}
-		// TODO (done) 下面的代码是不是和if里的有重复呢？
+		// TODO (review) 声明和赋值代码，离那么远？
 		logoPic = ImageUtil.generateHierarchyImagePath(cache.getUid(),
 				LogoSizeType.BIG.getType()) + filename;
 		return uploadUserImageHome + logoPic;

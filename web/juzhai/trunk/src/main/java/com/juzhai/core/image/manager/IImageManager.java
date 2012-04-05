@@ -8,7 +8,7 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.exception.UploadImageException;
-import com.juzhai.core.model.MarkFont;
+import com.juzhai.core.image.bean.MarkFont;
 
 public interface IImageManager {
 

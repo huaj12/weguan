@@ -27,8 +27,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.exception.UploadImageException;
+import com.juzhai.core.image.bean.MarkFont;
 import com.juzhai.core.image.manager.IImageManager;
-import com.juzhai.core.model.MarkFont;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.ImageUtil;

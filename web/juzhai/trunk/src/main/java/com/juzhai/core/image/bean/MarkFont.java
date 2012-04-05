@@ -1,4 +1,4 @@
-package com.juzhai.core.model;
+package com.juzhai.core.image.bean;
 
 import java.awt.Color;
 import java.awt.Font;

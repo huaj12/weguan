@@ -178,7 +178,7 @@ public class JzUtilFunction {
 						"<img src=\"" + StaticUtil.getPrefixImage()
 								+ "/images/face/" + face.getPic()
 								+ "\" alt=\"[" + name + "]\" title=\"[" + name
-								+ "]\" />");
+								+ "]\" width=\"16\" height=\"16\" />");
 			}
 		}
 		m.appendTail(sb);

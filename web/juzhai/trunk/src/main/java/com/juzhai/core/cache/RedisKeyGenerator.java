@@ -442,4 +442,13 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genRescueUsersKey(long uid) {
 		return genKey(uid, "rescueUsers");
 	}
+
+	/**
+	 * 偶遇地点id
+	 * 
+	 * @return
+	 */
+	public static String genOccasionalId() {
+		return "occasionalId";
+	}
 }

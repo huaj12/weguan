@@ -107,7 +107,6 @@ public class ProfileImageService implements IProfileImageService {
 			profileMapper.updateByPrimaryKeySelective(profile);
 			profileService.clearProfileCache(uid);
 		}
-		// TODO (done) 声明和赋值代码，离那么远？
 		String logoPic = ImageUtil.generateHierarchyImagePath(cache.getUid(),
 				LogoSizeType.BIG.getType()) + filename;
 		return uploadUserImageHome + logoPic;

@@ -42,17 +42,16 @@ public class PromotionController {
 	private String appKey = "100258588";
 	private String appSecret = "a2cc637f7b69e63dcc6337818b34acdf";
 
-	// TODO (done) tb_thirdparty表里新插入数据的sql，传了吗？
-	// TODO (done) 此页面仅仅显示app首页，提供哪些第三方，我们并不知道
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String begin(Model model) {
+		// TODO (review) 如果是登录状态访问此页面呢？
 		return "web/promotion/occasional/begin";
 	}
 
-	// TODO (done)
-	// 需要一个login请求，类似于web登录的login，获取url，进行授权页跳转，并且判断，传入的tpId是否是app的tpId
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model, HttpServletRequest request) {
+		// TODO (review) 不是说过用二级域名吗？app.51juzhai.com 映射到 127.0.0.1:8080/occasional
+		// TODO (review) 如果登录状态访问呢？
 		String turnTo = SystemConfig.getDomain() + "/occasional/access";
 		String url = null;
 		try {
@@ -68,9 +67,9 @@ public class PromotionController {
 		return "redirect:" + url;
 	}
 
-	// TODO (done) 不要使用step1，step2的url，使用具体含义，也不要使用path来区分不同应用，这个架构达不起来的
 	@RequestMapping(value = "/access", method = RequestMethod.GET)
 	public String access(HttpServletRequest request) {
+		// TODO (review) 如果登录状态访问呢？
 		String oauth_token = request.getParameter("oauth_token");
 		String oauth_vericode = request.getParameter("oauth_vericode");
 		String accessToken = getOAuthAccessTokenFromCode(request, oauth_token
@@ -97,8 +96,6 @@ public class PromotionController {
 		return "web/promotion/occasional/step1";
 	}
 
-	// TODO (done) 此请求似乎没有任何作用
-
 	// 计算并发布结果
 	@RequestMapping(value = "/send", method = RequestMethod.GET)
 	public String step3(HttpServletRequest request, Model model) {
@@ -112,7 +109,7 @@ public class PromotionController {
 		try {
 			Map<String, String> map = info.getInfo(authInfo.getToken(),
 					authInfo.getTokenSecret(), authInfo.getTpIdentity());
-			// TODO (done) 昵称性别在授权完就取出，放入session
+			// TODO (review) 昵称性别在授权完就取出，放入session
 			String nickname = map.get("nickname");
 			request.getSession().setAttribute("nickname", nickname);
 			// 获取匹配内容

@@ -77,7 +77,6 @@ public class PromotionConfig {
 	}
 
 	public static Long randomUser(int sex) {
-		// TODO (done) list size为0，会报错
 		try {
 			if (sex == 1) {
 				return USER_MAN_LIST.get(random.nextInt(USER_MAN_LIST.size()));

@@ -42,6 +42,7 @@ public class PromotionImageService implements IPromotionImageService {
 			String address, String textBegin, String textEnd)
 			throws UploadImageException {
 		String logoPic = profileImageService.getUserImagePath(uid);
+		// TODO (review) logoPic是空会怎么样呢？
 		String filename = ImageUtil.generateUUIDJpgFileName();
 		List<MarkFont> list = new ArrayList<MarkFont>();
 		list.add(new MarkFont(84, 70, new Font(Font.SERIF, Font.ITALIC, 16),
@@ -57,6 +58,7 @@ public class PromotionImageService implements IPromotionImageService {
 				RedisKeyGenerator.genOccasionalId(), 1)
 				% promotionImageDirectory;
 
+		// TODO (reveiew) 仔细查看参数调用的对不对
 		imageManager.markImage(logoPic, webPromotionOccasionalBackgroundImage,
 				webPromotionOccasionalImageHome + File.separator
 						+ directoryName, filename, 198, 133, 0, list);

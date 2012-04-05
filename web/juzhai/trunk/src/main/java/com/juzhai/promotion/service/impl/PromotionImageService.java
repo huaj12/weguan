@@ -46,7 +46,6 @@ public class PromotionImageService implements IPromotionImageService {
 		if (StringUtils.isEmpty(logoPic)) {
 			return null;
 		}
-		// TODO (done) logoPic是空会怎么样呢？
 		String filename = ImageUtil.generateUUIDJpgFileName();
 		List<MarkFont> list = new ArrayList<MarkFont>();
 		list.add(new MarkFont(84, 70, new Font(Font.SERIF, Font.ITALIC, 16),

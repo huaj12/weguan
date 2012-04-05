@@ -1529,7 +1529,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .detail .own_btn a.delete{ }
 
 
-.response{ width:100%; height:auto; overflow:hidden;  float:left; margin-top:-43px; _margin-top:-45px;}
+.response{ width:100%; height:auto; /* overflow:hidden; */  float:left; margin-top:-43px; _margin-top:-45px;}
 
 .response .title { width:100%; border-bottom:1px solid #eaeaea; float:left; padding-bottom:15px;}
 .response .title .tab{ float:left; margin-right:10px; display:inline; margin-left:20px; font-size:14px; font-weight:bold;}

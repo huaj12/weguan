@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <ul>
 	<c:forEach var="face" items="${faceList}">
-		<li><img src="${jzr:static('/images/face/')}${face.pic}" title="${face.name}" alt="${face.name}" width="16" height="16" /></li>
+		<c:set var="faceUrl" value="/images/face/${face.pic}" />
+		<li><img src="${jzr:static(faceUrl)}" title="${face.name}" alt="${face.name}" width="16" height="16" /></li>
 	</c:forEach>
 </ul>

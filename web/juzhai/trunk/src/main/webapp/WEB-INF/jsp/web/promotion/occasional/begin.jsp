@@ -4,21 +4,21 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-		<head>
+	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>偶遇你的ta</title>
 		<link href="${jzr:static('/css/jz_promotion.css')}" rel="stylesheet" type="text/css" />
-		</head>
-		<body>
+	</head>
+	<body>
 		<div class="app"><!--APP begin-->
-		<div class="sen_area"><!--sen_area begin-->
-		<div class="sen1"><!--sen1 begin-->
-		<div class="sen1_img"></div>
-		<div class="sen1_txt"></div>
-		<div class="sen1_btn"><a href="/occasional/login"></a></div>
-		</div><!--sen1 end-->
-		</div><!--sen_area end-->
+			<div class="sen_area"><!--sen_area begin-->
+				<div class="sen1"><!--sen1 begin-->
+					<div class="sen1_img"></div>
+					<div class="sen1_txt"></div>
+					<div class="sen1_btn"><a href="/occasional/login"></a></div>
+				</div><!--sen1 end-->
+			</div><!--sen_area end-->
 		</div><!--APP end-->
-		</body>
+	</body>
 </html>
 

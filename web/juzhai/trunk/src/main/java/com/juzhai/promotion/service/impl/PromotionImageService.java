@@ -53,12 +53,15 @@ public class PromotionImageService implements IPromotionImageService {
 		int tagerX = address.length() * 25;
 		list.add(new MarkFont(250 + tagerX + 14, 100, new Font(Font.SERIF,
 				Font.ITALIC, 20), Color.gray, textEnd));
+		// TODO (review) 下面两次调用redis，你认为你获取到的值会是一个什么值？是不是你刚刚加完的那个值呢？考虑一下
 		redisTemplate.opsForValue().increment(
 				RedisKeyGenerator.genOccasionalId(), 1);
 		// 在1000个目录里平均分布
+		// TODO (review) 变量命名不当
 		Long id = redisTemplate.opsForValue().increment(
 				RedisKeyGenerator.genOccasionalId(), 0)
 				% promotionImageDirectory;
+		// TODO (review) 限定死0-999，不用再根据算法切分目录了
 		imageManager.markImage(
 				logoPic,
 				webPromotionOccasionalBackgroundImage,

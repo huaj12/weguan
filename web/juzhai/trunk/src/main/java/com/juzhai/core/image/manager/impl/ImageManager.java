@@ -335,6 +335,7 @@ public class ImageManager implements IImageManager {
 			// 生成图片
 			ImageIO.write(buffImg, "JPG", os);
 		} catch (Exception e) {
+			// TODO (review) 打印日志
 			e.printStackTrace();
 		} finally {
 			try {
@@ -356,6 +357,7 @@ public class ImageManager implements IImageManager {
 				directory.mkdirs();
 			}
 			out = new FileOutputStream(directoryPath + filename);
+			// TODO (review) 用javax包里的sdk，别用sun下面的
 			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
 			JPEGEncodeParam jep = JPEGCodec.getDefaultJPEGEncodeParam(tag);
 			encoder.encode(tag, jep);

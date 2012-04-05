@@ -74,10 +74,19 @@ public class ProfileImageService implements IProfileImageService {
 			srcFile = ImageIO.read(new URL(url));
 			for (LogoSizeType sizeType : LogoSizeType.values()) {
 				if (sizeType.getType() > 0) {
+					
+					
+					
+					//TODO (review) 空行独立开的这段代码，能不能想办法放入imageManager里，因为涉及到底层画图的代码了试着传入Image和最终生成的图片大小为参数
 					BufferedImage tag = new BufferedImage(sizeType.getType(),
 							sizeType.getType(), BufferedImage.TYPE_INT_RGB);
 					tag.getGraphics().drawImage(srcFile, 0, 0,
 							sizeType.getType(), sizeType.getType(), null);
+					
+					
+					
+					
+					
 					String directoryPath = uploadUserImageHome
 							+ ImageUtil.generateHierarchyImagePath(uid,
 									sizeType.getType());
@@ -97,6 +106,7 @@ public class ProfileImageService implements IProfileImageService {
 			return null;
 		}
 		String logoPic = null;
+		//TODO (review) 有没有考虑过用户没有logo(没有有效头像的用户)？
 		if (ImageUtil.isInternalUrl(cache.getLogoPic())) {
 			logoPic = ImageUtil.generateHierarchyImagePath(cache.getUid(),
 					LogoSizeType.BIG.getType()) + cache.getLogoPic();
@@ -108,6 +118,7 @@ public class ProfileImageService implements IProfileImageService {
 			profile.setLogoPic(filename);
 			profileMapper.updateByPrimaryKeySelective(profile);
 			profileService.clearProfileCache(uid);
+			//TODO (review) 下面的代码是不是和if里的有重复呢？
 			logoPic = ImageUtil.generateHierarchyImagePath(cache.getUid(),
 					LogoSizeType.BIG.getType()) + filename;
 		}

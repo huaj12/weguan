@@ -43,7 +43,6 @@ public class PromotionController {
 
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String begin(Model model, HttpServletRequest request) {
-		// TODO (done) 如果是登录状态访问此页面呢？
 		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
 				"promotion_authInfo");
 		if (authInfo != null) {
@@ -54,13 +53,12 @@ public class PromotionController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model, HttpServletRequest request) {
-		// TODO (done) 如果登录状态访问呢？
 		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
 				"promotion_authInfo");
 		if (authInfo != null) {
 			return "redirect:/occasional/begin";
 		}
-		// TODO (done) 不是说过用二级域名吗？app.51juzhai.com 映射到
+		// TODO (review) 不是说过用二级域名吗？app.51juzhai.com 映射到
 		// 127.0.0.1:8080/occasional
 
 		String turnTo = "http://app.51juzhai.com/occasional/access";
@@ -80,7 +78,6 @@ public class PromotionController {
 
 	@RequestMapping(value = "/access", method = RequestMethod.GET)
 	public String access(HttpServletRequest request) {
-		// TODO (done) 如果登录状态访问呢？
 		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
 				"promotion_authInfo");
 		if (authInfo != null) {
@@ -103,7 +100,6 @@ public class PromotionController {
 		try {
 			Map<String, String> map = info.getInfo(authInfo.getToken(),
 					authInfo.getTokenSecret(), authInfo.getTpIdentity());
-			// TODO (done) 昵称性别在授权完就取出，放入session
 			String nickname = map.get("nickname");
 			String gender = map.get("gender");
 			request.getSession().setAttribute("nickname", nickname);
@@ -142,6 +138,7 @@ public class PromotionController {
 			String address = PromotionConfig.randomOccasional();
 			String male = messageSource.getMessage("gender.male", null,
 					Locale.SIMPLIFIED_CHINESE);
+			// TODO (review) 这里的判断在存入session的时候就能做判断了
 			// 获取异性性别
 			int sex = 0;
 			if (male.equals(gender)) {

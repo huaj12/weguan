@@ -29,11 +29,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import weibo4j.Oauth;
 
-import com.juzhai.activity.controller.ActivityController;
 import com.juzhai.core.Constants;
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
-import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.util.JackSonSerializer;
@@ -251,14 +249,16 @@ public class TpAuthorizeController extends BaseController {
 	}
 
 	@RequestMapping(value = "web/login/{tpId}")
-	public String webLogin(Model model, @PathVariable long tpId, String incode,
-			String turnTo) throws UnsupportedEncodingException {
+	public String webLogin(HttpServletRequest request, Model model,
+			@PathVariable long tpId, String incode, String turnTo)
+			throws UnsupportedEncodingException {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if (null == tp) {
 			return "404";
 		}
-		String url = userService.getAuthorizeURLforCode(tp, turnTo == null ? ""
-				: URLEncoder.encode(turnTo, Constants.UTF8), incode);
+		String url = userService
+				.getAuthorizeURLforCode(request, tp, turnTo == null ? ""
+						: URLEncoder.encode(turnTo, Constants.UTF8), incode);
 		if (StringUtils.isEmpty(url)) {
 			return "404";
 		}

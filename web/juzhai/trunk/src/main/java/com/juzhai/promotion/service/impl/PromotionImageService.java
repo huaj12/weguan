@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -42,7 +43,10 @@ public class PromotionImageService implements IPromotionImageService {
 			String address, String textBegin, String textEnd)
 			throws UploadImageException {
 		String logoPic = profileImageService.getUserImagePath(uid);
-		// TODO (review) logoPic是空会怎么样呢？
+		if (StringUtils.isEmpty(logoPic)) {
+			return null;
+		}
+		// TODO (done) logoPic是空会怎么样呢？
 		String filename = ImageUtil.generateUUIDJpgFileName();
 		List<MarkFont> list = new ArrayList<MarkFont>();
 		list.add(new MarkFont(84, 70, new Font(Font.SERIF, Font.ITALIC, 16),

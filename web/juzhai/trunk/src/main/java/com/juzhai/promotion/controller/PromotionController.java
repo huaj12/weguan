@@ -47,7 +47,7 @@ public class PromotionController {
 		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
 				"promotion_authInfo");
 		if (authInfo != null) {
-			return "redirect:/occasional/begin";
+			return "redirect:/begin";
 		}
 		return "web/promotion/occasional/begin";
 	}
@@ -57,7 +57,7 @@ public class PromotionController {
 		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
 				"promotion_authInfo");
 		if (authInfo != null) {
-			return "redirect:/occasional/begin";
+			return "redirect:/begin";
 		}
 		String turnTo = SystemConfig.getDomain("app.qq") + "/access";
 		String url = null;
@@ -79,7 +79,7 @@ public class PromotionController {
 		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
 				"promotion_authInfo");
 		if (authInfo != null) {
-			return "redirect:/occasional/begin";
+			return "redirect:/begin";
 		}
 		String oauth_token = request.getParameter("oauth_token");
 		String oauth_vericode = request.getParameter("oauth_vericode");
@@ -115,7 +115,7 @@ public class PromotionController {
 			log.error("app qq access is error", e);
 		}
 		request.getSession().setAttribute("promotion_authInfo", authInfo);
-		return "redirect:/occasional/begin";
+		return "redirect:/begin";
 	}
 
 	@RequestMapping(value = "/begin", method = RequestMethod.GET)
@@ -123,7 +123,7 @@ public class PromotionController {
 		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
 				"promotion_authInfo");
 		if (authInfo == null) {
-			return "redirect:/occasional/";
+			return "redirect:/";
 		}
 		return "web/promotion/occasional/step1";
 	}
@@ -134,7 +134,7 @@ public class PromotionController {
 		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
 				"promotion_authInfo");
 		if (authInfo == null) {
-			return "redirect:/occasional/";
+			return "redirect:/";
 		}
 		try {
 			String nickname = (String) request.getSession().getAttribute(

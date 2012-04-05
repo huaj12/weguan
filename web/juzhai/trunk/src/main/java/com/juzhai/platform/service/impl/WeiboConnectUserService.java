@@ -212,13 +212,15 @@ public class WeiboConnectUserService extends AbstractUserService {
 	}
 
 	@Override
-	public String getAuthorizeURLforCode(Thirdparty tp, String turnTo,
-			String incode) throws UnsupportedEncodingException {
+	public String getAuthorizeURLforCode(HttpServletRequest request,
+			Thirdparty tp, String turnTo, String incode)
+			throws UnsupportedEncodingException {
 		String url = null;
 		try {
 			Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
 					URLEncoder.encode(
-							buildAuthorizeURLParams(tp, turnTo, incode), Constants.UTF8));
+							buildAuthorizeURLParams(tp, turnTo, incode),
+							Constants.UTF8));
 			if (Version.WEIBOV2.equals(Version.getWeiboVersion())) {
 				url = oauth.authorize("code");
 			} else {

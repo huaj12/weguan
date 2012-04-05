@@ -42,8 +42,9 @@ public class DoubanConnectUserService extends AbstractUserService {
 	private int featureLengthMax;
 
 	@Override
-	public String getAuthorizeURLforCode(Thirdparty tp, String turnTo,
-			String incode) throws UnsupportedEncodingException {
+	public String getAuthorizeURLforCode(HttpServletRequest request,
+			Thirdparty tp, String turnTo, String incode)
+			throws UnsupportedEncodingException {
 		String url = null;
 		DoubanService doubanService = new DoubanService(tp.getAppId(),
 				tp.getAppKey(), tp.getAppSecret());

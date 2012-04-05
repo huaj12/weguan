@@ -53,12 +53,13 @@ public class UserPreferenceService implements IUserPreferenceService {
 				.getUserPreferences();
 		List<UserPreference> userList = listUserPreference(uid);
 		for (UserPreferenceForm userPreferenceForm : userPreferenceForms) {
-			if (ArrayUtils.isEmpty(userPreferenceForm.getAnswer())) {
-				continue;
-			}
 			validate(userPreferenceForm);
-			String answer = StringUtils.join(userPreferenceForm.getAnswer(),
-					StringUtil.separator);
+			String answer = "";
+			if (ArrayUtils.isNotEmpty(userPreferenceForm.getAnswer())) {
+				answer = StringUtils.join(userPreferenceForm.getAnswer(),
+						StringUtil.separator);
+			}
+
 			UserPreference userPreference = null;
 			for (UserPreference user : userList) {
 				if (user.getPreferenceId().longValue() == userPreferenceForm
@@ -91,11 +92,12 @@ public class UserPreferenceService implements IUserPreferenceService {
 				userPreferenceMapper.insertSelective(userPreference);
 			} else {
 				// 回答有变化且问题的类型不属于显示
-				if (!answer.equals(userPreference.getAnswer()) && !isShow) {
+				if (answer != null
+						&& !answer.equals(userPreference.getAnswer())
+						&& !isShow) {
 					flag = true;
 				}
-				userPreference.setAnswer(StringUtils.join(
-						userPreferenceForm.getAnswer(), StringUtil.separator));
+				userPreference.setAnswer(answer);
 				userPreference.setDescription(userPreferenceForm
 						.getDescription());
 				userPreference.setOpen(userPreferenceForm.isOpen());
@@ -127,14 +129,16 @@ public class UserPreferenceService implements IUserPreferenceService {
 
 	private void validate(UserPreferenceForm userPreferenceForm)
 			throws InputUserPreferenceException {
-		StringBuffer sb = new StringBuffer();
-		for (String answer : userPreferenceForm.getAnswer()) {
-			sb.append(answer);
-		}
-		int answerLength = StringUtil.chineseLength(sb.toString());
-		if (answerLength > userPreferenceAnswerLengthMax) {
-			throw new InputUserPreferenceException(
-					InputUserPreferenceException.PREFERENCE_ANSWER_IS_INVALID);
+		if (ArrayUtils.isNotEmpty(userPreferenceForm.getAnswer())) {
+			StringBuffer sb = new StringBuffer();
+			for (String answer : userPreferenceForm.getAnswer()) {
+				sb.append(answer);
+			}
+			int answerLength = StringUtil.chineseLength(sb.toString());
+			if (answerLength > userPreferenceAnswerLengthMax) {
+				throw new InputUserPreferenceException(
+						InputUserPreferenceException.PREFERENCE_ANSWER_IS_INVALID);
+			}
 		}
 		int descriptionLength = StringUtil.chineseLength(userPreferenceForm
 				.getDescription());

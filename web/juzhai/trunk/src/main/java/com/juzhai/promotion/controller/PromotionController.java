@@ -43,7 +43,8 @@ public class PromotionController {
 	private MessageSource messageSource;
 	@Autowired
 	private IPromotionImageService promotionImageService;
-
+	// TODO (review) tb_thirdparty表里新插入数据的sql，传了吗？
+	// TODO (review) 此页面仅仅显示app首页，提供哪些第三方，我们并不知道
 	@RequestMapping(value = "/{path}/{tpId}", method = RequestMethod.GET)
 	public String begin(@PathVariable String path, @PathVariable long tpId,
 			Model model) {
@@ -69,6 +70,8 @@ public class PromotionController {
 		return "web/promotion/" + path + "/begin";
 	}
 
+	// TODO (review) 需要一个login请求，类似于web登录的login，获取url，进行授权页跳转，并且判断，传入的tpId是否是app的tpId
+	// TODO (review) 不要使用step1，step2的url，使用具体含义，也不要使用path来区分不同应用，这个架构达不起来的
 	@RequestMapping(value = "/{path}/step1/{tpId}", method = RequestMethod.GET)
 	public String step1(HttpServletRequest request, @PathVariable long tpId,
 			@PathVariable String path) {
@@ -89,6 +92,7 @@ public class PromotionController {
 		return "web/promotion/" + path + "/step1";
 	}
 
+	// TODO (review) 此请求似乎没有任何作用
 	@RequestMapping(value = "/{path}/step2/", method = RequestMethod.GET)
 	public String step2(HttpServletRequest request, @PathVariable String path,
 			Model model) {
@@ -116,6 +120,7 @@ public class PromotionController {
 		try {
 			Map<String, String> map = info.getInfo(authInfo.getToken(),
 					authInfo.getTokenSecret(), authInfo.getTpIdentity());
+			// TODO (review) 昵称性别在授权完就取出，放入session
 			String nickname = map.get("nickname");
 			// 获取匹配内容
 			String address = PromotionConfig.randomOccasional();
@@ -152,6 +157,7 @@ public class PromotionController {
 			model.addAttribute("content", address);
 		} catch (Exception e) {
 			log.error("qq  app " + path + "step3", e);
+			// TODO (review) return null 表达什么意思?
 			return null;
 		}
 		return "web/promotion/" + path + "/step3";

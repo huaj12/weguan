@@ -1,5 +1,11 @@
 package com.juzhai.passport.service.impl;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -9,7 +15,11 @@ import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.image.manager.IImageManager;
 import com.juzhai.core.util.ImageUtil;
+import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.mapper.ProfileMapper;
+import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IProfileImageService;
+import com.juzhai.passport.service.IProfileService;
 
 @Service
 public class ProfileImageService implements IProfileImageService {
@@ -18,6 +28,10 @@ public class ProfileImageService implements IProfileImageService {
 	private IImageManager imageManager;
 	@Value(value = "${upload.user.image.home}")
 	private String uploadUserImageHome;
+	@Autowired
+	private IProfileService profileService;
+	@Autowired
+	private ProfileMapper profileMapper;
 
 	@Override
 	public String[] uploadLogo(long uid, MultipartFile image)
@@ -49,5 +63,54 @@ public class ProfileImageService implements IProfileImageService {
 			}
 		}
 		return distFileName;
+	}
+
+	@Override
+	public String uploadLogo(long uid, String url) throws UploadImageException {
+		Image srcFile;
+		String filename = null;
+		try {
+			filename = ImageUtil.generateUUIDJpgFileName();
+			srcFile = ImageIO.read(new URL(url));
+			for (LogoSizeType sizeType : LogoSizeType.values()) {
+				if (sizeType.getType() > 0) {
+					BufferedImage tag = new BufferedImage(sizeType.getType(),
+							sizeType.getType(), BufferedImage.TYPE_INT_RGB);
+					tag.getGraphics().drawImage(srcFile, 0, 0,
+							sizeType.getType(), sizeType.getType(), null);
+					String directoryPath = uploadUserImageHome
+							+ ImageUtil.generateHierarchyImagePath(uid,
+									sizeType.getType());
+					imageManager.uploadImage(directoryPath, filename, tag);
+				}
+			}
+		} catch (Exception e) {
+			throw new UploadImageException(UploadImageException.SYSTEM_ERROR);
+		}
+		return filename;
+	}
+
+	@Override
+	public String getUserImagePath(long uid) throws UploadImageException {
+		ProfileCache cache = profileService.getProfileCacheByUid(uid);
+		if (cache == null) {
+			return null;
+		}
+		String logoPic = null;
+		if (ImageUtil.isInternalUrl(cache.getLogoPic())) {
+			logoPic = ImageUtil.generateHierarchyImagePath(cache.getUid(),
+					LogoSizeType.BIG.getType()) + cache.getLogoPic();
+		} else {
+			String filename = null;
+			filename = uploadLogo(uid, cache.getLogoPic());
+			Profile profile = new Profile();
+			profile.setUid(uid);
+			profile.setLogoPic(filename);
+			profileMapper.updateByPrimaryKeySelective(profile);
+			profileService.clearProfileCache(uid);
+			logoPic = ImageUtil.generateHierarchyImagePath(cache.getUid(),
+					LogoSizeType.BIG.getType()) + filename;
+		}
+		return uploadUserImageHome + logoPic;
 	}
 }

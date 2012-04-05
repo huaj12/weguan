@@ -148,7 +148,6 @@ public class PromotionController {
 			String address = PromotionConfig.randomOccasional();
 			long uid = PromotionConfig.randomUser(sex);
 			if (uid > 0) {
-				ProfileCache cache = profileService.getProfileCacheByUid(uid);
 				String title = messageSource.getMessage("occasional.title",
 						new Object[] { address }, Locale.SIMPLIFIED_CHINESE);
 				String link = SystemConfig.getDomain("app.qq");
@@ -167,6 +166,7 @@ public class PromotionController {
 				if (StringUtils.isNotEmpty(imageUrl)) {
 					sendMessage(authInfo, title, null, link, imageUrl);
 				}
+				ProfileCache cache = profileService.getProfileCacheByUid(uid);
 				model.addAttribute("profile", cache);
 				model.addAttribute("content", address);
 			}

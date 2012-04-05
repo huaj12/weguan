@@ -9,7 +9,7 @@
 				<div class="photo"><a href="http://www.51juzhai.com/home/${profile.uid}"><img src="${jzr:userLogo(profile.uid,profile.logoPic,180)}" /></a></div>
 				<div class="photo_right">
 					<p>不久后，你会在<b>${content}</b>偶遇ta</p>
-					<span></span>
+					<span><a href="http://www.51juzhai.com/home/${profile.uid}"></a></span>
 				</div>
 				<div class="logo"><a href="http://www.51juzhai.com"></a></div>
 			</div><!--sen1 end-->

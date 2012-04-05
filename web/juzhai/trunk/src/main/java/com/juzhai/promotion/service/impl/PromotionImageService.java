@@ -52,10 +52,10 @@ public class PromotionImageService implements IPromotionImageService {
 				Color.BLUE, nickname));
 		list.add(new MarkFont(104, 100, new Font(Font.DIALOG_INPUT,
 				Font.ITALIC, 20), Color.gray, textBegin));
-		list.add(new MarkFont(250, 100, new Font(Font.DIALOG, Font.ITALIC, 25),
+		list.add(new MarkFont(220, 100, new Font(Font.DIALOG, Font.ITALIC, 25),
 				Color.red, address));
 		int tagerX = address.length() * 25;
-		list.add(new MarkFont(250 + tagerX + 14, 100, new Font(Font.SERIF,
+		list.add(new MarkFont(220 + tagerX + 14, 100, new Font(Font.SERIF,
 				Font.ITALIC, 20), Color.gray, textEnd));
 		long directoryName = redisTemplate.opsForValue().increment(
 				RedisKeyGenerator.genOccasionalId(), 1)

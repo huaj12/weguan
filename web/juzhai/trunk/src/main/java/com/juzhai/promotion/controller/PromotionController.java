@@ -129,7 +129,7 @@ public class PromotionController {
 	}
 
 	// 计算并发布结果
-	@RequestMapping(value = "/send", method = RequestMethod.GET)
+	@RequestMapping(value = "/ajax/send", method = RequestMethod.GET)
 	public String step3(HttpServletRequest request, Model model) {
 		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
 				"promotion_authInfo");

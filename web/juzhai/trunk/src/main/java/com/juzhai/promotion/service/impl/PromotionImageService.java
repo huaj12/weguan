@@ -8,9 +8,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.act.exception.UploadImageException;
+import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.image.manager.IImageManager;
 import com.juzhai.core.model.MarkFont;
 import com.juzhai.core.util.ImageUtil;
@@ -30,6 +32,8 @@ public class PromotionImageService implements IPromotionImageService {
 	private IImageManager imageManager;
 	@Autowired
 	private IProfileImageService profileImageService;
+	@Autowired
+	private RedisTemplate<String, Long> redisTemplate;
 
 	@Override
 	public String getOccasionalImageUrl(long uid, String nickname,
@@ -47,14 +51,19 @@ public class PromotionImageService implements IPromotionImageService {
 		int tagerX = address.length() * 25;
 		list.add(new MarkFont(250 + tagerX + 14, 100, new Font(Font.SERIF,
 				Font.ITALIC, 20), Color.gray, textEnd));
+		redisTemplate.opsForValue().increment(
+				RedisKeyGenerator.genOccasionalId(), 1);
+		// 在1000个目录里平均分布
+		Long id = redisTemplate.opsForValue().increment(
+				RedisKeyGenerator.genOccasionalId(), 0) % 1000;
 		imageManager.markImage(
 				logoPic,
 				webPromotionOccasionalBackgroundImage,
 				webPromotionOccasionalImageHome + File.separator
-						+ ImageUtil.generateHierarchyImagePath(uid, 0),
+						+ ImageUtil.generateHierarchyImagePath(id, 0),
 				filename, 198, 133, 0, list);
 		String imageUrl = StaticUtil.u(webPromotionOccasionalImagePath
-				+ ImageUtil.generateHierarchyImageWebPath(uid, 0) + filename);
+				+ ImageUtil.generateHierarchyImageWebPath(id, 0) + filename);
 		return imageUrl;
 	}
 }

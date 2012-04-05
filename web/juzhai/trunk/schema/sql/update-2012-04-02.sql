@@ -76,6 +76,3 @@ INSERT INTO `juzhai`.`tb_face` (`name`,`pic`) VALUES ('蜡烛','lazu_thumb.gif')
 INSERT INTO `juzhai`.`tb_face` (`name`,`pic`) VALUES ('钟','clock_thumb.gif');
 INSERT INTO `juzhai`.`tb_face` (`name`,`pic`) VALUES ('蛋糕','cake.gif');
 INSERT INTO `juzhai`.`tb_face` (`name`,`pic`) VALUES ('话筒','m_thumb.gif');
-
-
-insert into `tb_thirdparty` (`id`, `name`, `join_type`, `app_id`, `app_key`, `app_secret`, `app_url`, `user_home_url`) values('9','occasional_qq','connect','100258588','100258588','a2cc637f7b69e63dcc6337818b34acdf','','');

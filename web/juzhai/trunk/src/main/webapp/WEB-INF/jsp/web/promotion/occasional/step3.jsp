@@ -18,8 +18,8 @@
 	<c:otherwise>
 		<div class="sen_area"><!--sen_area begin-->
 			<div class="error"><!--error begin-->
-				<em><img src="images/web/error_icon.jpg" /></em>
-				<p><img src="images/web/error_txt.jpg" /></p>
+				<em><img src="${jzr:static('images/promotion/error_icon.jpg')}" /></em>
+				<p><img src="${jzr:static('images/promotion/error_txt.jpg')}" /></p>
 				<a href="http://www.51juzhai.com">先去拒宅网看看吧</a>
 			</div><!--error end-->
 		</div><!--sen_area end-->

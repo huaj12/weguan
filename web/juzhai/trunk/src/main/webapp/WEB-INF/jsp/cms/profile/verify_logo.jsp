@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
+<%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -11,7 +11,8 @@
 <title>头像管理</title>
 <script type="text/javascript" src="${jzr:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 <script>
-	function passLogo(uid, nickname){
+	function passLogo(uid, obj){
+		var nickname = $(obj).attr("nickname");
 		if(confirm("确认要通过 " + nickname + " 的头像吗？")){
 			jQuery.ajax({
 				url : "/cms/profile/passLogo",
@@ -94,7 +95,7 @@
 				<td><c:out value="${jzd:cityName(profile.city)}" /></td>
 				<td><img src="${jzr:userLogo(profile.uid, profile.newLogoPic, 180)}" width="180" height="180"/></td>
 				<td>
-					<c:if test="${type != 'listVerifiedLogo'}"><a href="javascript:void(0);" onclick='passLogo(${profile.uid},"<c:out value='${profile.nickname}' />")' id="pass-logo-${profile.uid}">通过</a><br /></c:if>
+					<c:if test="${type != 'listVerifiedLogo'}"><a href="javascript:void(0);" onclick="passLogo(${profile.uid}, this)" nickname="${jzu:htmlOut(profile.nickname)}" id="pass-logo-${profile.uid}">通过</a><br /></c:if>
 					<c:if test="${type == 'listVerifyingLogo'}"><a href="javascript:void(0);" onclick="denyLogo(${profile.uid})" id="deny-logo-${profile.uid}">拒绝</a><br /></c:if>
 					<a href="/home/${profile.uid}" target="_blank">发私信</a>
 				</td>

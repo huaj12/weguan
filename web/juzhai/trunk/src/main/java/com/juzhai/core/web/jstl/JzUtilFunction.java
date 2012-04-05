@@ -155,6 +155,12 @@ public class JzUtilFunction {
 		return (c.getTimeInMillis() - System.currentTimeMillis()) / 3600000;
 	}
 
+	/**
+	 * 表情转换
+	 * 
+	 * @param content
+	 * @return
+	 */
 	public static String convertFace(String content) {
 		if (StringUtils.isEmpty(content)) {
 			return content;
@@ -177,5 +183,18 @@ public class JzUtilFunction {
 		}
 		m.appendTail(sb);
 		return sb.toString();
+	}
+
+	/**
+	 * html转换
+	 * 
+	 * @param content
+	 * @return
+	 */
+	public static String htmlOut(String content) {
+		if (StringUtils.isEmpty(content)) {
+			return content;
+		}
+		return HtmlUtils.htmlEscape(content);
 	}
 }

@@ -74,4 +74,11 @@
     	<example>${jzu:convertFace('[嘻嘻]')}</example>
     </function>
     
+    <function>
+    	<name>htmlOut</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.String htmlOut(java.lang.String)</function-signature>
+    	<example>${jzu:htmlOut('"')}</example>
+    </function>
+    
 </taglib>

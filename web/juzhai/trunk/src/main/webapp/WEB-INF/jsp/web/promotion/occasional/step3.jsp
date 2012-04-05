@@ -6,10 +6,10 @@
 	<c:when test="${not empty profile && not empty content}">
 		<div class="sen_area"><!--sen_area begin-->
 			<div class="sen4"><!--sen1 begin-->
-				<div class="photo"><img src="${jzr:userLogo(profile.uid,profile.logoPic,180)}" /></div>
+				<div class="photo"><a href="http://www.51juzhai.com/home/${profile.uid}"><img src="${jzr:userLogo(profile.uid,profile.logoPic,180)}" /></a></div>
 				<div class="photo_right">
 					<p>不久后，你会在<b>${content}</b>偶遇ta</p>
-					<span><a href="http://www.51juzhai.com/home/${profile.uid}">${profile.nickname}</a></span>
+					<span></span>
 				</div>
 				<div class="logo"><a href="http://www.51juzhai.com"></a></div>
 			</div><!--sen1 end-->

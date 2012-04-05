@@ -90,6 +90,11 @@ public class PromotionController {
 
 	@RequestMapping(value = "/begin", method = RequestMethod.GET)
 	public String begin(HttpServletRequest request) {
+		AuthInfo authInfo = (AuthInfo) request.getSession().getAttribute(
+				"promotion_authInfo");
+		if (authInfo == null) {
+			return "redirect:/occasional/";
+		}
 		return "web/promotion/occasional/step1";
 	}
 

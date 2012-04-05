@@ -117,27 +117,19 @@ public class PromotionController {
 			Map<String, String> map = info.getInfo(authInfo.getToken(),
 					authInfo.getTokenSecret(), authInfo.getTpIdentity());
 			String nickname = map.get("nickname");
-
 			// 获取匹配内容
 			String address = PromotionConfig.randomOccasional();
 			String male = messageSource.getMessage("gender.male", null,
 					Locale.SIMPLIFIED_CHINESE);
-			int sex = 1;
+			// 获取异性性别
+			int sex = 0;
 			if (male.equals(map.get("gender"))) {
-				sex = 1;
-			} else {
 				sex = 0;
+			} else {
+				sex = 1;
 			}
-			ProfileCache cache = null;
-			long uid = 0;
-			while (true) {
-				uid = PromotionConfig.randomUser();
-				cache = profileService.getProfileCacheByUid(uid);
-				// 获取异性
-				if (cache.getGender() != sex) {
-					break;
-				}
-			}
+			long uid = PromotionConfig.randomUser(sex);
+			ProfileCache cache = profileService.getProfileCacheByUid(uid);
 			String title = messageSource.getMessage(path + ".title",
 					new Object[] { address }, Locale.SIMPLIFIED_CHINESE);
 			String link = messageSource.getMessage(path + ".link",

@@ -3,9 +3,7 @@ package com.juzhai.platform.service.impl;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +33,6 @@ import com.juzhai.passport.model.Thirdparty;
 @Service
 public class DoubanConnectUserService extends AbstractUserService {
 	private final Log log = LogFactory.getLog(this.getClass());
-	private static Map<String, String> tokenMap = new HashMap<String, String>();
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
 	@Value(value = "${feature.length.max}")
@@ -50,7 +47,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 				tp.getAppKey(), tp.getAppSecret());
 		url = doubanService.getAuthorizationUrl(buildAuthorizeURLParams(tp,
 				turnTo, incode));
-		tokenMap.put(doubanService.getRequestToken(),
+		request.getSession().setAttribute(doubanService.getRequestToken(),
 				doubanService.getRequestTokenSecret());
 		return url;
 	}
@@ -123,8 +120,8 @@ public class DoubanConnectUserService extends AbstractUserService {
 	@Override
 	protected String fetchTpIdentity(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
-		String code = request.getParameter("oauth_token");
-		if (StringUtils.isEmpty(code)) {
+		String oauth_token = request.getParameter("oauth_token");
+		if (StringUtils.isEmpty(oauth_token)) {
 			log.error("douban get oauth_token is null");
 			return null;
 		}
@@ -132,7 +129,14 @@ public class DoubanConnectUserService extends AbstractUserService {
 			log.error("douban  Thirdparty is null");
 			return null;
 		}
-		String accessToken = getOAuthAccessTokenFromCode(tp, code);
+		String oauthTokenSecret = (String) request.getSession().getAttribute(
+				oauth_token);
+		if (StringUtils.isEmpty(oauthTokenSecret)) {
+			log.error("douban  oauthTokenSecret is null");
+			return null;
+		}
+		String accessToken = getOAuthAccessTokenFromCode(tp, oauth_token + ","
+				+ oauthTokenSecret);
 		if (StringUtils.isEmpty(accessToken)) {
 			log.error("douban accessToken is null");
 			return null;
@@ -166,8 +170,9 @@ public class DoubanConnectUserService extends AbstractUserService {
 	protected String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
 		DoubanService doubanService = new DoubanService(tp.getAppId(),
 				tp.getAppKey(), tp.getAppSecret());
-		doubanService.setRequestToken(code);
-		doubanService.setRequestTokenSecret(tokenMap.get(code));
+		String str[] = code.split(",");
+		doubanService.setRequestToken(str[0]);
+		doubanService.setRequestTokenSecret(str[1]);
 		ArrayList<String> list = null;
 		try {
 			list = doubanService.getAccessToken();
@@ -175,8 +180,6 @@ public class DoubanConnectUserService extends AbstractUserService {
 			log.error("douban content getOAuthAccessTokenFromCode is error."
 					+ e.getMessage());
 		}
-		// 删除token_secret
-		tokenMap.remove(code);
 		if (CollectionUtils.isEmpty(list)) {
 			return null;
 		}

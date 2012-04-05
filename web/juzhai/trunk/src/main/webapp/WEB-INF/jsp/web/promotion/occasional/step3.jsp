@@ -2,26 +2,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<<c:choose>
-<c:when test="${not empty profile && not empty content}">
-<div class="sen_area"><!--sen_area begin-->
-	<div class="sen4"><!--sen1 begin-->
-		<div class="photo"><img src="${jzr:userLogo(profile.uid,profile.newLogoPic,180)}" /></div>
-		<div class="photo_right">
-			<p>不久后，你会在<b>${content}</b>偶遇ta</p>
-			<span><a href="http://www.51juzhai.com/home/${profile.uid}"></a></span>
-		</div>
-		<div class="logo"><a href="http://www.51juzhai.com"></a></div>
-	</div><!--sen1 end-->
-</div><!--sen_area end-->
-</c:when>
-<c:otherwise>
-			<div class="sen_area"><!--sen_area begin-->
+<c:choose>
+	<c:when test="${not empty profile && not empty content}">
+		<div class="sen_area"><!--sen_area begin-->
+			<div class="sen4"><!--sen1 begin-->
+				<div class="photo"><img src="${jzr:userLogo(profile.uid,profile.newLogoPic,180)}" /></div>
+				<div class="photo_right">
+					<p>不久后，你会在<b>${content}</b>偶遇ta</p>
+					<span><a href="http://www.51juzhai.com/home/${profile.uid}"></a></span>
+				</div>
+				<div class="logo"><a href="http://www.51juzhai.com"></a></div>
+			</div><!--sen1 end-->
+		</div><!--sen_area end-->
+	</c:when>
+	<c:otherwise>
+		<div class="sen_area"><!--sen_area begin-->
 			<div class="error"><!--error begin-->
-			<em><img src="images/web/error_icon.jpg" /></em>
-			<p><img src="images/web/error_txt.jpg" /></p>
-			<a href="http://www.51juzhai.com">先去拒宅网看看吧</a>
+				<em><img src="images/web/error_icon.jpg" /></em>
+				<p><img src="images/web/error_txt.jpg" /></p>
+				<a href="http://www.51juzhai.com">先去拒宅网看看吧</a>
 			</div><!--error end-->
-			</div><!--sen_area end-->
-</c:otherwise>
+		</div><!--sen_area end-->
+	</c:otherwise>
 </c:choose>

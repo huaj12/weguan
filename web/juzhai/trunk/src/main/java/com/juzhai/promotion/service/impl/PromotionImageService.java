@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.core.image.bean.MarkFont;
 import com.juzhai.core.image.manager.IImageManager;
-import com.juzhai.core.model.MarkFont;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;
 import com.juzhai.passport.service.IProfileImageService;

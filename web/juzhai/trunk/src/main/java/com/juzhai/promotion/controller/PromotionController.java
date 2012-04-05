@@ -150,8 +150,6 @@ public class PromotionController {
 			model.addAttribute("content", address);
 		} catch (Exception e) {
 			log.error("qq  app occasional send", e);
-			// TODO (review) return null 表达什么意思?
-			return null;
 		}
 		return "web/promotion/occasional/step3";
 	}

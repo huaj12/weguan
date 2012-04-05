@@ -9,50 +9,7 @@
 		<title>偶遇你的ta</title>
 		<link href="${jzr:static('/css/jz_promotion.css')}" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="${jzr:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
-		<script>
-		var count=0;
-		var content="";
-			function begin(){
-				$("#step1").hide();
-				$("#step2").show();
-				jQuery.ajax({
-					url : "/occasional/send",
-					type : "get",
-					dataType : "html",
-					success : function(result) {
-						content=result;
-					},
-					statusCode : {
-						401 : function() {
-							alert("系统异常");
-						}
-					}
-				});
-				dynamic();
-			}
-			function dynamic(){ 
-				count++;
-				loadText(count);
-					if(count<6){
-					 setTimeout(function(){dynamic();},1000);
-					} 
-			}
-			function loadText(index){
-						for(var i=1;i<6;i++){
-							$("#loading_text"+i).hide();
-						}
-						$("#loading_text"+index).show();
-						if(index==6){
-							while(true){
-								if(content!=""){
-									break;
-								}
-							}
-							$("#step2").html(content);
-						}
-			}
-			
-		</script>
+		<script type="text/javascript" src="${jzr:static('/js/promotion/promotion.js')}"></script>
 		</head>
 		<body>
 					<div class="app" id="step1"><!--APP begin-->
@@ -60,7 +17,7 @@
 					<div class="sen2"><!--sen1 begin-->
 					<div class="sen2_img"></div>
 					<div class="sen2_txt"></div>
-					<div class="sen2_btn"><a href="javascript:void(0);" onclick="begin();"></div>
+					<div class="sen2_btn"><a href="javascript:void(0);"></a></div>
 					<p>开始计算并发布结果</p>
 					</div><!--sen1 end-->
 					</div><!--sen_area end-->

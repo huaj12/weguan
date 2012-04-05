@@ -28,6 +28,8 @@ public class PromotionImageService implements IPromotionImageService {
 	private String webPromotionOccasionalImagePath;
 	@Value("${web.promotion.occasional.background.image}")
 	private String webPromotionOccasionalBackgroundImage;
+	@Value("${promotion.image.directory}")
+	private long promotionImageDirectory;
 	@Autowired
 	private IImageManager imageManager;
 	@Autowired
@@ -55,7 +57,8 @@ public class PromotionImageService implements IPromotionImageService {
 				RedisKeyGenerator.genOccasionalId(), 1);
 		// 在1000个目录里平均分布
 		Long id = redisTemplate.opsForValue().increment(
-				RedisKeyGenerator.genOccasionalId(), 0) % 1000;
+				RedisKeyGenerator.genOccasionalId(), 0)
+				% promotionImageDirectory;
 		imageManager.markImage(
 				logoPic,
 				webPromotionOccasionalBackgroundImage,

@@ -1,11 +1,14 @@
 package com.juzhai.core.image.manager;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.List;
 
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.exception.UploadImageException;
+import com.juzhai.core.model.MarkFont;
 
 public interface IImageManager {
 
@@ -130,10 +133,52 @@ public interface IImageManager {
 	 * @return
 	 */
 	String getWebTempImagePath();
+
 	/**
 	 * 验证图片是否合法
+	 * 
 	 * @param image
 	 * @throws UploadImageException
 	 */
 	void checkImage(MultipartFile image) throws UploadImageException;
+
+	/**
+	 * 给图片设置水印
+	 * 
+	 * @param iconPath水印图片路径
+	 * 
+	 * @param srcImgPath源图片路径
+	 * 
+	 * @param targerPath新图片路径
+	 * 
+	 * @param x水印x坐标
+	 * 
+	 * @param y
+	 *            水印y坐标
+	 * 
+	 * @param degree水印旋转角度
+	 * 
+	 * @param content文字
+	 * 
+	 * @param fontX
+	 *            文字x坐标
+	 * 
+	 * @param fontY文字y坐标
+	 * 
+	 * @param fontHeight
+	 *            文字高度
+	 */
+	void markImage(String iconPath, String srcImgPath, String targerPath,
+			String filename, int x, int y, Integer degree, List<MarkFont> fonts);
+
+	/**
+	 * 上传图片
+	 * 
+	 * @param directoryPath
+	 * @param image
+	 * @throws UploadImageException
+	 */
+	void uploadImage(String directoryPath, String filename, BufferedImage tag)
+			throws UploadImageException;
+
 }

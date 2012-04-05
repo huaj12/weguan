@@ -1,7 +1,7 @@
 		var count=0;
 		var content="";
 $(document).ready(function() {
-	$("div.width250 >a").bind("click", function() {
+	$("div.sen2_btn >a").bind("click", function() {
 		$("#step1").hide();
 		$("#step2").show();
 		jQuery.ajax({

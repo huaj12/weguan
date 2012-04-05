@@ -129,6 +129,7 @@ public class UserPreferenceService implements IUserPreferenceService {
 
 	private void validate(UserPreferenceForm userPreferenceForm)
 			throws InputUserPreferenceException {
+		// TODO (review) 这里会有线程不安全情况？
 		if (ArrayUtils.isNotEmpty(userPreferenceForm.getAnswer())) {
 			StringBuffer sb = new StringBuffer();
 			for (String answer : userPreferenceForm.getAnswer()) {

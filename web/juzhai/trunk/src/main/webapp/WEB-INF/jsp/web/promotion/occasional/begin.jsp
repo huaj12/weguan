@@ -15,7 +15,7 @@
 		<div class="sen1"><!--sen1 begin-->
 		<div class="sen1_img"></div>
 		<div class="sen1_txt"></div>
-		<div class="sen1_btn"><a href="${url}"></a></div>
+		<div class="sen1_btn"><a href="/occasional/login"></a></div>
 		</div><!--sen1 end-->
 		</div><!--sen_area end-->
 		</div><!--APP end-->

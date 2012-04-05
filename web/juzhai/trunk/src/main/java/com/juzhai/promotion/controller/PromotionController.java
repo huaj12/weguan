@@ -59,7 +59,7 @@ public class PromotionController {
 		if (authInfo != null) {
 			return "redirect:/occasional/begin";
 		}
-		// TODO (review) 不是说过用二级域名吗？app.51juzhai.com 映射到
+		// TODO (done) 不是说过用二级域名吗？app.51juzhai.com 映射到
 		// 127.0.0.1:8080/occasional
 
 		String turnTo = SystemConfig.getDomain("app.qq") + "/access";

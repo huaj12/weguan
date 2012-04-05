@@ -33,9 +33,6 @@ import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGEncodeParam;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 @Component
 public class ImageManager implements IImageManager {
@@ -335,8 +332,8 @@ public class ImageManager implements IImageManager {
 			// 生成图片
 			ImageIO.write(buffImg, "JPG", os);
 		} catch (Exception e) {
-			// TODO (review) 打印日志
-			e.printStackTrace();
+			// TODO (done) 打印日志
+			log.error(e.getMessage(), e);
 		} finally {
 			try {
 				if (null != os)
@@ -357,10 +354,8 @@ public class ImageManager implements IImageManager {
 				directory.mkdirs();
 			}
 			out = new FileOutputStream(directoryPath + filename);
-			// TODO (review) 用javax包里的sdk，别用sun下面的
-			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-			JPEGEncodeParam jep = JPEGCodec.getDefaultJPEGEncodeParam(tag);
-			encoder.encode(tag, jep);
+			// TODO (done) 用javax包里的sdk，别用sun下面的
+			ImageIO.write(tag, "jpg", out);
 		} catch (Exception e) {
 			throw new UploadImageException(UploadImageException.SYSTEM_ERROR);
 		} finally {
@@ -391,5 +386,16 @@ public class ImageManager implements IImageManager {
 						"D:/img/img/back.png",
 						"C:\\Documents and Settings\\Administrator\\桌面\\",
 						"xxoo.jpg", 198, 133, 0, list);
+	}
+
+	@Override
+	public BufferedImage cutImage(int width, int height, int x, int y,
+			Image image) {
+		// TODO (done)
+		// 空行独立开的这段代码，能不能想办法放入imageManager里，因为涉及到底层画图的代码了试着传入Image和最终生成的图片大小为参数
+		BufferedImage tag = new BufferedImage(width, height,
+				BufferedImage.TYPE_INT_RGB);
+		tag.getGraphics().drawImage(image, x, y, width, height, null);
+		return tag;
 	}
 }

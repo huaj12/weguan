@@ -40,7 +40,7 @@
 
 															<span><textarea name="description" cols="" rows=""></textarea>
 															</span> <em>匿名举报,您的信息不会被透漏</em> <a href="javascirpt:void(0);"
-																onclick="save_report();return false;">确定举报</a>
+																onclick="saveReport();return false;">确定举报</a>
 														</div>
 														<!--bcsm end-->
 														<input type="hidden" value="${uid}" name="reportUid" /> <input

@@ -23,7 +23,14 @@
 									<div class="arrow"></div>
 									<div></div>
 									<span><h4>我回复</h4><a href="/home/${targetProfile.uid}"><c:out value="${targetProfile.nickname}" /></a></span>
-									<div class="text_area"><em><textarea name="content" cols="" rows=""></textarea></em><p>200字以内</p><a href="javascript:void(0);" class="send" target-uid="${targetProfile.uid}">回复</a><a href="javascript:void(0);" class="waiting" style="display:none">发送中</a><b style="display: none;"></b></div>
+									<div class="text_area">
+										<em><textarea id="dialog-reply-textarea" name="content" cols="" rows=""></textarea></em>
+										<c:set var="inputDivId" value="dialog-reply-textarea" scope="request"/>
+										<jsp:include page="/WEB-INF/jsp/web/common/face/face.jsp" />
+										<a href="javascript:void(0);" class="send" target-uid="${targetProfile.uid}">回复</a>
+										<a href="javascript:void(0);" class="waiting" style="display:none">发送中</a>
+										<b style="display: none;"></b>
+									</div>
 								</div><!--repy_area end-->
 								<jsp:include page="dialog_content_list.jsp" />
 							</div><!--message_repy end-->

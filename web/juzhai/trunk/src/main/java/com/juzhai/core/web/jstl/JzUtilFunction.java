@@ -5,12 +5,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.springframework.web.util.HtmlUtils;
 
+import com.juzhai.common.InitData;
+import com.juzhai.common.model.Face;
+import com.juzhai.core.util.StaticUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 
 public class JzUtilFunction {
+
+	private final static Pattern FACE_PATTERN = Pattern.compile("\\[(.+?)\\]");
 
 	/**
 	 * 截取字符串
@@ -144,5 +153,29 @@ public class JzUtilFunction {
 		c.set(Calendar.MINUTE, 0);
 		c.set(Calendar.SECOND, 0);
 		return (c.getTimeInMillis() - System.currentTimeMillis()) / 3600000;
+	}
+
+	public static String convertFace(String content) {
+		if (StringUtils.isEmpty(content)) {
+			return content;
+		}
+		content = HtmlUtils.htmlEscape(content);
+		StringBuffer sb = new StringBuffer();
+		Matcher m = FACE_PATTERN.matcher(content);
+		while (m.find()) {
+			String name = m.group(1);
+			Face face = InitData.FACE_MAP.get(name);
+			if (null == face || StringUtils.isEmpty(face.getPic())) {
+				m.appendReplacement(sb, m.group());
+			} else {
+				m.appendReplacement(sb,
+						"<img src=\"" + StaticUtil.getPrefixImage()
+								+ "/images/face/" + face.getPic()
+								+ "\" alt=\"[" + name + "]\" title=\"[" + name
+								+ "]\" />");
+			}
+		}
+		m.appendTail(sb);
+		return sb.toString();
 	}
 }

@@ -226,4 +226,8 @@ public class BaseController {
 		}
 		return realUid;
 	}
+
+	protected void loadFaces(Model model) {
+		model.addAttribute("faceList", InitData.FACE_MAP.values());
+	}
 }

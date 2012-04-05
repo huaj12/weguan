@@ -52,7 +52,7 @@
 							<div class="ly_t"></div>
 							<div class="ly_m"><!--ly_m begin-->
 								<div></div>
-								<b><c:if test="${!isMe}"><a href="/home/${targetUser.uid}"><c:out value="${targetUser.nickname}" /></a>：</c:if><c:out value="${postCommentView.postComment.content}" /></b>
+								<b><c:if test="${!isMe}"><a href="/home/${targetUser.uid}"><c:out value="${targetUser.nickname}" /></a>：</c:if>${jzu:convertFace(postCommentView.postComment.content)}</b>
 								<strong>${action}到<c:choose><c:when test="${!isMe}">你</c:when><c:otherwise><a href="/home/${targetUser.uid}" class="u"><c:out value="${targetUser.nickname}" /></a></c:otherwise></c:choose>的${target}<a href="/post/${postCommentView.postComment.postId}">“${jzu:truncate(parentContent,40,'...')}”</a></strong>
 								<em>
 									<div class="time">发布于&nbsp;<c:set var="date" value="${postCommentView.postComment.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></div>

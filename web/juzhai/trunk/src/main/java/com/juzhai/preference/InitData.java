@@ -1,6 +1,6 @@
 package com.juzhai.preference;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +15,7 @@ import com.juzhai.preference.service.IPreferenceService;
 @Component("preferenceInitData")
 public class InitData {
 
-	public final static Map<Long, Preference> PREFERENCE_MAP = new HashMap<Long, Preference>();
+	public final static Map<Long, Preference> PREFERENCE_MAP = new LinkedHashMap<Long, Preference>();
 	@Autowired
 	private IPreferenceService preferenceService;
 

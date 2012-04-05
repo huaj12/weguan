@@ -252,6 +252,7 @@ public class PostController extends BaseController {
 		model.addAttribute("pager", pager);
 		model.addAttribute("postCommentViewList", postCommentViewList);
 		model.addAttribute("pageType", "comment");
+		loadFaces(model);
 		return "web/post/detail";
 	}
 

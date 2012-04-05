@@ -100,8 +100,7 @@ public class UserPreferenceService implements IUserPreferenceService {
 						.getDescription());
 				userPreference.setOpen(userPreferenceForm.isOpen());
 				userPreference.setLastModifyTime(new Date());
-				userPreferenceMapper
-						.updateByPrimaryKeySelective(userPreference);
+				userPreferenceMapper.updateByPrimaryKey(userPreference);
 			}
 
 		}

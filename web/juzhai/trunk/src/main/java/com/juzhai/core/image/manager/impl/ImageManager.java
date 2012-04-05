@@ -1,14 +1,25 @@
 package com.juzhai.core.image.manager.impl;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,10 +28,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.core.image.manager.IImageManager;
+import com.juzhai.core.model.MarkFont;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGEncodeParam;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 @Component
 public class ImageManager implements IImageManager {
@@ -51,6 +66,7 @@ public class ImageManager implements IImageManager {
 			throw new UploadImageException(UploadImageException.SYSTEM_ERROR, e);
 		}
 	}
+
 	@Override
 	public void checkImage(MultipartFile image) throws UploadImageException {
 		if (null == image) {
@@ -260,5 +276,118 @@ public class ImageManager implements IImageManager {
 	@Override
 	public boolean copyImage(String directoryPath, String fileName, File srcFile) {
 		return FileUtil.writeFileToFile(directoryPath, fileName, srcFile);
+	}
+
+	@Override
+	public void markImage(String iconPath, String srcImgPath,
+			String targerPath, String filename, int x, int y, Integer degree,
+			List<MarkFont> fonts) {
+		OutputStream os = null;
+		try {
+
+			Image srcImg = ImageIO.read(new File(srcImgPath));
+			BufferedImage buffImg = new BufferedImage(srcImg.getWidth(null),
+					srcImg.getHeight(null), BufferedImage.TYPE_INT_RGB);
+			Graphics2D g = buffImg.createGraphics();
+
+			// 设置对线段的锯齿状边缘处理
+			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+					RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+
+			g.drawImage(
+					srcImg.getScaledInstance(srcImg.getWidth(null),
+							srcImg.getHeight(null), Image.SCALE_SMOOTH), 0, 0,
+					null);
+
+			if (null != degree) {
+				// 设置水印旋转
+				g.rotate(Math.toRadians(degree),
+						(double) buffImg.getWidth() / 2,
+						(double) buffImg.getHeight() / 2);
+			}
+			ImageIcon imgIcon = new ImageIcon(iconPath);
+			Image img = imgIcon.getImage();
+			// 表示水印图片的位置
+			g.drawImage(img, x, y, null);
+			if (CollectionUtils.isNotEmpty(fonts)) {
+				for (MarkFont markFont : fonts) {
+					if (StringUtils.isNotEmpty(markFont.getContent())) {
+						if (null != markFont.getFont()) {
+							g.setFont(markFont.getFont());
+						}
+						if (null != markFont.getColor()) {
+							g.setColor(markFont.getColor());
+						}
+
+						g.drawString(markFont.getContent(), markFont.getX(),
+								markFont.getY());
+					}
+				}
+			}
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+
+			g.dispose();
+			File directory = new File(targerPath);
+			if (!directory.exists()) {
+				directory.mkdirs();
+			}
+			os = new FileOutputStream(targerPath + filename);
+			// 生成图片
+			ImageIO.write(buffImg, "JPG", os);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (null != os)
+					os.close();
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+			}
+		}
+	}
+
+	@Override
+	public void uploadImage(String directoryPath, String filename,
+			BufferedImage tag) throws UploadImageException {
+		FileOutputStream out = null;
+		try {
+			File directory = new File(directoryPath);
+			if (!directory.exists()) {
+				directory.mkdirs();
+			}
+			out = new FileOutputStream(directoryPath + filename);
+			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
+			JPEGEncodeParam jep = JPEGCodec.getDefaultJPEGEncodeParam(tag);
+			encoder.encode(tag, jep);
+		} catch (Exception e) {
+			throw new UploadImageException(UploadImageException.SYSTEM_ERROR);
+		} finally {
+			try {
+				if (null != out)
+					out.close();
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+			}
+		}
+	}
+
+	public static void main(String[] s) {
+		List<MarkFont> list = new ArrayList<MarkFont>();
+		list.add(new MarkFont(84, 70, new Font(Font.SERIF, Font.ITALIC, 16),
+				Color.BLUE, "老迈Bde"));
+		list.add(new MarkFont(104, 100, new Font(Font.DIALOG_INPUT,
+				Font.ITALIC, 20), Color.gray, "不久后,你会在"));
+		String content = "厕所";
+		list.add(new MarkFont(250, 100, new Font(Font.DIALOG, Font.ITALIC, 25),
+				Color.red, content));
+		int tagerX = content.length() * 25;
+		list.add(new MarkFont(250 + tagerX + 14, 100, new Font(Font.SERIF,
+				Font.ITALIC, 20), Color.gray, "偶遇ta"));
+		new ImageManager()
+				.markImage(
+						"E:\\juzhai\\font\\WebContent\\images\\user\\0\\0\\5\\180\\11681245-33b4-4123-9a4a-5c1ae09195c5.jpg",
+						"D:/img/img/back.png",
+						"C:\\Documents and Settings\\Administrator\\桌面\\",
+						"xxoo.jpg", 198, 133, 0, list);
 	}
 }

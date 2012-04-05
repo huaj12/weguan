@@ -1,7 +1,6 @@
 package com.juzhai.passport.service.impl;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
@@ -75,15 +74,11 @@ public class ProfileImageService implements IProfileImageService {
 			srcFile = ImageIO.read(new URL(url));
 			for (LogoSizeType sizeType : LogoSizeType.values()) {
 				if (sizeType.getType() > 0) {
-
-					BufferedImage tag = imageManager.cutImage(
-							sizeType.getType(), sizeType.getType(), 0, 0,
-							srcFile);
-
 					String directoryPath = uploadUserImageHome
 							+ ImageUtil.generateHierarchyImagePath(uid,
 									sizeType.getType());
-					imageManager.uploadImage(directoryPath, filename, tag);
+					imageManager.uploadImage(directoryPath, filename, srcFile,
+							sizeType.getType(), sizeType.getType(), 0, 0);
 				}
 			}
 		} catch (Exception e) {
@@ -101,7 +96,6 @@ public class ProfileImageService implements IProfileImageService {
 		if (StringUtils.isEmpty(cache.getLogoPic())) {
 			return null;
 		}
-		String logoPic = null;
 		String filename = null;
 		if (ImageUtil.isInternalUrl(cache.getLogoPic())) {
 			filename = cache.getLogoPic();
@@ -113,8 +107,8 @@ public class ProfileImageService implements IProfileImageService {
 			profileMapper.updateByPrimaryKeySelective(profile);
 			profileService.clearProfileCache(uid);
 		}
-		// TODO (review) 声明和赋值代码，离那么远？
-		logoPic = ImageUtil.generateHierarchyImagePath(cache.getUid(),
+		// TODO (done) 声明和赋值代码，离那么远？
+		String logoPic = ImageUtil.generateHierarchyImagePath(cache.getUid(),
 				LogoSizeType.BIG.getType()) + filename;
 		return uploadUserImageHome + logoPic;
 	}

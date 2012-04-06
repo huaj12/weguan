@@ -96,9 +96,7 @@ $(document).ready(function() {
 				if(result&&result.success){
 					var content = $("#dialog-success").html().replace("{0}", "保存成功！");
 					showSuccess(null, content);
-					for(var i=0;i<(preference_count+filterPreference_count);i++){
-						$("#error_"+i).html("");
-					}
+					$("div.error").text("");
 				}else{
 					alert(result.errorInfo);
 				}

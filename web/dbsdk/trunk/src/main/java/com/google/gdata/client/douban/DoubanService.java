@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.oauth.OAuth;
 import net.oauth.OAuthAccessor;
@@ -20,7 +22,9 @@ import net.oauth.client.OAuthClient;
 import net.oauth.client.OAuthHttpClient;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.logging.Log;
@@ -85,6 +89,7 @@ public class DoubanService extends Service {
 	protected OAuthAccessor requestAccessor;
 	protected List<Map.Entry<String, String>> parameters;
 	protected OAuthConsumer client;
+	private HttpClient http;
 
 	static String requestTokenURL = "http://www.douban.com/service/auth/request_token";
 	static String userAuthorizationURL = "http://www.douban.com/service/auth/authorize";
@@ -1351,4 +1356,44 @@ public class DoubanService extends Service {
 		return doumail;
 	}
 
+	/**
+	 * 查询数字id
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public String getUid(String uid) {
+		String content = getContent(Namespaces.userURLSlash + uid);
+		return getUid(content, "http://api.douban.com/people/(\\d*)");
+	}
+
+	public String getContent(String url) {
+		if (http == null) {
+			MultiThreadedHttpConnectionManager connectionManager = new MultiThreadedHttpConnectionManager();
+			HttpConnectionManagerParams params = connectionManager.getParams();
+			params.setConnectionTimeout(10000);
+			params.setSoTimeout(10000);
+			HttpClientParams clientParams = new HttpClientParams();
+			http = new HttpClient(clientParams, connectionManager);
+		}
+		HttpMethod get = new GetMethod(url);
+		String content = null;
+		try {
+			http.executeMethod(get);
+			content = get.getResponseBodyAsString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return content;
+	}
+
+	public String getUid(String content, String regEx) {
+		String str = null;
+		Pattern pat = Pattern.compile(regEx);
+		Matcher mat = pat.matcher(content);
+		if (mat.find()) {
+			str = mat.group(1);
+		}
+		return str;
+	}
 }

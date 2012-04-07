@@ -4,6 +4,6 @@
 <ul>
 	<c:forEach var="face" items="${faceList}">
 		<c:set var="faceUrl" value="/images/face/${face.pic}" />
-		<li><img src="${jzr:static(faceUrl)}" title="${face.name}" alt="${face.name}" width="16" height="16" /></li>
+		<li><img src="${jzr:static(faceUrl)}" title="${face.name}" alt="${face.name}" width="22" height="22" /></li>
 	</c:forEach>
 </ul>

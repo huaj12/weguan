@@ -19,14 +19,14 @@
 					<div class="beta"></div>
 					<div class="top"><!--top begin-->
 						<h1></h1>
-						<div class="menu" style="margin-top: 15px" ><!--menu begin-->
-						<iframe width="150" height="24" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" scrolling="no" border="0" src="http://widget.weibo.com/relationship/followbutton.php?language=zh_cn&width=136&height=24&uid=2294103501&style=2&dpc=1"></iframe>
+						<div class="search" style="margin-top: 15px" ><!--menu begin-->
+							<iframe width="150" height="24" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" scrolling="no" border="0" src="http://widget.weibo.com/relationship/followbutton.php?language=zh_cn&width=136&height=24&uid=2294103501&style=2&dpc=1"></iframe>
 						</div><!--menu end-->
 						<%-- <div class="welcome_login"><p>登录:</p>
 							<a href="javascript:void(0);" go-uri="/web/login/6" class="wb" title="使用微博账号登录"></a>
 							<a href="javascript:void(0);" go-uri="/web/login/7" class="db"  title="使用豆瓣账号登录"></a>
 							<a href="javascript:void(0);" go-uri="/web/login/8" class="qq"  title="使用QQ账号登录"></a>
-						</div> --%>
+						</div>
 						<div class="login_btns"><!--login_btns begin-->
 							<p>加入拒宅：</p>
 							<span>
@@ -34,13 +34,20 @@
 								<a href="javascript:void(0);" class="db login-btn"  title="使用豆瓣账号登录" go-uri="/web/login/7">登录</a>
 								<a href="javascript:void(0);" class="qq login-btn"  title="使用QQ账号登录" go-uri="/web/login/8">登录</a>
 							</span>
-						</div><!--login_btns end-->
+						</div><!--login_btns end--> --%>
 					</div><!--top end-->
 				</div><!--fix_top end-->
 				<div class="welcome"><!--welcome begin-->
 					<div class="welcome_t"></div>
 					<div class="welcome_m">
-						<h2><b>寻找一份属于你的阳光周末&nbsp;&gt;</b><a href="javascript:void(0);" class="go-login">立即体验</a></h2>
+						<h2>
+							<b>一个小清新的脱宅社区</b>
+							<div class="wel_login">
+								<a href="javascript:void(0);" class="wb login-btn" title="使用微博账号登录" go-uri="/web/login/6">登录</a>
+								<a href="javascript:void(0);" class="db login-btn" title="使用豆瓣账号登录" go-uri="/web/login/7">登录</a>
+								<a href="javascript:void(0);" class="qq login-btn" title="使用QQ账号登录" go-uri="/web/login/8">登录</a>
+							</div>
+						</h2>
 						<div class="clear"></div>
 						<div style="height: 290px;position: relative;overflow: hidden;margin: 0px 100px;">
 							<div id="window-box" style="position: absolute;height: 250px;width: 2550px;left: 5px;">

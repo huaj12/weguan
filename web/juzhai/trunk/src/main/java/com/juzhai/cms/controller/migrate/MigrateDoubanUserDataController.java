@@ -37,6 +37,7 @@ public class MigrateDoubanUserDataController {
 		DoubanService doubanService = new DoubanService(null, null);
 		TpUserExample example = new TpUserExample();
 		example.createCriteria().andTpNameEqualTo("douban");
+		example.setOrderByClause("uid desc");
 		int i = 0;
 		int maxResults = 1000;
 		Pattern pattern = Pattern.compile("\\d*");

@@ -1,19 +1,20 @@
 package com.juzhai.cms.task;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.Callable;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.google.gdata.client.douban.DoubanService;
 import com.juzhai.passport.mapper.TpUserMapper;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.model.TpUserExample;
-import com.qq.util.HttpClientUtils;
 
 public class UpdateDoubanUserTask implements Callable<Boolean> {
 	private final Log log = LogFactory.getLog(getClass());
@@ -57,13 +58,16 @@ public class UpdateDoubanUserTask implements Callable<Boolean> {
 	}
 
 	public String getContent(String uid) {
-		DefaultHttpClient httpclient = HttpClientUtils.getHttpClient();
-		String content = null;
+		DefaultHttpClient httpclient = new DefaultHttpClient();
+		ResponseHandler<String> responseHandler = new BasicResponseHandler();
+		HttpGet accessget = new HttpGet("http://api.douban.com/people/" + uid);
+		String content = "";
 		try {
-			content = HttpClientUtils.getHtml(httpclient,
-					"http://api.douban.com/people/" + uid, "UTF-8");
-		} catch (IOException e) {
+			content = httpclient.execute(accessget, responseHandler);
+		} catch (Exception e) {
 			log.error("douban getConeten is error uid=" + uid, e);
+		} finally {
+			httpclient.getConnectionManager().shutdown();
 		}
 		return content;
 	}

@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,26 +35,25 @@ public class MigrateDoubanUserDataController {
 	@RequestMapping(value = "migDoubanUser")
 	public String migDoubanUser(HttpServletRequest request) {
 		DoubanService doubanService = new DoubanService(null, null);
+		TpUserExample example = new TpUserExample();
+		example.createCriteria().andTpNameEqualTo("douban");
 		int i = 0;
+		int maxResults = 1000;
+		Pattern pattern = Pattern.compile("\\d*");
 		while (true) {
-			TpUserExample example = new TpUserExample();
-			example.createCriteria().andTpNameEqualTo("douban");
-			example.setLimit(new Limit(i, 1000));
+			example.setLimit(new Limit(i, maxResults));
 			List<TpUser> list = tpUserMapper.selectByExample(example);
-			// TODO (done) 批量搞，一次性1W多条，太危险
-			Pattern pattern = Pattern.compile("\\d*");
+			if (CollectionUtils.isEmpty(list)) {
+				break;
+			}
 			for (TpUser tpUser : list) {
 				Matcher m = pattern.matcher(tpUser.getTpIdentity());
-				boolean b = m.matches();
-				if (!b) {
-					taskExecutor.submit(new UpdateDoubanUserTask(tpUser,
+				if (!m.matches()) {
+					taskExecutor.execute(new UpdateDoubanUserTask(tpUser,
 							doubanService, tpUserMapper));
 				}
 			}
-			i += 1000;
-			if (list.size() < 1000) {
-				break;
-			}
+			i += maxResults;
 		}
 		return "success";
 

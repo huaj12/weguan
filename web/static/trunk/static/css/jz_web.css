@@ -638,7 +638,10 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .jz_main .wtg{ float:right; width:488px; height:auto; display:block;}
 .jz_main .wtg .w_t{ background:url(../images/web2/item_wtg_r1_c2.jpg) no-repeat; height:8px; overflow:hidden; width:100%; float:left;}
 .jz_main .wtg .w_b{ background:url(../images/web2/item_wtg_r6_c2.jpg) no-repeat; height:8px; overflow:hidden; width:100%; float:left;}
-.jz_main .wtg .w_m{ background:url(../images/web2/item_wtg_r4_c2.jpg) repeat-y; display:block;  min-height:94px; _height:94px; width:458px; float:left; position:relative; padding:5px 15px;}
+.jz_main .wtg .w_m{ background:url(../images/web2/item_wtg_r4_c2.jpg) repeat-y; display:block;  min-height:94px; _height:94px; width:458px; float:left; position:relative!important; position:relative\0; padding:5px 15px; z-index:300!important;z-index:300\0;}
+
+
+
 .jz_main .wtg .w_m .arrow{ position:absolute; background:url(../images/web2/item_wtg_r2_c1.jpg) no-repeat; width:8px; height:12px; overflow:hidden; left:-6px; top:0px;}
 .jz_main .wtg .w_m p{ float:left; width:100%; line-height:25px; color:#666; font-size:14px;}
 .jz_main .wtg .w_m p font{ color:#999; font-size:14px; margin-right:5px;}
@@ -767,9 +770,9 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .bq_hover p{ border:1px solid #EBEBEB; border-bottom:none; padding:3px 5px 8px 5px; background:url(../images/web2/bq.png) no-repeat #fff 5px 4px; position:relative; z-index:500;}
 
 
-.bq .bq_showbox{ width:311px; height:auto; padding-bottom:5px; border:1px solid #EBEBEB; background:#fff; position:absolute; left:0px; top:27px; z-index:400; overflow:hidden; display:none;}
+.bq .bq_showbox{ width:352px; height:auto; padding-bottom:5px; border:1px solid #EBEBEB; background:#fff; position:absolute; left:0px; top:27px; z-index:400; overflow:hidden; display:none;}
 .bq .bq_showbox ul{ float:left; margin-left:6px; margin-top:6px; width:100%; display:inline;}
-.bq .bq_showbox ul li{ width:16px; height:16px; padding:4px; float:left; border:1px solid #F3F3F3; margin:-1px 0 0 -1px; display:inline; cursor:pointer; overflow:hidden;}
+.bq .bq_showbox ul li{ width:22px; height:22px; padding:4px; float:left; border:1px solid #F3F3F3; margin:-1px 0 0 -1px; display:inline; cursor:pointer; overflow:hidden;}
 .bq .bq_showbox ul li:hover{border:1px solid #3E8BD9; position:relative; z-index:100;}
 
 .bq .bq_showbox .bq_page{ float:right; margin-right:6px; display:inline; margin-top:5px;}
@@ -918,7 +921,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 
 .new_member{width:240px; margin:0 auto; overflow:hidden; margin-top:15px; height:auto; padding-bottom:20px;}
-.new_member ul{ float:left;}
+.new_member ul{ float:left; padding-bottom:10px;}
 .new_member ul li{ float:left; width:50px; height:50px; overflow:hidden; margin:5px; margin-bottom:0px; padding-bottom:5px; display:inline;}
 .new_member .yq{ float:left; margin-top:10px; width:100%; text-align:right;}
 .new_member .yq a{ color:#3E8BD9;}
@@ -1529,7 +1532,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .detail .own_btn a.delete{ }
 
 
-.response{ width:100%; height:auto; /* overflow:hidden; */  float:left; margin-top:-43px; _margin-top:-45px;}
+.response{ width:100%; height:auto; display:block;  float:left; margin-top:-43px; _margin-top:-45px;}
 
 .response .title { width:100%; border-bottom:1px solid #eaeaea; float:left; padding-bottom:15px;}
 .response .title .tab{ float:left; margin-right:10px; display:inline; margin-left:20px; font-size:14px; font-weight:bold;}
@@ -1746,7 +1749,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .search_result .none a:hover{ text-decoration:underline;}
 
 .share_icons{ width:250px; height:auto; overflow:hidden; margin:0 auto; display:block; margin-top:20px; padding-bottom:20px;}
-.qqqun{ background:url(../images/web2/qqqun.gif) no-repeat; width:230px; height:30px; line-height:30px; overflow:hidden; margin:0 auto; color:#8D5312; font-weight:bold; text-align:center;padding-bottom:20px;}
+.qqqun{ background:url(../images/web2/qqqun.gif) no-repeat; width:230px; height:30px; line-height:30px; overflow:hidden; margin:0 auto; color:#8D5312; font-weight:bold; text-align:center;}
 
 
 
@@ -2154,9 +2157,19 @@ i{ color:#FF0000; font-style:normal;}
 .welcome .welcome_m{ background:url(../images/web2/welcome_con_r3_c1.jpg) repeat-y; width:100%; height:382px;  display:block;  position:relative; padding-bottom:30px; float:left;}
 
 .welcome .welcome_m h2{ font-family:"微软雅黑"; margin-top:50px; line-height:normal; float:left; margin-left:260px; display:inline;}
-.welcome .welcome_m h2 a{background:url(../images/web2/welcome_brgin_btn.jpg) no-repeat; text-align:center; color:#fff; font-size:16px; display:block; float:left; width:120px; height:28px; overflow:hidden; line-height:28px; margin-top:3px; *line-height:26px;} 
+
 
 .welcome .welcome_m h2 b{font-size:24px; float:left; color:#438DD9; font-weight:normal; margin-right:20px; display:inline;}
+
+
+
+.wel_login{ float:left; margin-top:4px;}
+.wel_login a{ width:30px; height:24px; display:block inline; float:left; margin-right:15px; color:#fff; line-height:24px; line-height:26px\9; padding-left:30px;}
+.wel_login a.wb{ background:url(../images/web2/wel_wb_login_btn.gif) no-repeat;}
+.wel_login a.qq{ background:url(../images/web2/wel_qq_login_btn.gif) no-repeat;}
+.wel_login a.db{ background:url(../images/web2/wel_db_login_btn.gif) no-repeat;}
+
+
 
 
 
@@ -2323,9 +2336,9 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 .back_home a:hover{ text-decoration:underline;}
 
 
-.liuyan_box{ width:620px; height:auto; overflow:hidden; margin:0 auto; margin-top:10px;}
+.liuyan_box{ width:620px; height:auto; display:block; margin:0 auto; margin-top:10px;}
 .liuyan_box .none{ width:100%; text-align:center; color:#999; margin-top:100px; padding-bottom:100px;}
-.liuyan_box .item{ width:100%; height:auto; overflow:hidden; margin-top:10px;}
+.liuyan_box .item{ width:100%; height:auto; display:block; margin-top:10px; float:left;}
 .liuyan_box .item .face{ width:80px; height:80px; overflow:hidden; float:left;}
 
 
@@ -2830,7 +2843,7 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 .share_box2 .btn b{ float:right; margin-right:10px; color:#FF0000; margin-top:8px; display:inline; font-weight:normal;}
 .share_box2 .btn a{ float:right; color:#fff; text-align:center; text-decoration:none; display:block; width:85px;  height:30px; line-height:30px;   background:url(../images/web2/yue_ta.gif) no-repeat; overflow:hidden; font-size:14px;}
 /*私信弹出层*/
-.message_box{ width:400px; height:auto; /* overflow:hidden; */ float:left;background:#fff; }
+.message_box{ width:400px; height:auto; display:block; float:left;background:#fff; }
 .message_box h2{ float:left; font-size:14px; color:#666; width:100%; font-weight:bold; padding-bottom:10px;}
 
 .message_box  .text_area{ float:left; width:100%; height:auto; overflow:hidden;}

@@ -82,6 +82,7 @@ public class ProfileImageService implements IProfileImageService {
 				}
 			}
 		} catch (Exception e) {
+			// TODO (review) 不清楚到底是什么异常
 			throw new UploadImageException(UploadImageException.SYSTEM_ERROR);
 		}
 		return filename;

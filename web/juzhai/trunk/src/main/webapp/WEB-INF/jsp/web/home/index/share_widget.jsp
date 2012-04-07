@@ -30,12 +30,6 @@
 			</script>
 			<!-- Baidu Button END -->
 		</div><!--share_icons end-->
-		<c:if test="${context.uid > 0}">
-			<c:set var="qq" value="${jzd:qqGroup(loginUser.city)}" />
-			<c:if test="${qq != null && qq != ''}">
-				<div class="qqqun">${jzd:cityName(loginUser.city)}拒宅QQ群：${qq}</div>
-			</c:if>
-		</c:if>
 	</div>
 	<div class="t"></div>
 </div><!--content end-->

@@ -1,8 +1,6 @@
 package com.juzhai.cms.controller.migrate;
 
 import java.util.List;
-import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,33 +32,19 @@ public class MigrateDoubanUserDataController {
 	@ResponseBody
 	@RequestMapping(value = "migDoubanUser")
 	public String migDoubanUser(HttpServletRequest request) {
-		AtomicInteger index = new AtomicInteger();
 		DoubanService doubanService = new DoubanService(null, null);
 		TpUserExample example = new TpUserExample();
 		example.createCriteria().andTpNameEqualTo("douban");
 		List<TpUser> list = tpUserMapper.selectByExample(example);
 		Pattern pattern = Pattern.compile("\\d*");
-		Future<Boolean> future = null;
 		for (TpUser tpUser : list) {
 			Matcher m = pattern.matcher(tpUser.getTpIdentity());
 			boolean b = m.matches();
 			if (!b) {
-				future = taskExecutor.submit(new UpdateDoubanUserTask(tpUser,
+				taskExecutor.submit(new UpdateDoubanUserTask(tpUser,
 						doubanService, tpUserMapper));
-				try {
-					if (future.get() != null && !future.get().booleanValue()) {
-						index.getAndIncrement();
-					}
-				} catch (Exception e) {
-					log.error("migDoubanUser get future is error."
-							+ e.getMessage());
-				}
 			}
 		}
-		if (index.get() > 0) {
-			return "error:" + index.get();
-		} else {
-			return "success";
-		}
+		return "success";
 	}
 }

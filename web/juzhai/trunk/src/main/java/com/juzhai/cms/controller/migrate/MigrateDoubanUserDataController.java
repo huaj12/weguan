@@ -49,8 +49,10 @@ public class MigrateDoubanUserDataController {
 			for (TpUser tpUser : list) {
 				Matcher m = pattern.matcher(tpUser.getTpIdentity());
 				if (!m.matches()) {
-					taskExecutor.execute(new UpdateDoubanUserTask(tpUser,
-							doubanService, tpUserMapper));
+					if (!tpUser.getTpIdentity().contains("@")) {
+						taskExecutor.execute(new UpdateDoubanUserTask(tpUser,
+								doubanService, tpUserMapper));
+					}
 				}
 			}
 			i += maxResults;

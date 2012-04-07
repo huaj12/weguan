@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gdata.client.douban.DoubanService;
 import com.juzhai.cms.task.UpdateDoubanUserTask;
+import com.juzhai.core.dao.Limit;
 import com.juzhai.passport.mapper.TpUserMapper;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.model.TpUserExample;
@@ -33,19 +34,28 @@ public class MigrateDoubanUserDataController {
 	@RequestMapping(value = "migDoubanUser")
 	public String migDoubanUser(HttpServletRequest request) {
 		DoubanService doubanService = new DoubanService(null, null);
-		TpUserExample example = new TpUserExample();
-		example.createCriteria().andTpNameEqualTo("douban");
-		List<TpUser> list = tpUserMapper.selectByExample(example);
-		//TODO (review) 批量搞，一次性1W多条，太危险
-		Pattern pattern = Pattern.compile("\\d*");
-		for (TpUser tpUser : list) {
-			Matcher m = pattern.matcher(tpUser.getTpIdentity());
-			boolean b = m.matches();
-			if (!b) {
-				taskExecutor.submit(new UpdateDoubanUserTask(tpUser,
-						doubanService, tpUserMapper));
+		int i = 0;
+		while (true) {
+			TpUserExample example = new TpUserExample();
+			example.createCriteria().andTpNameEqualTo("douban");
+			example.setLimit(new Limit(i, 1000));
+			List<TpUser> list = tpUserMapper.selectByExample(example);
+			// TODO (done) 批量搞，一次性1W多条，太危险
+			Pattern pattern = Pattern.compile("\\d*");
+			for (TpUser tpUser : list) {
+				Matcher m = pattern.matcher(tpUser.getTpIdentity());
+				boolean b = m.matches();
+				if (!b) {
+					taskExecutor.submit(new UpdateDoubanUserTask(tpUser,
+							doubanService, tpUserMapper));
+				}
+			}
+			i += 1000;
+			if (list.size() < 1000) {
+				break;
 			}
 		}
 		return "success";
+
 	}
 }

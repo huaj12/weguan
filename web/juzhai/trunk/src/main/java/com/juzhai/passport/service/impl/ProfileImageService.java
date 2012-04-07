@@ -6,6 +6,8 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ import com.juzhai.passport.service.IProfileService;
 
 @Service
 public class ProfileImageService implements IProfileImageService {
-
+	protected final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private IImageManager imageManager;
 	@Value(value = "${upload.user.image.home}")
@@ -82,7 +84,8 @@ public class ProfileImageService implements IProfileImageService {
 				}
 			}
 		} catch (Exception e) {
-			// TODO (review) 不清楚到底是什么异常
+			// TODO (done) 不清楚到底是什么异常
+			log.error("uploadLogo read image url is error", e);
 			throw new UploadImageException(UploadImageException.SYSTEM_ERROR);
 		}
 		return filename;

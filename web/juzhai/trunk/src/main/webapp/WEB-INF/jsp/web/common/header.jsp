@@ -81,12 +81,12 @@
 				</div><!--s_m end-->
 				<div class="s_r"><a href="javascript:void(0);"></a></div>
 			</div><!--search end-->
-		</form> --%>
+		</form>
 		<c:if test="${context.uid > 0}">
 			<div class="search" >
 				<iframe width="150" height="24" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" scrolling="no" border="0" src="http://widget.weibo.com/relationship/followbutton.php?language=zh_cn&width=136&height=24&uid=2294103501&style=2&dpc=1"></iframe>
 			</div>
-		</c:if>
+		</c:if> --%>
 	</div><!--top end-->
 </div>
 <jsp:include page="/WEB-INF/jsp/web/common/back_top.jsp" />

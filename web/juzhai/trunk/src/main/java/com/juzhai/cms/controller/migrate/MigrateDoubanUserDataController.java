@@ -36,6 +36,7 @@ public class MigrateDoubanUserDataController {
 		TpUserExample example = new TpUserExample();
 		example.createCriteria().andTpNameEqualTo("douban");
 		List<TpUser> list = tpUserMapper.selectByExample(example);
+		//TODO (review) 批量搞，一次性1W多条，太危险
 		Pattern pattern = Pattern.compile("\\d*");
 		for (TpUser tpUser : list) {
 			Matcher m = pattern.matcher(tpUser.getTpIdentity());

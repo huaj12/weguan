@@ -84,7 +84,6 @@ public class ProfileImageService implements IProfileImageService {
 				}
 			}
 		} catch (Exception e) {
-			// TODO (done) 不清楚到底是什么异常
 			log.error("uploadLogo read image url is error", e);
 			throw new UploadImageException(UploadImageException.SYSTEM_ERROR);
 		}

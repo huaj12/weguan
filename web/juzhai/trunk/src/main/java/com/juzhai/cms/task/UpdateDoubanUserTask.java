@@ -30,24 +30,29 @@ public class UpdateDoubanUserTask implements Callable<Boolean> {
 
 	@Override
 	public Boolean call() throws Exception {
-		// 获取个性域名的数字uid
-		String content = getContent(tpUser.getTpIdentity());
-		if (StringUtils.isEmpty(content)) {
+		try {
+			// 获取个性域名的数字uid
+			String content = getContent(tpUser.getTpIdentity());
+			if (StringUtils.isEmpty(content)) {
+				return false;
+			}
+			String uid = doubanService.getUid(content,
+					"http://api.douban.com/people/(\\d*)");
+			TpUserExample countExample = new TpUserExample();
+			countExample.createCriteria().andTpIdentityEqualTo(uid);
+			// 如果该数字id存在把TpIdentity 更新为uid_个性域名
+			// 不存在把个性域名更新为数字id
+			if (tpUserMapper.countByExample(countExample) > 0) {
+				tpUser.setTpIdentity(uid + "_" + tpUser.getTpIdentity());
+			} else {
+				tpUser.setTpIdentity(uid);
+			}
+			tpUser.setLastModifyTime(new Date());
+			tpUserMapper.updateByPrimaryKeySelective(tpUser);
+		} catch (Exception e) {
+			log.error("UpdateDoubanUserTask is error", e);
 			return false;
 		}
-		String uid = doubanService.getUid(content,
-				"http://api.douban.com/people/(\\d*)");
-		TpUserExample countExample = new TpUserExample();
-		countExample.createCriteria().andTpIdentityEqualTo(uid);
-		// 如果该数字id存在把TpIdentity 更新为uid_个性域名
-		// 不存在把个性域名更新为数字id
-		if (tpUserMapper.countByExample(countExample) > 0) {
-			tpUser.setTpIdentity(uid + "_" + tpUser.getTpIdentity());
-		} else {
-			tpUser.setTpIdentity(uid);
-		}
-		tpUser.setLastModifyTime(new Date());
-		tpUserMapper.updateByPrimaryKeySelective(tpUser);
 		return true;
 	}
 

@@ -141,14 +141,19 @@ public class DoubanConnectUserService extends AbstractUserService {
 			log.error("douban accessToken is null");
 			return null;
 		}
-		String uid = "";
+		String uid = null;
 		try {
 			String[] str = accessToken.split(",");
 			DoubanService doubanService = DoubanService.getDoubanService(
 					str[0], str[1], tp.getAppKey(), tp.getAppSecret(),
 					tp.getAppId());
 			UserEntry user = doubanService.getAuthorizedUser();
-			uid = user.getUid();
+			uid = doubanService.getUid(user.getId(),
+					"http://api.douban.com/people/(\\d*)");
+			if (StringUtils.isEmpty(uid)) {
+				log.error("douban getUid is null");
+				return null;
+			}
 			authInfo.setThirdparty(tp);
 			authInfo.setToken(str[0]);
 			authInfo.setTokenSecret(str[1]);

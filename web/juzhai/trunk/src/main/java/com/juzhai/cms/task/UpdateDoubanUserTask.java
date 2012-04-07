@@ -35,19 +35,21 @@ public class UpdateDoubanUserTask implements Callable<Boolean> {
 		try {
 			// 获取个性域名的数字uid
 			String content = getContent(tpUser.getTpIdentity());
-			if (StringUtils.isEmpty(content)) {
-				return false;
-			}
 			String uid = doubanService.getUid(content,
 					"http://api.douban.com/people/(\\d*)");
+			if (StringUtils.isEmpty(uid)) {
+				return false;
+			}
 			TpUserExample countExample = new TpUserExample();
-			// TODO (review) 加上tp_name的条件，怕和其他平台有冲突
-			countExample.createCriteria().andTpIdentityEqualTo(uid);
+			// TODO (done) 加上tp_name的条件，怕和其他平台有冲突
+			countExample.createCriteria().andTpIdentityEqualTo(uid)
+					.andTpNameEqualTo("douban");
 			// 如果该数字id存在把TpIdentity 更新为uid_个性域名
 			// 不存在把个性域名更新为数字id
 			if (tpUserMapper.countByExample(countExample) > 0) {
-				//TODO (review) 用log.error来打印出数字uid对应的“拒宅网uid”和个性uid对应的“拒宅网uid"，以拒宅MM名义手动发送私信告知，如果需要用新的账号，能直接回复此条私信申请。让max帮你组织语句，把事情始末告知
-				tpUser.setTpIdentity(uid + "_" + tpUser.getTpIdentity());
+				// TODO (done)
+				// 用log.error来打印出数字uid对应的“拒宅网uid”和个性uid对应的“拒宅网uid"，以拒宅MM名义手动发送私信告知，如果需要用新的账号，能直接回复此条私信申请。让max帮你组织语句，把事情始末告知
+				tpUser.setTpIdentity(uid + "@" + tpUser.getTpIdentity());
 			} else {
 				tpUser.setTpIdentity(uid);
 			}
@@ -72,7 +74,6 @@ public class UpdateDoubanUserTask implements Callable<Boolean> {
 		} finally {
 			httpclient.getConnectionManager().closeIdleConnections(0,
 					TimeUnit.SECONDS);
-			// httpclient.getConnectionManager().shutdown();
 		}
 		return content;
 	}

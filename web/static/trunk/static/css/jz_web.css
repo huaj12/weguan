@@ -259,7 +259,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 /*主页*/
 
 .main_part{ width:960px; height:auto; display:block; margin:0 auto; margin-top:70px; *padding-top:70px;}
-.main_part .main_left{ width:660px; min-height:700px; _height:700px; display:block;  float:left; }
+.main_part .main_left{ width:660px; min-height:800px; _height:800px; display:block;  float:left; }
 .main_part .main_right{width:285px; height:auto; display:block; float:right;}
 
 
@@ -531,14 +531,14 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 /*性别选择*/
 
-.select_menu{ width:100px; height:28px; float:left; position:relative; z-index:40; margin-right:10px; margin-top:10px;}
+.select_menu{ width:100px; height:28px; float:left; position:relative; z-index:400; margin-right:10px; margin-top:10px;}
 .select_menu p{ float:left;}
 .select_menu p a{ width:90px; height:28px; display:block; background:url(../images/web2/select_list_head.gif) no-repeat; line-height:28px; line-height:30px\9; color:#666; padding-left:12px; text-decoration:none;  outline:none;}
 .select_menu p a:hover{ background:url(../images/web2/select_list_head_hover.gif) no-repeat;}
 .select_active p a{ background:url(../images/web2/select_list_head_active.gif) no-repeat;}
 .select_active p a:hover{background:url(../images/web2/select_list_head_active.gif) no-repeat;}
 
-.select_menu .select_box{ display:none; position:absolute;top:28px; left:0; z-index:30;}
+.select_menu .select_box{ display:none; position:absolute;top:28px; left:0; z-index:400;}
 .select_menu span{ background:url(../images/web2/select_list_span_bg.gif) repeat-y; padding:4px 5px; float:left; width:90px; height:auto; overflow:hidden;  }
 .select_menu span a{ width:85px; height:26px; overflow:hidden; display:block;line-height:28px; line-height:30px\9; color:#666;text-decoration:none; padding-left:7px;}
 .select_menu span a:hover{background:url(../images/web2/select_list_span_a.gif) no-repeat;}
@@ -555,7 +555,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 /*城市选择*/
 
-.l_select_menu{ width:100px; height:28px; float:left; position:relative; z-index:40; margin-right:10px; margin-top:10px;}
+.l_select_menu{ width:100px; height:28px; float:left; position:relative; z-index:400; margin-right:10px; margin-top:10px;}
 .l_select_menu p{ float:left;}
 .l_select_menu p a{ width:50px; height:28px; display:block; background:url(../images/web2/select_list_head.gif) no-repeat; line-height:28px; line-height:30px\9; color:#666; padding-left:10px; padding-right:40px; text-decoration:none; outline:none; overflow:hidden;}
 .l_select_menu p a:hover{ background:url(../images/web2/select_list_head_hover.gif) no-repeat;}
@@ -564,7 +564,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .l_active .l_select_menu_box{ display:block;}
 
 
-.l_select_menu_box{display:none; position:absolute; top:28px; left:0; z-index:30; width:535px; height:auto; overflow:hidden;}
+.l_select_menu_box{display:none; position:absolute; top:28px; left:0; z-index:400; width:535px; height:auto; overflow:hidden;}
 
 .l_select_menu_box .l_select_menu_box_t{ background:url(../images/web2/city_choose_r2_c1.gif) no-repeat; height:5px; width:100%; overflow:hidden;}
 .l_select_menu_box .l_select_menu_box_b{ background:url(../images/web2/city_choose_r6_c1.gif) no-repeat; height:2px; width:100%; overflow:hidden;}
@@ -1728,7 +1728,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .search_title .w100 .select_active p a{ background:url(../images/web2/select_list_head_active.gif) no-repeat;}
 .search_title .w100 .select_active p a:hover{background:url(../images/web2/select_list_head_active.gif) no-repeat;}
 
-.search_title .select_menu .select_box{ display:none; position:absolute;top:28px; left:0; z-index:30;}
+.search_title .select_menu .select_box{ display:none; position:absolute;top:28px; left:0; z-index:400;}
 .search_title .w100 .select_menu span{ background:url(../images/web2/select_list_span_bg.gif) repeat-y; padding:4px 5px; float:left; width:90px; height:auto; overflow:hidden;  }
 .search_title .w100 .select_menu span a{ width:85px; height:26px; overflow:hidden; display:block;line-height:28px; line-height:30px\9; color:#666;text-decoration:none; padding-left:7px;}
 .search_title .w100 .select_menu span a:hover{background:url(../images/web2/select_list_span_a.gif) no-repeat;}

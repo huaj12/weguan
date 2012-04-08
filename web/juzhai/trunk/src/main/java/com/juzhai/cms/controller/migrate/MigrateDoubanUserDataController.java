@@ -34,6 +34,7 @@ public class MigrateDoubanUserDataController {
 	@ResponseBody
 	@RequestMapping(value = "migDoubanUser")
 	public String migDoubanUser(HttpServletRequest request) {
+		log.error("start...");
 		DoubanService doubanService = new DoubanService(null, null);
 		TpUserExample example = new TpUserExample();
 		example.createCriteria().andTpNameEqualTo("douban");
@@ -51,14 +52,19 @@ public class MigrateDoubanUserDataController {
 				Matcher m = pattern.matcher(tpUser.getTpIdentity());
 				if (!m.matches()) {
 					if (!tpUser.getTpIdentity().contains("@")) {
-						taskExecutor.execute(new UpdateDoubanUserTask(tpUser,
-								doubanService, tpUserMapper));
+						try {
+							taskExecutor.execute(new UpdateDoubanUserTask(
+									tpUser, doubanService, tpUserMapper));
+						} catch (Exception e) {
+							log.error("User[" + tpUser.getUid() + "] "
+									+ e.getMessage());
+						}
 					}
 				}
 			}
 			i += maxResults;
 		}
+		log.error("end...");
 		return "success";
-
 	}
 }

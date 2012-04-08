@@ -147,7 +147,7 @@ public class ImageUtil {
 			}
 		}
 		if (!validType) {
-			log.error("Image type[" + contentType + "] is invalid.");
+			log.error("Image type[" + contentType + "] header is invalid.");
 			return -1;
 		}
 

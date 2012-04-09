@@ -5,12 +5,17 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+import java.util.UUID;
 
+import net.rubyeye.xmemcached.MemcachedClient;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.verifycode.bean.VerifyCode;
 import com.juzhai.verifycode.bean.VerifyLevel;
 import com.juzhai.verifycode.service.IVerifyCodeService;
 
@@ -20,14 +25,25 @@ public class VerifyCodeService implements IVerifyCodeService {
 	private static final String chars = "0123456789abcdefghjklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ";
 	private static final int width = 70;
 	private static final int height = 25;
+	@Value("${verify.code.expire.time}")
+	private int verifyCodeExpireTime;
+	@Autowired
+	private MemcachedClient memcachedClient;
 
 	@Override
-	public VerifyCode createVerifyCode(VerifyLevel level) {
+	public BufferedImage createVerifyCode(String key, VerifyLevel level) {
 		if (level == null) {
 			level = VerifyLevel.LEVEL1;
 		}
 		Graphics g = null;
 		try {
+			if (StringUtils.isEmpty(key)) {
+				return null;
+			}
+			Object obj = memcachedClient.get(key);
+			if (null == obj) {
+				return null;
+			}
 			int charsLength = chars.length();
 			BufferedImage image = new BufferedImage(width, height,
 					BufferedImage.TYPE_INT_RGB);
@@ -57,12 +73,15 @@ public class VerifyCodeService implements IVerifyCodeService {
 				int yl = random.nextInt(width);
 				g.drawLine(x, y, x + xl, y + yl);
 			}
-			return new VerifyCode(sRand.toString(), image);
+			memcachedClient.add(key, verifyCodeExpireTime, sRand.toString());
+			return image;
 		} catch (Exception e) {
 			log.error("createVerifyCode is error", e);
 			return null;
 		} finally {
-			g.dispose();
+			if (g != null) {
+				g.dispose();
+			}
 		}
 
 	}
@@ -75,4 +94,34 @@ public class VerifyCodeService implements IVerifyCodeService {
 		return new Color(r, g, b);
 	}
 
+	@Override
+	public String getVerifyCodeKey() {
+		String key = UUID.randomUUID().toString();
+		try {
+			memcachedClient.add(key, verifyCodeExpireTime, "");
+		} catch (Exception e) {
+			log.error("getVerifyCodeKey is error", e);
+			return null;
+		}
+		return key;
+	}
+
+	@Override
+	public boolean verify(String key, String input) {
+		try {
+			String str = memcachedClient.get(key);
+			if (StringUtils.isEmpty(str)) {
+				return false;
+			}
+			if (StringUtils.isEmpty(input)) {
+				return false;
+			}
+			if (str.equals(input.trim())) {
+				return true;
+			}
+		} catch (Exception e) {
+			log.error("isVerifyCode is error", e);
+		}
+		return false;
+	}
 }

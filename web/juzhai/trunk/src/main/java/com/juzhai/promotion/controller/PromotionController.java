@@ -145,7 +145,7 @@ public class PromotionController {
 			long uid = PromotionConfig.randomUser(sex);
 			if (uid > 0) {
 				String title = messageSource.getMessage("occasional.title",
-						new Object[] { address }, Locale.SIMPLIFIED_CHINESE);
+						null, Locale.SIMPLIFIED_CHINESE);
 				String link = SystemConfig.getDomain("app.qq");
 				String textBegin = messageSource.getMessage(
 						"occasional.text.begin", null,

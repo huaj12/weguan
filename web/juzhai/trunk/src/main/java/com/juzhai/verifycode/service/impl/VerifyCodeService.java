@@ -73,7 +73,7 @@ public class VerifyCodeService implements IVerifyCodeService {
 				int yl = random.nextInt(width);
 				g.drawLine(x, y, x + xl, y + yl);
 			}
-			memcachedClient.add(key, verifyCodeExpireTime, sRand.toString());
+			memcachedClient.set(key, verifyCodeExpireTime, sRand.toString());
 			return image;
 		} catch (Exception e) {
 			log.error("createVerifyCode is error", e);

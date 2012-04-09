@@ -117,6 +117,7 @@ public class VerifyCodeService implements IVerifyCodeService {
 				return false;
 			}
 			if (str.equalsIgnoreCase(input.trim())) {
+				memcachedClient.delete(key);
 				return true;
 			}
 		} catch (Exception e) {

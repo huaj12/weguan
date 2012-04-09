@@ -116,7 +116,7 @@ public class VerifyCodeService implements IVerifyCodeService {
 			if (StringUtils.isEmpty(input)) {
 				return false;
 			}
-			if (str.equals(input.trim())) {
+			if (str.equalsIgnoreCase(input.trim())) {
 				return true;
 			}
 		} catch (Exception e) {

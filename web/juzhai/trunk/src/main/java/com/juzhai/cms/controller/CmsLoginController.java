@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.passport.model.Passport;
+import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IPassportService;
-import com.juzhai.passport.service.login.ILoginService;
 
 @Controller
 @RequestMapping("/cms")

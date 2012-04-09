@@ -22,8 +22,8 @@ import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.web.session.LoginSessionManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
+import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IProfileService;
-import com.juzhai.passport.service.login.ILoginService;
 
 @Component
 public class CheckLoginFilter implements Filter {

@@ -6,14 +6,18 @@ package com.juzhai.passport.service.impl;
 import java.util.Date;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.account.service.IAccountService;
+import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.exception.ProfileInputException;
+import com.juzhai.passport.exception.RegisterException;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.mapper.TpUserMapper;
@@ -22,10 +26,8 @@ import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
-import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
-import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.stats.counter.service.ICounter;
 
 @Service
@@ -42,15 +44,21 @@ public class RegisterService implements IRegisterService {
 	@Autowired
 	private TpUserAuthService tpUserAuthService;
 	@Autowired
-	private IFriendService friendService;
-	@Autowired
 	private IProfileService profileService;
-	@Autowired
-	private IAccountService accountService;
 	@Autowired
 	private ICounter registerCounter;
 	@Autowired
-	private IUserGuideService userGuideService;
+	private ICounter manualRegisterCounter;
+	@Value("${register.email.min}")
+	private int registerEmailMin;
+	@Value("${register.email.max}")
+	private int registerEmailMax;
+	@Value("${nickname.length.max}")
+	private int nickNameLengthMax;
+	@Value("${register.password.min}")
+	private int registerPasswordMin;
+	@Value("${register.password.max}")
+	private int registerPasswordMax;
 
 	@Override
 	public long autoRegister(Thirdparty tp, String identity, AuthInfo authInfo,
@@ -89,13 +97,13 @@ public class RegisterService implements IRegisterService {
 		return passport.getId();
 	}
 
-	private void registerUserGuide(Passport passport) {
-		userGuideService.craeteUserGuide(passport.getId());
-	}
-
-	private void registerAccount(Passport passport) {
-		accountService.createAccount(passport.getId());
-	}
+	// private void registerUserGuide(Passport passport) {
+	// userGuideService.craeteUserGuide(passport.getId());
+	// }
+	//
+	// private void registerAccount(Passport passport) {
+	// accountService.createAccount(passport.getId());
+	// }
 
 	private void registerProfile(Profile profile, Passport passport) {
 		profile.setUid(passport.getId());
@@ -138,5 +146,59 @@ public class RegisterService implements IRegisterService {
 			return passport;
 		}
 		return null;
+	}
+
+	@Override
+	public long register(String email, String nickname, String pwd,
+			String confirmPwd, long inviterUid) throws RegisterException,
+			ProfileInputException {
+		// 验证邮箱
+		email = StringUtils.trim(email);
+		int emailLength = StringUtil.chineseLength(email);
+		if (emailLength < registerEmailMin || emailLength > registerEmailMax
+				|| !StringUtil.checkMailFormat(email)) {
+			throw new RegisterException(RegisterException.EMAIL_ACCOUNT_INVALID);
+		}
+		// 验证昵称
+		nickname = StringUtils.trim(nickname);
+		if (StringUtils.isEmpty(nickname)) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_NICKNAME_IS_NULL);
+		}
+		int nicknameLength = StringUtil.chineseLength(nickname);
+		if (nicknameLength > nickNameLengthMax) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_NICKNAME_IS_TOO_LONG);
+		}
+		if (profileService.isExistNickname(nickname, 0)) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_NICKNAME_IS_EXIST);
+		}
+		// 验证密码
+		int pwdLength = pwd.length();
+		if (pwdLength < registerPasswordMin || pwdLength > registerPasswordMax) {
+			throw new RegisterException(RegisterException.PWD_LENGTH_ERROR);
+		}
+		if (!StringUtils.equals(pwd, confirmPwd)) {
+			throw new RegisterException(RegisterException.CONFIRM_PWD_ERROR);
+		}
+		// 创建passport
+		Passport passport = registerPassport(email, email, pwd, inviterUid);
+		if (null == passport) {
+			throw new RegisterException(RegisterException.SYSTEM_ERROR);
+		}
+		// 创建profile
+		Profile profile = new Profile();
+		profile.setUid(passport.getId());
+		profile.setEmail(email);
+		profile.setNickname(nickname);
+		profile.setCreateTime(new Date());
+		profile.setLastModifyTime(profile.getCreateTime());
+		if (0 == profileMapper.insertSelective(profile)) {
+			throw new RegisterException(RegisterException.SYSTEM_ERROR);
+		}
+		// 统计注册数
+		manualRegisterCounter.incr(null, 1);
+		return passport.getId();
 	}
 }

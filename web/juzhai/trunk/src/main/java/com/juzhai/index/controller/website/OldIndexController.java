@@ -39,8 +39,8 @@ import com.juzhai.passport.bean.TpFriend;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IInterestUserService;
+import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IProfileService;
-import com.juzhai.passport.service.login.ILoginService;
 
 //@Controller
 public class OldIndexController extends BaseController {

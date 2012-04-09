@@ -377,12 +377,15 @@ public class ProfileService implements IProfileService {
 
 	@Override
 	public boolean isExistNickname(String nickname, long uid) {
-		if (StringUtils.isEmpty(nickname) || uid == 0) {
+		if (StringUtils.isEmpty(nickname)) {
 			return false;
 		}
 		ProfileExample example = new ProfileExample();
-		example.createCriteria().andNicknameEqualTo(nickname)
-				.andUidNotEqualTo(uid);
+		ProfileExample.Criteria c = example.createCriteria()
+				.andNicknameEqualTo(nickname);
+		if (uid > 0) {
+			c.andUidNotEqualTo(uid);
+		}
 		return profileMapper.countByExample(example) > 0 ? true : false;
 	}
 

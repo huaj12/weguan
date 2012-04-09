@@ -410,11 +410,12 @@ public class IdeaService implements IIdeaService {
 			IdeaExample.Criteria c1 = ideaExample.or().andCityEqualTo(cityId);
 			IdeaExample.Criteria c2 = ideaExample.or().andCityEqualTo(0L);
 			if (CollectionUtils.isNotEmpty(ideaIdList)) {
-				c1.andIdNotIn(ideaIdList);
-				c2.andIdNotIn(ideaIdList);
+				c1.andIdNotIn(ideaIdList).andDefunctEqualTo(false);
+				c2.andIdNotIn(ideaIdList).andDefunctEqualTo(false);
 			}
 		} else if (CollectionUtils.isNotEmpty(ideaIdList)) {
-			ideaExample.createCriteria().andIdNotIn(ideaIdList);
+			ideaExample.createCriteria().andIdNotIn(ideaIdList)
+					.andDefunctEqualTo(false);
 		}
 		ideaExample.setOrderByClause("use_count asc, create_time desc");
 		ideaExample.setLimit(new Limit(firstResult, maxResults));

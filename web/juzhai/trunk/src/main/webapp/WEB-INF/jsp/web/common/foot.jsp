@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="clear"></div>
 <c:choose>
 	<c:when test="${footType == 'fixed'}"><c:set var="footClass" value="bottom_welcome" /></c:when>
 	<c:when test="${footType == 'invite'}"><c:set var="footClass" value="bottom_welcome" /></c:when>
 	<c:when test="${footType == 'welcome'}"><c:set var="footClass" value="bottom_welcome_wel" /></c:when>
 	<c:otherwise><c:set var="footClass" value="bottom" /></c:otherwise>
 </c:choose>
+<c:if test="${footType != 'welcome'}">
+	<div class="clear"></div>
+</c:if>
 <div class="${footClass}"><!--bottom_welcome begin-->
 	<div class="bottom_area">
 		<c:choose>

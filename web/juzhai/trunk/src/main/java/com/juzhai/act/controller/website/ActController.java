@@ -29,8 +29,8 @@ import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.service.IUserFreeDateService;
 import com.juzhai.passport.service.IInterestUserService;
+import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IProfileService;
-import com.juzhai.passport.service.login.ILoginService;
 
 //@Controller
 @RequestMapping(value = "act")

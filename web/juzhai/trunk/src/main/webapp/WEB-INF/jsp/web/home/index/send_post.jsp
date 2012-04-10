@@ -94,16 +94,18 @@
 		</div><!--jh end-->
 		<div class="btn"><a href="javascript:void(0);">发布拒宅</a></div>
 		<div class="sending" style="display:none;"><a href="javascript:void(0)">发布中</a></div>
-		<div class="tb tb_click">
-			<input type="hidden" name="sendWeibo" value="true"/>
-			<span></span>
-			<p>同步到:</p>
-			<c:choose>
-				<c:when test="${context.tpName == 'weibo'}"><em class="wb"></em></c:when>
-				<c:when test="${context.tpName == 'douban'}"><em class="db"></em></c:when>
-				<c:when test="${context.tpName == 'qq'}"><em class="qq"></em></c:when>
-			</c:choose>
-		</div>
+		<c:if test="${context.tpId > 0}">
+			<div class="tb tb_click">
+				<input type="hidden" name="sendWeibo" value="true"/>
+				<span></span>
+				<p>同步到:</p>
+				<c:choose>
+					<c:when test="${context.tpName == 'weibo'}"><em class="wb"></em></c:when>
+					<c:when test="${context.tpName == 'douban'}"><em class="db"></em></c:when>
+					<c:when test="${context.tpName == 'qq'}"><em class="qq"></em></c:when>
+				</c:choose>
+			</div>
+		</c:if>
 	</div><!--send_area end-->
 </form>
 <c:if test="${postForm != null}">

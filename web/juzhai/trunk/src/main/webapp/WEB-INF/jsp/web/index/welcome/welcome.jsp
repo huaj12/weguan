@@ -50,7 +50,7 @@
 						</h2>
 						<div class="clear"></div>
 						<div style="height: 290px;position: relative;overflow: hidden;margin: 0px 100px;">
-							<div id="window-box" style="position: absolute;height: 250px;width: 2550px;left: 5px;">
+							<div id="window-box" style="position: absolute;height: 250px;width: 10000px;left: 5px;">
 								<ul window-count="${fn:length(postWindowViews)}">
 									<c:forEach items="${postWindowViews}" varStatus="index" var="view">
 										<li>

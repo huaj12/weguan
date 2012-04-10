@@ -71,4 +71,22 @@ public interface IRegisterService {
 	 */
 	public void resetPwd(long uid, String pwd, String confirmPwd, String code)
 			throws PassportAccountException;
+
+	/**
+	 * 是否有账号
+	 * 
+	 * @param uid
+	 * @return
+	 * @throws PassportAccountException
+	 */
+	public boolean hasAccount(long uid) throws PassportAccountException;
+
+	/**
+	 * 是否验证邮箱
+	 * 
+	 * @param uid
+	 * @return
+	 * @throws PassportAccountException
+	 */
+	public boolean hasActiveEmail(long uid) throws PassportAccountException;
 }

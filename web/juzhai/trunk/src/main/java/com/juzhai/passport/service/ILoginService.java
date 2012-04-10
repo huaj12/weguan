@@ -3,12 +3,22 @@
  */
 package com.juzhai.passport.service;
 
+import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 
 import com.juzhai.core.exception.NeedLoginException.RunType;
-import com.juzhai.passport.exception.LoginException;
+import com.juzhai.passport.exception.PassportAccountException;
 
 public interface ILoginService {
+
+	/**
+	 * 本地登录
+	 * 
+	 * @param loginForm
+	 * @throws LoginException
+	 */
+	void login(HttpServletRequest request, String loginName, String pwd)
+			throws PassportAccountException;
 
 	/**
 	 * 登录
@@ -17,7 +27,7 @@ public interface ILoginService {
 	 * @param uid
 	 */
 	void login(HttpServletRequest request, long uid, long tpId, RunType runType)
-			throws LoginException;
+			throws PassportAccountException;
 
 	/**
 	 * cms登录

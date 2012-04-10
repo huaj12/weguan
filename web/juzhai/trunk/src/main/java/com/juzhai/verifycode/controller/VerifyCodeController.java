@@ -19,13 +19,14 @@ import com.juzhai.verifycode.bean.VerifyLevel;
 import com.juzhai.verifycode.service.IVerifyCodeService;
 
 @Controller
+@RequestMapping("code")
 public class VerifyCodeController {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private IVerifyCodeService verifyCodeService;
 
 	@ResponseBody
-	@RequestMapping(value = "/getVerifyCode", method = RequestMethod.GET)
+	@RequestMapping(value = "/getverifycode", method = RequestMethod.GET)
 	public void getVerifyCode(String key, HttpServletResponse response) {
 		ServletOutputStream sos = null;
 		try {

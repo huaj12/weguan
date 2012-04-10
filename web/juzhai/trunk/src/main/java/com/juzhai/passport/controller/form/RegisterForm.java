@@ -1,12 +1,18 @@
 package com.juzhai.passport.controller.form;
 
-public class LoginForm {
+public class RegisterForm {
 
 	private String account;
 
-	private String password;
+	private String nickname;
+
+	private String pwd;
+
+	private String confirmPwd;
 
 	private String turnTo;
+
+	private long inviterUid;
 
 	private String verifyKey;
 
@@ -20,12 +26,20 @@ public class LoginForm {
 		this.account = account;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getPwd() {
+		return pwd;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+
+	public String getConfirmPwd() {
+		return confirmPwd;
+	}
+
+	public void setConfirmPwd(String confirmPwd) {
+		this.confirmPwd = confirmPwd;
 	}
 
 	public String getTurnTo() {
@@ -50,5 +64,21 @@ public class LoginForm {
 
 	public void setVerifyCode(String verifyCode) {
 		this.verifyCode = verifyCode;
+	}
+
+	public long getInviterUid() {
+		return inviterUid;
+	}
+
+	public void setInviterUid(long inviterUid) {
+		this.inviterUid = inviterUid;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 }

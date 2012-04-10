@@ -38,6 +38,16 @@ public class PassportAccountException extends JuzhaiException {
 	 */
 	public static final String PWD_ERROR = "10006";
 
+	/**
+	 * 验证码错误
+	 */
+	public static final String VERIFY_CODE_ERROR = "10007";
+
+	/**
+	 * 激活码错误
+	 */
+	public static final String ACTIVE_CODE_ERROR = "10008";
+
 	public PassportAccountException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

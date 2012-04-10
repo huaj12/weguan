@@ -180,4 +180,13 @@ public class LoginService implements ILoginService {
 				RunType.WEB);
 		nativeLoginCounter.incr(null, 1);
 	}
+
+	@Override
+	public void autoLogin(HttpServletRequest request, long uid) {
+		try {
+			doLogin(request, uid, 0L, RunType.WEB);
+		} catch (PassportAccountException e) {
+			log.error(e.getMessage(), e);
+		}
+	}
 }

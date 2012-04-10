@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.common.bean.ActiveCodeType;
+import com.juzhai.common.service.IActiveCodeService;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
@@ -52,6 +54,8 @@ public class RegisterService implements IRegisterService {
 	private ICounter registerCounter;
 	@Autowired
 	private ICounter nativeRegisterCounter;
+	@Autowired
+	private IActiveCodeService activeCodeService;
 	@Value("${register.email.min}")
 	private int registerEmailMin;
 	@Value("${register.email.max}")
@@ -271,19 +275,46 @@ public class RegisterService implements IRegisterService {
 	@Override
 	public void resetPwd(long uid, String pwd, String confirmPwd, String code)
 			throws PassportAccountException {
+		// check
+		if (!activeCodeService.check(uid, code, ActiveCodeType.RESET_PWD)) {
+			throw new PassportAccountException(
+					PassportAccountException.ACTIVE_CODE_ERROR);
+		}
 		Passport passport = passportService.getPassportByUid(uid);
 		if (null == passport || !passport.getEmailActive()) {
 			throw new PassportAccountException(
 					PassportAccountException.ILLEGAL_OPERATION);
 		}
-		// TODO 验证code是否有效
-
 		validatePwd(pwd, confirmPwd);
 		passport.setPassword(DigestUtils.md5Hex(pwd));
 		passport.setLastModifyTime(new Date());
 		passportMapper.updateByPrimaryKey(passport);
 
-		// TODO 删除code
+		// 删除code
+		activeCodeService.del(code);
+	}
 
+	@Override
+	public boolean hasAccount(long uid) throws PassportAccountException {
+		Passport passport = passportService.getPassportByUid(uid);
+		if (null == passport) {
+			throw new PassportAccountException(
+					PassportAccountException.ILLEGAL_OPERATION);
+		}
+		if (StringUtils.isEmpty(passport.getLoginName())
+				|| StringUtils.startsWith(passport.getLoginName(), "@")) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean hasActiveEmail(long uid) throws PassportAccountException {
+		Passport passport = passportService.getPassportByUid(uid);
+		if (null == passport) {
+			throw new PassportAccountException(
+					PassportAccountException.ILLEGAL_OPERATION);
+		}
+		return passport.getEmailActive();
 	}
 }

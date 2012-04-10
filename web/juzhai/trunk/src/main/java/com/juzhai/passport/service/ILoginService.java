@@ -21,6 +21,14 @@ public interface ILoginService {
 			throws PassportAccountException;
 
 	/**
+	 * 自动登录（比如：注册完自动登录）
+	 * 
+	 * @param request
+	 * @param uid
+	 */
+	void autoLogin(HttpServletRequest request, long uid);
+
+	/**
 	 * 登录
 	 * 
 	 * @param request

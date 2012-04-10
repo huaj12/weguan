@@ -85,7 +85,7 @@ public class PostController extends BaseController {
 		AjaxResult result = new AjaxResult();
 		try {
 			long postId = postService.createPost(context.getUid(), postForm);
-			if (sendWeibo && postId > 0) {
+			if (sendWeibo && postId > 0 && context.getTpId() > 0) {
 				postService.synchronizeWeibo(context.getUid(),
 						context.getTpId(), postId);
 			}
@@ -122,7 +122,7 @@ public class PostController extends BaseController {
 		AjaxResult result = new AjaxResult();
 		try {
 			long postId = postService.createPost(context.getUid(), postForm);
-			if (sendWeibo && postId > 0) {
+			if (sendWeibo && postId > 0 && context.getTpId() > 0) {
 				postService.synchronizeWeibo(context.getUid(),
 						context.getTpId(), postId);
 			}
@@ -202,7 +202,7 @@ public class PostController extends BaseController {
 		try {
 			long postId = postService.modifyPost(context.getUid(), postForm);
 
-			if (sendWeibo && postId > 0) {
+			if (sendWeibo && postId > 0 && context.getTpId() > 0) {
 				postService.synchronizeWeibo(context.getUid(),
 						context.getTpId(), postId);
 			}

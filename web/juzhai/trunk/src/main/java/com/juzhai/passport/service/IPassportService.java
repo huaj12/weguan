@@ -8,6 +8,14 @@ import com.juzhai.passport.model.Passport;
 public interface IPassportService {
 
 	/**
+	 * 根据登录名搜索passport
+	 * 
+	 * @param loginName
+	 * @return
+	 */
+	Passport getPassportByLoginName(String loginName);
+
+	/**
 	 * 根据Uid搜索Passport
 	 * 
 	 * @param uid

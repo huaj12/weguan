@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ProfileInputException;
-import com.juzhai.passport.exception.RegisterException;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.mapper.TpUserMapper;
@@ -26,6 +26,7 @@ import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
+import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.stats.counter.service.ICounter;
@@ -46,9 +47,11 @@ public class RegisterService implements IRegisterService {
 	@Autowired
 	private IProfileService profileService;
 	@Autowired
+	private IPassportService passportService;
+	@Autowired
 	private ICounter registerCounter;
 	@Autowired
-	private ICounter manualRegisterCounter;
+	private ICounter nativeRegisterCounter;
 	@Value("${register.email.min}")
 	private int registerEmailMin;
 	@Value("${register.email.max}")
@@ -150,17 +153,51 @@ public class RegisterService implements IRegisterService {
 
 	@Override
 	public long register(String email, String nickname, String pwd,
-			String confirmPwd, long inviterUid) throws RegisterException,
-			ProfileInputException {
-		// 验证邮箱
+			String confirmPwd, long inviterUid)
+			throws PassportAccountException, ProfileInputException {
 		email = StringUtils.trim(email);
-		int emailLength = StringUtil.chineseLength(email);
-		if (emailLength < registerEmailMin || emailLength > registerEmailMax
-				|| !StringUtil.checkMailFormat(email)) {
-			throw new RegisterException(RegisterException.EMAIL_ACCOUNT_INVALID);
-		}
-		// 验证昵称
 		nickname = StringUtils.trim(nickname);
+
+		validateEmail(email);
+		validateNickname(nickname);
+		validatePwd(pwd, confirmPwd);
+		// 创建passport
+		Passport passport = registerPassport(email, email, pwd, inviterUid);
+		if (null == passport) {
+			throw new PassportAccountException(
+					PassportAccountException.SYSTEM_ERROR);
+		}
+		// 创建profile
+		Profile profile = new Profile();
+		profile.setUid(passport.getId());
+		profile.setEmail(email);
+		profile.setNickname(nickname);
+		profile.setCreateTime(new Date());
+		profile.setLastModifyTime(profile.getCreateTime());
+		if (0 == profileMapper.insertSelective(profile)) {
+			throw new PassportAccountException(
+					PassportAccountException.SYSTEM_ERROR);
+		}
+		// 统计注册数
+		nativeRegisterCounter.incr(null, 1);
+		return passport.getId();
+	}
+
+	private void validatePwd(String pwd, String confirmPwd)
+			throws PassportAccountException {
+		// 验证密码
+		int pwdLength = pwd.length();
+		if (pwdLength < registerPasswordMin || pwdLength > registerPasswordMax) {
+			throw new PassportAccountException(
+					PassportAccountException.PWD_LENGTH_ERROR);
+		}
+		if (!StringUtils.equals(pwd, confirmPwd)) {
+			throw new PassportAccountException(
+					PassportAccountException.CONFIRM_PWD_ERROR);
+		}
+	}
+
+	private void validateNickname(String nickname) throws ProfileInputException {
 		if (StringUtils.isEmpty(nickname)) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_NICKNAME_IS_NULL);
@@ -174,31 +211,79 @@ public class RegisterService implements IRegisterService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_NICKNAME_IS_EXIST);
 		}
-		// 验证密码
-		int pwdLength = pwd.length();
-		if (pwdLength < registerPasswordMin || pwdLength > registerPasswordMax) {
-			throw new RegisterException(RegisterException.PWD_LENGTH_ERROR);
+	}
+
+	private void validateEmail(String email) throws PassportAccountException {
+		// 验证邮箱
+		int emailLength = StringUtil.chineseLength(email);
+		if (emailLength < registerEmailMin || emailLength > registerEmailMax
+				|| !StringUtil.checkMailFormat(email)) {
+			throw new PassportAccountException(
+					PassportAccountException.EMAIL_ACCOUNT_INVALID);
 		}
-		if (!StringUtils.equals(pwd, confirmPwd)) {
-			throw new RegisterException(RegisterException.CONFIRM_PWD_ERROR);
+	}
+
+	@Override
+	public void setAccount(long uid, String email, String pwd, String confirmPwd)
+			throws PassportAccountException {
+		email = StringUtils.trim(email);
+		validateEmail(email);
+		validatePwd(pwd, confirmPwd);
+		Passport passport = passportService.getPassportByUid(uid);
+		if (null == passport
+				|| (StringUtils.isNotEmpty(passport.getLoginName()) && !StringUtils
+						.startsWith(passport.getLoginName(), "@"))) {
+			throw new PassportAccountException(
+					PassportAccountException.ILLEGAL_OPERATION);
 		}
-		// 创建passport
-		Passport passport = registerPassport(email, email, pwd, inviterUid);
-		if (null == passport) {
-			throw new RegisterException(RegisterException.SYSTEM_ERROR);
-		}
-		// 创建profile
+		passport.setLoginName(email);
+		passport.setEmail(email);
+		passport.setPassword(DigestUtils.md5Hex(pwd));
+		passport.setLastLoginTime(new Date());
+		passportMapper.updateByPrimaryKey(passport);
+
 		Profile profile = new Profile();
 		profile.setUid(passport.getId());
 		profile.setEmail(email);
-		profile.setNickname(nickname);
-		profile.setCreateTime(new Date());
-		profile.setLastModifyTime(profile.getCreateTime());
-		if (0 == profileMapper.insertSelective(profile)) {
-			throw new RegisterException(RegisterException.SYSTEM_ERROR);
+		profile.setLastModifyTime(new Date());
+		profileMapper.updateByPrimaryKeySelective(profile);
+	}
+
+	@Override
+	public void modifyPwd(long uid, String oldPwd, String newPwd,
+			String confirmPwd) throws PassportAccountException {
+		Passport passport = passportService.getPassportByUid(uid);
+		if (null == passport || !passport.getEmailActive()) {
+			throw new PassportAccountException(
+					PassportAccountException.ILLEGAL_OPERATION);
 		}
-		// 统计注册数
-		manualRegisterCounter.incr(null, 1);
-		return passport.getId();
+		if (!StringUtils.equals(passport.getPassword(),
+				DigestUtils.md5Hex(oldPwd))) {
+			throw new PassportAccountException(
+					PassportAccountException.PWD_ERROR);
+		}
+		validatePwd(newPwd, confirmPwd);
+		passport.setPassword(DigestUtils.md5Hex(newPwd));
+		passport.setLastModifyTime(new Date());
+		passportMapper.updateByPrimaryKey(passport);
+	}
+
+	@Override
+	public void resetPwd(long uid, String pwd, String confirmPwd, String code)
+			throws PassportAccountException {
+		Passport passport = passportService.getPassportByUid(uid);
+		if (null == passport || !passport.getEmailActive()) {
+			throw new PassportAccountException(
+					PassportAccountException.ILLEGAL_OPERATION);
+		}
+		// TODO 验证code是否有效
+
+		validatePwd(pwd, confirmPwd);
+		passport.setPassword(DigestUtils.md5Hex(pwd));
+		passport.setLastModifyTime(new Date());
+		passportMapper.updateByPrimaryKey(passport);
+
+		// TODO 删除code
+
 	}
 }

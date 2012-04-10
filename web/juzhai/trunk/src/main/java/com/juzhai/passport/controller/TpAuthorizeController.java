@@ -29,7 +29,7 @@ import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.exception.LoginException;
+import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IUserGuideService;
@@ -104,7 +104,7 @@ public class TpAuthorizeController extends BaseController {
 		}
 		try {
 			loginService.login(request, uid, tp.getId(), RunType.CONNET);
-		} catch (LoginException e) {
+		} catch (PassportAccountException e) {
 			model.addAttribute("shieldTime", new Date(e.getShieldTime()));
 			return "web/login/login_error";
 		}

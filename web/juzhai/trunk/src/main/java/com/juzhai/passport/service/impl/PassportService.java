@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,14 @@ public class PassportService implements IPassportService {
 
 	@Autowired
 	private PassportMapper passportMapper;
+
+	@Override
+	public Passport getPassportByLoginName(String loginName) {
+		PassportExample example = new PassportExample();
+		example.createCriteria().andLoginNameEqualTo(loginName);
+		List<Passport> list = passportMapper.selectByExample(example);
+		return CollectionUtils.isEmpty(list) ? null : list.get(0);
+	}
 
 	@Override
 	public Passport getPassportByUid(long uid) {

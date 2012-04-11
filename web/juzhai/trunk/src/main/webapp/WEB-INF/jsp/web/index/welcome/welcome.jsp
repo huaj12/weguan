@@ -18,7 +18,7 @@
 				<div class="fix_top"><!--fix_top begin-->
 					<div class="beta"></div>
 					<div class="top"><!--top begin-->
-						<h1></h1>
+						<h2></h2>
 						<div class="search" style="margin-top: 15px" ><!--menu begin-->
 							<iframe width="150" height="24" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" scrolling="no" border="0" src="http://widget.weibo.com/relationship/followbutton.php?language=zh_cn&width=136&height=24&uid=2294103501&style=2&dpc=1"></iframe>
 						</div><!--menu end-->
@@ -50,7 +50,7 @@
 						</h2>
 						<div class="clear"></div>
 						<div style="height: 290px;position: relative;overflow: hidden;margin: 0px 100px;">
-							<div id="window-box" style="position: absolute;height: 250px;width: 10000px;left: 5px;">
+							<div id="window-box" style="position: absolute;height: 250px;width: 7500px;left: 5px;">
 								<ul window-count="${fn:length(postWindowViews)}">
 									<c:forEach items="${postWindowViews}" varStatus="index" var="view">
 										<li>

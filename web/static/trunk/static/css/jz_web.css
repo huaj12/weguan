@@ -42,7 +42,7 @@ a{text-decoration:none;}
 
 
 .index{display:inline; margin-right:10px;}
-.line_s1{ width:100%; background:#EAEAEA; height:1px; overflow:hidden; float:left;}
+.line_s1{ width:100%; background:#EAEAEA; height:1px; overflow:hidden; float:left; margin-top:20px;}
 .index_s1{display:inline; margin-right:20px;  padding-bottom:20px;}
 .page{ margin-top:20px; float:right;  font-size:11px; font-family:Arial, Helvetica, sans-serif;}
 .page a{ font-weight:bold; color:#666; margin-left:5px;   text-decoration:none; *cursor:pointer; float:left; display:block inline;}
@@ -626,7 +626,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .jz_main .hover .wtg .btn .mail{ display:inline;}
 .jz_main .hover .wtg .btn .zfa{ display:inline;}
 
-.jz_list .jz_main{ width:624px; height:auto; overflow:hidden; margin:0 auto; padding-bottom:20px;}
+.jz_list .jz_main{ width:624px; height:auto; display:block; margin:0 auto; padding-bottom:20px;}
 .jz_main .jz_item{ width:100%; height:auto; display:block; margin-top:15px; float:left;}
 
 .jz_main .face_infor{ width:120px; height:auto; overflow:hidden; float:left; margin-left:2px; display:inline;}
@@ -2783,8 +2783,23 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 .big_input p{ float:left; width:10px; height:43px; overflow:hidden;}
 .big_input p.l{ background:url(../images/web2/big_input_bg_link_r1_c1.jpg) no-repeat;}
 .big_input p.r{ background:url(../images/web2/big_input_bg_link_r1_c5.jpg) no-repeat;}
-.big_input span{ float:left; background:url(../images/web2/big_input_bg_link_r1_c3.jpg) repeat-x; height:43px;}
-.big_input span input{ width:100%; background:none; border:none; height:43px; overflow:hidden; line-height:43px;}
+.big_input span{ float:left; background:url(../images/web2/big_input_bg_link_r1_c3.jpg) repeat-x; height:43px; width:240px;}
+.big_input span input{ width:100%; background:none; border:none; height:43px; overflow:hidden; line-height:43px; color:#666;font-size:14px;}
+
+.input_x .hover .l{ background:url(../images/web2/big_input_bg_hover_r1_c1.jpg) no-repeat;}
+.input_x .hover .r{ background:url(../images/web2/big_input_bg_hover_r1_c5.jpg) no-repeat;}
+.input_x .hover span{ background:url(../images/web2/big_input_bg_hover_r1_c3.jpg) repeat-x;}
+
+
+.input_x .wrong .l{ background:url(../images/web2/big_input_bg_wrong_r1_c1.jpg) no-repeat;}
+.input_x .wrong .r{ background:url(../images/web2/big_input_bg_wrong_r1_c5.jpg) no-repeat;}
+.input_x .wrong span{ background:url(../images/web2/big_input_bg_wrong_r1_c3.jpg) repeat-x;}
+
+.input_x .right .l{ background:url(../images/web2/big_input_bg_right_r1_c1.jpg) no-repeat;}
+.input_x .right .r{ background:url(../images/web2/big_input_bg_right_r1_c5.jpg) no-repeat;}
+.input_x .right span{ background:url(../images/web2/big_input_bg_right_r1_c3.jpg) repeat-x;}
+
+
 
 
 

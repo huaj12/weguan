@@ -42,6 +42,10 @@ $(document).ready(function(){
 		report(targetUid,'1',targetContent,targetUid);
 		return false;
 	});
+	$("div.message_item > div.btn > a.pingbi").bind("click", function(){
+		bindShieldUid($(this));
+		return false;
+	});
 	
 	$("div.message_repy > div.repy_area > div.text_area > a.send").bind("click", function(){
 		$(this).hide();
@@ -87,6 +91,7 @@ $(document).ready(function(){
 	bindReply();
 	bindDelDialogContent();
 	bindReport();
+	bindShield();
 });
 
 function bindReply(){
@@ -102,6 +107,12 @@ function bindReport(){
 		var dialogContent = $(this).attr("dialog-content");
 		var targetUid = $(this).attr("target-uid");
 		report(targetUid,'1',dialogContent,targetUid);
+		return false;
+	});
+}
+function bindShield(){
+	$("div.repy_box > span > div.btn > a#report-btn").bind("click", function(){
+		bindShieldUid($(this));
 		return false;
 	});
 }

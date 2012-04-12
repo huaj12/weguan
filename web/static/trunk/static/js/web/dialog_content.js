@@ -111,7 +111,7 @@ function bindReport(){
 	});
 }
 function bindShield(){
-	$("div.repy_box > span > div.btn > a#report-btn").bind("click", function(){
+	$("div.repy_box > span > div.btn > a#shield-btn").bind("click", function(){
 		bindShieldUid($(this));
 		return false;
 	});

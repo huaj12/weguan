@@ -45,7 +45,13 @@ public class QqConnectUserService extends AbstractUserService {
 			RequestToken rt = new RequestToken(tp.getAppKey(),
 					tp.getAppSecret());
 			Map<String, String> tokens = rt.getRequestToken();
-			request.getSession().setAttribute(tokens.get("oauth_token"),
+			if (StringUtils.isEmpty(tokens.get("oauth_token_secret"))) {
+				log.error("qq getAuthorizeURLforCode oauth_token_secret is null");
+			}
+			if (StringUtils.isEmpty(tokens.get("oauth_token"))) {
+				log.error("qq getAuthorizeURLforCode oauth_token is null");
+			}
+			request.getSession().setAttribute("oauth_token_secret",
 					tokens.get("oauth_token_secret"));
 			RedirectToken ret = new RedirectToken(tp.getAppKey(),
 					tp.getAppSecret());
@@ -111,8 +117,10 @@ public class QqConnectUserService extends AbstractUserService {
 			return null;
 		}
 		String oauthTokenSecret = (String) request.getSession().getAttribute(
-				oauth_token);
+				"oauth_token_secret");
 		if (StringUtils.isEmpty(oauthTokenSecret)) {
+			String Agent = request.getHeader("User-Agent");
+			log.info("user Agent is " + Agent);
 			log.error("QQ  oauthTokenSecret is null");
 			return null;
 		}

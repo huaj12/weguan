@@ -451,4 +451,8 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genOccasionalId() {
 		return "occasionalId";
 	}
+
+	public static String genBlacklistKey(long uid) {
+		return genKey(uid, "blacklistindex");
+	}
 }

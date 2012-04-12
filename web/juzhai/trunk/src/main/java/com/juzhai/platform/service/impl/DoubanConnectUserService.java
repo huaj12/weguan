@@ -47,7 +47,13 @@ public class DoubanConnectUserService extends AbstractUserService {
 				tp.getAppKey(), tp.getAppSecret());
 		url = doubanService.getAuthorizationUrl(buildAuthorizeURLParams(tp,
 				turnTo, incode));
-		request.getSession().setAttribute(doubanService.getRequestToken(),
+		if (StringUtils.isEmpty(doubanService.getRequestTokenSecret())) {
+			log.error("douban getAuthorizeURLforCode RequestTokenSecret is null");
+		}
+		if (StringUtils.isEmpty(doubanService.getRequestToken())) {
+			log.error("douban getAuthorizeURLforCode RequestToken is null");
+		}
+		request.getSession().setAttribute("oauth_token_secret",
 				doubanService.getRequestTokenSecret());
 		return url;
 	}
@@ -130,8 +136,10 @@ public class DoubanConnectUserService extends AbstractUserService {
 			return null;
 		}
 		String oauthTokenSecret = (String) request.getSession().getAttribute(
-				oauth_token);
+				"oauth_token_secret");
 		if (StringUtils.isEmpty(oauthTokenSecret)) {
+			String Agent = request.getHeader("User-Agent");
+			log.info("user Agent is " + Agent);
 			log.error("douban  oauthTokenSecret is null");
 			return null;
 		}

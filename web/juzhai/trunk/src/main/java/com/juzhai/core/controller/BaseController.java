@@ -29,6 +29,7 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.service.IBlacklistService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.post.model.Ad;
@@ -65,6 +66,8 @@ public class BaseController {
 	private IAdService adService;
 	@Autowired
 	private IPostService postService;
+	@Autowired
+	private IBlacklistService blacklistService;
 
 	protected UserContext checkLoginForApp(HttpServletRequest request)
 			throws NeedLoginException {
@@ -229,5 +232,10 @@ public class BaseController {
 
 	protected void loadFaces(Model model) {
 		model.addAttribute("faceList", InitData.FACE_MAP.values());
+	}
+
+	protected void isShield(Model model, long createUid, long shieldUid) {
+		model.addAttribute("isShield",
+				blacklistService.isShield(createUid, shieldUid));
 	}
 }

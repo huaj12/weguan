@@ -14,6 +14,16 @@ public class DialogView {
 
 	private ProfileCache targetProfile;
 
+	private boolean shield;
+
+	public boolean isShield() {
+		return shield;
+	}
+
+	public void setShield(boolean shield) {
+		this.shield = shield;
+	}
+
 	public Dialog getDialog() {
 		return dialog;
 	}

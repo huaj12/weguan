@@ -14,6 +14,16 @@ public class DialogContentView {
 
 	private ProfileCache receiverProfile;
 
+	private boolean shield;
+
+	public boolean isShield() {
+		return shield;
+	}
+
+	public void setShield(boolean shield) {
+		this.shield = shield;
+	}
+
 	public DialogContent getDialogContent() {
 		return dialogContent;
 	}

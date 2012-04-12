@@ -92,6 +92,7 @@ public class UserController extends BaseController {
 					userStatusService.listUserStatus(uid));
 			TpUser tpUser = tpUserService.getTpUserByUid(uid);
 			model.addAttribute("tpUser", tpUser);
+			isShield(model, context.getUid(), uid);
 			// 获取用户偏好
 			getUserPreference(model, uid);
 			return "web/home/user_home";

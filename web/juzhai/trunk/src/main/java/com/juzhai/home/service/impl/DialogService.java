@@ -35,6 +35,7 @@ import com.juzhai.home.model.DialogExample;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
+import com.juzhai.passport.service.IBlacklistService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
@@ -59,6 +60,8 @@ public class DialogService implements IDialogService {
 	private INoticeService noticeService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IBlacklistService blacklistService;
 	@Value("${dialog.content.length.max}")
 	private int dialogContentLengthMax;
 	@Value("${dialog.content.length.min}")
@@ -208,6 +211,7 @@ public class DialogService implements IDialogService {
 					.getId())));
 			view.setTargetProfile(profileService.getProfileCacheByUid(dialog
 					.getTargetUid()));
+			view.setShield(blacklistService.isShield(uid, dialog.getTargetUid()));
 			dialogViewList.add(view);
 		}
 		return dialogViewList;
@@ -242,6 +246,7 @@ public class DialogService implements IDialogService {
 					.getDialogContent().getSenderUid()));
 			view.setReceiverProfile(profileService.getProfileCacheByUid(view
 					.getDialogContent().getReceiverUid()));
+			view.setShield(blacklistService.isShield(uid, targetUid));
 			viewList.add(view);
 		}
 		return viewList;

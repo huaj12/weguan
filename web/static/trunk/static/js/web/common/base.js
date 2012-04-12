@@ -1334,3 +1334,62 @@ function saveReport(){
 		}
 	});
 }
+
+function bindShieldUid(obj){
+	var targetUid = obj.attr("target-uid");
+	var nickname = obj.attr("target-name");
+	var content = $("#dialog-shield-uid").html().replace("{0}", nickname);
+	showConfirm(obj[0], "shieldUid", content, function(){
+		shieldUid(targetUid, function(){
+			var content = $("#dialog-success").html().replace("{0}", "屏蔽成功！");
+			showSuccess(null, content);
+			obj.unbind();
+			obj.addClass("done");
+			obj.html("已屏蔽");
+			
+		});
+	});
+}
+function shieldUid(uid, successCallback){
+	jQuery.ajax({
+		url : "/blacklist/shield",
+		type : "post",
+		cache : false,
+		data : {"shieldUid" : uid},
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				successCallback();
+			} else {
+				alert(result.errorInfo);
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+}
+
+function cancelShieldUid(uid, successCallback){
+	jQuery.ajax({
+		url : "/blacklist/cancel",
+		type : "post",
+		cache : false,
+		data : {"shieldUid" : uid},
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				successCallback();
+			} else {
+				alert(result.errorInfo);
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+}

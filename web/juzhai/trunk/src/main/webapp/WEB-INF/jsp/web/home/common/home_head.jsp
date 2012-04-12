@@ -43,6 +43,16 @@
 					<div class="message_icon"><a href="javascript:void(0);" target-uid="${profile.uid}" target-nickname="<c:out value='${profile.nickname}'/>">私信</a></div>
 					<div class="ta_btn"><a href="javascript:void(0);" target-uid="${profile.uid}" target-nickname="<c:out value='${profile.nickname}'/>">约ta</a></div>
 					<div class="jb"><a href="javascript:void(0);" target-uid="${profile.uid}" id="report-profile" >举报</a></div>
+					<div class="pb">
+					<c:choose>
+						<c:when test="${not empty isShield && isShield}">
+							<a href="javascript:void(0);" class="done">已屏蔽</a>
+						</c:when>
+						<c:otherwise>
+							<a href="javascript:void(0);" target-uid="${profile.uid}" target-name="<c:out value='${profile.nickname}'/>" title="屏蔽后，ta将不能再私信，响应，约你">屏蔽</a>
+						</c:otherwise>
+					</c:choose>
+					</div>
 				</c:when>
 				<c:otherwise>
 					<div class="btn"><a href="/home">发布拒宅</a></div>

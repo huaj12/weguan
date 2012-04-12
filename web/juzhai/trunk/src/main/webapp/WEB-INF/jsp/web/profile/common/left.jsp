@@ -4,5 +4,6 @@
 	<a href="/profile/index" <c:if test="${page=='index'}">class="active"</c:if> >我的资料</a> 
 	<a href="/profile/index/face" <c:if test="${page=='face'}">class="active"</c:if> >我的头像</a>
 	<a href="/profile/preference" <c:if test="${page=='preference'}">class="active"</c:if> >拒宅偏好</a>
+	<a href="/blacklist/" <c:if test="${page=='shield'}">class="active"</c:if> >屏蔽管理</a>
 	<%-- <a href="/profile/email" <c:if test="${page=='mail'}">class="active"</c:if>>订阅设置</a> --%>
 </div>

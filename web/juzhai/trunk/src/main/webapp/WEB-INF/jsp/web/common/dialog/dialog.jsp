@@ -55,3 +55,10 @@
 		</div>
 	</div><!--fy_show_box end-->
 </div><!--fy_show_box end-->
+<div id="dialog-shield-uid" style="display:none;">
+	<div class="show_box"><!--show box-->
+		<h2>确定要屏蔽{0}么？</h2>
+		<p>屏蔽后,ta将不能再私信、响应、约你</p>
+	</div><!--show end-->
+</div>
+

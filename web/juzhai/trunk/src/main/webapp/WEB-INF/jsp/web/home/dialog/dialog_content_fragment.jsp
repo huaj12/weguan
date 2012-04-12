@@ -17,7 +17,16 @@
 					<h3><c:choose><c:when test="${isMe}">我:</c:when><c:otherwise><a href="/home/${dialogContentView.profile.uid}"><c:out value="${dialogContentView.profile.nickname}" />:</a></c:otherwise></c:choose></h3>
 					<em>“${jzu:convertFace(dialogContentView.dialogContent.content)}”</em>
 					<b><c:set var="date" value="${dialogContentView.dialogContent.createTime}" scope="request" /><jsp:include page="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></b>
-					<div class="btn"><c:if test="${!isMe }"><a href="javascript:void(0);" id="report-btn" dialog-content="<c:out value="${dialogContentView.dialogContent.content}" />" target-uid="${targetProfile.uid}">举报</a></c:if><a href="javascript:void(0);" id="del-btn" dialog-content-id="${dialogContentView.dialogContent.id}" target-uid="${targetProfile.uid}">删除</a><a href="javascript:void(0);" id="repy-btn">回复</a></div>
+					<div class="btn"><c:if test="${!isMe }">
+							<c:choose>
+									<c:when test="${not empty dialogContentView.shield&&dialogContentView.shield }">
+											<a href="javascript:void(0);"  class="done">已屏蔽</a>
+									</c:when>
+									<c:otherwise>
+											<a href="javascript:void(0);" target-uid="${targetProfile.uid}" id="shield-btn" target-name="<c:out value='${targetProfile.nickname}'></c:out>"  title="屏蔽后，ta将不能再私信，响应，约你">屏蔽ta</a>
+									</c:otherwise>
+							</c:choose>
+					<a href="javascript:void(0);" id="report-btn" dialog-content="<c:out value="${dialogContentView.dialogContent.content}" />" target-uid="${targetProfile.uid}">举报</a></c:if><a href="javascript:void(0);" id="del-btn" dialog-content-id="${dialogContentView.dialogContent.id}" target-uid="${targetProfile.uid}">删除</a><a href="javascript:void(0);" id="repy-btn">回复</a></div>
 				</span>
 				<p></p>
 			</div><!--repy_box end-->

@@ -101,4 +101,9 @@ $(document).ready(function() {
 		report(targetUid,'3','',targetUid);
 		return false;
 	});
+	
+	$("div.my_head_area > div.pb > a").bind("click", function(){
+		bindShieldUid($(this));
+		return false;
+	});
 });

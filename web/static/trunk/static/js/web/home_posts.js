@@ -103,7 +103,20 @@ $(document).ready(function() {
 	});
 	
 	$("div.my_head_area > div.pb > a").bind("click", function(){
-		bindShieldUid($(this));
+		var targetUid = $(this).attr("target-uid");
+		var nickname = $(this).attr("target-name");
+		var content = $("#dialog-shield-uid").html().replace("{0}", nickname);
+		var obj=$(this);
+		showConfirm(obj[0], "shieldUid", content, function(){
+			shieldUid(targetUid, function(){
+				var content = $("#dialog-success").html().replace("{0}", "屏蔽成功！");
+				showSuccess(null, content);
+				obj.unbind();
+				obj.addClass("done");
+				obj.html("已屏蔽");
+				
+			});
+		});
 		return false;
 	});
 });

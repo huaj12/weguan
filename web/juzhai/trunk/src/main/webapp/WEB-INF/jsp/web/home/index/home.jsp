@@ -14,6 +14,19 @@
 	<body>
 		<div class="warp"><!--warp begin-->
 			<div class="main"><!--main begin-->
+				<c:if test="${hasNotAccount || hasNotActive}">
+					<div class="float_box" style="display: none;bottom: -100px;"><!--float_box begin-->
+						<div class="width960"><!--width960 begin-->
+							<p>
+								<c:choose>
+									<c:when test="${hasNotAccount}">拒宅提示：你还没有设置拒宅邮箱，为了方便以后找回密码，建议你现在就去<a href="/passport/account">设置邮箱</a></c:when>
+									<c:when test="${hasNotActive}">拒宅提示：你还没有验证拒宅邮箱，为了方便以后找回密码，建议你现在就去<a href="/passport/account">激活邮箱</a></c:when>
+								</c:choose>
+							</p>
+							<div class="close"><a href="javascript:void(0);"></a></div>
+						</div><!--width960 end-->
+					</div><!--float_box end-->
+				</c:if>
 				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
 				<div class="main_part"><!--main_part begin-->
 					<div class="main_left"><!--main_left begin-->

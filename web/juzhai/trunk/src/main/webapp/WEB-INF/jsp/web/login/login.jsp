@@ -14,35 +14,40 @@
 		<div class="warp"><!--warp begin-->
 			<div class="main"><!--main begin-->
 				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
-				<div class="content"><!--content begin-->
-					<div class="t"></div>
-					<div class="m"><!--" begin-->
-						<div class="singe_login"><!--singe_login begin-->
-							<div class="l_left"><!--l_left begin-->
-								<h2><p>加入拒宅</p><span>助你找伴儿出去玩</span></h2>
-								<div class="btn">
-									<a href="/web/login/6?turnTo=${turnTo}"><img src="${jzr:static('/images/web2/weibo_btn.gif')}" /></a>
-									<a href="/web/login/7?turnTo=${turnTo}"><img src="${jzr:static('/images/web2/douban_btn.gif')}" /></a>
-									<a href="/web/login/8?turnTo=${turnTo}"><img src="${jzr:static('/images/web2/qq_btn.gif')}" /></a>
-								</div>
-							</div><!--l_left end-->
-							<div class="l_right">
-								<p>
-									<font>你是这样的小宅么？</font><br />
-									你qq上有上百个好友，微博上有几百个粉丝；但在节假日里，却找不到人陪你出去玩。<br /><br />
-									<font>拒宅网助你脱宅</font><br />
-									拒宅网搭建了一个找伴儿出去玩的平台。在这里小宅们说出各种新奇、有趣的拒宅好主意；大家交流，认识，并相约一起出去玩。<br /><br />
-									<font>一起打造一个阳光社区</font><br />
-									厌倦了单刀直入物欲横流的交友社区么？难道交友约会就不能和阳光清新搭配么？
-									如果您也有同感，就与我们一起营造这样的阳光社区吧。上传真实头像，发布你的拒宅好主意，积极的与感兴趣的小宅们互动。希望每位小宅都能找到属于自己的阳光周末。
-								</p>
-							</div>
-						</div><!--singe_login end-->
-					</div><!--" end-->
-					<div class="b"></div>
-				</div><!--content end-->
+				<div class="member_area"><!--member_area begin-->
+					<div class="area_t"></div>
+					<div class="area_m"><!--area_m begin-->
+						<div class="member_register"><!--member_register begin-->
+							<form id="login-form" action="login" method="post">
+								<input type="hidden" name="turnTo" value="${turnTo}" />
+								<div class="reg_left"><!--reg_left begin-->
+									<h2>登录拒宅网</h2>
+									<div class="input_x"><!--input_x begin-->
+										<h3>邮箱：</h3>
+										<div id="form-account" class="big_input">
+											<p class="l"></p><span><input name="account" type="text" value="${account}" /></span><p class="r"></p>
+										</div>
+									</div><!--input_x end-->
+									<div class="input_x"><!--input_x begin-->
+										<h3>密码：</h3>
+										<div id="form-pwd" class="big_input">
+											<p class="l"></p><span><input name="password" type="password"/></span><p class="r"></p>
+										</div>
+									</div><!--input_x end-->
+									<div class="login_error" <c:if test="${empty errorInfo}">style="display:none;"</c:if>>${errorInfo}</div>
+									<div class="btn"><a href="javascript:void(0);">立即登录</a></div>
+									<div class="forget_pwd"><a href="/passport/getbackpwd">忘记密码？</a></div>
+								</div><!--reg_left end-->
+							</form>
+							<jsp:include page="tp_login.jsp" />
+						</div><!--member_register end-->
+					</div><!--area_m end-->
+					<div class="clear"></div>
+					<div class="area_b"></div>
+				</div><!--member_area end-->
 			</div><!--main end-->
 			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
+			<script type="text/javascript" src="${jzr:static('/js/web/login.js')}"></script>
 			<c:set var="footType" value="fixed" scope="request"/>
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 		</div><!--warp end-->

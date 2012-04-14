@@ -29,7 +29,7 @@ import com.juzhai.passport.exception.InputBlacklistException;
 import com.juzhai.passport.service.IProfileService;
 
 @Controller
-@RequestMapping(value = "blacklist")
+@RequestMapping(value = "/home")
 public class BlacklistController extends BaseController {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
@@ -41,13 +41,13 @@ public class BlacklistController extends BaseController {
 	@Value("${blacklist.max.rows}")
 	private int blacklistMaxRows;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = { "/blacklist/", "/blacklist" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		return page(request, model, 1);
 	}
 
-	@RequestMapping(value = "/page/{page}", method = RequestMethod.GET)
+	@RequestMapping(value = "/blacklist/{page}", method = RequestMethod.GET)
 	public String page(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
@@ -64,7 +64,7 @@ public class BlacklistController extends BaseController {
 		return "web/home/blacklist/blacklist";
 	}
 
-	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
+	@RequestMapping(value = "/blacklist/cancel", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult cancel(HttpServletRequest request,
 			@RequestParam(defaultValue = "0") long shieldUid)
@@ -79,7 +79,7 @@ public class BlacklistController extends BaseController {
 		return ajaxResult;
 	}
 
-	@RequestMapping(value = "/shield", method = RequestMethod.POST)
+	@RequestMapping(value = "/blacklist/shield", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult shield(HttpServletRequest request,
 			@RequestParam(defaultValue = "0") long shieldUid)

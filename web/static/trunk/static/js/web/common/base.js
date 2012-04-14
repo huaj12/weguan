@@ -59,6 +59,15 @@ $(document).ready(function(){
 	$("div.bq").each(function(){
 		new FaceWidget($(this));
 	});
+	
+	$("div.big_input").each(function(){
+		var inputDiv = this;
+		$(inputDiv).find("input").focus(function(){
+			$(inputDiv).addClass("hover");
+		}).blur(function(){
+			$(inputDiv).removeClass("hover");
+		});
+	});
 });
 
 function nextIdeaWidget(containDiv, page){

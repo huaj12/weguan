@@ -172,6 +172,13 @@ $(document).ready(function(){
 		});
 		return false;
 	});
+	
+	$("div.float_box > div > div.close > a").click(function(){
+		var tip = $(this).parent().parent().parent();
+		tip.animate({bottom:'+=-100'}, 800, function(){tip.remove();});
+	});
+	
+	$("div.float_box").show().animate({bottom:"+=100"}, 1000);
 });
 
 function resetSendPostForm(sendForm){

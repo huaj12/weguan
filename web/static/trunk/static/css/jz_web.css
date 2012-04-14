@@ -1246,14 +1246,14 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .message_item .btn a.delete{ background:url(../images/web2/message_delete.gif) no-repeat; display:none;}
 .message_item .btn .jubao{ background:none; color:#3E8BD9; display:none;}
 .message_item .btn .pingbi{ background:none; color:#3E8BD9; display:none;}
-.message_item .btn .pb_done{ background:none; color:#ccc; display:none; cursor:default;}
+.message_item .btn .done{ background:none; color:#ccc; display:none; cursor:default;}
 
 
 
 .message .message_list .hover .delete{ display:inline;}
 .message .message_list .hover .jubao{ display:inline;}
 .message .message_list .hover .pingbi{ display:inline;}
-.message .message_list .hover .pb_done{display:inline;}
+.message .message_list .hover .done{display:inline;}
 
 .message .message_list .hover { background:#FEFBEF;}
 

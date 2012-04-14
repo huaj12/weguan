@@ -24,9 +24,9 @@
 							<div class="set_right"><!--set_right begin-->
 								<div class="my_infor"><!--my_infor begin-->
 									<div class="zhmm"><!--zhmm begin-->
-										<div class="jihuo">
+										<div class="jihuo_mail">
 											<h2>请激活你的邮箱</h2>
-											<p>一封确认邮件已经发送到你的邮箱${account}点击邮件里的确认链接即可登录，快去查收邮件吧！</p>
+											<p>一封确认邮件已经发送到你的邮箱${account}，点击邮件里的确认链接即可登录，快去查收邮件吧！</p>
 										</div>
 										<div class="btn_jh"><a href="${jzu:mailDomain(account)}">查看邮箱</a></div>
 										<div class="ts">

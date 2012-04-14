@@ -17,7 +17,7 @@
 					<div class="find_t"></div>
 					<div class="find_m"><!--find_m begin-->
 						<div class="find_area"><!--find_area begin-->
-							<h2>额，这个重置密码的链接无效</h2>
+							<h2>这个重置密码的链接无效</h2>
 							<div class="txt">请确认此链接与邮件中的激活链接一致。<br />或者，重试<a href="/passport/getbackpwd">找回密码</a>！</div>
 						</div><!--find_area end-->
 					</div><!--find_m end-->

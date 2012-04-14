@@ -19,7 +19,7 @@
 					<b><c:set var="date" value="${dialogContentView.dialogContent.createTime}" scope="request" /><jsp:include page="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></b>
 					<div class="btn"><c:if test="${!isMe }">
 							<c:choose>
-									<c:when test="${not empty dialogContentView.shield&&dialogContentView.shield }">
+									<c:when test="${not empty isShield &&isShield }">
 											<a href="javascript:void(0);"  class="done">已屏蔽</a>
 									</c:when>
 									<c:otherwise>

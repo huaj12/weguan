@@ -26,6 +26,11 @@ public class InputPostCommentException extends JuzhaiException {
 	 */
 	public static final String POST_ID_NOT_EXIST = "140004";
 
+	/**
+	 * 被黑名单
+	 */
+	public static final String COMMENT_BLACKLIST_USER = "140005";
+
 	public InputPostCommentException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

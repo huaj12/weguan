@@ -72,32 +72,6 @@ public class ProfileService implements IProfileService {
 	private int homeLengthMax;
 
 	@Override
-	public void cacheUserCity(long uid) {
-		// 初始化所在地等需要匹配的信息（redis）
-		Profile profile = profileMapper.selectByPrimaryKey(uid);
-		cacheUserCity(profile);
-	}
-
-	@Override
-	public void cacheUserCity(Profile profile) {
-		// 初始化所在地等需要匹配的信息（redis）
-		if (null != profile && profile.getUid() != null && profile.getUid() > 0
-				&& profile.getCity() != null && profile.getCity() > 0) {
-			redisTemplate.opsForValue().set(
-					RedisKeyGenerator.genUserCityKey(profile.getUid()),
-					profile.getCity());
-		}
-
-	}
-
-	@Override
-	public long getUserCityFromCache(long uid) {
-		Long cityId = redisTemplate.opsForValue().get(
-				RedisKeyGenerator.genUserCityKey(uid));
-		return cityId == null ? 0L : cityId;
-	}
-
-	@Override
 	public List<Profile> getProfilesByCityId(long cityId) {
 		ProfileExample example = new ProfileExample();
 		example.createCriteria().andCityEqualTo(cityId);
@@ -149,19 +123,6 @@ public class ProfileService implements IProfileService {
 					profileCacheExpireTime, profileCache);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-		}
-	}
-
-	@Override
-	public int isMaybeSameCity(long uid1, long uid2) {
-		long srcUserCity = getUserCityFromCache(uid1);
-		long destUserCity = getUserCityFromCache(uid2);
-		if (0 == srcUserCity || 0 == destUserCity) {
-			return 1;
-		} else if (srcUserCity == destUserCity) {
-			return 2;
-		} else {
-			return 0;
 		}
 	}
 
@@ -372,7 +333,7 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
 		}
 		clearProfileCache(uid);
-		cacheUserCity(uid);
+//		cacheUserCity(uid);
 	}
 
 	@Override

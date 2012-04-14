@@ -4,6 +4,10 @@
 package com.juzhai.passport.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.rubyeye.xmemcached.MemcachedClient;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
@@ -15,9 +19,14 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.common.bean.ActiveCodeType;
 import com.juzhai.common.service.IActiveCodeService;
+import com.juzhai.core.cache.MemcachedKeyGenerator;
+import com.juzhai.core.mail.bean.Mail;
+import com.juzhai.core.mail.factory.MailFactory;
+import com.juzhai.core.mail.manager.MailManager;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.PassportMapper;
@@ -25,6 +34,7 @@ import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.mapper.TpUserMapper;
 import com.juzhai.passport.model.Constellation;
 import com.juzhai.passport.model.Passport;
+import com.juzhai.passport.model.PassportExample;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
@@ -56,6 +66,10 @@ public class RegisterService implements IRegisterService {
 	private ICounter nativeRegisterCounter;
 	@Autowired
 	private IActiveCodeService activeCodeService;
+	@Autowired
+	private MailManager mailManager;
+	@Autowired
+	private MemcachedClient memcachedClient;
 	@Value("${register.email.min}")
 	private int registerEmailMin;
 	@Value("${register.email.max}")
@@ -66,6 +80,8 @@ public class RegisterService implements IRegisterService {
 	private int registerPasswordMin;
 	@Value("${register.password.max}")
 	private int registerPasswordMax;
+	@Value("${send.mail.expire.time}")
+	private int sendMailExpireTime;
 
 	@Override
 	public long autoRegister(Thirdparty tp, String identity, AuthInfo authInfo,
@@ -89,7 +105,7 @@ public class RegisterService implements IRegisterService {
 		// 1.缓存profile
 		profileService.cacheProfile(profile, identity);
 		// 2.所在城市
-		profileService.cacheUserCity(profile);
+		// profileService.cacheUserCity(profile);
 		// 3.好友列表
 		// friendService.updateExpiredFriends(passport.getId(), tp.getId(),
 		// authInfo);
@@ -225,6 +241,11 @@ public class RegisterService implements IRegisterService {
 			throw new PassportAccountException(
 					PassportAccountException.EMAIL_ACCOUNT_INVALID);
 		}
+		// 唯一性
+		if (existAccount(email)) {
+			throw new PassportAccountException(
+					PassportAccountException.ACCOUNT_EXIST);
+		}
 	}
 
 	@Override
@@ -276,12 +297,12 @@ public class RegisterService implements IRegisterService {
 	public void resetPwd(long uid, String pwd, String confirmPwd, String code)
 			throws PassportAccountException {
 		// check
-		if (!activeCodeService.check(uid, code, ActiveCodeType.RESET_PWD)) {
+		if (uid != activeCodeService.check(code, ActiveCodeType.RESET_PWD)) {
 			throw new PassportAccountException(
 					PassportAccountException.ACTIVE_CODE_ERROR);
 		}
 		Passport passport = passportService.getPassportByUid(uid);
-		if (null == passport || !passport.getEmailActive()) {
+		if (null == passport) {
 			throw new PassportAccountException(
 					PassportAccountException.ILLEGAL_OPERATION);
 		}
@@ -301,11 +322,7 @@ public class RegisterService implements IRegisterService {
 			throw new PassportAccountException(
 					PassportAccountException.ILLEGAL_OPERATION);
 		}
-		if (StringUtils.isEmpty(passport.getLoginName())
-				|| StringUtils.startsWith(passport.getLoginName(), "@")) {
-			return false;
-		}
-		return true;
+		return hasAccount(passport);
 	}
 
 	@Override
@@ -315,6 +332,126 @@ public class RegisterService implements IRegisterService {
 			throw new PassportAccountException(
 					PassportAccountException.ILLEGAL_OPERATION);
 		}
+		return hasActiveEmail(passport);
+	}
+
+	@Override
+	public boolean hasAccount(Passport passport) {
+		if (null == passport) {
+			return false;
+		}
+		if (StringUtils.isEmpty(passport.getLoginName())
+				|| StringUtils.startsWith(passport.getLoginName(), "@")) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean hasActiveEmail(Passport passport) {
+		if (null == passport) {
+			return false;
+		}
 		return passport.getEmailActive();
+	}
+
+	@Override
+	public boolean existAccount(String account) {
+		if (StringUtils.isEmpty(account)) {
+			return false;
+		}
+		PassportExample example = new PassportExample();
+		example.createCriteria().andLoginNameEqualTo(account);
+		return passportMapper.countByExample(example) > 0 ? true : false;
+	}
+
+	@Override
+	public void sendAccountMail(long uid) throws PassportAccountException {
+		// 频率控制
+		try {
+			Boolean hasSent = memcachedClient.get(MemcachedKeyGenerator
+					.genActiveMailSentKey(uid));
+			if (null != hasSent && hasSent) {
+				return;
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		Passport passport = passportService.getPassportByUid(uid);
+		ProfileCache profile = profileService.getProfileCacheByUid(uid);
+		if (passport == null || profile == null || passport.getEmailActive()) {
+			throw new PassportAccountException(
+					PassportAccountException.ILLEGAL_OPERATION);
+		}
+		// 创建验证码
+		String code = activeCodeService.generateActiveCode(uid,
+				ActiveCodeType.ACTIVE_EMAIL);
+		Mail mail = MailFactory.create(passport.getEmail(),
+				profile.getNickname(), true);
+		mail.buildSubject("/mail/account/subject.vm", null);
+		Map<String, Object> props = new HashMap<String, Object>();
+		props.put("code", code);
+		mail.buildText("/mail/account/content.vm", props);
+		mailManager.sendMail(mail, true);
+		try {
+			memcachedClient.setWithNoReply(
+					MemcachedKeyGenerator.genActiveMailSentKey(uid),
+					sendMailExpireTime, true);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public void sendResetPwdMail(String loginName) {
+		Passport passport = passportService.getPassportByLoginName(loginName);
+		if (null != passport) {
+			// 发送邮件
+			try {
+				Boolean hasSent = memcachedClient.get(MemcachedKeyGenerator
+						.genResetMailSentKey(passport.getId()));
+				if (null != hasSent && hasSent) {
+					return;
+				}
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+			}
+			ProfileCache profile = profileService.getProfileCacheByUid(passport
+					.getId());
+			if (profile != null) {
+				// 创建验证码
+				String code = activeCodeService.generateActiveCode(
+						profile.getUid(), ActiveCodeType.RESET_PWD);
+				Mail mail = MailFactory.create(passport.getEmail(),
+						profile.getNickname(), true);
+				mail.buildSubject("/mail/getback/subject.vm", null);
+				Map<String, Object> props = new HashMap<String, Object>();
+				props.put("code", code);
+				mail.buildText("/mail/getback/content.vm", props);
+				mailManager.sendMail(mail, true);
+				try {
+					memcachedClient.setWithNoReply(MemcachedKeyGenerator
+							.genResetMailSentKey(passport.getId()),
+							sendMailExpireTime, true);
+				} catch (Exception e) {
+					log.error(e.getMessage(), e);
+				}
+			}
+		}
+	}
+
+	@Override
+	public boolean activeAccount(String code) {
+		if (StringUtils.isEmpty(code)) {
+			return false;
+		}
+		long uid = activeCodeService.check(code, ActiveCodeType.ACTIVE_EMAIL);
+		if (uid <= 0) {
+			return false;
+		}
+		Passport passport = new Passport();
+		passport.setId(uid);
+		passport.setEmailActive(true);
+		return passportMapper.updateByPrimaryKeySelective(passport) == 1;
 	}
 }

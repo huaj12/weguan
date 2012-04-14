@@ -246,6 +246,7 @@ public class DialogService implements IDialogService {
 					.getDialogContent().getSenderUid()));
 			view.setReceiverProfile(profileService.getProfileCacheByUid(view
 					.getDialogContent().getReceiverUid()));
+			//TODO (review) 每次都要取一次？uid和targetUid会变吗？
 			view.setShield(blacklistService.isShield(uid, targetUid));
 			viewList.add(view);
 		}

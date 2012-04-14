@@ -1,6 +1,7 @@
 package com.juzhai.core.mail.bean;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -68,6 +69,10 @@ public class Mail implements Serializable {
 			this.subject = new MailContent();
 		}
 		this.subject.setTemplatePath(templatePath);
+		if (null == props) {
+			props = new HashMap<String, Object>();
+		}
+		props.put("nickname", this.receiver.getNickname());
 		this.subject.setProp(props);
 	}
 
@@ -76,6 +81,10 @@ public class Mail implements Serializable {
 			this.text = new MailContent();
 		}
 		this.text.setTemplatePath(templatePath);
+		if (null == props) {
+			props = new HashMap<String, Object>();
+		}
+		props.put("nickname", this.receiver.getNickname());
 		this.text.setProp(props);
 	}
 }

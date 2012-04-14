@@ -42,3 +42,39 @@ $(document).ready(function(){
 //		});
 //	}, 5000);
 });
+
+
+function showLogin(turnTo){
+	if(turnTo == null || turnTo == ""){
+		turnTo = "";
+	}
+	var content = $("#dialog-login").html().replace(/\[0\]/ig, turnTo);
+	var dialog = openDialog(null, "loginBox", content);
+	var form = $(dialog.content()).find("#login-box-form");
+	form.find("div.btn > a").click(function(){
+		var account = trimStr(form.find("#form-account").find("input").val());
+		if(!checkValLength(account, 6, 100) || !checkEmail(account)){
+			form.find("div.error").text("请输入正确的邮箱地址").show();
+			return false;
+		}
+		var pwd = form.find("#form-pwd").find("input").val();
+		if(pwd == ""){
+			form.find("div.error").text("请输入密码").show();
+			return false;
+		}
+		jQuery.ajax({
+			url: "/ajaxlogin",
+			type: "post",
+			data: form.serialize(),
+			dataType: "json",
+			success: function(result){
+				if(result && result.success){
+					window.location.href = result.result;
+				}else{
+					form.find("div.error").text(result.errorInfo).show();
+				}
+			}
+		});
+		return false;
+	});
+}

@@ -171,17 +171,3 @@ function switchChannel(cityId){
 		}
 	});
 }
-
-function showLogin(turnTo){
-	if(turnTo==null||turnTo==""){
-		turnTo="";
-	}
-	var content = $("#dialog-login").html().replace(/\[0\]/ig, turnTo);
-	$.dialog({
-		content:content,
-		top:"50%",
-		fixed: true,
-		lock: true,
-		id: 'login_div_box'
-	});
-}

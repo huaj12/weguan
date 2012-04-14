@@ -2211,7 +2211,12 @@ i{ color:#FF0000; font-style:normal;}
 .welcome_login a.qq{background:url(../images/web2/qq16.png) no-repeat;}
 
 .login_btn{ float:right; margin-top:13px;}
-.login_btn a.btn{ background:url(../images/web2/login_btn_blue.gif) no-repeat; width:80px; height:25px; line-height:25px; line-height:27px\9; text-align:center; color:#fff; display:block;}
+.login_btn a{ width:50px; height:25px; line-height:25px; line-height:27px\9; text-align:center; color:#fff; display:block inline; float:left; margin-left:10px;}
+.login_btn a.btn_log{ background:url(../images/web2/ok_s1.gif) no-repeat;}
+.login_btn a.btn_res{background:url(../images/web2/ok_s2.gif) no-repeat;}
+
+
+
 
 .bottom_welcome{
 width:100%; position:fixed; bottom:0px; left:0px; z-index:1000;
@@ -2812,6 +2817,17 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 .big_input span{ float:left; background:url(../images/web2/big_input_bg_link_r1_c3.jpg) repeat-x; height:43px; width:220px;}
 .big_input span input{ width:100%; background:none; border:none; height:43px; overflow:hidden; line-height:43px; color:#666;font-size:14px;}
 .big_input em{ float:left; margin-left:10px; display:inline; margin-top:12px; margin-top:14px\9; height:16px; display:none;}
+.big_input .w110{ width:110px;}
+
+
+
+.input_x .yzm{ height:25px; width:70px; text-align:center; font-size:14px; color:#666; background:#ccc; line-height:25px; float:left; margin-left:10px; margin-top:8px;}
+.input_x .hyz{ float:left; margin-left:10px; display:inline; margin-top:13px;}
+.input_x .hyz a{ color:#478FDB;}
+.input_x .yzm_error{ float:left; margin-left:90px; display:inline; margin-top:12px; margin-top:14px\9; height:16px; background:url(../images/web2/wrong_icon.jpg) no-repeat 0 2px; background:url(../images/web2/wrong_icon.jpg) no-repeat 0 1px\9; padding-left:20px; color:#B21111; display:inline; width:100%;}
+
+.login_error{ float:left;  margin-left:90px; display:inline; margin-top:12px; margin-top:14px\9;height:16px; background:url(../images/web2/wrong_icon.jpg) no-repeat 0 2px; background:url(../images/web2/wrong_icon.jpg) no-repeat 0 1px\9; padding-left:20px; color:#B21111; display:inline; width:100%;}
+
 
 
 
@@ -2881,11 +2897,11 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 
 .find_area .txt{ font-size:14px; color:#999; float:left; width:100%; margin-left:3px; display:inline;}
 
-
+.find_area .txt a{ color:#478FDB; margin-left:10px;}
 
 .find_area .btn{ float:left; margin-top:20px; margin-left:3px; display:inline;}
 .find_area .btn a{ background:url(../images/web2/zhuce_btn.gif) no-repeat; width:120px; height:40px; display:block; font-family:"微软雅黑"; font-size:18px; color:#fff; line-height:40px; line-height:42px\9; text-align:center;}
-
+.find_area  .weizd{ float:left; width:100%; color:#BBB; margin-top:15px;  margin-left:3px; display:inline;}
 
 
 
@@ -2979,6 +2995,48 @@ filter:alpha(opacity=80); -moz-opacity:0.8; -khtml-opacity: 0.8;opacity: 0.8;
 
 .float_box .close{ float:right; margin-top:15px; margin-right:10px; display:inline;}
 .float_box .close a{ background:url(../images/web2/close2.gif) no-repeat 2px 2px; width:13px; height:13px; overflow:hidden; display:block;}
+
+
+
+
+
+
+
+/*激活*/
+
+.jihuo{ width:530px; height:auto; overflow:hidden; margin:0 auto; margin-top:100px; padding-bottom:100px;}
+.jihuo p{ background:url(../images/web2/jihuo.gif) no-repeat; width:84px; height:95px; float:left; margin-right:20px; display:inline;}
+.jihuo span{ color:#555; font-size:20px; font-family:"微软雅黑"; line-height:normal; margin-top:5px; float:left; width:400px; margin-top:15px;}
+
+
+.jihuo a{ float:left; color:#3E8BD9; font-family:"微软雅黑"; font-size:16px;  text-decoration:none; text-align:center; margin-top:5px; margin-top:15px; margin-left:5px; display:inline; white-space:nowrap;}
+.jihuo a:hover{ text-decoration:underline;}
+
+
+/*激活无效*/
+
+.jihuo_error{ width:530px; height:auto; overflow:hidden; margin:0 auto; margin-top:100px; padding-bottom:100px;}
+.jihuo_error p{ background:url(../images/web2/404.gif) no-repeat; width:84px; height:95px; float:left; margin-right:20px; display:inline;}
+.jihuo_error span{ color:#555; font-size:20px; font-family:"微软雅黑"; line-height:normal; margin-top:5px; float:left; width:400px; margin-top:5px;}
+.jihuo_error em{color:#999; line-height:180%; margin-top:5px; float:left; width:400px; margin-top:15px; font-size:14px;}
+.jihuo_error em a{color:#3E8BD9; margin:0 5px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3154,10 +3212,3 @@ filter:alpha(opacity=80); -moz-opacity:0.8; -khtml-opacity: 0.8;opacity: 0.8;
 
 .jb_show_box .boy a.user{ color:#3E8BD9;}
 .jb_show_box .girl a.user{ color:#f69;}
-
-
-
-
-
-
-

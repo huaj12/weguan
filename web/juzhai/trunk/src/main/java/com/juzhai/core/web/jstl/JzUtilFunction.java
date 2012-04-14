@@ -197,4 +197,29 @@ public class JzUtilFunction {
 		}
 		return HtmlUtils.htmlEscape(content);
 	}
+
+	/**
+	 * 邮箱的网站
+	 * @param email
+	 * @return
+	 */
+	public static String mailDomain(String email) {
+		if (email.endsWith("@126.com"))
+			return "http://email.126.com";
+		if (email.endsWith("@163.com"))
+			return "http://email.163.com";
+		if (email.endsWith("@qq.com"))
+			return "https://mail.qq.com";
+		if (email.endsWith("@sina.com.cn") || email.endsWith("@sina.com"))
+			return "http://mail.sina.com.cn";
+		if (email.endsWith("@sohu.com"))
+			return "http://mail.sohu.com";
+		if (email.endsWith("@hotmail.com"))
+			return "http://login.live.com";
+		if (email.endsWith("@gmail.com"))
+			return "http://www.gmail.com";
+		if (email.endsWith("@yahoo.com.cn") || email.endsWith("@yahoo.com"))
+			return "http://mail.cn.yahoo.com";
+		return "javascript:void(0);";
+	}
 }

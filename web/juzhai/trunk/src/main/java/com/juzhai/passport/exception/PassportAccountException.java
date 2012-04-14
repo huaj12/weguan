@@ -48,6 +48,11 @@ public class PassportAccountException extends JuzhaiException {
 	 */
 	public static final String ACTIVE_CODE_ERROR = "10008";
 
+	/**
+	 * 账号已经存在
+	 */
+	public static final String ACCOUNT_EXIST = "10009";
+
 	public PassportAccountException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

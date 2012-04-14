@@ -155,7 +155,7 @@ public class LoginService implements ILoginService {
 	}
 
 	@Override
-	public void login(HttpServletRequest request, String loginName, String pwd)
+	public long login(HttpServletRequest request, String loginName, String pwd)
 			throws PassportAccountException {
 		loginName = StringUtils.trim(loginName);
 		pwd = StringUtils.trim(pwd);
@@ -179,6 +179,7 @@ public class LoginService implements ILoginService {
 		doLogin(request, passport.getId(), tp != null ? tp.getId() : 0L,
 				RunType.WEB);
 		nativeLoginCounter.incr(null, 1);
+		return passport.getId();
 	}
 
 	@Override

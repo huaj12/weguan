@@ -15,9 +15,10 @@ public interface ILoginService {
 	 * 本地登录
 	 * 
 	 * @param loginForm
+	 * @return 
 	 * @throws LoginException
 	 */
-	void login(HttpServletRequest request, String loginName, String pwd)
+	long login(HttpServletRequest request, String loginName, String pwd)
 			throws PassportAccountException;
 
 	/**

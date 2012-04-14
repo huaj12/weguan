@@ -48,7 +48,7 @@ public class CityChannelFilter implements Filter {
 			if (StringUtils.isEmpty(channel)) {
 				long uid = context.getUid();
 				if (uid > 0) {
-					channelId = profileService.getUserCityFromCache(uid);
+//					channelId = profileService.getUserCityFromCache(uid);
 				} else {
 					channelId = 0L;
 				}

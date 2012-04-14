@@ -59,10 +59,11 @@ public class AjaxResult {
 		return "{\"result\":false;\"errorCode\":\"serialize.error\"}";
 	}
 
-	public void setError(String errorCode, MessageSource messageSource) {
+	public void setError(String errorCode, MessageSource messageSource,
+			Object... params) {
 		this.setSuccess(false);
 		this.setErrorCode(errorCode);
-		this.setErrorInfo(messageSource.getMessage(errorCode, null,
+		this.setErrorInfo(messageSource.getMessage(errorCode, params,
 				Locale.SIMPLIFIED_CHINESE));
 	}
 }

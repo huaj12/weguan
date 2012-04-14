@@ -23,7 +23,11 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.controller.form.RegisterForm;
 import com.juzhai.passport.controller.form.ResetPwdForm;
 import com.juzhai.passport.exception.PassportAccountException;
+import com.juzhai.passport.exception.ProfileInputException;
+import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.service.ILoginService;
+import com.juzhai.passport.service.IPassportService;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.verifycode.service.IVerifyCodeService;
 
@@ -40,7 +44,39 @@ public class RegisterController extends BaseController {
 	@Autowired
 	private ILoginService loginService;
 	@Autowired
+	private IProfileService profileService;
+	@Autowired
 	private IActiveCodeService activeCodeService;
+	@Autowired
+	private IPassportService passportService;
+
+	@RequestMapping(value = "/validate/nickexist", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult nicknameExist(HttpServletRequest request, String nickname) {
+		nickname = StringUtils.trim(nickname);
+		boolean exist = profileService.isExistNickname(nickname, 0);
+		AjaxResult result = new AjaxResult();
+		result.setResult(exist);
+		if (exist) {
+			result.setError(ProfileInputException.PROFILE_NICKNAME_IS_EXIST,
+					messageSource);
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/validate/accountexist", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult accountExist(HttpServletRequest request, String account) {
+		account = StringUtils.trim(account);
+		boolean exist = registerService.existAccount(account);
+		AjaxResult result = new AjaxResult();
+		result.setResult(exist);
+		if (exist) {
+			result.setError(PassportAccountException.ACCOUNT_EXIST,
+					messageSource);
+		}
+		return result;
+	}
 
 	@RequestMapping(value = "register", method = RequestMethod.GET)
 	public String getRegister(HttpServletRequest request, Model model,
@@ -52,6 +88,7 @@ public class RegisterController extends BaseController {
 			String key = verifyCodeService.getVerifyCodeKey();
 			registerForm.setVerifyKey(key);
 			model.addAttribute("registerForm", registerForm);
+			model.addAttribute("t", System.currentTimeMillis());
 			return "web/register/register";
 		}
 	}
@@ -76,14 +113,29 @@ public class RegisterController extends BaseController {
 						registerForm.getInviterUid());
 			} catch (JuzhaiException e) {
 				model.addAttribute("errorCode", e.getErrorCode());
-				model.addAttribute("error", messageSource.getMessage(
+				model.addAttribute("errorInfo", messageSource.getMessage(
 						e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
 				model.addAttribute("registerForm", registerForm);
+				model.addAttribute("t", System.currentTimeMillis());
 				return "web/register/register";
 			}
 			loginService.autoLogin(request, uid);
-			// TODO 发邮件
+			try {
+				registerService.sendAccountMail(uid);
+			} catch (PassportAccountException e) {
+			}
 			return "redirect:/home/guide";
+		}
+	}
+
+	@RequestMapping(value = "/active", method = RequestMethod.GET)
+	public String active(HttpServletRequest request, Model model, String code) {
+		if (registerService.activeAccount(code)) {
+			// 激活成功
+			return "web/register/account/active_success";
+		} else {
+			// 链接失效
+			return "web/register/account/active_error";
 		}
 	}
 
@@ -94,22 +146,28 @@ public class RegisterController extends BaseController {
 		try {
 			// 设置账号
 			if (!registerService.hasAccount(context.getUid())) {
-				return "";
+				return "web/register/account/set_account";
 			}
 			// 激活邮箱
-			else if (registerService.hasActiveEmail(context.getUid())) {
-				return "";
+			else if (!registerService.hasActiveEmail(context.getUid())) {
+				model.addAttribute("account",
+						passportService.getPassportByUid(context.getUid())
+								.getLoginName());
+				return "web/register/account/active_account";
 			}
 			// 修改密码
 			else {
-				return "";
+				model.addAttribute("account",
+						passportService.getPassportByUid(context.getUid())
+								.getLoginName());
+				return "web/register/account/modify_pwd";
 			}
 		} catch (PassportAccountException e) {
 			return error_404;
 		}
 	}
 
-	@RequestMapping(value = "setaccount", method = RequestMethod.GET)
+	@RequestMapping(value = "setaccount", method = RequestMethod.POST)
 	public String setAccount(HttpServletRequest request, Model model,
 			RegisterForm registerForm) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
@@ -119,12 +177,16 @@ public class RegisterController extends BaseController {
 					registerForm.getConfirmPwd());
 		} catch (PassportAccountException e) {
 			model.addAttribute("errorCode", e.getErrorCode());
-			model.addAttribute("error", messageSource.getMessage(
+			model.addAttribute("errorInfo", messageSource.getMessage(
 					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
-			model.addAttribute("registerForm", registerForm);
-			return "";
+			model.addAttribute("account", registerForm.getAccount());
+			return "web/register/account/set_account";
 		}
-		// TODO 发邮件
+		// 发邮件
+		try {
+			registerService.sendAccountMail(context.getUid());
+		} catch (PassportAccountException e) {
+		}
 		return "redirect:/passport/account";
 	}
 
@@ -144,21 +206,51 @@ public class RegisterController extends BaseController {
 		return result;
 	}
 
-	@RequestMapping(value = "resetPwd", method = RequestMethod.GET)
+	@RequestMapping(value = "getbackpwd", method = RequestMethod.GET)
+	public String getbackpwd(HttpServletRequest request, Model model) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		if (context.hasLogin()) {
+			return "redirect:/home";
+		}
+		return "web/register/reset/getback_pwd";
+	}
+
+	@RequestMapping(value = "getbackpwd", method = RequestMethod.POST)
+	public String resetmail(HttpServletRequest request, Model model,
+			String account) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		if (context.hasLogin()) {
+			return "redirect:/home";
+		}
+		account = StringUtils.trim(account);
+		// 发送邮件
+		registerService.sendResetPwdMail(account);
+		model.addAttribute("account", account);
+		return "web/register/reset/getback_mail_success";
+	}
+
+	@RequestMapping(value = "resetpwd", method = RequestMethod.GET)
 	public String getResetPwd(HttpServletRequest request, Model model,
 			ResetPwdForm resetPwdForm) {
-		if (!activeCodeService.check(resetPwdForm.getUid(),
-				resetPwdForm.getToken(), ActiveCodeType.RESET_PWD)) {
+		long uid = activeCodeService.check(resetPwdForm.getToken(),
+				ActiveCodeType.RESET_PWD);
+		if (uid <= 0) {
 			// 链接无效，请重发邮件
-			return "";
+			return "web/register/reset/reset_error";
 		} else {
 			// 进入重设页面
+			Passport passport = passportService.getPassportByUid(uid);
+			if (null == passport) {
+				return error_500;
+			}
+			resetPwdForm.setUid(uid);
 			model.addAttribute("resetPwdForm", resetPwdForm);
-			return "";
+			model.addAttribute("account", passport.getLoginName());
+			return "web/register/reset/reset";
 		}
 	}
 
-	@RequestMapping(value = "resetPwd", method = RequestMethod.POST)
+	@RequestMapping(value = "resetpwd", method = RequestMethod.POST)
 	public String postResetPwd(HttpServletRequest request, Model model,
 			ResetPwdForm resetPwdForm) {
 		try {
@@ -167,7 +259,7 @@ public class RegisterController extends BaseController {
 					resetPwdForm.getToken());
 		} catch (PassportAccountException e) {
 			model.addAttribute("errorCode", e.getErrorCode());
-			model.addAttribute("error", messageSource.getMessage(
+			model.addAttribute("errorInfo", messageSource.getMessage(
 					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
 			if (StringUtils.equals(e.getErrorCode(),
 					PassportAccountException.PWD_LENGTH_ERROR)
@@ -175,30 +267,46 @@ public class RegisterController extends BaseController {
 							PassportAccountException.CONFIRM_PWD_ERROR)) {
 				// reset页面
 				model.addAttribute("resetPwdForm", resetPwdForm);
-				return "";
+				return "web/register/reset/reset";
 			} else {
 				// 链接无效，请重发邮件
-				return "";
+				return "web/register/reset/reset_error";
 			}
 		}
-		return "redirect:/login";
+		return "web/register/reset/reset_success";
 	}
 
-	@RequestMapping(value = "resetmail", method = RequestMethod.GET)
-	public String getResetmail(HttpServletRequest request, Model model) {
-		return "";
-	}
-
-	@RequestMapping(value = "resetmail", method = RequestMethod.POST)
-	public String postResetmail(HttpServletRequest request, Model model,
-			String account) {
-		return "";
-	}
-
-	public String sendActiveMail(HttpServletRequest request, Model model)
+	@ResponseBody
+	@RequestMapping(value = "/sendactive", method = RequestMethod.POST)
+	public AjaxResult sendActiveMail(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		// 发送邮件
-		return "";
+		AjaxResult result = new AjaxResult();
+		try {
+			registerService.sendAccountMail(context.getUid());
+		} catch (PassportAccountException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
+		return result;
+	}
+
+	private String getMailDomain(String email) {
+		if (email.endsWith("@126.com"))
+			return "http://email.126.com";
+		if (email.endsWith("@163.com"))
+			return "http://email.163.com";
+		if (email.endsWith("@qq.com"))
+			return "https://mail.qq.com";
+		if (email.endsWith("@sina.com.cn") || email.endsWith("@sina.com"))
+			return "http://mail.sina.com.cn";
+		if (email.endsWith("@sohu.com"))
+			return "http://mail.sohu.com";
+		if (email.endsWith("@hotmail.com"))
+			return "http://login.live.com";
+		if (email.endsWith("@gmail.com"))
+			return "http://www.gmail.com";
+		if (email.endsWith("@yahoo.com.cn") || email.endsWith("@yahoo.com"))
+			return "http://mail.cn.yahoo.com";
+		return null;
 	}
 }

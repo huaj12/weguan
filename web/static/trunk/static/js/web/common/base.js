@@ -59,15 +59,6 @@ $(document).ready(function(){
 	$("div.bq").each(function(){
 		new FaceWidget($(this));
 	});
-	
-	$("div.big_input").each(function(){
-		var inputDiv = this;
-		$(inputDiv).find("input").focus(function(){
-			$(inputDiv).addClass("hover");
-		}).blur(function(){
-			$(inputDiv).removeClass("hover");
-		});
-	});
 });
 
 function nextIdeaWidget(containDiv, page){
@@ -1346,7 +1337,7 @@ function saveReport(){
 
 function shieldUid(uid, successCallback){
 	jQuery.ajax({
-		url : "/blacklist/shield",
+		url : "/home/blacklist/shield",
 		type : "post",
 		cache : false,
 		data : {"shieldUid" : uid},
@@ -1366,9 +1357,22 @@ function shieldUid(uid, successCallback){
 	});
 }
 
+function bindShieldUid(obj){
+	var targetUid = obj.attr("target-uid");
+	var nickname = obj.attr("target-name");
+	var content = $("#dialog-shield-uid").html().replace("{0}", nickname);
+	showConfirm(obj[0], "shieldUid", content, function(){
+		shieldUid(targetUid, function(){
+			var content = $("#dialog-success").html().replace("{0}", "屏蔽成功！");
+			showSuccess(null, content);
+			obj.unbind("click").addClass("done").text("已屏蔽");
+		});
+	});
+}
+
 function cancelShieldUid(uid, successCallback){
 	jQuery.ajax({
-		url : "/blacklist/cancel",
+		url : "/home/blacklist/cancel",
 		type : "post",
 		cache : false,
 		data : {"shieldUid" : uid},

@@ -25,7 +25,6 @@ import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.controller.view.DialogContentView;
 import com.juzhai.home.controller.view.DialogView;
 import com.juzhai.home.exception.DialogException;
-import com.juzhai.home.service.IBlacklistService;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
@@ -51,8 +50,6 @@ public class DialogController extends BaseController {
 	private ICounter dialogContentCounter;
 	@Autowired
 	private ICounter privateDateCounter;
-	@Autowired
-	private IBlacklistService blacklistService;
 	@Autowired
 	private IIdeaService ideaService;
 	@Value("${show.dialogs.max.rows}")
@@ -85,8 +82,7 @@ public class DialogController extends BaseController {
 				.listDialogContent(context.getUid(), uid,
 						pager.getFirstResult(), pager.getMaxResult());
 		// TODO (done) 每次都要取一次？uid和targetUid会变吗？
-		model.addAttribute("isShield",
-				blacklistService.isShield(context.getUid(), uid));
+		isShield(model, context.getUid(), uid);
 		model.addAttribute("dialogContentViewList", dialogContentViewList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("targetProfile",

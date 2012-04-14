@@ -54,7 +54,7 @@ function showLogin(turnTo){
 	form.find("div.btn > a").click(function(){
 		var account = trimStr(form.find("#form-account").find("input").val());
 		if(!checkValLength(account, 6, 100) || !checkEmail(account)){
-			form.find("div.error").text("请输入正确的邮箱地址").show();
+			form.find("div.error").text("请输入正确格式的邮箱").show();
 			return false;
 		}
 		var pwd = form.find("#form-pwd").find("input").val();

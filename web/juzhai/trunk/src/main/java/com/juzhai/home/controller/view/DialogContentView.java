@@ -6,23 +6,12 @@ import com.juzhai.passport.bean.ProfileCache;
 public class DialogContentView {
 
 	private DialogContent dialogContent;
-
 	/**
 	 * 发送者Profile
 	 */
 	private ProfileCache profile;
 
 	private ProfileCache receiverProfile;
-
-	private boolean shield;
-
-	public boolean isShield() {
-		return shield;
-	}
-
-	public void setShield(boolean shield) {
-		this.shield = shield;
-	}
 
 	public DialogContent getDialogContent() {
 		return dialogContent;

@@ -20,7 +20,7 @@
 							<div class="btn"><c:if test="${flag}">
 							<c:choose>
 							<c:when test="${not empty dialogView.shield && dialogView.shield }">
-							<a href="javascript:void(0);"  class="pb_done">已屏蔽</a>
+							<a href="javascript:void(0);"  class="done">已屏蔽</a>
 							</c:when>
 							<c:otherwise>
 							<a href="javascript:void(0);" target-uid="${dialogView.targetProfile.uid}" target-name="<c:out value='${dialogView.targetProfile.nickname}'></c:out>" class="pingbi" title="屏蔽后，ta将不能再私信，响应，约你">屏蔽ta</a>								

@@ -32,10 +32,10 @@ import com.juzhai.home.mapper.DialogMapper;
 import com.juzhai.home.model.Dialog;
 import com.juzhai.home.model.DialogContent;
 import com.juzhai.home.model.DialogExample;
+import com.juzhai.home.service.IBlacklistService;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
-import com.juzhai.passport.service.IBlacklistService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.wordfilter.service.IWordFilterService;
 

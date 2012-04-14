@@ -15,6 +15,11 @@ public class DialogException extends JuzhaiException {
 	 */
 	public static final String DIALOG_CONTENT_FORBID = "90002";
 
+	/**
+	 * 被对方屏蔽
+	 */
+	public static final String DIALOG_BLACKLIST_USER = "90003";
+
 	public DialogException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

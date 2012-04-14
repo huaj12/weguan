@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.home.service.IBlacklistService;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.model.Passport;
@@ -58,6 +59,8 @@ public class PostCommentService implements IPostCommentService {
 	private IPassportService passportService;
 	@Autowired
 	private ICounter postCommentCounter;
+	@Autowired
+	private IBlacklistService blacklistService;
 	@Value("${post.comment.content.length.min}")
 	private int postCommentContentLengthMin;
 	@Value("${post.comment.content.length.max}")
@@ -68,6 +71,7 @@ public class PostCommentService implements IPostCommentService {
 	@Override
 	public PostComment comment(long uid, PostCommentForm form)
 			throws InputPostCommentException {
+
 		if (form.getPostId() <= 0) {
 			throw new InputPostCommentException(
 					InputPostCommentException.POST_ID_NOT_EXIST);
@@ -76,6 +80,20 @@ public class PostCommentService implements IPostCommentService {
 		if (null == post || post.getDefunct()) {
 			throw new InputPostCommentException(
 					InputPostCommentException.POST_ID_NOT_EXIST);
+		}
+		if (blacklistService.isShield(post.getCreateUid(), uid)) {
+			throw new InputPostCommentException(
+					InputPostCommentException.COMMENT_BLACKLIST_USER);
+		}
+		PostComment parentComment = null;
+		if (form.getParentId() > 0) {
+			parentComment = postCommentMapper.selectByPrimaryKey(form
+					.getParentId());
+		}
+		if (parentComment != null
+				&& blacklistService.isShield(parentComment.getCreateUid(), uid)) {
+			throw new InputPostCommentException(
+					InputPostCommentException.COMMENT_BLACKLIST_USER);
 		}
 
 		// 验证内容
@@ -110,11 +128,6 @@ public class PostCommentService implements IPostCommentService {
 					InputPostCommentException.COMMENT_CONTENT_DUPLICATE);
 		}
 
-		PostComment parentComment = null;
-		if (form.getParentId() > 0) {
-			parentComment = postCommentMapper.selectByPrimaryKey(form
-					.getParentId());
-		}
 		PostComment postComment = new PostComment();
 		postComment.setPostId(post.getId());
 		postComment.setPostContent(post.getContent());

@@ -76,6 +76,9 @@ public class DialogService implements IDialogService {
 	@Override
 	public long sendSMS(long uid, long targetUid, String content)
 			throws DialogException {
+		if (blacklistService.isShield(targetUid, uid)) {
+			throw new DialogException(DialogException.DIALOG_BLACKLIST_USER);
+		}
 		if (null != content) {
 			content = content.trim();
 		}

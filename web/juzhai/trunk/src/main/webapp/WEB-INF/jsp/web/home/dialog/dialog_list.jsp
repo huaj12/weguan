@@ -42,7 +42,7 @@
 										<h4>我发给ta</h4>
 									</c:otherwise>
 									</c:choose>
-									
+									<strong><c:set var="date" value="${dialogView.dialogContent.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></strong>
 								</span>
 								<p>“${jzu:convertFace(dialogView.dialogContent.content)}”</p>
 								<em><a href="/home/dialogContent/${dialogView.targetProfile.uid}/1">共<font>${dialogView.dialogContentCnt}</font>条对话</a></em>

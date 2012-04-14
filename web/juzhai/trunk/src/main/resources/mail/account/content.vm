@@ -1,0 +1,17 @@
+亲爱的${nickname}：
+<br />
+<br />
+欢迎加入拒宅网!
+<br />
+<br />
+请点击下面的链接激活你的拒宅账号：
+<br />
+<br /> 
+<a target="_blank" href="http://www.51juzhai.com/passport/active?code=${code}">http://www.51juzhai.com/passport/active?code=${code}</a>
+<br />
+<br />
+如果以上链接无法点击，请将上面的地址复制到你的浏览器(如IE)的地址栏进入拒宅网。
+ <br />
+ <br />
+ <br />
+--来自拒宅网：一个小清新的脱宅社区

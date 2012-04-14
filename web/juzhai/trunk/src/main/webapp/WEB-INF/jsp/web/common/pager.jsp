@@ -3,10 +3,10 @@
 <c:set var="pageUrl" value="${param.url}" />
 <c:set var="queryParams" value="${param.queryParams}" />
 <div class="page index_s1"><!--page begin-->
-	<c:choose>
+	<%-- <c:choose>
 		<c:when test="${pager.currentPage != 1}"><a href="${pageUrl}/1${queryParams}" class="link pre"><p class="l"></p><strong class="c">首页</strong><p class="r"></p></a></c:when>
 		<c:otherwise><a href="javascript:void(0);" class="link pre"><p class="l"></p><strong class="c">首页</strong><p class="r"></p></a></c:otherwise>
-	</c:choose>
+	</c:choose> --%>
 	<c:choose>
 		<c:when test="${pager.currentPage > 1}"><a href="${pageUrl}/${pager.currentPage-1}${queryParams}" class="link pre"><p class="l"></p><strong class="c">上一页</strong><p class="r"></p></a></c:when>
 		<c:otherwise><a href="javascript:void(0);" class="link pre"><p class="l"></p><strong class="c">上一页</strong><p class="r"></p></a></c:otherwise>
@@ -21,8 +21,8 @@
 		<c:when test="${pager.hasNext}"><a href="${pageUrl}/${pager.currentPage+1}${queryParams}" class="link nex"><p class="l"></p><strong class="c">下一页</strong><p class="r"></p></a></c:when>
 		<c:otherwise><a href="javascript:void(0);" class="link nex"><p class="l"></p><strong class="c">下一页</strong><p class="r"></p></a></c:otherwise>
 	</c:choose>
-	<c:choose>
+	<%-- <c:choose>
 		<c:when test="${pager.currentPage != pager.totalPage}"><a href="${pageUrl}/${pager.totalPage}${queryParams}" class="link nex"><p class="l"></p><strong class="c">末页</strong><p class="r"></p></a></c:when>
 		<c:otherwise><a href="javascript:void(0);" class="link nex"><p class="l"></p><strong class="c">末页</strong><p class="r"></p></a></c:otherwise>
-	</c:choose>
+	</c:choose> --%>
 </div><!--page end-->

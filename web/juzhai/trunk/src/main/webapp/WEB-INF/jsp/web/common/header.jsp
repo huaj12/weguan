@@ -21,7 +21,7 @@
 					<a href="/profile/index/face">我的头像</a>
 					<a href="/profile/preference">拒宅偏好</a>
 					<a href="/passport/account">账号与密码</a>
-					<a href="/blacklist/">屏蔽管理</a>
+					<a href="/home/blacklist/">屏蔽管理</a>
 					<!-- <a href="/profile/email">订阅设置</a> -->
 					<a href="/logout">退出</a>
 				</div><!--acc_list end-->

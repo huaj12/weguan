@@ -57,7 +57,7 @@ public class BlacklistService implements IBlacklistService {
 
 	@Override
 	public boolean isShield(long createUid, long shieldUid) {
-		return redisTemplate.opsForZSet().reverseRank(
+		return redisTemplate.opsForZSet().score(
 				RedisKeyGenerator.genBlacklistKey(createUid), shieldUid) == null ? false
 				: true;
 	}

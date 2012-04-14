@@ -55,8 +55,8 @@ public class BlacklistController extends BaseController {
 				blacklistService.countBlacklist(context.getUid()));
 		List<Long> ids = blacklistService.blacklist(context.getUid(),
 				pager.getFirstResult(), pager.getMaxResult());
-		// TODO (review) 知道初始化size，就用size来初始化
-		List<ProfileCache> profiles = new ArrayList<ProfileCache>();
+		// TODO (done) 知道初始化size，就用size来初始化
+		List<ProfileCache> profiles = new ArrayList<ProfileCache>(ids.size());
 		for (Long id : ids) {
 			profiles.add(profileService.getProfileCacheByUid(id));
 		}

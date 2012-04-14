@@ -43,20 +43,7 @@ $(document).ready(function(){
 		return false;
 	});
 	$("div.message_item > div.btn > a.pingbi").bind("click", function(){
-		var targetUid = $(this).attr("target-uid");
-		var nickname = $(this).attr("target-name");
-		var content = $("#dialog-shield-uid").html().replace("{0}", nickname);
-		var obj=$(this);
-		showConfirm(obj[0], "shieldUid", content, function(){
-			shieldUid(targetUid, function(){
-				var content = $("#dialog-success").html().replace("{0}", "屏蔽成功！");
-				showSuccess(null, content);
-				obj.unbind();
-				obj.removeClass("pingbi");
-				obj.addClass("pb_done");
-				obj.html("已屏蔽");
-			});
-		});
+		bindShieldUid($(this));
 		return false;
 	});
 	
@@ -125,20 +112,7 @@ function bindReport(){
 }
 function bindShield(){
 	$("div.repy_box > span > div.btn > a#shield-btn").bind("click", function(){
-		var targetUid = $(this).attr("target-uid");
-		var nickname = $(this).attr("target-name");
-		var content = $("#dialog-shield-uid").html().replace("{0}", nickname);
-		var obj=$(this);
-		showConfirm(obj[0], "shieldUid", content, function(){
-			shieldUid(targetUid, function(){
-				var content = $("#dialog-success").html().replace("{0}", "屏蔽成功！");
-				showSuccess(null, content);
-				obj.unbind();
-				obj.addClass("done");
-				obj.html("已屏蔽");
-				
-			});
-		});
+		bindShieldUid($(this));
 		return false;
 	});
 }

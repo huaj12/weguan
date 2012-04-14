@@ -31,7 +31,7 @@ public interface IActiveCodeService {
 	 * @param activeCodeType
 	 * @return
 	 */
-	boolean check(long uid, String code, ActiveCodeType activeCodeType);
+	long check(String code, ActiveCodeType activeCodeType);
 
 	/**
 	 * 删除

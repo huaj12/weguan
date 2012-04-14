@@ -29,19 +29,19 @@
 			<input type="hidden" name="turnTo" value="[0]" />
 			<div class="box_right">
 				<div class="infor_x"><!--infor_x begin-->
-					<h3>邮箱：</h3>
-					<div id="form-account" class="input"><!--input begin-->
+					<h4>邮箱：</h4>
+					<div id="form-account" class="input_ttc"><!--input begin-->
 						<p class="l"></p><span class="w160"><input name="account" type="text" /></span><p class="r"></p>
 					</div><!--input end-->
 				</div><!--infor_x end-->
 				<div class="infor_x"><!--infor_x begin-->
-					<h3>密码：</h3>
-					<div id="form-pwd" class="input"><!--input begin-->
+					<h4>密码：</h4>
+					<div id="form-pwd" class="input_ttc"><!--input begin-->
 						<p class="l"></p><span class="w160"><input name="password" type="password" /></span><p class="r"></p>
 						<a href="/passport/getbackpwd"> 忘记密码?</a>
 					</div><!--input end-->
 				</div><!--infor_x end-->
-				<div class="error" style="display: none;"></div>
+				<div class="error"></div>
 				<div class="btn"><a href="javascript:void(0);">登录</a></div>
 				<div class="zc"><a href="/passport/register">注册</a></div>
 			</div>

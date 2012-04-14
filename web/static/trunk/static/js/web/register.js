@@ -3,7 +3,7 @@ $(document).ready(function(){
 	function validateAccount(){
 		var value = trimStr($("#form-account").find("input").val());
 		if(!checkValLength(value, 6, 100) || !checkEmail(value)){
-			$("#form-account").removeClass("right").addClass("wrong").find("em").text("请输入正确的邮箱地址");
+			$("#form-account").removeClass("right").addClass("wrong").find("em").text("请输入正确格式的邮箱");
 			return false;
 		}
 		return true;
@@ -12,10 +12,10 @@ $(document).ready(function(){
 	function validateNickname(){
 		var value = trimStr($("#form-nickname").find("input").val());
 		if(value == ""){
-			$("#form-nickname").removeClass("right").addClass("wrong").find("em").text("昵称不能为空！");
+			$("#form-nickname").removeClass("right").addClass("wrong").find("em").text("昵称不能为空");
 			return false;
 		}else if(!checkValLength(value, 1, 20)){
-			$("#form-nickname").removeClass("right").addClass("wrong").find("em").text("昵称不能超过10个字！");
+			$("#form-nickname").removeClass("right").addClass("wrong").find("em").text("昵称不能超过10个字");
 			return false;
 		}
 		return true;
@@ -27,7 +27,7 @@ $(document).ready(function(){
 			$("#form-pwd").removeClass("right").addClass("wrong").find("em").text("请输入密码");
 			return false;
 		}else if(!checkValLength(value, 6, 32)){
-			$("#form-pwd").removeClass("right").addClass("wrong").find("em").text("密码控制在6-32个字符");
+			$("#form-pwd").removeClass("right").addClass("wrong").find("em").text("密码控制在6~32位之间");
 			return false;
 		}else{
 			$("#form-pwd").removeClass("wrong").addClass("right").find("em").text("");
@@ -43,7 +43,7 @@ $(document).ready(function(){
 			return false;
 		}
 		if(pwd != confirmPwd){
-			$("#form-confirm-pwd").removeClass("right").addClass("wrong").find("em").text("两次密码输入不一致");
+			$("#form-confirm-pwd").removeClass("right").addClass("wrong").find("em").text("两次输入的密码不相符");
 			return false;
 		}else {
 			$("#form-confirm-pwd").removeClass("wrong").addClass("right").find("em").text("");

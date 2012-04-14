@@ -5,7 +5,7 @@ $(document).ready(function(){
 			$("#form-pwd").removeClass("right").addClass("wrong").find("em").text("请输入密码");
 			return false;
 		}else if(!checkValLength(value, 6, 32)){
-			$("#form-pwd").removeClass("right").addClass("wrong").find("em").text("密码控制在6-32个字符");
+			$("#form-pwd").removeClass("right").addClass("wrong").find("em").text("密码控制在6~32位之间");
 			return false;
 		}else{
 			$("#form-pwd").removeClass("wrong").addClass("right").find("em").text("");
@@ -21,7 +21,7 @@ $(document).ready(function(){
 			return false;
 		}
 		if(pwd != confirmPwd){
-			$("#form-confirm-pwd").removeClass("right").addClass("wrong").find("em").text("两次密码输入不一致");
+			$("#form-confirm-pwd").removeClass("right").addClass("wrong").find("em").text("两次输入的密码不相符");
 			return false;
 		}else {
 			$("#form-confirm-pwd").removeClass("wrong").addClass("right").find("em").text("");

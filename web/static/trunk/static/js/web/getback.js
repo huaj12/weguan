@@ -3,7 +3,7 @@ $(document).ready(function(){
 	function validateAccount(){
 		var value = trimStr($("#form-account").find("input").val());
 		if(!checkValLength(value, 6, 100) || !checkEmail(value)){
-			$("#form-account").removeClass("right").addClass("wrong").find("em").text("请输入正确的邮箱地址");
+			$("#form-account").removeClass("right").addClass("wrong").find("em").text("请输入正确格式的邮箱");
 			return false;
 		}
 		$("#form-account").removeClass("wrong").addClass("right").find("em").text("");

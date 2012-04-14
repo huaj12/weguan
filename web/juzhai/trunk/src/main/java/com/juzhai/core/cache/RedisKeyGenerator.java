@@ -478,7 +478,13 @@ public class RedisKeyGenerator extends KeyGenerator {
 		return "occasionalId";
 	}
 
-	//TODO (review) 注释
+	/**
+	 * 获取黑名单key
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	// TODO (done) 注释
 	public static String genBlacklistKey(long uid) {
 		return genKey(uid, "blacklistindex");
 	}

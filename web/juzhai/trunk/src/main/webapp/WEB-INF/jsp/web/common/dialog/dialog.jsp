@@ -19,17 +19,33 @@
 <div id="dialog-login" style="display:none;">
 	<div class="login_box"><!--login_show_box begin-->
 		<div class="box_left">
-			<h2>加入拒宅</h2><em>找伴出去玩</em>
+			<h2>登录拒宅网</h2>
+			<div class="clear"></div>
 			<a href="/web/login/6?turnTo=[0]"><img src="${jzr:static('/images/web2/login_btn.gif')}" /></a>
 			<a href="/web/login/7?turnTo=[0]"><img src="${jzr:static('/images/web2/db_login_btn.gif')}" /></a>
 			<a href="/web/login/8?turnTo=[0]"><img src="${jzr:static('/images/web2/qq_login_btn.gif')}" /></a>
 		</div>
-		<div class="box_right">
-			<b>你是这样的小宅么？</b><br />
-			你qq上有上百个好友，微博上有几百个粉丝；但在节假日里，却找不到人陪你出去玩。<br /><br />
-			<b>拒宅网助你脱宅：</b><br />
-			我们搭建了一个找伴儿出去玩的社区。在这里小宅们说出各种新奇、有趣的拒宅好主意；大家交流，认识，并相约一起出去玩。<br />
-		</div>
+		<form id="login-box-form">
+			<input type="hidden" name="turnTo" value="[0]" />
+			<div class="box_right">
+				<div class="infor_x"><!--infor_x begin-->
+					<h3>邮箱：</h3>
+					<div id="form-account" class="input"><!--input begin-->
+						<p class="l"></p><span class="w160"><input name="account" type="text" /></span><p class="r"></p>
+					</div><!--input end-->
+				</div><!--infor_x end-->
+				<div class="infor_x"><!--infor_x begin-->
+					<h3>密码：</h3>
+					<div id="form-pwd" class="input"><!--input begin-->
+						<p class="l"></p><span class="w160"><input name="password" type="password" /></span><p class="r"></p>
+						<a href="/passport/getbackpwd"> 忘记密码?</a>
+					</div><!--input end-->
+				</div><!--infor_x end-->
+				<div class="error" style="display: none;"></div>
+				<div class="btn"><a href="javascript:void(0);">登录</a></div>
+				<div class="zc"><a href="/passport/register">注册</a></div>
+			</div>
+		</form>
 	</div><!--login_show_box end-->
 </div>
 <div id="dialog-date" style="display:none;">

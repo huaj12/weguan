@@ -11,7 +11,6 @@
 <body>
 	<div class="warp"><!--warp begin--> 
 		<div class="main"><!--main begin-->
-		<c:set var="page" value="face" scope="request"/>
 			<c:set var="messageHide" value="true" scope="request" />
 			<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
 			<div class="content"><!--content begin-->
@@ -67,6 +66,7 @@
 		<jsp:include page="/WEB-INF/jsp/web/common/script/jcrop.jsp" />
 		<script type="text/javascript" src="${jzr:static('/js/web/face.js')}"></script>
 		<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
+		<c:set var="footType" value="fixed" scope="request"/>
 		<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 	</div><!--warp end-->
 </body>

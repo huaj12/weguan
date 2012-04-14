@@ -20,6 +20,7 @@
 					<a href="/profile/index">我的资料</a>
 					<a href="/profile/index/face">我的头像</a>
 					<a href="/profile/preference">拒宅偏好</a>
+					<a href="/passport/account">账号与密码</a>
 					<a href="/blacklist/">屏蔽管理</a>
 					<!-- <a href="/profile/email">订阅设置</a> -->
 					<a href="/logout">退出</a>
@@ -47,7 +48,7 @@
 				<a href="javascript:void(0);" class="wb login-btn" title="使用微博账号登录" go-uri="/web/login/6"></a>
 				<a href="javascript:void(0);" class="db login-btn"  title="使用豆瓣账号登录" go-uri="/web/login/7"></a>
 				<a href="javascript:void(0);" class="qq login-btn"  title="使用QQ账号登录" go-uri="/web/login/8"></a>
-			</div> --%>
+			</div>
 			<div class="login_btns"><!--login_btns begin-->
 				<p>加入拒宅：</p>
 				<span>
@@ -55,7 +56,8 @@
 					<a href="javascript:void(0);" class="db login-btn"  title="使用豆瓣账号登录" go-uri="/web/login/7">登录</a>
 					<a href="javascript:void(0);" class="qq login-btn"  title="使用QQ账号登录" go-uri="/web/login/8">登录</a>
 				</span>
-			</div><!--login_btns end-->
+			</div><!--login_btns end--> --%>
+			<div class="login_btn"><a href="/login" class="btn_log" title="登录">登录</a><a href="/passport/register" class="btn_res" title="">注册</a></div>
 		</c:if>
 		<div class="user_area"><!--user_area begin-->
 			<c:if test="${context.uid > 0}">

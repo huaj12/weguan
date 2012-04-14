@@ -81,4 +81,11 @@
     	<example>${jzu:htmlOut('"')}</example>
     </function>
     
+    <function>
+    	<name>mailDomain</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.String mailDomain(java.lang.String)</function-signature>
+    	<example>${jzu:mailDomain('"')}</example>
+    </function>
+    
 </taglib>

@@ -484,7 +484,6 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
-	// TODO (done) 注释
 	public static String genBlacklistKey(long uid) {
 		return genKey(uid, "blacklistindex");
 	}

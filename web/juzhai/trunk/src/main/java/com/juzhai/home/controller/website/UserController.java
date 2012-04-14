@@ -93,7 +93,6 @@ public class UserController extends BaseController {
 			TpUser tpUser = tpUserService.getTpUserByUid(uid);
 			model.addAttribute("tpUser", tpUser);
 			if (context.hasLogin()) {
-				// TODO (done) 未登录情况呢？
 				isShield(model, context.getUid(), uid);
 			}
 			// 获取用户偏好

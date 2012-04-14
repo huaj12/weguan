@@ -81,7 +81,6 @@ public class DialogController extends BaseController {
 		List<DialogContentView> dialogContentViewList = dialogService
 				.listDialogContent(context.getUid(), uid,
 						pager.getFirstResult(), pager.getMaxResult());
-		// TODO (done) 每次都要取一次？uid和targetUid会变吗？
 		isShield(model, context.getUid(), uid);
 		model.addAttribute("dialogContentViewList", dialogContentViewList);
 		model.addAttribute("pager", pager);

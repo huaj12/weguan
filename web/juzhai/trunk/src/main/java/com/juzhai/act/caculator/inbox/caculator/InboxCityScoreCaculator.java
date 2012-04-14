@@ -19,11 +19,11 @@ public class InboxCityScoreCaculator implements IScoreCaculator {
 
 	@Override
 	public long calculate(long srcUid, long destUid, long actId, Date time) {
-		if (profileService.isMaybeSameCity(srcUid, destUid) > 0) {
-			return cityRewardTimeSeconds;
-		} else {
-			return 0;
-		}
+		// if (profileService.isMaybeSameCity(srcUid, destUid) > 0) {
+		// return cityRewardTimeSeconds;
+		// } else {
+		return 0;
+		// }
 	}
 
 }

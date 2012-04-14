@@ -30,7 +30,10 @@ import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.home.service.IBlacklistService;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.model.Passport;
+import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.post.model.Ad;
 import com.juzhai.post.service.IAdService;
@@ -68,6 +71,10 @@ public class BaseController {
 	private IPostService postService;
 	@Autowired
 	private IBlacklistService blacklistService;
+	@Autowired
+	private IPassportService passportService;
+	@Autowired
+	private IRegisterService registerService;
 
 	protected UserContext checkLoginForApp(HttpServletRequest request)
 			throws NeedLoginException {
@@ -213,6 +220,13 @@ public class BaseController {
 				postService.getAllResponseCnt(context.getUid()));
 		model.addAttribute("completion",
 				profileService.getProfileCompletion(context.getUid()));
+		Passport passport = passportService.getPassportByUid(context.getUid());
+		if (null != passport) {
+			model.addAttribute("hasNotAccount",
+					!registerService.hasAccount(passport));
+			model.addAttribute("hasNotActive",
+					!registerService.hasActiveEmail(passport));
+		}
 	}
 
 	protected long decryptInviteUid(String token) {

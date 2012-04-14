@@ -65,10 +65,11 @@ public class ActiveCodeService implements IActiveCodeService {
 	// }
 
 	@Override
-	public boolean check(long uid, String code, ActiveCodeType activeCodeType) {
-		ActiveCode activeCode = getActiveCode(uid, code, activeCodeType);
-		return activeCode == null ? false : activeCode.getExpireTime().after(
-				new Date());
+	public long check(String code, ActiveCodeType activeCodeType) {
+		ActiveCode activeCode = getActiveCode(code, activeCodeType);
+		return activeCode != null
+				&& activeCode.getExpireTime().after(new Date()) ? activeCode
+				.getUid() : 0L;
 	}
 
 	@Override
@@ -76,13 +77,12 @@ public class ActiveCodeService implements IActiveCodeService {
 		activeCodeMapper.deleteByPrimaryKey(code);
 	}
 
-	private ActiveCode getActiveCode(long uid, String code,
-			ActiveCodeType activeCodeType) {
+	private ActiveCode getActiveCode(String code, ActiveCodeType activeCodeType) {
 		if (StringUtils.isEmpty(code)) {
 			return null;
 		}
 		ActiveCode activeCode = activeCodeMapper.selectByPrimaryKey(code);
-		if (null == activeCode || activeCode.getUid().longValue() != uid
+		if (null == activeCode
 				|| activeCode.getType().intValue() != activeCodeType.getType()) {
 			return null;
 		}

@@ -20,6 +20,7 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genCachedFriendsKey(long uid) {
 		return genKey(uid, "cachedFriends");
 	}
@@ -40,6 +41,7 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	 * @param actId
 	 * @return
 	 */
+	@Deprecated
 	public static String genActCacheKey(long actId) {
 		return genKey(actId, "actCache");
 	}
@@ -51,6 +53,7 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	 * @param receiverId
 	 * @return
 	 */
+	@Deprecated
 	public static String genLastPushTimeKey(long senderId, long receiverId) {
 		return genKey(senderId, "lastPush_" + receiverId);
 	}
@@ -62,6 +65,7 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	 * @param receiverId
 	 * @return
 	 */
+	@Deprecated
 	public static String genPushPunishTimesKey(long senderId, long receiverId) {
 		return genKey(senderId, "punishTimes_" + receiverId);
 	}
@@ -72,6 +76,7 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genSetupTpAdviseKey(long uid) {
 		return genKey(uid, "tpAdvise");
 	}
@@ -81,6 +86,7 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public static String genTpMsgReceiveCnt(long uid, MsgType msgType) {
 		return genKey(uid, "tpMsgReceiveCnt_" + msgType.name());
 	}
@@ -103,6 +109,7 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genUserFreeDateListKey(long uid) {
 		return genKey(uid, "userFreeDateList");
 	}
@@ -144,4 +151,23 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 		return genKey(uid, "allResponseCnt");
 	}
 
+	/**
+	 * 用户激活邮件发送key
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genActiveMailSentKey(long uid) {
+		return genKey(uid, "activeMailSent");
+	}
+
+	/**
+	 * 用户重置邮件发送key
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genResetMailSentKey(long uid) {
+		return genKey(uid, "resetMailSent");
+	}
 }

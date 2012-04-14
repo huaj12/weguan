@@ -20,6 +20,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genUserCityKey(long uid) {
 		return genKey(uid, "city");
 	}
@@ -30,6 +31,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genFriendsKey(long uid) {
 		return genKey(uid, "friends");
 	}
@@ -40,6 +42,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genUnInstallFriendsKey(long uid) {
 		return genKey(uid, "unInstallFriends");
 	}
@@ -50,6 +53,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genInstallFollowsKey(long uid) {
 		return genKey(uid, "installFollows");
 	}
@@ -60,6 +64,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genMyActsKey(long uid) {
 		return genKey(uid, "myActs");
 	}
@@ -70,6 +75,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genInboxActsKey(long uid) {
 		return genKey(uid, "inboxActs");
 	}
@@ -80,6 +86,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genReadFeedsKey(ReadFeedType type) {
 		return "readFeed_" + type.name();
 	}
@@ -90,6 +97,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genNillActsKey(long uid) {
 		return genKey(uid, "nillActs");
 	}
@@ -100,6 +108,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genUnreadMsgsKey(long uid, String className) {
 		return genKey(uid, "unread" + className);
 	}
@@ -110,10 +119,12 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genReadMsgsKey(long uid, String className) {
 		return genKey(uid, "read" + className);
 	}
 
+	@Deprecated
 	public static String genUnReadMsgCountKey(long uid, String className) {
 		return genKey(uid, "unreadcount" + className);
 	}
@@ -125,6 +136,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param tpId
 	 * @return
 	 */
+	@Deprecated
 	public static String genPrestoreMsgsKey(String tpIdeneity, long tpId,
 			String className) {
 		return genKey(tpIdeneity, tpId, "prestore" + className);
@@ -145,6 +157,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param actId
 	 * @return
 	 */
+	@Deprecated
 	public static String genActSynonymKey(long actId) {
 		return genKey(actId, "synonym");
 	}
@@ -155,6 +168,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param userId
 	 * @return
 	 */
+	@Deprecated
 	public static String genQuestionUsersKey(long userId) {
 		return genKey(userId, "question");
 	}
@@ -164,6 +178,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public static String genQuestionUserKeysKey() {
 		return "questionUserKeys";
 	}
@@ -187,6 +202,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 		return "openEmailStat";
 	}
 
+	@Deprecated
 	public static String genLazyMessageKey(long uid, long receiverId,
 			MsgType type, String className) {
 		return genKey(uid, receiverId, type, "lazy" + className);
@@ -197,6 +213,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public static String genLazyMsgKey() {
 		return "lazyMsgKey";
 	}
@@ -206,6 +223,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public static String genMergerMsgKey() {
 		return "mergerMsgKey";
 	}
@@ -215,6 +233,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public static String genActShieldKey() {
 		return "actShield";
 	}
@@ -224,6 +243,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public static String genActivistsKey(long tpId) {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		String tpName = tp == null ? StringUtils.EMPTY : tp.getName();
@@ -235,6 +255,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public static String genActivistsKey(String tpName) {
 		return tpName == null ? StringUtils.EMPTY : tpName + "_activists";
 	}
@@ -245,6 +266,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	@Deprecated
 	public static String genUserNewestActKey(long uid) {
 		return genKey(uid, "userNewestAct");
 	}
@@ -255,6 +277,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param date
 	 * @return
 	 */
+	@Deprecated
 	public static String genActDayRankKey(Date date) {
 		return "actRank_" + DateUtils.truncate(date, Calendar.DATE).getTime();
 	}
@@ -266,6 +289,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param tpId
 	 * @return
 	 */
+	@Deprecated
 	public static String genTpActPopularityKey(long actId, long tpId) {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		String tpName = tp == null ? StringUtils.EMPTY : tp.getName();
@@ -279,6 +303,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param tpName
 	 * @return
 	 */
+	@Deprecated
 	public static String genTpActPopularityKey(long actId, String tpName) {
 		return genKey(actId, tpName == null ? StringUtils.EMPTY : tpName
 				+ "_actPopularity");
@@ -290,6 +315,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * @param tpName
 	 * @return
 	 */
+	@Deprecated
 	public static String genTpInstallUsersKey(String tpName) {
 		return tpName + ".installUsers";
 	}
@@ -452,6 +478,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 		return "occasionalId";
 	}
 
+	//TODO (review) 注释
 	public static String genBlacklistKey(long uid) {
 		return genKey(uid, "blacklistindex");
 	}

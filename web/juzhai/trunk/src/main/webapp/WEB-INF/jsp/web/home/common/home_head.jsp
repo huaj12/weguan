@@ -49,7 +49,7 @@
 							<a href="javascript:void(0);" class="done">已屏蔽</a>
 						</c:when>
 						<c:otherwise>
-							<a href="javascript:void(0);" class="pinbi" target-uid="${profile.uid}" target-name="<c:out value='${profile.nickname}'/>" title="屏蔽后，ta将不能再私信，响应，约你">屏蔽</a>
+							<a href="javascript:void(0);" class="pinbi" target-uid="${profile.uid}" target-name="<c:out value='${profile.nickname}'/>" title="被你屏蔽的人将不能再给你发送任何消息">屏蔽</a>
 						</c:otherwise>
 					</c:choose>
 					</div>

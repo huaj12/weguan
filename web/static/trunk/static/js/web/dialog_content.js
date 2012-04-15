@@ -103,7 +103,7 @@ function bindReply(){
 	});
 }
 function bindReport(){
-	$("div.repy_box > span > div.btn > a.report").bind("click", function(){
+	$("div.repy_box > span > div.btn > a.dialog-report").bind("click", function(){
 		var dialogContent = $(this).attr("dialog-content");
 		var targetUid = $(this).attr("target-uid");
 		report(targetUid,'1',dialogContent,targetUid);
@@ -111,7 +111,7 @@ function bindReport(){
 	});
 }
 function bindShield(){
-	$("div.repy_box > span > div.btn > a.pinbi").bind("click", function(){
+	$("div.repy_box > span > div.btn > a.dialog-pinbi").bind("click", function(){
 		bindShieldUid($(this));
 		return false;
 	});

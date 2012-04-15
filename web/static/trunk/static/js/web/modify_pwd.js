@@ -1,5 +1,10 @@
 $(document).ready(function(){
 	
+	$("div.login_alink > a").click(function(){
+		$("#modify-pwd-form").show();
+		$(this).unbind("click");
+	});
+	
 	function validateOldPwd(){
 		var value = $("#form-old-pwd").find("input").val();
 		if(value == ""){

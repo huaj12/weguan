@@ -31,8 +31,8 @@
 										<c:when test="${not empty profileView}">
 											<div class="pub_box_t"></div>
 											<div class="my_pb"><!--my_pb begin-->
-												<div class="pub_box boy"><!--pub_box begin-->
 													<c:forEach items="${profileView}" var="profile">
+													<div class="pub_box <c:choose><c:when test='${profile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--pub_box begin-->
 														<div class="pub_box_m"><!--pub_box_m begin-->
 														<p><a href="/home/${profile.uid}"  target="_blank"><img src="${jzr:userLogo(profile.uid,profile.logoPic,80)}" width="80" height="80" /></a></p>
 														<h2><a href="/home/${profile.uid}"  target="_blank"><c:out value="${profile.nickname }"/> </a></h2>
@@ -43,10 +43,10 @@
 														<em><c:if test="${age > 0}">${age}岁&nbsp;</c:if><c:if test="${not empty cityName}">${cityName}<c:if test="${not empty townName}">${townName}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty profile.profession}">${profile.profession}&nbsp;</c:if></em>
 														<span><a href="javascript:void(0);" target-name="<c:out value="${profile.nickname }"/>" target-uid="${profile.uid}" title="取消屏蔽后，ta可以私信，响应，约你">取消屏蔽</a></span>
 														</div><!--pub_box_m end-->
-													</c:forEach>
-													<div class="clear"></div>
+														<div class="clear"></div>
 													<div class="pub_box_b"></div>
-												</div><!--pub_box end-->
+													</div><!--pub_box end-->
+													</c:forEach>
 											</div><!--my_pb end-->
 										</c:when>
 									</c:choose>

@@ -24,7 +24,7 @@
 								<div class="my_infor"><!--my_infor begin-->
 									<div class="zhmm"><!--zhmm begin-->
 										<div class="input_x"><!--input_x begin-->
-											<h3>账号邮箱：</h3>
+											<h3>登录邮箱：</h3>
 											<div class="big_input unclick">
 												<p class="l"></p><span><input type="text" disabled="disabled" value="${account}" /></span><p class="r"></p>
 												<em></em>

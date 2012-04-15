@@ -115,6 +115,7 @@ $(document).ready(function(){
 	$("div.hyz > a").click(function(){
 		var imageUrl = $("div.yzm > img").attr("url") + new Date().getTime();
 		$("div.yzm > img").attr("src", imageUrl);
+		return false;
 	});
 	
 	$("#register-form").submit(function(){

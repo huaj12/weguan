@@ -6,7 +6,7 @@ $(document).ready(function() {
 		var content = $("#dialog-confirm").html().replace("{0}", "确定要取消屏蔽"+nickname+"么?");
 		showConfirm(this, "cancelShieldUid", content, function(){
 			cancelShieldUid(targetUid, function(){
-				$(obj).parent().parent().remove();
+				$(obj).parent().parent().parent().remove();
 			});
 		});
 		return false;

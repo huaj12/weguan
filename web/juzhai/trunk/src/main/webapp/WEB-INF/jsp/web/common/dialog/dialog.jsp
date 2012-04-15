@@ -74,7 +74,7 @@
 <div id="dialog-shield-uid" style="display:none;">
 	<div class="show_box"><!--show box-->
 		<h2>确定要屏蔽{0}么？</h2>
-		<p>屏蔽后,ta将不能再私信、响应、约你</p>
+		<p>被你屏蔽的人将不能再给你发送任何消息</p>
 	</div><!--show end-->
 </div>
 

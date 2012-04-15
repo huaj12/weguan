@@ -24,10 +24,10 @@
 									<a href="javascript:void(0);"  class="done">已屏蔽</a>
 								</c:when>
 								<c:otherwise>
-									<a href="javascript:void(0);" target-uid="${targetProfile.uid}" id="shield-btn" target-name="<c:out value='${targetProfile.nickname}'></c:out>"  title="屏蔽后，ta将不能再私信，响应，约你">屏蔽ta</a>
+									<a href="javascript:void(0);" target-uid="${targetProfile.uid}" class="pinbi" target-name="<c:out value='${targetProfile.nickname}'></c:out>"  title="屏蔽后，ta将不能再私信，响应，约你">屏蔽ta</a>
 								</c:otherwise>
 							</c:choose>
-							<a href="javascript:void(0);" id="report-btn" dialog-content="<c:out value="${dialogContentView.dialogContent.content}" />" target-uid="${targetProfile.uid}">举报</a>
+							<a href="javascript:void(0);" class="report" dialog-content="<c:out value="${dialogContentView.dialogContent.content}" />" target-uid="${targetProfile.uid}">举报</a>
 						</c:if>
 						<a href="javascript:void(0);" id="del-btn" dialog-content-id="${dialogContentView.dialogContent.id}" target-uid="${targetProfile.uid}">删除</a>
 						<a href="javascript:void(0);" id="repy-btn">回复</a>

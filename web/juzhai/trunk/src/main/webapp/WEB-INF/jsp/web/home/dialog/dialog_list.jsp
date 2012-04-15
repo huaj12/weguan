@@ -24,7 +24,7 @@
 											<a href="javascript:void(0);"  class="done">已屏蔽</a>
 										</c:when>
 										<c:otherwise>
-											<a href="javascript:void(0);" target-uid="${dialogView.targetProfile.uid}" target-name="<c:out value='${dialogView.targetProfile.nickname}'></c:out>" class="pingbi" title="屏蔽后，ta将不能再私信，响应，约你">屏蔽ta</a>								
+											<a href="javascript:void(0);" target-uid="${dialogView.targetProfile.uid}" target-name="<c:out value='${dialogView.targetProfile.nickname}'></c:out>" class="pingbi" title="被你屏蔽的人将不能再给你发送任何消息">屏蔽ta</a>								
 										</c:otherwise> 
 									</c:choose>
 									<a href="javascript:void(0);" target-content="${dialogView.dialogContent.content}" target-uid="${dialogView.targetProfile.uid}" class="jubao">举报</a>

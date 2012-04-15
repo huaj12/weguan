@@ -23,8 +23,8 @@ import com.juzhai.verifycode.service.IVerifyCodeService;
 public class VerifyCodeService implements IVerifyCodeService {
 	private final Log log = LogFactory.getLog(getClass());
 	private static final String chars = "0123456789abcdefghjklmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ";
-	private static final int width = 70;
-	private static final int height = 25;
+	private static final int width = 80;
+	private static final int height = 30;
 	@Value("${verify.code.expire.time}")
 	private int verifyCodeExpireTime;
 	@Autowired

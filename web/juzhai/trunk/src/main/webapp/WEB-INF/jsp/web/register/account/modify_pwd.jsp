@@ -30,7 +30,11 @@
 												<em></em>
 											</div>
 										</div><!--input_x end-->
-										<form id="modify-pwd-form">
+										<div class="input_x"><!--input_x begin-->
+											<h3>登录密码：</h3>
+											<div class="login_alink"><a href="javascript:void(0);">更改&gt;&gt;</a></div>
+										</div><!--input_x end-->
+										<form id="modify-pwd-form" style="display: none;">
 											<div class="input_x"><!--input_x begin-->
 												<h3>原始密码：</h3>
 												<div id="form-old-pwd" class="big_input">

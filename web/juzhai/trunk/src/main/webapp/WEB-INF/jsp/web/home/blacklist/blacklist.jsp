@@ -36,11 +36,11 @@
 														<div class="pub_box_m"><!--pub_box_m begin-->
 														<p><a href="/home/${profile.uid}"  target="_blank"><img src="${jzr:userLogo(profile.uid,profile.logoPic,80)}" width="80" height="80" /></a></p>
 														<h2><a href="/home/${profile.uid}"  target="_blank"><c:out value="${profile.nickname }"/> </a></h2>
-														<c:set var="cityName" value="${jzd:cityName(view.profile.city)}" />
+														<c:set var="cityName" value="${jzd:cityName(profile.city)}" />
 														<c:set var="townName" value="${jzd:townName(profile.town)}" />
 														<c:set var="age" value="${jzu:age(profile.birthYear,profile.birthSecret)}" />
 														<c:set var="constellationName" value="${jzd:constellationName(profile.constellationId)}" />
-														<em><c:if test="${age > 0}">${age}岁,</c:if><c:if test="${not empty cityName}">${cityName}<c:if test="${not empty townName}">${townName},</c:if></c:if><c:if test="${not empty constellationName}">${constellationName},</c:if><c:if test="${not empty view.profile.profession}">${profile.profession}</c:if></em>
+														<em><c:if test="${age > 0}">${age}岁&nbsp;</c:if><c:if test="${not empty cityName}">${cityName}<c:if test="${not empty townName}">${townName}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty profile.profession}">${profile.profession}</c:if></em>
 														<span><a href="javascript:void(0);" target-name="<c:out value="${profile.nickname }"/>" target-uid="${profile.uid}" title="取消屏蔽后，ta可以私信，响应，约你">取消屏蔽</a></span>
 														</div><!--pub_box_m end-->
 													</c:forEach>

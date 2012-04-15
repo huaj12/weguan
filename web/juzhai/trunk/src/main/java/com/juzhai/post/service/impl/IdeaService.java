@@ -407,15 +407,20 @@ public class IdeaService implements IIdeaService {
 
 		IdeaExample ideaExample = new IdeaExample();
 		if (null != cityId && cityId > 0) {
-			IdeaExample.Criteria c1 = ideaExample.or().andCityEqualTo(cityId);
-			IdeaExample.Criteria c2 = ideaExample.or().andCityEqualTo(0L);
-			if (CollectionUtils.isNotEmpty(ideaIdList)) {
-				c1.andIdNotIn(ideaIdList).andDefunctEqualTo(false);
-				c2.andIdNotIn(ideaIdList).andDefunctEqualTo(false);
-			}
-		} else if (CollectionUtils.isNotEmpty(ideaIdList)) {
-			ideaExample.createCriteria().andIdNotIn(ideaIdList)
+			IdeaExample.Criteria c1 = ideaExample.or().andCityEqualTo(cityId)
 					.andDefunctEqualTo(false);
+			IdeaExample.Criteria c2 = ideaExample.or().andCityEqualTo(0L)
+					.andDefunctEqualTo(false);
+			if (CollectionUtils.isNotEmpty(ideaIdList)) {
+				c1.andIdNotIn(ideaIdList);
+				c2.andIdNotIn(ideaIdList);
+			}
+		} else {
+			IdeaExample.Criteria c = ideaExample.createCriteria()
+					.andDefunctEqualTo(false);
+			if (CollectionUtils.isNotEmpty(ideaIdList)) {
+				c.andIdNotIn(ideaIdList);
+			}
 		}
 		ideaExample.setOrderByClause("use_count asc, create_time desc");
 		ideaExample.setLimit(new Limit(firstResult, maxResults));

@@ -29,8 +29,8 @@
 							</c:choose>
 							<a href="javascript:void(0);" class="dialog-report" dialog-content="<c:out value="${dialogContentView.dialogContent.content}" />" target-uid="${targetProfile.uid}">举报</a>
 						</c:if>
-						<a href="javascript:void(0);" id="del-btn" dialog-content-id="${dialogContentView.dialogContent.id}" target-uid="${targetProfile.uid}">删除</a>
-						<a href="javascript:void(0);" id="repy-btn">回复</a>
+						<a href="javascript:void(0);" class="del-btn" dialog-content-id="${dialogContentView.dialogContent.id}" target-uid="${targetProfile.uid}">删除</a>
+						<a href="javascript:void(0);" class="repy-btn">回复</a>
 					</div>
 				</span>
 				<p></p>

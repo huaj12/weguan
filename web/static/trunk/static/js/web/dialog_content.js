@@ -95,7 +95,7 @@ $(document).ready(function(){
 });
 
 function bindReply(){
-	$("a#repy-btn").bind("click", function(){
+	$("a.repy-btn").bind("click", function(){
 		$body.animate({scrollTop: $("#respond").offset().top}, 500, function(){
 			$("div.text_area > em > textarea").focus();
 		});
@@ -118,7 +118,7 @@ function bindShield(){
 }
 
 function bindDelDialogContent(){
-	$("div.repy_box > span > div.btn > a#del-btn").bind("click", function(){
+	$("div.repy_box > span > div.btn > a.del-btn").bind("click", function(){
 		var dialogContentId = $(this).attr("dialog-content-id");
 		var targetUid = $(this).attr("target-uid");
 		var obj = this;

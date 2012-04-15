@@ -25,7 +25,7 @@
 								<jsp:include page="/WEB-INF/jsp/web/profile/common/left.jsp" />
 								<!--set_left end-->
 								<div class="set_right"><!--set_right begin-->
-								<div class="title"><h2>被我屏蔽的人<font>被你屏蔽的人将不能再私信，响应，约你</font></h2></div>
+								<div class="title"><h2>被我屏蔽的人<font>被你屏蔽的人将不能再给你发送任何消息</font></h2></div>
 									<div class="my_infor"><!--my_infor begin-->
 									<c:choose>
 										<c:when test="${not empty profileView}">
@@ -50,6 +50,9 @@
 												</c:forEach>
 											</div><!--my_pb end-->
 										</c:when>
+										<c:otherwise>
+										<div class="none">你还没有屏蔽过任何人</div>
+										</c:otherwise>
 									</c:choose>
 									<div class="clear"></div>
 									<c:if test="${not empty profileView}">

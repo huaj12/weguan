@@ -27,29 +27,30 @@
 								<div class="set_right"><!--set_right begin-->
 								<div class="title"><h2>被我屏蔽的人<font>被你屏蔽的人将不能再私信，响应，约你</font></h2></div>
 									<div class="my_infor"><!--my_infor begin-->
-									<c:choose>
-										<c:when test="${not empty profileView}">
-											<div class="pub_box_t"></div>
-											<div class="my_pb"><!--my_pb begin-->
-													<c:forEach items="${profileView}" var="profile">
-													<div class="pub_box <c:choose><c:when test='${profile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--pub_box begin-->
-														<div class="pub_box_m"><!--pub_box_m begin-->
-														<p><a href="/home/${profile.uid}"  target="_blank"><img src="${jzr:userLogo(profile.uid,profile.logoPic,80)}" width="80" height="80" /></a></p>
-														<h2><a href="/home/${profile.uid}"  target="_blank"><c:out value="${profile.nickname }"/> </a></h2>
-														<c:set var="cityName" value="${jzd:cityName(profile.city)}" />
-														<c:set var="townName" value="${jzd:townName(profile.town)}" />
-														<c:set var="age" value="${jzu:age(profile.birthYear,profile.birthSecret)}" />
-														<c:set var="constellationName" value="${jzd:constellationName(profile.constellationId)}" />
-														<em><c:if test="${age > 0}">${age}岁&nbsp;</c:if><c:if test="${not empty cityName}">${cityName}<c:if test="${not empty townName}">${townName}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty profile.profession}">${profile.profession}&nbsp;</c:if></em>
-														<span><a href="javascript:void(0);" target-name="<c:out value="${profile.nickname }"/>" target-uid="${profile.uid}" title="取消屏蔽后，ta可以私信，响应，约你">取消屏蔽</a></span>
-														</div><!--pub_box_m end-->
-														<div class="clear"></div>
-													<div class="pub_box_b"></div>
-													</div><!--pub_box end-->
-													</c:forEach>
-											</div><!--my_pb end-->
-										</c:when>
-									</c:choose>
+									<div class="pub_box_t"></div>
+										<div class="my_pb"><!--my_pb begin-->
+										<c:choose>
+											<c:when test="${not empty profileView}">
+														<c:forEach items="${profileView}" var="profile">
+															<div class="pub_box <c:choose><c:when test='${profile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--pub_box begin-->
+																<div class="pub_box_t"></div>
+																<div class="pub_box_m"><!--pub_box_m begin-->
+																<p><a href="/home/${profile.uid}"  target="_blank"><img src="${jzr:userLogo(profile.uid,profile.logoPic,80)}" width="80" height="80" /></a></p>
+																<h2><a href="/home/${profile.uid}"  target="_blank"><c:out value="${profile.nickname }"/> </a></h2>
+																<c:set var="cityName" value="${jzd:cityName(profile.city)}" />
+																<c:set var="townName" value="${jzd:townName(profile.town)}" />
+																<c:set var="age" value="${jzu:age(profile.birthYear,profile.birthSecret)}" />
+																<c:set var="constellationName" value="${jzd:constellationName(profile.constellationId)}" />
+																<em><c:if test="${age > 0}">${age}岁&nbsp;</c:if><c:if test="${not empty cityName}">${cityName}<c:if test="${not empty townName}">${townName}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty profile.profession}">${profile.profession}&nbsp;</c:if></em>
+																<span><a href="javascript:void(0);" target-name="<c:out value="${profile.nickname }"/>" target-uid="${profile.uid}" title="取消屏蔽后，ta可以私信，响应，约你">取消屏蔽</a></span>
+																</div><!--pub_box_m end-->
+																<div class="clear"></div>
+																<div class="pub_box_b"></div>
+															</div><!--pub_box end-->
+														</c:forEach>
+											</c:when>
+										</c:choose>
+										</div><!--my_pb end-->
 									<div class="clear"></div>
 									<c:if test="${not empty profileView}">
 										<c:import url="/WEB-INF/jsp/web/common/pager.jsp">

@@ -39,6 +39,7 @@
 									<div class="forget_pwd"><a href="/passport/getbackpwd">忘记密码？</a></div>
 								</div><!--reg_left end-->
 							</form>
+							<c:set var="isLogin" value="true" scope="request"/>
 							<jsp:include page="tp_login.jsp" />
 						</div><!--member_register end-->
 					</div><!--area_m end-->

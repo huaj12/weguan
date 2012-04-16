@@ -8,10 +8,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.rubyeye.xmemcached.MemcachedClient;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
@@ -37,6 +40,10 @@ public class DoubanConnectUserService extends AbstractUserService {
 	private int nicknameLengthMax;
 	@Value(value = "${feature.length.max}")
 	private int featureLengthMax;
+	@Autowired
+	private MemcachedClient memcachedClient;
+	@Value("${oauth.token.secret.expire.time}")
+	private int oauthTokenSecretExpireTime;
 
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
@@ -53,8 +60,13 @@ public class DoubanConnectUserService extends AbstractUserService {
 		if (StringUtils.isEmpty(doubanService.getRequestToken())) {
 			log.error("douban getAuthorizeURLforCode RequestToken is null");
 		}
-		request.getSession().setAttribute("oauth_token_secret",
-				doubanService.getRequestTokenSecret());
+		try {
+			memcachedClient.set(doubanService.getRequestToken(),
+					oauthTokenSecretExpireTime,
+					doubanService.getRequestTokenSecret());
+		} catch (Exception e) {
+			log.error("douban getAuthorizeURLforCode memcachedClient is error");
+		}
 		return url;
 	}
 
@@ -135,12 +147,17 @@ public class DoubanConnectUserService extends AbstractUserService {
 			log.error("douban  Thirdparty is null");
 			return null;
 		}
-		String oauthTokenSecret = (String) request.getSession().getAttribute(
-				"oauth_token_secret");
+		String oauthTokenSecret = null;
+		try {
+			oauthTokenSecret = memcachedClient.get(oauth_token);
+			memcachedClient.delete(oauth_token);
+		} catch (Exception e) {
+			log.error("douban fetchTpIdentity memcachedCilent is error", e);
+		}
 		if (StringUtils.isEmpty(oauthTokenSecret)) {
-			String Agent = request.getHeader("User-Agent");
-			log.info("user Agent is " + Agent);
-			log.error("douban  oauthTokenSecret is null");
+			// String Agent = request.getHeader("User-Agent");
+			// log.info("user Agent is " + Agent);
+			// log.error("douban  oauthTokenSecret is null");
 			return null;
 		}
 		String accessToken = getOAuthAccessTokenFromCode(tp, oauth_token + ","

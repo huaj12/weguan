@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.rubyeye.xmemcached.MemcachedClient;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,6 +37,10 @@ public class QqConnectUserService extends AbstractUserService {
 	private int nicknameLengthMax;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private MemcachedClient memcachedClient;
+	@Value("${oauth.token.secret.expire.time}")
+	private int oauthTokenSecretExpireTime;
 
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
@@ -51,7 +57,8 @@ public class QqConnectUserService extends AbstractUserService {
 			if (StringUtils.isEmpty(tokens.get("oauth_token"))) {
 				log.error("qq getAuthorizeURLforCode oauth_token is null");
 			}
-			request.getSession().setAttribute("oauth_token_secret",
+			memcachedClient.set(tokens.get("oauth_token"),
+					oauthTokenSecretExpireTime,
 					tokens.get("oauth_token_secret"));
 			RedirectToken ret = new RedirectToken(tp.getAppKey(),
 					tp.getAppSecret());
@@ -116,12 +123,17 @@ public class QqConnectUserService extends AbstractUserService {
 			log.error("QQ  Thirdparty is null");
 			return null;
 		}
-		String oauthTokenSecret = (String) request.getSession().getAttribute(
-				"oauth_token_secret");
+		String oauthTokenSecret = null;
+		try {
+			oauthTokenSecret = memcachedClient.get(oauth_token);
+			memcachedClient.delete(oauth_token);
+		} catch (Exception e) {
+			log.error("QQ fetchTpIdentity memcachedCilent is error", e);
+		}
 		if (StringUtils.isEmpty(oauthTokenSecret)) {
-			String Agent = request.getHeader("User-Agent");
-			log.info("user Agent is " + Agent);
-			log.error("QQ  oauthTokenSecret is null");
+			// String Agent = request.getHeader("User-Agent");
+			// log.info("user Agent is " + Agent);
+			// log.error("QQ  oauthTokenSecret is null");
 			return null;
 		}
 		String accessToken = getOAuthAccessTokenFromCode(tp, oauth_token + ","

@@ -106,6 +106,13 @@ $(document).ready(function(){
 	});
 	
 	$("div.send_box").find("div.random_select > a.random").click(function(){
+		$("textarea[name='content']").bind("keyup", function(){
+			var random = $(this).attr("random");
+			if(null != random && random){
+				$(this).attr("random", false);
+				resetAdditionForm($("form[name='sendPost']"));
+			}
+		});
 		$.ajax({
 			url : "/idea/random",
 			type : "post",
@@ -124,6 +131,7 @@ $(document).ready(function(){
 					
 					resetSendPostForm($("form[name='sendPost']"));
 					$("textarea[name='content']").val(content);
+					$("textarea[name='content']").attr("random", true);
 					//place
 					if(place != null && place != ""){
 						var sendPostAddress = $("div#send-post-address");
@@ -183,6 +191,10 @@ $(document).ready(function(){
 
 function resetSendPostForm(sendForm){
 	sendForm[0].reset();
+	resetAdditionForm(sendForm);
+}
+
+function resetAdditionForm(sendForm){
 	sendForm.find('input[name="categoryId"]').val(0);
 	sendForm.find('input[name="place"]').val("");
 	sendForm.find("input[name='dateString']").val("");

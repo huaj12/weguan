@@ -38,7 +38,7 @@
 									</div><!--input_x end-->
 									<div class="input_x"><!--input_x begin-->
 										<h3>昵称：</h3>
-										<div id="form-nickname" class="big_input <c:if test='${errorCode == "20005" || errorCode == "20006" || errorCode == "20018"}'>wrong</c:if>">
+										<div id="form-nickname" class="big_input <c:if test='${errorCode == "20005" || errorCode == "20006" || errorCode == "20018" || errorCode == "20021"}'>wrong</c:if>">
 											<p class="l"></p><span><input name="nickname" value="${registerForm.nickname}" type="text" /></span><p class="r"></p>
 											<em>${errorInfo}</em>
 										</div>

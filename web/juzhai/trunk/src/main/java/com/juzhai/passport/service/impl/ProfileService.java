@@ -3,6 +3,7 @@
  */
 package com.juzhai.passport.service.impl;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.Date;
@@ -40,14 +41,13 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IProfileImageService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
+import com.juzhai.wordfilter.service.IWordFilterService;
 
 @Service
 public class ProfileService implements IProfileService {
 
 	private final Log log = LogFactory.getLog(getClass());
 
-	@Autowired
-	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private RedisTemplate<String, byte[]> byteArrayRedisTemplate;
 	@Autowired
@@ -58,6 +58,8 @@ public class ProfileService implements IProfileService {
 	private MemcachedClient memcachedClient;
 	@Autowired
 	private IProfileImageService profileImageService;
+	@Autowired
+	private IWordFilterService wordFilterService;
 	@Value("${profile.cache.expire.time}")
 	private int profileCacheExpireTime = 20000;
 	@Value("${nickname.length.max}")
@@ -70,6 +72,10 @@ public class ProfileService implements IProfileService {
 	private int blogLengthMax;
 	@Value("${home.length.max}")
 	private int homeLengthMax;
+	@Value("${profile.nickname.wordfilter.application}")
+	private int profileNicknameWordfilterApplication;
+	@Value("${profile.feature.wordfilter.application}")
+	private int profileFeatureWordfilterApplication;
 
 	@Override
 	public List<Profile> getProfilesByCityId(long cityId) {
@@ -227,6 +233,21 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_NICKNAME_IS_TOO_LONG);
 		}
+		if (isExistNickname(nickName, uid)) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_NICKNAME_IS_EXIST);
+		}
+		// 验证屏蔽字
+		try {
+			if (wordFilterService.wordFilter(
+					profileNicknameWordfilterApplication, uid, null,
+					nickName.getBytes("GBK")) < 0) {
+				throw new ProfileInputException(
+						ProfileInputException.PROFILE_NICKNAME_FORBID);
+			}
+		} catch (IOException e) {
+			log.error("Wordfilter service down.", e);
+		}
 		Profile profile = profileMapper.selectByPrimaryKey(uid);
 		if (null == profile) {
 			throw new ProfileInputException(
@@ -235,10 +256,6 @@ public class ProfileService implements IProfileService {
 		if (profile.getHasModifyNickname()) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_NICKNAME_REPEAT_UPDATE);
-		}
-		if (isExistNickname(nickName, uid)) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_NICKNAME_IS_EXIST);
 		}
 		profile.setNickname(nickName);
 		profile.setLastModifyTime(new Date());
@@ -304,6 +321,17 @@ public class ProfileService implements IProfileService {
 				throw new ProfileInputException(
 						ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
 			}
+			// 验证屏蔽字
+			try {
+				if (wordFilterService.wordFilter(
+						profileFeatureWordfilterApplication, uid, null, profile
+								.getFeature().getBytes("GBK")) < 0) {
+					throw new ProfileInputException(
+							ProfileInputException.PROFILE_FEATURE_FORBID);
+				}
+			} catch (IOException e) {
+				log.error("Wordfilter service down.", e);
+			}
 		}
 		// 验证个人主页长度
 		if (StringUtil.chineseLength(profile.getBlog()) > blogLengthMax) {
@@ -333,7 +361,7 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
 		}
 		clearProfileCache(uid);
-//		cacheUserCity(uid);
+		// cacheUserCity(uid);
 	}
 
 	@Override

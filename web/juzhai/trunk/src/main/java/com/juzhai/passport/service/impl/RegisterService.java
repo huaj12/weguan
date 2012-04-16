@@ -3,6 +3,7 @@
  */
 package com.juzhai.passport.service.impl;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +43,7 @@ import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.stats.counter.service.ICounter;
+import com.juzhai.wordfilter.service.IWordFilterService;
 
 @Service
 public class RegisterService implements IRegisterService {
@@ -70,6 +72,8 @@ public class RegisterService implements IRegisterService {
 	private MailManager mailManager;
 	@Autowired
 	private MemcachedClient memcachedClient;
+	@Autowired
+	private IWordFilterService wordFilterService;
 	@Value("${register.email.min}")
 	private int registerEmailMin;
 	@Value("${register.email.max}")
@@ -82,6 +86,8 @@ public class RegisterService implements IRegisterService {
 	private int registerPasswordMax;
 	@Value("${send.mail.expire.time}")
 	private int sendMailExpireTime;
+	@Value("${profile.nickname.wordfilter.application}")
+	private int profileNicknameWordfilterApplication;
 
 	@Override
 	public long autoRegister(Thirdparty tp, String identity, AuthInfo authInfo,
@@ -230,6 +236,17 @@ public class RegisterService implements IRegisterService {
 		if (profileService.isExistNickname(nickname, 0)) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_NICKNAME_IS_EXIST);
+		}
+		// 验证屏蔽字
+		try {
+			if (wordFilterService.wordFilter(
+					profileNicknameWordfilterApplication, 0, null,
+					nickname.getBytes("GBK")) < 0) {
+				throw new ProfileInputException(
+						ProfileInputException.PROFILE_NICKNAME_FORBID);
+			}
+		} catch (IOException e) {
+			log.error("Wordfilter service down.", e);
 		}
 	}
 

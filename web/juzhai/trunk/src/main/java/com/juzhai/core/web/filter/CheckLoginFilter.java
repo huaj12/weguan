@@ -29,6 +29,7 @@ import com.juzhai.passport.service.IProfileService;
 public class CheckLoginFilter implements Filter {
 
 	public static final String LOGIN_USER_KEY = "loginUser";
+	public static final String IS_FROM_QQ_PLUS = "isQplus";
 
 	@Autowired
 	private LoginSessionManager loginSessionManager;
@@ -58,6 +59,11 @@ public class CheckLoginFilter implements Filter {
 				// 获取登录用户信息
 				req.setAttribute(LOGIN_USER_KEY,
 						profileService.getProfileCacheByUid(context.getUid()));
+			}
+			// 判断是否来自q+
+			if (null == req.getSession().getAttribute(IS_FROM_QQ_PLUS)) {
+				req.getSession().setAttribute(IS_FROM_QQ_PLUS,
+						req.getHeader("User-Agent").contains("Qplus"));
 			}
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {

@@ -281,12 +281,16 @@ public class DoubanService extends Service {
 			tokens.add(this.accessor.tokenSecret);
 			return tokens;
 		} catch (OAuthProblemException e) {
+			StringBuilder sBuilder = new StringBuilder();
+			sBuilder.append("dbsdk getAccessToken is error ");
 			for (Entry<String, Object> entry : e.getParameters().entrySet()) {
 				if (entry.getValue() != null && entry.getKey() != null) {
-					log.error(" dbsdk getAccessToken is error key="
-							+ entry.getKey() + " value="
+					sBuilder.append(" key=" + entry.getKey() + " value="
 							+ entry.getValue().toString());
 				}
+			}
+			if (sBuilder.toString().indexOf("Unauthorized Request Token") == -1) {
+				log.error(sBuilder.toString());
 			}
 		} catch (Exception e1) {
 			log.error(" dbsdk getAccessToken is error", e1);

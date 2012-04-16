@@ -48,8 +48,10 @@ public class GuessYouService implements IGuessYouService {
 	private int rescueUsersTotalCount;
 
 	@Override
-	// TODO 要使用rabbitmq
 	public void updateLikeUsers(long uid) {
+		if (existRescueUsers(uid)) {
+			return;
+		}
 		ProfileCache profile = profileService.getProfileCacheByUid(uid);
 		if (null == profile || null == profile.getCity()
 				|| profile.getCity() <= 0) {
@@ -85,36 +87,33 @@ public class GuessYouService implements IGuessYouService {
 				log.error("User[" + uid + "] age sift error", e);
 			}
 		}
-		redisTemplate.delete(RedisKeyGenerator.genGuessYouLikeUsersKey(uid));
+		// redisTemplate.delete(RedisKeyGenerator.genGuessYouLikeUsersKey(uid));
 		int firstResult = 0;
-		int maxResults = 2 * rescueUsersTotalCount;
+		int maxResults = rescueUsersTotalCount;
 		List<Profile> likeUserList = null;
-		// while (true) {
 		example.setLimit(new Limit(firstResult, maxResults));
 		likeUserList = profileMapper.selectByExample(example);
-		// if (CollectionUtils.isEmpty(likeUserList)) {
-		// break;
-		// }
 		for (Profile lickUser : likeUserList) {
-			redisTemplate.opsForZSet().add(
-					RedisKeyGenerator.genGuessYouLikeUsersKey(uid),
-					lickUser.getUid(),
-					lickUser.getLastUpdateTime() != null ? lickUser
-							.getLastUpdateTime().getTime() : lickUser
-							.getCreateTime().getTime());
+			redisTemplate.opsForSet()
+					.add(RedisKeyGenerator.genRescueUsersKey(uid),
+							lickUser.getUid());
+			// redisTemplate.opsForZSet().add(
+			// RedisKeyGenerator.genGuessYouLikeUsersKey(uid),
+			// lickUser.getUid(),
+			// lickUser.getLastUpdateTime() != null ? lickUser
+			// .getLastUpdateTime().getTime() : lickUser
+			// .getCreateTime().getTime());
 		}
-		// firstResult += maxResults;
+		// if (!existRescueUsers(uid)) {
+		// 复制数据进解救
+		// Set<Long> uids = redisTemplate.opsForZSet().reverseRange(
+		// RedisKeyGenerator.genGuessYouLikeUsersKey(uid), 0,
+		// 0 + rescueUsersTotalCount);
+		// for (Long userId : uids) {
+		// redisTemplate.opsForSet().add(
+		// RedisKeyGenerator.genRescueUsersKey(uid), userId);
 		// }
-		if (!existRescueUsers(uid)) {
-			// 复制数据进解救
-			Set<Long> uids = redisTemplate.opsForZSet().reverseRange(
-					RedisKeyGenerator.genGuessYouLikeUsersKey(uid), 0,
-					0 + rescueUsersTotalCount);
-			for (Long userId : uids) {
-				redisTemplate.opsForSet().add(
-						RedisKeyGenerator.genRescueUsersKey(uid), userId);
-			}
-		}
+		// }
 	}
 
 	@Override

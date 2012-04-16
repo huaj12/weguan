@@ -79,9 +79,6 @@ public class QqPlusUserService extends AbstractUserService {
 		String uid = request.getParameter("app_openid");
 		authInfo.setThirdparty(tp);
 		authInfo.setTpIdentity(uid);
-		String Agent = request.getHeader("User-Agent");
-		log.info("====================================================");
-		log.info("user Agent is " + Agent);
 		return uid;
 	}
 

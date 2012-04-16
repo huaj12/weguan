@@ -75,6 +75,10 @@ public class WeiboConnectUserService extends AbstractUserService {
 							e);
 					return null;
 				}
+				if (StringUtils.isEmpty(tokenSecret)) {
+					log.error("weibo tokenSecret is null");
+					return null;
+				}
 				weibo4j.http.v1.AccessToken token = oauth.getOAuthAccessToken(
 						oauth_token, tokenSecret, oauth_verifier);
 				StringBuffer sb = new StringBuffer();

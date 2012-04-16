@@ -115,7 +115,7 @@ public class UserGuideService implements IUserGuideService {
 	}
 
 	private void obtainLikeUser(final long uid) {
-		if (!guessYouService.existLikeUsers(uid)) {
+		if (!guessYouService.existRescueUsers(uid)) {
 			// 启动一个线程来获取和保存
 			taskExecutor.execute(new Runnable() {
 				@Override

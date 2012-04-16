@@ -54,6 +54,16 @@ public class ProfileInputException extends JuzhaiException {
 	// 家乡长度太长
 	public static final String PROFILE_HOME_IS_TOO_LONG = "20020";
 
+	/**
+	 * 昵称使用了屏蔽词
+	 */
+	public static final String PROFILE_NICKNAME_FORBID = "20021";
+
+	/**
+	 * 个人简介使用了屏蔽词
+	 */
+	public static final String PROFILE_FEATURE_FORBID = "20022";
+
 	public ProfileInputException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

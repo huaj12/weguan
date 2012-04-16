@@ -3,18 +3,19 @@ package com.juzhai.platform.service.impl;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.rubyeye.xmemcached.MemcachedClient;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
@@ -44,11 +45,14 @@ import com.juzhai.platform.Version;
 public class WeiboConnectUserService extends AbstractUserService {
 	private static final Log log = LogFactory
 			.getLog(WeiboConnectUserService.class);
-	private static Map<String, String> tokenMap = new HashMap<String, String>();
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
 	@Value(value = "${feature.length.max}")
 	private int featureLengthMax;
+	@Autowired
+	private MemcachedClient memcachedClient;
+	@Value("${oauth.token.secret.expire.time}")
+	private int oauthTokenSecretExpireTime;
 
 	@Override
 	public String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
@@ -61,9 +65,18 @@ public class WeiboConnectUserService extends AbstractUserService {
 			if (str[0].equals("null")) {
 				String oauth_token = str[1];
 				String oauth_verifier = str[2];
+				String tokenSecret = null;
+				try {
+					tokenSecret = memcachedClient.get(oauth_token);
+					memcachedClient.delete(oauth_token);
+				} catch (Exception e) {
+					log.error(
+							"weibo getOAuthAccessTokenFromCode memcachedClient is error.",
+							e);
+					return null;
+				}
 				weibo4j.http.v1.AccessToken token = oauth.getOAuthAccessToken(
-						oauth_token, tokenMap.get(oauth_token), oauth_verifier);
-				tokenMap.remove(oauth_token);
+						oauth_token, tokenSecret, oauth_verifier);
 				StringBuffer sb = new StringBuffer();
 				sb.append(token.getToken());
 				sb.append(",");
@@ -225,8 +238,16 @@ public class WeiboConnectUserService extends AbstractUserService {
 				url = oauth.authorize("code");
 			} else {
 				RequestToken requestToken = oauth.getRequestToken();
-				tokenMap.put(requestToken.getToken(),
-						requestToken.getTokenSecret());
+				try {
+					memcachedClient.set(requestToken.getToken(),
+							oauthTokenSecretExpireTime,
+							requestToken.getTokenSecret());
+				} catch (Exception e) {
+					log.error(
+							"weibo getAuthorizeURLforCode memcachedClient is error",
+							e);
+					return null;
+				}
 				url = oauth.getAuthorizeV1(requestToken);
 			}
 		} catch (WeiboException e) {

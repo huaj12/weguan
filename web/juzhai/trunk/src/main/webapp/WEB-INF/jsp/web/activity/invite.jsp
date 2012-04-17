@@ -33,13 +33,13 @@
 						</p>
 						<div class="login_btns"><!--login_btns begin-->
 							<em>用合作网站账号登录：</em>
-							<a href="/web/login/6?incode=${token}"><img src="${jzr:static('/images/web2/yq_wb.jpg')}" /></a>
-							<a href="/web/login/7?incode=${token}"><img src="${jzr:static('/images/web2/yq_db.jpg')}" /></a>
 							<c:choose>
 									<c:when test="${not empty isQplus&&isQplus}">
-										<a href="/web/login/9"><img src="${jzr:static('/images/web2/yq_qq.jpg')}" /></a>
+										<a href="/qplus/loginDialog/9"><img src="${jzr:static('/images/web2/yq_qq.jpg')}" /></a>
 									</c:when>
 									<c:otherwise>
+										<a href="/web/login/6?incode=${token}"><img src="${jzr:static('/images/web2/yq_wb.jpg')}" /></a>
+										<a href="/web/login/7?incode=${token}"><img src="${jzr:static('/images/web2/yq_db.jpg')}" /></a>
 										<a href="/web/login/8?incode=${token}"><img src="${jzr:static('/images/web2/yq_qq.jpg')}" /></a>	
 									</c:otherwise>
 							</c:choose>

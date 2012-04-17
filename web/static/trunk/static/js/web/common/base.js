@@ -49,7 +49,7 @@ $(document).ready(function(){
 		var obj = this;
 		openResponse(obj, postId, nickname, postContent, function(){
 			var currentCnt = parseInt(respCount);
-			$(obj).find("font").text(currentCnt + 1);
+			$(obj).find("div.xy_num > a").text(currentCnt + 1);
 			$(obj).find("a.xy").text("已" + $(obj).find("a.xy").text());
 			$(obj).unbind("click").addClass("done");
 		});

@@ -1,4 +1,4 @@
-package com.juzhai.cms.controller;
+package com.juzhai.cms.controller.migrate;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import com.juzhai.passport.model.ProfileExample;
 
 @Controller
 @RequestMapping("/cms")
-public class CmsDelRedisController {
+public class MigrateDelRedisController {
 
 	private final Log log = LogFactory.getLog(getClass());
 
@@ -38,7 +38,7 @@ public class CmsDelRedisController {
 		int firstResult = 0;
 		int maxResults = 200;
 		ProfileExample example = new ProfileExample();
-		example.setOrderByClause("create_time asc");
+		example.setOrderByClause("uid asc");
 		while (true) {
 			example.setLimit(new Limit(firstResult, maxResults));
 			List<Profile> list = profileMapper.selectByExample(example);
@@ -49,6 +49,9 @@ public class CmsDelRedisController {
 				String key = RedisKeyGenerator.genGuessYouLikeUsersKey(profile
 						.getUid());
 				redisTemplate.delete(key);
+				if (profile.getUid() % 100 == 0) {
+					log.error("delete to user[" + profile.getUid() + "]");
+				}
 			}
 			firstResult += maxResults;
 		}

@@ -88,32 +88,6 @@ $(document).ready(function(){
 		setInterval(queryNotice, 10000);
 	}
 	
-	//search
-	var searchInput = $("div.search > div.s_m > input");
-	var initMsg = searchInput.attr("init-tip");
-	searchInput.bind("focus", function(){
-		if(searchInput.val() == initMsg){
-			searchInput.val("");
-		}
-	}).bind("blur", function(){
-		if(searchInput.val() == ""){
-			searchInput.val(initMsg);
-		}
-	});
-	searchInput.trigger("blur");
-	$("#searchActsForm").submit(function(){
-		if(searchInput.val() == initMsg){
-			return false;
-		}
-		if(!checkValLength($("div.search > div.s_m > input").val(), 2, 100)){
-			return false;
-		}
-		return true;
-	});
-	$("div.search > div.s_r > a").bind("click", function(){
-		$("#searchActsForm").submit();
-		return false;
-	});
 	$("a.feed-back").click(function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
@@ -137,11 +111,11 @@ function queryNotice(){
 //						$("div.my_message > a > span#notice" + key).hide();
 //					}
 					if(result.result[key] > 0){
-						$("div.my_message > div.my_message_show > span#notice" + key).show();
+						$("div.my_message > div.my_message_show > span#notice-float-" + key).show();
 					}else{
-						$("div.my_message > div.my_message_show > span#notice" + key).hide();
+						$("div.my_message > div.my_message_show > span#notice-float-" + key).hide();
 					}
-					$("div.my_message_show > span#notice" + key + " > em").text(result.result[key] > 0 ? result.result[key] : "");
+					$("div.my_message_show > span#notice-float-" + key + " > em").text(result.result[key] > 0 ? result.result[key] : "");
 				}
 			}
 		}

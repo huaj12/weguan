@@ -206,11 +206,13 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 /*底部*/
 .bottom{ width:100%; height:25px; overflow:hidden;  margin-top:32px; background:#1E1E1E; line-height:25px;}
 .bottom_area{ width:960px; height:auto; margin:0 auto; overflow:hidden;}
-.bottom a{ color:#999;float:right; margin-right:5px; margin-left:5px; display:inline; line-height:27px;}
-.bottom a:hover{ color:#3E8BD9; text-decoration:underline;}
-.bottom p{ float:left; margin-left:5px; display:inline; color:#999;}
 
+.bottom .bottom_area .copy{ float:left; margin-left:5px; display:inline; color:#999;}
+.bottom .bottom_area .copy a{color:#999; margin-left:5px; display:inline; line-height:27px;}
 
+.bottom .bottom_area .other_link{ float:right; margin-right:5px; display:inline; }
+.bottom .bottom_area .other_link a{ color:#999;float:left; margin-right:5px; margin-left:5px; display:inline; line-height:27px;}
+.bottom .bottom_area a:hover{ color:#3E8BD9; text-decoration:underline;}
 
 
 
@@ -2257,9 +2259,14 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 .friend_links a:hover{ color:#cacaca;}
 
 
-.bottom_welcome a{ color:#666;float:right; margin-right:5px; display:inline; line-height:27px; margin-left:5px;}
+
+.bottom_welcome .copy{ float:left; margin-left:5px; display:inline; color:#999;}
+.bottom_welcome .copy a{color:#999; margin-left:5px; display:inline; line-height:27px;}
+.bottom_welcome .other_link{ float:right; margin-right:5px; display:inline; }
+.bottom_welcome .other_link a{ color:#999;float:left; margin-right:5px; margin-left:5px; display:inline; line-height:27px;}
 .bottom_welcome a:hover{ color:#3E8BD9; text-decoration:underline;}
-.bottom_welcome p{ float:left; margin-left:5px; display:inline; color:#666;}
+
+
 
 
 .bottom_welcome_wel p{ width:100%; float:left; text-align:center; color:#666;}
@@ -2625,7 +2632,7 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 
 
 /*统计*/
-.wel_num{ text-align:center; line-height:20px; font-size:14px; font-family:"微软雅黑"; margin:0 auto; width:960px;padding-bottom:50px;}
+.wel_num{ text-align:center; line-height:20px; font-size:14px; font-family:"微软雅黑"; margin:0 auto; width:960px; padding-bottom:50px; }
 /*
 .wel_num p{ color:#666; margin-left:5px; margin-right:5px; display:inline; *float:left;}
 
@@ -2811,6 +2818,13 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 
 .input_x{ float:left; width:100%; margin-top:15px;}
 .input_x h3{ color:#666; font-size:14px; text-align:right; width:90px; float:left; line-height:43px;}
+
+.input_x1{ display:block; width:600px; margin-top:15px; float:left;}
+.input_x1 h3{ color:#666; font-size:14px; text-align:right; width:90px; float:left; line-height:43px;}
+
+
+
+
 .big_input{ float:left;}
 .big_input p{ float:left; width:10px; height:43px; overflow:hidden;}
 .big_input p.l{ background:url(../images/web2/big_input_bg_link_r1_c1.jpg) no-repeat;}
@@ -2942,6 +2956,7 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 
 .my_infor .tisi1{ float:left; width:600px; color:#999; margin-top:20px; margin-left:15px; display:inline;}
 
+.zhmm .input_x{ float:left; width:600px;display:block; margin-top:15px;}
 .zhmm .login_alink{ float:left; margin-top:11px; margin-left:5px; display:inline;}
 .zhmm .login_alink a{ font-size:14px; color:#3E8BD9;}
 
@@ -3175,7 +3190,7 @@ filter:alpha(opacity=80); -moz-opacity:0.8; -khtml-opacity: 0.8;opacity: 0.8;
 
 .fy_show_box .text_area{ float:left; width:300px; height:45px; background:url(../images/web2/fy_text_bg.jpg) no-repeat; padding:5px 10px; margin-top:8px;}
 
-.fy_show_box .text_area textarea{float:left;width:280px; height:45px; background:none; border:none; font-size:12px; color:#999; overflow:hidden; line-height:180%;}
+.fy_show_box .text_area textarea{ float:left; width:280px; height:45px; background:none; border:none; font-size:12px; color:#999; overflow:hidden; line-height:180%;}
 
 .fy_show_box .btn_area{ float:left; width:100%; margin-top:10px;}
 .fy_show_box .btn_area .error{ color:#FF0000; float:left; margin-top:5px; margin-left:3px; display:inline;}

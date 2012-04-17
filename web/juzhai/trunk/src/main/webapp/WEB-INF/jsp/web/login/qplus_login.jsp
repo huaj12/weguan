@@ -14,7 +14,12 @@
 <body>
 	<script>
 		qplus.user.auth('${loginParams}',function(json){
-			location.href='${url}?'+json.param;
+			if(json.param==null||json.param=='undefined'){
+				location.href='/';
+			}else{
+				location.href='${url}?'+json.param;	
+			}
+			
 		});
 	</script>
 </body>

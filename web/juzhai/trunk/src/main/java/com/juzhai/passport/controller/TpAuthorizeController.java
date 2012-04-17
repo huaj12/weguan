@@ -31,6 +31,8 @@ import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.JoinTypeEnum;
+import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.ILoginService;
@@ -124,7 +126,8 @@ public class TpAuthorizeController extends BaseController {
 	public String loginDialog(HttpServletRequest request,
 			@PathVariable long tpId, Model model) {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
-		if ("plus".equals(tp.getJoinType()) && "qq".equals(tp.getName())) {
+		if (JoinTypeEnum.PLUS.getName().equals(tp.getJoinType())
+				&& ThirdpartyNameEnum.QQ.getName().equals(tp.getName())) {
 			QOpenService service = QOpenService.createInstance(
 					Integer.parseInt(tp.getAppId()), tp.getAppSecret());
 			QOpenBean bean = new QOpenBean(null, null,

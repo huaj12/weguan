@@ -9,7 +9,7 @@ import org.apache.commons.lang.StringUtils;
  * @author wujiajun Created on 2011-5-10
  */
 public enum JoinTypeEnum {
-	APP("app"), CONNECT("connect");
+	APP("app"), CONNECT("connect"), PLUS("plus");
 
 	private String name;
 

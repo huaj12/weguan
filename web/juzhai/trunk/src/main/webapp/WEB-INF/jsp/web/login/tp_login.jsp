@@ -10,7 +10,14 @@
 		<div class="btns">
 			<a href="/web/login/6?turnTo=${registerForm.turnTo}" class="wb"></a>
 			<a href="/web/login/7?turnTo=${registerForm.turnTo}" class="db"></a>
-			<a href="/web/login/8?turnTo=${registerForm.turnTo}" class="qq"></a>
+			<c:choose>
+				<c:when test="${not empty isQplus&&isQplus}">
+						<a href="/web/login/9" class="qq"></a>	
+				</c:when>
+				<c:otherwise>
+						<a href="/web/login/8?turnTo=${registerForm.turnTo}" class="qq"></a>	
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div><!--login_area end-->
 </div><!--reg_right end-->

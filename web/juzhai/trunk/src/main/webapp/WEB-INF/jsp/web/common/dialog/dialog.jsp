@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="dialog-remove-act" style="display:none;">
 	<div class="show_box"><!--show box-->
 		<h2>确定不再想去么？</h2>
@@ -23,7 +24,15 @@
 			<div class="clear"></div>
 			<a href="/web/login/6?turnTo=[0]"><img src="${jzr:static('/images/web2/login_btn.gif')}" /></a>
 			<a href="/web/login/7?turnTo=[0]"><img src="${jzr:static('/images/web2/db_login_btn.gif')}" /></a>
-			<a href="/web/login/8?turnTo=[0]"><img src="${jzr:static('/images/web2/qq_login_btn.gif')}" /></a>
+			<c:choose>
+					<c:when test="${not empty isQplus&&isQplus}">
+						<a href="/web/login/9"><img src="${jzr:static('/images/web2/qq_login_btn.gif')}" /></a>
+					</c:when>
+					<c:otherwise>
+						<a href="/web/login/8?turnTo=[0]"><img src="${jzr:static('/images/web2/qq_login_btn.gif')}" /></a>	
+					</c:otherwise>
+			</c:choose>
+			
 		</div>
 		<form id="login-box-form">
 			<input type="hidden" name="turnTo" value="[0]" />

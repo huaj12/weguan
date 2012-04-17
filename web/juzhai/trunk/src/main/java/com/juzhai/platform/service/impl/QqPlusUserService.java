@@ -34,7 +34,7 @@ public class QqPlusUserService extends AbstractUserService {
 	public String getAuthorizeURLforCode(HttpServletRequest request,
 			Thirdparty tp, String turnTo, String incode)
 			throws UnsupportedEncodingException {
-		return null;
+		return "/qplus/loginDialog/" + tp.getId();
 	}
 
 	@Override
@@ -61,7 +61,11 @@ public class QqPlusUserService extends AbstractUserService {
 						nicknameLengthMax, StringUtils.EMPTY));
 				profile.setNewLogoPic(result.getValue("face"));
 				profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
-				profile.setGender(result.getIntValue("gender"));
+				if (1 == result.getIntValue("gender")) {
+					profile.setGender(1);
+				} else {
+					profile.setGender(0);
+				}
 				return profile;
 			} else {
 				log.error("QQ Plus getUserInfo is error result:" + result);

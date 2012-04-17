@@ -3,6 +3,7 @@
  */
 package com.juzhai.passport.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
@@ -27,6 +28,7 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.exception.PassportAccountException;
@@ -34,6 +36,8 @@ import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.platform.service.IUserService;
+import com.qplus.QOpenBean;
+import com.qplus.QOpenService;
 
 /**
  * @author wujiajun Created on 2011-2-15
@@ -114,6 +118,23 @@ public class TpAuthorizeController extends BaseController {
 		return "redirect:"
 				+ (StringUtils.isEmpty(turnTo) ? "/home" : StringUtil
 						.encodeURI(turnTo, Constants.UTF8));
+	}
+
+	@RequestMapping(value = "qplus/loginDialog/{tpId}")
+	public String loginDialog(HttpServletRequest request,
+			@PathVariable long tpId, Model model) {
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		QOpenService service = QOpenService.createInstance(
+				Integer.parseInt(tp.getAppId()), tp.getAppSecret());
+		QOpenBean bean = new QOpenBean(null, null,
+				HttpRequestUtil.getRemoteIp(request));
+		try {
+			model.addAttribute("loginParams", service.getLoginParams(bean));
+			model.addAttribute("url", tp.getAppUrl());
+		} catch (IOException e) {
+			log.error("QQ plus get loginParams is error", e);
+		}
+		return "web/login/qplus_login";
 	}
 
 	private AuthInfo getAuthInfoFromCookie(HttpServletRequest request) {

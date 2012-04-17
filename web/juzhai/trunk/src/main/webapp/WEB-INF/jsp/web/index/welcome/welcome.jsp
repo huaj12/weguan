@@ -16,7 +16,9 @@
 		<div class="warp"><!--warp begin-->
 			<div class="main"><!--main begin-->
 				<div class="fix_top"><!--fix_top begin-->
-					<div class="beta"></div>
+					<c:if test="${empty isQplus||!isQplus}">
+							<div class="beta"></div>
+					</c:if>
 					<div class="top"><!--top begin-->
 						<h2></h2>
 						<div class="login_btn"><a href="/login" class="btn_log" title="登录">登录</a><a href="/passport/register" class="btn_res" title="注册">注册</a></div>

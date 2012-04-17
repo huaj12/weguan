@@ -57,11 +57,17 @@ public class QqPlusUserService extends AbstractUserService {
 			if (result.isSuccess()) {
 				Profile profile = new Profile();
 				profile.setNickname(TextTruncateUtil.truncate(
-						HtmlUtils.htmlUnescape(result.getValue("nick")),
+						HtmlUtils.htmlUnescape(result.getValue("info.nick")),
 						nicknameLengthMax, StringUtils.EMPTY));
-				profile.setNewLogoPic(result.getValue("face"));
-				profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
-				if (1 == result.getIntValue("gender")) {
+				// 只有小图而且url超级长不存了。
+				// profile.setNewLogoPic(result.getValue("info.face"));
+				profile.setLogoVerifyState(LogoVerifyState.NONE.getType());
+				int gender = 1;
+				try {
+					gender = result.getIntValue("info.gender");
+				} catch (Exception e) {
+				}
+				if (1 == gender) {
 					profile.setGender(1);
 				} else {
 					profile.setGender(0);

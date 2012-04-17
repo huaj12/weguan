@@ -34,7 +34,7 @@ public class QqPlusUserService extends AbstractUserService {
 	public String getAuthorizeURLforCode(HttpServletRequest request,
 			Thirdparty tp, String turnTo, String incode)
 			throws UnsupportedEncodingException {
-		return "/qplus/loginDialog/" + tp.getId();
+		return null;
 	}
 
 	@Override

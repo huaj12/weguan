@@ -3,7 +3,9 @@
 <%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="fix_top">
-	<div class="beta"></div>
+	<c:if test="${empty isQplus||!isQplus}">
+		<div class="beta"></div>
+	</c:if>
 	<div class="top"><!--top begin-->
 		<h1><a href="http://www.51juzhai.com"></a></h1>
 		<div class="menu"><!--menu begin-->

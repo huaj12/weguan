@@ -22,13 +22,13 @@
 		<div class="box_left">
 			<h2>登录拒宅网</h2>
 			<div class="clear"></div>
-			<a href="/web/login/6?turnTo=[0]"><img src="${jzr:static('/images/web2/login_btn.gif')}" /></a>
-			<a href="/web/login/7?turnTo=[0]"><img src="${jzr:static('/images/web2/db_login_btn.gif')}" /></a>
 			<c:choose>
 					<c:when test="${not empty isQplus&&isQplus}">
-						<a href="/web/login/9"><img src="${jzr:static('/images/web2/qq_login_btn.gif')}" /></a>
+						<a href="/qplus/loginDialog/9"><img src="${jzr:static('/images/web2/qq_login_btn.gif')}" /></a>
 					</c:when>
 					<c:otherwise>
+						<a href="/web/login/6?turnTo=[0]"><img src="${jzr:static('/images/web2/login_btn.gif')}" /></a>
+						<a href="/web/login/7?turnTo=[0]"><img src="${jzr:static('/images/web2/db_login_btn.gif')}" /></a>
 						<a href="/web/login/8?turnTo=[0]"><img src="${jzr:static('/images/web2/qq_login_btn.gif')}" /></a>	
 					</c:otherwise>
 			</c:choose>

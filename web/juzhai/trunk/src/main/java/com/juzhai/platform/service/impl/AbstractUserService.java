@@ -43,7 +43,7 @@ public abstract class AbstractUserService implements IUserService {
 			return 0L;
 		}
 		String tpIdentity = fetchTpIdentity(request, authInfo, tp);
-		if (StringUtils.isEmpty(tpIdentity)) {
+		if (StringUtils.isEmpty(tpIdentity) || "null".equals(tpIdentity)) {
 			log.error("Fetch thirdparty identity failed.[tpName:"
 					+ tp.getName() + ", joinType:" + tp.getJoinType());
 			return 0L;

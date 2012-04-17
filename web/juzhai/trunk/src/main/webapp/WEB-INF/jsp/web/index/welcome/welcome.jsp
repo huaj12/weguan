@@ -59,9 +59,9 @@
 								<ul window-count="${fn:length(postWindowViews)}">
 									<c:forEach items="${postWindowViews}" varStatus="index" var="view">
 										<li>
-											<p><a href="javascript:void(0);" class="go-login"><img src="${jzr:userLogo(view.profileCache.uid, view.profileCache.logoPic, 120)}" width="120" height="120"/></a></p>
+											<p><a href="/login"><img src="${jzr:userLogo(view.profileCache.uid, view.profileCache.logoPic, 120)}" width="120" height="120"/></a></p>
 											<span><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.postWindow.purposeType}" /></c:import>: </span>
-											<em><a href="javascript:void(0);" class="go-login"><c:out value="${jzu:truncate(view.postWindow.content, 74, '...')}" /></a></em>
+											<em><a href="/login"><c:out value="${jzu:truncate(view.postWindow.content, 74, '...')}" /></a></em>
 										</li>
 									</c:forEach>
 								</ul>

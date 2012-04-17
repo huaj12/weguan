@@ -18,6 +18,21 @@ $(document).ready(function(){
 		return true;
 	}
 	
+	function validateVerifyCode(){
+		var value = $("#from-verify-code").find("input").val();
+		if(null != value && value == ""){
+			$("#from-verify-code").removeClass("right").addClass("wrong").find("em").text("请输入验证码");
+			return false;
+		}
+		return true;
+	}
+	
+	$("div.hyz > a").click(function(){
+		var imageUrl = $("div.yzm > img").attr("url") + new Date().getTime();
+		$("div.yzm > img").attr("src", imageUrl);
+		return false;
+	});
+	
 	$("#login-form").submit(function(){
 		if(!validateAccount()){
 			$("#form-account").find("input").focus();
@@ -25,6 +40,10 @@ $(document).ready(function(){
 		}
 		if(!validatePwd()){
 			$("#form-pwd").find("input").focus();
+			return false;
+		}
+		if(!validateVerifyCode()){
+			$("#from-verify-code").find("input").focus();
 			return false;
 		}
 		return true;

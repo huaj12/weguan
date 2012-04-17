@@ -19,13 +19,14 @@
 					<div class="area_m"><!--area_m begin-->
 						<div class="member_register"><!--member_register begin-->
 							<form id="login-form" action="login" method="post">
-								<input type="hidden" name="turnTo" value="${turnTo}" />
+								<input type="hidden" name="verifyKey" value="${loginForm.verifyKey}" />
+								<input type="hidden" name="turnTo" value="${loginForm.turnTo}" />
 								<div class="reg_left"><!--reg_left begin-->
 									<h2>登录拒宅网</h2>
 									<div class="input_x"><!--input_x begin-->
 										<h3>邮箱：</h3>
 										<div id="form-account" class="big_input">
-											<p class="l"></p><span><input name="account" type="text" value="${account}" /></span><p class="r"></p>
+											<p class="l"></p><span><input name="account" type="text" value="${loginForm.account}" /></span><p class="r"></p>
 										</div>
 									</div><!--input_x end-->
 									<div class="input_x"><!--input_x begin-->
@@ -34,6 +35,15 @@
 											<p class="l"></p><span><input name="password" type="password"/></span><p class="r"></p>
 										</div>
 									</div><!--input_x end-->
+									<c:if test="${not empty loginForm.verifyKey}">
+										<div class="input_x"><!--input_x begin-->
+											<h3>验证码：</h3>
+											<div id="from-verify-code" class="big_input <c:if test='${errorCode == "10007"}'>wrong</c:if>">
+												<p class="l"></p><span class="w110"><input name="verifyCode" type="text" /></span><p class="r"></p>
+												<div class="yzm"><img src="/code/getverifycode?key=${loginForm.verifyKey}&t=${t}" url="/code/getverifycode?key=${loginForm.verifyKey}&t=" /></div><div class="hyz"><a href="javascript:void(0);">换一张</a></div>
+											</div>
+										</div><!--input_x end-->
+									</c:if>
 									<div class="login_error" <c:if test="${empty errorInfo}">style="display:none;"</c:if>>${errorInfo}</div>
 									<div class="btn"><a href="javascript:void(0);">立即登录</a></div>
 									<div class="forget_pwd"><a href="/passport/getbackpwd">忘记密码？</a></div>

@@ -170,4 +170,14 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	public static String genResetMailSentKey(long uid) {
 		return genKey(uid, "resetMailSent");
 	}
+
+	/**
+	 * 登录错误次数
+	 * 
+	 * @param ip
+	 * @return
+	 */
+	public static String genLoginCountKey(String ip) {
+		return ip + CACHE_KEY_SEPARATOR + "loginCount";
+	}
 }

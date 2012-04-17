@@ -43,7 +43,14 @@
 							<div class="wel_login">
 								<a href="javascript:void(0);" class="wb login-btn" title="使用微博账号登录" go-uri="/web/login/6">登录</a>
 								<a href="javascript:void(0);" class="db login-btn" title="使用豆瓣账号登录" go-uri="/web/login/7">登录</a>
-								<a href="javascript:void(0);" class="qq login-btn" title="使用QQ账号登录" go-uri="/web/login/8">登录</a>
+								<c:choose>
+									<c:when test="${not empty isQplus&&isQplus}">
+									<a href="javascript:void(0);" class="qq login-btn" title="使用QQ账号登录" go-uri="/web/login/9">登录</a>
+									</c:when>
+									<c:otherwise>
+									<a href="javascript:void(0);" class="qq login-btn" title="使用QQ账号登录" go-uri="/web/login/8">登录</a>	
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</h2>
 						<div class="clear"></div>

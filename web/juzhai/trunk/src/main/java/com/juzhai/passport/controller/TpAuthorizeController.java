@@ -124,17 +124,22 @@ public class TpAuthorizeController extends BaseController {
 	public String loginDialog(HttpServletRequest request,
 			@PathVariable long tpId, Model model) {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
-		QOpenService service = QOpenService.createInstance(
-				Integer.parseInt(tp.getAppId()), tp.getAppSecret());
-		QOpenBean bean = new QOpenBean(null, null,
-				HttpRequestUtil.getRemoteIp(request));
-		try {
-			model.addAttribute("loginParams", service.getLoginParams(bean));
-			model.addAttribute("url", tp.getAppUrl());
-		} catch (IOException e) {
-			log.error("QQ plus get loginParams is error", e);
+		if ("plus".equals(tp.getJoinType()) && "qq".equals(tp.getName())) {
+			QOpenService service = QOpenService.createInstance(
+					Integer.parseInt(tp.getAppId()), tp.getAppSecret());
+			QOpenBean bean = new QOpenBean(null, null,
+					HttpRequestUtil.getRemoteIp(request));
+			try {
+				model.addAttribute("loginParams", service.getLoginParams(bean));
+				model.addAttribute("url", tp.getAppUrl());
+			} catch (IOException e) {
+				log.error("QQ plus get loginParams is error", e);
+			}
+			return "web/login/qplus_login";
+		} else {
+			return error_404;
 		}
-		return "web/login/qplus_login";
+
 	}
 
 	private AuthInfo getAuthInfoFromCookie(HttpServletRequest request) {

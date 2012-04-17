@@ -70,6 +70,7 @@
 			</div><!--main end-->
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 		<script type="text/javascript" src="${jzr:static('/js/web/blacklist.js')}"></script>
+		<c:set var="footType" value="fixed" scope="request"/>
 		<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 	</div>
 	<!--warp end-->

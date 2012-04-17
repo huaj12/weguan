@@ -16,8 +16,10 @@
 					<span><a href="/idea/${ideaView.idea.id}">${ideaView.idea.useCount}人想去</a></span>
 				</c:if>
 				<div class="btn"><a href="javascript:void(0);" class="wtgo" idea-id="${ideaView.idea.id}">我想去</a><a href="javascript:void(0);" class="hyge">换一个</a></div>
+				<div class="clean"></div><div class="clean"></div>
 			</li>
-		</ul>	
+			
+		</ul>
 	</c:when>
 	<c:otherwise>
 		<div class="none_jz">没有了，改天再来看看</div>	

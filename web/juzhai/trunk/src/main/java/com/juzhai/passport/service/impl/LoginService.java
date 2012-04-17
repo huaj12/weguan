@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.rubyeye.xmemcached.Counter;
 import net.rubyeye.xmemcached.MemcachedClient;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -65,6 +66,10 @@ public class LoginService implements ILoginService {
 	private ICounter nativeLoginCounter;
 	@Value(value = "${user.online.expire.time}")
 	private int userOnlineExpireTime;
+	@Value("${use.verify.login.count}")
+	private int useVerifyLoginCount;
+	@Value("${login.count.expire.time}")
+	private int loginCountExpireTime;
 
 	@Override
 	public void login(HttpServletRequest request, final long uid,
@@ -189,5 +194,34 @@ public class LoginService implements ILoginService {
 		} catch (PassportAccountException e) {
 			log.error(e.getMessage(), e);
 		}
+	}
+
+	@Override
+	public boolean useVerifyCode(String ip) {
+		Long count = null;
+		try {
+			Counter counter = memcachedClient.getCounter(MemcachedKeyGenerator
+					.genLoginCountKey(ip));
+			count = counter.get();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		if (null != count && count > useVerifyLoginCount) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public long incrLoginCount(String ip) {
+		String key = MemcachedKeyGenerator.genLoginCountKey(ip);
+		long count = 0;
+		try {
+			count = memcachedClient.incr(key, 1L, 1L, 1000L,
+					loginCountExpireTime);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return count;
 	}
 }

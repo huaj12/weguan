@@ -15,7 +15,7 @@ public interface ILoginService {
 	 * 本地登录
 	 * 
 	 * @param loginForm
-	 * @return 
+	 * @return
 	 * @throws LoginException
 	 */
 	long login(HttpServletRequest request, String loginName, String pwd)
@@ -69,4 +69,20 @@ public interface ILoginService {
 	 * @param uid
 	 */
 	void logout(HttpServletRequest request, long uid);
+
+	/**
+	 * 判断是否需要验证码
+	 * 
+	 * @param ip
+	 * @return
+	 */
+	boolean useVerifyCode(String ip);
+
+	/**
+	 * 增加登录次数
+	 * 
+	 * @param ip
+	 * @return
+	 */
+	long incrLoginCount(String ip);
 }

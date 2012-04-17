@@ -26,10 +26,12 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.controller.form.LoginForm;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IUserGuideService;
+import com.juzhai.verifycode.service.IVerifyCodeService;
 
 /**
  * @author wujiajun Created on 2011-2-15
@@ -44,17 +46,24 @@ public class LoginController extends BaseController {
 	private MessageSource messageSource;
 	@Autowired
 	private IUserGuideService userGuideService;
+	@Autowired
+	private IVerifyCodeService verifyCodeService;
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
-	public String login(HttpServletRequest request, Model model, String turnTo)
-			throws UnsupportedEncodingException {
+	public String login(HttpServletRequest request, Model model,
+			LoginForm loginForm) throws UnsupportedEncodingException {
 		try {
 			checkLoginForWeb(request);
 			return "redirect:/home";
 		} catch (NeedLoginException e) {
-			if (StringUtils.isNotEmpty(turnTo)) {
-				model.addAttribute("turnTo", turnTo);
+			// 判断是否需要
+			if (loginService
+					.useVerifyCode(HttpRequestUtil.getRemoteIp(request))) {
+				String key = verifyCodeService.getVerifyCodeKey();
+				loginForm.setVerifyKey(key);
+				model.addAttribute("t", System.currentTimeMillis());
 			}
+			model.addAttribute("loginForm", loginForm);
 			return "web/login/login";
 		}
 	}
@@ -66,8 +75,20 @@ public class LoginController extends BaseController {
 		if (context.hasLogin()) {
 			return "redirect:/home";
 		}
+		String ip = HttpRequestUtil.getRemoteIp(request);
+		boolean needVerify = loginService.useVerifyCode(ip);
 		long uid = 0L;
 		try {
+			// 增加登录次数
+			loginService.incrLoginCount(ip);
+			if (StringUtils.isNotEmpty(loginForm.getVerifyKey()) || needVerify) {
+				if (!verifyCodeService.verify(loginForm.getVerifyKey(),
+						loginForm.getVerifyCode())) {
+					throw new PassportAccountException(
+							PassportAccountException.VERIFY_CODE_ERROR);
+				}
+			}
+
 			uid = loginService.login(request, loginForm.getAccount(),
 					loginForm.getPassword());
 		} catch (PassportAccountException e) {
@@ -79,8 +100,14 @@ public class LoginController extends BaseController {
 			model.addAttribute("errorCode", e.getErrorCode());
 			model.addAttribute("errorInfo", messageSource.getMessage(
 					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
-			model.addAttribute("account", loginForm.getAccount());
-			model.addAttribute("turnTo", loginForm.getTurnTo());
+			if (StringUtils.isNotEmpty(loginForm.getVerifyKey())) {
+				model.addAttribute("t", System.currentTimeMillis());
+			} else if (loginService.useVerifyCode(ip)) {
+				String key = verifyCodeService.getVerifyCodeKey();
+				loginForm.setVerifyKey(key);
+			}
+			model.addAttribute("t", System.currentTimeMillis());
+			model.addAttribute("loginForm", loginForm);
 			return "web/login/login";
 		}
 		if (uid <= 0) {

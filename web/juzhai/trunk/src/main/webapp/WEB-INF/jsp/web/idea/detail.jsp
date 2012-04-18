@@ -37,7 +37,7 @@
 												<div class="infor"><!--infor begin-->
 													<div class="clear"></div>
 													<c:if test="${not empty idea.pic}">
-														<div class="img"><a href="${jzr:ideaPic(idea.id, idea.pic, 0)}" target="_blank"><img src="${jzr:ideaPic(idea.id, idea.pic,450)}"/></a></div>
+														<div class="img"><a href="${jzr:ideaPic(idea.id, idea.pic, 0)}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><img src="${jzr:ideaPic(idea.id, idea.pic,450)}"/></a></div>
 													</c:if>
 													<span><c:set var="date" value="${idea.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span>
 													<c:if test="${idea.categoryId > 0}">
@@ -50,7 +50,7 @@
 														<span class="adress"><c:out value="${idea.place}" /></span>
 													</c:if>
 													<c:if test="${not empty idea.link}">
-														<span class="link"><a href="${idea.link}" target="_blank">查看相关链接</a></span>
+														<span class="link"><a href="${idea.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关链接</a></span>
 													</c:if>
 												</div><!--infor end-->
 												<div class="fb_area"><!--fb_area begin-->

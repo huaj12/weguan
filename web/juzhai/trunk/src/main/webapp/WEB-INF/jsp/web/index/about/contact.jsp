@@ -22,7 +22,7 @@
 								<p>
 									<b>E-mail：</b><a href="mailto:max@51juzhai.com">max@51juzhai.com</a><br /><br />
 									<b>小宅q群：</b>204851202<br /><br />
-									<b>官方微博：</b><a href="http://weibo.com/51juzhai" target="_blank">weibo.com/51juzhai</a><br /><br />
+									<b>官方微博：</b><a href="http://weibo.com/51juzhai" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>weibo.com/51juzhai</a><br /><br />
 								</p>
 							</div><!--other_left end-->
 							<div class="other_right"><!--other_right begin-->

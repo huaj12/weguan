@@ -23,7 +23,7 @@
 					<span class="adress"><c:out value="${postView.post.place}" /></span>
 				</c:if>
 				<c:if test="${not empty postView.post.link}">
-					<span class="link"><a href="${postView.post.link}" target="_blank">查看相关链接</a></span>
+					<span class="link"><a href="${postView.post.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关链接</a></span>
 				</c:if>
 			</div><!--infor end-->
 			<c:choose>

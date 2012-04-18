@@ -7,7 +7,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>找伴,出去玩,上海约会地点,北京约会地点,深圳约会地点-拒宅网(51juzhai.com)-帮你找伴出去玩提供有创意的约会地点</title>
+		<title>拒宅网-助你找伴儿出去玩(51juzhai.com)</title>
 		<meta  name="keywords"   content="拒宅,找伴,出去玩,上海约会地点,北京约会地点,深圳约会地点,创意约会地点,约会地点,约会" />
 		<meta  name="description"   content="不想宅在家拒宅网帮你找伴儿,出去玩,发现上海约会地点,北京约会地点,深圳约会地点,创意约会地点和同兴趣的朋友,促成约会" />
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />

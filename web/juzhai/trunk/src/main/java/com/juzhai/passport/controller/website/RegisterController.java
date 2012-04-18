@@ -115,6 +115,9 @@ public class RegisterController extends BaseController {
 				model.addAttribute("errorCode", e.getErrorCode());
 				model.addAttribute("errorInfo", messageSource.getMessage(
 						e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
+
+				String key = verifyCodeService.getVerifyCodeKey();
+				registerForm.setVerifyKey(key);
 				model.addAttribute("registerForm", registerForm);
 				model.addAttribute("t", System.currentTimeMillis());
 				return "web/register/register";

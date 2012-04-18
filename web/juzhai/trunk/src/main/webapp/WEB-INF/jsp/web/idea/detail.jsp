@@ -65,6 +65,11 @@
 															<div class="fb_btn idea-btn" id="idea-btn-${idea.id}"><a href="javascript:void(0);" idea-id="${idea.id}">我想去</a></div>															
 														</c:otherwise>
 													</c:choose>
+													<c:if test="${not empty isQplus && isQplus}">
+															<div class="share_icon">
+																<a href="javascript:void(0);" onclick="qPlusShare('我想找伴去:${idea.content}<c:if test='${idea.date != null}'>时间:<fmt:formatDate value='${idea.date}' pattern='yyyy.MM.dd'/></c:if> <c:if test='${not empty idea.place}'>地点:${idea.place}</c:if>','','${jzr:ideaPic(idea.id,idea.pic, 200)}','','拒宅网');return false;" title="分享">分享</a>
+															</div>
+													</c:if>		
 												</div><!--fb_area end-->
 											</div><!--pub_box_m end-->
 											<div class="clear"></div>

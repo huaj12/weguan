@@ -33,7 +33,7 @@
 					<c:if test="${not empty idea.place}">
 						<span class="adress"><c:out value="${idea.place}" /></span>
 					</c:if>
-					<%-- <span class="link"><a href="${idea.link}" target="_blank">查看相关链接</a></span> --%>
+					<%-- <span class="link"><a href="${idea.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关链接</a></span> --%>
 				</div><!--infor end-->
 			</div>
 			<div class="btn"><a href="javascript:void(0);" idea-id="${idea.id}">发布拒宅</a></div>

@@ -10,9 +10,9 @@
 		<div class="card <c:choose><c:when test="${postView.profileCache.gender == 1}">boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--card begin-->
 			<div class="card_top"></div>
 			<div class="card_mid"><!--card_mid begin-->
-				<div class="photo"><a href="/home/${postView.profileCache.uid}" target="_blank"><img src="${jzr:userLogo(postView.profileCache.uid,postView.profileCache.logoPic,180)}" /></a></div>
+				<div class="photo"><a href="/home/${postView.profileCache.uid}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><img src="${jzr:userLogo(postView.profileCache.uid,postView.profileCache.logoPic,180)}" /></a></div>
 				<div class="card_infor"><!--card_infor begin-->
-					<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${postView.post.purposeType}"/></c:import>:</font><a href="/post/${postView.post.id}" target="_blank"><c:out value="${postView.post.content}" /></a></p>
+					<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${postView.post.purposeType}"/></c:import>:</font><a href="/post/${postView.post.id}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><c:out value="${postView.post.content}" /></a></p>
 					<div class="infor"><!--infor begin-->
 						<%-- <c:if test="${not empty postView.post.pic}">
 							<div class="img"><a href="/post/${postView.post.id}"><img data-original="${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic, 200)}" src="${jzr:static('/images/web/1px.gif')}"/></a></div>
@@ -25,11 +25,11 @@
 							<span class="adress"><c:out value="${postView.post.place}" /></span>
 						</c:if>
 						<c:if test="${not empty postView.post.link}">
-							<span class="link"><a href="${postView.post.link}" target="_blank">查看相关链接</a></span>
+							<span class="link"><a href="${postView.post.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关链接</a></span>
 						</c:if>
 					</div><!--infor end-->
 					<div class="ta_infor">
-						<a href="/home/${postView.profileCache.uid}" target="_blank"><c:out value="${postView.profileCache.nickname}" /></a>
+						<a href="/home/${postView.profileCache.uid}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><c:out value="${postView.profileCache.nickname}" /></a>
 						<div class="keep user-remove-interest remove-interest-${postView.profileCache.uid}" <c:if test="${!postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${postView.profileCache.uid}" title="点击取消收藏">已收藏</a></div>
 						<div class="keep user-add-interest interest-${postView.profileCache.uid}" <c:if test="${postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${postView.profileCache.uid}" title="点击收藏">收藏ta</a></div>
 						<c:set var="age" value="${jzu:age(postView.profileCache.birthYear, postView.profileCache.birthSecret)}" />

@@ -32,7 +32,7 @@
 					<span>自我评价：<font><c:out value="${profile.feature}" /></font></span>
 				</c:if>
 				<c:if test="${not empty profile.blog}">
-					<span>个人主页：<a href="http://${profile.blog}" target="_blank">http://${profile.blog}</a></span>
+					<span>个人主页：<a href="http://${profile.blog}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>http://${profile.blog}</a></span>
 				</c:if>
 			</div><!--my_infor end-->
 			<c:choose>

@@ -35,8 +35,8 @@
 													<div class="pub_box <c:choose><c:when test='${profile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--pub_box begin-->
 														<div class="pub_box_t"></div>
 														<div class="pub_box_m"><!--pub_box_m begin-->
-															<p><a href="/home/${profile.uid}"  target="_blank"><img src="${jzr:userLogo(profile.uid,profile.logoPic,80)}" width="80" height="80" /></a></p>
-															<h2><a href="/home/${profile.uid}"  target="_blank"><c:out value="${profile.nickname }"/> </a></h2>
+															<p><a href="/home/${profile.uid}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><img src="${jzr:userLogo(profile.uid,profile.logoPic,80)}" width="80" height="80" /></a></p>
+															<h2><a href="/home/${profile.uid}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><c:out value="${profile.nickname }"/> </a></h2>
 															<c:set var="cityName" value="${jzd:cityName(profile.city)}" />
 															<c:set var="townName" value="${jzd:townName(profile.town)}" />
 															<c:set var="age" value="${jzu:age(profile.birthYear,profile.birthSecret)}" />

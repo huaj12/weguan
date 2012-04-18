@@ -249,7 +249,7 @@
 	</bean>
 	<!-- Recommend Post end -->
 	
-	<!-- Recommend Post begin -->
+	<!-- guess you like begin -->
 	<bean id="guessYouLikeUsersTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
@@ -258,7 +258,18 @@
 		</property>
 		<property name="cronExpression" value="${guess.you.like.users.cron}" />
 	</bean>
-	<!-- Recommend Post end -->
+	<!-- guess you like end -->
+	
+	<!-- delete expire active code begin -->
+	<bean id="delExpireActiveCodeTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="delExpireActiveCodeHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${del.expire.active.code.cron}" />
+	</bean>
+	<!-- delete expire active code end -->
 	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
@@ -273,18 +284,19 @@
 				<ref bean="updateShowActsTrigger"/>
 				<ref bean="delOutFreeDateTrigger"/>
 				<ref bean="updateShowCategoriesTrigger"/>
-				<ref bean="actIndexOptimizationAndCommitTrigger"/> -->
+				<ref bean="actIndexOptimizationAndCommitTrigger"/>
+				<ref bean="ideaWindowSortTrigger"/>
+				<ref bean="noticeToPlatformTrigger"/>
+				<ref bean="noticeEmailTrigger"/> -->
 				<ref bean="deleteTempImageTrigger"/>
 				<ref bean="deleteExpiredAdTrigger"/>
 				<ref bean="deleteExpiredRawAdTrigger"/>
-				<!-- <ref bean="noticeToPlatformTrigger"/> -->
 				<ref bean="postIndexOptimizationAndCommitTrigger"/>
 				<ref bean="profileIndexOptimizationAndCommitTrigger"/>
 				<ref bean="createSitemapTrigger"/>
 				<ref bean="recommendPostTrigger"/>
 				<ref bean="guessYouLikeUsersTrigger"/>
-				<!--ref bean="ideaWindowSortTrigger"/-->
-				<!-- <ref bean="noticeEmailTrigger"/> -->
+				<ref bean="delExpireActiveCodeTrigger"/>
 			</list>
 		</property>
 	</bean>

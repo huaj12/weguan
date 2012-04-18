@@ -100,13 +100,12 @@ public class LoginController extends BaseController {
 			model.addAttribute("errorCode", e.getErrorCode());
 			model.addAttribute("errorInfo", messageSource.getMessage(
 					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
-			if (StringUtils.isNotEmpty(loginForm.getVerifyKey())) {
-				model.addAttribute("t", System.currentTimeMillis());
-			} else if (loginService.useVerifyCode(ip)) {
+
+			if (loginService.useVerifyCode(ip)) {
 				String key = verifyCodeService.getVerifyCodeKey();
 				loginForm.setVerifyKey(key);
+				model.addAttribute("t", System.currentTimeMillis());
 			}
-			model.addAttribute("t", System.currentTimeMillis());
 			model.addAttribute("loginForm", loginForm);
 			return "web/login/login";
 		}

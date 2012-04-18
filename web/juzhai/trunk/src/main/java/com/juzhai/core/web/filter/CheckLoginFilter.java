@@ -62,8 +62,11 @@ public class CheckLoginFilter implements Filter {
 			}
 			// 判断是否来自q+
 			if (null == req.getSession().getAttribute(IS_FROM_QQ_PLUS)) {
-				req.getSession().setAttribute(IS_FROM_QQ_PLUS,
-						req.getHeader("User-Agent").contains("Qplus"));
+				String userAgent = req.getHeader("User-Agent");
+				req.getSession().setAttribute(
+						IS_FROM_QQ_PLUS,
+						StringUtils.isEmpty(userAgent) ? false : userAgent
+								.contains("Qplus"));
 			}
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {

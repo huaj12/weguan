@@ -65,6 +65,8 @@ public class IndexController extends BaseController {
 	private IPassportService passportService;
 	@Autowired
 	private IPostCommentService postCommentService;
+	@Autowired
+	private IPostWindowService postWindowService;
 	@Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows;
 	@Value("${web.show.ideas.user.count}")
@@ -75,8 +77,8 @@ public class IndexController extends BaseController {
 	private int queryUsersRightUserRows;
 	@Value("${web.show.ideas.ad.count}")
 	private int webShowIdeasAdCount;
-	@Autowired
-	private IPostWindowService postWindowService;
+	@Value("${show.idea.recent.ideas.count}")
+	private int showIdeaRecentIdeasCount;
 
 	@RequestMapping(value = { "", "/", "/index" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
@@ -179,6 +181,7 @@ public class IndexController extends BaseController {
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("ideaViewList", ideaViewList);
 		model.addAttribute("pageType", "cqw");
+		loadRecentIdeas(context.getUid(), showIdeaRecentIdeasCount, model);
 		return "web/index/cqw/show_ideas";
 	}
 

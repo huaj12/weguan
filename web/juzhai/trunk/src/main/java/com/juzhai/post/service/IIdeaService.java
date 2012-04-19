@@ -96,6 +96,18 @@ public interface IIdeaService {
 			int maxResults);
 
 	/**
+	 * 最近未使用的好主意
+	 * 
+	 * @param uid
+	 * @param cityId
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Idea> listRecentIdeas(long uid, Long cityId, int firstResult,
+			int maxResults);
+
+	/**
 	 * 好主意数量
 	 * 
 	 * @return

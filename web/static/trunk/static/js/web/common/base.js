@@ -559,12 +559,7 @@ function prepareSendIdea(ideaId, callback){
 		    $("form#send-idea").find("div.btn > a").click(function(){
 		    	var ideaId = $(this).attr("idea-id");
 		    	postIdea($("form#send-idea"), function(){
-		    		$("#idea-btn-" + ideaId).attr("class", "sended send_done").children("a").text("已想去").unbind("click");
-					if($("#useCount-" + ideaId).is(":visible")){
-						$("#useCount-" + ideaId).text(parseInt($("#useCount-" + ideaId).text()) + 1);
-					}else{
-						$("#useCountShow-" + ideaId).text("1人想去");
-					}
+		    		$(".idea-btn-" + ideaId).attr("class", "sended send_done").children("a").text("已想去").unbind("click");
 					if(callback != null){
 						callback();
 					}

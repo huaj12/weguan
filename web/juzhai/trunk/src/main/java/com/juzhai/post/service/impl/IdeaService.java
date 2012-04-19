@@ -78,6 +78,8 @@ public class IdeaService implements IIdeaService {
 	private int ideaPlaceLengthMax;
 	@Value("${idea.window.max.rows}")
 	private int ideaWindowMaxRows;
+	@Value("${idea.recent.day.before}")
+	private int ideaRecentDayBefore;
 
 	@Override
 	public Idea getIdeaById(long ideaId) {
@@ -393,17 +395,7 @@ public class IdeaService implements IIdeaService {
 	@Override
 	public List<Idea> listUnUsedIdea(long uid, Long cityId, int firstResult,
 			int maxResults) {
-		List<Long> ideaIdList = null;
-		if (uid > 0) {
-			PostExample example = new PostExample();
-			example.createCriteria().andCreateUidEqualTo(uid)
-					.andIdeaIdGreaterThan(0L);
-			List<Post> postList = postMapper.selectByExample(example);
-			ideaIdList = new ArrayList<Long>(postList.size());
-			for (Post post : postList) {
-				ideaIdList.add(post.getIdeaId());
-			}
-		}
+		List<Long> ideaIdList = usedIdeaIds(uid);
 
 		IdeaExample ideaExample = new IdeaExample();
 		if (null != cityId && cityId > 0) {
@@ -423,6 +415,59 @@ public class IdeaService implements IIdeaService {
 			}
 		}
 		ideaExample.setOrderByClause("use_count asc, create_time desc");
+		ideaExample.setLimit(new Limit(firstResult, maxResults));
+		return ideaMapper.selectByExample(ideaExample);
+	}
+
+	private List<Long> usedIdeaIds(long uid) {
+		// TODO 用redis
+		List<Long> ideaIdList = null;
+		if (uid > 0) {
+			PostExample example = new PostExample();
+			example.createCriteria().andCreateUidEqualTo(uid)
+					.andIdeaIdGreaterThan(0L);
+			List<Post> postList = postMapper.selectByExample(example);
+			ideaIdList = new ArrayList<Long>(postList.size());
+			for (Post post : postList) {
+				ideaIdList.add(post.getIdeaId());
+			}
+		}
+		return ideaIdList;
+	}
+
+	@Override
+	public List<Idea> listRecentIdeas(long uid, Long cityId, int firstResult,
+			int maxResults) {
+		List<Long> ideaIdList = usedIdeaIds(uid);
+		IdeaExample ideaExample = new IdeaExample();
+		if (null != cityId && cityId > 0) {
+			IdeaExample.Criteria c1 = ideaExample
+					.or()
+					.andCityEqualTo(cityId)
+					.andDefunctEqualTo(false)
+					.andCreateTimeGreaterThanOrEqualTo(
+							DateUtils.addDays(new Date(), -ideaRecentDayBefore));
+			IdeaExample.Criteria c2 = ideaExample
+					.or()
+					.andCityEqualTo(0L)
+					.andDefunctEqualTo(false)
+					.andCreateTimeGreaterThanOrEqualTo(
+							DateUtils.addDays(new Date(), -ideaRecentDayBefore));
+			if (CollectionUtils.isNotEmpty(ideaIdList)) {
+				c1.andIdNotIn(ideaIdList);
+				c2.andIdNotIn(ideaIdList);
+			}
+		} else {
+			IdeaExample.Criteria c = ideaExample
+					.createCriteria()
+					.andDefunctEqualTo(false)
+					.andCreateTimeGreaterThanOrEqualTo(
+							DateUtils.addDays(new Date(), -ideaRecentDayBefore));
+			if (CollectionUtils.isNotEmpty(ideaIdList)) {
+				c.andIdNotIn(ideaIdList);
+			}
+		}
+		ideaExample.setOrderByClause("use_count desc, create_time asc");
 		ideaExample.setLimit(new Limit(firstResult, maxResults));
 		return ideaMapper.selectByExample(ideaExample);
 	}

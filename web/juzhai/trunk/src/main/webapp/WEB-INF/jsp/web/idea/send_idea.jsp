@@ -53,33 +53,3 @@
 		</div><!--sd_rihgt end-->
 	</div><!--send_idea end-->
 </form>
-<script type="text/javascript">
-	/* $("form#send-idea").find("div.select_menu").each(function(){
-    	var select = new SelectInput(this);
-    	select.bindBlur();
-    	select.bindClick();
-    	select.bindSelect();
-    });
-    $("form#send-idea").find("div.tb").bind("click", function(){
-		if($(this).hasClass("tb_click")){
-			$(this).removeClass("tb_click");
-			$(this).find('input[name="sendWeibo"]').val(false);
-		}else{
-			$(this).addClass("tb_click");
-			$(this).find('input[name="sendWeibo"]').val(true);
-		}
-		return false;
-	});
-    $("form#send-idea").find("div.btn > a").click(function(){
-    	var ideaId = $(this).attr("idea-id");
-    	postIdea($("form#send-idea"), function(){
-    		$("#idea-btn-" + ideaId).attr("class", "sended send_done").children("a").text("已想去").unbind("click");
-			if($("#useCount-" + ideaId).is(":visible")){
-				$("#useCount-" + ideaId).text(parseInt($("#useCount-" + ideaId).text()) + 1);
-			}else{
-				$("#useCountShow-" + ideaId).text("1人想去");
-			}
-    	});
-    	return false;
-    }); */
-</script>

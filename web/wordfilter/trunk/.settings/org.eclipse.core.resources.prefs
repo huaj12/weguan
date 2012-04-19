@@ -1,6 +1,7 @@
-#Fri Sep 30 23:45:36 CST 2011
+#Thu Apr 19 02:57:07 CST 2012
 eclipse.preferences.version=1
 encoding//doc/SRS.txt=GBK
+encoding//src/main/java=GBK
 encoding//src/main/java/com/juzhai/wordfilter/core/CharHelper.java=GBK
 encoding//src/main/java/com/juzhai/wordfilter/core/CleanStringType.java=GBK
 encoding//src/main/java/com/juzhai/wordfilter/core/Config.java=GBK
@@ -42,3 +43,5 @@ encoding//src/main/java/com/juzhai/wordfilter/web/util/SpamInfo.java=GBK
 encoding//src/main/java/com/juzhai/wordfilter/web/util/SpringContextUtil.java=GBK
 encoding//src/main/java/com/juzhai/wordfilter/web/util/StringUtil.java=GBK
 encoding//src/main/java/com/juzhai/wordfilter/web/util/Token.java=GBK
+encoding//src/main/resources=GBK
+encoding/<project>=GBK

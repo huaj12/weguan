@@ -1,5 +1,6 @@
 package com.juzhai.core.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,6 +29,7 @@ import com.juzhai.core.web.filter.CityChannelFilter;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.home.service.IBlacklistService;
+import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.Passport;
@@ -36,6 +38,7 @@ import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.post.model.Ad;
+import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IAdService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
@@ -251,5 +254,27 @@ public class BaseController {
 	protected void isShield(Model model, long createUid, long shieldUid) {
 		model.addAttribute("isShield",
 				blacklistService.isShield(createUid, shieldUid));
+	}
+
+	protected void loadRecentIdeas(long uid, int count, Model model) {
+		Long cityId = null;
+		if (uid > 0) {
+			ProfileCache profile = profileService.getProfileCacheByUid(uid);
+			if (null != profile) {
+				cityId = profile.getCity();
+			}
+		}
+		List<Idea> list = ideaService.listRecentIdeas(uid, cityId, 0, count);
+		List<IdeaView> recentIdeaViewList = new ArrayList<IdeaView>(list.size());
+		for (Idea idea : list) {
+			IdeaView ideaView = new IdeaView();
+			ideaView.setIdea(idea);
+			if (idea.getCreateUid() > 0) {
+				ideaView.setProfileCache(profileService
+						.getProfileCacheByUid(idea.getCreateUid()));
+			}
+			recentIdeaViewList.add(ideaView);
+		}
+		model.addAttribute("recentIdeaViewList", recentIdeaViewList);
 	}
 }

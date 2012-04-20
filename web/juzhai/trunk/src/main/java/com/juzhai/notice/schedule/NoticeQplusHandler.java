@@ -27,6 +27,7 @@ import com.qplus.push.QPushService;
 @Component
 public class NoticeQplusHandler extends AbstractScheduleHandler {
 	private final Log log = LogFactory.getLog(getClass());
+	//TODO (review) 要经常注意警告，能处理的处理掉
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
@@ -40,10 +41,9 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 	protected void doHandle() {
 		try {
 			Thirdparty tp = InitData.TP_MAP.get(9l);
-			// TODO (done) 为什么要一次性都取出来？
 			while (true) {
 				List<Long> uids = noticeService.getNoticUserList(100);
-				// TODO (done) .....为什么要取出所有q+的tpUserAuth？有1000W条也都取出来？
+				//TODO (review) uids是空list，会发生什么情况？再结合下面的break，想想应该怎么处理break？
 				TpUserAuthExample example = new TpUserAuthExample();
 				example.createCriteria().andTpIdEqualTo(tp.getId())
 						.andUidIn(uids);
@@ -60,13 +60,10 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 	}
 
 	private void push(List<TpUserAuth> qplusUids, Thirdparty tp) {
-		// TODO (done) 发布内容每次都会不同？
 		String text = messageSource.getMessage("qq.plus.push.text", null,
 				Locale.SIMPLIFIED_CHINESE);
-		// TODO (done) QPushService是有状态的吗？每一次push需要一个新的QPushService实例？
 		QPushService service = QPushService.createInstance(
 				Integer.parseInt(tp.getAppKey()), tp.getAppSecret());
-		// TODO (done) 看看这个QPushBean能否不用每次都new？
 		QPushBean bean = new QPushBean();
 		for (TpUserAuth tpUserAuth : qplusUids) {
 			AuthInfo authInfo = null;
@@ -75,14 +72,16 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 			} catch (JsonGenerationException e1) {
 			}
 			if (authInfo == null) {
-				// TODO (done) 为什么要break？
 				continue;
 			}
+			// TODO (review) 框起来的代码都不会变吧？
+			// ------------------------------//
 			bean.setNum(1); // 由App指定，一般展示在App图标的右上角。最大100v最长260字节。该字段会在拉起App的时候透传给App应用程序
 			bean.setInstanceid(0); // 桌面实例ID, 数字，目前建议填0
 			bean.setOptype(1); // 展现方式: 1-更新内容直接进消息中心
-			bean.setQplusid(authInfo.getTpIdentity()); // 桌面ID，字符串，必填信息，且内容会被校验
 			bean.setText(text); // 文本提示语Utf8编码，最长90字节
+			// ------------------------------//
+			bean.setQplusid(authInfo.getTpIdentity()); // 桌面ID，字符串，必填信息，且内容会被校验
 			bean.setPushmsgid(String.valueOf(System.currentTimeMillis())); // 本次PUSH的消息ID，建议填写，可以为任意数字
 			QPushResult result = null;
 			try {
@@ -103,6 +102,7 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 						+ " uid:" + tpUserAuth.getUid(), e);
 			} finally {
 				// 不管发送成功失败要删除不然会死循环
+				// TODO (review) 这里写的非常好，能考虑到异常情况。上面continue地方呢？
 				noticeService.removeFromNoticeUsers(tpUserAuth.getUid());
 			}
 

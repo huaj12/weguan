@@ -559,7 +559,7 @@ function prepareSendIdea(ideaId, callback){
 		    $("form#send-idea").find("div.btn > a").click(function(){
 		    	var ideaId = $(this).attr("idea-id");
 		    	postIdea($("form#send-idea"), function(){
-		    		$(".idea-btn-" + ideaId).attr("class", "sended send_done").children("a").text("已想去").unbind("click");
+		    		$(".idea-btn-" + ideaId).attr("class", "sended send_done done").children("a").text("已想去").unbind("click");
 					if(callback != null){
 						callback();
 					}

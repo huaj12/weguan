@@ -56,9 +56,19 @@ public class NoticeService implements INoticeService {
 	public void emptyNotice(long uid, NoticeType noticeType) {
 		redisTemplate.delete(RedisKeyGenerator.genUserNoticeNumKey(uid,
 				noticeType));
-		// TODO 有了评论，这里代码有问题了
-		redisTemplate.opsForZSet().remove(
-				RedisKeyGenerator.genNoticeUsersKey(), uid);
+		boolean removeNoticeUser = true;
+		for (NoticeType notice : NoticeType.values()) {
+			if (notice != noticeType
+					&& redisTemplate.hasKey(RedisKeyGenerator
+							.genUserNoticeNumKey(uid, notice))) {
+				removeNoticeUser = false;
+				break;
+			}
+		}
+		if (removeNoticeUser) {
+			redisTemplate.opsForZSet().remove(
+					RedisKeyGenerator.genNoticeUsersKey(), uid);
+		}
 	}
 
 	@Override

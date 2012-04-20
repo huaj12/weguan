@@ -39,21 +39,18 @@ $(document).ready(function(){
 	});
 	
 	//绑定下拉框	
-	$("#city-select").each(function(){
-		var citySelect = new CitySelectInput(this, function(cityId){
-			var queryType = $("div.category").attr("queryType");
-			var gender = $("#gender-select").find("a.selected").attr("value");
-			window.location.href = "/home/" + queryType + "/" + cityId + "_" + gender + "/1";
-			return false;
-		});
-		citySelect.bindBlur();
-		citySelect.bindClick();
-    });
+	$("#town-select").find("span > a").bind("click", function(){
+		var queryType = $("div.category").attr("queryType");
+		var townId = $(this).attr("value");
+		var gender = $("#gender-select").find("a.selected").attr("value");
+		window.location.href = "/home/" + queryType + "/" + townId + "_" + gender + "/1";
+		return false;
+	});
 	$("#gender-select").find("span > a").bind("click", function(){
 		var queryType = $("div.category").attr("queryType");
 		var gender = $(this).attr("value");
-		var cityId = $("#city-select").find("p > a").attr("city-id");
-		window.location.href = "/home/" + queryType + "/" + cityId + "_" + gender + "/1";
+		var townId = $("#town-select").find("a.selected").attr("value");
+		window.location.href = "/home/" + queryType + "/" + (townId == null ? "" : (townId + "_")) + gender + "/1";
 		return false;
 	});
 	

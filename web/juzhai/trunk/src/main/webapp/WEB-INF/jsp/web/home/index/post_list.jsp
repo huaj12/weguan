@@ -6,7 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="jz_list"><!--jz_list begin-->
 	<div class="title"><!--title begin-->
-		<div id="city-select" class="l_select_menu"><!--l_select_menu begin-->
+		<%-- <div id="city-select" class="l_select_menu"><!--l_select_menu begin-->
 			<p><a href="javascript:void(0);" hidefocus city-id="${cityId}"><c:choose><c:when test="${cityId == 0}">全国</c:when><c:otherwise>${jzd:cityName(cityId)}</c:otherwise></c:choose></a></p>
 			<div></div>
 			<div class="l_select_menu_box"><!--city_list begin-->
@@ -33,36 +33,39 @@
 				</div><!--l_menu_box_m end-->
 				<div class="l_select_menu_box_b"></div>
 			</div><!--l_select_menu_box end-->
-		</div><!--l_select_menu end-->
-		<%-- <div id="city-select" class="select_menu"><!--select_menu begin-->
-			<p><a href="javascript:void(0);"></a></p>
-			<div></div>
-			<div class="select_box"><!--select_box begin-->
-				<span>
-					<a href="javascript:void(0);" value="0"   <c:if test="${cityId == 0}">class="selected"</c:if>>全国</a>
-					<c:forEach var="specialCity" items="${jzd:specialCityList()}">
-						<a href="javascript:void(0);" value="${specialCity.id}"   <c:if test="${cityId==specialCity.id}">class="selected"</c:if>>${specialCity.name}</a>
-					</c:forEach>
-				</span>
-				<em></em>
-			</div><!--select_box end-->
-		</div><!--select_menu end--> --%>
+		</div><!--l_select_menu end--> --%>
+		<c:if test="${not empty townId}">
+			<div id="town-select" class="select_menu"><!--select_menu begin-->
+				<p><a href="javascript:void(0);"></a></p>
+				<div></div>
+				<div class="select_box"><!--select_box begin-->
+					<span>
+						<a href="javascript:void(0);" value="0"   <c:if test="${townId == 0}">class="selected"</c:if>>全${jzd:cityName(cityId)}</a>
+						<c:forEach var="town" items="${jzd:townList(cityId)}">
+							<a href="javascript:void(0);" value="${town.id}"   <c:if test="${townId==town.id}">class="selected"</c:if>>${town.name}</a>
+						</c:forEach>
+					</span>
+					<div class="ch_area"><a href="/profile/index">我要搬家</a></div>
+					<em></em>
+				</div><!--select_box end-->
+			</div><!--select_menu end-->
+		</c:if>
 		<div id="gender-select" class="select_menu"><!--select_menu begin-->
 			<p><a href="javascript:void(0);" hidefocus></a></p>
 			<div></div>
 			<div class="select_box"><!--select_box begin-->
 				<span>
-					<a href="javascript:void(0);" value="all" <c:if test="${genderType == 'all'}">class="selected"</c:if>>性别不限</a>
-					<a href="javascript:void(0);" value="male" <c:if test="${genderType == 'male'}">class="selected"</c:if>>男生</a>
-					<a href="javascript:void(0);" value="female" <c:if test="${genderType == 'female'}">class="selected"</c:if>>女生</a>
+					<a href="javascript:void(0);" value="all" <c:if test="${genderType == 'all'}">class="selected"</c:if>>所有小宅</a>
+					<a href="javascript:void(0);" value="male" <c:if test="${genderType == 'male'}">class="selected"</c:if>>宅男</a>
+					<a href="javascript:void(0);" value="female" <c:if test="${genderType == 'female'}">class="selected"</c:if>>宅女</a>
 				</span>
 				<em></em>
 			</div><!--select_box end-->
 		</div><!--select_menu end-->
 		<div class="category" queryType="${queryType}"><!--category begin-->
-			<span <c:if test="${queryType == 'showNewPosts'}">class="act"</c:if>><p></p><a href="/home/showNewPosts/${cityId}_${genderType}/1">最新的</a><p></p></span>
-			<span <c:if test="${queryType == 'showRespPosts'}">class="act"</c:if>><p></p><a href="/home/showRespPosts/${cityId}_${genderType}/1">我响应的</a><p></p></span>
-			<span <c:if test="${queryType == 'showIntPosts'}">class="act"</c:if>><p></p><a href="/home/showIntPosts/${cityId}_${genderType}/1">我❤的人</a><p></p></span>
+			<span <c:if test="${queryType == 'showposts'}">class="act"</c:if>><p></p><a href="/home/showposts/0_${genderType}/1">最新的</a><p></p></span>
+			<span <c:if test="${queryType == 'showrposts'}">class="act"</c:if>><p></p><a href="/home/showrposts/${genderType}/1">我响应的</a><p></p></span>
+			<span <c:if test="${queryType == 'showiposts'}">class="act"</c:if>><p></p><a href="/home/showiposts/${genderType}/1">我❤的人</a><p></p></span>
 		</div><!--category end-->
 	</div><!--title end-->		
 	<div class="jz_main"><!--jz_main begin-->
@@ -72,7 +75,7 @@
 				<c:otherwise>
 					<div class="other_recom"><!--other_recom begin-->
 						<em></em>
-						<p>这里还没人发布拒宅，先看看下面其他城市的拒宅吧</p>
+						<p>这里还没人发布拒宅哦</p>
 					</div><!--other_recom end-->
 				</c:otherwise>
 			</c:choose>
@@ -152,17 +155,17 @@
 					</div><!--wtg end-->
 				</div><!--jz_item end-->
 			</c:forEach>
-			<c:if test="${pager.totalResults < 5}">
-				<div class="more_fx"><a href="/home/showNewPosts/0_all/1">切换到全国看更多</a></div>
-			</c:if>
 		</c:if>
 	</div><!--jz_main end-->
 </div><!--jz_list end-->
 <div class="clear"></div>
 <div class="line"></div>
+<c:if test="${not empty townId}">
+	<c:set var="urlPrefix" value="${townId}_" />
+</c:if>
 <c:if test="${pager.totalResults > 0}">
 	<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 		<c:param name="pager" value="${pager}"/>
-		<c:param name="url" value="/home/${queryType}/${cityId}_${genderType}" />
+		<c:param name="url" value="/home/${queryType}/${urlPrefix}${genderType}" />
 	</c:import>
 </c:if>

@@ -1,7 +1,9 @@
 package com.juzhai.core.web.jstl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -44,6 +46,26 @@ public class JzDataFunction {
 			}
 		}
 		return cityList;
+	}
+
+	/**
+	 * 获取区列表
+	 * 
+	 * @param cityId
+	 * @return
+	 */
+	public static List<Town> townList(long cityId) {
+		if (cityId <= 0) {
+			return Collections.emptyList();
+		}
+		List<Town> townList = new ArrayList<Town>();
+		for (Entry<Long, Town> entry : com.juzhai.common.InitData.TOWN_MAP
+				.entrySet()) {
+			if (cityId == entry.getValue().getCityId()) {
+				townList.add(entry.getValue());
+			}
+		}
+		return townList;
 	}
 
 	/**

@@ -271,6 +271,17 @@
 	</bean>
 	<!-- delete expire active code end -->
 	
+	<!-- delete expire active code begin -->
+	<bean id="defunctExpireIdeaTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="defunctExpireIdeaHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${defunct.expire.idea.cron}" />
+	</bean>
+	<!-- delete expire active code end -->
+	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
@@ -297,6 +308,7 @@
 				<ref bean="recommendPostTrigger"/>
 				<ref bean="guessYouLikeUsersTrigger"/>
 				<ref bean="delExpireActiveCodeTrigger"/>
+				<ref bean="defunctExpireIdeaTrigger"/>
 			</list>
 		</property>
 	</bean>

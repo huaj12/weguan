@@ -201,4 +201,9 @@ public interface IIdeaService {
 	 * @return
 	 */
 	List<Idea> listIdeaWindow();
+
+	/**
+	 * 删除过期的idea
+	 */
+	void defunctExpireIdea();
 }

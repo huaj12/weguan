@@ -26,6 +26,13 @@
     </function>
     
     <function>
+    	<name>townList</name>
+    	<function-class>com.juzhai.core.web.jstl.JzDataFunction</function-class>
+    	<function-signature>java.util.List townList(long)</function-signature>
+    	<example>${jzd:townList(2)}</example>
+    </function>
+    
+    <function>
     	<name>constellationName</name>
     	<function-class>com.juzhai.core.web.jstl.JzDataFunction</function-class>
     	<function-signature>java.lang.String constellationName(long)</function-signature>

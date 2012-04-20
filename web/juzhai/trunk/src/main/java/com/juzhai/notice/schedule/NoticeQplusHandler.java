@@ -1,7 +1,6 @@
 package com.juzhai.notice.schedule;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,7 +12,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.InitData;
@@ -41,35 +39,35 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 	@Override
 	protected void doHandle() {
 		try {
-			List<TpUserAuth> qplusUids = new ArrayList<TpUserAuth>();
 			Thirdparty tp = InitData.TP_MAP.get(9l);
-			// TODO (review) 为什么要一次性都取出来？
-			Long count = redisTemplate.opsForZSet().size(
-					RedisKeyGenerator.genNoticeUsersKey());
-			List<Long> uids = null;
-			if (count != null && count != 0) {
-				uids = noticeService.getNoticUserList(count.intValue());
-			}
-
-			// TODO (review) .....为什么要取出所有q+的tpUserAuth？有1000W条也都取出来？
-			TpUserAuthExample example = new TpUserAuthExample();
-			example.createCriteria().andTpIdEqualTo(tp.getId());
-			List<TpUserAuth> userAuthList = tpUserAuthMapper
-					.selectByExample(example);
-			for (Long uid : uids) {
-				for (TpUserAuth tpuserAuth : userAuthList) {
-					if (uid.longValue() == tpuserAuth.getUid().longValue()) {
-						qplusUids.add(tpuserAuth);
-					}
+			// TODO (done) 为什么要一次性都取出来？
+			while (true) {
+				List<Long> uids = noticeService.getNoticUserList(100);
+				// TODO (done) .....为什么要取出所有q+的tpUserAuth？有1000W条也都取出来？
+				TpUserAuthExample example = new TpUserAuthExample();
+				example.createCriteria().andTpIdEqualTo(tp.getId())
+						.andUidIn(uids);
+				List<TpUserAuth> userAuthList = tpUserAuthMapper
+						.selectByExample(example);
+				push(userAuthList, tp);
+				if (uids.size() < 100) {
+					break;
 				}
 			}
-			push(qplusUids, tp);
 		} catch (Exception e) {
 			log.error("NoticeQplusHandler  is error", e);
 		}
 	}
 
 	private void push(List<TpUserAuth> qplusUids, Thirdparty tp) {
+		// TODO (done) 发布内容每次都会不同？
+		String text = messageSource.getMessage("qq.plus.push.text", null,
+				Locale.SIMPLIFIED_CHINESE);
+		// TODO (done) QPushService是有状态的吗？每一次push需要一个新的QPushService实例？
+		QPushService service = QPushService.createInstance(
+				Integer.parseInt(tp.getAppKey()), tp.getAppSecret());
+		// TODO (done) 看看这个QPushBean能否不用每次都new？
+		QPushBean bean = new QPushBean();
 		for (TpUserAuth tpUserAuth : qplusUids) {
 			AuthInfo authInfo = null;
 			try {
@@ -77,21 +75,14 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 			} catch (JsonGenerationException e1) {
 			}
 			if (authInfo == null) {
-				// TODO (review) 为什么要break？
-				break;
+				// TODO (done) 为什么要break？
+				continue;
 			}
-			// TODO (review) QPushService是有状态的吗？每一次push需要一个新的QPushService实例？
-			final QPushService service = QPushService.createInstance(
-					Integer.parseInt(tp.getAppKey()), tp.getAppSecret());
-			// TODO (review) 看看这个QPushBean能否不用每次都new？
-			QPushBean bean = new QPushBean();
 			bean.setNum(1); // 由App指定，一般展示在App图标的右上角。最大100v最长260字节。该字段会在拉起App的时候透传给App应用程序
 			bean.setInstanceid(0); // 桌面实例ID, 数字，目前建议填0
 			bean.setOptype(1); // 展现方式: 1-更新内容直接进消息中心
 			bean.setQplusid(authInfo.getTpIdentity()); // 桌面ID，字符串，必填信息，且内容会被校验
-			// TODO (review) 发布内容每次都会不同？
-			bean.setText(messageSource.getMessage("qq.plus.push.text", null,
-					Locale.SIMPLIFIED_CHINESE)); // 文本提示语Utf8编码，最长90字节
+			bean.setText(text); // 文本提示语Utf8编码，最长90字节
 			bean.setPushmsgid(String.valueOf(System.currentTimeMillis())); // 本次PUSH的消息ID，建议填写，可以为任意数字
 			QPushResult result = null;
 			try {
@@ -110,6 +101,9 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 			} catch (IOException e) {
 				log.error("qq plus push TpIdentity:" + authInfo.getTpIdentity()
 						+ " uid:" + tpUserAuth.getUid(), e);
+			} finally {
+				// 不管发送成功失败要删除不然会死循环
+				noticeService.removeFromNoticeUsers(tpUserAuth.getUid());
 			}
 
 		}

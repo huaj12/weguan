@@ -80,8 +80,8 @@ public interface IPostService {
 	 * @param gender
 	 * @return
 	 */
-	List<Post> listNewestPost(long uid, Long cityId, Integer gender,
-			int firstResult, int maxResults);
+	List<Post> listNewestPost(long uid, Long cityId, Long townId,
+			Integer gender, int firstResult, int maxResults);
 
 	/**
 	 * 首页post数量
@@ -91,7 +91,7 @@ public interface IPostService {
 	 * @param gender
 	 * @return
 	 */
-	int countNewestPost(long uid, Long cityId, Integer gender);
+	int countNewestPost(long uid, Long cityId, Long townId, Integer gender);
 
 	/**
 	 * 列表我响应的post

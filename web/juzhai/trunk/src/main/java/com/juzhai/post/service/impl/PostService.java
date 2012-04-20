@@ -665,27 +665,15 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public List<Post> listNewestPost(long uid, Long cityId, Integer gender,
-			int firstResult, int maxResults) {
-		// PostExample example = new PostExample();
-		// PostExample.Criteria c = example.createCriteria()
-		// .andCreateUidNotEqualTo(uid)
-		// .andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
-		// .andDefunctEqualTo(false);
-		// if (null != cityId && cityId > 0) {
-		// c.andUserCityEqualTo(cityId);
-		// }
-		// if (null != gender && gender >= 0) {
-		// c.andUserGenderEqualTo(gender);
-		// }
-		// example.setOrderByClause("create_time desc");
-		// example.setLimit(new Limit(firstResult, maxResults));
-		// return postMapper.selectByExample(example);
-
+	public List<Post> listNewestPost(long uid, Long cityId, Long townId,
+			Integer gender, int firstResult, int maxResults) {
 		ProfileExample example = new ProfileExample();
 		ProfileExample.Criteria c = example.createCriteria();
 		if (null != cityId && cityId > 0) {
 			c.andCityEqualTo(cityId);
+		}
+		if (null != townId && townId > 0) {
+			c.andTownEqualTo(townId);
 		}
 		if (gender != null) {
 			c.andGenderEqualTo(gender);
@@ -710,24 +698,15 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public int countNewestPost(long uid, Long cityId, Integer gender) {
-		// PostExample example = new PostExample();
-		// PostExample.Criteria c = example.createCriteria()
-		// .andCreateUidNotEqualTo(uid)
-		// .andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
-		// .andDefunctEqualTo(false);
-		// if (null != cityId && cityId > 0) {
-		// c.andUserCityEqualTo(cityId);
-		// }
-		// if (null != gender && gender >= 0) {
-		// c.andUserGenderEqualTo(gender);
-		// }
-		// return postMapper.countByExample(example);
-
+	public int countNewestPost(long uid, Long cityId, Long townId,
+			Integer gender) {
 		ProfileExample example = new ProfileExample();
 		ProfileExample.Criteria c = example.createCriteria();
 		if (null != cityId && cityId > 0) {
 			c.andCityEqualTo(cityId);
+		}
+		if (null != townId && townId > 0) {
+			c.andTownEqualTo(townId);
 		}
 		if (gender != null) {
 			c.andGenderEqualTo(gender);

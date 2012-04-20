@@ -2,6 +2,7 @@ package com.juzhai.post.service.impl;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -502,5 +503,15 @@ public class IdeaService implements IIdeaService {
 		idea.setId(ideaId);
 		idea.setDefunct(false);
 		ideaMapper.updateByPrimaryKeySelective(idea);
+	}
+
+	@Override
+	public void defunctExpireIdea() {
+		Date date = DateUtils.truncate(new Date(), Calendar.DATE);
+		IdeaExample example = new IdeaExample();
+		example.createCriteria().andDateLessThanOrEqualTo(date);
+		Idea idea = new Idea();
+		idea.setDefunct(true);
+		ideaMapper.updateByExampleSelective(idea, example);
 	}
 }

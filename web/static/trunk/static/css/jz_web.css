@@ -546,6 +546,14 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .select_menu span a:hover{background:url(../images/web2/select_list_span_a.gif) no-repeat;}
 .select_menu span a.selected{background:url(../images/web2/select_list_span_a_active.gif) no-repeat; color:#fff;}
 .select_menu span a.selected:hover{background:url(../images/web2/select_list_span_a_active.gif) no-repeat; color:#fff;}
+.select_menu .ch_area{padding:6px 5px; float:left; width:90px; height:auto; overflow:hidden; background:url(../images/web2/select_list_span_bg.gif) repeat-y; border-top:1px solid #e5e5e5; padding-bottom:7px; padding-bottom:5px\9; padding-left:12px;}
+.select_menu .ch_area a{ color:#3E8BD9;}
+
+
+
+
+
+
 .select_menu em{ background:url(../images/web2/select_list_span_bottom.gif) no-repeat; width:100px; overflow:hidden; height:1px; float:left; display:block;}
 .select_active .select_box{ display:block;}
 .select_active em{ display:block;}
@@ -559,7 +567,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 .l_select_menu{ width:100px; height:28px; float:left; position:relative; z-index:40; margin-right:10px; margin-top:10px;}
 .l_select_menu p{ float:left;}
-.l_select_menu p a{ width:50px; height:28px; display:block; background:url(../images/web2/select_list_head.gif) no-repeat; line-height:28px; line-height:30px\9; color:#666; padding-left:10px; padding-right:40px; text-decoration:none; outline:none; overflow:hidden;}
+.l_select_menu p a{ width:50px; height:28px; display:block; background:url(../images/web2/select_list_head.gif) no-repeat; line-height:28px; line-height:30px\9; color:#666; padding-left:10px; padding-right:40px;  text-decoration:none; outline:none; overflow:hidden;}
 .l_select_menu p a:hover{ background:url(../images/web2/select_list_head_hover.gif) no-repeat;}
 .l_active p a{ background:url(../images/web2/city_active.gif) no-repeat;}
 .l_active p a:hover{background:url(../images/web2/city_active.gif) no-repeat; cursor:default;}
@@ -1717,7 +1725,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 
 .jz_list .search_title .select_menu{ margin-right:0px;}
-.search_title .w70,.search_title .w100{ float:left; margin-left:3px; margin-right:3px; display:inline;}
+.search_title .w70,.search_title .w100{ float:left;  margin-right:6px; display:inline;}
 
 .search_title .w70 .select_menu{ width:70px; height:28px; float:left; position:relative; z-index:40;  margin-top:11px;}
 .search_title .w70 .select_menu p{ float:left;}
@@ -1754,7 +1762,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 
 
-.search_title .w80 .select_menu .check_list{ background:url(../images/web2/select_list_span_bg80.gif) repeat-y; padding:4px 5px; float:left; width:70px; height:auto; overflow:hidden; }
+.search_title .w100 .select_menu .check_list{ background:url(../images/web2/select_list_span_bg.gif) repeat-y; padding:4px 5px; float:left; width:90px; height:auto; overflow:hidden; }
 .check_list ul{ float:left; padding-bottom:5px;}
 .check_list ul li{ width:50px; float:left; background:url(../images/web2/tb_link.jpg) no-repeat 2px 0;height:13px; padding-left:20px; color:#999; margin-top:5px; margin-bottom:5px; line-height:normal; cursor:pointer;}
 .check_list ul li.act{background:url(../images/web2/tb_active.jpg) no-repeat 2px 0;}
@@ -1782,7 +1790,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .more_search{ float:right; margin-right:20px; display:inline; margin-top:18px;} 
 .more_search a{ color:#3E8BD9;}
 
-.search_more_area{ float:left; margin-left:69px; display:inline; width:550px; position:relative; z-index:20;}
+.search_more_area{ float:left; margin-left:17px; display:inline; width:580px; position:relative; z-index:20;}
 
 
 
@@ -3126,6 +3134,7 @@ filter:alpha(opacity=80); -moz-opacity:0.8; -khtml-opacity: 0.8;opacity: 0.8;
 .zjxq ul li .btn{ float:right; overflow:hidden; margin-left:25px; display:inline; margin-top:10px;}
 .zjxq ul li .btn a{ width:80px; height:25px; text-align:center; color:#fff; line-height:25px; line-height:27px\9; overflow:hidden; display:block inline; margin-left:5px; margin-right:5px; float:left;}
 .zjxq ul li .btn a.wtgo{ background:url(../images/web2/woxq.gif) no-repeat;}
+.zjxq ul li .btn a.done{ background:url(../images/web2/myla.gif) no-repeat; color:#999; cursor:default;}
 
 
 

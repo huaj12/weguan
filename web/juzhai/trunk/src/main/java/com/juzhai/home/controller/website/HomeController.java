@@ -51,21 +51,20 @@ public class HomeController extends BaseController {
 	public String home(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		checkLoginForWeb(request);
-		ProfileCache loginUser = getLoginUserCache(request);
-		long city = 0L;
-		if (loginUser != null && loginUser.getCity() != null) {
-			// && InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
-			city = loginUser.getCity();
-		}
-		return showNewPosts(request, model, city, "all", 1);
+		return showNewPosts(request, model, 0, "all", 1);
 	}
 
-	@RequestMapping(value = "/showNewPosts/{cityId}_{genderType}/{page}", method = RequestMethod.GET)
+	@RequestMapping(value = "/showposts/{townId}_{genderType}/{page}", method = RequestMethod.GET)
 	public String showNewPosts(HttpServletRequest request, Model model,
-			@PathVariable long cityId, @PathVariable String genderType,
+			@PathVariable long townId, @PathVariable String genderType,
 			@PathVariable int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeRight(context, cityId, model);
+		long cityId = 0L;
+		ProfileCache loginUser = getLoginUserCache(request);
+		if (loginUser != null && loginUser.getCity() != null) {
+			cityId = loginUser.getCity();
+		}
+		showHomeRight(context, model);
 		Integer gender = null;
 		if (StringUtils.equals(genderType, "male")) {
 			gender = 1;
@@ -73,11 +72,13 @@ public class HomeController extends BaseController {
 			gender = 0;
 		}
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
-				postService.countNewestPost(context.getUid(), cityId, gender));
+				postService.countNewestPost(context.getUid(), cityId, townId,
+						gender));
 		List<Post> postList = null;
 		if (pager.getTotalResults() > 0) {
 			postList = postService.listNewestPost(context.getUid(), cityId,
-					gender, pager.getFirstResult(), pager.getMaxResult());
+					townId, gender, pager.getFirstResult(),
+					pager.getMaxResult());
 		} else {
 			List<Post> recommendPostList = recommendPostService
 					.listRecommendPost();
@@ -94,8 +95,9 @@ public class HomeController extends BaseController {
 				postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
-		model.addAttribute("queryType", "showNewPosts");
+		model.addAttribute("queryType", "showposts");
 		model.addAttribute("cityId", cityId);
+		model.addAttribute("townId", townId);
 		model.addAttribute("genderType", genderType);
 		model.addAttribute("pageType", "home");
 		loadCategoryList(model);
@@ -103,12 +105,12 @@ public class HomeController extends BaseController {
 		return "web/home/index/home";
 	}
 
-	@RequestMapping(value = "/showRespPosts/{cityId}_{genderType}/{page}", method = RequestMethod.GET)
+	@RequestMapping(value = "/showrposts/{genderType}/{page}", method = RequestMethod.GET)
 	public String showRespPosts(HttpServletRequest request, Model model,
-			@PathVariable long cityId, @PathVariable String genderType,
-			@PathVariable int page) throws NeedLoginException {
+			@PathVariable String genderType, @PathVariable int page)
+			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeRight(context, cityId, model);
+		showHomeRight(context, model);
 		Integer gender = null;
 		if (genderType.equals("male")) {
 			gender = 1;
@@ -116,15 +118,15 @@ public class HomeController extends BaseController {
 			gender = 0;
 		}
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
-				postService.countResponsePost(context.getUid(), cityId, gender));
+				postService.countResponsePost(context.getUid(), null, gender));
 		List<Post> postList = postService.listResponsePost(context.getUid(),
-				cityId, gender, pager.getFirstResult(), pager.getMaxResult());
+				null, gender, pager.getFirstResult(), pager.getMaxResult());
 		List<PostView> postViewList = assembleUserPostViewList(context,
 				postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
-		model.addAttribute("queryType", "showRespPosts");
-		model.addAttribute("cityId", cityId);
+		model.addAttribute("queryType", "showrposts");
+		// model.addAttribute("cityId", cityId);
 		model.addAttribute("genderType", genderType);
 		model.addAttribute("pageType", "home");
 		loadCategoryList(model);
@@ -132,12 +134,12 @@ public class HomeController extends BaseController {
 		return "web/home/index/home";
 	}
 
-	@RequestMapping(value = "/showIntPosts/{cityId}_{genderType}/{page}", method = RequestMethod.GET)
+	@RequestMapping(value = "/showiposts/{genderType}/{page}", method = RequestMethod.GET)
 	public String showIntPosts(HttpServletRequest request, Model model,
-			@PathVariable long cityId, @PathVariable String genderType,
-			@PathVariable int page) throws NeedLoginException {
+			@PathVariable String genderType, @PathVariable int page)
+			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeRight(context, cityId, model);
+		showHomeRight(context, model);
 		Integer gender = null;
 		if (genderType.equals("male")) {
 			gender = 1;
@@ -145,17 +147,17 @@ public class HomeController extends BaseController {
 			gender = 0;
 		}
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
-				postService.countInterestUserPost(context.getUid(), cityId,
+				postService.countInterestUserPost(context.getUid(), null,
 						gender));
 		List<Post> postList = postService.listInterestUserPost(
-				context.getUid(), cityId, gender, pager.getFirstResult(),
+				context.getUid(), null, gender, pager.getFirstResult(),
 				pager.getMaxResult());
 		List<PostView> postViewList = assembleUserPostViewList(context,
 				postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
-		model.addAttribute("queryType", "showIntPosts");
-		model.addAttribute("cityId", cityId);
+		model.addAttribute("queryType", "showiposts");
+		// model.addAttribute("cityId", cityId);
 		model.addAttribute("genderType", genderType);
 		model.addAttribute("pageType", "home");
 		loadCategoryList(model);
@@ -163,7 +165,7 @@ public class HomeController extends BaseController {
 		return "web/home/index/home";
 	}
 
-	private void showHomeRight(UserContext context, long cityId, Model model) {
+	private void showHomeRight(UserContext context, Model model) {
 		showHomeLogo(context, model);
 		// ideaWidget(context, cityId, model, webHomeRightIdeaRows);
 		newUserWidget(0L, model, webHomeRightUserRows);

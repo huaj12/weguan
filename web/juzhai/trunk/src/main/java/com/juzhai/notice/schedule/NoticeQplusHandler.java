@@ -80,15 +80,16 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 				// TODO (review) 为什么要break？
 				break;
 			}
-			//TODO (review) QPushService是有状态的吗？每一次push需要一个新的QPushService实例？
+			// TODO (review) QPushService是有状态的吗？每一次push需要一个新的QPushService实例？
 			final QPushService service = QPushService.createInstance(
 					Integer.parseInt(tp.getAppKey()), tp.getAppSecret());
+			// TODO (review) 看看这个QPushBean能否不用每次都new？
 			QPushBean bean = new QPushBean();
 			bean.setNum(1); // 由App指定，一般展示在App图标的右上角。最大100v最长260字节。该字段会在拉起App的时候透传给App应用程序
 			bean.setInstanceid(0); // 桌面实例ID, 数字，目前建议填0
 			bean.setOptype(1); // 展现方式: 1-更新内容直接进消息中心
 			bean.setQplusid(authInfo.getTpIdentity()); // 桌面ID，字符串，必填信息，且内容会被校验
-			//TODO (review) 发布内容每次都会不同？
+			// TODO (review) 发布内容每次都会不同？
 			bean.setText(messageSource.getMessage("qq.plus.push.text", null,
 					Locale.SIMPLIFIED_CHINESE)); // 文本提示语Utf8编码，最长90字节
 			bean.setPushmsgid(String.valueOf(System.currentTimeMillis())); // 本次PUSH的消息ID，建议填写，可以为任意数字

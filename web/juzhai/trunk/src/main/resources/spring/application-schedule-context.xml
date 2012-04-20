@@ -278,7 +278,7 @@
 				<property name="targetObject" ref="noticeQplusHandler" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="${qplus.push.expired.cron}" />
+		<property name="cronExpression" value="${qplus.push.cron}" />
 	</bean>
 	<!--	notice Qplus  end -->
 	

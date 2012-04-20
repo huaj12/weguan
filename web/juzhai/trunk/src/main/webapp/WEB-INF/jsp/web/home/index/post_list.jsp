@@ -40,7 +40,7 @@
 				<div></div>
 				<div class="select_box"><!--select_box begin-->
 					<span>
-						<a href="javascript:void(0);" value="0"   <c:if test="${townId == 0}">class="selected"</c:if>>全${jzd:cityName(cityId)}</a>
+						<a href="javascript:void(0);" value="0"   <c:if test="${townId == 0}">class="selected"</c:if>><c:choose><c:when test="${cityId > 0}">全${jzd:cityName(cityId)}</c:when><c:otherwise>全国</c:otherwise></c:choose></a>
 						<c:forEach var="town" items="${jzd:townList(cityId)}">
 							<a href="javascript:void(0);" value="${town.id}"   <c:if test="${townId==town.id}">class="selected"</c:if>>${town.name}</a>
 						</c:forEach>

@@ -271,6 +271,18 @@
 	</bean>
 	<!-- delete expire active code end -->
 	
+	<!--notice Qplus  begin -->
+	<bean id="noticeQplusTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="noticeQplusHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${qplus.push.expired.cron}" />
+	</bean>
+	<!--	notice Qplus  end -->
+	
+	
 	<!-- delete expire active code begin -->
 	<bean id="defunctExpireIdeaTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
@@ -308,6 +320,7 @@
 				<ref bean="recommendPostTrigger"/>
 				<ref bean="guessYouLikeUsersTrigger"/>
 				<ref bean="delExpireActiveCodeTrigger"/>
+				<ref bean="noticeQplusTrigger"/>
 				<ref bean="defunctExpireIdeaTrigger"/>
 			</list>
 		</property>

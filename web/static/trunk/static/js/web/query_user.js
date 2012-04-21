@@ -37,19 +37,21 @@ $(document).ready(function(){
 		openMessage(uid, nickname);
 		return false;
 	});
+	
+	var minAge = $("input[name='minAge']").attr("init-data");
+	if(minAge != "0"){
+		$("input[name='minAge']").val(minAge);
+	}
+	var maxAge = $("input[name='maxAge']").attr("init-data");
+	if(maxAge != "0"){
+		$("input[name='maxAge']").val(maxAge);
+	}
 });
 
 function search_user(){
-	var cityId = $("input[name='city']").val();
+	var townId = $("input[name='townId']").val();
 	var sex = $("input[name='sex']").val();
-	var minStringAge = $("input[name='minStringAge']").val();
-	var maxStringAge = $("input[name='maxStringAge']").val();
-	//TODO 验证年龄
-//	if(minStringAge == ""){
-//		minStringAge = 0;
-//	}
-//	if(maxStringAge == ""){
-//		maxStringAge = 0;
-//	}
-	window.location.href = "/queryusers/" + cityId + "_" + sex + "_" + minStringAge + "_" + maxStringAge + "/1";
+	var minAge = $("input[name='minAge']").val();
+	var maxAge = $("input[name='maxAge']").val();
+	window.location.href = "/queryusers/" + townId + "_" + sex + "_" + (minAge == "" ? 0 : minAge) + "_" + (maxAge == "" ? 0 : maxAge) + "/1";
 }

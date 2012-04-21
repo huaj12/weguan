@@ -106,7 +106,7 @@
 																</c:choose>
 																<c:choose>
 																	<c:when test="${ideaView.hasUsed}">
-																		<div class="send_done"><a href="javascript:void(0);">已想去</a></div>
+																		<div class="done"><a href="javascript:void(0);">已想去</a></div>
 																	</c:when>
 																	<c:otherwise>
 																		<div class="fb_btn idea-btn idea-btn-${ideaView.idea.id}"><a href="javascript:void(0);" idea-id="${ideaView.idea.id}">我想去</a></div>															

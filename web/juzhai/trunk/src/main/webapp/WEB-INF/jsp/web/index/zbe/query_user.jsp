@@ -26,8 +26,8 @@
 								<div class="jz_list"><!--jz_list begin-->
 									<div class="search_title"><!--search_title begin-->
 										<h2>搜索小宅</h2>
-										<div class="w70"><!--w70 begin-->
-											<div id="city-select" class="l_select_menu" name="city"><!--l_select_menu begin-->
+										<div class="w100"><!--w70 begin-->
+											<%-- <div id="city-select" class="l_select_menu" name="city"><!--l_select_menu begin-->
 												<p><a href="javascript:void(0);" hidefocus city-id="${cityId}"><c:choose><c:when test="${cityId == 0}">全国</c:when><c:otherwise>${jzd:cityName(cityId)}</c:otherwise></c:choose></a></p>
 												<div></div>
 												<div class="l_select_menu_box"><!--city_list begin-->
@@ -54,27 +54,41 @@
 													</div><!--l_menu_box_m end-->
 													<div class="l_select_menu_box_b"></div>
 												</div><!--l_select_menu_box end-->
-											</div><!--l_select_menu end-->
-										</div><!--w70 end-->
-										<div class="w100"><!--w100 begin-->
-											<div class="select_menu" name="sex"><!--select_menu begin-->
-												<p><a href="javascript:void(0);">性别不限</a></p>
+											</div><!--l_select_menu end--> --%>
+											<div id="town-select" class="select_menu" name="townId"><!--select_menu begin-->
+												<p><a href="javascript:void(0);"></a></p>
 												<div></div>
 												<div class="select_box"><!--select_box begin-->
 													<span>
-														<a href="javascript:void(0);" value="" <c:if test="${empty sex||sex=='all'}">class="selected"</c:if>>性别不限</a>
-														<a href="javascript:void(0);" value="male" <c:if test="${sex=='male'}">class="selected"</c:if>>男生</a>
-														<a href="javascript:void(0);" value="female" <c:if test="${sex=='female'}">class="selected"</c:if>>女生</a>
+														<a href="javascript:void(0);" value="0"   <c:if test="${townId == 0}">class="selected"</c:if>><c:choose><c:when test="${cityId > 0}">全${jzd:cityName(cityId)}</c:when><c:otherwise>全国</c:otherwise></c:choose></a>
+														<c:forEach var="town" items="${jzd:townList(cityId)}">
+															<a href="javascript:void(0);" value="${town.id}"   <c:if test="${townId==town.id}">class="selected"</c:if>>${town.name}</a>
+														</c:forEach>
+													</span>
+													<div class="ch_area"><a href="/profile/index">我要搬家</a></div>
+													<em></em>
+												</div><!--select_box end-->
+											</div><!--select_menu end-->
+										</div><!--w70 end-->
+										<div class="w100"><!--w100 begin-->
+											<div class="select_menu" name="sex"><!--select_menu begin-->
+												<p><a href="javascript:void(0);"></a></p>
+												<div></div>
+												<div class="select_box"><!--select_box begin-->
+													<span>
+														<a href="javascript:void(0);" value="all" <c:if test="${empty sex||sex=='all'}">class="selected"</c:if>>所有小宅</a>
+														<a href="javascript:void(0);" value="male" <c:if test="${sex=='male'}">class="selected"</c:if>>宅男</a>
+														<a href="javascript:void(0);" value="female" <c:if test="${sex=='female'}">class="selected"</c:if>>宅女</a>
 													</span>
 													<em></em>
 												</div><!--select_box end-->
 											</div><!--select_menu end-->
 										</div><!--w100 end-->
 										<div class="input"><!--input begin-->
-											<p class="l"></p><span class="width70"><input name="minStringAge" type="text" value="${minStringAge}" /></span><p class="r"></p><em>到</em>
+											<p class="l"></p><span class="width70"><input name="minAge" type="text" value="" init-data="${minAge}" /></span><p class="r"></p><em>到</em>
 										</div><!--input end-->
 										<div class="input"><!--input begin-->
-											<p class="l"></p><span class="width70"><input name="maxStringAge" value="${maxStringAge}" type="text" /></span><p class="r"></p><em>岁</em>
+											<p class="l"></p><span class="width70"><input name="maxAge" type="text" value="" init-data="${maxAge}" /></span><p class="r"></p><em>岁</em>
 										</div><!--input end-->
 										<div class="btn"><a href="javascript:void(0);" class="query-btn">搜索</a></div>
 									</div><!--search_title end-->
@@ -114,12 +128,12 @@
 														<div class="pub_box_b"></div>
 													</div><!--pub_box end-->
 												</c:forEach>
-												<c:if test="${pager.totalResults <= 5}">
+												<%-- <c:if test="${pager.totalResults <= 5}">
 													<div class="more_fx"><a href="/queryusers/0___/1">目前这个城市人还比较少，先切换到全国看看吧</a></div>
-												</c:if>
+												</c:if> --%>
 											</c:when>
 											<c:otherwise>
-												<div class="none">暂时没有合适的人,<a href="/queryusers/0___/1">先来看看其他地区的吧</a>！</div>
+												<div class="none">暂时没有合适的人<%-- ,<a href="/queryusers/0___/1">先来看看其他地区的吧</a> --%>！</div>
 											</c:otherwise>
 										</c:choose>
 									</div><!--search_result end-->
@@ -128,7 +142,7 @@
 									<div class="clear"></div>
 									<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 										<c:param name="pager" value="${pager}"/>
-										<c:param name="url" value="/queryusers/${cityId}_${sex}_${minStringAge}_${maxStringAge}" />
+										<c:param name="url" value="/queryusers/${townId}_${sex}_${minAge}_${maxAge}" />
 									</c:import>
 								</c:if>
 							</div>

@@ -69,6 +69,8 @@ public class IndexController extends BaseController {
 	private IPostWindowService postWindowService;
 	@Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows;
+	@Value("${web.show.users.max.rows}")
+	private int webShowUsersMaxRows;
 	@Value("${web.show.ideas.user.count}")
 	private int webShowIdeasUserCount;
 	@Value("${show.invite.users.max.rows}")
@@ -237,39 +239,42 @@ public class IndexController extends BaseController {
 
 	@RequestMapping(value = { "/showusers", "/showUsers" }, method = RequestMethod.GET)
 	public String queryUser(HttpServletRequest request, Model model) {
-		ProfileCache loginUser = getLoginUserCache(request);
-		long city = 0L;
-		if (loginUser != null && loginUser.getCity() != null) {
-			// && InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
-			city = loginUser.getCity();
-		}
-		return pageQueryUser(request, model, 1, city, null, null, null);
+		// ProfileCache loginUser = getLoginUserCache(request);
+		// long city = 0L;
+		// if (loginUser != null && loginUser.getCity() != null) {
+		// // && InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
+		// city = loginUser.getCity();
+		// }
+		return pageQueryUser(request, model, 1, 0L, "all", 0, 0);
 	}
 
 	@RequestMapping(value = {
-			"/queryusers/{cityId}_{sex}_{minStringAge}_{maxStringAge}/{pageId}",
-			"/queryUsers/{cityId}_{sex}_{minStringAge}_{maxStringAge}/{pageId}" }, method = RequestMethod.GET)
+			"/queryusers/{townId}_{sex}_{minAge}_{maxAge}/{pageId}",
+			"/queryUsers/{townId}_{sex}_{minAge}_{maxAge}/{pageId}" }, method = RequestMethod.GET)
 	public String pageQueryUser(HttpServletRequest request, Model model,
-			@PathVariable int pageId, @PathVariable long cityId,
-			@PathVariable String sex, @PathVariable String maxStringAge,
-			@PathVariable String minStringAge) {
+			@PathVariable int pageId, @PathVariable long townId,
+			@PathVariable String sex, @PathVariable int maxAge,
+			@PathVariable int minAge) {
 		UserContext context = (UserContext) request.getAttribute("context");
+		long cityId = 0L;
+		ProfileCache loginUser = getLoginUserCache(request);
+		if (loginUser != null && loginUser.getCity() != null) {
+			cityId = loginUser.getCity();
+		}
 		Integer gender = null;
 		if ("male".equals(sex)) {
 			gender = 1;
 		} else if ("female".equals(sex)) {
 			gender = 0;
 		}
-		int maxAge = getIntAge(maxStringAge);
-		int minAge = getIntAge(minStringAge);
 		int maxYear = ageToYear(Math.min(minAge, maxAge));
 		int minYear = ageToYear(Math.max(minAge, maxAge));
-		PagerManager pager = new PagerManager(pageId, 20,
+		PagerManager pager = new PagerManager(pageId, webShowUsersMaxRows,
 				profileService.countQueryProfile(context.getUid(), gender,
-						cityId, minYear, maxYear));
+						cityId, townId, minYear, maxYear));
 		List<Profile> list = profileService.queryProfile(context.getUid(),
-				gender, cityId, minYear, maxYear, pager.getFirstResult(),
-				pager.getMaxResult());
+				gender, cityId, townId, minYear, maxYear,
+				pager.getFirstResult(), pager.getMaxResult());
 
 		List<Long> uidList = new ArrayList<Long>();
 		for (Profile profile : list) {
@@ -294,21 +299,22 @@ public class IndexController extends BaseController {
 		model.addAttribute("userViews", userViews);
 		model.addAttribute("pager", pager);
 		model.addAttribute("cityId", cityId);
+		model.addAttribute("townId", townId);
 		model.addAttribute("sex", sex);
-		model.addAttribute("maxStringAge", maxStringAge);
-		model.addAttribute("minStringAge", minStringAge);
+		model.addAttribute("maxAge", maxAge);
+		model.addAttribute("minAge", minAge);
 		model.addAttribute("pageType", "zbe");
 		return "web/index/zbe/query_user";
 	}
 
-	private int getIntAge(String stringAge) {
-		int age = 0;
-		try {
-			age = Integer.parseInt(stringAge);
-		} catch (Exception e) {
-		}
-		return age;
-	}
+	// private int getIntAge(String stringAge) {
+	// int age = 0;
+	// try {
+	// age = Integer.parseInt(stringAge);
+	// } catch (Exception e) {
+	// }
+	// return age;
+	// }
 
 	private int ageToYear(int age) {
 		if (age == 0)

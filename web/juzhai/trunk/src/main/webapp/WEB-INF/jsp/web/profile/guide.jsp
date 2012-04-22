@@ -90,7 +90,7 @@
 					<div class="qrxx_t"></div>
 					<div class="qrxx_m">
 						<div class="m_box"><!--m_box begin-->
-							<div class="title"><h2>hi&nbsp;&nbsp;<c:out value="${loginUser.nickname}" />，请确认您的个人信息</h2></div>
+							<div class="title"><h2>请确认个人信息，以便为您推荐合适的拒宅同伴</h2></div>
 							<form id="guide-form" action="/home/guide/next" method="post">
 								<div class="infor"><!--infor begin-->
 									<div class="infor_x"><!--infor_x begin-->

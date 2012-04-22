@@ -140,6 +140,7 @@
 						</div><!--content end-->
 					</div><!--main_left end-->
 					<div class="main_right"><!--main_right begin-->
+						<%-- <jsp:include page="idea_category_widget.jsp" /> --%>
 						<jsp:include page="recent_idea_widget.jsp" />
 						<jsp:include page="idea_ad_widget.jsp" />
 					</div><!--main_right end-->

@@ -45,10 +45,15 @@ public class NoticeService implements INoticeService {
 		long value = redisTemplate.opsForValue().increment(
 				RedisKeyGenerator.genUserNoticeNumKey(uid, noticeType), 1);
 		if (value > 0) {
-			// TODO (review) 这里要改成只有Q+用户才能放入被通知人列表里了。阳仔帮忙加一个判断吧,先写死吧，并且标记TODO，做提醒
-			redisTemplate.opsForZSet().add(
-					RedisKeyGenerator.genNoticeUsersKey(), uid,
-					System.currentTimeMillis());
+			// TODO (done)
+			// 这里要改成只有Q+用户才能放入被通知人列表里了。阳仔帮忙加一个判断吧,先写死吧，并且标记TODO，做提醒
+			// TODO只有Q+才加入到通知列表
+			AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, 9l);
+			if (authInfo != null) {
+				redisTemplate.opsForZSet().add(
+						RedisKeyGenerator.genNoticeUsersKey(), uid,
+						System.currentTimeMillis());
+			}
 		}
 		return value;
 	}

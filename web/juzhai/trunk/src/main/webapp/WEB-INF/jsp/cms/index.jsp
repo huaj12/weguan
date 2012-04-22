@@ -160,6 +160,10 @@ a:hover {
 						style="color: black;" href="/cms/cmsShowCategoryList"
 						target="config">拒宅分类管理</a>
 					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/post/query"
+						target="config">拒宅查询</a>
+					</li>
 				</ul>
 			</li>
 			<li>

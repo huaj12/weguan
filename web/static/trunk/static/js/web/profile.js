@@ -135,12 +135,35 @@ function setting(uid){
 	var home=$("#home").val();
 	var monthlyIncome=$("#monthlyIncome").val();
 	var arr=parseMonthlyIncome(monthlyIncome);
-	
-	if(birthYear==0||birthMonth==0||birthDay==0){
-		$("#birthSecret")[0].focus();
-		 $("#birth_tp").html("&nbsp;&nbsp;&nbsp;您还没有选择生日!");
+	if(town==''||town==null){
+		town=-1;
 	}
-	
+	if(province==""||province==0){
+		 $("#province")[0].focus();
+		 $("#location_tip").html("&nbsp;&nbsp;&nbsp请选择省份");
+		 return ;
+	}
+	if(city==""||city==0){
+		 $("#city")[0].focus();
+		 $("#location_tip").html("&nbsp;&nbsp;&nbsp请选择城市");
+		 return ;
+	}
+	if(trimStr($("#towns").html()).length>0){
+		if(town==-1){
+			 $("#town")[0].focus();
+			 $("#location_tip").html("&nbsp;&nbsp;&nbsp请选择所在区");
+			 return ;
+		}
+	}
+	if(birthYear==0||birthMonth==0||birthDay==0){
+		 $("#birthSecret")[0].focus();
+		 $("#birth_tp").html("&nbsp;&nbsp;&nbsp;您还没有选择生日!");
+		 return ;
+	}
+	if(professionId==-1){
+		 $("#profession_tip").html("请选择职业!");
+		 return ;
+	}
 	if(professionId==0&&(profession==""||profession=="10个字以内描述")){
 		 $("#profession_tip").html("请输入!");
 		 return ;
@@ -165,19 +188,14 @@ function setting(uid){
 		 $("#home_tp").html("不要超过10个字哦!");
 		 return ;
 	}
-	
-	
-	if(town==''||town==null){
-		town=-1;
-	}
-	if($("#towns").css("display")=="none"){
-		town="-1";
-	}
 	if($("#birthSecret").is(':checked')){
 		birthSecret="1";
 	}
 	if(professionId!=0){
 		profession="";
+	}
+	if($("#towns").css("display")=="none"){
+		town="-1";
 	}
 	jQuery.ajax({
 		url: "/profile/setting",

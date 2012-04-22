@@ -144,7 +144,7 @@ public class CmsPostController {
 	public String queryPost(@RequestParam(defaultValue = "0") int type,
 			@RequestParam(defaultValue = "0") int id, Model model) {
 		if (type != 0 && id != 0) {
-			model.addAttribute("view", postService.getpost(type, id));
+			model.addAttribute("views", postService.getpost(type, id));
 		}
 		return "cms/post/query";
 	}

@@ -89,7 +89,7 @@ function handleById(id){
 	<input type="radio" name="type" value="1" checked="checked" />人 <input type="radio" name="type" value="2" />拒宅<input name="id" type="text" />
 	<input type="submit" value="查询"/>
 	</form> 
-	<c:if test="${not empty view}">
+	<c:if test="${not empty views}">
 		<table border="0" cellspacing="4">
 			<tr style="background-color: #CCCCCC;">
 				<td width="100">用户头像</td>
@@ -101,6 +101,7 @@ function handleById(id){
 				<td width="100">发布时间</td>
 				<td width="100">操作</td>
 			</tr>
+			<c:forEach items="${views}" var="view">
 				<tr>
 				<td><a href="/home/${view.profileCache.uid}" target="_blank"><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,120)}" width="80" height="80"/></a></td>
 					<td><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:<c:out value="${view.post.content}"></c:out></td>
@@ -119,6 +120,7 @@ function handleById(id){
 					<c:if test="${view.post.ideaId==0}"><a href="/cms/show/idea/add?postId=${view.post.id}" >好注意</a></c:if>
 					</td>
 				</tr>
+			</c:forEach>
 		</table>
 	</c:if>
 </body>

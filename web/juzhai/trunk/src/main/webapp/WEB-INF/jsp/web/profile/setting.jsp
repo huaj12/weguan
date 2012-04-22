@@ -145,6 +145,7 @@
 											</select>
 											</span>
 										</div>
+										<div id="location_tip" class="error"></div>
 										<!--select end-->
 									</div>
 									<!--infor_x end-->
@@ -217,9 +218,9 @@
 												onfocus="if(this.value=='10个字以内描述')this.value=''"
 												onblur="if(this.value=='')this.value='10个字以内描述'" /> </span>
 											<p class="r"></p>
-											<div class="error" id="profession_tip" ></div>
 										</div>
 										<!--input end-->
+										<div class="error" id="profession_tip" ></div>
 									</div>
 									<!--infor_x end-->
 									<div class="infor_x">

@@ -3,6 +3,7 @@ package com.juzhai.post.service;
 import java.util.List;
 import java.util.Map;
 
+import com.juzhai.cms.controller.view.CmsPostView;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.controller.form.PostForm;
 import com.juzhai.post.exception.InputPostException;
@@ -320,4 +321,15 @@ public interface IPostService {
 	 * @return
 	 */
 	int responseTotalCount();
+
+	/**
+	 * 获取拒宅
+	 * 
+	 * 
+	 * @param type
+	 *            查询类型
+	 * @param id
+	 * @return
+	 */
+	CmsPostView getpost(int type, long id);
 }

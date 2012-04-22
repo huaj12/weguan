@@ -26,6 +26,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
+import com.juzhai.cms.controller.view.CmsPostView;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
@@ -65,6 +66,7 @@ import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostCommentService;
 import com.juzhai.post.service.IPostImageService;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.search.service.IPostSearchService;
 import com.juzhai.stats.counter.service.ICounter;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
@@ -113,6 +115,8 @@ public class PostService implements IPostService {
 	private IPostCommentService postCommentService;
 	@Autowired
 	private ProfileMapper profileMapper;
+	@Autowired
+	private IPostSearchService postSearchService;
 	@Value("${post.content.wordfilter.application}")
 	private int postContentWordfilterApplication;
 	@Value("${post.content.length.min}")
@@ -162,6 +166,8 @@ public class PostService implements IPostService {
 		} else {
 			postId = createPostByForm(uid, postForm);
 		}
+		// 给拒宅创建索引
+		postSearchService.createIndex(postId);
 		try {
 			memcachedClient.setWithNoReply(
 					MemcachedKeyGenerator.genPostForbidKey(uid),
@@ -215,7 +221,6 @@ public class PostService implements IPostService {
 			// 更新用户最新一条拒宅
 			setUserLatestPost(post);
 		}
-
 		// 每日发布idea统计
 		postIdeaCounter.incr(null, 1L);
 		return post.getId();
@@ -356,6 +361,7 @@ public class PostService implements IPostService {
 			}
 		}
 		// TODO 建lucene索引
+		postSearchService.createIndex(post.getId());
 	}
 
 	private String checkContentDuplicate(long uid, String content,
@@ -447,7 +453,7 @@ public class PostService implements IPostService {
 		}
 
 		// TODO update lucene索引
-
+		postSearchService.updateIndex(post.getId());
 		return post.getId();
 	}
 
@@ -622,6 +628,8 @@ public class PostService implements IPostService {
 								.getCreateUid()), post.getId());
 			}
 		}
+		// TODO update lucene索引
+		postSearchService.updateIndex(post.getId());
 	}
 
 	private void updateUserLatestPost(Post delPost) {
@@ -655,7 +663,10 @@ public class PostService implements IPostService {
 				redisTemplate.delete(RedisKeyGenerator
 						.genUserLatestPostKey(uid));
 			}
+
 		}
+		// TODO delete lucene索引
+		postSearchService.deleteIndex(delPost.getId());
 	}
 
 	@Override
@@ -1040,6 +1051,28 @@ public class PostService implements IPostService {
 	@Override
 	public int responseTotalCount() {
 		return postResponseMapper.countByExample(new PostResponseExample());
+	}
+
+	@Override
+	public CmsPostView getpost(int type, long id) {
+		CmsPostView postView = null;
+		PostExample example = new PostExample();
+		PostExample.Criteria criteria = example.createCriteria();
+		// type=1根据uid查询
+		// type=2根据post查询
+		if (type == 1) {
+			criteria.andCreateUidEqualTo(id);
+		} else if (type == 2) {
+			criteria.andIdEqualTo(id);
+		}
+		criteria.andDefunctEqualTo(false);
+		List<Post> list = postMapper.selectByExample(example);
+		Post post = CollectionUtils.isEmpty(list) ? null : list.get(0);
+		if (post != null) {
+			postView = new CmsPostView(post,
+					profileService.getProfileCacheByUid(post.getCreateUid()));
+		}
+		return postView;
 	}
 
 }

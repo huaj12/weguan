@@ -331,5 +331,5 @@ public interface IPostService {
 	 * @param id
 	 * @return
 	 */
-	CmsPostView getpost(int type, long id);
+	List<CmsPostView> getpost(int type, long id);
 }

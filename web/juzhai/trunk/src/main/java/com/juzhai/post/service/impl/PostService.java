@@ -1054,8 +1054,7 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public CmsPostView getpost(int type, long id) {
-		CmsPostView postView = null;
+	public List<CmsPostView> getpost(int type, long id) {
 		PostExample example = new PostExample();
 		PostExample.Criteria criteria = example.createCriteria();
 		// type=1根据uid查询
@@ -1066,13 +1065,15 @@ public class PostService implements IPostService {
 			criteria.andIdEqualTo(id);
 		}
 		criteria.andDefunctEqualTo(false);
+		example.setOrderByClause("create_time desc");
 		List<Post> list = postMapper.selectByExample(example);
-		Post post = CollectionUtils.isEmpty(list) ? null : list.get(0);
-		if (post != null) {
-			postView = new CmsPostView(post,
+		List<CmsPostView> views = new ArrayList<CmsPostView>();
+		for (Post post : list) {
+			CmsPostView postView = new CmsPostView(post,
 					profileService.getProfileCacheByUid(post.getCreateUid()));
+			views.add(postView);
 		}
-		return postView;
+		return views;
 	}
 
 }

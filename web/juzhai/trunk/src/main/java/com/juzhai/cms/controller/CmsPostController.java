@@ -140,4 +140,12 @@ public class CmsPostController {
 		return ajaxResult;
 	}
 
+	@RequestMapping(value = "/post/query", method = RequestMethod.GET)
+	public String queryPost(@RequestParam(defaultValue = "0") int type,
+			@RequestParam(defaultValue = "0") int id, Model model) {
+		if (type != 0 && id != 0) {
+			model.addAttribute("view", postService.getpost(type, id));
+		}
+		return "cms/post/query";
+	}
 }

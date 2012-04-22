@@ -245,7 +245,7 @@ function setting(uid){
 				//保存成功后跳转
 				window.location.href = "/home/"+uid;
 			}else{
-				$(".pj_error").html(result.errorInfo);
+				$(".pj_error").show().text(result.errorInfo);
 			}
 		},
 		statusCode: {

@@ -112,6 +112,7 @@
 											<!--select begin-->
 											<span><select id="province"
 												onchange="selectProvince(this)">
+													<option value="0" <c:if test="${empty profile.province||profile.province==0}">selected="selected" </c:if> >请选择</option>
 													<c:forEach var="pro" items="${provinces}">
 														<option
 															<c:if test="${profile.province==pro.id}">selected="selected"</c:if>
@@ -119,6 +120,7 @@
 													</c:forEach>
 											</select>
 											</span> <span id="citys"> <select id="city" onchange="selectCity(this)">
+													<option value="0" <c:if test="${empty profile.city||profile.city==0}">selected="selected" </c:if> >请选择</option>
 													<c:forEach var="city" items="${citys}">
 														<c:if test="${profile.province==city.provinceId}">
 															<option
@@ -130,6 +132,7 @@
 											</span><span id="towns"
 												<c:if test="${profile.town=='-1'}"> style="display: none" </c:if>><select
 												name="town" id="town">
+													<option value="-1" <c:if test="${empty profile.town||profile.town==0}">selected="selected" </c:if> >请选择</option>
 													<c:forEach var="town" items="${towns}">
 														<c:if test="${profile.city==town.cityId}">
 															<option
@@ -192,10 +195,12 @@
 											<!--select begin-->
 											<span><select id="professionId"
 												onchange="profession(this)">
+													<option value="-1" <c:if test="${empty profile.professionId||profile.professionId==-1}">selected="selected" </c:if> >请选择</option>
 													<c:forEach items="${professions}" var="profession">
 														<option value="${profession.id}"
-															<c:if test="${profile.professionId==profession.id }"> selected="selected" </c:if>>${profession.name
-															}</option>
+															<c:if test="${profile.professionId==profession.id }"> selected="selected" </c:if>>
+															${profession.name}
+														</option>
 													</c:forEach>
 													<option value="0"
 														<c:if test="${profile.professionId==0}"> selected="selected" </c:if>>其他（自己填写）</option>

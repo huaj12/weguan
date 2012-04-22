@@ -352,6 +352,12 @@ public class ProfileService implements IProfileService {
 				profile.setProfession(p.getName());
 			}
 		}
+		if (profile.getProvince() != null && profile.getProvince() == 0) {
+			profile.setCity(0l);
+		}
+		if (profile.getCity() != null && profile.getCity() == 0) {
+			profile.setTown(-1l);
+		}
 		profile.setConstellationId(InitData.getConstellation(
 				profile.getBirthMonth(), profile.getBirthDay()).getId());
 		profile.setLastModifyTime(new Date());

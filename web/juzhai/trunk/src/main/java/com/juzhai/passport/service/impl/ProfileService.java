@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map.Entry;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 
@@ -37,6 +38,7 @@ import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profession;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
+import com.juzhai.passport.model.Town;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IProfileImageService;
 import com.juzhai.passport.service.IProfileService;
@@ -269,19 +271,35 @@ public class ProfileService implements IProfileService {
 
 	}
 
+	private boolean isTown(long cityId) {
+		boolean flag = false;
+		for (Entry<Long, Town> entry : com.juzhai.common.InitData.TOWN_MAP
+				.entrySet()) {
+			if (cityId == entry.getValue().getCityId()) {
+				flag = true;
+				break;
+			}
+		}
+		return flag;
+	}
+
 	@Override
 	public void updateProfile(Profile profile) throws ProfileInputException {
 		if (null == profile || profile.getUid() == 0) {
 			return;
 		}
 		long uid = profile.getUid();
-		if (profile.getProvince() == null) {
+		if (profile.getProvince() == null || profile.getProvince() == 0) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROVINCE_IS_NULL);
 		}
-		if (profile.getCity() == null) {
+		if (profile.getCity() == null || profile.getCity() == 0) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_CITY_IS_NULL);
+		}
+		if (isTown(profile.getCity()) && profile.getTown() == -1) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_TOWN_IS_NULL);
 		}
 		if (profile.getBirthYear() == null) {
 			throw new ProfileInputException(
@@ -295,7 +313,8 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_BIRTH_DAY_IS_NULL);
 		}
-		if (profile.getProfessionId() == null) {
+		if (profile.getProfessionId() == null
+				|| profile.getProfessionId() == -1) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROFESSION_ID_IS_NULL);
 		}
@@ -351,12 +370,6 @@ public class ProfileService implements IProfileService {
 			if (null != p) {
 				profile.setProfession(p.getName());
 			}
-		}
-		if (profile.getProvince() != null && profile.getProvince() == 0) {
-			profile.setCity(0l);
-		}
-		if (profile.getCity() != null && profile.getCity() == 0) {
-			profile.setTown(-1l);
 		}
 		profile.setConstellationId(InitData.getConstellation(
 				profile.getBirthMonth(), profile.getBirthDay()).getId());

@@ -140,53 +140,76 @@ function setting(uid){
 	}
 	if(province==""||province==0){
 		 $("#province")[0].focus();
-		 $("#location_tip").html("&nbsp;&nbsp;&nbsp请选择省份");
+		 $("#location_tip").show().text("请选择省份");
 		 return ;
+	}else{
+		$("#location_tip").hide();
 	}
+	
 	if(city==""||city==0){
 		 $("#city")[0].focus();
-		 $("#location_tip").html("&nbsp;&nbsp;&nbsp请选择城市");
+		 $("#location_tip").show().text("请选择城市");
 		 return ;
+	}else{
+		$("#location_tip").hide();
 	}
-	if(trimStr($("#towns").html()).length>0){
+	if($("#towns").is(":visible")){
 		if(town==-1){
 			 $("#town")[0].focus();
-			 $("#location_tip").html("&nbsp;&nbsp;&nbsp请选择所在区");
+			 $("#location_tip").show().text("请选择所在区");
 			 return ;
+		}else{
+			$("#location_tip").hide();
 		}
+	}else{
+		$("#location_tip").hide();
 	}
 	if(birthYear==0||birthMonth==0||birthDay==0){
 		 $("#birthSecret")[0].focus();
-		 $("#birth_tp").html("&nbsp;&nbsp;&nbsp;您还没有选择生日!");
+		 $("#birth_tp").show().text("您还没有选择生日!");
 		 return ;
+	}else{
+		$("#birth_tp").hide();
 	}
 	if(professionId==-1){
-		 $("#profession_tip").html("请选择职业!");
+		 $("#profession_tip").show().text("请选择职业!");
 		 return ;
+	}else{
+		$("#profession_tip").hide();
 	}
 	if(professionId==0&&(profession==""||profession=="10个字以内描述")){
-		 $("#profession_tip").html("请输入!");
+		 $("#profession_tip").show().text("请输入!");
 		 return ;
+	}else{
+		$("#profession_tip").hide();
 	}
 	if(professionId==0&&!checkValLength(profession, 1, 20)){
 		$("#profession")[0].focus();
-		 $("#profession_tip").html("不要超过10个字哦!");
+		 $("#profession_tip").show().text("不要超过10个字哦!");
 		 return ;
+	}else{
+		$("#profession_tip").hide();
 	}
 	if(!checkValLength(feature, 0, 140)){
 		$("#feature")[0].focus();
-		 $("#feature_tp").html("不要超过70个字哦!");
+		 $("#feature_tp").show().text("不要超过70个字哦!");
 		 return ;
+	}else{
+		$("#feature_tp").hide();
 	}
 	if(!checkValLength(blog, 0, 70)){
 		$("#blog")[0].focus();
-		 $("#blog_tp").html("请输入正确的格式！");
+		 $("#blog_tp").show().text("请输入正确的格式！");
 		 return ;
+	}else{
+		$("#blog_tp").hide();
 	}
 	if(!checkValLength(home, 0, 20)){
 		$("#home")[0].focus();
-		 $("#home_tp").html("不要超过10个字哦!");
+		 $("#home_tp").show().text("不要超过10个字哦!");
 		 return ;
+	}else{
+		$("#home_tp").hide();
 	}
 	if($("#birthSecret").is(':checked')){
 		birthSecret="1";

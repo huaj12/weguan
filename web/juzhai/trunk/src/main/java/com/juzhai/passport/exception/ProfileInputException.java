@@ -32,6 +32,8 @@ public class ProfileInputException extends JuzhaiException {
 
 	public static final String PROFILE_CITY_IS_NULL = "20009";
 
+	public static final String PROFILE_TOWN_IS_NULL = "20023";
+
 	public static final String PROFILE_BIRTH_YEAR_IS_NULL = "20010";
 
 	public static final String PROFILE_BIRTH_MONTH_IS_NULL = "20011";

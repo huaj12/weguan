@@ -437,9 +437,16 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public List<Idea> listRecentIdeas(long uid, Long cityId, int firstResult,
-			int maxResults) {
+	public List<Idea> listRecentIdeas(long uid, Long cityId,
+			List<Long> excludeIdeaIds, int firstResult, int maxResults) {
 		List<Long> ideaIdList = usedIdeaIds(uid);
+		if (CollectionUtils.isNotEmpty(excludeIdeaIds)) {
+			if (null != ideaIdList) {
+				ideaIdList.addAll(excludeIdeaIds);
+			} else {
+				ideaIdList = excludeIdeaIds;
+			}
+		}
 		IdeaExample ideaExample = new IdeaExample();
 		if (null != cityId && cityId > 0) {
 			IdeaExample.Criteria c1 = ideaExample

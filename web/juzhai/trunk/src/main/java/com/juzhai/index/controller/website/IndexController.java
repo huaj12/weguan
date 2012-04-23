@@ -161,7 +161,8 @@ public class IndexController extends BaseController {
 				ideaService.countIdeaByCity(cityId));
 		List<Idea> ideaList = ideaService.listIdeaByCity(cityId, order,
 				pager.getFirstResult(), pager.getMaxResult());
-		List<IdeaView> ideaViewList = new ArrayList<IdeaView>();
+		List<IdeaView> ideaViewList = new ArrayList<IdeaView>(ideaList.size());
+		List<Long> excludeIdeaIds = new ArrayList<Long>(ideaList.size());
 		for (Idea idea : ideaList) {
 			IdeaView ideaView = new IdeaView();
 			ideaView.setIdea(idea);
@@ -176,6 +177,7 @@ public class IndexController extends BaseController {
 			ideaView.setIdeaUserViews(ideaService.listIdeaUsers(idea.getId(),
 					0, webShowIdeasUserCount));
 			ideaViewList.add(ideaView);
+			excludeIdeaIds.add(idea.getId());
 		}
 		ideaAdWidget(cityId, model, webShowIdeasAdCount);
 		model.addAttribute("pager", pager);
@@ -183,7 +185,8 @@ public class IndexController extends BaseController {
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("ideaViewList", ideaViewList);
 		model.addAttribute("pageType", "cqw");
-		loadRecentIdeas(context.getUid(), showIdeaRecentIdeasCount, model);
+		loadRecentIdeas(context.getUid(), showIdeaRecentIdeasCount,
+				excludeIdeaIds, model);
 		return "web/index/cqw/show_ideas";
 	}
 

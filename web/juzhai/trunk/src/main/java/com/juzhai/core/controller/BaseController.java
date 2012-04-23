@@ -256,7 +256,8 @@ public class BaseController {
 				blacklistService.isShield(createUid, shieldUid));
 	}
 
-	protected void loadRecentIdeas(long uid, int count, Model model) {
+	protected void loadRecentIdeas(long uid, int count,
+			List<Long> excludeIdeaIds, Model model) {
 		Long cityId = null;
 		if (uid > 0) {
 			ProfileCache profile = profileService.getProfileCacheByUid(uid);
@@ -264,7 +265,8 @@ public class BaseController {
 				cityId = profile.getCity();
 			}
 		}
-		List<Idea> list = ideaService.listRecentIdeas(uid, cityId, 0, count);
+		List<Idea> list = ideaService.listRecentIdeas(uid, cityId,
+				excludeIdeaIds, 0, count);
 		List<IdeaView> recentIdeaViewList = new ArrayList<IdeaView>(list.size());
 		for (Idea idea : list) {
 			IdeaView ideaView = new IdeaView();

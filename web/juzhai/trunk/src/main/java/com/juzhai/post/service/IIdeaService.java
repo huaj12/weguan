@@ -104,8 +104,8 @@ public interface IIdeaService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Idea> listRecentIdeas(long uid, Long cityId, int firstResult,
-			int maxResults);
+	List<Idea> listRecentIdeas(long uid, Long cityId,
+			List<Long> excludeIdeaIds, int firstResult, int maxResults);
 
 	/**
 	 * 好主意数量

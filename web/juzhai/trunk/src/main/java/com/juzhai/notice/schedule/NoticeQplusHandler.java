@@ -90,7 +90,8 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 								+ authInfo.getTpIdentity() + " uid:"
 								+ tpUserAuth.getUid() + " errorcode:" + result);
 					} else {
-						log.info("push qplus message is success!");
+						log.info("push qplus message is success! code:"
+								+ result);
 					}
 				}
 			} catch (IOException e) {

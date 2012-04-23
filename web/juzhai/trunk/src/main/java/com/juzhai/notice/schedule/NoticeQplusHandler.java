@@ -65,6 +65,8 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 		bean.setInstanceid(0); // 桌面实例ID, 数字，目前建议填0
 		bean.setOptype(1); // 展现方式: 1-更新内容直接进消息中心
 		bean.setText(text); // 文本提示语Utf8编码，最长90字节
+		bean.setPushmsgid("1");// 本次PUSH的消息ID，建议填写，可以为任意数字
+
 		for (TpUserAuth tpUserAuth : qplusUids) {
 			AuthInfo authInfo = null;
 			try {
@@ -74,7 +76,6 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 			try {
 				if (authInfo != null) {
 					bean.setQplusid(authInfo.getTpIdentity()); // 桌面ID，字符串，必填信息，且内容会被校验
-					bean.setPushmsgid(String.valueOf(System.currentTimeMillis())); // 本次PUSH的消息ID，建议填写，可以为任意数字
 					QPushResult result = null;
 
 					/**
@@ -84,10 +85,12 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 					 * - Q+桌面KEY信息无效 6 - 其他错误信息
 					 */
 					result = service.push(bean);
-					if (0 != result.getIntValue("ERRCODE")) {
+					if (result == null || 0 != result.getIntValue("ERRCODE")) {
 						log.error("qq plus push TpIdentity:"
 								+ authInfo.getTpIdentity() + " uid:"
 								+ tpUserAuth.getUid() + " errorcode:" + result);
+					} else {
+						log.info("push qplus message is success!");
 					}
 				}
 			} catch (IOException e) {

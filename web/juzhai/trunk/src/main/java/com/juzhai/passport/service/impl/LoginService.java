@@ -22,12 +22,15 @@ import org.springframework.stereotype.Service;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.web.session.LoginSessionManager;
+import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.home.service.IUserStatusService;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.exception.PassportAccountException;
+import com.juzhai.passport.mapper.LoginLogMapper;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.mapper.ProfileMapper;
+import com.juzhai.passport.model.LoginLog;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
@@ -64,6 +67,8 @@ public class LoginService implements ILoginService {
 	private ICounter loginCounter;
 	@Autowired
 	private ICounter nativeLoginCounter;
+	@Autowired
+	private LoginLogMapper loginLogMapper;
 	@Value(value = "${user.online.expire.time}")
 	private int userOnlineExpireTime;
 	@Value("${use.verify.login.count}")
@@ -80,7 +85,6 @@ public class LoginService implements ILoginService {
 
 	private void doLogin(HttpServletRequest request, final long uid,
 			final long tpId, RunType runType) throws PassportAccountException {
-		// 判断是不是当天第一次登陆
 		Passport passport = passportMapper.selectByPrimaryKey(uid);
 		if (null == passport) {
 			log.error("Login error. Can not find passport[id=" + uid + "].");
@@ -94,6 +98,7 @@ public class LoginService implements ILoginService {
 		// 更新最后登录时间
 		updateLastLoginTime(uid, runType);
 		updateOnlineState(uid);
+		addLoginLog(request, uid);
 		// 启动一个线程来获取和保存
 		if (tpId > 0) {
 			taskExecutor.execute(new Runnable() {
@@ -223,5 +228,15 @@ public class LoginService implements ILoginService {
 			log.error(e.getMessage(), e);
 		}
 		return count;
+	}
+
+	private void addLoginLog(HttpServletRequest request, long uid) {
+		String ip = HttpRequestUtil.getRemoteIp(request);
+		LoginLog loginLog = new LoginLog();
+		loginLog.setUid(uid);
+		loginLog.setIp(ip);
+		loginLog.setLoginTime(new Date());
+		loginLog.setAutoLogin(false);
+		loginLogMapper.insertSelective(loginLog);
 	}
 }

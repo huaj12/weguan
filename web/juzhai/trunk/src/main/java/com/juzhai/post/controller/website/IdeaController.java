@@ -1,5 +1,6 @@
 package com.juzhai.post.controller.website;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,8 @@ public class IdeaController extends BaseController {
 	private int ideaDetailAdCount;
 	@Value("${idea.widget.idea.user.count}")
 	private int ideaWidgetIdeaUserCount;
+	@Value("${idea.detail.recent.ideas.count}")
+	private int ideaDetailRecentIdeasCount;
 
 	@RequestMapping(value = "/{ideaId}", method = RequestMethod.GET)
 	public String detail(HttpServletRequest request, Model model,
@@ -97,6 +100,8 @@ public class IdeaController extends BaseController {
 		model.addAttribute("pager", pager);
 		model.addAttribute("ideaUserViewList", ideaUserViewList);
 		model.addAttribute("pageType", "cqw");
+		loadRecentIdeas(context.getUid(), ideaDetailRecentIdeasCount,
+				Collections.singletonList(ideaId), model);
 		return "web/idea/detail";
 	}
 

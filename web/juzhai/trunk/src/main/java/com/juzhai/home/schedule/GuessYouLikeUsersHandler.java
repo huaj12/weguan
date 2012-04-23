@@ -1,8 +1,10 @@
 package com.juzhai.home.schedule;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +29,10 @@ public class GuessYouLikeUsersHandler extends AbstractScheduleHandler {
 		int firstResult = 0;
 		int maxResults = 200;
 		ProfileExample example = new ProfileExample();
-		example.createCriteria().andCityGreaterThan(0L);
+		example.createCriteria()
+				.andCityGreaterThan(0L)
+				.andLastWebLoginTimeGreaterThanOrEqualTo(
+						DateUtils.addDays(new Date(), -31));
 		example.setOrderByClause("create_time asc");
 		while (true) {
 			example.setLimit(new Limit(firstResult, maxResults));

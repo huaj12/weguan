@@ -153,20 +153,16 @@ function setting(uid){
 	}else{
 		$("#location_tip").hide();
 	}
-	if($("#towns").is(":visible")){
-		if(town==-1){
+	if($("#towns").is(":visible")&&town==-1){
 			 $("#town")[0].focus();
 			 $("#location_tip").show().text("请选择所在区");
 			 return ;
-		}else{
-			$("#location_tip").hide();
-		}
 	}else{
 		$("#location_tip").hide();
 	}
 	if(birthYear==0||birthMonth==0||birthDay==0){
 		 $("#birthSecret")[0].focus();
-		 $("#birth_tp").show().text("您还没有选择生日!");
+		 $("#birth_tp").show().text("请选择生日!");
 		 return ;
 	}else{
 		$("#birth_tp").hide();
@@ -245,7 +241,22 @@ function setting(uid){
 				//保存成功后跳转
 				window.location.href = "/home/"+uid;
 			}else{
-				$(".pj_error").show().text(result.errorInfo);
+				if(result.errorCode=='20008'||result.errorCode=='20009'||result.errorCode=='20023'){
+					$("#location_tip").show().text(result.errorInfo);
+				}else if(result.errorCode=='20010'||result.errorCode=='20011'||result.errorCode=='20012'){
+					$("#birth_tp").show().text(result.errorInfo);
+				}else if(result.errorCode=='20013'||result.errorCode=='20014'||result.errorCode=='20015'){
+					$("#profession_tip").show().text(result.errorInfo);
+				}else if(result.errorCode=='20016'||result.errorCode=='20017'||result.errorCode=='20022'){
+					$("#feature_tp").show().text(result.errorInfo);
+				}else if(result.errorCode=='20019'){
+					$("#blog_tp").show().text(result.errorInfo);
+				}else if(result.errorCode=='20020'){
+					$("#home_tp").show().text(result.errorInfo);
+				}else{
+					alert(result.errorInfo);	
+				}
+				
 			}
 		},
 		statusCode: {
@@ -254,5 +265,6 @@ function setting(uid){
 		    }
 		}
 	});
+	
 	
 }

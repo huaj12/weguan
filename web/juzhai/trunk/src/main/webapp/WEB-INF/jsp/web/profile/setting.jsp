@@ -145,8 +145,8 @@
 											</select>
 											</span>
 										</div>
-										<div id="location_tip" class="error"></div>
 										<!--select end-->
+										<div id="location_tip" class="error"></div>
 									</div>
 									<!--infor_x end-->
 									<div class="infor_x">
@@ -186,7 +186,7 @@
 											</div>
 										</div>
 										<!--select end-->
-										<div class="error" id="birth_tp"></div>
+										<div class="error" style="margin: 0" id="birth_tp"></div>
 									</div>
 									<!--infor_x end-->
 									<div class="infor_x">
@@ -238,7 +238,7 @@
 										<!--pj_error end-->
 									</div>
 									<div class="infor_x"><!--infor_x begin-->
-										<h3>个人主页：</h3>
+										<h3 style="margin-top:5px;">个人主页：</h3>
 										<div class="input"><!--input begin-->
 										<div class="http">http://</div>
 										<p class="l"></p><span class="w180"><input  type="text" id="blog" value="${profile.blog}"  /></span><p class="r"></p>

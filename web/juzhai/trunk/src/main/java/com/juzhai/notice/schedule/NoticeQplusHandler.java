@@ -52,7 +52,9 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 						.andUidIn(uids);
 				List<TpUserAuth> userAuthList = tpUserAuthMapper
 						.selectByExample(example);
-				push(userAuthList, tp);
+				if (CollectionUtils.isNotEmpty(userAuthList)) {
+					push(userAuthList, tp);
+				}
 			}
 		} catch (Exception e) {
 			log.error("NoticeQplusHandler  is error", e);

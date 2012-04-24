@@ -42,15 +42,16 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 				List<Long> uids = noticeService.getNoticUserList(100);
 				if (CollectionUtils.isEmpty(uids)) {
 					break;
+				} else {
+					for (long uid : uids) {
+						noticeService.removeFromNoticeUsers(uid);
+					}
 				}
 				TpUserAuthExample example = new TpUserAuthExample();
 				example.createCriteria().andTpIdEqualTo(tp.getId())
 						.andUidIn(uids);
 				List<TpUserAuth> userAuthList = tpUserAuthMapper
 						.selectByExample(example);
-				if (CollectionUtils.isEmpty(userAuthList)) {
-					break;
-				}
 				push(userAuthList, tp);
 			}
 		} catch (Exception e) {
@@ -100,8 +101,6 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 			} catch (IOException e) {
 				log.error("qq plus push TpIdentity:" + authInfo.getTpIdentity()
 						+ " uid:" + tpUserAuth.getUid(), e);
-			} finally {
-				noticeService.removeFromNoticeUsers(tpUserAuth.getUid());
 			}
 		}
 	}

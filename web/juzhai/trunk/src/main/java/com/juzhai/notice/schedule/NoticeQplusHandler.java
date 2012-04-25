@@ -54,6 +54,8 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 						.selectByExample(example);
 				if (CollectionUtils.isNotEmpty(userAuthList)) {
 					push(userAuthList, tp);
+					// 发送完停90秒
+					Thread.sleep(1000 * 90);
 				}
 			}
 		} catch (Exception e) {

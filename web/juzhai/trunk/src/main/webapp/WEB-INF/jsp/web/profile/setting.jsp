@@ -146,7 +146,7 @@
 											</span>
 										</div>
 										<!--select end-->
-										<div id="location_tip" class="error"></div>
+										<div id="location_tip" style="margin: 0" class="error"></div>
 									</div>
 									<!--infor_x end-->
 									<div class="infor_x">
@@ -220,7 +220,7 @@
 											<p class="r"></p>
 										</div>
 										<!--input end-->
-										<div class="error" id="profession_tip" ></div>
+										<div class="error" style="margin: 0" id="profession_tip" ></div>
 									</div>
 									<!--infor_x end-->
 									<div class="infor_x">

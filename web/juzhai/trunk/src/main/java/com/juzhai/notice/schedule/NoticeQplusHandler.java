@@ -40,6 +40,9 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 			Thirdparty tp = InitData.TP_MAP.get(9l);
 			List<Long> uids = noticeService.getNoticUserList(100);
 			if (CollectionUtils.isNotEmpty(uids)) {
+				for (long uid : uids) {
+					noticeService.removeFromNoticeUsers(uid);
+				}
 				TpUserAuthExample example = new TpUserAuthExample();
 				example.createCriteria().andTpIdEqualTo(tp.getId())
 						.andUidIn(uids);
@@ -48,10 +51,7 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 				if (CollectionUtils.isNotEmpty(userAuthList)) {
 					push(userAuthList, tp);
 				}
-			} else {
-				for (long uid : uids) {
-					noticeService.removeFromNoticeUsers(uid);
-				}
+
 			}
 
 		} catch (Exception e) {

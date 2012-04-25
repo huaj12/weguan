@@ -7,7 +7,6 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.rubyeye.xmemcached.Counter;
 import net.rubyeye.xmemcached.MemcachedClient;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -205,9 +204,6 @@ public class LoginService implements ILoginService {
 	public boolean useVerifyCode(String ip) {
 		String count = null;
 		try {
-			System.out.println("get:"
-					+ memcachedClient.get(MemcachedKeyGenerator
-							.genLoginCountKey(ip)));
 			count = memcachedClient.get(MemcachedKeyGenerator
 					.genLoginCountKey(ip));
 		} catch (Exception e) {
@@ -226,7 +222,6 @@ public class LoginService implements ILoginService {
 		try {
 			count = memcachedClient.incr(key, 1L, 1L, 1000L,
 					loginCountExpireTime);
-			System.out.println("incr:" + count);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

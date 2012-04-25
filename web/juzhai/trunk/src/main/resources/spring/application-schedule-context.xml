@@ -278,8 +278,8 @@
 				<property name="targetObject" ref="noticeQplusHandler" />
 			</bean>
 		</property>
-		<property name="startDelay" value="${qplus.push.cron.start.delay}" />
-		<property name="repeatInterval" value="${qplus.push.cron.repeat.interval}" />
+		<property name="startDelay" value="${qplus.push.start.delay}" />
+		<property name="repeatInterval" value="${qplus.push.repeat.interval}" />
 	</bean>
 	<!--	notice Qplus  end -->
 	

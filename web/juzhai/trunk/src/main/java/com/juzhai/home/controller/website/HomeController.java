@@ -54,6 +54,13 @@ public class HomeController extends BaseController {
 		return showNewPosts(request, model, 0, "all", 1);
 	}
 
+	@RequestMapping(value = "/showNewPosts/{cityId}_{genderType}/{page}", method = RequestMethod.GET)
+	public String oldShowNewPosts(HttpServletRequest request, Model model,
+			@PathVariable long cityId, @PathVariable String genderType,
+			@PathVariable int page) {
+		return "redirect:/home/showposts/0_" + genderType + "/1";
+	}
+
 	@RequestMapping(value = "/showposts/{townId}_{genderType}/{page}", method = RequestMethod.GET)
 	public String showNewPosts(HttpServletRequest request, Model model,
 			@PathVariable long townId, @PathVariable String genderType,
@@ -105,6 +112,13 @@ public class HomeController extends BaseController {
 		return "web/home/index/home";
 	}
 
+	@RequestMapping(value = "/showRespPosts/{cityId}_{genderType}/{page}", method = RequestMethod.GET)
+	public String oldShowRespPosts(HttpServletRequest request, Model model,
+			@PathVariable long cityId, @PathVariable String genderType,
+			@PathVariable int page) {
+		return "redirect:/home/showrposts/" + genderType + "/1";
+	}
+
 	@RequestMapping(value = "/showrposts/{genderType}/{page}", method = RequestMethod.GET)
 	public String showRespPosts(HttpServletRequest request, Model model,
 			@PathVariable String genderType, @PathVariable int page)
@@ -132,6 +146,13 @@ public class HomeController extends BaseController {
 		loadCategoryList(model);
 		loadFaces(model);
 		return "web/home/index/home";
+	}
+
+	@RequestMapping(value = "/showIntPosts/{cityId}_{genderType}/{page}", method = RequestMethod.GET)
+	public String oldShowIntPosts(HttpServletRequest request, Model model,
+			@PathVariable long cityId, @PathVariable String genderType,
+			@PathVariable int page) throws NeedLoginException {
+		return "redirect:/home/showiposts/" + genderType + "/1";
 	}
 
 	@RequestMapping(value = "/showiposts/{genderType}/{page}", method = RequestMethod.GET)

@@ -28,54 +28,54 @@
 							<div id="window-box" style="position: absolute;height: 250px;width: 7500px;left: 5px;">
 								<ul style="padding-top:10px;" window-count="10">
 									<li>
-										<p><a href="javascript:void(0);" class="go-login"><img src="http://static.51juzhai.com/upload/user/0/1/164/120/415e0274-f95d-4dfe-827d-e773e31bb381.jpg" /></a></p>
+										<p><img src="http://static.51juzhai.com/upload/user/0/1/164/120/415e0274-f95d-4dfe-827d-e773e31bb381.jpg" /></p>
 										<span>我想找伴儿去: </span>
-										<em><a href="javascript:void(0);" class="go-login">这周六去欢乐谷吗？如果不下雨。我要坐5次跳楼机。</a></em>
+										<em>这周六去欢乐谷吗？如果不下雨。我要坐5次跳楼机。</em>
 									</li>
 									<li>
-										<p><a href="javascript:void(0);" class="go-login" ><img src="http://static.51juzhai.com/upload/user/0/7/1986/120/d81ea3a1-a785-4332-a22c-319e0356a46d.jpg" /></a></p>
+										<p><img src="http://static.51juzhai.com/upload/user/0/7/1986/120/d81ea3a1-a785-4332-a22c-319e0356a46d.jpg" /></p>
 										<span>我想找伴儿去: </span>
-										<em><a href="javascript:void(0);" class="go-login">周日找个公园，各自带着好吃的，一堆人出来玩。然后照一些2B的照片~</a></em>
+										<em>周日找个公园，各自带着好吃的，一堆人出来玩。然后照一些2B的照片~</em>
 									</li>
 									<li>
-										<p><a href="javascript:void(0);" class="go-login" ><img src="http://static.51juzhai.com/upload/user/0/1/131/120/14f09147-a345-4bdf-af7f-cfa76399ddbf.jpg" /></a></p>
+										<p><img src="http://static.51juzhai.com/upload/user/0/1/131/120/14f09147-a345-4bdf-af7f-cfa76399ddbf.jpg" /></p>
 										<span>我想找伴儿去: </span>
-										<em><a href="javascript:void(0);" class="go-login">尝遍上海美食 各地旅行 DIY蛋糕 陪我完成绘本 看电影 有没有好友邻愿意陪我</a></em>
+										<em>尝遍上海美食 各地旅行 DIY蛋糕 陪我完成绘本 看电影 有没有好友邻愿意陪我</em>
 									</li>
 									<li>
-										<p><a href="javascript:void(0);" class="go-login" ><img src="http://tp2.sinaimg.cn/2537648421/180/5619153408/1" width="120" height="120" /></a></p>
+										<p><img src="http://tp2.sinaimg.cn/2537648421/180/5619153408/1" width="120" height="120" /></p>
 										<span>我想找伴儿去: </span>
-										<em><a href="javascript:void(0);" class="go-login">来我的饭店尝尝我研发的新菜，一共3道菜，全部免单。感兴趣的私信我吧</a></em>
+										<em>来我的饭店尝尝我研发的新菜，一共3道菜，全部免单。感兴趣的私信我吧</em>
 									</li>
 									<li>
-										<p><a href="javascript:void(0);" class="go-login" ><img src="http://static.51juzhai.com/upload/user/0/2/640/120/b19809f2-6281-4ad9-b9f2-872d44848221.jpg" /></a></p>
+										<p><img src="http://static.51juzhai.com/upload/user/0/2/640/120/b19809f2-6281-4ad9-b9f2-872d44848221.jpg" /></p>
 										<span>我想找伴儿去: </span>
-										<em><a href="javascript:void(0);" class="go-login">一起去教堂。从来没有去过，只想去向牧师忏悔下心中的罪孽。</a></em>
+										<em>一起去教堂。从来没有去过，只想去向牧师忏悔下心中的罪孽。</em>
 									</li>
 									<li>
-										<p><a href="javascript:void(0);" class="go-login" ><img src="http://static.51juzhai.com/upload/user/0/0/79/120/9c959471-6b02-47fa-9f2a-92996dec3586.jpg" /></a></p>
+										<p><img src="http://static.51juzhai.com/upload/user/0/0/79/120/9c959471-6b02-47fa-9f2a-92996dec3586.jpg" /></p>
 										<span>我想找伴儿去: </span>
-										<em><a href="javascript:void(0);" class="go-login">电玩城，玩投篮机，跳舞机，求高手pk。</a></em>
+										<em>电玩城，玩投篮机，跳舞机，求高手pk。</em>
 									</li>
 									<li>
-										<p><a href="javascript:void(0);" class="go-login" ><img src="http://static.51juzhai.com/upload/user/0/4/974/120/3e431b8a-86f6-41c1-a316-1d006604d25c.jpg" /></a></p>
+										<p><img src="http://static.51juzhai.com/upload/user/0/4/974/120/3e431b8a-86f6-41c1-a316-1d006604d25c.jpg" /></p>
 										<span>我想找伴儿去: </span>
-										<em><a href="javascript:void(0);" class="go-login">找家小书店，迎着店老板能够回光返照般的白眼，光看不买，安静奢侈地打发掉...</a></em>
+										<em>找家小书店，迎着店老板能够回光返照般的白眼，光看不买，安静奢侈地打发掉...</em>
 									</li>
 									<li>
-										<p><a href="javascript:void(0);" class="go-login" ><img src="http://static.51juzhai.com/upload/user/0/5/475/120/3a85c508-d48f-4e04-9806-46156b94e34b.jpg" /></a></p>
+										<p><img src="http://static.51juzhai.com/upload/user/0/5/475/120/3a85c508-d48f-4e04-9806-46156b94e34b.jpg" /></p>
 										<span>我想找伴儿去: </span>
-										<em><a href="javascript:void(0);" class="go-login">找个没有城管的地方摆摊。把家里的闲置（书、衣服和日用品）摆摊换点零花钱...</a></em>
+										<em>找个没有城管的地方摆摊。把家里的闲置（书、衣服和日用品）摆摊换点零花钱...</em>
 									</li>
 									<li>
-										<p><a href="javascript:void(0);" class="go-login" ><img src="http://static.51juzhai.com/upload/user/0/4/1424/120/0c37a1ea-8e8a-4dae-939e-9346095222bd.jpg" /></a></p>
+										<p><img src="http://static.51juzhai.com/upload/user/0/4/1424/120/0c37a1ea-8e8a-4dae-939e-9346095222bd.jpg" /></p>
 										<span>我想找伴儿去: </span>
-										<em><a href="javascript:void(0);" class="go-login">猫的天空之城概念书店。环境“很赞”，满墙“琳琅”的明信片，像是“在诉说...</a></em>
+										<em>猫的天空之城概念书店。环境“很赞”，满墙“琳琅”的明信片，像是“在诉说...</em>
 									</li>
 									<li>
-										<p><a href="javascript:void(0);" class="go-login" ><img src="http://static.51juzhai.com/upload/user/0/0/17/120/4c804f0f-a787-423a-932b-9938ba683ba6.jpg" /></a></p>
+										<p><img src="http://static.51juzhai.com/upload/user/0/0/17/120/4c804f0f-a787-423a-932b-9938ba683ba6.jpg" /></p>
 										<span>我想找伴儿去: </span>
-										<em><a href="javascript:void(0);" class="go-login">朋友家看英超，买点啤酒，鸭脖，支持阿森纳的举手</a></em>
+										<em>朋友家看英超，买点啤酒，鸭脖，支持阿森纳的举手</em>
 									</li>
 								</ul>
 							</div>

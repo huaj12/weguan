@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.juzhai.act.model.Category;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
@@ -24,6 +25,7 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.service.IGuessYouService;
 import com.juzhai.index.bean.ShowActOrder;
 import com.juzhai.index.bean.ShowIdeaOrder;
+import com.juzhai.index.controller.view.CategoryView;
 import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.index.controller.view.PostWindowView;
 import com.juzhai.index.controller.view.QueryUserView;
@@ -35,6 +37,7 @@ import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.post.InitData;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
@@ -140,27 +143,35 @@ public class IndexController extends BaseController {
 
 	@RequestMapping(value = { "/showideas", "showIdeas" }, method = RequestMethod.GET)
 	public String showIdeas(HttpServletRequest request, Model model) {
-		ProfileCache loginUser = getLoginUserCache(request);
-		long city = 0L;
-		if (loginUser != null && loginUser.getCity() != null) {
-			// && InitData.SPECIAL_CITY_LIST.contains(loginUser.getCity())) {
-			city = loginUser.getCity();
-		}
-		return pageShowIdeas(request, model, ShowActOrder.HOT_TIME.getType(),
-				city, 1);
+		return pageShowIdeas(request, model, 0,
+				ShowActOrder.HOT_TIME.getType(), 1);
 	}
 
 	@RequestMapping(value = { "/showideas/{orderType}_{cityId}/{page}",
 			"/showIdeas/{orderType}_{cityId}/{page}" }, method = RequestMethod.GET)
-	public String pageShowIdeas(HttpServletRequest request, Model model,
+	public String oldPageShowIdeas(HttpServletRequest request, Model model,
 			@PathVariable String orderType, @PathVariable long cityId,
 			@PathVariable int page) {
+		return pageShowIdeas(request, model, 0, orderType, 1);
+	}
+
+	@RequestMapping(value = { "/showideas/{categoryId}/{orderType}/{page}",
+			"/showIdeas/{categoryId}/{orderType}/{page}" }, method = RequestMethod.GET)
+	public String pageShowIdeas(HttpServletRequest request, Model model,
+			@PathVariable long categoryId, @PathVariable String orderType,
+			@PathVariable int page) {
 		UserContext context = (UserContext) request.getAttribute("context");
+		ProfileCache loginUser = getLoginUserCache(request);
+		long cityId = 0L;
+		if (loginUser != null && loginUser.getCity() != null) {
+			cityId = loginUser.getCity();
+		}
 		ShowIdeaOrder order = ShowIdeaOrder.getShowIdeaOrderByType(orderType);
 		PagerManager pager = new PagerManager(page, webShowIdeasMaxRows,
-				ideaService.countIdeaByCity(cityId));
-		List<Idea> ideaList = ideaService.listIdeaByCity(cityId, order,
-				pager.getFirstResult(), pager.getMaxResult());
+				ideaService.countIdeaByCityAndCategory(cityId, categoryId));
+		List<Idea> ideaList = ideaService
+				.listIdeaByCityAndCategory(cityId, categoryId, order,
+						pager.getFirstResult(), pager.getMaxResult());
 		List<IdeaView> ideaViewList = new ArrayList<IdeaView>(ideaList.size());
 		List<Long> excludeIdeaIds = new ArrayList<Long>(ideaList.size());
 		for (Idea idea : ideaList) {
@@ -179,14 +190,30 @@ public class IndexController extends BaseController {
 			ideaViewList.add(ideaView);
 			excludeIdeaIds.add(idea.getId());
 		}
+		loadRecentIdeas(context.getUid(), showIdeaRecentIdeasCount,
+				excludeIdeaIds, model);
 		ideaAdWidget(cityId, model, webShowIdeasAdCount);
+		List<Category> categoryList = new ArrayList<Category>(
+				InitData.CATEGORY_MAP.values());
+		List<CategoryView> categoryViewList = new ArrayList<CategoryView>(
+				categoryList.size());
+		for (Category category : categoryList) {
+			int count = category.getId() == categoryId ? pager
+					.getTotalResults() : ideaService
+					.countIdeaByCityAndCategory(cityId, category.getId());
+			categoryViewList.add(new CategoryView(category, count));
+		}
+		model.addAttribute(
+				"totalCount",
+				categoryId == 0 ? pager.getTotalResults() : ideaService
+						.countIdeaByCityAndCategory(cityId, null));
 		model.addAttribute("pager", pager);
 		model.addAttribute("orderType", orderType);
 		model.addAttribute("cityId", cityId);
+		model.addAttribute("categoryId", categoryId);
+		model.addAttribute("categoryViewList", categoryViewList);
 		model.addAttribute("ideaViewList", ideaViewList);
 		model.addAttribute("pageType", "cqw");
-		loadRecentIdeas(context.getUid(), showIdeaRecentIdeasCount,
-				excludeIdeaIds, model);
 		return "web/index/cqw/show_ideas";
 	}
 

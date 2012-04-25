@@ -7,17 +7,13 @@
 <div class="content_box w285"><!--content begin-->
 	<div class="t"></div>
 	<div class="m">
-		<div class="right_title"><h2>上海拒宅好主意</h2></div>
+		<div class="right_title"><h2><c:choose><c:when test="${cityId > 0}">${jzd:cityName(cityId)}</c:when><c:otherwise>全国</c:otherwise></c:choose>拒宅好主意</h2></div>
 		<div class="jz_goodidea"><!--jz_goodidea begin-->
 			<ul>
-			<li><p class="ca_yl"></p><a href="#" class="ca">休闲娱乐</a><a href="#" class="all_num">1212</a></li>
-			<li><p class="ca_yw"></p><a href="#" class="ca">结伴游玩</a><a href="#" class="all_num">1212</a></li>
-			<li><p class="ca_hd"></p><a href="#" class="ca">聚会活动</a><a href="#" class="all_num">1212</a></li>
-			<li><p class="ca_dy"></p><a href="#" class="ca">电影</a><a href="#" class="all_num">1212</a></li>
-			<li><p class="ca_ms"></p><a href="#" class="ca">美食</a><a href="#" class="all_num">1212</a></li>
-			<li><p class="ca_yc"></p><a href="#" class="ca">演出展览</a><a href="#" class="all_num">1212</a></li>
-			<li><p class="ca_yd"></p><a href="#" class="ca">运动</a><a href="#" class="all_num">1212</a></li>
-			<li><p class="ca_qt"></p><a href="#" class="ca">其他</a><a href="#" class="all_num">1212</a></li>
+				<li <c:if test="${categoryId <= 0}">class="act"</c:if>><p><img src="" /></p><a href="/showideas/0/${orderType}/1" class="ca">全部</a><a href="/showideas/0/${orderType}/1" class="all_num">${totalCount}</a></li>
+				<c:forEach var="categoryView" items="${categoryViewList}">
+					<li <c:if test="${categoryId == categoryView.category.id}">class="act"</c:if>><p><img src="" /></p><a href="/showideas/${categoryView.category.id}/${orderType}/1" class="ca">${categoryView.category.name}</a><a href="/showideas/${categoryView.category.id}/${orderType}/1" class="all_num">${categoryView.ideaCount}</a></li>
+				</c:forEach>
 			</ul>
 		</div><!--jz_goodidea end-->
 	</div>

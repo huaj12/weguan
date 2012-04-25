@@ -38,15 +38,8 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 	protected void doHandle() {
 		try {
 			Thirdparty tp = InitData.TP_MAP.get(9l);
-			while (true) {
-				List<Long> uids = noticeService.getNoticUserList(100);
-				if (CollectionUtils.isEmpty(uids)) {
-					break;
-				} else {
-					for (long uid : uids) {
-						noticeService.removeFromNoticeUsers(uid);
-					}
-				}
+			List<Long> uids = noticeService.getNoticUserList(100);
+			if (CollectionUtils.isNotEmpty(uids)) {
 				TpUserAuthExample example = new TpUserAuthExample();
 				example.createCriteria().andTpIdEqualTo(tp.getId())
 						.andUidIn(uids);
@@ -54,10 +47,13 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 						.selectByExample(example);
 				if (CollectionUtils.isNotEmpty(userAuthList)) {
 					push(userAuthList, tp);
-					// 发送完停90秒
-					Thread.sleep(1000 * 90);
+				}
+			} else {
+				for (long uid : uids) {
+					noticeService.removeFromNoticeUsers(uid);
 				}
 			}
+
 		} catch (Exception e) {
 			log.error("NoticeQplusHandler  is error", e);
 		}

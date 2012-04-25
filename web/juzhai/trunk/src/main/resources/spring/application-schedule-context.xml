@@ -272,13 +272,14 @@
 	<!-- delete expire active code end -->
 	
 	<!--notice Qplus  begin -->
-	<bean id="noticeQplusTrigger" parent="abstractCronTrigger">
+	<bean id="noticeQplusTrigger" parent="abstractSimpleTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
 				<property name="targetObject" ref="noticeQplusHandler" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="${qplus.push.cron}" />
+		<property name="startDelay" value="${qplus.push.cron.start.delay}" />
+		<property name="repeatInterval" value="${qplus.push.cron.repeat.interval}" />
 	</bean>
 	<!--	notice Qplus  end -->
 	

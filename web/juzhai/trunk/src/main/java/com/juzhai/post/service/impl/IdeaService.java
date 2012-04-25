@@ -135,30 +135,39 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public List<Idea> listIdeaByCity(Long cityId, ShowIdeaOrder orderType,
-			int firstResult, int maxResults) {
-		IdeaExample example = new IdeaExample();
-		if (null != cityId && cityId > 0) {
-			example.or().andCityEqualTo(cityId).andDefunctEqualTo(false);
-			example.or().andCityEqualTo(0L).andDefunctEqualTo(false);
-		} else {
-			example.createCriteria().andDefunctEqualTo(false);
-		}
+	public List<Idea> listIdeaByCityAndCategory(Long cityId, Long categoryId,
+			ShowIdeaOrder orderType, int firstResult, int maxResults) {
+		IdeaExample example = createIdeaExample(cityId, categoryId);
 		example.setOrderByClause(orderType.getColumn() + " desc");
 		example.setLimit(new Limit(firstResult, maxResults));
 		return ideaMapper.selectByExample(example);
 	}
 
 	@Override
-	public int countIdeaByCity(Long cityId) {
+	public int countIdeaByCityAndCategory(Long cityId, Long categoryId) {
+		IdeaExample example = createIdeaExample(cityId, categoryId);
+		return ideaMapper.countByExample(example);
+	}
+
+	private IdeaExample createIdeaExample(Long cityId, Long categoryId) {
 		IdeaExample example = new IdeaExample();
 		if (null != cityId && cityId > 0) {
-			example.or().andCityEqualTo(cityId).andDefunctEqualTo(false);
-			example.or().andCityEqualTo(0L).andDefunctEqualTo(false);
+			IdeaExample.Criteria c1 = example.or().andCityEqualTo(cityId);
+			IdeaExample.Criteria c2 = example.or().andCityEqualTo(0L);
+			if (null != categoryId && categoryId > 0) {
+				c1.andCategoryIdEqualTo(categoryId);
+				c2.andCategoryIdEqualTo(categoryId);
+			}
+			c1.andDefunctEqualTo(false);
+			c2.andDefunctEqualTo(false);
 		} else {
-			example.createCriteria().andDefunctEqualTo(false);
+			IdeaExample.Criteria c = example.createCriteria()
+					.andDefunctEqualTo(false);
+			if (null != categoryId && categoryId > 0) {
+				c.andCategoryIdEqualTo(categoryId);
+			}
 		}
-		return ideaMapper.countByExample(example);
+		return example;
 	}
 
 	@Override

@@ -203,15 +203,17 @@ public class LoginService implements ILoginService {
 
 	@Override
 	public boolean useVerifyCode(String ip) {
-		Long count = null;
+		String count = null;
 		try {
-			Counter counter = memcachedClient.getCounter(MemcachedKeyGenerator
+			System.out.println("get:"
+					+ memcachedClient.get(MemcachedKeyGenerator
+							.genLoginCountKey(ip)));
+			count = memcachedClient.get(MemcachedKeyGenerator
 					.genLoginCountKey(ip));
-			count = counter.get();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
-		if (null != count && count > useVerifyLoginCount) {
+		if (null != count && Long.valueOf(count.trim()) > useVerifyLoginCount) {
 			return true;
 		}
 		return false;
@@ -224,6 +226,7 @@ public class LoginService implements ILoginService {
 		try {
 			count = memcachedClient.incr(key, 1L, 1L, 1000L,
 					loginCountExpireTime);
+			System.out.println("incr:" + count);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

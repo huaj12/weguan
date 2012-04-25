@@ -47,8 +47,8 @@ public class CmsIdeaController extends BaseController {
 	public String showIdea(Model model,
 			@RequestParam(defaultValue = "1") int pageId) {
 		PagerManager pager = new PagerManager(pageId, 20,
-				ideaService.countIdeaByCity(0l));
-		List<Idea> list = ideaService.listIdeaByCity(0l,
+				ideaService.countIdeaByCityAndCategory(0l, null));
+		List<Idea> list = ideaService.listIdeaByCityAndCategory(0l, null,
 				ShowIdeaOrder.HOT_TIME, pager.getFirstResult(),
 				pager.getMaxResult());
 		List<CmsIdeaView> ideaViews = assembleCmsIdeaView(list);

@@ -24,7 +24,7 @@ public class MemcachedTest {
 
 	@Autowired
 	private MemcachedClient memcachedClient;
-	private String key = "simpleKey";
+	private String key = "simpleKey1";
 
 	@Before
 	public void setUp() throws Exception {
@@ -52,18 +52,18 @@ public class MemcachedTest {
 	@Test
 	public void incr() throws TimeoutException, InterruptedException,
 			MemcachedException {
-		Counter counter = memcachedClient.getCounter(key);
-		System.out.println(counter.get());
-		Assert.assertEquals(1L, memcachedClient.incr(key, 1L, 1L, 1000L, 60));
+		// Counter counter = memcachedClient.getCounter(key);
+		// System.out.println(counter.get());
+		System.out.println(memcachedClient.get(key));
+		Assert.assertEquals(1L, memcachedClient.incr(key, 1L, 1L, 1000L, 2));
 		System.out.println(memcachedClient.getCounter(key).get());
-		Thread.sleep(20000);
+		System.out.println(memcachedClient.get(key));
+		Assert.assertEquals(2L, memcachedClient.incr(key, 1L, 1L, 1000L, 4));
 		System.out.println(memcachedClient.getCounter(key).get());
-		Thread.sleep(20000);
+		System.out.println(memcachedClient.get(key));
+		Thread.sleep(3000L);
 		System.out.println(memcachedClient.getCounter(key).get());
-		Thread.sleep(10000);
-		System.out.println(memcachedClient.getCounter(key).get());
-		Thread.sleep(15000);
-		System.out.println(memcachedClient.getCounter(key).get());
+		System.out.println(memcachedClient.get(key));
 	}
 
 	@Test

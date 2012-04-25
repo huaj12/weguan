@@ -81,8 +81,8 @@ public interface IIdeaService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Idea> listIdeaByCity(Long cityId, ShowIdeaOrder oderType,
-			int firstResult, int maxResults);
+	List<Idea> listIdeaByCityAndCategory(Long cityId, Long categoryId,
+			ShowIdeaOrder oderType, int firstResult, int maxResults);
 
 	/**
 	 * 未使用的好主意
@@ -112,7 +112,7 @@ public interface IIdeaService {
 	 * 
 	 * @return
 	 */
-	int countIdeaByCity(Long cityId);
+	int countIdeaByCityAndCategory(Long cityId, Long categoryId);
 
 	/**
 	 * 被屏蔽好主意数量

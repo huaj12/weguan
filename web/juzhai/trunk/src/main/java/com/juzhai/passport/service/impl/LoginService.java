@@ -202,30 +202,32 @@ public class LoginService implements ILoginService {
 
 	@Override
 	public boolean useVerifyCode(String ip) {
-		String count = null;
-		try {
-			count = memcachedClient.get(MemcachedKeyGenerator
-					.genLoginCountKey(ip));
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
-		if (null != count && Long.valueOf(count.trim()) > useVerifyLoginCount) {
-			return true;
-		}
+		// String count = null;
+		// try {
+		// count = memcachedClient.get(MemcachedKeyGenerator
+		// .genLoginCountKey(ip));
+		// } catch (Exception e) {
+		// log.error(e.getMessage(), e);
+		// }
+		// if (null != count && Long.valueOf(count.trim()) >
+		// useVerifyLoginCount) {
+		// return true;
+		// }
 		return false;
 	}
 
 	@Override
 	public long incrLoginCount(String ip) {
-		String key = MemcachedKeyGenerator.genLoginCountKey(ip);
-		long count = 0;
-		try {
-			count = memcachedClient.incr(key, 1L, 1L, 1000L,
-					loginCountExpireTime);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
-		return count;
+		// String key = MemcachedKeyGenerator.genLoginCountKey(ip);
+		// long count = 0;
+		// try {
+		// count = memcachedClient.incr(key, 1L, 1L, 1000L,
+		// loginCountExpireTime);
+		// } catch (Exception e) {
+		// log.error(e.getMessage(), e);
+		// }
+		// return count;
+		return 0;
 	}
 
 	private void addLoginLog(HttpServletRequest request, long uid) {

@@ -13,7 +13,6 @@
 			<a href="/showusers" title="找伴儿" <c:if test="${pageType=='zbe'}">class="selected"</c:if>>找伴儿</a>
 			<a href="/showideas" title="出去玩" <c:if test="${pageType=='cqw'}">class="selected"</c:if>>出去玩</a>
 			<a href="/rescueuser" title="解救小宅" <c:if test="${pageType=='rescue'}">class="selected"</c:if>>解救小宅</a>
-			<div class="new_part"></div>
 		</div><!--menu end-->
 		<c:if test="${context.uid>0}">
 			<div class="acc"><!--acc begin-->

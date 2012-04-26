@@ -37,4 +37,11 @@ public interface IVerifyLogoService {
 	 * @param uid
 	 */
 	void denyLogo(long uid);
+
+	/**
+	 * 删除头像
+	 * 
+	 * @param uid
+	 */
+	void removeLogo(long uid);
 }

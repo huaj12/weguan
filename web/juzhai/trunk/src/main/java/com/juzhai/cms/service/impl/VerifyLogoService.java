@@ -1,12 +1,15 @@
 package com.juzhai.cms.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.cms.service.IVerifyLogoService;
+import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
@@ -16,6 +19,10 @@ import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.post.bean.VerifyType;
+import com.juzhai.post.mapper.PostMapper;
+import com.juzhai.post.model.Post;
+import com.juzhai.post.model.PostExample;
 import com.juzhai.stats.counter.service.ICounter;
 
 @Service
@@ -29,6 +36,10 @@ public class VerifyLogoService implements IVerifyLogoService {
 	private IDialogService dialogService;
 	@Autowired
 	private ICounter auditLogoCounter;
+	@Autowired
+	private RedisTemplate<String, Long> redisTemplate;
+	@Autowired
+	private PostMapper postMapper;
 
 	@Override
 	public List<Profile> listVerifyLogoProfile(LogoVerifyState logoVerifyState,
@@ -89,5 +100,27 @@ public class VerifyLogoService implements IVerifyLogoService {
 						profileCache.getNickname());
 			}
 		}
+	}
+
+	@Override
+	public void removeLogo(long uid) {
+		PostExample postExample = new PostExample();
+		postExample.createCriteria().andCreateUidEqualTo(uid)
+				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
+				.andDefunctEqualTo(false);
+		Post post = new Post();
+		post.setVerifyType(VerifyType.SHIELD.getType());
+		post.setLastModifyTime(new Date());
+		postMapper.updateByExampleSelective(post, postExample);
+
+		Profile profile = profileMapper.selectByPrimaryKey(uid);
+		profile.setLogoPic(null);
+		profile.setLastUpdateTime(null);
+		profile.setLogoVerifyState(LogoVerifyState.UNVERIFIED.getType());
+		profileMapper.updateByPrimaryKey(profile);
+		redisTemplate.delete(RedisKeyGenerator.genUserLatestPostKey(uid));
+
+		profileService.clearProfileCache(uid);
+		dialogService.sendOfficialSMS(uid, DialogContentTemplate.DENY_LOGO);
 	}
 }

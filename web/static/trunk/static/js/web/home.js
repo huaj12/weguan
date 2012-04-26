@@ -184,6 +184,16 @@ $(document).ready(function(){
 	});
 	
 	$("div.float_box").show().animate({bottom:"+=100"}, 1000);
+	
+	$("div.cake_icon > a").click(function(){
+		$("div.cake_show").toggle();
+		return false;
+	});
+	$("body").bind("mousedown",function(event){
+		if($(event.target).closest($("div.cake")).length <= 0){
+			$("div.cake_show").hide();
+		}
+	});
 });
 
 function resetSendPostForm(sendForm){

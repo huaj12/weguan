@@ -16,7 +16,9 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.passport.bean.LogoVerifyState;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.Profile;
+import com.juzhai.passport.service.IProfileService;
 
 @Controller
 @RequestMapping("/cms/profile")
@@ -24,6 +26,8 @@ public class CmsProfileController extends BaseController {
 
 	@Autowired
 	private IVerifyLogoService verifyLogoService;
+	@Autowired
+	private IProfileService profileService;
 
 	@RequestMapping(value = "/listVerifyingLogo")
 	public String listVerifyingLogo(HttpServletRequest request, Model model,
@@ -44,6 +48,19 @@ public class CmsProfileController extends BaseController {
 			@RequestParam(defaultValue = "1") int pageId) {
 		model.addAttribute("type", "listUnVerifiedLogo");
 		return listVerifyLogo(model, pageId, LogoVerifyState.UNVERIFIED);
+	}
+
+	@RequestMapping(value = "/listErrorLogo")
+	public String listErrorLogo(HttpServletRequest request, Model model) {
+		return "cms/profile/error_logo";
+	}
+
+	@RequestMapping(value = "/queryErrorLogo")
+	public String queryErrorLogo(HttpServletRequest request, Model model,
+			long uid) {
+		ProfileCache profile = profileService.getProfileCacheByUid(uid);
+		model.addAttribute("profile", profile);
+		return "cms/profile/error_logo";
 	}
 
 	private String listVerifyLogo(Model model, int pageId,
@@ -68,6 +85,14 @@ public class CmsProfileController extends BaseController {
 	@ResponseBody
 	public AjaxResult denyLogo(HttpServletRequest reqest, Model model, long uid) {
 		verifyLogoService.denyLogo(uid);
+		return new AjaxResult();
+	}
+
+	@RequestMapping(value = "/removeLogo")
+	@ResponseBody
+	public AjaxResult removeLogo(HttpServletRequest reqest, Model model,
+			long uid) {
+		verifyLogoService.removeLogo(uid);
 		return new AjaxResult();
 	}
 }

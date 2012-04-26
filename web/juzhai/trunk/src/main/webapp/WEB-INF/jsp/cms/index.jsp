@@ -139,6 +139,10 @@ a:hover {
 						style="color: black;" href="/cms/profile/listUnVerifiedLogo?page=1"
 						target="config">未通过头像列表</a>
 					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/profile/listErrorLogo"
+						target="config">处理误操作数据</a>
+					</li>
 				</ul>
 			</li>
 			<li>

@@ -62,6 +62,10 @@
 				<em></em>
 			</div><!--select_box end-->
 		</div><!--select_menu end-->
+		<div class="cake"><!--cake begin-->
+			<div class="cake_icon"><a href="javascript:void(0);" title="调整口味"></a></div>
+			<div class="cake_show" style="display: none;"><p>我们会根据你的拒宅偏好，为您推荐合适的人</p><a href="/profile/preference">去设置偏好</a></div>
+		</div><!--cake end-->
 		<div class="category" queryType="${queryType}"><!--category begin-->
 			<span <c:if test="${queryType == 'showposts'}">class="act"</c:if>><p></p><a href="/home/showposts/0_${genderType}/1">最新的</a><p></p></span>
 			<span <c:if test="${queryType == 'showrposts'}">class="act"</c:if>><p></p><a href="/home/showrposts/${genderType}/1">我响应的</a><p></p></span>

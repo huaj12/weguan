@@ -16,7 +16,7 @@
 		if(uid == "" || isNaN(uid)){
 			alert("请输入数字uid");
 		}else{
-			window.location.href = "/cms/profile/queryErrorLogo?uid=" + uid;
+			window.location.href = "/cms/profile/queryUser?uid=" + uid;
 		}
 	}
 	
@@ -43,11 +43,56 @@
 			});
 		}
 	}
+	
+	function removeHighQuality(uid, obj){
+		var nickname = $(obj).attr("nickname");
+		if(confirm("确认要移除 " + nickname + " 的优质资格吗？")){
+			jQuery.ajax({
+				url : "/cms/profile/removeHighQuality",
+				type : "post",
+				data : {"uid" : uid},
+				dataType : "json",
+				success : function(result) {
+					if (result.success!=null&&result.success) {
+						$("#remove-high-quality-" + uid).removeAttr("onclick").text("已移除");
+					} else {
+						alert(result.errorInfo);
+					}
+				},
+				statusCode : {
+					401 : function() {
+						alert("请先登陆");
+					}
+				}
+			});
+		}
+	}
+	
+	function addHighQuality(uid){
+		jQuery.ajax({
+			url : "/cms/profile/addHighQuality",
+			type : "post",
+			data : {"uid" : uid},
+			dataType : "json",
+			success : function(result) {
+				if (result.success!=null&&result.success) {
+					$("#add-high-quality-" + uid).removeAttr("onclick").text("已加入");
+				} else {
+					alert(result.errorInfo);
+				}
+			},
+			statusCode : {
+				401 : function() {
+					alert("请先登陆");
+				}
+			}
+		});
+	}
 </script>
 </head>
 <body>
 	<h2>
-		错误头像列表<input id="uid-input" type="text" value="${profile.uid}" /><input id="query-logo" type="button" value="提交" onclick="javascript:query();" />
+		用户查询<input id="uid-input" type="text" value="${profile.uid}" /><input id="query-user" type="button" value="提交" onclick="javascript:query();" />
 	</h2>
 	<table border="0" cellspacing="4">
 		<tr style="background-color: #CCCCCC;">
@@ -66,7 +111,17 @@
 				<td><c:out value="${jzd:cityName(profile.city)}" /></td>
 				<td><img src="${jzr:userLogo(profile.uid, profile.logoPic, 180)}" width="180" height="180"/></td>
 				<td>
-					<c:if test="${not empty profile.logoPic}"><a href="javascript:void(0);" onclick="removeLogo(${profile.uid}, this)" id="remove-logo-${profile.uid}" nickname="${jzu:htmlOut(profile.nickname)}">删除头像</a><br /></c:if>
+					<c:if test="${not empty profile.logoPic}">
+						<a href="javascript:void(0);" onclick="removeLogo(${profile.uid}, this)" id="remove-logo-${profile.uid}" nickname="${jzu:htmlOut(profile.nickname)}">删除头像</a><br />
+					</c:if>
+					<c:choose>
+						<c:when test="${isHighQuality}">
+							<a href="javascript:void(0);" onclick="removeHighQuality(${profile.uid}, this)" nickname="${jzu:htmlOut(profile.nickname)}" id="remove-high-quality-${profile.uid}">移除优质用户</a><br />
+						</c:when>
+						<c:otherwise>
+							<a href="javascript:void(0);" onclick="addHighQuality(${profile.uid})" id="add-high-quality-${profile.uid}">加入优质用户</a><br />
+						</c:otherwise>
+					</c:choose>
 					<a href="/home/${profile.uid}" target="_blank">发私信</a>
 				</td>
 			</tr>

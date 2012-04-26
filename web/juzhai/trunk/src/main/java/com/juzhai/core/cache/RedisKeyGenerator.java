@@ -487,4 +487,13 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genBlacklistKey(long uid) {
 		return genKey(uid, "blacklistindex");
 	}
+
+	/**
+	 * 优质用户列表key
+	 * 
+	 * @return
+	 */
+	public static String genHighQualityUsersKey() {
+		return "highQualityUsers";
+	}
 }

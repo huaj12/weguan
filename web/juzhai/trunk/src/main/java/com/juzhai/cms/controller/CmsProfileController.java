@@ -1,5 +1,6 @@
 package com.juzhai.cms.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import com.juzhai.cms.service.IVerifyLogoService;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
+import com.juzhai.index.service.IHighQualityService;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.Profile;
@@ -28,6 +30,8 @@ public class CmsProfileController extends BaseController {
 	private IVerifyLogoService verifyLogoService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IHighQualityService highQualityService;
 
 	@RequestMapping(value = "/listVerifyingLogo")
 	public String listVerifyingLogo(HttpServletRequest request, Model model,
@@ -50,17 +54,19 @@ public class CmsProfileController extends BaseController {
 		return listVerifyLogo(model, pageId, LogoVerifyState.UNVERIFIED);
 	}
 
-	@RequestMapping(value = "/listErrorLogo")
+	@RequestMapping(value = "/showUser")
 	public String listErrorLogo(HttpServletRequest request, Model model) {
-		return "cms/profile/error_logo";
+		return "cms/profile/show_user";
 	}
 
-	@RequestMapping(value = "/queryErrorLogo")
+	@RequestMapping(value = "/queryUser")
 	public String queryErrorLogo(HttpServletRequest request, Model model,
 			long uid) {
 		ProfileCache profile = profileService.getProfileCacheByUid(uid);
+		model.addAttribute("isHighQuality",
+				highQualityService.isHighQuality(uid));
 		model.addAttribute("profile", profile);
-		return "cms/profile/error_logo";
+		return "cms/profile/show_user";
 	}
 
 	private String listVerifyLogo(Model model, int pageId,
@@ -94,5 +100,37 @@ public class CmsProfileController extends BaseController {
 			long uid) {
 		verifyLogoService.removeLogo(uid);
 		return new AjaxResult();
+	}
+
+	@RequestMapping(value = "/addHighQuality")
+	@ResponseBody
+	public AjaxResult addHighQuality(HttpServletRequest reqest, Model model,
+			long uid) {
+		highQualityService.addHighQuality(uid);
+		return new AjaxResult();
+	}
+
+	@RequestMapping(value = "/removeHighQuality")
+	@ResponseBody
+	public AjaxResult removeHighQuality(HttpServletRequest reqest, Model model,
+			long uid) {
+		highQualityService.removeHighQuality(uid);
+		return new AjaxResult();
+	}
+
+	@RequestMapping(value = "/listHighQuality")
+	public String listHighQuality(HttpServletRequest request, Model model,
+			@RequestParam(defaultValue = "1") int pageId) {
+		PagerManager pager = new PagerManager(pageId, 20,
+				highQualityService.countHighQualityUsers());
+		List<Long> ids = highQualityService.highQualityUsers(
+				pager.getFirstResult(), pager.getMaxResult());
+		List<ProfileCache> profileList = new ArrayList<ProfileCache>(ids.size());
+		for (Long id : ids) {
+			profileList.add(profileService.getProfileCacheByUid(id));
+		}
+		model.addAttribute("profileList", profileList);
+		model.addAttribute("pager", pager);
+		return "cms/profile/high_quality";
 	}
 }

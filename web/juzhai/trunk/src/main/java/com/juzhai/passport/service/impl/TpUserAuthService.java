@@ -155,4 +155,11 @@ public class TpUserAuthService implements ITpUserAuthService {
 		return authInfo;
 	}
 
+	@Override
+	public boolean isExist(long uid, long tpId) {
+		TpUserAuthExample example = new TpUserAuthExample();
+		example.createCriteria().andUidEqualTo(uid).andTpIdEqualTo(tpId);
+		return tpUserAuthMapper.countByExample(example) > 0 ? true : false;
+	}
+
 }

@@ -301,15 +301,15 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_TOWN_IS_NULL);
 		}
-		if (profile.getBirthYear() == null) {
+		if (profile.getBirthYear() == null || profile.getBirthYear() == 0) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_BIRTH_YEAR_IS_NULL);
 		}
-		if (profile.getBirthMonth() == null) {
+		if (profile.getBirthMonth() == null || profile.getBirthMonth() == 0) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_BIRTH_MONTH_IS_NULL);
 		}
-		if (profile.getBirthDay() == null) {
+		if (profile.getBirthDay() == null || profile.getBirthDay() == 0) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_BIRTH_DAY_IS_NULL);
 		}

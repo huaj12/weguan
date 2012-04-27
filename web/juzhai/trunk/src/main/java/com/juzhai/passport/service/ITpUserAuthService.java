@@ -6,7 +6,6 @@ package com.juzhai.passport.service;
 import javax.servlet.http.HttpServletRequest;
 
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.ThirdpartyNameEnum;
 
 public interface ITpUserAuthService {
 
@@ -51,4 +50,13 @@ public interface ITpUserAuthService {
 	 * @return
 	 */
 	AuthInfo getSecretary(String tpName);
+
+	/**
+	 * 判断某用户是否登陆过该平台
+	 * 
+	 * @param uid
+	 * @param tpId
+	 * @return
+	 */
+	boolean isExist(long uid, long tpId);
 }

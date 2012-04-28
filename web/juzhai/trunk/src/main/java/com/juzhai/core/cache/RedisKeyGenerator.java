@@ -496,4 +496,14 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genHighQualityUsersKey() {
 		return "highQualityUsers";
 	}
+
+	/**
+	 * 持久化登录的token
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genPersistLoginTokenKey(long uid) {
+		return genKey(uid, "persistLoginToken");
+	}
 }

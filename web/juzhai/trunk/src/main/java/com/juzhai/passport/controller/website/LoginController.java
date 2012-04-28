@@ -89,7 +89,7 @@ public class LoginController extends BaseController {
 			}
 
 			uid = loginService.login(request, response, loginForm.getAccount(),
-					loginForm.getPassword());
+					loginForm.getPassword(), true);
 		} catch (PassportAccountException e) {
 			if (StringUtils.equals(e.getErrorCode(),
 					PassportAccountException.USER_IS_SHIELD)) {
@@ -133,7 +133,7 @@ public class LoginController extends BaseController {
 		long uid = 0L;
 		try {
 			uid = loginService.login(request, response, loginForm.getAccount(),
-					loginForm.getPassword());
+					loginForm.getPassword(), false);
 		} catch (PassportAccountException e) {
 			if (StringUtils.equals(e.getErrorCode(),
 					PassportAccountException.USER_IS_SHIELD)) {

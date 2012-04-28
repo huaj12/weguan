@@ -20,7 +20,8 @@ public interface ILoginService {
 	 * @throws LoginException
 	 */
 	long login(HttpServletRequest request, HttpServletResponse response,
-			String loginName, String pwd) throws PassportAccountException;
+			String loginName, String pwd, boolean persistent)
+			throws PassportAccountException;
 
 	/**
 	 * 自动登录（比如：注册完自动登录）
@@ -50,7 +51,7 @@ public interface ILoginService {
 	 * @param admin
 	 */
 	void cmsLogin(HttpServletRequest request, HttpServletResponse response,
-			long uid, long tpId, boolean admin);
+			long uid, long tpId);
 
 	/**
 	 * 用户是否在线

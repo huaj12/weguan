@@ -35,6 +35,8 @@ import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaService;
+import com.juzhai.preference.bean.SiftTypePreference;
+import com.juzhai.preference.service.IUserPreferenceService;
 
 @Controller
 @RequestMapping(value = "idea")
@@ -46,6 +48,8 @@ public class IdeaController extends BaseController {
 	private IInterestUserService interestUserService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IUserPreferenceService userPreferenceService;
 	@Value("${idea.user.max.rows}")
 	private int ideaUserMaxRows;
 	@Value("${idea.detail.ad.count}")
@@ -58,12 +62,36 @@ public class IdeaController extends BaseController {
 	@RequestMapping(value = "/{ideaId}", method = RequestMethod.GET)
 	public String detail(HttpServletRequest request, Model model,
 			@PathVariable long ideaId) {
-		return pageIdeaUser(request, model, ideaId, 1);
+		ProfileCache loginUser = getLoginUserCache(request);
+		String genderType = "all";
+		long cityId = 0L;
+		if (null != loginUser) {
+			cityId = loginUser.getCity();
+			List<String> genders = userPreferenceService.getUserAnswer(
+					loginUser.getUid(),
+					SiftTypePreference.GENDER.getPreferenceId());
+			if (genders != null && genders.size() == 1) {
+				String gender = genders.get(0);
+				if (StringUtils.equals(gender, "1")) {
+					genderType = "male";
+				} else if (StringUtils.equals(gender, "0")) {
+					genderType = "female";
+				}
+			}
+		}
+		return pageIdeaUser(request, model, ideaId, 1, cityId, genderType);
 	}
 
 	@RequestMapping(value = "/{ideaId}/user/{page}", method = RequestMethod.GET)
-	public String pageIdeaUser(HttpServletRequest request, Model model,
+	public String oldPageIdeaUser(HttpServletRequest request, Model model,
 			@PathVariable long ideaId, @PathVariable int page) {
+		return "redirect:/idea/" + ideaId;
+	}
+
+	@RequestMapping(value = "/{ideaId}/user/{cityId}_{genderType}/{page}", method = RequestMethod.GET)
+	public String pageIdeaUser(HttpServletRequest request, Model model,
+			@PathVariable long ideaId, @PathVariable int page,
+			@PathVariable long cityId, @PathVariable String genderType) {
 		UserContext context = (UserContext) request.getAttribute("context");
 		Idea idea = ideaService.getIdeaById(ideaId);
 		if (null == idea) {
@@ -78,30 +106,32 @@ public class IdeaController extends BaseController {
 			boolean hasUsed = ideaService.isUseIdea(context.getUid(), ideaId);
 			model.addAttribute("hasUsed", hasUsed);
 		}
-		Long cityId = 0L;
-		if (context.hasLogin()) {
-			ProfileCache profile = getLoginUserCache(request);
-			if (null != profile) {
-				cityId = profile.getCity();
-			}
-		}
-		ideaAdWidget(cityId, model, ideaDetailAdCount);
 
+		Integer gender = null;
+		if (StringUtils.equals(genderType, "male")) {
+			gender = 1;
+		} else if (StringUtils.equals(genderType, "female")) {
+			gender = 0;
+		}
 		PagerManager pager = new PagerManager(page, ideaUserMaxRows,
-				ideaService.countIdeaUsers(ideaId));
+				ideaService.countIdeaUsers(ideaId, cityId, gender));
 		List<IdeaUserView> ideaUserViewList = ideaService.listIdeaUsers(ideaId,
-				pager.getFirstResult(), pager.getMaxResult());
+				cityId, gender, pager.getFirstResult(), pager.getMaxResult());
 		for (IdeaUserView view : ideaUserViewList) {
 			if (context.hasLogin()) {
 				view.setHasInterest(interestUserService.isInterest(
 						context.getUid(), view.getProfileCache().getUid()));
 			}
 		}
+
 		model.addAttribute("pager", pager);
 		model.addAttribute("ideaUserViewList", ideaUserViewList);
 		model.addAttribute("pageType", "cqw");
+		model.addAttribute("cityId", cityId);
+		model.addAttribute("genderType", genderType);
 		loadRecentIdeas(context.getUid(), ideaDetailRecentIdeasCount,
 				Collections.singletonList(ideaId), model);
+		ideaAdWidget(cityId, model, ideaDetailAdCount);
 		return "web/idea/detail";
 	}
 
@@ -144,8 +174,8 @@ public class IdeaController extends BaseController {
 				ideaView.setProfileCache(profileService
 						.getProfileCacheByUid(idea.getCreateUid()));
 			}
-			ideaView.setIdeaUserViews(ideaService.listIdeaUsers(idea.getId(),
-					0, ideaWidgetIdeaUserCount));
+			ideaView.setIdeaUserViews(ideaService.listIdeaAllUsers(
+					idea.getId(), 0, ideaWidgetIdeaUserCount));
 			model.addAttribute("ideaView", ideaView);
 		}
 		return "web/home/index/idea_widget_fragment";

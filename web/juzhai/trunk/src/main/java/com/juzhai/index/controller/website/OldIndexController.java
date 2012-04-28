@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
@@ -44,8 +42,6 @@ import com.juzhai.passport.service.IProfileService;
 
 //@Controller
 public class OldIndexController extends BaseController {
-
-	private final Log log = LogFactory.getLog(getClass());
 
 	@Autowired
 	private IShowActService showActService;
@@ -97,7 +93,7 @@ public class OldIndexController extends BaseController {
 		List<Category> categoryList = categoryService
 				.listCategories(webShowCategorySize);
 		ShowActOrder order = ShowActOrder.getShowActOrderByType(orderType);
-		long cityId = fetchCityId(request);
+		long cityId = 0L;
 		PagerManager pager = new PagerManager(page, webShowActsMaxRows,
 				showActService.countShowActs(cityId, categoryId));
 		List<Act> actList = showActService.listShowActs(cityId, categoryId,
@@ -158,7 +154,7 @@ public class OldIndexController extends BaseController {
 	public String pageShowUsers(HttpServletRequest request, Model model,
 			@PathVariable String genderType, @PathVariable int page) {
 		UserContext context = (UserContext) request.getAttribute("context");
-		long cityId = fetchCityId(request);
+		long cityId = 0L;
 		Integer gender = null;
 		if (genderType.equals("male")) {
 			gender = 1;
@@ -210,7 +206,7 @@ public class OldIndexController extends BaseController {
 	public String followUser(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		long cityId = fetchCityId(request);
+		long cityId = 0L;
 		List<Long> installFollowUids = friendService
 				.listInstallFollowUids(context.getUid());
 		List<Profile> profileList = profileService
@@ -267,7 +263,7 @@ public class OldIndexController extends BaseController {
 			@PathVariable String genderType, @PathVariable int page)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		long cityId = fetchCityId(request);
+		long cityId = 0L;
 		Integer gender = null;
 		if (genderType.equals("male")) {
 			gender = 1;

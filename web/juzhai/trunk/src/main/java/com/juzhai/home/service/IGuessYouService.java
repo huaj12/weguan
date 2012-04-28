@@ -1,5 +1,8 @@
 package com.juzhai.home.service;
 
+import java.util.List;
+
+import com.juzhai.passport.model.Profile;
 import com.juzhai.post.controller.view.PostView;
 
 public interface IGuessYouService {
@@ -49,4 +52,13 @@ public interface IGuessYouService {
 	 * @return
 	 */
 	PostView randomRescue(long uid);
+
+	/**
+	 * 推荐你可能感兴趣的人
+	 * 
+	 * @param uid
+	 * @param count
+	 * @return
+	 */
+	List<Profile> recommendUsers(long uid, int count);
 }

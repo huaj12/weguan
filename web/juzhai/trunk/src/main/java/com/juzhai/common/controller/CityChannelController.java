@@ -15,7 +15,7 @@ import com.juzhai.core.web.cookies.CookiesManager;
 import com.juzhai.core.web.filter.CityChannelFilter;
 import com.juzhai.core.web.util.HttpRequestUtil;
 
-@Controller
+//@Controller
 public class CityChannelController {
 
 	@Value(value = "${channel.cookie.max.age}")
@@ -25,8 +25,6 @@ public class CityChannelController {
 	@RequestMapping(value = "/switchChannel", method = RequestMethod.GET)
 	public AjaxResult switchChannel(HttpServletRequest request,
 			HttpServletResponse response, Model model, long cityId) {
-		HttpRequestUtil.setSessionAttribute(request,
-				CityChannelFilter.SESSION_CHANNEL_NAME, cityId);
 		CookiesManager.setCookie(request, response,
 				CookiesManager.CHANNEL_NAME, String.valueOf(cityId),
 				channelCookieMaxAge);

@@ -76,7 +76,6 @@ public class HttpRequestUtil {
 	/**
 	 * 从request中抽取客户端ip(兼容nginx转发模式)
 	 * 
-	 * @author morgan
 	 * @param request
 	 * @see #NGINX_IP_HEADER
 	 * @return
@@ -95,7 +94,6 @@ public class HttpRequestUtil {
 	/**
 	 * 从request中抽取当前url(兼容nginx转发模式)
 	 * 
-	 * @author morgan
 	 * @param request
 	 * @see #NGINX_URL_HEADER
 	 * @return

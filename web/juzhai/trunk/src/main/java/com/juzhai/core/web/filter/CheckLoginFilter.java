@@ -61,18 +61,17 @@ public class CheckLoginFilter implements Filter {
 						profileService.getProfileCacheByUid(context.getUid()));
 			}
 			// 判断是否来自q+
-			if (null == req.getSession().getAttribute(IS_FROM_QQ_PLUS)) {
-				String userAgent = req.getHeader("User-Agent");
-				req.getSession().setAttribute(
-						IS_FROM_QQ_PLUS,
-						StringUtils.isEmpty(userAgent) ? false : userAgent
-								.contains("Qplus"));
-			}
+			// if (null == req.getSession().getAttribute(IS_FROM_QQ_PLUS)) {
+			String userAgent = context.getUserAgentPermanentCode();
+			req.setAttribute(
+					IS_FROM_QQ_PLUS,
+					StringUtils.isEmpty(userAgent) ? false : userAgent
+							.contains("Qplus"));
+			// }
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
-			if (e.getCause().getCause() instanceof NeedLoginException) {
-				needLoginHandle(req, rep, (NeedLoginException) e.getCause()
-						.getCause());
+			if (e.getCause() instanceof NeedLoginException) {
+				needLoginHandle(req, rep, (NeedLoginException) e.getCause());
 			} else {
 				throw new ServletException(e.getMessage(), e);
 			}

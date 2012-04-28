@@ -118,7 +118,7 @@
 																</c:otherwise>
 															</c:choose>
 															<c:if test="${context.uid != view.profile.uid}">
-																<span><a href="javascript:void(0);" class="message_u1" target-uid="${view.profile.uid}" target-nickname="<c:out value='${view.profile.nickname}' />">私信</a></span>
+																<span><a href="javascript:void(0);" class="message_u1 send-message" target-uid="${view.profile.uid}" target-nickname="<c:out value='${view.profile.nickname}' />">私信</a></span>
 																<div class="keep user-remove-interest remove-interest-${view.profile.uid}" <c:if test="${!view.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${view.profile.uid}" title="点击取消收藏">已收藏</a></div>
 																<div class="keep user-add-interest interest-${view.profile.uid}" <c:if test="${view.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${view.profile.uid}" title="点击收藏">收藏ta</a></div>
 																<div class="date"><a href="javascript:void(0);" target-uid="${view.profile.uid}" target-nickname="<c:out value='${view.profile.nickname}' />">约ta</a></div>
@@ -153,6 +153,7 @@
 						<c:if test="${empty isQplus||!isQplus}">
 							<jsp:include page="/WEB-INF/jsp/web/home/index/share_widget.jsp" />
 						</c:if>
+						<jsp:include page="/WEB-INF/jsp/web/index/zbe/recommend_users_widget.jsp" />
 						<jsp:include page="/WEB-INF/jsp/web/home/index/new_user_widget.jsp" />
 					</div><!--main_right end-->
 				</div><!--main_part end-->

@@ -321,7 +321,7 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public List<IdeaUserView> listIdeaUsers(long ideaId, int firstResult,
+	public List<IdeaUserView> listIdeaAllUsers(long ideaId, int firstResult,
 			int maxResults) {
 		List<IdeaUserView> ideaUserViewList = new ArrayList<IdeaUserView>();
 		Set<TypedTuple<Long>> users = redisTemplate.opsForZSet()
@@ -339,9 +339,48 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public int countIdeaUsers(long ideaId) {
+	public int countIdeaAllUsers(long ideaId) {
 		return redisTemplate.opsForZSet()
 				.size(RedisKeyGenerator.genIdeaUsersKey(ideaId)).intValue();
+	}
+
+	@Override
+	public List<IdeaUserView> listIdeaUsers(long ideaId, Long cityId,
+			Integer gender, int firstResult, int maxResults) {
+		PostExample example = newIdeaUsersExample(ideaId, cityId, gender);
+		example.setLimit(new Limit(firstResult, maxResults));
+		example.setOrderByClause("create_time desc");
+		List<Post> list = postMapper.selectByExample(example);
+		List<IdeaUserView> ideaUserViewList = new ArrayList<IdeaUserView>(
+				list.size());
+		for (Post post : list) {
+			IdeaUserView view = new IdeaUserView();
+			view.setProfileCache(profileService.getProfileCacheByUid(post
+					.getCreateUid()));
+			view.setCreateTime(post.getCreateTime());
+			ideaUserViewList.add(view);
+		}
+		return ideaUserViewList;
+	}
+
+	@Override
+	public int countIdeaUsers(long ideaId, Long cityId, Integer gender) {
+		PostExample example = newIdeaUsersExample(ideaId, cityId, gender);
+		return postMapper.countByExample(example);
+	}
+
+	private PostExample newIdeaUsersExample(long ideaId, Long cityId,
+			Integer gender) {
+		PostExample example = new PostExample();
+		PostExample.Criteria c = example.createCriteria()
+				.andIdeaIdEqualTo(ideaId).andDefunctEqualTo(false);
+		if (cityId != null && cityId > 0) {
+			c.andUserCityEqualTo(cityId);
+		}
+		if (gender != null) {
+			c.andUserGenderEqualTo(gender);
+		}
+		return example;
 	}
 
 	@Override

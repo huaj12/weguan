@@ -3,6 +3,7 @@ package com.juzhai.passport.controller.website;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,8 +95,8 @@ public class RegisterController extends BaseController {
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public String postRegister(HttpServletRequest request, Model model,
-			RegisterForm registerForm) {
+	public String postRegister(HttpServletRequest request,
+			HttpServletResponse response, Model model, RegisterForm registerForm) {
 		UserContext context = (UserContext) request.getAttribute("context");
 		long uid = 0L;
 		if (context.hasLogin()) {
@@ -122,7 +123,7 @@ public class RegisterController extends BaseController {
 				model.addAttribute("t", System.currentTimeMillis());
 				return "web/register/register";
 			}
-			loginService.autoLogin(request, uid);
+			loginService.autoLogin(request, response, uid);
 			try {
 				registerService.sendAccountMail(uid);
 			} catch (PassportAccountException e) {

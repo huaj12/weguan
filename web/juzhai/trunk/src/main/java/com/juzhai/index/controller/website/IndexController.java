@@ -84,6 +84,8 @@ public class IndexController extends BaseController {
 	private int webShowIdeasAdCount;
 	@Value("${show.idea.recent.ideas.count}")
 	private int showIdeaRecentIdeasCount;
+	@Value("${recommend.user.count}")
+	private int recommendUserCount;
 
 	@RequestMapping(value = { "", "/", "/index" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
@@ -185,8 +187,8 @@ public class IndexController extends BaseController {
 				ideaView.setProfileCache(profileService
 						.getProfileCacheByUid(idea.getCreateUid()));
 			}
-			ideaView.setIdeaUserViews(ideaService.listIdeaUsers(idea.getId(),
-					0, webShowIdeasUserCount));
+			ideaView.setIdeaUserViews(ideaService.listIdeaAllUsers(
+					idea.getId(), 0, webShowIdeasUserCount));
 			ideaViewList.add(ideaView);
 			excludeIdeaIds.add(idea.getId());
 		}
@@ -326,6 +328,7 @@ public class IndexController extends BaseController {
 			userViews.add(view);
 		}
 		newUserWidget(0L, model, queryUsersRightUserRows);
+		recommendUserWidget(context.getUid(), recommendUserCount, model);
 		model.addAttribute("userViews", userViews);
 		model.addAttribute("pager", pager);
 		model.addAttribute("cityId", cityId);

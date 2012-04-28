@@ -53,6 +53,9 @@ public class CheckLoginFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		try {
 			UserContext context = loginSessionManager.getUserContext(req);
+			if (!context.hasLogin() && loginSessionManager.autoLogin(req, rep)) {
+				context = loginSessionManager.getUserContext(req);
+			}
 			req.setAttribute("context", context);
 			if (context.hasLogin()) {
 				loginService.updateOnlineState(context.getUid());

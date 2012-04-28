@@ -10,7 +10,10 @@ public interface LoginSessionManager {
 	public void updateLoginExpire(HttpServletRequest request);
 
 	public void login(HttpServletRequest request, HttpServletResponse response,
-			long uid, long tpId, boolean isAdmin);
+			long uid, long tpId, boolean isAdmin, boolean persistent);
 
 	public void logout(HttpServletRequest request, HttpServletResponse response);
+
+	public boolean autoLogin(HttpServletRequest request,
+			HttpServletResponse response);
 }

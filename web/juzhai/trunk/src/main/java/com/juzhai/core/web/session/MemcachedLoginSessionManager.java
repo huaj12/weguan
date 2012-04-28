@@ -55,11 +55,11 @@ public class MemcachedLoginSessionManager extends AbstractLoginSessionManager {
 
 	@Override
 	public void updateLoginExpire(HttpServletRequest request) {
-
 	}
 
+	@Override
 	public void login(HttpServletRequest request, HttpServletResponse response,
-			long uid, long tpId, boolean isAdmin) {
+			long uid, long tpId, boolean isAdmin, boolean persistent) {
 		String token = UUID.randomUUID().toString();
 		CookiesManager.setCookie(request, response, token_cookies_name, token,
 				-1);
@@ -73,8 +73,12 @@ public class MemcachedLoginSessionManager extends AbstractLoginSessionManager {
 		} catch (Exception e) {
 			log.error("login error.", e);
 		}
+		if (persistent) {
+			persistLogin(request, response, uid);
+		}
 	}
 
+	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response) {
 		String token = CookiesManager.getCookie(request, token_cookies_name);
 		if (StringUtils.isNotEmpty(token)) {
@@ -85,5 +89,6 @@ public class MemcachedLoginSessionManager extends AbstractLoginSessionManager {
 			}
 			CookiesManager.delCookie(request, response, token_cookies_name);
 		}
+		delPersistLogin(request, response);
 	}
 }

@@ -30,12 +30,15 @@ public class TomcatLoginSessionManager extends AbstractLoginSessionManager {
 
 	@Override
 	public void login(HttpServletRequest request, HttpServletResponse response,
-			long uid, long tpId, boolean isAdmin) {
+			long uid, long tpId, boolean isAdmin, boolean persistent) {
 		HttpRequestUtil.setSessionAttribute(request, UID_ATTRIBUTE_NAME, uid);
 		HttpRequestUtil.setSessionAttribute(request, TPID_ATTRIBUTE_NAME, tpId);
 		HttpRequestUtil.setSessionAttribute(request, ADMIN_ATTRIBUTE_NAME,
 				isAdmin);
 		HttpRequestUtil.setMaxInactiveInterval(request, loginExpireTimeSeconds);
+		if (persistent) {
+			persistLogin(request, response, uid);
+		}
 	}
 
 	@Override
@@ -43,5 +46,6 @@ public class TomcatLoginSessionManager extends AbstractLoginSessionManager {
 		HttpRequestUtil.removeSessionAttribute(request, UID_ATTRIBUTE_NAME);
 		HttpRequestUtil.removeSessionAttribute(request, TPID_ATTRIBUTE_NAME);
 		HttpRequestUtil.removeSessionAttribute(request, ADMIN_ATTRIBUTE_NAME);
+		delPersistLogin(request, response);
 	}
 }

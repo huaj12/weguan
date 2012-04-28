@@ -57,7 +57,7 @@ public class CmsLoginController {
 		if (uid > 0) {
 			Passport passport = passportService.getPassportByUid(uid);
 			if (passport != null && passport.getAdmin()) {
-				loginService.cmsLogin(request, response, uid, 0L, true);
+				loginService.cmsLogin(request, response, uid, 0L);
 				// CMS首页
 				return "cms/index";
 			}

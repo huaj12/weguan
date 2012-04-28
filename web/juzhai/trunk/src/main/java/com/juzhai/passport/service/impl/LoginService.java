@@ -80,13 +80,14 @@ public class LoginService implements ILoginService {
 	public void login(HttpServletRequest request, HttpServletResponse response,
 			final long uid, final long tpId, RunType runType)
 			throws PassportAccountException {
-		doLogin(request, response, uid, tpId, runType);
+		doLogin(request, response, uid, tpId, runType, false);
 		loginCounter.incr(null, 1);
 	}
 
 	private void doLogin(HttpServletRequest request,
 			HttpServletResponse response, final long uid, final long tpId,
-			RunType runType) throws PassportAccountException {
+			RunType runType, boolean persistent)
+			throws PassportAccountException {
 		Passport passport = passportMapper.selectByPrimaryKey(uid);
 		if (null == passport) {
 			log.error("Login error. Can not find passport[id=" + uid + "].");
@@ -96,7 +97,8 @@ public class LoginService implements ILoginService {
 			throw new PassportAccountException(
 					PassportAccountException.USER_IS_SHIELD, shield.getTime());
 		}
-		loginSessionManager.login(request, response, uid, tpId, false);
+		loginSessionManager.login(request, response, uid, tpId, false,
+				persistent);
 		// 更新最后登录时间
 		updateLastLoginTime(uid, runType);
 		// updateOnlineState(uid);
@@ -115,9 +117,8 @@ public class LoginService implements ILoginService {
 
 	@Override
 	public void cmsLogin(HttpServletRequest request,
-			HttpServletResponse response, final long uid, final long tpId,
-			boolean admin) {
-		loginSessionManager.login(request, response, uid, tpId, admin);
+			HttpServletResponse response, final long uid, final long tpId) {
+		loginSessionManager.login(request, response, uid, tpId, true, false);
 	}
 
 	@Override
@@ -170,7 +171,8 @@ public class LoginService implements ILoginService {
 
 	@Override
 	public long login(HttpServletRequest request, HttpServletResponse response,
-			String loginName, String pwd) throws PassportAccountException {
+			String loginName, String pwd, boolean persistent)
+			throws PassportAccountException {
 		loginName = StringUtils.trim(loginName);
 		pwd = StringUtils.trim(pwd);
 		if (StringUtils.isEmpty(loginName) || StringUtils.isEmpty(pwd)) {
@@ -191,7 +193,7 @@ public class LoginService implements ILoginService {
 					JoinTypeEnum.CONNECT);
 		}
 		doLogin(request, response, passport.getId(), tp != null ? tp.getId()
-				: 0L, RunType.WEB);
+				: 0L, RunType.WEB, persistent);
 		nativeLoginCounter.incr(null, 1);
 		return passport.getId();
 	}
@@ -200,7 +202,7 @@ public class LoginService implements ILoginService {
 	public void autoLogin(HttpServletRequest request,
 			HttpServletResponse response, long uid) {
 		try {
-			doLogin(request, response, uid, 0L, RunType.WEB);
+			doLogin(request, response, uid, 0L, RunType.WEB, false);
 		} catch (PassportAccountException e) {
 			log.error(e.getMessage(), e);
 		}

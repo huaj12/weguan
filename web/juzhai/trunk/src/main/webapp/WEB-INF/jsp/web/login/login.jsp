@@ -44,6 +44,12 @@
 											</div>
 										</div><!--input_x end-->
 									</c:if>
+									<div class="input_x"><!--input_x begin-->
+										<h3>&nbsp;</h3>
+										<div id="form-remember" class="big_input">
+											<input name="remember" type="checkbox" value="true" <c:if test="${loginForm.remember}">checked="checked"</c:if> />&nbsp;记住我(下次自动登录)
+										</div>
+									</div><!--input_x end-->
 									<div class="login_error" <c:if test="${empty errorInfo}">style="display:none;"</c:if>>${errorInfo}</div>
 									<div class="btn"><a href="javascript:void(0);">立即登录</a></div>
 									<div class="forget_pwd"><a href="/passport/getbackpwd">忘记密码？</a></div>

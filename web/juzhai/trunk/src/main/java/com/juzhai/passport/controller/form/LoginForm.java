@@ -12,6 +12,8 @@ public class LoginForm {
 
 	private String verifyCode;
 
+	private boolean remember;
+
 	public String getAccount() {
 		return account;
 	}
@@ -50,5 +52,13 @@ public class LoginForm {
 
 	public void setVerifyCode(String verifyCode) {
 		this.verifyCode = verifyCode;
+	}
+
+	public boolean isRemember() {
+		return remember;
+	}
+
+	public void setRemember(boolean remember) {
+		this.remember = remember;
 	}
 }

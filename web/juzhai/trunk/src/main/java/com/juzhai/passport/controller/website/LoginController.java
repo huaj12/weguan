@@ -89,7 +89,7 @@ public class LoginController extends BaseController {
 			}
 
 			uid = loginService.login(request, response, loginForm.getAccount(),
-					loginForm.getPassword(), true);
+					loginForm.getPassword(), loginForm.isRemember());
 		} catch (PassportAccountException e) {
 			if (StringUtils.equals(e.getErrorCode(),
 					PassportAccountException.USER_IS_SHIELD)) {

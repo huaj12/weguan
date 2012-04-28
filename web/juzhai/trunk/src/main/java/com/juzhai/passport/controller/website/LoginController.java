@@ -8,10 +8,9 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -39,7 +38,6 @@ import com.juzhai.verifycode.service.IVerifyCodeService;
 @Controller
 public class LoginController extends BaseController {
 
-	private static final Log log = LogFactory.getLog(LoginController.class);
 	@Autowired
 	private ILoginService loginService;
 	@Autowired
@@ -69,8 +67,9 @@ public class LoginController extends BaseController {
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String postLogin(HttpServletRequest request, Model mdoel,
-			LoginForm loginForm, Model model) {
+	public String postLogin(HttpServletRequest request,
+			HttpServletResponse response, Model mdoel, LoginForm loginForm,
+			Model model) {
 		UserContext context = (UserContext) request.getAttribute("context");
 		if (context.hasLogin()) {
 			return "redirect:/home";
@@ -89,7 +88,7 @@ public class LoginController extends BaseController {
 				}
 			}
 
-			uid = loginService.login(request, loginForm.getAccount(),
+			uid = loginService.login(request, response, loginForm.getAccount(),
 					loginForm.getPassword());
 		} catch (PassportAccountException e) {
 			if (StringUtils.equals(e.getErrorCode(),
@@ -124,7 +123,7 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "ajaxlogin", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult ajaxLogin(HttpServletRequest request,
-			LoginForm loginForm, Model model) {
+			HttpServletResponse response, LoginForm loginForm, Model model) {
 		AjaxResult result = new AjaxResult();
 		UserContext context = (UserContext) request.getAttribute("context");
 		if (context.hasLogin()) {
@@ -133,7 +132,7 @@ public class LoginController extends BaseController {
 		}
 		long uid = 0L;
 		try {
-			uid = loginService.login(request, loginForm.getAccount(),
+			uid = loginService.login(request, response, loginForm.getAccount(),
 					loginForm.getPassword());
 		} catch (PassportAccountException e) {
 			if (StringUtils.equals(e.getErrorCode(),
@@ -159,10 +158,11 @@ public class LoginController extends BaseController {
 	}
 
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public String webLogout(HttpServletRequest request, Model model)
+	public String webLogout(HttpServletRequest request,
+			HttpServletResponse response, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		loginService.logout(request, context.getUid());
+		loginService.logout(request, response, context.getUid());
 		return "redirect:/login";
 	}
 }

@@ -12,14 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.juzhai.core.web.cookies.CookiesManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.service.IProfileService;
 
-@Component
+//@Component
 public class CityChannelFilter implements Filter {
 
 	public static final String SESSION_CHANNEL_NAME = "channelId";
@@ -39,8 +38,7 @@ public class CityChannelFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
-		long channelId = HttpRequestUtil.getSessionAttributeAsLong(req,
-				SESSION_CHANNEL_NAME, -1L);
+		long channelId = -1L;
 		if (channelId < 0) {
 			UserContext context = (UserContext) req.getAttribute("context");
 			String channel = CookiesManager.getCookie(req,
@@ -48,15 +46,13 @@ public class CityChannelFilter implements Filter {
 			if (StringUtils.isEmpty(channel)) {
 				long uid = context.getUid();
 				if (uid > 0) {
-//					channelId = profileService.getUserCityFromCache(uid);
+					// channelId = profileService.getUserCityFromCache(uid);
 				} else {
 					channelId = 0L;
 				}
 			} else {
 				channelId = Long.valueOf(channel);
 			}
-			HttpRequestUtil.setSessionAttribute(req, SESSION_CHANNEL_NAME,
-					channelId);
 		}
 		try {
 			filterChain.doFilter(request, response);

@@ -5,6 +5,7 @@ package com.juzhai.passport.service;
 
 import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.passport.exception.PassportAccountException;
@@ -18,8 +19,8 @@ public interface ILoginService {
 	 * @return
 	 * @throws LoginException
 	 */
-	long login(HttpServletRequest request, String loginName, String pwd)
-			throws PassportAccountException;
+	long login(HttpServletRequest request, HttpServletResponse response,
+			String loginName, String pwd) throws PassportAccountException;
 
 	/**
 	 * 自动登录（比如：注册完自动登录）
@@ -27,7 +28,8 @@ public interface ILoginService {
 	 * @param request
 	 * @param uid
 	 */
-	void autoLogin(HttpServletRequest request, long uid);
+	void autoLogin(HttpServletRequest request, HttpServletResponse response,
+			long uid);
 
 	/**
 	 * 登录
@@ -35,7 +37,8 @@ public interface ILoginService {
 	 * @param request
 	 * @param uid
 	 */
-	void login(HttpServletRequest request, long uid, long tpId, RunType runType)
+	void login(HttpServletRequest request, HttpServletResponse response,
+			long uid, long tpId, RunType runType)
 			throws PassportAccountException;
 
 	/**
@@ -46,7 +49,8 @@ public interface ILoginService {
 	 * @param tpId
 	 * @param admin
 	 */
-	void cmsLogin(HttpServletRequest request, long uid, long tpId, boolean admin);
+	void cmsLogin(HttpServletRequest request, HttpServletResponse response,
+			long uid, long tpId, boolean admin);
 
 	/**
 	 * 用户是否在线
@@ -68,7 +72,8 @@ public interface ILoginService {
 	 * 
 	 * @param uid
 	 */
-	void logout(HttpServletRequest request, long uid);
+	void logout(HttpServletRequest request, HttpServletResponse response,
+			long uid);
 
 	/**
 	 * 判断是否需要验证码

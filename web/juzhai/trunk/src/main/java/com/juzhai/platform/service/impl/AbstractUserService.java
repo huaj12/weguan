@@ -88,7 +88,6 @@ public abstract class AbstractUserService implements IUserService {
 		if (uid > 0) {
 			// 缓存AuthInfo
 			tpUserAuthService.cacheAuthInfo(uid, authInfo);
-			tpUserAuthService.saveAuthInfoToSession(request, authInfo);
 		}
 
 		return uid;

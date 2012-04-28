@@ -8,6 +8,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.juzhai.core.encrypt.DESUtils;
+import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IPassportService;
@@ -38,7 +40,12 @@ public class CmsLoginController {
 	private String cmsSecret;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(HttpServletRequest request, Model model, String token) {
+	public String login(HttpServletRequest request,
+			HttpServletResponse response, Model model, String token) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		if (context.hasLogin() && context.isAdmin()) {
+			return "cms/index";
+		}
 		long uid = 0;
 		try {
 			uid = Long.parseLong(DESUtils.decryptToString(cmsSecret.getBytes(),
@@ -50,7 +57,7 @@ public class CmsLoginController {
 		if (uid > 0) {
 			Passport passport = passportService.getPassportByUid(uid);
 			if (passport != null && passport.getAdmin()) {
-				loginService.cmsLogin(request, uid, 0L, true);
+				loginService.cmsLogin(request, response, uid, 0L, true);
 				// CMS首页
 				return "cms/index";
 			}

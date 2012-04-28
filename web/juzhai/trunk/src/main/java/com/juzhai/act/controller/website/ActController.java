@@ -167,7 +167,7 @@ public class ActController extends BaseController {
 		if (act == null) {
 			return null;
 		}
-		long cityId = fetchCityId(request);
+		long cityId = 0L;
 		model.addAttribute("act", act);
 		List<ActLink> actLinkList = actService.listActLinkByActId(actId,
 				webActLinkShowCount);

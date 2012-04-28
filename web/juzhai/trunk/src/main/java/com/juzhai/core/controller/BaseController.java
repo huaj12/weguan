@@ -25,14 +25,16 @@ import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.ErrorPageDispatcher;
 import com.juzhai.core.web.filter.CheckLoginFilter;
-import com.juzhai.core.web.filter.CityChannelFilter;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.core.web.util.HttpRequestUtil;
+import com.juzhai.home.controller.view.RecommendUserView;
 import com.juzhai.home.service.IBlacklistService;
+import com.juzhai.home.service.IGuessYouService;
 import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.Passport;
+import com.juzhai.passport.model.Profile;
+import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
@@ -78,6 +80,10 @@ public class BaseController {
 	private IPassportService passportService;
 	@Autowired
 	private IRegisterService registerService;
+	@Autowired
+	private IGuessYouService guessYouService;
+	@Autowired
+	private IInterestUserService interestUserService;
 
 	protected UserContext checkLoginForApp(HttpServletRequest request)
 			throws NeedLoginException {
@@ -142,11 +148,6 @@ public class BaseController {
 		}
 	}
 
-	protected long fetchCityId(HttpServletRequest request) {
-		return HttpRequestUtil.getSessionAttributeAsLong(request,
-				CityChannelFilter.SESSION_CHANNEL_NAME, 0L);
-	}
-
 	protected void loadCategoryList(Model model) {
 		model.addAttribute("categoryList",
 				com.juzhai.post.InitData.CATEGORY_MAP.values());
@@ -203,6 +204,22 @@ public class BaseController {
 		}
 		model.addAttribute("profileList", profileService
 				.listProfileByCityIdOrderCreateTime(cityId, 0, count));
+	}
+
+	protected void recommendUserWidget(long uid, int count, Model model) {
+		List<Profile> list = guessYouService.recommendUsers(uid, count);
+		List<RecommendUserView> recommendUserViewList = new ArrayList<RecommendUserView>(
+				list.size());
+		for (Profile profile : list) {
+			RecommendUserView view = new RecommendUserView();
+			view.setProfile(profile);
+			if (uid > 0) {
+				view.setHasInterest(interestUserService.isInterest(uid,
+						profile.getUid()));
+			}
+			recommendUserViewList.add(view);
+		}
+		model.addAttribute("recommendUserViewList", recommendUserViewList);
 	}
 
 	protected void ideaAdWidget(long cityId, Model model, int count) {

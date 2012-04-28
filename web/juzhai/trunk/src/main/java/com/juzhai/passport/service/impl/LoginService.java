@@ -6,6 +6,7 @@ package com.juzhai.passport.service.impl;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 
@@ -76,14 +77,16 @@ public class LoginService implements ILoginService {
 	private int loginCountExpireTime;
 
 	@Override
-	public void login(HttpServletRequest request, final long uid,
-			final long tpId, RunType runType) throws PassportAccountException {
-		doLogin(request, uid, tpId, runType);
+	public void login(HttpServletRequest request, HttpServletResponse response,
+			final long uid, final long tpId, RunType runType)
+			throws PassportAccountException {
+		doLogin(request, response, uid, tpId, runType);
 		loginCounter.incr(null, 1);
 	}
 
-	private void doLogin(HttpServletRequest request, final long uid,
-			final long tpId, RunType runType) throws PassportAccountException {
+	private void doLogin(HttpServletRequest request,
+			HttpServletResponse response, final long uid, final long tpId,
+			RunType runType) throws PassportAccountException {
 		Passport passport = passportMapper.selectByPrimaryKey(uid);
 		if (null == passport) {
 			log.error("Login error. Can not find passport[id=" + uid + "].");
@@ -93,10 +96,10 @@ public class LoginService implements ILoginService {
 			throw new PassportAccountException(
 					PassportAccountException.USER_IS_SHIELD, shield.getTime());
 		}
-		loginSessionManager.login(request, uid, tpId, false);
+		loginSessionManager.login(request, response, uid, tpId, false);
 		// 更新最后登录时间
 		updateLastLoginTime(uid, runType);
-		updateOnlineState(uid);
+		// updateOnlineState(uid);
 		addLoginLog(request, uid);
 		// 启动一个线程来获取和保存
 		if (tpId > 0) {
@@ -111,9 +114,10 @@ public class LoginService implements ILoginService {
 	}
 
 	@Override
-	public void cmsLogin(HttpServletRequest request, final long uid,
-			final long tpId, boolean admin) {
-		loginSessionManager.login(request, uid, tpId, admin);
+	public void cmsLogin(HttpServletRequest request,
+			HttpServletResponse response, final long uid, final long tpId,
+			boolean admin) {
+		loginSessionManager.login(request, response, uid, tpId, admin);
 	}
 
 	@Override
@@ -139,8 +143,9 @@ public class LoginService implements ILoginService {
 	}
 
 	@Override
-	public void logout(HttpServletRequest request, long uid) {
-		loginSessionManager.logout(request);
+	public void logout(HttpServletRequest request,
+			HttpServletResponse response, long uid) {
+		loginSessionManager.logout(request, response);
 		try {
 			memcachedClient.delete(MemcachedKeyGenerator.genUserOnlineKey(uid));
 		} catch (Exception e) {
@@ -164,8 +169,8 @@ public class LoginService implements ILoginService {
 	}
 
 	@Override
-	public long login(HttpServletRequest request, String loginName, String pwd)
-			throws PassportAccountException {
+	public long login(HttpServletRequest request, HttpServletResponse response,
+			String loginName, String pwd) throws PassportAccountException {
 		loginName = StringUtils.trim(loginName);
 		pwd = StringUtils.trim(pwd);
 		if (StringUtils.isEmpty(loginName) || StringUtils.isEmpty(pwd)) {
@@ -185,16 +190,17 @@ public class LoginService implements ILoginService {
 			tp = InitData.getTpByTpNameAndJoinType(tpUser.getTpName(),
 					JoinTypeEnum.CONNECT);
 		}
-		doLogin(request, passport.getId(), tp != null ? tp.getId() : 0L,
-				RunType.WEB);
+		doLogin(request, response, passport.getId(), tp != null ? tp.getId()
+				: 0L, RunType.WEB);
 		nativeLoginCounter.incr(null, 1);
 		return passport.getId();
 	}
 
 	@Override
-	public void autoLogin(HttpServletRequest request, long uid) {
+	public void autoLogin(HttpServletRequest request,
+			HttpServletResponse response, long uid) {
 		try {
-			doLogin(request, uid, 0L, RunType.WEB);
+			doLogin(request, response, uid, 0L, RunType.WEB);
 		} catch (PassportAccountException e) {
 			log.error(e.getMessage(), e);
 		}

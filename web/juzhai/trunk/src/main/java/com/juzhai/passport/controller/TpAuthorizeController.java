@@ -109,7 +109,8 @@ public class TpAuthorizeController extends BaseController {
 			return error_500;
 		}
 		try {
-			loginService.login(request, uid, tp.getId(), RunType.CONNET);
+			loginService.login(request, response, uid, tp.getId(),
+					RunType.CONNET);
 		} catch (PassportAccountException e) {
 			model.addAttribute("shieldTime", new Date(e.getShieldTime()));
 			return "web/login/login_error";

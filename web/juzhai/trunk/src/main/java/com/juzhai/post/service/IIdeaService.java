@@ -150,6 +150,25 @@ public interface IIdeaService {
 			UploadImageException;
 
 	/**
+	 * 使用了好主意的所有用户列表
+	 * 
+	 * @param ideaId
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<IdeaUserView> listIdeaAllUsers(long ideaId, int firstResult,
+			int maxResults);
+
+	/**
+	 * 使用了好主意的所有用户数量
+	 * 
+	 * @param ideaId
+	 * @return
+	 */
+	int countIdeaAllUsers(long ideaId);
+
+	/**
 	 * 使用了好主意的用户列表
 	 * 
 	 * @param ideaId
@@ -157,8 +176,8 @@ public interface IIdeaService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<IdeaUserView> listIdeaUsers(long ideaId, int firstResult,
-			int maxResults);
+	List<IdeaUserView> listIdeaUsers(long ideaId, Long cityId, Integer gender,
+			int firstResult, int maxResults);
 
 	/**
 	 * 使用了好主意的用户数量
@@ -166,7 +185,7 @@ public interface IIdeaService {
 	 * @param ideaId
 	 * @return
 	 */
-	int countIdeaUsers(long ideaId);
+	int countIdeaUsers(long ideaId, Long cityId, Integer gender);
 
 	/**
 	 * 城市随机

@@ -47,6 +47,11 @@ public class CookiesManager {
 		return null;
 	}
 
+	public static void delCookie(HttpServletRequest request,
+			HttpServletResponse response, String name) {
+		setCookie(request, response, name, StringUtils.EMPTY, 0);
+	}
+
 	private static String parseDomainFromRequest(HttpServletRequest request) {
 		String host = request.getHeader("host");
 		int i = host.indexOf(":");

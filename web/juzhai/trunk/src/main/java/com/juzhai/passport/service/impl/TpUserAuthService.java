@@ -6,8 +6,6 @@ package com.juzhai.passport.service.impl;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import net.rubyeye.xmemcached.MemcachedClient;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -20,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.MemcachedKeyGenerator;
-import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.notice.TpHelperConfig;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ThirdpartyNameEnum;
@@ -34,8 +31,6 @@ import com.juzhai.platform.service.IAdminService;
 public class TpUserAuthService implements ITpUserAuthService {
 
 	private final Log log = LogFactory.getLog(getClass());
-
-	private final String SESSION_AUTHINFO_NAME = "authInfo";
 
 	@Autowired
 	private TpUserAuthMapper tpUserAuthMapper;
@@ -124,13 +119,6 @@ public class TpUserAuthService implements ITpUserAuthService {
 		example.createCriteria().andUidEqualTo(uid).andTpIdEqualTo(tpId);
 		List<TpUserAuth> list = tpUserAuthMapper.selectByExample(example);
 		return CollectionUtils.isNotEmpty(list) ? list.get(0) : null;
-	}
-
-	@Override
-	public void saveAuthInfoToSession(HttpServletRequest request,
-			AuthInfo authInfo) {
-		HttpRequestUtil.setSessionAttribute(request, SESSION_AUTHINFO_NAME,
-				authInfo);
 	}
 
 	@Override

@@ -3,8 +3,6 @@
  */
 package com.juzhai.passport.service;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.juzhai.passport.bean.AuthInfo;
 
 public interface ITpUserAuthService {
@@ -34,14 +32,6 @@ public interface ITpUserAuthService {
 	 * @return
 	 */
 	AuthInfo getAuthInfo(long uid, long tpId);
-
-	/**
-	 * 当前仅当单机情况下，并且在本tomcat下才能使用此方法
-	 * 
-	 * @param request
-	 * @param authInfo
-	 */
-	void saveAuthInfoToSession(HttpServletRequest request, AuthInfo authInfo);
 
 	/**
 	 * 获取小秘书的authinfo

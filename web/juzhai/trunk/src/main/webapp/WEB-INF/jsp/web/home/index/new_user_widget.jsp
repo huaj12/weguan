@@ -15,7 +15,7 @@
 						<li><a href="/home/${profile.uid}"  title="<c:out value='${profile.nickname}' />"><img src="${jzr:userLogo(profile.uid, profile.logoPic, 80)}" width="50"  height="50"/></a></li>
 					</c:forEach>
 				</ul>
-				<c:if test="${context.uid > 0}">
+				<c:if test="${context.uid > 0 && loginUser.gender == 0}">
 					<c:set var="qq" value="${jzd:qqGroup(loginUser.city)}" />
 					<c:if test="${qq != null && qq != ''}">
 						<div class="qqqun">${jzd:cityName(loginUser.city)}拒宅QQ群：${qq}</div>

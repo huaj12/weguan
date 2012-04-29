@@ -62,24 +62,24 @@ public class IdeaController extends BaseController {
 	@RequestMapping(value = "/{ideaId}", method = RequestMethod.GET)
 	public String detail(HttpServletRequest request, Model model,
 			@PathVariable long ideaId) {
-		ProfileCache loginUser = getLoginUserCache(request);
-		String genderType = "all";
-		long cityId = 0L;
-		if (null != loginUser) {
-			cityId = loginUser.getCity();
-			List<String> genders = userPreferenceService.getUserAnswer(
-					loginUser.getUid(),
-					SiftTypePreference.GENDER.getPreferenceId());
-			if (genders != null && genders.size() == 1) {
-				String gender = genders.get(0);
-				if (StringUtils.equals(gender, "1")) {
-					genderType = "male";
-				} else if (StringUtils.equals(gender, "0")) {
-					genderType = "female";
-				}
-			}
-		}
-		return pageIdeaUser(request, model, ideaId, 1, cityId, genderType);
+		// ProfileCache loginUser = getLoginUserCache(request);
+		// String genderType = "all";
+		// long cityId = 0L;
+		// if (null != loginUser) {
+		// cityId = loginUser.getCity();
+		// List<String> genders = userPreferenceService.getUserAnswer(
+		// loginUser.getUid(),
+		// SiftTypePreference.GENDER.getPreferenceId());
+		// if (genders != null && genders.size() == 1) {
+		// String gender = genders.get(0);
+		// if (StringUtils.equals(gender, "1")) {
+		// genderType = "male";
+		// } else if (StringUtils.equals(gender, "0")) {
+		// genderType = "female";
+		// }
+		// }
+		// }
+		return pageIdeaUser(request, model, ideaId, 1, 0L, "all");
 	}
 
 	@RequestMapping(value = "/{ideaId}/user/{page}", method = RequestMethod.GET)

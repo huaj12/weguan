@@ -20,8 +20,7 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.service.IInterestUserService;
-import com.juzhai.passport.service.IProfileService;
+import com.juzhai.post.controller.helper.PostViewHelper;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
@@ -32,11 +31,8 @@ import com.juzhai.preference.service.IUserPreferenceService;
 @Controller
 @RequestMapping(value = "home")
 public class HomeController extends BaseController {
-
 	@Autowired
-	private IInterestUserService interestUserService;
-	@Autowired
-	private IProfileService profileService;
+	private PostViewHelper postViewHelper;
 	@Autowired
 	private IPostService postService;
 	@Autowired
@@ -105,7 +101,7 @@ public class HomeController extends BaseController {
 				}
 			}
 		}
-		List<PostView> postViewList = postService.assembleUserPostViewList(
+		List<PostView> postViewList = postViewHelper.assembleUserPostViewList(
 				context, postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
@@ -147,7 +143,7 @@ public class HomeController extends BaseController {
 				postService.countResponsePost(context.getUid(), null, gender));
 		List<Post> postList = postService.listResponsePost(context.getUid(),
 				null, gender, pager.getFirstResult(), pager.getMaxResult());
-		List<PostView> postViewList = postService.assembleUserPostViewList(
+		List<PostView> postViewList = postViewHelper.assembleUserPostViewList(
 				context, postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
@@ -180,7 +176,7 @@ public class HomeController extends BaseController {
 		List<Post> postList = postService.listInterestUserPost(
 				context.getUid(), null, gender, pager.getFirstResult(),
 				pager.getMaxResult());
-		List<PostView> postViewList = postService.assembleUserPostViewList(
+		List<PostView> postViewList = postViewHelper.assembleUserPostViewList(
 				context, postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);

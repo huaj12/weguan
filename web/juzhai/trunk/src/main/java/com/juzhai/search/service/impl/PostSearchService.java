@@ -1,12 +1,42 @@
 package com.juzhai.search.service.impl;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.queryParser.MultiFieldQueryParser;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.search.BooleanClause.Occur;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TopScoreDocCollector;
+import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.QueryScorer;
+import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
+import org.apache.lucene.util.Version;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.core.lucene.searcher.IndexSearcherTemplate;
+import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
+import com.juzhai.post.mapper.PostMapper;
 import com.juzhai.post.model.Post;
+import com.juzhai.post.model.PostExample;
 import com.juzhai.post.service.IPostService;
 import com.juzhai.search.rabbit.message.ActionType;
 import com.juzhai.search.rabbit.message.PostIndexMessage;
@@ -15,51 +45,28 @@ import com.juzhai.search.service.IPostSearchService;
 @Service
 public class PostSearchService implements IPostSearchService {
 	private final Log log = LogFactory.getLog(getClass());
-	// @Autowired
-	// private IndexSearcherTemplate postIndexSearcherTemplate;
-	// @Autowired
-	// private Analyzer postIKAnalyzer;
+	@Autowired
+	private IndexSearcherTemplate postIndexSearcherTemplate;
+	@Autowired
+	private Analyzer postIKAnalyzer;
 	@Autowired
 	private IPostService postService;
 	@Autowired
 	private RabbitTemplate postIndexCreateRabbitTemplate;
+	@Autowired
+	private PostMapper postMapper;
 
-	// @Override
-	// public Map<Integer, List<Post>> searchPosts(final String queryString,
-	// final int firstResult, final int maxResults) {
-	// return postIndexSearcherTemplate.excute(new SearcherCallback() {
-	// @SuppressWarnings("unchecked")
-	// @Override
-	// public <T> T doCallback(IndexSearcher indexSearcher)
-	// throws IOException {
-	// MultiFieldQueryParser parser = new MultiFieldQueryParser(
-	// Version.LUCENE_33, new String[] { "content", "place" },
-	// postIKAnalyzer);
-	// parser.setPhraseSlop(20);
-	// Query query;
-	// try {
-	// query = parser.parse(queryString);
-	// } catch (ParseException e) {
-	// log.error(e.getMessage(), e);
-	// return (T) Collections.emptyList();
-	// }
-	// TopScoreDocCollector collector = TopScoreDocCollector.create(
-	// firstResult + maxResults, false);
-	// indexSearcher.search(query, collector);
-	// TopDocs topDocs = collector.topDocs(firstResult, maxResults);
-	// List<Long> postIdList = new ArrayList<Long>(maxResults);
-	// for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-	// Document doc = indexSearcher.doc(scoreDoc.doc);
-	// postIdList.add(Long.valueOf(doc.get("id")));
-	// }
-	// Map<Integer, List<Post>> result = new HashMap<Integer, List<Post>>();
-	// result.put(topDocs.totalHits,
-	// postService.getPostListByIds(postIdList));
-	//
-	// return (T) result;
-	// }
-	// });
-	// }
+	private String highLightText(String fieldName, String text,
+			Highlighter highlighter, Analyzer analyzer) {
+		TokenStream tokenStream = postIKAnalyzer.tokenStream(fieldName,
+				new StringReader(text));
+		String highLightText = null;
+		try {
+			highLightText = highlighter.getBestFragment(tokenStream, text);
+		} catch (Exception e) {
+		}
+		return highLightText;
+	}
 
 	@Override
 	public void createIndex(long postId) {
@@ -93,6 +100,41 @@ public class PostSearchService implements IPostSearchService {
 		if (log.isDebugEnabled()) {
 			log.debug("send post index delete message");
 		}
+	}
+
+	@Override
+	public List<Post> searchPosts(final String queryString,
+			final Integer gender, final int firstResult, final int maxResults) {
+		return postIndexSearcherTemplate.excute(new SearcherCallback() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public <T> T doCallback(IndexSearcher indexSearcher)
+					throws IOException {
+				if (StringUtils.isEmpty(queryString)) {
+					return (T) Collections.emptyList();
+				}
+				Query query = getQuery(queryString, gender);
+				if (query == null) {
+					return (T) Collections.emptyList();
+				}
+				TopScoreDocCollector collector = TopScoreDocCollector.create(
+						firstResult + maxResults, false);
+				indexSearcher.search(query, collector);
+				TopDocs topDocs = collector.topDocs(firstResult, maxResults);
+				List<Long> postids = new ArrayList<Long>(maxResults);
+				List<Post> postIdList = new ArrayList<Post>(maxResults);
+				for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+					Document doc = indexSearcher.doc(scoreDoc.doc);
+					postids.add(Long.valueOf(doc.get("id")));
+				}
+				if (CollectionUtils.isNotEmpty(postids)) {
+					PostExample example = new PostExample();
+					example.createCriteria().andIdIn(postids);
+					postIdList = postMapper.selectByExample(example);
+				}
+				return (T) postIdList;
+			}
+		});
 	}
 
 	// @Override
@@ -149,5 +191,94 @@ public class PostSearchService implements IPostSearchService {
 	// }
 	// });
 	// }
+
+	private Query getQuery(String queryString, Integer gender) {
+		BooleanQuery query = new BooleanQuery();
+		// 性别
+		if (null != gender) {
+			query.add(
+					new TermQuery(new Term("gender", String.valueOf(gender))),
+					Occur.MUST);
+		}
+		MultiFieldQueryParser parser = new MultiFieldQueryParser(
+				Version.LUCENE_33, new String[] { "content" }, postIKAnalyzer);
+		parser.setPhraseSlop(10);
+		try {
+			query.add(parser.parse(queryString), Occur.MUST);
+		} catch (ParseException e) {
+			log.error(e.getMessage(), e);
+			return null;
+		}
+		return query;
+	}
+
+	public List<Post> searchPosts(final String queryString,
+			final int firstResult, final int maxResults) {
+		return postIndexSearcherTemplate.excute(new SearcherCallback() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public <T> T doCallback(IndexSearcher indexSearcher)
+					throws IOException {
+				MultiFieldQueryParser parser = new MultiFieldQueryParser(
+						Version.LUCENE_33, new String[] { "content", "place" },
+						postIKAnalyzer);
+				parser.setPhraseSlop(10);
+				Query query;
+				try {
+					query = parser.parse(queryString);
+				} catch (ParseException e) {
+					log.error(e.getMessage(), e);
+					return (T) Collections.emptyList();
+				}
+				TopScoreDocCollector collector = TopScoreDocCollector.create(
+						firstResult + maxResults, false);
+				indexSearcher.search(query, collector);
+				TopDocs topDocs = collector.topDocs(firstResult, maxResults);
+				// 高亮显示设置
+				SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter(
+						"<font color='red'>", "</font>");
+				Highlighter highlighter = new Highlighter(simpleHTMLFormatter,
+						new QueryScorer(query));
+				// 指定关键字字符串的context的长度
+				// highlighter.setTextFragmenter(new SimpleFragmenter(100));
+				List<Post> postIdList = new ArrayList<Post>(maxResults);
+				for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+					Post post = new Post();
+					Document doc = indexSearcher.doc(scoreDoc.doc);
+					long id = Long.valueOf(doc.get("id"));
+					String content = highLightText("content",
+							doc.get("content"), highlighter, postIKAnalyzer);
+					String place = highLightText("place", doc.get("place"),
+							highlighter, postIKAnalyzer);
+					post.setContent(content);
+					post.setPlace(place);
+					post.setId(id);
+					postIdList.add(post);
+				}
+
+				return (T) postIdList;
+			}
+		});
+	}
+
+	@Override
+	public int countSearchPosts(final String queryString, final Integer gender) {
+		return postIndexSearcherTemplate.excute(new SearcherCallback() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public <T> T doCallback(IndexSearcher indexSearcher)
+					throws IOException {
+				if (StringUtils.isEmpty(queryString)) {
+					return (T) new Integer(0);
+				}
+				Query query = getQuery(queryString, gender);
+				if (query == null) {
+					return (T) new Integer(0);
+				}
+				TopDocs topDocs = indexSearcher.search(query, 1);
+				return (T) new Integer(topDocs.totalHits);
+			}
+		});
+	}
 
 }

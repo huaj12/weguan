@@ -1,33 +1,30 @@
 package com.juzhai.search.service;
 
+import java.util.List;
+
+import com.juzhai.post.model.Post;
 
 public interface IPostSearchService {
+	/**
+	 * 搜索项目
+	 * 
+	 * @param queryString
+	 *            （模糊搜索内容）
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Post> searchPosts(String queryString, Integer gender, int firstResult,
+			int maxResults);
 
-	// /**
-	// * 搜索项目
-	// *
-	// * @param queryString
-	// * （模糊搜索内容和地点）
-	// * @param firstResult
-	// * @param maxResults
-	// * @return
-	// */
-	// Map<Integer, List<Post>> searchPosts(String queryString, int firstResult,
-	// int maxResults);
-
-	// /**
-	// * 查询项目
-	// *
-	// * @param content
-	// * @param place
-	// * @param data
-	// * @param categoryId
-	// * @param firstResult
-	// * @param maxResults
-	// * @return
-	// */
-	// List<Post> queryPosts(String content, String place, Date startDate,
-	// Date endDate, long categoryId, int firstResult, int maxResults);
+	/**
+	 * 获取搜索出项目的总数
+	 * 
+	 * @param queryString
+	 * @param gender
+	 * @return
+	 */
+	int countSearchPosts(String queryString, Integer gender);
 
 	/**
 	 * 建索引

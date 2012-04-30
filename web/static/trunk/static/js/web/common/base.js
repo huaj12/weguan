@@ -31,6 +31,13 @@ $(document).ready(function(){
     	select.bindSelect();
     });
     
+    $("div.xz_menu").each(function(){
+    	var select = new SelectBoxInput(this);
+    	select.bindBlur();
+    	select.bindClick();
+    	select.bindSelect();
+    });
+    
 	$("div.idea-btn > a").click(function(){
 		var ideaId = $(this).attr("idea-id");
 		prepareSendIdea(ideaId);
@@ -775,6 +782,15 @@ var SelectInput =  Class.extend({
         	$(selectDiv).removeClass("select_active");
     		return false;
         });
+	},resetSelect:function(){
+		var selectDiv = this.selectDiv;
+		var name = $(selectDiv).find("span > a").first().text();
+    	var value = $(selectDiv).find("span >a").attr("value");
+    	$(this.selectDiv).find("p > a").text(name);
+    	var inputName = $(this.selectDiv).attr("name");
+    	if(null != inputName){
+    		$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
+    	}
 	}
 });
 
@@ -1395,3 +1411,94 @@ function cancelShieldUid(uid, successCallback){
 		}
 	});
 }
+var SelectBoxInput =  Class.extend({
+	init: function(div){
+		this.selectDiv = div;
+		var inputName = $(this.selectDiv).attr("name");
+		var i=0;
+		var value=$(this.selectDiv).find("p > a").attr("value");
+		var name=$(this.selectDiv).find("p > a").attr("initName");
+    	$(this.selectDiv).find("li").each(function(){
+    		if($(this).hasClass("act")){
+    			if(i==0){
+        			value=$(this).attr("value");	
+        			name=$(this).text();
+        		}else{
+        			value+=","+$(this).attr("value");
+        			if(i<=1){
+        				name+="...";
+        			}
+        		}
+    			i++;
+    		}
+        });
+    	$(this.selectDiv).find("p > a").text(name);
+    	if(null != inputName){
+    		$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
+    	}
+	},
+	bindBlur:function(){
+		var selectDiv = this.selectDiv;
+		$("body").bind("mousedown",function(event){
+			if($(event.target).closest(selectDiv).length <= 0){
+				$(selectDiv).removeClass("select_active");
+			}
+		});
+	},
+	bindClick:function(){
+		var selectDiv = this.selectDiv;
+		$(selectDiv).find("p > a").bind("click", function(){
+			if($(selectDiv).hasClass("select_active")){
+				$(selectDiv).removeClass("select_active");
+	    	}else{
+	    		$(selectDiv).addClass("select_active");
+			}
+		});
+		return false;
+	},
+	bindSelect:function(){
+		var selectDiv = this.selectDiv;
+		$(selectDiv).find("ul > li").bind("click", function(){
+        	if($(this).hasClass("act")){
+        		$(this).removeClass("act");
+			}else{
+	        	$(this).addClass("act");
+			}
+        	var boxname=$(selectDiv).find("p > a").attr("initName");
+        	var boxvalue=$(this).attr("value");
+        	var i=0;
+        	$(selectDiv).find("ul > li").each(function(){
+        		var value = $(this).attr("value");	
+        		if($(this).hasClass("act")){
+        			if(i==0){
+        				boxname= $(this).text();
+        				boxvalue=value;
+        			}else{
+        				boxname= $(this).text()+"...";
+        				boxvalue=boxvalue+","+value;
+        			}
+        			i++;
+        		}
+		    });
+        	if(i==0){
+        		boxvalue="";
+        	}
+        	$(selectDiv).find("input[type='hidden']").val(boxvalue);
+        	$(selectDiv).find("p > a").text(boxname);
+    		return false;
+        });
+	},
+	resetSelect:function(){
+		var selectDiv = this.selectDiv;
+		var inputName = $(this.selectDiv).attr("name");
+		var value=$(this.selectDiv).find("p > a").attr("value");
+		var name=$(this.selectDiv).find("p > a").attr("initName");
+		$(selectDiv).find("li").each(function(){
+    			$(this).removeClass("act");
+        });
+    	$(selectDiv).find("p > a").text(name);
+    	if(null != inputName){
+    		$(selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
+    	}
+	}
+});

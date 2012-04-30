@@ -85,13 +85,16 @@
 											</div><!--select_menu end-->
 										</div><!--w100 end-->
 										<div class="input"><!--input begin-->
-											<p class="l"></p><span class="width70"><input name="minAge" type="text" value="" init-data="${minAge}" /></span><p class="r"></p><em>到</em>
+											<p class="l"></p><span class="width70"><input name="minAge" type="text" value="" init-data="${minAge}" /></span><p class="r"></p>
 										</div><!--input end-->
+										<div class="txt">到</div>
 										<div class="input"><!--input begin-->
-											<p class="l"></p><span class="width70"><input name="maxAge" type="text" value="" init-data="${maxAge}" /></span><p class="r"></p><em>岁</em>
+											<p class="l"></p><span class="width70"><input name="maxAge" type="text" value="" init-data="${maxAge}" /></span><p class="r"></p>
 										</div><!--input end-->
+										<div class="txt">岁</div>
 										<div class="btn"><a href="javascript:void(0);" class="query-btn">搜索</a></div>
 									</div><!--search_title end-->
+									<div class="clear"></div>
 									<div class="search_result"><!--search_result begin-->
 										<c:choose>
 											<c:when test="${not empty userViews}">

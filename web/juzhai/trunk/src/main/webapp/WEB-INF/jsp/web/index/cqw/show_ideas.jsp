@@ -63,6 +63,7 @@
 											<span <c:if test="${'pop'==orderType}"> class="act"</c:if>><p></p><a href="/showideas/${categoryId}/pop/1" >最热</a><p></p></span>
 										</div><!--category end-->
 									</div><!--search_title end-->
+									<div class="clear"></div>
 									<div class="good_idea"><!--good_idea begin-->
 										<c:choose>
 											<c:when test="${not empty ideaViewList}">

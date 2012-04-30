@@ -220,6 +220,7 @@ public class ProfileService implements IProfileService {
 						ProfileInputException.PROFILE_ERROR);
 			}
 			clearProfileCache(uid);
+			profileSearchService.updateIndex(uid);
 		} else {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_GEBDER_REPEAT_UPDATE);
@@ -271,6 +272,7 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
 		}
 		clearProfileCache(uid);
+		profileSearchService.updateIndex(uid);
 
 	}
 

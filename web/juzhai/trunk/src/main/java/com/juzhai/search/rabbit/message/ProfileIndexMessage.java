@@ -1,6 +1,5 @@
 package com.juzhai.search.rabbit.message;
 
-import com.juzhai.act.model.Act;
 import com.juzhai.core.rabbit.message.RabbitMessage;
 import com.juzhai.passport.model.Profile;
 

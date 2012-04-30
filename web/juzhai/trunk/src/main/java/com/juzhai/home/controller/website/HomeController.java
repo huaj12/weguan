@@ -105,8 +105,8 @@ public class HomeController extends BaseController {
 				}
 			}
 		}
-		List<PostView> postViewList = assembleUserPostViewList(context,
-				postList);
+		List<PostView> postViewList = postService.assembleUserPostViewList(
+				context, postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
 		model.addAttribute("queryType", "showposts");
@@ -147,8 +147,8 @@ public class HomeController extends BaseController {
 				postService.countResponsePost(context.getUid(), null, gender));
 		List<Post> postList = postService.listResponsePost(context.getUid(),
 				null, gender, pager.getFirstResult(), pager.getMaxResult());
-		List<PostView> postViewList = assembleUserPostViewList(context,
-				postList);
+		List<PostView> postViewList = postService.assembleUserPostViewList(
+				context, postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
 		model.addAttribute("queryType", "showrposts");
@@ -180,8 +180,8 @@ public class HomeController extends BaseController {
 		List<Post> postList = postService.listInterestUserPost(
 				context.getUid(), null, gender, pager.getFirstResult(),
 				pager.getMaxResult());
-		List<PostView> postViewList = assembleUserPostViewList(context,
-				postList);
+		List<PostView> postViewList = postService.assembleUserPostViewList(
+				context, postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
 		model.addAttribute("queryType", "showiposts");
@@ -197,24 +197,5 @@ public class HomeController extends BaseController {
 		showHomeLogo(context, model);
 		// ideaWidget(context, cityId, model, webHomeRightIdeaRows);
 		newUserWidget(0L, model, webHomeRightUserRows);
-	}
-
-	private List<PostView> assembleUserPostViewList(UserContext context,
-			List<Post> postList) {
-		List<PostView> postViewList = new ArrayList<PostView>();
-		for (Post post : postList) {
-			PostView postView = new PostView();
-			postView.setPost(post);
-			postView.setProfileCache(profileService.getProfileCacheByUid(post
-					.getCreateUid()));
-			if (context != null && context.getUid() > 0) {
-				postView.setHasResponse(postService.isResponsePost(
-						context.getUid(), post.getId()));
-				postView.setHasInterest(interestUserService.isInterest(
-						context.getUid(), post.getCreateUid()));
-			}
-			postViewList.add(postView);
-		}
-		return postViewList;
 	}
 }

@@ -43,6 +43,7 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IProfileImageService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
+import com.juzhai.search.service.IProfileSearchService;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
 @Service
@@ -62,6 +63,8 @@ public class ProfileService implements IProfileService {
 	private IProfileImageService profileImageService;
 	@Autowired
 	private IWordFilterService wordFilterService;
+	@Autowired
+	private IProfileSearchService profileSearchService;
 	@Value("${profile.cache.expire.time}")
 	private int profileCacheExpireTime = 20000;
 	@Value("${nickname.length.max}")
@@ -381,6 +384,7 @@ public class ProfileService implements IProfileService {
 		}
 		clearProfileCache(uid);
 		// cacheUserCity(uid);
+		profileSearchService.updateIndex(uid);
 	}
 
 	@Override

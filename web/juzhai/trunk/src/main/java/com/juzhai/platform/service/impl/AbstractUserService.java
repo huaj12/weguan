@@ -18,6 +18,7 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.service.IUserService;
+import com.juzhai.search.service.IProfileSearchService;
 
 public abstract class AbstractUserService implements IUserService {
 
@@ -31,6 +32,8 @@ public abstract class AbstractUserService implements IUserService {
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
+	@Autowired
+	private IProfileSearchService profileSearchService;
 
 	@Override
 	public long access(HttpServletRequest request,
@@ -77,6 +80,8 @@ public abstract class AbstractUserService implements IUserService {
 			redisTemplate.opsForSet().add(
 					RedisKeyGenerator.genTpInstallUsersKey(tp.getName()),
 					tpIdentity);
+			// 创建索引
+			profileSearchService.createIndex(uid);
 		} else {
 			if (log.isDebugEnabled()) {
 				log.debug("save authInfo.[tp=" + tpUser.getTpName() + ", uid="

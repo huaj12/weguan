@@ -35,6 +35,7 @@ import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.jstl.JzResourceFunction;
+import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.exception.DialogException;
 import com.juzhai.home.service.IDialogService;
@@ -53,6 +54,7 @@ import com.juzhai.post.bean.PurposeType;
 import com.juzhai.post.bean.SynchronizeWeiboTemplate;
 import com.juzhai.post.bean.VerifyType;
 import com.juzhai.post.controller.form.PostForm;
+import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.dao.IPostDao;
 import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.mapper.PostMapper;
@@ -66,7 +68,6 @@ import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostCommentService;
 import com.juzhai.post.service.IPostImageService;
 import com.juzhai.post.service.IPostService;
-import com.juzhai.search.service.IPostSearchService;
 import com.juzhai.stats.counter.service.ICounter;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
@@ -1074,6 +1075,26 @@ public class PostService implements IPostService {
 			views.add(postView);
 		}
 		return views;
+	}
+
+	@Override
+	public List<PostView> assembleUserPostViewList(UserContext context,
+			List<Post> postList) {
+		List<PostView> postViewList = new ArrayList<PostView>();
+		for (Post post : postList) {
+			PostView postView = new PostView();
+			postView.setPost(post);
+			postView.setProfileCache(profileService.getProfileCacheByUid(post
+					.getCreateUid()));
+			if (context != null && context.getUid() > 0) {
+				postView.setHasResponse(isResponsePost(context.getUid(),
+						post.getId()));
+				postView.setHasInterest(interestUserService.isInterest(
+						context.getUid(), post.getCreateUid()));
+			}
+			postViewList.add(postView);
+		}
+		return postViewList;
 	}
 
 }

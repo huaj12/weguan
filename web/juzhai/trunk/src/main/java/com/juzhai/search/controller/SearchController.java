@@ -276,7 +276,7 @@ public class SearchController extends BaseController {
 				StringUtils.join(constellationId, ","));
 		model.addAttribute("pageType", "zbe");
 		model.addAttribute("hots", searchHotService.getSearchHotByCity(city));
-		return "web/index/zbe/seach_user";
+		return "web/search/seach_user";
 	}
 
 	@RequestMapping(value = { "/findposts", "/findPosts" }, method = RequestMethod.GET)

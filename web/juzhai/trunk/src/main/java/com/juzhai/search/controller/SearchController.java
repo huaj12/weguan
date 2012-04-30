@@ -37,6 +37,7 @@ import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.post.controller.helper.PostViewHelper;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
@@ -70,6 +71,8 @@ public class SearchController extends BaseController {
 	private IProfileSearchService profileSearchService;
 	@Autowired
 	private IPostSearchService postSearchService;
+	@Autowired
+	private PostViewHelper postViewHelper;
 	@Autowired
 	private ISearchHotService searchHotService;
 	@Value("${web.search.act.max.rows}")
@@ -304,7 +307,7 @@ public class SearchController extends BaseController {
 				postSearchService.countSearchPosts(queryString, gender));
 		List<Post> postList = postSearchService.searchPosts(queryString,
 				gender, pager.getFirstResult(), pager.getMaxResult());
-		List<PostView> postViewList = postService.assembleUserPostViewList(
+		List<PostView> postViewList = postViewHelper.assembleUserPostViewList(
 				null, postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);

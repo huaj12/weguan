@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.juzhai.cms.controller.view.CmsPostView;
-import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.controller.form.PostForm;
-import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostResponse;
@@ -335,13 +333,4 @@ public interface IPostService {
 	 */
 	List<CmsPostView> getpost(int type, long id);
 
-	/**
-	 * 获取PostView列表
-	 * 
-	 * @param context
-	 * @param postList
-	 * @return
-	 */
-	List<PostView> assembleUserPostViewList(UserContext context,
-			List<Post> postList);
 }

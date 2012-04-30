@@ -56,6 +56,7 @@ public class PostSearchService implements IPostSearchService {
 	@Autowired
 	private PostMapper postMapper;
 
+	//TODO (review) 如果能够不查询数据库，想想有办法用上吗？
 	private String highLightText(String fieldName, String text,
 			Highlighter highlighter, Analyzer analyzer) {
 		TokenStream tokenStream = postIKAnalyzer.tokenStream(fieldName,
@@ -70,6 +71,7 @@ public class PostSearchService implements IPostSearchService {
 
 	@Override
 	public void createIndex(long postId) {
+		//TODO (review) 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？用户索引也是如此
 		Post post = postService.getPostById(postId);
 		PostIndexMessage msgMessage = new PostIndexMessage();
 		msgMessage.buildBody(post).buildActionType(ActionType.CREATE);
@@ -81,6 +83,7 @@ public class PostSearchService implements IPostSearchService {
 
 	@Override
 	public void updateIndex(long postId) {
+		//TODO (review) 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？用户索引也是如此
 		Post post = postService.getPostById(postId);
 		PostIndexMessage msgMessage = new PostIndexMessage();
 		msgMessage.buildBody(post).buildActionType(ActionType.UPDATE);
@@ -93,6 +96,7 @@ public class PostSearchService implements IPostSearchService {
 
 	@Override
 	public void deleteIndex(long postId) {
+		//TODO (review) 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？用户索引也是如此
 		Post post = postService.getPostById(postId);
 		PostIndexMessage msgMessage = new PostIndexMessage();
 		msgMessage.buildBody(post).buildActionType(ActionType.DELETE);
@@ -130,6 +134,7 @@ public class PostSearchService implements IPostSearchService {
 				if (CollectionUtils.isNotEmpty(postids)) {
 					PostExample example = new PostExample();
 					example.createCriteria().andIdIn(postids);
+					//TODO (review) 不知道有没有办法不要去数据库查询呢？
 					postIdList = postMapper.selectByExample(example);
 				}
 				return (T) postIdList;
@@ -200,6 +205,7 @@ public class PostSearchService implements IPostSearchService {
 					new TermQuery(new Term("gender", String.valueOf(gender))),
 					Occur.MUST);
 		}
+		//TODO (review) 我不知道地点要不要作为搜索的内容？
 		MultiFieldQueryParser parser = new MultiFieldQueryParser(
 				Version.LUCENE_33, new String[] { "content" }, postIKAnalyzer);
 		parser.setPhraseSlop(10);
@@ -212,6 +218,7 @@ public class PostSearchService implements IPostSearchService {
 		return query;
 	}
 
+	//TODO (review) 这个方法现在还有用吗
 	public List<Post> searchPosts(final String queryString,
 			final int firstResult, final int maxResults) {
 		return postIndexSearcherTemplate.excute(new SearcherCallback() {
@@ -263,6 +270,7 @@ public class PostSearchService implements IPostSearchService {
 
 	@Override
 	public int countSearchPosts(final String queryString, final Integer gender) {
+		//TODO (review) 为了总数再搜一次，很不值啊。参考ActSearchService里的处理，或者再想想有没有好的办法
 		return postIndexSearcherTemplate.excute(new SearcherCallback() {
 			@SuppressWarnings("unchecked")
 			@Override

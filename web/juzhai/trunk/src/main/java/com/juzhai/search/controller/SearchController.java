@@ -3,13 +3,11 @@ package com.juzhai.search.controller;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,15 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.juzhai.act.InitData;
-import com.juzhai.act.model.Act;
-import com.juzhai.act.service.IActService;
-import com.juzhai.act.service.IUserActService;
-import com.juzhai.cms.service.IUserActionService;
 import com.juzhai.core.controller.BaseController;
-import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.controller.view.QueryUserView;
@@ -36,14 +27,11 @@ import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.ILoginService;
-import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.helper.PostViewHelper;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
 import com.juzhai.search.bean.Education;
-import com.juzhai.search.controller.view.SearchActView;
-import com.juzhai.search.service.IActSearchService;
 import com.juzhai.search.service.IPostSearchService;
 import com.juzhai.search.service.IProfileSearchService;
 import com.juzhai.search.service.ISearchHotService;
@@ -51,16 +39,6 @@ import com.juzhai.search.service.ISearchHotService;
 @Controller
 public class SearchController extends BaseController {
 	private final Log log = LogFactory.getLog(getClass());
-	@Autowired
-	private IUserActionService userActionService;
-	@Autowired
-	private IActService actService;
-	@Autowired
-	private IActSearchService actSearchService;
-	@Autowired
-	private IProfileService profileService;
-	@Autowired
-	private IUserActService userActService;
 	@Autowired
 	private ILoginService loginService;
 	@Autowired
@@ -75,104 +53,107 @@ public class SearchController extends BaseController {
 	private PostViewHelper postViewHelper;
 	@Autowired
 	private ISearchHotService searchHotService;
-	@Value("${web.search.act.max.rows}")
-	private int webSearchActMaxRows;
+	// @Value("${web.search.act.max.rows}")
+	// private int webSearchActMaxRows;
 	@Value("${query.users.right.user.rows}")
 	private int queryUsersRightUserRows;
 
-	@RequestMapping(value = "/queryAct", method = RequestMethod.GET)
-	public String searchAct(Model model, String name, HttpServletRequest request)
-			throws NeedLoginException {
-		UserContext context = checkLoginForApp(request);
-		Long actId = InitData.SYNONYM_ACT.get(name);
-		if (actId == null) {
-			Act act = actService.getActByName(name);
-			if (act != null) {
-				actId = act.getId();
-			}
-		}
-		if (actId != null) {
-			return "redirect:/app/showAct/" + actId;
-		} else {
-			long uid = context.getUid();
-			ProfileCache cache = profileService.getProfileCacheByUid(uid);
-			if (cache != null) {
-				if (userActionService.searchActActionMaximum(uid)) {
-					userActionService.createSearchActAction(name, uid,
-							cache.getNickname());
-				} else {
-					log.error("uid:" + uid + " Exceeds the limit");
-				}
-			} else {
-				log.error("searchAct uid is not exist");
-			}
-			model.addAttribute("name", name);
-			return "app/search/search";
-		}
-	}
-
-	@RequestMapping(value = "/searchAutoMatch", method = RequestMethod.GET)
-	@ResponseBody
-	public List<Map<String, Object>> autoSearch(String q, int limit, Model model) {
-		if (log.isDebugEnabled()) {
-			log.debug("search q:" + q + ", limit:" + limit + ".");
-		}
-		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
-		if (StringUtils.isNotEmpty(q)) {
-			List<String> queryResults = actSearchService.indexSearchName(q,
-					limit);
-			for (String name : queryResults) {
-				Map<String, Object> nameMap = new HashMap<String, Object>();
-				nameMap.put("name", name);
-				result.add(nameMap);
-			}
-		}
-		return result;
-	}
-
-	@RequestMapping(value = "/searchActs", method = RequestMethod.GET)
-	public String searchActs(HttpServletRequest request, Model model,
-			String searchWords) {
-		return pageSearchActs(request, model, 1, searchWords);
-	}
-
-	@RequestMapping(value = "/searchActs/{page}", method = RequestMethod.GET)
-	public String pageSearchActs(HttpServletRequest request, Model model,
-			@PathVariable int page, String searchWords) {
-		UserContext context = (UserContext) request.getAttribute("context");
-		if (StringUtils.isEmpty(searchWords)) {
-			return "redirect:/showActs";
-		}
-		PagerManager pager = new PagerManager(page, webSearchActMaxRows);
-		Map<Integer, List<Act>> searchResult = actSearchService.searchActs(
-				searchWords, pager.getFirstResult(), pager.getMaxResult());
-		int totalResults = 0;
-		List<Act> actList = null;
-		for (Map.Entry<Integer, List<Act>> entry : searchResult.entrySet()) {
-			totalResults = entry.getKey();
-			actList = entry.getValue();
-		}
-		pager.setTotalResults(totalResults);
-		List<SearchActView> searchActViewList = new ArrayList<SearchActView>();
-		if (CollectionUtils.isNotEmpty(actList)) {
-			for (Act act : actList) {
-				SearchActView view = new SearchActView();
-				view.setAct(act);
-				if (context.hasLogin()) {
-					view.setHasUsed(userActService.hasAct(context.getUid(),
-							act.getId()));
-				}
-				searchActViewList.add(view);
-			}
-		}
-		model.addAttribute("searchActViewList", searchActViewList);
-		model.addAttribute("pager", pager);
-		model.addAttribute("searchWords", searchWords);
-		return "web/search/search_acts";
-	}
+	// @RequestMapping(value = "/queryAct", method = RequestMethod.GET)
+	// public String searchAct(Model model, String name, HttpServletRequest
+	// request)
+	// throws NeedLoginException {
+	// UserContext context = checkLoginForApp(request);
+	// Long actId = InitData.SYNONYM_ACT.get(name);
+	// if (actId == null) {
+	// Act act = actService.getActByName(name);
+	// if (act != null) {
+	// actId = act.getId();
+	// }
+	// }
+	// if (actId != null) {
+	// return "redirect:/app/showAct/" + actId;
+	// } else {
+	// long uid = context.getUid();
+	// ProfileCache cache = profileService.getProfileCacheByUid(uid);
+	// if (cache != null) {
+	// if (userActionService.searchActActionMaximum(uid)) {
+	// userActionService.createSearchActAction(name, uid,
+	// cache.getNickname());
+	// } else {
+	// log.error("uid:" + uid + " Exceeds the limit");
+	// }
+	// } else {
+	// log.error("searchAct uid is not exist");
+	// }
+	// model.addAttribute("name", name);
+	// return "app/search/search";
+	// }
+	// }
+	//
+	// @RequestMapping(value = "/searchAutoMatch", method = RequestMethod.GET)
+	// @ResponseBody
+	// public List<Map<String, Object>> autoSearch(String q, int limit, Model
+	// model) {
+	// if (log.isDebugEnabled()) {
+	// log.debug("search q:" + q + ", limit:" + limit + ".");
+	// }
+	// List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+	// if (StringUtils.isNotEmpty(q)) {
+	// List<String> queryResults = actSearchService.indexSearchName(q,
+	// limit);
+	// for (String name : queryResults) {
+	// Map<String, Object> nameMap = new HashMap<String, Object>();
+	// nameMap.put("name", name);
+	// result.add(nameMap);
+	// }
+	// }
+	// return result;
+	// }
+	//
+	// @RequestMapping(value = "/searchActs", method = RequestMethod.GET)
+	// public String searchActs(HttpServletRequest request, Model model,
+	// String searchWords) {
+	// return pageSearchActs(request, model, 1, searchWords);
+	// }
+	//
+	// @RequestMapping(value = "/searchActs/{page}", method = RequestMethod.GET)
+	// public String pageSearchActs(HttpServletRequest request, Model model,
+	// @PathVariable int page, String searchWords) {
+	// UserContext context = (UserContext) request.getAttribute("context");
+	// if (StringUtils.isEmpty(searchWords)) {
+	// return "redirect:/showActs";
+	// }
+	// PagerManager pager = new PagerManager(page, webSearchActMaxRows);
+	// Map<Integer, List<Act>> searchResult = actSearchService.searchActs(
+	// searchWords, pager.getFirstResult(), pager.getMaxResult());
+	// int totalResults = 0;
+	// List<Act> actList = null;
+	// for (Map.Entry<Integer, List<Act>> entry : searchResult.entrySet()) {
+	// totalResults = entry.getKey();
+	// actList = entry.getValue();
+	// }
+	// pager.setTotalResults(totalResults);
+	// List<SearchActView> searchActViewList = new ArrayList<SearchActView>();
+	// if (CollectionUtils.isNotEmpty(actList)) {
+	// for (Act act : actList) {
+	// SearchActView view = new SearchActView();
+	// view.setAct(act);
+	// if (context.hasLogin()) {
+	// view.setHasUsed(userActService.hasAct(context.getUid(),
+	// act.getId()));
+	// }
+	// searchActViewList.add(view);
+	// }
+	// }
+	// model.addAttribute("searchActViewList", searchActViewList);
+	// model.addAttribute("pager", pager);
+	// model.addAttribute("searchWords", searchWords);
+	// return "web/search/search_acts";
+	// }
 
 	@RequestMapping(value = { "/findusers", "/findUsers" }, method = RequestMethod.GET)
 	public String findUsers(HttpServletRequest request, Model model) {
+		// TODO (review) 性别和年龄，需要根据偏好设置默认，max的需求
 		return seachUsers(request, model, 1, 0, null, null, null, null, null,
 				null, 0, 0, 0);
 	}
@@ -199,21 +180,28 @@ public class SearchController extends BaseController {
 		} else if ("female".equals(sex)) {
 			gender = 0;
 		}
+		// TODO (review) 为什么要传进来String？
 		int maxAge = getInt(maxStringAge);
+		// TODO (review) 为什么要传进来String？
 		int minAge = getInt(minStringAge);
 		int maxYear = ageToYear(Math.min(minAge, maxAge));
 		int minYear = ageToYear(Math.max(minAge, maxAge));
+		// TODO (review) 为什么要传进来String？
 		int maxHeight = Math.max(getInt(minStringHeight),
 				getInt(maxStringHeight));
+		// TODO (review) 为什么要传进来String？
 		int minHeight = Math.min(getInt(minStringHeight),
 				getInt(maxStringHeight));
 		List<Long> constellationId = Collections.emptyList();
 		if (StringUtils.isNotEmpty(constellationIds)) {
 			constellationId = new ArrayList<Long>();
 			for (String str : constellationIds.split(",")) {
+				// TODO (review) 如果篡改URL，会出现这里无法转Long
 				constellationId.add(Long.valueOf(str));
 			}
 		}
+
+		// TODO (reivew) 上面星座的处理不错，先用空List，这里为什么不这样？
 		List<String> educationList = new ArrayList<String>();
 		if (educations != 0) {
 			for (Education edu : Education.values()) {
@@ -226,11 +214,13 @@ public class SearchController extends BaseController {
 				}
 			}
 		}
+		// TODO (review) 居然写死2？用来测试，也应该是配置文件来修改！！更何况已经提交测试！
 		PagerManager pager = new PagerManager(pageId, 2,
 				profileSearchService.countQqueryProfile(city, town, gender,
 						minYear, maxYear, educationList, minMonthlyIncome,
 						maxMonthlyIncome, true, null, constellationId, null,
 						null, minHeight, maxHeight));
+		// TODO (review) 可以考虑把条件参数分装成对象，如果今后再加条件怎么办？改接口？那不是好的设计
 		List<Profile> list = profileSearchService.queryProfile(city, town,
 				gender, minYear, maxYear, educationList, minMonthlyIncome,
 				maxMonthlyIncome, true, null, constellationId, null, null,
@@ -278,6 +268,7 @@ public class SearchController extends BaseController {
 		model.addAttribute("strConstellationIds",
 				StringUtils.join(constellationId, ","));
 		model.addAttribute("pageType", "zbe");
+		// TODO (review) 热搜词，不需要控制取多少个?
 		model.addAttribute("hots", searchHotService.getSearchHotByCity(city));
 		return "web/search/seach_user";
 	}
@@ -297,6 +288,7 @@ public class SearchController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			city = loginUser.getCity();
 		}
+		// TODO (review) 这段代码在上面看到过了
 		Integer gender = null;
 		if ("male".equals(sex)) {
 			gender = 1;
@@ -314,6 +306,7 @@ public class SearchController extends BaseController {
 		model.addAttribute("queryString", queryString);
 		model.addAttribute("sex", sex);
 		loadFaces(model);
+		// TODO (review) 这段代码在上面看到过了
 		model.addAttribute("hots", searchHotService.getSearchHotByCity(city));
 		return "web/search/search_posts";
 	}

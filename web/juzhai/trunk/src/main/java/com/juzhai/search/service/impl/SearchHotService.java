@@ -22,6 +22,7 @@ public class SearchHotService implements ISearchHotService {
 	public List<SearchHot> getSearchHotByCity(long city) {
 		SearchHotExample example = new SearchHotExample();
 		example.createCriteria().andCityEqualTo(city);
+		//TODO (review) 不要求顺序和数量？
 		return searchHotMapper.selectByExample(example);
 	}
 
@@ -31,9 +32,11 @@ public class SearchHotService implements ISearchHotService {
 			throw new InputSearchHotException(
 					InputSearchHotException.SEARCH_HOT_NAME_IS_NULL);
 		}
+		//TODO (review) 加了唯一索引，代码为什么不判断是否能插入吗？
 		SearchHot searchHot = new SearchHot();
 		searchHot.setCity(city);
 		searchHot.setCreateTime(new Date());
+		//TODO (review) 上面有当前时间了吧，为什么不拿来用？
 		searchHot.setLastModifyTime(new Date());
 		searchHot.setName(name);
 		searchHotMapper.insertSelective(searchHot);
@@ -43,6 +46,7 @@ public class SearchHotService implements ISearchHotService {
 	public void delete(long id) throws InputSearchHotException {
 		try {
 			searchHotMapper.deleteByPrimaryKey(id);
+			//TODO (review) 这里会抛什么异常？
 		} catch (Exception e) {
 			throw new InputSearchHotException(
 					InputSearchHotException.ILLEGAL_OPERATION);

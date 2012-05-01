@@ -45,14 +45,14 @@ public class PostIndexer implements Indexer<Post> {
 		}
 		Profile profile = profileService.getProfile(post.getCreateUid());
 		Document doc = new Document();
-		//TODO (review) 基于最终搜索结果展示方式，重新整理一下下面field的策略
+		// TODO (review) 基于最终搜索结果展示方式，重新整理一下下面field的策略
 		doc.add(new Field("id", post.getId().toString(), Field.Store.YES,
 				Field.Index.NOT_ANALYZED));
-		doc.add(new Field("content", post.getContent(), Field.Store.YES,
+		doc.add(new Field("content", post.getContent(), Field.Store.NO,
 				Field.Index.ANALYZED));
 		if (StringUtils.isEmpty(post.getPlace())) {
-			doc.add(new Field("place", post.getPlace(), Field.Store.YES,
-					Field.Index.ANALYZED));
+			doc.add(new Field("place", post.getPlace(), Field.Store.NO,
+					Field.Index.NOT_ANALYZED));
 		}
 		if (StringUtils.isNotEmpty(dateTime)) {
 			doc.add(new Field("dateTime", dateTime, Field.Store.NO,

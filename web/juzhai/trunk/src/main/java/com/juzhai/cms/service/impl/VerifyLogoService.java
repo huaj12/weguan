@@ -95,8 +95,7 @@ public class VerifyLogoService implements IVerifyLogoService {
 							profileCache.getNickname());
 					auditLogoCounter.incr(null, 1L);
 					// 后台通过头像
-					// TODO (done)阳仔啊，要仔细啊！！！！
-					// 有对照mmap来加的吗？你自己提出的可能是修改头像，这里有判断了吗？
+					// TODO (review) 两个if，哪个更耗性能？
 					if (userGuideService.isCompleteGuide(uid)) {
 						if (!falg) {
 							profileSearchService.createIndex(uid);
@@ -151,15 +150,16 @@ public class VerifyLogoService implements IVerifyLogoService {
 		profileService.clearProfileCache(uid);
 		dialogService.sendOfficialSMS(uid, DialogContentTemplate.DENY_LOGO);
 		// 删除头像
-		// TODO (done) 会不会存在没有必要去删索引的情况？
 		if (flag) {
 			profileSearchService.deleteIndex(uid);
 		}
 		// 删除头像的用户的所有通过拒宅
+		// TODO (review) 为什么要先取count？再说，count万一取出来很多很多呢？
 		int totalCount = postService.countUserPost(uid);
 		List<Post> posts = postService.listUserPost(uid, 0, totalCount);
 		for (Post p : posts) {
 			try {
+				// TODO (review) 为什么要去屏蔽post？看看我上面的代码
 				postService.shieldPost(p.getId());
 			} catch (InputPostException e) {
 			}

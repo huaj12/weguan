@@ -190,7 +190,6 @@ public class SearchController extends BaseController {
 		int minHeight = Math.min(getInt(minStringHeight),
 				getInt(maxStringHeight));
 		List<Long> constellationId = getConstellation(constellationIds);
-		// TODO (done) 上面星座的处理不错，先用空List，这里为什么不这样？
 		List<String> educationList = Collections.emptyList();
 		if (educations != 0) {
 			for (Education edu : Education.values()) {
@@ -206,7 +205,6 @@ public class SearchController extends BaseController {
 				}
 			}
 		}
-		// TODO (done) 居然写死2？用来测试，也应该是配置文件来修改！！更何况已经提交测试！
 		PagerManager pager = new PagerManager(pageId, searchUserRows,
 				profileSearchService.countQqueryProfile(city, town, gender,
 						minYear, maxYear, educationList, minMonthlyIncome,
@@ -260,6 +258,7 @@ public class SearchController extends BaseController {
 		model.addAttribute("strConstellationIds",
 				StringUtils.join(constellationId, ","));
 		model.addAttribute("pageType", "zbe");
+		//TODO (review) 为什么不做配置，被偷懒啊
 		getHots(model, city, 5);
 		return "web/search/seach_user";
 	}
@@ -279,7 +278,6 @@ public class SearchController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			city = loginUser.getCity();
 		}
-		// TODO (done) 这段代码在上面看到过了
 		Integer gender = getSex(sex);
 
 		PagerManager pager = new PagerManager(pageId, searchPostRows,
@@ -293,6 +291,7 @@ public class SearchController extends BaseController {
 		model.addAttribute("queryString", queryString);
 		model.addAttribute("sex", sex);
 		loadFaces(model);
+		//TODO (review) 为什么不做配置，被偷懒啊
 		getHots(model, city, 10);
 		return "web/search/search_posts";
 	}
@@ -329,8 +328,7 @@ public class SearchController extends BaseController {
 		if (StringUtils.isNotEmpty(constellationIds)) {
 			constellationId = new ArrayList<Long>();
 			for (String str : constellationIds.split(",")) {
-				// TODO (done) 如果篡改URL，会出现这里无法转Long
-				Long cid = 0l;
+				long cid = 0l;
 				try {
 					cid = Long.valueOf(str);
 				} catch (Exception e) {

@@ -332,6 +332,4 @@ public interface IPostService {
 	 * @return
 	 */
 	List<CmsPostView> getpost(int type, long id);
-	// TODO (done) 这个方法是不是多余的？有方法可以用，为什么还要再写一个呢？
-
 }

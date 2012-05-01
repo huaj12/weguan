@@ -302,8 +302,6 @@ public class BaseController {
 
 	// 获取热词
 	protected void getHots(Model model, long city, int count) {
-		// TODO (done) 这段代码在上面看到过了
-		// TODO (done) 热搜词，不需要控制取多少个?
 		model.addAttribute("hots",
 				searchHotService.getSearchHotByCity(city, count));
 	}

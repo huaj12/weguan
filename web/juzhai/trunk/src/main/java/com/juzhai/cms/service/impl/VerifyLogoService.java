@@ -138,7 +138,7 @@ public class VerifyLogoService implements IVerifyLogoService {
 
 		Profile profile = profileMapper.selectByPrimaryKey(uid);
 		boolean flag = false;
-		if (profileService.isValidLogo(uid)) {
+		if (profileService.isValidUser(uid)) {
 			flag = true;
 		}
 

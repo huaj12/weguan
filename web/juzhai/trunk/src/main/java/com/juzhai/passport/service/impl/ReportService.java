@@ -20,6 +20,7 @@ import com.juzhai.passport.mapper.ReportMapper;
 import com.juzhai.passport.model.Report;
 import com.juzhai.passport.model.ReportExample;
 import com.juzhai.passport.service.IPassportService;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IReportService;
 import com.juzhai.plug.bean.ReportContentType;
 import com.juzhai.plug.controller.form.ReportForm;
@@ -43,6 +44,8 @@ public class ReportService implements IReportService {
 	private IProfileSearchService profileSearchService;
 	@Autowired
 	private IPostService postService;
+	@Autowired
+	private IProfileService profileService;
 
 	@Override
 	public void save(ReportForm form, long createUid)
@@ -125,8 +128,10 @@ public class ReportService implements IReportService {
 				+ time));
 		// 用户永久封号
 		if (lockUserLevel.getLevel() == 3) {
-			//TODO (review) 会不会存在没有必要去删索引的情况？
-			profileSearchService.deleteIndex(uid);
+			// TODO (done) 会不会存在没有必要去删索引的情况？
+			if (profileService.isValidUser(uid)) {
+				profileSearchService.deleteIndex(uid);
+			}
 			// 被永久封号用户的所有通过拒宅
 			List<Post> posts = postService.findAllPost(uid);
 			for (Post post : posts) {

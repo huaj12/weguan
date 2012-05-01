@@ -50,7 +50,7 @@
 												<div></div>
 												<div class="select_box"><!--select_box begin-->
 													<span>
-														<a href="javascript:void(0);" value="" <c:if test="${empty sex||sex=='all'}">class="selected"</c:if>>性别不限</a>
+														<a href="javascript:void(0);" value="all" <c:if test="${empty sex||sex=='all'}">class="selected"</c:if>>性别不限</a>
 														<a href="javascript:void(0);" value="male" <c:if test="${sex=='male'}">class="selected"</c:if>>男生</a>
 														<a href="javascript:void(0);" value="female" <c:if test="${sex=='female'}">class="selected"</c:if>>女生</a>
 													</span>

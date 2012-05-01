@@ -54,8 +54,7 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void createIndex(long uid) {
-		// TODO (done)
-		// 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？
+		// TODO (review) 这样不会优化rabbitmq的性能，message里只接收Long
 		Profile profile = new Profile();
 		profile.setUid(uid);
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
@@ -65,8 +64,7 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void updateIndex(long uid) {
-		// TODO (done)
-		// 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？
+		// TODO (review) 这样不会优化rabbitmq的性能，message里只接收Long
 		Profile profile = new Profile();
 		profile.setUid(uid);
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
@@ -77,8 +75,7 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void deleteIndex(long uid) {
-		// TODO (done)
-		// 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？
+		// TODO (review) 这样不会优化rabbitmq的性能，message里只接收Long
 		Profile profile = new Profile();
 		profile.setUid(uid);
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
@@ -115,10 +112,8 @@ public class ProfileSearchService implements IProfileSearchService {
 				}
 				List<Profile> list = Collections.emptyList();
 				if (CollectionUtils.isNotEmpty(uids)) {
-					// TODO (done) 这里list初始化干嘛呢？
 					ProfileExample example = new ProfileExample();
 					example.createCriteria().andUidIn(uids);
-					// TODO (done) 确定搜出来的顺序，是你要的顺序？
 					example.setOrderByClause("last_web_login_time desc, uid desc");
 					list = profileMapper.selectByExample(example);
 				}
@@ -144,7 +139,7 @@ public class ProfileSearchService implements IProfileSearchService {
 						educations, minMonthlyIncome, maxMonthlyIncome,
 						isMoreIncome, home, constellationIds, house, car,
 						minHeight, maxHeight);
-				// TODO (done) 下面的参数1，表示什么意思？没理解 只要查出一个结果。他就可以把总数返回
+				// TODO (review) 为了count，一个请求请求两次lucene，不划算。看actSearch里怎么处理
 				TopDocs topDocs = indexSearcher.search(query, 1);
 				return (T) new Integer(topDocs.totalHits);
 			}

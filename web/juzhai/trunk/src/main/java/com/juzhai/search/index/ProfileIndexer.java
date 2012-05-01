@@ -25,6 +25,7 @@ public class ProfileIndexer implements Indexer<Profile> {
 	@Override
 	public void addIndex(Profile profile, boolean isCommit)
 			throws CorruptIndexException, IOException {
+		//TODO (review) 在listener里去获取profile
 		profile = profileService.getProfile(profile.getUid());
 		Document doc = buildDoc(profile);
 		profileIndexWriter.addDocument(doc);
@@ -100,6 +101,7 @@ public class ProfileIndexer implements Indexer<Profile> {
 	@Override
 	public void updateIndex(Profile profile, boolean isCommit)
 			throws CorruptIndexException, IOException {
+		//TODO (review) 在listener里去获取profile
 		profile = profileService.getProfile(profile.getUid());
 		profileIndexWriter.updateDocument(new Term("uid", profile.getUid()
 				.toString()), buildDoc(profile));

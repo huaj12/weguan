@@ -25,7 +25,6 @@ public class SearchHotService implements ISearchHotService {
 		example.createCriteria().andCityEqualTo(city);
 		example.setOrderByClause("create_time desc");
 		example.setLimit(new Limit(0, count));
-		// TODO (done) 不要求顺序和数量？
 		return searchHotMapper.selectByExample(example);
 	}
 
@@ -35,7 +34,6 @@ public class SearchHotService implements ISearchHotService {
 			throw new InputSearchHotException(
 					InputSearchHotException.SEARCH_HOT_NAME_IS_NULL);
 		}
-		// TODO (done) 加了唯一索引，代码为什么不判断是否能插入吗？
 		if (isExist(name, city)) {
 			throw new InputSearchHotException(
 					InputSearchHotException.SEARCH_HOT_NAME_CITY_IS_EXIST);
@@ -44,7 +42,6 @@ public class SearchHotService implements ISearchHotService {
 		SearchHot searchHot = new SearchHot();
 		searchHot.setCity(city);
 		searchHot.setCreateTime(new Date());
-		// TODO (done) 上面有当前时间了吧，为什么不拿来用？
 		searchHot.setLastModifyTime(searchHot.getCreateTime());
 		searchHot.setName(name);
 		searchHotMapper.insertSelective(searchHot);

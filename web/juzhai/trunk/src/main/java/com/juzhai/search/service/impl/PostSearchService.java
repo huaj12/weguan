@@ -70,6 +70,7 @@ public class PostSearchService implements IPostSearchService {
 
 	@Override
 	public void createIndex(long postId) {
+		// TODO (review) 下面的移除吧
 		Post post = postService.getPostById(postId);
 		if (VerifyType.QUALIFIED.getType() != post.getVerifyType()) {
 			return;
@@ -210,7 +211,6 @@ public class PostSearchService implements IPostSearchService {
 					new TermQuery(new Term("gender", String.valueOf(gender))),
 					Occur.MUST);
 		}
-		// TODO (done) 我不知道地点要不要作为搜索的内容？和max确定了不需要
 		MultiFieldQueryParser parser = new MultiFieldQueryParser(
 				Version.LUCENE_33, new String[] { "content" }, postIKAnalyzer);
 		parser.setPhraseSlop(10);
@@ -223,7 +223,6 @@ public class PostSearchService implements IPostSearchService {
 		return query;
 	}
 
-	// TODO (done) 这个方法现在还有用吗 (没用但是高亮代码留着以后参考)
 	// public List<Post> searchPosts(final String queryString,
 	// final int firstResult, final int maxResults) {
 	// return postIndexSearcherTemplate.excute(new SearcherCallback() {

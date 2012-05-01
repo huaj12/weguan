@@ -13,21 +13,15 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.core.lucene.index.Indexer;
 import com.juzhai.passport.model.Profile;
-import com.juzhai.passport.service.IProfileService;
 
 @Service
 public class ProfileIndexer implements Indexer<Profile> {
 	@Autowired
 	private IndexWriter profileIndexWriter;
-	@Autowired
-	private IProfileService profileService;
 
 	@Override
 	public void addIndex(Profile profile, boolean isCommit)
 			throws CorruptIndexException, IOException {
-		if (!profileService.isValidUser(profile.getUid())) {
-			return;
-		}
 		Document doc = buildDoc(profile);
 		profileIndexWriter.addDocument(doc);
 		if (isCommit) {
@@ -102,9 +96,6 @@ public class ProfileIndexer implements Indexer<Profile> {
 	@Override
 	public void updateIndex(Profile profile, boolean isCommit)
 			throws CorruptIndexException, IOException {
-		if (!profileService.isValidUser(profile.getUid())) {
-			return;
-		}
 		profileIndexWriter.updateDocument(new Term("uid", profile.getUid()
 				.toString()), buildDoc(profile));
 		if (isCommit) {

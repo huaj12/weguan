@@ -54,7 +54,11 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void createIndex(long uid) {
-		//TODO (review) 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？
+		if (!profileService.isValidUser(uid)) {
+			return;
+		}
+		// TODO (review)
+		// 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？
 		Profile profile = profileService.getProfile(uid);
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
 		msgMessage.buildBody(profile).buildActionType(ActionType.CREATE);
@@ -63,7 +67,11 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void updateIndex(long uid) {
-		//TODO (review) 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？
+		if (!profileService.isValidUser(uid)) {
+			return;
+		}
+		// TODO (review)
+		// 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？
 		Profile profile = profileService.getProfile(uid);
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
 		msgMessage.buildBody(profile).buildActionType(ActionType.UPDATE);
@@ -73,7 +81,8 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void deleteIndex(long uid) {
-		//TODO (review) 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？
+		// TODO (review)
+		// 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？
 		Profile profile = profileService.getProfile(uid);
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
 		msgMessage.buildBody(profile).buildActionType(ActionType.DELETE);
@@ -109,11 +118,11 @@ public class ProfileSearchService implements IProfileSearchService {
 				}
 				List<Profile> list = Collections.emptyList();
 				if (CollectionUtils.isNotEmpty(uids)) {
-					//TODO (review) 这里list初始化干嘛呢？
+					// TODO (review) 这里list初始化干嘛呢？
 					list = new ArrayList<Profile>(uids.size());
 					ProfileExample example = new ProfileExample();
 					example.createCriteria().andUidIn(uids);
-					//TODO (review) 确定搜出来的顺序，是你要的顺序？
+					// TODO (review) 确定搜出来的顺序，是你要的顺序？
 					list = profileMapper.selectByExample(example);
 				}
 				return (T) list;
@@ -138,7 +147,7 @@ public class ProfileSearchService implements IProfileSearchService {
 						educations, minMonthlyIncome, maxMonthlyIncome,
 						isMoreIncome, home, constellationIds, house, car,
 						minHeight, maxHeight);
-				//TODO (review) 下面的参数1，表示什么意思？没理解
+				// TODO (review) 下面的参数1，表示什么意思？没理解
 				TopDocs topDocs = indexSearcher.search(query, 1);
 				return (T) new Integer(topDocs.totalHits);
 			}
@@ -152,7 +161,7 @@ public class ProfileSearchService implements IProfileSearchService {
 			int minHeight, int maxHeight) {
 		BooleanQuery query = new BooleanQuery();
 		// 身高
-		//TODO (review) 会不会存在，只有下限，或者只有上限？
+		// TODO (done) 会不会存在，只有下限，或者只有上限？会存在但是代码没问题
 		if (minHeight > 0 || maxHeight > 0) {
 			Query heightQuery = NumericRangeQuery.newIntRange("height",
 					minHeight, maxHeight, true, true);
@@ -187,7 +196,7 @@ public class ProfileSearchService implements IProfileSearchService {
 			}
 
 		}
-		//TODO (review) 没看懂，解释一下
+		// TODO (review) 没看懂，解释一下
 		if (minMonthlyIncome > 0 || maxMonthlyIncome > 0) {
 			// 选取xx以上
 			if (isMoreIncome) {
@@ -215,7 +224,7 @@ public class ProfileSearchService implements IProfileSearchService {
 		}
 
 		// 年龄
-		//TODO (review) 会不会存在，只有下限，或者只有上限？类似于身高
+		// TODO (done) 会不会存在，只有下限，或者只有上限？类似于身高 会存在但是代码没问题
 		if (minYear > 0 || maxYear > 0) {
 			Query ageQuery = NumericRangeQuery.newIntRange("age", minYear,
 					maxYear, true, true);

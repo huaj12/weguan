@@ -19,6 +19,7 @@ import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.post.bean.VerifyType;
 import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.mapper.PostMapper;
@@ -43,7 +44,8 @@ public class VerifyLogoService implements IVerifyLogoService {
 	private IProfileSearchService profileSearchService;
 	@Autowired
 	private IPostService postService;
-
+	@Autowired
+	private IUserGuideService userGuideService;
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
@@ -89,7 +91,9 @@ public class VerifyLogoService implements IVerifyLogoService {
 							profileCache.getNickname());
 					auditLogoCounter.incr(null, 1L);
 					// 后台通过头像
-					profileSearchService.createIndex(uid);
+					if (userGuideService.isCompleteGuide(uid)) {
+						profileSearchService.createIndex(uid);
+					}
 				}
 			}
 		}

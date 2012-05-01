@@ -532,7 +532,7 @@ public class ProfileService implements IProfileService {
 
 	@Override
 	public boolean isValidLogo(long uid) {
-		// TODO (done) 为什么要紧数据库查询？不止一个地方调用。
+		// TODO (review) 为什么要紧数据库查询？
 		ProfileExample example = new ProfileExample();
 		example.createCriteria().andLogoPicIsNotNull()
 				.andLogoPicNotEqualTo(StringUtils.EMPTY).andUidEqualTo(uid);

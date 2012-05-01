@@ -222,7 +222,7 @@ public class PostService implements IPostService {
 		// 每日发布idea统计
 		postIdeaCounter.incr(null, 1L);
 		// 前台发布好主意。
-		// TODO (done) 不是所有用户发布好主意，都是通过状态！我记得说过要加的通用一点，不要仅仅针对好主意去处理！
+		// TODO (review) 不是所有用户发布好主意，都是通过状态！我记得说过要加的通用一点，不要仅仅针对好主意去处理！
 		postSearchService.createIndex(post.getId());
 		return post.getId();
 	}
@@ -455,6 +455,7 @@ public class PostService implements IPostService {
 			ideaService.removeUser(breakIdeaId, uid);
 		}
 		// 用户修改通过状态的拒宅
+		 //TODO (review) 这里比较复杂。1、未通过-》未通过（不删）2、通过-》通过（不删）3、通过-》不通过（删）
 		if (flag) {
 			postSearchService.deleteIndex(post.getId());
 		}
@@ -564,11 +565,11 @@ public class PostService implements IPostService {
 		post.setDefunct(true);
 		postMapper.updateByPrimaryKeySelective(post);
 		postCommentService.defunctComment(postId);
+		updateUserLatestPost(post);
 		if (VerifyType.QUALIFIED.getType() == post.getVerifyType()) {
 			// 后台删除通过状态的拒宅
 			postSearchService.deleteIndex(postId);
 		}
-		updateUserLatestPost(post);
 	}
 
 	@Override
@@ -608,7 +609,6 @@ public class PostService implements IPostService {
 			if (postId != null && postId > 0) {
 				setUserLatestPost(getPostById(postId));
 				// 后台拒宅通过审核 取消屏蔽
-				// TODO (done) 昨晚白说了⋯⋯⋯⋯，欲哭无泪
 				postSearchService.createIndex(postId);
 			}
 		}

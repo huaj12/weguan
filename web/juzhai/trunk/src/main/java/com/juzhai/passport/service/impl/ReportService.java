@@ -128,15 +128,16 @@ public class ReportService implements IReportService {
 				+ time));
 		// 用户永久封号
 		if (lockUserLevel.getLevel() == 3) {
-			// TODO (done) 会不会存在没有必要去删索引的情况？
 			if (profileService.isValidUser(uid)) {
 				profileSearchService.deleteIndex(uid);
 			}
 			// 被永久封号用户的所有通过拒宅
+			// TODO (review) 为什么要先取count？再说，count万一取出来很多很多呢？
 			int totalCount = postService.countUserPost(uid);
 			List<Post> posts = postService.listUserPost(uid, 0, totalCount);
 			for (Post post : posts) {
 				try {
+					// TODO (review) 参考删除头像里的操作，性能更高
 					postService.shieldPost(post.getId());
 				} catch (InputPostException e) {
 				}

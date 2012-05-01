@@ -54,9 +54,6 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void createIndex(long uid) {
-		if (!profileService.isValidUser(uid)) {
-			return;
-		}
 		// TODO (review)
 		// 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？
 		Profile profile = profileService.getProfile(uid);
@@ -67,9 +64,6 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void updateIndex(long uid) {
-		if (!profileService.isValidUser(uid)) {
-			return;
-		}
 		// TODO (review)
 		// 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？
 		Profile profile = profileService.getProfile(uid);

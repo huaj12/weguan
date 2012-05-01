@@ -222,7 +222,7 @@ public class PostService implements IPostService {
 		// 每日发布idea统计
 		postIdeaCounter.incr(null, 1L);
 		// 前台发布好主意。
-		//TODO (review) 不是所有用户发布好主意，都是通过状态！我记得说过要加的通用一点，不要仅仅针对好主意去处理！
+		// TODO (done) 不是所有用户发布好主意，都是通过状态！我记得说过要加的通用一点，不要仅仅针对好主意去处理！
 		postSearchService.createIndex(post.getId());
 		return post.getId();
 	}
@@ -390,6 +390,10 @@ public class PostService implements IPostService {
 	public long modifyPost(long uid, PostForm postForm)
 			throws InputPostException {
 		Post post = postMapper.selectByPrimaryKey(postForm.getPostId());
+		boolean flag = false;
+		if (VerifyType.QUALIFIED.getType() == post.getVerifyType()) {
+			flag = true;
+		}
 		if (null == post || post.getDefunct() || post.getCreateUid() != uid) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
@@ -450,7 +454,10 @@ public class PostService implements IPostService {
 		if (breakIdeaId > 0) {
 			ideaService.removeUser(breakIdeaId, uid);
 		}
-
+		// 用户修改通过状态的拒宅
+		if (flag) {
+			postSearchService.deleteIndex(post.getId());
+		}
 		return post.getId();
 	}
 
@@ -528,7 +535,9 @@ public class PostService implements IPostService {
 		postCommentService.defunctComment(postId);
 		updateUserLatestPost(post);
 		// 用户删除通过状态的拒宅
-		postSearchService.deleteIndex(postId);
+		if (VerifyType.QUALIFIED.getType() == post.getVerifyType()) {
+			postSearchService.deleteIndex(postId);
+		}
 	}
 
 	// TODO 代码重构
@@ -555,24 +564,31 @@ public class PostService implements IPostService {
 		post.setDefunct(true);
 		postMapper.updateByPrimaryKeySelective(post);
 		postCommentService.defunctComment(postId);
-		// 后台删除通过状态的拒宅
-		postSearchService.deleteIndex(postId);
+		if (VerifyType.QUALIFIED.getType() == post.getVerifyType()) {
+			// 后台删除通过状态的拒宅
+			postSearchService.deleteIndex(postId);
+		}
 		updateUserLatestPost(post);
 	}
 
 	@Override
 	public void shieldPost(long postId) throws InputPostException {
+		Post post = postMapper.selectByPrimaryKey(postId);
 		if (postId <= 0) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
-		Post post = new Post();
-		post.setId(postId);
+		boolean flag = false;
+		if (VerifyType.QUALIFIED.getType() == post.getVerifyType()) {
+			flag = true;
+		}
 		post.setLastModifyTime(new Date());
 		post.setVerifyType(VerifyType.SHIELD.getType());
 		postMapper.updateByPrimaryKeySelective(post);
 		updateUserLatestPost(getPostById(postId));
 		// 后台屏蔽通过状态的拒宅
-		postSearchService.deleteIndex(postId);
+		if (flag) {
+			postSearchService.deleteIndex(postId);
+		}
 	}
 
 	@Override
@@ -591,9 +607,8 @@ public class PostService implements IPostService {
 		for (Long postId : postIds) {
 			if (postId != null && postId > 0) {
 				setUserLatestPost(getPostById(postId));
-				// 后台拒宅通过审核 用户修改通过状态的拒宅 取消屏蔽
-				//TODO (review) 昨晚白说了⋯⋯⋯⋯，欲哭无泪
-				postSearchService.deleteIndex(postId);
+				// 后台拒宅通过审核 取消屏蔽
+				// TODO (done) 昨晚白说了⋯⋯⋯⋯，欲哭无泪
 				postSearchService.createIndex(postId);
 			}
 		}

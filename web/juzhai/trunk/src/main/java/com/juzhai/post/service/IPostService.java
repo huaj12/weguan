@@ -333,4 +333,12 @@ public interface IPostService {
 	 */
 	List<CmsPostView> getpost(int type, long id);
 
+	/**
+	 * 找出某人所有合格的拒宅
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	List<Post> findAllPost(long uid);
+
 }

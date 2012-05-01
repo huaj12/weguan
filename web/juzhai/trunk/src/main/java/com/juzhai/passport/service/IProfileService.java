@@ -208,4 +208,12 @@ public interface IProfileService {
 	 */
 	int getProfileCompletion(long uid);
 
+	/**
+	 * 是否是有效用户（上传头像且通过引导）
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	boolean isValidUser(long uid);
+
 }

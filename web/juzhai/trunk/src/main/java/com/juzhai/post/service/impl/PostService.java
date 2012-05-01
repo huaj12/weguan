@@ -114,9 +114,9 @@ public class PostService implements IPostService {
 	@Autowired
 	private IPostCommentService postCommentService;
 	@Autowired
-	private ProfileMapper profileMapper;
-	@Autowired
 	private IPostSearchService postSearchService;
+	@Autowired
+	private ProfileMapper profileMapper;
 	@Value("${post.content.wordfilter.application}")
 	private int postContentWordfilterApplication;
 	@Value("${post.content.length.min}")
@@ -166,7 +166,6 @@ public class PostService implements IPostService {
 		} else {
 			postId = createPostByForm(uid, postForm);
 		}
-		postSearchService.createIndex(postId);
 		try {
 			memcachedClient.setWithNoReply(
 					MemcachedKeyGenerator.genPostForbidKey(uid),
@@ -222,6 +221,8 @@ public class PostService implements IPostService {
 		}
 		// 每日发布idea统计
 		postIdeaCounter.incr(null, 1L);
+		// 前台发布好主意。
+		postSearchService.createIndex(post.getId());
 		return post.getId();
 	}
 
@@ -359,8 +360,6 @@ public class PostService implements IPostService {
 				postMapper.updateByPrimaryKeySelective(updatePost);
 			}
 		}
-		// TODO 建lucene索引
-		postSearchService.createIndex(post.getId());
 	}
 
 	private String checkContentDuplicate(long uid, String content,
@@ -451,8 +450,6 @@ public class PostService implements IPostService {
 			ideaService.removeUser(breakIdeaId, uid);
 		}
 
-		// TODO update lucene索引
-		postSearchService.updateIndex(post.getId());
 		return post.getId();
 	}
 
@@ -529,6 +526,8 @@ public class PostService implements IPostService {
 		postMapper.deleteByPrimaryKey(postId);
 		postCommentService.defunctComment(postId);
 		updateUserLatestPost(post);
+		// 用户删除通过状态的拒宅
+		postSearchService.deleteIndex(postId);
 	}
 
 	// TODO 代码重构
@@ -555,6 +554,8 @@ public class PostService implements IPostService {
 		post.setDefunct(true);
 		postMapper.updateByPrimaryKeySelective(post);
 		postCommentService.defunctComment(postId);
+		// 后台删除通过状态的拒宅
+		postSearchService.deleteIndex(postId);
 		updateUserLatestPost(post);
 	}
 
@@ -569,6 +570,8 @@ public class PostService implements IPostService {
 		post.setVerifyType(VerifyType.SHIELD.getType());
 		postMapper.updateByPrimaryKeySelective(post);
 		updateUserLatestPost(getPostById(postId));
+		// 后台屏蔽通过状态的拒宅
+		postSearchService.deleteIndex(postId);
 	}
 
 	@Override
@@ -587,8 +590,14 @@ public class PostService implements IPostService {
 		for (Long postId : postIds) {
 			if (postId != null && postId > 0) {
 				setUserLatestPost(getPostById(postId));
+				// 后台拒宅通过审核 用户修改通过状态的拒宅 取消屏蔽
+				postSearchService.deleteIndex(postId);
+				postSearchService.createIndex(postId);
 			}
 		}
+
+		// 通过审核
+
 	}
 
 	@Override
@@ -627,8 +636,6 @@ public class PostService implements IPostService {
 								.getCreateUid()), post.getId());
 			}
 		}
-		// TODO update lucene索引
-		postSearchService.updateIndex(post.getId());
 	}
 
 	private void updateUserLatestPost(Post delPost) {
@@ -664,8 +671,6 @@ public class PostService implements IPostService {
 			}
 
 		}
-		// TODO delete lucene索引
-		postSearchService.deleteIndex(delPost.getId());
 	}
 
 	@Override
@@ -1073,6 +1078,15 @@ public class PostService implements IPostService {
 			views.add(postView);
 		}
 		return views;
+	}
+
+	@Override
+	public List<Post> findAllPost(long uid) {
+		PostExample example = new PostExample();
+		example.createCriteria().andCreateUidEqualTo(uid)
+				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
+				.andDefunctEqualTo(false);
+		return postMapper.selectByExample(example);
 	}
 
 }

@@ -12,7 +12,7 @@ public interface ISearchHotService {
 	 * @param city
 	 * @return
 	 */
-	List<SearchHot> getSearchHotByCity(long city);
+	List<SearchHot> getSearchHotByCity(long city, int count);
 
 	/**
 	 * 添加搜索热词
@@ -27,5 +27,14 @@ public interface ISearchHotService {
 	 * 
 	 * @param id
 	 */
-	void delete(long id) throws InputSearchHotException;
+	void delete(long id);
+
+	/**
+	 * 该热词在某城市下是否存在
+	 * 
+	 * @param name
+	 * @param city
+	 * @return
+	 */
+	boolean isExist(String name, long city);
 }

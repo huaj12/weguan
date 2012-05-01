@@ -115,11 +115,11 @@ public class ProfileSearchService implements IProfileSearchService {
 				}
 				List<Profile> list = Collections.emptyList();
 				if (CollectionUtils.isNotEmpty(uids)) {
-					// TODO (review) 这里list初始化干嘛呢？
-					list = new ArrayList<Profile>(uids.size());
+					// TODO (done) 这里list初始化干嘛呢？
 					ProfileExample example = new ProfileExample();
 					example.createCriteria().andUidIn(uids);
-					// TODO (review) 确定搜出来的顺序，是你要的顺序？
+					// TODO (done) 确定搜出来的顺序，是你要的顺序？
+					example.setOrderByClause("last_web_login_time desc, uid desc");
 					list = profileMapper.selectByExample(example);
 				}
 				return (T) list;
@@ -144,7 +144,7 @@ public class ProfileSearchService implements IProfileSearchService {
 						educations, minMonthlyIncome, maxMonthlyIncome,
 						isMoreIncome, home, constellationIds, house, car,
 						minHeight, maxHeight);
-				// TODO (review) 下面的参数1，表示什么意思？没理解
+				// TODO (done) 下面的参数1，表示什么意思？没理解 只要查出一个结果。他就可以把总数返回
 				TopDocs topDocs = indexSearcher.search(query, 1);
 				return (T) new Integer(topDocs.totalHits);
 			}
@@ -193,7 +193,7 @@ public class ProfileSearchService implements IProfileSearchService {
 			}
 
 		}
-		// TODO (review) 没看懂，解释一下
+		// TODO (done) 没看懂，解释一下 isMoreIncome 这个表示勾选及以上
 		if (minMonthlyIncome > 0 || maxMonthlyIncome > 0) {
 			// 选取xx以上
 			if (isMoreIncome) {

@@ -25,8 +25,6 @@ import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.search.highlight.Highlighter;
-import org.apache.lucene.search.highlight.QueryScorer;
-import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.apache.lucene.util.Version;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -212,7 +210,7 @@ public class PostSearchService implements IPostSearchService {
 					new TermQuery(new Term("gender", String.valueOf(gender))),
 					Occur.MUST);
 		}
-		// TODO (review) 我不知道地点要不要作为搜索的内容？
+		// TODO (done) 我不知道地点要不要作为搜索的内容？和max确定了不需要
 		MultiFieldQueryParser parser = new MultiFieldQueryParser(
 				Version.LUCENE_33, new String[] { "content" }, postIKAnalyzer);
 		parser.setPhraseSlop(10);
@@ -225,55 +223,55 @@ public class PostSearchService implements IPostSearchService {
 		return query;
 	}
 
-	// TODO (review) 这个方法现在还有用吗
-	public List<Post> searchPosts(final String queryString,
-			final int firstResult, final int maxResults) {
-		return postIndexSearcherTemplate.excute(new SearcherCallback() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public <T> T doCallback(IndexSearcher indexSearcher)
-					throws IOException {
-				MultiFieldQueryParser parser = new MultiFieldQueryParser(
-						Version.LUCENE_33, new String[] { "content", "place" },
-						postIKAnalyzer);
-				parser.setPhraseSlop(10);
-				Query query;
-				try {
-					query = parser.parse(queryString);
-				} catch (ParseException e) {
-					log.error(e.getMessage(), e);
-					return (T) Collections.emptyList();
-				}
-				TopScoreDocCollector collector = TopScoreDocCollector.create(
-						firstResult + maxResults, false);
-				indexSearcher.search(query, collector);
-				TopDocs topDocs = collector.topDocs(firstResult, maxResults);
-				// 高亮显示设置
-				SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter(
-						"<font color='red'>", "</font>");
-				Highlighter highlighter = new Highlighter(simpleHTMLFormatter,
-						new QueryScorer(query));
-				// 指定关键字字符串的context的长度
-				// highlighter.setTextFragmenter(new SimpleFragmenter(100));
-				List<Post> postIdList = new ArrayList<Post>(maxResults);
-				for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-					Post post = new Post();
-					Document doc = indexSearcher.doc(scoreDoc.doc);
-					long id = Long.valueOf(doc.get("id"));
-					String content = highLightText("content",
-							doc.get("content"), highlighter, postIKAnalyzer);
-					String place = highLightText("place", doc.get("place"),
-							highlighter, postIKAnalyzer);
-					post.setContent(content);
-					post.setPlace(place);
-					post.setId(id);
-					postIdList.add(post);
-				}
-
-				return (T) postIdList;
-			}
-		});
-	}
+	// TODO (done) 这个方法现在还有用吗 (没用但是高亮代码留着以后参考)
+	// public List<Post> searchPosts(final String queryString,
+	// final int firstResult, final int maxResults) {
+	// return postIndexSearcherTemplate.excute(new SearcherCallback() {
+	// @SuppressWarnings("unchecked")
+	// @Override
+	// public <T> T doCallback(IndexSearcher indexSearcher)
+	// throws IOException {
+	// MultiFieldQueryParser parser = new MultiFieldQueryParser(
+	// Version.LUCENE_33, new String[] { "content", "place" },
+	// postIKAnalyzer);
+	// parser.setPhraseSlop(10);
+	// Query query;
+	// try {
+	// query = parser.parse(queryString);
+	// } catch (ParseException e) {
+	// log.error(e.getMessage(), e);
+	// return (T) Collections.emptyList();
+	// }
+	// TopScoreDocCollector collector = TopScoreDocCollector.create(
+	// firstResult + maxResults, false);
+	// indexSearcher.search(query, collector);
+	// TopDocs topDocs = collector.topDocs(firstResult, maxResults);
+	// // 高亮显示设置
+	// SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter(
+	// "<font color='red'>", "</font>");
+	// Highlighter highlighter = new Highlighter(simpleHTMLFormatter,
+	// new QueryScorer(query));
+	// // 指定关键字字符串的context的长度
+	// // highlighter.setTextFragmenter(new SimpleFragmenter(100));
+	// List<Post> postIdList = new ArrayList<Post>(maxResults);
+	// for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+	// Post post = new Post();
+	// Document doc = indexSearcher.doc(scoreDoc.doc);
+	// long id = Long.valueOf(doc.get("id"));
+	// String content = highLightText("content",
+	// doc.get("content"), highlighter, postIKAnalyzer);
+	// String place = highLightText("place", doc.get("place"),
+	// highlighter, postIKAnalyzer);
+	// post.setContent(content);
+	// post.setPlace(place);
+	// post.setId(id);
+	// postIdList.add(post);
+	// }
+	//
+	// return (T) postIdList;
+	// }
+	// });
+	// }
 
 	@Override
 	public int countSearchPosts(final String queryString, final Integer gender) {

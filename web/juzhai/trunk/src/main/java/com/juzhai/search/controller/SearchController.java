@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,7 +35,6 @@ import com.juzhai.post.service.IPostService;
 import com.juzhai.search.bean.Education;
 import com.juzhai.search.service.IPostSearchService;
 import com.juzhai.search.service.IProfileSearchService;
-import com.juzhai.search.service.ISearchHotService;
 
 @Controller
 public class SearchController extends BaseController {
@@ -51,12 +51,14 @@ public class SearchController extends BaseController {
 	private IPostSearchService postSearchService;
 	@Autowired
 	private PostViewHelper postViewHelper;
-	@Autowired
-	private ISearchHotService searchHotService;
 	// @Value("${web.search.act.max.rows}")
 	// private int webSearchActMaxRows;
 	@Value("${query.users.right.user.rows}")
 	private int queryUsersRightUserRows;
+	@Value("${search.user.rows}")
+	private int searchUserRows;
+	@Value("${search.post.rows}")
+	private int searchPostRows;
 
 	// @RequestMapping(value = "/queryAct", method = RequestMethod.GET)
 	// public String searchAct(Model model, String name, HttpServletRequest
@@ -174,12 +176,7 @@ public class SearchController extends BaseController {
 			city = loginUser.getCity();
 		}
 		UserContext context = (UserContext) request.getAttribute("context");
-		Integer gender = null;
-		if ("male".equals(sex)) {
-			gender = 1;
-		} else if ("female".equals(sex)) {
-			gender = 0;
-		}
+		Integer gender = getSex(sex);
 		// TODO (review) 为什么要传进来String？
 		int maxAge = getInt(maxStringAge);
 		// TODO (review) 为什么要传进来String？
@@ -192,30 +189,25 @@ public class SearchController extends BaseController {
 		// TODO (review) 为什么要传进来String？
 		int minHeight = Math.min(getInt(minStringHeight),
 				getInt(maxStringHeight));
-		List<Long> constellationId = Collections.emptyList();
-		if (StringUtils.isNotEmpty(constellationIds)) {
-			constellationId = new ArrayList<Long>();
-			for (String str : constellationIds.split(",")) {
-				// TODO (review) 如果篡改URL，会出现这里无法转Long
-				constellationId.add(Long.valueOf(str));
-			}
-		}
-
-		// TODO (reivew) 上面星座的处理不错，先用空List，这里为什么不这样？
-		List<String> educationList = new ArrayList<String>();
+		List<Long> constellationId = getConstellation(constellationIds);
+		// TODO (done) 上面星座的处理不错，先用空List，这里为什么不这样？
+		List<String> educationList = Collections.emptyList();
 		if (educations != 0) {
 			for (Education edu : Education.values()) {
 				if (edu.getType() >= educations) {
 					String eduVlue = com.juzhai.common.InitData.EDUCATION_MAP
 							.get(edu.getType());
 					if (StringUtils.isNotEmpty(eduVlue)) {
+						if (CollectionUtils.isEmpty(educationList)) {
+							educationList = new ArrayList<String>();
+						}
 						educationList.add(eduVlue);
 					}
 				}
 			}
 		}
-		// TODO (review) 居然写死2？用来测试，也应该是配置文件来修改！！更何况已经提交测试！
-		PagerManager pager = new PagerManager(pageId, 2,
+		// TODO (done) 居然写死2？用来测试，也应该是配置文件来修改！！更何况已经提交测试！
+		PagerManager pager = new PagerManager(pageId, searchUserRows,
 				profileSearchService.countQqueryProfile(city, town, gender,
 						minYear, maxYear, educationList, minMonthlyIncome,
 						maxMonthlyIncome, true, null, constellationId, null,
@@ -268,8 +260,7 @@ public class SearchController extends BaseController {
 		model.addAttribute("strConstellationIds",
 				StringUtils.join(constellationId, ","));
 		model.addAttribute("pageType", "zbe");
-		// TODO (review) 热搜词，不需要控制取多少个?
-		model.addAttribute("hots", searchHotService.getSearchHotByCity(city));
+		getHots(model, city, 5);
 		return "web/search/seach_user";
 	}
 
@@ -288,14 +279,10 @@ public class SearchController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			city = loginUser.getCity();
 		}
-		// TODO (review) 这段代码在上面看到过了
-		Integer gender = null;
-		if ("male".equals(sex)) {
-			gender = 1;
-		} else if ("female".equals(sex)) {
-			gender = 0;
-		}
-		PagerManager pager = new PagerManager(pageId, 2,
+		// TODO (done) 这段代码在上面看到过了
+		Integer gender = getSex(sex);
+
+		PagerManager pager = new PagerManager(pageId, searchPostRows,
 				postSearchService.countSearchPosts(queryString, gender));
 		List<Post> postList = postSearchService.searchPosts(queryString,
 				gender, pager.getFirstResult(), pager.getMaxResult());
@@ -306,9 +293,18 @@ public class SearchController extends BaseController {
 		model.addAttribute("queryString", queryString);
 		model.addAttribute("sex", sex);
 		loadFaces(model);
-		// TODO (review) 这段代码在上面看到过了
-		model.addAttribute("hots", searchHotService.getSearchHotByCity(city));
+		getHots(model, city, 10);
 		return "web/search/search_posts";
+	}
+
+	private Integer getSex(String sex) {
+		Integer gender = null;
+		if ("male".equals(sex)) {
+			gender = 1;
+		} else if ("female".equals(sex)) {
+			gender = 0;
+		}
+		return gender;
 	}
 
 	private int getInt(String stringAge) {
@@ -326,6 +322,25 @@ public class SearchController extends BaseController {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		return year - age;
+	}
+
+	private List<Long> getConstellation(String constellationIds) {
+		List<Long> constellationId = Collections.emptyList();
+		if (StringUtils.isNotEmpty(constellationIds)) {
+			constellationId = new ArrayList<Long>();
+			for (String str : constellationIds.split(",")) {
+				// TODO (done) 如果篡改URL，会出现这里无法转Long
+				Long cid = 0l;
+				try {
+					cid = Long.valueOf(str);
+				} catch (Exception e) {
+				}
+				if (cid != 0) {
+					constellationId.add(cid);
+				}
+			}
+		}
+		return constellationId;
 	}
 
 }

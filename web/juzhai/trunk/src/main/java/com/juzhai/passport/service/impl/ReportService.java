@@ -133,7 +133,8 @@ public class ReportService implements IReportService {
 				profileSearchService.deleteIndex(uid);
 			}
 			// 被永久封号用户的所有通过拒宅
-			List<Post> posts = postService.findAllPost(uid);
+			int totalCount = postService.countUserPost(uid);
+			List<Post> posts = postService.listUserPost(uid, 0, totalCount);
 			for (Post post : posts) {
 				try {
 					postService.shieldPost(post.getId());

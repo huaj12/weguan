@@ -332,14 +332,6 @@ public interface IPostService {
 	 * @return
 	 */
 	List<CmsPostView> getpost(int type, long id);
-
-	/**
-	 * 找出某人所有合格的拒宅
-	 * 
-	 * @param uid
-	 * @return
-	 */
-	//TODO (review) 这个方法是不是多余的？有方法可以用，为什么还要再写一个呢？
-	List<Post> findAllPost(long uid);
+	// TODO (done) 这个方法是不是多余的？有方法可以用，为什么还要再写一个呢？
 
 }

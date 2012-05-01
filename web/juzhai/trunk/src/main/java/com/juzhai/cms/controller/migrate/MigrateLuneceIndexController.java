@@ -31,10 +31,11 @@ public class MigrateLuneceIndexController {
 	private PostMapper postMapper;
 	private int num = 10;
 
-	//TODO (review) 批量处理写了很多次，为什么还是会出现这么严重的问题？问题不止一个！不解释。自己看下面两个批量处理代码逻辑吧。非常严重的问题！！！！
-	//TODO (review) 下面批量处理的代码，有性能优化的提升，自己找一下
-	//TODO (review) 这里后台建索引，为什么要走rabbitmq呢？仔细想想
-	
+	// TODO (review)
+	// 批量处理写了很多次，为什么还是会出现这么严重的问题？问题不止一个！不解释。自己看下面两个批量处理代码逻辑吧。非常严重的问题！！！！
+	// TODO (review) 下面批量处理的代码，有性能优化的提升，自己找一下
+	// TODO (review) 这里后台建索引，为什么要走rabbitmq呢？仔细想想
+
 	@RequestMapping(value = "/create/index/profile", method = RequestMethod.GET)
 	@ResponseBody
 	public String createProfileIndex() {
@@ -46,7 +47,7 @@ public class MigrateLuneceIndexController {
 			for (Profile profile : list) {
 				profileSearchService.createIndex(profile.getUid());
 			}
-			i += 500;
+			i += num;
 			if (list.size() < num) {
 				break;
 			}
@@ -67,7 +68,7 @@ public class MigrateLuneceIndexController {
 			for (Post post : list) {
 				postSearchService.createIndex(post.getId());
 			}
-			i += 10;
+			i += num;
 			if (list.size() < num) {
 				break;
 			}

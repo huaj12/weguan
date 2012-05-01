@@ -224,4 +224,12 @@ public interface IProfileService {
 	 */
 	void nextGuide(Profile profile) throws ProfileInputException;
 
+	/**
+	 * 头像是否通过
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	boolean isValidLogo(long uid);
+
 }

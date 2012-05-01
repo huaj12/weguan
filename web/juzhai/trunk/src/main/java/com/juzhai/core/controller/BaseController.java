@@ -44,6 +44,7 @@ import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IAdService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.search.service.ISearchHotService;
 
 public class BaseController {
 
@@ -84,6 +85,8 @@ public class BaseController {
 	private IGuessYouService guessYouService;
 	@Autowired
 	private IInterestUserService interestUserService;
+	@Autowired
+	private ISearchHotService searchHotService;
 
 	protected UserContext checkLoginForApp(HttpServletRequest request)
 			throws NeedLoginException {
@@ -295,5 +298,13 @@ public class BaseController {
 			recentIdeaViewList.add(ideaView);
 		}
 		model.addAttribute("recentIdeaViewList", recentIdeaViewList);
+	}
+
+	// 获取热词
+	protected void getHots(Model model, long city, int count) {
+		// TODO (done) 这段代码在上面看到过了
+		// TODO (done) 热搜词，不需要控制取多少个?
+		model.addAttribute("hots",
+				searchHotService.getSearchHotByCity(city, count));
 	}
 }

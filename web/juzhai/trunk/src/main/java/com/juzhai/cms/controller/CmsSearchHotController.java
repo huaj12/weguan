@@ -26,7 +26,8 @@ public class CmsSearchHotController {
 	@RequestMapping(value = "/show/searchHot", method = RequestMethod.GET)
 	public String showSearchHot(HttpServletRequest request, Model model,
 			@RequestParam(defaultValue = "0") long city) {
-		model.addAttribute("hots", searchHotService.getSearchHotByCity(city));
+		model.addAttribute("hots",
+				searchHotService.getSearchHotByCity(city, 100));
 		model.addAttribute("city", city);
 		return "cms/search_hot";
 	}
@@ -47,13 +48,8 @@ public class CmsSearchHotController {
 	@RequestMapping(value = "/del/searchHot", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult del(@RequestParam(defaultValue = "0") long id) {
-		AjaxResult ajaxResult = new AjaxResult();
-		try {
-			searchHotService.delete(id);
-		} catch (InputSearchHotException e) {
-			ajaxResult.setError(e.getErrorCode(), messageSource);
-		}
-		return ajaxResult;
+		searchHotService.delete(id);
+		return new AjaxResult();
 	}
 
 }

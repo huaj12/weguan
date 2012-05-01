@@ -8,6 +8,8 @@ public class InputSearchHotException extends JuzhaiException {
 
 	public static final String SEARCH_HOT_NAME_IS_NULL = "170001";
 
+	public static final String SEARCH_HOT_NAME_CITY_IS_EXIST = "170002";
+
 	public InputSearchHotException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

@@ -1097,13 +1097,4 @@ public class PostService implements IPostService {
 		return views;
 	}
 
-	@Override
-	public List<Post> findAllPost(long uid) {
-		PostExample example = new PostExample();
-		example.createCriteria().andCreateUidEqualTo(uid)
-				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
-				.andDefunctEqualTo(false);
-		return postMapper.selectByExample(example);
-	}
-
 }

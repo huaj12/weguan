@@ -98,7 +98,7 @@ public class UserGuideController extends BaseController {
 		}
 		profile.setProfessionId(professionId);
 		try {
-			profileService.updateProfile(profile);
+			profileService.nextGuide(profile);
 		} catch (ProfileInputException e) {
 			if (log.isDebugEnabled()) {
 				log.debug(e.getMessage(), e);

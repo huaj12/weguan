@@ -216,4 +216,12 @@ public interface IProfileService {
 	 */
 	boolean isValidUser(long uid);
 
+	/**
+	 * 完成引导
+	 * 
+	 * @param profile
+	 * @throws ProfileInputException
+	 */
+	void nextGuide(Profile profile) throws ProfileInputException;
+
 }

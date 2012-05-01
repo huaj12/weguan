@@ -295,107 +295,12 @@ public class ProfileService implements IProfileService {
 
 	@Override
 	public void updateProfile(Profile profile) throws ProfileInputException {
-		if (null == profile || profile.getUid() == 0) {
-			return;
-		}
-		long uid = profile.getUid();
-		if (profile.getProvince() == null || profile.getProvince() == 0) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_PROVINCE_IS_NULL);
-		}
-		if (profile.getCity() == null || profile.getCity() == 0) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_CITY_IS_NULL);
-		}
-		if (isTown(profile.getCity()) && profile.getTown() == -1) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_TOWN_IS_NULL);
-		}
-		if (profile.getBirthYear() == null || profile.getBirthYear() == 0) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_BIRTH_YEAR_IS_NULL);
-		}
-		if (profile.getBirthMonth() == null || profile.getBirthMonth() == 0) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_BIRTH_MONTH_IS_NULL);
-		}
-		if (profile.getBirthDay() == null || profile.getBirthDay() == 0) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_BIRTH_DAY_IS_NULL);
-		}
-		if (profile.getProfessionId() == null
-				|| profile.getProfessionId() == -1) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_PROFESSION_ID_IS_NULL);
-		}
-		if (profile.getProfessionId() == 0
-				&& StringUtils.isEmpty(profile.getProfession())) {
-			// 选择其他职业描述不能为空
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_PROFESSION_IS_NULL);
-		}
-		if (profile.getProfessionId() == 0
-				&& StringUtil.chineseLength(profile.getProfession()) > professionLengthMax) {
-			// 职业描述不能大于10个字
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_PROFESSION_IS_TOO_LONG);
-		}
-		if (null != profile.getFeature()) {
-			if (StringUtils.isEmpty(profile.getFeature())) {
-				// 性格描述不能为空
-				throw new ProfileInputException(
-						ProfileInputException.PROFILE_FEATURE_IS_NULL);
-			}
-			if (StringUtil.chineseLength(profile.getFeature()) > featureLengthMax) {
-				throw new ProfileInputException(
-						ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
-			}
-			// 验证屏蔽字
-			try {
-				if (wordFilterService.wordFilter(
-						profileFeatureWordfilterApplication, uid, null, profile
-								.getFeature().getBytes("GBK")) < 0) {
-					throw new ProfileInputException(
-							ProfileInputException.PROFILE_FEATURE_FORBID);
-				}
-			} catch (IOException e) {
-				log.error("Wordfilter service down.", e);
-			}
-		}
-		// 验证个人主页长度
-		if (StringUtil.chineseLength(profile.getBlog()) > blogLengthMax) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_BLOG_IS_TOO_LONG);
-		}
-
-		// 验证家乡长度
-		if (StringUtil.chineseLength(profile.getHome()) > homeLengthMax) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_HOME_IS_TOO_LONG);
-		}
-
-		if (profile.getProfessionId() > 0) {
-			Profession p = InitData.PROFESSION_MAP.get(profile
-					.getProfessionId());
-			if (null != p) {
-				profile.setProfession(p.getName());
-			}
-		}
-		profile.setConstellationId(InitData.getConstellation(
-				profile.getBirthMonth(), profile.getBirthDay()).getId());
-		profile.setLastModifyTime(new Date());
-		try {
-			profileMapper.updateByPrimaryKeySelective(profile);
-		} catch (Exception e) {
-			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
-		}
-		clearProfileCache(uid);
 		// cacheUserCity(uid);
 		// 引导也用的这个没法判断索引是否存在
 		// 用户资料修改
 		// 引导页面（后台头像已通过）
-		profileSearchService.deleteIndex(uid);
-		profileSearchService.createIndex(uid);
+		update(profile);
+		profileSearchService.updateIndex(profile.getUid());
 	}
 
 	@Override
@@ -619,5 +524,109 @@ public class ProfileService implements IProfileService {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void nextGuide(Profile profile) throws ProfileInputException {
+		update(profile);
+		profileSearchService.createIndex(profile.getUid());
+	}
+
+	private void update(Profile profile) throws ProfileInputException {
+		if (null == profile || profile.getUid() == 0) {
+			return;
+		}
+		long uid = profile.getUid();
+		if (profile.getProvince() == null || profile.getProvince() == 0) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_PROVINCE_IS_NULL);
+		}
+		if (profile.getCity() == null || profile.getCity() == 0) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_CITY_IS_NULL);
+		}
+		if (isTown(profile.getCity()) && profile.getTown() == -1) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_TOWN_IS_NULL);
+		}
+		if (profile.getBirthYear() == null || profile.getBirthYear() == 0) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_BIRTH_YEAR_IS_NULL);
+		}
+		if (profile.getBirthMonth() == null || profile.getBirthMonth() == 0) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_BIRTH_MONTH_IS_NULL);
+		}
+		if (profile.getBirthDay() == null || profile.getBirthDay() == 0) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_BIRTH_DAY_IS_NULL);
+		}
+		if (profile.getProfessionId() == null
+				|| profile.getProfessionId() == -1) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_PROFESSION_ID_IS_NULL);
+		}
+		if (profile.getProfessionId() == 0
+				&& StringUtils.isEmpty(profile.getProfession())) {
+			// 选择其他职业描述不能为空
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_PROFESSION_IS_NULL);
+		}
+		if (profile.getProfessionId() == 0
+				&& StringUtil.chineseLength(profile.getProfession()) > professionLengthMax) {
+			// 职业描述不能大于10个字
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_PROFESSION_IS_TOO_LONG);
+		}
+		if (null != profile.getFeature()) {
+			if (StringUtils.isEmpty(profile.getFeature())) {
+				// 性格描述不能为空
+				throw new ProfileInputException(
+						ProfileInputException.PROFILE_FEATURE_IS_NULL);
+			}
+			if (StringUtil.chineseLength(profile.getFeature()) > featureLengthMax) {
+				throw new ProfileInputException(
+						ProfileInputException.PROFILE_FEATURE_IS_TOO_LONG);
+			}
+			// 验证屏蔽字
+			try {
+				if (wordFilterService.wordFilter(
+						profileFeatureWordfilterApplication, uid, null, profile
+								.getFeature().getBytes("GBK")) < 0) {
+					throw new ProfileInputException(
+							ProfileInputException.PROFILE_FEATURE_FORBID);
+				}
+			} catch (IOException e) {
+				log.error("Wordfilter service down.", e);
+			}
+		}
+		// 验证个人主页长度
+		if (StringUtil.chineseLength(profile.getBlog()) > blogLengthMax) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_BLOG_IS_TOO_LONG);
+		}
+
+		// 验证家乡长度
+		if (StringUtil.chineseLength(profile.getHome()) > homeLengthMax) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_HOME_IS_TOO_LONG);
+		}
+
+		if (profile.getProfessionId() > 0) {
+			Profession p = InitData.PROFESSION_MAP.get(profile
+					.getProfessionId());
+			if (null != p) {
+				profile.setProfession(p.getName());
+			}
+		}
+		profile.setConstellationId(InitData.getConstellation(
+				profile.getBirthMonth(), profile.getBirthDay()).getId());
+		profile.setLastModifyTime(new Date());
+		try {
+			profileMapper.updateByPrimaryKeySelective(profile);
+		} catch (Exception e) {
+			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
+		}
+		clearProfileCache(uid);
 	}
 }

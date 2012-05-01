@@ -224,7 +224,9 @@ public class ProfileService implements IProfileService {
 			}
 			clearProfileCache(uid);
 			// 修改性别
-			profileSearchService.updateIndex(uid);
+			if (isValidUser(uid)) {
+				profileSearchService.updateIndex(uid);
+			}
 		} else {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_GEBDER_REPEAT_UPDATE);
@@ -277,8 +279,9 @@ public class ProfileService implements IProfileService {
 		}
 		clearProfileCache(uid);
 		// 修改性别
-		profileSearchService.updateIndex(uid);
-
+		if (isValidUser(uid)) {
+			profileSearchService.updateIndex(uid);
+		}
 	}
 
 	private boolean isTown(long cityId) {
@@ -300,7 +303,9 @@ public class ProfileService implements IProfileService {
 		// 用户资料修改
 		// 引导页面（后台头像已通过）
 		update(profile);
-		profileSearchService.updateIndex(profile.getUid());
+		if (isValidUser(profile.getUid())) {
+			profileSearchService.updateIndex(profile.getUid());
+		}
 	}
 
 	@Override
@@ -517,6 +522,13 @@ public class ProfileService implements IProfileService {
 		if (!userGuideService.isCompleteGuide(uid)) {
 			return false;
 		}
+		if (!isValidLogo(uid)) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean isValidLogo(long uid) {
 		ProfileExample example = new ProfileExample();
 		example.createCriteria().andLogoPicIsNotNull()
 				.andLogoPicNotEqualTo(StringUtils.EMPTY).andUidEqualTo(uid);
@@ -529,7 +541,9 @@ public class ProfileService implements IProfileService {
 	@Override
 	public void nextGuide(Profile profile) throws ProfileInputException {
 		update(profile);
-		profileSearchService.createIndex(profile.getUid());
+		if (isValidLogo(profile.getUid())) {
+			profileSearchService.createIndex(profile.getUid());
+		}
 	}
 
 	private void update(Profile profile) throws ProfileInputException {

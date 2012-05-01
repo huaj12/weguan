@@ -222,6 +222,7 @@ public class PostService implements IPostService {
 		// 每日发布idea统计
 		postIdeaCounter.incr(null, 1L);
 		// 前台发布好主意。
+		//TODO (review) 不是所有用户发布好主意，都是通过状态！我记得说过要加的通用一点，不要仅仅针对好主意去处理！
 		postSearchService.createIndex(post.getId());
 		return post.getId();
 	}
@@ -591,6 +592,7 @@ public class PostService implements IPostService {
 			if (postId != null && postId > 0) {
 				setUserLatestPost(getPostById(postId));
 				// 后台拒宅通过审核 用户修改通过状态的拒宅 取消屏蔽
+				//TODO (review) 昨晚白说了⋯⋯⋯⋯，欲哭无泪
 				postSearchService.deleteIndex(postId);
 				postSearchService.createIndex(postId);
 			}

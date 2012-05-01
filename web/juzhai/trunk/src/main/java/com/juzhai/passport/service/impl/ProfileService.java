@@ -224,7 +224,7 @@ public class ProfileService implements IProfileService {
 			}
 			clearProfileCache(uid);
 			// 修改性别
-			//TODO 想办法更新索引个别field
+			// TODO 想办法更新索引个别field
 			if (isValidUser(uid)) {
 				profileSearchService.updateIndex(uid);
 			}
@@ -280,7 +280,7 @@ public class ProfileService implements IProfileService {
 		}
 		clearProfileCache(uid);
 		// 修改性别
-		//TODO 想办法更新索引个别field
+		// TODO 想办法更新索引个别field
 		if (isValidUser(uid)) {
 			profileSearchService.updateIndex(uid);
 		}
@@ -530,8 +530,9 @@ public class ProfileService implements IProfileService {
 		return true;
 	}
 
-	private boolean isValidLogo(long uid) {
-		//TODO (review) 为什么要紧数据库查询？
+	@Override
+	public boolean isValidLogo(long uid) {
+		// TODO (done) 为什么要紧数据库查询？不止一个地方调用。
 		ProfileExample example = new ProfileExample();
 		example.createCriteria().andLogoPicIsNotNull()
 				.andLogoPicNotEqualTo(StringUtils.EMPTY).andUidEqualTo(uid);

@@ -224,6 +224,7 @@ public class ProfileService implements IProfileService {
 			}
 			clearProfileCache(uid);
 			// 修改性别
+			//TODO 想办法更新索引个别field
 			if (isValidUser(uid)) {
 				profileSearchService.updateIndex(uid);
 			}
@@ -279,6 +280,7 @@ public class ProfileService implements IProfileService {
 		}
 		clearProfileCache(uid);
 		// 修改性别
+		//TODO 想办法更新索引个别field
 		if (isValidUser(uid)) {
 			profileSearchService.updateIndex(uid);
 		}
@@ -529,6 +531,7 @@ public class ProfileService implements IProfileService {
 	}
 
 	private boolean isValidLogo(long uid) {
+		//TODO (review) 为什么要紧数据库查询？
 		ProfileExample example = new ProfileExample();
 		example.createCriteria().andLogoPicIsNotNull()
 				.andLogoPicNotEqualTo(StringUtils.EMPTY).andUidEqualTo(uid);

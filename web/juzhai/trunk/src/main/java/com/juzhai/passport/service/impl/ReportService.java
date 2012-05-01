@@ -125,6 +125,7 @@ public class ReportService implements IReportService {
 				+ time));
 		// 用户永久封号
 		if (lockUserLevel.getLevel() == 3) {
+			//TODO (review) 会不会存在没有必要去删索引的情况？
 			profileSearchService.deleteIndex(uid);
 			// 被永久封号用户的所有通过拒宅
 			List<Post> posts = postService.findAllPost(uid);

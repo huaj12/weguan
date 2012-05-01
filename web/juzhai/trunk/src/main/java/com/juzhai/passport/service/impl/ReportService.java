@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -21,9 +23,14 @@ import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IReportService;
 import com.juzhai.plug.bean.ReportContentType;
 import com.juzhai.plug.controller.form.ReportForm;
+import com.juzhai.post.exception.InputPostException;
+import com.juzhai.post.model.Post;
+import com.juzhai.post.service.IPostService;
+import com.juzhai.search.service.IProfileSearchService;
 
 @Service
 public class ReportService implements IReportService {
+	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private ReportMapper reportMapper;
 	@Autowired
@@ -32,6 +39,10 @@ public class ReportService implements IReportService {
 	private int reportDescriptionLengthMax;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IProfileSearchService profileSearchService;
+	@Autowired
+	private IPostService postService;
 
 	@Override
 	public void save(ReportForm form, long createUid)
@@ -112,6 +123,18 @@ public class ReportService implements IReportService {
 		reportMapper.updateByPrimaryKeySelective(report);
 		passportService.lockUser(uid, new Date(System.currentTimeMillis()
 				+ time));
+		// 用户永久封号
+		if (lockUserLevel.getLevel() == 3) {
+			profileSearchService.deleteIndex(uid);
+			// 被永久封号用户的所有通过拒宅
+			List<Post> posts = postService.findAllPost(uid);
+			for (Post post : posts) {
+				try {
+					postService.shieldPost(post.getId());
+				} catch (InputPostException e) {
+				}
+			}
+		}
 
 	}
 

@@ -20,9 +20,12 @@ import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.bean.VerifyType;
+import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.mapper.PostMapper;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostExample;
+import com.juzhai.post.service.IPostService;
+import com.juzhai.search.service.IProfileSearchService;
 import com.juzhai.stats.counter.service.ICounter;
 
 @Service
@@ -36,6 +39,11 @@ public class VerifyLogoService implements IVerifyLogoService {
 	private IDialogService dialogService;
 	@Autowired
 	private ICounter auditLogoCounter;
+	@Autowired
+	private IProfileSearchService profileSearchService;
+	@Autowired
+	private IPostService postService;
+
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
@@ -80,9 +88,12 @@ public class VerifyLogoService implements IVerifyLogoService {
 							DialogContentTemplate.PASS_LOGO,
 							profileCache.getNickname());
 					auditLogoCounter.incr(null, 1L);
+					// 后台通过头像
+					profileSearchService.createIndex(uid);
 				}
 			}
 		}
+
 	}
 
 	@Override
@@ -122,5 +133,15 @@ public class VerifyLogoService implements IVerifyLogoService {
 
 		profileService.clearProfileCache(uid);
 		dialogService.sendOfficialSMS(uid, DialogContentTemplate.DENY_LOGO);
+		// 删除头像
+		profileSearchService.deleteIndex(uid);
+		// 删除头像的用户的所有通过拒宅
+		List<Post> posts = postService.findAllPost(uid);
+		for (Post p : posts) {
+			try {
+				postService.shieldPost(p.getId());
+			} catch (InputPostException e) {
+			}
+		}
 	}
 }

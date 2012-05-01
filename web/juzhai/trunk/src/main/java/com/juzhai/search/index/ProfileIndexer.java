@@ -13,15 +13,21 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.core.lucene.index.Indexer;
 import com.juzhai.passport.model.Profile;
+import com.juzhai.passport.service.IProfileService;
 
 @Service
 public class ProfileIndexer implements Indexer<Profile> {
 	@Autowired
 	private IndexWriter profileIndexWriter;
+	@Autowired
+	private IProfileService profileService;
 
 	@Override
 	public void addIndex(Profile profile, boolean isCommit)
 			throws CorruptIndexException, IOException {
+		if (!profileService.isValidUser(profile.getUid())) {
+			return;
+		}
 		Document doc = buildDoc(profile);
 		profileIndexWriter.addDocument(doc);
 		if (isCommit) {
@@ -31,7 +37,7 @@ public class ProfileIndexer implements Indexer<Profile> {
 
 	private Document buildDoc(Profile profile) {
 		Document doc = new Document();
-		//TODO (review) 基于最终搜索结果展示方式，重新整理一下下面field的策略
+		// TODO (review) 基于最终搜索结果展示方式，重新整理一下下面field的策略
 		doc.add(new Field("uid", profile.getUid().toString(), Field.Store.YES,
 				Field.Index.NOT_ANALYZED));
 		doc.add(new Field("name", profile.getNickname().toString(),
@@ -96,6 +102,9 @@ public class ProfileIndexer implements Indexer<Profile> {
 	@Override
 	public void updateIndex(Profile profile, boolean isCommit)
 			throws CorruptIndexException, IOException {
+		if (!profileService.isValidUser(profile.getUid())) {
+			return;
+		}
 		profileIndexWriter.updateDocument(new Term("uid", profile.getUid()
 				.toString()), buildDoc(profile));
 		if (isCommit) {

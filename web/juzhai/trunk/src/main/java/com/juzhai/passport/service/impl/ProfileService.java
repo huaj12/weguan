@@ -43,6 +43,7 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IProfileImageService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
+import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.search.service.IProfileSearchService;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
@@ -65,6 +66,8 @@ public class ProfileService implements IProfileService {
 	private IWordFilterService wordFilterService;
 	@Autowired
 	private IProfileSearchService profileSearchService;
+	@Autowired
+	private IUserGuideService userGuideService;
 	@Value("${profile.cache.expire.time}")
 	private int profileCacheExpireTime = 20000;
 	@Value("${nickname.length.max}")
@@ -220,6 +223,7 @@ public class ProfileService implements IProfileService {
 						ProfileInputException.PROFILE_ERROR);
 			}
 			clearProfileCache(uid);
+			// 修改性别
 			profileSearchService.updateIndex(uid);
 		} else {
 			throw new ProfileInputException(
@@ -272,6 +276,7 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
 		}
 		clearProfileCache(uid);
+		// 修改性别
 		profileSearchService.updateIndex(uid);
 
 	}
@@ -386,7 +391,11 @@ public class ProfileService implements IProfileService {
 		}
 		clearProfileCache(uid);
 		// cacheUserCity(uid);
-		profileSearchService.updateIndex(uid);
+		// 引导也用的这个没法判断索引是否存在
+		// 用户资料修改
+		// 引导页面（后台头像已通过）
+		profileSearchService.deleteIndex(uid);
+		profileSearchService.createIndex(uid);
 	}
 
 	@Override
@@ -597,4 +606,18 @@ public class ProfileService implements IProfileService {
 		return result;
 	}
 
+	@Override
+	public boolean isValidUser(long uid) {
+		// 未通过引导
+		if (!userGuideService.isCompleteGuide(uid)) {
+			return false;
+		}
+		ProfileExample example = new ProfileExample();
+		example.createCriteria().andLogoPicIsNotNull()
+				.andLogoPicNotEqualTo(StringUtils.EMPTY).andUidEqualTo(uid);
+		if (profileMapper.countByExample(example) == 0) {
+			return false;
+		}
+		return true;
+	}
 }

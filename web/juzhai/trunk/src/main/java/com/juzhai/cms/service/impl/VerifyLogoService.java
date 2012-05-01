@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +22,11 @@ import com.juzhai.passport.model.ProfileExample;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.post.bean.VerifyType;
-import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.mapper.PostMapper;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostExample;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.search.service.IPostSearchService;
 import com.juzhai.search.service.IProfileSearchService;
 import com.juzhai.stats.counter.service.ICounter;
 
@@ -50,6 +51,10 @@ public class VerifyLogoService implements IVerifyLogoService {
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private PostMapper postMapper;
+	@Autowired
+	private IPostSearchService postSearchService;
+	@Value("${user.post.lunece.rows}")
+	private int userPostLuneceRows;
 
 	@Override
 	public List<Profile> listVerifyLogoProfile(LogoVerifyState logoVerifyState,
@@ -95,9 +100,9 @@ public class VerifyLogoService implements IVerifyLogoService {
 							profileCache.getNickname());
 					auditLogoCounter.incr(null, 1L);
 					// 后台通过头像
-					// TODO (review) 两个if，哪个更耗性能？
-					if (userGuideService.isCompleteGuide(uid)) {
-						if (!falg) {
+					// TODO (done) 两个if，哪个更耗性能？
+					if (!falg) {
+						if (userGuideService.isCompleteGuide(uid)) {
 							profileSearchService.createIndex(uid);
 						}
 					}
@@ -126,15 +131,6 @@ public class VerifyLogoService implements IVerifyLogoService {
 
 	@Override
 	public void removeLogo(long uid) {
-		PostExample postExample = new PostExample();
-		postExample.createCriteria().andCreateUidEqualTo(uid)
-				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
-				.andDefunctEqualTo(false);
-		Post post = new Post();
-		post.setVerifyType(VerifyType.SHIELD.getType());
-		post.setLastModifyTime(new Date());
-		postMapper.updateByExampleSelective(post, postExample);
-
 		Profile profile = profileMapper.selectByPrimaryKey(uid);
 		boolean flag = false;
 		if (profileService.isValidUser(uid)) {
@@ -154,15 +150,28 @@ public class VerifyLogoService implements IVerifyLogoService {
 			profileSearchService.deleteIndex(uid);
 		}
 		// 删除头像的用户的所有通过拒宅
-		// TODO (review) 为什么要先取count？再说，count万一取出来很多很多呢？
-		int totalCount = postService.countUserPost(uid);
-		List<Post> posts = postService.listUserPost(uid, 0, totalCount);
-		for (Post p : posts) {
-			try {
-				// TODO (review) 为什么要去屏蔽post？看看我上面的代码
-				postService.shieldPost(p.getId());
-			} catch (InputPostException e) {
+		// TODO (done) 为什么要先取count？再说，count万一取出来很多很多呢？
+		int i = 0;
+		while (true) {
+			List<Post> posts = postService.listUserPost(uid, i,
+					userPostLuneceRows);
+			for (Post p : posts) {
+				if (VerifyType.QUALIFIED.getType() == p.getVerifyType()) {
+					postSearchService.deleteIndex(p.getId());
+				}
+			}
+			i += userPostLuneceRows;
+			if (posts.size() < userPostLuneceRows) {
+				break;
 			}
 		}
+		PostExample postExample = new PostExample();
+		postExample.createCriteria().andCreateUidEqualTo(uid)
+				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
+				.andDefunctEqualTo(false);
+		Post post = new Post();
+		post.setVerifyType(VerifyType.SHIELD.getType());
+		post.setLastModifyTime(new Date());
+		postMapper.updateByExampleSelective(post, postExample);
 	}
 }

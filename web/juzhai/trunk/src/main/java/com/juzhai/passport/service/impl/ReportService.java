@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -24,14 +22,16 @@ import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IReportService;
 import com.juzhai.plug.bean.ReportContentType;
 import com.juzhai.plug.controller.form.ReportForm;
-import com.juzhai.post.exception.InputPostException;
+import com.juzhai.post.bean.VerifyType;
+import com.juzhai.post.mapper.PostMapper;
 import com.juzhai.post.model.Post;
+import com.juzhai.post.model.PostExample;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.search.service.IPostSearchService;
 import com.juzhai.search.service.IProfileSearchService;
 
 @Service
 public class ReportService implements IReportService {
-	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private ReportMapper reportMapper;
 	@Autowired
@@ -46,6 +46,12 @@ public class ReportService implements IReportService {
 	private IPostService postService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private PostMapper postMapper;
+	@Autowired
+	private IPostSearchService postSearchService;
+	@Value("${user.post.lunece.rows}")
+	private int userPostLuneceRows;
 
 	@Override
 	public void save(ReportForm form, long createUid)
@@ -132,16 +138,29 @@ public class ReportService implements IReportService {
 				profileSearchService.deleteIndex(uid);
 			}
 			// 被永久封号用户的所有通过拒宅
-			// TODO (review) 为什么要先取count？再说，count万一取出来很多很多呢？
-			int totalCount = postService.countUserPost(uid);
-			List<Post> posts = postService.listUserPost(uid, 0, totalCount);
-			for (Post post : posts) {
-				try {
-					// TODO (review) 参考删除头像里的操作，性能更高
-					postService.shieldPost(post.getId());
-				} catch (InputPostException e) {
+			// TODO (done) 为什么要先取count？再说，count万一取出来很多很多呢？
+			int i = 0;
+			while (true) {
+				List<Post> posts = postService.listUserPost(uid, i,
+						userPostLuneceRows);
+				for (Post p : posts) {
+					if (VerifyType.QUALIFIED.getType() == p.getVerifyType()) {
+						postSearchService.deleteIndex(p.getId());
+					}
+				}
+				i += userPostLuneceRows;
+				if (posts.size() < userPostLuneceRows) {
+					break;
 				}
 			}
+			PostExample postExample = new PostExample();
+			postExample.createCriteria().andCreateUidEqualTo(uid)
+					.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
+					.andDefunctEqualTo(false);
+			Post post = new Post();
+			post.setVerifyType(VerifyType.SHIELD.getType());
+			post.setLastModifyTime(new Date());
+			postMapper.updateByExampleSelective(post, postExample);
 		}
 
 	}

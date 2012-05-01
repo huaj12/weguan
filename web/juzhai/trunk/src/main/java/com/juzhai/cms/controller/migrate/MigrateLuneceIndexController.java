@@ -12,6 +12,7 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
+import com.juzhai.post.bean.VerifyType;
 import com.juzhai.post.mapper.PostMapper;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostExample;
@@ -31,7 +32,7 @@ public class MigrateLuneceIndexController {
 	private PostMapper postMapper;
 	private int num = 10;
 
-	// TODO (review)
+	// TODO(review)
 	// 批量处理写了很多次，为什么还是会出现这么严重的问题？问题不止一个！不解释。自己看下面两个批量处理代码逻辑吧。非常严重的问题！！！！
 	// TODO (review) 下面批量处理的代码，有性能优化的提升，自己找一下
 	// TODO (review) 这里后台建索引，为什么要走rabbitmq呢？仔细想想
@@ -42,6 +43,7 @@ public class MigrateLuneceIndexController {
 		int i = 0;
 		while (true) {
 			ProfileExample example = new ProfileExample();
+			example.setOrderByClause("create_time desc");
 			example.setLimit(new Limit(i, num));
 			List<Profile> list = profileMapper.selectByExample(example);
 			for (Profile profile : list) {
@@ -61,7 +63,8 @@ public class MigrateLuneceIndexController {
 		int i = 0;
 		while (true) {
 			PostExample example = new PostExample();
-			example.createCriteria().andVerifyTypeEqualTo(1)
+			example.createCriteria()
+					.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
 					.andDefunctEqualTo(false);
 			example.setLimit(new Limit(i, num));
 			List<Post> list = postMapper.selectByExample(example);

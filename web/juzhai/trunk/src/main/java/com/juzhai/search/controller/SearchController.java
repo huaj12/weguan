@@ -32,6 +32,8 @@ import com.juzhai.post.controller.helper.PostViewHelper;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.preference.bean.SiftTypePreference;
+import com.juzhai.preference.service.IUserPreferenceService;
 import com.juzhai.search.bean.Education;
 import com.juzhai.search.service.IPostSearchService;
 import com.juzhai.search.service.IProfileSearchService;
@@ -51,6 +53,8 @@ public class SearchController extends BaseController {
 	private IPostSearchService postSearchService;
 	@Autowired
 	private PostViewHelper postViewHelper;
+	@Autowired
+	private IUserPreferenceService userPreferenceService;
 	// @Value("${web.search.act.max.rows}")
 	// private int webSearchActMaxRows;
 	@Value("${query.users.right.user.rows}")
@@ -59,6 +63,10 @@ public class SearchController extends BaseController {
 	private int searchUserRows;
 	@Value("${search.post.rows}")
 	private int searchPostRows;
+	@Value("${search.user.hot.rows}")
+	private int searchUserHotRows;
+	@Value("${search.post.hot.rows}")
+	private int searchPostHotRows;
 
 	// @RequestMapping(value = "/queryAct", method = RequestMethod.GET)
 	// public String searchAct(Model model, String name, HttpServletRequest
@@ -155,9 +163,31 @@ public class SearchController extends BaseController {
 
 	@RequestMapping(value = { "/findusers", "/findUsers" }, method = RequestMethod.GET)
 	public String findUsers(HttpServletRequest request, Model model) {
-		// TODO (review) 性别和年龄，需要根据偏好设置默认，max的需求
-		return seachUsers(request, model, 1, 0, null, null, null, null, null,
-				null, 0, 0, 0);
+		String genderType = "all";
+		String minAge = "0";
+		String maxAge = "0";
+		try {
+			// TODO (done) 性别和年龄，需要根据偏好设置默认，max的需求
+			UserContext context = checkLoginForWeb(request);
+			List<String> genders = userPreferenceService.getUserAnswer(
+					context.getUid(),
+					SiftTypePreference.GENDER.getPreferenceId());
+			if (genders != null && genders.size() == 1) {
+				String gender = genders.get(0);
+				if (StringUtils.equals(gender, "1")) {
+					genderType = "male";
+				} else if (StringUtils.equals(gender, "0")) {
+					genderType = "female";
+				}
+			}
+			List<String> ages = userPreferenceService.getUserAnswer(
+					context.getUid(), SiftTypePreference.AGE.getPreferenceId());
+			minAge = ages.get(0);
+			maxAge = ages.get(1);
+		} catch (Exception e) {
+		}
+		return seachUsers(request, model, 1, 0, genderType, minAge, maxAge,
+				"0", "0", "0", 0, 0, 0);
 	}
 
 	@RequestMapping(value = { "/seachusers/{town}_{sex}_{minStringAge}_{maxStringAge}_{minStringHeight}_{maxStringHeight}_{constellationIds}_{educations}_{minMonthlyIncome}_{maxMonthlyIncome}/{pageId}" }, method = RequestMethod.GET)
@@ -177,16 +207,16 @@ public class SearchController extends BaseController {
 		}
 		UserContext context = (UserContext) request.getAttribute("context");
 		Integer gender = getSex(sex);
-		// TODO (review) 为什么要传进来String？
+		// TODO (done) 为什么要传进来String？
 		int maxAge = getInt(maxStringAge);
-		// TODO (review) 为什么要传进来String？
+		// TODO (done) 为什么要传进来String？
 		int minAge = getInt(minStringAge);
 		int maxYear = ageToYear(Math.min(minAge, maxAge));
 		int minYear = ageToYear(Math.max(minAge, maxAge));
-		// TODO (review) 为什么要传进来String？
+		// TODO (done) 为什么要传进来String？
 		int maxHeight = Math.max(getInt(minStringHeight),
 				getInt(maxStringHeight));
-		// TODO (review) 为什么要传进来String？
+		// TODO (done) 为什么要传进来String？
 		int minHeight = Math.min(getInt(minStringHeight),
 				getInt(maxStringHeight));
 		List<Long> constellationId = getConstellation(constellationIds);
@@ -194,7 +224,7 @@ public class SearchController extends BaseController {
 		if (educations != 0) {
 			for (Education edu : Education.values()) {
 				if (edu.getType() >= educations) {
-					String eduVlue = com.juzhai.common.InitData.EDUCATION_MAP
+					String eduVlue = com.juzhai.search.InitData.EDUCATION_MAP
 							.get(edu.getType());
 					if (StringUtils.isNotEmpty(eduVlue)) {
 						if (CollectionUtils.isEmpty(educationList)) {
@@ -205,6 +235,7 @@ public class SearchController extends BaseController {
 				}
 			}
 		}
+		// TODO (done) 居然写死2？用来测试，也应该是配置文件来修改！！更何况已经提交测试！
 		PagerManager pager = new PagerManager(pageId, searchUserRows,
 				profileSearchService.countQqueryProfile(city, town, gender,
 						minYear, maxYear, educationList, minMonthlyIncome,
@@ -254,12 +285,12 @@ public class SearchController extends BaseController {
 		model.addAttribute("maxMonthlyIncome", maxMonthlyIncome);
 		model.addAttribute("constellationIds", constellationId);
 		model.addAttribute("educations",
-				com.juzhai.common.InitData.EDUCATION_MAP);
+				com.juzhai.search.InitData.EDUCATION_MAP);
 		model.addAttribute("strConstellationIds",
 				StringUtils.join(constellationId, ","));
 		model.addAttribute("pageType", "zbe");
-		//TODO (review) 为什么不做配置，被偷懒啊
-		getHots(model, city, 5);
+		// TODO (done) 为什么不做配置，被偷懒啊
+		getHots(model, city, searchUserHotRows);
 		return "web/search/seach_user";
 	}
 
@@ -278,6 +309,7 @@ public class SearchController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			city = loginUser.getCity();
 		}
+		// TODO (done) 这段代码在上面看到过了
 		Integer gender = getSex(sex);
 
 		PagerManager pager = new PagerManager(pageId, searchPostRows,
@@ -291,8 +323,7 @@ public class SearchController extends BaseController {
 		model.addAttribute("queryString", queryString);
 		model.addAttribute("sex", sex);
 		loadFaces(model);
-		//TODO (review) 为什么不做配置，被偷懒啊
-		getHots(model, city, 10);
+		getHots(model, city, searchPostHotRows);
 		return "web/search/search_posts";
 	}
 
@@ -328,7 +359,8 @@ public class SearchController extends BaseController {
 		if (StringUtils.isNotEmpty(constellationIds)) {
 			constellationId = new ArrayList<Long>();
 			for (String str : constellationIds.split(",")) {
-				long cid = 0l;
+				// TODO (done) 如果篡改URL，会出现这里无法转Long
+				Long cid = 0l;
 				try {
 					cid = Long.valueOf(str);
 				} catch (Exception e) {

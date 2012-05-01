@@ -54,9 +54,10 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void createIndex(long uid) {
-		// TODO (review)
+		// TODO (done)
 		// 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？
-		Profile profile = profileService.getProfile(uid);
+		Profile profile = new Profile();
+		profile.setUid(uid);
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
 		msgMessage.buildBody(profile).buildActionType(ActionType.CREATE);
 		profileIndexCreateRabbitTemplate.convertAndSend(msgMessage);
@@ -64,9 +65,10 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void updateIndex(long uid) {
-		// TODO (review)
+		// TODO (done)
 		// 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？
-		Profile profile = profileService.getProfile(uid);
+		Profile profile = new Profile();
+		profile.setUid(uid);
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
 		msgMessage.buildBody(profile).buildActionType(ActionType.UPDATE);
 		profileIndexCreateRabbitTemplate.convertAndSend(msgMessage);
@@ -75,9 +77,10 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void deleteIndex(long uid) {
-		// TODO (review)
+		// TODO (done)
 		// 考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？
-		Profile profile = profileService.getProfile(uid);
+		Profile profile = new Profile();
+		profile.setUid(uid);
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
 		msgMessage.buildBody(profile).buildActionType(ActionType.DELETE);
 		profileIndexCreateRabbitTemplate.convertAndSend(msgMessage);

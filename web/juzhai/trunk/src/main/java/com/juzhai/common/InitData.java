@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -37,7 +36,6 @@ import com.juzhai.passport.model.ProvinceMapping;
 import com.juzhai.passport.model.ProvinceMappingExample;
 import com.juzhai.passport.model.Town;
 import com.juzhai.passport.model.TownExample;
-import com.juzhai.search.bean.Education;
 
 @Component("commonInitData")
 @Lazy(false)
@@ -54,8 +52,6 @@ public class InitData {
 	public static final List<Long> SPECIAL_CITY_LIST = new ArrayList<Long>();
 	public static final Map<Long, String> SPECIAL_CITY_QQ_MAP = new HashMap<Long, String>();
 	public static final Map<String, Face> FACE_MAP = new LinkedHashMap<String, Face>();
-	// TODO (reivew) 搜索以外的模块，需要用到这个数据吗？
-	public static final Map<Integer, String> EDUCATION_MAP = new HashMap<Integer, String>();
 
 	@Autowired
 	private ProvinceMapper provinceMapper;
@@ -83,15 +79,6 @@ public class InitData {
 		initTown();
 		initCityAndProvinceMapping();
 		initFace();
-		initEducation();
-	}
-
-	private void initEducation() {
-		for (Education edu : Education.values()) {
-			EDUCATION_MAP.put(edu.getType(), messageSource.getMessage(
-					edu.getText(), null, Locale.SIMPLIFIED_CHINESE));
-		}
-
 	}
 
 	private void initFace() {

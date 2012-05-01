@@ -532,11 +532,9 @@ public class ProfileService implements IProfileService {
 
 	@Override
 	public boolean isValidLogo(long uid) {
-		// TODO (review) 为什么要紧数据库查询？
-		ProfileExample example = new ProfileExample();
-		example.createCriteria().andLogoPicIsNotNull()
-				.andLogoPicNotEqualTo(StringUtils.EMPTY).andUidEqualTo(uid);
-		if (profileMapper.countByExample(example) == 0) {
+		// TODO (done) 为什么要紧数据库查询？
+		ProfileCache cache = getProfileCacheByUid(uid);
+		if (StringUtils.isEmpty(cache.getLogoPic())) {
 			return false;
 		}
 		return true;

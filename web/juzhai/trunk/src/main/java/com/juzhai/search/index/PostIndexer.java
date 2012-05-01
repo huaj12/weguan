@@ -17,6 +17,7 @@ import com.juzhai.core.util.DateFormat;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.model.Post;
+import com.juzhai.post.service.IPostService;
 
 @Service
 public class PostIndexer implements Indexer<Post> {
@@ -24,10 +25,13 @@ public class PostIndexer implements Indexer<Post> {
 	private IndexWriter postIndexWriter;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IPostService postService;
 
 	@Override
 	public void addIndex(Post post, boolean isCommit)
 			throws CorruptIndexException, IOException {
+		post = postService.getPostById(post.getId());
 		Document doc = buildDoc(post);
 		postIndexWriter.addDocument(doc);
 		if (isCommit) {
@@ -125,6 +129,7 @@ public class PostIndexer implements Indexer<Post> {
 	@Override
 	public void updateIndex(Post post, boolean isCommit)
 			throws CorruptIndexException, IOException {
+		post = postService.getPostById(post.getId());
 		postIndexWriter.updateDocument(new Term("id", post.getId().toString()),
 				buildDoc(post));
 		if (isCommit) {

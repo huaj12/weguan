@@ -74,6 +74,10 @@ public class VerifyLogoService implements IVerifyLogoService {
 
 	@Override
 	public void passLogo(long uid) {
+		boolean falg = false;
+		if (profileService.isValidLogo(uid)) {
+			falg = true;
+		}
 		Profile profile = profileMapper.selectByPrimaryKey(uid);
 		if (null != profile) {
 			Profile updateProfile = new Profile();
@@ -91,9 +95,12 @@ public class VerifyLogoService implements IVerifyLogoService {
 							profileCache.getNickname());
 					auditLogoCounter.incr(null, 1L);
 					// 后台通过头像
-					//TODO (review)阳仔啊，要仔细啊！！！！ 有对照mmap来加的吗？你自己提出的可能是修改头像，这里有判断了吗？
+					// TODO (done)阳仔啊，要仔细啊！！！！
+					// 有对照mmap来加的吗？你自己提出的可能是修改头像，这里有判断了吗？
 					if (userGuideService.isCompleteGuide(uid)) {
-						profileSearchService.createIndex(uid);
+						if (!falg) {
+							profileSearchService.createIndex(uid);
+						}
 					}
 				}
 			}
@@ -130,6 +137,11 @@ public class VerifyLogoService implements IVerifyLogoService {
 		postMapper.updateByExampleSelective(post, postExample);
 
 		Profile profile = profileMapper.selectByPrimaryKey(uid);
+		boolean flag = false;
+		if (profileService.isValidLogo(uid)) {
+			flag = true;
+		}
+
 		profile.setLogoPic(null);
 		profile.setLastUpdateTime(null);
 		profile.setLogoVerifyState(LogoVerifyState.UNVERIFIED.getType());
@@ -139,8 +151,10 @@ public class VerifyLogoService implements IVerifyLogoService {
 		profileService.clearProfileCache(uid);
 		dialogService.sendOfficialSMS(uid, DialogContentTemplate.DENY_LOGO);
 		// 删除头像
-		//TODO (review) 会不会存在没有必要去删索引的情况？
-		profileSearchService.deleteIndex(uid);
+		// TODO (done) 会不会存在没有必要去删索引的情况？
+		if (flag) {
+			profileSearchService.deleteIndex(uid);
+		}
 		// 删除头像的用户的所有通过拒宅
 		List<Post> posts = postService.findAllPost(uid);
 		for (Post p : posts) {

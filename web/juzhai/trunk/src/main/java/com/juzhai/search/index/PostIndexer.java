@@ -45,23 +45,69 @@ public class PostIndexer implements Indexer<Post> {
 		}
 		Profile profile = profileService.getProfile(post.getCreateUid());
 		Document doc = new Document();
-		// TODO (review) 基于最终搜索结果展示方式，重新整理一下下面field的策略
+		// TODO (done) 基于最终搜索结果展示方式，重新整理一下下面field的策略
 		doc.add(new Field("id", post.getId().toString(), Field.Store.YES,
 				Field.Index.NOT_ANALYZED));
-		doc.add(new Field("content", post.getContent(), Field.Store.NO,
+		doc.add(new Field("content", post.getContent(), Field.Store.YES,
 				Field.Index.ANALYZED));
-		if (StringUtils.isEmpty(post.getPlace())) {
-			doc.add(new Field("place", post.getPlace(), Field.Store.NO,
+		if (StringUtils.isNotEmpty(post.getPlace())) {
+			doc.add(new Field("place", post.getPlace(), Field.Store.YES,
+					Field.Index.ANALYZED));
+		}
+		if (StringUtils.isNotEmpty(post.getPic())) {
+			doc.add(new Field("pic", post.getPic(), Field.Store.YES,
 					Field.Index.NOT_ANALYZED));
+		}
+		if (StringUtils.isNotEmpty(post.getLink())) {
+			doc.add(new Field("link", post.getLink(), Field.Store.YES,
+					Field.Index.NOT_ANALYZED));
+		}
+		if (null != post.getCategoryId()) {
+			doc.add(new Field("categoryId", post.getCategoryId().toString(),
+					Field.Store.YES, Field.Index.NOT_ANALYZED));
+
+		}
+		if (null != post.getPurposeType()) {
+			doc.add(new Field("purposeType", post.getPurposeType().toString(),
+					Field.Store.YES, Field.Index.NOT_ANALYZED));
 		}
 		if (StringUtils.isNotEmpty(dateTime)) {
-			doc.add(new Field("dateTime", dateTime, Field.Store.NO,
+			doc.add(new Field("dateTime", dateTime, Field.Store.YES,
 					Field.Index.NOT_ANALYZED));
 		}
-		if (post.getCategoryId() != null) {
-			doc.add(new Field("categoryId", post.getCategoryId().toString(),
-					Field.Store.NO, Field.Index.NOT_ANALYZED));
+		if (post.getIdeaId() != null) {
+			doc.add(new Field("ideaId", post.getIdeaId().toString(),
+					Field.Store.YES, Field.Index.NOT_ANALYZED));
 		}
+		if (post.getResponseCnt() != null) {
+			doc.add(new Field("responseCnt", post.getResponseCnt().toString(),
+					Field.Store.YES, Field.Index.NOT_ANALYZED));
+		}
+		if (post.getCommentCnt() != null) {
+			doc.add(new Field("commentCnt", post.getCommentCnt().toString(),
+					Field.Store.YES, Field.Index.NOT_ANALYZED));
+		}
+		if (post.getCity() != null) {
+			doc.add(new Field("city", post.getCity().toString(),
+					Field.Store.YES, Field.Index.NOT_ANALYZED));
+		}
+		if (post.getUserCity() != null) {
+			doc.add(new Field("userCity", post.getUserCity().toString(),
+					Field.Store.YES, Field.Index.NOT_ANALYZED));
+		}
+		if (post.getUserGender() != null) {
+			doc.add(new Field("userCity", post.getUserGender().toString(),
+					Field.Store.YES, Field.Index.NOT_ANALYZED));
+		}
+		if (post.getCreateUid() != null) {
+			doc.add(new Field("createUid", post.getCreateUid().toString(),
+					Field.Store.YES, Field.Index.NOT_ANALYZED));
+		}
+		doc.add(new Field("createTime", String.valueOf(post.getCreateTime()
+				.getTime()), Field.Store.YES, Field.Index.NOT_ANALYZED));
+		doc.add(new Field("lastModifyTime", String.valueOf(post
+				.getLastModifyTime().getTime()), Field.Store.YES,
+				Field.Index.NOT_ANALYZED));
 		// 用户属性
 		doc.add(new Field("uid", profile.getUid().toString(), Field.Store.YES,
 				Field.Index.NOT_ANALYZED));

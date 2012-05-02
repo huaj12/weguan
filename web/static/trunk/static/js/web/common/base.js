@@ -748,7 +748,9 @@ var SelectInput =  Class.extend({
     	$(this.selectDiv).find("p > a").text(name);
     	var inputName = $(this.selectDiv).attr("name");
     	if(null != inputName){
-    		$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
+    		if($(this.selectDiv).find("input[type='hidden']").val()==undefined){
+    			$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
+    		}
     	}
 	},
 	bindBlur:function(){
@@ -782,15 +784,13 @@ var SelectInput =  Class.extend({
         	$(selectDiv).removeClass("select_active");
     		return false;
         });
-	},resetSelect:function(){
+	},
+	resetSelect:function(){
 		var selectDiv = this.selectDiv;
 		var name = $(selectDiv).find("span > a").first().text();
     	var value = $(selectDiv).find("span >a").attr("value");
     	$(this.selectDiv).find("p > a").text(name);
-    	var inputName = $(this.selectDiv).attr("name");
-    	if(null != inputName){
-    		$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
-    	}
+    	$(selectDiv).find("input[type='hidden']").val(value);
 	}
 });
 
@@ -1411,6 +1411,7 @@ function cancelShieldUid(uid, successCallback){
 		}
 	});
 }
+
 var SelectBoxInput =  Class.extend({
 	init: function(div){
 		this.selectDiv = div;
@@ -1434,7 +1435,9 @@ var SelectBoxInput =  Class.extend({
         });
     	$(this.selectDiv).find("p > a").text(name);
     	if(null != inputName){
-    		$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
+    		if($(this.selectDiv).find("input[type='hidden']").val()==undefined){
+    			$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
+    		}
     	}
 	},
 	bindBlur:function(){
@@ -1490,15 +1493,12 @@ var SelectBoxInput =  Class.extend({
 	},
 	resetSelect:function(){
 		var selectDiv = this.selectDiv;
-		var inputName = $(this.selectDiv).attr("name");
 		var value=$(this.selectDiv).find("p > a").attr("value");
 		var name=$(this.selectDiv).find("p > a").attr("initName");
 		$(selectDiv).find("li").each(function(){
     			$(this).removeClass("act");
         });
     	$(selectDiv).find("p > a").text(name);
-    	if(null != inputName){
-    		$(selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
-    	}
+    	$(selectDiv).find("input[type='hidden']").val(value);
 	}
 });

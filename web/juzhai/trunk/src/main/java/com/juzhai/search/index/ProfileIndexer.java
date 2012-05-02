@@ -77,7 +77,7 @@ public class ProfileIndexer implements Indexer<Profile> {
 				.toString(), Field.Store.NO, Field.Index.NOT_ANALYZED));
 		if (null != profile.getHome()) {
 			doc.add(new Field("home", profile.getHome(), Field.Store.YES,
-					Field.Index.NOT_ANALYZED));
+					Field.Index.ANALYZED));
 		}
 		return doc;
 	}

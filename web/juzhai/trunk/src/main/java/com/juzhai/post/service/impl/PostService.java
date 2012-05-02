@@ -1099,7 +1099,8 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public List<Post> getUserPost(long uid, int firstResult, int maxResults) {
+	public List<Post> getUserQualifiedPost(long uid, int firstResult,
+			int maxResults) {
 		PostExample example = new PostExample();
 		example.createCriteria().andCreateUidEqualTo(uid)
 				.andDefunctEqualTo(false)

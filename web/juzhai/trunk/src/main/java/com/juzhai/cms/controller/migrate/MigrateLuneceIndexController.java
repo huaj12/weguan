@@ -21,14 +21,11 @@ import com.juzhai.post.bean.VerifyType;
 import com.juzhai.post.mapper.PostMapper;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostExample;
-import com.juzhai.search.service.IPostSearchService;
 
 @Controller
 @RequestMapping("/cms")
 public class MigrateLuneceIndexController {
 	private final Log log = LogFactory.getLog(getClass());
-	@Autowired
-	private IPostSearchService postSearchService;
 	@Autowired
 	private ProfileMapper profileMapper;
 	@Autowired
@@ -42,19 +39,19 @@ public class MigrateLuneceIndexController {
 
 	private int num = 10;
 
-	// TODO(review)
+	// TODO(done)
 	// 批量处理写了很多次，为什么还是会出现这么严重的问题？问题不止一个！不解释。自己看下面两个批量处理代码逻辑吧。非常严重的问题！！！！
-	// TODO (review) 下面批量处理的代码，有性能优化的提升，自己找一下
+	// TODO (done) 下面批量处理的代码，有性能优化的提升，自己找一下
 	// TODO (done) 这里后台建索引，为什么要走rabbitmq呢？仔细想想
 
 	@RequestMapping(value = "/create/index/profile", method = RequestMethod.GET)
 	@ResponseBody
 	public String createProfileIndex() {
 		int i = 0;
+		ProfileExample example = new ProfileExample();
 		while (true) {
-			ProfileExample example = new ProfileExample();
 			example.createCriteria().andLogoPicNotEqualTo(StringUtils.EMPTY);
-			example.setOrderByClause("create_time desc");
+			example.setOrderByClause("uid desc");
 			example.setLimit(new Limit(i, num));
 			List<Profile> list = profileMapper.selectByExample(example);
 			for (Profile profile : list) {
@@ -80,11 +77,12 @@ public class MigrateLuneceIndexController {
 	@ResponseBody
 	public String createPostIndex() {
 		int i = 0;
+		PostExample example = new PostExample();
 		while (true) {
-			PostExample example = new PostExample();
 			example.createCriteria()
 					.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
 					.andDefunctEqualTo(false);
+			example.setOrderByClause("id desc");
 			example.setLimit(new Limit(i, num));
 			List<Post> list = postMapper.selectByExample(example);
 			for (Post post : list) {

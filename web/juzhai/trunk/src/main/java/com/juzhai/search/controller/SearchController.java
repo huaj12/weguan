@@ -236,8 +236,8 @@ public class SearchController extends BaseController {
 				minHeight, maxHeight);
 		LuneceResult<Profile> result = profileSearchService.queryProfile(form,
 				pager.getFirstResult(), pager.getMaxResult());
-		//TODO (review) 只要set就行了
-		pager = new PagerManager(pageId, searchUserRows, result.getTotalHits());
+		// TODO (done) 只要set就行了
+		pager.setTotalResults(result.getTotalHits());
 		List<Profile> list = result.getResult();
 		List<Long> uidList = new ArrayList<Long>();
 		for (Profile profile : list) {
@@ -304,8 +304,8 @@ public class SearchController extends BaseController {
 		PagerManager pager = new PagerManager(pageId, searchPostRows, 0);
 		LuneceResult<Post> result = postSearchService.searchPosts(queryString,
 				gender, pager.getFirstResult(), pager.getMaxResult());
-		//TODO (review) 只要set就行了
-		pager = new PagerManager(pageId, searchPostRows, result.getTotalHits());
+		// TODO (done) 只要set就行了
+		pager.setTotalResults(result.getTotalHits());
 		List<Post> postList = result.getResult();
 		List<PostView> postViewList = postViewHelper.assembleUserPostViewList(
 				null, postList);

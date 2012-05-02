@@ -149,7 +149,7 @@ public class VerifyLogoService implements IVerifyLogoService {
 		// 删除头像的用户的所有通过拒宅
 		int i = 0;
 		while (true) {
-			List<Post> posts = postService.getUserPost(uid, i,
+			List<Post> posts = postService.getUserQualifiedPost(uid, i,
 					userPostLuneceRows);
 			for (Post p : posts) {
 				postSearchService.deleteIndex(p.getId());

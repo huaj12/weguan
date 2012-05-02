@@ -107,5 +107,17 @@ function search_user(){
 	var arr=parseMonthlyIncome(monthlyIncome);
 	var minStringHeight=$("input[name='minStringHeight']").val();
 	var maxStringHeight=$("input[name='maxStringHeight']").val();
+	if(minStringHeight==""){
+		minStringHeight=0;
+	}
+	if(maxStringHeight==""){
+		maxStringHeight=0;
+	}
+	if(minStringAge==""){
+		minStringAge=0;
+	}
+	if(maxStringAge==""){
+		maxStringAge=0;
+	}
 	window.location.href = "/seachusers/" + townId + "_" + sex + "_" + minStringAge + "_" + maxStringAge + "_"+minStringHeight+"_"+maxStringHeight+"_"+constellationId+"_"+educations+"_"+arr[0]+"_"+arr[1]+"/1";
 }

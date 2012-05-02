@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -42,7 +40,6 @@ import com.juzhai.search.service.IProfileSearchService;
 
 @Controller
 public class SearchController extends BaseController {
-	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private ILoginService loginService;
 	@Autowired
@@ -169,7 +166,6 @@ public class SearchController extends BaseController {
 		String minAge = "0";
 		String maxAge = "0";
 		try {
-			// TODO (done) 性别和年龄，需要根据偏好设置默认，max的需求
 			UserContext context = checkLoginForWeb(request);
 			List<String> genders = userPreferenceService.getUserAnswer(
 					context.getUid(),
@@ -209,16 +205,12 @@ public class SearchController extends BaseController {
 		}
 		UserContext context = (UserContext) request.getAttribute("context");
 		Integer gender = getSex(sex);
-		// TODO (done) 为什么要传进来String？
 		int maxAge = getInt(maxStringAge);
-		// TODO (done) 为什么要传进来String？
 		int minAge = getInt(minStringAge);
 		int maxYear = ageToYear(Math.min(minAge, maxAge));
 		int minYear = ageToYear(Math.max(minAge, maxAge));
-		// TODO (done) 为什么要传进来String？
 		int maxHeight = Math.max(getInt(minStringHeight),
 				getInt(maxStringHeight));
-		// TODO (done) 为什么要传进来String？
 		int minHeight = Math.min(getInt(minStringHeight),
 				getInt(maxStringHeight));
 		List<Long> constellationId = getConstellation(constellationIds);
@@ -290,7 +282,6 @@ public class SearchController extends BaseController {
 		model.addAttribute("strConstellationIds",
 				StringUtils.join(constellationId, ","));
 		model.addAttribute("pageType", "zbe");
-		// TODO (done) 为什么不做配置，被偷懒啊
 		getHots(model, city, searchUserHotRows);
 		return "web/search/seach_user";
 	}
@@ -310,7 +301,6 @@ public class SearchController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			city = loginUser.getCity();
 		}
-		// TODO (done) 这段代码在上面看到过了
 		Integer gender = getSex(sex);
 		PagerManager pager = new PagerManager(pageId, searchPostRows, 0);
 		LuneceResult<Post> result = postSearchService.searchPosts(queryString,
@@ -360,7 +350,6 @@ public class SearchController extends BaseController {
 		if (StringUtils.isNotEmpty(constellationIds)) {
 			constellationId = new ArrayList<Long>();
 			for (String str : constellationIds.split(",")) {
-				// TODO (done) 如果篡改URL，会出现这里无法转Long
 				Long cid = 0l;
 				try {
 					cid = Long.valueOf(str);

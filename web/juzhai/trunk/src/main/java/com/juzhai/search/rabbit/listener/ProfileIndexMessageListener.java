@@ -31,7 +31,6 @@ public class ProfileIndexMessageListener implements
 			log.error("Index prifile uid must not be null.");
 			return null;
 		}
-		// TODO (done) 在listener里去获取profile
 		Profile profile = profileService.getProfile(uid);
 		if (null == profile) {
 			log.error("Index prifile must not be null.");

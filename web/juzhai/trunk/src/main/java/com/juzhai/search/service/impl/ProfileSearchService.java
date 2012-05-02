@@ -44,8 +44,6 @@ import com.juzhai.search.service.IProfileSearchService;
 public class ProfileSearchService implements IProfileSearchService {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
-	private IProfileService profileService;
-	@Autowired
 	private RabbitTemplate profileIndexCreateRabbitTemplate;
 	@Autowired
 	private IndexSearcherTemplate profileIndexSearcherTemplate;
@@ -56,7 +54,6 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void createIndex(long uid) {
-		// TODO (done) 这样不会优化rabbitmq的性能，message里只接收Long
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
 		msgMessage.buildBody(uid).buildActionType(ActionType.CREATE);
 		profileIndexCreateRabbitTemplate.convertAndSend(msgMessage);
@@ -64,7 +61,6 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void updateIndex(long uid) {
-		// TODO (done) 这样不会优化rabbitmq的性能，message里只接收Long
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
 		msgMessage.buildBody(uid).buildActionType(ActionType.UPDATE);
 		profileIndexCreateRabbitTemplate.convertAndSend(msgMessage);
@@ -73,7 +69,6 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void deleteIndex(long uid) {
-		// TODO (done) 这样不会优化rabbitmq的性能，message里只接收Long
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
 		msgMessage.buildBody(uid).buildActionType(ActionType.DELETE);
 		profileIndexCreateRabbitTemplate.convertAndSend(msgMessage);
@@ -125,7 +120,7 @@ public class ProfileSearchService implements IProfileSearchService {
 			int minHeight, int maxHeight) {
 		BooleanQuery query = new BooleanQuery();
 		// 身高
-		// TODO (done) 会不会存在，只有下限，或者只有上限？会存在但是代码没问题
+		// TODO (review) 会不会存在，只有下限，或者只有上限？会存在但是代码没问题
 		if (minHeight > 0 || maxHeight > 0) {
 			Query heightQuery = NumericRangeQuery.newIntRange("height",
 					minHeight, maxHeight, true, true);
@@ -160,7 +155,7 @@ public class ProfileSearchService implements IProfileSearchService {
 			}
 
 		}
-		// TODO (done) 没看懂，解释一下 isMoreIncome 这个表示勾选及以上
+		// TODO (review) 没看懂，解释一下 isMoreIncome 这个表示勾选及以上
 		if (minMonthlyIncome > 0 || maxMonthlyIncome > 0) {
 			// 选取xx以上
 			if (isMoreIncome) {
@@ -188,7 +183,7 @@ public class ProfileSearchService implements IProfileSearchService {
 		}
 
 		// 年龄
-		// TODO (done) 会不会存在，只有下限，或者只有上限？类似于身高 会存在但是代码没问题
+		// TODO (review) 会不会存在，只有下限，或者只有上限？类似于身高 会存在但是代码没问题
 		if (minYear > 0 || maxYear > 0) {
 			Query ageQuery = NumericRangeQuery.newIntRange("age", minYear,
 					maxYear, true, true);

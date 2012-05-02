@@ -100,11 +100,8 @@ public class VerifyLogoService implements IVerifyLogoService {
 							profileCache.getNickname());
 					auditLogoCounter.incr(null, 1L);
 					// 后台通过头像
-					// TODO (done) 两个if，哪个更耗性能？
-					if (!falg) {
-						if (userGuideService.isCompleteGuide(uid)) {
-							profileSearchService.createIndex(uid);
-						}
+					if (!falg && userGuideService.isCompleteGuide(uid)) {
+						profileSearchService.createIndex(uid);
 					}
 				}
 			}
@@ -150,9 +147,9 @@ public class VerifyLogoService implements IVerifyLogoService {
 			profileSearchService.deleteIndex(uid);
 		}
 		// 删除头像的用户的所有通过拒宅
-		// TODO (done) 为什么要先取count？再说，count万一取出来很多很多呢？
 		int i = 0;
 		while (true) {
+			// TODO (review) 为什么要搜用户的所有拒宅？
 			List<Post> posts = postService.listUserPost(uid, i,
 					userPostLuneceRows);
 			for (Post p : posts) {
@@ -167,8 +164,7 @@ public class VerifyLogoService implements IVerifyLogoService {
 		}
 		PostExample postExample = new PostExample();
 		postExample.createCriteria().andCreateUidEqualTo(uid)
-				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
-				.andDefunctEqualTo(false);
+				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType());
 		Post post = new Post();
 		post.setVerifyType(VerifyType.SHIELD.getType());
 		post.setLastModifyTime(new Date());

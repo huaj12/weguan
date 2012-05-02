@@ -33,7 +33,6 @@ import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
-import com.juzhai.passport.service.IProfileService;
 import com.juzhai.search.bean.LuneceResult;
 import com.juzhai.search.controller.form.SearchProfileForm;
 import com.juzhai.search.rabbit.message.ActionType;

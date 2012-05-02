@@ -1,10 +1,9 @@
 package com.juzhai.search.rabbit.message;
 
 import com.juzhai.core.rabbit.message.RabbitMessage;
-import com.juzhai.passport.model.Profile;
 
 public class ProfileIndexMessage extends
-		RabbitMessage<ProfileIndexMessage, Profile> {
+		RabbitMessage<ProfileIndexMessage, Long> {
 
 	private static final long serialVersionUID = -4743258458214786019L;
 

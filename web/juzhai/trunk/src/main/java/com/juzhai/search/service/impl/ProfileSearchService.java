@@ -54,32 +54,26 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	@Override
 	public void createIndex(long uid) {
-		// TODO (review) 这样不会优化rabbitmq的性能，message里只接收Long
-		Profile profile = new Profile();
-		profile.setUid(uid);
+		// TODO (done) 这样不会优化rabbitmq的性能，message里只接收Long
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
-		msgMessage.buildBody(profile).buildActionType(ActionType.CREATE);
+		msgMessage.buildBody(uid).buildActionType(ActionType.CREATE);
 		profileIndexCreateRabbitTemplate.convertAndSend(msgMessage);
 	}
 
 	@Override
 	public void updateIndex(long uid) {
-		// TODO (review) 这样不会优化rabbitmq的性能，message里只接收Long
-		Profile profile = new Profile();
-		profile.setUid(uid);
+		// TODO (done) 这样不会优化rabbitmq的性能，message里只接收Long
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
-		msgMessage.buildBody(profile).buildActionType(ActionType.UPDATE);
+		msgMessage.buildBody(uid).buildActionType(ActionType.UPDATE);
 		profileIndexCreateRabbitTemplate.convertAndSend(msgMessage);
 
 	}
 
 	@Override
 	public void deleteIndex(long uid) {
-		// TODO (review) 这样不会优化rabbitmq的性能，message里只接收Long
-		Profile profile = new Profile();
-		profile.setUid(uid);
+		// TODO (done) 这样不会优化rabbitmq的性能，message里只接收Long
 		ProfileIndexMessage msgMessage = new ProfileIndexMessage();
-		msgMessage.buildBody(profile).buildActionType(ActionType.DELETE);
+		msgMessage.buildBody(uid).buildActionType(ActionType.DELETE);
 		profileIndexCreateRabbitTemplate.convertAndSend(msgMessage);
 
 	}

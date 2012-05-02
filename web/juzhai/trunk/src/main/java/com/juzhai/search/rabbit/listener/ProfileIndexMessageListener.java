@@ -9,8 +9,7 @@ import com.juzhai.core.lucene.index.Indexer;
 import com.juzhai.core.lucene.searcher.IndexSearcherManager;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
 import com.juzhai.passport.model.Profile;
-import com.juzhai.post.model.Post;
-import com.juzhai.search.rabbit.message.PostIndexMessage;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.search.rabbit.message.ProfileIndexMessage;
 
 @Component
@@ -22,12 +21,20 @@ public class ProfileIndexMessageListener implements
 	private Indexer<Profile> profileIndexer;
 	@Autowired
 	private IndexSearcherManager postIndexSearcherManager;
+	@Autowired
+	private IProfileService profileService;
 
 	@Override
 	public Object handleMessage(ProfileIndexMessage profileIndexMessage) {
-		Profile profile = profileIndexMessage.getBody();
+		Long uid = profileIndexMessage.getBody();
+		if (uid == null) {
+			log.error("Index prifile uid must not be null.");
+			return null;
+		}
+		// TODO (done) 在listener里去获取profile
+		Profile profile = profileService.getProfile(uid);
 		if (null == profile) {
-			log.error("Index act must not be null.");
+			log.error("Index prifile must not be null.");
 			return null;
 		}
 		try {

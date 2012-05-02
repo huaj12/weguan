@@ -140,7 +140,6 @@ public class ReportService implements IReportService {
 			// 被永久封号用户的所有通过拒宅
 			int i = 0;
 			while (true) {
-				// TODO (done) 为什么要搜用户的所有拒宅？
 				List<Post> posts = postService.getUserPost(uid, i,
 						userPostLuneceRows);
 				for (Post p : posts) {

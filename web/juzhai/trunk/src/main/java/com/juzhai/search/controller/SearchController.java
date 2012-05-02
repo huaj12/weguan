@@ -229,14 +229,13 @@ public class SearchController extends BaseController {
 				}
 			}
 		}
-		PagerManager pager = new PagerManager(pageId, searchUserRows, 0);
+		PagerManager pager = new PagerManager(pageId, searchUserRows);
 		SearchProfileForm form = new SearchProfileForm(city, town, gender,
 				minYear, maxYear, educationList, minMonthlyIncome,
 				maxMonthlyIncome, true, null, constellationId, null, null,
 				minHeight, maxHeight);
 		LuneceResult<Profile> result = profileSearchService.queryProfile(form,
 				pager.getFirstResult(), pager.getMaxResult());
-		// TODO (done) 只要set就行了
 		pager.setTotalResults(result.getTotalHits());
 		List<Profile> list = result.getResult();
 		List<Long> uidList = new ArrayList<Long>();
@@ -301,10 +300,9 @@ public class SearchController extends BaseController {
 			city = loginUser.getCity();
 		}
 		Integer gender = getSex(sex);
-		PagerManager pager = new PagerManager(pageId, searchPostRows, 0);
+		PagerManager pager = new PagerManager(pageId, searchPostRows);
 		LuneceResult<Post> result = postSearchService.searchPosts(queryString,
 				gender, pager.getFirstResult(), pager.getMaxResult());
-		// TODO (done) 只要set就行了
 		pager.setTotalResults(result.getTotalHits());
 		List<Post> postList = result.getResult();
 		List<PostView> postViewList = postViewHelper.assembleUserPostViewList(

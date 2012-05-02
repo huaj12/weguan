@@ -339,6 +339,5 @@ public interface IPostService {
 	 * @param uid
 	 * @return
 	 */
-	// TODO (done) 名字没有体现出方法的作用
 	List<Post> getUserQualifiedPost(long uid, int firstResult, int maxResults);
 }

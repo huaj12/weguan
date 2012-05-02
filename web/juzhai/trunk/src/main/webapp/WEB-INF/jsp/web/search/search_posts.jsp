@@ -4,6 +4,7 @@
 <%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
 <%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 		<head>
@@ -64,7 +65,7 @@
 													<div class="w_t"></div>
 													<div class="w_m"><!--w_m begin-->
 														<div class="arrow"></div>
-														<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${postView.post.purposeType}"/></c:import>:</font><a href="/post/${postView.post.id}"><c:out value="${postView.post.content}" /></a></p>
+														<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${postView.post.purposeType}"/></c:import>:</font><a href="/post/${postView.post.id}">${postView.post.content}</a></p>
 														<div class="infor"><!--infor begin-->
 															<c:if test="${not empty postView.post.pic}">
 																<div class="img"><a href="/post/${postView.post.id}"><img data-original="${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic, 200)}" src="${jzr:static('/images/web/1px.gif')}"/></a></div>
@@ -91,7 +92,7 @@
 															<div class="mail"><a href="javascript:void(0);" title="给ta发私信" target-uid="${postView.profileCache.uid}" target-nickname="<c:out value='${postView.profileCache.nickname}' />">私信</a></div>
 														</c:if>
 														<c:if test="${not empty isQplus && isQplus}">	
-																<div class="share_icon"><a href="javascript:void(0);" onclick="qPlusShare('我想找伴去:${postView.post.content}<c:if test='${postView.post.dateTime != null}'> 时间:<fmt:formatDate value='${postView.post.dateTime}' pattern='yyyy.MM.dd'/></c:if><c:if test='${not empty postView.post.place}'> 地点:${postView.post.place}</c:if>','','${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic, 200)}','','拒宅网');return false;" title="分享">分享</a></div>
+																<div class="share_icon"><a href="javascript:void(0);" onclick="qPlusShare('我想找伴去:${fn:replace(fn:replace(postView.post.content,'</i>',''),'<i>','')}<c:if test='${postView.post.dateTime != null}'> 时间:<fmt:formatDate value='${postView.post.dateTime}' pattern='yyyy.MM.dd'/></c:if><c:if test='${not empty postView.post.place}'> 地点:${postView.post.place}</c:if>','','${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic, 200)}','','拒宅网');return false;" title="分享">分享</a></div>
 														</c:if>
 														<div class="message_s2"><a href="javascript:void(0);" post-id="${postView.post.id}">留言<c:if test="${postView.post.commentCnt > 0}">(${postView.post.commentCnt})</c:if></a></div>
 														<c:if test="${postView.profileCache.uid != context.uid}">

@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,6 +36,7 @@ import com.juzhai.core.lucene.searcher.IndexSearcherTemplate;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
 import com.juzhai.post.mapper.PostMapper;
 import com.juzhai.post.model.Post;
+import com.juzhai.post.model.PostExample;
 import com.juzhai.post.service.IPostService;
 import com.juzhai.search.bean.LuneceResult;
 import com.juzhai.search.rabbit.message.ActionType;
@@ -119,6 +120,7 @@ public class PostSearchService implements IPostSearchService {
 						firstResult + maxResults, false);
 				indexSearcher.search(query, collector);
 				TopDocs topDocs = collector.topDocs(firstResult, maxResults);
+				List<Long> ids = new ArrayList<Long>(maxResults);
 				List<Post> postIdList = new ArrayList<Post>(maxResults);
 				SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter(
 						"<font color='red'>", "</font>");
@@ -127,36 +129,16 @@ public class PostSearchService implements IPostSearchService {
 				for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
 					Document doc = indexSearcher.doc(scoreDoc.doc);
 					// TODO (done) 不知道有没有办法不要去数据库查询呢？
-					Post post = new Post();
-					post.setId(Long.valueOf(doc.get("id")));
-					post.setContent(highLightText(queryString,
-							doc.get("content"), highlighter, postIKAnalyzer));
-					post.setPlace(doc.get("place"));
-					post.setPic(doc.get("pic"));
-					post.setLink(doc.get("link"));
-					post.setCategoryId(Long.valueOf(doc.get("categoryId")));
-					post.setPurposeType(Integer.parseInt(doc.get("purposeType")));
-					if (StringUtils.isNotEmpty(doc.get("dateTime"))) {
-						post.setDateTime(new Date(Long.valueOf(doc
-								.get("dateTime"))));
+					ids.add(Long.valueOf(doc.get("id")));
+				}
+				if (CollectionUtils.isNotEmpty(ids)) {
+					PostExample example = new PostExample();
+					example.createCriteria().andIdIn(ids);
+					for (Post post : postMapper.selectByExample(example)) {
+						post.setContent(highLightText("content",
+								post.getContent(), highlighter, postIKAnalyzer));
+						postIdList.add(post);
 					}
-					post.setIdeaId(Long.valueOf(doc.get("ideaId")));
-					post.setResponseCnt(Integer.parseInt(doc.get("responseCnt")));
-					post.setCommentCnt(Integer.parseInt(doc.get("commentCnt")));
-					post.setCity(Long.valueOf(doc.get("city")));
-					if (StringUtils.isNotEmpty(doc.get("userCity"))) {
-						post.setUserCity(Long.valueOf(doc.get("userCity")));
-					}
-					if (StringUtils.isNotEmpty(doc.get("userGender"))) {
-						post.setUserGender(Integer.parseInt(doc
-								.get("userGender")));
-					}
-					post.setCreateUid(Long.valueOf(doc.get("createUid")));
-					post.setCreateTime(new Date(Long.valueOf(doc
-							.get("createTime"))));
-					post.setLastModifyTime(new Date(Long.valueOf(doc
-							.get("lastModifyTime"))));
-					postIdList.add(post);
 				}
 				LuneceResult<Post> result = new LuneceResult<Post>(
 						topDocs.totalHits, postIdList);

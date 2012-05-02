@@ -184,7 +184,7 @@ public class SearchController extends BaseController {
 			maxAge = ages.get(1);
 		} catch (Exception e) {
 		}
-		return seachUsers(request, model, 1, 0, genderType, minAge, maxAge,
+		return seachUsers(request, model, 1, 0, genderType, maxAge, minAge,
 				"0", "0", "0", 0, 0, 0);
 	}
 

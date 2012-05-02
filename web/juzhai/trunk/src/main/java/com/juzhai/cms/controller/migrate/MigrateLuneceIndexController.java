@@ -76,8 +76,8 @@ public class MigrateLuneceIndexController {
 				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
 				.andDefunctEqualTo(false);
 		example.setOrderByClause("id desc");
-		example.setLimit(new Limit(i, num));
 		while (true) {
+			example.setLimit(new Limit(i, num));
 			List<Post> list = postMapper.selectByExample(example);
 			for (Post post : list) {
 				try {

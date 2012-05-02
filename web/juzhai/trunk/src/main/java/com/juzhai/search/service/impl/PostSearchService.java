@@ -31,6 +31,7 @@ import org.apache.lucene.util.Version;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
@@ -122,7 +123,7 @@ public class PostSearchService implements IPostSearchService {
 				List<Long> ids = new ArrayList<Long>(maxResults);
 				List<Post> postIdList = new ArrayList<Post>(maxResults);
 				SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter(
-						"<font color='red'>", "</font>");
+						"<i>", "</i>");
 				Highlighter highlighter = new Highlighter(simpleHTMLFormatter,
 						new QueryScorer(query));
 				for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
@@ -132,10 +133,12 @@ public class PostSearchService implements IPostSearchService {
 				if (CollectionUtils.isNotEmpty(ids)) {
 					PostExample example = new PostExample();
 					example.createCriteria().andIdIn(ids);
-					//TODO (review) 从库里搜出来是什么顺序？
+					example.setOrderByClause("create_time desc");
+					// TODO (done) 从库里搜出来是什么顺序？
 					for (Post post : postMapper.selectByExample(example)) {
-						post.setContent(highLightText("content",
-								post.getContent(), highlighter, postIKAnalyzer));
+						String content = HtmlUtils.htmlEscape(post.getContent());
+						post.setContent(highLightText("content", content,
+								highlighter, postIKAnalyzer));
 						postIdList.add(post);
 					}
 				}

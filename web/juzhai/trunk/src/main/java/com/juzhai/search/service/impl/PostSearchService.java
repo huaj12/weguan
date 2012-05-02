@@ -57,7 +57,6 @@ public class PostSearchService implements IPostSearchService {
 	@Autowired
 	private PostMapper postMapper;
 
-	// TODO (done) 如果能够不查询数据库，想想有办法用上吗？
 	private String highLightText(String fieldName, String text,
 			Highlighter highlighter, Analyzer analyzer) {
 		TokenStream tokenStream = postIKAnalyzer.tokenStream(fieldName,
@@ -128,12 +127,12 @@ public class PostSearchService implements IPostSearchService {
 						new QueryScorer(query));
 				for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
 					Document doc = indexSearcher.doc(scoreDoc.doc);
-					// TODO (done) 不知道有没有办法不要去数据库查询呢？
 					ids.add(Long.valueOf(doc.get("id")));
 				}
 				if (CollectionUtils.isNotEmpty(ids)) {
 					PostExample example = new PostExample();
 					example.createCriteria().andIdIn(ids);
+					//TODO (review) 从库里搜出来是什么顺序？
 					for (Post post : postMapper.selectByExample(example)) {
 						post.setContent(highLightText("content",
 								post.getContent(), highlighter, postIKAnalyzer));

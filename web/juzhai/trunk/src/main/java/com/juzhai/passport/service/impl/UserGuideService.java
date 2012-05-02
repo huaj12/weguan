@@ -99,7 +99,8 @@ public class UserGuideService implements IUserGuideService {
 
 			City city = InitData.CITY_MAP.get(profileCache.getCity());
 			String qqContent = StringUtils.EMPTY;
-			if (StringUtils.isNotEmpty(qq) && null != city) {
+			if (StringUtils.isNotEmpty(qq) && null != city
+					&& profileCache.getGender() == 0) {
 				qqContent = messageSource.getMessage(
 						DialogContentTemplate.WELCOME_USER.getName() + ".qq",
 						new Object[] { city.getName(), qq },

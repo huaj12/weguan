@@ -38,7 +38,6 @@ public class PostIndexer implements Indexer<Post> {
 	private Document buildDoc(Post post) {
 		Profile profile = profileService.getProfile(post.getCreateUid());
 		Document doc = new Document();
-		// TODO (done) 基于最终搜索结果展示方式，重新整理一下下面field的策略
 		doc.add(new Field("id", post.getId().toString(), Field.Store.YES,
 				Field.Index.NOT_ANALYZED));
 		if (StringUtils.isNotEmpty(post.getContent())) {
@@ -52,8 +51,8 @@ public class PostIndexer implements Indexer<Post> {
 		if (null != post.getCategoryId()) {
 			doc.add(new Field("categoryId", post.getCategoryId().toString(),
 					Field.Store.NO, Field.Index.NOT_ANALYZED));
-
 		}
+		//TODO (review) 1。这个字段需要吗？2。如果需要，你看下这个字段取的对不对？
 		if (post.getDateTime() != null) {
 			doc.add(new Field("dateTime", String.valueOf(post.getCreateTime()
 					.getTime()), Field.Store.NO, Field.Index.NOT_ANALYZED));

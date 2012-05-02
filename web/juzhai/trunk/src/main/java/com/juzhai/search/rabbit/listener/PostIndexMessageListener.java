@@ -9,6 +9,7 @@ import com.juzhai.core.lucene.index.Indexer;
 import com.juzhai.core.lucene.searcher.IndexSearcherManager;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
 import com.juzhai.post.model.Post;
+import com.juzhai.post.service.IPostService;
 import com.juzhai.search.rabbit.message.PostIndexMessage;
 
 @Component
@@ -20,12 +21,19 @@ public class PostIndexMessageListener implements
 	private Indexer<Post> postIndexer;
 	@Autowired
 	private IndexSearcherManager postIndexSearcherManager;
+	@Autowired
+	private IPostService postService;
 
 	@Override
 	public Object handleMessage(PostIndexMessage postIndexMessage) {
-		Post post = postIndexMessage.getBody();
+		Long postId = postIndexMessage.getBody();
+		if (postId == null) {
+			log.error("Index post postId must not be null.");
+			return null;
+		}
+		Post post = postService.getPostById(postId);
 		if (null == post) {
-			log.error("Index act must not be null.");
+			log.error("Index post must not be null.");
 			return null;
 		}
 		try {

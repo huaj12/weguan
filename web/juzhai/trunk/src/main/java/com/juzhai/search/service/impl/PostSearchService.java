@@ -70,12 +70,10 @@ public class PostSearchService implements IPostSearchService {
 	@Override
 	public void createIndex(long postId) {
 		// TODO (done) 下面的移除吧
-		Post post = new Post();
-		post.setId(postId);
 		// TODO
 		// (done)考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？用户索引也是如此
 		PostIndexMessage msgMessage = new PostIndexMessage();
-		msgMessage.buildBody(post).buildActionType(ActionType.CREATE);
+		msgMessage.buildBody(postId).buildActionType(ActionType.CREATE);
 		postIndexCreateRabbitTemplate.convertAndSend(msgMessage);
 		if (log.isDebugEnabled()) {
 			log.debug("send post index create message");
@@ -86,10 +84,8 @@ public class PostSearchService implements IPostSearchService {
 	public void updateIndex(long postId) {
 		// TODO
 		// (done)考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？用户索引也是如此
-		Post post = new Post();
-		post.setId(postId);
 		PostIndexMessage msgMessage = new PostIndexMessage();
-		msgMessage.buildBody(post).buildActionType(ActionType.UPDATE);
+		msgMessage.buildBody(postId).buildActionType(ActionType.UPDATE);
 		postIndexCreateRabbitTemplate.convertAndSend(msgMessage);
 		if (log.isDebugEnabled()) {
 			log.debug("send post index update message");
@@ -101,10 +97,8 @@ public class PostSearchService implements IPostSearchService {
 	public void deleteIndex(long postId) {
 		// TODO
 		// (done)考虑一下，如果放入rabbitmq的，只有Id，然后在listener里去数据库搜，是不是对于rabbitmq来说性能能提升？用户索引也是如此
-		Post post = new Post();
-		post.setId(postId);
 		PostIndexMessage msgMessage = new PostIndexMessage();
-		msgMessage.buildBody(post).buildActionType(ActionType.DELETE);
+		msgMessage.buildBody(postId).buildActionType(ActionType.DELETE);
 		postIndexCreateRabbitTemplate.convertAndSend(msgMessage);
 		if (log.isDebugEnabled()) {
 			log.debug("send post index delete message");

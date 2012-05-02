@@ -119,7 +119,6 @@ public class ProfileSearchService implements IProfileSearchService {
 			int minHeight, int maxHeight) {
 		BooleanQuery query = new BooleanQuery();
 		// 身高
-		// TODO (done) 会不会存在，只有下限，或者只有上限？会存在但是代码没问题
 		if (minHeight > 0 || maxHeight > 0) {
 			Query heightQuery = NumericRangeQuery.newIntRange("height",
 					minHeight == 0 ? null : minHeight, maxHeight == 0 ? null
@@ -182,7 +181,6 @@ public class ProfileSearchService implements IProfileSearchService {
 		}
 
 		// 年龄
-		// TODO (done) 会不会存在，只有下限，或者只有上限？类似于身高 会存在但是代码没问题
 		if (minYear > 0 || maxYear > 0) {
 			Query ageQuery = NumericRangeQuery.newIntRange("age",
 					minYear == 0 ? null : minYear, maxYear == 0 ? null

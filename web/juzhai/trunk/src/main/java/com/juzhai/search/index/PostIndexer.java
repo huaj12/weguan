@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.lucene.index.Indexer;
-import com.juzhai.core.util.DateFormat;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.model.Post;
@@ -37,19 +36,15 @@ public class PostIndexer implements Indexer<Post> {
 	}
 
 	private Document buildDoc(Post post) {
-		String dateTime = null;
-		try {
-			dateTime = DateFormat.SDF.format(post.getDateTime());
-		} catch (Exception e) {
-			dateTime = "";
-		}
 		Profile profile = profileService.getProfile(post.getCreateUid());
 		Document doc = new Document();
 		// TODO (done) 基于最终搜索结果展示方式，重新整理一下下面field的策略
 		doc.add(new Field("id", post.getId().toString(), Field.Store.YES,
 				Field.Index.NOT_ANALYZED));
-		doc.add(new Field("content", post.getContent(), Field.Store.YES,
-				Field.Index.ANALYZED));
+		if (StringUtils.isNotEmpty(post.getContent())) {
+			doc.add(new Field("content", post.getContent(), Field.Store.YES,
+					Field.Index.ANALYZED));
+		}
 		if (StringUtils.isNotEmpty(post.getPlace())) {
 			doc.add(new Field("place", post.getPlace(), Field.Store.YES,
 					Field.Index.ANALYZED));
@@ -71,9 +66,9 @@ public class PostIndexer implements Indexer<Post> {
 			doc.add(new Field("purposeType", post.getPurposeType().toString(),
 					Field.Store.YES, Field.Index.NOT_ANALYZED));
 		}
-		if (StringUtils.isNotEmpty(dateTime)) {
-			doc.add(new Field("dateTime", dateTime, Field.Store.YES,
-					Field.Index.NOT_ANALYZED));
+		if (post.getDateTime() != null) {
+			doc.add(new Field("dateTime", String.valueOf(post.getCreateTime()
+					.getTime()), Field.Store.YES, Field.Index.NOT_ANALYZED));
 		}
 		if (post.getIdeaId() != null) {
 			doc.add(new Field("ideaId", post.getIdeaId().toString(),
@@ -96,7 +91,7 @@ public class PostIndexer implements Indexer<Post> {
 					Field.Store.YES, Field.Index.NOT_ANALYZED));
 		}
 		if (post.getUserGender() != null) {
-			doc.add(new Field("userCity", post.getUserGender().toString(),
+			doc.add(new Field("userGender", post.getUserGender().toString(),
 					Field.Store.YES, Field.Index.NOT_ANALYZED));
 		}
 		if (post.getCreateUid() != null) {

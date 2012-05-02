@@ -229,15 +229,14 @@ public class SearchController extends BaseController {
 				}
 			}
 		}
-		// TODO (done) 居然写死2？用来测试，也应该是配置文件来修改！！更何况已经提交测试！
 		PagerManager pager = new PagerManager(pageId, searchUserRows, 0);
-		// TODO (done) 可以考虑把条件参数分装成对象，如果今后再加条件怎么办？改接口？那不是好的设计
 		SearchProfileForm form = new SearchProfileForm(city, town, gender,
 				minYear, maxYear, educationList, minMonthlyIncome,
 				maxMonthlyIncome, true, null, constellationId, null, null,
 				minHeight, maxHeight);
 		LuneceResult<Profile> result = profileSearchService.queryProfile(form,
 				pager.getFirstResult(), pager.getMaxResult());
+		//TODO (review) 只要set就行了
 		pager = new PagerManager(pageId, searchUserRows, result.getTotalHits());
 		List<Profile> list = result.getResult();
 		List<Long> uidList = new ArrayList<Long>();
@@ -305,6 +304,7 @@ public class SearchController extends BaseController {
 		PagerManager pager = new PagerManager(pageId, searchPostRows, 0);
 		LuneceResult<Post> result = postSearchService.searchPosts(queryString,
 				gender, pager.getFirstResult(), pager.getMaxResult());
+		//TODO (review) 只要set就行了
 		pager = new PagerManager(pageId, searchPostRows, result.getTotalHits());
 		List<Post> postList = result.getResult();
 		List<PostView> postViewList = postViewHelper.assembleUserPostViewList(

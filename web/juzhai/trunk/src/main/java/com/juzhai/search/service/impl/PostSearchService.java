@@ -99,7 +99,6 @@ public class PostSearchService implements IPostSearchService {
 		}
 	}
 
-	// TODO (done) 为了总数再搜一次，很不值啊。参考ActSearchService里的处理，或者再想想有没有好的办法
 	@Override
 	public LuneceResult<Post> searchPosts(final String queryString,
 			final Integer gender, final int firstResult, final int maxResults) {

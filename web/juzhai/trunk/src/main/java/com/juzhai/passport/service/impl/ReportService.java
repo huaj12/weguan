@@ -138,9 +138,9 @@ public class ReportService implements IReportService {
 				profileSearchService.deleteIndex(uid);
 			}
 			// 被永久封号用户的所有通过拒宅
-			// TODO (done) 为什么要先取count？再说，count万一取出来很多很多呢？
 			int i = 0;
 			while (true) {
+				// TODO (review) 为什么要搜用户的所有拒宅？
 				List<Post> posts = postService.listUserPost(uid, i,
 						userPostLuneceRows);
 				for (Post p : posts) {
@@ -155,8 +155,7 @@ public class ReportService implements IReportService {
 			}
 			PostExample postExample = new PostExample();
 			postExample.createCriteria().andCreateUidEqualTo(uid)
-					.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
-					.andDefunctEqualTo(false);
+					.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType());
 			Post post = new Post();
 			post.setVerifyType(VerifyType.SHIELD.getType());
 			post.setLastModifyTime(new Date());

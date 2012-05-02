@@ -21,7 +21,6 @@ public class InitData {
 	@Autowired
 	private MessageSource messageSource;
 
-	// TODO (done) 搜索以外的模块，需要用到这个数据吗？
 	public static final Map<Integer, String> EDUCATION_MAP = new HashMap<Integer, String>();
 
 	@PostConstruct

@@ -31,11 +31,11 @@ public class ProfileIndexer implements Indexer<Profile> {
 
 	private Document buildDoc(Profile profile) {
 		Document doc = new Document();
-		// TODO (review) 基于最终搜索结果展示方式，重新整理一下下面field的策略
+		// TODO (done) 基于最终搜索结果展示方式，重新整理一下下面field的策略
 		doc.add(new Field("uid", profile.getUid().toString(), Field.Store.YES,
 				Field.Index.NOT_ANALYZED));
 		doc.add(new Field("name", profile.getNickname().toString(),
-				Field.Store.NO, Field.Index.ANALYZED));
+				Field.Store.YES, Field.Index.ANALYZED));
 		if (null != profile.getProvince()) {
 			doc.add(new Field("province", profile.getProvince().toString(),
 					Field.Store.NO, Field.Index.NOT_ANALYZED));

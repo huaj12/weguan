@@ -34,6 +34,8 @@ import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.search.bean.LuneceResult;
+import com.juzhai.search.controller.form.SearchProfileForm;
 import com.juzhai.search.rabbit.message.ActionType;
 import com.juzhai.search.rabbit.message.ProfileIndexMessage;
 import com.juzhai.search.service.IProfileSearchService;
@@ -79,22 +81,20 @@ public class ProfileSearchService implements IProfileSearchService {
 	}
 
 	@Override
-	public List<Profile> queryProfile(final long city, final long town,
-			final Integer gender, final int minYear, final int maxYear,
-			final List<String> educations, final int minMonthlyIncome,
-			final int maxMonthlyIncome, final boolean isMoreIncome,
-			final String home, final List<Long> constellationIds,
-			final String house, final String car, final int minHeight,
-			final int maxHeight, final int firstResult, final int maxResults) {
+	public LuneceResult<Profile> queryProfile(final SearchProfileForm form,
+			final int firstResult, final int maxResults) {
 		return profileIndexSearcherTemplate.excute(new SearcherCallback() {
 			@SuppressWarnings("unchecked")
 			@Override
 			public <T> T doCallback(IndexSearcher indexSearcher)
 					throws IOException {
-				Query query = getQuery(city, town, gender, minYear, maxYear,
-						educations, minMonthlyIncome, maxMonthlyIncome,
-						isMoreIncome, home, constellationIds, house, car,
-						minHeight, maxHeight);
+				Query query = getQuery(form.getCity(), form.getTown(),
+						form.getGender(), form.getMinYear(), form.getMaxYear(),
+						form.getEducations(), form.getMinMonthlyIncome(),
+						form.getMaxMonthlyIncome(), form.isMoreIncome(),
+						form.getHome(), form.getConstellationId(),
+						form.getHouse(), form.getCar(), form.getMinHeight(),
+						form.getMaxHeight());
 				TopScoreDocCollector collector = TopScoreDocCollector.create(
 						firstResult + maxResults, false);
 				indexSearcher.search(query, collector);
@@ -111,31 +111,9 @@ public class ProfileSearchService implements IProfileSearchService {
 					example.setOrderByClause("last_web_login_time desc, uid desc");
 					list = profileMapper.selectByExample(example);
 				}
-				return (T) list;
-			}
-		});
-	}
-
-	@Override
-	public int countQqueryProfile(final long city, final long town,
-			final Integer gender, final int minYear, final int maxYear,
-			final List<String> educations, final int minMonthlyIncome,
-			final int maxMonthlyIncome, final boolean isMoreIncome,
-			final String home, final List<Long> constellationIds,
-			final String house, final String car, final int minHeight,
-			final int maxHeight) {
-		return profileIndexSearcherTemplate.excute(new SearcherCallback() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public <T> T doCallback(IndexSearcher indexSearcher)
-					throws IOException {
-				Query query = getQuery(city, town, gender, minYear, maxYear,
-						educations, minMonthlyIncome, maxMonthlyIncome,
-						isMoreIncome, home, constellationIds, house, car,
-						minHeight, maxHeight);
-				// TODO (review) 为了count，一个请求请求两次lucene，不划算。看actSearch里怎么处理
-				TopDocs topDocs = indexSearcher.search(query, 1);
-				return (T) new Integer(topDocs.totalHits);
+				LuneceResult<Profile> result = new LuneceResult<Profile>(
+						topDocs.totalHits, list);
+				return (T) result;
 			}
 		});
 	}

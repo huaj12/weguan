@@ -1,8 +1,7 @@
 package com.juzhai.search.service;
 
-import java.util.List;
-
 import com.juzhai.post.model.Post;
+import com.juzhai.search.bean.LuneceResult;
 
 public interface IPostSearchService {
 	/**
@@ -14,17 +13,8 @@ public interface IPostSearchService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Post> searchPosts(String queryString, Integer gender, int firstResult,
-			int maxResults);
-
-	/**
-	 * 获取搜索出项目的总数
-	 * 
-	 * @param queryString
-	 * @param gender
-	 * @return
-	 */
-	int countSearchPosts(String queryString, Integer gender);
+	LuneceResult<Post> searchPosts(String queryString, Integer gender,
+			int firstResult, int maxResults);
 
 	/**
 	 * 建索引

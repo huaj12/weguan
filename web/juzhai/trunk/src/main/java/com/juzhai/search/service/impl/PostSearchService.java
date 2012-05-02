@@ -36,6 +36,7 @@ import com.juzhai.post.mapper.PostMapper;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostExample;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.search.bean.LuneceResult;
 import com.juzhai.search.rabbit.message.ActionType;
 import com.juzhai.search.rabbit.message.PostIndexMessage;
 import com.juzhai.search.service.IPostSearchService;
@@ -105,8 +106,9 @@ public class PostSearchService implements IPostSearchService {
 		}
 	}
 
+	// TODO (done) 为了总数再搜一次，很不值啊。参考ActSearchService里的处理，或者再想想有没有好的办法
 	@Override
-	public List<Post> searchPosts(final String queryString,
+	public LuneceResult<Post> searchPosts(final String queryString,
 			final Integer gender, final int firstResult, final int maxResults) {
 		return postIndexSearcherTemplate.excute(new SearcherCallback() {
 			@SuppressWarnings("unchecked")
@@ -136,7 +138,9 @@ public class PostSearchService implements IPostSearchService {
 					// TODO (review) 不知道有没有办法不要去数据库查询呢？
 					postIdList = postMapper.selectByExample(example);
 				}
-				return (T) postIdList;
+				LuneceResult<Post> result = new LuneceResult<Post>(
+						topDocs.totalHits, postIdList);
+				return (T) result;
 			}
 		});
 	}
@@ -264,26 +268,5 @@ public class PostSearchService implements IPostSearchService {
 	// }
 	// });
 	// }
-
-	@Override
-	public int countSearchPosts(final String queryString, final Integer gender) {
-		// TODO (review) 为了总数再搜一次，很不值啊。参考ActSearchService里的处理，或者再想想有没有好的办法
-		return postIndexSearcherTemplate.excute(new SearcherCallback() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public <T> T doCallback(IndexSearcher indexSearcher)
-					throws IOException {
-				if (StringUtils.isEmpty(queryString)) {
-					return (T) new Integer(0);
-				}
-				Query query = getQuery(queryString, gender);
-				if (query == null) {
-					return (T) new Integer(0);
-				}
-				TopDocs topDocs = indexSearcher.search(query, 1);
-				return (T) new Integer(topDocs.totalHits);
-			}
-		});
-	}
 
 }

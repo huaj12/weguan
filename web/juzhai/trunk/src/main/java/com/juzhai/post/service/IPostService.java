@@ -332,4 +332,12 @@ public interface IPostService {
 	 * @return
 	 */
 	List<CmsPostView> getpost(int type, long id);
+
+	/**
+	 * 获取某用户已通过拒宅
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	List<Post> getUserPost(long uid, int firstResult, int maxResults);
 }

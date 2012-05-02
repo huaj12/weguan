@@ -1098,4 +1098,15 @@ public class PostService implements IPostService {
 		return views;
 	}
 
+	@Override
+	public List<Post> getUserPost(long uid, int firstResult, int maxResults) {
+		PostExample example = new PostExample();
+		example.createCriteria().andCreateUidEqualTo(uid)
+				.andDefunctEqualTo(false)
+				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType());
+		example.setOrderByClause("create_time desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return postMapper.selectByExample(example);
+	}
+
 }

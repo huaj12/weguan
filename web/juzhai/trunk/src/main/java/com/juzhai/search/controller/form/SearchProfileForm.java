@@ -10,8 +10,6 @@ public class SearchProfileForm {
 	int maxYear;
 	List<String> educations;
 	int minMonthlyIncome;
-	int maxMonthlyIncome;
-	boolean isMoreIncome;
 	String home;
 	List<Long> constellationId;
 	String house;
@@ -21,9 +19,9 @@ public class SearchProfileForm {
 
 	public SearchProfileForm(long city, long town, Integer gender, int minYear,
 			int maxYear, List<String> educations, int minMonthlyIncome,
-			int maxMonthlyIncome, boolean isMoreIncome, String home,
-			List<Long> constellationId, String house, String car,
+			String home, List<Long> constellationId, String house, String car,
 			int minHeight, int maxHeight) {
+		super();
 		this.city = city;
 		this.town = town;
 		this.gender = gender;
@@ -31,8 +29,6 @@ public class SearchProfileForm {
 		this.maxYear = maxYear;
 		this.educations = educations;
 		this.minMonthlyIncome = minMonthlyIncome;
-		this.maxMonthlyIncome = maxMonthlyIncome;
-		this.isMoreIncome = isMoreIncome;
 		this.home = home;
 		this.constellationId = constellationId;
 		this.house = house;
@@ -95,22 +91,6 @@ public class SearchProfileForm {
 
 	public void setMinMonthlyIncome(int minMonthlyIncome) {
 		this.minMonthlyIncome = minMonthlyIncome;
-	}
-
-	public int getMaxMonthlyIncome() {
-		return maxMonthlyIncome;
-	}
-
-	public void setMaxMonthlyIncome(int maxMonthlyIncome) {
-		this.maxMonthlyIncome = maxMonthlyIncome;
-	}
-
-	public boolean isMoreIncome() {
-		return isMoreIncome;
-	}
-
-	public void setMoreIncome(boolean isMoreIncome) {
-		this.isMoreIncome = isMoreIncome;
 	}
 
 	public String getHome() {

@@ -97,7 +97,7 @@
 													<span>
 																<a href="javascript:void(0);" value="0" <c:if test="${educationId==''||educationId==0}"> class="selected" </c:if>>学历不限</a>
 														<c:forEach items="${educations}" var="ed" >
-																<a href="javascript:void(0);" value="${ed.key}" <c:if test="${educationId==ed.key}">class="selected"</c:if> >${ed.value}以上</a>
+																<a href="javascript:void(0);" value="${ed.key}" <c:if test="${educationId==ed.key}">class="selected"</c:if> >${fn:substring(ed.value, 0, 2)}以上</a>
 														</c:forEach>
 													</span>
 													<em></em>

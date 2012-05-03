@@ -77,7 +77,7 @@
 		</tr>
 		<c:forEach items="${hots }" var="hot">
 		<tr>
-			<td>${hot.name }</td>
+			<td>${hot.name}<c:if test="${hot.city==0}">(全国)</c:if> </td>
 			<td><a href="javascript:void(0);" onclick="del('${hot.id}')">删除</a></td>
 		</tr>
 		</c:forEach>

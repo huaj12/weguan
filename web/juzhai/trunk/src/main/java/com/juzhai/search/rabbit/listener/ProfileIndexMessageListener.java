@@ -20,7 +20,7 @@ public class ProfileIndexMessageListener implements
 	@Autowired
 	private Indexer<Profile> profileIndexer;
 	@Autowired
-	private IndexSearcherManager postIndexSearcherManager;
+	private IndexSearcherManager profileIndexSearcherManager;
 	@Autowired
 	private IProfileService profileService;
 
@@ -65,7 +65,7 @@ public class ProfileIndexMessageListener implements
 					+ "]", e);
 		}
 		try {
-			postIndexSearcherManager.maybeReopen();
+			profileIndexSearcherManager.maybeReopen();
 		} catch (Exception e) {
 			log.error("reopen indexReader failed when create profile["
 					+ profile.getUid() + "] index");

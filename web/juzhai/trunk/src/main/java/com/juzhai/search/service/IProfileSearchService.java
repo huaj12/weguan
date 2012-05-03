@@ -1,7 +1,7 @@
 package com.juzhai.search.service;
 
 import com.juzhai.passport.model.Profile;
-import com.juzhai.search.bean.LuneceResult;
+import com.juzhai.search.bean.LuceneResult;
 import com.juzhai.search.controller.form.SearchProfileForm;
 
 public interface IProfileSearchService {
@@ -48,7 +48,7 @@ public interface IProfileSearchService {
 	 * @param maxResults
 	 * @return
 	 */
-	LuneceResult<Profile> queryProfile(SearchProfileForm form, int firstResult,
+	LuceneResult<Profile> queryProfile(SearchProfileForm form, int firstResult,
 			int maxResults);
 
 }

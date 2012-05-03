@@ -24,7 +24,7 @@ import com.juzhai.post.model.PostExample;
 
 @Controller
 @RequestMapping("/cms")
-public class MigrateLuneceIndexController {
+public class MigrateLuceneIndexController {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private ProfileMapper profileMapper;

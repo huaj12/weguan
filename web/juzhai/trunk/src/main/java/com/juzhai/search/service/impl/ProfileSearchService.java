@@ -33,7 +33,7 @@ import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
-import com.juzhai.search.bean.LuneceResult;
+import com.juzhai.search.bean.LuceneResult;
 import com.juzhai.search.controller.form.SearchProfileForm;
 import com.juzhai.search.rabbit.message.ActionType;
 import com.juzhai.search.rabbit.message.ProfileIndexMessage;
@@ -75,7 +75,7 @@ public class ProfileSearchService implements IProfileSearchService {
 	}
 
 	@Override
-	public LuneceResult<Profile> queryProfile(final SearchProfileForm form,
+	public LuceneResult<Profile> queryProfile(final SearchProfileForm form,
 			final int firstResult, final int maxResults) {
 		return profileIndexSearcherTemplate.excute(new SearcherCallback() {
 			@SuppressWarnings("unchecked")
@@ -105,7 +105,7 @@ public class ProfileSearchService implements IProfileSearchService {
 					example.setOrderByClause("last_web_login_time desc, uid desc");
 					list = profileMapper.selectByExample(example);
 				}
-				LuneceResult<Profile> result = new LuneceResult<Profile>(
+				LuceneResult<Profile> result = new LuceneResult<Profile>(
 						topDocs.totalHits, list);
 				return (T) result;
 			}

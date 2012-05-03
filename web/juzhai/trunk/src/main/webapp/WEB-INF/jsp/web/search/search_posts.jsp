@@ -133,7 +133,7 @@
 							<c:if test="${pager.totalResults > 0}">
 								<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 								<c:param name="pager" value="${pager}"/>
-								<c:param name="url" value="/searchposts?queryString=${queryString}&sex=all" />
+								<c:param name="url" value="/searchposts?queryString=${queryString}&sex=${sex}" />
 								<c:param name="urlRewrite" value="flase"></c:param>
 								</c:import>
 							</c:if>

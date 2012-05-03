@@ -97,7 +97,7 @@
 													<span>
 																<a href="javascript:void(0);" value="0" <c:if test="${educationId==''||educationId==0}"> class="selected" </c:if>>学历不限</a>
 														<c:forEach items="${educations}" var="ed" >
-																<a href="javascript:void(0);" value="${ed.key}" <c:if test="${educationId==ed.key}">class="selected"</c:if> >${ed.value}</a>
+																<a href="javascript:void(0);" value="${ed.key}" <c:if test="${educationId==ed.key}">class="selected"</c:if> >${ed.value}及以上</a>
 														</c:forEach>
 													</span>
 													<em></em>
@@ -211,6 +211,7 @@
 							</div>
 							<div class="t"></div>
 						</div>
+						<jsp:include page="/WEB-INF/jsp/web/index/zbe/recommend_users_widget.jsp" />
 						<jsp:include page="/WEB-INF/jsp/web/home/index/new_user_widget.jsp" />
 						<c:if test="${empty isQplus||!isQplus}">
 							<jsp:include page="/WEB-INF/jsp/web/home/index/share_widget.jsp" />

@@ -48,7 +48,7 @@ public interface IProfileSearchService {
 	 * @param maxResults
 	 * @return
 	 */
-	LuceneResult<Profile> queryProfile(SearchProfileForm form, int firstResult,
-			int maxResults);
+	LuceneResult<Profile> queryProfile(long uid, SearchProfileForm form,
+			int firstResult, int maxResults);
 
 }

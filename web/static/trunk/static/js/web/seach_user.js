@@ -70,7 +70,8 @@ $(document).ready(function(){
 		}
 	});
 	$("div.s_input > a").click(function(){
-		$("#findpostsForm").submit();
+		var queryString = $("input[name='queryString']").val();
+		window.location.href = "/searchposts/"+queryString+"_all/1";
 		return false;
 	});
 });
@@ -80,7 +81,7 @@ function moreSeach(){
 	var monthlyIncome=$("input[name='monthlyIncome']").val();
 	var minStringHeight=$("input[name='minStringHeight']").val();
 	var maxStringHeight=$("input[name='maxStringHeight']").val();
-	if(constellationId=="0"&&educations==0&&monthlyIncome=="0-0"&&minStringHeight=="0"&&maxStringHeight=="0"){
+	if(constellationId=="0"&&educations==0&&monthlyIncome=="0-0"&&minStringHeight==""&&maxStringHeight==""){
 		$("div.more_search > a").text("更多搜索");
 		$("#simple").show();
 		$("#more").hide();
@@ -98,25 +99,34 @@ function parseMonthlyIncome(str){
 function search_user(){
 	var townId = $("input[name='town']").val();
 	var sex = $("input[name='sex']").val();
-	var minStringAge = $("input[name='minStringAge']").val();
-	var maxStringAge = $("input[name='maxStringAge']").val();
+	var minStringAge = trimStr($("input[name='minStringAge']").val());
+	var maxStringAge = trimStr($("input[name='maxStringAge']").val());
 	var constellationId=$("input[name='constellation']").val();
 	var educations=$("input[name='educations']").val();
 	var monthlyIncome=$("input[name='monthlyIncome']").val();
 	var arr=parseMonthlyIncome(monthlyIncome);
-	var minStringHeight=$("input[name='minStringHeight']").val();
-	var maxStringHeight=$("input[name='maxStringHeight']").val();
+	var minStringHeight=trimStr($("input[name='minStringHeight']").val());
+	var maxStringHeight=trimStr($("input[name='maxStringHeight']").val());
 	if(minStringHeight==""){
-		minStringHeight=0;
+		minStringHeight="0";
 	}
 	if(maxStringHeight==""){
-		maxStringHeight=0;
+		maxStringHeight="0";
 	}
 	if(minStringAge==""){
-		minStringAge=0;
+		minStringAge="0";
 	}
 	if(maxStringAge==""){
-		maxStringAge=0;
+		maxStringAge="0";
 	}
-	window.location.href = "/seachusers/" + townId + "_" + sex + "_" + minStringAge + "_" + maxStringAge + "_"+minStringHeight+"_"+maxStringHeight+"_"+constellationId+"_"+educations+"_"+arr[0]+"_"+arr[1]+"/1";
+	if(!isNum(minStringAge)||minStringAge<0||!isNum(maxStringAge)||maxStringAge<0){
+		alert('请输入正确的年龄');
+		return ;
+	}
+
+	if(!isNum(minStringHeight)||minStringHeight<0||!isNum(maxStringHeight)||maxStringHeight<0){
+		alert('请输入正确的身高');
+		return ;
+	}
+	window.location.href = "/searchusers/" + townId + "_" + sex + "_" + minStringAge + "_" + maxStringAge + "_"+minStringHeight+"_"+maxStringHeight+"_"+constellationId+"_"+educations+"_"+arr[0]+"_"+arr[1]+"/1";
 }

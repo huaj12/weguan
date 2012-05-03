@@ -1,4 +1,17 @@
+
 $(document).ready(function(){
+	var selectBox = new SelectBoxInput($("div.xz_menu")[0]);
+	selectBox.bindBlur();
+	selectBox.bindClick();
+	selectBox.bindSelect();
+	var selectEducations = new SelectInput($("div[name='educations']")[0]);
+	selectEducations.bindBlur();
+	selectEducations.bindClick();
+	selectEducations.bindSelect();
+	var selectMonthlyIncome = new SelectInput($("div[name='monthlyIncome']")[0]);
+	selectMonthlyIncome.bindBlur();
+	selectMonthlyIncome.bindClick();
+	selectMonthlyIncome.bindSelect();
 	moreSeach();
 	$("div.date > a").click(function(){
 		var uid = $(this).attr("target-uid");
@@ -42,39 +55,24 @@ $(document).ready(function(){
 		if($(this).text()=="更多搜索"){
 			$(this).text("简单搜索");
 			$("div.search_more_area").show();
-			$("#more").html('<a href=\'javascript:void(0);\' class=\'query-btn\'>搜索</a>');
-			$("#simple").html('');
+			$("#more").show();
+			$("#simple").hide();
 		}else{
-			$("#simple").html('<a href=\'javascript:void(0);\' class=\'query-btn\'>搜索</a>');
-			$("#more").html('');
+			$("#simple").show();
+			$("#more").hide();
 			$(this).text("更多搜索");
 			$("div.search_more_area").hide();
-			var selectBox = new SelectBoxInput($("div.xz_menu")[0]);
 			selectBox.resetSelect();
-			var selectEducations = new SelectInput($("div[name='educations']")[0]);
 			selectEducations.resetSelect();
-			var selectMonthlyIncome = new SelectInput($("div[name='monthlyIncome']")[0]);
 			selectMonthlyIncome.resetSelect();
 			$("input[name='minStringHeight']").val("");
 			$("input[name='maxStringHeight']").val("");
 		}
-		$("a.query-btn").click(function(){
-			search_user();
-			return false;
-		});
 	});
 	$("div.s_input > a").click(function(){
 		$("#findpostsForm").submit();
 		return false;
 	});
-	
-	$("div.tags > a").click(function(){
-		window.location.href="/findposts?queryString="+$(this).text();
-		return false;
-	});
-	
-	
-	
 });
 function moreSeach(){
 	var constellationId=$("input[name='constellation']").val();
@@ -82,12 +80,14 @@ function moreSeach(){
 	var monthlyIncome=$("input[name='monthlyIncome']").val();
 	var minStringHeight=$("input[name='minStringHeight']").val();
 	var maxStringHeight=$("input[name='maxStringHeight']").val();
-	if(constellationId==""&&educations==0&&monthlyIncome=="0-0"&&minStringHeight==""&&maxStringHeight==""){
+	if(constellationId==""&&educations==0&&monthlyIncome=="0-0"&&minStringHeight=="0"&&maxStringHeight=="0"){
 		$("div.more_search > a").text("更多搜索");
-		$("#simple").html('<a href=\'javascript:void(0);\' class=\'query-btn\'>搜索</a>');
+		$("#simple").show();
+		$("#more").hide();
 		$("div.search_more_area").hide();
 	}else{
-		$("#more").html('<a href=\'javascript:void(0);\' class=\'query-btn\'>搜索</a>');
+		$("#more").show();
+		$("#simple").hide();
 		$("div.more_search > a").text("简单搜索");
 		$("div.search_more_area").show();
 	}

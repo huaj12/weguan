@@ -68,7 +68,7 @@
 											<p class="l"></p><span class="width70"><input name="maxStringAge"  value="${maxStringAge}" type="text" /></span><p class="r"></p>
 										</div><!--input end-->
 										<div class="txt">岁</div>
-										<div class="btn" id="simple"></div>
+										<div class="btn" id="simple"><a href='javascript:void(0);' class='query-btn'>搜索</a></div>
 										<div class="more_search"><a href="javascript:void(0);">简单搜索</a></div>
 										<div class="search_more_area"><!--search_more_area begin-->
 											<div class="w100"><!--w70 begin-->
@@ -134,7 +134,7 @@
 											<p class="l"></p><span class="width80"><input name="maxStringHeight" value="${minStringHeight}" type="text" /></span><p class="r"></p>
 											</div><!--input end-->
 										<div class="txt">CM</div>
-										<div class="btn" id="more"></div>
+										<div class="btn" id="more"><a href='javascript:void(0);' class='query-btn'>搜索</a></div>
 										</div><!--search_more_area end-->
 									</div><!--search_title end-->
 									<div class="clear"></div>

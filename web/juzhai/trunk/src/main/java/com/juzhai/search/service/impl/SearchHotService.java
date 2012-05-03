@@ -1,5 +1,6 @@
 package com.juzhai.search.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,8 +22,13 @@ public class SearchHotService implements ISearchHotService {
 
 	@Override
 	public List<SearchHot> getSearchHotByCity(long city, int count) {
+		List<Long> citys = new ArrayList<Long>();
+		citys.add(city);
+		if (city != 0) {
+			citys.add(0l);
+		}
 		SearchHotExample example = new SearchHotExample();
-		example.createCriteria().andCityEqualTo(city);
+		example.createCriteria().andCityIn(citys);
 		example.setOrderByClause("create_time desc");
 		example.setLimit(new Limit(0, count));
 		return searchHotMapper.selectByExample(example);

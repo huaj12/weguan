@@ -161,7 +161,7 @@ public class SearchController extends BaseController {
 	// return "web/search/search_acts";
 	// }
 
-	@RequestMapping(value = { "/findusers", "/findUsers" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/searchusers", "/searchUsers" }, method = RequestMethod.GET)
 	public String findUsers(HttpServletRequest request, Model model) {
 		String genderType = "all";
 		String minAge = "0";
@@ -185,12 +185,12 @@ public class SearchController extends BaseController {
 			maxAge = ages.get(1);
 		} catch (Exception e) {
 		}
-		return seachUsers(request, model, 1, 0, genderType, maxAge, minAge,
+		return searchUsers(request, model, 1, 0, genderType, maxAge, minAge,
 				"0", "0", "0", 0, 0, 0);
 	}
 
-	@RequestMapping(value = { "/seachusers/{town}_{sex}_{minStringAge}_{maxStringAge}_{minStringHeight}_{maxStringHeight}_{constellationIds}_{educations}_{minMonthlyIncome}_{maxMonthlyIncome}/{pageId}" }, method = RequestMethod.GET)
-	public String seachUsers(HttpServletRequest request, Model model,
+	@RequestMapping(value = { "/searchusers/{town}_{sex}_{minStringAge}_{maxStringAge}_{minStringHeight}_{maxStringHeight}_{constellationIds}_{educations}_{minMonthlyIncome}_{maxMonthlyIncome}/{pageId}" }, method = RequestMethod.GET)
+	public String searchUsers(HttpServletRequest request, Model model,
 			@PathVariable int pageId, @PathVariable long town,
 			@PathVariable String sex, @PathVariable String maxStringAge,
 			@PathVariable String minStringAge,
@@ -289,8 +289,8 @@ public class SearchController extends BaseController {
 		return "web/search/seach_user";
 	}
 
-	@RequestMapping(value = { "/seachposts/{queryString}_{sex}/{pageId}" }, method = RequestMethod.GET)
-	public String seachPosts(HttpServletRequest request, Model model,
+	@RequestMapping(value = { "/searchposts/{queryString}_{sex}/{pageId}" }, method = RequestMethod.GET)
+	public String searchPosts(HttpServletRequest request, Model model,
 			@PathVariable int pageId, @PathVariable String sex,
 			@PathVariable String queryString) {
 		if (queryString != null) {
@@ -300,8 +300,6 @@ public class SearchController extends BaseController {
 		try {
 			context = checkLoginForWeb(request);
 		} catch (NeedLoginException e) {
-			return "redirect:/login?turnTo=/seachposts/" + queryString + "_"
-					+ sex + "/" + pageId;
 		}
 
 		ProfileCache loginUser = getLoginUserCache(request);

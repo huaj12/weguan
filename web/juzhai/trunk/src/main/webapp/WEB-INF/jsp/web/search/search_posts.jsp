@@ -25,7 +25,7 @@
 						<div class="m">
 							<div class="jz_list"><!--jz_list begin-->
 							<div class="search_jg"><!--search_jg begin-->
-							<h2>拒宅搜素</h2>
+							<h2>拒宅搜索</h2>
 							<div class="input"><!--input begin-->
 							<p class="l"></p><span class="width70"><input name="queryString" type="text" value="${queryString}" /></span><p class="r"></p>
 							</div><!--input end-->
@@ -33,7 +33,7 @@
 							</div><!--search_jg end-->
 							<div class="clear"></div>
 							<div class="jg_title"><!--jg_title begin-->
-								<div class="jg_left"><p>共搜索到<font>${pager.totalResults}</font>条 关于<i>${queryString}</i>的信息</p></div>
+								<div class="jg_left"><p>在<i><c:choose><c:when test="${city== 0}">全国</c:when><c:otherwise>${jzd:cityName(city)}</c:otherwise></c:choose></i>共搜索到<font>${pager.totalResults}</font>条 关于<i>${queryString}</i>的信息</p></div>
 								<div class="jg_right">
 									<span>筛选:</span>
 									<div class="select_menu" name="sex"><!--select_menu begin-->
@@ -41,7 +41,7 @@
 												<div></div>
 												<div class="select_box"><!--select_box begin-->
 													<span>
-														<a href="javascript:void(0);" value="" <c:if test="${empty sex||sex=='all'}">class="selected"</c:if>>性别不限</a>
+														<a href="javascript:void(0);" value="all" <c:if test="${empty sex||sex=='all'}">class="selected"</c:if>>性别不限</a>
 														<a href="javascript:void(0);" value="male" <c:if test="${sex=='male'}">class="selected"</c:if>>男生</a>
 														<a href="javascript:void(0);" value="female" <c:if test="${sex=='female'}">class="selected"</c:if>>女生</a>
 													</span>
@@ -133,7 +133,7 @@
 							<c:if test="${pager.totalResults > 0}">
 								<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 								<c:param name="pager" value="${pager}"/>
-								<c:param name="url" value="/home/${queryType}/${urlPrefix}${genderType}" />
+								<c:param name="url" value="/seachposts/${queryString}_${sex}" />
 								</c:import>
 							</c:if>
 						</div>
@@ -143,16 +143,18 @@
 					<div class="main_right"><!--main_right begin-->
 						<div class="content_box w285"><!--content begin-->
 						<div class="t"></div>
-						<div class="m">
-							<div class="right_title"><h2>热门拒宅关键词</h2></div>
-							<div class="search_xz"><!--search_xz begin-->
-								<div class="tags hot">
-									<c:forEach items="${hots}" var="hot">
-										<a href="/findposts?queryString=${hot.name}">${hot.name}</a>
-									</c:forEach>
-								</div>
-							</div><!--search_xz end-->
-						</div>
+						<c:if test="${not empty hots }">
+							<div class="m">
+								<div class="right_title"><h2>热门拒宅关键词</h2></div>
+								<div class="search_xz"><!--search_xz begin-->
+									<div class="tags hot">
+										<c:forEach items="${hots}" var="hot">
+											<a href="/seachposts/${hot.name}_all/1">${hot.name}</a>
+										</c:forEach>
+									</div>
+								</div><!--search_xz end-->
+							</div>
+						</c:if>
 						<div class="t"></div>
 						</div><!--content end-->
 					</div><!--main_right end-->

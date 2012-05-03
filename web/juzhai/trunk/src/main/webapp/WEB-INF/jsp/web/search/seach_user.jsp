@@ -72,7 +72,7 @@
 										<div class="more_search"><a href="javascript:void(0);">简单搜索</a></div>
 										<div class="search_more_area"><!--search_more_area begin-->
 											<div class="w100"><!--w70 begin-->
-												<div class="xz_menu" name="constellation"><!--select_menu begin-->
+												<div class="xz_menu" name="constellation" load-lazy="true"><!--select_menu begin-->
 												<p><a href="javascript:void(0);" value="" initName="请选星座"></a></p>
 												<div></div>
 													<div class="select_box"><!--select_box begin-->
@@ -90,7 +90,7 @@
 											</div><!--w70 end-->
 										
 										<div class="w100"><!--w100 begin-->
-											<div class="select_menu" name="educations"><!--select_menu begin-->
+											<div class="select_menu" name="educations" load-lazy="true"><!--select_menu begin-->
 											<p><a href="javascript:void(0);"></a></p>
 											<div></div>
 												<div class="select_box"><!--select_box begin-->
@@ -107,7 +107,7 @@
 										
 										
 										<div class="w100"><!--w100 begin-->
-											<div class="select_menu" name="monthlyIncome"><!--select_menu begin-->
+											<div class="select_menu" name="monthlyIncome" load-lazy="true"><!--select_menu begin-->
 												<p><a href="javascript:void(0);"></a></p>
 												<div></div>
 													<div class="select_box"><!--select_box begin-->
@@ -204,7 +204,7 @@
 									<c:if test="${not empty hots }">
 									<p>近期热门词：</p>
 										<c:forEach items="${hots}" var="hot">
-											<a href="javascript:void(0);">${hot.name}</a>
+											<a href="/findposts?queryString=${hot.name}">${hot.name}</a>
 										</c:forEach>
 									</c:if>
 									</div>

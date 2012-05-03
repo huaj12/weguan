@@ -148,7 +148,7 @@
 							<div class="search_xz"><!--search_xz begin-->
 								<div class="tags hot">
 									<c:forEach items="${hots}" var="hot">
-										<a href="javascript:void(0);">${hot.name}</a>
+										<a href="/findposts?queryString=${hot.name}">${hot.name}</a>
 									</c:forEach>
 								</div>
 							</div><!--search_xz end-->

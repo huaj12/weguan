@@ -83,12 +83,12 @@ public class ProfileSearchService implements IProfileSearchService {
 			@Override
 			public <T> T doCallback(IndexSearcher indexSearcher)
 					throws IOException {
-				Query query = getQuery(form.getCity(), form.getTown(),
-						form.getGender(), form.getMinYear(), form.getMaxYear(),
-						form.getEducations(), form.getMinMonthlyIncome(),
-						form.getHome(), form.getConstellationId(),
-						form.getHouse(), form.getCar(), form.getMinHeight(),
-						form.getMaxHeight());
+				Query query = getQuery(form.getUid(), form.getCity(),
+						form.getTown(), form.getGender(), form.getMinYear(),
+						form.getMaxYear(), form.getEducations(),
+						form.getMinMonthlyIncome(), form.getHome(),
+						form.getConstellationId(), form.getHouse(),
+						form.getCar(), form.getMinHeight(), form.getMaxHeight());
 				TopScoreDocCollector collector = TopScoreDocCollector.create(
 						firstResult + maxResults, false);
 				indexSearcher.search(query, collector);
@@ -112,10 +112,10 @@ public class ProfileSearchService implements IProfileSearchService {
 		});
 	}
 
-	private Query getQuery(long city, long town, Integer gender, int minYear,
-			int maxYear, List<String> educations, int minMonthlyIncome,
-			String home, List<Long> constellationIds, String house, String car,
-			int minHeight, int maxHeight) {
+	private Query getQuery(long uid, long city, long town, Integer gender,
+			int minYear, int maxYear, List<String> educations,
+			int minMonthlyIncome, String home, List<Long> constellationIds,
+			String house, String car, int minHeight, int maxHeight) {
 		BooleanQuery query = new BooleanQuery();
 		// 身高
 		if (minHeight > 0 || maxHeight > 0) {
@@ -198,6 +198,10 @@ public class ProfileSearchService implements IProfileSearchService {
 		if (town > 0) {
 			query.add(new TermQuery(new Term("town", String.valueOf(town))),
 					Occur.MUST);
+		}
+		if (uid > 0) {
+			query.add(new TermQuery(new Term("uid", String.valueOf(uid))),
+					Occur.MUST_NOT);
 		}
 		return query;
 	}

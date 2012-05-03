@@ -36,7 +36,7 @@
 								<div class="jg_left"><p>在<c:choose><c:when test="${city== 0}">全国</c:when><c:otherwise>${jzd:cityName(city)}</c:otherwise></c:choose>共搜索到<font>${pager.totalResults}</font>条 关于<i>${queryString}</i>的信息</p></div>
 								<div class="jg_right">
 									<span>筛选:</span>
-									<div class="select_menu" name="sex"><!--select_menu begin-->
+									<div class="select_menu" id="sex-select" name="sex"><!--select_menu begin-->
 												<p><a href="javascript:void(0);">性别不限</a></p>
 												<div></div>
 												<div class="select_box"><!--select_box begin-->

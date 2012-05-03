@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.juzhai.core.controller.BaseController;
+import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.controller.view.QueryUserView;
@@ -263,10 +264,14 @@ public class SearchController extends BaseController {
 		model.addAttribute("cityId", city);
 		model.addAttribute("sex", sex);
 		model.addAttribute("townId", town);
-		model.addAttribute("maxStringAge", maxStringAge);
-		model.addAttribute("minStringAge", minStringAge);
-		model.addAttribute("maxStringHeight", maxStringHeight);
-		model.addAttribute("minStringHeight", minStringHeight);
+		model.addAttribute("maxStringAge", "0".equals(maxStringAge) ? ""
+				: maxStringAge);
+		model.addAttribute("minStringAge", "0".equals(minStringAge) ? ""
+				: minStringAge);
+		model.addAttribute("maxStringHeight", "0".equals(maxStringHeight) ? ""
+				: maxStringHeight);
+		model.addAttribute("minStringHeight", "0".equals(minStringHeight) ? ""
+				: minStringHeight);
 		model.addAttribute("constellations",
 				com.juzhai.passport.InitData.CONSTELLATION_MAP.values());
 		model.addAttribute("educationId", educations);
@@ -284,16 +289,21 @@ public class SearchController extends BaseController {
 		return "web/search/seach_user";
 	}
 
-	@RequestMapping(value = { "/findposts", "/findPosts" }, method = RequestMethod.GET)
-	public String findPosts(HttpServletRequest request, String queryString,
-			Model model) {
-		return seachPosts(request, model, 1, null, queryString);
-	}
-
 	@RequestMapping(value = { "/seachposts/{queryString}_{sex}/{pageId}" }, method = RequestMethod.GET)
 	public String seachPosts(HttpServletRequest request, Model model,
 			@PathVariable int pageId, @PathVariable String sex,
 			@PathVariable String queryString) {
+		if (queryString != null) {
+			queryString = queryString.trim();
+		}
+		UserContext context = null;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return "redirect:/login?turnTo=/seachposts/" + queryString + "_"
+					+ sex + "/" + pageId;
+		}
+
 		ProfileCache loginUser = getLoginUserCache(request);
 		long city = 0L;
 		if (loginUser != null && loginUser.getCity() != null) {
@@ -302,15 +312,16 @@ public class SearchController extends BaseController {
 		Integer gender = getSex(sex);
 		PagerManager pager = new PagerManager(pageId, searchPostRows);
 		LuceneResult<Post> result = postSearchService.searchPosts(queryString,
-				gender, pager.getFirstResult(), pager.getMaxResult());
+				gender, city, pager.getFirstResult(), pager.getMaxResult());
 		pager.setTotalResults(result.getTotalHits());
 		List<Post> postList = result.getResult();
 		List<PostView> postViewList = postViewHelper.assembleUserPostViewList(
-				null, postList);
+				context, postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
 		model.addAttribute("queryString", queryString);
 		model.addAttribute("sex", sex);
+		model.addAttribute("city", city);
 		loadFaces(model);
 		getHots(model, city, searchPostHotRows);
 		return "web/search/search_posts";

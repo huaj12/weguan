@@ -39,7 +39,6 @@ import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
 import com.juzhai.post.mapper.PostMapper;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostExample;
-import com.juzhai.post.service.IPostService;
 import com.juzhai.search.bean.LuceneResult;
 import com.juzhai.search.rabbit.message.ActionType;
 import com.juzhai.search.rabbit.message.PostIndexMessage;
@@ -102,18 +101,21 @@ public class PostSearchService implements IPostSearchService {
 
 	@Override
 	public LuceneResult<Post> searchPosts(final String queryString,
-			final Integer gender, final int firstResult, final int maxResults) {
+			final Integer gender, final long city, final int firstResult,
+			final int maxResults) {
 		return postIndexSearcherTemplate.excute(new SearcherCallback() {
 			@SuppressWarnings("unchecked")
 			@Override
 			public <T> T doCallback(IndexSearcher indexSearcher)
 					throws IOException {
 				if (StringUtils.isEmpty(queryString)) {
-					return (T) Collections.emptyList();
+					List<Post> list = Collections.emptyList();
+					return (T) new LuceneResult<Post>(0, list);
 				}
-				Query query = getQuery(queryString, gender);
+				Query query = getQuery(queryString, gender, city);
 				if (query == null) {
-					return (T) Collections.emptyList();
+					List<Post> list = Collections.emptyList();
+					return (T) new LuceneResult<Post>(0, list);
 				}
 				TopScoreDocCollector collector = TopScoreDocCollector.create(
 						firstResult + maxResults, false);
@@ -206,8 +208,13 @@ public class PostSearchService implements IPostSearchService {
 	// });
 	// }
 
-	private Query getQuery(String queryString, Integer gender) {
+	private Query getQuery(String queryString, Integer gender, long city) {
 		BooleanQuery query = new BooleanQuery();
+		// 城市
+		if (city > 0) {
+			query.add(new TermQuery(new Term("city", String.valueOf(city))),
+					Occur.MUST);
+		}
 		// 性别
 		if (null != gender) {
 			query.add(

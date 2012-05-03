@@ -359,7 +359,8 @@ public class PostService implements IPostService {
 			}
 		}
 		// 前台发布好主意。
-		if (VerifyType.QUALIFIED.getType() == post.getVerifyType()) {
+		if (post.getVerifyType() != null
+				&& VerifyType.QUALIFIED.getType() == post.getVerifyType()) {
 			postSearchService.createIndex(post.getId());
 		}
 

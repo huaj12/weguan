@@ -2,6 +2,7 @@ package com.juzhai.search.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -185,6 +186,12 @@ public class ProfileSearchService implements IProfileSearchService {
 			Query ageQuery = NumericRangeQuery.newIntRange("age",
 					minYear == 0 ? null : minYear, maxYear == 0 ? null
 							: maxYear, true, true);
+			query.add(ageQuery, Occur.MUST);
+		} else {
+			Calendar cal = Calendar.getInstance();
+			int year = cal.get(Calendar.YEAR);
+			Query ageQuery = NumericRangeQuery.newIntRange("age", year - 200,
+					year, true, true);
 			query.add(ageQuery, Occur.MUST);
 		}
 		// 性别

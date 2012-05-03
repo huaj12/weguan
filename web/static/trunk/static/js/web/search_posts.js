@@ -12,6 +12,7 @@ $(document).ready(function() {
 	
 	$("#sex-select").find("span > a").bind("click", function(){
 		var queryString = $("input[name='queryString']").val();
+		queryString=trimStr(queryString);
 		var sex = $(this).attr("value");
 		if(queryString==""){
 			$("input[name='queryString']")[0].focus();

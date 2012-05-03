@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.search.exception.InputSearchHotException;
 import com.juzhai.search.service.ISearchHotService;
@@ -25,10 +26,16 @@ public class CmsSearchHotController {
 
 	@RequestMapping(value = "/show/searchHot", method = RequestMethod.GET)
 	public String showSearchHot(HttpServletRequest request, Model model,
-			@RequestParam(defaultValue = "0") long city) {
-		model.addAttribute("hots",
-				searchHotService.getSearchHotByCity(city, 100));
+			@RequestParam(defaultValue = "0") long city,
+			@RequestParam(defaultValue = "1") int pageId) {
+		PagerManager pager = new PagerManager(pageId, 20,
+				searchHotService.countSearchHotByCity(city));
+		model.addAttribute(
+				"hots",
+				searchHotService.getSearchHotByCity(city,
+						pager.getFirstResult(), pager.getMaxResult()));
 		model.addAttribute("city", city);
+		model.addAttribute("pager", pager);
 		return "cms/search_hot";
 	}
 

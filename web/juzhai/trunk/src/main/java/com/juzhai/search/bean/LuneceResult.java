@@ -2,7 +2,11 @@ package com.juzhai.search.bean;
 
 import java.util.List;
 
+import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
+
 public class LuneceResult<T> {
+	public static final SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter(
+			"<i>", "</i>");
 	private int totalHits;
 	private List<T> result;
 

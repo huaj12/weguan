@@ -71,8 +71,15 @@ $(document).ready(function(){
 	});
 	$("div.s_input > a").click(function(){
 		var queryString = $("input[name='queryString']").val();
-		window.location.href = "/searchposts/"+queryString+"_all/1";
+		var initDes=$("input[name='queryString']").attr("init-tip");
+		if(queryString==initDes){
+			queryString="";
+		}
+		window.location.href ="/searchposts?queryString="+queryString+"&sex=all";
 		return false;
+	});
+	$("div.s_input> span >input").each(function(){
+		registerInitMsg($(this));
 	});
 });
 function moreSeach(){
@@ -81,7 +88,7 @@ function moreSeach(){
 	var monthlyIncome=$("input[name='monthlyIncome']").val();
 	var minStringHeight=$("input[name='minStringHeight']").val();
 	var maxStringHeight=$("input[name='maxStringHeight']").val();
-	if(constellationId=="0"&&educations==0&&monthlyIncome=="0-0"&&minStringHeight==""&&maxStringHeight==""){
+	if(constellationId=="0"&&educations==0&&monthlyIncome=="0"&&minStringHeight==""&&maxStringHeight==""){
 		$("div.more_search > a").text("更多搜索");
 		$("#simple").show();
 		$("#more").hide();
@@ -104,7 +111,6 @@ function search_user(){
 	var constellationId=$("input[name='constellation']").val();
 	var educations=$("input[name='educations']").val();
 	var monthlyIncome=$("input[name='monthlyIncome']").val();
-	var arr=parseMonthlyIncome(monthlyIncome);
 	var minStringHeight=trimStr($("input[name='minStringHeight']").val());
 	var maxStringHeight=trimStr($("input[name='maxStringHeight']").val());
 	if(minStringHeight==""){
@@ -128,5 +134,5 @@ function search_user(){
 		alert('请输入正确的身高');
 		return ;
 	}
-	window.location.href = "/searchusers/" + townId + "_" + sex + "_" + minStringAge + "_" + maxStringAge + "_"+minStringHeight+"_"+maxStringHeight+"_"+constellationId+"_"+educations+"_"+arr[0]+"_"+arr[1]+"/1";
+	window.location.href = "/searchusers/" + townId + "_" + sex + "_" + minStringAge + "_" + maxStringAge + "_"+minStringHeight+"_"+maxStringHeight+"_"+constellationId+"_"+educations+"_"+monthlyIncome+"/1";
 }

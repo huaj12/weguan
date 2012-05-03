@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.lucene.index.Indexer;
+import com.juzhai.core.lucene.searcher.IndexSearcherManager;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
@@ -36,6 +37,10 @@ public class MigrateLuceneIndexController {
 	private Indexer<Profile> profileIndexer;
 	@Autowired
 	private Indexer<Post> postIndexer;
+	@Autowired
+	private IndexSearcherManager postIndexSearcherManager;
+	@Autowired
+	private IndexSearcherManager profileIndexSearcherManager;
 	private int num = 200;
 
 	@RequestMapping(value = "/create/index/profile", method = RequestMethod.GET)
@@ -63,6 +68,11 @@ public class MigrateLuceneIndexController {
 			if (list.size() < num) {
 				break;
 			}
+		}
+		try {
+			profileIndexSearcherManager.maybeReopen();
+		} catch (Exception e) {
+			log.error("reopen indexReader failed when migrate");
 		}
 		return "success";
 	}
@@ -92,6 +102,11 @@ public class MigrateLuceneIndexController {
 			if (list.size() < num) {
 				break;
 			}
+		}
+		try {
+			postIndexSearcherManager.maybeReopen();
+		} catch (Exception e) {
+			log.error("reopen indexReader failed when migrate");
 		}
 		return "success";
 	}

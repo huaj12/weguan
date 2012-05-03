@@ -52,7 +52,6 @@ public class PostIndexer implements Indexer<Post> {
 			doc.add(new Field("categoryId", post.getCategoryId().toString(),
 					Field.Store.NO, Field.Index.NOT_ANALYZED));
 		}
-		// TODO (done) 1。这个字段需要吗？2。如果需要，你看下这个字段取的对不对？
 		// 用户属性
 		doc.add(new Field("uid", profile.getUid().toString(), Field.Store.YES,
 				Field.Index.NOT_ANALYZED));

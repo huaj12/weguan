@@ -53,8 +53,6 @@ public class PostSearchService implements IPostSearchService {
 	@Autowired
 	private Analyzer postIKAnalyzer;
 	@Autowired
-	private IPostService postService;
-	@Autowired
 	private RabbitTemplate postIndexCreateRabbitTemplate;
 	@Autowired
 	private PostMapper postMapper;
@@ -122,7 +120,7 @@ public class PostSearchService implements IPostSearchService {
 				indexSearcher.search(query, collector);
 				TopDocs topDocs = collector.topDocs(firstResult, maxResults);
 				List<Long> ids = new ArrayList<Long>(maxResults);
-				List<Post> postIdList = new ArrayList<Post>(maxResults);
+				List<Post> postList = new ArrayList<Post>(maxResults);
 				Highlighter highlighter = new Highlighter(
 						LuceneResult.simpleHTMLFormatter,
 						new QueryScorer(query));
@@ -135,7 +133,6 @@ public class PostSearchService implements IPostSearchService {
 					PostExample example = new PostExample();
 					example.createCriteria().andIdIn(ids);
 					example.setOrderByClause("create_time desc");
-					// TODO (done) 从库里搜出来是什么顺序？
 					for (Post post : postMapper.selectByExample(example)) {
 						String content = HtmlUtils.htmlEscape(post.getContent());
 						post.setContent(highLightText("content", content,
@@ -145,10 +142,10 @@ public class PostSearchService implements IPostSearchService {
 				}
 				// 保证原有lucene顺序
 				for (Long id : ids) {
-					postIdList.add(postMap.get(id));
+					postList.add(postMap.get(id));
 				}
 				LuceneResult<Post> result = new LuceneResult<Post>(
-						topDocs.totalHits, postIdList);
+						topDocs.totalHits, postList);
 				return (T) result;
 			}
 		});

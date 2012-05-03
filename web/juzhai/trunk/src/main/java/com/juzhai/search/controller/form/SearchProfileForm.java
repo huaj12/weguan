@@ -3,7 +3,6 @@ package com.juzhai.search.controller.form;
 import java.util.List;
 
 public class SearchProfileForm {
-	long uid;
 	long city;
 	long town;
 	Integer gender;
@@ -18,12 +17,10 @@ public class SearchProfileForm {
 	int minHeight;
 	int maxHeight;
 
-	public SearchProfileForm(long uid, long city, long town, Integer gender,
-			int minYear, int maxYear, List<String> educations,
-			int minMonthlyIncome, String home, List<Long> constellationId,
-			String house, String car, int minHeight, int maxHeight) {
-		super();
-		this.uid = uid;
+	public SearchProfileForm(long city, long town, Integer gender, int minYear,
+			int maxYear, List<String> educations, int minMonthlyIncome,
+			String home, List<Long> constellationId, String house, String car,
+			int minHeight, int maxHeight) {
 		this.city = city;
 		this.town = town;
 		this.gender = gender;
@@ -37,14 +34,6 @@ public class SearchProfileForm {
 		this.car = car;
 		this.minHeight = minHeight;
 		this.maxHeight = maxHeight;
-	}
-
-	public long getUid() {
-		return uid;
-	}
-
-	public void setUid(long uid) {
-		this.uid = uid;
 	}
 
 	public long getCity() {

@@ -236,11 +236,11 @@ public class SearchController extends BaseController {
 			}
 		}
 		PagerManager pager = new PagerManager(pageId, searchUserRows);
-		SearchProfileForm form = new SearchProfileForm(uid, city, town, gender,
+		SearchProfileForm form = new SearchProfileForm(city, town, gender,
 				minYear, maxYear, educationList, minMonthlyIncome, null,
 				constellationId, null, null, minHeight, maxHeight);
-		LuceneResult<Profile> result = profileSearchService.queryProfile(form,
-				pager.getFirstResult(), pager.getMaxResult());
+		LuceneResult<Profile> result = profileSearchService.queryProfile(uid,
+				form, pager.getFirstResult(), pager.getMaxResult());
 		pager.setTotalResults(result.getTotalHits());
 		List<Profile> list = result.getResult();
 		List<Long> uidList = new ArrayList<Long>();

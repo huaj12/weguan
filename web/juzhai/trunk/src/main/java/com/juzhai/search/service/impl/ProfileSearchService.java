@@ -76,19 +76,20 @@ public class ProfileSearchService implements IProfileSearchService {
 	}
 
 	@Override
-	public LuceneResult<Profile> queryProfile(final SearchProfileForm form,
-			final int firstResult, final int maxResults) {
+	public LuceneResult<Profile> queryProfile(final long uid,
+			final SearchProfileForm form, final int firstResult,
+			final int maxResults) {
 		return profileIndexSearcherTemplate.excute(new SearcherCallback() {
 			@SuppressWarnings("unchecked")
 			@Override
 			public <T> T doCallback(IndexSearcher indexSearcher)
 					throws IOException {
-				Query query = getQuery(form.getUid(), form.getCity(),
-						form.getTown(), form.getGender(), form.getMinYear(),
-						form.getMaxYear(), form.getEducations(),
-						form.getMinMonthlyIncome(), form.getHome(),
-						form.getConstellationId(), form.getHouse(),
-						form.getCar(), form.getMinHeight(), form.getMaxHeight());
+				Query query = getQuery(uid, form.getCity(), form.getTown(),
+						form.getGender(), form.getMinYear(), form.getMaxYear(),
+						form.getEducations(), form.getMinMonthlyIncome(),
+						form.getHome(), form.getConstellationId(),
+						form.getHouse(), form.getCar(), form.getMinHeight(),
+						form.getMaxHeight());
 				TopScoreDocCollector collector = TopScoreDocCollector.create(
 						firstResult + maxResults, false);
 				indexSearcher.search(query, collector);

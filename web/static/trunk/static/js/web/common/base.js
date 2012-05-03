@@ -24,14 +24,14 @@ $(document).ready(function(){
     bindMouseHover();
     
     //select
-    $("div.select_menu").each(function(){
+    $("div.select_menu:not([load-lazy])").each(function(){
     	var select = new SelectInput(this);
     	select.bindBlur();
     	select.bindClick();
     	select.bindSelect();
     });
     
-    $("div.xz_menu").each(function(){
+    $("div.xz_menu:not([load-lazy])").each(function(){
     	var select = new SelectBoxInput(this);
     	select.bindBlur();
     	select.bindClick();
@@ -748,9 +748,7 @@ var SelectInput =  Class.extend({
     	$(this.selectDiv).find("p > a").text(name);
     	var inputName = $(this.selectDiv).attr("name");
     	if(null != inputName){
-    		if($(this.selectDiv).find("input[type='hidden']").val()==undefined){
-    			$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
-    		}
+    		$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
     	}
 	},
 	bindBlur:function(){
@@ -1435,9 +1433,7 @@ var SelectBoxInput =  Class.extend({
         });
     	$(this.selectDiv).find("p > a").text(name);
     	if(null != inputName){
-    		if($(this.selectDiv).find("input[type='hidden']").val()==undefined){
-    			$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
-    		}
+    		$(this.selectDiv).prepend('<input type=\"hidden\" name=\"' + inputName + '\" value=\"' + value + '\" />');
     	}
 	},
 	bindBlur:function(){

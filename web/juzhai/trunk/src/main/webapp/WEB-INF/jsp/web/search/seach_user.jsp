@@ -185,7 +185,7 @@
 									<div class="clear"></div>
 									<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 										<c:param name="pager" value="${pager}"/>
-										<c:param name="url" value="/seachusers/${townId }_${sex}_${minStringAge}_${maxStringAge}_${minStringHeight}_${maxStringHeight}_${strConstellationIds}_${educationId}_${minMonthlyIncome}_${maxMonthlyIncome}" />
+										<c:param name="url" value="/searchusers/${townId }_${sex}_${minStringAge}_${maxStringAge}_${minStringHeight}_${maxStringHeight}_${strConstellationIds}_${educationId}_${minMonthlyIncome}_${maxMonthlyIncome}" />
 									</c:import>
 								</c:if>
 							</div>
@@ -203,7 +203,7 @@
 									<c:if test="${not empty hots }">
 									<p>近期热门词：</p>
 										<c:forEach items="${hots}" var="hot">
-												<a href="/seachposts/${hot.name}_all/1">${hot.name}</a>
+												<a href="/searchposts/${hot.name}_all/1">${hot.name}</a>
 										</c:forEach>
 									</c:if>
 									</div>

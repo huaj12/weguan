@@ -133,7 +133,7 @@
 							<c:if test="${pager.totalResults > 0}">
 								<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 								<c:param name="pager" value="${pager}"/>
-								<c:param name="url" value="/seachposts/${queryString}_${sex}" />
+								<c:param name="url" value="/searchposts/${queryString}_${sex}" />
 								</c:import>
 							</c:if>
 						</div>
@@ -149,7 +149,7 @@
 								<div class="search_xz"><!--search_xz begin-->
 									<div class="tags hot">
 										<c:forEach items="${hots}" var="hot">
-											<a href="/seachposts/${hot.name}_all/1">${hot.name}</a>
+											<a href="/searchposts/${hot.name}_all/1">${hot.name}</a>
 										</c:forEach>
 									</div>
 								</div><!--search_xz end-->

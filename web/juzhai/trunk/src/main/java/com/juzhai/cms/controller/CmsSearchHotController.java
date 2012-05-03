@@ -28,7 +28,7 @@ public class CmsSearchHotController {
 	public String showSearchHot(HttpServletRequest request, Model model,
 			@RequestParam(defaultValue = "0") long city,
 			@RequestParam(defaultValue = "1") int pageId) {
-		PagerManager pager = new PagerManager(pageId, 20,
+		PagerManager pager = new PagerManager(pageId, 40,
 				searchHotService.countSearchHotByCity(city));
 		model.addAttribute(
 				"hots",

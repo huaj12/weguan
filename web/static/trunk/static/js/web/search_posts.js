@@ -9,4 +9,15 @@ $(document).ready(function() {
 		window.location.href ="/searchposts?queryString="+queryString+"&sex="+sex;
 		return false;
 	});
+	
+	$("#sex-select").find("span > a").bind("click", function(){
+		var queryString = $("input[name='queryString']").val();
+		var sex = $(this).attr("value");
+		if(queryString==""){
+			$("input[name='queryString']")[0].focus();
+			return false;
+		}
+		window.location.href ="/searchposts?queryString="+queryString+"&sex="+sex;
+		return false;
+	});
 });

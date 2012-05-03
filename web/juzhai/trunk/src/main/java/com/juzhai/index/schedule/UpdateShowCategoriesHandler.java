@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.juzhai.act.service.ICategoryService;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 
-@Component
+//@Component
 public class UpdateShowCategoriesHandler extends AbstractScheduleHandler {
 
 	private final Log log = LogFactory.getLog(getClass());

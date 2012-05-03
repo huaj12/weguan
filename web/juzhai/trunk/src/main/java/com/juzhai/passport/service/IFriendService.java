@@ -113,13 +113,13 @@ public interface IFriendService {
 	 */
 	boolean isAppFriend(long uid, long friendId);
 
-	/**
-	 * 取前N个添加相同项目的好友
-	 * 
-	 * @param uid
-	 * @param actId
-	 * @param num
-	 * @return
-	 */
-	List<ProfileCache> findSameActFriends(long uid, long actId, int num);
+	// /**
+	// * 取前N个添加相同项目的好友
+	// *
+	// * @param uid
+	// * @param actId
+	// * @param num
+	// * @return
+	// */
+	// List<ProfileCache> findSameActFriends(long uid, long actId, int num);
 }

@@ -12,7 +12,7 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd">
 
-	<bean id="actIKAnalyzer" class="org.wltea.analyzer.lucene.IKAnalyzer">
+	<!-- <bean id="actIKAnalyzer" class="org.wltea.analyzer.lucene.IKAnalyzer">
 		<property name="maxWordLength" value="${act.analyzer.maxWordLength}" />
 	</bean>
 
@@ -36,10 +36,10 @@
 
 	<bean id="actIndexSearcherTemplate" class="com.juzhai.core.lucene.searcher.IndexSearcherTemplate">
 		<property name="searcherManager" ref="actIndexSearcherManager" />
-	</bean>
+	</bean> -->
 
-<!-- postSearch begin -->
-<bean id="postIKAnalyzer" class="org.wltea.analyzer.lucene.IKAnalyzer">
+	<!-- postSearch begin -->
+	<bean id="postIKAnalyzer" class="org.wltea.analyzer.lucene.IKAnalyzer">
 		<property name="maxWordLength" value="${post.analyzer.maxWordLength}" />
 	</bean>
 
@@ -64,10 +64,10 @@
 	<bean id="postIndexSearcherTemplate" class="com.juzhai.core.lucene.searcher.IndexSearcherTemplate">
 		<property name="searcherManager" ref="postIndexSearcherManager" />
 	</bean>
-<!-- postSearch end -->
+	<!-- postSearch end -->
 
-<!-- profile Search begin -->
-<bean id="profileIKAnalyzer" class="org.wltea.analyzer.lucene.IKAnalyzer">
+	<!-- profile Search begin -->
+	<bean id="profileIKAnalyzer" class="org.wltea.analyzer.lucene.IKAnalyzer">
 		<property name="maxWordLength" value="${profile.analyzer.maxWordLength}" />
 	</bean>
 
@@ -92,5 +92,5 @@
 	<bean id="profileIndexSearcherTemplate" class="com.juzhai.core.lucene.searcher.IndexSearcherTemplate">
 		<property name="searcherManager" ref="profileIndexSearcherManager" />
 	</bean>
-<!-- profile Search end -->
+	<!-- profile Search end -->
 </beans>

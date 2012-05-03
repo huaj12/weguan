@@ -45,7 +45,7 @@ import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
 
-@Service
+//@Service
 public class InboxService implements IInboxService {
 
 	private final Log log = LogFactory.getLog(getClass());

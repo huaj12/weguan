@@ -9,7 +9,7 @@ import com.juzhai.msg.bean.Msg;
 import com.juzhai.msg.service.IMergerActMsgService;
 import com.juzhai.msg.service.IMsgService;
 
-@Service
+//@Service
 public class MsgService<T extends Msg> implements IMsgService<T> {
 
 	@Autowired

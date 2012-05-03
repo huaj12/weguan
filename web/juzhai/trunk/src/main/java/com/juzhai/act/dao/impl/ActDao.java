@@ -12,14 +12,13 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import com.juzhai.act.dao.IActDao;
 import com.juzhai.act.mapper.ActMapper;
 import com.juzhai.act.model.Act;
 import com.juzhai.act.model.ActExample;
 
-@Repository
+//@Repository
 public class ActDao implements IActDao {
 
 	@Autowired
@@ -83,6 +82,5 @@ public class ActDao implements IActDao {
 		params.put("p", p);
 		sqlSession.update("Act_Mapper.increasePopularity", params);
 	}
-
 
 }

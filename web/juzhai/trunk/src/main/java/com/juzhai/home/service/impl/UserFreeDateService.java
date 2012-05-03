@@ -20,7 +20,7 @@ import com.juzhai.passport.mapper.UserFreeDateMapper;
 import com.juzhai.passport.model.UserFreeDate;
 import com.juzhai.passport.model.UserFreeDateExample;
 
-@Service
+//@Service
 public class UserFreeDateService implements IUserFreeDateService {
 
 	private final Log log = LogFactory.getLog(getClass());

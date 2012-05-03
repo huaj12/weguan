@@ -12,7 +12,7 @@ import com.juzhai.account.mapper.AccountMapper;
 import com.juzhai.account.model.Account;
 import com.juzhai.account.service.IAccountService;
 
-@Service
+//@Service
 public class AccountService implements IAccountService {
 
 	private final Log log = LogFactory.getLog(getClass());

@@ -15,7 +15,7 @@ import com.juzhai.act.model.ActDetail;
 import com.juzhai.act.service.IActDetailService;
 import com.juzhai.act.service.IActImageService;
 
-@Service
+//@Service
 public class ActDetailService implements IActDetailService {
 	@Autowired
 	private ActDetailMapper actDetailMapper;

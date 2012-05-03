@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.passport.service.IUserSetupService;
 
-@Service
+//@Service
 public class UserSetupService implements IUserSetupService {
 
 	private final Log log = LogFactory.getLog(getClass());

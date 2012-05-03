@@ -11,7 +11,7 @@ import com.juzhai.msg.bean.Msg;
 import com.juzhai.msg.rabbit.message.MsgMessage;
 import com.juzhai.msg.service.IMsgMessageService;
 
-@Service
+//@Service
 public class MsgMessageService implements IMsgMessageService {
 
 	@Autowired

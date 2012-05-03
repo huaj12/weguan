@@ -25,7 +25,7 @@
 	</bean>
     
 
-	<bean id="actIndexOptimizationAndCommitTrigger" parent="abstractSimpleTrigger">
+	<!-- <bean id="actIndexOptimizationAndCommitTrigger" parent="abstractSimpleTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
 				<property name="targetObject" ref="actIndexOptimizationAndCommitHandler" />
@@ -51,51 +51,51 @@
 			</bean>
 		</property>
 		<property name="cronExpression" value="${act.briefing.email.cron}" />
-	</bean>
+	</bean> -->
 	
 	
 	<!-- get back feed begin -->
-	<bean id="getBackFeedTrigger" parent="abstractCronTrigger">
+	<!-- <bean id="getBackFeedTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
 				<property name="targetObject" ref="getBackFeedHandler" />
 			</bean>
 		</property>
 		<property name="cronExpression" value="${get.back.feed.cron}" />
-	</bean>
+	</bean> -->
 	<!-- get back feed end -->
 	
 	<!-- reset question users begin -->
-	<bean id="resetQuestionUsersTrigger" parent="abstractCronTrigger">
+	<!-- <bean id="resetQuestionUsersTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
 				<property name="targetObject" ref="resetQuestionUsersHandler" />
 			</bean>
 		</property>
 		<property name="cronExpression" value="${reset.question.users.cron}" />
-	</bean>
+	</bean> -->
 	<!-- reset question users end -->
 	
 	<!-- reset question users begin -->
-	<bean id="showCategoryActListTrigger" parent="abstractCronTrigger">
+	<!-- <bean id="showCategoryActListTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
 				<property name="targetObject" ref="showCategoryActListHandler" />
 			</bean>
 		</property>
 		<property name="cronExpression" value="${show.category.act.list.cron}" />
-	</bean>
+	</bean> -->
 	<!-- reset question users end -->
 	
 	<!-- delete user action begin -->
-	<bean id="deleteUserActionTrigger" parent="abstractCronTrigger">
+	<!-- <bean id="deleteUserActionTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
 				<property name="targetObject" ref="deleteUserActionHandler" />
 			</bean>
 		</property>
 		<property name="cronExpression" value="${delete.user.action.cron}" />
-	</bean>
+	</bean> -->
 	<!-- delete user action end -->
 	
 	
@@ -114,36 +114,36 @@
 	<!-- delete temp image end -->
 	
 	<!-- update show act begin -->
-	<bean id="updateShowActsTrigger" parent="abstractCronTrigger">
+	<!-- <bean id="updateShowActsTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
 				<property name="targetObject" ref="updateShowActsHandler" />
 			</bean>
 		</property>
 		<property name="cronExpression" value="${update.show.acts.cron}" />
-	</bean>
+	</bean> -->
 	<!-- update show act end -->
 	
 	<!-- delete out free date begin -->
-	<bean id="delOutFreeDateTrigger" parent="abstractCronTrigger">
+	<!-- <bean id="delOutFreeDateTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
 				<property name="targetObject" ref="delOutFreeDateHandler" />
 			</bean>
 		</property>
 		<property name="cronExpression" value="${del.out.free.date.cron}" />
-	</bean>
+	</bean> -->
 	<!-- delete out free date end -->
 	
 	<!-- send notice email start -->
-	<bean id="noticeEmailTrigger" parent="abstractCronTrigger">
+	<!-- <bean id="noticeEmailTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
 				<property name="targetObject" ref="noticeEmailHandler" />
 			</bean>
 		</property>
 		<property name="cronExpression" value="${notice.email.cron}" />
-	</bean>
+	</bean> -->
 	<!-- send notice email end -->
 	
 	
@@ -170,25 +170,25 @@
 	<!-- delete expired raw ad end -->
 	
 	<!-- update show act begin -->
-	<bean id="updateShowCategoriesTrigger" parent="abstractCronTrigger">
+	<!-- <bean id="updateShowCategoriesTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
 				<property name="targetObject" ref="updateShowCategoriesHandler" />
 			</bean>
 		</property>
 		<property name="cronExpression" value="${update.show.categories.cron}" />
-	</bean>
+	</bean> -->
 	<!-- update show act end -->
 	
 	<!-- notice to platform begin -->
-	<bean id="noticeToPlatformTrigger" parent="abstractCronTrigger">
+	<!-- <bean id="noticeToPlatformTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
 				<property name="targetObject" ref="noticeToPlatformHandler" />
 			</bean>
 		</property>
 		<property name="cronExpression" value="${notice.to.platform.cron}" />
-	</bean>
+	</bean> -->
 	<!-- notice unread msg end -->
 	
 	<!-- post index  begin -->
@@ -228,14 +228,14 @@
 	<!-- create site map end -->
 	
 	<!-- idea window begin -->
-	<bean id="ideaWindowSortTrigger" parent="abstractCronTrigger">
+	<!-- <bean id="ideaWindowSortTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
 				<property name="targetObject" ref="ideaWindowSortHandler" />
 			</bean>
 		</property>
 		<property name="cronExpression" value="${idea.window.cron}" />
-	</bean>
+	</bean> -->
 	<!-- idea window end -->
 	
 	<!-- Recommend Post begin -->

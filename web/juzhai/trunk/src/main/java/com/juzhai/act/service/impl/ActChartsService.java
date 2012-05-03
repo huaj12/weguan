@@ -15,7 +15,7 @@ import com.juzhai.act.model.ActChartsExample;
 import com.juzhai.act.service.IActChartsService;
 import com.juzhai.act.service.IActService;
 
-@Service
+//@Service
 public class ActChartsService implements IActChartsService {
 
 	@Autowired

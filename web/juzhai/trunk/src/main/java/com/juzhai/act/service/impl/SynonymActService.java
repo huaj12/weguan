@@ -23,7 +23,7 @@ import com.juzhai.act.service.ISynonymActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 
-@Service
+//@Service
 public class SynonymActService implements ISynonymActService {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired

@@ -12,7 +12,7 @@ import com.juzhai.core.schedule.AbstractScheduleHandler;
 import com.juzhai.home.bean.ReadFeed;
 import com.juzhai.home.service.IInboxService;
 
-@Component
+//@Component
 public class GetBackFeedHandler extends AbstractScheduleHandler {
 
 	@Autowired

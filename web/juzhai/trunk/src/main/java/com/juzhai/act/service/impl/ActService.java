@@ -57,7 +57,7 @@ import com.juzhai.search.rabbit.message.ActionType;
 import com.juzhai.search.service.IActSearchService;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
-@Service
+//@Service
 public class ActService implements IActService {
 
 	private final Log log = LogFactory.getLog(getClass());

@@ -8,8 +8,8 @@ import com.juzhai.act.caculator.IScoreCaculator;
 import com.juzhai.act.caculator.annotation.ScorePoint;
 import com.juzhai.act.caculator.annotation.ScorePoint.ScoreType;
 
-@Service
-@ScorePoint({ ScoreType.INBOX })
+//@Service
+//@ScorePoint({ ScoreType.INBOX })
 public class InboxTimeScoreCaculator implements IScoreCaculator {
 
 	@Override

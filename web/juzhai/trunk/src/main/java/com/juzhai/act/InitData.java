@@ -41,7 +41,7 @@ import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.ICategoryService;
 import com.juzhai.core.util.JackSonSerializer;
 
-@Component("actInitData")
+//@Component("actInitData")
 public class InitData {
 
 	private static final Log log = LogFactory.getLog(InitData.class);

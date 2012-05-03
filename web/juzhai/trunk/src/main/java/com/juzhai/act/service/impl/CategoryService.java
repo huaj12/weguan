@@ -16,7 +16,6 @@ import com.juzhai.act.InitData;
 import com.juzhai.act.mapper.CategoryMapper;
 import com.juzhai.act.model.Category;
 import com.juzhai.act.model.CategoryExample;
-import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.ICategoryService;
 import com.juzhai.cms.controller.form.CategoryForm;
 import com.juzhai.cms.controller.form.CategoryLiatFrom;
@@ -27,8 +26,9 @@ public class CategoryService implements ICategoryService {
 
 	@Autowired
 	private CategoryMapper categoryMapper;
-	@Autowired
-	private IActCategoryService actCategoryService;
+
+	// @Autowired
+	// private IActCategoryService actCategoryService;
 
 	@Override
 	public List<Category> listCategories(int size) {
@@ -112,12 +112,12 @@ public class CategoryService implements ICategoryService {
 		if (id == null) {
 			return false;
 		}
-		if (!actCategoryService.isExistAct(id)) {
-			categoryMapper.deleteByPrimaryKey(id);
-			return true;
-		} else {
-			return false;
-		}
+		// if (!actCategoryService.isExistAct(id)) {
+		categoryMapper.deleteByPrimaryKey(id);
+		return true;
+		// } else {
+		// return false;
+		// }
 
 	}
 }

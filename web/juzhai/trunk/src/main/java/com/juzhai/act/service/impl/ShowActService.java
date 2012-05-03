@@ -21,7 +21,7 @@ import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.index.bean.ShowActOrder;
 
-@Service
+//@Service
 public class ShowActService implements IShowActService {
 
 	@Autowired

@@ -35,15 +35,15 @@
 							<div class="jg_title"><!--jg_title begin-->
 								<div class="jg_left"><p>在<c:choose><c:when test="${city== 0}">全国</c:when><c:otherwise>${jzd:cityName(city)}</c:otherwise></c:choose>共搜索到<font>${pager.totalResults}</font>条 关于<i>${queryString}</i>的信息</p></div>
 								<div class="jg_right">
-									<span>筛选:</span>
+									<h5>筛选:</h5>
 									<div class="select_menu" id="sex-select" name="sex"><!--select_menu begin-->
-												<p><a href="javascript:void(0);">性别不限</a></p>
+												<p><a href="javascript:void(0);">所有小宅</a></p>
 												<div></div>
 												<div class="select_box"><!--select_box begin-->
 													<span>
-														<a href="javascript:void(0);" value="all" <c:if test="${empty sex||sex=='all'}">class="selected"</c:if>>性别不限</a>
-														<a href="javascript:void(0);" value="male" <c:if test="${sex=='male'}">class="selected"</c:if>>男生</a>
-														<a href="javascript:void(0);" value="female" <c:if test="${sex=='female'}">class="selected"</c:if>>女生</a>
+														<a href="javascript:void(0);" value="all" <c:if test="${empty sex||sex=='all'}">class="selected"</c:if>>所有小宅</a>
+														<a href="javascript:void(0);" value="male" <c:if test="${sex=='male'}">class="selected"</c:if>>宅男</a>
+														<a href="javascript:void(0);" value="female" <c:if test="${sex=='female'}">class="selected"</c:if>>宅女</a>
 													</span>
 													<em></em>
 												</div><!--select_box end-->
@@ -51,7 +51,8 @@
 								</div>
 							</div><!--jg_title end-->
 							<div class="jz_main"><!--jz_main begin-->
-								<c:if test="${not empty postViewList}">
+								<c:choose>
+								<c:when test="${not empty postViewList}">
 										<c:forEach var="postView" items="${postViewList}">
 											<div class="jz_item mouseHover <c:choose><c:when test="${postView.profileCache.gender == 1}">boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--jz_item begin-->
 												<div class="face_infor"><!--face_infor begin-->
@@ -126,7 +127,17 @@
 												</div><!--wtg end-->
 											</div><!--jz_item end-->
 										</c:forEach>
-									</c:if>
+									</c:when>
+									<c:otherwise>
+										<div class="search_none"><!--search_none begin-->
+											抱歉，没有搜到合适的内容<br />
+											<br />
+											建议：<br />
+											请尽量输入常用词<br />
+											请尽量使用简洁的关键词<br />
+											</div><!--search_none end-->
+									</c:otherwise>
+									</c:choose>
 							</div><!--jz_main end-->
 						</div><!--jz_list end-->
 							<div class="clear"></div>

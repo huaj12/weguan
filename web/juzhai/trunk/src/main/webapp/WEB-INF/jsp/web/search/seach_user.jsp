@@ -25,7 +25,7 @@
 							<div class="m">
 								<div class="jz_list"><!--jz_list begin-->
 									<div class="search_title"><!--search_title begin-->
-										<h2>查找拒宅同伴</h2>
+										<h2>查找小宅</h2>
 										<div class="w100"><!--w100 begin-->
 											<div class="select_menu" name="town"><!--select_menu begin-->
 												<p><a href="javascript:void(0);"></a></p>
@@ -46,13 +46,13 @@
 										
 										<div class="w100"><!--w100 begin-->
 											<div class="select_menu" name="sex"><!--select_menu begin-->
-												<p><a href="javascript:void(0);">性别不限</a></p>
+												<p><a href="javascript:void(0);">所有小宅</a></p>
 												<div></div>
 												<div class="select_box"><!--select_box begin-->
 													<span>
-														<a href="javascript:void(0);" value="all" <c:if test="${empty sex||sex=='all'}">class="selected"</c:if>>性别不限</a>
-														<a href="javascript:void(0);" value="male" <c:if test="${sex=='male'}">class="selected"</c:if>>男生</a>
-														<a href="javascript:void(0);" value="female" <c:if test="${sex=='female'}">class="selected"</c:if>>女生</a>
+														<a href="javascript:void(0);" value="all" <c:if test="${empty sex||sex=='all'}">class="selected"</c:if>>所有小宅</a>
+														<a href="javascript:void(0);" value="male" <c:if test="${sex=='male'}">class="selected"</c:if>>宅男</a>
+														<a href="javascript:void(0);" value="female" <c:if test="${sex=='female'}">class="selected"</c:if>>宅女</a>
 													</span>
 													<em></em>
 												</div><!--select_box end-->
@@ -68,10 +68,8 @@
 											<p class="l"></p><span class="width70"><input name="maxStringAge"  value="${maxStringAge}" type="text" /></span><p class="r"></p>
 										</div><!--input end-->
 										<div class="txt">岁</div>
-										<div class="btn" id="simple"><a href='javascript:void(0);' class='query-btn'>搜索</a></div>
-										<div class="more_search"><a href="javascript:void(0);">更多搜索</a></div>
-										<div class="search_more_area" style="display: none"><!--search_more_area begin-->
-											<div class="w100"><!--w70 begin-->
+										
+										<div class="w100" id="constellation-select" style="margin-left:10px;display: none"><!--w70 begin-->
 												<div class="xz_menu" name="constellation" load-lazy="true"><!--select_menu begin-->
 												<p><a href="javascript:void(0);" value="0" initName="请选星座"></a></p>
 												<div></div>
@@ -89,6 +87,11 @@
 												</div><!--select_menu end-->
 											</div><!--w70 end-->
 										
+										
+										
+										<div class="btn" id="simple"><a href='javascript:void(0);' class='query-btn'>搜索</a></div>
+										<div class="more_search"><a href="javascript:void(0);">更多条件</a></div>
+										<div class="search_more_area" style="display: none"><!--search_more_area begin-->
 										<div class="w100"><!--w100 begin-->
 											<div class="select_menu" name="educations" load-lazy="true"><!--select_menu begin-->
 											<p><a href="javascript:void(0);"></a></p>

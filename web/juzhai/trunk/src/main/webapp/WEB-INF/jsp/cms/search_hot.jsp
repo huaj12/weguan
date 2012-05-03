@@ -77,10 +77,22 @@
 		</tr>
 		<c:forEach items="${hots }" var="hot">
 		<tr>
-			<td>${hot.name}<c:if test="${hot.city==0}">(全国)</c:if> </td>
+			<td>${hot.name}</td>
 			<td><a href="javascript:void(0);" onclick="del('${hot.id}')">删除</a></td>
 		</tr>
 		</c:forEach>
+		<td colspan="2">
+				<c:forEach var="pageId" items="${pager.showPages}">
+					<c:choose>
+						<c:when test="${pageId!=pager.currentPage}">
+							<a href="/cms/show/searchHot?pageId=${pageId}&city=${city}">${pageId}</a>
+						</c:when>
+						<c:otherwise>
+							<strong>${pageId}</strong>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</td>
 		</table>
 </body>
 </html>

@@ -1,12 +1,9 @@
 package com.juzhai.cms.controller;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.act.model.Category;
 import com.juzhai.act.service.ICategoryService;
-import com.juzhai.cms.controller.form.CategoryForm;
 import com.juzhai.cms.controller.form.CategoryLiatFrom;
 import com.juzhai.core.web.AjaxResult;
 

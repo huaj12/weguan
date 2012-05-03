@@ -113,6 +113,7 @@ public class CategoryService implements ICategoryService {
 			return false;
 		}
 		// if (!actCategoryService.isExistAct(id)) {
+		// TODO (review) 有内容无法删除
 		categoryMapper.deleteByPrimaryKey(id);
 		return true;
 		// } else {

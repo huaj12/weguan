@@ -14,7 +14,7 @@ public interface IPostSearchService {
 	 * @return
 	 */
 	LuceneResult<Post> searchPosts(String queryString, Integer gender,
-			long city, int firstResult, int maxResults);
+			long city, long uid, int firstResult, int maxResults);
 
 	/**
 	 * 建索引

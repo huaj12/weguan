@@ -101,8 +101,8 @@ public class PostSearchService implements IPostSearchService {
 
 	@Override
 	public LuceneResult<Post> searchPosts(final String queryString,
-			final Integer gender, final long city, final int firstResult,
-			final int maxResults) {
+			final Integer gender, final long city, final long uid,
+			final int firstResult, final int maxResults) {
 		return postIndexSearcherTemplate.excute(new SearcherCallback() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -112,7 +112,7 @@ public class PostSearchService implements IPostSearchService {
 					List<Post> list = Collections.emptyList();
 					return (T) new LuceneResult<Post>(0, list);
 				}
-				Query query = getQuery(queryString, gender, city);
+				Query query = getQuery(queryString, gender, city, uid);
 				if (query == null) {
 					List<Post> list = Collections.emptyList();
 					return (T) new LuceneResult<Post>(0, list);
@@ -208,7 +208,8 @@ public class PostSearchService implements IPostSearchService {
 	// });
 	// }
 
-	private Query getQuery(String queryString, Integer gender, long city) {
+	private Query getQuery(String queryString, Integer gender, long city,
+			long uid) {
 		BooleanQuery query = new BooleanQuery();
 		// 城市
 		if (city > 0) {
@@ -220,6 +221,10 @@ public class PostSearchService implements IPostSearchService {
 			query.add(
 					new TermQuery(new Term("gender", String.valueOf(gender))),
 					Occur.MUST);
+		}
+		if (uid > 0) {
+			query.add(new TermQuery(new Term("uid", String.valueOf(uid))),
+					Occur.MUST_NOT);
 		}
 		MultiFieldQueryParser parser = new MultiFieldQueryParser(
 				Version.LUCENE_33, new String[] { "content" }, postIKAnalyzer);

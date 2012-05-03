@@ -68,6 +68,8 @@ public class SearchController extends BaseController {
 	private int searchUserHotRows;
 	@Value("${search.post.hot.rows}")
 	private int searchPostHotRows;
+	@Value("${recommend.user.count}")
+	private int recommendUserCount;
 
 	// @RequestMapping(value = "/queryAct", method = RequestMethod.GET)
 	// public String searchAct(Model model, String name, HttpServletRequest
@@ -201,8 +203,11 @@ public class SearchController extends BaseController {
 			@PathVariable int educations, @PathVariable int minMonthlyIncome) {
 		ProfileCache loginUser = getLoginUserCache(request);
 		long city = 0L;
+		long uid = 0;
+		;
 		if (loginUser != null && loginUser.getCity() != null) {
 			city = loginUser.getCity();
+			uid = loginUser.getUid();
 		}
 		UserContext context = (UserContext) request.getAttribute("context");
 		Integer gender = getSex(sex);
@@ -231,7 +236,7 @@ public class SearchController extends BaseController {
 			}
 		}
 		PagerManager pager = new PagerManager(pageId, searchUserRows);
-		SearchProfileForm form = new SearchProfileForm(city, town, gender,
+		SearchProfileForm form = new SearchProfileForm(uid, city, town, gender,
 				minYear, maxYear, educationList, minMonthlyIncome, null,
 				constellationId, null, null, minHeight, maxHeight);
 		LuceneResult<Profile> result = profileSearchService.queryProfile(form,
@@ -258,6 +263,8 @@ public class SearchController extends BaseController {
 			userViews.add(view);
 		}
 		newUserWidget(0L, model, queryUsersRightUserRows);
+		recommendUserWidget(context.getUid(), recommendUserCount, model);
+		getHots(model, city, searchUserHotRows);
 		model.addAttribute("userViews", userViews);
 		model.addAttribute("pager", pager);
 		model.addAttribute("cityId", city);
@@ -281,7 +288,6 @@ public class SearchController extends BaseController {
 		model.addAttribute("strConstellationIds",
 				StringUtils.join(constellationId, ","));
 		model.addAttribute("pageType", "zbe");
-		getHots(model, city, searchUserHotRows);
 		return "web/search/seach_user";
 	}
 
@@ -300,13 +306,16 @@ public class SearchController extends BaseController {
 
 		ProfileCache loginUser = getLoginUserCache(request);
 		long city = 0L;
+		long uid = 0L;
 		if (loginUser != null && loginUser.getCity() != null) {
 			city = loginUser.getCity();
+			uid = loginUser.getUid();
 		}
 		Integer gender = getSex(sex);
 		PagerManager pager = new PagerManager(pageId, searchPostRows);
-		LuceneResult<Post> result = postSearchService.searchPosts(queryString,
-				gender, city, pager.getFirstResult(), pager.getMaxResult());
+		LuceneResult<Post> result = postSearchService
+				.searchPosts(queryString, gender, city, uid,
+						pager.getFirstResult(), pager.getMaxResult());
 		pager.setTotalResults(result.getTotalHits());
 		List<Post> postList = result.getResult();
 		List<PostView> postViewList = postViewHelper.assembleUserPostViewList(

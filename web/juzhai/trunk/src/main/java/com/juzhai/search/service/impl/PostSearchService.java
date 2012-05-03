@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -26,7 +28,6 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.QueryScorer;
-import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.apache.lucene.util.Version;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,14 +123,14 @@ public class PostSearchService implements IPostSearchService {
 				TopDocs topDocs = collector.topDocs(firstResult, maxResults);
 				List<Long> ids = new ArrayList<Long>(maxResults);
 				List<Post> postIdList = new ArrayList<Post>(maxResults);
-				SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter(
-						"<i>", "</i>");
-				Highlighter highlighter = new Highlighter(simpleHTMLFormatter,
+				Highlighter highlighter = new Highlighter(
+						LuneceResult.simpleHTMLFormatter,
 						new QueryScorer(query));
 				for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
 					Document doc = indexSearcher.doc(scoreDoc.doc);
 					ids.add(Long.valueOf(doc.get("id")));
 				}
+				Map<Long, Post> postMap = new HashMap<Long, Post>();
 				if (CollectionUtils.isNotEmpty(ids)) {
 					PostExample example = new PostExample();
 					example.createCriteria().andIdIn(ids);
@@ -139,8 +140,12 @@ public class PostSearchService implements IPostSearchService {
 						String content = HtmlUtils.htmlEscape(post.getContent());
 						post.setContent(highLightText("content", content,
 								highlighter, postIKAnalyzer));
-						postIdList.add(post);
+						postMap.put(post.getId(), post);
 					}
+				}
+				// 保证原有lunece顺序
+				for (Long id : ids) {
+					postIdList.add(postMap.get(id));
 				}
 				LuneceResult<Post> result = new LuneceResult<Post>(
 						topDocs.totalHits, postIdList);

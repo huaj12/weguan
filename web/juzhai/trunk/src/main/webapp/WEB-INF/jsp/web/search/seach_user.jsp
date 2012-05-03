@@ -70,10 +70,10 @@
 										<div class="txt">岁</div>
 										<div class="btn" id="simple"><a href='javascript:void(0);' class='query-btn'>搜索</a></div>
 										<div class="more_search"><a href="javascript:void(0);">简单搜索</a></div>
-										<div class="search_more_area"><!--search_more_area begin-->
+										<div class="search_more_area" style="display: none"><!--search_more_area begin-->
 											<div class="w100"><!--w70 begin-->
 												<div class="xz_menu" name="constellation" load-lazy="true"><!--select_menu begin-->
-												<p><a href="javascript:void(0);" value="" initName="请选星座"></a></p>
+												<p><a href="javascript:void(0);" value="0" initName="请选星座"></a></p>
 												<div></div>
 													<div class="select_box"><!--select_box begin-->
 													<div class="check_list"><!--check_list begin-->
@@ -95,7 +95,7 @@
 											<div></div>
 												<div class="select_box"><!--select_box begin-->
 													<span>
-																<a href="javascript:void(0);" value="0" <c:if test="${educationId==''||educationId==0}"> class="selected" </c:if>>请选择</a>
+																<a href="javascript:void(0);" value="0" <c:if test="${educationId==''||educationId==0}"> class="selected" </c:if>>学历不限</a>
 														<c:forEach items="${educations}" var="ed" >
 																<a href="javascript:void(0);" value="${ed.key}" <c:if test="${educationId==ed.key}">class="selected"</c:if> >${ed.value}</a>
 														</c:forEach>
@@ -112,7 +112,7 @@
 												<div></div>
 													<div class="select_box"><!--select_box begin-->
 														<span>
-															<a href="javascript:void(0);" value="0-0" <c:if test="${monthlyIncome=='0-0'}">class="selected"</c:if>>请选择</a>
+															<a href="javascript:void(0);" value="0-0" <c:if test="${monthlyIncome=='0-0'}">class="selected"</c:if>>收入不限</a>
 															<a href="javascript:void(0);" value="2000-5000"   <c:if test="${monthlyIncome=='2000-5000'}">class="selected"</c:if>		>2000</a>
 															<a href="javascript:void(0);" value="5000-10000"  <c:if test="${monthlyIncome=='5000-10000'}">class="selected"</c:if> 	>5000</a>
 															<a href="javascript:void(0);" value="10000-20000" <c:if test="${monthlyIncome=='10000-20000'}">class="selected"</c:if>  	>10000</a>
@@ -131,7 +131,7 @@
 											</div><!--input end-->
 										<div class="txt">到</div>
 											<div class="input"><!--input begin-->
-											<p class="l"></p><span class="width80"><input name="maxStringHeight" value="${minStringHeight}" type="text" /></span><p class="r"></p>
+											<p class="l"></p><span class="width80"><input name="maxStringHeight" value="${maxStringHeight}" type="text" /></span><p class="r"></p>
 											</div><!--input end-->
 										<div class="txt">CM</div>
 										<div class="btn" id="more"><a href='javascript:void(0);' class='query-btn'>搜索</a></div>
@@ -196,19 +196,17 @@
 						<div class="content_box w285"><!--content begin-->
 							<div class="t"></div>
 							<div class="m">
-								<div class="right_title"><h2>搜索小宅</h2></div>
+								<div class="right_title"><h2>搜索拒宅</h2></div>
 								<div class="search_xz"><!--search_xz begin-->
-									<form action="/findposts" id="findpostsForm" method="get" >
 									<div class="s_input"><p></p><span><input type="text"  name="queryString"/></span><a href="javascript:void(0);"></a></div>
 									<div class="tags">
 									<c:if test="${not empty hots }">
 									<p>近期热门词：</p>
 										<c:forEach items="${hots}" var="hot">
-											<a href="/findposts?queryString=${hot.name}">${hot.name}</a>
+												<a href="/seachposts/${hot.name}_all/1">${hot.name}</a>
 										</c:forEach>
 									</c:if>
 									</div>
-									</form>
 								</div><!--search_xz end-->
 							</div>
 							<div class="t"></div>

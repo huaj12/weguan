@@ -198,7 +198,7 @@
 							<div class="m">
 								<div class="right_title"><h2>搜索拒宅</h2></div>
 								<div class="search_xz"><!--search_xz begin-->
-									<div class="s_input"><p></p><span><input type="text" init-tip="通过关键词搜索,如:桌球、看电影" name="queryString"/></span><a href="javascript:void(0);"></a></div>
+									<div class="s_input"><p></p><span><input type="text" init-tip="通过关键词搜索" name="queryString"/></span><a href="javascript:void(0);"></a></div>
 									<div class="tags">
 									<c:if test="${not empty hots }">
 									<p>近期热门词：</p>

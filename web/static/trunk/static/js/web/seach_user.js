@@ -80,11 +80,10 @@ function moreSeach(){
 	var monthlyIncome=$("input[name='monthlyIncome']").val();
 	var minStringHeight=$("input[name='minStringHeight']").val();
 	var maxStringHeight=$("input[name='maxStringHeight']").val();
-	if(constellationId==""&&educations==0&&monthlyIncome=="0-0"&&minStringHeight=="0"&&maxStringHeight=="0"){
+	if(constellationId=="0"&&educations==0&&monthlyIncome=="0-0"&&minStringHeight=="0"&&maxStringHeight=="0"){
 		$("div.more_search > a").text("更多搜索");
 		$("#simple").show();
 		$("#more").hide();
-		$("div.search_more_area").hide();
 	}else{
 		$("#more").show();
 		$("#simple").hide();

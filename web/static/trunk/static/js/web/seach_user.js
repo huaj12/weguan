@@ -75,6 +75,10 @@ $(document).ready(function(){
 		if(queryString==initDes){
 			queryString="";
 		}
+		if(queryString==""){
+			$("input[name='queryString']")[0].focus();
+			return false;
+		}
 		window.location.href ="/searchposts?queryString="+queryString+"&sex=all";
 		return false;
 	});

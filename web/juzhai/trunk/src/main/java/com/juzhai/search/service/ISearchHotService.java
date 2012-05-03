@@ -15,6 +15,25 @@ public interface ISearchHotService {
 	List<SearchHot> getSearchHotByCity(long city, int count);
 
 	/**
+	 * 获取某个城市的搜索热词
+	 * 
+	 * @param city
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<SearchHot> getSearchHotByCity(long city, int firstResult,
+			int maxResults);
+
+	/**
+	 * 统计该城市下的热词
+	 * 
+	 * @param city
+	 * @return
+	 */
+	int countSearchHotByCity(long city);
+
+	/**
 	 * 添加搜索热词
 	 * 
 	 * @param name

@@ -64,4 +64,21 @@ public class SearchHotService implements ISearchHotService {
 		example.createCriteria().andCityEqualTo(city).andNameEqualTo(name);
 		return searchHotMapper.countByExample(example) > 0 ? true : false;
 	}
+
+	@Override
+	public List<SearchHot> getSearchHotByCity(long city, int firstResult,
+			int maxResults) {
+		SearchHotExample example = new SearchHotExample();
+		example.createCriteria().andCityEqualTo(city);
+		example.setOrderByClause("create_time desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return searchHotMapper.selectByExample(example);
+	}
+
+	@Override
+	public int countSearchHotByCity(long city) {
+		SearchHotExample example = new SearchHotExample();
+		example.createCriteria().andCityEqualTo(city);
+		return searchHotMapper.countByExample(example);
+	}
 }

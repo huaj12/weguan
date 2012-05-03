@@ -20,7 +20,7 @@ import com.juzhai.act.service.IHotActService;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 
-@Controller
+//@Controller
 @RequestMapping("/cms")
 public class CmsHotActController {
 	private final Log log = LogFactory.getLog(getClass());

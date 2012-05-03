@@ -57,10 +57,10 @@ public class FriendService implements IFriendService {
 	private RedisTemplate<String, List<Long>> listLongRedisTemplate;
 	@Autowired
 	private TpUserMapper tpUserMapper;
-	@Autowired
-	private IProfileService profileService;
-	@Autowired
-	private IUserActService userActService;
+	// @Autowired
+	// private IProfileService profileService;
+	// @Autowired
+	// private IUserActService userActService;
 	@Value("${friends.cache.expire.time}")
 	private int friendsCacheExpireTime;
 
@@ -243,20 +243,21 @@ public class FriendService implements IFriendService {
 		return score != null;
 	}
 
-	@Override
-	public List<ProfileCache> findSameActFriends(long uid, long actId, int num) {
-		List<ProfileCache> list = new ArrayList<ProfileCache>();
-		List<Long> friendIds = getAppFriends(uid);
-		for (long fid : friendIds) {
-			if (userActService.hasAct(fid, actId)) {
-				list.add(profileService.getProfileCacheByUid(fid));
-				if (list.size() >= num) {
-					break;
-				}
-			}
-		}
-		return list;
-	}
+	// @Override
+	// public List<ProfileCache> findSameActFriends(long uid, long actId, int
+	// num) {
+	// List<ProfileCache> list = new ArrayList<ProfileCache>();
+	// List<Long> friendIds = getAppFriends(uid);
+	// for (long fid : friendIds) {
+	// if (userActService.hasAct(fid, actId)) {
+	// list.add(profileService.getProfileCacheByUid(fid));
+	// if (list.size() >= num) {
+	// break;
+	// }
+	// }
+	// }
+	// return list;
+	// }
 
 	@Override
 	public List<Long> listInstallFollowUids(long uid) {

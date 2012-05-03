@@ -28,7 +28,7 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
 
-@Component
+//@Component
 public class UnreadMsgEmailHandler extends AbstractScheduleHandler {
 
 	@Autowired

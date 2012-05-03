@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 
-@Component
+//@Component
 public class ShowCategoryActListHandler extends AbstractScheduleHandler {
 
 	@Autowired

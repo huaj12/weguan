@@ -34,7 +34,7 @@ import com.juzhai.search.rabbit.message.ActIndexMessage;
 import com.juzhai.search.rabbit.message.ActionType;
 import com.juzhai.search.service.IActSearchService;
 
-@Service
+//@Service
 public class ActSearchService implements IActSearchService {
 
 	private final Log log = LogFactory.getLog(getClass());

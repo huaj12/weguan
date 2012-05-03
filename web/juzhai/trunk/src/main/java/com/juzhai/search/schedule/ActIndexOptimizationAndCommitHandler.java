@@ -5,11 +5,10 @@ import java.io.IOException;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 
-@Component
+//@Component
 public class ActIndexOptimizationAndCommitHandler extends
 		AbstractScheduleHandler {
 

@@ -22,7 +22,7 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
 
-@Service
+//@Service
 public class SendAppMsgService implements ISendAppMsgService {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired

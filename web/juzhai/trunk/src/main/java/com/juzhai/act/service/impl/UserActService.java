@@ -49,7 +49,7 @@ import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.stats.counter.service.ICounter;
 
-@Service
+//@Service
 public class UserActService implements IUserActService {
 
 	private final Log log = LogFactory.getLog(getClass());

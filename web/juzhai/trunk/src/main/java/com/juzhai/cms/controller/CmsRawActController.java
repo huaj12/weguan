@@ -35,7 +35,7 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 
-@Controller
+//@Controller
 @RequestMapping("/cms")
 public class CmsRawActController extends BaseController {
 	private final Log log = LogFactory.getLog(getClass());

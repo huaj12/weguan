@@ -32,7 +32,7 @@ import com.juzhai.core.util.StringUtil;
 import com.juzhai.notice.bean.SysNoticeType;
 import com.juzhai.notice.service.ISysNoticeService;
 
-@Service
+//@Service
 public class RawActService implements IRawActService {
 	private final Log log = LogFactory.getLog(getClass());
 	@Value(value = "${act.name.length.max}")

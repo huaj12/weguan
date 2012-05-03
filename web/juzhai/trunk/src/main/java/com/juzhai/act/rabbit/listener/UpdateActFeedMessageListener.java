@@ -17,7 +17,7 @@ import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
 import com.juzhai.home.service.IInboxService;
 import com.juzhai.passport.service.IFriendService;
 
-@Component
+//@Component
 public class UpdateActFeedMessageListener implements
 		IRabbitMessageListener<ActUpdateMessage, Object> {
 

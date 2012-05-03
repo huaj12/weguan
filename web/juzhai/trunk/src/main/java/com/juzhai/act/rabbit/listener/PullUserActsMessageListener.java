@@ -12,7 +12,7 @@ import com.juzhai.msg.rabbit.message.MsgMessage;
 import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
 
-@Component
+//@Component
 public class PullUserActsMessageListener implements
 		IRabbitMessageListener<UserAct, Object> {
 

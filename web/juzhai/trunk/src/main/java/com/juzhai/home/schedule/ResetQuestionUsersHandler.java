@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 
-@Component
+//@Component
 public class ResetQuestionUsersHandler extends AbstractScheduleHandler {
 
 	@Autowired

@@ -27,7 +27,7 @@ import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 
-@Service
+//@Service
 public class DatingService implements IDatingService {
 
 	@Autowired

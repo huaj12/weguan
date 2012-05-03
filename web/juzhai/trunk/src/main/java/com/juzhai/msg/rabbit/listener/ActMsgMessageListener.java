@@ -26,7 +26,7 @@ import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.passport.service.IUserSetupService;
 
-@Component
+//@Component
 public class ActMsgMessageListener implements
 		IRabbitMessageListener<MsgMessage<ActMsg>, Object> {
 

@@ -18,8 +18,8 @@ import org.springframework.stereotype.Component;
 import com.juzhai.account.bean.ConsumeAction;
 import com.juzhai.account.bean.ProfitAction;
 
-@Component("accountInitData")
-@Lazy(false)
+//@Component("accountInitData")
+//@Lazy(false)
 public class InitData {
 
 	private final Log log = LogFactory.getLog(getClass());

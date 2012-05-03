@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.juzhai.account.dao.IAccountDao;
 
-@Repository
+//@Repository
 public class AccountDao implements IAccountDao {
 
 	@Autowired

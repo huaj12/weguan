@@ -22,7 +22,7 @@ import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.ImageUtil;
 import com.juzhai.core.util.StaticUtil;
 
-@Service
+//@Service
 public class ActImageService implements IActImageService {
 
 	private final Log log = LogFactory.getLog(getClass());

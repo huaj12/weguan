@@ -14,7 +14,7 @@ import com.juzhai.act.service.IActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.index.service.IActRankService;
 
-@Service
+//@Service
 public class ActRankService implements IActRankService {
 
 	@Autowired

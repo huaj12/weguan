@@ -21,7 +21,7 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
 
-@Service
+//@Service
 public class ActLiveService implements IActLiveService {
 
 	@Autowired

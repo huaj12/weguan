@@ -114,8 +114,8 @@ public class AppMyActController extends BaseController {
 		List<UserActView> userActViewList = userActService.pageUserActView(
 				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
 		for (UserActView view : userActViewList) {
-			view.setFriendList(friendService.findSameActFriends(
-					context.getUid(), view.getAct().getId(), sameActFriendsNum));
+			// view.scontext.getUid(), view.getAct().getId(),
+			// sameActFriendsNum));
 			view.getAct().setPopularity(
 					Long.valueOf(
 							actService.getTpActPopularity(context.getTpId(),

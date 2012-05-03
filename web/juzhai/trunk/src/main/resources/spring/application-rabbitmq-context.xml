@@ -80,7 +80,7 @@
 	<rabbit:admin connection-factory="rabbitConnectionFactory"/>
 	
 	<!-- update act feed-->
-	<rabbit:queue name="${rabbitmq.queue.updateActFeed}" durable="true"/>
+	<!-- <rabbit:queue name="${rabbitmq.queue.updateActFeed}" durable="true"/>
 	<rabbit:direct-exchange name="${rabbitmq.exchange.updateActFeed}" durable="true">
 		<rabbit:bindings>
 			<rabbit:binding queue="${rabbitmq.queue.updateActFeed}" key="${rabbitmq.queue.updateActFeed}"/>
@@ -97,11 +97,11 @@
 	</bean>
 	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.updateActFeed}" prefetch="1" >
 	    <rabbit:listener queue-names="${rabbitmq.queue.updateActFeed}" ref="updateActFeedListener" method="handleMessage" />
-	</rabbit:listener-container>
+	</rabbit:listener-container> -->
 	<!-- update act feed-->
 	
 	<!-- act msg-->
-	<rabbit:queue name="${rabbitmq.queue.actMsg}" durable="true"/>
+	<!-- <rabbit:queue name="${rabbitmq.queue.actMsg}" durable="true"/>
 	<rabbit:direct-exchange name="${rabbitmq.exchange.actMsg}" durable="true">
 		<rabbit:bindings>
 			<rabbit:binding queue="${rabbitmq.queue.actMsg}" key="${rabbitmq.queue.actMsg}"/>
@@ -118,7 +118,7 @@
 	</bean>
 	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.actMsg}" prefetch="1">
 	    <rabbit:listener queue-names="${rabbitmq.queue.actMsg}" ref="actMsgListener" />
-	</rabbit:listener-container>
+	</rabbit:listener-container> -->
 	<!-- act msg-->
 	
 	
@@ -168,12 +168,12 @@
 	
 	
 	<!-- act index-->
-	<rabbit:queue name="${rabbitmq.queue.actIndex.create}" durable="true"/>
+	<!-- <rabbit:queue name="${rabbitmq.queue.actIndex.create}" durable="true"/>
 	<rabbit:direct-exchange name="${rabbitmq.exchange.actIndex}" durable="true">
 		<rabbit:bindings>
 			<rabbit:binding queue="${rabbitmq.queue.actIndex.create}" key="${rabbitmq.queue.actIndex.create}"/>
-			<!-- <rabbit:binding queue="${rabbitmq.queue.actIndex.delete}"/>
-			<rabbit:binding queue="${rabbitmq.queue.actIndex.update}"/> -->
+			<rabbit:binding queue="${rabbitmq.queue.actIndex.delete}"/>
+			<rabbit:binding queue="${rabbitmq.queue.actIndex.update}"/>
 		</rabbit:bindings>
 	</rabbit:direct-exchange>
 	<rabbit:template id="actIndexCreateRabbitTemplate"
@@ -181,7 +181,7 @@
 		exchange="${rabbitmq.exchange.actIndex}"
 		queue="${rabbitmq.queue.actIndex.create}"
 		routing-key="${rabbitmq.queue.actIndex.create}"
-		encoding="UTF-8"/>
+		encoding="UTF-8"/> -->
 	
 	
 		
@@ -197,12 +197,12 @@
 		queue="${rabbitmq.queue.actIndex.delete}"
 		routing-key="${rabbitmq.queue.actIndex.delete}"/> -->
 		
-	<bean id="actIndexListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
+	<!-- <bean id="actIndexListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
 		<property name="delegate" ref="actIndexMessageListener" />
 	</bean>
 	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.actIndex}" prefetch="1" >
 	    <rabbit:listener queue-names="${rabbitmq.queue.actIndex.create}" ref="actIndexListener" />
-	</rabbit:listener-container>
+	</rabbit:listener-container> -->
 	<!-- act msg-->
 
 </beans>

@@ -13,7 +13,7 @@ import com.juzhai.msg.bean.ActMsg;
 import com.juzhai.msg.bean.MergerActMsg;
 import com.juzhai.msg.service.IMergerActMsgService;
 
-@Service
+//@Service
 public class MergerActMsgService implements IMergerActMsgService {
 	@Autowired
 	private RedisTemplate<String, MergerActMsg> redisTemplate;

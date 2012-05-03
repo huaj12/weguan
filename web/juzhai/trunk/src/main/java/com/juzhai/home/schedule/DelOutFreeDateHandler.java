@@ -13,7 +13,7 @@ import com.juzhai.core.schedule.AbstractScheduleHandler;
 import com.juzhai.home.service.IUserFreeDateService;
 import com.juzhai.passport.model.UserFreeDate;
 
-@Component
+//@Component
 public class DelOutFreeDateHandler extends AbstractScheduleHandler {
 
 	@Autowired

@@ -23,7 +23,7 @@ import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.ISynonymActService;
 
-@Service
+//@Service
 public class ActCategoryService implements IActCategoryService {
 
 	@Autowired

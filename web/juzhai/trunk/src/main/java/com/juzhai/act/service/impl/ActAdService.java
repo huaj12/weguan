@@ -21,7 +21,7 @@ import com.juzhai.cms.model.RawAd;
 import com.juzhai.cms.service.IRawAdService;
 import com.juzhai.core.dao.Limit;
 
-@Service
+//@Service
 public class ActAdService implements IActAdService {
 	@Autowired
 	private IActService actService;

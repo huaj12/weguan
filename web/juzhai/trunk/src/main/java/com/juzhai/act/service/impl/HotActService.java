@@ -15,7 +15,7 @@ import com.juzhai.act.service.IActService;
 import com.juzhai.act.service.IHotActService;
 import com.juzhai.core.dao.Limit;
 
-@Service
+//@Service
 public class HotActService implements IHotActService {
 
 	@Autowired

@@ -34,7 +34,7 @@ import com.juzhai.passport.service.IFriendService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
 
-@Component
+//@Component
 public class ActBriefingEmailHandler extends AbstractScheduleHandler {
 
 	@Autowired

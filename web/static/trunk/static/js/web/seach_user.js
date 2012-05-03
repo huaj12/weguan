@@ -71,6 +71,7 @@ $(document).ready(function(){
 	});
 	$("div.s_input > a").click(function(){
 		var queryString = $("input[name='queryString']").val();
+		queryString=trimStr(queryString);
 		var initDes=$("input[name='queryString']").attr("init-tip");
 		if(queryString==initDes){
 			queryString="";

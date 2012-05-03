@@ -33,7 +33,7 @@ import com.juzhai.post.service.IPostService;
 import com.juzhai.preference.bean.SiftTypePreference;
 import com.juzhai.preference.service.IUserPreferenceService;
 import com.juzhai.search.bean.Education;
-import com.juzhai.search.bean.LuneceResult;
+import com.juzhai.search.bean.LuceneResult;
 import com.juzhai.search.controller.form.SearchProfileForm;
 import com.juzhai.search.service.IPostSearchService;
 import com.juzhai.search.service.IProfileSearchService;
@@ -234,7 +234,7 @@ public class SearchController extends BaseController {
 				minYear, maxYear, educationList, minMonthlyIncome,
 				maxMonthlyIncome, true, null, constellationId, null, null,
 				minHeight, maxHeight);
-		LuneceResult<Profile> result = profileSearchService.queryProfile(form,
+		LuceneResult<Profile> result = profileSearchService.queryProfile(form,
 				pager.getFirstResult(), pager.getMaxResult());
 		pager.setTotalResults(result.getTotalHits());
 		List<Profile> list = result.getResult();
@@ -301,7 +301,7 @@ public class SearchController extends BaseController {
 		}
 		Integer gender = getSex(sex);
 		PagerManager pager = new PagerManager(pageId, searchPostRows);
-		LuneceResult<Post> result = postSearchService.searchPosts(queryString,
+		LuceneResult<Post> result = postSearchService.searchPosts(queryString,
 				gender, pager.getFirstResult(), pager.getMaxResult());
 		pager.setTotalResults(result.getTotalHits());
 		List<Post> postList = result.getResult();

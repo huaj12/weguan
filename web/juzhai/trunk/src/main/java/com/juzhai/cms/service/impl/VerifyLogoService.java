@@ -53,8 +53,8 @@ public class VerifyLogoService implements IVerifyLogoService {
 	private PostMapper postMapper;
 	@Autowired
 	private IPostSearchService postSearchService;
-	@Value("${user.post.lunece.rows}")
-	private int userPostLuneceRows;
+	@Value("${user.post.lucene.rows}")
+	private int userPostLuceneRows;
 
 	@Override
 	public List<Profile> listVerifyLogoProfile(LogoVerifyState logoVerifyState,
@@ -150,12 +150,12 @@ public class VerifyLogoService implements IVerifyLogoService {
 		int i = 0;
 		while (true) {
 			List<Post> posts = postService.getUserQualifiedPost(uid, i,
-					userPostLuneceRows);
+					userPostLuceneRows);
 			for (Post p : posts) {
 				postSearchService.deleteIndex(p.getId());
 			}
-			i += userPostLuneceRows;
-			if (posts.size() < userPostLuneceRows) {
+			i += userPostLuceneRows;
+			if (posts.size() < userPostLuceneRows) {
 				break;
 			}
 		}

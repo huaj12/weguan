@@ -50,8 +50,8 @@ public class ReportService implements IReportService {
 	private PostMapper postMapper;
 	@Autowired
 	private IPostSearchService postSearchService;
-	@Value("${user.post.lunece.rows}")
-	private int userPostLuneceRows;
+	@Value("${user.post.lucene.rows}")
+	private int userPostLuceneRows;
 
 	@Override
 	public void save(ReportForm form, long createUid)
@@ -141,12 +141,12 @@ public class ReportService implements IReportService {
 			int i = 0;
 			while (true) {
 				List<Post> posts = postService.getUserQualifiedPost(uid, i,
-						userPostLuneceRows);
+						userPostLuceneRows);
 				for (Post p : posts) {
 					postSearchService.deleteIndex(p.getId());
 				}
-				i += userPostLuneceRows;
-				if (posts.size() < userPostLuneceRows) {
+				i += userPostLuceneRows;
+				if (posts.size() < userPostLuceneRows) {
 					break;
 				}
 			}

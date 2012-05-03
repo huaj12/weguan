@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 
-public class LuneceResult<T> {
+public class LuceneResult<T> {
 	public static final SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter(
 			"<i>", "</i>");
 	private int totalHits;
 	private List<T> result;
 
-	public LuneceResult(int totalHits, List<T> result) {
+	public LuceneResult(int totalHits, List<T> result) {
 		this.totalHits = totalHits;
 		this.result = result;
 	}

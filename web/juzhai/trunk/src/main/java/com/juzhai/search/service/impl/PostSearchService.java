@@ -40,7 +40,7 @@ import com.juzhai.post.mapper.PostMapper;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostExample;
 import com.juzhai.post.service.IPostService;
-import com.juzhai.search.bean.LuneceResult;
+import com.juzhai.search.bean.LuceneResult;
 import com.juzhai.search.rabbit.message.ActionType;
 import com.juzhai.search.rabbit.message.PostIndexMessage;
 import com.juzhai.search.service.IPostSearchService;
@@ -103,7 +103,7 @@ public class PostSearchService implements IPostSearchService {
 	}
 
 	@Override
-	public LuneceResult<Post> searchPosts(final String queryString,
+	public LuceneResult<Post> searchPosts(final String queryString,
 			final Integer gender, final int firstResult, final int maxResults) {
 		return postIndexSearcherTemplate.excute(new SearcherCallback() {
 			@SuppressWarnings("unchecked")
@@ -124,7 +124,7 @@ public class PostSearchService implements IPostSearchService {
 				List<Long> ids = new ArrayList<Long>(maxResults);
 				List<Post> postIdList = new ArrayList<Post>(maxResults);
 				Highlighter highlighter = new Highlighter(
-						LuneceResult.simpleHTMLFormatter,
+						LuceneResult.simpleHTMLFormatter,
 						new QueryScorer(query));
 				for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
 					Document doc = indexSearcher.doc(scoreDoc.doc);
@@ -143,11 +143,11 @@ public class PostSearchService implements IPostSearchService {
 						postMap.put(post.getId(), post);
 					}
 				}
-				// 保证原有lunece顺序
+				// 保证原有lucene顺序
 				for (Long id : ids) {
 					postIdList.add(postMap.get(id));
 				}
-				LuneceResult<Post> result = new LuneceResult<Post>(
+				LuceneResult<Post> result = new LuceneResult<Post>(
 						topDocs.totalHits, postIdList);
 				return (T) result;
 			}

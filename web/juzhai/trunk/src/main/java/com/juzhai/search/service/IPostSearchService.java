@@ -1,7 +1,7 @@
 package com.juzhai.search.service;
 
 import com.juzhai.post.model.Post;
-import com.juzhai.search.bean.LuneceResult;
+import com.juzhai.search.bean.LuceneResult;
 
 public interface IPostSearchService {
 	/**
@@ -13,7 +13,7 @@ public interface IPostSearchService {
 	 * @param maxResults
 	 * @return
 	 */
-	LuneceResult<Post> searchPosts(String queryString, Integer gender,
+	LuceneResult<Post> searchPosts(String queryString, Integer gender,
 			int firstResult, int maxResults);
 
 	/**

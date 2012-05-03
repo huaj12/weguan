@@ -52,15 +52,17 @@ $(document).ready(function(){
 		return false;
 	});
 	$("div.more_search > a").click(function(){
-		if($(this).text()=="更多搜索"){
-			$(this).text("简单搜索");
+		if($(this).text()=="更多条件"){
+			$(this).text("收起");
 			$("div.search_more_area").show();
 			$("#more").show();
 			$("#simple").hide();
+			$("#constellation-select").show();
 		}else{
 			$("#simple").show();
 			$("#more").hide();
-			$(this).text("更多搜索");
+			$("#constellation-select").hide();
+			$(this).text("更多条件");
 			$("div.search_more_area").hide();
 			selectBox.resetSelect();
 			selectEducations.resetSelect();
@@ -71,8 +73,8 @@ $(document).ready(function(){
 	});
 	$("div.s_input > a").click(function(){
 		var queryString = $("input[name='queryString']").val();
-		queryString=trimStr(queryString);
 		var initDes=$("input[name='queryString']").attr("init-tip");
+		queryString=trimStr(queryString);
 		if(queryString==initDes){
 			queryString="";
 		}
@@ -94,14 +96,16 @@ function moreSeach(){
 	var minStringHeight=$("input[name='minStringHeight']").val();
 	var maxStringHeight=$("input[name='maxStringHeight']").val();
 	if(constellationId=="0"&&educations==0&&monthlyIncome=="0"&&minStringHeight==""&&maxStringHeight==""){
-		$("div.more_search > a").text("更多搜索");
+		$("div.more_search > a").text("更多条件");
 		$("#simple").show();
 		$("#more").hide();
+		$("#constellation-select").hide();
 	}else{
 		$("#more").show();
 		$("#simple").hide();
-		$("div.more_search > a").text("简单搜索");
+		$("div.more_search > a").text("收起");
 		$("div.search_more_area").show();
+		$("#constellation-select").show();
 	}
 	return false;
 }

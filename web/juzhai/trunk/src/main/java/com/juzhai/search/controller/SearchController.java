@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
@@ -186,10 +187,10 @@ public class SearchController extends BaseController {
 		} catch (Exception e) {
 		}
 		return searchUsers(request, model, 1, 0, genderType, maxAge, minAge,
-				"0", "0", "0", 0, 0, 0);
+				"0", "0", "0", 0, 0);
 	}
 
-	@RequestMapping(value = { "/searchusers/{town}_{sex}_{minStringAge}_{maxStringAge}_{minStringHeight}_{maxStringHeight}_{constellationIds}_{educations}_{minMonthlyIncome}_{maxMonthlyIncome}/{pageId}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/searchusers/{town}_{sex}_{minStringAge}_{maxStringAge}_{minStringHeight}_{maxStringHeight}_{constellationIds}_{educations}_{minMonthlyIncome}/{pageId}" }, method = RequestMethod.GET)
 	public String searchUsers(HttpServletRequest request, Model model,
 			@PathVariable int pageId, @PathVariable long town,
 			@PathVariable String sex, @PathVariable String maxStringAge,
@@ -197,8 +198,7 @@ public class SearchController extends BaseController {
 			@PathVariable String minStringHeight,
 			@PathVariable String maxStringHeight,
 			@PathVariable String constellationIds,
-			@PathVariable int educations, @PathVariable int minMonthlyIncome,
-			@PathVariable int maxMonthlyIncome) {
+			@PathVariable int educations, @PathVariable int minMonthlyIncome) {
 		ProfileCache loginUser = getLoginUserCache(request);
 		long city = 0L;
 		if (loginUser != null && loginUser.getCity() != null) {
@@ -232,9 +232,8 @@ public class SearchController extends BaseController {
 		}
 		PagerManager pager = new PagerManager(pageId, searchUserRows);
 		SearchProfileForm form = new SearchProfileForm(city, town, gender,
-				minYear, maxYear, educationList, minMonthlyIncome,
-				maxMonthlyIncome, true, null, constellationId, null, null,
-				minHeight, maxHeight);
+				minYear, maxYear, educationList, minMonthlyIncome, null,
+				constellationId, null, null, minHeight, maxHeight);
 		LuceneResult<Profile> result = profileSearchService.queryProfile(form,
 				pager.getFirstResult(), pager.getMaxResult());
 		pager.setTotalResults(result.getTotalHits());
@@ -275,10 +274,7 @@ public class SearchController extends BaseController {
 		model.addAttribute("constellations",
 				com.juzhai.passport.InitData.CONSTELLATION_MAP.values());
 		model.addAttribute("educationId", educations);
-		model.addAttribute("monthlyIncome", minMonthlyIncome + "-"
-				+ maxMonthlyIncome);
 		model.addAttribute("minMonthlyIncome", minMonthlyIncome);
-		model.addAttribute("maxMonthlyIncome", maxMonthlyIncome);
 		model.addAttribute("constellationIds", constellationId);
 		model.addAttribute("educations",
 				com.juzhai.search.InitData.EDUCATION_MAP);
@@ -289,10 +285,10 @@ public class SearchController extends BaseController {
 		return "web/search/seach_user";
 	}
 
-	@RequestMapping(value = { "/searchposts/{queryString}_{sex}/{pageId}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/searchposts" }, method = RequestMethod.GET)
 	public String searchPosts(HttpServletRequest request, Model model,
-			@PathVariable int pageId, @PathVariable String sex,
-			@PathVariable String queryString) {
+			@RequestParam(defaultValue = "1") int pageId, String sex,
+			String queryString) {
 		if (queryString != null) {
 			queryString = queryString.trim();
 		}

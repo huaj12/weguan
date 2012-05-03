@@ -86,7 +86,6 @@ public class ProfileSearchService implements IProfileSearchService {
 				Query query = getQuery(form.getCity(), form.getTown(),
 						form.getGender(), form.getMinYear(), form.getMaxYear(),
 						form.getEducations(), form.getMinMonthlyIncome(),
-						form.getMaxMonthlyIncome(), form.isMoreIncome(),
 						form.getHome(), form.getConstellationId(),
 						form.getHouse(), form.getCar(), form.getMinHeight(),
 						form.getMaxHeight());
@@ -115,8 +114,7 @@ public class ProfileSearchService implements IProfileSearchService {
 
 	private Query getQuery(long city, long town, Integer gender, int minYear,
 			int maxYear, List<String> educations, int minMonthlyIncome,
-			int maxMonthlyIncome, boolean isMoreIncome, String home,
-			List<Long> constellationIds, String house, String car,
+			String home, List<Long> constellationIds, String house, String car,
 			int minHeight, int maxHeight) {
 		BooleanQuery query = new BooleanQuery();
 		// 身高
@@ -155,20 +153,11 @@ public class ProfileSearchService implements IProfileSearchService {
 			}
 
 		}
-		if (minMonthlyIncome > 0 || maxMonthlyIncome > 0) {
+		if (minMonthlyIncome > 0) {
 			// 选取xx以上
-			if (isMoreIncome) {
-				Query incomeQuery = NumericRangeQuery.newIntRange(
-						"minIncomeNum", minMonthlyIncome, null, true, true);
-				query.add(incomeQuery, Occur.MUST);
-			} else {
-				Query minMonthlyIncomeQuery = new TermQuery(new Term(
-						"minMonthlyIncome", String.valueOf(minMonthlyIncome)));
-				Query maxMonthlyIncomeQuery = new TermQuery(new Term(
-						"maxMonthlyIncome", String.valueOf(maxMonthlyIncome)));
-				query.add(minMonthlyIncomeQuery, Occur.MUST);
-				query.add(maxMonthlyIncomeQuery, Occur.MUST);
-			}
+			Query incomeQuery = NumericRangeQuery.newIntRange("minIncomeNum",
+					minMonthlyIncome, null, true, true);
+			query.add(incomeQuery, Occur.MUST);
 		}
 
 		// 教育经历

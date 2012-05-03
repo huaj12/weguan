@@ -5,8 +5,4 @@ $(document).ready(function() {
 		window.location.href = "/seachposts/"+encodeURI(queryString)+"_"+sex+"/1";
 		return false;
 	});
-	$("div.tags > a").click(function(){
-		window.location.href="/findposts?queryString="+$(this).text();
-		return false;
-	});
 });

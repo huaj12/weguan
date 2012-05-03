@@ -33,7 +33,7 @@
 							</div><!--search_jg end-->
 							<div class="clear"></div>
 							<div class="jg_title"><!--jg_title begin-->
-								<div class="jg_left"><p>在<i><c:choose><c:when test="${city== 0}">全国</c:when><c:otherwise>${jzd:cityName(city)}</c:otherwise></c:choose></i>共搜索到<font>${pager.totalResults}</font>条 关于<i>${queryString}</i>的信息</p></div>
+								<div class="jg_left"><p>在<c:choose><c:when test="${city== 0}">全国</c:when><c:otherwise>${jzd:cityName(city)}</c:otherwise></c:choose>共搜索到<font>${pager.totalResults}</font>条 关于<i>${queryString}</i>的信息</p></div>
 								<div class="jg_right">
 									<span>筛选:</span>
 									<div class="select_menu" name="sex"><!--select_menu begin-->
@@ -133,7 +133,8 @@
 							<c:if test="${pager.totalResults > 0}">
 								<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 								<c:param name="pager" value="${pager}"/>
-								<c:param name="url" value="/searchposts/${queryString}_${sex}" />
+								<c:param name="url" value="/searchposts?queryString=${queryString}&sex=all" />
+								<c:param name="urlRewrite" value="flase"></c:param>
 								</c:import>
 							</c:if>
 						</div>
@@ -149,7 +150,7 @@
 								<div class="search_xz"><!--search_xz begin-->
 									<div class="tags hot">
 										<c:forEach items="${hots}" var="hot">
-											<a href="/searchposts/${hot.name}_all/1">${hot.name}</a>
+											<a href="/searchposts?queryString=${hot.name}&sex=all">${hot.name}</a>
 										</c:forEach>
 									</div>
 								</div><!--search_xz end-->

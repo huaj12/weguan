@@ -69,7 +69,7 @@
 										</div><!--input end-->
 										<div class="txt">岁</div>
 										<div class="btn" id="simple"><a href='javascript:void(0);' class='query-btn'>搜索</a></div>
-										<div class="more_search"><a href="javascript:void(0);">简单搜索</a></div>
+										<div class="more_search"><a href="javascript:void(0);">更多搜索</a></div>
 										<div class="search_more_area" style="display: none"><!--search_more_area begin-->
 											<div class="w100"><!--w70 begin-->
 												<div class="xz_menu" name="constellation" load-lazy="true"><!--select_menu begin-->
@@ -112,13 +112,13 @@
 												<div></div>
 													<div class="select_box"><!--select_box begin-->
 														<span>
-															<a href="javascript:void(0);" value="0-0" <c:if test="${monthlyIncome=='0-0'}">class="selected"</c:if>>收入不限</a>
-															<a href="javascript:void(0);" value="2000-5000"   <c:if test="${monthlyIncome=='2000-5000'}">class="selected"</c:if>		>2000</a>
-															<a href="javascript:void(0);" value="5000-10000"  <c:if test="${monthlyIncome=='5000-10000'}">class="selected"</c:if> 	>5000</a>
-															<a href="javascript:void(0);" value="10000-20000" <c:if test="${monthlyIncome=='10000-20000'}">class="selected"</c:if>  	>10000</a>
-															<a href="javascript:void(0);" value="20000-30000" <c:if test="${monthlyIncome=='20000-30000'}">class="selected"</c:if> 	>20000</a>
-															<a href="javascript:void(0);" value="30000-50000" <c:if test="${monthlyIncome=='30000-50000'}">class="selected"</c:if>	>30000</a>
-															<a href="javascript:void(0);" value="50000-0"  	  <c:if test="${monthlyIncome=='50000-0'}">class="selected"</c:if>	>50000</a>
+															<a href="javascript:void(0);" value="0" <c:if test="${minMonthlyIncome=='0'}">class="selected"</c:if>>收入不限</a>
+															<a href="javascript:void(0);" value="2000"   <c:if test="${minMonthlyIncome=='2000'}">class="selected"</c:if>		>>2000</a>
+															<a href="javascript:void(0);" value="5000"  <c:if test="${minMonthlyIncome=='5000'}">class="selected"</c:if> 	>>5000</a>
+															<a href="javascript:void(0);" value="10000" <c:if test="${minMonthlyIncome=='10000'}">class="selected"</c:if>  	>>10000</a>
+															<a href="javascript:void(0);" value="20000" <c:if test="${minMonthlyIncome=='20000'}">class="selected"</c:if> 	>>20000</a>
+															<a href="javascript:void(0);" value="30000" <c:if test="${minMonthlyIncome=='30000'}">class="selected"</c:if>	>>30000</a>
+															<a href="javascript:void(0);" value="50000"  	 <c:if test="${minMonthlyIncome=='50000'}">class="selected"</c:if>	>>50000</a>
 														</span>
 														<em></em>
 													</div><!--select_box end-->
@@ -185,7 +185,7 @@
 									<div class="clear"></div>
 									<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 										<c:param name="pager" value="${pager}"/>
-										<c:param name="url" value="/searchusers/${townId }_${sex}_${minStringAge}_${maxStringAge}_${minStringHeight}_${maxStringHeight}_${strConstellationIds}_${educationId}_${minMonthlyIncome}_${maxMonthlyIncome}" />
+										<c:param name="url" value="/searchusers/${townId }_${sex}_${minStringAge}_${maxStringAge}_${minStringHeight}_${maxStringHeight}_${strConstellationIds}_${educationId}_${minMonthlyIncome}" />
 									</c:import>
 								</c:if>
 							</div>
@@ -198,12 +198,12 @@
 							<div class="m">
 								<div class="right_title"><h2>搜索拒宅</h2></div>
 								<div class="search_xz"><!--search_xz begin-->
-									<div class="s_input"><p></p><span><input type="text"  name="queryString"/></span><a href="javascript:void(0);"></a></div>
+									<div class="s_input"><p></p><span><input type="text" init-tip="通过关键词搜索,如:桌球、看电影" name="queryString"/></span><a href="javascript:void(0);"></a></div>
 									<div class="tags">
 									<c:if test="${not empty hots }">
 									<p>近期热门词：</p>
 										<c:forEach items="${hots}" var="hot">
-												<a href="/searchposts/${hot.name}_all/1">${hot.name}</a>
+												<a href="/searchposts?queryString=${hot.name}&sex=all">${hot.name}</a>
 										</c:forEach>
 									</c:if>
 									</div>

@@ -67,8 +67,8 @@ public class BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private MessageSource messageSource;
-	@Autowired
-	private IActCategoryService actCategoryService;
+	// @Autowired
+	// private IActCategoryService actCategoryService;
 	@Autowired
 	private IIdeaService ideaService;
 	@Autowired
@@ -158,8 +158,8 @@ public class BaseController {
 
 	protected void assembleBaseDates(Model model) {
 		model.addAttribute("towns", InitData.TOWN_MAP.values());
-		List<Category> categoryList = actCategoryService.findAllCategory();
-		model.addAttribute("categoryList", categoryList);
+		// List<Category> categoryList = actCategoryService.findAllCategory();
+		// model.addAttribute("categoryList", categoryList);
 		model.addAttribute("citys", InitData.CITY_MAP.values());
 		model.addAttribute("provinces", InitData.PROVINCE_MAP.values());
 		model.addAttribute("suitAges", SuitAge.values());

@@ -190,6 +190,7 @@
 									<c:if test="${maxStringAge==''}"><c:set var="maxStringAge" value="0" /></c:if>
 									<c:if test="${minStringHeight==''}"><c:set var="minStringHeight" value="0" /></c:if>
 									<c:if test="${maxStringHeight==''}"><c:set var="maxStringHeight" value="0" /></c:if>
+									<c:if test="${strConstellationIds==''}"><c:set var="strConstellationIds" value="0" /></c:if>
 									<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 										<c:param name="pager" value="${pager}"/>
 										<c:param name="url" value="/searchusers/${townId}_${sex}_${minStringAge}_${maxStringAge}_${minStringHeight}_${maxStringHeight}_${strConstellationIds}_${educationId}_${minMonthlyIncome}" />

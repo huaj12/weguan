@@ -71,29 +71,28 @@ $(document).ready(function(){
 			$("input[name='maxStringHeight']").val("");
 		}
 	});
-	$("div.s_input > a").click(function(){
-		searchPost();
+	$("#search-post-form").submit(function(){
+		var queryString = $("input[name='queryString']").val();
+		var initDes=$("input[name='queryString']").attr("init-tip");
+		queryString=trimStr(queryString);
+		if(queryString==initDes){
+			queryString="";
+		}
+		if(queryString==""){
+			$("input[name='queryString']")[0].focus();
+			return false;
+		}else{
+			return true;
+		}
+		
 	});
+	
+	
 	$("div.s_input> span >input").each(function(){
 		registerInitMsg($(this));
 	});
-	registerBindKeyup(searchPost);
+	
 });
-
-function searchPost(){
-	var queryString = $("input[name='queryString']").val();
-	var initDes=$("input[name='queryString']").attr("init-tip");
-	queryString=trimStr(queryString);
-	if(queryString==initDes){
-		queryString="";
-	}
-	if(queryString==""){
-		$("input[name='queryString']")[0].focus();
-		return false;
-	}
-	window.location.href ="/searchposts?queryString="+queryString+"&sex=all";
-	return false;
-}
 
 function moreSeach(){
 	var constellationId=$("input[name='constellation']").val();

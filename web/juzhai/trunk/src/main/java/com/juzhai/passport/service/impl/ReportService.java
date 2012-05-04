@@ -163,7 +163,13 @@ public class ReportService implements IReportService {
 
 	@Override
 	public void unShieldUser(Long uid) {
+		boolean flag = passportService.isPermanentLock(uid);// 是否永久封号
 		passportService.lockUser(uid, null);
+		if (flag) {
+			if (profileService.isValidUser(uid)) {
+				profileSearchService.createIndex(uid);
+			}
+		}
 	}
 
 	@Override

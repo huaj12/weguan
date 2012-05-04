@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	$("div.search_jg > a").click(function(){
 		var queryString = $("input[name='queryString']").val();
+		queryString=trimStr(queryString);
 		var sex = $("input[name='sex']").val();
 		if(queryString==""){
 			$("input[name='queryString']")[0].focus();

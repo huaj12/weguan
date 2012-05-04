@@ -201,7 +201,7 @@
 							<div class="m">
 								<div class="right_title"><h2>搜索拒宅</h2></div>
 								<div class="search_xz"><!--search_xz begin-->
-									<div class="s_input"><p></p><span><input type="text" init-tip="通过关键词搜索" name="queryString"/></span><a href="javascript:void(0);"></a></div>
+									<form action="/searchposts" id="search-post-form" method="get"><div class="s_input"><p></p><span><input type="text" init-tip="通过关键词搜索" name="queryString"/></span><input type="submit" style="display: none"/><a href="javascript:void(0);"></a></div></form>
 									<div class="tags">
 									<c:if test="${not empty hots }">
 									<p>近期热门词：</p>

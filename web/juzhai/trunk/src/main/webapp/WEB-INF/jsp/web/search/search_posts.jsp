@@ -24,32 +24,35 @@
 						<div class="t"></div>
 						<div class="m">
 							<div class="jz_list"><!--jz_list begin-->
-							<div class="search_jg"><!--search_jg begin-->
-							<h2>拒宅搜索</h2>
-							<div class="input"><!--input begin-->
-							<p class="l"></p><span class="width70"><input name="queryString" type="text" value="${queryString}" /></span><p class="r"></p>
-							</div><!--input end-->
-							<a href="javascript:void(0);">搜</a>
-							</div><!--search_jg end-->
-							<div class="clear"></div>
-							<div class="jg_title"><!--jg_title begin-->
-								<div class="jg_left"><p>在<c:choose><c:when test="${city== 0}">全国</c:when><c:otherwise>${jzd:cityName(city)}</c:otherwise></c:choose>共搜索到<font>${pager.totalResults}</font>条 关于<i>${queryString}</i>的信息</p></div>
-								<div class="jg_right">
-									<h5>筛选:</h5>
-									<div class="select_menu" id="sex-select" name="sex"><!--select_menu begin-->
-												<p><a href="javascript:void(0);">所有小宅</a></p>
-												<div></div>
-												<div class="select_box"><!--select_box begin-->
-													<span>
-														<a href="javascript:void(0);" value="all" <c:if test="${empty sex||sex=='all'}">class="selected"</c:if>>所有小宅</a>
-														<a href="javascript:void(0);" value="male" <c:if test="${sex=='male'}">class="selected"</c:if>>宅男</a>
-														<a href="javascript:void(0);" value="female" <c:if test="${sex=='female'}">class="selected"</c:if>>宅女</a>
-													</span>
-													<em></em>
-												</div><!--select_box end-->
-									</div><!--select_menu end-->
-								</div>
-							</div><!--jg_title end-->
+							<form action="/searchposts" id="search-post-form" method="get">
+								<div class="search_jg"><!--search_jg begin-->
+									<h2>拒宅搜索</h2>
+									<div class="input"><!--input begin-->
+									<p class="l"></p><span class="width70"><input name="queryString" type="text" value="${queryString}" /></span><p class="r"></p>
+									</div><!--input end-->
+									<a href="javascript:void(0);">搜</a>
+								</div><!--search_jg end-->
+								<div class="clear"></div>
+								<div class="jg_title"><!--jg_title begin-->
+									<div class="jg_left"><p>在<c:choose><c:when test="${city== 0}">全国</c:when><c:otherwise>${jzd:cityName(city)}</c:otherwise></c:choose>共搜索到<font>${pager.totalResults}</font>条 关于<i>${queryString}</i>的信息</p></div>
+									<div class="jg_right">
+										<h5>筛选:</h5>
+										<div class="select_menu" id="sex-select" name="sex"><!--select_menu begin-->
+													<p><a href="javascript:void(0);">所有小宅</a></p>
+													<div></div>
+													<div class="select_box"><!--select_box begin-->
+														<span>
+															<a href="javascript:void(0);" value="all" <c:if test="${empty sex||sex=='all'}">class="selected"</c:if>>所有小宅</a>
+															<a href="javascript:void(0);" value="male" <c:if test="${sex=='male'}">class="selected"</c:if>>宅男</a>
+															<a href="javascript:void(0);" value="female" <c:if test="${sex=='female'}">class="selected"</c:if>>宅女</a>
+														</span>
+														<em></em>
+													</div><!--select_box end-->
+										</div><!--select_menu end-->
+									</div>
+								</div><!--jg_title end-->
+								<input type="submit" style="display: none"/>
+							</form>
 							<div class="jz_main"><!--jz_main begin-->
 								<c:choose>
 								<c:when test="${not empty postViewList}">

@@ -116,12 +116,12 @@
 													<div class="select_box"><!--select_box begin-->
 														<span>
 															<a href="javascript:void(0);" value="0" <c:if test="${minMonthlyIncome=='0'}">class="selected"</c:if>>收入不限</a>
-															<a href="javascript:void(0);" value="2000"   <c:if test="${minMonthlyIncome=='2000'}">class="selected"</c:if>		>>2000</a>
-															<a href="javascript:void(0);" value="5000"  <c:if test="${minMonthlyIncome=='5000'}">class="selected"</c:if> 	>>5000</a>
-															<a href="javascript:void(0);" value="10000" <c:if test="${minMonthlyIncome=='10000'}">class="selected"</c:if>  	>>10000</a>
-															<a href="javascript:void(0);" value="20000" <c:if test="${minMonthlyIncome=='20000'}">class="selected"</c:if> 	>>20000</a>
-															<a href="javascript:void(0);" value="30000" <c:if test="${minMonthlyIncome=='30000'}">class="selected"</c:if>	>>30000</a>
-															<a href="javascript:void(0);" value="50000"  	 <c:if test="${minMonthlyIncome=='50000'}">class="selected"</c:if>	>>50000</a>
+															<a href="javascript:void(0);" value="2000"   <c:if test="${minMonthlyIncome=='2000'}">class="selected"</c:if>		>&gt;2000</a>
+															<a href="javascript:void(0);" value="5000"  <c:if test="${minMonthlyIncome=='5000'}">class="selected"</c:if> 	>&gt;5000</a>
+															<a href="javascript:void(0);" value="10000" <c:if test="${minMonthlyIncome=='10000'}">class="selected"</c:if>  	>&gt;10000</a>
+															<a href="javascript:void(0);" value="20000" <c:if test="${minMonthlyIncome=='20000'}">class="selected"</c:if> 	>&gt;20000</a>
+															<a href="javascript:void(0);" value="30000" <c:if test="${minMonthlyIncome=='30000'}">class="selected"</c:if>	>&gt;30000</a>
+															<a href="javascript:void(0);" value="50000"  	 <c:if test="${minMonthlyIncome=='50000'}">class="selected"</c:if>	>&gt;50000</a>
 														</span>
 														<em></em>
 													</div><!--select_box end-->

@@ -12,6 +12,10 @@ $(document).ready(function() {
 	$("#sex-select").find("span > a").bind("click", function(){
 		searchPost();
 	});
+	$("div.search_jg > a").click(function(){
+		searchPost();
+	});
+	
 });
 function searchPost(){
 	var queryString = $("input[name='queryString']").val();

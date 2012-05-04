@@ -1498,3 +1498,14 @@ var SelectBoxInput =  Class.extend({
     	$(selectDiv).find("input[type='hidden']").val(value);
 	}
 });
+
+function registerBindKeyup(callback){
+	document.onkeyup = function(e){ 
+	    var ev = document.all ? window.event : e;
+	    if(ev.keyCode==13) {
+	    	if(null != callback){
+				callback();
+			}
+	     }
+	};
+}

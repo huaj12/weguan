@@ -7,14 +7,18 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.bean.LockUserLevel;
 import com.juzhai.passport.bean.ReportHandleEnum;
 import com.juzhai.passport.exception.InputReportException;
+import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.mapper.ReportMapper;
+import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Report;
 import com.juzhai.passport.model.ReportExample;
 import com.juzhai.passport.service.IPassportService;
@@ -36,8 +40,6 @@ public class ReportService implements IReportService {
 	private ReportMapper reportMapper;
 	@Autowired
 	private IPassportService passportService;
-	@Value("${report.description.length.max}")
-	private int reportDescriptionLengthMax;
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
@@ -50,8 +52,14 @@ public class ReportService implements IReportService {
 	private PostMapper postMapper;
 	@Autowired
 	private IPostSearchService postSearchService;
+	@Autowired
+	private RedisTemplate<String, Long> redisTemplate;
+	@Autowired
+	private ProfileMapper profileMapper;
 	@Value("${user.post.lucene.rows}")
 	private int userPostLuceneRows;
+	@Value("${report.description.length.max}")
+	private int reportDescriptionLengthMax;
 
 	@Override
 	public void save(ReportForm form, long createUid)
@@ -137,6 +145,11 @@ public class ReportService implements IReportService {
 			if (profileService.isValidUser(uid)) {
 				profileSearchService.deleteIndex(uid);
 			}
+			Profile profile = profileMapper.selectByPrimaryKey(uid);
+			profile.setLastUpdateTime(null);
+			profileMapper.updateByPrimaryKey(profile);
+			redisTemplate.delete(RedisKeyGenerator.genUserLatestPostKey(uid));
+			profileService.clearProfileCache(uid);
 			// 被永久封号用户的所有通过拒宅
 			int i = 0;
 			while (true) {

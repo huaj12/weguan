@@ -50,6 +50,7 @@
 									</c:if>
 									<div class="clear"></div>
 									<div class="login_error" <c:if test="${empty errorInfo}">style="display:none;"</c:if>>${errorInfo}</div>
+									<input type="submit" style="display: none;" />
 									<div class="btn"><a href="javascript:void(0);">立即登录</a></div>
 									<div class="forget_pwd"><a href="/passport/getbackpwd">忘记密码？</a></div>
 								</div><!--reg_left end-->

@@ -87,6 +87,20 @@ $(document).ready(function(){
 		
 	});
 	
+	$("div.s_input > a").click(function(){
+		var queryString = $("input[name='queryString']").val();
+		var initDes=$("input[name='queryString']").attr("init-tip");
+		queryString=trimStr(queryString);
+		if(queryString==initDes){
+			queryString="";
+		}
+		if(queryString==""){
+			$("input[name='queryString']")[0].focus();
+			return false;
+		}
+		window.location.href ="/searchposts?queryString="+queryString;
+		return false;
+	});
 	
 	$("div.s_input> span >input").each(function(){
 		registerInitMsg($(this));

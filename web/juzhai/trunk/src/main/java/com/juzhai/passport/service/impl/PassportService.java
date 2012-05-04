@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.dao.Limit;
@@ -19,6 +20,8 @@ public class PassportService implements IPassportService {
 
 	@Autowired
 	private PassportMapper passportMapper;
+	@Value("${is.permanent.lock.time}")
+	private long isPermanentLockTime;
 
 	@Override
 	public Passport getPassportByLoginName(String loginName) {
@@ -79,6 +82,18 @@ public class PassportService implements IPassportService {
 			uids.add(passport.getId());
 		}
 		return uids;
+	}
+
+	@Override
+	public boolean isPermanentLock(long uid) {
+		Passport passport = passportMapper.selectByPrimaryKey(uid);
+		Date date = passport.getShieldTime();
+		if (date.getTime() - new Date().getTime() > isPermanentLockTime) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 }

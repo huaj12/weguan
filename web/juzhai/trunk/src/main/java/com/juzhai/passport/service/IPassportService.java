@@ -62,4 +62,12 @@ public interface IPassportService {
 	 * @return
 	 */
 	List<Long> listInviteUsers(long inviterUid);
+
+	/**
+	 * 是否是永久封号（封号到期时间-当前时间》1年）
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	boolean isPermanentLock(long uid);
 }

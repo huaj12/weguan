@@ -55,6 +55,10 @@ public class MigrateLuceneIndexController {
 			List<Profile> list = profileMapper.selectByExample(example);
 			for (Profile profile : list) {
 				if (userGuideService.isCompleteGuide(profile.getUid())) {
+					if (profile.getUid() % 1000 == 0) {
+						log.info("create profile index  runing... uid="
+								+ profile.getUid());
+					}
 					try {
 						profileIndexer.addIndex(profile, true);
 					} catch (Exception e) {
@@ -90,6 +94,10 @@ public class MigrateLuceneIndexController {
 			example.setLimit(new Limit(i, num));
 			List<Post> list = postMapper.selectByExample(example);
 			for (Post post : list) {
+				if (post.getId() % 1000 == 0) {
+					log.info("create post index runing... postid="
+							+ post.getId());
+				}
 				try {
 					postIndexer.addIndex(post, true);
 				} catch (Exception e) {

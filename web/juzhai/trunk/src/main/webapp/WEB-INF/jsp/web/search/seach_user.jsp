@@ -186,9 +186,13 @@
 								</div><!--jz_list end-->
 								<c:if test="${pager.totalResults > 0}">
 									<div class="clear"></div>
+									<c:if test="${minStringAge==''}"><c:set var="minStringAge" value="0" /></c:if>
+									<c:if test="${maxStringAge==''}"><c:set var="maxStringAge" value="0" /></c:if>
+									<c:if test="${minStringHeight==''}"><c:set var="minStringHeight" value="0" /></c:if>
+									<c:if test="${maxStringHeight==''}"><c:set var="maxStringHeight" value="0" /></c:if>
 									<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 										<c:param name="pager" value="${pager}"/>
-										<c:param name="url" value="/searchusers/${townId }_${sex}_${minStringAge}_${maxStringAge}_${minStringHeight}_${maxStringHeight}_${strConstellationIds}_${educationId}_${minMonthlyIncome}" />
+										<c:param name="url" value="/searchusers/${townId}_${sex}_${minStringAge}_${maxStringAge}_${minStringHeight}_${maxStringHeight}_${strConstellationIds}_${educationId}_${minMonthlyIncome}" />
 									</c:import>
 								</c:if>
 							</div>

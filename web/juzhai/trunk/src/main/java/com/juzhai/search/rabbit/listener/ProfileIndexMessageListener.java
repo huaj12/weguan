@@ -10,6 +10,7 @@ import com.juzhai.core.lucene.searcher.IndexSearcherManager;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.search.rabbit.message.ActionType;
 import com.juzhai.search.rabbit.message.ProfileIndexMessage;
 
 @Component
@@ -33,8 +34,13 @@ public class ProfileIndexMessageListener implements
 		}
 		Profile profile = profileService.getProfile(uid);
 		if (null == profile) {
-			log.error("Index prifile must not be null.");
-			return null;
+			if (ActionType.DELETE == profileIndexMessage.getActionType()) {
+				profile = new Profile();
+				profile.setUid(uid);
+			} else {
+				log.error("Index prifile must not be null.");
+				return null;
+			}
 		}
 		try {
 			switch (profileIndexMessage.getActionType()) {

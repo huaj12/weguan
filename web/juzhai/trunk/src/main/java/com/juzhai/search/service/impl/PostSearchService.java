@@ -144,7 +144,10 @@ public class PostSearchService implements IPostSearchService {
 				}
 				// 保证原有lucene顺序
 				for (Long id : ids) {
-					postList.add(postMap.get(id));
+					Post post = postMap.get(id);
+					if (null != post) {
+						postList.add(post);
+					}
 				}
 				LuceneResult<Post> result = new LuceneResult<Post>(
 						topDocs.totalHits, postList);

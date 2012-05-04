@@ -10,6 +10,7 @@ import com.juzhai.core.lucene.searcher.IndexSearcherManager;
 import com.juzhai.core.rabbit.listener.IRabbitMessageListener;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.search.rabbit.message.ActionType;
 import com.juzhai.search.rabbit.message.PostIndexMessage;
 
 @Component
@@ -33,8 +34,13 @@ public class PostIndexMessageListener implements
 		}
 		Post post = postService.getPostById(postId);
 		if (null == post) {
-			log.error("Index post must not be null.");
-			return null;
+			if (postIndexMessage.getActionType() == ActionType.DELETE) {
+				post = new Post();
+				post.setId(postId);
+			} else {
+				log.error("Index post must not be null.");
+				return null;
+			}
 		}
 		try {
 			switch (postIndexMessage.getActionType()) {

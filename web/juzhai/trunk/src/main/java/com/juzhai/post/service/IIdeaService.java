@@ -225,4 +225,22 @@ public interface IIdeaService {
 	 * 删除过期的idea
 	 */
 	void defunctExpireIdea();
+
+	/**
+	 * 后台好主意数量（选择某城市不包括全国）
+	 * 
+	 * @return
+	 */
+	int countCmsIdeaByCityAndCategory(Long cityId, Long categoryId);
+
+	/**
+	 * 好主意列表（选择某城市不包括全国）
+	 * 
+	 * @param oderType
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Idea> listCmsIdeaByCityAndCategory(Long cityId, Long categoryId,
+			ShowIdeaOrder oderType, int firstResult, int maxResults);
 }

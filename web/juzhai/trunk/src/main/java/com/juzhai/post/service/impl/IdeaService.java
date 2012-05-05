@@ -569,4 +569,33 @@ public class IdeaService implements IIdeaService {
 		idea.setDefunct(true);
 		ideaMapper.updateByExampleSelective(idea, example);
 	}
+
+	@Override
+	public int countCmsIdeaByCityAndCategory(Long cityId, Long categoryId) {
+		IdeaExample example = createCmsIdeaExample(cityId, categoryId);
+		return ideaMapper.countByExample(example);
+	}
+
+	@Override
+	public List<Idea> listCmsIdeaByCityAndCategory(Long cityId,
+			Long categoryId, ShowIdeaOrder oderType, int firstResult,
+			int maxResults) {
+		IdeaExample example = createCmsIdeaExample(cityId, categoryId);
+		example.setOrderByClause(oderType.getColumn() + " desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return ideaMapper.selectByExample(example);
+	}
+
+	private IdeaExample createCmsIdeaExample(Long cityId, Long categoryId) {
+		IdeaExample example = new IdeaExample();
+		IdeaExample.Criteria c = example.createCriteria();
+		if (null != cityId) {
+			c.andCityEqualTo(cityId);
+		}
+		if (null != categoryId && categoryId > 0) {
+			c.andCategoryIdEqualTo(categoryId);
+		}
+		c.andDefunctEqualTo(false);
+		return example;
+	}
 }

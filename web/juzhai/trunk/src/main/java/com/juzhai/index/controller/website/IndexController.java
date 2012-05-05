@@ -23,7 +23,6 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.service.IGuessYouService;
-import com.juzhai.index.bean.ShowActOrder;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.index.controller.view.CategoryView;
 import com.juzhai.index.controller.view.IdeaView;
@@ -146,7 +145,7 @@ public class IndexController extends BaseController {
 	@RequestMapping(value = { "/showideas", "showIdeas" }, method = RequestMethod.GET)
 	public String showIdeas(HttpServletRequest request, Model model) {
 		return pageShowIdeas(request, model, 0,
-				ShowActOrder.HOT_TIME.getType(), 1);
+				ShowIdeaOrder.HOT_TIME.getType(), 1);
 	}
 
 	@RequestMapping(value = { "/showideas/{orderType}_{cityId}/{page}",

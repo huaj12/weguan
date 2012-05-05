@@ -3,17 +3,14 @@
  */
 package com.juzhai.passport;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +31,6 @@ public class InitData {
 
 	public static final Map<Long, Thirdparty> TP_MAP = new HashMap<Long, Thirdparty>();
 	public static final Map<Long, Profession> PROFESSION_MAP = new HashMap<Long, Profession>();
-	public static final List<Long> GUIDE_STEPS = new ArrayList<Long>();
 	public static final Map<Long, Constellation> CONSTELLATION_MAP = new HashMap<Long, Constellation>();
 	@Autowired
 	private ThirdpartyMapper thirdpartyMapper;
@@ -42,8 +38,6 @@ public class InitData {
 	private ProfessionMapper professionMapper;
 	@Autowired
 	private ConstellationMapper constellationMapper;
-	@Value("${freshman.guide.steps}")
-	private String freshmanGuideSteps;
 
 	@PostConstruct
 	public void init() {
@@ -67,15 +61,6 @@ public class InitData {
 				.selectByExample(new ConstellationExample());
 		for (Constellation constellation : list) {
 			CONSTELLATION_MAP.put(constellation.getId(), constellation);
-		}
-	}
-
-	private void initGuideSteps() {
-		if (StringUtils.isNotEmpty(freshmanGuideSteps)) {
-			StringTokenizer st = new StringTokenizer(freshmanGuideSteps, ",");
-			while (st.hasMoreTokens()) {
-				GUIDE_STEPS.add(Long.valueOf(st.nextToken()));
-			}
 		}
 	}
 

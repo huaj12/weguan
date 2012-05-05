@@ -23,84 +23,6 @@
 	</bean>
 	<bean id="abstractCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean" abstract="true">
 	</bean>
-    
-
-	<!-- <bean id="actIndexOptimizationAndCommitTrigger" parent="abstractSimpleTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="actIndexOptimizationAndCommitHandler" />
-			</bean>
-		</property>
-		<property name="startDelay" value="${actIndex.optimization.commit.start.delay}" />
-		<property name="repeatInterval" value="${actIndex.optimization.commit.repeat.interval}" />
-	</bean>
-	
-	<bean id="unreadMsgEmailTrigger" parent="abstractCronTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="unreadMsgEmailHandler" />
-			</bean>
-		</property>
-		<property name="cronExpression" value="${unread.msg.email.cron}" />
-	</bean>
-	
-	<bean id="actBriefingEmailTrigger" parent="abstractCronTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="actBriefingEmailHandler" />
-			</bean>
-		</property>
-		<property name="cronExpression" value="${act.briefing.email.cron}" />
-	</bean> -->
-	
-	
-	<!-- get back feed begin -->
-	<!-- <bean id="getBackFeedTrigger" parent="abstractCronTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="getBackFeedHandler" />
-			</bean>
-		</property>
-		<property name="cronExpression" value="${get.back.feed.cron}" />
-	</bean> -->
-	<!-- get back feed end -->
-	
-	<!-- reset question users begin -->
-	<!-- <bean id="resetQuestionUsersTrigger" parent="abstractCronTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="resetQuestionUsersHandler" />
-			</bean>
-		</property>
-		<property name="cronExpression" value="${reset.question.users.cron}" />
-	</bean> -->
-	<!-- reset question users end -->
-	
-	<!-- reset question users begin -->
-	<!-- <bean id="showCategoryActListTrigger" parent="abstractCronTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="showCategoryActListHandler" />
-			</bean>
-		</property>
-		<property name="cronExpression" value="${show.category.act.list.cron}" />
-	</bean> -->
-	<!-- reset question users end -->
-	
-	<!-- delete user action begin -->
-	<!-- <bean id="deleteUserActionTrigger" parent="abstractCronTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="deleteUserActionHandler" />
-			</bean>
-		</property>
-		<property name="cronExpression" value="${delete.user.action.cron}" />
-	</bean> -->
-	<!-- delete user action end -->
-	
-	
-	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-	
 	
 	<!-- delete temp image begin -->
 	<bean id="deleteTempImageTrigger" parent="abstractCronTrigger">
@@ -112,40 +34,6 @@
 		<property name="cronExpression" value="${delete.temp.image.cron}" />
 	</bean>
 	<!-- delete temp image end -->
-	
-	<!-- update show act begin -->
-	<!-- <bean id="updateShowActsTrigger" parent="abstractCronTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="updateShowActsHandler" />
-			</bean>
-		</property>
-		<property name="cronExpression" value="${update.show.acts.cron}" />
-	</bean> -->
-	<!-- update show act end -->
-	
-	<!-- delete out free date begin -->
-	<!-- <bean id="delOutFreeDateTrigger" parent="abstractCronTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="delOutFreeDateHandler" />
-			</bean>
-		</property>
-		<property name="cronExpression" value="${del.out.free.date.cron}" />
-	</bean> -->
-	<!-- delete out free date end -->
-	
-	<!-- send notice email start -->
-	<!-- <bean id="noticeEmailTrigger" parent="abstractCronTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="noticeEmailHandler" />
-			</bean>
-		</property>
-		<property name="cronExpression" value="${notice.email.cron}" />
-	</bean> -->
-	<!-- send notice email end -->
-	
 	
 	<!-- delete expired ad  start -->
 	<bean id="deleteExpiredAdTrigger" parent="abstractCronTrigger">
@@ -168,28 +56,6 @@
 		<property name="cronExpression" value="${del.expired.raw.ad.cron}" />
 	</bean>
 	<!-- delete expired raw ad end -->
-	
-	<!-- update show act begin -->
-	<!-- <bean id="updateShowCategoriesTrigger" parent="abstractCronTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="updateShowCategoriesHandler" />
-			</bean>
-		</property>
-		<property name="cronExpression" value="${update.show.categories.cron}" />
-	</bean> -->
-	<!-- update show act end -->
-	
-	<!-- notice to platform begin -->
-	<!-- <bean id="noticeToPlatformTrigger" parent="abstractCronTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="noticeToPlatformHandler" />
-			</bean>
-		</property>
-		<property name="cronExpression" value="${notice.to.platform.cron}" />
-	</bean> -->
-	<!-- notice unread msg end -->
 	
 	<!-- post index  begin -->
 	<bean id="postIndexOptimizationAndCommitTrigger" parent="abstractSimpleTrigger">
@@ -237,6 +103,17 @@
 		<property name="cronExpression" value="${idea.window.cron}" />
 	</bean> -->
 	<!-- idea window end -->
+	
+	<!-- delete out free date begin -->
+	<!-- <bean id="delOutFreeDateTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="delOutFreeDateHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${del.out.free.date.cron}" />
+	</bean> -->
+	<!-- delete out free date end -->
 	
 	<!-- Recommend Post begin -->
 	<bean id="recommendPostTrigger" parent="abstractCronTrigger">
@@ -298,20 +175,8 @@
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<!-- <ref bean="getBackFeedTrigger"/>
-				<ref bean="unreadMsgEmailTrigger"/>
-				<ref bean="actBriefingEmailTrigger"/> -->
-				<!-- <ref bean="resetQuestionUsersTrigger"/>
-				<ref bean="showCategoryActListTrigger"/>
-				<ref bean="deleteUserActionTrigger"/>
-				<ref bean="deleteUserActionTrigger"/>
-				<ref bean="updateShowActsTrigger"/>
-				<ref bean="delOutFreeDateTrigger"/>
-				<ref bean="updateShowCategoriesTrigger"/>
-				<ref bean="actIndexOptimizationAndCommitTrigger"/>
-				<ref bean="ideaWindowSortTrigger"/>
-				<ref bean="noticeToPlatformTrigger"/>
-				<ref bean="noticeEmailTrigger"/> -->
+				<!-- <ref bean="delOutFreeDateTrigger"/>
+				<ref bean="ideaWindowSortTrigger"/> -->
 				<ref bean="deleteTempImageTrigger"/>
 				<ref bean="deleteExpiredAdTrigger"/>
 				<ref bean="deleteExpiredRawAdTrigger"/>

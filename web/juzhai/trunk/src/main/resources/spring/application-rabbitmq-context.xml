@@ -12,65 +12,6 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd">
-		
-	<!-- <bean id="rabbitConnectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
-	    <constructor-arg value="${rabbitmq.host}"/>
-	    <constructor-arg value="${rabbitmq.port}" />
-	    <property name="channelCacheSize" value="${rabbitmq.channelCacheSize}" />
-	</bean>
-	
-	<bean class="org.springframework.amqp.rabbit.core.RabbitAdmin">
-		<constructor-arg name="connectionFactory" ref="rabbitConnectionFactory" />
-	</bean>
-	
-	<bean id="abstractRabbitTemplate" class="org.springframework.amqp.rabbit.core.RabbitTemplate" abstract="true">
-		<property name="connectionFactory" ref="rabbitConnectionFactory" />
-	</bean>
-	
-	<bean id="updateActQueue" class="org.springframework.amqp.core.Queue">
-		<constructor-arg name="name" value="${rabbitmq.queue.updateAct}" />
-		<constructor-arg name="durable" value="true" />
-		<constructor-arg name="exclusive" value="true" />
-		<constructor-arg name="autoDelete" value="true" />
-	</bean>
-	
-	<bean id="updateActExchange" class="org.springframework.amqp.core.DirectExchange">
-		<constructor-arg name="name" value="${rabbitmq.exchange.updateAct}" />
-		<constructor-arg name="durable" value="true" />
-		<constructor-arg name="autoDelete" value="true" />
-	</bean>
-	
-	<bean class="org.springframework.amqp.core.Binding">
-		<constructor-arg name="destination" value="${rabbitmq.queue.updateAct}" />
-		<constructor-arg name="destinationType" value="QUEUE" />
-		<constructor-arg name="exchange" value="${rabbitmq.exchange.updateAct}" />
-		<constructor-arg name="routingKey" value="${rabbitmq.queue.updateAct}" />
-		<constructor-arg name="arguments"><null /></constructor-arg>
-	</bean>
-	
-	<bean id="updateActRabbitTemplate" parent="abstractRabbitTemplate">
-		<property name="routingKey" value="${rabbitmq.queue.updateAct}" />
-		<property name="queue" value="${rabbitmq.queue.updateAct}" />
-		<property name="exchange" value="${rabbitmq.exchange.updateAct}" />
-	</bean>
-	
-	
-	
-	<bean class="org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer">
-		<property name="connectionFactory" ref="rabbitConnectionFactory" />
-		<property name="queueNames">
-			<array>
-				<value>${rabbitmq.queue.updateAct}</value>
-			</array>
-		</property>
-		<property name="messageListener" >
-			<bean class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
-				<property name="delegate" ref="updateActMessageListener" />
-			</bean>
-		</property>
-		<property name="acknowledgeMode" value="NONE" />
-	</bean> -->
-	
 	
 	<rabbit:connection-factory id="rabbitConnectionFactory"
 		host="${rabbitmq.host}"
@@ -79,50 +20,7 @@
 		
 	<rabbit:admin connection-factory="rabbitConnectionFactory"/>
 	
-	<!-- update act feed-->
-	<!-- <rabbit:queue name="${rabbitmq.queue.updateActFeed}" durable="true"/>
-	<rabbit:direct-exchange name="${rabbitmq.exchange.updateActFeed}" durable="true">
-		<rabbit:bindings>
-			<rabbit:binding queue="${rabbitmq.queue.updateActFeed}" key="${rabbitmq.queue.updateActFeed}"/>
-		</rabbit:bindings>
-	</rabbit:direct-exchange>
-	<rabbit:template id="updateActFeedRabbitTemplate"
-		connection-factory="rabbitConnectionFactory"
-		exchange="${rabbitmq.exchange.updateActFeed}"
-		queue="${rabbitmq.queue.updateActFeed}"
-		routing-key="${rabbitmq.queue.updateActFeed}"
-		encoding="UTF-8"/>
-	<bean id="updateActFeedListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
-		<property name="delegate" ref="updateActFeedMessageListener" />
-	</bean>
-	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.updateActFeed}" prefetch="1" >
-	    <rabbit:listener queue-names="${rabbitmq.queue.updateActFeed}" ref="updateActFeedListener" method="handleMessage" />
-	</rabbit:listener-container> -->
-	<!-- update act feed-->
-	
-	<!-- act msg-->
-	<!-- <rabbit:queue name="${rabbitmq.queue.actMsg}" durable="true"/>
-	<rabbit:direct-exchange name="${rabbitmq.exchange.actMsg}" durable="true">
-		<rabbit:bindings>
-			<rabbit:binding queue="${rabbitmq.queue.actMsg}" key="${rabbitmq.queue.actMsg}"/>
-		</rabbit:bindings>
-	</rabbit:direct-exchange>
-	<rabbit:template id="actMsgRabbitTemplate"
-		connection-factory="rabbitConnectionFactory"
-		exchange="${rabbitmq.exchange.actMsg}"
-		queue="${rabbitmq.queue.actMsg}"
-		routing-key="${rabbitmq.queue.actMsg}"
-		encoding="UTF-8"/>
-	<bean id="actMsgListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
-		<property name="delegate" ref="actMsgMessageListener" />
-	</bean>
-	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.actMsg}" prefetch="1">
-	    <rabbit:listener queue-names="${rabbitmq.queue.actMsg}" ref="actMsgListener" />
-	</rabbit:listener-container> -->
-	<!-- act msg-->
-	
-	
-		<!-- post index begin-->
+	<!-- post index begin-->
 	<rabbit:queue name="${rabbitmq.queue.postIndex.create}" durable="true"/>
 	<rabbit:direct-exchange name="${rabbitmq.exchange.postIndex}" durable="true">
 		<rabbit:bindings>
@@ -164,45 +62,5 @@
 	    <rabbit:listener queue-names="${rabbitmq.queue.profileIndex.create}" ref="profileIndexListener" />
 	</rabbit:listener-container>
 	<!-- profile index end-->
-	
-	
-	
-	<!-- act index-->
-	<!-- <rabbit:queue name="${rabbitmq.queue.actIndex.create}" durable="true"/>
-	<rabbit:direct-exchange name="${rabbitmq.exchange.actIndex}" durable="true">
-		<rabbit:bindings>
-			<rabbit:binding queue="${rabbitmq.queue.actIndex.create}" key="${rabbitmq.queue.actIndex.create}"/>
-			<rabbit:binding queue="${rabbitmq.queue.actIndex.delete}"/>
-			<rabbit:binding queue="${rabbitmq.queue.actIndex.update}"/>
-		</rabbit:bindings>
-	</rabbit:direct-exchange>
-	<rabbit:template id="actIndexCreateRabbitTemplate"
-		connection-factory="rabbitConnectionFactory"
-		exchange="${rabbitmq.exchange.actIndex}"
-		queue="${rabbitmq.queue.actIndex.create}"
-		routing-key="${rabbitmq.queue.actIndex.create}"
-		encoding="UTF-8"/> -->
-	
-	
-		
-	<!-- <rabbit:template id="actIndexUpdateRabbitTemplate"
-		connection-factory="rabbitConnectionFactory"
-		exchange="${rabbitmq.exchange.actIndex}"
-		queue="${rabbitmq.queue.actIndex.update}"
-		routing-key="${rabbitmq.queue.actIndex.update}"/>
-		
-	<rabbit:template id="actIndexDeleteRabbitTemplate"
-		connection-factory="rabbitConnectionFactory"
-		exchange="${rabbitmq.exchange.actIndex}"
-		queue="${rabbitmq.queue.actIndex.delete}"
-		routing-key="${rabbitmq.queue.actIndex.delete}"/> -->
-		
-	<!-- <bean id="actIndexListener" class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
-		<property name="delegate" ref="actIndexMessageListener" />
-	</bean>
-	<rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="${rabbitmq.concurrency.actIndex}" prefetch="1" >
-	    <rabbit:listener queue-names="${rabbitmq.queue.actIndex.create}" ref="actIndexListener" />
-	</rabbit:listener-container> -->
-	<!-- act msg-->
 
 </beans>

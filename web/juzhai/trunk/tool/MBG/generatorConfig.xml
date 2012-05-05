@@ -207,10 +207,6 @@
 	<table tableName="tb_question" domainObjectName="Question">
       <property name="useActualColumnNames" value="false"/>
     </table>
-    
-    <table tableName="tb_category" domainObjectName="Category" >
-      <property name="useActualColumnNames" value="false"/>
-    </table>
 	
     <table tableName="tb_random_act" domainObjectName="RandomAct">
       <property name="useActualColumnNames" value="false"/>
@@ -381,7 +377,7 @@
     
   </context> -->
   
-  <!-- <context id="post" targetRuntime="MyBatis3">
+  <context id="post" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -409,7 +405,11 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
     
-    <table tableName="tb_idea" domainObjectName="Idea">
+    <table tableName="tb_category" domainObjectName="Category" >
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+    <!-- <table tableName="tb_idea" domainObjectName="Idea">
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
       <columnOverride column="random" javaType="java.lang.Boolean" jdbcType="TINYINT" />
@@ -439,9 +439,9 @@
     
     <table tableName="tb_post_response" domainObjectName="PostResponse">
       <property name="useActualColumnNames" value="false"/>
-    </table>
+    </table> -->
     
-  </context> -->
+  </context>
   
   <!-- <context id="preference" targetRuntime="MyBatis3">
   	
@@ -524,7 +524,7 @@
   </context> -->
   
   
-   <context id="seach" targetRuntime="MyBatis3">
+   <!-- <context id="search" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -557,6 +557,6 @@
     </table>
     
     
-  </context> 
+  </context>  -->
   
 </generatorConfiguration>

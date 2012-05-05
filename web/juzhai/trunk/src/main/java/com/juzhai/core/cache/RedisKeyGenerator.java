@@ -7,7 +7,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 
 import com.juzhai.home.bean.ReadFeedType;
-import com.juzhai.msg.bean.ActMsg.MsgType;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.model.Thirdparty;
@@ -202,11 +201,11 @@ public class RedisKeyGenerator extends KeyGenerator {
 		return "openEmailStat";
 	}
 
-	@Deprecated
-	public static String genLazyMessageKey(long uid, long receiverId,
-			MsgType type, String className) {
-		return genKey(uid, receiverId, type, "lazy" + className);
-	}
+	// @Deprecated
+	// public static String genLazyMessageKey(long uid, long receiverId,
+	// MsgType type, String className) {
+	// return genKey(uid, receiverId, type, "lazy" + className);
+	// }
 
 	/**
 	 * 延迟发送的msg

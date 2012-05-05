@@ -1,0 +1,1 @@
+insert into `tb_thirdparty` (`id`, `name`, `join_type`, `app_id`, `app_key`, `app_secret`, `app_url`, `user_home_url`) values('9','qq','plus','200254101','200254101','Ssf8YV6G0pEKt3IX','http://www.51juzhai.com/web/access/9',NULL);

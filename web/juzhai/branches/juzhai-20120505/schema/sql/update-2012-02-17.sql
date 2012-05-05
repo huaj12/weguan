@@ -1,0 +1,2 @@
+update tb_post p set p.category_id = (select i.category_id from tb_idea i where p.idea_id = i.id) where p.idea_id > 0 and p.category_id = 0;
+update tb_post p set p.category_id = 8 where p.category_id = 0;

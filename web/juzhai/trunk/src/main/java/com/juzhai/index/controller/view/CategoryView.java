@@ -1,6 +1,6 @@
 package com.juzhai.index.controller.view;
 
-import com.juzhai.act.model.Category;
+import com.juzhai.post.model.Category;
 
 public class CategoryView {
 

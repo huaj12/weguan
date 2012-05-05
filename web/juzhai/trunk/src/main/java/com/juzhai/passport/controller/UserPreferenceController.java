@@ -1,4 +1,4 @@
-package com.juzhai.passport.controller.website;
+package com.juzhai.passport.controller;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,18 +1,14 @@
 package com.juzhai.act.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.act.InitData;
 import com.juzhai.act.mapper.CategoryMapper;
 import com.juzhai.act.model.Category;
 import com.juzhai.act.model.CategoryExample;
@@ -26,35 +22,6 @@ public class CategoryService implements ICategoryService {
 
 	@Autowired
 	private CategoryMapper categoryMapper;
-
-	// @Autowired
-	// private IActCategoryService actCategoryService;
-
-	@Override
-	public List<Category> listCategories(int size) {
-		if (size <= 0) {
-			return Collections.emptyList();
-		}
-		List<Category> list = new ArrayList<Category>(
-				InitData.CATEGORY_MAP.values());
-		if (CollectionUtils.isEmpty(list)) {
-			return Collections.emptyList();
-		} else {
-			return list.subList(0, Math.min(list.size(), size));
-		}
-	}
-
-	@Override
-	public void updateShowCategories() {
-		CategoryExample example = new CategoryExample();
-		example.createCriteria().andSequenceNotEqualTo(0);
-		example.setOrderByClause("sequence asc,id asc");
-		List<Category> list = categoryMapper.selectByExample(example);
-		InitData.CATEGORY_MAP.clear();
-		for (Category category : list) {
-			InitData.CATEGORY_MAP.put(category.getId(), category);
-		}
-	}
 
 	@Override
 	public List<Category> getAllCategory() {

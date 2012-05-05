@@ -1,4 +1,4 @@
-package com.juzhai.home.controller.website;
+package com.juzhai.home.controller;
 
 import java.util.ArrayList;
 import java.util.List;

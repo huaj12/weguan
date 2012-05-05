@@ -1,4 +1,4 @@
-package com.juzhai.home.controller.website;
+package com.juzhai.home.controller;
 
 import java.util.List;
 import java.util.Locale;

@@ -1,4 +1,4 @@
-package com.juzhai.home.controller.website;
+package com.juzhai.home.controller;
 
 import java.text.ParseException;
 import java.util.Date;

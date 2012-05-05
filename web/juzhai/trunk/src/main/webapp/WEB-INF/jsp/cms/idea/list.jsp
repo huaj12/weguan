@@ -149,6 +149,12 @@ function updateIdeaWindow(){
 		}
 	});
 }
+function selectCity(){
+	$("#idea-form").submit();
+}
+function selectCategoryId(){
+	$("#idea-form").submit();
+}
 </script>
 </head>
 <body>
@@ -160,6 +166,20 @@ function updateIdeaWindow(){
 			<h2>已屏蔽的好主意</h2>
 		</c:otherwise>
 	</c:choose>
+	<form action="/cms/show/idea" method="get" id="idea-form">
+	<select name="city" onchange="selectCity();">
+				<option value="0"  <c:if test="${city==0}"> selected="selected"</c:if> >全国</option>
+				<c:forEach var="specialCity" items="${jzd:specialCityList()}">
+					<option value="${specialCity.id}" <c:if test="${city==specialCity.id}">selected="selected"</c:if>>${specialCity.name}</option>
+				</c:forEach>
+	</select>
+	<select name="categoryId" onchange="selectCategoryId();">
+				<option <c:if test="${categoryId==0}"> selected="selected"</c:if> value="0">不限</option>
+				<c:forEach items="${categoryList}" var="cat">
+					<option <c:if test="${cat.id==categoryId}"> selected="selected"</c:if> value="${cat.id}">${cat.name}</option>
+				</c:forEach>
+	</select>
+	</form>
 	<table border="0" cellspacing="4">
 		<tr style="background-color: #CCCCCC;">
 			<td width="40">是否推荐到橱窗</td>
@@ -226,7 +246,7 @@ function updateIdeaWindow(){
 				<c:forEach var="pageId" items="${pager.showPages}">
 					<c:choose>
 						<c:when test="${pageId!=pager.currentPage}">
-							<a href="/cms/show/<c:if test='${isDefunct}'>defunct</c:if>idea?pageId=${pageId}">${pageId}</a>
+							<a href="/cms/show/<c:if test='${isDefunct}'>defunct</c:if>idea?city=${city}&categoryId=${categoryId}&pageId=${pageId}">${pageId}</a>
 						</c:when>
 						<c:otherwise>
 							<strong>${pageId}</strong>

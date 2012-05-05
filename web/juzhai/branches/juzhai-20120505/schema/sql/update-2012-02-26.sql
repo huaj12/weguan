@@ -1,0 +1,2 @@
+insert into `tb_thirdparty` (`id`, `name`, `join_type`, `app_id`, `app_key`, `app_secret`, `app_url`, `user_home_url`) values('7','douban','connect','51juzhai','00fb7fece2b96fd202f27fc6a82c4f76','a1041f198d4f46f9','http://www.51juzhai.com/web/access/7','http://www.douban.com/people/{0}');
+INSERT INTO `tb_city_mapping` VALUES ('巴音郭楞州',314),('博尔塔拉州',313),('克孜勒苏柯尔克孜',316),('锡林郭勒',272),('兴安',271),('阿拉善',273),('普洱',222),('德宏景颇族',229),('延边',26),('大宁',67),('湘西',138),('杨凌',72),('恩施',120),('昆山',161),('常熟',161),('吴江',161),('海安',162),('张家港',161),('开平',187);

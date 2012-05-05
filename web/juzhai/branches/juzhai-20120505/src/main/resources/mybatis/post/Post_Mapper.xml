@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Post_Mapper">
+
+	<update id="incrResponseCount" parameterType="map">
+	    update tb_post set response_cnt = response_cnt + #{p} where id = #{id}
+	</update>
+	
+	<update id="incrCommentCount" parameterType="map">
+	    update tb_post set comment_cnt = comment_cnt + #{p} where id = #{id}
+	</update>
+	
+	<select id="sumResponseCntByCreateUid" resultType="java.lang.Integer" parameterType="map">
+	   select sum(response_cnt) from tb_post where create_uid = #{uid} group by create_uid
+	</select>
+	
+</mapper>

@@ -1,15 +1,6 @@
 package com.juzhai.core.cache;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
-
-import com.juzhai.home.bean.ReadFeedType;
 import com.juzhai.notice.bean.NoticeType;
-import com.juzhai.passport.InitData;
-import com.juzhai.passport.model.Thirdparty;
 
 public class RedisKeyGenerator extends KeyGenerator {
 
@@ -58,128 +49,12 @@ public class RedisKeyGenerator extends KeyGenerator {
 	}
 
 	/**
-	 * 我的Act列表(zset)
-	 * 
-	 * @param uid
-	 * @return
-	 */
-	@Deprecated
-	public static String genMyActsKey(long uid) {
-		return genKey(uid, "myActs");
-	}
-
-	/**
-	 * 收件箱列表(zset)
-	 * 
-	 * @param uid
-	 * @return
-	 */
-	@Deprecated
-	public static String genInboxActsKey(long uid) {
-		return genKey(uid, "inboxActs");
-	}
-
-	/**
-	 * 已处理Act列表(list)
-	 * 
-	 * @param uid
-	 * @return
-	 */
-	@Deprecated
-	public static String genReadFeedsKey(ReadFeedType type) {
-		return "readFeed_" + type.name();
-	}
-
-	/**
-	 * 已处理Act列表(list)
-	 * 
-	 * @param uid
-	 * @return
-	 */
-	@Deprecated
-	public static String genNillActsKey(long uid) {
-		return genKey(uid, "nillActs");
-	}
-
-	/**
-	 * 未读消息列表(list)
-	 * 
-	 * @param uid
-	 * @return
-	 */
-	@Deprecated
-	public static String genUnreadMsgsKey(long uid, String className) {
-		return genKey(uid, "unread" + className);
-	}
-
-	/**
-	 * 已读消息列表(list)
-	 * 
-	 * @param uid
-	 * @return
-	 */
-	@Deprecated
-	public static String genReadMsgsKey(long uid, String className) {
-		return genKey(uid, "read" + className);
-	}
-
-	@Deprecated
-	public static String genUnReadMsgCountKey(long uid, String className) {
-		return genKey(uid, "unreadcount" + className);
-	}
-
-	/**
-	 * 预存消息(list)
-	 * 
-	 * @param tpIdentity
-	 * @param tpId
-	 * @return
-	 */
-	@Deprecated
-	public static String genPrestoreMsgsKey(String tpIdeneity, long tpId,
-			String className) {
-		return genKey(tpIdeneity, tpId, "prestore" + className);
-	}
-
-	/**
 	 * 邮件队列
 	 * 
 	 * @return
 	 */
 	public static String genMailQueueKey() {
 		return "mailQueue";
-	}
-
-	/**
-	 * Act 近义词
-	 * 
-	 * @param actId
-	 * @return
-	 */
-	@Deprecated
-	public static String genActSynonymKey(long actId) {
-		return genKey(actId, "synonym");
-	}
-
-	/**
-	 * 已经做过题目的列表
-	 * 
-	 * @param userId
-	 * @return
-	 */
-	@Deprecated
-	public static String genQuestionUsersKey(long userId) {
-		return genKey(userId, "question");
-	}
-
-	/**
-	 * 存放所有记录了已做题目的Key的key
-	 * 
-	 * @return
-	 */
-	@Deprecated
-	public static String genQuestionUserKeysKey() {
-		return "questionUserKeys";
 	}
 
 	/**
@@ -199,113 +74,6 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 */
 	public static String genOpenEmailStatKey() {
 		return "openEmailStat";
-	}
-
-	// @Deprecated
-	// public static String genLazyMessageKey(long uid, long receiverId,
-	// MsgType type, String className) {
-	// return genKey(uid, receiverId, type, "lazy" + className);
-	// }
-
-	/**
-	 * 延迟发送的msg
-	 * 
-	 * @return
-	 */
-	@Deprecated
-	public static String genLazyMsgKey() {
-		return "lazyMsgKey";
-	}
-
-	/**
-	 * 延迟发送的msg
-	 * 
-	 * @return
-	 */
-	@Deprecated
-	public static String genMergerMsgKey() {
-		return "mergerMsgKey";
-	}
-
-	/**
-	 * Act 屏蔽
-	 * 
-	 * @return
-	 */
-	@Deprecated
-	public static String genActShieldKey() {
-		return "actShield";
-	}
-
-	/**
-	 * 活跃用户的Uid ZSET
-	 * 
-	 * @return
-	 */
-	@Deprecated
-	public static String genActivistsKey(long tpId) {
-		Thirdparty tp = InitData.TP_MAP.get(tpId);
-		String tpName = tp == null ? StringUtils.EMPTY : tp.getName();
-		return tpName + "_activists";
-	}
-
-	/**
-	 * 活跃用户的Uid ZSET
-	 * 
-	 * @return
-	 */
-	@Deprecated
-	public static String genActivistsKey(String tpName) {
-		return tpName == null ? StringUtils.EMPTY : tpName + "_activists";
-	}
-
-	/**
-	 * 用户最新的Act
-	 * 
-	 * @param uid
-	 * @return
-	 */
-	@Deprecated
-	public static String genUserNewestActKey(long uid) {
-		return genKey(uid, "userNewestAct");
-	}
-
-	/**
-	 * 排行榜
-	 * 
-	 * @param date
-	 * @return
-	 */
-	@Deprecated
-	public static String genActDayRankKey(Date date) {
-		return "actRank_" + DateUtils.truncate(date, Calendar.DATE).getTime();
-	}
-
-	/**
-	 * 各个平台下的项目流行度
-	 * 
-	 * @param actId
-	 * @param tpId
-	 * @return
-	 */
-	@Deprecated
-	public static String genTpActPopularityKey(long actId, long tpId) {
-		Thirdparty tp = InitData.TP_MAP.get(tpId);
-		String tpName = tp == null ? StringUtils.EMPTY : tp.getName();
-		return genKey(actId, tpName + "_actPopularity");
-	}
-
-	/**
-	 * 各个平台下的项目流行度
-	 * 
-	 * @param actId
-	 * @param tpName
-	 * @return
-	 */
-	@Deprecated
-	public static String genTpActPopularityKey(long actId, String tpName) {
-		return genKey(actId, tpName == null ? StringUtils.EMPTY : tpName
-				+ "_actPopularity");
 	}
 
 	/**

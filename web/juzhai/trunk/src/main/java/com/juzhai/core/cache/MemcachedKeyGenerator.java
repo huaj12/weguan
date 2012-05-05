@@ -1,6 +1,5 @@
 package com.juzhai.core.cache;
 
-
 public class MemcachedKeyGenerator extends KeyGenerator {
 
 	/**
@@ -33,62 +32,6 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	public static String genProfileCacheKey(long uid) {
 		return genKey(uid, "profileCache");
 	}
-
-	/**
-	 * Act缓存
-	 * 
-	 * @param actId
-	 * @return
-	 */
-	@Deprecated
-	public static String genActCacheKey(long actId) {
-		return genKey(actId, "actCache");
-	}
-
-	/**
-	 * 最后一次推送时间
-	 * 
-	 * @param senderId
-	 * @param receiverId
-	 * @return
-	 */
-	@Deprecated
-	public static String genLastPushTimeKey(long senderId, long receiverId) {
-		return genKey(senderId, "lastPush_" + receiverId);
-	}
-
-	/**
-	 * 推送惩罚连续次数
-	 * 
-	 * @param senderId
-	 * @param receiverId
-	 * @return
-	 */
-	@Deprecated
-	public static String genPushPunishTimesKey(long senderId, long receiverId) {
-		return genKey(senderId, "punishTimes_" + receiverId);
-	}
-
-	/**
-	 * 是否第三方通知Key
-	 * 
-	 * @param uid
-	 * @return
-	 */
-	@Deprecated
-	public static String genSetupTpAdviseKey(long uid) {
-		return genKey(uid, "tpAdvise");
-	}
-
-	// /**
-	// * 在限额时间内，收到的第三方邀请信息的数量
-	// *
-	// * @return
-	// */
-	// @Deprecated
-	// public static String genTpMsgReceiveCnt(long uid, MsgType msgType) {
-	// return genKey(uid, "tpMsgReceiveCnt_" + msgType.name());
-	// }
 
 	/*------------------------web----------------------------*/
 

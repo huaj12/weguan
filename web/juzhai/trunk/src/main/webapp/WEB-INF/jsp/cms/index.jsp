@@ -268,6 +268,16 @@ a:hover {
 				</ul>
 				
 			</li>
+				<li>
+				<a href="javascript:showChild('findDialog_');">调查私信</a>
+				<ul style="display: none;" id="findDialog_" class="child">
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/find/dialog"
+						target="config">调查私信</a>
+					</li>
+				</ul>
+			</li>
+			
 			<!-- <li>
 				<a href="/cms/searchActs" target="config">近义词设置</a>
 			</li>

@@ -12,32 +12,6 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd">
 
-	<!-- <bean id="actIKAnalyzer" class="org.wltea.analyzer.lucene.IKAnalyzer">
-		<property name="maxWordLength" value="${act.analyzer.maxWordLength}" />
-	</bean>
-
-	<bean id="actIndexWriter" class="com.juzhai.core.lucene.index.FSDirectoryIndexWriter"
-		destroy-method="close">
-		<property name="indexPath" value="${act.index.path}" />
-		<property name="version" value="${version}" />
-		<property name="maxBufferedDeleteTerms" value="${act.maxBufferedDeleteTerms}" />
-		<property name="maxBufferedDocs" value="${act.maxBufferedDocs}" />
-		<property name="maxThreadStates" value="${act.maxThreadStates}" />
-		<property name="ramBufferSizeMB" value="${act.ramBufferSizeMB}" />
-		<property name="readerPooling" value="${act.readerPooling}" />
-		<property name="writeLockTimeout" value="${act.writeLockTimeout}" />
-		<property name="analyzer" ref="actIKAnalyzer" />
-	</bean>
-
-	<bean id="actIndexSearcherManager" class="com.juzhai.core.lucene.searcher.IndexSearcherManager"
-		init-method="init" destroy-method="close">
-		<property name="indexWriter" ref="actIndexWriter" />
-	</bean>
-
-	<bean id="actIndexSearcherTemplate" class="com.juzhai.core.lucene.searcher.IndexSearcherTemplate">
-		<property name="searcherManager" ref="actIndexSearcherManager" />
-	</bean> -->
-
 	<!-- postSearch begin -->
 	<bean id="postIKAnalyzer" class="org.wltea.analyzer.lucene.IKAnalyzer">
 		<property name="maxWordLength" value="${post.analyzer.maxWordLength}" />

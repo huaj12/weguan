@@ -12,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import com.juzhai.act.model.Category;
-import com.juzhai.act.service.ICategoryService;
 import com.juzhai.post.mapper.IdeaMapper;
+import com.juzhai.post.model.Category;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.IdeaExample;
+import com.juzhai.post.service.ICategoryService;
 
 @Component("postInitData")
 @Lazy(false)

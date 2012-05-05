@@ -7,12 +7,12 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.juzhai.act.model.Category;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Constellation;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.Town;
+import com.juzhai.post.model.Category;
 
 public class JzDataFunction {
 

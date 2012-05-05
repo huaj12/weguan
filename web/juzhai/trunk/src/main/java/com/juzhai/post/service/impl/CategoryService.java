@@ -1,4 +1,4 @@
-package com.juzhai.act.service.impl;
+package com.juzhai.post.service.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -9,12 +9,12 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.act.mapper.CategoryMapper;
-import com.juzhai.act.model.Category;
-import com.juzhai.act.model.CategoryExample;
-import com.juzhai.act.service.ICategoryService;
 import com.juzhai.cms.controller.form.CategoryForm;
 import com.juzhai.cms.controller.form.CategoryLiatFrom;
+import com.juzhai.post.mapper.CategoryMapper;
+import com.juzhai.post.model.Category;
+import com.juzhai.post.model.CategoryExample;
+import com.juzhai.post.service.ICategoryService;
 
 @Service
 public class CategoryService implements ICategoryService {

@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.juzhai.act.model.Category;
-import com.juzhai.act.service.ICategoryService;
 import com.juzhai.cms.controller.form.CategoryLiatFrom;
 import com.juzhai.core.web.AjaxResult;
+import com.juzhai.post.model.Category;
+import com.juzhai.post.service.ICategoryService;
 
 @Controller
 @RequestMapping("/cms")

@@ -1,9 +1,9 @@
-package com.juzhai.act.service;
+package com.juzhai.post.service;
 
 import java.util.List;
 
-import com.juzhai.act.model.Category;
 import com.juzhai.cms.controller.form.CategoryLiatFrom;
+import com.juzhai.post.model.Category;
 
 public interface ICategoryService {
 

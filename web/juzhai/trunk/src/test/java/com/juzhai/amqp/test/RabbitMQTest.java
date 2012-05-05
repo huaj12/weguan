@@ -3,10 +3,6 @@
  */
 package com.juzhai.amqp.test;
 
-import java.util.concurrent.TimeoutException;
-
-import net.rubyeye.xmemcached.exception.MemcachedException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,9 +11,6 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.juzhai.msg.bean.ActMsg;
-import com.juzhai.msg.rabbit.message.MsgMessage;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:spring/application-context.xml" })
@@ -34,14 +27,14 @@ public class RabbitMQTest {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
-	public void simpleTest() throws TimeoutException, InterruptedException,
-			MemcachedException {
-		MsgMessage<ActMsg> msgMessage = new MsgMessage<ActMsg>();
-		msgMessage.buildReceiverId(10L);
-		actMsgRabbitTemplate.convertAndSend(msgMessage);
-		Thread.sleep(300000000);
-	}
+	// @Test
+	// public void simpleTest() throws TimeoutException, InterruptedException,
+	// MemcachedException {
+	// MsgMessage<ActMsg> msgMessage = new MsgMessage<ActMsg>();
+	// msgMessage.buildReceiverId(10L);
+	// actMsgRabbitTemplate.convertAndSend(msgMessage);
+	// Thread.sleep(300000000);
+	// }
 
 	@Test
 	public void benchmarkTest() {

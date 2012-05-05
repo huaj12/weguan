@@ -2,7 +2,7 @@ package com.juzhai.passport.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.juzhai.act.exception.UploadImageException;
+import com.juzhai.core.exception.UploadImageException;
 
 public interface IProfileImageService {
 

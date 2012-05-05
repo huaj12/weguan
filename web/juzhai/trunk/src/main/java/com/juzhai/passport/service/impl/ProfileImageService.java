@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.juzhai.act.exception.UploadImageException;
+import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.image.manager.IImageManager;
 import com.juzhai.core.util.ImageUtil;

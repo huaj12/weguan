@@ -14,11 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.ui.Model;
 
-import com.juzhai.act.bean.SuitAge;
-import com.juzhai.act.bean.SuitGender;
-import com.juzhai.act.bean.SuitStatus;
-import com.juzhai.act.model.Category;
-import com.juzhai.act.service.IActCategoryService;
 import com.juzhai.activity.controller.ActivityController;
 import com.juzhai.common.InitData;
 import com.juzhai.core.encrypt.DESUtils;
@@ -154,17 +149,6 @@ public class BaseController {
 	protected void loadCategoryList(Model model) {
 		model.addAttribute("categoryList",
 				com.juzhai.post.InitData.CATEGORY_MAP.values());
-	}
-
-	protected void assembleBaseDates(Model model) {
-		model.addAttribute("towns", InitData.TOWN_MAP.values());
-		// List<Category> categoryList = actCategoryService.findAllCategory();
-		// model.addAttribute("categoryList", categoryList);
-		model.addAttribute("citys", InitData.CITY_MAP.values());
-		model.addAttribute("provinces", InitData.PROVINCE_MAP.values());
-		model.addAttribute("suitAges", SuitAge.values());
-		model.addAttribute("suitGenders", SuitGender.values());
-		model.addAttribute("suitStatus", SuitStatus.values());
 	}
 
 	protected void assembleCitys(Model model) {

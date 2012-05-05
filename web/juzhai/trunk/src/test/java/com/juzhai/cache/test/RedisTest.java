@@ -18,13 +18,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.juzhai.act.service.IUserActService;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.mail.bean.Mail;
-import com.juzhai.home.bean.Feed;
-import com.juzhai.home.service.IInboxService;
-import com.juzhai.msg.bean.ActMsg;
-import com.juzhai.msg.bean.ActMsg.MsgType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:spring/application-context.xml" })
@@ -36,12 +31,6 @@ public class RedisTest {
 	private RedisTemplate<String, Integer> integerRedisTemplate;
 	@Autowired
 	private RedisTemplate<String, Mail> mailRedisTemplate;
-	@Autowired
-	private RedisTemplate<String, ActMsg> actMsgRedisTemplate;
-	@Autowired
-	private IUserActService userActService;
-	@Autowired
-	private IInboxService inboxService;
 	private String key = "simpleKey";
 
 	@Before
@@ -50,9 +39,7 @@ public class RedisTest {
 
 	@After
 	public void tearDown() throws Exception {
-
 		redisTemplate.delete(key);
-		actMsgRedisTemplate.delete(key);
 	}
 
 	@Test
@@ -137,36 +124,6 @@ public class RedisTest {
 	}
 
 	@Test
-	public void listRemovePojoTest() {
-		ActMsg value1 = new ActMsg(1L, 1L, MsgType.INVITE);
-		ActMsg value2 = new ActMsg(2L, 2L, MsgType.INVITE);
-		ActMsg value3 = new ActMsg(3L, 3L, MsgType.INVITE);
-		ActMsg value4 = new ActMsg(4L, 4L, MsgType.INVITE);
-		ActMsg value5 = new ActMsg(1L, 1L, MsgType.INVITE);
-		ActMsg value6 = new ActMsg(2L, 2L, MsgType.INVITE);
-		actMsgRedisTemplate.opsForList().leftPush(key, value1);
-		actMsgRedisTemplate.opsForList().leftPush(key, value2);
-		actMsgRedisTemplate.opsForList().leftPush(key, value3);
-		actMsgRedisTemplate.opsForList().leftPush(key, value4);
-		actMsgRedisTemplate.opsForList().leftPush(key, value5);
-		actMsgRedisTemplate.opsForList().leftPush(key, value6);
-
-		ActMsg removePojo = actMsgRedisTemplate.opsForList().index(key, 1);
-		System.out.println(removePojo.getUid());
-		System.out.println(removePojo.getActId());
-		System.out.println("**************************");
-
-		actMsgRedisTemplate.opsForList().remove(key, 0, removePojo);
-		List<ActMsg> returnValues = actMsgRedisTemplate.opsForList().range(key,
-				0, -1);
-		for (ActMsg value : returnValues) {
-			System.out.println(value.getUid());
-			System.out.println(value.getActId());
-			System.out.println("---------------------------");
-		}
-	}
-
-	@Test
 	public void emailQueue() {
 		while (true) {
 			Mail mail = mailRedisTemplate.opsForList().leftPop(
@@ -194,13 +151,5 @@ public class RedisTest {
 		for (String key : keys) {
 			System.out.println(key);
 		}
-	}
-
-	@Test
-	public void testMyActs() {
-		System.out.println(redisTemplate.opsForZSet().size(
-				RedisKeyGenerator.genMyActsKey(12)));
-		Feed feed = inboxService.showRecommend(12);
-		System.out.println(feed.getAct().getId());
 	}
 }

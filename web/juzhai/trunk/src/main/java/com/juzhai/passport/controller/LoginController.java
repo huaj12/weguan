@@ -1,7 +1,7 @@
 /*
  *The code is written by 51juzhai, All rights is reserved.
  */
-package com.juzhai.passport.controller.website;
+package com.juzhai.passport.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;

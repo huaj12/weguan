@@ -45,15 +45,22 @@ public class CmsIdeaController extends BaseController {
 
 	@RequestMapping(value = "/show/idea", method = RequestMethod.GET)
 	public String showIdea(Model model,
-			@RequestParam(defaultValue = "1") int pageId) {
+			@RequestParam(defaultValue = "1") int pageId,
+			@RequestParam(defaultValue = "0") long city,
+			@RequestParam(defaultValue = "0") long categoryId) {
 		PagerManager pager = new PagerManager(pageId, 20,
-				ideaService.countIdeaByCityAndCategory(0l, null));
-		List<Idea> list = ideaService.listIdeaByCityAndCategory(0l, null,
-				ShowIdeaOrder.HOT_TIME, pager.getFirstResult(),
+				ideaService.countCmsIdeaByCityAndCategory(city, categoryId));
+		List<Idea> list = ideaService.listCmsIdeaByCityAndCategory(city,
+				categoryId, ShowIdeaOrder.HOT_TIME, pager.getFirstResult(),
 				pager.getMaxResult());
 		List<CmsIdeaView> ideaViews = assembleCmsIdeaView(list);
 		model.addAttribute("ideaViews", ideaViews);
 		model.addAttribute("pager", pager);
+		model.addAttribute("citys", InitData.CITY_MAP.values());
+		model.addAttribute("categoryList",
+				com.juzhai.post.InitData.CATEGORY_MAP.values());
+		model.addAttribute("city", city);
+		model.addAttribute("categoryId", categoryId);
 		return "/cms/idea/list";
 	}
 
@@ -147,7 +154,7 @@ public class CmsIdeaController extends BaseController {
 					Locale.SIMPLIFIED_CHINESE);
 			return showIdeaAdd(model, msg, ideaForm, null);
 		}
-		return showIdea(model, 1);
+		return showIdea(model, 1, 0, 0);
 	}
 
 	@RequestMapping(value = "/update/idea", method = RequestMethod.POST)
@@ -159,7 +166,7 @@ public class CmsIdeaController extends BaseController {
 					messageSource.getMessage(e.getMessage(), null,
 							Locale.SIMPLIFIED_CHINESE), ideaForm);
 		}
-		return showIdea(model, 1);
+		return showIdea(model, 1, 0, 0);
 	}
 
 	@RequestMapping(value = "/idea/del", method = RequestMethod.POST)

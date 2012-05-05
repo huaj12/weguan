@@ -2,9 +2,8 @@ package com.juzhai.post.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.juzhai.act.exception.UploadImageException;
+import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.image.JzImageSizeType;
-import com.juzhai.core.image.LogoSizeType;
 
 public interface IPostImageService {
 

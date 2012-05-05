@@ -2,8 +2,8 @@ package com.juzhai.post.service;
 
 import java.util.List;
 
-import com.juzhai.act.exception.UploadImageException;
 import com.juzhai.cms.controller.form.IdeaForm;
+import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.exception.InputIdeaException;

@@ -1,6 +1,6 @@
 package com.juzhai.promotion.service;
 
-import com.juzhai.act.exception.UploadImageException;
+import com.juzhai.core.exception.UploadImageException;
 
 public interface IPromotionImageService {
 	/**

@@ -35,8 +35,6 @@ import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaService;
-import com.juzhai.preference.bean.SiftTypePreference;
-import com.juzhai.preference.service.IUserPreferenceService;
 
 @Controller
 @RequestMapping(value = "idea")
@@ -48,8 +46,6 @@ public class IdeaController extends BaseController {
 	private IInterestUserService interestUserService;
 	@Autowired
 	private IProfileService profileService;
-	@Autowired
-	private IUserPreferenceService userPreferenceService;
 	@Value("${idea.user.max.rows}")
 	private int ideaUserMaxRows;
 	@Value("${idea.detail.ad.count}")

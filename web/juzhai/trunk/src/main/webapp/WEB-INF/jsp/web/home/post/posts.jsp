@@ -32,6 +32,8 @@
 					</div><!--main_left end-->
 					<div class="main_right"><!--main_right begin-->
 						<jsp:include page="../common/home_info_right.jsp" />
+						<jsp:include page="../common/visitor_widget.jsp" />
+						<jsp:include page="/WEB-INF/jsp/web/index/zbe/recommend_users_widget.jsp" />
 					</div><!--main_right end-->
 				</div><!--main_part end-->
 			</div><!--main end-->

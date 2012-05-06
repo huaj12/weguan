@@ -24,6 +24,7 @@ import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.home.service.IVisitUserService;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
@@ -55,6 +56,8 @@ public class PostController extends BaseController {
 	private IPostCommentService postCommentService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IVisitUserService visitUserService;
 	@Value("${post.comment.user.max.rows}")
 	private int postCommentUserMaxRows;
 	@Value("${post.response.user.max.rows}")
@@ -310,15 +313,10 @@ public class PostController extends BaseController {
 					post.getId());
 			model.addAttribute("hasInterest", hasInterest);
 			model.addAttribute("hasResponse", hasResponse);
+			// 添加来访者
+			visitUserService.addVisitUser(profileCache.getUid(),
+					context.getUid());
 		}
-		Long cityId = 0L;
-		if (context.hasLogin()) {
-			ProfileCache profile = getLoginUserCache(request);
-			if (null != profile) {
-				cityId = profile.getCity();
-			}
-		}
-		// ideaWidget(context, cityId, model, postDetailRightIdeaRows);
 		model.addAttribute("commentTotalCnt",
 				postCommentService.countPostComment(postId));
 		model.addAttribute("respTotalCnt",

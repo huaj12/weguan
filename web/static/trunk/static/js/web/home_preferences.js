@@ -1,20 +1,4 @@
-$(document).ready(function() {
-	$("div.user-remove-interest > a.done").bind("click", function() {
-		var uid = $(this).attr("uid");
-		removeInterestConfirm(uid, this, function(){
-			removeInterestCallback(uid);
-		});
-		return false;
-	});
-	
-	$("div.user-add-interest > a").bind("click", function() {
-		var uid = $(this).attr("uid");
-		interest(this, uid, function(){
-			interestCallback(uid);
-		});
-		return false;
-	});
-	
+$(document).ready(function(){
 	$("a.user-remove-interest").bind("click", function() {
 		var uid = $(this).attr("uid");
 		removeInterestConfirm(uid, this, function(){

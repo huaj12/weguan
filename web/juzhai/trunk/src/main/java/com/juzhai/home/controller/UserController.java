@@ -20,7 +20,9 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.InterestUserView;
+import com.juzhai.home.controller.view.VisitorView;
 import com.juzhai.home.service.IUserStatusService;
+import com.juzhai.home.service.IVisitUserService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.controller.view.UserPreferenceView;
 import com.juzhai.passport.model.Profile;
@@ -57,6 +59,8 @@ public class UserController extends BaseController {
 	private IPreferenceService preferenceService;
 	@Autowired
 	private IUserPreferenceService userPreferenceService;
+	@Autowired
+	private IVisitUserService visitUserService;
 	@Value("${web.user.home.post.rows}")
 	private int webUserHomePostRows;
 	@Value("${web.my.post.max.rows}")
@@ -65,6 +69,10 @@ public class UserController extends BaseController {
 	private int webInterestUserMaxRows;
 	@Value("${web.interest.me.max.rows}")
 	private int webInterestMeMaxRows;
+	@Value("${user.page.recommend.user.count}")
+	private int userPageRecommendUserCount;
+	@Value("${visitor.widget.user.count}")
+	private int visitorWidgetUserCount;
 
 	@RequestMapping(value = "/{uid}", method = RequestMethod.GET)
 	public String userHome(HttpServletRequest request, Model model,
@@ -279,13 +287,17 @@ public class UserController extends BaseController {
 			if (context != null && context.hasLogin()) {
 				model.addAttribute("isInterest",
 						interestUserService.isInterest(context.getUid(), uid));
+				// 添加来访者
+				visitUserService.addVisitUser(uid, context.getUid());
 			}
 		} else {
-			// model.addAttribute("interestCount",
-			// interestUserService.countInterestUser(uid));
-			// model.addAttribute("interestMeCount",
-			// interestUserService.countInterestMeUser(uid));
-			// model.addAttribute("postCount", postService.countUserPost(uid));
+			// 来访者列表
+			List<VisitorView> visitorViewList = visitUserService
+					.listVisitUsers(context.getUid(), 0, visitorWidgetUserCount);
+			model.addAttribute("visitorViewList", visitorViewList);
+			// 可能感兴趣
+			recommendUserWidget(context.getUid(), userPageRecommendUserCount,
+					model);
 		}
 	}
 

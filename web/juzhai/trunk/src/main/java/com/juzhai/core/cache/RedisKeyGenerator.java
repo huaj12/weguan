@@ -273,4 +273,14 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genPersistLoginTokenKey(long uid) {
 		return genKey(uid, "persistLoginToken");
 	}
+
+	/**
+	 * 来访者列表Key
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genVisitUsersKey(long uid) {
+		return genKey(uid, "visitUsers");
+	}
 }

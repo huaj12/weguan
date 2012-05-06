@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.NameValuePair;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -43,7 +45,6 @@ public class RequestToken extends Config {
 		url += "?" + OAuth.getSerialParameters(parameters, true);
 		DefaultHttpClient httpclient = HttpClientUtils.getHttpClient();
 		String requestToken = HttpClientUtils.getHtml(httpclient, url, "UTF-8");
-
 		return ParseString.parseTokenString(requestToken);
 	}
 

@@ -288,7 +288,7 @@ public class SearchController extends BaseController {
 		model.addAttribute("strConstellationIds",
 				StringUtils.join(constellationId, ","));
 		model.addAttribute("pageType", "zbe");
-		return "web/search/seach_user";
+		return "web/search/search_user";
 	}
 
 	@RequestMapping(value = { "/searchposts" }, method = RequestMethod.GET)

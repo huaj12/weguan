@@ -3,7 +3,7 @@
 <%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:if test="${not empty visitorViewList}">
+<c:if test="${not empty visitorViewList && (empty isVisitorPage || !isVisitorPage)}">
 	<div class="content_box w285"><!--content begin-->
 		<div class="t"></div>
 		<div class="m">

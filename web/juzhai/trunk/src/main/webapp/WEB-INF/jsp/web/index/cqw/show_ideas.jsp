@@ -115,7 +115,7 @@
 																	</c:when>
 																	<c:otherwise>
 																		<div class="zj_friend"><!--zj_friend begin-->
-																		<a href="javascript:void(0);" idea-id="${ideaView.idea.id}" >邀朋友</a>
+																		<a href="javascript:void(0);" idea-id="${ideaView.idea.id}" class="zj" >邀朋友</a>
 																		<div class="show_icons" id="show_icons_${ideaView.idea.id}" style="display: none">
 																			<!-- Baidu Button BEGIN -->
 																			    <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" data="{'text':'谁想去:${ideaView.idea.content}<c:if test='${ideaView.idea.date != null}'> 时间:<fmt:formatDate value='${ideaView.idea.date}' pattern='yyyy.MM.dd'/></c:if><c:if test='${not empty ideaView.idea.place}'> 地点:${ideaView.idea.place}</c:if> (拒宅网:助你脱宅)','wbuid':'2294103501','url':'http://www.51juzhai.com/idea/${ideaView.idea.id}','pic':'${jzr:ideaPic(ideaView.idea.id,ideaView.idea.pic, 200)}'}">

@@ -228,7 +228,7 @@
 				</div><!--main_part end-->
 			</div><!--main end-->
 			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-			<script type="text/javascript" src="${jzr:static('/js/web/seach_user.js')}"></script>
+			<script type="text/javascript" src="${jzr:static('/js/web/search_user.js')}"></script>
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 		</div><!--warp end-->
 	</body>

@@ -73,6 +73,8 @@ public class UserController extends BaseController {
 	private int userPageRecommendUserCount;
 	@Value("${visitor.widget.user.count}")
 	private int visitorWidgetUserCount;
+	@Value("${web.visit.user.max.rows}")
+	private int webVisitUserMaxRows;
 
 	@RequestMapping(value = "/{uid}", method = RequestMethod.GET)
 	public String userHome(HttpServletRequest request, Model model,
@@ -292,9 +294,12 @@ public class UserController extends BaseController {
 			}
 		} else {
 			// 来访者列表
-			List<VisitorView> visitorViewList = visitUserService
-					.listVisitUsers(context.getUid(), 0, visitorWidgetUserCount);
-			model.addAttribute("visitorViewList", visitorViewList);
+			if (!model.containsAttribute("visitorViewList")) {
+				List<VisitorView> visitorViewList = visitUserService
+						.listVisitUsers(context.getUid(), 0,
+								visitorWidgetUserCount);
+				model.addAttribute("visitorViewList", visitorViewList);
+			}
 			// 可能感兴趣
 			recommendUserWidget(context.getUid(), userPageRecommendUserCount,
 					model);
@@ -322,5 +327,46 @@ public class UserController extends BaseController {
 		List<UserPreferenceView> views = userPreferenceService
 				.convertToUserHomePreferenceView(userPreferences, preferences);
 		model.addAttribute("preferenceListviews", views);
+	}
+
+	@RequestMapping(value = "/visitors", method = RequestMethod.GET)
+	public String myVisitors(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		checkLoginForWeb(request);
+		return pageMyVisitors(request, model, 1);
+	}
+
+	@RequestMapping(value = "/visitors/{page}", method = RequestMethod.GET)
+	public String pageMyVisitors(HttpServletRequest request, Model model,
+			@PathVariable int page) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		int totalCount = visitUserService.countVisitUsers(context.getUid());
+		PagerManager pager = new PagerManager(page, webVisitUserMaxRows,
+				totalCount);
+		List<VisitorView> visitorViewList = visitUserService.listVisitUsers(
+				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
+		List<Long> uidList = new ArrayList<Long>();
+		for (VisitorView visitorView : visitorViewList) {
+			uidList.add(visitorView.getProfileCache().getUid());
+		}
+		Map<Long, Post> userLatestPostMap = postService
+				.getMultiUserLatestPosts(uidList);
+		for (VisitorView visitorView : visitorViewList) {
+			visitorView.setHasInterest(interestUserService.isInterest(
+					context.getUid(), visitorView.getProfileCache().getUid()));
+			visitorView.setOnline(loginService.isOnline(visitorView
+					.getProfileCache().getUid()));
+			visitorView.setLatestPost(userLatestPostMap.get(visitorView
+					.getProfileCache().getUid()));
+		}
+		model.addAttribute("visitorViewList", visitorViewList);
+		model.addAttribute("isVisitorPage", true);
+		model.addAttribute("pager", pager);
+		try {
+			showUserPageRight(context, context.getUid(), model);
+		} catch (JuzhaiException e) {
+			return error_404;
+		}
+		return "web/home/visitor/visitors";
 	}
 }

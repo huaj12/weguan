@@ -75,7 +75,7 @@
 		<div class="clear"></div>
 		<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 			<c:param name="pager" value="${pager}"/>
-			<c:param name="url" value="/idea/${idea.id}/user" />
+			<c:param name="url" value="/idea/${idea.id}/user/${cityId}_${genderType}" />
 		</c:import>
 	</c:when>
 	<c:otherwise>

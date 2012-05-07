@@ -12,14 +12,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.juzhai.cms.controller.view.CmsPostView;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
+import com.juzhai.post.service.IRecommendIdeaService;
 import com.juzhai.post.service.IRecommendPostService;
 
 @Controller
 @RequestMapping("/cms")
-public class CmsRecommendPostController {
+public class CmsRecommendDataController {
 	@Autowired
 	private IRecommendPostService recommendPostService;
+	@Autowired
+	private IRecommendIdeaService recommendIdeaService;
 	@Autowired
 	private IProfileService profileService;
 
@@ -40,6 +44,19 @@ public class CmsRecommendPostController {
 	public String updateRecommendPost(Model model) {
 		recommendPostService.updateRecommendPost();
 		return showRecommendPost(model);
+	}
+
+	@RequestMapping(value = "/show/recommend/idea", method = RequestMethod.GET)
+	public String showRecommendIdea(Model model) {
+		List<Idea> list = recommendIdeaService.listRecommendIdea();
+		model.addAttribute("ideas", list);
+		return "/cms/show_recommend_idea";
+	}
+
+	@RequestMapping(value = "/update/recommend/idea", method = RequestMethod.GET)
+	public String updateRecommendIdea(Model model) {
+		recommendIdeaService.updateRecommendIdea();
+		return showRecommendIdea(model);
 	}
 
 }

@@ -116,13 +116,13 @@
 	<!-- delete out free date end -->
 	
 	<!-- Recommend Post begin -->
-	<bean id="recommendPostTrigger" parent="abstractCronTrigger">
+	<bean id="recommendDataTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="recommendPostHandler" />
+				<property name="targetObject" ref="recommendDataHandler" />
 			</bean>
 		</property>
-		<property name="cronExpression" value="${recommend.post.cron}" />
+		<property name="cronExpression" value="${recommend.data.cron}" />
 	</bean>
 	<!-- Recommend Post end -->
 	
@@ -183,7 +183,7 @@
 				<ref bean="postIndexOptimizationAndCommitTrigger"/>
 				<ref bean="profileIndexOptimizationAndCommitTrigger"/>
 				<ref bean="createSitemapTrigger"/>
-				<ref bean="recommendPostTrigger"/>
+				<ref bean="recommendDataTrigger"/>
 				<ref bean="guessYouLikeUsersTrigger"/>
 				<ref bean="delExpireActiveCodeTrigger"/>
 				<ref bean="noticeQplusTrigger"/>

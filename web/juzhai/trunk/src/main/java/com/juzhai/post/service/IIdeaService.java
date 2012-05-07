@@ -243,4 +243,11 @@ public interface IIdeaService {
 	 */
 	List<Idea> listCmsIdeaByCityAndCategory(Long cityId, Long categoryId,
 			ShowIdeaOrder oderType, int firstResult, int maxResults);
+
+	/**
+	 * 总的好主意数
+	 * 
+	 * @return
+	 */
+	int totalCount();
 }

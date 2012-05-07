@@ -37,46 +37,68 @@
 						</div><!--login_btns end--> --%>
 					</div><!--top end-->
 				</div><!--fix_top end-->
-				<div class="welcome"><!--welcome begin-->
-					<div class="welcome_t"></div>
-					<div class="welcome_m">
-						<h2>
-							<b>一个小清新的脱宅社区</b>
-							<div class="wel_login">
-								<a href="javascript:void(0);" class="wb login-btn" title="使用微博账号登录" go-uri="/web/login/6">登录</a>
-								<a href="javascript:void(0);" class="db login-btn" title="使用豆瓣账号登录" go-uri="/web/login/7">登录</a>
-								<c:choose>
-									<c:when test="${not empty isQplus&&isQplus}">
-									<a href="javascript:void(0);" class="qq login-btn" title="使用QQ账号登录" go-uri="/qplus/loginDialog/9">登录</a>
-									</c:when>
-									<c:otherwise>
-									<a href="javascript:void(0);" class="qq login-btn" title="使用QQ账号登录" go-uri="/web/login/8">登录</a>	
-									</c:otherwise>
-								</c:choose>
-							</div>
-						</h2>
-						<div class="clear"></div>
-						<div style="height: 290px;position: relative;overflow: hidden;margin: 0px 100px;">
-							<div id="window-box" style="position: absolute;height: 250px;width: 7500px;left: 5px;">
-								<ul window-count="${fn:length(postWindowViews)}">
-									<c:forEach items="${postWindowViews}" varStatus="index" var="view">
-										<li>
-											<p><a href="/login"><img src="${jzr:userLogo(view.profileCache.uid, view.profileCache.logoPic, 120)}" width="120" height="120"/></a></p>
-											<span><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.postWindow.purposeType}" /></c:import>: </span>
-											<em><a href="/login"><c:out value="${jzu:truncate(view.postWindow.content, 74, '...')}" /></a></em>
-										</li>
-									</c:forEach>
-								</ul>
-							</div>
-						</div>
-						<div class="arrow_left"><a href="javascript:void(0);"></a></div>
-						<div class="arrow_right"><a href="javascript:void(0);"></a></div>
-					</div>
-					<div class="welcome_b"></div>
-				</div><!--welcome end-->
-				<div class="wel_num"><!--wel_num begin-->
-					<jsp:include page="welcome_num.jsp" />
-				</div><!--wel_num end-->
+					<div class="wel"><!--begin end-->
+						<div class="wel_box w490 fl"><!--wel_box begin-->
+							<div class="wel_t"></div>
+							<div class="wel_m"><!--wel_m begin-->
+								<h2><font>${ideaCount}</font>个拒宅好主意等你来发现</h2>
+								<div class="wel_idea"><!--wel_idea begin-->
+									<ul>
+										<c:forEach items="${ideas}" var="idea">
+											<li>
+												<p><a href="javascript:void(0);"><img src="${jzr:ideaPic(idea.id,idea.pic, 200)}" /></a></p>
+												<span><em><c:out value="${jzu:truncate(idea.content,46,'...')}"></c:out></em><a href="javascript:void(0);">${idea.useCount}人想去</a></span>
+											</li>
+										</c:forEach>
+									</ul>
+								</div><!--wel_idea begin-->
+							</div><!--wel_m end-->
+							<div class="wel_b"></div>
+						</div><!--wel_box end-->
+						<div class="wel_box w455 fr blue"><!--wel_box begin-->
+							<div class="wel_t"></div>
+							<div class="wel_m"><!--wel_m begin-->
+								<h2>
+								已有<font>${userCount}</font>人加入拒宅网,你周末还宅着么？<br />
+								<em>快加入我们：寻找你的阳光周末</em>
+								</h2>
+								<div class="wel_login_area"><!--wel_login_area begin-->
+											<a href="javascript:void(0);" class="wb login-btn" title="使用微博账号登录" go-uri="/web/login/6"></a>
+											<a href="javascript:void(0);" class="db login-btn" title="使用豆瓣账号登录" go-uri="/web/login/7"></a>
+											<c:choose>
+												<c:when test="${not empty isQplus&&isQplus}">
+												<a href="javascript:void(0);" class="qq login-btn" title="使用QQ账号登录" go-uri="/qplus/loginDialog/9"></a>
+												</c:when>
+												<c:otherwise>
+												<a href="javascript:void(0);" class="qq login-btn" title="使用QQ账号登录" go-uri="/web/login/8"></a>	
+												</c:otherwise>
+											</c:choose>
+								</div><!--wel_login_area end-->
+							</div><!--wel_m end-->
+							<div class="wel_b"></div>
+						</div><!--wel_box end-->
+						<div class="wel_box w455 fr"><!--wel_box begin-->
+							<div class="wel_t"></div>
+							<div class="wel_m"><!--wel_m begin-->
+								<h2><font>${postCount }</font>人正在找伴儿出去玩</h2>
+								<div class="wel_cqw"><!--wel_cqw begin-->
+									<ul>
+										<c:forEach items="${postView }" var="view">
+											<li>
+												<div class="photo"><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,80)}" width="60" height="60"/></div>
+												<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:</font><a href="javascript:void(0);"><c:out value="${jzu:truncate(view.post.content,90,'...')}"></c:out></a></p>
+												<div class="xy_ly"><!--xy_ly begin-->
+												<div class="message_s2"><a href="javascript:void(0);">留言<c:if test="${view.post.commentCnt > 0}">(${view.post.commentCnt})</c:if></a></div>
+												<div class="like"><a href="javascript:void(0);" class="xy">响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${view.post.responseCnt}</a><p class="r"></p></div></div>
+												</div><!--xy_ly end-->
+											</li>
+										</c:forEach>
+									</ul>
+								</div><!--wel_cqw end-->
+							</div><!--wel_m end-->
+							<div class="wel_b"></div>
+						</div><!--wel_box end-->
+				</div><!--wel end-->
 			</div><!--main end-->
 			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 			<script type="text/javascript" src="${jzr:static('/js/web/welcome.js')}"></script>

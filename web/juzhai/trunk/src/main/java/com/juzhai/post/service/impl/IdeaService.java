@@ -598,4 +598,11 @@ public class IdeaService implements IIdeaService {
 		c.andDefunctEqualTo(false);
 		return example;
 	}
+
+	@Override
+	public int totalCount() {
+		IdeaExample example = new IdeaExample();
+		example.createCriteria().andDefunctEqualTo(false);
+		return ideaMapper.countByExample(example);
+	}
 }

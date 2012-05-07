@@ -691,7 +691,14 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 
 
+.zj_friend{float:right; margin-top:10px; margin-right:15px; position:relative;}
 
+.zj_friend a{ background:url(../images/web2/share_icon.png) no-repeat 0 3px; background:url(../images/web2/share_icon.png) no-repeat 0 1px\9; padding-left:20px; color:#999; display:block;}
+.zj_friend a:hover{ background:url(../images/web2/share_icon_hover.png) no-repeat 0 3px; background:url(../images/web2/share_icon_hover.png) no-repeat 0 1px\9; color:#3E8BD9;}
+
+.zj_friend .show_icons{ background:url(../images/web2/jz_friend_show_bg.gif) no-repeat; width:240px; height:26px; position:absolute; top:18px; left:-105px; padding:15px;}
+
+.show_icons .txt{ float:right; color:#ccc; margin-top:5px;}
 
 
 
@@ -1973,7 +1980,7 @@ i{ color:#f00;}
 .idea_box{ width:100%; display:block; height:auto; margin:0 auto; margin-top:15px;}
 .idea_box .idea_box_t{ background:url(../images/web2/pub_box_link_r1_c1.jpg) no-repeat; height:5px; overflow:hidden; width:100%; float:left;}
 .idea_box .idea_box_b{ background:url(../images/web2/pub_box_link_r5_c1.jpg) no-repeat; height:5px; overflow:hidden; width:100%; float:left;}
-.idea_box .idea_box_m{ background:url(../images/web2/pub_box_link_r3_c1.jpg) repeat-y; display:block;  float:left; position:relative; padding:17px 22px; width:580px; height:auto;}
+.idea_box .idea_box_m{ background:url(../images/web2/pub_box_link_r3_c1.jpg) repeat-y; display:block;  float:left; padding:17px 22px; width:580px; height:auto;}
 
 
 .hover .idea_box_t{ background:url(../images/web2/pub_box_hover_r1_c1.jpg) no-repeat; height:5px; overflow:hidden; width:100%; float:left;}
@@ -3367,7 +3374,7 @@ filter:alpha(opacity=80); -moz-opacity:0.8; -khtml-opacity: 0.8;opacity: 0.8;
 .wel_box .wel_m{ width:100%; height:auto; overflow:hidden;}
 .wel_box .wel_m h2{ color:#333; font-size:16px; font-family:"微软雅黑"; display:block; padding:20px 30px; }
 .wel_box .wel_m h2 font{ font-size:18px; color:#666; margin-right:5px;}
-.wel_box .wel_m h2 em{ font-size:14px; color:#848484;}
+.wel_box .wel_m h2 em{ font-size:14px; color:#848484; display:block; padding-top:5px;}
 
 
 .wel .w490{ width:490px;}
@@ -3394,28 +3401,30 @@ filter:alpha(opacity=80); -moz-opacity:0.8; -khtml-opacity: 0.8;opacity: 0.8;
 
 
 .wel .wel_idea{ width:460px; height:auto; overflow:hidden; margin:0 auto; padding-bottom:20px;}
+.wel .wel_idea a{ cursor:default;}
 .wel .wel_idea ul{ float:left; margin-top:-20px;}
 .wel .wel_idea ul li{ width:200px; height:auto; overflow:hidden; float:left; display:inline; margin:15px; margin-bottom:0px; margin-top:20px;}
 
 .wel .wel_idea ul li p{ width:200px; height:135px; overflow:hidden; float:left;}
-.wel .wel_idea ul li span{ width:200px; height:57px; background:url(../images/web2/wel_idea_bg_r1_c3.jpg) no-repeat; overflow:hidden; float:left; overflow:hidden;}
+.wel .wel_idea ul li span{ width:200px; height:57px; background:url(../images/web2/wel_idea_bg_r1_c3.jpg) no-repeat; overflow:hidden; float:left; overflow:hidden; position:relative;}
 .wel .wel_idea ul li span em{ display:block; color:#666; padding:0 12px; padding-top:8px;}
-.wel .wel_idea ul li span a{ color:#3E8BD9; padding-left:12px;}
+.wel .wel_idea ul li span a{ color:#3E8BD9; position:absolute; right:12px; top:27px;}
 .wel .wel_idea .hover span{ background:url(../images/web2/wel_idea_bg_r1_c1.jpg) no-repeat;}
 .wel .wel_idea .hover span em{ color:#fff;}
-.wel .wel_idea .hover span a{ color:#fff;}
+.wel .wel_idea .hover span a{ color:#fff; }
 
 
 
 
-.wel .wel_cqw{width:400px; height:auto; overflow:hidden; margin:0 auto;  padding-bottom:18px; padding-bottom:17px\0;}
-.wel .wel_cqw ul{ float:left; margin-top:-20px;}
-.wel .wel_cqw ul li{ float:left; width:100%; margin-top:19px;}
-.wel .wel_cqw ul li .photo{ width:80px; height:80px; overflow:hidden; float:left;}
+.wel .wel_cqw{width:400px; height:auto; overflow:hidden; margin:0 auto;  padding-bottom:53px; padding-bottom:51px\0;}
+.wel .wel_cqw a{ cursor:default;}
+.wel .wel_cqw ul{ float:left; margin-top:-10px;}
+.wel .wel_cqw ul li{ float:left; width:100%; margin-top:15px; padding-bottom:14px; border-bottom:1px dashed #e6e6e6;}
+.wel .wel_cqw ul li .photo{ width:60px; height:60px; overflow:hidden; float:left;}
 
 
-.wel .wel_cqw ul li p{ float:right; width:300px; line-height:25px; color:#666; font-size:14px;}
-.wel .wel_cqw ul li p font{ color:#999; font-size:14px; margin-right:5px;}
+.wel .wel_cqw ul li p{ float:right; width:320px; line-height:20px; color:#666; font-size:12px;}
+.wel .wel_cqw ul li p font{ color:#999; font-size:12px; margin-right:5px;}
 .wel .wel_cqw ul li p a{ color:#666;}
 .wel .wel_cqw ul li p a:hover{ text-decoration:underline;}
 
@@ -3423,7 +3432,7 @@ filter:alpha(opacity=80); -moz-opacity:0.8; -khtml-opacity: 0.8;opacity: 0.8;
 
 
 
-.wel .wel_cqw ul li .xy_ly{ width:300px; float:right;}
+.wel .wel_cqw ul li .xy_ly{ width:320px; float:right; margin-top:-5px;}
 
 .wel .wel_cqw ul li .xy_ly .message_s2{float:right; margin-right:10px; display:inline; margin-top:10px; }
 .wel .wel_cqw ul li .xy_ly .message_s2 a{ background:url(../images/web2/liuyan.png) no-repeat; height:16px; display:block; color:#3E8BD9; padding-left:20px; float:left; }

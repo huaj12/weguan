@@ -8,4 +8,17 @@ $(document).ready(function(){
 		citySelect.bindBlur();
 		citySelect.bindClick();
     });
+	
+	$("div.zj_friend > a").bind("click", function() {
+		var id = $(this).attr("idea-id");
+		$("#show_icons_"+id).toggle();
+		return false;
+	});
+	$("body").bind("mousedown",function(event){
+		$("div.zj_friend > div.show_icons").each(function(){
+			if($(event.target).closest($(this)).length <= 0){
+				$(this).hide();
+			}
+		});
+	});
 });

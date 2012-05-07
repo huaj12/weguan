@@ -1,6 +1,5 @@
 package com.juzhai.post.service.impl;
 
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,23 +10,18 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
-import com.juzhai.core.dao.Limit;
-import com.juzhai.post.mapper.IdeaMapper;
 import com.juzhai.post.model.Idea;
-import com.juzhai.post.model.IdeaExample;
+import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IRecommendIdeaService;
 
 @Service
 public class RecommendIdeaService implements IRecommendIdeaService {
 	@Autowired
-	private IdeaMapper ideaMapper;
+	private IIdeaService ideaService;
 	@Autowired
 	private RedisTemplate<String, List<Idea>> redisTemplate;
-
 	@Value("${recommend.idea.max.rows}")
 	private int recommendIdeaMaxRows;
-	@Value("${recommend.idea.time.interval}")
-	private int recommendIdeaTimeInterval;
 
 	@Override
 	public List<Idea> listRecommendIdea() {
@@ -41,14 +35,8 @@ public class RecommendIdeaService implements IRecommendIdeaService {
 
 	@Override
 	public void updateRecommendIdea() {
-		Calendar c = Calendar.getInstance();
-		c.add(Calendar.DAY_OF_MONTH, -recommendIdeaTimeInterval);
-		IdeaExample example = new IdeaExample();
-		example.createCriteria().andCreateTimeGreaterThan(c.getTime())
-				.andDefunctEqualTo(false);
-		example.setOrderByClause("use_count desc,create_time desc");
-		example.setLimit(new Limit(0, recommendIdeaMaxRows));
-		List<Idea> ideas = ideaMapper.selectByExample(example);
+		List<Idea> ideas = ideaService.listRecentIdeas(0, null, null, 0,
+				recommendIdeaMaxRows);
 		redisTemplate.opsForValue().set(
 				RedisKeyGenerator.genIndexRecommendIdeaKey(), ideas);
 	}

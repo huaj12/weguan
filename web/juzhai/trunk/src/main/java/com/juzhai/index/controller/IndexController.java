@@ -25,7 +25,6 @@ import com.juzhai.home.service.IGuessYouService;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.index.controller.view.CategoryView;
 import com.juzhai.index.controller.view.IdeaView;
-import com.juzhai.index.controller.view.PostWindowView;
 import com.juzhai.index.controller.view.QueryUserView;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.TpFriend;
@@ -40,11 +39,11 @@ import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Category;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
-import com.juzhai.post.model.PostWindow;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostCommentService;
 import com.juzhai.post.service.IPostService;
-import com.juzhai.post.service.IPostWindowService;
+import com.juzhai.post.service.IRecommendIdeaService;
+import com.juzhai.post.service.IRecommendPostService;
 
 @Controller
 public class IndexController extends BaseController {
@@ -68,7 +67,9 @@ public class IndexController extends BaseController {
 	@Autowired
 	private IPostCommentService postCommentService;
 	@Autowired
-	private IPostWindowService postWindowService;
+	private IRecommendIdeaService recommendIdeaService;
+	@Autowired
+	private IRecommendPostService recommendPostService;
 	@Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows;
 	@Value("${web.show.users.max.rows}")
@@ -98,16 +99,18 @@ public class IndexController extends BaseController {
 
 	@RequestMapping(value = { "/welcome" }, method = RequestMethod.GET)
 	public String welcome(HttpServletRequest request, Model model) {
-		List<PostWindow> list = postWindowService.listPostWindow();
-		List<PostWindowView> postWindowViews = new ArrayList<PostWindowView>();
-		for (PostWindow window : list) {
-			PostWindowView view = new PostWindowView();
-			view.setPostWindow(window);
-			view.setProfileCache(profileService.getProfileCacheByUid(window
-					.getUid()));
-			postWindowViews.add(view);
+		List<PostView> listView = new ArrayList<PostView>();
+		List<Post> list = recommendPostService.listRecommendPost();
+		for (Post post : list) {
+			ProfileCache cache = profileService.getProfileCacheByUid(post
+					.getCreateUid());
+			PostView view = new PostView();
+			view.setPost(post);
+			view.setProfileCache(cache);
+			listView.add(view);
 		}
-		model.addAttribute("postWindowViews", postWindowViews);
+		model.addAttribute("postView", listView);
+		model.addAttribute("ideas", recommendIdeaService.listRecommendIdea());
 		welcomNum(request, model);
 		return "web/index/welcome/welcome";
 	}
@@ -120,6 +123,8 @@ public class IndexController extends BaseController {
 		model.addAttribute("postCount", totalPostCount);
 		int totalInteractCount = postService.responseTotalCount()
 				+ postCommentService.totalCount();
+		int totalIdeaCount = ideaService.totalCount();
+		model.addAttribute("ideaCount", totalIdeaCount);
 		model.addAttribute("interactCount", totalInteractCount);
 
 		model.addAttribute("userNumList", convertToNumList(totalUserCount));

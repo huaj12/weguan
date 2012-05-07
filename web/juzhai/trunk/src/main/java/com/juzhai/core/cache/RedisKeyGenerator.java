@@ -275,6 +275,15 @@ public class RedisKeyGenerator extends KeyGenerator {
 	}
 
 	/**
+	 * 欢迎页好主意推荐key
+	 * 
+	 * @return
+	 */
+	public static String genIndexRecommendIdeaKey() {
+		return "indexRecommendIdea";
+	}
+
+	/**
 	 * 来访者列表Key
 	 * 
 	 * @param uid

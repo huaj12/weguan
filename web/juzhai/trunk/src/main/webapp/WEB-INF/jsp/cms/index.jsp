@@ -236,6 +236,10 @@ a:hover {
 						style="color: black;" href="/cms//show/recommend/post"
 						target="config">首页推荐拒宅内容</a>
 					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms//show/recommend/idea"
+						target="config">欢迎页好主意推荐</a>
+					</li>
 				</ul>
 				
 			</li>

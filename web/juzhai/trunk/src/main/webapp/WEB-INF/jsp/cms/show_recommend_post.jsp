@@ -11,7 +11,7 @@
 <title>更新首页推荐内容</title>
 </head>
 <body>
-	<h2>更新首页推荐内容 <a href="/cms//update/recommend/post">更新</a></h2>
+	<h2>更新欢迎页拒宅推荐内容 <a href="/cms//update/recommend/post">更新</a></h2>
 	<table border="0" cellspacing="4">
 		<tr style="background-color: #CCCCCC;">
 			<td width="100">用户头像</td>

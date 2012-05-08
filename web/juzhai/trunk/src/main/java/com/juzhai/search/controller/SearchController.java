@@ -23,9 +23,7 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.index.controller.view.QueryUserView;
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.post.controller.helper.PostViewHelper;
@@ -37,6 +35,8 @@ import com.juzhai.preference.service.IUserPreferenceService;
 import com.juzhai.search.bean.Education;
 import com.juzhai.search.bean.LuceneResult;
 import com.juzhai.search.controller.form.SearchProfileForm;
+import com.juzhai.search.controller.view.LuceneUserView;
+import com.juzhai.search.controller.view.QueryUserView;
 import com.juzhai.search.service.IPostSearchService;
 import com.juzhai.search.service.IProfileSearchService;
 
@@ -239,27 +239,31 @@ public class SearchController extends BaseController {
 		SearchProfileForm form = new SearchProfileForm(city, town, gender,
 				minYear, maxYear, educationList, minMonthlyIncome, null,
 				constellationId, null, null, minHeight, maxHeight);
-		LuceneResult<Profile> result = profileSearchService.queryProfile(uid,
-				form, pager.getFirstResult(), pager.getMaxResult());
+		LuceneResult<LuceneUserView> result = profileSearchService
+				.queryProfile(uid, form, pager.getFirstResult(),
+						pager.getMaxResult());
 		pager.setTotalResults(result.getTotalHits());
-		List<Profile> list = result.getResult();
+		List<LuceneUserView> list = result.getResult();
 		List<Long> uidList = new ArrayList<Long>();
-		for (Profile profile : list) {
-			uidList.add(profile.getUid());
+		for (LuceneUserView luceneUserView : list) {
+			uidList.add(luceneUserView.getProfileCache().getUid());
 		}
 		Map<Long, Post> userLatestPostMap = postService
 				.getMultiUserLatestPosts(uidList);
 		List<QueryUserView> userViews = new ArrayList<QueryUserView>(
 				list.size());
-		for (Profile profile : list) {
+		for (LuceneUserView luceneUserView : list) {
 			QueryUserView view = new QueryUserView();
-			view.setOnline(loginService.isOnline(profile.getUid()));
-			view.setProfile(profile);
-			view.setPost(userLatestPostMap.get(profile.getUid()));
+			view.setOnline(loginService.isOnline(luceneUserView
+					.getProfileCache().getUid()));
+			view.setProfile(luceneUserView.getProfileCache());
+			view.setPost(userLatestPostMap.get(luceneUserView.getProfileCache()
+					.getUid()));
 			if (context.hasLogin()) {
-				view.setHasInterest(interestUserService.isInterest(
-						context.getUid(), profile.getUid()));
+				view.setHasInterest(interestUserService.isInterest(context
+						.getUid(), luceneUserView.getProfileCache().getUid()));
 			}
+			view.setLastWebLoginTime(luceneUserView.getLastWebLoginTime());
 			userViews.add(view);
 		}
 		newUserWidget(0L, model, queryUsersRightUserRows);

@@ -49,7 +49,7 @@ public class MigrateLuceneIndexController {
 		int i = 0;
 		ProfileExample example = new ProfileExample();
 		example.createCriteria().andLogoPicNotEqualTo(StringUtils.EMPTY);
-		example.setOrderByClause("uid desc");
+		example.setOrderByClause("uid asc");
 		while (true) {
 			example.setLimit(new Limit(i, num));
 			List<Profile> list = profileMapper.selectByExample(example);
@@ -89,7 +89,7 @@ public class MigrateLuceneIndexController {
 		example.createCriteria()
 				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
 				.andDefunctEqualTo(false);
-		example.setOrderByClause("id desc");
+		example.setOrderByClause("id asc");
 		while (true) {
 			example.setLimit(new Limit(i, num));
 			List<Post> list = postMapper.selectByExample(example);

@@ -95,7 +95,7 @@ public class ProfileSearchService implements IProfileSearchService {
 				Sort sort = new Sort(new SortField("lastWebLoginTime",
 						SortField.LONG, true));// 排序，true倒序 false 升序
 				TopFieldCollector collector = TopFieldCollector.create(sort,
-						(firstResult + maxResults), false, false, false, true);
+						(firstResult + maxResults), false, false, false, false);
 				indexSearcher.search(query, collector);
 				TopDocs topDocs = collector.topDocs(firstResult, maxResults);
 				List<SearchUserView> list = new ArrayList<SearchUserView>(

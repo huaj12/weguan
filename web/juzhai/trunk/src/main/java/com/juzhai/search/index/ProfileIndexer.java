@@ -79,6 +79,9 @@ public class ProfileIndexer implements Indexer<Profile> {
 			doc.add(new Field("home", profile.getHome(), Field.Store.YES,
 					Field.Index.ANALYZED));
 		}
+		doc.add(new Field("lastWebLoginTime", String.valueOf(profile
+				.getLastWebLoginTime().getTime()), Field.Store.YES,
+				Field.Index.NOT_ANALYZED));
 		return doc;
 	}
 
@@ -106,5 +109,4 @@ public class ProfileIndexer implements Indexer<Profile> {
 	public void commit() throws CorruptIndexException, IOException {
 		profileIndexWriter.commit();
 	}
-
 }

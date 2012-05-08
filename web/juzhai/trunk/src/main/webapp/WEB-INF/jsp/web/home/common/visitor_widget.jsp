@@ -7,7 +7,7 @@
 	<div class="content_box w285"><!--content begin-->
 		<div class="t"></div>
 		<div class="m">
-			<div class="right_title"><h2>这些人最近来看过你</h2><a href="#">更多</a></div>
+			<div class="right_title"><h2>这些人最近来看过你</h2><a href="/home/visitors">更多</a></div>
 			<div class="visitors"><!--visitors begin-->
 				<ul>
 					<c:forEach var="visitorView" items="${visitorViewList}">

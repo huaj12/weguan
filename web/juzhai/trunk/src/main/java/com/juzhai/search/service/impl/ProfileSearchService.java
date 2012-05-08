@@ -3,7 +3,7 @@ package com.juzhai.search.service.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -21,9 +21,11 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.TopScoreDocCollector;
+import org.apache.lucene.search.TopFieldCollector;
 import org.apache.lucene.util.Version;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +33,10 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate;
 import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
-import com.juzhai.passport.mapper.ProfileMapper;
-import com.juzhai.passport.model.Profile;
-import com.juzhai.passport.model.ProfileExample;
+import com.juzhai.passport.service.impl.ProfileService;
 import com.juzhai.search.bean.LuceneResult;
 import com.juzhai.search.controller.form.SearchProfileForm;
+import com.juzhai.search.controller.view.LuceneUserView;
 import com.juzhai.search.rabbit.message.ActionType;
 import com.juzhai.search.rabbit.message.ProfileIndexMessage;
 import com.juzhai.search.service.IProfileSearchService;
@@ -50,7 +51,7 @@ public class ProfileSearchService implements IProfileSearchService {
 	@Autowired
 	private Analyzer profileIKAnalyzer;
 	@Autowired
-	private ProfileMapper profileMapper;
+	private ProfileService profileService;
 
 	@Override
 	public void createIndex(long uid) {
@@ -76,7 +77,7 @@ public class ProfileSearchService implements IProfileSearchService {
 	}
 
 	@Override
-	public LuceneResult<Profile> queryProfile(final long uid,
+	public LuceneResult<LuceneUserView> queryProfile(final long uid,
 			final SearchProfileForm form, final int firstResult,
 			final int maxResults) {
 		return profileIndexSearcherTemplate.excute(new SearcherCallback() {
@@ -90,23 +91,31 @@ public class ProfileSearchService implements IProfileSearchService {
 						form.getHome(), form.getConstellationId(),
 						form.getHouse(), form.getCar(), form.getMinHeight(),
 						form.getMaxHeight());
-				TopScoreDocCollector collector = TopScoreDocCollector.create(
-						firstResult + maxResults, false);
+
+				Sort sort = new Sort(new SortField("lastWebLoginTime",
+						SortField.LONG, true));// 排序，true倒序 false 升序
+				TopFieldCollector collector = TopFieldCollector.create(sort,
+						(firstResult + maxResults), false, false, false, true);
 				indexSearcher.search(query, collector);
 				TopDocs topDocs = collector.topDocs(firstResult, maxResults);
-				List<Long> uids = new ArrayList<Long>(maxResults);
+				List<LuceneUserView> list = new ArrayList<LuceneUserView>(
+						maxResults);
 				for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-					Document doc = indexSearcher.doc(scoreDoc.doc);
-					uids.add(Long.valueOf(doc.get("uid")));
+					try {
+						Document doc = indexSearcher.doc(scoreDoc.doc);
+						LuceneUserView luceneUserView = new LuceneUserView();
+						luceneUserView.setProfileCache(profileService
+								.getProfileCacheByUid(Long.valueOf(doc
+										.get("uid"))));
+						luceneUserView.setLastWebLoginTime(new Date(Long
+								.valueOf(doc.get("lastWebLoginTime"))));
+						list.add(luceneUserView);
+					} catch (Exception e) {
+						log.error("queryProfile add LuceneUserView is error ",
+								e);
+					}
 				}
-				List<Profile> list = Collections.emptyList();
-				if (CollectionUtils.isNotEmpty(uids)) {
-					ProfileExample example = new ProfileExample();
-					example.createCriteria().andUidIn(uids);
-					example.setOrderByClause("last_web_login_time desc, uid desc");
-					list = profileMapper.selectByExample(example);
-				}
-				LuceneResult<Profile> result = new LuceneResult<Profile>(
+				LuceneResult<LuceneUserView> result = new LuceneResult<LuceneUserView>(
 						topDocs.totalHits, list);
 				return (T) result;
 			}

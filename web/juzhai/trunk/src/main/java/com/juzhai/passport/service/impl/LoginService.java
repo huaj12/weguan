@@ -37,7 +37,9 @@ import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IPassportService;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
+import com.juzhai.search.service.IProfileSearchService;
 import com.juzhai.stats.counter.service.ICounter;
 
 @Service
@@ -69,6 +71,10 @@ public class LoginService implements ILoginService {
 	private ICounter nativeLoginCounter;
 	@Autowired
 	private LoginLogMapper loginLogMapper;
+	@Autowired
+	private IProfileSearchService profileSearchService;
+	@Autowired
+	private IProfileService profileService;
 	@Value(value = "${user.online.expire.time}")
 	private int userOnlineExpireTime;
 	@Value("${use.verify.login.count}")
@@ -101,6 +107,11 @@ public class LoginService implements ILoginService {
 				persistent);
 		// 更新最后登录时间
 		updateLastLoginTime(uid, runType);
+		// 如果该用户是有效用户则更新lucene 索引（用户更新时间）
+		// TODO 以后改只更新一个字段
+		if (profileService.isValidUser(uid)) {
+			profileSearchService.updateIndex(uid);
+		}
 		// updateOnlineState(uid);
 		addLoginLog(request, uid);
 		// 启动一个线程来获取和保存

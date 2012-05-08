@@ -35,8 +35,7 @@ import com.juzhai.preference.service.IUserPreferenceService;
 import com.juzhai.search.bean.Education;
 import com.juzhai.search.bean.LuceneResult;
 import com.juzhai.search.controller.form.SearchProfileForm;
-import com.juzhai.search.controller.view.LuceneUserView;
-import com.juzhai.search.controller.view.QueryUserView;
+import com.juzhai.search.controller.view.SearchUserView;
 import com.juzhai.search.service.IPostSearchService;
 import com.juzhai.search.service.IProfileSearchService;
 
@@ -239,31 +238,26 @@ public class SearchController extends BaseController {
 		SearchProfileForm form = new SearchProfileForm(city, town, gender,
 				minYear, maxYear, educationList, minMonthlyIncome, null,
 				constellationId, null, null, minHeight, maxHeight);
-		LuceneResult<LuceneUserView> result = profileSearchService
+		LuceneResult<SearchUserView> result = profileSearchService
 				.queryProfile(uid, form, pager.getFirstResult(),
 						pager.getMaxResult());
 		pager.setTotalResults(result.getTotalHits());
-		List<LuceneUserView> list = result.getResult();
+		List<SearchUserView> list = result.getResult();
 		List<Long> uidList = new ArrayList<Long>();
-		for (LuceneUserView luceneUserView : list) {
-			uidList.add(luceneUserView.getProfileCache().getUid());
+		for (SearchUserView searchUserView : list) {
+			uidList.add(searchUserView.getProfile().getUid());
 		}
 		Map<Long, Post> userLatestPostMap = postService
 				.getMultiUserLatestPosts(uidList);
-		List<QueryUserView> userViews = new ArrayList<QueryUserView>(
+		List<SearchUserView> userViews = new ArrayList<SearchUserView>(
 				list.size());
-		for (LuceneUserView luceneUserView : list) {
-			QueryUserView view = new QueryUserView();
-			view.setOnline(loginService.isOnline(luceneUserView
-					.getProfileCache().getUid()));
-			view.setProfile(luceneUserView.getProfileCache());
-			view.setPost(userLatestPostMap.get(luceneUserView.getProfileCache()
-					.getUid()));
+		for (SearchUserView view : list) {
+			view.setOnline(loginService.isOnline(view.getProfile().getUid()));
+			view.setPost(userLatestPostMap.get(view.getProfile().getUid()));
 			if (context.hasLogin()) {
-				view.setHasInterest(interestUserService.isInterest(context
-						.getUid(), luceneUserView.getProfileCache().getUid()));
+				view.setHasInterest(interestUserService.isInterest(
+						context.getUid(), view.getProfile().getUid()));
 			}
-			view.setLastWebLoginTime(luceneUserView.getLastWebLoginTime());
 			userViews.add(view);
 		}
 		newUserWidget(0L, model, queryUsersRightUserRows);

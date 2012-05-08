@@ -19,6 +19,8 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.home.controller.view.VisitorView;
+import com.juzhai.home.service.IVisitUserService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.controller.helper.PostViewHelper;
 import com.juzhai.post.controller.view.PostView;
@@ -39,10 +41,14 @@ public class HomeController extends BaseController {
 	private IRecommendPostService recommendPostService;
 	@Autowired
 	private IUserPreferenceService userPreferenceService;
+	@Autowired
+	private IVisitUserService visitUserService;
 	@Value("${web.home.post.max.rows}")
 	private int webHomePostMaxRows;
 	@Value("${web.home.right.user.rows}")
 	private int webHomeRightUserRows;
+	@Value("${visitor.widget.user.count}")
+	private int visitorWidgetUserCount;
 
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)
@@ -193,5 +199,8 @@ public class HomeController extends BaseController {
 		showHomeLogo(context, model);
 		// ideaWidget(context, cityId, model, webHomeRightIdeaRows);
 		newUserWidget(0L, model, webHomeRightUserRows);
+		List<VisitorView> visitorViewList = visitUserService.listVisitUsers(
+				context.getUid(), 0, visitorWidgetUserCount);
+		model.addAttribute("visitorViewList", visitorViewList);
 	}
 }

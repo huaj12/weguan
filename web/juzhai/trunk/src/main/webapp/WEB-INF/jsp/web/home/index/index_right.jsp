@@ -6,6 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="idea_widget.jsp" />
 <%-- <jsp:include page="/WEB-INF/jsp/web/home/index/share_widget.jsp" /> --%>
+<jsp:include page="../common/visitor_widget.jsp" />
 <jsp:include page="new_user_widget.jsp" />
 <%-- <div class="content_box w285">content begin
 	<div class="t"></div>

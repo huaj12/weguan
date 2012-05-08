@@ -2,7 +2,7 @@ package com.juzhai.search.service;
 
 import com.juzhai.search.bean.LuceneResult;
 import com.juzhai.search.controller.form.SearchProfileForm;
-import com.juzhai.search.controller.view.LuceneUserView;
+import com.juzhai.search.controller.view.SearchUserView;
 
 public interface IProfileSearchService {
 	/**
@@ -48,7 +48,7 @@ public interface IProfileSearchService {
 	 * @param maxResults
 	 * @return
 	 */
-	LuceneResult<LuceneUserView> queryProfile(long uid, SearchProfileForm form,
+	LuceneResult<SearchUserView> queryProfile(long uid, SearchProfileForm form,
 			int firstResult, int maxResults);
 
 }

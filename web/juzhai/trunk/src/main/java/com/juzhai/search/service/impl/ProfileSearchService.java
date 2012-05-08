@@ -36,7 +36,7 @@ import com.juzhai.core.lucene.searcher.IndexSearcherTemplate.SearcherCallback;
 import com.juzhai.passport.service.impl.ProfileService;
 import com.juzhai.search.bean.LuceneResult;
 import com.juzhai.search.controller.form.SearchProfileForm;
-import com.juzhai.search.controller.view.LuceneUserView;
+import com.juzhai.search.controller.view.SearchUserView;
 import com.juzhai.search.rabbit.message.ActionType;
 import com.juzhai.search.rabbit.message.ProfileIndexMessage;
 import com.juzhai.search.service.IProfileSearchService;
@@ -77,7 +77,7 @@ public class ProfileSearchService implements IProfileSearchService {
 	}
 
 	@Override
-	public LuceneResult<LuceneUserView> queryProfile(final long uid,
+	public LuceneResult<SearchUserView> queryProfile(final long uid,
 			final SearchProfileForm form, final int firstResult,
 			final int maxResults) {
 		return profileIndexSearcherTemplate.excute(new SearcherCallback() {
@@ -98,24 +98,24 @@ public class ProfileSearchService implements IProfileSearchService {
 						(firstResult + maxResults), false, false, false, true);
 				indexSearcher.search(query, collector);
 				TopDocs topDocs = collector.topDocs(firstResult, maxResults);
-				List<LuceneUserView> list = new ArrayList<LuceneUserView>(
+				List<SearchUserView> list = new ArrayList<SearchUserView>(
 						maxResults);
 				for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
 					try {
 						Document doc = indexSearcher.doc(scoreDoc.doc);
-						LuceneUserView luceneUserView = new LuceneUserView();
-						luceneUserView.setProfileCache(profileService
+						SearchUserView userView = new SearchUserView();
+						userView.setProfile(profileService
 								.getProfileCacheByUid(Long.valueOf(doc
 										.get("uid"))));
-						luceneUserView.setLastWebLoginTime(new Date(Long
-								.valueOf(doc.get("lastWebLoginTime"))));
-						list.add(luceneUserView);
+						userView.setLastWebLoginTime(new Date(Long.valueOf(doc
+								.get("lastWebLoginTime"))));
+						list.add(userView);
 					} catch (Exception e) {
 						log.error("queryProfile add LuceneUserView is error ",
 								e);
 					}
 				}
-				LuceneResult<LuceneUserView> result = new LuceneResult<LuceneUserView>(
+				LuceneResult<SearchUserView> result = new LuceneResult<SearchUserView>(
 						topDocs.totalHits, list);
 				return (T) result;
 			}

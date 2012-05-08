@@ -5,7 +5,7 @@ import java.util.Date;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.model.Post;
 
-public class QueryUserView {
+public class SearchUserView {
 
 	private ProfileCache profile;
 

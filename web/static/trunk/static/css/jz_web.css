@@ -133,11 +133,11 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 
 
 .top .my_message{ float:right; margin-right:1px;  display:inline; margin-top:11px; position:relative;}
-.top .my_message p a{color:#ccc; text-decoration:none; float:left; display:block; width:41px; height:24px; padding-top:7px; padding-left:9px; background:url(../images/web/arrow_down.gif) no-repeat 34px 13px;  }
-.top .my_message p a:hover{ background:url(../images/web/arrow_down.gif) no-repeat 33px 12px #4C4C4C;  width:40px; height:24px;  padding-top:6px; padding-left:8px; border:1px solid #202020; }
+.top .my_message p a{color:#ccc; text-decoration:none; float:left; display:block; width:41px; height:24px; padding-top:7px; padding-left:9px; background:url(../images/web2/arrow_down.gif) no-repeat 34px 13px;  }
+.top .my_message p a:hover{ background:url(../images/web2/arrow_down.gif) no-repeat 33px 12px #4C4C4C;  width:40px; height:24px;  padding-top:6px; padding-left:8px; border:1px solid #202020; }
 
 
-.top .my_message .hover a{ color:#ccc; text-decoration:none; float:left;  background:url(../images/web/arrow_down.gif) no-repeat 33px 12px #4C4C4C; border:1px solid #202020; display:block; width:40px; height:24px; padding-top:6px; padding-left:8px; border-bottom:none; position:relative; z-index:1999;}
+.top .my_message .hover a{ color:#ccc; text-decoration:none; float:left;  background:url(../images/web2/arrow_down.gif) no-repeat 33px 12px #4C4C4C; border:1px solid #202020; display:block; width:40px; height:24px; padding-top:6px; padding-left:8px; border-bottom:none; position:relative; z-index:1999;}
 .top .my_message p.hover a:hover{ border-bottom:none;}
 
 .top .my_message_show{position:absolute;  right:0px; top:30px; width:148px; height:auto; border:1px solid #202020; overflow:hidden; display:block; background:#4C4C4C;}
@@ -1367,7 +1367,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 .message .message_repy{ width:745px; height:auto; overflow:hidden; *overflow:visible; *display:block; margin:0 auto; margin-top:15px; padding-bottom:20px;}
 .message .message_repy .repy_area{ width:535px; margin-left:95px; display:inline; float:left; height:140px;  padding:10px; background:url(../images/web2/message_repy_bg.gif) no-repeat;}
-.message .message_repy .repy_area .arrow{ width:7px; height:14px; overflow:hidden; top:10px;  position:absolute; background:url(../images/web/me_arrow_link.gif) no-repeat; right:-6px;}
+.message .message_repy .repy_area .arrow{ width:7px; height:14px; overflow:hidden; top:10px;  position:absolute; background:url(../images/web2/me_arrow_link.gif) no-repeat; right:-6px;}
 .message .sender_photo{width:80px; height:80px; float:right; overflow:hidden; margin-left:10px; display:inline;}
 .repy_area span{ float:left; width:540px; margin-top:2px; margin-left:7px; display:inline;}
 .repy_area a{ float:left; font-size:14px; color:#666; text-decoration:none; font-weight:bold;}

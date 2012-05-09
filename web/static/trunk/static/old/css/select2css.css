@@ -1,0 +1,34 @@
+#uboxstyle .select_box{}
+
+
+
+#uboxstyle div.tag_select{display:block;color:#666;width:155px;height:28px;background:transparent url("../images/select_img.png") no-repeat 0 0;padding:0 10px;line-height:28px; overflow:hidden; line-height:30px\9;}
+#uboxstyle div.tag_select_hover{display:block;color:#666;width:155px;height:28px;background:transparent url("../images/select_img.png") no-repeat 0 -28px;padding:0 10px;line-height:28px;line-height:30px\9; overflow:hidden;}
+#uboxstyle div.tag_select_open{display:block;color:#666;width:155px;height:33px;background:transparent url("../images/select_img.png") no-repeat 0 -56px;padding:0 10px;line-height:28px;line-height:30px\9;}
+
+#uboxstyle ul.tag_options{position:absolute;padding:0;margin:0;list-style:none;background:transparent url("../images/select_img.png") no-repeat right bottom;width:175px;padding:0 0 3px;margin:0;}
+#uboxstyle ul.tag_options li{background:transparent url("../images/select_img.png") repeat-y -175px 0;display:block;width:155px;padding:0 10px;height:28px;text-decoration:none;line-height:28px;  color:#666; overflow:hidden;}
+
+#uboxstyle ul.tag_options li.open_hover{background:transparent url("../images/select_img.png") no-repeat 0 -88px;color:#666}
+#uboxstyle ul.tag_options li.open_selected{background:transparent url("../images/select_img.png") no-repeat 0 -118px;color:#fff}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

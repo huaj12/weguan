@@ -46,8 +46,8 @@
 									<ul>
 										<c:forEach items="${ideas}" var="idea">
 											<li>
-												<p><a href="javascript:void(0);"><img src="${jzr:ideaPic(idea.id,idea.pic, 200)}" /></a></p>
-												<span><em><c:out value="${jzu:truncate(idea.content,46,'...')}"></c:out></em><a href="javascript:void(0);">${idea.useCount}人想去</a></span>
+												<p><a href="/login"><img src="${jzr:ideaPic(idea.id,idea.pic, 200)}" /></a></p>
+												<span><em><c:out value="${jzu:truncate(idea.content,46,'...')}"></c:out></em><a href="/login">${idea.useCount}人想去</a></span>
 											</li>
 										</c:forEach>
 									</ul>
@@ -63,16 +63,16 @@
 								<em>快加入我们：寻找你的阳光周末</em>
 								</h2>
 								<div class="wel_login_area"><!--wel_login_area begin-->
-											<a href="javascript:void(0);" class="wb login-btn" title="使用微博账号登录" go-uri="/web/login/6"></a>
-											<a href="javascript:void(0);" class="db login-btn" title="使用豆瓣账号登录" go-uri="/web/login/7"></a>
-											<c:choose>
-												<c:when test="${not empty isQplus&&isQplus}">
-												<a href="javascript:void(0);" class="qq login-btn" title="使用QQ账号登录" go-uri="/qplus/loginDialog/9"></a>
-												</c:when>
-												<c:otherwise>
-												<a href="javascript:void(0);" class="qq login-btn" title="使用QQ账号登录" go-uri="/web/login/8"></a>	
-												</c:otherwise>
-											</c:choose>
+									<a href="javascript:void(0);" class="wb login-btn" title="使用微博账号登录" go-uri="/web/login/6"></a>
+									<a href="javascript:void(0);" class="db login-btn" title="使用豆瓣账号登录" go-uri="/web/login/7"></a>
+									<c:choose>
+										<c:when test="${not empty isQplus&&isQplus}">
+										<a href="javascript:void(0);" class="qq login-btn" title="使用QQ账号登录" go-uri="/qplus/loginDialog/9"></a>
+										</c:when>
+										<c:otherwise>
+										<a href="javascript:void(0);" class="qq login-btn" title="使用QQ账号登录" go-uri="/web/login/8"></a>	
+										</c:otherwise>
+									</c:choose>
 								</div><!--wel_login_area end-->
 							</div><!--wel_m end-->
 							<div class="wel_b"></div>
@@ -86,10 +86,10 @@
 										<c:forEach items="${postView }" var="view">
 											<li>
 												<div class="photo"><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,80)}" width="60" height="60"/></div>
-												<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:</font><a href="javascript:void(0);"><c:out value="${jzu:truncate(view.post.content,90,'...')}"></c:out></a></p>
+												<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:</font><a href="/login"><c:out value="${jzu:truncate(view.post.content,90,'...')}"></c:out></a></p>
 												<div class="xy_ly"><!--xy_ly begin-->
-												<div class="message_s2"><a href="javascript:void(0);">留言<c:if test="${view.post.commentCnt > 0}">(${view.post.commentCnt})</c:if></a></div>
-												<div class="like"><a href="javascript:void(0);" class="xy">响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${view.post.responseCnt}</a><p class="r"></p></div></div>
+												<div class="message_s2"><a href="/login">留言<c:if test="${view.post.commentCnt > 0}">(${view.post.commentCnt})</c:if></a></div>
+												<div class="like"><a href="/login" class="xy">响应</a><div class="xy_num"><p class="l"></p><a href="/login">${view.post.responseCnt}</a><p class="r"></p></div></div>
 												</div><!--xy_ly end-->
 											</li>
 										</c:forEach>

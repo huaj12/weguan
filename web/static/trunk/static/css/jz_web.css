@@ -3402,7 +3402,7 @@ filter:alpha(opacity=80); -moz-opacity:0.8; -khtml-opacity: 0.8;opacity: 0.8;
 
 
 .wel .wel_idea{ width:460px; height:auto; overflow:hidden; margin:0 auto; padding-bottom:20px;}
-.wel .wel_idea a{ cursor:default;}
+.wel .wel_idea a{ }
 .wel .wel_idea ul{ float:left; margin-top:-20px;}
 .wel .wel_idea ul li{ width:200px; height:auto; overflow:hidden; float:left; display:inline; margin:15px; margin-bottom:0px; margin-top:20px;}
 
@@ -3418,7 +3418,7 @@ filter:alpha(opacity=80); -moz-opacity:0.8; -khtml-opacity: 0.8;opacity: 0.8;
 
 
 .wel .wel_cqw{width:400px; height:686px; overflow:hidden; margin:0 auto; }
-.wel .wel_cqw a{ cursor:default;}
+.wel .wel_cqw a{ }
 .wel .wel_cqw ul{ float:left; margin-top:-10px;}
 .wel .wel_cqw ul li{ float:left; width:100%; margin-top:15px; padding-bottom:14px; border-bottom:1px dashed #e6e6e6; position:relative;}
 .wel .wel_cqw ul li .photo{ width:60px; height:60px; overflow:hidden; float:left;}

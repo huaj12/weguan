@@ -128,7 +128,7 @@ public class JzResourceFunction {
 			LogoSizeType sizeType = LogoSizeType.getSizeTypeBySize(size);
 			if (StringUtils.isEmpty(fileName) || userid <= 0
 					|| sizeType == null) {
-				return StaticUtil.u("/images/face_" + size + ".jpg");
+				return StaticUtil.u("/images/web2/face_" + size + ".jpg");
 			} else {
 				return StaticUtil.u(webUserImagePath
 						+ ImageUtil.generateHierarchyImageWebPath(userid,

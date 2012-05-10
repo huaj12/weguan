@@ -252,7 +252,7 @@
     
   </context> -->
   
-  <!-- <context id="cms" targetRuntime="MyBatis3">
+   <context id="cms" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 	<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -279,7 +279,10 @@
     <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.cms.mapper"  targetProject="src/main/java">
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
-
+    <table tableName="tb_raw_idea" domainObjectName="RawIdea">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+	<!-- 
 	<table tableName="tb_spider_url" domainObjectName="SpiderUrl">
       <property name="useActualColumnNames" value="false"/>
     </table>
@@ -299,8 +302,8 @@
 	<table tableName="tb_add_act_action" domainObjectName="AddActAction">
       <property name="useActualColumnNames" value="false"/>
     </table>
-    
-  </context> -->
+    -->
+  </context> 
   
   <!-- <context id="notice" targetRuntime="MyBatis3">
   
@@ -376,7 +379,7 @@
     </table>
     
   </context> -->
-  
+    <!--
   <context id="post" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
@@ -404,12 +407,11 @@
     <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.post.mapper"  targetProject="src/main/java">
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
-    
+     
     <table tableName="tb_category" domainObjectName="Category" >
       <property name="useActualColumnNames" value="false"/>
     </table>
-    
-    <!-- <table tableName="tb_idea" domainObjectName="Idea">
+    <table tableName="tb_idea" domainObjectName="Idea">
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
       <columnOverride column="random" javaType="java.lang.Boolean" jdbcType="TINYINT" />
@@ -417,6 +419,9 @@
       <columnOverride column="defunct" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
     
+     <table tableName="tb_idea_detail" domainObjectName="IdeaDetail" >
+      <property name="useActualColumnNames" value="false"/>
+    </table>
     <table tableName="tb_post_comment" domainObjectName="PostComment">
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
@@ -439,10 +444,9 @@
     
     <table tableName="tb_post_response" domainObjectName="PostResponse">
       <property name="useActualColumnNames" value="false"/>
-    </table> -->
-    
+    </table>
   </context>
-  
+   -->
   <!-- <context id="preference" targetRuntime="MyBatis3">
   	
   	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />

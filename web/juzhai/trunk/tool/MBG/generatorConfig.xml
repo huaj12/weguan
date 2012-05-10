@@ -251,7 +251,7 @@
     </table>
     
   </context> -->
-  
+  <!-- 
    <context id="cms" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
@@ -282,7 +282,7 @@
     <table tableName="tb_raw_idea" domainObjectName="RawIdea">
       <property name="useActualColumnNames" value="false"/>
     </table>
-	<!-- 
+	
 	<table tableName="tb_spider_url" domainObjectName="SpiderUrl">
       <property name="useActualColumnNames" value="false"/>
     </table>
@@ -302,9 +302,9 @@
 	<table tableName="tb_add_act_action" domainObjectName="AddActAction">
       <property name="useActualColumnNames" value="false"/>
     </table>
-    -->
-  </context> 
   
+  </context> 
+    -->
   <!-- <context id="notice" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
@@ -379,7 +379,7 @@
     </table>
     
   </context> -->
-    <!--
+   
   <context id="post" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
@@ -408,15 +408,17 @@
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
      
-    <table tableName="tb_category" domainObjectName="Category" >
-      <property name="useActualColumnNames" value="false"/>
-    </table>
+  
     <table tableName="tb_idea" domainObjectName="Idea">
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
       <columnOverride column="random" javaType="java.lang.Boolean" jdbcType="TINYINT" />
       <columnOverride column="window" javaType="java.lang.Boolean" jdbcType="TINYINT" />
       <columnOverride column="defunct" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+    </table>
+     <!--
+       <table tableName="tb_category" domainObjectName="Category" >
+      <property name="useActualColumnNames" value="false"/>
     </table>
     
      <table tableName="tb_idea_detail" domainObjectName="IdeaDetail" >
@@ -445,8 +447,9 @@
     <table tableName="tb_post_response" domainObjectName="PostResponse">
       <property name="useActualColumnNames" value="false"/>
     </table>
+      -->
   </context>
-   -->
+ 
   <!-- <context id="preference" targetRuntime="MyBatis3">
   	
   	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />

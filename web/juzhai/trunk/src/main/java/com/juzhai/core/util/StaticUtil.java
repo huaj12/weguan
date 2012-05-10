@@ -2,7 +2,9 @@ package com.juzhai.core.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -17,12 +19,15 @@ import org.apache.commons.logging.LogFactory;
 public class StaticUtil {
 	private final static Log log = LogFactory.getLog(StaticUtil.class);
 
+	public static Map<String, String> STATIC_VERSION_MAP = new ConcurrentHashMap<String, String>();
+
+	public static String JS_FILE_ROOT_PATH = null;
+	public static String CSS_FILE_ROOT_PATH = null;
 	private static String STATIC_CONFIG_PATH = "/properties/static.properties";
 	private static String prefixCss = null;
 	private static String prefixJs = null;
 	private static String prefixImage = null;
 	private static String prefixStatic = null;
-	private static String version;
 
 	static {
 		try {
@@ -49,7 +54,8 @@ public class StaticUtil {
 		prefixJs = prop.getProperty("prefix_js");
 		prefixImage = prop.getProperty("prefix_image");
 		prefixStatic = prop.getProperty("prefix_static");
-		version = prop.getProperty("version", "");
+		JS_FILE_ROOT_PATH = prop.getProperty("js_file_root_path");
+		CSS_FILE_ROOT_PATH = prop.getProperty("css_file_root_path");
 	}
 
 	//
@@ -85,6 +91,7 @@ public class StaticUtil {
 		if (log.isDebugEnabled()) {
 			log.debug("static resource converting:" + key + "->" + url);
 		}
+		String version = STATIC_VERSION_MAP.get(key);
 		return url + (StringUtils.isEmpty(version) ? "" : ("?" + version));
 	}
 

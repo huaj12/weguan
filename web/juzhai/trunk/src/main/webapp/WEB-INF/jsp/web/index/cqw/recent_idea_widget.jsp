@@ -15,7 +15,7 @@
 						<li>
 							<p><a href="/idea/${ideaView.idea.id}"><c:out value="${ideaView.idea.content}" /></a><c:if test="${ideaView.profileCache != null}"><a href="/home/${ideaView.profileCache.uid}" class="from">&nbsp;<c:out value="${ideaView.profileCache.nickname}" /></a></c:if></p>
 							<c:if test="${not empty ideaView.idea.pic}">
-								<div class="img"><a href="/idea/${ideaView.idea.id}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><img src="${jzr:ideaPic(ideaView.idea.id, ideaView.idea.pic, 200)}"/></a></div>
+								<div class="img"><a href="/idea/${ideaView.idea.id}" ><img src="${jzr:ideaPic(ideaView.idea.id, ideaView.idea.pic, 200)}"/></a></div>
 							</c:if>
 							<c:if test="${ideaView.idea.useCount > 0}">
 								<span><a href="/idea/${ideaView.idea.id}">${ideaView.idea.useCount}人想去</a></span>

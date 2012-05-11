@@ -198,7 +198,9 @@ public class PostService implements IPostService {
 		post.setPurposeType(postForm.getPurposeType());
 		post.setLink(idea.getLink());
 		post.setPlace(idea.getPlace());
-		post.setDateTime(idea.getDate());
+		if (idea.getStartTime() == null) {
+			post.setDateTime(idea.getEndTime());
+		}
 		post.setCategoryId(idea.getCategoryId() <= 0 ? InitData.OTHER_CATEGORY_ID
 				: idea.getCategoryId());
 		post.setIdeaId(idea.getId());

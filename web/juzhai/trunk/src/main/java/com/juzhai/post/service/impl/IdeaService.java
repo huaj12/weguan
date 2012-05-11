@@ -187,7 +187,8 @@ public class IdeaService implements IIdeaService {
 		idea.setContent(ideaForm.getContent());
 		idea.setContentMd5(ideaForm.getContentMd5());
 		idea.setCreateTime(new Date());
-		idea.setDate(ideaForm.getDate());
+		// TODO (review) idea的date字段的修改
+		// idea.setDate(ideaForm.getDate());
 		idea.setLastModifyTime(new Date());
 		idea.setLink(ideaForm.getLink());
 		idea.setPlace(ideaForm.getPlace());
@@ -247,7 +248,8 @@ public class IdeaService implements IIdeaService {
 		idea.setCity(ideaForm.getCity());
 		idea.setContent(ideaForm.getContent());
 		idea.setContentMd5(ideaForm.getContentMd5());
-		idea.setDate(ideaForm.getDate());
+		// TODO (review) idea的date字段的修改
+		// idea.setDate(ideaForm.getDate());
 		idea.setLastModifyTime(new Date());
 		idea.setLink(ideaForm.getLink());
 		idea.setPlace(ideaForm.getPlace());
@@ -564,7 +566,7 @@ public class IdeaService implements IIdeaService {
 	public void defunctExpireIdea() {
 		Date date = DateUtils.truncate(new Date(), Calendar.DATE);
 		IdeaExample example = new IdeaExample();
-		example.createCriteria().andDateLessThanOrEqualTo(date);
+		example.createCriteria().andEndTimeLessThanOrEqualTo(date);
 		Idea idea = new Idea();
 		idea.setDefunct(true);
 		ideaMapper.updateByExampleSelective(idea, example);

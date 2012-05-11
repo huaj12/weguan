@@ -192,8 +192,9 @@ public class IdeaController extends BaseController {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("id", idea.getId());
 				map.put("content", idea.getContent());
-				if (null != idea.getDate()) {
-					map.put("dateTime", DateFormat.SDF.format(idea.getDate()));
+				if (null == idea.getStartTime() && null != idea.getEndTime()) {
+					map.put("dateTime",
+							DateFormat.SDF.format(idea.getEndTime()));
 				}
 				if (StringUtils.isNotEmpty(idea.getPlace())) {
 					map.put("place", idea.getPlace());

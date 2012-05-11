@@ -127,7 +127,8 @@ public class CmsIdeaController extends BaseController {
 				ideaForm.setRandom(idea.getRandom());
 				ideaForm.setContent(idea.getContent());
 				try {
-					ideaForm.setDateString(DateFormat.SDF.format(idea.getDate()));
+					// TODO (review) idea的date字段的修改
+					// ideaForm.setDateString(DateFormat.SDF.format(idea.getDate()));
 				} catch (Exception e) {
 				}
 				ideaForm.setPlace(idea.getPlace());

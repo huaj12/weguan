@@ -37,7 +37,7 @@
 												<div class="infor"><!--infor begin-->
 													<div class="clear"></div>
 													<c:if test="${not empty idea.pic}">
-														<div class="img"><a href="${jzr:ideaPic(idea.id, idea.pic, 0)}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><img src="${jzr:ideaPic(idea.id, idea.pic,450)}"/></a></div>
+														<div class="img"><img src="${jzr:ideaPic(idea.id, idea.pic,450)}"/></div>
 													</c:if>
 													<span><c:set var="date" value="${idea.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span>
 													<c:if test="${idea.categoryId > 0}">

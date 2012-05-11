@@ -33,7 +33,7 @@
 											<div class="con"><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${post.purposeType}"/></c:import>:</font><c:out value="${post.content}" /></div>
 											<div class="infor"><!--infor begin-->
 												<c:if test="${not empty post.pic}">
-													<div class="img"><a href="${jzr:postPic(post.id, post.ideaId, post.pic, 0)}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><img src="${jzr:postPic(post.id, post.ideaId, post.pic, 450)}"/></a></div>
+													<div class="img"><img src="${jzr:postPic(post.id, post.ideaId, post.pic, 450)}"/></div>
 												</c:if>
 												<span><c:set var="date" value="${post.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span>
 												<span class="tag">${jzd:categoryName(post.categoryId)}</span>

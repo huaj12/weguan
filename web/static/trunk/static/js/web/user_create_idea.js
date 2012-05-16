@@ -1,4 +1,4 @@
-var editor;
+	var editor;
 	KindEditor.ready(function(K) {
 		editor = K.create('textarea[name="detail"]', {
 			resizeType : 1,
@@ -13,6 +13,10 @@ var editor;
 		});
 });
 $(document).ready(function(){
+	$(window).bind('beforeunload',function(){
+	    return '关闭页面后，当前好主意内容将不被保存，确定要放弃编辑吗？';
+	});
+	
 	new LocationWidget();
 	registerInitMsg($("input[name='place']"));
 	registerInitMsg($("input[name='link']"));
@@ -25,7 +29,7 @@ $(document).ready(function(){
 		}else{
 			$("#charge-input").show();
 		}
-		
+		$("input[name='charge']").val("");
 		return false;
 	});
 	
@@ -251,8 +255,14 @@ function userCreateIdea(){
 		 if(getByteLen(endMinute)==1){
 			 endMinute="0"+endMinute;
 		 }
-		var  startDateString=startDay+" "+startHour+":"+startMinute+":00";
-		var endDateString=endDay+" "+endHour+":"+endMinute+":00";
+		var  startDateString="";
+		if(startDay!=""){
+			startDateString=startDay+" "+startHour+":"+startMinute+":00";
+		}
+		var endDateString="";
+		if(endDay!=""){
+			endDateString=endDay+" "+endHour+":"+endMinute+":00";
+		}
 	jQuery.ajax({
 		url: "/idea/create",
 		type: "post",

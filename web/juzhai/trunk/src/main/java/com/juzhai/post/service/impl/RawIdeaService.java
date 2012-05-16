@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.cms.exception.RawIdeaInputException;
 import com.juzhai.cms.mapper.RawIdeaMapper;
 import com.juzhai.cms.model.RawIdea;
 import com.juzhai.cms.model.RawIdeaExample;
@@ -21,6 +20,7 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.post.controller.form.RawIdeaForm;
+import com.juzhai.post.exception.RawIdeaInputException;
 import com.juzhai.post.mapper.IdeaMapper;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaDetailService;
@@ -55,9 +55,9 @@ public class RawIdeaService implements IRawIdeaService {
 	@Override
 	public void createRawIdea(RawIdeaForm rawIdeaForm)
 			throws RawIdeaInputException {
-		//TODO (review) RawIdeaInputException还在cms模块中
+		// TODO (done) RawIdeaInputException还在cms模块中
 		validateRawIdea(rawIdeaForm);
-		RawIdea rawIdea = ConversionRawIdeaForm(rawIdeaForm);
+		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
 		rawIdeaMapper.insertSelective(rawIdea);
 	}
 
@@ -95,47 +95,47 @@ public class RawIdeaService implements IRawIdeaService {
 						RawIdeaInputException.ILLEGAL_OPERATION);
 			}
 		}
-		//TODO (review) 解耦
-		// 如果类别是拒宅灵感。则没有时间和地点选项
-		if (rawIdeaForm.getCategoryId() == 8) {
-			if (rawIdeaForm.getStartTime() != null
-					|| rawIdeaForm.getEndTime() != null
-					|| rawIdeaForm.getCity() != null
-					|| rawIdeaForm.getTown() != null
-					|| rawIdeaForm.getPlace() != null) {
-				throw new RawIdeaInputException(
-						RawIdeaInputException.ILLEGAL_OPERATION);
-
-			}
-		}
-		
-		//TODO (review) 解耦
-		// 如果类别是聚会活动或者演出展览时间地点详情是必填
-		if (rawIdeaForm.getCategoryId() == 3
-				|| rawIdeaForm.getCategoryId() == 6) {
-			if (rawIdeaForm.getStartTime() == null
-					|| rawIdeaForm.getEndTime() == null) {
-				throw new RawIdeaInputException(
-						RawIdeaInputException.RAW_IDEA_TIME_IS_NULL);
-
-			}
-			if (rawIdeaForm.getCity() == null) {
-				throw new RawIdeaInputException(
-						RawIdeaInputException.RAW_IDEA_CITY_IS_NULL);
-			}
-			if (rawIdeaForm.getTown() == null) {
-				throw new RawIdeaInputException(
-						RawIdeaInputException.RAW_IDEA_TOWN_IS_NULL);
-			}
-			if (StringUtils.isEmpty(rawIdeaForm.getPlace())) {
-				throw new RawIdeaInputException(
-						RawIdeaInputException.RAW_IDEA_ADDRESS_IS_NULL);
-			}
-			if (StringUtils.isEmpty(rawIdeaForm.getDetail())) {
-				throw new RawIdeaInputException(
-						RawIdeaInputException.RAW_IDEA_DETAIL_IS_NULL);
-			}
-		}
+		// TODO (done) 解耦
+		// // 如果类别是拒宅灵感。则没有时间和地点选项
+		// if (rawIdeaForm.getCategoryId() == 8) {
+		// if (rawIdeaForm.getStartTime() != null
+		// || rawIdeaForm.getEndTime() != null
+		// || rawIdeaForm.getCity() != null
+		// || rawIdeaForm.getTown() != null
+		// || rawIdeaForm.getPlace() != null) {
+		// throw new RawIdeaInputException(
+		// RawIdeaInputException.ILLEGAL_OPERATION);
+		//
+		// }
+		// }
+		//
+		// //TODO (done) 解耦
+		// // 如果类别是聚会活动或者演出展览时间地点详情是必填
+		// if (rawIdeaForm.getCategoryId() == 3
+		// || rawIdeaForm.getCategoryId() == 6) {
+		// if (rawIdeaForm.getStartTime() == null
+		// || rawIdeaForm.getEndTime() == null) {
+		// throw new RawIdeaInputException(
+		// RawIdeaInputException.RAW_IDEA_TIME_IS_NULL);
+		//
+		// }
+		// if (rawIdeaForm.getCity() == null) {
+		// throw new RawIdeaInputException(
+		// RawIdeaInputException.RAW_IDEA_CITY_IS_NULL);
+		// }
+		// if (rawIdeaForm.getTown() == null) {
+		// throw new RawIdeaInputException(
+		// RawIdeaInputException.RAW_IDEA_TOWN_IS_NULL);
+		// }
+		// if (StringUtils.isEmpty(rawIdeaForm.getPlace())) {
+		// throw new RawIdeaInputException(
+		// RawIdeaInputException.RAW_IDEA_ADDRESS_IS_NULL);
+		// }
+		// if (StringUtils.isEmpty(rawIdeaForm.getDetail())) {
+		// throw new RawIdeaInputException(
+		// RawIdeaInputException.RAW_IDEA_DETAIL_IS_NULL);
+		// }
+		// }
 
 		int placeLength = StringUtil.chineseLength(rawIdeaForm.getPlace());
 		if (placeLength < postPlaceLengthMin
@@ -196,9 +196,9 @@ public class RawIdeaService implements IRawIdeaService {
 		return rawIdeaMapper.selectByExample(example);
 	}
 
-	@Override
-	//TODO (review) 这里的操作仅仅是把rawIdea内容复制到idea上，并不是通过的业务逻辑，名字不符合，并且没有外部调用，是否应该是private方法呢？
-	public void passRawIdea(Long id) throws RawIdeaInputException {
+	// TODO (done)
+	// 这里的操作仅仅是把rawIdea内容复制到idea上，并不是通过的业务逻辑，名字不符合，并且没有外部调用，是否应该是private方法呢？
+	private void IdeaCopyRawIdea(Long id) throws RawIdeaInputException {
 		RawIdea rawIdea = rawIdeaMapper.selectByPrimaryKey(id);
 		if (rawIdea == null) {
 			throw new RawIdeaInputException(
@@ -231,21 +231,21 @@ public class RawIdeaService implements IRawIdeaService {
 	}
 
 	@Override
-	//TODO (review) 名字是不是应该表达是，通过rawIdea？
-	public void updateRawIdea(RawIdeaForm rawIdeaForm)
+	// TODO (done) 名字是不是应该表达是，通过rawIdea？
+	public void passRawIdea(RawIdeaForm rawIdeaForm)
 			throws RawIdeaInputException {
 		validateRawIdea(rawIdeaForm);
-		RawIdea rawIdea = ConversionRawIdeaForm(rawIdeaForm);
+		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
 		rawIdeaMapper.updateByPrimaryKeySelective(rawIdea);
 		// 修改后通过审核
-		passRawIdea(rawIdea.getId());
+		IdeaCopyRawIdea(rawIdea.getId());
 		// 通过后删除该拒宅
 		delRawIdea(rawIdea.getId());
 
 	}
 
-	//TODO (review) 方法小写开头
-	private RawIdea ConversionRawIdeaForm(RawIdeaForm rawIdeaForm) {
+	// TODO (done) 方法小写开头
+	private RawIdea conversionRawIdeaForm(RawIdeaForm rawIdeaForm) {
 		RawIdea rawIdea = new RawIdea();
 		rawIdea.setId(rawIdeaForm.getId());
 		rawIdea.setCategoryId(rawIdeaForm.getCategoryId());

@@ -2,9 +2,9 @@ package com.juzhai.post.service;
 
 import java.util.List;
 
-import com.juzhai.cms.exception.RawIdeaInputException;
 import com.juzhai.cms.model.RawIdea;
 import com.juzhai.post.controller.form.RawIdeaForm;
+import com.juzhai.post.exception.RawIdeaInputException;
 
 public interface IRawIdeaService {
 
@@ -57,18 +57,11 @@ public interface IRawIdeaService {
 	int countCorrectionRawIdea();
 
 	/**
-	 * 通过用户提交好主意
-	 * 
-	 * @param id
-	 */
-	void passRawIdea(Long id) throws RawIdeaInputException;
-
-	/**
-	 * 修改用户提交好主意
+	 * 修改并通过用户提交好主意
 	 * 
 	 * @param rawIdeaForm
 	 * @throws RawIdeaInputException
 	 */
-	void updateRawIdea(RawIdeaForm rawIdeaForm) throws RawIdeaInputException;
+	void passRawIdea(RawIdeaForm rawIdeaForm) throws RawIdeaInputException;
 
 }

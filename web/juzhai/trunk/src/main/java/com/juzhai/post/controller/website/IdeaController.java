@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.juzhai.cms.exception.RawIdeaInputException;
 import com.juzhai.common.InitData;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
@@ -43,6 +42,7 @@ import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.post.controller.view.IdeaUserView;
+import com.juzhai.post.exception.RawIdeaInputException;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaService;
@@ -243,7 +243,7 @@ public class IdeaController extends BaseController {
 		Map<String, Object> map = null;
 		try {
 			checkLoginForWeb(request);
-			String[] urls = ideaImageService.uploadRawIdeaLogo(imgFile);
+			String[] urls = ideaImageService.uploadTempIdeaImg(imgFile);
 			map = new HashMap<String, Object>();
 			map.put("error", 0);
 			map.put("url", urls[0]);
@@ -264,7 +264,7 @@ public class IdeaController extends BaseController {
 		try {
 			checkLoginForWeb(request);
 			try {
-				String[] urls = ideaImageService.uploadRawIdeaLogo(rawActLogo);
+				String[] urls = ideaImageService.uploadTempIdeaImg(rawActLogo);
 				result.setResult(urls);
 			} catch (UploadImageException e) {
 				result.setError(e.getErrorCode(), messageSource);
@@ -284,13 +284,13 @@ public class IdeaController extends BaseController {
 		return map;
 	}
 
-	@RequestMapping(value = "/create/category", method = RequestMethod.GET)
+	@RequestMapping(value = "/select/category", method = RequestMethod.GET)
 	public String createCategory(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		checkLoginForWeb(request);
 		loadCategoryList(model);
-		//TODO (review) create_category? 创建分类？
-		return "web/idea/create_category";
+		// TODO (done) create_category? 创建分类？
+		return "web/idea/select_category";
 	}
 
 	@RequestMapping(value = { "/create/{categoryId}" }, method = RequestMethod.GET)
@@ -303,8 +303,8 @@ public class IdeaController extends BaseController {
 		model.addAttribute("city", cache.getCity());
 		model.addAttribute("province", cache.getProvince());
 		model.addAttribute("categoryId", categoryId);
-		//TODO (review) user_create? 用户创建？
-		return "web/idea/user_create";
+		// TODO (done) user_create? 用户创建？
+		return "web/idea/user_create_idea";
 	}
 
 	@RequestMapping(value = { "/update/{ideaId}" }, method = RequestMethod.GET)
@@ -321,8 +321,8 @@ public class IdeaController extends BaseController {
 		}
 		model.addAttribute("categoryId", idea.getCategoryId());
 		model.addAttribute("detail", ideaDetailService.getIdeaDetail(ideaId));
-		//TODO (review) user_create? 用户创建？
-		return "web/idea/user_create";
+		// TODO (done) user_create? 用户创建？
+		return "web/idea/user_create_idea";
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)

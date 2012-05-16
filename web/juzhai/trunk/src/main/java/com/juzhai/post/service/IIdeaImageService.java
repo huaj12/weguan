@@ -26,8 +26,9 @@ public interface IIdeaImageService {
 	 * @return
 	 * @throws UploadImageException
 	 */
-	//TODO (review) 从名字上理解，“上传rawIdea的Logo”，事实上还会用在，富文本编辑器里上传图片。所以直接把“上传idea临时图片”翻译成方法名
-	public String[] uploadRawIdeaLogo(MultipartFile image)
+	// TODO (done)
+	// 从名字上理解，“上传rawIdea的Logo”，事实上还会用在，富文本编辑器里上传图片。所以直接把“上传idea临时图片”翻译成方法名
+	public String[] uploadTempIdeaImg(MultipartFile image)
 			throws UploadImageException;
 
 	/**

@@ -1,4 +1,4 @@
-package com.juzhai.cms.exception;
+package com.juzhai.post.exception;
 
 import com.juzhai.core.exception.JuzhaiException;
 

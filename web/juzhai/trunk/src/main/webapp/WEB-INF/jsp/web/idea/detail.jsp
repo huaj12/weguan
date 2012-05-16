@@ -21,6 +21,92 @@
 				<div class="main_part"><!--main_part begin-->
 					<jsp:include page="/WEB-INF/jsp/web/common/youke_login.jsp" />
 					<div class="main_left"><!--main_left begin-->
+						<div class="content_box w660 800"><!--content begin-->
+							<div class="t"></div>
+							<div class="m">
+								<div class="jz_list"><!--jz_list begin-->
+									<div class="good_idea_detail"><!--good_idea_detail begin-->
+										<div class="pub_box"><!--pub_box begin-->
+											<div class="pub_box_t"></div>
+											<div class="pub_box_m"><!--pub_box_m begin-->
+												<div class="idea_show"><!--idea_show begin-->
+													<c:if test="${not empty idea.pic}">
+														<div class="idea_pic"><a href="#"><img src="${jzr:ideaPic(idea.id, idea.pic,450)}" width="250" /></a></div>
+													</c:if>
+													<div class="idea_infor"><!--idea_infor begin-->
+														<h2><c:out value="${idea.content}" /></h2>
+														<c:if test="${not empty idea.link}">
+															<p>链接:</p><span><a href="${idea.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关内容</a></span>
+														</c:if>
+														<c:if test="${idea.startTime != null || idea.endTime != null}">
+															<p>时间:</p><span><c:if test="${idea.startTime != null}"><fmt:formatDate value="${idea.startTime}" pattern="yyyy.MM.dd hh:mm"/>-</c:if><fmt:formatDate value="${idea.endTime}" pattern="yyyy.MM.dd hh:mm"/></span>
+														</c:if>
+														<c:if test="${not empty idea.place}">
+															<p>地点:</p><span>${jzd:cityName(idea.city)}${jzd:townName(idea.town)}&nbsp;<c:out value="${idea.place}"/></span>
+														</c:if>
+														<c:if test="${not empty idea.charge && idea.charge > 0}">
+															<p>费用:</p><span>${idea.charge}元</span>
+														</c:if>
+														<c:if test="${idea.categoryId > 0}">
+															<p>类型:</p><span><a href="/showideas/${idea.categoryId}/time/1">${jzd:categoryName(idea.categoryId)}</a></span>
+														</c:if>
+														<c:if test="${ideaCreateUser != null}">
+															<p>来自: <a href="/home/${ideaCreateUser.uid}" class="user"><c:out value="${ideaCreateUser.nickname}" /></a></p>
+														</c:if>
+														<div class="clear"></div>
+													</div><!--idea_infor end-->
+													<div class="edit_error"><a href="/idea/update/${idea.id}">修改/报错</a></div>
+													<div class="idea_btns"><!--idea_btns begin-->
+														<c:choose>
+															<c:when test="${hasUsed}">
+																<div class="done"><a href="javascript:void(0);">已想去</a></div>
+															</c:when>
+															<c:otherwise>
+																<div class="fb_btn idea-btn idea-btn-${idea.id}"><a href="javascript:void(0);" idea-id="${idea.id}">我想去</a></div>															
+															</c:otherwise>
+														</c:choose>
+														<c:if test="${not empty isQplus && isQplus}">
+															<div class="share_icon">
+																<a href="javascript:void(0);" onclick="qPlusShare('我想找伴去:${idea.content}<c:if test='${idea.date != null}'> 时间:<fmt:formatDate value='${idea.date}' pattern='yyyy.MM.dd'/></c:if><c:if test='${not empty idea.place}'> 地点:${idea.place}</c:if>','','${jzr:ideaPic(idea.id,idea.pic, 200)}','','拒宅网');return false;" title="分享">分享</a>
+															</div>
+														</c:if>
+													</div><!--idea_btns end-->
+												</div><!--idea_show end-->
+											</div><!--pub_box_m end-->
+											<div class="clear"></div>
+											<div class="pub_box_b"></div>
+										</div><!--pub_box end-->
+										<c:if test="${ideaDetail != null}">
+											<div class="pub_box"><!--pub_box begin-->
+												<div class="pub_box_t"></div>
+												<div class="pub_box_m"><!--pub_box_m begin-->
+													<div class="idea_js"><!--idea_js begin-->
+														<h2>简介</h2>
+														<p>${ideaDetail.detail}</p>
+														<a href="javascript:void(0);">展开更多&gt;&gt;</a>
+													</div><!--idea_js end-->
+												</div><!--pub_box_m end-->
+												<div class="clear"></div>
+												<div class="pub_box_b"></div>
+											</div><!--pub_box end-->
+										</c:if>
+										<div class="pub_box"><!--pub_box begin-->
+											<div class="pub_box_t"></div>
+											<div class="pub_box_m"><!--pub_box_m begin-->
+												<jsp:include page="idea_user_list.jsp" />
+											</div><!--pub_box_m end-->
+											<div class="clear"></div>
+											<div class="pub_box_b"></div>
+										</div><!--pub_box end-->
+									</div><!--good_idea_detail end-->
+								</div><!--jz_list end-->
+							</div>
+							<div class="t"></div>
+						</div><!--content end-->
+					</div><!--main_left end-->
+					
+					
+					<%-- <div class="main_left"><!--main_left begin-->
 						<div class="content_box w660 z800"><!--content begin-->
 							<div class="t"></div>
 							<div class="m">
@@ -83,7 +169,7 @@
 							</div>
 							<div class="t"></div>
 						</div><!--content end-->
-					</div><!--main_left end-->
+					</div><!--main_left end--> --%>
 					<div class="main_right"><!--main_right begin-->
 						<c:if test="${empty isQplus || !isQplus}">
 							<jsp:include page="/WEB-INF/jsp/web/idea/common/share_idea_widget.jsp" />

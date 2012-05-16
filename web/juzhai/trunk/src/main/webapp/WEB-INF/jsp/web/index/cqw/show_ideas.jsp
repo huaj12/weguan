@@ -25,15 +25,15 @@
 						<div class="main_tj"><!--main_tj begin-->
 							<div class="big_pic"><!--big_pic begin-->
 								<p><a href="/idea/${topIdea.id}"><img src="${jzr:ideaPic(topIdea.id, topIdea.pic,450)}" width="430" /></a></p>
-								<span><em>${jzu:truncate(topIdea.content,50,'...')}</em><a href="/idea/${topIdea.id}">共${topIdea.useCount}人想去</a></span>
+								<span><em>${jzu:truncate(topIdea.content,46,'...')}</em><a href="/idea/${topIdea.id}">共${topIdea.useCount}人想去</a></span>
 							</div><!--big_pic end-->
 							<div class="small_pic"><!--small_pic begin-->
 								<ul>
-									<li><div class="tj"><a href="#"></a></div></li>
+									<li><div class="tj"><a href="/idea/select/category"></a></div></li>
 									<c:forEach var="topIdea" items="${topIdeaList}">
 										<li class="mouseHover">
 											<p><a href="/idea/${topIdea.id}"><img src="${jzr:ideaPic(topIdea.id, topIdea.pic,200)}" width="160"/></a></p>
-											<span><em>${jzu:truncate(topIdea.content,50,'...')}</em></span>
+											<span><em>${jzu:truncate(topIdea.content,48,'...')}</em></span>
 										</li>
 									</c:forEach>
 								</ul>

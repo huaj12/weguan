@@ -44,6 +44,7 @@ import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.exception.RawIdeaInputException;
 import com.juzhai.post.model.Idea;
+import com.juzhai.post.model.IdeaDetail;
 import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IRawIdeaService;
@@ -119,6 +120,10 @@ public class IdeaController extends BaseController {
 					profileService.getProfileCacheByUid(idea.getCreateUid()));
 		}
 		model.addAttribute("idea", idea);
+		IdeaDetail ideaDetail = ideaDetailService.getIdeaDetail(ideaId);
+		if (null != ideaDetail) {
+			model.addAttribute("ideaDetail", ideaDetail);
+		}
 		if (context.hasLogin()) {
 			boolean hasUsed = ideaService.isUseIdea(context.getUid(), ideaId);
 			model.addAttribute("hasUsed", hasUsed);

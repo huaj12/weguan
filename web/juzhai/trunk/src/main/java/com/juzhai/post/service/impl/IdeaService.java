@@ -69,6 +69,8 @@ public class IdeaService implements IIdeaService {
 	private PostMapper postMapper;
 	@Autowired
 	private IDialogService dialogService;
+	@Autowired
+	private IdeaDetailService ideaDetailService;
 	@Value("${idea.content.length.min}")
 	private int ideaContentLengthMin;
 	@Value("${idea.content.length.max}")
@@ -187,8 +189,11 @@ public class IdeaService implements IIdeaService {
 		idea.setContent(ideaForm.getContent());
 		idea.setContentMd5(ideaForm.getContentMd5());
 		idea.setCreateTime(new Date());
-		// TODO (review) idea的date字段的修改
-		// idea.setDate(ideaForm.getDate());
+		// TODO (done) idea的date字段的修改
+		idea.setStartTime(ideaForm.getStartTime());
+		idea.setEndTime(ideaForm.getEndTime());
+		idea.setCharge(ideaForm.getCharge());
+		idea.setTown(ideaForm.getTown());
 		idea.setLastModifyTime(new Date());
 		idea.setLink(ideaForm.getLink());
 		idea.setPlace(ideaForm.getPlace());
@@ -205,6 +210,7 @@ public class IdeaService implements IIdeaService {
 		ideaMapper.insertSelective(idea);
 
 		Long ideaId = idea.getId();
+		ideaDetailService.updateIdeaDetail(ideaId, ideaForm.getDetail());
 		String fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(),
 				ideaForm.getNewpic(), ideaId, ideaForm.getPic());
 		if (StringUtils.isNotEmpty(fileName)) {
@@ -248,19 +254,22 @@ public class IdeaService implements IIdeaService {
 		idea.setCity(ideaForm.getCity());
 		idea.setContent(ideaForm.getContent());
 		idea.setContentMd5(ideaForm.getContentMd5());
-		// TODO (review) idea的date字段的修改
-		// idea.setDate(ideaForm.getDate());
+		// TODO (done) idea的date字段的修改
+		idea.setStartTime(ideaForm.getStartTime());
+		idea.setEndTime(ideaForm.getEndTime());
+		idea.setCharge(ideaForm.getCharge());
+		idea.setTown(ideaForm.getTown());
 		idea.setLastModifyTime(new Date());
 		idea.setLink(ideaForm.getLink());
 		idea.setPlace(ideaForm.getPlace());
 		idea.setGender(ideaForm.getGender());
 		idea.setCategoryId(ideaForm.getCategoryId());
 		idea.setRandom(ideaForm.getRandom());
-
+		ideaDetailService.updateIdeaDetail(ideaId, ideaForm.getDetail());
 		String fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(),
 				ideaForm.getNewpic(), ideaId, ideaForm.getPic());
 		idea.setPic(fileName);
-		ideaMapper.updateByPrimaryKey(idea);
+		ideaMapper.updateByPrimaryKeySelective(idea);
 	}
 
 	private void validateIdea(IdeaForm ideaForm) throws InputIdeaException {
@@ -292,10 +301,13 @@ public class IdeaService implements IIdeaService {
 					InputIdeaException.IDEA_PLACE_LENGTH_ERROR);
 		}
 		// 验证日期格式
-		if (StringUtils.isNotEmpty(ideaForm.getDateString())) {
+		if (StringUtils.isNotEmpty(ideaForm.getStartDateString())
+				&& StringUtils.isNotEmpty(ideaForm.getEndDateString())) {
 			try {
-				ideaForm.setDate(DateUtils.parseDate(ideaForm.getDateString(),
-						DateFormat.DATE_PATTERN));
+				ideaForm.setStartTime(DateUtils.parseDate(
+						ideaForm.getStartDateString(), DateFormat.TIME_PATTERN));
+				ideaForm.setEndTime(DateUtils.parseDate(
+						ideaForm.getEndDateString(), DateFormat.TIME_PATTERN));
 			} catch (ParseException e) {
 				throw new InputIdeaException(
 						InputIdeaException.ILLEGAL_OPERATION);

@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.cms.controller.form.IdeaForm;
 import com.juzhai.cms.controller.view.CmsIdeaView;
+import com.juzhai.cms.controller.view.CmsRawIdeaView;
+import com.juzhai.cms.model.RawIdea;
+import com.juzhai.cms.service.IRawIdeaService;
 import com.juzhai.common.InitData;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.pager.PagerManager;
@@ -24,11 +27,14 @@ import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.model.City;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.post.service.impl.IdeaDetailService;
 
 @Controller
 @RequestMapping("/cms")
@@ -42,6 +48,10 @@ public class CmsIdeaController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IdeaDetailService ideaDetailService;
+	@Autowired
+	private IRawIdeaService rawIdeaService;
 
 	@RequestMapping(value = "/show/idea", method = RequestMethod.GET)
 	public String showIdea(Model model,
@@ -96,7 +106,7 @@ public class CmsIdeaController extends BaseController {
 			if (post != null) {
 				ideaForm.setContent(post.getContent());
 				try {
-					ideaForm.setDateString(DateFormat.SDF.format(post
+					ideaForm.setEndDateString(DateFormat.SDF_TIME.format(post
 							.getDateTime()));
 				} catch (Exception e) {
 				}
@@ -123,22 +133,33 @@ public class CmsIdeaController extends BaseController {
 				ideaForm = new IdeaForm();
 				ideaForm.setCategoryId(idea.getCategoryId());
 				ideaForm.setCity(idea.getCity());
+				ideaForm.setTown(idea.getTown());
+				City city = InitData.CITY_MAP.get(idea.getCity());
+				if (city != null) {
+					ideaForm.setProvince(city.getProvinceId());
+				}
 				ideaForm.setGender(idea.getGender());
 				ideaForm.setRandom(idea.getRandom());
 				ideaForm.setContent(idea.getContent());
 				try {
-					// TODO (review) idea的date字段的修改
-					// ideaForm.setDateString(DateFormat.SDF.format(idea.getDate()));
+					// TODO (done) idea的date字段的修改
+					ideaForm.setStartDateString(DateFormat.SDF_TIME.format(idea
+							.getStartTime()));
+					ideaForm.setEndDateString(DateFormat.SDF_TIME.format(idea
+							.getEndTime()));
 				} catch (Exception e) {
 				}
 				ideaForm.setPlace(idea.getPlace());
 				ideaForm.setPic(idea.getPic());
 				ideaForm.setIdeaId(id);
 				ideaForm.setLink(idea.getLink());
+				ideaForm.setCharge(idea.getCharge());
+				ideaForm.setTown(idea.getTown());
 			}
 			model.addAttribute("ideaForm", ideaForm);
 			model.addAttribute("idea", idea);
 			model.addAttribute("msg", msg);
+			model.addAttribute("detail", ideaDetailService.getIdeaDetail(id));
 			model.addAttribute("citys", InitData.CITY_MAP.values());
 			loadCategoryList(model);
 		}
@@ -245,6 +266,122 @@ public class CmsIdeaController extends BaseController {
 			ajaxResult.setSuccess(false);
 		}
 		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/del/rawIdea", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult delRawIdea(@RequestParam(defaultValue = "0") long id) {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			rawIdeaService.delRawIdea(id);
+		} catch (Exception e) {
+			ajaxResult.setSuccess(false);
+		}
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/list/rawIdea", method = RequestMethod.GET)
+	public String listRawIdea(@RequestParam(defaultValue = "1") int pageId,
+			Model model) {
+		PagerManager pager = new PagerManager(pageId, 20,
+				rawIdeaService.countRawIdea());
+		List<RawIdea> list = rawIdeaService.listRawIdea(pager.getFirstResult(),
+				pager.getMaxResult());
+		List<CmsRawIdeaView> views = new ArrayList<CmsRawIdeaView>(list.size());
+		for (RawIdea rawIdea : list) {
+			ProfileCache createUser = profileService
+					.getProfileCacheByUid(rawIdea.getCreateUid());
+			CmsRawIdeaView view = new CmsRawIdeaView(rawIdea, createUser, null);
+			views.add(view);
+		}
+		model.addAttribute("pager", pager);
+		model.addAttribute("rawIdeaViews", views);
+		return "/cms/idea/list_rawIdea";
+	}
+
+	@RequestMapping(value = "/list/correction/rawIdea", method = RequestMethod.GET)
+	public String listCorrectionRawIdea(
+			@RequestParam(defaultValue = "1") int pageId, Model model) {
+		PagerManager pager = new PagerManager(pageId, 20,
+				rawIdeaService.countCorrectionRawIdea());
+		List<RawIdea> list = rawIdeaService.listCorrectionRawIdea(
+				pager.getFirstResult(), pager.getMaxResult());
+		List<CmsRawIdeaView> views = new ArrayList<CmsRawIdeaView>(list.size());
+		for (RawIdea rawIdea : list) {
+			ProfileCache createUser = profileService
+					.getProfileCacheByUid(rawIdea.getCreateUid());
+			ProfileCache correctionUser = profileService
+					.getProfileCacheByUid(rawIdea.getCorrectionUid());
+			CmsRawIdeaView view = new CmsRawIdeaView(rawIdea, createUser,
+					correctionUser);
+			views.add(view);
+		}
+		model.addAttribute("pager", pager);
+		model.addAttribute("rawIdeaViews", views);
+		return "/cms/idea/list_correction_rawIdea";
+	}
+
+	@RequestMapping(value = "/show/rawIdea/update", method = RequestMethod.GET)
+	public String showRawIdeaUpdate(Model model, String msg,
+			RawIdeaForm rawIdeaForm, Long rawIdeaId) {
+		RawIdea rawIdea = rawIdeaService.getRawIdea(rawIdeaId);
+		if (rawIdea != null) {
+			if (rawIdeaForm == null || rawIdeaForm.getId() == null) {
+				rawIdeaForm = new RawIdeaForm();
+				rawIdeaForm.setCategoryId(rawIdea.getCategoryId());
+				rawIdeaForm.setCity(rawIdea.getCity());
+				rawIdeaForm.setContent(rawIdea.getContent());
+				try {
+					rawIdeaForm.setStartDateString(DateFormat.SDF_TIME
+							.format(rawIdea.getStartTime()));
+					rawIdeaForm.setEndDateString(DateFormat.SDF_TIME
+							.format(rawIdea.getEndTime()));
+				} catch (Exception e) {
+				}
+				rawIdeaForm.setPlace(rawIdea.getPlace());
+				rawIdeaForm.setPic(rawIdea.getPic());
+				rawIdeaForm.setLink(rawIdea.getLink());
+				rawIdeaForm.setCharge(rawIdea.getCharge());
+				rawIdeaForm.setTown(rawIdea.getTown());
+				rawIdeaForm.setDetail(rawIdea.getDetail());
+				City city = InitData.CITY_MAP.get(rawIdea.getCity());
+				if (city != null) {
+					rawIdeaForm.setProvince(city.getProvinceId());
+				}
+				rawIdeaForm.setId(rawIdeaId);
+			}
+		}
+		model.addAttribute("rawIdeaForm", rawIdeaForm);
+		model.addAttribute("msg", msg);
+		loadCategoryList(model);
+		return "/cms/idea/raw_idea_update";
+	}
+
+	@RequestMapping(value = "/update/rawIdea", method = RequestMethod.POST)
+	public String updateRawIdea(RawIdeaForm rawIdeaForm,
+			HttpServletRequest request, Model model, String detail) {
+		try {
+			rawIdeaService.updateRawIdea(rawIdeaForm);
+		} catch (Exception e) {
+			String msg = messageSource.getMessage(e.getMessage(), null,
+					Locale.SIMPLIFIED_CHINESE);
+			return showRawIdeaUpdate(model, msg, rawIdeaForm, 0l);
+		}
+		return listRawIdea(1, model);
+	}
+
+	@RequestMapping(value = "/show/correction/rawIdea", method = RequestMethod.GET)
+	public String showCorrectionRawIdea(Model model, Long ideaId, Long rawIdeaId) {
+		RawIdea rawIdea = rawIdeaService.getRawIdea(rawIdeaId);
+		model.addAttribute("rawIdea", rawIdea);
+		try {
+			model.addAttribute("startDate",
+					(DateFormat.SDF_TIME.format(rawIdea.getStartTime())));
+			model.addAttribute("endDate",
+					(DateFormat.SDF_TIME.format(rawIdea.getEndTime())));
+		} catch (Exception e) {
+		}
+		return showIdeaUpdate(model, ideaId, null, null);
 	}
 
 }

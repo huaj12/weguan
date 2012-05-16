@@ -3,14 +3,17 @@ package com.juzhai.post.controller.website;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,23 +21,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.juzhai.cms.exception.RawIdeaInputException;
+import com.juzhai.cms.service.IRawIdeaService;
+import com.juzhai.common.InitData;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.util.DateFormat;
+import com.juzhai.core.util.JackSonSerializer;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.model.City;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.model.Idea;
+import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaService;
+import com.juzhai.post.service.impl.IdeaDetailService;
 
 @Controller
 @RequestMapping(value = "idea")
@@ -46,6 +59,14 @@ public class IdeaController extends BaseController {
 	private IInterestUserService interestUserService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IIdeaImageService ideaImageService;
+	@Autowired
+	private IdeaDetailService ideaDetailService;
+	@Autowired
+	private MessageSource messageSource;
+	@Autowired
+	private IRawIdeaService rawIdeaService;
 	@Value("${idea.user.max.rows}")
 	private int ideaUserMaxRows;
 	@Value("${idea.detail.ad.count}")
@@ -214,4 +235,111 @@ public class IdeaController extends BaseController {
 		result.setSuccess(false);
 		return result;
 	}
+
+	@RequestMapping(value = "/kindEditor/upload")
+	public String kindEditorUpload(HttpServletRequest request,
+			@RequestParam("imgFile") MultipartFile imgFile, Model model)
+			throws JsonGenerationException {
+		Map<String, Object> map = null;
+		try {
+			UserContext context = checkLoginForWeb(request);
+			String[] urls = ideaImageService.uploadRawIdeaLogo(imgFile);
+			map = new HashMap<String, Object>();
+			map.put("error", 0);
+			map.put("url", urls[0]);
+		} catch (UploadImageException e) {
+			map = getError(e.getErrorCode());
+		} catch (NeedLoginException e) {
+			map = getError(e.getErrorCode());
+		}
+		String jsonString = JackSonSerializer.toString(map);
+		model.addAttribute("result", jsonString);
+		return "web/common/ajax/ajax_result";
+	}
+
+	@RequestMapping(value = "/logo/upload", method = RequestMethod.POST)
+	public String addIdeaImage(HttpServletRequest request, Model model,
+			@RequestParam("rawIdeaLogo") MultipartFile rawActLogo) {
+		AjaxResult result = new AjaxResult();
+		try {
+			UserContext context = checkLoginForWeb(request);
+			try {
+				String[] urls = ideaImageService.uploadRawIdeaLogo(rawActLogo);
+				result.setResult(urls);
+			} catch (UploadImageException e) {
+				result.setError(e.getErrorCode(), messageSource);
+			}
+		} catch (NeedLoginException e) {
+			result.setError(NeedLoginException.IS_NOT_LOGIN, messageSource);
+		}
+		model.addAttribute("result", result.toJson());
+		return "web/common/ajax/ajax_result";
+	}
+
+	private Map<String, Object> getError(String errorCode) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("error", 1);
+		map.put("message", messageSource.getMessage(errorCode, null,
+				Locale.SIMPLIFIED_CHINESE));
+		return map;
+	}
+
+	@RequestMapping(value = "/create/category", method = RequestMethod.GET)
+	public String createCategory(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		checkLoginForWeb(request);
+		loadCategoryList(model);
+		return "web/idea/create_category";
+	}
+
+	@RequestMapping(value = { "/create/{categoryId}" }, method = RequestMethod.GET)
+	public String userCreate(HttpServletRequest request, Model model,
+			@PathVariable Long categoryId) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		ProfileCache cache = profileService.getProfileCacheByUid(context
+				.getUid());
+		model.addAttribute("town", cache.getTown());
+		model.addAttribute("city", cache.getCity());
+		model.addAttribute("province", cache.getProvince());
+		model.addAttribute("categoryId", categoryId);
+		return "web/idea/user_create";
+	}
+
+	@RequestMapping(value = { "/update/{ideaId}" }, method = RequestMethod.GET)
+	public String userUpdate(HttpServletRequest request, Model model,
+			@PathVariable Long ideaId) throws NeedLoginException {
+		checkLoginForWeb(request);
+		Idea idea = ideaService.getIdeaById(ideaId);
+		model.addAttribute("idea", idea);
+		model.addAttribute("town", idea.getTown());
+		model.addAttribute("city", idea.getCity());
+		City city = InitData.CITY_MAP.get(idea.getCity());
+		if (city != null) {
+			model.addAttribute("province", city.getProvinceId());
+		}
+		model.addAttribute("categoryId", idea.getCategoryId());
+		model.addAttribute("detail", ideaDetailService.getIdeaDetail(ideaId));
+		return "web/idea/user_create";
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult create(HttpServletRequest request, RawIdeaForm rawIdeaForm)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			if (rawIdeaForm.getIdeaId() != null) {
+				rawIdeaForm.setCorrectionUid(context.getUid());
+			} else {
+				rawIdeaForm.setCreateUid(context.getUid());
+			}
+
+			rawIdeaService.createRawIdea(rawIdeaForm);
+		} catch (RawIdeaInputException e) {
+			ajaxResult.setError(e.getErrorCode(), messageSource);
+		}
+		return ajaxResult;
+	}
+
 }

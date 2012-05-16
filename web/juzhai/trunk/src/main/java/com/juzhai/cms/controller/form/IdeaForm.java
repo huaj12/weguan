@@ -7,19 +7,25 @@ import org.springframework.web.multipart.MultipartFile;
 public class IdeaForm {
 	private Long ideaId;
 	private Long postId;
-	private String dateString;
-	private Date date;
+	private String startDateString;
+	private String endDateString;
+	private Date startTime;
+	private Date endTime;
 	private String pic;
 	private String place;
 	private MultipartFile newpic;
 	private String link;
 	private Long city;
+	private Long province;
 	private String content;
 	private String contentMd5;
 	private Long createUid;
 	private Integer gender;
 	private Long categoryId;
 	private Boolean random;
+	private Integer charge;
+	private Long town;
+	private String detail;
 
 	public Boolean getRandom() {
 		return random;
@@ -67,22 +73,6 @@ public class IdeaForm {
 
 	public void setCreateUid(Long createUid) {
 		this.createUid = createUid;
-	}
-
-	public String getDateString() {
-		return dateString;
-	}
-
-	public void setDateString(String dateString) {
-		this.dateString = dateString;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 	public String getContentMd5() {
@@ -139,6 +129,70 @@ public class IdeaForm {
 
 	public void setCity(Long city) {
 		this.city = city;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public Integer getCharge() {
+		return charge;
+	}
+
+	public void setCharge(Integer charge) {
+		this.charge = charge;
+	}
+
+	public Long getTown() {
+		return town;
+	}
+
+	public void setTown(Long town) {
+		this.town = town;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+
+	public String getStartDateString() {
+		return startDateString;
+	}
+
+	public void setStartDateString(String startDateString) {
+		this.startDateString = startDateString;
+	}
+
+	public String getEndDateString() {
+		return endDateString;
+	}
+
+	public void setEndDateString(String endDateString) {
+		this.endDateString = endDateString;
+	}
+
+	public Long getProvince() {
+		return province;
+	}
+
+	public void setProvince(Long province) {
+		this.province = province;
 	}
 
 }

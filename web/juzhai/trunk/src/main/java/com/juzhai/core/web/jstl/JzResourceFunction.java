@@ -76,7 +76,7 @@ public class JzResourceFunction {
 		}
 	}
 
-	public static String actTempLogo(String fileName) {
+	public static String ideaTempLogo(String fileName) {
 		if (StringUtils.isEmpty(fileName)) {
 			return StaticUtil.u("/images/act_120.jpg");
 		} else {

@@ -88,6 +88,7 @@ public class IdeaImageService implements IIdeaImageService {
 			String fileName = srcFile.getName();
 			String directoryPath = uploadIdeaImageHome
 					+ ImageUtil.generateHierarchyImagePath(ideaId,
+							//TODO (review) LogoSizeType?
 							LogoSizeType.ORIGINAL.getType());
 			FileUtil.writeFileToFile(directoryPath, fileName, srcFile);
 			for (JzImageSizeType sizeType : JzImageSizeType.values()) {
@@ -122,6 +123,7 @@ public class IdeaImageService implements IIdeaImageService {
 				File srcFile = new File(srcFileName);
 				String directoryPath = uploadIdeaImageHome
 						+ ImageUtil.generateHierarchyImagePath(ideaId,
+								//TODO (review) LogoSizeType?
 								LogoSizeType.ORIGINAL.getType());
 				if (!FileUtil.writeFileToFile(directoryPath, srcFile.getName(),
 						srcFile)) {
@@ -129,6 +131,7 @@ public class IdeaImageService implements IIdeaImageService {
 				}
 				String newUrl = StaticUtil.u(webIdeaImagePath
 						+ ImageUtil.generateHierarchyImageWebPath(ideaId,
+								//TODO (review) LogoSizeType?
 								LogoSizeType.ORIGINAL.getType())
 						+ srcFile.getName());
 				detail = detail.replace(url, newUrl);

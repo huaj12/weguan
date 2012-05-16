@@ -55,6 +55,7 @@ public class RawIdeaService implements IRawIdeaService {
 	@Override
 	public void createRawIdea(RawIdeaForm rawIdeaForm)
 			throws RawIdeaInputException {
+		//TODO (review) RawIdeaInputException还在cms模块中
 		validateRawIdea(rawIdeaForm);
 		RawIdea rawIdea = ConversionRawIdeaForm(rawIdeaForm);
 		rawIdeaMapper.insertSelective(rawIdea);
@@ -94,6 +95,7 @@ public class RawIdeaService implements IRawIdeaService {
 						RawIdeaInputException.ILLEGAL_OPERATION);
 			}
 		}
+		//TODO (review) 解耦
 		// 如果类别是拒宅灵感。则没有时间和地点选项
 		if (rawIdeaForm.getCategoryId() == 8) {
 			if (rawIdeaForm.getStartTime() != null
@@ -106,6 +108,8 @@ public class RawIdeaService implements IRawIdeaService {
 
 			}
 		}
+		
+		//TODO (review) 解耦
 		// 如果类别是聚会活动或者演出展览时间地点详情是必填
 		if (rawIdeaForm.getCategoryId() == 3
 				|| rawIdeaForm.getCategoryId() == 6) {
@@ -193,6 +197,7 @@ public class RawIdeaService implements IRawIdeaService {
 	}
 
 	@Override
+	//TODO (review) 这里的操作仅仅是把rawIdea内容复制到idea上，并不是通过的业务逻辑，名字不符合，并且没有外部调用，是否应该是private方法呢？
 	public void passRawIdea(Long id) throws RawIdeaInputException {
 		RawIdea rawIdea = rawIdeaMapper.selectByPrimaryKey(id);
 		if (rawIdea == null) {
@@ -226,6 +231,7 @@ public class RawIdeaService implements IRawIdeaService {
 	}
 
 	@Override
+	//TODO (review) 名字是不是应该表达是，通过rawIdea？
 	public void updateRawIdea(RawIdeaForm rawIdeaForm)
 			throws RawIdeaInputException {
 		validateRawIdea(rawIdeaForm);
@@ -238,6 +244,7 @@ public class RawIdeaService implements IRawIdeaService {
 
 	}
 
+	//TODO (review) 方法小写开头
 	private RawIdea ConversionRawIdeaForm(RawIdeaForm rawIdeaForm) {
 		RawIdea rawIdea = new RawIdea();
 		rawIdea.setId(rawIdeaForm.getId());

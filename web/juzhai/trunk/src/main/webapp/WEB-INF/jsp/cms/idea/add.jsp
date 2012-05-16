@@ -9,7 +9,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>添加好主意</title>
-<script type="text/javascript" src="${jzr:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 <script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 </head>
 <body>
@@ -18,12 +17,14 @@
 	<form action="/cms/add/idea" method="post" enctype="multipart/form-data">
 	<table>
 		<tr>
-			<td>添加好主意到:<select name="city">
-				<option value="0">全国</option>
-				<c:forEach var="specialCity" items="${jzd:specialCityList()}">
-					<option value="${specialCity.id}" <c:if test="${ideaForm.city==specialCity.id}">selected="selected"</c:if> >${specialCity.name}</option>
-				</c:forEach>
-			</select>
+			<td>添加好主意到:
+			<div>
+			<c:import url="/WEB-INF/jsp/web/common/widget/location.jsp">
+			<c:param name="provinceId" value="${ideaForm.province}"/>
+			<c:param name="cityId" value="${ideaForm.city}"/>
+			<c:param name="townId" value="${ideaForm.town}"/>
+			</c:import>
+			</div>
 			性别<select name="gender">
 				<option value="" <c:if test="${empty ideaForm.gender}">selected="selected"</c:if>>不限</option>
 				<option value="1" <c:if test="${1==ideaForm.gender}">selected="selected"</c:if> >男</option>
@@ -54,7 +55,10 @@
 			<td>
 			日期:
 			</td>
-			<td><input type="text" name="dateString" readonly="readonly" onclick="WdatePicker();" value="${ideaForm.dateString}" /></td>
+			<td>
+			<input type="text" name="startDateString" readonly="readonly" onclick="WdatePicker({startDate:'%y-%M-01 00:00:00',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true});" value="${ideaForm.startDateString}" />-
+			<input type="text" name="endDateString" readonly="readonly" onclick="WdatePicker({startDate:'%y-%M-01 00:00:00',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true});" value="${ideaForm.endDateString}" />
+			</td>
 		</tr>
 		<tr>	
 		<td>
@@ -68,7 +72,7 @@
 		</td>
 			<td><input type="file" name="newpic"/>
 			<c:choose>
-			<c:when test="${!empty jzr:postPic(ideaForm.postId,0, ideaForm.pic,200)}">
+			<c:when test="${!empty jzr:postPic(ideaForm.postId,0, ideaForm.pic,180)}">
 			<img src="${jzr:postPic(ideaForm.postId,0, ideaForm.pic,200)}"/>
 			<input name="pic" type="hidden" value="${ideaForm.pic}"/>
 			</c:when>
@@ -87,6 +91,18 @@
 			</td>
 		</tr>
 		<tr>
+			<td>
+				费用
+			</td>
+			<td>
+				<input type="text" name="charge" value="${ideaForm.charge}" />
+			</td>
+		</tr>
+		<tr>
+		<td>详情</td>
+			<td><textarea id="detail" style="width: 700px; height: 200px; visibility: hidden;" name="detail"></textarea></td>
+		</tr>
+		<tr>
 			<td></td>
 			<td>
 			<input name="postId" type="hidden" value="${ideaForm.postId}" />
@@ -95,5 +111,24 @@
 		</tr>
 	</table>
 	</form>
+	<jsp:include page="/WEB-INF/jsp/web/common/script/kindEditor.jsp" />
+		<script>
+		var editor;
+		KindEditor.ready(function(K) {
+			editor = K.create('textarea[name="detail"]', {
+				resizeType : 1,
+				uploadJson : '/idea/kindEditor/upload',
+				allowPreviewEmoticons : false,
+				allowImageUpload : true,
+				items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
+						'bold', 'italic', 'underline',
+						'removeformat', '|', 'justifyleft', 'justifycenter',
+						'justifyright', 'insertorderedlist', 'insertunorderedlist',
+						'|', 'emoticons', 'image', 'link' ]
+			});
+		});
+		</script>
+		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
+		<script>new LocationWidget();</script>
 </body>
 </html>

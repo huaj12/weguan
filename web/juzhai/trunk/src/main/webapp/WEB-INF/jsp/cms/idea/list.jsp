@@ -215,8 +215,8 @@ function selectCategoryId(){
 					<c:when test="${view.idea.random}">是</c:when>
 					<c:otherwise>否</c:otherwise>
 				</c:choose></td>
-				<td><fmt:formatDate value="${view.idea.date}" pattern="yyyy-MM-dd" /></td>
-				<td><fmt:formatDate value="${view.idea.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+				<td><fmt:formatDate value="${view.idea.startTime}" pattern="yyyy-MM-dd HH:mm:ss" />-<fmt:formatDate value="${view.idea.endTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+				<td><fmt:formatDate value="${view.idea.createTime}" pattern="yyyy-MM-dd" /></td>
 				<td>
 					<c:choose>
 						<c:when test="${!view.idea.defunct}">
@@ -256,6 +256,5 @@ function selectCategoryId(){
 			</td>
 		</tr>
 	</table>
-	<div id="synonym"></div>
 </body>
 </html>

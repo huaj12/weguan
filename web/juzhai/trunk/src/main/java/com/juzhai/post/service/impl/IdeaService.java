@@ -198,7 +198,6 @@ public class IdeaService implements IIdeaService {
 		idea.setContent(ideaForm.getContent());
 		idea.setContentMd5(ideaForm.getContentMd5());
 		idea.setCreateTime(new Date());
-		// TODO (done) idea的date字段的修改
 		idea.setStartTime(ideaForm.getStartTime());
 		idea.setEndTime(ideaForm.getEndTime());
 		idea.setCharge(ideaForm.getCharge());
@@ -263,7 +262,6 @@ public class IdeaService implements IIdeaService {
 		idea.setCity(ideaForm.getCity());
 		idea.setContent(ideaForm.getContent());
 		idea.setContentMd5(ideaForm.getContentMd5());
-		// TODO (done) idea的date字段的修改
 		idea.setStartTime(ideaForm.getStartTime());
 		idea.setEndTime(ideaForm.getEndTime());
 		idea.setCharge(ideaForm.getCharge());

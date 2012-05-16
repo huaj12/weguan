@@ -53,12 +53,10 @@ public class QqConnectUserService extends AbstractUserService {
 			Map<String, String> tokens = rt.getRequestToken();
 			if (StringUtils.isEmpty(tokens.get("oauth_token_secret"))) {
 				log.error("qq getAuthorizeURLforCode oauth_token_secret is null");
-				// TODO (done) error了为什么不直接返回？
 				return null;
 			}
 			if (StringUtils.isEmpty(tokens.get("oauth_token"))) {
 				log.error("qq getAuthorizeURLforCode oauth_token is null");
-				// TODO (done) error了为什么不直接返回？
 				return null;
 			}
 			memcachedClient.set(tokens.get("oauth_token"),

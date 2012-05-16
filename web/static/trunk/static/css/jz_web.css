@@ -2067,7 +2067,7 @@ i{ color:#f00;}
 
 .good_idea_detail .idea_show .idea_pic{ width:250px; overflow:hidden; float:left; margin-right:20px; display:inline;}
 
-.good_idea_detail .idea_show .idea_infor{ float:left; overflow:hidden; width:310px; font-size:12px;}
+.good_idea_detail .idea_show .idea_infor{ float:left; overflow:hidden; width:310px; font-size:12px; padding-bottom:30px;}
 .idea_show .idea_infor h2{width:100%; font-size:18px; color:#666; font-family:"微软雅黑"; padding-bottom:10px; line-height:150%; }
 .idea_show .idea_infor h2 a{ color:#3E8BD9; font-size:12px; font-family:"宋体"; margin-left:5px;}
 .idea_show .idea_infor h2 a:hover{ text-decoration:underline;}
@@ -2081,6 +2081,9 @@ i{ color:#f00;}
 .idea_show p a.user{color:#3E8BD9;}
 .idea_show p a:hover{ color:#3E8BD9;}
 
+.idea_show .edit_error{ position:absolute; bottom:22px; left:292px;}
+.idea_show .edit_error a{color:#999;}
+.idea_show .edit_error a:hover{color:#3E8BD9;}
 
 .idea_show .idea_btns{ position:absolute; bottom:17px; right:20px;}
 

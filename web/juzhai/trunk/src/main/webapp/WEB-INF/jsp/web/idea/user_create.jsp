@@ -57,7 +57,12 @@
 															<select name="startHour" >
 																<c:if test="${not empty idea.startTime }"><option value="<fmt:formatDate value="${idea.startTime}" pattern="HH" />" ><fmt:formatDate value="${idea.startTime}" pattern="HH" />点</option></c:if>
 																<c:forEach begin="0" end="23" var="hour">
-																	<option value="${hour}" >${hour}点</option>
+																	<option value="${hour}" >
+																		<c:choose>
+																			<c:when test="${hour <10 }">0${hour}</c:when>
+																			<c:otherwise>${hour}</c:otherwise>
+																		</c:choose>
+																	点</option>
 																</c:forEach>
 															</select>
 														</span>
@@ -70,7 +75,12 @@
 															<select name="startMinute" >
 															<c:if test="${not empty idea.startTime }"><option value="<fmt:formatDate value="${idea.startTime}" pattern="mm" />" ><fmt:formatDate value="${idea.startTime}" pattern="mm" />点</option></c:if>
 																<c:forEach begin="0" end="55" var="minute" step="5">
-																	<option value="${minute}" >${minute}分</option>
+																	<option value="${minute}" >	
+																		<c:choose>
+																			<c:when test="${minute <10 }">0${minute}</c:when>
+																			<c:otherwise>${minute}</c:otherwise>
+																		</c:choose>
+																	分</option>
 																</c:forEach>
 															</select>
 														</span>
@@ -90,7 +100,12 @@
 															<select name="endHour" >
 															<c:if test="${not empty idea.endTime }"><option value="<fmt:formatDate value="${idea.endTime}" pattern="HH" />" ><fmt:formatDate value="${idea.endTime}" pattern="HH" />点</option></c:if>
 																<c:forEach begin="0" end="23" var="hour">
-																	<option value="${hour}" >${hour}点</option>
+																	<option value="${hour}" >
+																	<c:choose>
+																		<c:when test="${hour <10 }">0${hour}</c:when>
+																		<c:otherwise>${hour}</c:otherwise>
+																	</c:choose>
+																	点</option>
 																</c:forEach>
 															</select>
 														</span>
@@ -103,7 +118,12 @@
 													<select name="endMinute"  >
 													<c:if test="${not empty idea.endTime }"><option value="<fmt:formatDate value="${idea.endTime}" pattern="mm" />" ><fmt:formatDate value="${idea.endTime}" pattern="mm" />点</option></c:if>
 													<c:forEach begin="0" end="55" var="minute" step="5">
-														<option value="${minute}" >${minute}分</option>
+														<option value="${minute}" >
+																	<c:choose>
+																		<c:when test="${minute <10 }">0${minute}</c:when>
+																		<c:otherwise>${minute}</c:otherwise>
+																	</c:choose>
+														分</option>
 													</c:forEach>
 													</select>
 													</span>

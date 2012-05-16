@@ -25,10 +25,10 @@
     	<example>${jzr:actLogo(123456,'abc.jpg',120)}</example>
     </function>
         <function>
-    	<name>actTempLogo</name>
+    	<name>ideaTempLogo</name>
     	<function-class>com.juzhai.core.web.jstl.JzResourceFunction</function-class>
-    	<function-signature>java.lang.String actTempLogo(java.lang.String)</function-signature>
-    	<example>${jzr:actTempLogo('abc.jpg')}</example>
+    	<function-signature>java.lang.String ideaTempLogo(java.lang.String)</function-signature>
+    	<example>${jzr:ideaTempLogo('abc.jpg')}</example>
     </function>
     
      <function>

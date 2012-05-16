@@ -294,7 +294,6 @@ public class IdeaController extends BaseController {
 			throws NeedLoginException {
 		checkLoginForWeb(request);
 		loadCategoryList(model);
-		// TODO (done) create_category? 创建分类？
 		return "web/idea/select_category";
 	}
 
@@ -307,7 +306,6 @@ public class IdeaController extends BaseController {
 		model.addAttribute("city", cache.getCity());
 		model.addAttribute("province", cache.getProvince());
 		model.addAttribute("categoryId", categoryId);
-		// TODO (done) user_create? 用户创建？
 		return "web/idea/user_create_idea";
 	}
 
@@ -325,7 +323,6 @@ public class IdeaController extends BaseController {
 		}
 		model.addAttribute("categoryId", idea.getCategoryId());
 		model.addAttribute("detail", ideaDetailService.getIdeaDetail(ideaId));
-		// TODO (done) user_create? 用户创建？
 		return "web/idea/user_create_idea";
 	}
 

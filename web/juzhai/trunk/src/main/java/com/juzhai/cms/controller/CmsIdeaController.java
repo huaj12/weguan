@@ -19,7 +19,6 @@ import com.juzhai.cms.controller.form.IdeaForm;
 import com.juzhai.cms.controller.view.CmsIdeaView;
 import com.juzhai.cms.controller.view.CmsRawIdeaView;
 import com.juzhai.cms.model.RawIdea;
-import com.juzhai.cms.service.IRawIdeaService;
 import com.juzhai.common.InitData;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.pager.PagerManager;
@@ -34,6 +33,7 @@ import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.post.service.IRawIdeaService;
 import com.juzhai.post.service.impl.IdeaDetailService;
 
 @Controller

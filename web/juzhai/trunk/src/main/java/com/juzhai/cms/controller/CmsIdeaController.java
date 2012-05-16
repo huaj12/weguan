@@ -361,7 +361,7 @@ public class CmsIdeaController extends BaseController {
 	public String updateRawIdea(RawIdeaForm rawIdeaForm,
 			HttpServletRequest request, Model model, String detail) {
 		try {
-			rawIdeaService.updateRawIdea(rawIdeaForm);
+			rawIdeaService.passRawIdea(rawIdeaForm);
 		} catch (Exception e) {
 			String msg = messageSource.getMessage(e.getMessage(), null,
 					Locale.SIMPLIFIED_CHINESE);

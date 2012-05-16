@@ -56,11 +56,13 @@ public class DoubanConnectUserService extends AbstractUserService {
 				turnTo, incode));
 		if (StringUtils.isEmpty(doubanService.getRequestTokenSecret())) {
 			log.error("douban getAuthorizeURLforCode RequestTokenSecret is null");
-			//TODO (review) error了为什么不直接返回？
+			return null;
+			// TODO (done) error了为什么不直接返回？
 		}
 		if (StringUtils.isEmpty(doubanService.getRequestToken())) {
 			log.error("douban getAuthorizeURLforCode RequestToken is null");
-			//TODO (review) error了为什么不直接返回？
+			// TODO (done) error了为什么不直接返回？
+			return null;
 		}
 		try {
 			memcachedClient.set(doubanService.getRequestToken(),

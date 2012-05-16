@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.image.JzImageSizeType;
-import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.image.manager.IImageManager;
 import com.juzhai.core.util.FileUtil;
 import com.juzhai.core.util.ImageUtil;
@@ -75,7 +74,7 @@ public class IdeaImageService implements IIdeaImageService {
 	}
 
 	@Override
-	public String[] uploadRawIdeaLogo(MultipartFile image)
+	public String[] uploadTempIdeaImg(MultipartFile image)
 			throws UploadImageException {
 		return imageManager.uploadTempImage(image);
 	}
@@ -88,8 +87,8 @@ public class IdeaImageService implements IIdeaImageService {
 			String fileName = srcFile.getName();
 			String directoryPath = uploadIdeaImageHome
 					+ ImageUtil.generateHierarchyImagePath(ideaId,
-							//TODO (review) LogoSizeType?
-							LogoSizeType.ORIGINAL.getType());
+					// TODO (done) LogoSizeType?
+							JzImageSizeType.ORIGINAL.getType());
 			FileUtil.writeFileToFile(directoryPath, fileName, srcFile);
 			for (JzImageSizeType sizeType : JzImageSizeType.values()) {
 				if (sizeType.getType() > 0) {
@@ -123,16 +122,16 @@ public class IdeaImageService implements IIdeaImageService {
 				File srcFile = new File(srcFileName);
 				String directoryPath = uploadIdeaImageHome
 						+ ImageUtil.generateHierarchyImagePath(ideaId,
-								//TODO (review) LogoSizeType?
-								LogoSizeType.ORIGINAL.getType());
+						// TODO (done) LogoSizeType?
+								JzImageSizeType.ORIGINAL.getType());
 				if (!FileUtil.writeFileToFile(directoryPath, srcFile.getName(),
 						srcFile)) {
 					return null;
 				}
 				String newUrl = StaticUtil.u(webIdeaImagePath
 						+ ImageUtil.generateHierarchyImageWebPath(ideaId,
-								//TODO (review) LogoSizeType?
-								LogoSizeType.ORIGINAL.getType())
+						// TODO (done) LogoSizeType?
+								JzImageSizeType.ORIGINAL.getType())
 						+ srcFile.getName());
 				detail = detail.replace(url, newUrl);
 			}

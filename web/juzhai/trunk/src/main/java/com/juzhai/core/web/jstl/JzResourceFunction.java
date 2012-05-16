@@ -77,11 +77,10 @@ public class JzResourceFunction {
 	}
 
 	public static String ideaTempLogo(String fileName) {
-		if (StringUtils.isEmpty(fileName)) {
-			return StaticUtil.u("/images/act_120.jpg");
-		} else {
+		if (StringUtils.isNotEmpty(fileName)) {
 			return StaticUtil.u(webTempImagePath + fileName);
 		}
+		return null;
 	}
 
 	public static String postPic(long postId, long ideaId, String fileName,

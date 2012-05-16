@@ -21,6 +21,25 @@
 				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
 				<div class="main_part"><!--main_part begin-->
 					<jsp:include page="/WEB-INF/jsp/web/common/youke_login.jsp" />
+					<c:if test="${topIdea != null}">
+						<div class="main_tj"><!--main_tj begin-->
+							<div class="big_pic"><!--big_pic begin-->
+								<p><a href="/idea/${topIdea.id}"><img src="${jzr:ideaPic(topIdea.id, topIdea.pic,450)}" width="430" /></a></p>
+								<span><em>${jzu:truncate(topIdea.content,50,'...')}</em><a href="/idea/${topIdea.id}">共${topIdea.useCount}人想去</a></span>
+							</div><!--big_pic end-->
+							<div class="small_pic"><!--small_pic begin-->
+								<ul>
+									<li><div class="tj"><a href="#"></a></div></li>
+									<c:forEach var="topIdea" items="${topIdeaList}">
+										<li class="mouseHover">
+											<p><a href="/idea/${topIdea.id}"><img src="${jzr:ideaPic(topIdea.id, topIdea.pic,200)}" width="160"/></a></p>
+											<span><em>${jzu:truncate(topIdea.content,50,'...')}</em></span>
+										</li>
+									</c:forEach>
+								</ul>
+							</div><!--small_pic end-->
+					</div><!--main_tj end-->
+					</c:if>
 					<div class="main_left"><!--main_left begin-->
 						<div class="content_box w660 800"><!--content begin-->
 							<div class="t"></div>
@@ -132,7 +151,7 @@
 																			    </div>
 																				<!-- Baidu Button END -->
 																				<div class="txt">分享给朋友</div>
-																		</div>
+																			</div>
 																		</div><!--zj_friend end-->
 																	</c:otherwise>
 																</c:choose>

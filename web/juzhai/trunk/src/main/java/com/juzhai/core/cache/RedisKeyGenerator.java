@@ -292,4 +292,13 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genVisitUsersKey(long uid) {
 		return genKey(uid, "visitUsers");
 	}
+
+	/**
+	 * 近期每个分类下最火的idea
+	 * 
+	 * @return
+	 */
+	public static String genRecentTopIdeasKey() {
+		return "recentTopIdeas";
+	}
 }

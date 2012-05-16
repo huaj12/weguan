@@ -242,7 +242,7 @@ public class IdeaController extends BaseController {
 			throws JsonGenerationException {
 		Map<String, Object> map = null;
 		try {
-			UserContext context = checkLoginForWeb(request);
+			checkLoginForWeb(request);
 			String[] urls = ideaImageService.uploadRawIdeaLogo(imgFile);
 			map = new HashMap<String, Object>();
 			map.put("error", 0);
@@ -262,7 +262,7 @@ public class IdeaController extends BaseController {
 			@RequestParam("rawIdeaLogo") MultipartFile rawActLogo) {
 		AjaxResult result = new AjaxResult();
 		try {
-			UserContext context = checkLoginForWeb(request);
+			checkLoginForWeb(request);
 			try {
 				String[] urls = ideaImageService.uploadRawIdeaLogo(rawActLogo);
 				result.setResult(urls);
@@ -289,6 +289,7 @@ public class IdeaController extends BaseController {
 			throws NeedLoginException {
 		checkLoginForWeb(request);
 		loadCategoryList(model);
+		//TODO (review) create_category? 创建分类？
 		return "web/idea/create_category";
 	}
 
@@ -302,6 +303,7 @@ public class IdeaController extends BaseController {
 		model.addAttribute("city", cache.getCity());
 		model.addAttribute("province", cache.getProvince());
 		model.addAttribute("categoryId", categoryId);
+		//TODO (review) user_create? 用户创建？
 		return "web/idea/user_create";
 	}
 
@@ -319,6 +321,7 @@ public class IdeaController extends BaseController {
 		}
 		model.addAttribute("categoryId", idea.getCategoryId());
 		model.addAttribute("detail", ideaDetailService.getIdeaDetail(ideaId));
+		//TODO (review) user_create? 用户创建？
 		return "web/idea/user_create";
 	}
 

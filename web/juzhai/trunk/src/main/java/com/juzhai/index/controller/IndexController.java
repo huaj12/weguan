@@ -149,6 +149,11 @@ public class IndexController extends BaseController {
 
 	@RequestMapping(value = { "/showideas", "showIdeas" }, method = RequestMethod.GET)
 	public String showIdeas(HttpServletRequest request, Model model) {
+		List<Idea> topIdeaList = ideaService.listRecentTopIdeas();
+		if (CollectionUtils.isNotEmpty(topIdeaList)) {
+			model.addAttribute("topIdea", topIdeaList.remove(0));
+			model.addAttribute("topIdeaList", topIdeaList);
+		}
 		return pageShowIdeas(request, model, 0,
 				ShowIdeaOrder.HOT_TIME.getType(), 1);
 	}

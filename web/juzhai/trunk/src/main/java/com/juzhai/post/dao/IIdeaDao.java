@@ -1,5 +1,8 @@
 package com.juzhai.post.dao;
 
+import java.util.Date;
+import java.util.Map;
+
 public interface IIdeaDao {
 
 	/**
@@ -17,4 +20,15 @@ public interface IIdeaDao {
 	 * @param uid
 	 */
 	void addFirstUser(long ideaId, long uid);
+
+	/**
+	 * 最近流行的好主意
+	 * 
+	 * @param categoryId
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	Map<Long, Integer> getRecentPopIdeaId(long categoryId, Date startTime,
+			Date endTime);
 }

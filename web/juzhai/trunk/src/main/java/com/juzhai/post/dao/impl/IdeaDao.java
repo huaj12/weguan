@@ -1,5 +1,6 @@
 package com.juzhai.post.dao.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +30,19 @@ public class IdeaDao implements IIdeaDao {
 		params.put("id", ideaId);
 		params.put("uid", uid);
 		sqlSession.update("Idea_Mapper.addFirstUser", params);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Map<Long, Integer> getRecentPopIdeaId(long categoryId,
+			Date startTime, Date endTime) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("categoryId", categoryId);
+		params.put("startTime", startTime);
+		params.put("endTime", endTime);
+		Object reslutMap = sqlSession.selectOne("Idea_Mapper.getRecentPopIdea",
+				params);
+		return (Map<Long, Integer>) reslutMap;
 	}
 
 }

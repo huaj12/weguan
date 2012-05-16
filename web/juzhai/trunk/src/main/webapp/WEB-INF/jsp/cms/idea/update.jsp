@@ -18,8 +18,7 @@
 	<form action="/cms/update/idea" method="post" enctype="multipart/form-data">
 	<table>
 		<tr>
-			<td>添加好主意到:
-			<div>
+			<td colspan="2">添加好主意到:
 				<c:import url="/WEB-INF/jsp/web/common/widget/location.jsp">
 				<c:param name="provinceId" value="${ideaForm.province}"/>
 				<c:param name="cityId" value="${ideaForm.city}"/>
@@ -29,7 +28,6 @@
 				<font color="red">纠错:</font>
 				${jzd:cityName(rawIdea.city)}-${jzd:townName(rawIdea.town)}
 				</c:if>
-			</div>
 			性别:<select name="gender">
 				<option <c:if test="${empty ideaForm.gender}"> selected="selected"</c:if>value="">不限</option>
 				<option <c:if test="${ideaForm.gender==1}"> selected="selected"</c:if> value="1">男</option>
@@ -91,7 +89,7 @@
 			图片:
 		</td>
 			<td><input type="file" name="newpic"/>
-			<c:set value="${jzr:ideaPic(ideaForm.ideaId,ideaForm.pic,180) }" var="picPath"></c:set>
+			<c:set value="${jzr:ideaPic(ideaForm.ideaId,ideaForm.pic,200) }" var="picPath"></c:set>
 			<c:choose>
 			<c:when test="${!empty picPath}">
 			<img src="${picPath }" width="100" height="100"/>
@@ -102,7 +100,7 @@
 			</c:otherwise>
 			</c:choose>
 			</td>
-			<c:if test="${not empty rawIdea.pic }">
+			<c:if test="${ideaForm.pic!=rawIdea.pic }">
 			<td><font color="red">纠错</font></td>
 			<td>${jzr:ideaTempLogo(rawIdea.pic)}</td>
 			</c:if>

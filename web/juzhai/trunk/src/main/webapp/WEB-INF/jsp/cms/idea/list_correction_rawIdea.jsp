@@ -43,16 +43,14 @@ function del(obj){
 			<td width="100">创建者</td>
 			<td width="100">纠错者</td>
 			<td width="300">标题</td>
-			<td width="100">封面</td>
 			<td width="100">发布时间</td>
 			<td width="150">操作</td>
 		</tr>
 		<c:forEach var="view" items="${rawIdeaViews}" >
 			<tr>
 				<td><c:out value="${view.createUser.nickname }"></c:out></td>
-				<td><c:out value="${view.createUser.correctionUser}"></c:out></td>
+				<td><c:out value="${view.correctionUser.nickname}"></c:out></td>
 				<td><c:out value="${view.rawIdea.content}"></c:out></td>
-				<td><img  src="${jzr:ideaTempLogo(view.rawIdea.pic)}"  width="180" height="180" /></td>
 				<td><fmt:formatDate value="${view.rawIdea.createTime}" pattern="yyyy-MM-dd" /></td>
 				<td> <a href="javascript:vioid(0);" raw-idea-id=${view.rawIdea.id} onclick="del(this)">忽略</a> <a href="/cms/show/correction/rawIdea?rawIdeaId=${view.rawIdea.id}&ideaId=${view.rawIdea.ideaId}">查看详情</a></td>
 			</tr>

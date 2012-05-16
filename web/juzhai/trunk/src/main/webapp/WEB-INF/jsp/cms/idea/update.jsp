@@ -18,12 +18,18 @@
 	<form action="/cms/update/idea" method="post" enctype="multipart/form-data">
 	<table>
 		<tr>
-			<td>添加好主意到:<select name="city">
-				<option value="0"  <c:if test="${ideaForm.city==0}"> selected="selected"</c:if> >全国</option>
-				<c:forEach var="specialCity" items="${jzd:specialCityList()}">
-					<option value="${specialCity.id}" <c:if test="${ideaForm.city==specialCity.id}">selected="selected"</c:if>>${specialCity.name}</option>
-				</c:forEach>
-			</select>
+			<td>添加好主意到:
+			<div>
+				<c:import url="/WEB-INF/jsp/web/common/widget/location.jsp">
+				<c:param name="provinceId" value="${ideaForm.province}"/>
+				<c:param name="cityId" value="${ideaForm.city}"/>
+				<c:param name="townId" value="${ideaForm.town}"/>
+				</c:import>
+				<c:if test="${not empty rawIdea.city&&not empty rawIdea.town &&(rawIdea.town!=ideaForm.town||ideaForm.city!=rawIdea.city) }">
+				<font color="red">纠错:</font>
+				${jzd:cityName(rawIdea.city)}-${jzd:townName(rawIdea.town)}
+				</c:if>
+			</div>
 			性别:<select name="gender">
 				<option <c:if test="${empty ideaForm.gender}"> selected="selected"</c:if>value="">不限</option>
 				<option <c:if test="${ideaForm.gender==1}"> selected="selected"</c:if> value="1">男</option>
@@ -39,6 +45,10 @@
 					<option <c:if test="${cat.id==ideaForm.categoryId}"> selected="selected"</c:if> value="${cat.id}">${cat.name}</option>
 				</c:forEach>
 			</select>
+			<c:if test="${not empty rawIdea.categoryId&&rawIdea.categoryId!=ideaForm.categoryId}">
+			<font color="red">纠错:</font>
+			${jzd:categoryName(rawIdea.categoryId)}
+			</c:if>
 			</td>
 		</tr>
 		<tr>
@@ -48,25 +58,40 @@
 			<td>
 				<textarea rows="10" name="content" cols="20">${ideaForm.content}</textarea>
 			</td>
+			<c:if test="${not empty rawIdea.content &&rawIdea.content!=ideaForm.content }">
+			<td><font color="red">纠错</font></td>
+			<td>${rawIdea.content}</td>
+			</c:if>
 		</tr>
 		<tr>	
 			<td>
 			日期:
 			</td>
-			<td><input type="text" name="dateString" readonly="readonly" onclick="WdatePicker();" value="${ideaForm.dateString}" /></td>
+			<td>
+			<input type="text" name="startDateString" readonly="readonly" onclick="WdatePicker({startDate:'%y-%M-01 00:00:00',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true});" value="${ideaForm.startDateString}" />-
+			<input type="text" name="endDateString" readonly="readonly" onclick="WdatePicker({startDate:'%y-%M-01 00:00:00',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true});" value="${ideaForm.endDateString}" />
+			</td>
+			<c:if test="${not empty startDate && not empty endDate&&(startDate!=ideaForm.startDateString||endDate!=ideaForm.endDateString) }">
+			<td><font color="red">纠错</font></td>
+			<td>${startDate}-${endDate }</td>
+			</c:if>
 		</tr>
 		<tr>	
 		<td>
 			地点:
 		</td>
 			<td><input type="text" name="place"  value="${ideaForm.place}" /></td>
+			<c:if test="${not empty rawIdea.place &&rawIdea.place!=ideaForm.place  }">
+			<td><font color="red">纠错</font></td>
+			<td>${rawIdea.place}</td>
+			</c:if>
 		</tr>
 		<tr>	
 		<td>
 			图片:
 		</td>
 			<td><input type="file" name="newpic"/>
-			<c:set value="${jzr:ideaPic(ideaForm.ideaId,ideaForm.pic,200) }" var="picPath"></c:set>
+			<c:set value="${jzr:ideaPic(ideaForm.ideaId,ideaForm.pic,180) }" var="picPath"></c:set>
 			<c:choose>
 			<c:when test="${!empty picPath}">
 			<img src="${picPath }" width="100" height="100"/>
@@ -77,6 +102,10 @@
 			</c:otherwise>
 			</c:choose>
 			</td>
+			<c:if test="${not empty rawIdea.pic }">
+			<td><font color="red">纠错</font></td>
+			<td>${jzr:ideaTempLogo(rawIdea.pic)}</td>
+			</c:if>
 		</tr>
 		<tr>
 			<td>
@@ -85,6 +114,30 @@
 			<td>
 				<input type="text" name="link" value="${ideaForm.link}" />
 			</td>
+			<c:if test="${not empty rawIdea.link &&rawIdea.link!=ideaForm.link }">
+			<td><font color="red">纠错</font></td>
+			<td>${rawIdea.link}</td>
+			</c:if>
+		</tr>
+		<tr>
+			<td>
+				费用
+			</td>
+			<td>
+				<input type="text" name="charge" value="${ideaForm.charge}" />
+			</td>
+			<c:if test="${not empty rawIdea.charge &&rawIdea.charge!=ideaForm.charge  }">
+			<td><font color="red">纠错</font></td>
+			<td>${rawIdea.charge}</td>
+			</c:if>
+		</tr>
+		<tr>
+		<td>详情</td>
+			<td><textarea id="detail" style="width: 700px; height: 200px; visibility: hidden;" name="detail">${detail.detail}</textarea></td>
+			<c:if test="${not empty rawIdea.detail &&rawIdea.detail!=detail.detail}">
+			<td><font color="red">纠错</font></td>
+			<td>${rawIdea.detail}</td>
+			</c:if>
 		</tr>
 		<tr>
 			<td></td>
@@ -94,5 +147,24 @@
 		</tr>
 	</table>
 	</form>
+	<jsp:include page="/WEB-INF/jsp/web/common/script/kindEditor.jsp" />
+		<script>
+		var editor;
+		KindEditor.ready(function(K) {
+			editor = K.create('textarea[name="detail"]', {
+				resizeType : 1,
+				uploadJson : '/idea/kindEditor/upload',
+				allowPreviewEmoticons : false,
+				allowImageUpload : true,
+				items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
+						'bold', 'italic', 'underline',
+						'removeformat', '|', 'justifyleft', 'justifycenter',
+						'justifyright', 'insertorderedlist', 'insertunorderedlist',
+						'|', 'emoticons', 'image', 'link' ]
+			});
+		});
+		</script>
+		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
+		<script>new LocationWidget();</script>
 </body>
 </html>

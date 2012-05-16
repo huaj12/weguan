@@ -20,7 +20,7 @@
 											<div class="area_t"></div>
 											<div class="area_m"><!--area_m begin-->
 											<div class="hd_form"><!--hd_form begin-->
-											<div class="title"><h2><c:choose><c:when test="${empty idea }">分享</c:when><c:otherwise>编辑</c:otherwise></c:choose> ${jzd:categoryName(categoryId)}信息</h2><p><font>*</font>标记的是必填项</p><a href="/idea/create/category">重新选择拒宅分类</a></div>
+											<div class="title"><h2><c:choose><c:when test="${empty idea }">分享</c:when><c:otherwise>编辑</c:otherwise></c:choose> ${jzd:categoryName(categoryId)}信息</h2><p><font>*</font>标记的是必填项</p><a href="/idea/select/category">重新选择拒宅分类</a></div>
 											<div class="hr_line"></div>
 												<input name="categoryId" type="hidden" value="${categoryId}"/>
 												<input name="ideaId" type="hidden" value="${idea.id}"/>
@@ -48,7 +48,7 @@
 												<div class="pub_x"><!--pub_x begin-->
 													<h3><c:if test="${categoryId==3||categoryId==6 }"><font>*</font></c:if>时间：</h3>
 													<div class="pub_input"><!--pub_input begin-->
-													<p class="l"></p><span class="w88"><input name="startDay" type="text"  init-tip="开始日期" value="<fmt:formatDate value="${idea.startTime}" pattern="yyyy-MM-dd" />" readonly="readonly" onclick="WdatePicker();return false;" value="" /></span><p class="r"></p>
+													<p class="l"></p><span class="w88"><input name="startDay" type="text"  init-tip="开始日期" value="<fmt:formatDate value="${idea.startTime}" pattern="yyyy-MM-dd" />"  onclick="WdatePicker();return false;" value="" /></span><p class="r"></p>
 													</div><!--pub_input end-->
 													
 													<div class="pub_sel"><!--pub_sel begin-->
@@ -92,7 +92,7 @@
 											<div class="pub_x"><!--pub_x begin-->
 												<h3>&nbsp;&nbsp;</h3>
 												<div class="pub_input"><!--pub_input begin-->
-													<p class="l"></p><span class="w88"><input name="endDay" type="text" value="<fmt:formatDate value="${idea.endTime}" pattern="yyyy-MM-dd" />" init-tip="结束日期" readonly="readonly" onclick="WdatePicker();return false;" /></span><p class="r"></p>
+													<p class="l"></p><span class="w88"><input name="endDay" type="text" value="<fmt:formatDate value="${idea.endTime}" pattern="yyyy-MM-dd" />" init-tip="结束日期"  onclick="WdatePicker();return false;" /></span><p class="r"></p>
 												</div><!--pub_input end-->
 												<div class="pub_sel"><!--pub_sel begin-->
 													<p class="l"></p>

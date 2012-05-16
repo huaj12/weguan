@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.cms.exception.RawIdeaInputException;
-import com.juzhai.cms.service.IRawIdeaService;
 import com.juzhai.common.InitData;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
@@ -47,6 +46,7 @@ import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaService;
+import com.juzhai.post.service.IRawIdeaService;
 import com.juzhai.post.service.impl.IdeaDetailService;
 
 @Controller

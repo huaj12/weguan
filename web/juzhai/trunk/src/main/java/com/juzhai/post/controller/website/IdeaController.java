@@ -299,7 +299,6 @@ public class IdeaController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		ProfileCache cache = profileService.getProfileCacheByUid(context
 				.getUid());
-		model.addAttribute("town", cache.getTown());
 		model.addAttribute("city", cache.getCity());
 		model.addAttribute("province", cache.getProvince());
 		model.addAttribute("categoryId", categoryId);

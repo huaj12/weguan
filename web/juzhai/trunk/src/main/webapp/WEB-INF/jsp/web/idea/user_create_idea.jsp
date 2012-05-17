@@ -20,10 +20,11 @@
 											<div class="area_t"></div>
 											<div class="area_m"><!--area_m begin-->
 											<div class="hd_form"><!--hd_form begin-->
-											<div class="title"><h2><c:choose><c:when test="${empty idea }">分享</c:when><c:otherwise>编辑</c:otherwise></c:choose> ${jzd:categoryName(categoryId)}信息</h2><p><font>*</font>标记的是必填项</p><a href="/idea/select/category">重新选择拒宅分类</a></div>
+											<div class="title"><h2><c:choose><c:when test="${empty idea }">分享</c:when><c:otherwise>编辑</c:otherwise></c:choose> ${jzd:categoryName(categoryId)}信息</h2><p><font>*</font>标记的是必填项</p><c:if test="${empty idea }"><a href="/idea/select/category">重新选择拒宅分类</a></c:if></div>
 											<div class="hr_line"></div>
 												<input name="categoryId" type="hidden" value="${categoryId}"/>
 												<input name="ideaId" type="hidden" value="${idea.id}"/>
+												<input name="createUid" type="hidden" value="${idea.createUid}" />
 												<div class="pub_x"><!--pub_x begin-->
 													<h3><font>*</font>标题：</h3>
 													<div class="pub_input"><p class="l"></p><span class="w330"><input name="content" value="${idea.content}" type="text" /></span><p class="r"></p></div><em id="content_tip" style="display: none"></em>

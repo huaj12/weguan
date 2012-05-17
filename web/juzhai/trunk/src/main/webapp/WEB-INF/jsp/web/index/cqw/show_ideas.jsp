@@ -91,14 +91,14 @@
 														<div class="idea_box_t"></div>
 														<div class="idea_box_m"><!--pub_box_m begin-->
 															<c:if test="${not empty ideaView.idea.pic}">
-																<div class="img"><a href="/idea/${ideaView.idea.id}"><img src="${jzr:static('/images/web/1px.gif')}" data-original="${jzr:ideaPic(ideaView.idea.id,ideaView.idea.pic, 200)}" /></a></div>
+																<div class="img"><a href="/idea/${ideaView.idea.id}"><img src="${jzr:static('/images/web2/1px.gif')}" data-original="${jzr:ideaPic(ideaView.idea.id,ideaView.idea.pic, 200)}" /></a></div>
 															</c:if>
 															<p><a href="/idea/${ideaView.idea.id}"><c:out value="${ideaView.idea.content}" /></a><c:if test="${ideaView.profileCache != null}"><a href="/home/${ideaView.profileCache.uid}" class="from">来自&nbsp;<c:out value="${ideaView.profileCache.nickname}" /></a></c:if></p>
 															<c:if test="${ideaView.idea.categoryId > 0}">
 																<span class="tag">${jzd:categoryName(ideaView.idea.categoryId)}</span>
 															</c:if>
-															<c:if test="${ideaView.idea.date != null}">
-																<span class="time"><fmt:formatDate value="${ideaView.idea.date}" pattern="yyyy-MM-dd" /></span>
+															<c:if test="${ideaView.idea.startTime != null || ideaView.idea.endTime != null}">
+																<span class="time"><c:if test="${ideaView.idea.startTime != null}"><fmt:formatDate value="${ideaView.idea.startTime}" pattern="yyyy.MM.dd hh:mm"/>-</c:if><fmt:formatDate value="${ideaView.idea.endTime}" pattern="yyyy.MM.dd hh:mm"/></span>
 															</c:if>
 															<c:if test="${not empty ideaView.idea.place}">
 																<span class="adress"><c:out value="${ideaView.idea.place}"></c:out></span>
@@ -137,15 +137,15 @@
 																		<a href="javascript:void(0);" idea-id="${ideaView.idea.id}" class="zj" >邀朋友</a>
 																		<div class="show_icons" id="show_icons_${ideaView.idea.id}" style="display: none">
 																			<!-- Baidu Button BEGIN -->
-																			    <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" data="{'text':'谁想去:${ideaView.idea.content}<c:if test='${ideaView.idea.date != null}'> 时间:<fmt:formatDate value='${ideaView.idea.date}' pattern='yyyy.MM.dd'/></c:if><c:if test='${not empty ideaView.idea.place}'> 地点:${ideaView.idea.place}</c:if> (拒宅网:助你脱宅)','wbuid':'2294103501','url':'http://www.51juzhai.com/idea/${ideaView.idea.id}','pic':'${jzr:ideaPic(ideaView.idea.id,ideaView.idea.pic, 200)}'}">
+																			    <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" data="{'text':'谁想去:${ideaView.idea.content}<%-- <c:if test='${ideaView.idea.date != null}'> 时间:<fmt:formatDate value='${ideaView.idea.date}' pattern='yyyy.MM.dd'/></c:if> --%><c:if test='${not empty ideaView.idea.place}'> 地点:${ideaView.idea.place}</c:if> (拒宅网:助你脱宅)','wbuid':'2294103501','url':'http://www.51juzhai.com/idea/${ideaView.idea.id}','pic':'${jzr:ideaPic(ideaView.idea.id,ideaView.idea.pic, 200)}'}">
 																			        <a class="bds_tsina"></a>
 																			        <a class="bds_tqq"></a>
 																			        <a class="bds_douban"></a>
 																			    </div>
-																			    <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" data="{'text':'谁想去:${ideaView.idea.content}<c:if test='${ideaView.idea.date != null}'> 时间:<fmt:formatDate value='${ideaView.idea.date}' pattern='yyyy.MM.dd'/></c:if><c:if test='${not empty ideaView.idea.place}'> 地点:${ideaView.idea.place}</c:if> (拒宅网:助你脱宅)','url':'http://www.51juzhai.com/idea/${ideaView.idea.id}'}">
+																			    <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" data="{'text':'谁想去:${ideaView.idea.content}<%-- <c:if test='${ideaView.idea.date != null}'> 时间:<fmt:formatDate value='${ideaView.idea.date}' pattern='yyyy.MM.dd'/></c:if> --%><c:if test='${not empty ideaView.idea.place}'> 地点:${ideaView.idea.place}</c:if> (拒宅网:助你脱宅)','url':'http://www.51juzhai.com/idea/${ideaView.idea.id}'}">
 																			         <a class="bds_renren"></a>
 																			    </div>
-																			    <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" data="{'text':'加入拒宅找伴儿出去玩!','url':'http://www.51juzhai.com/idea/${ideaView.idea.id}','comment':'谁想去:${ideaView.idea.content}<c:if test='${ideaView.idea.date != null}'> 时间:<fmt:formatDate value='${ideaView.idea.date}' pattern='yyyy.MM.dd'/></c:if><c:if test='${not empty ideaView.idea.place}'> 地点:${ideaView.idea.place}</c:if> (拒宅网:助你脱宅)','pic':'${jzr:ideaPic(ideaView.idea.id,ideaView.idea.pic, 200)}'}">
+																			    <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" data="{'text':'加入拒宅找伴儿出去玩!','url':'http://www.51juzhai.com/idea/${ideaView.idea.id}','comment':'谁想去:${ideaView.idea.content}<%-- <c:if test='${ideaView.idea.date != null}'> 时间:<fmt:formatDate value='${ideaView.idea.date}' pattern='yyyy.MM.dd'/></c:if> --%><c:if test='${not empty ideaView.idea.place}'> 地点:${ideaView.idea.place}</c:if> (拒宅网:助你脱宅)','pic':'${jzr:ideaPic(ideaView.idea.id,ideaView.idea.pic, 200)}'}">
 																			       	<a class="bds_qzone"></a>
 																			       	<a class="bds_kaixin001"></a>
 																			    </div>

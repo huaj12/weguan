@@ -76,10 +76,10 @@
 						<div class="upload_ok" <c:if test="${empty postForm.pic}">style="display: none;"</c:if>><!--upload_ok begin-->
 							<em><a href="javascript:void(0);">重新上传</a></em>
 							<c:choose>
-								<c:when test="${empty postForm.pic}"><c:set var="initImgUrl" value="${jzr:static('/images/web/1px.gif')}" /></c:when>
+								<c:when test="${empty postForm.pic}"><c:set var="initImgUrl" value="${jzr:static('/images/web2/1px.gif')}" /></c:when>
 								<c:otherwise><c:set var="initImgUrl" value="${jzr:postPic(postForm.postId, postForm.ideaId, postForm.pic, 450)}" /></c:otherwise>
 							</c:choose>
-							<div class="img"><img src="${initImgUrl}" init-pic="${jzr:static('/images/web/1px.gif')}" width="250" /></div>
+							<div class="img"><img src="${initImgUrl}" init-pic="${jzr:static('/images/web2/1px.gif')}" width="250" /></div>
 						</div><!--upload_ok end-->
 					</div><!--upload_photo_arae end-->
 				</div><!--show_area end-->

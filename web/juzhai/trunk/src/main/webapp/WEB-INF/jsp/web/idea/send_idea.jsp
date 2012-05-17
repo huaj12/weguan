@@ -27,8 +27,8 @@
 			<div>
 				<div class="ms"><c:out value="${idea.content}" /></div>
 				<div class="infor"><!--infor begin-->
-					<c:if test="${not empty idea.date}">
-						<span class="time"><fmt:formatDate value="${idea.date}" pattern="MM-dd"/></span>
+					<c:if test="${idea.startTime == null && idea.endTime != null}">
+						<span class="time"><fmt:formatDate value="${idea.endTime}" pattern="MM-dd"/></span>
 					</c:if>
 					<c:if test="${not empty idea.place}">
 						<span class="adress"><c:out value="${idea.place}" /></span>

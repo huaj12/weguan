@@ -2,7 +2,7 @@ $(document).ready(function(){
 	$("#city-select").each(function(){
 		var citySelect = new CitySelectInput(this, function(cityId){
 			var gender = $("input[name='genderType']").val();
-			var ideaId = $("div.title3").attr("idea-id");
+			var ideaId = $("div.wgo_title").attr("idea-id");
 			window.location.href = "/idea/" + ideaId + "/user/" + cityId + "_" + gender + "/1";
 			return false;
 		});
@@ -13,7 +13,7 @@ $(document).ready(function(){
 	$("#gender-select").find("span > a").bind("click", function(){
 		var cityId = $("input[name='cityId']").val();
 		var gender = $(this).attr("value");
-		var ideaId = $("div.title3").attr("idea-id");
+		var ideaId = $("div.wgo_title").attr("idea-id");
 		window.location.href = "/idea/" + ideaId + "/user/" + cityId + "_" + gender + "/1";
 		return false;
 	});

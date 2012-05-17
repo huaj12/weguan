@@ -66,11 +66,7 @@ COLLATE = utf8_general_ci;
 
 SHOW WARNINGS;
 
-CREATE UNIQUE INDEX `uidx_contentmd5` ON `juzhai`.`tb_raw_idea` (`content_md5` ASC) ;
 
-
-
-SHOW WARNINGS;
 
 
 

@@ -193,8 +193,8 @@ public class RawIdeaService implements IRawIdeaService {
 		return rawIdeaMapper.selectByExample(example);
 	}
 
-	// TODO (review) 改了一个大写的问题，又来一个。仔细一点啊
-	private void IdeaCopyRawIdea(Long id) throws RawIdeaInputException {
+	// TODO (done) 改了一个大写的问题，又来一个。仔细一点啊
+	private void ideaCopyRawIdea(Long id) throws RawIdeaInputException {
 		RawIdea rawIdea = rawIdeaMapper.selectByPrimaryKey(id);
 		if (rawIdea == null) {
 			throw new RawIdeaInputException(
@@ -233,7 +233,7 @@ public class RawIdeaService implements IRawIdeaService {
 		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
 		rawIdeaMapper.updateByPrimaryKeySelective(rawIdea);
 		// 修改后通过审核
-		IdeaCopyRawIdea(rawIdea.getId());
+		ideaCopyRawIdea(rawIdea.getId());
 		// 通过后删除该拒宅
 		delRawIdea(rawIdea.getId());
 

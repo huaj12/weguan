@@ -313,7 +313,8 @@ public class IdeaService implements IIdeaService {
 		}
 	}
 
-	private String checkContentDuplicate(String content, Long id)
+	@Override
+	public String checkContentDuplicate(String content, Long id)
 			throws InputIdeaException {
 		String contentMd5 = null;
 		if (StringUtils.isNotEmpty(content)) {

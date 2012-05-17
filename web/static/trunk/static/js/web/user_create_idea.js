@@ -272,7 +272,7 @@ function userCreateIdea(){
 			if(result&&result.success){
 				alert("添加成功");
 			}else{
-				if(result.errorCode=='180001'){
+				if(result.errorCode=='180001'||result.errorCode=='180010'){
 					$("#content_tip").show().text(result.errorInfo);
 					$("input[name='content']").parent().parent().addClass("wrong"); 
 				}else if(result.errorCode=='180003'){

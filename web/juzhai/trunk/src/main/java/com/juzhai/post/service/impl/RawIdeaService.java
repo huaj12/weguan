@@ -193,7 +193,6 @@ public class RawIdeaService implements IRawIdeaService {
 		return rawIdeaMapper.selectByExample(example);
 	}
 
-	// TODO (done) 改了一个大写的问题，又来一个。仔细一点啊
 	private void ideaCopyRawIdea(Long id) throws RawIdeaInputException {
 		RawIdea rawIdea = rawIdeaMapper.selectByPrimaryKey(id);
 		if (rawIdea == null) {

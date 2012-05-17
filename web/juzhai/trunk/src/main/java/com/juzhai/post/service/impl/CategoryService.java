@@ -101,8 +101,8 @@ public class CategoryService implements ICategoryService {
 		if (id == null) {
 			return false;
 		}
+		//TODO (review) 分类不仅仅给idea用
 		if (!isUse(id)) {
-			// TODO (done) 有内容无法删除
 			categoryMapper.deleteByPrimaryKey(id);
 			return true;
 		} else {

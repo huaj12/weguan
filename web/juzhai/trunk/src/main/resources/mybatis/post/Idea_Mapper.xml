@@ -21,6 +21,8 @@
 			where
 				ti.defunct = 0 and 
 				ti.category_id = #{categoryId} and 
+				ti.pic is not null and
+				ti.pic != "" and
 				tp.defunct = 0 and 
 				tp.verify_type = 1 and 
 				tp.create_time between #{startTime} and #{endTime} 

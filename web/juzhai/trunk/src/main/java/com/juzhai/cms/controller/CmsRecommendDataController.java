@@ -59,4 +59,16 @@ public class CmsRecommendDataController {
 		return showRecommendIdea(model);
 	}
 
+	@RequestMapping(value = "/show/billboard/idea", method = RequestMethod.GET)
+	public String showBillboardIdea(Model model) {
+		List<Idea> list = recommendIdeaService.listRecentTopIdeas();
+		model.addAttribute("ideas", list);
+		return "/cms/show_billboard_idea";
+	}
+
+	@RequestMapping(value = "/update/billboard/idea", method = RequestMethod.GET)
+	public String updateBillboardIdea(Model model) {
+		recommendIdeaService.updateRecentTopIdeas();
+		return showBillboardIdea(model);
+	}
 }

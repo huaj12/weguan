@@ -97,14 +97,14 @@
 					封面
 				</td>
 				<td>
-				<img src="${jzr:ideaTempLogo(rawIdeaForm.pic)}" id="raw_idea_pic"></img>
+				<img src="${jzr:ideaTempLogo(rawIdeaForm.pic)}" id="raw_idea_pic" width="180" height="180"></img>
 				<form id="uploadImgForm" method="post" enctype="multipart/form-data">
 												重新上传：<input  size=6 type="file" onchange="uploadImage();" name="rawIdeaLogo" />  
 				</form>
 				</td>
 			</tr>
 			<tr>
-				<td><a onclick="pass();" href="javascript:void(0);">修改并通过</a></td>
+				<td><a onclick="pass();" href="javascript:void(0);">修改并通过</a></td><td><a href="javascript:void(0);" onclick="del('${rawIdeaForm.id}');">拒绝</a></td>
 			</tr>
 	</table>
 	<jsp:include page="/WEB-INF/jsp/web/common/script/kindEditor.jsp" />
@@ -149,6 +149,29 @@
 			};
 			$("#uploadImgForm").ajaxSubmit(options);
 			return false;
+		}
+		function del(id){
+			jQuery.ajax({
+				url : "/cms/del/rawIdea",
+				type : "post",
+				data : {
+					"id" : id
+				},
+				dataType : "json",
+				success : function(result) {
+					if (result.success!=null&&result.success) {
+						alert("删除成功");
+						window.location.href = "/cms/list/rawIdea";
+					} else {
+						alert("操作失败刷新后重试");
+					}
+				},
+				statusCode : {
+					401 : function() {
+						alert("请先登陆");
+					}
+				}
+			});
 		}
 		</script>
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />

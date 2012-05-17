@@ -15,7 +15,7 @@
 					<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${postView.post.purposeType}"/></c:import>:</font><a href="/post/${postView.post.id}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><c:out value="${postView.post.content}" /></a></p>
 					<div class="infor"><!--infor begin-->
 						<%-- <c:if test="${not empty postView.post.pic}">
-							<div class="img"><a href="/post/${postView.post.id}"><img data-original="${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic, 200)}" src="${jzr:static('/images/web/1px.gif')}"/></a></div>
+							<div class="img"><a href="/post/${postView.post.id}"><img data-original="${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic, 200)}" src="${jzr:static('/images/web2/1px.gif')}"/></a></div>
 						</c:if> --%>
 						<span class="tag">${jzd:categoryName(postView.post.categoryId)}</span>
 						<c:if test="${postView.post.dateTime != null}">

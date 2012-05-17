@@ -30,7 +30,7 @@
 						</c:if>
 						<div class="face_photo"><!--face_photo begin-->
 							<span>
-								<a href="/home/${showUserView.profile.uid}"><img data-original="${jzr:userLogo(showUserView.profile.uid,showUserView.profile.logoPic,180)}" src="${jzr:static('/images/web/1px.gif')}" height="180" width="180"/></a>
+								<a href="/home/${showUserView.profile.uid}"><img data-original="${jzr:userLogo(showUserView.profile.uid,showUserView.profile.logoPic,180)}" src="${jzr:static('/images/web2/1px.gif')}" height="180" width="180"/></a>
 							</span>
 						</div><!--face_photo end-->
 					</div><!--photo end-->

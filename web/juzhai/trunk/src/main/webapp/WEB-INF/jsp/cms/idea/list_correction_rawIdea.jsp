@@ -48,7 +48,7 @@ function del(obj){
 		</tr>
 		<c:forEach var="view" items="${rawIdeaViews}" >
 			<tr>
-				<td><c:out value="${view.createUser.nickname }"></c:out></td>
+				<td><c:out value="${view.createUser.nickname}"></c:out></td>
 				<td><c:out value="${view.correctionUser.nickname}"></c:out></td>
 				<td><c:out value="${view.rawIdea.content}"></c:out></td>
 				<td><fmt:formatDate value="${view.rawIdea.createTime}" pattern="yyyy-MM-dd" /></td>

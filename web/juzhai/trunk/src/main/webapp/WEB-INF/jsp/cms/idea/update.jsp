@@ -54,7 +54,7 @@
 			内容：
 			</td>
 			<td>
-				<textarea rows="10" name="content" cols="20">${ideaForm.content}</textarea>
+				<input name="content" value="${ideaForm.content}"/>
 			</td>
 			<c:if test="${not empty rawIdea.content &&rawIdea.content!=ideaForm.content }">
 			<td><font color="red">纠错</font></td>
@@ -100,7 +100,7 @@
 			</c:otherwise>
 			</c:choose>
 			</td>
-			<c:if test="${ideaForm.pic!=rawIdea.pic }">
+			<c:if test="${not empty rawIdea.pic&&ideaForm.pic!=rawIdea.pic }">
 			<td><font color="red">纠错</font></td>
 			<td>${jzr:ideaTempLogo(rawIdea.pic)}</td>
 			</c:if>

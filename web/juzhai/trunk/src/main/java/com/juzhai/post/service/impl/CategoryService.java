@@ -11,9 +11,13 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.cms.controller.form.CategoryForm;
 import com.juzhai.cms.controller.form.CategoryLiatFrom;
+import com.juzhai.cms.mapper.RawIdeaMapper;
+import com.juzhai.cms.model.RawIdeaExample;
 import com.juzhai.post.mapper.CategoryMapper;
+import com.juzhai.post.mapper.IdeaMapper;
 import com.juzhai.post.model.Category;
 import com.juzhai.post.model.CategoryExample;
+import com.juzhai.post.model.IdeaExample;
 import com.juzhai.post.service.ICategoryService;
 
 @Service
@@ -22,6 +26,10 @@ public class CategoryService implements ICategoryService {
 
 	@Autowired
 	private CategoryMapper categoryMapper;
+	@Autowired
+	private IdeaMapper ideaMapper;
+	@Autowired
+	private RawIdeaMapper rawIdeaMapper;
 
 	@Override
 	public List<Category> getAllCategory() {
@@ -74,18 +82,32 @@ public class CategoryService implements ICategoryService {
 
 	}
 
+	private boolean isUse(Long id) {
+		IdeaExample ideaExample = new IdeaExample();
+		ideaExample.createCriteria().andCategoryIdEqualTo(id);
+		if (ideaMapper.countByExample(ideaExample) > 0) {
+			return true;
+		}
+		RawIdeaExample rawIdeaExample = new RawIdeaExample();
+		rawIdeaExample.createCriteria().andCategoryIdEqualTo(id);
+		if (rawIdeaMapper.countByExample(rawIdeaExample) > 0) {
+			return true;
+		}
+		return false;
+	}
+
 	@Override
 	public boolean deleteCategory(Long id) {
 		if (id == null) {
 			return false;
 		}
-		// if (!actCategoryService.isExistAct(id)) {
-		// TODO (review) 有内容无法删除
-		categoryMapper.deleteByPrimaryKey(id);
-		return true;
-		// } else {
-		// return false;
-		// }
+		if (!isUse(id)) {
+			// TODO (done) 有内容无法删除
+			categoryMapper.deleteByPrimaryKey(id);
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 }

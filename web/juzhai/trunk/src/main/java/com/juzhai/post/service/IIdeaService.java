@@ -250,4 +250,15 @@ public interface IIdeaService {
 	 * @return
 	 */
 	int totalCount();
+
+	/**
+	 * 好主意标题是否重复
+	 * 
+	 * @param content
+	 * @param id
+	 * @return
+	 * @throws InputIdeaException
+	 */
+	String checkContentDuplicate(String content, Long id)
+			throws InputIdeaException;
 }

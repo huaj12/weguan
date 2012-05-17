@@ -19,18 +19,26 @@ import com.juzhai.cms.model.RawIdeaExample;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.core.web.jstl.JzUtilFunction;
+import com.juzhai.home.bean.DialogContentTemplate;
+import com.juzhai.home.service.IDialogService;
 import com.juzhai.post.controller.form.RawIdeaForm;
+import com.juzhai.post.exception.InputIdeaException;
 import com.juzhai.post.exception.RawIdeaInputException;
 import com.juzhai.post.mapper.IdeaMapper;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaDetailService;
 import com.juzhai.post.service.IIdeaImageService;
+import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IRawIdeaService;
 
 @Service
 public class RawIdeaService implements IRawIdeaService {
 	private final Log log = LogFactory.getLog(getClass());
-
+	@Autowired
+	private IIdeaService ideaService;
+	@Autowired
+	private IDialogService dialogService;
 	@Value("${post.content.length.min}")
 	private int postContentLengthMin;
 	@Value("${post.content.length.max}")
@@ -57,6 +65,13 @@ public class RawIdeaService implements IRawIdeaService {
 			throws RawIdeaInputException {
 		validateRawIdea(rawIdeaForm);
 		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
+		if (rawIdea.getIdeaId() == null) {
+			dialogService.sendOfficialSMS(rawIdea.getCreateUid(),
+					DialogContentTemplate.USER_CREATE_IDEA);
+		} else {
+			dialogService.sendOfficialSMS(rawIdea.getCorrectionUid(),
+					DialogContentTemplate.USER_UPDATE_IDEA);
+		}
 		rawIdeaMapper.insertSelective(rawIdea);
 	}
 
@@ -163,12 +178,12 @@ public class RawIdeaService implements IRawIdeaService {
 		if (StringUtils.isNotEmpty(content)) {
 			contentMd5 = DigestUtils.md5Hex(content);
 		}
-		RawIdeaExample example = new RawIdeaExample();
-		example.createCriteria().andContentMd5EqualTo(contentMd5);
-		if (rawIdeaMapper.countByExample(example) > 0) {
-			throw new RawIdeaInputException(
-					RawIdeaInputException.RAW_IDEA_CONTENT_EXIST);
-		}
+		// RawIdeaExample example = new RawIdeaExample();
+		// example.createCriteria().andContentMd5EqualTo(contentMd5);
+		// if (rawIdeaMapper.countByExample(example) > 0) {
+		// throw new RawIdeaInputException(
+		// RawIdeaInputException.RAW_IDEA_CONTENT_EXIST);
+		// }
 		return contentMd5;
 	}
 
@@ -193,18 +208,26 @@ public class RawIdeaService implements IRawIdeaService {
 		return rawIdeaMapper.selectByExample(example);
 	}
 
-	private void ideaCopyRawIdea(Long id) throws RawIdeaInputException {
+	private Idea ideaCopyRawIdea(Long id) throws RawIdeaInputException {
 		RawIdea rawIdea = rawIdeaMapper.selectByPrimaryKey(id);
 		if (rawIdea == null) {
 			throw new RawIdeaInputException(
 					RawIdeaInputException.ILLEGAL_OPERATION);
+		}
+		String contentMd5;
+		try {
+			contentMd5 = ideaService.checkContentDuplicate(
+					rawIdea.getContent(), null);
+		} catch (InputIdeaException e) {
+			throw new RawIdeaInputException(
+					RawIdeaInputException.RAW_IDEA_CONTENT_EXIST);
 		}
 		Idea idea = new Idea();
 		idea.setCategoryId(rawIdea.getCategoryId());
 		idea.setCharge(rawIdea.getCharge());
 		idea.setCity(rawIdea.getCity());
 		idea.setContent(rawIdea.getContent());
-		idea.setContentMd5(rawIdea.getContentMd5());
+		idea.setContentMd5(contentMd5);
 		idea.setCreateTime(new Date());
 		idea.setCreateUid(rawIdea.getCreateUid());
 		idea.setDefunct(false);
@@ -223,6 +246,7 @@ public class RawIdeaService implements IRawIdeaService {
 			ideaDetailService.updateIdeaDetail(idea.getId(),
 					rawIdea.getDetail());
 		}
+		return idea;
 	}
 
 	@Override
@@ -232,7 +256,11 @@ public class RawIdeaService implements IRawIdeaService {
 		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
 		rawIdeaMapper.updateByPrimaryKeySelective(rawIdea);
 		// 修改后通过审核
-		ideaCopyRawIdea(rawIdea.getId());
+		Idea idae = ideaCopyRawIdea(rawIdea.getId());
+		// 发送私信
+		dialogService.sendOfficialSMS(idae.getCreateUid(),
+				DialogContentTemplate.PASS_RAW_IDEA,
+				JzUtilFunction.truncate(idae.getContent(), 15, "..."));
 		// 通过后删除该拒宅
 		delRawIdea(rawIdea.getId());
 
@@ -246,7 +274,6 @@ public class RawIdeaService implements IRawIdeaService {
 		rawIdea.setCity(rawIdeaForm.getCity());
 		rawIdea.setContent(rawIdeaForm.getContent());
 		rawIdea.setContentMd5(rawIdeaForm.getContentMd5());
-		rawIdea.setCorrectionUid(rawIdeaForm.getCorrectionUid());
 		if (rawIdea.getId() == null) {
 			rawIdea.setCreateTime(new Date());
 			rawIdea.setLastModifyTime(rawIdea.getCreateTime());
@@ -254,6 +281,7 @@ public class RawIdeaService implements IRawIdeaService {
 			rawIdea.setLastModifyTime(new Date());
 		}
 		rawIdea.setCreateUid(rawIdeaForm.getCreateUid());
+		rawIdea.setCorrectionUid(rawIdeaForm.getCorrectionUid());
 		rawIdea.setDetail(rawIdeaForm.getDetail());
 		rawIdea.setEndTime(rawIdeaForm.getEndTime());
 		rawIdea.setStartTime(rawIdeaForm.getStartTime());

@@ -15,9 +15,11 @@ import com.juzhai.cms.mapper.RawIdeaMapper;
 import com.juzhai.cms.model.RawIdeaExample;
 import com.juzhai.post.mapper.CategoryMapper;
 import com.juzhai.post.mapper.IdeaMapper;
+import com.juzhai.post.mapper.PostMapper;
 import com.juzhai.post.model.Category;
 import com.juzhai.post.model.CategoryExample;
 import com.juzhai.post.model.IdeaExample;
+import com.juzhai.post.model.PostExample;
 import com.juzhai.post.service.ICategoryService;
 
 @Service
@@ -30,6 +32,8 @@ public class CategoryService implements ICategoryService {
 	private IdeaMapper ideaMapper;
 	@Autowired
 	private RawIdeaMapper rawIdeaMapper;
+	@Autowired
+	private PostMapper postMapper;
 
 	@Override
 	public List<Category> getAllCategory() {
@@ -93,6 +97,11 @@ public class CategoryService implements ICategoryService {
 		if (rawIdeaMapper.countByExample(rawIdeaExample) > 0) {
 			return true;
 		}
+		PostExample postExample = new PostExample();
+		postExample.createCriteria().andCategoryIdEqualTo(id);
+		if (postMapper.countByExample(postExample) > 0) {
+			return true;
+		}
 		return false;
 	}
 
@@ -101,7 +110,7 @@ public class CategoryService implements ICategoryService {
 		if (id == null) {
 			return false;
 		}
-		//TODO (review) 分类不仅仅给idea用
+		// TODO (review) 分类不仅仅给idea用
 		if (!isUse(id)) {
 			categoryMapper.deleteByPrimaryKey(id);
 			return true;

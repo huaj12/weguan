@@ -2099,12 +2099,13 @@ i{ color:#f00;}
 
 
 .idea_js{ width:100%; height:auto; overflow:hidden;}
+.h200{ height:200px;}
 .idea_js h2{ font-size:18px; font-family:"微软雅黑"; color:#666; padding-bottom:15px; border-bottom:1px solid #f0f0f0;}
 .idea_js p{ color:#999; line-height:19px; margin-top:15px; padding-bottom:10px;}
 .idea_js a{ float:right; color:#3E8BD9;}
 .idea_js a:hover{ text-decoration:underline;}
-
-
+.good_idea_detail a.show_more{float:right; color:#3E8BD9; margin-top:15px;}
+.good_idea_detail a.show_more:hover{text-decoration:underline;}
 
 .wgo_title{width:100%; height:auto; display:block; padding-bottom:15px; border-bottom:1px solid #f0f0f0; float:left;}
 .wgo_title h2{font-size:18px; font-family:"微软雅黑"; color:#666; float:left; margin-right:10px; display:inline;}
@@ -3689,12 +3690,12 @@ filter:alpha(opacity=80); -moz-opacity:0.8; -khtml-opacity: 0.8;opacity: 0.8;
 .pub_x .load_pic_btn{ float:left;  position:relative; margin-right:10px; display:inline;}
 .pub_x .load_pic_btn input{width:120px;height:40px;}  
 .pub_x .load_pic_btn .btn_file_molding{position:absolute;left:0;top:0;z-index:1;border:0 none;filter:alpha(opacity=0);opacity:0; cursor:pointer;}/*file的z-index要大于button*/ 
-.pub_x .load_pic_btn a{background:url(../images/web2/load_pic_btn.gif) no-repeat; width:120px; height:40px; line-height:40px; font-family:"微软雅黑"; font-size:18px; text-align:center; display:block; color:#666;}
+.pub_x .load_pic_btn a{background:url(../images/web2/loading_pic_btn.gif) no-repeat; width:120px; height:40px; line-height:40px; font-family:"微软雅黑"; font-size:18px; text-align:center; display:block; color:#666;}
 
 
 
 .pub_x .loading_pic_btn{ float:left; margin-right:10px; display:inline;}
-.pub_x .loading_pic_btn a{ background:url(../images/web2/loading_pic_btn.gif) no-repeat; width:120px; height:40px; line-height:40px; font-family:"微软雅黑"; font-size:18px; text-align:center; display:block; color:#ccc; cursor:default;}
+.pub_x .loading_pic_btn a{ background:url(../images/web2/load_pic_btn.gif) no-repeat; width:120px; height:40px; line-height:40px; font-family:"微软雅黑"; font-size:18px; text-align:center; display:block; color:#999; cursor:default;}
 
 
 

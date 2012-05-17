@@ -250,18 +250,4 @@ public interface IIdeaService {
 	 * @return
 	 */
 	int totalCount();
-
-	/**
-	 * 更新近期每个分类下最火的idea
-	 * 
-	 * @return
-	 */
-	void updateRecentTopIdeas();
-
-	/**
-	 * 获取近期每个分类下最火的idea
-	 * 
-	 * @return
-	 */
-	List<Idea> listRecentTopIdeas();
 }

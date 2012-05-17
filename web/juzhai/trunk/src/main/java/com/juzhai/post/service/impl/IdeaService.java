@@ -3,17 +3,12 @@ package com.juzhai.post.service.impl;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -63,8 +58,6 @@ public class IdeaService implements IIdeaService {
 	@Autowired
 	private RedisTemplate<String, Idea> ideaRedisTemplate;
 	@Autowired
-	private RedisTemplate<String, List<Idea>> listIdeaRedisTemplate;
-	@Autowired
 	private IProfileService profileService;
 	@Autowired
 	private IIdeaImageService ideaImageService;
@@ -90,8 +83,6 @@ public class IdeaService implements IIdeaService {
 	private int ideaWindowMaxRows;
 	@Value("${idea.recent.day.before}")
 	private int ideaRecentDayBefore;
-	@Value("${top.idea.recent.day.before}")
-	private int topIdeaRecentDayBefore;
 
 	@Override
 	public Idea getIdeaById(long ideaId) {
@@ -625,71 +616,5 @@ public class IdeaService implements IIdeaService {
 		IdeaExample example = new IdeaExample();
 		example.createCriteria().andDefunctEqualTo(false);
 		return ideaMapper.countByExample(example);
-	}
-
-	@Override
-	public void updateRecentTopIdeas() {
-		Date endTime = new Date();
-		Date startTime = DateUtils.addDays(endTime, -topIdeaRecentDayBefore);
-
-		List<Map<Idea, Integer>> resultList = new ArrayList<Map<Idea, Integer>>(
-				InitData.CATEGORY_MAP.size());
-		for (Long categoryId : InitData.CATEGORY_MAP.keySet()) {
-			Map<Long, Integer> ideaCntMap = ideaDao.getRecentPopIdeaId(
-					categoryId, startTime, endTime);
-			if (MapUtils.isNotEmpty(ideaCntMap)) {
-				Idea idea = null;
-				for (Map.Entry<Long, Integer> entry : ideaCntMap.entrySet()) {
-					idea = ideaMapper.selectByPrimaryKey(entry.getKey());
-					if (null != idea) {
-						Map<Idea, Integer> map = new HashMap<Idea, Integer>();
-						map.put(idea, entry.getValue());
-						resultList.add(map);
-					}
-				}
-			}
-		}
-		Collections.sort(resultList, new Comparator<Map<Idea, Integer>>() {
-			@Override
-			public int compare(Map<Idea, Integer> map1, Map<Idea, Integer> map2) {
-				Idea idea1 = null;
-				Idea idea2 = null;
-				int count1 = 0;
-				int count2 = 0;
-				for (Map.Entry<Idea, Integer> entry : map1.entrySet()) {
-					idea1 = entry.getKey();
-					count1 = entry.getValue();
-					break;
-				}
-				for (Map.Entry<Idea, Integer> entry : map2.entrySet()) {
-					idea2 = entry.getKey();
-					count2 = entry.getValue();
-					break;
-				}
-				if (count1 != count2) {
-					return count2 - count1;
-				} else if (idea2.getCreateTime().after(idea1.getCreateTime())) {
-					return 1;
-				} else {
-					return -1;
-				}
-			}
-		});
-		List<Idea> ideaList = new ArrayList<Idea>(resultList.size());
-		for (Map<Idea, Integer> map : resultList) {
-			for (Idea idea : map.keySet()) {
-				ideaList.add(idea);
-			}
-		}
-		if (CollectionUtils.isNotEmpty(ideaList)) {
-			listIdeaRedisTemplate.opsForValue().set(
-					RedisKeyGenerator.genRecentTopIdeasKey(), ideaList);
-		}
-	}
-
-	@Override
-	public List<Idea> listRecentTopIdeas() {
-		return listIdeaRedisTemplate.opsForValue().get(
-				RedisKeyGenerator.genRecentTopIdeasKey());
 	}
 }

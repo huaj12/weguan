@@ -80,7 +80,7 @@
 											<div class="pub_box"><!--pub_box begin-->
 												<div class="pub_box_t"></div>
 												<div class="pub_box_m"><!--pub_box_m begin-->
-													<div class="idea_js"><!--idea_js begin-->
+													<div class="idea_js h200"><!--idea_js begin-->
 														<h2>简介</h2>
 														<p>${ideaDetail.detail}</p>
 														<a href="javascript:void(0);">展开更多&gt;&gt;</a>

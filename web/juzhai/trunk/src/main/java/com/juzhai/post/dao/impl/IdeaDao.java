@@ -36,13 +36,21 @@ public class IdeaDao implements IIdeaDao {
 	@Override
 	public Map<Long, Integer> getRecentPopIdeaId(long categoryId,
 			Date startTime, Date endTime) {
+		System.out.println("cateId:" + categoryId);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("categoryId", categoryId);
 		params.put("startTime", startTime);
 		params.put("endTime", endTime);
-		Object reslutMap = sqlSession.selectOne("Idea_Mapper.getRecentPopIdea",
-				params);
-		return (Map<Long, Integer>) reslutMap;
+		Map<String, Object> map = (Map<String, Object>) sqlSession.selectOne(
+				"Idea_Mapper.getRecentPopIdea", params);
+		Map<Long, Integer> resultMap = new HashMap<Long, Integer>();
+		if (null != map) {
+			Long ideaId = Long.valueOf(String.valueOf(map.get("ideaId")));
+			Integer cnt = Integer.valueOf(String.valueOf(map.get("cnt")));
+			if (null != ideaId && null != cnt) {
+				resultMap.put(ideaId, cnt);
+			}
+		}
+		return resultMap;
 	}
-
 }

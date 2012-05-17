@@ -83,8 +83,8 @@
 													<div class="idea_js h200"><!--idea_js begin-->
 														<h2>简介</h2>
 														<p>${ideaDetail.detail}</p>
-														<a href="javascript:void(0);">展开更多&gt;&gt;</a>
 													</div><!--idea_js end-->
+													<a href="javascript:void(0);" class="show_more">展开更多&gt;&gt;</a>
 												</div><!--pub_box_m end-->
 												<div class="clear"></div>
 												<div class="pub_box_b"></div>

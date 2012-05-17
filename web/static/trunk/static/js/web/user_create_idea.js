@@ -81,6 +81,7 @@ function uploadImage() {
 function userCreateIdea(){
 	var categoryId=$("input[name='categoryId']").val();
 	var ideaId=$("input[name='ideaId']").val();
+	var createUid=$("input[name='createUid']").val();
 	var content=$("input[name='content']").val();
 	var pic=$("input[name='pic']").val();
 	var startDay=$("input[name='startDay']").val();
@@ -266,11 +267,16 @@ function userCreateIdea(){
 	jQuery.ajax({
 		url: "/idea/create",
 		type: "post",
-		data: {"ideaId":ideaId,"categoryId" : categoryId,"content":content,"pic":pic,"startDateString":startDateString,"endDateString":endDateString,"province":province,"city":city,"town":town,"place":place,"detail":detail,"charge":charge,"link":link},
+		data: {"createUid":createUid,"ideaId":ideaId,"categoryId" : categoryId,"content":content,"pic":pic,"startDateString":startDateString,"endDateString":endDateString,"province":province,"city":city,"town":town,"place":place,"detail":detail,"charge":charge,"link":link},
 		dataType: "json",
 		success: function(result){
 			if(result&&result.success){
-				alert("添加成功");
+				$(window).unbind("beforeunload");
+				if(ideaId==null||ideaId==""){
+					window.location.href = "/showideas";
+				}else{
+					window.location.href = "/idea/"+ideaId;
+				}
 			}else{
 				if(result.errorCode=='180001'||result.errorCode=='180010'){
 					$("#content_tip").show().text(result.errorInfo);

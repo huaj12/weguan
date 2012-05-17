@@ -88,7 +88,7 @@
 
 
 <div class="wgo_title" idea-id="${idea.id}"><!--wgo_title begin-->
-	<!-- <h2>想去的人(123)</h2> -->
+	<h2>想去的人</h2>
 	<div id="city-select" class="l_select_menu" name="cityId"><!--l_select_menu begin-->
 		<p><a href="javascript:void(0);" hidefocus city-id="${cityId}"><c:choose><c:when test="${cityId == 0}">全国</c:when><c:otherwise>${jzd:cityName(cityId)}</c:otherwise></c:choose></a></p>
 		<div></div>

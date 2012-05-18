@@ -4,6 +4,7 @@
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
+<%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -132,7 +133,7 @@
 		<tr>
 		<td>详情</td>
 			<td><textarea id="detail" style="width: 700px; height: 200px; visibility: hidden;" name="detail">${detail.detail}</textarea></td>
-			<c:if test="${not empty rawIdea.detail &&rawIdea.detail!=detail.detail}">
+			<c:if test="${not empty rawIdea.detail &&jzu:cleanString(rawIdea.detail)!=jzu:cleanString(detail.detail)}">
 			<td><font color="red">纠错</font></td>
 			<td>${rawIdea.detail}</td>
 			</c:if>
@@ -141,7 +142,9 @@
 			<td></td>
 			<td>
 			<input name="ideaId" type="hidden" value="${ideaForm.ideaId}" />
-			<input type="submit" value="修改" /> </td>
+			<input type="submit" value="修改" /> 
+			<a href="#" onclick="del('${rawIdea.id}')">忽略</a></td>
+			
 		</tr>
 	</table>
 	</form>
@@ -163,6 +166,31 @@
 		});
 		</script>
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-		<script>new LocationWidget();</script>
+		<script>new LocationWidget();
+		function del(id){
+			jQuery.ajax({
+				url : "/cms/del/rawIdea",
+				type : "post",
+				data : {
+					"id" : id
+				},
+				dataType : "json",
+				success : function(result) {
+					if (result.success!=null&&result.success) {
+						window.location.href = "/cms/list/correction/rawIdea";
+					} else {
+						alert("操作失败刷新后重试");
+					}
+				},
+				statusCode : {
+					401 : function() {
+						alert("请先登陆");
+					}
+				}
+			});
+			return false;
+		}
+		
+		</script>
 </body>
 </html>

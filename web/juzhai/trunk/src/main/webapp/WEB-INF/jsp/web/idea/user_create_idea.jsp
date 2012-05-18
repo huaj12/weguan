@@ -46,130 +46,132 @@
 											
 											
 												<c:if test="${categoryId!=8}">
-												<div class="pub_x"><!--pub_x begin-->
-													<h3><c:if test="${categoryId==3||categoryId==6 }"><font>*</font></c:if>时间：</h3>
-													<div class="pub_input"><!--pub_input begin-->
-													<p class="l"></p><span class="w88"><input name="startDay" type="text"  init-tip="开始日期" value="<fmt:formatDate value="${idea.startTime}" pattern="yyyy-MM-dd" />"  onclick="WdatePicker();return false;" value="" /></span><p class="r"></p>
-													</div><!--pub_input end-->
-													
-													<div class="pub_sel"><!--pub_sel begin-->
-														<p class="l"></p>
-														<span class="w68">
-															<select name="startHour" >
-																<c:if test="${not empty idea.startTime }"><option value="<fmt:formatDate value="${idea.startTime}" pattern="HH" />" ><fmt:formatDate value="${idea.startTime}" pattern="HH" />点</option></c:if>
-																<c:forEach begin="0" end="23" var="hour">
-																	<option value="${hour}" >
-																		<c:choose>
-																			<c:when test="${hour <10 }">0${hour}</c:when>
-																			<c:otherwise>${hour}</c:otherwise>
-																		</c:choose>
-																	点</option>
-																</c:forEach>
-															</select>
-														</span>
-														<p class="r"></p>
-													</div><!--pub_sel end-->
-													
-												<div class="pub_sel"><!--pub_sel begin-->
-													<p class="l"></p>
-														<span class="w68">
-															<select name="startMinute" >
-															<c:if test="${not empty idea.startTime }"><option value="<fmt:formatDate value="${idea.startTime}" pattern="mm" />" ><fmt:formatDate value="${idea.startTime}" pattern="mm" />点</option></c:if>
+														<c:if test="${categoryId!=1&&categoryId!=5}">
+															<div class="pub_x"><!--pub_x begin-->
+																<h3><c:if test="${categoryId==3||categoryId==6 }"><font>*</font></c:if>时间：</h3>
+																<div class="pub_input"><!--pub_input begin-->
+																<p class="l"></p><span class="w88"><input name="startDay" type="text"  init-tip="开始日期" value="<fmt:formatDate value="${idea.startTime}" pattern="yyyy-MM-dd" />"  onclick="WdatePicker();return false;" value="" /></span><p class="r"></p>
+																</div><!--pub_input end-->
+																
+																<div class="pub_sel"><!--pub_sel begin-->
+																	<p class="l"></p>
+																	<span class="w68">
+																		<select name="startHour" >
+																			<c:if test="${not empty idea.startTime }"><option value="<fmt:formatDate value="${idea.startTime}" pattern="HH" />" ><fmt:formatDate value="${idea.startTime}" pattern="HH" />点</option></c:if>
+																			<c:forEach begin="0" end="23" var="hour">
+																				<option value="${hour}" >
+																					<c:choose>
+																						<c:when test="${hour <10 }">0${hour}</c:when>
+																						<c:otherwise>${hour}</c:otherwise>
+																					</c:choose>
+																				点</option>
+																			</c:forEach>
+																		</select>
+																	</span>
+																	<p class="r"></p>
+																</div><!--pub_sel end-->
+																
+															<div class="pub_sel"><!--pub_sel begin-->
+																<p class="l"></p>
+																	<span class="w68">
+																		<select name="startMinute" >
+																		<c:if test="${not empty idea.startTime }"><option value="<fmt:formatDate value="${idea.startTime}" pattern="mm" />" ><fmt:formatDate value="${idea.startTime}" pattern="mm" />点</option></c:if>
+																			<c:forEach begin="0" end="55" var="minute" step="5">
+																				<option value="${minute}" >	
+																					<c:choose>
+																						<c:when test="${minute <10 }">0${minute}</c:when>
+																						<c:otherwise>${minute}</c:otherwise>
+																					</c:choose>
+																				分</option>
+																			</c:forEach>
+																		</select>
+																	</span>
+																<p class="r"></p>
+															</div><!--pub_sel end-->
+															<em style="display: none" id="startDate_tip" ></em>
+															</div><!--pub_x end-->
+														
+														<div class="pub_x"><!--pub_x begin-->
+															<h3>&nbsp;&nbsp;</h3>
+															<div class="pub_input"><!--pub_input begin-->
+																<p class="l"></p><span class="w88"><input name="endDay" type="text" value="<fmt:formatDate value="${idea.endTime}" pattern="yyyy-MM-dd" />" init-tip="结束日期"  onclick="WdatePicker();return false;" /></span><p class="r"></p>
+															</div><!--pub_input end-->
+															<div class="pub_sel"><!--pub_sel begin-->
+																<p class="l"></p>
+																	<span class="w68">
+																		<select name="endHour" >
+																		<c:if test="${not empty idea.endTime }"><option value="<fmt:formatDate value="${idea.endTime}" pattern="HH" />" ><fmt:formatDate value="${idea.endTime}" pattern="HH" />点</option></c:if>
+																			<c:forEach begin="0" end="23" var="hour">
+																				<option value="${hour}" >
+																				<c:choose>
+																					<c:when test="${hour <10 }">0${hour}</c:when>
+																					<c:otherwise>${hour}</c:otherwise>
+																				</c:choose>
+																				点</option>
+																			</c:forEach>
+																		</select>
+																	</span>
+																<p class="r"></p>
+															</div><!--pub_sel end-->
+															
+															<div class="pub_sel"><!--pub_sel begin-->
+																<p class="l"></p>
+																<span class="w68">
+																<select name="endMinute"  >
+																<c:if test="${not empty idea.endTime }"><option value="<fmt:formatDate value="${idea.endTime}" pattern="mm" />" ><fmt:formatDate value="${idea.endTime}" pattern="mm" />点</option></c:if>
 																<c:forEach begin="0" end="55" var="minute" step="5">
-																	<option value="${minute}" >	
-																		<c:choose>
-																			<c:when test="${minute <10 }">0${minute}</c:when>
-																			<c:otherwise>${minute}</c:otherwise>
-																		</c:choose>
+																	<option value="${minute}" >
+																				<c:choose>
+																					<c:when test="${minute <10 }">0${minute}</c:when>
+																					<c:otherwise>${minute}</c:otherwise>
+																				</c:choose>
 																	分</option>
 																</c:forEach>
-															</select>
+																</select>
+																</span>
+																<p class="r"></p>
+															</div><!--pub_sel end-->
+															<em style="display: none" id="endDate_tip" ></em>
+															<div class="clear"></div>
+															<div class="clear"></div>
+														</div><!--pub_x end-->
+													</c:if>
+												<c:if test="${categoryId!=4}">
+													<div class="pub_x"><!--pub_x begin-->
+													<h3><c:if test="${categoryId==3||categoryId==6 }"><font>*</font></c:if>地点：</h3>
+														<div class="pub_sel"><!--pub_sel begin-->
+														<p class="l"></p>
+														<span>
+														<select id="province-select" name="province" select-data="${province}">
+															<option value="0">请选择</option>
+														</select>
 														</span>
-													<p class="r"></p>
-												</div><!--pub_sel end-->
-												<em style="display: none" id="startDate_tip" ></em>
-												</div><!--pub_x end-->
-											
-											<div class="pub_x"><!--pub_x begin-->
-												<h3>&nbsp;&nbsp;</h3>
-												<div class="pub_input"><!--pub_input begin-->
-													<p class="l"></p><span class="w88"><input name="endDay" type="text" value="<fmt:formatDate value="${idea.endTime}" pattern="yyyy-MM-dd" />" init-tip="结束日期"  onclick="WdatePicker();return false;" /></span><p class="r"></p>
-												</div><!--pub_input end-->
-												<div class="pub_sel"><!--pub_sel begin-->
-													<p class="l"></p>
-														<span class="w68">
-															<select name="endHour" >
-															<c:if test="${not empty idea.endTime }"><option value="<fmt:formatDate value="${idea.endTime}" pattern="HH" />" ><fmt:formatDate value="${idea.endTime}" pattern="HH" />点</option></c:if>
-																<c:forEach begin="0" end="23" var="hour">
-																	<option value="${hour}" >
-																	<c:choose>
-																		<c:when test="${hour <10 }">0${hour}</c:when>
-																		<c:otherwise>${hour}</c:otherwise>
-																	</c:choose>
-																	点</option>
-																</c:forEach>
-															</select>
+														<p class="r"></p>
+														</div><!--pub_sel end-->
+														
+														<div class="pub_sel"><!--pub_sel begin-->
+														<p class="l"></p>
+														<span>
+														<select id="city-select" name="city" select-data="${city}">
+															<option value="0">请选择</option>
+														</select>
 														</span>
-													<p class="r"></p>
-												</div><!--pub_sel end-->
-												
-												<div class="pub_sel"><!--pub_sel begin-->
-													<p class="l"></p>
-													<span class="w68">
-													<select name="endMinute"  >
-													<c:if test="${not empty idea.endTime }"><option value="<fmt:formatDate value="${idea.endTime}" pattern="mm" />" ><fmt:formatDate value="${idea.endTime}" pattern="mm" />点</option></c:if>
-													<c:forEach begin="0" end="55" var="minute" step="5">
-														<option value="${minute}" >
-																	<c:choose>
-																		<c:when test="${minute <10 }">0${minute}</c:when>
-																		<c:otherwise>${minute}</c:otherwise>
-																	</c:choose>
-														分</option>
-													</c:forEach>
-													</select>
-													</span>
-													<p class="r"></p>
-												</div><!--pub_sel end-->
-												<em style="display: none" id="endDate_tip" ></em>
-												<div class="clear"></div>
-												<div class="clear"></div>
-											</div><!--pub_x end-->
-											
-											<div class="pub_x"><!--pub_x begin-->
-											<h3><c:if test="${categoryId==3||categoryId==6 }"><font>*</font></c:if>地点：</h3>
-												<div class="pub_sel"><!--pub_sel begin-->
-												<p class="l"></p>
-												<span>
-												<select id="province-select" name="province" select-data="${province}">
-													<option value="0">请选择</option>
-												</select>
-												</span>
-												<p class="r"></p>
-												</div><!--pub_sel end-->
-												
-												<div class="pub_sel"><!--pub_sel begin-->
-												<p class="l"></p>
-												<span>
-												<select id="city-select" name="city" select-data="${city}">
-													<option value="0">请选择</option>
-												</select>
-												</span>
-												<p class="r"></p>
-												</div><!--pub_sel end-->
-												
-												<div class="pub_sel" id="town_div"><!--pub_sel begin-->
-													<p class="l"></p>
-													<span class="w68">
-													<select id="town-select" name="town" select-data="${town}" style="display: none;">
-														<option value="-1">请选择</option>
-													</select>
-													</span>
-													<p class="r"></p>
-												</div><!--pub_sel end-->
-												
-											<div class="pub_input"><p class="l"></p><span class="w230"><input name="place" value="${idea.place }" type="text" init-tip="输入详细地址"  class="fous_befor" /></span><p class="r"></p></div><em id="place_tip" style="display: none"></em>
-											</div><!--pub_x end-->
-											
+														<p class="r"></p>
+														</div><!--pub_sel end-->
+														
+														<div class="pub_sel" id="town_div"><!--pub_sel begin-->
+															<p class="l"></p>
+															<span class="w68">
+															<select id="town-select" name="town" select-data="${town}" style="display: none;">
+																<option value="-1">请选择</option>
+															</select>
+															</span>
+															<p class="r"></p>
+														</div><!--pub_sel end-->
+														
+													<div class="pub_input"><p class="l"></p><span class="w230"><input name="place" value="${idea.place }" type="text" init-tip="输入详细地址"  class="fous_befor" /></span><p class="r"></p></div><em id="place_tip" style="display: none"></em>
+													</div><!--pub_x end-->
+												</c:if>
 											</c:if>
 											<div class="pub_x"><!--pub_x begin-->
 											<h3><c:if test="${categoryId==3||categoryId==6 }"><font>*</font></c:if>介绍：</h3>

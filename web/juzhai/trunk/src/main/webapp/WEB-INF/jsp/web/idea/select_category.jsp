@@ -41,6 +41,7 @@
 						</div><!--huodong_area end-->
 					</div><!--main end-->
 					<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
+					<c:set var="footType" value="fixed" scope="request"/>
 					<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 				</div><!--warp end-->
 

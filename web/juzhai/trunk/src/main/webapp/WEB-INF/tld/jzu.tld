@@ -87,5 +87,12 @@
     	<function-signature>java.lang.String mailDomain(java.lang.String)</function-signature>
     	<example>${jzu:mailDomain('"')}</example>
     </function>
+     <function>
+    	<name>cleanString</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.String cleanString(java.lang.String)</function-signature>
+    	<example>${jzu:cleanString('"')}</example>
+    </function>
+    
     
 </taglib>

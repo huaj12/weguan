@@ -30,6 +30,8 @@ public class RawIdeaInputException extends JuzhaiException {
 
 	public static final String RAW_IDEA_TOWN_IS_NULL = "180012";
 
+	public static final String RAW_IDEA_TIME_IS_ERROR = "180013";
+
 	public RawIdeaInputException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

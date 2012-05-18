@@ -94,7 +94,7 @@ public class IdeaImageService implements IIdeaImageService {
 					String distDirectoryPath = uploadIdeaImageHome
 							+ ImageUtil.generateHierarchyImagePath(ideaId,
 									sizeType.getType());
-					imageManager.reduceImageWidth(directoryPath + fileName,
+					imageManager.reduceImage(directoryPath + fileName,
 							distDirectoryPath, fileName, sizeType.getType());
 				}
 			}

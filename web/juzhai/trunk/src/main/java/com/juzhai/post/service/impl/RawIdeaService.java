@@ -108,6 +108,12 @@ public class RawIdeaService implements IRawIdeaService {
 				throw new RawIdeaInputException(
 						RawIdeaInputException.ILLEGAL_OPERATION);
 			}
+			// 开始日期大于结束日期
+			if (rawIdeaForm.getStartTime().getTime() > rawIdeaForm.getEndTime()
+					.getTime()) {
+				throw new RawIdeaInputException(
+						RawIdeaInputException.RAW_IDEA_TIME_IS_ERROR);
+			}
 		}
 		// // 如果类别是拒宅灵感。则没有时间和地点选项
 		// if (rawIdeaForm.getCategoryId() == 8) {

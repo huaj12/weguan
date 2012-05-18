@@ -125,7 +125,8 @@ function userCreateIdea(){
 	}
 	
 	if(pic==null||pic==""){
-		$("input[name='pic']")[0].focus();
+		//定位不到pic定位content
+		$("input[name='content']")[0].focus();
 		$("#pic_tip").show().text("请上传封面");
 		return ;
 	}else{

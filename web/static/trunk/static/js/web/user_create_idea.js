@@ -194,7 +194,6 @@ function userCreateIdea(){
 			}
 			
 			if(trimStr(detail)==""){
-				$("textarea[name='detail']")[0].focus();
 				$("textarea[name='detail']").parent().parent().addClass("wrong");
 				$("#detail_tip").show().text("简介不能为空");
 				return ;
@@ -227,7 +226,6 @@ function userCreateIdea(){
 		}
 		
 		if(!checkValLength(place, 0, 40000)){
-			$("textarea[name='detail']")[0].focus();
 			$("#detail_tip").show().text("介绍太多了!");
 			$("textarea[name='detail']").parent().parent().addClass("wrong"); 
 			return ;
@@ -298,13 +296,16 @@ function userCreateIdea(){
 					$("#place_tip").show().text(result.errorInfo);
 					$("input[name='place']").parent().parent().addClass("wrong"); 
 				}else if(result.errorCode=='180006'||result.errorCode=='180008'){
-					$("textarea[name='detail']")[0].focus();
 					$("#detail_tip").show().text(result.errorInfo);
 					$("textarea[name='detail']").parent().parent().addClass("wrong"); 
 				}else if(result.errorCode=='180009'){
 					$("input[name='link']")[0].focus();
 					$("#link_tip").show().text(result.errorInfo);
 					$("input[name='link']").parent().parent().addClass("wrong"); 
+				}else if(result.errorCode=='180013'){
+					$("input[name='startDay']")[0].focus();
+					$("#startDate_tip").show().text(result.errorInfo);
+					$("input[name='startDay']").parent().parent().addClass("wrong"); 
 				}
 				else{
 					alert(result.errorInfo);	

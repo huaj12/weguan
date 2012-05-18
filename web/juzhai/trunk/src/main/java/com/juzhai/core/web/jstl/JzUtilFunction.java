@@ -200,6 +200,7 @@ public class JzUtilFunction {
 
 	/**
 	 * 邮箱的网站
+	 * 
 	 * @param email
 	 * @return
 	 */
@@ -221,5 +222,16 @@ public class JzUtilFunction {
 		if (email.endsWith("@yahoo.com.cn") || email.endsWith("@yahoo.com"))
 			return "http://mail.cn.yahoo.com";
 		return "javascript:void(0);";
+	}
+
+	public static String cleanString(String str) {
+		if (str != null && !"".equals(str)) {
+			Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+			Matcher m = p.matcher(str);
+			String strNoBlank = m.replaceAll("");
+			return strNoBlank;
+		} else {
+			return str;
+		}
 	}
 }

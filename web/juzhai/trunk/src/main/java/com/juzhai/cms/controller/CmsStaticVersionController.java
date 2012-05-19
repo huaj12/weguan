@@ -33,7 +33,7 @@ public class CmsStaticVersionController {
 			loadFile(cssRoot, versions,
 					File.separator + "css" + File.separator, "css");
 		}
-		//TODO 通知各个系统
+		// TODO 通知各个系统
 		StaticUtil.STATIC_VERSION_MAP.putAll(versions);
 		return "success";
 	}
@@ -49,7 +49,7 @@ public class CmsStaticVersionController {
 				} else if (file.isFile()
 						&& file.getName().endsWith("." + extension)) {
 					versions.put(filePath + file.getName(),
-							String.valueOf(file.lastModified()));
+							String.valueOf(file.lastModified() / 1000));
 				}
 			}
 		}

@@ -89,15 +89,19 @@ public class IdeaImageService implements IIdeaImageService {
 					+ ImageUtil.generateHierarchyImagePath(ideaId,
 							JzImageSizeType.ORIGINAL.getType());
 			FileUtil.writeFileToFile(directoryPath, fileName, srcFile);
-			for (JzImageSizeType sizeType : JzImageSizeType.values()) {
-				if (sizeType.getType() > 0) {
-					String distDirectoryPath = uploadIdeaImageHome
-							+ ImageUtil.generateHierarchyImagePath(ideaId,
-									sizeType.getType());
-					imageManager.reduceImage(directoryPath + fileName,
-							distDirectoryPath, fileName, sizeType.getType());
-				}
-			}
+			// 中图
+			String distDirectoryPath = uploadIdeaImageHome
+					+ ImageUtil.generateHierarchyImagePath(ideaId,
+							JzImageSizeType.MIDDLE.getType());
+			imageManager.reduceImage(directoryPath + fileName,
+					distDirectoryPath, fileName,
+					JzImageSizeType.MIDDLE.getType());
+			// 大图
+			distDirectoryPath = uploadIdeaImageHome
+					+ ImageUtil.generateHierarchyImagePath(ideaId,
+							JzImageSizeType.BIG.getType());
+			imageManager.reduceImageWidth(directoryPath + fileName,
+					distDirectoryPath, fileName, JzImageSizeType.BIG.getType());
 			return fileName;
 		} catch (Exception e) {
 			log.error("intoIdeaLogo is error ideaId=" + ideaId

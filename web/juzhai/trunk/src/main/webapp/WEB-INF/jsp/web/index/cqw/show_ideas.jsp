@@ -130,7 +130,7 @@
 																</c:choose>
 																<c:choose>
 																	<c:when test="${not empty isQplus && isQplus}">	
-																		<div class="share_icon"><a href="javascript:void(0);" onclick="qPlusShare('我想找伴去:${ideaView.idea.content}<c:if test='${ideaView.idea.date != null}'> 时间:<fmt:formatDate value='${ideaView.idea.date}' pattern='yyyy.MM.dd'/></c:if> <c:if test='${not empty ideaView.idea.place}'> 地点:${ideaView.idea.place}</c:if>','','${jzr:ideaPic(ideaView.idea.id,ideaView.idea.pic, 200)}','','拒宅网');return false;" title="分享">分享</a></div>
+																		<div class="share_icon"><a href="javascript:void(0);" onclick="qPlusShare('我想找伴去:${ideaView.idea.content}<%--<c:if test='${ideaView.idea.date != null}'> 时间:<fmt:formatDate value='${ideaView.idea.date}' pattern='yyyy.MM.dd'/></c:if>--%> <c:if test='${not empty ideaView.idea.place}'> 地点:${ideaView.idea.place}</c:if>','','${jzr:ideaPic(ideaView.idea.id,ideaView.idea.pic, 200)}','','拒宅网');return false;" title="分享">分享</a></div>
 																	</c:when>
 																	<c:otherwise>
 																		<div class="zj_friend"><!--zj_friend begin-->

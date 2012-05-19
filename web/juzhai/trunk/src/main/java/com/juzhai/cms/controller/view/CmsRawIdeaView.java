@@ -1,7 +1,7 @@
 package com.juzhai.cms.controller.view;
 
-import com.juzhai.cms.model.RawIdea;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.post.model.RawIdea;
 
 public class CmsRawIdeaView {
 	private RawIdea rawIdea;

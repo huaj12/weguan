@@ -326,7 +326,7 @@ public class IdeaController extends BaseController {
 		return "web/idea/user_create_idea";
 	}
 
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult create(HttpServletRequest request, RawIdeaForm rawIdeaForm)
 			throws NeedLoginException {

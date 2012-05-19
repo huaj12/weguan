@@ -2,9 +2,9 @@ package com.juzhai.post.service;
 
 import java.util.List;
 
-import com.juzhai.cms.model.RawIdea;
 import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.post.exception.RawIdeaInputException;
+import com.juzhai.post.model.RawIdea;
 
 public interface IRawIdeaService {
 

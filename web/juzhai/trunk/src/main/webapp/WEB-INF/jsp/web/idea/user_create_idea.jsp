@@ -27,7 +27,7 @@
 												<input name="createUid" type="hidden" value="${idea.createUid}" />
 												<div class="pub_x"><!--pub_x begin-->
 													<h3><font>*</font>标题：</h3>
-													<div class="pub_input"><p class="l"></p><span class="w330"><input name="content" value="${idea.content}" type="text" /></span><p class="r"></p></div><em id="content_tip" style="display: none"></em>
+													<div class="pub_input"><p class="l"></p><span class="w330"><input name="content" value="${idea.content}" type="text" /></span><p class="r"></p></div><em id="content-tip" style="display: none"></em>
 												</div><!--pub_x end-->
 												
 												<div class="pub_x"><!--pub_x begin-->
@@ -39,7 +39,7 @@
 													</form>
 													</div>
 													<div class="loading_pic_btn" style="display: none"><a href="#">上传中...</a></div>
-													<em style="display: none" id="pic_tip"></em>
+													<em style="display: none" id="pic-tip"></em>
 													<div class="pic_img" <c:if test="${empty idea.pic }">style="display: none"</c:if>><img src="${jzr:ideaPic(idea.id,idea.pic, 200)}" width="180" height="180" /></div>
 													<input type="hidden" name="pic" value="${idea.pic}" />
 												</div><!--pub_x end-->
@@ -88,7 +88,7 @@
 																	</span>
 																<p class="r"></p>
 															</div><!--pub_sel end-->
-															<em style="display: none" id="startDate_tip" ></em>
+															<em style="display: none" id="start-date-tip" ></em>
 															</div><!--pub_x end-->
 														
 														<div class="pub_x"><!--pub_x begin-->
@@ -131,7 +131,7 @@
 																</span>
 																<p class="r"></p>
 															</div><!--pub_sel end-->
-															<em style="display: none" id="endDate_tip" ></em>
+															<em style="display: none" id="end-date-tip" ></em>
 															<div class="clear"></div>
 															<div class="clear"></div>
 														</div><!--pub_x end-->
@@ -169,14 +169,14 @@
 															<p class="r"></p>
 														</div><!--pub_sel end-->
 														
-													<div class="pub_input"><p class="l"></p><span class="w230"><input name="place" value="${idea.place }" type="text" init-tip="输入详细地址"  class="fous_befor" /></span><p class="r"></p></div><em id="place_tip" style="display: none"></em>
+													<div class="pub_input"><p class="l"></p><span class="w230"><input name="place" value="${idea.place }" type="text" init-tip="输入详细地址"  class="fous_befor" /></span><p class="r"></p></div><em id="place-tip" style="display: none"></em>
 													</div><!--pub_x end-->
 												</c:if>
 											</c:if>
 											<div class="pub_x"><!--pub_x begin-->
 											<h3><c:if test="${categoryId==3||categoryId==6 }"><font>*</font></c:if>介绍：</h3>
 											<div class="jieshao"><textarea name="detail" style="width: 570px; height: 200px; visibility: hidden;">${detail.detail}</textarea></div>
-											<em id="detail_tip" style="display: none"></em>
+											<em id="detail-tip" style="display: none"></em>
 											</div><!--pub_x end-->
 											
 											<div class="pub_x"><!--pub_x begin-->
@@ -191,13 +191,13 @@
 												</span>
 												<p class="r"></p>
 												</div><!--pub_sel end-->
-												<div class="pub_input" id="charge-input" <c:if test="${empty idea.charge&&idea.charge==0||idea.charge==null }">style="display: none"</c:if>><p class="l"></p><span class="w80"><input name="charge" type="text" value="${idea.charge }" /></span><p class="r"></p><div class="yuan">元</div></div><em id="charge_tip" style="display: none"></em>
+												<div class="pub_input" id="charge-input" <c:if test="${empty idea.charge&&idea.charge==0||idea.charge==null }">style="display: none"</c:if>><p class="l"></p><span class="w80"><input name="charge" type="text" value="${idea.charge }" /></span><p class="r"></p><div class="yuan">元</div></div><em id="charge-tip" style="display: none"></em>
 												<div class="clear"></div>
 											</div><!--pub_x end-->
 											
 											<div class="pub_x"><!--pub_x begin-->
 												<h3>链接：</h3>
-												<div class="pub_input"><p class="l"></p><span class="w330"><input name="link" type="text"  class="fous_befor" init-tip="输入相关链接的url地址" value="${charge.link }" /></span><p class="r"></p></div><em style="display: none" id="link_tip"></em>
+												<div class="pub_input"><p class="l"></p><span class="w330"><input name="link" type="text"  class="fous_befor" init-tip="输入相关链接的url地址" value="${idea.link }" /></span><p class="r"></p></div><em style="display: none" id="link-tip"></em>
 												<div class="clear"></div>
 											</div><!--pub_x end-->
 											<div class="pub_x"><!--pub_x begin-->

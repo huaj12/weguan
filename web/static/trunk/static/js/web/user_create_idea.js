@@ -1,17 +1,3 @@
-var editor;
-KindEditor.ready(function(K) {
-	editor = K.create('textarea[name="detail"]', {
-		resizeType : 1,
-		uploadJson : '/idea/kindEditor/upload',
-		allowPreviewEmoticons : false,
-		allowImageUpload : true,
-		items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
-				'bold', 'italic', 'underline', 'removeformat', '|',
-				'justifyleft', 'justifycenter', 'justifyright',
-				'insertorderedlist', 'insertunorderedlist', '|', 'emoticons',
-				'image', 'link' ]
-	});
-});
 $(document).ready(function() {
 	$(window).bind('beforeunload', function() {
 		return '关闭页面后，当前好主意内容将不被保存，确定要放弃编辑吗？';
@@ -36,6 +22,20 @@ $(document).ready(function() {
 	registerInitMsg($("input[name='link']"));
 	registerInitMsg($("input[name='startDay']"));
 	registerInitMsg($("input[name='endDay']"));
+});
+var editor;
+KindEditor.ready(function(K) {
+	editor = K.create('textarea[name="detail"]', {
+		resizeType : 1,
+		uploadJson : '/idea/kindEditor/upload',
+		allowPreviewEmoticons : false,
+		allowImageUpload : true,
+		items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
+				'bold', 'italic', 'underline', 'removeformat', '|',
+				'justifyleft', 'justifycenter', 'justifyright',
+				'insertorderedlist', 'insertunorderedlist', '|', 'emoticons',
+				'image', 'link' ]
+	});
 });
 
 function uploadImage() {

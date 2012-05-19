@@ -104,7 +104,7 @@
 																<span class="adress"><c:out value="${ideaView.idea.place}"></c:out></span>
 															</c:if>
 															<c:if test="${!empty ideaView.idea.link }">
-																<span class="link"><a href="${ideaView.idea.link}">查看相关链接</a></span>
+																<span class="link"><a href="${ideaView.idea.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关链接</a></span>
 															</c:if>
 															<div class="fb_area"><!--fb_area begin-->
 																<c:choose>

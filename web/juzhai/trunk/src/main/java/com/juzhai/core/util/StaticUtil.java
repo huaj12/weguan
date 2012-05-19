@@ -92,7 +92,7 @@ public class StaticUtil {
 			log.debug("static resource converting:" + key + "->" + url);
 		}
 		String version = STATIC_VERSION_MAP.get(key);
-		return url + (StringUtils.isEmpty(version) ? "" : ("?" + version));
+		return url + (StringUtils.isEmpty(version) ? "" : ("?v=" + version));
 	}
 
 	public static String getPrefixCss() {

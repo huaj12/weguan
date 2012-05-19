@@ -11,15 +11,15 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.cms.controller.form.CategoryForm;
 import com.juzhai.cms.controller.form.CategoryLiatFrom;
-import com.juzhai.cms.mapper.RawIdeaMapper;
-import com.juzhai.cms.model.RawIdeaExample;
 import com.juzhai.post.mapper.CategoryMapper;
 import com.juzhai.post.mapper.IdeaMapper;
 import com.juzhai.post.mapper.PostMapper;
+import com.juzhai.post.mapper.RawIdeaMapper;
 import com.juzhai.post.model.Category;
 import com.juzhai.post.model.CategoryExample;
 import com.juzhai.post.model.IdeaExample;
 import com.juzhai.post.model.PostExample;
+import com.juzhai.post.model.RawIdeaExample;
 import com.juzhai.post.service.ICategoryService;
 
 @Service

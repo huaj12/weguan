@@ -40,7 +40,7 @@
 													</div>
 													<div class="loading_pic_btn" style="display: none"><a href="#">上传中...</a></div>
 													<em style="display: none" id="pic-tip"></em>
-													<div class="pic_img" <c:if test="${empty idea.pic }">style="display: none"</c:if>><img src="${jzr:ideaPic(idea.id,idea.pic, 200)}" width="180" height="180" /></div>
+													<div class="pic_img" <c:if test="${empty idea.pic }">style="display: none"</c:if>><img <c:if test='${not empty jzr:ideaPic(idea.id,idea.pic, 200) }'>src="${jzr:ideaPic(idea.id,idea.pic, 200)}" </c:if> width="180" height="180" /></div>
 													<input type="hidden" name="pic" value="${idea.pic}" />
 												</div><!--pub_x end-->
 											

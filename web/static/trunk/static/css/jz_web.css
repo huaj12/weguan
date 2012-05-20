@@ -2115,7 +2115,7 @@ i{ color:#f00;}
 .wgo_list{ width:100%; height:auto; display:block; loat:left; }
 .wgo_list ul{ float:left;}
 .wgo_list ul li{ width:580px; height:80px; overflow:hidden; border-bottom:1px dashed #f0f0f0; position:relative; margin-top:10px; padding-bottom:10px; float:left;}
-.wgo_list .none{ width:100%; height:auto; overflow:hidden; padding-top:100px; padding-bottom:60px; text-align:center; font-size:14px; color:#999;}
+.wgo_list .none{ width:100%; height:auto; padding-top:100px; padding-bottom:60px; text-align:center; font-size:14px; color:#999;}
 
 
 

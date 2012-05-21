@@ -1,3 +1,4 @@
+var title = $("title").text();
 $(document).ready(function(){
 //	var n = 0; //top值
 //	var obj = $("div.fix_top"); //position:fixed对象
@@ -104,19 +105,21 @@ function queryNotice(){
 		dataType : "json",
 		success : function(result) {
 			if (result && result.success) {
+				var totalCnt = 0;
 				for(var key in result.result){
-//					if(result.result[key] > 0){
-//						$("div.my_message > a > span#notice" + key).text(result.result[key]).show();
-//					}else{
-//						$("div.my_message > a > span#notice" + key).hide();
-//					}
 					if(result.result[key] > 0){
+						totalCnt += result.result[key];
 						$("div.my_message > div.my_message_show > span#notice-float-" + key).show();
 					}else{
 						$("div.my_message > div.my_message_show > span#notice-float-" + key).hide();
 					}
 					$("div.my_message_show > span#notice-float-" + key + " > em").text(result.result[key] > 0 ? result.result[key] : "");
 				}
+				var newTitle = title;
+				if(totalCnt > 0){
+					newTitle = "(" + totalCnt + ") " + title;
+				}
+				$("title").text(newTitle);
 			}
 		}
 	});

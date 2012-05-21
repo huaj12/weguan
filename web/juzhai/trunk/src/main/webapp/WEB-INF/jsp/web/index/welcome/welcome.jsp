@@ -21,6 +21,10 @@
 					</c:if>
 					<div class="top"><!--top begin-->
 						<h2></h2>
+						<div class="menu"><!--menu begin-->
+							<a href="/searchusers" title="找伴儿">找伴儿</a>
+							<a href="/showideas" title="出去玩">出去玩</a>
+						</div><!--menu end-->
 						<div class="login_btn"><a href="/login" class="btn_log" title="登录">登录</a><a href="/passport/register" class="btn_res" title="注册">注册</a></div>
 						<%-- <div class="welcome_login"><p>登录:</p>
 							<a href="javascript:void(0);" go-uri="/web/login/6" class="wb" title="使用微博账号登录"></a>

@@ -31,8 +31,8 @@
 				<div id="messageSelect">
 					<p class=""><a href="javascript:void(0);">消息</a></p>
 					<div class="my_message_show" style="display: none; z-index: 999"><!--use_set_center begin-->
-						<span id="notice5"><a href="/home/dialog/1">私信</a><em></em></span>
-						<span id="notice6"><a href="/home/comment/inbox/1">留言</a><em></em></span>
+						<span id="notice-float-5"><a href="/home/dialog/1">私信</a><em></em></span>
+						<span id="notice-float-6"><a href="/home/comment/inbox/1">留言</a><em></em></span>
 					</div><!--use_set_center end-->
 				</div>
 				<div class="my_message_show" style="z-index: 1"><!--use_set_center begin-->

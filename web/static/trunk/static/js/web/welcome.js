@@ -15,8 +15,17 @@ $(document).ready(function(){
 //			}
 //		});
 //	}, 5000);
+	
+	setTimeout(rollAnimation, 2000);
 });
 
+function rollAnimation(){
+	var liObj = $("div.wel_cqw > ul").find("li:last").hide();
+	liObj.remove();
+	$("div.wel_cqw > ul").prepend(liObj);
+	liObj.slideDown();
+	setTimeout(rollAnimation, Math.floor(Math.random()*5000 + 1000));
+}
 
 function showLogin(turnTo){
 	if(turnTo == null || turnTo == ""){

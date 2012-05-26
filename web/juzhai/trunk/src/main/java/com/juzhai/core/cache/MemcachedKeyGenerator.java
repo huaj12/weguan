@@ -122,4 +122,14 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	public static String genLoginCountKey(String ip) {
 		return ip + CACHE_KEY_SEPARATOR + "loginCount";
 	}
+
+	/**
+	 * 用户创建好主意次数
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genCreateIdeaCountKey(long uid) {
+		return uid + CACHE_KEY_SEPARATOR + "createIdeaCount";
+	}
 }

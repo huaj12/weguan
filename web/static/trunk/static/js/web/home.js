@@ -102,82 +102,6 @@ $(document).ready(function(){
 		return false;
 	});
 	
-	$("div.send_box").find("div.random_select > a.random").click(function(){
-		$("textarea[name='content']").bind("keyup", function(){
-			var random = $(this).attr("random");
-			if(null != random && random){
-				$(this).attr("random", false);
-				resetAdditionForm($("form[name='sendPost']"));
-			}
-		});
-		$.ajax({
-			url : "/idea/random",
-			type : "post",
-			cache : false,
-			data : {},
-			dataType : "json",
-			success : function(result) {
-				if(result && result.success){
-					var content = result.result.content;
-					var dateTime = result.result.dateTime;
-					var place = result.result.place;
-					var categoryId = result.result.categoryId;
-					var pic = result.result.pic;
-					var picUrl = result.result.picUrl;
-					var ideaId = result.result.id;
-					
-					resetSendPostForm($("form[name='sendPost']"));
-					$("textarea[name='content']").val(content);
-					$("textarea[name='content']").attr("random", true);
-					//place
-					if(place != null && place != ""){
-						var sendPostAddress = $("div#send-post-address");
-						sendPostAddress.find("input[name='place']").val(place);
-						sendPostAddress.find("input[type='text']").val(place);
-						sendPostAddress.addClass("done");
-					}
-					//date
-					if(null != dateTime && dateTime != ""){
-						var sendPostDate = $("div#send-post-date");
-						sendPostDate.find("input[name='dateString']").val(dateTime);
-						var array =  dateTime.split("-");
-						sendPostDate.find("p > a").text(array[1] + "-" + array[2]);
-						sendPostDate.addClass("done");
-					}
-					//pic
-					if(null != pic && pic != "" && null != picUrl && picUrl != ""){
-						var sendPostPic = $("div#send-post-pic");
-						sendPostPic.find("div.show_area > div.upload_photo_area > div.upload").hide();
-						sendPostPic.find("div.load_error").hide();
-						sendPostPic.find("input[name='pic']").val(pic);
-						sendPostPic.find("input[name='picIdeaId']").val(ideaId);
-						sendPostPic.find("div.upload_ok > div.img > img").attr("src", picUrl);
-						sendPostPic.find("div.upload_ok").show();
-						sendPostPic.addClass("done");
-					}
-					//category
-					if(categoryId > 0){
-						var sendPostCategory = $("div#send-post-category");
-						var selectCategory = sendPostCategory.find("div.tag_list > a[value='" + categoryId + "']");
-						if(null != selectCategory){
-							sendPostCategory.find("div.tag_list > a").first().removeClass("act");
-							selectCategory.addClass("act");
-							sendPostCategory.find("input[name='categoryId']").val(selectCategory.attr("value"));
-							sendPostCategory.find("p > a").text(selectCategory.text());
-							sendPostCategory.addClass("done");
-						}
-					}
-				}
-			},
-			statusCode : {
-				401 : function() {
-					window.location.href = "/login?turnTo=" + window.location.href;
-				}
-			}
-		});
-		return false;
-	});
-	
 	$("div.float_box > div > div.close > a").click(function(){
 		var tip = $(this).parent().parent().parent();
 		tip.animate({bottom:'+=-100'}, 800, function(){tip.remove();});
@@ -194,6 +118,28 @@ $(document).ready(function(){
 			$("div.cake_show").hide();
 		}
 	});
+	
+	$("div.random_select > a").each(function(){
+		$(this).click(function(){
+			var type=$(this).attr("class");
+			var dialog = openDialog(null, "shareIdeaBox", $("#share-idea-box").html());
+			$(dialog.content()).find("div.title > p").attr("class", type);
+			$(dialog.content()).find("div.link > a").attr("href", $("#link-"+type).val());
+			$(dialog.content()).find("div.link > a").text($("#link-"+type).attr("name"));
+			$(dialog.content()).find("div.link > a").attr("target","_blank");
+			$(dialog.content()).find("div.pub_input > span > input").attr("init-tip",$("#link-"+type).attr("init-tip"));
+			$(dialog.content()).find("div.title > h2").text($("#link-"+type).attr("title"));
+			registerInitMsg($(dialog.content()).find("div.pub_input > span > input"));
+			$(dialog.content()).find("div.title > a").click(function(){
+				closeDialog("shareIdeaBox");
+				return false;
+			});
+			$(dialog.content()).find("div.btn > a").click(function(){
+				shareIdea($(this),dialog);
+			});
+			return false;
+		});
+    });
 });
 
 function resetSendPostForm(sendForm){
@@ -224,4 +170,162 @@ function resetAdditionForm(sendForm){
 	sendForm.find("div.upload > div.load_error").text("").hide();
 	sendForm.find("div.upload_ok > div.img > img").attr("src", sendForm.find("div.upload_ok > div.img > img").attr("init-pic"));
 	sendForm.find("div.upload_ok").hide();
+}
+
+function shareIdea(obj,dialog){
+	obj.addClass("loading");
+	obj.text("加载中...");
+	var url=$(dialog.content()).find("div.pub_input > span > input").val();
+	var urlDes=$(dialog.content()).find("div.pub_input > span > input").attr("init-tip");
+	if(url==""||url==urlDes){
+		$(dialog.content()).find("div.error").show().text("请输入链接");
+		obj.removeClass("loading");
+		obj.text("确认");
+		return false;
+	}else{
+		$(dialog.content()).find("div.error").hide();
+	}
+	$.ajax({
+		url : "/idea/share",
+		type : "post",
+		cache : false,
+		data : {
+			"url" : url
+		},
+		dataType : "json",
+		success : function(result) {
+			if(result&&result.success){
+				var content = $("#show-share-idea-box").html();
+				content=content.replace("{title}",result.result.content);
+				if(result.result.startDateString!=null&&result.result.endDateString!=null){
+					content=content.replace("{beginTime}",result.result.startDateString.substring(0,10));
+					content=content.replace("{endTime}",result.result.endDateString.substring(0,10));
+				}
+				if(result.result.cityName!=null){
+					content=content.replace("{cityName}",result.result.cityName);
+				}else{
+					content=content.replace("{cityName}","");
+				}
+				if(result.result.townName!=null){
+					content=content.replace("{townName}",result.result.townName);
+				}else{
+					content=content.replace("{townName}","");
+				}
+				if(result.result.place!=null){
+					content=content.replace("{place}",result.result.place);
+				}else{
+					content=content.replace("{place}","");
+				}
+				var showDialog=openDialog(null, "showShareIdeaBox",content);
+				if(result.result.startDateString==null||result.result.endDateString==null){
+					$(showDialog.content()).find("div.img_infor > #tip").text("");
+					$(showDialog.content()).find("div.img_infor > #data").text("");
+				}
+				//关闭上一个层
+				closeDialog("shareIdeaBox");
+				$(showDialog.content()).find("div.img > img").attr("src",result.result.picWeb);
+				$(showDialog.content()).find("div.title > a").click(function(){
+					closeDialog("showShareIdeaBox");
+					return false;
+				});
+				$(showDialog.content()).find("div.btn > a").click(function(){
+					saveIdea($(this),showDialog,result.result);
+				});
+				
+			}else{
+				obj.removeClass("loading");
+				obj.text("确认");
+				$(dialog.content()).find("div.error").show().text(result.errorInfo);
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+	return false;
+}
+
+function saveIdea(obj,dialog,result){
+	obj.addClass("loading");
+	obj.text("提交中...");
+	var startDateString="";
+	var endDateString="";
+	var city="";
+	var town="";
+	var place="";
+	var detail="";
+	var charge="";
+	var link="";
+	if(result.startDateString!=null){
+		startDateString=result.startDateString;
+	}
+	if(result.endDateString!=null){
+		endDateString=result.endDateString;
+	}
+	if(result.city!=null){
+		city=result.city;
+	}
+	if(result.town!=null){
+		town=result.town;
+	}
+	if(result.place!=null){
+		place=result.place;
+	}
+	if(result.detail!=null){
+		detail=result.detail;
+	}
+	if(result.charge!=null){
+		charge=result.charge;
+	}
+	if(result.link!=null){
+		link=result.link;
+	}
+	$.ajax({
+		url : "/idea/save",
+		type : "post",
+		cache : false,
+		data : {
+			"content" : result.content,
+			"pic" : result.pic,
+			"startDateString" : startDateString,
+			"endDateString" : endDateString,
+			"city" : city,
+			"town" : town,
+			"place" : place,
+			"detail" : detail,
+			"charge" : charge,
+			"link" : link,
+			"categoryId":result.categoryId
+		},
+		dataType : "json",
+		success : function(result) {
+			var content = $("#share-idea-tip-box").html();
+			var tipDialog=openDialog(null, "shareIdeaTipBox",content);
+			closeDialog("showShareIdeaBox");
+			if(result&&result.success){
+				$(tipDialog.content()).find("div.title > h2").text("分享成功");
+				$(tipDialog.content()).find("div.share_suc > p").text("好主意提交成功:)");
+			}else{
+				$(tipDialog.content()).find("div.title > h2").text("分享失败");
+				$(tipDialog.content()).find("div.share_suc > p").text(result.errorInfo);
+			}
+			$(tipDialog.content()).find("div.title > a").click(function(){
+				closeDialog("shareIdeaTipBox");
+				return false;
+			});
+			$(tipDialog.content()).find("div.btn > a").click(function(){
+				closeDialog("shareIdeaTipBox");
+				return false;
+			});
+			tipDialog.time(2);
+			
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
 }

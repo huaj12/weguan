@@ -46,4 +46,14 @@ public interface IIdeaImageService {
 	 * @return
 	 */
 	String intoEditorImg(long ideaId, String detail);
+
+	/**
+	 * 上传idea临时图片
+	 * 
+	 * @param imageUrl
+	 * @return
+	 * @throws UploadImageException
+	 */
+	public String[] uploadTempIdeaImg(String imageUrl)
+			throws UploadImageException;
 }

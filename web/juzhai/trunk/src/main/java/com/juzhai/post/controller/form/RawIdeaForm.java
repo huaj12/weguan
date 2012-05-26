@@ -22,6 +22,33 @@ public class RawIdeaForm {
 	private String startDateString;
 	private String endDateString;
 	private Long province;
+	private String picWeb;
+	private String cityName;
+	private String townName;
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
+	public String getTownName() {
+		return townName;
+	}
+
+	public void setTownName(String townName) {
+		this.townName = townName;
+	}
+
+	public String getPicWeb() {
+		return picWeb;
+	}
+
+	public void setPicWeb(String picWeb) {
+		this.picWeb = picWeb;
+	}
 
 	public Long getId() {
 		return id;

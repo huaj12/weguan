@@ -42,13 +42,15 @@ import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.post.controller.view.IdeaUserView;
-import com.juzhai.post.exception.RawIdeaInputException;
+import com.juzhai.post.exception.InputRawIdeaException;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.IdeaDetail;
 import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IRawIdeaService;
 import com.juzhai.post.service.impl.IdeaDetailService;
+import com.juzhai.spider.exception.SpiderIdeaException;
+import com.juzhai.spider.service.ISpiderIdeaService;
 
 @Controller
 @RequestMapping(value = "idea")
@@ -66,6 +68,8 @@ public class IdeaController extends BaseController {
 	private IdeaDetailService ideaDetailService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private ISpiderIdeaService spiderIdeaService;
 	@Autowired
 	private IRawIdeaService rawIdeaService;
 	@Value("${idea.user.max.rows}")
@@ -340,7 +344,33 @@ public class IdeaController extends BaseController {
 			}
 
 			rawIdeaService.createRawIdea(rawIdeaForm);
-		} catch (RawIdeaInputException e) {
+		} catch (InputRawIdeaException e) {
+			ajaxResult.setError(e.getErrorCode(), messageSource);
+		}
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/share", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult share(HttpServletRequest request, String url)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		Long cityId = 0L;
+		if (context.hasLogin()) {
+			ProfileCache profile = getLoginUserCache(request);
+			if (null != profile) {
+				cityId = profile.getCity();
+			}
+		}
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			RawIdeaForm rawIdeaForm = spiderIdeaService.crawl(url);
+			// 无城市时获取分享人所在城市
+			if (rawIdeaForm.getCity() == null) {
+				rawIdeaForm.setCity(cityId);
+			}
+			ajaxResult.setResult(rawIdeaForm);
+		} catch (SpiderIdeaException e) {
 			ajaxResult.setError(e.getErrorCode(), messageSource);
 		}
 		return ajaxResult;

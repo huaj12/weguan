@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import net.rubyeye.xmemcached.MemcachedClient;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -13,15 +15,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.web.jstl.JzUtilFunction;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
+import com.juzhai.passport.bean.LogoVerifyState;
+import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.service.IProfileService;
+import com.juzhai.post.bean.PurposeType;
+import com.juzhai.post.controller.form.PostForm;
 import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.post.exception.InputIdeaException;
-import com.juzhai.post.exception.RawIdeaInputException;
+import com.juzhai.post.exception.InputPostException;
+import com.juzhai.post.exception.InputRawIdeaException;
 import com.juzhai.post.mapper.IdeaMapper;
 import com.juzhai.post.mapper.RawIdeaMapper;
 import com.juzhai.post.model.Idea;
@@ -30,6 +39,7 @@ import com.juzhai.post.model.RawIdeaExample;
 import com.juzhai.post.service.IIdeaDetailService;
 import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaService;
+import com.juzhai.post.service.IPostService;
 import com.juzhai.post.service.IRawIdeaService;
 
 @Service
@@ -51,6 +61,11 @@ public class RawIdeaService implements IRawIdeaService {
 	private int ideaDetailLengthMax;
 	@Value("${idea.link.length.max}")
 	private int ideaLinkLengthMax;
+	@Value("${create.idea.expire.time}")
+	private int createIdeaExpireTime;
+	@Value("${create.idea.count}")
+	private int createIdeaCount;
+
 	@Autowired
 	private RawIdeaMapper rawIdeaMapper;
 	@Autowired
@@ -59,10 +74,33 @@ public class RawIdeaService implements IRawIdeaService {
 	private IIdeaImageService ideaImageService;
 	@Autowired
 	private IIdeaDetailService ideaDetailService;
+	@Autowired
+	private MemcachedClient memcachedClient;
+	@Autowired
+	private IPostService postService;
+	@Autowired
+	private IProfileService profileService;
 
 	@Override
 	public void createRawIdea(RawIdeaForm rawIdeaForm)
-			throws RawIdeaInputException {
+			throws InputRawIdeaException {
+		Integer userCreateIdeaCount = null;
+		// 创建好主意才判断
+		if (rawIdeaForm.getCreateUid() != null) {
+			try {
+				userCreateIdeaCount = memcachedClient.get(MemcachedKeyGenerator
+						.genCreateIdeaCountKey(rawIdeaForm.getCreateUid()));
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+			}
+			if (userCreateIdeaCount == null) {
+				userCreateIdeaCount = 0;
+			}
+			if (userCreateIdeaCount > createIdeaCount) {
+				throw new InputRawIdeaException(
+						InputRawIdeaException.RAW_IDEA_CREATE_TO_MORE);
+			}
+		}
 		validateRawIdea(rawIdeaForm);
 		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
 		if (rawIdea.getIdeaId() == null) {
@@ -73,24 +111,39 @@ public class RawIdeaService implements IRawIdeaService {
 					DialogContentTemplate.USER_UPDATE_IDEA);
 		}
 		rawIdeaMapper.insertSelective(rawIdea);
+
+		if (rawIdeaForm.getCreateUid() != null) {
+			try {
+				if (userCreateIdeaCount == null) {
+					userCreateIdeaCount = 1;
+				} else {
+					userCreateIdeaCount++;
+				}
+				memcachedClient.set(MemcachedKeyGenerator
+						.genCreateIdeaCountKey(rawIdeaForm.getCreateUid()),
+						createIdeaExpireTime, userCreateIdeaCount);
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+			}
+		}
 	}
 
 	private void validateRawIdea(RawIdeaForm rawIdeaForm)
-			throws RawIdeaInputException {
+			throws InputRawIdeaException {
 		int contentLength = StringUtil.chineseLength(rawIdeaForm.getContent());
 		if (contentLength < postContentLengthMin
 				|| contentLength > postContentLengthMax) {
-			throw new RawIdeaInputException(
-					RawIdeaInputException.RAW_IDEA_CONTENT_LENGTH_ERROR);
+			throw new InputRawIdeaException(
+					InputRawIdeaException.RAW_IDEA_CONTENT_LENGTH_ERROR);
 		}
 		if (StringUtils.isEmpty(rawIdeaForm.getPic())) {
-			throw new RawIdeaInputException(
-					RawIdeaInputException.RAW_IDEA_PIC_IS_NULL);
+			throw new InputRawIdeaException(
+					InputRawIdeaException.RAW_IDEA_PIC_IS_NULL);
 		}
 		if (rawIdeaForm.getCategoryId() == null
 				|| rawIdeaForm.getCategoryId() <= 0) {
-			throw new RawIdeaInputException(
-					RawIdeaInputException.RAW_IDEA_CATEGORYID_IS_NULL);
+			throw new InputRawIdeaException(
+					InputRawIdeaException.RAW_IDEA_CATEGORYID_IS_NULL);
 
 		}
 		// 验证日期格式
@@ -105,14 +158,14 @@ public class RawIdeaService implements IRawIdeaService {
 								rawIdeaForm.getEndDateString(),
 								DateFormat.TIME_PATTERN));
 			} catch (ParseException e) {
-				throw new RawIdeaInputException(
-						RawIdeaInputException.ILLEGAL_OPERATION);
+				throw new InputRawIdeaException(
+						InputRawIdeaException.ILLEGAL_OPERATION);
 			}
 			// 开始日期大于结束日期
 			if (rawIdeaForm.getStartTime().getTime() > rawIdeaForm.getEndTime()
 					.getTime()) {
-				throw new RawIdeaInputException(
-						RawIdeaInputException.RAW_IDEA_TIME_IS_ERROR);
+				throw new InputRawIdeaException(
+						InputRawIdeaException.RAW_IDEA_TIME_IS_ERROR);
 			}
 		}
 		// // 如果类别是拒宅灵感。则没有时间和地点选项
@@ -158,21 +211,21 @@ public class RawIdeaService implements IRawIdeaService {
 		int placeLength = StringUtil.chineseLength(rawIdeaForm.getPlace());
 		if (placeLength < postPlaceLengthMin
 				|| placeLength > postPlaceLengthMax) {
-			throw new RawIdeaInputException(
-					RawIdeaInputException.RAW_IDEA_ADDRESS_TOO_LONG);
+			throw new InputRawIdeaException(
+					InputRawIdeaException.RAW_IDEA_ADDRESS_TOO_LONG);
 
 		}
 
 		int detailLength = StringUtil.chineseLength(rawIdeaForm.getDetail());
 		if (detailLength > ideaDetailLengthMax) {
-			throw new RawIdeaInputException(
-					RawIdeaInputException.RAW_IDEA_DETAIL_TOO_LONG);
+			throw new InputRawIdeaException(
+					InputRawIdeaException.RAW_IDEA_DETAIL_TOO_LONG);
 		}
 
 		int linkLength = StringUtil.chineseLength(rawIdeaForm.getLink());
 		if (linkLength > ideaLinkLengthMax) {
-			throw new RawIdeaInputException(
-					RawIdeaInputException.RAW_IDEA_LINK_TOO_LONG);
+			throw new InputRawIdeaException(
+					InputRawIdeaException.RAW_IDEA_LINK_TOO_LONG);
 		}
 		rawIdeaForm.setContentMd5(checkContentDuplicate(
 				rawIdeaForm.getContent(), null));
@@ -180,7 +233,7 @@ public class RawIdeaService implements IRawIdeaService {
 	}
 
 	private String checkContentDuplicate(String content, String contentMd5)
-			throws RawIdeaInputException {
+			throws InputRawIdeaException {
 		if (StringUtils.isNotEmpty(content)) {
 			contentMd5 = DigestUtils.md5Hex(content);
 		}
@@ -214,19 +267,19 @@ public class RawIdeaService implements IRawIdeaService {
 		return rawIdeaMapper.selectByExample(example);
 	}
 
-	private Idea ideaCopyRawIdea(Long id) throws RawIdeaInputException {
+	private Idea ideaCopyRawIdea(Long id) throws InputRawIdeaException {
 		RawIdea rawIdea = rawIdeaMapper.selectByPrimaryKey(id);
 		if (rawIdea == null) {
-			throw new RawIdeaInputException(
-					RawIdeaInputException.ILLEGAL_OPERATION);
+			throw new InputRawIdeaException(
+					InputRawIdeaException.ILLEGAL_OPERATION);
 		}
 		String contentMd5;
 		try {
 			contentMd5 = ideaService.checkContentDuplicate(
 					rawIdea.getContent(), null);
 		} catch (InputIdeaException e) {
-			throw new RawIdeaInputException(
-					RawIdeaInputException.RAW_IDEA_CONTENT_EXIST);
+			throw new InputRawIdeaException(
+					InputRawIdeaException.RAW_IDEA_CONTENT_EXIST);
 		}
 		Idea idea = new Idea();
 		idea.setCategoryId(rawIdea.getCategoryId());
@@ -257,7 +310,7 @@ public class RawIdeaService implements IRawIdeaService {
 
 	@Override
 	public void passRawIdea(RawIdeaForm rawIdeaForm)
-			throws RawIdeaInputException {
+			throws InputRawIdeaException {
 		validateRawIdea(rawIdeaForm);
 		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
 		rawIdeaMapper.updateByPrimaryKeySelective(rawIdea);
@@ -269,6 +322,21 @@ public class RawIdeaService implements IRawIdeaService {
 				JzUtilFunction.truncate(idae.getContent(), 15, "..."));
 		// 通过后删除该拒宅
 		delRawIdea(rawIdea.getId());
+		// 有头像且是通过状态才发拒宅
+		ProfileCache profile = profileService.getProfileCacheByUid(idae
+				.getCreateUid());
+		if (StringUtils.isNotEmpty(profile.getLogoPic())
+				&& profile.getLogoVerifyState() == LogoVerifyState.VERIFIED
+						.getType()) {
+			PostForm postForm = new PostForm();
+			postForm.setIdeaId(idae.getId());
+			postForm.setPurposeType(PurposeType.WANT.getType());
+			try {
+				postService.createPost(idae.getCreateUid(), postForm);
+			} catch (InputPostException e) {
+				log.error("cms passRawIdea  create post is error", e);
+			}
+		}
 
 	}
 

@@ -2,7 +2,7 @@ package com.juzhai.post.exception;
 
 import com.juzhai.core.exception.JuzhaiException;
 
-public class RawIdeaInputException extends JuzhaiException {
+public class InputRawIdeaException extends JuzhaiException {
 
 	private static final long serialVersionUID = -6751285711866491995L;
 
@@ -32,11 +32,13 @@ public class RawIdeaInputException extends JuzhaiException {
 
 	public static final String RAW_IDEA_TIME_IS_ERROR = "180013";
 
-	public RawIdeaInputException(String errorCode, Throwable cause) {
+	public static final String RAW_IDEA_CREATE_TO_MORE = "180014";
+
+	public InputRawIdeaException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}
 
-	public RawIdeaInputException(String errorCode) {
+	public InputRawIdeaException(String errorCode) {
 		super(errorCode);
 	}
 }

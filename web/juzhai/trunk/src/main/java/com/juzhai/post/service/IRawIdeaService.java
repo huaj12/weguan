@@ -3,7 +3,7 @@ package com.juzhai.post.service;
 import java.util.List;
 
 import com.juzhai.post.controller.form.RawIdeaForm;
-import com.juzhai.post.exception.RawIdeaInputException;
+import com.juzhai.post.exception.InputRawIdeaException;
 import com.juzhai.post.model.RawIdea;
 
 public interface IRawIdeaService {
@@ -15,7 +15,7 @@ public interface IRawIdeaService {
 	 * 
 	 * @param ideaForm
 	 */
-	void createRawIdea(RawIdeaForm rawIdeaForm) throws RawIdeaInputException;
+	void createRawIdea(RawIdeaForm rawIdeaForm) throws InputRawIdeaException;
 
 	/**
 	 * 取出未审核的好主意
@@ -60,8 +60,8 @@ public interface IRawIdeaService {
 	 * 修改并通过用户提交好主意
 	 * 
 	 * @param rawIdeaForm
-	 * @throws RawIdeaInputException
+	 * @throws InputRawIdeaException
 	 */
-	void passRawIdea(RawIdeaForm rawIdeaForm) throws RawIdeaInputException;
+	void passRawIdea(RawIdeaForm rawIdeaForm) throws InputRawIdeaException;
 
 }

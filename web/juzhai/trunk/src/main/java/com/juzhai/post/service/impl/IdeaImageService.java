@@ -150,4 +150,9 @@ public class IdeaImageService implements IIdeaImageService {
 		return imgList;
 	}
 
+	@Override
+	public String[] uploadTempIdeaImg(String imageUrl)
+			throws UploadImageException {
+		return imageManager.uploadTempImage(imageUrl);
+	}
 }

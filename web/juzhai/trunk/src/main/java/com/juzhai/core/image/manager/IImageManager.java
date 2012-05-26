@@ -2,6 +2,7 @@ package com.juzhai.core.image.manager;
 
 import java.awt.Image;
 import java.io.File;
+import java.net.HttpURLConnection;
 import java.util.List;
 
 import org.springframework.context.NoSuchMessageException;
@@ -180,5 +181,23 @@ public interface IImageManager {
 	 */
 	void uploadImage(String directoryPath, String filename, Image image,
 			int width, int height, int x, int y) throws UploadImageException;
+
+	/**
+	 * 上传临时文件
+	 * 
+	 * @param imageUrl
+	 * @return [0]web访问地址，[1]file地址
+	 * @throws UploadImageException
+	 */
+	String[] uploadTempImage(String imageUrl) throws UploadImageException;
+
+	/**
+	 * 验证图片是否合法
+	 * 
+	 * @param image
+	 * @throws UploadImageException
+	 */
+	void checkImage(HttpURLConnection httpURLConnection)
+			throws UploadImageException;
 
 }

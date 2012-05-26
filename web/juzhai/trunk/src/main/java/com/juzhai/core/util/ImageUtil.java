@@ -157,4 +157,32 @@ public class ImageUtil {
 		}
 		return 1;
 	}
+
+	/**
+	 * check上传图片的合法性
+	 * 
+	 * @throws AppException
+	 * @return 返回1通过 -1类型错误 -2文件大小错误
+	 */
+	public static int validationImage(String imageSuffix, int imageSize,
+			long fileSize, String filename) {
+		String[] types = StringUtils.split(imageSuffix, "|");
+		String contentType = filename.substring(filename.lastIndexOf(".") + 1);
+		boolean validType = false;
+		for (String type : types) {
+			if (StringUtils.contains(contentType, type)) {
+				validType = true;
+				break;
+			}
+		}
+		if (!validType) {
+			log.error("Image type[" + contentType + "] is invalid.");
+			return -1;
+		}
+		if (fileSize > imageSize) {
+			log.error("Image file size is too large.");
+			return -2;
+		}
+		return 1;
+	}
 }

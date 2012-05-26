@@ -8,8 +8,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>${jzd:cityName(idea.city )}拒宅好主意_<c:out value="${jzu:truncate(idea.content, 60, '...')}" />_拒宅网(51juzhai.com)</title>
-		<meta name="keywords" content="${jzd:cityName(idea.city )}拒宅 ,${jzd:cityName(idea.city)}好主意,${jzd:cityName(idea.city )}出去玩,${jzd:cityName(idea.city )}约会地点,${jzd:cityName(idea.city )}约会,${jzd:cityName(idea.city )}交友" />
+		<title>${jzd:cityName(idea.city )}拒宅好主意_<c:out value="${jzu:truncate(idea.content, 60, '...')}" /> 拒宅网-助你找伴儿出去玩(51juzhai.com)</title>
+		<meta name="keywords" content="${jzd:cityName(idea.city )}拒宅 ,${jzd:cityName(idea.city)}拒宅好主意,${jzd:cityName(idea.city )}出去玩" />
 		<meta name="description" content="<c:if test="${!empty jzd:cityName(idea.city )}">在jzd:cityName(idea.city )}</c:if>周末不想宅在家拒宅网帮你出好主意,<c:out value="${jzu:truncate(idea.content, 120, '...')}" />_" />
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
@@ -35,9 +35,7 @@
 													</c:if>
 													<div class="idea_infor"><!--idea_infor begin-->
 														<h2><c:out value="${idea.content}" /></h2>
-														<c:if test="${not empty idea.link}">
-															<p>链接:</p><span><a href="${idea.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关内容</a></span>
-														</c:if>
+														
 														<c:if test="${idea.startTime != null || idea.endTime != null}">
 															<p>时间:</p><span><c:if test="${idea.startTime != null}"><fmt:formatDate value="${idea.startTime}" pattern="yyyy.MM.dd hh:mm"/>-</c:if><fmt:formatDate value="${idea.endTime}" pattern="yyyy.MM.dd hh:mm"/></span>
 														</c:if>
@@ -54,8 +52,12 @@
 															<p>来自: <a href="/home/${ideaCreateUser.uid}" class="user"><c:out value="${ideaCreateUser.nickname}" /></a></p>
 														</c:if>
 														<div class="clear"></div>
+														<div class="edit_error"><a href="/idea/update/${idea.id}">修改/报错</a></div>
+														<div class="clear"></div>
 													</div><!--idea_infor end-->
-													<div class="edit_error"><a href="/idea/update/${idea.id}">修改/报错</a></div>
+													<c:if test="${not empty idea.link}">
+															<div class="link"><a href="${idea.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关内容</a></div>
+														</c:if>
 													<div class="idea_btns"><!--idea_btns begin-->
 														<c:choose>
 															<c:when test="${hasUsed}">

@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>拒宅网_找伴出去玩</title>
+		<title>我的首页 拒宅网-助你找伴儿出去玩(51juzhai.com)</title>
 		<meta  name="keywords"   content="拒宅,找伴,出去玩,约会,交友" />
 		<meta  name="description"   content="不想宅在家,找伴儿,出去玩,发现出去玩的好主意和同兴趣的朋友,促成约会" />
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />
@@ -33,20 +33,13 @@
 						<div class="content_box w660 z900"><!--content begin-->
 							<div class="t"></div>
 							<div class="m">
-								<c:choose>
-									<c:when test="${not empty loginUser.logoPic || loginUser.logoVerifyState == 1}">
-										<div class="tips" style="display: none;"><!--tips begin-->
-											<p>没想好去哪玩？试试这个</p>
-											<a href="javascript:void(0);"></a>
-										</div><!--tips end-->
-									</c:when>
-									<c:otherwise>
-										<div class="disable_lock"><!--disable_lock begin-->
-											<em></em>
-											<p><a href="/profile/index/face">通过头像审核的用户才能发布拒宅哦</a></p>
-										</div><!--disable_lock end-->
-									</c:otherwise>
-								</c:choose>
+								<c:if test="${empty loginUser.logoPic && loginUser.logoVerifyState != 1}">
+										<div class="lock"><!--lock begin-->
+											<a href="/profile/index/face">
+											<img src="${jzr:static('/images/web2/bunengfabu.jpg')}" />
+											</a>
+										</div><!--lock end-->
+								</c:if>
 								<div class="send_box"><!--send_box begin-->
 									<jsp:include page="send_post.jsp" />
 								</div>
@@ -67,6 +60,7 @@
 					</div><!--main_right end-->
 				</div><!--main_part end-->
 			</div><!--main end-->
+			<jsp:include page="/WEB-INF/jsp/web/home/dialog/share_box.jsp" />
 			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 			<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
 			<script type="text/javascript" src="${jzr:static('/js/web/home.js')}"></script>

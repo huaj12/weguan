@@ -249,7 +249,7 @@ function setting(uid){
 					$("#profession_tip").show().text(result.errorInfo);
 				}else if(result.errorCode=='20016'||result.errorCode=='20017'||result.errorCode=='20022'){
 					$("#feature_tp").show().text(result.errorInfo);
-				}else if(result.errorCode=='20019'){
+				}else if(result.errorCode=='20019'||result.errorCode=='20024'){
 					$("#blog_tp").show().text(result.errorInfo);
 				}else if(result.errorCode=='20020'){
 					$("#home_tp").show().text(result.errorInfo);

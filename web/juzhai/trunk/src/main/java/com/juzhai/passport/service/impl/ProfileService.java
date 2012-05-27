@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 
@@ -620,7 +622,18 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_BLOG_IS_TOO_LONG);
 		}
-
+		if (StringUtils.isNotEmpty(profile.getBlog())) {
+			// 替换掉http://
+			profile.setBlog(profile.getBlog().replace("http://", ""));
+			// 验证个人主页格式
+			Pattern pat = Pattern
+					.compile("(((\\w)+[.]){1,}(net|com|cn|org|cc|tv{1,3})(((\\/[\\~]*|\\\\[\\~]*)(\\w)+)|[.](\\w)+)*(((([?](\\w)+){1}[=]*))*((\\w)+){1}([\\&](\\w)+[\\=](\\w)+)*)*)");
+			Matcher matcher = pat.matcher(profile.getBlog());
+			if (!matcher.matches()) {
+				throw new ProfileInputException(
+						ProfileInputException.PROFILE_BLOG_IS_ERROR);
+			}
+		}
 		// 验证家乡长度
 		if (StringUtil.chineseLength(profile.getHome()) > homeLengthMax) {
 			throw new ProfileInputException(

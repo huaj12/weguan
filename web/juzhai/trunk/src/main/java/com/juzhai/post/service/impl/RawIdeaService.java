@@ -96,6 +96,7 @@ public class RawIdeaService implements IRawIdeaService {
 			if (userCreateIdeaCount == null) {
 				userCreateIdeaCount = 0;
 			}
+			userCreateIdeaCount++;
 			if (userCreateIdeaCount > createIdeaCount) {
 				throw new InputRawIdeaException(
 						InputRawIdeaException.RAW_IDEA_CREATE_TO_MORE);
@@ -114,11 +115,6 @@ public class RawIdeaService implements IRawIdeaService {
 
 		if (rawIdeaForm.getCreateUid() != null) {
 			try {
-				if (userCreateIdeaCount == null) {
-					userCreateIdeaCount = 1;
-				} else {
-					userCreateIdeaCount++;
-				}
 				memcachedClient.set(MemcachedKeyGenerator
 						.genCreateIdeaCountKey(rawIdeaForm.getCreateUid()),
 						createIdeaExpireTime, userCreateIdeaCount);

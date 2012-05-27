@@ -1,7 +1,7 @@
 package com.juzhai.spider.share.service;
 
 import com.juzhai.post.controller.form.RawIdeaForm;
-import com.juzhai.spider.exception.SpiderIdeaException;
+import com.juzhai.spider.share.exception.SpiderIdeaException;
 
 public interface ISpiderIdeaService {
 	/**

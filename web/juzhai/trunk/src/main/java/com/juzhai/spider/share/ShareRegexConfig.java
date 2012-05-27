@@ -14,15 +14,15 @@ import com.juzhai.core.SystemConfig;
 public class ShareRegexConfig {
 	private static final Log log = LogFactory.getLog(SystemConfig.class);
 
-	private static final String FILE_CONFIG_PATH = "properties/regex.properties";
+	private static final String FILE_CONFIG_PATH = "properties/spiderShareRegex.properties";
 
 	public static final Map<String, String> REGEXS = new HashMap<String, String>();
 
 	static {
 		Properties config = new Properties();
 		try {
-			config.load(ShareRegexConfig.class.getClassLoader().getResourceAsStream(
-					FILE_CONFIG_PATH));
+			config.load(ShareRegexConfig.class.getClassLoader()
+					.getResourceAsStream(FILE_CONFIG_PATH));
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 		}

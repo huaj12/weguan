@@ -65,6 +65,10 @@ public class ProfileInputException extends JuzhaiException {
 	 * 个人简介使用了屏蔽词
 	 */
 	public static final String PROFILE_FEATURE_FORBID = "20022";
+	/**
+	 * 个人主页地址有误
+	 */
+	public static final String PROFILE_BLOG_IS_ERROR = "20024";
 
 	public ProfileInputException(String errorCode, Throwable cause) {
 		super(errorCode, cause);

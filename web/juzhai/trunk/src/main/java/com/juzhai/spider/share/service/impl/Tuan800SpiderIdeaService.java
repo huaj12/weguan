@@ -3,13 +3,11 @@ package com.juzhai.spider.share.service.impl;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.common.InitData;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
-import com.juzhai.core.web.jstl.JzUtilFunction;
 import com.juzhai.passport.model.City;
 import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.spider.share.ShareRegexConfig;
@@ -17,21 +15,11 @@ import com.juzhai.spider.share.exception.SpiderIdeaException;
 
 @Service
 public class Tuan800SpiderIdeaService extends AbstractSpiderIdeaService {
-	@Value("${idea.link.length.max}")
-	private int ideaLinkLengthMax;
 
 	@Override
 	protected void getLink(RawIdeaForm form, String content, String joinType,
 			String url) throws SpiderIdeaException {
-		String outUrl = find(content,
-				ShareRegexConfig.REGEXS.get(joinType + "_outUrl"));
-		String str = getContent(outUrl);
-		String link = find(str,
-				ShareRegexConfig.REGEXS.get(joinType + "_tagerUrl"));
-		if (link != null) {
-			form.setLink(JzUtilFunction.truncate(link, ideaLinkLengthMax, ""));
-		}
-
+		form.setLink(url);
 	}
 
 	public static void main(String[] str) throws SpiderIdeaException {

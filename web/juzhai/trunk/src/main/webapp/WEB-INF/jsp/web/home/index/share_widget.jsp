@@ -14,7 +14,7 @@
 				</c:when>
 				<c:otherwise>
 					<!-- Baidu Button BEGIN -->
-			    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'我刚加入了拒宅网，一个有趣的脱宅社区!','wbuid':'2294103501','url':'http://www.51juzhai.com/','pic':'${jzr:static('/images/share_pic.jpg')}'}">
+			    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'我刚加入了拒宅网，一个有趣的脱宅社区!','wbuid':'2294103501','url':'http://www.51juzhai.com/','pic':'${jzr:static('/images/web2/share_pic.jpg')}'}">
 			        <a class="bds_tsina"></a>
 			        <a class="bds_tqq"></a>
 			        <a class="bds_douban"></a>
@@ -22,7 +22,7 @@
 			    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'我刚加入了拒宅网，一个有趣的脱宅社区!'}">
 			         <a class="bds_renren"></a>
 			    </div>
-			    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'加入拒宅找伴儿出去玩!','url':'http://www.51juzhai.com/','comment':'我刚加入了拒宅网，一个有趣的脱宅社区!','pic':'${jzr:static('/images/share_pic.jpg')}'}">
+			    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'加入拒宅找伴儿出去玩!','url':'http://www.51juzhai.com/','comment':'我刚加入了拒宅网，一个有趣的脱宅社区!','pic':'${jzr:static('/images/web2/share_pic.jpg')}'}">
 			       	<a class="bds_qzone"></a>
 			       	<a class="bds_kaixin001"></a>
 			    </div>

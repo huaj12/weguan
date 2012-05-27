@@ -51,7 +51,7 @@
 									<a href="" ></a>
 									<input type="hidden" value="http://www.douban.com/location/world/" id="link-hd" init-tip="将豆瓣同城中的活动链接黏贴于此" title="分享你感兴趣的活动" name="去豆瓣同城逛逛">
 									<input type="hidden" value="http://www.dianping.com/" id="link-qc" init-tip="将大众点评中的商户链接黏贴于此" title="分享你感兴趣的好去处"  name="去大众点评逛逛">
-									<input type="hidden" value="http://www.tuan800.com/" id="link-tg"  init-tip="将tuan800的团购信息黏贴于此" title="分享你感兴趣的团购" name="去团购逛逛">
+									<input type="hidden" value="http://www.tuan800.com/" id="link-tg"  init-tip="将tuan800.com的团购链接黏贴于此" title="分享你感兴趣的团购" name="去团购逛逛">
 								</div>
 							</div><!--link_area end-->
 						</div><!--jb_show_box end-->

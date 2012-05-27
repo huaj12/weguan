@@ -47,7 +47,7 @@ function del(obj){
 		</tr>
 		<c:forEach var="view" items="${rawIdeaViews}" >
 			<tr>
-				<td><c:out value="${view.createUser.nickname }"></c:out></td>
+				<td><a href="/home/${view.createUser.uid}" target="_blank"><c:out value="${view.createUser.nickname }"></c:out></a></td>
 				<td><c:out value="${view.rawIdea.content}"></c:out></td>
 				<td><fmt:formatDate value="${view.rawIdea.createTime}" pattern="yyyy-MM-dd" /></td>
 				<td> <a href="javascript:vioid(0);" raw-idea-id=${view.rawIdea.id} onclick="del(this)">拒绝</a> <a href="/cms/show/rawIdea/update?rawIdeaId=${view.rawIdea.id}">查看详情</a></td>

@@ -1,4 +1,4 @@
-package com.juzhai.spider.service.impl;
+package com.juzhai.spider.share.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
@@ -7,8 +7,8 @@ import com.juzhai.common.InitData;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Town;
 import com.juzhai.post.controller.form.RawIdeaForm;
-import com.juzhai.spider.RegexConfig;
 import com.juzhai.spider.exception.SpiderIdeaException;
+import com.juzhai.spider.share.ShareRegexConfig;
 
 @Service
 public class DianpingSpiderIdeaService extends AbstractSpiderIdeaService {
@@ -18,9 +18,10 @@ public class DianpingSpiderIdeaService extends AbstractSpiderIdeaService {
 			throws SpiderIdeaException {
 		String pic = null;
 		if (content.indexOf("class=\"thumb-switch\">") != -1) {
-			pic = find(content, RegexConfig.REGEXS.get(joinType + "_picSwitch"));
+			pic = find(content,
+					ShareRegexConfig.REGEXS.get(joinType + "_picSwitch"));
 		} else {
-			pic = find(content, RegexConfig.REGEXS.get(joinType + "_pic"));
+			pic = find(content, ShareRegexConfig.REGEXS.get(joinType + "_pic"));
 		}
 		uploadPic(form, pic);
 	}
@@ -43,11 +44,11 @@ public class DianpingSpiderIdeaService extends AbstractSpiderIdeaService {
 	@Override
 	protected void getAddress(RawIdeaForm form, String content, String joinType) {
 		String place = find(content,
-				RegexConfig.REGEXS.get(joinType + "_place"));
+				ShareRegexConfig.REGEXS.get(joinType + "_place"));
 		String townString = find(content,
-				RegexConfig.REGEXS.get(joinType + "_town"));
+				ShareRegexConfig.REGEXS.get(joinType + "_town"));
 		String cityString = find(content,
-				RegexConfig.REGEXS.get(joinType + "_city"));
+				ShareRegexConfig.REGEXS.get(joinType + "_city"));
 		City city = InitData.getCityByName(cityString);
 		if (city != null) {
 			form.setCity(city.getId());

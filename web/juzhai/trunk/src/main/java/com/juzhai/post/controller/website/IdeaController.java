@@ -50,7 +50,7 @@ import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IRawIdeaService;
 import com.juzhai.post.service.impl.IdeaDetailService;
 import com.juzhai.spider.exception.SpiderIdeaException;
-import com.juzhai.spider.service.ISpiderIdeaService;
+import com.juzhai.spider.share.service.ISpiderIdeaService;
 
 @Controller
 @RequestMapping(value = "idea")

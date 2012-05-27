@@ -1,4 +1,4 @@
-package com.juzhai.spider.service.impl;
+package com.juzhai.spider.share.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -13,7 +13,7 @@ import com.juzhai.platform.service.impl.SynchronizeService;
 import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.spider.bean.Domain;
 import com.juzhai.spider.exception.SpiderIdeaException;
-import com.juzhai.spider.service.ISpiderIdeaService;
+import com.juzhai.spider.share.service.ISpiderIdeaService;
 
 @Service
 public class SpiderIdeaService implements ISpiderIdeaService, BeanFactoryAware {

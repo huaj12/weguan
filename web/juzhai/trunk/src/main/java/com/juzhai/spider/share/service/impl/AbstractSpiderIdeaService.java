@@ -1,4 +1,4 @@
-package com.juzhai.spider.service.impl;
+package com.juzhai.spider.share.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +21,10 @@ import com.juzhai.core.web.jstl.JzUtilFunction;
 import com.juzhai.platform.service.impl.SynchronizeService;
 import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.post.service.impl.IdeaImageService;
-import com.juzhai.spider.RegexConfig;
 import com.juzhai.spider.bean.Domain;
 import com.juzhai.spider.exception.SpiderIdeaException;
-import com.juzhai.spider.service.ISpiderIdeaService;
+import com.juzhai.spider.share.ShareRegexConfig;
+import com.juzhai.spider.share.service.ISpiderIdeaService;
 
 public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {
 	private final Log log = LogFactory.getLog(SynchronizeService.class);
@@ -46,7 +46,7 @@ public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {
 		}
 		String htmlContent = getContent(url);
 		String title = find(htmlContent,
-				RegexConfig.REGEXS.get(joinType + "_title"));
+				ShareRegexConfig.REGEXS.get(joinType + "_title"));
 		// 标题抓取不到网站样式改版或者url输入有误
 		if (StringUtils.isEmpty(title)) {
 			throw new SpiderIdeaException(
@@ -54,7 +54,7 @@ public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {
 		}
 		RawIdeaForm form = new RawIdeaForm();
 		String charge = find(htmlContent,
-				RegexConfig.REGEXS.get(joinType + "_charge"));
+				ShareRegexConfig.REGEXS.get(joinType + "_charge"));
 
 		form.setContent(JzUtilFunction.truncate(title,
 				ideaContentLengthMax - 3, "..."));
@@ -143,13 +143,13 @@ public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {
 
 	protected void getDetail(RawIdeaForm form, String content, String joinType) {
 		String detail = find(content,
-				RegexConfig.REGEXS.get(joinType + "_detail"));
+				ShareRegexConfig.REGEXS.get(joinType + "_detail"));
 		form.setDetail(detail);
 	}
 
 	protected void getPic(RawIdeaForm form, String content, String joinType)
 			throws SpiderIdeaException {
-		String pic = find(content, RegexConfig.REGEXS.get(joinType + "_pic"));
+		String pic = find(content, ShareRegexConfig.REGEXS.get(joinType + "_pic"));
 		uploadPic(form, pic);
 	}
 

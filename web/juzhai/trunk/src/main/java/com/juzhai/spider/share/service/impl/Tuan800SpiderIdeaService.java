@@ -1,4 +1,4 @@
-package com.juzhai.spider.service.impl;
+package com.juzhai.spider.share.service.impl;
 
 import java.util.Date;
 
@@ -12,8 +12,8 @@ import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.web.jstl.JzUtilFunction;
 import com.juzhai.passport.model.City;
 import com.juzhai.post.controller.form.RawIdeaForm;
-import com.juzhai.spider.RegexConfig;
 import com.juzhai.spider.exception.SpiderIdeaException;
+import com.juzhai.spider.share.ShareRegexConfig;
 
 @Service
 public class Tuan800SpiderIdeaService extends AbstractSpiderIdeaService {
@@ -24,9 +24,10 @@ public class Tuan800SpiderIdeaService extends AbstractSpiderIdeaService {
 	protected void getLink(RawIdeaForm form, String content, String joinType,
 			String url) throws SpiderIdeaException {
 		String outUrl = find(content,
-				RegexConfig.REGEXS.get(joinType + "_outUrl"));
+				ShareRegexConfig.REGEXS.get(joinType + "_outUrl"));
 		String str = getContent(outUrl);
-		String link = find(str, RegexConfig.REGEXS.get(joinType + "_tagerUrl"));
+		String link = find(str,
+				ShareRegexConfig.REGEXS.get(joinType + "_tagerUrl"));
 		if (link != null) {
 			form.setLink(JzUtilFunction.truncate(link, ideaLinkLengthMax, ""));
 		}
@@ -66,12 +67,12 @@ public class Tuan800SpiderIdeaService extends AbstractSpiderIdeaService {
 	@Override
 	protected void getAddress(RawIdeaForm form, String content, String joinType) {
 		String place = find(content,
-				RegexConfig.REGEXS.get(joinType + "_place"));
+				ShareRegexConfig.REGEXS.get(joinType + "_place"));
 		if (StringUtils.isNotEmpty(place)) {
 			place = StringUtil.decodeUnicode(place);
 		}
 		String cityString = find(content,
-				RegexConfig.REGEXS.get(joinType + "_city"));
+				ShareRegexConfig.REGEXS.get(joinType + "_city"));
 		City city = InitData.getCityByName(cityString);
 		if (city != null) {
 			form.setCity(city.getId());
@@ -84,9 +85,9 @@ public class Tuan800SpiderIdeaService extends AbstractSpiderIdeaService {
 	@Override
 	protected void getTime(RawIdeaForm form, String content, String joinType) {
 		String startDate = find(content,
-				RegexConfig.REGEXS.get(joinType + "_startDate"));
+				ShareRegexConfig.REGEXS.get(joinType + "_startDate"));
 		String endDate = find(content,
-				RegexConfig.REGEXS.get(joinType + "_endDate"));
+				ShareRegexConfig.REGEXS.get(joinType + "_endDate"));
 		form.setStartDateString(getDate(startDate));
 		form.setEndDateString(getDate(endDate));
 	}

@@ -1,4 +1,4 @@
-package com.juzhai.spider.service.impl;
+package com.juzhai.spider.share.service.impl;
 
 import java.util.Calendar;
 import java.util.List;
@@ -14,9 +14,9 @@ import com.juzhai.core.util.DateFormat;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Town;
 import com.juzhai.post.controller.form.RawIdeaForm;
-import com.juzhai.spider.RegexConfig;
 import com.juzhai.spider.bean.doubanSpiderWordTemplate;
 import com.juzhai.spider.exception.SpiderIdeaException;
+import com.juzhai.spider.share.ShareRegexConfig;
 
 @Service
 public class DoubanSpiderIdeaService extends AbstractSpiderIdeaService {
@@ -28,9 +28,10 @@ public class DoubanSpiderIdeaService extends AbstractSpiderIdeaService {
 		String detail = null;
 		if (content.indexOf("id=\"foldDescHook\">") != -1) {
 			detail = find(content,
-					RegexConfig.REGEXS.get(joinType + "_detailMore"));
+					ShareRegexConfig.REGEXS.get(joinType + "_detailMore"));
 		} else {
-			detail = find(content, RegexConfig.REGEXS.get(joinType + "_detail"));
+			detail = find(content,
+					ShareRegexConfig.REGEXS.get(joinType + "_detail"));
 		}
 		form.setDetail(detail);
 	}
@@ -193,14 +194,15 @@ public class DoubanSpiderIdeaService extends AbstractSpiderIdeaService {
 	@Override
 	protected void getAddress(RawIdeaForm form, String content, String joinType) {
 		String address = find(content,
-				RegexConfig.REGEXS.get(joinType + "_address"));
+				ShareRegexConfig.REGEXS.get(joinType + "_address"));
 		getPlace(form, address);
 
 	}
 
 	@Override
 	protected void getTime(RawIdeaForm form, String content, String joinType) {
-		String time = find(content, RegexConfig.REGEXS.get(joinType + "_time"));
+		String time = find(content,
+				ShareRegexConfig.REGEXS.get(joinType + "_time"));
 		getDate(form, time);
 	}
 

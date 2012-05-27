@@ -1,4 +1,4 @@
-package com.juzhai.spider.service;
+package com.juzhai.spider.share.service;
 
 import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.spider.exception.SpiderIdeaException;

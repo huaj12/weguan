@@ -1,4 +1,4 @@
-package com.juzhai.spider;
+package com.juzhai.spider.share;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.juzhai.core.SystemConfig;
 
-public class RegexConfig {
+public class ShareRegexConfig {
 	private static final Log log = LogFactory.getLog(SystemConfig.class);
 
 	private static final String FILE_CONFIG_PATH = "properties/regex.properties";
@@ -21,7 +21,7 @@ public class RegexConfig {
 	static {
 		Properties config = new Properties();
 		try {
-			config.load(RegexConfig.class.getClassLoader().getResourceAsStream(
+			config.load(ShareRegexConfig.class.getClassLoader().getResourceAsStream(
 					FILE_CONFIG_PATH));
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);

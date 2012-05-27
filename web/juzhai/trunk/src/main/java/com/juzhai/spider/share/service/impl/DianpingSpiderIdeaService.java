@@ -7,8 +7,8 @@ import com.juzhai.common.InitData;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Town;
 import com.juzhai.post.controller.form.RawIdeaForm;
-import com.juzhai.spider.exception.SpiderIdeaException;
 import com.juzhai.spider.share.ShareRegexConfig;
+import com.juzhai.spider.share.exception.SpiderIdeaException;
 
 @Service
 public class DianpingSpiderIdeaService extends AbstractSpiderIdeaService {

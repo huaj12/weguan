@@ -14,9 +14,9 @@ import com.juzhai.core.util.DateFormat;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Town;
 import com.juzhai.post.controller.form.RawIdeaForm;
-import com.juzhai.spider.bean.doubanSpiderWordTemplate;
-import com.juzhai.spider.exception.SpiderIdeaException;
 import com.juzhai.spider.share.ShareRegexConfig;
+import com.juzhai.spider.share.bean.DoubanSpiderWordTemplate;
+import com.juzhai.spider.share.exception.SpiderIdeaException;
 
 @Service
 public class DoubanSpiderIdeaService extends AbstractSpiderIdeaService {
@@ -67,22 +67,22 @@ public class DoubanSpiderIdeaService extends AbstractSpiderIdeaService {
 			Calendar c = Calendar.getInstance();
 			String year = String.valueOf(c.get(c.YEAR));
 			String wordYear = messageSource.getMessage(
-					doubanSpiderWordTemplate.YEAR.getName(), null,
+					DoubanSpiderWordTemplate.YEAR.getName(), null,
 					Locale.SIMPLIFIED_CHINESE);
 			String wordTo = messageSource.getMessage(
-					doubanSpiderWordTemplate.TO.getName(), null,
+					DoubanSpiderWordTemplate.TO.getName(), null,
 					Locale.SIMPLIFIED_CHINESE);
 			String wordWeekly = messageSource.getMessage(
-					doubanSpiderWordTemplate.WEEKLY.getName(), null,
+					DoubanSpiderWordTemplate.WEEKLY.getName(), null,
 					Locale.SIMPLIFIED_CHINESE);
 			String wordEveryDay = messageSource.getMessage(
-					doubanSpiderWordTemplate.EVERYDAY.getName(), null,
+					DoubanSpiderWordTemplate.EVERYDAY.getName(), null,
 					Locale.SIMPLIFIED_CHINESE);
 			String wordMonth = messageSource.getMessage(
-					doubanSpiderWordTemplate.MONTH.getName(), null,
+					DoubanSpiderWordTemplate.MONTH.getName(), null,
 					Locale.SIMPLIFIED_CHINESE);
 			String wordDay = messageSource.getMessage(
-					doubanSpiderWordTemplate.DAY.getName(), null,
+					DoubanSpiderWordTemplate.DAY.getName(), null,
 					Locale.SIMPLIFIED_CHINESE);
 			if (time.indexOf(wordYear) != -1) {
 				year = time.substring(0, time.indexOf(wordYear));
@@ -151,11 +151,11 @@ public class DoubanSpiderIdeaService extends AbstractSpiderIdeaService {
 				.substring(
 						0,
 						str.indexOf(messageSource.getMessage(
-								doubanSpiderWordTemplate.DAY.getName(), null,
+								DoubanSpiderWordTemplate.DAY.getName(), null,
 								Locale.SIMPLIFIED_CHINESE)))
 				.replaceAll(
 						messageSource.getMessage(
-								doubanSpiderWordTemplate.MONTH.getName(), null,
+								DoubanSpiderWordTemplate.MONTH.getName(), null,
 								Locale.SIMPLIFIED_CHINESE), "-").trim();
 	}
 

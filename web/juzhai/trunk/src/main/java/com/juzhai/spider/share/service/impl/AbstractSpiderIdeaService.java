@@ -22,8 +22,8 @@ import com.juzhai.platform.service.impl.SynchronizeService;
 import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.post.service.impl.IdeaImageService;
 import com.juzhai.spider.bean.Domain;
-import com.juzhai.spider.exception.SpiderIdeaException;
 import com.juzhai.spider.share.ShareRegexConfig;
+import com.juzhai.spider.share.exception.SpiderIdeaException;
 import com.juzhai.spider.share.service.ISpiderIdeaService;
 
 public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {

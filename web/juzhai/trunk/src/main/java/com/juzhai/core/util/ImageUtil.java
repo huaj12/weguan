@@ -179,6 +179,9 @@ public class ImageUtil {
 			log.error("Image type[" + contentType + "] is invalid.");
 			return -1;
 		}
+		
+		//TODO (review) 二进制头文件验证类型没有做
+		//TODO (reviwe) 文件大小不应该传进来，而是通过文件内容获取
 		if (fileSize > imageSize) {
 			log.error("Image file size is too large.");
 			return -2;

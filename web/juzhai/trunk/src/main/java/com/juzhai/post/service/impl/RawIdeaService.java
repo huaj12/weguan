@@ -104,6 +104,7 @@ public class RawIdeaService implements IRawIdeaService {
 		}
 		validateRawIdea(rawIdeaForm);
 		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
+		//TODO (review) 发私信为什么在保存之前就发了？如果insert失败呢？
 		if (rawIdea.getIdeaId() == null) {
 			dialogService.sendOfficialSMS(rawIdea.getCreateUid(),
 					DialogContentTemplate.USER_CREATE_IDEA);
@@ -112,7 +113,7 @@ public class RawIdeaService implements IRawIdeaService {
 					DialogContentTemplate.USER_UPDATE_IDEA);
 		}
 		rawIdeaMapper.insertSelective(rawIdea);
-
+		
 		if (rawIdeaForm.getCreateUid() != null) {
 			try {
 				memcachedClient.set(MemcachedKeyGenerator
@@ -309,6 +310,7 @@ public class RawIdeaService implements IRawIdeaService {
 			throws InputRawIdeaException {
 		validateRawIdea(rawIdeaForm);
 		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
+		//TODO (review) 这里为什么要先保存？
 		rawIdeaMapper.updateByPrimaryKeySelective(rawIdea);
 		// 修改后通过审核
 		Idea idae = ideaCopyRawIdea(rawIdea.getId());
@@ -318,10 +320,13 @@ public class RawIdeaService implements IRawIdeaService {
 				JzUtilFunction.truncate(idae.getContent(), 15, "..."));
 		// 通过后删除该拒宅
 		delRawIdea(rawIdea.getId());
+		
+		//TODO (review) 纠错通过，会不会调用这个方法？
 		// 有头像且是通过状态才发拒宅
 		ProfileCache profile = profileService.getProfileCacheByUid(idae
 				.getCreateUid());
 		if (StringUtils.isNotEmpty(profile.getLogoPic())
+				//TODO (review) 这里不需要判断logoVerifyState，会存在一种情况：他有头像，但是第二次头像被拒绝，但此时他用的还是第一个头像。这种情况是可以发拒宅的。
 				&& profile.getLogoVerifyState() == LogoVerifyState.VERIFIED
 						.getType()) {
 			PostForm postForm = new PostForm();

@@ -16,6 +16,7 @@
 	<h2>审核好主意-<a></a></h2>
 	<h3><font color="red">${msg}</font></h3>
 	<form action="/cms/update/rawIdea" id="updateRawIdeaForm" method="post" >
+		<input type="hidden" value="${rawIdeaForm.createUid }" name="createUid"/>
 		<table>
 			<tr>
 				<td>

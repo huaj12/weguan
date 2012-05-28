@@ -263,12 +263,7 @@ public class RawIdeaService implements IRawIdeaService {
 		return rawIdeaMapper.selectByExample(example);
 	}
 
-	private Idea ideaCopyRawIdea(Long id) throws InputRawIdeaException {
-		RawIdea rawIdea = rawIdeaMapper.selectByPrimaryKey(id);
-		if (rawIdea == null) {
-			throw new InputRawIdeaException(
-					InputRawIdeaException.ILLEGAL_OPERATION);
-		}
+	private Idea ideaCopyRawIdea(RawIdea rawIdea) throws InputRawIdeaException {
 		String contentMd5;
 		try {
 			contentMd5 = ideaService.checkContentDuplicate(
@@ -310,9 +305,8 @@ public class RawIdeaService implements IRawIdeaService {
 		validateRawIdea(rawIdeaForm);
 		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
 		// TODO (done) 这里为什么要先保存？ ideaCopyRawIdea要用到最新的rawidea的数据所以先保存
-		rawIdeaMapper.updateByPrimaryKeySelective(rawIdea);
 		// 修改后通过审核
-		Idea idae = ideaCopyRawIdea(rawIdea.getId());
+		Idea idae = ideaCopyRawIdea(rawIdea);
 		// 发送私信
 		dialogService.sendOfficialSMS(idae.getCreateUid(),
 				DialogContentTemplate.PASS_RAW_IDEA,

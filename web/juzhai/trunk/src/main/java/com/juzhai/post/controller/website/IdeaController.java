@@ -365,7 +365,8 @@ public class IdeaController extends BaseController {
 		}
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			RawIdeaForm rawIdeaForm = spiderIdeaService.crawl(url);
+			RawIdeaForm rawIdeaForm = spiderIdeaService.crawl(url,
+					context.getUid());
 			// 无城市时获取分享人所在城市
 			if (rawIdeaForm.getCity() == null) {
 				rawIdeaForm.setCity(cityId);

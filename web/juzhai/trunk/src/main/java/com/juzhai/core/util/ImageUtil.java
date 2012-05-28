@@ -5,6 +5,7 @@ package com.juzhai.core.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -165,9 +166,9 @@ public class ImageUtil {
 	 * @return 返回1通过 -1类型错误 -2文件大小错误
 	 */
 	public static int validationImage(String imageSuffix, int imageSize,
-			long fileSize, String filename) {
+			HttpURLConnection httpURLConnection, byte[] bytes) {
 		String[] types = StringUtils.split(imageSuffix, "|");
-		String contentType = filename.substring(filename.lastIndexOf(".") + 1);
+		String contentType = httpURLConnection.getContentType();
 		boolean validType = false;
 		for (String type : types) {
 			if (StringUtils.contains(contentType, type)) {
@@ -179,11 +180,41 @@ public class ImageUtil {
 			log.error("Image type[" + contentType + "] is invalid.");
 			return -1;
 		}
-		
-		//TODO (review) 二进制头文件验证类型没有做
-		//TODO (reviwe) 文件大小不应该传进来，而是通过文件内容获取
-		if (fileSize > imageSize) {
-			log.error("Image file size is too large.");
+
+		// TODO (done) 二进制头文件验证类型没有做
+		// 通过文件的二进制头来判断文件类型
+		validType = false;
+		byte[] typeByteArray = new byte[4];
+		typeByteArray = bytes;
+		System.out.println(typeByteArray.length);
+		StringBuilder typeHexBuilder = new StringBuilder();
+		for (byte b : typeByteArray) {
+			typeHexBuilder.append(Integer.toHexString(b & 0xFF));
+		}
+		String typeHexString = typeHexBuilder.toString();
+		if (StringUtils.isEmpty(typeHexString)) {
+			log.error("read image input stream error");
+			return 0;
+		}
+		for (String typeHex : IMAGE_TYPE_MAP.values()) {
+			if (typeHexString.toString().toUpperCase().startsWith(typeHex)) {
+				validType = true;
+				break;
+			}
+		}
+		if (!validType) {
+			log.error("Image type[" + contentType + "] header is invalid.");
+			return -1;
+		}
+		// TODO (done) 文件大小不应该传进来，而是通过文件内容获取
+		// 根据响应获取文件大小
+		long fileLength = httpURLConnection.getContentLength();
+		if (fileLength == 0) {
+			log.error("url Image file size is null");
+			return -2;
+		}
+		if (fileLength > imageSize) {
+			log.error("url Image file size is too large.");
 			return -2;
 		}
 		return 1;

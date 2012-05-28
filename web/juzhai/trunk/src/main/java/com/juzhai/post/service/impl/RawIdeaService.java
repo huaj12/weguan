@@ -62,6 +62,7 @@ public class RawIdeaService implements IRawIdeaService {
 	private int ideaLinkLengthMax;
 	@Value("${create.idea.expire.time}")
 	private int createIdeaExpireTime;
+	//TODO (review) 名字应该换成“每日最大推荐好主意次数”
 	@Value("${create.idea.count}")
 	private int createIdeaCount;
 

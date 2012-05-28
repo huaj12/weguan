@@ -186,7 +186,6 @@ public class ImageUtil {
 		validType = false;
 		byte[] typeByteArray = new byte[4];
 		typeByteArray = bytes;
-		System.out.println(typeByteArray.length);
 		StringBuilder typeHexBuilder = new StringBuilder();
 		for (byte b : typeByteArray) {
 			typeHexBuilder.append(Integer.toHexString(b & 0xFF));

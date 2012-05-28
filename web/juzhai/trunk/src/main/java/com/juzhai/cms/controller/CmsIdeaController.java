@@ -343,6 +343,7 @@ public class CmsIdeaController extends BaseController {
 				rawIdeaForm.setCharge(rawIdea.getCharge());
 				rawIdeaForm.setTown(rawIdea.getTown());
 				rawIdeaForm.setDetail(rawIdea.getDetail());
+				rawIdeaForm.setCreateUid(rawIdea.getCreateUid());
 				City city = InitData.CITY_MAP.get(rawIdea.getCity());
 				if (city != null) {
 					rawIdeaForm.setProvince(city.getProvinceId());

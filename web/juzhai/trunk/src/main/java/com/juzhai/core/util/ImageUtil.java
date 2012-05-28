@@ -180,7 +180,11 @@ public class ImageUtil {
 			log.error("Image type[" + contentType + "] is invalid.");
 			return -1;
 		}
-
+		if (bytes == null || bytes.length < 4) {
+			log.error("Image type[bytes length:" + bytes.length
+					+ "] is invalid.");
+			return -1;
+		}
 		// TODO (done) 二进制头文件验证类型没有做
 		// 通过文件的二进制头来判断文件类型
 		validType = false;

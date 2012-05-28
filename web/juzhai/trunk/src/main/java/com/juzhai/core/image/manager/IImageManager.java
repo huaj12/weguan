@@ -197,7 +197,7 @@ public interface IImageManager {
 	 * @param image
 	 * @throws UploadImageException
 	 */
-	void checkImage(HttpURLConnection httpURLConnection)
+	void checkImage(HttpURLConnection httpURLConnection, byte[] bytes)
 			throws UploadImageException;
 
 }

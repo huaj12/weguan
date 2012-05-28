@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -402,29 +403,32 @@ public class ImageManager implements IImageManager {
 		} catch (Exception e) {
 			throw new UploadImageException(UploadImageException.UPLOAD_ERROR);
 		}
-		checkImage(urlcon);
+		InputStream inputStream = null;
+		byte[] bytes = null;
+		try {
+			inputStream = urlcon.getInputStream();
+			bytes = FileUtil.inputStreamToByte(inputStream);
+		} catch (IOException e) {
+			throw new UploadImageException(UploadImageException.SYSTEM_ERROR, e);
+		}
+
+		checkImage(urlcon, bytes);
 
 		String dateFolder = DateFormat.SDF.format(new Date());
 		String directoryPath = uploadTempImageHome + dateFolder
 				+ File.separator;
 		String fileName = ImageUtil.generateUUIDJpgFileName();
-		try {
-			if (!FileUtil.writeStreamToFile(directoryPath, fileName,
-					urlcon.getInputStream())) {
-				throw new UploadImageException(
-						UploadImageException.SYSTEM_ERROR);
-			}
-			return new String[] {
-					StaticUtil.u(webTempImagePath + dateFolder + File.separator
-							+ fileName), dateFolder + File.separator + fileName };
-		} catch (IOException e) {
-			throw new UploadImageException(UploadImageException.SYSTEM_ERROR, e);
+		if (!FileUtil.writeByteArrayToFile(directoryPath, fileName, bytes)) {
+			throw new UploadImageException(UploadImageException.SYSTEM_ERROR);
 		}
+		return new String[] {
+				StaticUtil.u(webTempImagePath + dateFolder + File.separator
+						+ fileName), dateFolder + File.separator + fileName };
 
 	}
 
 	@Override
-	public void checkImage(HttpURLConnection httpURLConnection)
+	public void checkImage(HttpURLConnection httpURLConnection, byte[] bytes)
 			throws UploadImageException {
 		try {
 			if (httpURLConnection.getResponseCode() != 200) {
@@ -434,15 +438,8 @@ public class ImageManager implements IImageManager {
 		} catch (IOException e) {
 			throw new UploadImageException(UploadImageException.UPLOAD_ERROR);
 		}
-		// 根据响应获取文件大小
-		long fileLength = httpURLConnection.getContentLength();
-		if (fileLength == 0) {
-			throw new UploadImageException(UploadImageException.UPLOAD_ERROR);
-		}
-		String url = httpURLConnection.getURL().toString();
-		String filename = url.substring(url.lastIndexOf('/') + 1);
 		int code = ImageUtil.validationImage(uploadImageTypes, uploadImageSize,
-				fileLength, filename);
+				httpURLConnection, bytes);
 		switch (code) {
 		case -1:
 			throw new UploadImageException(

@@ -43,7 +43,7 @@
 							</div><!--title end-->
 							<div class="link_area"><!--link_area begin-->
 								<div class="pub_x"><!--pub_x begin-->
-								<div class="pub_input"><p class="l"></p><span class="w450"><input name="" type="text" value="" init-tip="" class="fous_befor" /></span><p class="r"></p></div>
+								<div class="pub_input"><p class="l"></p><span class="w450"><input name="" type="text" value="" init-tip="" /></span><p class="r"></p></div>
 								</div><!--pub_x end-->
 								<div class="error" style="display:none">链接无法识别，请输入正确的URL</div>
 								<div class="btn" ><a href="javascript:void(0);" >确  定</a></div>

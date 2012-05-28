@@ -80,7 +80,7 @@ public class StringUtil {
 		char aChar;
 		int len = theString.length();
 		// TODO (done) 代码复制下来也看一下，这里用StringBuffer合适？
-		StringBuilder outBuffer = new StringBuilder(len);
+		StringBuilder outBuilder = new StringBuilder(len);
 		for (int x = 0; x < len;) {
 			aChar = theString.charAt(x++);
 			if (aChar == '\\') {
@@ -123,7 +123,7 @@ public class StringUtil {
 									"Malformed   \\uxxxx   encoding.");
 						}
 					}
-					outBuffer.append((char) value);
+					outBuilder.append((char) value);
 				} else {
 					if (aChar == 't')
 						aChar = '\t';
@@ -133,12 +133,12 @@ public class StringUtil {
 						aChar = '\n';
 					else if (aChar == 'f')
 						aChar = '\f';
-					outBuffer.append(aChar);
+					outBuilder.append(aChar);
 				}
 			} else
-				outBuffer.append(aChar);
+				outBuilder.append(aChar);
 		}
-		return outBuffer.toString();
+		return outBuilder.toString();
 
 	}
 

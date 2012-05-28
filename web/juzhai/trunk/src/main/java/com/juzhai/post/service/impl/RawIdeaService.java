@@ -104,7 +104,6 @@ public class RawIdeaService implements IRawIdeaService {
 		validateRawIdea(rawIdeaForm);
 		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
 		rawIdeaMapper.insertSelective(rawIdea);
-		// TODO (done) 发私信为什么在保存之前就发了？如果insert失败呢？
 		if (rawIdea.getIdeaId() == null) {
 			dialogService.sendOfficialSMS(rawIdea.getCreateUid(),
 					DialogContentTemplate.USER_CREATE_IDEA);
@@ -304,7 +303,6 @@ public class RawIdeaService implements IRawIdeaService {
 			throws InputRawIdeaException {
 		validateRawIdea(rawIdeaForm);
 		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
-		// TODO (done) 这里为什么要先保存？ ideaCopyRawIdea要用到最新的rawidea的数据所以先保存
 		// 修改后通过审核
 		Idea idae = ideaCopyRawIdea(rawIdea);
 		// 发送私信
@@ -313,16 +311,10 @@ public class RawIdeaService implements IRawIdeaService {
 				JzUtilFunction.truncate(idae.getContent(), 15, "..."));
 		// 通过后删除该拒宅
 		delRawIdea(rawIdea.getId());
-
-		// TODO (done) 纠错通过，会不会调用这个方法？不会(纠错实际是idea
-		// update方法只是把用户提交的原来idea对比。数据是max复制过去在点提交)
 		// 有头像且是通过状态才发拒宅
 		ProfileCache profile = profileService.getProfileCacheByUid(idae
 				.getCreateUid());
-		if (StringUtils.isNotEmpty(profile.getLogoPic())
-		// TODO (done)
-		// 这里不需要判断logoVerifyState，会存在一种情况：他有头像，但是第二次头像被拒绝，但此时他用的还是第一个头像。这种情况是可以发拒宅的。
-		) {
+		if (StringUtils.isNotEmpty(profile.getLogoPic())) {
 			PostForm postForm = new PostForm();
 			postForm.setIdeaId(idae.getId());
 			postForm.setPurposeType(PurposeType.WANT.getType());

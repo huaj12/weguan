@@ -79,7 +79,6 @@ public class StringUtil {
 		}
 		char aChar;
 		int len = theString.length();
-		// TODO (done) 代码复制下来也看一下，这里用StringBuffer合适？
 		StringBuilder outBuilder = new StringBuilder(len);
 		for (int x = 0; x < len;) {
 			aChar = theString.charAt(x++);

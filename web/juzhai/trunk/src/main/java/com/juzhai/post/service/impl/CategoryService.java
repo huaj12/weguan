@@ -86,7 +86,6 @@ public class CategoryService implements ICategoryService {
 
 	}
 
-	// TODO (done) 分类不仅仅给idea用
 	private boolean isUse(Long id) {
 		IdeaExample ideaExample = new IdeaExample();
 		ideaExample.createCriteria().andCategoryIdEqualTo(id);

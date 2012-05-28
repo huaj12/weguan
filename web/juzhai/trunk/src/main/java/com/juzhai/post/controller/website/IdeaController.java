@@ -367,7 +367,6 @@ public class IdeaController extends BaseController {
 		try {
 			RawIdeaForm rawIdeaForm = spiderIdeaService.crawl(url);
 			// 无城市时获取分享人所在城市
-			// TODO (done) 需要前台显示name吗？我只是提醒一下。
 			if (rawIdeaForm.getCity() == null) {
 				rawIdeaForm.setCity(cityId);
 				rawIdeaForm.setCityName(JzDataFunction.cityName(cityId));

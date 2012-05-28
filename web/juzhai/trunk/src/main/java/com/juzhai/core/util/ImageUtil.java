@@ -185,7 +185,6 @@ public class ImageUtil {
 					+ "] is invalid.");
 			return -1;
 		}
-		// TODO (done) 二进制头文件验证类型没有做
 		// 通过文件的二进制头来判断文件类型
 		validType = false;
 		byte[] typeByteArray = new byte[4];
@@ -211,7 +210,6 @@ public class ImageUtil {
 			log.error("Image type[" + contentType + "] header is invalid.");
 			return -1;
 		}
-		// TODO (done) 文件大小不应该传进来，而是通过文件内容获取
 		// 根据响应获取文件大小
 		long fileLength = httpURLConnection.getContentLength();
 		if (fileLength == 0) {

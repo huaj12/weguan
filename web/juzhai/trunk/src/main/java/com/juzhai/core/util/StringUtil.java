@@ -75,10 +75,11 @@ public class StringUtil {
 
 	public static String decodeUnicode(String theString) {
 		if (StringUtils.isEmpty(theString)) {
-			return "";
+			return StringUtils.EMPTY;
 		}
 		char aChar;
 		int len = theString.length();
+		//TODO (review) 代码复制下来也看一下，这里用StringBuffer合适？
 		StringBuffer outBuffer = new StringBuffer(len);
 		for (int x = 0; x < len;) {
 			aChar = theString.charAt(x++);

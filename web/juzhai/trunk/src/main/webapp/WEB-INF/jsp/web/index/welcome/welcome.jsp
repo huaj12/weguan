@@ -20,7 +20,7 @@
 							<div class="beta"></div>
 					</c:if>
 					<div class="top"><!--top begin-->
-						<h2></h2>
+						<h1></h1>
 						<div class="menu"><!--menu begin-->
 							<a href="/searchusers" title="找伴儿">找伴儿</a>
 							<a href="/showideas" title="出去玩">出去玩</a>

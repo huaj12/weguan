@@ -129,7 +129,9 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
+	//TODO (review) 这个限制只是用作分享，还是包括手动推荐好主意？
 	public static String genCreateIdeaCountKey(long uid) {
+		//TODO (review) genKey方法不能用？
 		return uid + CACHE_KEY_SEPARATOR + "createIdeaCount";
 	}
 }

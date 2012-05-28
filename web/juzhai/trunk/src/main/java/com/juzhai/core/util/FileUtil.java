@@ -279,6 +279,32 @@ public class FileUtil {
 		}
 	}
 
+	/**
+	 * 将流转化成byte[]
+	 * 
+	 * @param iStrm
+	 * @return
+	 * @throws IOException
+	 */
+	public static byte[] inputStreamToByte(InputStream inputStream)
+			throws IOException {
+		ByteArrayOutputStream bytestream = null;
+		try {
+			bytestream = new ByteArrayOutputStream();
+			int ch;
+			while ((ch = inputStream.read()) != -1) {
+				bytestream.write(ch);
+			}
+			byte imgdata[] = bytestream.toByteArray();
+			return imgdata;
+		} finally {
+			if (bytestream != null) {
+				bytestream.close();
+			}
+		}
+
+	}
+
 	public static void main(String[] args) {
 		System.out.println(FileUtil.generateHierarchyPath(7999999L));
 		System.out.println(FileUtil.generateHierarchyWebPath(7999999999L));

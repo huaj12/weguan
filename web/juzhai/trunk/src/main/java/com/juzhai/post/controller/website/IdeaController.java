@@ -32,6 +32,7 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.JackSonSerializer;
 import com.juzhai.core.web.AjaxResult;
+import com.juzhai.core.web.jstl.JzDataFunction;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.controller.view.IdeaView;
@@ -366,9 +367,10 @@ public class IdeaController extends BaseController {
 		try {
 			RawIdeaForm rawIdeaForm = spiderIdeaService.crawl(url);
 			// 无城市时获取分享人所在城市
-			//TODO (review) 需要前台显示name吗？我只是提醒一下。
+			// TODO (done) 需要前台显示name吗？我只是提醒一下。
 			if (rawIdeaForm.getCity() == null) {
 				rawIdeaForm.setCity(cityId);
+				rawIdeaForm.setCityName(JzDataFunction.cityName(cityId));
 			}
 			ajaxResult.setResult(rawIdeaForm);
 		} catch (SpiderIdeaException e) {

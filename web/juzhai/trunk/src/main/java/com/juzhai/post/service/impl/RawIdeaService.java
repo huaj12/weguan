@@ -22,7 +22,6 @@ import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.web.jstl.JzUtilFunction;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
-import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.bean.PurposeType;
@@ -104,7 +103,8 @@ public class RawIdeaService implements IRawIdeaService {
 		}
 		validateRawIdea(rawIdeaForm);
 		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
-		//TODO (review) 发私信为什么在保存之前就发了？如果insert失败呢？
+		rawIdeaMapper.insertSelective(rawIdea);
+		// TODO (done) 发私信为什么在保存之前就发了？如果insert失败呢？
 		if (rawIdea.getIdeaId() == null) {
 			dialogService.sendOfficialSMS(rawIdea.getCreateUid(),
 					DialogContentTemplate.USER_CREATE_IDEA);
@@ -112,8 +112,7 @@ public class RawIdeaService implements IRawIdeaService {
 			dialogService.sendOfficialSMS(rawIdea.getCorrectionUid(),
 					DialogContentTemplate.USER_UPDATE_IDEA);
 		}
-		rawIdeaMapper.insertSelective(rawIdea);
-		
+
 		if (rawIdeaForm.getCreateUid() != null) {
 			try {
 				memcachedClient.set(MemcachedKeyGenerator
@@ -310,7 +309,7 @@ public class RawIdeaService implements IRawIdeaService {
 			throws InputRawIdeaException {
 		validateRawIdea(rawIdeaForm);
 		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
-		//TODO (review) 这里为什么要先保存？
+		// TODO (done) 这里为什么要先保存？ ideaCopyRawIdea要用到最新的rawidea的数据所以先保存
 		rawIdeaMapper.updateByPrimaryKeySelective(rawIdea);
 		// 修改后通过审核
 		Idea idae = ideaCopyRawIdea(rawIdea.getId());
@@ -320,15 +319,16 @@ public class RawIdeaService implements IRawIdeaService {
 				JzUtilFunction.truncate(idae.getContent(), 15, "..."));
 		// 通过后删除该拒宅
 		delRawIdea(rawIdea.getId());
-		
-		//TODO (review) 纠错通过，会不会调用这个方法？
+
+		// TODO (done) 纠错通过，会不会调用这个方法？不会(纠错实际是idea
+		// update方法只是把用户提交的原来idea对比。数据是max复制过去在点提交)
 		// 有头像且是通过状态才发拒宅
 		ProfileCache profile = profileService.getProfileCacheByUid(idae
 				.getCreateUid());
 		if (StringUtils.isNotEmpty(profile.getLogoPic())
-				//TODO (review) 这里不需要判断logoVerifyState，会存在一种情况：他有头像，但是第二次头像被拒绝，但此时他用的还是第一个头像。这种情况是可以发拒宅的。
-				&& profile.getLogoVerifyState() == LogoVerifyState.VERIFIED
-						.getType()) {
+		// TODO (done)
+		// 这里不需要判断logoVerifyState，会存在一种情况：他有头像，但是第二次头像被拒绝，但此时他用的还是第一个头像。这种情况是可以发拒宅的。
+		) {
 			PostForm postForm = new PostForm();
 			postForm.setIdeaId(idae.getId());
 			postForm.setPurposeType(PurposeType.WANT.getType());

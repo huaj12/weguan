@@ -132,4 +132,15 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	public static String genCreateIdeaCountKey(long uid) {
 		return genKey(uid, "createIdeaCount");
 	}
+
+	/**
+	 * 用户分享好主意次数
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genShareIdeaCountKey(long uid) {
+		return genKey(uid, "shareIdeaCount");
+	}
+
 }

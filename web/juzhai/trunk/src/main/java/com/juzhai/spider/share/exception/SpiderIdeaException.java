@@ -16,6 +16,8 @@ public class SpiderIdeaException extends JuzhaiException {
 
 	public static final String SPIDER_IDEA_TIME_OUT = "190004";
 
+	public static final String SPIDER_IDEA_TO_MORE = "190005";
+
 	public SpiderIdeaException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

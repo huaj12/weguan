@@ -10,5 +10,5 @@ public interface ISpiderIdeaService {
 	 * @param url
 	 * @return
 	 */
-	RawIdeaForm crawl(String url) throws SpiderIdeaException;
+	RawIdeaForm crawl(String url, long uid) throws SpiderIdeaException;
 }

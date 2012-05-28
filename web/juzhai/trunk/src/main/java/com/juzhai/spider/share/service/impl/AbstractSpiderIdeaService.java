@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.rubyeye.xmemcached.MemcachedClient;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,6 +17,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.web.jstl.JzDataFunction;
 import com.juzhai.core.web.jstl.JzUtilFunction;
@@ -34,9 +37,31 @@ public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {
 	private int ideaContentLengthMax;
 	@Value("${idea.place.length.max}")
 	private int ideaPlaceLengthMax;
+	@Value("${share.idea.count}")
+	private int shareIdeaCount;
+	@Value("${share.idea.expire.time}")
+	private int shareIdeaExpireTime;
+	@Autowired
+	private MemcachedClient memcachedClient;
 
 	@Override
-	public RawIdeaForm crawl(String url) throws SpiderIdeaException {
+	public RawIdeaForm crawl(String url, long uid) throws SpiderIdeaException {
+		Integer userShareIdeaCount = null;
+		try {
+			userShareIdeaCount = memcachedClient.get(MemcachedKeyGenerator
+					.genShareIdeaCountKey(uid));
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		if (userShareIdeaCount == null) {
+			userShareIdeaCount = 0;
+		}
+		userShareIdeaCount++;
+		if (userShareIdeaCount > shareIdeaCount) {
+			throw new SpiderIdeaException(
+					SpiderIdeaException.SPIDER_IDEA_TO_MORE);
+		}
+
 		String joinType = null;
 		for (Domain domain : Domain.values()) {
 			if (url.indexOf(domain.getUrl()) != -1) {
@@ -74,6 +99,13 @@ public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {
 		if (form.getPlace() != null) {
 			form.setPlace(JzUtilFunction.truncate(form.getPlace(),
 					ideaPlaceLengthMax - 3, "..."));
+		}
+		try {
+			memcachedClient.set(
+					MemcachedKeyGenerator.genShareIdeaCountKey(uid),
+					shareIdeaExpireTime, userShareIdeaCount);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
 		}
 		return form;
 
@@ -149,7 +181,8 @@ public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {
 
 	protected void getPic(RawIdeaForm form, String content, String joinType)
 			throws SpiderIdeaException {
-		String pic = find(content, ShareRegexConfig.REGEXS.get(joinType + "_pic"));
+		String pic = find(content,
+				ShareRegexConfig.REGEXS.get(joinType + "_pic"));
 		uploadPic(form, pic);
 	}
 

@@ -54,8 +54,8 @@ public class SpiderIdeaService implements ISpiderIdeaService, BeanFactoryAware {
 	}
 
 	@Override
-	public RawIdeaForm crawl(String url) throws SpiderIdeaException {
-		return getSpiderIdeaServiceBean(url).crawl(url);
+	public RawIdeaForm crawl(String url, long uid) throws SpiderIdeaException {
+		return getSpiderIdeaServiceBean(url).crawl(url, uid);
 	}
 
 	@Override

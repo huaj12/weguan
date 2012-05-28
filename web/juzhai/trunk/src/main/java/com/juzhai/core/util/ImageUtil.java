@@ -185,7 +185,9 @@ public class ImageUtil {
 		// 通过文件的二进制头来判断文件类型
 		validType = false;
 		byte[] typeByteArray = new byte[4];
-		typeByteArray = bytes;
+		for (int i = 0; i < typeByteArray.length; i++) {
+			typeByteArray[i] = bytes[i];
+		}
 		StringBuilder typeHexBuilder = new StringBuilder();
 		for (byte b : typeByteArray) {
 			typeHexBuilder.append(Integer.toHexString(b & 0xFF));

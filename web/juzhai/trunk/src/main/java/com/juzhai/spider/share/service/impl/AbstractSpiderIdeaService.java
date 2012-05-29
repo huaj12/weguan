@@ -37,9 +37,9 @@ public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {
 	private int ideaContentLengthMax;
 	@Value("${idea.place.length.max}")
 	private int ideaPlaceLengthMax;
-	//TODO (review) 名字应该换成“每日最大分享爬取次数”
-	@Value("${share.idea.count}")
-	private int shareIdeaCount;
+	// TODO (done) 名字应该换成“每日最大分享爬取次数”
+	@Value("${max.share.idea.count}")
+	private int maxShareIdeaCount;
 	@Value("${share.idea.expire.time}")
 	private int shareIdeaExpireTime;
 	@Autowired
@@ -58,7 +58,7 @@ public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {
 			userShareIdeaCount = 0;
 		}
 		userShareIdeaCount++;
-		if (userShareIdeaCount > shareIdeaCount) {
+		if (userShareIdeaCount > maxShareIdeaCount) {
 			throw new SpiderIdeaException(
 					SpiderIdeaException.SPIDER_IDEA_TO_MORE);
 		}

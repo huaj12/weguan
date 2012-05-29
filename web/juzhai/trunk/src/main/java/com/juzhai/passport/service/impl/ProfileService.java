@@ -627,7 +627,7 @@ public class ProfileService implements IProfileService {
 			profile.setBlog(profile.getBlog().replace("http://", ""));
 			// 验证个人主页格式
 			Pattern pat = Pattern
-					.compile("(((\\w)+[.]){1,}(\\w{1,3})(((\\/[\\~]*|\\\\[\\~]*)(\\w)*)|[.](\\w)+)*(((([?](\\w)+){1}[=]*))*((\\w)+){1}([\\&](\\w)+[\\=](\\w)+)*)*)");
+					.compile("((\\w)+?\\.){1,}(\\w{1,3})((\\/[\\w\\.\\/\\?\\%\\&\\=\\#]*)*?)");
 			Matcher matcher = pat.matcher(profile.getBlog());
 			if (!matcher.matches()) {
 				throw new ProfileInputException(

@@ -27,6 +27,7 @@ import com.juzhai.home.service.IUserStatusService;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.exception.PassportAccountException;
+import com.juzhai.passport.exception.ReportAccountException;
 import com.juzhai.passport.mapper.LoginLogMapper;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.mapper.ProfileMapper;
@@ -38,6 +39,7 @@ import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.IReportService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.search.service.IProfileSearchService;
 import com.juzhai.stats.counter.service.ICounter;
@@ -75,6 +77,8 @@ public class LoginService implements ILoginService {
 	private IProfileSearchService profileSearchService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IReportService reportService;
 	@Value(value = "${user.online.expire.time}")
 	private int userOnlineExpireTime;
 	@Value("${use.verify.login.count}")
@@ -85,27 +89,25 @@ public class LoginService implements ILoginService {
 	@Override
 	public void login(HttpServletRequest request, HttpServletResponse response,
 			final long uid, final long tpId, RunType runType)
-			throws PassportAccountException {
+			throws PassportAccountException, ReportAccountException {
 		doLogin(request, response, uid, tpId, runType, false);
 		loginCounter.incr(null, 1);
 	}
 
 	private void doLogin(HttpServletRequest request,
 			HttpServletResponse response, final long uid, final long tpId,
-			RunType runType, boolean persistent)
-			throws PassportAccountException {
+			RunType runType, boolean persistent) throws ReportAccountException {
 		Passport passport = passportMapper.selectByPrimaryKey(uid);
 		if (null == passport) {
 			log.error("Login error. Can not find passport[id=" + uid + "].");
 		}
-		
-		//TODO (review) 是否屏蔽单独封装到屏蔽的Service里，并且换独立的异常
-		Date shield = passport.getShieldTime();
-		if (shield != null && shield.getTime() > System.currentTimeMillis()) {
-			loginSessionManager.logout(request, response);
-			throw new PassportAccountException(
-					PassportAccountException.USER_IS_SHIELD, shield.getTime());
+
+		long shieldTime = reportService.isShield(passport.getId());
+		if (shieldTime > 0) {
+			throw new ReportAccountException(
+					ReportAccountException.USER_IS_SHIELD, shieldTime);
 		}
+
 		loginSessionManager.login(request, response, uid, tpId, false,
 				persistent);
 		// 更新最后登录时间
@@ -186,7 +188,7 @@ public class LoginService implements ILoginService {
 	@Override
 	public long login(HttpServletRequest request, HttpServletResponse response,
 			String loginName, String pwd, boolean persistent)
-			throws PassportAccountException {
+			throws PassportAccountException, ReportAccountException {
 		loginName = StringUtils.trim(loginName);
 		pwd = StringUtils.trim(pwd);
 		if (StringUtils.isEmpty(loginName) || StringUtils.isEmpty(pwd)) {
@@ -217,8 +219,7 @@ public class LoginService implements ILoginService {
 			HttpServletResponse response, long uid) {
 		try {
 			doLogin(request, response, uid, 0L, RunType.WEB, false);
-		} catch (PassportAccountException e) {
-			log.error(e.getMessage(), e);
+		} catch (ReportAccountException e) {
 		}
 	}
 
@@ -264,7 +265,8 @@ public class LoginService implements ILoginService {
 
 	@Override
 	public long persistentAutoLogin(HttpServletRequest request,
-			HttpServletResponse response) throws PassportAccountException {
+			HttpServletResponse response) throws PassportAccountException,
+			ReportAccountException {
 		long uid = loginSessionManager.persistentLoginUid(request, response);
 		if (uid > 0 && null != profileService.getProfileCacheByUid(uid)) {
 			Thirdparty tp = null;

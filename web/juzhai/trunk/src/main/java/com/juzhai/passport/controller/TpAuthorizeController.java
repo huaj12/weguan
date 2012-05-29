@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
-import java.util.Date;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +33,7 @@ import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.exception.PassportAccountException;
+import com.juzhai.passport.exception.ReportAccountException;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IUserGuideService;
@@ -78,7 +78,8 @@ public class TpAuthorizeController extends BaseController {
 	public String webAccess(HttpServletRequest request,
 			HttpServletResponse response, @PathVariable long tpId,
 			String turnTo, String incode, String error_code, Model model)
-			throws UnsupportedEncodingException, MalformedURLException {
+			throws UnsupportedEncodingException, MalformedURLException,
+			ReportAccountException {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if (null == tp) {
 			return null;
@@ -112,7 +113,6 @@ public class TpAuthorizeController extends BaseController {
 			loginService.login(request, response, uid, tp.getId(),
 					RunType.CONNET);
 		} catch (PassportAccountException e) {
-			model.addAttribute("shieldTime", new Date(e.getShieldTime()));
 			return "web/login/login_error";
 		}
 		if (!userGuideService.isCompleteGuide(uid)) {

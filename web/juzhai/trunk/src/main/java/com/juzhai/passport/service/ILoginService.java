@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.passport.exception.PassportAccountException;
+import com.juzhai.passport.exception.ReportAccountException;
 
 public interface ILoginService {
 
@@ -21,7 +22,7 @@ public interface ILoginService {
 	 */
 	long login(HttpServletRequest request, HttpServletResponse response,
 			String loginName, String pwd, boolean persistent)
-			throws PassportAccountException;
+			throws PassportAccountException, ReportAccountException;
 
 	/**
 	 * 自动登录（比如：注册完自动登录）
@@ -40,7 +41,7 @@ public interface ILoginService {
 	 */
 	void login(HttpServletRequest request, HttpServletResponse response,
 			long uid, long tpId, RunType runType)
-			throws PassportAccountException;
+			throws PassportAccountException, ReportAccountException;
 
 	/**
 	 * 记住账号的登录
@@ -50,7 +51,8 @@ public interface ILoginService {
 	 * @throws PassportAccountException
 	 */
 	long persistentAutoLogin(HttpServletRequest request,
-			HttpServletResponse response) throws PassportAccountException;
+			HttpServletResponse response) throws PassportAccountException,
+			ReportAccountException;
 
 	/**
 	 * cms登录

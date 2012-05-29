@@ -9,7 +9,7 @@ public class ReportAccountException extends JuzhaiException {
 	/**
 	 * 用户已被锁定
 	 */
-	public static final String USER_IS_SHIELD = "10005";
+	public static final String USER_IS_SHIELD = "200001";
 
 	private long shieldTime;
 
@@ -20,6 +20,10 @@ public class ReportAccountException extends JuzhaiException {
 	public ReportAccountException(String errorCode, long shieldTime) {
 		super(errorCode);
 		this.shieldTime = shieldTime;
+	}
+
+	public ReportAccountException(String errorCode) {
+		super(errorCode);
 	}
 
 	public long getShieldTime() {

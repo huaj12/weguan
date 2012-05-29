@@ -14,7 +14,7 @@
 		</c:forEach>
 		<meta name="keywords" content="拒宅 找伴儿 出去玩 约会 交友" />
 		<meta name="description" content="<c:out value="${profile.nickname}" />的拒宅，最近想去 ${actNames}"  />
-		<title><c:out value="${profile.nickname}" />的拒宅-拒宅网</title>
+		<title><c:out value="${profile.nickname}" />的拒宅 拒宅网-助你找伴儿出去玩(51juzhai.com)</title>
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" />
 	</head>
 	<body>

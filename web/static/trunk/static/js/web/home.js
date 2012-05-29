@@ -136,6 +136,7 @@ $(document).ready(function(){
 			});
 			$(dialog.content()).find("div.btn > a").click(function(){
 				shareIdea($(this),dialog);
+				return false;
 			});
 			return false;
 		});

@@ -19,13 +19,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.web.cookies.CookiesManager;
-import com.juzhai.passport.InitData;
-import com.juzhai.passport.bean.JoinTypeEnum;
-import com.juzhai.passport.model.Thirdparty;
-import com.juzhai.passport.model.TpUser;
-import com.juzhai.passport.service.IProfileService;
-import com.juzhai.passport.service.ITpUserAuthService;
-import com.juzhai.passport.service.ITpUserService;
 
 public abstract class AbstractLoginSessionManager implements
 		LoginSessionManager {
@@ -39,31 +32,15 @@ public abstract class AbstractLoginSessionManager implements
 
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
-	@Autowired
-	private ITpUserService tpUserService;
-	@Autowired
-	private IProfileService profileService;
 	@Value(value = "${login.expire.time.seconds}")
 	protected int loginExpireTimeSeconds;
 	@Value(value = "${persist.login.expire.time.seconds}")
 	private int persistLoginExpireTimeSeconds;
 
 	@Override
-	public boolean autoLogin(HttpServletRequest request,
+	public long persistentLoginUid(HttpServletRequest request,
 			HttpServletResponse response) {
-		long uid = checkPersistLogin(request, response);
-		if (uid > 0 && null != profileService.getProfileCacheByUid(uid)) {
-			Thirdparty tp = null;
-			TpUser tpUser = tpUserService.getTpUserByUid(uid);
-			if (null != tpUser) {
-				tp = InitData.getTpByTpNameAndJoinType(tpUser.getTpName(),
-						JoinTypeEnum.CONNECT);
-			}
-			login(request, response, uid, tp == null ? 0L : tp.getId(), false,
-					false);
-			return true;
-		}
-		return false;
+		return checkPersistLogin(request, response);
 	}
 
 	protected void persistLogin(HttpServletRequest request,

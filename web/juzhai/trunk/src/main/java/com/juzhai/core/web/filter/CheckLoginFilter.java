@@ -53,8 +53,11 @@ public class CheckLoginFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		try {
 			UserContext context = loginSessionManager.getUserContext(req);
-			if (!context.hasLogin() && loginSessionManager.autoLogin(req, rep)) {
+			if (!context.hasLogin()
+					&& loginService.persistentAutoLogin(req, rep) > 0) {
 				context = loginSessionManager.getUserContext(req);
+			}else{
+				//TODO (review) check 屏蔽
 			}
 			req.setAttribute("context", context);
 			if (context.hasLogin()) {
@@ -75,7 +78,9 @@ public class CheckLoginFilter implements Filter {
 		} catch (Exception e) {
 			if (e.getCause() instanceof NeedLoginException) {
 				needLoginHandle(req, rep, (NeedLoginException) e.getCause());
-			} else {
+			} 
+			//TODO (review) 被屏蔽异常捕捉，用redirect去跳转页面并且参数带有屏蔽时间
+			else {
 				throw new ServletException(e.getMessage(), e);
 			}
 		}

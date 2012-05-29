@@ -43,6 +43,16 @@ public interface ILoginService {
 			throws PassportAccountException;
 
 	/**
+	 * 记住账号的登录
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws PassportAccountException
+	 */
+	long persistentAutoLogin(HttpServletRequest request,
+			HttpServletResponse response) throws PassportAccountException;
+
+	/**
 	 * cms登录
 	 * 
 	 * @param request

@@ -101,12 +101,7 @@ public class LoginService implements ILoginService {
 		if (null == passport) {
 			log.error("Login error. Can not find passport[id=" + uid + "].");
 		}
-
-		long shieldTime = reportService.isShield(passport.getId());
-		if (shieldTime > 0) {
-			throw new ReportAccountException(
-					ReportAccountException.USER_IS_SHIELD, shieldTime);
-		}
+		isShield(passport.getId(), request, response);
 
 		loginSessionManager.login(request, response, uid, tpId, false,
 				persistent);
@@ -281,6 +276,17 @@ public class LoginService implements ILoginService {
 			return uid;
 		} else {
 			return 0;
+		}
+	}
+
+	@Override
+	public void isShield(long uid, HttpServletRequest request,
+			HttpServletResponse response) throws ReportAccountException {
+		long shieldTime = reportService.isShield(uid);
+		if (shieldTime > 0) {
+			logout(request, response, uid);
+			throw new ReportAccountException(
+					ReportAccountException.USER_IS_SHIELD, shieldTime);
 		}
 	}
 }

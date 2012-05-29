@@ -103,4 +103,12 @@ public interface ILoginService {
 	 * @return
 	 */
 	long incrLoginCount(String ip);
+
+	/**
+	 * 用户是否被屏蔽
+	 * 
+	 * @param uid
+	 */
+	void isShield(long uid, HttpServletRequest request,
+			HttpServletResponse response) throws ReportAccountException;
 }

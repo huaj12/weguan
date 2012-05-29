@@ -62,12 +62,7 @@ public class CheckLoginFilter implements Filter {
 				context = loginSessionManager.getUserContext(req);
 			} else if (context.hasLogin()) {
 				// TODO (done) check 屏蔽
-				Long shieldTime = reportService.isShield(context.getUid());
-				if (shieldTime > 0) {
-					loginService.logout(req, rep, context.getUid());
-					throw new ReportAccountException(
-							ReportAccountException.USER_IS_SHIELD, shieldTime);
-				}
+				loginService.isShield(context.getUid(), req, rep);
 			}
 			req.setAttribute("context", context);
 			if (context.hasLogin()) {

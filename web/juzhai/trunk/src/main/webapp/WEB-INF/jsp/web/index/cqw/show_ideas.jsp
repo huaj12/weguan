@@ -10,7 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>${jzd:cityName(cityId)}出去玩,${jzd:cityName(cityId)}拒宅好主意 拒宅网-助你找伴儿出去玩(51juzhai.com)</title>
+		<title>${jzd:cityName(cityId)}拒宅好主意 拒宅网-助你找伴儿出去玩(51juzhai.com)</title>
 		<meta name="keywords" content="${jzd:cityName(cityId)}拒宅,${jzd:cityName(cityId)}出去玩" />
 		<meta name="description" content="周末不想宅在家拒宅网为你提供${jzd:cityName(cityId)}拒宅好主意,发现同兴趣的朋友,帮你拒宅" />
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.juzhai.passport.bean.LockUserLevel;
 import com.juzhai.passport.exception.InputReportException;
+import com.juzhai.passport.exception.ReportAccountException;
 import com.juzhai.passport.model.Report;
 import com.juzhai.plug.controller.form.ReportForm;
 
@@ -60,5 +61,13 @@ public interface IReportService {
 	 * @param id
 	 */
 	void deleteReport(long id);
+
+	/**
+	 * 是否被屏蔽
+	 * 
+	 * @param uid
+	 * @throws ReportAccountException
+	 */
+	long isShield(long uid);
 
 }

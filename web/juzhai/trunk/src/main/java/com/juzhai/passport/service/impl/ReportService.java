@@ -16,8 +16,10 @@ import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.bean.LockUserLevel;
 import com.juzhai.passport.bean.ReportHandleEnum;
 import com.juzhai.passport.exception.InputReportException;
+import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.mapper.ReportMapper;
+import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Report;
 import com.juzhai.passport.model.ReportExample;
@@ -56,6 +58,8 @@ public class ReportService implements IReportService {
 	private RedisTemplate<String, Long> redisTemplate;
 	@Autowired
 	private ProfileMapper profileMapper;
+	@Autowired
+	private PassportMapper passportMapper;
 	@Value("${user.post.lucene.rows}")
 	private int userPostLuceneRows;
 	@Value("${report.description.length.max}")
@@ -204,6 +208,17 @@ public class ReportService implements IReportService {
 	@Override
 	public void deleteReport(long id) {
 		reportMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public long isShield(long uid) {
+		// TODO (done) 是否屏蔽单独封装到屏蔽的Service里，并且换独立的异常
+		Passport passport = passportMapper.selectByPrimaryKey(uid);
+		Date shield = passport.getShieldTime();
+		if (shield != null && shield.getTime() > System.currentTimeMillis()) {
+			return shield.getTime();
+		}
+		return 0l;
 	}
 
 }

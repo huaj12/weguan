@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
-import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.controller.form.LoginForm;
 import com.juzhai.passport.exception.PassportAccountException;
+import com.juzhai.passport.exception.ReportAccountException;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.verifycode.service.IVerifyCodeService;
@@ -69,7 +69,7 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String postLogin(HttpServletRequest request,
 			HttpServletResponse response, Model mdoel, LoginForm loginForm,
-			Model model) {
+			Model model) throws ReportAccountException {
 		UserContext context = (UserContext) request.getAttribute("context");
 		if (context.hasLogin()) {
 			return "redirect:/home";
@@ -91,12 +91,6 @@ public class LoginController extends BaseController {
 			uid = loginService.login(request, response, loginForm.getAccount(),
 					loginForm.getPassword(), loginForm.isRemember());
 		} catch (PassportAccountException e) {
-			//TODO (review) 异常让CheckLoginFilter去cache
-			if (StringUtils.equals(e.getErrorCode(),
-					PassportAccountException.USER_IS_SHIELD)) {
-				model.addAttribute("shieldTime", new Date(e.getShieldTime()));
-				return "web/login/login_error";
-			}
 			model.addAttribute("errorCode", e.getErrorCode());
 			model.addAttribute("errorInfo", messageSource.getMessage(
 					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
@@ -124,7 +118,8 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "ajaxlogin", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult ajaxLogin(HttpServletRequest request,
-			HttpServletResponse response, LoginForm loginForm, Model model) {
+			HttpServletResponse response, LoginForm loginForm, Model model)
+			throws ReportAccountException {
 		AjaxResult result = new AjaxResult();
 		UserContext context = (UserContext) request.getAttribute("context");
 		if (context.hasLogin()) {
@@ -136,13 +131,6 @@ public class LoginController extends BaseController {
 			uid = loginService.login(request, response, loginForm.getAccount(),
 					loginForm.getPassword(), false);
 		} catch (PassportAccountException e) {
-			if (StringUtils.equals(e.getErrorCode(),
-					PassportAccountException.USER_IS_SHIELD)) {
-				result.setError(PassportAccountException.USER_IS_SHIELD,
-						messageSource,
-						DateFormat.SDF.format(new Date(e.getShieldTime())));
-				return result;
-			}
 			result.setError(e.getErrorCode(), messageSource);
 			return result;
 		}
@@ -165,5 +153,11 @@ public class LoginController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		loginService.logout(request, response, context.getUid());
 		return "redirect:/login";
+	}
+
+	@RequestMapping(value = "login/error/shield", method = RequestMethod.GET)
+	public String loginError(Model model, long shieldTime) {
+		model.addAttribute("shieldTime", new Date(shieldTime));
+		return "web/login/login_error";
 	}
 }

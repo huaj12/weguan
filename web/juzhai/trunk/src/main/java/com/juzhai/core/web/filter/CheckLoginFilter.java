@@ -22,8 +22,10 @@ import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.web.session.LoginSessionManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
+import com.juzhai.passport.exception.ReportAccountException;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.IReportService;
 
 @Component
 public class CheckLoginFilter implements Filter {
@@ -37,6 +39,8 @@ public class CheckLoginFilter implements Filter {
 	private ILoginService loginService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private IReportService reportService;
 
 	@Override
 	public void destroy() {
@@ -56,8 +60,14 @@ public class CheckLoginFilter implements Filter {
 			if (!context.hasLogin()
 					&& loginService.persistentAutoLogin(req, rep) > 0) {
 				context = loginSessionManager.getUserContext(req);
-			}else{
-				//TODO (review) check 屏蔽
+			} else if (context.hasLogin()) {
+				// TODO (done) check 屏蔽
+				Long shieldTime = reportService.isShield(context.getUid());
+				if (shieldTime > 0) {
+					loginService.logout(req, rep, context.getUid());
+					throw new ReportAccountException(
+							ReportAccountException.USER_IS_SHIELD, shieldTime);
+				}
 			}
 			req.setAttribute("context", context);
 			if (context.hasLogin()) {
@@ -78,9 +88,14 @@ public class CheckLoginFilter implements Filter {
 		} catch (Exception e) {
 			if (e.getCause() instanceof NeedLoginException) {
 				needLoginHandle(req, rep, (NeedLoginException) e.getCause());
-			} 
-			//TODO (review) 被屏蔽异常捕捉，用redirect去跳转页面并且参数带有屏蔽时间
-			else {
+			} else if (e instanceof ReportAccountException) {
+				// TODO (done) 被屏蔽异常捕捉，用redirect去跳转页面并且参数带有屏蔽时间
+				// TODO (done) 异常让CheckLoginFilter去cache
+				needReportHandle(req, rep, (ReportAccountException) e);
+			} else if (e.getCause() instanceof ReportAccountException) {
+				needReportHandle(req, rep,
+						(ReportAccountException) e.getCause());
+			} else {
 				throw new ServletException(e.getMessage(), e);
 			}
 		}
@@ -112,6 +127,17 @@ public class CheckLoginFilter implements Filter {
 				}
 				response.sendRedirect(redirectURI);
 			}
+		}
+	}
+
+	private void needReportHandle(HttpServletRequest request,
+			HttpServletResponse response, ReportAccountException e)
+			throws IOException {
+		if (isAjaxRequest(request)) {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		} else {
+			response.sendRedirect("/login/error/shield?shieldTime="
+					+ e.getShieldTime());
 		}
 	}
 

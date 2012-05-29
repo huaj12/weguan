@@ -41,6 +41,7 @@
 										</div><!--lock end-->
 								</c:if>
 								<div class="send_box"><!--send_box begin-->
+									<c:set var="sendPostType" value="index" scope="request"/>
 									<jsp:include page="send_post.jsp" />
 								</div>
 							</div>

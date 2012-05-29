@@ -22,12 +22,14 @@
 			</div><!--select_box end-->
 		</div><!--select_menu end-->
 		<div class="send_box_error" style="display: none;"></div>
-		<div class="random_select">
-				<p>快速分享:</p>
-				<a href="javascript:void(0);" class="hd">活动</a>
-				<a href="javascript:void(0);" class="qc">好去处</a>
-				<a href="javascript:void(0);" class="tg">团购</a>
-		</div>
+		<c:if test="${sendPostType=='index'}">
+			<div class="random_select">
+					<p>快速分享:</p>
+					<a href="javascript:void(0);" class="hd">活动</a>
+					<a href="javascript:void(0);" class="qc">好去处</a>
+					<a href="javascript:void(0);" class="tg">团购</a>
+			</div>
+		</c:if>
 		<div class="textarea"><textarea name="content" init-tip="说说这个周末想出去玩什么...">${postForm.content}</textarea></div>
 		<div class="jh"><!--jh begin-->
 			<c:choose>

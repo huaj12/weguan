@@ -62,9 +62,9 @@ public class RawIdeaService implements IRawIdeaService {
 	private int ideaLinkLengthMax;
 	@Value("${create.idea.expire.time}")
 	private int createIdeaExpireTime;
-	//TODO (review) 名字应该换成“每日最大推荐好主意次数”
-	@Value("${create.idea.count}")
-	private int createIdeaCount;
+	// TODO (done) 名字应该换成“每日最大推荐好主意次数”
+	@Value("${max.create.idea.count}")
+	private int maxCreateIdeaCount;
 
 	@Autowired
 	private RawIdeaMapper rawIdeaMapper;
@@ -97,7 +97,7 @@ public class RawIdeaService implements IRawIdeaService {
 				userCreateIdeaCount = 0;
 			}
 			userCreateIdeaCount++;
-			if (userCreateIdeaCount > createIdeaCount) {
+			if (userCreateIdeaCount > maxCreateIdeaCount) {
 				throw new InputRawIdeaException(
 						InputRawIdeaException.RAW_IDEA_CREATE_TO_MORE);
 			}

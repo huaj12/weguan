@@ -8,7 +8,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Q+授权-拒宅网</title>
+<title>Q+授权 拒宅网-助你找伴儿出去玩(51juzhai.com)</title>
 	<script type="text/javascript" src="http://cdn.qplus.com/js/qplus.api.js"></script>
 </head>
 <body>

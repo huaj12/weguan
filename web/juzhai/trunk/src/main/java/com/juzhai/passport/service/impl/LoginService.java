@@ -98,8 +98,11 @@ public class LoginService implements ILoginService {
 		if (null == passport) {
 			log.error("Login error. Can not find passport[id=" + uid + "].");
 		}
+		
+		//TODO (review) 是否屏蔽单独封装到屏蔽的Service里，并且换独立的异常
 		Date shield = passport.getShieldTime();
 		if (shield != null && shield.getTime() > System.currentTimeMillis()) {
+			loginSessionManager.logout(request, response);
 			throw new PassportAccountException(
 					PassportAccountException.USER_IS_SHIELD, shield.getTime());
 		}
@@ -257,5 +260,25 @@ public class LoginService implements ILoginService {
 		loginLog.setLoginTime(new Date());
 		loginLog.setAutoLogin(false);
 		loginLogMapper.insertSelective(loginLog);
+	}
+
+	@Override
+	public long persistentAutoLogin(HttpServletRequest request,
+			HttpServletResponse response) throws PassportAccountException {
+		long uid = loginSessionManager.persistentLoginUid(request, response);
+		if (uid > 0 && null != profileService.getProfileCacheByUid(uid)) {
+			Thirdparty tp = null;
+			TpUser tpUser = tpUserService.getTpUserByUid(uid);
+			if (null != tpUser) {
+				tp = InitData.getTpByTpNameAndJoinType(tpUser.getTpName(),
+						JoinTypeEnum.CONNECT);
+			}
+			doLogin(request, response, uid, tp != null ? tp.getId() : 0L,
+					RunType.WEB, false);
+			nativeLoginCounter.incr(null, 1);
+			return uid;
+		} else {
+			return 0;
+		}
 	}
 }

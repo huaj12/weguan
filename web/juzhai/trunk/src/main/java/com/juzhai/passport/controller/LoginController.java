@@ -91,6 +91,7 @@ public class LoginController extends BaseController {
 			uid = loginService.login(request, response, loginForm.getAccount(),
 					loginForm.getPassword(), loginForm.isRemember());
 		} catch (PassportAccountException e) {
+			//TODO (review) 异常让CheckLoginFilter去cache
 			if (StringUtils.equals(e.getErrorCode(),
 					PassportAccountException.USER_IS_SHIELD)) {
 				model.addAttribute("shieldTime", new Date(e.getShieldTime()));

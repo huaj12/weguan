@@ -365,16 +365,22 @@ public class IdeaController extends BaseController {
 		}
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			RawIdeaForm rawIdeaForm = spiderIdeaService.crawl(url,
-					context.getUid());
+			int shareCount = spiderIdeaService.isCrawl(context.getUid());
+			String result = spiderIdeaService.crawl(url);
+			spiderIdeaService.setCrawlCount(context.getUid(), shareCount);
 			// 无城市时获取分享人所在城市
+			RawIdeaForm rawIdeaForm = JackSonSerializer.toBean(result,
+					RawIdeaForm.class);
 			if (rawIdeaForm.getCity() == null) {
 				rawIdeaForm.setCity(cityId);
 				rawIdeaForm.setCityName(JzDataFunction.cityName(cityId));
 			}
+
 			ajaxResult.setResult(rawIdeaForm);
 		} catch (SpiderIdeaException e) {
 			ajaxResult.setError(e.getErrorCode(), messageSource);
+		} catch (JsonGenerationException e) {
+			ajaxResult.setSuccess(false);
 		}
 		return ajaxResult;
 	}

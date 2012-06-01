@@ -68,8 +68,8 @@
 		</div><!--cake end-->
 		<div class="category" queryType="${queryType}"><!--category begin-->
 			<span <c:if test="${queryType == 'showposts'}">class="act"</c:if>><p></p><a href="/home/showposts/0_${genderType}/1">最新的</a><p></p></span>
+			<span <c:if test="${queryType == 'showiposts'}">class="act"</c:if>><p></p><a href="/home/showiposts/${genderType}/1">我关注的</a><p></p></span>
 			<span <c:if test="${queryType == 'showrposts'}">class="act"</c:if>><p></p><a href="/home/showrposts/${genderType}/1">我响应的</a><p></p></span>
-			<span <c:if test="${queryType == 'showiposts'}">class="act"</c:if>><p></p><a href="/home/showiposts/${genderType}/1">我❤的人</a><p></p></span>
 		</div><!--category end-->
 	</div><!--title end-->		
 	<div class="jz_main"><!--jz_main begin-->
@@ -120,8 +120,8 @@
 						<div class="w_b"></div>
 						<div class="btn"><!--btn begin-->
 							<c:if test="${postView.profileCache.uid != context.uid}">
-								<div class="keep user-remove-interest remove-interest-${postView.profileCache.uid}" <c:if test="${!postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${postView.profileCache.uid}" title="点击取消收藏">已收藏</a></div>
-								<div class="keep user-add-interest interest-${postView.profileCache.uid}" <c:if test="${postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${postView.profileCache.uid}" title="点击收藏">收藏ta</a></div>
+								<div class="keep user-remove-interest remove-interest-${postView.profileCache.uid}" <c:if test="${!postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${postView.profileCache.uid}" title="点击取消关注">已关注</a></div>
+								<div class="keep user-add-interest interest-${postView.profileCache.uid}" <c:if test="${postView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${postView.profileCache.uid}" title="点击关注">关注ta</a></div>
 								<div class="mail"><a href="javascript:void(0);" title="给ta发私信" target-uid="${postView.profileCache.uid}" target-nickname="<c:out value='${postView.profileCache.nickname}' />">私信</a></div>
 							</c:if>
 							<c:if test="${not empty isQplus && isQplus}">	

@@ -24,14 +24,9 @@
 									<div class="hr_line"></div>
 									<div class="hd_ca"><!--hd_ca begin-->
 										<ul>
-											<li><a href="/idea/create/3" class="jh_01">聚会活动</a></li>
-											<li><a href="/idea/create/2" class="yw_02">结伴游玩</a></li>
-											<li><a href="/idea/create/6" class="show_03">演出展览</a></li>
-											<li><a href="/idea/create/5" class="eat_04">好吃好喝</a></li>
-											<li><a href="/idea/create/1" class="happy_05">休闲娱乐</a></li>
-											<li><a href="/idea/create/8" class="idea_06">拒宅灵感</a></li>
-											<li><a href="/idea/create/7" class="sport_07">体育运动</a></li>
-											<li><a href="/idea/create/4" class="movie_08">看场电影</a></li>
+											<c:forEach var="cat" items="${categoryList}">
+												<li><a href="/idea/create/${cat.id }" class="${cat.icon }">${cat.name}</a></li>
+											</c:forEach>
 										</ul>
 									</div><!--hd_ca end-->
 								</div><!--hd_form end-->

@@ -9,8 +9,8 @@
 		<div class="my_fav"><!--my_fav begin-->
 			<div class="none">
 				<c:choose>
-					<c:when test="${tabType=='interests'}">没有人被你收藏过</c:when>
-					<c:otherwise>还没人收藏过你</c:otherwise>
+					<c:when test="${tabType=='interests'}">没有人被你关注过</c:when>
+					<c:otherwise>还没人关注过你</c:otherwise>
 				</c:choose>
 			</div>
 		</div><!--my_fav end-->
@@ -32,8 +32,8 @@
 						<b><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${interestUserView.latestPost.purposeType}"/></c:import>:</font><a href="/post/${interestUserView.latestPost.id}"><c:out value="${jzu:truncate(interestUserView.latestPost.content,42,'...')}" /></a></b>
 						</c:if>
 						<span><a class="send-message" href="javascript:void(0);" target-uid="${interestUserView.profileCache.uid}" target-nickname="<c:out value='${interestUserView.profileCache.nickname}'/>">私信</a></span>
-						<div class="keep user-remove-interest remove-interest-${interestUserView.profileCache.uid}" <c:if test="${!interestUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${interestUserView.profileCache.uid}" title="点击取消收藏">已收藏</a></div>
-						<div class="keep user-add-interest interest-${interestUserView.profileCache.uid}" <c:if test="${interestUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${interestUserView.profileCache.uid}" title="点击收藏">收藏ta</a></div>
+						<div class="keep user-remove-interest remove-interest-${interestUserView.profileCache.uid}" <c:if test="${!interestUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${interestUserView.profileCache.uid}" title="点击取消关注">已关注</a></div>
+						<div class="keep user-add-interest interest-${interestUserView.profileCache.uid}" <c:if test="${interestUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${interestUserView.profileCache.uid}" title="点击关注">关注ta</a></div>
 					</div><!--pub_box_m end-->
 					<div class="clear"></div>
 					<div class="pub_box_b"></div>

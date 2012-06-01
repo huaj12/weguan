@@ -17,8 +17,8 @@
 							<span>
 								<a href="/home/${recommendUserView.profile.uid}" class="name"><c:out value="${recommendUserView.profile.nickname}" /></a>
 								<a href="javascript:void(0);" class="mail send-message" target-uid="${recommendUserView.profile.uid}"></a>
-								<a href="javascript:void(0);" class="like user-add-interest interest-${recommendUserView.profile.uid}" <c:if test="${recommendUserView.hasInterest}">style="display:none"</c:if> uid="${recommendUserView.profile.uid}" title="点击收藏"></a>
-								<a href="javascript:void(0);" class="like done user-remove-interest remove-interest-${recommendUserView.profile.uid}" <c:if test="${!recommendUserView.hasInterest}">style="display:none"</c:if> uid="${recommendUserView.profile.uid}" title="点击取消收藏"></a>
+								<a href="javascript:void(0);" class="like user-add-interest interest-${recommendUserView.profile.uid}" <c:if test="${recommendUserView.hasInterest}">style="display:none"</c:if> uid="${recommendUserView.profile.uid}" title="点击关注"></a>
+								<a href="javascript:void(0);" class="like done user-remove-interest remove-interest-${recommendUserView.profile.uid}" <c:if test="${!recommendUserView.hasInterest}">style="display:none"</c:if> uid="${recommendUserView.profile.uid}" title="点击取消关注"></a>
 							</span>
 							<c:set var="age" value="${jzu:age(recommendUserView.profile.birthYear, recommendUserView.profile.birthSecret)}" />
 							<c:set var="constellationName" value="${jzd:constellationName(recommendUserView.profile.constellationId)}" />

@@ -27,8 +27,8 @@
 						<b><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${visitorView.latestPost.purposeType}"/></c:import>:</font><a href="/post/${visitorView.latestPost.id}"><c:out value="${jzu:truncate(visitorView.latestPost.content,42,'...')}" /></a></b>
 						</c:if>
 						<span><a class="send-message" href="javascript:void(0);" target-uid="${visitorView.profileCache.uid}" target-nickname="<c:out value='${visitorView.profileCache.nickname}'/>">私信</a></span>
-						<div class="keep user-remove-interest remove-interest-${visitorView.profileCache.uid}" <c:if test="${!visitorView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${visitorView.profileCache.uid}" title="点击取消收藏">已收藏</a></div>
-						<div class="keep user-add-interest interest-${visitorView.profileCache.uid}" <c:if test="${visitorView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${visitorView.profileCache.uid}" title="点击收藏">收藏ta</a></div>
+						<div class="keep user-remove-interest remove-interest-${visitorView.profileCache.uid}" <c:if test="${!visitorView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${visitorView.profileCache.uid}" title="点击取消关注">已关注</a></div>
+						<div class="keep user-add-interest interest-${visitorView.profileCache.uid}" <c:if test="${visitorView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${visitorView.profileCache.uid}" title="点击关注">关注ta</a></div>
 					</div><!--pub_box_m end-->
 					<div class="clear"></div>
 					<div class="pub_box_b"></div>

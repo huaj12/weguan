@@ -103,8 +103,8 @@
 									<c:set var="constellationName" value="${jzd:constellationName(postProfile.constellationId)}" />
 									<span><c:if test="${age > 0}">${age}岁&nbsp;</c:if><c:if test="${postProfile.city != null && postProfile.city > 0}">${jzd:cityName(postProfile.city)}<c:if test="${postProfile.town != null && postProfile.town > 0}">${jzd:townName(postProfile.town)}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty postProfile.profession}">${postProfile.profession}</c:if></span>
 									<c:if test="${context.uid != postProfile.uid}">
-										<div class="keep user-remove-interest remove-interest-${postProfile.uid}" <c:if test="${!hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${postProfile.uid}" title="点击取消收藏">已收藏</a></div>
-										<div class="keep user-add-interest interest-${postProfile.uid}" <c:if test="${hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${postProfile.uid}" title="点击收藏">收藏ta</a></div>
+										<div class="keep user-remove-interest remove-interest-${postProfile.uid}" <c:if test="${!hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${postProfile.uid}" title="点击取消关注">已关注</a></div>
+										<div class="keep user-add-interest interest-${postProfile.uid}" <c:if test="${hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${postProfile.uid}" title="点击关注">关注ta</a></div>
 										<div class="mail"><a class="send-message" href="javascript:void(0);" title="发私信给ta" target-uid="${postProfile.uid}" target-nickname="${postProfile.nickname}">私信</a></div>
 									</c:if>
 								</div><!--person end-->

@@ -63,8 +63,8 @@
 						<c:if test="${context.uid != ideaUserView.profileCache.uid}">
 							<div class="date"><a href="javascript:void(0);" target-uid="${ideaUserView.profileCache.uid}" target-nickname="${ideaUserView.profileCache.nickname}" idea-id="${idea.id}">约ta同去</a></div>
 							<span><a class="send-message" href="javascript:void(0);" target-uid="${ideaUserView.profileCache.uid}" target-nickname="${ideaUserView.profileCache.nickname}">私信</a></span>
-							<div class="keep user-remove-interest remove-interest-${ideaUserView.profileCache.uid}" <c:if test="${!ideaUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${ideaUserView.profileCache.uid}" title="点击取消收藏">已收藏</a></div>
-							<div class="keep user-add-interest interest-${ideaUserView.profileCache.uid}" <c:if test="${ideaUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${ideaUserView.profileCache.uid}" title="点击收藏">收藏ta</a></div>
+							<div class="keep user-remove-interest remove-interest-${ideaUserView.profileCache.uid}" <c:if test="${!ideaUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${ideaUserView.profileCache.uid}" title="点击取消关注">已关注</a></div>
+							<div class="keep user-add-interest interest-${ideaUserView.profileCache.uid}" <c:if test="${ideaUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${ideaUserView.profileCache.uid}" title="点击关注">关注ta</a></div>
 						</c:if>
 					</div><!--pub_box_m end-->
 					<div class="clear"></div>
@@ -146,8 +146,8 @@
 						<c:if test="${context.uid != ideaUserView.profileCache.uid}">
 							<div class="date"><a href="javascript:void(0);" target-uid="${ideaUserView.profileCache.uid}" target-nickname="${ideaUserView.profileCache.nickname}" idea-id="${idea.id}">约ta同去</a></div>
 							<span><a class="send-message" href="javascript:void(0);" target-uid="${ideaUserView.profileCache.uid}" target-nickname="${ideaUserView.profileCache.nickname}">私信</a></span>
-							<div class="keep user-remove-interest remove-interest-${ideaUserView.profileCache.uid}" <c:if test="${!ideaUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${ideaUserView.profileCache.uid}" title="点击取消收藏">已收藏</a></div>
-							<div class="keep user-add-interest interest-${ideaUserView.profileCache.uid}" <c:if test="${ideaUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${ideaUserView.profileCache.uid}" title="点击收藏">收藏ta</a></div>
+							<div class="keep user-remove-interest remove-interest-${ideaUserView.profileCache.uid}" <c:if test="${!ideaUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${ideaUserView.profileCache.uid}" title="点击取消关注">已关注</a></div>
+							<div class="keep user-add-interest interest-${ideaUserView.profileCache.uid}" <c:if test="${ideaUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${ideaUserView.profileCache.uid}" title="点击关注">关注ta</a></div>
 						</c:if>
 					</li>
 				</c:forEach>

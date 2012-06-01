@@ -37,7 +37,6 @@ public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {
 	private int ideaContentLengthMax;
 	@Value("${idea.place.length.max}")
 	private int ideaPlaceLengthMax;
-	// TODO (done) 名字应该换成“每日最大分享爬取次数”
 	@Value("${max.share.idea.count}")
 	private int maxShareIdeaCount;
 	@Value("${share.idea.expire.time}")

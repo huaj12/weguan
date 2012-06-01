@@ -209,7 +209,7 @@ function removeInterest(uid, successCallback){
 }
 
 function removeInterestConfirm(uid, followObj, callback){
-	var content = $("#dialog-confirm").html().replace("{0}", "确定取消收藏么？");
+	var content = $("#dialog-confirm").html().replace("{0}", "确定取消关注么？");
 	showConfirm(followObj, "removeInterest", content, function(){
 		removeInterest(uid, function(){
 			callback();

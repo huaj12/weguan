@@ -53,6 +53,7 @@ public class CategoryService implements ICategoryService {
 			String hide = catFroms.get(i).getHide();
 			Long catId = catFroms.get(i).getId();
 			String name = catFroms.get(i).getName();
+			String icon = catFroms.get(i).getIcon();
 			Integer sequence = catFroms.get(i).getSequence();
 			if (sequence == null) {
 				sequence = 0;
@@ -68,6 +69,7 @@ public class CategoryService implements ICategoryService {
 						record.setSequence(sequence);
 					}
 					record.setLastModifyTime(new Date());
+					record.setIcon(icon);
 					categoryMapper.updateByPrimaryKey(record);
 				}
 			} else {
@@ -80,6 +82,7 @@ public class CategoryService implements ICategoryService {
 				}
 				record.setLastModifyTime(new Date());
 				record.setCreateTime(new Date());
+				record.setIcon(icon);
 				categoryMapper.insert(record);
 			}
 		}

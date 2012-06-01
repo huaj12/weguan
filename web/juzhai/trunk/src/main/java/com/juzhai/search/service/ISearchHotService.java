@@ -56,4 +56,9 @@ public interface ISearchHotService {
 	 * @return
 	 */
 	boolean isExist(String name, long city);
+
+	/**
+	 * 更新搜索热词热度
+	 */
+	void updateWordHot();
 }

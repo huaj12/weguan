@@ -57,12 +57,35 @@
 				});
 			}
 	}
+	
+	function updateWordHot(){
+		if(confirm("是否更新热词热度?请在人少的时候操作。谨慎操作！")){
+				jQuery.ajax({
+					url : "/cms/update/searchWordHot",
+					type : "post",
+					dataType : "json",
+					success : function(result) {
+						if (result.success!=null&&result.success) {
+							alert("更新成功");
+							location.reload();
+						} else {
+							alert("更新失败");
+						}
+					},
+					statusCode : {
+						401 : function() {
+							alert("请先登陆");
+						}
+					}
+				});
+			}
+	}
 </script>
 <style type="text/css">
 </style>
 </head>
 <body>
-	<h2>搜索热词</h2>
+	<h2>搜索热词<a href="javascript:updateWordHot();return false;">更新热词热度</a></h2>
 	<select id="city" onchange="javascript:location.href='/cms/show/searchHot?city='+this.value+''">
 				<option value="0">全国</option>
 				<c:forEach var="specialCity" items="${jzd:specialCityList()}">
@@ -77,7 +100,7 @@
 		</tr>
 		<c:forEach items="${hots }" var="hot">
 		<tr>
-			<td>${hot.name}</td>
+			<td>${hot.name}(${hot.hot })</td>
 			<td><a href="javascript:void(0);" onclick="del('${hot.id}')">删除</a></td>
 		</tr>
 		</c:forEach>

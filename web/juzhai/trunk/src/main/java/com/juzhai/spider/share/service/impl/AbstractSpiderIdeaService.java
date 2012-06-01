@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.rubyeye.xmemcached.MemcachedClient;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,11 +12,12 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.exception.UploadImageException;
+import com.juzhai.core.util.JackSonSerializer;
 import com.juzhai.core.web.jstl.JzDataFunction;
 import com.juzhai.core.web.jstl.JzUtilFunction;
 import com.juzhai.platform.service.impl.SynchronizeService;
@@ -37,31 +36,9 @@ public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {
 	private int ideaContentLengthMax;
 	@Value("${idea.place.length.max}")
 	private int ideaPlaceLengthMax;
-	@Value("${max.share.idea.count}")
-	private int maxShareIdeaCount;
-	@Value("${share.idea.expire.time}")
-	private int shareIdeaExpireTime;
-	@Autowired
-	private MemcachedClient memcachedClient;
 
 	@Override
-	public RawIdeaForm crawl(String url, long uid) throws SpiderIdeaException {
-		Integer userShareIdeaCount = null;
-		try {
-			userShareIdeaCount = memcachedClient.get(MemcachedKeyGenerator
-					.genShareIdeaCountKey(uid));
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
-		if (userShareIdeaCount == null) {
-			userShareIdeaCount = 0;
-		}
-		userShareIdeaCount++;
-		if (userShareIdeaCount > maxShareIdeaCount) {
-			throw new SpiderIdeaException(
-					SpiderIdeaException.SPIDER_IDEA_TO_MORE);
-		}
-
+	public String crawl(String url) throws SpiderIdeaException {
 		String joinType = null;
 		for (Domain domain : Domain.values()) {
 			if (url.indexOf(domain.getUrl()) != -1) {
@@ -100,14 +77,13 @@ public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {
 			form.setPlace(JzUtilFunction.truncate(form.getPlace(),
 					ideaPlaceLengthMax - 3, "..."));
 		}
+
 		try {
-			memcachedClient.set(
-					MemcachedKeyGenerator.genShareIdeaCountKey(uid),
-					shareIdeaExpireTime, userShareIdeaCount);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+			return JackSonSerializer.toString(form);
+		} catch (JsonGenerationException e) {
+			log.error("Serialize crawl  RawIdeaForm to json failed", e);
 		}
-		return form;
+		return null;
 
 	}
 
@@ -193,4 +169,15 @@ public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {
 
 	protected abstract void getTime(RawIdeaForm form, String content,
 			String joinType);
+
+	@Override
+	public int isCrawl(long uid) throws SpiderIdeaException {
+		return 0;
+	}
+
+	@Override
+	public void setCrawlCount(long uid, int count) {
+
+	}
+
 }

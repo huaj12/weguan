@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -86,6 +87,10 @@ public class IndexController extends BaseController {
 	private int showIdeaRecentIdeasCount;
 	@Value("${recommend.user.count}")
 	private int recommendUserCount;
+	@Value("${random.billboard.ideas.pool.count}")
+	private int randomBillboardIdeasPoolCount;
+	@Value("${billboard.ideas.count}")
+	private int billboardIdeasCount;
 
 	@RequestMapping(value = { "", "/", "/index" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
@@ -149,12 +154,24 @@ public class IndexController extends BaseController {
 
 	@RequestMapping(value = { "/showideas", "showIdeas" }, method = RequestMethod.GET)
 	public String showIdeas(HttpServletRequest request, Model model) {
-		List<Idea> topIdeaList = recommendIdeaService.listRecentTopIdeas();
+		ProfileCache loginUser = getLoginUserCache(request);
+		long cityId = 0L;
+		if (loginUser != null && loginUser.getCity() != null) {
+			cityId = loginUser.getCity();
+		}
+		List<Idea> ideaList = ideaService.listIdeaByCityAndCategory(cityId,
+				null, ShowIdeaOrder.HOT_TIME, 0, randomBillboardIdeasPoolCount);
+		List<Idea> topIdeaList = new ArrayList<Idea>(billboardIdeasCount);
+		for (int i = 0; i < billboardIdeasCount; i++) {
+			int size = ideaList.size();
+			if (size <= 0) {
+				break;
+			} else {
+				topIdeaList.add(ideaList.remove(RandomUtils.nextInt(size)));
+			}
+		}
 		if (CollectionUtils.isNotEmpty(topIdeaList)) {
 			model.addAttribute("topIdea", topIdeaList.remove(0));
-			if (topIdeaList.size() > 5) {
-				topIdeaList = topIdeaList.subList(0, 5);
-			}
 			model.addAttribute("topIdeaList", topIdeaList);
 		}
 		return pageShowIdeas(request, model, 0,

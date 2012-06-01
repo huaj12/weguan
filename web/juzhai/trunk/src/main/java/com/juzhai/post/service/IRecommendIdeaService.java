@@ -22,6 +22,7 @@ public interface IRecommendIdeaService {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	void updateRecentTopIdeas();
 
 	/**
@@ -29,5 +30,6 @@ public interface IRecommendIdeaService {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	List<Idea> listRecentTopIdeas();
 }

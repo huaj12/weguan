@@ -200,6 +200,7 @@
 		<property name="triggers">
 			<list>
 				<!-- <ref bean="delOutFreeDateTrigger"/>
+				<ref bean="ideaShowTrigger"/>
 				<ref bean="ideaWindowSortTrigger"/> -->
 				<ref bean="deleteTempImageTrigger"/>
 				<ref bean="deleteExpiredAdTrigger"/>
@@ -212,7 +213,6 @@
 				<ref bean="delExpireActiveCodeTrigger"/>
 				<ref bean="noticeQplusTrigger"/>
 				<ref bean="defunctExpireIdeaTrigger"/>
-				<ref bean="ideaShowTrigger"/>
 				<ref bean="updateSearchWordHotTrigger"/>
 			</list>
 		</property>

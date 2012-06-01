@@ -68,7 +68,7 @@ public class CmsRecommendDataController {
 
 	@RequestMapping(value = "/update/billboard/idea", method = RequestMethod.GET)
 	public String updateBillboardIdea(Model model) {
-		recommendIdeaService.updateRecentTopIdeas();
+//		recommendIdeaService.updateRecentTopIdeas();
 		return showBillboardIdea(model);
 	}
 }

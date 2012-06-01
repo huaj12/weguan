@@ -38,7 +38,7 @@
 									</c:forEach>
 								</ul>
 							</div><!--small_pic end-->
-					</div><!--main_tj end-->
+						</div><!--main_tj end-->
 					</c:if>
 					<div class="main_left"><!--main_left begin-->
 						<div class="content_box w660 800"><!--content begin-->

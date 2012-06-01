@@ -59,4 +59,16 @@ public class CmsSearchHotController {
 		return new AjaxResult();
 	}
 
+	@RequestMapping(value = "/update/searchWordHot", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult updateSearchWordHot() {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			searchHotService.updateWordHot();
+		} catch (Exception e) {
+			ajaxResult.setSuccess(false);
+		}
+		return ajaxResult;
+	}
+
 }

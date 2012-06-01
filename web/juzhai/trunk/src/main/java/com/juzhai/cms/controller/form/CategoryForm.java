@@ -10,7 +10,8 @@ public class CategoryForm {
 
 	private Integer sequence;
 
-	
+	private String icon;
+
 	public Integer getSequence() {
 		return sequence;
 	}
@@ -41,6 +42,14 @@ public class CategoryForm {
 
 	public void setHide(String hide) {
 		this.hide = hide;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 }

@@ -61,7 +61,6 @@ public class CheckLoginFilter implements Filter {
 					&& loginService.persistentAutoLogin(req, rep) > 0) {
 				context = loginSessionManager.getUserContext(req);
 			} else if (context.hasLogin()) {
-				// TODO (done) check 屏蔽
 				loginService.isShield(context.getUid(), req, rep);
 			}
 			req.setAttribute("context", context);
@@ -84,8 +83,6 @@ public class CheckLoginFilter implements Filter {
 			if (e.getCause() instanceof NeedLoginException) {
 				needLoginHandle(req, rep, (NeedLoginException) e.getCause());
 			} else if (e instanceof ReportAccountException) {
-				// TODO (done) 被屏蔽异常捕捉，用redirect去跳转页面并且参数带有屏蔽时间
-				// TODO (done) 异常让CheckLoginFilter去cache
 				needReportHandle(req, rep, (ReportAccountException) e);
 			} else if (e.getCause() instanceof ReportAccountException) {
 				needReportHandle(req, rep,

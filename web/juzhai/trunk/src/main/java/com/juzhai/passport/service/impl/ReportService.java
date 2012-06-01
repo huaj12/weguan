@@ -212,7 +212,6 @@ public class ReportService implements IReportService {
 
 	@Override
 	public long isShield(long uid) {
-		// TODO (done) 是否屏蔽单独封装到屏蔽的Service里，并且换独立的异常
 		Passport passport = passportMapper.selectByPrimaryKey(uid);
 		Date shield = passport.getShieldTime();
 		if (shield != null && shield.getTime() > System.currentTimeMillis()) {

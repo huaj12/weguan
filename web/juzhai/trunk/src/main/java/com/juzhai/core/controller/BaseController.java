@@ -223,10 +223,12 @@ public class BaseController {
 	protected void showHomeLogo(UserContext context, Model model) {
 		model.addAttribute("postCount",
 				postService.countUserPost(context.getUid()));
-		model.addAttribute("responseCount",
-				postService.getAllResponseCnt(context.getUid()));
+		// model.addAttribute("responseCount",
+		// postService.getAllResponseCnt(context.getUid()));
 		model.addAttribute("completion",
 				profileService.getProfileCompletion(context.getUid()));
+		model.addAttribute("interestCount",
+				interestUserService.countInterestUser(context.getUid()));
 		Passport passport = passportService.getPassportByUid(context.getUid());
 		if (null != passport) {
 			model.addAttribute("hasNotAccount",

@@ -9,16 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.dao.Limit;
+import com.juzhai.post.model.Post;
+import com.juzhai.search.bean.LuceneResult;
 import com.juzhai.search.exception.InputSearchHotException;
 import com.juzhai.search.mapper.SearchHotMapper;
 import com.juzhai.search.model.SearchHot;
 import com.juzhai.search.model.SearchHotExample;
+import com.juzhai.search.service.IPostSearchService;
 import com.juzhai.search.service.ISearchHotService;
 
 @Service
 public class SearchHotService implements ISearchHotService {
 	@Autowired
 	private SearchHotMapper searchHotMapper;
+	@Autowired
+	private IPostSearchService postSearchService;
 
 	@Override
 	public List<SearchHot> getSearchHotByCity(long city, int count) {
@@ -80,5 +85,31 @@ public class SearchHotService implements ISearchHotService {
 		SearchHotExample example = new SearchHotExample();
 		example.createCriteria().andCityEqualTo(city);
 		return searchHotMapper.countByExample(example);
+	}
+
+	@Override
+	public void updateWordHot() {
+		int count = 5;
+		SearchHotExample example = new SearchHotExample();
+		int i = 0;
+		while (true) {
+			example.setOrderByClause("create_time desc");
+			example.setLimit(new Limit(i, count));
+			List<SearchHot> list = searchHotMapper.selectByExample(example);
+			setHot(list);
+			if (list.size() < count) {
+				break;
+			}
+			i += count;
+		}
+	}
+
+	private void setHot(List<SearchHot> list) {
+		for (SearchHot searchHot : list) {
+			LuceneResult<Post> result = postSearchService.searchPosts(
+					searchHot.getName(), null, searchHot.getCity(), 0, 0, 1);
+			searchHot.setHot(result.getTotalHits());
+			searchHotMapper.updateByPrimaryKeySelective(searchHot);
+		}
 	}
 }

@@ -2,7 +2,7 @@ package com.juzhai.post.service;
 
 import java.util.List;
 
-import com.juzhai.cms.controller.form.CategoryLiatFrom;
+import com.juzhai.cms.controller.form.CategoryListFrom;
 import com.juzhai.post.model.Category;
 
 public interface ICategoryService {
@@ -14,7 +14,7 @@ public interface ICategoryService {
 	 */
 	List<Category> getAllCategory();
 
-	void updateCategory(CategoryLiatFrom listFrom);
+	void updateCategory(CategoryListFrom listFrom);
 
 	boolean deleteCategory(Long id);
 

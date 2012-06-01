@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.juzhai.cms.controller.form.CategoryLiatFrom;
+import com.juzhai.cms.controller.form.CategoryListFrom;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.post.model.Category;
 import com.juzhai.post.service.ICategoryService;
@@ -35,7 +35,7 @@ public class CmsCategoryController {
 	}
 
 	@RequestMapping(value = "/cmsUpdateCategory", method = RequestMethod.GET)
-	public String cmsUpdateCategory(CategoryLiatFrom categoryForm) {
+	public String cmsUpdateCategory(CategoryListFrom categoryForm) {
 		categoryService.updateCategory(categoryForm);
 		return "redirect:/cms/cmsShowCategoryList";
 	}

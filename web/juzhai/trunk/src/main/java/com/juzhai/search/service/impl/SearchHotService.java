@@ -89,13 +89,13 @@ public class SearchHotService implements ISearchHotService {
 
 	@Override
 	public void updateWordHot() {
-		//TODO (review) 每次获取的数量太少了，不低于200个每次
-		int count = 5;
+		// TODO (done) 每次获取的数量太少了，不低于200个每次
+		int count = 200;
 		SearchHotExample example = new SearchHotExample();
+		// TODO (done) orderBy可以移出循环，用id来排序更保险，不会漏
+		example.setOrderByClause("id desc");
 		int i = 0;
 		while (true) {
-			//TODO (review) orderBy可以移出循环，用id来排序更保险，不会漏
-			example.setOrderByClause("create_time desc");
 			example.setLimit(new Limit(i, count));
 			List<SearchHot> list = searchHotMapper.selectByExample(example);
 			setHot(list);

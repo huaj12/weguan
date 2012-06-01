@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="User_Position_Mapper">
+
+    <insert id="insertUserPosition" parameterType="map">
+        insert into tb_user_position values (#{uid}, GeomFromText(#{point}), #{createTime}, #{lastModifyTime})
+    </insert>
+    
+	<update id="updateUserPosition" parameterType="map">
+	    update tb_user_position set location = GeomFromText(#{point}), last_modify_time = #{lastModifyTime} where uid = #{uid}
+	</update>
+	
+	<select id="getNearUserIds" parameterType="map">
+		select Distance(location, (select location from tb_user_position p where p.uid = #{uid})) as dist from tb_user_position where uid != #{uid} order by dist desc limit #{limit.start},#{limit.maxRows};
+	</select>
+	
+</mapper>

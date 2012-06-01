@@ -34,6 +34,10 @@
 	      <property name="enableSubPackages" value="false" />
 	    </javaClientGenerator>
 	    
+	     <table tableName="tb_user_position" domainObjectName="UserPosition" >
+	      <property name="useActualColumnNames" value="false"/>
+	    </table>
+	    
 	    <table tableName="tb_login_log" domainObjectName="LoginLog" >
 	      <property name="useActualColumnNames" value="false"/>
 	      <columnOverride column="auto_login" javaType="java.lang.Boolean" jdbcType="TINYINT" />

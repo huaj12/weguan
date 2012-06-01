@@ -1,8 +1,12 @@
 package com.juzhai.post.controller.form;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class RawIdeaForm {
+public class RawIdeaForm implements Serializable {
+
+	private static final long serialVersionUID = 902277677142444147L;
+
 	private Long id;
 	private String content;
 	private String place;

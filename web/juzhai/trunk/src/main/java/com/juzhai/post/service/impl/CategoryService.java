@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.cms.controller.form.CategoryForm;
-import com.juzhai.cms.controller.form.CategoryLiatFrom;
+import com.juzhai.cms.controller.form.CategoryListFrom;
 import com.juzhai.post.mapper.CategoryMapper;
 import com.juzhai.post.mapper.IdeaMapper;
 import com.juzhai.post.mapper.PostMapper;
@@ -44,7 +44,7 @@ public class CategoryService implements ICategoryService {
 	}
 
 	@Override
-	public void updateCategory(CategoryLiatFrom listform) {
+	public void updateCategory(CategoryListFrom listform) {
 		if (listform == null || listform.getCategoryFroms() == null) {
 			return;
 		}

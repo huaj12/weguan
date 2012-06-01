@@ -183,6 +183,19 @@
 	</bean>
 	<!-- delete expire active code end -->
 	
+		<!-- update search word hot begin -->
+	<bean id="updateSearchWordHotTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="updateSearchWordHotHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${update.search.word.hot.cron}" />
+	</bean>
+	<!-- update search word hot end -->
+	
+	
+	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
@@ -200,6 +213,7 @@
 				<ref bean="noticeQplusTrigger"/>
 				<ref bean="defunctExpireIdeaTrigger"/>
 				<ref bean="ideaShowTrigger"/>
+				<ref bean="updateSearchWordHotTrigger"/>
 			</list>
 		</property>
 	</bean>

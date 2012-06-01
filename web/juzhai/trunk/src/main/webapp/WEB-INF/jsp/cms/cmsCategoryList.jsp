@@ -129,6 +129,7 @@
 		<table border="0" id="DynaTable" cellspacing="4">
 			<tr style="background-color: #CCCCCC;">
 				<td width="100">分类名</td>
+				<td width="100">icon</td>
 				<td width="100">是否隐藏</td>
 				<td width="200">排序</td>
 				<td width="250">删除</td>
@@ -142,6 +143,8 @@
 						<input
 						name="categoryFroms[${c.index }].name" value="${cat.name}" />
 					</td>
+					<td><input
+						name="categoryFroms[${c.index }].icon" value="${cat.icon}" /></td>
 					<td><input name="categoryFroms[${c.index }].hide"
 						 type="checkbox" value="1"
 						<c:if test="${cat.sequence==0}">checked="checked"</c:if> />隐藏</td>

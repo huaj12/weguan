@@ -13,7 +13,7 @@ $(document).ready(function(){
 	selectMonthlyIncome.bindClick();
 	selectMonthlyIncome.bindSelect();
 	moreSeach();
-	$("div.date > a").click(function(){
+	$("div.keep > a").click(function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openDate(uid, nickname);
@@ -29,7 +29,7 @@ $(document).ready(function(){
 		search_user();
 		return false;
 	});
-	$("div.user-remove-interest > a.done").bind("click", function() {
+	$("div.user-remove-interest > a").bind("click", function() {
 		var uid = $(this).attr("uid");
 		removeInterestConfirm(uid, this, function(){
 			removeInterestCallback(uid);

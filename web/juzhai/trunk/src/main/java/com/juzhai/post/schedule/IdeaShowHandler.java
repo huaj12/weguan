@@ -14,7 +14,7 @@ public class IdeaShowHandler extends AbstractScheduleHandler {
 
 	@Override
 	protected void doHandle() {
-		recommendIdeaService.updateRecentTopIdeas();
+//		recommendIdeaService.updateRecentTopIdeas();
 	}
 
 }

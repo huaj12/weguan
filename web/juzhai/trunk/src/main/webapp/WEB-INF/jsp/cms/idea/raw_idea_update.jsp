@@ -137,7 +137,7 @@
 				success : function(result) {
 					if (result.success) {
 						$("#raw_idea_pic").attr("src", result.result[0]);
-						$("input[name==pic]").val(result.result[1]);
+						$("input[name=pic]").val(result.result[1]);
 					} else if (result.errorCode == "00003") {
 						alert("请登录");
 					} else {

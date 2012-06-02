@@ -442,7 +442,7 @@ public class PostService implements IPostService {
 
 		post.setContent(postForm.getContent());
 		post.setContentMd5(postForm.getContentMd5());
-		post.setLink(postForm.getLink());
+		// post.setLink(postForm.getLink());
 		post.setCategoryId(postForm.getCategoryId() <= 0 ? InitData.OTHER_CATEGORY_ID
 				: postForm.getCategoryId());
 		post.setPlace(postForm.getPlace());

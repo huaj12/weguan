@@ -30,11 +30,8 @@
 										<div class="pub_box_m"><!--pub_box_m begin-->
 											<div class="arrow"></div>
 											<div></div>
-											<div class="con"><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${post.purposeType}"/></c:import>:</font><c:out value="${post.content}" /></div>
+											<div class="con"><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${post.purposeType}"/></c:import>:</font><em></en><c:out value="${post.content}" /></em><c:if test="${not empty post.link}"><a href="${post.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if> >去了解更多</a></c:if></div>
 											<div class="infor"><!--infor begin-->
-												<c:if test="${not empty post.pic}">
-													<div class="img"><img src="${jzr:postPic(post.id, post.ideaId, post.pic, 450)}"/></div>
-												</c:if>
 												<span><c:set var="date" value="${post.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span>
 												<span class="tag">${jzd:categoryName(post.categoryId)}</span>
 												<c:if test="${post.dateTime != null}">
@@ -43,8 +40,9 @@
 												<c:if test="${not empty post.place}">
 													<span class="adress"><c:out value="${post.place}" /></span>
 												</c:if>
-												<c:if test="${not empty post.link}">
-													<span class="link"><a href="${post.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关链接</a></span>
+												<div class="clear"></div>
+												<c:if test="${not empty post.pic}">
+													<div class="img"><img src="${jzr:postPic(post.id, post.ideaId, post.pic, 450)}"/></div>
 												</c:if>
 											</div><!--infor end-->
 										</div><!--pub_box_m end-->

@@ -692,7 +692,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .jz_main .wtg .btn .keep{ float:left; margin-top:10px; margin-left:5px; display:none;}
 .jz_main .wtg .btn .keep a{ background:url(../images/web2/wtg_btn_r5_c2.jpg) no-repeat; padding-left:20px; color:#999; color:#3E8BD9; *display:block;}
 .jz_main .wtg .btn .keep a:hover{ background:url(../images/web2/wtg_btn_r2_c1.jpg) no-repeat; color:#3E8BD9;}
-.jz_main .wtg .btn .keep .done{background:url(../images/web2/wtg_btn_r2_c1.jpg) no-repeat; color:#999; }
+.jz_main .wtg .btn .keep .done{background:url(../images/web2/wtg_btn_r2_c1.jpg) no-repeat; color:#999; cursor:pointer;}
 .jz_main .wtg .btn .keep .done:hover{color:#999;}
 
 .jz_main .wtg .btn .mail{ float:left; margin-top:10px; margin-left:15px;  display:none;}
@@ -1727,7 +1727,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .person .keep{ float:left; margin-top:5px;}
 .person .keep a{ background:url(../images/web2/fav_link.png) no-repeat 0 2px; background:url(../images/web2/fav_link.png) no-repeat 0 1px\9; padding-left:20px; color:#999; color:#3E8BD9; height:16px; float:left;overflow:hidden;}
 .person .keep a:hover{background:url(../images/web2/fav_hover.png) no-repeat 0 2px; background:url(../images/web2/fav_hover.png)  no-repeat 0 1px\9;  color:#3E8BD9;}
-.person .keep .done{background:url(../images/web2/fav_link.png) no-repeat 0 1px;  color:#999; }
+.person .keep .done{background:url(../images/web2/fav_hover.png) no-repeat 0 1px;  color:#999; }
 .person .keep .done:hover{color:#999;}
 
 .person .mail{ float:left;margin-top:5px; margin-left:10px; display:inline; margin-top:6px\9;}
@@ -1778,12 +1778,12 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 .search_result .pub_box_m .date{bottom:10px; right:15px; position:absolute;}
 .search_result .pub_box_m .date a{ background:url(../images/web2/ok2.gif) no-repeat; width:60px; height:28px; text-align:center; line-height:28px; color:#fff; display:block;}
-.search_result .pub_box_m .done a{background:url(../images/web2/ok2_done.gif) no-repeat; color:#999; cursor:default;}
+.search_result .pub_box_m .done a{background:url(../images/web2/ok2_done.gif) no-repeat; color:#999; }
 
 
-.search_result .keep{  bottom:15px; left:205px; position:absolute;}
-.search_result .keep a{ background:url(../images/web2/date_icon_link.png) no-repeat; padding-left:20px; color:#3E8BD9;}
-.search_result .keep a:hover{ background:url(../images/web2/date_icon_hover.png) no-repeat; color:#3E8BD9;}
+.search_result .keep{  bottom:15px; bottom:16px\9; left:205px; position:absolute;}
+.search_result .keep a{ background:url(../images/web2/date_icon_link.png) no-repeat 0 1px; background:url(../images/web2/date_icon_link.png) no-repeat 0 1px\9; padding-left:20px; color:#3E8BD9;}
+.search_result .keep a:hover{ background:url(../images/web2/date_icon_hover.png) no-repeat 0 1px; background:url(../images/web2/date_icon_hover.png) no-repeat 0 1px\9; color:#3E8BD9;}
 
 .search_result .keep .done{background:url(../images/web2/pub_box_hover_keep_icon_r3_c3.jpg) no-repeat; *background:url(../images/web2/pub_box_hover_keep_icon_r3_c3.jpg) no-repeat 0 -1px;  color:#999;}
 .search_result .keep .done:hover{color:#999;}
@@ -1800,7 +1800,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 
 
-.jz_list .search_title{ float:left;  background:url(../images/web2/list_title_bg.jpg) repeat-x bottom; height:auto; padding-bottom:15px; padding-left:15px; width:644px;}
+.jz_list .search_title{ float:left;  background:url(../images/web2/list_title_bg.jpg) repeat-x bottom; height:auto; padding-bottom:15px; padding-left:15px; width:644px; }
 
 
 .search_title .input{ float:left;  margin-left:8px; margin-right:8px; display:inline; margin-top:12px;}
@@ -1880,7 +1880,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .more_search{ float:right; margin-right:20px; display:inline; margin-top:18px;} 
 .more_search a{ color:#3E8BD9;}
 
-.search_more_area{ float:left; margin-left:107px; _margin-left:105px; display:inline; width:580px; position:relative; z-index:20;}
+.search_more_area{ float:left; margin-left:107px; _margin-left:105px; display:inline; width:480px; position:relative; z-index:20;}
 
 
 
@@ -2124,7 +2124,7 @@ i{ color:#f00;}
 .idea_js{ width:100%; height:auto; overflow:hidden;}
 .h200{ height:200px;}
 .idea_js h2{ font-size:18px; font-family:"微软雅黑"; color:#666; padding-bottom:15px; border-bottom:1px solid #f0f0f0;}
-.idea_js p{ color:#999; line-height:19px; margin-top:15px; padding-bottom:10px;}
+.idea_js p{ color:#666; line-height:19px; margin-top:15px; padding-bottom:10px;}
 .idea_js a{  color:#3E8BD9;}
 .idea_js a:hover{ text-decoration:underline;}
 .good_idea_detail a.show_more{float:right; color:#3E8BD9; margin-top:15px;}
@@ -2377,9 +2377,9 @@ filter:alpha(opacity=50);opacity:0.5; -moz-opacity:0.5; -khtml-opacity:0.5; font
 
 
 
-.my_head_area .keep{ position:absolute; bottom:23px; right:190px;}
-.my_head_area .keep a{ background:url(../images/web2/date_icon_link.png) no-repeat; padding-left:20px; color:#999; color:#3E8BD9;}
-.my_head_area .keep a:hover{ background:url(../images/web2/date_icon_hover.png) no-repeat; color:#3E8BD9;}
+.my_head_area .keep{ position:absolute; bottom:23px; right:190px; bottom:24px\9;}
+.my_head_area .keep a{ background:url(../images/web2/date_icon_link.png) no-repeat;background:url(../images/web2/date_icon_link.png) no-repeat 0 1px\9; padding-left:20px; color:#999; color:#3E8BD9;}
+.my_head_area .keep a:hover{ background:url(../images/web2/date_icon_hover.png) no-repeat;background:url(../images/web2/date_icon_hover.png) no-repeat 0 1px; color:#3E8BD9;}
 .my_head_area .keep .done{background:url(../images/web2/wtg_btn_r2_c1.jpg) no-repeat; color:#999; }
 .my_head_area .keep .done:hover{color:#999;}
 
@@ -4068,3 +4068,6 @@ search_xz .hot{ margin-top:-10px;}
 
 .quick_share_box .share_suc .btn{ width:80px; height:auto; margin:0 auto; margin-top:20px;}
 .quick_share_box .share_suc .btn a{ width:80px; height:30px; overflow:hidden; background:url(../images/web2/send_area_btn.gif) no-repeat; display:block; color:#fff; font-size:14px; line-height:30px; text-align:center;}
+
+
+

@@ -30,7 +30,7 @@
 										<div class="pub_box_m"><!--pub_box_m begin-->
 											<div class="arrow"></div>
 											<div></div>
-											<div class="con"><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${post.purposeType}"/></c:import>:</font><em></en><c:out value="${post.content}" /></em><c:if test="${not empty post.link}"><a href="${post.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if> >去了解更多</a></c:if></div>
+											<div class="con"><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${post.purposeType}"/></c:import>:</font><em><c:out value="${post.content}" /></em><c:if test="${not empty post.link}"><a href="${post.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if> >去了解更多</a></c:if></div>
 											<div class="infor"><!--infor begin-->
 												<span><c:set var="date" value="${post.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span>
 												<span class="tag">${jzd:categoryName(post.categoryId)}</span>

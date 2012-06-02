@@ -1727,7 +1727,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .person .keep{ float:left; margin-top:5px;}
 .person .keep a{ background:url(../images/web2/fav_link.png) no-repeat 0 2px; background:url(../images/web2/fav_link.png) no-repeat 0 1px\9; padding-left:20px; color:#999; color:#3E8BD9; height:16px; float:left;overflow:hidden;}
 .person .keep a:hover{background:url(../images/web2/fav_hover.png) no-repeat 0 2px; background:url(../images/web2/fav_hover.png)  no-repeat 0 1px\9;  color:#3E8BD9;}
-.person .keep .done{background:url(../images/web2/fav_hover.png) no-repeat 0 1px;  color:#999; }
+.person .keep .done{background:url(../images/web2/fav_hover.png) no-repeat 0 2px;  color:#999; }
 .person .keep .done:hover{color:#999;}
 
 .person .mail{ float:left;margin-top:5px; margin-left:10px; display:inline; margin-top:6px\9;}

@@ -156,22 +156,8 @@
 						</div><!--content end-->
 					</div><!--main_left end-->
 					<div class="main_right"><!--main_right begin-->
-						<div class="content_box w285"><!--content begin-->
-						<div class="t"></div>
-						<c:if test="${not empty hots }">
-							<div class="m">
-								<div class="right_title"><h2>热门拒宅关键词</h2></div>
-								<div class="search_xz"><!--search_xz begin-->
-									<div class="tags hot">
-										<c:forEach items="${hots}" var="hot">
-											<a href="/searchposts?queryString=${hot.name}&sex=all">${hot.name}</a>
-										</c:forEach>
-									</div>
-								</div><!--search_xz end-->
-							</div>
-						</c:if>
-						<div class="t"></div>
-						</div><!--content end-->
+						<c:set scope="request" var="hotListType" value="result"></c:set>
+						<jsp:include page="/WEB-INF/jsp/web/search/common/search_post_input.jsp" />
 					</div><!--main_right end-->
 					</div><!--main_part end-->
 					</div><!--main end-->

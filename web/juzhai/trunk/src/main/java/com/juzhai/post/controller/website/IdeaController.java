@@ -52,6 +52,7 @@ import com.juzhai.post.service.IRawIdeaService;
 import com.juzhai.post.service.impl.IdeaDetailService;
 import com.juzhai.spider.share.exception.SpiderIdeaException;
 import com.juzhai.spider.share.service.ISpiderIdeaService;
+import com.juzhai.stats.counter.service.ICounter;
 
 @Controller
 @RequestMapping(value = "idea")
@@ -73,6 +74,8 @@ public class IdeaController extends BaseController {
 	private ISpiderIdeaService spiderIdeaService;
 	@Autowired
 	private IRawIdeaService rawIdeaService;
+	@Autowired
+	private ICounter openIdeaDialogCounter;
 	@Value("${idea.user.max.rows}")
 	private int ideaUserMaxRows;
 	@Value("${idea.detail.ad.count}")
@@ -176,6 +179,7 @@ public class IdeaController extends BaseController {
 		if (null == idea) {
 			return error_404;
 		}
+		openIdeaDialogCounter.incr(null, 1);
 		model.addAttribute("idea", idea);
 		return "web/idea/send_idea";
 	}

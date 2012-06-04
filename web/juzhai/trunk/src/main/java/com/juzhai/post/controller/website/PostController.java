@@ -33,9 +33,11 @@ import com.juzhai.post.controller.form.PostForm;
 import com.juzhai.post.controller.view.PostCommentView;
 import com.juzhai.post.controller.view.ResponseUserView;
 import com.juzhai.post.exception.InputPostException;
+import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostComment;
 import com.juzhai.post.model.PostResponse;
+import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostCommentService;
 import com.juzhai.post.service.IPostImageService;
 import com.juzhai.post.service.IPostService;
@@ -58,10 +60,14 @@ public class PostController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private IVisitUserService visitUserService;
+	@Autowired
+	private IIdeaService ideaService;
 	@Value("${post.comment.user.max.rows}")
 	private int postCommentUserMaxRows;
 	@Value("${post.response.user.max.rows}")
 	private int postResponseUserMaxRows;
+	@Value("${web.post.detail.post.rows}")
+	private int webPostDetailPostRows;
 
 	// @Value("${post.detail.right.idea.rows}")
 	// private int postDetailRightIdeaRows;
@@ -317,10 +323,18 @@ public class PostController extends BaseController {
 			visitUserService.addVisitUser(profileCache.getUid(),
 					context.getUid());
 		}
+		List<Post> postList = postService.listUserPost(profileCache.getUid(),
+				0, webPostDetailPostRows);
+		if (post.getIdeaId() != null) {
+			Idea idea = ideaService.getIdeaById(post.getIdeaId());
+			model.addAttribute("idea", idea);
+		}
 		model.addAttribute("commentTotalCnt",
 				postCommentService.countPostComment(postId));
 		model.addAttribute("respTotalCnt",
 				postService.countResponseUser(postId));
+
+		model.addAttribute("userPostList", postList);
 		return true;
 	}
 }

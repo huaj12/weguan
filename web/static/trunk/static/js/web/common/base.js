@@ -61,7 +61,7 @@ $(document).ready(function(){
 			$(obj).unbind("click").addClass("done");
 		}, function(errorInfo){
 			alert(errorInfo);
-		});
+		},this);
 		return false;
 	});
 	
@@ -486,14 +486,14 @@ function openResponse(obj, postId, nickname, postContent, clickCallback){
 				$(sendBtn).parent().show();
 				//显示错误
 				$(dialog.content()).find("div.error").text(errorInfo).show();
-			});
+			},null);
 			return false;
 		});
 	}
 }
 
 //响应
-function responsePost(postId, content, successCallback, errorCallback){
+function responsePost(postId, content, successCallback, errorCallback,clickObj){
 	if(!checkValLength(content, 0, 160)){
 		errorCallback("附言内容请控制在0~80字以内");
 	}
@@ -507,7 +507,7 @@ function responsePost(postId, content, successCallback, errorCallback){
 			if (result && result.success) {
 				successCallback();
 				var content = $("#dialog-success").html().replace("{0}", "好主意+1,谢谢");
-				showSuccess(null, content);
+				showSuccess(clickObj, content);
 			} else {
 				errorCallback(result.errorInfo);
 			}

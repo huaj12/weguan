@@ -214,9 +214,9 @@ function userCreateIdea() {
 		}
 	}
 
-	if (!checkValLength(place, 0, 40)) {
+	if (!checkValLength(place, 0, 100)) {
 		$("input[name='place']")[0].focus();
-		$("#place-tip").show().text("详细地址请在40字以内");
+		$("#place-tip").show().text("详细地址请在50字以内");
 		$("input[name='place']").parent().parent().addClass("wrong");
 		return;
 	} else {
@@ -224,7 +224,7 @@ function userCreateIdea() {
 		$("input[name='place']").parent().parent().removeClass("wrong");
 	}
 
-	if (!checkValLength(place, 0, 40000)) {
+	if (!checkValLength(detail, 0, 40000)) {
 		$("#detail-tip").show().text("介绍太多了!");
 		$("textarea[name='detail']").parent().parent().addClass("wrong");
 		return;

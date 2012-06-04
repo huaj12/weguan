@@ -77,7 +77,7 @@
 																	<span class="time"><c:if test="${ideaView.idea.startTime != null}"><fmt:formatDate value="${ideaView.idea.startTime}" pattern="yyyy.MM.dd hh:mm"/>-</c:if><fmt:formatDate value="${ideaView.idea.endTime}" pattern="yyyy.MM.dd hh:mm"/></span>
 																</c:if>
 																<c:if test="${not empty ideaView.idea.place}">
-																	<span class="adress"><c:out value="${ideaView.idea.place}"></c:out></span>
+																	<span class="adress"><c:out value="${jzu:truncate(ideaView.idea.place,40,'...')}"></c:out></span>
 																</c:if>
 																<c:if test="${!empty ideaView.idea.link }">
 																	<span class="link"><a href="${ideaView.idea.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关链接</a></span>

@@ -55,7 +55,6 @@
 											<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 												<c:param name="pager" value="${pager}"/>
 												<c:param name="url" value="/showideas/${categoryId}/${orderType}" />
-												<c:param name="pageType" value="idea_s1"></c:param>
 											</c:import>
 										</c:if>
 								 	</div><!--search_title end-->
@@ -121,7 +120,7 @@
 																	</c:otherwise>
 																</c:choose>
 																<div class="fb_members">
-																	<a href="/idea/${ideaView.idea.id}">共${ideaView.idea.useCount}人想去</a>
+																	<c:if test="${ideaView.idea.useCount>0}"><a href="/idea/${ideaView.idea.id}">共${ideaView.idea.useCount}人想去</a></c:if>
 																</div>
 																
 															</div><!--fb_area end-->
@@ -142,7 +141,6 @@
 									<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 										<c:param name="pager" value="${pager}"/>
 										<c:param name="url" value="/showideas/${categoryId}/${orderType}" />
-										<c:param name="pageType" value="index_s1"></c:param>
 									</c:import>
 								</c:if>
 							</div>

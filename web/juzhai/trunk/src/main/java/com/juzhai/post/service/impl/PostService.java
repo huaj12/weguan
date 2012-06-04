@@ -139,6 +139,8 @@ public class PostService implements IPostService {
 	private int postResponseContentLengthMax;
 	@Value("${dialog.content.wordfilter.application}")
 	private int dialogContentWordfilterApplication;
+	@Value("${synchronize.place.length.max}")
+	private int synchronizePlaceLengthMax;
 
 	@Override
 	public long createPost(long uid, PostForm postForm)
@@ -990,6 +992,8 @@ public class PostService implements IPostService {
 								SynchronizeWeiboTemplate.SYNCHRONIZE_ADDRESS
 										.getName(), new Object[] { place },
 								Locale.SIMPLIFIED_CHINESE) + " ";
+				place = TextTruncateUtil.truncate(place,
+						synchronizePlaceLengthMax, "...");
 			}
 
 			String text = messageSource.getMessage(

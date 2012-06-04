@@ -729,12 +729,6 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 
 
-.zj_friend{float:right; margin-top:12px; margin-right:15px; position:relative;}
-
-.zj_friend a.zj{ background:url(../images/web2/share_icon.png) no-repeat 0 3px; background:url(../images/web2/share_icon.png) no-repeat 0 1px\9; padding-left:20px; color:#999; display:block;}
-.zj_friend a.zj:hover{ background:url(../images/web2/share_icon_hover.png) no-repeat 0 3px; background:url(../images/web2/share_icon_hover.png) no-repeat 0 1px\9; color:#3E8BD9;}
-
-.zj_friend .show_icons{ background:url(../images/web2/jz_friend_show_bg.gif) no-repeat; width:240px; height:26px; position:absolute; top:18px; left:-105px; padding:15px;}
 
 .show_icons .txt{ float:right; color:#ccc; margin-top:5px;}
 
@@ -2032,10 +2026,10 @@ i{ color:#f00;}
 
 
 
-.idea_box{ width:100%; display:block; height:auto; margin:0 auto; margin-top:15px;}
+.idea_box{ width:100%; display:block; height:auto; margin:0 auto; margin-top:19px;}
 .idea_box .idea_box_t{ background:url(../images/web2/pub_box_link_r1_c1.jpg) no-repeat; height:5px; overflow:hidden; width:100%; float:left;}
 .idea_box .idea_box_b{ background:url(../images/web2/pub_box_link_r5_c1.jpg) no-repeat; height:5px; overflow:hidden; width:100%; float:left;}
-.idea_box .idea_box_m{ background:url(../images/web2/pub_box_link_r3_c1.jpg) repeat-y; display:block;  float:left; padding:17px 22px; width:580px; height:auto; position:relative; }
+.idea_box .idea_box_m{ background:url(../images/web2/pub_box_link_r3_c1.jpg) repeat-y; display:block;  float:left; padding:17px 22px; width:580px; height:auto; position:relative;}
 
 
 .hover .idea_box_t{ background:url(../images/web2/pub_box_hover_r1_c1.jpg) no-repeat; height:5px; overflow:hidden; width:100%; float:left;}
@@ -2064,22 +2058,20 @@ i{ color:#f00;}
 .good_idea  span.adress{ background:url(../images/web2/wtg_icon_r1_c1.jpg) no-repeat; padding-left:18px; }
 .good_idea  span.link{ background:url(../images/web2/wtg_icon_r1_c6.jpg) no-repeat;  padding-left:18px;}
 .good_idea  span.tag{ background:url(../images/web2/tag_infor_icon.jpg) no-repeat; padding-left:18px;}
+.good_idea  span.jj_height{ padding-top:40px;}
 .good_idea  span a{ color:#ccc; text-decoration:underline;}
 .good_idea  span a:hover{color:#3E8BD9;}
-.good_idea .img{ float:left; padding-bottom:10px; margin-right:20px; width:200px; height:200px; overflow:hidden;}
+.good_idea .img{ float:left; padding-bottom:10px; padding-right:22px;}
 
-.good_idea .idea_frame_left{ float:right; width:360px; height:auto; overflow:hidden;}
-.good_idea .idea_xqdr{ float:left; margin-top:10px;}
+.good_idea .idea_right_infor{ padding-top:30px; background:#33CC99; float:left;}
 
-.good_idea .idea_xqdr a{ color:#3E8BD9;}
-.good_idea .idea_xqdr a:hover{ text-decoration:underline;}
 
-.good_idea .fb_area{width:360px; position:absolute; bottom:17px; right:22px; }
-.good_idea .fb_area .fb_members{ float:left; }
-.good_idea .fb_area .fb_members em{ float:left; margin-right:10px; display:inline; width:40px; height:40px; overflow:hidden;}
-.good_idea .fb_area .fb_members b{ float:left; margin-left:20px; margin-top:10px; display:inline; font-weight:normal;}
-.good_idea .fb_area .fb_members b a{ color:#3E8BD9;}
-.good_idea .fb_area .fb_members b a:hover{color:#3E8BD9; text-decoration:underline;}
+
+.good_idea .fb_area{ position:absolute; bottom:17px; right:22px;}
+.good_idea .fb_area .fb_members{ float:right; margin-right:15px; margin-top:12px; display:inline; }
+
+.good_idea .fb_area .fb_members a{ color:#3E8BD9;}
+.good_idea .fb_area .fb_members a:hover{color:#3E8BD9; text-decoration:underline;}
 
 .good_idea .fb_area .fb_members_none{ float:left; margin-top:10px; color:#ccc;}
 
@@ -2089,11 +2081,36 @@ i{ color:#f00;}
 .good_idea .fb_area .fb_btn{ float:right; margin-top:5px;}
 .good_idea .fb_area .fb_btn a{background:url(../images/web2/send_area_btn.gif) no-repeat; width:80px; height:30px; overflow:hidden; display:block; color:#fff; text-align:center; font-size:14px; line-height:30px; line-height:32px\9;}
 
-.good_idea .fb_area .sending{ float:right; margin-top:5px;}
+.good_idea .fb_area .sending{ float:right; margin-top:5px; }
 .good_idea .fb_area .sending a{background:url(../images/web2/sending_btn_s1.gif) no-repeat; width:50px; height:30px; overflow:hidden; display:block; color:#999;font-size:14px; line-height:30px; line-height:32px\9; padding-left:30px; cursor:default;}
 
 .good_idea .fb_area .done{float:right; margin-top:5px;}
 .good_idea .fb_area .done a{background:url(../images/web2/send_done_btn.gif) no-repeat; width:80px; height:30px; overflow:hidden; display:block; color:#999; text-align:center; font-size:14px; line-height:30px; line-height:32px\9;cursor:default;}
+
+
+
+
+
+
+.zj_friend{float:right; margin-top:12px; margin-right:15px; position:relative;}
+
+.zj_friend a.zj{ background:url(../images/web2/share_icon.png) no-repeat 0 3px; background:url(../images/web2/share_icon.png) no-repeat 0 1px\9; padding-left:20px; color:#999; display:block;}
+.zj_friend a.zj:hover{ background:url(../images/web2/share_icon_hover.png) no-repeat 0 3px; background:url(../images/web2/share_icon_hover.png) no-repeat 0 1px\9; color:#3E8BD9;}
+
+.zj_friend .show_icons{ background:url(../images/web2/jz_friend_show_bg.gif) no-repeat; width:240px; height:26px; position:absolute; top:15px; left:-105px; padding:15px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .preferential{ width:245px; height:auto; overflow:hidden; margin:0 auto;}
 .preferential .item{ width:100%; float:left; height:auto; border-bottom:1px dashed #e5e5e5; margin-top:15px; padding-bottom:15px;}

@@ -109,7 +109,7 @@
 									<span class="time"><fmt:formatDate value="${postView.post.dateTime}" pattern="yyyy.MM.dd"/></span>
 								</c:if>
 								<c:if test="${not empty postView.post.place}">
-									<span class="adress"><c:out value="${postView.post.place}" /></span>
+									<span class="adress"><c:out value="${jzu:truncate(postView.post.place,40,'...')}"></c:out></span>
 								</c:if>
 								<c:if test="${not empty postView.post.link}">
 									<span class="link"><a href="${postView.post.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关链接</a></span>

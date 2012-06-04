@@ -51,14 +51,16 @@ $(document).ready(function(){
 	$("div.post-response").click(function(){
 		var postId = $(this).attr("post-id");
 		var respCount = $(this).attr("resp-count");
-		var nickname = $(this).attr("nickname");
-		var postContent = $(this).attr("post-content");
+//		var nickname = $(this).attr("nickname");
+//		var postContent = $(this).attr("post-content");
 		var obj = this;
-		openResponse(obj, postId, nickname, postContent, function(){
+		responsePost(postId, "", function(){
 			var currentCnt = parseInt(respCount);
 			$(obj).find("div.xy_num > a").text(currentCnt + 1);
-			$(obj).find("a.xy").text("已" + $(obj).find("a.xy").text());
+			$(obj).find("a.xy").text($(obj).find("a.xy").text());
 			$(obj).unbind("click").addClass("done");
+		}, function(errorInfo){
+			alert(errorInfo);
 		});
 		return false;
 	});
@@ -504,7 +506,7 @@ function responsePost(postId, content, successCallback, errorCallback){
 		success : function(result) {
 			if (result && result.success) {
 				successCallback();
-				var content = $("#dialog-success").html().replace("{0}", "好的，我们会通知ta！");
+				var content = $("#dialog-success").html().replace("{0}", "好主意+1,谢谢");
 				showSuccess(null, content);
 			} else {
 				errorCallback(result.errorInfo);

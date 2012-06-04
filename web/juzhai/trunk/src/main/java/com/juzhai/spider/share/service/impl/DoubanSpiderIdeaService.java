@@ -37,24 +37,28 @@ public class DoubanSpiderIdeaService extends AbstractSpiderIdeaService {
 	}
 
 	private void getPlace(RawIdeaForm from, String address) {
-
 		String[] str = address.split(" ");
 		if (str != null && str.length > 0) {
 			City city = InitData.getCityByName(str[0]);
 			if (city != null) {
 				from.setCity(city.getId());
 				from.setProvince(city.getProvinceId());
-				if (str.length == 3) {
+				StringBuilder sBuilder = new StringBuilder();
+				if (str.length > 1) {
 					Town town = InitData.getTownByNameAndCityId(city.getId(),
 							str[1]);
 					if (town != null) {
 						from.setTown(town.getId());
 					}
-					from.setPlace(str[2]);
-				} else if (str.length == 2) {
-					from.setPlace(str[1]);
 				}
-
+				int index = 1;
+				if (str.length > 2) {
+					index = 2;
+				}
+				for (int i = index; i < str.length; i++) {
+					sBuilder.append(str[i]);
+				}
+				from.setPlace(sBuilder.toString());
 			}
 		}
 	}
@@ -208,26 +212,28 @@ public class DoubanSpiderIdeaService extends AbstractSpiderIdeaService {
 
 	public static void main(String[] str) throws SpiderIdeaException {
 		DianpingSpiderIdeaService s = new DianpingSpiderIdeaService();
-		String content = s.getContent("http://www.douban.com/event/16030182/");
-		String title = null;
-		System.out.println(content.indexOf("id=\"foldDescHook\">"));
-		if (content.indexOf("id=\"foldDescHook\">") != -1) {
-			title = s
-					.find(content,
-							"<div id=\"edesc_f\" class=\"wr\" style=\"display:none\">(.*?)<a href=\"#\" id=\"foldDescHook\">");
-		} else {
-			title = s.find(content,
-					"活动详情</h2>\\s*?<div class=\"wr\">(.*?)</div>");
-		}
-		String time = s.find(content, "时间:&nbsp;&nbsp;</span>(.*?)\\s*?</div>");
+		String content = s.getContent("http://www.douban.com/event/14956656/");
+		String title = s.find(content,
+				">地点:&nbsp;&nbsp;</span>(.*?)\\s*?</div>");
 		System.out.println(title);
-		String[] str1 = time.split("至");
-
-		System.out.println("2012" + "-"
-				+ str1[0].replaceAll("月", "-").replaceAll("日", "").trim()
-				+ ":00");
-		System.out.println("2012" + "-"
-				+ str1[1].replaceAll("月", "-").replaceAll("日", "").trim()
-				+ ":00");
+		// if (content.indexOf("id=\"foldDescHook\">") != -1) {
+		// title = s
+		// .find(content,
+		// "<div id=\"edesc_f\" class=\"wr\" style=\"display:none\">(.*?)<a href=\"#\" id=\"foldDescHook\">");
+		// } else {
+		// title = s.find(content,
+		// "活动详情</h2>\\s*?<div class=\"wr\">(.*?)</div>");
+		// }
+		// String time = s.find(content,
+		// "时间:&nbsp;&nbsp;</span>(.*?)\\s*?</div>");
+		// System.out.println(title);
+		// String[] str1 = time.split("至");
+		//
+		// System.out.println("2012" + "-"
+		// + str1[0].replaceAll("月", "-").replaceAll("日", "").trim()
+		// + ":00");
+		// System.out.println("2012" + "-"
+		// + str1[1].replaceAll("月", "-").replaceAll("日", "").trim()
+		// + ":00");
 	}
 }

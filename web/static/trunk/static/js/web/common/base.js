@@ -889,8 +889,8 @@ var PostSender =  Class.extend({
 				value = "";
 			}
 			//check place
-			if(!checkValLength(value, 0, 40)){
-				sendPostAddress.find(".error").text("地点字数控制在20字以内").show();
+			if(!checkValLength(value, 0, 100)){
+				sendPostAddress.find(".error").text("地点字数控制在50字以内").show();
 				return false;;
 			}
 			sendPostAddress.find('input[name="place"]').val(value);

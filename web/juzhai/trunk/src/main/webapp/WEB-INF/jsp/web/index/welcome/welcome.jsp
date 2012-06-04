@@ -93,7 +93,7 @@
 												<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:</font><a href="/post/${view.post.id}"><c:out value="${jzu:truncate(view.post.content,90,'...')}"></c:out></a></p>
 												<div class="xy_ly"><!--xy_ly begin-->
 												<div class="message_s2"><a href="/post/${view.post.id}">留言<c:if test="${view.post.commentCnt > 0}">(${view.post.commentCnt})</c:if></a></div>
-												<div class="like"><a href="/post/${view.post.id}" class="xy">响应</a><div class="xy_num"><p class="l"></p><a href="/post/${view.post.id}">${view.post.responseCnt}</a><p class="r"></p></div></div>
+												<div class="like"><a href="/post/${view.post.id}" class="xy">好主意</a><div class="xy_num"><p class="l"></p><a href="/post/${view.post.id}">${view.post.responseCnt}</a><p class="r"></p></div></div>
 												</div><!--xy_ly end-->
 											</li>
 										</c:forEach>

@@ -54,10 +54,10 @@
 											<c:when test="${context.uid != postProfile.uid}">
 												<c:choose>
 													<c:when test="${hasResponse}">
-														<div class="xiangyin_btn"><a href="javascript:void(0);" class="done">已响应</a></div>
+														<div class="xiangyin_btn"><a href="javascript:void(0);" class="done">好主意</a></div>
 													</c:when>
 													<c:otherwise>
-														<div class="xiangyin_btn"><a href="javascript:void(0);" class="detail-response" post-id="${post.id}" resp-count="${post.responseCnt}" nickname="<c:out value='${postProfile.nickname}' />" post-content="<c:out value="${jzu:truncate(post.content,50,'...')}" />">我要响应</a></div>
+														<div class="xiangyin_btn"><a href="javascript:void(0);" class="detail-response" post-id="${post.id}" resp-count="${post.responseCnt}" nickname="<c:out value='${postProfile.nickname}' />" post-content="<c:out value="${jzu:truncate(post.content,50,'...')}" />">好主意+1</a></div>
 													</c:otherwise>
 												</c:choose>
 											</c:when>
@@ -77,8 +77,11 @@
 									<div class="title"><!--title begin-->
 										<div class="tab">
 											<span <c:if test="${pageType == 'comment'}">class="act"</c:if>><p></p><a href="/post/${post.id}/comment">${commentTotalCnt}条留言</a><p></p></span>
-											<span <c:if test="${pageType == 'response'}">class="act"</c:if>><p></p><a href="/post/${post.id}/respuser">${respTotalCnt}人响应</a><p></p></span>
+											<span <c:if test="${pageType == 'response'}">class="act"</c:if>><p></p><a href="/post/${post.id}/respuser">${respTotalCnt}个好主意</a><p></p></span>
 										</div>
+										<c:if test="${not empty idea && idea.useCount >0 }">
+											<div class="hyxq"><a href="/idea/${idea.id}">还有${idea.useCount}人也想去</a></div>
+										</c:if>
 									</div><!--title end-->
 									<div class="clear"></div>
 									<c:choose>
@@ -110,6 +113,8 @@
 							<div class="t"></div>
 						</div><!--content end-->
 						<jsp:include page="/WEB-INF/jsp/web/home/index/idea_widget.jsp" />
+						<jsp:include page="../post/common/user_post_list.jsp" />
+						
 					</div><!--main_right end-->
 				</div><!--main_part end-->
 			</div><!--main end-->

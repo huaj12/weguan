@@ -30,7 +30,17 @@
 										<div class="pub_box_m"><!--pub_box_m begin-->
 											<div class="arrow"></div>
 											<div></div>
-											<div class="con"><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${post.purposeType}"/></c:import>:</font><em><c:out value="${post.content}" /></em><c:if test="${not empty post.link}"><a href="${post.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if> >去了解更多</a></c:if></div>
+											<div class="con"><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${post.purposeType}"/></c:import>:</font><em><c:out value="${post.content}" /></em>
+												<c:choose>
+													<c:when test="${not empty idea }">
+														<c:set value="/idea/${idea.id}" var="link"></c:set>		
+													</c:when>
+													<c:otherwise>
+														<c:set value="${post.link}" var="link"></c:set>	
+													</c:otherwise>
+												</c:choose>
+												<c:if test="${not empty link}"><a href="${link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if> >去了解更多</a></c:if>
+											</div>
 											<div class="infor"><!--infor begin-->
 												<span><c:set var="date" value="${post.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span>
 												<span class="tag">${jzd:categoryName(post.categoryId)}</span>
@@ -80,7 +90,7 @@
 											<span <c:if test="${pageType == 'response'}">class="act"</c:if>><p></p><a href="/post/${post.id}/respuser">${respTotalCnt}个好主意</a><p></p></span>
 										</div>
 										<c:if test="${not empty idea && idea.useCount >0 }">
-											<div class="hyxq"><a href="/idea/${idea.id}">还有${idea.useCount}人也想去</a></div>
+											<div class="hyxq"><a href="/idea/${idea.id}">已有${idea.useCount}人想去</a></div>
 										</c:if>
 									</div><!--title end-->
 									<div class="clear"></div>

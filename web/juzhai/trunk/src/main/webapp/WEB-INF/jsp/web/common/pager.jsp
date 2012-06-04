@@ -9,7 +9,7 @@
 		<c:otherwise><a href="javascript:void(0);" class="link pre"><p class="l"></p><strong class="c">首页</strong><p class="r"></p></a></c:otherwise>
 	</c:choose> --%>
 	<c:choose>
-		<c:when test="${pager.currentPage > 1}"><a href="<c:choose><c:when test="${not empty urlRewrite&&!urlRewrite}">${pageUrl}&pageId=${pager.currentPage-1}</c:when><c:otherwise>${pageUrl}/${pager.currentPage+-1}${queryParams}</c:otherwise></c:choose>" class="link pre"><p class="l"></p><strong class="c">&lt;</strong><p class="r"></p></a></c:when>
+		<c:when test="${pager.currentPage > 1}"><a href="<c:choose><c:when test="${not empty urlRewrite&&!urlRewrite}">${pageUrl}&pageId=${pager.currentPage-1}</c:when><c:otherwise>${pageUrl}/${pager.currentPage+-1}${queryParams}</c:otherwise></c:choose>" class="link pre" onmouseover="javascript:$(this).removeClass('link').addClass('hover');" onmouseout="javascript:$(this).removeClass('hover').addClass('link');" ><p class="l"></p><strong class="c">&lt;</strong><p class="r"></p></a></c:when>
 		<c:otherwise><a href="javascript:void(0);" class="link pre"><p class="l"></p><strong class="c">&lt;</strong><p class="r"></p></a></c:otherwise>
 	</c:choose>
 	<c:forEach var="pageId" items="${pager.showPages}">
@@ -19,7 +19,7 @@
 		</c:choose>
 	</c:forEach>
 	<c:choose>
-		<c:when test="${pager.hasNext}"><a href="<c:choose><c:when test="${not empty urlRewrite&&!urlRewrite}">${pageUrl}&pageId=${pager.currentPage+1}</c:when><c:otherwise>${pageUrl}/${pager.currentPage+1}${queryParams}</c:otherwise></c:choose>" class="link nex"><p class="l"></p><strong class="c">&gt;</strong><p class="r"></p></a></c:when>
+		<c:when test="${pager.hasNext}"><a href="<c:choose><c:when test="${not empty urlRewrite&&!urlRewrite}">${pageUrl}&pageId=${pager.currentPage+1}</c:when><c:otherwise>${pageUrl}/${pager.currentPage+1}${queryParams}</c:otherwise></c:choose>" class="link nex" onmouseover="javascript:$(this).removeClass('link').addClass('hover');" onmouseout="javascript:$(this).removeClass('hover').addClass('link');"><p class="l"></p><strong class="c">&gt;</strong><p class="r"></p></a></c:when>
 		<c:otherwise><a href="javascript:void(0);" class="link nex"><p class="l"></p><strong class="c">&gt;</strong><p class="r"></p></a></c:otherwise>
 	</c:choose>
 	<%-- <c:choose>

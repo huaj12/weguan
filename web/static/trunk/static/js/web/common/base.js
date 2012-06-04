@@ -506,7 +506,7 @@ function responsePost(postId, content, successCallback, errorCallback,clickObj){
 		success : function(result) {
 			if (result && result.success) {
 				successCallback();
-				var content = $("#dialog-success").html().replace("{0}", "好主意+1,谢谢");
+				var content = $("#dialog-success").html().replace("{0}", "好主意+1了,谢谢");
 				showSuccess(clickObj, content);
 			} else {
 				errorCallback(result.errorInfo);

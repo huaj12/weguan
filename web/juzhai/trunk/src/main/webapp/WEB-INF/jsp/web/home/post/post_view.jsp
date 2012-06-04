@@ -20,7 +20,7 @@
 					<span class="time"><fmt:formatDate value="${postView.post.dateTime}" pattern="yyyy.MM.dd"/></span>
 				</c:if>
 				<c:if test="${not empty postView.post.place}">
-					<span class="adress"><c:out value="${postView.post.place}" /></span>
+					<span class="adress"><c:out value="${jzu:truncate(postView.post.place,40,'...')}"></c:out></span>
 				</c:if>
 				<c:if test="${not empty postView.post.link}">
 					<span class="link"><a href="${postView.post.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关链接</a></span>
@@ -33,13 +33,13 @@
 							<c:when test="${postView.post.commentCnt > 0}">
 								<a href="/post/${postView.post.id}/comment">有${postView.post.commentCnt}条留言</a>
 							</c:when>
-							<c:otherwise><a href="javascript:void(0);" class="n">无人留言</a></c:otherwise>
+							<c:otherwise></c:otherwise>
 						</c:choose>
 						<c:choose>
 							<c:when test="${postView.post.responseCnt > 0}">
-								<a href="/post/${postView.post.id}/respuser">有${postView.post.responseCnt}个好主意</a>
+								<a href="/post/${postView.post.id}/respuser">好主意+${postView.post.responseCnt}</a>
 							</c:when>
-							<c:otherwise><a href="javascript:void(0);"class="n">无人+好主意</a></c:otherwise>
+							<c:otherwise></c:otherwise>
 						</c:choose>
 						<a href="javascript:void(0);" class="edit" post-id="${postView.post.id}">编辑</a>
 						<a href="javascript:void(0);" class="delete" post-id="${postView.post.id}">删除</a>

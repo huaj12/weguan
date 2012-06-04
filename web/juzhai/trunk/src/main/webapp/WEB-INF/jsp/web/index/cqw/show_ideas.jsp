@@ -70,8 +70,7 @@
 															<c:if test="${not empty ideaView.idea.pic}">
 																<div class="img"><a href="/idea/${ideaView.idea.id}"><img src="${jzr:static('/images/web2/1px.gif')}" data-original="${jzr:ideaPic(ideaView.idea.id,ideaView.idea.pic, 200)}" /></a></div>
 															</c:if>
-															<div class="idea_frame_left"><!--idea_frame_left begin-->
-																<p><a href="/idea/${ideaView.idea.id}"><c:out value="${ideaView.idea.content}" /></a><c:if test="${ideaView.profileCache != null}"><a href="/home/${ideaView.profileCache.uid}" class="from">来自&nbsp;<c:out value="${ideaView.profileCache.nickname}" /></a></c:if></p>
+																<p><a href="/idea/${ideaView.idea.id}"><c:out value="${jzu:truncate(ideaView.idea.content,64,'...')}" /></a><c:if test="${ideaView.profileCache != null}"><a href="/home/${ideaView.profileCache.uid}" class="from">来自&nbsp;<c:out value="${ideaView.profileCache.nickname}" /></a></c:if></p>
 																<c:if test="${ideaView.idea.categoryId > 0}">
 																	<span class="tag">${jzd:categoryName(ideaView.idea.categoryId)}</span>
 																</c:if>
@@ -84,10 +83,8 @@
 																<c:if test="${!empty ideaView.idea.link }">
 																	<span class="link"><a href="${ideaView.idea.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关链接</a></span>
 																</c:if>
-															</div>
+															<span class="jj_height"></span>
 															<div class="fb_area"><!--fb_area begin-->
-																<div class="idea_xqdr"><a href="/idea/${ideaView.idea.id}">共${ideaView.idea.useCount}人想去</a></div>
-																
 																<c:choose>
 																	<c:when test="${ideaView.hasUsed}">
 																		<div class="done"><a href="javascript:void(0);">已想去</a></div>
@@ -123,6 +120,10 @@
 																		</div><!--zj_friend end-->
 																	</c:otherwise>
 																</c:choose>
+																<div class="fb_members">
+																	<a href="/idea/${ideaView.idea.id}">共${ideaView.idea.useCount}人想去</a>
+																</div>
+																
 															</div><!--fb_area end-->
 														</div><!--pub_box_m end-->
 														<div class="clear"></div>

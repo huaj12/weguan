@@ -658,7 +658,8 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .jz_list  .idea_category .act a{ background:#d8d8d8; font-weight:bold; cursor:default;}
 .jz_list  .idea_category .act a:hover{ background:#d8d8d8; font-weight:bold; cursor:default; color:#666;}
 
-.idea_s1{ margin-top:12px; margin-right:20px; display:inline;}
+
+.search_title .index_s1{ margin-top:12px; margin-right:20px; display:inline;  padding-bottom:0px;}
 
 
 

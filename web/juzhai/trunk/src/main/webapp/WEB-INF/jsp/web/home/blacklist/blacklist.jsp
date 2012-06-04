@@ -42,7 +42,7 @@
 															<c:set var="age" value="${jzu:age(profile.birthYear,profile.birthSecret)}" />
 															<c:set var="constellationName" value="${jzd:constellationName(profile.constellationId)}" />
 															<em><c:if test="${age > 0}">${age}岁&nbsp;</c:if><c:if test="${not empty cityName}">${cityName}<c:if test="${not empty townName}">${townName}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty profile.profession}">${profile.profession}&nbsp;</c:if></em>
-															<span><a href="javascript:void(0);" target-name="<c:out value="${profile.nickname }"/>" target-uid="${profile.uid}" title="取消屏蔽后，ta可以私信，响应，约你">取消屏蔽</a></span>
+															<span><a href="javascript:void(0);" target-name="<c:out value="${profile.nickname }"/>" target-uid="${profile.uid}" title="取消屏蔽后，ta可以私信,约你">取消屏蔽</a></span>
 														</div><!--pub_box_m end-->
 														<div class="clear"></div>
 														<div class="pub_box_b"></div>

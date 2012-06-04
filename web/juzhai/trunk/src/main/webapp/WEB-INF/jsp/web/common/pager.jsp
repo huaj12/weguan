@@ -3,7 +3,9 @@
 <c:set var="pageUrl" value="${param.url}" />
 <c:set var="queryParams" value="${param.queryParams}" />
 <c:set var="urlRewrite" value="${param.urlRewrite}"></c:set>
-<div class="page index_s1"><!--page begin-->
+<c:set var="pageType" value="${param.pageType}"></c:set>
+<c:if test="${empty pageType}"><c:set var="pageType" value="index_s1"></c:set> </c:if> 
+<div class="page ${pageType}"><!--page begin-->
 	<%-- <c:choose>
 		<c:when test="${pager.currentPage != 1}"><a href="${pageUrl}/1${queryParams}" class="link pre"><p class="l"></p><strong class="c">首页</strong><p class="r"></p></a></c:when>
 		<c:otherwise><a href="javascript:void(0);" class="link pre"><p class="l"></p><strong class="c">首页</strong><p class="r"></p></a></c:otherwise>

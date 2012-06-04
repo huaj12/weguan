@@ -37,9 +37,9 @@
 						</c:choose>
 						<c:choose>
 							<c:when test="${postView.post.responseCnt > 0}">
-								<a href="/post/${postView.post.id}/respuser">有${postView.post.responseCnt}人响应</a>
+								<a href="/post/${postView.post.id}/respuser">有${postView.post.responseCnt}个好主意</a>
 							</c:when>
-							<c:otherwise><a href="javascript:void(0);"class="n">无人响应</a></c:otherwise>
+							<c:otherwise><a href="javascript:void(0);"class="n">无人+好主意</a></c:otherwise>
 						</c:choose>
 						<a href="javascript:void(0);" class="edit" post-id="${postView.post.id}">编辑</a>
 						<a href="javascript:void(0);" class="delete" post-id="${postView.post.id}">删除</a>
@@ -50,10 +50,10 @@
 						<div class="message_s2"><a href="/post/${postView.post.id}/comment" post-id="${postView.post.id}">留言<c:if test="${postView.post.commentCnt > 0}">(${postView.post.commentCnt})</c:if></a></div>
 						<c:choose>
 							<c:when test="${postView.hasResponse}">
-								<div class="like done"><a href="javascript:void(0);" class="xy">已响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${postView.post.responseCnt}</a><p class="r"></p></div></div>
+								<div class="like done"><a href="javascript:void(0);" class="xy">好主意</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${postView.post.responseCnt}</a><p class="r"></p></div></div>
 							</c:when>
 							<c:otherwise>
-								<div class="like post-response" id="response${postView.post.id}" post-id="${postView.post.id}" resp-count="${postView.post.responseCnt}" nickname="<c:out value='${profile.nickname}' />" post-content="<c:out value="${jzu:truncate(postView.post.content,50,'...')}" />"><a href="javascript:void(0);" class="xy">响应</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${postView.post.responseCnt}</a><p class="r"></p></div></div>
+								<div class="like post-response" id="response${postView.post.id}" post-id="${postView.post.id}" resp-count="${postView.post.responseCnt}" nickname="<c:out value='${profile.nickname}' />" post-content="<c:out value="${jzu:truncate(postView.post.content,50,'...')}" />"><a href="javascript:void(0);" class="xy">好主意</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${postView.post.responseCnt}</a><p class="r"></p></div></div>
 							</c:otherwise>
 						</c:choose>
 						<div class="zfa"><a href="javascript:void(0);" post-id="${postView.post.id}">转发</a></div>

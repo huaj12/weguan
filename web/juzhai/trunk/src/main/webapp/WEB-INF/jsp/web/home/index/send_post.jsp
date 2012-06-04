@@ -30,7 +30,7 @@
 					<a href="javascript:void(0);" class="tg">团购</a>
 			</div>
 		</c:if>
-		<div class="textarea"><textarea name="content" init-tip="说说这个周末想出去玩什么...">${postForm.content}</textarea></div>
+		<div class="textarea"><textarea name="content" init-tip="说出你的拒宅好主意吧~">${postForm.content}</textarea></div>
 		<div class="jh"><!--jh begin-->
 			<c:choose>
 				<c:when test="${postForm!=null}"><c:set var="categoryId" value="${postForm.categoryId}" /></c:when>

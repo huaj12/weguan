@@ -122,8 +122,8 @@
 							</div>
 							<div class="t"></div>
 						</div><!--content end-->
-						<jsp:include page="/WEB-INF/jsp/web/home/index/idea_widget.jsp" />
 						<jsp:include page="../post/common/user_post_list.jsp" />
+						<jsp:include page="/WEB-INF/jsp/web/home/index/idea_widget.jsp" />
 						
 					</div><!--main_right end-->
 				</div><!--main_part end-->

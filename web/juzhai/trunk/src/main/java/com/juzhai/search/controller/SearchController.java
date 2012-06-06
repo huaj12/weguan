@@ -260,7 +260,7 @@ public class SearchController extends BaseController {
 			}
 			userViews.add(view);
 		}
-		newUserWidget(0L, model, queryUsersRightUserRows);
+		newUserWidget(city, model, queryUsersRightUserRows);
 		recommendUserWidget(context.getUid(), recommendUserCount, model);
 		getHots(model, city, searchUserHotRows);
 		model.addAttribute("userViews", userViews);

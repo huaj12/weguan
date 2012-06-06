@@ -48,7 +48,8 @@
 								<div class="jz_list"><!--jz_list begin-->
 									<div class="search_title"><!--search_title begin-->
 										<div class="idea_category" order-type="${orderType}"><!--category begin-->
-											<span <c:if test="${empty orderType||'time'==orderType}"> class="act"</c:if>><p></p><a href="/showideas/${categoryId}/time/1">最新</a><p></p></span>
+											<span <c:if test="${empty orderType||'window'==orderType}"> class="act"</c:if>><p></p><a href="/showideas/${categoryId}/window/1">推荐</a><p></p></span>
+											<span <c:if test="${'time'==orderType}"> class="act"</c:if>><p></p><a href="/showideas/${categoryId}/time/1">最新</a><p></p></span>
 											<span <c:if test="${'pop'==orderType}"> class="act"</c:if>><p></p><a href="/showideas/${categoryId}/pop/1" >最热</a><p></p></span>
 										</div><!--category end-->
 										<c:if test="${not empty ideaViewList}">
@@ -74,13 +75,10 @@
 																	<span class="tag">${jzd:categoryName(ideaView.idea.categoryId)}</span>
 																</c:if>
 																<c:if test="${ideaView.idea.startTime != null || ideaView.idea.endTime != null}">
-																	<span class="time"><c:if test="${ideaView.idea.startTime != null}"><fmt:formatDate value="${ideaView.idea.startTime}" pattern="yyyy.MM.dd hh:mm"/>-</c:if><fmt:formatDate value="${ideaView.idea.endTime}" pattern="yyyy.MM.dd hh:mm"/></span>
+																	<span class="time"><c:if test="${ideaView.idea.startTime != null}"><fmt:formatDate value="${ideaView.idea.startTime}" pattern="yyyy.MM.dd HH:mm"/>-</c:if><fmt:formatDate value="${ideaView.idea.endTime}" pattern="yyyy.MM.dd HH:mm"/></span>
 																</c:if>
 																<c:if test="${not empty ideaView.idea.place}">
 																	<span class="adress"><c:out value="${jzu:truncate(ideaView.idea.place,40,'...')}"></c:out></span>
-																</c:if>
-																<c:if test="${!empty ideaView.idea.link }">
-																	<span class="link"><a href="${ideaView.idea.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关链接</a></span>
 																</c:if>
 															<span class="jj_height"></span>
 															<div class="fb_area"><!--fb_area begin-->

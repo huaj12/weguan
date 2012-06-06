@@ -85,7 +85,7 @@ public class HomeController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			cityId = loginUser.getCity();
 		}
-		showHomeRight(context, model);
+		showHomeRight(cityId, request, context, model);
 		Integer gender = getGender(genderType);
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
 				postService.countNewestPost(context.getUid(), cityId, townId,
@@ -143,7 +143,7 @@ public class HomeController extends BaseController {
 			@PathVariable String genderType, @PathVariable int page)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeRight(context, model);
+		showHomeRight(0l, request, context, model);
 		Integer gender = getGender(genderType);
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
 				postService.countResponsePost(context.getUid(), null, gender));
@@ -174,7 +174,7 @@ public class HomeController extends BaseController {
 			@PathVariable String genderType, @PathVariable int page)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeRight(context, model);
+		showHomeRight(0l, request, context, model);
 		Integer gender = getGender(genderType);
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
 				postService.countInterestUserPost(context.getUid(), null,
@@ -195,10 +195,17 @@ public class HomeController extends BaseController {
 		return "web/home/index/home";
 	}
 
-	private void showHomeRight(UserContext context, Model model) {
+	private void showHomeRight(long cityId, HttpServletRequest request,
+			UserContext context, Model model) {
+		if (cityId == 0) {
+			ProfileCache loginUser = getLoginUserCache(request);
+			if (loginUser != null && loginUser.getCity() != null) {
+				cityId = loginUser.getCity();
+			}
+		}
 		showHomeLogo(context, model);
 		// ideaWidget(context, cityId, model, webHomeRightIdeaRows);
-		newUserWidget(0L, model, webHomeRightUserRows);
+		newUserWidget(cityId, model, webHomeRightUserRows);
 		List<VisitorView> visitorViewList = visitUserService.listVisitUsers(
 				context.getUid(), 0, visitorWidgetUserCount);
 		model.addAttribute("visitorViewList", visitorViewList);

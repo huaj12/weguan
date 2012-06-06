@@ -81,8 +81,9 @@ public interface IIdeaService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Idea> listIdeaByCityAndCategory(Long cityId, Long categoryId,
-			ShowIdeaOrder oderType, int firstResult, int maxResults);
+	List<Idea> listIdeaByCityAndCategory(Boolean window, Long cityId,
+			Long categoryId, ShowIdeaOrder oderType, int firstResult,
+			int maxResults);
 
 	/**
 	 * 未使用的好主意
@@ -112,7 +113,7 @@ public interface IIdeaService {
 	 * 
 	 * @return
 	 */
-	int countIdeaByCityAndCategory(Long cityId, Long categoryId);
+	int countIdeaByCityAndCategory(Long cityId, Long categoryId, Boolean window);
 
 	/**
 	 * 被屏蔽好主意数量
@@ -210,16 +211,12 @@ public interface IIdeaService {
 	void ideaWindow(long ideaId, boolean window);
 
 	/**
-	 * 好主意橱窗排序
-	 */
-	void ideaWindowSort();
-
-	/**
 	 * 获取好主意橱窗内容
 	 * 
 	 * @return
 	 */
-	List<Idea> listIdeaWindow();
+	List<Idea> listIdeaWindow(int firstResult, int maxResults, long city,
+			long categoryId);
 
 	/**
 	 * 删除过期的idea
@@ -231,7 +228,8 @@ public interface IIdeaService {
 	 * 
 	 * @return
 	 */
-	int countCmsIdeaByCityAndCategory(Long cityId, Long categoryId);
+	int countCmsIdeaByCityAndCategory(Boolean window, Long cityId,
+			Long categoryId);
 
 	/**
 	 * 好主意列表（选择某城市不包括全国）
@@ -241,8 +239,9 @@ public interface IIdeaService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Idea> listCmsIdeaByCityAndCategory(Long cityId, Long categoryId,
-			ShowIdeaOrder oderType, int firstResult, int maxResults);
+	List<Idea> listCmsIdeaByCityAndCategory(Boolean window, Long cityId,
+			Long categoryId, ShowIdeaOrder oderType, int firstResult,
+			int maxResults);
 
 	/**
 	 * 总的好主意数
@@ -261,4 +260,11 @@ public interface IIdeaService {
 	 */
 	String checkContentDuplicate(String content, Long id)
 			throws InputIdeaException;
+
+	/**
+	 * 橱窗内容数量
+	 * 
+	 * @return
+	 */
+	int countIdeaWindow(long city, long categoryId);
 }

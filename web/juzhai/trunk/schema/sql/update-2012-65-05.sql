@@ -1,0 +1,1 @@
+ALTER TABLE `juzhai`.`tb_idea` ADD `create_window_time` datetime AFTER start_time;

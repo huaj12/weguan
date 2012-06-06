@@ -31,13 +31,13 @@
 											<div class="pub_box_m"><!--pub_box_m begin-->
 												<div class="idea_show"><!--idea_show begin-->
 													<c:if test="${not empty idea.pic}">
-														<div class="idea_pic"><a href="#"><img src="${jzr:ideaPic(idea.id, idea.pic,450)}" width="250" /></a></div>
+														<div class="idea_pic"><a href="${jzr:ideaPic(idea.id, idea.pic,450)}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><img src="${jzr:ideaPic(idea.id, idea.pic,450)}" width="250" /></a></div>
 													</c:if>
 													<div class="idea_infor"><!--idea_infor begin-->
 														<h2><c:out value="${idea.content}" /></h2>
 														
 														<c:if test="${idea.startTime != null || idea.endTime != null}">
-															<p>时间:</p><span><c:if test="${idea.startTime != null}"><fmt:formatDate value="${idea.startTime}" pattern="yyyy.MM.dd hh:mm"/>-</c:if><fmt:formatDate value="${idea.endTime}" pattern="yyyy.MM.dd hh:mm"/></span>
+															<p>时间:</p><span><c:if test="${idea.startTime != null}"><fmt:formatDate value="${idea.startTime}" pattern="yyyy.MM.dd HH:mm"/>-</c:if><fmt:formatDate value="${idea.endTime}" pattern="yyyy.MM.dd HH:mm"/></span>
 														</c:if>
 														<c:if test="${not empty idea.place}">
 															<p>地点:</p><span>${jzd:cityName(idea.city)}${jzd:townName(idea.town)}&nbsp;<c:out value="${idea.place}"/></span>

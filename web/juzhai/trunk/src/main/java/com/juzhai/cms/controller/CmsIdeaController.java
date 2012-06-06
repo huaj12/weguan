@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -22,12 +23,14 @@ import com.juzhai.common.InitData;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.util.DateFormat;
+import com.juzhai.core.util.JackSonSerializer;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.form.RawIdeaForm;
+import com.juzhai.post.exception.InputRawIdeaException;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.RawIdea;
@@ -35,6 +38,8 @@ import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
 import com.juzhai.post.service.IRawIdeaService;
 import com.juzhai.post.service.impl.IdeaDetailService;
+import com.juzhai.spider.share.exception.SpiderIdeaException;
+import com.juzhai.spider.share.service.ISpiderIdeaService;
 
 @Controller
 @RequestMapping("/cms")
@@ -52,17 +57,21 @@ public class CmsIdeaController extends BaseController {
 	private IdeaDetailService ideaDetailService;
 	@Autowired
 	private IRawIdeaService rawIdeaService;
+	@Autowired
+	private ISpiderIdeaService spiderIdeaService;
 
 	@RequestMapping(value = "/show/idea", method = RequestMethod.GET)
 	public String showIdea(Model model,
 			@RequestParam(defaultValue = "1") int pageId,
 			@RequestParam(defaultValue = "0") long city,
-			@RequestParam(defaultValue = "0") long categoryId) {
+			@RequestParam(defaultValue = "0") long categoryId,
+			@RequestParam(defaultValue = "false") boolean window) {
 		PagerManager pager = new PagerManager(pageId, 20,
-				ideaService.countCmsIdeaByCityAndCategory(city, categoryId));
-		List<Idea> list = ideaService.listCmsIdeaByCityAndCategory(city,
-				categoryId, ShowIdeaOrder.HOT_TIME, pager.getFirstResult(),
-				pager.getMaxResult());
+				ideaService.countCmsIdeaByCityAndCategory(window, city,
+						categoryId));
+		List<Idea> list = ideaService.listCmsIdeaByCityAndCategory(window,
+				city, categoryId, ShowIdeaOrder.HOT_TIME,
+				pager.getFirstResult(), pager.getMaxResult());
 		List<CmsIdeaView> ideaViews = assembleCmsIdeaView(list);
 		model.addAttribute("ideaViews", ideaViews);
 		model.addAttribute("pager", pager);
@@ -71,6 +80,7 @@ public class CmsIdeaController extends BaseController {
 				com.juzhai.post.InitData.CATEGORY_MAP.values());
 		model.addAttribute("city", city);
 		model.addAttribute("categoryId", categoryId);
+		model.addAttribute("window", window);
 		return "/cms/idea/list";
 	}
 
@@ -175,7 +185,7 @@ public class CmsIdeaController extends BaseController {
 					Locale.SIMPLIFIED_CHINESE);
 			return showIdeaAdd(model, msg, ideaForm, null);
 		}
-		return showIdea(model, 1, 0, 0);
+		return showIdea(model, 1, 0, 0, false);
 	}
 
 	@RequestMapping(value = "/update/idea", method = RequestMethod.POST)
@@ -187,7 +197,7 @@ public class CmsIdeaController extends BaseController {
 					messageSource.getMessage(e.getMessage(), null,
 							Locale.SIMPLIFIED_CHINESE), ideaForm);
 		}
-		return showIdea(model, 1, 0, 0);
+		return showIdea(model, 1, 0, 0, false);
 	}
 
 	@RequestMapping(value = "/idea/del", method = RequestMethod.POST)
@@ -249,18 +259,6 @@ public class CmsIdeaController extends BaseController {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
 			ideaService.ideaWindow(ideaId, window);
-		} catch (Exception e) {
-			ajaxResult.setSuccess(false);
-		}
-		return ajaxResult;
-	}
-
-	@RequestMapping(value = "/operate/idea/update/window", method = RequestMethod.POST)
-	@ResponseBody
-	public AjaxResult operateIdeaUpdateWindow() {
-		AjaxResult ajaxResult = new AjaxResult();
-		try {
-			ideaService.ideaWindowSort();
 		} catch (Exception e) {
 			ajaxResult.setSuccess(false);
 		}
@@ -362,8 +360,8 @@ public class CmsIdeaController extends BaseController {
 			HttpServletRequest request, Model model, String detail) {
 		try {
 			rawIdeaService.passRawIdea(rawIdeaForm);
-		} catch (Exception e) {
-			String msg = messageSource.getMessage(e.getMessage(), null,
+		} catch (InputRawIdeaException e) {
+			String msg = messageSource.getMessage(e.getErrorCode(), null,
 					Locale.SIMPLIFIED_CHINESE);
 			return showRawIdeaUpdate(model, msg, rawIdeaForm, 0l);
 		}
@@ -384,4 +382,42 @@ public class CmsIdeaController extends BaseController {
 		return showIdeaUpdate(model, ideaId, null, null);
 	}
 
+	@RequestMapping(value = "/share/rawIdea", method = RequestMethod.GET)
+	public String share(Model model, String url, HttpServletRequest request) {
+		String result = null;
+		RawIdeaForm rawIdeaForm = null;
+		String msg = null;
+		try {
+			result = spiderIdeaService.crawl(url);
+			rawIdeaForm = JackSonSerializer.toBean(result, RawIdeaForm.class);
+		} catch (SpiderIdeaException e) {
+			msg = messageSource.getMessage(e.getErrorCode(), null,
+					Locale.SIMPLIFIED_CHINESE);
+		} catch (JsonGenerationException e) {
+			msg = messageSource.getMessage("00001", null,
+					Locale.SIMPLIFIED_CHINESE);
+		}
+		return showRawIdeaUpdate(model, msg, rawIdeaForm, null);
+
+	}
+
+	@RequestMapping(value = "/list/ideaWindow", method = RequestMethod.GET)
+	public String listIdeaWindow(Model model,
+			@RequestParam(defaultValue = "1") int pageId,
+			@RequestParam(defaultValue = "0") long city,
+			@RequestParam(defaultValue = "0") long categoryId) {
+		PagerManager pager = new PagerManager(pageId, 50,
+				ideaService.countIdeaWindow(city, categoryId));
+		List<Idea> list = ideaService.listIdeaWindow(pager.getFirstResult(),
+				pager.getMaxResult(), city, categoryId);
+		List<CmsIdeaView> ideaViews = assembleCmsIdeaView(list);
+		model.addAttribute("ideaViews", ideaViews);
+		model.addAttribute("pager", pager);
+		model.addAttribute("citys", InitData.CITY_MAP.values());
+		model.addAttribute("categoryList",
+				com.juzhai.post.InitData.CATEGORY_MAP.values());
+		model.addAttribute("city", city);
+		model.addAttribute("categoryId", categoryId);
+		return "/cms/idea/list_idea_window";
+	}
 }

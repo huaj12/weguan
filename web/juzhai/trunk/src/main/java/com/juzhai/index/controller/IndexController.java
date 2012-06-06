@@ -159,8 +159,9 @@ public class IndexController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			cityId = loginUser.getCity();
 		}
-		List<Idea> ideaList = ideaService.listIdeaByCityAndCategory(cityId,
-				null, ShowIdeaOrder.HOT_TIME, 0, randomBillboardIdeasPoolCount);
+		List<Idea> ideaList = ideaService.listIdeaByCityAndCategory(true,
+				cityId, null, ShowIdeaOrder.WINDOW_TIME, 0,
+				randomBillboardIdeasPoolCount);
 		List<Idea> topIdeaList = new ArrayList<Idea>(billboardIdeasCount);
 		for (int i = 0; i < billboardIdeasCount; i++) {
 			int size = ideaList.size();
@@ -175,7 +176,7 @@ public class IndexController extends BaseController {
 			model.addAttribute("topIdeaList", topIdeaList);
 		}
 		return pageShowIdeas(request, model, 0,
-				ShowIdeaOrder.HOT_TIME.getType(), 1);
+				ShowIdeaOrder.WINDOW_TIME.getType(), 1);
 	}
 
 	@RequestMapping(value = { "/showideas/{orderType}_{cityId}/{page}",
@@ -198,11 +199,16 @@ public class IndexController extends BaseController {
 			cityId = loginUser.getCity();
 		}
 		ShowIdeaOrder order = ShowIdeaOrder.getShowIdeaOrderByType(orderType);
+		Boolean window = null;
+		if (order.getColumn().equals(ShowIdeaOrder.WINDOW_TIME.getColumn())) {
+			window = true;
+		}
 		PagerManager pager = new PagerManager(page, webShowIdeasMaxRows,
-				ideaService.countIdeaByCityAndCategory(cityId, categoryId));
-		List<Idea> ideaList = ideaService
-				.listIdeaByCityAndCategory(cityId, categoryId, order,
-						pager.getFirstResult(), pager.getMaxResult());
+				ideaService.countIdeaByCityAndCategory(cityId, categoryId,
+						window));
+		List<Idea> ideaList = ideaService.listIdeaByCityAndCategory(window,
+				cityId, categoryId, order, pager.getFirstResult(),
+				pager.getMaxResult());
 		List<IdeaView> ideaViewList = new ArrayList<IdeaView>(ideaList.size());
 		List<Long> excludeIdeaIds = new ArrayList<Long>(ideaList.size());
 		for (Idea idea : ideaList) {
@@ -231,13 +237,14 @@ public class IndexController extends BaseController {
 		for (Category category : categoryList) {
 			int count = category.getId() == categoryId ? pager
 					.getTotalResults() : ideaService
-					.countIdeaByCityAndCategory(cityId, category.getId());
+					.countIdeaByCityAndCategory(cityId, category.getId(),
+							window);
 			categoryViewList.add(new CategoryView(category, count));
 		}
 		model.addAttribute(
 				"totalCount",
 				categoryId == 0 ? pager.getTotalResults() : ideaService
-						.countIdeaByCityAndCategory(cityId, null));
+						.countIdeaByCityAndCategory(cityId, null, window));
 		model.addAttribute("pager", pager);
 		model.addAttribute("orderType", orderType);
 		model.addAttribute("cityId", cityId);

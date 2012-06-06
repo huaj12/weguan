@@ -2,7 +2,8 @@ package com.juzhai.index.bean;
 
 public enum ShowIdeaOrder {
 
-	HOT_TIME("time", "create_time"), POPULARITY("pop", "use_count");
+	HOT_TIME("time", "create_time"), POPULARITY("pop", "use_count"), WINDOW_TIME(
+			"window", "create_window_time");
 
 	private String type;
 

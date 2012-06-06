@@ -172,11 +172,10 @@ function selectwindow(){
 					<option <c:if test="${cat.id==categoryId}"> selected="selected"</c:if> value="${cat.id}">${cat.name}</option>
 				</c:forEach>
 	</select>
-	是否加入橱窗:
 	<select name="window" onchange="selectwindow();">
 				<option <c:if test="${empty window}"> selected="selected"</c:if> value="">不限</option>
-				<option <c:if test="${window==false}"> selected="selected"</c:if> value="false">否</option>
-				<option <c:if test="${window==true}"> selected="selected"</c:if> value="true">是</option>
+				<option <c:if test="${window==false}"> selected="selected"</c:if> value="false">未推荐</option>
+				<option <c:if test="${window==true}"> selected="selected"</c:if> value="true">已推荐</option>
 	</select>
 	</form>
 	<table border="0" cellspacing="4">

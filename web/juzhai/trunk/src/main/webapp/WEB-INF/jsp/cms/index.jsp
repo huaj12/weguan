@@ -201,11 +201,6 @@ a:hover {
 						style="color: black;" href="/cms/list/correction/rawIdea"
 						target="config">好主意纠错</a>
 					</li>
-					<li style="background-color: #A4D3EE;"><a
-						style="color: black;" href="/cms/list/ideaWindow"
-						target="config">好主意橱窗</a>
-					</li>
-					
 				</ul>
 			</li>
 				<li>

@@ -376,7 +376,7 @@ public class IndexController extends BaseController {
 			}
 			userViews.add(view);
 		}
-		newUserWidget(0L, model, queryUsersRightUserRows);
+		newUserWidget(cityId, model, queryUsersRightUserRows);
 		recommendUserWidget(context.getUid(), recommendUserCount, model);
 		model.addAttribute("userViews", userViews);
 		model.addAttribute("pager", pager);

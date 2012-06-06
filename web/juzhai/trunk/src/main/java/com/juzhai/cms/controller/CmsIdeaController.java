@@ -64,14 +64,17 @@ public class CmsIdeaController extends BaseController {
 	public String showIdea(Model model,
 			@RequestParam(defaultValue = "1") int pageId,
 			@RequestParam(defaultValue = "0") long city,
-			@RequestParam(defaultValue = "0") long categoryId,
-			@RequestParam(defaultValue = "false") boolean window) {
+			@RequestParam(defaultValue = "0") long categoryId, Boolean window) {
 		PagerManager pager = new PagerManager(pageId, 20,
 				ideaService.countCmsIdeaByCityAndCategory(window, city,
 						categoryId));
+		ShowIdeaOrder showIdeaOrder = ShowIdeaOrder.HOT_TIME;
+		if (window != null && window) {
+			showIdeaOrder = showIdeaOrder.WINDOW_TIME;
+		}
 		List<Idea> list = ideaService.listCmsIdeaByCityAndCategory(window,
-				city, categoryId, ShowIdeaOrder.HOT_TIME,
-				pager.getFirstResult(), pager.getMaxResult());
+				city, categoryId, showIdeaOrder, pager.getFirstResult(),
+				pager.getMaxResult());
 		List<CmsIdeaView> ideaViews = assembleCmsIdeaView(list);
 		model.addAttribute("ideaViews", ideaViews);
 		model.addAttribute("pager", pager);

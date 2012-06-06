@@ -137,24 +137,21 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public List<Idea> listIdeaByCityAndCategory(Boolean window, Long cityId,
-			Long categoryId, ShowIdeaOrder orderType, int firstResult,
-			int maxResults) {
-		IdeaExample example = createIdeaExample(cityId, categoryId, window);
+	public List<Idea> listIdeaByCityAndCategory(Long cityId, Long categoryId,
+			ShowIdeaOrder orderType, int firstResult, int maxResults) {
+		IdeaExample example = createIdeaExample(cityId, categoryId);
 		example.setOrderByClause(orderType.getColumn() + " desc");
 		example.setLimit(new Limit(firstResult, maxResults));
 		return ideaMapper.selectByExample(example);
 	}
 
 	@Override
-	public int countIdeaByCityAndCategory(Long cityId, Long categoryId,
-			Boolean window) {
-		IdeaExample example = createIdeaExample(cityId, categoryId, window);
+	public int countIdeaByCityAndCategory(Long cityId, Long categoryId) {
+		IdeaExample example = createIdeaExample(cityId, categoryId);
 		return ideaMapper.countByExample(example);
 	}
 
-	private IdeaExample createIdeaExample(Long cityId, Long categoryId,
-			Boolean window) {
+	private IdeaExample createIdeaExample(Long cityId, Long categoryId) {
 		IdeaExample example = new IdeaExample();
 		if (null != cityId && cityId > 0) {
 			IdeaExample.Criteria c1 = example.or().andCityEqualTo(cityId);
@@ -165,16 +162,9 @@ public class IdeaService implements IIdeaService {
 			}
 			c1.andDefunctEqualTo(false);
 			c2.andDefunctEqualTo(false);
-			if (window != null) {
-				c1.andWindowEqualTo(window);
-				c2.andWindowEqualTo(window);
-			}
 		} else {
 			IdeaExample.Criteria c = example.createCriteria()
 					.andDefunctEqualTo(false);
-			if (window != null) {
-				c.andWindowEqualTo(window);
-			}
 			if (null != categoryId && categoryId > 0) {
 				c.andCategoryIdEqualTo(categoryId);
 			}

@@ -159,9 +159,9 @@ public class IndexController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			cityId = loginUser.getCity();
 		}
-		List<Idea> ideaList = ideaService.listIdeaByCityAndCategory(true,
-				cityId, null, ShowIdeaOrder.WINDOW_TIME, 0,
-				randomBillboardIdeasPoolCount);
+
+		List<Idea> ideaList = ideaService.listIdeaWindow(0,
+				randomBillboardIdeasPoolCount, cityId, 0);
 		List<Idea> topIdeaList = new ArrayList<Idea>(billboardIdeasCount);
 		for (int i = 0; i < billboardIdeasCount; i++) {
 			int size = ideaList.size();
@@ -198,17 +198,21 @@ public class IndexController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			cityId = loginUser.getCity();
 		}
+		List<Idea> ideaList = null;
+		PagerManager pager = null;
 		ShowIdeaOrder order = ShowIdeaOrder.getShowIdeaOrderByType(orderType);
-		Boolean window = null;
 		if (order.getColumn().equals(ShowIdeaOrder.WINDOW_TIME.getColumn())) {
-			window = true;
+			pager = new PagerManager(page, webShowIdeasMaxRows,
+					ideaService.countIdeaWindow(cityId, categoryId));
+			ideaList = ideaService.listIdeaWindow(pager.getFirstResult(),
+					pager.getMaxResult(), cityId, categoryId);
+		} else {
+			pager = new PagerManager(page, webShowIdeasMaxRows,
+					ideaService.countIdeaByCityAndCategory(cityId, categoryId));
+			ideaList = ideaService.listIdeaByCityAndCategory(cityId,
+					categoryId, order, pager.getFirstResult(),
+					pager.getMaxResult());
 		}
-		PagerManager pager = new PagerManager(page, webShowIdeasMaxRows,
-				ideaService.countIdeaByCityAndCategory(cityId, categoryId,
-						window));
-		List<Idea> ideaList = ideaService.listIdeaByCityAndCategory(window,
-				cityId, categoryId, order, pager.getFirstResult(),
-				pager.getMaxResult());
 		List<IdeaView> ideaViewList = new ArrayList<IdeaView>(ideaList.size());
 		List<Long> excludeIdeaIds = new ArrayList<Long>(ideaList.size());
 		for (Idea idea : ideaList) {
@@ -236,15 +240,14 @@ public class IndexController extends BaseController {
 				categoryList.size());
 		for (Category category : categoryList) {
 			int count = category.getId() == categoryId ? pager
-					.getTotalResults() : ideaService
-					.countIdeaByCityAndCategory(cityId, category.getId(),
-							window);
+					.getTotalResults() : getCategoryCount(order, cityId,
+					category.getId());
 			categoryViewList.add(new CategoryView(category, count));
 		}
 		model.addAttribute(
 				"totalCount",
-				categoryId == 0 ? pager.getTotalResults() : ideaService
-						.countIdeaByCityAndCategory(cityId, null, window));
+				categoryId == 0 ? pager.getTotalResults() : getCategoryCount(
+						order, cityId, 0));
 		model.addAttribute("pager", pager);
 		model.addAttribute("orderType", orderType);
 		model.addAttribute("cityId", cityId);
@@ -253,6 +256,16 @@ public class IndexController extends BaseController {
 		model.addAttribute("ideaViewList", ideaViewList);
 		model.addAttribute("pageType", "cqw");
 		return "web/index/cqw/show_ideas";
+	}
+
+	private int getCategoryCount(ShowIdeaOrder order, long cityId,
+			long categoryId) {
+		if (order.getColumn().equals(ShowIdeaOrder.WINDOW_TIME.getColumn())) {
+			return ideaService.countIdeaWindow(cityId, categoryId);
+		} else {
+			return ideaService.countIdeaByCityAndCategory(cityId, categoryId);
+
+		}
 	}
 
 	@RequestMapping(value = "/about/{pageType}", method = RequestMethod.GET)

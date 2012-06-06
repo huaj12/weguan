@@ -176,6 +176,10 @@ a:hover {
 						style="color: black;" href="/cms/show/searchHot"
 						target="config">拒宅热词</a>
 					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/postwindow/list"
+						target="config">橱窗内容列表</a>
+					</li>
 				</ul>
 			</li>
 			<li>
@@ -190,10 +194,6 @@ a:hover {
 						target="config">被屏蔽的好主意</a>
 					</li>
 					<li style="background-color: #A4D3EE;"><a
-						style="color: black;" href="/cms/show/postwindow/list"
-						target="config">橱窗内容列表</a>
-					</li>
-					<li style="background-color: #A4D3EE;"><a
 						style="color: black;" href="/cms/list/rawIdea"
 						target="config">审核好主意</a>
 					</li>
@@ -201,6 +201,11 @@ a:hover {
 						style="color: black;" href="/cms/list/correction/rawIdea"
 						target="config">好主意纠错</a>
 					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/list/ideaWindow"
+						target="config">好主意橱窗</a>
+					</li>
+					
 				</ul>
 			</li>
 				<li>
@@ -285,11 +290,15 @@ a:hover {
 				
 			</li>
 				<li>
-				<a href="javascript:showChild('findDialog_');">调查私信</a>
+				<a href="javascript:showChild('findDialog_');">用户行为</a>
 				<ul style="display: none;" id="findDialog_" class="child">
 					<li style="background-color: #A4D3EE;"><a
 						style="color: black;" href="/cms/find/dialog"
 						target="config">调查私信</a>
+					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/find/userLoginLog"
+						target="config">查看登陆记录</a>
 					</li>
 				</ul>
 			</li>

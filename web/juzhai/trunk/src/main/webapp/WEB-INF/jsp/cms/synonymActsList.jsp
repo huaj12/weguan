@@ -68,7 +68,7 @@
 				<td>${view.synonymAct.name }</td>
 				<td>${view.actName}</td>
 				<td><fmt:formatDate value="${view.synonymAct.lastModifyTime}"
-						pattern="yyyy.MM.dd hh:mm" />
+						pattern="yyyy.MM.dd HH:mm" />
 				</td>
 				<td><a onclick="deleteSyn('${view.synonymAct.id}')" href="#">删除</a>
 				</td>

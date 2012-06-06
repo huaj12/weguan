@@ -154,7 +154,7 @@
 				<td><c:out value="${actView.act.name}" /></td>
 				<td>${actView.synonymActSize}个&nbsp;<a href="javascript:;" onclick="javascript:showSynonym('${actView.act.id}');">查看</a></td>
 				<td>${actView.act.popularity}</td>
-				<td><fmt:formatDate value="${actView.act.createTime}" pattern="yyyy.MM.dd hh:mm" /></td>
+				<td><fmt:formatDate value="${actView.act.createTime}" pattern="yyyy.MM.dd HH:mm" /></td>
 				<td>${actView.act.active}</td>
 				<td id="op_${actView.act.id}">
 					<c:choose>

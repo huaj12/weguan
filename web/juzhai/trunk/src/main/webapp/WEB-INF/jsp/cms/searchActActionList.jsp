@@ -65,7 +65,7 @@
 				<td>${list.name }</td>
 				<td>${list.userName }</td>
 				<td><fmt:formatDate value="${list.createTime}"
-						pattern="yyyy.MM.dd hh:mm" /></td>
+						pattern="yyyy.MM.dd HH:mm" /></td>
 				<td><a onclick="deleteSearchAct('${list.id}')" href="/cms/showCreateAct?actName=${list.name}"
 					target="_blank">添加</a></td>
 				<td>输入现存在词<input id="actName_${list.id}"  /><input type="button" onclick="cmsSynonymAct('${list.id}','${list.name }')" value="确定" /></td>

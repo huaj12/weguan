@@ -118,26 +118,16 @@ function operateIdeaWindow(id,window){
 		dataType : "json",
 		success : function(result) {
 			if (result.success!=null&&result.success) {
-				location.reload();
-			} else {
-				alert("操作失败刷新后重试");
-			}
-		},
-		statusCode : {
-			401 : function() {
-				alert("请先登陆");
-			}
-		}
-	});
-}
-function updateIdeaWindow(){
-	jQuery.ajax({
-		url : "/cms/operate/idea/update/window",
-		type : "post",
-		dataType : "json",
-		success : function(result) {
-			if (result.success!=null&&result.success) {
-				alert('刷新成功');
+				
+				if(window==1){
+					$("#window-operate-"+id).removeAttr("onclick").text("移出橱窗");
+				}else{
+					$("#window-operate-"+id).removeAttr("onclick").text("加入橱窗");
+				}
+				$("#window-operate-"+id).bind("click", function() {
+					operateIdeaWindow(id,window==1?0:1);
+					return false;
+				});
 			} else {
 				alert("操作失败刷新后重试");
 			}
@@ -155,12 +145,15 @@ function selectCity(){
 function selectCategoryId(){
 	$("#idea-form").submit();
 }
+function selectwindow(){
+	$("#idea-form").submit();	
+}
 </script>
 </head>
 <body>
 	<c:choose>
 		<c:when test="${!isDefunct}">
-			<h2>已发布的好主意----<a href="/cms/show/idea/add">添加好主意</a><input type="button" onclick="updateIdeaWindow();" value="更新欢迎页内容"/></h2>
+			<h2>已发布的好主意----<a href="/cms/show/idea/add">添加好主意</a></h2>
 		</c:when>
 		<c:otherwise>
 			<h2>已屏蔽的好主意</h2>
@@ -178,6 +171,12 @@ function selectCategoryId(){
 				<c:forEach items="${categoryList}" var="cat">
 					<option <c:if test="${cat.id==categoryId}"> selected="selected"</c:if> value="${cat.id}">${cat.name}</option>
 				</c:forEach>
+	</select>
+	是否加入橱窗:
+	<select name="window" onchange="selectwindow();">
+				<option <c:if test="${empty window}"> selected="selected"</c:if> value="">不限</option>
+				<option <c:if test="${window==false}"> selected="selected"</c:if> value="false">否</option>
+				<option <c:if test="${window==true}"> selected="selected"</c:if> value="true">是</option>
 	</select>
 	</form>
 	<table border="0" cellspacing="4">
@@ -228,8 +227,8 @@ function selectCategoryId(){
 							</c:choose>
 							<br />
 							<c:choose>
-									<c:when test="${view.idea.window}"><a href="javascript:void(0);" onclick="operateIdeaWindow('${view.idea.id}',0)">移出橱窗</a></c:when>
-									<c:otherwise><a href="javascript:void(0);" onclick="operateIdeaWindow('${view.idea.id}',1)">进入橱窗</a></c:otherwise>
+									<c:when test="${view.idea.window}"><a id="window-operate-${view.idea.id}" href="javascript:void(0);" onclick="operateIdeaWindow('${view.idea.id}',0)">移出橱窗</a></c:when>
+									<c:otherwise><a id="window-operate-${view.idea.id}" href="javascript:void(0);" onclick="operateIdeaWindow('${view.idea.id}',1)">加入橱窗</a></c:otherwise>
 							</c:choose>
 							<br />
 							<a href="javascript:void(0);" onclick="defunct(this, '${view.idea.id}')">屏蔽好主意</a><br />
@@ -246,7 +245,7 @@ function selectCategoryId(){
 				<c:forEach var="pageId" items="${pager.showPages}">
 					<c:choose>
 						<c:when test="${pageId!=pager.currentPage}">
-							<a href="/cms/show/<c:if test='${isDefunct}'>defunct</c:if>idea?city=${city}&categoryId=${categoryId}&pageId=${pageId}">${pageId}</a>
+							<a href="/cms/show/<c:if test='${isDefunct}'>defunct</c:if>idea?city=${city}&categoryId=${categoryId}&window=${window}&pageId=${pageId}">${pageId}</a>
 						</c:when>
 						<c:otherwise>
 							<strong>${pageId}</strong>

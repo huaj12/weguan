@@ -139,7 +139,7 @@
 				<c:forEach var="pageId" items="${pager.showPages}">
 					<c:choose>
 						<c:when test="${pageId!=pager.currentPage}">
-							<a href="/cms/show/report?type=${type}&pageId=${pageId}">${pageId}</a>
+							<a href="/cms/report/show?type=${type}&pageId=${pageId}">${pageId}</a>
 						</c:when>
 						<c:otherwise>
 							<strong>${pageId}</strong>

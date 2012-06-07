@@ -415,6 +415,7 @@ public class IdeaController extends BaseController {
 		return pageIdeaInterest(request, model, ideaId, 1);
 	}
 
+	//TODO (review) 和想去的人列表里是不是有很多一样的代码？没想过重构出来？要养成习惯阿！不要每次说了
 	@RequestMapping(value = "/{ideaId}/interest/{page}", method = RequestMethod.GET)
 	public String pageIdeaInterest(HttpServletRequest request, Model model,
 			@PathVariable long ideaId, @PathVariable int page) {

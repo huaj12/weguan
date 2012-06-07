@@ -1,6 +1,7 @@
 package com.juzhai.post.bean;
 
 public enum PurposeType {
+
 	WANT(0), PEOPLE(1), BOY(2), GIRL(3);
 
 	private int type;
@@ -20,5 +21,9 @@ public enum PurposeType {
 			}
 		}
 		return null;
+	}
+
+	public static String getWordMessageKey(int type) {
+		return "purpose.type." + type;
 	}
 }

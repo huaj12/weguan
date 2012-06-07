@@ -2,7 +2,9 @@ package com.juzhai.lab.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,14 +26,17 @@ import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.image.JzImageSizeType;
+import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.image.manager.IImageManager;
 import com.juzhai.core.pager.PagerManager;
+import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.bean.ShowIdeaOrder;
-import com.juzhai.index.controller.view.CategoryView;
 import com.juzhai.lab.controller.view.IdeaMView;
+import com.juzhai.lab.controller.view.PostMView;
+import com.juzhai.lab.controller.view.UserMView;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.controller.form.LoginForm;
 import com.juzhai.passport.dao.IUserPositionDao;
@@ -39,15 +44,20 @@ import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ReportAccountException;
 import com.juzhai.passport.mapper.UserPositionMapper;
 import com.juzhai.passport.model.City;
+import com.juzhai.passport.model.Constellation;
+import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Town;
 import com.juzhai.passport.model.UserPositionExample;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.post.InitData;
+import com.juzhai.post.bean.PurposeType;
 import com.juzhai.post.model.Category;
 import com.juzhai.post.model.Idea;
+import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IIdeaService;
+import com.juzhai.post.service.IPostService;
 
 @Controller
 @RequestMapping("app/ios")
@@ -69,8 +79,12 @@ public class IOSController extends BaseController {
 	private IUserPositionDao userPositionDao;
 	@Autowired
 	private IIdeaService ideaService;
+	@Autowired
+	private IPostService postService;
 	@Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows;
+	@Value("${web.show.users.max.rows}")
+	private int webShowUsersMaxRows;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
@@ -195,16 +209,6 @@ public class IOSController extends BaseController {
 			}
 			ideaViewList.add(ideaMView);
 		}
-		List<Category> categoryList = new ArrayList<Category>(
-				InitData.CATEGORY_MAP.values());
-		List<CategoryView> categoryViewList = new ArrayList<CategoryView>(
-				categoryList.size());
-		for (Category category : categoryList) {
-			int count = category.getId() == categoryId ? pager
-					.getTotalResults() : ideaService
-					.countIdeaByCityAndCategory(cityId, category.getId());
-			categoryViewList.add(new CategoryView(category, count));
-		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("ideaViewList", ideaViewList);
 		result.put("pager", pager);
@@ -212,5 +216,104 @@ public class IOSController extends BaseController {
 		AjaxResult ajaxResult = new AjaxResult();
 		ajaxResult.setResult(result);
 		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/userList", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult userList(HttpServletRequest request, Integer gender,
+			String orderType, int page) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		ProfileCache loginUser = getLoginUserCache(request);
+		long cityId = 0L;
+		if (loginUser != null && loginUser.getCity() != null) {
+			cityId = loginUser.getCity();
+		}
+		PagerManager pager = new PagerManager(page, webShowUsersMaxRows,
+				profileService.countQueryProfile(context.getUid(), gender,
+						cityId, 0L, 0, 0));
+		List<Profile> profileList = profileService.queryProfile(
+				context.getUid(), gender, cityId, 0L, 0, 0,
+				pager.getFirstResult(), pager.getMaxResult());
+
+		List<Long> uidList = new ArrayList<Long>();
+		for (Profile profile : profileList) {
+			uidList.add(profile.getUid());
+		}
+		Map<Long, Post> userLatestPostMap = postService
+				.getMultiUserLatestPosts(uidList);
+
+		List<UserMView> userViewList = new ArrayList<UserMView>(
+				profileList.size());
+		for (Profile profile : profileList) {
+			UserMView userView = new UserMView();
+			userView.setUid(profile.getUid());
+			userView.setNickname(profile.getNickname());
+			userView.setGender(profile.getGender());
+			userView.setBirthYear(profile.getBirthYear());
+			userView.setBirthMonth(profile.getBirthMonth());
+			userView.setBirthDay(profile.getBirthDay());
+			City city = com.juzhai.common.InitData.CITY_MAP.get(profile
+					.getCity());
+			if (null != city) {
+				userView.setCityName(city.getName());
+			}
+			Town town = com.juzhai.common.InitData.TOWN_MAP.get(profile
+					.getTown());
+			if (null != town) {
+				userView.setTownName(town.getName());
+			}
+			userView.setLogo(JzResourceFunction.userLogo(profile.getUid(),
+					profile.getLogoPic(), LogoSizeType.MIDDLE.getType()));
+			Constellation con = com.juzhai.passport.InitData.CONSTELLATION_MAP
+					.get(profile.getConstellationId());
+			if (null != con) {
+				userView.setConstellation(con.getName());
+			}
+			userView.setProfession(profile.getProfession());
+			Post post = userLatestPostMap.get(profile.getUid());
+			if (post == null) {
+				continue;
+			}
+			PostMView postView = new PostMView();
+			userView.setPostView(postView);
+			postView.setPostId(post.getId());
+			postView.setContent(post.getContent());
+			postView.setPic(JzResourceFunction.postPic(post.getId(),
+					post.getIdeaId(), post.getPic(),
+					JzImageSizeType.MIDDLE.getType()));
+			postView.setPlace(post.getPlace());
+			postView.setPurpose(messageSource.getMessage(
+					PurposeType.getWordMessageKey(post.getPurposeType()), null,
+					Locale.SIMPLIFIED_CHINESE));
+			postView.setRespCnt(post.getResponseCnt());
+			if (null != post.getDateTime()) {
+				postView.setDate(DateFormat.SDF.format(post.getDateTime()));
+			}
+			userViewList.add(userView);
+		}
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("userViewList", userViewList);
+		result.put("pager", pager);
+
+		AjaxResult ajaxResult = new AjaxResult();
+		ajaxResult.setResult(result);
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/categoryList")
+	@ResponseBody
+	public AjaxResult loadCategoryList(HttpServletRequest request) {
+		List<Category> categoryList = new ArrayList<Category>(
+				InitData.CATEGORY_MAP.values());
+		List<Map<Long, String>> mapList = new ArrayList<Map<Long, String>>(
+				categoryList.size());
+		for (Category cat : categoryList) {
+			Map<Long, String> categoryMap = new LinkedHashMap<Long, String>(2);
+			categoryMap.put(cat.getId(), cat.getName());
+			mapList.add(categoryMap);
+		}
+		AjaxResult result = new AjaxResult();
+		result.setResult(mapList);
+		return result;
 	}
 }

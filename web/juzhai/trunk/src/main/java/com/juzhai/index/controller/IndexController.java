@@ -106,6 +106,7 @@ public class IndexController extends BaseController {
 	@RequestMapping(value = { "", "/", "/index", "/welcome" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
 		UserContext context = (UserContext) request.getAttribute("context");
+		//TODO (review) 为什么要new一个空list？
 		List<Idea> ideaList = new ArrayList<Idea>();
 		long city = 0L;
 		if (context.hasLogin()) {
@@ -114,21 +115,27 @@ public class IndexController extends BaseController {
 				city = loginUser.getCity();
 			}
 			userPostList(model, loginUser.getUid(), city, indexNewPostMaxRows);
+			//TODO (review) 两个变量名字起的有歧义（indexWindowIdeaMaxRows，indexWindowIdeaRandowMaxRows）
 			ideaList = ideaService.listIdeaWindow(0, indexWindowIdeaMaxRows,
 					city, 0);
 			Collections.shuffle(ideaList);
 			if (ideaList.size() > indexWindowIdeaRandowMaxRows) {
 				ideaList.subList(0, indexWindowIdeaRandowMaxRows);
 			} else {
+				//TODO (review) 这行代码写了干嘛用的？
 				ideaList.subList(0, ideaList.size());
 			}
+			//TODO (review) ideaList放入model干嘛用的？
 			model.addAttribute("ideas", ideaList);
 			showHomeLogo(context, model);
 		} else {
-			List<PostView> listView = new ArrayList<PostView>();
-			List<Post> list = new ArrayList<Post>();
-			list = recommendPostService.listRecommendPost();
+			//TODO(review) 不需要控制数量？
 			ideaList = recommendIdeaService.listRecommendIdea();
+			List<PostView> listView = new ArrayList<PostView>();
+			//TODO (review) 为什么要先new一个list，再赋值？
+			List<Post> list = new ArrayList<Post>();
+			//TODO (review) 这里不需要控制数量？
+			list = recommendPostService.listRecommendPost();
 			for (Post post : list) {
 				ProfileCache cache = profileService.getProfileCacheByUid(post
 						.getCreateUid());
@@ -185,7 +192,8 @@ public class IndexController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			cityId = loginUser.getCity();
 		}
-
+		
+		//TODO (review) 为什么要换成取橱窗内容？
 		List<Idea> ideaList = ideaService.listIdeaWindow(0,
 				randomBillboardIdeasPoolCount, cityId, 0);
 		List<Idea> topIdeaList = new ArrayList<Idea>(billboardIdeasCount);
@@ -201,6 +209,7 @@ public class IndexController extends BaseController {
 			model.addAttribute("topIdea", topIdeaList.remove(0));
 			model.addAttribute("topIdeaList", topIdeaList);
 		}
+		//TODO (review) 推荐列表完全用一个独立的请求来处理。不要和原先的最新最热做在一起，不合适。虽然页面看上去是一系列功能，但是底层处理，今后会有很大的变化。
 		return pageShowIdeas(request, model, 0,
 				ShowIdeaOrder.WINDOW_TIME.getType(), 1);
 	}
@@ -226,6 +235,7 @@ public class IndexController extends BaseController {
 		}
 		List<Idea> ideaList = null;
 		PagerManager pager = null;
+		//TODO (review) 还原！！推荐用独立的方式来处理。"/showrecideas/{categoryId}/{page}"。
 		ShowIdeaOrder order = ShowIdeaOrder.getShowIdeaOrderByType(orderType);
 		if (order.getColumn().equals(ShowIdeaOrder.WINDOW_TIME.getColumn())) {
 			pager = new PagerManager(page, webShowIdeasMaxRows,
@@ -254,8 +264,8 @@ public class IndexController extends BaseController {
 				ideaView.setProfileCache(profileService
 						.getProfileCacheByUid(idea.getCreateUid()));
 			}
-			ideaView.setIdeaUserViews(ideaService.listIdeaAllUsers(
-					idea.getId(), 0, webShowIdeasUserCount));
+			// ideaView.setIdeaUserViews(ideaService.listIdeaAllUsers(
+			// idea.getId(), 0, webShowIdeasUserCount));
 			ideaViewList.add(ideaView);
 			excludeIdeaIds.add(idea.getId());
 		}

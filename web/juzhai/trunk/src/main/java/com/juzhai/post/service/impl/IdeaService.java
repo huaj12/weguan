@@ -84,6 +84,7 @@ public class IdeaService implements IIdeaService {
 	private int ideaPlaceLengthMin;
 	@Value("${idea.place.length.max}")
 	private int ideaPlaceLengthMax;
+	//TODO (review) 删了
 	@Value("${idea.window.max.rows}")
 	private int ideaWindowMaxRows;
 	@Value("${idea.recent.day.before}")
@@ -448,6 +449,7 @@ public class IdeaService implements IIdeaService {
 		return ideaMapper.selectByExample(example);
 	}
 
+	//TODO (review) 私有方法的名字取的不知道什么意思，太宽泛了
 	private IdeaExample getIdeaExample(long city, long categoryId) {
 		IdeaExample example = new IdeaExample();
 		if (city > 0) {
@@ -642,6 +644,7 @@ public class IdeaService implements IIdeaService {
 		return ideaMapper.countByExample(example);
 	}
 
+	//TODO (review) 调用的私有方法和本方法，竟可能离的近
 	@Override
 	public int countIdeaWindow(long city, long categoryId) {
 		IdeaExample example = getIdeaExample(city, categoryId);

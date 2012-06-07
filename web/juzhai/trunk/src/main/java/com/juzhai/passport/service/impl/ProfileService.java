@@ -423,7 +423,8 @@ public class ProfileService implements IProfileService {
 			Long cityId, Long townId, int minYear, int maxYear) {
 		ProfileExample example = new ProfileExample();
 		ProfileExample.Criteria c = example.createCriteria()
-				.andLogoPicIsNotNull().andLogoPicNotEqualTo(StringUtils.EMPTY);
+				.andLogoPicIsNotNull().andLogoPicNotEqualTo(StringUtils.EMPTY)
+				.andLastUpdateTimeIsNotNull();
 		if (excludeUid > 0) {
 			c.andUidNotEqualTo(excludeUid);
 		}

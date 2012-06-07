@@ -8,7 +8,7 @@
 	<div class="content_box w285"><!--content begin-->
 		<div class="t"></div>
 		<div class="m">
-			<div class="right_title"><h2>新加入的小宅</h2><a href="/showusers">更多</a></div>
+			<div class="right_title"><h2>新加入的小宅</h2><a href="/searchusers">更多</a></div>
 			<div class="new_member"><!--new_member begin-->
 				<ul>
 					<c:forEach var="profile" items="${profileList}">

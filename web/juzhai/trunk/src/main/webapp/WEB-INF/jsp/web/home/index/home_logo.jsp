@@ -4,7 +4,7 @@
 <%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
 <%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<div class="content_box w285 h158"><!--content begin-->
+<div class="content_box w285 h158" ><!--content begin-->
 	<div class="t"></div>
 	<div class="m">
 		<c:if test="${empty loginUser.logoPic && (loginUser.logoVerifyState == 3 || loginUser.logoVerifyState == 0)}">

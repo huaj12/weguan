@@ -34,8 +34,18 @@
 														<div class="idea_pic"><a href="${jzr:ideaPic(idea.id, idea.pic,450)}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><img src="${jzr:ideaPic(idea.id, idea.pic,450)}" width="250" /></a></div>
 													</c:if>
 													<div class="idea_infor"><!--idea_infor begin-->
-														<h2><c:out value="${idea.content}" /></h2>
-														
+														<h2><c:out value="${idea.content}" />
+															<c:if test="${not empty idea.link}">
+																<a href="${idea.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>去了解更多》</a>
+															</c:if>
+														</h2>
+														<c:if test="${idea.categoryId > 0}">
+															<p>类型:<a href="/showideas/${idea.categoryId}/time/1"  class="lx">${jzd:categoryName(idea.categoryId)}</a></p>
+														</c:if>
+														<c:if test="${ideaCreateUser != null}">
+															<p>来自: <a href="/home/${ideaCreateUser.uid}" class="user"><c:out value="${ideaCreateUser.nickname}" /></a></p>
+														</c:if>
+														<div class="clear"></div>
 														<c:if test="${idea.startTime != null || idea.endTime != null}">
 															<p>时间:</p><span><c:if test="${idea.startTime != null}"><fmt:formatDate value="${idea.startTime}" pattern="yyyy.MM.dd HH:mm"/>-</c:if><fmt:formatDate value="${idea.endTime}" pattern="yyyy.MM.dd HH:mm"/></span>
 														</c:if>
@@ -45,33 +55,29 @@
 														<c:if test="${not empty idea.charge && idea.charge > 0}">
 															<p>费用:</p><span>${idea.charge}元</span>
 														</c:if>
-														<c:if test="${idea.categoryId > 0}">
-															<p>类型:</p><span><a href="/showideas/${idea.categoryId}/time/1">${jzd:categoryName(idea.categoryId)}</a></span>
-														</c:if>
-														<c:if test="${ideaCreateUser != null}">
-															<p>来自: <a href="/home/${ideaCreateUser.uid}" class="user"><c:out value="${ideaCreateUser.nickname}" /></a></p>
-														</c:if>
 														<div class="clear"></div>
-														<div class="edit_error"><a href="/idea/update/${idea.id}">修改/报错</a></div>
+														<p><c:if test="${idea.interestCnt>0}"><a href="/idea/${idea.id}/interest/#ideaList" class="gyr">${idea.interestCnt}人感兴趣</a></c:if><c:if test="${idea.useCount>0}"><a href="/idea/${idea.id}/#ideaList" class="gyr">${idea.useCount}人找伴同去</a></c:if></p>
 														<div class="clear"></div>
 													</div><!--idea_infor end-->
-													<c:if test="${not empty idea.link}">
-															<div class="link"><a href="${idea.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关内容</a></div>
-														</c:if>
+													
 													<div class="idea_btns"><!--idea_btns begin-->
+														<div class="edit_error"><a href="/idea/update/${idea.id}">修改/报错</a></div>
 														<c:choose>
 															<c:when test="${hasUsed}">
-																<div class="done"><a href="javascript:void(0);">已想去</a></div>
+																<div class="done"><a href="javascript:void(0);">找伴同去</a></div>
 															</c:when>
 															<c:otherwise>
-																<div class="fb_btn idea-btn idea-btn-${idea.id}"><a href="javascript:void(0);" idea-id="${idea.id}">我想去</a></div>															
+																<div class="date_btn idea-btn idea-btn-${idea.id}"><a href="javascript:void(0);" idea-id="${idea.id}">找伴同去</a></div>															
 															</c:otherwise>
 														</c:choose>
-														<c:if test="${not empty isQplus && isQplus}">
-															<div class="share_icon">
-																<a href="javascript:void(0);" onclick="qPlusShare('我想找伴去:${idea.content}<%--<c:if test='${idea.date != null}'> 时间:<fmt:formatDate value='${idea.date}' pattern='yyyy.MM.dd'/></c:if>--%><c:if test='${not empty idea.place}'> 地点:${jzu:truncate(idea.place,40,'...')}</c:if>','','${jzr:ideaPic(idea.id,idea.pic, 200)}','','拒宅网');return false;" title="分享">分享</a>
-															</div>
-														</c:if>
+														<c:choose>
+																	<c:when test="${hasInterest}">
+																		<div class="gxq_btn done"><a href="javascript:void(0);">已感兴趣</a></div>
+																	</c:when>
+																	<c:otherwise>
+																		<div class="gxq_btn idea-interest" idea-id="${idea.id}"><a href="javascript:void(0);">感兴趣</a></div>
+																	</c:otherwise>
+														</c:choose>
 													</div><!--idea_btns end-->
 												</div><!--idea_show end-->
 											</div><!--pub_box_m end-->
@@ -92,6 +98,7 @@
 												<div class="pub_box_b"></div>
 											</div><!--pub_box end-->
 										</c:if>
+										<a name="ideaList">&nbsp;</a>
 										<div class="pub_box"><!--pub_box begin-->
 											<div class="pub_box_t"></div>
 											<div class="pub_box_m"><!--pub_box_m begin-->

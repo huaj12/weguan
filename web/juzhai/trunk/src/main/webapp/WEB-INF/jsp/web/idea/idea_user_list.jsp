@@ -87,8 +87,24 @@
 
 
 
-<div class="wgo_title" idea-id="${idea.id}"><!--wgo_title begin-->
-	<h2>想去的人</h2>
+<div class="wgo_title"  idea-id="${idea.id}"><!--wgo_title begin-->
+		<div class="tab">
+			<span <c:if test="${tabType=='ideaUser' }">class="act"</c:if>><p></p><a href="/idea/${idea.id}">找伴同去的人(${idea.useCount})</a><p></p></span>
+			<span <c:if test="${tabType=='ideaInterest' }">class="act"</c:if>><p></p><a href="/idea/${idea.id}/interest">感兴趣的人(${idea.interestCnt })</a><p></p></span>
+		</div>
+		<c:if test="${tabType=='ideaUser' }">
+	<div id="gender-select" class="select_menu" name="genderType"><!--select_menu begin-->
+		<p><a href="javascript:void(0);"></a></p>
+		<div></div>
+		<div class="select_box"><!--select_box begin-->
+			<span>
+				<a href="javascript:void(0);" value="all" <c:if test="${empty genderType || genderType == 'all'}">class="selected"</c:if>>所有小宅</a>
+				<a href="javascript:void(0);" value="male" <c:if test="${genderType == 'male'}">class="selected"</c:if>>宅男</a>
+				<a href="javascript:void(0);" value="female" <c:if test="${genderType == 'female'}">class="selected"</c:if>>宅女</a>
+			</span>
+			<em></em>
+		</div><!--select_box end-->
+	</div><!--select_menu end-->	
 	<div id="city-select" class="l_select_menu" name="cityId"><!--l_select_menu begin-->
 		<p><a href="javascript:void(0);" hidefocus city-id="${cityId}"><c:choose><c:when test="${cityId == 0}">全国</c:when><c:otherwise>${jzd:cityName(cityId)}</c:otherwise></c:choose></a></p>
 		<div></div>
@@ -117,19 +133,7 @@
 			<div class="l_select_menu_box_b"></div>
 		</div><!--l_select_menu_box end-->
 	</div><!--l_select_menu end-->
-	<div id="gender-select" class="select_menu" name="genderType"><!--select_menu begin-->
-		<p><a href="javascript:void(0);"></a></p>
-		<div></div>
-		<div class="select_box"><!--select_box begin-->
-			<span>
-				<a href="javascript:void(0);" value="all" <c:if test="${empty genderType || genderType == 'all'}">class="selected"</c:if>>所有小宅</a>
-				<a href="javascript:void(0);" value="male" <c:if test="${genderType == 'male'}">class="selected"</c:if>>宅男</a>
-				<a href="javascript:void(0);" value="female" <c:if test="${genderType == 'female'}">class="selected"</c:if>>宅女</a>
-			</span>
-			<em></em>
-		</div><!--select_box end-->
-	</div><!--select_menu end-->
-	<div class="all"><c:choose><c:when test="${cityId > 0}">${jzd:cityName(cityId)}</c:when><c:otherwise>全国</c:otherwise></c:choose>有${pager.totalResults}位<c:choose><c:when test="${genderType == 'male'}">宅男</c:when><c:when test="${genderType == 'female'}">宅女</c:when><c:otherwise>小宅</c:otherwise></c:choose>想去</div>
+	</c:if>
 </div><!--wgo_title end-->
 <c:choose>
 	<c:when test="${not empty ideaUserViewList}">
@@ -153,10 +157,20 @@
 				</c:forEach>
 			</ul>
 			<div class="clear"></div>
-			<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
+			<c:choose>
+				<c:when test="${tabType=='ideaUser'}">
+				<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
 				<c:param name="pager" value="${pager}"/>
 				<c:param name="url" value="/idea/${idea.id}/user/${cityId}_${genderType}" />
-			</c:import>
+				</c:import>
+				</c:when>
+				<c:otherwise>
+				<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
+				<c:param name="pager" value="${pager}"/>
+				<c:param name="url" value="/idea/${idea.id}/interest" />
+				</c:import>
+				</c:otherwise>
+			</c:choose>
 		</div><!--wgo_list end-->
 	</c:when>
 	<c:otherwise>

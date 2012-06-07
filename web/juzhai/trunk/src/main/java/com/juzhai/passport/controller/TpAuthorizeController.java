@@ -119,8 +119,8 @@ public class TpAuthorizeController extends BaseController {
 			return "redirect:/home/guide";
 		}
 		return "redirect:"
-				+ (StringUtils.isEmpty(turnTo) ? "/home" : StringUtil
-						.encodeURI(turnTo, Constants.UTF8));
+				+ (StringUtils.isEmpty(turnTo) ? "/" : StringUtil.encodeURI(
+						turnTo, Constants.UTF8));
 	}
 
 	@RequestMapping(value = "qplus/loginDialog/{tpId}")

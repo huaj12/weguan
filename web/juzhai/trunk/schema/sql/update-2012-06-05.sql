@@ -1,5 +1,6 @@
 ALTER TABLE `juzhai`.`tb_idea` ADD `create_window_time` datetime AFTER start_time;
 ALTER TABLE `juzhai`.`tb_idea` ADD `interest_cnt` int(10) NOT NULL DEFAULT 0 AFTER create_window_time;
+ALTER TABLE `juzhai`.`tb_passport` ADD `use_level` int(4) NOT NULL DEFAULT 0 AFTER shield_time;
 -- -----------------------------------------------------
 
 -- Table `juzhai`.`tb_idea_interest`

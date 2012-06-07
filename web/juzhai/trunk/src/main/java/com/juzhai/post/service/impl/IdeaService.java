@@ -36,10 +36,13 @@ import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.dao.IIdeaDao;
 import com.juzhai.post.exception.InputIdeaException;
 import com.juzhai.post.exception.InputPostException;
+import com.juzhai.post.mapper.IdeaInterestMapper;
 import com.juzhai.post.mapper.IdeaMapper;
 import com.juzhai.post.mapper.PostMapper;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.IdeaExample;
+import com.juzhai.post.model.IdeaInterest;
+import com.juzhai.post.model.IdeaInterestExample;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostExample;
 import com.juzhai.post.service.IIdeaImageService;
@@ -71,6 +74,8 @@ public class IdeaService implements IIdeaService {
 	private IDialogService dialogService;
 	@Autowired
 	private IdeaDetailService ideaDetailService;
+	@Autowired
+	private IdeaInterestMapper ideaInterestMapper;
 	@Value("${idea.content.length.min}")
 	private int ideaContentLengthMin;
 	@Value("${idea.content.length.max}")
@@ -445,13 +450,25 @@ public class IdeaService implements IIdeaService {
 
 	private IdeaExample getIdeaExample(long city, long categoryId) {
 		IdeaExample example = new IdeaExample();
-		IdeaExample.Criteria c = example.createCriteria();
-		c.andCityEqualTo(city);
-		if (categoryId > 0) {
-			c.andCategoryIdEqualTo(categoryId);
+		if (city > 0) {
+			IdeaExample.Criteria c1 = example.or().andCityEqualTo(city);
+			IdeaExample.Criteria c2 = example.or().andCityEqualTo(0L);
+			if (categoryId > 0) {
+				c1.andCategoryIdEqualTo(categoryId);
+				c2.andCategoryIdEqualTo(categoryId);
+			}
+			c1.andDefunctEqualTo(false);
+			c2.andDefunctEqualTo(false);
+			c1.andWindowEqualTo(true);
+			c2.andWindowEqualTo(true);
+		} else {
+			IdeaExample.Criteria c = example.createCriteria()
+					.andDefunctEqualTo(false).andWindowEqualTo(true);
+			if (categoryId > 0) {
+				c.andCategoryIdEqualTo(categoryId);
+			}
 		}
-		c.andDefunctEqualTo(false);
-		c.andWindowEqualTo(true);
+
 		return example;
 	}
 
@@ -630,4 +647,57 @@ public class IdeaService implements IIdeaService {
 		IdeaExample example = getIdeaExample(city, categoryId);
 		return ideaMapper.countByExample(example);
 	}
+
+	@Override
+	public void interestIdea(long uid, long ideaId) throws InputIdeaException {
+		Idea idea = ideaMapper.selectByPrimaryKey(ideaId);
+		if (idea == null || idea.getDefunct()) {
+			throw new InputIdeaException(InputIdeaException.ILLEGAL_OPERATION);
+		}
+		IdeaInterestExample example = new IdeaInterestExample();
+		example.createCriteria().andUidEqualTo(uid).andIdeaIdEqualTo(ideaId);
+		if (ideaInterestMapper.countByExample(example) > 0) {
+			throw new InputIdeaException(
+					InputIdeaException.IDEA_INTEREST_DUPLICATE);
+		}
+		ideaDao.incrOrDecrInterestCnt(ideaId, 1);
+		IdeaInterest ideaInterest = new IdeaInterest();
+		ideaInterest.setUid(uid);
+		ideaInterest.setIdeaId(ideaId);
+		ideaInterest.setCreateTime(new Date());
+		ideaInterest.setLastModifyTime(ideaInterest.getCreateTime());
+		ideaInterestMapper.insertSelective(ideaInterest);
+
+		// interest列表缓存
+		redisTemplate.opsForSet().add(
+				RedisKeyGenerator.genInterestIdeasKey(uid), ideaId);
+	}
+
+	@Override
+	public List<IdeaUserView> listIdeaInterest(long ideaId, int firstResult,
+			int maxResults) {
+		IdeaInterestExample example = new IdeaInterestExample();
+		example.createCriteria().andIdeaIdEqualTo(ideaId);
+		example.setOrderByClause("create_time desc ");
+		example.setLimit(new Limit(firstResult, maxResults));
+		List<IdeaInterest> list = ideaInterestMapper.selectByExample(example);
+		List<IdeaUserView> ideaUserViewList = new ArrayList<IdeaUserView>(
+				list.size());
+		for (IdeaInterest ideaInterest : list) {
+			IdeaUserView view = new IdeaUserView();
+			view.setProfileCache(profileService
+					.getProfileCacheByUid(ideaInterest.getUid()));
+			view.setCreateTime(ideaInterest.getCreateTime());
+			ideaUserViewList.add(view);
+		}
+		return ideaUserViewList;
+
+	}
+
+	@Override
+	public boolean isInterestIdea(long uid, long ideaId) {
+		return redisTemplate.opsForSet().isMember(
+				RedisKeyGenerator.genInterestIdeasKey(uid), ideaId);
+	}
+
 }

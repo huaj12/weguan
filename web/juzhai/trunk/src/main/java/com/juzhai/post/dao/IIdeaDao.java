@@ -31,4 +31,12 @@ public interface IIdeaDao {
 	 */
 	Map<Long, Integer> getRecentPopIdeaId(long categoryId, Date startTime,
 			Date endTime);
+
+	/**
+	 * 增加或减少感兴趣数
+	 * 
+	 * @param postId
+	 * @param p
+	 */
+	void incrOrDecrInterestCnt(long ideaId, int p);
 }

@@ -53,4 +53,13 @@ public class IdeaDao implements IIdeaDao {
 		}
 		return resultMap;
 	}
+
+	@Override
+	public void incrOrDecrInterestCnt(long ideaId, int p) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", ideaId);
+		params.put("p", p);
+		sqlSession.update("Idea_Mapper.incrInterestCount", params);
+
+	}
 }

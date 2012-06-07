@@ -43,6 +43,7 @@ import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.post.controller.view.IdeaUserView;
+import com.juzhai.post.exception.InputIdeaException;
 import com.juzhai.post.exception.InputRawIdeaException;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.IdeaDetail;
@@ -84,6 +85,8 @@ public class IdeaController extends BaseController {
 	private int ideaWidgetIdeaUserCount;
 	@Value("${idea.detail.recent.ideas.count}")
 	private int ideaDetailRecentIdeasCount;
+	@Value("${idea.interest.max.rows}")
+	private int ideaInterestMaxRows;
 
 	@RequestMapping(value = "/{ideaId}", method = RequestMethod.GET)
 	public String detail(HttpServletRequest request, Model model,
@@ -135,6 +138,8 @@ public class IdeaController extends BaseController {
 		if (context.hasLogin()) {
 			boolean hasUsed = ideaService.isUseIdea(context.getUid(), ideaId);
 			model.addAttribute("hasUsed", hasUsed);
+			model.addAttribute("hasInterest",
+					ideaService.isInterestIdea(context.getUid(), ideaId));
 		}
 
 		Integer gender = null;
@@ -159,6 +164,7 @@ public class IdeaController extends BaseController {
 		model.addAttribute("pageType", "cqw");
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("genderType", genderType);
+		model.addAttribute("tabType", "ideaUser");
 		loadRecentIdeas(context.getUid(), ideaDetailRecentIdeasCount,
 				Collections.singletonList(ideaId), model);
 		ideaAdWidget(cityId, model, ideaDetailAdCount);
@@ -387,6 +393,78 @@ public class IdeaController extends BaseController {
 			ajaxResult.setSuccess(false);
 		}
 		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/interest", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult responsePost(HttpServletRequest request, Model model,
+			long ideaId) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult result = new AjaxResult();
+		try {
+			ideaService.interestIdea(context.getUid(), ideaId);
+		} catch (InputIdeaException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/{ideaId}/interest", method = RequestMethod.GET)
+	public String interest(HttpServletRequest request, Model model,
+			@PathVariable long ideaId) {
+		return pageIdeaInterest(request, model, ideaId, 1);
+	}
+
+	@RequestMapping(value = "/{ideaId}/interest/{page}", method = RequestMethod.GET)
+	public String pageIdeaInterest(HttpServletRequest request, Model model,
+			@PathVariable long ideaId, @PathVariable int page) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		long city = 0l;
+		if (context.hasLogin()) {
+			ProfileCache loginUser = getLoginUserCache(request);
+			if (loginUser != null && loginUser.getCity() != null) {
+				city = loginUser.getCity();
+			}
+		}
+		Idea idea = ideaService.getIdeaById(ideaId);
+		if (null == idea) {
+			return error_404;
+		}
+		if (idea.getCreateUid() > 0) {
+			model.addAttribute("ideaCreateUser",
+					profileService.getProfileCacheByUid(idea.getCreateUid()));
+		}
+		model.addAttribute("idea", idea);
+		IdeaDetail ideaDetail = ideaDetailService.getIdeaDetail(ideaId);
+		if (null != ideaDetail) {
+			model.addAttribute("ideaDetail", ideaDetail);
+		}
+		if (context.hasLogin()) {
+			boolean hasUsed = ideaService.isUseIdea(context.getUid(), ideaId);
+			model.addAttribute("hasUsed", hasUsed);
+			model.addAttribute("hasInterest",
+					ideaService.isInterestIdea(context.getUid(), ideaId));
+		}
+
+		PagerManager pager = new PagerManager(page, ideaInterestMaxRows,
+				idea.getInterestCnt());
+		List<IdeaUserView> ideaUserViewList = ideaService.listIdeaInterest(
+				ideaId, pager.getFirstResult(), pager.getMaxResult());
+		for (IdeaUserView view : ideaUserViewList) {
+			if (context.hasLogin()) {
+				view.setHasInterest(interestUserService.isInterest(
+						context.getUid(), view.getProfileCache().getUid()));
+			}
+		}
+
+		model.addAttribute("pager", pager);
+		model.addAttribute("ideaUserViewList", ideaUserViewList);
+		model.addAttribute("pageType", "cqw");
+		model.addAttribute("tabType", "ideaInterest");
+		loadRecentIdeas(context.getUid(), ideaDetailRecentIdeasCount,
+				Collections.singletonList(ideaId), model);
+		ideaAdWidget(city, model, ideaDetailAdCount);
+		return "web/idea/detail";
 	}
 
 }

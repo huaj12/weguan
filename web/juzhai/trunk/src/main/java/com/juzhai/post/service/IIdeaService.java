@@ -266,4 +266,31 @@ public interface IIdeaService {
 	 * @return
 	 */
 	int countIdeaWindow(long city, long categoryId);
+
+	/**
+	 * 好主意感兴趣
+	 * 
+	 * @param uid
+	 * @param ideaId
+	 */
+	void interestIdea(long uid, long ideaId) throws InputIdeaException;
+
+	/**
+	 * 感兴趣人列表
+	 * 
+	 * @param ideaId
+	 * @return
+	 */
+	List<IdeaUserView> listIdeaInterest(long ideaId, int firstResult,
+			int maxResults);
+
+	/**
+	 * 是否感兴趣过了
+	 * 
+	 * @param uid
+	 * @param ideaId
+	 * @return
+	 */
+	boolean isInterestIdea(long uid, long ideaId);
+
 }

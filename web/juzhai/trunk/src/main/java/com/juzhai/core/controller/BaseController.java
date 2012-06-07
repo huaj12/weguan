@@ -34,8 +34,10 @@ import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Ad;
 import com.juzhai.post.model.Idea;
+import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IAdService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
@@ -291,4 +293,21 @@ public class BaseController {
 		model.addAttribute("hots",
 				searchHotService.getSearchHotByCity(city, count));
 	}
+
+	// 正在找伴的小宅
+	protected void userPostList(Model model, long uid, long city, int count) {
+		List<PostView> listView = new ArrayList<PostView>();
+		List<Post> list = postService.listNewestPost(uid, city, null, null, 0,
+				count);
+		for (Post post : list) {
+			ProfileCache cache = profileService.getProfileCacheByUid(post
+					.getCreateUid());
+			PostView view = new PostView();
+			view.setPost(post);
+			view.setProfileCache(cache);
+			listView.add(view);
+		}
+		model.addAttribute("postView", listView);
+	}
+
 }

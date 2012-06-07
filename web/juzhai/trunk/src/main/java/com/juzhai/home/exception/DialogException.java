@@ -20,6 +20,8 @@ public class DialogException extends JuzhaiException {
 	 */
 	public static final String DIALOG_BLACKLIST_USER = "90003";
 
+	public static final String DIALOG_USE_LOW_LEVEL = "90004";
+
 	public DialogException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

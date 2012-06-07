@@ -19,6 +19,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.core.bean.FunctionLevel;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
@@ -36,6 +37,7 @@ import com.juzhai.home.service.IBlacklistService;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
+import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
@@ -61,6 +63,8 @@ public class DialogService implements IDialogService {
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
+	private IPassportService passportService;
+	@Autowired
 	private IBlacklistService blacklistService;
 	@Value("${dialog.content.length.max}")
 	private int dialogContentLengthMax;
@@ -76,6 +80,9 @@ public class DialogService implements IDialogService {
 	@Override
 	public long sendSMS(long uid, long targetUid, String content)
 			throws DialogException {
+		if (!passportService.isUse(FunctionLevel.SENDSMS, uid)) {
+			throw new DialogException(DialogException.DIALOG_USE_LOW_LEVEL);
+		}
 		if (blacklistService.isShield(targetUid, uid)) {
 			throw new DialogException(DialogException.DIALOG_BLACKLIST_USER);
 		}

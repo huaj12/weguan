@@ -1,9 +1,13 @@
 package com.juzhai.passport.service.impl;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -38,6 +42,7 @@ import com.juzhai.search.service.IProfileSearchService;
 
 @Service
 public class ReportService implements IReportService {
+	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private ReportMapper reportMapper;
 	@Autowired
@@ -80,6 +85,8 @@ public class ReportService implements IReportService {
 		report.setContentUrl(form.getContentUrl());
 		report.setContentType(form.getContentType());
 		reportMapper.insertSelective(report);
+		// 自动屏蔽
+		autoReport(form.getReportUid());
 	}
 
 	private void validateReport(ReportForm reportForm, long createUid)
@@ -137,11 +144,13 @@ public class ReportService implements IReportService {
 					InputReportException.ILLEGAL_OPERATION);
 		}
 		long time = lockUserLevel.getLockTime();
-		Report report = new Report();
-		report.setId(id);
-		report.setHandle(ReportHandleEnum.HANDLED.getType());
-		report.setLastModifyTime(new Date());
-		reportMapper.updateByPrimaryKeySelective(report);
+		if (id > 0) {
+			Report report = new Report();
+			report.setId(id);
+			report.setHandle(ReportHandleEnum.HANDLED.getType());
+			report.setLastModifyTime(new Date());
+			reportMapper.updateByPrimaryKeySelective(report);
+		}
 		passportService.lockUser(uid, new Date(System.currentTimeMillis()
 				+ time));
 		// 用户永久封号
@@ -220,4 +229,39 @@ public class ReportService implements IReportService {
 		return 0l;
 	}
 
+	/**
+	 * 如果被举报者被N个人举报则自动屏蔽
+	 * 
+	 * @param reportUid
+	 *            被举报者uid
+	 * @throws InputReportException
+	 */
+	private void autoReport(long reportUid) {
+		if (reportUid <= 0) {
+			return;
+		}
+		ReportExample example = new ReportExample();
+		example.createCriteria().andReportUidEqualTo(reportUid);
+		List<Report> list = reportMapper.selectByExample(example);
+		Set<Long> uids = new HashSet<Long>();
+		for (Report report : list) {
+			uids.add(report.getCreateUid());
+		}
+		try {
+
+			for (int i = LockUserLevel.values().length - 1; i >= 0; i--) {
+				LockUserLevel lockUserLevel = LockUserLevel.values()[i];
+				if (uids.size() > lockUserLevel.getReportNumber()) {
+					shieldUser(0, reportUid, lockUserLevel);
+					Report report = new Report();
+					report.setHandle(ReportHandleEnum.HANDLED.getType());
+					report.setLastModifyTime(new Date());
+					reportMapper.updateByExampleSelective(report, example);
+					break;
+				}
+			}
+		} catch (Exception e) {
+			log.error("autoReport is error");
+		}
+	}
 }

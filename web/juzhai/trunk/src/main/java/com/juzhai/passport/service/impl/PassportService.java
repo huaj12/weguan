@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.core.bean.FunctionLevel;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.model.Passport;
@@ -39,6 +40,10 @@ public class PassportService implements IPassportService {
 	@Override
 	public void lockUser(long uid, Date time) {
 		Passport passport = getPassportByUid(uid);
+		// 如果是管理员则不操作
+		if (passport == null || passport.getAdmin()) {
+			return;
+		}
 		if (time != null) {
 			if (time.getTime() < System.currentTimeMillis()) {
 				return;
@@ -94,6 +99,16 @@ public class PassportService implements IPassportService {
 			return false;
 		}
 
+	}
+
+	@Override
+	public boolean isUse(FunctionLevel level, long uid) {
+		Passport passport = passportMapper.selectByPrimaryKey(uid);
+		if (passport.getUseLevel() >= level.getLevel()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

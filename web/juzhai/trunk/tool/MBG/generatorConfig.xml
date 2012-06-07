@@ -5,7 +5,7 @@
 
 <generatorConfiguration>
   	<classPathEntry location="tool/MBG/mysql-connector-java-5.1.12.jar" />
-	  <!--
+	 
 	<context id="passport" targetRuntime="MyBatis3">
 	  	
 	  	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
@@ -34,6 +34,13 @@
 	      <property name="enableSubPackages" value="false" />
 	    </javaClientGenerator>
 	    
+	     <table tableName="tb_passport" domainObjectName="Passport" >
+	      <property name="useActualColumnNames" value="false"/>
+	      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
+	      <columnOverride column="email_active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+	      <columnOverride column="admin" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+	    </table>
+	    <!-- 
 	     <table tableName="tb_user_position" domainObjectName="UserPosition" >
 	      <property name="useActualColumnNames" value="false"/>
 	    </table>
@@ -60,13 +67,6 @@
 	      <columnOverride column="has_modify_gender" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 	      <columnOverride column="birth_secret" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 	    </table>
-	     <table tableName="tb_passport" domainObjectName="Passport" >
-	      <property name="useActualColumnNames" value="false"/>
-	      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
-	      <columnOverride column="email_active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-	      <columnOverride column="admin" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-	    </table>
-	    
 	     <table tableName="tb_report" domainObjectName="Report" >
 	      <property name="useActualColumnNames" value="false"/>
 	    </table>
@@ -123,9 +123,9 @@
 	      <property name="useActualColumnNames" value="false"/>
 	      <columnOverride column="complete" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 		</table> 
-	 
+	  	 -->
 	</context>
- 	 -->
+
   
  	<!-- <context id="act" targetRuntime="MyBatis3">
   
@@ -379,7 +379,7 @@
     </table>
     
   </context> -->
-    
+    <!-- 
   <context id="post" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
@@ -407,11 +407,10 @@
     <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.post.mapper"  targetProject="src/main/java">
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
-     <!--
      <table tableName="tb_raw_idea" domainObjectName="RawIdea">
       <property name="useActualColumnNames" value="false"/>
     </table>
-	   -->
+	
  
     <table tableName="tb_idea" domainObjectName="Idea">
       <property name="useActualColumnNames" value="false"/>
@@ -424,7 +423,7 @@
     <table tableName="tb_idea_interest" domainObjectName="IdeaInterest">
       <property name="useActualColumnNames" value="false"/>
     </table>
-   <!-- 
+    
        <table tableName="tb_category" domainObjectName="Category" >
       <property name="useActualColumnNames" value="false"/>
     </table>
@@ -455,9 +454,8 @@
     <table tableName="tb_post_response" domainObjectName="PostResponse">
       <property name="useActualColumnNames" value="false"/>
     </table>
-       -->
   </context>
-
+ 	-->
   <!-- <context id="preference" targetRuntime="MyBatis3">
   	
   	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />

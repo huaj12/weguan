@@ -14,6 +14,8 @@ public class IdeaView {
 
 	private boolean hasUsed;
 
+	private boolean hasInterest;
+
 	private List<IdeaUserView> ideaUserViews;
 
 	public List<IdeaUserView> getIdeaUserViews() {
@@ -46,6 +48,14 @@ public class IdeaView {
 
 	public void setProfileCache(ProfileCache profileCache) {
 		this.profileCache = profileCache;
+	}
+
+	public boolean isHasInterest() {
+		return hasInterest;
+	}
+
+	public void setHasInterest(boolean hasInterest) {
+		this.hasInterest = hasInterest;
 	}
 
 }

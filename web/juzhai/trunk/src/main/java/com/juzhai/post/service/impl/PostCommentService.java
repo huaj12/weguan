@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.core.bean.FunctionLevel;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.util.StringUtil;
@@ -71,6 +72,10 @@ public class PostCommentService implements IPostCommentService {
 	@Override
 	public PostComment comment(long uid, PostCommentForm form)
 			throws InputPostCommentException {
+		if (!passportService.isUse(FunctionLevel.COMMENT, uid)) {
+			throw new InputPostCommentException(
+					InputPostCommentException.COMMENT_USE_LOW_LEVEL);
+		}
 
 		if (form.getPostId() <= 0) {
 			throw new InputPostCommentException(

@@ -31,4 +31,9 @@
 		limit 1				
 	</select>
 	
+	<update id="incrInterestCount" parameterType="map">
+	    update tb_idea set interest_cnt = interest_cnt + #{p} where id = #{id}
+	</update>
+	
+	
 </mapper>

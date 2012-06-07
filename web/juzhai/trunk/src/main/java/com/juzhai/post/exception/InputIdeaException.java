@@ -18,6 +18,8 @@ public class InputIdeaException extends JuzhaiException {
 
 	public static final String IDEA_CATEGORY_IS_NULL = "110006";
 
+	public static final String IDEA_INTEREST_DUPLICATE = "110007";
+
 	public InputIdeaException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

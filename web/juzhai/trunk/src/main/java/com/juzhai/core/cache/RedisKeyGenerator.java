@@ -301,4 +301,14 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genRecentTopIdeasKey() {
 		return "recentTopIdeas";
 	}
+
+	/**
+	 * 感兴趣列表
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genInterestIdeasKey(long uid) {
+		return genKey(uid, "interestIdeas");
+	}
 }

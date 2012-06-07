@@ -69,6 +69,8 @@ public class SearchController extends BaseController {
 	private int searchPostHotRows;
 	@Value("${recommend.user.count}")
 	private int recommendUserCount;
+	@Value("${index.new.post.max.rows}")
+	private int indexNewPostMaxRows;
 
 	// @RequestMapping(value = "/queryAct", method = RequestMethod.GET)
 	// public String searchAct(Model model, String name, HttpServletRequest
@@ -203,7 +205,6 @@ public class SearchController extends BaseController {
 		ProfileCache loginUser = getLoginUserCache(request);
 		long city = 0L;
 		long uid = 0;
-		;
 		if (loginUser != null && loginUser.getCity() != null) {
 			city = loginUser.getCity();
 			uid = loginUser.getUid();
@@ -262,6 +263,7 @@ public class SearchController extends BaseController {
 		}
 		newUserWidget(city, model, queryUsersRightUserRows);
 		recommendUserWidget(context.getUid(), recommendUserCount, model);
+		userPostList(model, context.getUid(), city, indexNewPostMaxRows);
 		getHots(model, city, searchUserHotRows);
 		model.addAttribute("userViews", userViews);
 		model.addAttribute("pager", pager);

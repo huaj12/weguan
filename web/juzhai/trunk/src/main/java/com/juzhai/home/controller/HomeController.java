@@ -61,6 +61,7 @@ public class HomeController extends BaseController {
 		try {
 			context = checkLoginForWeb(request);
 		} catch (NeedLoginException e) {
+			//TODO (review) 页面的头部还是通过判断是否登录，来链向不同地址（如果改了就忽略，我为了提醒一下而已）
 			return "redirect:/searchusers";
 		}
 		List<String> genders = userPreferenceService.getUserAnswer(
@@ -123,10 +124,12 @@ public class HomeController extends BaseController {
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("townId", townId);
 		model.addAttribute("genderType", genderType);
+		//TODO (review) 页面导航高亮判断是否要变了？
 		model.addAttribute("pageType", "home");
 		loadCategoryList(model);
 		loadFaces(model);
 		getHots(model, cityId, searchUserHotRows);
+		//TODO (review) 下面还有两个列表是不是也需要加呢?
 		newUserWidget(cityId, model, webHomeRightUserRows);
 		recommendUserWidget(context.getUid(), recommendUserCount, model);
 		return "web/home/index/home";
@@ -206,6 +209,7 @@ public class HomeController extends BaseController {
 		return "web/home/index/home";
 	}
 
+	//TODO (review) 上面还有两处调用此方法，是不是漏改了？
 	private void showHomeRight(long cityId, HttpServletRequest request,
 			UserContext context, Model model) {
 		if (cityId == 0) {
@@ -217,6 +221,7 @@ public class HomeController extends BaseController {
 		showHomeLogo(context, model);
 		// ideaWidget(context, cityId, model, webHomeRightIdeaRows);
 		newUserWidget(cityId, model, webHomeRightUserRows);
+		//TODO (review) 确信来访者的widget不要了？
 		List<VisitorView> visitorViewList = visitUserService.listVisitUsers(
 				context.getUid(), 0, visitorWidgetUserCount);
 		model.addAttribute("visitorViewList", visitorViewList);

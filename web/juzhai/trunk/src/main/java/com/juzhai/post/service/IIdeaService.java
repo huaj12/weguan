@@ -214,6 +214,7 @@ public interface IIdeaService {
 	 * 
 	 * @return
 	 */
+	//TODO (review) 通常方法参数表示获取数量的都放在最后，重要的往前放
 	List<Idea> listIdeaWindow(int firstResult, int maxResults, long city,
 			long categoryId);
 

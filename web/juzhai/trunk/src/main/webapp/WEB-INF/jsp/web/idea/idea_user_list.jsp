@@ -159,18 +159,16 @@
 			<div class="clear"></div>
 			<c:choose>
 				<c:when test="${tabType=='ideaUser'}">
-				<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
-				<c:param name="pager" value="${pager}"/>
-				<c:param name="url" value="/idea/${idea.id}/user/${cityId}_${genderType}" />
-				</c:import>
+					<c:set var="url" value="/idea/${idea.id}/user/${cityId}_${genderType}"></c:set>
 				</c:when>
 				<c:otherwise>
-				<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
-				<c:param name="pager" value="${pager}"/>
-				<c:param name="url" value="/idea/${idea.id}/interest" />
-				</c:import>
+					<c:set var="url" value="/idea/${idea.id}/interest" />
 				</c:otherwise>
 			</c:choose>
+			<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
+				<c:param name="pager" value="${pager}"/>
+				<c:param name="url" value="${url}" />
+			</c:import>
 		</div><!--wgo_list end-->
 	</c:when>
 	<c:otherwise>

@@ -289,12 +289,14 @@ public class BaseController {
 	}
 
 	// 获取热词
+	//TODO (review) hots？热XX？
 	protected void getHots(Model model, long city, int count) {
 		model.addAttribute("hots",
 				searchHotService.getSearchHotByCity(city, count));
 	}
 
 	// 正在找伴的小宅
+	//TODO (review) 名字取的好点，类似于“ideaAdWidget”
 	protected void userPostList(Model model, long uid, long city, int count) {
 		List<PostView> listView = new ArrayList<PostView>();
 		List<Post> list = postService.listNewestPost(uid, city, null, null, 0,

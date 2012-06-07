@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.juzhai.core.web.session.UserContext;
@@ -19,8 +18,9 @@ public class IdeaViewHelper {
 	private IIdeaService ideaService;
 	@Autowired
 	private IProfileService profileService;
-	@Value("${web.show.ideas.user.count}")
-	private int webShowIdeasUserCount;
+
+	// @Value("${web.show.ideas.user.count}")
+	// private int webShowIdeasUserCount;
 
 	public List<IdeaView> assembleIdeaView(UserContext context,
 			List<Idea> ideaList) {
@@ -38,9 +38,8 @@ public class IdeaViewHelper {
 				ideaView.setProfileCache(profileService
 						.getProfileCacheByUid(idea.getCreateUid()));
 			}
-			ideaView.setIdeaUserViews(ideaService.listIdeaAllUsers(
-					idea.getId(), 0, webShowIdeasUserCount));
-
+			// ideaView.setIdeaUserViews(ideaService.listIdeaAllUsers(
+			// idea.getId(), 0, webShowIdeasUserCount));
 			ideaViewList.add(ideaView);
 		}
 		return ideaViewList;

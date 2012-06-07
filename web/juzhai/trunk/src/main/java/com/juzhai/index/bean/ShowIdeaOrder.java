@@ -2,7 +2,9 @@ package com.juzhai.index.bean;
 
 public enum ShowIdeaOrder {
 
-	HOT_TIME("time", "create_time"), POPULARITY("pop", "use_count"), WINDOW_TIME(
+	HOT_TIME("time", "create_time"), POPULARITY("pop", "use_count"), 
+	//TODO (review) 移除WINDOW_TIME 这个枚举的设计不是用来做这个用途的。是基于条件完全一样的情况下，不同的排序。推荐是另外一个纬度的内容获取。
+	WINDOW_TIME(
 			"window", "create_window_time");
 
 	private String type;

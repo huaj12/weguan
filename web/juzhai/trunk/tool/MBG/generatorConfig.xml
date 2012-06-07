@@ -411,7 +411,7 @@
      <table tableName="tb_raw_idea" domainObjectName="RawIdea">
       <property name="useActualColumnNames" value="false"/>
     </table>
-	
+	   -->
  
     <table tableName="tb_idea" domainObjectName="Idea">
       <property name="useActualColumnNames" value="false"/>
@@ -420,11 +420,15 @@
       <columnOverride column="window" javaType="java.lang.Boolean" jdbcType="TINYINT" />
       <columnOverride column="defunct" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
-    -->
+    
+    <table tableName="tb_idea_interest" domainObjectName="IdeaInterest">
+      <property name="useActualColumnNames" value="false"/>
+    </table>
+   <!-- 
        <table tableName="tb_category" domainObjectName="Category" >
       <property name="useActualColumnNames" value="false"/>
     </table>
-    <!-- 
+  
      <table tableName="tb_idea_detail" domainObjectName="IdeaDetail" >
       <property name="useActualColumnNames" value="false"/>
     </table>

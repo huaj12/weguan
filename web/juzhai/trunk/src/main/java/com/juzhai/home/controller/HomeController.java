@@ -49,11 +49,20 @@ public class HomeController extends BaseController {
 	private int webHomeRightUserRows;
 	@Value("${visitor.widget.user.count}")
 	private int visitorWidgetUserCount;
+	@Value("${search.user.hot.rows}")
+	private int searchUserHotRows;
+	@Value("${recommend.user.count}")
+	private int recommendUserCount;
 
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)
 			throws NeedLoginException {
-		UserContext context = checkLoginForWeb(request);
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return "redirect:/searchusers";
+		}
 		List<String> genders = userPreferenceService.getUserAnswer(
 				context.getUid(), SiftTypePreference.GENDER.getPreferenceId());
 		String genderType = "all";
@@ -85,7 +94,6 @@ public class HomeController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			cityId = loginUser.getCity();
 		}
-		showHomeRight(cityId, request, context, model);
 		Integer gender = getGender(genderType);
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
 				postService.countNewestPost(context.getUid(), cityId, townId,
@@ -118,6 +126,9 @@ public class HomeController extends BaseController {
 		model.addAttribute("pageType", "home");
 		loadCategoryList(model);
 		loadFaces(model);
+		getHots(model, cityId, searchUserHotRows);
+		newUserWidget(cityId, model, webHomeRightUserRows);
+		recommendUserWidget(context.getUid(), recommendUserCount, model);
 		return "web/home/index/home";
 	}
 

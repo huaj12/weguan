@@ -3,6 +3,7 @@ package com.juzhai.passport.service;
 import java.util.Date;
 import java.util.List;
 
+import com.juzhai.core.bean.FunctionLevel;
 import com.juzhai.passport.model.Passport;
 
 public interface IPassportService {
@@ -70,4 +71,12 @@ public interface IPassportService {
 	 * @return
 	 */
 	boolean isPermanentLock(long uid);
+
+	/**
+	 * 获取用户的使用该功能
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	boolean isUse(FunctionLevel level, long uid);
 }

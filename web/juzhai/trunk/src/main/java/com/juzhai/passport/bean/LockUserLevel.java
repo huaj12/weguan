@@ -3,14 +3,16 @@ package com.juzhai.passport.bean;
 import com.juzhai.passport.LockLevelConfig;
 
 public enum LockUserLevel {
-	LEVEL1(1, "level_1"), LEVEL2(2, "level_2"), LEVEL3(3, "level_3");
+	LEVEL1(1, "level_1", 3), LEVEL2(2, "level_2", 5), LEVEL3(3, "level_3", 10);
 
 	private int level;
 	private String name;
+	private int reportNumber;// 被举报的次数
 
-	private LockUserLevel(int level, String name) {
+	private LockUserLevel(int level, String name, int reportNumber) {
 		this.level = level;
 		this.name = name;
+		this.reportNumber = reportNumber;
 	}
 
 	public String getName() {
@@ -40,6 +42,14 @@ public enum LockUserLevel {
 			}
 		}
 		return null;
+	}
+
+	public int getReportNumber() {
+		return reportNumber;
+	}
+
+	public void setReportNumber(int reportNumber) {
+		this.reportNumber = reportNumber;
 	}
 
 }

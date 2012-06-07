@@ -36,6 +36,7 @@ import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.InitData;
+import com.juzhai.post.controller.helper.IdeaViewHelper;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Category;
 import com.juzhai.post.model.Idea;
@@ -71,6 +72,8 @@ public class IndexController extends BaseController {
 	private IRecommendIdeaService recommendIdeaService;
 	@Autowired
 	private IRecommendPostService recommendPostService;
+	@Autowired
+	private IdeaViewHelper ideaViewHelper;
 	@Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows;
 	@Value("${web.show.users.max.rows}")
@@ -91,33 +94,56 @@ public class IndexController extends BaseController {
 	private int randomBillboardIdeasPoolCount;
 	@Value("${billboard.ideas.count}")
 	private int billboardIdeasCount;
+	@Value("${search.user.hot.rows}")
+	private int searchUserHotRows;
+	@Value("${index.new.post.max.rows}")
+	private int indexNewPostMaxRows;
+	@Value("${index.window.idea.max.rows}")
+	private int indexWindowIdeaMaxRows;
+	@Value("${index.window.idea.randow.max.rows}")
+	private int indexWindowIdeaRandowMaxRows;
 
-	@RequestMapping(value = { "", "/", "/index" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "", "/", "/index", "/welcome" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
 		UserContext context = (UserContext) request.getAttribute("context");
+		List<Idea> ideaList = new ArrayList<Idea>();
+		long city = 0L;
 		if (context.hasLogin()) {
-			return "redirect:/home";
+			ProfileCache loginUser = getLoginUserCache(request);
+			if (loginUser != null && loginUser.getCity() != null) {
+				city = loginUser.getCity();
+			}
+			userPostList(model, loginUser.getUid(), city, indexNewPostMaxRows);
+			ideaList = ideaService.listIdeaWindow(0, indexWindowIdeaMaxRows,
+					city, 0);
+			Collections.shuffle(ideaList);
+			if (ideaList.size() > indexWindowIdeaRandowMaxRows) {
+				ideaList.subList(0, indexWindowIdeaRandowMaxRows);
+			} else {
+				ideaList.subList(0, ideaList.size());
+			}
+			model.addAttribute("ideas", ideaList);
+			showHomeLogo(context, model);
 		} else {
-			return welcome(request, model);
+			List<PostView> listView = new ArrayList<PostView>();
+			List<Post> list = new ArrayList<Post>();
+			list = recommendPostService.listRecommendPost();
+			ideaList = recommendIdeaService.listRecommendIdea();
+			for (Post post : list) {
+				ProfileCache cache = profileService.getProfileCacheByUid(post
+						.getCreateUid());
+				PostView view = new PostView();
+				view.setPost(post);
+				view.setProfileCache(cache);
+				listView.add(view);
+			}
+			model.addAttribute("postView", listView);
 		}
-	}
-
-	@RequestMapping(value = { "/welcome" }, method = RequestMethod.GET)
-	public String welcome(HttpServletRequest request, Model model) {
-		List<PostView> listView = new ArrayList<PostView>();
-		List<Post> list = recommendPostService.listRecommendPost();
-		for (Post post : list) {
-			ProfileCache cache = profileService.getProfileCacheByUid(post
-					.getCreateUid());
-			PostView view = new PostView();
-			view.setPost(post);
-			view.setProfileCache(cache);
-			listView.add(view);
-		}
-		model.addAttribute("postView", listView);
-		model.addAttribute("ideas", recommendIdeaService.listRecommendIdea());
-		welcomNum(request, model);
-		return "web/index/welcome/welcome";
+		List<IdeaView> ideaViewList = ideaViewHelper.assembleIdeaView(context,
+				ideaList);
+		getHots(model, city, searchUserHotRows);
+		model.addAttribute("ideaViewList", ideaViewList);
+		return "web/index/index";
 	}
 
 	@RequestMapping(value = { "/welcomenum" }, method = RequestMethod.GET)
@@ -221,6 +247,8 @@ public class IndexController extends BaseController {
 			if (context.hasLogin()) {
 				ideaView.setHasUsed(ideaService.isUseIdea(context.getUid(),
 						idea.getId()));
+				ideaView.setHasInterest(ideaService.isInterestIdea(
+						context.getUid(), idea.getId()));
 			}
 			if (idea.getCreateUid() > 0) {
 				ideaView.setProfileCache(profileService

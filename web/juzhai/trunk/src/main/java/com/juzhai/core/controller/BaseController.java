@@ -298,6 +298,7 @@ public class BaseController {
 	}
 
 	// 正在找伴的小宅
+	//TODO (review) context和uid是不是重复了？想清楚
 	protected void userPostWidget(UserContext context, Model model, long uid,
 			long city, int count) {
 		List<PostView> listView = new ArrayList<PostView>();

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.common.bean.ActiveCodeType;
 import com.juzhai.common.service.IActiveCodeService;
+import com.juzhai.core.bean.UseLevel;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
@@ -135,6 +136,11 @@ public class RegisterController extends BaseController {
 	@RequestMapping(value = "/active", method = RequestMethod.GET)
 	public String active(HttpServletRequest request, Model model, String code) {
 		if (registerService.activeAccount(code)) {
+			long uid = activeCodeService.check(code,
+					ActiveCodeType.ACTIVE_EMAIL);
+			if (uid > 0) {
+				passportService.setUseLevel(uid, UseLevel.Level1);
+			}
 			// 激活成功
 			return "web/register/account/active_success";
 		} else {

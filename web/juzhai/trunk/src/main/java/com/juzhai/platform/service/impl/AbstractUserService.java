@@ -9,12 +9,14 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import com.juzhai.core.bean.UseLevel;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.dao.ITpUserDao;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
+import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.service.IUserService;
@@ -29,6 +31,8 @@ public abstract class AbstractUserService implements IUserService {
 	private IRegisterService registerService;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
+	@Autowired
+	private IPassportService passportService;
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 
@@ -73,6 +77,7 @@ public abstract class AbstractUserService implements IUserService {
 			}
 			uid = registerService.autoRegister(tp, tpIdentity, authInfo,
 					profile, inviterUid);
+			passportService.setUseLevel(uid, UseLevel.Level1);
 			// redis记录已安装App的用户
 			redisTemplate.opsForSet().add(
 					RedisKeyGenerator.genTpInstallUsersKey(tp.getName()),

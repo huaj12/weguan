@@ -91,7 +91,7 @@ public class UserController extends BaseController {
 			// 前三条
 			int postCount = postService.countUserPost(uid);
 			model.addAttribute("showMore", postCount > webUserHomePostRows);
-			List<Post> postList = postService.listUserPost(uid, 0,
+			List<Post> postList = postService.listUserPost(0, uid, 0,
 					webUserHomePostRows);
 			List<PostView> postViewList = assembleUserPostViewList(context,
 					postList);
@@ -131,7 +131,7 @@ public class UserController extends BaseController {
 		int totalCount = postService.countUserPost(context.getUid());
 		PagerManager pager = new PagerManager(page, webMyPostMaxRows,
 				totalCount);
-		List<Post> postList = postService.listUserPost(context.getUid(),
+		List<Post> postList = postService.listUserPost(0, context.getUid(),
 				pager.getFirstResult(), pager.getMaxResult());
 		List<PostView> postViewList = assembleUserPostViewList(context,
 				postList);
@@ -250,7 +250,7 @@ public class UserController extends BaseController {
 		int totalCount = postService.countUserPost(uid);
 		PagerManager pager = new PagerManager(page, webMyPostMaxRows,
 				totalCount);
-		List<Post> postList = postService.listUserPost(uid,
+		List<Post> postList = postService.listUserPost(0, uid,
 				pager.getFirstResult(), pager.getMaxResult());
 		List<PostView> postViewList = assembleUserPostViewList(context,
 				postList);

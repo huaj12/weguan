@@ -153,7 +153,8 @@ public interface IPostService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Post> listUserPost(long uid, int firstResult, int maxResults);
+	List<Post> listUserPost(long postId, long uid, int firstResult,
+			int maxResults);
 
 	/**
 	 * 用户post数量

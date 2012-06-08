@@ -136,14 +136,9 @@ public class IdeaController extends BaseController {
 				ideaService.countIdeaUsers(ideaId, cityId, gender));
 		List<IdeaUserView> ideaUserViewList = ideaService.listIdeaUsers(ideaId,
 				cityId, gender, pager.getFirstResult(), pager.getMaxResult());
-		//TODO (review) 这个段代码和封装的代码里的一段一样，有什么区别？
-		for (IdeaUserView view : ideaUserViewList) {
-			if (context.hasLogin()) {
-				view.setHasInterest(interestUserService.isInterest(
-						context.getUid(), view.getProfileCache().getUid()));
-			}
-		}
-		ideaDetail(ideaUserViewList, pager, idea, model, request, cityId);
+		// TODO (done) 这个段代码和封装的代码里的一段一样，有什么区别？
+		initIdeaDetail(ideaUserViewList, pager, idea, model, request, cityId);
+		model.addAttribute("tabType", "ideaUser");
 		return "web/idea/detail";
 	}
 
@@ -172,12 +167,13 @@ public class IdeaController extends BaseController {
 				idea.getInterestCnt());
 		List<IdeaUserView> ideaUserViewList = ideaService.listIdeaInterest(
 				ideaId, pager.getFirstResult(), pager.getMaxResult());
-		ideaDetail(ideaUserViewList, pager, idea, model, request, city);
+		initIdeaDetail(ideaUserViewList, pager, idea, model, request, city);
+		model.addAttribute("tabType", "ideaInterest");
 		return "web/idea/detail";
 	}
 
-	//TODO (review) 方法名和实际的工作一样吗？
-	private void ideaDetail(List<IdeaUserView> ideaUserViewList,
+	// TODO (done) 方法名和实际的工作一样吗？
+	private void initIdeaDetail(List<IdeaUserView> ideaUserViewList,
 			PagerManager pager, Idea idea, Model model,
 			HttpServletRequest request, long city) {
 		UserContext context = (UserContext) request.getAttribute("context");
@@ -207,7 +203,6 @@ public class IdeaController extends BaseController {
 		model.addAttribute("pager", pager);
 		model.addAttribute("ideaUserViewList", ideaUserViewList);
 		model.addAttribute("pageType", "cqw");
-		model.addAttribute("tabType", "ideaInterest");
 		loadRecentIdeas(context.getUid(), ideaDetailRecentIdeasCount,
 				Collections.singletonList(idea.getId()), model);
 		ideaAdWidget(city, model, ideaDetailAdCount);

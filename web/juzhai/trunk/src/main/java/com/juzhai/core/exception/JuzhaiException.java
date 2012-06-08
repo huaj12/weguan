@@ -8,6 +8,8 @@ public class JuzhaiException extends Exception {
 
 	public static final String ILLEGAL_OPERATION = "00002";
 
+	public static final String USE_LOW_LEVEL = "00004";
+
 	public JuzhaiException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

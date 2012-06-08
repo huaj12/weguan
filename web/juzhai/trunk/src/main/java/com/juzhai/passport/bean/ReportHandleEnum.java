@@ -1,7 +1,7 @@
 package com.juzhai.passport.bean;
 
 public enum ReportHandleEnum {
-	HANDLEING(0), INVALID(1), HANDLED(2);
+	HANDLEING(0), INVALID(1), HANDLED(2), AUTOHANDLED(3);
 
 	private int type;
 

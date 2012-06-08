@@ -51,8 +51,13 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)
 			throws NeedLoginException {
-		// TODO (review) 服务端也需要判断请求导向
-		UserContext context = checkLoginForWeb(request);
+		// TODO (done) 服务端也需要判断请求导向
+		UserContext context = null;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return "redirect:/searchusers";
+		}
 		List<String> genders = userPreferenceService.getUserAnswer(
 				context.getUid(), SiftTypePreference.GENDER.getPreferenceId());
 		String genderType = "all";
@@ -95,7 +100,7 @@ public class HomeController extends BaseController {
 					pager.getMaxResult());
 		} else {
 			List<Post> recommendPostList = recommendPostService
-					.listRecommendPost();
+					.listRecommendPost(webHomePostMaxRows);
 			postList = new ArrayList<Post>();
 			if (CollectionUtils.isNotEmpty(recommendPostList)) {
 				for (Post post : recommendPostList) {
@@ -113,8 +118,9 @@ public class HomeController extends BaseController {
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("townId", townId);
 		model.addAttribute("genderType", genderType);
-		// TODO (review) 判断了？pageType是home的时候，显示“找伴”？你觉得字面意思符合吗？或者直接全部通过jsp来加参数，服务端代码都去掉
-		model.addAttribute("pageType", "home");
+		// TODO (done)
+		// 判断了？pageType是home的时候，显示“找伴”？你觉得字面意思符合吗？或者直接全部通过jsp来加参数，服务端代码都去掉
+		model.addAttribute("pageType", "finduser");
 		loadCategoryList(model);
 		loadFaces(model);
 		showHomeRight(cityId, request, context, model);
@@ -156,7 +162,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("queryType", "showrposts");
 		// model.addAttribute("cityId", cityId);
 		model.addAttribute("genderType", genderType);
-		model.addAttribute("pageType", "home");
+		model.addAttribute("pageType", "finduser");
 		loadCategoryList(model);
 		loadFaces(model);
 		return "web/home/index/home";
@@ -189,12 +195,12 @@ public class HomeController extends BaseController {
 		model.addAttribute("queryType", "showiposts");
 		// model.addAttribute("cityId", cityId);
 		model.addAttribute("genderType", genderType);
-		model.addAttribute("pageType", "home");
+		model.addAttribute("pageType", "finduser");
 		loadCategoryList(model);
 		loadFaces(model);
 		return "web/home/index/home";
 	}
-	
+
 	private void showHomeRight(long cityId, HttpServletRequest request,
 			UserContext context, Model model) {
 		if (cityId == 0) {

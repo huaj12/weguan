@@ -9,7 +9,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import com.juzhai.core.bean.UseLevel;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.dao.ITpUserDao;
@@ -77,8 +76,6 @@ public abstract class AbstractUserService implements IUserService {
 			}
 			uid = registerService.autoRegister(tp, tpIdentity, authInfo,
 					profile, inviterUid);
-			//TODO (review) 为什么不在autoRegister方法里设置？
-			passportService.setUseLevel(uid, UseLevel.Level1);
 			// redis记录已安装App的用户
 			redisTemplate.opsForSet().add(
 					RedisKeyGenerator.genTpInstallUsersKey(tp.getName()),

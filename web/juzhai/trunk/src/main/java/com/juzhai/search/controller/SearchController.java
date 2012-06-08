@@ -263,7 +263,8 @@ public class SearchController extends BaseController {
 		}
 		newUserWidget(city, model, queryUsersRightUserRows);
 		recommendUserWidget(context.getUid(), recommendUserCount, model);
-		userPostWidget(model, context.getUid(), city, indexNewPostMaxRows);
+		userPostWidget(context, model, context.getUid(), city,
+				indexNewPostMaxRows);
 		hotWordsWidget(model, city, searchUserHotRows);
 		model.addAttribute("userViews", userViews);
 		model.addAttribute("pager", pager);

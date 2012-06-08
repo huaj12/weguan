@@ -10,7 +10,7 @@ public interface IRecommendPostService {
 	 * 
 	 * @return
 	 */
-	List<Post> listRecommendPost();
+	List<Post> listRecommendPost(int count);
 
 	/**
 	 * 更新推荐列表

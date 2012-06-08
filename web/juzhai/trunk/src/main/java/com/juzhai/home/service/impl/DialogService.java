@@ -81,7 +81,7 @@ public class DialogService implements IDialogService {
 	public long sendSMS(long uid, long targetUid, String content)
 			throws DialogException {
 		if (!passportService.isUse(FunctionLevel.SENDSMS, uid)) {
-			throw new DialogException(DialogException.DIALOG_USE_LOW_LEVEL);
+			throw new DialogException(DialogException.USE_LOW_LEVEL);
 		}
 		if (blacklistService.isShield(targetUid, uid)) {
 			throw new DialogException(DialogException.DIALOG_BLACKLIST_USER);

@@ -27,8 +27,8 @@ public class SearchHotService implements ISearchHotService {
 
 	@Override
 	public List<SearchHot> getSearchHotByCity(long city, int count) {
-		// TODO (review) 知道数量就控制一下初始分配的空间
-		List<Long> citys = new ArrayList<Long>();
+		// TODO (done) 知道数量就控制一下初始分配的空间
+		List<Long> citys = new ArrayList<Long>(2);
 		citys.add(city);
 		if (city != 0) {
 			citys.add(0l);

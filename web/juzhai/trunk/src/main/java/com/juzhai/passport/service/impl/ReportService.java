@@ -73,6 +73,16 @@ public class ReportService implements IReportService {
 	@Override
 	public void save(ReportForm form, long createUid)
 			throws InputReportException {
+		Passport passPort = passportService.getPassportByUid(form
+				.getReportUid());
+		if (passPort == null) {
+			throw new InputReportException(
+					InputReportException.ILLEGAL_OPERATION);
+		}
+		// TODO (done) 不要告知用户
+		if (passPort.getAdmin()) {
+			return;
+		}
 		validateReport(form, createUid);
 		Report report = new Report();
 		report.setCreateTime(new Date());
@@ -94,15 +104,9 @@ public class ReportService implements IReportService {
 			throws InputReportException {
 		ReportContentType reportContentType = ReportContentType
 				.getReportContentTypeEnum(reportForm.getContentType());
-		Passport passPort = passportService.getPassportByUid(reportForm
-				.getReportUid());
-		if (reportContentType == null || passPort == null) {
+		if (reportContentType == null) {
 			throw new InputReportException(
 					InputReportException.ILLEGAL_OPERATION);
-		}
-		// TODO (done) 不要告知用户
-		if (passPort.getAdmin()) {
-			return;
 		}
 		String url = null;
 		String urlTemplate = reportContentType.getUrl();

@@ -12,15 +12,22 @@
 			<ul>
 				<c:choose>
 					<c:when test="${not empty orderType}">
-						<li <c:if test="${categoryId <= 0}">class="act"</c:if>><p class="ca_all"></p><a href="/showideas/0/${orderType}/1" class="ca">全部</a><a href="/showideas/0/${orderType}/1" class="all_num">${totalCount}</a></li>
+						<c:set value="/showideas/0/${orderType}/1" var="catAllUrl"></c:set>
+					</c:when>
+					<c:otherwise>
+						<c:set value="/showrecideas/0/1" var="catAllUrl"></c:set>
+					</c:otherwise>
+				</c:choose>
+				<li <c:if test="${categoryId <= 0}">class="act"</c:if>><p class="ca_all"></p><a href="${catAllUrl}" class="ca">全部</a><a href="${catAllUrl}" class="all_num">${totalCount}</a></li>
+				<c:choose>
+					<c:when test="${not empty orderType}">
 						<c:forEach var="categoryView" items="${categoryViewList}">
 							<li <c:if test="${categoryId == categoryView.category.id}">class="act"</c:if>><p class="${categoryView.category.icon}"></p><a href="/showideas/${categoryView.category.id}/${orderType}/1" class="ca">${categoryView.category.name}</a><a href="/showideas/${categoryView.category.id}/${orderType}/1" class="all_num">${categoryView.ideaCount}</a></li>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
-						<li <c:if test="${categoryId <= 0}">class="act"</c:if>><p class="ca_all"></p><a href="/showideas/window/0/1" class="ca">全部</a><a href="/showideas/window/0/1" class="all_num">${totalCount}</a></li>
 						<c:forEach var="categoryView" items="${categoryViewList}">
-							<li <c:if test="${categoryId == categoryView.category.id}">class="act"</c:if>><p class="${categoryView.category.icon}"></p><a href="/showideas/window/${categoryView.category.id}/1" class="ca">${categoryView.category.name}</a><a href="/showideas/${categoryView.category.id}/${orderType}/1" class="all_num">${categoryView.ideaCount}</a></li>
+							<li <c:if test="${categoryId == categoryView.category.id}">class="act"</c:if>><p class="${categoryView.category.icon}"></p><a href="/showrecideas/${categoryView.category.id}/1" class="ca">${categoryView.category.name}</a><a href="/showideas/${categoryView.category.id}/${orderType}/1" class="all_num">${categoryView.ideaCount}</a></li>
 						</c:forEach>
 					</c:otherwise>
 				</c:choose>

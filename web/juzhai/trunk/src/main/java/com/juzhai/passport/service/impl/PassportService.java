@@ -41,7 +41,6 @@ public class PassportService implements IPassportService {
 	@Override
 	public void lockUser(long uid, Date time) {
 		Passport passport = getPassportByUid(uid);
-		// TODO (done) 举报限制，不是屏蔽限制
 		if (time != null) {
 			if (time.getTime() < System.currentTimeMillis()) {
 				return;

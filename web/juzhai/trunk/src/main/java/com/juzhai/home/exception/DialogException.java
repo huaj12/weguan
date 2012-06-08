@@ -20,8 +20,6 @@ public class DialogException extends JuzhaiException {
 	 */
 	public static final String DIALOG_BLACKLIST_USER = "90003";
 
-	// TODO (done) 在父类里定义这个错误，是通用的。使用级别不够，目前报错信息可写“先验证邮箱”
-
 	public DialogException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

@@ -221,7 +221,6 @@ public class IndexController extends BaseController {
 			String orderType, long categoryId, List<Idea> ideaList,
 			UserContext context, long cityId, PagerManager pager) {
 
-		// TODO (done) 不是新建了viewHelp了吗？不能用？
 		List<IdeaView> ideaViewList = ideaViewHelper.assembleIdeaView(context,
 				ideaList);
 		List<Long> excludeIdeaIds = new ArrayList<Long>(ideaViewList.size());
@@ -254,7 +253,6 @@ public class IndexController extends BaseController {
 		model.addAttribute("pageType", "cqw");
 	}
 
-	// TODO (done) 请求地址不好，/showrecideas/
 	@RequestMapping(value = { "/showrecideas/{categoryId}/{page}",
 			"/showrecideas/{categoryId}/{page}" }, method = RequestMethod.GET)
 	public String pageWindowShowIdeas(HttpServletRequest request, Model model,

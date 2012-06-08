@@ -314,7 +314,6 @@ public class BaseController {
 				listView.add(view);
 			}
 		} else {
-			// TODO (done) 这里不需要控制数量？并且整合到userPostWidget方法内
 			List<Post> list = recommendPostService.listRecommendPost(count);
 			for (Post post : list) {
 				ProfileCache cache = profileService.getProfileCacheByUid(post

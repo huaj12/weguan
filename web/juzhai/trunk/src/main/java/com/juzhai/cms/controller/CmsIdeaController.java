@@ -68,13 +68,9 @@ public class CmsIdeaController extends BaseController {
 		PagerManager pager = new PagerManager(pageId, 20,
 				ideaService.countCmsIdeaByCityAndCategory(window, city,
 						categoryId));
-		ShowIdeaOrder showIdeaOrder = ShowIdeaOrder.HOT_TIME;
-		if (window != null && window) {
-			showIdeaOrder = showIdeaOrder.WINDOW_TIME;
-		}
 		List<Idea> list = ideaService.listCmsIdeaByCityAndCategory(window,
-				city, categoryId, showIdeaOrder, pager.getFirstResult(),
-				pager.getMaxResult());
+				city, categoryId, ShowIdeaOrder.HOT_TIME,
+				pager.getFirstResult(), pager.getMaxResult());
 		List<CmsIdeaView> ideaViews = assembleCmsIdeaView(list);
 		model.addAttribute("ideaViews", ideaViews);
 		model.addAttribute("pager", pager);
@@ -411,8 +407,8 @@ public class CmsIdeaController extends BaseController {
 			@RequestParam(defaultValue = "0") long categoryId) {
 		PagerManager pager = new PagerManager(pageId, 50,
 				ideaService.countIdeaWindow(city, categoryId));
-		List<Idea> list = ideaService.listIdeaWindow(pager.getFirstResult(),
-				pager.getMaxResult(), city, categoryId);
+		List<Idea> list = ideaService.listIdeaWindow(city, categoryId,
+				pager.getFirstResult(), pager.getMaxResult());
 		List<CmsIdeaView> ideaViews = assembleCmsIdeaView(list);
 		model.addAttribute("ideaViews", ideaViews);
 		model.addAttribute("pager", pager);

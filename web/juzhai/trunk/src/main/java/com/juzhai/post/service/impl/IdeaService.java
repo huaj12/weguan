@@ -84,9 +84,7 @@ public class IdeaService implements IIdeaService {
 	private int ideaPlaceLengthMin;
 	@Value("${idea.place.length.max}")
 	private int ideaPlaceLengthMax;
-	//TODO (review) 删了
-	@Value("${idea.window.max.rows}")
-	private int ideaWindowMaxRows;
+	// TODO (done) 删了
 	@Value("${idea.recent.day.before}")
 	private int ideaRecentDayBefore;
 
@@ -441,16 +439,23 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public List<Idea> listIdeaWindow(int firstResult, int maxResults,
-			long city, long categoryId) {
-		IdeaExample example = getIdeaExample(city, categoryId);
+	public List<Idea> listIdeaWindow(long city, long categoryId,
+			int firstResult, int maxResults) {
+		IdeaExample example = getIdeaWindowExample(city, categoryId);
 		example.setOrderByClause("create_window_time desc");
 		example.setLimit(new Limit(firstResult, maxResults));
 		return ideaMapper.selectByExample(example);
 	}
 
-	//TODO (review) 私有方法的名字取的不知道什么意思，太宽泛了
-	private IdeaExample getIdeaExample(long city, long categoryId) {
+	// TODO (done) 调用的私有方法和本方法，竟可能离的近
+	@Override
+	public int countIdeaWindow(long city, long categoryId) {
+		IdeaExample example = getIdeaWindowExample(city, categoryId);
+		return ideaMapper.countByExample(example);
+	}
+
+	// TODO (done) 私有方法的名字取的不知道什么意思，太宽泛了
+	private IdeaExample getIdeaWindowExample(long city, long categoryId) {
 		IdeaExample example = new IdeaExample();
 		if (city > 0) {
 			IdeaExample.Criteria c1 = example.or().andCityEqualTo(city);
@@ -615,7 +620,12 @@ public class IdeaService implements IIdeaService {
 			Long categoryId, ShowIdeaOrder oderType, int firstResult,
 			int maxResults) {
 		IdeaExample example = createCmsIdeaExample(window, cityId, categoryId);
-		example.setOrderByClause(oderType.getColumn() + " desc");
+		if (window != null && window) {
+			example.setOrderByClause(" create_window_time desc");
+		} else {
+			example.setOrderByClause(oderType.getColumn() + " desc");
+		}
+
 		example.setLimit(new Limit(firstResult, maxResults));
 		return ideaMapper.selectByExample(example);
 	}
@@ -641,13 +651,6 @@ public class IdeaService implements IIdeaService {
 	public int totalCount() {
 		IdeaExample example = new IdeaExample();
 		example.createCriteria().andDefunctEqualTo(false);
-		return ideaMapper.countByExample(example);
-	}
-
-	//TODO (review) 调用的私有方法和本方法，竟可能离的近
-	@Override
-	public int countIdeaWindow(long city, long categoryId) {
-		IdeaExample example = getIdeaExample(city, categoryId);
 		return ideaMapper.countByExample(example);
 	}
 

@@ -60,6 +60,7 @@ import com.juzhai.post.mapper.PostResponseMapper;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.model.PostExample;
+import com.juzhai.post.model.PostExample.Criteria;
 import com.juzhai.post.model.PostResponse;
 import com.juzhai.post.model.PostResponseExample;
 import com.juzhai.post.service.IIdeaService;
@@ -853,10 +854,14 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public List<Post> listUserPost(long uid, int firstResult, int maxResults) {
+	public List<Post> listUserPost(long postId, long uid, int firstResult,
+			int maxResults) {
 		PostExample example = new PostExample();
-		example.createCriteria().andCreateUidEqualTo(uid)
-				.andDefunctEqualTo(false);
+		Criteria criteria = example.createCriteria();
+		criteria.andCreateUidEqualTo(uid).andDefunctEqualTo(false);
+		if (postId > 0) {
+			criteria.andIdNotEqualTo(postId);
+		}
 		example.setOrderByClause("create_time desc");
 		example.setLimit(new Limit(firstResult, maxResults));
 		return postMapper.selectByExample(example);

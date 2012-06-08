@@ -38,7 +38,6 @@ function del(obj){
 </head>
 <body>
 			<h2>审核好主意</h2>
-			<div>分享链接:<form action="/cms/share/rawIdea" method="get"> <input  name="url" type="text" />   <input type="submit" value="提交"/> </form></div>
 	<table border="0" cellspacing="4">
 		<tr style="background-color: #CCCCCC;">
 			<td width="100">创建者</td>

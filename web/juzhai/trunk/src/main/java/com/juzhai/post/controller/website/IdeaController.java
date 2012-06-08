@@ -126,22 +126,6 @@ public class IdeaController extends BaseController {
 		if (null == idea) {
 			return error_404;
 		}
-		if (idea.getCreateUid() > 0) {
-			model.addAttribute("ideaCreateUser",
-					profileService.getProfileCacheByUid(idea.getCreateUid()));
-		}
-		model.addAttribute("idea", idea);
-		IdeaDetail ideaDetail = ideaDetailService.getIdeaDetail(ideaId);
-		if (null != ideaDetail) {
-			model.addAttribute("ideaDetail", ideaDetail);
-		}
-		if (context.hasLogin()) {
-			boolean hasUsed = ideaService.isUseIdea(context.getUid(), ideaId);
-			model.addAttribute("hasUsed", hasUsed);
-			model.addAttribute("hasInterest",
-					ideaService.isInterestIdea(context.getUid(), ideaId));
-		}
-
 		Integer gender = null;
 		if (StringUtils.equals(genderType, "male")) {
 			gender = 1;
@@ -158,17 +142,75 @@ public class IdeaController extends BaseController {
 						context.getUid(), view.getProfileCache().getUid()));
 			}
 		}
+		ideaDetail(ideaUserViewList, pager, idea, model, request, cityId);
+		return "web/idea/detail";
+	}
 
+	@RequestMapping(value = "/{ideaId}/interest", method = RequestMethod.GET)
+	public String interest(HttpServletRequest request, Model model,
+			@PathVariable long ideaId) {
+		return pageIdeaInterest(request, model, ideaId, 1);
+	}
+
+	// TODO (done) 和想去的人列表里是不是有很多一样的代码？没想过重构出来？要养成习惯阿！不要每次说了
+	@RequestMapping(value = "/{ideaId}/interest/{page}", method = RequestMethod.GET)
+	public String pageIdeaInterest(HttpServletRequest request, Model model,
+			@PathVariable long ideaId, @PathVariable int page) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		Idea idea = ideaService.getIdeaById(ideaId);
+		if (null == idea) {
+			return error_404;
+		}
+		long city = 0l;
+		if (context.hasLogin()) {
+			ProfileCache loginUser = getLoginUserCache(request);
+			if (loginUser != null && loginUser.getCity() != null) {
+				city = loginUser.getCity();
+			}
+		}
+		PagerManager pager = new PagerManager(page, ideaInterestMaxRows,
+				idea.getInterestCnt());
+		List<IdeaUserView> ideaUserViewList = ideaService.listIdeaInterest(
+				ideaId, pager.getFirstResult(), pager.getMaxResult());
+		ideaDetail(ideaUserViewList, pager, idea, model, request, city);
+		return "web/idea/detail";
+	}
+
+	private void ideaDetail(List<IdeaUserView> ideaUserViewList,
+			PagerManager pager, Idea idea, Model model,
+			HttpServletRequest request, long city) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		if (idea.getCreateUid() > 0) {
+			model.addAttribute("ideaCreateUser",
+					profileService.getProfileCacheByUid(idea.getCreateUid()));
+		}
+		model.addAttribute("idea", idea);
+		IdeaDetail ideaDetail = ideaDetailService.getIdeaDetail(idea.getId());
+		if (null != ideaDetail) {
+			model.addAttribute("ideaDetail", ideaDetail);
+		}
+		if (context.hasLogin()) {
+			boolean hasUsed = ideaService.isUseIdea(context.getUid(),
+					idea.getId());
+			model.addAttribute("hasUsed", hasUsed);
+			model.addAttribute("hasInterest",
+					ideaService.isInterestIdea(context.getUid(), idea.getId()));
+		}
+
+		for (IdeaUserView view : ideaUserViewList) {
+			if (context.hasLogin()) {
+				view.setHasInterest(interestUserService.isInterest(
+						context.getUid(), view.getProfileCache().getUid()));
+			}
+		}
 		model.addAttribute("pager", pager);
 		model.addAttribute("ideaUserViewList", ideaUserViewList);
 		model.addAttribute("pageType", "cqw");
-		model.addAttribute("cityId", cityId);
-		model.addAttribute("genderType", genderType);
-		model.addAttribute("tabType", "ideaUser");
+		model.addAttribute("tabType", "ideaInterest");
 		loadRecentIdeas(context.getUid(), ideaDetailRecentIdeasCount,
-				Collections.singletonList(ideaId), model);
-		ideaAdWidget(cityId, model, ideaDetailAdCount);
-		return "web/idea/detail";
+				Collections.singletonList(idea.getId()), model);
+		ideaAdWidget(city, model, ideaDetailAdCount);
+
 	}
 
 	@RequestMapping(value = "/presendidea", method = RequestMethod.GET)
@@ -407,65 +449,6 @@ public class IdeaController extends BaseController {
 			result.setError(e.getErrorCode(), messageSource);
 		}
 		return result;
-	}
-
-	@RequestMapping(value = "/{ideaId}/interest", method = RequestMethod.GET)
-	public String interest(HttpServletRequest request, Model model,
-			@PathVariable long ideaId) {
-		return pageIdeaInterest(request, model, ideaId, 1);
-	}
-
-	//TODO (review) 和想去的人列表里是不是有很多一样的代码？没想过重构出来？要养成习惯阿！不要每次说了
-	@RequestMapping(value = "/{ideaId}/interest/{page}", method = RequestMethod.GET)
-	public String pageIdeaInterest(HttpServletRequest request, Model model,
-			@PathVariable long ideaId, @PathVariable int page) {
-		UserContext context = (UserContext) request.getAttribute("context");
-		long city = 0l;
-		if (context.hasLogin()) {
-			ProfileCache loginUser = getLoginUserCache(request);
-			if (loginUser != null && loginUser.getCity() != null) {
-				city = loginUser.getCity();
-			}
-		}
-		Idea idea = ideaService.getIdeaById(ideaId);
-		if (null == idea) {
-			return error_404;
-		}
-		if (idea.getCreateUid() > 0) {
-			model.addAttribute("ideaCreateUser",
-					profileService.getProfileCacheByUid(idea.getCreateUid()));
-		}
-		model.addAttribute("idea", idea);
-		IdeaDetail ideaDetail = ideaDetailService.getIdeaDetail(ideaId);
-		if (null != ideaDetail) {
-			model.addAttribute("ideaDetail", ideaDetail);
-		}
-		if (context.hasLogin()) {
-			boolean hasUsed = ideaService.isUseIdea(context.getUid(), ideaId);
-			model.addAttribute("hasUsed", hasUsed);
-			model.addAttribute("hasInterest",
-					ideaService.isInterestIdea(context.getUid(), ideaId));
-		}
-
-		PagerManager pager = new PagerManager(page, ideaInterestMaxRows,
-				idea.getInterestCnt());
-		List<IdeaUserView> ideaUserViewList = ideaService.listIdeaInterest(
-				ideaId, pager.getFirstResult(), pager.getMaxResult());
-		for (IdeaUserView view : ideaUserViewList) {
-			if (context.hasLogin()) {
-				view.setHasInterest(interestUserService.isInterest(
-						context.getUid(), view.getProfileCache().getUid()));
-			}
-		}
-
-		model.addAttribute("pager", pager);
-		model.addAttribute("ideaUserViewList", ideaUserViewList);
-		model.addAttribute("pageType", "cqw");
-		model.addAttribute("tabType", "ideaInterest");
-		loadRecentIdeas(context.getUid(), ideaDetailRecentIdeasCount,
-				Collections.singletonList(ideaId), model);
-		ideaAdWidget(city, model, ideaDetailAdCount);
-		return "web/idea/detail";
 	}
 
 }

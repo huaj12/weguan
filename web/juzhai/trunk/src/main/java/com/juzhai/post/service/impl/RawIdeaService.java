@@ -306,25 +306,23 @@ public class RawIdeaService implements IRawIdeaService {
 		// 修改后通过审核
 		Idea idae = ideaCopyRawIdea(rawIdea);
 		// 后台分享的不需要删除 发私信 创建拒宅
-		//TODO (review) 后台通过链接创建好主意，不用这个方法
-		if (rawIdea.getId() != null) {
-			// 发送私信
-			dialogService.sendOfficialSMS(idae.getCreateUid(),
-					DialogContentTemplate.PASS_RAW_IDEA,
-					JzUtilFunction.truncate(idae.getContent(), 15, "..."));
-			delRawIdea(rawIdea.getId());
-			// 有头像且是通过状态才发拒宅
-			ProfileCache profile = profileService.getProfileCacheByUid(idae
-					.getCreateUid());
-			if (StringUtils.isNotEmpty(profile.getLogoPic())) {
-				PostForm postForm = new PostForm();
-				postForm.setIdeaId(idae.getId());
-				postForm.setPurposeType(PurposeType.WANT.getType());
-				try {
-					postService.createPost(idae.getCreateUid(), postForm);
-				} catch (InputPostException e) {
-					log.error("cms passRawIdea  create post is error", e);
-				}
+		// TODO (done) 后台通过链接创建好主意，不用这个方法
+		// 发送私信
+		dialogService.sendOfficialSMS(idae.getCreateUid(),
+				DialogContentTemplate.PASS_RAW_IDEA,
+				JzUtilFunction.truncate(idae.getContent(), 15, "..."));
+		delRawIdea(rawIdea.getId());
+		// 有头像且是通过状态才发拒宅
+		ProfileCache profile = profileService.getProfileCacheByUid(idae
+				.getCreateUid());
+		if (StringUtils.isNotEmpty(profile.getLogoPic())) {
+			PostForm postForm = new PostForm();
+			postForm.setIdeaId(idae.getId());
+			postForm.setPurposeType(PurposeType.WANT.getType());
+			try {
+				postService.createPost(idae.getCreateUid(), postForm);
+			} catch (InputPostException e) {
+				log.error("cms passRawIdea  create post is error", e);
 			}
 		}
 

@@ -263,8 +263,8 @@ public class SearchController extends BaseController {
 		}
 		newUserWidget(city, model, queryUsersRightUserRows);
 		recommendUserWidget(context.getUid(), recommendUserCount, model);
-		userPostList(model, context.getUid(), city, indexNewPostMaxRows);
-		getHots(model, city, searchUserHotRows);
+		userPostWidget(model, context.getUid(), city, indexNewPostMaxRows);
+		hotWordsWidget(model, city, searchUserHotRows);
 		model.addAttribute("userViews", userViews);
 		model.addAttribute("pager", pager);
 		model.addAttribute("cityId", city);
@@ -326,7 +326,7 @@ public class SearchController extends BaseController {
 		model.addAttribute("sex", sex);
 		model.addAttribute("city", city);
 		loadFaces(model);
-		getHots(model, city, searchPostHotRows);
+		hotWordsWidget(model, city, searchPostHotRows);
 		return "web/search/search_posts";
 	}
 

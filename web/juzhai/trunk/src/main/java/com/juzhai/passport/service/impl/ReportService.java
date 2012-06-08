@@ -93,9 +93,15 @@ public class ReportService implements IReportService {
 			throws InputReportException {
 		ReportContentType reportContentType = ReportContentType
 				.getReportContentTypeEnum(reportForm.getContentType());
-		if (reportContentType == null) {
+		Passport passPort = passportService.getPassportByUid(reportForm
+				.getReportUid());
+		if (reportContentType == null || passPort == null) {
 			throw new InputReportException(
 					InputReportException.ILLEGAL_OPERATION);
+		}
+		if (passPort.getAdmin()) {
+			throw new InputReportException(
+					InputReportException.REPORT_USER_IS_ADMIN);
 		}
 		String url = null;
 		String urlTemplate = reportContentType.getUrl();

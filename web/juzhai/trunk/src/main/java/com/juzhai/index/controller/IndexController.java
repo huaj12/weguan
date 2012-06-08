@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -78,8 +79,6 @@ public class IndexController extends BaseController {
 	private int webShowIdeasMaxRows;
 	@Value("${web.show.users.max.rows}")
 	private int webShowUsersMaxRows;
-	@Value("${web.show.ideas.user.count}")
-	private int webShowIdeasUserCount;
 	@Value("${show.invite.users.max.rows}")
 	private int showInviteUsersMaxRows;
 	@Value("${query.users.right.user.rows}")
@@ -100,42 +99,39 @@ public class IndexController extends BaseController {
 	private int indexNewPostMaxRows;
 	@Value("${index.window.idea.max.rows}")
 	private int indexWindowIdeaMaxRows;
-	@Value("${index.window.idea.randow.max.rows}")
-	private int indexWindowIdeaRandowMaxRows;
+	@Value("${index.window.idea.random}")
+	private int indexWindowIdeaRandom;
 
 	@RequestMapping(value = { "", "/", "/index", "/welcome" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
 		UserContext context = (UserContext) request.getAttribute("context");
-		//TODO (review) 为什么要new一个空list？
-		List<Idea> ideaList = new ArrayList<Idea>();
+		// TODO (done) 为什么要new一个空list？
+		List<Idea> ideaList = null;
 		long city = 0L;
 		if (context.hasLogin()) {
 			ProfileCache loginUser = getLoginUserCache(request);
 			if (loginUser != null && loginUser.getCity() != null) {
 				city = loginUser.getCity();
 			}
-			userPostList(model, loginUser.getUid(), city, indexNewPostMaxRows);
-			//TODO (review) 两个变量名字起的有歧义（indexWindowIdeaMaxRows，indexWindowIdeaRandowMaxRows）
-			ideaList = ideaService.listIdeaWindow(0, indexWindowIdeaMaxRows,
-					city, 0);
+			userPostWidget(model, loginUser.getUid(), city, indexNewPostMaxRows);
+			// TODO (done)
+			// 两个变量名字起的有歧义（indexWindowIdeaMaxRows，indexWindowIdeaRandowMaxRows）
+			ideaList = ideaService.listIdeaWindow(city, 0, 0,
+					indexWindowIdeaMaxRows);
 			Collections.shuffle(ideaList);
-			if (ideaList.size() > indexWindowIdeaRandowMaxRows) {
-				ideaList.subList(0, indexWindowIdeaRandowMaxRows);
-			} else {
-				//TODO (review) 这行代码写了干嘛用的？
-				ideaList.subList(0, ideaList.size());
+			if (ideaList.size() > indexWindowIdeaRandom) {
+				ideaList.subList(0, indexWindowIdeaRandom);
 			}
-			//TODO (review) ideaList放入model干嘛用的？
-			model.addAttribute("ideas", ideaList);
+			// TODO (done) 这行代码写了干嘛用的？
+			// TODO (done) ideaList放入model干嘛用的？
 			showHomeLogo(context, model);
 		} else {
-			//TODO(review) 不需要控制数量？
+			// TODO(done) 不需要控制数量？取出来的时候控制了
 			ideaList = recommendIdeaService.listRecommendIdea();
 			List<PostView> listView = new ArrayList<PostView>();
-			//TODO (review) 为什么要先new一个list，再赋值？
-			List<Post> list = new ArrayList<Post>();
-			//TODO (review) 这里不需要控制数量？
-			list = recommendPostService.listRecommendPost();
+			// TODO (done) 为什么要先new一个list，再赋值？
+			// TODO (done) 这里不需要控制数量？取出来的时候控制了
+			List<Post> list = recommendPostService.listRecommendPost();
 			for (Post post : list) {
 				ProfileCache cache = profileService.getProfileCacheByUid(post
 						.getCreateUid());
@@ -148,7 +144,7 @@ public class IndexController extends BaseController {
 		}
 		List<IdeaView> ideaViewList = ideaViewHelper.assembleIdeaView(context,
 				ideaList);
-		getHots(model, city, searchUserHotRows);
+		hotWordsWidget(model, city, searchUserHotRows);
 		model.addAttribute("ideaViewList", ideaViewList);
 		return "web/index/index";
 	}
@@ -192,10 +188,10 @@ public class IndexController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			cityId = loginUser.getCity();
 		}
-		
-		//TODO (review) 为什么要换成取橱窗内容？
-		List<Idea> ideaList = ideaService.listIdeaWindow(0,
-				randomBillboardIdeasPoolCount, cityId, 0);
+
+		// TODO (done) 为什么要换成取橱窗内容？
+		List<Idea> ideaList = ideaService.listIdeaByCityAndCategory(cityId,
+				null, ShowIdeaOrder.HOT_TIME, 0, randomBillboardIdeasPoolCount);
 		List<Idea> topIdeaList = new ArrayList<Idea>(billboardIdeasCount);
 		for (int i = 0; i < billboardIdeasCount; i++) {
 			int size = ideaList.size();
@@ -209,9 +205,9 @@ public class IndexController extends BaseController {
 			model.addAttribute("topIdea", topIdeaList.remove(0));
 			model.addAttribute("topIdeaList", topIdeaList);
 		}
-		//TODO (review) 推荐列表完全用一个独立的请求来处理。不要和原先的最新最热做在一起，不合适。虽然页面看上去是一系列功能，但是底层处理，今后会有很大的变化。
-		return pageShowIdeas(request, model, 0,
-				ShowIdeaOrder.WINDOW_TIME.getType(), 1);
+		// TODO (done)
+		// 推荐列表完全用一个独立的请求来处理。不要和原先的最新最热做在一起，不合适。虽然页面看上去是一系列功能，但是底层处理，今后会有很大的变化。
+		return pageWindowShowIdeas(request, model, 0, 1);
 	}
 
 	@RequestMapping(value = { "/showideas/{orderType}_{cityId}/{page}",
@@ -233,22 +229,22 @@ public class IndexController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			cityId = loginUser.getCity();
 		}
-		List<Idea> ideaList = null;
-		PagerManager pager = null;
-		//TODO (review) 还原！！推荐用独立的方式来处理。"/showrecideas/{categoryId}/{page}"。
+		// TODO (done) 还原！！推荐用独立的方式来处理。"/showrecideas/{categoryId}/{page}"。
 		ShowIdeaOrder order = ShowIdeaOrder.getShowIdeaOrderByType(orderType);
-		if (order.getColumn().equals(ShowIdeaOrder.WINDOW_TIME.getColumn())) {
-			pager = new PagerManager(page, webShowIdeasMaxRows,
-					ideaService.countIdeaWindow(cityId, categoryId));
-			ideaList = ideaService.listIdeaWindow(pager.getFirstResult(),
-					pager.getMaxResult(), cityId, categoryId);
-		} else {
-			pager = new PagerManager(page, webShowIdeasMaxRows,
-					ideaService.countIdeaByCityAndCategory(cityId, categoryId));
-			ideaList = ideaService.listIdeaByCityAndCategory(cityId,
-					categoryId, order, pager.getFirstResult(),
-					pager.getMaxResult());
-		}
+		PagerManager pager = new PagerManager(page, webShowIdeasMaxRows,
+				ideaService.countIdeaByCityAndCategory(cityId, categoryId));
+		List<Idea> ideaList = ideaService
+				.listIdeaByCityAndCategory(cityId, categoryId, order,
+						pager.getFirstResult(), pager.getMaxResult());
+		showIdeas(model, request, orderType, categoryId, ideaList, context,
+				cityId, pager);
+		return "web/index/cqw/show_ideas";
+	}
+
+	private void showIdeas(Model model, HttpServletRequest request,
+			String orderType, long categoryId, List<Idea> ideaList,
+			UserContext context, long cityId, PagerManager pager) {
+
 		List<IdeaView> ideaViewList = new ArrayList<IdeaView>(ideaList.size());
 		List<Long> excludeIdeaIds = new ArrayList<Long>(ideaList.size());
 		for (Idea idea : ideaList) {
@@ -278,14 +274,14 @@ public class IndexController extends BaseController {
 				categoryList.size());
 		for (Category category : categoryList) {
 			int count = category.getId() == categoryId ? pager
-					.getTotalResults() : getCategoryCount(order, cityId,
+					.getTotalResults() : getCategoryTotal(orderType, cityId,
 					category.getId());
 			categoryViewList.add(new CategoryView(category, count));
 		}
 		model.addAttribute(
 				"totalCount",
-				categoryId == 0 ? pager.getTotalResults() : getCategoryCount(
-						order, cityId, 0));
+				categoryId == 0 ? pager.getTotalResults() : getCategoryTotal(
+						orderType, cityId, 0));
 		model.addAttribute("pager", pager);
 		model.addAttribute("orderType", orderType);
 		model.addAttribute("cityId", cityId);
@@ -293,17 +289,34 @@ public class IndexController extends BaseController {
 		model.addAttribute("categoryViewList", categoryViewList);
 		model.addAttribute("ideaViewList", ideaViewList);
 		model.addAttribute("pageType", "cqw");
+	}
+
+	@RequestMapping(value = { "/showideas/window/{categoryId}/{page}",
+			"/showIdeas/window/{categoryId}/{page}" }, method = RequestMethod.GET)
+	public String pageWindowShowIdeas(HttpServletRequest request, Model model,
+			@PathVariable long categoryId, @PathVariable int page) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		ProfileCache loginUser = getLoginUserCache(request);
+		long cityId = 0L;
+		if (loginUser != null && loginUser.getCity() != null) {
+			cityId = loginUser.getCity();
+		}
+		PagerManager pager = new PagerManager(page, webShowIdeasMaxRows,
+				ideaService.countIdeaWindow(cityId, categoryId));
+		List<Idea> ideaList = ideaService.listIdeaWindow(cityId, categoryId,
+				pager.getFirstResult(), pager.getMaxResult());
+		showIdeas(model, request, null, categoryId, ideaList, context, cityId,
+				pager);
 		return "web/index/cqw/show_ideas";
 	}
 
-	private int getCategoryCount(ShowIdeaOrder order, long cityId,
-			long categoryId) {
-		if (order.getColumn().equals(ShowIdeaOrder.WINDOW_TIME.getColumn())) {
+	private int getCategoryTotal(String orderType, long cityId, long categoryId) {
+		if (StringUtils.isEmpty(orderType)) {
 			return ideaService.countIdeaWindow(cityId, categoryId);
 		} else {
 			return ideaService.countIdeaByCityAndCategory(cityId, categoryId);
-
 		}
+
 	}
 
 	@RequestMapping(value = "/about/{pageType}", method = RequestMethod.GET)

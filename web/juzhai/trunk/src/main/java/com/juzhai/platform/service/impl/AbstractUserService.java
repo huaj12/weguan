@@ -77,6 +77,7 @@ public abstract class AbstractUserService implements IUserService {
 			}
 			uid = registerService.autoRegister(tp, tpIdentity, authInfo,
 					profile, inviterUid);
+			//TODO (review) 为什么不在autoRegister方法里设置？
 			passportService.setUseLevel(uid, UseLevel.Level1);
 			// redis记录已安装App的用户
 			redisTemplate.opsForSet().add(

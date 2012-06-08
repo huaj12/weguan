@@ -31,11 +31,6 @@ public class InputPostCommentException extends JuzhaiException {
 	 */
 	public static final String COMMENT_BLACKLIST_USER = "140005";
 
-	/**
-	 * 使用级别不够
-	 */
-	// TODO (done) 在父类里定义这个错误，是通用的。使用级别不够，目前报错信息可写“先验证邮箱”
-
 	public InputPostCommentException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

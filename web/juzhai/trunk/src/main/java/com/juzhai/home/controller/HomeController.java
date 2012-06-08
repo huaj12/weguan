@@ -51,7 +51,6 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)
 			throws NeedLoginException {
-		// TODO (done) 服务端也需要判断请求导向
 		UserContext context = null;
 		try {
 			context = checkLoginForWeb(request);
@@ -118,8 +117,6 @@ public class HomeController extends BaseController {
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("townId", townId);
 		model.addAttribute("genderType", genderType);
-		// TODO (done)
-		// 判断了？pageType是home的时候，显示“找伴”？你觉得字面意思符合吗？或者直接全部通过jsp来加参数，服务端代码都去掉
 		model.addAttribute("pageType", "finduser");
 		loadCategoryList(model);
 		loadFaces(model);

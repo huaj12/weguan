@@ -106,8 +106,6 @@ public class RegisterService implements IRegisterService {
 		registerTpUser(tp, identity, passport);
 		tpUserAuthService.updateTpUserAuth(passport.getId(), tp.getId(),
 				authInfo);
-
-		// TODO (done) 为什么不在autoRegister方法里设置？
 		passportService.setUseLevel(passport.getId(), UseLevel.Level1);
 
 		// 初始化数据
@@ -470,7 +468,6 @@ public class RegisterService implements IRegisterService {
 		if (uid <= 0) {
 			return false;
 		}
-		// TODO (done) 为什么要放在controller里做？这个不是业务逻辑？
 		Passport passport = new Passport();
 		passport.setId(uid);
 		passport.setEmailActive(true);

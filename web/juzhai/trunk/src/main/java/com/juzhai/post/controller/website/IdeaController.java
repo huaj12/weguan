@@ -136,7 +136,6 @@ public class IdeaController extends BaseController {
 				ideaService.countIdeaUsers(ideaId, cityId, gender));
 		List<IdeaUserView> ideaUserViewList = ideaService.listIdeaUsers(ideaId,
 				cityId, gender, pager.getFirstResult(), pager.getMaxResult());
-		// TODO (done) 这个段代码和封装的代码里的一段一样，有什么区别？
 		initIdeaDetail(ideaUserViewList, pager, idea, model, request, cityId);
 		model.addAttribute("tabType", "ideaUser");
 		return "web/idea/detail";

@@ -29,7 +29,7 @@ public class ActivityController extends BaseController {
 
 	@RequestMapping(value = "/lhq", method = RequestMethod.GET)
 	public String lhq(HttpServletRequest request, Model model) {
-		return "redirect:/home";
+		return "redirect:/index";
 		// ProfileCache loginUser = (ProfileCache) request
 		// .getAttribute(CheckLoginFilter.LOGIN_USER_KEY);
 		// if (null != loginUser) {
@@ -66,7 +66,7 @@ public class ActivityController extends BaseController {
 	@RequestMapping(value = "/invite/{token}", method = RequestMethod.GET)
 	public String invite(HttpServletRequest request, Model model,
 			@PathVariable String token) {
-		return "redirect:/home";
+		return "redirect:/index";
 		// UserContext context = (UserContext) request.getAttribute("context");
 		// if (context.hasLogin() || StringUtils.isEmpty(token)) {
 		// return "redirect:/home";

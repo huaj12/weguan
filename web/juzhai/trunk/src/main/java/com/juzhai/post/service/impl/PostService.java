@@ -145,15 +145,15 @@ public class PostService implements IPostService {
 	@Override
 	public long createPost(long uid, PostForm postForm)
 			throws InputPostException {
-		Boolean isForbid = null;
-		try {
-			isForbid = memcachedClient.get(MemcachedKeyGenerator
-					.genPostForbidKey(uid));
-		} catch (Exception e) {
-		}
-		if (null != isForbid && isForbid) {
-			throw new InputPostException(InputPostException.POST_TOO_FREQUENT);
-		}
+		// Boolean isForbid = null;
+		// try {
+		// isForbid = memcachedClient.get(MemcachedKeyGenerator
+		// .genPostForbidKey(uid));
+		// } catch (Exception e) {
+		// }
+		// if (null != isForbid && isForbid) {
+		// throw new InputPostException(InputPostException.POST_TOO_FREQUENT);
+		// }
 		// 判断是否有头像
 		ProfileCache profile = profileService.getProfileCacheByUid(uid);
 		if (StringUtils.isEmpty(profile.getLogoPic())
@@ -168,12 +168,12 @@ public class PostService implements IPostService {
 		} else {
 			postId = createPostByForm(uid, postForm);
 		}
-		try {
-			memcachedClient.setWithNoReply(
-					MemcachedKeyGenerator.genPostForbidKey(uid),
-					postIntervalExpireTime, true);
-		} catch (Exception e) {
-		}
+		// try {
+		// memcachedClient.setWithNoReply(
+		// MemcachedKeyGenerator.genPostForbidKey(uid),
+		// postIntervalExpireTime, true);
+		// } catch (Exception e) {
+		// }
 		return postId;
 	}
 

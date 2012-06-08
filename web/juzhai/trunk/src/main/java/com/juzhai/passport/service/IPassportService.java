@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.juzhai.core.bean.FunctionLevel;
+import com.juzhai.core.bean.UseLevel;
 import com.juzhai.passport.model.Passport;
 
 public interface IPassportService {
@@ -79,4 +80,12 @@ public interface IPassportService {
 	 * @return
 	 */
 	boolean isUse(FunctionLevel level, long uid);
+
+	/**
+	 * 设置用户使用等级
+	 * 
+	 * @param uid
+	 * @param useLevel
+	 */
+	void setUseLevel(long uid, UseLevel useLevel);
 }

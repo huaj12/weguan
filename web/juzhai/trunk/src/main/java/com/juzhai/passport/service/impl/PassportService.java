@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.bean.FunctionLevel;
+import com.juzhai.core.bean.UseLevel;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.model.Passport;
@@ -40,7 +41,7 @@ public class PassportService implements IPassportService {
 	@Override
 	public void lockUser(long uid, Date time) {
 		Passport passport = getPassportByUid(uid);
-		//TODO (review) 举报限制，不是屏蔽限制
+		// TODO (review) 举报限制，不是屏蔽限制
 		// 如果是管理员则不操作
 		if (passport == null || passport.getAdmin()) {
 			return;
@@ -110,6 +111,17 @@ public class PassportService implements IPassportService {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public void setUseLevel(long uid, UseLevel useLevel) {
+		if (useLevel == null) {
+			return;
+		}
+		Passport passport = new Passport();
+		passport.setId(uid);
+		passport.setUseLevel(useLevel.getLevel());
+		passportMapper.updateByPrimaryKeySelective(passport);
 	}
 
 }

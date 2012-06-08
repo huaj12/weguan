@@ -40,6 +40,7 @@ public class PassportService implements IPassportService {
 	@Override
 	public void lockUser(long uid, Date time) {
 		Passport passport = getPassportByUid(uid);
+		//TODO (review) 举报限制，不是屏蔽限制
 		// 如果是管理员则不操作
 		if (passport == null || passport.getAdmin()) {
 			return;

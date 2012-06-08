@@ -48,7 +48,7 @@
 								<div class="jz_list"><!--jz_list begin-->
 									<div class="search_title"><!--search_title begin-->
 										<div class="idea_category" order-type="${orderType}"><!--category begin-->
-											<span <c:if test="${empty orderType||'window'==orderType}"> class="act"</c:if>><p></p><a href="/showideas/${categoryId}/window/1">推荐</a><p></p></span>
+											<span <c:if test="${empty orderType}"> class="act"</c:if>><p></p><a href="/showideas/window/${categoryId}/1">推荐</a><p></p></span>
 											<span <c:if test="${'time'==orderType}"> class="act"</c:if>><p></p><a href="/showideas/${categoryId}/time/1">最新</a><p></p></span>
 											<span <c:if test="${'pop'==orderType}"> class="act"</c:if>><p></p><a href="/showideas/${categoryId}/pop/1" >最热</a><p></p></span>
 										</div><!--category end-->
@@ -73,10 +73,20 @@
 								</div><!--jz_list end-->
 								<div class="clear"></div>
 								<c:if test="${not empty ideaViewList}">
-									<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
-										<c:param name="pager" value="${pager}"/>
-										<c:param name="url" value="/showideas/${categoryId}/${orderType}" />
-									</c:import>
+								<c:choose>
+									<c:when test="${not empty orderType }">
+										<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
+											<c:param name="pager" value="${pager}"/>
+											<c:param name="url" value="/showideas/${categoryId}/${orderType}" />
+										</c:import>
+									</c:when>
+									<c:otherwise>
+										<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
+											<c:param name="pager" value="${pager}"/>
+											<c:param name="url" value="/showideas/window/${categoryId}" />
+										</c:import>
+									</c:otherwise>
+									</c:choose>
 								</c:if>
 							</div>
 							<div class="t"></div>

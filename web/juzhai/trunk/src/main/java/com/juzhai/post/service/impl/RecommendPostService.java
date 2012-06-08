@@ -31,11 +31,14 @@ public class RecommendPostService implements IRecommendPostService {
 	private int recommendPostTimeInterval;
 
 	@Override
-	public List<Post> listRecommendPost() {
+	public List<Post> listRecommendPost(int count) {
 		List<Post> list = redisTemplate.opsForValue().get(
 				RedisKeyGenerator.genIndexRecommendPostKey());
 		if (CollectionUtils.isEmpty(list)) {
 			return Collections.emptyList();
+		}
+		if (list.size() > count) {
+			list.subList(0, count);
 		}
 		return list;
 	}

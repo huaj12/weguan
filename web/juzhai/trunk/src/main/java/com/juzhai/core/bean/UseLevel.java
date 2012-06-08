@@ -4,18 +4,18 @@ package com.juzhai.core.bean;
 public enum UseLevel {
 	Level0(0), Level1(1);
 
-	private int level;
+	private int useLevel;
 
-	private UseLevel(int level) {
-		this.level = level;
+	private UseLevel(int useLevel) {
+		this.useLevel = useLevel;
 	}
 
-	public int getLevel() {
-		return level;
+	public int getUseLevel() {
+		return useLevel;
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
+	public void setUseLevel(int useLevel) {
+		this.useLevel = useLevel;
 	}
 
 }

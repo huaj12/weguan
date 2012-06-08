@@ -41,6 +41,7 @@ import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IAdService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.post.service.IRecommendPostService;
 import com.juzhai.search.service.ISearchHotService;
 
 public class BaseController {
@@ -84,6 +85,8 @@ public class BaseController {
 	private IInterestUserService interestUserService;
 	@Autowired
 	private ISearchHotService searchHotService;
+	@Autowired
+	private IRecommendPostService recommendPostService;
 
 	protected UserContext checkLoginForApp(HttpServletRequest request)
 			throws NeedLoginException {
@@ -295,17 +298,31 @@ public class BaseController {
 	}
 
 	// 正在找伴的小宅
-	protected void userPostWidget(Model model, long uid, long city, int count) {
+	protected void userPostWidget(UserContext context, Model model, long uid,
+			long city, int count) {
 		List<PostView> listView = new ArrayList<PostView>();
-		List<Post> list = postService.listNewestPost(uid, city, null, null, 0,
-				count);
-		for (Post post : list) {
-			ProfileCache cache = profileService.getProfileCacheByUid(post
-					.getCreateUid());
-			PostView view = new PostView();
-			view.setPost(post);
-			view.setProfileCache(cache);
-			listView.add(view);
+		if (context.hasLogin()) {
+			List<Post> list = postService.listNewestPost(uid, city, null, null,
+					0, count);
+			for (Post post : list) {
+				ProfileCache cache = profileService.getProfileCacheByUid(post
+						.getCreateUid());
+				PostView view = new PostView();
+				view.setPost(post);
+				view.setProfileCache(cache);
+				listView.add(view);
+			}
+		} else {
+			// TODO (done) 这里不需要控制数量？并且整合到userPostWidget方法内
+			List<Post> list = recommendPostService.listRecommendPost(count);
+			for (Post post : list) {
+				ProfileCache cache = profileService.getProfileCacheByUid(post
+						.getCreateUid());
+				PostView view = new PostView();
+				view.setPost(post);
+				view.setProfileCache(cache);
+				listView.add(view);
+			}
 		}
 		model.addAttribute("postView", listView);
 	}

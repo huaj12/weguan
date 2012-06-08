@@ -46,7 +46,6 @@ import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostCommentService;
 import com.juzhai.post.service.IPostService;
 import com.juzhai.post.service.IRecommendIdeaService;
-import com.juzhai.post.service.IRecommendPostService;
 
 @Controller
 public class IndexController extends BaseController {
@@ -71,8 +70,6 @@ public class IndexController extends BaseController {
 	private IPostCommentService postCommentService;
 	@Autowired
 	private IRecommendIdeaService recommendIdeaService;
-	@Autowired
-	private IRecommendPostService recommendPostService;
 	@Autowired
 	private IdeaViewHelper ideaViewHelper;
 	@Value("${web.show.ideas.max.rows}")
@@ -107,12 +104,13 @@ public class IndexController extends BaseController {
 		UserContext context = (UserContext) request.getAttribute("context");
 		List<Idea> ideaList = null;
 		long city = 0L;
+		long uid = 0l;
 		if (context.hasLogin()) {
 			ProfileCache loginUser = getLoginUserCache(request);
 			if (loginUser != null && loginUser.getCity() != null) {
 				city = loginUser.getCity();
+				uid = loginUser.getUid();
 			}
-			userPostWidget(model, loginUser.getUid(), city, indexNewPostMaxRows);
 			ideaList = ideaService.listIdeaWindow(city, 0, 0,
 					indexWindowIdeaMaxRows);
 			Collections.shuffle(ideaList);
@@ -123,20 +121,8 @@ public class IndexController extends BaseController {
 		} else {
 			// TODO(done) 不需要控制数量？取出来的时候控制了
 			ideaList = recommendIdeaService.listRecommendIdea();
-			List<PostView> listView = new ArrayList<PostView>();
-			
-			// TODO (review) 这里不需要控制数量？并且整合到userPostWidget方法内
-			List<Post> list = recommendPostService.listRecommendPost();
-			for (Post post : list) {
-				ProfileCache cache = profileService.getProfileCacheByUid(post
-						.getCreateUid());
-				PostView view = new PostView();
-				view.setPost(post);
-				view.setProfileCache(cache);
-				listView.add(view);
-			}
-			model.addAttribute("postView", listView);
 		}
+		userPostWidget(context, model, uid, city, indexNewPostMaxRows);
 		List<IdeaView> ideaViewList = ideaViewHelper.assembleIdeaView(context,
 				ideaList);
 		hotWordsWidget(model, city, searchUserHotRows);
@@ -235,26 +221,12 @@ public class IndexController extends BaseController {
 			String orderType, long categoryId, List<Idea> ideaList,
 			UserContext context, long cityId, PagerManager pager) {
 
-		//TODO (review) 不是新建了viewHelp了吗？不能用？
-		List<IdeaView> ideaViewList = new ArrayList<IdeaView>(ideaList.size());
-		List<Long> excludeIdeaIds = new ArrayList<Long>(ideaList.size());
-		for (Idea idea : ideaList) {
-			IdeaView ideaView = new IdeaView();
-			ideaView.setIdea(idea);
-			if (context.hasLogin()) {
-				ideaView.setHasUsed(ideaService.isUseIdea(context.getUid(),
-						idea.getId()));
-				ideaView.setHasInterest(ideaService.isInterestIdea(
-						context.getUid(), idea.getId()));
-			}
-			if (idea.getCreateUid() > 0) {
-				ideaView.setProfileCache(profileService
-						.getProfileCacheByUid(idea.getCreateUid()));
-			}
-			// ideaView.setIdeaUserViews(ideaService.listIdeaAllUsers(
-			// idea.getId(), 0, webShowIdeasUserCount));
-			ideaViewList.add(ideaView);
-			excludeIdeaIds.add(idea.getId());
+		// TODO (done) 不是新建了viewHelp了吗？不能用？
+		List<IdeaView> ideaViewList = ideaViewHelper.assembleIdeaView(context,
+				ideaList);
+		List<Long> excludeIdeaIds = new ArrayList<Long>(ideaViewList.size());
+		for (IdeaView ideaView : ideaViewList) {
+			excludeIdeaIds.add(ideaView.getIdea().getId());
 		}
 		loadRecentIdeas(context.getUid(), showIdeaRecentIdeasCount,
 				excludeIdeaIds, model);
@@ -282,9 +254,9 @@ public class IndexController extends BaseController {
 		model.addAttribute("pageType", "cqw");
 	}
 
-	//TODO (review) 请求地址不好，/showrecideas/
-	@RequestMapping(value = { "/showideas/window/{categoryId}/{page}",
-			"/showIdeas/window/{categoryId}/{page}" }, method = RequestMethod.GET)
+	// TODO (done) 请求地址不好，/showrecideas/
+	@RequestMapping(value = { "/showrecideas/{categoryId}/{page}",
+			"/showrecideas/{categoryId}/{page}" }, method = RequestMethod.GET)
 	public String pageWindowShowIdeas(HttpServletRequest request, Model model,
 			@PathVariable long categoryId, @PathVariable int page) {
 		UserContext context = (UserContext) request.getAttribute("context");

@@ -74,7 +74,7 @@ public class PostCommentService implements IPostCommentService {
 			throws InputPostCommentException {
 		if (!passportService.isUse(FunctionLevel.COMMENT, uid)) {
 			throw new InputPostCommentException(
-					InputPostCommentException.COMMENT_USE_LOW_LEVEL);
+					InputPostCommentException.USE_LOW_LEVEL);
 		}
 
 		if (form.getPostId() <= 0) {

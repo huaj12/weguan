@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.common.bean.ActiveCodeType;
 import com.juzhai.common.service.IActiveCodeService;
+import com.juzhai.core.bean.UseLevel;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.mail.bean.Mail;
 import com.juzhai.core.mail.factory.MailFactory;
@@ -105,6 +106,9 @@ public class RegisterService implements IRegisterService {
 		registerTpUser(tp, identity, passport);
 		tpUserAuthService.updateTpUserAuth(passport.getId(), tp.getId(),
 				authInfo);
+
+		// TODO (done) 为什么不在autoRegister方法里设置？
+		passportService.setUseLevel(passport.getId(), UseLevel.Level1);
 
 		// 初始化数据
 
@@ -466,9 +470,11 @@ public class RegisterService implements IRegisterService {
 		if (uid <= 0) {
 			return false;
 		}
+		// TODO (done) 为什么要放在controller里做？这个不是业务逻辑？
 		Passport passport = new Passport();
 		passport.setId(uid);
 		passport.setEmailActive(true);
+		passport.setUseLevel(UseLevel.Level1.getUseLevel());
 		return passportMapper.updateByPrimaryKeySelective(passport) == 1;
 	}
 }

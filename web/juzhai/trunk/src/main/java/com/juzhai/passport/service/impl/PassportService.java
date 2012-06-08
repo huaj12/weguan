@@ -41,11 +41,7 @@ public class PassportService implements IPassportService {
 	@Override
 	public void lockUser(long uid, Date time) {
 		Passport passport = getPassportByUid(uid);
-		// TODO (review) 举报限制，不是屏蔽限制
-		// 如果是管理员则不操作
-		if (passport == null || passport.getAdmin()) {
-			return;
-		}
+		// TODO (done) 举报限制，不是屏蔽限制
 		if (time != null) {
 			if (time.getTime() < System.currentTimeMillis()) {
 				return;
@@ -106,7 +102,7 @@ public class PassportService implements IPassportService {
 	@Override
 	public boolean isUse(FunctionLevel level, long uid) {
 		Passport passport = passportMapper.selectByPrimaryKey(uid);
-		if (passport.getUseLevel() >= level.getLevel()) {
+		if (passport.getUseLevel() >= level.getLevel().getUseLevel()) {
 			return true;
 		} else {
 			return false;
@@ -120,7 +116,8 @@ public class PassportService implements IPassportService {
 		}
 		Passport passport = new Passport();
 		passport.setId(uid);
-		passport.setUseLevel(useLevel.getLevel());
+		passport.setUseLevel(useLevel.getUseLevel());
+		passport.setLastModifyTime(new Date());
 		passportMapper.updateByPrimaryKeySelective(passport);
 	}
 

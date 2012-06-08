@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +25,16 @@ public class CmsRecommendDataController {
 	private IRecommendPostService recommendPostService;
 	@Autowired
 	private IRecommendIdeaService recommendIdeaService;
+	@Value("${recommend.idea.max.rows}")
+	private int recommendIdeaMaxRows;
 	@Autowired
 	private IProfileService profileService;
 
 	@RequestMapping(value = "/show/recommend/post", method = RequestMethod.GET)
 	public String showRecommendPost(Model model) {
 		List<CmsPostView> listView = new ArrayList<CmsPostView>();
-		List<Post> list = recommendPostService.listRecommendPost();
+		List<Post> list = recommendPostService
+				.listRecommendPost(recommendIdeaMaxRows);
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
 					.getCreateUid());
@@ -68,7 +72,7 @@ public class CmsRecommendDataController {
 
 	@RequestMapping(value = "/update/billboard/idea", method = RequestMethod.GET)
 	public String updateBillboardIdea(Model model) {
-//		recommendIdeaService.updateRecentTopIdeas();
+		// recommendIdeaService.updateRecentTopIdeas();
 		return showBillboardIdea(model);
 	}
 }

@@ -12,6 +12,7 @@ public class InputReportException extends JuzhaiException {
 	/**
 	 * 不能举报管理员
 	 */
+	//TODO (review) 不要告知用户
 	public static final String REPORT_USER_IS_ADMIN = "160002";
 
 	public InputReportException(String errorCode, Throwable cause) {

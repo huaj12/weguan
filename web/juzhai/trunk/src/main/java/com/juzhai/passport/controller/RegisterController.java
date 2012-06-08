@@ -136,6 +136,7 @@ public class RegisterController extends BaseController {
 	@RequestMapping(value = "/active", method = RequestMethod.GET)
 	public String active(HttpServletRequest request, Model model, String code) {
 		if (registerService.activeAccount(code)) {
+			//TODO (review) 为什么要放在controller里做？这个不是业务逻辑？
 			long uid = activeCodeService.check(code,
 					ActiveCodeType.ACTIVE_EMAIL);
 			if (uid > 0) {

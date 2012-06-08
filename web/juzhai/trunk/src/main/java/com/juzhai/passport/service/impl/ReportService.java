@@ -85,6 +85,7 @@ public class ReportService implements IReportService {
 		report.setContentUrl(form.getContentUrl());
 		report.setContentType(form.getContentType());
 		reportMapper.insertSelective(report);
+		//TODO （review) 逻辑错误
 		// 自动屏蔽
 		autoReport(form.getReportUid());
 	}
@@ -99,6 +100,7 @@ public class ReportService implements IReportService {
 			throw new InputReportException(
 					InputReportException.ILLEGAL_OPERATION);
 		}
+		//TODO (review) 不要告知用户
 		if (passPort.getAdmin()) {
 			throw new InputReportException(
 					InputReportException.REPORT_USER_IS_ADMIN);

@@ -94,7 +94,7 @@ public class ProfileContrller extends BaseController {
 					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
 			return face(request, model);
 		}
-		return "redirect:/home";
+		return "redirect:/index";
 	}
 
 	@RequestMapping(value = "/setting/gender", method = RequestMethod.POST)

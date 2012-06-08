@@ -49,7 +49,7 @@ public class UserGuideController extends BaseController {
 		}
 		UserGuide userGuide = userGuideService.getUserGuide(context.getUid());
 		if (userGuide != null && userGuide.getComplete()) {
-			return "redirect:/home";
+			return "redirect:/index";
 		}
 		SettingForm settingForm = new SettingForm();
 		settingForm.setGender(loginUser.getGender());
@@ -73,7 +73,7 @@ public class UserGuideController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		UserGuide userGuide = userGuideService.getUserGuide(context.getUid());
 		if (null != userGuide && userGuide.getComplete()) {
-			return "redirect:/home";
+			return "redirect:/index";
 		}
 		// save
 		Profile profile = new Profile();
@@ -123,7 +123,7 @@ public class UserGuideController extends BaseController {
 				.getType()) {
 			return "redirect:/profile/index/face";
 		} else {
-			return "redirect:/home";
+			return "redirect:/index";
 		}
 	}
 }

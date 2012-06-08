@@ -24,7 +24,6 @@ public class SpiderIdeaService implements ISpiderIdeaService, BeanFactoryAware {
 	private final Log log = LogFactory.getLog(SynchronizeService.class);
 	@Autowired
 	private BeanFactory beanFactory;
-	// TODO (done) 名字应该换成“每日最大分享爬取次数”
 	@Value("${max.share.idea.count}")
 	private int maxShareIdeaCount;
 	@Value("${share.idea.expire.time}")

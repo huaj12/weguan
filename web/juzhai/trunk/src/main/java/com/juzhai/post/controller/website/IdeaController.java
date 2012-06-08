@@ -136,6 +136,7 @@ public class IdeaController extends BaseController {
 				ideaService.countIdeaUsers(ideaId, cityId, gender));
 		List<IdeaUserView> ideaUserViewList = ideaService.listIdeaUsers(ideaId,
 				cityId, gender, pager.getFirstResult(), pager.getMaxResult());
+		//TODO (review) 这个段代码和封装的代码里的一段一样，有什么区别？
 		for (IdeaUserView view : ideaUserViewList) {
 			if (context.hasLogin()) {
 				view.setHasInterest(interestUserService.isInterest(
@@ -152,7 +153,6 @@ public class IdeaController extends BaseController {
 		return pageIdeaInterest(request, model, ideaId, 1);
 	}
 
-	// TODO (done) 和想去的人列表里是不是有很多一样的代码？没想过重构出来？要养成习惯阿！不要每次说了
 	@RequestMapping(value = "/{ideaId}/interest/{page}", method = RequestMethod.GET)
 	public String pageIdeaInterest(HttpServletRequest request, Model model,
 			@PathVariable long ideaId, @PathVariable int page) {
@@ -176,6 +176,7 @@ public class IdeaController extends BaseController {
 		return "web/idea/detail";
 	}
 
+	//TODO (review) 方法名和实际的工作一样吗？
 	private void ideaDetail(List<IdeaUserView> ideaUserViewList,
 			PagerManager pager, Idea idea, Model model,
 			HttpServletRequest request, long city) {

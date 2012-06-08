@@ -105,7 +105,6 @@ public class IndexController extends BaseController {
 	@RequestMapping(value = { "", "/", "/index", "/welcome" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
 		UserContext context = (UserContext) request.getAttribute("context");
-		// TODO (done) 为什么要new一个空list？
 		List<Idea> ideaList = null;
 		long city = 0L;
 		if (context.hasLogin()) {
@@ -114,23 +113,19 @@ public class IndexController extends BaseController {
 				city = loginUser.getCity();
 			}
 			userPostWidget(model, loginUser.getUid(), city, indexNewPostMaxRows);
-			// TODO (done)
-			// 两个变量名字起的有歧义（indexWindowIdeaMaxRows，indexWindowIdeaRandowMaxRows）
 			ideaList = ideaService.listIdeaWindow(city, 0, 0,
 					indexWindowIdeaMaxRows);
 			Collections.shuffle(ideaList);
 			if (ideaList.size() > indexWindowIdeaRandom) {
 				ideaList.subList(0, indexWindowIdeaRandom);
 			}
-			// TODO (done) 这行代码写了干嘛用的？
-			// TODO (done) ideaList放入model干嘛用的？
 			showHomeLogo(context, model);
 		} else {
 			// TODO(done) 不需要控制数量？取出来的时候控制了
 			ideaList = recommendIdeaService.listRecommendIdea();
 			List<PostView> listView = new ArrayList<PostView>();
-			// TODO (done) 为什么要先new一个list，再赋值？
-			// TODO (done) 这里不需要控制数量？取出来的时候控制了
+			
+			// TODO (review) 这里不需要控制数量？并且整合到userPostWidget方法内
 			List<Post> list = recommendPostService.listRecommendPost();
 			for (Post post : list) {
 				ProfileCache cache = profileService.getProfileCacheByUid(post
@@ -188,8 +183,6 @@ public class IndexController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			cityId = loginUser.getCity();
 		}
-
-		// TODO (done) 为什么要换成取橱窗内容？
 		List<Idea> ideaList = ideaService.listIdeaByCityAndCategory(cityId,
 				null, ShowIdeaOrder.HOT_TIME, 0, randomBillboardIdeasPoolCount);
 		List<Idea> topIdeaList = new ArrayList<Idea>(billboardIdeasCount);
@@ -205,8 +198,6 @@ public class IndexController extends BaseController {
 			model.addAttribute("topIdea", topIdeaList.remove(0));
 			model.addAttribute("topIdeaList", topIdeaList);
 		}
-		// TODO (done)
-		// 推荐列表完全用一个独立的请求来处理。不要和原先的最新最热做在一起，不合适。虽然页面看上去是一系列功能，但是底层处理，今后会有很大的变化。
 		return pageWindowShowIdeas(request, model, 0, 1);
 	}
 
@@ -229,7 +220,6 @@ public class IndexController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			cityId = loginUser.getCity();
 		}
-		// TODO (done) 还原！！推荐用独立的方式来处理。"/showrecideas/{categoryId}/{page}"。
 		ShowIdeaOrder order = ShowIdeaOrder.getShowIdeaOrderByType(orderType);
 		PagerManager pager = new PagerManager(page, webShowIdeasMaxRows,
 				ideaService.countIdeaByCityAndCategory(cityId, categoryId));
@@ -245,6 +235,7 @@ public class IndexController extends BaseController {
 			String orderType, long categoryId, List<Idea> ideaList,
 			UserContext context, long cityId, PagerManager pager) {
 
+		//TODO (review) 不是新建了viewHelp了吗？不能用？
 		List<IdeaView> ideaViewList = new ArrayList<IdeaView>(ideaList.size());
 		List<Long> excludeIdeaIds = new ArrayList<Long>(ideaList.size());
 		for (Idea idea : ideaList) {
@@ -291,6 +282,7 @@ public class IndexController extends BaseController {
 		model.addAttribute("pageType", "cqw");
 	}
 
+	//TODO (review) 请求地址不好，/showrecideas/
 	@RequestMapping(value = { "/showideas/window/{categoryId}/{page}",
 			"/showIdeas/window/{categoryId}/{page}" }, method = RequestMethod.GET)
 	public String pageWindowShowIdeas(HttpServletRequest request, Model model,

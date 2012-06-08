@@ -51,7 +51,7 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)
 			throws NeedLoginException {
-		// TODO (done) 页面的头部还是通过判断是否登录，来链向不同地址（如果改了就忽略，我为了提醒一下而已）
+		// TODO (review) 服务端也需要判断请求导向
 		UserContext context = checkLoginForWeb(request);
 		List<String> genders = userPreferenceService.getUserAnswer(
 				context.getUid(), SiftTypePreference.GENDER.getPreferenceId());
@@ -113,7 +113,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("townId", townId);
 		model.addAttribute("genderType", genderType);
-		// TODO (done) 页面导航高亮判断是否要变了？ 判断了
+		// TODO (review) 判断了？pageType是home的时候，显示“找伴”？你觉得字面意思符合吗？或者直接全部通过jsp来加参数，服务端代码都去掉
 		model.addAttribute("pageType", "home");
 		loadCategoryList(model);
 		loadFaces(model);
@@ -194,8 +194,7 @@ public class HomeController extends BaseController {
 		loadFaces(model);
 		return "web/home/index/home";
 	}
-
-	// TODO (done) 上面还有两处调用此方法，是不是漏改了？
+	
 	private void showHomeRight(long cityId, HttpServletRequest request,
 			UserContext context, Model model) {
 		if (cityId == 0) {
@@ -205,7 +204,6 @@ public class HomeController extends BaseController {
 			}
 		}
 		hotWordsWidget(model, cityId, searchUserHotRows);
-		// TODO (done) 下面还有两个列表是不是也需要加呢?
 		newUserWidget(cityId, model, webHomeRightUserRows);
 		recommendUserWidget(context.getUid(), recommendUserCount, model);
 	}

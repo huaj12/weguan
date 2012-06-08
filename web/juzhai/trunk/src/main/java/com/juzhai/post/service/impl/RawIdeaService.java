@@ -305,8 +305,6 @@ public class RawIdeaService implements IRawIdeaService {
 		RawIdea rawIdea = conversionRawIdeaForm(rawIdeaForm);
 		// 修改后通过审核
 		Idea idae = ideaCopyRawIdea(rawIdea);
-		// 后台分享的不需要删除 发私信 创建拒宅
-		// TODO (done) 后台通过链接创建好主意，不用这个方法
 		// 发送私信
 		dialogService.sendOfficialSMS(idae.getCreateUid(),
 				DialogContentTemplate.PASS_RAW_IDEA,

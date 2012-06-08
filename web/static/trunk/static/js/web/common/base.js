@@ -65,6 +65,22 @@ $(document).ready(function(){
 		return false;
 	});
 	
+	$("div.idea-interest > a").click(function(){
+		var ideaId = $(this).parent().attr("idea-id");
+		var obj = this;
+		$(obj).text("正在处理");
+		$(obj).parent().addClass("sending");
+		interestIdea(ideaId,function(){
+			$(obj).text("已感兴趣");
+			$(obj).unbind("click").parent().removeClass("sending").addClass("done");
+		}, function(errorInfo){
+			$(obj).text("感兴趣");
+			$(obj).parent().removeClass("sending");
+			alert(errorInfo);
+		},this);
+		return false;
+	});
+	
 	$("div.bq").each(function(){
 		new FaceWidget($(this));
 	});
@@ -1683,22 +1699,6 @@ function bindShareBtn(obj){
 		return false;
 	});
 }
-
-$("div.idea-interest").click(function(){
-	var ideaId = $(this).attr("idea-id");
-	var obj = this;
-	$(obj).find("a").text("正在处理");
-	$(obj).addClass("sending");
-	interestIdea(ideaId,function(){
-		$(obj).find("a").text("已感兴趣");
-		$(obj).unbind("click").removeClass("sending").addClass("done");
-	}, function(errorInfo){
-		$(obj).find("a").text("感兴趣");
-		$(obj).removeClass("sending");
-		alert(errorInfo);
-	},this);
-	return false;
-});
 
 function interestIdea(ideaId, successCallback, errorCallback,clickObj){
 	jQuery.ajax({

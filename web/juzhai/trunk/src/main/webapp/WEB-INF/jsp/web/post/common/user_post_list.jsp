@@ -7,11 +7,9 @@
 								<div class="ta_jz"><!--ta_jz begin-->
 									<ul>
 										<c:forEach items="${userPostList}" var="postView">
-											<c:if test="${postView.id!=post.id}">
 												<li>
 													<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${postView.purposeType}"/></c:import>:</font><a href="/post/${postView.id}"><c:out value="${postView.content}"></c:out></a></p>
 												</li>
-											</c:if>
 										</c:forEach>
 									</ul>
 								</div><!--ta_jz end-->

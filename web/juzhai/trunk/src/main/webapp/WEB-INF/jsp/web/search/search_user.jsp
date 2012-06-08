@@ -16,7 +16,7 @@
 	<body>
 		<div class="warp"><!--warp begin-->
 			<div class="main"><!--main begin-->
-				<c:set scope="request" value="home" var="pageType"></c:set>
+				<c:set scope="request" value="finduser" var="pageType"></c:set>
 				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
 				<div class="main_part"><!--main_part begin-->
 					<jsp:include page="/WEB-INF/jsp/web/common/youke_login.jsp" />

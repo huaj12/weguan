@@ -149,6 +149,7 @@ public class IdeaController extends BaseController {
 		ideaAdWidget(cityId, model, ideaDetailAdCount);
 		model.addAttribute("tabType", "ideaUser");
 		model.addAttribute("cityId", cityId);
+		model.addAttribute("genderType", genderType);
 		return "web/idea/detail";
 	}
 

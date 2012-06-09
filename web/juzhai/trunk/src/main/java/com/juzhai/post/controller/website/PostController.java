@@ -323,8 +323,10 @@ public class PostController extends BaseController {
 			visitUserService.addVisitUser(profileCache.getUid(),
 					context.getUid());
 		}
-		List<Post> postList = postService.listUserPost(post.getId(),
-				profileCache.getUid(), 0, webPostDetailPostRows);
+		List<Long> excludePostIds = new ArrayList(1);
+		excludePostIds.add(post.getId());
+		List<Post> postList = postService.listUserPost(profileCache.getUid(),
+				excludePostIds, 0, webPostDetailPostRows);
 		if (post.getIdeaId() != null) {
 			Idea idea = ideaService.getIdeaById(post.getIdeaId());
 			model.addAttribute("idea", idea);

@@ -298,13 +298,13 @@ public class BaseController {
 	}
 
 	// 正在找伴的小宅
-	//TODO (review) context和uid是不是重复了？想清楚
-	protected void userPostWidget(UserContext context, Model model, long uid,
-			long city, int count) {
+	// TODO (done) context和uid是不是重复了？想清楚
+	protected void userPostWidget(UserContext context, Model model, long city,
+			int count) {
 		List<PostView> listView = new ArrayList<PostView>();
 		if (context.hasLogin()) {
-			List<Post> list = postService.listNewestPost(uid, city, null, null,
-					0, count);
+			List<Post> list = postService.listNewestPost(context.getUid(),
+					city, null, null, 0, count);
 			for (Post post : list) {
 				ProfileCache cache = profileService.getProfileCacheByUid(post
 						.getCreateUid());

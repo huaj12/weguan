@@ -122,8 +122,7 @@ public class IdeaController extends BaseController {
 			@PathVariable long ideaId, @PathVariable int page,
 			@PathVariable long cityId, @PathVariable String genderType) {
 		UserContext context = (UserContext) request.getAttribute("context");
-		Idea idea = ideaService.getIdeaById(ideaId);
-		if (null == idea) {
+		if (!ideaDetail(model, request, ideaId)) {
 			return error_404;
 		}
 		Integer gender = null;
@@ -136,7 +135,18 @@ public class IdeaController extends BaseController {
 				ideaService.countIdeaUsers(ideaId, cityId, gender));
 		List<IdeaUserView> ideaUserViewList = ideaService.listIdeaUsers(ideaId,
 				cityId, gender, pager.getFirstResult(), pager.getMaxResult());
-		initIdeaDetail(ideaUserViewList, pager, idea, model, request, cityId);
+		for (IdeaUserView view : ideaUserViewList) {
+			if (context.hasLogin()) {
+				view.setHasInterest(interestUserService.isInterest(
+						context.getUid(), view.getProfileCache().getUid()));
+			}
+		}
+		model.addAttribute("pager", pager);
+		model.addAttribute("ideaUserViewList", ideaUserViewList);
+		model.addAttribute("pageType", "cqw");
+		loadRecentIdeas(context.getUid(), ideaDetailRecentIdeasCount,
+				Collections.singletonList(ideaId), model);
+		ideaAdWidget(cityId, model, ideaDetailAdCount);
 		model.addAttribute("tabType", "ideaUser");
 		return "web/idea/detail";
 	}
@@ -151,10 +161,10 @@ public class IdeaController extends BaseController {
 	public String pageIdeaInterest(HttpServletRequest request, Model model,
 			@PathVariable long ideaId, @PathVariable int page) {
 		UserContext context = (UserContext) request.getAttribute("context");
-		Idea idea = ideaService.getIdeaById(ideaId);
-		if (null == idea) {
+		if (!ideaDetail(model, request, ideaId)) {
 			return error_404;
 		}
+		Idea idea = (Idea) model.asMap().get("idea");
 		long city = 0l;
 		if (context.hasLogin()) {
 			ProfileCache loginUser = getLoginUserCache(request);
@@ -166,15 +176,29 @@ public class IdeaController extends BaseController {
 				idea.getInterestCnt());
 		List<IdeaUserView> ideaUserViewList = ideaService.listIdeaInterest(
 				ideaId, pager.getFirstResult(), pager.getMaxResult());
-		initIdeaDetail(ideaUserViewList, pager, idea, model, request, city);
+		for (IdeaUserView view : ideaUserViewList) {
+			if (context.hasLogin()) {
+				view.setHasInterest(interestUserService.isInterest(
+						context.getUid(), view.getProfileCache().getUid()));
+			}
+		}
+		model.addAttribute("pager", pager);
+		model.addAttribute("ideaUserViewList", ideaUserViewList);
+		model.addAttribute("pageType", "cqw");
+		loadRecentIdeas(context.getUid(), ideaDetailRecentIdeasCount,
+				Collections.singletonList(idea.getId()), model);
+		ideaAdWidget(city, model, ideaDetailAdCount);
 		model.addAttribute("tabType", "ideaInterest");
 		return "web/idea/detail";
 	}
 
-	// TODO (review) 方法里做的可不仅仅是detail相关的工作，为什么叫initIdeaDetail呢？这个方法封装的思路不对。
-	private void initIdeaDetail(List<IdeaUserView> ideaUserViewList,
-			PagerManager pager, Idea idea, Model model,
-			HttpServletRequest request, long city) {
+	// TODO (done) 方法里做的可不仅仅是detail相关的工作，为什么叫initIdeaDetail呢？这个方法封装的思路不对。
+	private boolean ideaDetail(Model model, HttpServletRequest request,
+			long ideaId) {
+		Idea idea = ideaService.getIdeaById(ideaId);
+		if (null == idea) {
+			return false;
+		}
 		UserContext context = (UserContext) request.getAttribute("context");
 		if (idea.getCreateUid() > 0) {
 			model.addAttribute("ideaCreateUser",
@@ -192,20 +216,7 @@ public class IdeaController extends BaseController {
 			model.addAttribute("hasInterest",
 					ideaService.isInterestIdea(context.getUid(), idea.getId()));
 		}
-
-		for (IdeaUserView view : ideaUserViewList) {
-			if (context.hasLogin()) {
-				view.setHasInterest(interestUserService.isInterest(
-						context.getUid(), view.getProfileCache().getUid()));
-			}
-		}
-		model.addAttribute("pager", pager);
-		model.addAttribute("ideaUserViewList", ideaUserViewList);
-		model.addAttribute("pageType", "cqw");
-		loadRecentIdeas(context.getUid(), ideaDetailRecentIdeasCount,
-				Collections.singletonList(idea.getId()), model);
-		ideaAdWidget(city, model, ideaDetailAdCount);
-
+		return true;
 	}
 
 	@RequestMapping(value = "/presendidea", method = RequestMethod.GET)

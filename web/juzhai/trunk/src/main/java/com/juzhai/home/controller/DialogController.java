@@ -159,7 +159,7 @@ public class DialogController extends BaseController {
 		}
 		try {
 			if (StringUtils.isNotEmpty(content)) {
-				dialogService.sendSMS(context.getUid(), targetUid,
+				dialogService.sendDatingSMS(context.getUid(), targetUid,
 						DialogContentTemplate.PRIVATE_DATE, content);
 				privateDateCounter.incr(null, 1L);
 			}

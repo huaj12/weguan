@@ -83,6 +83,11 @@ public class DialogService implements IDialogService {
 		if (!passportService.isUse(FunctionLevel.SENDSMS, uid)) {
 			throw new DialogException(DialogException.USE_LOW_LEVEL);
 		}
+		return sendContent(uid, targetUid, content);
+	}
+
+	private long sendContent(long uid, long targetUid, String content)
+			throws DialogException {
 		if (blacklistService.isShield(targetUid, uid)) {
 			throw new DialogException(DialogException.DIALOG_BLACKLIST_USER);
 		}
@@ -129,12 +134,22 @@ public class DialogService implements IDialogService {
 	public long sendSMS(long uid, long targetUid,
 			DialogContentTemplate template, Object... params)
 			throws DialogException {
-		String content = messageSource.getMessage(template.getName(), params,
+		String content = messageSource.getMessage(template.getName(), null,
 				Locale.SIMPLIFIED_CHINESE);
 		if (StringUtils.isEmpty(content)) {
 			return 0L;
 		}
-		return sendSMS(uid, targetUid, content);
+		return sendContent(uid, targetUid, content);
+	}
+
+	@Override
+	public long sendDatingSMS(long uid, long targetUid,
+			DialogContentTemplate template, Object... params)
+			throws DialogException {
+		if (!passportService.isUse(FunctionLevel.SENDSMS, uid)) {
+			throw new DialogException(DialogException.USE_LOW_LEVEL);
+		}
+		return sendSMS(uid, targetUid, template, params);
 	}
 
 	@Override
@@ -301,4 +316,5 @@ public class DialogService implements IDialogService {
 		Long count = getDialogContentCnt(dialog.getId());
 		return count == null ? 0 : count.intValue();
 	}
+
 }

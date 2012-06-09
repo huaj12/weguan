@@ -64,7 +64,7 @@
 														<div class="edit_error"><a href="/idea/update/${idea.id}">修改/报错</a></div>
 														<c:choose>
 															<c:when test="${hasUsed}">
-																<div class="done"><a href="javascript:void(0);">找伴同去</a></div>
+																<div class="done"><a href="javascript:void(0);">已想去</a></div>
 															</c:when>
 															<c:otherwise>
 																<div class="date_btn idea-btn idea-btn-${idea.id}"><a href="javascript:void(0);" idea-id="${idea.id}">找伴同去</a></div>															

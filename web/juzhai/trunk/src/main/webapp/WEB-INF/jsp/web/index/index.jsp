@@ -25,7 +25,16 @@
 							<div class="t"></div>
 							<div class="m">
 							<div class="qn"><!--qn" begin-->
-							<div class="title"><h2>这个周末想去哪儿玩？</h2><a href="/home">分享拒宅好主意</a></div>
+							<div class="title"><h2>这个周末想去哪儿玩？</h2>
+							<c:choose>
+								<c:when test="${context.uid>0}">
+									<c:set value="/home" var="shareIdeaUrl"></c:set>
+								</c:when>
+								<c:otherwise>
+									<c:set value="/login?turnTo=/index" var="shareIdeaUrl"></c:set>
+								</c:otherwise>
+							</c:choose>
+							<a href="${shareIdeaUrl }">分享拒宅好主意</a></div>
 							<div class="good_idea"><!--good_idea begin-->
 								<jsp:include page="index_idea_list.jsp" />
 							</div><!--good_idea begin-->

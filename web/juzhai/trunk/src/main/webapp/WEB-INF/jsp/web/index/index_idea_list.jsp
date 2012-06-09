@@ -25,7 +25,7 @@
 															<div class="fb_area"><!--fb_area begin-->
 																<c:choose>
 																	<c:when test="${ideaView.hasUsed}">
-																		<div class="done"><a href="javascript:void(0);">找伴同去</a></div>
+																		<div class="done"><a href="javascript:void(0);">已想去</a></div>
 																	</c:when>
 																	<c:otherwise>
 																		<div class="date_btn idea-btn idea-btn-${ideaView.idea.id}"><a href="javascript:void(0);" idea-id="${ideaView.idea.id}">找伴同去</a></div>															

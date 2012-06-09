@@ -854,13 +854,13 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public List<Post> listUserPost(long postId, long uid, int firstResult,
-			int maxResults) {
+	public List<Post> listUserPost(long uid, List<Long> excludePostIds,
+			int firstResult, int maxResults) {
 		PostExample example = new PostExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andCreateUidEqualTo(uid).andDefunctEqualTo(false);
-		if (postId > 0) {
-			criteria.andIdNotEqualTo(postId);
+		if (CollectionUtils.isNotEmpty(excludePostIds)) {
+			criteria.andIdNotIn(excludePostIds);
 		}
 		example.setOrderByClause("create_time desc");
 		example.setLimit(new Limit(firstResult, maxResults));

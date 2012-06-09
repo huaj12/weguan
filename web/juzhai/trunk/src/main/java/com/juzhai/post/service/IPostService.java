@@ -153,9 +153,9 @@ public interface IPostService {
 	 * @param maxResults
 	 * @return
 	 */
-	//TODO (review) 1.有没有想过扩展性？2.按照参数原则来说，你加的参数是不重要的，为什么要放在第一个？3.参数名表达意思不明确
-	List<Post> listUserPost(long postId, long uid, int firstResult,
-			int maxResults);
+	// TODO (done) 1.有没有想过扩展性？2.按照参数原则来说，你加的参数是不重要的，为什么要放在第一个？3.参数名表达意思不明确
+	List<Post> listUserPost(long uid, List<Long> excludePostIds,
+			int firstResult, int maxResults);
 
 	/**
 	 * 用户post数量

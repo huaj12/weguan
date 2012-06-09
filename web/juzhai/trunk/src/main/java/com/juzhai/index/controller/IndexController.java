@@ -122,7 +122,7 @@ public class IndexController extends BaseController {
 			// TODO(done) 不需要控制数量？取出来的时候控制了
 			ideaList = recommendIdeaService.listRecommendIdea();
 		}
-		userPostWidget(context, model, uid, city, indexNewPostMaxRows);
+		userPostWidget(context, model, city, indexNewPostMaxRows);
 		List<IdeaView> ideaViewList = ideaViewHelper.assembleIdeaView(context,
 				ideaList);
 		hotWordsWidget(model, city, searchUserHotRows);

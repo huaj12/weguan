@@ -22,10 +22,10 @@
 				<c:forEach var="categoryView" items="${categoryViewList}">
 					<c:choose>
 						<c:when test="${not empty orderType}">
-							<c:set value="/showideas/${categoryView.id}/${orderType}/1" var="categoryUrl"></c:set>
+							<c:set value="/showideas/${categoryView.category.id}/${orderType}/1" var="categoryUrl"></c:set>
 						</c:when>
 						<c:otherwise>
-							<c:set value="/showrecideas/${categoryView.id}/1" var="categoryUrl"></c:set>
+							<c:set value="/showrecideas/${categoryView.category.id}/1" var="categoryUrl"></c:set>
 						</c:otherwise>
 					</c:choose>
 					<li <c:if test="${categoryId == categoryView.category.id}">class="act"</c:if>><p class="${categoryView.category.icon}"></p><a href="${categoryUrl}" class="ca">${categoryView.category.name}</a><a href="${categoryUrl}" class="all_num">${categoryView.ideaCount}</a></li>

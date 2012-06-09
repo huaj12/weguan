@@ -68,14 +68,14 @@ $(document).ready(function(){
 	$("div.idea-interest > a").click(function(){
 		var ideaId = $(this).parent().attr("idea-id");
 		var obj = this;
-		$(obj).text("正在处理");
-		$(obj).parent().addClass("sending");
+		$(obj).parent().addClass("done");
+		$(obj).text("处理中...");
 		interestIdea(ideaId,function(){
 			$(obj).text("已感兴趣");
 			$(obj).unbind("click").parent().removeClass("sending").addClass("done");
 		}, function(errorInfo){
 			$(obj).text("感兴趣");
-			$(obj).parent().removeClass("sending");
+			$(obj).parent().removeClass("done");
 			alert(errorInfo);
 		},this);
 		return false;
@@ -359,7 +359,7 @@ function doPostMessage(url, targetUid, content, errorCallback, completeCallback)
 			if (result && result.success) {
 				completeCallback(result.result);
 			} else {
-				errorCallback(result.errorInfo);
+				errorCallback(result.errorCode,result.errorInfo);
 			}
 		},
 		statusCode : {
@@ -375,8 +375,12 @@ function sendMessage(obj){
 	$(obj).next().show();
 	var targetUid = $(obj).attr("target-uid");
 	var content = $(obj).parent().prev().children("textarea").val();
-	doPostMessage("/home/sendMessage", targetUid, content, function(errorInfo){
-		$(obj).next().next().text(errorInfo).show();
+	doPostMessage("/home/sendMessage", targetUid, content, function(errorCode,errorInfo){
+		if(errorCode=="00004"){
+			$(obj).next().next().html("<a href='/passport/account'class='txt' target='_blank'>"+errorInfo+"</a>").show();
+		}else{	
+			$(obj).next().next().text(errorInfo).show();
+		}
 		$(obj).next().hide();
 		$(obj).show();
 	}, function(result){
@@ -1187,7 +1191,11 @@ var CommentWidget = Class.extend({
 					if(isJson){
 						var jsonResult = (new Function("return " + result))();
 						if(!jsonResult.success){
-							commentForm.find(".error").text(jsonResult.errorInfo).show();
+							if(jsonResult.errorCode=="00004"){
+								commentForm.find(".error").html("<a href='/passport/account' target='_blank'>"+jsonResult.errorInfo+"</a>").show();
+							}else{
+								commentForm.find(".error").text(jsonResult.errorInfo).show();	
+							}
 							return;
 						}
 					} else {

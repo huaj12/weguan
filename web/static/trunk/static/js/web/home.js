@@ -131,6 +131,28 @@ $(document).ready(function(){
 	$("div.s_input> span >input").each(function(){
 		registerInitMsg($(this));
 	});
+	
+	$("a.user-remove-interest").bind("click", function() {
+		var uid = $(this).attr("uid");
+		removeInterestConfirm(uid, this, function(){
+			removeInterestCallback(uid);
+		});
+		return false;
+	});
+	
+	$("a.user-add-interest").bind("click", function() {
+		var uid = $(this).attr("uid");
+		interest(this, uid, function(){
+			interestCallback(uid);
+		});
+		return false;
+	});
+	$("span > a.send-message").bind("click", function(){
+		var uid = $(this).attr("target-uid");
+		var nickname = $(this).attr("target-nickname");
+		openMessage(uid, nickname);
+		return false;
+	});
 });
 
 function resetSendPostForm(sendForm){

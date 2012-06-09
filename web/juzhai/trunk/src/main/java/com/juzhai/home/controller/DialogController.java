@@ -151,16 +151,22 @@ public class DialogController extends BaseController {
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
+		Idea idea = null;
 		if (null != ideaId && ideaId > 0) {
-			Idea idea = ideaService.getIdeaById(ideaId);
+			idea = ideaService.getIdeaById(ideaId);
 			if (null != idea) {
 				content = idea.getContent();
 			}
 		}
 		try {
 			if (StringUtils.isNotEmpty(content)) {
-				dialogService.sendDatingSMS(context.getUid(), targetUid,
-						DialogContentTemplate.PRIVATE_DATE, content);
+				if (null == idea) {
+					dialogService.sendDatingSMS(context.getUid(), targetUid,
+							DialogContentTemplate.PRIVATE_DATE, content);
+				} else {
+					dialogService.sendSMS(context.getUid(), targetUid,
+							DialogContentTemplate.PRIVATE_DATE, content);
+				}
 				privateDateCounter.incr(null, 1L);
 			}
 		} catch (DialogException e) {

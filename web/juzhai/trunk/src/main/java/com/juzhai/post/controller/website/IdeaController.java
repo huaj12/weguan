@@ -148,6 +148,7 @@ public class IdeaController extends BaseController {
 				Collections.singletonList(ideaId), model);
 		ideaAdWidget(cityId, model, ideaDetailAdCount);
 		model.addAttribute("tabType", "ideaUser");
+		model.addAttribute("cityId", cityId);
 		return "web/idea/detail";
 	}
 

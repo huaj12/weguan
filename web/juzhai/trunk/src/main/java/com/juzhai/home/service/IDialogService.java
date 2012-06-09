@@ -107,4 +107,18 @@ public interface IDialogService {
 	 * @return
 	 */
 	DialogContent getDialogContent(long dialogContentId);
+
+	/**
+	 * 约他
+	 * 
+	 * @param uid
+	 * @param targetUid
+	 * @param template
+	 * @return
+	 * @throws DialogException
+	 */
+	long sendDatingSMS(long uid, long targetUid,
+			DialogContentTemplate template, Object... params)
+			throws DialogException;
+
 }

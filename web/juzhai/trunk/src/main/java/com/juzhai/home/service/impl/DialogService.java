@@ -134,7 +134,7 @@ public class DialogService implements IDialogService {
 	public long sendSMS(long uid, long targetUid,
 			DialogContentTemplate template, Object... params)
 			throws DialogException {
-		String content = messageSource.getMessage(template.getName(), null,
+		String content = messageSource.getMessage(template.getName(), params,
 				Locale.SIMPLIFIED_CHINESE);
 		if (StringUtils.isEmpty(content)) {
 			return 0L;

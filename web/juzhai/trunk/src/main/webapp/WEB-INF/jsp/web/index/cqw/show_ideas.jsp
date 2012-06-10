@@ -53,10 +53,20 @@
 											<span <c:if test="${'pop'==orderType}"> class="act"</c:if>><p></p><a href="/showideas/${categoryId}/pop/1" >最热</a><p></p></span>
 										</div><!--category end-->
 										<c:if test="${not empty ideaViewList}">
-											<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
-												<c:param name="pager" value="${pager}"/>
-												<c:param name="url" value="/showideas/${categoryId}/${orderType}" />
-											</c:import>
+												<c:choose>
+												<c:when test="${not empty orderType }">
+													<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
+														<c:param name="pager" value="${pager}"/>
+														<c:param name="url" value="/showideas/${categoryId}/${orderType}" />
+													</c:import>
+												</c:when>
+												<c:otherwise>
+													<c:import url="/WEB-INF/jsp/web/common/pager.jsp">
+														<c:param name="pager" value="${pager}"/>
+														<c:param name="url" value="/showrecideas/${categoryId}" />
+													</c:import>
+												</c:otherwise>
+												</c:choose>
 										</c:if>
 								 	</div><!--search_title end-->
 								 	<div class="clear"></div>

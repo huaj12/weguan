@@ -135,7 +135,8 @@ $(document).ready(function(){
 	$("a.user-remove-interest").bind("click", function() {
 		var uid = $(this).attr("uid");
 		removeInterestConfirm(uid, this, function(){
-			removeInterestCallback(uid);
+			$("a.remove-interest-" + uid).hide();
+			$("a.interest-" + uid).attr("style", "");
 		});
 		return false;
 	});
@@ -143,7 +144,8 @@ $(document).ready(function(){
 	$("a.user-add-interest").bind("click", function() {
 		var uid = $(this).attr("uid");
 		interest(this, uid, function(){
-			interestCallback(uid);
+			$("a.interest-" + uid).hide();
+			$("a.remove-interest-" + uid).attr("style", "");
 		});
 		return false;
 	});

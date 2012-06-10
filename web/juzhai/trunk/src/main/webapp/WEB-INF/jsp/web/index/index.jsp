@@ -69,7 +69,9 @@
 							<jsp:include page="/WEB-INF/jsp/web/home/dialog/share_box.jsp" />
 							<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 							<script type="text/javascript" src="${jzr:static('/js/web/index.js')}"></script>
-							<c:set var="footType" value="welcome" scope="request"/>
+								<c:if test="${context.uid<=0}">
+										<c:set var="footType" value="welcome" scope="request"/>
+								</c:if>
 							<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 				</div><!--warp end-->
 

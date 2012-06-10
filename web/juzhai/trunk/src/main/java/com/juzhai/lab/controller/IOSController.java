@@ -289,6 +289,8 @@ public class IOSController extends BaseController {
 			if (null != post.getDateTime()) {
 				postView.setDate(DateFormat.SDF.format(post.getDateTime()));
 			}
+			postView.setHasResp(postService.isResponsePost(context.getUid(),
+					post.getId()));
 			userViewList.add(userView);
 		}
 		Map<String, Object> result = new HashMap<String, Object>();

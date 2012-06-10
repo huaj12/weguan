@@ -10,6 +10,7 @@ public class PostMView {
 	private String categoryName;
 	private String date;
 	private int respCnt;
+	private boolean hasResp;
 
 	public long getPostId() {
 		return postId;
@@ -73,5 +74,13 @@ public class PostMView {
 
 	public void setRespCnt(int respCnt) {
 		this.respCnt = respCnt;
+	}
+
+	public boolean isHasResp() {
+		return hasResp;
+	}
+
+	public void setHasResp(boolean hasResp) {
+		this.hasResp = hasResp;
 	}
 }

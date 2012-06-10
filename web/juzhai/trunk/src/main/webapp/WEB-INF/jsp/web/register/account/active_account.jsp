@@ -28,7 +28,7 @@
 											<h2>请激活你的邮箱</h2>
 											<p>一封确认邮件已经发送到你的邮箱${account}，点击邮件里的确认链接即可登录，快去查收邮件吧！</p>
 										</div>
-										<div class="btn_jh"><a href="${jzu:mailDomain(account)}" target="_blank">查看邮箱</a></div>
+										<div class="btn_jh"><a href="${jzu:mailDomain(account)}">查看邮箱</a></div>
 										<div class="ts">
 											<h2>还没有收到确认邮件？</h2>
 											<p>可以尝试去垃圾邮件里找找看<br /> 

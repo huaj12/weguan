@@ -104,6 +104,7 @@ public class IndexController extends BaseController {
 		UserContext context = (UserContext) request.getAttribute("context");
 		List<Idea> ideaList = null;
 		long city = 0L;
+		//TODO (review) 这个uid不需要了吧
 		long uid = 0l;
 		if (context.hasLogin()) {
 			ProfileCache loginUser = getLoginUserCache(request);

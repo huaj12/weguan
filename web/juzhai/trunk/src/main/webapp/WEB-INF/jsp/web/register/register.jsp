@@ -13,7 +13,13 @@
 	<body>
 		<div class="warp"><!--warp begin-->
 			<div class="main"><!--main begin-->
-				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
+				<div class="fix_top"><!--fix_top begin-->
+					<div class="beta"></div>
+					<div class="top"><!--top begin-->
+						<h1><a href="http://www.51juzhai.com"></a></h1>
+						<div class="login_btn"><a href="/login" class="btn_log" title="登录">登录</a><a href="/passport/register" class="btn_res" title="注册">注册</a></div>
+					</div><!--top end-->
+				</div><!--fix_top end-->
 				<div class="member_area"><!--member_area begin-->
 					<div class="area_t"></div>
 					<div class="area_m"><!--area_m begin-->

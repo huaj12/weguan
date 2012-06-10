@@ -48,6 +48,7 @@ import com.juzhai.post.model.PostExample;
 import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.stats.counter.service.ICounter;
 
 @Service
 public class IdeaService implements IIdeaService {
@@ -58,8 +59,6 @@ public class IdeaService implements IIdeaService {
 	private IIdeaDao ideaDao;
 	@Autowired
 	private RedisTemplate<String, Long> redisTemplate;
-	@Autowired
-	private RedisTemplate<String, Idea> ideaRedisTemplate;
 	@Autowired
 	private IProfileService profileService;
 	@Autowired
@@ -76,6 +75,8 @@ public class IdeaService implements IIdeaService {
 	private IdeaDetailService ideaDetailService;
 	@Autowired
 	private IdeaInterestMapper ideaInterestMapper;
+	@Autowired
+	private ICounter ideaInterestCounter;
 	@Value("${idea.content.length.min}")
 	private int ideaContentLengthMin;
 	@Value("${idea.content.length.max}")
@@ -674,6 +675,7 @@ public class IdeaService implements IIdeaService {
 		// interest列表缓存
 		redisTemplate.opsForSet().add(
 				RedisKeyGenerator.genInterestIdeasKey(uid), ideaId);
+		ideaInterestCounter.incr(null, 1l);
 	}
 
 	@Override

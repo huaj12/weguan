@@ -1437,6 +1437,8 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 .repy_area .text_area b{ font-weight:normal; float:right; margin-right:10px; display:inline; color:#FF0000;margin-top:15px;}
 
+.repy_area .text_area b a.txt{float:left; margin-top:-5px; font-size:12px; display:inline; width:auto; overflow:auto; height:auto;  text-align:left; color:#3E8BD9; text-decoration:underline;}
+
 .repy_list{ width:100%; height:auto; overflow:hidden; margin-top:30px;}
 .repy_list .repy_title{ width:100%; height:auto; overflow:hidden;border-bottom:1px solid #f6f6f6; padding-bottom:15px; font-weight:bold;  font-size:14px; color:#999;}
 .repy_list .repy_title a{ font-size:14px; margin:0 5px; text-decoration:none; }
@@ -2062,7 +2064,7 @@ i{ color:#f00;}
 .good_idea  span.jj_height{ padding-top:40px;}
 .good_idea  span a{ color:#ccc; text-decoration:underline;}
 .good_idea  span a:hover{color:#3E8BD9;}
-.good_idea .img{ float:left; padding-bottom:10px; padding-right:22px;}
+.good_idea .img{ float:left;  padding-right:22px;}
 
 .good_idea .idea_right_infor{ padding-top:30px; background:#33CC99; float:left;}
 
@@ -4138,7 +4140,7 @@ search_xz .hot{ margin-top:-10px;}
 .message_box .btn a{ float:right; color:#fff; text-align:center; text-decoration:none; display:block; width:85px;  height:30px; line-height:30px; overflow:hidden; font-size:14px;}
 .message_box .btn a.send{   background:url(../images/web2/yue_ta.gif) no-repeat;}
 .message_box .btn a.sending{   background:url(../images/web2/sending_btn.gif) no-repeat;}
-.message_box .btn b a.txt{ float:left; color:#666; margin-top:-8px; font-size:12px; display:inline; width:auto; overflow:auto; height:auto;  text-align:left;}
+.message_box .btn b a.txt{ float:left;  color:#3E8BD9; text-decoration:underline; margin-top:-8px; font-size:12px; display:inline; width:auto; overflow:auto; height:auto;  text-align:left;}
 
 /*约ta弹出层*/
 
@@ -4255,4 +4257,6 @@ search_xz .hot{ margin-top:-10px;}
 
 .quick_share_box .share_suc .btn{ width:80px; height:auto; margin:0 auto; margin-top:20px;}
 .quick_share_box .share_suc .btn a{ width:80px; height:30px; overflow:hidden; background:url(../images/web2/send_area_btn.gif) no-repeat; display:block; color:#fff; font-size:14px; line-height:30px; text-align:center;}
+
+
 

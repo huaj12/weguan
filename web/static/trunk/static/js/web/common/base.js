@@ -359,7 +359,7 @@ function doPostMessage(url, targetUid, content, errorCallback, completeCallback)
 			if (result && result.success) {
 				completeCallback(result.result);
 			} else {
-				errorCallback(result.errorCode,result.errorInfo);
+				errorCallback(result.errorInfo,result.errorCode);
 			}
 		},
 		statusCode : {
@@ -375,8 +375,8 @@ function sendMessage(obj){
 	$(obj).next().show();
 	var targetUid = $(obj).attr("target-uid");
 	var content = $(obj).parent().prev().children("textarea").val();
-	doPostMessage("/home/sendMessage", targetUid, content, function(errorCode,errorInfo){
-		if(errorCode=="00004"){
+	doPostMessage("/home/sendMessage", targetUid, content, function(errorInfo,errorCode){
+		if(errorCode!=undefined&&errorCode=="00004"){
 			$(obj).next().next().html("<a href='/passport/account'class='txt' target='_blank'>"+errorInfo+"</a>").show();
 		}else{	
 			$(obj).next().next().text(errorInfo).show();

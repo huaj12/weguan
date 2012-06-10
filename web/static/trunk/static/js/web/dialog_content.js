@@ -70,7 +70,11 @@ $(document).ready(function(){
 				var isJson = /^{.*}$/.test(result); 
 				if(isJson){
 					var jsonResult = (new Function("return " + result))();
-					$(obj).next().next().text(jsonResult.errorInfo).show();
+					if(jsonResult.errorCode=="00004"){
+						$(obj).next().next().html("<a href='/passport/account'class='txt' target='_blank'>"+jsonResult.errorInfo+"</a>").show();
+					}else{	
+						$(obj).next().next().text(jsonResult.errorInfo).show();
+					}
 				} else {
 					$(obj).prev().prev().children("textarea").val("");
 					$("div.repy_list_body").prepend(result);

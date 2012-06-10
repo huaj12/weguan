@@ -850,6 +850,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 
 .repy_area_s2 .btns .error{ float:left; margin-top:3px;color:#FF0000;}
+.repy_area_s2 .btns .error a.txt{color:#3E8BD9; text-decoration:underline;}
 .repy_area_s2 .btns .repy_btn{ float:right;}
 .repy_area_s2 .btns .repy_btn a{ width:70px; height:25px; text-align:center; line-height:25px; line-height:28px\9; color:#fff; background:url(../images/web2/repy_btn.gif) no-repeat; display:block;}
 .repy_area_s2 .btns .repy_btn a.done{ width:45px; height:25px; background:url(../images/web2/liuyan_loading.gif) no-repeat; padding-left:25px; text-align:left; color:#999; cursor:default;}

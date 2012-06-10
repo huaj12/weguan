@@ -17,9 +17,11 @@ $(document).ready(function(){
 			return false;
 		});
 	}
-    $("img").lazyload({
-        effect : "fadeIn"
-    });
+	if($("#ideaList").length<=0){
+	    $("img").lazyload({
+	        effect : "fadeIn"
+	    });
+	}
     
     bindMouseHover();
     

@@ -161,6 +161,7 @@ function selectwindow(){
 	</c:choose>
 	<form action="/cms/show/idea" method="get" id="idea-form">
 	<select name="city" onchange="selectCity();">
+				<option value=""  <c:if test="${empty city}"> selected="selected"</c:if> >不限</option>
 				<option value="0"  <c:if test="${city==0}"> selected="selected"</c:if> >全国</option>
 				<c:forEach var="specialCity" items="${jzd:specialCityList()}">
 					<option value="${specialCity.id}" <c:if test="${city==specialCity.id}">selected="selected"</c:if>>${specialCity.name}</option>

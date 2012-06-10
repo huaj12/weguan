@@ -38,7 +38,7 @@ public class RecommendPostService implements IRecommendPostService {
 			return Collections.emptyList();
 		}
 		if (list.size() > count) {
-			list.subList(0, count);
+			list = list.subList(0, count);
 		}
 		return list;
 	}

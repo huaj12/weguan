@@ -115,7 +115,7 @@ public class IndexController extends BaseController {
 					indexWindowIdeaMaxRows);
 			Collections.shuffle(ideaList);
 			if (ideaList.size() > indexWindowIdeaRandom) {
-				ideaList.subList(0, indexWindowIdeaRandom);
+				ideaList = ideaList.subList(0, indexWindowIdeaRandom);
 			}
 			showHomeLogo(context, model);
 		} else {

@@ -98,7 +98,7 @@
 												<div class="pub_box_b"></div>
 											</div><!--pub_box end-->
 										</c:if>
-										<a name="ideaList">&nbsp;</a>
+										<a name="ideaList" id="ideaList">&nbsp;</a>
 										<div class="pub_box"><!--pub_box begin-->
 											<div class="pub_box_t"></div>
 											<div class="pub_box_m"><!--pub_box_m begin-->

@@ -62,8 +62,7 @@ public class CmsIdeaController extends BaseController {
 
 	@RequestMapping(value = "/show/idea", method = RequestMethod.GET)
 	public String showIdea(Model model,
-			@RequestParam(defaultValue = "1") int pageId,
-			@RequestParam(defaultValue = "0") long city,
+			@RequestParam(defaultValue = "1") int pageId, Long city,
 			@RequestParam(defaultValue = "0") long categoryId, Boolean window) {
 		PagerManager pager = new PagerManager(pageId, 20,
 				ideaService.countCmsIdeaByCityAndCategory(window, city,
@@ -184,7 +183,7 @@ public class CmsIdeaController extends BaseController {
 					Locale.SIMPLIFIED_CHINESE);
 			return showIdeaAdd(model, msg, ideaForm, null);
 		}
-		return showIdea(model, 1, 0, 0, false);
+		return showIdea(model, 1, null, 0, false);
 	}
 
 	@RequestMapping(value = "/update/idea", method = RequestMethod.POST)
@@ -196,7 +195,7 @@ public class CmsIdeaController extends BaseController {
 					messageSource.getMessage(e.getMessage(), null,
 							Locale.SIMPLIFIED_CHINESE), ideaForm);
 		}
-		return showIdea(model, 1, 0, 0, false);
+		return showIdea(model, 1, null, 0, false);
 	}
 
 	@RequestMapping(value = "/idea/del", method = RequestMethod.POST)

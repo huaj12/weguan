@@ -1192,7 +1192,7 @@ var CommentWidget = Class.extend({
 						var jsonResult = (new Function("return " + result))();
 						if(!jsonResult.success){
 							if(jsonResult.errorCode=="00004"){
-								commentForm.find(".error").html("<a href='/passport/account' target='_blank'>"+jsonResult.errorInfo+"</a>").show();
+								commentForm.find(".error").html("<a href='/passport/account' class='txt' target='_blank'>"+jsonResult.errorInfo+"</a>").show();
 							}else{
 								commentForm.find(".error").text(jsonResult.errorInfo).show();	
 							}

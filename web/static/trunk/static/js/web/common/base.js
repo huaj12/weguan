@@ -95,6 +95,46 @@ $(document).ready(function(){
 			$(inputDiv).removeClass("hover");
 		});
 	});
+	
+	$("div.search> form >div.s_m >input").each(function(){
+		registerInitMsg($(this));
+	});
+	
+	$("#base-search-post-form").submit(function(){
+		var queryString = $("#base-search-post-input").val();
+		var initDes=$("#base-search-post-input").attr("init-tip");
+		queryString=trimStr(queryString);
+		if(queryString==initDes){
+			queryString="";
+		}
+		if(queryString==""){
+			$("#base-search-post-input")[0].focus();
+			return false;
+		}else{
+			return true;
+		}
+		
+	});
+	
+	$("#search-post-form").submit(function(){
+		var queryString = $("#search-post-input").val();
+		var initDes=$("#search-post-input").attr("init-tip");
+		queryString=trimStr(queryString);
+		if(queryString==initDes){
+			queryString="";
+		}
+		if(queryString==""){
+			$("#search-post-input")[0].focus();
+			return false;
+		}else{
+			return true;
+		}
+	});
+	
+	$("div.search > form > div.s_r> a").click(function(){
+		$("#base-search-post-form").submit();
+		return false;
+	});
 });
 
 function nextIdeaWidget(containDiv, page){

@@ -293,13 +293,7 @@ public class UserController extends BaseController {
 				visitUserService.addVisitUser(uid, context.getUid());
 			}
 		} else {
-			// 来访者列表
-			if (!model.containsAttribute("visitorViewList")) {
-				List<VisitorView> visitorViewList = visitUserService
-						.listVisitUsers(context.getUid(), 0,
-								visitorWidgetUserCount);
-				model.addAttribute("visitorViewList", visitorViewList);
-			}
+			visitUserWidget(model, context, visitorWidgetUserCount);
 			// 可能感兴趣
 			recommendUserWidget(context.getUid(), userPageRecommendUserCount,
 					model);

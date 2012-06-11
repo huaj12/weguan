@@ -22,8 +22,10 @@ import com.juzhai.core.web.ErrorPageDispatcher;
 import com.juzhai.core.web.filter.CheckLoginFilter;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.controller.view.RecommendUserView;
+import com.juzhai.home.controller.view.VisitorView;
 import com.juzhai.home.service.IBlacklistService;
 import com.juzhai.home.service.IGuessYouService;
+import com.juzhai.home.service.IVisitUserService;
 import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
@@ -87,6 +89,8 @@ public class BaseController {
 	private ISearchHotService searchHotService;
 	@Autowired
 	private IRecommendPostService recommendPostService;
+	@Autowired
+	private IVisitUserService visitUserService;
 
 	protected UserContext checkLoginForApp(HttpServletRequest request)
 			throws NeedLoginException {
@@ -325,6 +329,16 @@ public class BaseController {
 			}
 		}
 		model.addAttribute("postView", listView);
+	}
+
+	protected void visitUserWidget(Model model, UserContext context, int count) {
+		if (context.getUid() > 0) {
+			if (!model.containsAttribute("visitorViewList")) {
+				List<VisitorView> visitorViewList = visitUserService
+						.listVisitUsers(context.getUid(), 0, count);
+				model.addAttribute("visitorViewList", visitorViewList);
+			}
+		}
 	}
 
 }

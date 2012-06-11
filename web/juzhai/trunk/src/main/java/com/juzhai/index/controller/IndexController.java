@@ -98,19 +98,19 @@ public class IndexController extends BaseController {
 	private int indexWindowIdeaMaxRows;
 	@Value("${index.window.idea.random}")
 	private int indexWindowIdeaRandom;
+	@Value("${visitor.widget.user.count}")
+	private int visitorWidgetUserCount;
 
 	@RequestMapping(value = { "", "/", "/index", "/welcome" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
 		UserContext context = (UserContext) request.getAttribute("context");
 		List<Idea> ideaList = null;
 		long city = 0L;
-		//TODO (review) 这个uid不需要了吧
-		long uid = 0l;
+		// TODO (done) 这个uid不需要了吧
 		if (context.hasLogin()) {
 			ProfileCache loginUser = getLoginUserCache(request);
 			if (loginUser != null && loginUser.getCity() != null) {
 				city = loginUser.getCity();
-				uid = loginUser.getUid();
 			}
 			ideaList = ideaService.listIdeaWindow(city, 0, 0,
 					indexWindowIdeaMaxRows);
@@ -127,6 +127,7 @@ public class IndexController extends BaseController {
 		List<IdeaView> ideaViewList = ideaViewHelper.assembleIdeaView(context,
 				ideaList);
 		hotWordsWidget(model, city, searchUserHotRows);
+		visitUserWidget(model, context, visitorWidgetUserCount);
 		model.addAttribute("ideaViewList", ideaViewList);
 		return "web/index/index";
 	}

@@ -28,7 +28,7 @@
 								<div class="search_jg"><!--search_jg begin-->
 									<h2>拒宅搜索</h2>
 									<div class="input"><!--input begin-->
-									<p class="l"></p><span class="width70"><input name="queryString" type="text" value="${queryString}" /></span><p class="r"></p>
+									<p class="l"></p><span class="width70"><input name="queryString" id="search-post-input" type="text" value="${queryString}" /></span><p class="r"></p>
 									</div><!--input end-->
 									<a href="javascript:void(0);">搜</a>
 								</div><!--search_jg end-->

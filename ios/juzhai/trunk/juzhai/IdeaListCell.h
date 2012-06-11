@@ -18,6 +18,7 @@
 #define HIGHLIGHT_WANT_BUTTON_IMAGE @"idea_wgo_btn_hover.png"
 #define DISABLE_WANT_BUTTON_IMAGE @"idea_wgo_btn_done.png"
 #define WANT_BUTTON_CAP_WIDTH 26.0
+
 @interface IdeaListCell : UITableViewCell
 {
     IdeaView *_ideaView;

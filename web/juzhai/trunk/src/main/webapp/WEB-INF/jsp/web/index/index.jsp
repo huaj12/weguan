@@ -60,6 +60,9 @@
 							<jsp:include page="index_login.jsp" />
 							</c:if>
 							<jsp:include page="index_post_list.jsp" />
+							<c:if test="${context.uid>0}">
+							<jsp:include page="/WEB-INF/jsp/web/home/common/visitor_widget.jsp" />
+							</c:if>
 							<c:set scope="request" var="hotListType" value="result"></c:set>
 							<jsp:include page="/WEB-INF/jsp/web/search/common/search_post_input.jsp" />
 						</div><!--main_right end-->

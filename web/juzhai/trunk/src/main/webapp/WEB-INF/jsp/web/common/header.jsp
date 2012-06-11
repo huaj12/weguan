@@ -85,6 +85,17 @@
 				</div><!--login end-->
 			</c:if>
 		</div><!--user_area end-->
+		<div class="search"><!--search begin-->
+				<form action="/searchposts" id="base-search-post-form" method="get">
+				<div class="s_l"></div>
+				<div class="s_m"><!--s_m begin-->
+					<input name="queryString" id="base-search-post-input" type="text" init-tip="拒宅关键词" value=""/>
+				</div><!--s_m end-->
+				<input type="submit" style="display: none">
+				<div class="s_r"><a href="javascript:void(0);"></a></div>
+				</form>
+		</div><!--search end-->
+		
 		<%-- <form id="searchActsForm" action="/searchActs" method="get">
 			<div class="search"><!--search begin-->
 				<div class="s_l"></div>

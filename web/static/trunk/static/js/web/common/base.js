@@ -1703,7 +1703,7 @@ function bindShareBtn(obj){
 			return false;
 		});
 		$(dialog.content()).find("div.btn > a").click(function(){
-			shareIdea($(obj),dialog);
+			shareIdea($(this),dialog);
 			return false;
 		});
 		return false;

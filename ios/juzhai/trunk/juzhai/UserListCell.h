@@ -25,7 +25,6 @@
 #define HIGHLIGHT_RESP_BUTTON_IMAGE @"zber_xy_btn_hover.png"
 #define DISABLE_RESP_BUTTON_IMAGE @"zber_xy_btn_done.png"
 #define WANT_BUTTON_CAP_WIDTH 26.0
-
 #define BG_CAP_HEIHGT 20.0
 
 @interface UserListCell : UITableViewCell

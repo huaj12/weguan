@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+					<c:if test="${not empty  userPostList}">
 						<div class="content_box w285"><!--content begin-->
 							<div class="t"></div>
 							<div class="m">
@@ -16,3 +17,4 @@
 							</div>
 							<div class="t"></div>
 						</div><!--content end-->
+					</c:if>	

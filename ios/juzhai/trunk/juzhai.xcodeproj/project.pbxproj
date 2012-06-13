@@ -155,6 +155,8 @@
 		CBBD5E5C158284E4003F0800 /* sex_2_link@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBBD5E49158284E4003F0800 /* sex_2_link@2x.png */; };
 		CBBD5E5D158284E4003F0800 /* wojia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBBD5E4A158284E4003F0800 /* wojia@2x.png */; };
 		CBBD5E5E158284E4003F0800 /* zhaobaner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBBD5E4B158284E4003F0800 /* zhaobaner@2x.png */; };
+		CBBF7E7C158911D80073EA0A /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBBF7E7A158911D70073EA0A /* HomeViewController.m */; };
+		CBBF7E7D158911D80073EA0A /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBBF7E7B158911D80073EA0A /* HomeViewController.xib */; };
 		CBD8AB471585E3920021AA52 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD8AB341585E3920021AA52 /* MKAnnotationView+WebCache.m */; };
 		CBD8AB481585E3920021AA52 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD8AB361585E3920021AA52 /* SDImageCache.m */; };
 		CBD8AB491585E3920021AA52 /* SDWebImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD8AB3A1585E3920021AA52 /* SDWebImageDecoder.m */; };
@@ -385,6 +387,9 @@
 		CBBD5E49158284E4003F0800 /* sex_2_link@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sex_2_link@2x.png"; sourceTree = "<group>"; };
 		CBBD5E4A158284E4003F0800 /* wojia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wojia@2x.png"; sourceTree = "<group>"; };
 		CBBD5E4B158284E4003F0800 /* zhaobaner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zhaobaner@2x.png"; sourceTree = "<group>"; };
+		CBBF7E79158911D70073EA0A /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		CBBF7E7A158911D70073EA0A /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		CBBF7E7B158911D80073EA0A /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		CBD8AB331585E3920021AA52 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		CBD8AB341585E3920021AA52 /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		CBD8AB351585E3920021AA52 /* SDImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDImageCache.h; sourceTree = "<group>"; };
@@ -511,6 +516,7 @@
 				CB0C4460155CCFB600B238D4 /* CameraViewController.xib */,
 				CB7EFEEF15804E3D00176E59 /* PostDetailViewController.xib */,
 				CB7EFEF81580515500176E59 /* IdeaDetailViewController.xib */,
+				CBBF7E7B158911D80073EA0A /* HomeViewController.xib */,
 			);
 			name = XIB;
 			sourceTree = "<group>";
@@ -673,6 +679,8 @@
 				CB7EFEEE15804E3D00176E59 /* PostDetailViewController.m */,
 				CB7EFEF61580515400176E59 /* IdeaDetailViewController.h */,
 				CB7EFEF71580515500176E59 /* IdeaDetailViewController.m */,
+				CBBF7E79158911D70073EA0A /* HomeViewController.h */,
+				CBBF7E7A158911D70073EA0A /* HomeViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -1276,6 +1284,7 @@
 				CBAD7A031588882300AF2666 /* my_jz_set_btn_hover.png in Resources */,
 				CBAD7A041588882300AF2666 /* my_jz_set_btn_link.png in Resources */,
 				CBAD7A051588882300AF2666 /* my_jz_title_bg.png in Resources */,
+				CBBF7E7D158911D80073EA0A /* HomeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1347,6 +1356,7 @@
 				CBD8AB4C1585E3920021AA52 /* SDWebImagePrefetcher.m in Sources */,
 				CBD8AB4D1585E3920021AA52 /* UIButton+WebCache.m in Sources */,
 				CBD8AB4E1585E3920021AA52 /* UIImageView+WebCache.m in Sources */,
+				CBBF7E7C158911D80073EA0A /* HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -105,7 +105,7 @@
 - (void) loadListDataWithPage:(NSInteger)page{
     if(page <= 0)
         page = 1;
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         sleep(1);
@@ -114,14 +114,12 @@
         if (gender <= 1) {
             [params setObject:[NSNumber numberWithInt:gender] forKey:@"gender"];
         }
-        
         __block ASIHTTPRequest *_request = [HttpRequestSender initGetRequestWithUrl:@"http://test.51juzhai.com/app/ios/userList" withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             // Use when fetching text data
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             NSString *responseString = [request responseString];
-            NSLog(@"%@", responseString);
             NSMutableDictionary *jsonResult = [responseString JSONValue];
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
                 //reload
@@ -141,7 +139,7 @@
             }
         }];
         [request setFailedBlock:^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
         }];
         [request startAsynchronous];
     });

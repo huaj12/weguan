@@ -272,12 +272,10 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(_ideaDetailViewController == nil){
-        _ideaDetailViewController = [[IdeaDetailViewController alloc] initWithNibName:@"ideaDetailViewController" bundle:nil];
-        _ideaDetailViewController.hidesBottomBarWhenPushed = YES;
-    }
-    _ideaDetailViewController.ideaView = [_data objectAtIndex:indexPath.section];
-    [self.navigationController pushViewController:_ideaDetailViewController animated:YES];
+    IdeaDetailViewController *ideaDetailViewController = [[IdeaDetailViewController alloc] initWithNibName:@"ideaDetailViewController" bundle:nil];
+    ideaDetailViewController.hidesBottomBarWhenPushed = YES;
+    ideaDetailViewController.ideaView = [_data objectAtIndex:indexPath.row];
+    [self.navigationController pushViewController:ideaDetailViewController animated:YES];
 }
 
 #pragma mark - UIScrollViewDelegate Methods

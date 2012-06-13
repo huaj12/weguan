@@ -260,6 +260,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     PostDetailViewController *postDetailViewController = [[PostDetailViewController alloc] initWithNibName:@"PostDetailViewController" bundle:nil];
     postDetailViewController.hidesBottomBarWhenPushed = YES;
+    postDetailViewController.userView = [_data objectAtIndex:indexPath.row];
     [self.navigationController pushViewController:postDetailViewController animated:YES];
 }
 

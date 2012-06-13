@@ -6,18 +6,18 @@
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#import "HomeViewController.h"
+#import "CameraViewController.h"
 #import "ASIFormDataRequest.h"
 #import "HttpRequestSender.h"
 #import "SBJson.h"
 #import "MBProgressHUD.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 
-@interface HomeViewController ()
+@interface CameraViewController ()
 
 @end
 
-@implementation HomeViewController
+@implementation CameraViewController
 
 @synthesize imageView;
 

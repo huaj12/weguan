@@ -10,8 +10,8 @@
 
 @class IdeaView;
 
-#define DEFAULT_HEIGHT_GAP 10.0
-#define INFO_ICON_HEIGHT_GAP 4.0
+#define IDEA_DEFAULT_HEIGHT_GAP 10.0
+#define IDEA_INFO_ICON_HEIGHT_GAP 4.0
 
 @interface IdeaDetailViewController : UIViewController
 

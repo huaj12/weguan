@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CB0C4461155CCFB600B238D4 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0C445F155CCFB600B238D4 /* HomeViewController.m */; };
-		CB0C4462155CCFB600B238D4 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB0C4460155CCFB600B238D4 /* HomeViewController.xib */; };
+		CB0C4461155CCFB600B238D4 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0C445F155CCFB600B238D4 /* CameraViewController.m */; };
+		CB0C4462155CCFB600B238D4 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB0C4460155CCFB600B238D4 /* CameraViewController.xib */; };
 		CB0C4464155CD07000B238D4 /* TabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB0C4463155CD07000B238D4 /* TabBar.xib */; };
 		CB0C4468155CD50400B238D4 /* IdeaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0C4466155CD50300B238D4 /* IdeaViewController.m */; };
 		CB0C4490155D05B800B238D4 /* ConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0C448E155D05B800B238D4 /* ConfigViewController.m */; };
@@ -210,9 +210,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CB0C445E155CCFB600B238D4 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
-		CB0C445F155CCFB600B238D4 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
-		CB0C4460155CCFB600B238D4 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		CB0C445E155CCFB600B238D4 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
+		CB0C445F155CCFB600B238D4 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
+		CB0C4460155CCFB600B238D4 /* CameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
 		CB0C4463155CD07000B238D4 /* TabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TabBar.xib; sourceTree = "<group>"; };
 		CB0C4465155CD50300B238D4 /* IdeaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdeaViewController.h; sourceTree = "<group>"; };
 		CB0C4466155CD50300B238D4 /* IdeaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdeaViewController.m; sourceTree = "<group>"; };
@@ -508,7 +508,7 @@
 			isa = PBXGroup;
 			children = (
 				CB0C4463155CD07000B238D4 /* TabBar.xib */,
-				CB0C4460155CCFB600B238D4 /* HomeViewController.xib */,
+				CB0C4460155CCFB600B238D4 /* CameraViewController.xib */,
 				CB7EFEEF15804E3D00176E59 /* PostDetailViewController.xib */,
 				CB7EFEF81580515500176E59 /* IdeaDetailViewController.xib */,
 			);
@@ -665,8 +665,8 @@
 				CB0C4466155CD50300B238D4 /* IdeaViewController.m */,
 				CB175AC6156E620700D5F054 /* CategoryTableViewController.h */,
 				CB175AC7156E620700D5F054 /* CategoryTableViewController.m */,
-				CB0C445E155CCFB600B238D4 /* HomeViewController.h */,
-				CB0C445F155CCFB600B238D4 /* HomeViewController.m */,
+				CB0C445E155CCFB600B238D4 /* CameraViewController.h */,
+				CB0C445F155CCFB600B238D4 /* CameraViewController.m */,
 				CB0C448D155D05B800B238D4 /* ConfigViewController.h */,
 				CB0C448E155D05B800B238D4 /* ConfigViewController.m */,
 				CB7EFEED15804E3D00176E59 /* PostDetailViewController.h */,
@@ -1151,7 +1151,7 @@
 				CB87D3E715518C9C00A25129 /* InfoPlist.strings in Resources */,
 				CB7F16DC155196F50009E060 /* LoginViewController.xib in Resources */,
 				CB7F16E1155197110009E060 /* RegisterViewController.xib in Resources */,
-				CB0C4462155CCFB600B238D4 /* HomeViewController.xib in Resources */,
+				CB0C4462155CCFB600B238D4 /* CameraViewController.xib in Resources */,
 				CB0C4464155CD07000B238D4 /* TabBar.xib in Resources */,
 				CB8F09C4157221A30003018D /* IdeaListCell.xib in Resources */,
 				CBAB85BD1575225C00888688 /* UserListCell.xib in Resources */,
@@ -1314,7 +1314,7 @@
 				CBDDC58A155394DF00C70D31 /* SBJsonUTF8Stream.m in Sources */,
 				CBDDC58B155394DF00C70D31 /* SBJsonWriter.m in Sources */,
 				CBE90A901558D646002780E8 /* LoginUser.m in Sources */,
-				CB0C4461155CCFB600B238D4 /* HomeViewController.m in Sources */,
+				CB0C4461155CCFB600B238D4 /* CameraViewController.m in Sources */,
 				CB0C4468155CD50400B238D4 /* IdeaViewController.m in Sources */,
 				CB0C4490155D05B800B238D4 /* ConfigViewController.m in Sources */,
 				CBF5611C155E2DE3006A03E6 /* IdeaView.m in Sources */,

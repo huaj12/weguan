@@ -15,11 +15,16 @@
 @property (nonatomic, strong) NSString *content;
 @property (nonatomic, strong) NSString *place;
 @property (nonatomic, strong) NSString *pic;
+@property (nonatomic, strong) NSString *bigPic;
 @property (nonatomic, strong) NSString *categoryName;
 @property (nonatomic, strong) NSString *date;
 @property (nonatomic, strong) NSNumber *respCnt;
 @property (nonatomic, strong) NSNumber *hasResp;
 
 + (id) postConvertFromDictionary:(NSDictionary *)info;
+
+- (BOOL) hasPlace;
+- (BOOL) hasTime;
+- (BOOL) hasCategory;
 
 @end

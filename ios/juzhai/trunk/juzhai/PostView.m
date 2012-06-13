@@ -15,6 +15,7 @@
 @synthesize content;
 @synthesize place;
 @synthesize pic;
+@synthesize bigPic;
 @synthesize categoryName;
 @synthesize date;
 @synthesize respCnt;
@@ -27,11 +28,24 @@
     post.content = [info valueForKey:@"content"];
     post.place = [info valueForKey:@"place"];
     post.pic = [info valueForKey:@"pic"];
+    post.bigPic = [info valueForKey:@"bigPic"];
     post.categoryName = [info valueForKey:@"categoryName"];
     post.date = [info valueForKey:@"date"];
     post.respCnt = [info valueForKey:@"respCnt"];
     post.hasResp = [info valueForKey:@"hasResp"];
     return post;
+}
+
+- (BOOL) hasPlace{
+    return self.place != nil && ![self.place isEqual:[NSNull null]] && ![self.place isEqualToString:@""];
+}
+
+- (BOOL) hasTime{
+    return self.date != nil && ![self.date isEqual:[NSNull null]] && ![self.date isEqualToString:@""];
+}
+
+- (BOOL) hasCategory{
+    return self.categoryName != nil && ![self.categoryName isEqual:[NSNull null]] && ![self.categoryName isEqualToString:@""];
 }
 
 @end

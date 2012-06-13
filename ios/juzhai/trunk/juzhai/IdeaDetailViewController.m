@@ -11,9 +11,11 @@
 #import "CustomNavigationController.h"
 #import "IdeaView.h"
 #import "SDWebImage/UIImageView+WebCache.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface IdeaDetailViewController ()
-- (float) getViewOriginY:(UIView *)view byUpperView:(UIView *)upperView heightGap:(float)heightGap;
+- (CGFloat) getViewOriginY:(UIView *)view byUpperView:(UIView *)upperView heightGap:(float)heightGap;
+- (void) resetViewFrame;
 @end
 
 @implementation IdeaDetailViewController
@@ -30,6 +32,8 @@
 @synthesize addressIconView;
 @synthesize categoryIconView;
 @synthesize moreButton;
+@synthesize postIdeaButton;
+@synthesize shareButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,24 +58,12 @@
 //    imageView.image = [UIImage imageNamed:IDEA_DEFAULT_PIC];
     [imageView setFrame:CGRectMake(imageView.frame.origin.x, [self getViewOriginY:imageView byUpperView:contentLabel heightGap:DEFAULT_HEIGHT_GAP], imageView.frame.size.width, imageView.frame.size.height)];
     [imageView setHidden:[ideaView.bigPic isEqual:[NSNull null]]];
-    if(!imageView.hidden){
-        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        NSURL *imageURL = [NSURL URLWithString:ideaView.bigPic];
-        [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
-            float height = image.size.height;
-            imageView.image = image;
-            [imageView setFrame:CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width, height/2)];
-            //重新定位以下元素
-            [infoView setFrame:CGRectMake(infoView.frame.origin.x, [self getViewOriginY:infoView byUpperView:imageView heightGap:DEFAULT_HEIGHT_GAP], infoView.frame.size.width, infoView.frame.size.height)];
-        } failure:nil];
-    }
-    [infoView setFrame:CGRectMake(infoView.frame.origin.x, [self getViewOriginY:infoView byUpperView:imageView heightGap:DEFAULT_HEIGHT_GAP], infoView.frame.size.width, infoView.frame.size.height)];
     
     [timeIconView setFrame:CGRectMake(timeIconView.frame.origin.x, [self getViewOriginY:timeIconView byUpperView:nil heightGap:INFO_ICON_HEIGHT_GAP], timeIconView.frame.size.width, timeIconView.frame.size.height)];
     timeIconView.hidden = ![ideaView hasTime];
     timeLabel.hidden = timeIconView.hidden;
     if(!timeLabel.hidden){
-        timeLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:10.0];
+        timeLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
         timeLabel.text = [NSString stringWithFormat:@"%@ - %@", ideaView.startTime, ideaView.endTime];
         [timeLabel setFrame:CGRectMake(timeLabel.frame.origin.x, timeIconView.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)];
     }
@@ -79,7 +71,7 @@
     addressIconView.hidden = ![ideaView hasPlace];
     addressLabel.hidden = addressIconView.hidden;
     if(!addressLabel.hidden){
-        addressLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:10.0];
+        addressLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
         addressLabel.text = ideaView.place;
         [addressLabel setFrame:CGRectMake(addressLabel.frame.origin.x, addressIconView.frame.origin.y, addressLabel.frame.size.width, addressLabel.frame.size.height)];
     }
@@ -87,21 +79,50 @@
     categoryIconView.hidden = ![ideaView hasCategory];
     categoryLabel.hidden = categoryIconView.hidden;
     if(!categoryLabel.hidden){
-        categoryLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:10.0];
+        categoryLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
         categoryLabel.text = ideaView.categoryName;
         [categoryLabel setFrame:CGRectMake(categoryLabel.frame.origin.x, categoryIconView.frame.origin.y, categoryLabel.frame.size.width, categoryLabel.frame.size.height)];
     }
     
     [moreButton setFrame:CGRectMake(moreButton.frame.origin.x, [self getViewOriginY:moreButton byUpperView:categoryIconView heightGap:DEFAULT_HEIGHT_GAP], moreButton.frame.size.width, moreButton.frame.size.height)];
+    
+    [postIdeaButton setFrame:CGRectMake(postIdeaButton.frame.origin.x, [self getViewOriginY:postIdeaButton byUpperView:moreButton heightGap:DEFAULT_HEIGHT_GAP], postIdeaButton.frame.size.width, postIdeaButton.frame.size.height)];
+    
+    [shareButton setFrame:CGRectMake(shareButton.frame.origin.x, [self getViewOriginY:shareButton byUpperView:moreButton heightGap:DEFAULT_HEIGHT_GAP], shareButton.frame.size.width, shareButton.frame.size.height)];
+    
+    if(!imageView.hidden){
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        NSURL *imageURL = [NSURL URLWithString:ideaView.bigPic];
+        [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
+            float height = image.size.height;
+            imageView.image = image;
+            [imageView setFrame:CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width, height/2)];
+            imageView.layer.shouldRasterize = YES;
+            imageView.layer.masksToBounds = YES;
+            imageView.layer.cornerRadius = 5.0;
+            //重新定位以下元素
+            [self resetViewFrame];
+            
+        } failure:nil];
+    }
+    [self resetViewFrame];
 }
 
-- (float) getViewOriginY:(UIView *)view byUpperView:(UIView *)upperView heightGap:(float)heightGap{
+
+
+- (CGFloat) getViewOriginY:(UIView *)view byUpperView:(UIView *)upperView heightGap:(float)heightGap{
     if(upperView == nil){
         return view.frame.origin.y;
     }else {
         float y = upperView.frame.origin.y;
         return y + (upperView.hidden ? 0.0 : (upperView.frame.size.height + heightGap));
     }
+}
+
+- (void) resetViewFrame{
+    [infoView setFrame:CGRectMake(infoView.frame.origin.x, [self getViewOriginY:infoView byUpperView:imageView heightGap:DEFAULT_HEIGHT_GAP], infoView.frame.size.width, postIdeaButton.frame.origin.y + postIdeaButton.frame.size.height + DEFAULT_HEIGHT_GAP)];
+    
+    [contentView setContentSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, infoView.frame.origin.y + infoView.frame.size.height)];
 }
 
 - (void)viewDidUnload
@@ -124,6 +145,10 @@
 
 - (IBAction)moreIdea:(id)sender{
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)postIdea:(id)sender{
+    
 }
 
 @end

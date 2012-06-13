@@ -87,53 +87,6 @@
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
-							<object class="IBUIButton" id="335692470">
-								<reference key="NSNextResponder" ref="710574375"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{106, 600}, {45, 20}}</string>
-								<reference key="NSSuperview" ref="710574375"/>
-								<reference key="NSWindow"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIOpaque">NO</bool>
-								<int key="IBUITag">6</int>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<int key="IBUIButtonType">1</int>
-								<object class="NSColor" key="IBUIHighlightedTitleColor" id="692475668">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MQA</bytes>
-								</object>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-								</object>
-								<object class="NSColor" key="IBUINormalTitleShadowColor" id="1001440904">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC41AA</bytes>
-								</object>
-								<object class="NSCustomResource" key="IBUINormalImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">wantgo_link.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUIHighlightedBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">wantgo_hover.png</string>
-								</object>
-								<object class="NSCustomResource" key="IBUIDisabledBackgroundImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">wantgo_active.png</string>
-								</object>
-								<object class="IBUIFontDescription" key="IBUIFontDescription" id="1033093584">
-									<int key="type">2</int>
-									<double key="pointSize">15</double>
-								</object>
-								<object class="NSFont" key="IBUIFont" id="896826796">
-									<string key="NSName">Helvetica-Bold</string>
-									<double key="NSSize">15</double>
-									<int key="NSfFlags">16</int>
-								</object>
-							</object>
 							<object class="IBUIView" id="623279073">
 								<reference key="NSNextResponder" ref="710574375"/>
 								<int key="NSvFlags">292</int>
@@ -267,12 +220,18 @@
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<int key="IBUIContentHorizontalAlignment">0</int>
 										<int key="IBUIContentVerticalAlignment">0</int>
-										<reference key="IBUIHighlightedTitleColor" ref="692475668"/>
+										<object class="NSColor" key="IBUIHighlightedTitleColor" id="692475668">
+											<int key="NSColorSpace">3</int>
+											<bytes key="NSWhite">MQA</bytes>
+										</object>
 										<object class="NSColor" key="IBUINormalTitleColor">
 											<int key="NSColorSpace">1</int>
 											<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 										</object>
-										<reference key="IBUINormalTitleShadowColor" ref="1001440904"/>
+										<object class="NSColor" key="IBUINormalTitleShadowColor" id="1001440904">
+											<int key="NSColorSpace">3</int>
+											<bytes key="NSWhite">MC41AA</bytes>
+										</object>
 										<object class="NSCustomResource" key="IBUIHighlightedImage">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">idea_view_more_btn_hover.png</string>
@@ -281,8 +240,15 @@
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">idea_view_more_btn_link.png</string>
 										</object>
-										<reference key="IBUIFontDescription" ref="1033093584"/>
-										<reference key="IBUIFont" ref="896826796"/>
+										<object class="IBUIFontDescription" key="IBUIFontDescription" id="1033093584">
+											<int key="type">2</int>
+											<double key="pointSize">15</double>
+										</object>
+										<object class="NSFont" key="IBUIFont" id="124014900">
+											<string key="NSName">Helvetica-Bold</string>
+											<double key="NSSize">15</double>
+											<int key="NSfFlags">16</int>
+										</object>
 									</object>
 									<object class="IBUIButton" id="661233994">
 										<reference key="NSNextResponder" ref="623279073"/>
@@ -310,7 +276,7 @@
 											<string key="NSResourceName">idea_wangto_btn_link.png</string>
 										</object>
 										<reference key="IBUIFontDescription" ref="1033093584"/>
-										<reference key="IBUIFont" ref="896826796"/>
+										<reference key="IBUIFont" ref="124014900"/>
 									</object>
 									<object class="IBUIButton" id="919523158">
 										<reference key="NSNextResponder" ref="623279073"/>
@@ -339,7 +305,7 @@
 											<string key="NSResourceName">idea_share_btn_link.png</string>
 										</object>
 										<reference key="IBUIFontDescription" ref="1033093584"/>
-										<reference key="IBUIFont" ref="896826796"/>
+										<reference key="IBUIFont" ref="124014900"/>
 									</object>
 								</array>
 								<string key="NSFrame">{{0, 142}, {320, 220}}</string>
@@ -469,6 +435,30 @@
 					<int key="connectionID">41</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">postIdeaButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="661233994"/>
+					</object>
+					<int key="connectionID">44</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">shareButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="919523158"/>
+					</object>
+					<int key="connectionID">45</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">contentView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="710574375"/>
+					</object>
+					<int key="connectionID">47</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">moreIdea:</string>
 						<reference key="source" ref="277876538"/>
@@ -476,6 +466,15 @@
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">30</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">postIdea:</string>
+						<reference key="source" ref="661233994"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">46</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -511,7 +510,6 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="34638721"/>
 							<reference ref="816961011"/>
-							<reference ref="335692470"/>
 							<reference ref="623279073"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
@@ -524,11 +522,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">20</int>
 						<reference key="object" ref="816961011"/>
-						<reference key="parent" ref="710574375"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">19</int>
-						<reference key="object" ref="335692470"/>
 						<reference key="parent" ref="710574375"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -606,8 +599,6 @@
 				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="15.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="18.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="19.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="3" key="19.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="20.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="25.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="28.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -623,24 +614,27 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">43</int>
+			<int key="maxID">47</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">IdeaDetailViewController</string>
 					<string key="superclassName">UIViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">moreIdea:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">moreIdea:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="moreIdea:">id</string>
+						<string key="postIdea:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="moreIdea:">
 							<string key="name">moreIdea:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+						<object class="IBActionInfo" key="postIdea:">
+							<string key="name">postIdea:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="addressIconView">UIImageView</string>
 						<string key="addressLabel">UILabel</string>
@@ -651,6 +645,8 @@
 						<string key="imageView">UIImageView</string>
 						<string key="infoView">UIView</string>
 						<string key="moreButton">UIButton</string>
+						<string key="postIdeaButton">UIButton</string>
+						<string key="shareButton">UIButton</string>
 						<string key="timeIconView">UIImageView</string>
 						<string key="timeLabel">UILabel</string>
 					</dictionary>
@@ -691,6 +687,14 @@
 							<string key="name">moreButton</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="postIdeaButton">
+							<string key="name">postIdeaButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="shareButton">
+							<string key="name">shareButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="timeIconView">
 							<string key="name">timeIconView</string>
 							<string key="candidateClassName">UIImageView</string>
@@ -725,9 +729,6 @@
 			<string key="idea_wangto_btn_link.png">{145, 35}</string>
 			<string key="jzxq_des_icon.png">{16, 16}</string>
 			<string key="jzxq_time_icon.png">{16, 16}</string>
-			<string key="wantgo_active.png">{45, 20}</string>
-			<string key="wantgo_hover.png">{45, 20}</string>
-			<string key="wantgo_link.png">{45, 20}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1181</string>
 	</data>

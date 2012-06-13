@@ -27,7 +27,10 @@
 @property (strong, nonatomic) IBOutlet UILabel *addressLabel;
 @property (strong, nonatomic) IBOutlet UILabel *categoryLabel;
 @property (strong, nonatomic) IBOutlet UIButton *moreButton;
+@property (strong, nonatomic) IBOutlet UIButton *postIdeaButton;
+@property (strong, nonatomic) IBOutlet UIButton *shareButton;
 
 - (IBAction)moreIdea:(id)sender;
+- (IBAction)postIdea:(id)sender;
 
 @end

@@ -10,8 +10,24 @@
 
 @class IdeaView;
 
+#define DEFAULT_HEIGHT_GAP 10.0
+#define INFO_ICON_HEIGHT_GAP 4.0
+
 @interface IdeaDetailViewController : UIViewController
 
 @property (strong, nonatomic) IdeaView *ideaView;
+@property (strong, nonatomic) IBOutlet UIScrollView *contentView;
+@property (strong, nonatomic) IBOutlet UIView *infoView;
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) IBOutlet UILabel *contentLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *timeIconView;
+@property (strong, nonatomic) IBOutlet UIImageView *addressIconView;
+@property (strong, nonatomic) IBOutlet UIImageView *categoryIconView;
+@property (strong, nonatomic) IBOutlet UILabel *timeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *addressLabel;
+@property (strong, nonatomic) IBOutlet UILabel *categoryLabel;
+@property (strong, nonatomic) IBOutlet UIButton *moreButton;
+
+- (IBAction)moreIdea:(id)sender;
 
 @end

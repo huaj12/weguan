@@ -156,7 +156,6 @@
 						</div><!--content end-->
 					</div><!--main_left end-->
 					<div class="main_right"><!--main_right begin-->
-						<c:set scope="request" var="hotListType" value="result"></c:set>
 						<jsp:include page="/WEB-INF/jsp/web/search/common/search_post_input.jsp" />
 					</div><!--main_right end-->
 					</div><!--main_part end-->

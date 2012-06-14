@@ -96,6 +96,7 @@
 	<c:choose><c:when test="${type!=1}"><a href="/cms/report/show?type=1">已忽略</a></c:when><c:otherwise>已忽略</c:otherwise>	</c:choose><br/>
 	<c:choose><c:when test="${type!=2}"><a href="/cms/report/show?type=2">已处理</a></c:when><c:otherwise>已处理</c:otherwise>	</c:choose><br/>
 	<c:choose><c:when test="${type!=3}"><a href="/cms/report/show?type=3">自动处理</a></c:when><c:otherwise>自动处理</c:otherwise>	</c:choose><br/>
+	<c:choose><c:when test="${type!=4}"><a href="/cms/report/show?type=4">防广告自动处理</a></c:when><c:otherwise>防广告自动处理</c:otherwise>	</c:choose><br/>
 	</h2>
 		<table border="0" id="DynaTable" cellspacing="4">
 			<tr style="background-color: #CCCCCC;">

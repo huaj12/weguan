@@ -41,8 +41,8 @@ public class InitUserUseLevelController {
 	public String initUserUseLevel(HttpServletRequest request, String keys) {
 		log.error("init user use level start");
 		resetPassProt();
-		// 第三方注册默认使用级别1
-		initTpUser();
+		// // 第三方注册默认使用级别1
+		// initTpUser();
 		// 通过引导的默认使用级别为1
 		initUserGuide();
 		log.error("init user use level end");

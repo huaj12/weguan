@@ -143,4 +143,54 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 		return genKey(uid, "shareIdeaCount");
 	}
 
+	/**
+	 * 用户犯规次数
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genFoulUserCountKey(long uid) {
+		return genKey(uid, "foulcount");
+	}
+
+	/**
+	 * 某ip犯规次数
+	 * 
+	 * @param ip
+	 * @return
+	 */
+	public static String genFoulIpCountKey(String ip) {
+		return ip + CACHE_KEY_SEPARATOR + "foulcount";
+	}
+
+	/**
+	 * 某ip禁言次数
+	 * 
+	 * @param ip
+	 * @return
+	 */
+	public static String genGagIpCountKey(String ip) {
+		return ip + CACHE_KEY_SEPARATOR + "gagcount";
+	}
+
+	/**
+	 * 某用户被禁言次数
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genGagUserCountKey(long uid) {
+		return genKey(uid, "gagcount");
+	}
+
+	/**
+	 * 用户禁言时间
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genGagUserTimeKey(long uid) {
+		return genKey(uid, "gag");
+	}
+
 }

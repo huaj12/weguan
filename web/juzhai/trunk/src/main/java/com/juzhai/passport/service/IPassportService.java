@@ -3,8 +3,10 @@ package com.juzhai.passport.service;
 import java.util.Date;
 import java.util.List;
 
-import com.juzhai.core.bean.FunctionLevel;
+import com.juzhai.core.bean.Function;
 import com.juzhai.core.bean.UseLevel;
+import com.juzhai.core.exception.JuzhaiException;
+import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.model.Passport;
 
 public interface IPassportService {
@@ -79,7 +81,7 @@ public interface IPassportService {
 	 * @param uid
 	 * @return
 	 */
-	boolean isUse(FunctionLevel level, long uid);
+	boolean isUse(Function level, long uid);
 
 	/**
 	 * 设置用户使用等级
@@ -88,4 +90,11 @@ public interface IPassportService {
 	 * @param useLevel
 	 */
 	void setUseLevel(long uid, UseLevel useLevel);
+
+	/**
+	 * 是否是广告
+	 * 
+	 * @param context
+	 */
+	void isAd(UserContext context) throws JuzhaiException;
 }

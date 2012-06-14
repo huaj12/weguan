@@ -274,4 +274,31 @@ public class ReportService implements IReportService {
 			log.error("autoReport is error");
 		}
 	}
+
+	@Override
+	public void adReport(long uid, String ip) {
+		Report report = new Report();
+		report.setCreateTime(new Date());
+		report.setHandle(ReportHandleEnum.ADHANDLED.getType());
+		report.setLastModifyTime(report.getCreateTime());
+		report.setReportType(3);
+		report.setReportUid(uid);
+		report.setCreateUid(3l);
+		report.setContentUrl("/home/" + uid);
+		report.setContentType(3);
+		report.setIp(ip);
+		reportMapper.insertSelective(report);
+		try {
+			shieldUser(0, uid, LockUserLevel.LEVEL1);
+		} catch (InputReportException e) {
+		}
+	}
+
+	@Override
+	public int countIpReport(String ip) {
+		ReportExample example = new ReportExample();
+		example.createCriteria().andIpEqualTo(ip)
+				.andHandleEqualTo(ReportHandleEnum.ADHANDLED.getType());
+		return reportMapper.countByExample(example);
+	}
 }

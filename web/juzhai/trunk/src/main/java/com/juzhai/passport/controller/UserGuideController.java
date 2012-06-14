@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.juzhai.core.bean.UseLevel;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
@@ -23,6 +24,7 @@ import com.juzhai.passport.controller.form.SettingForm;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.UserGuide;
+import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IUserGuideService;
 
@@ -38,6 +40,8 @@ public class UserGuideController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IPassportService passportService;
 
 	@RequestMapping(value = "/guide", method = RequestMethod.GET)
 	public String guide(HttpServletRequest request, Model model)
@@ -115,6 +119,8 @@ public class UserGuideController extends BaseController {
 		} else {
 			userGuideService.completeGuide(context.getUid());
 		}
+		// 完成引导后提升用户使用等级
+		passportService.setUseLevel(context.getUid(), UseLevel.Level1);
 		ProfileCache profileCache = profileService.getProfileCacheByUid(context
 				.getUid());
 		if (null == profileCache) {

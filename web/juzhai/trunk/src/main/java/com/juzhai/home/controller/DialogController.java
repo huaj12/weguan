@@ -136,7 +136,7 @@ public class DialogController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
 		try {
-			dialogService.sendSMS(context.getUid(), targetUid, content);
+			dialogService.sendSMS(context, targetUid, content);
 			dialogContentCounter.incr(null, 1L);
 		} catch (DialogException e) {
 			result.setError(e.getErrorCode(), messageSource);
@@ -161,7 +161,7 @@ public class DialogController extends BaseController {
 		try {
 			if (StringUtils.isNotEmpty(content)) {
 				if (null == idea) {
-					dialogService.sendDatingSMS(context.getUid(), targetUid,
+					dialogService.sendDatingSMS(context, targetUid,
 							DialogContentTemplate.PRIVATE_DATE, content);
 				} else {
 					dialogService.sendSMS(context.getUid(), targetUid,
@@ -180,8 +180,8 @@ public class DialogController extends BaseController {
 			String content, long targetUid) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		try {
-			long dialogContentId = dialogService.sendSMS(context.getUid(),
-					targetUid, content);
+			long dialogContentId = dialogService.sendSMS(context, targetUid,
+					content);
 			model.addAttribute("success", true);
 			DialogContentView view = new DialogContentView();
 			view.setDialogContent(dialogService

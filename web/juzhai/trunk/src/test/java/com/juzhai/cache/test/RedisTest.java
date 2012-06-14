@@ -152,4 +152,25 @@ public class RedisTest {
 			System.out.println(key);
 		}
 	}
+
+	@Test
+	public void testSetExpire() throws InterruptedException {
+		redisTemplate.opsForSet().add(key, 1L);
+		redisTemplate.expire(key, 5, TimeUnit.SECONDS);
+		Assert.assertEquals(1, redisTemplate.opsForSet().size(key).intValue());
+		Assert.assertTrue(redisTemplate.opsForSet().isMember(key, 1L));
+
+		Thread.sleep(2000);
+		Assert.assertEquals(1, redisTemplate.opsForSet().size(key).intValue());
+		Assert.assertTrue(redisTemplate.opsForSet().isMember(key, 1L));
+
+		redisTemplate.opsForSet().add(key, 2L);
+		redisTemplate.expire(key, 5, TimeUnit.SECONDS);
+		Assert.assertEquals(2, redisTemplate.opsForSet().size(key).intValue());
+		Assert.assertTrue(redisTemplate.opsForSet().isMember(key, 2L));
+		Assert.assertTrue(redisTemplate.opsForSet().isMember(key, 1L));
+
+		Thread.sleep(6000);
+		Assert.assertEquals(0, redisTemplate.opsForSet().size(key).intValue());
+	}
 }

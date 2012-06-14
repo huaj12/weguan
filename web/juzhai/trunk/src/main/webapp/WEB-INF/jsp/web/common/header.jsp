@@ -89,7 +89,7 @@
 				<form action="/searchposts" id="base-search-post-form" method="get">
 				<div class="s_l"></div>
 				<div class="s_m"><!--s_m begin-->
-					<input name="queryString" id="base-search-post-input" type="text" init-tip="拒宅关键词" value=""/>
+					<input name="queryString" id="base-search-post-input" type="text" init-tip="关键词找伴儿" value=""/>
 				</div><!--s_m end-->
 				<input type="submit" style="display: none">
 				<div class="s_r"><a href="javascript:void(0);"></a></div>

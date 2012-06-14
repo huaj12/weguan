@@ -5,9 +5,9 @@
 								<!--content begin-->
 								<div class="t"></div>
 								<div class="m">
-									<div class="right_title"><h2><c:choose><c:when test="${hotListType!='result'}">搜索拒宅</c:when><c:otherwise>热门拒宅关键词</c:otherwise> </c:choose></h2></div>
+									<div class="right_title"><h2><c:choose><c:when test="${hotListType=='search'}">搜索拒宅</c:when><c:otherwise>拒宅热词</c:otherwise> </c:choose></h2></div>
 									<div class="search_xz"><!--search_xz begin-->
-										<c:if test="${hotListType!='result' }"><form action="/searchposts" id="search-post-form" method="get"><div class="s_input"><p></p><span><input type="text" id="search-post-input" init-tip="通过关键词搜索" name="queryString"/></span><input type="submit" style="display: none"/><a href="javascript:void(0);"></a></div></form></c:if>
+										<c:if test="${hotListType=='search'}"><form action="/searchposts" id="search-post-form" method="get"><div class="s_input"><p></p><span><input type="text" id="search-post-input" init-tip="通过关键词搜索" name="queryString"/></span><input type="submit" style="display: none"/><a href="javascript:void(0);"></a></div></form></c:if>
 										<div class="xg_tags">
 											<ul>
 												<c:if test="${not empty hots }">

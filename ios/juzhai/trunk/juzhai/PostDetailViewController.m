@@ -86,7 +86,7 @@
     
     contentLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:15.0];
     contentLabel.textColor = [UIColor whiteColor];
-    contentLabel.text = self.userView.post.content;
+    contentLabel.text = [NSString stringWithFormat:@"%@：%@", userView.post.purpose, userView.post.content];
     CGSize contentSize = [contentLabel.text sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(contentLabel.frame.size.width, 200.0) lineBreakMode:UILineBreakModeCharacterWrap];
     [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, [self getViewOriginY:contentLabel byUpperView:nil heightGap:POST_DEFAULT_HEIGHT_GAP], contentSize.width, contentSize.height)];
     
@@ -147,7 +147,6 @@
 }
 
 - (void) resetViewFrame{
-    NSLog(@"%f", categoryIconView.frame.origin.y);
     [postInfoView setFrame:CGRectMake(postInfoView.frame.origin.x, [self getViewOriginY:postInfoView byUpperView:postImageView heightGap:POST_DEFAULT_HEIGHT_GAP], postInfoView.frame.size.width, categoryIconView.frame.origin.y + (categoryIconView.hidden ? 0.0 : categoryIconView.frame.size.height + POST_DEFAULT_HEIGHT_GAP))];
     
     [postScrollView setContentSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, postInfoView.frame.origin.y + postInfoView.frame.size.height)];

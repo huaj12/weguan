@@ -7,6 +7,7 @@
 //
 
 #import "IdeaViewController.h"
+#import "JZData.h"
 #import "CheckNetwork.h"
 #import "FPPopoverController.h"
 #import "CategoryTableViewController.h"
@@ -145,16 +146,17 @@
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
                 //reload
                 if(_data == nil){
-                    _data = [[NSMutableArray alloc] init];
+                    _data = [[JZData alloc] init];
                 }
                 NSMutableArray *ideaViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"ideaViewList"];
                 
                 NSNumber *currentPage = [[[jsonResult valueForKey:@"result"] valueForKey:@"pager"] valueForKey:@"currentPage"];
                 if([currentPage intValue] == 1){
-                    [_data removeAllObjects];
+                    [_data clear];
                 }
                 for (int i = 0; i < ideaViewList.count; i++) {
-                    [_data addObject:[IdeaView ideaConvertFromDictionary:[ideaViewList objectAtIndex:i]]];
+                    IdeaView *ideaView = [IdeaView ideaConvertFromDictionary:[ideaViewList objectAtIndex:i]];
+                    [_data addObject:ideaView withIdentity:ideaView.ideaId];
                 }
                 [self.tableView reloadData];
             }
@@ -268,7 +270,7 @@
 #pragma mark Table View Delegate methods
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [IdeaListCell heightForCell:[_data objectAtIndex:indexPath.section]];
+    return [IdeaListCell heightForCell:[_data objectAtIndex:indexPath.row]];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

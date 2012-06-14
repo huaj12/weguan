@@ -419,7 +419,7 @@ function sendMessage(obj){
 	var content = $(obj).parent().prev().children("textarea").val();
 	doPostMessage("/home/sendMessage", targetUid, content, function(errorInfo,errorCode){
 		if(errorCode!=undefined&&errorCode=="00004"){
-			$(obj).next().next().html("<a href='/passport/account'class='txt' target='_blank'>"+errorInfo+"</a>").show();
+			$(obj).next().next().html("<a href='/home/guide'class='txt' target='_blank'>"+errorInfo+"</a>").show();
 		}else{	
 			$(obj).next().next().text(errorInfo).show();
 		}
@@ -1234,7 +1234,7 @@ var CommentWidget = Class.extend({
 						var jsonResult = (new Function("return " + result))();
 						if(!jsonResult.success){
 							if(jsonResult.errorCode=="00004"){
-								commentForm.find(".error").html("<a href='/passport/account' class='txt' target='_blank'>"+jsonResult.errorInfo+"</a>").show();
+								commentForm.find(".error").html("<a href='/home/guide' class='txt' target='_blank'>"+jsonResult.errorInfo+"</a>").show();
 							}else{
 								commentForm.find(".error").text(jsonResult.errorInfo).show();	
 							}

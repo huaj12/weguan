@@ -311,4 +311,14 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genInterestIdeasKey(long uid) {
 		return genKey(uid, "interestIdeas");
 	}
+
+	/**
+	 * 用户添加私信或留言数
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genSendCount(String function, long uid) {
+		return genKey(uid, function + "SendCount");
+	}
 }

@@ -9,6 +9,18 @@ public class JuzhaiException extends Exception {
 	public static final String ILLEGAL_OPERATION = "00002";
 
 	public static final String USE_LOW_LEVEL = "00004";
+	/**
+	 * 禁言
+	 */
+	public static final String AD_USER_GAG = "00005";
+	/**
+	 * 屏蔽
+	 */
+	public static final String AD_USER_SHIELD = "00006";
+	/**
+	 * 封ip
+	 */
+	public static final String AD_IP_SHIELD = "00007";
 
 	public JuzhaiException(String errorCode, Throwable cause) {
 		super(errorCode, cause);

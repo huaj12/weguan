@@ -71,7 +71,7 @@ $(document).ready(function(){
 				if(isJson){
 					var jsonResult = (new Function("return " + result))();
 					if(jsonResult.errorCode=="00004"){
-						$(obj).next().next().html("<a href='/passport/account'class='txt' target='_blank'>"+jsonResult.errorInfo+"</a>").show();
+						$(obj).next().next().html("<a href='/home/guide'class='txt' target='_blank'>"+jsonResult.errorInfo+"</a>").show();
 					}else{	
 						$(obj).next().next().text(jsonResult.errorInfo).show();
 					}

@@ -46,8 +46,7 @@ public class PostCommentController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
 		try {
-			PostComment postComment = postCommentService.comment(
-					context.getUid(), form);
+			PostComment postComment = postCommentService.comment(context, form);
 			if (isReply) {
 				model.addAttribute("result", result);
 			} else {

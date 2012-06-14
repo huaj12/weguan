@@ -18,10 +18,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.core.bean.FunctionLevel;
+import com.juzhai.antiad.service.IFoulService;
+import com.juzhai.core.bean.Function;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
+import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.service.IBlacklistService;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
@@ -62,6 +65,8 @@ public class PostCommentService implements IPostCommentService {
 	private ICounter postCommentCounter;
 	@Autowired
 	private IBlacklistService blacklistService;
+	@Autowired
+	private IFoulService foulService;
 	@Value("${post.comment.content.length.min}")
 	private int postCommentContentLengthMin;
 	@Value("${post.comment.content.length.max}")
@@ -70,11 +75,17 @@ public class PostCommentService implements IPostCommentService {
 	private int commentContentWordfilterApplication;
 
 	@Override
-	public PostComment comment(long uid, PostCommentForm form)
+	public PostComment comment(UserContext context, PostCommentForm form)
 			throws InputPostCommentException {
-		if (!passportService.isUse(FunctionLevel.COMMENT, uid)) {
+		long uid = context.getUid();
+		if (!passportService.isUse(Function.COMMENT, uid)) {
 			throw new InputPostCommentException(
 					InputPostCommentException.USE_LOW_LEVEL);
+		}
+		try {
+			passportService.isAd(context);
+		} catch (JuzhaiException e) {
+			throw new InputPostCommentException(e.getErrorCode());
 		}
 
 		if (form.getPostId() <= 0) {
@@ -170,6 +181,8 @@ public class PostCommentService implements IPostCommentService {
 			}
 		}
 		postCommentCounter.incr(null, 1L);
+		foulService.foul(context, post.getCreateUid(), form.getContent(),
+				Function.COMMENT);
 		return postComment;
 	}
 

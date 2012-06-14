@@ -2,6 +2,7 @@ package com.juzhai.post.service;
 
 import java.util.List;
 
+import com.juzhai.core.web.session.UserContext;
 import com.juzhai.post.controller.form.PostCommentForm;
 import com.juzhai.post.exception.InputPostCommentException;
 import com.juzhai.post.model.PostComment;
@@ -16,7 +17,7 @@ public interface IPostCommentService {
 	 * @return
 	 * @throws InputPostCommentException
 	 */
-	PostComment comment(long uid, PostCommentForm form)
+	PostComment comment(UserContext context, PostCommentForm form)
 			throws InputPostCommentException;
 
 	/**

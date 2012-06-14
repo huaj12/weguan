@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomeViewController : UIViewController
+@class UserHomeView;
+@class JZData;
 
+@interface HomeViewController : UIViewController
+{
+    UserHomeView *_userHomeView;
+    JZData *_data;
+}
 @end

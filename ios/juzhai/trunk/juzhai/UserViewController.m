@@ -7,6 +7,7 @@
 //
 
 #import "UserViewController.h"
+#import "JZData.h"
 #import "CustomSegmentedControl.h"
 #import "CustomButton.h"
 #import "UserListCell.h"
@@ -124,16 +125,17 @@
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
                 //reload
                 if(_data == nil){
-                    _data = [[NSMutableArray alloc] init];
+                    _data = [[JZData alloc] init];
                 }
                 NSMutableArray *userViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"userViewList"];
                 
                 NSNumber *currentPage = [[[jsonResult valueForKey:@"result"] valueForKey:@"pager"] valueForKey:@"currentPage"];
                 if([currentPage intValue] == 1){
-                    [_data removeAllObjects];
+                    [_data clear];
                 }
                 for (int i = 0; i < userViewList.count; i++) {
-                    [_data addObject:[UserView userConvertFromDictionary:[userViewList objectAtIndex:i]]];
+                    UserView *userView = [UserView userConvertFromDictionary:[userViewList objectAtIndex:i]];
+                    [_data addObject:userView withIdentity:userView.uid];
                 }
                 [self.tableView reloadData];
             }

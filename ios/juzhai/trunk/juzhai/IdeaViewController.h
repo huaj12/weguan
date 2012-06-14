@@ -12,6 +12,7 @@
 @class EGORefreshTableHeaderView;
 @class CustomButton;
 @class IdeaDetailViewController;
+@class JZData;
 
 #define ORDER_BY_TIME 0
 #define ORDER_BY_HOT 1
@@ -26,7 +27,7 @@ FPPopoverControllerDelegate>
     
 //	BOOL _reloading;
 	
-	NSMutableArray *_data;
+	JZData *_data;
     FPPopoverController *_categoryPopver;
     UIButton *_orderButton;
     UIButton *_categoryButton;

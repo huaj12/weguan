@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "CustomSegmentedControl.h"
 
+@class JZData;
+
 #define ORDER_BY_TIME 1
 #define ORDER_BY_RECOMMEND 2
 #define QUERY_GENDER_GIRL 0
@@ -17,7 +19,7 @@
 
 @interface UserViewController : UITableViewController <UIActionSheetDelegate,CustomSegmentedControlDelegate>
 {
-    NSMutableArray *_data;
+    JZData *_data;
     CustomSegmentedControl *_segmentedControl;
     UIButton *_genderButton;
 }

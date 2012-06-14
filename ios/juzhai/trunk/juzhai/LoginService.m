@@ -14,7 +14,7 @@
 
 @interface LoginService(Private)
     
-+ (NSString *)dataFilePath;
+//+ (NSString *)dataFilePath;
     
 @end
 
@@ -59,15 +59,16 @@
     return NO;
 }
 
-+ (NSString *) dataFilePath{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    return [documentsDirectory stringByAppendingPathComponent:kFilename];
-}
+//+ (NSString *) dataFilePath{
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentsDirectory = [paths objectAtIndex:0];
+//    return [documentsDirectory stringByAppendingPathComponent:kFilename];
+//}
 
 +(void) logout{
     ASIHTTPRequest *request = [HttpRequestSender initGetRequestWithUrl:@"http://test.51juzhai.com/app/ios/logout" withParams:nil];
     [request startSynchronous];
+    //清除帐号信息
     [[[LoginUser alloc] init] reset];
 }
 

@@ -2,6 +2,7 @@ package com.juzhai.home.service;
 
 import java.util.List;
 
+import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.controller.view.DialogContentView;
 import com.juzhai.home.controller.view.DialogView;
@@ -18,7 +19,7 @@ public interface IDialogService {
 	 * @param content
 	 * @throws DialogException
 	 */
-	long sendSMS(long uid, long targetUid, String content)
+	long sendSMS(UserContext context, long targetUid, String content)
 			throws DialogException;
 
 	/**
@@ -117,7 +118,7 @@ public interface IDialogService {
 	 * @return
 	 * @throws DialogException
 	 */
-	long sendDatingSMS(long uid, long targetUid,
+	long sendDatingSMS(UserContext context, long targetUid,
 			DialogContentTemplate template, Object... params)
 			throws DialogException;
 

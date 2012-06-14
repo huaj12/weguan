@@ -19,11 +19,14 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.juzhai.core.bean.FunctionLevel;
+import com.juzhai.antiad.service.IFoulService;
+import com.juzhai.core.bean.Function;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
+import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.controller.view.DialogContentView;
 import com.juzhai.home.controller.view.DialogView;
@@ -66,6 +69,8 @@ public class DialogService implements IDialogService {
 	private IPassportService passportService;
 	@Autowired
 	private IBlacklistService blacklistService;
+	@Autowired
+	private IFoulService foulService;
 	@Value("${dialog.content.length.max}")
 	private int dialogContentLengthMax;
 	@Value("${dialog.content.length.min}")
@@ -78,12 +83,19 @@ public class DialogService implements IDialogService {
 	private long officialNoticeUid;
 
 	@Override
-	public long sendSMS(long uid, long targetUid, String content)
+	public long sendSMS(UserContext context, long targetUid, String content)
 			throws DialogException {
-		if (!passportService.isUse(FunctionLevel.SENDSMS, uid)) {
+		if (!passportService.isUse(Function.SENDSMS, context.getUid())) {
 			throw new DialogException(DialogException.USE_LOW_LEVEL);
 		}
-		return sendContent(uid, targetUid, content);
+		try {
+			passportService.isAd(context);
+		} catch (JuzhaiException e) {
+			throw new DialogException(e.getErrorCode());
+		}
+		long id = sendContent(context.getUid(), targetUid, content);
+		foulService.foul(context, targetUid, content, Function.SENDSMS);
+		return id;
 	}
 
 	private long sendContent(long uid, long targetUid, String content)
@@ -143,13 +155,23 @@ public class DialogService implements IDialogService {
 	}
 
 	@Override
-	public long sendDatingSMS(long uid, long targetUid,
+	public long sendDatingSMS(UserContext context, long targetUid,
 			DialogContentTemplate template, Object... params)
 			throws DialogException {
-		if (!passportService.isUse(FunctionLevel.SENDSMS, uid)) {
+		long uid = context.getUid();
+		if (!passportService.isUse(Function.SENDSMS, uid)) {
 			throw new DialogException(DialogException.USE_LOW_LEVEL);
 		}
-		return sendSMS(uid, targetUid, template, params);
+		try {
+			passportService.isAd(context);
+		} catch (JuzhaiException e) {
+			throw new DialogException(e.getErrorCode());
+		}
+		String content = messageSource.getMessage(template.getName(), params,
+				Locale.SIMPLIFIED_CHINESE);
+		long id = sendSMS(uid, targetUid, template, params);
+		foulService.foul(context, targetUid, content, Function.SENDSMS);
+		return id;
 	}
 
 	@Override

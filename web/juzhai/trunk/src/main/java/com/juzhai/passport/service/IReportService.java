@@ -70,4 +70,15 @@ public interface IReportService {
 	 */
 	long isShield(long uid);
 
+	/**
+	 * 广告屏蔽
+	 * 
+	 * @param uid
+	 * @param ip
+	 */
+	void adReport(long uid, String ip);
+
+	// 某ip被屏蔽的次数
+	int countIpReport(String ip);
+
 }

@@ -471,7 +471,6 @@ public class RegisterService implements IRegisterService {
 		Passport passport = new Passport();
 		passport.setId(uid);
 		passport.setEmailActive(true);
-		passport.setUseLevel(UseLevel.Level1.getUseLevel());
 		return passportMapper.updateByPrimaryKeySelective(passport) == 1;
 	}
 }

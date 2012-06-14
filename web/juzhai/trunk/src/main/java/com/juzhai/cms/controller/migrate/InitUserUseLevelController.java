@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.mapper.TpUserMapper;
+import com.juzhai.passport.mapper.UserGuideMapper;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.PassportExample;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.model.TpUserExample;
+import com.juzhai.passport.model.UserGuide;
+import com.juzhai.passport.model.UserGuideExample;
 
 @Controller
 @RequestMapping("/cms")
@@ -29,26 +32,51 @@ public class InitUserUseLevelController {
 	private TpUserMapper tpUserMapper;
 	@Autowired
 	private PassportMapper passportMapper;
+	@Autowired
+	private UserGuideMapper userGuideMapper;
 	private int maxRows = 200;
 
 	@RequestMapping(value = "/initUserUseLevel", method = RequestMethod.GET)
 	@ResponseBody
 	public String initUserUseLevel(HttpServletRequest request, String keys) {
 		log.error("init user use level start");
+		resetPassProt();
 		// 第三方注册默认使用级别1
 		initTpUser();
-		// 邮箱验证过的默认使用级别1
-		initEmail();
+		// 通过引导的默认使用级别为1
+		initUserGuide();
 		log.error("init user use level end");
 		return "success";
 	}
 
-	private void initEmail() {
-		PassportExample example = new PassportExample();
-		example.createCriteria().andEmailActiveEqualTo(true);
+	private void resetPassProt() {
+		Passport passport = new Passport();
+		passport.setUseLevel(0);
+		passportMapper
+				.updateByExampleSelective(passport, new PassportExample());
+	}
+
+	private void initUserGuide() {
+		UserGuideExample example = new UserGuideExample();
+		int i = 0;
+		example.setOrderByClause("uid desc");
 		Passport passport = new Passport();
 		passport.setUseLevel(1);
-		passportMapper.updateByExampleSelective(passport, example);
+		while (true) {
+			example.setLimit(new Limit(i, maxRows));
+			List<UserGuide> list = userGuideMapper.selectByExample(example);
+			List<Long> ids = new ArrayList<Long>(list.size());
+			for (UserGuide user : list) {
+				ids.add(user.getUid());
+			}
+			PassportExample pExample = new PassportExample();
+			pExample.createCriteria().andIdIn(ids);
+			passportMapper.updateByExampleSelective(passport, pExample);
+			if (ids.size() < maxRows) {
+				break;
+			}
+			i += maxRows;
+		}
 	}
 
 	private void initTpUser() {

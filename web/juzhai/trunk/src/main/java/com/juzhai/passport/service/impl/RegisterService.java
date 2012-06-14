@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.common.bean.ActiveCodeType;
 import com.juzhai.common.service.IActiveCodeService;
-import com.juzhai.core.bean.UseLevel;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.mail.bean.Mail;
 import com.juzhai.core.mail.factory.MailFactory;
@@ -106,7 +105,7 @@ public class RegisterService implements IRegisterService {
 		registerTpUser(tp, identity, passport);
 		tpUserAuthService.updateTpUserAuth(passport.getId(), tp.getId(),
 				authInfo);
-		passportService.setUseLevel(passport.getId(), UseLevel.Level1);
+		// passportService.setUseLevel(passport.getId(), UseLevel.Level1);
 
 		// 初始化数据
 

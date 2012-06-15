@@ -16,7 +16,6 @@
 	<body>
 		<div class="warp"><!--warp begin-->
 			<div class="main"><!--main begin-->
-				<c:set scope="request" value="finduser" var="pageType"></c:set>
 				<jsp:include page="/WEB-INF/jsp/web/common/header.jsp" />
 				<div class="main_part"><!--main_part begin-->
 					<jsp:include page="/WEB-INF/jsp/web/common/youke_login.jsp" />
@@ -203,7 +202,6 @@
 					</div><!--main_left end-->
 					<div class="main_right"><!--main_right begin-->
 						<jsp:include page="/WEB-INF/jsp/web/search/common/search_post_input.jsp" />
-						<jsp:include page="/WEB-INF/jsp/web/index/index_post_list.jsp" />
 						<jsp:include page="/WEB-INF/jsp/web/index/zbe/recommend_users_widget.jsp" />
 						<c:if test="${empty isQplus||!isQplus}">
 							<jsp:include page="/WEB-INF/jsp/web/home/index/share_widget.jsp" />

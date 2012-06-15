@@ -33,15 +33,22 @@
 						<div class="content_box w660 z900"><!--content begin-->
 							<div class="t"></div>
 							<div class="m">
-								<c:if test="${empty loginUser.logoPic && loginUser.logoVerifyState != 1}">
+								<c:choose>
+									<c:when test="${not empty loginUser.logoPic || loginUser.logoVerifyState == 1}">
+										<div class="tips" style="display: none;"><!--tips begin-->
+											<p>没想好去哪玩？试试这个</p>
+											<a href="javascript:void(0);"></a>
+										</div><!--tips end-->
+									</c:when>
+									<c:otherwise>
 										<div class="lock"><!--lock begin-->
 											<a href="/profile/index/face">
 											<img src="${jzr:static('/images/web2/bunengfabu.jpg')}" />
 											</a>
 										</div><!--lock end-->
-								</c:if>
+									</c:otherwise>
+								</c:choose>
 								<div class="send_box"><!--send_box begin-->
-									<c:set var="sendPostType" value="index" scope="request"/>
 									<jsp:include page="send_post.jsp" />
 								</div>
 							</div>
@@ -56,9 +63,11 @@
 						</div><!--content end-->
 					</div><!--main_left end-->
 					<div class="main_right"><!--main_right begin-->
+						<jsp:include page="/WEB-INF/jsp/web/home/index/home_logo.jsp" />
+						<jsp:include page="/WEB-INF/jsp/web/home/index/idea_widget.jsp" />
+						<jsp:include page="/WEB-INF/jsp/web/home/common/visitor_widget.jsp" />
 						<jsp:include page="/WEB-INF/jsp/web/search/common/search_post_input.jsp" />
 						<jsp:include page="/WEB-INF/jsp/web/home/index/new_user_widget.jsp" />
-						<jsp:include page="/WEB-INF/jsp/web/index/zbe/recommend_users_widget.jsp" />
 						<c:if test="${empty isQplus||!isQplus}">
 							<jsp:include page="/WEB-INF/jsp/web/home/index/share_widget.jsp" />
 						</c:if>

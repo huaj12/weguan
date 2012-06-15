@@ -22,14 +22,7 @@
 			</div><!--select_box end-->
 		</div><!--select_menu end-->
 		<div class="send_box_error" style="display: none;"></div>
-		<c:if test="${sendPostType=='index'}">
-			<div class="random_select">
-					<p>快速分享:</p>
-					<a href="javascript:void(0);" class="hd">活动</a>
-					<a href="javascript:void(0);" class="qc">好去处</a>
-					<a href="javascript:void(0);" class="tg">团购</a>
-			</div>
-		</c:if>
+		<div class="random_select"><c:if test="${postForm == null}"><a href="javascript:void(0);" class="random">试试手气</a><a href="/showideas" class="sel">去选一个</a></c:if></div>
 		<div class="textarea"><textarea name="content" init-tip="说出你的拒宅好主意吧~">${postForm.content}</textarea></div>
 		<div class="jh"><!--jh begin-->
 			<c:choose>
@@ -105,7 +98,7 @@
 			<div class="tb tb_click">
 				<input type="hidden" name="sendWeibo" value="true"/>
 				<span></span>
-				<p>同步到:</p>
+				<p>同步</p>
 				<c:choose>
 					<c:when test="${context.tpName == 'weibo'}"><em class="wb"></em></c:when>
 					<c:when test="${context.tpName == 'douban'}"><em class="db"></em></c:when>

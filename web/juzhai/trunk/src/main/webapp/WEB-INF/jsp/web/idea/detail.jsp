@@ -180,9 +180,7 @@
 						</div><!--content end-->
 					</div><!--main_left end--> --%>
 					<div class="main_right"><!--main_right begin-->
-						<c:if test="${empty isQplus || !isQplus}">
 							<jsp:include page="/WEB-INF/jsp/web/idea/common/share_idea_widget.jsp" />
-						</c:if>			
 							<jsp:include page="/WEB-INF/jsp/web/index/cqw/recent_idea_widget.jsp" />
 							<jsp:include page="/WEB-INF/jsp/web/index/cqw/idea_ad_widget.jsp" />
 					</div><!--main_right end-->

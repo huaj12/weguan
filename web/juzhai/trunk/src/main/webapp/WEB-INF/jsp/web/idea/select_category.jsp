@@ -20,7 +20,14 @@
 							<div class="area_t"></div>
 							<div class="area_m"><!--area_m begin-->
 								<div class="hd_form"><!--hd_form begin-->
-									<div class="title"><h2>请选择你要发布哪类拒宅信息</h2></div>
+									<div class="title"><h2>请选择你要发布哪类拒宅信息</h2>
+										<div class="hd_share">
+											<p>分享你想去的:</p>
+											<a href="javascript:void(0);" class="hd">活动</a>
+											<a href="javascript:void(0);" class="qc">好去处</a>
+											<a href="javascript:void(0);" class="tg">团购</a>
+										</div>
+									</div>
 									<div class="hr_line"></div>
 									<div class="hd_ca"><!--hd_ca begin-->
 										<ul>
@@ -35,7 +42,9 @@
 						<div class="area_b"></div>
 						</div><!--huodong_area end-->
 					</div><!--main end-->
+					<jsp:include page="/WEB-INF/jsp/web/home/dialog/share_box.jsp" />
 					<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
+					<script type="text/javascript" src="${jzr:static('/js/web/select_category.js')}"></script>
 					<c:set var="footType" value="fixed" scope="request"/>
 					<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 				</div><!--warp end-->

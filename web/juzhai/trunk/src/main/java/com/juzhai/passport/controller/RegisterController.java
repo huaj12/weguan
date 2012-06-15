@@ -84,7 +84,7 @@ public class RegisterController extends BaseController {
 			RegisterForm registerForm) {
 		UserContext context = (UserContext) request.getAttribute("context");
 		if (context.hasLogin()) {
-			return "redirect:/index";
+			return "redirect:/home";
 		} else {
 			String key = verifyCodeService.getVerifyCodeKey();
 			registerForm.setVerifyKey(key);
@@ -100,7 +100,7 @@ public class RegisterController extends BaseController {
 		UserContext context = (UserContext) request.getAttribute("context");
 		long uid = 0L;
 		if (context.hasLogin()) {
-			return "redirect:/index";
+			return "redirect:/home";
 		} else {
 			try {
 				if (!verifyCodeService.verify(registerForm.getVerifyKey(),
@@ -214,7 +214,7 @@ public class RegisterController extends BaseController {
 	public String getbackpwd(HttpServletRequest request, Model model) {
 		UserContext context = (UserContext) request.getAttribute("context");
 		if (context.hasLogin()) {
-			return "redirect:/index";
+			return "redirect:/home";
 		}
 		return "web/register/reset/getback_pwd";
 	}
@@ -224,7 +224,7 @@ public class RegisterController extends BaseController {
 			String account) {
 		UserContext context = (UserContext) request.getAttribute("context");
 		if (context.hasLogin()) {
-			return "redirect:/index";
+			return "redirect:/home";
 		}
 		account = StringUtils.trim(account);
 		// 发送邮件

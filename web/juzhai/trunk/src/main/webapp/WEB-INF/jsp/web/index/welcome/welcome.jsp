@@ -8,8 +8,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>拒宅网-助你找伴儿出去玩(51juzhai.com)</title>
-		<meta  name="keywords"   content="拒宅,找伴,出去玩,上海约会地点,北京约会地点,深圳约会地点,创意约会地点,约会地点,约会" />
-		<meta  name="description"   content="不想宅在家拒宅网帮你找伴儿,出去玩,发现上海约会地点,北京约会地点,深圳约会地点,创意约会地点和同兴趣的朋友,促成约会" />
+		<meta  name="keywords"   content="拒宅,找伴,出去玩,上海拒宅好主意,北京拒宅好主意,深圳拒宅好主意,创意拒宅好主意" />
+		<meta  name="description"   content="不想宅在家拒宅网帮你找伴儿,出去玩,发现上海拒宅好主意,北京拒宅好主意,深圳拒宅好主意,创意拒宅好主意和同兴趣的朋友,促成约会" />
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
@@ -48,10 +48,10 @@
 								<h2><font>${ideaCount}</font>个拒宅好主意等你来发现</h2>
 								<div class="wel_idea"><!--wel_idea begin-->
 									<ul>
-										<c:forEach items="${ideas}" var="idea">
+										<c:forEach items="${ideaViewList}" var="view">
 											<li>
-												<p><a href="/idea/${idea.id}"><img src="${jzr:ideaPic(idea.id,idea.pic, 200)}" /></a></p>
-												<span><em><c:out value="${jzu:truncate(idea.content,46,'...')}"></c:out></em><a href="/idea/${idea.id}">${idea.useCount}人想去</a></span>
+												<p><a href="/idea/${view.idea.id}"><img src="${jzr:ideaPic(view.idea.id,view.idea.pic, 200)}" /></a></p>
+												<span><em><c:out value="${jzu:truncate(view.idea.content,46,'...')}"></c:out></em><a href="/idea/${view.idea.id}">${view.idea.useCount}人想去</a></span>
 											</li>
 										</c:forEach>
 									</ul>

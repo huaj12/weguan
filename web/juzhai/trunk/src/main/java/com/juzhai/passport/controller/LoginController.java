@@ -52,7 +52,7 @@ public class LoginController extends BaseController {
 			LoginForm loginForm) throws UnsupportedEncodingException {
 		try {
 			checkLoginForWeb(request);
-			return "redirect:/index";
+			return "redirect:/home";
 		} catch (NeedLoginException e) {
 			// 判断是否需要
 			if (loginService
@@ -72,7 +72,7 @@ public class LoginController extends BaseController {
 			Model model) throws ReportAccountException {
 		UserContext context = (UserContext) request.getAttribute("context");
 		if (context.hasLogin()) {
-			return "redirect:/index";
+			return "redirect:/home";
 		}
 		String ip = HttpRequestUtil.getRemoteIp(request);
 		boolean needVerify = loginService.useVerifyCode(ip);
@@ -111,7 +111,7 @@ public class LoginController extends BaseController {
 		} else if (StringUtils.isNotEmpty(loginForm.getTurnTo())) {
 			return "redirect:" + loginForm.getTurnTo();
 		} else {
-			return "redirect:/index";
+			return "redirect:/home";
 		}
 	}
 

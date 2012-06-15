@@ -90,35 +90,35 @@ public class IndexController extends BaseController {
 	private int randomBillboardIdeasPoolCount;
 	@Value("${billboard.ideas.count}")
 	private int billboardIdeasCount;
-	@Value("${search.user.hot.rows}")
-	private int searchUserHotRows;
+	// @Value("${search.user.hot.rows}")
+	// private int searchUserHotRows;
 	@Value("${index.new.post.max.rows}")
 	private int indexNewPostMaxRows;
-	@Value("${index.window.idea.max.rows}")
-	private int indexWindowIdeaMaxRows;
-	@Value("${index.window.idea.random}")
-	private int indexWindowIdeaRandom;
-	@Value("${visitor.widget.user.count}")
-	private int visitorWidgetUserCount;
 
+	// @Value("${index.window.idea.max.rows}")
+	// private int indexWindowIdeaMaxRows;
+	// @Value("${index.window.idea.random}")
+	// private int indexWindowIdeaRandom;
+	// @Value("${visitor.widget.user.count}")
+	// private int visitorWidgetUserCount;
 	@RequestMapping(value = { "", "/", "/index", "/welcome" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
 		UserContext context = (UserContext) request.getAttribute("context");
 		List<Idea> ideaList = null;
 		long city = 0L;
-		// TODO (done) 这个uid不需要了吧
 		if (context.hasLogin()) {
-			ProfileCache loginUser = getLoginUserCache(request);
-			if (loginUser != null && loginUser.getCity() != null) {
-				city = loginUser.getCity();
-			}
-			ideaList = ideaService.listIdeaWindow(city, 0, 0,
-					indexWindowIdeaMaxRows);
-			Collections.shuffle(ideaList);
-			if (ideaList.size() > indexWindowIdeaRandom) {
-				ideaList = ideaList.subList(0, indexWindowIdeaRandom);
-			}
-			showHomeLogo(context, model);
+			// ProfileCache loginUser = getLoginUserCache(request);
+			// if (loginUser != null && loginUser.getCity() != null) {
+			// city = loginUser.getCity();
+			// }
+			// ideaList = ideaService.listIdeaWindow(city, 0, 0,
+			// indexWindowIdeaMaxRows);
+			// Collections.shuffle(ideaList);
+			// if (ideaList.size() > indexWindowIdeaRandom) {
+			// ideaList = ideaList.subList(0, indexWindowIdeaRandom);
+			// }
+			// showHomeLogo(context, model);
+			return "redirect:/home";
 		} else {
 			// TODO(done) 不需要控制数量？取出来的时候控制了
 			ideaList = recommendIdeaService.listRecommendIdea();
@@ -126,10 +126,11 @@ public class IndexController extends BaseController {
 		userPostWidget(context, model, city, indexNewPostMaxRows);
 		List<IdeaView> ideaViewList = ideaViewHelper.assembleIdeaView(context,
 				ideaList);
-		hotWordsWidget(model, city, searchUserHotRows);
-		visitUserWidget(model, context, visitorWidgetUserCount);
+		// hotWordsWidget(model, city, searchUserHotRows);
+		// visitUserWidget(model, context, visitorWidgetUserCount);
 		model.addAttribute("ideaViewList", ideaViewList);
-		return "web/index/index";
+		welcomNum(request, model);
+		return "web/index/welcome/welcome";
 	}
 
 	@RequestMapping(value = { "/welcomenum" }, method = RequestMethod.GET)
@@ -171,8 +172,8 @@ public class IndexController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			cityId = loginUser.getCity();
 		}
-		List<Idea> ideaList = ideaService.listIdeaByCityAndCategory(cityId,
-				null, ShowIdeaOrder.HOT_TIME, 0, randomBillboardIdeasPoolCount);
+		List<Idea> ideaList = ideaService.listIdeaWindow(cityId, 0, 0,
+				randomBillboardIdeasPoolCount);
 		List<Idea> topIdeaList = new ArrayList<Idea>(billboardIdeasCount);
 		for (int i = 0; i < billboardIdeasCount; i++) {
 			int size = ideaList.size();

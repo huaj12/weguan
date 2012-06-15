@@ -280,6 +280,8 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .z900{ position:relative; z-index:900;}
 .z800{ position:relative; z-index:800;}
 
+.yqpy_btn a{ background:url(../images/web2/yqpy_btn.gif) no-repeat; display:block; width:285px; height:60px;}
+.yqpy_btn a:hover{background:url(../images/web2/yqpy_btn_hover.gif) no-repeat;}
 
 .tips{ position:absolute; background:url(../images/web2/tips.png) no-repeat; width:184px; height:53px; overflow:hidden; top:-25px; right:160px;}
 .tips p{ float:left; color:#fff; margin-top:10px;  margin-top:12px\0;  *margin-top:10px; margin-left:15px; display:inline; }
@@ -355,7 +357,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 .send_area .random_select{ float:right; margin-top:5px;}
 .send_area .random_select p{ float:left; color:#999; margin-right:3px; display:inline;}
-.send_area .random_select a{  height:16px; padding-left:20px; color:#999; margin-left:10px; display:inline block; float:left;}
+.send_area .random_select a{  height:16px; padding-left:20px; color:#3E8BD9; margin-left:10px; display:inline block; float:left;}
 .send_area .random_select a:hover{  color:#3E8BD9;}
 .send_area .random_select .sel{background:url(../images/web2/sel_hover_r1_c9.jpg) no-repeat;}
 .send_area .random_select .random{background:url(../images/web2/icon_hover_r1_c9.jpg) no-repeat;}
@@ -462,7 +464,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 .send_area .tb{ float:right; margin-right:10px; margin-top:13px; display:inline; cursor:pointer;}
 .send_area .tb span{ background:url(../images/web2/tb_link.jpg) no-repeat; width:13px; height:13px; overflow:hidden; float:left; margin-top:4px; margin-top:5px\0;}
-.send_area .tb p{ float:left; color:#ccc; margin-left:5px; display:inline; margin-top:1px; margin-top:3px\0; *margin-top:2px;}
+.send_area .tb p{ float:left; color:#999; margin-left:5px; display:inline; margin-top:1px; margin-top:3px\0; *margin-top:2px;}
 
 .send_area .tb_click span{background:url(../images/web2/tb_active.jpg) no-repeat;}
 
@@ -2178,7 +2180,7 @@ i{ color:#f00;}
 
 .good_idea_detail .idea_show .idea_infor{ float:left; overflow:hidden; width:310px; font-size:12px; padding-bottom:30px;}
 .idea_show .idea_infor h2{width:100%; font-size:18px; color:#666; font-family:"微软雅黑"; padding-bottom:10px; line-height:150%; }
-.idea_show .idea_infor h2 a{ color:#3E8BD9; font-size:12px; font-family:"宋体"; margin-left:5px;}
+.idea_show .idea_infor h2 a{ color:#3E8BD9; font-size:12px; font-family:"宋体"; margin-left:5px; white-space:nowrap;}
 .idea_show .idea_infor h2 a:hover{ text-decoration:underline;}
 
 
@@ -3735,9 +3737,26 @@ search_xz .hot{ margin-top:-10px;}
 .hd_form .title h2{ font-size:18px; color:#333; font-family:"微软雅黑"; float:left;}
 .hd_form .title p{ float:left; margin-left:20px; display:inline; color:#999;}
 .hd_form .title p font{ color:#ff0000; font-size:12px;}
-.hd_form .title a{ float:right; color:#3E8BD9; font-size:14px; margin-top:3px;}
-.hd_form .title a:hover{ text-decoration:underline;}
+
 .hd_form .hr_line{ margin-top:25px; margin-bottom:10px; border-top:1px solid #f7f7f7; font-size:0px; overflow:hidden; height:1px; }
+
+
+.hd_share{ float:right; margin-left:5px; }
+.hd_share p{ float:left; color:#999; margin-right:3px; display:inline;}
+.hd_share a{  height:16px; padding-left:20px; color:#999; margin-left:10px; display:inline block; float:left; font-size:12px;}
+.hd_share a:hover{  color:#3E8BD9;}
+.hd_share .sel{background:url(../images/web2/sel_hover_r1_c9.jpg) no-repeat;}
+.hd_share .random{background:url(../images/web2/icon_hover_r1_c9.jpg) no-repeat;}
+.hd_share .hd{ background:url(../images/web2/icon_hd.gif) no-repeat;}
+.hd_share .qc{ background:url(../images/web2/icon_qc.gif) no-repeat;}
+.hd_share .tg{ background:url(../images/web2/icon_tg.gif) no-repeat;}
+
+
+
+
+
+
+
 
 
 

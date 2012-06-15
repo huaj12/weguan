@@ -251,8 +251,8 @@ public class IdeaController extends BaseController {
 				cityId = profile.getCity();
 			}
 		}
-		List<Idea> ideaList = ideaService
-				.listIdeaWindow(cityId, 0, page - 1, 1);
+		List<Idea> ideaList = ideaService.listUnUsedIdea(context.getUid(),
+				cityId, page - 1, 1);
 		if (CollectionUtils.isNotEmpty(ideaList)) {
 			Idea idea = ideaList.get(0);
 			IdeaView ideaView = new IdeaView();

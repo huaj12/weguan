@@ -1010,7 +1010,7 @@ public class PostService implements IPostService {
 					"...");
 			String link = messageSource.getMessage(
 					SynchronizeWeiboTemplate.SYNCHRONIZE_LINK.getName(),
-					new Object[] { String.valueOf(postId) },
+					new Object[] { String.valueOf(uid) },
 					Locale.SIMPLIFIED_CHINESE);
 			byte[] image = null;
 			String imageUrl = null;

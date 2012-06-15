@@ -28,13 +28,13 @@
 								<div class="search_jg"><!--search_jg begin-->
 									<h2>拒宅搜索</h2>
 									<div class="input"><!--input begin-->
-									<p class="l"></p><span class="width70"><input name="queryString" id="search-post-input" type="text" value="${queryString}" /></span><p class="r"></p>
+									<p class="l"></p><span class="width70"><input name="queryString" id="search-post-input" type="text" value="<c:out value="${queryString}"/>" /></span><p class="r"></p>
 									</div><!--input end-->
 									<a href="javascript:void(0);">搜</a>
 								</div><!--search_jg end-->
 								<div class="clear"></div>
 								<div class="jg_title"><!--jg_title begin-->
-									<div class="jg_left"><p>在<c:choose><c:when test="${city== 0}">全国</c:when><c:otherwise>${jzd:cityName(city)}</c:otherwise></c:choose>共搜索到<font>${pager.totalResults}</font>条 关于<i>${queryString}</i>的信息</p></div>
+									<div class="jg_left"><p>在<c:choose><c:when test="${city== 0}">全国</c:when><c:otherwise>${jzd:cityName(city)}</c:otherwise></c:choose>共搜索到<font>${pager.totalResults}</font>条 关于<i><c:out value="${queryString}"/></i>的信息</p></div>
 									<div class="jg_right">
 										<h5>筛选:</h5>
 										<div class="select_menu" id="sex-select" name="sex"><!--select_menu begin-->

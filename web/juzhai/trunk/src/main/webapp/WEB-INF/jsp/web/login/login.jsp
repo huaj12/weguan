@@ -20,7 +20,7 @@
 						<div class="member_register"><!--member_register begin-->
 							<form id="login-form" action="login" method="post">
 								<input type="hidden" name="verifyKey" value="${loginForm.verifyKey}" />
-								<input type="hidden" name="turnTo" value="${loginForm.turnTo}" />
+								<input type="hidden" name="turnTo" value="<c:out value="${loginForm.turnTo}"></c:out>" />
 								<div class="reg_left"><!--reg_left begin-->
 									<h2>登录拒宅网</h2>
 									<div class="input_x"><!--input_x begin-->

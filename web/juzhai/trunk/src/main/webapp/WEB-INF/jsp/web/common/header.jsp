@@ -9,18 +9,10 @@
 	<div class="top"><!--top begin-->
 		<h1><a href="http://www.51juzhai.com"></a></h1>
 		<div class="menu"><!--menu begin-->
-			<a href="/" title="首页" <c:if test="${pageType=='index'}">class="selected"</c:if>>首页</a>
-			<c:choose>
-				<c:when test="${context.uid<=0}">
-					<c:set value="/searchusers" var="findUserUrl"></c:set>
-				</c:when>
-				<c:otherwise>
-					<c:set value="/home" var="findUserUrl"></c:set>
-				</c:otherwise>
-			</c:choose>
-			<a href="${findUserUrl }" title="找伴儿" <c:if test="${pageType=='finduser'}">class="selected"</c:if>>找伴儿</a>
+			<a href="/home" title="首页" <c:if test="${pageType=='home'}">class="selected"</c:if>>首页</a>
+			<a href="/searchusers" title="找伴儿" <c:if test="${pageType=='zbe'}">class="selected"</c:if>>找伴儿</a>
 			<a href="/showideas" title="出去玩" <c:if test="${pageType=='cqw'}">class="selected"</c:if>>出去玩</a>
-			<!--a href="/rescueuser" title="解救小宅" <c:if test="${pageType=='rescue'}">class="selected"</c:if>>解救小宅</a -->
+			<a href="/rescueuser" title="解救小宅" <c:if test="${pageType=='rescue'}">class="selected"</c:if>>解救小宅</a>
 		</div><!--menu end-->
 		<c:if test="${context.uid>0}">
 			<div class="acc"><!--acc begin-->

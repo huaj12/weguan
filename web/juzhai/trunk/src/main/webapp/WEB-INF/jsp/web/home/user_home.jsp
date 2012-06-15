@@ -84,6 +84,7 @@
 								<div class="t"></div>
 							</div><!--content end-->
 						</c:if>
+						<jsp:include page="/WEB-INF/jsp/web/index/zbe/recommend_users_widget.jsp" />
 					</div><!--main_right end-->
 				</div><!--main_part end-->
 			</div><!--main end-->

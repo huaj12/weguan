@@ -263,8 +263,7 @@ public class SearchController extends BaseController {
 		}
 		newUserWidget(city, model, queryUsersRightUserRows);
 		recommendUserWidget(context.getUid(), recommendUserCount, model);
-		// TODO (done) 第一个和第三个参数，不觉得奇怪吗？
-		userPostWidget(context, model, city, indexNewPostMaxRows);
+		// userPostWidget(context, model, city, indexNewPostMaxRows);
 		hotWordsWidget(model, city, searchUserHotRows);
 		model.addAttribute("userViews", userViews);
 		model.addAttribute("pager", pager);

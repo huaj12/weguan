@@ -36,6 +36,7 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.lab.controller.view.IdeaMView;
 import com.juzhai.lab.controller.view.PostMView;
+import com.juzhai.lab.controller.view.UserHomeMView;
 import com.juzhai.lab.controller.view.UserMView;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.controller.form.LoginForm;
@@ -48,6 +49,7 @@ import com.juzhai.passport.model.Constellation;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Town;
 import com.juzhai.passport.model.UserPositionExample;
+import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IUserGuideService;
@@ -79,6 +81,8 @@ public class IOSController extends BaseController {
 	private IUserPositionDao userPositionDao;
 	@Autowired
 	private IIdeaService ideaService;
+	@Autowired
+	private IInterestUserService interestUserService;
 	@Autowired
 	private IPostService postService;
 	@Value("${web.show.ideas.max.rows}")
@@ -207,6 +211,8 @@ public class IOSController extends BaseController {
 				ideaMView.setHasUsed(ideaService.isUseIdea(context.getUid(),
 						idea.getId()));
 			}
+			ideaMView.setBigPic(JzResourceFunction.ideaPic(idea.getId(),
+					idea.getPic(), JzImageSizeType.BIG.getType()));
 			ideaViewList.add(ideaMView);
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -281,6 +287,9 @@ public class IOSController extends BaseController {
 			postView.setPic(JzResourceFunction.postPic(post.getId(),
 					post.getIdeaId(), post.getPic(),
 					JzImageSizeType.MIDDLE.getType()));
+			postView.setBigPic(JzResourceFunction.postPic(post.getId(),
+					post.getIdeaId(), post.getPic(),
+					JzImageSizeType.BIG.getType()));
 			postView.setPlace(post.getPlace());
 			postView.setPurpose(messageSource.getMessage(
 					PurposeType.getWordMessageKey(post.getPurposeType()), null,
@@ -302,7 +311,7 @@ public class IOSController extends BaseController {
 		return ajaxResult;
 	}
 
-	@RequestMapping(value = "/categoryList")
+	@RequestMapping(value = "/categoryList", method = RequestMethod.GET)
 	@ResponseBody
 	public AjaxResult loadCategoryList(HttpServletRequest request) {
 		List<Category> categoryList = new ArrayList<Category>(
@@ -316,6 +325,31 @@ public class IOSController extends BaseController {
 		}
 		AjaxResult result = new AjaxResult();
 		result.setResult(mapList);
+		return result;
+	}
+
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult home(HttpServletRequest request, int page) {
+		ProfileCache loginUser = getLoginUserCache(request);
+		if (loginUser == null) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		Map<String, Object> mapResult = new HashMap<String, Object>(3);
+		AjaxResult result = new AjaxResult();
+		result.setResult(mapResult);
+		UserHomeMView userHomeView = new UserHomeMView();
+		userHomeView.setUid(loginUser.getUid());
+		userHomeView.setNickname(loginUser.getNickname());
+		userHomeView.setGender(loginUser.getGender());
+		userHomeView.setLogo(JzResourceFunction.userLogo(loginUser.getUid(),
+				loginUser.getLogoPic(), LogoSizeType.MIDDLE.getType()));
+		userHomeView.setInterestUserCount(interestUserService
+				.countInterestUser(userHomeView.getUid()));
+		userHomeView.setInterestMeCount(interestUserService
+				.countInterestMeUser(userHomeView.getUid()));
+		mapResult.put("userHome", userHomeView);
+
 		return result;
 	}
 }

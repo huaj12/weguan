@@ -90,6 +90,9 @@ public class RegisterController extends BaseController {
 			registerForm.setVerifyKey(key);
 			model.addAttribute("registerForm", registerForm);
 			model.addAttribute("t", System.currentTimeMillis());
+			if (StringUtils.isNotEmpty(registerForm.getTurnTo())) {
+				model.addAttribute("turnTo", registerForm.getTurnTo());
+			}
 			return "web/register/register";
 		}
 	}
@@ -121,6 +124,9 @@ public class RegisterController extends BaseController {
 				registerForm.setVerifyKey(key);
 				model.addAttribute("registerForm", registerForm);
 				model.addAttribute("t", System.currentTimeMillis());
+				if (StringUtils.isNotEmpty(registerForm.getTurnTo())) {
+					model.addAttribute("turnTo", registerForm.getTurnTo());
+				}
 				return "web/register/register";
 			}
 			loginService.autoLogin(request, response, uid);

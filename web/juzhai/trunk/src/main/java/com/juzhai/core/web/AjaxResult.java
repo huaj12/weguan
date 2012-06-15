@@ -13,10 +13,21 @@ public class AjaxResult {
 
 	private final Log log = LogFactory.getLog(getClass());
 
+	public final static AjaxResult ERROR_RESULT = new AjaxResult(false);
+
 	private boolean success = true;
 	private String errorCode;
 	private String errorInfo;
 	private Object result;
+
+	public AjaxResult() {
+		super();
+	}
+
+	public AjaxResult(boolean success) {
+		super();
+		this.success = success;
+	}
 
 	public boolean isSuccess() {
 		return success;

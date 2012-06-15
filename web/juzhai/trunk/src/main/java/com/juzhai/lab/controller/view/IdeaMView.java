@@ -22,6 +22,8 @@ public class IdeaMView {
 
 	private String pic;
 
+	private String bigPic;
+
 	public long getIdeaId() {
 		return ideaId;
 	}
@@ -100,5 +102,13 @@ public class IdeaMView {
 
 	public void setPic(String pic) {
 		this.pic = pic;
+	}
+
+	public String getBigPic() {
+		return bigPic;
+	}
+
+	public void setBigPic(String bigPic) {
+		this.bigPic = bigPic;
 	}
 }

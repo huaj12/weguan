@@ -156,7 +156,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("queryType", "showrposts");
 		// model.addAttribute("cityId", cityId);
 		model.addAttribute("genderType", genderType);
-		model.addAttribute("pageType", "zbe");
+		model.addAttribute("pageType", "home");
 		loadCategoryList(model);
 		loadFaces(model);
 		return "web/home/index/home";
@@ -189,7 +189,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("queryType", "showiposts");
 		// model.addAttribute("cityId", cityId);
 		model.addAttribute("genderType", genderType);
-		model.addAttribute("pageType", "zbe");
+		model.addAttribute("pageType", "home");
 		loadCategoryList(model);
 		loadFaces(model);
 		return "web/home/index/home";

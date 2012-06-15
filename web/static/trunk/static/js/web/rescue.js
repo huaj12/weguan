@@ -64,13 +64,11 @@ function next(btn){
 function responseClick(btn){
 	var postId = $(btn).attr("post-id");
 	var rescueUid = $(btn).attr("rescue-uid");
-	var nickname = $(btn).attr("nickname");
-	var postContent = $(btn).attr("post-content");
-	openResponse(btn, postId, nickname, postContent, function(){
-		$(btn).unbind("click");
+	responsePost(postId, "", function(){
 		changeRescueUser(rescueUid);
-	});
-	return false;
+	}, function(errorInfo){
+		alert(errorInfo);
+	},btn);
 }
 
 function changeRescueUser(rescueUid){

@@ -119,9 +119,81 @@ $(document).ready(function(){
 		}
 	});
 	
-	$("div.random_select > a").each(function(){
-		bindShareBtn(this);
-    });
+	$("div.send_box").find("div.random_select > a.random").click(function(){
+		$("textarea[name='content']").bind("keyup", function(){
+			var random = $(this).attr("random");
+			if(null != random && random){
+				$(this).attr("random", false);
+				resetAdditionForm($("form[name='sendPost']"));
+			}
+		});
+		$.ajax({
+			url : "/idea/random",
+			type : "post",
+			cache : false,
+			data : {},
+			dataType : "json",
+			success : function(result) {
+				if(result && result.success){
+					var content = result.result.content;
+					var dateTime = result.result.dateTime;
+					var place = result.result.place;
+					var categoryId = result.result.categoryId;
+					var pic = result.result.pic;
+					var picUrl = result.result.picUrl;
+					var ideaId = result.result.id;
+					
+					resetSendPostForm($("form[name='sendPost']"));
+					$("textarea[name='content']").val(content);
+					$("textarea[name='content']").attr("random", true);
+					//place
+					if(place != null && place != ""){
+						var sendPostAddress = $("div#send-post-address");
+						sendPostAddress.find("input[name='place']").val(place);
+						sendPostAddress.find("input[type='text']").val(place);
+						sendPostAddress.addClass("done");
+					}
+					//date
+					if(null != dateTime && dateTime != ""){
+						var sendPostDate = $("div#send-post-date");
+						sendPostDate.find("input[name='dateString']").val(dateTime);
+						var array =  dateTime.split("-");
+						sendPostDate.find("p > a").text(array[1] + "-" + array[2]);
+						sendPostDate.addClass("done");
+					}
+					//pic
+					if(null != pic && pic != "" && null != picUrl && picUrl != ""){
+						var sendPostPic = $("div#send-post-pic");
+						sendPostPic.find("div.show_area > div.upload_photo_area > div.upload").hide();
+						sendPostPic.find("div.load_error").hide();
+						sendPostPic.find("input[name='pic']").val(pic);
+						sendPostPic.find("input[name='picIdeaId']").val(ideaId);
+						sendPostPic.find("div.upload_ok > div.img > img").attr("src", picUrl);
+						sendPostPic.find("div.upload_ok").show();
+						sendPostPic.addClass("done");
+					}
+					//category
+					if(categoryId > 0){
+						var sendPostCategory = $("div#send-post-category");
+						var selectCategory = sendPostCategory.find("div.tag_list > a[value='" + categoryId + "']");
+						if(null != selectCategory){
+							sendPostCategory.find("div.tag_list > a").first().removeClass("act");
+							selectCategory.addClass("act");
+							sendPostCategory.find("input[name='categoryId']").val(selectCategory.attr("value"));
+							sendPostCategory.find("p > a").text(selectCategory.text());
+							sendPostCategory.addClass("done");
+						}
+					}
+				}
+			},
+			statusCode : {
+				401 : function() {
+					window.location.href = "/login?turnTo=" + window.location.href;
+				}
+			}
+		});
+		return false;
+	});
 	
 	$("div.s_input > a").click(function(){
 		$("#search-post-form").submit();

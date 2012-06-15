@@ -75,6 +75,8 @@ public class UserController extends BaseController {
 	private int visitorWidgetUserCount;
 	@Value("${web.visit.user.max.rows}")
 	private int webVisitUserMaxRows;
+	@Value("${recommend.user.count}")
+	private int recommendUserCount;
 
 	@RequestMapping(value = "/{uid}", method = RequestMethod.GET)
 	public String userHome(HttpServletRequest request, Model model,
@@ -107,6 +109,7 @@ public class UserController extends BaseController {
 			}
 			// 获取用户偏好
 			getUserPreference(model, uid);
+			recommendUserWidget(context.getUid(), recommendUserCount, model);
 			return "web/home/user_home";
 		}
 	}

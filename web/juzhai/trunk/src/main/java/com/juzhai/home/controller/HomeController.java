@@ -47,16 +47,13 @@ public class HomeController extends BaseController {
 	private int searchUserHotRows;
 	@Value("${recommend.user.count}")
 	private int recommendUserCount;
+	@Value("${visitor.widget.user.count}")
+	private int visitorWidgetUserCount;
 
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)
 			throws NeedLoginException {
-		UserContext context = null;
-		try {
-			context = checkLoginForWeb(request);
-		} catch (NeedLoginException e) {
-			return "redirect:/searchusers";
-		}
+		UserContext context = checkLoginForWeb(request);
 		List<String> genders = userPreferenceService.getUserAnswer(
 				context.getUid(), SiftTypePreference.GENDER.getPreferenceId());
 		String genderType = "all";
@@ -117,7 +114,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("townId", townId);
 		model.addAttribute("genderType", genderType);
-		model.addAttribute("pageType", "finduser");
+		model.addAttribute("pageType", "home");
 		loadCategoryList(model);
 		loadFaces(model);
 		showHomeRight(cityId, request, context, model);
@@ -159,7 +156,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("queryType", "showrposts");
 		// model.addAttribute("cityId", cityId);
 		model.addAttribute("genderType", genderType);
-		model.addAttribute("pageType", "finduser");
+		model.addAttribute("pageType", "zbe");
 		loadCategoryList(model);
 		loadFaces(model);
 		return "web/home/index/home";
@@ -192,7 +189,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("queryType", "showiposts");
 		// model.addAttribute("cityId", cityId);
 		model.addAttribute("genderType", genderType);
-		model.addAttribute("pageType", "finduser");
+		model.addAttribute("pageType", "zbe");
 		loadCategoryList(model);
 		loadFaces(model);
 		return "web/home/index/home";
@@ -206,7 +203,9 @@ public class HomeController extends BaseController {
 				cityId = loginUser.getCity();
 			}
 		}
+		showHomeLogo(context, model);
 		hotWordsWidget(model, cityId, searchUserHotRows);
+		visitUserWidget(model, context, visitorWidgetUserCount);
 		newUserWidget(cityId, model, webHomeRightUserRows);
 		recommendUserWidget(context.getUid(), recommendUserCount, model);
 	}

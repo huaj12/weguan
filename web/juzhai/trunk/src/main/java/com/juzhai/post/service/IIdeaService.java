@@ -92,7 +92,7 @@ public interface IIdeaService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Idea> listUnUsedIdea(long uid, Long cityId, int firstResult,
+	List<Idea> listUnUsedWindowIdea(long uid, Long cityId, int firstResult,
 			int maxResults);
 
 	/**

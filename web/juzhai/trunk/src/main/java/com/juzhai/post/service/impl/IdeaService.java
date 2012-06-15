@@ -478,8 +478,8 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public List<Idea> listUnUsedIdea(long uid, Long cityId, int firstResult,
-			int maxResults) {
+	public List<Idea> listUnUsedWindowIdea(long uid, Long cityId,
+			int firstResult, int maxResults) {
 		List<Long> ideaIdList = usedIdeaIds(uid);
 
 		IdeaExample ideaExample = new IdeaExample();

@@ -8,14 +8,14 @@
 		</c:choose>
 		<span>懒人可用下面合作网站的账号直接登录</span>
 		<div class="btns">
-			<a href="/web/login/6?turnTo=${registerForm.turnTo}" class="wb"></a>
-			<a href="/web/login/7?turnTo=${registerForm.turnTo}" class="db"></a>
+			<a href="/web/login/6?turnTo=${loginForm.turnTo}" class="wb"></a>
+			<a href="/web/login/7?turnTo=${loginForm.turnTo}" class="db"></a>
 			<c:choose>
 				<c:when test="${not empty isQplus&&isQplus}">
-					<a href="/qplus/loginDialog/9" class="qq"></a>	
+					<a href="/qplus/loginDialog/9?turnTo=${loginForm.turnTo}" class="qq"></a>	
 				</c:when>
 				<c:otherwise>
-					<a href="/web/login/8?turnTo=${registerForm.turnTo}" class="qq"></a>
+					<a href="/web/login/8?turnTo=${loginForm.turnTo}" class="qq"></a>
 				</c:otherwise>
 			</c:choose>
 		</div>

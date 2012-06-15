@@ -7,6 +7,7 @@ public class PostMView {
 	private String content;
 	private String place;
 	private String pic;
+	private String bigPic;
 	private String categoryName;
 	private String date;
 	private int respCnt;
@@ -83,4 +84,13 @@ public class PostMView {
 	public void setHasResp(boolean hasResp) {
 		this.hasResp = hasResp;
 	}
+
+	public String getBigPic() {
+		return bigPic;
+	}
+
+	public void setBigPic(String bigPic) {
+		this.bigPic = bigPic;
+	}
+
 }

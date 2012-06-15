@@ -26,7 +26,7 @@
 									<div class="input_x"><!--input_x begin-->
 										<h3>邮箱：</h3>
 										<div id="form-account" class="big_input">
-											<p class="l"></p><span><input name="account" type="text" value="<c:out value="${loginForm.account}"/>" /></span><p class="r"></p>
+											<p class="l"></p><span><input name="account" type="text" value="<c:out value='${loginForm.account}' />" /></span><p class="r"></p>
 										</div>
 									</div><!--input_x end-->
 									<div class="input_x"><!--input_x begin-->

@@ -62,6 +62,9 @@ public class LoginController extends BaseController {
 				model.addAttribute("t", System.currentTimeMillis());
 			}
 			model.addAttribute("loginForm", loginForm);
+			if (StringUtils.isNotEmpty(loginForm.getTurnTo())) {
+				model.addAttribute("turnTo", loginForm.getTurnTo());
+			}
 			return "web/login/login";
 		}
 	}
@@ -101,6 +104,9 @@ public class LoginController extends BaseController {
 				model.addAttribute("t", System.currentTimeMillis());
 			}
 			model.addAttribute("loginForm", loginForm);
+			if (StringUtils.isNotEmpty(loginForm.getTurnTo())) {
+				model.addAttribute("turnTo", loginForm.getTurnTo());
+			}
 			return "web/login/login";
 		}
 		if (uid <= 0) {

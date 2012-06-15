@@ -40,7 +40,7 @@
 			</div><!--card_mid end-->
 			<div class="card_bot"></div>
 		</div><!--card end-->
-		<div class="btn"><a href="javascript:void(0);" class="xy" post-id="${postView.post.id}" resp-count="${postView.post.responseCnt}" rescue-uid="${postView.profileCache.uid}" nickname="<c:out value='${postView.profileCache.nickname}' />" post-content="<c:out value="${jzu:truncate(postView.post.content,50,'...')}" />">好主意</a> <a href="javascript:void(0);" class="next" rescue-uid="${postView.profileCache.uid}">换一个</a></div>
+		<div class="btn"><a href="javascript:void(0);" class="xy" post-id="${postView.post.id}" resp-count="${postView.post.responseCnt}" rescue-uid="${postView.profileCache.uid}" nickname="<c:out value='${postView.profileCache.nickname}' />" post-content="<c:out value="${jzu:truncate(postView.post.content,50,'...')}" />">有兴趣</a> <a href="javascript:void(0);" class="next" rescue-uid="${postView.profileCache.uid}">换一个</a></div>
 	</c:when>
 	<c:otherwise>
 		<div class="card girl"><!--card begin-->

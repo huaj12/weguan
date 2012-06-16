@@ -8,19 +8,26 @@
 
 #import <UIKit/UIKit.h>
 
-@class UserHomeView;
+@class UserView;
 @class JZData;
+
+#define INTEREST_COUNT_BUTTON_IMAGE @"my_jz_fans_btn.png"
+#define INTEREST_COUNT_BUTTON_CAP_WIDTH 4.0
+#define TABLE_HEAD_HEIGHT 25.0
+#define TABLE_HEAD_BG_IMAGE @"my_jz_title_bg.png"
+#define TABLE_HEAD_TITLE @"共 %d 条拒宅"
 
 @interface HomeViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 {
-    UserHomeView *_userHomeView;
+    UserView *_userView;
     JZData *_data;
+    int _postTotalCount;
 }
 
-@property (strong, nonatomic) IBOutlet UIImageView *logoImageView;
+@property (strong, nonatomic) IBOutlet UIImageView *logoView;
 @property (strong, nonatomic) IBOutlet UILabel *nicknameLabel;
-@property (strong, nonatomic) IBOutlet UIButton *interestUserListButton;
-@property (strong, nonatomic) IBOutlet UIButton *interestMeListButton;
+@property (strong, nonatomic) IBOutlet UIButton *interestUserCountButton;
+@property (strong, nonatomic) IBOutlet UIButton *interestMeCountButton;
 @property (strong, nonatomic) IBOutlet UIButton *sendPostButton;
 @property (strong, nonatomic) IBOutlet UITableView *postTableView;
 

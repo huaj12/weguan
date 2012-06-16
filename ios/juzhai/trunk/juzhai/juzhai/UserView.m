@@ -23,25 +23,33 @@
 @synthesize cityName;
 @synthesize townName;
 @synthesize post;
+@synthesize interestMeCount;
+@synthesize interestUserCount;
 
 + (id) userConvertFromDictionary:(NSDictionary *)info{
     UserView *user = [UserView alloc];
-    user.uid = [info valueForKey:@"uid"];
-    user.nickname = [info valueForKey:@"nickname"];
-    user.gender = [info valueForKey:@"gender"];
-    user.logo = [info valueForKey:@"logo"];
-    user.birthYear = [info valueForKey:@"birthYear"];
-    user.birthMonth = [info valueForKey:@"birthMonth"];
-    user.birthDay = [info valueForKey:@"birthDay"];
-    user.constellation = [info valueForKey:@"constellation"];
-    user.profession = [info valueForKey:@"profession"];
-    user.cityName = [info valueForKey:@"cityName"];
-    user.townName = [info valueForKey:@"townName"];
+    [user updateUserInfo:info];
     NSDictionary *postInfo = [info valueForKey:@"postView"];
     if(![postInfo isEqual:[NSNull null]]){
         user.post = [PostView postConvertFromDictionary:postInfo];
     }
     return user;
+}
+
+- (void) updateUserInfo:(NSDictionary *)info{
+    self.uid = [info valueForKey:@"uid"];
+    self.nickname = [info valueForKey:@"nickname"];
+    self.gender = [info valueForKey:@"gender"];
+    self.logo = [info valueForKey:@"logo"];
+    self.birthYear = [info valueForKey:@"birthYear"];
+    self.birthMonth = [info valueForKey:@"birthMonth"];
+    self.birthDay = [info valueForKey:@"birthDay"];
+    self.constellation = [info valueForKey:@"constellation"];
+    self.profession = [info valueForKey:@"profession"];
+    self.cityName = [info valueForKey:@"cityName"];
+    self.townName = [info valueForKey:@"townName"];
+    self.interestUserCount = [info valueForKey:@"interestUserCount"];
+    self.interestMeCount = [info valueForKey:@"interestMeCount"];
 }
 
 @end

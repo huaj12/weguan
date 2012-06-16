@@ -2,12 +2,12 @@ $(document).ready(function(){
 	
 	$("a.detail-response").click(function(){
 		var postId = $(this).attr("post-id");
-		var nickname = $(this).attr("nickname");
-		var postContent = $(this).attr("post-content");
 		var obj = this;
-		openResponse(obj, postId, nickname, postContent, function(){
-			$(obj).unbind("click").addClass("done").text("已响应");
-		});
+		responsePost(postId, "", function(){
+			$(obj).unbind("click").addClass("done").text("有兴趣");
+		}, function(errorInfo){
+			alert(errorInfo);
+		},this);
 		return false;
 	});
 	

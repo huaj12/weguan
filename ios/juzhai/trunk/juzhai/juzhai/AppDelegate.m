@@ -26,6 +26,8 @@
     //初始化设置
     [ASIHTTPRequest setDefaultCache:[ASIDownloadCache sharedCache]];
     
+    UINavigationController *navController = [[UINavigationController alloc] init];
+    
     UIViewController *viewController;
     if(![LoginService checkLogin]){
          viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
@@ -35,13 +37,11 @@
             if([oneObject isKindOfClass:[UITabBarController class]]){
                 UITabBarController *tabBarController = (UITabBarController *) oneObject;
                 viewController = tabBarController;
+                [navController setNavigationBarHidden:YES];
                 break;
             }
         }
     }
-    
-    UINavigationController *navController = [[UINavigationController alloc] init];
-    [navController setNavigationBarHidden:YES];
     self.window.rootViewController = navController;
 	[self.window makeKeyAndVisible];
     sleep(1);

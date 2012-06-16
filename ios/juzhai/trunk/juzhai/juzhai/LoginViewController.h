@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 @class LoginService;
 
-@interface LoginViewController : UIViewController
-
+@interface LoginViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+{
+    NSArray *_loginFormCells;
+}
 @property (strong,nonatomic) IBOutlet UITextField *nameField;
 @property (strong,nonatomic) IBOutlet UITextField *pwdField;
+@property (strong,nonatomic) IBOutlet UITableView *loginFormTableView;
 @property (strong,nonatomic) UITabBarController *startController;
 
 - (IBAction)goRegister:(id)sender;

@@ -122,6 +122,7 @@
 		CBB765FB158CE93100F0DCA8 /* qq.png in Resources */ = {isa = PBXBuildFile; fileRef = CBB765F6158CE92900F0DCA8 /* qq.png */; };
 		CBB765FC158CE93100F0DCA8 /* sina.png in Resources */ = {isa = PBXBuildFile; fileRef = CBB765F7158CE92C00F0DCA8 /* sina.png */; };
 		CBB765FD158CE93100F0DCA8 /* zcdl_btn_hover.png in Resources */ = {isa = PBXBuildFile; fileRef = CBB765F8158CE92F00F0DCA8 /* zcdl_btn_hover.png */; };
+		CBB76612158CF69F00F0DCA8 /* LoginForm.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBB76611158CF69E00F0DCA8 /* LoginForm.xib */; };
 		CBBD5DF815827C6E003F0800 /* idea_more_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBBD5DEF15827C6E003F0800 /* idea_more_btn@2x.png */; };
 		CBBD5DF915827C6E003F0800 /* idea_wgo_btn_done@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBBD5DF015827C6E003F0800 /* idea_wgo_btn_done@2x.png */; };
 		CBBD5DFA15827C6E003F0800 /* idea_wgo_btn_hover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBBD5DF115827C6E003F0800 /* idea_wgo_btn_hover@2x.png */; };
@@ -377,6 +378,7 @@
 		CBB765F6158CE92900F0DCA8 /* qq.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq.png; sourceTree = "<group>"; };
 		CBB765F7158CE92C00F0DCA8 /* sina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sina.png; sourceTree = "<group>"; };
 		CBB765F8158CE92F00F0DCA8 /* zcdl_btn_hover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zcdl_btn_hover.png; sourceTree = "<group>"; };
+		CBB76611158CF69E00F0DCA8 /* LoginForm.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginForm.xib; sourceTree = "<group>"; };
 		CBBD5DEF15827C6E003F0800 /* idea_more_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "idea_more_btn@2x.png"; sourceTree = "<group>"; };
 		CBBD5DF015827C6E003F0800 /* idea_wgo_btn_done@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "idea_wgo_btn_done@2x.png"; sourceTree = "<group>"; };
 		CBBD5DF115827C6E003F0800 /* idea_wgo_btn_hover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "idea_wgo_btn_hover@2x.png"; sourceTree = "<group>"; };
@@ -1136,6 +1138,7 @@
 			children = (
 				CB7F16DA155196F50009E060 /* LoginViewController.xib */,
 				CB7F16DF155197100009E060 /* RegisterViewController.xib */,
+				CBB76611158CF69E00F0DCA8 /* LoginForm.xib */,
 			);
 			name = XIB;
 			sourceTree = "<group>";
@@ -1371,6 +1374,7 @@
 				CBB765FB158CE93100F0DCA8 /* qq.png in Resources */,
 				CBB765FC158CE93100F0DCA8 /* sina.png in Resources */,
 				CBB765FD158CE93100F0DCA8 /* zcdl_btn_hover.png in Resources */,
+				CBB76612158CF69F00F0DCA8 /* LoginForm.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

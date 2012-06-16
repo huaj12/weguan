@@ -17,6 +17,7 @@
 @synthesize nameField;
 @synthesize pwdField;
 @synthesize startController;
+@synthesize loginFormTableView;
 
 
 -(IBAction)goRegister:(id)sender{
@@ -40,8 +41,8 @@
                         break;
                     }
                 }
+                [self.navigationController setNavigationBarHidden:YES];
                 [self.navigationController pushViewController:startController animated:NO];
-//                [self.view.window addSubview:tabBarController.view];
             }else{
                 MBProgressHUD *hud2 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 hud2.mode = MBProgressHUDModeText;
@@ -67,6 +68,7 @@
 }
 
 - (IBAction)backgroundTap:(id)sender{
+    NSLog(@"%@", [self.nameField description]);
     [self.nameField resignFirstResponder];
     [self.pwdField resignFirstResponder];
 }
@@ -75,7 +77,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        
     }
     return self;
 }
@@ -97,28 +99,11 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
-    [[nameField layer] setShadowOffset:CGSizeMake(0, 0)];
-    [[nameField layer] setShadowRadius:10];
-    [[nameField layer] setShadowOpacity:0.5];
-    [[nameField layer] setShadowColor:[UIColor blackColor].CGColor];
-    
-//    NSShadow *shadow = [[NSShadow alloc] init];
-//    //设置阴影为白色
-//    
-//    [shadow setShadowColor:[NSColor whiteColor]];
-//    
-//    //设置阴影为右下方
-//    
-//    [shadow setShadowOffset:NSMakeSize(1, 1)];
-//    
-//    //这一步不可少，设置NSView的任何与Layer有关的效果都需要
-//    
-//    [textField setWantsLayer:YES];
-//    
-//    //最后一步，完成
-//    
-//    [textField setShadow:shadow];
+//    LoginForm *loginForm = [[LoginForm alloc] init];
+//    loginForm.loginViewController = self;
+    [loginFormTableView setDelegate:self];
+    [loginFormTableView setDataSource:self];
+    _loginFormCells = [[NSBundle mainBundle] loadNibNamed:@"LoginForm" owner:self options:nil];
 }
 
 - (void)viewDidUnload
@@ -132,6 +117,51 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark -
+#pragma mark Table View Data Source
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 2;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    static NSString *AccountCellIdentifier = @"AccountCellIdentifier";
+//    static NSString *PasswordCellIdentifier = @"PasswordCellIdentifier";
+//    NSArray *CellIdentifierArray = [[NSArray alloc] initWithObjects:AccountCellIdentifier, PasswordCellIdentifier, nil];
+//    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:[CellIdentifierArray objectAtIndex:indexPath.row]];
+//    if(cell == nil){
+//        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"LoginForm" owner:self options:nil];
+//        NSLog(@"111");
+//        for(id oneObject in nib){
+//            if([oneObject tag] == indexPath.row){
+//                cell = oneObject;
+//            }
+//        }
+//    }
+//    return cell;
+    for(id oneObject in _loginFormCells){
+        if([oneObject tag] == indexPath.row){
+            return oneObject;
+        }
+    }
+    return nil;
+}
+
+#pragma mark -
+#pragma mark Table View Delegate
+
+-(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 50.0;
+}
+
+-(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 10.0;
+}
+
+-(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 10.0;
 }
 
 @end

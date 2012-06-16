@@ -68,7 +68,6 @@
 }
 
 - (IBAction)backgroundTap:(id)sender{
-    NSLog(@"%@", [self.nameField description]);
     [self.nameField resignFirstResponder];
     [self.pwdField resignFirstResponder];
 }

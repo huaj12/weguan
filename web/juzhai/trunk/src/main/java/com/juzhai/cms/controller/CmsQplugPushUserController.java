@@ -39,7 +39,7 @@ public class CmsQplugPushUserController {
 	@Value("${qplug.minute.push.count}")
 	private int qplugMinutePushCount;
 	public static boolean isUserPushStop = true;
-	public static boolean isUserpushruning = false;
+	public static boolean isUserPushruning = false;
 	public static boolean isInitRuning = false;
 	public static boolean isInitStop = false;
 
@@ -52,11 +52,7 @@ public class CmsQplugPushUserController {
 			ajaxResult.setSuccess(false);
 			return ajaxResult;
 		}
-		// TODO (done) 判断是否在执行任务，为什么放在load文件之后？
-		// 正在给老用户push
-		// TODO (done) 下面判断错误了，isOldUserPushStop是true不代表已经停止
-		// TODO (done) 下面判断错误了，isNewUserPushStop是true不代表已经停止
-		if (isUserpushruning) {
+		if (isUserPushruning) {
 			ajaxResult.setErrorInfo("user pushing");
 			ajaxResult.setSuccess(false);
 			return ajaxResult;
@@ -72,7 +68,6 @@ public class CmsQplugPushUserController {
 			return ajaxResult;
 		}
 		isInitRuning = true;
-		// TODO (done) isInitStop需要更新吗？
 		isInitStop = false;
 		redisTemplate.delete(RedisKeyGenerator.genQplugPushNewUserKey());
 		redisTemplate.delete(RedisKeyGenerator.genQplugPushOldUserKey());
@@ -93,6 +88,7 @@ public class CmsQplugPushUserController {
 			redisTemplate.opsForSet().add(key, value);
 		}
 		isInitRuning = false;
+		// TODO (review) isInitStop需要更新吗？
 
 		return ajaxResult;
 	}
@@ -106,19 +102,19 @@ public class CmsQplugPushUserController {
 			ajaxResult.setSuccess(false);
 			return ajaxResult;
 		}
-		if (!isUserPushStop && isUserpushruning) {
+		//TODO (review) 前面改过，没理解？告诉我为什么stop不能表示已经结束？
+		if (!isUserPushStop && isUserPushruning) {
 			ajaxResult.setSuccess(false);
 			ajaxResult.setErrorInfo("User push runing");
 			return ajaxResult;
 		}
-		// TODO (done) 新的用户和老的用户，两个任务能同时进行？
 		QplugPushTask task = new QplugPushTask(type, text,
 				qplugMinutePushCount, cmsTaskExecutor, redisTemplate,
 				noticeService, messageSource);
 		Thread thread = new Thread(task);
 		thread.start();
-		// TODO (done) 任务执行中和任务结束的变量不更新为执行中？
-		isUserpushruning = true;
+		// TODO (reivew) 要放在新线程执行前，告诉我为什么要放在前面
+		isUserPushruning = true;
 		isUserPushStop = false;
 		return ajaxResult;
 	}
@@ -126,8 +122,6 @@ public class CmsQplugPushUserController {
 	@RequestMapping(value = "/qplug/stop", method = RequestMethod.POST)
 	@ResponseBody
 	public synchronized AjaxResult stop(String type) {
-		// TODO (done) 只是标志要停止，代表已经停止。isNewUserpushruning不能设为false
-		// TODO (done) 只是标志要停止，代表已经停止。isOldUserpushruning不能设为false
 		isUserPushStop = true;
 		return new AjaxResult();
 	}
@@ -137,7 +131,6 @@ public class CmsQplugPushUserController {
 	// public synchronized String stopInit() {
 	// isInitRuning = false;
 	// isInitStop = true;
-	// // TODO (done) 这个方法还有用吗？
 	// return "sucess";
 	// }
 
@@ -155,7 +148,7 @@ public class CmsQplugPushUserController {
 				RedisKeyGenerator.genQplugPushOldUserKey());
 		String content = messageSource.getMessage(
 				"notice.qplug.user.send.state.text", new Object[] {
-						isInitRuning, isUserpushruning, oldUserSize,
+						isInitRuning, isUserPushruning, oldUserSize,
 						newUserSize }, Locale.SIMPLIFIED_CHINESE);
 		return content;
 	}

@@ -321,4 +321,22 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genSendCount(String function, long uid) {
 		return genKey(uid, function + "SendCount");
 	}
+
+	/**
+	 * Q+新用户key
+	 * 
+	 * @return
+	 */
+	public static String genQplugPushNewUserKey() {
+		return "qplugPushNewUsers";
+	}
+
+	/**
+	 * Q+老用户key
+	 * 
+	 * @return
+	 */
+	public static String genQplugPushOldUserKey() {
+		return "qplugPushOldUsers";
+	}
 }

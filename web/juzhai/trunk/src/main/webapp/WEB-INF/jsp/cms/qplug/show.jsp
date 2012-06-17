@@ -92,7 +92,7 @@ function initPushUser(){
 </script>
 </head>
 <body>
-<h2>q+ 消息推送 <a href="javascript:void(0);" onclick="initPushUser();" >初始化发送列表</a>-<a href="/cms/qplug/stopInit" target="_blank">停止初始化</a></h2>
+<h2>q+ 消息推送 <a href="javascript:void(0);" onclick="initPushUser();" >初始化发送列表</a></h2>
 <h3><a href="/cms/qplug/state" target="_blank" >查看发送状态</a></h3>
 <br/>
 <form id="pushForm">

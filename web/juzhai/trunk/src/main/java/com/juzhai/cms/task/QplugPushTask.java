@@ -20,7 +20,6 @@ public class QplugPushTask implements Runnable {
 	private INoticeService noticeService;
 	private MessageSource messageSource;
 	private int count;
-	private boolean isNew = "new".equals(type);
 
 	public QplugPushTask(String type, String text, int count,
 			ThreadPoolTaskExecutor cmsTaskExecutor,
@@ -38,7 +37,7 @@ public class QplugPushTask implements Runnable {
 	@Override
 	public void run() {
 		String key = null;
-		if (isNew) {
+		if ("new".equals(type)) {
 			key = RedisKeyGenerator.genQplugPushNewUserKey();
 		} else {
 			key = RedisKeyGenerator.genQplugPushOldUserKey();

@@ -39,20 +39,20 @@ public class CmsQplugPushUserController {
 	@Value("${qplug.minute.push.count}")
 	private int qplugMinutePushCount;
 	public static boolean isUserPushStop = true;
-	public static boolean isUserPushruning = false;
-	public static boolean isInitRuning = false;
+	public static boolean isUserPushRunning = false;
+	public static boolean isInitRunning = false;
 	public static boolean isInitStop = false;
 
 	@RequestMapping(value = "/qplug/initPushUser", method = RequestMethod.POST)
 	@ResponseBody
 	public synchronized AjaxResult initPushUser() {
 		AjaxResult ajaxResult = new AjaxResult();
-		if (isInitRuning) {
+		if (isInitRunning) {
 			ajaxResult.setErrorInfo("init runing");
 			ajaxResult.setSuccess(false);
 			return ajaxResult;
 		}
-		if (isUserPushruning) {
+		if (isUserPushRunning) {
 			ajaxResult.setErrorInfo("user pushing");
 			ajaxResult.setSuccess(false);
 			return ajaxResult;
@@ -67,7 +67,7 @@ public class CmsQplugPushUserController {
 			ajaxResult.setSuccess(false);
 			return ajaxResult;
 		}
-		isInitRuning = true;
+		isInitRunning = true;
 		isInitStop = false;
 		redisTemplate.delete(RedisKeyGenerator.genQplugPushNewUserKey());
 		redisTemplate.delete(RedisKeyGenerator.genQplugPushOldUserKey());
@@ -87,8 +87,8 @@ public class CmsQplugPushUserController {
 			}
 			redisTemplate.opsForSet().add(key, value);
 		}
-		isInitRuning = false;
-		// TODO (review) isInitStop需要更新吗？
+		isInitRunning = false;
+		// TODO (done) isInitStop需要更新吗？
 
 		return ajaxResult;
 	}
@@ -97,25 +97,25 @@ public class CmsQplugPushUserController {
 	@ResponseBody
 	public synchronized AjaxResult push(String type, String text) {
 		AjaxResult ajaxResult = new AjaxResult();
-		if (isInitRuning) {
+		if (isInitRunning) {
 			ajaxResult.setErrorInfo("init runing");
 			ajaxResult.setSuccess(false);
 			return ajaxResult;
 		}
-		//TODO (review) 前面改过，没理解？告诉我为什么stop不能表示已经结束？
-		if (!isUserPushStop && isUserPushruning) {
+		// TODO (done) 前面改过，没理解？告诉我为什么stop不能表示已经结束？
+		if (isUserPushRunning) {
 			ajaxResult.setSuccess(false);
 			ajaxResult.setErrorInfo("User push runing");
 			return ajaxResult;
 		}
+		// TODO (done) 要放在新线程执行前，告诉我为什么要放在前面
+		isUserPushRunning = true;
+		isUserPushStop = false;
 		QplugPushTask task = new QplugPushTask(type, text,
 				qplugMinutePushCount, cmsTaskExecutor, redisTemplate,
 				noticeService, messageSource);
 		Thread thread = new Thread(task);
 		thread.start();
-		// TODO (reivew) 要放在新线程执行前，告诉我为什么要放在前面
-		isUserPushruning = true;
-		isUserPushStop = false;
 		return ajaxResult;
 	}
 
@@ -148,7 +148,7 @@ public class CmsQplugPushUserController {
 				RedisKeyGenerator.genQplugPushOldUserKey());
 		String content = messageSource.getMessage(
 				"notice.qplug.user.send.state.text", new Object[] {
-						isInitRuning, isUserPushruning, oldUserSize,
+						isInitRunning, isUserPushRunning, oldUserSize,
 						newUserSize }, Locale.SIMPLIFIED_CHINESE);
 		return content;
 	}

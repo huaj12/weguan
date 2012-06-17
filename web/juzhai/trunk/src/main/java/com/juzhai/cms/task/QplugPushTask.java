@@ -61,19 +61,24 @@ public class QplugPushTask implements Runnable {
 			}
 			cmsTaskExecutor.submit(new QplugSendTask(openid, text,
 					noticeService));
+			//TODO (review) 这里总觉得逻辑有点问题，一会想
 			if (i != 0 && i % count == 0) {
 				try {
 					Thread.sleep(1000 * 60);
 				} catch (InterruptedException e) {
 				}
 			}
+			//由外部来停止任务
+			//TODO (review) "new".equals(type)在顶上定义一个变量吧，用的地方很多
 			if ("new".equals(type)) {
 				if (CmsQplugPushUserController.isNewUserPushStop) {
+					//TODO (review) 直接break即可
 					CmsQplugPushUserController.isNewUserpushruning = false;
 					break;
 				}
 			} else {
 				if (CmsQplugPushUserController.isOldUserPushStop) {
+					//TODO (review) 直接break即可
 					CmsQplugPushUserController.isOldUserpushruning = false;
 					break;
 				}

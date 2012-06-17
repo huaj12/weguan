@@ -63,6 +63,7 @@ public class CmsQplugPushUserController {
 			ajaxResult.setSuccess(false);
 			return ajaxResult;
 		}
+		//TODO (review) 判断是否在执行任务，为什么放在load文件之后？
 		// 正在给老用户push
 		if (!isOldUserPushStop && isOldUserpushruning) {
 			ajaxResult.setErrorInfo("old user pushing");
@@ -95,6 +96,7 @@ public class CmsQplugPushUserController {
 			redisTemplate.opsForSet().add(key, value);
 		}
 		isInitRuning = false;
+		//TODO (review) isInitStop需要更新吗？
 		return ajaxResult;
 	}
 
@@ -120,11 +122,13 @@ public class CmsQplugPushUserController {
 				return ajaxResult;
 			}
 		}
+		//TODO (review) 新的用户和老的用户，两个任务能同时进行？
 		QplugPushTask task = new QplugPushTask(type, text,
 				qplugMinutePushCount, cmsTaskExecutor, redisTemplate,
 				noticeService, messageSource);
 		Thread thread = new Thread(task);
 		thread.start();
+		//TODO (review) 任务执行中和任务结束的变量不更新为执行中？
 		return ajaxResult;
 	}
 
@@ -146,6 +150,7 @@ public class CmsQplugPushUserController {
 	public synchronized String stopInit() {
 		isInitRuning = false;
 		isInitStop = true;
+		//TODO (review) 这个方法还有用吗？
 		return "sucess";
 	}
 

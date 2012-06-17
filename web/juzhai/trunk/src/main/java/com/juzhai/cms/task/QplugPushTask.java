@@ -50,8 +50,10 @@ public class QplugPushTask implements Runnable {
 		if (size == null) {
 			size = 0l;
 		}
+		//TODO (review) 不需要用size，while＋判断拿出来的openId是否为null来结束循环
 		for (int i = 0; i < size; i++) {
 			String openid = redisTemplate.opsForSet().pop(key);
+			//TODO (review) text完全能提出循环
 			if (StringUtils.isEmpty(text)) {
 				text = messageSource.getMessage(
 						NoticeQplugUserTemplate.NOTICE_QPLUG_USER_TEXT_DEFAULT

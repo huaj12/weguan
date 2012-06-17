@@ -69,7 +69,7 @@ public class QplugPushTask implements Runnable {
 			}
 			i++;
 		}
-		CmsQplugPushUserController.isUserPushruning = false;
+		CmsQplugPushUserController.isUserPushRunning = false;
 		CmsQplugPushUserController.isUserPushStop = true;
 
 	}

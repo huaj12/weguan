@@ -13,6 +13,8 @@ public class UserMView {
 	private String profession;
 	private String cityName;
 	private String townName;
+	private int interestUserCount;
+	private int interestMeCount;
 	private PostMView postView;
 
 	public long getUid() {
@@ -109,5 +111,21 @@ public class UserMView {
 
 	public void setPostView(PostMView postView) {
 		this.postView = postView;
+	}
+
+	public int getInterestUserCount() {
+		return interestUserCount;
+	}
+
+	public void setInterestUserCount(int interestUserCount) {
+		this.interestUserCount = interestUserCount;
+	}
+
+	public int getInterestMeCount() {
+		return interestMeCount;
+	}
+
+	public void setInterestMeCount(int interestMeCount) {
+		this.interestMeCount = interestMeCount;
 	}
 }

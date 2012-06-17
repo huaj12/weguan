@@ -43,13 +43,11 @@ public class QplugPushTask implements Runnable {
 		} else {
 			key = RedisKeyGenerator.genQplugPushOldUserKey();
 		}
-		// TODO (done) text完全能提出循环
 		if (StringUtils.isEmpty(text)) {
 			text = messageSource.getMessage(
 					NoticeQplugUserTemplate.NOTICE_QPLUG_USER_TEXT_DEFAULT
 							.getName(), null, Locale.SIMPLIFIED_CHINESE);
 		}
-		// TODO (done) 不需要用size，while＋判断拿出来的openId是否为null来结束循环
 		int i = 0;
 		while (true) {
 			String openid = redisTemplate.opsForSet().pop(key);
@@ -66,15 +64,12 @@ public class QplugPushTask implements Runnable {
 				}
 			}
 			// 由外部来停止任务
-			// TODO (done) "new".equals(type)在顶上定义一个变量吧，用的地方很多
 			if (CmsQplugPushUserController.isUserPushStop) {
 				break;
 			}
 			i++;
 		}
-		// TODO (done) 直接break即可
-		// TODO (done) 直接break即可
-		CmsQplugPushUserController.isUserpushruning = false;
+		CmsQplugPushUserController.isUserPushruning = false;
 		CmsQplugPushUserController.isUserPushStop = true;
 
 	}

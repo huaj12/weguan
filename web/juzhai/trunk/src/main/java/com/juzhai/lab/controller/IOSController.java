@@ -36,7 +36,6 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.lab.controller.view.IdeaMView;
 import com.juzhai.lab.controller.view.PostMView;
-import com.juzhai.lab.controller.view.UserHomeMView;
 import com.juzhai.lab.controller.view.UserMView;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.controller.form.LoginForm;
@@ -89,6 +88,8 @@ public class IOSController extends BaseController {
 	private int webShowIdeasMaxRows;
 	@Value("${web.show.users.max.rows}")
 	private int webShowUsersMaxRows;
+	@Value("${web.my.post.max.rows}")
+	private int webMyPostMaxRows;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
@@ -251,55 +252,13 @@ public class IOSController extends BaseController {
 		List<UserMView> userViewList = new ArrayList<UserMView>(
 				profileList.size());
 		for (Profile profile : profileList) {
-			UserMView userView = new UserMView();
-			userView.setUid(profile.getUid());
-			userView.setNickname(profile.getNickname());
-			userView.setGender(profile.getGender());
-			userView.setBirthYear(profile.getBirthYear());
-			userView.setBirthMonth(profile.getBirthMonth());
-			userView.setBirthDay(profile.getBirthDay());
-			City city = com.juzhai.common.InitData.CITY_MAP.get(profile
-					.getCity());
-			if (null != city) {
-				userView.setCityName(city.getName());
-			}
-			Town town = com.juzhai.common.InitData.TOWN_MAP.get(profile
-					.getTown());
-			if (null != town) {
-				userView.setTownName(town.getName());
-			}
-			userView.setLogo(JzResourceFunction.userLogo(profile.getUid(),
-					profile.getLogoPic(), LogoSizeType.MIDDLE.getType()));
-			Constellation con = com.juzhai.passport.InitData.CONSTELLATION_MAP
-					.get(profile.getConstellationId());
-			if (null != con) {
-				userView.setConstellation(con.getName());
-			}
-			userView.setProfession(profile.getProfession());
+			UserMView userView = createUserMView(profile);
 			Post post = userLatestPostMap.get(profile.getUid());
 			if (post == null) {
 				continue;
 			}
-			PostMView postView = new PostMView();
+			PostMView postView = createPostMView(context, post);
 			userView.setPostView(postView);
-			postView.setPostId(post.getId());
-			postView.setContent(post.getContent());
-			postView.setPic(JzResourceFunction.postPic(post.getId(),
-					post.getIdeaId(), post.getPic(),
-					JzImageSizeType.MIDDLE.getType()));
-			postView.setBigPic(JzResourceFunction.postPic(post.getId(),
-					post.getIdeaId(), post.getPic(),
-					JzImageSizeType.BIG.getType()));
-			postView.setPlace(post.getPlace());
-			postView.setPurpose(messageSource.getMessage(
-					PurposeType.getWordMessageKey(post.getPurposeType()), null,
-					Locale.SIMPLIFIED_CHINESE));
-			postView.setRespCnt(post.getResponseCnt());
-			if (null != post.getDateTime()) {
-				postView.setDate(DateFormat.SDF.format(post.getDateTime()));
-			}
-			postView.setHasResp(postService.isResponsePost(context.getUid(),
-					post.getId()));
 			userViewList.add(userView);
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -309,6 +268,62 @@ public class IOSController extends BaseController {
 		AjaxResult ajaxResult = new AjaxResult();
 		ajaxResult.setResult(result);
 		return ajaxResult;
+	}
+
+	private PostMView createPostMView(UserContext context, Post post) {
+		PostMView postView = new PostMView();
+		postView.setPostId(post.getId());
+		postView.setContent(post.getContent());
+		postView.setPic(JzResourceFunction.postPic(post.getId(),
+				post.getIdeaId(), post.getPic(),
+				JzImageSizeType.MIDDLE.getType()));
+		postView.setBigPic(JzResourceFunction.postPic(post.getId(),
+				post.getIdeaId(), post.getPic(), JzImageSizeType.BIG.getType()));
+		postView.setPlace(post.getPlace());
+		postView.setPurpose(messageSource.getMessage(
+				PurposeType.getWordMessageKey(post.getPurposeType()), null,
+				Locale.SIMPLIFIED_CHINESE));
+		postView.setRespCnt(post.getResponseCnt());
+		if (null != post.getDateTime()) {
+			postView.setDate(DateFormat.SDF.format(post.getDateTime()));
+		}
+		if (null != context && context.hasLogin()
+				&& context.getUid() != post.getCreateUid()) {
+			postView.setHasResp(postService.isResponsePost(context.getUid(),
+					post.getId()));
+		}
+		return postView;
+	}
+
+	private UserMView createUserMView(Profile profile) {
+		UserMView userView = new UserMView();
+		userView.setUid(profile.getUid());
+		userView.setNickname(profile.getNickname());
+		userView.setGender(profile.getGender());
+		userView.setBirthYear(profile.getBirthYear());
+		userView.setBirthMonth(profile.getBirthMonth());
+		userView.setBirthDay(profile.getBirthDay());
+		City city = com.juzhai.common.InitData.CITY_MAP.get(profile.getCity());
+		if (null != city) {
+			userView.setCityName(city.getName());
+		}
+		Town town = com.juzhai.common.InitData.TOWN_MAP.get(profile.getTown());
+		if (null != town) {
+			userView.setTownName(town.getName());
+		}
+		userView.setLogo(JzResourceFunction.userLogo(profile.getUid(),
+				profile.getLogoPic(), LogoSizeType.MIDDLE.getType()));
+		Constellation con = com.juzhai.passport.InitData.CONSTELLATION_MAP
+				.get(profile.getConstellationId());
+		if (null != con) {
+			userView.setConstellation(con.getName());
+		}
+		userView.setProfession(profile.getProfession());
+		userView.setInterestUserCount(interestUserService
+				.countInterestUser(userView.getUid()));
+		userView.setInterestMeCount(interestUserService
+				.countInterestMeUser(userView.getUid()));
+		return userView;
 	}
 
 	@RequestMapping(value = "/categoryList", method = RequestMethod.GET)
@@ -331,24 +346,29 @@ public class IOSController extends BaseController {
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	@ResponseBody
 	public AjaxResult home(HttpServletRequest request, int page) {
-		ProfileCache loginUser = getLoginUserCache(request);
-		if (loginUser == null) {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
 			return AjaxResult.ERROR_RESULT;
 		}
 		Map<String, Object> mapResult = new HashMap<String, Object>(3);
 		AjaxResult result = new AjaxResult();
 		result.setResult(mapResult);
-		UserHomeMView userHomeView = new UserHomeMView();
-		userHomeView.setUid(loginUser.getUid());
-		userHomeView.setNickname(loginUser.getNickname());
-		userHomeView.setGender(loginUser.getGender());
-		userHomeView.setLogo(JzResourceFunction.userLogo(loginUser.getUid(),
-				loginUser.getLogoPic(), LogoSizeType.MIDDLE.getType()));
-		userHomeView.setInterestUserCount(interestUserService
-				.countInterestUser(userHomeView.getUid()));
-		userHomeView.setInterestMeCount(interestUserService
-				.countInterestMeUser(userHomeView.getUid()));
-		mapResult.put("userHome", userHomeView);
+		Profile profile = profileService.getProfile(context.getUid());
+		UserMView userView = createUserMView(profile);
+		mapResult.put("userView", userView);
+
+		PagerManager pager = new PagerManager(page, webMyPostMaxRows,
+				postService.countUserPost(profile.getUid()));
+		List<Post> postList = postService.listUserPost(profile.getUid(), null,
+				pager.getFirstResult(), pager.getMaxResult());
+		List<PostMView> postViewList = new ArrayList<PostMView>(postList.size());
+		for (Post post : postList) {
+			postViewList.add(createPostMView(context, post));
+		}
+		mapResult.put("postViewList", postViewList);
+		mapResult.put("pager", pager);
 
 		return result;
 	}

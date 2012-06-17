@@ -57,6 +57,14 @@
 		<property name="queueCapacity" value="${threadpool.queueCapacity}" />
 		<property name="threadNamePrefix" value="custom_" />
 	</bean>
+	
+	<bean id="cmsTaskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="${cms.threadpool.corePoolSize}" />
+		<property name="maxPoolSize" value="${cms.threadpool.maxPoolSize}" />
+		<property name="queueCapacity" value="${cms.threadpool.queueCapacity}" />
+		<property name="threadNamePrefix" value="cms_custom_" />
+	</bean>
 
 	<bean id="wordFilterService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
 		<property name="serviceUrl" value="http://localhost:8080/wordfilter/hessian/wordFilterService" />

@@ -284,7 +284,7 @@ a:hover {
 				</ul>
 				
 			</li>
-				<li>
+			<li>
 				<a href="javascript:showChild('findDialog_');">用户行为</a>
 				<ul style="display: none;" id="findDialog_" class="child">
 					<li style="background-color: #A4D3EE;"><a
@@ -294,6 +294,15 @@ a:hover {
 					<li style="background-color: #A4D3EE;"><a
 						style="color: black;" href="/cms/find/userLoginLog"
 						target="config">查看登陆记录</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="javascript:showChild('qplug_');">q+</a>
+				<ul style="display: none;" id="qplug_" class="child">
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/qplug/show"
+						target="config">q+消息推送</a>
 					</li>
 				</ul>
 			</li>

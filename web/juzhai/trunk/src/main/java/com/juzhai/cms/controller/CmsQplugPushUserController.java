@@ -65,11 +65,13 @@ public class CmsQplugPushUserController {
 		}
 		//TODO (review) 判断是否在执行任务，为什么放在load文件之后？
 		// 正在给老用户push
+		//TODO (review) 下面判断错误了，isOldUserPushStop是true不代表已经停止
 		if (!isOldUserPushStop && isOldUserpushruning) {
 			ajaxResult.setErrorInfo("old user pushing");
 			ajaxResult.setSuccess(false);
 			return ajaxResult;
 		}
+		//TODO (review) 下面判断错误了，isNewUserPushStop是true不代表已经停止
 		if (!isNewUserPushStop && isNewUserpushruning) {
 			ajaxResult.setErrorInfo("new user pushing");
 			ajaxResult.setSuccess(false);
@@ -137,9 +139,11 @@ public class CmsQplugPushUserController {
 	public synchronized AjaxResult stop(String type) {
 		if ("new".equals(type)) {
 			isNewUserPushStop = true;
+			//TODO (review) 只是标志要停止，代表已经停止。isNewUserpushruning不能设为false
 			isNewUserpushruning = false;
 		} else {
 			isOldUserPushStop = true;
+			//TODO (review) 只是标志要停止，代表已经停止。isOldUserpushruning不能设为false
 			isOldUserpushruning = false;
 		}
 		return new AjaxResult();

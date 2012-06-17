@@ -20,6 +20,7 @@ public class QplugPushTask implements Runnable {
 	private INoticeService noticeService;
 	private MessageSource messageSource;
 	private int count;
+	private boolean isNew = "new".equals(type);
 
 	public QplugPushTask(String type, String text, int count,
 			ThreadPoolTaskExecutor cmsTaskExecutor,
@@ -37,60 +38,44 @@ public class QplugPushTask implements Runnable {
 	@Override
 	public void run() {
 		String key = null;
-		if ("new".equals(type)) {
-			CmsQplugPushUserController.isNewUserpushruning = true;
-			CmsQplugPushUserController.isNewUserPushStop = false;
+		if (isNew) {
 			key = RedisKeyGenerator.genQplugPushNewUserKey();
 		} else {
-			CmsQplugPushUserController.isOldUserpushruning = true;
-			CmsQplugPushUserController.isOldUserPushStop = false;
 			key = RedisKeyGenerator.genQplugPushOldUserKey();
 		}
-		Long size = redisTemplate.opsForSet().size(key);
-		if (size == null) {
-			size = 0l;
+		// TODO (done) text完全能提出循环
+		if (StringUtils.isEmpty(text)) {
+			text = messageSource.getMessage(
+					NoticeQplugUserTemplate.NOTICE_QPLUG_USER_TEXT_DEFAULT
+							.getName(), null, Locale.SIMPLIFIED_CHINESE);
 		}
-		//TODO (review) 不需要用size，while＋判断拿出来的openId是否为null来结束循环
-		for (int i = 0; i < size; i++) {
+		// TODO (done) 不需要用size，while＋判断拿出来的openId是否为null来结束循环
+		int i = 0;
+		while (true) {
 			String openid = redisTemplate.opsForSet().pop(key);
-			//TODO (review) text完全能提出循环
-			if (StringUtils.isEmpty(text)) {
-				text = messageSource.getMessage(
-						NoticeQplugUserTemplate.NOTICE_QPLUG_USER_TEXT_DEFAULT
-								.getName(), null, Locale.SIMPLIFIED_CHINESE);
+			if (StringUtils.isEmpty(openid)) {
+				break;
 			}
 			cmsTaskExecutor.submit(new QplugSendTask(openid, text,
 					noticeService));
-			//TODO (review) 这里总觉得逻辑有点问题，一会想
+			// TODO (review) 这里总觉得逻辑有点问题，一会想
 			if (i != 0 && i % count == 0) {
 				try {
 					Thread.sleep(1000 * 60);
 				} catch (InterruptedException e) {
 				}
 			}
-			//由外部来停止任务
-			//TODO (review) "new".equals(type)在顶上定义一个变量吧，用的地方很多
-			if ("new".equals(type)) {
-				if (CmsQplugPushUserController.isNewUserPushStop) {
-					//TODO (review) 直接break即可
-					CmsQplugPushUserController.isNewUserpushruning = false;
-					break;
-				}
-			} else {
-				if (CmsQplugPushUserController.isOldUserPushStop) {
-					//TODO (review) 直接break即可
-					CmsQplugPushUserController.isOldUserpushruning = false;
-					break;
-				}
+			// 由外部来停止任务
+			// TODO (done) "new".equals(type)在顶上定义一个变量吧，用的地方很多
+			if (CmsQplugPushUserController.isUserPushStop) {
+				break;
 			}
+			i++;
 		}
-		if ("new".equals(type)) {
-			CmsQplugPushUserController.isNewUserpushruning = false;
-			CmsQplugPushUserController.isNewUserPushStop = true;
-		} else {
-			CmsQplugPushUserController.isOldUserpushruning = false;
-			CmsQplugPushUserController.isOldUserPushStop = true;
-		}
+		// TODO (done) 直接break即可
+		// TODO (done) 直接break即可
+		CmsQplugPushUserController.isUserpushruning = false;
+		CmsQplugPushUserController.isUserPushStop = true;
 
 	}
 }

@@ -10,7 +10,9 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.view.PostView;
+import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
+import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
 
 @Component
@@ -21,6 +23,8 @@ public class PostViewHelper {
 	private IPostService postService;
 	@Autowired
 	private IInterestUserService interestUserService;
+	@Autowired
+	private IIdeaService ideaService;
 
 	public List<PostView> assembleUserPostViewList(UserContext context,
 			List<Post> postList) {
@@ -30,6 +34,10 @@ public class PostViewHelper {
 			postView.setPost(post);
 			postView.setProfileCache(profileService.getProfileCacheByUid(post
 					.getCreateUid()));
+			if (post.getIdeaId() != null && post.getIdeaId() > 0) {
+				Idea idea = ideaService.getIdeaById(post.getIdeaId());
+				postView.setUseCount(idea.getUseCount());
+			}
 			if (context != null && context.getUid() > 0) {
 				postView.setHasResponse(postService.isResponsePost(
 						context.getUid(), post.getId()));

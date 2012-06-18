@@ -111,12 +111,12 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 
 
 .top .menu{ float:left; margin-left:20px; height:50px; line-height:50px; position:relative;}
-.menu a{ padding-left:20px; padding-right:17px; color:#999; text-decoration:none; font-size:14px; display:block inline; float:left; margin-right:1px; font-family:"微软雅黑";}
+.menu a{ padding-left:15px; padding-right:15px; color:#cacaca; text-decoration:none; font-size:16px;  display:block inline; float:left; margin-right:1px; font-family:"微软雅黑";}
 .menu a:hover{ color:#fff; background:url(../images/web2/menu_hover_bg.jpg) repeat-x;}
 
 
 .menu a.selected{color:#fff; background:url(../images/web2/menu_hover_bg.jpg) repeat-x; cursor:default;}
-.menu .new_part{ width:25px; height:15px; background:url(../images/web2/new_part.gif) no-repeat; overflow:hidden; position:absolute; left:302px; top:8px;}
+.menu .new_part{ width:25px; height:15px; background:url(../images/web2/new_part.gif) no-repeat; overflow:hidden; position:absolute; left:292px; top:8px; z-index:999;}
 
 .top .acc{ float:right;  margin-top:11px; position:relative; z-index:999;}
 
@@ -700,13 +700,15 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .jz_main .wtg .w_m p font{ color:#999; font-size:14px; margin-right:5px;}
 .jz_main .wtg .w_m p a{ color:#666;}
 .jz_main .wtg .w_m p a:hover{ text-decoration:underline;}
+.jz_main .wtg .w_m p a.lj_more{ color:#3E8BD9; margin-left:5px; font-size:14px; white-space:nowrap;}
+
 .jz_main .wtg .w_m .infor{ float:left; width:100%; margin-top:10px; padding-bottom:5px;}
 .jz_main .wtg .w_m .infor span{ color:#999; height:16px; float:left; margin-right:8px; display:inline;}
 .jz_main .wtg .w_m .infor span.time{ background:url(../images/web2/wtg_icon_r1_c4.jpg) no-repeat; padding-left:18px;}
 .jz_main .wtg .w_m .infor span.adress{ background:url(../images/web2/wtg_icon_r1_c1.jpg) no-repeat; padding-left:18px;}
 .jz_main .wtg .w_m .infor span.tag{ background:url(../images/web2/tag_infor_icon.jpg) no-repeat; padding-left:18px;}
 .jz_main .wtg .w_m .infor span.link{ background:url(../images/web2/wtg_icon_r1_c6.jpg) no-repeat;  padding-left:18px;}
-.jz_main .wtg .w_m .infor span a{ color:#ccc; text-decoration:underline;}
+.jz_main .wtg .w_m .infor span a{ color:#3E8BD9; margin-left:5px;}
 .jz_main .wtg .w_m .infor span a:hover{color:#3E8BD9;}
 .jz_main .wtg .w_m .infor .img{ float:left; width:100%; padding-bottom:15px;}
 
@@ -943,13 +945,13 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .idea{width:230px; margin:0 auto; overflow:hidden; margin-top:8px; height:auto; padding-bottom:10px;}
 .idea ul{ float:left;}
 .idea ul li{ width:100%; float:left; overflow:hidden; padding-bottom:15px; margin-top:7px;}
-.idea ul li p{ width:230px; float:left; color:#999; line-height:180%; padding-bottom:5px;}
+.idea ul li p{ width:230px; float:left; color:#999; line-height:180%; margin-top:10px; font-size:13px;}
 .idea ul li p a{ color:#666;}
 .idea ul li p a:hover{ text-decoration:underline;}
 .idea ul li .img{ float:left; width:230px; text-align:center;}
 .idea ul li em{ float:left; margin-top:10px;}
 .idea ul li em a{ float:left; margin-right:10px; width:40px; height:40px; overflow:hidden;}
-.idea ul li span{ float:left; color:#ccc; white-space:nowrap; font-weight:bold; margin-top:10px; width:230px; text-align:center;}
+.idea ul li span{ float:left; color:#ccc; white-space:nowrap; font-weight:bold; margin-top:5px; width:230px; text-align:center;}
 .idea ul li span a{color:#3E8BD9; font-family:Tahoma;}
 .idea ul li span a:hover{ text-decoration:underline;}
 .idea ul li p a.from{ color:#ccc; margin-left:10px;}
@@ -1367,21 +1369,19 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .message_item em a{color:#3E8BD9; text-decoration:none;}
 .message_item em a font{margin:0 5px; font-weight:bold; color:#3E8BD9; font-size:12px;}
 .message_item em a:hover{ text-decoration:underline;}
-.message_item .btn{ position:absolute; bottom:15px; right:15px;}
-.message_item .btn a{ width:40px; height:21px; display:block; float:left; margin-left:5px; display:inline; color:#fff; text-align:center; line-height:21px; text-decoration:none; overflow:hidden; line-height:23px\9;}
+.message_item .btn{ position:absolute; top:15px; right:15px;}
+.message_item .btn a{ display:none; float:left; margin-left:15px; color:#3E8BD9; text-align:center; line-height:21px; text-decoration:none; overflow:hidden; line-height:23px\9;}
 
-.message_item .btn a.repy{ background:url(../images/web2/tz_delete.gif) no-repeat;}
-.message_item .btn a.delete{ background:url(../images/web2/message_delete.gif) no-repeat; display:none;}
-.message_item .btn .jubao{ background:none; color:#3E8BD9; display:none;}
-.message_item .btn .pingbi{ background:none; color:#3E8BD9; display:none;}
+.message_item .repy_btn{ float:left; margin-top:5px; margin-right:10px; display:inline;}
+.message_item .repy_btn a{ background:url(../images/web2/tz_delete.gif) no-repeat;text-align:center; line-height:21px; text-decoration:none; overflow:hidden; line-height:23px\9; display:block; width:40px; height:21px; color:#fff;}
+
+
 .message_item .btn .done{ background:none; color:#ccc; display:none; cursor:default;}
 
 
 
-.message .message_list .hover .delete{ display:inline;}
-.message .message_list .hover .jubao{ display:inline;}
-.message .message_list .hover .pingbi{ display:inline;}
-.message .message_list .hover .done{display:inline;}
+.message .message_list .hover .btn a{ display:inline;}
+
 
 .message .message_list .hover { background:#FEFBEF;}
 
@@ -2750,6 +2750,7 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 .qrxx .qrxx_t{ background:url(../images/web2/welcome_con_r1_c1.jpg) no-repeat; width:100%; height:6px; overflow:hidden; float:left;}
 .qrxx .qrxx_b{ background:url(../images/web2/welcome_con_r9_c1.jpg) no-repeat; width:100%; height:6px; overflow:hidden; float:left;}
 .qrxx .qrxx_m{ background:url(../images/web2/welcome_con_r3_c1.jpg) repeat-y; width:100%; height:412px; overflow:hidden; position:relative; padding-bottom:30px; float:left;}
+.qrxx .qrxx_m .num_title{ position:absolute; left:510px; top:52px; font-size:18px; font-family:"微软雅黑"; color:#3E8BD9;}
 
 
 .qrxx .qrxx_m .m_box{ background:url(../images/web2/qrxx_img.jpg) no-repeat 480px 0px; width:100%; height:460px;}

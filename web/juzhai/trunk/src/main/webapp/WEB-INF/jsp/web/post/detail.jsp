@@ -80,7 +80,7 @@
 										</c:choose>
 									</div><!--btn end--> 
 									<c:if test="${context.uid != postProfile.uid}">
-										<div class="zfa"><a href="javascript:void(0);" post-id="${post.id}">转发</a></div>
+										<div class="zfa"><a href="javascript:void(0);" post-id="${post.id}">我也想去</a></div>
 									</c:if>
 								</div><!--detail end-->
 								<div class="response"><!--response begin-->

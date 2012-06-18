@@ -29,9 +29,8 @@
 									</c:choose>
 									<a href="javascript:void(0);" target-content="${dialogView.dialogContent.content}" target-uid="${dialogView.targetProfile.uid}" class="jubao">举报</a>
 								</c:if>
-								<a href="javascript:void(0);" class="repy" target-name="${dialogView.targetProfile.nickname}" target-uid="${dialogView.targetProfile.uid}">回复</a>
+								<a href="javascript:void(0);" class="del-dialog-btn"  dialog-id="${dialogView.dialog.id}" target-name="<c:out value='${dialogView.targetProfile.nickname}'></c:out>">删除</a>
 							</div>
-							<div class="delete"><a href="javascript:void(0);" dialog-id="${dialogView.dialog.id}" target-name="<c:out value='${dialogView.targetProfile.nickname}'></c:out>"></a></div>
 							<div></div>
 							<div class="photo"><a href="/home/${dialogView.targetProfile.uid}"><img src="${jzr:userLogo(dialogView.targetProfile.uid,dialogView.targetProfile.logoPic,80)}"  width="80" height="80"/></a></div>
 							<c:set var="age" value="${jzu:age(dialogView.targetProfile.birthYear, dialogView.targetProfile.birthSecret)}" />
@@ -50,6 +49,7 @@
 									<strong><c:set var="date" value="${dialogView.dialogContent.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></strong>
 								</span>
 								<p>“${jzu:convertFace(dialogView.dialogContent.content)}”</p>
+								<div class="repy_btn"><a href="javascript:void(0);" class="repy" target-name="${dialogView.targetProfile.nickname}" target-uid="${dialogView.targetProfile.uid}">回复</a></div>
 								<em><a href="/home/dialogContent/${dialogView.targetProfile.uid}/1">共<font>${dialogView.dialogContentCnt}</font>条对话</a></em>
 							</div>
 						</div>

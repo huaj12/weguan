@@ -11,6 +11,7 @@
 #import "LoginService.h"
 #import "RegisterViewController.h"
 #import "MBProgressHUD.h"
+#import "TpLoginDelegate.h"
 
 @implementation LoginViewController
 
@@ -18,6 +19,7 @@
 @synthesize pwdField;
 @synthesize startController;
 @synthesize loginFormTableView;
+@synthesize tpLoginTableView;
 
 
 -(IBAction)goRegister:(id)sender{
@@ -26,6 +28,7 @@
 }
 
 -(IBAction)login:(id)sender{
+    [self backgroundTap:nil];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"登录中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
@@ -41,8 +44,11 @@
                         break;
                     }
                 }
-                [self.navigationController setNavigationBarHidden:YES];
-                [self.navigationController pushViewController:startController animated:NO];
+//                [self.navigationController setNavigationBarHidden:YES];
+//                [self.navigationController pushViewController:startController animated:NO];
+//                [self presentModalViewController:startController animated:YES];
+                self.view.window.rootViewController = startController;
+                [self.view.window makeKeyAndVisible];
             }else{
                 MBProgressHUD *hud2 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 hud2.mode = MBProgressHUDModeText;
@@ -98,11 +104,23 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-//    LoginForm *loginForm = [[LoginForm alloc] init];
-//    loginForm.loginViewController = self;
+
+    self.title = @"帐号登录";
+    
     [loginFormTableView setDelegate:self];
     [loginFormTableView setDataSource:self];
+    loginFormTableView.backgroundView = nil;
+    loginFormTableView.backgroundColor = [UIColor clearColor];
+    loginFormTableView.opaque = NO;
     _loginFormCells = [[NSBundle mainBundle] loadNibNamed:@"LoginForm" owner:self options:nil];
+    
+    
+    _tpLoginDelegate = [[TpLoginDelegate alloc] init];
+//    [tpLoginTableView setDelegate:self];
+    [tpLoginTableView setDataSource:_tpLoginDelegate];
+    tpLoginTableView.backgroundView = nil;
+    tpLoginTableView.backgroundColor = [UIColor clearColor];
+    tpLoginTableView.opaque = NO;
 }
 
 - (void)viewDidUnload
@@ -151,16 +169,5 @@
 #pragma mark -
 #pragma mark Table View Delegate
 
--(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 50.0;
-}
-
--(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 10.0;
-}
-
--(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 10.0;
-}
 
 @end

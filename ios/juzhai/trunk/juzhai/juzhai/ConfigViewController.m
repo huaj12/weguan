@@ -67,7 +67,11 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 //跳转到登录
                 LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-                [self.navigationController.tabBarController.navigationController pushViewController:loginViewController animated:NO];
+//                [self.navigationController.tabBarController.navigationController setNavigationBarHidden: NO];
+//                [self.navigationController.tabBarController.navigationController pushViewController:loginViewController animated:NO];
+//                self.window.rootViewController = viewController;
+                self.view.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+                [self.view.window makeKeyAndVisible];
             });
         });
     }

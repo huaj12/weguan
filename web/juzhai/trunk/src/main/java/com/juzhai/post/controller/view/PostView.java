@@ -13,6 +13,8 @@ public class PostView {
 
 	private boolean hasInterest;
 
+	private int useCount;
+
 	public Post getPost() {
 		return post;
 	}
@@ -44,4 +46,13 @@ public class PostView {
 	public void setHasInterest(boolean hasInterest) {
 		this.hasInterest = hasInterest;
 	}
+
+	public int getUseCount() {
+		return useCount;
+	}
+
+	public void setUseCount(int useCount) {
+		this.useCount = useCount;
+	}
+
 }

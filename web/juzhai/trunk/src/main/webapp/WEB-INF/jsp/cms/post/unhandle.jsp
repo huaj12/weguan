@@ -124,6 +124,7 @@ function handleById(id){
 		<tr style="background-color: #CCCCCC;">
 			<td width="100">用户头像</td>
 			<td width="300">我想去</td>
+			<td width="100">所在城市</td>
 			<td width="100">发起人</td>
 			<td width="100">地点</td>
 			<td width="100">图片</td>
@@ -135,6 +136,7 @@ function handleById(id){
 			<tr>
 			<td><a href="/home/${view.profileCache.uid}" target="_blank"><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,120)}" width="80" height="80"/></a></td>
 				<td><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>: <c:out value="${view.post.content}"></c:out> </td>
+				<td>${jzd:cityName(view.profileCache.city)}</td>
 				<td><c:out value="${view.profileCache.nickname}"></c:out></td>
 				<td><c:out value="${view.post.place}"></c:out></td>
 				<td><img src="${jzr:postPic(view.post.id, view.post.ideaId, view.post.pic, 200)}"  /> </td>

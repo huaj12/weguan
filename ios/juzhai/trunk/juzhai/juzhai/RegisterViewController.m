@@ -8,6 +8,7 @@
 
 #import "RegisterViewController.h"
 #import "LoginViewController.h"
+#import "TpLoginDelegate.h"
 
 @implementation RegisterViewController
 
@@ -15,6 +16,12 @@
 @synthesize nicknameField;
 @synthesize passwordField;
 @synthesize confirmPwdField;
+@synthesize accountCell;
+@synthesize nicknameCell;
+@synthesize passwordCell;
+@synthesize confirmPwdCell;
+@synthesize registerFormTableView;
+@synthesize tpLoginTableView;
 
 
 -(IBAction)accountFieldDoneEditing:(id)sender{
@@ -58,6 +65,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        _tpLoginDelegate = [[TpLoginDelegate alloc] init];
     }
     return self;
 }
@@ -76,6 +84,20 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    _registerFormCells = [[NSArray alloc] initWithObjects:self.accountCell, self.nicknameCell, self.passwordCell, self.confirmPwdCell, nil];
+    
+    self.title = @"帐号注册";
+    
+    registerFormTableView.dataSource = self;
+    registerFormTableView.backgroundView = nil;
+    registerFormTableView.backgroundColor = [UIColor clearColor];
+    registerFormTableView.opaque = NO;
+    
+    //    [tpLoginTableView setDelegate:self];
+    [tpLoginTableView setDataSource:_tpLoginDelegate];
+    tpLoginTableView.backgroundView = nil;
+    tpLoginTableView.backgroundColor = [UIColor clearColor];
+    tpLoginTableView.opaque = NO;
 }
 
 - (void)viewDidUnload
@@ -89,6 +111,17 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark -
+#pragma mark Table View Data Source
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 4;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return [_registerFormCells objectAtIndex:indexPath.row];
 }
 
 @end

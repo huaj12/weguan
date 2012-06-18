@@ -87,6 +87,10 @@
 		CB8F09C21572217F0003018D /* IdeaListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8F09C11572217F0003018D /* IdeaListCell.m */; };
 		CB8F09C4157221A30003018D /* IdeaListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB8F09C3157221A30003018D /* IdeaListCell.xib */; };
 		CBA483DA158F1B1200322D84 /* TpLoginDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA483D9158F1B1200322D84 /* TpLoginDelegate.m */; };
+		CBA483E2158F6B5300322D84 /* zcdl_bottom_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = CBA483E0158F6B5200322D84 /* zcdl_bottom_bg.png */; };
+		CBA483E3158F6B5300322D84 /* zcdl_or_line.png in Resources */ = {isa = PBXBuildFile; fileRef = CBA483E1158F6B5200322D84 /* zcdl_or_line.png */; };
+		CBA483E6158F6B5F00322D84 /* zcdl_bottom_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBA483E4158F6B5F00322D84 /* zcdl_bottom_bg@2x.png */; };
+		CBA483E7158F6B5F00322D84 /* zcdl_or_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBA483E5158F6B5F00322D84 /* zcdl_or_line@2x.png */; };
 		CBAB85BB1575224500888688 /* UserListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CBAB85BA1575224500888688 /* UserListCell.m */; };
 		CBAB85BD1575225C00888688 /* UserListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBAB85BC1575225C00888688 /* UserListCell.xib */; };
 		CBAB85C01575367100888688 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBAB85BF1575367100888688 /* UserView.m */; };
@@ -341,6 +345,10 @@
 		CB8F09C3157221A30003018D /* IdeaListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IdeaListCell.xib; sourceTree = "<group>"; };
 		CBA483D8158F1B1200322D84 /* TpLoginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TpLoginDelegate.h; sourceTree = "<group>"; };
 		CBA483D9158F1B1200322D84 /* TpLoginDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TpLoginDelegate.m; sourceTree = "<group>"; };
+		CBA483E0158F6B5200322D84 /* zcdl_bottom_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zcdl_bottom_bg.png; sourceTree = "<group>"; };
+		CBA483E1158F6B5200322D84 /* zcdl_or_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zcdl_or_line.png; sourceTree = "<group>"; };
+		CBA483E4158F6B5F00322D84 /* zcdl_bottom_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zcdl_bottom_bg@2x.png"; sourceTree = "<group>"; };
+		CBA483E5158F6B5F00322D84 /* zcdl_or_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zcdl_or_line@2x.png"; sourceTree = "<group>"; };
 		CBAB85B91575224500888688 /* UserListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserListCell.h; sourceTree = "<group>"; };
 		CBAB85BA1575224500888688 /* UserListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserListCell.m; sourceTree = "<group>"; };
 		CBAB85BC1575225C00888688 /* UserListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserListCell.xib; sourceTree = "<group>"; };
@@ -919,6 +927,8 @@
 		CBD964B2157FC57D006E0196 /* big */ = {
 			isa = PBXGroup;
 			children = (
+				CBA483E4158F6B5F00322D84 /* zcdl_bottom_bg@2x.png */,
+				CBA483E5158F6B5F00322D84 /* zcdl_or_line@2x.png */,
 				CBB765EA158CE90D00F0DCA8 /* db@2x.png */,
 				CBB765EB158CE90D00F0DCA8 /* login_btn@2x.png */,
 				CBB765EC158CE90D00F0DCA8 /* qq@2x.png */,
@@ -1005,6 +1015,8 @@
 		CBD964E9157FC57D006E0196 /* small */ = {
 			isa = PBXGroup;
 			children = (
+				CBA483E0158F6B5200322D84 /* zcdl_bottom_bg.png */,
+				CBA483E1158F6B5200322D84 /* zcdl_or_line.png */,
 				CBB765F4158CE92600F0DCA8 /* db.png */,
 				CBB765F5158CE92700F0DCA8 /* login_btn.png */,
 				CBB765F6158CE92900F0DCA8 /* qq.png */,
@@ -1380,6 +1392,10 @@
 				CBB765FC158CE93100F0DCA8 /* sina.png in Resources */,
 				CBB765FD158CE93100F0DCA8 /* zcdl_btn_hover.png in Resources */,
 				CBB76612158CF69F00F0DCA8 /* LoginForm.xib in Resources */,
+				CBA483E2158F6B5300322D84 /* zcdl_bottom_bg.png in Resources */,
+				CBA483E3158F6B5300322D84 /* zcdl_or_line.png in Resources */,
+				CBA483E6158F6B5F00322D84 /* zcdl_bottom_bg@2x.png in Resources */,
+				CBA483E7158F6B5F00322D84 /* zcdl_or_line@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

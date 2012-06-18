@@ -82,7 +82,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
+        _tpLoginDelegate = [[TpLoginDelegate alloc] init];
     }
     return self;
 }
@@ -114,8 +114,6 @@
     loginFormTableView.opaque = NO;
     _loginFormCells = [[NSBundle mainBundle] loadNibNamed:@"LoginForm" owner:self options:nil];
     
-    
-    _tpLoginDelegate = [[TpLoginDelegate alloc] init];
 //    [tpLoginTableView setDelegate:self];
     [tpLoginTableView setDataSource:_tpLoginDelegate];
     tpLoginTableView.backgroundView = nil;

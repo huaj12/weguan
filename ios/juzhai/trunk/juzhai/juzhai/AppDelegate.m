@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import "ASIHTTPRequest.h"
 #import "ASIDownloadCache.h"
+#import "CustomNavigationController.h"
 
 @implementation AppDelegate
 
@@ -28,7 +29,7 @@
     
     UIViewController *viewController;
     if(![LoginService checkLogin]){
-        viewController = [[UINavigationController alloc] initWithRootViewController:[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil]];
+        viewController = [[CustomNavigationController alloc] initWithRootViewController:[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil]];
     }else{
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TabBar" owner:self options:nil];
         for(id oneObject in nib){

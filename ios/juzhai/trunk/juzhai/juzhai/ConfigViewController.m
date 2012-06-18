@@ -10,6 +10,7 @@
 #import "LoginService.h"
 #import "LoginViewController.h"
 #import "MBProgressHUD.h"
+#import "CustomNavigationController.h"
 
 @implementation ConfigViewController
 
@@ -70,7 +71,7 @@
 //                [self.navigationController.tabBarController.navigationController setNavigationBarHidden: NO];
 //                [self.navigationController.tabBarController.navigationController pushViewController:loginViewController animated:NO];
 //                self.window.rootViewController = viewController;
-                self.view.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+                self.view.window.rootViewController = [[CustomNavigationController alloc] initWithRootViewController:loginViewController];
                 [self.view.window makeKeyAndVisible];
             });
         });

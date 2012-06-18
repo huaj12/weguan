@@ -8,12 +8,25 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RegisterViewController : UIViewController
+@class TpLoginDelegate;
+
+@interface RegisterViewController : UIViewController <UITableViewDataSource>
+{
+    NSArray *_registerFormCells;
+    TpLoginDelegate *_tpLoginDelegate;
+}
+
+@property (nonatomic, strong) IBOutlet UITableView *registerFormTableView;
+@property (strong,nonatomic) IBOutlet UITableView *tpLoginTableView;
 
 @property (nonatomic, strong) IBOutlet UITextField *accountField;
 @property (nonatomic, strong) IBOutlet UITextField *nicknameField;
 @property (nonatomic, strong) IBOutlet UITextField *passwordField;
 @property (nonatomic, strong) IBOutlet UITextField *confirmPwdField;
+@property (nonatomic, strong) IBOutlet UITableViewCell *accountCell;
+@property (nonatomic, strong) IBOutlet UITableViewCell *nicknameCell;
+@property (nonatomic, strong) IBOutlet UITableViewCell *passwordCell;
+@property (nonatomic, strong) IBOutlet UITableViewCell *confirmPwdCell;
 
 
 -(IBAction) goLogin:(id)sender;

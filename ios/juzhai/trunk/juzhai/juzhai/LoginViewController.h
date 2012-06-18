@@ -8,14 +8,18 @@
 
 #import <UIKit/UIKit.h>
 @class LoginService;
+@class TpLoginDelegate;
 
 @interface LoginViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 {
     NSArray *_loginFormCells;
+    TpLoginDelegate *_tpLoginDelegate;
+    
 }
 @property (strong,nonatomic) IBOutlet UITextField *nameField;
 @property (strong,nonatomic) IBOutlet UITextField *pwdField;
 @property (strong,nonatomic) IBOutlet UITableView *loginFormTableView;
+@property (strong,nonatomic) IBOutlet UITableView *tpLoginTableView;
 @property (strong,nonatomic) UITabBarController *startController;
 
 - (IBAction)goRegister:(id)sender;

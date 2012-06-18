@@ -26,26 +26,24 @@
     //初始化设置
     [ASIHTTPRequest setDefaultCache:[ASIDownloadCache sharedCache]];
     
-    UINavigationController *navController = [[UINavigationController alloc] init];
-    
     UIViewController *viewController;
     if(![LoginService checkLogin]){
-         viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        viewController = [[UINavigationController alloc] initWithRootViewController:[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil]];
     }else{
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TabBar" owner:self options:nil];
         for(id oneObject in nib){
             if([oneObject isKindOfClass:[UITabBarController class]]){
                 UITabBarController *tabBarController = (UITabBarController *) oneObject;
                 viewController = tabBarController;
-                [navController setNavigationBarHidden:YES];
+//                [navController setNavigationBarHidden:YES];
                 break;
             }
         }
     }
-    self.window.rootViewController = navController;
+    self.window.rootViewController = viewController;
 	[self.window makeKeyAndVisible];
     sleep(1);
-    [navController pushViewController:viewController animated:YES];
+//    [navController pushViewController:viewController animated:YES];
     return YES;
 }
 

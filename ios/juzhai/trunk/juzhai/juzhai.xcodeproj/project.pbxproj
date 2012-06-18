@@ -86,6 +86,7 @@
 		CB87D3F015518C9C00A25129 /* juzhai.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CB87D3EE15518C9C00A25129 /* juzhai.xcdatamodeld */; };
 		CB8F09C21572217F0003018D /* IdeaListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8F09C11572217F0003018D /* IdeaListCell.m */; };
 		CB8F09C4157221A30003018D /* IdeaListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB8F09C3157221A30003018D /* IdeaListCell.xib */; };
+		CBA483DA158F1B1200322D84 /* TpLoginDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA483D9158F1B1200322D84 /* TpLoginDelegate.m */; };
 		CBAB85BB1575224500888688 /* UserListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CBAB85BA1575224500888688 /* UserListCell.m */; };
 		CBAB85BD1575225C00888688 /* UserListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBAB85BC1575225C00888688 /* UserListCell.xib */; };
 		CBAB85C01575367100888688 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBAB85BF1575367100888688 /* UserView.m */; };
@@ -338,6 +339,8 @@
 		CB8F09C01572217F0003018D /* IdeaListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdeaListCell.h; sourceTree = "<group>"; };
 		CB8F09C11572217F0003018D /* IdeaListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdeaListCell.m; sourceTree = "<group>"; };
 		CB8F09C3157221A30003018D /* IdeaListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IdeaListCell.xib; sourceTree = "<group>"; };
+		CBA483D8158F1B1200322D84 /* TpLoginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TpLoginDelegate.h; sourceTree = "<group>"; };
+		CBA483D9158F1B1200322D84 /* TpLoginDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TpLoginDelegate.m; sourceTree = "<group>"; };
 		CBAB85B91575224500888688 /* UserListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserListCell.h; sourceTree = "<group>"; };
 		CBAB85BA1575224500888688 /* UserListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserListCell.m; sourceTree = "<group>"; };
 		CBAB85BC1575225C00888688 /* UserListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserListCell.xib; sourceTree = "<group>"; };
@@ -1120,6 +1123,8 @@
 				CB7F16D9155196F50009E060 /* LoginViewController.m */,
 				CB7F16DD155197100009E060 /* RegisterViewController.h */,
 				CB7F16DE155197100009E060 /* RegisterViewController.m */,
+				CBA483D8158F1B1200322D84 /* TpLoginDelegate.h */,
+				CBA483D9158F1B1200322D84 /* TpLoginDelegate.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -1449,6 +1454,7 @@
 				CBBF7E7C158911D80073EA0A /* HomeViewController.m in Sources */,
 				CB20ECD51589B1A4002F9C93 /* JZData.m in Sources */,
 				CBB765E6158C6A4700F0DCA8 /* PostListCell.m in Sources */,
+				CBA483DA158F1B1200322D84 /* TpLoginDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

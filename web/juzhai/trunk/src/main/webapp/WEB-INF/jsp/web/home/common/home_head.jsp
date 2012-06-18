@@ -9,7 +9,7 @@
 		<div class="my_head_area"><!--my_head_area begin-->
 			<c:choose>
 				<c:when test="${context.uid != profile.uid}"><div class="face"><a href="/home/${profile.uid}"><img src="${jzr:userLogo(profile.uid,profile.logoPic,180)}" width="180" height="180" /></a></div></c:when>
-				<c:otherwise><div class="face"><a href="/home/${profile.uid}"><img src="${jzr:userLogo(profile.uid,profile.newLogoPic,180)}" width="180" height="180" /></a><c:choose><c:when test="${profile.logoVerifyState == 1}"><b>审核中...</b></c:when><c:when test="${profile.logoVerifyState == 3}"><b>未通过审核</b></c:when></c:choose></div></c:otherwise>
+				<c:otherwise><div class="face"><a href="/profile/index/face"><img src="${jzr:userLogo(profile.uid,profile.newLogoPic,180)}" width="180" height="180" /></a><c:choose><c:when test="${profile.logoVerifyState == 1}"><b>审核中...</b></c:when><c:when test="${profile.logoVerifyState == 3}"><b>未通过审核</b></c:when></c:choose></div></c:otherwise>
 			</c:choose>
 			<div class="my_infor <c:choose><c:when test='${profile.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><!--my_infor begin-->
 				<h2><a href="/home/${profile.uid}"><c:out value="${profile.nickname}" /></a></h2>

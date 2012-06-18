@@ -98,7 +98,11 @@
 						<div class="w_t"></div>
 						<div class="w_m"><!--w_m begin-->
 							<div class="arrow"></div>
-							<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${postView.post.purposeType}"/></c:import>:</font><a href="/post/${postView.post.id}"><c:out value="${postView.post.content}" /></a></p>
+							<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${postView.post.purposeType}"/></c:import>:</font><c:out value="${postView.post.content}" />
+								<c:if test="${not empty postView.post.link}">
+									<a href="${postView.post.link}" class="lj_more" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>了解更多&gt;</a>
+								</c:if>
+							</p>
 							<div class="infor"><!--infor begin-->
 								<c:if test="${not empty postView.post.pic}">
 									<div class="img"><a href="/post/${postView.post.id}"><img data-original="${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic, 200)}" src="${jzr:static('/images/web2/1px.gif')}"/></a></div>
@@ -111,8 +115,8 @@
 								<c:if test="${not empty postView.post.place}">
 									<span class="adress"><c:out value="${jzu:truncate(postView.post.place,40,'...')}"></c:out></span>
 								</c:if>
-								<c:if test="${not empty postView.post.link}">
-									<span class="link"><a href="${postView.post.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关链接</a></span>
+								<c:if test="${not empty postView.useCount&&postView.useCount>0}">
+									<span><a href="/idea/${postView.post.ideaId}">还有${postView.useCount}人想去</a></span>
 								</c:if>
 							</div><!--infor end-->
 						</div><!--w_m end-->
@@ -137,7 +141,7 @@
 										<div class="like post-response" id="response${postView.post.id}" post-id="${postView.post.id}" resp-count="${postView.post.responseCnt}" nickname="<c:out value='${postView.profileCache.nickname}' />" post-content="<c:out value="${jzu:truncate(postView.post.content,50,'...')}" />"><a href="javascript:void(0);" class="xy">有兴趣 </a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${postView.post.responseCnt}</a><p class="r"></p></div></div>
 									</c:otherwise>
 								</c:choose>
-								<div class="zfa"><a href="javascript:void(0);" post-id="${postView.post.id}">转发</a></div>
+								<div class="zfa"><a href="javascript:void(0);" post-id="${postView.post.id}">我也想去</a></div>
 							</c:if>
 						</div><!--btn end-->
 						<div class="clear"></div>

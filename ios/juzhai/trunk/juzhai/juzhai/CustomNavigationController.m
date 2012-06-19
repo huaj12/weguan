@@ -85,11 +85,11 @@
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated 
 {
-    [super pushViewController:viewController animated:animated]; 
-    if (viewController.navigationItem.leftBarButtonItem== nil && [self.viewControllers count] > 1) { 
+    if (viewController.navigationItem.leftBarButtonItem == nil && [self.viewControllers count] > 0) { 
         viewController.navigationItem.leftBarButtonItem =[self backButton];
         viewController.navigationItem.rightBarButtonItem =[self homeButton];
     }
+    [super pushViewController:viewController animated:animated]; 
 } 
 
 

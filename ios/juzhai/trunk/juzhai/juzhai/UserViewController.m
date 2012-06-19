@@ -115,7 +115,7 @@
         if (gender <= 1) {
             [params setObject:[NSNumber numberWithInt:gender] forKey:@"gender"];
         }
-        __block ASIHTTPRequest *_request = [HttpRequestSender initGetRequestWithUrl:@"http://test.51juzhai.com/app/ios/userList" withParams:params];
+        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/userList" withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             // Use when fetching text data

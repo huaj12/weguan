@@ -35,5 +35,5 @@
 -(IBAction) nicknameFieldDoneEditing:(id)sender;
 -(IBAction) passwordFieldDoneEditing:(id)sender;
 -(IBAction) confirmPwdFieldDoneEditing:(id)sender;
--(IBAction) doRegister:(id)sender;
+-(IBAction) regist:(id)sender;
 @end

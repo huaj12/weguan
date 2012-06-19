@@ -12,7 +12,7 @@
 
 @interface HttpRequestSender : NSObject
 
-+(ASIFormDataRequest *) initPostRequestWithUrl:(NSString *)url withParams:(NSDictionary *)params;
-+(ASIHTTPRequest *) initGetRequestWithUrl:(NSString *)url withParams:(NSDictionary *)params;
++(ASIFormDataRequest *) postRequestWithUrl:(NSString *)url withParams:(NSDictionary *)params;
++(ASIHTTPRequest *) getRequestWithUrl:(NSString *)url withParams:(NSDictionary *)params;
 
 @end

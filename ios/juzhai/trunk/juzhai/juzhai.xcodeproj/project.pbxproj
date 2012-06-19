@@ -34,6 +34,7 @@
 		CB3E04CD1552698D0069DE30 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB3E04CC1552698D0069DE30 /* SystemConfiguration.framework */; };
 		CB3E04CF1552699F0069DE30 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB3E04CE1552699F0069DE30 /* MobileCoreServices.framework */; };
 		CB3E04D115526A100069DE30 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB3E04D015526A100069DE30 /* libz.dylib */; };
+		CB40316F15903DA200D758AF /* MessageShow.m in Sources */ = {isa = PBXBuildFile; fileRef = CB40316E15903DA200D758AF /* MessageShow.m */; };
 		CB4668D3156F39CE0030D655 /* CustomSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4668D2156F39CE0030D655 /* CustomSegmentedControl.m */; };
 		CB4668D6156F55800030D655 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4668D5156F55800030D655 /* CustomNavigationController.m */; };
 		CB4668D9156F5FE00030D655 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4668D8156F5FE00030D655 /* CustomButton.m */; };
@@ -275,6 +276,8 @@
 		CB3E04CC1552698D0069DE30 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CB3E04CE1552699F0069DE30 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		CB3E04D015526A100069DE30 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		CB40316D15903DA200D758AF /* MessageShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageShow.h; sourceTree = "<group>"; };
+		CB40316E15903DA200D758AF /* MessageShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageShow.m; sourceTree = "<group>"; };
 		CB4668D1156F39CE0030D655 /* CustomSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegmentedControl.h; sourceTree = "<group>"; };
 		CB4668D2156F39CE0030D655 /* CustomSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSegmentedControl.m; sourceTree = "<group>"; };
 		CB4668D4156F55800030D655 /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
@@ -663,6 +666,15 @@
 			name = Main;
 			sourceTree = "<group>";
 		};
+		CB40316C15903CB000D758AF /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				CB40316D15903DA200D758AF /* MessageShow.h */,
+				CB40316E15903DA200D758AF /* MessageShow.m */,
+			);
+			name = Message;
+			sourceTree = "<group>";
+		};
 		CB4668CC156F38CB0030D655 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -766,6 +778,7 @@
 		CB8367F7155EADE7004CFD54 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				CB40316C15903CB000D758AF /* Message */,
 				CB6B15BC157A50C100AC821F /* Beans */,
 				CBB3154D155A691F00C08B16 /* Utils */,
 			);
@@ -1471,6 +1484,7 @@
 				CB20ECD51589B1A4002F9C93 /* JZData.m in Sources */,
 				CBB765E6158C6A4700F0DCA8 /* PostListCell.m in Sources */,
 				CBA483DA158F1B1200322D84 /* TpLoginDelegate.m in Sources */,
+				CB40316F15903DA200D758AF /* MessageShow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,7 +27,7 @@
     LoginUser *loginUser = [[LoginUser alloc] initWithAccount:account password:password];
     //Http请求
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:loginUser.account,@"account",loginUser.password,@"password", nil];
-    ASIFormDataRequest *request = [HttpRequestSender initPostRequestWithUrl:@"http://test.51juzhai.com/app/ios/login" withParams:params];
+    ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/login" withParams:params];
     [request startSynchronous];
     NSError *error = [request error];
     if (!error && [request responseStatusCode] == 200){
@@ -43,7 +43,7 @@
     }else{
         NSLog(@"error: %@", [request responseStatusMessage]);
     }
-    return @"服务器忙...";
+    return @"服务器忙...请稍候再试！";
 }
 
 +(BOOL) checkLogin{
@@ -66,7 +66,7 @@
 //}
 
 +(void) logout{
-    ASIHTTPRequest *request = [HttpRequestSender initGetRequestWithUrl:@"http://test.51juzhai.com/app/ios/logout" withParams:nil];
+    ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/logout" withParams:nil];
     [request startSynchronous];
     //清除帐号信息
     [[[LoginUser alloc] init] reset];

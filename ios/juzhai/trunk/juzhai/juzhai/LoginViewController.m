@@ -12,12 +12,14 @@
 #import "RegisterViewController.h"
 #import "MBProgressHUD.h"
 #import "TpLoginDelegate.h"
+#import "CustomButton.h"
+#import "MessageShow.h"
 
 @implementation LoginViewController
 
 @synthesize nameField;
 @synthesize pwdField;
-@synthesize startController;
+//@synthesize startController;
 @synthesize loginFormTableView;
 @synthesize tpLoginTableView;
 
@@ -27,39 +29,33 @@
     [self.navigationController pushViewController:registerViewController animated:YES];
 }
 
+-(void) doLogin{
+    sleep(0.5);
+    NSString *errorInfo = [LoginService useLoginName:[nameField text] byPassword:[pwdField text]];
+    if(errorInfo == nil){
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TabBar" owner:self options:nil];
+        UITabBarController *startController;
+        for(id oneObject in nib){
+            if([oneObject isKindOfClass:[UITabBarController class]]){
+                startController = (UITabBarController *) oneObject;
+                break;
+            }
+        }
+        if(startController){
+            self.view.window.rootViewController = startController;
+            [self.view.window makeKeyAndVisible];
+        }
+    }else{
+        [MessageShow error:errorInfo onView:self.navigationController.view];
+    }
+}
+
 -(IBAction)login:(id)sender{
     [self backgroundTap:nil];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"登录中...";
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        sleep(1);
-        NSString *errorInfo = [LoginService useLoginName:[nameField text] byPassword:[pwdField text]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if(errorInfo == nil){
-                NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TabBar" owner:self options:nil];
-                for(id oneObject in nib){
-                    if([oneObject isKindOfClass:[UITabBarController class]]){
-                        self.startController = (UITabBarController *) oneObject;
-                        break;
-                    }
-                }
-//                [self.navigationController setNavigationBarHidden:YES];
-//                [self.navigationController pushViewController:startController animated:NO];
-//                [self presentModalViewController:startController animated:YES];
-                self.view.window.rootViewController = startController;
-                [self.view.window makeKeyAndVisible];
-            }else{
-                MBProgressHUD *hud2 = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                hud2.mode = MBProgressHUDModeText;
-                hud2.margin = 10.f;
-                hud2.yOffset = 150.f;
-                hud2.removeFromSuperViewOnHide = YES;
-                [hud2 hide:YES afterDelay:1];
-                hud2.labelText = errorInfo;
-            }
-        });
-    });
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.dimBackground = YES;
+//    hud.labelText = @"登录中...";
+	[hud showWhileExecuting:@selector(doLogin) onTarget:self withObject:nil animated:YES];
 }
 
 - (IBAction)nameFieldDoneEditing:(id)sender{
@@ -106,6 +102,11 @@
     // Do any additional setup after loading the view from its nib.
 
     self.title = @"帐号登录";
+    
+    //右侧最新最热切换  
+    CustomButton *finishButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"完成" CapLocation:CapLeftAndRight];
+    [finishButton addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:finishButton];
     
     [loginFormTableView setDelegate:self];
     [loginFormTableView setDataSource:self];
@@ -168,4 +169,13 @@
 #pragma mark Table View Delegate
 
 
+
+//#pragma mark -
+//#pragma mark MBProgressHUDDelegate methods
+//
+//- (void)hudWasHidden:(MBProgressHUD *)hud {
+//	// Remove HUD from screen when the HUD was hidded
+//	[HUD removeFromSuperview];
+//	HUD = nil;
+//}
 @end

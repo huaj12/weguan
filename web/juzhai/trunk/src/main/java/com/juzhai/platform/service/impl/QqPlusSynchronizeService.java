@@ -38,9 +38,9 @@ public class QqPlusSynchronizeService implements ISynchronizeService {
 			map.put("openkey", authInfo.getToken());
 			map.put("title", title);
 			map.put("source", "3");
-			if (StringUtils.isNotEmpty(text)) {
-				map.put("summary", text);
-			}
+			// if (StringUtils.isNotEmpty(text)) {
+			// map.put("summary", text);
+			// }
 			if (StringUtils.isNotEmpty(imageUrl)) {
 				map.put("images", imageUrl);
 			}
@@ -55,7 +55,6 @@ public class QqPlusSynchronizeService implements ISynchronizeService {
 		} catch (Exception e) {
 			log.error("Qplug  sendMessage is error.");
 		}
-
 	}
 
 	@Override

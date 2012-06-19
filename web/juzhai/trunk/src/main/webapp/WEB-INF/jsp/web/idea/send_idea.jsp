@@ -43,7 +43,7 @@
 					<input type="hidden" name="sendWeibo" value="true"/>
 					<c:if test="${empty isQplus||!isQplus}">
 						<span></span>
-						<p>同步到:</p>
+						<p>同步</p>
 						<c:choose>
 							<c:when test="${context.tpName == 'weibo'}"><em class="wb"></em></c:when>
 							<c:when test="${context.tpName == 'douban'}"><em class="db"></em></c:when>

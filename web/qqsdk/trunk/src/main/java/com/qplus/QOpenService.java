@@ -7,6 +7,8 @@ package com.qplus;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * 
@@ -111,6 +113,17 @@ public class QOpenService extends QPlusService {
 			final String... params) throws IOException {
 		final String url = "http://openid.qplus.com/cgi-bin/" + action;
 		final String paramstr = createQPlusParams(action, bean, params);
+		String content = send(url, paramstr);
+		return new QOpenResult(content);
+	}
+
+	public QOpenResult feed(Map<String, String> shares) throws IOException {
+		final String url = "https://cgi.qplus.com/openapi/share/add_feeds";
+		List<String> list = new ArrayList<String>(shares.size());
+		for (Entry<String, String> entry : shares.entrySet()) {
+			list.add(entry.getKey() + "=" + entry.getValue());
+		}
+		String paramstr = createHttpParam(list);
 		String content = send(url, paramstr);
 		return new QOpenResult(content);
 	}

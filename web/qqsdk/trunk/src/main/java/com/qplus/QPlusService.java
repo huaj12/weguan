@@ -9,17 +9,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.cert.X509Certificate;
 import java.util.Collections;
 import java.util.List;
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * 
  * @author nbzhang
  */
 abstract class QPlusService {
-
+	private static HttpsX509TrustManager xtm = new HttpsX509TrustManager();
+	private static HttpsHostnameVerifier hnv = new HttpsHostnameVerifier();
 	private static final char hex[] = { '0', '1', '2', '3', '4', '5', '6', '7',
 			'8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
@@ -41,6 +48,22 @@ abstract class QPlusService {
 
 	protected String send(final String url, final String param)
 			throws IOException {
+		if (url.indexOf("https") != -1) {
+			SSLContext sslContext = null;
+			try {
+				sslContext = SSLContext.getInstance("TLS");
+				X509TrustManager[] xtmArray = new X509TrustManager[] { xtm };
+				sslContext.init(null, xtmArray,
+						new java.security.SecureRandom());
+				if (sslContext != null) {
+					HttpsURLConnection.setDefaultSSLSocketFactory(sslContext
+							.getSocketFactory());
+				}
+				HttpsURLConnection.setDefaultHostnameVerifier(hnv);
+			} catch (Exception e) {
+
+			}
+		}
 		HttpURLConnection conn = (HttpURLConnection) new URL(url)
 				.openConnection();
 		conn.setRequestProperty("Cache-Control", "no-cache");
@@ -122,5 +145,29 @@ abstract class QPlusService {
 
 	protected long random() {
 		return (long) (Math.random() * System.nanoTime());
+	}
+}
+
+class HttpsX509TrustManager implements X509TrustManager {
+	public HttpsX509TrustManager() {
+	}
+
+	public void checkClientTrusted(X509Certificate[] chain, String authType) {
+	}
+
+	public void checkServerTrusted(X509Certificate[] chain, String authType) {
+	}
+
+	public X509Certificate[] getAcceptedIssuers() {
+		return null;
+	}
+}
+
+class HttpsHostnameVerifier implements HostnameVerifier {
+	public HttpsHostnameVerifier() {
+	}
+
+	public boolean verify(String hostname, SSLSession session) {
+		return true;
 	}
 }

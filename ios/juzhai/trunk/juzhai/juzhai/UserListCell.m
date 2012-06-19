@@ -162,7 +162,7 @@
     hud.labelText = @"操作中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:_userView.post.postId, @"postId", nil];
-        __block ASIHTTPRequest *_request = [HttpRequestSender initGetRequestWithUrl:@"http://test.51juzhai.com/app/ios/resppost" withParams:params];
+        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/resppost" withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             [MBProgressHUD hideHUDForView:coverView animated:YES];

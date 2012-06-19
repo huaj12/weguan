@@ -73,7 +73,7 @@
         compression -= 0.1;
         imageData = UIImageJPEGRepresentation(image, compression);
     }
-    ASIFormDataRequest *request = [HttpRequestSender initPostRequestWithUrl:@"http://test.51juzhai.com/app/ios/upload" withParams:nil];
+    ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/upload" withParams:nil];
     [request setData:imageData withFileName:@"myFace.jpg" andContentType:@"image/jpeg" forKey:@"photo"];
     [request startSynchronous];
     NSError *error = [request error];

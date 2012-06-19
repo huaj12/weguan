@@ -37,7 +37,7 @@ static BaseData *baseData;
     BaseData *baseData = [BaseData sharedData];
     if(!baseData.categoryArray){
         //http load
-        __block ASIHTTPRequest *_request = [HttpRequestSender initGetRequestWithUrl:@"http://test.51juzhai.com/app/ios/categoryList" withParams:nil];
+        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/categoryList" withParams:nil];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             // Use when fetching text data

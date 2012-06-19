@@ -12,7 +12,7 @@
 
 @implementation HttpRequestSender
 
-+(ASIFormDataRequest *)initPostRequestWithUrl:(NSString *)url withParams:(NSDictionary *)params{
++(ASIFormDataRequest *)postRequestWithUrl:(NSString *)url withParams:(NSDictionary *)params{
     NSURL *requestUrl = [NSURL URLWithString:url];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:requestUrl];
     [request addRequestHeader:@"Content-Type" value:@"application/html;charset=UTF-8;"];
@@ -27,7 +27,7 @@
     return request;
 }
 
-+(ASIHTTPRequest *)initGetRequestWithUrl:(NSString *)url withParams:(NSDictionary *)params{
++(ASIHTTPRequest *)getRequestWithUrl:(NSString *)url withParams:(NSDictionary *)params{
     if(params != nil && [params count] > 0){
         NSString *parameString = @"";
         int i = 0;

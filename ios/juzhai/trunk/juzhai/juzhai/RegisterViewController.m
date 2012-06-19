@@ -9,6 +9,13 @@
 #import "RegisterViewController.h"
 #import "LoginViewController.h"
 #import "TpLoginDelegate.h"
+#import "CustomButton.h"
+#import "MBProgressHUD.h"
+#import "MessageShow.h"
+#import "ASIHTTPRequest.h"
+#import "HttpRequestSender.h"
+#import "SBJson.h"
+#import "LoginUser.h"
 
 @implementation RegisterViewController
 
@@ -41,11 +48,53 @@
 
 -(IBAction)confirmPwdFieldDoneEditing:(id)sender{
     [sender resignFirstResponder];
-    [self doRegister:nil];
+    [self regist:nil];
 }
 
--(IBAction)doRegister:(id)sender{
-    
+-(void)doRegister{
+    sleep(0.5);
+    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:accountField.text,@"account",nicknameField.text,@"nickname", passwordField.text,@"pwd", confirmPwdField.text,@"confirmPwd", nil];
+    ASIHTTPRequest *request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/register" withParams:params];
+    [request startSynchronous];
+    NSError *error = [request error];
+    NSString *errorInfo;
+    if (!error && [request responseStatusCode] == 200){
+        NSString *response = [request responseString];
+        NSMutableDictionary *jsonResult = [response JSONValue];
+        if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
+            //注册成功
+            LoginUser *loginUser = [[LoginUser alloc] initWithAccount:accountField.text password:passwordField.text];
+            [loginUser save];
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TabBar" owner:self options:nil];
+            UITabBarController *startController;
+            for(id oneObject in nib){
+                if([oneObject isKindOfClass:[UITabBarController class]]){
+                    startController = (UITabBarController *) oneObject;
+                    break;
+                }
+            }
+            if(startController){
+                self.view.window.rootViewController = startController;
+                [self.view.window makeKeyAndVisible];
+            }
+        }else{
+            errorInfo = [jsonResult valueForKey:@"errorInfo"];
+        }
+    }else{
+        errorInfo =  @"服务器忙...请稍后再试！";
+        NSLog(@"error: %@", [request responseStatusMessage]);
+    }
+    if(nil != errorInfo){
+        [MessageShow error:errorInfo onView:self.navigationController.view];
+    }
+}
+
+-(IBAction)regist:(id)sender{
+    [self backgroundTap:nil];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud.dimBackground = YES;
+    //    hud.labelText = @"注册中...";
+	[hud showWhileExecuting:@selector(doRegister) onTarget:self withObject:nil animated:YES];
 }
 
 - (IBAction)backgroundTap:(id)sender{
@@ -85,6 +134,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     _registerFormCells = [[NSArray alloc] initWithObjects:self.accountCell, self.nicknameCell, self.passwordCell, self.confirmPwdCell, nil];
+    
+    //右侧最新最热切换  
+    CustomButton *finishButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"完成" CapLocation:CapLeftAndRight];
+    [finishButton addTarget:self action:@selector(regist:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:finishButton];
     
     self.title = @"帐号注册";
     

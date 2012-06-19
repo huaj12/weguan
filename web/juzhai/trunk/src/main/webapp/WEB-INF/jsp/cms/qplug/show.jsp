@@ -10,73 +10,16 @@
 <title>q+ 消息推送</title>
 <script type="text/javascript" src="${jzr:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 <script>
-function initPushUser(){
-		jQuery.ajax({
-			url : "/cms/qplug/initPushUser",
-			type : "post",
-			dataType : "json",
-			success : function(result) {
-				if (result.success!=null&&result.success) {
-					alert("初始化成功");
-				} else {
-					alert(result.errorInfo);
-				}
-			},
-			statusCode : {
-				401 : function() {
-					alert("请先登陆");
-				}
-			}
-		});
-	}
-	function stop(){
-		var type=$("select[name=type]").val();
-		var text="";
-		if(type=="new"){
-			text="是否确定停止给新用户发消息";
-		}else{
-			text="是否确定停止给老用户发消息";
-		}
-		if(confirm(text)){
+	function update(){
+		if(confirm("是否更新发送内容？")){
 			jQuery.ajax({
-				url : "/cms/qplug/stop",
-				type : "post",
-				data : {
-					"type" : type
-				},
-				dataType : "json",
-				success : function(result) {
-					if (result.success!=null&&result.success) {
-						alert("操作成功");
-					} else {
-						alert("操作失败");
-					}
-				},
-				statusCode : {
-					401 : function() {
-						alert("请先登陆");
-					}
-				}
-			});
-		}
-	}
-	function send(){
-		var type=$("select[name=type]").val();
-		var text="";
-		if(type=="new"){
-			text="是否确定给新用户发消息";
-		}else{
-			text="是否确定给老用户发消息";
-		}
-		if(confirm(text)){
-			jQuery.ajax({
-				url : "/cms/qplug/push",
+				url : "/cms/qplug/update/content",
 				type : "post",
 				data :$("#pushForm").serialize(),
 				dataType : "json",
 				success : function(result) {
 					if (result.success!=null&&result.success) {
-						alert("开始发送");
+						alert("更新成功");
 					} else {
 						alert(result.errorInfo);
 					}
@@ -92,7 +35,15 @@ function initPushUser(){
 </script>
 </head>
 <body>
-<h2>q+ 消息推送 <a href="javascript:void(0);" onclick="initPushUser();" >初始化发送列表</a></h2>
+<h2>q+ 消息推送 <font color="red">${msg}</font></h2>
+<form  method="post"  enctype="multipart/form-data" action="/cms/qplug/import">
+<select name="type">
+		<option value="add">添加</option>
+		<option value="new">新建</option>
+	</select>
+<input type="file" name="config"/>
+<input type="submit" value="上传"/>
+</form>
 <h3><a href="/cms/qplug/state" target="_blank" >查看发送状态</a></h3>
 <br/>
 <form id="pushForm">
@@ -101,8 +52,7 @@ function initPushUser(){
 		<option value="old">老用户</option>
 	</select>
 	<input type="text" name="text"/>
-	<a href="javascript:void(0);" onclick="send();">发送</a>
+	<a href="javascript:void(0);" onclick="update();">更新内容</a>
 </form>
-<a href="javascript:void(0);" onclick="stop();">停止发送（请先选择停止发送用户类型）</a>
 </body>
 </html>

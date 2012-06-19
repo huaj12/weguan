@@ -87,8 +87,10 @@ public class QqPlusUserService extends AbstractUserService {
 	protected String fetchTpIdentity(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
 		String uid = request.getParameter("app_openid");
+		String app_openkey = request.getParameter("app_openkey");
 		authInfo.setThirdparty(tp);
 		authInfo.setTpIdentity(uid);
+		authInfo.setToken(app_openkey);
 		return uid;
 	}
 

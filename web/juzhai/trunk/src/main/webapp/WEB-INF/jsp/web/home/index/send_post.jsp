@@ -97,13 +97,15 @@
 		<c:if test="${context.tpId > 0}">
 			<div class="tb tb_click">
 				<input type="hidden" name="sendWeibo" value="true"/>
-				<span></span>
-				<p>同步</p>
-				<c:choose>
-					<c:when test="${context.tpName == 'weibo'}"><em class="wb"></em></c:when>
-					<c:when test="${context.tpName == 'douban'}"><em class="db"></em></c:when>
-					<c:when test="${context.tpName == 'qq'}"><em class="qq"></em></c:when>
-				</c:choose>
+				<c:if test="${empty isQplus||!isQplus}">
+					<span></span>
+					<p>同步</p>
+					<c:choose>
+						<c:when test="${context.tpName == 'weibo'}"><em class="wb"></em></c:when>
+						<c:when test="${context.tpName == 'douban'}"><em class="db"></em></c:when>
+						<c:when test="${context.tpName == 'qq'}"><em class="qq"></em></c:when>
+					</c:choose>
+				</c:if>
 			</div>
 		</c:if>
 	</div><!--send_area end-->

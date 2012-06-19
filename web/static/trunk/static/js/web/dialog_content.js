@@ -29,7 +29,7 @@ $(document).ready(function(){
 		return false;
 	});
 	
-	$("div.message_item > div.btn > a.repy").bind("click", function(){
+	$("div.msg_content > div.repy_btn > a.repy").bind("click", function(){
 		var targetUid = $(this).attr("target-uid");
 		var targetName = $(this).attr("target-name");
 		openMessage(targetUid, targetName);

@@ -194,6 +194,17 @@
 	</bean>
 	<!-- update search word hot end -->
 	
+	<!-- qplug new user push begin -->
+	<bean id="qplugNewUserPushTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="qplugNewUserPushHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${qplug.new.user.push.cron}" />
+	</bean>
+	<!-- qplug new user push end -->
+	
 	
 	
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
@@ -214,6 +225,7 @@
 				<ref bean="noticeQplusTrigger"/>
 				<ref bean="defunctExpireIdeaTrigger"/>
 				<ref bean="updateSearchWordHotTrigger"/>
+				<ref bean="qplugNewUserPushTrigger"/>
 			</list>
 		</property>
 	</bean>

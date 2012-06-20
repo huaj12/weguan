@@ -194,7 +194,6 @@ public class IdeaController extends BaseController {
 		return "web/idea/detail";
 	}
 
-	// TODO (done) 方法里做的可不仅仅是detail相关的工作，为什么叫initIdeaDetail呢？这个方法封装的思路不对。
 	private boolean ideaDetail(Model model, HttpServletRequest request,
 			long ideaId) {
 		Idea idea = ideaService.getIdeaById(ideaId);

@@ -39,6 +39,7 @@ import com.juzhai.lab.controller.view.PostMView;
 import com.juzhai.lab.controller.view.UserMView;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.controller.form.LoginForm;
+import com.juzhai.passport.controller.form.RegisterForm;
 import com.juzhai.passport.dao.IUserPositionDao;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ReportAccountException;
@@ -51,6 +52,7 @@ import com.juzhai.passport.model.UserPositionExample;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.post.InitData;
 import com.juzhai.post.bean.PurposeType;
@@ -83,6 +85,8 @@ public class IOSController extends BaseController {
 	@Autowired
 	private IInterestUserService interestUserService;
 	@Autowired
+	private IRegisterService registerService;
+	@Autowired
 	private IPostService postService;
 	@Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows;
@@ -112,14 +116,39 @@ public class IOSController extends BaseController {
 		if (uid <= 0) {
 			result.setError(JuzhaiException.SYSTEM_ERROR, messageSource);
 		}
-		if (!userGuideService.isCompleteGuide(uid)) {
-			result.setError(JuzhaiException.SYSTEM_ERROR, messageSource);
-		}
+		// if (!userGuideService.isCompleteGuide(uid)) {
+		// result.setError(JuzhaiException.SYSTEM_ERROR, messageSource);
+		// }
 		ProfileCache profileCache = profileService.getProfileCacheByUid(uid);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("nickname", profileCache.getNickname());
 		map.put("gender", profileCache.getGender());
 		result.setResult(map);
+		return result;
+	}
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult register(HttpServletRequest request,
+			HttpServletResponse response, RegisterForm registerForm) {
+		UserContext context = (UserContext) request.getAttribute("context");
+		AjaxResult result = new AjaxResult();
+		if (context.hasLogin()) {
+			result.setError(JuzhaiException.ILLEGAL_OPERATION, messageSource);
+			return result;
+		}
+		try {
+			long uid = registerService.register(registerForm.getAccount(),
+					registerForm.getNickname(), registerForm.getPwd(),
+					registerForm.getConfirmPwd(), registerForm.getInviterUid());
+			loginService.autoLogin(request, response, uid);
+			try {
+				registerService.sendAccountMail(uid);
+			} catch (PassportAccountException e) {
+			}
+		} catch (JuzhaiException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
 		return result;
 	}
 
@@ -299,10 +328,13 @@ public class IOSController extends BaseController {
 		UserMView userView = new UserMView();
 		userView.setUid(profile.getUid());
 		userView.setNickname(profile.getNickname());
-		userView.setGender(profile.getGender());
+		if (null != profile.getGender()) {
+			userView.setGender(profile.getGender());
+		}
 		userView.setBirthYear(profile.getBirthYear());
 		userView.setBirthMonth(profile.getBirthMonth());
 		userView.setBirthDay(profile.getBirthDay());
+		userView.setFeature(profile.getFeature());
 		City city = com.juzhai.common.InitData.CITY_MAP.get(profile.getCity());
 		if (null != city) {
 			userView.setCityName(city.getName());

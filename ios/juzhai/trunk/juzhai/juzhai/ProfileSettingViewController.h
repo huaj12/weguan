@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @class UserView;
+@class CustomButton;
 
 @interface ProfileSettingViewController : UITableViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     NSArray *_settingCells;
     UIImage *_newLogo;
-    BOOL _isModify;
+    CustomButton *_saveButton;
 }
 
 @property (strong, nonatomic) UserView *userView;
@@ -26,4 +27,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *professionLabel;
 @property (strong, nonatomic) IBOutlet UILabel *featureLabel;
 
+- (void) saveSingleInfo:(NSInteger)tag withValue:(NSString *)value;
+- (void) initUserView:(UserView *)userView;
 @end

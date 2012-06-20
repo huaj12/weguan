@@ -102,8 +102,7 @@
     // Do any additional setup after loading the view from its nib.
 
     self.title = @"帐号登录";
-    
-    //右侧最新最热切换  
+      
     CustomButton *finishButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"完成" CapLocation:CapLeftAndRight];
     [finishButton addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:finishButton];

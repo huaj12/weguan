@@ -7,12 +7,20 @@
 //
 
 #import "NicknameEditorViewController.h"
+#import "CustomButton.h"
+#import "ProfileSettingViewController.h"
+#import "UserView.h"
 
 @interface NicknameEditorViewController ()
 
 @end
 
 @implementation NicknameEditorViewController
+
+@synthesize textField;
+@synthesize textValue;
+@synthesize tag;
+@synthesize profileSettingViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +35,16 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.title = @"昵称";
+    
+    CustomButton *saveButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"保存" CapLocation:CapLeftAndRight];
+    [saveButton addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];
+}
+
+- (void) viewWillAppear:(BOOL)animated{
+    self.textField.text = self.textValue;
+    [self.textField becomeFirstResponder];
 }
 
 - (void)viewDidUnload
@@ -39,6 +57,12 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (IBAction)save:(id)sender{
+    // TODO 验证
+    [profileSettingViewController saveSingleInfo:self.tag withValue:textField.text];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

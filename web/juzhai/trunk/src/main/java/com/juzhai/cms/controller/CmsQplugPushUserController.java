@@ -6,9 +6,15 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.quartz.CronTrigger;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.quartz.CronTriggerBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -26,12 +32,19 @@ import com.juzhai.core.web.AjaxResult;
 @Controller
 @RequestMapping("/cms")
 public class CmsQplugPushUserController {
+	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
+	@Autowired
+	private CronTriggerBean qplugNewUserPushTrigger;
+	@Autowired
+	private Scheduler scheduler;
 	@Autowired
 	private MessageSource messageSource;
 	public static String qplugNewUserPushText = "";
 	public static String qplugOldUserPushText = "";
+	public static boolean qplugNewUserPushisRunning = false;
+	public static boolean qplugOldUserPushisRunning = false;
 
 	@RequestMapping(value = "/qplug/import", method = RequestMethod.POST)
 	public ModelAndView importConfig(HttpServletRequest request, Model model,
@@ -88,6 +101,45 @@ public class CmsQplugPushUserController {
 		return new AjaxResult();
 	}
 
+	@RequestMapping(value = "/qplug/push/start", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult start(String type) {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			if ("new".equals(type)) {
+				scheduler.addJob(qplugNewUserPushTrigger.getJobDetail(), true);
+				scheduler.scheduleJob(qplugNewUserPushTrigger);
+				qplugNewUserPushisRunning = true;
+			}
+		} catch (SchedulerException e) {
+			log.error("start qplug push is error type=" + type, e);
+			ajaxResult.setSuccess(false);
+		}
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/qplug/push/stop", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult stop(String type) {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			if ("new".equals(type)) {
+				CronTrigger cronTrigger = (CronTrigger) scheduler.getTrigger(
+						qplugNewUserPushTrigger.getName(),
+						Scheduler.DEFAULT_GROUP);
+				if (cronTrigger != null) {
+					scheduler.unscheduleJob(qplugNewUserPushTrigger.getName(),
+							Scheduler.DEFAULT_GROUP);
+					qplugNewUserPushisRunning = false;
+				}
+			}
+		} catch (SchedulerException e) {
+			log.error("stop qplug push is error type=" + type, e);
+			ajaxResult.setSuccess(false);
+		}
+		return ajaxResult;
+	}
+
 	@RequestMapping(value = "/qplug/state", method = RequestMethod.GET)
 	@ResponseBody
 	public String getState() {
@@ -98,7 +150,8 @@ public class CmsQplugPushUserController {
 		String content = messageSource.getMessage(
 				"notice.qplug.user.send.state.text", new Object[] {
 						oldUserSize, newUserSize, qplugNewUserPushText,
-						qplugOldUserPushText }, Locale.SIMPLIFIED_CHINESE);
+						qplugOldUserPushText, qplugNewUserPushisRunning,
+						qplugOldUserPushisRunning }, Locale.SIMPLIFIED_CHINESE);
 		return content;
 	}
 }

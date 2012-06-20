@@ -13,8 +13,12 @@
 @interface ProfileSettingViewController : UITableViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     NSArray *_settingCells;
+    UIImage *_newLogo;
+    BOOL _isModify;
 }
+
 @property (strong, nonatomic) UserView *userView;
+
 @property (strong, nonatomic) IBOutlet UIImageView *logoImageView;
 @property (strong, nonatomic) IBOutlet UILabel *nicknameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *birthLabel;

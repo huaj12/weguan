@@ -207,7 +207,7 @@
 	
 	
 	
-	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	<bean id="scheduler"  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
 				<!-- <ref bean="delOutFreeDateTrigger"/>
@@ -225,9 +225,9 @@
 				<ref bean="noticeQplusTrigger"/>
 				<ref bean="defunctExpireIdeaTrigger"/>
 				<ref bean="updateSearchWordHotTrigger"/>
-				<ref bean="qplugNewUserPushTrigger"/>
 			</list>
 		</property>
 	</bean>
+	
 </beans>
 

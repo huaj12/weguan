@@ -103,13 +103,19 @@ public class CmsQplugPushUserController {
 
 	@RequestMapping(value = "/qplug/push/start", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult start(String type) {
+	public synchronized AjaxResult start(String type) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
 			if ("new".equals(type)) {
-				scheduler.addJob(qplugNewUserPushTrigger.getJobDetail(), true);
-				scheduler.scheduleJob(qplugNewUserPushTrigger);
-				qplugNewUserPushisRunning = true;
+				CronTrigger cronTrigger = (CronTrigger) scheduler.getTrigger(
+						qplugNewUserPushTrigger.getName(),
+						Scheduler.DEFAULT_GROUP);
+				if (cronTrigger == null) {
+					scheduler.addJob(qplugNewUserPushTrigger.getJobDetail(),
+							true);
+					scheduler.scheduleJob(qplugNewUserPushTrigger);
+					qplugNewUserPushisRunning = true;
+				}
 			}
 		} catch (SchedulerException e) {
 			log.error("start qplug push is error type=" + type, e);
@@ -120,7 +126,7 @@ public class CmsQplugPushUserController {
 
 	@RequestMapping(value = "/qplug/push/stop", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult stop(String type) {
+	public synchronized AjaxResult stop(String type) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
 			if ("new".equals(type)) {

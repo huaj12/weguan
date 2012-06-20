@@ -187,6 +187,8 @@
 		CBBD5E5C158284E4003F0800 /* sex_2_link@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBBD5E49158284E4003F0800 /* sex_2_link@2x.png */; };
 		CBBD5E5D158284E4003F0800 /* wojia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBBD5E4A158284E4003F0800 /* wojia@2x.png */; };
 		CBBD5E5E158284E4003F0800 /* zhaobaner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBBD5E4B158284E4003F0800 /* zhaobaner@2x.png */; };
+		CBBEDFF215921B8200ECC2C2 /* NicknameEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBBEDFF015921B8200ECC2C2 /* NicknameEditorViewController.m */; };
+		CBBEDFF315921B8200ECC2C2 /* NicknameEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBBEDFF115921B8200ECC2C2 /* NicknameEditorViewController.xib */; };
 		CBBF7E7C158911D80073EA0A /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBBF7E7A158911D70073EA0A /* HomeViewController.m */; };
 		CBBF7E7D158911D80073EA0A /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBBF7E7B158911D80073EA0A /* HomeViewController.xib */; };
 		CBD8AB471585E3920021AA52 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD8AB341585E3920021AA52 /* MKAnnotationView+WebCache.m */; };
@@ -457,6 +459,9 @@
 		CBBD5E49158284E4003F0800 /* sex_2_link@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sex_2_link@2x.png"; sourceTree = "<group>"; };
 		CBBD5E4A158284E4003F0800 /* wojia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wojia@2x.png"; sourceTree = "<group>"; };
 		CBBD5E4B158284E4003F0800 /* zhaobaner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zhaobaner@2x.png"; sourceTree = "<group>"; };
+		CBBEDFEF15921B8200ECC2C2 /* NicknameEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NicknameEditorViewController.h; sourceTree = "<group>"; };
+		CBBEDFF015921B8200ECC2C2 /* NicknameEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NicknameEditorViewController.m; sourceTree = "<group>"; };
+		CBBEDFF115921B8200ECC2C2 /* NicknameEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NicknameEditorViewController.xib; sourceTree = "<group>"; };
 		CBBF7E79158911D70073EA0A /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		CBBF7E7A158911D70073EA0A /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		CBBF7E7B158911D80073EA0A /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
@@ -589,6 +594,7 @@
 				CBBF7E7B158911D80073EA0A /* HomeViewController.xib */,
 				CB4031791590694600D758AF /* ProfileSettingViewController.xib */,
 				CB50E4AB1591981D001D5673 /* ProfileSettingForm.xib */,
+				CBBEDFF115921B8200ECC2C2 /* NicknameEditorViewController.xib */,
 			);
 			name = XIB;
 			sourceTree = "<group>";
@@ -687,13 +693,6 @@
 			name = Message;
 			sourceTree = "<group>";
 		};
-		CB40317C15906BA200D758AF /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "New Group";
-			sourceTree = "<group>";
-		};
 		CB4668CC156F38CB0030D655 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -753,7 +752,6 @@
 		CB4D4E65155BB7AC0061AAD4 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				CB40317C15906BA200D758AF /* New Group */,
 				CB5E87E4156CD25C0010EE1C /* UserViewController.h */,
 				CB5E87E5156CD25C0010EE1C /* UserViewController.m */,
 				CB0C4465155CD50300B238D4 /* IdeaViewController.h */,
@@ -772,6 +770,8 @@
 				CBBF7E7A158911D70073EA0A /* HomeViewController.m */,
 				CB4031771590694600D758AF /* ProfileSettingViewController.h */,
 				CB4031781590694600D758AF /* ProfileSettingViewController.m */,
+				CBBEDFEF15921B8200ECC2C2 /* NicknameEditorViewController.h */,
+				CBBEDFF015921B8200ECC2C2 /* NicknameEditorViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -1435,6 +1435,7 @@
 				CB40317B1590694700D758AF /* ProfileSettingViewController.xib in Resources */,
 				CB50E4A915918D16001D5673 /* Profile-Setting-Cell-Identifie.plist in Resources */,
 				CB50E4AC1591981D001D5673 /* ProfileSettingForm.xib in Resources */,
+				CBBEDFF315921B8200ECC2C2 /* NicknameEditorViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1512,6 +1513,7 @@
 				CBA483DA158F1B1200322D84 /* TpLoginDelegate.m in Sources */,
 				CB40316F15903DA200D758AF /* MessageShow.m in Sources */,
 				CB40317A1590694700D758AF /* ProfileSettingViewController.m in Sources */,
+				CBBEDFF215921B8200ECC2C2 /* NicknameEditorViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

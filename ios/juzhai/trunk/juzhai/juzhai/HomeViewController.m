@@ -174,7 +174,7 @@
         _profileSettingViewController = [[ProfileSettingViewController alloc] initWithStyle:UITableViewStyleGrouped];
         _profileSettingViewController.hidesBottomBarWhenPushed = YES;
     }
-    _profileSettingViewController.userView = _userView;
+    [_profileSettingViewController initUserView:_userView];
     [self.navigationController pushViewController:_profileSettingViewController animated:YES];
 }
 

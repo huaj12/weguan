@@ -10,6 +10,8 @@
 #import "UserView.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 #import <QuartzCore/QuartzCore.h>
+#import "NicknameEditorViewController.h"
+#import "CustomButton.h"
 
 @interface ProfileSettingViewController ()
 
@@ -40,22 +42,29 @@
     // Do any additional setup after loading the view from its nib.
     self.title = @"设置个人资料";
     _settingCells = [[NSBundle mainBundle] loadNibNamed:@"ProfileSettingForm" owner:self options:nil];
+    
+    _saveButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"保存" CapLocation:CapLeftAndRight];
+//    [_saveButton addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
+    _saveButton.enabled = NO;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_saveButton];
 }
 
 - (void) viewWillAppear:(BOOL)animated{
-    SDWebImageManager *manager = [SDWebImageManager sharedManager];
-    NSURL *imageURL = [NSURL URLWithString:userView.logo];
-    [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
-        logoImageView.image = image;
-        logoImageView.layer.shouldRasterize = YES;
-        logoImageView.layer.masksToBounds = YES;
-        logoImageView.layer.cornerRadius = 3.0;
-    } failure:nil];
-    nicknameLabel.text = userView.nickname;
-    professionLabel.text = userView.profession;
-    genderLabel.text = [userView.gender intValue] == 0 ? @"女" : @"男";
-    birthLabel.text = [NSString stringWithFormat:@"%d年%d月%d日", userView.birthYear.intValue, userView.birthMonth.intValue, userView.birthDay.intValue];
-    featureLabel.text = userView.feature;
+    if(!_saveButton.enabled){
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        NSURL *imageURL = [NSURL URLWithString:userView.logo];
+        [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
+            logoImageView.image = image;
+            logoImageView.layer.shouldRasterize = YES;
+            logoImageView.layer.masksToBounds = YES;
+            logoImageView.layer.cornerRadius = 3.0;
+        } failure:nil];
+        nicknameLabel.text = userView.nickname;
+        professionLabel.text = userView.profession;
+        genderLabel.text = [userView.gender intValue] == 0 ? @"女" : @"男";
+        birthLabel.text = [NSString stringWithFormat:@"%d年%d月%d日", userView.birthYear.intValue, userView.birthMonth.intValue, userView.birthDay.intValue];
+        featureLabel.text = userView.feature;
+    }
 }
 
 - (void)viewDidUnload
@@ -68,6 +77,26 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(void) saveSingleInfo:(NSInteger)tag withValue:(NSString *)value{
+    UITableViewCell *cell;
+    for(id oneObject in _settingCells){
+        if([oneObject tag] == tag){
+            cell = oneObject;
+        }
+    }
+    if(nil != cell){
+        cell.detailTextLabel.text = value;
+        _saveButton.enabled = YES;
+    }
+}
+
+-(void) initUserView:(UserView *)newUserView{
+    if (nil != _saveButton) {
+        _saveButton.enabled = NO;
+    }
+    self.userView = newUserView;
 }
 
 #pragma mark -
@@ -114,6 +143,12 @@
                                       destructiveButtonTitle:nil
                                       otherButtonTitles:@"用户相册", @"拍照", nil];
         [actionSheet showInView:self.view];
+    } else if (indexPath.section == 1 && indexPath.row == 0){
+        NicknameEditorViewController *nicknameEditorViewController = [[NicknameEditorViewController alloc] initWithNibName:@"NicknameEditorViewController" bundle:nil];
+        nicknameEditorViewController.textValue = nicknameLabel.text;
+        nicknameEditorViewController.tag = indexPath.section * 10 + indexPath.row;
+        nicknameEditorViewController.profileSettingViewController = self;
+        [self.navigationController pushViewController:nicknameEditorViewController animated:YES];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -149,6 +184,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
     [picker dismissModalViewControllerAnimated:YES];
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     logoImageView.image = image;
+    _saveButton.enabled = YES;
 }
 
 - (void) imagePickerControllerDidCancel:(UIImagePickerController *)picker{

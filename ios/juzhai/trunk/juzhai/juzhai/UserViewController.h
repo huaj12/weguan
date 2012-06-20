@@ -10,6 +10,7 @@
 #import "CustomSegmentedControl.h"
 
 @class JZData;
+@class PostDetailViewController;
 
 #define ORDER_BY_TIME 1
 #define ORDER_BY_RECOMMEND 2
@@ -22,6 +23,7 @@
     JZData *_data;
     CustomSegmentedControl *_segmentedControl;
     UIButton *_genderButton;
+    PostDetailViewController *_postDetailViewController;
 }
 
 @end

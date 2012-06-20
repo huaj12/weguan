@@ -52,7 +52,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-//    logoView.image = [UIImage imageNamed:USER_DEFAULT_LOGO];
+}
+
+- (void) viewWillAppear:(BOOL)animated{
+    //    logoView.image = [UIImage imageNamed:USER_DEFAULT_LOGO];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     NSURL *imageURL = [NSURL URLWithString:userView.logo];
     [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
@@ -89,10 +92,10 @@
     contentLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:15.0];
     contentLabel.textColor = [UIColor whiteColor];
     contentLabel.text = [NSString stringWithFormat:@"%@：%@", userView.post.purpose, userView.post.content];
-    CGSize contentSize = [contentLabel.text sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(contentLabel.frame.size.width, 200.0) lineBreakMode:UILineBreakModeCharacterWrap];
+    CGSize contentSize = [contentLabel.text sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(300.0, 300.0) lineBreakMode:UILineBreakModeCharacterWrap];
     [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, [self getViewOriginY:contentLabel byUpperView:nil heightGap:POST_DEFAULT_HEIGHT_GAP], contentSize.width, contentSize.height)];
     
-//    postImageView.image = [UIImage imageNamed:IDEA_DEFAULT_PIC];
+    //    postImageView.image = [UIImage imageNamed:IDEA_DEFAULT_PIC];
     [postImageView setFrame:CGRectMake(postImageView.frame.origin.x, [self getViewOriginY:postImageView byUpperView:contentLabel heightGap:POST_DEFAULT_HEIGHT_GAP], postImageView.frame.size.width, postImageView.frame.size.height)];
     [postImageView setHidden:userView.post.bigPic == nil || [userView.post.bigPic isEqual:[NSNull null]] || [userView.post.bigPic isEqualToString:@""]];
     

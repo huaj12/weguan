@@ -19,6 +19,7 @@
 #import "PostView.h"
 #import "PostListCell.h"
 #import "PostDetailViewController.h"
+#import "ProfileSettingViewController.h"
 
 @interface HomeViewController ()
 
@@ -166,6 +167,15 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(IBAction)editor:(id)sender{
+    if (nil == _profileSettingViewController) {
+        _profileSettingViewController = [[ProfileSettingViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        _profileSettingViewController.hidesBottomBarWhenPushed = YES;
+    }
+    _profileSettingViewController.userView = _userView;
+    [self.navigationController pushViewController:_profileSettingViewController animated:YES];
 }
 
 #pragma mark -

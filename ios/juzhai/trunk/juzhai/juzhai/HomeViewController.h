@@ -10,6 +10,7 @@
 
 @class UserView;
 @class JZData;
+@class ProfileSettingViewController;
 
 #define INTEREST_COUNT_BUTTON_IMAGE @"my_jz_fans_btn.png"
 #define INTEREST_COUNT_BUTTON_CAP_WIDTH 4.0
@@ -22,6 +23,7 @@
     UserView *_userView;
     JZData *_data;
     int _postTotalCount;
+    ProfileSettingViewController *_profileSettingViewController;
 }
 
 @property (strong, nonatomic) IBOutlet UIImageView *logoView;
@@ -30,5 +32,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *interestMeCountButton;
 @property (strong, nonatomic) IBOutlet UIButton *sendPostButton;
 @property (strong, nonatomic) IBOutlet UITableView *postTableView;
+
+-(IBAction)editor:(id)sender;
 
 @end

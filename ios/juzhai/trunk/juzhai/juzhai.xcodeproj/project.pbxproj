@@ -35,9 +35,13 @@
 		CB3E04CF1552699F0069DE30 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB3E04CE1552699F0069DE30 /* MobileCoreServices.framework */; };
 		CB3E04D115526A100069DE30 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB3E04D015526A100069DE30 /* libz.dylib */; };
 		CB40316F15903DA200D758AF /* MessageShow.m in Sources */ = {isa = PBXBuildFile; fileRef = CB40316E15903DA200D758AF /* MessageShow.m */; };
+		CB40317A1590694700D758AF /* ProfileSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4031781590694600D758AF /* ProfileSettingViewController.m */; };
+		CB40317B1590694700D758AF /* ProfileSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB4031791590694600D758AF /* ProfileSettingViewController.xib */; };
 		CB4668D3156F39CE0030D655 /* CustomSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4668D2156F39CE0030D655 /* CustomSegmentedControl.m */; };
 		CB4668D6156F55800030D655 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4668D5156F55800030D655 /* CustomNavigationController.m */; };
 		CB4668D9156F5FE00030D655 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4668D8156F5FE00030D655 /* CustomButton.m */; };
+		CB50E4A915918D16001D5673 /* Profile-Setting-Cell-Identifie.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB50E4A815918D16001D5673 /* Profile-Setting-Cell-Identifie.plist */; };
+		CB50E4AC1591981D001D5673 /* ProfileSettingForm.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB50E4AB1591981D001D5673 /* ProfileSettingForm.xib */; };
 		CB5E87E7156CD25C0010EE1C /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5E87E5156CD25C0010EE1C /* UserViewController.m */; };
 		CB6934CA1586EF5900F73CB0 /* back_btn_hover@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = CB6934B61586EF5900F73CB0 /* back_btn_hover@x2.png */; };
 		CB6934CB1586EF5900F73CB0 /* back_btn_link@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = CB6934B71586EF5900F73CB0 /* back_btn_link@x2.png */; };
@@ -278,12 +282,18 @@
 		CB3E04D015526A100069DE30 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		CB40316D15903DA200D758AF /* MessageShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageShow.h; sourceTree = "<group>"; };
 		CB40316E15903DA200D758AF /* MessageShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageShow.m; sourceTree = "<group>"; };
+		CB4031771590694600D758AF /* ProfileSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileSettingViewController.h; sourceTree = "<group>"; };
+		CB4031781590694600D758AF /* ProfileSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileSettingViewController.m; sourceTree = "<group>"; };
+		CB4031791590694600D758AF /* ProfileSettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSettingViewController.xib; sourceTree = "<group>"; };
 		CB4668D1156F39CE0030D655 /* CustomSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegmentedControl.h; sourceTree = "<group>"; };
 		CB4668D2156F39CE0030D655 /* CustomSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSegmentedControl.m; sourceTree = "<group>"; };
 		CB4668D4156F55800030D655 /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
 		CB4668D5156F55800030D655 /* CustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationController.m; sourceTree = "<group>"; };
 		CB4668D7156F5FE00030D655 /* CustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomButton.h; sourceTree = "<group>"; };
 		CB4668D8156F5FE00030D655 /* CustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomButton.m; sourceTree = "<group>"; };
+		CB50E4A815918D16001D5673 /* Profile-Setting-Cell-Identifie.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Profile-Setting-Cell-Identifie.plist"; sourceTree = "<group>"; };
+		CB50E4AB1591981D001D5673 /* ProfileSettingForm.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSettingForm.xib; sourceTree = "<group>"; };
+		CB50E4AD1591BF38001D5673 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "/Users/wujiajun/work/ios/workspace/juzhai/juzhai/zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
 		CB5E87E4156CD25C0010EE1C /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
 		CB5E87E5156CD25C0010EE1C /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
 		CB6934B61586EF5900F73CB0 /* back_btn_hover@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back_btn_hover@x2.png"; sourceTree = "<group>"; };
@@ -577,6 +587,8 @@
 				CB7EFEEF15804E3D00176E59 /* PostDetailViewController.xib */,
 				CB7EFEF81580515500176E59 /* IdeaDetailViewController.xib */,
 				CBBF7E7B158911D80073EA0A /* HomeViewController.xib */,
+				CB4031791590694600D758AF /* ProfileSettingViewController.xib */,
+				CB50E4AB1591981D001D5673 /* ProfileSettingForm.xib */,
 			);
 			name = XIB;
 			sourceTree = "<group>";
@@ -675,6 +687,13 @@
 			name = Message;
 			sourceTree = "<group>";
 		};
+		CB40317C15906BA200D758AF /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
 		CB4668CC156F38CB0030D655 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -734,6 +753,7 @@
 		CB4D4E65155BB7AC0061AAD4 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				CB40317C15906BA200D758AF /* New Group */,
 				CB5E87E4156CD25C0010EE1C /* UserViewController.h */,
 				CB5E87E5156CD25C0010EE1C /* UserViewController.m */,
 				CB0C4465155CD50300B238D4 /* IdeaViewController.h */,
@@ -750,6 +770,8 @@
 				CB7EFEF71580515500176E59 /* IdeaDetailViewController.m */,
 				CBBF7E79158911D70073EA0A /* HomeViewController.h */,
 				CBBF7E7A158911D70073EA0A /* HomeViewController.m */,
+				CB4031771590694600D758AF /* ProfileSettingViewController.h */,
+				CB4031781590694600D758AF /* ProfileSettingViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -859,6 +881,7 @@
 				CBE91CD315829B1C008BDDE9 /* juzhai.xcdatamodeld */,
 				CB87D3EA15518C9C00A25129 /* juzhai-Prefix.pch */,
 				CB87D3E815518C9C00A25129 /* main.m */,
+				CB50E4A815918D16001D5673 /* Profile-Setting-Cell-Identifie.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1409,6 +1432,9 @@
 				CBA483E3158F6B5300322D84 /* zcdl_or_line.png in Resources */,
 				CBA483E6158F6B5F00322D84 /* zcdl_bottom_bg@2x.png in Resources */,
 				CBA483E7158F6B5F00322D84 /* zcdl_or_line@2x.png in Resources */,
+				CB40317B1590694700D758AF /* ProfileSettingViewController.xib in Resources */,
+				CB50E4A915918D16001D5673 /* Profile-Setting-Cell-Identifie.plist in Resources */,
+				CB50E4AC1591981D001D5673 /* ProfileSettingForm.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1485,6 +1511,7 @@
 				CBB765E6158C6A4700F0DCA8 /* PostListCell.m in Sources */,
 				CBA483DA158F1B1200322D84 /* TpLoginDelegate.m in Sources */,
 				CB40316F15903DA200D758AF /* MessageShow.m in Sources */,
+				CB40317A1590694700D758AF /* ProfileSettingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1495,6 +1522,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				CB87D3E615518C9C00A25129 /* en */,
+				CB50E4AD1591BF38001D5673 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

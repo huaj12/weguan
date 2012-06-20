@@ -22,6 +22,7 @@
 @synthesize profession;
 @synthesize cityName;
 @synthesize townName;
+@synthesize feature;
 @synthesize post;
 @synthesize interestMeCount;
 @synthesize interestUserCount;
@@ -48,6 +49,7 @@
     self.profession = [info valueForKey:@"profession"];
     self.cityName = [info valueForKey:@"cityName"];
     self.townName = [info valueForKey:@"townName"];
+    self.feature = [info valueForKey:@"feature"];
     self.interestUserCount = [info valueForKey:@"interestUserCount"];
     self.interestMeCount = [info valueForKey:@"interestMeCount"];
 }

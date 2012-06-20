@@ -31,6 +31,7 @@ FPPopoverControllerDelegate>
     FPPopoverController *_categoryPopver;
     UIButton *_orderButton;
     UIButton *_categoryButton;
+    IdeaDetailViewController *_ideaDetailViewController;
 }
 
 //- (void)reloadTableViewDataSource;

@@ -23,6 +23,7 @@
 @property (strong,nonatomic) NSString *profession;
 @property (strong,nonatomic) NSString *cityName;
 @property (strong,nonatomic) NSString *townName;
+@property (strong,nonatomic) NSString *feature;
 @property (strong,nonatomic) NSNumber *interestUserCount;
 @property (strong,nonatomic) NSNumber *interestMeCount;
 @property (strong,nonatomic) PostView *post;

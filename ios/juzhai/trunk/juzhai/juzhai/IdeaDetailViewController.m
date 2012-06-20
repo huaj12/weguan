@@ -49,13 +49,17 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+}
+
+- (void) viewWillAppear:(BOOL)animated{
     contentLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:15.0];
     contentLabel.textColor = [UIColor grayColor];
     contentLabel.text = self.ideaView.content;
-    CGSize contentSize = [contentLabel.text sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(contentLabel.frame.size.width, 200.0) lineBreakMode:UILineBreakModeCharacterWrap];
+    CGSize contentSize = [contentLabel.text sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(300.0, 300.0) lineBreakMode:UILineBreakModeCharacterWrap];
     [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, [self getViewOriginY:contentLabel byUpperView:nil heightGap:IDEA_DEFAULT_HEIGHT_GAP], contentSize.width, contentSize.height)];
     
-//    imageView.image = [UIImage imageNamed:IDEA_DEFAULT_PIC];
+    //    imageView.image = [UIImage imageNamed:IDEA_DEFAULT_PIC];
     [imageView setFrame:CGRectMake(imageView.frame.origin.x, [self getViewOriginY:imageView byUpperView:contentLabel heightGap:IDEA_DEFAULT_HEIGHT_GAP], imageView.frame.size.width, imageView.frame.size.height)];
     [imageView setHidden:[ideaView.bigPic isEqual:[NSNull null]]];
     
@@ -107,8 +111,6 @@
     }
     [self resetViewFrame];
 }
-
-
 
 - (CGFloat) getViewOriginY:(UIView *)view byUpperView:(UIView *)upperView heightGap:(float)heightGap{
     if(upperView == nil){

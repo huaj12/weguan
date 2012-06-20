@@ -11,19 +11,29 @@
 #import "LoginViewController.h"
 #import "MBProgressHUD.h"
 #import "CustomNavigationController.h"
+#import "ProfileSettingViewController.h"
 
 @implementation ConfigViewController
 
 @synthesize itemList;
 
 -(void)loadView{
-    self.itemList = [[NSMutableArray alloc] initWithObjects:@"退出账号", nil];
     [super loadView];
-    self.tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame style:UITableViewStyleGrouped];
 }
 
 -(void)viewDidLoad{
     [super viewDidLoad];
+    self.itemList = [[NSMutableArray alloc] initWithObjects:@"个人资料设置", @"退出账号", nil];
+    self.tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame style:UITableViewStyleGrouped];
+}
+
+-(void)doLogout{
+    sleep(1);
+    [LoginService logout];
+    //跳转到登录
+    LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    self.view.window.rootViewController = [[CustomNavigationController alloc] initWithRootViewController:loginViewController];
+    [self.view.window makeKeyAndVisible];
 }
 
 #pragma mark - Table View Data Source Methods
@@ -49,9 +59,16 @@
 #pragma mark - Table View Delegate Methods
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(indexPath.row == 0){
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定退出吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-        [alertView show];
+    switch (indexPath.row) {
+        case 0:{
+        }
+        case 1:{
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定退出吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+            [alertView show];
+            break;
+        }
+        default:
+            break;
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -60,23 +77,11 @@
 
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex==1){
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.dimBackground = YES;
         hud.labelText = @"账号注销...";
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            sleep(1);
-            [LoginService logout];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                //跳转到登录
-                LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-//                [self.navigationController.tabBarController.navigationController setNavigationBarHidden: NO];
-//                [self.navigationController.tabBarController.navigationController pushViewController:loginViewController animated:NO];
-//                self.window.rootViewController = viewController;
-                self.view.window.rootViewController = [[CustomNavigationController alloc] initWithRootViewController:loginViewController];
-                [self.view.window makeKeyAndVisible];
-            });
-        });
+        [hud showWhileExecuting:@selector(doLogout) onTarget:self withObject:nil animated:YES];
     }
-     
 }
 
 @end

@@ -120,7 +120,6 @@ public class IndexController extends BaseController {
 			// showHomeLogo(context, model);
 			return "redirect:/home";
 		} else {
-			// TODO(done) 不需要控制数量？取出来的时候控制了
 			ideaList = recommendIdeaService.listRecommendIdea();
 		}
 		userPostWidget(context, model, city, indexNewPostMaxRows);

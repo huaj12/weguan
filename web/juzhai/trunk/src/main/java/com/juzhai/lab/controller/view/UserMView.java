@@ -13,6 +13,7 @@ public class UserMView {
 	private String profession;
 	private String cityName;
 	private String townName;
+	private String feature;
 	private int interestUserCount;
 	private int interestMeCount;
 	private PostMView postView;
@@ -128,4 +129,13 @@ public class UserMView {
 	public void setInterestMeCount(int interestMeCount) {
 		this.interestMeCount = interestMeCount;
 	}
+
+	public String getFeature() {
+		return feature;
+	}
+
+	public void setFeature(String feature) {
+		this.feature = feature;
+	}
+
 }

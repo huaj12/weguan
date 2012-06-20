@@ -41,8 +41,8 @@ public class CmsQplugPushUserController {
 	private Scheduler scheduler;
 	@Autowired
 	private MessageSource messageSource;
-	public static String qplugNewUserPushText = "";
-	public static String qplugOldUserPushText = "";
+	public static String qplugNewUserPushText;
+	public static String qplugOldUserPushText;
 	public static boolean qplugNewUserPushisRunning = false;
 	public static boolean qplugOldUserPushisRunning = false;
 

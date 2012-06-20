@@ -32,6 +32,66 @@
 			});
 		}
 	}
+	function stop(){
+		var type=$("#push-user-type").val();
+		var text="";
+		if(type=="new"){
+			text="是否确定停止给新用户发消息";
+		}else{
+			text="是否确定停止给老用户发消息";
+		}
+		if(confirm(text)){
+			jQuery.ajax({
+				url : "/cms/qplug/push/stop",
+				type : "post",
+				data : {
+					"type" : type
+				},
+				dataType : "json",
+				success : function(result) {
+					if (result.success!=null&&result.success) {
+						alert("停止发送");
+					} else {
+						alert("操作失败");
+					}
+				},
+				statusCode : {
+					401 : function() {
+						alert("请先登陆");
+					}
+				}
+			});
+		}
+	}
+	function start(){
+		var type=$("#push-user-type").val();
+		var text="";
+		if(type=="new"){
+			text="是否确定给新用户发消息";
+		}else{
+			text="是否确定给老用户发消息";
+		}
+		if(confirm(text)){
+			jQuery.ajax({
+				url : "/cms/qplug/push/start",
+				type : "post",
+				data :$("#pushForm").serialize(),
+				dataType : "json",
+				success : function(result) {
+					if (result.success!=null&&result.success) {
+						alert("开始发送");
+					} else {
+						alert("操作失败");
+					}
+				},
+				statusCode : {
+					401 : function() {
+						alert("请先登陆");
+					}
+				}
+			});
+		}
+	}
 </script>
 </head>
 <body>
@@ -44,15 +104,17 @@
 <input type="file" name="config"/>
 <input type="submit" value="上传"/>
 </form>
-<h3><a href="/cms/qplug/state" target="_blank" >查看发送状态</a></h3>
 <br/>
 <form id="pushForm">
-	<select name="type">
+	<select id="push-user-type" name="type">
 		<option value="new">新用户</option>
 		<option value="old">老用户</option>
 	</select>
 	<input type="text" name="text"/>
 	<a href="javascript:void(0);" onclick="update();">更新内容</a>
 </form>
+<h3><a href="/cms/qplug/state" target="_blank" >查看状态</a></h3>
+<a href="javascript:void(0);" onclick="start();">开始发送</a>
+<a href="javascript:void(0);" onclick="stop();">停止</a>
 </body>
 </html>

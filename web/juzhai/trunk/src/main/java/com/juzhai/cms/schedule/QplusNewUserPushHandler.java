@@ -51,7 +51,7 @@ public class QplusNewUserPushHandler extends AbstractScheduleHandler {
 		String text = CmsQplusPushUserController.qplusNewUserPushText;
 		if (StringUtils.isEmpty(text)) {
 			text = messageSource.getMessage(
-					NoticeQplusUserTemplate.NOTICE_QPLUG_USER_TEXT_DEFAULT
+					NoticeQplusUserTemplate.NOTICE_QPLUS_USER_TEXT_DEFAULT
 							.getName(), null, Locale.SIMPLIFIED_CHINESE);
 		}
 		for (int i = 0; i < qplusMinuteNewUserPushCount; i++) {

@@ -76,6 +76,8 @@
 		CB6935061586EF8100F73CB0 /* weizhi_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = CB6934F21586EF8100F73CB0 /* weizhi_bg.png */; };
 		CB6B15BF157A510300AC821F /* BaseData.m in Sources */ = {isa = PBXBuildFile; fileRef = CB6B15BE157A510300AC821F /* BaseData.m */; };
 		CB6B15C2157A70C800AC821F /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = CB6B15C1157A70C800AC821F /* Category.m */; };
+		CB790AC815937822006DF5FC /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = CB790AC615937822006DF5FC /* 37x-Checkmark.png */; };
+		CB790AC915937822006DF5FC /* 37x-Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB790AC715937822006DF5FC /* 37x-Checkmark@2x.png */; };
 		CB7EFEF015804E3D00176E59 /* PostDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB7EFEEE15804E3D00176E59 /* PostDetailViewController.m */; };
 		CB7EFEF115804E3D00176E59 /* PostDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB7EFEEF15804E3D00176E59 /* PostDetailViewController.xib */; };
 		CB7EFEF91580515500176E59 /* IdeaDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB7EFEF71580515500176E59 /* IdeaDetailViewController.m */; };
@@ -340,6 +342,8 @@
 		CB6B15BE157A510300AC821F /* BaseData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseData.m; sourceTree = "<group>"; };
 		CB6B15C0157A70C800AC821F /* Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Category.h; sourceTree = "<group>"; };
 		CB6B15C1157A70C800AC821F /* Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
+		CB790AC615937822006DF5FC /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
+		CB790AC715937822006DF5FC /* 37x-Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark@2x.png"; sourceTree = "<group>"; };
 		CB7EFEED15804E3D00176E59 /* PostDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostDetailViewController.h; sourceTree = "<group>"; };
 		CB7EFEEE15804E3D00176E59 /* PostDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostDetailViewController.m; sourceTree = "<group>"; };
 		CB7EFEEF15804E3D00176E59 /* PostDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostDetailViewController.xib; sourceTree = "<group>"; };
@@ -818,6 +822,15 @@
 			name = Beans;
 			sourceTree = "<group>";
 		};
+		CB790AC5159377F7006DF5FC /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				CB790AC615937822006DF5FC /* 37x-Checkmark.png */,
+				CB790AC715937822006DF5FC /* 37x-Checkmark@2x.png */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
 		CB8367F7155EADE7004CFD54 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -892,6 +905,7 @@
 				CBD964B2157FC57D006E0196 /* big */,
 				CBD964E9157FC57D006E0196 /* small */,
 				CBD964DB157FC57D006E0196 /* EGORefresh */,
+				CB790AC5159377F7006DF5FC /* Other */,
 				CBD964B1157FC57D006E0196 /* app.png */,
 				CBD964D9157FC57D006E0196 /* Default.png */,
 				CBD964DA157FC57D006E0196 /* Default@2x.png */,
@@ -1459,6 +1473,8 @@
 				CBBEDFF315921B8200ECC2C2 /* NicknameEditorViewController.xib in Resources */,
 				CB431B2F1592E05500184E82 /* ProfessionEditorViewController.xib in Resources */,
 				CB9946FF159302530057FBB6 /* FeatureEditorViewController.xib in Resources */,
+				CB790AC815937822006DF5FC /* 37x-Checkmark.png in Resources */,
+				CB790AC915937822006DF5FC /* 37x-Checkmark@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,6 +10,8 @@
 
 @interface MessageShow : NSObject
 
+#define SERVER_ERROR_INFO @"服务器忙...请稍候再试"
+
 + (void) error:(NSString *)msg onView:(UIView *)view;
 
 @end

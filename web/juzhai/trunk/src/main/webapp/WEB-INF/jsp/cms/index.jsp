@@ -298,15 +298,23 @@ a:hover {
 				</ul>
 			</li>
 			<li>
-				<a href="javascript:showChild('qplug_');">q+</a>
-				<ul style="display: none;" id="qplug_" class="child">
+				<a href="javascript:showChild('qplus_');">q+</a>
+				<ul style="display: none;" id="qplus_" class="child">
 					<li style="background-color: #A4D3EE;"><a
-						style="color: black;" href="/cms/qplug/show"
+						style="color: black;" href="/cms/qplus/show"
 						target="config">q+消息推送</a>
 					</li>
 				</ul>
 			</li>
-			
+			<li>
+				<a href="javascript:showChild('robot_');">机器人</a>
+				<ul style="display: none;" id="robot_" class="child">
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/robot/show"
+						target="config">机器人</a>
+					</li>
+				</ul>
+			</li>
 			<!-- <li>
 				<a href="/cms/searchActs" target="config">近义词设置</a>
 			</li>

@@ -12,12 +12,23 @@ public interface IPostCommentService {
 	/**
 	 * 评论，留言
 	 * 
-	 * @param uid
+	 * @param UserContext
 	 * @param form
 	 * @return
 	 * @throws InputPostCommentException
 	 */
 	PostComment comment(UserContext context, PostCommentForm form)
+			throws InputPostCommentException;
+
+	/**
+	 * 评论，留言
+	 * 
+	 * @param uid
+	 * @param form
+	 * @return
+	 * @throws InputPostCommentException
+	 */
+	PostComment comment(Long uid, PostCommentForm form)
 			throws InputPostCommentException;
 
 	/**

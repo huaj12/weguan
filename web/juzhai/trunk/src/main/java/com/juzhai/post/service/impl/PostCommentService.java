@@ -87,7 +87,15 @@ public class PostCommentService implements IPostCommentService {
 		} catch (JuzhaiException e) {
 			throw new InputPostCommentException(e.getErrorCode());
 		}
+		PostComment postComment = comment(uid, form);
+		foulService.foul(context, postComment.getPostCreateUid(),
+				form.getContent(), Function.COMMENT);
+		return postComment;
+	}
 
+	@Override
+	public PostComment comment(Long uid, PostCommentForm form)
+			throws InputPostCommentException {
 		if (form.getPostId() <= 0) {
 			throw new InputPostCommentException(
 					InputPostCommentException.POST_ID_NOT_EXIST);
@@ -181,8 +189,6 @@ public class PostCommentService implements IPostCommentService {
 			}
 		}
 		postCommentCounter.incr(null, 1L);
-		foulService.foul(context, post.getCreateUid(), form.getContent(),
-				Function.COMMENT);
 		return postComment;
 	}
 
@@ -300,4 +306,5 @@ public class PostCommentService implements IPostCommentService {
 	public int totalCount() {
 		return postCommentMapper.countByExample(new PostCommentExample());
 	}
+
 }

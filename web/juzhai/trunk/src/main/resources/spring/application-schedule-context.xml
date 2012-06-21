@@ -194,7 +194,7 @@
 	</bean>
 	<!-- update search word hot end -->
 	
-	<!-- qplug new user push begin -->
+	<!-- qplus new user push begin -->
 	<bean id="qplusNewUserPushTrigger" parent="abstractCronTrigger">
 		<property name="jobDetail">
 			<bean parent="abstractJobDetail">
@@ -203,7 +203,7 @@
 		</property>
 		<property name="cronExpression" value="${qplus.new.user.push.cron}" />
 	</bean>
-	<!-- qplug new user push end -->
+	<!-- qplus new user push end -->
 	
 	
 	

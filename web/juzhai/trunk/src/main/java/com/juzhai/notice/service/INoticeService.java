@@ -70,8 +70,8 @@ public interface INoticeService {
 	 * 给Q+用户发通知
 	 * 
 	 * @param openid
-	 * @param NoticeQplugUserTemplate
+	 * @param NoticeQplusUserTemplate
 	 */
-	void noticeQplugUser(String openid, String text);
+	void noticeQplusUser(String openid, String text);
 
 }

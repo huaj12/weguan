@@ -20,6 +20,7 @@
 @property (strong,nonatomic) NSNumber *birthMonth;
 @property (strong,nonatomic) NSNumber *birthDay;
 @property (strong,nonatomic) NSString *constellation;
+@property (strong,nonatomic) NSDecimalNumber *professionId;
 @property (strong,nonatomic) NSString *profession;
 @property (strong,nonatomic) NSString *cityName;
 @property (strong,nonatomic) NSString *townName;

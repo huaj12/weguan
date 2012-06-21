@@ -13,5 +13,7 @@
 @interface BaseData : NSObject
 
 @property (strong,nonatomic) NSMutableArray *categoryArray;
+@property (strong,nonatomic) NSMutableArray *professionArray;
 + (NSArray *)getCategories;
++ (NSArray *)getProfessions;
 @end

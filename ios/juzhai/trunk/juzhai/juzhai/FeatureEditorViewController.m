@@ -1,26 +1,26 @@
 //
-//  NicknameEditorViewController.m
+//  FeatureEditorViewController.m
 //  juzhai
 //
-//  Created by JiaJun Wu on 12-6-20.
+//  Created by JiaJun Wu on 12-6-21.
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#import "NicknameEditorViewController.h"
+#import "FeatureEditorViewController.h"
+#import <QuartzCore/QuartzCore.h>
 #import "CustomButton.h"
 #import "ProfileSettingViewController.h"
-#import "UserView.h"
-#import <QuartzCore/QuartzCore.h>
 
-@interface NicknameEditorViewController ()
+@interface FeatureEditorViewController ()
 
 @end
 
-@implementation NicknameEditorViewController
+@implementation FeatureEditorViewController
 
-@synthesize textField;
-@synthesize textValue;
 @synthesize tag;
+@synthesize textView;
+@synthesize textValue;
+
 @synthesize profileSettingViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -36,16 +36,21 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.title = @"昵称";
+    
+    self.title = @"自我评价";
     
     CustomButton *saveButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"保存" CapLocation:CapLeftAndRight];
     [saveButton addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];
+    
+    [textView.layer setCornerRadius:10];
+    [textView.layer setBorderWidth:1];
+    [textView.layer setBorderColor:[UIColor grayColor].CGColor];
 }
 
 - (void) viewWillAppear:(BOOL)animated{
-    self.textField.text = self.textValue;
-    [self.textField becomeFirstResponder];
+    [textView becomeFirstResponder];
+    textView.text = textValue;
 }
 
 - (void)viewDidUnload
@@ -60,9 +65,10 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (IBAction)save:(id)sender{
-    // TODO 验证
-    [profileSettingViewController saveSingleInfo:self.tag withValue:textField.text withValueId:0];
+-(IBAction)save:(id)sender{
+    //验证
+    
+    [profileSettingViewController saveSingleInfo:self.tag withValue:textView.text withValueId:0];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

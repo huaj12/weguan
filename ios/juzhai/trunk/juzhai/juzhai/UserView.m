@@ -19,6 +19,7 @@
 @synthesize birthMonth;
 @synthesize birthDay;
 @synthesize constellation;
+@synthesize professionId;
 @synthesize profession;
 @synthesize cityName;
 @synthesize townName;
@@ -46,6 +47,7 @@
     self.birthMonth = [info valueForKey:@"birthMonth"];
     self.birthDay = [info valueForKey:@"birthDay"];
     self.constellation = [info valueForKey:@"constellation"];
+    self.professionId = [info valueForKey:@"professionId"];
     self.profession = [info valueForKey:@"profession"];
     self.cityName = [info valueForKey:@"cityName"];
     self.townName = [info valueForKey:@"townName"];

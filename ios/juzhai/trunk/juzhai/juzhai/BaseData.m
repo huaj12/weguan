@@ -11,6 +11,7 @@
 #import "HttpRequestSender.h"
 #import "SBJson.h"
 #import "Category.h"
+#import "Profession.h"
 
 @interface BaseData (Private)
 
@@ -21,6 +22,7 @@
 @implementation BaseData
 
 @synthesize categoryArray;
+@synthesize professionArray;
 
 static BaseData *baseData;
 
@@ -59,9 +61,40 @@ static BaseData *baseData;
             NSError *error = [request error];
             NSLog(@"%@", [error description]);
         }];
-        [request startAsynchronous];
+        [request startSynchronous];
     }
     return baseData.categoryArray;
+}
+
++ (NSArray *)getProfessions{
+    BaseData *baseData = [BaseData sharedData];
+    if(!baseData.professionArray){
+        //http load
+        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/professionList" withParams:nil];
+        __unsafe_unretained ASIHTTPRequest *request = _request;
+        [request setCompletionBlock:^{
+            // Use when fetching text data
+            NSString *responseString = [request responseString];
+            NSMutableDictionary *jsonResult = [responseString JSONValue];
+            if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
+                NSArray *array = [jsonResult objectForKey:@"result"];
+                baseData.professionArray = [[NSMutableArray alloc] initWithCapacity:array.count];
+                for(NSDictionary *dic in array){
+                    NSDecimalNumber *pId = nil;
+                    for(NSDecimalNumber *key in [dic allKeys]){
+                        pId = key;
+                    }
+                    [baseData.professionArray addObject:[[Profession alloc] initWithProfessionId:pId withName:[dic objectForKey:pId]]];
+                }
+            }
+        }];
+        [request setFailedBlock:^{
+            NSError *error = [request error];
+            NSLog(@"%@", [error description]);
+        }];
+        [request startSynchronous];
+    }
+    return baseData.professionArray;
 }
 
 @end

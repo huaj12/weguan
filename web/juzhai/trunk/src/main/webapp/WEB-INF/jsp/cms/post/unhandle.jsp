@@ -125,25 +125,25 @@ function handleById(id){
 			<td width="100">用户头像</td>
 			<td width="300">我想去</td>
 			<td width="100">所在城市</td>
+			<td width="100">互动</td>
+			<td width="100">操作</td>
 			<td width="100">发起人</td>
 			<td width="100">地点</td>
 			<td width="100">图片</td>
 			<td width="100">拒宅时间</td>
 			<td width="100">发布时间</td>
-			<td width="100">操作</td>
+			
 		</tr>
 		<c:forEach var="view" items="${postView}" >
 			<tr>
 			<td><a href="/home/${view.profileCache.uid}" target="_blank"><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,120)}" width="80" height="80"/></a></td>
 				<td><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>: <c:out value="${view.post.content}"></c:out> </td>
 				<td>${jzd:cityName(view.profileCache.city)}</td>
-				<td><c:out value="${view.profileCache.nickname}"></c:out></td>
-				<td><c:out value="${view.post.place}"></c:out></td>
-				<td><img src="${jzr:postPic(view.post.id, view.post.ideaId, view.post.pic, 200)}"  /> </td>
-				<td><fmt:formatDate value="${view.post.dateTime}"
-						pattern="yyyy-MM-dd" /></td>
-				<td><fmt:formatDate value="${view.post.createTime}"
-						pattern="yyyy-MM-dd HH:mm:ss" /></td>
+				<td>
+				<a href="javascript:void(0);" id="robot-response-${view.post.id}" class="robot-response"  city-id="${view.profileCache.city}" post-id="${view.post.id}">响应</a><br/>
+				<a href="javascript:void(0);" id="robot-comment-${view.post.id}" class="robot-comment"   city-id="${view.profileCache.city}" post-id="${view.post.id}" >留言</a><br/>
+				<a href="javascript:void(0);" id="robot-interest-${view.post.id}" class="robot-interest"  city-id="${view.profileCache.city}" post-id="${view.post.id}" target-uid="${view.profileCache.uid}">关注</a><br/>
+				</td>
 				<td>
 				<a href="javascript:;" onclick="handleById('${view.post.id}')">通过</a></br>
 				<a href="javascript:;" onclick="del('${view.post.id}')">删除</a></br>
@@ -151,6 +151,13 @@ function handleById(id){
 				<c:if test="${view.post.ideaId==0}"><a href="/cms/show/idea/add?postId=${view.post.id}" >好注意</a></c:if>
 				<input type="hidden" value="${view.post.id}" name="postIds"/>
 				</td>
+				<td><c:out value="${view.profileCache.nickname}"></c:out></td>
+				<td><c:out value="${view.post.place}"></c:out></td>
+				<td><img src="${jzr:postPic(view.post.id, view.post.ideaId, view.post.pic, 200)}"  /> </td>
+				<td><fmt:formatDate value="${view.post.dateTime}"
+						pattern="yyyy-MM-dd" /></td>
+				<td><fmt:formatDate value="${view.post.createTime}"
+						pattern="yyyy-MM-dd HH:mm:ss" /></td>
 			</tr>
 		</c:forEach>
 		<tr>
@@ -168,6 +175,6 @@ function handleById(id){
 			</td>
 		</tr>
 	</table>
-	<div id="synonym"></div>
+	<script type="text/javascript" src="${jzr:static('/js/cms/common/base.js')}"></script>
 </body>
 </html>

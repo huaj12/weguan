@@ -13,7 +13,7 @@
 	function update(){
 		if(confirm("是否更新发送内容？")){
 			jQuery.ajax({
-				url : "/cms/qplug/update/content",
+				url : "/cms/qplus/update/content",
 				type : "post",
 				data :$("#pushForm").serialize(),
 				dataType : "json",
@@ -42,7 +42,7 @@
 		}
 		if(confirm(text)){
 			jQuery.ajax({
-				url : "/cms/qplug/push/stop",
+				url : "/cms/qplus/push/stop",
 				type : "post",
 				data : {
 					"type" : type
@@ -73,7 +73,7 @@
 		}
 		if(confirm(text)){
 			jQuery.ajax({
-				url : "/cms/qplug/push/start",
+				url : "/cms/qplus/push/start",
 				type : "post",
 				data :$("#pushForm").serialize(),
 				dataType : "json",
@@ -96,7 +96,7 @@
 </head>
 <body>
 <h2>q+ 消息推送 <font color="red">${msg}</font></h2>
-<form  method="post"  enctype="multipart/form-data" action="/cms/qplug/import">
+<form  method="post"  enctype="multipart/form-data" action="/cms/qplus/import">
 <select name="type">
 		<option value="add">添加</option>
 		<option value="new">新建</option>
@@ -113,7 +113,7 @@
 	<input type="text" name="text"/>
 	<a href="javascript:void(0);" onclick="update();">更新内容</a>
 </form>
-<h3><a href="/cms/qplug/state" target="_blank" >查看状态</a></h3>
+<h3><a href="/cms/qplus/state" target="_blank" >查看状态</a></h3>
 <a href="javascript:void(0);" onclick="start();">开始发送</a>
 <a href="javascript:void(0);" onclick="stop();">停止</a>
 </body>

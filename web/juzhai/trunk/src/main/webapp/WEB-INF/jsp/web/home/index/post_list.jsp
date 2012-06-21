@@ -115,8 +115,8 @@
 								<c:if test="${not empty postView.post.place}">
 									<span class="adress"><c:out value="${jzu:truncate(postView.post.place,40,'...')}"></c:out></span>
 								</c:if>
-								<c:if test="${not empty postView.useCount&&postView.useCount>0}">
-									<span><a href="/idea/${postView.post.ideaId}">还有${postView.useCount}人想去</a></span>
+								<c:if test="${not empty postView.useCount&&(postView.useCount-1)>0}">
+									<span><a href="/idea/${postView.post.ideaId}">还有${postView.useCount-1}人想去</a></span>
 								</c:if>
 							</div><!--infor end-->
 						</div><!--w_m end-->

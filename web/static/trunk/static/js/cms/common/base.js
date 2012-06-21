@@ -30,6 +30,7 @@ $(document).ready(function(){
 		var postId = $(this).attr("post-id");
 		if(text==null||text==""){
 			alert("请输入留言内容");
+			return;
 		}
 		jQuery.ajax({
 			url : "/cms/robot/comment",

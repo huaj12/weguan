@@ -22,7 +22,7 @@ public class UserContext {
 
 	private boolean admin;
 
-	public UserContext(long uid, String remoteAddress, String sessionId,
+	UserContext(long uid, String remoteAddress, String sessionId,
 			String userAgentPermanentCode, long tpId, boolean admin) {
 		super();
 		this.uid = uid;

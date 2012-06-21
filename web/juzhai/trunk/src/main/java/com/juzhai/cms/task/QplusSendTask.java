@@ -2,12 +2,12 @@ package com.juzhai.cms.task;
 
 import com.juzhai.notice.service.INoticeService;
 
-public class QplugSendTask implements Runnable {
+public class QplusSendTask implements Runnable {
 	private INoticeService noticeService;
 	private String openid;
 	private String text;
 
-	public QplugSendTask(String openid, String text,
+	public QplusSendTask(String openid, String text,
 			INoticeService noticeService) {
 		this.noticeService = noticeService;
 		this.openid = openid;
@@ -16,6 +16,6 @@ public class QplugSendTask implements Runnable {
 
 	@Override
 	public void run() {
-		noticeService.noticeQplugUser(openid, text);
+		noticeService.noticeQplusUser(openid, text);
 	}
 }

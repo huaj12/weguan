@@ -327,7 +327,7 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * 
 	 * @return
 	 */
-	public static String genQplugPushNewUserKey() {
+	public static String genQplusPushNewUserKey() {
 		return "qplugPushNewUsers";
 	}
 
@@ -336,7 +336,18 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * 
 	 * @return
 	 */
-	public static String genQplugPushOldUserKey() {
+	public static String genQplusPushOldUserKey() {
 		return "qplugPushOldUsers";
 	}
+
+	/**
+	 * 某个城市下的机器人用户
+	 * 
+	 * @param city
+	 * @return
+	 */
+	public static String genRobotUserKey(long city) {
+		return genKey(city, "robotUserKey");
+	}
+
 }

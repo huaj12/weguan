@@ -3,7 +3,10 @@
  */
 package com.juzhai.passport.service;
 
+import java.util.List;
+
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.controller.form.RegisterRobotForm;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.Passport;
@@ -139,4 +142,12 @@ public interface IRegisterService {
 	 * @return
 	 */
 	boolean activeAccount(String code);
+
+	/**
+	 * 注册机器人
+	 * 
+	 * @param forms
+	 * @return 注册成功的个数
+	 */
+	int registerRobot(List<RegisterRobotForm> forms);
 }

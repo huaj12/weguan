@@ -138,8 +138,7 @@ public class NoticeService implements INoticeService {
 	}
 
 	@Override
-	public void noticeQplugUser(String openid, String text) {
-
+	public void noticeQplusUser(String openid, String text) {
 		Thirdparty tp = InitData.TP_MAP.get(9l);
 		QPushService service = QPushService.createInstance(
 				Integer.parseInt(tp.getAppKey()), tp.getAppSecret());
@@ -162,11 +161,11 @@ public class NoticeService implements INoticeService {
 			 */
 			result = service.push(bean);
 			if (result == null || 0 != result.getIntValue("ERRCODE")) {
-				log.error("noticeQplugUser TpIdentity:" + openid
+				log.error("noticeQplusUser TpIdentity:" + openid
 						+ " errorcode:" + result);
 			}
 		} catch (IOException e) {
-			log.error("noticeQplugUser is error ", e);
+			log.error("noticeQplusUser is error ", e);
 		}
 	}
 }

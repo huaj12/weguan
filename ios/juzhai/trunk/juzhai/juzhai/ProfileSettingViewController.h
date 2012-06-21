@@ -10,12 +10,19 @@
 
 @class UserView;
 @class CustomButton;
+@class NicknameEditorViewController;
+@class ProfessionEditorViewController;
+@class FeatureEditorViewController;
 
 @interface ProfileSettingViewController : UITableViewController <UIActionSheetDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     NSArray *_settingCells;
     UIImage *_newLogo;
     CustomButton *_saveButton;
+    NicknameEditorViewController *_nicknameEditorViewController;
+    ProfessionEditorViewController *_professionEditorViewController;
+    FeatureEditorViewController *_featureEditorViewController;
+    UIDatePicker *_datePicker;
 }
 
 @property (strong, nonatomic) UserView *userView;
@@ -27,6 +34,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *professionLabel;
 @property (strong, nonatomic) IBOutlet UILabel *featureLabel;
 
-- (void) saveSingleInfo:(NSInteger)tag withValue:(NSString *)value;
+- (void) saveSingleInfo:(NSInteger)tag withValue:(NSString *)value withValueId:(NSInteger)valueId;
 - (void) initUserView:(UserView *)userView;
+
+- (IBAction)save:(id)sender;
 @end

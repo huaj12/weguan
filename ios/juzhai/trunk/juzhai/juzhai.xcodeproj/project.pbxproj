@@ -37,6 +37,9 @@
 		CB40316F15903DA200D758AF /* MessageShow.m in Sources */ = {isa = PBXBuildFile; fileRef = CB40316E15903DA200D758AF /* MessageShow.m */; };
 		CB40317A1590694700D758AF /* ProfileSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4031781590694600D758AF /* ProfileSettingViewController.m */; };
 		CB40317B1590694700D758AF /* ProfileSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB4031791590694600D758AF /* ProfileSettingViewController.xib */; };
+		CB431B291592DD5F00184E82 /* Profession.m in Sources */ = {isa = PBXBuildFile; fileRef = CB431B281592DD5F00184E82 /* Profession.m */; };
+		CB431B2E1592E05500184E82 /* ProfessionEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB431B2C1592E05500184E82 /* ProfessionEditorViewController.m */; };
+		CB431B2F1592E05500184E82 /* ProfessionEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB431B2D1592E05500184E82 /* ProfessionEditorViewController.xib */; };
 		CB4668D3156F39CE0030D655 /* CustomSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4668D2156F39CE0030D655 /* CustomSegmentedControl.m */; };
 		CB4668D6156F55800030D655 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4668D5156F55800030D655 /* CustomNavigationController.m */; };
 		CB4668D9156F5FE00030D655 /* CustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4668D8156F5FE00030D655 /* CustomButton.m */; };
@@ -91,6 +94,8 @@
 		CB87D3F015518C9C00A25129 /* juzhai.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CB87D3EE15518C9C00A25129 /* juzhai.xcdatamodeld */; };
 		CB8F09C21572217F0003018D /* IdeaListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8F09C11572217F0003018D /* IdeaListCell.m */; };
 		CB8F09C4157221A30003018D /* IdeaListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB8F09C3157221A30003018D /* IdeaListCell.xib */; };
+		CB9946FE159302530057FBB6 /* FeatureEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB9946FC159302530057FBB6 /* FeatureEditorViewController.m */; };
+		CB9946FF159302530057FBB6 /* FeatureEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB9946FD159302530057FBB6 /* FeatureEditorViewController.xib */; };
 		CBA483DA158F1B1200322D84 /* TpLoginDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CBA483D9158F1B1200322D84 /* TpLoginDelegate.m */; };
 		CBA483E2158F6B5300322D84 /* zcdl_bottom_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = CBA483E0158F6B5200322D84 /* zcdl_bottom_bg.png */; };
 		CBA483E3158F6B5300322D84 /* zcdl_or_line.png in Resources */ = {isa = PBXBuildFile; fileRef = CBA483E1158F6B5200322D84 /* zcdl_or_line.png */; };
@@ -287,6 +292,11 @@
 		CB4031771590694600D758AF /* ProfileSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileSettingViewController.h; sourceTree = "<group>"; };
 		CB4031781590694600D758AF /* ProfileSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileSettingViewController.m; sourceTree = "<group>"; };
 		CB4031791590694600D758AF /* ProfileSettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSettingViewController.xib; sourceTree = "<group>"; };
+		CB431B271592DD5F00184E82 /* Profession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profession.h; sourceTree = "<group>"; };
+		CB431B281592DD5F00184E82 /* Profession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profession.m; sourceTree = "<group>"; };
+		CB431B2B1592E05500184E82 /* ProfessionEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfessionEditorViewController.h; sourceTree = "<group>"; };
+		CB431B2C1592E05500184E82 /* ProfessionEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfessionEditorViewController.m; sourceTree = "<group>"; };
+		CB431B2D1592E05500184E82 /* ProfessionEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfessionEditorViewController.xib; sourceTree = "<group>"; };
 		CB4668D1156F39CE0030D655 /* CustomSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegmentedControl.h; sourceTree = "<group>"; };
 		CB4668D2156F39CE0030D655 /* CustomSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSegmentedControl.m; sourceTree = "<group>"; };
 		CB4668D4156F55800030D655 /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
@@ -358,6 +368,9 @@
 		CB8F09C01572217F0003018D /* IdeaListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdeaListCell.h; sourceTree = "<group>"; };
 		CB8F09C11572217F0003018D /* IdeaListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdeaListCell.m; sourceTree = "<group>"; };
 		CB8F09C3157221A30003018D /* IdeaListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IdeaListCell.xib; sourceTree = "<group>"; };
+		CB9946FB159302530057FBB6 /* FeatureEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeatureEditorViewController.h; sourceTree = "<group>"; };
+		CB9946FC159302530057FBB6 /* FeatureEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeatureEditorViewController.m; sourceTree = "<group>"; };
+		CB9946FD159302530057FBB6 /* FeatureEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeatureEditorViewController.xib; sourceTree = "<group>"; };
 		CBA483D8158F1B1200322D84 /* TpLoginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TpLoginDelegate.h; sourceTree = "<group>"; };
 		CBA483D9158F1B1200322D84 /* TpLoginDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TpLoginDelegate.m; sourceTree = "<group>"; };
 		CBA483E0158F6B5200322D84 /* zcdl_bottom_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zcdl_bottom_bg.png; sourceTree = "<group>"; };
@@ -595,6 +608,8 @@
 				CB4031791590694600D758AF /* ProfileSettingViewController.xib */,
 				CB50E4AB1591981D001D5673 /* ProfileSettingForm.xib */,
 				CBBEDFF115921B8200ECC2C2 /* NicknameEditorViewController.xib */,
+				CB431B2D1592E05500184E82 /* ProfessionEditorViewController.xib */,
+				CB9946FD159302530057FBB6 /* FeatureEditorViewController.xib */,
 			);
 			name = XIB;
 			sourceTree = "<group>";
@@ -772,6 +787,10 @@
 				CB4031781590694600D758AF /* ProfileSettingViewController.m */,
 				CBBEDFEF15921B8200ECC2C2 /* NicknameEditorViewController.h */,
 				CBBEDFF015921B8200ECC2C2 /* NicknameEditorViewController.m */,
+				CB431B2B1592E05500184E82 /* ProfessionEditorViewController.h */,
+				CB431B2C1592E05500184E82 /* ProfessionEditorViewController.m */,
+				CB9946FB159302530057FBB6 /* FeatureEditorViewController.h */,
+				CB9946FC159302530057FBB6 /* FeatureEditorViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -793,6 +812,8 @@
 				CB6B15C1157A70C800AC821F /* Category.m */,
 				CB20ECD31589B1A4002F9C93 /* JZData.h */,
 				CB20ECD41589B1A4002F9C93 /* JZData.m */,
+				CB431B271592DD5F00184E82 /* Profession.h */,
+				CB431B281592DD5F00184E82 /* Profession.m */,
 			);
 			name = Beans;
 			sourceTree = "<group>";
@@ -1436,6 +1457,8 @@
 				CB50E4A915918D16001D5673 /* Profile-Setting-Cell-Identifie.plist in Resources */,
 				CB50E4AC1591981D001D5673 /* ProfileSettingForm.xib in Resources */,
 				CBBEDFF315921B8200ECC2C2 /* NicknameEditorViewController.xib in Resources */,
+				CB431B2F1592E05500184E82 /* ProfessionEditorViewController.xib in Resources */,
+				CB9946FF159302530057FBB6 /* FeatureEditorViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1514,6 +1537,9 @@
 				CB40316F15903DA200D758AF /* MessageShow.m in Sources */,
 				CB40317A1590694700D758AF /* ProfileSettingViewController.m in Sources */,
 				CBBEDFF215921B8200ECC2C2 /* NicknameEditorViewController.m in Sources */,
+				CB431B291592DD5F00184E82 /* Profession.m in Sources */,
+				CB431B2E1592E05500184E82 /* ProfessionEditorViewController.m in Sources */,
+				CB9946FE159302530057FBB6 /* FeatureEditorViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

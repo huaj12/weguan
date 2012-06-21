@@ -27,7 +27,6 @@ import com.juzhai.common.InitData;
 import com.juzhai.core.Constants;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.exception.NeedLoginException.RunType;
-import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.controller.form.RegisterRobotForm;
 import com.juzhai.passport.exception.InterestUserException;
@@ -194,10 +193,7 @@ public class RobotService implements IRobotService {
 		form.setContent(text);
 		form.setPostId(postId);
 		form.setParentId(0);
-		// 留言会记录ip犯规次数。需要拼凑出ip
-		UserContext context = new UserContext(uid, "127.0.0.1", null, null, 0l,
-				false);
-		postCommentService.comment(context, form);
+		postCommentService.comment(uid, form);
 
 	}
 

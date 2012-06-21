@@ -40,8 +40,8 @@ public class CmsQplusPushUserController {
 	private ISchedulerService schedulerService;
 	@Autowired
 	private MessageSource messageSource;
-	public static String qplusNewUserPushText = "";
-	public static String qplusOldUserPushText = "";
+	public static String qplusNewUserPushText = null;
+	public static String qplusOldUserPushText = null;
 	public static boolean qplusNewUserPushisRunning = false;
 	public static boolean qplusOldUserPushisRunning = false;
 

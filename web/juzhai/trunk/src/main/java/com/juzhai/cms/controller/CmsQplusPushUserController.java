@@ -75,11 +75,11 @@ public class CmsQplusPushUserController {
 					}
 					redisTemplate.opsForSet().add(key, line);
 				}
+				mmap.addAttribute("msg", "upload file is success");
 			}
 		} catch (Exception e) {
 			mmap.addAttribute("msg", "upload file is error");
 		}
-		mmap.addAttribute("msg", "upload file is success");
 		return new ModelAndView("redirect:/cms/qplus/show", mmap);
 	}
 

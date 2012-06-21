@@ -30,7 +30,7 @@
 }
 
 -(void) doLogin{
-    sleep(0.5);
+    sleep(1);
     NSString *errorInfo = [LoginService useLoginName:[nameField text] byPassword:[pwdField text]];
     if(errorInfo == nil){
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TabBar" owner:self options:nil];

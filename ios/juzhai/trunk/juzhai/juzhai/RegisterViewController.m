@@ -57,7 +57,7 @@
     ASIHTTPRequest *request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/register" withParams:params];
     [request startSynchronous];
     NSError *error = [request error];
-    NSString *errorInfo;
+    NSString *errorInfo = SERVER_ERROR_INFO;
     if (!error && [request responseStatusCode] == 200){
         NSString *response = [request responseString];
         NSMutableDictionary *jsonResult = [response JSONValue];
@@ -77,16 +77,14 @@
                 self.view.window.rootViewController = startController;
                 [self.view.window makeKeyAndVisible];
             }
+            return;
         }else{
             errorInfo = [jsonResult valueForKey:@"errorInfo"];
         }
     }else{
-        errorInfo =  @"服务器忙...请稍后再试！";
         NSLog(@"error: %@", [request responseStatusMessage]);
     }
-    if(nil != errorInfo){
-        [MessageShow error:errorInfo onView:self.navigationController.view];
-    }
+    [MessageShow error:errorInfo onView:self.navigationController.view];
 }
 
 -(IBAction)regist:(id)sender{

@@ -11,6 +11,7 @@
 #import "SBJson.h"
 #import "LoginUser.h"
 #import "HttpRequestSender.h"
+#import "MessageShow.h"
 
 @interface LoginService(Private)
     
@@ -43,7 +44,7 @@
     }else{
         NSLog(@"error: %@", [request responseStatusMessage]);
     }
-    return @"服务器忙...请稍候再试！";
+    return SERVER_ERROR_INFO;
 }
 
 +(BOOL) checkLogin{

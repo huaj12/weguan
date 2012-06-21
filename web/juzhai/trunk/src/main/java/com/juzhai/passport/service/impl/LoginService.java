@@ -165,7 +165,8 @@ public class LoginService implements ILoginService {
 		}
 	}
 
-	private void updateLastLoginTime(long uid, RunType runType) {
+	@Override
+	public void updateLastLoginTime(long uid, RunType runType) {
 		Date cDate = new Date();
 		Passport updatePassport = new Passport();
 		updatePassport.setId(uid);

@@ -111,4 +111,13 @@ public interface ILoginService {
 	 */
 	void isShield(long uid, HttpServletRequest request,
 			HttpServletResponse response) throws ReportAccountException;
+
+	/**
+	 * 更新用户最后登陆时间
+	 * 
+	 * @param uid
+	 * @param runType
+	 */
+	void updateLastLoginTime(long uid, RunType runType);
+
 }

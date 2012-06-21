@@ -3662,12 +3662,13 @@ search_xz .hot{ margin-top:-10px;}
 .wel .wel_idea ul li{ width:200px; height:auto; overflow:hidden; float:left; display:inline; margin:15px; margin-bottom:0px; margin-top:20px;}
 
 .wel .wel_idea ul li p{ width:200px; height:135px; overflow:hidden; float:left;}
+.wel .wel_idea ul li p a{cursor: default;}
 .wel .wel_idea ul li span{ width:200px; height:57px; background:url(../images/web2/wel_idea_bg_r1_c3.jpg) no-repeat; overflow:hidden; float:left; overflow:hidden; position:relative;}
 .wel .wel_idea ul li span em{ display:block; color:#666; padding:0 12px; padding-top:8px;}
-.wel .wel_idea ul li span a{ color:#3E8BD9; position:absolute; right:12px; top:27px;}
+.wel .wel_idea ul li span a{ color:#3E8BD9; position:absolute; right:12px; top:27px;cursor: default;}
 .wel .wel_idea .hover span{ background:url(../images/web2/wel_idea_bg_r1_c1.jpg) no-repeat;}
 .wel .wel_idea .hover span em{ color:#fff;}
-.wel .wel_idea .hover span a{ color:#fff; }
+.wel .wel_idea .hover span a{ color:#fff; cursor: default;}
 
 
 
@@ -3677,12 +3678,13 @@ search_xz .hot{ margin-top:-10px;}
 .wel .wel_cqw ul{ float:left; margin-top:-10px;}
 .wel .wel_cqw ul li{ float:left; width:100%; margin-top:12px; padding-bottom:14px; border-bottom:1px dashed #e6e6e6; position:relative;}
 .wel .wel_cqw ul li .photo{ width:60px; height:60px; overflow:hidden; float:left;}
+.wel .wel_cqw ul li .photo a{cursor: default;}
 
 
 .wel .wel_cqw ul li p{ float:right; width:320px; line-height:20px; color:#666; font-size:12px;}
 .wel .wel_cqw ul li p font{ color:#999; font-size:12px; margin-right:5px;}
-.wel .wel_cqw ul li p a{ color:#666;}
-.wel .wel_cqw ul li p a:hover{ text-decoration:underline;}
+.wel .wel_cqw ul li p a{ color:#666;cursor: default;}
+.wel .wel_cqw ul li p a:hover{}
 
 
 
@@ -3691,16 +3693,16 @@ search_xz .hot{ margin-top:-10px;}
 .wel .wel_cqw ul li .xy_ly{ width:320px;  position:absolute; bottom:15px; right:0px;}
 
 .wel .wel_cqw ul li .xy_ly .message_s2{float:right; margin-right:10px; display:inline; margin-top:10px; }
-.wel .wel_cqw ul li .xy_ly .message_s2 a{ background:url(../images/web2/liuyan.png) no-repeat; height:16px; display:block; color:#3E8BD9; padding-left:20px; float:left; }
+.wel .wel_cqw ul li .xy_ly .message_s2 a{cursor: default; background:url(../images/web2/liuyan.png) no-repeat; height:16px; display:block; color:#3E8BD9; padding-left:20px; float:left; }
 
 .wel .wel_cqw ul li .xy_ly .like{ float:right; margin-right:15px; display:inline; margin-top:10px; cursor:pointer;}
 .wel .wel_cqw ul li .xy_ly .like span{ width:2px; overflow:hidden; height:23px; float:left;}
-.wel .wel_cqw ul li .xy_ly .like a.xy{ background:url(../images/web2/xiangyin.png) no-repeat; height:15px; display:block; color:#3E8BD9; padding-left:22px; float:left;}
+.wel .wel_cqw ul li .xy_ly .like a.xy{ cursor: default;background:url(../images/web2/xiangyin.png) no-repeat; height:15px; display:block; color:#3E8BD9; padding-left:22px; float:left;}
 .wel .wel_cqw ul li .xy_ly .like .xy_num{ float:left; height:15px; margin-left:5px; display:inline; margin-top:2px; margin-top:1px\9;}
 .wel .wel_cqw ul li .xy_ly .like .xy_num p{ height:15px; overflow:hidden;}
 .wel .wel_cqw ul li .xy_ly .like .xy_num p.l{ float:left; background:url(../images/web2/num_left.jpg) no-repeat; width:3px;}
 .wel .wel_cqw ul li .xy_ly .xy_num p.r{ width:1px; background:url(../images/web2/num_right.jpg) no-repeat; float:left;}
-.wel .wel_cqw ul li .xy_ly .xy_num a{ height:15px; padding-left:3px; padding-right:3px; display:block; background:#3E8BD9; color:#fff; font-size:10px; font-family: Arial, Helvetica, sans-serif; line-height:15px; float:left;}
+.wel .wel_cqw ul li .xy_ly .xy_num a{ cursor: default;height:15px; padding-left:3px; padding-right:3px; display:block; background:#3E8BD9; color:#fff; font-size:10px; font-family: Arial, Helvetica, sans-serif; line-height:15px; float:left;}
 
 
 

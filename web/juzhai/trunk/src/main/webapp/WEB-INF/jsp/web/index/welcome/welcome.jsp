@@ -22,8 +22,10 @@
 					<div class="top"><!--top begin-->
 						<h1></h1>
 						<div class="menu"><!--menu begin-->
+						<!-- 
 							<a href="/searchusers" title="找伴儿">找伴儿</a>
 							<a href="/showideas" title="出去玩">出去玩</a>
+						 -->	
 						</div><!--menu end-->
 						<div class="login_btn"><a href="/login" class="btn_log" title="登录">登录</a><a href="/passport/register" class="btn_res" title="注册">注册</a></div>
 						<%-- <div class="welcome_login"><p>登录:</p>
@@ -50,8 +52,8 @@
 									<ul>
 										<c:forEach items="${ideaViewList}" var="view">
 											<li>
-												<p><a href="/idea/${view.idea.id}"><img src="${jzr:ideaPic(view.idea.id,view.idea.pic, 200)}" /></a></p>
-												<span><em><c:out value="${jzu:truncate(view.idea.content,46,'...')}"></c:out></em><a href="/idea/${view.idea.id}">${view.idea.useCount}人想去</a></span>
+												<p><a href="javascript:void(0);"><img src="${jzr:ideaPic(view.idea.id,view.idea.pic, 200)}" /></a></p>
+												<span><em><c:out value="${jzu:truncate(view.idea.content,46,'...')}"></c:out></em><a href="javascript:void(0);">${view.idea.useCount}人想去</a></span>
 											</li>
 										</c:forEach>
 									</ul>
@@ -89,11 +91,11 @@
 									<ul>
 										<c:forEach items="${postView }" var="view">
 											<li>
-												<div class="photo"><a href="/home/${view.profileCache.uid}"><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,80)}" width="60" height="60"/></a></div>
-												<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:</font><a href="/post/${view.post.id}"><c:out value="${jzu:truncate(view.post.content,90,'...')}"></c:out></a></p>
+												<div class="photo"><a href="javascript:void(0);"><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,80)}" width="60" height="60"/></a></div>
+												<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:</font><a href="javascript:void(0);"><c:out value="${jzu:truncate(view.post.content,90,'...')}"></c:out></a></p>
 												<div class="xy_ly"><!--xy_ly begin-->
-												<div class="message_s2"><a href="/post/${view.post.id}">留言<c:if test="${view.post.commentCnt > 0}">(${view.post.commentCnt})</c:if></a></div>
-												<div class="like"><a href="/post/${view.post.id}" class="xy">有兴趣</a><div class="xy_num"><p class="l"></p><a href="/post/${view.post.id}">${view.post.responseCnt}</a><p class="r"></p></div></div>
+												<div class="message_s2"><a href="javascript:void(0);">留言<c:if test="${view.post.commentCnt > 0}">(${view.post.commentCnt})</c:if></a></div>
+												<div class="like"><a href="javascript:void(0);" class="xy">有兴趣</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${view.post.responseCnt}</a><p class="r"></p></div></div>
 												</div><!--xy_ly end-->
 											</li>
 										</c:forEach>

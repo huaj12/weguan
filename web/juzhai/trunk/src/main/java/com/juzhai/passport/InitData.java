@@ -4,6 +4,7 @@
 package com.juzhai.passport;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ import com.juzhai.passport.model.ThirdpartyExample;
 public class InitData {
 
 	public static final Map<Long, Thirdparty> TP_MAP = new HashMap<Long, Thirdparty>();
-	public static final Map<Long, Profession> PROFESSION_MAP = new HashMap<Long, Profession>();
+	public static final Map<Long, Profession> PROFESSION_MAP = new LinkedHashMap<Long, Profession>();
 	public static final Map<Long, Constellation> CONSTELLATION_MAP = new HashMap<Long, Constellation>();
 	@Autowired
 	private ThirdpartyMapper thirdpartyMapper;

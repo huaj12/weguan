@@ -71,7 +71,13 @@ function add(){
 <input type="submit" value="上传"/>
 </form>
 <br/>
-<form action="/cms/robot/show" method="get">查询：<select name="cityId"><c:forEach var="city" items="${citys}"><option value="${city.id }" <c:if test="${city.id==cityId}">selected="selected"</c:if> >${city.name }</option></c:forEach></select>下的机器人<input type="submit" value="查询" /></form>
+<form action="/cms/robot/show" method="get">查询：
+				<c:import url="/WEB-INF/jsp/web/common/widget/location.jsp">
+				<c:param name="provinceId" value="${provinceId}"/>
+				<c:param name="cityId" value="${cityId}"/>
+				<c:param name="townId" value=""/>
+				</c:import>
+下的机器人<input type="submit" value="查询" /></form>
 <br/>
 <input type="text" id="uid"  /><a href="javascript:void(0);" onclick="add();">添加机器人</a>
 <table border="0" cellspacing="4">
@@ -94,6 +100,7 @@ function add(){
 			</tr>
 		</c:forEach>
 	</table>
-				
+	<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />			
+	<script>new LocationWidget();</script>
 </body>
 </html>

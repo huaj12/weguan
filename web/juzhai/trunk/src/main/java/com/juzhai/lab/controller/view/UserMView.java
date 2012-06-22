@@ -10,6 +10,7 @@ public class UserMView {
 	private int birthMonth;
 	private int birthDay;
 	private String constellation;
+	private long professionId;
 	private String profession;
 	private String cityName;
 	private String townName;
@@ -136,6 +137,14 @@ public class UserMView {
 
 	public void setFeature(String feature) {
 		this.feature = feature;
+	}
+
+	public long getProfessionId() {
+		return professionId;
+	}
+
+	public void setProfessionId(long professionId) {
+		this.professionId = professionId;
 	}
 
 }

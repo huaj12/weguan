@@ -2,7 +2,6 @@ package com.juzhai.lab.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -46,6 +45,7 @@ import com.juzhai.passport.exception.ReportAccountException;
 import com.juzhai.passport.mapper.UserPositionMapper;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Constellation;
+import com.juzhai.passport.model.Profession;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Town;
 import com.juzhai.passport.model.UserPositionExample;
@@ -350,6 +350,7 @@ public class IOSController extends BaseController {
 		if (null != con) {
 			userView.setConstellation(con.getName());
 		}
+		userView.setProfessionId(profile.getProfessionId());
 		userView.setProfession(profile.getProfession());
 		userView.setInterestUserCount(interestUserService
 				.countInterestUser(userView.getUid()));
@@ -366,9 +367,26 @@ public class IOSController extends BaseController {
 		List<Map<Long, String>> mapList = new ArrayList<Map<Long, String>>(
 				categoryList.size());
 		for (Category cat : categoryList) {
-			Map<Long, String> categoryMap = new LinkedHashMap<Long, String>(2);
+			Map<Long, String> categoryMap = new HashMap<Long, String>(2);
 			categoryMap.put(cat.getId(), cat.getName());
 			mapList.add(categoryMap);
+		}
+		AjaxResult result = new AjaxResult();
+		result.setResult(mapList);
+		return result;
+	}
+
+	@RequestMapping(value = "/professionList", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult loadProfessionList(HttpServletRequest request) {
+		List<Profession> professionList = new ArrayList<Profession>(
+				com.juzhai.passport.InitData.PROFESSION_MAP.values());
+		List<Map<Long, String>> mapList = new ArrayList<Map<Long, String>>(
+				professionList.size());
+		for (Profession p : professionList) {
+			Map<Long, String> professionMap = new HashMap<Long, String>(2);
+			professionMap.put(p.getId(), p.getName());
+			mapList.add(professionMap);
 		}
 		AjaxResult result = new AjaxResult();
 		result.setResult(mapList);

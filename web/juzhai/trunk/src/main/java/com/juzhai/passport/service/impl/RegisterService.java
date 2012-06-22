@@ -492,6 +492,7 @@ public class RegisterService implements IRegisterService {
 	}
 
 	@Override
+	//TODO (review)  这个功能放在这里合适吗？
 	public int registerRobot(List<RegisterRobotForm> forms) {
 		if (CollectionUtils.isEmpty(forms)) {
 			return 0;

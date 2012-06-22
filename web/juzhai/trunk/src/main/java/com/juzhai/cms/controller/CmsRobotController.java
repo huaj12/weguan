@@ -52,12 +52,14 @@ public class CmsRobotController {
 	}
 
 	@RequestMapping(value = "/robot/show", method = RequestMethod.GET)
-	public String show(String msg, Model model, Long cityId) {
-		List<ProfileCache> profileList = robotService.listRobot(cityId);
+	public String show(String msg, Model model, Long province, Long city) {
+		List<ProfileCache> profileList = robotService.listRobot(city);
 		model.addAttribute("profileList", profileList);
 		model.addAttribute("msg", msg);
 		model.addAttribute("citys", InitData.CITY_MAP.values());
-		model.addAttribute("cityId", cityId);
+		model.addAttribute("cityId", city);
+		model.addAttribute("provinceId", province);
+
 		return "/cms/robot/show";
 	}
 

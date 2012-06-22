@@ -43,6 +43,7 @@ import com.juzhai.passport.mapper.TpUserMapper;
 import com.juzhai.passport.model.Constellation;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.PassportExample;
+import com.juzhai.passport.model.Profession;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
@@ -510,6 +511,15 @@ public class RegisterService implements IRegisterService {
 				profile.setCity(form.getCity());
 				profile.setProvince(form.getProvince());
 				profile.setTown(form.getTown());
+				if (profile.getProfessionId() > 0) {
+					Profession p = InitData.PROFESSION_MAP.get(profile
+							.getProfessionId());
+					if (null != p) {
+						profile.setProfession(p.getName());
+					}
+				}
+				profile.setConstellationId(InitData.getConstellation(
+						profile.getBirthMonth(), profile.getBirthDay()).getId());
 				profileMapper.updateByPrimaryKeySelective(profile);
 				redisTemplate.opsForSet().add(
 						RedisKeyGenerator.genRobotUserKey(form.getCity()), uid);

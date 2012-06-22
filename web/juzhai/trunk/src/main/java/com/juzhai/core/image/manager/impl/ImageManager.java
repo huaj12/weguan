@@ -3,6 +3,7 @@ package com.juzhai.core.image.manager.impl;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
@@ -374,11 +375,21 @@ public class ImageManager implements IImageManager {
 	}
 
 	public static void main(String[] s) {
+
+		Font font = null;
+		File fontFile = new File(
+				"C:\\Documents and Settings\\Administrator\\桌面\\1237653703\\DFPShaoNvW5-GB.ttf");
+		try {
+			font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Font ttfReal = font.deriveFont(Font.BOLD, 24);
 		List<MarkFont> list = new ArrayList<MarkFont>();
-		list.add(new MarkFont(84, 70, new Font(Font.SERIF, Font.ITALIC, 16),
-				Color.BLUE, "老迈Bde"));
-		list.add(new MarkFont(104, 100, new Font(Font.DIALOG_INPUT,
-				Font.ITALIC, 20), Color.gray, "不久后,你会在"));
+		list.add(new MarkFont(84, 70, ttfReal, Color.darkGray, "老迈Bde"));
+		list.add(new MarkFont(104, 100, ttfReal, Color.gray, "不久后,你会在"));
 		String content = "厕所";
 		list.add(new MarkFont(250, 100, new Font(Font.DIALOG, Font.ITALIC, 25),
 				Color.red, content));
@@ -390,7 +401,7 @@ public class ImageManager implements IImageManager {
 						"E:\\juzhai\\font\\WebContent\\images\\user\\0\\0\\5\\180\\11681245-33b4-4123-9a4a-5c1ae09195c5.jpg",
 						"D:/img/img/back.png",
 						"C:\\Documents and Settings\\Administrator\\桌面\\",
-						"xxoo.jpg", 198, 133, 0, list);
+						"1111.jpg", 198, 133, 0, list);
 	}
 
 	@Override

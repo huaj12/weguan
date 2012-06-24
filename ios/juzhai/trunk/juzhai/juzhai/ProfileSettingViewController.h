@@ -25,7 +25,7 @@
     UIDatePicker *_datePicker;
 }
 
-@property (strong, nonatomic) UserView *userView;
+//@property (strong, nonatomic) UserView *userView;
 
 @property (strong, nonatomic) IBOutlet UIImageView *logoImageView;
 @property (strong, nonatomic) IBOutlet UILabel *nicknameLabel;

@@ -12,6 +12,8 @@
 #import "LoginUser.h"
 #import "HttpRequestSender.h"
 #import "MessageShow.h"
+#import "UserContext.h"
+#import "UserView.h"
 
 @interface LoginService(Private)
     
@@ -36,6 +38,7 @@
         NSMutableDictionary *jsonResult = [response JSONValue];
         if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
             //登录成功
+            [UserContext setUserView:[UserView userConvertFromDictionary:[jsonResult valueForKey:@"result"]]];
             [loginUser save];
             return nil;
         }else{

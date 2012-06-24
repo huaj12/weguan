@@ -20,6 +20,7 @@
 #import "PostListCell.h"
 #import "PostDetailViewController.h"
 #import "ProfileSettingViewController.h"
+#import "UserContext.h"
 
 @interface HomeViewController ()
 
@@ -46,36 +47,6 @@
 - (void)showContent
 {
     //    logoView.image = [UIImage imageNamed:USER_DEFAULT_LOGO];
-    SDWebImageManager *manager = [SDWebImageManager sharedManager];
-    NSURL *imageURL = [NSURL URLWithString:_userView.logo];
-    [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
-        logoView.image = image;
-        logoView.layer.shouldRasterize = YES;
-        logoView.layer.masksToBounds = YES;
-        logoView.layer.cornerRadius = 3.0;
-    } failure:nil];
-    
-    nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:18.0];
-    if(_userView.gender.intValue == 0){
-        nicknameLabel.textColor = [UIColor redColor];
-    }else {
-        nicknameLabel.textColor = [UIColor blueColor];
-    }
-    nicknameLabel.text = _userView.nickname;
-    
-    UIImage *interestCountImage = [[UIImage imageNamed:INTEREST_COUNT_BUTTON_IMAGE]stretchableImageWithLeftCapWidth:INTEREST_COUNT_BUTTON_CAP_WIDTH topCapHeight:0.0];
-    
-    interestUserCountButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
-    [interestUserCountButton setTitle:[NSString stringWithFormat:@"关注 %d", _userView.interestUserCount.intValue] forState:UIControlStateNormal];
-    CGSize interestUserCountButtonSize = [[interestUserCountButton titleForState:UIControlStateNormal] sizeWithFont:interestUserCountButton.titleLabel.font];
-    interestUserCountButton.frame = CGRectMake(interestUserCountButton.frame.origin.x, interestUserCountButton.frame.origin.y, interestUserCountButtonSize.width + 24.0, interestUserCountButton.frame.size.height);
-    [interestUserCountButton setBackgroundImage:interestCountImage forState:UIControlStateNormal];
-    
-    interestMeCountButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
-    [interestMeCountButton setTitle:[NSString stringWithFormat:@"粉丝 %d", _userView.interestMeCount.intValue] forState:UIControlStateNormal];
-    CGSize interestMeCountButtonSize = [[interestMeCountButton titleForState:UIControlStateNormal] sizeWithFont:interestMeCountButton.titleLabel.font];
-    interestMeCountButton.frame = CGRectMake(interestUserCountButton.frame.origin.x + interestUserCountButton.frame.size.width + 10.0, interestMeCountButton.frame.origin.y, interestMeCountButtonSize.width + 24.0, interestMeCountButton.frame.size.height);
-    [interestMeCountButton setBackgroundImage:interestCountImage forState:UIControlStateNormal];
     
     postTableView.delegate = self;
     postTableView.dataSource = self;
@@ -116,12 +87,12 @@
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
                 NSDictionary *result = [jsonResult valueForKey:@"result"];
                 
-                NSDictionary *userInfo = [result valueForKey:@"userView"];
-                if(_userView == nil){
-                    _userView = [UserView userConvertFromDictionary:userInfo];
-                }else {
-                    [_userView updateUserInfo:userInfo];
-                }
+//                NSDictionary *userInfo = [result valueForKey:@"userView"];
+//                if(_userView == nil){
+//                    _userView = [UserView userConvertFromDictionary:userInfo];
+//                }else {
+//                    [_userView updateUserInfo:userInfo];
+//                }
                 if(_data == nil){
                     _data = [[JZData alloc] init];
                 }
@@ -150,11 +121,44 @@
 {
     [super viewDidLoad];
     [self refresh];
-    //隐藏下方线条
     UIView *view = [UIView new];
     view.backgroundColor = [UIColor clearColor];
     [postTableView setTableFooterView:view];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    _userView = [UserContext getUserView];
     
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    NSURL *imageURL = [NSURL URLWithString:_userView.logo];
+    [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
+        logoView.image = image;
+        logoView.layer.shouldRasterize = YES;
+        logoView.layer.masksToBounds = YES;
+        logoView.layer.cornerRadius = 3.0;
+    } failure:nil];
+    
+    nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:18.0];
+    if(_userView.gender.intValue == 0){
+        nicknameLabel.textColor = [UIColor redColor];
+    }else {
+        nicknameLabel.textColor = [UIColor blueColor];
+    }
+    nicknameLabel.text = _userView.nickname;
+    
+    UIImage *interestCountImage = [[UIImage imageNamed:INTEREST_COUNT_BUTTON_IMAGE]stretchableImageWithLeftCapWidth:INTEREST_COUNT_BUTTON_CAP_WIDTH topCapHeight:0.0];
+    
+    interestUserCountButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
+    [interestUserCountButton setTitle:[NSString stringWithFormat:@"关注 %d", _userView.interestUserCount.intValue] forState:UIControlStateNormal];
+    CGSize interestUserCountButtonSize = [[interestUserCountButton titleForState:UIControlStateNormal] sizeWithFont:interestUserCountButton.titleLabel.font];
+    interestUserCountButton.frame = CGRectMake(interestUserCountButton.frame.origin.x, interestUserCountButton.frame.origin.y, interestUserCountButtonSize.width + 24.0, interestUserCountButton.frame.size.height);
+    [interestUserCountButton setBackgroundImage:interestCountImage forState:UIControlStateNormal];
+    
+    interestMeCountButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
+    [interestMeCountButton setTitle:[NSString stringWithFormat:@"粉丝 %d", _userView.interestMeCount.intValue] forState:UIControlStateNormal];
+    CGSize interestMeCountButtonSize = [[interestMeCountButton titleForState:UIControlStateNormal] sizeWithFont:interestMeCountButton.titleLabel.font];
+    interestMeCountButton.frame = CGRectMake(interestUserCountButton.frame.origin.x + interestUserCountButton.frame.size.width + 10.0, interestMeCountButton.frame.origin.y, interestMeCountButtonSize.width + 24.0, interestMeCountButton.frame.size.height);
+    [interestMeCountButton setBackgroundImage:interestCountImage forState:UIControlStateNormal];
 }
 
 - (void)viewDidUnload

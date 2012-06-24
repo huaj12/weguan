@@ -247,6 +247,7 @@
 		CBF5611C155E2DE3006A03E6 /* IdeaView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBF5611B155E2DE3006A03E6 /* IdeaView.m */; };
 		CBF56126155E51B0006A03E6 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBF56125155E51B0006A03E6 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CBF5612E155EA774006A03E6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBF5612C155EA752006A03E6 /* QuartzCore.framework */; };
+		CBF9484F1594C06100543F67 /* UserContext.m in Sources */ = {isa = PBXBuildFile; fileRef = CBF9484E1594C06100543F67 /* UserContext.m */; };
 		CBFCBE5A156CC38B006A97A8 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBFCBE59156CC38B006A97A8 /* ImageIO.framework */; };
 		CBFCBE5C156CC39A006A97A8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBFCBE5B156CC39A006A97A8 /* MapKit.framework */; };
 		CBFF441B1577BB930089401C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB87D3DE15518C9C00A25129 /* CoreGraphics.framework */; };
@@ -575,6 +576,8 @@
 		CBF56124155E51B0006A03E6 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		CBF56125155E51B0006A03E6 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		CBF5612C155EA752006A03E6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		CBF9484D1594C06100543F67 /* UserContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserContext.h; sourceTree = "<group>"; };
+		CBF9484E1594C06100543F67 /* UserContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserContext.m; sourceTree = "<group>"; };
 		CBFCBE59156CC38B006A97A8 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		CBFCBE5B156CC39A006A97A8 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -636,6 +639,8 @@
 			children = (
 				CB3E04461552638C0069DE30 /* LoginService.h */,
 				CB3E04471552638C0069DE30 /* LoginService.m */,
+				CBF9484D1594C06100543F67 /* UserContext.h */,
+				CBF9484E1594C06100543F67 /* UserContext.m */,
 			);
 			name = Service;
 			sourceTree = "<group>";
@@ -1556,6 +1561,7 @@
 				CB431B291592DD5F00184E82 /* Profession.m in Sources */,
 				CB431B2E1592E05500184E82 /* ProfessionEditorViewController.m in Sources */,
 				CB9946FE159302530057FBB6 /* FeatureEditorViewController.m in Sources */,
+				CBF9484F1594C06100543F67 /* UserContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

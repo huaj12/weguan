@@ -859,27 +859,33 @@ public class PostService implements IPostService {
 	@Override
 	public List<Post> listUnhandlePost(long city, int firstResult,
 			int maxResults) {
-		return cmsListPost(city, VerifyType.RAW, firstResult, maxResults);
+		return cmsListPost(city, null, VerifyType.RAW, firstResult, maxResults);
 	}
 
 	@Override
 	public List<Post> listShieldPost(long city, int firstResult, int maxResults) {
-		return cmsListPost(city, VerifyType.SHIELD, firstResult, maxResults);
+		return cmsListPost(city, null, VerifyType.SHIELD, firstResult,
+				maxResults);
 	}
 
 	@Override
-	public List<Post> listHandlePost(long city, int firstResult, int maxResults) {
-		return cmsListPost(city, VerifyType.QUALIFIED, firstResult, maxResults);
+	public List<Post> listHandlePost(long city, Integer gender,
+			int firstResult, int maxResults) {
+		return cmsListPost(city, gender, VerifyType.QUALIFIED, firstResult,
+				maxResults);
 	}
 
-	private List<Post> cmsListPost(long city, VerifyType verifyType,
-			int firstResult, int maxResults) {
+	private List<Post> cmsListPost(long city, Integer gender,
+			VerifyType verifyType, int firstResult, int maxResults) {
 		PostExample example = new PostExample();
 		PostExample.Criteria criteria = example.createCriteria();
 		criteria.andVerifyTypeEqualTo(verifyType.getType()).andDefunctEqualTo(
 				false);
 		if (city > 0) {
 			criteria.andUserCityEqualTo(city);
+		}
+		if (gender != null) {
+			criteria.andUserGenderEqualTo(gender);
 		}
 		example.setOrderByClause("create_time desc");
 		example.setLimit(new Limit(firstResult, maxResults));
@@ -888,24 +894,27 @@ public class PostService implements IPostService {
 
 	@Override
 	public int countUnhandlePost(long city) {
-		return cmsCountPost(VerifyType.RAW, city);
+		return cmsCountPost(VerifyType.RAW, city, null);
 	}
 
 	@Override
 	public int countShieldPost(long city) {
-		return cmsCountPost(VerifyType.SHIELD, city);
+		return cmsCountPost(VerifyType.SHIELD, city, null);
 	}
 
 	@Override
-	public int countHandlePost(long city) {
-		return cmsCountPost(VerifyType.QUALIFIED, city);
+	public int countHandlePost(long city, Integer gender) {
+		return cmsCountPost(VerifyType.QUALIFIED, city, gender);
 	}
 
-	private int cmsCountPost(VerifyType verifyType, long city) {
+	private int cmsCountPost(VerifyType verifyType, long city, Integer gender) {
 		PostExample example = new PostExample();
 		PostExample.Criteria criteria = example.createCriteria();
 		if (city > 0) {
 			criteria.andUserCityEqualTo(city);
+		}
+		if (gender != null) {
+			criteria.andUserGenderEqualTo(gender);
 		}
 		criteria.andVerifyTypeEqualTo(verifyType.getType()).andDefunctEqualTo(
 				false);

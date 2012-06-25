@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.post.bean.PostResult;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
@@ -34,6 +36,36 @@ public class PostViewHelper {
 			postView.setPost(post);
 			postView.setProfileCache(profileService.getProfileCacheByUid(post
 					.getCreateUid()));
+			if (post.getIdeaId() != null && post.getIdeaId() > 0) {
+				Idea idea = ideaService.getIdeaById(post.getIdeaId());
+				postView.setUseCount(idea.getUseCount());
+			}
+			if (context != null && context.getUid() > 0) {
+				postView.setHasResponse(postService.isResponsePost(
+						context.getUid(), post.getId()));
+				postView.setHasInterest(interestUserService.isInterest(
+						context.getUid(), post.getCreateUid()));
+			}
+			postViewList.add(postView);
+		}
+		return postViewList;
+	}
+
+	public List<PostView> assembleUserPostViewList(UserContext context,
+			PostResult result) {
+		List<PostView> postViewList = new ArrayList<PostView>();
+		for (Post post : result.getPosts()) {
+			long uid = post.getCreateUid();
+			PostView postView = new PostView();
+			postView.setPost(post);
+			postView.setProfileCache(profileService.getProfileCacheByUid(uid));
+			if (result.getProfileMap() != null) {
+				Profile profile = result.getProfileMap().get(uid);
+				if (profile != null && profile.getLastWebLoginTime() != null) {
+					postView.setLastWebLoginTime(result.getProfileMap()
+							.get(uid).getLastWebLoginTime());
+				}
+			}
 			if (post.getIdeaId() != null && post.getIdeaId() > 0) {
 				Idea idea = ideaService.getIdeaById(post.getIdeaId());
 				postView.setUseCount(idea.getUseCount());

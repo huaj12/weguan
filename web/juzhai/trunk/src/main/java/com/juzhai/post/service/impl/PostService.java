@@ -50,6 +50,7 @@ import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.service.ISynchronizeService;
 import com.juzhai.post.InitData;
+import com.juzhai.post.bean.PostResult;
 import com.juzhai.post.bean.PurposeType;
 import com.juzhai.post.bean.SynchronizeWeiboTemplate;
 import com.juzhai.post.bean.VerifyType;
@@ -705,15 +706,19 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public List<Post> listNewestPost(long uid, Long cityId, Long townId,
+	public PostResult listNewOrOnlinePosts(long uid, Long cityId, Long townId,
 			Integer gender, ShowPostOrder order, int firstResult, int maxResults) {
+		PostResult result = new PostResult();
 		ProfileExample example = getNewestPostExample(uid, cityId, townId,
 				gender);
 		example.setLimit(new Limit(firstResult, maxResults));
 		example.setOrderByClause(order.getColumn() + " desc");
 		List<Profile> profileList = profileMapper.selectByExample(example);
 		List<Long> uidList = new ArrayList<Long>();
+		Map<Long, Profile> profileMap = new HashMap<Long, Profile>(
+				profileList.size());
 		for (Profile profile : profileList) {
+			profileMap.put(profile.getUid(), profile);
 			uidList.add(profile.getUid());
 		}
 		Map<Long, Post> postMap = getMultiUserLatestPosts(uidList);
@@ -724,7 +729,9 @@ public class PostService implements IPostService {
 				postList.add(post);
 			}
 		}
-		return postList;
+		result.setPosts(postList);
+		result.setProfileMap(profileMap);
+		return result;
 	}
 
 	@Override

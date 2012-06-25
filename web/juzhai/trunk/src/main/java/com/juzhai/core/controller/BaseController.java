@@ -21,6 +21,7 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.ErrorPageDispatcher;
 import com.juzhai.core.web.filter.CheckLoginFilter;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.home.bean.ShowPostOrder;
 import com.juzhai.home.controller.view.RecommendUserView;
 import com.juzhai.home.controller.view.VisitorView;
 import com.juzhai.home.service.IBlacklistService;
@@ -307,7 +308,7 @@ public class BaseController {
 		List<PostView> listView = new ArrayList<PostView>();
 		if (context.hasLogin()) {
 			List<Post> list = postService.listNewestPost(context.getUid(),
-					city, null, null, 0, count);
+					city, null, null, ShowPostOrder.NEW, 0, count);
 			for (Post post : list) {
 				ProfileCache cache = profileService.getProfileCacheByUid(post
 						.getCreateUid());

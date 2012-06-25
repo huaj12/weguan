@@ -39,18 +39,32 @@
 											<p>没想好去哪玩？试试这个</p>
 											<a href="javascript:void(0);"></a>
 										</div><!--tips end-->
+										<div class="send_box"><!--send_box begin-->
+											<jsp:include page="send_post.jsp" />
+										</div>
 									</c:when>
 									<c:otherwise>
-										<div class="lock"><!--lock begin-->
-											<a href="/profile/index/face">
-											<img src="${jzr:static('/images/web2/bunengfabu.jpg')}" />
-											</a>
-										</div><!--lock end-->
+										<div class="trip_sc_area"><!--trip_sc_area begin-->
+										<div class="img">
+											<a href="/profile/index/face"><img src="${jzr:static('/images/web2/face_120.jpg')}"/></a>
+										</div>
+										<h2>发布第1个拒宅之前，先上传一张头像吧</h2>
+										<c:choose>
+											<c:when test="${loginUser.logoVerifyState==0}">
+													<p>在拒宅网，平均每条拒宅信息都能收到2.2条回应<br />
+													平均每天有512人发布拒宅，找伴出去玩
+													</p>	
+											</c:when>
+											<c:otherwise>
+											<p>您头像未能通过审核，请上传一张真实照片吧<br />
+												没有真实头像，您发的消息很难收到反馈哦
+											</p>
+											</c:otherwise>
+										</c:choose>
+										<a href="/profile/index/face">去上传头像</a>
+										</div><!--trip_sc_area end-->
 									</c:otherwise>
 								</c:choose>
-								<div class="send_box"><!--send_box begin-->
-									<jsp:include page="send_post.jsp" />
-								</div>
 							</div>
 							<div class="t"></div>
 						</div><!--content end-->
@@ -63,7 +77,6 @@
 						</div><!--content end-->
 					</div><!--main_left end-->
 					<div class="main_right"><!--main_right begin-->
-						<jsp:include page="/WEB-INF/jsp/web/home/index/home_logo.jsp" />
 						<jsp:include page="/WEB-INF/jsp/web/home/index/idea_widget.jsp" />
 						<jsp:include page="/WEB-INF/jsp/web/home/common/visitor_widget.jsp" />
 						<jsp:include page="/WEB-INF/jsp/web/search/common/search_post_input.jsp" />

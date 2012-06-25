@@ -154,16 +154,14 @@
 															<c:set var="townName" value="${jzd:townName(view.profile.town)}" />
 															<c:set var="age" value="${jzu:age(view.profile.birthYear,view.profile.birthSecret)}" />
 															<c:set var="constellationName" value="${jzd:constellationName(view.profile.constellationId)}" />
-															<em><c:if test="${age > 0}">${age}岁&nbsp;</c:if><c:if test="${not empty cityName}">${cityName}<c:if test="${not empty townName}">${townName}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty view.profile.profession}">${view.profile.profession}</c:if></em>
+															<b><c:if test="${age > 0}">${age}岁&nbsp;</c:if><c:if test="${not empty cityName}">${cityName}<c:if test="${not empty townName}">${townName}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty view.profile.profession}">${view.profile.profession}</c:if></b>
 															<div class="zbq"><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import></font><a href="/post/${view.post.id}"><c:out value="${jzu:truncate(view.post.content,50,'...')}"></c:out></a></div>
 															<c:choose>
-																<c:when test="${!empty view.online && view.online}"><b class="online">当前在线</b></c:when>
+																<c:when test="${!empty view.online && view.online}"><em class="on">当前在线</em></c:when>
 																<c:otherwise>
-																	<b class="offline">
 																		<c:if test="${view.lastWebLoginTime != null}">
-																			<c:set var="date" value="${view.lastWebLoginTime}" scope="request"/><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />来访
+																			<c:set var="date" value="${view.lastWebLoginTime}" scope="request"/><c:import url="/WEB-INF/jsp/web/common/fragment/show_login_time.jsp" />来访
 																		</c:if>
-																	</b>
 																</c:otherwise>
 															</c:choose>
 															<c:if test="${context.uid != view.profile.uid}">

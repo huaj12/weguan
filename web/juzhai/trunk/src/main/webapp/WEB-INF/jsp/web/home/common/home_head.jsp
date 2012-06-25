@@ -16,14 +16,12 @@
 				<c:if test="${context.uid != profile.uid}">
 					<c:choose>
 						<c:when test="${online}">
-							<em class="online">当前在线</em>
+							<em class="on">当前在线</em>
 						</c:when>
 						<c:otherwise>
-							<em class="offline">
 								<c:if test="${profile.lastWebLoginTime != null}">
-									<c:set var="date" value="${profile.lastWebLoginTime}" scope="request"/><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />来访
+									<c:set var="date" value="${profile.lastWebLoginTime}" scope="request"/><c:import url="/WEB-INF/jsp/web/common/fragment/show_login_time.jsp" />来访
 								</c:if>
-							</em>	
 						</c:otherwise>
 					</c:choose>
 				</c:if>

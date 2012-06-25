@@ -21,6 +21,7 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.ShowPostOrder;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.post.bean.PostResult;
 import com.juzhai.post.controller.helper.PostViewHelper;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Post;
@@ -40,8 +41,7 @@ public class HomeController extends BaseController {
 	private IRecommendPostService recommendPostService;
 	@Autowired
 	private IUserPreferenceService userPreferenceService;
-	//TODO (review) 这个autowired空的？
-	@Autowired
+	// TODO (done) 这个autowired空的？
 	@Value("${web.home.post.max.rows}")
 	private int webHomePostMaxRows;
 	@Value("${web.home.right.user.rows}")
@@ -109,15 +109,15 @@ public class HomeController extends BaseController {
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
 				postService.countNewestPost(context.getUid(), cityId, townId,
 						gender));
-		List<Post> postList = null;
+		PostResult result = null;
 		if (pager.getTotalResults() > 0) {
-			postList = postService.listNewestPost(context.getUid(), cityId,
+			result = postService.listNewOrOnlinePosts(context.getUid(), cityId,
 					townId, gender, order, pager.getFirstResult(),
 					pager.getMaxResult());
 		} else {
 			List<Post> recommendPostList = recommendPostService
 					.listRecommendPost(webHomePostMaxRows);
-			postList = new ArrayList<Post>();
+			List<Post> postList = new ArrayList<Post>();
 			if (CollectionUtils.isNotEmpty(recommendPostList)) {
 				for (Post post : recommendPostList) {
 					if (post.getCreateUid() != context.getUid()) {
@@ -125,9 +125,11 @@ public class HomeController extends BaseController {
 					}
 				}
 			}
+			result = new PostResult();
+			result.setPosts(postList);
 		}
 		List<PostView> postViewList = postViewHelper.assembleUserPostViewList(
-				context, postList);
+				context, result);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
 		model.addAttribute("cityId", cityId);

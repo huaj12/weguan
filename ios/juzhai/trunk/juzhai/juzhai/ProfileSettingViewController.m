@@ -63,7 +63,7 @@
         UserView *userView = [UserContext getUserView];
         
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        NSURL *imageURL = [NSURL URLWithString:userView.logo];
+        NSURL *imageURL = [NSURL URLWithString:userView.rawLogo];
         [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
             logoImageView.image = image;
             logoImageView.layer.shouldRasterize = YES;
@@ -112,6 +112,7 @@
 -(void) initUserView:(UserView *)newUserView{
     if (nil != _saveButton) {
         _saveButton.enabled = NO;
+        _newLogo = nil;
     }
 //    self.userView = newUserView;
 }
@@ -123,43 +124,52 @@
     NSLog(@"%@", featureLabel.text);
     NSLog(@"%d", professionLabel.tag);
     NSLog(@"%@", professionLabel.text);
-    [UserContext getUserView].nickname = nicknameLabel.text;
     
-//    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:nicknameLabel.text, @"nickname", birthLabel.text, @"birth", featureLabel.text, @"feature", [NSNumber numberWithInt:professionLabel.tag], @"professionId", professionLabel.text, @"profession", nil];
-//    ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/updateProfile" withParams:params];
-//    if (_newLogo != nil) {
-//        CGFloat compression = 0.9f;
-//        CGFloat maxCompression = 0.1f;
-//        int maxFileSize = 2*1024*1024;
-//        
-//        NSData *imageData = UIImageJPEGRepresentation(_newLogo, compression);
-//        while ([imageData length] > maxFileSize && compression > maxCompression){
-//            compression -= 0.1;
-//            imageData = UIImageJPEGRepresentation(_newLogo, compression);
-//        }
-//        [request setData:imageData withFileName:@"logo.jpg" andContentType:@"image/jpeg" forKey:@"photo"];
-//    }
-//    [request startSynchronous];
-//    NSError *error = [request error];
-//    NSString *errorInfo = SERVER_ERROR_INFO;
-//    if (!error && [request responseStatusCode] == 200){
-//        NSString *response = [request responseString];
-//        NSMutableDictionary *jsonResult = [response JSONValue];
-//        if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
-//            //保存成功
-//            _saveButton.enabled = NO;
-//            hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-//            hud.mode = MBProgressHUDModeCustomView;
-//            hud.labelText = @"保存成功";
-//            sleep(1);
-//            return;
-//        }else{
-//            errorInfo = [jsonResult valueForKey:@"errorInfo"];
-//        }
-//    }else{
-//        NSLog(@"error: %@", [request responseStatusMessage]);
-//    }
-//    [MessageShow error:errorInfo onView:self.navigationController.view];
+    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:nicknameLabel.text, @"nickname", birthLabel.text, @"birth", featureLabel.text, @"feature", [NSNumber numberWithInt:professionLabel.tag], @"professionId", professionLabel.text, @"profession", nil];
+    ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/profile/save" withParams:params];
+    if (_newLogo != nil) {
+        CGFloat compression = 0.9f;
+        CGFloat maxCompression = 0.1f;
+        int maxFileSize = 2*1024*1024;
+        
+        NSData *imageData = UIImageJPEGRepresentation(_newLogo, compression);
+        while ([imageData length] > maxFileSize && compression > maxCompression){
+            compression -= 0.1;
+            imageData = UIImageJPEGRepresentation(_newLogo, compression);
+        }
+        [request setData:imageData withFileName:@"logo.jpg" andContentType:@"image/jpeg" forKey:@"logo"];
+    }
+    [request startSynchronous];
+    NSError *error = [request error];
+    NSString *errorInfo = SERVER_ERROR_INFO;
+    if (!error && [request responseStatusCode] == 200){
+        NSString *response = [request responseString];
+        NSMutableDictionary *jsonResult = [response JSONValue];
+        if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
+            //保存成功
+            _saveButton.enabled = NO;
+            [[UserContext getUserView] updateUserInfo:[jsonResult valueForKey:@"result"]];
+//            [UserContext getUserView].nickname = nicknameLabel.text;
+//            [UserContext getUserView].feature = featureLabel.text;
+//            [UserContext getUserView].profession = professionLabel.text;
+//            [UserContext getUserView].professionId = [[NSDecimalNumber alloc] initWithInt:professionLabel.tag];
+//            NSArray *birth = [birthLabel.text componentsSeparatedByString:@"-"];
+//            [UserContext getUserView].birthYear = [birth objectAtIndex:0];
+//            [UserContext getUserView].birthMonth = [birth objectAtIndex:1];
+//            [UserContext getUserView].birthDay = [birth objectAtIndex:2];
+            
+            hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+            hud.mode = MBProgressHUDModeCustomView;
+            hud.labelText = @"保存成功";
+            sleep(1);
+            return;
+        }else{
+            errorInfo = [jsonResult valueForKey:@"errorInfo"];
+        }
+    }else{
+        NSLog(@"error: %@", [request responseStatusMessage]);
+    }
+    [MessageShow error:errorInfo onView:self.navigationController.view];
 }
 
 - (IBAction)save:(id)sender{
@@ -306,7 +316,9 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     [picker dismissModalViewControllerAnimated:YES];
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    _newLogo = image;
     logoImageView.image = image;
+    
     _saveButton.enabled = YES;
 }
 

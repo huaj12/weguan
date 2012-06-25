@@ -15,6 +15,8 @@
 @synthesize nickname;
 @synthesize gender;
 @synthesize logo;
+@synthesize rawLogo;
+@synthesize logoVerifyState;
 @synthesize birthYear;
 @synthesize birthMonth;
 @synthesize birthDay;
@@ -43,6 +45,8 @@
     self.nickname = [info valueForKey:@"nickname"];
     self.gender = [info valueForKey:@"gender"];
     self.logo = [info valueForKey:@"logo"];
+    self.rawLogo = [info valueForKey:@"newLogo"];
+    self.logoVerifyState = [info valueForKey:@"logoVerifyState"];
     self.birthYear = [info valueForKey:@"birthYear"];
     self.birthMonth = [info valueForKey:@"birthMonth"];
     self.birthDay = [info valueForKey:@"birthDay"];

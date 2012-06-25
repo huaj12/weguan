@@ -21,6 +21,7 @@
 #import "PostDetailViewController.h"
 #import "ProfileSettingViewController.h"
 #import "UserContext.h"
+#import "Pager.h"
 
 @interface HomeViewController ()
 
@@ -48,11 +49,8 @@
 {
     //    logoView.image = [UIImage imageNamed:USER_DEFAULT_LOGO];
     
-    postTableView.delegate = self;
-    postTableView.dataSource = self;
     [postTableView reloadData];
     //    postTableView.hidden = YES;
-    postTableView.separatorColor = [UIColor greenColor];
     
     //    UILabel * label = [[UILabel alloc] init];
     //    label.frame = CGRectMake(10, 7, postTableView.bounds.size.width, 11);
@@ -68,15 +66,15 @@
     //    postTableView.tableHeaderView = sectionView;
 }
 
-- (void)refresh
-{
-    // Do any additional setup after loading the view from its nib.
-    
+- (void) loadListDataWithPage:(NSInteger)page{
+    if(page <= 0){
+        page = 1;
+    }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         sleep(1);
-        NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:1], @"page", nil];
+        NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
         __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/home" withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
@@ -87,27 +85,21 @@
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
                 NSDictionary *result = [jsonResult valueForKey:@"result"];
                 
-//                NSDictionary *userInfo = [result valueForKey:@"userView"];
-//                if(_userView == nil){
-//                    _userView = [UserView userConvertFromDictionary:userInfo];
-//                }else {
-//                    [_userView updateUserInfo:userInfo];
-//                }
+                NSDictionary *pagerInfo = [result valueForKey:@"pager"];
                 if(_data == nil){
-                    _data = [[JZData alloc] init];
+                    _data = [[JZData alloc] initWithPager:[Pager pagerConvertFromDictionary:pagerInfo]];
+                }else {
+                    [_data.pager updatePagerFromDictionary:pagerInfo];
+                    if(_data.pager.currentPage == 1){
+                        [_data clear];
+                    }
                 }
                 NSMutableArray *postViewList = [result valueForKey:@"postViewList"];
-                
-                NSNumber *currentPage = [[result valueForKey:@"pager"] valueForKey:@"currentPage"];
-                if([currentPage intValue] == 1){
-                    [_data clear];
-                }
-                _postTotalCount = [[[result valueForKey:@"pager"] valueForKey:@"totalResults"] intValue];
                 for (int i = 0; i < postViewList.count; i++) {
                     PostView *postView = [PostView postConvertFromDictionary:[postViewList objectAtIndex:i]];
                     [_data addObject:postView withIdentity:postView.postId];
                 }
-                [self showContent];
+                [postTableView reloadData];
             }
         }];
         [request setFailedBlock:^{
@@ -120,17 +112,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self refresh];
+    postTableView.delegate = self;
+    postTableView.dataSource = self;
+    postTableView.separatorColor = [UIColor greenColor];
     UIView *view = [UIView new];
     view.backgroundColor = [UIColor clearColor];
     [postTableView setTableFooterView:view];
+    [self loadListDataWithPage:1];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     _userView = [UserContext getUserView];
     
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
-    NSURL *imageURL = [NSURL URLWithString:_userView.logo];
+    NSURL *imageURL = [NSURL URLWithString:_userView.rawLogo];
     [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
         logoView.image = image;
         logoView.layer.shouldRasterize = YES;
@@ -182,42 +177,86 @@
     [self.navigationController pushViewController:_profileSettingViewController animated:YES];
 }
 
+-(IBAction)nextPage:(id)sender{
+    UIButton *moreButton = (UIButton *)sender;
+    UITableViewCell *cell = (UITableViewCell *)moreButton.superview;
+    [moreButton setHidden:YES];
+    UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:2];
+    [spinner startAnimating];
+    [self loadListDataWithPage:_data.pager.currentPage + 1];
+}
+
 #pragma mark -
 #pragma mark Table View Data Source
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _data.count;
+    int count = _data.count;
+    if (_data.pager.hasNext) {
+        count += 1;
+    }
+    return count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSString *postListCellIdentifier = @"PostListCellIdentifier";
-    
-    PostListCell *cell = [tableView dequeueReusableCellWithIdentifier:postListCellIdentifier];
-    if(cell == nil){
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"PostListCell" owner:self options:nil];
-        for(id oneObject in nib){
-            if([oneObject isKindOfClass:[PostListCell class]]){
-                cell = (PostListCell *) oneObject;
-            }
+    if (_data.pager.hasNext && indexPath.row == [_data count]) {
+        static NSString *PagerCellIdentifier = @"PagerCellIdentifier";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PagerCellIdentifier];
+        if(cell == nil){
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:PagerCellIdentifier];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            moreButton.frame = CGRectMake(0, 0, 320, 30);
+            [moreButton setBackgroundImage:[UIImage imageNamed:@"idea_more_btn.png"] forState:UIControlStateNormal];
+            [moreButton setTitle:@"查看更多" forState:UIControlStateNormal];
+            [moreButton addTarget:self action:@selector(nextPage:) forControlEvents:UIControlEventTouchUpInside];
+            moreButton.tag = 1;
+            [cell addSubview:moreButton];
+            
+            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            spinner.tag = 2;
+            [cell addSubview:spinner];
+            [spinner setCenter:CGPointMake(160, 15)];
+        }else {
+            UIButton *button = (UIButton *)[cell viewWithTag:1];
+            [button setHidden:NO];
+            UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:2];
+            [spinner stopAnimating];
         }
-        [cell setBackground];
+        return cell;
+    }else {
+        NSString *postListCellIdentifier = @"PostListCellIdentifier";
+        PostListCell *cell = [tableView dequeueReusableCellWithIdentifier:postListCellIdentifier];
+        if(cell == nil){
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"PostListCell" owner:self options:nil];
+            for(id oneObject in nib){
+                if([oneObject isKindOfClass:[PostListCell class]]){
+                    cell = (PostListCell *) oneObject;
+                }
+            }
+            [cell setBackground];
+        }
+        
+        PostView *postView = (PostView *)[_data objectAtIndex:indexPath.row];
+        [cell redrawn:postView];
+        [cell sizeToFit];
+        return cell;
     }
-    
-    PostView *postView = (PostView *)[_data objectAtIndex:indexPath.row];
-    [cell redrawn:postView];
-    [cell sizeToFit];
-    return cell;
 }
 
 - (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    return [NSString stringWithFormat:TABLE_HEAD_TITLE, _postTotalCount];
+    return [NSString stringWithFormat:TABLE_HEAD_TITLE, _data.pager.totalResults];
 }
 
 #pragma mark -
 #pragma mark Table View Deletage
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [PostListCell heightForCell:[_data objectAtIndex:indexPath.row]];
+    if (_data.pager.hasNext && indexPath.row == [_data count]) {
+        return 30.0;
+    }else {
+        return [PostListCell heightForCell:[_data objectAtIndex:indexPath.row]];
+    }
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -245,11 +284,14 @@
 }
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    PostDetailViewController *postDetailViewController = [[PostDetailViewController alloc] initWithNibName:@"PostDetailViewController" bundle:nil];
-    postDetailViewController.hidesBottomBarWhenPushed = YES;
-    _userView.post = [_data objectAtIndex:indexPath.row];
-    postDetailViewController.userView = _userView;
-    [self.navigationController pushViewController:postDetailViewController animated:YES];
+    if (indexPath.row < [_data count]) {
+        PostDetailViewController *postDetailViewController = [[PostDetailViewController alloc] initWithNibName:@"PostDetailViewController" bundle:nil];
+        postDetailViewController.hidesBottomBarWhenPushed = YES;
+        _userView.post = [_data objectAtIndex:indexPath.row];
+        postDetailViewController.userView = _userView;
+        [self.navigationController pushViewController:postDetailViewController animated:YES];
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

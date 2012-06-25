@@ -8,14 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
+@class Pager;
+
 @interface JZData : NSObject
 {
     NSMutableSet *_identitySet;
     NSMutableArray *_data;
 }
 
--(NSInteger) count;
--(void) addObject:(id)object withIdentity:(id)identity;
--(void) clear;
+@property (strong, nonatomic) Pager *pager;
+
+- (id)initWithPager:(Pager *)pager;
+- (NSInteger)count;
+- (void)addObject:(id)object withIdentity:(id)identity;
+- (void)clear;
 - (id)objectAtIndex:(NSUInteger)index;
 @end

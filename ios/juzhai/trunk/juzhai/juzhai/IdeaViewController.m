@@ -21,6 +21,7 @@
 #import "MBProgressHUD.h"
 #import "BaseData.h"
 #import "IdeaDetailViewController.h"
+#import "Pager.h"
 
 @interface IdeaViewController (Private)
 - (void) loadListDataWithPage:(NSInteger)page;
@@ -135,25 +136,29 @@
         }else {
             orderType = @"pop";
         }
-        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:categoryId], @"categoryId",orderType, @"orderType", [NSNumber numberWithInt:1], @"page", nil];
+        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:categoryId], @"categoryId",orderType, @"orderType", [NSNumber numberWithInt:page], @"page", nil];
         __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/ideaList" withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             // Use when fetching text data
             [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             NSString *responseString = [request responseString];
+            NSLog(@"%@", responseString);
             NSMutableDictionary *jsonResult = [responseString JSONValue];
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
                 //reload
+                NSDictionary *pagerInfo = [[jsonResult valueForKey:@"result"] valueForKey:@"pager"];
                 if(_data == nil){
-                    _data = [[JZData alloc] init];
+                    _data = [[JZData alloc] initWithPager:[Pager pagerConvertFromDictionary:pagerInfo]];
+                }else {
+                    [_data.pager updatePagerFromDictionary:pagerInfo];
+                    if(_data.pager.currentPage == 1){
+                        [_data clear];
+                    }
                 }
+                
                 NSMutableArray *ideaViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"ideaViewList"];
                 
-                NSNumber *currentPage = [[[jsonResult valueForKey:@"result"] valueForKey:@"pager"] valueForKey:@"currentPage"];
-                if([currentPage intValue] == 1){
-                    [_data clear];
-                }
                 for (int i = 0; i < ideaViewList.count; i++) {
                     IdeaView *ideaView = [IdeaView ideaConvertFromDictionary:[ideaViewList objectAtIndex:i]];
                     [_data addObject:ideaView withIdentity:ideaView.ideaId];
@@ -166,6 +171,15 @@
         }];
         [request startAsynchronous];
     });
+}
+
+-(IBAction)nextPage:(id)sender{
+    UIButton *moreButton = (UIButton *)sender;
+    UITableViewCell *cell = (UITableViewCell *)moreButton.superview;
+    [moreButton setHidden:YES];
+    UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:2];
+    [spinner startAnimating];
+    [self loadListDataWithPage:_data.pager.currentPage + 1];
 }
 
 //-(void)reloadTableViewDataSource{
@@ -245,41 +259,80 @@
 #pragma mark Table View Data Source methods
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _data.count;
+    int count = _data.count;
+    if (_data.pager.hasNext) {
+        count += 1;
+    }
+    return count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *IdeaListCellIdentifier = @"IdeaListCellIdentifier";
-    IdeaListCell * cell = (IdeaListCell *)[tableView dequeueReusableCellWithIdentifier:IdeaListCellIdentifier];
-    if(cell == nil){
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"IdeaListCell" owner:self options:nil];
-        for(id oneObject in nib){
-            if([oneObject isKindOfClass:[IdeaListCell class]]){
-                cell = (IdeaListCell *) oneObject;
-            }
+    if (_data.pager.hasNext && indexPath.row == [_data count]) {
+        static NSString *PagerCellIdentifier = @"PagerCellIdentifier";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PagerCellIdentifier];
+        if(cell == nil){
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:PagerCellIdentifier];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            moreButton.frame = CGRectMake(0, 0, 320, 30);
+            [moreButton setBackgroundImage:[UIImage imageNamed:@"idea_more_btn.png"] forState:UIControlStateNormal];
+            [moreButton setTitle:@"查看更多" forState:UIControlStateNormal];
+            [moreButton addTarget:self action:@selector(nextPage:) forControlEvents:UIControlEventTouchUpInside];
+            moreButton.tag = 1;
+            [cell addSubview:moreButton];
+            
+            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            spinner.tag = 2;
+            [cell addSubview:spinner];
+            [spinner setCenter:CGPointMake(160, 15)];
+        }else {
+            UIButton *button = (UIButton *)[cell viewWithTag:1];
+            [button setHidden:NO];
+            UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:2];
+            [spinner stopAnimating];
         }
-        [cell setBackground];
+        return cell;
+    }else {
+        static NSString *IdeaListCellIdentifier = @"IdeaListCellIdentifier";
+        IdeaListCell * cell = (IdeaListCell *)[tableView dequeueReusableCellWithIdentifier:IdeaListCellIdentifier];
+        if(cell == nil){
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"IdeaListCell" owner:self options:nil];
+            for(id oneObject in nib){
+                if([oneObject isKindOfClass:[IdeaListCell class]]){
+                    cell = (IdeaListCell *) oneObject;
+                }
+            }
+            [cell setBackground];
+        }
+        IdeaView *ideaView = (IdeaView *)[_data objectAtIndex:indexPath.row];
+        [cell redrawn:ideaView];
+        //    [wantToButton addTarget:self action:@selector(loadListData) forControlEvents:UIControlEventTouchUpInside];
+        return cell;
     }
-    IdeaView *ideaView = (IdeaView *)[_data objectAtIndex:indexPath.row];
-    [cell redrawn:ideaView];
-//    [wantToButton addTarget:self action:@selector(loadListData) forControlEvents:UIControlEventTouchUpInside];
-    return cell;
 }
 
 #pragma mark -
 #pragma mark Table View Delegate methods
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [IdeaListCell heightForCell:[_data objectAtIndex:indexPath.row]];
+    if (_data.pager.hasNext && indexPath.row == [_data count]) {
+        return 30.0;
+    }else {
+        return [IdeaListCell heightForCell:[_data objectAtIndex:indexPath.row]];
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(_ideaDetailViewController == nil){
-        _ideaDetailViewController = [[IdeaDetailViewController alloc] initWithNibName:@"ideaDetailViewController" bundle:nil];
-        _ideaDetailViewController.hidesBottomBarWhenPushed = YES;
+    if (indexPath.row < [_data count]) {
+        if(_ideaDetailViewController == nil){
+            _ideaDetailViewController = [[IdeaDetailViewController alloc] initWithNibName:@"ideaDetailViewController" bundle:nil];
+            _ideaDetailViewController.hidesBottomBarWhenPushed = YES;
+        }
+        _ideaDetailViewController.ideaView = [_data objectAtIndex:indexPath.row];
+        [self.navigationController pushViewController:_ideaDetailViewController animated:YES];
     }
-    _ideaDetailViewController.ideaView = [_data objectAtIndex:indexPath.row];
-    [self.navigationController pushViewController:_ideaDetailViewController animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - UIScrollViewDelegate Methods

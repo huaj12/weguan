@@ -57,7 +57,6 @@
 								<string key="NSFrame">{{77, 11}, {68, 21}}</string>
 								<reference key="NSSuperview" ref="15240542"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -148,7 +147,6 @@
 								<string key="NSFrame">{{239, 11}, {51, 21}}</string>
 								<reference key="NSSuperview" ref="1024096087"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -234,7 +232,6 @@
 								<string key="NSFrame">{{239, 11}, {51, 21}}</string>
 								<reference key="NSSuperview" ref="9878370"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -313,7 +310,6 @@
 								<string key="NSFrame">{{246, 11}, {44, 21}}</string>
 								<reference key="NSSuperview" ref="694330714"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -399,7 +395,6 @@
 								<string key="NSFrame">{{10, 24}, {98, 18}}</string>
 								<reference key="NSSuperview" ref="667247728"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -486,7 +481,6 @@
 								<string key="NSFrame">{{68, 11}, {222, 21}}</string>
 								<reference key="NSSuperview" ref="602181842"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -746,13 +740,24 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">30</int>
+			<int key="maxID">31</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">ProfileSettingViewController</string>
 					<string key="superclassName">UITableViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">save:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">save:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">save:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="birthLabel">UILabel</string>
 						<string key="featureLabel">UILabel</string>

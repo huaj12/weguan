@@ -52,19 +52,21 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated{
-    if (valueId == -1){
+    if (valueId == 0){
         [professionPicker selectRow:[_professionArray count] inComponent:0 animated:NO];
         [self showTextField:YES];
         professionField.text = textValue;
     }else {
         NSInteger index = 0;
-        int i = 0;
-        for (Profession *p in _professionArray) {
-            if (p.professionId.intValue == valueId) {
-                index = i;
-                break;
+        if (valueId > 0) {
+            int i = 0;
+            for (Profession *p in _professionArray) {
+                if (p.professionId.intValue == valueId) {
+                    index = i;
+                    break;
+                }
+                i++;
             }
-            i++;
         }
         [professionPicker selectRow:index inComponent:0 animated:NO];
         [self showTextField:NO];
@@ -93,7 +95,7 @@
         }
     }else {
         //验证
-        [self.profileSettingViewController saveSingleInfo:self.tag withValue:professionField.text withValueId:-1];
+        [self.profileSettingViewController saveSingleInfo:self.tag withValue:professionField.text withValueId:0];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }

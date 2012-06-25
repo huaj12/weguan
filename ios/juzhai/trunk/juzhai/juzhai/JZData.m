@@ -10,11 +10,21 @@
 
 @implementation JZData
 
+@synthesize pager = _pager;
+
 - (id) init{
     self = [super init];
     if(self){
         _data = [[NSMutableArray alloc] init];
         _identitySet = [[NSMutableSet alloc] init];
+    }
+    return self;
+}
+
+- (id) initWithPager:(Pager *)pager{
+    self = [self init];
+    if(self){
+        _pager = pager;
     }
     return self;
 }

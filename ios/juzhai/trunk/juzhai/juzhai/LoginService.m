@@ -29,7 +29,7 @@
     }
     LoginUser *loginUser = [[LoginUser alloc] initWithAccount:account password:password];
     //Http请求
-    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:loginUser.account,@"account",loginUser.password,@"password", nil];
+    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:loginUser.account, @"account", loginUser.password, @"password", [NSNumber numberWithBool:YES], @"remember", nil];
     ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/login" withParams:params];
     [request startSynchronous];
     NSError *error = [request error];

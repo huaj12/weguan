@@ -22,7 +22,6 @@
 {
     UserView *_userView;
     JZData *_data;
-    int _postTotalCount;
     ProfileSettingViewController *_profileSettingViewController;
 }
 

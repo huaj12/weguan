@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.juzhai.cms.controller.view.CmsPostView;
+import com.juzhai.home.bean.ShowPostOrder;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.controller.form.PostForm;
 import com.juzhai.post.exception.InputPostException;
@@ -82,7 +83,7 @@ public interface IPostService {
 	 * @return
 	 */
 	List<Post> listNewestPost(long uid, Long cityId, Long townId,
-			Integer gender, int firstResult, int maxResults);
+			Integer gender, ShowPostOrder order, int firstResult, int maxResults);
 
 	/**
 	 * 首页post数量
@@ -341,4 +342,5 @@ public interface IPostService {
 	 * @return
 	 */
 	List<Post> getUserQualifiedPost(long uid, int firstResult, int maxResults);
+
 }

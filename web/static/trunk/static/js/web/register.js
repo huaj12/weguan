@@ -146,4 +146,18 @@ $(document).ready(function(){
 		$("#register-form").submit();
 		return false;
 	});
+	
+	$("div.xieyi > span > input").bind("change", function(){
+		if($(this).is(':checked')){
+			$("#register-form").find("div.btn").removeClass("unable");
+			$("#register-form").find("div.btn > a").bind("click", function(){
+				$("#register-form").submit();
+				return false;
+			});
+		}else{
+			$("#register-form").find("div.btn > a").unbind("click");
+			$("#register-form").find("div.btn").addClass("unable");
+		}
+		return false;
+	});
 });

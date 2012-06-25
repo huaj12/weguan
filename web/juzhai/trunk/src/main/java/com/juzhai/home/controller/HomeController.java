@@ -40,6 +40,7 @@ public class HomeController extends BaseController {
 	private IRecommendPostService recommendPostService;
 	@Autowired
 	private IUserPreferenceService userPreferenceService;
+	//TODO (review) 这个autowired空的？
 	@Autowired
 	@Value("${web.home.post.max.rows}")
 	private int webHomePostMaxRows;

@@ -82,6 +82,7 @@ public interface IPostService {
 	 * @param gender
 	 * @return
 	 */
+	//TODO (review) 如今这个方法名字不太合适了
 	List<Post> listNewestPost(long uid, Long cityId, Long townId,
 			Integer gender, ShowPostOrder order, int firstResult, int maxResults);
 

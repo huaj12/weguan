@@ -114,4 +114,26 @@ public class ProfileImageService implements IProfileImageService {
 				LogoSizeType.BIG.getType()) + filename;
 		return uploadUserImageHome + logoPic;
 	}
+
+	@Override
+	public String uploadAndReduceLogo(long uid, MultipartFile image)
+			throws UploadImageException {
+		// 上传文件
+		String distDirectoryPath = uploadUserImageHome
+				+ ImageUtil.generateHierarchyImagePath(uid,
+						LogoSizeType.ORIGINAL.getType());
+		String distFileName = imageManager
+				.uploadImage(distDirectoryPath, image);
+		// 生成缩略图
+		for (LogoSizeType sizeType : LogoSizeType.values()) {
+			if (sizeType.getType() > 0) {
+				String ddp = uploadUserImageHome
+						+ ImageUtil.generateHierarchyImagePath(uid,
+								sizeType.getType());
+				imageManager.reduceImage(distDirectoryPath + distFileName, ddp,
+						distFileName, sizeType.getType(), sizeType.getType());
+			}
+		}
+		return distFileName;
+	}
 }

@@ -6,6 +6,8 @@ public class UserMView {
 	private String nickname;
 	private int gender;
 	private String logo;
+	private String newLogo;
+	private int logoVerifyState;
 	private int birthYear;
 	private int birthMonth;
 	private int birthDay;
@@ -145,6 +147,22 @@ public class UserMView {
 
 	public void setProfessionId(long professionId) {
 		this.professionId = professionId;
+	}
+
+	public String getNewLogo() {
+		return newLogo;
+	}
+
+	public void setNewLogo(String newLogo) {
+		this.newLogo = newLogo;
+	}
+
+	public int getLogoVerifyState() {
+		return logoVerifyState;
+	}
+
+	public void setLogoVerifyState(int logoVerifyState) {
+		this.logoVerifyState = logoVerifyState;
 	}
 
 }

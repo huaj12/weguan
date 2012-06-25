@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +32,7 @@ import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.bean.ShowIdeaOrder;
+import com.juzhai.lab.controller.form.ProfileMForm;
 import com.juzhai.lab.controller.view.IdeaMView;
 import com.juzhai.lab.controller.view.PostMView;
 import com.juzhai.lab.controller.view.UserMView;
@@ -41,6 +41,7 @@ import com.juzhai.passport.controller.form.LoginForm;
 import com.juzhai.passport.controller.form.RegisterForm;
 import com.juzhai.passport.dao.IUserPositionDao;
 import com.juzhai.passport.exception.PassportAccountException;
+import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.exception.ReportAccountException;
 import com.juzhai.passport.mapper.UserPositionMapper;
 import com.juzhai.passport.model.City;
@@ -88,12 +89,12 @@ public class IOSController extends BaseController {
 	private IRegisterService registerService;
 	@Autowired
 	private IPostService postService;
-	@Value("${web.show.ideas.max.rows}")
-	private int webShowIdeasMaxRows;
-	@Value("${web.show.users.max.rows}")
-	private int webShowUsersMaxRows;
-	@Value("${web.my.post.max.rows}")
-	private int webMyPostMaxRows;
+	// @Value("${web.show.ideas.max.rows}")
+	private int webShowIdeasMaxRows = 1;
+	// @Value("${web.show.users.max.rows}")
+	private int webShowUsersMaxRows = 1;
+	// @Value("${web.my.post.max.rows}")
+	private int webMyPostMaxRows = 2;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
@@ -119,11 +120,8 @@ public class IOSController extends BaseController {
 		// if (!userGuideService.isCompleteGuide(uid)) {
 		// result.setError(JuzhaiException.SYSTEM_ERROR, messageSource);
 		// }
-		ProfileCache profileCache = profileService.getProfileCacheByUid(uid);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("nickname", profileCache.getNickname());
-		map.put("gender", profileCache.getGender());
-		result.setResult(map);
+		Profile profile = profileService.getProfile(uid);
+		result.setResult(createUserMView(profile));
 		return result;
 	}
 
@@ -345,6 +343,9 @@ public class IOSController extends BaseController {
 		}
 		userView.setLogo(JzResourceFunction.userLogo(profile.getUid(),
 				profile.getLogoPic(), LogoSizeType.MIDDLE.getType()));
+		userView.setNewLogo(JzResourceFunction.userLogo(profile.getUid(),
+				profile.getNewLogoPic(), LogoSizeType.MIDDLE.getType()));
+		userView.setLogoVerifyState(profile.getLogoVerifyState());
 		Constellation con = com.juzhai.passport.InitData.CONSTELLATION_MAP
 				.get(profile.getConstellationId());
 		if (null != con) {
@@ -420,6 +421,29 @@ public class IOSController extends BaseController {
 		mapResult.put("postViewList", postViewList);
 		mapResult.put("pager", pager);
 
+		return result;
+	}
+
+	@RequestMapping(value = "/profile/save", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult saveProfile(HttpServletRequest request,
+			ProfileMForm profileForm) {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		AjaxResult result = new AjaxResult();
+		try {
+			profileService.updateLogoAndProfile(context.getUid(), profileForm);
+			result.setResult(createUserMView(profileService.getProfile(context
+					.getUid())));
+		} catch (ProfileInputException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		} catch (UploadImageException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
 		return result;
 	}
 }

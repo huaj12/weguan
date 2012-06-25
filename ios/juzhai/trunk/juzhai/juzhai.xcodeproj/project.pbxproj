@@ -37,6 +37,7 @@
 		CB40316F15903DA200D758AF /* MessageShow.m in Sources */ = {isa = PBXBuildFile; fileRef = CB40316E15903DA200D758AF /* MessageShow.m */; };
 		CB40317A1590694700D758AF /* ProfileSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4031781590694600D758AF /* ProfileSettingViewController.m */; };
 		CB40317B1590694700D758AF /* ProfileSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB4031791590694600D758AF /* ProfileSettingViewController.xib */; };
+		CB42910C1597745500516C71 /* Pager.m in Sources */ = {isa = PBXBuildFile; fileRef = CB42910B1597745500516C71 /* Pager.m */; };
 		CB431B291592DD5F00184E82 /* Profession.m in Sources */ = {isa = PBXBuildFile; fileRef = CB431B281592DD5F00184E82 /* Profession.m */; };
 		CB431B2E1592E05500184E82 /* ProfessionEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB431B2C1592E05500184E82 /* ProfessionEditorViewController.m */; };
 		CB431B2F1592E05500184E82 /* ProfessionEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB431B2D1592E05500184E82 /* ProfessionEditorViewController.xib */; };
@@ -295,6 +296,8 @@
 		CB4031771590694600D758AF /* ProfileSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileSettingViewController.h; sourceTree = "<group>"; };
 		CB4031781590694600D758AF /* ProfileSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileSettingViewController.m; sourceTree = "<group>"; };
 		CB4031791590694600D758AF /* ProfileSettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileSettingViewController.xib; sourceTree = "<group>"; };
+		CB42910A1597745400516C71 /* Pager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pager.h; sourceTree = "<group>"; };
+		CB42910B1597745500516C71 /* Pager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pager.m; sourceTree = "<group>"; };
 		CB431B271592DD5F00184E82 /* Profession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profession.h; sourceTree = "<group>"; };
 		CB431B281592DD5F00184E82 /* Profession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profession.m; sourceTree = "<group>"; };
 		CB431B2B1592E05500184E82 /* ProfessionEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfessionEditorViewController.h; sourceTree = "<group>"; };
@@ -823,6 +826,8 @@
 				CB20ECD41589B1A4002F9C93 /* JZData.m */,
 				CB431B271592DD5F00184E82 /* Profession.h */,
 				CB431B281592DD5F00184E82 /* Profession.m */,
+				CB42910A1597745400516C71 /* Pager.h */,
+				CB42910B1597745500516C71 /* Pager.m */,
 			);
 			name = Beans;
 			sourceTree = "<group>";
@@ -1562,6 +1567,7 @@
 				CB431B2E1592E05500184E82 /* ProfessionEditorViewController.m in Sources */,
 				CB9946FE159302530057FBB6 /* FeatureEditorViewController.m in Sources */,
 				CBF9484F1594C06100543F67 /* UserContext.m in Sources */,
+				CB42910C1597745500516C71 /* Pager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

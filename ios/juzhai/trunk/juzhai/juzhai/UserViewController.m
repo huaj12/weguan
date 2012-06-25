@@ -17,6 +17,7 @@
 #import "SBJson.h"
 #import "MBProgressHUD.h"
 #import "PostDetailViewController.h"
+#import "Pager.h"
 
 @interface UserViewController (Private)
 
@@ -124,15 +125,16 @@
             NSMutableDictionary *jsonResult = [responseString JSONValue];
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
                 //reload
+                NSDictionary *pagerInfo = [[jsonResult valueForKey:@"result"] valueForKey:@"pager"];
                 if(_data == nil){
-                    _data = [[JZData alloc] init];
+                    _data = [[JZData alloc] initWithPager:[Pager pagerConvertFromDictionary:pagerInfo]];
+                }else {
+                    [_data.pager updatePagerFromDictionary:pagerInfo];
+                    if(_data.pager.currentPage == 1){
+                        [_data clear];
+                    }
                 }
                 NSMutableArray *userViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"userViewList"];
-                
-                NSNumber *currentPage = [[[jsonResult valueForKey:@"result"] valueForKey:@"pager"] valueForKey:@"currentPage"];
-                if([currentPage intValue] == 1){
-                    [_data clear];
-                }
                 for (int i = 0; i < userViewList.count; i++) {
                     UserView *userView = [UserView userConvertFromDictionary:[userViewList objectAtIndex:i]];
                     [_data addObject:userView withIdentity:userView.uid];
@@ -145,6 +147,15 @@
         }];
         [request startAsynchronous];
     });
+}
+
+-(IBAction)nextPage:(id)sender{
+    UIButton *moreButton = (UIButton *)sender;
+    UITableViewCell *cell = (UITableViewCell *)moreButton.superview;
+    [moreButton setHidden:YES];
+    UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:2];
+    [spinner startAnimating];
+    [self loadListDataWithPage:_data.pager.currentPage + 1];
 }
 
 #pragma mark - 
@@ -211,33 +222,69 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
 //}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _data.count;
+    int count = _data.count;
+    if (_data.pager.hasNext) {
+        count += 1;
+    }
+    return count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *UserListCellIdentifier = @"UserListCellIdentifier";
-    UserListCell * cell = (UserListCell *)[tableView dequeueReusableCellWithIdentifier:UserListCellIdentifier];
-    if(cell == nil){
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"UserListCell" owner:self options:nil];
-        for(id oneObject in nib){
-            if([oneObject isKindOfClass:[UserListCell class]]){
-                cell = (UserListCell *) oneObject;
-            }
+    if (_data.pager.hasNext && indexPath.row == [_data count]) {
+        static NSString *PagerCellIdentifier = @"PagerCellIdentifier";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PagerCellIdentifier];
+        if(cell == nil){
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:PagerCellIdentifier];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            moreButton.frame = CGRectMake(0, 10, 320, 30);
+            [moreButton setBackgroundImage:[UIImage imageNamed:@"idea_more_btn.png"] forState:UIControlStateNormal];
+            [moreButton setTitle:@"查看更多" forState:UIControlStateNormal];
+            [moreButton addTarget:self action:@selector(nextPage:) forControlEvents:UIControlEventTouchUpInside];
+            moreButton.tag = 1;
+            [cell addSubview:moreButton];
+            
+            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            spinner.tag = 2;
+            [cell addSubview:spinner];
+            [spinner setCenter:CGPointMake(160, 25)];
+        }else {
+            UIButton *button = (UIButton *)[cell viewWithTag:1];
+            [button setHidden:NO];
+            UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:2];
+            [spinner stopAnimating];
         }
-        [cell setBackground];
+        return cell;
+    }else {
+        static NSString *UserListCellIdentifier = @"UserListCellIdentifier";
+        UserListCell * cell = (UserListCell *)[tableView dequeueReusableCellWithIdentifier:UserListCellIdentifier];
+        if(cell == nil){
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"UserListCell" owner:self options:nil];
+            for(id oneObject in nib){
+                if([oneObject isKindOfClass:[UserListCell class]]){
+                    cell = (UserListCell *) oneObject;
+                }
+            }
+            [cell setBackground];
+        }
+        
+        UserView *userView = (UserView *)[_data objectAtIndex:indexPath.row];
+        [cell redrawn:userView];
+        [cell sizeToFit];
+        return cell;
     }
-    
-    UserView *userView = (UserView *)[_data objectAtIndex:indexPath.row];
-    [cell redrawn:userView];
-    [cell sizeToFit];
-    return cell;
 }
 
 #pragma mark -
 #pragma mark Table View Delegate methods
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [UserListCell heightForCell:[_data objectAtIndex:indexPath.row]];
+    if (_data.pager.hasNext && indexPath.row == [_data count]) {
+        return 40.0;
+    }else {
+        return [UserListCell heightForCell:[_data objectAtIndex:indexPath.row]];        
+    }
 }
 
 //-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -260,12 +307,15 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
 //}
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(_postDetailViewController == nil){
-        _postDetailViewController = [[PostDetailViewController alloc] initWithNibName:@"PostDetailViewController" bundle:nil];
-        _postDetailViewController.hidesBottomBarWhenPushed = YES;   
+    if (indexPath.row < [_data count]) {
+        if(_postDetailViewController == nil){
+            _postDetailViewController = [[PostDetailViewController alloc] initWithNibName:@"PostDetailViewController" bundle:nil];
+            _postDetailViewController.hidesBottomBarWhenPushed = YES;   
+        }
+        _postDetailViewController.userView = [_data objectAtIndex:indexPath.row];
+        [self.navigationController pushViewController:_postDetailViewController animated:YES];
     }
-    _postDetailViewController.userView = [_data objectAtIndex:indexPath.row];
-    [self.navigationController pushViewController:_postDetailViewController animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

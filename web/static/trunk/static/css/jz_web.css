@@ -313,9 +313,10 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 
 .trip_sc_area{ width:620px; height:120px; padding:20px 19px;}
 .trip_sc_area .img{ width:120px; height:120px; background:url(../images/web2/face_120.jpg) no-repeat; overflow:hidden; float:left; margin-right:20px;}
+trip_sc_area .img a{}
 .trip_sc_area h2{ font-family:"微软雅黑"; font-size:18px; color:#666; float:left; width:480px; margin-top:5px; font-weight:bold;}
 .trip_sc_area p{ float:left; color:#999; margin-top:15px; width:480px;}
-.trip_sc_area  a{ position:absolute; bottom:21px; left:160px; background:url(../images/web2/qsctp_load_btn.gif) no-repeat; width:100px; height:30px; color:#fff; text-align:center; line-height:30px; display:block; font-size:14px; line-height:32px\9;}
+.trip_sc_area  a.btn{ position:absolute; bottom:21px; left:160px; background:url(../images/web2/qsctp_load_btn.gif) no-repeat; width:100px; height:30px; color:#fff; text-align:center; line-height:30px; display:block; font-size:14px; line-height:32px\9;}
 
 
 
@@ -2839,7 +2840,7 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 .liuyan_box .ly_conetent .ly_m b a{ font-weight:normal;}
 .liuyan_box .ly_conetent .ly_m b a:hover{ text-decoration:underline;}
 .liuyan_box .ly_conetent .ly_m strong{ float:left; width:100%; color:#ccc; font-family:Arial, Helvetica, sans-serif;}
-.liuyan_box .ly_conetent .ly_m strong a{ margin-left:8px; color:#999;}
+.liuyan_box .ly_conetent .ly_m strong a{ margin-left:8px; color:#3E8BD9;}
 .liuyan_box .ly_conetent .ly_m strong a:hover{ text-decoration:underline;}
 .liuyan_box .ly_conetent .ly_m strong a.u{ margin:auto 5px;}
 .liuyan_box .ly_conetent .ly_m em{ float:left; width:100%;}
@@ -3682,6 +3683,7 @@ search_xz .hot{ margin-top:-10px;}
 .wel .wel_idea ul li{ width:200px; height:auto; overflow:hidden; float:left; display:inline; margin:15px; margin-bottom:0px; margin-top:23px;}
 
 .wel .wel_idea ul li p{ width:200px; height:135px; overflow:hidden; float:left;}
+.wel .wel_idea ul li p a{ cursor:default;}
 .wel .wel_idea ul li span{ width:200px; height:57px; background:url(../images/web2/wel_idea_bg_r1_c3.jpg) no-repeat; overflow:hidden; float:left; overflow:hidden; position:relative;}
 .wel .wel_idea ul li span em{ display:block; color:#666; padding:0 12px; padding-top:8px;}
 .wel .wel_idea ul li span a{ color:#3E8BD9; position:absolute; right:12px; top:27px;cursor:default;}

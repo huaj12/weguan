@@ -37,6 +37,7 @@ import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.post.bean.PostResult;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Ad;
 import com.juzhai.post.model.Idea;
@@ -307,9 +308,10 @@ public class BaseController {
 			int count) {
 		List<PostView> listView = new ArrayList<PostView>();
 		if (context.hasLogin()) {
-			List<Post> list = postService.listNewestPost(context.getUid(),
-					city, null, null, ShowPostOrder.NEW, 0, count);
-			for (Post post : list) {
+			PostResult result = postService.listNewOrOnlinePosts(
+					context.getUid(), city, null, null, ShowPostOrder.NEW, 0,
+					count);
+			for (Post post : result.getPosts()) {
 				ProfileCache cache = profileService.getProfileCacheByUid(post
 						.getCreateUid());
 				PostView view = new PostView();

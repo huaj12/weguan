@@ -130,8 +130,6 @@ public class PostService implements IPostService {
 	private int postPlaceLengthMin;
 	@Value("${post.place.length.max}")
 	private int postPlaceLengthMax;
-	@Value("${post.interval.expire.time}")
-	private int postIntervalExpireTime;
 	@Value("${all.response.cnt.expire.time}")
 	private int allResponseCntExpireTime;
 	@Value("${synchronize.title.length.max}")
@@ -709,7 +707,7 @@ public class PostService implements IPostService {
 	public PostResult listNewOrOnlinePosts(long uid, Long cityId, Long townId,
 			Integer gender, ShowPostOrder order, int firstResult, int maxResults) {
 		PostResult result = new PostResult();
-		ProfileExample example = getNewestPostExample(uid, cityId, townId,
+		ProfileExample example = getNewOrOnlinePostExample(uid, cityId, townId,
 				gender);
 		example.setLimit(new Limit(firstResult, maxResults));
 		example.setOrderByClause(order.getColumn() + " desc");
@@ -735,9 +733,9 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public int countNewestPost(long uid, Long cityId, Long townId,
+	public int countNewOrOnlinePosts(long uid, Long cityId, Long townId,
 			Integer gender) {
-		ProfileExample example = getNewestPostExample(uid, cityId, townId,
+		ProfileExample example = getNewOrOnlinePostExample(uid, cityId, townId,
 				gender);
 		return profileMapper.countByExample(example);
 	}
@@ -1119,8 +1117,8 @@ public class PostService implements IPostService {
 		return postMapper.selectByExample(example);
 	}
 
-	private ProfileExample getNewestPostExample(long uid, Long city, Long town,
-			Integer gender) {
+	private ProfileExample getNewOrOnlinePostExample(long uid, Long city,
+			Long town, Integer gender) {
 		ProfileExample example = new ProfileExample();
 		ProfileExample.Criteria c = example.createCriteria();
 		if (null != gender) {

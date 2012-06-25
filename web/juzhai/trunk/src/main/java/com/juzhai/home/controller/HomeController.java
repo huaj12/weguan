@@ -107,8 +107,8 @@ public class HomeController extends BaseController {
 		}
 		Integer gender = getGender(genderType);
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
-				postService.countNewestPost(context.getUid(), cityId, townId,
-						gender));
+				postService.countNewOrOnlinePosts(context.getUid(), cityId,
+						townId, gender));
 		PostResult result = null;
 		if (pager.getTotalResults() > 0) {
 			result = postService.listNewOrOnlinePosts(context.getUid(), cityId,

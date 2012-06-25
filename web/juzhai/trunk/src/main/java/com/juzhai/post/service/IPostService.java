@@ -95,7 +95,7 @@ public interface IPostService {
 	 * @param gender
 	 * @return
 	 */
-	int countNewestPost(long uid, Long cityId, Long townId, Integer gender);
+	int countNewOrOnlinePosts(long uid, Long cityId, Long townId, Integer gender);
 
 	/**
 	 * 列表我响应的post

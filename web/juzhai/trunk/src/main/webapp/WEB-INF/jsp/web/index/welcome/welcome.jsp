@@ -80,7 +80,7 @@
 												<c:set var="constellationName" value="${jzd:constellationName(view.profileCache.constellationId)}" />
 												<em><a href="javascript:void(0);"><c:out value="${view.profileCache.nickname }"></c:out> </a><c:if test="${age > 0}">${age}岁&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty view.profileCache.profession}">${view.profileCache.profession}</c:if></em>
 												<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:</font><a href="javascript:void(0);"><c:out value="${jzu:truncate(view.post.content,90,'...')}"></c:out></a></p>
-												<b><a href="javascript:void(0);">共${view.post.responseCnt}人感兴趣</a></b>
+												<b><a href="javascript:void(0);">${view.post.responseCnt}人感兴趣</a></b>
 											</li>
 										</c:forEach>
 									</ul>
@@ -110,6 +110,7 @@
 			</div><!--main end-->
 			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 			<script type="text/javascript" src="${jzr:static('/js/web/welcome.js')}"></script>
+			<c:set var="footType" value="welcome" scope="request" />
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 		</div><!--warp end-->
 	</body>

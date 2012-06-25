@@ -148,6 +148,10 @@ function selectCategoryId(){
 function selectwindow(){
 	$("#idea-form").submit();	
 }
+
+function selectRandom(){
+	$("#idea-form").submit();
+}
 </script>
 </head>
 <body>
@@ -177,6 +181,11 @@ function selectwindow(){
 				<option <c:if test="${empty window}"> selected="selected"</c:if> value="">不限</option>
 				<option <c:if test="${window==false}"> selected="selected"</c:if> value="false">未推荐</option>
 				<option <c:if test="${window==true}"> selected="selected"</c:if> value="true">已推荐</option>
+	</select>
+	<select name="random" onchange="selectRandom();">
+				<option <c:if test="${empty random}"> selected="selected"</c:if> value="">不限</option>
+				<option <c:if test="${random==false}"> selected="selected"</c:if> value="false">未随即</option>
+				<option <c:if test="${random==true}"> selected="selected"</c:if> value="true">已随即</option>
 	</select>
 	</form>
 	<table border="0" cellspacing="4">

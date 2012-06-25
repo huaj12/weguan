@@ -75,7 +75,7 @@
 									<ul>
 										<c:forEach items="${postView }" var="view">
 											<li <c:choose><c:when test="${view.profileCache.gender=='1'}">class="boy"</c:when><c:otherwise>class="girl"</c:otherwise></c:choose>>
-												<div class="photo"><a href="javascript:void(0);"><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,80)}" width="60" height="60"/></a></div>
+												<div class="photo"><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,80)}" width="60" height="60"/></div>
 												<c:set var="age" value="${jzu:age(view.profileCache.birthYear,view.profileCache.birthSecret)}" />
 												<c:set var="constellationName" value="${jzd:constellationName(view.profileCache.constellationId)}" />
 												<em><a href="javascript:void(0);"><c:out value="${view.profileCache.nickname }"></c:out> </a><c:if test="${age > 0}">${age}岁&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty view.profileCache.profession}">${view.profileCache.profession}</c:if></em>

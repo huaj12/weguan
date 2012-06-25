@@ -63,12 +63,20 @@ function shield(id){
 </head>
 <body>
 	<h2>合格内容</h2>
-	<select name="city" onchange="javascript:location.href='/cms/show/post/handle?city='+this.value+''">
-				<option value="0">全国</option>
-				<c:forEach var="specialCity" items="${jzd:specialCityList()}">
-					<option value="${specialCity.id}" <c:if test="${city==specialCity.id}">selected="selected"</c:if>>${specialCity.name}</option>
-	</c:forEach>
+	<form action="/cms/show/post/handle" method="get">
+	<c:import url="/WEB-INF/jsp/web/common/widget/location.jsp">
+				<c:param name="provinceId" value="${province}"/>
+				<c:param name="cityId" value="${city}"/>
+				<c:param name="townId" value=""/>
+	</c:import>
+	
+	<select name="gender">
+		<option <c:if test="${empty gender||gender==''}">selected="selected"</c:if> value="">不限</option>
+		<option <c:if test="${gender=='1'}">selected="selected"</c:if> value="1">男</option>
+		<option <c:if test="${gender=='0'}">selected="selected"</c:if> value="0">女</option>
 	</select>
+	<input type="submit" value="查询" />
+	</form>
 	<table border="0" cellspacing="4">
 		<tr style="background-color: #CCCCCC;">
 			<td width="100">用户头像</td>
@@ -123,6 +131,7 @@ function shield(id){
 			</td>
 		</tr>
 	</table>
-	<script type="text/javascript" src="${jzr:static('/js/cms/common/base.js')}"></script>
+	<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />	
+	<script>new LocationWidget();</script>
 </body>
 </html>

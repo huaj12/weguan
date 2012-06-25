@@ -52,7 +52,8 @@ public class CmsRecommendDataController {
 
 	@RequestMapping(value = "/show/recommend/idea", method = RequestMethod.GET)
 	public String showRecommendIdea(Model model) {
-		List<Idea> list = recommendIdeaService.listRecommendIdea();
+		List<Idea> list = recommendIdeaService
+				.listRecommendIdea(recommendIdeaMaxRows);
 		model.addAttribute("ideas", list);
 		return "/cms/show_recommend_idea";
 	}

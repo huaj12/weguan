@@ -26,6 +26,8 @@ public class RobotInputException extends JuzhaiException {
 	 */
 	public static final String ROBOT_COMMON_TEXT_IS_NULL = "210004";
 
+	public static final String ROBOT_CITY_IS_NULL = "210005";
+
 	public RobotInputException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

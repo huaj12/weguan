@@ -1,5 +1,7 @@
 package com.juzhai.post.controller.view;
 
+import java.util.Date;
+
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.model.Post;
 
@@ -14,6 +16,8 @@ public class PostView {
 	private boolean hasInterest;
 
 	private int useCount;
+
+	private Date lastWebLoginTime;
 
 	public Post getPost() {
 		return post;
@@ -53,6 +57,14 @@ public class PostView {
 
 	public void setUseCount(int useCount) {
 		this.useCount = useCount;
+	}
+
+	public Date getLastWebLoginTime() {
+		return lastWebLoginTime;
+	}
+
+	public void setLastWebLoginTime(Date lastWebLoginTime) {
+		this.lastWebLoginTime = lastWebLoginTime;
 	}
 
 }

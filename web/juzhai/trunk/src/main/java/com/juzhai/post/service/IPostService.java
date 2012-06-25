@@ -6,6 +6,7 @@ import java.util.Map;
 import com.juzhai.cms.controller.view.CmsPostView;
 import com.juzhai.home.bean.ShowPostOrder;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.post.bean.PostResult;
 import com.juzhai.post.controller.form.PostForm;
 import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.model.Post;
@@ -82,8 +83,8 @@ public interface IPostService {
 	 * @param gender
 	 * @return
 	 */
-	//TODO (review) 如今这个方法名字不太合适了
-	List<Post> listNewestPost(long uid, Long cityId, Long townId,
+	// TODO (done) 如今这个方法名字不太合适了
+	PostResult listNewOrOnlinePosts(long uid, Long cityId, Long townId,
 			Integer gender, ShowPostOrder order, int firstResult, int maxResults);
 
 	/**

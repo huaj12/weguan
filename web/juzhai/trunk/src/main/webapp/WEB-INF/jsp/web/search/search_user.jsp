@@ -160,7 +160,7 @@
 																<c:when test="${!empty view.online && view.online}"><em class="on">当前在线</em></c:when>
 																<c:otherwise>
 																		<c:if test="${view.lastWebLoginTime != null}">
-																			<c:set var="date" value="${view.lastWebLoginTime}" scope="request"/><c:import url="/WEB-INF/jsp/web/common/fragment/show_login_time.jsp" />来访
+																			<c:set var="date" value="${view.lastWebLoginTime}" scope="request"/><c:import url="/WEB-INF/jsp/web/common/fragment/show_login_time.jsp" />
 																		</c:if>
 																</c:otherwise>
 															</c:choose>

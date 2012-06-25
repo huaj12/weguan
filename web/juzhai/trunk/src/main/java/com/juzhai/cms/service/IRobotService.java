@@ -24,10 +24,9 @@ public interface IRobotService {
 	 * 添加机器人
 	 * 
 	 * @param uid
-	 * @param cityId
 	 * @throws RobotInputException
 	 */
-	void add(Long uid, Long cityId) throws RobotInputException;
+	void add(Long uid) throws RobotInputException;
 
 	/**
 	 * 删除机器人

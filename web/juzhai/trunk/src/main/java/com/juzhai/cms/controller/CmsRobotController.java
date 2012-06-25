@@ -65,10 +65,10 @@ public class CmsRobotController {
 
 	@RequestMapping(value = "/robot/add", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult add(Long uid, Long cityId) {
+	public AjaxResult add(Long uid) {
 		AjaxResult ajaxResult = new AjaxResult();
 		try {
-			robotService.add(uid, cityId);
+			robotService.add(uid);
 		} catch (RobotInputException e) {
 			ajaxResult.setError(e.getErrorCode(), messageSource);
 		}

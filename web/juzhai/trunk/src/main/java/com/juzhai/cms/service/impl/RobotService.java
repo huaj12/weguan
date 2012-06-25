@@ -66,12 +66,17 @@ public class RobotService implements IRobotService {
 	private String robotEmailDefault;
 
 	@Override
-	public void add(Long uid, Long cityId) throws RobotInputException {
-		if (uid == null || cityId == null) {
+	public void add(Long uid) throws RobotInputException {
+		if (uid == null) {
 			throw new RobotInputException(RobotInputException.ILLEGAL_OPERATION);
 		}
+		ProfileCache profileCache = profileService.getProfileCacheByUid(uid);
+		if (profileCache.getCity() == null || profileCache.getCity() <= 0) {
+			throw new RobotInputException(
+					RobotInputException.ROBOT_CITY_IS_NULL);
+		}
 		redisTemplate.opsForSet().add(
-				RedisKeyGenerator.genRobotUserKey(cityId), uid);
+				RedisKeyGenerator.genRobotUserKey(profileCache.getCity()), uid);
 	}
 
 	@Override

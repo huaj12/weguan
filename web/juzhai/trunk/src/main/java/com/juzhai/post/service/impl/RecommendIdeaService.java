@@ -40,11 +40,14 @@ public class RecommendIdeaService implements IRecommendIdeaService {
 	private int topIdeaRecentDayBefore;
 
 	@Override
-	public List<Idea> listRecommendIdea() {
+	public List<Idea> listRecommendIdea(int count) {
 		List<Idea> list = redisTemplate.opsForValue().get(
 				RedisKeyGenerator.genIndexRecommendIdeaKey());
 		if (CollectionUtils.isEmpty(list)) {
 			return Collections.emptyList();
+		}
+		if (list.size() > count) {
+			list = list.subList(0, count);
 		}
 		return list;
 	}

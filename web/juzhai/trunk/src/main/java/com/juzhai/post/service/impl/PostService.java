@@ -36,6 +36,7 @@ import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.home.bean.DialogContentTemplate;
+import com.juzhai.home.bean.ShowPostOrder;
 import com.juzhai.home.exception.DialogException;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.passport.bean.AuthInfo;
@@ -705,21 +706,11 @@ public class PostService implements IPostService {
 
 	@Override
 	public List<Post> listNewestPost(long uid, Long cityId, Long townId,
-			Integer gender, int firstResult, int maxResults) {
-		ProfileExample example = new ProfileExample();
-		ProfileExample.Criteria c = example.createCriteria();
-		if (null != cityId && cityId > 0) {
-			c.andCityEqualTo(cityId);
-		}
-		if (null != townId && townId > 0) {
-			c.andTownEqualTo(townId);
-		}
-		if (gender != null) {
-			c.andGenderEqualTo(gender);
-		}
-		c.andLastUpdateTimeIsNotNull();
+			Integer gender, ShowPostOrder order, int firstResult, int maxResults) {
+		ProfileExample example = getNewestPostExample(uid, cityId, townId,
+				gender);
 		example.setLimit(new Limit(firstResult, maxResults));
-		example.setOrderByClause("last_update_time desc");
+		example.setOrderByClause(order.getColumn() + " desc");
 		List<Profile> profileList = profileMapper.selectByExample(example);
 		List<Long> uidList = new ArrayList<Long>();
 		for (Profile profile : profileList) {
@@ -739,18 +730,8 @@ public class PostService implements IPostService {
 	@Override
 	public int countNewestPost(long uid, Long cityId, Long townId,
 			Integer gender) {
-		ProfileExample example = new ProfileExample();
-		ProfileExample.Criteria c = example.createCriteria();
-		if (null != cityId && cityId > 0) {
-			c.andCityEqualTo(cityId);
-		}
-		if (null != townId && townId > 0) {
-			c.andTownEqualTo(townId);
-		}
-		if (gender != null) {
-			c.andGenderEqualTo(gender);
-		}
-		c.andLastUpdateTimeIsNotNull();
+		ProfileExample example = getNewestPostExample(uid, cityId, townId,
+				gender);
 		return profileMapper.countByExample(example);
 	}
 
@@ -1120,6 +1101,26 @@ public class PostService implements IPostService {
 		example.setOrderByClause("create_time desc");
 		example.setLimit(new Limit(firstResult, maxResults));
 		return postMapper.selectByExample(example);
+	}
+
+	private ProfileExample getNewestPostExample(long uid, Long city, Long town,
+			Integer gender) {
+		ProfileExample example = new ProfileExample();
+		ProfileExample.Criteria c = example.createCriteria();
+		if (null != gender) {
+			c.andGenderEqualTo(gender);
+		}
+		if (null != city && city > 0) {
+			c.andCityEqualTo(city);
+		}
+		if (null != town && town > 0) {
+			c.andTownEqualTo(town);
+		}
+		if (uid != 0) {
+			c.andUidNotEqualTo(uid);
+		}
+		c.andLastUpdateTimeIsNotNull();
+		return example;
 	}
 
 }

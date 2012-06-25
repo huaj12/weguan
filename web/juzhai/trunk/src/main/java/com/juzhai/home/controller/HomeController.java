@@ -19,6 +19,7 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.home.bean.ShowPostOrder;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.controller.helper.PostViewHelper;
 import com.juzhai.post.controller.view.PostView;
@@ -39,6 +40,7 @@ public class HomeController extends BaseController {
 	private IRecommendPostService recommendPostService;
 	@Autowired
 	private IUserPreferenceService userPreferenceService;
+	@Autowired
 	@Value("${web.home.post.max.rows}")
 	private int webHomePostMaxRows;
 	@Value("${web.home.right.user.rows}")
@@ -79,6 +81,23 @@ public class HomeController extends BaseController {
 	public String showNewPosts(HttpServletRequest request, Model model,
 			@PathVariable long townId, @PathVariable String genderType,
 			@PathVariable int page) throws NeedLoginException {
+		model.addAttribute("queryType", "showposts");
+		return showPosts(request, model, townId, genderType, ShowPostOrder.NEW,
+				page);
+	}
+
+	@RequestMapping(value = "/showoposts/{townId}_{genderType}/{page}", method = RequestMethod.GET)
+	public String showOnlinePosts(HttpServletRequest request, Model model,
+			@PathVariable long townId, @PathVariable String genderType,
+			@PathVariable int page) throws NeedLoginException {
+		model.addAttribute("queryType", "showoposts");
+		return showPosts(request, model, townId, genderType,
+				ShowPostOrder.ONLINE, page);
+	}
+
+	public String showPosts(HttpServletRequest request, Model model,
+			long townId, String genderType, ShowPostOrder order, int page)
+			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		long cityId = 0L;
 		ProfileCache loginUser = getLoginUserCache(request);
@@ -92,7 +111,7 @@ public class HomeController extends BaseController {
 		List<Post> postList = null;
 		if (pager.getTotalResults() > 0) {
 			postList = postService.listNewestPost(context.getUid(), cityId,
-					townId, gender, pager.getFirstResult(),
+					townId, gender, order, pager.getFirstResult(),
 					pager.getMaxResult());
 		} else {
 			List<Post> recommendPostList = recommendPostService
@@ -110,7 +129,6 @@ public class HomeController extends BaseController {
 				context, postList);
 		model.addAttribute("pager", pager);
 		model.addAttribute("postViewList", postViewList);
-		model.addAttribute("queryType", "showposts");
 		model.addAttribute("cityId", cityId);
 		model.addAttribute("townId", townId);
 		model.addAttribute("genderType", genderType);
@@ -203,7 +221,7 @@ public class HomeController extends BaseController {
 				cityId = loginUser.getCity();
 			}
 		}
-		showHomeLogo(context, model);
+		// showHomeLogo(context, model);
 		hotWordsWidget(model, cityId, searchUserHotRows);
 		visitUserWidget(model, context, visitorWidgetUserCount);
 		newUserWidget(cityId, model, webHomeRightUserRows);

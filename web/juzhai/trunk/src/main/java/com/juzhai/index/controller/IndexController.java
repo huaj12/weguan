@@ -94,6 +94,8 @@ public class IndexController extends BaseController {
 	// private int searchUserHotRows;
 	@Value("${index.new.post.max.rows}")
 	private int indexNewPostMaxRows;
+	@Value("${index.idea.max.rows}")
+	private int indexIdeaMaxRows;
 
 	// @Value("${index.window.idea.max.rows}")
 	// private int indexWindowIdeaMaxRows;
@@ -120,7 +122,7 @@ public class IndexController extends BaseController {
 			// showHomeLogo(context, model);
 			return "redirect:/home";
 		} else {
-			ideaList = recommendIdeaService.listRecommendIdea();
+			ideaList = recommendIdeaService.listRecommendIdea(indexIdeaMaxRows);
 		}
 		userPostWidget(context, model, city, indexNewPostMaxRows);
 		List<IdeaView> ideaViewList = ideaViewHelper.assembleIdeaView(context,

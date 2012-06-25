@@ -10,7 +10,7 @@ public interface IRecommendIdeaService {
 	 * 
 	 * @return
 	 */
-	List<Idea> listRecommendIdea();
+	List<Idea> listRecommendIdea(int count);
 
 	/**
 	 * 更新推荐列表

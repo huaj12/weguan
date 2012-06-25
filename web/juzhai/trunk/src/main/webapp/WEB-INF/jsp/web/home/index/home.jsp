@@ -45,23 +45,29 @@
 									</c:when>
 									<c:otherwise>
 										<div class="trip_sc_area"><!--trip_sc_area begin-->
-										<div class="img">
-											<a href="/profile/index/face"><img src="${jzr:static('/images/web2/face_120.jpg')}"/></a>
-										</div>
-										<h2>发布第1个拒宅之前，先上传一张头像吧</h2>
 										<c:choose>
 											<c:when test="${loginUser.logoVerifyState==0}">
-													<p>在拒宅网，平均每条拒宅信息都能收到2.2条回应<br />
-													平均每天有512人发布拒宅，找伴出去玩
-													</p>	
+												<div class="img">
+													<a href="/profile/index/face"><img src="${jzr:static('/images/web2/face_120.jpg')}"/></a>
+												</div>
+												<h2>发布第1个拒宅之前，先上传一张头像吧</h2>
+												<p>
+												在拒宅网，平均每条拒宅信息都能收到2.2条回应<br />
+												平均每天有512人发布拒宅，找伴出去玩
+												</p>	
 											</c:when>
 											<c:otherwise>
-											<p>您头像未能通过审核，请上传一张真实照片吧<br />
+											<div class="img">
+												<a href="${logoUrl}"><img src="${jzr:userLogo(loginUser.uid,loginUser.newLogoPic,120)}"  width="120" height="120"/></a>
+											</div>
+											<h2>发布第1个拒宅之前，先上传一张头像吧</h2>
+											<p>
+												您头像未能通过审核，请上传一张真实照片吧<br />
 												没有真实头像，您发的消息很难收到反馈哦
 											</p>
 											</c:otherwise>
 										</c:choose>
-										<a href="/profile/index/face">去上传头像</a>
+										<a href="/profile/index/face" class="btn">去上传头像</a>
 										</div><!--trip_sc_area end-->
 									</c:otherwise>
 								</c:choose>

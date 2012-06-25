@@ -75,11 +75,11 @@ public class CmsPostController {
 
 	@RequestMapping(value = "/show/post/handle", method = RequestMethod.GET)
 	public String showPosthandle(Model model,
-			@RequestParam(defaultValue = "0") long city,
-			@RequestParam(defaultValue = "1") int pageId) {
+			@RequestParam(defaultValue = "0") long city, Long province,
+			Integer gender, @RequestParam(defaultValue = "1") int pageId) {
 		PagerManager pager = new PagerManager(pageId, 30,
-				postService.countHandlePost(city));
-		List<Post> list = postService.listHandlePost(city,
+				postService.countHandlePost(city, gender));
+		List<Post> list = postService.listHandlePost(city, gender,
 				pager.getFirstResult(), pager.getMaxResult());
 		List<CmsPostView> listView = new ArrayList<CmsPostView>();
 		for (Post post : list) {
@@ -90,6 +90,8 @@ public class CmsPostController {
 		model.addAttribute("postView", listView);
 		model.addAttribute("pager", pager);
 		model.addAttribute("city", city);
+		model.addAttribute("province", province);
+		model.addAttribute("gender", gender);
 		return "/cms/post/handle";
 	}
 

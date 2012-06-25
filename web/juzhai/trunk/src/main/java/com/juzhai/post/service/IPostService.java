@@ -230,7 +230,8 @@ public interface IPostService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Post> listHandlePost(long city, int firstResult, int maxResults);
+	List<Post> listHandlePost(long city, Integer gender, int firstResult,
+			int maxResults);
 
 	/**
 	 * 未处理拒宅数量
@@ -251,7 +252,7 @@ public interface IPostService {
 	 * 
 	 * @return
 	 */
-	int countHandlePost(long city);
+	int countHandlePost(long city, Integer gender);
 
 	/**
 	 * 根据id查询post

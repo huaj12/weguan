@@ -25,18 +25,25 @@ import com.juzhai.cms.exception.RobotInputException;
 import com.juzhai.cms.service.IRobotService;
 import com.juzhai.common.InitData;
 import com.juzhai.core.Constants;
+import com.juzhai.core.bean.UseLevel;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.controller.form.RegisterRobotForm;
 import com.juzhai.passport.exception.InterestUserException;
+import com.juzhai.passport.exception.PassportAccountException;
+import com.juzhai.passport.exception.ProfileInputException;
+import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profession;
+import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Town;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.ILoginService;
+import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
+import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.post.controller.form.PostCommentForm;
 import com.juzhai.post.exception.InputPostCommentException;
 import com.juzhai.post.exception.InputPostException;
@@ -55,15 +62,23 @@ public class RobotService implements IRobotService {
 	@Autowired
 	private IProfileService profileService;
 	@Autowired
-	private ILoginService loginService;
-	@Autowired
 	private IInterestUserService interestUserService;
 	@Autowired
 	private IPostCommentService postCommentService;
 	@Autowired
 	private IPostService postService;
+	@Autowired
+	private IUserGuideService userGuideService;
+	@Autowired
+	private ILoginService loginService;
+	@Autowired
+	private IPassportService passportService;
+	@Autowired
+	private ProfileMapper profileMapper;
 	@Value("${robot.email.default}")
 	private String robotEmailDefault;
+	@Value("${robot.passport.default}")
+	private String robotPassportDefault;
 
 	@Override
 	public void add(Long uid) throws RobotInputException {
@@ -153,7 +168,7 @@ public class RobotService implements IRobotService {
 			throw new RobotInputException(
 					RobotInputException.ROBOT_READ_FILE_IS_INVALID);
 		}
-		return registerService.registerRobot(forms);
+		return registerRobot(forms);
 
 	}
 
@@ -228,6 +243,62 @@ public class RobotService implements IRobotService {
 			profileList.add(profileCache);
 		}
 		return profileList;
+	}
+
+	@Override
+	// TODO (done) 这个功能放在这里合适吗？
+	public int registerRobot(List<RegisterRobotForm> forms) {
+		if (CollectionUtils.isEmpty(forms)) {
+			return 0;
+		}
+		int i = 0;
+		for (RegisterRobotForm form : forms) {
+			try {
+				long uid = registerService.register(form.getEmail(),
+						form.getNickname(), robotPassportDefault,
+						robotPassportDefault, 0l);
+				Profile profile = new Profile();
+				profile.setUid(uid);
+				profile.setProfessionId(form.getProfessionId());
+				profile.setBirthYear(form.getYear());
+				profile.setBirthMonth(form.getMonth());
+				profile.setBirthDay(form.getDay());
+				profile.setGender(form.getGender());
+				profile.setCity(form.getCity());
+				profile.setProvince(form.getProvince());
+				profile.setTown(form.getTown());
+				if (profile.getProfessionId() > 0) {
+					Profession p = com.juzhai.passport.InitData.PROFESSION_MAP
+							.get(profile.getProfessionId());
+					if (null != p) {
+						profile.setProfession(p.getName());
+					}
+				}
+				profile.setConstellationId(com.juzhai.passport.InitData
+						.getConstellation(profile.getBirthMonth(),
+								profile.getBirthDay()).getId());
+				profileMapper.updateByPrimaryKeySelective(profile);
+				redisTemplate.opsForSet().add(
+						RedisKeyGenerator.genRobotUserKey(form.getCity()), uid);
+				userGuideService.createAndCompleteGuide(uid);
+				// 完成引导后提升用户使用等级
+				passportService.setUseLevel(uid, UseLevel.Level1);
+				loginService.updateLastLoginTime(uid, RunType.WEB);
+			} catch (Exception e) {
+				if (e.getMessage().equals(
+						ProfileInputException.PROFILE_NICKNAME_IS_EXIST)) {
+					log.error("exist nickname:" + form.getNickname());
+				} else if ((e.getMessage()
+						.equals(PassportAccountException.ACCOUNT_EXIST))) {
+					log.error("exist email:" + form.getEmail());
+				} else {
+					log.error("registerRobot is error");
+				}
+				continue;
+			}
+			i++;
+		}
+		return i;
 	}
 
 }

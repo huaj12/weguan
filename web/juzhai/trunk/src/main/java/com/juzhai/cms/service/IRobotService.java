@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.cms.exception.RobotInputException;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.controller.form.RegisterRobotForm;
 import com.juzhai.passport.exception.InterestUserException;
 import com.juzhai.post.exception.InputPostCommentException;
 import com.juzhai.post.exception.InputPostException;
@@ -73,5 +74,13 @@ public interface IRobotService {
 	 */
 	void response(Long cityId, Long postId) throws RobotInputException,
 			InputPostException;
+
+	/**
+	 * 注册机器人
+	 * 
+	 * @param forms
+	 * @return 注册成功的个数
+	 */
+	int registerRobot(List<RegisterRobotForm> forms);
 
 }

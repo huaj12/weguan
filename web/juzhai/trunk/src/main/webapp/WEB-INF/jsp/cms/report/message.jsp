@@ -20,12 +20,15 @@
 				<td width="100">发送者</td>
 				<td width="200">举报内容</td>
 				<td width="250">接收者</td>
+				<td width="250">发送时间</td>
 			</tr>
 			<c:forEach items="${dialogContentViewList}" var="view">
 				<tr>
 					<td>${view.profile.nickname }</td>
 					<td>${view.dialogContent.content }</td>
 					<td>${view.receiverProfile.nickname }</td>
+					<td><fmt:formatDate value="${view.dialogContent.createTime}"
+						pattern="yyyy.MM.dd HH:mm" /></td>
 				</tr>
 			</c:forEach>
 			<td colspan="3">

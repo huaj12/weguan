@@ -3,6 +3,7 @@
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -20,13 +21,12 @@
 							<div class="beta"></div>
 					</c:if>
 					<div class="top"><!--top begin-->
-						<h1></h1>
-						<div class="menu"><!--menu begin-->
-						<!-- 
+						<h2><a href="http://www.51juzhai.com/"></a></h2>
+							<!--menu begin--><!-- 
+						<div class="menu">
 							<a href="/searchusers" title="找伴儿">找伴儿</a>
 							<a href="/showideas" title="出去玩">出去玩</a>
-						 -->	
-						</div><!--menu end-->
+						</div--><!--menu end-->
 						<div class="login_btn"><a href="/login" class="btn_log" title="登录">登录</a><a href="/passport/register" class="btn_res" title="注册">注册</a></div>
 						<%-- <div class="welcome_login"><p>登录:</p>
 							<a href="javascript:void(0);" go-uri="/web/login/6" class="wb" title="使用微博账号登录"></a>
@@ -44,29 +44,12 @@
 					</div><!--top end-->
 				</div><!--fix_top end-->
 					<div class="wel"><!--begin end-->
-						<div class="wel_box w490 fl"><!--wel_box begin-->
-							<div class="wel_t"></div>
-							<div class="wel_m"><!--wel_m begin-->
-								<h2><font>${ideaCount}</font>个拒宅好主意等你来发现</h2>
-								<div class="wel_idea"><!--wel_idea begin-->
-									<ul>
-										<c:forEach items="${ideaViewList}" var="view">
-											<li>
-												<p><a href="javascript:void(0);"><img src="${jzr:ideaPic(view.idea.id,view.idea.pic, 200)}" /></a></p>
-												<span><em><c:out value="${jzu:truncate(view.idea.content,46,'...')}"></c:out></em><a href="javascript:void(0);">${view.idea.useCount}人想去</a></span>
-											</li>
-										</c:forEach>
-									</ul>
-								</div><!--wel_idea begin-->
-							</div><!--wel_m end-->
-							<div class="wel_b"></div>
-						</div><!--wel_box end-->
-						<div class="wel_box w455 fr blue"><!--wel_box begin-->
+						<div class="wel_box w490 fl blue"><!--wel_box begin-->
 							<div class="wel_t"></div>
 							<div class="wel_m"><!--wel_m begin-->
 								<h2>
-								已有<font>${userCount}</font>人加入拒宅网,你周末还宅着么？<br />
-								<em>快加入我们：寻找你的阳光周末</em>
+								已有<font>${userCount}</font>人加入拒宅网，你周末还宅着么？？<br />
+								<em>用第三方账号快速登录，开启你的拒宅之旅</em>
 								</h2>
 								<div class="wel_login_area"><!--wel_login_area begin-->
 									<a href="javascript:void(0);" class="wb login-btn" title="使用微博账号登录" go-uri="/web/login/6"></a>
@@ -83,6 +66,7 @@
 							</div><!--wel_m end-->
 							<div class="wel_b"></div>
 						</div><!--wel_box end-->
+						
 						<div class="wel_box w455 fr"><!--wel_box begin-->
 							<div class="wel_t"></div>
 							<div class="wel_m"><!--wel_m begin-->
@@ -90,13 +74,13 @@
 								<div class="wel_cqw"><!--wel_cqw begin-->
 									<ul>
 										<c:forEach items="${postView }" var="view">
-											<li>
+											<li <c:choose><c:when test="${view.profileCache.gender=='1'}">class="boy"</c:when><c:otherwise>class="girl"</c:otherwise></c:choose>>
 												<div class="photo"><a href="javascript:void(0);"><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,80)}" width="60" height="60"/></a></div>
+												<c:set var="age" value="${jzu:age(view.profileCache.birthYear,view.profileCache.birthSecret)}" />
+												<c:set var="constellationName" value="${jzd:constellationName(view.profileCache.constellationId)}" />
+												<em><a href="javascript:void(0);"><c:out value="${view.profileCache.nickname }"></c:out> </a><c:if test="${age > 0}">${age}岁&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty view.profileCache.profession}">${view.profileCache.profession}</c:if></em>
 												<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:</font><a href="javascript:void(0);"><c:out value="${jzu:truncate(view.post.content,90,'...')}"></c:out></a></p>
-												<div class="xy_ly"><!--xy_ly begin-->
-												<div class="message_s2"><a href="javascript:void(0);">留言<c:if test="${view.post.commentCnt > 0}">(${view.post.commentCnt})</c:if></a></div>
-												<div class="like"><a href="javascript:void(0);" class="xy">有兴趣</a><div class="xy_num"><p class="l"></p><a href="javascript:void(0);">${view.post.responseCnt}</a><p class="r"></p></div></div>
-												</div><!--xy_ly end-->
+												<b><a href="javascript:void(0);">共${view.post.responseCnt}人感兴趣</a></b>
 											</li>
 										</c:forEach>
 									</ul>
@@ -104,11 +88,28 @@
 							</div><!--wel_m end-->
 							<div class="wel_b"></div>
 						</div><!--wel_box end-->
+						
+						<div class="wel_box w490 fl"><!--wel_box begin-->
+							<div class="wel_t"></div>
+							<div class="wel_m"><!--wel_m begin-->
+								<h2>最近大家分享了 <font>${ideaCount}</font>个 拒宅好主意</h2>
+								<div class="wel_idea"><!--wel_idea begin-->
+									<ul>
+										<c:forEach items="${ideaViewList}" var="view">
+											<li>
+												<p><a href="javascript:void(0);"><img src="${jzr:ideaPic(view.idea.id,view.idea.pic, 200)}" /></a></p>
+												<span><em><c:out value="${jzu:truncate(view.idea.content,46,'...')}"></c:out></em><a href="javascript:void(0);">${view.idea.useCount}人想去</a></span>
+											</li>
+										</c:forEach>
+									</ul>
+								</div><!--wel_idea begin-->
+							</div><!--wel_m end-->
+							<div class="wel_b"></div>
+						</div><!--wel_box end-->
 				</div><!--wel end-->
 			</div><!--main end-->
 			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 			<script type="text/javascript" src="${jzr:static('/js/web/welcome.js')}"></script>
-			<c:set var="footType" value="welcome" scope="request"/>
 			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 		</div><!--warp end-->
 	</body>

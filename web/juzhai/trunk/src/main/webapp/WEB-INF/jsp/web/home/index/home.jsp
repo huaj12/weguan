@@ -58,7 +58,7 @@
 											</c:when>
 											<c:otherwise>
 											<div class="img">
-												<a href="/profile/index/face"><img src="${jzr:userLogo(loginUser.uid,loginUser.newLogoPic,120)}"  width="120" height="120"/></a>
+												<a href="/profile/index/face"><img src="${jzr:static('/images/web2/face_120.jpg')}"  width="120" height="120"/></a>
 											</div>
 											<h2>发布第1个拒宅之前，先上传一张头像吧</h2>
 											<p>

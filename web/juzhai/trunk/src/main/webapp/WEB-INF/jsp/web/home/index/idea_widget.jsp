@@ -7,7 +7,7 @@
 <div class="content_box w285"><!--content begin-->
 	<div class="t"></div>
 	<div class="m">
-		<div class="right_title"><h2>拒宅好主意</h2><a href="/showideas">更多</a></div>
+		<div class="right_title"><h2>今日拒宅好主意</h2><a href="/showideas">更多</a></div>
 		<div id="idea-widget" class="idea"><!--idea begin-->
 			
 		</div><!--idea end-->

@@ -5,6 +5,8 @@ package com.juzhai.passport.service.impl;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +19,7 @@ import net.rubyeye.xmemcached.MemcachedClient;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
@@ -31,7 +34,9 @@ import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.core.exception.UploadImageException;
+import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
+import com.juzhai.lab.controller.form.ProfileMForm;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
@@ -657,5 +662,36 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
 		}
 		clearProfileCache(uid);
+	}
+
+	@Override
+	public void updateLogoAndProfile(long uid, ProfileMForm profileForm)
+			throws UploadImageException, ProfileInputException {
+		String logoFileName = null;
+		if (profileForm != null && profileForm.getLogo() != null) {
+			logoFileName = profileImageService.uploadAndReduceLogo(uid,
+					profileForm.getLogo());
+		}
+		Profile profile = getProfile(uid);
+		profile.setNickname(profileForm.getNickname());
+		profile.setFeature(profileForm.getFeature());
+		profile.setProfessionId(profileForm.getProfessionId());
+		profile.setProfession(profileForm.getProfession());
+		if (StringUtils.isNotEmpty(profileForm.getBirth())) {
+			try {
+				Date birth = DateUtils.parseDate(profileForm.getBirth(),
+						DateFormat.DATE_PATTERN);
+				Calendar c = DateUtils.toCalendar(birth);
+				profile.setBirthYear(c.get(Calendar.YEAR));
+				profile.setBirthMonth(c.get(Calendar.MONTH) + 1);
+				profile.setBirthDay(c.get(Calendar.DAY_OF_MONTH));
+			} catch (ParseException e) {
+			}
+		}
+		if (StringUtils.isNotEmpty(logoFileName)) {
+			profile.setNewLogoPic(logoFileName);
+			profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
+		}
+		updateProfile(profile);
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.juzhai.core.exception.UploadImageException;
+import com.juzhai.lab.controller.form.ProfileMForm;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.Profile;
@@ -141,6 +142,16 @@ public interface IProfileService {
 	 */
 	void updateLogo(long uid, String filePath, int scaledW, int scaledH, int x,
 			int y, int w, int h) throws UploadImageException;
+
+	/**
+	 * 保存头像和个人资料（用户手机应用）
+	 * 
+	 * @param uid
+	 * @param profileForm
+	 * @throws UploadImageException
+	 * @throws ProfileInputException
+	 */
+	void updateLogoAndProfile(long uid, ProfileMForm profileForm) throws UploadImageException, ProfileInputException;
 
 	/**
 	 * web登录用户倒序列表

@@ -51,4 +51,14 @@ public interface IProfileImageService {
 	 * @return
 	 */
 	String getUserImagePath(long uid) throws UploadImageException;
+
+	/**
+	 * 上传并且生成缩略图
+	 * 
+	 * @param uid
+	 * @param image
+	 * @throws UploadImageException
+	 */
+	String uploadAndReduceLogo(long uid, MultipartFile image)
+			throws UploadImageException;
 }

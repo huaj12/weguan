@@ -69,6 +69,13 @@
 									</div><!--input_x end-->
 									<div class="btn"><a href="javascript:void(0);">立即注册</a></div>
 								</form>
+								<div class="xieyi">
+								<span><input name="agreement" type="checkbox" checked="checked" /></span><p>我已阅读并同意<a href="/about/agreement" target="_blank">《使用协议》</a></p>
+								<div class="clear"></div>
+								<div class="clear"></div>
+								<div class="clear"></div>
+								<div class="clear"></div>
+								</div>
 							</div><!--reg_left end-->
 							<jsp:include page="/WEB-INF/jsp/web/login/tp_login.jsp" />
 						</div><!--member_register end-->

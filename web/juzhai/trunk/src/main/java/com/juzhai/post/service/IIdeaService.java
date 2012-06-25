@@ -228,7 +228,7 @@ public interface IIdeaService {
 	 * @return
 	 */
 	int countCmsIdeaByCityAndCategory(Boolean window, Long cityId,
-			Long categoryId);
+			Long categoryId, Boolean random);
 
 	/**
 	 * 好主意列表（选择某城市不包括全国）
@@ -239,8 +239,8 @@ public interface IIdeaService {
 	 * @return
 	 */
 	List<Idea> listCmsIdeaByCityAndCategory(Boolean window, Long cityId,
-			Long categoryId, ShowIdeaOrder oderType, int firstResult,
-			int maxResults);
+			Long categoryId, Boolean random, ShowIdeaOrder oderType,
+			int firstResult, int maxResults);
 
 	/**
 	 * 总的好主意数

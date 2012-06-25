@@ -608,16 +608,18 @@ public class IdeaService implements IIdeaService {
 
 	@Override
 	public int countCmsIdeaByCityAndCategory(Boolean window, Long cityId,
-			Long categoryId) {
-		IdeaExample example = createCmsIdeaExample(window, cityId, categoryId);
+			Long categoryId, Boolean random) {
+		IdeaExample example = createCmsIdeaExample(window, cityId, categoryId,
+				random);
 		return ideaMapper.countByExample(example);
 	}
 
 	@Override
 	public List<Idea> listCmsIdeaByCityAndCategory(Boolean window, Long cityId,
-			Long categoryId, ShowIdeaOrder oderType, int firstResult,
-			int maxResults) {
-		IdeaExample example = createCmsIdeaExample(window, cityId, categoryId);
+			Long categoryId, Boolean random, ShowIdeaOrder oderType,
+			int firstResult, int maxResults) {
+		IdeaExample example = createCmsIdeaExample(window, cityId, categoryId,
+				random);
 		if (window != null && window) {
 			example.setOrderByClause(" create_window_time desc");
 		} else {
@@ -629,7 +631,7 @@ public class IdeaService implements IIdeaService {
 	}
 
 	private IdeaExample createCmsIdeaExample(Boolean window, Long cityId,
-			Long categoryId) {
+			Long categoryId, Boolean random) {
 		IdeaExample example = new IdeaExample();
 		IdeaExample.Criteria c = example.createCriteria();
 		if (null != cityId) {
@@ -638,10 +640,13 @@ public class IdeaService implements IIdeaService {
 		if (null != categoryId && categoryId > 0) {
 			c.andCategoryIdEqualTo(categoryId);
 		}
-		c.andDefunctEqualTo(false);
 		if (window != null) {
 			c.andWindowEqualTo(window);
 		}
+		if (random != null) {
+			c.andRandomEqualTo(random);
+		}
+		c.andDefunctEqualTo(false);
 		return example;
 	}
 

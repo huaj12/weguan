@@ -21,6 +21,9 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.ShowPostOrder;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.model.Passport;
+import com.juzhai.passport.service.IPassportService;
+import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.post.bean.PostResult;
 import com.juzhai.post.controller.helper.PostViewHelper;
 import com.juzhai.post.controller.view.PostView;
@@ -41,6 +44,10 @@ public class HomeController extends BaseController {
 	private IRecommendPostService recommendPostService;
 	@Autowired
 	private IUserPreferenceService userPreferenceService;
+	@Autowired
+	private IPassportService passportService;
+	@Autowired
+	private IRegisterService registerService;
 	// TODO (done) 这个autowired空的？
 	@Value("${web.home.post.max.rows}")
 	private int webHomePostMaxRows;
@@ -138,7 +145,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("pageType", "home");
 		loadCategoryList(model);
 		loadFaces(model);
-		showHomeRight(cityId, request, context, model);
+		showHomeCommon(cityId, request, context, model);
 		return "web/home/index/home";
 	}
 
@@ -164,7 +171,7 @@ public class HomeController extends BaseController {
 			@PathVariable String genderType, @PathVariable int page)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeRight(0l, request, context, model);
+		showHomeCommon(0l, request, context, model);
 		Integer gender = getGender(genderType);
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
 				postService.countResponsePost(context.getUid(), null, gender));
@@ -195,7 +202,7 @@ public class HomeController extends BaseController {
 			@PathVariable String genderType, @PathVariable int page)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeRight(0l, request, context, model);
+		showHomeCommon(0l, request, context, model);
 		Integer gender = getGender(genderType);
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
 				postService.countInterestUserPost(context.getUid(), null,
@@ -216,7 +223,7 @@ public class HomeController extends BaseController {
 		return "web/home/index/home";
 	}
 
-	private void showHomeRight(long cityId, HttpServletRequest request,
+	private void showHomeCommon(long cityId, HttpServletRequest request,
 			UserContext context, Model model) {
 		if (cityId == 0) {
 			ProfileCache loginUser = getLoginUserCache(request);
@@ -229,5 +236,12 @@ public class HomeController extends BaseController {
 		visitUserWidget(model, context, visitorWidgetUserCount);
 		newUserWidget(cityId, model, webHomeRightUserRows);
 		recommendUserWidget(context.getUid(), recommendUserCount, model);
+		Passport passport = passportService.getPassportByUid(context.getUid());
+		if (null != passport) {
+			model.addAttribute("hasNotAccount",
+					!registerService.hasAccount(passport));
+			model.addAttribute("hasNotActive",
+					!registerService.hasActiveEmail(passport));
+		}
 	}
 }

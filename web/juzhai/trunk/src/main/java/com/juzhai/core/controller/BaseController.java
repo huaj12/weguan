@@ -30,12 +30,9 @@ import com.juzhai.home.service.IVisitUserService;
 import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IInterestUserService;
-import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
-import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.post.bean.PostResult;
 import com.juzhai.post.controller.view.PostView;
@@ -79,10 +76,6 @@ public class BaseController {
 	private IPostService postService;
 	@Autowired
 	private IBlacklistService blacklistService;
-	@Autowired
-	private IPassportService passportService;
-	@Autowired
-	private IRegisterService registerService;
 	@Autowired
 	private IGuessYouService guessYouService;
 	@Autowired
@@ -240,13 +233,6 @@ public class BaseController {
 				profileService.getProfileCompletion(context.getUid()));
 		model.addAttribute("interestCount",
 				interestUserService.countInterestUser(context.getUid()));
-		Passport passport = passportService.getPassportByUid(context.getUid());
-		if (null != passport) {
-			model.addAttribute("hasNotAccount",
-					!registerService.hasAccount(passport));
-			model.addAttribute("hasNotActive",
-					!registerService.hasActiveEmail(passport));
-		}
 	}
 
 	protected long decryptInviteUid(String token) {

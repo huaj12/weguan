@@ -131,7 +131,7 @@ function shield(id){
 			</td>
 		</tr>
 	</table>
-	<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />	
+	<script type="text/javascript" src="${jzr:static('/js/cms/common/base.js')}"></script>
 	<script>new LocationWidget();</script>
 </body>
 </html>

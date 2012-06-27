@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Component;
 
 import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.image.LogoSizeType;
@@ -14,7 +13,6 @@ import com.juzhai.core.util.StaticUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.model.Thirdparty;
 
-@Component
 public class JzResourceFunction {
 	private static final String FILE_CONFIG_PATH = "/properties/file.properties";
 	private static String webActImagePath;

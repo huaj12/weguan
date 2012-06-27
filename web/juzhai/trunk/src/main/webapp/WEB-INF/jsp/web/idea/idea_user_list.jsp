@@ -89,7 +89,7 @@
 
 <div class="wgo_title"  idea-id="${idea.id}"><!--wgo_title begin-->
 		<div class="tab">
-			<span <c:if test="${tabType=='ideaUser'}">class="act"</c:if>><p></p><a href="/idea/${idea.id}">找伴同去的人(${idea.useCount})</a><p></p></span>
+			<span <c:if test="${tabType=='ideaUser'}">class="act"</c:if>><p></p><a href="/idea/${idea.id}">想去的人(${idea.useCount})</a><p></p></span>
 			<span <c:if test="${tabType=='ideaInterest' }">class="act"</c:if>><p></p><a href="/idea/${idea.id}/interest">感兴趣的人(${idea.interestCnt })</a><p></p></span>
 		</div>
 		<c:if test="${tabType=='ideaUser' }">

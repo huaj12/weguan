@@ -15,8 +15,8 @@
 				<div></div>
 				<div class="select_box"><!--select_box begin-->
 					<span>
-						<a href="javascript:void(0);" value="0">我想去</a>
-						<a href="javascript:void(0);" value="1" class="selected">我想找伴儿去</a>
+						<a href="javascript:void(0);" value="0" class="selected">我想去</a>
+						<a href="javascript:void(0);" value="1">我想找伴儿去</a>
 						<a href="javascript:void(0);" value="2">我想找一个男生</a>
 						<a href="javascript:void(0);" value="3">我想找一个女生</a>
 					</span>

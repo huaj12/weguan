@@ -236,4 +236,13 @@ public class PassportService implements IPassportService {
 		}
 
 	}
+
+	@Override
+	public List<Passport> getEmailPassports(int firstResult, int maxResults) {
+		PassportExample example = new PassportExample();
+		example.createCriteria().andEmailActiveEqualTo(true);
+		example.setOrderByClause("id asc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return passportMapper.selectByExample(example);
+	}
 }

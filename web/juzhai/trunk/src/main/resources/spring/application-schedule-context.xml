@@ -206,6 +206,17 @@
 	<!-- qplus new user push end -->
 	
 	
+	<!-- week send email  begin -->
+	<bean id="noticeWeekEmailTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="noticeWeekEmailHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${notice.week.email.cron}" />
+	</bean>
+	<!--week send email  end-->
+	
 	
 	<bean id="scheduler"  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
@@ -225,6 +236,7 @@
 				<ref bean="noticeQplusTrigger"/>
 				<ref bean="defunctExpireIdeaTrigger"/>
 				<ref bean="updateSearchWordHotTrigger"/>
+				<ref bean="noticeWeekEmailTrigger"/>
 			</list>
 		</property>
 	</bean>

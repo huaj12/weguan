@@ -104,6 +104,7 @@
 			<td width="150">用户昵称</td>
 			<td width="50">性别</td>
 			<td width="100">城市</td>
+			<td width="100">关注</td>
 			<td width="180">用户头像</td>
 			<td width="200">处理</td>
 		</tr>
@@ -113,6 +114,7 @@
 				<td><c:out value="${profile.nickname}" /></td>
 				<td><c:choose><c:when test="${profile.gender == 1}">男</c:when><c:otherwise>女</c:otherwise></c:choose></td>
 				<td><c:out value="${jzd:cityName(profile.city)}" /></td>
+				<td><a href="javascript:void(0);" id="robot-interest-${profile.uid}" class="robot-interest"  city-id="${profile.city}" post-id="${profile.uid}" target-uid="${profile.uid}">关注</a></td>
 				<td><img src="${jzr:userLogo(profile.uid, profile.newLogoPic, 180)}" width="180" height="180"/></td>
 				<td>
 					<c:if test="${type != 'listVerifiedLogo'}">
@@ -141,5 +143,6 @@
 			</td>
 		</tr>
 	</table>
+	<script type="text/javascript" src="${jzr:static('/js/cms/common/base.js')}"></script>
 </body>
 </html>

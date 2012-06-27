@@ -33,14 +33,14 @@ public class StaticVersionService implements IStaticVersionService {
 
 	private void loadFile(File directory, Map<String, String> versions,
 			String filePath, String extension) {
+		String suffix = "." + extension;
 		if (null != directory && directory.exists() && directory.canRead()) {
 			File[] files = directory.listFiles();
 			for (File file : files) {
 				if (file.isDirectory()) {
 					loadFile(file, versions, filePath + file.getName()
 							+ File.separator, extension);
-				} else if (file.isFile()
-						&& file.getName().endsWith("." + extension)) {
+				} else if (file.isFile() && file.getName().endsWith(suffix)) {
 					versions.put(filePath + file.getName(),
 							String.valueOf(file.lastModified() / 1000));
 				}

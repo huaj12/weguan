@@ -25,7 +25,6 @@ import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.exception.ReportAccountException;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IProfileService;
-import com.juzhai.passport.service.IReportService;
 
 @Component
 public class CheckLoginFilter implements Filter {
@@ -39,8 +38,6 @@ public class CheckLoginFilter implements Filter {
 	private ILoginService loginService;
 	@Autowired
 	private IProfileService profileService;
-	@Autowired
-	private IReportService reportService;
 
 	@Override
 	public void destroy() {

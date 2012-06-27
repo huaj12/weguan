@@ -1,11 +1,14 @@
 package com.juzhai.post.controller.view;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.model.Post;
 
-public class PostView {
+public class PostView implements Serializable {
+
+	private static final long serialVersionUID = -8013742526881456452L;
 
 	private ProfileCache profileCache;
 

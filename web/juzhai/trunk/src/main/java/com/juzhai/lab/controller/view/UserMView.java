@@ -19,6 +19,7 @@ public class UserMView {
 	private String feature;
 	private int interestUserCount;
 	private int interestMeCount;
+	private boolean hasGuided;
 	private PostMView postView;
 
 	public long getUid() {
@@ -163,6 +164,14 @@ public class UserMView {
 
 	public void setLogoVerifyState(int logoVerifyState) {
 		this.logoVerifyState = logoVerifyState;
+	}
+
+	public boolean isHasGuided() {
+		return hasGuided;
+	}
+
+	public void setHasGuided(boolean hasGuided) {
+		this.hasGuided = hasGuided;
 	}
 
 }

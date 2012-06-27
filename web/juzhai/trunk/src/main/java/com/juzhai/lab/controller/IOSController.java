@@ -117,11 +117,9 @@ public class IOSController extends BaseController {
 		if (uid <= 0) {
 			result.setError(JuzhaiException.SYSTEM_ERROR, messageSource);
 		}
-		// if (!userGuideService.isCompleteGuide(uid)) {
-		// result.setError(JuzhaiException.SYSTEM_ERROR, messageSource);
-		// }
 		Profile profile = profileService.getProfile(uid);
-		result.setResult(createUserMView(profile));
+		result.setResult(createUserMView(profile,
+				userGuideService.isCompleteGuide(uid)));
 		return result;
 	}
 
@@ -140,6 +138,8 @@ public class IOSController extends BaseController {
 					registerForm.getNickname(), registerForm.getPwd(),
 					registerForm.getConfirmPwd(), registerForm.getInviterUid());
 			loginService.autoLogin(request, response, uid);
+			result.setResult(createUserMView(profileService.getProfile(uid),
+					false));
 			try {
 				registerService.sendAccountMail(uid);
 			} catch (PassportAccountException e) {
@@ -279,7 +279,7 @@ public class IOSController extends BaseController {
 		List<UserMView> userViewList = new ArrayList<UserMView>(
 				profileList.size());
 		for (Profile profile : profileList) {
-			UserMView userView = createUserMView(profile);
+			UserMView userView = createUserMView(profile, false);
 			Post post = userLatestPostMap.get(profile.getUid());
 			if (post == null) {
 				continue;
@@ -322,8 +322,9 @@ public class IOSController extends BaseController {
 		return postView;
 	}
 
-	private UserMView createUserMView(Profile profile) {
+	private UserMView createUserMView(Profile profile, boolean isCompleteGuide) {
 		UserMView userView = new UserMView();
+		userView.setHasGuided(isCompleteGuide);
 		userView.setUid(profile.getUid());
 		userView.setNickname(profile.getNickname());
 		if (null != profile.getGender()) {
@@ -406,13 +407,10 @@ public class IOSController extends BaseController {
 		Map<String, Object> mapResult = new HashMap<String, Object>(3);
 		AjaxResult result = new AjaxResult();
 		result.setResult(mapResult);
-		Profile profile = profileService.getProfile(context.getUid());
-		UserMView userView = createUserMView(profile);
-		mapResult.put("userView", userView);
 
 		PagerManager pager = new PagerManager(page, webMyPostMaxRows,
-				postService.countUserPost(profile.getUid()));
-		List<Post> postList = postService.listUserPost(profile.getUid(), null,
+				postService.countUserPost(context.getUid()));
+		List<Post> postList = postService.listUserPost(context.getUid(), null,
 				pager.getFirstResult(), pager.getMaxResult());
 		List<PostMView> postViewList = new ArrayList<PostMView>(postList.size());
 		for (Post post : postList) {
@@ -437,8 +435,9 @@ public class IOSController extends BaseController {
 		AjaxResult result = new AjaxResult();
 		try {
 			profileService.updateLogoAndProfile(context.getUid(), profileForm);
-			result.setResult(createUserMView(profileService.getProfile(context
-					.getUid())));
+			result.setResult(createUserMView(
+					profileService.getProfile(context.getUid()),
+					userGuideService.isCompleteGuide(context.getUid())));
 		} catch (ProfileInputException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		} catch (UploadImageException e) {

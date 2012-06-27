@@ -56,7 +56,7 @@
 															<p>费用:</p><span>${idea.charge}元</span>
 														</c:if>
 														<div class="clear"></div>
-														<p><c:if test="${idea.interestCnt>0}"><a href="/idea/${idea.id}/interest/#ideaList" class="gyr">${idea.interestCnt}人感兴趣</a></c:if><c:if test="${idea.useCount>0}"><a href="/idea/${idea.id}/#ideaList" class="gyr">${idea.useCount}人找伴同去</a></c:if></p>
+														<p><c:if test="${idea.interestCnt>0}"><a href="/idea/${idea.id}/interest/#ideaList" class="gyr">${idea.interestCnt}人感兴趣</a></c:if><c:if test="${idea.useCount>0}"><a href="/idea/${idea.id}/#ideaList" class="gyr">${idea.useCount}人想去</a></c:if></p>
 														<div class="clear"></div>
 													</div><!--idea_infor end-->
 													
@@ -67,7 +67,7 @@
 																<div class="done"><a href="javascript:void(0);">已想去</a></div>
 															</c:when>
 															<c:otherwise>
-																<div class="date_btn idea-btn idea-btn-${idea.id}"><a href="javascript:void(0);" idea-id="${idea.id}">找伴同去</a></div>															
+																<div class="date_btn idea-btn idea-btn-${idea.id}"><a href="javascript:void(0);" idea-id="${idea.id}">我想去</a></div>															
 															</c:otherwise>
 														</c:choose>
 														<c:choose>

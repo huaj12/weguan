@@ -151,7 +151,8 @@ public interface IProfileService {
 	 * @throws UploadImageException
 	 * @throws ProfileInputException
 	 */
-	void updateLogoAndProfile(long uid, ProfileMForm profileForm) throws UploadImageException, ProfileInputException;
+	void updateLogoAndProfile(long uid, ProfileMForm profileForm)
+			throws UploadImageException, ProfileInputException;
 
 	/**
 	 * web登录用户倒序列表
@@ -242,5 +243,14 @@ public interface IProfileService {
 	 * @return
 	 */
 	boolean isValidLogo(long uid);
+
+	/**
+	 * 获取有邮件的用户资料
+	 * 
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Profile> getEmailProfiles(int firstResult, int maxResults);
 
 }

@@ -694,4 +694,14 @@ public class ProfileService implements IProfileService {
 		}
 		updateProfile(profile);
 	}
+
+	@Override
+	public List<Profile> getEmailProfiles(int firstResult, int maxResults) {
+		ProfileExample example = new ProfileExample();
+		example.createCriteria().andEmailIsNotNull()
+				.andEmailNotEqualTo(StringUtils.EMPTY);
+		example.setOrderByClause("uid asc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return profileMapper.selectByExample(example);
+	}
 }

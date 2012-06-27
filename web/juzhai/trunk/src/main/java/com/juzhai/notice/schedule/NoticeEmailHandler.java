@@ -81,7 +81,7 @@ public class NoticeEmailHandler extends AbstractScheduleHandler {
 	}
 
 	private void stopMailDaemon() {
-		mailManager.startDaemon();
+		mailManager.stopDaemon();
 	}
 
 	private Map<String, Object> buildSubjectProp(Profile profile) {

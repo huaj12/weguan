@@ -19,7 +19,8 @@ import com.juzhai.core.web.jstl.JzDataFunction;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.jstl.JzUtilFunction;
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.model.Profile;
+import com.juzhai.passport.model.Passport;
+import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Idea;
@@ -35,6 +36,8 @@ public class NoticeWeekEmailHandler extends AbstractScheduleHandler {
 	@Autowired
 	private IProfileService profileService;
 	@Autowired
+	private IPassportService passportService;
+	@Autowired
 	private MailManager mailManager;
 	@Autowired
 	private IPostService postService;
@@ -44,10 +47,10 @@ public class NoticeWeekEmailHandler extends AbstractScheduleHandler {
 	private IRecommendIdeaService recommendIdeaService;
 	@Autowired
 	private IRecommendPostService recommendPostService;
-	@Value("${mail.idea.max.rows}")
-	private int mailIdeaMaxRows;
-	@Value("${mail.post.max.rows}")
-	private int mailPostMaxRows;
+	@Value("${week.mail.idea.max.rows}")
+	private int weekMailIdeaMaxRows;
+	@Value("${week.mail.post.max.rows}")
+	private int weekMailPostMaxRows;
 	private static JzResourceFunction jzr = new JzResourceFunction();
 	private static JzDataFunction jzd = new JzDataFunction();
 	private static JzUtilFunction jzu = new JzUtilFunction();
@@ -59,16 +62,18 @@ public class NoticeWeekEmailHandler extends AbstractScheduleHandler {
 		int maxResults = 200;
 		Map<String, Object> params = initData();
 		while (true) {
-			List<Profile> profileList = profileService.getEmailProfiles(
+			List<Passport> passPortList = passportService.getEmailPassports(
 					firstResult, maxResults);
-			if (CollectionUtils.isEmpty(profileList)) {
+			if (CollectionUtils.isEmpty(passPortList)) {
 				break;
 			}
-			for (Profile profile : profileList) {
-				if (StringUtils.isEmpty(profile.getEmail())) {
+			for (Passport passport : passPortList) {
+				if (StringUtils.isEmpty(passport.getEmail())) {
 					continue;
 				}
-				Mail mail = MailFactory.create(profile.getEmail(),
+				ProfileCache profile = profileService
+						.getProfileCacheByUid(passport.getId());
+				Mail mail = MailFactory.create(passport.getEmail(),
 						profile.getNickname(), true);
 				mail.buildSubject("/mail/week/subject.vm",
 						buildSubjectProp(profile));
@@ -85,10 +90,10 @@ public class NoticeWeekEmailHandler extends AbstractScheduleHandler {
 	}
 
 	private void stopMailDaemon() {
-		mailManager.startDaemon();
+		mailManager.stopDaemon();
 	}
 
-	private Map<String, Object> buildSubjectProp(Profile profile) {
+	private Map<String, Object> buildSubjectProp(ProfileCache profile) {
 		Map<String, Object> prop = new HashMap<String, Object>();
 		prop.put("nickname", profile.getNickname());
 		return prop;
@@ -100,10 +105,11 @@ public class NoticeWeekEmailHandler extends AbstractScheduleHandler {
 		int totalPostCount = postService.totalCount();
 		int totalIdeaCount = ideaService.totalCount();
 		List<Idea> ideaList = new ArrayList<Idea>();
-		ideaList.addAll(recommendIdeaService.listRecommendIdea(mailIdeaMaxRows));
+		ideaList.addAll(recommendIdeaService
+				.listRecommendIdea(weekMailIdeaMaxRows));
 		List<PostView> postList = new ArrayList<PostView>();
 		List<Post> list = recommendPostService
-				.listRecommendPost(mailPostMaxRows);
+				.listRecommendPost(weekMailPostMaxRows);
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
 					.getCreateUid());

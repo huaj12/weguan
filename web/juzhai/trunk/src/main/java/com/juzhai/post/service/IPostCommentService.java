@@ -28,7 +28,7 @@ public interface IPostCommentService {
 	 * @return
 	 * @throws InputPostCommentException
 	 */
-	PostComment comment(Long uid, PostCommentForm form)
+	PostComment comment(long uid, PostCommentForm form)
 			throws InputPostCommentException;
 
 	/**

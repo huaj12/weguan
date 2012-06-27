@@ -46,9 +46,9 @@
 					<div class="wel"><!--begin end-->
 						<div class="wel_box w490 fl blue"><!--wel_box begin-->
 							<div class="wel_t"></div>
-							<div class="wel_m"><!--wel_m begin-->
+							<div class="wel_m bd"><!--wel_m begin-->
 								<h2>
-								已有<font>${userCount}</font>人加入拒宅网，你周末还宅着么？？<br />
+								拒宅网是一个阳光脱宅社区, 已有<font>${userCount}</font>人加入<br />
 								<em>用第三方账号快速登录，开启你的拒宅之旅</em>
 								</h2>
 								<div class="wel_login_area"><!--wel_login_area begin-->

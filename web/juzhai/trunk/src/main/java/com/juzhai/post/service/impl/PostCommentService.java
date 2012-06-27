@@ -94,7 +94,7 @@ public class PostCommentService implements IPostCommentService {
 	}
 
 	@Override
-	public PostComment comment(Long uid, PostCommentForm form)
+	public PostComment comment(long uid, PostCommentForm form)
 			throws InputPostCommentException {
 		if (form.getPostId() <= 0) {
 			throw new InputPostCommentException(

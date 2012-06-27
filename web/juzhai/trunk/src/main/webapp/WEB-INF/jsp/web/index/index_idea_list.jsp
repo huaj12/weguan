@@ -28,7 +28,7 @@
 																		<div class="done"><a href="javascript:void(0);">已想去</a></div>
 																	</c:when>
 																	<c:otherwise>
-																		<div class="date_btn idea-btn idea-btn-${ideaView.idea.id}"><a href="javascript:void(0);" idea-id="${ideaView.idea.id}">找伴同去</a></div>															
+																		<div class="date_btn idea-btn idea-btn-${ideaView.idea.id}"><a href="javascript:void(0);" idea-id="${ideaView.idea.id}">我想去</a></div>															
 																	</c:otherwise>
 																</c:choose>
 																<c:choose>
@@ -39,7 +39,7 @@
 																		<div class="gxq_btn idea-interest" idea-id="${ideaView.idea.id}"><a href="javascript:void(0);">感兴趣</a></div>
 																	</c:otherwise>
 																</c:choose>
-																<div class="xq"><c:if test="${ideaView.idea.useCount>0}"><a href="/idea/${ideaView.idea.id}/#ideaList">${ideaView.idea.useCount}人找伴同去</a></c:if></div>
+																<div class="xq"><c:if test="${ideaView.idea.useCount>0}"><a href="/idea/${ideaView.idea.id}/#ideaList">${ideaView.idea.useCount}人想去</a></c:if></div>
 																<c:if test="${ideaView.idea.interestCnt>0}"><div class="gxq"><a href="/idea/${ideaView.idea.id}/interest/#ideaList">${ideaView.idea.interestCnt}人感兴趣</a></div></c:if>
 															</div><!--fb_area end-->
 														</div><!--pub_box_m end-->

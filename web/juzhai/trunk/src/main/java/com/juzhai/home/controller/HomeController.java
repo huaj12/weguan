@@ -75,7 +75,7 @@ public class HomeController extends BaseController {
 				genderType = "female";
 			}
 		}
-		return showNewPosts(request, model, 0, genderType, 1);
+		return showOnlinePosts(request, model, 0, genderType, 1);
 	}
 
 	@RequestMapping(value = "/showNewPosts/{cityId}_{genderType}/{page}", method = RequestMethod.GET)

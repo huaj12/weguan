@@ -97,4 +97,13 @@ public interface IPassportService {
 	 * @param context
 	 */
 	void isAd(UserContext context) throws JuzhaiException;
+
+	/**
+	 * 获取验证过的邮箱
+	 * 
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Passport> getEmailPassports(int firstResult, int maxResults);
 }

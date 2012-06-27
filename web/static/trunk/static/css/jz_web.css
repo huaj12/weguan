@@ -3649,7 +3649,8 @@ search_xz .hot{ margin-top:-10px;}
 .wel_box .wel_t{ width:100%; height:8px; overflow:hidden;}
 .wel_box .wel_b{ width:100%; height:8px; overflow:hidden;}
 .wel_box .wel_m{ width:100%; height:auto; overflow:hidden;}
-.wel_box .wel_m h2{ color:#333; font-size:16px; font-family:"微软雅黑"; display:block; padding:20px 30px; }
+.wel_box .wel_m h2{ color:#333; font-size:16px; font-family:"微软雅黑";  display:block; padding:20px 30px; }
+.wel_box .bd h2{font-weight:bold;}
 .wel_box .wel_m h2 font{ font-size:18px; color:#666; margin-right:5px;}
 .wel_box .wel_m h2 em{ font-size:14px; color:#848484; display:block; padding-top:5px;}
 
@@ -3694,9 +3695,9 @@ search_xz .hot{ margin-top:-10px;}
 
 
 
-.wel .wel_cqw{width:400px; height:806px; overflow:hidden; margin:0 auto; }
-.wel .wel_cqw a{ }
-.wel .wel_cqw ul{ float:left; margin-top:-10px;}
+.wel .wel_cqw{width:400px; height:806px; overflow:hidden; margin:0 auto; position:relative;}
+
+.wel .wel_cqw ul{  margin-top:-10px;}
 .wel .wel_cqw ul li{ float:left; width:100%; margin-top:10px; padding-bottom:11px; border-bottom:1px dashed #e6e6e6; position:relative; width:400px;}
 .wel .wel_cqw ul li .photo{ width:80px; height:80px; overflow:hidden; float:left;}
 .wel .wel_cqw ul li em{float:right; width:300px; line-height:20px; color:#ccc; font-size:12px;}

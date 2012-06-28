@@ -158,6 +158,7 @@ function selectRandom(){
 	<c:choose>
 		<c:when test="${!isDefunct}">
 			<h2>已发布的好主意----<a href="/cms/show/idea/add">添加好主意</a></h2>
+			<form method="get" action="/cms//share/idea"><input name="url" type="text" /><input type="submit" value="分享"/></form>
 		</c:when>
 		<c:otherwise>
 			<h2>已屏蔽的好主意</h2>

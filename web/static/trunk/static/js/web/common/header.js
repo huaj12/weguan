@@ -1,4 +1,4 @@
-var title = $("title").text();
+var title =document.title;
 $(document).ready(function(){
 //	var n = 0; //top值
 //	var obj = $("div.fix_top"); //position:fixed对象
@@ -124,7 +124,7 @@ function queryNotice(){
 				if(totalCnt > 0){
 					newTitle = "(" + totalCnt + ") " + title;
 				}
-				$("title").text(newTitle);
+				document.title=newTitle;
 			}
 		}
 	});

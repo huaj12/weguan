@@ -54,6 +54,7 @@ $(document).ready(function(){
 			$("div.my_message > div#messageSelect > p").addClass("hover");
 			$("div.my_message > div#messageSelect > div").first().show();
 		}, 300);
+		return false;
 	}, function(){
 		if(messageTimerId){
 			clearTimeout(messageTimerId);
@@ -62,6 +63,7 @@ $(document).ready(function(){
 			$("div.my_message > div#messageSelect > p").removeClass("hover");
 			$("div.my_message > div#messageSelect > div").first().hide();
 		}, 300);
+		return false;
 	});
 	
 	//账号
@@ -74,6 +76,7 @@ $(document).ready(function(){
 			$("div.acc > p").addClass("hover");
 			$("div.acc > div").show();
 		}, 300);
+		return false;
 	}, function(){
 		if(accTimerId){
 			clearTimeout(accTimerId);
@@ -82,11 +85,13 @@ $(document).ready(function(){
 			$("div.acc > p").removeClass("hover");
 			$("div.acc > div").hide();
 		}, 300);
+		return false;
 	});
 	
 	if($("div.my_message").is(":visible")){
 		queryNotice();
 		setInterval(queryNotice, 10000);
+		return false;
 	}
 	
 	$("a.feed-back").click(function(){

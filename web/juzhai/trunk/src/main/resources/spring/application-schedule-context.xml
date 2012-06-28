@@ -217,6 +217,21 @@
 	</bean>
 	<!--week send email  end-->
 	
+	<!-- update static version  begin--> 
+	<bean id="updateStaticVersionTrigger" parent="abstractSimpleTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="updateStaticVersionHandler" />
+			</bean>
+		</property>
+		<property name="startDelay" value="${update.static.version.start.delay}" />
+		<!-- 只启动一次 -->
+		<property name="repeatCount" value="0"/>
+	</bean>
+	<!-- update static version end-->
+	
+	
+	
 	
 	<bean id="scheduler"  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
@@ -237,6 +252,7 @@
 				<ref bean="defunctExpireIdeaTrigger"/>
 				<ref bean="updateSearchWordHotTrigger"/>
 				<ref bean="noticeWeekEmailTrigger"/>
+				<ref bean="updateStaticVersionTrigger"/>
 			</list>
 		</property>
 	</bean>

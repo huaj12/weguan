@@ -76,7 +76,7 @@ public class CreateSitemapHandler extends AbstractScheduleHandler {
 			createIndexDoc(i);
 		}
 		// 写入数据到sitemap里
-		siteMaps.add(new SiteMap(domian + "/showusers", DateFormat.SDF
+		siteMaps.add(new SiteMap(domian + "/searchusers", DateFormat.SDF
 				.format(new Date()), "1.0", "always"));
 		siteMaps.add(new SiteMap(domian + "/showideas", DateFormat.SDF
 				.format(new Date()), "1.0", "always"));
@@ -139,7 +139,7 @@ public class CreateSitemapHandler extends AbstractScheduleHandler {
 		}
 		Element ele = root.addElement("sitemap");
 		ele.addElement("loc").addText(
-				domian+sitemapWebPath+"/sitemap_index_" + index + ".xml");
+				domian + sitemapWebPath + "/sitemap_index_" + index + ".xml");
 		ele.addElement("lastmod").addText(DateFormat.SDF.format(new Date()));
 		xmlWriter(docment, filePath + "sitemap_index.xml");
 	}

@@ -26,6 +26,7 @@ public class IdeaForm {
 	private Integer charge;
 	private Long town;
 	private String detail;
+	private String picWeb;
 
 	public Boolean getRandom() {
 		return random;
@@ -193,6 +194,14 @@ public class IdeaForm {
 
 	public void setProvince(Long province) {
 		this.province = province;
+	}
+
+	public String getPicWeb() {
+		return picWeb;
+	}
+
+	public void setPicWeb(String picWeb) {
+		this.picWeb = picWeb;
 	}
 
 }

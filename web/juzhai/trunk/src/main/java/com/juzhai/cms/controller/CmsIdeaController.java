@@ -382,25 +382,6 @@ public class CmsIdeaController extends BaseController {
 		return showIdeaUpdate(model, ideaId, null, null);
 	}
 
-	@RequestMapping(value = "/share/rawIdea", method = RequestMethod.GET)
-	public String share(Model model, String url, HttpServletRequest request) {
-		String result = null;
-		RawIdeaForm rawIdeaForm = null;
-		String msg = null;
-		try {
-			result = spiderIdeaService.crawl(url);
-			rawIdeaForm = JackSonSerializer.toBean(result, RawIdeaForm.class);
-		} catch (SpiderIdeaException e) {
-			msg = messageSource.getMessage(e.getErrorCode(), null,
-					Locale.SIMPLIFIED_CHINESE);
-		} catch (JsonGenerationException e) {
-			msg = messageSource.getMessage("00001", null,
-					Locale.SIMPLIFIED_CHINESE);
-		}
-		return showRawIdeaUpdate(model, msg, rawIdeaForm, null);
-
-	}
-
 	@RequestMapping(value = "/list/ideaWindow", method = RequestMethod.GET)
 	public String listIdeaWindow(Model model,
 			@RequestParam(defaultValue = "1") int pageId,
@@ -419,5 +400,43 @@ public class CmsIdeaController extends BaseController {
 		model.addAttribute("city", city);
 		model.addAttribute("categoryId", categoryId);
 		return "/cms/idea/list_idea_window";
+	}
+
+	@RequestMapping(value = "/share/idea", method = RequestMethod.GET)
+	public String shareIdea(Model model, String url) {
+		String msg = null;
+		RawIdeaForm rawIdeaForm = null;
+		IdeaForm ideaForm = null;
+		try {
+			String result = spiderIdeaService.crawl(url);
+			rawIdeaForm = JackSonSerializer.toBean(result, RawIdeaForm.class);
+		} catch (SpiderIdeaException e) {
+			msg = messageSource.getMessage(e.getErrorCode(), null,
+					Locale.SIMPLIFIED_CHINESE);
+		} catch (JsonGenerationException e) {
+			msg = messageSource.getMessage("00001", null,
+					Locale.SIMPLIFIED_CHINESE);
+		}
+		if (rawIdeaForm != null) {
+			ideaForm = new IdeaForm();
+			ideaForm.setProvince(rawIdeaForm.getProvince());
+			ideaForm.setCity(rawIdeaForm.getCity());
+			ideaForm.setTown(rawIdeaForm.getTown());
+			ideaForm.setCategoryId(rawIdeaForm.getCategoryId());
+			ideaForm.setContent(rawIdeaForm.getContent());
+			ideaForm.setStartDateString(rawIdeaForm.getStartDateString());
+			ideaForm.setEndDateString(rawIdeaForm.getEndDateString());
+			ideaForm.setPlace(rawIdeaForm.getPlace());
+			ideaForm.setPic(rawIdeaForm.getPic());
+			ideaForm.setLink(rawIdeaForm.getLink());
+			ideaForm.setCharge(rawIdeaForm.getCharge());
+			ideaForm.setDetail(rawIdeaForm.getDetail());
+			ideaForm.setPicWeb(rawIdeaForm.getPicWeb());
+		}
+		model.addAttribute("ideaForm", ideaForm);
+		model.addAttribute("msg", msg);
+		model.addAttribute("categoryList",
+				com.juzhai.post.InitData.CATEGORY_MAP.values());
+		return "/cms/idea/add";
 	}
 }

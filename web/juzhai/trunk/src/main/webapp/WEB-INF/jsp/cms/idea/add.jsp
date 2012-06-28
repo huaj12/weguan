@@ -72,10 +72,15 @@
 		</td>
 			<td><input type="file" name="newpic"/>
 			<c:choose>
-			<c:when test="${!empty jzr:postPic(ideaForm.postId,0, ideaForm.pic,180)}">
-			<img src="${jzr:postPic(ideaForm.postId,0, ideaForm.pic,200)}"/>
-			<input name="pic" type="hidden" value="${ideaForm.pic}"/>
-			</c:when>
+				<c:when test="${!empty jzr:postPic(ideaForm.postId,0, ideaForm.pic,200)}">
+					<img src="${jzr:postPic(ideaForm.postId,0, ideaForm.pic,200)}"/>
+					<input name="pic" type="hidden" value="${ideaForm.pic}"/>
+				</c:when>
+				<c:when test="${not empty picWeb}">
+					<img src="${ideaForm.picWeb}" width="120" height="120"/>
+					<input name="picWeb" type="hidden" value="${ideaForm.picWeb}"/>
+					<input name="pic" type="hidden" value="${ideaForm.pic}"/>
+				</c:when>
 			<c:otherwise>
 				无图片
 			</c:otherwise>
@@ -100,7 +105,7 @@
 		</tr>
 		<tr>
 		<td>详情</td>
-			<td><textarea id="detail" style="width: 700px; height: 200px; visibility: hidden;" name="detail"></textarea></td>
+			<td><textarea id="detail" style="width: 700px; height: 200px; visibility: hidden;" name="detail">${ideaForm.detail }</textarea></td>
 		</tr>
 		<tr>
 			<td></td>

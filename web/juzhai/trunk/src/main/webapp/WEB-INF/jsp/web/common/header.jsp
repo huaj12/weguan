@@ -36,8 +36,8 @@
 					</div><!--use_set_center end-->
 				</div>
 				<div class="my_message_show" style="z-index: 1"><!--use_set_center begin-->
-					<span id="notice-float-5" style="display: none;"><a href="/home/dialog/1">私信</a><em></em></span>
-					<span id="notice-float-6" style="display: none;"><a href="/home/comment/inbox/1">留言</a><em></em></span>
+					<span id="notice-auto-float-5" style="display: none;"><a href="/home/dialog/1">私信</a><em></em></span>
+					<span id="notice-auto-float-6" style="display: none;"><a href="/home/comment/inbox/1">留言</a><em></em></span>
 				</div><!--use_set_center end-->
 			</div><!--my_message end-->
 			<!-- <div class="my_message" >my_message begin

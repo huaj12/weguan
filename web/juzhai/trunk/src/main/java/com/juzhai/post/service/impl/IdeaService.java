@@ -214,8 +214,14 @@ public class IdeaService implements IIdeaService {
 
 		Long ideaId = idea.getId();
 		ideaDetailService.updateIdeaDetail(ideaId, ideaForm.getDetail());
-		String fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(),
-				ideaForm.getNewpic(), ideaId, ideaForm.getPic());
+		String fileName = null;
+		if (ideaForm.getPostId() == null && ideaForm.getNewpic().getSize() == 0
+				&& StringUtils.isNotEmpty(ideaForm.getPic())) {
+			fileName = ideaImageService.intoIdeaLogo(ideaId, ideaForm.getPic());
+		} else {
+			fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(),
+					ideaForm.getNewpic(), ideaId, ideaForm.getPic());
+		}
 		if (StringUtils.isNotEmpty(fileName)) {
 			Idea picIdea = new Idea();
 			picIdea.setId(ideaId);

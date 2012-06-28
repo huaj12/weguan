@@ -114,11 +114,12 @@ function queryNotice(){
 				for(var key in result.result){
 					if(result.result[key] > 0){
 						totalCnt += result.result[key];
-						$("div.my_message > div.my_message_show > span#notice-float-" + key).show();
+						$("div.my_message > div.my_message_show > span#notice-auto-float-" + key).show();
 					}else{
-						$("div.my_message > div.my_message_show > span#notice-float-" + key).hide();
+						$("div.my_message > div.my_message_show > span#notice-auto-float-" + key).hide();
 					}
 					$("div.my_message_show > span#notice-float-" + key + " > em").text(result.result[key] > 0 ? result.result[key] : "");
+					$("div.my_message_show > span#notice-auto-float-" + key + " > em").text(result.result[key] > 0 ? result.result[key] : "");
 				}
 				var newTitle = title;
 				if(totalCnt > 0){

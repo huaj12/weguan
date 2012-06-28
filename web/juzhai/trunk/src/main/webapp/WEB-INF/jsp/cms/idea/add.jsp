@@ -76,7 +76,7 @@
 					<img src="${jzr:postPic(ideaForm.postId,0, ideaForm.pic,200)}"/>
 					<input name="pic" type="hidden" value="${ideaForm.pic}"/>
 				</c:when>
-				<c:when test="${not empty picWeb}">
+				<c:when test="${not empty ideaForm.picWeb}">
 					<img src="${ideaForm.picWeb}" width="120" height="120"/>
 					<input name="picWeb" type="hidden" value="${ideaForm.picWeb}"/>
 					<input name="pic" type="hidden" value="${ideaForm.pic}"/>

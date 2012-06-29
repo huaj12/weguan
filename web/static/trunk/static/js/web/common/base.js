@@ -1268,6 +1268,9 @@ var CommentWidget = Class.extend({
 		$(item).find("a.reply-link").click(function(){
 			var nickname = $(this).attr("nickname");
 			var content = $(this).attr("content");
+			if(content!=null&&content.length>20){
+				content=content.substring(0,20)+"...";
+			}
 			var postCommentId = $(this).attr("post-comment-id");
 			var replyInfo = commentForm.find("div.repy_for");
 			replyInfo.find("font.reply-nickname").html(nickname);

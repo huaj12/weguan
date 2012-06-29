@@ -224,7 +224,7 @@
 				<property name="targetObject" ref="updateStaticVersionHandler" />
 			</bean>
 		</property>
-		<property name="startDelay" value="${update.static.version.start.delay}" />
+		<property name="startDelay" value="${default.start.delay}" />
 		<!-- 只启动一次 -->
 		<property name="repeatCount" value="0"/>
 	</bean>

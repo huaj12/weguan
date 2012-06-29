@@ -255,7 +255,7 @@ function selectRandom(){
 				<c:forEach var="pageId" items="${pager.showPages}">
 					<c:choose>
 						<c:when test="${pageId!=pager.currentPage}">
-							<a href="/cms/show/<c:if test='${isDefunct}'>defunct</c:if>idea?city=${city}&categoryId=${categoryId}&window=${window}&pageId=${pageId}">${pageId}</a>
+							<a href="/cms/show/<c:if test='${isDefunct}'>defunct</c:if>idea?city=${city}&categoryId=${categoryId}&window=${window}&random=${random}&pageId=${pageId}">${pageId}</a>
 						</c:when>
 						<c:otherwise>
 							<strong>${pageId}</strong>

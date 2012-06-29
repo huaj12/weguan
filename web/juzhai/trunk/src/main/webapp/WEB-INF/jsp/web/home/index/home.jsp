@@ -19,7 +19,7 @@
 						<div class="width960"><!--width960 begin-->
 							<p>
 								<c:choose>
-									<c:when test="${hasNotAccount}">拒宅提示：你还没有设置拒宅邮箱，为了方便以后找回密码，建议你现在就去<a href="/passport/account">设置邮箱</a></c:when>
+									<c:when test="${hasNotAccount}">拒宅提示：为了更好的拒宅效果和账户安全，建议你现在就去<a href="/passport/account">设置邮箱</a></c:when>
 									<c:when test="${hasNotActive}">拒宅提示：你还没有验证拒宅邮箱，为了方便以后找回密码，建议你现在就去<a href="/passport/account">激活邮箱</a></c:when>
 								</c:choose>
 							</p>

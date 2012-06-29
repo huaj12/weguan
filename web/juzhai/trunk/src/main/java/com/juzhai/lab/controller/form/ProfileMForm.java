@@ -5,10 +5,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProfileMForm {
 
 	private String nickname;
+	private int gender;
 	private String birth;
 	private String feature;
 	private long professionId;
 	private String profession;
+	private long cityId;
 	private MultipartFile logo;
 
 	public String getNickname() {
@@ -57,5 +59,21 @@ public class ProfileMForm {
 
 	public void setLogo(MultipartFile logo) {
 		this.logo = logo;
+	}
+
+	public long getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(long cityId) {
+		this.cityId = cityId;
+	}
+
+	public int getGender() {
+		return gender;
+	}
+
+	public void setGender(int gender) {
+		this.gender = gender;
 	}
 }

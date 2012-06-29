@@ -14,7 +14,11 @@ public class UserMView {
 	private String constellation;
 	private long professionId;
 	private String profession;
+	private long provinceId;
+	private String provinceName;
+	private long cityId;
 	private String cityName;
+	private long townId;
 	private String townName;
 	private String feature;
 	private int interestUserCount;
@@ -172,6 +176,38 @@ public class UserMView {
 
 	public void setHasGuided(boolean hasGuided) {
 		this.hasGuided = hasGuided;
+	}
+
+	public long getProvinceId() {
+		return provinceId;
+	}
+
+	public void setProvinceId(long provinceId) {
+		this.provinceId = provinceId;
+	}
+
+	public String getProvinceName() {
+		return provinceName;
+	}
+
+	public void setProvinceName(String provinceName) {
+		this.provinceName = provinceName;
+	}
+
+	public long getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(long cityId) {
+		this.cityId = cityId;
+	}
+
+	public long getTownId() {
+		return townId;
+	}
+
+	public void setTownId(long townId) {
+		this.townId = townId;
 	}
 
 }

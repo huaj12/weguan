@@ -113,12 +113,16 @@ public class HomeController extends BaseController {
 			cityId = loginUser.getCity();
 		}
 		Integer gender = getGender(genderType);
+		long excludeUid = 0;
+		if (ShowPostOrder.ONLINE.getType().equals(order.getType())) {
+			excludeUid = context.getUid();
+		}
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
-				postService.countNewOrOnlinePosts(context.getUid(), cityId,
-						townId, gender));
+				postService.countNewOrOnlinePosts(excludeUid, cityId, townId,
+						gender));
 		PostResult result = null;
 		if (pager.getTotalResults() > 0) {
-			result = postService.listNewOrOnlinePosts(context.getUid(), cityId,
+			result = postService.listNewOrOnlinePosts(excludeUid, cityId,
 					townId, gender, order, pager.getFirstResult(),
 					pager.getMaxResult());
 		} else {

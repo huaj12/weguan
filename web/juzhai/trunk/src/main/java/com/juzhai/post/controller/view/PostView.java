@@ -22,6 +22,10 @@ public class PostView implements Serializable {
 
 	private Date lastWebLoginTime;
 
+	private int age;
+
+	private String constellationName;
+
 	public Post getPost() {
 		return post;
 	}
@@ -68,6 +72,22 @@ public class PostView implements Serializable {
 
 	public void setLastWebLoginTime(Date lastWebLoginTime) {
 		this.lastWebLoginTime = lastWebLoginTime;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getConstellationName() {
+		return constellationName;
+	}
+
+	public void setConstellationName(String constellationName) {
+		this.constellationName = constellationName;
 	}
 
 }

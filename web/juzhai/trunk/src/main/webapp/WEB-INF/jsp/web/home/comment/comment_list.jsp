@@ -58,7 +58,7 @@
 									<div class="time">发布于&nbsp;<c:set var="date" value="${postCommentView.postComment.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></div>
 									<c:if test="${!isMe}">
 										<a href="javascript:void(0);" id="report-conment" uid="<c:out value='${postCommentView.createUser.uid}' />" content="<c:out value='${postCommentView.postComment.content}' />" post-id="${postCommentView.postComment.postId}" class="jb">举报</a>
-										<a href="javascript:void(0);" nickname="<c:out value='${postCommentView.createUser.nickname}' />" content="${jzu:truncate(postCommentView.postComment.content,40,'...')}" post-comment-id="${postCommentView.postComment.id}" class="reply-link">回复</a>
+										<a href="javascript:void(0);" nickname="<c:out value='${postCommentView.createUser.nickname}' />" content="<c:out value="${jzu:truncate(postCommentView.postComment.content,40,'...')}"/>" post-comment-id="${postCommentView.postComment.id}" class="reply-link">回复</a>
 									</c:if>
 									<c:if test="${isMe || loginUser.uid == postCommentView.postComment.postCreateUid}">
 										<a href="javascript:void(0);" class="delete-link" post-comment-id="${postCommentView.postComment.id}">删除</a>

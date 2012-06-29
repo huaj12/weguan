@@ -51,9 +51,6 @@ public class NoticeWeekEmailHandler extends AbstractScheduleHandler {
 	private int weekMailIdeaMaxRows;
 	@Value("${week.mail.post.max.rows}")
 	private int weekMailPostMaxRows;
-	private static JzResourceFunction jzr = new JzResourceFunction();
-	private static JzDataFunction jzd = new JzDataFunction();
-	private static JzUtilFunction jzu = new JzUtilFunction();
 
 	@Override
 	protected void doHandle() {
@@ -105,26 +102,37 @@ public class NoticeWeekEmailHandler extends AbstractScheduleHandler {
 		int totalPostCount = postService.totalCount();
 		int totalIdeaCount = ideaService.totalCount();
 		List<Idea> ideaList = new ArrayList<Idea>();
-		ideaList.addAll(recommendIdeaService
-				.listRecommendIdea(weekMailIdeaMaxRows));
+		for (Idea idae : recommendIdeaService
+				.listRecommendIdea(weekMailIdeaMaxRows)) {
+			idae.setPic(JzResourceFunction.ideaPic(idae.getId(), idae.getPic(),
+					200));
+			idae.setContent(JzUtilFunction.truncate(idae.getContent(), 54,
+					"..."));
+			ideaList.add(idae);
+		}
 		List<PostView> postList = new ArrayList<PostView>();
 		List<Post> list = recommendPostService
 				.listRecommendPost(weekMailPostMaxRows);
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
 					.getCreateUid());
+			post.setContent(JzUtilFunction.truncate(post.getContent(), 50,
+					"..."));
+			cache.setLogoPic(JzResourceFunction.userLogo(cache.getUid(),
+					cache.getLogoPic(), 80));
 			PostView view = new PostView();
 			view.setPost(post);
 			view.setProfileCache(cache);
+			view.setConstellationName(JzDataFunction.constellationName(cache
+					.getConstellationId()));
+			view.setAge(JzUtilFunction.age(cache.getBirthYear(),
+					cache.getBirthSecret()));
 			postList.add(view);
 		}
 		params.put("totalIdeaCount", totalIdeaCount);
 		params.put("totalPostCount", totalPostCount);
 		params.put("ideaList", ideaList);
 		params.put("postList", postList);
-		params.put("jzr", jzr);
-		params.put("jzd", jzd);
-		params.put("jzu", jzu);
 		return params;
 	}
 

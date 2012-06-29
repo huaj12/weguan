@@ -7,17 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SettingViewController.h"
 
 @class ProfileSettingViewController;
+
+#define PROFESSION_MIN_LENGTH 2
+#define PROFESSION_MAX_LENGTH 20
+#define PROFESSION_MIN_ERROR_TEXT @"职业描述不能为空"
+#define PROFESSION_MAX_ERROR_TEXT @"职业描述请不要超过10个字"
 
 @interface ProfessionEditorViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 {
     NSArray *_professionArray;
 }
-@property (strong, nonatomic) ProfileSettingViewController *profileSettingViewController;
+@property (strong, nonatomic) SettingViewController *settingViewController;
 @property (strong, nonatomic) NSString *textValue;
 @property (nonatomic) NSInteger valueId;
-@property (nonatomic) NSInteger tag;
+@property (strong, nonatomic) NSString *cellIdentifier;
 
 @property (strong, nonatomic) IBOutlet UIPickerView *professionPicker;
 @property (strong, nonatomic) IBOutlet UILabel *tipLabel;

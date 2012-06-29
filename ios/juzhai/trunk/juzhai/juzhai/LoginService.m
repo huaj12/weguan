@@ -14,6 +14,9 @@
 #import "MessageShow.h"
 #import "UserContext.h"
 #import "UserView.h"
+#import "LoginViewController.h"
+#import "GuideSettingViewController.h"
+#import "CustomNavigationController.h"
 
 @interface LoginService(Private)
     
@@ -74,6 +77,25 @@
     [request startSynchronous];
     //清除帐号信息
     [[[LoginUser alloc] init] reset];
+    [UserContext logout];
+}
+
++(UIViewController *) loginTurnToViewController{
+    UIViewController *startController;
+    if (![UserContext hasLogin]) {
+        startController = [[CustomNavigationController alloc] initWithRootViewController:[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil]];
+    } else if (![UserContext hasCompleteGuide]){
+        startController = [[CustomNavigationController alloc] initWithRootViewController:[[GuideSettingViewController alloc] initWithStyle:UITableViewStyleGrouped]];
+    }else {
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TabBar" owner:self options:nil];
+        for(id oneObject in nib){
+            if([oneObject isKindOfClass:[UITabBarController class]]){
+                startController = (UITabBarController *) oneObject;
+                break;
+            }
+        }
+    }
+    return startController;
 }
 
 @end

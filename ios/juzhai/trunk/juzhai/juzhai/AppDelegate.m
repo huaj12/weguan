@@ -31,15 +31,7 @@
     if(![LoginService checkLogin]){
         viewController = [[CustomNavigationController alloc] initWithRootViewController:[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil]];
     }else{
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TabBar" owner:self options:nil];
-        for(id oneObject in nib){
-            if([oneObject isKindOfClass:[UITabBarController class]]){
-                UITabBarController *tabBarController = (UITabBarController *) oneObject;
-                viewController = tabBarController;
-//                [navController setNavigationBarHidden:YES];
-                break;
-            }
-        }
+        viewController = [LoginService loginTurnToViewController];
     }
     self.window.rootViewController = viewController;
 	[self.window makeKeyAndVisible];

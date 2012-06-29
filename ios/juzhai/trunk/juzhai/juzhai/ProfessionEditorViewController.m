@@ -11,6 +11,8 @@
 #import "Profession.h"
 #import "CustomButton.h"
 #import "ProfileSettingViewController.h"
+#import "NSString+Chinese.h"
+#import "MessageShow.h"
 
 @interface ProfessionEditorViewController ()
 
@@ -18,8 +20,8 @@
 
 @implementation ProfessionEditorViewController
 
-@synthesize profileSettingViewController;
-@synthesize tag;
+@synthesize settingViewController;
+@synthesize cellIdentifier;
 @synthesize textValue;
 @synthesize professionPicker;
 @synthesize professionField;
@@ -87,15 +89,27 @@
 }
 
 -(IBAction)save:(id)sender{
+    [professionField resignFirstResponder];
     if (professionField.hidden){
         NSInteger row = [professionPicker selectedRowInComponent:0];
         Profession *p = [_professionArray objectAtIndex:row];
         if(p != nil){
-            [self.profileSettingViewController saveSingleInfo:self.tag withValue:p.name withValueId:p.professionId.intValue];
+            [self.settingViewController saveSingleInfo:self.cellIdentifier withValue:p.name withValueId:p.professionId.intValue];
         }
     }else {
         //验证
-        [self.profileSettingViewController saveSingleInfo:self.tag withValue:professionField.text withValueId:0];
+        NSString *value = [professionField.text stringByTrimmingCharactersInSet: 
+                           [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSInteger textLength = [value chineseLength];
+        if (textLength < PROFESSION_MIN_LENGTH) {
+            [MessageShow error:PROFESSION_MIN_ERROR_TEXT onView:self.view];
+            return;
+        }
+        if (textLength > PROFESSION_MAX_LENGTH) {
+            [MessageShow error:PROFESSION_MAX_ERROR_TEXT onView:self.view];
+            return;
+        }
+        [self.settingViewController saveSingleInfo:self.cellIdentifier withValue:value withValueId:0];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }

@@ -31,8 +31,7 @@
     sleep(1);
     [LoginService logout];
     //跳转到登录
-    LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-    self.view.window.rootViewController = [[CustomNavigationController alloc] initWithRootViewController:loginViewController];
+    self.view.window.rootViewController = [LoginService loginTurnToViewController];
     [self.view.window makeKeyAndVisible];
 }
 

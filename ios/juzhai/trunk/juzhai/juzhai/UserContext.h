@@ -14,8 +14,11 @@
 {
     UserView *_userView; 
 }
-+ (NSInteger) getUid;
-+ (UserView *) getUserView;
-+ (void) setUserView:(UserView *)userView;
++(NSInteger) getUid;
++(UserView *) getUserView;
++(void) setUserView:(UserView *)userView;
++(BOOL) hasLogin;
++(void) logout;
++(BOOL) hasCompleteGuide;
 
 @end

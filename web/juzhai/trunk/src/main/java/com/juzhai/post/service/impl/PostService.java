@@ -704,11 +704,12 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public PostResult listNewOrOnlinePosts(long uid, Long cityId, Long townId,
-			Integer gender, ShowPostOrder order, int firstResult, int maxResults) {
+	public PostResult listNewOrOnlinePosts(Long cityId, Long townId,
+			Integer gender, ShowPostOrder order, long excludeUid,
+			int firstResult, int maxResults) {
 		PostResult result = new PostResult();
-		ProfileExample example = getNewOrOnlinePostExample(uid, cityId, townId,
-				gender);
+		ProfileExample example = getNewOrOnlinePostExample(cityId, townId,
+				gender, excludeUid);
 		example.setLimit(new Limit(firstResult, maxResults));
 		example.setOrderByClause(order.getColumn() + " desc");
 		List<Profile> profileList = profileMapper.selectByExample(example);
@@ -733,10 +734,10 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public int countNewOrOnlinePosts(long uid, Long cityId, Long townId,
-			Integer gender) {
-		ProfileExample example = getNewOrOnlinePostExample(uid, cityId, townId,
-				gender);
+	public int countNewOrOnlinePosts(Long cityId, Long townId, Integer gender,
+			long excludeUid) {
+		ProfileExample example = getNewOrOnlinePostExample(cityId, townId,
+				gender, excludeUid);
 		return profileMapper.countByExample(example);
 	}
 
@@ -1117,8 +1118,8 @@ public class PostService implements IPostService {
 		return postMapper.selectByExample(example);
 	}
 
-	private ProfileExample getNewOrOnlinePostExample(long uid, Long city,
-			Long town, Integer gender) {
+	private ProfileExample getNewOrOnlinePostExample(Long city, Long town,
+			Integer gender, long excludeUid) {
 		ProfileExample example = new ProfileExample();
 		ProfileExample.Criteria c = example.createCriteria();
 		if (null != gender) {
@@ -1130,8 +1131,8 @@ public class PostService implements IPostService {
 		if (null != town && town > 0) {
 			c.andTownEqualTo(town);
 		}
-		if (uid != 0) {
-			c.andUidNotEqualTo(uid);
+		if (excludeUid > 0) {
+			c.andUidNotEqualTo(excludeUid);
 		}
 		c.andLastUpdateTimeIsNotNull();
 		return example;

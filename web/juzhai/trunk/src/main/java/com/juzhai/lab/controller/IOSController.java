@@ -48,6 +48,7 @@ import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Constellation;
 import com.juzhai.passport.model.Profession;
 import com.juzhai.passport.model.Profile;
+import com.juzhai.passport.model.Province;
 import com.juzhai.passport.model.Town;
 import com.juzhai.passport.model.UserPositionExample;
 import com.juzhai.passport.service.IInterestUserService;
@@ -334,12 +335,20 @@ public class IOSController extends BaseController {
 		userView.setBirthMonth(profile.getBirthMonth());
 		userView.setBirthDay(profile.getBirthDay());
 		userView.setFeature(profile.getFeature());
+		Province province = com.juzhai.common.InitData.PROVINCE_MAP.get(profile
+				.getProvince());
+		if (null != province) {
+			userView.setProvinceId(province.getId());
+			userView.setProvinceName(province.getName());
+		}
 		City city = com.juzhai.common.InitData.CITY_MAP.get(profile.getCity());
 		if (null != city) {
+			userView.setCityId(city.getId());
 			userView.setCityName(city.getName());
 		}
 		Town town = com.juzhai.common.InitData.TOWN_MAP.get(profile.getTown());
 		if (null != town) {
+			userView.setTownId(town.getId());
 			userView.setTownName(town.getName());
 		}
 		userView.setLogo(JzResourceFunction.userLogo(profile.getUid(),
@@ -392,6 +401,36 @@ public class IOSController extends BaseController {
 		}
 		AjaxResult result = new AjaxResult();
 		result.setResult(mapList);
+		return result;
+	}
+
+	@RequestMapping(value = "/provinceCityList", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult loadProvinceCityList(HttpServletRequest request) {
+		Map<String, List<Map<String, Object>>> resultMap = new HashMap<String, List<Map<String, Object>>>(
+				3);
+		List<Map<String, Object>> provinceList = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> cityList = new ArrayList<Map<String, Object>>();
+		resultMap.put("provinceList", provinceList);
+		resultMap.put("cityList", cityList);
+		for (Map.Entry<Long, Province> entry : com.juzhai.common.InitData.PROVINCE_MAP
+				.entrySet()) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("provinceId", entry.getValue().getId());
+			map.put("provinceName", entry.getValue().getName());
+			provinceList.add(map);
+		}
+		for (Map.Entry<Long, City> entry : com.juzhai.common.InitData.CITY_MAP
+				.entrySet()) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("cityId", entry.getValue().getId());
+			map.put("cityName", entry.getValue().getName());
+			map.put("provinceId", entry.getValue().getProvinceId());
+			cityList.add(map);
+		}
+
+		AjaxResult result = new AjaxResult();
+		result.setResult(resultMap);
 		return result;
 	}
 

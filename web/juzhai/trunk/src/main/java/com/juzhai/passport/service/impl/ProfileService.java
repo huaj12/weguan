@@ -42,6 +42,7 @@ import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.ProfileMapper;
+import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profession;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
@@ -674,6 +675,7 @@ public class ProfileService implements IProfileService {
 		}
 		Profile profile = getProfile(uid);
 		profile.setNickname(profileForm.getNickname());
+		profile.setGender(profileForm.getGender());
 		profile.setFeature(profileForm.getFeature());
 		profile.setProfessionId(profileForm.getProfessionId());
 		profile.setProfession(profileForm.getProfession());
@@ -686,6 +688,21 @@ public class ProfileService implements IProfileService {
 				profile.setBirthMonth(c.get(Calendar.MONTH) + 1);
 				profile.setBirthDay(c.get(Calendar.DAY_OF_MONTH));
 			} catch (ParseException e) {
+			}
+		}
+		City city = com.juzhai.common.InitData.CITY_MAP.get(profileForm
+				.getCityId());
+		if (null == city) {
+			profile.setCity(0L);
+			profile.setProvince(0L);
+			profile.setTown(-1L);
+		} else {
+			profile.setCity(city.getId());
+			profile.setProvince(city.getProvinceId());
+			if (isTown(profile.getCity())) {
+				profile.setTown(0L);
+			} else {
+				profile.setTown(-1L);
 			}
 		}
 		if (StringUtils.isNotEmpty(logoFileName)) {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.core.mail.bean.Mail;
 
 @Controller
 @RequestMapping("/cms")
@@ -18,13 +19,13 @@ public class DeleteIdeaWindowRedisKeyController {
 	private final Log log = LogFactory.getLog(getClass());
 
 	@Autowired
-	private RedisTemplate<String, Object> redisTemplate;
+	private RedisTemplate<String, Mail> redisTemplate;
 
 	@ResponseBody
-	@RequestMapping(value = "delIdeaWindowRedisKey")
+	@RequestMapping(value = "delMailQueueRedisKey")
 	public String migDoubanUser(HttpServletRequest request) {
 		log.error("start...");
-		String key = RedisKeyGenerator.genIdeaWindowSortKey();
+		String key = RedisKeyGenerator.genMailQueueKey();
 		redisTemplate.delete(key);
 		log.error("end...");
 		return "success";

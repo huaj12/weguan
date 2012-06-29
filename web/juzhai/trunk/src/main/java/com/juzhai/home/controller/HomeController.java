@@ -118,12 +118,12 @@ public class HomeController extends BaseController {
 			excludeUid = context.getUid();
 		}
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
-				postService.countNewOrOnlinePosts(excludeUid, cityId, townId,
-						gender));
+				postService.countNewOrOnlinePosts(cityId, townId, gender,
+						excludeUid));
 		PostResult result = null;
 		if (pager.getTotalResults() > 0) {
-			result = postService.listNewOrOnlinePosts(excludeUid, cityId,
-					townId, gender, order, pager.getFirstResult(),
+			result = postService.listNewOrOnlinePosts(cityId, townId, gender,
+					order, excludeUid, pager.getFirstResult(),
 					pager.getMaxResult());
 		} else {
 			List<Post> recommendPostList = recommendPostService

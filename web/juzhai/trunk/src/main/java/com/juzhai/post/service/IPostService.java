@@ -84,8 +84,9 @@ public interface IPostService {
 	 * @return
 	 */
 	// TODO (done) 如今这个方法名字不太合适了
-	PostResult listNewOrOnlinePosts(long uid, Long cityId, Long townId,
-			Integer gender, ShowPostOrder order, int firstResult, int maxResults);
+	PostResult listNewOrOnlinePosts(Long cityId, Long townId, Integer gender,
+			ShowPostOrder order, long excludeUid, int firstResult,
+			int maxResults);
 
 	/**
 	 * 首页post数量
@@ -95,7 +96,8 @@ public interface IPostService {
 	 * @param gender
 	 * @return
 	 */
-	int countNewOrOnlinePosts(long uid, Long cityId, Long townId, Integer gender);
+	int countNewOrOnlinePosts(Long cityId, Long townId, Integer gender,
+			long excludeUid);
 
 	/**
 	 * 列表我响应的post

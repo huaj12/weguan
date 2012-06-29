@@ -31,7 +31,7 @@
 											<div class="pub_box_m"><!--pub_box_m begin-->
 												<div class="idea_show"><!--idea_show begin-->
 													<c:if test="${not empty idea.pic}">
-														<div class="idea_pic"><a href="${jzr:ideaPic(idea.id, idea.pic,450)}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><img src="${jzr:ideaPic(idea.id, idea.pic,450)}" width="250" /></a></div>
+														<div class="idea_pic"><a href="${jzr:ideaPic(idea.id, idea.pic,450)}" title="点击查看大图" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><img src="${jzr:ideaPic(idea.id, idea.pic,450)}" width="250" /></a></div>
 													</c:if>
 													<div class="idea_infor"><!--idea_infor begin-->
 														<h2><c:out value="${idea.content}" />

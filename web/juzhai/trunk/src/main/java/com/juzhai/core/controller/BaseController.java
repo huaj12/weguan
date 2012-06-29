@@ -294,9 +294,8 @@ public class BaseController {
 			int count) {
 		List<PostView> listView = new ArrayList<PostView>();
 		if (context.hasLogin()) {
-			PostResult result = postService.listNewOrOnlinePosts(
-					context.getUid(), city, null, null, ShowPostOrder.NEW, 0,
-					count);
+			PostResult result = postService.listNewOrOnlinePosts(city, null,
+					null, ShowPostOrder.NEW, context.getUid(), 0, count);
 			for (Post post : result.getPosts()) {
 				ProfileCache cache = profileService.getProfileCacheByUid(post
 						.getCreateUid());

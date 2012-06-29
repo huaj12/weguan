@@ -20,8 +20,8 @@
 
 @synthesize textField;
 @synthesize textValue;
-@synthesize tag;
-@synthesize profileSettingViewController;
+@synthesize cellIdentifier;
+@synthesize settingViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -62,7 +62,7 @@
 
 - (IBAction)save:(id)sender{
     // TODO 验证
-    [profileSettingViewController saveSingleInfo:self.tag withValue:textField.text withValueId:0];
+    [settingViewController saveSingleInfo:self.cellIdentifier withValue:textField.text withValueId:0];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

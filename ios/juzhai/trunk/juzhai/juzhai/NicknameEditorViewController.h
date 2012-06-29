@@ -7,14 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SettingViewController.h"
 
 @class ProfileSettingViewController;
 
 @interface NicknameEditorViewController : UIViewController
 
-@property (strong, nonatomic) ProfileSettingViewController *profileSettingViewController;
+@property (strong, nonatomic) SettingViewController *settingViewController;
 @property (strong, nonatomic) NSString *textValue;
-@property (nonatomic) NSInteger tag;
+@property (strong, nonatomic) NSString *cellIdentifier;
 
 @property (strong, nonatomic) IBOutlet UITextField *textField;
 

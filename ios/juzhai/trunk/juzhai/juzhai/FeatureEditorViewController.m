@@ -10,6 +10,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "CustomButton.h"
 #import "ProfileSettingViewController.h"
+#import "NSString+Chinese.h"
+#import "MessageShow.h"
 
 @interface FeatureEditorViewController ()
 
@@ -17,11 +19,10 @@
 
 @implementation FeatureEditorViewController
 
-@synthesize tag;
+@synthesize cellIdentifier;
 @synthesize textView;
 @synthesize textValue;
-
-@synthesize profileSettingViewController;
+@synthesize settingViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -67,8 +68,18 @@
 
 -(IBAction)save:(id)sender{
     //验证
-    
-    [profileSettingViewController saveSingleInfo:self.tag withValue:textView.text withValueId:0];
+    NSString *value = [textView.text stringByTrimmingCharactersInSet: 
+                       [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSInteger textLength = [value chineseLength];
+    if (textLength < FEATURE_MIN_LENGTH) {
+        [MessageShow error:FEATURE_MIN_ERROR_TEXT onView:self.view];
+        return;
+    }
+    if (textLength > FEATURE_MAX_LENGTH) {
+        [MessageShow error:FEATURE_MAX_ERROR_TEXT onView:self.view];
+        return;
+    }
+    [settingViewController saveSingleInfo:self.cellIdentifier withValue:value withValueId:0];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

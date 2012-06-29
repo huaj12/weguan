@@ -16,6 +16,9 @@
 #import "HttpRequestSender.h"
 #import "SBJson.h"
 #import "LoginUser.h"
+#import "UserContext.h"
+#import "UserView.h"
+#import "LoginService.h"
 
 @implementation RegisterViewController
 
@@ -62,17 +65,12 @@
         NSString *response = [request responseString];
         NSMutableDictionary *jsonResult = [response JSONValue];
         if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
-            //注册成功
+            //TODO 注册成功
+            [UserContext setUserView:[UserView userConvertFromDictionary:[jsonResult valueForKey:@"result"]]];
             LoginUser *loginUser = [[LoginUser alloc] initWithAccount:accountField.text password:passwordField.text];
             [loginUser save];
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TabBar" owner:self options:nil];
-            UITabBarController *startController;
-            for(id oneObject in nib){
-                if([oneObject isKindOfClass:[UITabBarController class]]){
-                    startController = (UITabBarController *) oneObject;
-                    break;
-                }
-            }
+            
+            UIViewController *startController = [LoginService loginTurnToViewController];
             if(startController){
                 self.view.window.rootViewController = startController;
                 [self.view.window makeKeyAndVisible];

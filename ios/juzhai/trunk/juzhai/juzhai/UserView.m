@@ -23,12 +23,17 @@
 @synthesize constellation;
 @synthesize professionId;
 @synthesize profession;
+@synthesize provinceId;
+@synthesize provinceName;
+@synthesize cityId;
 @synthesize cityName;
+@synthesize townId;
 @synthesize townName;
 @synthesize feature;
 @synthesize post;
 @synthesize interestMeCount;
 @synthesize interestUserCount;
+@synthesize hasGuided;
 
 + (id) userConvertFromDictionary:(NSDictionary *)info{
     UserView *user = [UserView alloc];
@@ -53,11 +58,16 @@
     self.constellation = [info valueForKey:@"constellation"];
     self.professionId = [info valueForKey:@"professionId"];
     self.profession = [info valueForKey:@"profession"];
+    self.provinceId = [info valueForKey:@"provinceId"];
+    self.provinceName = [info valueForKey:@"provinceName"];
+    self.cityId = [info valueForKey:@"cityId"];
     self.cityName = [info valueForKey:@"cityName"];
+    self.townId = [info valueForKey:@"townId"];    
     self.townName = [info valueForKey:@"townName"];
     self.feature = [info valueForKey:@"feature"];
     self.interestUserCount = [info valueForKey:@"interestUserCount"];
     self.interestMeCount = [info valueForKey:@"interestMeCount"];
+    self.hasGuided = [info valueForKey:@"hasGuided"];
 }
 
 @end

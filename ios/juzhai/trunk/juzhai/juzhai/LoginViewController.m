@@ -33,14 +33,8 @@
     sleep(1);
     NSString *errorInfo = [LoginService useLoginName:[nameField text] byPassword:[pwdField text]];
     if(errorInfo == nil){
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TabBar" owner:self options:nil];
-        UITabBarController *startController;
-        for(id oneObject in nib){
-            if([oneObject isKindOfClass:[UITabBarController class]]){
-                startController = (UITabBarController *) oneObject;
-                break;
-            }
-        }
+        //判断是否过引导
+        UIViewController *startController = [LoginService loginTurnToViewController];
         if(startController){
             self.view.window.rootViewController = startController;
             [self.view.window makeKeyAndVisible];

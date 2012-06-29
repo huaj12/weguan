@@ -24,11 +24,16 @@
 @property (strong,nonatomic) NSString *constellation;
 @property (strong,nonatomic) NSDecimalNumber *professionId;
 @property (strong,nonatomic) NSString *profession;
+@property (strong,nonatomic) NSDecimalNumber *provinceId;
+@property (strong,nonatomic) NSString *provinceName;
+@property (strong,nonatomic) NSDecimalNumber *cityId;
 @property (strong,nonatomic) NSString *cityName;
+@property (strong,nonatomic) NSDecimalNumber *townId;
 @property (strong,nonatomic) NSString *townName;
 @property (strong,nonatomic) NSString *feature;
 @property (strong,nonatomic) NSNumber *interestUserCount;
 @property (strong,nonatomic) NSNumber *interestMeCount;
+@property (strong,nonatomic) NSNumber *hasGuided;
 @property (strong,nonatomic) PostView *post;
 
 + (id) userConvertFromDictionary:(NSDictionary *)info;

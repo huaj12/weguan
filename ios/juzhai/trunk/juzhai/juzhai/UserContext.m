@@ -57,4 +57,21 @@ static UserContext *sharedUserContextInstance = nil;
     return [userContext _setUserView:userView];
 }
 
++(BOOL) hasLogin{
+    return [self getUid] > 0;
+}
+
++(void) logout{
+    [self setUserView:nil];
+}
+
++(BOOL) hasCompleteGuide{
+    UserContext *userContext = [UserContext sharedUserContext];
+    UserView *userView = [userContext _getUserView];
+    if(userView){
+        return userView.hasGuided.boolValue;
+    }
+    return NO;
+}
+
 @end

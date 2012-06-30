@@ -20,11 +20,18 @@
 #import "BaseData.h"
 #import "Province.h"
 #import "City.h"
+#import "HttpRequestSender.h"
+#import "MessageShow.h"
+#import "SBJson.h"
 
 @interface SettingViewController (Private)
 
 - (void)doSave:(MBProgressHUD *)hud;
+- (void)saveSuccess;
 - (BOOL)validateSave;
+- (NSDictionary *) getParams;
+- (void) postNewLogo:(ASIFormDataRequest *)request;
+- (NSString *)postUrl;
 
 @end
 
@@ -87,21 +94,21 @@
         if (userView.nickname && ![userView.nickname isEqual:[NSNull null]]) {
             self.nicknameLabel.text = userView.nickname;
         }
+        if (userView.gender && ![userView.gender isEqual:[NSNull null]]) {
+            self.genderLabel.text = userView.gender.intValue == 0 ? @"女" : @"男";
+            self.genderLabel.tag = userView.gender.intValue;
+        }
+        if (userView.birthYear && ![userView.birthYear isEqual:[NSNull null]] && userView.birthYear.intValue > 0) {
+            self.birthLabel.text = [NSString stringWithFormat:@"%d-%d-%d", userView.birthYear.intValue, userView.birthMonth.intValue, userView.birthDay.intValue];
+        }
         if (userView.professionId && ![userView.professionId isEqual:[NSNull null]]) {
             self.professionLabel.tag = userView.professionId.intValue;
         }
         if (userView.profession && ![userView.profession isEqual:[NSNull null]]) {
             self.professionLabel.text = userView.profession;
         }
-        if (userView.gender && ![userView.gender isEqual:[NSNull null]]) {
-            self.genderLabel.text = userView.gender.intValue == 0 ? @"女" : @"男";
-            self.genderLabel.tag = userView.gender.intValue;
-        }
         if (userView.feature && ![userView.feature isEqual:[NSNull null]]) {
             self.featureLabel.text = userView.feature;
-        }
-        if (userView.birthYear && ![userView.birthYear isEqual:[NSNull null]] && userView.birthYear.intValue > 0) {
-            self.birthLabel.text = [NSString stringWithFormat:@"%d-%d-%d", userView.birthYear.intValue, userView.birthMonth.intValue, userView.birthDay.intValue];
         }
         if (userView.cityName && ![userView.cityName isEqual:[NSNull null]]) {
             self.locationLabel.text = userView.cityName;
@@ -137,8 +144,63 @@
     }
 }
 
+
 - (BOOL)validateSave{
     return YES;
+}
+
+- (void)saveSuccess{
+    
+}
+
+- (NSDictionary *)getParams{
+    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:self.nicknameLabel.text, @"nickname", [NSNumber numberWithInt:self.genderLabel.tag], @"gender", self.birthLabel.text, @"birth", self.featureLabel.text, @"feature", [NSNumber numberWithInt:self.professionLabel.tag], @"professionId", self.professionLabel.text, @"profession", [NSNumber numberWithInt:self.locationLabel.tag], @"cityId", nil];
+    
+    return params;
+}
+
+- (void) postNewLogo:(ASIFormDataRequest *)request{
+    if (_newLogo != nil) {
+        CGFloat compression = 0.9f;
+        CGFloat maxCompression = 0.1f;
+        int maxFileSize = 2*1024*1024;
+        
+        NSData *imageData = UIImageJPEGRepresentation(_newLogo, compression);
+        while ([imageData length] > maxFileSize && compression > maxCompression){
+            compression -= 0.1;
+            imageData = UIImageJPEGRepresentation(_newLogo, compression);
+        }
+        [request setData:imageData withFileName:@"logo.jpg" andContentType:@"image/jpeg" forKey:@"logo"];
+    }
+}
+
+- (void)doSave:(MBProgressHUD *)hud{
+    sleep(1);
+    ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[self postUrl] withParams: [self getParams]];
+    [self postNewLogo:request];
+     [request startSynchronous];
+     NSError *error = [request error];
+     NSString *errorInfo = SERVER_ERROR_INFO;
+     if (!error && [request responseStatusCode] == 200){
+         NSString *response = [request responseString];
+         NSMutableDictionary *jsonResult = [response JSONValue];
+         if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
+             //保存成功
+             _saveButton.enabled = NO;
+             [[UserContext getUserView] updateUserInfo:[jsonResult valueForKey:@"result"]];
+             hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+             hud.mode = MBProgressHUDModeCustomView;
+             hud.labelText = @"保存成功";
+             sleep(1);
+             [self saveSuccess];
+             return;
+         }else{
+             errorInfo = [jsonResult valueForKey:@"errorInfo"];
+         }
+     }else{
+         NSLog(@"error: %@", [request responseStatusMessage]);
+     }
+     [MessageShow error:errorInfo onView:self.navigationController.view];
 }
 
 - (IBAction)save:(id)sender{

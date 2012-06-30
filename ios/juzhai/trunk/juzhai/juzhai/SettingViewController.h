@@ -14,6 +14,7 @@
 @class NicknameEditorViewController;
 @class ProfessionEditorViewController;
 @class FeatureEditorViewController;
+@class ASIFormDataRequest;
 
 #define LOGO_ACTION_SHEET_TAG 0
 #define BIRTH_ACTION_SHEET_TAG 1
@@ -56,9 +57,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *locationLabel;
 
 - (void) saveSingleInfo:(NSString *)cellIdentifier withValue:(NSString *)value withValueId:(NSInteger)valueId;
-
 - (void) initUserView:(UserView *)userView;
-
 - (IBAction)save:(id)sender;
 
 @end

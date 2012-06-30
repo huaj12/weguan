@@ -79,7 +79,8 @@
         [MessageShow error:FEATURE_MAX_ERROR_TEXT onView:self.view];
         return;
     }
-    [settingViewController saveSingleInfo:self.cellIdentifier withValue:value withValueId:0];
+    NSInteger tag = [value isEqualToString:@""] ? 0 : 1;
+    [settingViewController saveSingleInfo:self.cellIdentifier withValue:value withValueId:tag];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

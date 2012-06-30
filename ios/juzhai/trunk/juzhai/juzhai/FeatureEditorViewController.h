@@ -11,7 +11,7 @@
 
 @class ProfileSettingViewController;
 
-#define FEATURE_MIN_LENGTH 2
+#define FEATURE_MIN_LENGTH 1
 #define FEATURE_MAX_LENGTH 140
 #define FEATURE_MIN_ERROR_TEXT @"自我评价不能为空"
 #define FEATURE_MAX_ERROR_TEXT @"自我评价请不要超过70个字"

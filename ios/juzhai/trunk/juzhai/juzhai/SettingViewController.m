@@ -107,8 +107,11 @@
         if (userView.profession && ![userView.profession isEqual:[NSNull null]]) {
             self.professionLabel.text = userView.profession;
         }
-        if (userView.feature && ![userView.feature isEqual:[NSNull null]]) {
+        if (userView.feature && ![userView.feature isEqual:[NSNull null]] && ![userView.feature isEqualToString:@""]) {
             self.featureLabel.text = userView.feature;
+            self.featureLabel.tag = 1;
+        }else {
+            self.featureLabel.tag = 0;
         }
         if (userView.cityName && ![userView.cityName isEqual:[NSNull null]]) {
             self.locationLabel.text = userView.cityName;
@@ -154,7 +157,11 @@
 }
 
 - (NSDictionary *)getParams{
-    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:self.nicknameLabel.text, @"nickname", [NSNumber numberWithInt:self.genderLabel.tag], @"gender", self.birthLabel.text, @"birth", self.featureLabel.text, @"feature", [NSNumber numberWithInt:self.professionLabel.tag], @"professionId", self.professionLabel.text, @"profession", [NSNumber numberWithInt:self.locationLabel.tag], @"cityId", nil];
+    
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:self.nicknameLabel.text, @"nickname", [NSNumber numberWithInt:self.genderLabel.tag], @"gender", self.birthLabel.text, @"birth", [NSNumber numberWithInt:self.professionLabel.tag], @"professionId", self.professionLabel.text, @"profession", [NSNumber numberWithInt:self.locationLabel.tag], @"cityId", nil];
+    if (self.featureLabel.tag > 0) {
+        [params setValue:self.featureLabel.text forKey:@"feature"];
+    }
     
     return params;
 }
@@ -324,7 +331,9 @@
             _featureEditorViewController = [[FeatureEditorViewController alloc] initWithNibName:@"FeatureEditorViewController" bundle:nil];
             _featureEditorViewController.settingViewController = self;
         }
-        _featureEditorViewController.textValue = self.featureLabel.text;
+        if (self.featureLabel.tag > 0) {
+            _featureEditorViewController.textValue = self.featureLabel.text;
+        }
         _featureEditorViewController.cellIdentifier = FEATURE_CELL_IDENTIFIER;
         [self.navigationController pushViewController:_featureEditorViewController animated:YES];
     }

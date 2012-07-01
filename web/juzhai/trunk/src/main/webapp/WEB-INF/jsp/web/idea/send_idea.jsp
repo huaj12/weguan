@@ -10,22 +10,10 @@
 			<div class="photo"><img src="${jzr:ideaPic(idea.id, idea.pic, 200)}"/></div>
 		</c:if>
 		<div class="sd_right"><!--sd_rihgt begin-->
-			<div class="select_menu" name="purposeType"><!--select_menu begin-->
-				<p><a href="javascript:void(0);">请选择</a></p>
-				<div></div>
-				<div class="select_box"><!--select_box begin-->
-					<span>
-						<a href="javascript:void(0);" value="0" class="selected">我想去</a>
-						<a href="javascript:void(0);" value="1">我想找伴儿去</a>
-						<a href="javascript:void(0);" value="2">我想找一个男生</a>
-						<a href="javascript:void(0);" value="3">我想找一个女生</a>
-					</span>
-					<em></em>
-				</div><!--select_box end-->
-			</div><!--select_menu end-->
+			<input type="hidden" value="0" name="purposeType"/>
+			<div class="idea_title">"我想去<font><c:out value="${idea.content}" /></font>"</div>
 			<div class="error" style="display: none;"></div>
-			<div>
-				<div class="ms"><c:out value="${idea.content}" /></div>
+			<div class="sd_infor"><!--sd_infor begin-->
 				<div class="infor"><!--infor begin-->
 					<c:if test="${idea.startTime == null && idea.endTime != null}">
 						<span class="time"><fmt:formatDate value="${idea.endTime}" pattern="MM-dd"/></span>
@@ -35,7 +23,7 @@
 					</c:if>
 					<%-- <span class="link"><a href="${idea.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>查看相关链接</a></span> --%>
 				</div><!--infor end-->
-			</div>
+			</div><!--sd_infor end-->
 			<div class="btn"><a href="javascript:void(0);" idea-id="${idea.id}">发布拒宅</a></div>
 			<!-- <div class="sending" style="display:none;"><a href="javascript:void(0);">发布中</a></div> -->
 			<c:if test="${context.tpId > 0}">

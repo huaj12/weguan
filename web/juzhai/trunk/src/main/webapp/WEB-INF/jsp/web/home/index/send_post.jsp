@@ -8,22 +8,10 @@
 		<input type="hidden" name="postId" value="${postForm.postId}" />
 	</c:if>
 	<div class="send_area"><!--send_area begin-->
-		<div class="select_menu" name="purposeType"><!--select_menu begin-->
-			<p><a href="javascript:void(0);" hidefocus>请选择</a></p>
-			<div></div>
-			<div class="select_box"><!--select_box begin-->
-				<span>
-					<a href="javascript:void(0);" value="0" <c:if test="${postForm == null ||postForm.purposeType == 0}">class="selected"</c:if>>我想去</a>
-					<a href="javascript:void(0);" value="1" <c:if test="${postForm.purposeType == 1}">class="selected"</c:if>>我想找伴儿去</a>
-					<a href="javascript:void(0);" value="2" <c:if test="${postForm.purposeType == 2}">class="selected"</c:if>>我想找一个男生</a>
-					<a href="javascript:void(0);" value="3" <c:if test="${postForm.purposeType == 3}">class="selected"</c:if>>我想找一个女生</a>
-				</span>
-				<em></em>
-			</div><!--select_box end-->
-		</div><!--select_menu end-->
+		<div class="area_title">说说这周末想出去玩什么？<input type="hidden" value="0" name="purposeType"/></div>
 		<div class="send_box_error" style="display: none;"></div>
 		<div class="random_select"><c:if test="${postForm == null}"><a href="javascript:void(0);" class="random">试试手气</a><a href="/showideas" class="sel">去选一个</a></c:if></div>
-		<div class="textarea"><textarea name="content" init-tip="说说最近想出去玩什么~">${postForm.content}</textarea></div>
+		<div class="textarea"><textarea name="content" init-tip="我想去...">${postForm.content}</textarea></div>
 		<div class="jh"><!--jh begin-->
 			<c:choose>
 				<c:when test="${postForm!=null}"><c:set var="categoryId" value="${postForm.categoryId}" /></c:when>

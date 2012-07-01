@@ -22,7 +22,7 @@ function del(id){
 				dataType : "json",
 				success : function(result) {
 					if (result.success!=null&&result.success) {
-						location.reload();
+						$("#post-del-"+id).text("已删除").removeAttr("onclick");
 					} else {
 						alert(result.errorInfo);
 					}
@@ -46,7 +46,7 @@ function shield(id){
 			dataType : "json",
 			success : function(result) {
 				if (result.success!=null&&result.success) {
-					location.reload();
+					$("#post-shield-"+id).text("已屏蔽").removeAttr("onclick");
 				} else {
 					alert(result.errorInfo);
 				}
@@ -97,7 +97,7 @@ function handleById(id){
 		dataType : "json",
 		success : function(result) {
 			if (result.success!=null&&result.success) {
-				location.reload();
+				$("#post-handle-"+id).text("已处理").removeAttr("onclick");
 			} else {
 				alert("标记错误请重试");
 			}
@@ -145,9 +145,9 @@ function handleById(id){
 				<a href="javascript:void(0);" id="robot-interest-${view.post.id}" class="robot-interest"  city-id="${view.profileCache.city}" post-id="${view.post.id}" target-uid="${view.profileCache.uid}">关注</a><br/>
 				</td>
 				<td>
-				<a href="javascript:;" onclick="handleById('${view.post.id}')">通过</a></br>
-				<a href="javascript:;" onclick="del('${view.post.id}')">删除</a></br>
-				<a href="javascript:;" onclick="shield('${view.post.id}')">屏蔽</a></br>
+				<a href="javascript:;" id="post-handle-${view.post.id}" onclick="handleById('${view.post.id}')">通过</a></br>
+				<a href="javascript:;" id="post-del-${view.post.id}" onclick="del('${view.post.id}')">删除</a></br>
+				<a href="javascript:;" id="post-shield-${view.post.id}" onclick="shield('${view.post.id}')">屏蔽</a></br>
 				<c:if test="${view.post.ideaId==0}"><a href="/cms/show/idea/add?postId=${view.post.id}" >好注意</a></c:if>
 				<input type="hidden" value="${view.post.id}" name="postIds"/>
 				</td>

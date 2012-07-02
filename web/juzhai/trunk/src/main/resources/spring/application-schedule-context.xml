@@ -248,7 +248,6 @@
 				<ref bean="recommendDataTrigger"/>
 				<ref bean="guessYouLikeUsersTrigger"/>
 				<ref bean="delExpireActiveCodeTrigger"/>
-				<ref bean="noticeQplusTrigger"/>
 				<ref bean="defunctExpireIdeaTrigger"/>
 				<ref bean="updateSearchWordHotTrigger"/>
 				<ref bean="noticeWeekEmailTrigger"/>

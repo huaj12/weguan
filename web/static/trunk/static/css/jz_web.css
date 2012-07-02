@@ -326,6 +326,7 @@ trip_sc_area .img a{}
 .send_box{ width:620px; height:140px; float:left; margin-top:20px; margin-left:20px;  display:inline; position:relative; z-index:500;}
 .send_box .face{ float:left; width:120px; height:120px; overflow:hidden;}
 .send_area{ float:right; width:480px; height:120px; }
+.send_area .area_title{ float:left; font-size:16px; color:#666; font-family:"微软雅黑"; margin-left:5px; display:inline;} 
 
 .send_box .send_area{ width:620px;}
 .send_box .send_area .textarea{ background:url(../images/web2/text_area_bg.jpg) no-repeat; }
@@ -2204,8 +2205,8 @@ i{ color:#f00;}
 .idea_show span a:hover{ color:#3E8BD9;}
 .idea_show p{  color:#999; float:left; margin-right:5px; display:inline; padding-bottom:5px;}
 .idea_show p a{ color:#999;}
-.idea_show p a.user{color:#3E8BD9;margin-right:5px; }
-.idea_show p a.lx{color:#3E8BD9; margin-left:5px; margin-right:5px;}
+.idea_show p a.user{color:#999;margin-right:5px; }
+.idea_show p a.lx{color:#999; margin-left:5px; margin-right:5px;}
 .idea_show p a:hover{ color:#3E8BD9;}
 .idea_show p a.gyr{color:#3E8BD9; margin-right:10px;}
 
@@ -2230,7 +2231,7 @@ i{ color:#f00;}
 
 .idea_js{ width:100%; height:auto; overflow:hidden;}
 .h200{ height:200px;}
-.idea_js h2{ font-size:18px; font-family:"微软雅黑"; color:#666; padding-bottom:15px; border-bottom:1px solid #f0f0f0;}
+.idea_js h2{ font-size:14px; font-weight:bold; color:#666;}
 .idea_js p{ color:#666; line-height:19px; margin-top:15px; padding-bottom:10px;}
 .idea_js a{  color:#3E8BD9;}
 .idea_js a:hover{ text-decoration:underline;}
@@ -2884,6 +2885,8 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 /*发布好主意*/
 
 .send_idea{height:auto; display:block; background:#f7f7f7; position:relative; float:left;}
+.send_idea .idea_title{font-size:16px; font-family:"微软雅黑"; color:#999; float:left; margin-right:10px; display:inline;}
+.send_idea .idea_title font{ color:#666; margin-left:5px;}
 
 .send_idea .photo{ float:left; height:auto; overflow:hidden; display:inline;}
 .send_idea .photo img{ float:left; margin-right:20px; display:inline;}

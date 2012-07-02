@@ -12,15 +12,15 @@
 									<div class="right_title"><h2>邀请好友同去</h2></div>
 									<div class="share_icons"><!--share_icons begin-->
 										<!-- Baidu Button BEGIN -->
-									    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'谁想去:${idea.content}<%-- <c:if test='${idea.date != null}'> 时间:<fmt:formatDate value='${idea.date}' pattern='yyyy.MM.dd'/></c:if> --%><c:if test='${not empty idea.place}'> 地点:${jzu:truncate(idea.place,40,'...')}</c:if> (拒宅网:助你脱宅)','wbuid':'2294103501','url':'http://www.51juzhai.com/idea/${idea.id}','pic':'${jzr:ideaPic(idea.id,idea.pic, 200)}'}">
+									    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'谁想去:${idea.content}<%-- <c:if test='${idea.date != null}'> 时间:<fmt:formatDate value='${idea.date}' pattern='yyyy.MM.dd'/></c:if> --%><c:if test='${not empty idea.place}'> 地点:${jzu:truncate(idea.place,40,'...')}</c:if> ','url':'http://www.51juzhai.com/idea/${idea.id}','pic':'${jzr:ideaPic(idea.id,idea.pic, 200)}'}">
 									        <a class="bds_tsina"></a>
 									        <a class="bds_tqq"></a>
 									        <a class="bds_douban"></a>
 									    </div>
-									    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'谁想去:${idea.content}<%-- <c:if test='${idea.date != null}'> 时间:<fmt:formatDate value='${idea.date}' pattern='yyyy.MM.dd'/></c:if> --%><c:if test='${not empty idea.place}'> 地点:${jzu:truncate(idea.place,40,'...')}</c:if> (拒宅网:助你脱宅)','url':'http://www.51juzhai.com/idea/${idea.id}'}">
+									    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'谁想去:${idea.content}<%-- <c:if test='${idea.date != null}'> 时间:<fmt:formatDate value='${idea.date}' pattern='yyyy.MM.dd'/></c:if> --%><c:if test='${not empty idea.place}'> 地点:${jzu:truncate(idea.place,40,'...')}</c:if>','url':'http://www.51juzhai.com/idea/${idea.id}'}">
 									         <a class="bds_renren"></a>
 									    </div>
-									    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'加入拒宅找伴儿出去玩!','url':'http://www.51juzhai.com/idea/${idea.id}','comment':'谁想去:${idea.content}<%-- <c:if test='${idea.date != null}'> 时间:<fmt:formatDate value='${idea.date}' pattern='yyyy.MM.dd'/></c:if> --%><c:if test='${not empty idea.place}'> 地点:${jzu:truncate(idea.place,40,'...')}</c:if> (拒宅网:助你脱宅)','pic':'${jzr:ideaPic(idea.id,idea.pic, 200)}'}">
+									    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" data="{'text':'加入拒宅找伴儿出去玩!','url':'http://www.51juzhai.com/idea/${idea.id}','comment':'谁想去:${idea.content}<%-- <c:if test='${idea.date != null}'> 时间:<fmt:formatDate value='${idea.date}' pattern='yyyy.MM.dd'/></c:if> --%><c:if test='${not empty idea.place}'> 地点:${jzu:truncate(idea.place,40,'...')}</c:if>','pic':'${jzr:ideaPic(idea.id,idea.pic, 200)}'}">
 									       	<a class="bds_qzone"></a>
 									       	<a class="bds_kaixin001"></a>
 									    </div>

@@ -50,9 +50,4 @@ $(document).ready(function(){
 		});
 		return false;
 	});
-	
-	$("a.show_more").click(function(){
-		$("div.idea_js").removeClass("h200");
-		$(this).hide();
-	});
 });

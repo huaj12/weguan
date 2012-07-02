@@ -71,10 +71,16 @@
 //    UIImageView *imageview = [[UIImageView alloc] initWithFrame:self.view.bounds]; 
 //    [imageview setImage:[UIImage imageNamed:@"bg.png"]];
 //    [self.tableView setBackgroundView:imageview];
-    self.tableView.backgroundColor = [UIColor purpleColor];
+    self.tableView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
     
     //load
     [self loadListDataWithPage:1];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    if (_data != nil) {
+        [self.tableView reloadData];
+    }
 }
 
 - (void)viewDidUnload
@@ -268,7 +274,6 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
             }
             [cell setBackground];
         }
-        
         UserView *userView = (UserView *)[_data objectAtIndex:indexPath.row];
         [cell redrawn:userView];
         [cell sizeToFit];
@@ -286,25 +291,6 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
         return [UserListCell heightForCell:[_data objectAtIndex:indexPath.row]];        
     }
 }
-
-//-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-//    return 3;
-//}
-//
-//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    if(section == 0){
-//        return 8.0f;
-//    }
-//    return 3;
-//}
-//
-//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-//    return [[UIView alloc] initWithFrame:CGRectZero];
-//}
-//
-//-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-//    return [[UIView alloc] initWithFrame:CGRectZero];
-//}
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row < [_data count]) {

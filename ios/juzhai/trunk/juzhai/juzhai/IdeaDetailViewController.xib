@@ -81,7 +81,7 @@
 								<string key="NSFrame">{{10, 34}, {225, 100}}</string>
 								<reference key="NSSuperview" ref="710574375"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="567046408"/>
+								<reference key="NSNextKeyView" ref="623279073"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<int key="IBUITag">2</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -215,6 +215,7 @@
 										<string key="NSFrame">{{232, 64}, {80, 25}}</string>
 										<reference key="NSSuperview" ref="623279073"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="661233994"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -256,6 +257,7 @@
 										<string key="NSFrame">{{10, 97}, {145, 35}}</string>
 										<reference key="NSSuperview" ref="623279073"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="919523158"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -271,6 +273,10 @@
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">idea_wangto_btn_hover.png</string>
 										</object>
+										<object class="NSCustomResource" key="IBUIDisabledImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">idea_wantgo_done_btn.png</string>
+										</object>
 										<object class="NSCustomResource" key="IBUINormalImage">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">idea_wangto_btn_link.png</string>
@@ -284,6 +290,7 @@
 										<string key="NSFrame">{{167, 97}, {145, 35}}</string>
 										<reference key="NSSuperview" ref="623279073"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -311,6 +318,7 @@
 								<string key="NSFrame">{{0, 142}, {320, 220}}</string>
 								<reference key="NSSuperview" ref="710574375"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="567046408"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="305245365">
 									<int key="NSColorSpace">3</int>
@@ -603,7 +611,7 @@
 				<real value="1" key="29.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="36.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="42.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<real value="1" key="42.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
+				<real value="3" key="42.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="43.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="1" key="43.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 			</dictionary>
@@ -724,6 +732,7 @@
 			<string key="idea_view_more_btn_link.png">{80, 25}</string>
 			<string key="idea_wangto_btn_hover.png">{145, 35}</string>
 			<string key="idea_wangto_btn_link.png">{145, 35}</string>
+			<string key="idea_wantgo_done_btn.png">{145, 35}</string>
 			<string key="jzxq_des_icon.png">{16, 16}</string>
 			<string key="jzxq_time_icon.png">{16, 16}</string>
 		</dictionary>

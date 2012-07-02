@@ -215,7 +215,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 							<object class="IBUITextField" id="1047668805">
 								<reference key="NSNextResponder" ref="517546758"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 10}, {260, 20}}</string>
+								<string key="NSFrame">{{20, 10}, {275, 20}}</string>
 								<reference key="NSSuperview" ref="517546758"/>
 								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -239,6 +239,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 									<int key="IBUIReturnKeyType">4</int>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								</object>
+								<int key="IBUIClearButtonMode">1</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription" id="38022956">
 									<int key="type">1</int>
 									<double key="pointSize">17</double>
@@ -347,7 +348,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 							<object class="IBUITextField" id="394934597">
 								<reference key="NSNextResponder" ref="560892450"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 10}, {260, 20}}</string>
+								<string key="NSFrame">{{20, 10}, {275, 20}}</string>
 								<reference key="NSSuperview" ref="560892450"/>
 								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -368,6 +369,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 									<int key="IBUIReturnKeyType">4</int>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								</object>
+								<int key="IBUIClearButtonMode">1</int>
 								<reference key="IBUIFontDescription" ref="38022956"/>
 								<reference key="IBUIFont" ref="790895819"/>
 							</object>
@@ -745,10 +747,10 @@ AAgACAAIAAEAAQABAAE</bytes>
 						<string key="accountFieldDoneEditing:">id</string>
 						<string key="backgroundTap:">id</string>
 						<string key="confirmPwdFieldDoneEditing:">id</string>
-						<string key="doRegister:">id</string>
 						<string key="goLogin:">id</string>
 						<string key="nicknameFieldDoneEditing:">id</string>
 						<string key="passwordFieldDoneEditing:">id</string>
+						<string key="regist:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="accountFieldDoneEditing:">
@@ -763,10 +765,6 @@ AAgACAAIAAEAAQABAAE</bytes>
 							<string key="name">confirmPwdFieldDoneEditing:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="doRegister:">
-							<string key="name">doRegister:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="goLogin:">
 							<string key="name">goLogin:</string>
 							<string key="candidateClassName">id</string>
@@ -777,6 +775,10 @@ AAgACAAIAAEAAQABAAE</bytes>
 						</object>
 						<object class="IBActionInfo" key="passwordFieldDoneEditing:">
 							<string key="name">passwordFieldDoneEditing:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="regist:">
+							<string key="name">regist:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

@@ -9,11 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @class UserView;
+@class HomeViewController;
 
 #define POST_DEFAULT_HEIGHT_GAP 10.0
 #define POST_INFO_ICON_HEIGHT_GAP 4.0
 
 @interface PostDetailViewController : UIViewController
+{
+    HomeViewController *_homeViewController;
+    BOOL _isMe;
+}
 
 @property (strong, nonatomic) UserView *userView;
 @property (strong, nonatomic) IBOutlet UIImageView *logoView;
@@ -32,5 +37,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *responseButton;
 @property (strong, nonatomic) IBOutlet UIButton *sendMessageButton;
 
-
+- (IBAction)goToUserHome:(id)sender;
+- (IBAction)respPost:(id)sender;
 @end

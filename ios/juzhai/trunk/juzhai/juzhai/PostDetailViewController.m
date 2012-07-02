@@ -12,6 +12,12 @@
 #import "UserView.h"
 #import "PostView.h"
 #import "BaseData.h"
+#import "HomeViewController.h"
+#import "UserContext.h"
+#import "MBProgressHUD.h"
+#import "HttpRequestSender.h"
+#import "SBJson.h"
+#import "MessageShow.h"
 
 @interface PostDetailViewController ()
 - (CGFloat) getViewOriginY:(UIView *)view byUpperView:(UIView *)upperView heightGap:(float)heightGap;
@@ -55,6 +61,8 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated{
+    _isMe = userView.uid.intValue == [UserContext getUid];
+    
     //    logoView.image = [UIImage imageNamed:USER_DEFAULT_LOGO];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     NSURL *imageURL = [NSURL URLWithString:userView.logo];
@@ -128,6 +136,22 @@
     
     [sendMessageButton setFrame:CGRectMake(sendMessageButton.frame.origin.x, [self getViewOriginY:sendMessageButton byUpperView:categoryIconView heightGap:POST_DEFAULT_HEIGHT_GAP], sendMessageButton.frame.size.width, sendMessageButton.frame.size.height)];
     
+    if (_isMe) {
+        responseButton.hidden = YES;
+        responseButton.enabled = NO;
+        sendMessageButton.hidden = YES;
+        sendMessageButton.enabled = NO;
+    } else {
+        responseButton.hidden = NO;
+        sendMessageButton.hidden = NO;
+        sendMessageButton.enabled = YES;
+        if (userView.post.hasResp.boolValue) {
+            responseButton.enabled = NO;
+        }else {
+            responseButton.enabled = YES;
+        }
+    }
+    
     if(!postImageView.hidden){
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
         NSURL *imageURL = [NSURL URLWithString:userView.post.bigPic];
@@ -171,6 +195,52 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (IBAction)goToUserHome:(id)sender{
+//    if (_homeViewController == nil) {
+        _homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+        _homeViewController.hidesBottomBarWhenPushed = YES;
+//    }
+    _homeViewController.userView = self.userView;
+    [self.navigationController pushViewController:_homeViewController animated:YES];
+}
+
+- (IBAction)respPost:(id)sender{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:postScrollView animated:YES];
+    hud.labelText = @"操作中...";
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:userView.post.postId, @"postId", nil];
+        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/respPost" withParams:params];
+        __unsafe_unretained ASIHTTPRequest *request = _request;
+        [request setCompletionBlock:^{
+            NSString *responseString = [request responseString];
+            NSMutableDictionary *jsonResult = [responseString JSONValue];
+            if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
+                userView.post.hasResp = [NSNumber numberWithInt:1];
+                userView.post.respCnt = [NSNumber numberWithInt:(userView.post.respCnt.intValue + 1)];
+                UIButton *respButton = (UIButton *)sender;
+                respButton.enabled = NO;
+                hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.labelText = @"保存成功";
+                [hud hide:YES afterDelay:1];
+                return;
+            }
+            NSString *errorInfo = [jsonResult valueForKey:@"erorInfo"];
+            NSLog(@"%@", errorInfo);
+            if (errorInfo == nil || [errorInfo isEqual:[NSNull null]] || [errorInfo isEqualToString:@""]) {
+                errorInfo = SERVER_ERROR_INFO;
+            }
+            [MBProgressHUD hideHUDForView:postScrollView animated:YES];
+            [MessageShow error:errorInfo onView:postScrollView];
+        }];
+        [request setFailedBlock:^{
+            [MBProgressHUD hideHUDForView:postScrollView animated:YES];
+            [MessageShow error:SERVER_ERROR_INFO onView:postScrollView];
+        }];
+        [request startAsynchronous];
+    });
 }
 
 @end

@@ -53,7 +53,7 @@ public class QqPlusSynchronizeService implements ISynchronizeService {
 						+ "result:" + result);
 			}
 		} catch (Exception e) {
-			log.error("Qplus  sendMessage is error.");
+			log.error("Qplus  sendMessage is error.", e);
 		}
 	}
 

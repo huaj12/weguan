@@ -127,7 +127,7 @@ public class UserGuideController extends BaseController {
 			return error_500;
 		} else if (profileCache.getLogoVerifyState() != LogoVerifyState.VERIFIED
 				.getType()) {
-			return "redirect:/profile/index/face";
+			return "redirect:/home";
 		} else {
 			return "redirect:/home";
 		}

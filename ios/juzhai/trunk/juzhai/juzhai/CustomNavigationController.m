@@ -89,6 +89,7 @@
         viewController.navigationItem.leftBarButtonItem =[self backButton];
         viewController.navigationItem.rightBarButtonItem =[self homeButton];
     }
+    viewController.navigationItem.hidesBackButton = YES;
     [super pushViewController:viewController animated:animated]; 
 } 
 

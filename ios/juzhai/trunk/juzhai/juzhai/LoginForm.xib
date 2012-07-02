@@ -42,7 +42,7 @@
 							<object class="IBUITextField" id="966061130">
 								<reference key="NSNextResponder" ref="117890365"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{20, 10}, {260, 20}}</string>
+								<string key="NSFrame">{{20, 10}, {275, 20}}</string>
 								<reference key="NSSuperview" ref="117890365"/>
 								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -66,6 +66,7 @@
 									<int key="IBUIReturnKeyType">4</int>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								</object>
+								<int key="IBUIClearButtonMode">1</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription" id="501071697">
 									<int key="type">1</int>
 									<double key="pointSize">17</double>

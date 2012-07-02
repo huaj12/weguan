@@ -22,6 +22,7 @@
 #import "ProfileSettingViewController.h"
 #import "UserContext.h"
 #import "Pager.h"
+#import "InterestUserViewController.h"
 
 @interface HomeViewController ()
 
@@ -29,12 +30,14 @@
 
 @implementation HomeViewController
 
+@synthesize userView = _userView;
 @synthesize logoView;
 @synthesize nicknameLabel;
 @synthesize interestUserCountButton;
 @synthesize interestMeCountButton;
 @synthesize sendPostButton;
 @synthesize postTableView;
+@synthesize editorButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -70,16 +73,19 @@
     if(page <= 0){
         page = 1;
     }
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.postTableView animated:YES];
     hud.labelText = @"加载中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         sleep(1);
         NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
+        if (!_isMe) {
+            [params setValue:[NSNumber numberWithInt:_userView.uid.intValue] forKey:@"uid"];
+        }
         __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/home" withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             // Use when fetching text data
-            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.postTableView animated:YES];
             NSString *responseString = [request responseString];
             NSMutableDictionary *jsonResult = [responseString JSONValue];
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
@@ -103,7 +109,7 @@
             }
         }];
         [request setFailedBlock:^{
-            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.postTableView animated:YES];
         }];
         [request startAsynchronous];
     });
@@ -115,6 +121,9 @@
     postTableView.delegate = self;
     postTableView.dataSource = self;
     postTableView.separatorColor = [UIColor greenColor];
+    if (_userView != nil) {
+        postTableView.superview.frame = CGRectMake(postTableView.superview.frame.origin.x, postTableView.superview.frame.origin.y, postTableView.superview.frame.size.width, postTableView.superview.frame.size.height + 50);
+    }
     UIView *view = [UIView new];
     view.backgroundColor = [UIColor clearColor];
     [postTableView setTableFooterView:view];
@@ -122,10 +131,15 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    _userView = [UserContext getUserView];
-    
+    if (_userView == nil) {
+        _userView = [UserContext getUserView];
+    }
+    _isMe = _userView.uid.intValue == [UserContext getUserView].uid.intValue;
+    if (!_isMe) {
+        self.title = [NSString stringWithFormat:@"%@的拒宅", _userView.nickname];
+    }
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
-    NSURL *imageURL = [NSURL URLWithString:_userView.rawLogo];
+    NSURL *imageURL = [NSURL URLWithString:(_isMe ? _userView.rawLogo : _userView.logo)];
     [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
         logoView.image = image;
         logoView.layer.shouldRasterize = YES;
@@ -141,19 +155,36 @@
     }
     nicknameLabel.text = _userView.nickname;
     
-    UIImage *interestCountImage = [[UIImage imageNamed:INTEREST_COUNT_BUTTON_IMAGE]stretchableImageWithLeftCapWidth:INTEREST_COUNT_BUTTON_CAP_WIDTH topCapHeight:0.0];
-    
-    interestUserCountButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
-    [interestUserCountButton setTitle:[NSString stringWithFormat:@"关注 %d", _userView.interestUserCount.intValue] forState:UIControlStateNormal];
-    CGSize interestUserCountButtonSize = [[interestUserCountButton titleForState:UIControlStateNormal] sizeWithFont:interestUserCountButton.titleLabel.font];
-    interestUserCountButton.frame = CGRectMake(interestUserCountButton.frame.origin.x, interestUserCountButton.frame.origin.y, interestUserCountButtonSize.width + 24.0, interestUserCountButton.frame.size.height);
-    [interestUserCountButton setBackgroundImage:interestCountImage forState:UIControlStateNormal];
-    
-    interestMeCountButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
-    [interestMeCountButton setTitle:[NSString stringWithFormat:@"粉丝 %d", _userView.interestMeCount.intValue] forState:UIControlStateNormal];
-    CGSize interestMeCountButtonSize = [[interestMeCountButton titleForState:UIControlStateNormal] sizeWithFont:interestMeCountButton.titleLabel.font];
-    interestMeCountButton.frame = CGRectMake(interestUserCountButton.frame.origin.x + interestUserCountButton.frame.size.width + 10.0, interestMeCountButton.frame.origin.y, interestMeCountButtonSize.width + 24.0, interestMeCountButton.frame.size.height);
-    [interestMeCountButton setBackgroundImage:interestCountImage forState:UIControlStateNormal];
+    if (_isMe) {
+        UIImage *interestCountImage = [[UIImage imageNamed:INTEREST_COUNT_BUTTON_IMAGE]stretchableImageWithLeftCapWidth:INTEREST_COUNT_BUTTON_CAP_WIDTH topCapHeight:0.0];
+        
+        interestUserCountButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
+        [interestUserCountButton setTitle:[NSString stringWithFormat:@"关注 %d", _userView.interestUserCount.intValue] forState:UIControlStateNormal];
+        CGSize interestUserCountButtonSize = [[interestUserCountButton titleForState:UIControlStateNormal] sizeWithFont:interestUserCountButton.titleLabel.font];
+        interestUserCountButton.frame = CGRectMake(interestUserCountButton.frame.origin.x, interestUserCountButton.frame.origin.y, interestUserCountButtonSize.width + 24.0, interestUserCountButton.frame.size.height);
+        [interestUserCountButton setBackgroundImage:interestCountImage forState:UIControlStateNormal];
+        interestUserCountButton.hidden = NO;
+        interestUserCountButton.enabled = YES;
+        
+        interestMeCountButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
+        [interestMeCountButton setTitle:[NSString stringWithFormat:@"粉丝 %d", _userView.interestMeCount.intValue] forState:UIControlStateNormal];
+        CGSize interestMeCountButtonSize = [[interestMeCountButton titleForState:UIControlStateNormal] sizeWithFont:interestMeCountButton.titleLabel.font];
+        interestMeCountButton.frame = CGRectMake(interestUserCountButton.frame.origin.x + interestUserCountButton.frame.size.width + 10.0, interestMeCountButton.frame.origin.y, interestMeCountButtonSize.width + 24.0, interestMeCountButton.frame.size.height);
+        [interestMeCountButton setBackgroundImage:interestCountImage forState:UIControlStateNormal];
+        interestMeCountButton.hidden = NO;
+        interestMeCountButton.enabled = YES;
+        
+        editorButton.hidden = NO;
+        editorButton.enabled = YES;
+    } else {
+        interestUserCountButton.hidden = YES;
+        interestUserCountButton.enabled = NO;
+        interestMeCountButton.hidden = YES;
+        interestMeCountButton.enabled = NO;
+        
+        editorButton.hidden = YES;
+        editorButton.enabled = NO;
+    }
 }
 
 - (void)viewDidUnload
@@ -168,13 +199,35 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(IBAction)editor:(id)sender{
+- (IBAction)editor:(id)sender{
     if (nil == _profileSettingViewController) {
         _profileSettingViewController = [[ProfileSettingViewController alloc] initWithStyle:UITableViewStyleGrouped];
         _profileSettingViewController.hidesBottomBarWhenPushed = YES;
     }
     [_profileSettingViewController initUserView:_userView];
     [self.navigationController pushViewController:_profileSettingViewController animated:YES];
+}
+
+- (IBAction)goInterestList:(id)sender{
+    if (_userView.interestUserCount.intValue > 0) {
+        if (nil == _interestUserViewController) {
+        _interestUserViewController = [[InterestUserViewController alloc] initWithStyle:UITableViewStylePlain];
+        _interestUserViewController.hidesBottomBarWhenPushed = YES;
+    }
+        _interestUserViewController.isInterest = YES;
+        [self.navigationController pushViewController:_interestUserViewController animated:YES];
+    }
+}
+
+- (IBAction)goInterestMeList:(id)sender{
+    if (_userView.interestMeCount.intValue > 0) {
+        if (nil == _interestMeUserViewController) {
+            _interestMeUserViewController = [[InterestUserViewController alloc] initWithStyle:UITableViewStylePlain];
+            _interestMeUserViewController.hidesBottomBarWhenPushed = YES;
+        }
+        _interestMeUserViewController.isInterest = NO;
+        [self.navigationController pushViewController:_interestMeUserViewController animated:YES];
+    }
 }
 
 -(IBAction)nextPage:(id)sender{

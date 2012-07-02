@@ -105,6 +105,12 @@
     //    [_refreshHeaderView egoRefreshScrollViewDidEndDragging:self.tableView];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    if (_data != nil) {
+        [self.tableView reloadData];
+    }
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);

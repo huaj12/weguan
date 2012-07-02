@@ -12,6 +12,10 @@
 #import "IdeaView.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 #import <QuartzCore/QuartzCore.h>
+#import "SBJson.h"
+#import "HttpRequestSender.h"
+#import "MBProgressHUD.h"
+#import "MessageShow.h"
 
 @interface IdeaDetailViewController ()
 - (CGFloat) getViewOriginY:(UIView *)view byUpperView:(UIView *)upperView heightGap:(float)heightGap;
@@ -91,6 +95,7 @@
     [moreButton setFrame:CGRectMake(moreButton.frame.origin.x, [self getViewOriginY:moreButton byUpperView:categoryIconView heightGap:IDEA_DEFAULT_HEIGHT_GAP], moreButton.frame.size.width, moreButton.frame.size.height)];
     
     [postIdeaButton setFrame:CGRectMake(postIdeaButton.frame.origin.x, [self getViewOriginY:postIdeaButton byUpperView:moreButton heightGap:IDEA_DEFAULT_HEIGHT_GAP], postIdeaButton.frame.size.width, postIdeaButton.frame.size.height)];
+    postIdeaButton.enabled = ![ideaView.hasUsed boolValue];
     
     [shareButton setFrame:CGRectMake(shareButton.frame.origin.x, [self getViewOriginY:shareButton byUpperView:moreButton heightGap:IDEA_DEFAULT_HEIGHT_GAP], shareButton.frame.size.width, shareButton.frame.size.height)];
     
@@ -150,7 +155,41 @@
 }
 
 - (IBAction)postIdea:(id)sender{
-    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.contentView animated:YES];
+    hud.labelText = @"操作中...";
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:ideaView.ideaId, @"ideaId", nil];
+        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/postIdea" withParams:params];
+        __unsafe_unretained ASIHTTPRequest *request = _request;
+        [request setCompletionBlock:^{
+            [MBProgressHUD hideHUDForView:self.contentView animated:YES];
+            NSString *responseString = [request responseString];
+            NSMutableDictionary *jsonResult = [responseString JSONValue];
+            if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
+                ideaView.hasUsed = [NSNumber numberWithInt:1];
+                ideaView.useCount = [NSNumber numberWithInt:(ideaView.useCount.intValue + 1)];
+                UIButton *wantToButton = (UIButton *)sender;
+                wantToButton.enabled = NO;
+                hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.labelText = @"保存成功";
+                [hud hide:YES afterDelay:1];
+                return;
+            }
+            NSString *errorInfo = [jsonResult valueForKey:@"erorInfo"];
+            NSLog(@"%@", errorInfo);
+            if (errorInfo == nil || [errorInfo isEqual:[NSNull null]] || [errorInfo isEqualToString:@""]) {
+                errorInfo = SERVER_ERROR_INFO;
+            }
+            [MBProgressHUD hideHUDForView:self.contentView animated:YES];
+            [MessageShow error:errorInfo onView:self.contentView];
+        }];
+        [request setFailedBlock:^{
+            [MBProgressHUD hideHUDForView:self.contentView animated:YES];
+            [MessageShow error:SERVER_ERROR_INFO onView:self.contentView];
+        }];
+        [request startAsynchronous];
+    });
 }
 
 @end

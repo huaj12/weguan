@@ -11,6 +11,7 @@
 @class UserView;
 @class JZData;
 @class ProfileSettingViewController;
+@class InterestUserViewController;
 
 #define INTEREST_COUNT_BUTTON_IMAGE @"my_jz_fans_btn.png"
 #define INTEREST_COUNT_BUTTON_CAP_WIDTH 4.0
@@ -20,10 +21,14 @@
 
 @interface HomeViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 {
-    UserView *_userView;
     JZData *_data;
+    BOOL _isMe;
     ProfileSettingViewController *_profileSettingViewController;
+    InterestUserViewController *_interestUserViewController;
+    InterestUserViewController *_interestMeUserViewController;
 }
+
+@property (strong, nonatomic) UserView *userView;
 
 @property (strong, nonatomic) IBOutlet UIImageView *logoView;
 @property (strong, nonatomic) IBOutlet UILabel *nicknameLabel;
@@ -31,7 +36,10 @@
 @property (strong, nonatomic) IBOutlet UIButton *interestMeCountButton;
 @property (strong, nonatomic) IBOutlet UIButton *sendPostButton;
 @property (strong, nonatomic) IBOutlet UITableView *postTableView;
+@property (strong, nonatomic) IBOutlet UIButton *editorButton;
 
--(IBAction)editor:(id)sender;
+- (IBAction)editor:(id)sender;
+- (IBAction)goInterestList:(id)sender;
+- (IBAction)goInterestMeList:(id)sender;
 
 @end

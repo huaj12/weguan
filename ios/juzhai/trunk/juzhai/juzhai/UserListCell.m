@@ -16,6 +16,8 @@
 #import "ASIHTTPRequest.h"
 #import "HttpRequestSender.h"
 #import "SBJson.h"
+#import "HomeViewController.h"
+#import "MessageShow.h"
 
 @implementation UserListCell
 
@@ -34,6 +36,14 @@
 {
     [super setSelected:selected animated:animated];
     // Configure the view for the selected state
+}
+
+- (void)logoClick:(UIGestureRecognizer *)gestureRecognizer {  
+    HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+    homeViewController.hidesBottomBarWhenPushed = YES;
+    homeViewController.userView = _userView;
+    UIViewController *viewController = (UIViewController *)self.nextResponder.nextResponder;
+    [viewController.navigationController pushViewController:homeViewController animated:YES];
 }
 
 - (void) setBackground{
@@ -60,11 +70,13 @@
         imageView.layer.masksToBounds = YES;
         imageView.layer.cornerRadius = 3.0;
     } failure:nil];
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoClick:)];
+    [imageView addGestureRecognizer:singleTap];
     
     UILabel *nicknameLabel = (UILabel *)[self viewWithTag:USER_NICKNAME_TAG];
     nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
     if(userView.gender.intValue == 0){
-        nicknameLabel.textColor = [UIColor redColor];
+        nicknameLabel.textColor = [UIColor colorWithRed:1.00f green:0.40f blue:0.60f alpha:1.00f];
     }else {
         nicknameLabel.textColor = [UIColor blueColor];
     }
@@ -74,7 +86,7 @@
     
     UILabel *infoLabel = (UILabel *)[self viewWithTag:USER_INFO_TAG];
     infoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
-    infoLabel.textColor = [UIColor grayColor];
+    infoLabel.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];;
     NSMutableString *info = [NSMutableString stringWithCapacity:0];
     if(![userView.birthYear isEqual:[NSNull null]]){
         NSDate *now = [NSDate date];
@@ -93,9 +105,9 @@
     
     UILabel *contentLabel = (UILabel *)[self viewWithTag:POST_CONTENT_TAG];
     contentLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:14.0];
-    contentLabel.textColor = [UIColor grayColor];
+    contentLabel.textColor = [UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f];;
     contentLabel.text = [NSString stringWithFormat:@"%@：%@", userView.post.purpose, userView.post.content];
-    CGSize contentSize = [contentLabel.text sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(contentLabel.frame.size.width, 200.0) lineBreakMode:UILineBreakModeCharacterWrap];
+    CGSize contentSize = [contentLabel.text sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(contentLabel.frame.size.width, 200.0) lineBreakMode:UILineBreakModeWordWrap];
     [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, contentLabel.frame.origin.y, contentSize.width, contentSize.height)];
     
     UIImageView *postImageView = (UIImageView *)[self viewWithTag:POST_IMAGE_TAG];
@@ -122,7 +134,9 @@
     NSString *buttonTitle = [NSString stringWithFormat:@"%d", userView.post.respCnt.intValue];
     CGSize respButtonTitleSize = [buttonTitle sizeWithFont:[UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0] constrainedToSize:CGSizeMake(100.0f, 25.0f)lineBreakMode:UILineBreakModeHeadTruncation];
     [respButton setTitle:buttonTitle forState:UIControlStateNormal];
-    [respButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [respButton setTitleColor:[UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f] forState:UIControlStateNormal];
+    [respButton setTitleColor:[UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.00f] forState:UIControlStateDisabled];
+    [respButton setTitleColor:[UIColor colorWithRed:1.00f green:1.00f blue:1.00f alpha:1.00f] forState:UIControlStateHighlighted];
     respButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
     
     respButton.enabled = ![userView.post.hasResp boolValue];
@@ -162,29 +176,34 @@
     hud.labelText = @"操作中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:_userView.post.postId, @"postId", nil];
-        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/resppost" withParams:params];
+        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/respPost" withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
-            [MBProgressHUD hideHUDForView:coverView animated:YES];
             NSString *responseString = [request responseString];
             NSMutableDictionary *jsonResult = [responseString JSONValue];
-            MBProgressHUD *hud2 = [MBProgressHUD showHUDAddedTo:coverView animated:YES];
-            hud2.mode = MBProgressHUDModeText;
-            hud2.margin = 10.f;
-            hud2.yOffset = 150.f;
-            hud2.removeFromSuperViewOnHide = YES;
-            [hud2 hide:YES afterDelay:1];
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
+                _userView.post.hasResp = [NSNumber numberWithInt:1];
+                _userView.post.respCnt = [NSNumber numberWithInt:(_userView.post.respCnt.intValue + 1)];
                 UIButton *respButton = (UIButton *)[self viewWithTag:RESPONSE_BUTTON_TAG];
                 respButton.enabled = NO;
                 [respButton setTitle:[NSString stringWithFormat:@"%d", respButton.titleLabel.text.intValue + 1] forState:UIControlStateNormal];
-                hud2.labelText = @"操作成功";
-            }else {
-                hud2.labelText = [jsonResult valueForKey:@"errorInfo"];
+                hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.labelText = @"保存成功";
+                [hud hide:YES afterDelay:1];
+                return;
             }
+            NSString *errorInfo = [jsonResult valueForKey:@"erorInfo"];
+            NSLog(@"%@", errorInfo);
+            if (errorInfo == nil || [errorInfo isEqual:[NSNull null]] || [errorInfo isEqualToString:@""]) {
+                errorInfo = SERVER_ERROR_INFO;
+            }
+            [MBProgressHUD hideHUDForView:coverView animated:YES];
+            [MessageShow error:errorInfo onView:coverView];
         }];
         [request setFailedBlock:^{
             [MBProgressHUD hideHUDForView:coverView animated:YES];
+            [MessageShow error:SERVER_ERROR_INFO onView:coverView];
         }];
         [request startAsynchronous];
     });

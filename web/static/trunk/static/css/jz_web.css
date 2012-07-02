@@ -4,7 +4,10 @@ div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,
 form,fieldset,input,textarea,p,blockquote,th,td {   
     padding: 0;   
     margin: 0;   
-}   
+}  
+html,body{-webkit-text-size-adjust:none;}
+
+ 
 table {   
     border-collapse: collapse;   
     border-spacing: 0;   
@@ -326,7 +329,7 @@ trip_sc_area .img a{}
 .send_box{ width:620px; height:140px; float:left; margin-top:20px; margin-left:20px;  display:inline; position:relative; z-index:500;}
 .send_box .face{ float:left; width:120px; height:120px; overflow:hidden;}
 .send_area{ float:right; width:480px; height:120px; }
-.send_area .area_title{ float:left; font-size:16px; color:#666; font-family:"微软雅黑"; margin-left:5px; display:inline;} 
+.send_area .area_title{ height:28px; line-height:28px; float:left; font-size:16px; color:#666; font-family:"微软雅黑"; margin-left:5px; display:inline;} 
 
 .send_box .send_area{ width:620px;}
 .send_box .send_area .textarea{ background:url(../images/web2/text_area_bg.jpg) no-repeat; }
@@ -650,13 +653,20 @@ trip_sc_area .img a{}
 
 
 .jz_list  .category{ float:right; margin-right:10px; display:inline; margin-top:12px;}
-.jz_list  .category span{ float:left;}
+.jz_list  .category span{ float:left; position:relative; margin:0 3px; display:inline;}
 .jz_list  .category span p{ width:1px; height:23px; margin-top:1px; float:left;}
 .jz_list  .category span a{ padding-left:10px; padding-right:10px; height:25px; color:#666; display:block; float:left; line-height:25px; line-height:27px\0;}
 .jz_list  .category span a:hover{ color:#3E8BD9;}
 .jz_list  .category .act p{ background:#d8d8d8;}
 .jz_list  .category .act a{ background:#d8d8d8; font-weight:bold; cursor:default;}
 .jz_list  .category .act a:hover{ background:#d8d8d8; font-weight:bold; cursor:default; color:#666;}
+.jz_list  .category span em{ width:18px; height:13px; background:url(../images/web2/hy_bg_num.png) no-repeat; position:absolute; right:-8px; top:-3px; font-family:Arial; font-size:9px; line-height:13px; line-height:15px\0; color:#fff; text-align:center;}
+
+
+
+
+
+
 
 .jz_list  .idea_category{ float:left; margin-left:8px; display:inline; margin-top:11px;}
 .jz_list  .idea_category span{ float:left;}

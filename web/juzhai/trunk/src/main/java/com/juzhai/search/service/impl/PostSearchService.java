@@ -235,7 +235,8 @@ public class PostSearchService implements IPostSearchService {
 		try {
 			query.add(parser.parse(queryString), Occur.MUST);
 		} catch (ParseException e) {
-			log.error("getQuery  Parse queryString is error." + e.getMessage());
+			log.error(e.getMessage(), e);
+			
 			return null;
 		}
 		return query;

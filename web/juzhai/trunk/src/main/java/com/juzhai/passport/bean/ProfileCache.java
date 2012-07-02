@@ -23,6 +23,7 @@ public class ProfileCache implements Serializable {
 	private Boolean birthSecret;
 	private String email;
 	private Boolean subEmail;
+	private Long professionId;
 	private String profession;
 	private Long constellationId;
 	private String feature;
@@ -280,5 +281,13 @@ public class ProfileCache implements Serializable {
 			City cityObj = InitData.CITY_MAP.get(city);
 			return null == cityObj ? null : cityObj.getName();
 		}
+	}
+
+	public Long getProfessionId() {
+		return professionId;
+	}
+
+	public void setProfessionId(Long professionId) {
+		this.professionId = professionId;
 	}
 }

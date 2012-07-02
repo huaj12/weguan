@@ -144,7 +144,7 @@ public interface IProfileService {
 			int y, int w, int h) throws UploadImageException;
 
 	/**
-	 * 保存头像和个人资料（用户手机应用）
+	 * 保存头像和个人资料（用于手机应用）
 	 * 
 	 * @param uid
 	 * @param profileForm
@@ -152,6 +152,17 @@ public interface IProfileService {
 	 * @throws ProfileInputException
 	 */
 	void updateLogoAndProfile(long uid, ProfileMForm profileForm)
+			throws UploadImageException, ProfileInputException;
+
+	/**
+	 * 引导保存头像和个人资料（用于手机应用）
+	 * 
+	 * @param uid
+	 * @param profileForm
+	 * @throws UploadImageException
+	 * @throws ProfileInputException
+	 */
+	void guideLogoAndProfile(long uid, ProfileMForm profileForm)
 			throws UploadImageException, ProfileInputException;
 
 	/**

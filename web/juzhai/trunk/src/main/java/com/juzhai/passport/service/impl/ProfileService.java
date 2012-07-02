@@ -666,8 +666,24 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
+	public List<Profile> getEmailProfiles(int firstResult, int maxResults) {
+		ProfileExample example = new ProfileExample();
+		example.createCriteria().andEmailIsNotNull()
+				.andEmailNotEqualTo(StringUtils.EMPTY);
+		example.setOrderByClause("uid asc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return profileMapper.selectByExample(example);
+	}
+
+	@Override
 	public void updateLogoAndProfile(long uid, ProfileMForm profileForm)
 			throws UploadImageException, ProfileInputException {
+		Profile profile = convertToProfile(uid, profileForm);
+		updateProfile(profile);
+	}
+
+	private Profile convertToProfile(long uid, ProfileMForm profileForm)
+			throws UploadImageException {
 		String logoFileName = null;
 		if (profileForm != null && profileForm.getLogo() != null) {
 			logoFileName = profileImageService.uploadAndReduceLogo(uid,
@@ -709,16 +725,13 @@ public class ProfileService implements IProfileService {
 			profile.setNewLogoPic(logoFileName);
 			profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
 		}
-		updateProfile(profile);
+		return profile;
 	}
 
 	@Override
-	public List<Profile> getEmailProfiles(int firstResult, int maxResults) {
-		ProfileExample example = new ProfileExample();
-		example.createCriteria().andEmailIsNotNull()
-				.andEmailNotEqualTo(StringUtils.EMPTY);
-		example.setOrderByClause("uid asc");
-		example.setLimit(new Limit(firstResult, maxResults));
-		return profileMapper.selectByExample(example);
+	public void guideLogoAndProfile(long uid, ProfileMForm profileForm)
+			throws UploadImageException, ProfileInputException {
+		Profile profile = convertToProfile(uid, profileForm);
+		nextGuide(profile);
 	}
 }

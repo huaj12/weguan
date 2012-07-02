@@ -13,12 +13,14 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.juzhai.core.bean.UseLevel;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
@@ -50,14 +52,18 @@ import com.juzhai.passport.model.Profession;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Province;
 import com.juzhai.passport.model.Town;
+import com.juzhai.passport.model.UserGuide;
 import com.juzhai.passport.model.UserPositionExample;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.ILoginService;
+import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.IUserGuideService;
 import com.juzhai.post.InitData;
 import com.juzhai.post.bean.PurposeType;
+import com.juzhai.post.controller.form.PostForm;
+import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.model.Category;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
@@ -90,12 +96,16 @@ public class IOSController extends BaseController {
 	private IRegisterService registerService;
 	@Autowired
 	private IPostService postService;
+	@Autowired
+	private IPassportService passportService;
 	// @Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows = 1;
 	// @Value("${web.show.users.max.rows}")
 	private int webShowUsersMaxRows = 1;
 	// @Value("${web.my.post.max.rows}")
 	private int webMyPostMaxRows = 2;
+	// @Value("mobile.interest.user.max.rows")
+	private int mobileInterestUserMaxRows = 1;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
@@ -370,6 +380,56 @@ public class IOSController extends BaseController {
 		return userView;
 	}
 
+	private UserMView createUserMView(ProfileCache profileCache,
+			boolean isCompleteGuide) {
+		UserMView userView = new UserMView();
+		userView.setHasGuided(isCompleteGuide);
+		userView.setUid(profileCache.getUid());
+		userView.setNickname(profileCache.getNickname());
+		if (null != profileCache.getGender()) {
+			userView.setGender(profileCache.getGender());
+		}
+		userView.setBirthYear(profileCache.getBirthYear());
+		userView.setBirthMonth(profileCache.getBirthMonth());
+		userView.setBirthDay(profileCache.getBirthDay());
+		userView.setFeature(profileCache.getFeature());
+		Province province = com.juzhai.common.InitData.PROVINCE_MAP
+				.get(profileCache.getProvince());
+		if (null != province) {
+			userView.setProvinceId(province.getId());
+			userView.setProvinceName(province.getName());
+		}
+		City city = com.juzhai.common.InitData.CITY_MAP.get(profileCache
+				.getCity());
+		if (null != city) {
+			userView.setCityId(city.getId());
+			userView.setCityName(city.getName());
+		}
+		Town town = com.juzhai.common.InitData.TOWN_MAP.get(profileCache
+				.getTown());
+		if (null != town) {
+			userView.setTownId(town.getId());
+			userView.setTownName(town.getName());
+		}
+		userView.setLogo(JzResourceFunction.userLogo(profileCache.getUid(),
+				profileCache.getLogoPic(), LogoSizeType.MIDDLE.getType()));
+		userView.setNewLogo(JzResourceFunction.userLogo(profileCache.getUid(),
+				profileCache.getNewLogoPic(), LogoSizeType.MIDDLE.getType()));
+		userView.setLogoVerifyState(profileCache.getLogoVerifyState());
+		Constellation con = com.juzhai.passport.InitData.CONSTELLATION_MAP
+				.get(profileCache.getConstellationId());
+		if (null != con) {
+			userView.setConstellation(con.getName());
+		}
+		userView.setProfessionId(profileCache.getProfessionId());
+		userView.setProfession(profileCache.getProfession());
+		userView.setInterestUserCount(interestUserService
+				.countInterestUser(userView.getUid()));
+		userView.setInterestMeCount(interestUserService
+				.countInterestMeUser(userView.getUid()));
+		return userView;
+	}
+
 	@RequestMapping(value = "/categoryList", method = RequestMethod.GET)
 	@ResponseBody
 	public AjaxResult loadCategoryList(HttpServletRequest request) {
@@ -436,20 +496,23 @@ public class IOSController extends BaseController {
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	@ResponseBody
-	public AjaxResult home(HttpServletRequest request, int page) {
+	public AjaxResult home(HttpServletRequest request, Long uid, int page) {
 		UserContext context;
 		try {
 			context = checkLoginForWeb(request);
 		} catch (NeedLoginException e) {
 			return AjaxResult.ERROR_RESULT;
 		}
+		if (uid == null || uid <= 0) {
+			uid = context.getUid();
+		}
 		Map<String, Object> mapResult = new HashMap<String, Object>(3);
 		AjaxResult result = new AjaxResult();
 		result.setResult(mapResult);
 
 		PagerManager pager = new PagerManager(page, webMyPostMaxRows,
-				postService.countUserPost(context.getUid()));
-		List<Post> postList = postService.listUserPost(context.getUid(), null,
+				postService.countUserPost(uid));
+		List<Post> postList = postService.listUserPost(uid, null,
 				pager.getFirstResult(), pager.getMaxResult());
 		List<PostMView> postViewList = new ArrayList<PostMView>(postList.size());
 		for (Post post : postList) {
@@ -480,6 +543,133 @@ public class IOSController extends BaseController {
 		} catch (ProfileInputException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		} catch (UploadImageException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/profile/guide", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult guideProfile(HttpServletRequest request,
+			ProfileMForm profileForm) {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		AjaxResult result = new AjaxResult();
+		try {
+			profileService.updateLogoAndProfile(context.getUid(), profileForm);
+			UserGuide userGuide = userGuideService.getUserGuide(context
+					.getUid());
+			if (userGuide == null) {
+				userGuideService.createAndCompleteGuide(context.getUid());
+			} else {
+				userGuideService.completeGuide(context.getUid());
+			}
+			// 完成引导后提升用户使用等级
+			passportService.setUseLevel(context.getUid(), UseLevel.Level1);
+			result.setResult(createUserMView(
+					profileService.getProfile(context.getUid()), true));
+		} catch (ProfileInputException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		} catch (UploadImageException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/interestList", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult listInterestUser(HttpServletRequest request, int page) {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		PagerManager pager = new PagerManager(page, mobileInterestUserMaxRows,
+				interestUserService.countInterestUser(context.getUid()));
+		List<ProfileCache> list = interestUserService.listInterestUser(
+				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
+
+		List<UserMView> userViewList = new ArrayList<UserMView>(list.size());
+		for (ProfileCache profileCache : list) {
+			UserMView userView = createUserMView(profileCache, false);
+			userViewList.add(userView);
+		}
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("userViewList", userViewList);
+		result.put("pager", pager);
+
+		AjaxResult ajaxResult = new AjaxResult();
+		ajaxResult.setResult(result);
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/interestMeList", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult listInterestMeUser(HttpServletRequest request, int page) {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		PagerManager pager = new PagerManager(page, mobileInterestUserMaxRows,
+				interestUserService.countInterestMeUser(context.getUid()));
+		List<ProfileCache> list = interestUserService.listInterestMeUser(
+				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
+
+		List<UserMView> userViewList = new ArrayList<UserMView>(list.size());
+		for (ProfileCache profileCache : list) {
+			UserMView userView = createUserMView(profileCache, false);
+			userViewList.add(userView);
+		}
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("userViewList", userViewList);
+		result.put("pager", pager);
+
+		AjaxResult ajaxResult = new AjaxResult();
+		ajaxResult.setResult(result);
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/respPost", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult respPost(HttpServletRequest request, long postId) {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		AjaxResult result = new AjaxResult();
+		try {
+			postService.responsePost(context.getUid(), postId,
+					StringUtils.EMPTY);
+		} catch (InputPostException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/postIdea", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult postIdea(HttpServletRequest request, Model model,
+			PostForm postForm) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult result = new AjaxResult();
+		try {
+			long postId = postService.createPost(context.getUid(), postForm);
+			// if (sendWeibo && postId > 0 && context.getTpId() > 0) {
+			// postService.synchronizeWeibo(context.getUid(),
+			// context.getTpId(), postId);
+			// }
+		} catch (InputPostException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		}
 		return result;

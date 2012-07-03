@@ -17,7 +17,7 @@
 #define INTEREST_COUNT_BUTTON_CAP_WIDTH 4.0
 #define TABLE_HEAD_HEIGHT 25.0
 #define TABLE_HEAD_BG_IMAGE @"my_jz_title_bg.png"
-#define TABLE_HEAD_TITLE @"共 %d 条拒宅"
+#define TABLE_HEAD_TITLE @"    共 %d 条拒宅"
 
 @interface HomeViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 {
@@ -34,6 +34,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *nicknameLabel;
 @property (strong, nonatomic) IBOutlet UIButton *interestUserCountButton;
 @property (strong, nonatomic) IBOutlet UIButton *interestMeCountButton;
+@property (strong, nonatomic) IBOutlet UILabel *postCountLabel;
 @property (strong, nonatomic) IBOutlet UIButton *sendPostButton;
 @property (strong, nonatomic) IBOutlet UITableView *postTableView;
 @property (strong, nonatomic) IBOutlet UIButton *editorButton;

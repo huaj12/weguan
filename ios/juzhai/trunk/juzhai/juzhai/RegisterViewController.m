@@ -148,6 +148,10 @@
     tpLoginTableView.backgroundView = nil;
     tpLoginTableView.backgroundColor = [UIColor clearColor];
     tpLoginTableView.opaque = NO;
+    
+    registerFormTableView.separatorColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.00f];
+    tpLoginTableView.separatorColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.00f];
+    self.view.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
 }
 
 - (void)viewDidUnload

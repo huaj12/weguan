@@ -15,13 +15,11 @@
 {
     NSArray *_loginFormCells;
     TpLoginDelegate *_tpLoginDelegate;
-//    MBProgressHUD *HUD;
 }
 @property (strong,nonatomic) IBOutlet UITextField *nameField;
 @property (strong,nonatomic) IBOutlet UITextField *pwdField;
 @property (strong,nonatomic) IBOutlet UITableView *loginFormTableView;
 @property (strong,nonatomic) IBOutlet UITableView *tpLoginTableView;
-//@property (strong,nonatomic) UITabBarController *startController;
 
 - (IBAction)goRegister:(id)sender;
 - (IBAction)login:(id)sender;

@@ -107,7 +107,7 @@
 									<object class="IBUILabel" id="156576809">
 										<reference key="NSNextResponder" ref="732081101"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{34, 0}, {278, 16}}</string>
+										<string key="NSFrame">{{28, 0}, {278, 16}}</string>
 										<reference key="NSSuperview" ref="732081101"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="553960456"/>
@@ -151,7 +151,7 @@
 									<object class="IBUILabel" id="431542296">
 										<reference key="NSNextResponder" ref="732081101"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{34, 20}, {278, 16}}</string>
+										<string key="NSFrame">{{28, 20}, {278, 16}}</string>
 										<reference key="NSSuperview" ref="732081101"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="181723613"/>
@@ -188,7 +188,7 @@
 									<object class="IBUILabel" id="36459757">
 										<reference key="NSNextResponder" ref="732081101"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{34, 40}, {278, 16}}</string>
+										<string key="NSFrame">{{28, 40}, {278, 16}}</string>
 										<reference key="NSSuperview" ref="732081101"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="557254812"/>
@@ -294,9 +294,9 @@
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="714662168"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<object class="NSColor" key="IBUIBackgroundColor" id="770333026">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>
+								<object class="NSColor" key="IBUIBackgroundColor">
+									<int key="NSColorSpace">2</int>
+									<bytes key="NSRGB">MC44NTA5ODA0NjA2IDAuODUwOTgwNDYwNiAwLjg1MDk4MDQ2MDYAA</bytes>
 								</object>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
@@ -306,7 +306,10 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="107434901"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
-						<reference key="IBUIBackgroundColor" ref="770333026"/>
+						<object class="NSColor" key="IBUIBackgroundColor">
+							<int key="NSColorSpace">2</int>
+							<bytes key="NSRGB">MC44NTA5ODA0NjA2IDAuODUwOTgwNDYwNiAwLjg1MDk4MDQ2MDYAA</bytes>
+						</object>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>

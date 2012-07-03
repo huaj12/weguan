@@ -70,6 +70,9 @@
     [_saveButton addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
     _saveButton.enabled = NO;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_saveButton];
+    
+    self.tableView.separatorColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.00f];
+    self.view.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
 }
 
 - (void)viewDidUnload

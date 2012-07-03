@@ -30,7 +30,6 @@
 }
 
 -(void) doLogin{
-    sleep(1);
     NSString *errorInfo = [LoginService useLoginName:[nameField text] byPassword:[pwdField text]];
     if(errorInfo == nil){
         //判断是否过引导
@@ -108,11 +107,15 @@
     loginFormTableView.opaque = NO;
     _loginFormCells = [[NSBundle mainBundle] loadNibNamed:@"LoginForm" owner:self options:nil];
     
-//    [tpLoginTableView setDelegate:self];
     [tpLoginTableView setDataSource:_tpLoginDelegate];
+    [tpLoginTableView setDelegate:_tpLoginDelegate];
     tpLoginTableView.backgroundView = nil;
     tpLoginTableView.backgroundColor = [UIColor clearColor];
     tpLoginTableView.opaque = NO;
+    
+    loginFormTableView.separatorColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.00f];
+    tpLoginTableView.separatorColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.00f];
+    self.view.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
 }
 
 - (void)viewDidUnload
@@ -136,20 +139,6 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    static NSString *AccountCellIdentifier = @"AccountCellIdentifier";
-//    static NSString *PasswordCellIdentifier = @"PasswordCellIdentifier";
-//    NSArray *CellIdentifierArray = [[NSArray alloc] initWithObjects:AccountCellIdentifier, PasswordCellIdentifier, nil];
-//    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:[CellIdentifierArray objectAtIndex:indexPath.row]];
-//    if(cell == nil){
-//        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"LoginForm" owner:self options:nil];
-//        NSLog(@"111");
-//        for(id oneObject in nib){
-//            if([oneObject tag] == indexPath.row){
-//                cell = oneObject;
-//            }
-//        }
-//    }
-//    return cell;
     for(id oneObject in _loginFormCells){
         if([oneObject tag] == indexPath.row){
             return oneObject;

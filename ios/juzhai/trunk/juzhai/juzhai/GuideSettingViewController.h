@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "SettingViewController.h"
 
-@interface GuideSettingViewController : SettingViewController
+@interface GuideSettingViewController : SettingViewController <UIAlertViewDelegate>
+{
+    UIButton *_logoutButton;
+}
 
 @end

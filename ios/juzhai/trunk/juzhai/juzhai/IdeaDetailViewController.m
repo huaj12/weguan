@@ -24,6 +24,7 @@
 
 @implementation IdeaDetailViewController
 
+@synthesize separatorView;
 @synthesize ideaView;
 @synthesize contentView;
 @synthesize infoView;
@@ -53,12 +54,13 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+    self.view.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
+    infoView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
 }
 
 - (void) viewWillAppear:(BOOL)animated{
     contentLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:15.0];
-    contentLabel.textColor = [UIColor grayColor];
+    contentLabel.textColor = [UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f];
     contentLabel.text = self.ideaView.content;
     CGSize contentSize = [contentLabel.text sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(300.0, 300.0) lineBreakMode:UILineBreakModeCharacterWrap];
     [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, [self getViewOriginY:contentLabel byUpperView:nil heightGap:IDEA_DEFAULT_HEIGHT_GAP], contentSize.width, contentSize.height)];
@@ -73,6 +75,7 @@
     if(!timeLabel.hidden){
         timeLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
         timeLabel.text = [NSString stringWithFormat:@"%@ - %@", ideaView.startTime, ideaView.endTime];
+        timeLabel.textColor = [UIColor colorWithRed:0.53f green:0.53f blue:0.53f alpha:1.00f];
         [timeLabel setFrame:CGRectMake(timeLabel.frame.origin.x, timeIconView.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)];
     }
     [addressIconView setFrame:CGRectMake(addressIconView.frame.origin.x, [self getViewOriginY:addressIconView byUpperView:timeIconView heightGap:IDEA_INFO_ICON_HEIGHT_GAP], addressIconView.frame.size.width, addressIconView.frame.size.height)];
@@ -81,6 +84,7 @@
     if(!addressLabel.hidden){
         addressLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
         addressLabel.text = ideaView.place;
+        addressLabel.textColor = [UIColor colorWithRed:0.53f green:0.53f blue:0.53f alpha:1.00f];
         [addressLabel setFrame:CGRectMake(addressLabel.frame.origin.x, addressIconView.frame.origin.y, addressLabel.frame.size.width, addressLabel.frame.size.height)];
     }
     [categoryIconView setFrame:CGRectMake(categoryIconView.frame.origin.x, [self getViewOriginY:categoryIconView byUpperView:addressIconView heightGap:IDEA_INFO_ICON_HEIGHT_GAP], categoryIconView.frame.size.width, categoryIconView.frame.size.height)];
@@ -89,15 +93,19 @@
     if(!categoryLabel.hidden){
         categoryLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
         categoryLabel.text = ideaView.categoryName;
+        categoryLabel.textColor = [UIColor colorWithRed:0.53f green:0.53f blue:0.53f alpha:1.00f];
         [categoryLabel setFrame:CGRectMake(categoryLabel.frame.origin.x, categoryIconView.frame.origin.y, categoryLabel.frame.size.width, categoryLabel.frame.size.height)];
     }
     
     [moreButton setFrame:CGRectMake(moreButton.frame.origin.x, [self getViewOriginY:moreButton byUpperView:categoryIconView heightGap:IDEA_DEFAULT_HEIGHT_GAP], moreButton.frame.size.width, moreButton.frame.size.height)];
     
-    [postIdeaButton setFrame:CGRectMake(postIdeaButton.frame.origin.x, [self getViewOriginY:postIdeaButton byUpperView:moreButton heightGap:IDEA_DEFAULT_HEIGHT_GAP], postIdeaButton.frame.size.width, postIdeaButton.frame.size.height)];
+    separatorView.backgroundColor = [UIColor colorWithRed:0.87f green:0.87f blue:0.87f alpha:1.00f];
+    [separatorView setFrame:CGRectMake(separatorView.frame.origin.x, [self getViewOriginY:separatorView byUpperView:moreButton heightGap:IDEA_DEFAULT_HEIGHT_GAP], separatorView.frame.size.width, separatorView.frame.size.height)];
+    
+    [postIdeaButton setFrame:CGRectMake(postIdeaButton.frame.origin.x, [self getViewOriginY:postIdeaButton byUpperView:separatorView heightGap:IDEA_DEFAULT_HEIGHT_GAP], postIdeaButton.frame.size.width, postIdeaButton.frame.size.height)];
     postIdeaButton.enabled = ![ideaView.hasUsed boolValue];
     
-    [shareButton setFrame:CGRectMake(shareButton.frame.origin.x, [self getViewOriginY:shareButton byUpperView:moreButton heightGap:IDEA_DEFAULT_HEIGHT_GAP], shareButton.frame.size.width, shareButton.frame.size.height)];
+    [shareButton setFrame:CGRectMake(shareButton.frame.origin.x, [self getViewOriginY:shareButton byUpperView:separatorView heightGap:IDEA_DEFAULT_HEIGHT_GAP], shareButton.frame.size.width, shareButton.frame.size.height)];
     
     if(!imageView.hidden){
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
@@ -176,7 +184,7 @@
                 [hud hide:YES afterDelay:1];
                 return;
             }
-            NSString *errorInfo = [jsonResult valueForKey:@"erorInfo"];
+            NSString *errorInfo = [jsonResult valueForKey:@"errorInfo"];
             NSLog(@"%@", errorInfo);
             if (errorInfo == nil || [errorInfo isEqual:[NSNull null]] || [errorInfo isEqualToString:@""]) {
                 errorInfo = SERVER_ERROR_INFO;

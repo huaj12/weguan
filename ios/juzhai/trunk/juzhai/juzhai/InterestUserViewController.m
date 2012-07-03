@@ -55,6 +55,9 @@
     view.backgroundColor = [UIColor clearColor];
     [self.tableView setTableFooterView:view];
     
+    self.tableView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
+    self.tableView.separatorColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.78f alpha:1.00f];
+    
     [self loadListDataWithPage:1];
 }
 
@@ -168,17 +171,27 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:InterestUserCellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
+        UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, 1)];
+        separatorView.backgroundColor = [UIColor whiteColor];
+        [cell addSubview:separatorView];
+        
         UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
         logo.tag = INTEREST_USER_LOGO_TAG;
         [cell addSubview:logo];
         
         UILabel *nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 12, 150, 12)];
+        nicknameLabel.backgroundColor = [UIColor clearColor];
         nicknameLabel.tag = INTEREST_USER_NICKNAME_TAG;
         [cell addSubview:nicknameLabel];
         
         UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 34, 150, 12)];
+        infoLabel.backgroundColor = [UIColor clearColor];
         infoLabel.tag = INTEREST_USER_INFO_TAG;
         [cell addSubview:infoLabel];
+        
+        UIView *selectBgColorView = [[UIView alloc] init];
+        selectBgColorView.backgroundColor = [UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:1.00f];
+        cell.selectedBackgroundView = selectBgColorView;
     }
     UserView *userView = [_data objectAtIndex:indexPath.row];
     UIImageView *logo = (UIImageView *)[cell viewWithTag:INTEREST_USER_LOGO_TAG];
@@ -195,7 +208,7 @@
     UILabel *nicknameLabel = (UILabel *)[cell viewWithTag:INTEREST_USER_NICKNAME_TAG];
     nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
     if(userView.gender.intValue == 0){
-        nicknameLabel.textColor = [UIColor redColor];
+        nicknameLabel.textColor = [UIColor colorWithRed:1.00f green:0.40f blue:0.60f alpha:1.00f];
     }else {
         nicknameLabel.textColor = [UIColor blueColor];
     }

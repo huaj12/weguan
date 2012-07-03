@@ -193,7 +193,7 @@
                 [hud hide:YES afterDelay:1];
                 return;
             }
-            NSString *errorInfo = [jsonResult valueForKey:@"erorInfo"];
+            NSString *errorInfo = [jsonResult valueForKey:@"errorInfo"];
             NSLog(@"%@", errorInfo);
             if (errorInfo == nil || [errorInfo isEqual:[NSNull null]] || [errorInfo isEqualToString:@""]) {
                 errorInfo = SERVER_ERROR_INFO;

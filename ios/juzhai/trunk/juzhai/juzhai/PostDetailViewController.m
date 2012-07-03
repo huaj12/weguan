@@ -58,6 +58,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    postScrollView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
+    postInfoView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
 }
 
 - (void) viewWillAppear:(BOOL)animated{
@@ -75,14 +77,14 @@
     
     nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
     if(userView.gender.intValue == 0){
-        nicknameLabel.textColor = [UIColor redColor];
+        nicknameLabel.textColor = [UIColor colorWithRed:1.00f green:0.40f blue:0.60f alpha:1.00f];
     }else {
         nicknameLabel.textColor = [UIColor blueColor];
     }
     nicknameLabel.text = userView.nickname;
     
     userInfoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
-    userInfoLabel.textColor = [UIColor grayColor];
+    userInfoLabel.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];
     NSMutableString *info = [NSMutableString stringWithCapacity:0];
     if(![userView.birthYear isEqual:[NSNull null]]){
         NSDate *now = [NSDate date];
@@ -98,7 +100,7 @@
     userInfoLabel.text = info;
     
     contentLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:15.0];
-    contentLabel.textColor = [UIColor whiteColor];
+    contentLabel.textColor = [UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f];
     contentLabel.text = [NSString stringWithFormat:@"%@：%@", userView.post.purpose, userView.post.content];
     CGSize contentSize = [contentLabel.text sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(300.0, 300.0) lineBreakMode:UILineBreakModeCharacterWrap];
     [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, [self getViewOriginY:contentLabel byUpperView:nil heightGap:POST_DEFAULT_HEIGHT_GAP], contentSize.width, contentSize.height)];
@@ -113,6 +115,7 @@
     if(!timeLabel.hidden){
         timeLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
         timeLabel.text = userView.post.date;
+        timeLabel.textColor = [UIColor colorWithRed:0.53f green:0.53f blue:0.53f alpha:1.00f];
         [timeLabel setFrame:CGRectMake(timeLabel.frame.origin.x, timeIconView.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)];
     }
     [addressIconView setFrame:CGRectMake(addressIconView.frame.origin.x, [self getViewOriginY:addressIconView byUpperView:timeIconView heightGap:POST_INFO_ICON_HEIGHT_GAP], addressIconView.frame.size.width, addressIconView.frame.size.height)];
@@ -121,6 +124,7 @@
     if(!addressLabel.hidden){
         addressLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
         addressLabel.text = userView.post.place;
+        addressLabel.textColor = [UIColor colorWithRed:0.53f green:0.53f blue:0.53f alpha:1.00f];
         [addressLabel setFrame:CGRectMake(addressLabel.frame.origin.x, addressIconView.frame.origin.y, addressLabel.frame.size.width, addressLabel.frame.size.height)];
     }
     [categoryIconView setFrame:CGRectMake(categoryIconView.frame.origin.x, [self getViewOriginY:categoryIconView byUpperView:addressIconView heightGap:POST_INFO_ICON_HEIGHT_GAP], categoryIconView.frame.size.width, categoryIconView.frame.size.height)];
@@ -129,6 +133,7 @@
     if(!categoryLabel.hidden){
         categoryLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
         categoryLabel.text = userView.post.categoryName;
+        categoryLabel.textColor = [UIColor colorWithRed:0.53f green:0.53f blue:0.53f alpha:1.00f];
         [categoryLabel setFrame:CGRectMake(categoryLabel.frame.origin.x, categoryIconView.frame.origin.y, categoryLabel.frame.size.width, categoryLabel.frame.size.height)];
     }
     
@@ -227,7 +232,7 @@
                 [hud hide:YES afterDelay:1];
                 return;
             }
-            NSString *errorInfo = [jsonResult valueForKey:@"erorInfo"];
+            NSString *errorInfo = [jsonResult valueForKey:@"errorInfo"];
             NSLog(@"%@", errorInfo);
             if (errorInfo == nil || [errorInfo isEqual:[NSNull null]] || [errorInfo isEqualToString:@""]) {
                 errorInfo = SERVER_ERROR_INFO;

@@ -16,6 +16,7 @@
 @interface IdeaDetailViewController : UIViewController
 
 @property (strong, nonatomic) IdeaView *ideaView;
+@property (strong, nonatomic) IBOutlet UIView *separatorView;
 @property (strong, nonatomic) IBOutlet UIScrollView *contentView;
 @property (strong, nonatomic) IBOutlet UIView *infoView;
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;

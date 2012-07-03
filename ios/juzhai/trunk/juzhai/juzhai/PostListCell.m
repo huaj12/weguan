@@ -44,6 +44,7 @@
 
     contentLabel.text = [NSString stringWithFormat:@"%@：%@", postView.purpose, postView.content];
     contentLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:14.0];
+    contentLabel.textColor = [UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f];
     CGSize labelsize = [contentLabel.text sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(contentLabel.frame.size.width, 300.0) lineBreakMode:UILineBreakModeCharacterWrap];
     [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, contentLabel.frame.origin.y, labelsize.width, labelsize.height)];
     

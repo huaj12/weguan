@@ -90,8 +90,8 @@
 //    self.tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame style:UITableViewStyleGrouped];
     
     //设置分割线
-    self.tableView.separatorColor = [UIColor greenColor];
-    
+    self.tableView.separatorColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.78f alpha:1.00f];
+    self.tableView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
     //加载初始化分类数据
     [BaseData getCategories];
     //加载列表数据

@@ -103,7 +103,7 @@ static BaseData *baseData;
 
 + (NSArray *)getProvinces{
     BaseData *baseData = [BaseData sharedData];
-    if(!baseData.professionArray){
+    if(!baseData.provinceArray){
         //http load
         __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/provinceCityList" withParams:nil];
         __unsafe_unretained ASIHTTPRequest *request = _request;

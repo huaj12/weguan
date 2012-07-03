@@ -35,9 +35,10 @@
 }
 
 -(void) setBackground{
-//    UIImageView *imageview = [[UIImageView alloc] initWithFrame:self.bounds]; 
-//    [imageview setImage:[UIImage imageNamed:BG_PNG]];
-//    [self setBackgroundView: imageview];
+    self.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
+    UIView *selectBgColorView = [[UIView alloc] init];
+    selectBgColorView.backgroundColor = [UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:1.00f];
+    self.selectedBackgroundView = selectBgColorView;
 }
 
 - (void) redrawn:(IdeaView *)ideaView{
@@ -62,6 +63,8 @@
     
     UILabel *contentLabel = (UILabel *)[self viewWithTag:IDEA_CONTENT_TAG];
     contentLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:14.0];
+    contentLabel.textColor = [UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f];
+    contentLabel.highlightedTextColor = [UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f];
     CGSize labelsize = [ideaView.content sizeWithFont:contentLabel.font constrainedToSize:contentLabel.frame.size lineBreakMode:UILineBreakModeCharacterWrap];
     [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, contentLabel.frame.origin.y, labelsize.width, labelsize.height)];
     contentLabel.text = ideaView.content;
@@ -113,7 +116,7 @@
                 [hud hide:YES afterDelay:1];
                 return;
             }
-            NSString *errorInfo = [jsonResult valueForKey:@"erorInfo"];
+            NSString *errorInfo = [jsonResult valueForKey:@"errorInfo"];
             NSLog(@"%@", errorInfo);
             if (errorInfo == nil || [errorInfo isEqual:[NSNull null]] || [errorInfo isEqualToString:@""]) {
                 errorInfo = SERVER_ERROR_INFO;

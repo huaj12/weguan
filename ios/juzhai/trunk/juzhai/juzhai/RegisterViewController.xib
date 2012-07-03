@@ -156,7 +156,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 					<object class="IBUIImageView" id="1041378042">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{0, 188}, {320, 16}}</string>
+						<string key="NSFrame">{{0, 184}, {320, 16}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="469428359"/>
@@ -171,7 +171,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 					<object class="IBUITableView" id="469428359">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{0, 222}, {320, 122}}</string>
+						<string key="NSFrame">{{0, 218}, {320, 137}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="455685140"/>
@@ -185,7 +185,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 						<int key="IBUISeparatorStyle">2</int>
 						<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
 						<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
-						<float key="IBUIRowHeight">40</float>
+						<float key="IBUIRowHeight">45</float>
 						<float key="IBUISectionHeaderHeight">1</float>
 						<float key="IBUISectionFooterHeight">1</float>
 					</object>

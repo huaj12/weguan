@@ -38,6 +38,7 @@
 @synthesize sendPostButton;
 @synthesize postTableView;
 @synthesize editorButton;
+@synthesize postCountLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -105,7 +106,13 @@
                     PostView *postView = [PostView postConvertFromDictionary:[postViewList objectAtIndex:i]];
                     [_data addObject:postView withIdentity:postView.postId];
                 }
-                [postTableView reloadData];
+                postCountLabel.text = [NSString stringWithFormat:TABLE_HEAD_TITLE, _data.pager.totalResults];
+                if (_data.count == 0) {
+                    postTableView.hidden = YES;
+                }else {
+                    postTableView.hidden = NO;
+                    [postTableView reloadData];
+                }
             }
         }];
         [request setFailedBlock:^{
@@ -127,6 +134,15 @@
     UIView *view = [UIView new];
     view.backgroundColor = [UIColor clearColor];
     [postTableView setTableFooterView:view];
+    
+    postCountLabel.backgroundColor = [UIColor colorWithPatternImage: [UIImage imageNamed: TABLE_HEAD_BG_IMAGE]];
+    postCountLabel.font=[UIFont fontWithName:DEFAULT_FONT_FAMILY size:11];
+    postCountLabel.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];
+    
+    //设置分割线
+    self.postTableView.separatorColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.78f alpha:1.00f];
+    self.postTableView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
+    
     [self loadListDataWithPage:1];
 }
 
@@ -137,6 +153,8 @@
     _isMe = _userView.uid.intValue == [UserContext getUserView].uid.intValue;
     if (!_isMe) {
         self.title = [NSString stringWithFormat:@"%@的拒宅", _userView.nickname];
+        self.sendPostButton.enabled = NO;
+        self.sendPostButton.hidden = YES;
     }
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     NSURL *imageURL = [NSURL URLWithString:(_isMe ? _userView.rawLogo : _userView.logo)];
@@ -149,7 +167,7 @@
     
     nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:18.0];
     if(_userView.gender.intValue == 0){
-        nicknameLabel.textColor = [UIColor redColor];
+        nicknameLabel.textColor = [UIColor colorWithRed:1.00f green:0.40f blue:0.60f alpha:1.00f];
     }else {
         nicknameLabel.textColor = [UIColor blueColor];
     }
@@ -160,6 +178,7 @@
         
         interestUserCountButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
         [interestUserCountButton setTitle:[NSString stringWithFormat:@"关注 %d", _userView.interestUserCount.intValue] forState:UIControlStateNormal];
+        [interestUserCountButton setTitleColor:[UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f] forState:UIControlStateNormal];
         CGSize interestUserCountButtonSize = [[interestUserCountButton titleForState:UIControlStateNormal] sizeWithFont:interestUserCountButton.titleLabel.font];
         interestUserCountButton.frame = CGRectMake(interestUserCountButton.frame.origin.x, interestUserCountButton.frame.origin.y, interestUserCountButtonSize.width + 24.0, interestUserCountButton.frame.size.height);
         [interestUserCountButton setBackgroundImage:interestCountImage forState:UIControlStateNormal];
@@ -168,6 +187,7 @@
         
         interestMeCountButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
         [interestMeCountButton setTitle:[NSString stringWithFormat:@"粉丝 %d", _userView.interestMeCount.intValue] forState:UIControlStateNormal];
+        [interestMeCountButton setTitleColor:[UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f] forState:UIControlStateNormal];
         CGSize interestMeCountButtonSize = [[interestMeCountButton titleForState:UIControlStateNormal] sizeWithFont:interestMeCountButton.titleLabel.font];
         interestMeCountButton.frame = CGRectMake(interestUserCountButton.frame.origin.x + interestUserCountButton.frame.size.width + 10.0, interestMeCountButton.frame.origin.y, interestMeCountButtonSize.width + 24.0, interestMeCountButton.frame.size.height);
         [interestMeCountButton setBackgroundImage:interestCountImage forState:UIControlStateNormal];
@@ -297,9 +317,9 @@
     }
 }
 
-- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    return [NSString stringWithFormat:TABLE_HEAD_TITLE, _data.pager.totalResults];
-}
+//- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+//    return [NSString stringWithFormat:TABLE_HEAD_TITLE, _data.pager.totalResults];
+//}
 
 #pragma mark -
 #pragma mark Table View Deletage
@@ -312,29 +332,29 @@
     }
 }
 
-- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return TABLE_HEAD_HEIGHT;
-}
+//- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+//    return TABLE_HEAD_HEIGHT;
+//}
 
-- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    
-    NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
-    if (sectionTitle == nil) {
-        return  nil;
-    }
-    
-    UILabel * label = [[UILabel alloc] init];
-    label.frame = CGRectMake(10, 7, tableView.bounds.size.width, 11);
-    label.backgroundColor = [UIColor clearColor];
-    label.font=[UIFont fontWithName:DEFAULT_FONT_FAMILY size:11];
-    label.textColor = [UIColor grayColor];
-    label.text = sectionTitle;
-    
-    UIView * sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, TABLE_HEAD_HEIGHT)];
-    [sectionView setBackgroundColor: [UIColor colorWithPatternImage: [UIImage imageNamed: TABLE_HEAD_BG_IMAGE]]];
-    [sectionView addSubview:label];
-    return sectionView;
-}
+//- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    
+//    NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
+//    if (sectionTitle == nil) {
+//        return  nil;
+//    }
+//    
+//    UILabel * label = [[UILabel alloc] init];
+//    label.frame = CGRectMake(10, 7, tableView.bounds.size.width, 11);
+//    label.backgroundColor = [UIColor clearColor];
+//    label.font=[UIFont fontWithName:DEFAULT_FONT_FAMILY size:11];
+//    label.textColor = [UIColor grayColor];
+//    label.text = sectionTitle;
+//    
+//    UIView * sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, TABLE_HEAD_HEIGHT)];
+//    [sectionView setBackgroundColor: [UIColor colorWithPatternImage: [UIImage imageNamed: TABLE_HEAD_BG_IMAGE]]];
+//    [sectionView addSubview:label];
+//    return sectionView;
+//}
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row < [_data count]) {

@@ -97,6 +97,8 @@
 		CB87D3E915518C9C00A25129 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CB87D3E815518C9C00A25129 /* main.m */; };
 		CB87D3ED15518C9C00A25129 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CB87D3EC15518C9C00A25129 /* AppDelegate.m */; };
 		CB87D3F015518C9C00A25129 /* juzhai.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CB87D3EE15518C9C00A25129 /* juzhai.xcdatamodeld */; };
+		CB8B257915A356BA00F363B1 /* TpLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8B257715A356B800F363B1 /* TpLoginViewController.m */; };
+		CB8B257A15A356BA00F363B1 /* TpLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB8B257815A356B900F363B1 /* TpLoginViewController.xib */; };
 		CB8F09C21572217F0003018D /* IdeaListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CB8F09C11572217F0003018D /* IdeaListCell.m */; };
 		CB8F09C4157221A30003018D /* IdeaListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB8F09C3157221A30003018D /* IdeaListCell.xib */; };
 		CB9946FE159302530057FBB6 /* FeatureEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB9946FC159302530057FBB6 /* FeatureEditorViewController.m */; };
@@ -384,6 +386,9 @@
 		CB87D3EB15518C9C00A25129 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CB87D3EC15518C9C00A25129 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CB87D3EF15518C9C00A25129 /* juzhai.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = juzhai.xcdatamodel; sourceTree = "<group>"; };
+		CB8B257615A356B800F363B1 /* TpLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TpLoginViewController.h; sourceTree = "<group>"; };
+		CB8B257715A356B800F363B1 /* TpLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TpLoginViewController.m; sourceTree = "<group>"; };
+		CB8B257815A356B900F363B1 /* TpLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TpLoginViewController.xib; sourceTree = "<group>"; };
 		CB8F09C01572217F0003018D /* IdeaListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdeaListCell.h; sourceTree = "<group>"; };
 		CB8F09C11572217F0003018D /* IdeaListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdeaListCell.m; sourceTree = "<group>"; };
 		CB8F09C3157221A30003018D /* IdeaListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IdeaListCell.xib; sourceTree = "<group>"; };
@@ -1257,6 +1262,8 @@
 				CB7F16DE155197100009E060 /* RegisterViewController.m */,
 				CBA483D8158F1B1200322D84 /* TpLoginDelegate.h */,
 				CBA483D9158F1B1200322D84 /* TpLoginDelegate.m */,
+				CB8B257615A356B800F363B1 /* TpLoginViewController.h */,
+				CB8B257715A356B800F363B1 /* TpLoginViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -1276,6 +1283,7 @@
 				CB7F16DA155196F50009E060 /* LoginViewController.xib */,
 				CB7F16DF155197100009E060 /* RegisterViewController.xib */,
 				CBB76611158CF69E00F0DCA8 /* LoginForm.xib */,
+				CB8B257815A356B900F363B1 /* TpLoginViewController.xib */,
 			);
 			name = XIB;
 			sourceTree = "<group>";
@@ -1532,6 +1540,7 @@
 				CB9946FF159302530057FBB6 /* FeatureEditorViewController.xib in Resources */,
 				CB790AC815937822006DF5FC /* 37x-Checkmark.png in Resources */,
 				CB790AC915937822006DF5FC /* 37x-Checkmark@2x.png in Resources */,
+				CB8B257A15A356BA00F363B1 /* TpLoginViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1622,6 +1631,7 @@
 				CBE29097159D7DD2008EC696 /* Province.m in Sources */,
 				CBE2909A159D7DE5008EC696 /* City.m in Sources */,
 				CBFB167E159EF7C1006B3EE7 /* InterestUserViewController.m in Sources */,
+				CB8B257915A356BA00F363B1 /* TpLoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -53,6 +53,28 @@
     return SERVER_ERROR_INFO;
 }
 
++ (NSString *) loginWithTpId:(NSInteger)tpId withQuery:(NSString *)query{
+    //Http请求
+    NSString *url = [NSString stringWithFormat:@"http://test.51juzhai.com/app/ios/tpAccess/%d?%@", tpId, query];
+    ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:url withParams:nil];
+    [request startSynchronous];
+    NSError *error = [request error];
+    if (!error && [request responseStatusCode] == 200){
+        NSString *response = [request responseString];
+        NSMutableDictionary *jsonResult = [response JSONValue];
+        if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
+            //登录成功
+            [UserContext setUserView:[UserView userConvertFromDictionary:[jsonResult valueForKey:@"result"]]];
+            return nil;
+        }else{
+            return [jsonResult valueForKey:@"errorInfo"];
+        }
+    }else{
+        NSLog(@"error: %@", [request responseStatusMessage]);
+    }
+    return SERVER_ERROR_INFO;
+}
+
 +(BOOL) checkLogin{
     LoginUser *loginUser = [[LoginUser alloc] initFromData];
     if(loginUser != nil && ![@"" isEqualToString:loginUser.account] && ![@"" isEqualToString:loginUser.password]){

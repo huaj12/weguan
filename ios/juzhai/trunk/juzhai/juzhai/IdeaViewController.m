@@ -22,6 +22,7 @@
 #import "BaseData.h"
 #import "IdeaDetailViewController.h"
 #import "Pager.h"
+#import "PagerCell.h"
 
 @interface IdeaViewController (Private)
 - (void) loadListDataWithPage:(NSInteger)page;
@@ -179,12 +180,7 @@
     });
 }
 
--(IBAction)nextPage:(id)sender{
-    UIButton *moreButton = (UIButton *)sender;
-    UITableViewCell *cell = (UITableViewCell *)moreButton.superview;
-    [moreButton setHidden:YES];
-    UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:2];
-    [spinner startAnimating];
+- (void)nextPage{
     [self loadListDataWithPage:_data.pager.currentPage + 1];
 }
 
@@ -274,48 +270,23 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_data.pager.hasNext && indexPath.row == [_data count]) {
-        static NSString *PagerCellIdentifier = @"PagerCellIdentifier";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PagerCellIdentifier];
-        if(cell == nil){
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:PagerCellIdentifier];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            moreButton.frame = CGRectMake(0, 0, 320, 30);
-            [moreButton setBackgroundImage:[UIImage imageNamed:@"idea_more_btn.png"] forState:UIControlStateNormal];
-            [moreButton setTitle:@"查看更多" forState:UIControlStateNormal];
-            [moreButton addTarget:self action:@selector(nextPage:) forControlEvents:UIControlEventTouchUpInside];
-            moreButton.tag = 1;
-            [cell addSubview:moreButton];
-            
-            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            spinner.tag = 2;
-            [cell addSubview:spinner];
-            [spinner setCenter:CGPointMake(160, 15)];
-        }else {
-            UIButton *button = (UIButton *)[cell viewWithTag:1];
-            [button setHidden:NO];
-            UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:2];
-            [spinner stopAnimating];
-        }
-        return cell;
-    }else {
-        static NSString *IdeaListCellIdentifier = @"IdeaListCellIdentifier";
-        IdeaListCell * cell = (IdeaListCell *)[tableView dequeueReusableCellWithIdentifier:IdeaListCellIdentifier];
-        if(cell == nil){
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"IdeaListCell" owner:self options:nil];
-            for(id oneObject in nib){
-                if([oneObject isKindOfClass:[IdeaListCell class]]){
-                    cell = (IdeaListCell *) oneObject;
-                }
-            }
-            [cell setBackground];
-        }
-        IdeaView *ideaView = (IdeaView *)[_data objectAtIndex:indexPath.row];
-        [cell redrawn:ideaView];
-        //    [wantToButton addTarget:self action:@selector(loadListData) forControlEvents:UIControlEventTouchUpInside];
-        return cell;
+        return [PagerCell dequeueReusablePagerCell:tableView];
     }
+    static NSString *IdeaListCellIdentifier = @"IdeaListCellIdentifier";
+    IdeaListCell * cell = (IdeaListCell *)[tableView dequeueReusableCellWithIdentifier:IdeaListCellIdentifier];
+    if(cell == nil){
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"IdeaListCell" owner:self options:nil];
+        for(id oneObject in nib){
+            if([oneObject isKindOfClass:[IdeaListCell class]]){
+                cell = (IdeaListCell *) oneObject;
+            }
+        }
+        [cell setBackground];
+    }
+    IdeaView *ideaView = (IdeaView *)[_data objectAtIndex:indexPath.row];
+    [cell redrawn:ideaView];
+    //    [wantToButton addTarget:self action:@selector(loadListData) forControlEvents:UIControlEventTouchUpInside];
+    return cell;
 }
 
 #pragma mark -
@@ -323,7 +294,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_data.pager.hasNext && indexPath.row == [_data count]) {
-        return 30.0;
+        return PAGER_CELL_HEIGHT;
     }else {
         return [IdeaListCell heightForCell:[_data objectAtIndex:indexPath.row]];
     }
@@ -337,6 +308,8 @@
         }
         _ideaDetailViewController.ideaView = [_data objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:_ideaDetailViewController animated:YES];
+    } else {
+        [self nextPage];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

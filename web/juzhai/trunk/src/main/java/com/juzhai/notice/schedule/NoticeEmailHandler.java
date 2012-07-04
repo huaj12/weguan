@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.juzhai.core.mail.bean.Mail;
 import com.juzhai.core.mail.factory.MailFactory;
-import com.juzhai.core.mail.manager.MailManager;
+import com.juzhai.core.mail.manager.SimpleMailManager;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
@@ -26,7 +26,7 @@ public class NoticeEmailHandler extends AbstractScheduleHandler {
 	@Autowired
 	private IProfileService profileService;
 	@Autowired
-	private MailManager mailManager;
+	private SimpleMailManager mailManager;
 	@Autowired
 	private INoticeService noticeService;
 	@Autowired

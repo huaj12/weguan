@@ -13,7 +13,8 @@ import org.springframework.stereotype.Component;
 
 import com.juzhai.core.mail.bean.Mail;
 import com.juzhai.core.mail.factory.MailFactory;
-import com.juzhai.core.mail.manager.MailManager;
+import com.juzhai.core.mail.manager.FrequencyMailManager;
+import com.juzhai.core.mail.manager.SimpleMailManager;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 import com.juzhai.core.web.jstl.JzDataFunction;
 import com.juzhai.core.web.jstl.JzResourceFunction;
@@ -38,9 +39,9 @@ public class NoticeWeekEmailHandler extends AbstractScheduleHandler {
 	@Autowired
 	private IPassportService passportService;
 	@Autowired
-	private MailManager qqMailManager;
+	private FrequencyMailManager qqMailManager;
 	@Autowired
-	private MailManager mailManager;
+	private SimpleMailManager mailManager;
 	@Autowired
 	private IPostService postService;
 	@Autowired

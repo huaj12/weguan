@@ -23,7 +23,7 @@ import com.juzhai.common.service.IActiveCodeService;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.mail.bean.Mail;
 import com.juzhai.core.mail.factory.MailFactory;
-import com.juzhai.core.mail.manager.MailManager;
+import com.juzhai.core.mail.manager.SimpleMailManager;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
@@ -69,7 +69,7 @@ public class RegisterService implements IRegisterService {
 	@Autowired
 	private IActiveCodeService activeCodeService;
 	@Autowired
-	private MailManager mailManager;
+	private SimpleMailManager mailManager;
 	@Autowired
 	private MemcachedClient memcachedClient;
 	@Autowired

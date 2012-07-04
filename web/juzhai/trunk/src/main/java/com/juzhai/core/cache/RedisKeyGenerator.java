@@ -53,8 +53,8 @@ public class RedisKeyGenerator extends KeyGenerator {
 	 * 
 	 * @return
 	 */
-	public static String genMailQueueKey() {
-		return "mailQueue";
+	public static String genMailQueueKey(String queueKey) {
+		return queueKey + ".mailQueue";
 	}
 
 	/**

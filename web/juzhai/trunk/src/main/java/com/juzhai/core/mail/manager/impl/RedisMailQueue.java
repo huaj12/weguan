@@ -17,26 +17,27 @@ public class RedisMailQueue implements MailQueue {
 	private RedisTemplate<String, Mail> redisTemplate;
 
 	@Override
-	public void push(Mail mail) {
+	public void push(String queueKey, Mail mail) {
 		redisTemplate.opsForList().rightPush(
-				RedisKeyGenerator.genMailQueueKey(), mail);
+				RedisKeyGenerator.genMailQueueKey(queueKey), mail);
 	}
 
 	@Override
-	public void pushWithPriotity(Mail mail, int priority) {
+	public void pushWithPriotity(String queueKey, Mail mail, int priority) {
 		throw new UnsupportedOperationException("none implement");
 	}
 
 	@Override
-	public Mail pop() {
+	public Mail pop(String queueKey) {
 		return redisTemplate.opsForList().leftPop(
-				RedisKeyGenerator.genMailQueueKey());
+				RedisKeyGenerator.genMailQueueKey(queueKey));
 	}
 
 	@Override
-	public Mail blockPop(int timeout) {
+	public Mail blockPop(String queueKey, int timeout) {
 		return redisTemplate.opsForList().leftPop(
-				RedisKeyGenerator.genMailQueueKey(), timeout, TimeUnit.SECONDS);
+				RedisKeyGenerator.genMailQueueKey(queueKey), timeout,
+				TimeUnit.SECONDS);
 	}
 
 }

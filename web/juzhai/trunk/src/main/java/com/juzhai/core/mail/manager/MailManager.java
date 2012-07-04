@@ -29,6 +29,10 @@ public class MailManager {
 
 	private String encoding = DEFAULT_ENCODING;
 
+	private long interval;
+
+	private String queueKey;
+
 	public void sendMail(final Mail mail, boolean immediately) {
 		if (StringUtils.isEmpty(mail.getEncoding())) {
 			mail.setEncoding(encoding);
@@ -45,7 +49,7 @@ public class MailManager {
 				}
 			});
 		} else {
-			mailQueue.push(mail);
+			mailQueue.push(queueKey, mail);
 		}
 	}
 
@@ -71,10 +75,15 @@ public class MailManager {
 				log.debug("start mail daemon");
 			}
 			while (true) {
-				Mail mail = mailQueue.blockPop(blockPopMailTimeout);
+				Mail mail = mailQueue.blockPop(queueKey, blockPopMailTimeout);
 				if (null != mail) {
 					try {
-						mailSender.send(mail);
+						if (interval > 0) {
+							Thread.sleep(interval);
+						}
+						// mailSender.send(mail);
+						System.out.println(mail.getReceiver().getEmailAddress()
+								+ "key:" + queueKey);
 						if (log.isDebugEnabled()) {
 							log.debug("send mail to ["
 									+ mail.getReceiver().getEmailAddress()
@@ -114,4 +123,13 @@ public class MailManager {
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
 	}
+
+	public void setInterval(long interval) {
+		this.interval = interval;
+	}
+
+	public void setQueueKey(String queueKey) {
+		this.queueKey = queueKey;
+	}
+
 }

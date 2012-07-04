@@ -38,6 +38,8 @@ public class NoticeWeekEmailHandler extends AbstractScheduleHandler {
 	@Autowired
 	private IPassportService passportService;
 	@Autowired
+	private MailManager qqMailManager;
+	@Autowired
 	private MailManager mailManager;
 	@Autowired
 	private IPostService postService;
@@ -75,7 +77,12 @@ public class NoticeWeekEmailHandler extends AbstractScheduleHandler {
 				mail.buildSubject("/mail/week/subject.vm",
 						buildSubjectProp(profile));
 				mail.buildText("/mail/week/content.vm", params);
-				mailManager.sendMail(mail, false);
+				if (passport.getEmail().endsWith("qq.com")) {
+					qqMailManager.sendMail(mail, false);
+				} else {
+					mailManager.sendMail(mail, false);
+				}
+
 			}
 			firstResult += maxResults;
 		}
@@ -84,10 +91,12 @@ public class NoticeWeekEmailHandler extends AbstractScheduleHandler {
 
 	private void startMailDaemon() {
 		mailManager.startDaemon();
+		qqMailManager.startDaemon();
 	}
 
 	private void stopMailDaemon() {
 		mailManager.stopDaemon();
+		qqMailManager.stopDaemon();
 	}
 
 	private Map<String, Object> buildSubjectProp(ProfileCache profile) {

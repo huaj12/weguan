@@ -22,6 +22,7 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.ShowPostOrder;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.Passport;
+import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.post.bean.PostResult;
@@ -48,7 +49,8 @@ public class HomeController extends BaseController {
 	private IPassportService passportService;
 	@Autowired
 	private IRegisterService registerService;
-	// TODO (done) 这个autowired空的？
+	@Autowired
+	private ILoginService loginService;
 	@Value("${web.home.post.max.rows}")
 	private int webHomePostMaxRows;
 	@Value("${web.home.right.user.rows}")
@@ -59,6 +61,8 @@ public class HomeController extends BaseController {
 	private int recommendUserCount;
 	@Value("${visitor.widget.user.count}")
 	private int visitorWidgetUserCount;
+	@Value("${show.user.online.max.rows}")
+	private int showUserOnlineMaxRows;
 
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)
@@ -116,6 +120,7 @@ public class HomeController extends BaseController {
 		long excludeUid = 0;
 		if (ShowPostOrder.ONLINE.getType().equals(order.getType())) {
 			excludeUid = context.getUid();
+
 		}
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
 				postService.countNewOrOnlinePosts(cityId, townId, gender,
@@ -149,7 +154,7 @@ public class HomeController extends BaseController {
 		model.addAttribute("pageType", "home");
 		loadCategoryList(model);
 		loadFaces(model);
-		showHomeCommon(cityId, request, context, model);
+		showHomeCommon(cityId, townId, gender, request, context, model);
 		return "web/home/index/home";
 	}
 
@@ -175,8 +180,8 @@ public class HomeController extends BaseController {
 			@PathVariable String genderType, @PathVariable int page)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeCommon(0l, request, context, model);
 		Integer gender = getGender(genderType);
+		showHomeCommon(0l, null, gender, request, context, model);
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
 				postService.countResponsePost(context.getUid(), null, gender));
 		List<Post> postList = postService.listResponsePost(context.getUid(),
@@ -206,8 +211,8 @@ public class HomeController extends BaseController {
 			@PathVariable String genderType, @PathVariable int page)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		showHomeCommon(0l, request, context, model);
 		Integer gender = getGender(genderType);
+		showHomeCommon(0l, null, gender, request, context, model);
 		PagerManager pager = new PagerManager(page, webHomePostMaxRows,
 				postService.countInterestUserPost(context.getUid(), null,
 						gender));
@@ -227,14 +232,28 @@ public class HomeController extends BaseController {
 		return "web/home/index/home";
 	}
 
-	private void showHomeCommon(long cityId, HttpServletRequest request,
-			UserContext context, Model model) {
+	private void showHomeCommon(long cityId, Long townId, Integer gender,
+			HttpServletRequest request, UserContext context, Model model) {
+		long uid = 0;
+		ProfileCache loginUser = getLoginUserCache(request);
 		if (cityId == 0) {
-			ProfileCache loginUser = getLoginUserCache(request);
 			if (loginUser != null && loginUser.getCity() != null) {
 				cityId = loginUser.getCity();
 			}
 		}
+		if (loginUser != null && loginUser.getUid() != null) {
+			uid = loginUser.getUid();
+		}
+		int onlineCount = 0;
+		PostResult result = postService.listNewOrOnlinePosts(cityId, townId,
+				gender, ShowPostOrder.ONLINE, uid, 0, showUserOnlineMaxRows);
+		for (Post post : result.getPosts()) {
+			if (loginService.isOnline(post.getCreateUid())) {
+				onlineCount++;
+			}
+		}
+		model.addAttribute("onlineCount", onlineCount);
+		model.addAttribute("showUserOnlineMaxRows", showUserOnlineMaxRows);
 		// showHomeLogo(context, model);
 		hotWordsWidget(model, cityId, searchUserHotRows);
 		visitUserWidget(model, context, visitorWidgetUserCount);

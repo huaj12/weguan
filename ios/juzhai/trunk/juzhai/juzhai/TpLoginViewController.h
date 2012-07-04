@@ -11,12 +11,12 @@
 #define BACK_NORMAL_PIC_NAME @"back_btn_link.png"
 #define BACK_HIGHLIGHT_PIC_NAME @"back_btn_hover.png"
 
-@interface TpLoginViewController : UIViewController
+@interface TpLoginViewController : UIViewController <UIWebViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
 @property (strong, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *loadingView;
 @property (strong, nonatomic) NSString *webTitle;
-@property (strong, nonatomic) NSString *url;
+@property (nonatomic) NSInteger tpId;
 
 @end

@@ -11,12 +11,14 @@
 
 @interface LoginService : NSObject
 
-+(NSString *) useLoginName:(NSString *)account byPassword:(NSString *)password;
++ (NSString *) useLoginName:(NSString *)account byPassword:(NSString *)password;
 
-+(BOOL) checkLogin;
++ (NSString *) loginWithTpId:(NSInteger)tpId withQuery:(NSString *)query;
 
-+(void) logout;
++ (BOOL) checkLogin;
 
-+(UIViewController *) loginTurnToViewController;
++ (void) logout;
+
++ (UIViewController *) loginTurnToViewController;
 
 @end

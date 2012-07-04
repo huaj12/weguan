@@ -46,6 +46,7 @@
 		CB50E4A915918D16001D5673 /* Profile-Setting-Cell-Identifie.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB50E4A815918D16001D5673 /* Profile-Setting-Cell-Identifie.plist */; };
 		CB50E4AC1591981D001D5673 /* ProfileSettingForm.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB50E4AB1591981D001D5673 /* ProfileSettingForm.xib */; };
 		CB5E87E7156CD25C0010EE1C /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5E87E5156CD25C0010EE1C /* UserViewController.m */; };
+		CB669D9515A42186000545D0 /* PagerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CB669D9415A42186000545D0 /* PagerCell.m */; };
 		CB6934CA1586EF5900F73CB0 /* back_btn_hover@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = CB6934B61586EF5900F73CB0 /* back_btn_hover@x2.png */; };
 		CB6934CB1586EF5900F73CB0 /* back_btn_link@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = CB6934B71586EF5900F73CB0 /* back_btn_link@x2.png */; };
 		CB6934CE1586EF5900F73CB0 /* home_btn_hover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB6934BA1586EF5900F73CB0 /* home_btn_hover@2x.png */; };
@@ -321,6 +322,8 @@
 		CB50E4AD1591BF38001D5673 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "/Users/wujiajun/work/ios/workspace/juzhai/juzhai/zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
 		CB5E87E4156CD25C0010EE1C /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
 		CB5E87E5156CD25C0010EE1C /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
+		CB669D9315A42186000545D0 /* PagerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerCell.h; sourceTree = "<group>"; };
+		CB669D9415A42186000545D0 /* PagerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagerCell.m; sourceTree = "<group>"; };
 		CB6934B61586EF5900F73CB0 /* back_btn_hover@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back_btn_hover@x2.png"; sourceTree = "<group>"; };
 		CB6934B71586EF5900F73CB0 /* back_btn_link@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back_btn_link@x2.png"; sourceTree = "<group>"; };
 		CB6934BA1586EF5900F73CB0 /* home_btn_hover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home_btn_hover@2x.png"; sourceTree = "<group>"; };
@@ -986,6 +989,8 @@
 				CBB765E4158C6A4700F0DCA8 /* PostListCell.h */,
 				CBB765E5158C6A4700F0DCA8 /* PostListCell.m */,
 				CBB765E8158C6A6F00F0DCA8 /* PostListCell.xib */,
+				CB669D9315A42186000545D0 /* PagerCell.h */,
+				CB669D9415A42186000545D0 /* PagerCell.m */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -1632,6 +1637,7 @@
 				CBE2909A159D7DE5008EC696 /* City.m in Sources */,
 				CBFB167E159EF7C1006B3EE7 /* InterestUserViewController.m in Sources */,
 				CB8B257915A356BA00F363B1 /* TpLoginViewController.m in Sources */,
+				CB669D9515A42186000545D0 /* PagerCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

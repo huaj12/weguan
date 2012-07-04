@@ -15,8 +15,8 @@
 - (id) init{
     self = [super init];
     if (self) {
-        _titleArray = [[NSArray alloc] initWithObjects:@"用新浪微博帐号登录", @"用QQ帐号登录", @"用豆瓣帐号登录", nil];
-        _logoImageArray = [[NSArray alloc] initWithObjects:[UIImage imageNamed:@"sina"], [UIImage imageNamed:@"qq"], [UIImage imageNamed:@"db"], nil];
+        _titleArray = [[NSArray alloc] initWithObjects:@"用新浪微博帐号登录", @"用豆瓣帐号登录", @"用QQ帐号登录", nil];
+        _logoImageArray = [[NSArray alloc] initWithObjects:[UIImage imageNamed:@"sina"], [UIImage imageNamed:@"db"], [UIImage imageNamed:@"qq"], nil];
         _tpIdArray = [[NSArray alloc] initWithObjects:[NSNumber numberWithInt:6], [NSNumber numberWithInt:7], [NSNumber numberWithInt:8], nil];
     }
     return self;
@@ -56,6 +56,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     TpLoginViewController *tpLoginViewController = [[TpLoginViewController alloc] initWithNibName:@"TpLoginViewController" bundle:nil];
     tpLoginViewController.webTitle = [_titleArray objectAtIndex:indexPath.row];
+    tpLoginViewController.tpId = [[_tpIdArray objectAtIndex:indexPath.row] intValue];
     UIViewController *viewController = (UIViewController *)tableView.nextResponder.nextResponder;
     [viewController presentModalViewController:tpLoginViewController animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

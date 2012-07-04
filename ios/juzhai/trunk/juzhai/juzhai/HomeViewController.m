@@ -23,6 +23,7 @@
 #import "UserContext.h"
 #import "Pager.h"
 #import "InterestUserViewController.h"
+#import "PagerCell.h"
 
 @interface HomeViewController ()
 
@@ -250,15 +251,6 @@
     }
 }
 
--(IBAction)nextPage:(id)sender{
-    UIButton *moreButton = (UIButton *)sender;
-    UITableViewCell *cell = (UITableViewCell *)moreButton.superview;
-    [moreButton setHidden:YES];
-    UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:2];
-    [spinner startAnimating];
-    [self loadListDataWithPage:_data.pager.currentPage + 1];
-}
-
 #pragma mark -
 #pragma mark Table View Data Source
 
@@ -272,49 +264,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_data.pager.hasNext && indexPath.row == [_data count]) {
-        static NSString *PagerCellIdentifier = @"PagerCellIdentifier";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PagerCellIdentifier];
-        if(cell == nil){
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:PagerCellIdentifier];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            UIButton *moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            moreButton.frame = CGRectMake(0, 0, 320, 30);
-            [moreButton setBackgroundImage:[UIImage imageNamed:@"idea_more_btn.png"] forState:UIControlStateNormal];
-            [moreButton setTitle:@"查看更多" forState:UIControlStateNormal];
-            [moreButton addTarget:self action:@selector(nextPage:) forControlEvents:UIControlEventTouchUpInside];
-            moreButton.tag = 1;
-            [cell addSubview:moreButton];
-            
-            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            spinner.tag = 2;
-            [cell addSubview:spinner];
-            [spinner setCenter:CGPointMake(160, 15)];
-        }else {
-            UIButton *button = (UIButton *)[cell viewWithTag:1];
-            [button setHidden:NO];
-            UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:2];
-            [spinner stopAnimating];
-        }
-        return cell;
-    }else {
-        NSString *postListCellIdentifier = @"PostListCellIdentifier";
-        PostListCell *cell = [tableView dequeueReusableCellWithIdentifier:postListCellIdentifier];
-        if(cell == nil){
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"PostListCell" owner:self options:nil];
-            for(id oneObject in nib){
-                if([oneObject isKindOfClass:[PostListCell class]]){
-                    cell = (PostListCell *) oneObject;
-                }
-            }
-            [cell setBackground];
-        }
-        
-        PostView *postView = (PostView *)[_data objectAtIndex:indexPath.row];
-        [cell redrawn:postView];
-        [cell sizeToFit];
-        return cell;
+        return [PagerCell dequeueReusablePagerCell:tableView];
     }
+    NSString *postListCellIdentifier = @"PostListCellIdentifier";
+    PostListCell *cell = [tableView dequeueReusableCellWithIdentifier:postListCellIdentifier];
+    if(cell == nil){
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"PostListCell" owner:self options:nil];
+        for(id oneObject in nib){
+            if([oneObject isKindOfClass:[PostListCell class]]){
+                cell = (PostListCell *) oneObject;
+            }
+        }
+        [cell setBackground];
+    }
+    
+    PostView *postView = (PostView *)[_data objectAtIndex:indexPath.row];
+    [cell redrawn:postView];
+    [cell sizeToFit];
+    return cell;
 }
 
 //- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -326,7 +293,7 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_data.pager.hasNext && indexPath.row == [_data count]) {
-        return 30.0;
+        return PAGER_CELL_HEIGHT;
     }else {
         return [PostListCell heightForCell:[_data objectAtIndex:indexPath.row]];
     }
@@ -363,6 +330,8 @@
         _userView.post = [_data objectAtIndex:indexPath.row];
         postDetailViewController.userView = _userView;
         [self.navigationController pushViewController:postDetailViewController animated:YES];
+    } else {
+        [self loadListDataWithPage:_data.pager.currentPage + 1];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

@@ -7,6 +7,9 @@
 //
 
 #import "TpLoginViewController.h"
+#import "LoginService.h"
+#import "MessageShow.h"
+#import "MBProgressHUD.h"
 
 @interface TpLoginViewController ()
 
@@ -15,7 +18,7 @@
 @implementation TpLoginViewController
 
 @synthesize webView;
-@synthesize url;
+@synthesize tpId;
 @synthesize navigationBar;
 @synthesize webTitle;
 @synthesize loadingView;
@@ -44,9 +47,9 @@
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     navigationBar.topItem.leftBarButtonItem = backItem;
     
-    [loadingView startAnimating];
+    loadingView.hidesWhenStopped = YES;
     
-    NSURL *requestUrl = [NSURL URLWithString:@"http://www.google.com.hk"];
+    NSURL *requestUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://test.51juzhai.com/app/ios/tpLogin/%d", tpId]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:requestUrl];
 	[webView loadRequest:request];
 }
@@ -65,6 +68,49 @@
 
 - (IBAction)backToLogin:(id)sender{
     [self dismissModalViewControllerAnimated:YES];
+}
+
+-(void) doLogin:(NSString *)query{
+    NSLog(@"%@", query);
+    NSString *errorInfo = [LoginService loginWithTpId:tpId withQuery:query];
+    if(errorInfo == nil){
+        //判断是否过引导
+        UIViewController *startController = [LoginService loginTurnToViewController];
+        if(startController){
+            self.view.window.rootViewController = startController;
+            [self.view.window makeKeyAndVisible];
+        }
+    }else{
+        [MessageShow error:errorInfo onView:self.navigationController.view];
+    }
+}
+
+- (void)login:(NSString *)query{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.dimBackground = YES;
+	[hud showWhileExecuting:@selector(doLogin:) onTarget:self withObject:query animated:YES];
+}
+
+#pragma mark - Web View Delegate
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    
+    NSURL *requestUrl = [request URL];
+    if ([[requestUrl path] rangeOfString:@"/web/access"].length > 0) {
+        [loadingView stopAnimating]; 
+        [self login:requestUrl.query];
+        return NO;
+    }
+	return YES;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView{
+    loadingView.hidden = NO;
+    [loadingView startAnimating];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    [loadingView stopAnimating]; 
 }
 
 @end

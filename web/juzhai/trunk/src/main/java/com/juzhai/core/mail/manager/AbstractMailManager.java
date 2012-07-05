@@ -1,11 +1,16 @@
 package com.juzhai.core.mail.manager;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.juzhai.core.Constants;
 import com.juzhai.core.mail.bean.Mail;
 
 public abstract class AbstractMailManager {
+	private final Log log = LogFactory.getLog(getClass());
+
 	private static final int DEFAULT_BLOCK_POP_MAIL_TIMEOUT = 60;
 
 	private static final String DEFAULT_ENCODING = Constants.UTF8;
@@ -24,7 +29,25 @@ public abstract class AbstractMailManager {
 
 	protected String encoding = DEFAULT_ENCODING;
 
-	public abstract void sendMail(final Mail mail, boolean immediately);
+	public void sendMail(final Mail mail, boolean immediately) {
+		if (StringUtils.isEmpty(mail.getEncoding())) {
+			mail.setEncoding(encoding);
+		}
+		if (immediately) {
+			taskExecutor.execute(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						mailSender.send(mail);
+					} catch (Exception e) {
+						log.error("immediately send mail failed.", e);
+					}
+				}
+			});
+		} else {
+			mailQueue.push(mail);
+		}
+	}
 
 	public synchronized void startDaemon() {
 		// TODO 如果当前要结束，直接关闭结束标志

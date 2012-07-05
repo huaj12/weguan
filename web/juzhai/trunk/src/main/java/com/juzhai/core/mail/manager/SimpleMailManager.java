@@ -2,11 +2,9 @@ package com.juzhai.core.mail.manager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.stereotype.Component;
 
 import com.juzhai.core.mail.bean.Mail;
 
-@Component
 public class SimpleMailManager extends AbstractMailManager {
 
 	private final Log log = LogFactory.getLog(getClass());

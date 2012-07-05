@@ -18,6 +18,8 @@
 		<property name="blockPopMailTimeout" value="${mail.block.pop.mail.timeout}" />
 	</bean>
 	
+	<bean id="simpleMailManager" class="com.juzhai.core.mail.manager.SimpleMailManager"  parent="abstractMailManager" >
+	</bean>
 	
 	<bean id="frequencyMailManager" class="com.juzhai.core.mail.manager.FrequencyMailManager"  parent="abstractMailManager" >
 		<property name="frequencyStrategy" ref="frequencyStrategy" />

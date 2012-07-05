@@ -23,7 +23,7 @@ import com.juzhai.common.service.IActiveCodeService;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.mail.bean.Mail;
 import com.juzhai.core.mail.factory.MailFactory;
-import com.juzhai.core.mail.manager.SimpleMailManager;
+import com.juzhai.core.mail.manager.MailManager;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
@@ -69,7 +69,7 @@ public class RegisterService implements IRegisterService {
 	@Autowired
 	private IActiveCodeService activeCodeService;
 	@Autowired
-	private SimpleMailManager mailManager;
+	private MailManager simpleMailManager;
 	@Autowired
 	private MemcachedClient memcachedClient;
 	@Autowired
@@ -410,7 +410,7 @@ public class RegisterService implements IRegisterService {
 		Map<String, Object> props = new HashMap<String, Object>();
 		props.put("code", code);
 		mail.buildText("/mail/account/content.vm", props);
-		mailManager.sendMail(mail, true);
+		simpleMailManager.sendMail(mail, true);
 		try {
 			memcachedClient.setWithNoReply(
 					MemcachedKeyGenerator.genActiveMailSentKey(uid),
@@ -446,7 +446,7 @@ public class RegisterService implements IRegisterService {
 				Map<String, Object> props = new HashMap<String, Object>();
 				props.put("code", code);
 				mail.buildText("/mail/getback/content.vm", props);
-				mailManager.sendMail(mail, true);
+				simpleMailManager.sendMail(mail, true);
 				try {
 					memcachedClient.setWithNoReply(MemcachedKeyGenerator
 							.genResetMailSentKey(passport.getId()),

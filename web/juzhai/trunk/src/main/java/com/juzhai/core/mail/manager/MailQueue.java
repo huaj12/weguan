@@ -27,7 +27,7 @@ public interface MailQueue {
 	 * 
 	 * @return 若取不到，则返回null
 	 */
-	Mail pop(String queueKey);
+	Mail pop();
 
 	/**
 	 * 去除第一封邮件，此方法会被block，当没有邮件返回情况下

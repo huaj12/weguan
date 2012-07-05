@@ -18,13 +18,17 @@
 		<property name="blockPopMailTimeout" value="${mail.block.pop.mail.timeout}" />
 	</bean>
 	
-	<bean id="simpleMailManager" class="com.juzhai.core.mail.manager.SimpleMailManager" parent="abstractMailManager" >
-		<property name="queueKey" value="other" />
-	</bean>
 	
 	<bean id="frequencyMailManager" class="com.juzhai.core.mail.manager.FrequencyMailManager"  parent="abstractMailManager" >
-		<property name="interval" value="1000" />
-		<property name="queueKey" value="qq" />
+		<property name="frequencyStrategy" ref="frequencyStrategy" />
+	</bean>
+	
+	<bean id="frequencyStrategy" class="com.juzhai.core.mail.manager.impl.FrequencyStrategy">
+		<property name="frequencyMap">
+			<map>
+				<entry key="qq.com" value="1000"/>
+			</map>
+		</property>
 	</bean>
 
 	<bean id="jMailSender" class="com.juzhai.core.mail.manager.impl.JMailSender">

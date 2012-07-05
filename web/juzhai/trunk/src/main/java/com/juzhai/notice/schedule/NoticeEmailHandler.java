@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.juzhai.core.mail.bean.Mail;
 import com.juzhai.core.mail.factory.MailFactory;
-import com.juzhai.core.mail.manager.SimpleMailManager;
+import com.juzhai.core.mail.manager.MailManager;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
@@ -26,7 +26,7 @@ public class NoticeEmailHandler extends AbstractScheduleHandler {
 	@Autowired
 	private IProfileService profileService;
 	@Autowired
-	private SimpleMailManager mailManager;
+	private MailManager simpleMailManager;
 	@Autowired
 	private INoticeService noticeService;
 	@Autowired
@@ -68,7 +68,7 @@ public class NoticeEmailHandler extends AbstractScheduleHandler {
 							buildSubjectProp(profile));
 					params.put("nickname", profile.getNickname());
 					mail.buildText("/mail/notice/content.vm", params);
-					mailManager.sendMail(mail, false);
+					simpleMailManager.sendMail(mail, false);
 				}
 			}
 			firstResult += maxResults;
@@ -77,11 +77,11 @@ public class NoticeEmailHandler extends AbstractScheduleHandler {
 	}
 
 	private void startMailDaemon() {
-		mailManager.startDaemon();
+		simpleMailManager.startDaemon();
 	}
 
 	private void stopMailDaemon() {
-		mailManager.stopDaemon();
+		simpleMailManager.stopDaemon();
 	}
 
 	private Map<String, Object> buildSubjectProp(Profile profile) {

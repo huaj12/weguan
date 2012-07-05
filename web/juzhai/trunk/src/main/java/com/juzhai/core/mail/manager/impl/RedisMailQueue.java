@@ -28,7 +28,7 @@ public class RedisMailQueue implements MailQueue {
 	}
 
 	@Override
-	public Mail pop(String queueKey) {
+	public Mail pop() {
 		return redisTemplate.opsForList().leftPop(
 				RedisKeyGenerator.genMailQueueKey());
 	}

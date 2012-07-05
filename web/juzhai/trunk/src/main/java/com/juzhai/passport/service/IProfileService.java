@@ -264,4 +264,16 @@ public interface IProfileService {
 	 */
 	List<Profile> getEmailProfiles(int firstResult, int maxResults);
 
+	/**
+	 * 统计在线人数（一小时内登陆过的人）
+	 * 
+	 * @param cityId
+	 * @param townId
+	 * @param gender
+	 * @param order
+	 * @param excludeUid
+	 * @return
+	 */
+	int countUserOnline(Long cityId, Long townId, Integer gender,
+			long excludeUid);
 }

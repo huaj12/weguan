@@ -734,4 +734,27 @@ public class ProfileService implements IProfileService {
 		Profile profile = convertToProfile(uid, profileForm);
 		nextGuide(profile);
 	}
+
+	@Override
+	public int countUserOnline(Long cityId, Long townId, Integer gender,
+			long excludeUid) {
+		ProfileExample example = new ProfileExample();
+		ProfileExample.Criteria c = example.createCriteria();
+		if (cityId != null && cityId > 0) {
+			c.andCityEqualTo(cityId);
+		}
+		if (townId != null && townId > 0) {
+			c.andTownEqualTo(townId);
+		}
+		if (null != gender) {
+			c.andGenderEqualTo(gender);
+		}
+		if (excludeUid > 0) {
+			c.andUidNotEqualTo(excludeUid);
+		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.HOUR_OF_DAY, -1);
+		c.andLastWebLoginTimeGreaterThanOrEqualTo(calendar.getTime());
+		return profileMapper.countByExample(example);
+	}
 }

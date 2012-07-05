@@ -123,14 +123,14 @@ public class RedisTest {
 		}
 	}
 
-	@Test
-	public void emailQueue() {
-		while (true) {
-			Mail mail = mailRedisTemplate.opsForList().leftPop(
-					RedisKeyGenerator.genMailQueueKey(), 5, TimeUnit.SECONDS);
-			System.out.println(mail.getReceiver().getEmailAddress());
-		}
-	}
+	// @Test
+	// public void emailQueue() {
+	// while (true) {
+	// Mail mail = mailRedisTemplate.opsForList().leftPop(
+	// RedisKeyGenerator.genMailQueueKey(), 5, TimeUnit.SECONDS);
+	// System.out.println(mail.getReceiver().getEmailAddress());
+	// }
+	// }
 
 	@Test
 	public void testIncr() {

@@ -68,7 +68,7 @@
 		</div><!--cake end-->
 		<div class="category" queryType="${queryType}"><!--category begin-->
 			<span <c:if test="${queryType == 'showposts'}">class="act"</c:if>><p></p><a href="/home/showposts/0_${genderType}/1">最新</a><p></p></span>
-			<span <c:if test="${queryType == 'showoposts'}">class="act"</c:if>><p></p><a href="/home/showoposts/0_${genderType}/1">活跃</a><p></p></span>
+			<span <c:if test="${queryType == 'showoposts'}">class="act"</c:if>><p></p><a href="/home/showoposts/0_${genderType}/1">活跃</a><p></p><c:if test="${not empty onlineCount&&onlineCount>0}"><c:choose><c:when test="${onlineCount<showUserOnlineMaxRows }"><em title="当前${onlineCount}人在线">${onlineCount}</em></c:when><c:otherwise><em title="当前${showUserOnlineMaxRows}+人在线">${showUserOnlineMaxRows}+</em></c:otherwise></c:choose></c:if></span>
 			<span <c:if test="${queryType == 'showiposts'}">class="act"</c:if>><p></p><a href="/home/showiposts/${genderType}/1">关注</a><p></p></span>
 			<span <c:if test="${queryType == 'showrposts'}">class="act"</c:if>><p></p><a href="/home/showrposts/${genderType}/1">喜欢</a><p></p></span>
 		</div><!--category end-->

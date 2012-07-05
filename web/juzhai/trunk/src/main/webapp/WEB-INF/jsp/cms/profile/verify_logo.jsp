@@ -13,7 +13,7 @@
 <script>
 	function passLogo(uid, obj){
 		var nickname = $(obj).attr("nickname");
-		if(confirm("确认要通过 " + nickname + " 的头像吗？")){
+		//if(confirm("确认要通过 " + nickname + " 的头像吗？")){
 			jQuery.ajax({
 				url : "/cms/profile/passLogo",
 				type : "post",
@@ -32,7 +32,7 @@
 					}
 				}
 			});
-		}
+	//	}
 	}
 	function denyLogo(uid){
 		jQuery.ajax({

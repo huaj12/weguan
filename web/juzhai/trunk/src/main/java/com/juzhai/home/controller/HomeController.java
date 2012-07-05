@@ -24,6 +24,7 @@ import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IPassportService;
+import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.post.bean.PostResult;
 import com.juzhai.post.controller.helper.PostViewHelper;
@@ -51,6 +52,8 @@ public class HomeController extends BaseController {
 	private IRegisterService registerService;
 	@Autowired
 	private ILoginService loginService;
+	@Autowired
+	private IProfileService profileService;
 	@Value("${web.home.post.max.rows}")
 	private int webHomePostMaxRows;
 	@Value("${web.home.right.user.rows}")
@@ -244,14 +247,8 @@ public class HomeController extends BaseController {
 		if (loginUser != null && loginUser.getUid() != null) {
 			uid = loginUser.getUid();
 		}
-		int onlineCount = 0;
-		PostResult result = postService.listNewOrOnlinePosts(cityId, townId,
-				gender, ShowPostOrder.ONLINE, uid, 0, showUserOnlineMaxRows);
-		for (Post post : result.getPosts()) {
-			if (loginService.isOnline(post.getCreateUid())) {
-				onlineCount++;
-			}
-		}
+		int onlineCount = profileService.countUserOnline(cityId, townId,
+				gender, uid);
 		model.addAttribute("onlineCount", onlineCount);
 		model.addAttribute("showUserOnlineMaxRows", showUserOnlineMaxRows);
 		// showHomeLogo(context, model);

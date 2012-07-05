@@ -286,7 +286,7 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 .yqpy_btn a{ background:url(../images/web2/yqpy_btn.gif) no-repeat; display:block; width:285px; height:60px;}
 .yqpy_btn a:hover{background:url(../images/web2/yqpy_btn_hover.gif) no-repeat;}
 
-.tips{ position:absolute; background:url(../images/web2/tips.png) no-repeat; width:184px; height:53px; overflow:hidden; top:-25px; right:160px;}
+.tips{ position:absolute; background:url(../images/web2/tips.png) no-repeat; width:184px; height:53px; overflow:hidden; top:-25px; right:145px;}
 .tips p{ float:left; color:#fff; margin-top:10px;  margin-top:12px\0;  *margin-top:10px; margin-left:15px; display:inline; }
 
 .tips a{ float:right; margin-right:4px; _margin-right:2px; margin-top:3px; display:inline; width:14px; height:14px; display:block;  background:url(../images/web2/close_btn3.gif) no-repeat 4px  4px;}
@@ -1959,9 +1959,10 @@ trip_sc_area .img a{}
 .search_result .none a:hover{ text-decoration:underline;}
 
 .share_icons{ width:250px; height:auto; overflow:hidden; margin:0 auto; display:block; margin-top:20px; padding-bottom:20px;}
-.qqqun{ background:url(../images/web2/qqqun.gif) no-repeat; width:230px; height:30px; line-height:30px; overflow:hidden; margin:0 auto; color:#8D5312; font-weight:bold; text-align:center;}
+.qqqun{ background:url(../images/web2/qqqun.gif) no-repeat; width:230px; height:32px; line-height:32px; overflow:hidden; margin:0 auto; color:#8D5312; font-weight:bold; text-align:center;}
 
-
+.qqqun p{ color:#8D5312; font-weight:bold; float:left; margin-left:8px; display:inline;}
+.qqqun a{ width:65px; height:24px; float:right; display:inline block; background:url(../images/web2/add_qqqun.gif) no-repeat; overflow:hidden; margin-right:4px; margin-top:4px;}
 
 /*星座*/
 

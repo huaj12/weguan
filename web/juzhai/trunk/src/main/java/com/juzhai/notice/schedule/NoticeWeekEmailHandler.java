@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import com.juzhai.core.mail.bean.Mail;
 import com.juzhai.core.mail.factory.MailFactory;
 import com.juzhai.core.mail.manager.FrequencyMailManager;
-import com.juzhai.core.mail.manager.SimpleMailManager;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 import com.juzhai.core.web.jstl.JzDataFunction;
 import com.juzhai.core.web.jstl.JzResourceFunction;
@@ -39,9 +38,7 @@ public class NoticeWeekEmailHandler extends AbstractScheduleHandler {
 	@Autowired
 	private IPassportService passportService;
 	@Autowired
-	private FrequencyMailManager qqMailManager;
-	@Autowired
-	private SimpleMailManager mailManager;
+	private FrequencyMailManager mailManager;
 	@Autowired
 	private IPostService postService;
 	@Autowired
@@ -78,11 +75,7 @@ public class NoticeWeekEmailHandler extends AbstractScheduleHandler {
 				mail.buildSubject("/mail/week/subject.vm",
 						buildSubjectProp(profile));
 				mail.buildText("/mail/week/content.vm", params);
-				if (passport.getEmail().endsWith("qq.com")) {
-					qqMailManager.sendMail(mail, false);
-				} else {
-					mailManager.sendMail(mail, false);
-				}
+				mailManager.sendMail(mail, false);
 
 			}
 			firstResult += maxResults;
@@ -92,12 +85,10 @@ public class NoticeWeekEmailHandler extends AbstractScheduleHandler {
 
 	private void startMailDaemon() {
 		mailManager.startDaemon();
-		qqMailManager.startDaemon();
 	}
 
 	private void stopMailDaemon() {
 		mailManager.stopDaemon();
-		qqMailManager.stopDaemon();
 	}
 
 	private Map<String, Object> buildSubjectProp(ProfileCache profile) {

@@ -64,8 +64,6 @@ public class HomeController extends BaseController {
 	private int recommendUserCount;
 	@Value("${visitor.widget.user.count}")
 	private int visitorWidgetUserCount;
-	@Value("${show.user.online.max.rows}")
-	private int showUserOnlineMaxRows;
 
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)
@@ -250,7 +248,6 @@ public class HomeController extends BaseController {
 		int onlineCount = profileService.countUserOnline(cityId, townId,
 				gender, uid);
 		model.addAttribute("onlineCount", onlineCount);
-		model.addAttribute("showUserOnlineMaxRows", showUserOnlineMaxRows);
 		// showHomeLogo(context, model);
 		hotWordsWidget(model, cityId, searchUserHotRows);
 		visitUserWidget(model, context, visitorWidgetUserCount);

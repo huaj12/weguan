@@ -2,7 +2,6 @@ package com.juzhai.cms.controller.migrate;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +21,9 @@ public class DeleteMailQueueRedisKeyController {
 
 	@ResponseBody
 	@RequestMapping(value = "delMailQueueRedisKey")
-	public String migDoubanUser(HttpServletRequest request, String type) {
+	public String migDoubanUser(HttpServletRequest request) {
 		log.error("start...");
-		String key = null;
-		if (StringUtils.isEmpty(type)) {
-			key = "mailQueue";
-		} else {
-			key = type + ".mailQueue";
-		}
+		String key = "mailQueue";
 		redisTemplate.delete(key);
 		log.error("end...");
 		return "success";

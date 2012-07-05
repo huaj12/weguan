@@ -66,4 +66,9 @@ public class FrequencyMailManager extends AbstractMailManager {
 				"Frequenct Mail Manager unsupport immediately send mail. Please use Simple Mail Manager");
 	}
 
+	@Override
+	protected String getMailManagerName() {
+		return this.getClass().getSimpleName();
+	}
+
 }

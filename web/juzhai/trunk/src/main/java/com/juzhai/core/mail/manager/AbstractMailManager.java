@@ -36,7 +36,7 @@ public abstract class AbstractMailManager implements MailManager {
 		if (immediately) {
 			sendMailImmediately(mail);
 		} else {
-			mailQueue.push(mail);
+			mailQueue.push(getMailManagerName(), mail);
 		}
 	}
 
@@ -62,7 +62,8 @@ public abstract class AbstractMailManager implements MailManager {
 				log.debug("start mail daemon");
 			}
 			while (true) {
-				Mail mail = mailQueue.blockPop(blockPopMailTimeout);
+				Mail mail = mailQueue.blockPop(getMailManagerName(),
+						blockPopMailTimeout);
 				if (null != mail) {
 					try {
 						doSendMail(mail);
@@ -89,6 +90,8 @@ public abstract class AbstractMailManager implements MailManager {
 	protected abstract void doSendMail(Mail mail) throws Exception;
 
 	protected abstract void sendMailImmediately(Mail mail);
+
+	protected abstract String getMailManagerName();
 
 	public void setMailSender(MailSender mailSender) {
 		this.mailSender = mailSender;

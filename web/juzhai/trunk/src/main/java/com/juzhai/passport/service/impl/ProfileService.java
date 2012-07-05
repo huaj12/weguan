@@ -752,6 +752,7 @@ public class ProfileService implements IProfileService {
 		if (excludeUid > 0) {
 			c.andUidNotEqualTo(excludeUid);
 		}
+		c.andLastUpdateTimeIsNotNull();
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.HOUR_OF_DAY, -1);
 		c.andLastWebLoginTimeGreaterThanOrEqualTo(calendar.getTime());

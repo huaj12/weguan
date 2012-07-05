@@ -28,6 +28,11 @@ public class SimpleMailManager extends AbstractMailManager {
 		});
 	}
 
+	@Override
+	protected String getMailManagerName() {
+		return this.getClass().getSimpleName();
+	}
+
 	// @Override
 	// public Runnable getRunnable() {
 	// return new Runnable() {

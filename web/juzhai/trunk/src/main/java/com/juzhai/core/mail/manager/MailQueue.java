@@ -10,7 +10,7 @@ public interface MailQueue {
 	 * @param mail
 	 *            要加入队列的邮件
 	 */
-	void push(String queueKey, Mail mail);
+	void push(Mail mail);
 
 	/**
 	 * 把mail加入队列，等待被发送
@@ -20,7 +20,7 @@ public interface MailQueue {
 	 * @param priority
 	 *            优先级
 	 */
-	void pushWithPriotity(String queueKey, Mail mail, int priority);
+	void pushWithPriotity(Mail mail, int priority);
 
 	/**
 	 * 取出第一封邮件
@@ -36,5 +36,5 @@ public interface MailQueue {
 	 *            超时时间（秒）
 	 * @return 返回邮件
 	 */
-	Mail blockPop(String queueKey, int timeout);
+	Mail blockPop(int timeout);
 }

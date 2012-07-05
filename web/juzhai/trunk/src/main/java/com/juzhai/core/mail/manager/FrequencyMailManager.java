@@ -1,6 +1,5 @@
 package com.juzhai.core.mail.manager;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -9,30 +8,7 @@ import com.juzhai.core.mail.bean.Mail;
 public class FrequencyMailManager extends AbstractMailManager {
 	private final Log log = LogFactory.getLog(getClass());
 
-	private String queueKey;
-
-	private long interval;
-
-	@Override
-	public void sendMail(final Mail mail, boolean immediately) {
-		if (StringUtils.isEmpty(mail.getEncoding())) {
-			mail.setEncoding(encoding);
-		}
-		if (immediately) {
-			taskExecutor.execute(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						mailSender.send(mail);
-					} catch (Exception e) {
-						log.error("immediately send mail failed.", e);
-					}
-				}
-			});
-		} else {
-			mailQueue.push(queueKey, mail);
-		}
-	}
+	private IFrequencyStrategy frequencyStrategy;
 
 	@Override
 	public Runnable getRunnable() {
@@ -44,12 +20,15 @@ public class FrequencyMailManager extends AbstractMailManager {
 					log.debug("start mail daemon");
 				}
 				while (true) {
-					Mail mail = mailQueue.blockPop(queueKey,
-							blockPopMailTimeout);
+					Mail mail = mailQueue.blockPop(blockPopMailTimeout);
 					if (null != mail) {
 						try {
-							Thread.sleep(interval);
-							// mailSender.send(mail);
+							long interval = frequencyStrategy.getfrequency(mail
+									.getReceiver().getEmailAddress());
+							if (interval > 0) {
+								Thread.sleep(interval);
+							}
+							mailSender.send(mail);
 							if (log.isDebugEnabled()) {
 								log.debug("send mail to ["
 										+ mail.getReceiver().getEmailAddress()
@@ -71,12 +50,8 @@ public class FrequencyMailManager extends AbstractMailManager {
 		};
 	}
 
-	public void setQueueKey(String queueKey) {
-		this.queueKey = queueKey;
-	}
-
-	public void setInterval(long interval) {
-		this.interval = interval;
+	public void setFrequencyStrategy(IFrequencyStrategy frequencyStrategy) {
+		this.frequencyStrategy = frequencyStrategy;
 	}
 
 }

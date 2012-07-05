@@ -1,5 +1,7 @@
 package com.juzhai.lab.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +27,7 @@ import com.juzhai.core.bean.UseLevel;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.image.LogoSizeType;
@@ -38,6 +42,7 @@ import com.juzhai.lab.controller.form.ProfileMForm;
 import com.juzhai.lab.controller.view.IdeaMView;
 import com.juzhai.lab.controller.view.PostMView;
 import com.juzhai.lab.controller.view.UserMView;
+import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.controller.form.LoginForm;
 import com.juzhai.passport.controller.form.RegisterForm;
@@ -51,6 +56,7 @@ import com.juzhai.passport.model.Constellation;
 import com.juzhai.passport.model.Profession;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Province;
+import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.Town;
 import com.juzhai.passport.model.UserGuide;
 import com.juzhai.passport.model.UserPositionExample;
@@ -60,6 +66,7 @@ import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.IUserGuideService;
+import com.juzhai.platform.service.IUserService;
 import com.juzhai.post.InitData;
 import com.juzhai.post.bean.PurposeType;
 import com.juzhai.post.controller.form.PostForm;
@@ -98,6 +105,8 @@ public class IOSController extends BaseController {
 	private IPostService postService;
 	@Autowired
 	private IPassportService passportService;
+	@Autowired
+	private IUserService userService;
 	// @Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows = 1;
 	// @Value("${web.show.users.max.rows}")
@@ -106,6 +115,72 @@ public class IOSController extends BaseController {
 	private int webMyPostMaxRows = 2;
 	// @Value("mobile.interest.user.max.rows")
 	private int mobileInterestUserMaxRows = 1;
+
+	@RequestMapping(value = "/tpLogin/{tpId}")
+	public String webLogin(HttpServletRequest request, Model model,
+			@PathVariable long tpId) throws UnsupportedEncodingException {
+		Thirdparty tp = com.juzhai.passport.InitData.TP_MAP.get(tpId);
+		if (null == tp) {
+			return "404";
+		}
+		String url = userService
+				.getAuthorizeURLforCode(request, tp, null, null);
+		if (StringUtils.isEmpty(url)) {
+			return "404";
+		}
+		return "redirect:" + url + "&display=mobile";
+	}
+
+	@RequestMapping(value = "tpAccess/{tpId}")
+	@ResponseBody
+	public AjaxResult webAccess(HttpServletRequest request,
+			HttpServletResponse response, @PathVariable long tpId,
+			String turnTo, String incode, String error_code, Model model)
+			throws UnsupportedEncodingException, MalformedURLException,
+			ReportAccountException {
+		AjaxResult result = new AjaxResult();
+		Thirdparty tp = com.juzhai.passport.InitData.TP_MAP.get(tpId);
+		if (null == tp) {
+			result.setError(JuzhaiException.ILLEGAL_OPERATION, messageSource);
+			return result;
+		}
+		if (StringUtils.isNotEmpty(error_code)) {
+			result.setError(JuzhaiException.SYSTEM_ERROR, messageSource);
+			return result;
+		}
+		long uid = 0;
+		UserContext context = (UserContext) request.getAttribute("context");
+		if (context.hasLogin()) {
+			uid = context.getUid();
+		} else {
+			if (null != tp) {
+				if (log.isDebugEnabled()) {
+					log.debug("thirdparty access [tpName=" + tp.getName()
+							+ ", joinType=" + tp.getJoinType() + "]");
+				}
+				AuthInfo authInfo = null;
+				uid = userService.access(request, response, authInfo, tp,
+						decryptInviteUid(incode));
+			}
+			if (uid <= 0) {
+				log.error("access failed.[tpName=" + tp.getName()
+						+ ", joinType=" + tp.getJoinType() + "].");
+				result.setError(JuzhaiException.SYSTEM_ERROR, messageSource);
+				return result;
+			}
+			try {
+				loginService.login(request, response, uid, tp.getId(),
+						RunType.CONNET);
+			} catch (PassportAccountException e) {
+				result.setError(e.getErrorCode(), messageSource);
+				return result;
+			}
+		}
+		Profile profile = profileService.getProfile(uid);
+		result.setResult(createUserMView(profile,
+				userGuideService.isCompleteGuide(uid)));
+		return result;
+	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody

@@ -18,7 +18,9 @@
 				<c:if test="${context.uid > 0 && loginUser.gender == 0}">
 					<c:set var="qq" value="${jzd:qqGroup(loginUser.city)}" />
 					<c:if test="${qq != null && qq != ''}">
-						<div class="qqqun">${jzd:cityName(loginUser.city)}拒宅QQ群：${qq}</div>
+						<div class="qqqun">
+						<p>${jzd:cityName(loginUser.city)}拒宅Q群,欢迎畅聊</p>
+						<a target="_blank" href="/join/qq/group/${qq}" title="立即加入"></a></div>
 					</c:if>
 				</c:if>
 			</div><!--new_member end-->

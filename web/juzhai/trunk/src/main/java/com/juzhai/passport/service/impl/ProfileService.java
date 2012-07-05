@@ -753,9 +753,8 @@ public class ProfileService implements IProfileService {
 			c.andUidNotEqualTo(excludeUid);
 		}
 		c.andLastUpdateTimeIsNotNull();
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.HOUR_OF_DAY, -1);
-		c.andLastWebLoginTimeGreaterThanOrEqualTo(calendar.getTime());
+		c.andLastWebLoginTimeGreaterThanOrEqualTo(DateUtils.addHours(
+				new Date(), -1));
 		return profileMapper.countByExample(example);
 	}
 }

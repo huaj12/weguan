@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.core.mail.bean.Mail;
+import com.juzhai.core.mail.manager.FrequencyMailManager;
+import com.juzhai.core.mail.manager.SimpleMailManager;
 
 @Controller
 @RequestMapping("/cms")
@@ -21,9 +23,14 @@ public class DeleteMailQueueRedisKeyController {
 
 	@ResponseBody
 	@RequestMapping(value = "delMailQueueRedisKey")
-	public String migDoubanUser(HttpServletRequest request) {
+	public String migDoubanUser(HttpServletRequest request, Integer type) {
 		log.error("start...");
 		String key = "mailQueue";
+		if (type != null && type == 1) {
+			key = SimpleMailManager.class.getSimpleName() + "." + key;
+		} else if (type != null && type == 2) {
+			key = FrequencyMailManager.class.getSimpleName() + "." + key;
+		}
 		redisTemplate.delete(key);
 		log.error("end...");
 		return "success";

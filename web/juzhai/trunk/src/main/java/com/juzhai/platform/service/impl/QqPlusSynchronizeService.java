@@ -45,11 +45,8 @@ public class QqPlusSynchronizeService implements ISynchronizeService {
 				map.put("images", imageUrl);
 			}
 			QOpenResult result = service.feed(map);
-			if (result != null && 0 == result.getIntValue("ret")) {
-				log.debug("q+ feed is success openid="
-						+ authInfo.getTpIdentity());
-			} else {
-				log.debug("q+ feed is error openid=" + authInfo.getTpIdentity()
+			if (result == null || 0 != result.getIntValue("ret")) {
+				log.error("q+ feed is error openid=" + authInfo.getTpIdentity()
 						+ "result:" + result);
 			}
 		} catch (Exception e) {

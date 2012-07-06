@@ -240,7 +240,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 							buildAuthorizeURLParams(tp, turnTo, incode),
 							Constants.UTF8));
 			if (Version.WEIBOV2.equals(Version.getWeiboVersion())) {
-				url = oauth.authorize("code");
+				url = oauth.authorize("code", terminal.getType());
 			} else {
 				RequestToken requestToken = oauth.getRequestToken();
 				try {

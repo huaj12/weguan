@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.platform.bean.UserStatus;
 import com.juzhai.platform.service.ISynchronizeService;
-import com.qq.connect.ShareToken;
+import com.qq.oauth2.Share;
+import com.qq.oauth2.bean.ResultBean;
 
 @Service
 public class QqConnectSynchronizeService implements ISynchronizeService {
@@ -22,9 +23,9 @@ public class QqConnectSynchronizeService implements ISynchronizeService {
 	@Override
 	public void sendMessage(AuthInfo authInfo, String title, String text,
 			String link, byte[] image, String imageUrl) {
-		ShareToken share = new ShareToken(authInfo.getAppKey(),
-				authInfo.getAppSecret());
 		try {
+			Share share = new Share(authInfo.getToken(), authInfo.getAppKey(),
+					authInfo.getAppSecret());
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("title", title);
 			map.put("url", link);
@@ -34,15 +35,14 @@ public class QqConnectSynchronizeService implements ISynchronizeService {
 			if (StringUtils.isNotEmpty(imageUrl)) {
 				map.put("images", imageUrl);
 			}
-			Map<String, Object> code = share.addShare(authInfo.getToken(),
-					authInfo.getTokenSecret(), authInfo.getTpIdentity(), map);
-			if (!"ok".equals(String.valueOf(code.get("msg")))) {
+			ResultBean result = share.feed(authInfo.getTpIdentity(), map);
+			if (result.isError()) {
 				log.error("QQ content sendMessage is error. msg="
-						+ String.valueOf(code.get("msg")) + "| ret="
-						+ ((Integer) code.get("ret")));
+						+ result.getErrorMsg() + "errorcode="
+						+ result.getErrorCode());
 			}
 		} catch (Exception e) {
-			log.error("QQ content sendMessage is error.");
+			log.error("QQ content sendMessage is error.", e);
 		}
 	}
 

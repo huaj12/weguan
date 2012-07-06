@@ -4,12 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import net.rubyeye.xmemcached.MemcachedClient;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -26,11 +23,11 @@ import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.service.ISynchronizeService;
-import com.qq.connect.AccessToken;
-import com.qq.connect.InfoToken;
-import com.qq.connect.RedirectToken;
-import com.qq.connect.RequestToken;
+import com.qq.oauth2.Oauth;
+import com.qq.oauth2.User;
+import com.qq.oauth2.bean.UserInfoBean;
 
 @Service
 public class QqConnectUserService extends AbstractUserService {
@@ -41,35 +38,16 @@ public class QqConnectUserService extends AbstractUserService {
 	private MessageSource messageSource;
 	@Autowired
 	private ISynchronizeService synchronizeService;
-	@Autowired
-	private MemcachedClient memcachedClient;
-	@Value("${oauth.token.secret.expire.time}")
-	private int oauthTokenSecretExpireTime;
 
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
-			Thirdparty tp, String turnTo, String incode)
+			Thirdparty tp, Terminal terminal, String turnTo, String incode)
 			throws UnsupportedEncodingException {
 		String url = null;
 		try {
-			RequestToken rt = new RequestToken(tp.getAppKey(),
-					tp.getAppSecret());
-			Map<String, String> tokens = rt.getRequestToken();
-			if (StringUtils.isEmpty(tokens.get("oauth_token_secret"))) {
-				log.error("qq getAuthorizeURLforCode oauth_token_secret is null");
-				return null;
-			}
-			if (StringUtils.isEmpty(tokens.get("oauth_token"))) {
-				log.error("qq getAuthorizeURLforCode oauth_token is null");
-				return null;
-			}
-			memcachedClient.set(tokens.get("oauth_token"),
-					oauthTokenSecretExpireTime,
-					tokens.get("oauth_token_secret"));
-			RedirectToken ret = new RedirectToken(tp.getAppKey(),
-					tp.getAppSecret());
-			url = ret.getRedirectURL(tokens,
-					buildAuthorizeURLParams(tp, turnTo, incode));
+			Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
+					tp.getAppUrl());
+			url = oauth.authorize(terminal.getType());
 		} catch (Exception e) {
 			log.error("QQ content getAuthorizeURLforCode is error."
 					+ e.getMessage());
@@ -87,20 +65,25 @@ public class QqConnectUserService extends AbstractUserService {
 			HttpServletResponse response, AuthInfo authInfo,
 			String thirdpartyIdentity) {
 		try {
-			InfoToken info = new InfoToken(authInfo.getAppKey(),
+			User user = new User(authInfo.getToken(), authInfo.getAppKey(),
 					authInfo.getAppSecret());
-			Map<String, String> map = info.getInfo(authInfo.getToken(),
-					authInfo.getTokenSecret(), authInfo.getTpIdentity());
+			UserInfoBean userInfo = user.getUserInfo(authInfo.getTpIdentity());
+			if (userInfo.isError()) {
+				log.error("QQ content getuser info is error. msg="
+						+ userInfo.getErrorMsg() + " code="
+						+ userInfo.getErrorCode());
+				return null;
+			}
 			Profile profile = new Profile();
 			profile.setNickname(TextTruncateUtil.truncate(
-					HtmlUtils.htmlUnescape(map.get("nickname")),
+					HtmlUtils.htmlUnescape(userInfo.getNickName()),
 					nicknameLengthMax, StringUtils.EMPTY));
-			profile.setNewLogoPic(map.get("figureurl_2"));
+			profile.setNewLogoPic(userInfo.getAvatarLarge());
 			profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
 
 			String male = messageSource.getMessage("gender.male", null,
 					Locale.SIMPLIFIED_CHINESE);
-			if (male.equals(map.get("gender"))) {
+			if (male.equals(userInfo.getGender())) {
 				profile.setGender(1);
 			} else {
 				profile.setGender(0);
@@ -131,44 +114,36 @@ public class QqConnectUserService extends AbstractUserService {
 	@Override
 	protected String fetchTpIdentity(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
-		String oauth_token = request.getParameter("oauth_token");
-		if (StringUtils.isEmpty(oauth_token)) {
-			log.error("QQ  oauth_token is null");
+		String code = request.getParameter("code");
+		if (StringUtils.isEmpty(code)) {
+			log.error("QQ  code is null");
 			return null;
 		}
-		String oauth_vericode = request.getParameter("oauth_vericode");
-		if (StringUtils.isEmpty(oauth_vericode)) {
-			log.error("QQ  oauth_vericode is null");
+		String state = request.getParameter("state");
+		if (StringUtils.isEmpty(state)) {
+			log.error("QQ  state is null");
 			return null;
 		}
-		if (null == tp) {
-			log.error("QQ  Thirdparty is null");
-			return null;
-		}
-		String oauthTokenSecret = null;
+		Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
+				tp.getAppUrl());
+		String accessToken = null;
 		try {
-			oauthTokenSecret = memcachedClient.get(oauth_token);
-			memcachedClient.delete(oauth_token);
+			accessToken = oauth.getAccessToken(code, state);
 		} catch (Exception e) {
-			log.error("QQ fetchTpIdentity memcachedCilent is error", e);
+			log.equals("QQ content get accessToken is error." + e.getMessage());
 		}
-		if (StringUtils.isEmpty(oauthTokenSecret)) {
-			// String Agent = request.getHeader("User-Agent");
-			// log.info("user Agent is " + Agent);
-			// log.error("QQ  oauthTokenSecret is null");
-			return null;
-		}
-		String accessToken = getOAuthAccessTokenFromCode(tp, oauth_token + ","
-				+ oauth_vericode + "," + oauthTokenSecret);
 		if (StringUtils.isEmpty(accessToken)) {
 			log.error("QQ  accessToken is null");
 			return null;
 		}
-		String[] str = accessToken.split(",");
-		String uid = str[2];
+		String uid = null;
+		try {
+			uid = oauth.getOpenId(accessToken);
+		} catch (Exception e) {
+			log.error("qq content get openid is error.", e);
+		}
 		authInfo.setThirdparty(tp);
-		authInfo.setToken(str[0]);
-		authInfo.setTokenSecret(str[1]);
+		authInfo.setToken(accessToken);
 		authInfo.setTpIdentity(uid);
 		return uid;
 	}
@@ -181,21 +156,6 @@ public class QqConnectUserService extends AbstractUserService {
 
 	@Override
 	protected String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
-		String[] str = code.split(",");
-		String oauth_token = str[0];
-		String oauth_vericode = str[1];
-		String oauthTokenSecret = str[2];
-		String accessToken = null;
-		try {
-			Map<String, String> map = new AccessToken(tp.getAppKey(),
-					tp.getAppSecret()).getAccessToken(oauth_token,
-					oauthTokenSecret, oauth_vericode);
-			accessToken = map.get("oauth_token") + ","
-					+ map.get("oauth_token_secret") + "," + map.get("openid");
-		} catch (Exception e) {
-			log.equals("QQ content getOAuthAccessTokenFromCode is error."
-					+ e.getMessage());
-		}
-		return accessToken;
+		return null;
 	}
 }

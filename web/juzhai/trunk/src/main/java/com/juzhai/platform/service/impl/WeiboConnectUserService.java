@@ -40,6 +40,7 @@ import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.Town;
 import com.juzhai.platform.Version;
+import com.juzhai.platform.bean.Terminal;
 
 @Service
 public class WeiboConnectUserService extends AbstractUserService {
@@ -230,7 +231,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
-			Thirdparty tp, String turnTo, String incode)
+			Thirdparty tp, Terminal terminal, String turnTo, String incode)
 			throws UnsupportedEncodingException {
 		String url = null;
 		try {

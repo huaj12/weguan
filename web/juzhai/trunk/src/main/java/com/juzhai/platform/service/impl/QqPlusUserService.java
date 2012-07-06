@@ -20,6 +20,7 @@ import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.platform.bean.Terminal;
 import com.qplus.QOpenBean;
 import com.qplus.QOpenResult;
 import com.qplus.QOpenService;
@@ -32,7 +33,7 @@ public class QqPlusUserService extends AbstractUserService {
 
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
-			Thirdparty tp, String turnTo, String incode)
+			Thirdparty tp, Terminal terminal, String turnTo, String incode)
 			throws UnsupportedEncodingException {
 		return null;
 	}

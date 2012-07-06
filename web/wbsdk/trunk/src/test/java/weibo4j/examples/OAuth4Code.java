@@ -9,20 +9,20 @@ import weibo4j.model.WeiboException;
 import weibo4j.util.BareBonesBrowserLaunch;
 
 public class OAuth4Code {
-	public static void main(String [] args) throws WeiboException, IOException{
+	public static void main(String[] args) throws WeiboException, IOException {
 		Oauth oauth = new Oauth();
-		BareBonesBrowserLaunch.openURL(oauth.authorize("code"));
+		BareBonesBrowserLaunch.openURL(oauth.authorize("code", null));
 		System.out.print("Hit enter when it's done.[Enter]:");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		String code = br.readLine();
 		Log.logInfo("code: " + code);
-		try{
+		try {
 			System.out.println(oauth.getAccessTokenByCode(code));
 		} catch (WeiboException e) {
-			if(401 == e.getStatusCode()){
+			if (401 == e.getStatusCode()) {
 				Log.logInfo("Unable to get the access token.");
-			}else{
+			} else {
 				e.printStackTrace();
 			}
 		}

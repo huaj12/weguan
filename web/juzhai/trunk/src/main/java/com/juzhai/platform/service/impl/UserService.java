@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.service.IUserService;
 
 @Service
@@ -55,10 +56,10 @@ public class UserService implements IUserService, BeanFactoryAware {
 
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
-			Thirdparty tp, String turnTo, String incode)
+			Thirdparty tp, Terminal terminal, String turnTo, String incode)
 			throws UnsupportedEncodingException {
 		return getUserServiceBean(tp).getAuthorizeURLforCode(request, tp,
-				turnTo, incode);
+				terminal, turnTo, incode);
 	}
 
 	@Override

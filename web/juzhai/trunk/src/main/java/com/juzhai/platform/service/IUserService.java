@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.platform.bean.Terminal;
 
 public interface IUserService {
 	/**
@@ -36,7 +37,8 @@ public interface IUserService {
 	 * @throws UnsupportedEncodingException
 	 */
 	String getAuthorizeURLforCode(HttpServletRequest request, Thirdparty tp,
-			String turnTo, String incode) throws UnsupportedEncodingException;
+			Terminal terminal, String turnTo, String incode)
+			throws UnsupportedEncodingException;
 
 	/**
 	 * 获取用户名字

@@ -32,6 +32,7 @@ import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Province;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.platform.bean.Terminal;
 
 @Service
 public class DoubanConnectUserService extends AbstractUserService {
@@ -47,7 +48,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
-			Thirdparty tp, String turnTo, String incode)
+			Thirdparty tp, Terminal terminal, String turnTo, String incode)
 			throws UnsupportedEncodingException {
 		String url = null;
 		DoubanService doubanService = new DoubanService(tp.getAppId(),

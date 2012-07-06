@@ -37,6 +37,7 @@ import com.juzhai.passport.exception.ReportAccountException;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IUserGuideService;
+import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.service.IUserService;
 import com.qplus.QOpenBean;
 import com.qplus.QOpenService;
@@ -66,8 +67,12 @@ public class TpAuthorizeController extends BaseController {
 			return "404";
 		}
 		String url = userService
-				.getAuthorizeURLforCode(request, tp, turnTo == null ? ""
-						: URLEncoder.encode(turnTo, Constants.UTF8), incode);
+				.getAuthorizeURLforCode(
+						request,
+						tp,
+						Terminal.PC,
+						turnTo == null ? "" : URLEncoder.encode(turnTo,
+								Constants.UTF8), incode);
 		if (StringUtils.isEmpty(url)) {
 			return "404";
 		}

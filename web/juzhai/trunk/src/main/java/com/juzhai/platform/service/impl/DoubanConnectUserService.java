@@ -48,8 +48,8 @@ public class DoubanConnectUserService extends AbstractUserService {
 
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
-			Thirdparty tp, Terminal terminal, String turnTo, String incode)
-			throws UnsupportedEncodingException {
+			HttpServletResponse response, Thirdparty tp, Terminal terminal,
+			String turnTo, String incode) throws UnsupportedEncodingException {
 		String url = null;
 		DoubanService doubanService = new DoubanService(tp.getAppId(),
 				tp.getAppKey(), tp.getAppSecret());

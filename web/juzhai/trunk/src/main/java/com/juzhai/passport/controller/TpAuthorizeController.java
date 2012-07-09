@@ -59,9 +59,9 @@ public class TpAuthorizeController extends BaseController {
 	private IUserGuideService userGuideService;
 
 	@RequestMapping(value = "web/login/{tpId}")
-	public String webLogin(HttpServletRequest request, Model model,
-			@PathVariable long tpId, String incode, String turnTo)
-			throws UnsupportedEncodingException {
+	public String webLogin(HttpServletRequest request,
+			HttpServletResponse response, Model model, @PathVariable long tpId,
+			String incode, String turnTo) throws UnsupportedEncodingException {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if (null == tp) {
 			return "404";
@@ -69,6 +69,7 @@ public class TpAuthorizeController extends BaseController {
 		String url = userService
 				.getAuthorizeURLforCode(
 						request,
+						response,
 						tp,
 						Terminal.PC,
 						turnTo == null ? "" : URLEncoder.encode(turnTo,

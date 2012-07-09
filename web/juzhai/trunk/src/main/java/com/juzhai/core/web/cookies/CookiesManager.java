@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 public class CookiesManager {
 
 	public static final String CHANNEL_NAME = "channel";
+	public static final String STATE_NAME = "userState";
 
 	/**
 	 * 

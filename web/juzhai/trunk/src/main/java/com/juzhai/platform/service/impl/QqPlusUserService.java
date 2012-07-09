@@ -33,8 +33,8 @@ public class QqPlusUserService extends AbstractUserService {
 
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
-			Thirdparty tp, Terminal terminal, String turnTo, String incode)
-			throws UnsupportedEncodingException {
+			HttpServletResponse response, Thirdparty tp, Terminal terminal,
+			String turnTo, String incode) throws UnsupportedEncodingException {
 		return null;
 	}
 

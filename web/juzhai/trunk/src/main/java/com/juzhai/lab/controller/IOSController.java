@@ -118,13 +118,14 @@ public class IOSController extends BaseController {
 	private int mobileInterestUserMaxRows = 1;
 
 	@RequestMapping(value = "/tpLogin/{tpId}")
-	public String webLogin(HttpServletRequest request, Model model,
-			@PathVariable long tpId) throws UnsupportedEncodingException {
+	public String webLogin(HttpServletRequest request,
+			HttpServletResponse response, Model model, @PathVariable long tpId)
+			throws UnsupportedEncodingException {
 		Thirdparty tp = com.juzhai.passport.InitData.TP_MAP.get(tpId);
 		if (null == tp) {
 			return "404";
 		}
-		String url = userService.getAuthorizeURLforCode(request, tp,
+		String url = userService.getAuthorizeURLforCode(request, response, tp,
 				Terminal.MOBILE, null, null);
 		if (StringUtils.isEmpty(url)) {
 			return "404";

@@ -56,10 +56,10 @@ public class UserService implements IUserService, BeanFactoryAware {
 
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
-			Thirdparty tp, Terminal terminal, String turnTo, String incode)
-			throws UnsupportedEncodingException {
-		return getUserServiceBean(tp).getAuthorizeURLforCode(request, tp,
-				terminal, turnTo, incode);
+			HttpServletResponse response, Thirdparty tp, Terminal terminal,
+			String turnTo, String incode) throws UnsupportedEncodingException {
+		return getUserServiceBean(tp).getAuthorizeURLforCode(request, response,
+				tp, terminal, turnTo, incode);
 	}
 
 	@Override

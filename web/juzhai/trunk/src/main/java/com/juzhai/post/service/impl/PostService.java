@@ -24,12 +24,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.cms.controller.view.CmsPostView;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
+import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
@@ -145,7 +147,7 @@ public class PostService implements IPostService {
 
 	@Override
 	public long createPost(long uid, PostForm postForm)
-			throws InputPostException {
+			throws InputPostException, UploadImageException {
 		// Boolean isForbid = null;
 		// try {
 		// isForbid = memcachedClient.get(MemcachedKeyGenerator
@@ -179,7 +181,7 @@ public class PostService implements IPostService {
 	}
 
 	private long createPostByIdea(long uid, PostForm postForm)
-			throws InputPostException {
+			throws InputPostException, UploadImageException {
 		long ideaId = postForm.getIdeaId();
 		Idea idea = ideaService.getIdeaById(ideaId);
 		if (null == idea) {
@@ -212,7 +214,7 @@ public class PostService implements IPostService {
 
 		post.setVerifyType(VerifyType.QUALIFIED.getType());
 
-		createPost(uid, post, null, null, null);
+		createPost(uid, post, null, null, null, null);
 
 		// 添加idea的useCount或者firstUser
 		if (idea.getUseCount() == 0) {
@@ -230,7 +232,7 @@ public class PostService implements IPostService {
 	}
 
 	private long createPostByForm(long uid, PostForm postForm)
-			throws InputPostException {
+			throws InputPostException, UploadImageException {
 		Post repost = null;
 		if (postForm.getPostId() > 0) {
 			// 转发
@@ -263,7 +265,8 @@ public class PostService implements IPostService {
 		post.setDateTime(postForm.getDate());
 		post.setPurposeType(postForm.getPurposeType());
 
-		createPost(uid, post, repost, picIdea, postForm.getPic());
+		createPost(uid, post, repost, picIdea, postForm.getPic(),
+				postForm.getPostImg());
 		// 每日发布拒宅统计
 		postCounter.incr(null, 1L);
 		return post.getId();
@@ -319,7 +322,8 @@ public class PostService implements IPostService {
 	}
 
 	private void createPost(long uid, Post post, Post repost, Idea picIdea,
-			String tmpImgFilePath) throws InputPostException {
+			String tmpImgFilePath, MultipartFile postImg)
+			throws InputPostException, UploadImageException {
 		ProfileCache profile = profileService.getProfileCacheByUid(uid);
 		if (null == profile) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
@@ -334,10 +338,12 @@ public class PostService implements IPostService {
 		}
 		postMapper.insertSelective(post);
 
-		if (StringUtils.isNotEmpty(tmpImgFilePath)) {
+		if (StringUtils.isNotEmpty(tmpImgFilePath)
+				|| (postImg != null && postImg.getSize() > 0)) {
 			String fileName = null;
 			if (null != picIdea
 					&& StringUtils.equals(picIdea.getPic(), tmpImgFilePath)) {
+				// 目前这个条件不会被执行
 				postImageService.copyImgFromIdea(post.getId(), picIdea.getId(),
 						picIdea.getPic());
 				fileName = picIdea.getPic();
@@ -352,9 +358,12 @@ public class PostService implements IPostService {
 							repost.getId(), repost.getPic());
 				}
 				fileName = repost.getPic();
-			} else {
+			} else if (StringUtils.isNotEmpty(tmpImgFilePath)) {
 				fileName = postImageService.saveImg(post.getId(),
 						tmpImgFilePath);
+			} else {
+				fileName = postImageService
+						.uploadPostImg(post.getId(), postImg);
 			}
 			if (StringUtils.isNotEmpty(fileName)) {
 				Post updatePost = new Post();

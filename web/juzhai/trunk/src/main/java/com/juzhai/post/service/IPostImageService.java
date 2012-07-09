@@ -26,6 +26,16 @@ public interface IPostImageService {
 	String saveImg(long postId, String filePath);
 
 	/**
+	 * 上传post图片
+	 * 
+	 * @param postId
+	 * @param image
+	 * @return
+	 * @throws UploadImageException
+	 */
+	String uploadPostImg(long postId, MultipartFile image) throws UploadImageException;
+
+	/**
 	 * 从idea复制图片
 	 * 
 	 * @param postId

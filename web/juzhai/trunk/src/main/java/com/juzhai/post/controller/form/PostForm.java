@@ -2,6 +2,8 @@ package com.juzhai.post.controller.form;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class PostForm {
 
 	private long postId;
@@ -27,6 +29,8 @@ public class PostForm {
 	private String link;
 
 	private Date date;
+
+	private MultipartFile postImg;
 
 	public long getIdeaId() {
 		return ideaId;
@@ -124,4 +128,11 @@ public class PostForm {
 		this.picIdeaId = picIdeaId;
 	}
 
+	public MultipartFile getPostImg() {
+		return postImg;
+	}
+
+	public void setPostImg(MultipartFile postImg) {
+		this.postImg = postImg;
+	}
 }

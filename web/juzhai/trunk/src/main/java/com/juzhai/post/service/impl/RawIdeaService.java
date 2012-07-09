@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.dao.Limit;
+import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.web.jstl.JzUtilFunction;
@@ -320,6 +321,8 @@ public class RawIdeaService implements IRawIdeaService {
 			try {
 				postService.createPost(idae.getCreateUid(), postForm);
 			} catch (InputPostException e) {
+				log.error("cms passRawIdea  create post is error", e);
+			} catch (UploadImageException e) {
 				log.error("cms passRawIdea  create post is error", e);
 			}
 		}

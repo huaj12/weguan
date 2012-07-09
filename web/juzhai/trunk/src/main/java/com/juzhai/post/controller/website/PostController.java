@@ -100,6 +100,8 @@ public class PostController extends BaseController {
 			}
 		} catch (InputPostException e) {
 			result.setError(e.getErrorCode(), messageSource);
+		} catch (UploadImageException e) {
+			result.setError(e.getErrorCode(), messageSource);
 		}
 		return result;
 	}
@@ -136,6 +138,8 @@ public class PostController extends BaseController {
 						context.getTpId(), postId);
 			}
 		} catch (InputPostException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		} catch (UploadImageException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		}
 		return result;

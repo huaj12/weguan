@@ -238,10 +238,12 @@
 			<list>
 				<!-- <ref bean="delOutFreeDateTrigger"/>
 				<ref bean="ideaShowTrigger"/>
-				<ref bean="ideaWindowSortTrigger"/> -->
-				<ref bean="deleteTempImageTrigger"/>
+				<ref bean="ideaWindowSortTrigger"/>
 				<ref bean="deleteExpiredAdTrigger"/>
 				<ref bean="deleteExpiredRawAdTrigger"/>
+				<ref bean="noticeWeekEmailTrigger"/>
+				 -->
+				<ref bean="deleteTempImageTrigger"/>
 				<ref bean="postIndexOptimizationAndCommitTrigger"/>
 				<ref bean="profileIndexOptimizationAndCommitTrigger"/>
 				<ref bean="createSitemapTrigger"/>
@@ -250,7 +252,6 @@
 				<ref bean="delExpireActiveCodeTrigger"/>
 				<ref bean="defunctExpireIdeaTrigger"/>
 				<ref bean="updateSearchWordHotTrigger"/>
-				<ref bean="noticeWeekEmailTrigger"/>
 				<ref bean="updateStaticVersionTrigger"/>
 			</list>
 		</property>

@@ -66,6 +66,7 @@ import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.IUserGuideService;
+import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.service.IUserService;
 import com.juzhai.post.InitData;
 import com.juzhai.post.bean.PurposeType;
@@ -123,8 +124,8 @@ public class IOSController extends BaseController {
 		if (null == tp) {
 			return "404";
 		}
-		String url = userService
-				.getAuthorizeURLforCode(request, tp, null, null);
+		String url = userService.getAuthorizeURLforCode(request, tp,
+				Terminal.MOBILE, null, null);
 		if (StringUtils.isEmpty(url)) {
 			return "404";
 		}

@@ -4,9 +4,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.rubyeye.xmemcached.MemcachedClient;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.core.util.TextTruncateUtil;
+import com.juzhai.core.web.cookies.CookiesManager;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.LogoVerifyState;
@@ -38,16 +42,27 @@ public class QqConnectUserService extends AbstractUserService {
 	private MessageSource messageSource;
 	@Autowired
 	private ISynchronizeService synchronizeService;
+	@Autowired
+	private MemcachedClient memcachedClient;
+	@Value("${user.state.id.expire.time}")
+	private int userStateIdExpireTime;
+	@Value(value = "${state.cookie.max.age}")
+	private int stateCookieMaxAge;
 
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
-			Thirdparty tp, Terminal terminal, String turnTo, String incode)
-			throws UnsupportedEncodingException {
+			HttpServletResponse response, Thirdparty tp, Terminal terminal,
+			String turnTo, String incode) throws UnsupportedEncodingException {
 		String url = null;
 		try {
 			Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
 					tp.getAppUrl());
-			url = oauth.authorize(terminal.getType());
+			String state = String.valueOf(System.currentTimeMillis());
+			String stateId = UUID.randomUUID().toString();
+			CookiesManager.setCookie(request, response,
+					CookiesManager.STATE_NAME, stateId, stateCookieMaxAge);
+			url = oauth.authorize(terminal.getType(), state);
+			memcachedClient.add(stateId, userStateIdExpireTime, state);
 		} catch (Exception e) {
 			log.error("QQ content getAuthorizeURLforCode is error."
 					+ e.getMessage());
@@ -122,6 +137,19 @@ public class QqConnectUserService extends AbstractUserService {
 		String state = request.getParameter("state");
 		if (StringUtils.isEmpty(state)) {
 			log.error("QQ  state is null");
+			return null;
+		}
+		String stateId = CookiesManager.getCookie(request,
+				CookiesManager.STATE_NAME);
+		String localState = null;
+		try {
+			localState = memcachedClient.get(stateId);
+			memcachedClient.delete(stateId);
+		} catch (Exception e) {
+			log.error("memcached get state is error", e);
+		}
+		if (localState == null || !localState.equals(state)) {
+			log.error("state is not from QQ");
 			return null;
 		}
 		Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),

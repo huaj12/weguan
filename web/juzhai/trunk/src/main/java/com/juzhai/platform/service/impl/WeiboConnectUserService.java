@@ -231,8 +231,8 @@ public class WeiboConnectUserService extends AbstractUserService {
 
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
-			Thirdparty tp, Terminal terminal, String turnTo, String incode)
-			throws UnsupportedEncodingException {
+			HttpServletResponse response, Thirdparty tp, Terminal terminal,
+			String turnTo, String incode) throws UnsupportedEncodingException {
 		String url = null;
 		try {
 			Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),

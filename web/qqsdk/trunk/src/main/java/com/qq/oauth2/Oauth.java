@@ -13,14 +13,14 @@ public class Oauth extends QQ {
 		super(appkey, sercret, redirectUri);
 	}
 
-	public String authorize(String display) {
+	public String authorize(String display, String state) {
 		StringBuilder qqLoginUrl = new StringBuilder();
 		qqLoginUrl.append(baseURL + "oauth2.0/authorize");
 		qqLoginUrl.append("?response_type=code");
 		qqLoginUrl.append("&client_id=" + getAppkey());
 		qqLoginUrl.append("&redirect_uri=" + getRedirectUri());
 		// 请求用户授权时向用户显示的可进行授权的列表。如果要填写多个接口名称，请用逗号隔开。
-		qqLoginUrl.append("&state=" + System.currentTimeMillis());
+		qqLoginUrl.append("&state=" + state);
 		qqLoginUrl.append("&scope=" + "get_user_info,add_share");
 		// 用于展示的样式。不传则默认展示为为PC下的样式。
 		// 如果传入“mobile”，则展示为mobile端下的样式。

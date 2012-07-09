@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.juzhai.cms.controller.view.CmsPostView;
+import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.home.bean.ShowPostOrder;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.bean.PostResult;
@@ -20,8 +21,9 @@ public interface IPostService {
 	 * @param uid
 	 * @param postForm
 	 * @throws InputPostException
+	 * @throws UploadImageException
 	 */
-	long createPost(long uid, PostForm postForm) throws InputPostException;
+	long createPost(long uid, PostForm postForm) throws InputPostException, UploadImageException;
 
 	/**
 	 * 移除拒宅

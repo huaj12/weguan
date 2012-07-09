@@ -57,6 +57,13 @@ public class PostImageService implements IPostImageService {
 	}
 
 	@Override
+	public String uploadPostImg(long postId, MultipartFile image)
+			throws UploadImageException {
+		String filePath = uploadPic(image)[1];
+		return saveImg(postId, filePath);
+	}
+
+	@Override
 	public void copyImgFromIdea(long postId, long ideaId, String imgName) {
 		for (JzImageSizeType sizeType : JzImageSizeType.values()) {
 			String directoryPath = uploadPostImageHome

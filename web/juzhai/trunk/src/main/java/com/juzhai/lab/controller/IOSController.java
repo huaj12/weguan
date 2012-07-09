@@ -37,8 +37,11 @@ import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.home.controller.view.DialogView;
+import com.juzhai.home.service.IDialogService;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.lab.controller.form.ProfileMForm;
+import com.juzhai.lab.controller.view.DialogMView;
 import com.juzhai.lab.controller.view.IdeaMView;
 import com.juzhai.lab.controller.view.PostMView;
 import com.juzhai.lab.controller.view.UserMView;
@@ -108,6 +111,8 @@ public class IOSController extends BaseController {
 	private IPassportService passportService;
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private IDialogService dialogService;
 	// @Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows = 1;
 	// @Value("${web.show.users.max.rows}")
@@ -116,6 +121,8 @@ public class IOSController extends BaseController {
 	private int webMyPostMaxRows = 2;
 	// @Value("mobile.interest.user.max.rows")
 	private int mobileInterestUserMaxRows = 1;
+	// @Value("mobile.dialog.max.rows")
+	private int mobileDialogMaxRows = 1;
 
 	@RequestMapping(value = "/tpLogin/{tpId}")
 	public String webLogin(HttpServletRequest request,
@@ -734,21 +741,64 @@ public class IOSController extends BaseController {
 		return result;
 	}
 
-	@RequestMapping(value = "/postIdea", method = RequestMethod.POST)
+	@RequestMapping(value = "/sendPost", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult postIdea(HttpServletRequest request, Model model,
+	public AjaxResult sendPost(HttpServletRequest request, Model model,
 			PostForm postForm) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
 		try {
 			long postId = postService.createPost(context.getUid(), postForm);
-			// if (sendWeibo && postId > 0 && context.getTpId() > 0) {
-			// postService.synchronizeWeibo(context.getUid(),
-			// context.getTpId(), postId);
-			// }
+			if (postId > 0 && context.getTpId() > 0) {
+				postService.synchronizeWeibo(context.getUid(),
+						context.getTpId(), postId);
+			}
 		} catch (InputPostException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		} catch (UploadImageException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		}
 		return result;
+	}
+
+	@RequestMapping(value = "/dialogList", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult dialogList(HttpServletRequest request, Model model,
+			int page) {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		PagerManager pager = new PagerManager(page, mobileDialogMaxRows,
+				dialogService.countDialong(context.getUid()));
+		List<DialogView> dialogViewlist = dialogService.listDialog(
+				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
+		List<DialogMView> list = new ArrayList<DialogMView>(
+				dialogViewlist.size());
+		for (DialogView dialogView : dialogViewlist) {
+			DialogMView dialogMView = new DialogMView();
+			dialogMView.setDialogId(dialogView.getDialog().getId());
+			dialogMView.setReceiverUid(dialogView.getDialogContent()
+					.getReceiverUid());
+			dialogMView.setLatestContent(dialogView.getDialogContent()
+					.getContent());
+			dialogMView.setCreateTime(dialogView.getDialogContent()
+					.getCreateTime().getTime());
+			dialogMView.setDialogContentCount(dialogView.getDialogContentCnt());
+			dialogMView.setTargetUser(createUserMView(
+					dialogView.getTargetProfile(), false));
+
+			list.add(dialogMView);
+		}
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("dialogViewList", list);
+		result.put("pager", pager);
+
+		AjaxResult ajaxResult = new AjaxResult();
+		ajaxResult.setResult(result);
+		return ajaxResult;
 	}
 }

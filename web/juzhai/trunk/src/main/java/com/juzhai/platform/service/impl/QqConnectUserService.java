@@ -46,8 +46,6 @@ public class QqConnectUserService extends AbstractUserService {
 	private MemcachedClient memcachedClient;
 	@Value("${user.state.id.expire.time}")
 	private int userStateIdExpireTime;
-	@Value(value = "${state.cookie.max.age}")
-	private int stateCookieMaxAge;
 
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
@@ -60,7 +58,7 @@ public class QqConnectUserService extends AbstractUserService {
 			String state = String.valueOf(System.currentTimeMillis());
 			String stateId = UUID.randomUUID().toString();
 			CookiesManager.setCookie(request, response,
-					CookiesManager.STATE_NAME, stateId, stateCookieMaxAge);
+					CookiesManager.STATE_NAME, stateId, -1);
 			url = oauth.authorize(terminal.getType(), state);
 			memcachedClient.add(stateId, userStateIdExpireTime, state);
 		} catch (Exception e) {
@@ -149,6 +147,11 @@ public class QqConnectUserService extends AbstractUserService {
 			log.error("memcached get state is error", e);
 		}
 		if (localState == null || !localState.equals(state)) {
+			log.error("stateId:" + stateId);
+			log.error("localState:" + localState);
+			log.error("state:" + state);
+			log.error(request.getHeader("User-Agent"));
+			log.error(request.getHeader("Referer"));
 			log.error("state is not from QQ");
 			return null;
 		}

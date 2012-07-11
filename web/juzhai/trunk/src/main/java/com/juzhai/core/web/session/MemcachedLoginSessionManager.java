@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.juzhai.core.web.cookies.CookiesManager;
-import com.juzhai.core.web.util.HttpRequestUtil;
 
 @Component(value = "loginSessionManager")
 public class MemcachedLoginSessionManager extends AbstractLoginSessionManager {
@@ -30,8 +29,6 @@ public class MemcachedLoginSessionManager extends AbstractLoginSessionManager {
 		String sessionId = null;
 		Long tpId = null;
 		Boolean admin = null;
-		String remoteAddress = HttpRequestUtil.getRemoteIp(request);
-		String userAgentPermanentCode = request.getHeader("User-Agent");
 
 		String token = CookiesManager.getCookie(request, token_cookies_name);
 		if (StringUtils.isNotEmpty(token)) {
@@ -48,9 +45,7 @@ public class MemcachedLoginSessionManager extends AbstractLoginSessionManager {
 				log.error("update login expire error", e);
 			}
 		}
-		return new UserContext(uid == null ? 0L : uid, remoteAddress,
-				sessionId, userAgentPermanentCode, tpId == null ? 0L : tpId,
-				admin == null ? false : admin);
+		return getUserContext(request, uid, sessionId, tpId, admin);
 	}
 
 	@Override
@@ -76,6 +71,9 @@ public class MemcachedLoginSessionManager extends AbstractLoginSessionManager {
 		if (persistent) {
 			persistLogin(request, response, uid);
 		}
+		// request里保存userContext
+		request.setAttribute("context",
+				getUserContext(request, uid, token, tpId, isAdmin));
 	}
 
 	@Override

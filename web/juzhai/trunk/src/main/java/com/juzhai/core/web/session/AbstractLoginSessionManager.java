@@ -19,6 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.web.cookies.CookiesManager;
+import com.juzhai.core.web.util.HttpRequestUtil;
 
 public abstract class AbstractLoginSessionManager implements
 		LoginSessionManager {
@@ -41,6 +42,17 @@ public abstract class AbstractLoginSessionManager implements
 	public long persistentLoginUid(HttpServletRequest request,
 			HttpServletResponse response) {
 		return checkPersistLogin(request, response);
+	}
+
+	@Override
+	public UserContext getUserContext(HttpServletRequest request, Long uid,
+			String sessionId, Long tpId, Boolean admin) {
+		String remoteAddress = HttpRequestUtil.getRemoteIp(request);
+		String userAgentPermanentCode = request.getHeader("User-Agent");
+
+		return new UserContext(uid == null ? 0L : uid, remoteAddress,
+				sessionId, userAgentPermanentCode, tpId == null ? 0L : tpId,
+				admin == null ? false : admin);
 	}
 
 	protected void persistLogin(HttpServletRequest request,

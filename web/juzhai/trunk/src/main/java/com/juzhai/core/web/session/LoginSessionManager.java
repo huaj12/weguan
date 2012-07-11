@@ -7,6 +7,9 @@ public interface LoginSessionManager {
 
 	UserContext getUserContext(HttpServletRequest request);
 
+	UserContext getUserContext(HttpServletRequest request, Long uid,
+			String sessionId, Long tpId, Boolean admin);
+
 	void updateLoginExpire(HttpServletRequest request);
 
 	void login(HttpServletRequest request, HttpServletResponse response,

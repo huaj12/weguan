@@ -10,6 +10,7 @@
 #import "LoginService.h"
 #import "MessageShow.h"
 #import "MBProgressHUD.h"
+#import "UrlUtils.h"
 
 @interface TpLoginViewController ()
 
@@ -49,7 +50,7 @@
     
     loadingView.hidesWhenStopped = YES;
     
-    NSURL *requestUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://test.51juzhai.com/app/ios/tpLogin/%d", tpId]];
+    NSURL *requestUrl = [NSURL URLWithString:[UrlUtils urlStringWithUri:[NSString stringWithFormat:@"%d", tpId]]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:requestUrl];
 	[webView loadRequest:request];
 }

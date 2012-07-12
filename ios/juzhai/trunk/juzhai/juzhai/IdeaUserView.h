@@ -13,6 +13,7 @@
 
 @interface IdeaUserView : NSObject <DataView>
 
+@property (nonatomic) NSInteger ideaId;
 @property (strong, nonatomic) UserView *userView;
 @property (nonatomic) NSTimeInterval createTime;
 

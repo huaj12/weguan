@@ -11,6 +11,7 @@
 
 @implementation IdeaUserView
 
+@synthesize ideaId;
 @synthesize userView;
 @synthesize createTime;
 
@@ -18,6 +19,7 @@
 {
     IdeaUserView *ideaUserView = [[IdeaUserView alloc] init];
     if (ideaUserView) {
+        ideaUserView.ideaId = [[info objectForKey:@"ideaId"] intValue];
         ideaUserView.userView = [UserView convertFromDictionary:[info objectForKey:@"userView"]];
         ideaUserView.createTime = [[info objectForKey:@"createTime"] doubleValue] / 1000;
     }

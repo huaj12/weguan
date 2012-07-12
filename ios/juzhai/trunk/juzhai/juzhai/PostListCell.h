@@ -11,8 +11,6 @@
 
 @class PostView;
 
-#define POST_DEFAULT_PIC @"none_img.png"
-
 @interface PostListCell : UITableViewCell <ListCell>
 {
     PostView *_postView;

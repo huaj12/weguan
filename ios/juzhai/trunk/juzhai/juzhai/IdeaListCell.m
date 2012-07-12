@@ -10,12 +10,13 @@
 #import "IdeaListCell.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 #import "IdeaView.h"
-#import "BaseData.h"
+#import "Constant.h"
 #import "MBProgressHUD.h"
 #import "ASIHTTPRequest.h"
 #import "HttpRequestSender.h"
 #import "SBJson.h"
 #import "MessageShow.h"
+#import "UrlUtils.h"
 
 @implementation IdeaListCell
 
@@ -57,16 +58,21 @@
 - (void) redrawn:(IdeaView *)ideaView{
     _ideaView = ideaView;
     UIImageView *imageView = (UIImageView *)[self viewWithTag:IDEA_IMAGE_TAG];
-    imageView.image = [UIImage imageNamed:IDEA_DEFAULT_PIC];
+    imageView.image = [UIImage imageNamed:SMALL_PIC_LOADING_IMG];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     if(![ideaView.pic isEqual:[NSNull null]]){
         NSURL *imageURL = [NSURL URLWithString:ideaView.pic];
         [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
-            UIGraphicsBeginImageContext(CGSizeMake(imageView.frame.size.width, imageView.frame.size.height));
-            [image drawInRect:CGRectMake(0, 0, imageView.frame.size.width, image.size.height*(imageView.frame.size.width/image.size.width))];
-            UIImage* resultImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            imageView.image = resultImage;
+            CGFloat imageHeight = image.size.height*(imageView.frame.size.width/image.size.width);
+            if (imageHeight > imageView.frame.size.height) {
+                UIGraphicsBeginImageContext(CGSizeMake(imageView.frame.size.width, imageView.frame.size.height));
+                [image drawInRect:CGRectMake(0, 0, imageView.frame.size.width, imageHeight)];
+                UIImage* resultImage = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                imageView.image = resultImage;
+            } else {
+                imageView.image = image;
+            }
             
             imageView.layer.shouldRasterize = YES;
             imageView.layer.masksToBounds = YES;
@@ -78,7 +84,7 @@
     contentLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:14.0];
     contentLabel.textColor = [UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f];
     contentLabel.highlightedTextColor = [UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f];
-    CGSize labelsize = [ideaView.content sizeWithFont:contentLabel.font constrainedToSize:contentLabel.frame.size lineBreakMode:UILineBreakModeCharacterWrap];
+    CGSize labelsize = [ideaView.content sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(190, 37) lineBreakMode:UILineBreakModeCharacterWrap];
     [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, contentLabel.frame.origin.y, labelsize.width, labelsize.height)];
     contentLabel.text = ideaView.content;
     
@@ -111,7 +117,7 @@
     hud.labelText = @"操作中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:_ideaView.ideaId, @"ideaId", nil];
-        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/sendPost" withParams:params];
+        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"sendPost"] withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             [MBProgressHUD hideHUDForView:coverView animated:YES];

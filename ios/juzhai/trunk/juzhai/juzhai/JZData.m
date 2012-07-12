@@ -63,4 +63,9 @@
     return count;
 }
 
+- (void)removeObjectAtIndex:(NSUInteger)index
+{
+    [_data removeObjectAtIndex:index];
+}
+
 @end

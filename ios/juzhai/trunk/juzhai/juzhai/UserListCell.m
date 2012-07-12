@@ -11,13 +11,14 @@
 #import "SDWebImage/UIImageView+WebCache.h"
 #import "UserView.h"
 #import "PostView.h"
-#import "BaseData.h"
+#import "Constant.h"
 #import "MBProgressHUD.h"
 #import "ASIHTTPRequest.h"
 #import "HttpRequestSender.h"
 #import "SBJson.h"
 #import "HomeViewController.h"
 #import "MessageShow.h"
+#import "UrlUtils.h"
 
 @implementation UserListCell
 
@@ -74,20 +75,20 @@
 - (void) redrawn:(UserView *)userView{
     _userView = userView;
     UIImageView *imageView = (UIImageView *)[self viewWithTag:USER_LOGO_TAG];
-    imageView.image = [UIImage imageNamed:USER_DEFAULT_LOGO];
+    imageView.image = [UIImage imageNamed:FACE_LOADING_IMG];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     NSURL *imageURL = [NSURL URLWithString:userView.logo];
     [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
         imageView.image = image;
         imageView.layer.shouldRasterize = YES;
         imageView.layer.masksToBounds = YES;
-        imageView.layer.cornerRadius = 3.0;
+        imageView.layer.cornerRadius = 5.0;
     } failure:nil];
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoClick:)];
     [imageView addGestureRecognizer:singleTap];
     
     UILabel *nicknameLabel = (UILabel *)[self viewWithTag:USER_NICKNAME_TAG];
-    nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
+    nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
     if(userView.gender.intValue == 0){
         nicknameLabel.textColor = [UIColor colorWithRed:1.00f green:0.40f blue:0.60f alpha:1.00f];
     }else {
@@ -98,7 +99,7 @@
     nicknameLabel.text = userView.nickname;
     
     UILabel *infoLabel = (UILabel *)[self viewWithTag:USER_INFO_TAG];
-    infoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
+    infoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
     infoLabel.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];;
     infoLabel.text = [userView basicInfo];
     CGSize infoSize = [infoLabel.text sizeWithFont:infoLabel.font constrainedToSize:infoLabel.frame.size lineBreakMode:UILineBreakModeTailTruncation];
@@ -109,20 +110,26 @@
     contentLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:14.0];
     contentLabel.textColor = [UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f];;
     contentLabel.text = [NSString stringWithFormat:@"%@：%@", userView.post.purpose, userView.post.content];
-    CGSize contentSize = [contentLabel.text sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(contentLabel.frame.size.width, 200.0) lineBreakMode:UILineBreakModeWordWrap];
+    CGSize contentSize = [contentLabel.text sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(220, 500.0) lineBreakMode:UILineBreakModeCharacterWrap];
     [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, contentLabel.frame.origin.y, contentSize.width, contentSize.height)];
     
     UIImageView *postImageView = (UIImageView *)[self viewWithTag:POST_IMAGE_TAG];
     if(![userView.post.pic isEqual:[NSNull null]]){
-        postImageView.image = [UIImage imageNamed:POST_DEFAULT_PIC];
+        postImageView.image = [UIImage imageNamed:SMALL_PIC_LOADING_IMG];
         NSURL *postImageURL = [NSURL URLWithString:userView.post.pic];
         [postImageView setFrame:CGRectMake(postImageView.frame.origin.x, contentLabel.frame.origin.y + contentSize.height + 10.0, postImageView.frame.size.width, postImageView.frame.size.height)];
         [manager downloadWithURL:postImageURL delegate:self options:0 success:^(UIImage *image) {
-            UIGraphicsBeginImageContext(CGSizeMake(postImageView.frame.size.width, postImageView.frame.size.height));
-            [image drawInRect:CGRectMake(0, 0, postImageView.frame.size.width, image.size.height*(postImageView.frame.size.width/image.size.width))];
-            UIImage* resultImage = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            postImageView.image = resultImage;
+            CGFloat imageHeight = image.size.height*(postImageView.frame.size.width/image.size.width);
+            if (imageHeight > postImageView.frame.size.height) {
+                UIGraphicsBeginImageContext(CGSizeMake(postImageView.frame.size.width, postImageView.frame.size.height));
+                [image drawInRect:CGRectMake(0, 0, postImageView.frame.size.width, imageHeight)];
+                UIImage* resultImage = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                postImageView.image = resultImage;
+            } else {
+                postImageView.image = image;
+            }
+            
             postImageView.layer.shouldRasterize = YES;
             postImageView.layer.masksToBounds = YES;
             postImageView.layer.cornerRadius = 5.0;
@@ -167,7 +174,7 @@
     CGSize contentSize = [content sizeWithFont:[UIFont fontWithName:DEFAULT_FONT_FAMILY size:14.0] constrainedToSize:CGSizeMake(220, 200.0) lineBreakMode:UILineBreakModeCharacterWrap];
     height += contentSize.height;
     if(![userView.post.pic isEqual:[NSNull null]]){
-        height += 110.0;
+        height += 80.0;
     }
     return height;
 }
@@ -178,7 +185,7 @@
     hud.labelText = @"操作中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:_userView.post.postId, @"postId", nil];
-        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/respPost" withParams:params];
+        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"respPost"] withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             NSString *responseString = [request responseString];

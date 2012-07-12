@@ -23,7 +23,6 @@
     JZData *_data;
     CustomSegmentedControl *_segmentedControl;
     UIButton *_genderButton;
-    PostDetailViewController *_postDetailViewController;
 }
 
 @end

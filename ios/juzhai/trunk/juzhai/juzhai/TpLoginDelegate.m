@@ -7,7 +7,7 @@
 //
 
 #import "TpLoginDelegate.h"
-#import "BaseData.h"
+#import "Constant.h"
 #import "TpLoginViewController.h"
 
 @implementation TpLoginDelegate

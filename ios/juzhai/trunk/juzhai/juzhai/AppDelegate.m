@@ -35,7 +35,6 @@
     }
     self.window.rootViewController = viewController;
 	[self.window makeKeyAndVisible];
-    sleep(1);
 //    [navController pushViewController:viewController animated:YES];
     return YES;
 }

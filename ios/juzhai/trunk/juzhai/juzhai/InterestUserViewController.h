@@ -11,7 +11,6 @@
 @class JZData;
 @class HomeViewController;
 
-#define INTEREST_USER_DEFAULT_PIC @"none_img.png"
 #define INTEREST_USER_LOGO_TAG 1
 #define INTEREST_USER_NICKNAME_TAG 2
 #define INTEREST_USER_INFO_TAG 3

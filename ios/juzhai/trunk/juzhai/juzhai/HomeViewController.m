@@ -7,7 +7,7 @@
 //
 
 #import "HomeViewController.h"
-#import "BaseData.h"
+#import "Constant.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UserView.h"
 #import "SDWebImage/UIImageView+WebCache.h"
@@ -26,6 +26,7 @@
 #import "PagerCell.h"
 #import "SendPostBarButtonItem.h"
 #import "MessageShow.h"
+#import "UrlUtils.h"
 
 @interface HomeViewController ()
 
@@ -82,12 +83,11 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.postTableView animated:YES];
     hud.labelText = @"加载中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        sleep(1);
         NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
         if (!_isMe) {
             [params setValue:[NSNumber numberWithInt:_userView.uid.intValue] forKey:@"uid"];
         }
-        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/home" withParams:params];
+        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"home"] withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             // Use when fetching text data
@@ -172,7 +172,7 @@
         logoView.image = image;
         logoView.layer.shouldRasterize = YES;
         logoView.layer.masksToBounds = YES;
-        logoView.layer.cornerRadius = 3.0;
+        logoView.layer.cornerRadius = 5.0;
     } failure:nil];
     
     nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:18.0];
@@ -287,7 +287,7 @@
     hud.labelText = @"操作中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:_userView.uid, @"uid", nil];
-        __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/interest" withParams:params];
+        __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"interest"] withParams:params];
 //        __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -336,7 +336,7 @@
         hud.labelText = @"操作中...";
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:_userView.uid, @"uid", nil];
-            __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/removeInterest" withParams:params];
+            __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"removeInterest"] withParams:params];
             //        __unsafe_unretained ASIHTTPRequest *request = _request;
             [request setCompletionBlock:^{
                 [MBProgressHUD hideHUDForView:self.view animated:YES];

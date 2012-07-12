@@ -19,6 +19,7 @@
 #import "UserContext.h"
 #import "UserView.h"
 #import "LoginService.h"
+#import "UrlUtils.h"
 
 @implementation RegisterViewController
 
@@ -57,7 +58,7 @@
 -(void)doRegister{
     sleep(0.5);
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:accountField.text,@"account",nicknameField.text,@"nickname", passwordField.text,@"pwd", confirmPwdField.text,@"confirmPwd", nil];
-    ASIHTTPRequest *request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/register" withParams:params];
+    ASIHTTPRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"register"] withParams:params];
     [request startSynchronous];
     NSError *error = [request error];
     NSString *errorInfo = SERVER_ERROR_INFO;

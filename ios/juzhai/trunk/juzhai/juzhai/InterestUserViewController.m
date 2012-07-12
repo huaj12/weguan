@@ -11,13 +11,14 @@
 #import "JZData.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 #import "UserView.h"
-#import "BaseData.h"
+#import "Constant.h"
 #import "MBProgressHUD.h"
 #import "HttpRequestSender.h"
 #import "SBJson.h"
 #import "Pager.h"
 #import "HomeViewController.h"
 #import "PagerCell.h"
+#import "UrlUtils.h"
 
 @interface InterestUserViewController ()
 
@@ -78,10 +79,8 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        sleep(1);
-        
         NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
-        NSString *requestUrl = self.isInterest ? @"http://test.51juzhai.com/app/ios/interestList" : @"http://test.51juzhai.com/app/ios/interestMeList";
+        NSString *requestUrl = self.isInterest ? [UrlUtils urlStringWithUri:@"interestList"] : [UrlUtils urlStringWithUri:@"interestMeList"];
         
         __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:requestUrl withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
@@ -162,14 +161,14 @@
     }
     UserView *userView = [_data objectAtIndex:indexPath.row];
     UIImageView *logo = (UIImageView *)[cell viewWithTag:INTEREST_USER_LOGO_TAG];
-    logo.image = [UIImage imageNamed:INTEREST_USER_DEFAULT_PIC];
+    logo.image = [UIImage imageNamed:FACE_LOADING_IMG];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     NSURL *imageURL = [NSURL URLWithString:userView.smallLogo];
     [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
         logo.image = image;
         logo.layer.shouldRasterize = YES;
         logo.layer.masksToBounds = YES;
-        logo.layer.cornerRadius = 3.0;
+        logo.layer.cornerRadius = 5.0;
     } failure:nil];
     
     UILabel *nicknameLabel = (UILabel *)[cell viewWithTag:INTEREST_USER_NICKNAME_TAG];

@@ -19,8 +19,6 @@
 #define RESPONSE_BUTTON_TAG 6
 
 #define BG_PNG @"zber_item_bg.png"
-#define POST_DEFAULT_PIC @"none_img.png"
-#define USER_DEFAULT_LOGO @"none_img.png"
 
 #define NORMAL_RESP_BUTTON_IMAGE @"zber_xy_btn_link.png"
 #define HIGHLIGHT_RESP_BUTTON_IMAGE @"zber_xy_btn_hover.png"

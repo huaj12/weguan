@@ -14,6 +14,7 @@
 #import "Profession.h"
 #import "Province.h"
 #import "City.h"
+#import "UrlUtils.h"
 
 @interface BaseData (Private)
 
@@ -43,7 +44,7 @@ static BaseData *baseData;
     BaseData *baseData = [BaseData sharedData];
     if(!baseData.categoryArray){
         //http load
-        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/categoryList" withParams:nil];
+        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"categoryList"] withParams:nil];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             // Use when fetching text data
@@ -74,7 +75,7 @@ static BaseData *baseData;
     BaseData *baseData = [BaseData sharedData];
     if(!baseData.professionArray){
         //http load
-        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/professionList" withParams:nil];
+        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"professionList"] withParams:nil];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             // Use when fetching text data
@@ -105,7 +106,7 @@ static BaseData *baseData;
     BaseData *baseData = [BaseData sharedData];
     if(!baseData.provinceArray){
         //http load
-        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/provinceCityList" withParams:nil];
+        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"provinceCityList"] withParams:nil];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             // Use when fetching text data

@@ -12,7 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UserView.h"
 #import "HomeViewController.h"
-#import "BaseData.h"
+#import "Constant.h"
 
 @implementation SmsListCell
 
@@ -73,14 +73,14 @@
     _dialogView = dialogView;
     
     //头像
-    userLogoView.image = [UIImage imageNamed:@""];
+    userLogoView.image = [UIImage imageNamed:FACE_LOADING_IMG];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     NSURL *imageURL = [NSURL URLWithString:_dialogView.targetUser.smallLogo];
     [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
         userLogoView.image = image;
         userLogoView.layer.shouldRasterize = YES;
         userLogoView.layer.masksToBounds = YES;
-        userLogoView.layer.cornerRadius = 3.0;
+        userLogoView.layer.cornerRadius = 5.0;
     } failure:nil];
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoClick:)];
     [userLogoView addGestureRecognizer:singleTap];

@@ -7,6 +7,7 @@
 //
 
 #import "ProfileSettingViewController.h"
+#import "UrlUtils.h"
 
 @interface ProfileSettingViewController ()
 
@@ -40,7 +41,7 @@
 }
 
 - (NSString *)postUrl{
-    return @"http://test.51juzhai.com/app/ios/profile/save";
+    return [UrlUtils urlStringWithUri:@"save"];
 }
 
 #pragma mark -

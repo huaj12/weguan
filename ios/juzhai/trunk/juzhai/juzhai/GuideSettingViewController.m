@@ -11,6 +11,7 @@
 #import "MessageShow.h"
 #import "CustomButton.h"
 #import "MBProgressHUD.h"
+#import "UrlUtils.h"
 
 @interface GuideSettingViewController ()
 
@@ -70,7 +71,7 @@
 }
 
 - (NSString *)postUrl{
-    return @"http://test.51juzhai.com/app/ios/profile/guide";
+    return [UrlUtils urlStringWithUri:@"profile/guide"];
 }
 
 - (void)saveSuccess{
@@ -82,7 +83,6 @@
 }
 
 -(void)doLogout{
-    sleep(1);
     [LoginService logout];
     //跳转到登录
     self.view.window.rootViewController = [LoginService loginTurnToViewController];

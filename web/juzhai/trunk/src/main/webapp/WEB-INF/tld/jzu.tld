@@ -93,6 +93,12 @@
     	<function-signature>java.lang.String cleanString(java.lang.String)</function-signature>
     	<example>${jzu:cleanString('"')}</example>
     </function>
+	<function>
+    	<name>getLink</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.String getLink(java.lang.String)</function-signature>
+    	<example>${jzu:getLink('"')}</example>
+    </function>    
     
     
 </taglib>

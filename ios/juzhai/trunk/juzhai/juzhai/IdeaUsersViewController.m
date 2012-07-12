@@ -174,26 +174,26 @@
 //    CFRelease(fontRef);
     
     UILabel * label1 = [[UILabel alloc] init];
-    label1.frame = CGRectMake(10, 0, 22, TABLE_HEAD_HEIGHT);
+    label1.frame = CGRectMake(10, 0, 24, TABLE_HEAD_HEIGHT);
     label1.backgroundColor = [UIColor clearColor];
-    label1.font=[UIFont fontWithName:DEFAULT_FONT_FAMILY size:11];
+    label1.font=[UIFont fontWithName:DEFAULT_FONT_FAMILY size:12];
     label1.textColor = [UIColor blackColor];
     label1.text = @"想去";
     
     UILabel * label2 = [[UILabel alloc] init];
     label2.backgroundColor = [UIColor clearColor];
-    label2.font=[UIFont fontWithName:DEFAULT_FONT_FAMILY size:11];
+    label2.font=[UIFont fontWithName:DEFAULT_FONT_FAMILY size:12];
     label2.textColor = [UIColor blueColor];
     label2.text = self.ideaView.content;
-    CGSize label2Size = [label2.text sizeWithFont:label2.font constrainedToSize:CGSizeMake(222.0, TABLE_HEAD_HEIGHT) lineBreakMode:UILineBreakModeTailTruncation];
+    CGSize label2Size = [label2.text sizeWithFont:label2.font constrainedToSize:CGSizeMake(240.0, TABLE_HEAD_HEIGHT) lineBreakMode:UILineBreakModeTailTruncation];
     label2.frame = CGRectMake(39, 0, label2Size.width, TABLE_HEAD_HEIGHT);
     
     UILabel * label3 = [[UILabel alloc] init];
     label3.backgroundColor = [UIColor clearColor];
-    label3.font=[UIFont fontWithName:DEFAULT_FONT_FAMILY size:11];
+    label3.font=[UIFont fontWithName:DEFAULT_FONT_FAMILY size:12];
     label3.textColor = [UIColor blackColor];
     label3.text = @"的人";
-    label3.frame = CGRectMake(label2.frame.origin.x + label2.frame.size.width + 5, 0, 22, TABLE_HEAD_HEIGHT);
+    label3.frame = CGRectMake(label2.frame.origin.x + label2.frame.size.width + 5, 0, 24, TABLE_HEAD_HEIGHT);
     
     UIView *borderView = [[UIView alloc] initWithFrame:CGRectMake(0, TABLE_HEAD_HEIGHT - 1, 320, 1)];
     [borderView setBackgroundColor:[UIColor colorWithRed:0.78f green:0.78f blue:0.78f alpha:1.00f]];

@@ -86,6 +86,7 @@
 									<double key="NSSize">12</double>
 									<int key="NSfFlags">16</int>
 								</object>
+								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
 							<object class="IBUILabel" id="213079748">
 								<reference key="NSNextResponder" ref="194232195"/>
@@ -107,6 +108,7 @@
 								<float key="IBUIMinimumFontSize">10</float>
 								<reference key="IBUIFontDescription" ref="934573528"/>
 								<reference key="IBUIFont" ref="750430290"/>
+								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
 							<object class="IBUIButton" id="350148634">
 								<reference key="NSNextResponder" ref="194232195"/>

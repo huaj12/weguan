@@ -144,7 +144,7 @@
     [postTableView setTableFooterView:view];
     
     postCountLabel.backgroundColor = [UIColor colorWithPatternImage: [UIImage imageNamed: TABLE_HEAD_BG_IMAGE]];
-    postCountLabel.font=[UIFont fontWithName:DEFAULT_FONT_FAMILY size:11];
+    postCountLabel.font=[UIFont fontWithName:DEFAULT_FONT_FAMILY size:12];
     postCountLabel.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];
     
     //设置分割线

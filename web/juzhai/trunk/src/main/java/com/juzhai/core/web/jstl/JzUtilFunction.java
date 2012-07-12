@@ -234,4 +234,14 @@ public class JzUtilFunction {
 			return str;
 		}
 	}
+
+	public static String getLink(String link) {
+		if (StringUtils.isNotEmpty(link)) {
+			if (!link.trim().startsWith("http://")) {
+				link = "http://" + link.trim();
+			}
+		}
+		return link;
+	}
+
 }

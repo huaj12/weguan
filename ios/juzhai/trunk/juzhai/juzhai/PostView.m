@@ -21,7 +21,7 @@
 @synthesize respCnt;
 @synthesize hasResp;
 
-+ (id) postConvertFromDictionary:(NSDictionary *)info{
++ (id) convertFromDictionary:(NSDictionary *)info{
     PostView *post = [PostView alloc];
     post.postId = [info valueForKey:@"postId"];
     post.purpose = [info valueForKey:@"purpose"];

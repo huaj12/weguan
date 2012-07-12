@@ -19,6 +19,7 @@
 #import "PostDetailViewController.h"
 #import "Pager.h"
 #import "PagerCell.h"
+#import "SendPostBarButtonItem.h"
 
 @interface UserViewController (Private)
 
@@ -58,6 +59,8 @@
     [_genderButton setBackgroundImage:activeGenderImage forState:UIControlStateHighlighted];
     [_genderButton addTarget:self action:@selector(selectGender:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: _genderButton];
+    
+    self.navigationItem.leftBarButtonItem = [[SendPostBarButtonItem alloc] initWithOwnerViewController:self];
     
     //隐藏下方线条
     UIView *view = [UIView new];
@@ -143,7 +146,7 @@
                 }
                 NSMutableArray *userViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"userViewList"];
                 for (int i = 0; i < userViewList.count; i++) {
-                    UserView *userView = [UserView userConvertFromDictionary:[userViewList objectAtIndex:i]];
+                    UserView *userView = [UserView convertFromDictionary:[userViewList objectAtIndex:i]];
                     [_data addObject:userView withIdentity:userView.uid];
                 }
                 [self.tableView reloadData];
@@ -234,13 +237,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
     static NSString *UserListCellIdentifier = @"UserListCellIdentifier";
     UserListCell * cell = (UserListCell *)[tableView dequeueReusableCellWithIdentifier:UserListCellIdentifier];
     if(cell == nil){
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"UserListCell" owner:self options:nil];
-        for(id oneObject in nib){
-            if([oneObject isKindOfClass:[UserListCell class]]){
-                cell = (UserListCell *) oneObject;
-            }
-        }
-        [cell setBackground];
+        cell = [UserListCell cellFromNib];
     }
     UserView *userView = (UserView *)[_data objectAtIndex:indexPath.row];
     [cell redrawn:userView];

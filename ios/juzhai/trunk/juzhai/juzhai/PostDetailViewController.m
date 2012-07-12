@@ -85,19 +85,7 @@
     
     userInfoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
     userInfoLabel.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];
-    NSMutableString *info = [NSMutableString stringWithCapacity:0];
-    if(![userView.birthYear isEqual:[NSNull null]]){
-        NSDate *now = [NSDate date];
-        NSCalendar *cal = [NSCalendar currentCalendar];
-        unsigned int unitFlags = NSYearCalendarUnit;
-        NSDateComponents *dd = [cal components:unitFlags fromDate:now];
-        int age = [dd year] - userView.birthYear.intValue;
-        [info appendFormat:@"%d岁 ", age];
-    }
-    if(![userView.constellation isEqual:[NSNull null]]){
-        [info appendFormat:@"%@", userView.constellation];
-    }
-    userInfoLabel.text = info;
+    userInfoLabel.text = [userView basicInfo];
     
     contentLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:15.0];
     contentLabel.textColor = [UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f];
@@ -162,8 +150,9 @@
         NSURL *imageURL = [NSURL URLWithString:userView.post.bigPic];
         [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
             float height = image.size.height;
+            float width = image.size.width;
             postImageView.image = image;
-            [postImageView setFrame:CGRectMake(postImageView.frame.origin.x, postImageView.frame.origin.y, postImageView.frame.size.width, height/2)];
+            [postImageView setFrame:CGRectMake(postImageView.frame.origin.x, postImageView.frame.origin.y, width/2, height/2)];
             postImageView.layer.shouldRasterize = YES;
             postImageView.layer.masksToBounds = YES;
             postImageView.layer.cornerRadius = 5.0;
@@ -203,12 +192,10 @@
 }
 
 - (IBAction)goToUserHome:(id)sender{
-//    if (_homeViewController == nil) {
-        _homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-        _homeViewController.hidesBottomBarWhenPushed = YES;
-//    }
-    _homeViewController.userView = self.userView;
-    [self.navigationController pushViewController:_homeViewController animated:YES];
+    HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+    homeViewController.hidesBottomBarWhenPushed = YES;
+    homeViewController.userView = self.userView;
+    [self.navigationController pushViewController:homeViewController animated:YES];
 }
 
 - (IBAction)respPost:(id)sender{

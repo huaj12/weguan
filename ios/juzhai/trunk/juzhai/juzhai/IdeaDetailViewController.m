@@ -16,6 +16,7 @@
 #import "HttpRequestSender.h"
 #import "MBProgressHUD.h"
 #import "MessageShow.h"
+#import "IdeaUsersViewController.h"
 
 @interface IdeaDetailViewController ()
 - (CGFloat) getViewOriginY:(UIView *)view byUpperView:(UIView *)upperView heightGap:(float)heightGap;
@@ -39,6 +40,8 @@
 @synthesize moreButton;
 @synthesize postIdeaButton;
 @synthesize shareButton;
+@synthesize separatorView2;
+@synthesize showUsersButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -107,6 +110,23 @@
     
     [shareButton setFrame:CGRectMake(shareButton.frame.origin.x, [self getViewOriginY:shareButton byUpperView:separatorView heightGap:IDEA_DEFAULT_HEIGHT_GAP], shareButton.frame.size.width, shareButton.frame.size.height)];
     
+    if (ideaView.useCount.intValue > 0) {
+        //有xxx人想去
+        self.separatorView2.hidden = NO;
+        self.showUsersButton.hidden = NO;
+        separatorView2.backgroundColor = [UIColor colorWithRed:0.87f green:0.87f blue:0.87f alpha:1.00f];
+        [separatorView2 setFrame:CGRectMake(separatorView2.frame.origin.x, [self getViewOriginY:separatorView2 byUpperView:postIdeaButton heightGap:IDEA_DEFAULT_HEIGHT_GAP], separatorView2.frame.size.width, separatorView2.frame.size.height)];
+        [showUsersButton setFrame:CGRectMake(showUsersButton.frame.origin.x, [self getViewOriginY:showUsersButton byUpperView:separatorView2 heightGap:IDEA_DEFAULT_HEIGHT_GAP], showUsersButton.frame.size.width, showUsersButton.frame.size.height)];
+//        [showUsersButton setTitle:[NSString stringWithFormat:@"共％d人想去", 11] forStat];
+        [showUsersButton setTitle:[NSString stringWithFormat:@"共%d人想去", ideaView.useCount.intValue] forState:UIControlStateNormal];
+        [showUsersButton setTitleColor:[UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f] forState:UIControlStateNormal];
+        [showUsersButton setTitleColor:[UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f] forState:UIControlStateHighlighted];
+        showUsersButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:13.0];
+    } else {
+        self.separatorView2.hidden = YES;
+        self.showUsersButton.hidden = YES;
+    }
+    
     if(!imageView.hidden){
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
         NSURL *imageURL = [NSURL URLWithString:ideaView.bigPic];
@@ -135,7 +155,8 @@
 }
 
 - (void) resetViewFrame{
-    [infoView setFrame:CGRectMake(infoView.frame.origin.x, [self getViewOriginY:infoView byUpperView:imageView heightGap:IDEA_DEFAULT_HEIGHT_GAP], infoView.frame.size.width, postIdeaButton.frame.origin.y + postIdeaButton.frame.size.height + IDEA_DEFAULT_HEIGHT_GAP)];
+    CGFloat infoViewHeight = (showUsersButton.hidden ? (postIdeaButton.frame.origin.y + postIdeaButton.frame.size.height) : (showUsersButton.frame.origin.y + showUsersButton.frame.size.height)) + IDEA_DEFAULT_HEIGHT_GAP;
+    [infoView setFrame:CGRectMake(infoView.frame.origin.x, [self getViewOriginY:infoView byUpperView:imageView heightGap:IDEA_DEFAULT_HEIGHT_GAP], infoView.frame.size.width, infoViewHeight)];
     
     [contentView setContentSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, infoView.frame.origin.y + infoView.frame.size.height)];
 }
@@ -167,7 +188,7 @@
     hud.labelText = @"操作中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:ideaView.ideaId, @"ideaId", nil];
-        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/postIdea" withParams:params];
+        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/sendPost" withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             [MBProgressHUD hideHUDForView:self.contentView animated:YES];
@@ -198,6 +219,13 @@
         }];
         [request startAsynchronous];
     });
+}
+
+- (IBAction)showUsedUsers:(id)sender
+{
+    IdeaUsersViewController *ideaUsersViewController = [[IdeaUsersViewController alloc] initWithStyle:UITableViewStylePlain];
+    ideaUsersViewController.ideaView = ideaView;
+    [self.navigationController pushViewController:ideaUsersViewController animated:YES];
 }
 
 @end

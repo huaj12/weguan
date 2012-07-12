@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ListCell.h"
 @class IdeaView;
 
 #define IDEA_IMAGE_TAG 1
@@ -19,14 +20,14 @@
 #define DISABLE_WANT_BUTTON_IMAGE @"idea_wgo_btn_done.png"
 #define WANT_BUTTON_CAP_WIDTH 26.0
 
-@interface IdeaListCell : UITableViewCell
+@interface IdeaListCell : UITableViewCell <ListCell>
 {
     IdeaView *_ideaView;
 }
 
-- (void) redrawn:(IdeaView *)ideaView;
-- (void) setBackground;
-+ (CGFloat) heightForCell:(IdeaView *)IdeaView;
+//- (void) redrawn:(IdeaView *)ideaView;
+//- (void) setBackground;
+//+ (CGFloat) heightForCell:(IdeaView *)IdeaView;
 
 - (IBAction)wantGo:(id)sender;
 

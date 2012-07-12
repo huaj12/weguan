@@ -15,6 +15,8 @@
 @synthesize nickname;
 @synthesize gender;
 @synthesize logo;
+@synthesize smallLogo;
+@synthesize bigLogo;
 @synthesize rawLogo;
 @synthesize logoVerifyState;
 @synthesize birthYear;
@@ -34,22 +36,25 @@
 @synthesize interestMeCount;
 @synthesize interestUserCount;
 @synthesize hasGuided;
+@synthesize hasInterest;
 
-+ (id) userConvertFromDictionary:(NSDictionary *)info{
++ (id) convertFromDictionary:(NSDictionary *)info{
     UserView *user = [UserView alloc];
-    [user updateUserInfo:info];
+    [user updateFromDictionary:info];
     NSDictionary *postInfo = [info valueForKey:@"postView"];
     if(![postInfo isEqual:[NSNull null]]){
-        user.post = [PostView postConvertFromDictionary:postInfo];
+        user.post = [PostView convertFromDictionary:postInfo];
     }
     return user;
 }
 
-- (void) updateUserInfo:(NSDictionary *)info{
+- (void) updateFromDictionary:(NSDictionary *)info{
     self.uid = [info valueForKey:@"uid"];
     self.nickname = [info valueForKey:@"nickname"];
     self.gender = [info valueForKey:@"gender"];
     self.logo = [info valueForKey:@"logo"];
+    self.smallLogo = [info valueForKey:@"smallLogo"];
+    self.bigLogo = [info valueForKey:@"bigLogo"];
     self.rawLogo = [info valueForKey:@"newLogo"];
     self.logoVerifyState = [info valueForKey:@"logoVerifyState"];
     self.birthYear = [info valueForKey:@"birthYear"];
@@ -68,6 +73,24 @@
     self.interestUserCount = [info valueForKey:@"interestUserCount"];
     self.interestMeCount = [info valueForKey:@"interestMeCount"];
     self.hasGuided = [info valueForKey:@"hasGuided"];
+    self.hasInterest = [info valueForKey:@"hasInterest"];
+}
+
+- (NSString *)basicInfo
+{
+    NSMutableString *info = [NSMutableString stringWithCapacity:0];
+    if(![self.birthYear isEqual:[NSNull null]]){
+        NSDate *now = [NSDate date];
+        NSCalendar *cal = [NSCalendar currentCalendar];
+        unsigned int unitFlags = NSYearCalendarUnit;
+        NSDateComponents *dd = [cal components:unitFlags fromDate:now];
+        int age = [dd year] - self.birthYear.intValue;
+        [info appendFormat:@"%d岁 ", age];
+    }
+    if(![self.constellation isEqual:[NSNull null]]){
+        [info appendFormat:@"%@", self.constellation];
+    }
+    return info;
 }
 
 @end

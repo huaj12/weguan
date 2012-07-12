@@ -14,12 +14,12 @@
 @class InterestUserViewController;
 
 #define INTEREST_COUNT_BUTTON_IMAGE @"my_jz_fans_btn.png"
+#define INTEREST_COUNT_BUTTON_HIGHLIGHT_IMAGE @"my_jz_fans_btn_hover.png"
 #define INTEREST_COUNT_BUTTON_CAP_WIDTH 4.0
-#define TABLE_HEAD_HEIGHT 25.0
 #define TABLE_HEAD_BG_IMAGE @"my_jz_title_bg.png"
 #define TABLE_HEAD_TITLE @"    共 %d 条拒宅"
 
-@interface HomeViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface HomeViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
 {
     JZData *_data;
     BOOL _isMe;
@@ -38,9 +38,13 @@
 @property (strong, nonatomic) IBOutlet UIButton *sendPostButton;
 @property (strong, nonatomic) IBOutlet UITableView *postTableView;
 @property (strong, nonatomic) IBOutlet UIButton *editorButton;
+@property (strong, nonatomic) IBOutlet UIButton *interestButton;
+@property (strong, nonatomic) IBOutlet UIButton *cancelInterestButton;
 
 - (IBAction)editor:(id)sender;
 - (IBAction)goInterestList:(id)sender;
 - (IBAction)goInterestMeList:(id)sender;
+- (IBAction)interestUser:(id)sender;
+- (IBAction)cancelInterestUser:(id)sender;
 
 @end

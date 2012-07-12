@@ -32,7 +32,7 @@
     }
     LoginUser *loginUser = [[LoginUser alloc] initWithAccount:account password:password];
     //Http请求
-    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:loginUser.account, @"account", loginUser.password, @"password", [NSNumber numberWithBool:YES], @"remember", nil];
+    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:loginUser.account, @"account", loginUser.password, @"password", [NSNumber numberWithBool:NO], @"remember", nil];
     ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/login" withParams:params];
     [request startSynchronous];
     NSError *error = [request error];
@@ -41,7 +41,7 @@
         NSMutableDictionary *jsonResult = [response JSONValue];
         if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
             //登录成功
-            [UserContext setUserView:[UserView userConvertFromDictionary:[jsonResult valueForKey:@"result"]]];
+            [UserContext setUserView:[UserView convertFromDictionary:[jsonResult valueForKey:@"result"]]];
             [loginUser save];
             return nil;
         }else{
@@ -64,7 +64,7 @@
         NSMutableDictionary *jsonResult = [response JSONValue];
         if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
             //登录成功
-            [UserContext setUserView:[UserView userConvertFromDictionary:[jsonResult valueForKey:@"result"]]];
+            [UserContext setUserView:[UserView convertFromDictionary:[jsonResult valueForKey:@"result"]]];
             return nil;
         }else{
             return [jsonResult valueForKey:@"errorInfo"];

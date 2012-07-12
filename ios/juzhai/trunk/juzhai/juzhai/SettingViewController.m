@@ -197,7 +197,7 @@
          if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
              //保存成功
              _saveButton.enabled = NO;
-             [[UserContext getUserView] updateUserInfo:[jsonResult valueForKey:@"result"]];
+             [[UserContext getUserView] updateFromDictionary:[jsonResult valueForKey:@"result"]];
              hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
              hud.mode = MBProgressHUDModeCustomView;
              hud.labelText = @"保存成功";

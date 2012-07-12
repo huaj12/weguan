@@ -30,7 +30,8 @@
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0){
         UIImage *navbgpic = [[UIImage imageNamed:TOP_BG_PIC_NAME] resizableImageWithCapInsets:UIEdgeInsetsMake(0,0,0,0)];
         [self.navigationBar setBackgroundImage:navbgpic forBarMetrics:UIBarMetricsDefault];
-    }else{
+    }
+//    else{
         // Override point for customization after application launch.
 //        UIImageView* imageView = [[UIImageView alloc] initWithFrame:self.navigationBar.frame];
 //        imageView.contentMode = UIViewContentModeLeft;
@@ -39,7 +40,7 @@
 //        UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:TOP_BG_PIC_NAME]]; 
 //        [self.navigationBar insertSubview:backgroundView atIndex:0];
 //        self.navigationBar.barStyle. = backgroundView;
-    }
+//    }
 }
 
 - (void)viewDidUnload
@@ -111,7 +112,7 @@
 @end
 
 @implementation UINavigationBar (CustomImage2)   
-- (void)drawRect:(CGRect)rect {   
+- (void)drawRect:(CGRect)rect {
     UIImage *image = [UIImage imageNamed:TOP_BG_PIC_NAME];    
     [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];   
 } 

@@ -24,6 +24,8 @@
 #import "Pager.h"
 #import "InterestUserViewController.h"
 #import "PagerCell.h"
+#import "SendPostBarButtonItem.h"
+#import "MessageShow.h"
 
 @interface HomeViewController ()
 
@@ -40,6 +42,8 @@
 @synthesize postTableView;
 @synthesize editorButton;
 @synthesize postCountLabel;
+@synthesize interestButton;
+@synthesize cancelInterestButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -104,7 +108,7 @@
                 }
                 NSMutableArray *postViewList = [result valueForKey:@"postViewList"];
                 for (int i = 0; i < postViewList.count; i++) {
-                    PostView *postView = [PostView postConvertFromDictionary:[postViewList objectAtIndex:i]];
+                    PostView *postView = [PostView convertFromDictionary:[postViewList objectAtIndex:i]];
                     [_data addObject:postView withIdentity:postView.postId];
                 }
                 postCountLabel.text = [NSString stringWithFormat:TABLE_HEAD_TITLE, _data.pager.totalResults];
@@ -126,11 +130,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     postTableView.delegate = self;
     postTableView.dataSource = self;
     postTableView.separatorColor = [UIColor greenColor];
     if (_userView != nil) {
         postTableView.superview.frame = CGRectMake(postTableView.superview.frame.origin.x, postTableView.superview.frame.origin.y, postTableView.superview.frame.size.width, postTableView.superview.frame.size.height + 50);
+    } else {
+        self.navigationItem.leftBarButtonItem = [[SendPostBarButtonItem alloc] initWithOwnerViewController:self];
     }
     UIView *view = [UIView new];
     view.backgroundColor = [UIColor clearColor];
@@ -156,6 +163,8 @@
         self.title = [NSString stringWithFormat:@"%@的拒宅", _userView.nickname];
         self.sendPostButton.enabled = NO;
         self.sendPostButton.hidden = YES;
+    }else {
+        self.title = [NSString stringWithFormat:@"我的拒宅"];
     }
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     NSURL *imageURL = [NSURL URLWithString:(_isMe ? _userView.rawLogo : _userView.logo)];
@@ -176,35 +185,56 @@
     
     if (_isMe) {
         UIImage *interestCountImage = [[UIImage imageNamed:INTEREST_COUNT_BUTTON_IMAGE]stretchableImageWithLeftCapWidth:INTEREST_COUNT_BUTTON_CAP_WIDTH topCapHeight:0.0];
+        UIImage *interestCountHighlightImage = [[UIImage imageNamed:INTEREST_COUNT_BUTTON_HIGHLIGHT_IMAGE]stretchableImageWithLeftCapWidth:INTEREST_COUNT_BUTTON_CAP_WIDTH topCapHeight:0.0];
         
         interestUserCountButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
         [interestUserCountButton setTitle:[NSString stringWithFormat:@"关注 %d", _userView.interestUserCount.intValue] forState:UIControlStateNormal];
         [interestUserCountButton setTitleColor:[UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f] forState:UIControlStateNormal];
+        [interestUserCountButton setTitleColor:[UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f] forState:UIControlStateHighlighted];
         CGSize interestUserCountButtonSize = [[interestUserCountButton titleForState:UIControlStateNormal] sizeWithFont:interestUserCountButton.titleLabel.font];
         interestUserCountButton.frame = CGRectMake(interestUserCountButton.frame.origin.x, interestUserCountButton.frame.origin.y, interestUserCountButtonSize.width + 24.0, interestUserCountButton.frame.size.height);
         [interestUserCountButton setBackgroundImage:interestCountImage forState:UIControlStateNormal];
-        interestUserCountButton.hidden = NO;
-        interestUserCountButton.enabled = YES;
+        [interestUserCountButton setBackgroundImage:interestCountHighlightImage forState:UIControlStateHighlighted];
         
         interestMeCountButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
         [interestMeCountButton setTitle:[NSString stringWithFormat:@"粉丝 %d", _userView.interestMeCount.intValue] forState:UIControlStateNormal];
         [interestMeCountButton setTitleColor:[UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f] forState:UIControlStateNormal];
+        [interestMeCountButton setTitleColor:[UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f] forState:UIControlStateHighlighted];
         CGSize interestMeCountButtonSize = [[interestMeCountButton titleForState:UIControlStateNormal] sizeWithFont:interestMeCountButton.titleLabel.font];
         interestMeCountButton.frame = CGRectMake(interestUserCountButton.frame.origin.x + interestUserCountButton.frame.size.width + 10.0, interestMeCountButton.frame.origin.y, interestMeCountButtonSize.width + 24.0, interestMeCountButton.frame.size.height);
         [interestMeCountButton setBackgroundImage:interestCountImage forState:UIControlStateNormal];
+        [interestMeCountButton setBackgroundImage:interestCountHighlightImage forState:UIControlStateHighlighted];
+        
+        interestUserCountButton.hidden = NO;
+        interestUserCountButton.enabled = YES;
         interestMeCountButton.hidden = NO;
         interestMeCountButton.enabled = YES;
-        
         editorButton.hidden = NO;
         editorButton.enabled = YES;
+        
+        interestButton.hidden = YES;
+        interestButton.enabled = NO;
+        cancelInterestButton.hidden = YES;
+        cancelInterestButton.enabled = NO;
     } else {
         interestUserCountButton.hidden = YES;
         interestUserCountButton.enabled = NO;
         interestMeCountButton.hidden = YES;
         interestMeCountButton.enabled = NO;
-        
         editorButton.hidden = YES;
         editorButton.enabled = NO;
+        
+        if ([self.userView.hasInterest boolValue]) {
+            cancelInterestButton.hidden = NO;
+            cancelInterestButton.enabled = YES;
+            interestButton.hidden = YES;
+            interestButton.enabled = NO;
+        }else {            
+            cancelInterestButton.hidden = YES;
+            cancelInterestButton.enabled = NO;
+            interestButton.hidden = NO;
+            interestButton.enabled = YES;
+        }
     }
 }
 
@@ -251,6 +281,96 @@
     }
 }
 
+- (IBAction)interestUser:(id)sender
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"操作中...";
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:_userView.uid, @"uid", nil];
+        __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/interest" withParams:params];
+//        __unsafe_unretained ASIHTTPRequest *request = _request;
+        [request setCompletionBlock:^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            NSString *responseString = [request responseString];
+            NSMutableDictionary *jsonResult = [responseString JSONValue];
+            if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
+                _userView.hasInterest = [NSNumber numberWithInt:1];
+                interestButton.hidden = YES;
+                interestButton.enabled = NO;
+                cancelInterestButton.hidden = NO;
+                cancelInterestButton.enabled = YES;
+                hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.labelText = @"关注成功";
+                [hud hide:YES afterDelay:1];
+                return;
+            }
+            NSString *errorInfo = [jsonResult valueForKey:@"errorInfo"];
+            NSLog(@"%@", errorInfo);
+            if (errorInfo == nil || [errorInfo isEqual:[NSNull null]] || [errorInfo isEqualToString:@""]) {
+                errorInfo = SERVER_ERROR_INFO;
+            }
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MessageShow error:errorInfo onView:self.view];
+        }];
+        [request setFailedBlock:^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MessageShow error:SERVER_ERROR_INFO onView:self.view];
+        }];
+        [request startAsynchronous];
+    });
+}
+
+- (IBAction)cancelInterestUser:(id)sender
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"确定取消关注？" delegate:self cancelButtonTitle:@"返回" otherButtonTitles:@"确定", nil];
+    [alertView show];
+}
+
+#pragma mark -
+#pragma mark Alert Delegate
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.labelText = @"操作中...";
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:_userView.uid, @"uid", nil];
+            __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/removeInterest" withParams:params];
+            //        __unsafe_unretained ASIHTTPRequest *request = _request;
+            [request setCompletionBlock:^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                NSString *responseString = [request responseString];
+                NSMutableDictionary *jsonResult = [responseString JSONValue];
+                if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
+                    _userView.hasInterest = [NSNumber numberWithInt:0];
+                    cancelInterestButton.hidden = YES;
+                    cancelInterestButton.enabled = NO;
+                    interestButton.hidden = NO;
+                    interestButton.enabled = YES;
+                    hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+                    hud.mode = MBProgressHUDModeCustomView;
+                    hud.labelText = @"取消成功";
+                    [hud hide:YES afterDelay:1];
+                    return;
+                }
+                NSString *errorInfo = [jsonResult valueForKey:@"errorInfo"];
+                NSLog(@"%@", errorInfo);
+                if (errorInfo == nil || [errorInfo isEqual:[NSNull null]] || [errorInfo isEqualToString:@""]) {
+                    errorInfo = SERVER_ERROR_INFO;
+                }
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MessageShow error:errorInfo onView:self.view];
+            }];
+            [request setFailedBlock:^{
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MessageShow error:SERVER_ERROR_INFO onView:self.view];
+            }];
+            [request startAsynchronous];
+        });
+    }
+}
+
 #pragma mark -
 #pragma mark Table View Data Source
 
@@ -269,13 +389,7 @@
     NSString *postListCellIdentifier = @"PostListCellIdentifier";
     PostListCell *cell = [tableView dequeueReusableCellWithIdentifier:postListCellIdentifier];
     if(cell == nil){
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"PostListCell" owner:self options:nil];
-        for(id oneObject in nib){
-            if([oneObject isKindOfClass:[PostListCell class]]){
-                cell = (PostListCell *) oneObject;
-            }
-        }
-        [cell setBackground];
+        cell = [PostListCell cellFromNib];
     }
     
     PostView *postView = (PostView *)[_data objectAtIndex:indexPath.row];

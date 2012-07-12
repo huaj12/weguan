@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DataView.h"
 
-@interface IdeaView : NSObject
+@interface IdeaView : NSObject <DataView>
 
 @property (strong,nonatomic) NSDecimalNumber *ideaId;
 @property (strong,nonatomic) NSString *content;
@@ -23,8 +24,6 @@
 @property (strong,nonatomic) NSString *pic;
 @property (strong,nonatomic) NSString *bigPic;
 @property (strong,nonatomic) NSNumber *hasUsed;
-
-+ (id) ideaConvertFromDictionary:(NSDictionary *)info;
 
 - (BOOL) hasPlace;
 - (BOOL) hasTime;

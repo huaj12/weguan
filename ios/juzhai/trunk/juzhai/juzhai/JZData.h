@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@class Pager;
+#import "Pager.h"
 
 @interface JZData : NSObject
 {
@@ -23,4 +22,5 @@
 - (void)addObject:(id)object withIdentity:(id)identity;
 - (void)clear;
 - (id)objectAtIndex:(NSUInteger)index;
+- (NSInteger) cellRows;
 @end

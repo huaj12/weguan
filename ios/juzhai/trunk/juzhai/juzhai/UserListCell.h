@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ListCell.h"
 
 @class UserView;
 
@@ -27,14 +28,14 @@
 #define WANT_BUTTON_CAP_WIDTH 26.0
 #define BG_CAP_HEIHGT 20.0
 
-@interface UserListCell : UITableViewCell
+@interface UserListCell : UITableViewCell <ListCell>
 {
     UserView *_userView;
 }
 
-- (void) redrawn:(UserView *)userView;
-- (void) setBackground;
-+ (CGFloat) heightForCell:(UserView *)userView;
+//- (void) redrawn:(UserView *)userView;
+//- (void) setBackground;
+//+ (CGFloat) heightForCell:(UserView *)userView;
 
 -(IBAction)respPost:(id)sender;
 

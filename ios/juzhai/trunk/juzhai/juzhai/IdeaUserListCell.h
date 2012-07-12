@@ -18,6 +18,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *userLogoView;
 @property (strong, nonatomic) IBOutlet UILabel *nicknameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *infoLabel;
+@property (strong, nonatomic) IBOutlet UIButton *sendDateButton;
 
 - (IBAction)dateHim:(id)sender;
 

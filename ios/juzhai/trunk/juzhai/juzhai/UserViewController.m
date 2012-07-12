@@ -20,6 +20,7 @@
 #import "Pager.h"
 #import "PagerCell.h"
 #import "SendPostBarButtonItem.h"
+#import "UrlUtils.h"
 
 @interface UserViewController (Private)
 
@@ -120,13 +121,12 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        sleep(1);
         NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"time", @"orderType", [NSNumber numberWithInt:page], @"page", nil];
         NSInteger gender = _genderButton.tag;
         if (gender <= 1) {
             [params setObject:[NSNumber numberWithInt:gender] forKey:@"gender"];
         }
-        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/userList" withParams:params];
+        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"userList"] withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             // Use when fetching text data
@@ -258,12 +258,10 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row < [_data count]) {
-        if(_postDetailViewController == nil){
-            _postDetailViewController = [[PostDetailViewController alloc] initWithNibName:@"PostDetailViewController" bundle:nil];
-            _postDetailViewController.hidesBottomBarWhenPushed = YES;   
-        }
-        _postDetailViewController.userView = [_data objectAtIndex:indexPath.row];
-        [self.navigationController pushViewController:_postDetailViewController animated:YES];
+        PostDetailViewController *postDetailViewController = [[PostDetailViewController alloc] initWithNibName:@"PostDetailViewController" bundle:nil];
+        postDetailViewController.hidesBottomBarWhenPushed = YES;   
+        postDetailViewController.userView = [_data objectAtIndex:indexPath.row];
+        [self.navigationController pushViewController:postDetailViewController animated:YES];
     } else {
         [self loadListDataWithPage:_data.pager.currentPage + 1];
     }

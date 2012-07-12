@@ -19,11 +19,13 @@
 #import "SBJson.h"
 #import "IdeaView.h"
 #import "MBProgressHUD.h"
-#import "BaseData.h"
+#import "Constant.h"
 #import "IdeaDetailViewController.h"
 #import "Pager.h"
 #import "PagerCell.h"
 #import "SendPostBarButtonItem.h"
+#import "UrlUtils.h"
+#import "BaseData.h"
 
 @interface IdeaViewController (Private)
 - (void) loadListDataWithPage:(NSInteger)page;
@@ -138,7 +140,6 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        sleep(1);
         NSInteger categoryId = _categoryButton.tag;
         NSString *orderType;
         if(_orderButton.tag == ORDER_BY_TIME){
@@ -147,7 +148,7 @@
             orderType = @"pop";
         }
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:categoryId], @"categoryId",orderType, @"orderType", [NSNumber numberWithInt:page], @"page", nil];
-        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/ideaList" withParams:params];
+        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"ideaList"] withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             // Use when fetching text data
@@ -298,12 +299,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row < [_data count]) {
-        if(_ideaDetailViewController == nil){
-            _ideaDetailViewController = [[IdeaDetailViewController alloc] initWithNibName:@"ideaDetailViewController" bundle:nil];
-            _ideaDetailViewController.hidesBottomBarWhenPushed = YES;
-        }
-        _ideaDetailViewController.ideaView = [_data objectAtIndex:indexPath.row];
-        [self.navigationController pushViewController:_ideaDetailViewController animated:YES];
+        IdeaDetailViewController *ideaDetailViewController = [[IdeaDetailViewController alloc] initWithNibName:@"ideaDetailViewController" bundle:nil];
+        ideaDetailViewController.hidesBottomBarWhenPushed = YES;
+        ideaDetailViewController.ideaView = [_data objectAtIndex:indexPath.row];
+        [self.navigationController pushViewController:ideaDetailViewController animated:YES];
     } else {
         [self nextPage];
     }

@@ -15,6 +15,9 @@
 #import "HttpRequestSender.h"
 #import "SBJson.h"
 #import "HomeViewController.h"
+#import "CustomButton.h"
+#import "MessageShow.h"
+#import "UrlUtils.h"
 
 @interface SmsViewController ()
 
@@ -38,9 +41,8 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        sleep(1);
         NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
-        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/dialogList" withParams:params];
+        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"dialogList"] withParams:params];
 //        __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             // Use when fetching text data
@@ -73,11 +75,23 @@
     });
 }
 
+- (IBAction)toggleEdit:(id)sender{
+    [self.tableView setEditing:!self.tableView.editing animated:YES];
+    if(self.tableView.editing)
+        [_editButton setTitle:@"完成" forState:UIControlStateNormal];
+    else
+        [_editButton setTitle:@"删除" forState:UIControlStateNormal];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
     self.title = @"我的消息";
+    
+    _editButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"删除" CapLocation:CapLeftAndRight];
+    [_editButton addTarget:self action:@selector(toggleEdit:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_editButton];
     
     UIView *view = [UIView new];
     view.backgroundColor = [UIColor clearColor];
@@ -127,44 +141,46 @@
     return cell;
 }
 
-/*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    if (indexPath.row < [_data count])
+        return YES;
+    else
+        return NO;
 }
-*/
 
-/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        DialogView *dialogView = (DialogView *)[_data objectAtIndex:indexPath.row];
+        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:dialogView.dialogId], @"dialogId", nil];
+        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"deleteDialog"] withParams:params];
+        __unsafe_unretained ASIHTTPRequest *request = _request;
+        [request setCompletionBlock:^{
+            NSString *responseString = [request responseString];
+            NSMutableDictionary *jsonResult = [responseString JSONValue];
+            if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
+                NSUInteger row = [indexPath row];
+                [_data removeObjectAtIndex:row];
+                // Delete the row from the data source
+                [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                return;
+            }
+            NSString *errorInfo = [jsonResult valueForKey:@"errorInfo"];
+            NSLog(@"%@", errorInfo);
+            if (errorInfo == nil || [errorInfo isEqual:[NSNull null]] || [errorInfo isEqualToString:@""]) {
+                errorInfo = SERVER_ERROR_INFO;
+            }
+            [MessageShow error:errorInfo onView:self.view];
+        }];
+        [request setFailedBlock:^{
+            [MessageShow error:SERVER_ERROR_INFO onView:self.view];
+        }];
+        [request startAsynchronous];
     }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
 }
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 

@@ -11,13 +11,14 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UserView.h"
 #import "PostView.h"
-#import "BaseData.h"
+#import "Constant.h"
 #import "HomeViewController.h"
 #import "UserContext.h"
 #import "MBProgressHUD.h"
 #import "HttpRequestSender.h"
 #import "SBJson.h"
 #import "MessageShow.h"
+#import "UrlUtils.h"
 
 @interface PostDetailViewController ()
 - (CGFloat) getViewOriginY:(UIView *)view byUpperView:(UIView *)upperView heightGap:(float)heightGap;
@@ -60,9 +61,7 @@
     // Do any additional setup after loading the view from its nib.
     postScrollView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
     postInfoView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
-}
-
-- (void) viewWillAppear:(BOOL)animated{
+    
     _isMe = userView.uid.intValue == [UserContext getUid];
     
     //    logoView.image = [UIImage imageNamed:USER_DEFAULT_LOGO];
@@ -72,10 +71,10 @@
         logoView.image = image;
         logoView.layer.shouldRasterize = YES;
         logoView.layer.masksToBounds = YES;
-        logoView.layer.cornerRadius = 3.0;
+        logoView.layer.cornerRadius = 5.0;
     } failure:nil];
     
-    nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
+    nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
     if(userView.gender.intValue == 0){
         nicknameLabel.textColor = [UIColor colorWithRed:1.00f green:0.40f blue:0.60f alpha:1.00f];
     }else {
@@ -83,7 +82,7 @@
     }
     nicknameLabel.text = userView.nickname;
     
-    userInfoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
+    userInfoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
     userInfoLabel.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];
     userInfoLabel.text = [userView basicInfo];
     
@@ -93,7 +92,6 @@
     CGSize contentSize = [contentLabel.text sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(300.0, 300.0) lineBreakMode:UILineBreakModeCharacterWrap];
     [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, [self getViewOriginY:contentLabel byUpperView:nil heightGap:POST_DEFAULT_HEIGHT_GAP], contentSize.width, contentSize.height)];
     
-    //    postImageView.image = [UIImage imageNamed:IDEA_DEFAULT_PIC];
     [postImageView setFrame:CGRectMake(postImageView.frame.origin.x, [self getViewOriginY:postImageView byUpperView:contentLabel heightGap:POST_DEFAULT_HEIGHT_GAP], postImageView.frame.size.width, postImageView.frame.size.height)];
     [postImageView setHidden:userView.post.bigPic == nil || [userView.post.bigPic isEqual:[NSNull null]] || [userView.post.bigPic isEqualToString:@""]];
     
@@ -101,7 +99,7 @@
     timeIconView.hidden = ![userView.post hasTime];
     timeLabel.hidden = timeIconView.hidden;
     if(!timeLabel.hidden){
-        timeLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
+        timeLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
         timeLabel.text = userView.post.date;
         timeLabel.textColor = [UIColor colorWithRed:0.53f green:0.53f blue:0.53f alpha:1.00f];
         [timeLabel setFrame:CGRectMake(timeLabel.frame.origin.x, timeIconView.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)];
@@ -110,7 +108,7 @@
     addressIconView.hidden = ![userView.post hasPlace];
     addressLabel.hidden = addressIconView.hidden;
     if(!addressLabel.hidden){
-        addressLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
+        addressLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
         addressLabel.text = userView.post.place;
         addressLabel.textColor = [UIColor colorWithRed:0.53f green:0.53f blue:0.53f alpha:1.00f];
         [addressLabel setFrame:CGRectMake(addressLabel.frame.origin.x, addressIconView.frame.origin.y, addressLabel.frame.size.width, addressLabel.frame.size.height)];
@@ -119,7 +117,7 @@
     categoryIconView.hidden = ![userView.post hasCategory];
     categoryLabel.hidden = categoryIconView.hidden;
     if(!categoryLabel.hidden){
-        categoryLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
+        categoryLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
         categoryLabel.text = userView.post.categoryName;
         categoryLabel.textColor = [UIColor colorWithRed:0.53f green:0.53f blue:0.53f alpha:1.00f];
         [categoryLabel setFrame:CGRectMake(categoryLabel.frame.origin.x, categoryIconView.frame.origin.y, categoryLabel.frame.size.width, categoryLabel.frame.size.height)];
@@ -149,8 +147,8 @@
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
         NSURL *imageURL = [NSURL URLWithString:userView.post.bigPic];
         [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
-            float height = image.size.height;
-            float width = image.size.width;
+            NSInteger height = image.size.height;
+            NSInteger width = image.size.width;
             postImageView.image = image;
             [postImageView setFrame:CGRectMake(postImageView.frame.origin.x, postImageView.frame.origin.y, width/2, height/2)];
             postImageView.layer.shouldRasterize = YES;
@@ -203,7 +201,7 @@
     hud.labelText = @"操作中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:userView.post.postId, @"postId", nil];
-        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/respPost" withParams:params];
+        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"respPost"] withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             NSString *responseString = [request responseString];

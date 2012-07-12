@@ -8,7 +8,7 @@
 
 #import <CoreText/CoreText.h>
 #import "IdeaUsersViewController.h"
-#import "BaseData.h"
+#import "Constant.h"
 #import "IdeaView.h"
 #import "MBProgressHUD.h"
 #import "HttpRequestSender.h"
@@ -20,6 +20,7 @@
 #import "Pager.h"
 #import "IdeaUserListCell.h"
 #import "HomeViewController.h"
+#import "UrlUtils.h"
 
 @interface IdeaUsersViewController ()
 
@@ -84,9 +85,8 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        sleep(1);
         NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:ideaView.ideaId, @"ideaId", [NSNumber numberWithInt:page], @"page", nil];
-        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:@"http://test.51juzhai.com/app/ios/ideaUsers" withParams:params];
+        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"ideaUsers"] withParams:params];
         //        __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             // Use when fetching text data

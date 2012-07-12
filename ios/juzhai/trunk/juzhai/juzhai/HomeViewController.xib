@@ -48,6 +48,10 @@
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">face_loading.png</string>
+						</object>
 					</object>
 					<object class="IBUIView" id="427288828">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -90,6 +94,7 @@
 								<string key="NSFrame">{{115, 115}, {90, 25}}</string>
 								<reference key="NSSuperview" ref="427288828"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -731,6 +736,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="face_loading.png">{65, 65}</string>
 			<string key="guanzhu_btn_hover.png">{75, 27}</string>
 			<string key="guanzhu_btn_link.png">{75, 27}</string>
 			<string key="my_jz_send_btn_hover.png">{90, 25}</string>

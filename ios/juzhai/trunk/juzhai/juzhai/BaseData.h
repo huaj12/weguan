@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define DEFAULT_FONT_FAMILY @"MicrosoftYaHei"
-
 @interface BaseData : NSObject
 
 @property (strong,nonatomic) NSMutableArray *categoryArray;

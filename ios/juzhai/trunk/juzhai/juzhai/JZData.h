@@ -23,4 +23,5 @@
 - (void)clear;
 - (id)objectAtIndex:(NSUInteger)index;
 - (NSInteger) cellRows;
+- (void)removeObjectAtIndex:(NSUInteger)index;
 @end

@@ -23,6 +23,7 @@
 #import "HttpRequestSender.h"
 #import "MessageShow.h"
 #import "SBJson.h"
+#import "Constant.h"
 
 @interface SettingViewController (Private)
 
@@ -86,13 +87,14 @@
     if(!_saveButton.enabled){
         UserView *userView = [UserContext getUserView];
         
+        self.logoImageView.image = [UIImage imageNamed:FACE_LOADING_IMG];
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
         NSURL *imageURL = [NSURL URLWithString:userView.rawLogo];
         [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
             self.logoImageView.image = image;
             self.logoImageView.layer.shouldRasterize = YES;
             self.logoImageView.layer.masksToBounds = YES;
-            self.logoImageView.layer.cornerRadius = 3.0;
+            self.logoImageView.layer.cornerRadius = 5.0;
         } failure:nil];
         if (userView.nickname && ![userView.nickname isEqual:[NSNull null]]) {
             self.nicknameLabel.text = userView.nickname;
@@ -185,7 +187,6 @@
 }
 
 - (void)doSave:(MBProgressHUD *)hud{
-    sleep(1);
     ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[self postUrl] withParams: [self getParams]];
     [self postNewLogo:request];
      [request startSynchronous];
@@ -201,7 +202,6 @@
              hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
              hud.mode = MBProgressHUDModeCustomView;
              hud.labelText = @"保存成功";
-             sleep(1);
              [self saveSuccess];
              return;
          }else{

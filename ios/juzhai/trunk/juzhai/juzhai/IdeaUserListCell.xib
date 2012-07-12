@@ -114,7 +114,6 @@
 								<string key="NSFrame">{{255, 30}, {55, 20}}</string>
 								<reference key="NSSuperview" ref="194232195"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -223,6 +222,14 @@
 					<int key="connectionID">9</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">sendDateButton</string>
+						<reference key="source" ref="732332247"/>
+						<reference key="destination" ref="350148634"/>
+					</object>
+					<int key="connectionID">12</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">dateHim:</string>
 						<reference key="source" ref="350148634"/>
@@ -307,7 +314,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">11</int>
+			<int key="maxID">12</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -328,6 +335,7 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="infoLabel">UILabel</string>
 						<string key="nicknameLabel">UILabel</string>
+						<string key="sendDateButton">UIButton</string>
 						<string key="userLogoView">UIImageView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -338,6 +346,10 @@
 						<object class="IBToOneOutletInfo" key="nicknameLabel">
 							<string key="name">nicknameLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="sendDateButton">
+							<string key="name">sendDateButton</string>
+							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="userLogoView">
 							<string key="name">userLogoView</string>

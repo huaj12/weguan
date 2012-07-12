@@ -7,7 +7,7 @@
 //
 
 #import "PagerCell.h"
-#import "BaseData.h"
+#import "Constant.h"
 
 @implementation PagerCell
 

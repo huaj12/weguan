@@ -28,7 +28,6 @@
 }
 
 -(void)doLogout{
-    sleep(1);
     [LoginService logout];
     //跳转到登录
     self.view.window.rootViewController = [LoginService loginTurnToViewController];

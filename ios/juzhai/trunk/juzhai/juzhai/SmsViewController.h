@@ -14,6 +14,7 @@
 @interface SmsViewController : UITableViewController
 {
     JZData *_data;
+    UIButton *_editButton;
 }
 
 @end

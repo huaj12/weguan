@@ -25,7 +25,7 @@
 @synthesize bigPic;
 @synthesize hasUsed;
 
-+ (id) ideaConvertFromDictionary:(NSDictionary *)info{
++ (id) convertFromDictionary:(NSDictionary *)info{
     IdeaView *idea = [IdeaView alloc];
     idea.ideaId = [info valueForKey:@"ideaId"];
     idea.content = [info valueForKey:@"content"];

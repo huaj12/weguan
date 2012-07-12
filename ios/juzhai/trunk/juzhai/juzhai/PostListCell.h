@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ListCell.h"
 
 @class PostView;
 
 #define POST_DEFAULT_PIC @"none_img.png"
 
-@interface PostListCell : UITableViewCell
+@interface PostListCell : UITableViewCell <ListCell>
 {
     PostView *_postView;
 }
@@ -20,8 +21,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *contentLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
-- (void) redrawn:(PostView *)postView;
-- (void) setBackground;
-+ (CGFloat) heightForCell:(PostView *)postView;
+//- (void) redrawn:(PostView *)postView;
+//- (void) setBackground;
+//+ (CGFloat) heightForCell:(PostView *)postView;
 
 @end

@@ -23,6 +23,7 @@
 #import "IdeaDetailViewController.h"
 #import "Pager.h"
 #import "PagerCell.h"
+#import "SendPostBarButtonItem.h"
 
 @interface IdeaViewController (Private)
 - (void) loadListDataWithPage:(NSInteger)page;
@@ -81,6 +82,8 @@
     _categoryButton.tag = ALL_CATEGORY_ID;
     [_categoryButton addTarget:self action:@selector(showCategory:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.titleView = _categoryButton;
+    
+    self.navigationItem.leftBarButtonItem = [[SendPostBarButtonItem alloc] initWithOwnerViewController:self];
     
     //隐藏下方线条
     UIView *view = [UIView new];
@@ -150,7 +153,6 @@
             // Use when fetching text data
             [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             NSString *responseString = [request responseString];
-            NSLog(@"%@", responseString);
             NSMutableDictionary *jsonResult = [responseString JSONValue];
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
                 //reload
@@ -167,7 +169,7 @@
                 NSMutableArray *ideaViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"ideaViewList"];
                 
                 for (int i = 0; i < ideaViewList.count; i++) {
-                    IdeaView *ideaView = [IdeaView ideaConvertFromDictionary:[ideaViewList objectAtIndex:i]];
+                    IdeaView *ideaView = [IdeaView convertFromDictionary:[ideaViewList objectAtIndex:i]];
                     [_data addObject:ideaView withIdentity:ideaView.ideaId];
                 }
                 [self.tableView reloadData];
@@ -275,13 +277,7 @@
     static NSString *IdeaListCellIdentifier = @"IdeaListCellIdentifier";
     IdeaListCell * cell = (IdeaListCell *)[tableView dequeueReusableCellWithIdentifier:IdeaListCellIdentifier];
     if(cell == nil){
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"IdeaListCell" owner:self options:nil];
-        for(id oneObject in nib){
-            if([oneObject isKindOfClass:[IdeaListCell class]]){
-                cell = (IdeaListCell *) oneObject;
-            }
-        }
-        [cell setBackground];
+        cell = [IdeaListCell cellFromNib];
     }
     IdeaView *ideaView = (IdeaView *)[_data objectAtIndex:indexPath.row];
     [cell redrawn:ideaView];

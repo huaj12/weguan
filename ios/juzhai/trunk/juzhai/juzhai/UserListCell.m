@@ -38,6 +38,19 @@
     // Configure the view for the selected state
 }
 
++ (id)cellFromNib
+{
+    UserListCell *cell = nil;
+    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"UserListCell" owner:self options:nil];
+    for(id oneObject in nib){
+        if([oneObject isKindOfClass:[UserListCell class]]){
+            cell = (UserListCell *) oneObject;
+        }
+    }
+    [cell setBackground];
+    return cell;
+}
+
 - (void)logoClick:(UIGestureRecognizer *)gestureRecognizer {  
     HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
     homeViewController.hidesBottomBarWhenPushed = YES;
@@ -80,28 +93,17 @@
     }else {
         nicknameLabel.textColor = [UIColor blueColor];
     }
-    CGSize nicknameSize = [userView.nickname sizeWithFont:nicknameLabel.font constrainedToSize:CGSizeMake(100.0f, nicknameLabel.frame.size.height) lineBreakMode:UILineBreakModeTailTruncation];
+    CGSize nicknameSize = [userView.nickname sizeWithFont:nicknameLabel.font constrainedToSize:CGSizeMake(111.0f, nicknameLabel.frame.size.height) lineBreakMode:UILineBreakModeTailTruncation];
     [nicknameLabel setFrame:CGRectMake(nicknameLabel.frame.origin.x, nicknameLabel.frame.origin.y, nicknameSize.width, nicknameSize.height)];
     nicknameLabel.text = userView.nickname;
     
     UILabel *infoLabel = (UILabel *)[self viewWithTag:USER_INFO_TAG];
     infoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
     infoLabel.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];;
-    NSMutableString *info = [NSMutableString stringWithCapacity:0];
-    if(![userView.birthYear isEqual:[NSNull null]]){
-        NSDate *now = [NSDate date];
-        NSCalendar *cal = [NSCalendar currentCalendar];
-        unsigned int unitFlags = NSYearCalendarUnit;
-        NSDateComponents *dd = [cal components:unitFlags fromDate:now];
-        int age = [dd year] - userView.birthYear.intValue;
-        [info appendFormat:@"%d岁 ", age];
-    }
-    if(![userView.constellation isEqual:[NSNull null]]){
-        [info appendFormat:@"%@", userView.constellation];
-    }
-    CGSize infoSize = [info sizeWithFont:infoLabel.font constrainedToSize:infoLabel.frame.size lineBreakMode:UILineBreakModeTailTruncation];
+    infoLabel.text = [userView basicInfo];
+    CGSize infoSize = [infoLabel.text sizeWithFont:infoLabel.font constrainedToSize:infoLabel.frame.size lineBreakMode:UILineBreakModeTailTruncation];
     [infoLabel setFrame:CGRectMake(nicknameLabel.frame.origin.x + nicknameLabel.frame.size.width + 10.0, infoLabel.frame.origin.y, infoSize.width, infoSize.height)];
-    infoLabel.text = info;
+
     
     UILabel *contentLabel = (UILabel *)[self viewWithTag:POST_CONTENT_TAG];
     contentLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:14.0];

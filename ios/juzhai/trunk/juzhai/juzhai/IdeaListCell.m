@@ -34,6 +34,19 @@
     // Configure the view for the selected state
 }
 
++ (id)cellFromNib
+{
+    IdeaListCell *cell = nil;
+    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"IdeaListCell" owner:self options:nil];
+    for(id oneObject in nib){
+        if([oneObject isKindOfClass:[IdeaListCell class]]){
+            cell = (IdeaListCell *) oneObject;
+        }
+    }
+    [cell setBackground];
+    return cell;
+}
+
 -(void) setBackground{
     self.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
     UIView *selectBgColorView = [[UIView alloc] init];
@@ -98,7 +111,7 @@
     hud.labelText = @"操作中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:_ideaView.ideaId, @"ideaId", nil];
-        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/postIdea" withParams:params];
+        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:@"http://test.51juzhai.com/app/ios/sendPost" withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
             [MBProgressHUD hideHUDForView:coverView animated:YES];

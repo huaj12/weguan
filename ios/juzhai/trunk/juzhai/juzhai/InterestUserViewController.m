@@ -103,7 +103,7 @@
                 }
                 NSMutableArray *userViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"userViewList"];
                 for (int i = 0; i < userViewList.count; i++) {
-                    UserView *userView = [UserView userConvertFromDictionary:[userViewList objectAtIndex:i]];
+                    UserView *userView = [UserView convertFromDictionary:[userViewList objectAtIndex:i]];
                     [_data addObject:userView withIdentity:userView.uid];
                 }
                 [self.tableView reloadData];
@@ -164,7 +164,7 @@
     UIImageView *logo = (UIImageView *)[cell viewWithTag:INTEREST_USER_LOGO_TAG];
     logo.image = [UIImage imageNamed:INTEREST_USER_DEFAULT_PIC];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
-    NSURL *imageURL = [NSURL URLWithString:userView.logo];
+    NSURL *imageURL = [NSURL URLWithString:userView.smallLogo];
     [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
         logo.image = image;
         logo.layer.shouldRasterize = YES;
@@ -214,12 +214,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row < [_data count]) {
-//        if (_homeViewController == nil) {
-            _homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-            _homeViewController.hidesBottomBarWhenPushed = YES;
-//        }
-        _homeViewController.userView = [_data objectAtIndex:indexPath.row];
-        [self.navigationController pushViewController:_homeViewController animated:YES];
+        HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+        homeViewController.hidesBottomBarWhenPushed = YES;
+        homeViewController.userView = [_data objectAtIndex:indexPath.row];
+        [self.navigationController pushViewController:homeViewController animated:YES];
     } else {
         [self loadListDataWithPage:_data.pager.currentPage + 1];
     }

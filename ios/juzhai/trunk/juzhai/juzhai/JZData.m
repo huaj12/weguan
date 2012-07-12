@@ -7,6 +7,7 @@
 //
 
 #import "JZData.h"
+#import "Pager.h"
 
 @implementation JZData
 
@@ -51,6 +52,15 @@
 - (id)objectAtIndex:(NSUInteger)index
 {
     return [_data objectAtIndex:index];
+}
+
+- (NSInteger) cellRows
+{
+    int count = [self count];
+    if (_pager.hasNext) {
+        count += 1;
+    }
+    return count;
 }
 
 @end

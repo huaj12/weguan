@@ -19,7 +19,6 @@
 @interface InterestUserViewController : UITableViewController
 {
     JZData *_data;
-    HomeViewController *_homeViewController;
 }
 
 @property (nonatomic) BOOL isInterest;

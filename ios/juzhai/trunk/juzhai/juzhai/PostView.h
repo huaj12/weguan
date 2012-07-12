@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DataView.h"
 
-@interface PostView : NSObject
+@interface PostView : NSObject <DataView>
 
 @property (nonatomic, strong) NSDecimalNumber *postId;
 @property (nonatomic, strong) NSString *purpose;
@@ -20,8 +21,6 @@
 @property (nonatomic, strong) NSString *date;
 @property (nonatomic, strong) NSNumber *respCnt;
 @property (nonatomic, strong) NSNumber *hasResp;
-
-+ (id) postConvertFromDictionary:(NSDictionary *)info;
 
 - (BOOL) hasPlace;
 - (BOOL) hasTime;

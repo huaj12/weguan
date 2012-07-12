@@ -7,15 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DataView.h"
 
 @class PostView;
 
-@interface UserView : NSObject
+@interface UserView : NSObject <DataView>
 
 @property (strong,nonatomic) NSDecimalNumber *uid;
 @property (strong,nonatomic) NSString *nickname;
 @property (strong,nonatomic) NSNumber *gender;
 @property (strong,nonatomic) NSString *logo;
+@property (strong,nonatomic) NSString *smallLogo;
+@property (strong,nonatomic) NSString *bigLogo;
 @property (strong,nonatomic) NSString *rawLogo;
 @property (strong,nonatomic) NSNumber *logoVerifyState;
 @property (strong,nonatomic) NSNumber *birthYear;
@@ -34,10 +37,10 @@
 @property (strong,nonatomic) NSNumber *interestUserCount;
 @property (strong,nonatomic) NSNumber *interestMeCount;
 @property (strong,nonatomic) NSNumber *hasGuided;
+@property (strong,nonatomic) NSNumber *hasInterest;
 @property (strong,nonatomic) PostView *post;
 
-+ (id) userConvertFromDictionary:(NSDictionary *)info;
 
-- (void) updateUserInfo:(NSDictionary *)info;
+- (NSString *)basicInfo;
 
 @end

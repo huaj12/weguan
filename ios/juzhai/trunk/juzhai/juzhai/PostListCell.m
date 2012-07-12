@@ -33,10 +33,24 @@
     // Configure the view for the selected state
 }
 
++ (id)cellFromNib
+{
+    PostListCell *cell = nil;
+    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"PostListCell" owner:self options:nil];
+    for(id oneObject in nib){
+        if([oneObject isKindOfClass:[PostListCell class]]){
+            cell = (PostListCell *) oneObject;
+        }
+    }
+    [cell setBackground];
+    return cell;
+}
+
 -(void) setBackground{
-    //    UIImageView *imageview = [[UIImageView alloc] initWithFrame:self.bounds]; 
-    //    [imageview setImage:[UIImage imageNamed:BG_PNG]];
-    //    [self setBackgroundView: imageview];
+    self.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
+    UIView *selectBgColorView = [[UIView alloc] init];
+    selectBgColorView.backgroundColor = [UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:1.00f];
+    self.selectedBackgroundView = selectBgColorView;
 }
 
 - (void) redrawn:(PostView *)postView{
@@ -45,6 +59,7 @@
     contentLabel.text = [NSString stringWithFormat:@"%@：%@", postView.purpose, postView.content];
     contentLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:14.0];
     contentLabel.textColor = [UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f];
+    contentLabel.highlightedTextColor = [UIColor colorWithRed:0.40f green:0.40f blue:0.40f alpha:1.00f];
     CGSize labelsize = [contentLabel.text sizeWithFont:contentLabel.font constrainedToSize:CGSizeMake(contentLabel.frame.size.width, 300.0) lineBreakMode:UILineBreakModeCharacterWrap];
     [contentLabel setFrame:CGRectMake(contentLabel.frame.origin.x, contentLabel.frame.origin.y, labelsize.width, labelsize.height)];
     

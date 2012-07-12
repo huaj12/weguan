@@ -16,7 +16,6 @@
 
 @interface PostDetailViewController : UIViewController
 {
-    HomeViewController *_homeViewController;
     BOOL _isMe;
 }
 

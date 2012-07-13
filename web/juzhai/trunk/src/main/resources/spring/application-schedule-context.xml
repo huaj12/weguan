@@ -253,6 +253,7 @@
 				<ref bean="defunctExpireIdeaTrigger"/>
 				<ref bean="updateSearchWordHotTrigger"/>
 				<ref bean="updateStaticVersionTrigger"/>
+				<ref bean="noticeQplusTrigger"/>
 			</list>
 		</property>
 	</bean>

@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +34,8 @@ public class CmsProfileController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private IHighQualityService highQualityService;
+	@Autowired
+	private ThreadPoolTaskExecutor cmsTaskExecutor;
 
 	@RequestMapping(value = "/listVerifyingLogo")
 	public String listVerifyingLogo(HttpServletRequest request, Model model,
@@ -87,6 +91,23 @@ public class CmsProfileController extends BaseController {
 		return new AjaxResult();
 	}
 
+	@RequestMapping(value = "/passLogos")
+	@ResponseBody
+	public AjaxResult passLogo(HttpServletRequest reqest, Model model,
+			String uids) {
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			if (StringUtils.isNotEmpty(uids)) {
+				for (String str : uids.split(",")) {
+					verifyLogoService.passLogo(Long.valueOf(str));
+				}
+			}
+		} catch (Exception e) {
+			ajaxResult.setSuccess(false);
+		}
+		return ajaxResult;
+	}
+
 	@RequestMapping(value = "/denyLogo")
 	@ResponseBody
 	public AjaxResult denyLogo(HttpServletRequest reqest, Model model, long uid) {
@@ -132,5 +153,17 @@ public class CmsProfileController extends BaseController {
 		model.addAttribute("profileList", profileList);
 		model.addAttribute("pager", pager);
 		return "cms/profile/high_quality";
+	}
+
+	@RequestMapping(value = "/realPic")
+	@ResponseBody
+	public AjaxResult realPic(HttpServletRequest reqest, Model model,
+			String imgUrl) {
+		AjaxResult ajaxResult = new AjaxResult();
+		Boolean flag = verifyLogoService.realPic(imgUrl);
+		if (flag != null) {
+			ajaxResult.setResult(flag);
+		}
+		return ajaxResult;
 	}
 }

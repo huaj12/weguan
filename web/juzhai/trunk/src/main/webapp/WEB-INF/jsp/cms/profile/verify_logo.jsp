@@ -11,6 +11,34 @@
 <title>头像管理</title>
 <script type="text/javascript" src="${jzr:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 <script>
+		function passLogoAll(){
+			var ids="";
+			$('input[name=uids]').each(function(){
+				if(this.value!=null&&this.value!=''){
+				 ids=ids+this.value+",";
+				}
+			});
+			jQuery.ajax({
+				url : "/cms/profile/passLogos",
+				type : "get",
+				data : {
+					"uids" : ids
+				},
+				dataType : "json",
+				success : function(result) {
+					if (result.success!=null&&result.success) {
+						alert("批量处理成功");
+					} else {
+						alert("批量处理失败");
+					}
+				},
+				statusCode : {
+					401 : function() {
+						alert("请先登陆");
+					}
+				}
+			});
+		}
 	function passLogo(uid, obj){
 		var nickname = $(obj).attr("nickname");
 		//if(confirm("确认要通过 " + nickname + " 的头像吗？")){
@@ -43,6 +71,7 @@
 			success : function(result) {
 				if (result.success!=null&&result.success) {
 					$("#deny-logo-" + uid).removeAttr("onclick").text("已拒绝");
+					$("#uids-" + uid).val("");
 				} else {
 					alert(result.errorInfo);
 				}
@@ -74,12 +103,36 @@
 			}
 		});
 	}
+	function isRealPic(imgUrl){
+		jQuery.ajax({
+			url : "/cms/profile/realPic",
+			type : "get",
+			data : {"imgUrl" : imgUrl},
+			dataType : "json",
+			success : function(result) {
+				if (result.result!=null) {
+					if(result.result){
+						alert("真实图片");
+					}else{
+						alert("网络图片");
+					}
+				} else {
+					alert("搜索图片失败");
+				}
+			},
+			statusCode : {
+				401 : function() {
+					alert("请先登陆");
+				}
+			}
+		});
+	}
 </script>
 </head>
 <body>
 	<h2>
 		<c:choose>
-			<c:when test="${type == 'listVerifyingLogo'}">待审核</c:when>
+			<c:when test="${type == 'listVerifyingLogo'}">待审核 <input type="button" value="通过本页头像" onclick="passLogoAll();" /></c:when>
 			<c:when test="${type == 'listVerifiedLogo'}">已通过</c:when>
 			<c:when test="${type == 'listUnVerifiedLogo'}">未通过</c:when>
 		</c:choose>头像列表
@@ -124,7 +177,9 @@
 					<c:if test="${type == 'listVerifyingLogo'}">
 						<a href="javascript:void(0);" onclick="denyLogo(${profile.uid})" id="deny-logo-${profile.uid}">拒绝</a><br />
 					</c:if>
-					<a href="/home/${profile.uid}" target="_blank">发私信</a>
+					<a href="/home/${profile.uid}" target="_blank">发私信</a><br/>
+					<a href="javascript:void(0);" onclick="isRealPic('${jzr:userLogo(profile.uid, profile.newLogoPic, 180)}')">验证真实性</a>
+					<input type="hidden" value="${profile.uid}" id="uids-${profile.uid}" name="uids"/>
 				</td>
 			</tr>
 		</c:forEach>

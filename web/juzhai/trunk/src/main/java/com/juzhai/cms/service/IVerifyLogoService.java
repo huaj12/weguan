@@ -44,4 +44,12 @@ public interface IVerifyLogoService {
 	 * @param uid
 	 */
 	void removeLogo(long uid);
+
+	/**
+	 * 是否是真实图片
+	 * 
+	 * @param imgUrl
+	 * @return boolean(如果返回null 传入url为null或请求google服务器失败)
+	 */
+	Boolean realPic(String imgUrl);
 }

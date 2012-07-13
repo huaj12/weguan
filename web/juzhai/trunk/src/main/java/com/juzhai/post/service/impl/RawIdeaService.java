@@ -283,7 +283,7 @@ public class RawIdeaService implements IRawIdeaService {
 		idea.setDefunct(false);
 		idea.setEndTime(rawIdea.getEndTime());
 		idea.setLastModifyTime(idea.getCreateTime());
-		idea.setLink(rawIdea.getLink());
+		idea.setLink(JzUtilFunction.getLink(rawIdea.getLink()));
 		idea.setPlace(rawIdea.getPlace());
 		idea.setStartTime(rawIdea.getStartTime());
 		idea.setTown(rawIdea.getTown());

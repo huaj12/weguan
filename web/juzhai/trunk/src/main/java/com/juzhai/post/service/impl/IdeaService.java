@@ -26,6 +26,7 @@ import com.juzhai.core.image.manager.IImageManager;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
+import com.juzhai.core.web.jstl.JzUtilFunction;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.index.bean.ShowIdeaOrder;
@@ -198,7 +199,8 @@ public class IdeaService implements IIdeaService {
 		idea.setCharge(ideaForm.getCharge());
 		idea.setTown(ideaForm.getTown());
 		idea.setLastModifyTime(new Date());
-		idea.setLink(ideaForm.getLink());
+
+		idea.setLink(JzUtilFunction.getLink(ideaForm.getLink()));
 		idea.setPlace(ideaForm.getPlace());
 		if (ideaForm.getGender() != null) {
 			idea.setGender(ideaForm.getGender());
@@ -268,7 +270,7 @@ public class IdeaService implements IIdeaService {
 		idea.setCharge(ideaForm.getCharge());
 		idea.setTown(ideaForm.getTown());
 		idea.setLastModifyTime(new Date());
-		idea.setLink(ideaForm.getLink());
+		idea.setLink(JzUtilFunction.getLink(ideaForm.getLink()));
 		idea.setPlace(ideaForm.getPlace());
 		idea.setGender(ideaForm.getGender());
 		idea.setCategoryId(ideaForm.getCategoryId());

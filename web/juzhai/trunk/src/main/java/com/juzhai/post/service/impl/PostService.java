@@ -872,25 +872,26 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public List<Post> listUnhandlePost(long city, int firstResult,
-			int maxResults) {
-		return cmsListPost(city, null, VerifyType.RAW, firstResult, maxResults);
+	public List<Post> listUnhandlePost(long city, Boolean isIdea,
+			int firstResult, int maxResults) {
+		return cmsListPost(city, null, isIdea, VerifyType.RAW, firstResult,
+				maxResults);
 	}
 
 	@Override
 	public List<Post> listShieldPost(long city, int firstResult, int maxResults) {
-		return cmsListPost(city, null, VerifyType.SHIELD, firstResult,
+		return cmsListPost(city, null, null, VerifyType.SHIELD, firstResult,
 				maxResults);
 	}
 
 	@Override
-	public List<Post> listHandlePost(long city, Integer gender,
+	public List<Post> listHandlePost(long city, Integer gender, Boolean isIdea,
 			int firstResult, int maxResults) {
-		return cmsListPost(city, gender, VerifyType.QUALIFIED, firstResult,
-				maxResults);
+		return cmsListPost(city, gender, isIdea, VerifyType.QUALIFIED,
+				firstResult, maxResults);
 	}
 
-	private List<Post> cmsListPost(long city, Integer gender,
+	private List<Post> cmsListPost(long city, Integer gender, Boolean isIdea,
 			VerifyType verifyType, int firstResult, int maxResults) {
 		PostExample example = new PostExample();
 		PostExample.Criteria criteria = example.createCriteria();
@@ -902,27 +903,35 @@ public class PostService implements IPostService {
 		if (gender != null) {
 			criteria.andUserGenderEqualTo(gender);
 		}
+		if (isIdea != null) {
+			if (isIdea) {
+				criteria.andIdeaIdNotEqualTo(0l);
+			} else {
+				criteria.andIdeaIdEqualTo(0l);
+			}
+		}
 		example.setOrderByClause("create_time desc");
 		example.setLimit(new Limit(firstResult, maxResults));
 		return postMapper.selectByExample(example);
 	}
 
 	@Override
-	public int countUnhandlePost(long city) {
-		return cmsCountPost(VerifyType.RAW, city, null);
+	public int countUnhandlePost(long city, Boolean isIdea) {
+		return cmsCountPost(VerifyType.RAW, city, null, isIdea);
 	}
 
 	@Override
 	public int countShieldPost(long city) {
-		return cmsCountPost(VerifyType.SHIELD, city, null);
+		return cmsCountPost(VerifyType.SHIELD, city, null, null);
 	}
 
 	@Override
-	public int countHandlePost(long city, Integer gender) {
-		return cmsCountPost(VerifyType.QUALIFIED, city, gender);
+	public int countHandlePost(long city, Integer gender, Boolean isIdea) {
+		return cmsCountPost(VerifyType.QUALIFIED, city, gender, isIdea);
 	}
 
-	private int cmsCountPost(VerifyType verifyType, long city, Integer gender) {
+	private int cmsCountPost(VerifyType verifyType, long city, Integer gender,
+			Boolean isIdea) {
 		PostExample example = new PostExample();
 		PostExample.Criteria criteria = example.createCriteria();
 		if (city > 0) {
@@ -930,6 +939,13 @@ public class PostService implements IPostService {
 		}
 		if (gender != null) {
 			criteria.andUserGenderEqualTo(gender);
+		}
+		if (isIdea != null) {
+			if (isIdea) {
+				criteria.andIdeaIdNotEqualTo(0l);
+			} else {
+				criteria.andIdeaIdEqualTo(0l);
+			}
 		}
 		criteria.andVerifyTypeEqualTo(verifyType.getType()).andDefunctEqualTo(
 				false);
@@ -1145,6 +1161,15 @@ public class PostService implements IPostService {
 		}
 		c.andLastUpdateTimeIsNotNull();
 		return example;
+	}
+
+	@Override
+	public List<Post> listPostByIdea(long uid) {
+		PostExample example = new PostExample();
+		example.createCriteria().andIdeaIdNotEqualTo(0l)
+				.andCreateUidEqualTo(uid)
+				.andVerifyTypeEqualTo(VerifyType.RAW.getType());
+		return postMapper.selectByExample(example);
 	}
 
 }

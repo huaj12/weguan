@@ -23,7 +23,8 @@ public interface IPostService {
 	 * @throws InputPostException
 	 * @throws UploadImageException
 	 */
-	long createPost(long uid, PostForm postForm) throws InputPostException, UploadImageException;
+	long createPost(long uid, PostForm postForm) throws InputPostException,
+			UploadImageException;
 
 	/**
 	 * 移除拒宅
@@ -217,7 +218,8 @@ public interface IPostService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Post> listUnhandlePost(long city, int firstResult, int maxResults);
+	List<Post> listUnhandlePost(long city, Boolean isIdea, int firstResult,
+			int maxResults);
 
 	/**
 	 * 后台屏蔽拒宅列表
@@ -235,15 +237,15 @@ public interface IPostService {
 	 * @param maxResults
 	 * @return
 	 */
-	List<Post> listHandlePost(long city, Integer gender, int firstResult,
-			int maxResults);
+	List<Post> listHandlePost(long city, Integer gender, Boolean isIdea,
+			int firstResult, int maxResults);
 
 	/**
 	 * 未处理拒宅数量
 	 * 
 	 * @return
 	 */
-	int countUnhandlePost(long city);
+	int countUnhandlePost(long city, Boolean isIdea);
 
 	/**
 	 * 屏蔽的拒宅数量
@@ -257,7 +259,7 @@ public interface IPostService {
 	 * 
 	 * @return
 	 */
-	int countHandlePost(long city, Integer gender);
+	int countHandlePost(long city, Integer gender, Boolean isIdea);
 
 	/**
 	 * 根据id查询post
@@ -349,5 +351,13 @@ public interface IPostService {
 	 * @return
 	 */
 	List<Post> getUserQualifiedPost(long uid, int firstResult, int maxResults);
+
+	/**
+	 * 找出某用户所有通过好主意发布的拒宅
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	List<Post> listPostByIdea(long uid);
 
 }

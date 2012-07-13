@@ -119,24 +119,31 @@ $(document).ready(function(){
 	});
 	
 	$("#register-form").submit(function(){
+		var obj=$("#register-form").find("div.btn");
+		obj.addClass("unable");
 		if(!validateAccount()){
 			$("#form-account").find("input").focus();
+			obj.removeClass("unable");
 			return false;
 		}
 		if(!validateNickname()){
 			$("#form-nickname").find("input").focus();
+			obj.removeClass("unable");
 			return false;
 		}
 		if(!validatePwd()){
 			$("#form-pwd").find("input").focus();
+			obj.removeClass("unable");
 			return false;
 		}
 		if(!validateConfirmPwd()){
 			$("#form-confirm-pwd").find("input").focus();
+			obj.removeClass("unable");
 			return false;
 		}
 		if(!validateVerifyCode()){
 			$("#from-verify-code").find("input").focus();
+			obj.removeClass("unable");
 			return false;
 		}
 		return true;

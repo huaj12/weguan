@@ -75,6 +75,11 @@ function shield(id){
 		<option <c:if test="${gender=='1'}">selected="selected"</c:if> value="1">男</option>
 		<option <c:if test="${gender=='0'}">selected="selected"</c:if> value="0">女</option>
 	</select>
+	<select name="isIdea">
+		<option <c:if test="${empty isIdea||isIdea==null}">selected="selected"</c:if> value="">不限</option>
+		<option <c:if test="${not empty isIdea&&isIdea}">selected="selected"</c:if> value="true">好主意</option>
+		<option <c:if test="${not empty isIdea&&!isIdea}">selected="selected"</c:if> value="false">拒宅</option>
+	</select>
 	<input type="submit" value="查询" />
 	</form>
 	<table border="0" cellspacing="4">

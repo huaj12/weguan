@@ -114,12 +114,20 @@ function handleById(id){
 </head>
 <body>
 	<h2>未处理内容</h2><a href="javascript:;" onclick="handle();">将本页标记为已处理</a>
-	<select name="city" onchange="javascript:location.href='/cms/show/post/unhandle?city='+this.value+''">
+	<form action="/cms/show/post/unhandle" method="get">
+	<select name="city">
 				<option value="0">全国</option>
 				<c:forEach var="specialCity" items="${jzd:specialCityList()}">
 					<option value="${specialCity.id}" <c:if test="${city==specialCity.id}">selected="selected"</c:if>>${specialCity.name}</option>
 		</c:forEach>
 	</select>
+	<select name="isIdea">
+		<option <c:if test="${empty isIdea||isIdea==null}">selected="selected"</c:if> value="">不限</option>
+		<option <c:if test="${not empty isIdea&&isIdea}">selected="selected"</c:if> value="true">好主意</option>
+		<option <c:if test="${not empty isIdea&&!isIdea}">selected="selected"</c:if> value="false">拒宅</option>
+	</select>
+	<input type="submit" value="查询" />
+	</form>
 	<table border="0" cellspacing="4">
 		<tr style="background-color: #CCCCCC;">
 			<td width="100">用户头像</td>

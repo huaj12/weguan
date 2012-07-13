@@ -36,10 +36,10 @@ public class CmsPostController {
 	@RequestMapping(value = "/show/post/unhandle", method = RequestMethod.GET)
 	public String showPostUnhandle(Model model,
 			@RequestParam(defaultValue = "0") long city,
-			@RequestParam(defaultValue = "1") int pageId) {
+			@RequestParam(defaultValue = "1") int pageId, Boolean isIdea) {
 		PagerManager pager = new PagerManager(pageId, 30,
-				postService.countUnhandlePost(city));
-		List<Post> list = postService.listUnhandlePost(city,
+				postService.countUnhandlePost(city, isIdea));
+		List<Post> list = postService.listUnhandlePost(city, isIdea,
 				pager.getFirstResult(), pager.getMaxResult());
 		List<CmsPostView> listView = new ArrayList<CmsPostView>();
 		for (Post post : list) {
@@ -50,6 +50,7 @@ public class CmsPostController {
 		model.addAttribute("postView", listView);
 		model.addAttribute("pager", pager);
 		model.addAttribute("city", city);
+		model.addAttribute("isIdea", isIdea);
 		return "/cms/post/unhandle";
 	}
 
@@ -76,10 +77,11 @@ public class CmsPostController {
 	@RequestMapping(value = "/show/post/handle", method = RequestMethod.GET)
 	public String showPosthandle(Model model,
 			@RequestParam(defaultValue = "0") long city, Long province,
-			Integer gender, @RequestParam(defaultValue = "1") int pageId) {
+			Integer gender, @RequestParam(defaultValue = "1") int pageId,
+			Boolean isIdea) {
 		PagerManager pager = new PagerManager(pageId, 30,
-				postService.countHandlePost(city, gender));
-		List<Post> list = postService.listHandlePost(city, gender,
+				postService.countHandlePost(city, gender, isIdea));
+		List<Post> list = postService.listHandlePost(city, gender, isIdea,
 				pager.getFirstResult(), pager.getMaxResult());
 		List<CmsPostView> listView = new ArrayList<CmsPostView>();
 		for (Post post : list) {
@@ -92,6 +94,7 @@ public class CmsPostController {
 		model.addAttribute("city", city);
 		model.addAttribute("province", province);
 		model.addAttribute("gender", gender);
+		model.addAttribute("isIdea", isIdea);
 		return "/cms/post/handle";
 	}
 

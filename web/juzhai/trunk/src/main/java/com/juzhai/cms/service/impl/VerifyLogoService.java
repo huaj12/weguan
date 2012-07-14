@@ -70,6 +70,8 @@ public class VerifyLogoService implements IVerifyLogoService {
 	private IPostSearchService postSearchService;
 	@Value("${user.post.lucene.rows}")
 	private int userPostLuceneRows;
+	@Value("${google.search.image.count}")
+	private int googleSearchImageCount;
 
 	@Override
 	public List<Profile> listVerifyLogoProfile(LogoVerifyState logoVerifyState,
@@ -230,7 +232,7 @@ public class VerifyLogoService implements IVerifyLogoService {
 					countStr = mat.group(1);
 				}
 				int count = Integer.parseInt(countStr.replace(",", ""));
-				if (count > 2) {
+				if (count > googleSearchImageCount) {
 					return false;
 				} else {
 					return true;

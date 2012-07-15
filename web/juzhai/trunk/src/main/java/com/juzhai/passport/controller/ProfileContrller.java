@@ -169,4 +169,24 @@ public class ProfileContrller extends BaseController {
 		return ajaxResult;
 	}
 
+	@RequestMapping(value = "/wait/rescue/user", method = RequestMethod.GET)
+	public String waitRescueUser(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		// List<String> genders = userPreferenceService.getUserAnswer(
+		// context.getUid(),
+		// SiftTypePreference.GENDER.getPreferenceId());
+		// Integer gender = null;
+		// if (genders != null && genders.size() == 1) {
+		// String sex = genders.get(0);
+		// if (StringUtils.equals(sex, "1")) {
+		// gender = 1;
+		// } else if (StringUtils.equals(sex, "0")) {
+		// gender = 0;
+		// }
+		// }
+		model.addAttribute("profiles",
+				profileService.waitRescueUser(0, context.getUid()));
+		return "web/post/wait_rescue_user";
+	}
 }

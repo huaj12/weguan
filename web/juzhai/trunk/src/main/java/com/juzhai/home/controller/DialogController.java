@@ -228,4 +228,21 @@ public class DialogController extends BaseController {
 		}
 		return result;
 	}
+
+	@RequestMapping(value = "/rescueUserSMS", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult rescueUser(HttpServletRequest request, Model model,
+			String uids, String postContent) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult result = new AjaxResult();
+		try {
+			String[] uidStrs = uids.split(",");
+			for (String uidStr : uidStrs) {
+				dialogService.sendSMS(context.getUid(), Long.parseLong(uidStr),
+						DialogContentTemplate.RESCUE_USER, postContent);
+			}
+		} catch (DialogException e) {
+		}
+		return result;
+	}
 }

@@ -31,4 +31,11 @@ public interface IVisitUserService {
 	 * @return
 	 */
 	int countVisitUsers(long uid);
+
+	/**
+	 * 用户互访
+	 * 
+	 * @param uid
+	 */
+	void autoExchangeVisits(long uid);
 }

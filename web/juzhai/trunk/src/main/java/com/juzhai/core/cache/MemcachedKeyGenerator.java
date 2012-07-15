@@ -193,4 +193,24 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 		return genKey(uid, "gag");
 	}
 
+	/**
+	 * 自动互访间隔时间
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genAutoExchangeVisitsKey(long uid) {
+		return genKey(uid, "autoExchangeVisits");
+	}
+
+	/**
+	 * 显示等待解救用户间隔时间
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genWaitRescueUserKey(long uid) {
+		return genKey(uid, "waitRescueUser");
+	}
+
 }

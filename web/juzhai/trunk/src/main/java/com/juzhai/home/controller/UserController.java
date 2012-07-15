@@ -23,6 +23,8 @@ import com.juzhai.home.bean.InterestUserView;
 import com.juzhai.home.controller.view.VisitorView;
 import com.juzhai.home.service.IUserStatusService;
 import com.juzhai.home.service.IVisitUserService;
+import com.juzhai.notice.bean.NoticeType;
+import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.controller.view.UserPreferenceView;
 import com.juzhai.passport.model.Profile;
@@ -59,6 +61,8 @@ public class UserController extends BaseController {
 	private IPreferenceService preferenceService;
 	@Autowired
 	private IUserPreferenceService userPreferenceService;
+	@Autowired
+	private INoticeService noticeService;
 	@Autowired
 	private IVisitUserService visitUserService;
 	@Value("${web.user.home.post.rows}")
@@ -294,6 +298,7 @@ public class UserController extends BaseController {
 						interestUserService.isInterest(context.getUid(), uid));
 				// 添加来访者
 				visitUserService.addVisitUser(uid, context.getUid());
+				noticeService.incrNotice(uid, NoticeType.VISITOR);
 			}
 		} else {
 			visitUserWidget(model, context, visitorWidgetUserCount);
@@ -356,6 +361,7 @@ public class UserController extends BaseController {
 			visitorView.setLatestPost(userLatestPostMap.get(visitorView
 					.getProfileCache().getUid()));
 		}
+		noticeService.emptyNotice(context.getUid(), NoticeType.VISITOR);
 		model.addAttribute("visitorViewList", visitorViewList);
 		model.addAttribute("isVisitorPage", true);
 		model.addAttribute("pager", pager);

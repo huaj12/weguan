@@ -23,9 +23,9 @@ $(document).ready(function(){
 				sendForm.find("div.btn").show();
 				if(result&&result.success){
 					//reset form
+					var postContent=sendForm.find("textarea[name='content']").val();
 					resetSendPostForm(sendForm);
-					var content = $("#dialog-success").html().replace("{0}", "发布成功！");
-					showSuccess(null, content);
+					waitRescueUser(postContent);
 				}else{
 					sendForm.find(".send_box_error").text(result.errorInfo).show();
 				}
@@ -259,5 +259,61 @@ function resetAdditionForm(sendForm){
 	sendForm.find("div.upload_ok").hide();
 }
 
+function waitRescueUser(postContent){
+	$.ajax({
+		url : "/profile/wait/rescue/user",
+		type : "get",
+		cache : false,
+		dataType : "html",
+		success : function(result) {
+			if(result!=null&&result.indexOf("send_suss")!=-1){
+			var dialog = openDialog(null, "waitRescueUserBox", result);
+			$(dialog.content()).find("div.btns").first().click(function(){
+				var uids="";
+				$(dialog.content()).find('input[name=uids]').each(function(){
+					if(this.value!=null&&this.value!=''){
+					 uids=uids+this.value+",";
+					}
+				});
+				waitRescueUserSMS(uids, postContent);
+				closeDialog("waitRescueUserBox");
+				return false;
+			});
+			$(dialog.content()).find("div.btns>a.ws").click(function(){
+				closeDialog("waitRescueUserBox");
+				return false;
+			});
+			}else{
+				var content = $("#dialog-success").html().replace("{0}", "发布成功！");
+				showSuccess(null, content);
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+}
 
+function waitRescueUserSMS(uids,postContent){
+	$.ajax({
+		url : "/home/rescueUserSMS",
+		type : "post",
+		cache : false,
+		data : {
+			"uids" : uids,"postContent":postContent
+		},
+		dataType : "json",
+		success : function(result) {
+				var content = $("#dialog-success").html().replace("{0}", "发布成功！");
+				showSuccess(null, content);
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+}
 

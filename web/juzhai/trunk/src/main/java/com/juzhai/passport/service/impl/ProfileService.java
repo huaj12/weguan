@@ -76,6 +76,10 @@ public class ProfileService implements IProfileService {
 	private IProfileSearchService profileSearchService;
 	@Autowired
 	private IUserGuideService userGuideService;
+	@Value("${wait.rescue.user.count}")
+	private int waitRescueUserCount;
+	@Value("${wait.rescue.user.expire.time}")
+	private int waitRescueUserExpireTime;
 	@Value("${profile.cache.expire.time}")
 	private int profileCacheExpireTime = 20000;
 	@Value("${nickname.length.max}")
@@ -756,5 +760,26 @@ public class ProfileService implements IProfileService {
 		c.andLastWebLoginTimeGreaterThanOrEqualTo(DateUtils.addHours(
 				new Date(), -1));
 		return profileMapper.countByExample(example);
+	}
+
+	@Override
+	public List<Profile> waitRescueUser(Integer gender, long excludeUid) {
+		List<Profile> list = null;
+		try {
+			Object obj = memcachedClient.get(MemcachedKeyGenerator
+					.genWaitRescueUserKey(excludeUid));
+			if (obj == null) {
+				ProfileCache loginUser = getProfileCacheByUid(excludeUid);
+
+				list = queryProfile(excludeUid, gender, loginUser.getCity(),
+						null, 0, 0, 0, waitRescueUserCount);
+				memcachedClient.set(
+						MemcachedKeyGenerator.genWaitRescueUserKey(excludeUid),
+						waitRescueUserExpireTime, true);
+			}
+		} catch (Exception e) {
+			log.error("get WaitRescueUser is error", e);
+		}
+		return list;
 	}
 }

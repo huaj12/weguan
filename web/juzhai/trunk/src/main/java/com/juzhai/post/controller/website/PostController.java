@@ -25,6 +25,8 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.service.IVisitUserService;
+import com.juzhai.notice.bean.NoticeType;
+import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
@@ -62,6 +64,8 @@ public class PostController extends BaseController {
 	private IVisitUserService visitUserService;
 	@Autowired
 	private IIdeaService ideaService;
+	@Autowired
+	private INoticeService noticeService;
 	@Value("${post.comment.user.max.rows}")
 	private int postCommentUserMaxRows;
 	@Value("${post.response.user.max.rows}")
@@ -326,6 +330,7 @@ public class PostController extends BaseController {
 			// 添加来访者
 			visitUserService.addVisitUser(profileCache.getUid(),
 					context.getUid());
+			noticeService.incrNotice(profileCache.getUid(), NoticeType.VISITOR);
 		}
 		List<Long> excludePostIds = new ArrayList(1);
 		excludePostIds.add(post.getId());

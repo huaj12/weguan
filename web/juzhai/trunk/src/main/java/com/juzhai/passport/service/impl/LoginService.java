@@ -24,6 +24,7 @@ import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.web.session.LoginSessionManager;
 import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.home.service.IUserStatusService;
+import com.juzhai.home.service.IVisitUserService;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.exception.PassportAccountException;
@@ -79,12 +80,16 @@ public class LoginService implements ILoginService {
 	private IProfileService profileService;
 	@Autowired
 	private IReportService reportService;
+	@Autowired
+	private IVisitUserService visitUserService;
 	@Value(value = "${user.online.expire.time}")
 	private int userOnlineExpireTime;
 	@Value("${use.verify.login.count}")
 	private int useVerifyLoginCount;
 	@Value("${login.count.expire.time}")
 	private int loginCountExpireTime;
+	@Value("${user.auto.exchange.visits.expire.time}")
+	private int userAutoExchangeVisitsExpireTime;
 
 	@Override
 	public void login(HttpServletRequest request, HttpServletResponse response,
@@ -120,6 +125,19 @@ public class LoginService implements ILoginService {
 				@Override
 				public void run() {
 					// friendService.updateExpiredFriends(uid, tpId);
+					try {
+						Object object = memcachedClient
+								.get(MemcachedKeyGenerator
+										.genAutoExchangeVisitsKey(uid));
+						if (object == null) {
+							visitUserService.autoExchangeVisits(uid);
+							memcachedClient.set(MemcachedKeyGenerator
+									.genAutoExchangeVisitsKey(uid),
+									userAutoExchangeVisitsExpireTime, true);
+						}
+					} catch (Exception e) {
+						log.error(e.getMessage(), e);
+					}
 					userStatusService.updateUserStatus(uid, tpId);
 				}
 			});

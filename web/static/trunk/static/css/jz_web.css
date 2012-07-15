@@ -4320,5 +4320,15 @@ search_xz .hot{ margin-top:-10px;}
 .quick_share_box .share_suc .btn{ width:80px; height:auto; margin:0 auto; margin-top:20px;}
 .quick_share_box .share_suc .btn a{ width:80px; height:30px; overflow:hidden; background:url(../images/web2/send_area_btn.gif) no-repeat; display:block; color:#fff; font-size:14px; line-height:30px; text-align:center;}
 
+/*发布成功*/
+.send_suss{ width:300px; height:auto; overflow:hidden; float:left; display:inline;}
+.send_suss h2{ float:left; width:100%; font-size:16px; font-weight:bold; color:#666; font-family:"微软雅黑";}
+.send_suss p{ float:left; width:100%; color:#999; font-family:"微软雅黑";}
 
+.send_suss ul{ float:left; margin-top:10px;}
+.send_suss ul li{ width:50px; height:50px; overflow:hidden; float:left; margin:0 5px;}
+.send_suss .btns{ width:180px; height:auto; overflow:hidden; margin:0 auto; padding-top:15px;}
+.send_suss .btns a{ background:url(../images/web2/send_area_btn.gif) no-repeat; width:80px; height:30px; line-height:30px; color:#fff; display:block inline; float:left; margin:0 5px; text-align:center; text-decoration:none;}
 
+.send_suss .btns a.ws{ background:url(../images/web2/gz_ta_done.gif) no-repeat; color:#999;}
+.send_suss .btns a.loading{ background:url(../images/web2/sending_btn_s1.gif) no-repeat; color:#999; padding-left:25px; text-align:left; width:55px;}

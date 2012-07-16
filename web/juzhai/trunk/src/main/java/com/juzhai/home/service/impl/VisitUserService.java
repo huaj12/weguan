@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
@@ -36,11 +37,7 @@ public class VisitUserService implements IVisitUserService {
 	// TODO (done) 你自己写代码的时候，没觉得有问题吗？
 	@Override
 	public void addVisitUser(long uid, long visitUid) {
-		String key = RedisKeyGenerator.genVisitUsersKey(uid);
-		redisTemplate.opsForZSet().add(key, visitUid,
-				System.currentTimeMillis());
-		noticeService.incrNotice(uid, NoticeType.VISITOR);
-		// redisTemplate.opsForZSet().removeRange(key, -100, 0);
+		addVisitUser(uid, visitUid, System.currentTimeMillis());
 	}
 
 	@Override
@@ -79,8 +76,18 @@ public class VisitUserService implements IVisitUserService {
 		int maxResults = random.nextInt(5) + 1;
 		List<Profile> list = profileService.queryProfile(cache.getUid(),
 				gender, cache.getCity(), null, 0, 0, 0, maxResults);
+		Date date = new Date();
 		for (Profile profile : list) {
-			addVisitUser(uid, profile.getUid());
+			addVisitUser(uid, profile.getUid(),
+					DateUtils.addMinutes(date, -(random.nextInt(60) + 1))
+							.getTime());
 		}
 	}
+
+	private void addVisitUser(long uid, long visitUid, long time) {
+		String key = RedisKeyGenerator.genVisitUsersKey(uid);
+		redisTemplate.opsForZSet().add(key, visitUid, time);
+		noticeService.incrNotice(uid, NoticeType.VISITOR);
+	}
+
 }

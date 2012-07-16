@@ -121,6 +121,10 @@ $(document).ready(function(){
 	$("#register-form").submit(function(){
 		var obj=$("#register-form").find("div.btn");
 		obj.addClass("unable");
+		if(!$("div.xieyi > span > input").is(':checked')){
+			obj.removeClass("unable");
+			return false;
+		}
 		if(!validateAccount()){
 			$("#form-account").find("input").focus();
 			obj.removeClass("unable");
@@ -149,6 +153,11 @@ $(document).ready(function(){
 		return true;
 	});
 	
+	$("#register-form").find("div.btn > a").bind("click", function(){
+		$("#register-form").submit();
+		return false;
+	});
+	
 	$("div.xieyi > span > input").bind("change", function(){
 		agreement();
 	});
@@ -158,12 +167,7 @@ $(document).ready(function(){
 function agreement(){
 	if($("div.xieyi > span > input").is(':checked')){
 		$("#register-form").find("div.btn").removeClass("unable");
-		$("#register-form").find("div.btn > a").bind("click", function(){
-			$("#register-form").submit();
-			return false;
-		});
 	}else{
-		$("#register-form").find("div.btn > a").unbind("click");
 		$("#register-form").find("div.btn").addClass("unable");
 	}
 	return false;

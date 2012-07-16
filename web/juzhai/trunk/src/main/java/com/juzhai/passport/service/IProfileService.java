@@ -276,14 +276,4 @@ public interface IProfileService {
 	 */
 	int countUserOnline(Long cityId, Long townId, Integer gender,
 			long excludeUid);
-
-	/**
-	 * 等待被解救的用户
-	 * 
-	 * @param cityId
-	 * @param gender
-	 * @param excludeUid
-	 * @return
-	 */
-	List<Profile> waitRescueUser(Integer gender, long excludeUid);
 }

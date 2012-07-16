@@ -122,7 +122,6 @@ $(document).ready(function(){
 		var obj=$("#register-form").find("div.btn");
 		obj.addClass("unable");
 		if(!$("div.xieyi > span > input").is(':checked')){
-			obj.removeClass("unable");
 			return false;
 		}
 		if(!validateAccount()){

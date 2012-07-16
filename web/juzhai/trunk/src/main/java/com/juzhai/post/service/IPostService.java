@@ -353,12 +353,12 @@ public interface IPostService {
 	List<Post> getUserQualifiedPost(long uid, int firstResult, int maxResults);
 
 	/**
-	 * 找出某用户所有通过好主意发布的拒宅
+	 * 找出待审核状态的拒宅且是通过好主意发送的
 	 * 
 	 * @param uid
 	 * @return
 	 */
-	//TODO (review) 注释和方法名都没体现出实现的功能
-	List<Post> listPostByIdea(long uid);
+	// TODO (done) 注释和方法名都没体现出实现的功能
+	List<Post> listRawPostIdea(long uid);
 
 }

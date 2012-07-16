@@ -144,6 +144,8 @@ public class PostService implements IPostService {
 	private int dialogContentWordfilterApplication;
 	@Value("${synchronize.place.length.max}")
 	private int synchronizePlaceLengthMax;
+	@Value("${wait.rescue.user.expire.time}")
+	private int waitRescueUserExpireTime;
 
 	@Override
 	public long createPost(long uid, PostForm postForm)
@@ -177,6 +179,16 @@ public class PostService implements IPostService {
 		// postIntervalExpireTime, true);
 		// } catch (Exception e) {
 		// }
+		try {
+			Object obj = memcachedClient.get(MemcachedKeyGenerator
+					.genWaitRescueUserKey(uid));
+			if (obj == null) {
+				memcachedClient.set(
+						MemcachedKeyGenerator.genWaitRescueUserKey(uid),
+						waitRescueUserExpireTime, true);
+			}
+		} catch (Exception e) {
+		}
 		return postId;
 	}
 
@@ -1164,7 +1176,7 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public List<Post> listPostByIdea(long uid) {
+	public List<Post> listRawPostIdea(long uid) {
 		PostExample example = new PostExample();
 		example.createCriteria().andIdeaIdNotEqualTo(0l)
 				.andCreateUidEqualTo(uid)

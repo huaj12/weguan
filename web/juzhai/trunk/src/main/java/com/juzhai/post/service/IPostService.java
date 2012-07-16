@@ -361,4 +361,12 @@ public interface IPostService {
 	// TODO (done) 注释和方法名都没体现出实现的功能
 	List<Post> listRawPostIdea(long uid);
 
+	/**
+	 * 是否打开等待用户弹出框
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	boolean isOpenWaitRescueUserDialog(long uid);
+
 }

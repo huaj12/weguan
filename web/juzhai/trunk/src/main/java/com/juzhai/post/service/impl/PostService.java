@@ -179,16 +179,6 @@ public class PostService implements IPostService {
 		// postIntervalExpireTime, true);
 		// } catch (Exception e) {
 		// }
-		try {
-			Object obj = memcachedClient.get(MemcachedKeyGenerator
-					.genWaitRescueUserKey(uid));
-			if (obj == null) {
-				memcachedClient.set(
-						MemcachedKeyGenerator.genWaitRescueUserKey(uid),
-						waitRescueUserExpireTime, true);
-			}
-		} catch (Exception e) {
-		}
 		return postId;
 	}
 
@@ -1182,6 +1172,24 @@ public class PostService implements IPostService {
 				.andCreateUidEqualTo(uid)
 				.andVerifyTypeEqualTo(VerifyType.RAW.getType());
 		return postMapper.selectByExample(example);
+	}
+
+	@Override
+	public boolean isOpenWaitRescueUserDialog(long uid) {
+		try {
+			Object obj = memcachedClient.get(MemcachedKeyGenerator
+					.genWaitRescueUserKey(uid));
+			if (obj == null) {
+				memcachedClient.set(
+						MemcachedKeyGenerator.genWaitRescueUserKey(uid),
+						waitRescueUserExpireTime, true);
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 }

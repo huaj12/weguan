@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.exception.UploadImageException;
@@ -139,22 +138,13 @@ public class PostController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
 		try {
-			try {
-				Object obj = memcachedClient.get(MemcachedKeyGenerator
-						.genWaitRescueUserKey(context.getUid()));
-				if (obj == null) {
-					result.setResult(true);
-				} else {
-					result.setResult(false);
-				}
-			} catch (Exception e) {
-				result.setResult(false);
-			}
 			long postId = postService.createPost(context.getUid(), postForm);
 			if (sendWeibo && postId > 0 && context.getTpId() > 0) {
 				postService.synchronizeWeibo(context.getUid(),
 						context.getTpId(), postId);
 			}
+			result.setResult(postService.isOpenWaitRescueUserDialog(context
+					.getUid()));
 		} catch (InputPostException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		} catch (UploadImageException e) {

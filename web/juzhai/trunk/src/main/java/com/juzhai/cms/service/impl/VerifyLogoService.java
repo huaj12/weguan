@@ -121,7 +121,7 @@ public class VerifyLogoService implements IVerifyLogoService {
 						profileSearchService.createIndex(uid);
 					}
 					// 通过头像后通过好主意发布的拒宅自动通过
-					List<Post> posts = postService.listPostByIdea(uid);
+					List<Post> posts = postService.listRawPostIdea(uid);
 					if (CollectionUtils.isNotEmpty(posts)) {
 						List<Long> postIds = new ArrayList<Long>(posts.size());
 						for (Post post : posts) {

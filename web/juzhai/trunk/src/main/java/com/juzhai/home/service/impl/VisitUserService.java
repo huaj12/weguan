@@ -30,6 +30,7 @@ public class VisitUserService implements IVisitUserService {
 	@Autowired
 	private INoticeService noticeService;
 
+	//TODO (review) 普通的来访者不需要加数字？
 	@Override
 	public void addVisitUser(long uid, long visitUid) {
 		String key = RedisKeyGenerator.genVisitUsersKey(uid);
@@ -69,12 +70,14 @@ public class VisitUserService implements IVisitUserService {
 		if (cache.getGender() != null) {
 			gender = cache.getGender() == 1 ? 0 : 1;
 		}
+		//TODO (review) 随机数错误
 		Random random = new Random();
 		int maxResults = random.nextInt(4) + 1;
 		List<Profile> list = profileService.queryProfile(cache.getUid(),
 				gender, cache.getCity(), null, 0, 0, 0, maxResults);
 		for (Profile profile : list) {
 			addVisitUser(uid, profile.getUid());
+			//TODO (review) 不觉得有问题吗？
 			noticeService.incrNotice(uid, NoticeType.VISITOR);
 		}
 	}

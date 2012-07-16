@@ -330,9 +330,10 @@ public class PostController extends BaseController {
 			// 添加来访者
 			visitUserService.addVisitUser(profileCache.getUid(),
 					context.getUid());
+			//TODO (review) 你自己写代码的时候，没觉得有问题吗？
 			noticeService.incrNotice(profileCache.getUid(), NoticeType.VISITOR);
 		}
-		List<Long> excludePostIds = new ArrayList(1);
+		List<Long> excludePostIds = new ArrayList<Long>(1);
 		excludePostIds.add(post.getId());
 		List<Post> postList = postService.listUserPost(profileCache.getUid(),
 				excludePostIds, 0, webPostDetailPostRows);

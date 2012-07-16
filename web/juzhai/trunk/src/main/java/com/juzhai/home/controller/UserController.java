@@ -298,6 +298,7 @@ public class UserController extends BaseController {
 						interestUserService.isInterest(context.getUid(), uid));
 				// 添加来访者
 				visitUserService.addVisitUser(uid, context.getUid());
+				//TODO (review) 什么理由在controller里加？
 				noticeService.incrNotice(uid, NoticeType.VISITOR);
 			}
 		} else {

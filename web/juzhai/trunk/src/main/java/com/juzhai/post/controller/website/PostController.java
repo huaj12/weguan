@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.rubyeye.xmemcached.MemcachedClient;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.exception.UploadImageException;
@@ -25,8 +28,6 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.service.IVisitUserService;
-import com.juzhai.notice.bean.NoticeType;
-import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IInterestUserService;
@@ -65,13 +66,15 @@ public class PostController extends BaseController {
 	@Autowired
 	private IIdeaService ideaService;
 	@Autowired
-	private INoticeService noticeService;
+	private MemcachedClient memcachedClient;
 	@Value("${post.comment.user.max.rows}")
 	private int postCommentUserMaxRows;
 	@Value("${post.response.user.max.rows}")
 	private int postResponseUserMaxRows;
 	@Value("${web.post.detail.post.rows}")
 	private int webPostDetailPostRows;
+	@Value("${wait.rescue.user.count}")
+	private int waitRescueUserCount;
 
 	// @Value("${post.detail.right.idea.rows}")
 	// private int postDetailRightIdeaRows;
@@ -136,6 +139,17 @@ public class PostController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
 		try {
+			try {
+				Object obj = memcachedClient.get(MemcachedKeyGenerator
+						.genWaitRescueUserKey(context.getUid()));
+				if (obj == null) {
+					result.setResult(true);
+				} else {
+					result.setResult(false);
+				}
+			} catch (Exception e) {
+				result.setResult(false);
+			}
 			long postId = postService.createPost(context.getUid(), postForm);
 			if (sendWeibo && postId > 0 && context.getTpId() > 0) {
 				postService.synchronizeWeibo(context.getUid(),
@@ -330,8 +344,6 @@ public class PostController extends BaseController {
 			// 添加来访者
 			visitUserService.addVisitUser(profileCache.getUid(),
 					context.getUid());
-			//TODO (review) 你自己写代码的时候，没觉得有问题吗？
-			noticeService.incrNotice(profileCache.getUid(), NoticeType.VISITOR);
 		}
 		List<Long> excludePostIds = new ArrayList<Long>(1);
 		excludePostIds.add(post.getId());
@@ -348,5 +360,30 @@ public class PostController extends BaseController {
 
 		model.addAttribute("userPostList", postList);
 		return true;
+	}
+
+	// TODO (done) 请求属于post模块的，service没问题。
+	@RequestMapping(value = "/wait/rescue/user", method = RequestMethod.GET)
+	public String waitRescueUser(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		// List<String> genders = userPreferenceService.getUserAnswer(
+		// context.getUid(),
+		// SiftTypePreference.GENDER.getPreferenceId());
+		// Integer gender = null;
+		// if (genders != null && genders.size() == 1) {
+		// String sex = genders.get(0);
+		// if (StringUtils.equals(sex, "1")) {
+		// gender = 1;
+		// } else if (StringUtils.equals(sex, "0")) {
+		// gender = 0;
+		// }
+		// }
+		ProfileCache loginUser = profileService.getProfileCacheByUid(context
+				.getUid());
+		model.addAttribute("profiles", profileService.queryProfile(
+				context.getUid(), 0, loginUser.getCity(), null, 0, 0, 0,
+				waitRescueUserCount));
+		return "web/post/wait_rescue_user";
 	}
 }

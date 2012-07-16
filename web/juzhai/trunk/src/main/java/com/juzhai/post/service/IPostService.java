@@ -358,6 +358,7 @@ public interface IPostService {
 	 * @param uid
 	 * @return
 	 */
+	//TODO (review) 注释和方法名都没体现出实现的功能
 	List<Post> listPostByIdea(long uid);
 
 }

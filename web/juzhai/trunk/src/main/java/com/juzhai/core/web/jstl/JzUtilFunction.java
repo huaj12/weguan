@@ -235,6 +235,7 @@ public class JzUtilFunction {
 		}
 	}
 
+	//TODO (review) 老问题了，自己找
 	public static String getLink(String link) {
 		if (StringUtils.isNotEmpty(link)) {
 			if (!link.trim().startsWith("http://")) {

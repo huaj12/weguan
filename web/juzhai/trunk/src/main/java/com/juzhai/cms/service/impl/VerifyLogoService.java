@@ -198,6 +198,7 @@ public class VerifyLogoService implements IVerifyLogoService {
 	}
 
 	@Override
+	// TODO 临时处理方式
 	public Boolean realPic(String imgUrl) {
 		if (StringUtils.isEmpty(imgUrl)) {
 			return null;

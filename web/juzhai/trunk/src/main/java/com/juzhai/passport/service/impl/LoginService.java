@@ -119,29 +119,19 @@ public class LoginService implements ILoginService {
 		}
 		// updateOnlineState(uid);
 		addLoginLog(request, uid);
+		// 添加来访者
+		autoExchangeVisits(uid);
 		// 启动一个线程来获取和保存
 		if (tpId > 0) {
 			taskExecutor.execute(new Runnable() {
 				@Override
 				public void run() {
 					// friendService.updateExpiredFriends(uid, tpId);
-					try {
-						Object object = memcachedClient
-								.get(MemcachedKeyGenerator
-										.genAutoExchangeVisitsKey(uid));
-						if (object == null) {
-							visitUserService.autoExchangeVisits(uid);
-							memcachedClient.set(MemcachedKeyGenerator
-									.genAutoExchangeVisitsKey(uid),
-									userAutoExchangeVisitsExpireTime, true);
-						}
-					} catch (Exception e) {
-						log.error(e.getMessage(), e);
-					}
 					userStatusService.updateUserStatus(uid, tpId);
 				}
 			});
 		}
+
 	}
 
 	@Override
@@ -307,5 +297,25 @@ public class LoginService implements ILoginService {
 			throw new ReportAccountException(
 					ReportAccountException.USER_IS_SHIELD, shieldTime);
 		}
+	}
+
+	private void autoExchangeVisits(final long uid) {
+		taskExecutor.execute(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Object object = memcachedClient.get(MemcachedKeyGenerator
+							.genAutoExchangeVisitsKey(uid));
+					if (object == null) {
+						visitUserService.autoExchangeVisits(uid);
+						memcachedClient.set(MemcachedKeyGenerator
+								.genAutoExchangeVisitsKey(uid),
+								userAutoExchangeVisitsExpireTime, true);
+					}
+				} catch (Exception e) {
+					log.error(e.getMessage(), e);
+				}
+			}
+		});
 	}
 }

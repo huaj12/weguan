@@ -90,6 +90,8 @@ public class LoginService implements ILoginService {
 	private int loginCountExpireTime;
 	@Value("${user.auto.exchange.visits.expire.time}")
 	private int userAutoExchangeVisitsExpireTime;
+	@Value("${register.after.auto.visit.time}")
+	private long registerAfterAutoVisitTime;
 
 	@Override
 	public void login(HttpServletRequest request, HttpServletResponse response,
@@ -120,7 +122,7 @@ public class LoginService implements ILoginService {
 		// updateOnlineState(uid);
 		addLoginLog(request, uid);
 		// 添加来访者
-		autoExchangeVisits(uid);
+		autoExchangeVisits(passport);
 		// 启动一个线程来获取和保存
 		if (tpId > 0) {
 			taskExecutor.execute(new Runnable() {
@@ -299,23 +301,29 @@ public class LoginService implements ILoginService {
 		}
 	}
 
-	private void autoExchangeVisits(final long uid) {
-		taskExecutor.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Object object = memcachedClient.get(MemcachedKeyGenerator
-							.genAutoExchangeVisitsKey(uid));
-					if (object == null) {
-						visitUserService.autoExchangeVisits(uid);
-						memcachedClient.set(MemcachedKeyGenerator
-								.genAutoExchangeVisitsKey(uid),
-								userAutoExchangeVisitsExpireTime, true);
+	private void autoExchangeVisits(Passport passport) {
+		final long uid = passport.getId();
+		long time = (System.currentTimeMillis() - passport.getCreateTime()
+				.getTime()) / 1000;
+		if (time > registerAfterAutoVisitTime) {
+			taskExecutor.execute(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Object object = memcachedClient
+								.get(MemcachedKeyGenerator
+										.genAutoExchangeVisitsKey(uid));
+						if (object == null) {
+							visitUserService.autoExchangeVisits(uid);
+							memcachedClient.set(MemcachedKeyGenerator
+									.genAutoExchangeVisitsKey(uid),
+									userAutoExchangeVisitsExpireTime, true);
+						}
+					} catch (Exception e) {
+						log.error(e.getMessage(), e);
 					}
-				} catch (Exception e) {
-					log.error(e.getMessage(), e);
 				}
-			}
-		});
+			});
+		}
 	}
 }

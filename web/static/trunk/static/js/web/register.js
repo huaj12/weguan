@@ -149,11 +149,6 @@ $(document).ready(function(){
 		return true;
 	});
 	
-	$("#register-form").find("div.btn > a").bind("click", function(){
-		$("#register-form").submit();
-		return false;
-	});
-	
 	$("div.xieyi > span > input").bind("change", function(){
 		agreement();
 	});

@@ -119,11 +119,14 @@ $(document).ready(function(){
 	});
 	
 	$("#register-form").submit(function(){
-		var obj=$("#register-form").find("div.btn");
-		obj.addClass("unable");
+		if($("#register-form").find("div.btn").hasClass("unable")){
+			return false;
+		}
 		if(!$("div.xieyi > span > input").is(':checked')){
 			return false;
 		}
+		var obj=$("#register-form").find("div.btn");
+		obj.addClass("unable");
 		if(!validateAccount()){
 			$("#form-account").find("input").focus();
 			obj.removeClass("unable");

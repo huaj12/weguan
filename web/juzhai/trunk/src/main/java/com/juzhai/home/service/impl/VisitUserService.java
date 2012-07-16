@@ -30,12 +30,16 @@ public class VisitUserService implements IVisitUserService {
 	@Autowired
 	private INoticeService noticeService;
 
-	//TODO (review) 普通的来访者不需要加数字？
+	// TODO (done) 普通的来访者不需要加数字？
+	// TODO (done) 什么理由在controller里加？
+	// TODO (done) 不觉得有问题吗？
+	// TODO (done) 你自己写代码的时候，没觉得有问题吗？
 	@Override
 	public void addVisitUser(long uid, long visitUid) {
 		String key = RedisKeyGenerator.genVisitUsersKey(uid);
 		redisTemplate.opsForZSet().add(key, visitUid,
 				System.currentTimeMillis());
+		noticeService.incrNotice(uid, NoticeType.VISITOR);
 		// redisTemplate.opsForZSet().removeRange(key, -100, 0);
 	}
 
@@ -70,15 +74,13 @@ public class VisitUserService implements IVisitUserService {
 		if (cache.getGender() != null) {
 			gender = cache.getGender() == 1 ? 0 : 1;
 		}
-		//TODO (review) 随机数错误
+		// TODO (done) 随机数错误
 		Random random = new Random();
-		int maxResults = random.nextInt(4) + 1;
+		int maxResults = random.nextInt(5) + 1;
 		List<Profile> list = profileService.queryProfile(cache.getUid(),
 				gender, cache.getCity(), null, 0, 0, 0, maxResults);
 		for (Profile profile : list) {
 			addVisitUser(uid, profile.getUid());
-			//TODO (review) 不觉得有问题吗？
-			noticeService.incrNotice(uid, NoticeType.VISITOR);
 		}
 	}
 }

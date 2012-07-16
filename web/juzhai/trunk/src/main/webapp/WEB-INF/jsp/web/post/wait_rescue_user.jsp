@@ -16,7 +16,7 @@
 					<input type="hidden" value="${profile.uid}" name="uids"/>
 				</c:forEach>
 			</ul>
-			<div class="btns"><a href="javascript:void(0);" >邀请他们</a><a href="javascript:void(0);" class="ws">残酷的无视</a></div>
+			<div class="btns"><a href="javascript:void(0);" >解救他们</a><a href="javascript:void(0);" class="ws">残酷的无视</a></div>
 		</div><!--send_suss end-->
 	</c:when>
 </c:choose>

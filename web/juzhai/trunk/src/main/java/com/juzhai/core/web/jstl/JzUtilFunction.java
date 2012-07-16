@@ -235,11 +235,12 @@ public class JzUtilFunction {
 		}
 	}
 
-	//TODO (review) 老问题了，自己找
+	// TODO (review) 老问题了，自己找
 	public static String getLink(String link) {
+		String head = "http://";
 		if (StringUtils.isNotEmpty(link)) {
-			if (!link.trim().startsWith("http://")) {
-				link = "http://" + link.trim();
+			if (!link.trim().startsWith(head)) {
+				link = head + link.trim();
 			}
 		}
 		return link;

@@ -169,6 +169,7 @@ public class ProfileContrller extends BaseController {
 		return ajaxResult;
 	}
 
+	//TODO (review) 请求属于post模块的，service没问题。
 	@RequestMapping(value = "/wait/rescue/user", method = RequestMethod.GET)
 	public String waitRescueUser(HttpServletRequest request, Model model)
 			throws NeedLoginException {

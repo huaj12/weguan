@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "FPPopoverController.h"
+#import "EGORefreshTableHeaderView.h"
+#import "EGORefreshTableHeaderViewController.h"
 
 @class EGORefreshTableHeaderView;
 @class CustomButton;
@@ -18,15 +20,8 @@
 #define ORDER_BY_HOT 1
 #define ALL_CATEGORY_ID 0
 
-@interface IdeaViewController : UITableViewController <
-//EGORefreshTableHeaderDelegate
-FPPopoverControllerDelegate>
-{
-	
-//	EGORefreshTableHeaderView *_refreshHeaderView;
-    
-//	BOOL _reloading;
-	
+@interface IdeaViewController : EGORefreshTableHeaderViewController <FPPopoverControllerDelegate>
+{	
 	JZData *_data;
     FPPopoverController *_categoryPopver;
     UIButton *_orderButton;

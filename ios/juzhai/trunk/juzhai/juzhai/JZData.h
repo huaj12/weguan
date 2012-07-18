@@ -20,6 +20,7 @@
 - (id)initWithPager:(Pager *)pager;
 - (NSInteger)count;
 - (void)addObject:(id)object withIdentity:(id)identity;
+- (void)insertObjectAtHead:(id)object withIdentity:(id)identity;;
 - (void)clear;
 - (id)objectAtIndex:(NSUInteger)index;
 - (NSInteger) cellRows;

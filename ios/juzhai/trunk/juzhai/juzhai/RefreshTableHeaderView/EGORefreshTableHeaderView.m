@@ -103,6 +103,13 @@
 #pragma mark -
 #pragma mark Setters
 
+- (void)autoRefresh:(UIScrollView *)scrollView
+{
+    [scrollView setContentOffset:CGPointMake(0, - 65) animated:NO];
+    [self egoRefreshScrollViewDidScroll:scrollView];
+    [self egoRefreshScrollViewDidEndDragging:scrollView];
+}
+
 - (void)refreshLastUpdatedDate {
 	
 	if ([_delegate respondsToSelector:@selector(egoRefreshTableHeaderDataSourceLastUpdated:)]) {

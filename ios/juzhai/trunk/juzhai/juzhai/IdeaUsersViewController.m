@@ -85,7 +85,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.labelText = @"加载中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:ideaView.ideaId, @"ideaId", [NSNumber numberWithInt:page], @"page", nil];
+        NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:ideaView.ideaId], @"ideaId", [NSNumber numberWithInt:page], @"page", nil];
         __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"ideaUsers"] withParams:params];
         //        __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{

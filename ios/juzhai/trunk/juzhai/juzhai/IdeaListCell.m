@@ -89,13 +89,13 @@
     contentLabel.text = ideaView.content;
     
     UIButton *wantToButton = (UIButton *)[self viewWithTag:IDEA_WANT_TO_TAG];
-    NSString *buttonTitle = [NSString stringWithFormat:@"%d", ideaView.useCount.intValue];
+    NSString *buttonTitle = [NSString stringWithFormat:@"%d", ideaView.useCount];
     CGSize wgoButtonTitleSize = [buttonTitle sizeWithFont:[UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0] constrainedToSize:CGSizeMake(100.0f, 25.0f)lineBreakMode:UILineBreakModeHeadTruncation];
     [wantToButton setTitle:buttonTitle forState:UIControlStateNormal];
     [wantToButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     wantToButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:11.0];
     
-    wantToButton.enabled = ![ideaView.hasUsed boolValue];
+    wantToButton.enabled = !ideaView.hasUsed;
     UIImage *normalImg = [[UIImage imageNamed:NORMAL_WANT_BUTTON_IMAGE] stretchableImageWithLeftCapWidth:WANT_BUTTON_CAP_WIDTH topCapHeight:0.0];
     UIImage *highlightedImg = [[UIImage imageNamed:HIGHLIGHT_WANT_BUTTON_IMAGE] stretchableImageWithLeftCapWidth:WANT_BUTTON_CAP_WIDTH topCapHeight:0.0];
     UIImage *disabledImg = [[UIImage imageNamed:DISABLE_WANT_BUTTON_IMAGE] stretchableImageWithLeftCapWidth:WANT_BUTTON_CAP_WIDTH topCapHeight:0.0];
@@ -116,7 +116,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:coverView animated:YES];
     hud.labelText = @"操作中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:_ideaView.ideaId, @"ideaId", nil];
+        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:_ideaView.ideaId], @"ideaId", nil];
         __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"sendPost"] withParams:params];
         __unsafe_unretained ASIHTTPRequest *request = _request;
         [request setCompletionBlock:^{
@@ -124,8 +124,8 @@
             NSString *responseString = [request responseString];
             NSMutableDictionary *jsonResult = [responseString JSONValue];
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
-                _ideaView.hasUsed = [NSNumber numberWithInt:1];
-                _ideaView.useCount = [NSNumber numberWithInt:(_ideaView.useCount.intValue + 1)];
+                _ideaView.hasUsed = YES;
+                _ideaView.useCount = _ideaView.useCount + 1;
                 UIButton *wantToButton = (UIButton *)[self viewWithTag:IDEA_WANT_TO_TAG];
                 wantToButton.enabled = NO;
                 [wantToButton setTitle:[NSString stringWithFormat:@"%d", wantToButton.titleLabel.text.intValue + 1] forState:UIControlStateNormal];

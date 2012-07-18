@@ -44,15 +44,6 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-//    if (_refreshHeaderView == nil) {
-//		EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
-//		view.delegate = self;
-//		[self.tableView addSubview:view];
-//		_refreshHeaderView = view;
-//	}
-    
     //右侧最新最热切换  
     UIImage *orderImage = [UIImage imageNamed:@"new_hot_btn_link.png"];
     UIImage *activeOrderImage = [UIImage imageNamed:@"new_hot_btn_hover.png"];
@@ -92,23 +83,12 @@
     view.backgroundColor = [UIColor clearColor];
     [self.tableView setTableFooterView:view];
     
-    //设置分组
-//    self.tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame style:UITableViewStyleGrouped];
-    
     //设置分割线
     self.tableView.separatorColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.78f alpha:1.00f];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
     //加载初始化分类数据
     [BaseData getCategories];
-    //加载列表数据
-    [self loadListDataWithPage:1];
-    
-    
-    //请求数据
-    //update the last update date
-    //    [_refreshHeaderView refreshLastUpdatedDate];
-    //    [_refreshHeaderView egoRefreshScrollViewDidScroll:self.tableView];
-    //    [_refreshHeaderView egoRefreshScrollViewDidEndDragging:self.tableView];
+    [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -129,17 +109,15 @@
 }
 
 - (void)viewDidUnload {
-    //	_refreshHeaderView = nil;
+    _refreshHeaderView = nil;
     _data = nil;
 }
 
 - (void) loadListDataWithPage:(NSInteger)page{
-    if(page <= 0){
-        page = 1;
-    }
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"加载中...";
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+	if ([CheckNetwork isExistenceNetwork]) {
+        if(page <= 0){
+            page = 1;
+        }
         NSInteger categoryId = _categoryButton.tag;
         NSString *orderType;
         if(_orderButton.tag == ORDER_BY_TIME){
@@ -148,11 +126,8 @@
             orderType = @"pop";
         }
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:categoryId], @"categoryId",orderType, @"orderType", [NSNumber numberWithInt:page], @"page", nil];
-        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"ideaList"] withParams:params];
-        __unsafe_unretained ASIHTTPRequest *request = _request;
+        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"ideaList"] withParams:params];
         [request setCompletionBlock:^{
-            // Use when fetching text data
-            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             NSString *responseString = [request responseString];
             NSMutableDictionary *jsonResult = [responseString JSONValue];
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
@@ -166,45 +141,21 @@
                         [_data clear];
                     }
                 }
-                
                 NSMutableArray *ideaViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"ideaViewList"];
                 
                 for (int i = 0; i < ideaViewList.count; i++) {
                     IdeaView *ideaView = [IdeaView convertFromDictionary:[ideaViewList objectAtIndex:i]];
-                    [_data addObject:ideaView withIdentity:ideaView.ideaId];
+                    [_data addObject:ideaView withIdentity:[NSNumber numberWithInt:ideaView.ideaId]];
                 }
-                [self.tableView reloadData];
+                [self doneLoadingTableViewData];
             }
         }];
         [request setFailedBlock:^{
-           [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+            [self doneLoadingTableViewData];
         }];
         [request startAsynchronous];
-    });
+    }
 }
-
-- (void)nextPage{
-    [self loadListDataWithPage:_data.pager.currentPage + 1];
-}
-
-//-(void)reloadTableViewDataSource{
-//    //取数据
-//    _reloading = YES;
-//	//如果网络存在则加载数据
-//	if ([CheckNetwork isExistenceNetwork]) {
-//		//获取数据
-//        
-//	}
-//}
-
-//-(void)doneLoadingTableViewData{
-//    //reloading结束
-//	_reloading = NO;
-//    //告诉refreshHeaderView,已经完成loading
-//	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
-//    //让tableView 重新加载数据
-//	[self.tableView reloadData];
-//}
 
 #pragma mark -
 #pragma mark Navigation Bar item
@@ -250,25 +201,21 @@
             break;
     }
     //reload data
-    [self loadListDataWithPage:1];
+    [_refreshHeaderView autoRefresh:self.tableView];
 }
 
 - (void)selectByCategory:(UITableViewCell *)cell{
     _categoryButton.tag = cell.textLabel.tag;
     [_categoryButton setTitle:cell.textLabel.text forState:UIControlStateNormal];
     [_categoryPopver dismissPopoverAnimated:YES];
-    [self loadListDataWithPage:1];
+    [_refreshHeaderView autoRefresh:self.tableView];
 }
 
 #pragma mark -
 #pragma mark Table View Data Source methods
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    int count = _data.count;
-    if (_data.pager.hasNext) {
-        count += 1;
-    }
-    return count;
+    return [_data cellRows];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -280,9 +227,10 @@
     if(cell == nil){
         cell = [IdeaListCell cellFromNib];
     }
-    IdeaView *ideaView = (IdeaView *)[_data objectAtIndex:indexPath.row];
-    [cell redrawn:ideaView];
-    //    [wantToButton addTarget:self action:@selector(loadListData) forControlEvents:UIControlEventTouchUpInside];
+    if (indexPath.row < [_data count]) {
+        IdeaView *ideaView = (IdeaView *)[_data objectAtIndex:indexPath.row];
+        [cell redrawn:ideaView];
+    }
     return cell;
 }
 
@@ -304,41 +252,9 @@
         ideaDetailViewController.ideaView = [_data objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:ideaDetailViewController animated:YES];
     } else {
-        [self nextPage];
+        [self loadListDataWithPage:_data.pager.currentPage + 1];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
-#pragma mark - UIScrollViewDelegate Methods
-
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
-//	[_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
-//}
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-//	[_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
-//}
-
-#pragma mark - EGORefreshTableHeaderDelegate Methods
-
-//- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
-//	//重新获取数据
-//	[self reloadTableViewDataSource];
-////    [self doneLoadingTableViewData];
-//    //3秒后执行加载完成
-//    [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3];
-//}
-//
-//- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
-//	//正在reloading
-//	return _reloading; // should return if data source model is reloading
-//	
-//}
-//
-//- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
-//	//最后更新时间
-//	return [NSDate date]; // should return date data source was last changed
-//	
-//}
 
 @end

@@ -49,6 +49,14 @@
     }
 }
 
+- (void)insertObjectAtHead:(id)object withIdentity:(id)identity;
+{
+    if(![_identitySet containsObject:identity]){
+        [_data insertObject:object atIndex:0];
+        [_identitySet addObject:identity];
+    }
+}
+
 - (id)objectAtIndex:(NSUInteger)index
 {
     return [_data objectAtIndex:index];

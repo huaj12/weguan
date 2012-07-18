@@ -13,7 +13,5 @@
 #define FACE_LOADING_IMG @"face_loading"
 #define SMALL_PIC_LOADING_IMG @"small_pic_loading"
 #define BIG_PIC_LOADING_IMG @"big_pic_loading"
-
-@interface Constant : NSObject
-
-@end
+#define APP_BG_IMG @"app_bg"
+#define BASE_DOMAIN @"http://test.51juzhai.com/app/ios/"

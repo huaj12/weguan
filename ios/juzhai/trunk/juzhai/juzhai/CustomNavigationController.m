@@ -28,7 +28,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0){
-        UIImage *navbgpic = [[UIImage imageNamed:TOP_BG_PIC_NAME] resizableImageWithCapInsets:UIEdgeInsetsMake(0,0,0,0)];
+        UIImage *navbgpic = [[UIImage imageNamed:TOP_BG_PIC_NAME] resizableImageWithCapInsets:UIEdgeInsetsMake(0,TOP_BG_CAP_WIDTH,0,0)];
         [self.navigationBar setBackgroundImage:navbgpic forBarMetrics:UIBarMetricsDefault];
     }
 //    else{
@@ -47,6 +47,8 @@
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+    _backItem = nil;
+    _homeItem = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -113,7 +115,7 @@
 
 @implementation UINavigationBar (CustomImage2)   
 - (void)drawRect:(CGRect)rect {
-    UIImage *image = [UIImage imageNamed:TOP_BG_PIC_NAME];    
+    UIImage *image = [[UIImage imageNamed:TOP_BG_PIC_NAME] stretchableImageWithLeftCapWidth:TOP_BG_CAP_WIDTH topCapHeight:0];    
     [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];   
 } 
 

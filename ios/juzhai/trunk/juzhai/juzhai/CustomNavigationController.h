@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-#define TOP_BG_PIC_NAME @"top_bg.png"
+#define TOP_BG_CAP_WIDTH 6
+
+#define TOP_BG_PIC_NAME @"app_top_nav_bg.png"
 #define BACK_NORMAL_PIC_NAME @"back_btn_link.png"
 #define BACK_HIGHLIGHT_PIC_NAME @"back_btn_hover.png"
 #define HOME_NORMAL_PIC_NAME @"home_btn_link.png"

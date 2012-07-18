@@ -7,6 +7,7 @@
 //
 
 #import "UrlUtils.h"
+#import "Constant.h"
 
 @implementation UrlUtils
 

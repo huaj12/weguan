@@ -8,6 +8,7 @@
 
 #import "UserViewController.h"
 #import "JZData.h"
+#import "CheckNetwork.h"
 #import "CustomSegmentedControl.h"
 #import "CustomButton.h"
 #import "UserListCell.h"
@@ -41,8 +42,6 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    
     // Do any additional setup after loading the view from its nib.
     //中央切换按钮
     UIImage* dividerImage = [UIImage imageNamed:@"menu_line.png"];
@@ -68,18 +67,11 @@
     view.backgroundColor = [UIColor clearColor];
     [self.tableView setTableFooterView:view];
     
-    //设置分组
-//    self.tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame style:UITableViewStyleGrouped];
     self.tableView.separatorColor = [UIColor clearColor];
     
     //设置背景图
-//    UIImageView *imageview = [[UIImageView alloc] initWithFrame:self.view.bounds]; 
-//    [imageview setImage:[UIImage imageNamed:@"bg.png"]];
-//    [self.tableView setBackgroundView:imageview];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
-    
-    //load
-    [self loadListDataWithPage:1];
+    [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -118,19 +110,15 @@
 - (void) loadListDataWithPage:(NSInteger)page{
     if(page <= 0)
         page = 1;
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"加载中...";
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    if ([CheckNetwork isExistenceNetwork]) {
         NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"time", @"orderType", [NSNumber numberWithInt:page], @"page", nil];
         NSInteger gender = _genderButton.tag;
         if (gender <= 1) {
             [params setObject:[NSNumber numberWithInt:gender] forKey:@"gender"];
         }
-        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"userList"] withParams:params];
-        __unsafe_unretained ASIHTTPRequest *request = _request;
+        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"userList"] withParams:params];
         [request setCompletionBlock:^{
             // Use when fetching text data
-            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             NSString *responseString = [request responseString];
             NSMutableDictionary *jsonResult = [responseString JSONValue];
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
@@ -149,14 +137,14 @@
                     UserView *userView = [UserView convertFromDictionary:[userViewList objectAtIndex:i]];
                     [_data addObject:userView withIdentity:userView.uid];
                 }
-                [self.tableView reloadData];
+                [self doneLoadingTableViewData];
             }
         }];
         [request setFailedBlock:^{
-            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+            [self doneLoadingTableViewData];
         }];
         [request startAsynchronous];
-    });
+    }
 }
 
 #pragma mark - 
@@ -171,7 +159,8 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
         UIImage *activeGenderImage = [UIImage imageNamed:[NSString stringWithFormat:@"sex_%d_hover.png", _genderButton.tag]];
         [_genderButton setBackgroundImage:genderImage forState:UIControlStateNormal];
         [_genderButton setBackgroundImage:activeGenderImage forState:UIControlStateHighlighted];
-        [self loadListDataWithPage:1];
+        //reload data
+        [_refreshHeaderView autoRefresh:self.tableView];
     }
 }
 
@@ -212,22 +201,15 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
         case 1:
             break;
     }
-    [self loadListDataWithPage:1];
+    //reload data
+    [_refreshHeaderView autoRefresh:self.tableView];
 }
 
 #pragma mark -
 #pragma mark Table View Data Source
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-//    return _data.count;
-//}
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    int count = _data.count;
-    if (_data.pager.hasNext) {
-        count += 1;
-    }
-    return count;
+    return [_data cellRows];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -239,9 +221,10 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
     if(cell == nil){
         cell = [UserListCell cellFromNib];
     }
-    UserView *userView = (UserView *)[_data objectAtIndex:indexPath.row];
-    [cell redrawn:userView];
-    [cell sizeToFit];
+    if (indexPath.row < [_data count]) {
+        UserView *userView = (UserView *)[_data objectAtIndex:indexPath.row];
+        [cell redrawn:userView];
+    }
     return cell;
 }
 

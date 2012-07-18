@@ -18,6 +18,7 @@
 #import "CustomButton.h"
 #import "MessageShow.h"
 #import "UrlUtils.h"
+#import "DialogContentViewController.h"
 
 @interface SmsViewController ()
 
@@ -196,11 +197,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row < [_data count]) {
-        HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-        homeViewController.hidesBottomBarWhenPushed = YES;
         DialogView *dialogView = (DialogView *)[_data objectAtIndex:indexPath.row];
-        homeViewController.userView = dialogView.targetUser;
-        [self.navigationController pushViewController:homeViewController animated:YES];
+        DialogContentViewController *dialogContentViewController = [[DialogContentViewController alloc] initWithNibName:@"DialogContentViewController" bundle:nil];
+        dialogContentViewController.hidesBottomBarWhenPushed = YES;
+        dialogContentViewController.targetUser = dialogView.targetUser;
+        [self.navigationController pushViewController:dialogContentViewController animated:YES];
     } else {
         [self loadListDataWithPage:_data.pager.currentPage + 1];
     }

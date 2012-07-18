@@ -38,4 +38,5 @@
 
 - (IBAction)goToUserHome:(id)sender;
 - (IBAction)respPost:(id)sender;
+- (IBAction)smsHis:(id)sender;
 @end

@@ -19,6 +19,7 @@
 #import "SBJson.h"
 #import "MessageShow.h"
 #import "UrlUtils.h"
+#import "DialogContentViewController.h"
 
 @interface PostDetailViewController ()
 - (CGFloat) getViewOriginY:(UIView *)view byUpperView:(UIView *)upperView heightGap:(float)heightGap;
@@ -59,8 +60,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    postScrollView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
-    postInfoView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
+    postScrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BG_IMG]];
     
     _isMe = userView.uid.intValue == [UserContext getUid];
     
@@ -74,7 +74,7 @@
         logoView.layer.cornerRadius = 5.0;
     } failure:nil];
     
-    nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
+    nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:14.0];
     if(userView.gender.intValue == 0){
         nicknameLabel.textColor = [UIColor colorWithRed:1.00f green:0.40f blue:0.60f alpha:1.00f];
     }else {
@@ -82,7 +82,7 @@
     }
     nicknameLabel.text = userView.nickname;
     
-    userInfoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
+    userInfoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:13.0];
     userInfoLabel.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];
     userInfoLabel.text = [userView basicInfo];
     
@@ -182,6 +182,21 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    self.logoView = nil;
+    self.nicknameLabel = nil;
+    self.userInfoLabel = nil;
+    self.postScrollView = nil;
+    self.postInfoView = nil;
+    self.postImageView = nil;
+    self.contentLabel = nil;
+    self.addressLabel = nil;
+    self.categoryLabel = nil;
+    self.timeLabel = nil;
+    self.timeIconView = nil;
+    self.addressIconView = nil;
+    self.categoryIconView = nil;
+    self.responseButton = nil;
+    self.sendMessageButton = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -231,6 +246,14 @@
         }];
         [request startAsynchronous];
     });
+}
+
+- (IBAction)smsHis:(id)sender
+{
+    DialogContentViewController *dialogContentViewController = [[DialogContentViewController alloc] initWithNibName:@"DialogContentViewController" bundle:nil];
+    dialogContentViewController.hidesBottomBarWhenPushed = YES;
+    dialogContentViewController.targetUser = userView;
+    [self.navigationController pushViewController:dialogContentViewController animated:YES];
 }
 
 @end

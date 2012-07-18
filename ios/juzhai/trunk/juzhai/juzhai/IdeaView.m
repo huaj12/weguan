@@ -25,34 +25,44 @@
 @synthesize bigPic;
 @synthesize hasUsed;
 
-+ (id) convertFromDictionary:(NSDictionary *)info{
++ (id)convertFromDictionary:(NSDictionary *)info
+{
     IdeaView *idea = [IdeaView alloc];
-    idea.ideaId = [info valueForKey:@"ideaId"];
+    idea.ideaId = [[info valueForKey:@"ideaId"] intValue];
     idea.content = [info valueForKey:@"content"];
     idea.place = [info valueForKey:@"place"];
     idea.startTime = [info valueForKey:@"startTime"];
     idea.endTime = [info valueForKey:@"endTime"];
-    idea.charge = [info valueForKey:@"charge"];
+    id charge = [info valueForKey:@"charge"];
+    idea.charge = [charge isEqual:[NSNull null]] ? 0 : [charge intValue];
     idea.cityName = [info valueForKey:@"cityName"];
     idea.townName = [info valueForKey:@"townName"];
     idea.categoryName = [info valueForKey:@"categoryName"];
-    idea.useCount = [info valueForKey:@"useCount"];
-    idea.hasUsed = [info valueForKey:@"hasUsed"];
+    idea.useCount = [[info valueForKey:@"useCount"] intValue];
+    idea.hasUsed = [[info valueForKey:@"hasUsed"] boolValue];
     idea.pic = [info valueForKey:@"pic"];
     idea.bigPic = [info valueForKey:@"bigPic"];
     return idea;
 }
 
-- (BOOL) hasPlace{
+- (BOOL)hasPlace
+{
     return self.place != nil && ![self.place isEqual:[NSNull null]] && ![self.place isEqualToString:@""];
 }
 
-- (BOOL) hasTime{
+- (BOOL)hasTime
+{
     return (self.startTime != nil && ![self.startTime isEqual:[NSNull null]] && ![self.startTime isEqualToString:@""]) || (self.endTime != nil && ![self.endTime isEqual:[NSNull null]] && ![self.endTime isEqualToString:@""]);
 }
 
-- (BOOL) hasCategory{
+- (BOOL)hasCategory
+{
     return self.categoryName != nil && ![self.categoryName isEqual:[NSNull null]] && ![self.categoryName isEqualToString:@""];
+}
+
+- (BOOL)hasPerson
+{
+    return self.useCount > 0;
 }
 
 @end

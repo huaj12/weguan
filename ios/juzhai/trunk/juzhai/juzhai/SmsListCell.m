@@ -13,6 +13,7 @@
 #import "UserView.h"
 #import "HomeViewController.h"
 #import "Constant.h"
+#import "NSDate+BeforeShowType.h"
 
 @implementation SmsListCell
 
@@ -110,28 +111,7 @@
     timeLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
     timeLabel.textColor = [UIColor colorWithRed:0.71f green:0.71f blue:0.71f alpha:1.00f];
     timeLabel.highlightedTextColor = [UIColor colorWithRed:0.71f green:0.71f blue:0.71f alpha:1.00f];
-    NSDate *createTime = [NSDate dateWithTimeIntervalSince1970:_dialogView.createTime];
-    NSTimeInterval interval = - [createTime timeIntervalSinceNow];
-    NSString *timeText;
-    if (interval < 60) {
-        NSInteger beforeSec = interval;
-        timeText = [NSString stringWithFormat:@"%d秒前", beforeSec];
-    } else if (0 < interval/60 && interval/60 < 60) {
-        NSInteger beforeMin = interval/60;
-        timeText = [NSString stringWithFormat:@"%d分钟前", beforeMin];
-    } else if (0 < interval/3600 && interval/3600 < 24) {
-        NSInteger beforeHour = interval/3600;
-        timeText = [NSString stringWithFormat:@"%d小时前", beforeHour];
-    } else if (interval/3600/24 == 1) {
-        timeText = @"昨天";
-    } else if (interval/3600/24 == 2) {
-        timeText = @"前天";
-    } else {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd"];
-        timeText = [formatter stringFromDate:createTime];
-    }
-    timeLabel.text = timeText;
+    timeLabel.text = [[NSDate dateWithTimeIntervalSince1970:_dialogView.createTime] showBefore];
     CGSize timeSize = [timeLabel.text sizeWithFont:timeLabel.font constrainedToSize:CGSizeMake(72, infoLabel.frame.size.height) lineBreakMode:UILineBreakModeTailTruncation];
     [timeLabel setFrame:CGRectMake(310 - timeSize.width, timeLabel.frame.origin.y, timeSize.width, timeSize.height)];
     

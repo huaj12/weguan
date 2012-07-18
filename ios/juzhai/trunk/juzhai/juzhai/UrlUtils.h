@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define BASE_DOMAIN @"http://www.51juzhai.com/app/ios/"
+//#define BASE_DOMAIN @"http://test.51juzhai.com/app/ios/"
 
 @interface UrlUtils : NSObject
 

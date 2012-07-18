@@ -91,7 +91,6 @@ $(document).ready(function(){
 	if($("div.my_message").is(":visible")){
 		queryNotice();
 		setInterval(queryNotice, 10000);
-		return false;
 	}
 	
 	$("a.feed-back").click(function(){

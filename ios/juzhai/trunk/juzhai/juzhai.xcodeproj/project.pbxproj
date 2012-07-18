@@ -859,24 +859,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CB0C4473155CF97400B238D4 /* XIB */ = {
-			isa = PBXGroup;
-			children = (
-				CB0C4463155CD07000B238D4 /* TabBar.xib */,
-				CB0C4460155CCFB600B238D4 /* CameraViewController.xib */,
-				CB7EFEEF15804E3D00176E59 /* PostDetailViewController.xib */,
-				CB7EFEF81580515500176E59 /* IdeaDetailViewController.xib */,
-				CBBF7E7B158911D80073EA0A /* HomeViewController.xib */,
-				CB50E4AB1591981D001D5673 /* ProfileSettingForm.xib */,
-				CBBEDFF115921B8200ECC2C2 /* NicknameEditorViewController.xib */,
-				CB431B2D1592E05500184E82 /* ProfessionEditorViewController.xib */,
-				CB9946FD159302530057FBB6 /* FeatureEditorViewController.xib */,
-				CB669D9E15A48227000545D0 /* SendPostViewController.xib */,
-				CB4BAEFD15AF064F00C68760 /* DialogContentViewController.xib */,
-			);
-			name = XIB;
-			sourceTree = "<group>";
-		};
 		CB175ABC156E252200D5F054 /* FPPopover */ = {
 			isa = PBXGroup;
 			children = (
@@ -888,6 +870,138 @@
 				CB175AC2156E254300D5F054 /* FPTouchView.m */,
 			);
 			name = FPPopover;
+			sourceTree = "<group>";
+		};
+		CB1C27A415B69EEF00FAD38A /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				CB1C27AB15B6A1B900FAD38A /* Example */,
+				CB0C4463155CD07000B238D4 /* TabBar.xib */,
+				CB7C8F3A15B45B03007E3F9B /* EGORefreshTableHeaderViewController.h */,
+				CB7C8F3B15B45B03007E3F9B /* EGORefreshTableHeaderViewController.m */,
+				CBF3229D15AA760100D82CBB /* ListCell.h */,
+				CB669D9415A42186000545D0 /* PagerCell.m */,
+				CB669D9315A42186000545D0 /* PagerCell.h */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		CB1C27A515B69F0F00FAD38A /* ZhaoBan */ = {
+			isa = PBXGroup;
+			children = (
+				CB5E87E4156CD25C0010EE1C /* UserViewController.h */,
+				CB5E87E5156CD25C0010EE1C /* UserViewController.m */,
+				CBAB85B91575224500888688 /* UserListCell.h */,
+				CBAB85BA1575224500888688 /* UserListCell.m */,
+				CBAB85BC1575225C00888688 /* UserListCell.xib */,
+				CB7EFEED15804E3D00176E59 /* PostDetailViewController.h */,
+				CB7EFEEE15804E3D00176E59 /* PostDetailViewController.m */,
+				CB7EFEEF15804E3D00176E59 /* PostDetailViewController.xib */,
+			);
+			name = ZhaoBan;
+			sourceTree = "<group>";
+		};
+		CB1C27A615B69F3A00FAD38A /* Idea */ = {
+			isa = PBXGroup;
+			children = (
+				CB0C4465155CD50300B238D4 /* IdeaViewController.h */,
+				CB0C4466155CD50300B238D4 /* IdeaViewController.m */,
+				CB8F09C01572217F0003018D /* IdeaListCell.h */,
+				CB8F09C11572217F0003018D /* IdeaListCell.m */,
+				CB8F09C3157221A30003018D /* IdeaListCell.xib */,
+				CB175AC6156E620700D5F054 /* CategoryTableViewController.h */,
+				CB175AC7156E620700D5F054 /* CategoryTableViewController.m */,
+				CB7EFEF61580515400176E59 /* IdeaDetailViewController.h */,
+				CB7EFEF71580515500176E59 /* IdeaDetailViewController.m */,
+				CB7EFEF81580515500176E59 /* IdeaDetailViewController.xib */,
+				CB540E5115ABDA9E00265412 /* IdeaUsersViewController.h */,
+				CB540E5215ABDA9E00265412 /* IdeaUsersViewController.m */,
+				CB86A25F15AC8DB10028F0A4 /* IdeaUserListCell.h */,
+				CB86A26015AC8DB10028F0A4 /* IdeaUserListCell.m */,
+				CB86A26315AC8DE60028F0A4 /* IdeaUserListCell.xib */,
+			);
+			name = Idea;
+			sourceTree = "<group>";
+		};
+		CB1C27A715B69F8000FAD38A /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				CBBF7E79158911D70073EA0A /* HomeViewController.h */,
+				CBBF7E7A158911D70073EA0A /* HomeViewController.m */,
+				CBBF7E7B158911D80073EA0A /* HomeViewController.xib */,
+				CBB765E4158C6A4700F0DCA8 /* PostListCell.h */,
+				CBB765E5158C6A4700F0DCA8 /* PostListCell.m */,
+				CBB765E8158C6A6F00F0DCA8 /* PostListCell.xib */,
+				CBFB167C159EF7BD006B3EE7 /* InterestUserViewController.h */,
+				CBFB167D159EF7BF006B3EE7 /* InterestUserViewController.m */,
+				CB669D9C15A48226000545D0 /* SendPostViewController.h */,
+				CB669D9D15A48227000545D0 /* SendPostViewController.m */,
+				CB669D9E15A48227000545D0 /* SendPostViewController.xib */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		CB1C27A815B69FBA00FAD38A /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				CBD977B015A9DB2E002FC519 /* MessageNavigationController.h */,
+				CBD977B115A9DB2E002FC519 /* MessageNavigationController.m */,
+				CBD977B415A9DBEE002FC519 /* SmsViewController.h */,
+				CBD977B515A9DBEE002FC519 /* SmsViewController.m */,
+				CBF3229715AA741000D82CBB /* SmsListCell.h */,
+				CBF3229815AA741100D82CBB /* SmsListCell.m */,
+				CBF3229B15AA742D00D82CBB /* SmsListCell.xib */,
+				CB4BAEFB15AF064F00C68760 /* DialogContentViewController.h */,
+				CB4BAEFC15AF064F00C68760 /* DialogContentViewController.m */,
+				CB4BAEFD15AF064F00C68760 /* DialogContentViewController.xib */,
+				CBDFEDFF15B196830004DDE0 /* DialogContentListCell.h */,
+				CBDFEE0015B196830004DDE0 /* DialogContentListCell.m */,
+				CBDFEE0315B197130004DDE0 /* DialogContentListCell.xib */,
+			);
+			name = Message;
+			sourceTree = "<group>";
+		};
+		CB1C27A915B6A00700FAD38A /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				CB1C27AA15B6A04100FAD38A /* Profile */,
+				CB0C448D155D05B800B238D4 /* ConfigViewController.h */,
+				CB0C448E155D05B800B238D4 /* ConfigViewController.m */,
+			);
+			name = Setting;
+			sourceTree = "<group>";
+		};
+		CB1C27AA15B6A04100FAD38A /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CB7C69B21599FDCE00B835A3 /* SettingViewController.h */,
+				CB7C69B31599FDCE00B835A3 /* SettingViewController.m */,
+				CB50E4AB1591981D001D5673 /* ProfileSettingForm.xib */,
+				CB4031771590694600D758AF /* ProfileSettingViewController.h */,
+				CB4031781590694600D758AF /* ProfileSettingViewController.m */,
+				CB7C69AF1599A95000B835A3 /* GuideSettingViewController.h */,
+				CB7C69B01599A95000B835A3 /* GuideSettingViewController.m */,
+				CBBEDFEF15921B8200ECC2C2 /* NicknameEditorViewController.h */,
+				CBBEDFF015921B8200ECC2C2 /* NicknameEditorViewController.m */,
+				CBBEDFF115921B8200ECC2C2 /* NicknameEditorViewController.xib */,
+				CB431B2B1592E05500184E82 /* ProfessionEditorViewController.h */,
+				CB431B2C1592E05500184E82 /* ProfessionEditorViewController.m */,
+				CB431B2D1592E05500184E82 /* ProfessionEditorViewController.xib */,
+				CB9946FB159302530057FBB6 /* FeatureEditorViewController.h */,
+				CB9946FC159302530057FBB6 /* FeatureEditorViewController.m */,
+				CB9946FD159302530057FBB6 /* FeatureEditorViewController.xib */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		CB1C27AB15B6A1B900FAD38A /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				CB0C445E155CCFB600B238D4 /* CameraViewController.h */,
+				CB0C445F155CCFB600B238D4 /* CameraViewController.m */,
+				CB0C4460155CCFB600B238D4 /* CameraViewController.xib */,
+			);
+			name = Example;
 			sourceTree = "<group>";
 		};
 		CB2E3F0715AFFC75009BAEC4 /* Keyboard */ = {
@@ -988,7 +1102,6 @@
 				CBDFEE0915B19A430004DDE0 /* Text */,
 				CB2E3F0715AFFC75009BAEC4 /* Keyboard */,
 				CB774A27159AF3BC00E67B2D /* ActionSheet */,
-				CB8F09BE15721DD90003018D /* Cell */,
 				CB4668D0156F39260030D655 /* Tool */,
 				CB4668CF156F391E0030D655 /* Tab */,
 				CB4668CE156F39130030D655 /* Navigation */,
@@ -1036,8 +1149,7 @@
 		CB4D4E63155BB7A20061AAD4 /* Logon */ = {
 			isa = PBXGroup;
 			children = (
-				CBF56119155E2DB9006A03E6 /* View */,
-				CB0C4473155CF97400B238D4 /* XIB */,
+				CBF56119155E2DB9006A03E6 /* ViewBean */,
 				CB4D4E65155BB7AC0061AAD4 /* ViewController */,
 				CBD6FA9F15A6096A0029877D /* Service */,
 			);
@@ -1047,48 +1159,12 @@
 		CB4D4E65155BB7AC0061AAD4 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				CB7C8F3A15B45B03007E3F9B /* EGORefreshTableHeaderViewController.h */,
-				CB7C8F3B15B45B03007E3F9B /* EGORefreshTableHeaderViewController.m */,
-				CB5E87E4156CD25C0010EE1C /* UserViewController.h */,
-				CB5E87E5156CD25C0010EE1C /* UserViewController.m */,
-				CB0C4465155CD50300B238D4 /* IdeaViewController.h */,
-				CB0C4466155CD50300B238D4 /* IdeaViewController.m */,
-				CB175AC6156E620700D5F054 /* CategoryTableViewController.h */,
-				CB175AC7156E620700D5F054 /* CategoryTableViewController.m */,
-				CB0C445E155CCFB600B238D4 /* CameraViewController.h */,
-				CB0C445F155CCFB600B238D4 /* CameraViewController.m */,
-				CB0C448D155D05B800B238D4 /* ConfigViewController.h */,
-				CB0C448E155D05B800B238D4 /* ConfigViewController.m */,
-				CB7EFEED15804E3D00176E59 /* PostDetailViewController.h */,
-				CB7EFEEE15804E3D00176E59 /* PostDetailViewController.m */,
-				CB7EFEF61580515400176E59 /* IdeaDetailViewController.h */,
-				CB7EFEF71580515500176E59 /* IdeaDetailViewController.m */,
-				CB540E5115ABDA9E00265412 /* IdeaUsersViewController.h */,
-				CB540E5215ABDA9E00265412 /* IdeaUsersViewController.m */,
-				CBBF7E79158911D70073EA0A /* HomeViewController.h */,
-				CBBF7E7A158911D70073EA0A /* HomeViewController.m */,
-				CB7C69B21599FDCE00B835A3 /* SettingViewController.h */,
-				CB7C69B31599FDCE00B835A3 /* SettingViewController.m */,
-				CB4031771590694600D758AF /* ProfileSettingViewController.h */,
-				CB4031781590694600D758AF /* ProfileSettingViewController.m */,
-				CB7C69AF1599A95000B835A3 /* GuideSettingViewController.h */,
-				CB7C69B01599A95000B835A3 /* GuideSettingViewController.m */,
-				CBBEDFEF15921B8200ECC2C2 /* NicknameEditorViewController.h */,
-				CBBEDFF015921B8200ECC2C2 /* NicknameEditorViewController.m */,
-				CB431B2B1592E05500184E82 /* ProfessionEditorViewController.h */,
-				CB431B2C1592E05500184E82 /* ProfessionEditorViewController.m */,
-				CB9946FB159302530057FBB6 /* FeatureEditorViewController.h */,
-				CB9946FC159302530057FBB6 /* FeatureEditorViewController.m */,
-				CBFB167C159EF7BD006B3EE7 /* InterestUserViewController.h */,
-				CBFB167D159EF7BF006B3EE7 /* InterestUserViewController.m */,
-				CB669D9C15A48226000545D0 /* SendPostViewController.h */,
-				CB669D9D15A48227000545D0 /* SendPostViewController.m */,
-				CBD977B015A9DB2E002FC519 /* MessageNavigationController.h */,
-				CBD977B115A9DB2E002FC519 /* MessageNavigationController.m */,
-				CBD977B415A9DBEE002FC519 /* SmsViewController.h */,
-				CBD977B515A9DBEE002FC519 /* SmsViewController.m */,
-				CB4BAEFB15AF064F00C68760 /* DialogContentViewController.h */,
-				CB4BAEFC15AF064F00C68760 /* DialogContentViewController.m */,
+				CB1C27A415B69EEF00FAD38A /* Base */,
+				CB1C27A515B69F0F00FAD38A /* ZhaoBan */,
+				CB1C27A615B69F3A00FAD38A /* Idea */,
+				CB1C27A715B69F8000FAD38A /* Home */,
+				CB1C27A815B69FBA00FAD38A /* Message */,
+				CB1C27A915B6A00700FAD38A /* Setting */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -1242,34 +1318,6 @@
 				CB50E4A815918D16001D5673 /* Profile-Setting-Cell-Identifie.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		CB8F09BE15721DD90003018D /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				CBF3229D15AA760100D82CBB /* ListCell.h */,
-				CB8F09C01572217F0003018D /* IdeaListCell.h */,
-				CB8F09C11572217F0003018D /* IdeaListCell.m */,
-				CB8F09C3157221A30003018D /* IdeaListCell.xib */,
-				CBAB85B91575224500888688 /* UserListCell.h */,
-				CBAB85BA1575224500888688 /* UserListCell.m */,
-				CBAB85BC1575225C00888688 /* UserListCell.xib */,
-				CBB765E4158C6A4700F0DCA8 /* PostListCell.h */,
-				CBB765E5158C6A4700F0DCA8 /* PostListCell.m */,
-				CBB765E8158C6A6F00F0DCA8 /* PostListCell.xib */,
-				CB669D9415A42186000545D0 /* PagerCell.m */,
-				CB669D9315A42186000545D0 /* PagerCell.h */,
-				CBF3229715AA741000D82CBB /* SmsListCell.h */,
-				CBF3229815AA741100D82CBB /* SmsListCell.m */,
-				CBF3229B15AA742D00D82CBB /* SmsListCell.xib */,
-				CB86A25F15AC8DB10028F0A4 /* IdeaUserListCell.h */,
-				CB86A26015AC8DB10028F0A4 /* IdeaUserListCell.m */,
-				CB86A26315AC8DE60028F0A4 /* IdeaUserListCell.xib */,
-				CBDFEDFF15B196830004DDE0 /* DialogContentListCell.h */,
-				CBDFEE0015B196830004DDE0 /* DialogContentListCell.m */,
-				CBDFEE0315B197130004DDE0 /* DialogContentListCell.xib */,
-			);
-			name = Cell;
 			sourceTree = "<group>";
 		};
 		CBB3154C155A68E300C08B16 /* Libs */ = {
@@ -1666,7 +1714,7 @@
 			name = XIB;
 			sourceTree = "<group>";
 		};
-		CBF56119155E2DB9006A03E6 /* View */ = {
+		CBF56119155E2DB9006A03E6 /* ViewBean */ = {
 			isa = PBXGroup;
 			children = (
 				CBF322A115AAA8C900D82CBB /* DataView.h */,
@@ -1683,7 +1731,7 @@
 				CBE4B0DB15B286B4008051AB /* DialogContentView.h */,
 				CBE4B0DC15B286B4008051AB /* DialogContentView.m */,
 			);
-			name = View;
+			name = ViewBean;
 			sourceTree = "<group>";
 		};
 		CBF56122155E5154006A03E6 /* MBProgressHUD */ = {

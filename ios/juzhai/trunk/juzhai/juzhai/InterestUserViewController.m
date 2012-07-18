@@ -19,6 +19,7 @@
 #import "HomeViewController.h"
 #import "PagerCell.h"
 #import "UrlUtils.h"
+#import "CheckNetwork.h"
 
 @interface InterestUserViewController ()
 
@@ -39,14 +40,6 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
     if (self.isInterest) {
         self.title = @"我的关注";
     } else {
@@ -57,10 +50,9 @@
     view.backgroundColor = [UIColor clearColor];
     [self.tableView setTableFooterView:view];
     
-    self.tableView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
-    self.tableView.separatorColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.78f alpha:1.00f];
-    
-    [self loadListDataWithPage:1];
+    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BG_IMG]];
+    self.tableView.separatorColor = [UIColor colorWithRed:0.71f green:0.71f blue:0.71f alpha:1.00f];
+    [super viewDidLoad];
 }
 
 - (void)viewDidUnload
@@ -74,19 +66,15 @@
 }
 
 - (void) loadListDataWithPage:(NSInteger)page{
-    if(page <= 0)
-        page = 1;
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"加载中...";
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    if ([CheckNetwork isExistenceNetwork]) {
+        if(page <= 0)
+            page = 1;
         NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
         NSString *requestUrl = self.isInterest ? [UrlUtils urlStringWithUri:@"interestList"] : [UrlUtils urlStringWithUri:@"interestMeList"];
         
-        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:requestUrl withParams:params];
-        __unsafe_unretained ASIHTTPRequest *request = _request;
+        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:requestUrl withParams:params];
         [request setCompletionBlock:^{
             // Use when fetching text data
-            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             NSString *responseString = [request responseString];
             NSMutableDictionary *jsonResult = [responseString JSONValue];
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
@@ -105,14 +93,14 @@
                     UserView *userView = [UserView convertFromDictionary:[userViewList objectAtIndex:i]];
                     [_data addObject:userView withIdentity:userView.uid];
                 }
-                [self.tableView reloadData];
+                [self doneLoadingTableViewData];
             }
         }];
         [request setFailedBlock:^{
-            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+            [self doneLoadingTableViewData];
         }];
         [request startAsynchronous];
-    });
+    }
 }
 
 #pragma mark - Table view data source
@@ -145,19 +133,20 @@
         logo.tag = INTEREST_USER_LOGO_TAG;
         [cell addSubview:logo];
         
-        UILabel *nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 12, 150, 12)];
+        UILabel *nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 12, 150, 14)];
         nicknameLabel.backgroundColor = [UIColor clearColor];
         nicknameLabel.tag = INTEREST_USER_NICKNAME_TAG;
         [cell addSubview:nicknameLabel];
         
-        UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 34, 150, 12)];
+        UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 35, 150, 13)];
         infoLabel.backgroundColor = [UIColor clearColor];
         infoLabel.tag = INTEREST_USER_INFO_TAG;
         [cell addSubview:infoLabel];
         
         UIView *selectBgColorView = [[UIView alloc] init];
-        selectBgColorView.backgroundColor = [UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:1.00f];
+        selectBgColorView.backgroundColor = [UIColor whiteColor];
         cell.selectedBackgroundView = selectBgColorView;
+        cell.backgroundColor = [UIColor clearColor];
     }
     UserView *userView = [_data objectAtIndex:indexPath.row];
     UIImageView *logo = (UIImageView *)[cell viewWithTag:INTEREST_USER_LOGO_TAG];
@@ -172,16 +161,16 @@
     } failure:nil];
     
     UILabel *nicknameLabel = (UILabel *)[cell viewWithTag:INTEREST_USER_NICKNAME_TAG];
-    nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
+    nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:14.0];
     if(userView.gender.intValue == 0){
         nicknameLabel.textColor = [UIColor colorWithRed:1.00f green:0.40f blue:0.60f alpha:1.00f];
     }else {
-        nicknameLabel.textColor = [UIColor blueColor];
+        nicknameLabel.textColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.76f alpha:1.00f];
     }
     nicknameLabel.text = userView.nickname;
     
     UILabel *infoLabel = (UILabel *)[cell viewWithTag:INTEREST_USER_INFO_TAG];
-    infoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
+    infoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:13.0];
     infoLabel.textColor = [UIColor grayColor];
     NSMutableString *info = [NSMutableString stringWithCapacity:0];
     if(![userView.birthYear isEqual:[NSNull null]]){

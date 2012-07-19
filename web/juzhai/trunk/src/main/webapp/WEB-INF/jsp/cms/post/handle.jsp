@@ -126,7 +126,7 @@ function shield(id){
 				<c:forEach var="pageId" items="${pager.showPages}">
 					<c:choose>
 						<c:when test="${pageId!=pager.currentPage}">
-							<a href="/cms/show/post/handle?pageId=${pageId}&city=${city}">${pageId}</a>
+							<a href="/cms/show/post/handle?pageId=${pageId}&city=${city}&isIdea=${isIdea}">${pageId}</a>
 						</c:when>
 						<c:otherwise>
 							<strong>${pageId}</strong>

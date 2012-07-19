@@ -17,6 +17,7 @@
 				<div class="main_part"><!--main_part begin-->
 					<div class="main_left"><!--main_left begin-->
 						<jsp:include page="../common/home_head.jsp" />
+						<div style=" position:absolute; top:260px;"><a href="#" id="visitor-position"></a></div>
 						<div class="content_box w660 800"><!--content begin-->
 							<div class="t"></div>
 							<div class="m">

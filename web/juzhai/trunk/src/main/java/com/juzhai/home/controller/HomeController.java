@@ -99,16 +99,13 @@ public class HomeController extends BaseController {
 				page);
 	}
 
-	//兼容
-	@RequestMapping(value = { "/showposts/{townId}_{genderType}/",
-			"/showposts/{townId}_{genderType}" }, method = RequestMethod.GET)
+	// 兼容
+	@RequestMapping(value = "/showposts/{townId}_{genderType}", method = RequestMethod.GET)
 	public String showNewPosts(HttpServletRequest request, Model model,
 			@PathVariable long townId, @PathVariable String genderType)
 			throws NeedLoginException {
-		model.addAttribute("queryType", "showposts");
-		//TODO (review) redirect
-		return showPosts(request, model, townId, genderType, ShowPostOrder.NEW,
-				1);
+		// TODO (done) redirect
+		return "redirect:/home/showposts/" + townId + "_" + genderType + "/1";
 	}
 
 	@RequestMapping(value = "/showoposts/{townId}_{genderType}/{page}", method = RequestMethod.GET)
@@ -120,16 +117,13 @@ public class HomeController extends BaseController {
 				ShowPostOrder.ONLINE, page);
 	}
 
-	//兼容
-	@RequestMapping(value = { "/showoposts/{townId}_{genderType}/",
-			"/showoposts/{townId}_{genderType}" }, method = RequestMethod.GET)
+	// 兼容
+	@RequestMapping(value = "/showoposts/{townId}_{genderType}", method = RequestMethod.GET)
 	public String showOnlinePosts(HttpServletRequest request, Model model,
 			@PathVariable long townId, @PathVariable String genderType)
 			throws NeedLoginException {
-		model.addAttribute("queryType", "showoposts");
-		//TODO (review) redirect
-		return showPosts(request, model, townId, genderType,
-				ShowPostOrder.ONLINE, 1);
+		// TODO (review) redirect
+		return "redirect:/home/showoposts/" + townId + "_" + genderType + "/1";
 	}
 
 	public String showPosts(HttpServletRequest request, Model model,
@@ -204,21 +198,6 @@ public class HomeController extends BaseController {
 	public String showRespPosts(HttpServletRequest request, Model model,
 			@PathVariable String genderType, @PathVariable int page)
 			throws NeedLoginException {
-		return showRespPostsPage(request, model, genderType, page);
-	}
-
-	//兼容
-	@RequestMapping(value = { "/showrposts/{genderType}/",
-			"/showrposts/{genderType}" }, method = RequestMethod.GET)
-	public String showRespPosts(HttpServletRequest request, Model model,
-			@PathVariable String genderType) throws NeedLoginException {
-		//TODO (review) 重定向
-		return showRespPostsPage(request, model, genderType, 1);
-	}
-
-	public String showRespPostsPage(HttpServletRequest request, Model model,
-			@PathVariable String genderType, @PathVariable int page)
-			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		Integer gender = getGender(genderType);
 		showHomeCommon(0l, null, gender, request, context, model);
@@ -239,6 +218,14 @@ public class HomeController extends BaseController {
 		return "web/home/index/home";
 	}
 
+	// 兼容
+	@RequestMapping(value = "/showrposts/{genderType}", method = RequestMethod.GET)
+	public String showRespPosts(HttpServletRequest request, Model model,
+			@PathVariable String genderType) throws NeedLoginException {
+		// TODO (done) 重定向
+		return "redirect:/home/showrposts/" + genderType + "/1";
+	}
+
 	@RequestMapping(value = "/showIntPosts/{cityId}_{genderType}/{page}", method = RequestMethod.GET)
 	public String oldShowIntPosts(HttpServletRequest request, Model model,
 			@PathVariable long cityId, @PathVariable String genderType,
@@ -248,19 +235,6 @@ public class HomeController extends BaseController {
 
 	@RequestMapping(value = "/showiposts/{genderType}/{page}", method = RequestMethod.GET)
 	public String showIntPosts(HttpServletRequest request, Model model,
-			@PathVariable String genderType, @PathVariable int page)
-			throws NeedLoginException {
-		return showIntPostsPage(request, model, genderType, page);
-	}
-
-	@RequestMapping(value = { "/showiposts/{genderType}/",
-			"/showiposts/{genderType}" }, method = RequestMethod.GET)
-	public String showIntPosts(HttpServletRequest request, Model model,
-			@PathVariable String genderType) throws NeedLoginException {
-		return showIntPostsPage(request, model, genderType, 1);
-	}
-
-	public String showIntPostsPage(HttpServletRequest request, Model model,
 			@PathVariable String genderType, @PathVariable int page)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
@@ -283,6 +257,12 @@ public class HomeController extends BaseController {
 		loadCategoryList(model);
 		loadFaces(model);
 		return "web/home/index/home";
+	}
+
+	@RequestMapping(value = "/showiposts/{genderType}", method = RequestMethod.GET)
+	public String showIntPosts(HttpServletRequest request, Model model,
+			@PathVariable String genderType) throws NeedLoginException {
+		return "redirect:/home/showiposts/" + genderType + "/1";
 	}
 
 	private void showHomeCommon(long cityId, Long townId, Integer gender,

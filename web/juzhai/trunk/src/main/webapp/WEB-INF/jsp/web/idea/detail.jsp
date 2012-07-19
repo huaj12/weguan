@@ -36,7 +36,7 @@
 													<div class="idea_infor"><!--idea_infor begin-->
 														<h2><c:out value="${idea.content}" />
 															<c:if test="${not empty idea.link}">
-																<a href="${idea.link}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>去了解更多》</a>
+																<a href="/idea/outside/${idea.id}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>去了解更多》</a>
 															</c:if>
 														</h2>
 														<c:if test="${idea.categoryId > 0}">

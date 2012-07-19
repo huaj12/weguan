@@ -458,4 +458,15 @@ public class IdeaController extends BaseController {
 		return result;
 	}
 
+	@RequestMapping(value = "/outside/{ideaId}", method = RequestMethod.GET)
+	public String outside(HttpServletRequest request, Model model,
+			@PathVariable long ideaId) {
+		Idea idea = ideaService.getIdeaById(ideaId);
+		if (idea == null || StringUtils.isEmpty(idea.getLink())) {
+			return error_404;
+		}
+		model.addAttribute("idea", idea);
+		return "web/idea/outside";
+	}
+
 }

@@ -17,7 +17,7 @@ $(document).ready(function(){
 			return false;
 		});
 	}
-	if($("#ideaList").length<=0){
+	if($("#visitor-position").length<=0){
 	    $("img").lazyload({
 	        effect : "fadeIn"
 	    });

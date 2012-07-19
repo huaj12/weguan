@@ -8,10 +8,10 @@
 		<input type="hidden" name="postId" value="${postForm.postId}" />
 	</c:if>
 	<div class="send_area"><!--send_area begin-->
-		<div class="area_title">说说这周末想出去玩什么？<input type="hidden" value="0" name="purposeType"/></div>
+		<div class="area_title">说说这周末想和朋友出去玩什么？<input type="hidden" value="1" name="purposeType"/></div>
 		<div class="send_box_error" style="display: none;"></div>
 		<div class="random_select"><c:if test="${postForm == null}"><a href="javascript:void(0);" class="random">试试手气</a><a href="/showideas" class="sel">去选一个</a></c:if></div>
-		<div class="textarea"><textarea name="content" init-tip="我想去...">${postForm.content}</textarea></div>
+		<div class="textarea"><textarea name="content" init-tip="我想找伴去...">${postForm.content}</textarea></div>
 		<div class="jh"><!--jh begin-->
 			<c:choose>
 				<c:when test="${postForm!=null}"><c:set var="categoryId" value="${postForm.categoryId}" /></c:when>

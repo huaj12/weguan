@@ -140,11 +140,13 @@ public class QqConnectUserService extends AbstractUserService {
 		String stateId = CookiesManager.getCookie(request,
 				CookiesManager.STATE_NAME);
 		String localState = null;
-		try {
-			localState = memcachedClient.get(stateId);
-			memcachedClient.delete(stateId);
-		} catch (Exception e) {
-			log.error("memcached get state is error", e);
+		if (StringUtils.isNotEmpty(stateId)) {
+			try {
+				localState = memcachedClient.get(stateId);
+				memcachedClient.delete(stateId);
+			} catch (Exception e) {
+				log.error("memcached get state is error", e);
+			}
 		}
 		if (localState == null || !localState.equals(state)) {
 			log.error("stateId:" + stateId);

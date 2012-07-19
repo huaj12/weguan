@@ -4378,7 +4378,7 @@ search_xz .hot{ margin-top:-10px;}
 .send_suss h2{ float:left; width:100%; font-size:16px; font-weight:bold; color:#666; font-family:"微软雅黑";}
 .send_suss p{ float:left; width:100%; color:#999; font-family:"微软雅黑";}
 
-.send_suss ul{ float:left; margin-top:10px;}
+.send_suss ul{ float:left; margin-top:10px; width:100%;}
 .send_suss ul li{ width:50px; height:50px; overflow:hidden; float:left; margin:0 5px;}
 .send_suss .btns{ width:180px; height:auto; overflow:hidden; margin:0 auto; padding-top:15px;}
 .send_suss .btns a{ background:url(../images/web2/send_area_btn.gif) no-repeat; width:80px; height:30px; line-height:30px; color:#fff; display:block inline; float:left; margin:0 5px; text-align:center; text-decoration:none;}

@@ -3,6 +3,7 @@ package com.juzhai.notice.schedule;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
@@ -13,6 +14,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import com.juzhai.core.schedule.AbstractScheduleHandler;
+import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
@@ -41,15 +43,26 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 			List<Long> uids = noticeService.getNoticUserList(100);
 			if (CollectionUtils.isNotEmpty(uids)) {
 				for (long uid : uids) {
+					Map<Integer, Long> map = noticeService.getAllNoticeNum(uid);
+					Long comment = map.get(NoticeType.COMMENT.getType());
+					Long dialog = map.get(NoticeType.DIALOG.getType());
+					comment = comment == null ? 0 : comment;
+					dialog = dialog == null ? 0 : dialog;
+					// 没有私信和留言则不需要通知
+					if (dialog == 0 && comment == 0) {
+						uids.remove(uid);
+					}
 					noticeService.removeFromNoticeUsers(uid);
 				}
-				TpUserAuthExample example = new TpUserAuthExample();
-				example.createCriteria().andTpIdEqualTo(tp.getId())
-						.andUidIn(uids);
-				List<TpUserAuth> userAuthList = tpUserAuthMapper
-						.selectByExample(example);
-				if (CollectionUtils.isNotEmpty(userAuthList)) {
-					push(userAuthList, tp);
+				if (CollectionUtils.isNotEmpty(uids)) {
+					TpUserAuthExample example = new TpUserAuthExample();
+					example.createCriteria().andTpIdEqualTo(tp.getId())
+							.andUidIn(uids);
+					List<TpUserAuth> userAuthList = tpUserAuthMapper
+							.selectByExample(example);
+					if (CollectionUtils.isNotEmpty(userAuthList)) {
+						push(userAuthList, tp);
+					}
 				}
 
 			}

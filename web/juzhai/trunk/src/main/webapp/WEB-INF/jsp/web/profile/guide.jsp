@@ -23,20 +23,21 @@
 					<div class="qrxx_m">
 						<div class="num_title">81,322人正在找伴儿出去玩</div>
 						<div class="m_box"><!--m_box begin-->
-							<div class="title"><h2>欢迎加入我们的脱宅社区，先简单介绍下自己吧：）</h2></div>
+							<div class="title"><h2>请先确认个人信息，我们会为您安排合适的拒宅项目）</h2></div>
 							<form id="guide-form" action="/home/guide/next" method="post">
 								<div class="infor"><!--infor begin-->
 									<div class="infor_x"><!--infor_x begin-->
 										<h3>性&nbsp;&nbsp;&nbsp;&nbsp;别：</h3>
 										<div class="select"><!--select begin-->
 											<span>
-												<select name="gender">
+												<select name="gender" id="gender-select">
+													<option value="" <c:if test="${empty settingForm.gender}">selected="selected"</c:if>>请选择性别</option>
 													<option value="1" <c:if test="${settingForm.gender == 1}">selected="selected"</c:if>>男</option>
 													<option value="0" <c:if test="${settingForm.gender == 0}">selected="selected"</c:if>>女</option>
 												</select>
 											</span>
 										</div><!--select end-->
-										<div class="ts"></div>
+										<div id="gender-error" class="error_warning" style="display: none;"><em></em><b></b></div>
 									</div><!--infor_x end-->
 									<div class="infor_x"><!--infor_x begin-->
 										<h3>所&nbsp;在&nbsp;地：</h3>
@@ -96,7 +97,7 @@
 									</div><!--infor_x end-->
 								</div><!--infor end-->
 							</form>
-							<div class="save_btn"><a href="javascript:void(0);">确认&gt;&gt;</a><div id="general-error" class="error" style="display: none;"></div></div>
+							<div class="save_btn"><a href="javascript:void(0);">确认&gt;&gt;</a><div id="general-error" class="error"><c:if test="${not empty errorInfo}">${errorInfo}</c:if></div></div>
 						</div><!--m_box end-->
 						<div class="clear"></div>
 					</div>

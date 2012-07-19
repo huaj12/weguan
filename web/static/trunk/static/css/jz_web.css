@@ -93,22 +93,22 @@ a{text-decoration:none;}
 /*主体*/
 .warp{ width:100%; height:auto;  display:block; position:relative;} 
 .main{ width:960px; _width:100%; height:auto;  margin:0 auto; display:block;}
-
+.main_iframe{width:100%; height:auto;  margin:0 auto; display:block;}
 
 /*头部*/
-.main .fix_top{ width:100%; position:fixed; left:0px; top:0px; height:50px; z-index:999; background:url(../images/web2/top_bg.jpg) repeat-x;
+.fix_top{ width:100%; position:fixed; left:0px; top:0px; height:50px; z-index:999; background:url(../images/web2/top_bg.jpg) repeat-x;
 _position:absolute;
 _bottom:auto;
 _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval(document.documentElement.scrollTop));
 
  }
  
-.main .fix_top .beta{ background:url(../images/web2/beta.jpg) no-repeat; width:50px; height:50px; overflow:hidden; float:left; position:absolute; top:0px; left:0px;}
+.fix_top .beta{ background:url(../images/web2/beta.jpg) no-repeat; width:50px; height:50px; overflow:hidden; float:left; position:absolute; top:0px; left:0px;}
  
-.main .top{ width:960px; height:50px; display:block; margin:0 auto;}
+.top{ width:960px; height:50px; display:block; margin:0 auto;}
 
-.main .top h2{float:left;  margin-top:11px;  width:220px; height:30px; overflow:hidden; background:url(../images/web2/welcome_r1_c2.jpg) no-repeat;}
-.main .top h2 a{display:block; width:100%; height:100%; overflow:hidden;}
+.top h2{float:left;  margin-top:11px;  width:220px; height:30px; overflow:hidden; background:url(../images/web2/welcome_r1_c2.jpg) no-repeat;}
+.top h2 a{display:block; width:100%; height:100%; overflow:hidden;}
 .top h1{ float:left;  margin-top:11px;  width:125px; height:30px; overflow:hidden; background:url(../images/web2/logo.jpg) no-repeat;}
 .top h1 a{ display:block; width:100%; height:100%; overflow:hidden;}
 
@@ -265,6 +265,9 @@ _top:expression(eval(document.documentElement.scrollTop)); _margin-top:250px;
 /*主页*/
 
 .main_part{ width:960px; height:auto; display:block; margin:0 auto;  padding-top:70px;}
+.main_iframe_part{ width:100%; height:auto; display:block; margin:0 auto;  padding-top:50px; }
+
+
 .main_part .main_left{ width:660px; min-height:700px; _height:700px; display:block;  float:left; }
 .main_part .main_right{width:285px; height:auto; display:block; float:right;}
 
@@ -4099,6 +4102,56 @@ search_xz .hot{ margin-top:-10px;}
 
 
 
+/*热议中*/
+.reying{width:240px; margin:0 auto; overflow:hidden; margin-top:10px; height:auto; padding-bottom:20px;}
+.reying ul{ float:left;}
+.reying ul li{ width:100%; float:left; overflow:hidden; border-bottom:1px dashed #e1e1e1; margin-top:10px; padding-bottom:10px;}
+.reying ul li p{float:left; width:240px; line-height:25px; color:#999; font-size:14px; padding-bottom:5px;}
+.reying ul li p a{color:#666; margin-left:5px;}
+.reying ul li p a:hover{ text-decoration:underline;}
+
+.reying ul li em{ float:left; color:#ccc;}
+.reying ul li em a{ margin-left:5px;}
+.reying ul li em a.boy{color:#ccc;}
+.reying ul li em a.girl{ color:#ccc;}
+.reying ul li span{ float:right;}
+.reying ul li span a{color:#3E8BD9;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4332,3 +4385,7 @@ search_xz .hot{ margin-top:-10px;}
 
 .send_suss .btns a.ws{ background:url(../images/web2/gz_ta_done.gif) no-repeat; color:#999;}
 .send_suss .btns a.loading{ background:url(../images/web2/sending_btn_s1.gif) no-repeat; color:#999; padding-left:25px; text-align:left; width:55px;}
+
+
+
+

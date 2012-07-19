@@ -99,12 +99,14 @@ public class HomeController extends BaseController {
 				page);
 	}
 
+	//兼容
 	@RequestMapping(value = { "/showposts/{townId}_{genderType}/",
 			"/showposts/{townId}_{genderType}" }, method = RequestMethod.GET)
 	public String showNewPosts(HttpServletRequest request, Model model,
 			@PathVariable long townId, @PathVariable String genderType)
 			throws NeedLoginException {
 		model.addAttribute("queryType", "showposts");
+		//TODO (review) redirect
 		return showPosts(request, model, townId, genderType, ShowPostOrder.NEW,
 				1);
 	}
@@ -118,12 +120,14 @@ public class HomeController extends BaseController {
 				ShowPostOrder.ONLINE, page);
 	}
 
+	//兼容
 	@RequestMapping(value = { "/showoposts/{townId}_{genderType}/",
 			"/showoposts/{townId}_{genderType}" }, method = RequestMethod.GET)
 	public String showOnlinePosts(HttpServletRequest request, Model model,
 			@PathVariable long townId, @PathVariable String genderType)
 			throws NeedLoginException {
 		model.addAttribute("queryType", "showoposts");
+		//TODO (review) redirect
 		return showPosts(request, model, townId, genderType,
 				ShowPostOrder.ONLINE, 1);
 	}
@@ -203,10 +207,12 @@ public class HomeController extends BaseController {
 		return showRespPostsPage(request, model, genderType, page);
 	}
 
+	//兼容
 	@RequestMapping(value = { "/showrposts/{genderType}/",
 			"/showrposts/{genderType}" }, method = RequestMethod.GET)
 	public String showRespPosts(HttpServletRequest request, Model model,
 			@PathVariable String genderType) throws NeedLoginException {
+		//TODO (review) 重定向
 		return showRespPostsPage(request, model, genderType, 1);
 	}
 

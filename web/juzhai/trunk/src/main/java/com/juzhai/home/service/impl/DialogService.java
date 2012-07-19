@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.antiad.service.IFoulService;
 import com.juzhai.core.bean.Function;
@@ -25,6 +26,7 @@ import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.exception.JuzhaiException;
+import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.DialogContentTemplate;
@@ -37,6 +39,7 @@ import com.juzhai.home.model.Dialog;
 import com.juzhai.home.model.DialogContent;
 import com.juzhai.home.model.DialogExample;
 import com.juzhai.home.service.IBlacklistService;
+import com.juzhai.home.service.IDialogImageService;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
@@ -71,6 +74,8 @@ public class DialogService implements IDialogService {
 	private IBlacklistService blacklistService;
 	@Autowired
 	private IFoulService foulService;
+	@Autowired
+	private IDialogImageService dialogImageService;
 	@Value("${dialog.content.length.max}")
 	private int dialogContentLengthMax;
 	@Value("${dialog.content.length.min}")
@@ -85,6 +90,16 @@ public class DialogService implements IDialogService {
 	@Override
 	public long sendSMS(UserContext context, long targetUid, String content)
 			throws DialogException {
+		try {
+			return sendSMS(context, targetUid, content, null);
+		} catch (UploadImageException e) {
+			return 0;
+		}
+	}
+
+	@Override
+	public long sendSMS(UserContext context, long targetUid, String content,
+			MultipartFile image) throws DialogException, UploadImageException {
 		if (!passportService.isUse(Function.SENDSMS, context.getUid())) {
 			throw new DialogException(DialogException.USE_LOW_LEVEL);
 		}
@@ -93,13 +108,22 @@ public class DialogService implements IDialogService {
 		} catch (JuzhaiException e) {
 			throw new DialogException(e.getErrorCode());
 		}
-		long id = sendContent(context.getUid(), targetUid, content);
+		long id = sendContent(context.getUid(), targetUid, content, image);
 		foulService.foul(context, targetUid, content, Function.SENDSMS);
 		return id;
 	}
 
 	private long sendContent(long uid, long targetUid, String content)
 			throws DialogException {
+		try {
+			return sendContent(uid, targetUid, content, null);
+		} catch (UploadImageException e) {
+			return 0;
+		}
+	}
+
+	private long sendContent(long uid, long targetUid, String content,
+			MultipartFile image) throws DialogException, UploadImageException {
 		if (blacklistService.isShield(targetUid, uid)) {
 			throw new DialogException(DialogException.DIALOG_BLACKLIST_USER);
 		}
@@ -130,7 +154,15 @@ public class DialogService implements IDialogService {
 		dialogContent.setCreateTime(new Date());
 		dialogContent.setLastModifyTime(dialogContent.getCreateTime());
 		dialogContentMapper.insertSelective(dialogContent);
-
+		if (image != null && image.getSize() > 0) {
+			String fileName = dialogImageService.uploadDialogImg(
+					dialogContent.getId(), image);
+			// 更新图片
+			DialogContent record = new DialogContent();
+			record.setId(dialogContent.getId());
+			record.setPic(fileName);
+			dialogContentMapper.updateByPrimaryKeySelective(record);
+		}
 		// 插入关系
 		redisTemplate.opsForList().leftPush(
 				RedisKeyGenerator.genDialogContentsKey(senderDialogId),

@@ -2,6 +2,9 @@ package com.juzhai.home.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.controller.view.DialogContentView;
@@ -21,6 +24,17 @@ public interface IDialogService {
 	 */
 	long sendSMS(UserContext context, long targetUid, String content)
 			throws DialogException;
+
+	/**
+	 * 发送私信(带图片的)
+	 * 
+	 * @param uid
+	 * @param targetUid
+	 * @param content
+	 * @throws DialogException
+	 */
+	long sendSMS(UserContext context, long targetUid, String content,
+			MultipartFile image) throws DialogException, UploadImageException;
 
 	/**
 	 * 根据模版发送私信

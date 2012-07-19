@@ -106,7 +106,15 @@
 							<div class="arrow"></div>
 							<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${postView.post.purposeType}"/></c:import>:</font><c:out value="${postView.post.content}" />
 								<c:if test="${not empty postView.post.link}">
-									<a href="${postView.post.link}" class="lj_more" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>了解更多&gt;</a>
+									<c:choose>
+											<c:when test="${not empty  postView.post.ideaId }">
+													<c:set value="/idea/${postView.post.ideaId}" var="link"></c:set>		
+											</c:when>
+											<c:otherwise>
+													<c:set value="${postView.post.link}" var="link"></c:set>	
+											</c:otherwise>
+									</c:choose>
+									<a href="${link}" class="lj_more" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>了解更多&gt;</a>
 								</c:if>
 							</p>
 							<div class="infor"><!--infor begin-->

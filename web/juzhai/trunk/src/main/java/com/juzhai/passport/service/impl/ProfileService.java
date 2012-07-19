@@ -561,6 +561,11 @@ public class ProfileService implements IProfileService {
 			return;
 		}
 		long uid = profile.getUid();
+		if (profile.getGender() == null
+				|| (profile.getGender() != 0 && profile.getGender() != 1)) {
+			throw new ProfileInputException(
+					ProfileInputException.PROFILE_GEBDER_INVALID);
+		}
 		if (profile.getProvince() == null || profile.getProvince() == 0) {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROVINCE_IS_NULL);

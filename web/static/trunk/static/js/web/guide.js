@@ -10,6 +10,13 @@ $(document).ready(function(){
 	});
 	
 	$("#guide-form").submit(function(){
+		//检查性别
+		if($("#gender-select").val()==""||$("#gender-select").val()==null){
+			$("#gender-error").show().find("b").text("请选择性别!");
+			return false;
+		}else{
+			$("#gender-error").hide();
+		}
 		//检查所在地
 		if($("#province-select").val() <= 0 || $("#city-select").val() <= 0 || ($("#town-select").is(":visible") && $("#town-select").val() < 0)){
 			$("#location-error").show().find("b").text("请选择所在地!");

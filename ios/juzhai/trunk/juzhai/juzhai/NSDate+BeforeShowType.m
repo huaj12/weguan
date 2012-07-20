@@ -13,8 +13,16 @@
 - (NSString *)showBefore
 {
     NSTimeInterval interval = - [self timeIntervalSinceNow];
+    
+    NSCalendar *cal = [NSCalendar currentCalendar];
+
+    int nowYear = [[cal components:NSYearCalendarUnit fromDate:[NSDate date]] year];
+    int year = [[cal components:NSYearCalendarUnit fromDate:self] year];
+    
     NSString *timeText;
-    if (interval < 60) {
+    if (interval <= 0) {
+        timeText = @"0秒前";
+    } else if (interval < 60) {
         NSInteger beforeSec = interval;
         timeText = [NSString stringWithFormat:@"%d秒前", beforeSec];
     } else if (0 < interval/60 && interval/60 < 60) {
@@ -27,6 +35,10 @@
         timeText = @"昨天";
     } else if (interval/3600/24 == 2) {
         timeText = @"前天";
+    } else if (nowYear == year){
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MM-dd"];
+        timeText = [formatter stringFromDate:self];
     } else {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyy-MM-dd"];

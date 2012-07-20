@@ -11,11 +11,11 @@
 #import "SmsListCell.h"
 #import "PagerCell.h"
 #import "DialogView.h"
-#import "MBProgressHUD.h"
+#import "Constant.h"
 #import "HttpRequestSender.h"
 #import "SBJson.h"
-#import "HomeViewController.h"
-#import "CustomButton.h"
+#import "TaHomeViewController.h"
+#import "RectButton.h"
 #import "MessageShow.h"
 #import "UrlUtils.h"
 #import "DialogContentViewController.h"
@@ -39,15 +39,10 @@
 {
     if(page <= 0)
         page = 1;
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-    hud.labelText = @"加载中...";
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
-        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"dialogList"] withParams:params];
-//        __unsafe_unretained ASIHTTPRequest *request = _request;
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
+    __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"dialogList"] withParams:params];
+    if (request) {
         [request setCompletionBlock:^{
-            // Use when fetching text data
-            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             NSString *responseString = [request responseString];
             NSMutableDictionary *jsonResult = [responseString JSONValue];
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
@@ -66,14 +61,14 @@
                     DialogView *dialogView = [DialogView convertFromDictionary:[dialogViewList objectAtIndex:i]];
                     [_data addObject:dialogView withIdentity:[NSNumber numberWithInt:dialogView.dialogId]];
                 }
-                [self.tableView reloadData];
+                [self doneLoadingTableViewData];
             }
         }];
         [request setFailedBlock:^{
-            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+            [self doneLoadingTableViewData];
         }];
         [request startAsynchronous];
-    });
+    }        
 }
 
 - (IBAction)toggleEdit:(id)sender{
@@ -85,12 +80,10 @@
 }
 
 - (void)viewDidLoad
-{
-    [super viewDidLoad];
-
+{    
     self.title = @"我的消息";
     
-    _editButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"删除" CapLocation:CapLeftAndRight];
+    _editButton = [[RectButton alloc] initWithWidth:45.0 buttonText:@"删除" CapLocation:CapLeftAndRight];
     [_editButton addTarget:self action:@selector(toggleEdit:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_editButton];
     
@@ -98,10 +91,10 @@
     view.backgroundColor = [UIColor clearColor];
     [self.tableView setTableFooterView:view];
     
-    self.tableView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
-    self.tableView.separatorColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.78f alpha:1.00f];
+    self.tableView.separatorColor = [UIColor colorWithRed:0.71f green:0.71f blue:0.71f alpha:1.00f];
+    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BG_IMG]];
     
-    [self loadListDataWithPage:1];
+    [super viewDidLoad];
 }
 
 

@@ -35,6 +35,7 @@
 @synthesize post;
 @synthesize interestMeCount;
 @synthesize interestUserCount;
+@synthesize postCount;
 @synthesize hasGuided;
 @synthesize hasInterest;
 
@@ -72,6 +73,7 @@
     self.feature = [info valueForKey:@"feature"];
     self.interestUserCount = [info valueForKey:@"interestUserCount"];
     self.interestMeCount = [info valueForKey:@"interestMeCount"];
+    self.postCount = [info valueForKey:@"postCount"];
     self.hasGuided = [info valueForKey:@"hasGuided"];
     self.hasInterest = [info valueForKey:@"hasInterest"];
 }
@@ -87,8 +89,11 @@
         int age = [dd year] - self.birthYear.intValue;
         [info appendFormat:@"%d岁 ", age];
     }
-    if(![self.constellation isEqual:[NSNull null]]){
-        [info appendFormat:@"%@", self.constellation];
+    if(![self.constellation isEqual:[NSNull null]] && ![self.constellation isEqualToString:@""]){
+        [info appendFormat:@"%@ ", self.constellation];
+    }
+    if (![self.profession isEqual:[NSNull null]] && ![self.profession isEqualToString:@""]) {
+        [info appendFormat:@"%@", self.profession];
     }
     return info;
 }

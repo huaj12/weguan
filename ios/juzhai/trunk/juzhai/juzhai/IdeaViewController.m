@@ -12,7 +12,6 @@
 #import "FPPopoverController.h"
 #import "CategoryTableViewController.h"
 #import "CustomSegmentedControl.h"
-#import "CustomButton.h"
 #import "IdeaListCell.h"
 #import "ASIHTTPRequest.h"
 #import "HttpRequestSender.h"
@@ -26,6 +25,7 @@
 #import "SendPostBarButtonItem.h"
 #import "UrlUtils.h"
 #import "BaseData.h"
+#import "MenuButton.h"
 
 @interface IdeaViewController (Private)
 - (void) loadListDataWithPage:(NSInteger)page;
@@ -45,38 +45,40 @@
 - (void)viewDidLoad
 {
     //右侧最新最热切换  
-    UIImage *orderImage = [UIImage imageNamed:@"new_hot_btn_link.png"];
-    UIImage *activeOrderImage = [UIImage imageNamed:@"new_hot_btn_hover.png"];
-    _orderButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _orderButton.frame = CGRectMake(0, 0, orderImage.size.width, orderImage.size.height);
-    [_orderButton setBackgroundImage:orderImage forState:UIControlStateNormal];
-    [_orderButton setBackgroundImage:activeOrderImage forState:UIControlStateHighlighted];
-    _orderButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
-    [_orderButton setTitle:@"最新" forState:UIControlStateNormal];
-    [_orderButton setTitleColor:[UIColor colorWithRed:153.0f/255.0f green:153.0f/255.0f blue:153.0f/255.0f alpha:1.0] forState:UIControlStateNormal];
-    [_orderButton setTitleColor:[UIColor colorWithRed:204.0f/255.0f green:204.0f/255.0f blue:204.0f/255.0f alpha:1.0] forState:UIControlStateHighlighted];
-    [_orderButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 17.0, 0.0, 0.0)];
-    _orderButton.tag = ORDER_BY_TIME;
-    [_orderButton addTarget:self action:@selector(changeOrder:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_orderButton];
+//    _timeOrderBtnImg = [UIImage imageNamed:TIME_ORDER_BTN_IMG];
+//    _hotOrderBtnImg = [UIImage imageNamed:HOT_ORDER_BTN_IMG];
+//    
+//    _orderButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    _orderButton.frame = CGRectMake(0, 0, _timeOrderBtnImg.size.width, _timeOrderBtnImg.size.height);
+//    [_orderButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [_orderButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+//    _orderButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
+//    [_orderButton addTarget:self action:@selector(changeOrder:) forControlEvents:UIControlEventTouchUpInside];
+//    [self timeOrderButton];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_orderButton];
+    
+    UIImage* dividerImage = [UIImage imageNamed:DIVIDER_LINE_IMAGE];
+    _segmentedControl = [[CustomSegmentedControl alloc] initWithSegmentCount:2 segmentsize:CGSizeMake(60, dividerImage.size.height) dividerImage:dividerImage tag:OrderTypeTime delegate:self];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_segmentedControl];
     
     //中央分类选择按钮
-    UIImage *categoryImage = [UIImage imageNamed:@"select_down_link.png"];
-    UIImage *activeCategoryImage = [UIImage imageNamed:@"select_down_hover.png"];
+    _categoryDownLinkImg = [UIImage imageNamed:CATEGORY_DOWN_LINK_IMG];
+    _categoryDownHoverImg = [UIImage imageNamed:CATEGORY_DOWN_HOVER_IMG];
+    _categoryUpLinkImg = [UIImage imageNamed:CATEGORY_UP_LINK_IMG];
+    _categoryUpHoverImg = [UIImage imageNamed:CATEGORY_up_HOVER_IMG];
+    
     _categoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _categoryButton.frame = CGRectMake(0, 0, categoryImage.size.width, categoryImage.size.height);
-    [_categoryButton setBackgroundImage:categoryImage forState:UIControlStateNormal];
-    [_categoryButton setBackgroundImage:activeCategoryImage forState:UIControlStateHighlighted];
-    _categoryButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
+    _categoryButton.frame = CGRectMake(0, 0, _categoryDownLinkImg.size.width, _categoryDownLinkImg.size.height);
+    [_categoryButton setBackgroundImage:_categoryDownLinkImg forState:UIControlStateNormal];
+    [_categoryButton setBackgroundImage:_categoryDownHoverImg forState:UIControlStateHighlighted];
+    _categoryButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:13.0];
     [_categoryButton setTitle:@"全部分类" forState:UIControlStateNormal];
-    [_categoryButton setTitleColor:[UIColor colorWithRed:153.0f/255.0f green:153.0f/255.0f blue:153.0f/255.0f alpha:1.0] forState:UIControlStateNormal];
-    [_categoryButton setTitleColor:[UIColor colorWithRed:204.0f/255.0f green:204.0f/255.0f blue:204.0f/255.0f alpha:1.0] forState:UIControlStateHighlighted];
-    [_categoryButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, -29.0, 0.0, 0.0)];
+    [_categoryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_categoryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [_categoryButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, -20.0, 0.0, 0.0)];
     _categoryButton.tag = ALL_CATEGORY_ID;
     [_categoryButton addTarget:self action:@selector(showCategory:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.titleView = _categoryButton;
-    
-    self.navigationItem.leftBarButtonItem = [[SendPostBarButtonItem alloc] initWithOwnerViewController:self];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_categoryButton];
     
     //隐藏下方线条
     UIView *view = [UIView new];
@@ -84,8 +86,8 @@
     [self.tableView setTableFooterView:view];
     
     //设置分割线
-    self.tableView.separatorColor = [UIColor colorWithRed:0.78f green:0.78f blue:0.78f alpha:1.00f];
-    self.tableView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
+    self.tableView.separatorColor = [UIColor colorWithRed:0.71f green:0.71f blue:0.71f alpha:1.00f];
+    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BG_IMG]];
     //加载初始化分类数据
     [BaseData getCategories];
     [super viewDidLoad];
@@ -101,6 +103,24 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+//- (void)timeOrderButton
+//{
+//    [_orderButton setBackgroundImage:_timeOrderBtnImg forState:UIControlStateNormal];
+//    [_orderButton setBackgroundImage:_timeOrderBtnImg forState:UIControlStateHighlighted];
+//    [_orderButton setTitle:@"最新" forState:UIControlStateNormal];
+//    [_orderButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 25.0, 0.0, 0.0)];
+//    _orderButton.tag = OrderTypeTime;
+//}
+//
+//- (void)hotOrderButton
+//{
+//    [_orderButton setBackgroundImage:_hotOrderBtnImg forState:UIControlStateNormal];
+//    [_orderButton setBackgroundImage:_hotOrderBtnImg forState:UIControlStateHighlighted];
+//    [_orderButton setTitle:@"最热" forState:UIControlStateNormal];
+//    [_orderButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, -25.0, 0.0, 0.0)];
+//    _orderButton.tag = OrderTypeHot; 
+//}
 
 #pragma mark - Memory Management
 
@@ -120,7 +140,7 @@
         }
         NSInteger categoryId = _categoryButton.tag;
         NSString *orderType;
-        if(_orderButton.tag == ORDER_BY_TIME){
+        if(_segmentedControl.tag == OrderTypeTime){
             orderType = @"time";
         }else {
             orderType = @"pop";
@@ -158,6 +178,43 @@
 }
 
 #pragma mark -
+#pragma mark CustomSegmentedControlDelegate
+- (UIButton*) buttonFor:(CustomSegmentedControl*)segmentedControl atIndex:(NSUInteger)segmentIndex;
+{
+    CapLocation location;
+    if (segmentIndex == 0)
+        location = CapLeft;
+    else if (segmentIndex == segmentedControl.buttons.count - 1)
+        location = CapMiddle;
+    else
+        location = CapRight;
+    
+    NSString *buttonText;
+    switch (segmentIndex) {
+        case OrderTypeTime:
+            buttonText = @"最新";
+            break;
+        case OrderTypeHot:
+            buttonText = @"最热";
+            break;
+    }
+    UIButton* button = [[MenuButton alloc] initWithWidth:60 buttonText:buttonText CapLocation:location];
+    if (segmentIndex == 0)
+        button.selected = YES;
+    return button;
+}
+
+- (void) touchDownAtSegmentIndex:(NSUInteger)segmentIndex
+{
+    if (segmentIndex == _segmentedControl.tag) {
+        return;
+    }
+    _segmentedControl.tag = segmentIndex;
+    //reload data
+    [_refreshHeaderView autoRefresh:self.tableView];
+}
+
+#pragma mark -
 #pragma mark Navigation Bar item
 
 -(void)popover:(id)sender
@@ -174,35 +231,30 @@
 }
 
 -(void)popoverControllerDidDismissPopover:(FPPopoverController *)popover{
-    UIImage *categoryImage = [UIImage imageNamed:@"select_down_link.png"];
-    UIImage *activeCategoryImage = [UIImage imageNamed:@"select_down_hover.png"];
-    [_categoryButton setBackgroundImage:categoryImage forState:UIControlStateNormal];
-    [_categoryButton setBackgroundImage:activeCategoryImage forState:UIControlStateHighlighted];
+    [_categoryButton setBackgroundImage:_categoryDownLinkImg forState:UIControlStateNormal];
+    [_categoryButton setBackgroundImage:_categoryDownHoverImg forState:UIControlStateHighlighted];
+    [_categoryButton addTarget:self action:@selector(showCategory:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(IBAction)showCategory:(id)sender{
-    UIImage *categoryImage = [UIImage imageNamed:@"select_up_link.png"];
-    UIImage *activeCategoryImage = [UIImage imageNamed:@"select_up_hover.png"];
-    [_categoryButton setBackgroundImage:categoryImage forState:UIControlStateNormal];
-    [_categoryButton setBackgroundImage:activeCategoryImage forState:UIControlStateHighlighted];
+    [_categoryButton setBackgroundImage:_categoryUpLinkImg forState:UIControlStateNormal];
+    [_categoryButton setBackgroundImage:_categoryUpHoverImg forState:UIControlStateHighlighted];
     [self popover: sender];
+    [_categoryButton removeTarget:self action:@selector(showCategory:) forControlEvents:UIControlEventTouchUpInside];
 }
 
--(IBAction)changeOrder:(id)sender{
-    _orderButton.tag = 1 - _orderButton.tag;
-    switch (_orderButton.tag) {
-        case ORDER_BY_TIME:
-            [_orderButton setTitle:@"最新" forState:UIControlStateNormal];
-            break;
-        case ORDER_BY_HOT:
-            [_orderButton setTitle:@"最热" forState:UIControlStateNormal];
-            break;
-        default:
-            break;
-    }
-    //reload data
-    [_refreshHeaderView autoRefresh:self.tableView];
-}
+//-(IBAction)changeOrder:(id)sender{
+//    switch (_orderButton.tag) {
+//        case OrderTypeTime:
+//            [self hotOrderButton];
+//            break;
+//        case OrderTypeHot:
+//            [self timeOrderButton];
+//            break;
+//    }
+//    //reload data
+//    [_refreshHeaderView autoRefresh:self.tableView];
+//}
 
 - (void)selectByCategory:(UITableViewCell *)cell{
     _categoryButton.tag = cell.textLabel.tag;

@@ -9,7 +9,7 @@
 #import "ProfessionEditorViewController.h"
 #import "BaseData.h"
 #import "Profession.h"
-#import "CustomButton.h"
+#import "RectButton.h"
 #import "ProfileSettingViewController.h"
 #import "NSString+Chinese.h"
 #import "MessageShow.h"
@@ -43,7 +43,7 @@
     // Do any additional setup after loading the view from its nib.    
     self.title = @"职业";
     
-    CustomButton *saveButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"保存" CapLocation:CapLeftAndRight];
+    RectButton *saveButton = [[RectButton alloc] initWithWidth:45.0 buttonText:@"保存" CapLocation:CapLeftAndRight];
     [saveButton addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];
 }

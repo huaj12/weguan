@@ -7,16 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EGORefreshTableHeaderViewController.h"
+#import "EGORefreshHeaderTableViewController.h"
 
 @class JZData;
-@class HomeViewController;
 
 #define INTEREST_USER_LOGO_TAG 1
 #define INTEREST_USER_NICKNAME_TAG 2
 #define INTEREST_USER_INFO_TAG 3
 
-@interface InterestUserViewController : EGORefreshTableHeaderViewController
+@interface InterestUserViewController : EGORefreshHeaderTableViewController
 {
     JZData *_data;
 }

@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol CustomButtonDelegate
+
+@required
+- (CGFloat)buttonCapWidth;
+- (NSString *)buttonNormalBackgroundImageName;
+- (NSString *)buttonHighlightedBackgroundImageName;
+
+@end
+
 typedef enum {
     CapLeft          = 0,
     CapMiddle        = 1,
@@ -15,14 +24,12 @@ typedef enum {
     CapLeftAndRight  = 3
 } CapLocation;
 
-#define BUTTON_IMAGE @"menu_link_bg.png"
-#define BUTTON_ACTIVE_IMAGE @"menu_active_bg.png"
-#define CAP_WIDTH 5
-
 @interface CustomButton : UIButton
+
+@property (strong, nonatomic) id<CustomButtonDelegate> delegate;
 
 - (id)initWithWidth:(NSUInteger)width buttonText:(NSString *)buttonText CapLocation:(CapLocation)location;
 
-- (id)initWithFrame:(CGRect)frame buttonText:(NSString *)buttonText buttonImage:(UIImage *)image buttonPressedImage:(UIImage *)pressedImage;
+//- (id)initWithFrame:(CGRect)frame buttonText:(NSString *)buttonText buttonImage:(UIImage *)image buttonPressedImage:(UIImage *)pressedImage;
 
 @end

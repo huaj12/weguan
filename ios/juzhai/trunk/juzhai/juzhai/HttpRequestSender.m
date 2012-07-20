@@ -9,10 +9,14 @@
 #import "HttpRequestSender.h"
 #import "ASIFormDataRequest.h"
 #import "ASIHTTPRequest.h"
+#import "CheckNetwork.h"
 
 @implementation HttpRequestSender
 
 +(ASIFormDataRequest *)postRequestWithUrl:(NSString *)url withParams:(NSDictionary *)params{
+    if (![CheckNetwork isExistenceNetwork]) {
+        return nil;
+    }
     NSURL *requestUrl = [NSURL URLWithString:url];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:requestUrl];
     [request addRequestHeader:@"Content-Type" value:@"application/html;charset=UTF-8;"];
@@ -28,6 +32,9 @@
 }
 
 +(ASIHTTPRequest *)getRequestWithUrl:(NSString *)url withParams:(NSDictionary *)params{
+    if (![CheckNetwork isExistenceNetwork]) {
+        return nil;
+    }
     if(params != nil && [params count] > 0){
         NSString *parameString = @"";
         int i = 0;

@@ -8,7 +8,7 @@
 
 #import "MessageNavigationController.h"
 #import "CustomSegmentedControl.h"
-#import "CustomButton.h"
+#import "RectButton.h"
 
 @interface MessageNavigationController ()
 
@@ -69,7 +69,7 @@
         default:
             break;
     }
-    UIButton* button = [[CustomButton alloc] initWithWidth:51 buttonText:buttonText CapLocation:location];
+    UIButton* button = [[RectButton alloc] initWithWidth:51 buttonText:buttonText CapLocation:location];
     if (segmentIndex == 0)
         button.selected = YES;
     return button;

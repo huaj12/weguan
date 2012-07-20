@@ -8,7 +8,7 @@
 
 #import "FeatureEditorViewController.h"
 #import <QuartzCore/QuartzCore.h>
-#import "CustomButton.h"
+#import "RectButton.h"
 #import "ProfileSettingViewController.h"
 #import "NSString+Chinese.h"
 #import "MessageShow.h"
@@ -40,7 +40,7 @@
     
     self.title = @"自我评价";
     
-    CustomButton *saveButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"保存" CapLocation:CapLeftAndRight];
+    RectButton *saveButton = [[RectButton alloc] initWithWidth:45.0 buttonText:@"保存" CapLocation:CapLeftAndRight];
     [saveButton addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];
     

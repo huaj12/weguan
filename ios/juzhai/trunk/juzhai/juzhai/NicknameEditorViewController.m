@@ -7,7 +7,7 @@
 //
 
 #import "NicknameEditorViewController.h"
-#import "CustomButton.h"
+#import "RectButton.h"
 #import "ProfileSettingViewController.h"
 #import "UserView.h"
 #import <QuartzCore/QuartzCore.h>
@@ -38,7 +38,7 @@
     // Do any additional setup after loading the view from its nib.
     self.title = @"昵称";
     
-    CustomButton *saveButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"保存" CapLocation:CapLeftAndRight];
+    RectButton *saveButton = [[RectButton alloc] initWithWidth:45.0 buttonText:@"保存" CapLocation:CapLeftAndRight];
     [saveButton addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];
 }

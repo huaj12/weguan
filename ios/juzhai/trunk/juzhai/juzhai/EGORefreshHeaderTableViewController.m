@@ -6,13 +6,13 @@
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#import "EGORefreshTableHeaderViewController.h"
+#import "EGORefreshHeaderTableViewController.h"
 
-@interface EGORefreshTableHeaderViewController ()
+@interface EGORefreshHeaderTableViewController ()
 
 @end
 
-@implementation EGORefreshTableHeaderViewController
+@implementation EGORefreshHeaderTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

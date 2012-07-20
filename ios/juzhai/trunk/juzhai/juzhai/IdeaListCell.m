@@ -49,9 +49,8 @@
 }
 
 -(void) setBackground{
-    self.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
     UIView *selectBgColorView = [[UIView alloc] init];
-    selectBgColorView.backgroundColor = [UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:1.00f];
+    selectBgColorView.backgroundColor = [UIColor whiteColor];
     self.selectedBackgroundView = selectBgColorView;
 }
 

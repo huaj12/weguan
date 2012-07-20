@@ -9,7 +9,7 @@
 #import "GuideSettingViewController.h"
 #import "LoginService.h"
 #import "MessageShow.h"
-#import "CustomButton.h"
+#import "RectButton.h"
 #import "MBProgressHUD.h"
 #import "UrlUtils.h"
 
@@ -37,7 +37,7 @@
     _cellIdentifierDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:LOGO_CELL_IDENTIFIER, [NSNumber numberWithInt:0], NICKNAME_CELL_IDENTIFIER, [NSNumber numberWithInt:10], GENDER_CELL_IDENTIFIER, [NSNumber numberWithInt:11], BIRTH_CELL_IDENTIFIER, [NSNumber numberWithInt:12], LOCATION_CELL_IDENTIFIER, [NSNumber numberWithInt:20], PROFESSION_CELL_IDENTIFIER, [NSNumber numberWithInt:21], nil];
     _disableSelectCellIdentifiterArray = [[NSArray alloc] initWithObjects:NICKNAME_CELL_IDENTIFIER, nil];
     
-    _logoutButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"退出" CapLocation:CapLeftAndRight];
+    _logoutButton = [[RectButton alloc] initWithWidth:45.0 buttonText:@"退出" CapLocation:CapLeftAndRight];
     [_logoutButton addTarget:self action:@selector(logout:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_logoutButton];
 }

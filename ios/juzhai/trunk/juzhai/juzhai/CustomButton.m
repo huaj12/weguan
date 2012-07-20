@@ -11,6 +11,8 @@
 
 @implementation CustomButton
 
+@synthesize delegate;
+
 - (id)initWithFrame:(CGRect)frame buttonText:(NSString *)buttonText buttonImage:(UIImage *)image buttonPressedImage:(UIImage *)pressedImage{
     self = [UIButton buttonWithType:UIButtonTypeCustom];
     if (self) {
@@ -35,13 +37,13 @@
     UIImage* buttonPressedImage = nil;
     if (location == CapLeftAndRight)
     {
-        buttonImage = [[UIImage imageNamed:BUTTON_IMAGE] stretchableImageWithLeftCapWidth:CAP_WIDTH topCapHeight:0.0];
-        buttonPressedImage = [[UIImage imageNamed:BUTTON_ACTIVE_IMAGE] stretchableImageWithLeftCapWidth:CAP_WIDTH topCapHeight:0.0];
+        buttonImage = [[UIImage imageNamed:[self.delegate buttonNormalBackgroundImageName]] stretchableImageWithLeftCapWidth:[self.delegate buttonCapWidth] topCapHeight:0.0];
+        buttonPressedImage = [[UIImage imageNamed:[self.delegate buttonHighlightedBackgroundImageName]] stretchableImageWithLeftCapWidth:[self.delegate buttonCapWidth] topCapHeight:0.0];
     }
     else
     {
-        buttonImage = [self image:[[UIImage imageNamed:BUTTON_IMAGE] stretchableImageWithLeftCapWidth:CAP_WIDTH topCapHeight:0.0] withCap:location capWidth:CAP_WIDTH buttonWidth:width];
-        buttonPressedImage = [self image:[[UIImage imageNamed:BUTTON_ACTIVE_IMAGE] stretchableImageWithLeftCapWidth:CAP_WIDTH topCapHeight:0.0] withCap:location capWidth:CAP_WIDTH buttonWidth:width];
+        buttonImage = [self image:[[UIImage imageNamed:[self.delegate buttonNormalBackgroundImageName]] stretchableImageWithLeftCapWidth:[self.delegate buttonCapWidth] topCapHeight:0.0] withCap:location capWidth:[self.delegate buttonCapWidth] buttonWidth:width];
+        buttonPressedImage = [self image:[[UIImage imageNamed:[self.delegate buttonHighlightedBackgroundImageName]] stretchableImageWithLeftCapWidth:[self.delegate buttonCapWidth] topCapHeight:0.0] withCap:location capWidth:[self.delegate buttonCapWidth] buttonWidth:width];
     }
     return [self initWithFrame:CGRectMake(0, 0, width, buttonImage.size.height) buttonText:buttonText buttonImage:buttonImage buttonPressedImage:buttonPressedImage];
 }
@@ -65,14 +67,5 @@
     
     return resultImage;
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

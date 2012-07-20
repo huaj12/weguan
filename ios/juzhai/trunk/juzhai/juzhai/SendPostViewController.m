@@ -11,7 +11,7 @@
 #import "CustomActionSheet.h"
 #import "NSString+Chinese.h"
 #import "MessageShow.h"
-#import "CustomButton.h"
+#import "RectButton.h"
 #import "PostService.h"
 
 @interface SendPostViewController ()
@@ -53,7 +53,7 @@
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     navigationBar.topItem.leftBarButtonItem = backItem;
     
-    _saveButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"发布" CapLocation:CapLeftAndRight];
+    _saveButton = [[RectButton alloc] initWithWidth:45.0 buttonText:@"发布" CapLocation:CapLeftAndRight];
     [_saveButton addTarget:self action:@selector(sendPost:) forControlEvents:UIControlEventTouchUpInside];
     _saveButton.enabled = NO;
     navigationBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_saveButton];

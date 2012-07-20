@@ -12,7 +12,7 @@
 #import "UserView.h"
 #import "PostView.h"
 #import "Constant.h"
-#import "HomeViewController.h"
+#import "TaHomeViewController.h"
 #import "UserContext.h"
 #import "MBProgressHUD.h"
 #import "HttpRequestSender.h"
@@ -76,9 +76,9 @@
     
     nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:14.0];
     if(userView.gender.intValue == 0){
-        nicknameLabel.textColor = [UIColor colorWithRed:1.00f green:0.40f blue:0.60f alpha:1.00f];
+        nicknameLabel.textColor = FEMALE_NICKNAME_COLOR;
     }else {
-        nicknameLabel.textColor = [UIColor blueColor];
+        nicknameLabel.textColor = MALE_NICKNAME_COLOR;
     }
     nicknameLabel.text = userView.nickname;
     
@@ -205,10 +205,10 @@
 }
 
 - (IBAction)goToUserHome:(id)sender{
-    HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-    homeViewController.hidesBottomBarWhenPushed = YES;
-    homeViewController.userView = self.userView;
-    [self.navigationController pushViewController:homeViewController animated:YES];
+    TaHomeViewController *taHomeViewController = [[TaHomeViewController alloc] initWithNibName:@"TaHomeViewController" bundle:nil];
+    taHomeViewController.hidesBottomBarWhenPushed = YES;
+    taHomeViewController.userView = self.userView;
+    [self.navigationController pushViewController:taHomeViewController animated:YES];
 }
 
 - (IBAction)respPost:(id)sender{

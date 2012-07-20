@@ -70,11 +70,11 @@
     
     nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
     if(ideaUserView.userView.gender.intValue == 0){
-        nicknameLabel.textColor = [UIColor colorWithRed:1.00f green:0.40f blue:0.60f alpha:1.00f];
-        nicknameLabel.highlightedTextColor = [UIColor colorWithRed:1.00f green:0.40f blue:0.60f alpha:1.00f];
+        nicknameLabel.textColor = FEMALE_NICKNAME_COLOR;
+        nicknameLabel.highlightedTextColor = FEMALE_NICKNAME_COLOR;
     }else {
-        nicknameLabel.textColor = [UIColor blueColor];
-        nicknameLabel.highlightedTextColor = [UIColor blueColor];
+        nicknameLabel.textColor = MALE_NICKNAME_COLOR;
+        nicknameLabel.highlightedTextColor = MALE_NICKNAME_COLOR;
     }
     nicknameLabel.text = ideaUserView.userView.nickname;
     
@@ -94,9 +94,8 @@
 
 - (void) setBackground
 {
-    self.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
     UIView *selectBgColorView = [[UIView alloc] init];
-    selectBgColorView.backgroundColor = [UIColor colorWithRed:0.96f green:0.96f blue:0.96f alpha:1.00f];
+    selectBgColorView.backgroundColor = [UIColor whiteColor];
     self.selectedBackgroundView = selectBgColorView;
 }
 + (CGFloat) heightForCell:()objView

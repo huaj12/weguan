@@ -7,7 +7,7 @@
 //
 
 #import "SettingViewController.h"
-#import "CustomButton.h"
+#import "RectButton.h"
 #import "UserView.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 #import "UserContext.h"
@@ -67,7 +67,7 @@
         [_cellDictionary setObject:cell forKey:cell.reuseIdentifier];
     }
     
-    _saveButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"保存" CapLocation:CapLeftAndRight];
+    _saveButton = [[RectButton alloc] initWithWidth:45.0 buttonText:@"保存" CapLocation:CapLeftAndRight];
     [_saveButton addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
     _saveButton.enabled = NO;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_saveButton];

@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EGORefreshHeaderTableViewController.h"
 
 @class JZData;
 @class HomeViewController;
 
-@interface SmsViewController : UITableViewController
+@interface SmsViewController : EGORefreshHeaderTableViewController
 {
     JZData *_data;
     UIButton *_editButton;

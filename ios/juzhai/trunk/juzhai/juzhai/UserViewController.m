@@ -10,7 +10,7 @@
 #import "JZData.h"
 #import "CheckNetwork.h"
 #import "CustomSegmentedControl.h"
-#import "CustomButton.h"
+#import "MenuButton.h"
 #import "UserListCell.h"
 #import "UserView.h"
 #import "ASIHTTPRequest.h"
@@ -22,6 +22,7 @@
 #import "PagerCell.h"
 #import "SendPostBarButtonItem.h"
 #import "UrlUtils.h"
+#import "Constant.h"
 
 @interface UserViewController (Private)
 
@@ -44,9 +45,8 @@
 {
     // Do any additional setup after loading the view from its nib.
     //中央切换按钮
-    UIImage* dividerImage = [UIImage imageNamed:@"menu_line.png"];
-    _segmentedControl = [[CustomSegmentedControl alloc] initWithSegmentCount:2 segmentsize:CGSizeMake(51, dividerImage.size.height) dividerImage:dividerImage tag:0 delegate:self];
-    _segmentedControl.tag = ORDER_BY_TIME;
+    UIImage* dividerImage = [UIImage imageNamed:DIVIDER_LINE_IMAGE];
+    _segmentedControl = [[CustomSegmentedControl alloc] initWithSegmentCount:2 segmentsize:CGSizeMake(60, dividerImage.size.height) dividerImage:dividerImage tag:ORDER_BY_TIME delegate:self];
     self.navigationItem.titleView = _segmentedControl;
     
     //右侧性别按钮
@@ -70,7 +70,7 @@
     self.tableView.separatorColor = [UIColor clearColor];
     
     //设置背景图
-    self.tableView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
+    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BG_IMG]];
     [super viewDidLoad];
 }
 
@@ -183,11 +183,9 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
             break;
         case 1:
             buttonText = @"推荐";
-            break;    
-        default:
             break;
     }
-    UIButton* button = [[CustomButton alloc] initWithWidth:51 buttonText:buttonText CapLocation:location];
+    UIButton* button = [[MenuButton alloc] initWithWidth:60 buttonText:buttonText CapLocation:location];
     if (segmentIndex == 0)
         button.selected = YES;
     return button;
@@ -195,12 +193,10 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
 
 - (void) touchDownAtSegmentIndex:(NSUInteger)segmentIndex
 {
-    switch (segmentIndex) {
-        case 0:
-            break;
-        case 1:
-            break;
+    if (segmentIndex == _segmentedControl.tag) {
+        return;
     }
+    _segmentedControl.tag = segmentIndex;
     //reload data
     [_refreshHeaderView autoRefresh:self.tableView];
 }

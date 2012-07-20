@@ -16,7 +16,7 @@
 #import "HttpRequestSender.h"
 #import "SBJson.h"
 #import "Pager.h"
-#import "HomeViewController.h"
+#import "TaHomeViewController.h"
 #import "PagerCell.h"
 #import "UrlUtils.h"
 #import "CheckNetwork.h"
@@ -138,7 +138,7 @@
         nicknameLabel.tag = INTEREST_USER_NICKNAME_TAG;
         [cell addSubview:nicknameLabel];
         
-        UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 35, 150, 13)];
+        UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 35, 200, 13)];
         infoLabel.backgroundColor = [UIColor clearColor];
         infoLabel.tag = INTEREST_USER_INFO_TAG;
         [cell addSubview:infoLabel];
@@ -163,28 +163,16 @@
     UILabel *nicknameLabel = (UILabel *)[cell viewWithTag:INTEREST_USER_NICKNAME_TAG];
     nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:14.0];
     if(userView.gender.intValue == 0){
-        nicknameLabel.textColor = [UIColor colorWithRed:1.00f green:0.40f blue:0.60f alpha:1.00f];
+        nicknameLabel.textColor = FEMALE_NICKNAME_COLOR;
     }else {
-        nicknameLabel.textColor = [UIColor colorWithRed:0.24f green:0.51f blue:0.76f alpha:1.00f];
+        nicknameLabel.textColor = MALE_NICKNAME_COLOR;
     }
     nicknameLabel.text = userView.nickname;
     
     UILabel *infoLabel = (UILabel *)[cell viewWithTag:INTEREST_USER_INFO_TAG];
     infoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:13.0];
     infoLabel.textColor = [UIColor grayColor];
-    NSMutableString *info = [NSMutableString stringWithCapacity:0];
-    if(![userView.birthYear isEqual:[NSNull null]]){
-        NSDate *now = [NSDate date];
-        NSCalendar *cal = [NSCalendar currentCalendar];
-        unsigned int unitFlags = NSYearCalendarUnit;
-        NSDateComponents *dd = [cal components:unitFlags fromDate:now];
-        int age = [dd year] - userView.birthYear.intValue;
-        [info appendFormat:@"%d岁 ", age];
-    }
-    if(![userView.constellation isEqual:[NSNull null]]){
-        [info appendFormat:@"%@", userView.constellation];
-    }
-    infoLabel.text = info;
+    infoLabel.text = [userView basicInfo];
     
     return cell;
 }
@@ -202,10 +190,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row < [_data count]) {
-        HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-        homeViewController.hidesBottomBarWhenPushed = YES;
-        homeViewController.userView = [_data objectAtIndex:indexPath.row];
-        [self.navigationController pushViewController:homeViewController animated:YES];
+        TaHomeViewController *taHomeViewController = [[TaHomeViewController alloc] initWithNibName:@"TaHomeViewController" bundle:nil];
+        taHomeViewController.hidesBottomBarWhenPushed = YES;
+        taHomeViewController.userView = [_data objectAtIndex:indexPath.row];
+        [self.navigationController pushViewController:taHomeViewController animated:YES];
     } else {
         [self loadListDataWithPage:_data.pager.currentPage + 1];
     }

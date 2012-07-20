@@ -9,7 +9,7 @@
 #import "RegisterViewController.h"
 #import "LoginViewController.h"
 #import "TpLoginDelegate.h"
-#import "CustomButton.h"
+#import "RectButton.h"
 #import "MBProgressHUD.h"
 #import "MessageShow.h"
 #import "ASIHTTPRequest.h"
@@ -133,7 +133,7 @@
     _registerFormCells = [[NSArray alloc] initWithObjects:self.accountCell, self.nicknameCell, self.passwordCell, self.confirmPwdCell, nil];
     
     //右侧最新最热切换  
-    CustomButton *finishButton = [[CustomButton alloc] initWithWidth:45.0 buttonText:@"完成" CapLocation:CapLeftAndRight];
+    RectButton *finishButton = [[RectButton alloc] initWithWidth:45.0 buttonText:@"完成" CapLocation:CapLeftAndRight];
     [finishButton addTarget:self action:@selector(regist:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:finishButton];
     

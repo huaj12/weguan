@@ -91,7 +91,7 @@
 							<object class="IBUILabel" id="213079748">
 								<reference key="NSNextResponder" ref="194232195"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{60, 36}, {187, 12}}</string>
+								<string key="NSFrame">{{60, 36}, {162, 12}}</string>
 								<reference key="NSSuperview" ref="194232195"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="350148634"/>
@@ -113,7 +113,7 @@
 							<object class="IBUIButton" id="350148634">
 								<reference key="NSNextResponder" ref="194232195"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{255, 30}, {55, 20}}</string>
+								<string key="NSFrame">{{230, 18}, {80, 23}}</string>
 								<reference key="NSSuperview" ref="194232195"/>
 								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -267,8 +267,8 @@
 							<reference ref="414666388"/>
 							<reference ref="235143958"/>
 							<reference ref="213079748"/>
-							<reference ref="350148634"/>
 							<reference ref="234185745"/>
+							<reference ref="350148634"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -374,9 +374,9 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="date_btn_done.png">{55, 20}</string>
-			<string key="date_btn_hover.png">{55, 20}</string>
-			<string key="date_btn_link.png">{55, 20}</string>
+			<string key="date_btn_done.png">{80, 23}</string>
+			<string key="date_btn_hover.png">{80, 23}</string>
+			<string key="date_btn_link.png">{80, 23}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1181</string>
 	</data>

@@ -41,7 +41,7 @@
 }
 
 - (NSString *)postUrl{
-    return [UrlUtils urlStringWithUri:@"save"];
+    return [UrlUtils urlStringWithUri:@"profile/save"];
 }
 
 #pragma mark -

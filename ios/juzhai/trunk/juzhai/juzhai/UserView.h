@@ -36,6 +36,7 @@
 @property (strong,nonatomic) NSString *feature;
 @property (strong,nonatomic) NSNumber *interestUserCount;
 @property (strong,nonatomic) NSNumber *interestMeCount;
+@property (strong,nonatomic) NSNumber *postCount;
 @property (strong,nonatomic) NSNumber *hasGuided;
 @property (strong,nonatomic) NSNumber *hasInterest;
 @property (strong,nonatomic) PostView *post;

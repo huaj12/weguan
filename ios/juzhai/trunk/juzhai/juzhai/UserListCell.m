@@ -16,7 +16,7 @@
 #import "ASIHTTPRequest.h"
 #import "HttpRequestSender.h"
 #import "SBJson.h"
-#import "HomeViewController.h"
+#import "TaHomeViewController.h"
 #import "MessageShow.h"
 #import "UrlUtils.h"
 
@@ -53,11 +53,11 @@
 }
 
 - (void)logoClick:(UIGestureRecognizer *)gestureRecognizer {  
-    HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-    homeViewController.hidesBottomBarWhenPushed = YES;
-    homeViewController.userView = _userView;
+    TaHomeViewController *taHomeViewController = [[TaHomeViewController alloc] initWithNibName:@"TaHomeViewController" bundle:nil];
+    taHomeViewController.hidesBottomBarWhenPushed = YES;
+    taHomeViewController.userView = _userView;
     UIViewController *viewController = (UIViewController *)self.nextResponder.nextResponder;
-    [viewController.navigationController pushViewController:homeViewController animated:YES];
+    [viewController.navigationController pushViewController:taHomeViewController animated:YES];
 }
 
 - (void) setBackground{
@@ -90,11 +90,11 @@
     UILabel *nicknameLabel = (UILabel *)[self viewWithTag:USER_NICKNAME_TAG];
     nicknameLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
     if(userView.gender.intValue == 0){
-        nicknameLabel.textColor = [UIColor colorWithRed:1.00f green:0.40f blue:0.60f alpha:1.00f];
+        nicknameLabel.textColor = FEMALE_NICKNAME_COLOR;
     }else {
-        nicknameLabel.textColor = [UIColor blueColor];
+        nicknameLabel.textColor = MALE_NICKNAME_COLOR;
     }
-    CGSize nicknameSize = [userView.nickname sizeWithFont:nicknameLabel.font constrainedToSize:CGSizeMake(111.0f, nicknameLabel.frame.size.height) lineBreakMode:UILineBreakModeTailTruncation];
+    CGSize nicknameSize = [userView.nickname sizeWithFont:nicknameLabel.font constrainedToSize:CGSizeMake(120.0f, nicknameLabel.frame.size.height) lineBreakMode:UILineBreakModeTailTruncation];
     [nicknameLabel setFrame:CGRectMake(nicknameLabel.frame.origin.x, nicknameLabel.frame.origin.y, nicknameSize.width, nicknameSize.height)];
     nicknameLabel.text = userView.nickname;
     
@@ -102,7 +102,7 @@
     infoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
     infoLabel.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];;
     infoLabel.text = [userView basicInfo];
-    CGSize infoSize = [infoLabel.text sizeWithFont:infoLabel.font constrainedToSize:infoLabel.frame.size lineBreakMode:UILineBreakModeTailTruncation];
+    CGSize infoSize = [infoLabel.text sizeWithFont:infoLabel.font constrainedToSize:CGSizeMake(120.0f, infoLabel.frame.size.height) lineBreakMode:UILineBreakModeTailTruncation];
     [infoLabel setFrame:CGRectMake(nicknameLabel.frame.origin.x + nicknameLabel.frame.size.width + 10.0, infoLabel.frame.origin.y, infoSize.width, infoSize.height)];
 
     

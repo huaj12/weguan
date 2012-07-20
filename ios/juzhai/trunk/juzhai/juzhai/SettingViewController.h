@@ -10,7 +10,7 @@
 #import "CustomActionSheet.h"
 
 @class UserView;
-@class CustomButton;
+@class RectButton;
 @class NicknameEditorViewController;
 @class ProfessionEditorViewController;
 @class FeatureEditorViewController;
@@ -37,7 +37,7 @@
     NSMutableDictionary *_cellDictionary;
     NSDictionary *_cellIdentifierDictionary;
     NSArray *_disableSelectCellIdentifiterArray;
-    CustomButton *_saveButton;
+    RectButton *_saveButton;
     NicknameEditorViewController *_nicknameEditorViewController;
     ProfessionEditorViewController *_professionEditorViewController;
     FeatureEditorViewController *_featureEditorViewController;

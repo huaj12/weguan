@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonGenerationException;
@@ -43,15 +44,6 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 			List<Long> uids = noticeService.getNoticUserList(100);
 			if (CollectionUtils.isNotEmpty(uids)) {
 				for (long uid : uids) {
-					Map<Integer, Long> map = noticeService.getAllNoticeNum(uid);
-					Long comment = map.get(NoticeType.COMMENT.getType());
-					Long dialog = map.get(NoticeType.DIALOG.getType());
-					comment = comment == null ? 0 : comment;
-					dialog = dialog == null ? 0 : dialog;
-					// 没有私信和留言则不需要通知
-					if (dialog == 0 && comment == 0) {
-						uids.remove(uid);
-					}
 					noticeService.removeFromNoticeUsers(uid);
 				}
 				if (CollectionUtils.isNotEmpty(uids)) {
@@ -73,15 +65,12 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 	}
 
 	private void push(List<TpUserAuth> qplusUids, Thirdparty tp) {
-		String text = messageSource.getMessage("qq.plus.push.text", null,
-				Locale.SIMPLIFIED_CHINESE);
 		QPushService service = QPushService.createInstance(
 				Integer.parseInt(tp.getAppKey()), tp.getAppSecret());
 		QPushBean bean = new QPushBean();
 		bean.setNum(1); // 由App指定，一般展示在App图标的右上角。最大100v最长260字节。该字段会在拉起App的时候透传给App应用程序
 		bean.setInstanceid(0); // 桌面实例ID, 数字，目前建议填0
 		bean.setOptype(1); // 展现方式: 1-更新内容直接进消息中心
-		bean.setText(text); // 文本提示语Utf8编码，最长90字节
 		bean.setPushmsgid("1");// 本次PUSH的消息ID，建议填写，可以为任意数字
 
 		for (TpUserAuth tpUserAuth : qplusUids) {
@@ -94,7 +83,11 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 				if (authInfo != null) {
 					bean.setQplusid(authInfo.getTpIdentity()); // 桌面ID，字符串，必填信息，且内容会被校验
 					QPushResult result = null;
-
+					String text = getPushText(tpUserAuth.getUid());
+					if (StringUtils.isEmpty(text)) {
+						continue;
+					}
+					bean.setText(text); // 文本提示语Utf8编码，最长90字节
 					/**
 					 * 
 					 * 错误码: 0 - 处理成功，PUSH消息顺利到达PUSH服务中心 1 - 系统忙，参见提示信息“em“ 2 -
@@ -113,5 +106,21 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 						+ " uid:" + tpUserAuth.getUid(), e);
 			}
 		}
+	}
+
+	private String getPushText(long uid) {
+		String text = null;
+		Map<Integer, Long> map = noticeService.getAllNoticeNum(uid);
+		for (NoticeType type : NoticeType.values()) {
+			int i = type.getType();
+			Long count = map.get(i);
+			if (count != null && count > 0) {
+				text = messageSource.getMessage("qq.plus.push.text." + i,
+						new Object[] { count }, Locale.SIMPLIFIED_CHINESE);
+				break;
+			}
+		}
+		return text;
+
 	}
 }

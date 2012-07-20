@@ -1203,7 +1203,7 @@ public class PostService implements IPostService {
 				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
 				.andDefunctEqualTo(false).andCommentCntNotEqualTo(0);
 		if (city != null && city > 0) {
-			c.andCityEqualTo(city);
+			c.andUserCityEqualTo(city);
 		}
 		example.setOrderByClause("comment_cnt desc,create_time desc");
 		example.setLimit(new Limit(firstResult, maxResults));

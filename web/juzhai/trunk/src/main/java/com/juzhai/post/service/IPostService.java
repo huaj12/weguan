@@ -369,4 +369,14 @@ public interface IPostService {
 	 */
 	boolean isOpenWaitRescueUserDialog(long uid);
 
+	/**
+	 * 获取热门拒宅
+	 * 
+	 * @param city
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Post> listUserHotPost(Long city, int firstResult, int maxResults);
+
 }

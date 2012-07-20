@@ -328,4 +328,18 @@ public class BaseController {
 		}
 	}
 
+	protected void hotPostWidget(Model model, Long city, int count) {
+		List<Post> list = postService.listUserHotPost(city, 0, count);
+		List<PostView> listView = new ArrayList<PostView>(list.size());
+		for (Post post : list) {
+			ProfileCache cache = profileService.getProfileCacheByUid(post
+					.getCreateUid());
+			PostView view = new PostView();
+			view.setPost(post);
+			view.setProfileCache(cache);
+			listView.add(view);
+		}
+		model.addAttribute("userHotPostView", listView);
+	}
+
 }

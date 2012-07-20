@@ -146,6 +146,8 @@ public class PostService implements IPostService {
 	private int synchronizePlaceLengthMax;
 	@Value("${wait.rescue.user.expire.time}")
 	private int waitRescueUserExpireTime;
+	@Value("${user.hot.post.time.interval}")
+	private int userHotPostTimeInterval;
 
 	@Override
 	public long createPost(long uid, PostForm postForm)
@@ -1190,6 +1192,22 @@ public class PostService implements IPostService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+
+	@Override
+	public List<Post> listUserHotPost(Long city, int firstResult, int maxResults) {
+		PostExample example = new PostExample();
+		PostExample.Criteria c = example.createCriteria();
+		c.andCreateTimeGreaterThan(
+				DateUtils.addDays(new Date(), -userHotPostTimeInterval))
+				.andVerifyTypeEqualTo(VerifyType.QUALIFIED.getType())
+				.andDefunctEqualTo(false).andCommentCntNotEqualTo(0);
+		if (city != null && city > 0) {
+			c.andCityEqualTo(city);
+		}
+		example.setOrderByClause("comment_cnt desc,create_time desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		return postMapper.selectByExample(example);
 	}
 
 }

@@ -62,8 +62,11 @@ public class HomeController extends BaseController {
 	private int searchUserHotRows;
 	@Value("${recommend.user.count}")
 	private int recommendUserCount;
-	@Value("${visitor.widget.user.count}")
-	private int visitorWidgetUserCount;
+	@Value("${user.hot.post.rows}")
+	private int userHotPostRows;
+
+	// @Value("${visitor.widget.user.count}")
+	// private int visitorWidgetUserCount;
 
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model)
@@ -282,9 +285,9 @@ public class HomeController extends BaseController {
 		model.addAttribute("onlineCount", onlineCount);
 		// showHomeLogo(context, model);
 		hotWordsWidget(model, cityId, searchUserHotRows);
-		visitUserWidget(model, context, visitorWidgetUserCount);
 		newUserWidget(cityId, model, webHomeRightUserRows);
 		recommendUserWidget(context.getUid(), recommendUserCount, model);
+		hotPostWidget(model, cityId, userHotPostRows);
 		Passport passport = passportService.getPassportByUid(context.getUid());
 		if (null != passport) {
 			model.addAttribute("hasNotAccount",

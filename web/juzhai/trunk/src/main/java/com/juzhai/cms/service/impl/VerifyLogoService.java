@@ -270,4 +270,19 @@ public class VerifyLogoService implements IVerifyLogoService {
 		}
 		return html;
 	}
+
+	@Override
+	public void ignoreLogo(long uid) {
+		Profile updateProfile = new Profile();
+		updateProfile.setUid(uid);
+		updateProfile.setLogoVerifyState(LogoVerifyState.IGNORE.getType());
+		profileMapper.updateByPrimaryKeySelective(updateProfile);
+		if (profileMapper.updateByPrimaryKeySelective(updateProfile) > 0) {
+			ProfileCache profileCache = profileService
+					.getProfileCacheByUid(uid);
+			if (null != profileCache) {
+				profileService.clearProfileCache(uid);
+			}
+		}
+	}
 }

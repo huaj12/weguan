@@ -52,6 +52,8 @@ public class DialogController extends BaseController {
 	private ICounter privateDateCounter;
 	@Autowired
 	private IIdeaService ideaService;
+	@Autowired
+	private ICounter clickWaitRescueUserDialogCounter;
 	@Value("${show.dialogs.max.rows}")
 	private int showDialogsMaxRows;
 	@Value("${show.dialog.contents.max.rows}")
@@ -241,6 +243,7 @@ public class DialogController extends BaseController {
 				dialogService.sendSMS(context.getUid(), Long.parseLong(uidStr),
 						DialogContentTemplate.RESCUE_USER, postContent);
 			}
+			clickWaitRescueUserDialogCounter.incr(null, 1l);
 		} catch (DialogException e) {
 		}
 		return result;

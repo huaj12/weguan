@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,9 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.ShowPostOrder;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.bean.TodayVisit;
 import com.juzhai.passport.model.Passport;
+import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
@@ -32,8 +35,13 @@ import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
 import com.juzhai.post.service.IRecommendPostService;
+import com.juzhai.preference.InitData;
+import com.juzhai.preference.bean.Input;
 import com.juzhai.preference.bean.SiftTypePreference;
+import com.juzhai.preference.model.Preference;
+import com.juzhai.preference.model.UserPreference;
 import com.juzhai.preference.service.IUserPreferenceService;
+import com.juzhai.stats.counter.service.ICounter;
 
 @Controller
 @RequestMapping(value = "home")
@@ -54,6 +62,8 @@ public class HomeController extends BaseController {
 	private ILoginService loginService;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private ICounter openRescueGirlDialogCounter;
 	@Value("${web.home.post.max.rows}")
 	private int webHomePostMaxRows;
 	@Value("${web.home.right.user.rows}")
@@ -64,6 +74,8 @@ public class HomeController extends BaseController {
 	private int recommendUserCount;
 	@Value("${user.hot.post.rows}")
 	private int userHotPostRows;
+	@Value("${rescue.girl.max.rows}")
+	private int rescueGirlMaxRows;
 
 	// @Value("${visitor.widget.user.count}")
 	// private int visitorWidgetUserCount;
@@ -82,6 +94,20 @@ public class HomeController extends BaseController {
 			} else if (StringUtils.equals(gender, "0")) {
 				genderType = "female";
 			}
+		}
+
+		UserPreference userPreference = userPreferenceService
+				.getUserPreference(SiftTypePreference.GENDER.getPreferenceId(),
+						context.getUid());
+		boolean flag = false;
+		if (null == userPreference
+				|| StringUtils.isEmpty(userPreference.getAnswer())) {
+			flag = true;
+		}
+		model.addAttribute("openPreference", flag);
+		if (!profileService.todayVisit(context.getUid(), TodayVisit.Home)) {
+			profileService.setTodayVisot(context.getUid(), TodayVisit.Home);
+			model.addAttribute("todayvisit", true);
 		}
 		return showNewPosts(request, model, 0, genderType, 1);
 	}
@@ -295,5 +321,36 @@ public class HomeController extends BaseController {
 			model.addAttribute("hasNotActive",
 					!registerService.hasActiveEmail(passport));
 		}
+		// 偏好设置性别
+		List<String> genders = userPreferenceService.getUserAnswer(
+				context.getUid(), SiftTypePreference.GENDER.getPreferenceId());
+		model.addAttribute("userGenders", genders);
+		Preference preference = InitData.PREFERENCE_MAP
+				.get(SiftTypePreference.GENDER.getPreferenceId());
+		Input input = null;
+		try {
+			input = Input.convertToBean(preference.getInput());
+		} catch (JsonGenerationException e) {
+			log.error("home input convertToBean is error input:"
+					+ preference.getInput());
+		}
+		model.addAttribute("preferenceInput", input);
+		model.addAttribute("preferenceId", preference.getId());
 	}
+
+	@RequestMapping(value = "/rescue/girl", method = RequestMethod.GET)
+	public String rescueGirl(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		ProfileCache loginUser = profileService.getProfileCacheByUid(context
+				.getUid());
+		List<Profile> list = profileService.queryProfile(context.getUid(), 0,
+				loginUser.getCity(), null, 0, 0, 0, rescueGirlMaxRows);
+		if (CollectionUtils.isNotEmpty(list)) {
+			openRescueGirlDialogCounter.incr(null, 1l);
+			model.addAttribute("profiles", list);
+		}
+		return "web/home/index/rescue_girl";
+	}
+
 }

@@ -49,6 +49,7 @@
 		CB20ECEB1589B953002F9C93 /* jzxq_xy_big_btn_hover.png in Resources */ = {isa = PBXBuildFile; fileRef = CB20ECE51589B953002F9C93 /* jzxq_xy_big_btn_hover.png */; };
 		CB20ECEC1589B953002F9C93 /* jzxq_xy_big_btn_link.png in Resources */ = {isa = PBXBuildFile; fileRef = CB20ECE61589B953002F9C93 /* jzxq_xy_big_btn_link.png */; };
 		CB20ECED1589B953002F9C93 /* jzxq_xy_big_done_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CB20ECE71589B953002F9C93 /* jzxq_xy_big_done_btn.png */; };
+		CB216A1F15B9511F00E00638 /* DetailEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB216A1E15B9511E00E00638 /* DetailEditorViewController.m */; };
 		CB2E3EE215AFD333009BAEC4 /* add_pic_btn_hover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB2E3ED615AFD333009BAEC4 /* add_pic_btn_hover@2x.png */; };
 		CB2E3EE315AFD333009BAEC4 /* add_pic_btn_link@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB2E3ED715AFD333009BAEC4 /* add_pic_btn_link@2x.png */; };
 		CB2E3EE415AFD333009BAEC4 /* biaoqing_btn_hover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB2E3ED815AFD333009BAEC4 /* biaoqing_btn_hover@2x.png */; };
@@ -435,6 +436,8 @@
 		CB20ECE51589B953002F9C93 /* jzxq_xy_big_btn_hover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jzxq_xy_big_btn_hover.png; sourceTree = "<group>"; };
 		CB20ECE61589B953002F9C93 /* jzxq_xy_big_btn_link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jzxq_xy_big_btn_link.png; sourceTree = "<group>"; };
 		CB20ECE71589B953002F9C93 /* jzxq_xy_big_done_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jzxq_xy_big_done_btn.png; sourceTree = "<group>"; };
+		CB216A1D15B9511E00E00638 /* DetailEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailEditorViewController.h; sourceTree = "<group>"; };
+		CB216A1E15B9511E00E00638 /* DetailEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailEditorViewController.m; sourceTree = "<group>"; };
 		CB2E3ED615AFD333009BAEC4 /* add_pic_btn_hover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_pic_btn_hover@2x.png"; sourceTree = "<group>"; };
 		CB2E3ED715AFD333009BAEC4 /* add_pic_btn_link@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_pic_btn_link@2x.png"; sourceTree = "<group>"; };
 		CB2E3ED815AFD333009BAEC4 /* biaoqing_btn_hover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "biaoqing_btn_hover@2x.png"; sourceTree = "<group>"; };
@@ -1029,6 +1032,8 @@
 				CB4031781590694600D758AF /* ProfileSettingViewController.m */,
 				CB7C69AF1599A95000B835A3 /* GuideSettingViewController.h */,
 				CB7C69B01599A95000B835A3 /* GuideSettingViewController.m */,
+				CB216A1D15B9511E00E00638 /* DetailEditorViewController.h */,
+				CB216A1E15B9511E00E00638 /* DetailEditorViewController.m */,
 				CBBEDFEF15921B8200ECC2C2 /* NicknameEditorViewController.h */,
 				CBBEDFF015921B8200ECC2C2 /* NicknameEditorViewController.m */,
 				CBBEDFF115921B8200ECC2C2 /* NicknameEditorViewController.xib */,
@@ -2262,6 +2267,7 @@
 				CBF4974015B8F246009DB8C3 /* EGORefreshHeaderViewController.m in Sources */,
 				CBF4974F15B94017009DB8C3 /* MenuButton.m in Sources */,
 				CBF4975215B9441C009DB8C3 /* RectButton.m in Sources */,
+				CB216A1F15B9511F00E00638 /* DetailEditorViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

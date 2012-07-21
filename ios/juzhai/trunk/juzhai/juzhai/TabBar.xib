@@ -46,12 +46,12 @@
 				<bool key="IBUIDefinesPresentationContext">YES</bool>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<bool key="IBUIHorizontal">NO</bool>
-				<object class="IBUINavigationController" key="IBUISelectedViewController" id="106709654">
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="845541958">
-						<string key="IBUITitle">出去玩</string>
+				<object class="IBUINavigationController" key="IBUISelectedViewController" id="344969781">
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="631457715">
+						<string key="IBUITitle">我家</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">chuquwaner.png</string>
+							<string key="NSResourceName">wojia.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
@@ -64,7 +64,7 @@
 					<bool key="IBUIDefinesPresentationContext">YES</bool>
 					<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					<bool key="IBUIHorizontal">NO</bool>
-					<object class="IBUINavigationBar" key="IBUINavigationBar" id="6770567">
+					<object class="IBUINavigationBar" key="IBUINavigationBar" id="481330904">
 						<nil key="NSNextResponder"/>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrameSize">{0, 0}</string>
@@ -75,12 +75,13 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<array class="NSMutableArray" key="IBUIViewControllers">
-						<object class="IBUIViewController" id="156020078">
-							<object class="IBUINavigationItem" key="IBUINavigationItem" id="618659185">
-								<string key="IBUITitle"/>
+						<object class="IBUIViewController" id="52927026">
+							<object class="IBUINavigationItem" key="IBUINavigationItem" id="212543072">
+								<string key="IBUITitle">我家</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
-							<reference key="IBUIParentViewController" ref="106709654"/>
+							<reference key="IBUIParentViewController" ref="344969781"/>
+							<string key="IBUINibName">HomeViewController</string>
 							<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 								<int key="IBUIInterfaceOrientation">1</int>
 								<int key="interfaceOrientation">1</int>
@@ -136,13 +137,12 @@
 							</object>
 						</array>
 					</object>
-					<reference ref="106709654"/>
-					<object class="IBUINavigationController" id="344969781">
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="631457715">
-							<string key="IBUITitle">我家</string>
+					<object class="IBUINavigationController" id="106709654">
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="845541958">
+							<string key="IBUITitle">出去玩</string>
 							<object class="NSCustomResource" key="IBUIImage">
 								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">wojia.png</string>
+								<string key="NSResourceName">chuquwaner.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						</object>
@@ -155,7 +155,7 @@
 						<bool key="IBUIDefinesPresentationContext">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<bool key="IBUIHorizontal">NO</bool>
-						<object class="IBUINavigationBar" key="IBUINavigationBar" id="481330904">
+						<object class="IBUINavigationBar" key="IBUINavigationBar" id="6770567">
 							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrameSize">{0, 0}</string>
@@ -166,13 +166,12 @@
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						</object>
 						<array class="NSMutableArray" key="IBUIViewControllers">
-							<object class="IBUIViewController" id="52927026">
-								<object class="IBUINavigationItem" key="IBUINavigationItem" id="212543072">
-									<string key="IBUITitle">我家</string>
+							<object class="IBUIViewController" id="156020078">
+								<object class="IBUINavigationItem" key="IBUINavigationItem" id="618659185">
+									<string key="IBUITitle"/>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								</object>
-								<reference key="IBUIParentViewController" ref="344969781"/>
-								<string key="IBUINibName">HomeViewController</string>
+								<reference key="IBUIParentViewController" ref="106709654"/>
 								<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 									<int key="IBUIInterfaceOrientation">1</int>
 									<int key="interfaceOrientation">1</int>
@@ -182,6 +181,7 @@
 							</object>
 						</array>
 					</object>
+					<reference ref="344969781"/>
 					<object class="IBUINavigationController" id="705611171">
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="709020487">
 							<string key="IBUITitle">消息</string>

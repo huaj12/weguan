@@ -13,6 +13,7 @@
 #import "ProfileSettingViewController.h"
 #import "NSString+Chinese.h"
 #import "MessageShow.h"
+#import "Constant.h"
 
 @interface ProfessionEditorViewController ()
 
@@ -20,12 +21,11 @@
 
 @implementation ProfessionEditorViewController
 
-@synthesize settingViewController;
 @synthesize cellIdentifier;
 @synthesize textValue;
 @synthesize professionPicker;
 @synthesize professionField;
-@synthesize tipLabel;
+@synthesize tipsLabel;
 @synthesize valueId;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -42,15 +42,31 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.    
     self.title = @"职业";
+    professionField.background = [[UIImage imageNamed:@"send_input_bgxy"] stretchableImageWithLeftCapWidth:7 topCapHeight:7];
+    UILabel *paddingView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 10, professionField.frame.size.height)];
+    paddingView.backgroundColor = [UIColor clearColor];
+    professionField.leftView = paddingView;
+    professionField.leftViewMode = UITextFieldViewModeAlways;
+    professionField.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];
+    professionField.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:15];
     
-    RectButton *saveButton = [[RectButton alloc] initWithWidth:45.0 buttonText:@"保存" CapLocation:CapLeftAndRight];
-    [saveButton addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];
+    tipsLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:15];
+    tipsLabel.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];
 }
 
 - (void) showTextField:(bool)isShow{
     professionField.hidden = !isShow;
-    tipLabel.hidden = !isShow;
+    tipsLabel.hidden = !isShow;
+    CGRect frame = professionPicker.frame;
+    if (isShow) {
+        frame.origin.y = 100;
+        professionPicker.frame = frame;
+        [professionField becomeFirstResponder];
+    } else {
+        [professionField resignFirstResponder];
+        frame.origin.y = 0;
+        professionPicker.frame = frame;
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated{
@@ -79,13 +95,21 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    self.cellIdentifier = nil;
+    self.textValue = nil;
+    self.professionPicker = nil;
+    self.professionField = nil;
+    self.tipsLabel = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (IBAction)backgroundTap:(id)sender
+{
+    [professionField resignFirstResponder];
 }
 
 -(IBAction)save:(id)sender{

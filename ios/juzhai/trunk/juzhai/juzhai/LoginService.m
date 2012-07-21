@@ -56,7 +56,7 @@
 
 + (NSString *) loginWithTpId:(NSInteger)tpId withQuery:(NSString *)query{
     //Http请求
-    NSString *url = [UrlUtils urlStringWithUri:[NSString stringWithFormat:@"%d?%@", tpId, query]];
+    NSString *url = [UrlUtils urlStringWithUri:[NSString stringWithFormat:@"tpAccess/%d?%@", tpId, query]];
     ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:url withParams:nil];
     [request startSynchronous];
     NSError *error = [request error];

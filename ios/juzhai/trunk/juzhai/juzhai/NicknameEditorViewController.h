@@ -7,18 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SettingViewController.h"
+#import "DetailEditorViewController.h"
 
-@class ProfileSettingViewController;
+@interface NicknameEditorViewController : DetailEditorViewController
 
-@interface NicknameEditorViewController : UIViewController
-
-@property (strong, nonatomic) SettingViewController *settingViewController;
 @property (strong, nonatomic) NSString *textValue;
 @property (strong, nonatomic) NSString *cellIdentifier;
 
 @property (strong, nonatomic) IBOutlet UITextField *textField;
+@property (strong, nonatomic) IBOutlet UILabel *tipsLabel;
 
-- (IBAction)save:(id)sender;
 
 @end

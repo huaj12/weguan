@@ -42,36 +42,7 @@ public class InterestUserService implements IInterestUserService {
 	@Override
 	public void interestUser(long uid, long targetUid)
 			throws InterestUserException {
-		InterestUserExample example = new InterestUserExample();
-		example.createCriteria().andUidEqualTo(uid)
-				.andInterestUidEqualTo(targetUid);
-		if (uid == targetUid
-				|| profileService.getProfileCacheByUid(targetUid) == null) {
-			throw new InterestUserException(
-					InterestUserException.ILLEGAL_OPERATION);
-		}
-		if (interestUserMapper.countByExample(example) > 0) {
-			throw new InterestUserException(
-					InterestUserException.INTEREST_USER_EXISTENCE);
-		}
-		// 添加
-		InterestUser interestUser = new InterestUser();
-		interestUser.setUid(uid);
-		interestUser.setInterestUid(targetUid);
-		interestUser.setCreateTime(new Date());
-		interestUser.setLastModifyTime(interestUser.getCreateTime());
-		interestUserMapper.insertSelective(interestUser);
-		// redis
-		redisTemplate.opsForSet().add(
-				RedisKeyGenerator.genInterestUsersKey(uid), targetUid);
-		// 发送私信
-		try {
-			dialogService.sendSMS(uid, targetUid,
-					DialogContentTemplate.INTEREST_USER);
-		} catch (DialogException e) {
-		}
-
-		interestUserCounter.incr(null, 1L);
+		interestUser(uid, targetUid, null);
 	}
 
 	@Override
@@ -146,6 +117,41 @@ public class InterestUserService implements IInterestUserService {
 		} else {
 			return Collections.emptyList();
 		}
+	}
+
+	@Override
+	public void interestUser(long uid, long targetUid, String content)
+			throws InterestUserException {
+		InterestUserExample example = new InterestUserExample();
+		example.createCriteria().andUidEqualTo(uid)
+				.andInterestUidEqualTo(targetUid);
+		if (uid == targetUid
+				|| profileService.getProfileCacheByUid(targetUid) == null) {
+			throw new InterestUserException(
+					InterestUserException.ILLEGAL_OPERATION);
+		}
+		if (interestUserMapper.countByExample(example) > 0) {
+			throw new InterestUserException(
+					InterestUserException.INTEREST_USER_EXISTENCE);
+		}
+		// 添加
+		InterestUser interestUser = new InterestUser();
+		interestUser.setUid(uid);
+		interestUser.setInterestUid(targetUid);
+		interestUser.setCreateTime(new Date());
+		interestUser.setLastModifyTime(interestUser.getCreateTime());
+		interestUserMapper.insertSelective(interestUser);
+		// redis
+		redisTemplate.opsForSet().add(
+				RedisKeyGenerator.genInterestUsersKey(uid), targetUid);
+		// 发送私信
+		try {
+			dialogService.sendSMS(uid, targetUid,
+					DialogContentTemplate.INTEREST_USER, content);
+		} catch (DialogException e) {
+		}
+
+		interestUserCounter.incr(null, 1L);
 	}
 
 }

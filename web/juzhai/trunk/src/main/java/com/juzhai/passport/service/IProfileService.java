@@ -9,6 +9,7 @@ import java.util.List;
 import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.lab.controller.form.ProfileMForm;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.bean.TodayVisit;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.Profile;
 
@@ -276,4 +277,19 @@ public interface IProfileService {
 	 */
 	int countUserOnline(Long cityId, Long townId, Integer gender,
 			long excludeUid);
+
+	/**
+	 * 今日是否来来访过
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	boolean todayVisit(long uid, TodayVisit todayVisit);
+
+	/**
+	 * 记录今日来访
+	 * 
+	 * @param uid
+	 */
+	void setTodayVisot(long uid, TodayVisit todayVisit);
 }

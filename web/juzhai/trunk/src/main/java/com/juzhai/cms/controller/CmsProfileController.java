@@ -166,4 +166,19 @@ public class CmsProfileController extends BaseController {
 		}
 		return ajaxResult;
 	}
+
+	@RequestMapping(value = "/ignoreLogo")
+	@ResponseBody
+	public AjaxResult ignoreLogo(HttpServletRequest reqest, Model model,
+			long uid) {
+		verifyLogoService.ignoreLogo(uid);
+		return new AjaxResult();
+	}
+
+	@RequestMapping(value = "/listIgnoreLogo")
+	public String listIgnoreLogo(HttpServletRequest request, Model model,
+			@RequestParam(defaultValue = "1") int pageId) {
+		model.addAttribute("type", "listIgnoreLogo");
+		return listVerifyLogo(model, pageId, LogoVerifyState.IGNORE);
+	}
 }

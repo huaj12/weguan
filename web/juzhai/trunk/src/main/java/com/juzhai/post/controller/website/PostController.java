@@ -5,8 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.rubyeye.xmemcached.MemcachedClient;
-
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +28,7 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.service.IVisitUserService;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.form.PostForm;
@@ -43,6 +43,7 @@ import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostCommentService;
 import com.juzhai.post.service.IPostImageService;
 import com.juzhai.post.service.IPostService;
+import com.juzhai.stats.counter.service.ICounter;
 
 @Controller
 @RequestMapping(value = "post")
@@ -65,7 +66,7 @@ public class PostController extends BaseController {
 	@Autowired
 	private IIdeaService ideaService;
 	@Autowired
-	private MemcachedClient memcachedClient;
+	private ICounter openWaitRescueUserDialogCounter;
 	@Value("${post.comment.user.max.rows}")
 	private int postCommentUserMaxRows;
 	@Value("${post.response.user.max.rows}")
@@ -172,6 +173,8 @@ public class PostController extends BaseController {
 		ProfileCache loginUser = getLoginUserCache(request);
 		if (StringUtils.isEmpty(loginUser.getLogoPic())
 				&& loginUser.getLogoVerifyState() != LogoVerifyState.VERIFYING
+						.getType()
+				&& loginUser.getLogoVerifyState() != LogoVerifyState.IGNORE
 						.getType()) {
 			return "/web/profile/face_dialog_" + loginUser.getLogoVerifyState();
 		}
@@ -371,9 +374,12 @@ public class PostController extends BaseController {
 		// }
 		ProfileCache loginUser = profileService.getProfileCacheByUid(context
 				.getUid());
-		model.addAttribute("profiles", profileService.queryProfile(
-				context.getUid(), 0, loginUser.getCity(), null, 0, 0, 0,
-				waitRescueUserCount));
+		List<Profile> list = profileService.queryProfile(context.getUid(), 0,
+				loginUser.getCity(), null, 0, 0, 0, waitRescueUserCount);
+		if (CollectionUtils.isNotEmpty(list)) {
+			openWaitRescueUserDialogCounter.incr(null, 1l);
+			model.addAttribute("profiles", list);
+		}
 		return "web/post/wait_rescue_user";
 	}
 }

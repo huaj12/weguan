@@ -350,4 +350,13 @@ public class RedisKeyGenerator extends KeyGenerator {
 		return genKey(city, "robotUserKey");
 	}
 
+	/**
+	 * 记录今日来访
+	 * 
+	 * @return
+	 */
+	public static String genTodayVisitKey(int type) {
+		return genKey(type, "todayVisit");
+	}
+
 }

@@ -129,6 +129,10 @@ public class UserPreferenceService implements IUserPreferenceService {
 
 	private void validate(UserPreferenceForm userPreferenceForm)
 			throws InputUserPreferenceException {
+		if (userPreferenceForm.getPreferenceId() == null) {
+			throw new InputUserPreferenceException(
+					InputUserPreferenceException.ILLEGAL_OPERATION);
+		}
 		if (ArrayUtils.isNotEmpty(userPreferenceForm.getAnswer())) {
 			StringBuilder sb = new StringBuilder();
 			for (String answer : userPreferenceForm.getAnswer()) {

@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		<div class="warp"><!--warp begin-->
-			<div class="main"><!--main begin-->
+			<div class="main" today-visit="<c:if test="${not empty loginUser.logoPic&&loginUser.gender==1}">${todayvisit}</c:if>"><!--main begin-->
 				<c:if test="${hasNotAccount || hasNotActive}">
 					<div class="float_box" style="display: none;bottom: -100px;"><!--float_box begin-->
 						<div class="width960"><!--width960 begin-->
@@ -34,7 +34,7 @@
 							<div class="t"></div>
 							<div class="m">
 								<c:choose>
-									<c:when test="${not empty loginUser.logoPic || loginUser.logoVerifyState == 1}">
+									<c:when test="${not empty loginUser.logoPic || loginUser.logoVerifyState == 1||loginUser.logoVerifyState == -1}">
 										<div class="tips" style="display: none;"><!--tips begin-->
 											<p>没想好去哪玩？试试这个</p>
 											<a href="javascript:void(0);"></a>

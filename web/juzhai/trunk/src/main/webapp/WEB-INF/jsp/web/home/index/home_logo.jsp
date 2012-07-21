@@ -33,7 +33,7 @@
 			<div class="face">
 				<p><a href="${logoUrl}"><img src="${jzr:userLogo(loginUser.uid,loginUser.newLogoPic,80)}"  width="80" height="80"/></a></p>
 				<c:choose>
-					<c:when test="${loginUser.logoVerifyState == 1}"><span>审核中...</span></c:when>
+					<c:when test="${loginUser.logoVerifyState == 1||loginUser.logoVerifyState == -1}"><span>审核中...</span></c:when>
 					<c:when test="${loginUser.logoVerifyState == 3}"><em><a href="/profile/index/face">未通过审核</a></em></c:when>
 				</c:choose>
 				<!-- <div class="clear"></div> -->

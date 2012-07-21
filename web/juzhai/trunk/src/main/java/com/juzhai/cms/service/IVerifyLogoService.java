@@ -52,4 +52,11 @@ public interface IVerifyLogoService {
 	 * @return boolean(如果返回null 传入url为null或请求google服务器失败)
 	 */
 	Boolean realPic(String imgUrl);
+
+	/**
+	 * 忽略
+	 * 
+	 * @param uid
+	 */
+	void ignoreLogo(long uid);
 }

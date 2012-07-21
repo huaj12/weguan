@@ -30,16 +30,22 @@
 }
 
 -(void) doLogin{
-    NSString *errorInfo = [LoginService useLoginName:[nameField text] byPassword:[pwdField text]];
+    NSString *errorInfo = [[LoginService getInstance] useLoginName:[nameField text] byPassword:[pwdField text]];
     if(errorInfo == nil){
-        //判断是否过引导
-        UIViewController *startController = [LoginService loginTurnToViewController];
-        if(startController){
-            self.view.window.rootViewController = startController;
-            [self.view.window makeKeyAndVisible];
-        }
+        [self performSelectorOnMainThread:@selector(redirect) withObject:nil waitUntilDone:NO];
     }else{
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
         [MessageShow error:errorInfo onView:self.navigationController.view];
+    }
+}
+
+- (void)redirect
+{
+    //判断是否过引导
+    UIViewController *startController = [[LoginService getInstance] loginTurnToViewController];
+    if(startController){
+        self.view.window.rootViewController = startController;
+        [self.view.window makeKeyAndVisible];
     }
 }
 
@@ -49,6 +55,7 @@
     hud.dimBackground = YES;
 //    hud.labelText = @"登录中...";
 	[hud showWhileExecuting:@selector(doLogin) onTarget:self withObject:nil animated:YES];
+//    [self doLogin];
 }
 
 - (IBAction)nameFieldDoneEditing:(id)sender{

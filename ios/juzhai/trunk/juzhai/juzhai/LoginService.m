@@ -20,14 +20,25 @@
 #import "UrlUtils.h"
 
 @interface LoginService(Private)
-    
-//+ (NSString *)dataFilePath;
-    
+
+- (void)loginSuccess:(LoginUser *)loginUser withJson:(NSDictionary *)jsonResult;
+
 @end
 
 @implementation LoginService
 
-+ (NSString *) useLoginName:(NSString *)account byPassword:(NSString *)password{
+static LoginService *loginService;
+
++ (id) getInstance{
+    @synchronized(loginService){
+        if (!loginService) {
+            loginService = [[LoginService alloc]init];
+        }
+        return loginService;
+    }
+}
+
+- (NSString *)useLoginName:(NSString *)account byPassword:(NSString *)password{
     if(account == nil || password == nil || [account isEqualToString:@""] || [password isEqualToString:@""]){
         return @"请输入登录账号和密码";
     }
@@ -42,8 +53,7 @@
         NSMutableDictionary *jsonResult = [response JSONValue];
         if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
             //登录成功
-            [UserContext setUserView:[UserView convertFromDictionary:[jsonResult valueForKey:@"result"]]];
-            [loginUser save];
+            [self loginSuccess:loginUser withJson:jsonResult];
             return nil;
         }else{
             return [jsonResult valueForKey:@"errorInfo"];
@@ -54,7 +64,7 @@
     return SERVER_ERROR_INFO;
 }
 
-+ (NSString *) loginWithTpId:(NSInteger)tpId withQuery:(NSString *)query{
+- (NSString *)loginWithTpId:(NSInteger)tpId withQuery:(NSString *)query{
     //Http请求
     NSString *url = [UrlUtils urlStringWithUri:[NSString stringWithFormat:@"tpAccess/%d?%@", tpId, query]];
     ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:url withParams:nil];
@@ -65,7 +75,7 @@
         NSMutableDictionary *jsonResult = [response JSONValue];
         if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
             //登录成功
-            [UserContext setUserView:[UserView convertFromDictionary:[jsonResult valueForKey:@"result"]]];
+            [self loginSuccess:nil withJson:jsonResult];
             return nil;
         }else{
             return [jsonResult valueForKey:@"errorInfo"];
@@ -76,7 +86,7 @@
     return SERVER_ERROR_INFO;
 }
 
-+(BOOL) checkLogin{
+- (BOOL)checkLogin{
     LoginUser *loginUser = [[LoginUser alloc] initFromData];
     if(loginUser != nil && ![@"" isEqualToString:loginUser.account] && ![@"" isEqualToString:loginUser.password]){
         NSString *errorInfo = [self useLoginName:loginUser.account byPassword:loginUser.password];
@@ -89,13 +99,16 @@
     return NO;
 }
 
-//+ (NSString *) dataFilePath{
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString *documentsDirectory = [paths objectAtIndex:0];
-//    return [documentsDirectory stringByAppendingPathComponent:kFilename];
-//}
+- (void)loginSuccess:(LoginUser *)loginUser withJson:(NSDictionary *)jsonResult;
+{
+    //登录成功
+    [UserContext setUserView:[UserView convertFromDictionary:[jsonResult valueForKey:@"result"]]];
+    if (loginUser) {
+        [loginUser save];
+    }
+}
 
-+(void) logout{
+- (void)logout{
     ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"logout"] withParams:nil];
     [request startSynchronous];
     //清除帐号信息
@@ -103,7 +116,7 @@
     [UserContext logout];
 }
 
-+(UIViewController *) loginTurnToViewController{
+- (UIViewController *)loginTurnToViewController{
     UIViewController *startController;
     if (![UserContext hasLogin]) {
         startController = [[CustomNavigationController alloc] initWithRootViewController:[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil]];
@@ -111,12 +124,7 @@
         startController = [[CustomNavigationController alloc] initWithRootViewController:[[GuideSettingViewController alloc] initWithStyle:UITableViewStyleGrouped]];
     }else {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TabBar" owner:self options:nil];
-        for(id oneObject in nib){
-            if([oneObject isKindOfClass:[UITabBarController class]]){
-                startController = (UITabBarController *) oneObject;
-                break;
-            }
-        }
+        startController = nib.lastObject;
     }
     return startController;
 }

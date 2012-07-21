@@ -28,10 +28,10 @@
     [ASIHTTPRequest setDefaultCache:[ASIDownloadCache sharedCache]];
     
     UIViewController *viewController;
-    if(![LoginService checkLogin]){
+    if(![[LoginService getInstance] checkLogin]){
         viewController = [[CustomNavigationController alloc] initWithRootViewController:[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil]];
     }else{
-        viewController = [LoginService loginTurnToViewController];
+        viewController = [[LoginService getInstance] loginTurnToViewController];
     }
     self.window.rootViewController = viewController;
 	[self.window makeKeyAndVisible];

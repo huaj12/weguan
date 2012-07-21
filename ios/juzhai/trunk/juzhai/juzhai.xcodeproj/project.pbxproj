@@ -50,6 +50,7 @@
 		CB20ECEC1589B953002F9C93 /* jzxq_xy_big_btn_link.png in Resources */ = {isa = PBXBuildFile; fileRef = CB20ECE61589B953002F9C93 /* jzxq_xy_big_btn_link.png */; };
 		CB20ECED1589B953002F9C93 /* jzxq_xy_big_done_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CB20ECE71589B953002F9C93 /* jzxq_xy_big_done_btn.png */; };
 		CB216A1F15B9511F00E00638 /* DetailEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB216A1E15B9511E00E00638 /* DetailEditorViewController.m */; };
+		CB26E66F15BAF3D000A3E5E3 /* JuzhaiTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB26E66D15BAF3D000A3E5E3 /* JuzhaiTabBarController.m */; };
 		CB2E3EE215AFD333009BAEC4 /* add_pic_btn_hover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB2E3ED615AFD333009BAEC4 /* add_pic_btn_hover@2x.png */; };
 		CB2E3EE315AFD333009BAEC4 /* add_pic_btn_link@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB2E3ED715AFD333009BAEC4 /* add_pic_btn_link@2x.png */; };
 		CB2E3EE415AFD333009BAEC4 /* biaoqing_btn_hover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB2E3ED815AFD333009BAEC4 /* biaoqing_btn_hover@2x.png */; };
@@ -438,6 +439,8 @@
 		CB20ECE71589B953002F9C93 /* jzxq_xy_big_done_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jzxq_xy_big_done_btn.png; sourceTree = "<group>"; };
 		CB216A1D15B9511E00E00638 /* DetailEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailEditorViewController.h; sourceTree = "<group>"; };
 		CB216A1E15B9511E00E00638 /* DetailEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailEditorViewController.m; sourceTree = "<group>"; };
+		CB26E66C15BAF3D000A3E5E3 /* JuzhaiTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JuzhaiTabBarController.h; sourceTree = "<group>"; };
+		CB26E66D15BAF3D000A3E5E3 /* JuzhaiTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JuzhaiTabBarController.m; sourceTree = "<group>"; };
 		CB2E3ED615AFD333009BAEC4 /* add_pic_btn_hover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_pic_btn_hover@2x.png"; sourceTree = "<group>"; };
 		CB2E3ED715AFD333009BAEC4 /* add_pic_btn_link@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_pic_btn_link@2x.png"; sourceTree = "<group>"; };
 		CB2E3ED815AFD333009BAEC4 /* biaoqing_btn_hover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "biaoqing_btn_hover@2x.png"; sourceTree = "<group>"; };
@@ -925,6 +928,8 @@
 				CBF4973D15B8F21A009DB8C3 /* EGORefresh */,
 				CB1C27AB15B6A1B900FAD38A /* Example */,
 				CB0C4463155CD07000B238D4 /* TabBar.xib */,
+				CB26E66C15BAF3D000A3E5E3 /* JuzhaiTabBarController.h */,
+				CB26E66D15BAF3D000A3E5E3 /* JuzhaiTabBarController.m */,
 				CBF3229D15AA760100D82CBB /* ListCell.h */,
 				CB669D9415A42186000545D0 /* PagerCell.m */,
 				CB669D9315A42186000545D0 /* PagerCell.h */,
@@ -2268,6 +2273,7 @@
 				CBF4974F15B94017009DB8C3 /* MenuButton.m in Sources */,
 				CBF4975215B9441C009DB8C3 /* RectButton.m in Sources */,
 				CB216A1F15B9511F00E00638 /* DetailEditorViewController.m in Sources */,
+				CB26E66F15BAF3D000A3E5E3 /* JuzhaiTabBarController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -71,7 +71,7 @@
             LoginUser *loginUser = [[LoginUser alloc] initWithAccount:accountField.text password:passwordField.text];
             [loginUser save];
             
-            UIViewController *startController = [LoginService loginTurnToViewController];
+            UIViewController *startController = [[LoginService getInstance] loginTurnToViewController];
             if(startController){
                 self.view.window.rootViewController = startController;
                 [self.view.window makeKeyAndVisible];

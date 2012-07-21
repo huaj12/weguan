@@ -227,6 +227,8 @@ public class IdeaController extends BaseController {
 		ProfileCache loginUser = getLoginUserCache(request);
 		if (StringUtils.isEmpty(loginUser.getLogoPic())
 				&& loginUser.getLogoVerifyState() != LogoVerifyState.VERIFYING
+						.getType()
+				&& loginUser.getLogoVerifyState() != LogoVerifyState.IGNORE
 						.getType()) {
 			return "/web/profile/face_dialog_" + loginUser.getLogoVerifyState();
 		}
@@ -467,6 +469,20 @@ public class IdeaController extends BaseController {
 		}
 		model.addAttribute("idea", idea);
 		return "web/idea/outside";
+	}
+
+	@RequestMapping(value = "/unInterest", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult unInterest(HttpServletRequest request, Model model,
+			long ideaId) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult result = new AjaxResult();
+		try {
+			ideaService.unInterestIdea(context.getUid(), ideaId);
+		} catch (InputIdeaException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
+		return result;
 	}
 
 }

@@ -72,8 +72,8 @@
     _saveButton.enabled = NO;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_saveButton];
     
-    self.tableView.separatorColor = [UIColor colorWithRed:0.80f green:0.80f blue:0.80f alpha:1.00f];
-    self.view.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
+    self.tableView.separatorColor = [UIColor colorWithRed:0.71f green:0.71f blue:0.71f alpha:1.00f];
+    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BG_IMG]];
 }
 
 - (void)viewDidUnload
@@ -463,6 +463,13 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
     } else {
         return 200;
     }
+}
+
+#pragma mark -
+#pragma mark Navigation Delegate
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
 
 @end

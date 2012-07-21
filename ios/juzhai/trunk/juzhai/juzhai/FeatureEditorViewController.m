@@ -12,6 +12,7 @@
 #import "ProfileSettingViewController.h"
 #import "NSString+Chinese.h"
 #import "MessageShow.h"
+#import "Constant.h"
 
 @interface FeatureEditorViewController ()
 
@@ -20,9 +21,10 @@
 @implementation FeatureEditorViewController
 
 @synthesize cellIdentifier;
+@synthesize tipsLabel;
 @synthesize textView;
 @synthesize textValue;
-@synthesize settingViewController;
+@synthesize backgroundView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,17 +38,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     
     self.title = @"自我评价";
     
-    RectButton *saveButton = [[RectButton alloc] initWithWidth:45.0 buttonText:@"保存" CapLocation:CapLeftAndRight];
-    [saveButton addTarget:self action:@selector(save:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:saveButton];
+    backgroundView.image = [[UIImage imageNamed:@"send_input_bgxy"] stretchableImageWithLeftCapWidth:7 topCapHeight:7];
     
-    [textView.layer setCornerRadius:10];
-    [textView.layer setBorderWidth:1];
-    [textView.layer setBorderColor:[UIColor grayColor].CGColor];
+    textView.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:15];
+    textView.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];
+    
+    tipsLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:15];
+    tipsLabel.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];
 }
 
 - (void) viewWillAppear:(BOOL)animated{
@@ -57,8 +58,10 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    self.cellIdentifier = nil;
+    self.tipsLabel = nil;
+    self.textView = nil;
+    self.textValue = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -80,7 +83,7 @@
         return;
     }
     NSInteger tag = [value isEqualToString:@""] ? 0 : 1;
-    [settingViewController saveSingleInfo:self.cellIdentifier withValue:value withValueId:tag];
+    [self.settingViewController saveSingleInfo:self.cellIdentifier withValue:value withValueId:tag];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -23,6 +23,7 @@ import com.juzhai.home.bean.InterestUserView;
 import com.juzhai.home.controller.view.VisitorView;
 import com.juzhai.home.service.IUserStatusService;
 import com.juzhai.home.service.IVisitUserService;
+import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.bean.ProfileCache;
@@ -33,8 +34,11 @@ import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
+import com.juzhai.post.controller.helper.IdeaViewHelper;
 import com.juzhai.post.controller.view.PostView;
+import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
+import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
 import com.juzhai.preference.model.Preference;
 import com.juzhai.preference.model.UserPreference;
@@ -65,6 +69,10 @@ public class UserController extends BaseController {
 	private INoticeService noticeService;
 	@Autowired
 	private IVisitUserService visitUserService;
+	@Autowired
+	private IIdeaService ideaService;
+	@Autowired
+	private IdeaViewHelper ideaViewHelper;
 	@Value("${web.user.home.post.rows}")
 	private int webUserHomePostRows;
 	@Value("${web.my.post.max.rows}")
@@ -81,6 +89,8 @@ public class UserController extends BaseController {
 	private int webVisitUserMaxRows;
 	@Value("${recommend.user.count}")
 	private int recommendUserCount;
+	@Value("${interest.idea.max.rows}")
+	private int interestIdeaMaxRows;
 
 	@RequestMapping(value = "/{uid}", method = RequestMethod.GET)
 	public String userHome(HttpServletRequest request, Model model,
@@ -370,5 +380,33 @@ public class UserController extends BaseController {
 			return error_404;
 		}
 		return "web/home/visitor/visitors";
+	}
+
+	@RequestMapping(value = "/interestIdea", method = RequestMethod.GET)
+	public String interestIdea(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		checkLoginForWeb(request);
+		return pageInterestIdea(request, model, 1);
+	}
+
+	@RequestMapping(value = "/interestIdea/{page}", method = RequestMethod.GET)
+	public String pageInterestIdea(HttpServletRequest request, Model model,
+			@PathVariable int page) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		try {
+			showUserPageRight(context, context.getUid(), model);
+		} catch (JuzhaiException e) {
+			return error_404;
+		}
+		int totalCount = ideaService.countUserInterestIdea(context.getUid());
+		PagerManager pager = new PagerManager(page, interestIdeaMaxRows,
+				totalCount);
+		List<Idea> ideaList = ideaService.listUserInterestIdea(
+				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
+		List<IdeaView> ideaViewList = ideaViewHelper.assembleIdeaView(context,
+				ideaList);
+		model.addAttribute("pager", pager);
+		model.addAttribute("ideaViewList", ideaViewList);
+		return "web/home/interestidea/interestidea";
 	}
 }

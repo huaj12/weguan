@@ -227,7 +227,57 @@ $(document).ready(function(){
 		openMessage(uid, nickname);
 		return false;
 	});
+	
+	$("#preferenceForm").find("a.btn").bind("click", function(){
+		if($("#preferenceForm").find("a.btn").hasClass("unable")){
+			return false;
+		}
+		jQuery.ajax({
+			url: "/profile/preference/save",
+			type: "post",
+			data:  $("#preferenceForm").serialize(),
+			dataType: "json",
+			success: function(result){
+				if(result&&result.success){
+					var content = $("#dialog-success").html().replace("{0}", "保存成功");
+					showSuccess(null, content);
+					$("div.cake_icon > a").trigger("click");
+				}else{
+					alert(result.errorInfo);
+				}
+			},
+			statusCode: {
+			    401: function() {
+			    	window.location.href = "/login?turnTo=" + window.location.href;
+			    }
+			}
+		});
+		return  false;
+	});
+	$('input[name="userPreferences[0].answer"]').bind("change", function(){
+		validateGender();
+	});
+	if($("div.cake").attr("open-preference")=="true"){
+		$("div.cake_icon > a").trigger("click");
+	}
+	if($("div.main").attr("today-visit")=="true"){
+		rescueGirl();
+	}
+	validateGender();
 });
+function validateGender(){
+	var flag=false;
+	$('input[name="userPreferences[0].answer"]').each(function(){
+		if(this.checked){
+			flag=true;
+		}
+	});
+	if(flag){
+		$("#preferenceForm").find("a.btn").removeClass("unable");
+	}else{
+		$("#preferenceForm").find("a.btn").addClass("unable");
+	}
+}
 
 function resetSendPostForm(sendForm){
 	sendForm[0].reset();
@@ -308,6 +358,65 @@ function waitRescueUserSMS(uids,postContent){
 		cache : false,
 		data : {
 			"uids" : uids,"postContent":postContent
+		},
+		dataType : "json",
+		success : function(result) {
+				var content = $("#dialog-success").html().replace("{0}", "发布成功！");
+				showSuccess(null, content);
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+}
+function rescueGirl(){
+	$.ajax({
+		url : "/home/rescue/girl",
+		type : "get",
+		cache : false,
+		dataType : "html",
+		success : function(result) {
+			if(result.indexOf("jjzv_show_box")!=-1){
+				var dialog = openRightDialog("rescueGirl", result);
+				$(dialog.content()).find("div.jjzv_show_box").fadeIn("3000");
+				$(dialog.content()).find("div.btn").first().click(function(){
+					var uids="";
+					$(dialog.content()).find('input[name=uids]').each(function(){
+						if(this.value!=null&&this.value!=''){
+						 uids=uids+this.value+",";
+						}
+					});
+					rescueGirlSMS(uids);
+					closeDialog("rescueGirl");
+					return false;
+				});
+				$(dialog.content()).find("div.title>a").click(function(){
+					closeDialog("rescueGirl");
+					return false;
+				});
+				$(dialog.content()).find("div.btn>a.ckws").click(function(){
+					closeDialog("rescueGirl");
+					return false;
+				});
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+}
+
+function rescueGirlSMS(uids){
+	$.ajax({
+		url : "/home/auto/interests",
+		type : "post",
+		cache : false,
+		data : {
+			"uids" : uids
 		},
 		dataType : "json",
 		success : function(result) {

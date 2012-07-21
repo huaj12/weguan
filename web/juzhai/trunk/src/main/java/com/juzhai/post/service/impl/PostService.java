@@ -165,6 +165,8 @@ public class PostService implements IPostService {
 		ProfileCache profile = profileService.getProfileCacheByUid(uid);
 		if (StringUtils.isEmpty(profile.getLogoPic())
 				&& profile.getLogoVerifyState() != LogoVerifyState.VERIFYING
+						.getType()
+				&& profile.getLogoVerifyState() != LogoVerifyState.IGNORE
 						.getType()) {
 			throw new InputPostException(InputPostException.PROFILE_LOGO_EMPTY);
 		}

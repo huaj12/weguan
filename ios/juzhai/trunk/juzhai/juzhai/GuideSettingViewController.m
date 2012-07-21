@@ -75,7 +75,7 @@
 }
 
 - (void)saveSuccess{
-    UIViewController *startController = [LoginService loginTurnToViewController];
+    UIViewController *startController = [[LoginService getInstance] loginTurnToViewController];
     if(startController){
         self.view.window.rootViewController = startController;
         [self.view.window makeKeyAndVisible];
@@ -83,9 +83,9 @@
 }
 
 -(void)doLogout{
-    [LoginService logout];
+    [[LoginService getInstance] logout];
     //跳转到登录
-    self.view.window.rootViewController = [LoginService loginTurnToViewController];
+    self.view.window.rootViewController = [[LoginService getInstance] loginTurnToViewController];
     [self.view.window makeKeyAndVisible];
 }
 

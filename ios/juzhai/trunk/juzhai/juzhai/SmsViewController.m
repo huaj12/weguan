@@ -62,6 +62,7 @@
                     [_data addObject:dialogView withIdentity:[NSNumber numberWithInt:dialogView.dialogId]];
                 }
                 [self doneLoadingTableViewData];
+                self.navigationController.tabBarItem.badgeValue = nil;
             }
         }];
         [request setFailedBlock:^{

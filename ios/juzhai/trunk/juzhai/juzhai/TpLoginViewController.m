@@ -73,16 +73,21 @@
 
 -(void) doLogin:(NSString *)query{
     NSLog(@"%@", query);
-    NSString *errorInfo = [LoginService loginWithTpId:tpId withQuery:query];
+    NSString *errorInfo = [[LoginService getInstance] loginWithTpId:tpId withQuery:query];
     if(errorInfo == nil){
-        //判断是否过引导
-        UIViewController *startController = [LoginService loginTurnToViewController];
-        if(startController){
-            self.view.window.rootViewController = startController;
-            [self.view.window makeKeyAndVisible];
-        }
+        [self performSelectorOnMainThread:@selector(redirect) withObject:nil waitUntilDone:NO];
     }else{
         [MessageShow error:errorInfo onView:self.navigationController.view];
+    }
+}
+
+- (void)redirect
+{
+    //判断是否过引导
+    UIViewController *startController = [[LoginService getInstance] loginTurnToViewController];
+    if(startController){
+        self.view.window.rootViewController = startController;
+        [self.view.window makeKeyAndVisible];
     }
 }
 

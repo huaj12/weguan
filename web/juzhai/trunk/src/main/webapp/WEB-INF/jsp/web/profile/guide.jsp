@@ -31,7 +31,7 @@
 										<div class="select"><!--select begin-->
 											<span>
 												<select name="gender" id="gender-select">
-													<option value="" <c:if test="${empty settingForm.gender}">selected="selected"</c:if>>请选择性别</option>
+													<option value="" <c:if test="${empty settingForm.gender}">selected="selected"</c:if>>请选择</option>
 													<option value="1" <c:if test="${settingForm.gender == 1}">selected="selected"</c:if>>男</option>
 													<option value="0" <c:if test="${settingForm.gender == 0}">selected="selected"</c:if>>女</option>
 												</select>

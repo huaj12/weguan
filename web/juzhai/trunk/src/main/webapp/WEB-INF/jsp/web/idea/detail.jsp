@@ -56,7 +56,7 @@
 															<p>费用:</p><span>${idea.charge}元</span>
 														</c:if>
 														<div class="clear"></div>
-														<p><c:if test="${idea.interestCnt>0}"><a href="/idea/${idea.id}/interest/#ideaList" class="gyr">${idea.interestCnt}人感兴趣</a></c:if><c:if test="${idea.useCount>0}"><a href="/idea/${idea.id}/#ideaList" class="gyr">${idea.useCount}人想去</a></c:if></p>
+														<p><c:if test="${idea.interestCnt>0}"><a href="/idea/${idea.id}/interest/#ideaList" class="gyr">${idea.interestCnt}人收藏</a></c:if><c:if test="${idea.useCount>0}"><a href="/idea/${idea.id}/#ideaList" class="gyr">${idea.useCount}人想去</a></c:if></p>
 														<div class="clear"></div>
 													</div><!--idea_infor end-->
 													
@@ -72,10 +72,10 @@
 														</c:choose>
 														<c:choose>
 																	<c:when test="${hasInterest}">
-																		<div class="gxq_btn done"><a href="javascript:void(0);">已感兴趣</a></div>
+																		<div class="add_fav fav_done"><a href="javascript:void(0);">已收藏</a></div>
 																	</c:when>
 																	<c:otherwise>
-																		<div class="gxq_btn idea-interest" idea-id="${idea.id}"><a href="javascript:void(0);">感兴趣</a></div>
+																		<div class="add_fav idea-interest" idea-id="${idea.id}"><a href="javascript:void(0);">收藏</a></div>
 																	</c:otherwise>
 														</c:choose>
 													</div><!--idea_btns end-->

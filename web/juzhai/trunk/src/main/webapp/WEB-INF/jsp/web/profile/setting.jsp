@@ -42,7 +42,7 @@
 								<!--my_infor begin-->
 								<div class="face">
 									<!--face begin-->
-									<p><img src="${jzr:userLogo(profile.uid,profile.newLogoPic,180)}" width="180" height="180" /><c:choose><c:when test="${profile.logoVerifyState == 1}"><b>审核中...</b></c:when><c:when test="${profile.logoVerifyState == 3}"><b>未通过审核</b></c:when></c:choose></p>
+									<p><img src="${jzr:userLogo(profile.uid,profile.newLogoPic,180)}" width="180" height="180" /><c:choose><c:when test="${profile.logoVerifyState == 1||profile.logoVerifyState == -1}"><b>审核中...</b></c:when><c:when test="${profile.logoVerifyState == 3}"><b>未通过审核</b></c:when></c:choose></p>
 									<a href="/profile/index/face">重新上传</a>
 								</div>
 								<!--face end-->

@@ -62,10 +62,25 @@
 				<em></em>
 			</div><!--select_box end-->
 		</div><!--select_menu end-->
-		<div class="cake"><!--cake begin-->
+		<div class="cake" open-preference="${openPreference}"><!--cake begin-->
 			<div class="cake_icon"><a href="javascript:void(0);" title="调整口味"></a></div>
-			<div class="cake_show" style="display: none;"><p>我们会根据你的拒宅偏好，为您推荐合适的人</p><a href="/profile/preference">去设置偏好</a></div>
+			<div class="cake_show" style="display: none;">
+				<c:if test="${not empty preferenceInput }">
+				<p>对哪些人的拒宅信息有兴趣？</p>
+					<form id="preferenceForm">
+						<div class="ck_box">
+							<c:forEach items="${preferenceInput.options}" var="option">
+								<span><b><input name="userPreferences[0].answer" type="checkbox" value="${option.value }" <c:forEach items="${userGenders}" var="box"><c:if test="${box==option.value}"> checked="checked"</c:if></c:forEach> /></b><em>${option.name}</em></span>
+							</c:forEach>
+						</div>
+						<input type="hidden" value="${preferenceId}" name="userPreferences[0].preferenceId"/>
+						<a href="javascript:void(0);" class="btn">保存</a>
+					</form>
+				</c:if>
+				<a href="/profile/preference" class="txt">去设置偏好</a>
+			</div>
 		</div><!--cake end-->
+		
 		<div class="category" queryType="${queryType}"><!--category begin-->
 			<span <c:if test="${queryType == 'showposts'}">class="act"</c:if>><p></p><a href="/home/showposts/0_${genderType}/1">最新</a><p></p></span>
 			<span <c:if test="${queryType == 'showoposts'}">class="act"</c:if>><p></p><a href="/home/showoposts/0_${genderType}/1">活跃</a><p></p><c:if test="${not empty onlineCount&&onlineCount>0}"><c:choose><c:when test="${onlineCount<100 }"><em title="当前${onlineCount}人在线">${onlineCount}</em></c:when><c:otherwise><em title="当前99+人在线">${showUserOnlineMaxRows}+</em></c:otherwise></c:choose></c:if></span>

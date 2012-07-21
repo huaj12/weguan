@@ -17,6 +17,16 @@ public interface IInterestUserService {
 	void interestUser(long uid, long targetUid) throws InterestUserException;
 
 	/**
+	 * 收藏感兴趣的人
+	 * 
+	 * @param uid
+	 * @param targetUid
+	 * @throws InterestUserException
+	 */
+	void interestUser(long uid, long targetUid, String content)
+			throws InterestUserException;
+
+	/**
 	 * 删除我感兴趣的人
 	 * 
 	 * @param uid

@@ -40,6 +40,7 @@ import com.juzhai.lab.controller.form.ProfileMForm;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.bean.TodayVisit;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.City;
@@ -76,6 +77,8 @@ public class ProfileService implements IProfileService {
 	private IProfileSearchService profileSearchService;
 	@Autowired
 	private IUserGuideService userGuideService;
+	@Autowired
+	private RedisTemplate<String, Long> redisTemplate;
 	@Value("${profile.cache.expire.time}")
 	private int profileCacheExpireTime = 20000;
 	@Value("${nickname.length.max}")
@@ -763,6 +766,18 @@ public class ProfileService implements IProfileService {
 		c.andLastWebLoginTimeGreaterThanOrEqualTo(DateUtils.addHours(
 				new Date(), -1));
 		return profileMapper.countByExample(example);
+	}
+
+	@Override
+	public boolean todayVisit(long uid, TodayVisit todayVisit) {
+		return redisTemplate.opsForSet().isMember(
+				RedisKeyGenerator.genTodayVisitKey(todayVisit.getType()), uid);
+	}
+
+	@Override
+	public void setTodayVisot(long uid, TodayVisit todayVisit) {
+		redisTemplate.opsForSet().add(
+				RedisKeyGenerator.genTodayVisitKey(todayVisit.getType()), uid);
 	}
 
 }

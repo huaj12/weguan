@@ -73,7 +73,7 @@ public class VisitUserService implements IVisitUserService {
 		}
 		// TODO (done) 随机数错误
 		Random random = new Random();
-		int maxResults = random.nextInt(5) + 1;
+		int maxResults = random.nextInt(2) + 1;
 		List<Profile> list = profileService.queryProfile(cache.getUid(),
 				gender, cache.getCity(), null, 0, 0, 0, maxResults);
 		Date date = new Date();

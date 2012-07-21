@@ -3,6 +3,7 @@ package com.juzhai.post.service.impl;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -718,4 +719,51 @@ public class IdeaService implements IIdeaService {
 				RedisKeyGenerator.genInterestIdeasKey(uid), ideaId);
 	}
 
+	@Override
+	public void unInterestIdea(long uid, long ideaId) throws InputIdeaException {
+		Idea idea = ideaMapper.selectByPrimaryKey(ideaId);
+		if (idea == null) {
+			throw new InputIdeaException(InputIdeaException.ILLEGAL_OPERATION);
+		}
+		IdeaInterestExample example = new IdeaInterestExample();
+		example.createCriteria().andUidEqualTo(uid).andIdeaIdEqualTo(ideaId);
+		// 存在才删除
+		if (ideaInterestMapper.countByExample(example) == 0) {
+			throw new InputIdeaException(InputIdeaException.ILLEGAL_OPERATION);
+		}
+		ideaDao.incrOrDecrInterestCnt(ideaId, -1);
+		ideaInterestMapper.deleteByExample(example);
+
+		// 更新interest列表缓存
+		redisTemplate.opsForSet().remove(
+				RedisKeyGenerator.genInterestIdeasKey(uid), ideaId);
+
+	}
+
+	@Override
+	public List<Idea> listUserInterestIdea(long uid, int firstResult,
+			int maxResults) {
+		IdeaInterestExample example = new IdeaInterestExample();
+		example.createCriteria().andUidEqualTo(uid);
+		example.setOrderByClause("create_time desc");
+		example.setLimit(new Limit(firstResult, maxResults));
+		List<IdeaInterest> list = ideaInterestMapper.selectByExample(example);
+		if (CollectionUtils.isEmpty(list)) {
+			return Collections.emptyList();
+		}
+		List<Long> ideas = new ArrayList<Long>(list.size());
+		for (IdeaInterest interest : list) {
+			ideas.add(interest.getIdeaId());
+		}
+		IdeaExample ideaExample = new IdeaExample();
+		ideaExample.createCriteria().andIdIn(ideas);
+		return ideaMapper.selectByExample(ideaExample);
+	}
+
+	@Override
+	public int countUserInterestIdea(long uid) {
+		IdeaInterestExample example = new IdeaInterestExample();
+		example.createCriteria().andUidEqualTo(uid);
+		return ideaInterestMapper.countByExample(example);
+	}
 }

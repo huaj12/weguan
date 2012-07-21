@@ -293,4 +293,30 @@ public interface IIdeaService {
 	 */
 	boolean isInterestIdea(long uid, long ideaId);
 
+	/**
+	 * 取消感兴趣
+	 * 
+	 * @param uid
+	 * @param ideaId
+	 * @throws InputIdeaException
+	 */
+	void unInterestIdea(long uid, long ideaId) throws InputIdeaException;
+
+	/**
+	 * 获取用户感兴趣的好主意
+	 * 
+	 * @param uid
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Idea> listUserInterestIdea(long uid, int firstResult, int maxResults);
+
+	/**
+	 * 用户感兴趣好主意总数
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	int countUserInterestIdea(long uid);
 }

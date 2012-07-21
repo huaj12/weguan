@@ -127,11 +127,32 @@
 			}
 		});
 	}
+	function ignoreLogo(uid){
+		jQuery.ajax({
+			url : "/cms/profile/ignoreLogo",
+			type : "post",
+			data : {"uid" : uid},
+			dataType : "json",
+			success : function(result) {
+				if (result.success!=null&&result.success) {
+					$("#ignore-logo-" + uid).removeAttr("onclick").text("已忽略");
+				} else {
+					alert(result.errorInfo);
+				}
+			},
+			statusCode : {
+				401 : function() {
+					alert("请先登陆");
+				}
+			}
+		});
+	}
 </script>
 </head>
 <body>
 	<h2>
 		<c:choose>
+			<c:when test="${type == 'listIgnoreLogo'}">已忽略</c:when>
 			<c:when test="${type == 'listVerifyingLogo'}">待审核 <input type="button" value="通过本页头像" onclick="passLogoAll();" /></c:when>
 			<c:when test="${type == 'listVerifiedLogo'}">已通过</c:when>
 			<c:when test="${type == 'listUnVerifiedLogo'}">未通过</c:when>
@@ -176,9 +197,10 @@
 					</c:if>
 					<c:if test="${type == 'listVerifyingLogo'}">
 						<a href="javascript:void(0);" onclick="denyLogo(${profile.uid})" id="deny-logo-${profile.uid}">拒绝</a><br />
+						<a href="javascript:void(0);" onclick="isRealPic('${jzr:userLogo(profile.uid, profile.newLogoPic, 180)}')">验证真实性</a>
+						<a href="javascript:void(0);" onclick="ignoreLogo('${profile.uid}')" id="ignore-logo-${profile.uid}">忽略</a><br />
 					</c:if>
 					<a href="/home/${profile.uid}" target="_blank">发私信</a><br/>
-					<a href="javascript:void(0);" onclick="isRealPic('${jzr:userLogo(profile.uid, profile.newLogoPic, 180)}')">验证真实性</a>
 					<input type="hidden" value="${profile.uid}" id="uids-${profile.uid}" name="uids"/>
 				</td>
 			</tr>

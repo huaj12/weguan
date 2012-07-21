@@ -147,6 +147,11 @@ a:hover {
 						style="color: black;" href="/cms/profile/showUser"
 						target="config">用户查询</a>
 					</li>
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/profile/listIgnoreLogo?page=1"
+						target="config">已忽略</a>
+					</li>
+					
 				</ul>
 			</li>
 			<li>

@@ -70,14 +70,25 @@ $(document).ready(function(){
 	$("div.idea-interest > a").click(function(){
 		var ideaId = $(this).parent().attr("idea-id");
 		var obj = this;
-		$(obj).parent().addClass("done");
+		$(obj).parent().addClass("fav_done");
 		$(obj).text("处理中...");
 		interestIdea(ideaId,function(){
-			$(obj).text("已感兴趣");
-			$(obj).unbind("click").parent().removeClass("sending").addClass("done");
+			$(obj).text("已收藏");
+			$(obj).unbind("click").parent().addClass("fav_done");
 		}, function(errorInfo){
-			$(obj).text("感兴趣");
-			$(obj).parent().removeClass("done");
+			$(obj).text("收藏");
+			$(obj).parent().removeClass("fav_done");
+			alert(errorInfo);
+		},this);
+		return false;
+	});
+	
+	$("div.idea-un-interest > a").click(function(){
+		var obj=this;
+		var ideaId = $(obj).parent().attr("idea-id");
+		unInterestIdea(ideaId,function(){
+			$(obj).parent().parent().parent().parent().fadeOut("slow");
+		}, function(errorInfo){
 			alert(errorInfo);
 		},this);
 		return false;
@@ -326,7 +337,6 @@ function showError(followObj, dialogContent){
 	}
 	$.dialog(options);
 }
-
 function openDialog(followObj, dialogId, dialogContent){
 	closeDialog(dialogId);
 	var options={
@@ -344,6 +354,21 @@ function openDialog(followObj, dialogId, dialogContent){
 		options["top"]="50%";
 		options["lock"]=true;
 	}
+	return $.dialog(options);
+}
+
+function openRightDialog(dialogId, dialogContent){
+	closeDialog(dialogId);
+	var options={
+		drag : false,
+		resize : false,
+		esc : true,
+		id : dialogId,
+		content : dialogContent,
+		left: '100%',
+		top: '100%',
+		fixed: true,
+	};
 	return $.dialog(options);
 }
 
@@ -1760,8 +1785,30 @@ function interestIdea(ideaId, successCallback, errorCallback,clickObj){
 		success : function(result) {
 			if (result && result.success) {
 				successCallback();
-				var content = $("#dialog-success").html().replace("{0}", "感兴趣+1了,谢谢");
+				var content = $("#dialog-success").html().replace("{0}", "收藏成功！");
 				showSuccess(clickObj, content);
+			} else {
+				errorCallback(result.errorInfo);
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+}
+
+function unInterestIdea(ideaId, successCallback, errorCallback,clickObj){
+	jQuery.ajax({
+		url : "/idea/unInterest",
+		type : "post",
+		cache : false,
+		data : {"ideaId" : ideaId},
+		dataType : "json",
+		success : function(result) {
+			if (result && result.success) {
+				successCallback();
 			} else {
 				errorCallback(result.errorInfo);
 			}

@@ -388,8 +388,10 @@ function rescueGirl(){
 						 uids=uids+this.value+",";
 						}
 					});
+					$(dialog.content()).find('div.jjzv_loading').show();
+					$(dialog.content()).find('div.con').hide();
 					rescueGirlSMS(uids,function (){
-						$(dialog.content()).find('div.con').hide();
+						$(dialog.content()).find('div.jjzv_loading').hide();
 						$(dialog.content()).find('div.suss_done').show();
 						dialog.time(3);
 					});

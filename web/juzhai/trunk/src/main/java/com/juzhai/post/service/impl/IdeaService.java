@@ -731,10 +731,9 @@ public class IdeaService implements IIdeaService {
 		if (ideaInterestMapper.countByExample(example) == 0) {
 			throw new InputIdeaException(InputIdeaException.ILLEGAL_OPERATION);
 		}
-		//TODO (review) 虽然我们没用事务，但是数据库操作主次要分清楚
-		ideaDao.incrOrDecrInterestCnt(ideaId, -1);
 		ideaInterestMapper.deleteByExample(example);
-
+		// TODO (done) 虽然我们没用事务，但是数据库操作主次要分清楚
+		ideaDao.incrOrDecrInterestCnt(ideaId, -1);
 		// 更新interest列表缓存
 		redisTemplate.opsForSet().remove(
 				RedisKeyGenerator.genInterestIdeasKey(uid), ideaId);
@@ -758,7 +757,7 @@ public class IdeaService implements IIdeaService {
 		}
 		IdeaExample ideaExample = new IdeaExample();
 		ideaExample.createCriteria().andIdIn(ideas);
-		//TODO (review) 还没吸取做lucene时候的教训，自己想什么问题
+		// TODO (review) 还没吸取做lucene时候的教训，自己想什么问题
 		return ideaMapper.selectByExample(ideaExample);
 	}
 

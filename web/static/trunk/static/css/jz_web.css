@@ -4438,3 +4438,13 @@ search_xz .hot{ margin-top:-10px;}
 .jjzv_show_box .suss_done{ width:180px; height:auto; margin:0 auto;  color:#999; font-size:14px; float:left; margin-top:65px; margin-left:70px; display:inline;}
 .jjzv_show_box .suss_done p{ background:url(../images/web2/succeed.png) no-repeat; width:48px; height:48px; float:left;}
 .jjzv_show_box .suss_done span{ float:left; margin-top:5px;}
+
+.jjzv_loading{width:180px; height:auto; color:#999; font-size:14px; float:left; margin-top:70px; margin-left:100px; display:inline;}
+
+.jjzv_loading p{ background:url(../images/web2/loading_icon.gif) no-repeat; width:32px; height:32px; float:left;}
+.jjzv_loading span{ float:left; margin-left:10px; display:inline; font-size:16px; font-family:"微软雅黑"; margin-top:5px;}
+
+
+
+
+

@@ -367,7 +367,7 @@ function openRightDialog(dialogId, dialogContent){
 		content : dialogContent,
 		left: '100%',
 		top: '100%',
-		fixed: true,
+		fixed: true
 	};
 	return $.dialog(options);
 }

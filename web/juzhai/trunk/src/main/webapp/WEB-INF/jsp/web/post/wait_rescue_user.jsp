@@ -12,7 +12,7 @@
 			<p>下面这些小宅正在等待被解救，问问他们要不要同去吧</p>
 			<ul>
 				<c:forEach var="profile" items="${profiles}">
-					<li><a href="javascript:void(0);"><img src="${jzr:userLogo(profile.uid,profile.logoPic,80)}"  /></a></li>
+					<li><a href="javascript:void(0);"><img src="${jzr:userLogo(profile.uid,profile.logoPic,80)}"  width="50" height="50" /></a></li>
 					<input type="hidden" value="${profile.uid}" name="uids"/>
 				</c:forEach>
 			</ul>

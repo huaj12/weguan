@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,8 @@ public class VisitUserService implements IVisitUserService {
 	private IProfileService profileService;
 	@Autowired
 	private INoticeService noticeService;
+	@Value("${user.visit.random.count}")
+	private int userVisitRandomCount;
 
 	// TODO (done) 普通的来访者不需要加数字？
 	// TODO (done) 什么理由在controller里加？
@@ -71,9 +74,9 @@ public class VisitUserService implements IVisitUserService {
 		if (cache.getGender() != null) {
 			gender = cache.getGender() == 1 ? 0 : 1;
 		}
-		// TODO (review) 随机多少个，进行配置
+		// TODO (done) 随机多少个，进行配置
 		Random random = new Random();
-		int maxResults = random.nextInt(2) + 1;
+		int maxResults = random.nextInt(userVisitRandomCount) + 1;
 		List<Profile> list = profileService.queryProfile(cache.getUid(),
 				gender, cache.getCity(), null, 0, 0, 0, maxResults);
 		Date date = new Date();

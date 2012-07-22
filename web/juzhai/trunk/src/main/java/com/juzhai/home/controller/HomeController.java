@@ -151,7 +151,7 @@ public class HomeController extends BaseController {
 	public String showOnlinePosts(HttpServletRequest request, Model model,
 			@PathVariable long townId, @PathVariable String genderType)
 			throws NeedLoginException {
-		// TODO (review) redirect
+		// TODO (done) redirect
 		return "redirect:/home/showoposts/" + townId + "_" + genderType + "/1";
 	}
 

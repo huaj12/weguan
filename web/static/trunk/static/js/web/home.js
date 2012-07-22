@@ -388,8 +388,11 @@ function rescueGirl(){
 						 uids=uids+this.value+",";
 						}
 					});
-					rescueGirlSMS(uids);
-					closeDialog("rescueGirl");
+					rescueGirlSMS(uids,function (){
+						$(dialog.content()).find('div.con').hide();
+						$(dialog.content()).find('div.suss_done').show();
+						dialog.time(3);
+					});
 					return false;
 				});
 				$(dialog.content()).find("div.title>a").click(function(){
@@ -410,7 +413,7 @@ function rescueGirl(){
 	});
 }
 
-function rescueGirlSMS(uids){
+function rescueGirlSMS(uids,callback){
 	$.ajax({
 		url : "/home/auto/interests",
 		type : "post",
@@ -420,8 +423,7 @@ function rescueGirlSMS(uids){
 		},
 		dataType : "json",
 		success : function(result) {
-				var content = $("#dialog-success").html().replace("{0}", "发布成功！");
-				showSuccess(null, content);
+			callback();
 		},
 		statusCode : {
 			401 : function() {

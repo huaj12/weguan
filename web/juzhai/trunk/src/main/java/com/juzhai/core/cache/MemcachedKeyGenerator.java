@@ -213,4 +213,13 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 		return genKey(uid, "waitRescueUser");
 	}
 
+	/**
+	 * 记录今日来访
+	 * 
+	 * @return
+	 */
+	public static String genTodayVisitKey(long uid, int type) {
+		return genKey(type, "todayVisit");
+	}
+
 }

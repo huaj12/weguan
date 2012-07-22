@@ -246,7 +246,6 @@ public class RobotService implements IRobotService {
 	}
 
 	@Override
-	// TODO (done) 这个功能放在这里合适吗？
 	public int registerRobot(List<RegisterRobotForm> forms) {
 		if (CollectionUtils.isEmpty(forms)) {
 			return 0;

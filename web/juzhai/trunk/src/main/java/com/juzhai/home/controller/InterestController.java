@@ -66,15 +66,14 @@ public class InterestController extends BaseController {
 	}
 
 	@ResponseBody
-	// TODO (done) 如果用户uids传进来1W人，怎么办？
 	@RequestMapping(value = "/auto/interests", method = RequestMethod.POST)
 	public AjaxResult interest(HttpServletRequest request, String uids,
 			Model model) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
 		String content = null;
-		// TODO (done) 你要的什么数据，再想想这些数据怎么取
 		Long postId = postService.getUserLatestPost(context.getUid());
+		// TODO (review) 应该先判断postId
 		Post post = postService.getPostById(postId);
 		if (post != null) {
 			content = messageSource.getMessage(

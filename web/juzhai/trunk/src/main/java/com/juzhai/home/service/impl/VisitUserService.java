@@ -34,10 +34,6 @@ public class VisitUserService implements IVisitUserService {
 	@Value("${user.visit.random.count}")
 	private int userVisitRandomCount;
 
-	// TODO (done) 普通的来访者不需要加数字？
-	// TODO (done) 什么理由在controller里加？
-	// TODO (done) 不觉得有问题吗？
-	// TODO (done) 你自己写代码的时候，没觉得有问题吗？
 	@Override
 	public void addVisitUser(long uid, long visitUid) {
 		addVisitUser(uid, visitUid, System.currentTimeMillis());

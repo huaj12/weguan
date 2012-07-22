@@ -35,6 +35,7 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.util.DateFormat;
+import com.juzhai.core.util.MemcachedExpireUtil;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.lab.controller.form.ProfileMForm;
 import com.juzhai.passport.InitData;
@@ -786,7 +787,7 @@ public class ProfileService implements IProfileService {
 
 	@Override
 	public void setTodayVisot(long uid, TodayVisit todayVisit) {
-		int exp = DateFormat.getNextDayTime();
+		int exp = MemcachedExpireUtil.getNextDayTime();
 		try {
 			memcachedClient.set(
 					MemcachedKeyGenerator.genTodayVisitKey(uid,

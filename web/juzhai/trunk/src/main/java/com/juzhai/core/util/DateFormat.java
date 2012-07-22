@@ -16,6 +16,7 @@ public class DateFormat {
 
 	//TODO (review) 放在这里合适吗？
 	public static int getNextDayTime() {
+		//TODO (review) 这个逻辑解释一下
 		Calendar cal = Calendar.getInstance();
 		int hour = cal.get(Calendar.HOUR_OF_DAY);
 		if (hour > 6) {

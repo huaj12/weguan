@@ -770,14 +770,29 @@ public class ProfileService implements IProfileService {
 
 	@Override
 	public boolean todayVisit(long uid, TodayVisit todayVisit) {
-		return redisTemplate.opsForSet().isMember(
-				RedisKeyGenerator.genTodayVisitKey(todayVisit.getType()), uid);
+		try {
+			Object obj = memcachedClient.get(MemcachedKeyGenerator
+					.genTodayVisitKey(uid, todayVisit.getType()));
+			if (obj == null) {
+				return false;
+			} else {
+				return true;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+
 	}
 
 	@Override
 	public void setTodayVisot(long uid, TodayVisit todayVisit) {
-		redisTemplate.opsForSet().add(
-				RedisKeyGenerator.genTodayVisitKey(todayVisit.getType()), uid);
+		int exp = DateFormat.getNextDayTime();
+		try {
+			memcachedClient.set(
+					MemcachedKeyGenerator.genTodayVisitKey(uid,
+							todayVisit.getType()), exp, true);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
 	}
-
 }

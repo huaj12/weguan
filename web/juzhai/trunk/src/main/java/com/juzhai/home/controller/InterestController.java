@@ -73,14 +73,15 @@ public class InterestController extends BaseController {
 		AjaxResult result = new AjaxResult();
 		String content = null;
 		Long postId = postService.getUserLatestPost(context.getUid());
-		// TODO (review) 应该先判断postId
-		Post post = postService.getPostById(postId);
-		if (post != null) {
-			content = messageSource.getMessage(
-					PurposeType.getWordMessageKey(1), null,
-					Locale.SIMPLIFIED_CHINESE)
-					+ ":" + post.getContent();
+		// TODO (done) 应该先判断postId
+		if (postId != null) {
+			Post post = postService.getPostById(postId);
+			if (post != null) {
+				content = messageSource.getMessage(
+						PurposeType.getWordMessageKey(1), null,
+						Locale.SIMPLIFIED_CHINESE) + ":" + post.getContent();
 
+			}
 		}
 		String[] uidStrs = uids.split(",");
 		if (uidStrs != null && rescueGirlMaxRows >= uidStrs.length) {

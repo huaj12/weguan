@@ -6,6 +6,8 @@ public class UserMView {
 	private String nickname;
 	private int gender;
 	private String logo;
+	private String smallLogo;
+	private String bigLogo;
 	private String newLogo;
 	private int logoVerifyState;
 	private int birthYear;
@@ -23,7 +25,9 @@ public class UserMView {
 	private String feature;
 	private int interestUserCount;
 	private int interestMeCount;
+	private int postCount;
 	private boolean hasGuided;
+	private boolean hasInterest;
 	private PostMView postView;
 
 	public long getUid() {
@@ -56,6 +60,22 @@ public class UserMView {
 
 	public void setLogo(String logo) {
 		this.logo = logo;
+	}
+
+	public String getSmallLogo() {
+		return smallLogo;
+	}
+
+	public void setSmallLogo(String smallLogo) {
+		this.smallLogo = smallLogo;
+	}
+
+	public String getBigLogo() {
+		return bigLogo;
+	}
+
+	public void setBigLogo(String bigLogo) {
+		this.bigLogo = bigLogo;
 	}
 
 	public int getBirthYear() {
@@ -210,4 +230,19 @@ public class UserMView {
 		this.townId = townId;
 	}
 
+	public boolean isHasInterest() {
+		return hasInterest;
+	}
+
+	public void setHasInterest(boolean hasInterest) {
+		this.hasInterest = hasInterest;
+	}
+
+	public int getPostCount() {
+		return postCount;
+	}
+
+	public void setPostCount(int postCount) {
+		this.postCount = postCount;
+	}
 }

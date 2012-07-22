@@ -37,19 +37,28 @@ import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.home.bean.DialogContentTemplate;
+import com.juzhai.home.controller.view.DialogContentView;
 import com.juzhai.home.controller.view.DialogView;
+import com.juzhai.home.exception.DialogException;
+import com.juzhai.home.model.DialogContent;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.index.bean.ShowIdeaOrder;
 import com.juzhai.lab.controller.form.ProfileMForm;
+import com.juzhai.lab.controller.view.DialogContentMView;
 import com.juzhai.lab.controller.view.DialogMView;
 import com.juzhai.lab.controller.view.IdeaMView;
+import com.juzhai.lab.controller.view.IdeaUserMView;
 import com.juzhai.lab.controller.view.PostMView;
 import com.juzhai.lab.controller.view.UserMView;
+import com.juzhai.notice.bean.NoticeType;
+import com.juzhai.notice.service.INoticeService;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.controller.form.LoginForm;
 import com.juzhai.passport.controller.form.RegisterForm;
 import com.juzhai.passport.dao.IUserPositionDao;
+import com.juzhai.passport.exception.InterestUserException;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.exception.ReportAccountException;
@@ -74,6 +83,7 @@ import com.juzhai.platform.service.IUserService;
 import com.juzhai.post.InitData;
 import com.juzhai.post.bean.PurposeType;
 import com.juzhai.post.controller.form.PostForm;
+import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.model.Category;
 import com.juzhai.post.model.Idea;
@@ -113,6 +123,8 @@ public class IOSController extends BaseController {
 	private IUserService userService;
 	@Autowired
 	private IDialogService dialogService;
+	@Autowired
+	private INoticeService noticeService;
 	// @Value("${web.show.ideas.max.rows}")
 	private int webShowIdeasMaxRows = 1;
 	// @Value("${web.show.users.max.rows}")
@@ -123,6 +135,11 @@ public class IOSController extends BaseController {
 	private int mobileInterestUserMaxRows = 1;
 	// @Value("mobile.dialog.max.rows")
 	private int mobileDialogMaxRows = 1;
+	// @Value("mobile.idea.user.max.rows")
+	private int mobileIdeaUserMaxRows = 1;
+	// @Value("mobile.dialog.content.max.rows")
+	private int mobileDialogContentsMaxRows = 10;
+	private int mobileRefreshDialogContentsCount = 10;
 
 	@RequestMapping(value = "/tpLogin/{tpId}")
 	public String webLogin(HttpServletRequest request,
@@ -180,13 +197,14 @@ public class IOSController extends BaseController {
 			try {
 				loginService.login(request, response, uid, tp.getId(),
 						RunType.CONNET);
+				context = (UserContext) request.getAttribute("context");
 			} catch (PassportAccountException e) {
 				result.setError(e.getErrorCode(), messageSource);
 				return result;
 			}
 		}
-		Profile profile = profileService.getProfile(uid);
-		result.setResult(createUserMView(profile,
+		result.setResult(createUserMView(context,
+				profileService.getProfileCacheByUid(uid),
 				userGuideService.isCompleteGuide(uid)));
 		return result;
 	}
@@ -205,6 +223,7 @@ public class IOSController extends BaseController {
 		try {
 			uid = loginService.login(request, response, loginForm.getAccount(),
 					loginForm.getPassword(), loginForm.isRemember());
+			context = (UserContext) request.getAttribute("context");
 		} catch (PassportAccountException e) {
 			result.setError(e.getErrorCode(), messageSource);
 			return result;
@@ -212,8 +231,9 @@ public class IOSController extends BaseController {
 		if (uid <= 0) {
 			result.setError(JuzhaiException.SYSTEM_ERROR, messageSource);
 		}
-		Profile profile = profileService.getProfile(uid);
-		result.setResult(createUserMView(profile,
+		// Profile profile = profileService.getProfile(uid);
+		result.setResult(createUserMView(context,
+				profileService.getProfileCacheByUid(uid),
 				userGuideService.isCompleteGuide(uid)));
 		return result;
 	}
@@ -233,8 +253,8 @@ public class IOSController extends BaseController {
 					registerForm.getNickname(), registerForm.getPwd(),
 					registerForm.getConfirmPwd(), registerForm.getInviterUid());
 			loginService.autoLogin(request, response, uid);
-			result.setResult(createUserMView(profileService.getProfile(uid),
-					false));
+			result.setResult(createUserMView(context,
+					profileService.getProfileCacheByUid(uid), false));
 			try {
 				registerService.sendAccountMail(uid);
 			} catch (PassportAccountException e) {
@@ -374,7 +394,9 @@ public class IOSController extends BaseController {
 		List<UserMView> userViewList = new ArrayList<UserMView>(
 				profileList.size());
 		for (Profile profile : profileList) {
-			UserMView userView = createUserMView(profile, false);
+			UserMView userView = createUserMView(context,
+					profileService.getProfileCacheByUid(profile.getUid()),
+					false);
 			Post post = userLatestPostMap.get(profile.getUid());
 			if (post == null) {
 				continue;
@@ -409,6 +431,10 @@ public class IOSController extends BaseController {
 		if (null != post.getDateTime()) {
 			postView.setDate(DateFormat.SDF.format(post.getDateTime()));
 		}
+		Category category = InitData.CATEGORY_MAP.get(post.getCategoryId());
+		if (null != category) {
+			postView.setCategoryName(category.getName());
+		}
 		if (null != context && context.hasLogin()
 				&& context.getUid() != post.getCreateUid()) {
 			postView.setHasResp(postService.isResponsePost(context.getUid(),
@@ -417,55 +443,61 @@ public class IOSController extends BaseController {
 		return postView;
 	}
 
-	private UserMView createUserMView(Profile profile, boolean isCompleteGuide) {
-		UserMView userView = new UserMView();
-		userView.setHasGuided(isCompleteGuide);
-		userView.setUid(profile.getUid());
-		userView.setNickname(profile.getNickname());
-		if (null != profile.getGender()) {
-			userView.setGender(profile.getGender());
-		}
-		userView.setBirthYear(profile.getBirthYear());
-		userView.setBirthMonth(profile.getBirthMonth());
-		userView.setBirthDay(profile.getBirthDay());
-		userView.setFeature(profile.getFeature());
-		Province province = com.juzhai.common.InitData.PROVINCE_MAP.get(profile
-				.getProvince());
-		if (null != province) {
-			userView.setProvinceId(province.getId());
-			userView.setProvinceName(province.getName());
-		}
-		City city = com.juzhai.common.InitData.CITY_MAP.get(profile.getCity());
-		if (null != city) {
-			userView.setCityId(city.getId());
-			userView.setCityName(city.getName());
-		}
-		Town town = com.juzhai.common.InitData.TOWN_MAP.get(profile.getTown());
-		if (null != town) {
-			userView.setTownId(town.getId());
-			userView.setTownName(town.getName());
-		}
-		userView.setLogo(JzResourceFunction.userLogo(profile.getUid(),
-				profile.getLogoPic(), LogoSizeType.MIDDLE.getType()));
-		userView.setNewLogo(JzResourceFunction.userLogo(profile.getUid(),
-				profile.getNewLogoPic(), LogoSizeType.MIDDLE.getType()));
-		userView.setLogoVerifyState(profile.getLogoVerifyState());
-		Constellation con = com.juzhai.passport.InitData.CONSTELLATION_MAP
-				.get(profile.getConstellationId());
-		if (null != con) {
-			userView.setConstellation(con.getName());
-		}
-		userView.setProfessionId(profile.getProfessionId());
-		userView.setProfession(profile.getProfession());
-		userView.setInterestUserCount(interestUserService
-				.countInterestUser(userView.getUid()));
-		userView.setInterestMeCount(interestUserService
-				.countInterestMeUser(userView.getUid()));
-		return userView;
-	}
+	// private UserMView createUserMView(UserContext context, Profile profile,
+	// boolean isCompleteGuide) {
+	// UserMView userView = new UserMView();
+	// userView.setHasGuided(isCompleteGuide);
+	// userView.setUid(profile.getUid());
+	// userView.setNickname(profile.getNickname());
+	// if (null != profile.getGender()) {
+	// userView.setGender(profile.getGender());
+	// }
+	// userView.setBirthYear(profile.getBirthYear());
+	// userView.setBirthMonth(profile.getBirthMonth());
+	// userView.setBirthDay(profile.getBirthDay());
+	// userView.setFeature(profile.getFeature());
+	// Province province = com.juzhai.common.InitData.PROVINCE_MAP.get(profile
+	// .getProvince());
+	// if (null != province) {
+	// userView.setProvinceId(province.getId());
+	// userView.setProvinceName(province.getName());
+	// }
+	// City city = com.juzhai.common.InitData.CITY_MAP.get(profile.getCity());
+	// if (null != city) {
+	// userView.setCityId(city.getId());
+	// userView.setCityName(city.getName());
+	// }
+	// Town town = com.juzhai.common.InitData.TOWN_MAP.get(profile.getTown());
+	// if (null != town) {
+	// userView.setTownId(town.getId());
+	// userView.setTownName(town.getName());
+	// }
+	// userView.setLogo(JzResourceFunction.userLogo(profile.getUid(),
+	// profile.getLogoPic(), LogoSizeType.MIDDLE.getType()));
+	// userView.setSmallLogo(JzResourceFunction.userLogo(profile.getUid(),
+	// profile.getLogoPic(), LogoSizeType.SMALL.getType()));
+	// userView.setBigLogo(JzResourceFunction.userLogo(profile.getUid(),
+	// profile.getLogoPic(), LogoSizeType.BIG.getType()));
+	// userView.setNewLogo(JzResourceFunction.userLogo(profile.getUid(),
+	// profile.getNewLogoPic(), LogoSizeType.MIDDLE.getType()));
+	// userView.setLogoVerifyState(profile.getLogoVerifyState());
+	// Constellation con = com.juzhai.passport.InitData.CONSTELLATION_MAP
+	// .get(profile.getConstellationId());
+	// if (null != con) {
+	// userView.setConstellation(con.getName());
+	// }
+	// userView.setProfessionId(profile.getProfessionId());
+	// userView.setProfession(profile.getProfession());
+	// userView.setInterestUserCount(interestUserService
+	// .countInterestUser(userView.getUid()));
+	// userView.setInterestMeCount(interestUserService
+	// .countInterestMeUser(userView.getUid()));
+	//
+	// return userView;
+	// }
 
-	private UserMView createUserMView(ProfileCache profileCache,
-			boolean isCompleteGuide) {
+	private UserMView createUserMView(UserContext context,
+			ProfileCache profileCache, boolean isCompleteGuide) {
 		UserMView userView = new UserMView();
 		userView.setHasGuided(isCompleteGuide);
 		userView.setUid(profileCache.getUid());
@@ -497,6 +529,11 @@ public class IOSController extends BaseController {
 		}
 		userView.setLogo(JzResourceFunction.userLogo(profileCache.getUid(),
 				profileCache.getLogoPic(), LogoSizeType.MIDDLE.getType()));
+		userView.setSmallLogo(JzResourceFunction.userLogo(
+				profileCache.getUid(), profileCache.getLogoPic(),
+				LogoSizeType.SMALL.getType()));
+		userView.setBigLogo(JzResourceFunction.userLogo(profileCache.getUid(),
+				profileCache.getLogoPic(), LogoSizeType.BIG.getType()));
 		userView.setNewLogo(JzResourceFunction.userLogo(profileCache.getUid(),
 				profileCache.getNewLogoPic(), LogoSizeType.MIDDLE.getType()));
 		userView.setLogoVerifyState(profileCache.getLogoVerifyState());
@@ -507,10 +544,19 @@ public class IOSController extends BaseController {
 		}
 		userView.setProfessionId(profileCache.getProfessionId());
 		userView.setProfession(profileCache.getProfession());
-		userView.setInterestUserCount(interestUserService
-				.countInterestUser(userView.getUid()));
-		userView.setInterestMeCount(interestUserService
-				.countInterestMeUser(userView.getUid()));
+		if (context != null && context.hasLogin()) {
+			if (context.getUid() == profileCache.getUid().longValue()) {
+				userView.setInterestUserCount(interestUserService
+						.countInterestUser(userView.getUid()));
+				userView.setInterestMeCount(interestUserService
+						.countInterestMeUser(userView.getUid()));
+				userView.setPostCount(postService.countUserPost(userView
+						.getUid()));
+			} else {
+				userView.setHasInterest(interestUserService.isInterest(
+						context.getUid(), profileCache.getUid()));
+			}
+		}
 		return userView;
 	}
 
@@ -608,6 +654,22 @@ public class IOSController extends BaseController {
 		return result;
 	}
 
+	@RequestMapping(value = "/home/refresh", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult homeRefresh(HttpServletRequest request) {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		AjaxResult result = new AjaxResult();
+		result.setResult(createUserMView(context,
+				profileService.getProfileCacheByUid(context.getUid()),
+				userGuideService.isCompleteGuide(context.getUid())));
+		return result;
+	}
+
 	@RequestMapping(value = "/profile/save", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult saveProfile(HttpServletRequest request,
@@ -621,8 +683,8 @@ public class IOSController extends BaseController {
 		AjaxResult result = new AjaxResult();
 		try {
 			profileService.updateLogoAndProfile(context.getUid(), profileForm);
-			result.setResult(createUserMView(
-					profileService.getProfile(context.getUid()),
+			result.setResult(createUserMView(context,
+					profileService.getProfileCacheByUid(context.getUid()),
 					userGuideService.isCompleteGuide(context.getUid())));
 		} catch (ProfileInputException e) {
 			result.setError(e.getErrorCode(), messageSource);
@@ -654,8 +716,8 @@ public class IOSController extends BaseController {
 			}
 			// 完成引导后提升用户使用等级
 			passportService.setUseLevel(context.getUid(), UseLevel.Level1);
-			result.setResult(createUserMView(
-					profileService.getProfile(context.getUid()), true));
+			result.setResult(createUserMView(context,
+					profileService.getProfileCacheByUid(context.getUid()), true));
 		} catch (ProfileInputException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		} catch (UploadImageException e) {
@@ -680,7 +742,7 @@ public class IOSController extends BaseController {
 
 		List<UserMView> userViewList = new ArrayList<UserMView>(list.size());
 		for (ProfileCache profileCache : list) {
-			UserMView userView = createUserMView(profileCache, false);
+			UserMView userView = createUserMView(context, profileCache, false);
 			userViewList.add(userView);
 		}
 
@@ -709,7 +771,7 @@ public class IOSController extends BaseController {
 
 		List<UserMView> userViewList = new ArrayList<UserMView>(list.size());
 		for (ProfileCache profileCache : list) {
-			UserMView userView = createUserMView(profileCache, false);
+			UserMView userView = createUserMView(context, profileCache, false);
 			userViewList.add(userView);
 		}
 
@@ -787,12 +849,12 @@ public class IOSController extends BaseController {
 			dialogMView.setCreateTime(dialogView.getDialogContent()
 					.getCreateTime().getTime());
 			dialogMView.setDialogContentCount(dialogView.getDialogContentCnt());
-			dialogMView.setTargetUser(createUserMView(
+			dialogMView.setTargetUser(createUserMView(context,
 					dialogView.getTargetProfile(), false));
 
 			list.add(dialogMView);
 		}
-
+		noticeService.emptyNotice(context.getUid(), NoticeType.DIALOG);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("dialogViewList", list);
 		result.put("pager", pager);
@@ -800,5 +862,212 @@ public class IOSController extends BaseController {
 		AjaxResult ajaxResult = new AjaxResult();
 		ajaxResult.setResult(result);
 		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/deleteDialog", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult deleteDialog(HttpServletRequest request, long dialogId) {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		boolean success = dialogService
+				.deleteDialog(context.getUid(), dialogId);
+		AjaxResult result = new AjaxResult();
+		result.setSuccess(success);
+		return result;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/interest", method = RequestMethod.POST)
+	public AjaxResult interest(HttpServletRequest request, long uid, Model model)
+			throws NeedLoginException {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		AjaxResult result = new AjaxResult();
+		try {
+			interestUserService.interestUser(context.getUid(), uid);
+			result.setSuccess(true);
+		} catch (InterestUserException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
+		return result;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/removeInterest", method = RequestMethod.POST)
+	public AjaxResult removeInterest(HttpServletRequest request, long uid,
+			Model model) throws NeedLoginException {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		AjaxResult result = new AjaxResult();
+		result.setSuccess(true);
+		interestUserService.removeInterestUser(context.getUid(), uid);
+		return result;
+	}
+
+	@RequestMapping(value = "/ideaUsers", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult ideaUsers(HttpServletRequest request, long ideaId,
+			int page) {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		PagerManager pager = new PagerManager(page, mobileIdeaUserMaxRows,
+				ideaService.countIdeaUsers(ideaId, null, null));
+		List<IdeaUserView> ideaUserViewList = ideaService.listIdeaUsers(ideaId,
+				null, null, pager.getFirstResult(), pager.getMaxResult());
+		List<IdeaUserMView> list = new ArrayList<IdeaUserMView>(
+				ideaUserViewList.size());
+		for (IdeaUserView ideaUserView : ideaUserViewList) {
+			IdeaUserMView ideaUserMView = new IdeaUserMView();
+			ideaUserMView.setIdeaId(ideaId);
+			ideaUserMView.setUserView(createUserMView(context,
+					ideaUserView.getProfileCache(), false));
+			ideaUserMView.setCreateTime(ideaUserView.getCreateTime().getTime());
+			list.add(ideaUserMView);
+		}
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("ideaUserViewList", list);
+		result.put("pager", pager);
+
+		AjaxResult ajaxResult = new AjaxResult();
+		ajaxResult.setResult(result);
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/sendDate", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult sendDate(HttpServletRequest request, long targetUid,
+			long ideaId) {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		AjaxResult result = new AjaxResult();
+		Idea idea = ideaService.getIdeaById(ideaId);
+		if (idea == null || targetUid <= 0) {
+			result.setError(JuzhaiException.ILLEGAL_OPERATION, messageSource);
+			return result;
+		}
+		if (StringUtils.isNotEmpty(idea.getContent())) {
+			try {
+				dialogService.sendDatingSMS(context, targetUid,
+						DialogContentTemplate.PRIVATE_DATE, idea.getContent());
+			} catch (DialogException e) {
+				result.setError(e.getErrorCode(), messageSource);
+			}
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/dialogContentList", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult dialogContentList(HttpServletRequest request, int page,
+			long uid) {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		PagerManager pager = new PagerManager(page,
+				mobileDialogContentsMaxRows, dialogService.countDialogContent(
+						context.getUid(), uid));
+		List<DialogContentView> dialogContentViewList = dialogService
+				.listDialogContent(context.getUid(), uid,
+						pager.getFirstResult(), pager.getMaxResult());
+		List<DialogContentMView> list = new ArrayList<DialogContentMView>(
+				dialogContentViewList.size());
+		for (DialogContentView dialogContentView : dialogContentViewList) {
+			list.add(DialogContentMView
+					.converFromDialogContentView(dialogContentView));
+		}
+		noticeService.emptyNotice(context.getUid(), NoticeType.DIALOG);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("dialogContentViewList", list);
+		result.put("pager", pager);
+
+		AjaxResult ajaxResult = new AjaxResult();
+		ajaxResult.setResult(result);
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/refreshDialogContent", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult refreshDialogContent(HttpServletRequest request, long uid) {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		List<DialogContentView> dialogContentViewList = dialogService
+				.listDialogContent(context.getUid(), uid, 0,
+						mobileRefreshDialogContentsCount);
+		List<DialogContentMView> list = new ArrayList<DialogContentMView>(
+				dialogContentViewList.size());
+		for (DialogContentView dialogContentView : dialogContentViewList) {
+			list.add(DialogContentMView
+					.converFromDialogContentView(dialogContentView));
+		}
+		AjaxResult ajaxResult = new AjaxResult();
+		ajaxResult.setResult(list);
+		return ajaxResult;
+	}
+
+	@RequestMapping(value = "/sendSms", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult sendSms(HttpServletRequest request, String content,
+			long uid) {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		AjaxResult result = new AjaxResult();
+		try {
+			long dialogContentId = dialogService.sendSMS(context, uid, content);
+			DialogContent dialogContent = dialogService
+					.getDialogContent(dialogContentId);
+			result.setResult(DialogContentMView
+					.converFromDialogContent(dialogContent));
+		} catch (DialogException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/notice/nums", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult noticeNums(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		UserContext context;
+		try {
+			context = checkLoginForWeb(request);
+		} catch (NeedLoginException e) {
+			return AjaxResult.ERROR_RESULT;
+		}
+		AjaxResult result = new AjaxResult();
+		result.setResult(noticeService.getNoticeNum(context.getUid(),
+				NoticeType.DIALOG));
+		return result;
 	}
 }

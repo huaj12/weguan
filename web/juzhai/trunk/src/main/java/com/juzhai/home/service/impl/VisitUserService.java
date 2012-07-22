@@ -71,7 +71,7 @@ public class VisitUserService implements IVisitUserService {
 		if (cache.getGender() != null) {
 			gender = cache.getGender() == 1 ? 0 : 1;
 		}
-		// TODO (done) 随机数错误
+		// TODO (review) 随机多少个，进行配置
 		Random random = new Random();
 		int maxResults = random.nextInt(2) + 1;
 		List<Profile> list = profileService.queryProfile(cache.getUid(),

@@ -219,7 +219,7 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	 * @return
 	 */
 	public static String genTodayVisitKey(long uid, int type) {
-		return genKey(type, "todayVisit");
+		return genKey(uid, type + "todayVisit");
 	}
 
 }

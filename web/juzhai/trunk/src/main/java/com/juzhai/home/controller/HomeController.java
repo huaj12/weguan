@@ -96,7 +96,7 @@ public class HomeController extends BaseController {
 			}
 		}
 
-		//TODO (review) 下面这块代码是干嘛的
+		// TODO (done) 下面这块代码是干嘛的 判断用户是否设置过偏好。没有设置则弹框
 		/* --------------------------------------------------------------------- */
 		UserPreference userPreference = userPreferenceService
 				.getUserPreference(SiftTypePreference.GENDER.getPreferenceId(),
@@ -108,14 +108,13 @@ public class HomeController extends BaseController {
 		}
 		model.addAttribute("openPreference", flag);
 		/* --------------------------------------------------------------------- */
-		
-		//TODO (review) 访问个人页的其他页面，不算访问？右下不会弹框？
+
+		// TODO (done) 访问个人页的其他页面，不算访问？右下不会弹框？ 只有/home下才弹框
 		if (!profileService.todayVisit(context.getUid(), TodayVisit.Home)) {
 			profileService.setTodayVisot(context.getUid(), TodayVisit.Home);
 			model.addAttribute("todayvisit", true);
 		}
-		
-		
+
 		return showNewPosts(request, model, 0, genderType, 1);
 	}
 
@@ -328,8 +327,8 @@ public class HomeController extends BaseController {
 			model.addAttribute("hasNotActive",
 					!registerService.hasActiveEmail(passport));
 		}
-		
-		//TODO (review) 下面这块代码是干嘛的
+
+		// TODO (done) 下面这块代码是干嘛的 获取拒宅偏好的属性 以及用户设置的拒宅偏好
 		/* --------------------------------------------------------------------- */
 		// 偏好设置性别
 		List<String> genders = userPreferenceService.getUserAnswer(

@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -750,14 +752,22 @@ public class IdeaService implements IIdeaService {
 		if (CollectionUtils.isEmpty(list)) {
 			return Collections.emptyList();
 		}
-		List<Long> ideas = new ArrayList<Long>(list.size());
+		List<Long> ideaIds = new ArrayList<Long>(list.size());
 		for (IdeaInterest interest : list) {
-			ideas.add(interest.getIdeaId());
+			ideaIds.add(interest.getIdeaId());
 		}
 		IdeaExample ideaExample = new IdeaExample();
-		ideaExample.createCriteria().andIdIn(ideas);
-		// TODO (review) 还没吸取做lucene时候的教训，自己想什么问题
-		return ideaMapper.selectByExample(ideaExample);
+		ideaExample.createCriteria().andIdIn(ideaIds);
+		// TODO (done) 还没吸取做lucene时候的教训，自己想什么问题
+		Map<Long, Idea> ideaMap = new HashMap<Long, Idea>();
+		for (Idea idea : ideaMapper.selectByExample(ideaExample)) {
+			ideaMap.put(idea.getId(), idea);
+		}
+		List<Idea> ideaList = new ArrayList<Idea>(ideaMap.size());
+		for (Long id : ideaIds) {
+			ideaList.add(ideaMap.get(id));
+		}
+		return ideaList;
 	}
 
 	@Override

@@ -16,6 +16,7 @@ public class CleanTodayVisitHandler extends AbstractScheduleHandler {
 	private RedisTemplate<String, Long> redisTemplate;
 	private final Log log = LogFactory.getLog(getClass());
 
+	//TODO (review) 考虑用过期时间来删除。另外考虑一下memcached能不能做，如果考虑过，说一下原因
 	@Override
 	protected void doHandle() {
 		try {

@@ -230,18 +230,6 @@
 	</bean>
 	<!-- update static version end-->
 	
-	<!-- clean.today.visit  begin -->
-	<bean id="cleanTodayVisitTrigger" parent="abstractCronTrigger">
-		<property name="jobDetail">
-			<bean parent="abstractJobDetail">
-				<property name="targetObject" ref="cleanTodayVisitHandler" />
-			</bean>
-		</property>
-		<property name="cronExpression" value="${clean.today.visit.cron}" />
-	</bean>
-	<!--clean.today.visit end-->
-	
-	
 	<bean id="scheduler"  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
@@ -263,7 +251,6 @@
 				<ref bean="updateSearchWordHotTrigger"/>
 				<ref bean="updateStaticVersionTrigger"/>
 				<ref bean="noticeQplusTrigger"/>
-				<ref bean="cleanTodayVisitTrigger"></ref>
 			</list>
 		</property>
 	</bean>

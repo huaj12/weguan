@@ -14,6 +14,7 @@ public class DateFormat {
 	public static SimpleDateFormat SDF_TIME = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss");
 
+	//TODO (review) 放在这里合适吗？
 	public static int getNextDayTime() {
 		Calendar cal = Calendar.getInstance();
 		int hour = cal.get(Calendar.HOUR_OF_DAY);

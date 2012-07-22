@@ -86,7 +86,6 @@ public interface IPostService {
 	 * @param gender
 	 * @return
 	 */
-	// TODO (done) 如今这个方法名字不太合适了
 	PostResult listNewOrOnlinePosts(Long cityId, Long townId, Integer gender,
 			ShowPostOrder order, long excludeUid, int firstResult,
 			int maxResults);
@@ -358,7 +357,6 @@ public interface IPostService {
 	 * @param uid
 	 * @return
 	 */
-	// TODO (done) 注释和方法名都没体现出实现的功能
 	List<Post> listRawPostIdea(long uid);
 
 	/**

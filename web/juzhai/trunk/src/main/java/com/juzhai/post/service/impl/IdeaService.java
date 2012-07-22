@@ -732,7 +732,6 @@ public class IdeaService implements IIdeaService {
 			throw new InputIdeaException(InputIdeaException.ILLEGAL_OPERATION);
 		}
 		ideaInterestMapper.deleteByExample(example);
-		// TODO (done) 虽然我们没用事务，但是数据库操作主次要分清楚
 		ideaDao.incrOrDecrInterestCnt(ideaId, -1);
 		// 更新interest列表缓存
 		redisTemplate.opsForSet().remove(

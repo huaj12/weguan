@@ -59,8 +59,6 @@ public class HomeController extends BaseController {
 	@Autowired
 	private IRegisterService registerService;
 	@Autowired
-	private ILoginService loginService;
-	@Autowired
 	private IProfileService profileService;
 	@Autowired
 	private ICounter openRescueGirlDialogCounter;
@@ -96,8 +94,6 @@ public class HomeController extends BaseController {
 			}
 		}
 
-		// TODO (done) 下面这块代码是干嘛的 判断用户是否设置过偏好。没有设置则弹框
-		/* --------------------------------------------------------------------- */
 		UserPreference userPreference = userPreferenceService
 				.getUserPreference(SiftTypePreference.GENDER.getPreferenceId(),
 						context.getUid());
@@ -107,9 +103,7 @@ public class HomeController extends BaseController {
 			flag = true;
 		}
 		model.addAttribute("openPreference", flag);
-		/* --------------------------------------------------------------------- */
 
-		// TODO (done) 访问个人页的其他页面，不算访问？右下不会弹框？ 只有/home下才弹框
 		if (!profileService.todayVisit(context.getUid(), TodayVisit.Home)) {
 			profileService.setTodayVisot(context.getUid(), TodayVisit.Home);
 			model.addAttribute("todayvisit", true);
@@ -139,7 +133,6 @@ public class HomeController extends BaseController {
 	public String showNewPosts(HttpServletRequest request, Model model,
 			@PathVariable long townId, @PathVariable String genderType)
 			throws NeedLoginException {
-		// TODO (done) redirect
 		return "redirect:/home/showposts/" + townId + "_" + genderType + "/1";
 	}
 
@@ -157,7 +150,6 @@ public class HomeController extends BaseController {
 	public String showOnlinePosts(HttpServletRequest request, Model model,
 			@PathVariable long townId, @PathVariable String genderType)
 			throws NeedLoginException {
-		// TODO (done) redirect
 		return "redirect:/home/showoposts/" + townId + "_" + genderType + "/1";
 	}
 
@@ -257,7 +249,6 @@ public class HomeController extends BaseController {
 	@RequestMapping(value = "/showrposts/{genderType}", method = RequestMethod.GET)
 	public String showRespPosts(HttpServletRequest request, Model model,
 			@PathVariable String genderType) throws NeedLoginException {
-		// TODO (done) 重定向
 		return "redirect:/home/showrposts/" + genderType + "/1";
 	}
 
@@ -328,8 +319,6 @@ public class HomeController extends BaseController {
 					!registerService.hasActiveEmail(passport));
 		}
 
-		// TODO (done) 下面这块代码是干嘛的 获取拒宅偏好的属性 以及用户设置的拒宅偏好
-		/* --------------------------------------------------------------------- */
 		// 偏好设置性别
 		List<String> genders = userPreferenceService.getUserAnswer(
 				context.getUid(), SiftTypePreference.GENDER.getPreferenceId());
@@ -345,7 +334,6 @@ public class HomeController extends BaseController {
 		}
 		model.addAttribute("preferenceInput", input);
 		model.addAttribute("preferenceId", preference.getId());
-		/* --------------------------------------------------------------------- */
 	}
 
 	@RequestMapping(value = "/rescue/girl", method = RequestMethod.GET)

@@ -235,7 +235,7 @@ public class JzUtilFunction {
 		}
 	}
 
-	// TODO (review) 老问题了，自己找
+	// TODO (done) 老问题了，自己找
 	public static String getLink(String link) {
 		String head = "http://";
 		if (StringUtils.isNotEmpty(link)) {

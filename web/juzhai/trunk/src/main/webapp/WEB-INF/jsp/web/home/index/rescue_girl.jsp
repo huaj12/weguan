@@ -26,6 +26,10 @@
 							<p></p>
 							<span>您的解救信号已发出<br />等待宅女们的回复吧</span>
 						</div>
+						<div class="jjzv_loading" style="display: none">
+							<p></p><span>解救中...</span>
+						</div>
+						
 				</div>
 			</c:if>
 

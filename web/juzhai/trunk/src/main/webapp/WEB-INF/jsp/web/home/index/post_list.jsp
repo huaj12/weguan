@@ -77,7 +77,7 @@
 						<a href="javascript:void(0);" class="btn">保存</a>
 					</form>
 				</c:if>
-				<a href="/profile/preference" class="txt">去设置偏好</a>
+				<a href="/profile/preference" class="txt">更多偏好设置》</a>
 			</div>
 		</div><!--cake end-->
 		

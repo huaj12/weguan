@@ -35,7 +35,6 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.util.DateFormat;
-import com.juzhai.core.util.MemcachedExpireUtil;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.lab.controller.form.ProfileMForm;
 import com.juzhai.passport.InitData;
@@ -787,7 +786,7 @@ public class ProfileService implements IProfileService {
 
 	@Override
 	public void setTodayVisot(long uid, TodayVisit todayVisit) {
-		int exp = MemcachedExpireUtil.getNextDayTime();
+		int exp = getNextDayTime();
 		try {
 			memcachedClient.set(
 					MemcachedKeyGenerator.genTodayVisitKey(uid,
@@ -795,5 +794,19 @@ public class ProfileService implements IProfileService {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
+	}
+
+	// TODO (done) 放在这里合适吗？
+	private int getNextDayTime() {
+		Calendar cal = Calendar.getInstance();
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		if (hour > 6) {
+			cal.add(Calendar.DATE, +1);
+		}
+		cal.set(Calendar.HOUR_OF_DAY, 6);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		int time = (int) (cal.getTime().getTime() / 1000);
+		return time;
 	}
 }

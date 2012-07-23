@@ -143,7 +143,8 @@ public class QqConnectUserService extends AbstractUserService {
 		if (StringUtils.isNotEmpty(stateId)) {
 			try {
 				localState = memcachedClient.get(stateId);
-				memcachedClient.delete(stateId);
+				// qq连点bug缩短stateId过期时间
+				// memcachedClient.delete(stateId);
 			} catch (Exception e) {
 				log.error("memcached get state is error", e);
 			}

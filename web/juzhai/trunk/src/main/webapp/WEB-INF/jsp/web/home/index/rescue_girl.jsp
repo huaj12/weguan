@@ -9,7 +9,7 @@
 				<div  class="jjzv_show_box" style="display: none">
 					<div class="title"><h2>解救宅女</h2><a href="javascript:void(0);"></a></div>
 						<div class="con">
-								<p>今天有<font>${fn:length(profiles)}</font>位合适您的宅女正在等待被解救。</p>
+								<p>这位英雄，今天有<font>${fn:length(profiles)}</font>位宅女正等着您解救~</p>
 								<ul>
 									<c:forEach var="profile" items="${profiles}" varStatus="index">
 										<li>

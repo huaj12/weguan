@@ -261,7 +261,7 @@ $(document).ready(function(){
 		$("div.cake_icon > a").trigger("click");
 	}
 	if($("div.main").attr("today-visit")=="true"){
-		rescueGirl();
+		setTimeout(function(){rescueGirl();},3000);
 	}
 	validateGender();
 });

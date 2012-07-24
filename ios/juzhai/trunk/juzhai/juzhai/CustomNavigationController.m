@@ -28,8 +28,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0){
-        UIImage *navbgpic = [[UIImage imageNamed:TOP_BG_PIC_NAME] resizableImageWithCapInsets:UIEdgeInsetsMake(0,TOP_BG_CAP_WIDTH,0,0)];
-        [self.navigationBar setBackgroundImage:navbgpic forBarMetrics:UIBarMetricsDefault];
+        UIImage *image = [[UIImage imageNamed:TOP_BG_PIC_NAME] stretchableImageWithLeftCapWidth:TOP_BG_CAP_WIDTH topCapHeight:0];
+        [self.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     }
 //    else{
         // Override point for customization after application launch.

@@ -12,6 +12,6 @@ typedef void (^PostBasicBlock)(void);
 
 @interface PostService : NSObject
 
-- (void) sendPost:(NSString *)content withDate:(NSString *)date withPlace:(NSString *)place withImage:(UIImage *)image onView:(UIView *)view withSuccessCallback:(PostBasicBlock)aSuccessBlock;
+- (void) sendPost:(NSString *)content withDate:(NSString *)date withPlace:(NSString *)place withImage:(UIImage *)image withCategory:(NSInteger)catId onView:(UIView *)view withSuccessCallback:(PostBasicBlock)aSuccessBlock;
 
 @end

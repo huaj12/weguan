@@ -16,12 +16,12 @@
 
 @implementation PostService
 
-- (void) sendPost:(NSString *)content withDate:(NSString *)date withPlace:(NSString *)place withImage:(UIImage *)image onView:(UIView *)view withSuccessCallback:(PostBasicBlock)aSuccessBlock
+- (void) sendPost:(NSString *)content withDate:(NSString *)date withPlace:(NSString *)place withImage:(UIImage *)image withCategory:(NSInteger)catId onView:(UIView *)view withSuccessCallback:(PostBasicBlock)aSuccessBlock
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.labelText = @"发布中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:content, @"content", place, @"place", date, @"dateString", nil];
+        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:content, @"content", place, @"place", date, @"dateString", [NSNumber numberWithInt:catId], @"categoryId", nil];
         __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"post/sendPost"] withParams:params];
         if (image != nil) {
             CGFloat compression = 0.9f;
@@ -36,14 +36,13 @@
             [request setData:imageData withFileName:@"postImg.jpg" andContentType:@"image/jpeg" forKey:@"postImg"];
         }
         [request setCompletionBlock:^{
-            [MBProgressHUD hideHUDForView:view animated:YES];
             NSString *responseString = [request responseString];
             NSMutableDictionary *jsonResult = [responseString JSONValue];
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
                 hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
                 hud.mode = MBProgressHUDModeCustomView;
                 hud.labelText = @"发送成功";
-                [hud hide:YES afterDelay:2];
+                [hud hide:YES afterDelay:1];
                 if(aSuccessBlock){
                     aSuccessBlock();
                 }

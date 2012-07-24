@@ -80,7 +80,7 @@
 						<string key="NSFrame">{{80, 13}, {140, 15}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="45357059"/>
+						<reference key="NSNextKeyView" ref="621520189"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -236,7 +236,7 @@
 						<reference key="IBUIFontDescription" ref="218215220"/>
 						<reference key="IBUIFont" ref="932110017"/>
 					</object>
-					<object class="IBUIButton" id="45357059">
+					<object class="IBUIButton" id="621520189">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{245, 10}, {65, 23}}</string>
@@ -349,7 +349,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">smsButton</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="45357059"/>
+						<reference key="destination" ref="621520189"/>
 					</object>
 					<int key="connectionID">46</int>
 				</object>
@@ -390,7 +390,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">sendSms:</string>
-						<reference key="source" ref="45357059"/>
+						<reference key="source" ref="621520189"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
@@ -416,7 +416,7 @@
 							<reference ref="565291488"/>
 							<reference ref="976459342"/>
 							<reference ref="452950629"/>
-							<reference ref="45357059"/>
+							<reference ref="621520189"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -468,7 +468,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">44</int>
-						<reference key="object" ref="45357059"/>
+						<reference key="object" ref="621520189"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 				</array>

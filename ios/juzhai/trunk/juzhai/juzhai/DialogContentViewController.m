@@ -18,6 +18,7 @@
 #import "UserView.h"
 #import "SBJson.h"
 #import "DialogService.h"
+#import "ListHttpRequestDelegate.h"
 
 @interface DialogContentViewController ()
 
@@ -73,7 +74,7 @@
     } else if (self.dialogContentTableView.contentSize.height < self.dialogContentTableView.frame.size.height)  {
         tableViewFrame.size.height = inputAreaViewFrame.origin.y;
         dialogContentTableView.frame = tableViewFrame;
-        [self loadDone];
+        [self doneLoadingTableViewData];
     }
 	
 	// commit animations
@@ -121,43 +122,24 @@
     hud.labelText = @"加载中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:self.targetUser.uid, @"uid", [NSNumber numberWithInt:page], @"page", nil];
-        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"dialogContentList"] withParams:params];
-        //        __unsafe_unretained ASIHTTPRequest *request = _request;
-        [request setCompletionBlock:^{
-            // Use when fetching text data
-            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-            NSString *responseString = [request responseString];
-            NSMutableDictionary *jsonResult = [responseString JSONValue];
-            if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
-                //reload
-                NSDictionary *pagerInfo = [[jsonResult valueForKey:@"result"] valueForKey:@"pager"];
-                if(_data == nil){
-                    _data = [[JZData alloc] initWithPager:[Pager pagerConvertFromDictionary:pagerInfo]];
-                }else {
-                    [_data.pager updatePagerFromDictionary:pagerInfo];
-                    if(_data.pager.currentPage == 1){
-                        [_data clear];
-                    }
-                }
-                NSMutableArray *dialogContentViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"dialogContentViewList"];
-                for (int i = 0; i < dialogContentViewList.count; i++) {
-                    DialogContentView *dialogContentView = [DialogContentView convertFromDictionary:[dialogContentViewList objectAtIndex:i]];
-                    [_data insertObjectAtHead:dialogContentView withIdentity:[NSNumber numberWithInt:dialogContentView.dialogContentId]];
-                }
-                [self loadDone];
-            }
-        }];
-        [request setFailedBlock:^{
-            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-        }];
-        [request startAsynchronous];
+        ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"dialog/dialogContentList"] withParams:params];
+        if (request) {
+            [request setDelegate:_listHttpRequestDelegate];
+            [request startAsynchronous];
+        }
     });
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    _data = [[JZData alloc] init];
+    _listHttpRequestDelegate = [[ListHttpRequestDelegate alloc] init];
+    _listHttpRequestDelegate.jzData = _data;
+    _listHttpRequestDelegate.viewClassName = @"DialogContentView";
+    _listHttpRequestDelegate.listViewController = self;
+    _listHttpRequestDelegate.addToHead = YES;
     
     self.title = [NSString stringWithFormat:@"与 %@ 对话", self.targetUser.nickname];
     
@@ -204,26 +186,28 @@
 - (void)refresh
 {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:self.targetUser.uid, @"uid", nil];
-    __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"refreshDialogContent"] withParams:params];
+    __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"dialog/refreshDialogContent"] withParams:params];
     [request setCompletionBlock:^{
-        // Use when fetching text data
-        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
         NSString *responseString = [request responseString];
         NSMutableDictionary *jsonResult = [responseString JSONValue];
         if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
-            NSMutableArray *dialogContentViewList = [jsonResult valueForKey:@"result"];
+            NSMutableArray *dialogContentViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"list"];
             for (int i = 0; i < dialogContentViewList.count; i++) {
                 DialogContentView *dialogContentView = [DialogContentView convertFromDictionary:[dialogContentViewList objectAtIndex:i]];
                 [_data addObject:dialogContentView withIdentity:[NSNumber numberWithInt:dialogContentView.dialogContentId]];
             }
-            [self loadDone];
+            [self doneLoadingTableViewData];
         }
+    }];
+    [request setFailedBlock:^{
+        [HttpRequestDelegate requestFailedHandle:request];
     }];
     [request startAsynchronous];
 }
 
-- (void)loadDone
+- (void)doneLoadingTableViewData
 {
+    [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
     [self.dialogContentTableView reloadData];
     if ([_data count] > 0) {
         [self.dialogContentTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[_data count]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
@@ -240,7 +224,7 @@
         [_data addObject:dialogContentView withIdentity:[NSNumber numberWithInt:dialogContentView.dialogContentId]];
         inputField.text = @"";
         [inputField resignFirstResponder];
-        [self loadDone];
+        [self doneLoadingTableViewData];
     }];
 }
 

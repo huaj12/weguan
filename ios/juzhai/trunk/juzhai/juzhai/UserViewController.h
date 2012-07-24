@@ -12,9 +12,11 @@
 
 @class JZData;
 @class PostDetailViewController;
+@class ListHttpRequestDelegate;
 
-#define ORDER_BY_TIME 0
-#define ORDER_BY_RECOMMEND 1
+#define ORDER_BY_ACTIVE 0
+#define ORDER_BY_TIME 1
+
 #define QUERY_GENDER_GIRL 0
 #define QUERY_GENDER_BOY 1
 #define QUERY_GENDER_ALL 2
@@ -24,6 +26,7 @@
     JZData *_data;
     CustomSegmentedControl *_segmentedControl;
     UIButton *_genderButton;
+    ListHttpRequestDelegate *_listHttpRequestDelegate;
 }
 
 @end

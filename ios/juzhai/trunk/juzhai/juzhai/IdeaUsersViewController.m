@@ -22,6 +22,7 @@
 #import "TaHomeViewController.h"
 #import "UrlUtils.h"
 #import "CheckNetwork.h"
+#import "ListHttpRequestDelegate.h"
 
 @interface IdeaUsersViewController ()
 
@@ -42,6 +43,12 @@
 
 - (void)viewDidLoad
 {
+    _data = [[JZData alloc] init];
+    _listHttpRequestDelegate = [[ListHttpRequestDelegate alloc] init];
+    _listHttpRequestDelegate.jzData = _data;
+    _listHttpRequestDelegate.viewClassName = @"IdeaUserView";
+    _listHttpRequestDelegate.listViewController = self;
+    
     self.title = @"想去的人";
     
     //隐藏下方线条
@@ -76,35 +83,9 @@
     if(page <= 0)
         page = 1;
     NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:ideaView.ideaId], @"ideaId", [NSNumber numberWithInt:page], @"page", nil];
-    __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"ideaUsers"] withParams:params];
+    ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"idea/users"] withParams:params];
     if (request) {
-        [request setCompletionBlock:^{
-            // Use when fetching text data
-            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-            NSString *responseString = [request responseString];
-            NSMutableDictionary *jsonResult = [responseString JSONValue];
-            if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
-                //reload
-                NSDictionary *pagerInfo = [[jsonResult valueForKey:@"result"] valueForKey:@"pager"];
-                if(_data == nil){
-                    _data = [[JZData alloc] initWithPager:[Pager pagerConvertFromDictionary:pagerInfo]];
-                }else {
-                    [_data.pager updatePagerFromDictionary:pagerInfo];
-                    if(_data.pager.currentPage == 1){
-                        [_data clear];
-                    }
-                }
-                NSMutableArray *ideaUserViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"ideaUserViewList"];
-                for (int i = 0; i < ideaUserViewList.count; i++) {
-                    IdeaUserView *ideaUserView = [IdeaUserView convertFromDictionary:[ideaUserViewList objectAtIndex:i]];
-                    [_data addObject:ideaUserView withIdentity:ideaUserView.userView.uid];
-                }
-                [self doneLoadingTableViewData];
-            }
-        }];
-        [request setFailedBlock:^{
-            [self doneLoadingTableViewData];
-        }];
+        [request setDelegate:_listHttpRequestDelegate];
         [request startAsynchronous];
     }
 }
@@ -204,7 +185,7 @@
         taHomeViewController.userView = ideaUserView.userView;
         [self.navigationController pushViewController:taHomeViewController animated:YES];
     } else {
-        [self loadListDataWithPage:_data.pager.currentPage + 1];
+        [self loadListDataWithPage:[_data.pager nextPage]];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

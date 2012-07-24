@@ -26,6 +26,7 @@
 #import "UrlUtils.h"
 #import "BaseData.h"
 #import "MenuButton.h"
+#import "ListHttpRequestDelegate.h"
 
 @interface IdeaViewController (Private)
 - (void) loadListDataWithPage:(NSInteger)page;
@@ -44,18 +45,11 @@
 
 - (void)viewDidLoad
 {
-    //右侧最新最热切换  
-//    _timeOrderBtnImg = [UIImage imageNamed:TIME_ORDER_BTN_IMG];
-//    _hotOrderBtnImg = [UIImage imageNamed:HOT_ORDER_BTN_IMG];
-//    
-//    _orderButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    _orderButton.frame = CGRectMake(0, 0, _timeOrderBtnImg.size.width, _timeOrderBtnImg.size.height);
-//    [_orderButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [_orderButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-//    _orderButton.titleLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
-//    [_orderButton addTarget:self action:@selector(changeOrder:) forControlEvents:UIControlEventTouchUpInside];
-//    [self timeOrderButton];
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_orderButton];
+    _data = [[JZData alloc] init];
+    _listHttpRequestDelegate = [[ListHttpRequestDelegate alloc] init];
+    _listHttpRequestDelegate.jzData = _data;
+    _listHttpRequestDelegate.viewClassName = @"IdeaView";
+    _listHttpRequestDelegate.listViewController = self;
     
     UIImage* dividerImage = [UIImage imageNamed:DIVIDER_LINE_IMAGE];
     _segmentedControl = [[CustomSegmentedControl alloc] initWithSegmentCount:2 segmentsize:CGSizeMake(60, dividerImage.size.height) dividerImage:dividerImage tag:OrderTypeTime delegate:self];
@@ -88,8 +82,7 @@
     //设置分割线
     self.tableView.separatorColor = [UIColor colorWithRed:0.71f green:0.71f blue:0.71f alpha:1.00f];
     self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BG_IMG]];
-    //加载初始化分类数据
-    [BaseData getCategories];
+    
     [super viewDidLoad];
 }
 
@@ -104,24 +97,6 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-//- (void)timeOrderButton
-//{
-//    [_orderButton setBackgroundImage:_timeOrderBtnImg forState:UIControlStateNormal];
-//    [_orderButton setBackgroundImage:_timeOrderBtnImg forState:UIControlStateHighlighted];
-//    [_orderButton setTitle:@"最新" forState:UIControlStateNormal];
-//    [_orderButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 25.0, 0.0, 0.0)];
-//    _orderButton.tag = OrderTypeTime;
-//}
-//
-//- (void)hotOrderButton
-//{
-//    [_orderButton setBackgroundImage:_hotOrderBtnImg forState:UIControlStateNormal];
-//    [_orderButton setBackgroundImage:_hotOrderBtnImg forState:UIControlStateHighlighted];
-//    [_orderButton setTitle:@"最热" forState:UIControlStateNormal];
-//    [_orderButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, -25.0, 0.0, 0.0)];
-//    _orderButton.tag = OrderTypeHot; 
-//}
-
 #pragma mark - Memory Management
 
 - (void)didReceiveMemoryWarning {
@@ -134,45 +109,20 @@
 }
 
 - (void) loadListDataWithPage:(NSInteger)page{
-	if ([CheckNetwork isExistenceNetwork]) {
-        if(page <= 0){
-            page = 1;
-        }
-        NSInteger categoryId = _categoryButton.tag;
-        NSString *orderType;
-        if(_segmentedControl.tag == OrderTypeTime){
-            orderType = @"time";
-        }else {
-            orderType = @"pop";
-        }
-        NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:categoryId], @"categoryId",orderType, @"orderType", [NSNumber numberWithInt:page], @"page", nil];
-        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"ideaList"] withParams:params];
-        [request setCompletionBlock:^{
-            NSString *responseString = [request responseString];
-            NSMutableDictionary *jsonResult = [responseString JSONValue];
-            if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
-                //reload
-                NSDictionary *pagerInfo = [[jsonResult valueForKey:@"result"] valueForKey:@"pager"];
-                if(_data == nil){
-                    _data = [[JZData alloc] initWithPager:[Pager pagerConvertFromDictionary:pagerInfo]];
-                }else {
-                    [_data.pager updatePagerFromDictionary:pagerInfo];
-                    if(_data.pager.currentPage == 1){
-                        [_data clear];
-                    }
-                }
-                NSMutableArray *ideaViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"ideaViewList"];
-                
-                for (int i = 0; i < ideaViewList.count; i++) {
-                    IdeaView *ideaView = [IdeaView convertFromDictionary:[ideaViewList objectAtIndex:i]];
-                    [_data addObject:ideaView withIdentity:[NSNumber numberWithInt:ideaView.ideaId]];
-                }
-                [self doneLoadingTableViewData];
-            }
-        }];
-        [request setFailedBlock:^{
-            [self doneLoadingTableViewData];
-        }];
+    if(page <= 0){
+        page = 1;
+    }
+    NSInteger categoryId = _categoryButton.tag;
+    NSString *orderType;
+    if(_segmentedControl.tag == OrderTypeTime){
+        orderType = @"time";
+    }else {
+        orderType = @"pop";
+    }
+    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:categoryId], @"categoryId",orderType, @"orderType", [NSNumber numberWithInt:page], @"page", nil];
+    ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"idea/list"] withParams:params];
+    if (request) {
+        [request setDelegate:_listHttpRequestDelegate];
         [request startAsynchronous];
     }
 }
@@ -304,7 +254,7 @@
         ideaDetailViewController.ideaView = [_data objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:ideaDetailViewController animated:YES];
     } else {
-        [self loadListDataWithPage:_data.pager.currentPage + 1];
+        [self loadListDataWithPage:[_data.pager nextPage]];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

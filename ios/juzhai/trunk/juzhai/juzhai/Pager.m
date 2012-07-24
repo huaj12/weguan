@@ -32,4 +32,9 @@
     self.hasNext = [[info valueForKey:@"hasNext"] boolValue];
 }
 
+- (NSInteger)nextPage
+{
+    return self.currentPage + 1;
+}
+
 @end

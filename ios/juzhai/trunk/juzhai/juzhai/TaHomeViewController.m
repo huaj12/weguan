@@ -28,6 +28,8 @@
 #import "MessageShow.h"
 #import "UrlUtils.h"
 #import "CheckNetwork.h"
+#import "ListHttpRequestDelegate.h"
+#import "DialogContentViewController.h"
 
 @interface TaHomeViewController ()
 
@@ -43,6 +45,7 @@
 @synthesize postCountLabel;
 @synthesize interestButton;
 @synthesize cancelInterestButton;
+@synthesize smsButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,47 +56,14 @@
     return self;
 }
 
-- (void) loadListDataWithPage:(NSInteger)page{
-    if(page <= 0){
-        page = 1;
-    }
-    if ([CheckNetwork isExistenceNetwork]) {
-        NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:_userView.uid.intValue], @"uid", [NSNumber numberWithInt:page], @"page", nil];
-        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"home"] withParams:params];
-        [request setCompletionBlock:^{
-            // Use when fetching text data
-            NSString *responseString = [request responseString];
-            NSMutableDictionary *jsonResult = [responseString JSONValue];
-            if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
-                NSDictionary *result = [jsonResult valueForKey:@"result"];
-                
-                NSDictionary *pagerInfo = [result valueForKey:@"pager"];
-                if(_data == nil){
-                    _data = [[JZData alloc] initWithPager:[Pager pagerConvertFromDictionary:pagerInfo]];
-                }else {
-                    [_data.pager updatePagerFromDictionary:pagerInfo];
-                    if(_data.pager.currentPage == 1){
-                        [_data clear];
-                    }
-                }
-                NSMutableArray *postViewList = [result valueForKey:@"postViewList"];
-                for (int i = 0; i < postViewList.count; i++) {
-                    PostView *postView = [PostView convertFromDictionary:[postViewList objectAtIndex:i]];
-                    [_data addObject:postView withIdentity:postView.postId];
-                }
-                postCountLabel.text = [NSString stringWithFormat:TABLE_HEAD_TITLE, _data.pager.totalResults];
-                [self doneLoadingTableViewData];
-            }
-        }];
-        [request setFailedBlock:^{
-            [self doneLoadingTableViewData];
-        }];
-        [request startAsynchronous];
-    };
-}
-
 - (void)viewDidLoad
 {
+    _data = [[JZData alloc] init];
+    _listHttpRequestDelegate = [[ListHttpRequestDelegate alloc] init];
+    _listHttpRequestDelegate.jzData = _data;
+    _listHttpRequestDelegate.viewClassName = @"PostView";
+    _listHttpRequestDelegate.listViewController = self;
+    
     self.title = [NSString stringWithFormat:@"%@的拒宅", _userView.nickname];
 
     UIView *view = [UIView new];
@@ -126,16 +96,22 @@
     }
     nicknameLabel.text = _userView.nickname;
     
-    infoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:13.0];
+    infoLabel.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:12.0];
     infoLabel.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];;
     infoLabel.text = [_userView basicInfo];
+    CGSize infoLabelSize = [infoLabel.text sizeWithFont:infoLabel.font constrainedToSize:infoLabel.frame.size lineBreakMode:UILineBreakModeWordWrap];
+    infoLabel.frame = CGRectMake(infoLabel.frame.origin.x, 68 - infoLabelSize.height, infoLabelSize.width, infoLabelSize.height);
     
     if (_isMe) {
         interestButton.hidden = YES;
         interestButton.enabled = NO;
         cancelInterestButton.hidden = YES;
         cancelInterestButton.enabled = NO;
+        smsButton.hidden = YES;
+        smsButton.enabled = NO;
     } else {
+        smsButton.hidden = NO;
+        smsButton.enabled = YES;
         if ([self.userView.hasInterest boolValue]) {
             cancelInterestButton.hidden = NO;
             cancelInterestButton.enabled = YES;
@@ -174,16 +150,30 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+-(void)doneLoadingTableViewData{
+    [super doneLoadingTableViewData];
+    postCountLabel.text = [NSString stringWithFormat:TABLE_HEAD_TITLE, _data.pager.totalResults];
+}
+
+- (void) loadListDataWithPage:(NSInteger)page{
+    if(page <= 0)
+        page = 1;
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:_userView.uid.intValue], @"uid", [NSNumber numberWithInt:page], @"page", nil];
+    ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"home"] withParams:params];
+    if (request) {
+        [request setDelegate:_listHttpRequestDelegate];
+        [request startAsynchronous];
+    }
+}
+
 - (IBAction)interestUser:(id)sender
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"操作中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:_userView.uid, @"uid", nil];
-        __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"interest"] withParams:params];
-//        __unsafe_unretained ASIHTTPRequest *request = _request;
+        __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"home/interest"] withParams:params];
         [request setCompletionBlock:^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
             NSString *responseString = [request responseString];
             NSMutableDictionary *jsonResult = [responseString JSONValue];
             if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
@@ -208,7 +198,7 @@
         }];
         [request setFailedBlock:^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [MessageShow error:SERVER_ERROR_INFO onView:self.view];
+            [HttpRequestDelegate requestFailedHandle:request];
         }];
         [request startAsynchronous];
     });
@@ -220,6 +210,14 @@
     [alertView show];
 }
 
+- (IBAction)sendSms:(id)sender
+{
+    DialogContentViewController *dialogContentViewController = [[DialogContentViewController alloc] initWithNibName:@"DialogContentViewController" bundle:nil];
+    dialogContentViewController.hidesBottomBarWhenPushed = YES;
+    dialogContentViewController.targetUser = _userView;
+    [self.navigationController pushViewController:dialogContentViewController animated:YES];
+}
+
 #pragma mark -
 #pragma mark Alert Delegate
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -229,10 +227,8 @@
         hud.labelText = @"操作中...";
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:_userView.uid, @"uid", nil];
-            __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"removeInterest"] withParams:params];
-            //        __unsafe_unretained ASIHTTPRequest *request = _request;
+            __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"home/removeInterest"] withParams:params];
             [request setCompletionBlock:^{
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 NSString *responseString = [request responseString];
                 NSMutableDictionary *jsonResult = [responseString JSONValue];
                 if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
@@ -257,7 +253,7 @@
             }];
             [request setFailedBlock:^{
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
-                [MessageShow error:SERVER_ERROR_INFO onView:self.view];
+                [HttpRequestDelegate requestFailedHandle:request];
             }];
             [request startAsynchronous];
         });
@@ -310,7 +306,7 @@
         postDetailViewController.userView = _userView;
         [self.navigationController pushViewController:postDetailViewController animated:YES];
     } else {
-        [self loadListDataWithPage:_data.pager.currentPage + 1];
+        [self loadListDataWithPage:[_data.pager nextPage]];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

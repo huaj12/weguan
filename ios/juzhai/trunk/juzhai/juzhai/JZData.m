@@ -13,6 +13,31 @@
 
 @synthesize pager = _pager;
 
++ (id)loadPager:(NSDictionary *)pagerInfo withOldData:(JZData *)oldData
+{
+    if(!oldData){
+        oldData = [[JZData alloc] initWithPager:[Pager pagerConvertFromDictionary:pagerInfo]];
+    }else {
+        [oldData.pager updatePagerFromDictionary:pagerInfo];
+        if(oldData.pager.currentPage == 1){
+            [oldData clear];
+        }
+    }
+    return oldData;
+}
+
+- (void)loadPager:(NSDictionary *)pagerInfo
+{
+    if (!self.pager) {
+        self.pager = [Pager pagerConvertFromDictionary:pagerInfo];
+    } else {
+        [self.pager updatePagerFromDictionary:pagerInfo];
+        if(self.pager.currentPage == 1){
+            [self clear];
+        }
+    }
+}
+
 - (id) init{
     self = [super init];
     if(self){

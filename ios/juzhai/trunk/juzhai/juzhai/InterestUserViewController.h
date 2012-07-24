@@ -10,6 +10,7 @@
 #import "EGORefreshHeaderTableViewController.h"
 
 @class JZData;
+@class ListHttpRequestDelegate;
 
 #define INTEREST_USER_LOGO_TAG 1
 #define INTEREST_USER_NICKNAME_TAG 2
@@ -18,6 +19,7 @@
 @interface InterestUserViewController : EGORefreshHeaderTableViewController
 {
     JZData *_data;
+    ListHttpRequestDelegate *_listHttpRequestDelegate;
 }
 
 @property (nonatomic) BOOL isInterest;

@@ -19,4 +19,5 @@
 
 + (id)pagerConvertFromDictionary:(NSDictionary *)info;
 - (void)updatePagerFromDictionary:(NSDictionary *)info;
+- (NSInteger)nextPage;
 @end

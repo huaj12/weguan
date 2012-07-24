@@ -20,6 +20,7 @@
 #import "HttpRequestSender.h"
 #import "UrlUtils.h"
 #import "PostView.h"
+#import "ListHttpRequestDelegate.h"
 
 @interface UserPostViewController ()
 
@@ -38,7 +39,12 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+    _data = [[JZData alloc] init];
+    _listHttpRequestDelegate = [[ListHttpRequestDelegate alloc] init];
+    _listHttpRequestDelegate.jzData = _data;
+    _listHttpRequestDelegate.viewClassName = @"PostView";
+    _listHttpRequestDelegate.listViewController = self;
+    
     self.title = @"我的拒宅";
     UIView *view = [UIView new];
     view.backgroundColor = [UIColor clearColor];
@@ -65,37 +71,12 @@
     if(page <= 0){
         page = 1;
     }
-    if ([CheckNetwork isExistenceNetwork]) {
-        NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
-        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"home"] withParams:params];
-        [request setCompletionBlock:^{
-            NSString *responseString = [request responseString];
-            NSMutableDictionary *jsonResult = [responseString JSONValue];
-            if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
-                NSDictionary *result = [jsonResult valueForKey:@"result"];
-                
-                NSDictionary *pagerInfo = [result valueForKey:@"pager"];
-                if(_data == nil){
-                    _data = [[JZData alloc] initWithPager:[Pager pagerConvertFromDictionary:pagerInfo]];
-                }else {
-                    [_data.pager updatePagerFromDictionary:pagerInfo];
-                    if(_data.pager.currentPage == 1){
-                        [_data clear];
-                    }
-                }
-                NSMutableArray *postViewList = [result valueForKey:@"postViewList"];
-                for (int i = 0; i < postViewList.count; i++) {
-                    PostView *postView = [PostView convertFromDictionary:[postViewList objectAtIndex:i]];
-                    [_data addObject:postView withIdentity:postView.postId];
-                }
-                [self doneLoadingTableViewData];
-            }
-        }];
-        [request setFailedBlock:^{
-            [self doneLoadingTableViewData];
-        }];
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
+    ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"home"] withParams:params];
+    if (request) {
+        [request setDelegate:_listHttpRequestDelegate];
         [request startAsynchronous];
-    };
+    }
 }
 
 #pragma mark -
@@ -148,7 +129,7 @@
         postDetailViewController.userView = [UserContext getUserView];
         [self.navigationController pushViewController:postDetailViewController animated:YES];
     } else {
-        [self loadListDataWithPage:_data.pager.currentPage + 1];
+        [self loadListDataWithPage:[_data.pager nextPage]];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

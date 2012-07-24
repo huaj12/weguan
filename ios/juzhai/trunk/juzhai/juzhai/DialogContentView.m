@@ -29,4 +29,10 @@
     return dialogContentView;
 }
 
+- (id)objIdentity
+{
+    return [NSNumber numberWithInt:self.dialogContentId];
+}
+
+
 @end

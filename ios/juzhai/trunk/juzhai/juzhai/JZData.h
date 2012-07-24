@@ -17,6 +17,9 @@
 
 @property (strong, nonatomic) Pager *pager;
 
++ (id)loadPager:(NSDictionary *)pagerInfo withOldData:(JZData *)oldData;
+
+- (void)loadPager:(NSDictionary *)pagerInfo;
 - (id)initWithPager:(Pager *)pager;
 - (NSInteger)count;
 - (void)addObject:(id)object withIdentity:(id)identity;

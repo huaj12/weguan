@@ -10,6 +10,8 @@
 #import "ASIFormDataRequest.h"
 #import "ASIHTTPRequest.h"
 #import "CheckNetwork.h"
+#import "LoginService.h"
+#import "MessageShow.h"
 
 @implementation HttpRequestSender
 
@@ -58,6 +60,32 @@
     [request setResponseEncoding:NSUTF8StringEncoding];
     [request setUseCookiePersistence:YES];
     return request;
+}
+
+@end
+
+@implementation HttpRequestDelegate
+
++ (void) requestFailedHandle:(ASIHTTPRequest *)request
+{
+    if (request.responseStatusCode == 401) {
+        [[LoginService getInstance] localLogout];
+        UIWindow *window = [[UIApplication sharedApplication].delegate window];
+        window.rootViewController = [[LoginService getInstance] loginTurnToViewController];
+        [window makeKeyAndVisible];
+    } else {
+        [MessageShow error:SERVER_ERROR_INFO onView:nil];
+    }
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    [HttpRequestDelegate requestFailedHandle:request];
 }
 
 @end

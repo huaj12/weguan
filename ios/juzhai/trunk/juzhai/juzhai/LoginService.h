@@ -17,6 +17,7 @@
 - (NSString *)loginWithTpId:(NSInteger)tpId withQuery:(NSString *)query;
 - (BOOL)checkLogin;
 - (void)logout;
+- (void)localLogout;
 - (UIViewController *)loginTurnToViewController;
 
 @end

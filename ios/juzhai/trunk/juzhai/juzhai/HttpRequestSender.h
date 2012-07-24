@@ -16,3 +16,10 @@
 +(ASIHTTPRequest *) getRequestWithUrl:(NSString *)url withParams:(NSDictionary *)params;
 
 @end
+
+@interface HttpRequestDelegate : NSObject <ASIHTTPRequestDelegate>
+
++ (void) requestFailedHandle:(ASIHTTPRequest *)request;
+
+@end
+

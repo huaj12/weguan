@@ -9,11 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "DetailEditorViewController.h"
 
-#define PROFESSION_MIN_LENGTH 2
-#define PROFESSION_MAX_LENGTH 20
-#define PROFESSION_MIN_ERROR_TEXT @"职业描述不能少于1个字"
-#define PROFESSION_MAX_ERROR_TEXT @"职业描述请不要超过10个字"
-
 @interface ProfessionEditorViewController : DetailEditorViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 {
     NSArray *_professionArray;

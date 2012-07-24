@@ -22,7 +22,7 @@
     hud.labelText = @"发布中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:content, @"content", place, @"place", date, @"dateString", nil];
-        __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"sendPost"] withParams:params];
+        __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"post/sendPost"] withParams:params];
         if (image != nil) {
             CGFloat compression = 0.9f;
             CGFloat maxCompression = 0.1f;
@@ -59,7 +59,7 @@
         }];
         [request setFailedBlock:^{
             [MBProgressHUD hideHUDForView:view animated:YES];
-            [MessageShow error:SERVER_ERROR_INFO onView:view];
+            [HttpRequestDelegate requestFailedHandle:request];
         }];
         [request startAsynchronous];
     });

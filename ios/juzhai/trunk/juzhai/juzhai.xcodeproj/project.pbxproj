@@ -51,6 +51,7 @@
 		CB20ECED1589B953002F9C93 /* jzxq_xy_big_done_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = CB20ECE71589B953002F9C93 /* jzxq_xy_big_done_btn.png */; };
 		CB216A1F15B9511F00E00638 /* DetailEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB216A1E15B9511E00E00638 /* DetailEditorViewController.m */; };
 		CB26E66F15BAF3D000A3E5E3 /* JuzhaiTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB26E66D15BAF3D000A3E5E3 /* JuzhaiTabBarController.m */; };
+		CB29554F15BC46BF0036C2B6 /* ProfileValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = CB29554E15BC46BF0036C2B6 /* ProfileValidation.m */; };
 		CB2E3EE215AFD333009BAEC4 /* add_pic_btn_hover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB2E3ED615AFD333009BAEC4 /* add_pic_btn_hover@2x.png */; };
 		CB2E3EE315AFD333009BAEC4 /* add_pic_btn_link@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB2E3ED715AFD333009BAEC4 /* add_pic_btn_link@2x.png */; };
 		CB2E3EE415AFD333009BAEC4 /* biaoqing_btn_hover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB2E3ED815AFD333009BAEC4 /* biaoqing_btn_hover@2x.png */; };
@@ -104,6 +105,10 @@
 		CB540E5015ABD9BC00265412 /* tasaytome.png in Resources */ = {isa = PBXBuildFile; fileRef = CB540E4C15ABD9BC00265412 /* tasaytome.png */; };
 		CB540E5315ABDA9E00265412 /* IdeaUsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB540E5215ABDA9E00265412 /* IdeaUsersViewController.m */; };
 		CB540E5515ABEFDE00265412 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB540E5415ABEFDE00265412 /* CoreText.framework */; };
+		CB5500D315BE4E5F00DD21EE /* mail_btn_hover.png in Resources */ = {isa = PBXBuildFile; fileRef = CB5500D115BE4E5F00DD21EE /* mail_btn_hover.png */; };
+		CB5500D415BE4E5F00DD21EE /* mail_btn_link.png in Resources */ = {isa = PBXBuildFile; fileRef = CB5500D215BE4E5F00DD21EE /* mail_btn_link.png */; };
+		CB5500D815BE4E7F00DD21EE /* mail_btn_hover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB5500D615BE4E7200DD21EE /* mail_btn_hover@2x.png */; };
+		CB5500D915BE4E7F00DD21EE /* mail_btn_link@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB5500D715BE4E7900DD21EE /* mail_btn_link@2x.png */; };
 		CB5E87E7156CD25C0010EE1C /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5E87E5156CD25C0010EE1C /* UserViewController.m */; };
 		CB669D9515A42186000545D0 /* PagerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CB669D9415A42186000545D0 /* PagerCell.m */; };
 		CB669D9F15A48227000545D0 /* SendPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB669D9D15A48227000545D0 /* SendPostViewController.m */; };
@@ -351,6 +356,7 @@
 		CBE29097159D7DD2008EC696 /* Province.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE29096159D7DD2008EC696 /* Province.m */; };
 		CBE2909A159D7DE5008EC696 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE29099159D7DE5008EC696 /* City.m */; };
 		CBE4B0DD15B286B4008051AB /* DialogContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE4B0DC15B286B4008051AB /* DialogContentView.m */; };
+		CBE509C815BD330B00E4A978 /* ListHttpRequestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE509C715BD330B00E4A978 /* ListHttpRequestDelegate.m */; };
 		CBE90A901558D646002780E8 /* LoginUser.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE90A8F1558D646002780E8 /* LoginUser.m */; };
 		CBE90B2915A576EB00E500B5 /* SendPostBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE90B2815A576EB00E500B5 /* SendPostBarButtonItem.m */; };
 		CBE91CD515829B1C008BDDE9 /* juzhai.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CBE91CD315829B1C008BDDE9 /* juzhai.xcdatamodeld */; };
@@ -441,6 +447,8 @@
 		CB216A1E15B9511E00E00638 /* DetailEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailEditorViewController.m; sourceTree = "<group>"; };
 		CB26E66C15BAF3D000A3E5E3 /* JuzhaiTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JuzhaiTabBarController.h; sourceTree = "<group>"; };
 		CB26E66D15BAF3D000A3E5E3 /* JuzhaiTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JuzhaiTabBarController.m; sourceTree = "<group>"; };
+		CB29554D15BC46BF0036C2B6 /* ProfileValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileValidation.h; sourceTree = "<group>"; };
+		CB29554E15BC46BF0036C2B6 /* ProfileValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileValidation.m; sourceTree = "<group>"; };
 		CB2E3ED615AFD333009BAEC4 /* add_pic_btn_hover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_pic_btn_hover@2x.png"; sourceTree = "<group>"; };
 		CB2E3ED715AFD333009BAEC4 /* add_pic_btn_link@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_pic_btn_link@2x.png"; sourceTree = "<group>"; };
 		CB2E3ED815AFD333009BAEC4 /* biaoqing_btn_hover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "biaoqing_btn_hover@2x.png"; sourceTree = "<group>"; };
@@ -507,6 +515,10 @@
 		CB540E5115ABDA9E00265412 /* IdeaUsersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdeaUsersViewController.h; sourceTree = "<group>"; };
 		CB540E5215ABDA9E00265412 /* IdeaUsersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdeaUsersViewController.m; sourceTree = "<group>"; };
 		CB540E5415ABEFDE00265412 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		CB5500D115BE4E5F00DD21EE /* mail_btn_hover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mail_btn_hover.png; sourceTree = "<group>"; };
+		CB5500D215BE4E5F00DD21EE /* mail_btn_link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mail_btn_link.png; sourceTree = "<group>"; };
+		CB5500D615BE4E7200DD21EE /* mail_btn_hover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mail_btn_hover@2x.png"; sourceTree = "<group>"; };
+		CB5500D715BE4E7900DD21EE /* mail_btn_link@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mail_btn_link@2x.png"; sourceTree = "<group>"; };
 		CB5E87E4156CD25C0010EE1C /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
 		CB5E87E5156CD25C0010EE1C /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
 		CB669D9315A42186000545D0 /* PagerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagerCell.h; sourceTree = "<group>"; };
@@ -838,6 +850,8 @@
 		CBE29099159D7DE5008EC696 /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
 		CBE4B0DB15B286B4008051AB /* DialogContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogContentView.h; sourceTree = "<group>"; };
 		CBE4B0DC15B286B4008051AB /* DialogContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogContentView.m; sourceTree = "<group>"; };
+		CBE509C615BD330B00E4A978 /* ListHttpRequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListHttpRequestDelegate.h; sourceTree = "<group>"; };
+		CBE509C715BD330B00E4A978 /* ListHttpRequestDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListHttpRequestDelegate.m; sourceTree = "<group>"; };
 		CBE90A8E1558D646002780E8 /* LoginUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUser.h; sourceTree = "<group>"; };
 		CBE90A8F1558D646002780E8 /* LoginUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUser.m; sourceTree = "<group>"; };
 		CBE90B2715A576EB00E500B5 /* SendPostBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendPostBarButtonItem.h; sourceTree = "<group>"; };
@@ -931,8 +945,8 @@
 				CB26E66C15BAF3D000A3E5E3 /* JuzhaiTabBarController.h */,
 				CB26E66D15BAF3D000A3E5E3 /* JuzhaiTabBarController.m */,
 				CBF3229D15AA760100D82CBB /* ListCell.h */,
-				CB669D9415A42186000545D0 /* PagerCell.m */,
 				CB669D9315A42186000545D0 /* PagerCell.h */,
+				CB669D9415A42186000545D0 /* PagerCell.m */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -1078,6 +1092,8 @@
 				CB3E04471552638C0069DE30 /* LoginService.m */,
 				CBF9484D1594C06100543F67 /* UserContext.h */,
 				CBF9484E1594C06100543F67 /* UserContext.m */,
+				CB29554D15BC46BF0036C2B6 /* ProfileValidation.h */,
+				CB29554E15BC46BF0036C2B6 /* ProfileValidation.m */,
 			);
 			name = Service;
 			sourceTree = "<group>";
@@ -1308,6 +1324,8 @@
 			children = (
 				CB8367FA155EAE31004CFD54 /* HttpRequestSender.h */,
 				CB8367FB155EAE31004CFD54 /* HttpRequestSender.m */,
+				CBE509C615BD330B00E4A978 /* ListHttpRequestDelegate.h */,
+				CBE509C715BD330B00E4A978 /* ListHttpRequestDelegate.m */,
 			);
 			name = HttpRequest;
 			sourceTree = "<group>";
@@ -1457,6 +1475,8 @@
 		CBD964B2157FC57D006E0196 /* big */ = {
 			isa = PBXGroup;
 			children = (
+				CB5500D615BE4E7200DD21EE /* mail_btn_hover@2x.png */,
+				CB5500D715BE4E7900DD21EE /* mail_btn_link@2x.png */,
 				CBF4975715B94635009DB8C3 /* send_input_bgxy@2x.png */,
 				CBF4975315B94628009DB8C3 /* btn_hover@2x.png */,
 				CBF4975415B94628009DB8C3 /* btn_link@2x.png */,
@@ -1589,6 +1609,8 @@
 		CBD964E9157FC57D006E0196 /* small */ = {
 			isa = PBXGroup;
 			children = (
+				CB5500D115BE4E5F00DD21EE /* mail_btn_hover.png */,
+				CB5500D215BE4E5F00DD21EE /* mail_btn_link.png */,
 				CBF4975915B94649009DB8C3 /* btn_hover.png */,
 				CBF4975A15B94649009DB8C3 /* btn_link.png */,
 				CBF4975B15B94649009DB8C3 /* send_input_bgxy.png */,
@@ -2155,6 +2177,10 @@
 				CBF4975C15B94649009DB8C3 /* btn_hover.png in Resources */,
 				CBF4975D15B94649009DB8C3 /* btn_link.png in Resources */,
 				CBF4975E15B94649009DB8C3 /* send_input_bgxy.png in Resources */,
+				CB5500D315BE4E5F00DD21EE /* mail_btn_hover.png in Resources */,
+				CB5500D415BE4E5F00DD21EE /* mail_btn_link.png in Resources */,
+				CB5500D815BE4E7F00DD21EE /* mail_btn_hover@2x.png in Resources */,
+				CB5500D915BE4E7F00DD21EE /* mail_btn_link@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2274,6 +2300,8 @@
 				CBF4975215B9441C009DB8C3 /* RectButton.m in Sources */,
 				CB216A1F15B9511F00E00638 /* DetailEditorViewController.m in Sources */,
 				CB26E66F15BAF3D000A3E5E3 /* JuzhaiTabBarController.m in Sources */,
+				CB29554F15BC46BF0036C2B6 /* ProfileValidation.m in Sources */,
+				CBE509C815BD330B00E4A978 /* ListHttpRequestDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

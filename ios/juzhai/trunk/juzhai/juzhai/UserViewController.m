@@ -23,6 +23,7 @@
 #import "SendPostBarButtonItem.h"
 #import "UrlUtils.h"
 #import "Constant.h"
+#import "ListHttpRequestDelegate.h"
 
 @interface UserViewController (Private)
 
@@ -43,10 +44,16 @@
 
 - (void)viewDidLoad
 {
+    _data = [[JZData alloc] init];
+    _listHttpRequestDelegate = [[ListHttpRequestDelegate alloc] init];
+    _listHttpRequestDelegate.jzData = _data;
+    _listHttpRequestDelegate.viewClassName = @"UserView";
+    _listHttpRequestDelegate.listViewController = self;
+    
     // Do any additional setup after loading the view from its nib.
     //中央切换按钮
     UIImage* dividerImage = [UIImage imageNamed:DIVIDER_LINE_IMAGE];
-    _segmentedControl = [[CustomSegmentedControl alloc] initWithSegmentCount:2 segmentsize:CGSizeMake(60, dividerImage.size.height) dividerImage:dividerImage tag:ORDER_BY_TIME delegate:self];
+    _segmentedControl = [[CustomSegmentedControl alloc] initWithSegmentCount:2 segmentsize:CGSizeMake(60, dividerImage.size.height) dividerImage:dividerImage tag:ORDER_BY_ACTIVE delegate:self];
     self.navigationItem.titleView = _segmentedControl;
     
     //右侧性别按钮
@@ -86,6 +93,9 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
     _data = nil;
+    _listHttpRequestDelegate = nil;
+    _genderButton = nil;
+    _segmentedControl = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -110,39 +120,40 @@
 - (void) loadListDataWithPage:(NSInteger)page{
     if(page <= 0)
         page = 1;
-    if ([CheckNetwork isExistenceNetwork]) {
-        NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"time", @"orderType", [NSNumber numberWithInt:page], @"page", nil];
-        NSInteger gender = _genderButton.tag;
-        if (gender <= 1) {
-            [params setObject:[NSNumber numberWithInt:gender] forKey:@"gender"];
-        }
-        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"userList"] withParams:params];
-        [request setCompletionBlock:^{
-            // Use when fetching text data
-            NSString *responseString = [request responseString];
-            NSMutableDictionary *jsonResult = [responseString JSONValue];
-            if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
-                //reload
-                NSDictionary *pagerInfo = [[jsonResult valueForKey:@"result"] valueForKey:@"pager"];
-                if(_data == nil){
-                    _data = [[JZData alloc] initWithPager:[Pager pagerConvertFromDictionary:pagerInfo]];
-                }else {
-                    [_data.pager updatePagerFromDictionary:pagerInfo];
-                    if(_data.pager.currentPage == 1){
-                        [_data clear];
-                    }
-                }
-                NSMutableArray *userViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"userViewList"];
-                for (int i = 0; i < userViewList.count; i++) {
-                    UserView *userView = [UserView convertFromDictionary:[userViewList objectAtIndex:i]];
-                    [_data addObject:userView withIdentity:userView.uid];
-                }
-                [self doneLoadingTableViewData];
-            }
-        }];
-        [request setFailedBlock:^{
-            [self doneLoadingTableViewData];
-        }];
+    NSString *orderType;
+    if (_segmentedControl.tag == ORDER_BY_ACTIVE) {
+        orderType = @"online";
+    } else {
+        orderType = @"new";
+    }
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:orderType, @"orderType", [NSNumber numberWithInt:page], @"page", nil];
+    NSInteger gender = _genderButton.tag;
+    if (gender <= 1) {
+        [params setObject:[NSNumber numberWithInt:gender] forKey:@"gender"];
+    }
+    ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"post/showposts"] withParams:params];
+    if (request) {
+        
+//        [request setCompletionBlock:^{
+//            // Use when fetching text data
+//            NSString *responseString = [request responseString];
+//            NSMutableDictionary *jsonResult = [responseString JSONValue];
+//            if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
+//                //reload
+//                _data = [JZData loadPager:[[jsonResult valueForKey:@"result"] valueForKey:@"pager"] withOldData:_data];
+//                NSMutableArray *userViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"userViewList"];
+//                for (int i = 0; i < userViewList.count; i++) {
+//                    id userView = [NSClassFromString(@"UserView") convertFromDictionary:[userViewList objectAtIndex:i]];
+//                    [_data addObject:userView withIdentity:[userView uid]];
+//                }
+//                [self doneLoadingTableViewData];
+//            }
+//        }];
+//        [request setFailedBlock:^{
+//            [self doneLoadingTableViewData];
+//        }];
+        
+        [request setDelegate:_listHttpRequestDelegate];
         [request startAsynchronous];
     }
 }
@@ -178,15 +189,15 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
     
     NSString *buttonText;
     switch (segmentIndex) {
-        case 0:
-            buttonText = @"最新";
+        case ORDER_BY_ACTIVE:
+            buttonText = @"活跃";
             break;
-        case 1:
-            buttonText = @"推荐";
+        case ORDER_BY_TIME:
+            buttonText = @"最新";
             break;
     }
     UIButton* button = [[MenuButton alloc] initWithWidth:60 buttonText:buttonText CapLocation:location];
-    if (segmentIndex == 0)
+    if (segmentIndex == ORDER_BY_ACTIVE)
         button.selected = YES;
     return button;
 }
@@ -242,7 +253,7 @@ didDismissWithButtonIndex:(NSInteger)buttonIndex
         postDetailViewController.userView = [_data objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:postDetailViewController animated:YES];
     } else {
-        [self loadListDataWithPage:_data.pager.currentPage + 1];
+        [self loadListDataWithPage:[_data.pager nextPage]];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

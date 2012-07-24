@@ -9,9 +9,11 @@
 #import "EGORefreshHeaderTableViewController.h"
 
 @class JZData;
+@class ListHttpRequestDelegate;
 
 @interface UserPostViewController : EGORefreshHeaderTableViewController
 {
     JZData *_data;
+    ListHttpRequestDelegate *_listHttpRequestDelegate;
 }
 @end

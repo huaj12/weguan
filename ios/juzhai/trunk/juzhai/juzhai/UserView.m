@@ -98,4 +98,9 @@
     return info;
 }
 
+- (id)objIdentity
+{
+    return self.uid;
+}
+
 @end

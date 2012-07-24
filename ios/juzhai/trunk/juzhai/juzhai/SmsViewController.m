@@ -19,6 +19,7 @@
 #import "MessageShow.h"
 #import "UrlUtils.h"
 #import "DialogContentViewController.h"
+#import "ListHttpRequestDelegate.h"
 
 @interface SmsViewController ()
 
@@ -35,53 +36,14 @@
     return self;
 }
 
-- (void) loadListDataWithPage:(NSInteger)page
-{
-    if(page <= 0)
-        page = 1;
-    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
-    __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"dialogList"] withParams:params];
-    if (request) {
-        [request setCompletionBlock:^{
-            NSString *responseString = [request responseString];
-            NSMutableDictionary *jsonResult = [responseString JSONValue];
-            if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
-                //reload
-                NSDictionary *pagerInfo = [[jsonResult valueForKey:@"result"] valueForKey:@"pager"];
-                if(_data == nil){
-                    _data = [[JZData alloc] initWithPager:[Pager pagerConvertFromDictionary:pagerInfo]];
-                }else {
-                    [_data.pager updatePagerFromDictionary:pagerInfo];
-                    if(_data.pager.currentPage == 1){
-                        [_data clear];
-                    }
-                }
-                NSMutableArray *dialogViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"dialogViewList"];
-                for (int i = 0; i < dialogViewList.count; i++) {
-                    DialogView *dialogView = [DialogView convertFromDictionary:[dialogViewList objectAtIndex:i]];
-                    [_data addObject:dialogView withIdentity:[NSNumber numberWithInt:dialogView.dialogId]];
-                }
-                [self doneLoadingTableViewData];
-                self.navigationController.tabBarItem.badgeValue = nil;
-            }
-        }];
-        [request setFailedBlock:^{
-            [self doneLoadingTableViewData];
-        }];
-        [request startAsynchronous];
-    }        
-}
-
-- (IBAction)toggleEdit:(id)sender{
-    [self.tableView setEditing:!self.tableView.editing animated:YES];
-    if(self.tableView.editing)
-        [_editButton setTitle:@"完成" forState:UIControlStateNormal];
-    else
-        [_editButton setTitle:@"删除" forState:UIControlStateNormal];
-}
-
 - (void)viewDidLoad
 {    
+    _data = [[JZData alloc] init];
+    _listHttpRequestDelegate = [[ListHttpRequestDelegate alloc] init];
+    _listHttpRequestDelegate.jzData = _data;
+    _listHttpRequestDelegate.viewClassName = @"DialogView";
+    _listHttpRequestDelegate.listViewController = self;
+    
     self.title = @"我的消息";
     
     _editButton = [[RectButton alloc] initWithWidth:45.0 buttonText:@"删除" CapLocation:CapLeftAndRight];
@@ -112,6 +74,31 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(void)doneLoadingTableViewData{
+    [super doneLoadingTableViewData];
+    self.navigationController.tabBarItem.badgeValue = nil;
+}
+
+- (void) loadListDataWithPage:(NSInteger)page
+{
+    if(page <= 0)
+        page = 1;
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
+    ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"dialog/dialogList"] withParams:params];
+    if (request) {
+        [request setDelegate:_listHttpRequestDelegate];
+        [request startAsynchronous];
+    }        
+}
+
+- (IBAction)toggleEdit:(id)sender{
+    [self.tableView setEditing:!self.tableView.editing animated:YES];
+    if(self.tableView.editing)
+        [_editButton setTitle:@"完成" forState:UIControlStateNormal];
+    else
+        [_editButton setTitle:@"删除" forState:UIControlStateNormal];
 }
 
 #pragma mark - Table view data source
@@ -151,8 +138,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         DialogView *dialogView = (DialogView *)[_data objectAtIndex:indexPath.row];
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:dialogView.dialogId], @"dialogId", nil];
-        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"deleteDialog"] withParams:params];
-        __unsafe_unretained ASIHTTPRequest *request = _request;
+        __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"dialog/deleteDialog"] withParams:params];
         [request setCompletionBlock:^{
             NSString *responseString = [request responseString];
             NSMutableDictionary *jsonResult = [responseString JSONValue];
@@ -171,7 +157,7 @@
             [MessageShow error:errorInfo onView:self.view];
         }];
         [request setFailedBlock:^{
-            [MessageShow error:SERVER_ERROR_INFO onView:self.view];
+            [HttpRequestDelegate requestFailedHandle:request];
         }];
         [request startAsynchronous];
     }   
@@ -197,7 +183,7 @@
         dialogContentViewController.targetUser = dialogView.targetUser;
         [self.navigationController pushViewController:dialogContentViewController animated:YES];
     } else {
-        [self loadListDataWithPage:_data.pager.currentPage + 1];
+        [self loadListDataWithPage:[_data.pager nextPage]];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

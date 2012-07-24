@@ -118,6 +118,8 @@
             [self viewWillAppear:NO];
             [self.infoTableView reloadData];
         }
+    }else {
+        [HttpRequestDelegate requestFailedHandle:request];
     }
 }
 

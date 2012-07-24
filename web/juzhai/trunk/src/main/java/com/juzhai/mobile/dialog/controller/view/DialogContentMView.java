@@ -1,4 +1,4 @@
-package com.juzhai.lab.controller.view;
+package com.juzhai.mobile.dialog.controller.view;
 
 import com.juzhai.home.controller.view.DialogContentView;
 import com.juzhai.home.model.DialogContent;

@@ -1,4 +1,6 @@
-package com.juzhai.lab.controller.view;
+package com.juzhai.mobile.dialog.controller.view;
+
+import com.juzhai.mobile.passport.controller.view.UserMView;
 
 public class DialogMView {
 

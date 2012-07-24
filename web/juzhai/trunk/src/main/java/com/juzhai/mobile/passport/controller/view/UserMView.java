@@ -1,4 +1,6 @@
-package com.juzhai.lab.controller.view;
+package com.juzhai.mobile.passport.controller.view;
+
+import com.juzhai.mobile.post.controller.view.PostMView;
 
 public class UserMView {
 

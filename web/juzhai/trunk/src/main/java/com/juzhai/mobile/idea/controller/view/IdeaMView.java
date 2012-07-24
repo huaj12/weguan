@@ -1,4 +1,4 @@
-package com.juzhai.lab.controller.view;
+package com.juzhai.mobile.idea.controller.view;
 
 public class IdeaMView {
 

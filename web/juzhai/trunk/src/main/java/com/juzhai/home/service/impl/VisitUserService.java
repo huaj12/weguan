@@ -70,7 +70,6 @@ public class VisitUserService implements IVisitUserService {
 		if (cache.getGender() != null) {
 			gender = cache.getGender() == 1 ? 0 : 1;
 		}
-		// TODO (done) 我特地没提醒你，你觉得你配的这个数字，用法合理吗？
 		Random random = new Random();
 		int maxResults = random.nextInt(userVisitRandomCount) + 1;
 		List<Profile> list = profileService.queryProfile(cache.getUid(),

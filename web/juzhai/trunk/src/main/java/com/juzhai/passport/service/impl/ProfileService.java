@@ -796,7 +796,6 @@ public class ProfileService implements IProfileService {
 		}
 	}
 
-	// TODO (done) 放在这里合适吗？
 	private int getNextDayTime() {
 		Calendar cal = Calendar.getInstance();
 		int hour = cal.get(Calendar.HOUR_OF_DAY);

@@ -73,7 +73,6 @@ public class InterestController extends BaseController {
 		AjaxResult result = new AjaxResult();
 		String content = null;
 		Long postId = postService.getUserLatestPost(context.getUid());
-		// TODO (done) 应该先判断postId
 		if (postId != null) {
 			Post post = postService.getPostById(postId);
 			if (post != null) {

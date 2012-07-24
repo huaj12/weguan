@@ -758,7 +758,6 @@ public class IdeaService implements IIdeaService {
 		}
 		IdeaExample ideaExample = new IdeaExample();
 		ideaExample.createCriteria().andIdIn(ideaIds);
-		// TODO (done) 还没吸取做lucene时候的教训，自己想什么问题
 		Map<Long, Idea> ideaMap = new HashMap<Long, Idea>();
 		for (Idea idea : ideaMapper.selectByExample(ideaExample)) {
 			ideaMap.put(idea.getId(), idea);

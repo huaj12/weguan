@@ -50,7 +50,7 @@
     
     loadingView.hidesWhenStopped = YES;
     
-    NSURL *requestUrl = [NSURL URLWithString:[UrlUtils urlStringWithUri:[NSString stringWithFormat:@"tpLogin/%d", tpId]]];
+    NSURL *requestUrl = [NSURL URLWithString:[UrlUtils urlStringWithUri:[NSString stringWithFormat:@"passport/tpLogin/%d", tpId]]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:requestUrl];
 	[webView loadRequest:request];
 }

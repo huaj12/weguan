@@ -12,6 +12,7 @@
 
 @required
 + (id) convertFromDictionary:(NSDictionary *)info;
+- (id)objIdentity;
 
 @optional
 - (void) updateFromDictionary:(NSDictionary *)info;

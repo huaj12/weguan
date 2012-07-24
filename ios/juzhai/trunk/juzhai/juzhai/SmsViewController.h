@@ -11,11 +11,13 @@
 
 @class JZData;
 @class HomeViewController;
+@class ListHttpRequestDelegate;
 
 @interface SmsViewController : EGORefreshHeaderTableViewController
 {
     JZData *_data;
     UIButton *_editButton;
+    ListHttpRequestDelegate *_listHttpRequestDelegate;
 }
 
 @end

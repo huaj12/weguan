@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "RectButton.h"
 #import "ProfileSettingViewController.h"
-#import "NSString+Chinese.h"
+#import "ProfileValidation.h"
 #import "MessageShow.h"
 #import "Constant.h"
 
@@ -73,15 +73,11 @@
     //验证
     NSString *value = [textView.text stringByTrimmingCharactersInSet: 
                        [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSInteger textLength = [value chineseLength];
-    if (textLength < FEATURE_MIN_LENGTH) {
-        [MessageShow error:FEATURE_MIN_ERROR_TEXT onView:self.view];
-        return;
+    NSString *errorInfo = [ProfileValidation validateFeature:value];
+    if (errorInfo && ![errorInfo isEqualToString:@""]) {
+        [MessageShow error:errorInfo onView:self.view];
     }
-    if (textLength > FEATURE_MAX_LENGTH) {
-        [MessageShow error:FEATURE_MAX_ERROR_TEXT onView:self.view];
-        return;
-    }
+    
     NSInteger tag = [value isEqualToString:@""] ? 0 : 1;
     [self.settingViewController saveSingleInfo:self.cellIdentifier withValue:value withValueId:tag];
     [self.navigationController popViewControllerAnimated:YES];

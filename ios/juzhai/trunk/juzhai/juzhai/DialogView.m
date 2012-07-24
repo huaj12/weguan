@@ -32,6 +32,11 @@
     return dialogView;
 }
 
+- (id)objIdentity
+{
+    return [NSNumber numberWithInt:self.dialogId];
+}
+
 - (BOOL) isSendToMe
 {
     return self.receiverUid == [UserContext getUid];

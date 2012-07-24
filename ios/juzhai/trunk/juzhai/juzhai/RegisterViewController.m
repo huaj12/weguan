@@ -56,9 +56,8 @@
 }
 
 -(void)doRegister{
-    sleep(0.5);
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:accountField.text,@"account",nicknameField.text,@"nickname", passwordField.text,@"pwd", confirmPwdField.text,@"confirmPwd", nil];
-    ASIHTTPRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"register"] withParams:params];
+    ASIHTTPRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"passport/register"] withParams:params];
     [request startSynchronous];
     NSError *error = [request error];
     NSString *errorInfo = SERVER_ERROR_INFO;

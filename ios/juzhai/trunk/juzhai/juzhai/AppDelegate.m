@@ -12,6 +12,7 @@
 #import "ASIHTTPRequest.h"
 #import "ASIDownloadCache.h"
 #import "CustomNavigationController.h"
+#import "BaseData.h"
 
 @implementation AppDelegate
 
@@ -26,6 +27,10 @@
     // Override point for customization after application launch.
     //初始化设置
     [ASIHTTPRequest setDefaultCache:[ASIDownloadCache sharedCache]];
+    //加载初始化数据
+    [BaseData getCategories];
+    [BaseData getProvinces];
+    [BaseData getProvinces];
     
     UIViewController *viewController;
     if(![[LoginService getInstance] checkLogin]){

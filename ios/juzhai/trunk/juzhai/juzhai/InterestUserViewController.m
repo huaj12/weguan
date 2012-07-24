@@ -20,6 +20,7 @@
 #import "PagerCell.h"
 #import "UrlUtils.h"
 #import "CheckNetwork.h"
+#import "ListHttpRequestDelegate.h"
 
 @interface InterestUserViewController ()
 
@@ -40,6 +41,11 @@
 
 - (void)viewDidLoad
 {
+    _data = [[JZData alloc] init];
+    _listHttpRequestDelegate = [[ListHttpRequestDelegate alloc] init];
+    _listHttpRequestDelegate.jzData = _data;
+    _listHttpRequestDelegate.viewClassName = @"UserView";
+    
     if (self.isInterest) {
         self.title = @"我的关注";
     } else {
@@ -66,39 +72,14 @@
 }
 
 - (void) loadListDataWithPage:(NSInteger)page{
-    if ([CheckNetwork isExistenceNetwork]) {
-        if(page <= 0)
-            page = 1;
-        NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
-        NSString *requestUrl = self.isInterest ? [UrlUtils urlStringWithUri:@"interestList"] : [UrlUtils urlStringWithUri:@"interestMeList"];
-        
-        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:requestUrl withParams:params];
-        [request setCompletionBlock:^{
-            // Use when fetching text data
-            NSString *responseString = [request responseString];
-            NSMutableDictionary *jsonResult = [responseString JSONValue];
-            if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
-                //reload
-                NSDictionary *pagerInfo = [[jsonResult valueForKey:@"result"] valueForKey:@"pager"];
-                if(_data == nil){
-                    _data = [[JZData alloc] initWithPager:[Pager pagerConvertFromDictionary:pagerInfo]];
-                }else {
-                    [_data.pager updatePagerFromDictionary:pagerInfo];
-                    if(_data.pager.currentPage == 1){
-                        [_data clear];
-                    }
-                }
-                NSMutableArray *userViewList = [[jsonResult valueForKey:@"result"] valueForKey:@"userViewList"];
-                for (int i = 0; i < userViewList.count; i++) {
-                    UserView *userView = [UserView convertFromDictionary:[userViewList objectAtIndex:i]];
-                    [_data addObject:userView withIdentity:userView.uid];
-                }
-                [self doneLoadingTableViewData];
-            }
-        }];
-        [request setFailedBlock:^{
-            [self doneLoadingTableViewData];
-        }];
+    if(page <= 0)
+        page = 1;
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
+    NSString *requestUrl = self.isInterest ? [UrlUtils urlStringWithUri:@"home/interestList"] : [UrlUtils urlStringWithUri:@"home/interestMeList"];
+    
+    ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:requestUrl withParams:params];
+    if (request) {
+        [request setDelegate:_listHttpRequestDelegate];
         [request startAsynchronous];
     }
 }
@@ -195,7 +176,7 @@
         taHomeViewController.userView = [_data objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:taHomeViewController animated:YES];
     } else {
-        [self loadListDataWithPage:_data.pager.currentPage + 1];
+        [self loadListDataWithPage:[_data.pager nextPage]];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

@@ -66,8 +66,7 @@
 - (void)notice
 {
     UITabBarItem *messageTabBar = [[self.tabBar items] objectAtIndex:3];
-    __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"notice/nums"] withParams:nil];
-    //        __unsafe_unretained ASIHTTPRequest *request = _request;
+    __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"dialog/notice/nums"] withParams:nil];
     [request setCompletionBlock:^{
         NSString *responseString = [request responseString];
         NSMutableDictionary *jsonResult = [responseString JSONValue];
@@ -79,6 +78,9 @@
                 messageTabBar.badgeValue = nil;
             }
         }
+    }];
+    [request setFailedBlock:^{
+        [HttpRequestDelegate requestFailedHandle:request];
     }];
     [request startAsynchronous];;
 }

@@ -58,7 +58,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _provinceArray = [BaseData getProvinces];
     _cityArray = [BaseData getCitiesWithProvinceId:((Province *)[_provinceArray objectAtIndex:0]).provinceId];
     
     NSArray *settingCells = [[NSBundle mainBundle] loadNibNamed:@"ProfileSettingForm" owner:self options:nil];
@@ -207,10 +206,11 @@
          }else{
              errorInfo = [jsonResult valueForKey:@"errorInfo"];
          }
+         [MessageShow error:errorInfo onView:self.navigationController.view];
      }else{
          NSLog(@"error: %@", [request responseStatusMessage]);
+         [HttpRequestDelegate requestFailedHandle:request];
      }
-     [MessageShow error:errorInfo onView:self.navigationController.view];
 }
 
 - (IBAction)save:(id)sender{

@@ -25,7 +25,7 @@
         return;
     }
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:content, @"content", [NSNumber numberWithInt:uid], @"uid", nil];
-    __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"sendSms"] withParams:params];
+    __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"dialog/sendSms"] withParams:params];
     [request setCompletionBlock:^{
         NSString *responseString = [request responseString];
         NSMutableDictionary *jsonResult = [responseString JSONValue];
@@ -43,7 +43,7 @@
         [MessageShow error:errorInfo onView:nil];
     }];
     [request setFailedBlock:^{
-        [MessageShow error:SERVER_ERROR_INFO onView:nil];
+        [HttpRequestDelegate requestFailedHandle:request];
     }];
     [request startAsynchronous];
 }

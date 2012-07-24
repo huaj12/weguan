@@ -45,6 +45,11 @@
     return idea;
 }
 
+- (id)objIdentity
+{
+    return [NSNumber numberWithInt:self.ideaId];
+}
+
 - (BOOL)hasPlace
 {
     return self.place != nil && ![self.place isEqual:[NSNull null]] && ![self.place isEqualToString:@""];

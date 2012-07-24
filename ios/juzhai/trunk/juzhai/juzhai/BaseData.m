@@ -44,8 +44,7 @@ static BaseData *baseData;
     BaseData *baseData = [BaseData sharedData];
     if(!baseData.categoryArray){
         //http load
-        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"categoryList"] withParams:nil];
-        __unsafe_unretained ASIHTTPRequest *request = _request;
+        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"base/categoryList"] withParams:nil];
         [request setCompletionBlock:^{
             // Use when fetching text data
             NSString *responseString = [request responseString];
@@ -62,10 +61,6 @@ static BaseData *baseData;
                 }
             }
         }];
-        [request setFailedBlock:^{
-            NSError *error = [request error];
-            NSLog(@"%@", [error description]);
-        }];
         [request startSynchronous];
     }
     return baseData.categoryArray;
@@ -75,8 +70,7 @@ static BaseData *baseData;
     BaseData *baseData = [BaseData sharedData];
     if(!baseData.professionArray){
         //http load
-        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"professionList"] withParams:nil];
-        __unsafe_unretained ASIHTTPRequest *request = _request;
+        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"base/professionList"] withParams:nil];
         [request setCompletionBlock:^{
             // Use when fetching text data
             NSString *responseString = [request responseString];
@@ -93,10 +87,6 @@ static BaseData *baseData;
                 }
             }
         }];
-        [request setFailedBlock:^{
-            NSError *error = [request error];
-            NSLog(@"%@", [error description]);
-        }];
         [request startSynchronous];
     }
     return baseData.professionArray;
@@ -106,8 +96,7 @@ static BaseData *baseData;
     BaseData *baseData = [BaseData sharedData];
     if(!baseData.provinceArray){
         //http load
-        __block ASIHTTPRequest *_request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"provinceCityList"] withParams:nil];
-        __unsafe_unretained ASIHTTPRequest *request = _request;
+        __unsafe_unretained __block ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"base/provinceCityList"] withParams:nil];
         [request setCompletionBlock:^{
             // Use when fetching text data
             NSString *responseString = [request responseString];
@@ -138,10 +127,6 @@ static BaseData *baseData;
                     [cities addObject:[[City alloc] initWithCityId:cityId withName:cityName withProvinceId:provinceId]];
                 }
             }
-        }];
-        [request setFailedBlock:^{
-            NSError *error = [request error];
-            NSLog(@"%@", [error description]);
         }];
         [request startSynchronous];
     }

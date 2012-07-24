@@ -11,9 +11,9 @@
 #import "Profession.h"
 #import "RectButton.h"
 #import "ProfileSettingViewController.h"
-#import "NSString+Chinese.h"
 #import "MessageShow.h"
 #import "Constant.h"
+#import "ProfileValidation.h"
 
 @interface ProfessionEditorViewController ()
 
@@ -32,7 +32,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _professionArray = [BaseData getProfessions];
     }
     return self;
 }
@@ -124,13 +123,9 @@
         //验证
         NSString *value = [professionField.text stringByTrimmingCharactersInSet: 
                            [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSInteger textLength = [value chineseLength];
-        if (textLength < PROFESSION_MIN_LENGTH) {
-            [MessageShow error:PROFESSION_MIN_ERROR_TEXT onView:self.view];
-            return;
-        }
-        if (textLength > PROFESSION_MAX_LENGTH) {
-            [MessageShow error:PROFESSION_MAX_ERROR_TEXT onView:self.view];
+        NSString *errorInfo = [ProfileValidation validateProfession:value];
+        if (errorInfo && ![errorInfo isEqualToString:nil]) {
+            [MessageShow error:errorInfo onView:self.view];
             return;
         }
         [self.settingViewController saveSingleInfo:self.cellIdentifier withValue:value withValueId:0];

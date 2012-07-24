@@ -12,6 +12,8 @@
 #import "UserView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Constant.h"
+#import "ProfileValidation.h"
+#import "MessageShow.h"
 
 @interface NicknameEditorViewController ()
 
@@ -70,7 +72,15 @@
 }
 
 - (IBAction)save:(id)sender{
-    // TODO 验证
+    //验证
+    NSString *value = [textField.text stringByTrimmingCharactersInSet: 
+                       [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *errorInfo = [ProfileValidation validateNickname:value];
+    if (errorInfo && ![errorInfo isEqualToString:@""]) {
+        [textField resignFirstResponder];
+        [MessageShow error:errorInfo onView:self.view];
+        return;
+    }
     [self.settingViewController saveSingleInfo:self.cellIdentifier withValue:textField.text withValueId:0];
     [self.navigationController popViewControllerAnimated:YES];
 }

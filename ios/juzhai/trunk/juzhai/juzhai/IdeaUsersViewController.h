@@ -11,6 +11,7 @@
 
 @class IdeaView;
 @class JZData;
+@class ListHttpRequestDelegate;
 
 #define TABLE_HEAD_HEIGHT 35
 #define TABLE_HEAD_BG_IMG @"want_go_pers_top_bg"
@@ -18,6 +19,7 @@
 @interface IdeaUsersViewController : EGORefreshHeaderTableViewController
 {
     JZData *_data;
+    ListHttpRequestDelegate *_listHttpRequestDelegate;
 }
 
 @property (strong, nonatomic) IdeaView *ideaView;

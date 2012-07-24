@@ -13,6 +13,7 @@
 @class JZData;
 @class ProfileSettingViewController;
 @class InterestUserViewController;
+@class ListHttpRequestDelegate;
 
 #define INTEREST_COUNT_BUTTON_IMAGE @"my_jz_fans_btn.png"
 #define INTEREST_COUNT_BUTTON_HIGHLIGHT_IMAGE @"my_jz_fans_btn_hover.png"
@@ -24,6 +25,7 @@
 {
     JZData *_data;
     BOOL _isMe;
+    ListHttpRequestDelegate *_listHttpRequestDelegate;
 }
 
 @property (strong, nonatomic) UserView *userView;
@@ -35,8 +37,10 @@
 @property (strong, nonatomic) IBOutlet UITableView *postTableView;
 @property (strong, nonatomic) IBOutlet UIButton *interestButton;
 @property (strong, nonatomic) IBOutlet UIButton *cancelInterestButton;
+@property (strong, nonatomic) IBOutlet UIButton *smsButton;
 
 - (IBAction)interestUser:(id)sender;
 - (IBAction)cancelInterestUser:(id)sender;
+- (IBAction)sendSms:(id)sender;
 
 @end

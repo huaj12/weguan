@@ -36,6 +36,11 @@
     return post;
 }
 
+- (id)objIdentity
+{
+    return self.postId;
+}
+
 - (BOOL) hasPlace{
     return self.place != nil && ![self.place isEqual:[NSNull null]] && ![self.place isEqualToString:@""];
 }

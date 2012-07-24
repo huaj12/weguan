@@ -26,4 +26,9 @@
     return ideaUserView;
 }
 
+- (id)objIdentity
+{
+    return self.userView.uid;
+}
+
 @end

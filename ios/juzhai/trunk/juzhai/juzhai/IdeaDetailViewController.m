@@ -207,8 +207,7 @@
     hud.labelText = @"操作中...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:ideaView.ideaId], @"ideaId", nil];
-        __block ASIFormDataRequest *_request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"sendPost"] withParams:params];
-        __unsafe_unretained ASIHTTPRequest *request = _request;
+       __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"post/sendPost"] withParams:params];
         [request setCompletionBlock:^{
             [MBProgressHUD hideHUDForView:self.contentView animated:YES];
             NSString *responseString = [request responseString];
@@ -234,7 +233,7 @@
         }];
         [request setFailedBlock:^{
             [MBProgressHUD hideHUDForView:self.contentView animated:YES];
-            [MessageShow error:SERVER_ERROR_INFO onView:self.contentView];
+            [HttpRequestDelegate requestFailedHandle:request];
         }];
         [request startAsynchronous];
     });

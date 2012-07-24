@@ -15,6 +15,7 @@
 @class EGORefreshTableHeaderView;
 @class IdeaDetailViewController;
 @class JZData;
+@class ListHttpRequestDelegate;
 
 enum {
     OrderTypeTime = 0,
@@ -37,14 +38,11 @@ enum {
     FPPopoverController *_categoryPopver;
     CustomSegmentedControl *_segmentedControl;
     UIButton *_categoryButton;
-//    UIButton *_orderButton;
-//    UIButton *_categoryButton;
-//    UIImage *_hotOrderBtnImg;
-//    UIImage *_timeOrderBtnImg;
     UIImage *_categoryDownLinkImg;
     UIImage *_categoryDownHoverImg;
     UIImage *_categoryUpLinkImg;
     UIImage *_categoryUpHoverImg;
+    ListHttpRequestDelegate *_listHttpRequestDelegate;
 }
 
 //- (void)reloadTableViewDataSource;

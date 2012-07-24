@@ -11,6 +11,7 @@
 @class JZData;
 @class UserView;
 @class DialogService;
+@class ListHttpRequestDelegate;
 
 #define TIMER_INTERVAL 10
 
@@ -21,6 +22,7 @@
     JZData *_data;
     DialogService *_dialogService;
     NSTimer *_timer;
+    ListHttpRequestDelegate *_listHttpRequestDelegate;
 }
 @property (strong, nonatomic) UserView *targetUser;
 @property (strong, nonatomic) IBOutlet UIView *inputAreaView;

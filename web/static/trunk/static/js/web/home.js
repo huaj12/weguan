@@ -232,26 +232,16 @@ $(document).ready(function(){
 		if($("#preferenceForm").find("a.btn").hasClass("unable")){
 			return false;
 		}
-		jQuery.ajax({
-			url: "/profile/preference/save",
-			type: "post",
-			data:  $("#preferenceForm").serialize(),
-			dataType: "json",
-			success: function(result){
-				if(result&&result.success){
+		setPreference($("#preferenceForm").serialize(),
+				function(){
 					var content = $("#dialog-success").html().replace("{0}", "保存成功");
 					showSuccess(null, content);
 					$("div.cake_icon > a").trigger("click");
-				}else{
+				},
+				function(){
 					alert(result.errorInfo);
 				}
-			},
-			statusCode: {
-			    401: function() {
-			    	window.location.href = "/login?turnTo=" + window.location.href;
-			    }
-			}
-		});
+		);
 		return  false;
 	});
 	$('input[name="userPreferences[0].answer"]').bind("change", function(){

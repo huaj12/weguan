@@ -1820,3 +1820,24 @@ function unInterestIdea(ideaId, successCallback, errorCallback,clickObj){
 		}
 	});
 }
+
+function setPreference(data,successCallback,errorCallback){
+	jQuery.ajax({
+		url: "/profile/preference/save",
+		type: "post",
+		data:  data,
+		dataType: "json",
+		success: function(result){
+			if(result&&result.success){
+				successCallback();
+			}else{
+				errorCallback();
+			}
+		},
+		statusCode: {
+		    401: function() {
+		    	window.location.href = "/login?turnTo=" + window.location.href;
+		    }
+		}
+	});
+}

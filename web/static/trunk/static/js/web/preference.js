@@ -87,30 +87,22 @@ $(document).ready(function() {
 			preferenceIdInput.value=preferenceId;
 	        obj.appendChild(preferenceIdInput);
 		}
-		jQuery.ajax({
-			url: "/profile/preference/save",
-			type: "post",
-			data:  $("#preferenceForm").serialize(),
-			dataType: "json",
-			success: function(result){
-				if(result&&result.success){
-					var content = $("#dialog-success").html().replace("{0}", "保存成功！");
-					showSuccess(null, content);
-					$("div.error").text("");
-				}else{
-					alert(result.errorInfo);
-				}
-				$("span.width250 >input").each(function(){
-					$(this).trigger("blur");;
-				});
-				
-			},
-			statusCode: {
-			    401: function() {
-			    	window.location.href = "/login?turnTo=" + window.location.href;
-			    }
-			}
-		});
+		setPreference($("#preferenceForm").serialize(),
+		function(){
+			var content = $("#dialog-success").html().replace("{0}", "保存成功！");
+			showSuccess(null, content);
+			$("div.error").text("");
+			$("span.width250 >input").each(function(){
+				$(this).trigger("blur");;
+			});
+		},
+		function(){
+			alert(result.errorInfo);
+			$("span.width250 >input").each(function(){
+				$(this).trigger("blur");;
+			});
+		}
+		);
 		return false;
 	});
 	

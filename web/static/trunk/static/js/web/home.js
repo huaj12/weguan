@@ -384,15 +384,18 @@ function rescueGirl(){
 						$(dialog.content()).find('div.jjzv_loading').hide();
 						$(dialog.content()).find('div.suss_done').show();
 						dialog.time(3);
+						handleRescueGirl();
 					});
 					return false;
 				});
 				$(dialog.content()).find("div.title>a").click(function(){
 					closeDialog("rescueGirl");
+					handleRescueGirl();
 					return false;
 				});
 				$(dialog.content()).find("div.btn>a.ckws").click(function(){
 					closeDialog("rescueGirl");
+					handleRescueGirl();
 					return false;
 				});
 			}
@@ -416,6 +419,22 @@ function rescueGirlSMS(uids,callback){
 		dataType : "json",
 		success : function(result) {
 			callback();
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+}
+
+function handleRescueGirl(){
+	$.ajax({
+		url : "/home/handle/rescue/girl",
+		type : "post",
+		cache : false,
+		dataType : "json",
+		success : function(result) {
 		},
 		statusCode : {
 			401 : function() {

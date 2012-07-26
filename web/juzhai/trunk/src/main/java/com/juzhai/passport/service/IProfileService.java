@@ -9,7 +9,6 @@ import java.util.List;
 import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.lab.controller.form.ProfileMForm;
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.bean.TodayVisit;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.Profile;
 
@@ -279,17 +278,17 @@ public interface IProfileService {
 			long excludeUid);
 
 	/**
-	 * 今日是否来来访过
+	 * 是否可以解救女宅
 	 * 
 	 * @param uid
 	 * @return
 	 */
-	boolean todayVisit(long uid, TodayVisit todayVisit);
+	boolean isRescueGirl(long uid);
 
 	/**
-	 * 记录今日来访
+	 * 记录解救女宅
 	 * 
 	 * @param uid
 	 */
-	void setTodayVisot(long uid, TodayVisit todayVisit);
+	void setRescueGirl(long uid);
 }

@@ -7,15 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomTextView.h"
 
 @class JZData;
 @class UserView;
 @class DialogService;
 @class ListHttpRequestDelegate;
+@class GrowingTextView;
 
 #define TIMER_INTERVAL 10
 
-@interface DialogContentViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface DialogContentViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CustomTextViewDelegate>
 {
     UIPanGestureRecognizer *_singlePan;
     UITapGestureRecognizer *_singleTap;
@@ -26,8 +28,9 @@
 }
 @property (strong, nonatomic) UserView *targetUser;
 @property (strong, nonatomic) IBOutlet UIView *inputAreaView;
+@property (strong, nonatomic) IBOutlet UIImageView *inputAreaBgImageView;
 @property (strong, nonatomic) IBOutlet UITableView *dialogContentTableView;
-@property (strong, nonatomic) IBOutlet UITextField *inputField;
+@property (strong, nonatomic) IBOutlet GrowingTextView *textView;
 
 - (IBAction)sendSms:(id)sender;
 @end

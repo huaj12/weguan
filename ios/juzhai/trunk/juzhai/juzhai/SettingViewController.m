@@ -264,7 +264,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *cellIdentifiter = [_cellIdentifierDictionary objectForKey:[NSNumber numberWithInt:(indexPath.section * 10 + indexPath.row)]];
     if ([FEATURE_CELL_IDENTIFIER isEqual:cellIdentifiter]) {
-        return 35.0 + self.featureLabel.frame.size.height;
+        return 50.0 + self.featureLabel.frame.size.height;
     }else {
         return 44.0;
     }

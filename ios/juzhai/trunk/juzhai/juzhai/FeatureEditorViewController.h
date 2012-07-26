@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "DetailEditorViewController.h"
 
+@class CustomTextView;
+
 @interface FeatureEditorViewController : DetailEditorViewController
 
 @property (strong, nonatomic) NSString *textValue;
 @property (strong, nonatomic) NSString *cellIdentifier;
 
-@property (strong, nonatomic) IBOutlet UITextView *textView;
+@property (strong, nonatomic) IBOutlet CustomTextView *textView;
 @property (strong, nonatomic) IBOutlet UILabel *tipsLabel;
-@property (strong, nonatomic) IBOutlet UIImageView *backgroundView;
 
 @end

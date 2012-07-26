@@ -19,6 +19,8 @@
 #import "SBJson.h"
 #import "DialogService.h"
 #import "ListHttpRequestDelegate.h"
+#import "GrowingTextView.h"
+#import "Constant.h"
 
 @interface DialogContentViewController ()
 
@@ -29,7 +31,8 @@
 @synthesize targetUser;
 @synthesize inputAreaView;
 @synthesize dialogContentTableView;
-@synthesize inputField;
+@synthesize textView;
+@synthesize inputAreaBgImageView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -143,15 +146,23 @@
     
     self.title = [NSString stringWithFormat:@"与 %@ 对话", self.targetUser.nickname];
     
-    self.inputAreaView.backgroundColor =  [UIColor colorWithPatternImage:[UIImage imageNamed:@"send_area_bg.png"]];
+    self.inputAreaBgImageView.image = [[UIImage imageNamed:@"send_area_bg.png"] stretchableImageWithLeftCapWidth:25 topCapHeight:0];
     //隐藏下方线条
     UIView *view = [UIView new];
     view.backgroundColor = [UIColor clearColor];
     [self.dialogContentTableView setTableFooterView:view];
-
-    self.dialogContentTableView.separatorColor = [UIColor clearColor];
-
-    self.dialogContentTableView.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
+    
+    textView.backgroundImage = [[UIImage imageNamed:@"send_input_bgxy"] stretchableImageWithLeftCapWidth:7 topCapHeight:7];
+    textView.font = [UIFont systemFontOfSize:15];
+//    textView.contentInset = UIEdgeInsetsMake(0,0,0,0);
+    [textView setCustomDelegate:self];
+    [textView setMinNumberOfLines:1];
+    [textView setMaxNumberOfLines:3];
+    
+    [textView sizeToFit];
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BG_IMG]];
+    [inputAreaView sizeToFit];
     
     //load
     [self loadListDataWithPage:1];
@@ -168,7 +179,7 @@
 }
 
 - (void)hideKeyboard{  
-    [self.inputField resignFirstResponder];
+    [self.textView resignFirstResponder];
 }
 
 - (void)viewDidUnload
@@ -219,13 +230,26 @@
     if (_dialogService == nil) {
         _dialogService = [[DialogService alloc] init];
     }
-    [_dialogService sendSms:inputField.text toUser:self.targetUser.uid.intValue onSuccess:^(NSDictionary *info) {
+    [_dialogService sendSms:textView.text toUser:self.targetUser.uid.intValue onSuccess:^(NSDictionary *info) {
         DialogContentView *dialogContentView = [DialogContentView convertFromDictionary:info];
         [_data addObject:dialogContentView withIdentity:[NSNumber numberWithInt:dialogContentView.dialogContentId]];
-        inputField.text = @"";
-        [inputField resignFirstResponder];
+        textView.text = @"";
+        [textView resignFirstResponder];
         [self doneLoadingTableViewData];
     }];
+}
+
+#pragma mark -
+#pragma mark Custom Text View Delegate
+
+- (void)textView:(CustomTextView *)aTextView didChangeHeight:(float)addHeight
+{
+    CGRect inputAreaFrame = inputAreaView.frame;
+    inputAreaFrame.size.height = inputAreaFrame.size.height + addHeight;
+    inputAreaFrame.origin.y = inputAreaFrame.origin.y - addHeight;
+    inputAreaView.frame = inputAreaFrame;
+    
+    inputAreaBgImageView.frame = inputAreaView.bounds;
 }
 
 #pragma mark -

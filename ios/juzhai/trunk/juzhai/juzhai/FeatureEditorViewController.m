@@ -13,6 +13,7 @@
 #import "ProfileValidation.h"
 #import "MessageShow.h"
 #import "Constant.h"
+#import "CustomTextView.h"
 
 @interface FeatureEditorViewController ()
 
@@ -24,7 +25,6 @@
 @synthesize tipsLabel;
 @synthesize textView;
 @synthesize textValue;
-@synthesize backgroundView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,7 +41,7 @@
     
     self.title = @"自我评价";
     
-    backgroundView.image = [[UIImage imageNamed:@"send_input_bgxy"] stretchableImageWithLeftCapWidth:7 topCapHeight:7];
+    textView.backgroundImage = [[UIImage imageNamed:@"send_input_bgxy"] stretchableImageWithLeftCapWidth:7 topCapHeight:7];
     
     textView.font = [UIFont fontWithName:DEFAULT_FONT_FAMILY size:15];
     textView.textColor = [UIColor colorWithRed:0.60f green:0.60f blue:0.60f alpha:1.00f];
@@ -76,6 +76,7 @@
     NSString *errorInfo = [ProfileValidation validateFeature:value];
     if (errorInfo && ![errorInfo isEqualToString:@""]) {
         [MessageShow error:errorInfo onView:self.view];
+        return;
     }
     
     NSInteger tag = [value isEqualToString:@""] ? 0 : 1;

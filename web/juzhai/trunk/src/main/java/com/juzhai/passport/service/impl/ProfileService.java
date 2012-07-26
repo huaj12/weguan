@@ -40,7 +40,6 @@ import com.juzhai.lab.controller.form.ProfileMForm;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.bean.TodayVisit;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.City;
@@ -769,10 +768,10 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
-	public boolean todayVisit(long uid, TodayVisit todayVisit) {
+	public boolean isRescueGirl(long uid) {
 		try {
 			Object obj = memcachedClient.get(MemcachedKeyGenerator
-					.genTodayVisitKey(uid, todayVisit.getType()));
+					.genRescueGirlKey(uid));
 			if (obj == null) {
 				return false;
 			} else {
@@ -785,12 +784,11 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
-	public void setTodayVisot(long uid, TodayVisit todayVisit) {
+	public void setRescueGirl(long uid) {
 		int exp = getNextDayTime();
 		try {
-			memcachedClient.set(
-					MemcachedKeyGenerator.genTodayVisitKey(uid,
-							todayVisit.getType()), exp, true);
+			memcachedClient.set(MemcachedKeyGenerator.genRescueGirlKey(uid),
+					exp, true);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

@@ -45,7 +45,6 @@
 			<list>
 				<value>i18n/error</value>
 				<value>i18n/message</value>
-				<value>notice/template</value>
 			</list>
 		</property>
 	</bean>

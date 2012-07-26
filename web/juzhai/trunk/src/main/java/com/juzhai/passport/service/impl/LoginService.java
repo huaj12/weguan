@@ -27,6 +27,7 @@ import com.juzhai.home.service.IUserStatusService;
 import com.juzhai.home.service.IVisitUserService;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.JoinTypeEnum;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ReportAccountException;
 import com.juzhai.passport.mapper.LoginLogMapper;
@@ -121,8 +122,11 @@ public class LoginService implements ILoginService {
 		}
 		// updateOnlineState(uid);
 		addLoginLog(request, uid);
-		// 添加来访者
-		autoExchangeVisits(passport);
+		// 女性用户才添加来访者
+		ProfileCache cache = profileService.getProfileCacheByUid(uid);
+		if (cache.getGender() != null && cache.getGender() == 0) {
+			autoExchangeVisits(passport);
+		}
 		// 启动一个线程来获取和保存
 		if (tpId > 0) {
 			taskExecutor.execute(new Runnable() {

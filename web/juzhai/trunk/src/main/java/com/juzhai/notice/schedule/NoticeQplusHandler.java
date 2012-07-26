@@ -83,11 +83,13 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 				if (authInfo != null) {
 					bean.setQplusid(authInfo.getTpIdentity()); // 桌面ID，字符串，必填信息，且内容会被校验
 					QPushResult result = null;
-					String text = getPushText(tpUserAuth.getUid());
+					String str[] = getPushTextAndTurnTo(tpUserAuth.getUid());
+					String text = str[0];
 					if (StringUtils.isEmpty(text)) {
 						continue;
 					}
 					bean.setText(text); // 文本提示语Utf8编码，最长90字节
+					bean.setCustomize("turnTo=" + str[1]);
 					/**
 					 * 
 					 * 错误码: 0 - 处理成功，PUSH消息顺利到达PUSH服务中心 1 - 系统忙，参见提示信息“em“ 2 -
@@ -108,8 +110,8 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 		}
 	}
 
-	private String getPushText(long uid) {
-		String text = null;
+	private String[] getPushTextAndTurnTo(long uid) {
+		String str[] = new String[2];
 		Map<Integer, Long> map = noticeService.getAllNoticeNum(uid);
 		for (NoticeType type : NoticeType.values()) {
 			int i = type.getType();
@@ -118,12 +120,13 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 			}
 			Long count = map.get(i);
 			if (count != null && count > 0) {
-				text = messageSource.getMessage("qq.plus.push.text." + i,
+				str[0] = messageSource.getMessage("qq.plus.push.text." + i,
 						new Object[] { count }, Locale.SIMPLIFIED_CHINESE);
+				str[1] = type.getUri();
 				break;
 			}
 		}
-		return text;
+		return str;
 
 	}
 }

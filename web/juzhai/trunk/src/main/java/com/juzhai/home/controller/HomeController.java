@@ -19,13 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.pager.PagerManager;
+import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.ShowPostOrder;
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.bean.TodayVisit;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;
-import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
@@ -104,8 +103,7 @@ public class HomeController extends BaseController {
 		}
 		model.addAttribute("openPreference", flag);
 
-		if (!profileService.todayVisit(context.getUid(), TodayVisit.Home)) {
-			profileService.setTodayVisot(context.getUid(), TodayVisit.Home);
+		if (!profileService.isRescueGirl(context.getUid())) {
 			model.addAttribute("todayvisit", true);
 		}
 
@@ -349,6 +347,14 @@ public class HomeController extends BaseController {
 			model.addAttribute("profiles", list);
 		}
 		return "web/home/index/rescue_girl";
+	}
+
+	@RequestMapping(value = "/handle/rescue/girl", method = RequestMethod.POST)
+	public AjaxResult setRescueGirl(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		profileService.setRescueGirl(context.getUid());
+		return new AjaxResult();
 	}
 
 }

@@ -113,6 +113,9 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 		Map<Integer, Long> map = noticeService.getAllNoticeNum(uid);
 		for (NoticeType type : NoticeType.values()) {
 			int i = type.getType();
+			if (i == NoticeType.VISITOR.getType()) {
+				continue;
+			}
 			Long count = map.get(i);
 			if (count != null && count > 0) {
 				text = messageSource.getMessage("qq.plus.push.text." + i,

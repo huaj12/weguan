@@ -53,11 +53,14 @@ public class NoticeService implements INoticeService {
 		long value = redisTemplate.opsForValue().increment(
 				RedisKeyGenerator.genUserNoticeNumKey(uid, noticeType), 1);
 		if (value > 0) {
-			// TODO 只有Q+才加入到通知列表
-			if (tpUserAuthService.isExist(uid, 9l)) {
-				redisTemplate.opsForZSet().add(
-						RedisKeyGenerator.genNoticeUsersKey(), uid,
-						System.currentTimeMillis());
+			// 新访客消息不加入通知列表
+			if (noticeType.getType() != NoticeType.VISITOR.getType()) {
+				// TODO 只有Q+才加入到通知列表
+				if (tpUserAuthService.isExist(uid, 9l)) {
+					redisTemplate.opsForZSet().add(
+							RedisKeyGenerator.genNoticeUsersKey(), uid,
+							System.currentTimeMillis());
+				}
 			}
 		}
 		return value;

@@ -214,12 +214,12 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	}
 
 	/**
-	 * 记录今日来访
+	 * 记录解救女宅记录
 	 * 
 	 * @return
 	 */
-	public static String genTodayVisitKey(long uid, int type) {
-		return genKey(uid, type + "todayVisit");
+	public static String genRescueGirlKey(long uid) {
+		return genKey(uid, "rescueGirl");
 	}
 
 }

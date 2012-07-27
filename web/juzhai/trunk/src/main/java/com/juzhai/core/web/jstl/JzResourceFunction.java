@@ -19,6 +19,7 @@ public class JzResourceFunction {
 	private static String webUserImagePath;
 	private static String webPostImagePath;
 	private static String webIdeaImagePath;
+	private static String webDialogContentImagePath;
 	private static String webTempImagePath;
 
 	static {
@@ -36,6 +37,8 @@ public class JzResourceFunction {
 			webTempImagePath = prop.getProperty("web.temp.image.path");
 			webPostImagePath = prop.getProperty("web.post.image.path");
 			webIdeaImagePath = prop.getProperty("web.idea.image.path");
+			webDialogContentImagePath = prop
+					.getProperty("web.dialog.content.image.path");
 		} catch (IOException e) {
 			throw new RuntimeException("Load urls IO error.");
 		}
@@ -108,6 +111,21 @@ public class JzResourceFunction {
 			}
 			return StaticUtil.u(webIdeaImagePath
 					+ ImageUtil.generateHierarchyImageWebPath(ideaId,
+							sizeType.getType()) + fileName);
+		}
+	}
+
+	public static String dialogContentPic(long dialogContentId,
+			String fileName, int size) {
+		if (StringUtils.isEmpty(fileName) || dialogContentId <= 0) {
+			return null;
+		} else {
+			JzImageSizeType sizeType = JzImageSizeType.getSizeTypeBySize(size);
+			if (null == sizeType) {
+				return null;
+			}
+			return StaticUtil.u(webDialogContentImagePath
+					+ ImageUtil.generateHierarchyImageWebPath(dialogContentId,
 							sizeType.getType()) + fileName);
 		}
 	}

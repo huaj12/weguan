@@ -15,36 +15,36 @@ import com.juzhai.home.service.IDialogImageService;
 public class DialogImageService implements IDialogImageService {
 	@Autowired
 	private IImageManager imageManager;
-	@Value("${upload.dialog.image.home}")
-	private String uploadDialogImageHome;
+	@Value("${upload.dialog.content.image.home}")
+	private String uploadDialogContentImageHome;
 
 	@Override
 	public String uploadDialogImg(long dialogContentId, MultipartFile image)
 			throws UploadImageException {
-		String directoryPath = uploadDialogImageHome
+		String directoryPath = uploadDialogContentImageHome
 				+ ImageUtil.generateHierarchyImagePath(dialogContentId,
 						DialogSizeType.ORIGINAL.getType());
 		String fileName = imageManager.uploadImage(directoryPath, image);
-		// 大图
-		String distDirectoryPath = uploadDialogImageHome
-				+ ImageUtil.generateHierarchyImagePath(dialogContentId,
-						DialogSizeType.BIG.getType());
-		imageManager.reduceImageWidth(directoryPath + fileName,
-				distDirectoryPath, fileName, DialogSizeType.BIG.getType());
+//		// 大图
+//		String distDirectoryPath = uploadDialogImageHome
+//				+ ImageUtil.generateHierarchyImagePath(dialogContentId,
+//						DialogSizeType.BIG.getType());
+//		imageManager.reduceImageWidth(directoryPath + fileName,
+//				distDirectoryPath, fileName, DialogSizeType.BIG.getType());
 
-		// 中图
-		distDirectoryPath = uploadDialogImageHome
-				+ ImageUtil.generateHierarchyImagePath(dialogContentId,
-						DialogSizeType.MIDDLE.getType());
-		imageManager.reduceImage(directoryPath + fileName, distDirectoryPath,
-				fileName, DialogSizeType.MIDDLE.getType());
+//		// 中图
+//		distDirectoryPath = uploadDialogImageHome
+//				+ ImageUtil.generateHierarchyImagePath(dialogContentId,
+//						DialogSizeType.MIDDLE.getType());
+//		imageManager.reduceImage(directoryPath + fileName, distDirectoryPath,
+//				fileName, DialogSizeType.MIDDLE.getType());
 
-		// 小图
-		distDirectoryPath = uploadDialogImageHome
-				+ ImageUtil.generateHierarchyImagePath(dialogContentId,
-						DialogSizeType.SMALL.getType());
-		imageManager.reduceImage(directoryPath + fileName, distDirectoryPath,
-				fileName, DialogSizeType.SMALL.getType());
+//		// 小图
+//		distDirectoryPath = uploadDialogImageHome
+//				+ ImageUtil.generateHierarchyImagePath(dialogContentId,
+//						DialogSizeType.SMALL.getType());
+//		imageManager.reduceImage(directoryPath + fileName, distDirectoryPath,
+//				fileName, DialogSizeType.SMALL.getType());
 
 		return fileName;
 	}

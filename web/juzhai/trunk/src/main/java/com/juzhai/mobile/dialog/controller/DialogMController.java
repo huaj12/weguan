@@ -12,11 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
@@ -167,17 +170,24 @@ public class DialogMController extends BaseController {
 
 	@RequestMapping(value = "/sendSms", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult sendSms(HttpServletRequest request, String content,
-			long uid) throws NeedLoginException {
+	public AjaxResult sendSms(
+			HttpServletRequest request,
+			String content,
+			long uid,
+			@RequestParam(value = "dialogImg", required = false) MultipartFile dialogImg)
+			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		AjaxResult result = new AjaxResult();
 		try {
-			long dialogContentId = dialogService.sendSMS(context, uid, content);
+			long dialogContentId = dialogService.sendSMS(context, uid, content,
+					dialogImg);
 			DialogContent dialogContent = dialogService
 					.getDialogContent(dialogContentId);
 			result.setResult(DialogContentMView
 					.converFromDialogContent(dialogContent));
 		} catch (DialogException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		} catch (UploadImageException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		}
 		return result;

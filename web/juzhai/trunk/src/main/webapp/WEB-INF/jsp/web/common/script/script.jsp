@@ -15,6 +15,13 @@
 <c:if test="${not empty isQplus && isQplus}">
 	<script type="text/javascript" src="http://cdn.qplus.com/js/qplus.api.js"></script>
 	<script>
+		qplus.onReady(function(){
+			qplus.on( "app.pushParam", function(json){
+			   	if(json.pushParam!=null&&json.pushParam!=""){
+			   		location.href=json.pushParam;
+			   	}
+			});
+		});
 		function qPlusShare(msg,title,pic,desc,shareBtn){
 			qplus.system.shareApp({
 				msg:msg,

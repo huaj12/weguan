@@ -129,7 +129,7 @@ public class RegisterController extends BaseController {
 				}
 				return "web/register/register";
 			}
-			loginService.autoLogin(request, response, uid);
+			loginService.autoLogin(request, response, uid, false);
 			try {
 				registerService.sendAccountMail(uid);
 			} catch (PassportAccountException e) {

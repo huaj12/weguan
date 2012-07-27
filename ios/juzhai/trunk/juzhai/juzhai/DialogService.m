@@ -15,7 +15,7 @@
 
 @implementation DialogService
 
-- (void)sendSms:(NSString *)content toUser:(NSInteger)uid onSuccess:(void (^)(NSDictionary *))aSuccessBlock
+- (void)sendSms:(NSString *)content toUser:(NSInteger)uid withImg:(UIImage *)image onSuccess:(void (^)(NSDictionary *))aSuccessBlock
 {
     content = [content stringByTrimmingCharactersInSet: 
                        [NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -26,6 +26,18 @@
     }
     NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:content, @"content", [NSNumber numberWithInt:uid], @"uid", nil];
     __unsafe_unretained __block ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"dialog/sendSms"] withParams:params];
+    if (image != nil) {
+        CGFloat compression = 0.9f;
+        CGFloat maxCompression = 0.1f;
+        int maxFileSize = 2*1024*1024;
+        
+        NSData *imageData = UIImageJPEGRepresentation(image, compression);
+        while ([imageData length] > maxFileSize && compression > maxCompression){
+            compression -= 0.1;
+            imageData = UIImageJPEGRepresentation(image, compression);
+        }
+        [request setData:imageData withFileName:@"dialogImg.jpg" andContentType:@"image/jpeg" forKey:@"dialogImg"];
+    }
     [request setCompletionBlock:^{
         NSString *responseString = [request responseString];
         NSMutableDictionary *jsonResult = [responseString JSONValue];

@@ -41,6 +41,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.    
     self.title = @"职业";
+    
+    _professionArray = [BaseData getProfessions];
     professionField.background = [[UIImage imageNamed:@"send_input_bgxy"] stretchableImageWithLeftCapWidth:7 topCapHeight:7];
     UILabel *paddingView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 10, professionField.frame.size.height)];
     paddingView.backgroundColor = [UIColor clearColor];
@@ -60,7 +62,7 @@
     if (isShow) {
         frame.origin.y = 100;
         professionPicker.frame = frame;
-        [professionField becomeFirstResponder];
+//        [professionField becomeFirstResponder];
     } else {
         [professionField resignFirstResponder];
         frame.origin.y = 0;

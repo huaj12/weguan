@@ -16,5 +16,7 @@
 @property (nonatomic) NSInteger senderUid;
 @property (nonatomic) NSInteger receiverUid;
 @property (nonatomic) NSTimeInterval createTime;
+@property (strong, nonatomic) NSString *imgUrl;
+@property (nonatomic) BOOL hasImg;
 
 @end

@@ -81,8 +81,8 @@
         userLogoView.layer.shouldRasterize = YES;
         userLogoView.layer.masksToBounds = YES;
         userLogoView.layer.cornerRadius = 5.0;
-        userLogoView.layer.borderWidth = 1;
-        userLogoView.layer.borderColor = [UIColor grayColor].CGColor;
+//        userLogoView.layer.borderWidth = 1;
+//        userLogoView.layer.borderColor = [UIColor grayColor].CGColor;
     } failure:nil];
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logoClick:)];
     [userLogoView addGestureRecognizer:singleTap];

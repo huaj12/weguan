@@ -118,8 +118,10 @@
     if(cell == nil){
         cell = [SmsListCell cellFromNib];
     }
-    DialogView *dialogView = (DialogView *)[_data objectAtIndex:indexPath.row];
-    [cell redrawn:dialogView];
+    if (indexPath.row < [_data count]) {
+        DialogView *dialogView = (DialogView *)[_data objectAtIndex:indexPath.row];
+        [cell redrawn:dialogView];
+    }
     return cell;
 }
 

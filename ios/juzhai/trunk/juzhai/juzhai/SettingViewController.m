@@ -58,6 +58,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _provinceArray = [BaseData getProvinces];
     _cityArray = [BaseData getCitiesWithProvinceId:((Province *)[_provinceArray objectAtIndex:0]).provinceId];
     
     NSArray *settingCells = [[NSBundle mainBundle] loadNibNamed:@"ProfileSettingForm" owner:self options:nil];

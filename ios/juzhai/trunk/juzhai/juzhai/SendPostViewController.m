@@ -156,7 +156,7 @@
 - (IBAction)imageButtonClick:(id)sender
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] 
-                                  initWithTitle:@"上传头像" 
+                                  initWithTitle:@"上传图片" 
                                   delegate:self 
                                   cancelButtonTitle:@"取消"
                                   destructiveButtonTitle:nil

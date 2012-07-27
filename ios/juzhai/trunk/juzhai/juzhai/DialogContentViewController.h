@@ -17,7 +17,7 @@
 
 #define TIMER_INTERVAL 10
 
-@interface DialogContentViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CustomTextViewDelegate>
+@interface DialogContentViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CustomTextViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 {
     UIPanGestureRecognizer *_singlePan;
     UITapGestureRecognizer *_singleTap;
@@ -25,12 +25,18 @@
     DialogService *_dialogService;
     NSTimer *_timer;
     ListHttpRequestDelegate *_listHttpRequestDelegate;
+    UIImage *_image;
+    CGFloat _textViewOriginalX;
+    CGFloat _textVieworiginalWidth;
 }
 @property (strong, nonatomic) UserView *targetUser;
 @property (strong, nonatomic) IBOutlet UIView *inputAreaView;
 @property (strong, nonatomic) IBOutlet UIImageView *inputAreaBgImageView;
 @property (strong, nonatomic) IBOutlet UITableView *dialogContentTableView;
 @property (strong, nonatomic) IBOutlet GrowingTextView *textView;
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
 - (IBAction)sendSms:(id)sender;
+- (IBAction)imageButtonClick:(id)sender;
+
 @end

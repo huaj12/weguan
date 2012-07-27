@@ -15,6 +15,8 @@
 @synthesize senderUid;
 @synthesize receiverUid;
 @synthesize createTime;
+@synthesize imgUrl;
+@synthesize hasImg;
 
 + (id)convertFromDictionary:(NSDictionary *)info
 {
@@ -25,6 +27,8 @@
         dialogContentView.senderUid = [[info objectForKey:@"senderUid"] intValue];
         dialogContentView.receiverUid = [[info objectForKey:@"receiverUid"] intValue];
         dialogContentView.createTime = [[info objectForKey:@"createTime"] doubleValue] / 1000;
+        dialogContentView.imgUrl = [info objectForKey:@"imgUrl"];
+        dialogContentView.hasImg = dialogContentView.imgUrl != nil && ![dialogContentView.imgUrl isEqual:[NSNull null]] && ![dialogContentView.imgUrl isEqualToString:@""];
     }
     return dialogContentView;
 }

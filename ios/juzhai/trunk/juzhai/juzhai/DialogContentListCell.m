@@ -24,6 +24,7 @@
 @synthesize myLogoView;
 @synthesize bubbleView;
 @synthesize contentBgView;
+@synthesize imageView;
 @synthesize dialogContentTextView;
 @synthesize timeLabel;
 
@@ -60,6 +61,7 @@
     _isMe = dialogContentView.senderUid == [UserContext getUid];
     
     [self redrawnLogo];
+    [self redrawnImg];
     [self redrawnDialogText];
     [self redrawnTime];
 }
@@ -67,7 +69,7 @@
 + (CGFloat)heightForCell:(DialogContentView *)dialogContentView
 {
     CGSize dialogContentSize = [dialogContentView.content sizeWithFont:TEXT_FONT constrainedToSize:CGSizeMake(TEXT_MAX_WIDTH, TEXT_MAX_HEIGHT) lineBreakMode:UILineBreakModeWordWrap];
-    return 10 + dialogContentSize.height + CONTENT_TEXT_VIEW_MARGIN*2 + 10 + 12 + 10;
+    return 10 + (dialogContentView.hasImg ? dialogContentSize.height + CONTENT_TEXT_VIEW_MARGIN + 50 : dialogContentSize.height) + CONTENT_TEXT_VIEW_MARGIN*2 + 10 + 12 + 10;
 }
 
 - (void)redrawnLogo
@@ -97,6 +99,11 @@
     } failure:nil];
 }
 
+- (void)redrawnImg
+{
+    
+}
+
 - (void)redrawnDialogText
 {
     //设置内容
@@ -104,10 +111,29 @@
     
     CGSize dialogContentSize = [_dialogContentView.content sizeWithFont:TEXT_FONT constrainedToSize:CGSizeMake(TEXT_MAX_WIDTH, TEXT_MAX_HEIGHT) lineBreakMode:UILineBreakModeWordWrap];
     
-    [dialogContentTextView setFrame:CGRectMake(_isMe ? CONTENT_TEXT_VIEW_MARGIN : (CONTENT_TEXT_VIEW_MARGIN + ARROW_WIDTH), CONTENT_TEXT_VIEW_MARGIN, dialogContentSize.width, dialogContentSize.height)];
+    CGFloat startX = _isMe ? CONTENT_TEXT_VIEW_MARGIN : (CONTENT_TEXT_VIEW_MARGIN + ARROW_WIDTH);
+    if (_dialogContentView.hasImg) {
+        imageView.hidden = NO;
+        //load图片
+        imageView.image = [UIImage imageNamed:FACE_LOADING_IMG];
+        imageView.layer.shouldRasterize = YES;
+        imageView.layer.masksToBounds = YES;
+        imageView.layer.cornerRadius = 5.0;
+        if (_dialogContentView.imgUrl != nil && ![_dialogContentView.imgUrl isEqual:[NSNull null]] && ![_dialogContentView.imgUrl isEqualToString:@""]) {
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            NSURL *imageURL = [NSURL URLWithString:_dialogContentView.imgUrl];
+            [manager downloadWithURL:imageURL delegate:self options:0 success:^(UIImage *image) {
+                imageView.image = image;
+            } failure:nil];
+        }
+    } else {
+        imageView.hidden = YES;
+    }
     
-    CGFloat contentViewWidth = dialogContentSize.width + CONTENT_TEXT_VIEW_MARGIN*2 + ARROW_WIDTH;
-    CGFloat contentViewHeight = dialogContentSize.height + CONTENT_TEXT_VIEW_MARGIN*2;
+    [dialogContentTextView setFrame:CGRectMake(startX, !imageView.hidden ? CONTENT_TEXT_VIEW_MARGIN*2 + imageView.frame.size.height : CONTENT_TEXT_VIEW_MARGIN, dialogContentSize.width, dialogContentSize.height)];
+    
+    CGFloat contentViewWidth = (!imageView.hidden ? fmaxf(dialogContentSize.width, imageView.frame.size.width) : dialogContentSize.width) + CONTENT_TEXT_VIEW_MARGIN*2 + ARROW_WIDTH;
+    CGFloat contentViewHeight = dialogContentSize.height + CONTENT_TEXT_VIEW_MARGIN*2 + (!imageView.hidden ? imageView.frame.size.height + CONTENT_TEXT_VIEW_MARGIN : 0);
     
     CGFloat contentViewX;
     if (_isMe) {

@@ -86,7 +86,7 @@
 								<string key="NSFrame">{{85, 8}, {160, 35}}</string>
 								<reference key="NSSuperview" ref="104885594"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="401198149"/>
+								<reference key="NSNextKeyView" ref="358274050"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="476613026"/>
 								<bool key="IBUIAutoresizesSubviews">NO</bool>
@@ -108,6 +108,17 @@
 									<double key="NSSize">14</double>
 									<int key="NSfFlags">16</int>
 								</object>
+							</object>
+							<object class="IBUIImageView" id="358274050">
+								<reference key="NSNextResponder" ref="104885594"/>
+								<int key="NSvFlags">-2147483356</int>
+								<string key="NSFrame">{{85, 8}, {35, 35}}</string>
+								<reference key="NSSuperview" ref="104885594"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="401198149"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIMultipleTouchEnabled">YES</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
 							<object class="IBUIButton" id="712401681">
 								<reference key="NSNextResponder" ref="104885594"/>
@@ -284,6 +295,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">imageView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="358274050"/>
+					</object>
+					<int key="connectionID">26</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">dataSource</string>
 						<reference key="source" ref="998753888"/>
 						<reference key="destination" ref="372490531"/>
@@ -297,6 +316,15 @@
 						<reference key="destination" ref="372490531"/>
 					</object>
 					<int key="connectionID">18</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">imageButtonClick:</string>
+						<reference key="source" ref="712401681"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">24</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -350,6 +378,7 @@
 							<reference ref="401198149"/>
 							<reference ref="659227061"/>
 							<reference ref="252087086"/>
+							<reference ref="358274050"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -378,6 +407,11 @@
 						<reference key="object" ref="252087086"/>
 						<reference key="parent" ref="104885594"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">25</int>
+						<reference key="object" ref="358274050"/>
+						<reference key="parent" ref="104885594"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -389,6 +423,7 @@
 				<string key="20.CustomClassName">GrowingTextView</string>
 				<string key="20.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="22.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="25.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -402,7 +437,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">23</int>
+			<int key="maxID">27</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -417,19 +452,23 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">DialogContentViewController</string>
 					<string key="superclassName">UIViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">sendSms:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">sendSms:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="imageButtonClick:">id</string>
+						<string key="sendSms:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="imageButtonClick:">
+							<string key="name">imageButtonClick:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="sendSms:">
 							<string key="name">sendSms:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="dialogContentTableView">UITableView</string>
+						<string key="imageView">UIImageView</string>
 						<string key="inputAreaBgImageView">UIImageView</string>
 						<string key="inputAreaView">UIView</string>
 						<string key="textView">GrowingTextView</string>
@@ -438,6 +477,10 @@
 						<object class="IBToOneOutletInfo" key="dialogContentTableView">
 							<string key="name">dialogContentTableView</string>
 							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="imageView">
+							<string key="name">imageView</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="inputAreaBgImageView">
 							<string key="name">inputAreaBgImageView</string>

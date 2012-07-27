@@ -45,6 +45,7 @@
     _listHttpRequestDelegate = [[ListHttpRequestDelegate alloc] init];
     _listHttpRequestDelegate.jzData = _data;
     _listHttpRequestDelegate.viewClassName = @"UserView";
+    _listHttpRequestDelegate.listViewController = self;
     
     if (self.isInterest) {
         self.title = @"我的关注";

@@ -21,6 +21,8 @@
 #import "ListHttpRequestDelegate.h"
 #import "GrowingTextView.h"
 #import "Constant.h"
+#import <QuartzCore/QuartzCore.h>
+#import "UserContext.h"
 
 @interface DialogContentViewController ()
 
@@ -33,6 +35,7 @@
 @synthesize dialogContentTableView;
 @synthesize textView;
 @synthesize inputAreaBgImageView;
+@synthesize imageView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -159,10 +162,17 @@
     [textView setMinNumberOfLines:1];
     [textView setMaxNumberOfLines:3];
     
+    _textViewOriginalX = textView.frame.origin.x;
+    _textVieworiginalWidth = textView.frame.size.width;
+    
     [textView sizeToFit];
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BG_IMG]];
     [inputAreaView sizeToFit];
+    
+    imageView.layer.shouldRasterize = YES;
+    imageView.layer.masksToBounds = YES;
+    imageView.layer.cornerRadius = 5.0;
     
     //load
     [self loadListDataWithPage:1];
@@ -230,13 +240,48 @@
     if (_dialogService == nil) {
         _dialogService = [[DialogService alloc] init];
     }
-    [_dialogService sendSms:textView.text toUser:self.targetUser.uid.intValue onSuccess:^(NSDictionary *info) {
+//    DialogContentView *view = [[DialogContentView alloc] init];
+//    view.content = nil;
+//    view.senderUid = [UserContext getUid];
+//    view.receiverUid = self.targetUser.uid.intValue;
+//    view.createTime = [[NSDate date] timeIntervalSince1970];
+//    view.hasImg = (_image != nil);
+    
+    [_dialogService sendSms:textView.text toUser:self.targetUser.uid.intValue withImg:_image onSuccess:^(NSDictionary *info) {
         DialogContentView *dialogContentView = [DialogContentView convertFromDictionary:info];
         [_data addObject:dialogContentView withIdentity:[NSNumber numberWithInt:dialogContentView.dialogContentId]];
         textView.text = @"";
-        [textView resignFirstResponder];
+        [self resetSendForm];
+//        [textView resignFirstResponder];
         [self doneLoadingTableViewData];
     }];
+}
+
+- (IBAction)imageButtonClick:(id)sender
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] 
+                                  initWithTitle:@"上传图片" 
+                                  delegate:self 
+                                  cancelButtonTitle:@"取消"
+                                  destructiveButtonTitle:nil
+                                  otherButtonTitles:@"用户相册", @"拍照", nil];
+    [actionSheet showInView:self.view];
+}
+
+- (void)uploadImageClick:(UIGestureRecognizer *)gestureRecognizer {  
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"确定删除吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
+    [alertView show];
+}
+
+- (void)resetSendForm
+{
+    imageView.image = nil;
+    imageView.hidden = YES;
+    
+    CGRect textViewFrame = textView.frame;
+    textViewFrame.origin.x = _textViewOriginalX;
+    textViewFrame.size.width = _textVieworiginalWidth;
+    textView.frame = textViewFrame;
 }
 
 #pragma mark -
@@ -278,6 +323,69 @@
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return [DialogContentListCell heightForCell:[_data objectAtIndex:indexPath.row]];
+}
+
+#pragma mark - 
+#pragma mark Action Sheet Delegate
+- (void)actionSheet:(UIActionSheet *)actionSheet
+didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == [actionSheet cancelButtonIndex]){
+        return;
+    }
+    UIImagePickerControllerSourceType sourceType;
+    if(buttonIndex == 1){
+        sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }else {
+        if (![UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+            sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        }else {
+            sourceType = UIImagePickerControllerSourceTypeCamera;
+        }
+    }
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    picker.sourceType = sourceType;
+    [self presentModalViewController:picker animated:YES];
+}
+
+#pragma mark -
+#pragma mark Image Picker Controller Delegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    [picker dismissModalViewControllerAnimated:YES];
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    _image = image;
+    imageView.image = _image;
+    imageView.hidden = NO;
+    
+    CGRect textViewFrame = textView.frame;
+    textViewFrame.origin.x = _textViewOriginalX + 40;
+    textViewFrame.size.width = _textVieworiginalWidth - 40;
+    textView.frame = textViewFrame;
+    
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(uploadImageClick:)];
+    [imageView addGestureRecognizer:singleTap];
+}
+
+- (void) imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark -
+#pragma mark Navigation Delegate
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    navigationController.navigationBar.barStyle = UIBarStyleDefault;
+}
+
+#pragma mark - 
+#pragma mark Alert Delegate
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        [self resetSendForm];
+    }
 }
 
 @end

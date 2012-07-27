@@ -21,15 +21,16 @@
 			   		location.href=json.pushParam;
 			   	}
 			});
+			
+			function qPlusShare(msg,title,pic,desc,shareBtn){
+				qplus.system.shareApp({
+					msg:msg,
+					title:title,
+					pic:pic,
+					desc:desc,
+					shareBtn:shareBtn
+				});
+			}
 		});
-		function qPlusShare(msg,title,pic,desc,shareBtn){
-			qplus.system.shareApp({
-				msg:msg,
-				title:title,
-				pic:pic,
-				desc:desc,
-				shareBtn:shareBtn
-			});
-		}
 	</script>					
 </c:if>

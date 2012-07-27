@@ -117,7 +117,7 @@ public class TpAuthorizeController extends BaseController {
 		}
 		try {
 			loginService.login(request, response, uid, tp.getId(),
-					RunType.CONNET);
+					RunType.CONNET, false);
 		} catch (PassportAccountException e) {
 			return "web/login/login_error";
 		}

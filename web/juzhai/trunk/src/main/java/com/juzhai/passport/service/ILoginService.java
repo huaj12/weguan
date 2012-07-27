@@ -31,7 +31,7 @@ public interface ILoginService {
 	 * @param uid
 	 */
 	void autoLogin(HttpServletRequest request, HttpServletResponse response,
-			long uid);
+			long uid, boolean persistent);
 
 	/**
 	 * 登录
@@ -40,7 +40,7 @@ public interface ILoginService {
 	 * @param uid
 	 */
 	void login(HttpServletRequest request, HttpServletResponse response,
-			long uid, long tpId, RunType runType)
+			long uid, long tpId, RunType runType, boolean persistent)
 			throws PassportAccountException, ReportAccountException;
 
 	/**

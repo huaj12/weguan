@@ -96,9 +96,9 @@ public class LoginService implements ILoginService {
 
 	@Override
 	public void login(HttpServletRequest request, HttpServletResponse response,
-			final long uid, final long tpId, RunType runType)
+			final long uid, final long tpId, RunType runType, boolean persistent)
 			throws PassportAccountException, ReportAccountException {
-		doLogin(request, response, uid, tpId, runType, false);
+		doLogin(request, response, uid, tpId, runType, persistent);
 		loginCounter.incr(null, 1);
 	}
 
@@ -226,9 +226,9 @@ public class LoginService implements ILoginService {
 
 	@Override
 	public void autoLogin(HttpServletRequest request,
-			HttpServletResponse response, long uid) {
+			HttpServletResponse response, long uid, boolean persistent) {
 		try {
-			doLogin(request, response, uid, 0L, RunType.WEB, false);
+			doLogin(request, response, uid, 0L, RunType.WEB, persistent);
 		} catch (ReportAccountException e) {
 		}
 	}

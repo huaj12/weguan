@@ -89,7 +89,7 @@ public class NoticeQplusHandler extends AbstractScheduleHandler {
 						continue;
 					}
 					bean.setText(text); // 文本提示语Utf8编码，最长90字节
-					bean.setCustomize("turnTo=" + str[1]);
+					bean.setCustomize(str[1]);
 					/**
 					 * 
 					 * 错误码: 0 - 处理成功，PUSH消息顺利到达PUSH服务中心 1 - 系统忙，参见提示信息“em“ 2 -

@@ -107,13 +107,17 @@
 - (void)redrawnDialogText
 {
     //设置内容
-    [dialogContentTextView setText:_dialogContentView.content WithFont:TEXT_FONT AndColor:[UIColor blackColor]];
+    dialogContentTextView.text = _dialogContentView.content;
+    dialogContentTextView.font = TEXT_FONT;
+    dialogContentTextView.textColor = [UIColor blackColor];
     
+//    [dialogContentTextView setText:_dialogContentView.content WithFont:TEXT_FONT AndColor:[UIColor blackColor]];
     CGSize dialogContentSize = [_dialogContentView.content sizeWithFont:TEXT_FONT constrainedToSize:CGSizeMake(TEXT_MAX_WIDTH, TEXT_MAX_HEIGHT) lineBreakMode:UILineBreakModeWordWrap];
     
     CGFloat startX = _isMe ? CONTENT_TEXT_VIEW_MARGIN : (CONTENT_TEXT_VIEW_MARGIN + ARROW_WIDTH);
     if (_dialogContentView.hasImg) {
         imageView.hidden = NO;
+        imageView.frame = CGRectMake(startX, imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height);
         //load图片
         imageView.image = [UIImage imageNamed:FACE_LOADING_IMG];
         imageView.layer.shouldRasterize = YES;

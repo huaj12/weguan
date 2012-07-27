@@ -41,7 +41,8 @@
 @property (strong, nonatomic) IBOutlet UIView *bubbleView;
 @property (strong, nonatomic) IBOutlet UIImageView *contentBgView;
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
-@property (strong, nonatomic) IBOutlet DetailTextView *dialogContentTextView;
+//@property (strong, nonatomic) IBOutlet DetailTextView *dialogContentTextView;
+@property (strong, nonatomic) IBOutlet UILabel *dialogContentTextView;
 @property (strong, nonatomic) IBOutlet UILabel *timeLabel;
 
 @end

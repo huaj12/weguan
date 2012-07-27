@@ -13,11 +13,13 @@
 
 #define accountKey @"accountField"
 #define passwordKey @"passwordField"
+#define tokenKey @"tokenField"
 
 @interface LoginUser : NSObject <NSCoding,NSCopying>
 
 @property (strong,nonatomic) NSString *account;
 @property (strong,nonatomic) NSString *password;
+@property (strong,nonatomic) NSString *token;
 
 -(id) initWithAccount:(NSString *)account password:(NSString *)password;
 -(id) initFromData;

@@ -66,9 +66,8 @@
         NSMutableDictionary *jsonResult = [response JSONValue];
         if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
             //TODO 注册成功
-            [UserContext setUserView:[UserView convertFromDictionary:[jsonResult valueForKey:@"result"]]];
             LoginUser *loginUser = [[LoginUser alloc] initWithAccount:accountField.text password:passwordField.text];
-            [loginUser save];
+            [[LoginService getInstance] loginSuccess:loginUser withJson:jsonResult withCookies:request.responseCookies];
             
             UIViewController *startController = [[LoginService getInstance] loginTurnToViewController];
             if(startController){

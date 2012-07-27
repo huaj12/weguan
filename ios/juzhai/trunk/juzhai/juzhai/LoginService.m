@@ -21,7 +21,7 @@
 
 @interface LoginService(Private)
 
-- (void)loginSuccess:(LoginUser *)loginUser withJson:(NSDictionary *)jsonResult;
+- (void)loginSuccess:(LoginUser *)loginUser withJson:(NSDictionary *)jsonResult withCookies:(NSArray *)cookies;
 
 @end
 
@@ -38,14 +38,20 @@ static LoginService *loginService;
     }
 }
 
-- (NSString *)useLoginName:(NSString *)account byPassword:(NSString *)password{
-    if(account == nil || password == nil || [account isEqualToString:@""] || [password isEqualToString:@""]){
-        return @"请输入登录账号和密码";
-    }
-    LoginUser *loginUser = [[LoginUser alloc] initWithAccount:account password:password];
+- (NSString *)useLoginName:(NSString *)account byPassword:(NSString *)password byToken:(NSString *)token{
     //Http请求
-    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:loginUser.account, @"account", loginUser.password, @"password", [NSNumber numberWithBool:NO], @"remember", nil];
+    NSDictionary *params = [[NSDictionary alloc] initWithObjectsAndKeys:account, @"account", password, @"password", [NSNumber numberWithBool:YES], @"remember", nil];
     ASIFormDataRequest *request = [HttpRequestSender postRequestWithUrl:[UrlUtils urlStringWithUri:@"passport/login"] withParams:params];
+    if (nil != token && ![token isEqualToString:@""]) {
+        NSDictionary *properties = [[NSMutableDictionary alloc] init];
+        [properties setValue:token forKey:NSHTTPCookieValue];
+        [properties setValue:P_TOKEN_COOKIE_NAME forKey:NSHTTPCookieName];
+        [properties setValue:@".51juzhai.com" forKey:NSHTTPCookieDomain];
+        [properties setValue:[NSDate dateWithTimeIntervalSinceNow:60] forKey:NSHTTPCookieExpires];
+        [properties setValue:@"/" forKey:NSHTTPCookiePath];
+        NSHTTPCookie *cookie = [[NSHTTPCookie alloc] initWithProperties:properties];
+        [request setRequestCookies:[NSMutableArray arrayWithObjects:cookie, nil]];
+    }
     [request startSynchronous];
     NSError *error = [request error];
     if (!error && [request responseStatusCode] == 200){
@@ -53,7 +59,8 @@ static LoginService *loginService;
         NSMutableDictionary *jsonResult = [response JSONValue];
         if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
             //登录成功
-            [self loginSuccess:loginUser withJson:jsonResult];
+            LoginUser *loginUser = [[LoginUser alloc] initWithAccount:account password:password];
+            [self loginSuccess:loginUser withJson:jsonResult withCookies:request.responseCookies];
             return nil;
         }else{
             return [jsonResult valueForKey:@"errorInfo"];
@@ -75,7 +82,7 @@ static LoginService *loginService;
         NSMutableDictionary *jsonResult = [response JSONValue];
         if([jsonResult valueForKey:@"success"] == [NSNumber numberWithBool:YES]){
             //登录成功
-            [self loginSuccess:nil withJson:jsonResult];
+            [self loginSuccess:nil withJson:jsonResult withCookies:request.responseCookies];
             return nil;
         }else{
             return [jsonResult valueForKey:@"errorInfo"];
@@ -88,29 +95,48 @@ static LoginService *loginService;
 
 - (BOOL)checkLogin{
     LoginUser *loginUser = [[LoginUser alloc] initFromData];
-    if(loginUser != nil && ![@"" isEqualToString:loginUser.account] && ![@"" isEqualToString:loginUser.password]){
-        NSString *errorInfo = [self useLoginName:loginUser.account byPassword:loginUser.password];
-        if(errorInfo != nil){
-            [loginUser reset];
+    if(loginUser != nil)
+    {
+        NSString *errorInfo = nil;
+        if (![@"" isEqualToString:loginUser.token]) {
+            errorInfo = [self useLoginName:loginUser.account byPassword:loginUser.password byToken:loginUser.token];
+        }else if (![@"" isEqualToString:loginUser.account] && ![@"" isEqualToString:loginUser.password]) {
+            errorInfo = [self useLoginName:loginUser.account byPassword:loginUser.password byToken:nil];
+        }else {
             return NO;
         }
-        return YES;
+        if(errorInfo != nil){
+            [loginUser reset];
+        } else {
+            return YES;
+        }
     }
     return NO;
 }
 
-- (void)loginSuccess:(LoginUser *)loginUser withJson:(NSDictionary *)jsonResult;
+- (void)loginSuccess:(LoginUser *)loginUser withJson:(NSDictionary *)jsonResult withCookies:(NSArray *)cookies
 {
+    if (loginUser == nil) {
+        loginUser = [[LoginUser alloc] init];
+    }
+    for(NSHTTPCookie *cookie in cookies)
+    {
+        if ([cookie.name isEqualToString:P_TOKEN_COOKIE_NAME]) {
+            loginUser.token = cookie.value;
+        }
+    }
     //登录成功
     [UserContext setUserView:[UserView convertFromDictionary:[jsonResult valueForKey:@"result"]]];
-    if (loginUser) {
+    if (loginUser.token != nil && ![loginUser.token isEqualToString:@""]) {
         [loginUser save];
+        NSLog(@"save token %@", loginUser.token);
     }
 }
 
 - (void)logout{
     ASIHTTPRequest *request = [HttpRequestSender getRequestWithUrl:[UrlUtils urlStringWithUri:@"passport/logout"] withParams:nil];
     [request startSynchronous];
+    [ASIHTTPRequest setSessionCookies:nil];
     [self localLogout];
 }
 

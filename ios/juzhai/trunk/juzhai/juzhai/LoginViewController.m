@@ -30,7 +30,7 @@
 }
 
 -(void) doLogin{
-    NSString *errorInfo = [[LoginService getInstance] useLoginName:[nameField text] byPassword:[pwdField text]];
+    NSString *errorInfo = [[LoginService getInstance] useLoginName:[nameField text] byPassword:[pwdField text] byToken:nil];
     if(errorInfo == nil){
         [self performSelectorOnMainThread:@selector(redirect) withObject:nil waitUntilDone:NO];
     }else{
@@ -51,6 +51,12 @@
 
 -(IBAction)login:(id)sender{
     [self backgroundTap:nil];
+    
+    if([[nameField text] isEqualToString:@""] || [[pwdField text] isEqualToString:@""]){
+        [MessageShow error:@"请输入登录账号和密码" onView:self.navigationController.view];
+        return;
+    }
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.dimBackground = YES;
 //    hud.labelText = @"登录中...";

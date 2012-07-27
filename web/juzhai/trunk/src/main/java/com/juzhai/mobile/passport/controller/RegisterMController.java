@@ -50,7 +50,7 @@ public class RegisterMController extends BaseController {
 			long uid = registerService.register(registerForm.getAccount(),
 					registerForm.getNickname(), registerForm.getPwd(),
 					registerForm.getConfirmPwd(), registerForm.getInviterUid());
-			loginService.autoLogin(request, response, uid);
+			loginService.autoLogin(request, response, uid, true);
 			result.setResult(userMViewHelper.createUserMView(context,
 					profileService.getProfileCacheByUid(uid), false));
 			try {

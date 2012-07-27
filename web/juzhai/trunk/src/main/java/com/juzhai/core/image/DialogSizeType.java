@@ -1,7 +1,7 @@
 package com.juzhai.core.image;
 
 public enum DialogSizeType {
-	SMALL(80), MIDDLE(120), BIG(180), ORIGINAL(0);
+	ORIGINAL(0);
 	private int type;
 
 	private DialogSizeType(int type) {

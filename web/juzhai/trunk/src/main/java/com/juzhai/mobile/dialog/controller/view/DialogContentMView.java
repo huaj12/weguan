@@ -1,5 +1,7 @@
 package com.juzhai.mobile.dialog.controller.view;
 
+import com.juzhai.core.image.DialogSizeType;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.home.controller.view.DialogContentView;
 import com.juzhai.home.model.DialogContent;
 
@@ -8,6 +10,8 @@ public class DialogContentMView {
 	private long dialogContentId;
 
 	private String content;
+
+	private String imgUrl;
 
 	private long senderUid;
 
@@ -28,6 +32,9 @@ public class DialogContentMView {
 		mView.setSenderUid(dialogContent.getSenderUid());
 		mView.setReceiverUid(dialogContent.getReceiverUid());
 		mView.setCreateTime(dialogContent.getCreateTime().getTime());
+		mView.setImgUrl(JzResourceFunction.dialogContentPic(
+				dialogContent.getId(), dialogContent.getPic(),
+				DialogSizeType.ORIGINAL.getType()));
 		return mView;
 	}
 
@@ -69,5 +76,13 @@ public class DialogContentMView {
 
 	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 }

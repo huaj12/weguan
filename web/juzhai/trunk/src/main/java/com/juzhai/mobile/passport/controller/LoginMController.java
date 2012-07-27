@@ -2,6 +2,8 @@ package com.juzhai.mobile.passport.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,14 +62,14 @@ public class LoginMController extends BaseController {
 			throws UnsupportedEncodingException {
 		Thirdparty tp = com.juzhai.passport.InitData.TP_MAP.get(tpId);
 		if (null == tp) {
-			return "404";
+			return error_404;
 		}
 		String url = userService.getAuthorizeURLforCode(request, response, tp,
 				Terminal.MOBILE, null, null);
 		if (StringUtils.isEmpty(url)) {
-			return "404";
+			return error_404;
 		}
-		return "redirect:" + url + "&display=mobile";
+		return "redirect:" + url;
 	}
 
 	@RequestMapping(value = "/tpAccess/{tpId}")
@@ -109,13 +111,15 @@ public class LoginMController extends BaseController {
 			}
 			try {
 				loginService.login(request, response, uid, tp.getId(),
-						RunType.CONNET);
+						RunType.CONNET, true);
 				context = (UserContext) request.getAttribute("context");
+
 			} catch (PassportAccountException e) {
 				result.setError(e.getErrorCode(), messageSource);
 				return result;
 			}
 		}
+		// Profile profile = profileService.getProfile(uid);
 		result.setResult(userMViewHelper.createUserMView(context,
 				profileService.getProfileCacheByUid(uid),
 				userGuideService.isCompleteGuide(uid)));
@@ -125,24 +129,27 @@ public class LoginMController extends BaseController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult login(HttpServletRequest request,
-			HttpServletResponse response, LoginForm loginForm)
+			HttpServletResponse response, LoginForm loginForm, String token)
 			throws ReportAccountException {
 		AjaxResult result = new AjaxResult();
 		UserContext context = (UserContext) request.getAttribute("context");
-		if (context.hasLogin()) {
-			return result;
-		}
 		long uid = 0L;
-		try {
-			uid = loginService.login(request, response, loginForm.getAccount(),
-					loginForm.getPassword(), loginForm.isRemember());
-			context = (UserContext) request.getAttribute("context");
-		} catch (PassportAccountException e) {
-			result.setError(e.getErrorCode(), messageSource);
-			return result;
-		}
-		if (uid <= 0) {
-			result.setError(JuzhaiException.SYSTEM_ERROR, messageSource);
+		if (!context.hasLogin()) {
+			try {
+
+				uid = loginService.login(request, response,
+						loginForm.getAccount(), loginForm.getPassword(),
+						loginForm.isRemember());
+				context = (UserContext) request.getAttribute("context");
+			} catch (PassportAccountException e) {
+				result.setError(e.getErrorCode(), messageSource);
+				return result;
+			}
+			if (uid <= 0) {
+				result.setError(JuzhaiException.SYSTEM_ERROR, messageSource);
+			}
+		} else {
+			uid = context.getUid();
 		}
 		// Profile profile = profileService.getProfile(uid);
 		result.setResult(userMViewHelper.createUserMView(context,

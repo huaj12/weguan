@@ -59,6 +59,12 @@ public class DialogController extends BaseController {
 	@Value("${show.dialog.contents.max.rows}")
 	private int showDialogContentsMaxRows;
 
+	@RequestMapping(value = "/dialog", method = RequestMethod.GET)
+	public String dialogListPage(HttpServletRequest request, Model model)
+			throws NeedLoginException {
+		return "redirect:/home/dialog/1";
+	}
+
 	@RequestMapping(value = "/dialog/{page}", method = RequestMethod.GET)
 	public String dialogList(HttpServletRequest request, Model model,
 			@PathVariable int page) throws NeedLoginException {

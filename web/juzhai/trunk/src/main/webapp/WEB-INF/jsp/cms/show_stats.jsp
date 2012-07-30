@@ -4,10 +4,11 @@
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<c:set var="action" value="发布拒宅数,发布好主意数,通过审核拒宅数,感兴趣数" />
-<c:set var="other" value="登陆数,本地登录数,打开邮件数,通过邮件回访数" />
-<c:set var="interactive" value="本地注册数,注册数,q+注册数,通过审核头像数,完成引导数" />
-<c:set var="conversion" value="点击解救小宅数,响应拒宅数,私密约数,打开好主意弹框数,私信总数,点击解救女宅数,解救女宅框数,收藏用户数,解救小宅弹框数" />
+<c:set var="delim" value=","/>
+<c:set var="values" value="发布拒宅数|发布好主意数|通过审核拒宅数|感兴趣数,本地注册数|注册数|q+注册数|通过审核头像数|完成引导数,点击解救小宅数|响应拒宅数|私密约数|打开好主意弹框数|私信总数|点击解救女宅数|解救女宅框数|收藏用户数|解救小宅弹框数,登陆数|本地登录数|打开邮件数|通过邮件回访数" />
+<c:set var="value" value="${fn:split(values, delim)}"/>
+<c:set var="names" value="行为统计,互动统计,转化率统计,其他统计" />
+<c:set var="name" value="${fn:split(names, delim)}"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -30,38 +31,17 @@
 	</table>
 	</form>
 	<table border="0" cellspacing="4">
-		<tr><td>用户行为</td></tr>
+		<c:forEach items="${value }"  varStatus="index">
+		<tr><td>${name[index.index]}</td></tr>
 		<tr style="background-color: #CCCCCC;">
 			<c:forEach var="object" items="${CounterStats}">
-				<c:if test="${fn:indexOf(action,object.key)!=-1}">
+				<c:if test="${fn:indexOf(value[index.index],object.key)!=-1}">
 	    			<td>${object.key}:<c:out value="${object.value}"></c:out></td>
 	    		</c:if>
     		</c:forEach>
 		</tr>
-		<tr><td>互动统计</td></tr>
-		<tr style="background-color: #CCCCCC;">
-			<c:forEach var="object" items="${CounterStats}">
-				<c:if test="${fn:indexOf(interactive,object.key)!=-1}">
-	    			<td>${object.key}:<c:out value="${object.value}"></c:out></td>
-	    		</c:if>
-    		</c:forEach>
-		</tr>
-		<tr><td>转化率统计</td></tr>
-		<tr style="background-color: #CCCCCC;">
-			<c:forEach var="object" items="${CounterStats}">
-				<c:if test="${fn:indexOf(conversion,object.key)!=-1}">
-	    			<td>${object.key}:<c:out value="${object.value}"></c:out></td>
-	    		</c:if>
-    		</c:forEach>
-		</tr>
-		<tr><td>其他统计</td></tr>
-		<tr style="background-color: #CCCCCC;">
-			<c:forEach var="object" items="${CounterStats}">
-				<c:if test="${fn:indexOf(other,object.key)!=-1}">
-	    			<td>${object.key}:<c:out value="${object.value}"></c:out></td>
-	    		</c:if>
-    		</c:forEach>
-		</tr>
+		<tr style="height: 50px"><td></td></tr>
+		</c:forEach>
 	</table>
 </body>
 </html>

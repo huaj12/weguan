@@ -74,6 +74,8 @@ public class RegisterService implements IRegisterService {
 	private MemcachedClient memcachedClient;
 	@Autowired
 	private IWordFilterService wordFilterService;
+	@Autowired
+	private ICounter plusRegisterCounter;
 	@Value("${register.email.min}")
 	private int registerEmailMin;
 	@Value("${register.email.max}")
@@ -124,6 +126,11 @@ public class RegisterService implements IRegisterService {
 
 		// 统计注册数
 		registerCounter.incr(null, 1);
+		// Q+注册独立统计
+		if ("plus".equalsIgnoreCase(tp.getJoinType())
+				&& "qq".equalsIgnoreCase(tp.getName())) {
+			plusRegisterCounter.incr(null, 1l);
+		}
 		return passport.getId();
 	}
 

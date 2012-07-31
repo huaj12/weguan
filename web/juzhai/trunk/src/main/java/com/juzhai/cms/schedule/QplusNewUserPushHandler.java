@@ -3,7 +3,6 @@ package com.juzhai.cms.schedule;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.quartz.CronTriggerBean;
@@ -22,8 +21,6 @@ import com.juzhai.post.service.IIdeaService;
 public class QplusNewUserPushHandler extends AbstractScheduleHandler {
 	@Autowired
 	private ThreadPoolTaskExecutor cmsTaskExecutor;
-	@Autowired
-	private MessageSource messageSource;
 	@Value("${qplus.minute.new.user.push.count}")
 	private int qplusMinuteNewUserPushCount;
 	@Autowired

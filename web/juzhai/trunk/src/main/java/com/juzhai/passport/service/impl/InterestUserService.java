@@ -42,7 +42,7 @@ public class InterestUserService implements IInterestUserService {
 	@Override
 	public void interestUser(long uid, long targetUid)
 			throws InterestUserException {
-		interestUser(uid, targetUid, null);
+		interestUser(uid, targetUid, "");
 	}
 
 	@Override

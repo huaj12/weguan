@@ -18,6 +18,8 @@ import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 import com.juzhai.notice.bean.NoticeQplusUserTemplate;
 import com.juzhai.notice.service.INoticeService;
+import com.juzhai.post.model.Idea;
+import com.juzhai.post.service.IIdeaService;
 
 @Component
 public class QplusNewUserPushHandler extends AbstractScheduleHandler {
@@ -35,6 +37,9 @@ public class QplusNewUserPushHandler extends AbstractScheduleHandler {
 	private CronTriggerBean qplusNewUserPushTrigger;
 	@Autowired
 	private ISchedulerService schedulerService;
+	@Autowired
+	private IIdeaService ideaService;
+	private String link = "http://www.51juzhai.com/showideas";
 
 	@Override
 	protected void doHandle() {
@@ -44,23 +49,26 @@ public class QplusNewUserPushHandler extends AbstractScheduleHandler {
 			try {
 				schedulerService.stopJob(qplusNewUserPushTrigger);
 				CmsQplusPushUserController.qplusNewUserPushisRunning = false;
+				CmsQplusPushUserController.qplusNewUserPushText = null;
 			} catch (Exception e) {
 				log.error("stop qplus push is error ", e);
 			}
-		}
-		String text = CmsQplusPushUserController.qplusNewUserPushText;
-		if (StringUtils.isEmpty(text)) {
-			text = messageSource.getMessage(
-					NoticeQplusUserTemplate.NOTICE_QPLUS_USER_TEXT_DEFAULT
-							.getName(), null, Locale.SIMPLIFIED_CHINESE);
-		}
-		for (int i = 0; i < qplusMinuteNewUserPushCount; i++) {
-			String openid = redisTemplate.opsForSet().pop(key);
-			if (StringUtils.isNotEmpty(openid)) {
-				cmsTaskExecutor.submit(new QplusSendTask(openid, text,
-						noticeService));
+		} else {
+			Idea idea = ideaService.getNewWindowIdea();
+			String text = idea.getContent();
+			if (StringUtils.isEmpty(text)) {
+				text = messageSource.getMessage(
+						NoticeQplusUserTemplate.NOTICE_QPLUS_USER_TEXT_DEFAULT
+								.getName(), null, Locale.SIMPLIFIED_CHINESE);
+			}
+			CmsQplusPushUserController.qplusNewUserPushText = text;
+			for (int i = 0; i < qplusMinuteNewUserPushCount; i++) {
+				String openid = redisTemplate.opsForSet().pop(key);
+				if (StringUtils.isNotEmpty(openid)) {
+					cmsTaskExecutor.submit(new QplusSendTask(openid, text,
+							link, noticeService));
+				}
 			}
 		}
 	}
-
 }

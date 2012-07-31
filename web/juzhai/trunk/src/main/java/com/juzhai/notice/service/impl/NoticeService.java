@@ -141,7 +141,7 @@ public class NoticeService implements INoticeService {
 	}
 
 	@Override
-	public void noticeQplusUser(String openid, String text) {
+	public void noticeQplusUser(String openid, String text, String link) {
 		Thirdparty tp = InitData.TP_MAP.get(9l);
 		QPushService service = QPushService.createInstance(
 				Integer.parseInt(tp.getAppKey()), tp.getAppSecret());
@@ -152,6 +152,7 @@ public class NoticeService implements INoticeService {
 		bean.setOptype(1); // 展现方式: 1-更新内容直接进消息中心
 		bean.setText(text); // 文本提示语Utf8编码，最长90字节
 		bean.setPushmsgid("1");// 本次PUSH的消息ID，建议填写，可以为任意数字
+		bean.setCustomize(link);
 
 		try {
 			bean.setQplusid(openid); // 桌面ID，字符串，必填信息，且内容会被校验

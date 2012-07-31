@@ -72,6 +72,6 @@ public interface INoticeService {
 	 * @param openid
 	 * @param NoticeQplusUserTemplate
 	 */
-	void noticeQplusUser(String openid, String text);
+	void noticeQplusUser(String openid, String text, String link);
 
 }

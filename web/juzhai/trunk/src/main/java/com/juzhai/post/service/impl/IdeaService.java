@@ -775,4 +775,18 @@ public class IdeaService implements IIdeaService {
 		example.createCriteria().andUidEqualTo(uid);
 		return ideaInterestMapper.countByExample(example);
 	}
+
+	@Override
+	public Idea getNewWindowIdea() {
+		IdeaExample example = new IdeaExample();
+		example.createCriteria().andCityEqualTo(0L).andDefunctEqualTo(false);
+		example.setLimit(new Limit(0, 1));
+		example.setOrderByClause("create_window_time desc");
+		List<Idea> list = ideaMapper.selectByExample(example);
+		if (CollectionUtils.isEmpty(list)) {
+			return null;
+		} else {
+			return list.get(0);
+		}
+	}
 }

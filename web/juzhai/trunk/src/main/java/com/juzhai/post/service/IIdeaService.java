@@ -319,4 +319,11 @@ public interface IIdeaService {
 	 * @return
 	 */
 	int countUserInterestIdea(long uid);
+
+	/**
+	 * 获取最新的一条推荐好主意
+	 * 
+	 * @return
+	 */
+	Idea getNewWindowIdea();
 }

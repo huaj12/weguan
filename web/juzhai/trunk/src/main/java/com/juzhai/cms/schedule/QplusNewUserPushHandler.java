@@ -1,7 +1,5 @@
 package com.juzhai.cms.schedule;
 
-import java.util.Locale;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +14,6 @@ import com.juzhai.cms.service.ISchedulerService;
 import com.juzhai.cms.task.QplusSendTask;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
-import com.juzhai.notice.bean.NoticeQplusUserTemplate;
 import com.juzhai.notice.service.INoticeService;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaService;
@@ -54,14 +51,12 @@ public class QplusNewUserPushHandler extends AbstractScheduleHandler {
 				log.error("stop qplus push is error ", e);
 			}
 		} else {
-			Idea idea = ideaService.getNewWindowIdea();
-			String text = idea.getContent();
+			String text = CmsQplusPushUserController.qplusNewUserPushText;
 			if (StringUtils.isEmpty(text)) {
-				text = messageSource.getMessage(
-						NoticeQplusUserTemplate.NOTICE_QPLUS_USER_TEXT_DEFAULT
-								.getName(), null, Locale.SIMPLIFIED_CHINESE);
+				Idea idea = ideaService.getNewWindowIdea();
+				text = idea.getContent();
+				CmsQplusPushUserController.qplusNewUserPushText = text;
 			}
-			CmsQplusPushUserController.qplusNewUserPushText = text;
 			for (int i = 0; i < qplusMinuteNewUserPushCount; i++) {
 				String openid = redisTemplate.opsForSet().pop(key);
 				if (StringUtils.isNotEmpty(openid)) {

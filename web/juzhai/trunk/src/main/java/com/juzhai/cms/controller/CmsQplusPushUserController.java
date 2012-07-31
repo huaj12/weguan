@@ -89,17 +89,6 @@ public class CmsQplusPushUserController {
 		return "/cms/qplus/show";
 	}
 
-	@RequestMapping(value = "/qplus/update/content", method = RequestMethod.POST)
-	@ResponseBody
-	public AjaxResult updateContent(String type, String text) {
-		if ("new".equals(type)) {
-			qplusNewUserPushText = text;
-		} else {
-			qplusOldUserPushText = text;
-		}
-		return new AjaxResult();
-	}
-
 	@RequestMapping(value = "/qplus/push/start", method = RequestMethod.POST)
 	@ResponseBody
 	public synchronized AjaxResult start(String type) {
@@ -125,6 +114,7 @@ public class CmsQplusPushUserController {
 			if ("new".equals(type)) {
 				schedulerService.stopJob(qplusNewUserPushTrigger);
 				qplusNewUserPushisRunning = false;
+				qplusNewUserPushText = null;
 			}
 		} catch (SchedulerException e) {
 			log.error("stop qplus push is error type=" + type, e);

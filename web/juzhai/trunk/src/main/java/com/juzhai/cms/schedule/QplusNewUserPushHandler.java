@@ -1,18 +1,24 @@
 package com.juzhai.cms.schedule;
 
+import java.util.Locale;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.quartz.CronTriggerBean;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.cms.controller.CmsQplusPushUserController;
 import com.juzhai.cms.service.ISchedulerService;
 import com.juzhai.cms.task.QplusSendTask;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
+import com.juzhai.core.util.TextTruncateUtil;
+import com.juzhai.notice.bean.NoticeQplusUserTemplate;
 import com.juzhai.notice.service.INoticeService;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaService;
@@ -21,8 +27,6 @@ import com.juzhai.post.service.IIdeaService;
 public class QplusNewUserPushHandler extends AbstractScheduleHandler {
 	@Autowired
 	private ThreadPoolTaskExecutor cmsTaskExecutor;
-	@Value("${qplus.minute.new.user.push.count}")
-	private int qplusMinuteNewUserPushCount;
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 	@Autowired
@@ -33,6 +37,12 @@ public class QplusNewUserPushHandler extends AbstractScheduleHandler {
 	private ISchedulerService schedulerService;
 	@Autowired
 	private IIdeaService ideaService;
+	@Autowired
+	private MessageSource messageSource;
+	@Value("${qplus.minute.new.user.push.count}")
+	private int qplusMinuteNewUserPushCount;
+	@Value("${qplus.new.user.push.length.max}")
+	private int qplusNewUserPushLengthMax;
 	private String link = "http://www.51juzhai.com/showideas";
 
 	@Override
@@ -51,7 +61,13 @@ public class QplusNewUserPushHandler extends AbstractScheduleHandler {
 			String text = CmsQplusPushUserController.qplusNewUserPushText;
 			if (StringUtils.isEmpty(text)) {
 				Idea idea = ideaService.getNewWindowIdea();
-				text = idea.getContent();
+				String content = TextTruncateUtil.truncate(
+						HtmlUtils.htmlUnescape(idea.getContent()),
+						qplusNewUserPushLengthMax, "...");
+				text = messageSource.getMessage(
+						NoticeQplusUserTemplate.NOTICE_QPLUS_USER_TEXT_DEFAULT
+								.getName(), new Object[] { content },
+						Locale.SIMPLIFIED_CHINESE);
 				CmsQplusPushUserController.qplusNewUserPushText = text;
 			}
 			for (int i = 0; i < qplusMinuteNewUserPushCount; i++) {

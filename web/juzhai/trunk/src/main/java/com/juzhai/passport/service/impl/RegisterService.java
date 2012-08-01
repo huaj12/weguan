@@ -27,7 +27,9 @@ import com.juzhai.core.mail.manager.MailManager;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.PassportMapper;
@@ -127,8 +129,9 @@ public class RegisterService implements IRegisterService {
 		// 统计注册数
 		registerCounter.incr(null, 1);
 		// Q+注册独立统计
-		if ("plus".equalsIgnoreCase(tp.getJoinType())
-				&& "qq".equalsIgnoreCase(tp.getName())) {
+		if (JoinTypeEnum.PLUS.getName().equalsIgnoreCase(tp.getJoinType())
+				&& ThirdpartyNameEnum.QQ.getName().equalsIgnoreCase(
+						tp.getName())) {
 			plusRegisterCounter.incr(null, 1l);
 		}
 		return passport.getId();

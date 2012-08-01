@@ -136,4 +136,20 @@ public interface IDialogService {
 			DialogContentTemplate template, Object... params)
 			throws DialogException;
 
+	/**
+	 * 后台查看私信列表
+	 * 
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<DialogView> cmsListDialog(int firstResult, int maxResults);
+
+	/**
+	 * 私信总数
+	 * 
+	 * @return
+	 */
+	int cmsCountDialog();
+
 }

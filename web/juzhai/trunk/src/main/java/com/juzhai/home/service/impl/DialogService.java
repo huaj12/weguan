@@ -371,4 +371,32 @@ public class DialogService implements IDialogService {
 		return count == null ? 0 : count.intValue();
 	}
 
+	@Override
+	public List<DialogView> cmsListDialog(int firstResult, int maxResults) {
+		DialogExample example = new DialogExample();
+		example.setLimit(new Limit(firstResult, maxResults));
+		example.setOrderByClause("last_modify_time desc");
+		List<Dialog> list = dialogMapper.selectByExample(example);
+		List<DialogView> dialogViewList = new ArrayList<DialogView>();
+		for (Dialog dialog : list) {
+			DialogView view = new DialogView();
+			view.setDialog(dialog);
+			view.setDialogContentCnt(getDialogContentCnt(dialog.getId()));
+			view.setDialogContent(getDialogContent(getFirstDialogContent(dialog
+					.getId())));
+			view.setTargetProfile(profileService.getProfileCacheByUid(dialog
+					.getTargetUid()));
+			view.setUserProfile(profileService.getProfileCacheByUid(dialog
+					.getUid()));
+			dialogViewList.add(view);
+		}
+		return dialogViewList;
+	}
+
+	@Override
+	public int cmsCountDialog() {
+		DialogExample example = new DialogExample();
+		return dialogMapper.countByExample(example);
+	}
+
 }

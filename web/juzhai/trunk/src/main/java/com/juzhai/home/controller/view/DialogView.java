@@ -14,6 +14,8 @@ public class DialogView {
 
 	private ProfileCache targetProfile;
 
+	private ProfileCache userProfile;
+
 	private boolean shield;
 
 	public boolean isShield() {
@@ -55,4 +57,13 @@ public class DialogView {
 	public void setTargetProfile(ProfileCache targetProfile) {
 		this.targetProfile = targetProfile;
 	}
+
+	public ProfileCache getUserProfile() {
+		return userProfile;
+	}
+
+	public void setUserProfile(ProfileCache userProfile) {
+		this.userProfile = userProfile;
+	}
+
 }

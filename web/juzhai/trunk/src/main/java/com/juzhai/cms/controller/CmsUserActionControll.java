@@ -59,4 +59,16 @@ public class CmsUserActionControll {
 		return "cms/user_login_log";
 	}
 
+	@RequestMapping(value = "/find/list/dialog", method = RequestMethod.GET)
+	public String dialogList(Model model,
+			@RequestParam(defaultValue = "1") int pageId) {
+		PagerManager pager = new PagerManager(pageId, 50,
+				dialogService.cmsCountDialog());
+		List<DialogView> dialogViewList = dialogService.cmsListDialog(
+				pager.getFirstResult(), pager.getMaxResult());
+		model.addAttribute("dialogViewList", dialogViewList);
+		model.addAttribute("pager", pager);
+		return "cms/find_list_dialog";
+	}
+
 }

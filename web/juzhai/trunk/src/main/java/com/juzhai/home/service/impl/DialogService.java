@@ -11,6 +11,7 @@ import net.rubyeye.xmemcached.MemcachedClient;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -374,6 +375,8 @@ public class DialogService implements IDialogService {
 	@Override
 	public List<DialogView> cmsListDialog(int firstResult, int maxResults) {
 		DialogExample example = new DialogExample();
+		example.createCriteria().andLastModifyTimeGreaterThanOrEqualTo(
+				DateUtils.addDays(new Date(), -7));
 		example.setLimit(new Limit(firstResult, maxResults));
 		example.setOrderByClause("last_modify_time desc");
 		List<Dialog> list = dialogMapper.selectByExample(example);
@@ -396,6 +399,8 @@ public class DialogService implements IDialogService {
 	@Override
 	public int cmsCountDialog() {
 		DialogExample example = new DialogExample();
+		example.createCriteria().andLastModifyTimeGreaterThanOrEqualTo(
+				DateUtils.addDays(new Date(), -7));
 		return dialogMapper.countByExample(example);
 	}
 

@@ -375,8 +375,10 @@ public class DialogService implements IDialogService {
 	@Override
 	public List<DialogView> cmsListDialog(int firstResult, int maxResults) {
 		DialogExample example = new DialogExample();
-		example.createCriteria().andLastModifyTimeGreaterThanOrEqualTo(
-				DateUtils.addDays(new Date(), -7));
+		example.createCriteria()
+				.andLastModifyTimeGreaterThanOrEqualTo(
+						DateUtils.addDays(new Date(), -7)).andUidNotEqualTo(3l)
+				.andTargetUidNotEqualTo(3l);
 		example.setLimit(new Limit(firstResult, maxResults));
 		example.setOrderByClause("last_modify_time desc");
 		List<Dialog> list = dialogMapper.selectByExample(example);
@@ -399,9 +401,10 @@ public class DialogService implements IDialogService {
 	@Override
 	public int cmsCountDialog() {
 		DialogExample example = new DialogExample();
-		example.createCriteria().andLastModifyTimeGreaterThanOrEqualTo(
-				DateUtils.addDays(new Date(), -7));
+		example.createCriteria()
+				.andLastModifyTimeGreaterThanOrEqualTo(
+						DateUtils.addDays(new Date(), -7)).andUidNotEqualTo(3l)
+				.andTargetUidNotEqualTo(3l);
 		return dialogMapper.countByExample(example);
 	}
-
 }

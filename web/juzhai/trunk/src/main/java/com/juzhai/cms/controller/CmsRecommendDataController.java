@@ -27,6 +27,8 @@ public class CmsRecommendDataController {
 	private IRecommendIdeaService recommendIdeaService;
 	@Value("${recommend.idea.max.rows}")
 	private int recommendIdeaMaxRows;
+	@Value("${recommend.post.max.rows}")
+	private int recommendPostMaxRows;
 	@Autowired
 	private IProfileService profileService;
 
@@ -34,7 +36,7 @@ public class CmsRecommendDataController {
 	public String showRecommendPost(Model model) {
 		List<CmsPostView> listView = new ArrayList<CmsPostView>();
 		List<Post> list = recommendPostService
-				.listRecommendPost(recommendIdeaMaxRows);
+				.listRecommendPost(recommendPostMaxRows);
 		for (Post post : list) {
 			ProfileCache cache = profileService.getProfileCacheByUid(post
 					.getCreateUid());

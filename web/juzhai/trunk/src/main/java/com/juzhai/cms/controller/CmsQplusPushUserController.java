@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.quartz.CronTriggerBean;
@@ -22,11 +23,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.cms.service.ISchedulerService;
 import com.juzhai.core.Constants;
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.AjaxResult;
+import com.juzhai.core.web.jstl.JzUtilFunction;
+import com.juzhai.notice.bean.NoticeQplusUserTemplate;
+import com.juzhai.post.model.Idea;
+import com.juzhai.post.service.IIdeaService;
 
 @Controller
 @RequestMapping("/cms")
@@ -40,8 +47,14 @@ public class CmsQplusPushUserController {
 	private ISchedulerService schedulerService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IIdeaService ideaService;
+	@Value("${qplus.new.user.push.length.max}")
+	private int qplusNewUserPushLengthMax;
 	public static String qplusNewUserPushText = null;
 	public static String qplusOldUserPushText = null;
+	public static String qplusNewUserPushLink = null;
+	public static String qplusOldUserPushLink = null;
 	public static boolean qplusNewUserPushisRunning = false;
 	public static boolean qplusOldUserPushisRunning = false;
 
@@ -89,6 +102,36 @@ public class CmsQplusPushUserController {
 		return "/cms/qplus/show";
 	}
 
+	@RequestMapping(value = "/qplus/update/content", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult updateContent(String type,
+			@RequestParam(defaultValue = "0") int sendType, String text,
+			String link) {
+		switch (sendType) {
+		case 1:
+			// 更新好主意内容
+			Idea idea = ideaService.getNewWindowIdea();
+			String content = TextTruncateUtil.truncate(
+					HtmlUtils.htmlUnescape(idea.getContent()),
+					qplusNewUserPushLengthMax, "...");
+			text = messageSource.getMessage(
+					NoticeQplusUserTemplate.NOTICE_QPLUS_USER_TEXT_IDEA
+							.getName(), new Object[] { content },
+					Locale.SIMPLIFIED_CHINESE);
+			link = "http://www.51juzhai.com/showideas";
+			break;
+		}
+		link = JzUtilFunction.getLink(link);
+		if ("new".equals(type)) {
+			qplusNewUserPushText = text;
+			qplusNewUserPushLink = link;
+		} else {
+			qplusOldUserPushText = text;
+			qplusOldUserPushLink = link;
+		}
+		return new AjaxResult();
+	}
+
 	@RequestMapping(value = "/qplus/push/start", method = RequestMethod.POST)
 	@ResponseBody
 	public synchronized AjaxResult start(String type) {
@@ -114,7 +157,6 @@ public class CmsQplusPushUserController {
 			if ("new".equals(type)) {
 				schedulerService.stopJob(qplusNewUserPushTrigger);
 				qplusNewUserPushisRunning = false;
-				qplusNewUserPushText = null;
 			}
 		} catch (SchedulerException e) {
 			log.error("stop qplus push is error type=" + type, e);
@@ -133,7 +175,8 @@ public class CmsQplusPushUserController {
 		String content = messageSource.getMessage(
 				"notice.qplus.user.send.state.text", new Object[] {
 						oldUserSize, newUserSize, qplusNewUserPushText,
-						qplusOldUserPushText, qplusNewUserPushisRunning,
+						qplusOldUserPushText, qplusNewUserPushLink,
+						qplusOldUserPushLink, qplusNewUserPushisRunning,
 						qplusOldUserPushisRunning }, Locale.SIMPLIFIED_CHINESE);
 		return content;
 	}

@@ -19,7 +19,6 @@
 								<td width="100">头像</td>
 								<td width="100">接受者</td>
 								<td width="100">头像</td>
-								<td width="100">内容</td>
 								<td width="100">对话数</td>
 								<td width="100">操作</td>
 							</tr>
@@ -29,7 +28,6 @@
 								<td><a href="/home/${dialogView.userProfile.uid}"><img src="${jzr:userLogo(dialogView.userProfile.uid,dialogView.userProfile.logoPic,80)}"  width="80" height="80"/></a></td>
 								<td><c:out value='${dialogView.targetProfile.nickname}'></c:out></td>
 								<td><a href="/home/${dialogView.targetProfile.uid}"><img src="${jzr:userLogo(dialogView.targetProfile.uid,dialogView.targetProfile.logoPic,80)}"  width="80" height="80"/></a></td>
-								<td>${dialogView.dialogContent.content}</td>
 								<td>${dialogView.dialogContentCnt }</td>
 								<td><a href="/cms/report/message/${dialogView.userProfile.uid}/${dialogView.targetProfile.uid}" target="_blank">点击查看内容</a></td>
 							</tr>

@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		<div class="warp"><!--warp begin-->
-			<div class="main" today-visit="<c:if test="${not empty loginUser.logoPic&&loginUser.gender==1}">${todayvisit}</c:if>"><!--main begin-->
+			<div class="main" today-visit="false"><!--main begin-->
 				<c:if test="${hasNotAccount || hasNotActive}">
 					<div class="float_box" style="display: none;bottom: -100px;"><!--float_box begin-->
 						<div class="width960"><!--width960 begin-->

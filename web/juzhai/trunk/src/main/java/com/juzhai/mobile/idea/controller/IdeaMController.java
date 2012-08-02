@@ -16,6 +16,7 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.pager.PagerManager;
+import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.bean.ShowIdeaOrder;
@@ -91,6 +92,13 @@ public class IdeaMController extends BaseController {
 			}
 			ideaMView.setBigPic(JzResourceFunction.ideaPic(idea.getId(),
 					idea.getPic(), JzImageSizeType.BIG.getType()));
+			if (idea.getStartTime() != null) {
+				ideaMView.setStartTime(DateFormat.SDF.format(idea
+						.getStartTime()));
+			}
+			if (idea.getEndTime() != null) {
+				ideaMView.setEndTime(DateFormat.SDF.format(idea.getEndTime()));
+			}
 			ideaViewList.add(ideaMView);
 		}
 

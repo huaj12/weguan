@@ -10,6 +10,28 @@
 <title>q+ 消息推送</title>
 <script type="text/javascript" src="${jzr:static('/js/jquery/jquery-1.6.3.min.js')}"></script>
 <script>
+	function update(){
+		if(confirm("是否更新发送内容？")){
+			jQuery.ajax({
+				url : "/cms/qplus/update/content",
+				type : "post",
+				data :$("#pushForm").serialize(),
+				dataType : "json",
+				success : function(result) {
+					if (result.success!=null&&result.success) {
+						alert("更新成功");
+					} else {
+						alert(result.errorInfo);
+					}
+				},
+				statusCode : {
+					401 : function() {
+						alert("请先登陆");
+					}
+				}
+			});
+		}
+	}
 	function stop(){
 		var type=$("#push-user-type").val();
 		var text="";
@@ -70,6 +92,13 @@
 			});
 		}
 	}
+	function selectPushContent(obj){
+		if(obj.value==0){
+			$("#push-content").show();
+		}else if(obj.value==1){
+			$("#push-content").hide();
+		}
+	}	
 </script>
 </head>
 <body>
@@ -88,6 +117,16 @@
 		<option value="new">新用户</option>
 		<option value="old">老用户</option>
 	</select>
+	发送内容：
+	<select name="sendType" onchange="selectPushContent(this)">
+		<option value="1">好主意模版</option>
+		<option value="0">自定义</option>
+	</select>
+	<div id="push-content" style="display: none">
+		<input type="text" name="text"/>
+		<input type="text" name="link"/>
+	</div>
+	<a href="javascript:void(0);" onclick="update();">更新内容</a>
 </form>
 <h3><a href="/cms/qplus/state" target="_blank" >查看状态</a></h3>
 <a href="javascript:void(0);" onclick="start();">开始发送</a>

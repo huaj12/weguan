@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -274,15 +273,6 @@ public class IndexController extends BaseController {
 		showIdeas(model, request, null, categoryId, ideaList, context, cityId,
 				pager);
 		return "web/index/cqw/show_ideas";
-	}
-
-	private int getCategoryTotal(String orderType, long cityId, long categoryId) {
-		if (StringUtils.isEmpty(orderType)) {
-			return ideaService.countIdeaWindow(cityId, categoryId);
-		} else {
-			return ideaService.countIdeaByCityAndCategory(cityId, categoryId);
-		}
-
 	}
 
 	@RequestMapping(value = "/about/{pageType}", method = RequestMethod.GET)

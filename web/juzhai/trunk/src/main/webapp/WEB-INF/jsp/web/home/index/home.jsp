@@ -84,6 +84,7 @@
 					</div><!--main_left end-->
 					<div class="main_right"><!--main_right begin-->
 						<jsp:include page="/WEB-INF/jsp/web/home/index/idea_widget.jsp" />
+						<jsp:include page="/WEB-INF/jsp/web/index/cqw/idea_category_widget.jsp" />
 						<jsp:include page="/WEB-INF/jsp/web/home/index/user_hot_post_widget.jsp" />
 						<jsp:include page="/WEB-INF/jsp/web/search/common/search_post_input.jsp" />
 						<jsp:include page="/WEB-INF/jsp/web/home/index/new_user_widget.jsp" />

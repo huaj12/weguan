@@ -18,7 +18,7 @@
 						<c:set value="/showrecideas/0/1" var="catAllUrl"></c:set>
 					</c:otherwise>
 				</c:choose>
-				<li <c:if test="${categoryId <= 0}">class="act"</c:if>><p class="ca_all"></p><a href="${catAllUrl}" class="ca">全部</a><a href="${catAllUrl}" class="all_num">${totalCount}</a></li>
+				<c:if test="${not empty totalCount&&totalCount>0}"><li <c:if test="${categoryId <= 0}">class="act"</c:if>><p class="ca_all"></p><a href="${catAllUrl}" class="ca">全部</a><a href="${catAllUrl}" class="all_num">${totalCount}</a></li></c:if>
 				<c:forEach var="categoryView" items="${categoryViewList}">
 					<c:choose>
 						<c:when test="${not empty orderType}">

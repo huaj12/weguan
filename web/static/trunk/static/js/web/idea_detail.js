@@ -1,4 +1,16 @@
 $(document).ready(function(){
+	var closeIdeaDetailTipsCookieName = 'C_IDEA_DETAIL_TIPS';
+	//判断cookie是否显示tips
+	var closeIdeaDetailTips= $.cookie(closeIdeaDetailTipsCookieName);
+	if(null == closeIdeaDetailTips){
+		$("div.tips_want").show();
+	}
+	$("div.tips_want > a.close").click(function(){
+		$(this).parent().remove();
+		$.cookie(closeIdeaDetailTipsCookieName, true, {expires: 0, path: '/', domain: '51juzhai.com', secure: false});
+		return false;
+	});
+	
 	$("#city-select").each(function(){
 		var citySelect = new CitySelectInput(this, function(cityId){
 			var gender = $("input[name='genderType']").val();

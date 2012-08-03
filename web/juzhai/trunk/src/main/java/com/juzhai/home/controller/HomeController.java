@@ -309,6 +309,7 @@ public class HomeController extends BaseController {
 		newUserWidget(cityId, model, webHomeRightUserRows);
 		recommendUserWidget(context.getUid(), recommendUserCount, model);
 		hotPostWidget(model, cityId, userHotPostRows);
+		ideaCategoryWidget(model, cityId);
 		Passport passport = passportService.getPassportByUid(context.getUid());
 		if (null != passport) {
 			model.addAttribute("hasNotAccount",

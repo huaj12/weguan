@@ -29,22 +29,12 @@
 										<div class="pub_box"><!--pub_box begin-->
 											<div class="pub_box_t"></div>
 											<div class="pub_box_m"><!--pub_box_m begin-->
-												<div class="idea_show"><!--idea_show begin-->
+												<div class="idea_show mouseHover"><!--idea_show begin-->
 													<c:if test="${not empty idea.pic}">
 														<div class="idea_pic"><a href="${jzr:ideaPic(idea.id, idea.pic,450)}" title="点击查看大图" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>><img src="${jzr:ideaPic(idea.id, idea.pic,450)}" width="250" /></a></div>
 													</c:if>
 													<div class="idea_infor"><!--idea_infor begin-->
-														<h2><c:out value="${idea.content}" />
-															<c:if test="${not empty idea.link}">
-																<a href="/idea/outside/${idea.id}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>去了解更多》</a>
-															</c:if>
-														</h2>
-														<c:if test="${idea.categoryId > 0}">
-															<p>类型:<a href="/showideas/${idea.categoryId}/time/1"  class="lx">${jzd:categoryName(idea.categoryId)}</a></p>
-														</c:if>
-														<c:if test="${ideaCreateUser != null}">
-															<p>来自: <a href="/home/${ideaCreateUser.uid}" class="user"><c:out value="${ideaCreateUser.nickname}" /></a></p>
-														</c:if>
+														<h2><c:out value="${idea.content}" /></h2>
 														<div class="clear"></div>
 														<c:if test="${idea.startTime != null || idea.endTime != null}">
 															<p>时间:</p><span><c:if test="${idea.startTime != null}"><fmt:formatDate value="${idea.startTime}" pattern="yyyy.MM.dd HH:mm"/>-</c:if><fmt:formatDate value="${idea.endTime}" pattern="yyyy.MM.dd HH:mm"/></span>
@@ -55,21 +45,15 @@
 														<c:if test="${not empty idea.charge && idea.charge > 0}">
 															<p>费用:</p><span>${idea.charge}元</span>
 														</c:if>
-														<div class="clear"></div>
-														<p><c:if test="${idea.useCount>0}"><a href="/idea/${idea.id}/#ideaList" class="gyr">${idea.useCount}人想去</a></c:if></p>
+														<c:if test="${idea.categoryId > 0}">
+															<p>类型:<a href="/showideas/${idea.categoryId}/time/1"  class="lx">${jzd:categoryName(idea.categoryId)}</a></p>
+														</c:if>
+															<c:if test="${ideaCreateUser != null}">
+															<p>来自: <a href="/home/${ideaCreateUser.uid}" class="user"><c:out value="${ideaCreateUser.nickname}" /></a></p>
+														</c:if>
 														<div class="clear"></div>
 													</div><!--idea_infor end-->
-													
 													<div class="idea_btns"><!--idea_btns begin-->
-														<div class="edit_error"><a href="/idea/update/${idea.id}">修改/报错</a></div>
-														<c:choose>
-															<c:when test="${hasUsed}">
-																<div class="done"><a href="javascript:void(0);">已想去</a></div>
-															</c:when>
-															<c:otherwise>
-																<div class="date_btn idea-btn idea-btn-${idea.id}"><a href="javascript:void(0);" idea-id="${idea.id}">我想去</a></div>															
-															</c:otherwise>
-														</c:choose>
 														<c:choose>
 																	<c:when test="${hasInterest}">
 																		<div class="add_fav fav_done"><a href="javascript:void(0);">已收藏</a></div>
@@ -78,6 +62,12 @@
 																		<div class="add_fav idea-interest" idea-id="${idea.id}"><a href="javascript:void(0);">收藏</a></div>
 																	</c:otherwise>
 														</c:choose>
+														<div class="edit_error"><a href="/idea/update/${idea.id}">修改/报错</a></div>
+														<div class="date_btn">
+															<c:if test="${not empty idea.link}">
+																	<a href="/idea/outside/${idea.id}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>去了解更多</a>
+															</c:if>
+														</div>
 													</div><!--idea_btns end-->
 												</div><!--idea_show end-->
 											</div><!--pub_box_m end-->
@@ -179,12 +169,14 @@
 						</div><!--content end-->
 					</div><!--main_left end--> --%>
 					<div class="main_right"><!--main_right begin-->
+							<jsp:include page="/WEB-INF/jsp/web/idea/common/want_idea_widget.jsp" />
 							<jsp:include page="/WEB-INF/jsp/web/idea/common/share_idea_widget.jsp" />
 							<jsp:include page="/WEB-INF/jsp/web/index/cqw/recent_idea_widget.jsp" />
 							<jsp:include page="/WEB-INF/jsp/web/index/cqw/idea_ad_widget.jsp" />
 					</div><!--main_right end-->
 				</div><!--main_part end-->
 			</div><!--main end-->
+			<jsp:include page="/WEB-INF/jsp/web/login/login_tips.jsp" />
 			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 			<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
 			<script type="text/javascript" src="${jzr:static('/js/web/idea_detail.js')}"></script>

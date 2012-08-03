@@ -282,7 +282,7 @@ public class IdeaService implements IIdeaService {
 		String fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(),
 				ideaForm.getNewpic(), ideaId, ideaForm.getPic());
 		idea.setPic(fileName);
-		ideaMapper.updateByPrimaryKeySelective(idea);
+		ideaMapper.updateByPrimaryKey(idea);
 	}
 
 	private void validateIdea(IdeaForm ideaForm) throws InputIdeaException {
@@ -315,16 +315,21 @@ public class IdeaService implements IIdeaService {
 		}
 		// 验证日期格式
 		if (StringUtils.isNotEmpty(ideaForm.getStartDateString())
-				&& StringUtils.isNotEmpty(ideaForm.getEndDateString())) {
-			try {
+				&& StringUtils.isEmpty(ideaForm.getEndDateString())) {
+			ideaForm.setEndDateString(ideaForm.getStartDateString());
+			ideaForm.setStartDateString(null);
+		}
+		try {
+			if (StringUtils.isNotEmpty(ideaForm.getStartDateString())) {
 				ideaForm.setStartTime(DateUtils.parseDate(
 						ideaForm.getStartDateString(), DateFormat.TIME_PATTERN));
+			}
+			if (StringUtils.isNotEmpty(ideaForm.getEndDateString())) {
 				ideaForm.setEndTime(DateUtils.parseDate(
 						ideaForm.getEndDateString(), DateFormat.TIME_PATTERN));
-			} catch (ParseException e) {
-				throw new InputIdeaException(
-						InputIdeaException.ILLEGAL_OPERATION);
 			}
+		} catch (ParseException e) {
+			throw new InputIdeaException(InputIdeaException.ILLEGAL_OPERATION);
 		}
 	}
 

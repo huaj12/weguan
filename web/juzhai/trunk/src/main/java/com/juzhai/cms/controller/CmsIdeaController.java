@@ -152,10 +152,14 @@ public class CmsIdeaController extends BaseController {
 				ideaForm.setRandom(idea.getRandom());
 				ideaForm.setContent(idea.getContent());
 				try {
-					ideaForm.setStartDateString(DateFormat.SDF_TIME.format(idea
-							.getStartTime()));
-					ideaForm.setEndDateString(DateFormat.SDF_TIME.format(idea
-							.getEndTime()));
+					if (idea.getStartTime() != null) {
+						ideaForm.setStartDateString(DateFormat.SDF_TIME
+								.format(idea.getStartTime()));
+					}
+					if (idea.getEndTime() != null) {
+						ideaForm.setEndDateString(DateFormat.SDF_TIME
+								.format(idea.getEndTime()));
+					}
 				} catch (Exception e) {
 				}
 				ideaForm.setPlace(idea.getPlace());

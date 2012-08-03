@@ -27,6 +27,7 @@ import com.juzhai.home.controller.view.VisitorView;
 import com.juzhai.home.service.IBlacklistService;
 import com.juzhai.home.service.IGuessYouService;
 import com.juzhai.home.service.IVisitUserService;
+import com.juzhai.index.controller.view.CategoryView;
 import com.juzhai.index.controller.view.IdeaView;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
@@ -37,6 +38,7 @@ import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.post.bean.PostResult;
 import com.juzhai.post.controller.view.PostView;
 import com.juzhai.post.model.Ad;
+import com.juzhai.post.model.Category;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IAdService;
@@ -344,4 +346,25 @@ public class BaseController {
 		}
 	}
 
+	protected void ideaCategoryWidget(Model model, Long city) {
+		List<Category> categoryList = new ArrayList<Category>(
+				com.juzhai.post.InitData.CATEGORY_MAP.values());
+		List<CategoryView> categoryViewList = new ArrayList<CategoryView>(
+				categoryList.size());
+		for (Category category : categoryList) {
+			int count = getCategoryTotal(null, city, category.getId());
+			categoryViewList.add(new CategoryView(category, count));
+		}
+		model.addAttribute("categoryViewList", categoryViewList);
+	}
+
+	protected int getCategoryTotal(String orderType, long cityId,
+			long categoryId) {
+		if (StringUtils.isEmpty(orderType)) {
+			return ideaService.countIdeaWindow(cityId, categoryId);
+		} else {
+			return ideaService.countIdeaByCityAndCategory(cityId, categoryId);
+		}
+
+	}
 }

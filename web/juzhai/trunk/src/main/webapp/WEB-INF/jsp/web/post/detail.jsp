@@ -128,6 +128,7 @@
 					</div><!--main_right end-->
 				</div><!--main_part end-->
 			</div><!--main end-->
+			<jsp:include page="/WEB-INF/jsp/web/login/login_tips.jsp" />
 			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 			<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
 			<script type="text/javascript" src="${jzr:static('/js/web/post_detail.js')}"></script>

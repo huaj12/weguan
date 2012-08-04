@@ -105,7 +105,7 @@ public class IndexController extends BaseController {
 	@RequestMapping(value = { "", "/", "/index", "/welcome" }, method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
 		UserContext context = (UserContext) request.getAttribute("context");
-		List<Idea> ideaList = null;
+		// List<Idea> ideaList = null;
 		long city = 0L;
 		if (context.hasLogin()) {
 			// ProfileCache loginUser = getLoginUserCache(request);
@@ -121,14 +121,17 @@ public class IndexController extends BaseController {
 			// showHomeLogo(context, model);
 			return "redirect:/home";
 		} else {
-			ideaList = recommendIdeaService.listRecommendIdea(indexIdeaMaxRows);
+			// ideaList =
+			// recommendIdeaService.listRecommendIdea(indexIdeaMaxRows);
+			model.addAttribute("idea", recommendIdeaService.getIndexIdea());
 		}
 		userPostWidget(context, model, city, indexNewPostMaxRows);
-		List<IdeaView> ideaViewList = ideaViewHelper.assembleIdeaView(context,
-				ideaList);
+		// List<IdeaView> ideaViewList =
+		// ideaViewHelper.assembleIdeaView(context,
+		// ideaList);
 		// hotWordsWidget(model, city, searchUserHotRows);
 		// visitUserWidget(model, context, visitorWidgetUserCount);
-		model.addAttribute("ideaViewList", ideaViewList);
+		// model.addAttribute("ideaViewList", ideaViewList);
 		welcomNum(request, model);
 		return "web/index/welcome/welcome";
 	}

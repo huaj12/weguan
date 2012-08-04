@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
@@ -30,6 +31,8 @@ public class RecommendIdeaService implements IRecommendIdeaService {
 	private IIdeaService ideaService;
 	@Autowired
 	private RedisTemplate<String, List<Idea>> redisTemplate;
+	@Autowired
+	private RedisTemplate<String, Idea> redisIdeaTemplate;
 	@Autowired
 	private IIdeaDao ideaDao;
 	@Autowired
@@ -124,5 +127,41 @@ public class RecommendIdeaService implements IRecommendIdeaService {
 	public List<Idea> listRecentTopIdeas() {
 		return redisTemplate.opsForValue().get(
 				RedisKeyGenerator.genRecentTopIdeasKey());
+	}
+
+	@Override
+	public Set<Idea> listIndexIdeas() {
+		return redisIdeaTemplate.opsForSet().members(
+				RedisKeyGenerator.genIndexIdeaKey());
+	}
+
+	@Override
+	public void addIndexIdea(long ideaId) {
+		Idea idea = ideaService.getIdeaById(ideaId);
+		if (null != idea) {
+			redisIdeaTemplate.opsForSet().add(
+					RedisKeyGenerator.genIndexIdeaKey(), idea);
+		}
+
+	}
+
+	@Override
+	public Idea getIndexIdea() {
+		String key = RedisKeyGenerator.genIndexIdeaKey();
+		Idea idea = redisIdeaTemplate.opsForSet().pop(key);
+		if (null != idea) {
+			redisIdeaTemplate.opsForSet().add(
+					RedisKeyGenerator.genIndexIdeaKey(), idea);
+		}
+		return idea;
+	}
+
+	@Override
+	public void removeIndexIdea(long ideaId) {
+		Idea idea = ideaService.getIdeaById(ideaId);
+		if (null != idea) {
+			redisIdeaTemplate.opsForSet().remove(
+					RedisKeyGenerator.genIndexIdeaKey(), idea);
+		}
 	}
 }

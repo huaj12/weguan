@@ -350,4 +350,13 @@ public class RedisKeyGenerator extends KeyGenerator {
 		return genKey(city, "robotUserKey");
 	}
 
+	/**
+	 * 首页好主意
+	 * 
+	 * @return
+	 */
+	public static String genIndexIdeaKey() {
+		return "indexIdea";
+	}
+
 }

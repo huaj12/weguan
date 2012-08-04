@@ -20,9 +20,9 @@ $(document).ready(function(){
 });
 
 function rollAnimation(){
-	var liObj = $("div.wel_cqw > ul").find("li:last").hide();
+	var liObj = $("div.right_idea > ul").find("li:last").hide();
 	liObj.remove();
-	$("div.wel_cqw > ul").prepend(liObj);
+	$("div.right_idea > ul").prepend(liObj);
 	liObj.slideDown();
 	setTimeout(rollAnimation, Math.floor(Math.random()*5000 + 1000));
 }

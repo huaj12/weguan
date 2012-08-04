@@ -257,6 +257,10 @@ a:hover {
 						style="color: black;" href="/cms//show/billboard/idea"
 						target="config">好主意首页广告位</a>
 					</li>
+						<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/show/index/idea"
+						target="config">好主意首页封面</a>
+					</li>
 				</ul>
 				
 			</li>

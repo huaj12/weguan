@@ -4197,10 +4197,10 @@ search_xz .hot{ margin-top:-10px;}
 
 .welcome_page .left_show_img{ width:490px; height:310px; overflow:hidden; float:left; position:relative; }
 
-.welcome_page .left_show_img p{ width:490px; height:310px; overflow:hidden; position:absolute; z-index:100; left:0; top:0; border-radius:15px;}
+.welcome_page .left_show_img p{ width:490px; height:310px; overflow:hidden; position:absolute; z-index:100; left:0; top:0;}
 .welcome_page .left_show_img span{ width:490px; height:80px; overflow:hidden; position:absolute; z-index:120; bottom:0; left:0;font-family:"微软雅黑";font-size:18px;  } 
 .welcome_page .left_show_img span h2{ color:#fff; font-weight:bold; width:100%; float:left; margin-top:6px; margin-left:20px; display:inline; font-size:20px; line-height:normal;}
-.welcome_page .left_show_img span em{color:#fff; width:100%; float:left; margin-top:15px; margin-left:20px; display:inline; }
+.welcome_page .left_show_img span em{color:#ccc; width:100%; float:left; margin-top:15px; margin-left:20px; display:inline; }
 
 
 .welcome_page .left_show_img .black_area_bg{width:490px; height:80px; overflow:hidden; background:url(../images/web2/black_bg.png) no-repeat; position:absolute;  bottom:0; left:0; z-index:110; }
@@ -4223,7 +4223,7 @@ search_xz .hot{ margin-top:-10px;}
 
 
 
-.welcome_page .right_idea{background:url(../images/web2/right_idea_bg.png) no-repeat; float:left; width:285px; height:195px; margin-top:15px; overflow:hidden;}
+.welcome_page .right_idea{background:#fff; float:left; width:285px; height:195px; margin-top:15px; overflow:hidden;}
 .welcome_page .right_idea h2{font-family:"微软雅黑"; font-size:16px; color:#333; float:left; width:100%; margin-top:20px; margin-left:20px; display:inline;}
 
 .welcome_page .right_idea ul{ float:left; margin-left:22px; margin-top:5px; display:inline; width:240px; height:120px; overflow:hidden;}

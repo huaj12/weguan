@@ -21,37 +21,19 @@
 							<div class="beta"></div>
 					</c:if>
 					<div class="top"><!--top begin-->
-						<h2><a href="http://www.51juzhai.com/"></a></h2>
-							<!--menu begin--><!-- 
-						<div class="menu">
-							<a href="/searchusers" title="找伴儿">找伴儿</a>
-							<a href="/showideas" title="出去玩">出去玩</a>
-						</div--><!--menu end-->
-						<div class="login_btn"><a href="/login" class="btn_log" title="登录">登录</a><a href="/passport/register" class="btn_res" title="注册">注册</a></div>
-						<%-- <div class="welcome_login"><p>登录:</p>
-							<a href="javascript:void(0);" go-uri="/web/login/6" class="wb" title="使用微博账号登录"></a>
-							<a href="javascript:void(0);" go-uri="/web/login/7" class="db"  title="使用豆瓣账号登录"></a>
-							<a href="javascript:void(0);" go-uri="/web/login/8" class="qq"  title="使用QQ账号登录"></a>
-						</div>
-						<div class="login_btns"><!--login_btns begin-->
-							<p>加入拒宅：</p>
-							<span>
-								<a href="javascript:void(0);" class="wb login-btn" title="使用微博账号登录" go-uri="/web/login/6">登录</a>
-								<a href="javascript:void(0);" class="db login-btn"  title="使用豆瓣账号登录" go-uri="/web/login/7">登录</a>
-								<a href="javascript:void(0);" class="qq login-btn"  title="使用QQ账号登录" go-uri="/web/login/8">登录</a>
-							</span>
-						</div><!--login_btns end--> --%>
+						<h1><a href="http://www.51juzhai.com/"></a></h1>
+						<div class="welcome_page_login"><a href="/login" title="登录">登录</a><a href="/passport/register" title="注册">注册</a></div>
 					</div><!--top end-->
 				</div><!--fix_top end-->
-					<div class="wel"><!--begin end-->
-						<div class="wel_box w490 fl blue"><!--wel_box begin-->
-							<div class="wel_t"></div>
-							<div class="wel_m bd"><!--wel_m begin-->
-								<h2>
-								拒宅网是一个阳光脱宅社区, 已有<font>${userCount}</font>人加入<br />
-								<em>用第三方账号快速登录，开启你的拒宅之旅</em>
-								</h2>
-								<div class="wel_login_area"><!--wel_login_area begin-->
+					<div class="clear"></div>
+				<div class="welcome_page"><!--begin-->
+					<div class="left_show_img">
+						<p><img src="${jzr:ideaPic(idea.id,idea.pic, 450)}" width="490" height="310" /></p>
+						<span><em>${jzu:truncate(idea.content,50,'...')}</em><h2>拒宅网 助你找伴儿出去玩</h2></span>
+						<div class="black_area_bg"></div>
+					</div>
+					<div class="right_idea_area">
+						<div class="right_login">
 									<a href="javascript:void(0);" class="wb login-btn" title="使用微博账号登录" go-uri="/web/login/6"></a>
 									<a href="javascript:void(0);" class="db login-btn" title="使用豆瓣账号登录" go-uri="/web/login/7"></a>
 									<c:choose>
@@ -62,56 +44,22 @@
 										<a href="javascript:void(0);" class="qq login-btn" title="使用QQ账号登录" go-uri="/web/login/8"></a>	
 										</c:otherwise>
 									</c:choose>
-								</div><!--wel_login_area end-->
-							</div><!--wel_m end-->
-							<div class="wel_b"></div>
-						</div><!--wel_box end-->
-						
-						<div class="wel_box w455 fr"><!--wel_box begin-->
-							<div class="wel_t"></div>
-							<div class="wel_m"><!--wel_m begin-->
-								<h2><font>${postCount }</font>人正在找伴儿出去玩</h2>
-								<div class="wel_cqw"><!--wel_cqw begin-->
-									<ul>
-										<c:forEach items="${postView }" var="view">
-											<li <c:choose><c:when test="${view.profileCache.gender=='1'}">class="boy"</c:when><c:otherwise>class="girl"</c:otherwise></c:choose>>
-												<div class="photo"><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,80)}" width="80" height="80"/></div>
-												<c:set var="age" value="${jzu:age(view.profileCache.birthYear,view.profileCache.birthSecret)}" />
-												<c:set var="constellationName" value="${jzd:constellationName(view.profileCache.constellationId)}" />
-												<em><a href="javascript:void(0);"><c:out value="${view.profileCache.nickname }"></c:out> </a><c:if test="${age > 0}">${age}岁&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty view.profileCache.profession}">${view.profileCache.profession}</c:if></em>
-												<p><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:</font><a href="javascript:void(0);"><c:out value="${jzu:truncate(view.post.content,90,'...')}"></c:out></a></p>
-												<b><a href="javascript:void(0);">${view.post.responseCnt}人有兴趣</a></b>
-											</li>
-										</c:forEach>
-									</ul>
-								</div><!--wel_cqw end-->
-							</div><!--wel_m end-->
-							<div class="wel_b"></div>
-						</div><!--wel_box end-->
-						
-						<div class="wel_box w490 fl"><!--wel_box begin-->
-							<div class="wel_t"></div>
-							<div class="wel_m"><!--wel_m begin-->
-								<h2>最近大家分享了 <font>${ideaCount}</font>个 拒宅好主意</h2>
-								<div class="wel_idea"><!--wel_idea begin-->
-									<ul>
-										<c:forEach items="${ideaViewList}" var="view">
-											<li>
-												<p><a href="javascript:void(0);"><img src="${jzr:ideaPic(view.idea.id,view.idea.pic, 200)}" /></a></p>
-												<span><em><c:out value="${jzu:truncate(view.idea.content,46,'...')}"></c:out></em><a href="javascript:void(0);">${view.idea.useCount}人想去</a></span>
-											</li>
-										</c:forEach>
-									</ul>
-								</div><!--wel_idea begin-->
-							</div><!--wel_m end-->
-							<div class="wel_b"></div>
-						</div><!--wel_box end-->
-				</div><!--wel end-->
-			</div><!--main end-->
-			<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-			<script type="text/javascript" src="${jzr:static('/js/web/welcome.js')}"></script>
-			<c:set var="footType" value="welcome" scope="request" />
-			<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
-		</div><!--warp end-->
-	</body>
+						</div>
+						<div class="right_idea">
+							<h2>${userCount}位小宅正在努力脱宅...</h2>
+							<ul>
+								<c:forEach items="${postView }" var="view">
+								<li><p><img src="${jzr:userLogo(view.profileCache.uid,view.profileCache.logoPic,80)}"  width="40" height="40"/></p><span><font><c:import url="/WEB-INF/jsp/web/common/fragment/post_purpose_type.jsp"><c:param name="purposeType" value="${view.post.purposeType}"/></c:import>:</font><c:out value="${jzu:truncate(view.post.content,40,'...')}"></c:out></span></li>
+								</c:forEach>
+							</ul>
+						</div>
+					</div>
+				</div><!--end-->
+				</div><!--main end-->
+				<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
+				<script type="text/javascript" src="${jzr:static('/js/web/welcome.js')}"></script>
+				<c:set var="footType" value="welcome" scope="request" />
+				<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
+			</div><!--warp end-->
+</body>
 </html>

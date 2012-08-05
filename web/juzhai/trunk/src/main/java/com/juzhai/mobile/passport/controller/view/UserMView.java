@@ -10,6 +10,7 @@ public class UserMView {
 	private String logo;
 	private String smallLogo;
 	private String bigLogo;
+	private String originalLogo;
 	private String newLogo;
 	private int logoVerifyState;
 	private int birthYear;
@@ -246,5 +247,13 @@ public class UserMView {
 
 	public void setPostCount(int postCount) {
 		this.postCount = postCount;
+	}
+
+	public String getOriginalLogo() {
+		return originalLogo;
+	}
+
+	public void setOriginalLogo(String originalLogo) {
+		this.originalLogo = originalLogo;
 	}
 }

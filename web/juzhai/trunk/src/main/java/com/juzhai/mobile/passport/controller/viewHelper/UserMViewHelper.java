@@ -62,6 +62,9 @@ public class UserMViewHelper implements IUserMViewHelper {
 				LogoSizeType.SMALL.getType()));
 		userView.setBigLogo(JzResourceFunction.userLogo(profileCache.getUid(),
 				profileCache.getLogoPic(), LogoSizeType.BIG.getType()));
+		userView.setOriginalLogo(JzResourceFunction.userLogo(
+				profileCache.getUid(), profileCache.getLogoPic(),
+				LogoSizeType.ORIGINAL.getType()));
 		userView.setNewLogo(JzResourceFunction.userLogo(profileCache.getUid(),
 				profileCache.getNewLogoPic(), LogoSizeType.MIDDLE.getType()));
 		userView.setLogoVerifyState(profileCache.getLogoVerifyState());

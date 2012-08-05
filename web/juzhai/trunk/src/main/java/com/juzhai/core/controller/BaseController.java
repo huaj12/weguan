@@ -346,6 +346,7 @@ public class BaseController {
 		}
 	}
 
+	//TODO (review) 这个方法应该再通用一点
 	protected void ideaCategoryWidget(Model model, Long city) {
 		List<Category> categoryList = new ArrayList<Category>(
 				com.juzhai.post.InitData.CATEGORY_MAP.values());
@@ -358,6 +359,7 @@ public class BaseController {
 		model.addAttribute("categoryViewList", categoryViewList);
 	}
 
+	//TODO (review) 此方法参数有问题？我感觉目的性不强，不理解的话，我们沟通一下
 	protected int getCategoryTotal(String orderType, long cityId,
 			long categoryId) {
 		if (StringUtils.isEmpty(orderType)) {

@@ -39,6 +39,7 @@ public interface IRecommendIdeaService {
 	 * 
 	 * @return
 	 */
+	//TODO (review) 此方法有什么作用？太危险了
 	Set<Idea> listIndexIdeas();
 
 	/**

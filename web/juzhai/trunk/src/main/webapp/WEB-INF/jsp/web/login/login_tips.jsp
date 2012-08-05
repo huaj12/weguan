@@ -4,7 +4,7 @@
 <c:if test="${context.uid<=0}">
 	<div class="yk_login" style="display: none;bottom: -100px;">
 		<div class="yk_area">
-		<h2>拒宅网，助你找伴儿出去玩</h2>
+		<h2>拒宅网，助你找伴出去玩</h2>
 			<span>
 				<a href="javascript:void(0);" class="login-btn" title="使用微博账号登录" go-uri="/web/login/6"><img src="${jzr:static('/images/web2/login_btn.gif')}" /></a>
 				<a href="javascript:void(0);" class="login-btn" title="使用豆瓣账号登录" go-uri="/web/login/7"><img src="${jzr:static('/images/web2/db_login_btn.gif')}" /></a>

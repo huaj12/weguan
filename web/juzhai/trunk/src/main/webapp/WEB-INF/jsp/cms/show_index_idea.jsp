@@ -19,7 +19,11 @@
 			data: {"ideaId":ideaId},
 			dataType: "json",
 			success: function(result){
-				location.reload();
+				if(result&&result.success){
+					location.reload();
+				}else{
+					alert(result.errorInfo);
+				}
 			},
 			statusCode: {
 			    401: function() {

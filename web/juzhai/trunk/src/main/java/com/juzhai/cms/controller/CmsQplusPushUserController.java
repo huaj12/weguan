@@ -115,10 +115,11 @@ public class CmsQplusPushUserController {
 					HtmlUtils.htmlUnescape(idea.getContent()),
 					qplusNewUserPushLengthMax, "...");
 			text = messageSource.getMessage(
-					NoticeQplusUserTemplate.NOTICE_QPLUS_USER_TEXT_IDEA
-							.getName(), new Object[] { content },
-					Locale.SIMPLIFIED_CHINESE);
-			link = "http://www.51juzhai.com/showideas";
+					NoticeQplusUserTemplate.NOTICE_QPLUS_USER_IDEA.getName(),
+					new Object[] { content }, Locale.SIMPLIFIED_CHINESE);
+			link = messageSource.getMessage(
+					NoticeQplusUserTemplate.NOTICE_QPLUS_USER_IDEA.getLink(),
+					null, Locale.SIMPLIFIED_CHINESE);
 			break;
 		}
 		link = JzUtilFunction.getLink(link);

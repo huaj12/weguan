@@ -3,6 +3,7 @@ package com.juzhai.post.service;
 import java.util.List;
 import java.util.Set;
 
+import com.juzhai.post.exception.InputRecommendException;
 import com.juzhai.post.model.Idea;
 
 public interface IRecommendIdeaService {
@@ -39,7 +40,7 @@ public interface IRecommendIdeaService {
 	 * 
 	 * @return
 	 */
-	//TODO (review) 此方法有什么作用？太危险了
+	// TODO (review) 此方法有什么作用？太危险了
 	Set<Idea> listIndexIdeas();
 
 	/**
@@ -47,7 +48,7 @@ public interface IRecommendIdeaService {
 	 * 
 	 * @param ideaId
 	 */
-	void addIndexIdea(long ideaId);
+	void addIndexIdea(long ideaId) throws InputRecommendException;
 
 	/**
 	 * 获取首页idea

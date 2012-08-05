@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.post.InitData;
 import com.juzhai.post.dao.IIdeaDao;
+import com.juzhai.post.exception.InputRecommendException;
 import com.juzhai.post.mapper.IdeaMapper;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaService;
@@ -41,6 +42,8 @@ public class RecommendIdeaService implements IRecommendIdeaService {
 	private int recommendIdeaMaxRows;
 	@Value("${top.idea.recent.day.before}")
 	private int topIdeaRecentDayBefore;
+	@Value("${recommend.index.idea.max.length}")
+	private int recommendIndexIdeaMaxLength;
 
 	@Override
 	public List<Idea> listRecommendIdea(int count) {
@@ -136,12 +139,20 @@ public class RecommendIdeaService implements IRecommendIdeaService {
 	}
 
 	@Override
-	public void addIndexIdea(long ideaId) {
+	public void addIndexIdea(long ideaId) throws InputRecommendException {
 		Idea idea = ideaService.getIdeaById(ideaId);
-		if (null != idea) {
-			redisIdeaTemplate.opsForSet().add(
-					RedisKeyGenerator.genIndexIdeaKey(), idea);
+		if (null == idea) {
+			throw new InputRecommendException(
+					InputRecommendException.ADD_IDEA_ID_NOT_EXIST);
 		}
+		Long size = redisIdeaTemplate.opsForSet().size(
+				RedisKeyGenerator.genIndexIdeaKey());
+		if (size != null && size > recommendIndexIdeaMaxLength) {
+			throw new InputRecommendException(
+					InputRecommendException.ADD_IDEA_IS_TOO_MORE);
+		}
+		redisIdeaTemplate.opsForSet().add(RedisKeyGenerator.genIndexIdeaKey(),
+				idea);
 
 	}
 

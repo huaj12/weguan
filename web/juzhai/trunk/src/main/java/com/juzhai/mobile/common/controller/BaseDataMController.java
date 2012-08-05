@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.core.web.AjaxResult;
+import com.juzhai.mobile.common.controller.view.CategoryMView;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profession;
 import com.juzhai.passport.model.Province;
@@ -28,15 +29,13 @@ public class BaseDataMController {
 	public AjaxResult loadCategoryList(HttpServletRequest request) {
 		List<Category> categoryList = new ArrayList<Category>(
 				InitData.CATEGORY_MAP.values());
-		List<Map<Long, String>> mapList = new ArrayList<Map<Long, String>>(
+		List<CategoryMView> viewList = new ArrayList<CategoryMView>(
 				categoryList.size());
-		for (Category cat : categoryList) {
-			Map<Long, String> categoryMap = new HashMap<Long, String>(2);
-			categoryMap.put(cat.getId(), cat.getName());
-			mapList.add(categoryMap);
+		for (Category category : categoryList) {
+			viewList.add(new CategoryMView(category));
 		}
 		AjaxResult result = new AjaxResult();
-		result.setResult(mapList);
+		result.setResult(viewList);
 		return result;
 	}
 

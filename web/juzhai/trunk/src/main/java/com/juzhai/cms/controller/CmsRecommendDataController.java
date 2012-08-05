@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import com.juzhai.cms.controller.view.CmsPostView;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.post.exception.InputRecommendException;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IRecommendIdeaService;
@@ -35,6 +37,8 @@ public class CmsRecommendDataController {
 	private int recommendPostMaxRows;
 	@Autowired
 	private IProfileService profileService;
+	@Autowired
+	private MessageSource messageSource;
 
 	@RequestMapping(value = "/show/recommend/post", method = RequestMethod.GET)
 	public String showRecommendPost(Model model) {
@@ -94,8 +98,13 @@ public class CmsRecommendDataController {
 	@RequestMapping(value = "/add/index/idea", method = RequestMethod.POST)
 	public AjaxResult addIdexIdea(Model model,
 			@RequestParam(defaultValue = "0") long ideaId) {
-		recommendIdeaService.addIndexIdea(ideaId);
-		return new AjaxResult();
+		AjaxResult ajaxResult = new AjaxResult();
+		try {
+			recommendIdeaService.addIndexIdea(ideaId);
+		} catch (InputRecommendException e) {
+			ajaxResult.setError(e.getMessage(), messageSource);
+		}
+		return ajaxResult;
 	}
 
 	@ResponseBody

@@ -29,7 +29,7 @@
 				<div class="welcome_page"><!--begin-->
 					<div class="left_show_img">
 						<p><img src="${jzr:ideaPic(idea.id,idea.pic, 450)}" width="490" height="310" /></p>
-						<span><em>${jzu:truncate(idea.content,50,'...')}</em><h2>拒宅网 助你找伴儿出去玩</h2></span>
+						<span><em>${jzu:truncate(idea.content,50,'...')}</em><h2>拒宅网 助你找伴出去玩</h2></span>
 						<div class="black_area_bg"></div>
 					</div>
 					<div class="right_idea_area">

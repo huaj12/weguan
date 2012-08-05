@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -226,7 +227,10 @@ public class IndexController extends BaseController {
 	private void showIdeas(Model model, HttpServletRequest request,
 			String orderType, long categoryId, List<Idea> ideaList,
 			UserContext context, long cityId, PagerManager pager) {
-
+		boolean isWindow = false;
+		if (StringUtils.isEmpty(orderType)) {
+			isWindow = true;
+		}
 		List<IdeaView> ideaViewList = ideaViewHelper.assembleIdeaView(context,
 				ideaList);
 		List<Long> excludeIdeaIds = new ArrayList<Long>(ideaViewList.size());
@@ -242,14 +246,14 @@ public class IndexController extends BaseController {
 				categoryList.size());
 		for (Category category : categoryList) {
 			int count = category.getId() == categoryId ? pager
-					.getTotalResults() : getCategoryTotal(orderType, cityId,
+					.getTotalResults() : getCategoryTotal(isWindow, cityId,
 					category.getId());
 			categoryViewList.add(new CategoryView(category, count));
 		}
 		model.addAttribute(
 				"totalCount",
 				categoryId == 0 ? pager.getTotalResults() : getCategoryTotal(
-						orderType, cityId, 0));
+						isWindow, cityId, 0));
 		model.addAttribute("pager", pager);
 		model.addAttribute("orderType", orderType);
 		model.addAttribute("cityId", cityId);

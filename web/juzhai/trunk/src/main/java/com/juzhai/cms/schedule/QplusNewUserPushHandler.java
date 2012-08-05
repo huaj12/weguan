@@ -50,15 +50,17 @@ public class QplusNewUserPushHandler extends AbstractScheduleHandler {
 		}
 		String text = CmsQplusPushUserController.qplusNewUserPushText;
 		if (StringUtils.isEmpty(text)) {
-			text = messageSource.getMessage(
-					NoticeQplusUserTemplate.NOTICE_QPLUS_USER_TEXT_DEFAULT
-							.getName(), null, Locale.SIMPLIFIED_CHINESE);
+			text = messageSource
+					.getMessage(
+							NoticeQplusUserTemplate.NOTICE_QPLUS_USER_DEFAULT
+									.getName(), null, Locale.SIMPLIFIED_CHINESE);
 		}
 		String link = CmsQplusPushUserController.qplusNewUserPushLink;
 		if (StringUtils.isEmpty(link)) {
-			link = messageSource.getMessage(
-					NoticeQplusUserTemplate.NOTICE_QPLUS_USER_LINK_DEFAULT
-							.getName(), null, Locale.SIMPLIFIED_CHINESE);
+			link = messageSource
+					.getMessage(
+							NoticeQplusUserTemplate.NOTICE_QPLUS_USER_DEFAULT
+									.getLink(), null, Locale.SIMPLIFIED_CHINESE);
 		}
 		for (int i = 0; i < qplusMinuteNewUserPushCount; i++) {
 			String openid = redisTemplate.opsForSet().pop(key);

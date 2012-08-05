@@ -147,7 +147,7 @@ public class RecommendIdeaService implements IRecommendIdeaService {
 		}
 		Long size = redisIdeaTemplate.opsForSet().size(
 				RedisKeyGenerator.genIndexIdeaKey());
-		if (size != null && size > recommendIndexIdeaMaxLength) {
+		if (size != null && size >= recommendIndexIdeaMaxLength) {
 			throw new InputRecommendException(
 					InputRecommendException.ADD_IDEA_IS_TOO_MORE);
 		}

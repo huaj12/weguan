@@ -150,7 +150,7 @@ $(document).ready(function(){
 	if($("div.yk_login").length>0){
 		setTimeout(function(){$("div.yk_login").show().animate({bottom:"+=100"}, 1000);},1000);
 		$("div.yk_area > p > a").click(function(){
-			var tip = $(this).parent().parent().parent();
+			var tip = $(this).parent().parent().parent().parent();
 			tip.animate({bottom:'+=-100'}, 800, function(){tip.remove();});
 		});
 	}

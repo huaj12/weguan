@@ -119,8 +119,9 @@
 	</select>
 	发送内容：
 	<select name="sendType" onchange="selectPushContent(this)">
-		<option value="1">好主意模版</option>
-		<option value="0">自定义</option>
+		<c:forEach items="${NoticeQplusUserViewList}" var="view">
+		<option value="${view.type }">${view.name}</option>
+		</c:forEach>
 	</select>
 	<div id="push-content" style="display: none">
 		<input type="text" name="text"/>

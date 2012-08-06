@@ -220,13 +220,18 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 
 
 /*游客登录*/
-.yk_login{ width:100%; float:left; height:100px; background:#000; position:fixed; bottom:0; left:0; overflow:hidden; z-index:9999;
-filter:alpha(opacity=90);opacity:0.9; -moz-opacity:0.9; -khtml-opacity:0.9;
+.yk_login{ width:100%; float:left; height:100px; position:fixed; bottom:0; left:0; overflow:hidden; z-index:9999;
+
 _position:absolute;
 _bottom:auto;
 _top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));
 }
-.yk_login .yk_area{ width:940px; margin:0 auto; height:100px;}
+
+.yk_login .pos_re{ width:100%; float:left; height:100px; position:relative;}
+.yk_login .pos_re .black{filter:alpha(opacity=70);opacity:0.7; -moz-opacity:0.7; -khtml-opacity:0.7; width:100%; float:left; z-index:100;  background:#000; display:block; position:absolute; left:0; top:0; height:100px;}
+
+
+.yk_login .pos_re .yk_area{ width:940px; margin:0 auto; height:100px; position:relative; z-index:200;}
 
 .yk_area h2{ color:#fff; font-size:20px; float:left; font-family:"微软雅黑"; margin-top:42px; margin-right:10px; display:inline;}
 .yk_area span{ float:left; margin-top:38px;}
@@ -2279,7 +2284,7 @@ i{ color:#f00;}
 .idea_show p a.gyr{color:#3E8BD9; margin-right:10px;}
 
 
-.idea_show .edit_error{ float:left; margin-top:-1px; margin-left:10px; display:none;}
+.idea_show .edit_error{ float:left; margin-top:-1px\9; margin-left:10px; display:none;}
 .idea_show .edit_error a{ color:#999;}
 .idea_show .edit_error a:hover{ color:#3E8BD9;}
 

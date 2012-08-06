@@ -2,6 +2,8 @@ package com.juzhai.cms.controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.HtmlUtils;
 
+import com.juzhai.cms.controller.view.NoticeQplusUserView;
 import com.juzhai.cms.service.ISchedulerService;
 import com.juzhai.core.Constants;
 import com.juzhai.core.cache.RedisKeyGenerator;
@@ -99,6 +102,19 @@ public class CmsQplusPushUserController {
 	@RequestMapping(value = "/qplus/show", method = RequestMethod.GET)
 	public String show(String msg, Model model) {
 		model.addAttribute("msg", msg);
+
+		List<NoticeQplusUserView> list = new ArrayList<NoticeQplusUserView>(
+				NoticeQplusUserTemplate.values().length);
+		for (NoticeQplusUserTemplate noticeQplusUserTemplate : NoticeQplusUserTemplate
+				.values()) {
+			NoticeQplusUserView view = new NoticeQplusUserView();
+			view.setType(noticeQplusUserTemplate.getType());
+			view.setName(messageSource.getMessage(
+					noticeQplusUserTemplate.getName(), null,
+					Locale.SIMPLIFIED_CHINESE));
+			list.add(view);
+		}
+		model.addAttribute("NoticeQplusUserViewList", list);
 		return "/cms/qplus/show";
 	}
 
@@ -107,15 +123,16 @@ public class CmsQplusPushUserController {
 	public AjaxResult updateContent(String type,
 			@RequestParam(defaultValue = "0") int sendType, String text,
 			String link) {
-		switch (sendType) {
-		case 1:
+		switch (NoticeQplusUserTemplate
+				.getNoticeQplusUserTemplateEnum(sendType)) {
+		case NOTICE_QPLUS_USER_IDEA:
 			// 更新好主意内容
 			Idea idea = ideaService.getNewWindowIdea();
 			String content = TextTruncateUtil.truncate(
 					HtmlUtils.htmlUnescape(idea.getContent()),
 					qplusNewUserPushLengthMax, "...");
 			text = messageSource.getMessage(
-					NoticeQplusUserTemplate.NOTICE_QPLUS_USER_IDEA.getName(),
+					NoticeQplusUserTemplate.NOTICE_QPLUS_USER_IDEA.getText(),
 					new Object[] { content }, Locale.SIMPLIFIED_CHINESE);
 			link = messageSource.getMessage(
 					NoticeQplusUserTemplate.NOTICE_QPLUS_USER_IDEA.getLink(),

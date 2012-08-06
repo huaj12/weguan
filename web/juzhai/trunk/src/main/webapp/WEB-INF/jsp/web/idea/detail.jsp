@@ -53,6 +53,7 @@
 														</c:if>
 														<div class="clear"></div>
 													</div><!--idea_infor end-->
+													<div></div>
 													<div class="idea_btns"><!--idea_btns begin-->
 														<c:choose>
 																	<c:when test="${hasInterest}">

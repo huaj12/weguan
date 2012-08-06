@@ -53,7 +53,7 @@ public class QplusNewUserPushHandler extends AbstractScheduleHandler {
 			text = messageSource
 					.getMessage(
 							NoticeQplusUserTemplate.NOTICE_QPLUS_USER_DEFAULT
-									.getName(), null, Locale.SIMPLIFIED_CHINESE);
+									.getText(), null, Locale.SIMPLIFIED_CHINESE);
 		}
 		String link = CmsQplusPushUserController.qplusNewUserPushLink;
 		if (StringUtils.isEmpty(link)) {

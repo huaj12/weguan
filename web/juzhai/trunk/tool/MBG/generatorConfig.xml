@@ -5,7 +5,7 @@
 
 <generatorConfiguration>
   	<classPathEntry location="tool/MBG/mysql-connector-java-5.1.12.jar" />
-	    	 <!-- 
+	    	
 	<context id="passport" targetRuntime="MyBatis3">
 	  	
 	  	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
@@ -33,6 +33,7 @@
 	    <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.passport.mapper"  targetProject="src/main/java">
 	      <property name="enableSubPackages" value="false" />
 	    </javaClientGenerator>
+	    <!-- 
 	     <table tableName="tb_report" domainObjectName="Report" >
 	      <property name="useActualColumnNames" value="false"/>
 	    </table>
@@ -62,6 +63,7 @@
 	      <property name="useActualColumnNames" value="false"/>
 	      <columnOverride column="open" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 	    </table>
+	    -->
 	    <table tableName="tb_profile" domainObjectName="Profile" >
 	      <property name="useActualColumnNames" value="false"/>
 	      <columnOverride column="sub_email" javaType="java.lang.Boolean" jdbcType="TINYINT" />
@@ -69,7 +71,7 @@
 	      <columnOverride column="has_modify_gender" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 	      <columnOverride column="birth_secret" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 	    </table>
-	    
+	     <!--
 	   	<table tableName="tb_user_free_date" domainObjectName="UserFreeDate">
 	      <property name="useActualColumnNames" value="false"/>
 	    </table>
@@ -122,9 +124,9 @@
 	      <property name="useActualColumnNames" value="false"/>
 	      <columnOverride column="complete" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 		</table> 
-		   
+		    -->
 	</context>
--->
+
  	<!-- <context id="act" targetRuntime="MyBatis3">
   
 	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
@@ -335,7 +337,7 @@
       <property name="useActualColumnNames" value="false"/>
     </table>
     
-  </context> -->
+  </context>
   
    <context id="home" targetRuntime="MyBatis3">
   
@@ -364,19 +366,20 @@
     <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.home.mapper"  targetProject="src/main/java">
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
-<!--
+
 	<table tableName="tb_dialog" domainObjectName="Dialog">
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
       <columnOverride column="has_new" javaType="java.lang.Boolean" jdbcType="TINYINT" />
     </table>
-    -->
+    
     <table tableName="tb_dialog_content" domainObjectName="DialogContent">
       <property name="useActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
     </table>
     
-  </context> 
+  </context>
+  --> 
     <!-- 
   <context id="post" targetRuntime="MyBatis3">
   

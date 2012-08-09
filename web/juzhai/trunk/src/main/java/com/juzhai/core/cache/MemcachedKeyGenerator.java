@@ -222,4 +222,14 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 		return genKey(uid, "rescueGirl");
 	}
 
+	/**
+	 * 记录是否更新用户在线时间
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genIsUpdateUserOnlineKey(long uid) {
+		return genKey(uid, "isUpdateUserOnlineKey");
+	}
+
 }

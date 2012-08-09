@@ -1,7 +1,7 @@
 package com.juzhai.home.bean;
 
 public enum ShowPostOrder {
-	NEW("new", "last_update_time"), ONLINE("online", "last_web_login_time");
+	NEW("new", "last_update_time"), ONLINE("online", "last_user_online_time");
 
 	private String type;
 

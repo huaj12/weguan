@@ -48,11 +48,11 @@ public class QplusSendTask implements Runnable {
 			 */
 			result = service.push(bean);
 			if (result == null || 0 != result.getIntValue("ERRCODE")) {
-				log.error("noticeQplusUser TpIdentity:" + openid
-						+ " errorcode:" + result);
+				log.error("QplusSendTask TpIdentity:" + openid + " errorcode:"
+						+ result);
 			}
 		} catch (IOException e) {
-			log.error("noticeQplusUser is error ", e);
+			log.error("QplusSendTask is error ", e);
 		}
 	}
 }

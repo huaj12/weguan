@@ -223,7 +223,7 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	}
 
 	/**
-	 * 记录是否更新用户在线时间
+	 * 记录用户的最后在线时间
 	 * 
 	 * @param uid
 	 * @return

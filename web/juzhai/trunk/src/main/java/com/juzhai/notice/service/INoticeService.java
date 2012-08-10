@@ -66,12 +66,4 @@ public interface INoticeService {
 	 */
 	void noticeUserUnReadNum(long receiver, long num) throws AdminException;
 
-	/**
-	 * 给Q+用户发通知
-	 * 
-	 * @param openid
-	 * @param NoticeQplusUserTemplate
-	 */
-	void noticeQplusUser(String openid, String text, String link);
-
 }

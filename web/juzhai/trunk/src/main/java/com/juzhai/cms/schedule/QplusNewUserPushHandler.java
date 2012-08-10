@@ -17,6 +17,7 @@ import com.juzhai.cms.task.QplusSendTask;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
 import com.juzhai.notice.bean.NoticeQplusUserTemplate;
+import com.juzhai.platform.service.IQplusPushService;
 
 @Component
 public class QplusNewUserPushHandler extends AbstractScheduleHandler {
@@ -32,6 +33,8 @@ public class QplusNewUserPushHandler extends AbstractScheduleHandler {
 	private CronTriggerBean qplusNewUserPushTrigger;
 	@Autowired
 	private ISchedulerService schedulerService;
+	@Autowired
+	private IQplusPushService qplusPushService;
 
 	@Override
 	protected void doHandle() {
@@ -62,7 +65,8 @@ public class QplusNewUserPushHandler extends AbstractScheduleHandler {
 		for (int i = 0; i < qplusMinuteNewUserPushCount; i++) {
 			String openid = redisTemplate.opsForSet().pop(key);
 			if (StringUtils.isNotEmpty(openid)) {
-				cmsTaskExecutor.submit(new QplusSendTask(openid, text, link));
+				cmsTaskExecutor.submit(new QplusSendTask(openid, text, link,
+						qplusPushService));
 			}
 		}
 	}

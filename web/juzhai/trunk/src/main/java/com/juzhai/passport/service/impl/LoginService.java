@@ -93,6 +93,8 @@ public class LoginService implements ILoginService {
 	private int userAutoExchangeVisitsExpireTime;
 	@Value("${register.after.auto.visit.time}")
 	private long registerAfterAutoVisitTime;
+	@Value("${user.last.online.expire.time}")
+	private int userLastOnlineExpireTime;
 
 	@Override
 	public void login(HttpServletRequest request, HttpServletResponse response,
@@ -191,7 +193,16 @@ public class LoginService implements ILoginService {
 		updateProfile.setUid(uid);
 		if (RunType.CONNET == runType || RunType.WEB == runType) {
 			updateProfile.setLastWebLoginTime(cDate);
+			// 节省一次update操作
+			updateProfile.setLastUserOnlineTime(cDate);
 			profileMapper.updateByPrimaryKeySelective(updateProfile);
+			try {
+				memcachedClient.set(
+						MemcachedKeyGenerator.genIsUpdateUserOnlineKey(uid),
+						userLastOnlineExpireTime, cDate);
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+			}
 		}
 	}
 

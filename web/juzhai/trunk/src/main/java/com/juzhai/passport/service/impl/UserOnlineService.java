@@ -36,7 +36,7 @@ public class UserOnlineService implements IUserOnlineService {
 		profileMapper.updateByPrimaryKeySelective(profile);
 		try {
 			memcachedClient.set(
-					MemcachedKeyGenerator.genIsUpdateUserOnlineKey(uid),
+					MemcachedKeyGenerator.genUserOnlineTimeKey(uid),
 					userLastOnlineExpireTime, cDate);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -48,7 +48,7 @@ public class UserOnlineService implements IUserOnlineService {
 	public boolean isUpdateUserOnlineTime(long uid) {
 		try {
 			Date cDate = memcachedClient.get(MemcachedKeyGenerator
-					.genIsUpdateUserOnlineKey(uid));
+					.genUserOnlineTimeKey(uid));
 			if (cDate == null) {
 				return true;
 			}

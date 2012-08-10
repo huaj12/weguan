@@ -228,8 +228,8 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
-	public static String genIsUpdateUserOnlineKey(long uid) {
-		return genKey(uid, "isUpdateUserOnlineKey");
+	public static String genUserOnlineTimeKey(long uid) {
+		return genKey(uid, "userOnlineTimeKey");
 	}
 
 }

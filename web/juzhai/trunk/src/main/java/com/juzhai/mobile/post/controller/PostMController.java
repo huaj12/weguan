@@ -131,7 +131,7 @@ public class PostMController extends BaseController {
 		try {
 			long postId = postService.createPost(context.getUid(), postForm);
 			if (postId > 0 && context.getTpId() > 0) {
-				postService.synchronizeWeibo(context.getUid(),
+				postService.synchronizePlatform(context.getUid(),
 						context.getTpId(), postId);
 			}
 		} catch (InputPostException e) {

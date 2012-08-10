@@ -22,19 +22,22 @@ public class UserOnlineService implements IUserOnlineService {
 	private ProfileMapper profileMapper;
 	@Autowired
 	private MemcachedClient memcachedClient;
-	@Value("${update.user.online.expire.time}")
-	private int updateUserOnlineExpireTime;
+	@Value("${user.last.online.expire.time}")
+	private int userLastOnlineExpireTime;
+	@Value("${user.online.interval.time}")
+	private int userOnlineIntervalTime;
 
 	@Override
 	public void setLastUserOnlineTime(long uid) {
+		Date cDate = new Date();
 		Profile profile = new Profile();
 		profile.setUid(uid);
-		profile.setLastUserOnlineTime(new Date());
+		profile.setLastUserOnlineTime(cDate);
 		profileMapper.updateByPrimaryKeySelective(profile);
 		try {
 			memcachedClient.set(
 					MemcachedKeyGenerator.genIsUpdateUserOnlineKey(uid),
-					updateUserOnlineExpireTime, true);
+					userLastOnlineExpireTime, cDate);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
@@ -44,9 +47,13 @@ public class UserOnlineService implements IUserOnlineService {
 	@Override
 	public boolean isUpdateUserOnlineTime(long uid) {
 		try {
-			Object obj = memcachedClient.get(MemcachedKeyGenerator
+			Date cDate = memcachedClient.get(MemcachedKeyGenerator
 					.genIsUpdateUserOnlineKey(uid));
-			if (obj == null) {
+			if (cDate == null) {
+				return true;
+			}
+			long time = (System.currentTimeMillis() - cDate.getTime()) / 1000;
+			if (time > userOnlineIntervalTime) {
 				return true;
 			}
 		} catch (Exception e) {

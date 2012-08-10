@@ -13,6 +13,7 @@ public class UserMView {
 	private String originalLogo;
 	private String newLogo;
 	private int logoVerifyState;
+	private boolean hasLogo;
 	private int birthYear;
 	private int birthMonth;
 	private int birthDay;
@@ -31,6 +32,8 @@ public class UserMView {
 	private int postCount;
 	private boolean hasGuided;
 	private boolean hasInterest;
+	private long tpId;
+	private String tpName;
 	private PostMView postView;
 
 	public long getUid() {
@@ -256,4 +259,29 @@ public class UserMView {
 	public void setOriginalLogo(String originalLogo) {
 		this.originalLogo = originalLogo;
 	}
+
+	public boolean isHasLogo() {
+		return hasLogo;
+	}
+
+	public void setHasLogo(boolean hasLogo) {
+		this.hasLogo = hasLogo;
+	}
+
+	public String getTpName() {
+		return tpName;
+	}
+
+	public void setTpName(String tpName) {
+		this.tpName = tpName;
+	}
+
+	public long getTpId() {
+		return tpId;
+	}
+
+	public void setTpId(long tpId) {
+		this.tpId = tpId;
+	}
+
 }

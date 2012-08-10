@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,7 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.util.DateFormat;
+import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.bean.ShowIdeaOrder;
@@ -34,16 +36,16 @@ import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaService;
 
 @Controller
-@RequestMapping("mobile/idea")
+@RequestMapping("m/idea")
 public class IdeaMController extends BaseController {
 
 	@Autowired
 	private IIdeaService ideaService;
 	@Autowired
 	private IUserMViewHelper userMViewHelper;
-	// @Value("${web.show.ideas.max.rows}")
-	private int webShowIdeasMaxRows = 1;
-	// @Value("mobile.idea.user.max.rows")
+	@Value("${mobile.show.ideas.max.rows}")
+	private int mobileShowIdeasMaxRows = 1;
+	@Value("${mobile.idea.user.max.rows}")
 	private int mobileIdeaUserMaxRows = 1;
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -57,7 +59,7 @@ public class IdeaMController extends BaseController {
 			cityId = loginUser.getCity();
 		}
 		ShowIdeaOrder order = ShowIdeaOrder.getShowIdeaOrderByType(orderType);
-		PagerManager pager = new PagerManager(page, webShowIdeasMaxRows,
+		PagerManager pager = new PagerManager(page, mobileShowIdeasMaxRows,
 				ideaService.countIdeaByCityAndCategory(cityId, categoryId));
 		List<Idea> ideaList = ideaService
 				.listIdeaByCityAndCategory(cityId, categoryId, order,
@@ -130,5 +132,16 @@ public class IdeaMController extends BaseController {
 		ListJsonResult result = new ListJsonResult();
 		result.setResult(pager, list);
 		return result;
+	}
+
+	@RequestMapping(value = "/shareIdea", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult shareIdea(HttpServletRequest request, String content,
+			long ideaId) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		ideaService.shareIdea(context.getUid(), context.getTpId(), content,
+				ideaId);
+		return new AjaxResult(true);
+
 	}
 }

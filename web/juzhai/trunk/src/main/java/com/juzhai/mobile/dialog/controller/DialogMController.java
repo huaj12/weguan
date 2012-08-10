@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +40,7 @@ import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaService;
 
 @Controller
-@RequestMapping(value = "mobile/dialog")
+@RequestMapping(value = "m/dialog")
 public class DialogMController extends BaseController {
 
 	@Autowired
@@ -52,11 +53,12 @@ public class DialogMController extends BaseController {
 	private MessageSource messageSource;
 	@Autowired
 	private IIdeaService ideaService;
-	// @Value("mobile.dialog.max.rows")
+	@Value("${mobile.dialog.max.rows}")
 	private int mobileDialogMaxRows = 1;
-	// @Value("mobile.dialog.content.max.rows")
+	@Value("${mobile.dialog.content.max.rows}")
 	private int mobileDialogContentsMaxRows = 10;
-	private int mobileRefreshDialogContentsCount = 10;
+	@Value("${mobile.refresh.dialog.content.count}")
+	private int mobileRefreshDialogContentCount = 10;
 
 	@RequestMapping(value = "/dialogList", method = RequestMethod.GET)
 	@ResponseBody
@@ -156,7 +158,7 @@ public class DialogMController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		List<DialogContentView> dialogContentViewList = dialogService
 				.listDialogContent(context.getUid(), uid, 0,
-						mobileRefreshDialogContentsCount);
+						mobileRefreshDialogContentCount);
 		List<DialogContentMView> list = new ArrayList<DialogContentMView>(
 				dialogContentViewList.size());
 		for (DialogContentView dialogContentView : dialogContentViewList) {

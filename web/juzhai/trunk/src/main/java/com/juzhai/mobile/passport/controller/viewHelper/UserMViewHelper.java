@@ -1,5 +1,6 @@
 package com.juzhai.mobile.passport.controller.viewHelper;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -68,6 +69,7 @@ public class UserMViewHelper implements IUserMViewHelper {
 		userView.setNewLogo(JzResourceFunction.userLogo(profileCache.getUid(),
 				profileCache.getNewLogoPic(), LogoSizeType.MIDDLE.getType()));
 		userView.setLogoVerifyState(profileCache.getLogoVerifyState());
+		userView.setHasLogo(StringUtils.isNotEmpty(profileCache.getLogoPic()));
 		Constellation con = com.juzhai.passport.InitData.CONSTELLATION_MAP
 				.get(profileCache.getConstellationId());
 		if (null != con) {
@@ -83,6 +85,8 @@ public class UserMViewHelper implements IUserMViewHelper {
 						.countInterestMeUser(userView.getUid()));
 				userView.setPostCount(postService.countUserPost(userView
 						.getUid()));
+				userView.setTpId(context.getTpId());
+				userView.setTpName(context.getTpName());
 			} else {
 				userView.setHasInterest(interestUserService.isInterest(
 						context.getUid(), profileCache.getUid()));

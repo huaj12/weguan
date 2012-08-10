@@ -43,6 +43,7 @@ import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IReportService;
 import com.juzhai.passport.service.ITpUserService;
+import com.juzhai.passport.service.IUserOnlineService;
 import com.juzhai.search.service.IProfileSearchService;
 import com.juzhai.stats.counter.service.ICounter;
 
@@ -81,6 +82,8 @@ public class LoginService implements ILoginService {
 	private IProfileService profileService;
 	@Autowired
 	private IReportService reportService;
+	@Autowired
+	private IUserOnlineService userOnlineService;
 	@Autowired
 	private IVisitUserService visitUserService;
 	@Value(value = "${user.online.expire.time}")
@@ -196,15 +199,9 @@ public class LoginService implements ILoginService {
 			// 节省一次update操作
 			updateProfile.setLastUserOnlineTime(cDate);
 			profileMapper.updateByPrimaryKeySelective(updateProfile);
-			
-			//TODO (review) 由应该负责的service去处理
-			try {
-				memcachedClient.set(
-						MemcachedKeyGenerator.genUserOnlineTimeKey(uid),
-						userLastOnlineExpireTime, cDate);
-			} catch (Exception e) {
-				log.error(e.getMessage(), e);
-			}
+
+			// TODO (done) 由应该负责的service去处理
+			userOnlineService.updateUserOnlineTimeCache(uid, cDate);
 		}
 	}
 

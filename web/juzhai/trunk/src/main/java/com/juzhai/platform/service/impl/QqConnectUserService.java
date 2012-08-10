@@ -150,12 +150,12 @@ public class QqConnectUserService extends AbstractUserService {
 			}
 		}
 		if (localState == null || !localState.equals(state)) {
-			log.error("stateId:" + stateId);
-			log.error("localState:" + localState);
-			log.error("state:" + state);
-			log.error(request.getHeader("User-Agent"));
-			log.error(request.getHeader("Referer"));
-			log.error("state is not from QQ");
+			// log.error("stateId:" + stateId);
+			// log.error("localState:" + localState);
+			// log.error("state:" + state);
+			// log.error(request.getHeader("User-Agent"));
+			// log.error(request.getHeader("Referer"));
+			// log.error("state is not from QQ");
 			return null;
 		}
 		Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),

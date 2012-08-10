@@ -34,14 +34,7 @@ public class UserOnlineService implements IUserOnlineService {
 		profile.setUid(uid);
 		profile.setLastUserOnlineTime(cDate);
 		profileMapper.updateByPrimaryKeySelective(profile);
-		try {
-			memcachedClient.set(
-					MemcachedKeyGenerator.genUserOnlineTimeKey(uid),
-					userLastOnlineExpireTime, cDate);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
-
+		updateUserOnlineTimeCache(uid, cDate);
 	}
 
 	@Override
@@ -60,5 +53,16 @@ public class UserOnlineService implements IUserOnlineService {
 			log.error(e.getMessage(), e);
 		}
 		return false;
+	}
+
+	@Override
+	public void updateUserOnlineTimeCache(long uid, Date cDate) {
+		try {
+			memcachedClient.set(
+					MemcachedKeyGenerator.genUserOnlineTimeKey(uid),
+					userLastOnlineExpireTime, cDate);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
 	}
 }

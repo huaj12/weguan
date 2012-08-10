@@ -102,7 +102,7 @@ public class PostController extends BaseController {
 		try {
 			long postId = postService.createPost(context.getUid(), postForm);
 			if (sendWeibo && postId > 0 && context.getTpId() > 0) {
-				postService.synchronizeWeibo(context.getUid(),
+				postService.synchronizePlatform(context.getUid(),
 						context.getTpId(), postId);
 			}
 		} catch (InputPostException e) {
@@ -141,7 +141,7 @@ public class PostController extends BaseController {
 		try {
 			long postId = postService.createPost(context.getUid(), postForm);
 			if (sendWeibo && postId > 0 && context.getTpId() > 0) {
-				postService.synchronizeWeibo(context.getUid(),
+				postService.synchronizePlatform(context.getUid(),
 						context.getTpId(), postId);
 			}
 			result.setResult(postService.isOpenWaitRescueUserDialog(context
@@ -227,7 +227,7 @@ public class PostController extends BaseController {
 			long postId = postService.modifyPost(context.getUid(), postForm);
 
 			if (sendWeibo && postId > 0 && context.getTpId() > 0) {
-				postService.synchronizeWeibo(context.getUid(),
+				postService.synchronizePlatform(context.getUid(),
 						context.getTpId(), postId);
 			}
 		} catch (InputPostException e) {

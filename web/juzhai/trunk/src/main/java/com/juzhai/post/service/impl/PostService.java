@@ -994,7 +994,7 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public void synchronizeWeibo(long uid, long tpId, long postId) {
+	public void synchronizePlatform(long uid, long tpId, long postId) {
 		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
 		if (authInfo == null) {
 			return;

@@ -196,6 +196,8 @@ public class LoginService implements ILoginService {
 			// 节省一次update操作
 			updateProfile.setLastUserOnlineTime(cDate);
 			profileMapper.updateByPrimaryKeySelective(updateProfile);
+			
+			//TODO (review) 由应该负责的service去处理
 			try {
 				memcachedClient.set(
 						MemcachedKeyGenerator.genUserOnlineTimeKey(uid),

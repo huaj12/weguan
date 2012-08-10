@@ -198,7 +198,7 @@ public class LoginService implements ILoginService {
 			profileMapper.updateByPrimaryKeySelective(updateProfile);
 			try {
 				memcachedClient.set(
-						MemcachedKeyGenerator.genIsUpdateUserOnlineKey(uid),
+						MemcachedKeyGenerator.genUserOnlineTimeKey(uid),
 						userLastOnlineExpireTime, cDate);
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);

@@ -308,6 +308,7 @@ public interface IPostService {
 	 * @param uid
 	 * @param tpId
 	 */
+	//TODO (review) 此方法已经用作所有平台的同步，方法名已经不适合了
 	void synchronizeWeibo(long uid, long tpId, long postId);
 
 	/**

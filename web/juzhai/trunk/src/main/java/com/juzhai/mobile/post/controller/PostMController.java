@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +36,7 @@ import com.juzhai.post.service.IPostService;
 import com.juzhai.post.service.IRecommendPostService;
 
 @Controller
-@RequestMapping("mobile/post")
+@RequestMapping("m/post")
 public class PostMController extends BaseController {
 
 	@Autowired
@@ -50,8 +51,8 @@ public class PostMController extends BaseController {
 	private IPostMViewHelper postMViewHelper;
 	@Autowired
 	private MessageSource messageSource;
-	// @Value("${web.show.users.max.rows}")
-	private int webShowUsersMaxRows = 1;
+	@Value("${mobile.show.users.max.rows}")
+	private int mobileShowUsersMaxRows = 1;
 
 	@RequestMapping(value = "/showposts", method = RequestMethod.GET)
 	@ResponseBody
@@ -72,7 +73,7 @@ public class PostMController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			cityId = loginUser.getCity();
 		}
-		PagerManager pager = new PagerManager(page, webShowUsersMaxRows,
+		PagerManager pager = new PagerManager(page, mobileShowUsersMaxRows,
 				postService.countNewOrOnlinePosts(cityId, null, gender,
 						loginUser.getUid()));
 		List<Post> postList = null;
@@ -82,7 +83,7 @@ public class PostMController extends BaseController {
 					pager.getMaxResult()).getPosts();
 		} else {
 			List<Post> recommendPostList = recommendPostService
-					.listRecommendPost(webShowUsersMaxRows);
+					.listRecommendPost(mobileShowUsersMaxRows);
 			postList = new ArrayList<Post>();
 			if (CollectionUtils.isNotEmpty(recommendPostList)) {
 				for (Post post : recommendPostList) {

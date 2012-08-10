@@ -22,7 +22,7 @@ import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 
 @Controller
-@RequestMapping("mobile/passport")
+@RequestMapping("m/passport")
 public class RegisterMController extends BaseController {
 
 	@Autowired

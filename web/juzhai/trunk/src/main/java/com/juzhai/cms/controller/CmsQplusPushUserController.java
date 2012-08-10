@@ -118,6 +118,7 @@ public class CmsQplusPushUserController {
 		return "/cms/qplus/show";
 	}
 
+	//TODO (review) 此请求设计需要修改（下一期）
 	@RequestMapping(value = "/qplus/update/content", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResult updateContent(String type,

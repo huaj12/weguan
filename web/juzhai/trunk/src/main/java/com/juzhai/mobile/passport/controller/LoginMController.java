@@ -39,7 +39,7 @@ import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.service.IUserService;
 
 @Controller
-@RequestMapping("mobile/passport")
+@RequestMapping("m/passport")
 public class LoginMController extends BaseController {
 
 	private final Log log = LogFactory.getLog(getClass());

@@ -21,7 +21,7 @@ import com.juzhai.post.InitData;
 import com.juzhai.post.model.Category;
 
 @Controller
-@RequestMapping(value = "mobile/base")
+@RequestMapping(value = "m/base")
 public class BaseDataMController {
 
 	@RequestMapping(value = "/categoryList", method = RequestMethod.GET)

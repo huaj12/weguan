@@ -25,7 +25,7 @@ import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IUserGuideService;
 
 @Controller
-@RequestMapping("mobile/profile")
+@RequestMapping("m/profile")
 public class ProfileMController extends BaseController {
 
 	@Autowired

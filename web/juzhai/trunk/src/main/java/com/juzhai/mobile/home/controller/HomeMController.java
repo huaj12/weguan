@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +33,7 @@ import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
 
 @Controller
-@RequestMapping(value = "mobile/home")
+@RequestMapping(value = "m/home")
 public class HomeMController extends BaseController {
 
 	@Autowired
@@ -49,9 +50,9 @@ public class HomeMController extends BaseController {
 	private IUserMViewHelper userMViewHelper;
 	@Autowired
 	private MessageSource messageSource;
-	// @Value("${web.my.post.max.rows}")
-	private int webMyPostMaxRows = 2;
-	// @Value("mobile.interest.user.max.rows")
+	@Value("${mobile.my.post.max.rows}")
+	private int mobileMyPostMaxRows = 2;
+	@Value("${mobile.interest.user.max.rows}")
 	private int mobileInterestUserMaxRows = 1;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -63,7 +64,7 @@ public class HomeMController extends BaseController {
 			uid = context.getUid();
 		}
 
-		PagerManager pager = new PagerManager(page, webMyPostMaxRows,
+		PagerManager pager = new PagerManager(page, mobileMyPostMaxRows,
 				postService.countUserPost(uid));
 		List<Post> postList = postService.listUserPost(uid, null,
 				pager.getFirstResult(), pager.getMaxResult());
@@ -158,5 +159,13 @@ public class HomeMController extends BaseController {
 		result.setSuccess(true);
 		interestUserService.removeInterestUser(context.getUid(), uid);
 		return result;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/invite", method = RequestMethod.POST)
+	public AjaxResult invite(HttpServletRequest request, String content)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		return new AjaxResult(true);
 	}
 }

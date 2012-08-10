@@ -326,4 +326,13 @@ public interface IIdeaService {
 	 * @return
 	 */
 	Idea getNewWindowIdea();
+
+	/**
+	 * 分享idea到第三方平台
+	 * 
+	 * @param uid
+	 * @param tpId
+	 * @param ideaId
+	 */
+	void shareIdea(long uid, long tpId, String content, long ideaId);
 }

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,22 +21,28 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.cms.controller.form.IdeaForm;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.exception.UploadImageException;
+import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.image.manager.IImageManager;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.jstl.JzUtilFunction;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.service.IDialogService;
 import com.juzhai.index.bean.ShowIdeaOrder;
+import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.post.InitData;
+import com.juzhai.post.bean.SynchronizeWeiboTemplate;
 import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.dao.IIdeaDao;
 import com.juzhai.post.exception.InputIdeaException;
@@ -81,6 +88,8 @@ public class IdeaService implements IIdeaService {
 	private IdeaInterestMapper ideaInterestMapper;
 	@Autowired
 	private ICounter ideaInterestCounter;
+	@Autowired
+	private ITpUserAuthService tpUserAuthService;
 	@Value("${idea.content.length.min}")
 	private int ideaContentLengthMin;
 	@Value("${idea.content.length.max}")
@@ -793,6 +802,14 @@ public class IdeaService implements IIdeaService {
 			return null;
 		} else {
 			return list.get(0);
+		}
+	}
+
+	@Override
+	public void shareIdea(long uid, long tpId, String content, long ideaId) {
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		if (authInfo == null) {
+			return;
 		}
 	}
 }

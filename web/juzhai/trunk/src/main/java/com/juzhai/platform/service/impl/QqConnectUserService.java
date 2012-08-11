@@ -119,7 +119,7 @@ public class QqConnectUserService extends AbstractUserService {
 			}
 			return profile;
 		} catch (Exception e) {
-			log.equals("QQ content convertToProfile is error." + e.getMessage());
+			log.error("QQ content convertToProfile is error." + e.getMessage());
 			return null;
 		}
 	}
@@ -164,7 +164,7 @@ public class QqConnectUserService extends AbstractUserService {
 		try {
 			accessToken = oauth.getAccessToken(code, state);
 		} catch (Exception e) {
-			log.equals("QQ content get accessToken is error." + e.getMessage());
+			log.error("QQ content get accessToken is error." + e.getMessage());
 		}
 		if (StringUtils.isEmpty(accessToken)) {
 			log.error("QQ  accessToken is null");

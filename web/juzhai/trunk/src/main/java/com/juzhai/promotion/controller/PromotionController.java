@@ -69,7 +69,7 @@ public class PromotionController {
 			RedirectToken ret = new RedirectToken(appKey, appSecret);
 			url = ret.getRedirectURL(tokens, turnTo);
 		} catch (Exception e) {
-			log.equals("app QQ content  login is error." + e.getMessage());
+			log.error("app QQ content  login is error." + e.getMessage());
 		}
 		return "redirect:" + url;
 	}
@@ -187,7 +187,7 @@ public class PromotionController {
 			accessToken = map.get("oauth_token") + ","
 					+ map.get("oauth_token_secret") + "," + map.get("openid");
 		} catch (Exception e) {
-			log.equals("app QQ content getOAuthAccessTokenFromCode is error."
+			log.error("app QQ content getOAuthAccessTokenFromCode is error."
 					+ e.getMessage());
 		}
 		return accessToken;

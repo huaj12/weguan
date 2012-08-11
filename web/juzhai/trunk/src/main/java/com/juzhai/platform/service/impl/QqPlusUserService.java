@@ -79,7 +79,7 @@ public class QqPlusUserService extends AbstractUserService {
 				return null;
 			}
 		} catch (Exception e) {
-			log.equals("QQ Plus convertToProfile is error." + e.getMessage());
+			log.error("QQ Plus convertToProfile is error." + e.getMessage());
 			return null;
 		}
 	}

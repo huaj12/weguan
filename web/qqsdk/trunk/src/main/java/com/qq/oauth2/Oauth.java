@@ -2,11 +2,14 @@ package com.qq.oauth2;
 
 import java.io.IOException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.qq.json.JSONException;
 import com.qq.json.JSONObject;
 
 public class Oauth extends QQ {
-
+	private final Log log = LogFactory.getLog(Oauth.class);
 	private static final long serialVersionUID = 718477295941786259L;
 
 	public Oauth(String appkey, String sercret, String redirectUri) {
@@ -52,6 +55,7 @@ public class Oauth extends QQ {
 			accessToken = result.split("&")[0].split("=")[1];
 			return accessToken;
 		}
+		log.error("access_token result not find access_token");
 		return accessToken;
 	}
 

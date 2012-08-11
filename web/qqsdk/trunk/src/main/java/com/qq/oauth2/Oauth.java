@@ -55,7 +55,7 @@ public class Oauth extends QQ {
 			accessToken = result.split("&")[0].split("=")[1];
 			return accessToken;
 		}
-		log.error("access_token result not find access_token");
+		log.error("access_token result not find access_token result=" + result);
 		return accessToken;
 	}
 

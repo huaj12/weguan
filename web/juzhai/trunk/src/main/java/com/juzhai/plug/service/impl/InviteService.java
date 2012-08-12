@@ -1,10 +1,12 @@
 package com.juzhai.plug.service.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,12 +16,15 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.common.bean.TpMessageKey;
 import com.juzhai.core.SystemConfig;
+import com.juzhai.core.util.StaticUtil;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.service.ISynchronizeService;
 import com.juzhai.platform.service.IUserService;
+import com.juzhai.plug.bean.SynchronizeInviteTemplate;
 import com.juzhai.plug.service.IInviteService;
 
 @Service
@@ -71,5 +76,35 @@ public class InviteService implements IInviteService {
 		return messageSource.getMessage(TpMessageKey.CONNECT_INVITE_TEXT,
 				new Object[] { StringUtils.join(atNames, " ") },
 				Locale.SIMPLIFIED_CHINESE);
+	}
+
+	@Override
+	public void inviteSynchronize(long uid, long tpId, String content) {
+		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
+		if (authInfo == null) {
+			return;
+		}
+		if (StringUtils.isEmpty(content)) {
+			content = messageSource.getMessage(
+					SynchronizeInviteTemplate.SYNCHRONIZE_TEXT.getName(), null,
+					Locale.SIMPLIFIED_CHINESE);
+		}
+		String link = messageSource.getMessage(
+				SynchronizeInviteTemplate.SYNCHRONIZE_LINK.getName(), null,
+				Locale.SIMPLIFIED_CHINESE);
+		String title = messageSource.getMessage(
+				SynchronizeInviteTemplate.SYNCHRONIZE_TITLE.getName(), null,
+				Locale.SIMPLIFIED_CHINESE);
+		String imagePath = messageSource.getMessage(
+				SynchronizeInviteTemplate.SYNCHRONIZE_IMAGE.getName(), null,
+				Locale.SIMPLIFIED_CHINESE);
+		try {
+			File file = new File(StaticUtil.IMAGE_FILE_ROOT_PATH + imagePath);
+			byte[] image = FileUtils.readFileToByteArray(file);
+			synchronizeService.sendMessage(authInfo, title, content, link,
+					image, JzResourceFunction.u("/images" + imagePath));
+		} catch (Exception e) {
+			log.error("invite synchronize is error " + e.getMessage());
+		}
 	}
 }

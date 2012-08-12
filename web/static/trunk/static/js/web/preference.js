@@ -20,8 +20,10 @@ $(document).ready(function() {
 						}
 					});
 					if(!flag){
-						$("#error_"+i).html("至少选择一个选项！").stop(true, true).show();
+						$("#error_"+i).text("至少选择一个选项！").stop(true, true).show();
 				        return ;
+					}else{
+						$("#error_"+i).text("").hide();
 					}
 				}
 			}else if(type==2){
@@ -29,9 +31,10 @@ $(document).ready(function() {
 				var max=$("#maxText_"+i).val();
 				if(preferenceType==1||min!=""||max!=""){
 					if(!isNum(min)||!isNum(max)){
-						 
-						 $("#error_"+i).html("请输入数字！").stop(true, true).show();
+						 $("#error_"+i).text("请输入数字！").stop(true, true).show();
 					        return ;	
+					}else{
+						$("#error_"+i).text("").hide();
 					}
 					min=parseInt(min);
 					max=parseInt(max);
@@ -42,9 +45,10 @@ $(document).ready(function() {
 						min=t;
 					}
 					if(min<16||max>50){
-						 
-						 $("#error_"+i).html("请输入16-50之间的数字！").stop(true, true).show();
+						 $("#error_"+i).text("请输入16-50之间的数字！").stop(true, true).show();
 					        return ;	
+					}else{
+						$("#error_"+i).text("").hide();
 					}
 					$("#minText_"+i).val(min);
 					$("#maxText_"+i).val(max);
@@ -52,26 +56,30 @@ $(document).ready(function() {
 			}else if(type==3){
 				if(getByteLen($('textarea[name="userPreferences['+i+'].answer"]').val())>100){
 					 
-					 $("#error_"+i).html("内容不能大于50个字").stop(true, true).show();
+					 $("#error_"+i).text("内容不能大于50个字").stop(true, true).show();
 				        return ;	
+				}else{
+					$("#error_"+i).text("").hide();
 				}
 			}else if(type==1){
 				//不等于筛选是必填
 				if(preferenceType==1){
 					var answer=$('select[name="userPreferences['+i+'].answer"]').val();
 					if(answer==""){
-						
-						$("#error_"+i).html("至少选择一个选项！").stop(true, true).show();
+						$("#error_"+i).text("至少选择一个选项！").stop(true, true).show();
 				        return ;
+					}else{
+						$("#error_"+i).text("").hide();
 					}
 				}
 			}
 			var des=$('input[name="userPreferences['+i+'].description"]').val();
 			if (undefined != des) {
 				if(getByteLen(des)>100){
-					
-					 $("#error_"+i).html("描述内容不能大于50个字").stop(true, true).show();
+					 $("#error_"+i).text("描述内容不能大于50个字").stop(true, true).show();
 				        return ;	
+				}else{
+					$("#error_"+i).text("").hide();
 				}
 				var initDes=$('input[name="userPreferences['+i+'].description"]').attr("init-tip");
 				if(des==initDes){

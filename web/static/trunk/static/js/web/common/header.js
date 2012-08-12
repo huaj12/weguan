@@ -46,13 +46,13 @@ $(document).ready(function(){
 	});
 	
 	var messageTimerId = null;
-	$("div.my_message > div#messageSelect").hover(function(){
+	$("div.my_mail > div#messageSelect").hover(function(){
 		if(messageTimerId){
 			clearTimeout(messageTimerId);
 		}
 		messageTimerId = setTimeout(function(){
-			$("div.my_message > div#messageSelect > p").addClass("hover");
-			$("div.my_message > div#messageSelect > div").first().show();
+			$("div.my_mail > div#messageSelect > p").addClass("hover");
+			$("div.my_mail > div#messageSelect > div.drop_menu_list2").show();
 		}, 300);
 		return false;
 	}, function(){
@@ -60,21 +60,21 @@ $(document).ready(function(){
 			clearTimeout(messageTimerId);
 		}
 		messageTimerId = setTimeout(function(){
-			$("div.my_message > div#messageSelect > p").removeClass("hover");
-			$("div.my_message > div#messageSelect > div").first().hide();
+			$("div.my_mail > div#messageSelect > p").removeClass("hover");
+			$("div.my_mail > div#messageSelect > div.drop_menu_list2").hide();
 		}, 300);
 		return false;
 	});
 	
 	//账号
 	var accTimerId = null;
-	$("div.acc").hover(function(){
+	$("div.my_set").hover(function(){
 		if(accTimerId){
 			clearTimeout(accTimerId);
 		}
 		accTimerId = setTimeout(function(){
-			$("div.acc > p").addClass("hover");
-			$("div.acc > div").show();
+			$("div.my_set > p").addClass("hover");
+			$("div.my_set > div").show();
 		}, 300);
 		return false;
 	}, function(){
@@ -82,13 +82,13 @@ $(document).ready(function(){
 			clearTimeout(accTimerId);
 		}
 		accTimerId = setTimeout(function(){
-			$("div.acc > p").removeClass("hover");
-			$("div.acc > div").hide();
+			$("div.my_set > p").removeClass("hover");
+			$("div.my_set > div").hide();
 		}, 300);
 		return false;
 	});
 	
-	if($("div.my_message").is(":visible")){
+	if($("div.my_mail").is(":visible")){
 		queryNotice();
 		setInterval(queryNotice, 10000);
 	}
@@ -113,16 +113,17 @@ function queryNotice(){
 				for(var key in result.result){
 					if(result.result[key] > 0){
 						totalCnt += result.result[key];
-						$("div.my_message > div.my_message_show > span#notice-auto-float-" + key).show();
-					}else{
-						$("div.my_message > div.my_message_show > span#notice-auto-float-" + key).hide();
 					}
-					$("div.my_message_show > span#notice-float-" + key + " > em").text(result.result[key] > 0 ? result.result[key] : "");
-					$("div.my_message_show > span#notice-auto-float-" + key + " > em").text(result.result[key] > 0 ? result.result[key] : "");
+					$("div.drop_menu_list2 > span#notice-float-" + key + " > em").text(result.result[key] > 0 ? result.result[key] : "");
+					$("div.drop_menu_list2 > span#notice-auto-float-" + key + " > em").text(result.result[key] > 0 ? result.result[key] : "");
 				}
 				var newTitle = title;
 				if(totalCnt > 0){
+					$("div.my_mail  > div#messageSelect > div.mail_num").show();
+					$("div.mail_num > span").text(totalCnt);
 					newTitle = "(" + totalCnt + ") " + title;
+				}else{
+					$("div.my_mail > div#messageSelect > div.mail_num").hide();
 				}
 				document.title=newTitle;
 			}

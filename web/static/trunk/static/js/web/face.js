@@ -11,14 +11,8 @@ $(document).ready(function() {
 			return true;
 		}
 	});
-	$(".save").bind("click", function() {
+	$("div.btn_area>a.save").bind("click", function() {
 		$("#logoCutForm").submit();
-		return false;
-	});
-	$("div.upload_area > div.uploading_ok > a").bind("click", function(){
-		$(this).parent().hide();
-		$("div.upload_area > div.btns").show();
-		$("div.upload_area > div.upload_ts").show();
 		return false;
 	});
 });
@@ -91,12 +85,14 @@ function releaseLogo() {
 	$("#preview_180").attr("src", logo);
 }
 
-function uploadImage() {
-	var fileName = $(".btn_file_molding").val();
+function uploadImage(obj) {
+	var fileName = obj.value;
 	$("div.upload_area > div.btns").hide();
-	$("div.upload_area > div.error").hide();
-	$("div.upload_area > div.upload_ts").hide();
-	$("div.upload_area > div.uploading").show();
+	$("div.my_face > div.upload_error").hide();
+	$("div.my_face > div.upload_ts").hide();
+	$("div.upload_area > div.loading").show();
+	$("div.btn_area > div.reloading").show();
+	$("div.btn_area > div.reload").hide();
 	var options = {
 		url : "/profile/logo/upload",
 		type : "POST",
@@ -113,26 +109,36 @@ function uploadImage() {
 					jcrop_api.destroy();
 				}
 				prepareJcrop();
-				$("div.upload_area > div.uploading").hide();
-				$("div.upload_area > div.uploading_ok > font").text("已成功上传 " + fileName);
-				$("div.upload_area > div.uploading_ok").show();
+				$("div.upload_area > div.loading").hide();
+				$("div.my_face > div.upload_ok ").text("已成功上传 " + fileName);
+				$("div.my_face > div.upload_ok").show();
 				$("div.btn_area > a").show();
+				$("div.btn_area > div.reload").show();
+				$("div.btn_area > div.reloading").hide();
 			} else if (result.errorCode == "00003") {
 				window.location.href = "/login?turnTo=" + window.location.href;
 			} else {
-				$("div.upload_area > div.uploading").hide();
-				$("div.upload_area > div.error > b").text(result.errorInfo);
-				$("div.upload_area > div.error").show();
+				$("div.my_face > div.upload_error").text(result.errorInfo);
+				$("div.my_face > div.upload_error").show();
 				$("div.upload_area > div.btns").show();
+				$("div.upload_area > div.loading").hide();
+				$("div.btn_area > div.reloading").hide();
+				if($("div.btn_area>a.save").is(":visible")){
+					$("div.btn_area > div.reload").show();
+				}
 			}
 		},
 		error : function(data) {
-			$("div.upload_area > div.uploading").hide();
-			$("div.upload_area > div.error > b").text("上传失败");
-			$("div.upload_area > div.error").show();
+			$("div.my_face > div.upload_error").text("上传失败");
+			$("div.my_face > div.upload_error").show();
 			$("div.upload_area > div.btns").show();
+			$("div.upload_area > div.loading").hide();
+			$("div.btn_area > div.reloading").hide();
+			if($("div.btn_area>a.save").is(":visible")){
+				$("div.btn_area > div.reload").show();
+			}
 		}
 	};
-	$("#uploadImgForm").ajaxSubmit(options);
+	$(obj).parent().ajaxSubmit(options);
 	return false;
 }

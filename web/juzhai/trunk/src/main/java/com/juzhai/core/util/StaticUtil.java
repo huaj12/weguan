@@ -23,6 +23,7 @@ public class StaticUtil {
 
 	public static String JS_FILE_ROOT_PATH = null;
 	public static String CSS_FILE_ROOT_PATH = null;
+	public static String IMAGE_FILE_ROOT_PATH = null;
 	private static String STATIC_CONFIG_PATH = "/properties/static.properties";
 	private static String prefixCss = null;
 	private static String prefixJs = null;
@@ -56,6 +57,7 @@ public class StaticUtil {
 		prefixStatic = prop.getProperty("prefix_static");
 		JS_FILE_ROOT_PATH = prop.getProperty("js_file_root_path");
 		CSS_FILE_ROOT_PATH = prop.getProperty("css_file_root_path");
+		IMAGE_FILE_ROOT_PATH = prop.getProperty("image_file_root_path");
 	}
 
 	//

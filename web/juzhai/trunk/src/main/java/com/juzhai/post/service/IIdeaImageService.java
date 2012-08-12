@@ -3,6 +3,7 @@ package com.juzhai.post.service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.core.exception.UploadImageException;
+import com.juzhai.core.image.JzImageSizeType;
 
 public interface IIdeaImageService {
 	/**
@@ -56,4 +57,14 @@ public interface IIdeaImageService {
 	 */
 	public String[] uploadTempIdeaImg(String imageUrl)
 			throws UploadImageException;
+
+	/**
+	 * 获取图片
+	 * 
+	 * @param ideaId
+	 * @param fileName
+	 * @param sizeType
+	 * @return
+	 */
+	byte[] getIdeaFile(long ideaId, String fileName, JzImageSizeType sizeType);
 }

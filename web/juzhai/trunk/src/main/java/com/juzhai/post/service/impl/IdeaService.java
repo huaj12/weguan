@@ -16,8 +16,11 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
@@ -41,8 +44,9 @@ import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.platform.service.ISynchronizeService;
 import com.juzhai.post.InitData;
-import com.juzhai.post.bean.SynchronizeWeiboTemplate;
+import com.juzhai.post.bean.SynchronizeIdeaTemplate;
 import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.dao.IIdeaDao;
 import com.juzhai.post.exception.InputIdeaException;
@@ -63,7 +67,7 @@ import com.juzhai.stats.counter.service.ICounter;
 
 @Service
 public class IdeaService implements IIdeaService {
-
+	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private IdeaMapper ideaMapper;
 	@Autowired
@@ -90,6 +94,10 @@ public class IdeaService implements IIdeaService {
 	private ICounter ideaInterestCounter;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
+	@Autowired
+	private MessageSource messageSource;
+	@Autowired
+	private ISynchronizeService synchronizeService;
 	@Value("${idea.content.length.min}")
 	private int ideaContentLengthMin;
 	@Value("${idea.content.length.max}")
@@ -100,6 +108,10 @@ public class IdeaService implements IIdeaService {
 	private int ideaPlaceLengthMax;
 	@Value("${idea.recent.day.before}")
 	private int ideaRecentDayBefore;
+	@Value("${synchronize.place.length.max}")
+	private int synchronizePlaceLengthMax;
+	@Value("${synchronize.title.length.max}")
+	private int synchronizeTitleLengthMax;
 
 	@Override
 	public Idea getIdeaById(long ideaId) {
@@ -810,6 +822,45 @@ public class IdeaService implements IIdeaService {
 		AuthInfo authInfo = tpUserAuthService.getAuthInfo(uid, tpId);
 		if (authInfo == null) {
 			return;
+		}
+		Idea idea = getIdeaById(ideaId);
+		if (idea == null) {
+			return;
+		}
+		if (StringUtils.isEmpty(content)) {
+			String place = idea.getPlace();
+			if (StringUtils.isNotEmpty(place)) {
+				place = messageSource.getMessage(
+						SynchronizeIdeaTemplate.SYNCHRONIZE_ADDRESS.getName(),
+						new Object[] { place }, Locale.SIMPLIFIED_CHINESE);
+				place = TextTruncateUtil.truncate(place,
+						synchronizePlaceLengthMax, "...");
+			}
+			content = messageSource.getMessage(
+					SynchronizeIdeaTemplate.SYNCHRONIZE_TEXT.getName(),
+					new Object[] { idea.getContent(), place },
+					Locale.SIMPLIFIED_CHINESE);
+		}
+		String link = messageSource.getMessage(
+				SynchronizeIdeaTemplate.SYNCHRONIZE_LINK.getName(),
+				new Object[] { String.valueOf(ideaId) },
+				Locale.SIMPLIFIED_CHINESE);
+		String title = TextTruncateUtil.truncate(
+				HtmlUtils.htmlUnescape(content), synchronizeTitleLengthMax,
+				"...");
+		byte[] image = null;
+		String imageUrl = null;
+		if (StringUtils.isNotEmpty(idea.getPic())) {
+			image = ideaImageService.getIdeaFile(ideaId, idea.getPic(),
+					JzImageSizeType.ORIGINAL);
+			imageUrl = JzResourceFunction.ideaPic(ideaId, idea.getPic(),
+					JzImageSizeType.MIDDLE.getType());
+		}
+		try {
+			synchronizeService.sendMessage(authInfo, title, content, link,
+					image, imageUrl);
+		} catch (Exception e) {
+			log.error("shareIdea is error " + e.getMessage());
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package com.juzhai.post.service.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -154,5 +155,19 @@ public class IdeaImageService implements IIdeaImageService {
 	public String[] uploadTempIdeaImg(String imageUrl)
 			throws UploadImageException {
 		return imageManager.uploadTempImage(imageUrl);
+	}
+
+	@Override
+	public byte[] getIdeaFile(long ideaId, String fileName,
+			JzImageSizeType sizeType) {
+		try {
+			String directoryPath = uploadIdeaImageHome
+					+ ImageUtil.generateHierarchyImagePath(ideaId,
+							sizeType.getType());
+			File file = new File(directoryPath + fileName);
+			return FileUtil.readFileToByteArray(file);
+		} catch (IOException e) {
+			return null;
+		}
 	}
 }

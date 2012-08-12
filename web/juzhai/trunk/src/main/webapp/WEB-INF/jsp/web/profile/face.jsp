@@ -20,24 +20,20 @@
 						<c:set var="page" value="face" scope="request" />
 						<jsp:include page="/WEB-INF/jsp/web/profile/common/left.jsp" />
 						<div class="set_right"><!--set_right begin-->
-							<div class="title">
-								<h2>设置我的真实头像</h2>
-							</div>
+						<div class="title"><h2>设置我的真实头像</h2></div>
 							<div class="my_face"><!--my_face begin-->
+								<div class="upload_ts" >建议上传一张您的近期生活照，头像通过审核后才能被大家看到哦</div>
+								<div class="upload_error" style="display:none;"></div>
+								<div class="upload_ok" style="display:none;"></div>
 								<div class="upload_area"><!--upload_area begin-->
-									<div class="btns">
+									<div class="btns"><!--btns begin-->
 										<form id="uploadImgForm" method="post" enctype="multipart/form-data">
-											<input class="btn_file_molding" size=6 type="file" name="profileLogo" onchange="javascript:uploadImage();"/>  
-											<a href="#">上传真实头像</a> 
+											<input class="btn_file_molding" size=6 type="file" name="profileLogo" onchange="javascript:uploadImage(this);"/>  
+											<a href="#"></a> 
 										</form>
-									</div>
-									<div class="upload_ts">头像通过审核后才能被大家看到哦</div>
-									<div class="uploading" style="display:none;">上传中...</div>
-									<div class="error" style="display:none;"><em></em><b></b></div>
-									<div class="uploading_ok" style="display:none;"><font></font><a href="javascript:void(0);">重新上传</a></div>
-								</div><!--upload_area end-->
-								<div class="edit_face_area">
-									<img id="target" style="width: 450px;display: none;" />
+									</div>  <!--btns end-->
+									<div class="loading" style="display: none"><a href="#"></a></div>
+									<img id="target" style="width: 460px;height:420px;display: none;" />
 									<form id="logoCutForm" action="/profile/logo/cut" method="post">
 										<input id="filePath" name="filePath" type="hidden"/>
 										<input id="scaledW" name="scaledW" value="450" type="hidden"/>
@@ -46,14 +42,21 @@
 										<input id="face_h" name="h" type="hidden"/>
 										<input id="face_w" name="w" type="hidden"/>
 									</form>
-								</div>
+								</div><!--upload_area end-->
 								<div class="preview_face"><!--preview_face begin-->
 									<p>裁剪后的效果</p>
-									<span><img src="${jzr:userLogo(profile.uid,profile.newLogoPic,180)}" id="preview_180" width="180" height="180" /></span>
+									<span><img src="${jzr:userLogo(profile.uid,profile.newLogoPic,180)}" id="preview_180" width="180" height="180"  /></span>
 								</div><!--preview_face end-->
-								<div class="btn_area">
-									<a href="javascript:void(0);" class="save" style="display: none;">好了</a>
-									<!-- <a href="#" onclick="releaseLogo();" class="cancel">取消</a> -->
+								<div class="btn_area"><a href="javscript:void(0);" style="display: none" class="save"></a>
+									<div class="reload" style="display: none"><!--btns begin-->
+									<form id="uploadImgForm" method="post" enctype="multipart/form-data">
+											<input class="reload_input" size=6 type="file" name="profileLogo" onchange="javascript:uploadImage(this);"/>  
+											<a href="#"></a> 
+									</form>
+									</div>
+									<div class="reloading" style="display: none"><!--btns begin-->
+									<a href="javscript:void(0);"></a> 
+									</div>  <!--btns end-->
 								</div>
 							</div><!--my_face end-->
 						</div><!--set_right end-->

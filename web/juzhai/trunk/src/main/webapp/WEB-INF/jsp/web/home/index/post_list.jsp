@@ -133,9 +133,6 @@
 								</c:if>
 							</p>
 							<div class="infor"><!--infor begin-->
-								<c:if test="${not empty postView.post.pic}">
-									<div class="img"><a href="/post/${postView.post.id}"><img data-original="${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic, 200)}" src="${jzr:static('/images/web2/1px.gif')}"/></a></div>
-								</c:if>
 								<%-- <span><c:set var="date" value="${postView.post.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />更新</span> --%>
 								<span class="tag">${jzd:categoryName(postView.post.categoryId)}</span>
 								<c:if test="${postView.post.dateTime != null}">
@@ -146,6 +143,9 @@
 								</c:if>
 								<c:if test="${not empty postView.useCount&&(postView.useCount-1)>0}">
 									<span><a href="/idea/${postView.post.ideaId}">还有${postView.useCount-1}人想去</a></span>
+								</c:if>
+								<c:if test="${not empty postView.post.pic}">
+									<div class="img"><a href="/post/${postView.post.id}"><img data-original="${jzr:postPic(postView.post.id, postView.post.ideaId, postView.post.pic, 200)}" src="${jzr:static('/images/web2/1px.gif')}"/></a></div>
 								</c:if>
 							</div><!--infor end-->
 						</div><!--w_m end-->

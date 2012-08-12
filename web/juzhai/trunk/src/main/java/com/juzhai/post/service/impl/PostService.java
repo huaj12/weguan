@@ -1050,7 +1050,7 @@ public class PostService implements IPostService {
 			synchronizeService.sendMessage(authInfo, title, text, link, image,
 					imageUrl);
 		} catch (Exception e) {
-			log.error("synchronizeWeibo is error " + e.getMessage());
+			log.error("synchronizePlatform is error " + e.getMessage());
 		}
 	}
 

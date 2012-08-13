@@ -92,8 +92,9 @@ function uploadImage(obj) {
 	$("div.my_face > div.upload_ts").hide();
 	if(!$("div.btn_area>a.save").is(":visible")){
 		$("div.upload_area > div.loading").show();
+	}else{
+		$("div.btn_area > div.reloading").show();	
 	}
-	$("div.btn_area > div.reloading").show();
 	$("div.btn_area > div.reload").hide();
 	$("div.my_face > div.upload_ok").hide();
 	var options = {

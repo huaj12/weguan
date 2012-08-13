@@ -19,8 +19,8 @@
 							<em class="on">当前在线</em>
 						</c:when>
 						<c:otherwise>
-							<c:if test="${profile.lastWebLoginTime != null}">
-								<c:set var="date" value="${profile.lastWebLoginTime}" scope="request"/><c:import url="/WEB-INF/jsp/web/common/fragment/show_login_time.jsp" />
+							<c:if test="${profile.lastUserOnlineTime != null}">
+								<c:set var="date" value="${profile.lastUserOnlineTime}" scope="request"/><c:import url="/WEB-INF/jsp/web/common/fragment/show_login_time.jsp" />
 							</c:if>
 						</c:otherwise>
 					</c:choose>

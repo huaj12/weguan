@@ -107,8 +107,8 @@
 						<p><a href="/home/${postView.profileCache.uid}"><img src="${jzr:userLogo(postView.profileCache.uid,postView.profileCache.logoPic,120)}" width="120" height="120" /></a></p>
 						<a href="/home/${postView.profileCache.uid}"><c:out value="${postView.profileCache.nickname}" /></a>
 						<c:if test="${queryType == 'showoposts'}">	
-							<c:if test="${postView.lastWebLoginTime != null}">
-								<c:set var="date" value="${postView.lastWebLoginTime}" scope="request"/><c:import url="/WEB-INF/jsp/web/common/fragment/show_login_time.jsp" />
+							<c:if test="${postView.lastUserOnlineTime != null}">
+								<c:set var="date" value="${postView.lastUserOnlineTime}" scope="request"/><c:import url="/WEB-INF/jsp/web/common/fragment/show_login_time.jsp" />
 							</c:if>
 						</c:if>
 						<c:set var="age" value="${jzu:age(postView.profileCache.birthYear, postView.profileCache.birthSecret)}" />

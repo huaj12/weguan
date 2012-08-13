@@ -20,7 +20,7 @@ public class PostView implements Serializable {
 
 	private int useCount;
 
-	private Date lastWebLoginTime;
+	private Date lastUserOnlineTime;
 
 	private int age;
 
@@ -66,12 +66,12 @@ public class PostView implements Serializable {
 		this.useCount = useCount;
 	}
 
-	public Date getLastWebLoginTime() {
-		return lastWebLoginTime;
+	public Date getLastUserOnlineTime() {
+		return lastUserOnlineTime;
 	}
 
-	public void setLastWebLoginTime(Date lastWebLoginTime) {
-		this.lastWebLoginTime = lastWebLoginTime;
+	public void setLastUserOnlineTime(Date lastUserOnlineTime) {
+		this.lastUserOnlineTime = lastUserOnlineTime;
 	}
 
 	public int getAge() {

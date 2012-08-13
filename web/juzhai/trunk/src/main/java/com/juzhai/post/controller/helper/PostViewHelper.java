@@ -61,9 +61,9 @@ public class PostViewHelper {
 			postView.setProfileCache(profileService.getProfileCacheByUid(uid));
 			if (result.getProfileMap() != null) {
 				Profile profile = result.getProfileMap().get(uid);
-				if (profile != null && profile.getLastWebLoginTime() != null) {
-					postView.setLastWebLoginTime(result.getProfileMap()
-							.get(uid).getLastWebLoginTime());
+				if (profile != null && profile.getLastUserOnlineTime() != null) {
+					postView.setLastUserOnlineTime(result.getProfileMap()
+							.get(uid).getLastUserOnlineTime());
 				}
 			}
 			if (post.getIdeaId() != null && post.getIdeaId() > 0) {

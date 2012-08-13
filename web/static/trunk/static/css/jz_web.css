@@ -164,7 +164,7 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 
 
 .my_face_login{ width:20px; height:20px; float:right; margin-top:15px; margin-right:5px; display:inline;}
-.my_face_login a{ display:block; width:20px; height:20px;  overflow:hidden; }
+.my_face_login a{ display:block; width:20px; height:20px;  overflow:hidden;  border-radius:3px;}
 
 
 
@@ -1194,7 +1194,7 @@ trip_sc_area .img a{}
 .set .set_right{ float:right; width:730px;  min-height:500px; _height:500px; display:block; background:url(../images/web2/set_right_bg.jpg) repeat-y;} 
 
 .set_right .title{ width:100%;  font-family:"微软雅黑","宋体";  }
-.set_right .title h2{ display:block;  overflow:hidden; padding-left:30px; font-size:18px; color:#666; padding-top:30px;} 
+.set_right .title h2{ display:block;  overflow:hidden; padding-left:30px; font-size:18px; color:#666; padding-top:30px; line-height:normal;} 
 .set_right .title h2 font{ color:#ccc; font-size:12px; margin-left:20px; font-weight:normal;}
 
 
@@ -1273,7 +1273,7 @@ body:nth-of-type(1) .select_pub .sel_r{ width:30px; height:32px; float:left; bac
 
 
 
-.select_pub .sel_m select{ border:none; background:none; float:left; position:relative; display:inline; z-index:999; margin-top:8px; *margin-top:5px; color:#666;}
+.select_pub .sel_m select{ border:none; background:none; float:left; position:relative; display:inline; z-index:899; margin-top:8px; *margin-top:5px; color:#666;}
 
 
 

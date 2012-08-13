@@ -91,12 +91,18 @@
 											</c:when>
 											<c:when test="${view.input.inputType==1}">
 												<div class="ph_x"><!--ph_x begin-->
-												<select class="styled" name="userPreferences[${index.index+fn:length(filterViews) }].answer" >
-													<option value="">请选择</option>
-													<c:forEach items="${view.input.options}" var="option">
-														<option value="${option.value }"  <c:if test="${view.answer[0]==option.value}">  selected="selected" </c:if>>${option.name}</option>
-													</c:forEach>
-												</select>
+													<div class="select_pub"><!--select_pub begin-->
+														<div class="sel_l"></div>
+														<div class="sel_m">
+															<select class="styled" name="userPreferences[${index.index+fn:length(filterViews) }].answer" >
+																<option value="">请选择&nbsp;&nbsp;&nbsp;</option>
+																<c:forEach items="${view.input.options}" var="option">
+																	<option value="${option.value }"  <c:if test="${view.answer[0]==option.value}">  selected="selected" </c:if>>${option.name}&nbsp;&nbsp;&nbsp;</option>
+																</c:forEach>
+															</select>
+														</div>
+														<div class="sel_r"></div>
+													</div><!--select_pub end-->
 												</div><!--ph_x end-->
 											</c:when>
 											<c:when test="${view.input.inputType==3}">
@@ -130,7 +136,6 @@
 		</div>
 		<!--main end-->
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
-		<script type="text/javascript" src="${jzr:static('/js/web/common/custom-form-elements.js')}"></script>
 		<script type="text/javascript" src="${jzr:static('/js/web/preference.js')}"></script>
 		<jsp:include page="/WEB-INF/jsp/web/common/foot.jsp" />
 	</div>

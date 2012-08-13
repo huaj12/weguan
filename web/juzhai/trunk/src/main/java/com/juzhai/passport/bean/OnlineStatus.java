@@ -5,12 +5,12 @@ import java.util.Date;
 import com.juzhai.core.web.jstl.JzUtilFunction;
 
 public enum OnlineStatus {
-	NOW("now"), TODAY("today"), RECENT("recent");
+	NOW(0), TODAY(1), RECENT(2), NONE(3);
 
-	private String name;
+	private int type;
 
-	private OnlineStatus(String name) {
-		this.name = name;
+	private OnlineStatus(int type) {
+		this.type = type;
 	}
 
 	/**
@@ -30,8 +30,12 @@ public enum OnlineStatus {
 		} else if (days >= 1 && days < 10) {
 			return OnlineStatus.RECENT;
 		} else {
-			return null;
+			return OnlineStatus.NONE;
 		}
+	}
+
+	public int getType() {
+		return type;
 	}
 
 }

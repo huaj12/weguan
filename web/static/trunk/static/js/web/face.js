@@ -90,9 +90,12 @@ function uploadImage(obj) {
 	$("div.upload_area > div.btns").hide();
 	$("div.my_face > div.upload_error").hide();
 	$("div.my_face > div.upload_ts").hide();
-	$("div.upload_area > div.loading").show();
+	if(!$("div.btn_area>a.save").is(":visible")){
+		$("div.upload_area > div.loading").show();
+	}
 	$("div.btn_area > div.reloading").show();
 	$("div.btn_area > div.reload").hide();
+	$("div.my_face > div.upload_ok").hide();
 	var options = {
 		url : "/profile/logo/upload",
 		type : "POST",
@@ -120,22 +123,24 @@ function uploadImage(obj) {
 			} else {
 				$("div.my_face > div.upload_error").text(result.errorInfo);
 				$("div.my_face > div.upload_error").show();
-				$("div.upload_area > div.btns").show();
 				$("div.upload_area > div.loading").hide();
 				$("div.btn_area > div.reloading").hide();
 				if($("div.btn_area>a.save").is(":visible")){
 					$("div.btn_area > div.reload").show();
+				}else{
+					$("div.upload_area > div.btns").show();
 				}
 			}
 		},
 		error : function(data) {
 			$("div.my_face > div.upload_error").text("上传失败");
 			$("div.my_face > div.upload_error").show();
-			$("div.upload_area > div.btns").show();
 			$("div.upload_area > div.loading").hide();
 			$("div.btn_area > div.reloading").hide();
 			if($("div.btn_area>a.save").is(":visible")){
 				$("div.btn_area > div.reload").show();
+			}else{
+				$("div.upload_area > div.btns").show();
 			}
 		}
 	};

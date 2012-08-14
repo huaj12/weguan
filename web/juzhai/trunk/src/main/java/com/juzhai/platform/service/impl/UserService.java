@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.service.IUserService;
@@ -45,9 +46,9 @@ public class UserService implements IUserService, BeanFactoryAware {
 	@Override
 	public long access(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp,
-			long inviterUid) {
+			long inviterUid, DeviceName deviceName) {
 		return getUserServiceBean(tp).access(request, response, authInfo, tp,
-				inviterUid);
+				inviterUid, deviceName);
 	}
 
 	private IUserService getUserServiceBean(Thirdparty tp) {

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.platform.bean.Terminal;
 
@@ -26,7 +27,7 @@ public interface IUserService {
 	 */
 	public long access(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp,
-			long inviterUid);
+			long inviterUid, DeviceName deviceName);
 
 	/**
 	 * 授权地址

@@ -28,6 +28,7 @@ import com.juzhai.core.Constants;
 import com.juzhai.core.bean.UseLevel;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.exception.NeedLoginException.RunType;
+import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.controller.form.RegisterRobotForm;
 import com.juzhai.passport.exception.InterestUserException;
@@ -255,7 +256,7 @@ public class RobotService implements IRobotService {
 			try {
 				long uid = registerService.register(form.getEmail(),
 						form.getNickname(), robotPassportDefault,
-						robotPassportDefault, 0l);
+						robotPassportDefault, 0l, DeviceName.BROWSER);
 				Profile profile = new Profile();
 				profile.setUid(uid);
 				profile.setProfessionId(form.getProfessionId());

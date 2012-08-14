@@ -30,6 +30,7 @@ import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.exception.PassportAccountException;
@@ -108,7 +109,7 @@ public class TpAuthorizeController extends BaseController {
 			}
 			AuthInfo authInfo = getAuthInfoFromCookie(request);
 			uid = userService.access(request, response, authInfo, tp,
-					decryptInviteUid(incode));
+					decryptInviteUid(incode), DeviceName.BROWSER);
 		}
 		if (uid <= 0) {
 			log.error("access failed.[tpName=" + tp.getName() + ", joinType="

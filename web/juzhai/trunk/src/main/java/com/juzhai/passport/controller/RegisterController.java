@@ -21,6 +21,7 @@ import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.controller.form.RegisterForm;
 import com.juzhai.passport.controller.form.ResetPwdForm;
 import com.juzhai.passport.exception.PassportAccountException;
@@ -114,7 +115,7 @@ public class RegisterController extends BaseController {
 				uid = registerService.register(registerForm.getAccount(),
 						registerForm.getNickname(), registerForm.getPwd(),
 						registerForm.getConfirmPwd(),
-						registerForm.getInviterUid());
+						registerForm.getInviterUid(), DeviceName.BROWSER);
 			} catch (JuzhaiException e) {
 				model.addAttribute("errorCode", e.getErrorCode());
 				model.addAttribute("errorInfo", messageSource.getMessage(

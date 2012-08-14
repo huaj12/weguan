@@ -37,12 +37,12 @@
 	     <table tableName="tb_report" domainObjectName="Report" >
 	      <property name="useActualColumnNames" value="false"/>
 	    </table>
-
-	     <table tableName="tb_passport" domainObjectName="Passport" >
+	    <table tableName="tb_profile" domainObjectName="Profile" >
 	      <property name="useActualColumnNames" value="false"/>
-	      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
-	      <columnOverride column="email_active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-	      <columnOverride column="admin" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+	      <columnOverride column="sub_email" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+	      <columnOverride column="has_modify_nickname" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+	      <columnOverride column="has_modify_gender" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+	      <columnOverride column="birth_secret" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 	    </table>
 	     <table tableName="tb_user_position" domainObjectName="UserPosition" >
 	      <property name="useActualColumnNames" value="false"/>
@@ -64,12 +64,11 @@
 	      <columnOverride column="open" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 	    </table>
 	    -->
-	    <table tableName="tb_profile" domainObjectName="Profile" >
+	     <table tableName="tb_passport" domainObjectName="Passport" >
 	      <property name="useActualColumnNames" value="false"/>
-	      <columnOverride column="sub_email" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-	      <columnOverride column="has_modify_nickname" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-	      <columnOverride column="has_modify_gender" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-	      <columnOverride column="birth_secret" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+	      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
+	      <columnOverride column="email_active" javaType="java.lang.Boolean" jdbcType="TINYINT" />
+	      <columnOverride column="admin" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 	    </table>
 	     <!--
 	   	<table tableName="tb_user_free_date" domainObjectName="UserFreeDate">

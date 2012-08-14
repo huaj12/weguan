@@ -34,6 +34,7 @@ public class UserMView {
 	private boolean hasInterest;
 	private long tpId;
 	private String tpName;
+	private int onlineStatus;
 	private PostMView postView;
 
 	public long getUid() {
@@ -284,4 +285,11 @@ public class UserMView {
 		this.tpId = tpId;
 	}
 
+	public int getOnlineStatus() {
+		return onlineStatus;
+	}
+
+	public void setOnlineStatus(int onlineStatus) {
+		this.onlineStatus = onlineStatus;
+	}
 }

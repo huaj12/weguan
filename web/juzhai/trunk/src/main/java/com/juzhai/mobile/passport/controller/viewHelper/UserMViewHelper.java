@@ -8,12 +8,14 @@ import com.juzhai.core.image.LogoSizeType;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.mobile.passport.controller.view.UserMView;
+import com.juzhai.passport.bean.OnlineStatus;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Constellation;
 import com.juzhai.passport.model.Province;
 import com.juzhai.passport.model.Town;
 import com.juzhai.passport.service.IInterestUserService;
+import com.juzhai.passport.service.IUserOnlineService;
 import com.juzhai.post.service.IPostService;
 
 @Component
@@ -23,6 +25,8 @@ public class UserMViewHelper implements IUserMViewHelper {
 	private IInterestUserService interestUserService;
 	@Autowired
 	private IPostService postService;
+	@Autowired
+	private IUserOnlineService userOnlineService;
 
 	@Override
 	public UserMView createUserMView(UserContext context,
@@ -92,6 +96,9 @@ public class UserMViewHelper implements IUserMViewHelper {
 						context.getUid(), profileCache.getUid()));
 			}
 		}
+		userView.setOnlineStatus(OnlineStatus.getStatus(
+				userOnlineService.getLastUserOnlineTime(userView.getUid()))
+				.getType());
 		return userView;
 	}
 }

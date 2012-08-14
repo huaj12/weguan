@@ -11,11 +11,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.dao.ITpUserDao;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
-import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.service.IUserService;
@@ -31,14 +31,12 @@ public abstract class AbstractUserService implements IUserService {
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
-	private IPassportService passportService;
-	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 
 	@Override
 	public long access(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp,
-			long inviterUid) {
+			long inviterUid, DeviceName deviceName) {
 		if (authInfo == null) {
 			authInfo = new AuthInfo();
 		}
@@ -53,12 +51,12 @@ public abstract class AbstractUserService implements IUserService {
 		}
 		authInfo.setTpIdentity(tpIdentity);
 		return completeAccessUser(request, response, authInfo, tpIdentity, tp,
-				inviterUid);
+				inviterUid, deviceName);
 	}
 
 	private long completeAccessUser(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo, String tpIdentity,
-			Thirdparty tp, long inviterUid) {
+			Thirdparty tp, long inviterUid, DeviceName deviceName) {
 		log.debug("completeAssessUser");
 		TpUser tpUser = tpUserDao.selectTpUserByTpNameAndTpIdentity(
 				tp.getName(), tpIdentity);
@@ -75,7 +73,7 @@ public abstract class AbstractUserService implements IUserService {
 				return 0;
 			}
 			uid = registerService.autoRegister(tp, tpIdentity, authInfo,
-					profile, inviterUid);
+					profile, inviterUid, deviceName);
 			// redis记录已安装App的用户
 			redisTemplate.opsForSet().add(
 					RedisKeyGenerator.genTpInstallUsersKey(tp.getName()),

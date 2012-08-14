@@ -31,7 +31,7 @@
 								<div class="quuestion"><h2><strong class="num01"></strong><p>你对哪些人的拒宅信息感兴趣？</p><em style="display: none" id="error_0"></em><em  style="display: none" id="error_1"></em></h2></div>
 								<c:forEach items="${filterViews}" var="view" varStatus="index">
 										<div class="ph_x"><!--ph_x begin-->
-											<div id="answerDiv_${index.index}">
+											<div id="answerDiv_${index.index}" style="display: none">
 											</div>
 											<input type="hidden" id="preferenceId_${index.index}" value="${view.preference.id}"/>
 											<input type="hidden" id="inputType_${index.index}" value="${view.input.inputType}"/>
@@ -57,7 +57,7 @@
 										</div><!--ph_x end-->
 								</c:forEach>	
 								<c:forEach items="${views}" var="view" varStatus="index">
-										<div id="answerDiv_${index.index+fn:length(filterViews)}">
+										<div id="answerDiv_${index.index+fn:length(filterViews)}" style="display: none">
 										</div>
 										<input type="hidden" id="preferenceId_${index.index+fn:length(filterViews)}" value="${view.preference.id}"/>
 										<input type="hidden" id="inputType_${index.index+fn:length(filterViews)}" value="${view.input.inputType}"/>

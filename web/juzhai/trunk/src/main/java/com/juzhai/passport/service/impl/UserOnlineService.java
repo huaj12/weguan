@@ -40,12 +40,12 @@ public class UserOnlineService implements IUserOnlineService {
 	@Override
 	public boolean isUpdateUserOnlineTime(long uid) {
 		try {
-			Date cDate = memcachedClient.get(MemcachedKeyGenerator
+			Long cDate = memcachedClient.get(MemcachedKeyGenerator
 					.genUserOnlineTimeKey(uid));
 			if (cDate == null) {
 				return true;
 			}
-			long time = (System.currentTimeMillis() - cDate.getTime()) / 1000;
+			long time = (System.currentTimeMillis() - cDate) / 1000;
 			if (time > userOnlineIntervalTime) {
 				return true;
 			}
@@ -60,7 +60,7 @@ public class UserOnlineService implements IUserOnlineService {
 		try {
 			memcachedClient.set(
 					MemcachedKeyGenerator.genUserOnlineTimeKey(uid),
-					userLastOnlineExpireTime, cDate);
+					userLastOnlineExpireTime, cDate.getTime());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

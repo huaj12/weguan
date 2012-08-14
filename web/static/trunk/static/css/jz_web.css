@@ -149,7 +149,7 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 .drop_menu .drop_menu_list a{ height:30px; display:block; overflow:hidden;  line-height:30px; text-align:center; color:#ccc; text-decoration:none; position:relative; z-index:800; width:88px;}
 .drop_menu .drop_menu_list a:hover{ background:url(../images/web2/n_top_menu_set_item_hover.gif) no-repeat; color:#fff; }
 
-.drop_menu .drop_menu_list2{position:absolute;  right:0px; top:51px; width:108px; height:auto; border:1px solid #404040; overflow:hidden; display:block; background:#4d4d4d; padding:5px;}
+.drop_menu .drop_menu_list2{position:absolute;  right:0px; top:51px; width:108px; height:auto; border:1px solid #404040; overflow:hidden; display:block; background:#4d4d4d; padding:5px;border-radius:3px; border-top-right-radius:0px;}
 .drop_menu .drop_menu_list2 span{height:30px; display:block; overflow:hidden;  position:relative; z-index:1; width:108px;line-height:30px;}
 .drop_menu .drop_menu_list2 span a{ position:relative; z-index:1;  height:30px; width:100px; padding-left:8px; display:block; color:#ccc;}
 .drop_menu .drop_menu_list2 span a:hover{background:url(../images/web2/n_top_menu_mail_item_hover.gif) no-repeat; color:#fff; }
@@ -163,10 +163,10 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 
 
 
-.my_face_login{ width:20px; height:20px; float:right; margin-top:15px; margin-right:5px; display:inline;}
-.my_face_login a{ display:block; width:20px; height:20px;  overflow:hidden;  border-radius:3px;}
-
-
+.my_face_login{ width:50px; height:50px; float:right;  margin-right:1px; display:inline;}
+.my_face_login a{ display:block; width:20px; height:20px; padding:15px; overflow:hidden; }
+.my_face_login a:hover{ background:#4d4d4d;}
+.my_face_login img{ border-radius:3px;}
 
 
 

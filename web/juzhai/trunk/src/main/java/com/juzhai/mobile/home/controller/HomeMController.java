@@ -25,10 +25,14 @@ import com.juzhai.mobile.passport.controller.viewHelper.IUserMViewHelper;
 import com.juzhai.mobile.post.controller.view.PostMView;
 import com.juzhai.mobile.post.controller.viewHelper.IPostMViewHelper;
 import com.juzhai.passport.bean.ProfileCache;
+import com.juzhai.passport.dao.IUserPositionDao;
 import com.juzhai.passport.exception.InterestUserException;
+import com.juzhai.passport.mapper.UserPositionMapper;
+import com.juzhai.passport.model.UserPositionExample;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IUserGuideService;
+import com.juzhai.plug.service.IInviteService;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
 
@@ -50,6 +54,12 @@ public class HomeMController extends BaseController {
 	private IUserMViewHelper userMViewHelper;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private UserPositionMapper userPositionMapper;
+	@Autowired
+	private IUserPositionDao userPositionDao;
+	@Autowired
+	private IInviteService inviteService;
 	@Value("${mobile.my.post.max.rows}")
 	private int mobileMyPostMaxRows = 2;
 	@Value("${mobile.interest.user.max.rows}")
@@ -166,6 +176,23 @@ public class HomeMController extends BaseController {
 	public AjaxResult invite(HttpServletRequest request, String content)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
+		inviteService.inviteSynchronize(context.getUid(), context.getTpId(),
+				content);
 		return new AjaxResult(true);
+	}
+
+	@RequestMapping(value = "/updateloc")
+	@ResponseBody
+	public AjaxResult updateLocation(HttpServletRequest request,
+			double longitude, double latitude) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		UserPositionExample example = new UserPositionExample();
+		example.createCriteria().andUidEqualTo(context.getUid());
+		if (userPositionMapper.countByExample(example) > 0) {
+			userPositionDao.update(context.getUid(), longitude, latitude);
+		} else {
+			userPositionDao.insert(context.getUid(), longitude, latitude);
+		}
+		return new AjaxResult();
 	}
 }

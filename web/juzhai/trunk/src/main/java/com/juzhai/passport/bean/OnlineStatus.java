@@ -21,6 +21,9 @@ public enum OnlineStatus {
 	 * @return
 	 */
 	public static OnlineStatus getStatus(Date date) {
+		if (date == null) {
+			return OnlineStatus.NONE;
+		}
 		long days = JzUtilFunction.beforeDays(date);
 		long minutes = JzUtilFunction.beforeMinutes(date);
 		if (minutes >= 0 && minutes < 60) {

@@ -65,4 +65,19 @@ public class UserOnlineService implements IUserOnlineService {
 			log.error(e.getMessage(), e);
 		}
 	}
+
+	@Override
+	public Date getLastUserOnlineTime(long uid) {
+		try {
+			Long time = memcachedClient.get(MemcachedKeyGenerator
+					.genUserOnlineTimeKey(uid));
+			if (null == time || time == 0) {
+				return null;
+			}
+			return new Date(time);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return null;
+		}
+	}
 }

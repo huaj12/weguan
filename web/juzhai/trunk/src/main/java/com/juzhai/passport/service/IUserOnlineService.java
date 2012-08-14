@@ -28,4 +28,12 @@ public interface IUserOnlineService {
 	 */
 	void updateUserOnlineTimeCache(long uid, Date cDate);
 
+	/**
+	 * 获取最后的在线时间
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	Date getLastUserOnlineTime(long uid);
+
 }

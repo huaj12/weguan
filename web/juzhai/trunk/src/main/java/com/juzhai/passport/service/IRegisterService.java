@@ -4,6 +4,7 @@
 package com.juzhai.passport.service;
 
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.Passport;
@@ -21,7 +22,7 @@ public interface IRegisterService {
 	 * @return
 	 */
 	public long autoRegister(Thirdparty tp, String identity, AuthInfo authInfo,
-			Profile profile, long inviterUid);
+			Profile profile, long inviterUid, DeviceName deviceName);
 
 	/**
 	 * 注册
@@ -35,7 +36,7 @@ public interface IRegisterService {
 	 * @throws ProfileInputException
 	 */
 	public long register(String email, String nickname, String pwd,
-			String confirmPwd, long inviterUid)
+			String confirmPwd, long inviterUid, DeviceName deviceName)
 			throws PassportAccountException, ProfileInputException;
 
 	/**

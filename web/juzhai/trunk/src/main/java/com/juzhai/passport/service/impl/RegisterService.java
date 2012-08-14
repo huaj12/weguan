@@ -27,6 +27,7 @@ import com.juzhai.core.mail.manager.MailManager;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.ThirdpartyNameEnum;
@@ -95,9 +96,9 @@ public class RegisterService implements IRegisterService {
 
 	@Override
 	public long autoRegister(Thirdparty tp, String identity, AuthInfo authInfo,
-			Profile profile, long inviterUid) {
+			Profile profile, long inviterUid, DeviceName deviceName) {
 		Passport passport = registerPassport("@" + tp.getName() + "_"
-				+ identity, "", "", inviterUid);
+				+ identity, "", "", inviterUid, deviceName);
 		if (null == passport || null == passport.getId()
 				|| passport.getId() <= 0) {
 			log.error("Register passport failed by DB.");
@@ -174,7 +175,7 @@ public class RegisterService implements IRegisterService {
 	}
 
 	private Passport registerPassport(String loginName, String email,
-			String password, long inviterUid) {
+			String password, long inviterUid, DeviceName deviceName) {
 		Passport passport = new Passport();
 		passport.setLoginName(loginName);
 		passport.setPassword(DigestUtils.md5Hex(password));
@@ -182,6 +183,7 @@ public class RegisterService implements IRegisterService {
 		passport.setCreateTime(new Date());
 		passport.setLastModifyTime(passport.getCreateTime());
 		passport.setInviterUid(inviterUid);
+		passport.setDeviceName(deviceName.getName());
 		if (passportMapper.insertSelective(passport) == 1) {
 			return passport;
 		}
@@ -190,7 +192,7 @@ public class RegisterService implements IRegisterService {
 
 	@Override
 	public long register(String email, String nickname, String pwd,
-			String confirmPwd, long inviterUid)
+			String confirmPwd, long inviterUid, DeviceName deviceName)
 			throws PassportAccountException, ProfileInputException {
 		email = StringUtils.trim(email);
 		nickname = StringUtils.trim(nickname);
@@ -199,7 +201,8 @@ public class RegisterService implements IRegisterService {
 		validateNickname(nickname);
 		validatePwd(pwd, confirmPwd);
 		// 创建passport
-		Passport passport = registerPassport(email, email, pwd, inviterUid);
+		Passport passport = registerPassport(email, email, pwd, inviterUid,
+				deviceName);
 		if (null == passport) {
 			throw new PassportAccountException(
 					PassportAccountException.SYSTEM_ERROR);

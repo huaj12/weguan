@@ -2,8 +2,6 @@ package com.juzhai.mobile.passport.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +26,7 @@ import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.mobile.passport.controller.viewHelper.IUserMViewHelper;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.controller.form.LoginForm;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ReportAccountException;
@@ -101,7 +100,7 @@ public class LoginMController extends BaseController {
 				}
 				AuthInfo authInfo = null;
 				uid = userService.access(request, response, authInfo, tp,
-						decryptInviteUid(incode));
+						decryptInviteUid(incode), DeviceName.IPHONE);
 			}
 			if (uid <= 0) {
 				log.error("access failed.[tpName=" + tp.getName()

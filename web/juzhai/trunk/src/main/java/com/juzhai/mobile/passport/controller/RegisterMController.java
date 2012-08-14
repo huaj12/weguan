@@ -15,6 +15,7 @@ import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.mobile.passport.controller.viewHelper.IUserMViewHelper;
+import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.controller.form.RegisterForm;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.service.ILoginService;
@@ -49,7 +50,8 @@ public class RegisterMController extends BaseController {
 		try {
 			long uid = registerService.register(registerForm.getAccount(),
 					registerForm.getNickname(), registerForm.getPwd(),
-					registerForm.getConfirmPwd(), registerForm.getInviterUid());
+					registerForm.getConfirmPwd(), registerForm.getInviterUid(),
+					DeviceName.IPHONE);
 			loginService.autoLogin(request, response, uid, true);
 			result.setResult(userMViewHelper.createUserMView(context,
 					profileService.getProfileCacheByUid(uid), false));

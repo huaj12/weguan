@@ -91,11 +91,11 @@
 	<div class="jz_main"><!--jz_main begin-->
 		<c:if test="${pager.totalResults <= 0}">
 			<c:choose>
-				<c:when test="${empty postViewList}"><div class="none">这里还没有人发布拒宅哦</div></c:when>
+				<c:when test="${empty postViewList}"><div class="none">这里还没有人发布拒宅，先看看其他地方的小宅吧</div></c:when>
 				<c:otherwise>
 					<div class="other_recom"><!--other_recom begin-->
 						<em></em>
-						<p>这里还没人发布拒宅哦</p>
+						<p>这里还没有人发布拒宅，先看看其他地方的小宅吧</p>
 					</div><!--other_recom end-->
 				</c:otherwise>
 			</c:choose>

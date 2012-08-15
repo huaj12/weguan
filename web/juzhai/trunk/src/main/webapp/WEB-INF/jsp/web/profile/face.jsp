@@ -33,10 +33,10 @@
 										</form>
 									</div>  <!--btns end-->
 									<div class="loading" style="display: none"><a href="#"></a></div>
-									<img id="target" style="width: 460px;height:420px;display: none;" />
+									<img id="target" style="width: 460px;display: none;" />
 									<form id="logoCutForm" action="/profile/logo/cut" method="post">
 										<input id="filePath" name="filePath" type="hidden"/>
-										<input id="scaledW" name="scaledW" value="450" type="hidden"/>
+										<input id="scaledW" name="scaledW" value="460" type="hidden"/>
 										<input id="face_x" name="x" type="hidden"/>
 										<input id="face_y" name="y" type="hidden"/>
 										<input id="face_h" name="h" type="hidden"/>

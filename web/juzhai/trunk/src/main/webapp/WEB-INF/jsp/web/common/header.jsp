@@ -50,7 +50,7 @@
 					</div>
 				</div>
 				<!--acc end-->
-				<div class="my_face_login"><a href="/home/${loginUser.uid}" title="<c:out value="${loginUser.nickname}" />"><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}" height="24" width="24" /></a></div>
+				<div class="my_face_login"><a href="/home/${loginUser.uid}" title="<c:out value="${loginUser.nickname}" />"><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}" height="20" width="20" /><p class="<c:choose><c:when test='${loginUser.gender==1}'>boy</c:when><c:otherwise>girl</c:otherwise></c:choose>"><c:out value="${loginUser.nickname}" /></p></a></div>
 			</c:if>
 			<c:if test="${context.uid<=0}">
 				<div class="login_btn"><a href="/login" class="btn_log" title="登录">登录</a><a href="/passport/register" class="btn_res" title="">注册</a></div>

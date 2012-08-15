@@ -134,6 +134,9 @@
 	</div><!--l_select_menu end-->
 	</c:if>
 </div><!--wgo_title end-->
+<c:if test="${idea.city==0 && cityId!=0&& idea.useCount>0}">
+	<div class="wgo_tj"><a href="/idea/${idea.id}/user/0_all/1">${jzd:cityName(cityId)}有${pager.totalResults}人想去，全国有${idea.useCount }人想去</a></div>
+</c:if>
 <c:choose>
 	<c:when test="${not empty ideaUserViewList}">
 		<div class="wgo_list"><!--wgo_list begin-->

@@ -23,7 +23,7 @@
 					<div class="qrxx_m">
 						<div class="num_title">81,322人正在找伴儿出去玩</div>
 						<div class="m_box"><!--m_box begin-->
-							<div class="title"><h2>请先确认个人信息，我们会为您安排合适的拒宅项目）</h2></div>
+							<div class="title"><h2>请确认你的信息，我们会为您推荐合适的拒宅同伴</h2></div>
 							<form id="guide-form" action="/home/guide/next" method="post">
 								<div class="infor"><!--infor begin-->
 									<div class="infor_x"><!--infor_x begin-->

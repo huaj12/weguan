@@ -30,11 +30,8 @@
 										<h3>性&nbsp;&nbsp;&nbsp;&nbsp;别：</h3>
 										<div class="select"><!--select begin-->
 											<span>
-												<select name="gender" id="gender-select">
-													<option value="" <c:if test="${empty settingForm.gender}">selected="selected"</c:if>>请选择</option>
-													<option value="1" <c:if test="${settingForm.gender == 1}">selected="selected"</c:if>>男</option>
-													<option value="0" <c:if test="${settingForm.gender == 0}">selected="selected"</c:if>>女</option>
-												</select>
+												<input name="gender" type="radio" <c:if test="${settingForm.gender == 1}"> checked="checked" </c:if>value="1"/>&nbsp;&nbsp;男&nbsp;&nbsp;&nbsp;&nbsp;
+												<input name="gender" type="radio" <c:if test="${settingForm.gender == 0}"> checked="checked" </c:if> value="0"/>&nbsp;&nbsp;女
 											</span>
 										</div><!--select end-->
 										<div id="gender-error" class="error_warning" style="display: none;"><em></em><b></b></div>

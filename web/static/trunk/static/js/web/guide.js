@@ -11,7 +11,7 @@ $(document).ready(function(){
 	
 	$("#guide-form").submit(function(){
 		//检查性别
-		if($("#gender-select").val()==""||$("#gender-select").val()==null){
+		if($('input:radio[name="gender"]:checked').val()==""||$('input:radio[name="gender"]:checked').val()==null){
 			$("#gender-error").show().find("b").text("请选择性别!");
 			return false;
 		}else{

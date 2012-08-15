@@ -91,11 +91,12 @@ public class IdeaController extends BaseController {
 	@RequestMapping(value = "/{ideaId}", method = RequestMethod.GET)
 	public String detail(HttpServletRequest request, Model model,
 			@PathVariable long ideaId) {
-		// ProfileCache loginUser = getLoginUserCache(request);
+		ProfileCache loginUser = getLoginUserCache(request);
 		// String genderType = "all";
-		// long cityId = 0L;
-		// if (null != loginUser) {
-		// cityId = loginUser.getCity();
+		long cityId = 0L;
+		if (null != loginUser) {
+			cityId = loginUser.getCity();
+		}
 		// List<String> genders = userPreferenceService.getUserAnswer(
 		// loginUser.getUid(),
 		// SiftTypePreference.GENDER.getPreferenceId());
@@ -108,7 +109,7 @@ public class IdeaController extends BaseController {
 		// }
 		// }
 		// }
-		return pageIdeaUser(request, model, ideaId, 1, 0L, "all");
+		return pageIdeaUser(request, model, ideaId, 1, cityId, "all");
 	}
 
 	@RequestMapping(value = "/{ideaId}/user/{page}", method = RequestMethod.GET)

@@ -35,7 +35,7 @@ function prepareJcrop() {
 		boundx = bounds[0];
 		boundy = bounds[1];
 		jcrop_api = this;
-		jcrop_api.animateTo([ 135, 135, 315, 315 ]);
+		jcrop_api.animateTo([ 135, 80, 300, 230 ]);
 		jcrop_api.setOptions(this.checked ? {
 			minSize : [ 90, 90 ]
 		} : {

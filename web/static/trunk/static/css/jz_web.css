@@ -163,13 +163,13 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 
 
 
-.my_face_login{ width:50px; height:50px; float:right;  margin-right:1px; display:inline;}
-.my_face_login a{ display:block; width:20px; height:20px; padding:15px; overflow:hidden; }
+.my_face_login{  height:50px; float:right;  margin-right:1px; display:inline;}
+.my_face_login a{ display:block; height:20px; padding:15px; overflow:hidden; float:left;}
 .my_face_login a:hover{ background:#4d4d4d;}
-.my_face_login img{ border-radius:3px;}
-
-
-
+.my_face_login img{ border-radius:3px; float:left; margin-right:8px; display:inline;}
+.my_face_login p{ float:left; cursor:pointer; color:#fff; margin-top:2px\9;}
+.my_face_login p.boy{color:#3E8BD9;}
+.my_face_login p.girl{ color:#f69;}
 
 
 
@@ -1185,7 +1185,7 @@ trip_sc_area .img a{}
 /*设置*/
 .content .set{width:100%; height:auto; overflow:hidden; float:left;}
 
-.set .set_left{ float:left; width:150px; height:210px; overflow:hidden; padding:30px;}
+.set .set_left{ float:left; width:150px; height:auto; _height:260px; overflow:hidden; padding:30px;}
 .set .set_left a{ width:150px; height:40px; text-align:center; text-decoration:none; line-height:40px; font-size:14px; color:#333; font-family:"微软雅黑","宋体"; display:block; margin-bottom:10px; float:left;}
 .set .set_left a:hover{ background:url(../images/web2/n_set_left_menu_hover.gif) no-repeat;}
 .set .set_left a.active{background:url(../images/web2/n_set_left_menu_active.gif) no-repeat; color:#fff; cursor:default;}
@@ -1201,9 +1201,9 @@ trip_sc_area .img a{}
 
 /*设置-拒宅偏好*/
 
-.ph{width:670px;  height:auto; overflow:hidden; float:left; margin-left:30px; display:inline; }
-
-.ph .quuestion{ width:100%; height:auto; overflow:hidden; float:left; margin-top:40px; padding-bottom:20px;}
+.ph{width:670px;  height:auto; overflow:hidden; float:left; margin-left:30px; display:inline; margin-top:-10px;}
+.mt10{ padding-top:10px; *padding-top:5px; _padding-top:10px;}
+.ph .quuestion{ width:100%; height:auto; overflow:hidden; float:left; margin-top:40px; padding-bottom:5px;}
 .ph .quuestion h2{ width:100%; float:left; background:url(../images/web2/n_set_ph_line.gif) repeat-x;}
 .ph .quuestion h2 strong{ width:20px; height:20px; background:url(../images/web2/n_set_ph_num.gif) no-repeat; display:block; float:left;}
 .ph .quuestion h2 .num1{ background:url(../images/web2/n_set_ph_num.gif) no-repeat 0 0; }
@@ -1228,9 +1228,9 @@ trip_sc_area .img a{}
 .ph .quuestion h2 em{ float:right;  padding-left:25px;  background:url(../images/web2/n_set_ph_error_icon.gif) no-repeat #fff; color:#FF3333;}
 
 
-.ph .ph_x{ float:left; margin-top:10px; padding-left:20px;}
+.ph .ph_x{ float:left; margin-top:10px; margin-left:24px; display:inline;}
 
-.ph_x h3{font-size:12px; color:#666; float:left;  margin-top:5px; margin-right:5px; margin-left:5px; display:inline;}
+.ph_x h3{font-size:12px; color:#666; float:left;  margin-top:5px; margin-right:5px; margin-left:1px; display:inline;}
 .ph_x .ck{ float:left; margin-left:1px; display:inline; margin-top:5px;}
 .ph .check_sex{ float:left; margin-right:20px; display:inline;}
 .ph .check_sex b{float:left; margin-top:3px; *margin-top:-2px; margin-top:1px\0;}
@@ -1241,7 +1241,7 @@ trip_sc_area .img a{}
 .ph_x .input p.l{ background:url(../images/web2/n_ph_input_bg_r1_c1.jpg) no-repeat;}
 .ph_x .input p.r{ background:url(../images/web2/n_ph_input_bg_r1_c5.jpg) no-repeat;}
 .ph_x .input span{ height:31px; overflow:hidden; background:url(../images/web2/n_ph_input_bg_r1_c3.jpg) repeat-x; float:left; }
-.ph_x .input span input{ border:0px; background:none; height:31px; line-height:31px; line-height:33px\9; color:#999;float:left; width:100%; font-family:"宋体";}
+.ph_x .input span input{ border:0px; font-size:12px; background:none; height:31px; line-height:31px; line-height:33px\9; color:#999;float:left; width:100%; font-family:"宋体";}
 .ph_x .input .width20{ width:20px;}
 .ph_x .input .width250{ width:250px;}
 .ph_x .input em{ float:left; margin-left:10px; display:inline; color:#999; margin-right:10px;margin-top:5px;}
@@ -1256,6 +1256,9 @@ trip_sc_area .img a{}
 
 
 .select_pub{ float:left; height:32px; position:relative;}
+
+body:nth-of-type(1) .select_pub{ float:left; height:32px; position:relative; margin-left:10px; display:inline;}
+
 .select_pub .sel_l{ width:10px; height:32px; float:left; overflow:hidden; background:url(../images/web2/n_select_bg_r1_c1.png) no-repeat;}
 
 body:nth-of-type(1) .select_pub .sel_l{ width:10px; height:32px; float:left; margin-left:-10px; overflow:hidden; background:url(../images/web2/n_select_bg_r1_c1.png) no-repeat;}
@@ -1291,17 +1294,17 @@ body:nth-of-type(1) .select_pub .sel_r{ width:30px; height:32px; float:left; bac
 
 
 
-.ph .save_btn{float:left;  display:inline; padding-bottom:40px; margin-top:20px; margin-left:20px;}
+.ph .save_btn{float:left;  display:inline; padding-bottom:40px; margin-top:20px; margin-left:24px;}
 .ph .save_btn a{background:url(../images/web2/n_set_save_btn.png) no-repeat; width:120px; height:50px;  display:block;}
 
 
 
+/*设置-授权设置*/
 
-
-
-
-
-
+.sq_set{width:670px;  height:auto; overflow:hidden; float:left; margin-left:30px; display:inline; margin-top:10px; padding-top:20px;}
+.sq_set p{ color:#999; float:left;}
+.sq_set a{ float:left; color:#478FDB; margin-left:10px; display:inline;}
+.sq_set a:hover{ text-decoration:underline;}
 
 
 
@@ -1309,7 +1312,7 @@ body:nth-of-type(1) .select_pub .sel_r{ width:30px; height:32px; float:left; bac
 
 
 /*设置-我的信息*/
-.set_right .my_infor{ float:left; padding:20px; display:block; padding-top:15px; _padding-bottom:5px;}
+.set_right .my_infor{ float:left; padding:20px; display:block; padding-top:35px; _padding-bottom:5px;}
 
 
 .my_infor .infor{ width:480px;  height:auto; overflow:hidden; float:left;}
@@ -1402,10 +1405,10 @@ body:nth-of-type(1) .select_pub .sel_r{ width:30px; height:32px; float:left; bac
 
 .set_right .my_face{ float:left; padding:30px; display:block; }
 
-.my_face .upload_area{ float:left; width:460px; height:400px; border:1px solid #ccc; background:url(../images/web2/n_set_upload_area_bg_btn.gif) repeat; overflow:hidden; padding-bottom:20px; margin-top:15px; border-radius:8px;}
+.my_face .upload_area{ float:left; width:460px; min-height:240px; _height:240px; display:block; border:1px solid #ccc; background:url(../images/web2/n_set_upload_area_bg_btn.gif) repeat; overflow:hidden; margin-top:15px; border-radius:8px;}
 
 
-.upload_area .btns{ width:120px; height:50px; position:relative; margin:0 auto; margin-top:180px;}  
+.upload_area .btns{ width:120px; height:50px; position:relative; margin:0 auto; margin-top:100px;}  
 
 .upload_area .btns input{width:120px;height:50px;}  
 
@@ -1413,7 +1416,7 @@ body:nth-of-type(1) .select_pub .sel_r{ width:30px; height:32px; float:left; bac
 
 .upload_area .btns a{ background:url(../images/web2/n_set_upload_btn.png) no-repeat; width:120px; height:50px; display:block; }
 
-.upload_area .loading{ width:120px; height:50px; position:relative; margin:0 auto; margin-top:180px;}
+.upload_area .loading{ width:120px; height:50px; position:relative; margin:0 auto; margin-top:100px;}
 .upload_area .loading a{background:url(../images/web2/n_set_reloading_btn.png) no-repeat; width:120px; height:50px; display:block;}
 
 
@@ -2430,6 +2433,9 @@ i{ color:#f00;}
 .wgo_title .all{float:right; color:#666;}
 .wgo_title .l_select_menu{ margin-top:-5px; float:right; }
 .wgo_title .select_menu{ margin-top:-5px; float:right; margin-right:0px;}
+.wgo_tj{ width:100%; height:32px; float:left;}
+.wgo_tj a{ width:100%; display:block; color:#666; text-align:center; line-height:32px; height:32px; background:#FEFCEF;}
+.wgo_tj a:hover{ background:#FFE0B3; color:#A46F32;}
 .wgo_list{ width:100%; height:auto; display:block; loat:left; }
 .wgo_list ul{ float:left; margin-right:-15px; display:inline;}
 .wgo_list ul li{ width:265px; height:80px; overflow:hidden; position:relative; margin-top:10px; padding:10px; float:left;margin-right:10px; display:inline;}
@@ -3646,7 +3652,7 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 .zhmm .login_alink a{ font-size:14px; color:#3E8BD9;}
 
 
-.zhmm{ margin-top:20px; margin-left:20px; float:left; display:inline;}
+.zhmm{ float:left; margin-top:-10px;}
 .zhmm .btn{ float:left; margin-top:20px; display:inline; margin-left:92px;}
 .zhmm .btn a{ background:url(../images/web2/zhuce_btn.gif) no-repeat; width:120px; height:40px; display:block; font-family:"微软雅黑"; font-size:18px; color:#fff; line-height:40px; line-height:42px\9; text-align:center;}
 

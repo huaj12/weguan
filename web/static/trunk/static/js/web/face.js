@@ -34,8 +34,12 @@ function prepareJcrop() {
 		var bounds = this.getBounds();
 		boundx = bounds[0];
 		boundy = bounds[1];
+		var x1=(boundx/2)-90;
+		var x2=(boundx/2)+90;
+		var y1=(boundy/2)-90;
+		var y2=(boundy/2)+90;
 		jcrop_api = this;
-		jcrop_api.animateTo([ 135, 80, 300, 245 ]);
+		jcrop_api.animateTo([ x1, y1, x2, y2 ]);
 		jcrop_api.setOptions(this.checked ? {
 			minSize : [ 90, 90 ]
 		} : {

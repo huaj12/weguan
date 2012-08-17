@@ -34,17 +34,14 @@ function prepareJcrop() {
 		var bounds = this.getBounds();
 		boundx = bounds[0];
 		boundy = bounds[1];
-		alert(boundy);
-		var w=45;
-		if(boundy>180){
-			w=90;
+		var initJcropWidth = 180;
+		if(boundy < 180){
+			initJcropWidth = 90;
 		}
-		var x1=(boundx/2)-w;
-		var x2=(boundx/2)+w;
-		var y1=(boundy/2)-w;
-		var y2=(boundy/2)+w;
+		var x = (boundx/2) - initJcropWidth/2;
+		var y = (boundy/2) - initJcropWidth/2;
 		jcrop_api = this;
-		jcrop_api.animateTo([ x1, y1, x2, y2 ]);
+		jcrop_api.animateTo([ x, y, x + initJcropWidth, y + initJcropWidth ]);
 		jcrop_api.setOptions(this.checked ? {
 			minSize : [ 90, 90 ]
 		} : {

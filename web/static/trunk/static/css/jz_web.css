@@ -1405,7 +1405,8 @@ body:nth-of-type(1) .select_pub .sel_r{ width:30px; height:32px; float:left; bac
 
 .set_right .my_face{ float:left; padding:30px; display:block; }
 
-.my_face .upload_area{ float:left; width:460px; min-height:240px; _height:240px; display:block; border:1px solid #ccc; background:url(../images/web2/n_set_upload_area_bg_btn.gif) repeat; overflow:hidden; margin-top:15px; border-radius:8px;}
+.my_face .upload_area{ float:left; width:460px; min-height:240px; _height:240px; display:block; border:1px solid #ccc; background:url(../images/web2/n_set_upload_area_bg_btn.gif) repeat;  margin-top:15px; border-radius:8px;}
+
 
 
 .upload_area .btns{ width:120px; height:50px; position:relative; margin:0 auto; margin-top:100px;}  

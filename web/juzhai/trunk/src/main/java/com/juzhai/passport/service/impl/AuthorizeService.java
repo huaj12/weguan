@@ -68,7 +68,7 @@ public class AuthorizeService implements IAuthorizeService {
 			if (userAuthList.size() > 1) {
 				// 一个平台只能绑定一款产品
 				throw new TokenAuthorizeException(
-						TokenAuthorizeException.USER_BIND_TO_MORE);
+						TokenAuthorizeException.BIND_MULTIPLE_PRODUCT_CAN_NOT_AUTHORIZE_NEW_USER);
 			}
 			if (null != tpUserService.getTpUserByTpIdAndIdentity(tpId,
 					authInfo.getTpIdentity())) {

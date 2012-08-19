@@ -10,9 +10,9 @@ public class TokenAuthorizeException extends JuzhaiException {
 	 */
 	public static final String USER_NOT_REQUIRE_AUTHORIZE = "230001";
 	/**
-	 * 一个平台只能绑定一款产品
+	 * 一个平台绑定了多个产品。不能切换新号授权只能用原来的号
 	 */
-	public static final String USER_BIND_TO_MORE = "230002";
+	public static final String BIND_MULTIPLE_PRODUCT_CAN_NOT_AUTHORIZE_NEW_USER = "230002";
 	/**
 	 * 重新授权的新号已经注册过了
 	 */

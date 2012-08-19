@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.DeviceName;
+import com.juzhai.passport.exception.TokenAuthorizeException;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.service.IUserService;
@@ -70,16 +71,16 @@ public class UserService implements IUserService, BeanFactoryAware {
 	}
 
 	@Override
-	public AuthInfo getAuthInfo(HttpServletRequest request, Thirdparty tp) {
-		return getUserServiceBean(tp.getName(), tp.getJoinType()).getAuthInfo(
-				request, tp);
-	}
-
-	@Override
 	public String getExpiredAuthorizeURLforCode(HttpServletRequest request,
 			HttpServletResponse response, Thirdparty tp, Terminal terminal,
 			String turnTo, String incode) throws UnsupportedEncodingException {
 		return getUserServiceBean(tp).getExpiredAuthorizeURLforCode(request,
 				response, tp, terminal, turnTo, incode);
+	}
+
+	@Override
+	public void expireAccess(HttpServletRequest request, Thirdparty tp,
+			long uid, long userTpId) throws TokenAuthorizeException {
+		getUserServiceBean(tp).expireAccess(request, tp, uid, userTpId);
 	}
 }

@@ -74,10 +74,11 @@ public class TokenAuthorizeController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		try {
-			if (tp != null) {
-				userService.expireAccess(request, tp, context.getUid(),
-						context.getTpId());
+			if (tp == null || context.getTpId() != tp.getId()) {
+				throw new TokenAuthorizeException(
+						TokenAuthorizeException.ILLEGAL_OPERATION);
 			}
+			userService.expireAccess(request, tp, context.getUid());
 		} catch (TokenAuthorizeException e) {
 			String errorInfo = messageSource.getMessage(e.getErrorCode(), null,
 					Locale.SIMPLIFIED_CHINESE);

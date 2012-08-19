@@ -63,8 +63,8 @@ public class LoginMController extends BaseController {
 		if (null == tp) {
 			return error_404;
 		}
-		String url = userService.getAuthorizeURLforCode(request, response, tp,
-				Terminal.MOBILE, null, null, tp.getAppUrl());
+		String url = userService.getLoginAuthorizeURLforCode(request, response,
+				tp, Terminal.MOBILE, null, null);
 		if (StringUtils.isEmpty(url)) {
 			return error_404;
 		}

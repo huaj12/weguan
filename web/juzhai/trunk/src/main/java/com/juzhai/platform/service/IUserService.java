@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.DeviceName;
+import com.juzhai.passport.exception.TokenAuthorizeException;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.platform.bean.Terminal;
 
@@ -63,12 +64,14 @@ public interface IUserService {
 	List<String> getUserNames(AuthInfo authInfo, List<String> fuids);
 
 	/**
-	 * 获取用户授权信息
+	 * 过期授权
 	 * 
 	 * @param request
 	 * @param tp
-	 * @return
+	 * @param uid
+	 * @param userTpId
 	 */
-	public AuthInfo getAuthInfo(HttpServletRequest request, Thirdparty tp);
+	void expireAccess(HttpServletRequest request, Thirdparty tp, long uid,
+			long userTpId) throws TokenAuthorizeException;
 
 }

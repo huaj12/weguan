@@ -25,11 +25,18 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
+import com.juzhai.passport.InitData;
+import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.controller.form.LoginForm;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ReportAccountException;
+import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ILoginService;
+import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.passport.service.IUserGuideService;
+import com.juzhai.platform.service.IAdminService;
 import com.juzhai.verifycode.service.IVerifyCodeService;
 
 /**
@@ -46,6 +53,10 @@ public class LoginController extends BaseController {
 	private IUserGuideService userGuideService;
 	@Autowired
 	private IVerifyCodeService verifyCodeService;
+	@Autowired
+	private ITpUserService tpUserService;
+	@Autowired
+	private IAdminService adminService;
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, Model model,
@@ -111,6 +122,16 @@ public class LoginController extends BaseController {
 		}
 		if (uid <= 0) {
 			return error_500;
+		}
+		TpUser tpUser = null;
+		if ((tpUser = tpUserService.getTpUserByUid(uid)) != null) {
+			Thirdparty tp = InitData.getTpByTpNameAndJoinType(
+					tpUser.getTpName(), JoinTypeEnum.CONNECT);
+			AuthInfo authInfo = getAuthInfo(uid, tp.getId());
+			// 授权过期
+			if (adminService.isTokenExpired(authInfo)) {
+				return "redirect:/show/authorize";
+			}
 		}
 		if (!userGuideService.isCompleteGuide(uid)) {
 			return "redirect:/home/guide";

@@ -39,7 +39,8 @@ public interface IUserService {
 	 */
 	String getAuthorizeURLforCode(HttpServletRequest request,
 			HttpServletResponse response, Thirdparty tp, Terminal terminal,
-			String turnTo, String incode) throws UnsupportedEncodingException;
+			String turnTo, String incode, String callbackUrl)
+			throws UnsupportedEncodingException;
 
 	/**
 	 * 获取用户名字
@@ -49,5 +50,14 @@ public interface IUserService {
 	 * @return
 	 */
 	List<String> getUserNames(AuthInfo authInfo, List<String> fuids);
+
+	/**
+	 * 获取用户授权信息
+	 * 
+	 * @param request
+	 * @param tp
+	 * @return
+	 */
+	public AuthInfo getAuthInfo(HttpServletRequest request, Thirdparty tp);
 
 }

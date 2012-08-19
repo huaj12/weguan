@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.juzhai.core.SystemConfig;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
@@ -61,7 +62,8 @@ public class TokenAuthorizeController extends BaseController {
 			return "404";
 		}
 		String callback = messageSource.getMessage(
-				"authorize.token.callback.url", new Object[] { tpId },
+				"authorize.token.callback.url",
+				new Object[] { SystemConfig.getDomain(), tpId },
 				Locale.SIMPLIFIED_CHINESE);
 		String url = userService.getAuthorizeURLforCode(request, response, tp,
 				Terminal.PC, null, null, callback);

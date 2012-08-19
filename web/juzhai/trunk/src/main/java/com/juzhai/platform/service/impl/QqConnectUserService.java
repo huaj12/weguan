@@ -166,6 +166,7 @@ public class QqConnectUserService extends AbstractUserService {
 		long expiresTime = 0;
 		try {
 			str = oauth.getAccessToken(code, state);
+			//TODO (review) 有验证过str吗？敢直接用[0],[1]？
 			accessToken = str[0];
 			expiresTime = System.currentTimeMillis() + Long.valueOf(str[1])
 					* 1000;

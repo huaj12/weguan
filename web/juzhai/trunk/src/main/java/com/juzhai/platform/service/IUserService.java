@@ -71,7 +71,7 @@ public interface IUserService {
 	 * @param uid
 	 * @param userTpId
 	 */
-	void expireAccess(HttpServletRequest request, Thirdparty tp, long uid,
-			long userTpId) throws TokenAuthorizeException;
+	void expireAccess(HttpServletRequest request, Thirdparty tp, long uid)
+			throws TokenAuthorizeException;
 
 }

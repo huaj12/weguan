@@ -79,8 +79,8 @@ public class UserService implements IUserService, BeanFactoryAware {
 	}
 
 	@Override
-	public void expireAccess(HttpServletRequest request, Thirdparty tp,
-			long uid, long userTpId) throws TokenAuthorizeException {
-		getUserServiceBean(tp).expireAccess(request, tp, uid, userTpId);
+	public void expireAccess(HttpServletRequest request, Thirdparty tp, long uid)
+			throws TokenAuthorizeException {
+		getUserServiceBean(tp).expireAccess(request, tp, uid);
 	}
 }

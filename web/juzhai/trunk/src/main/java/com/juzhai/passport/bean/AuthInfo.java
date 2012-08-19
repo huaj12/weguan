@@ -26,6 +26,7 @@ public class AuthInfo implements Serializable {
 	private String tokenSecret;
 	private String sessionKey;
 	private String authorizeUrl;
+	private long expiresTime;
 
 	public AuthInfo() {
 		super();
@@ -132,6 +133,14 @@ public class AuthInfo implements Serializable {
 
 	public void setTpIdentity(String tpIdentity) {
 		this.tpIdentity = tpIdentity;
+	}
+
+	public long getExpiresTime() {
+		return expiresTime;
+	}
+
+	public void setExpiresTime(long expiresTime) {
+		this.expiresTime = expiresTime;
 	}
 
 	public void setThirdparty(Thirdparty tp) {

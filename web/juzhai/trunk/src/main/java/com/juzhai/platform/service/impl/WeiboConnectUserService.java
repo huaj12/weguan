@@ -60,7 +60,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 		Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
 				tp.getAppUrl());
 		String accessToken = null;
-
+		StringBuffer sb = new StringBuffer();
 		String str[] = code.split(",");
 		try {
 			if (str[0].equals("null")) {
@@ -82,17 +82,19 @@ public class WeiboConnectUserService extends AbstractUserService {
 				}
 				weibo4j.http.v1.AccessToken token = oauth.getOAuthAccessToken(
 						oauth_token, tokenSecret, oauth_verifier);
-				StringBuffer sb = new StringBuffer();
+
 				sb.append(token.getToken());
 				sb.append(",");
 				sb.append(token.getTokenSecret());
 				sb.append(",");
 				sb.append(token.getUserId());
-				accessToken = sb.toString();
 			} else {
 				AccessToken token = oauth.getAccessTokenByCode(str[0]);
-				accessToken = token.getAccessToken();
+				sb.append(token.getAccessToken());
+				sb.append(",");
+				sb.append(token.getExpireIn());
 			}
+			accessToken = sb.toString();
 		} catch (WeiboException e) {
 			log.error("weibo getOAuthAccessTokenFromCode is error"
 					+ e.getMessage());
@@ -203,12 +205,15 @@ public class WeiboConnectUserService extends AbstractUserService {
 			String[] str = token.split(",");
 			String accessToken = null;
 			String tokenSecret = null;
-			if (str.length > 1) {
+			long expiresTime = 0;
+			if (str.length > 2) {
 				accessToken = str[0];
 				tokenSecret = str[1];
 				uid = str[2];
 			} else {
-				accessToken = token;
+				accessToken = str[0];
+				expiresTime = System.currentTimeMillis() + Long.valueOf(str[1])
+						* 1000;
 				Account account = new Account(accessToken);
 				JSONObject jsonObject = account.getUid();
 				uid = String.valueOf(jsonObject.get("uid"));
@@ -217,6 +222,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 			authInfo.setToken(accessToken);
 			authInfo.setTpIdentity(uid);
 			authInfo.setTokenSecret(tokenSecret);
+			authInfo.setExpiresTime(expiresTime);
 		} catch (Exception e) {
 			log.error("weibo fetchTpIdentity is error" + e.getMessage());
 		}
@@ -232,13 +238,14 @@ public class WeiboConnectUserService extends AbstractUserService {
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
 			HttpServletResponse response, Thirdparty tp, Terminal terminal,
-			String turnTo, String incode) throws UnsupportedEncodingException {
+			String turnTo, String incode, String callbackUrl)
+			throws UnsupportedEncodingException {
 		String url = null;
 		try {
 			Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
-					URLEncoder.encode(
-							buildAuthorizeURLParams(tp, turnTo, incode),
-							Constants.UTF8));
+					URLEncoder
+							.encode(buildAuthorizeURLParams(callbackUrl,
+									turnTo, incode), Constants.UTF8));
 			if (Version.WEIBOV2.equals(Version.getWeiboVersion())) {
 				url = oauth.authorize("code", terminal.getType());
 			} else {

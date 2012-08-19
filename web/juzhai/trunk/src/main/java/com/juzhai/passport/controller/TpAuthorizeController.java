@@ -68,13 +68,13 @@ public class TpAuthorizeController extends BaseController {
 			return "404";
 		}
 		String url = userService
-				.getAuthorizeURLforCode(
+				.getLoginAuthorizeURLforCode(
 						request,
 						response,
 						tp,
 						Terminal.PC,
 						turnTo == null ? "" : URLEncoder.encode(turnTo,
-								Constants.UTF8), incode, tp.getAppUrl());
+								Constants.UTF8), incode);
 		if (StringUtils.isEmpty(url)) {
 			return "404";
 		}

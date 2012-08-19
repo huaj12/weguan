@@ -13,4 +13,10 @@ public class QqPlusAdminService implements IAdminService {
 		return true;
 	}
 
+	@Override
+	public boolean isTokenExpired(AuthInfo authInfo) {
+		// q+每次都需要重新登录不存在过期情况
+		return true;
+	}
+
 }

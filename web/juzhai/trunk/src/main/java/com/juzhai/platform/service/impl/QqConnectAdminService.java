@@ -14,4 +14,12 @@ public class QqConnectAdminService implements IAdminService {
 		return true;
 	}
 
+	@Override
+	public boolean isTokenExpired(AuthInfo authInfo) {
+		if (System.currentTimeMillis() - authInfo.getExpiresTime() > 0) {
+			return true;
+		}
+		return false;
+	}
+
 }

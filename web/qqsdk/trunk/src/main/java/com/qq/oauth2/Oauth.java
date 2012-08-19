@@ -16,12 +16,12 @@ public class Oauth extends QQ {
 		super(appkey, sercret, redirectUri);
 	}
 
-	public String authorize(String display, String state) {
+	public String authorize(String display, String state, String callbackUrl) {
 		StringBuilder qqLoginUrl = new StringBuilder();
 		qqLoginUrl.append(baseURL + "oauth2.0/authorize");
 		qqLoginUrl.append("?response_type=code");
 		qqLoginUrl.append("&client_id=" + getAppkey());
-		qqLoginUrl.append("&redirect_uri=" + getRedirectUri());
+		qqLoginUrl.append("&redirect_uri=" + callbackUrl);
 		// 请求用户授权时向用户显示的可进行授权的列表。如果要填写多个接口名称，请用逗号隔开。
 		qqLoginUrl.append("&state=" + state);
 		qqLoginUrl.append("&scope=" + "get_user_info,add_share");
@@ -35,11 +35,12 @@ public class Oauth extends QQ {
 	 * 获取accessToken
 	 * 
 	 * @param authorizationCode
-	 * @return
+	 * @return [0]accesstoken [1]expiresTime
 	 * @throws IOException
 	 */
-	public String getAccessToken(String authorizationCode, String state)
+	public String[] getAccessToken(String authorizationCode, String state)
 			throws IOException {
+		String str[] = new String[2];
 		StringBuilder accessTokenUrl = new StringBuilder();
 		accessTokenUrl.append(baseURL + "oauth2.0/token");
 		accessTokenUrl.append("?grant_type=authorization_code");
@@ -50,13 +51,13 @@ public class Oauth extends QQ {
 		// 成功授权后的回调地址，建议设置为网站首页或网站的用户中心。
 		accessTokenUrl.append("&redirect_uri=" + getRedirectUri());
 		String result = get(accessTokenUrl.toString());
-		String accessToken = null;
 		if (result.indexOf("access_token") >= 0) {
-			accessToken = result.split("&")[0].split("=")[1];
-			return accessToken;
+			str[0] = result.split("&")[0].split("=")[1];
+			str[1] = result.split("&")[1].split("=")[1];
+			return str;
 		}
 		log.error("access_token result not find access_token result=" + result);
-		return accessToken;
+		return str;
 	}
 
 	public String getOpenId(String accessToken) throws IOException,

@@ -59,7 +59,9 @@ public class WeiboConnectUserService extends AbstractUserService {
 	public String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
 		Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
 				tp.getAppUrl());
+		//TODO (review) 既然统一用StringBuilder了，accessToken这个变量还有必要吗？
 		String accessToken = null;
+		//TODO (review) 虽然是原本没有review出来的问题，为什么在改代码的时候，还是仍然用StringBuffer
 		StringBuffer sb = new StringBuffer();
 		String str[] = code.split(",");
 		try {
@@ -99,6 +101,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 			log.error("weibo getOAuthAccessTokenFromCode is error"
 					+ e.getMessage());
 		}
+		//TODO (review) 这个if永远不会成立，我也担心，调用这个方法的时候，判断返回值是否有效是通过null来判断的，但是现在不可能是null，判断方式就有问题了
 		if (null == accessToken) {
 			return null;
 		}
@@ -195,6 +198,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 		}
 		String token = getOAuthAccessTokenFromCode(tp, code + "," + oauth_token
 				+ "," + oauth_verifier);
+		//TODO (review) token无法为null，这里判断实效了
 		if (StringUtils.isEmpty(token)) {
 			log.error("weibo  accessToken is null");
 			return null;

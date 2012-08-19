@@ -25,6 +25,7 @@
 								<c:set var="page" value="preference" scope="request" />
 								<jsp:include page="/WEB-INF/jsp/web/profile/common/left.jsp" /><!--set_left end-->
 								<div class="set_right"><!--set_right begin-->
+								<div class="title"><h2>设置我的拒宅偏好</h2></div>
 								<div class="ph"><!--ph begin-->
 								<input type="hidden" value="${fn:length(filterViews)}" id="filterPreference_count" />
 								<input type="hidden" value="${fn:length(views)}" id="preference_count" />

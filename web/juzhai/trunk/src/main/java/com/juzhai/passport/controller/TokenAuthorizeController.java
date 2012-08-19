@@ -24,7 +24,6 @@ import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.exception.TokenAuthorizeException;
 import com.juzhai.passport.model.Thirdparty;
-import com.juzhai.passport.service.IAuthorizeService;
 import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.service.IAdminService;
 import com.juzhai.platform.service.IUserService;
@@ -38,8 +37,6 @@ public class TokenAuthorizeController extends BaseController {
 	private IUserService userService;
 	@Autowired
 	private MessageSource messageSource;
-	@Autowired
-	private IAuthorizeService authorizeService;
 
 	@RequestMapping(value = "/show/authorize", method = RequestMethod.GET)
 	public String show(HttpServletRequest request,
@@ -75,9 +72,12 @@ public class TokenAuthorizeController extends BaseController {
 		ModelMap mmap = new ModelMap();
 		String url = "/show/authorize";
 		UserContext context = checkLoginForWeb(request);
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		try {
-			authorizeService.tokenAuthorize(request, context.getUid(),
-					context.getTpId(), tpId);
+			if (tp != null) {
+				userService.expireAccess(request, tp, context.getUid(),
+						context.getTpId());
+			}
 		} catch (TokenAuthorizeException e) {
 			String errorInfo = messageSource.getMessage(e.getErrorCode(), null,
 					Locale.SIMPLIFIED_CHINESE);

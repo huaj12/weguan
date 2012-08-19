@@ -50,7 +50,8 @@ public class QqConnectUserService extends AbstractUserService {
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
 			HttpServletResponse response, Thirdparty tp, Terminal terminal,
-			String turnTo, String incode) throws UnsupportedEncodingException {
+			String turnTo, String incode, String callbackUrl)
+			throws UnsupportedEncodingException {
 		String url = null;
 		try {
 			Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
@@ -59,7 +60,7 @@ public class QqConnectUserService extends AbstractUserService {
 			String stateId = UUID.randomUUID().toString();
 			CookiesManager.setCookie(request, response,
 					CookiesManager.STATE_NAME, stateId, -1);
-			url = oauth.authorize(terminal.getType(), state);
+			url = oauth.authorize(terminal.getType(), state, callbackUrl);
 			memcachedClient.add(stateId, userStateIdExpireTime, state);
 		} catch (Exception e) {
 			log.error("QQ content getAuthorizeURLforCode is error."
@@ -160,9 +161,14 @@ public class QqConnectUserService extends AbstractUserService {
 		}
 		Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
 				tp.getAppUrl());
+		String str[] = null;
 		String accessToken = null;
+		long expiresTime = 0;
 		try {
-			accessToken = oauth.getAccessToken(code, state);
+			str = oauth.getAccessToken(code, state);
+			accessToken = str[0];
+			expiresTime = System.currentTimeMillis() + Long.valueOf(str[1])
+					* 1000;
 		} catch (Exception e) {
 			log.error("QQ content get accessToken is error." + e.getMessage());
 		}
@@ -179,6 +185,7 @@ public class QqConnectUserService extends AbstractUserService {
 		authInfo.setThirdparty(tp);
 		authInfo.setToken(accessToken);
 		authInfo.setTpIdentity(uid);
+		authInfo.setExpiresTime(expiresTime);
 		return uid;
 	}
 

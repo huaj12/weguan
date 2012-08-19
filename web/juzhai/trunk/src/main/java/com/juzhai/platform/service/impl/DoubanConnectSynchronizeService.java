@@ -22,7 +22,6 @@ import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.model.Thirdparty;
-import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.bean.UserStatus;
 import com.juzhai.platform.service.ISynchronizeService;
@@ -105,9 +104,8 @@ public class DoubanConnectSynchronizeService implements ISynchronizeService {
 					authInfo.getToken(), authInfo.getTokenSecret(),
 					authInfo.getAppKey(), authInfo.getAppSecret(),
 					tp.getAppId());
-			TpUser fUser = tpUserService.getTpUserByUid(fuid);
 			MiniblogFeed miniblogFeed = doubanService.getUserMiniblogs(
-					fUser.getTpIdentity(), 1, size);
+					authInfo.getTpIdentity(), 1, size);
 			List<MiniblogEntry> status = miniblogFeed.getEntries();
 			if (CollectionUtils.isNotEmpty(status)) {
 				for (MiniblogEntry s : status) {

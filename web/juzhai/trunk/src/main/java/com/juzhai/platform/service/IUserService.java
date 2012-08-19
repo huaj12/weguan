@@ -30,17 +30,28 @@ public interface IUserService {
 			long inviterUid, DeviceName deviceName);
 
 	/**
-	 * 授权地址
+	 * 登录授权地址
 	 * 
 	 * @param tp
 	 * @param turnTo
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	String getAuthorizeURLforCode(HttpServletRequest request,
+	String getLoginAuthorizeURLforCode(HttpServletRequest request,
 			HttpServletResponse response, Thirdparty tp, Terminal terminal,
-			String turnTo, String incode, String callbackUrl)
-			throws UnsupportedEncodingException;
+			String turnTo, String incode) throws UnsupportedEncodingException;
+
+	/**
+	 * 过期授权地址
+	 * 
+	 * @param tp
+	 * @param turnTo
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	String getExpiredAuthorizeURLforCode(HttpServletRequest request,
+			HttpServletResponse response, Thirdparty tp, Terminal terminal,
+			String turnTo, String incode) throws UnsupportedEncodingException;
 
 	/**
 	 * 获取用户名字

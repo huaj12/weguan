@@ -56,12 +56,11 @@ public class UserService implements IUserService, BeanFactoryAware {
 	}
 
 	@Override
-	public String getAuthorizeURLforCode(HttpServletRequest request,
+	public String getLoginAuthorizeURLforCode(HttpServletRequest request,
 			HttpServletResponse response, Thirdparty tp, Terminal terminal,
-			String turnTo, String incode, String callbackUrl)
-			throws UnsupportedEncodingException {
-		return getUserServiceBean(tp).getAuthorizeURLforCode(request, response,
-				tp, terminal, turnTo, incode, callbackUrl);
+			String turnTo, String incode) throws UnsupportedEncodingException {
+		return getUserServiceBean(tp).getLoginAuthorizeURLforCode(request,
+				response, tp, terminal, turnTo, incode);
 	}
 
 	@Override
@@ -74,5 +73,13 @@ public class UserService implements IUserService, BeanFactoryAware {
 	public AuthInfo getAuthInfo(HttpServletRequest request, Thirdparty tp) {
 		return getUserServiceBean(tp.getName(), tp.getJoinType()).getAuthInfo(
 				request, tp);
+	}
+
+	@Override
+	public String getExpiredAuthorizeURLforCode(HttpServletRequest request,
+			HttpServletResponse response, Thirdparty tp, Terminal terminal,
+			String turnTo, String incode) throws UnsupportedEncodingException {
+		return getUserServiceBean(tp).getExpiredAuthorizeURLforCode(request,
+				response, tp, terminal, turnTo, incode);
 	}
 }

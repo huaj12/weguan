@@ -43,4 +43,10 @@ public class AdminService implements IAdminService, BeanFactoryAware {
 
 	}
 
+	@Override
+	public boolean isTokenExpired(AuthInfo authInfo) {
+		return getAdminServiceBean(authInfo.getThirdpartyName(),
+				authInfo.getJoinType()).isTokenExpired(authInfo);
+	}
+
 }

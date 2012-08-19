@@ -49,12 +49,13 @@ public class DoubanConnectUserService extends AbstractUserService {
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
 			HttpServletResponse response, Thirdparty tp, Terminal terminal,
-			String turnTo, String incode) throws UnsupportedEncodingException {
+			String turnTo, String incode, String callbackUrl)
+			throws UnsupportedEncodingException {
 		String url = null;
 		DoubanService doubanService = new DoubanService(tp.getAppId(),
 				tp.getAppKey(), tp.getAppSecret());
-		url = doubanService.getAuthorizationUrl(buildAuthorizeURLParams(tp,
-				turnTo, incode));
+		url = doubanService.getAuthorizationUrl(buildAuthorizeURLParams(
+				callbackUrl, turnTo, incode));
 		if (StringUtils.isEmpty(doubanService.getRequestTokenSecret())) {
 			log.error("douban getAuthorizeURLforCode RequestTokenSecret is null");
 			return null;

@@ -29,6 +29,7 @@ import com.juzhai.platform.service.IAdminService;
 import com.juzhai.platform.service.IUserService;
 
 @Controller
+//TODO (review) 没有一个模块？一会/show，一会/authorize，然后又/access。请求缺乏目录引导性
 public class TokenAuthorizeController extends BaseController {
 
 	@Autowired
@@ -38,6 +39,7 @@ public class TokenAuthorizeController extends BaseController {
 	@Autowired
 	private MessageSource messageSource;
 
+	//TODO (review) errorInfo要了干嘛？
 	@RequestMapping(value = "/show/authorize", method = RequestMethod.GET)
 	public String show(HttpServletRequest request,
 			HttpServletResponse response, Model model, String errorInfo)
@@ -55,11 +57,13 @@ public class TokenAuthorizeController extends BaseController {
 			throws NeedLoginException, UnsupportedEncodingException {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		if (null == tp) {
+			//TODO (review) 有404和500的常量，以后记得
 			return "404";
 		}
 		String url = userService.getExpiredAuthorizeURLforCode(request,
 				response, tp, Terminal.PC, null, null);
 		if (StringUtils.isEmpty(url)) {
+			//TODO (review) 有404和500的常量，以后记得
 			return "404";
 		}
 		return "redirect:" + url;

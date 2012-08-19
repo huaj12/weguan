@@ -134,12 +134,8 @@ public abstract class AbstractUserService implements IUserService {
 	}
 
 	@Override
-	public void expireAccess(HttpServletRequest request, Thirdparty tp,
-			long uid, long userTpId) throws TokenAuthorizeException {
-		if (userTpId != tp.getId()) {
-			throw new TokenAuthorizeException(
-					TokenAuthorizeException.ILLEGAL_OPERATION);
-		}
+	public void expireAccess(HttpServletRequest request, Thirdparty tp, long uid)
+			throws TokenAuthorizeException {
 		Passport passport = passportService.getPassportByUid(uid);
 		TpUser tpUser = tpUserService.getTpUserByUid(uid);
 		if (null == tpUser || null == passport

@@ -74,7 +74,7 @@ public class TpAuthorizeController extends BaseController {
 						tp,
 						Terminal.PC,
 						turnTo == null ? "" : URLEncoder.encode(turnTo,
-								Constants.UTF8), incode);
+								Constants.UTF8), incode, tp.getAppUrl());
 		if (StringUtils.isEmpty(url)) {
 			return "404";
 		}

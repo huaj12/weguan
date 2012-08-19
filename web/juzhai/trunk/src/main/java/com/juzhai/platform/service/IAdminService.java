@@ -17,4 +17,12 @@ public interface IAdminService {
 	 */
 	boolean isAllocation(AuthInfo authInfo);
 
+	/**
+	 * token是否过期
+	 * 
+	 * @param authInfo
+	 * @return
+	 */
+	boolean isTokenExpired(AuthInfo authInfo);
+
 }

@@ -1,11 +1,13 @@
 package com.juzhai.platform.service.impl;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,11 +20,16 @@ import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.dao.ITpUserDao;
+import com.juzhai.passport.exception.TokenAuthorizeException;
+import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
+import com.juzhai.passport.model.TpUserAuth;
+import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.service.IUserService;
 
@@ -40,6 +47,10 @@ public abstract class AbstractUserService implements IUserService {
 	private RedisTemplate<String, String> redisTemplate;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IPassportService passportService;
+	@Autowired
+	private ITpUserService tpUserService;
 
 	@Override
 	public long access(HttpServletRequest request,
@@ -123,13 +134,48 @@ public abstract class AbstractUserService implements IUserService {
 	}
 
 	@Override
-	public AuthInfo getAuthInfo(HttpServletRequest request, Thirdparty tp) {
+	public void expireAccess(HttpServletRequest request, Thirdparty tp,
+			long uid, long userTpId) throws TokenAuthorizeException {
+		if (userTpId != tp.getId()) {
+			throw new TokenAuthorizeException(
+					TokenAuthorizeException.ILLEGAL_OPERATION);
+		}
+		Passport passport = passportService.getPassportByUid(uid);
+		TpUser tpUser = tpUserService.getTpUserByUid(uid);
+		if (null == tpUser || null == passport
+				|| StringUtils.isEmpty(passport.getLoginName())
+				|| StringUtils.startsWith(passport.getLoginName(), "@")) {
+			throw new TokenAuthorizeException(
+					TokenAuthorizeException.USER_NOT_REQUIRE_AUTHORIZE);
+		}
 		AuthInfo authInfo = new AuthInfo();
 		if (!checkAuthInfo(request, authInfo, tp)) {
-			return null;
+			throw new TokenAuthorizeException(
+					TokenAuthorizeException.ILLEGAL_OPERATION);
 		}
 		fetchTpIdentity(request, authInfo, tp);
-		return authInfo;
+		if (!tpUser.getTpIdentity().equalsIgnoreCase(authInfo.getTpIdentity())) {
+			// 新号授权
+			List<TpUserAuth> userAuthList = tpUserAuthService.listUserAuth(uid);
+			if (CollectionUtils.isEmpty(userAuthList)) {
+				throw new TokenAuthorizeException(
+						TokenAuthorizeException.ILLEGAL_OPERATION);
+			}
+			if (userAuthList.size() > 1) {
+				// 一个平台只能绑定一款产品
+				throw new TokenAuthorizeException(
+						TokenAuthorizeException.BIND_MULTIPLE_PRODUCT_CAN_NOT_AUTHORIZE_NEW_USER);
+			}
+			if (null != tpUserService.getTpUserByTpIdAndIdentity(tp.getId(),
+					authInfo.getTpIdentity())) {
+				// 新授权的号已注册过
+				throw new TokenAuthorizeException(
+						TokenAuthorizeException.USER_IS_EXIST);
+			}
+			tpUserService.updateTpIdentity(uid, authInfo.getTpIdentity());
+		}
+		tpUserAuthService.updateTpUserAuth(uid, tp.getId(), authInfo);
+		tpUserAuthService.cacheAuthInfo(uid, authInfo);
 	}
 
 	protected String buildAuthorizeURLParams(String callbackUrl, String turnTo,

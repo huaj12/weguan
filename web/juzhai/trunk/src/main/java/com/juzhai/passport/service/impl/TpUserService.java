@@ -1,5 +1,6 @@
 package com.juzhai.passport.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -34,6 +35,15 @@ public class TpUserService implements ITpUserService {
 	@Override
 	public TpUser getTpUserByUid(long uid) {
 		return tpUserMapper.selectByPrimaryKey(uid);
+	}
+
+	@Override
+	public void updateTpIdentity(long uid, String newTpIdentity) {
+		TpUser tpUser = new TpUser();
+		tpUser.setUid(uid);
+		tpUser.setLastModifyTime(new Date());
+		tpUser.setTpIdentity(newTpIdentity);
+		tpUserMapper.updateByPrimaryKeySelective(tpUser);
 	}
 
 }

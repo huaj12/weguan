@@ -13,4 +13,12 @@ public interface ITpUserService {
 	 * @return
 	 */
 	TpUser getTpUserByUid(long uid);
+
+	/**
+	 * 替换新的第三方id
+	 * 
+	 * @param uid
+	 * @param newTpIdentity
+	 */
+	void updateTpIdentity(long uid, String newTpIdentity);
 }

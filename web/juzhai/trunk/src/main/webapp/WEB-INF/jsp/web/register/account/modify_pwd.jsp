@@ -21,6 +21,7 @@
 							<c:set var="page" value="account" scope="request" />
 							<jsp:include page="/WEB-INF/jsp/web/profile/common/left.jsp" />
 							<div class="set_right"><!--set_right begin-->
+							<div class="title"><h2>设置我的账号密码</h2></div>
 								<div class="my_infor"><!--my_infor begin-->
 									<div class="zhmm"><!--zhmm begin-->
 										<div class="input_x"><!--input_x begin-->

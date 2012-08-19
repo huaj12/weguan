@@ -58,14 +58,21 @@ public class UserService implements IUserService, BeanFactoryAware {
 	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
 			HttpServletResponse response, Thirdparty tp, Terminal terminal,
-			String turnTo, String incode) throws UnsupportedEncodingException {
+			String turnTo, String incode, String callbackUrl)
+			throws UnsupportedEncodingException {
 		return getUserServiceBean(tp).getAuthorizeURLforCode(request, response,
-				tp, terminal, turnTo, incode);
+				tp, terminal, turnTo, incode, callbackUrl);
 	}
 
 	@Override
 	public List<String> getUserNames(AuthInfo authInfo, List<String> fuids) {
 		return getUserServiceBean(authInfo.getThirdpartyName(),
 				authInfo.getJoinType()).getUserNames(authInfo, fuids);
+	}
+
+	@Override
+	public AuthInfo getAuthInfo(HttpServletRequest request, Thirdparty tp) {
+		return getUserServiceBean(tp.getName(), tp.getJoinType()).getAuthInfo(
+				request, tp);
 	}
 }

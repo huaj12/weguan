@@ -1,5 +1,8 @@
 package com.juzhai.platform.service.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,8 +10,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import com.juzhai.core.SystemConfig;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.DeviceName;
@@ -18,6 +23,7 @@ import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.ITpUserAuthService;
+import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.service.IUserService;
 
 public abstract class AbstractUserService implements IUserService {
@@ -32,6 +38,8 @@ public abstract class AbstractUserService implements IUserService {
 	private ITpUserAuthService tpUserAuthService;
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
+	@Autowired
+	private MessageSource messageSource;
 
 	@Override
 	public long access(HttpServletRequest request,
@@ -95,6 +103,26 @@ public abstract class AbstractUserService implements IUserService {
 	}
 
 	@Override
+	public String getLoginAuthorizeURLforCode(HttpServletRequest request,
+			HttpServletResponse response, Thirdparty tp, Terminal terminal,
+			String turnTo, String incode) throws UnsupportedEncodingException {
+		return getAuthorizeURLforCode(request, response, tp, terminal, turnTo,
+				incode, tp.getAppUrl());
+	}
+
+	@Override
+	public String getExpiredAuthorizeURLforCode(HttpServletRequest request,
+			HttpServletResponse response, Thirdparty tp, Terminal terminal,
+			String turnTo, String incode) throws UnsupportedEncodingException {
+		String callback = messageSource.getMessage(
+				"authorize.token.callback.url",
+				new Object[] { SystemConfig.getDomain(), tp.getId() },
+				Locale.SIMPLIFIED_CHINESE);
+		return getAuthorizeURLforCode(request, response, tp, terminal, turnTo,
+				incode, callback);
+	}
+
+	@Override
 	public AuthInfo getAuthInfo(HttpServletRequest request, Thirdparty tp) {
 		AuthInfo authInfo = new AuthInfo();
 		if (!checkAuthInfo(request, authInfo, tp)) {
@@ -135,5 +163,16 @@ public abstract class AbstractUserService implements IUserService {
 	 */
 	protected abstract String getOAuthAccessTokenFromCode(Thirdparty tp,
 			String code);
+
+	/**
+	 * 获取授权地址
+	 * 
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	protected abstract String getAuthorizeURLforCode(
+			HttpServletRequest request, HttpServletResponse response,
+			Thirdparty tp, Terminal terminal, String turnTo, String incode,
+			String callback) throws UnsupportedEncodingException;
 
 }

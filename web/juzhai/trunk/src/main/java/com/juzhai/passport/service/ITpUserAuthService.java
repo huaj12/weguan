@@ -3,7 +3,10 @@
  */
 package com.juzhai.passport.service;
 
+import java.util.List;
+
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.model.TpUserAuth;
 
 public interface ITpUserAuthService {
 
@@ -49,4 +52,12 @@ public interface ITpUserAuthService {
 	 * @return
 	 */
 	boolean isExist(long uid, long tpId);
+
+	/**
+	 * 获取某用户的所有授权信息
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	List<TpUserAuth> listUserAuth(long uid);
 }

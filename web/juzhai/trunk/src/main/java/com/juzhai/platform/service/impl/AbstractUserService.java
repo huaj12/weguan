@@ -94,9 +94,19 @@ public abstract class AbstractUserService implements IUserService {
 		return uid;
 	}
 
-	protected String buildAuthorizeURLParams(Thirdparty tp, String turnTo,
+	@Override
+	public AuthInfo getAuthInfo(HttpServletRequest request, Thirdparty tp) {
+		AuthInfo authInfo = new AuthInfo();
+		if (!checkAuthInfo(request, authInfo, tp)) {
+			return null;
+		}
+		fetchTpIdentity(request, authInfo, tp);
+		return authInfo;
+	}
+
+	protected String buildAuthorizeURLParams(String callbackUrl, String turnTo,
 			String incode) {
-		StringBuilder redirectURL = new StringBuilder(tp.getAppUrl());
+		StringBuilder redirectURL = new StringBuilder(callbackUrl);
 		if (StringUtils.isNotEmpty(turnTo)) {
 			redirectURL.append("?turnTo=").append(turnTo);
 		}

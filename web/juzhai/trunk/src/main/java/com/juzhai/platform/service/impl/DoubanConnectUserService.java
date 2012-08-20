@@ -164,8 +164,8 @@ public class DoubanConnectUserService extends AbstractUserService {
 			// log.error("douban  oauthTokenSecret is null");
 			return null;
 		}
-		String accessToken = getOAuthAccessTokenFromCode(tp, oauth_token + ","
-				+ oauthTokenSecret);
+		String accessToken = getOAuthAccessTokenFromCode(tp, oauth_token,
+				oauthTokenSecret);
 		if (StringUtils.isEmpty(accessToken)) {
 			log.error("douban accessToken is null");
 			return null;
@@ -173,6 +173,11 @@ public class DoubanConnectUserService extends AbstractUserService {
 		String uid = null;
 		try {
 			String[] str = accessToken.split(",");
+			if (null == str || str.length != 2 || StringUtils.isEmpty(str[0])
+					|| StringUtils.isEmpty(str[1])) {
+				log.error("douban getOAuthAccessTokenFromCode return  null");
+				return null;
+			}
 			DoubanService doubanService = DoubanService.getDoubanService(
 					str[0], str[1], tp.getAppKey(), tp.getAppSecret(),
 					tp.getAppId());
@@ -200,13 +205,12 @@ public class DoubanConnectUserService extends AbstractUserService {
 		return true;
 	}
 
-	@Override
-	protected String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
+	private String getOAuthAccessTokenFromCode(Thirdparty tp, String token,
+			String tokenSecret) {
 		DoubanService doubanService = new DoubanService(tp.getAppId(),
 				tp.getAppKey(), tp.getAppSecret());
-		String str[] = code.split(",");
-		doubanService.setRequestToken(str[0]);
-		doubanService.setRequestTokenSecret(str[1]);
+		doubanService.setRequestToken(token);
+		doubanService.setRequestTokenSecret(tokenSecret);
 		ArrayList<String> list = null;
 		try {
 			list = doubanService.getAccessToken();

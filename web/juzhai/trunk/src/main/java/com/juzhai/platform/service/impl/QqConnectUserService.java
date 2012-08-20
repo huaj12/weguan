@@ -166,7 +166,12 @@ public class QqConnectUserService extends AbstractUserService {
 		long expiresTime = 0;
 		try {
 			str = oauth.getAccessToken(code, state);
-			//TODO (review) 有验证过str吗？敢直接用[0],[1]？
+			// TODO (done) 有验证过str吗？敢直接用[0],[1]？
+			if (str == null || str.length != 2 || StringUtils.isEmpty(str[0])
+					|| StringUtils.isEmpty(str[1])) {
+				log.error("QQ content getAccessToken return null");
+				return null;
+			}
 			accessToken = str[0];
 			expiresTime = System.currentTimeMillis() + Long.valueOf(str[1])
 					* 1000;
@@ -194,10 +199,5 @@ public class QqConnectUserService extends AbstractUserService {
 	protected boolean checkAuthInfo(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
 		return true;
-	}
-
-	@Override
-	protected String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
-		return null;
 	}
 }

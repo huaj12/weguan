@@ -82,7 +82,8 @@ public class TokenAuthorizeController extends BaseController {
 		} catch (TokenAuthorizeException e) {
 			model.addAttribute("errorInfo", messageSource.getMessage(
 					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
+			return show(request, response, model);
 		}
-		return show(request, response, model);
+		return "redirect:/authorize/show";
 	}
 }

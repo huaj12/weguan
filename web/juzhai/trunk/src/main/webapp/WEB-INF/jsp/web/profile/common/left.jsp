@@ -8,7 +8,7 @@
 	<a href="/home/blacklist" <c:if test="${page=='shield'}">class="active"</c:if> >屏蔽管理</a>
 	<c:if test="${empty isQplus||!isQplus}">
 		<c:if test="${context.tpId>0}">
-			<a href="/show/authorize" <c:if test="${page=='authorize'}">class="active"</c:if> >授权管理</a>
+			<a href="/authorize/show" <c:if test="${page=='authorize'}">class="active"</c:if> >授权管理</a>
 		</c:if>
 	</c:if>
 	<%-- <a href="/profile/email" <c:if test="${page=='mail'}">class="active"</c:if>>订阅设置</a> --%>

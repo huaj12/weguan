@@ -233,11 +233,6 @@ a:hover {
 						style="color: black;" href="/cms/showStats"
 						target="config">数据统计</a>
 					</li>
-				
-					<li style="background-color: #A4D3EE;"><a
-						style="color: black;" href="/cms/show/weibo/version"
-						target="config">切换微博版本</a>
-					</li>
 				</ul>
 				
 			</li>

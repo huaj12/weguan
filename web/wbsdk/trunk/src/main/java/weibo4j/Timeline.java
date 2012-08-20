@@ -211,38 +211,15 @@ public class Timeline extends Weibo {
 	public List<Status> getUserTimeline(String uid, String screen_name,
 			Integer count, Paging page, Integer base_app, Integer feature)
 			throws WeiboException {
-		if (getTokenSecret() != null && getTokenSecret().length() > 0) {
-			Map<String, String> maps = new HashMap<String, String>();
-			if (base_app != null) {
-				maps.put("base_app", base_app.toString());
-			}
-			if (feature != null) {
-				maps.put("feature", feature.toString());
-			}
-			weibo4j.http.v1.HttpClient http = new weibo4j.http.v1.HttpClient();
-			http.setOAuthConsumer(getAppkey(), getAppSecret());
-			http.setToken(getToken(), getTokenSecret());
-			if (page == null) {
-				page = new Paging();
-				page.setPage(1);
-			}
-			page.setCount(count);
-			String url = getEncodeUrl(getBaseURL()
-					+ "statuses/user_timeline.json",
-					generateParameterArray(maps), page);
-			return Status.constructStatuses(http.get(url, true));
-		} else {
-			return Status.constructStatuses(client.get(
-					WeiboConfig.getValue("baseURL")
-							+ "statuses/user_timeline.json",
-					new PostParameter[] {
-							new PostParameter("uid", uid.toString()),
-							new PostParameter("screen_name", screen_name),
-							new PostParameter("count", count.toString()),
-							new PostParameter("base_app", base_app.toString()),
-							new PostParameter("feature", feature.toString()) },
-					page));
-		}
+		return Status
+				.constructStatuses(client.get(WeiboConfig.getValue("baseURL")
+						+ "statuses/user_timeline.json", new PostParameter[] {
+						new PostParameter("uid", uid.toString()),
+						new PostParameter("screen_name", screen_name),
+						new PostParameter("count", count.toString()),
+						new PostParameter("base_app", base_app.toString()),
+						new PostParameter("feature", feature.toString()) },
+						page));
 	}
 
 	/**
@@ -646,41 +623,21 @@ public class Timeline extends Weibo {
 	 */
 	public Status UploadStatus(String status, ImageItem item)
 			throws WeiboException {
-
-		if (getTokenSecret() != null && getTokenSecret().length() > 0) {
-			weibo4j.http.v1.HttpClient http = new weibo4j.http.v1.HttpClient();
-			http.setOAuthConsumer(getAppkey(), getAppSecret());
-			http.setToken(getToken(), getTokenSecret());
-			if (item == null) {
-				return new Status(http.post(getBaseURL()
-						+ "statuses/update.json",
-						new PostParameter[] { new PostParameter("status",
-								status) }, true));
-			} else {
-				if (!URLEncodeUtils.isURLEncoded(status)) {
-					status = URLEncodeUtils.encodeURL(status);
-				}
-				return new Status(http.multPartURL(getBaseURL()
-						+ "statuses/upload.json", new PostParameter[] {
-						new PostParameter("status", status),
-						new PostParameter("source", getAppkey()) }, item, true));
-			}
+		if (item == null) {
+			return new Status(
+					client.post(WeiboConfig.getValue("baseURL")
+							+ "statuses/update.json",
+							new PostParameter[] { new PostParameter("status",
+									status) }));
 		} else {
-			if (item == null) {
-				return new Status(client.post(WeiboConfig.getValue("baseURL")
-						+ "statuses/update.json",
-						new PostParameter[] { new PostParameter("status",
-								status) }));
-			} else {
-				if (!URLEncodeUtils.isURLEncoded(status)) {
-					status = URLEncodeUtils.encodeURL(status);
-				}
-				return new Status(client.multPartURL(
-						WeiboConfig.getValue("baseURL")
-								+ "statuses/upload.json",
-						new PostParameter[] { new PostParameter("status",
-								status) }, item));
+			if (!URLEncodeUtils.isURLEncoded(status)) {
+				status = URLEncodeUtils.encodeURL(status);
 			}
+			return new Status(
+					client.multPartURL(WeiboConfig.getValue("baseURL")
+							+ "statuses/upload.json",
+							new PostParameter[] { new PostParameter("status",
+									status) }, item));
 		}
 
 	}

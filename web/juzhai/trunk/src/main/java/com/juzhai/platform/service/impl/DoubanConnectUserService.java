@@ -198,13 +198,6 @@ public class DoubanConnectUserService extends AbstractUserService {
 		return uid;
 	}
 
-	@Override
-	protected boolean checkAuthInfo(HttpServletRequest request,
-			AuthInfo authInfo, Thirdparty tp) {
-
-		return true;
-	}
-
 	private String getOAuthAccessTokenFromCode(Thirdparty tp, String token,
 			String tokenSecret) {
 		DoubanService doubanService = new DoubanService(tp.getAppId(),

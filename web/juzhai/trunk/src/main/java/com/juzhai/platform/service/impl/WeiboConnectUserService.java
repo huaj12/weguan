@@ -204,6 +204,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 			return null;
 		}
 
+		//TODO (review) 初始化问题
 		String uid = "";
 		try {
 			String[] str = token.split(",");

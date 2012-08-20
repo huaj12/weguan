@@ -148,12 +148,10 @@ public class WeiboConnectUserService extends AbstractUserService {
 			return null;
 		}
 		AccessToken token = getOAuthAccessTokenFromCode(tp, code);
-		// TODO (done) token无法为null，这里判断实效了
 		if (null == token) {
 			log.error("weibo  accessToken is null");
 			return null;
 		}
-		// TODO (done) 初始化问题
 		String uid = null;
 		try {
 			long expiresTime = 0;

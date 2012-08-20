@@ -126,33 +126,25 @@ public abstract class AbstractUserService implements IUserService {
 		return getAuthorizeURLforCode(request, response, tp, terminal, turnTo,
 				incode, callback);
 	}
-
-	// TODO (done)
-	// 之前没看这个方法实现。现在看了，判断tpId是否一样，完全不需要参数列表里两个tpId变量，根据uid或者request就能拿到当前用户的tpId
+	
 	@Override
 	public void expireAccess(HttpServletRequest request, Thirdparty tp, long uid)
 			throws TokenAuthorizeException {
 		Passport passport = passportService.getPassportByUid(uid);
 		TpUser tpUser = tpUserService.getTpUserByUid(uid);
-		// TODO (done) 没有现成方法能判断用户是否有本地帐号吗？看看修改密码之前的怎么判断是否有本地帐号的。
 		if (null == tpUser || !registerService.hasAccount(passport)) {
 			throw new TokenAuthorizeException(
 					TokenAuthorizeException.USER_NOT_REQUIRE_AUTHORIZE);
 		}
-		// TODO (done) checkAuthInfo在这里有什么用？
 		AuthInfo authInfo = new AuthInfo();
 		fetchTpIdentity(request, authInfo, tp);
-		// TODO (done) 有没有考虑我们数据库是否大小写无关？
 		if (!tpUser.getTpIdentity().equalsIgnoreCase(authInfo.getTpIdentity())) {
 			// 新号授权
-			// TODO (done) 这里为什么要返回list？
 			if (tpUserAuthService.countUserAuth(uid) > 1) {
-				// TODO (done) 下面这个注释不明确
 				// 一个平台绑定了多个产品。不能切换新号授权只能用原来的号
 				throw new TokenAuthorizeException(
 						TokenAuthorizeException.BIND_MULTIPLE_PRODUCT_CAN_NOT_AUTHORIZE_NEW_USER);
 			}
-			// TODO (done) 判断是否存在应该用count
 			if (tpUserService.existTpUserByTpIdAndIdentity(tp.getId(),
 					authInfo.getTpIdentity())) {
 				// 新授权的号已注册过

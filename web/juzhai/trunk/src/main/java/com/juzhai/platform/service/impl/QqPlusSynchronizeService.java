@@ -77,7 +77,6 @@ public class QqPlusSynchronizeService implements ISynchronizeService,
 
 	@Override
 	public void push(String openid, String text, String link) {
-		// TODO (done) 为什么还是放在task里，第三方的服务，就写到platform里
 		Thirdparty tp = InitData.TP_MAP.get(9l);
 		QPushService service = QPushService.createInstance(
 				Integer.parseInt(tp.getAppKey()), tp.getAppSecret());

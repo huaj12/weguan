@@ -166,7 +166,6 @@ public class QqConnectUserService extends AbstractUserService {
 		long expiresTime = 0;
 		try {
 			str = oauth.getAccessToken(code, state);
-			// TODO (done) 有验证过str吗？敢直接用[0],[1]？
 			if (str == null || str.length != 2 || StringUtils.isEmpty(str[0])
 					|| StringUtils.isEmpty(str[1])) {
 				log.error("QQ content getAccessToken return null");

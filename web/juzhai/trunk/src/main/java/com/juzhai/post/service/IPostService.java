@@ -308,7 +308,6 @@ public interface IPostService {
 	 * @param uid
 	 * @param tpId
 	 */
-	// TODO (done) 此方法已经用作所有平台的同步，方法名已经不适合了
 	void synchronizePlatform(long uid, long tpId, long postId);
 
 	/**

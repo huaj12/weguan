@@ -130,7 +130,7 @@ public class LoginController extends BaseController {
 			AuthInfo authInfo = getAuthInfo(uid, tp.getId());
 			// 授权过期
 			if (adminService.isTokenExpired(authInfo)) {
-				return "redirect:/show/authorize";
+				return "redirect:/authorize/show";
 			}
 		}
 		if (!userGuideService.isCompleteGuide(uid)) {

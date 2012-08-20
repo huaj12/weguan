@@ -1,13 +1,11 @@
 package com.juzhai.platform.service.impl;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,7 +23,6 @@ import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
-import com.juzhai.passport.model.TpUserAuth;
 import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.ITpUserAuthService;
@@ -58,9 +55,6 @@ public abstract class AbstractUserService implements IUserService {
 			long inviterUid, DeviceName deviceName) {
 		if (authInfo == null) {
 			authInfo = new AuthInfo();
-		}
-		if (!checkAuthInfo(request, authInfo, tp)) {
-			return 0L;
 		}
 		String tpIdentity = fetchTpIdentity(request, authInfo, tp);
 		if (StringUtils.isEmpty(tpIdentity) || "null".equals(tpIdentity)) {
@@ -133,43 +127,33 @@ public abstract class AbstractUserService implements IUserService {
 				incode, callback);
 	}
 
-	//TODO (review) 之前没看这个方法实现。现在看了，判断tpId是否一样，完全不需要参数列表里两个tpId变量，根据uid或者request就能拿到当前用户的tpId
+	// TODO (done)
+	// 之前没看这个方法实现。现在看了，判断tpId是否一样，完全不需要参数列表里两个tpId变量，根据uid或者request就能拿到当前用户的tpId
 	@Override
 	public void expireAccess(HttpServletRequest request, Thirdparty tp, long uid)
 			throws TokenAuthorizeException {
 		Passport passport = passportService.getPassportByUid(uid);
 		TpUser tpUser = tpUserService.getTpUserByUid(uid);
-		//TODO (review) 没有现成方法能判断用户是否有本地帐号吗？看看修改密码之前的怎么判断是否有本地帐号的。
-		if (null == tpUser || null == passport
-				|| StringUtils.isEmpty(passport.getLoginName())
-				|| StringUtils.startsWith(passport.getLoginName(), "@")) {
+		// TODO (done) 没有现成方法能判断用户是否有本地帐号吗？看看修改密码之前的怎么判断是否有本地帐号的。
+		if (null == tpUser || !registerService.hasAccount(passport)) {
 			throw new TokenAuthorizeException(
 					TokenAuthorizeException.USER_NOT_REQUIRE_AUTHORIZE);
 		}
-		//TODO (review) checkAuthInfo在这里有什么用？
+		// TODO (done) checkAuthInfo在这里有什么用？
 		AuthInfo authInfo = new AuthInfo();
-		if (!checkAuthInfo(request, authInfo, tp)) {
-			throw new TokenAuthorizeException(
-					TokenAuthorizeException.ILLEGAL_OPERATION);
-		}
 		fetchTpIdentity(request, authInfo, tp);
-		//TODO (review) 有没有考虑我们数据库是否大小写无关？
+		// TODO (done) 有没有考虑我们数据库是否大小写无关？
 		if (!tpUser.getTpIdentity().equalsIgnoreCase(authInfo.getTpIdentity())) {
 			// 新号授权
-			//TODO (review) 这里为什么要返回list？
-			List<TpUserAuth> userAuthList = tpUserAuthService.listUserAuth(uid);
-			if (CollectionUtils.isEmpty(userAuthList)) {
-				throw new TokenAuthorizeException(
-						TokenAuthorizeException.ILLEGAL_OPERATION);
-			}
-			if (userAuthList.size() > 1) {
-				//TODO (review) 下面这个注释不明确
-				// 一个平台只能绑定一款产品
+			// TODO (done) 这里为什么要返回list？
+			if (tpUserAuthService.countUserAuth(uid) > 1) {
+				// TODO (done) 下面这个注释不明确
+				// 一个平台绑定了多个产品。不能切换新号授权只能用原来的号
 				throw new TokenAuthorizeException(
 						TokenAuthorizeException.BIND_MULTIPLE_PRODUCT_CAN_NOT_AUTHORIZE_NEW_USER);
 			}
-			//TODO (review) 判断是否存在应该用count
-			if (null != tpUserService.getTpUserByTpIdAndIdentity(tp.getId(),
+			// TODO (done) 判断是否存在应该用count
+			if (tpUserService.existTpUserByTpIdAndIdentity(tp.getId(),
 					authInfo.getTpIdentity())) {
 				// 新授权的号已注册过
 				throw new TokenAuthorizeException(
@@ -200,18 +184,6 @@ public abstract class AbstractUserService implements IUserService {
 
 	protected abstract String fetchTpIdentity(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp);
-
-	protected abstract boolean checkAuthInfo(HttpServletRequest request,
-			AuthInfo authInfo, Thirdparty tp);
-
-	/**
-	 * Connect获取accessToken
-	 * 
-	 * @param code
-	 * @return
-	 */
-	protected abstract String getOAuthAccessTokenFromCode(Thirdparty tp,
-			String code);
 
 	/**
 	 * 获取授权地址

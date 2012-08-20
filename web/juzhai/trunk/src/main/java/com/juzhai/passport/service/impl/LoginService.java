@@ -200,7 +200,6 @@ public class LoginService implements ILoginService {
 			updateProfile.setLastUserOnlineTime(cDate);
 			profileMapper.updateByPrimaryKeySelective(updateProfile);
 
-			// TODO (done) 由应该负责的service去处理
 			userOnlineService.updateUserOnlineTimeCache(uid, cDate);
 		}
 	}

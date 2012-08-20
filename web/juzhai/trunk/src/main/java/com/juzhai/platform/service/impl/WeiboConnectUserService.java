@@ -35,7 +35,6 @@ import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.Town;
-import com.juzhai.platform.bean.JuzhaiToken;
 import com.juzhai.platform.bean.Terminal;
 
 @Service
@@ -47,24 +46,22 @@ public class WeiboConnectUserService extends AbstractUserService {
 	@Value(value = "${feature.length.max}")
 	private int featureLengthMax;
 
-	public JuzhaiToken getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
+	public AccessToken getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
 		Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
 				tp.getAppUrl());
-		JuzhaiToken token = null;
+		AccessToken accessToken = null;
 		try {
-			AccessToken accessToken = oauth.getAccessTokenByCode(code);
-			if (accessToken != null
-					&& StringUtils.isNotEmpty(accessToken.getAccessToken())
-					&& StringUtils.isNotEmpty(accessToken.getExpireIn())) {
-				token = new JuzhaiToken();
-				token.setAccessToken(accessToken.getAccessToken());
-				token.setExpireIn(accessToken.getExpireIn());
-			}
+			accessToken = oauth.getAccessTokenByCode(code);
 		} catch (WeiboException e) {
 			log.error("weibo getOAuthAccessTokenFromCode is error"
 					+ e.getMessage());
 		}
-		return token;
+		if (accessToken == null
+				|| StringUtils.isEmpty(accessToken.getAccessToken())
+				|| StringUtils.isEmpty(accessToken.getExpireIn())) {
+			return null;
+		}
+		return accessToken;
 	}
 
 	@Override
@@ -150,7 +147,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 			log.error("weibo  Thirdparty is null");
 			return null;
 		}
-		JuzhaiToken token = getOAuthAccessTokenFromCode(tp, code);
+		AccessToken token = getOAuthAccessTokenFromCode(tp, code);
 		// TODO (done) token无法为null，这里判断实效了
 		if (null == token) {
 			log.error("weibo  accessToken is null");

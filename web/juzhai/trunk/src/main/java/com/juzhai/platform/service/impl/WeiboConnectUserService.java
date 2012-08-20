@@ -174,12 +174,6 @@ public class WeiboConnectUserService extends AbstractUserService {
 	}
 
 	@Override
-	protected boolean checkAuthInfo(HttpServletRequest request,
-			AuthInfo authInfo, Thirdparty tp) {
-		return true;
-	}
-
-	@Override
 	public String getAuthorizeURLforCode(HttpServletRequest request,
 			HttpServletResponse response, Thirdparty tp, Terminal terminal,
 			String turnTo, String incode, String callbackUrl)

@@ -151,10 +151,10 @@ public class TpUserAuthService implements ITpUserAuthService {
 	}
 
 	@Override
-	public List<TpUserAuth> listUserAuth(long uid) {
+	public int countUserAuth(long uid) {
 		TpUserAuthExample example = new TpUserAuthExample();
 		example.createCriteria().andUidEqualTo(uid);
-		return tpUserAuthMapper.selectByExample(example);
+		return tpUserAuthMapper.countByExample(example);
 	}
 
 }

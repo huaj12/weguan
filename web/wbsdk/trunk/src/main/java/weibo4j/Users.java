@@ -32,20 +32,10 @@ public class Users extends Weibo {
 	 * @since JDK 1.5
 	 */
 	public User showUserById(String uid) throws WeiboException {
-
-		if (getTokenSecret() != null && getTokenSecret().length() > 0) {
-			weibo4j.http.v1.HttpClient http = new weibo4j.http.v1.HttpClient();
-			http.setOAuthConsumer(getAppkey(), getAppSecret());
-			http.setToken(getToken(), getTokenSecret());
-			String url = getEncodeUrl(getBaseURL() + "users/show.json",
-					new PostParameter[] { new PostParameter("id", uid) });
-			return new User(http.get(url, true).asJSONObject());
-		} else {
-			return new User(client.get(
-					WeiboConfig.getValue("baseURL") + "users/show.json",
-					new PostParameter[] { new PostParameter("uid", uid) })
-					.asJSONObject());
-		}
+		return new User(client.get(
+				WeiboConfig.getValue("baseURL") + "users/show.json",
+				new PostParameter[] { new PostParameter("uid", uid) })
+				.asJSONObject());
 	}
 
 	/**

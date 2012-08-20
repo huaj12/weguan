@@ -195,9 +195,4 @@ public class QqConnectUserService extends AbstractUserService {
 		return uid;
 	}
 
-	@Override
-	protected boolean checkAuthInfo(HttpServletRequest request,
-			AuthInfo authInfo, Thirdparty tp) {
-		return true;
-	}
 }

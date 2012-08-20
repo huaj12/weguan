@@ -88,6 +88,9 @@ public class QqPlusUserService extends AbstractUserService {
 	@Override
 	protected String fetchTpIdentity(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
+		if (!checkAuthInfo(request, authInfo, tp)) {
+			return null;
+		}
 		String uid = request.getParameter("app_openid");
 		String app_openkey = request.getParameter("app_openkey");
 		authInfo.setThirdparty(tp);
@@ -96,8 +99,7 @@ public class QqPlusUserService extends AbstractUserService {
 		return uid;
 	}
 
-	@Override
-	protected boolean checkAuthInfo(HttpServletRequest request,
+	private boolean checkAuthInfo(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
 		QOpenService service = QOpenService.createInstance(
 				Integer.parseInt(tp.getAppId()), tp.getAppSecret());

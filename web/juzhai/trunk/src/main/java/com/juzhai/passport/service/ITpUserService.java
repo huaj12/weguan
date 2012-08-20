@@ -22,5 +22,12 @@ public interface ITpUserService {
 	 */
 	void updateTpIdentity(long uid, String newTpIdentity);
 
-	int countTpUserByTpIdAndIdentity(long tpId, String identity);
+	/**
+	 * 判断第三方帐号是否存在
+	 * 
+	 * @param tpId
+	 * @param identity
+	 * @return
+	 */
+	boolean existTpUserByTpIdAndIdentity(long tpId, String identity);
 }

@@ -58,12 +58,22 @@ public class IdeaMController extends BaseController {
 		if (loginUser != null && loginUser.getCity() != null) {
 			cityId = loginUser.getCity();
 		}
+		PagerManager pager = null;
+		List<Idea> ideaList = null;
 		ShowIdeaOrder order = ShowIdeaOrder.getShowIdeaOrderByType(orderType);
-		PagerManager pager = new PagerManager(page, mobileShowIdeasMaxRows,
-				ideaService.countIdeaByCityAndCategory(cityId, categoryId));
-		List<Idea> ideaList = ideaService
-				.listIdeaByCityAndCategory(cityId, categoryId, order,
-						pager.getFirstResult(), pager.getMaxResult());
+		if (null != order) {
+			pager = new PagerManager(page, mobileShowIdeasMaxRows,
+					ideaService.countIdeaByCityAndCategory(cityId, categoryId));
+			ideaList = ideaService.listIdeaByCityAndCategory(cityId,
+					categoryId, order, pager.getFirstResult(),
+					pager.getMaxResult());
+		} else {
+			pager = new PagerManager(page, mobileShowIdeasMaxRows,
+					ideaService.countIdeaWindow(cityId, categoryId));
+			ideaList = ideaService.listIdeaWindow(cityId, categoryId,
+					pager.getFirstResult(), pager.getMaxResult());
+		}
+
 		List<IdeaMView> ideaViewList = new ArrayList<IdeaMView>(ideaList.size());
 		for (Idea idea : ideaList) {
 			IdeaMView ideaMView = new IdeaMView();

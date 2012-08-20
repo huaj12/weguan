@@ -104,9 +104,4 @@ public class QqPlusUserService extends AbstractUserService {
 		return service.checkParamsSig(request.getQueryString());
 	}
 
-	@Override
-	protected String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
-		return null;
-	}
-
 }

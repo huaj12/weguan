@@ -133,35 +133,42 @@ public abstract class AbstractUserService implements IUserService {
 				incode, callback);
 	}
 
+	//TODO (review) 之前没看这个方法实现。现在看了，判断tpId是否一样，完全不需要参数列表里两个tpId变量，根据uid或者request就能拿到当前用户的tpId
 	@Override
 	public void expireAccess(HttpServletRequest request, Thirdparty tp, long uid)
 			throws TokenAuthorizeException {
 		Passport passport = passportService.getPassportByUid(uid);
 		TpUser tpUser = tpUserService.getTpUserByUid(uid);
+		//TODO (review) 没有现成方法能判断用户是否有本地帐号吗？看看修改密码之前的怎么判断是否有本地帐号的。
 		if (null == tpUser || null == passport
 				|| StringUtils.isEmpty(passport.getLoginName())
 				|| StringUtils.startsWith(passport.getLoginName(), "@")) {
 			throw new TokenAuthorizeException(
 					TokenAuthorizeException.USER_NOT_REQUIRE_AUTHORIZE);
 		}
+		//TODO (review) checkAuthInfo在这里有什么用？
 		AuthInfo authInfo = new AuthInfo();
 		if (!checkAuthInfo(request, authInfo, tp)) {
 			throw new TokenAuthorizeException(
 					TokenAuthorizeException.ILLEGAL_OPERATION);
 		}
 		fetchTpIdentity(request, authInfo, tp);
+		//TODO (review) 有没有考虑我们数据库是否大小写无关？
 		if (!tpUser.getTpIdentity().equalsIgnoreCase(authInfo.getTpIdentity())) {
 			// 新号授权
+			//TODO (review) 这里为什么要返回list？
 			List<TpUserAuth> userAuthList = tpUserAuthService.listUserAuth(uid);
 			if (CollectionUtils.isEmpty(userAuthList)) {
 				throw new TokenAuthorizeException(
 						TokenAuthorizeException.ILLEGAL_OPERATION);
 			}
 			if (userAuthList.size() > 1) {
+				//TODO (review) 下面这个注释不明确
 				// 一个平台只能绑定一款产品
 				throw new TokenAuthorizeException(
 						TokenAuthorizeException.BIND_MULTIPLE_PRODUCT_CAN_NOT_AUTHORIZE_NEW_USER);
 			}
+			//TODO (review) 判断是否存在应该用count
 			if (null != tpUserService.getTpUserByTpIdAndIdentity(tp.getId(),
 					authInfo.getTpIdentity())) {
 				// 新授权的号已注册过

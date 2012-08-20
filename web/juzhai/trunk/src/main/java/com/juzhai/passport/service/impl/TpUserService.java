@@ -47,12 +47,12 @@ public class TpUserService implements ITpUserService {
 	}
 
 	@Override
-	public int countTpUserByTpIdAndIdentity(long tpId, String identity) {
+	public boolean existTpUserByTpIdAndIdentity(long tpId, String identity) {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		TpUserExample example = new TpUserExample();
 		example.createCriteria().andTpNameEqualTo(tp.getName())
 				.andTpIdentityEqualTo(identity);
-		return tpUserMapper.countByExample(example);
+		return tpUserMapper.countByExample(example) > 0 ? true : false;
 	}
 
 }

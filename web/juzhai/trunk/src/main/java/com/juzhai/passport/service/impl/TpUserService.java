@@ -52,7 +52,7 @@ public class TpUserService implements ITpUserService {
 		TpUserExample example = new TpUserExample();
 		example.createCriteria().andTpNameEqualTo(tp.getName())
 				.andTpIdentityEqualTo(identity);
-		return tpUserMapper.countByExample(example) > 0 ? true : false;
+		return tpUserMapper.countByExample(example) > 0;
 	}
 
 }

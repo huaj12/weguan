@@ -8,14 +8,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.rubyeye.xmemcached.MemcachedClient;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
@@ -24,7 +21,6 @@ import weibo4j.Account;
 import weibo4j.Oauth;
 import weibo4j.Users;
 import weibo4j.http.AccessToken;
-import weibo4j.http.v1.RequestToken;
 import weibo4j.model.User;
 import weibo4j.model.WeiboException;
 import weibo4j.org.json.JSONObject;
@@ -39,7 +35,7 @@ import com.juzhai.passport.model.City;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.Town;
-import com.juzhai.platform.Version;
+import com.juzhai.platform.bean.JuzhaiToken;
 import com.juzhai.platform.bean.Terminal;
 
 @Service
@@ -50,62 +46,25 @@ public class WeiboConnectUserService extends AbstractUserService {
 	private int nicknameLengthMax;
 	@Value(value = "${feature.length.max}")
 	private int featureLengthMax;
-	@Autowired
-	private MemcachedClient memcachedClient;
-	@Value("${oauth.token.secret.expire.time}")
-	private int oauthTokenSecretExpireTime;
 
-	@Override
-	public String getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
+	public JuzhaiToken getOAuthAccessTokenFromCode(Thirdparty tp, String code) {
 		Oauth oauth = new Oauth(tp.getAppKey(), tp.getAppSecret(),
 				tp.getAppUrl());
-		//TODO (review) 既然统一用StringBuilder了，accessToken这个变量还有必要吗？
-		String accessToken = null;
-		//TODO (review) 虽然是原本没有review出来的问题，为什么在改代码的时候，还是仍然用StringBuffer
-		StringBuffer sb = new StringBuffer();
-		String str[] = code.split(",");
+		JuzhaiToken token = null;
 		try {
-			if (str[0].equals("null")) {
-				String oauth_token = str[1];
-				String oauth_verifier = str[2];
-				String tokenSecret = null;
-				try {
-					tokenSecret = memcachedClient.get(oauth_token);
-					memcachedClient.delete(oauth_token);
-				} catch (Exception e) {
-					log.error(
-							"weibo getOAuthAccessTokenFromCode memcachedClient is error.",
-							e);
-					return null;
-				}
-				if (StringUtils.isEmpty(tokenSecret)) {
-					log.error("weibo tokenSecret is null");
-					return null;
-				}
-				weibo4j.http.v1.AccessToken token = oauth.getOAuthAccessToken(
-						oauth_token, tokenSecret, oauth_verifier);
-
-				sb.append(token.getToken());
-				sb.append(",");
-				sb.append(token.getTokenSecret());
-				sb.append(",");
-				sb.append(token.getUserId());
-			} else {
-				AccessToken token = oauth.getAccessTokenByCode(str[0]);
-				sb.append(token.getAccessToken());
-				sb.append(",");
-				sb.append(token.getExpireIn());
+			AccessToken accessToken = oauth.getAccessTokenByCode(code);
+			if (accessToken != null
+					&& StringUtils.isNotEmpty(accessToken.getAccessToken())
+					&& StringUtils.isNotEmpty(accessToken.getExpireIn())) {
+				token = new JuzhaiToken();
+				token.setAccessToken(accessToken.getAccessToken());
+				token.setExpireIn(accessToken.getExpireIn());
 			}
-			accessToken = sb.toString();
 		} catch (WeiboException e) {
 			log.error("weibo getOAuthAccessTokenFromCode is error"
 					+ e.getMessage());
 		}
-		//TODO (review) 这个if永远不会成立，我也担心，调用这个方法的时候，判断返回值是否有效是通过null来判断的，但是现在不可能是null，判断方式就有问题了
-		if (null == accessToken) {
-			return null;
-		}
-		return accessToken;
+		return token;
 	}
 
 	@Override
@@ -183,50 +142,33 @@ public class WeiboConnectUserService extends AbstractUserService {
 	protected String fetchTpIdentity(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
 		String code = request.getParameter("code");
-		String oauth_token = request.getParameter("oauth_token");
-		String oauth_verifier = request.getParameter("oauth_verifier");
-
-		if (StringUtils.isEmpty(code) && StringUtils.isEmpty(oauth_token)
-				&& StringUtils.isEmpty(oauth_verifier)) {
-			log.error("weibo get code is " + code + ":oauth_token="
-					+ oauth_token + ":oauth_verifier=" + oauth_verifier);
+		if (StringUtils.isEmpty(code)) {
+			log.error("weibo get code is " + code);
 			return null;
 		}
 		if (null == tp) {
 			log.error("weibo  Thirdparty is null");
 			return null;
 		}
-		String token = getOAuthAccessTokenFromCode(tp, code + "," + oauth_token
-				+ "," + oauth_verifier);
-		//TODO (review) token无法为null，这里判断实效了
-		if (StringUtils.isEmpty(token)) {
+		JuzhaiToken token = getOAuthAccessTokenFromCode(tp, code);
+		// TODO (done) token无法为null，这里判断实效了
+		if (null == token) {
 			log.error("weibo  accessToken is null");
 			return null;
 		}
-
-		//TODO (review) 初始化问题
-		String uid = "";
+		// TODO (done) 初始化问题
+		String uid = null;
 		try {
-			String[] str = token.split(",");
-			String accessToken = null;
-			String tokenSecret = null;
 			long expiresTime = 0;
-			if (str.length > 2) {
-				accessToken = str[0];
-				tokenSecret = str[1];
-				uid = str[2];
-			} else {
-				accessToken = str[0];
-				expiresTime = System.currentTimeMillis() + Long.valueOf(str[1])
-						* 1000;
-				Account account = new Account(accessToken);
-				JSONObject jsonObject = account.getUid();
-				uid = String.valueOf(jsonObject.get("uid"));
-			}
+			String accessToken = token.getAccessToken();
+			expiresTime = System.currentTimeMillis()
+					+ Long.valueOf(token.getExpireIn()) * 1000;
+			Account account = new Account(accessToken);
+			JSONObject jsonObject = account.getUid();
+			uid = String.valueOf(jsonObject.get("uid"));
 			authInfo.setThirdparty(tp);
 			authInfo.setToken(accessToken);
 			authInfo.setTpIdentity(uid);
-			authInfo.setTokenSecret(tokenSecret);
 			authInfo.setExpiresTime(expiresTime);
 		} catch (Exception e) {
 			log.error("weibo fetchTpIdentity is error" + e.getMessage());
@@ -251,22 +193,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 					URLEncoder
 							.encode(buildAuthorizeURLParams(callbackUrl,
 									turnTo, incode), Constants.UTF8));
-			if (Version.WEIBOV2.equals(Version.getWeiboVersion())) {
-				url = oauth.authorize("code", terminal.getType());
-			} else {
-				RequestToken requestToken = oauth.getRequestToken();
-				try {
-					memcachedClient.set(requestToken.getToken(),
-							oauthTokenSecretExpireTime,
-							requestToken.getTokenSecret());
-				} catch (Exception e) {
-					log.error(
-							"weibo getAuthorizeURLforCode memcachedClient is error",
-							e);
-					return null;
-				}
-				url = oauth.getAuthorizeV1(requestToken);
-			}
+			url = oauth.authorize("code", terminal.getType());
 		} catch (WeiboException e) {
 			log.error("getAuthorizeURLforCode is error" + e.getMessage());
 		}

@@ -286,7 +286,7 @@ public class RegisterService implements IRegisterService {
 		validateEmail(email);
 		validatePwd(pwd, confirmPwd);
 		Passport passport = passportService.getPassportByUid(uid);
-		if (!hasAccount(passport)) {
+		if (passport == null || hasAccount(passport)) {
 			throw new PassportAccountException(
 					PassportAccountException.ILLEGAL_OPERATION);
 		}

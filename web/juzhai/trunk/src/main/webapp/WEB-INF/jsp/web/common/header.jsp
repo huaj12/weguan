@@ -35,7 +35,7 @@
 						<a href="/home/blacklist/">屏蔽管理</a>
 						<c:if test="${empty isQplus||!isQplus}">
 							<c:if test="${context.tpId>0}">
-								<a href="/show/authorize">授权管理</a>
+								<a href="/authorize/show">授权管理</a>
 							</c:if>
 						</c:if>
 						<!-- <a href="/profile/email">订阅设置</a> -->

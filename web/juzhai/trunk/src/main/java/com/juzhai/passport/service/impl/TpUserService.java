@@ -46,4 +46,16 @@ public class TpUserService implements ITpUserService {
 		tpUserMapper.updateByPrimaryKeySelective(tpUser);
 	}
 
+	@Override
+	public int countTpUserByTpIdAndIdentity(long tpId, String identity) {
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		if (null == tp) {
+			return 0;
+		}
+		TpUserExample example = new TpUserExample();
+		example.createCriteria().andTpNameEqualTo(tp.getName())
+				.andTpIdentityEqualTo(identity);
+		return tpUserMapper.countByExample(example);
+	}
+
 }

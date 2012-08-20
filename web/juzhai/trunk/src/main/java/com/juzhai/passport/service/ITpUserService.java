@@ -21,4 +21,6 @@ public interface ITpUserService {
 	 * @param newTpIdentity
 	 */
 	void updateTpIdentity(long uid, String newTpIdentity);
+
+	int countTpUserByTpIdAndIdentity(long tpId, String identity);
 }

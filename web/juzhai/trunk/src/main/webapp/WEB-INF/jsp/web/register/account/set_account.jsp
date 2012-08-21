@@ -21,6 +21,7 @@
 							<c:set var="page" value="account" scope="request" />
 							<jsp:include page="/WEB-INF/jsp/web/profile/common/left.jsp" />
 							<div class="set_right"><!--set_right begin-->
+								<div class="title"><h2>设置我的账号密码</h2></div>
 								<div class="my_infor"><!--my_infor begin-->
 									<div class="tisi1">请填写有效的电子邮箱，该邮箱将成为你在拒宅网的登录帐号，同时用于找回密码。</div>
 									<div class="zhmm"><!--zhmm begin-->

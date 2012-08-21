@@ -161,7 +161,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 		if (StringUtils.isEmpty(oauthTokenSecret)) {
 			// String Agent = request.getHeader("User-Agent");
 			// log.info("user Agent is " + Agent);
-			// log.error("douban  oauthTokenSecret is null");
+			log.error("douban  oauthTokenSecret is null");
 			return null;
 		}
 		String accessToken = getOAuthAccessTokenFromCode(tp, oauth_token,

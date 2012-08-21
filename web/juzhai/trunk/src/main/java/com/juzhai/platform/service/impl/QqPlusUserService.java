@@ -89,6 +89,7 @@ public class QqPlusUserService extends AbstractUserService {
 	protected String fetchTpIdentity(HttpServletRequest request,
 			AuthInfo authInfo, Thirdparty tp) {
 		if (!checkAuthInfo(request, authInfo, tp)) {
+			log.error("QQ Plus checkAuthInfo is error.");
 			return null;
 		}
 		String uid = request.getParameter("app_openid");

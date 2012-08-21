@@ -2,6 +2,7 @@
 <%@ taglib prefix="jzr" uri="http://www.51juzhai.com/jsp/jstl/jzResource" %>
 <%@ taglib prefix="jzd" uri="http://www.51juzhai.com/jsp/jstl/jzData" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="jzu" uri="http://www.51juzhai.com/jsp/jstl/jzUtil" %>
 	<div class="fix_top"><!--fix_top begin-->
 		<c:if test="${empty isQplus||!isQplus}">
 			<div class="beta"></div>
@@ -55,7 +56,7 @@
 					</div>
 				</div>
 				<!--acc end-->
-				<div class="my_face_login"><a href="/home/${loginUser.uid}" title="<c:out value="${loginUser.nickname}" />"><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}" height="20" width="20" /><p><c:out value="${loginUser.nickname}" /></p></a></div>
+				<div class="my_face_login"><a href="/home/${loginUser.uid}" title="<c:out value="${loginUser.nickname}" />"><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}" height="20" width="20" /><p><c:out value="${jzu:truncate(loginUser.nickname,12,'')}"/></p></a></div>
 			</c:if>
 			<c:if test="${context.uid<=0}">
 				<div class="login_btn"><a href="/login" class="btn_log" title="登录">登录</a><a href="/passport/register" class="btn_res" title="">注册</a></div>

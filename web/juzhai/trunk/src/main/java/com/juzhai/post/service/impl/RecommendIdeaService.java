@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +34,7 @@ public class RecommendIdeaService implements IRecommendIdeaService {
 	@Autowired
 	private RedisTemplate<String, List<Idea>> redisTemplate;
 	@Autowired
-	private RedisTemplate<String, Idea> redisIdeaTemplate;
+	private RedisTemplate<String, Long> redisIdeaTemplate;
 	@Autowired
 	private IIdeaDao ideaDao;
 	@Autowired
@@ -134,8 +135,16 @@ public class RecommendIdeaService implements IRecommendIdeaService {
 
 	@Override
 	public Set<Idea> listIndexIdeas() {
-		return redisIdeaTemplate.opsForSet().members(
+		Set<Long> ids = redisIdeaTemplate.opsForSet().members(
 				RedisKeyGenerator.genIndexIdeaKey());
+		Set<Idea> ideas = new HashSet<Idea>(ids.size());
+		for (Long id : ids) {
+			Idea idea = ideaService.getIdeaById(id);
+			if (idea != null) {
+				ideas.add(idea);
+			}
+		}
+		return ideas;
 	}
 
 	@Override
@@ -152,19 +161,17 @@ public class RecommendIdeaService implements IRecommendIdeaService {
 					InputRecommendException.ADD_IDEA_IS_TOO_MORE);
 		}
 		redisIdeaTemplate.opsForSet().add(RedisKeyGenerator.genIndexIdeaKey(),
-				idea);
+				ideaId);
 
 	}
 
 	@Override
 	public Idea getIndexIdea() {
 		String key = RedisKeyGenerator.genIndexIdeaKey();
-		Idea idea = redisIdeaTemplate.opsForSet().pop(key);
-		if (null != idea) {
-			redisIdeaTemplate.opsForSet().add(
-					RedisKeyGenerator.genIndexIdeaKey(), idea);
-		}
-		return idea;
+		long ideaId = redisIdeaTemplate.opsForSet().pop(key);
+		redisIdeaTemplate.opsForSet().add(RedisKeyGenerator.genIndexIdeaKey(),
+				ideaId);
+		return ideaService.getIdeaById(ideaId);
 	}
 
 	@Override
@@ -172,7 +179,7 @@ public class RecommendIdeaService implements IRecommendIdeaService {
 		Idea idea = ideaService.getIdeaById(ideaId);
 		if (null != idea) {
 			redisIdeaTemplate.opsForSet().remove(
-					RedisKeyGenerator.genIndexIdeaKey(), idea);
+					RedisKeyGenerator.genIndexIdeaKey(), ideaId);
 		}
 	}
 }

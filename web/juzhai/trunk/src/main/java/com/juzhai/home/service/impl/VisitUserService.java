@@ -33,6 +33,8 @@ public class VisitUserService implements IVisitUserService {
 	private INoticeService noticeService;
 	@Value("${user.visit.random.count}")
 	private int userVisitRandomCount;
+	@Value("${visit.notice.interval.time}")
+	private long visitNoticeIntervalTime;
 
 	@Override
 	public void addVisitUser(long uid, long visitUid) {
@@ -84,8 +86,13 @@ public class VisitUserService implements IVisitUserService {
 
 	private void addVisitUser(long uid, long visitUid, long time) {
 		String key = RedisKeyGenerator.genVisitUsersKey(uid);
+		Double historyVisitTime = redisTemplate.opsForZSet().score(key,
+				visitUid);
 		redisTemplate.opsForZSet().add(key, visitUid, time);
-		noticeService.incrNotice(uid, NoticeType.VISITOR);
-	}
+		if (historyVisitTime == null
+				|| time - historyVisitTime > visitNoticeIntervalTime) {
+			noticeService.incrNotice(uid, NoticeType.VISITOR);
+		}
 
+	}
 }

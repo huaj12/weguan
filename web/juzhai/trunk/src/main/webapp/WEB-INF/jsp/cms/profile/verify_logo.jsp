@@ -41,6 +41,7 @@
 		}
 	function passLogo(uid, obj){
 		var nickname = $(obj).attr("nickname");
+		$("#pass-logo-" + uid).removeAttr("onclick").text("处理中...");
 		//if(confirm("确认要通过 " + nickname + " 的头像吗？")){
 			jQuery.ajax({
 				url : "/cms/profile/passLogo",
@@ -49,8 +50,9 @@
 				dataType : "json",
 				success : function(result) {
 					if (result.success!=null&&result.success) {
-						$("#pass-logo-" + uid).removeAttr("onclick").text("已通过");
+						$("#pass-logo-" + uid).text("已通过");
 					} else {
+						$("#pass-logo-" + uid).text("处理失败刷新页面后重试");
 						alert(result.errorInfo);
 					}
 				},

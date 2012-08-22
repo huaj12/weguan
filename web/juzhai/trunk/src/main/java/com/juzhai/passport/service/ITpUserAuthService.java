@@ -57,4 +57,13 @@ public interface ITpUserAuthService {
 	 * @return
 	 */
 	int countUserAuth(long uid);
+
+	/**
+	 * token是否过期
+	 * 
+	 * @param uid
+	 * @param tpId
+	 * @return
+	 */
+	boolean isTokenExpired(long uid, long tpId);
 }

@@ -157,4 +157,10 @@ public class TpUserAuthService implements ITpUserAuthService {
 		return tpUserAuthMapper.countByExample(example);
 	}
 
+	@Override
+	public boolean isTokenExpired(long uid, long tpId) {
+		AuthInfo authInfo = getAuthInfo(uid, tpId);
+		return adminService.isTokenExpired(authInfo);
+	}
+
 }

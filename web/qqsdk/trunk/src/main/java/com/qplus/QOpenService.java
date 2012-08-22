@@ -118,7 +118,7 @@ public class QOpenService extends QPlusService {
 	}
 
 	public QOpenResult feed(Map<String, String> shares) throws IOException {
-		final String url = "https://cgi.qplus.com/openapi/share/add_feeds";
+		final String url = "https://openapi.qplus.com/openapi/share/add_qplus_feeds";
 		List<String> list = new ArrayList<String>(shares.size());
 		for (Entry<String, String> entry : shares.entrySet()) {
 			list.add(entry.getKey() + "=" + entry.getValue());

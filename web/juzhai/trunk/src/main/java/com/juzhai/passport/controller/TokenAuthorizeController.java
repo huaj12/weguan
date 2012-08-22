@@ -19,11 +19,10 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.InitData;
-import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.exception.TokenAuthorizeException;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.bean.Terminal;
-import com.juzhai.platform.service.IAdminService;
 import com.juzhai.platform.service.IUserService;
 
 @Controller
@@ -31,7 +30,7 @@ import com.juzhai.platform.service.IUserService;
 public class TokenAuthorizeController extends BaseController {
 
 	@Autowired
-	private IAdminService adminService;
+	private ITpUserAuthService tpUserAuthService;
 	@Autowired
 	private IUserService userService;
 	@Autowired
@@ -42,8 +41,10 @@ public class TokenAuthorizeController extends BaseController {
 			HttpServletResponse response, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		AuthInfo authInfo = getAuthInfo(context.getUid(), context.getTpId());
-		model.addAttribute("isExpired", adminService.isTokenExpired(authInfo));
+		model.addAttribute(
+				"isExpired",
+				tpUserAuthService.isTokenExpired(context.getUid(),
+						context.getTpId()));
 		return "web/profile/authorize";
 	}
 

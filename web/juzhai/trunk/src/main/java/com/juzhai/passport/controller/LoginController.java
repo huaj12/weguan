@@ -26,7 +26,6 @@ import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.InitData;
-import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.controller.form.LoginForm;
 import com.juzhai.passport.exception.PassportAccountException;
@@ -34,9 +33,9 @@ import com.juzhai.passport.exception.ReportAccountException;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.ILoginService;
+import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.passport.service.IUserGuideService;
-import com.juzhai.platform.service.IAdminService;
 import com.juzhai.verifycode.service.IVerifyCodeService;
 
 /**
@@ -56,7 +55,7 @@ public class LoginController extends BaseController {
 	@Autowired
 	private ITpUserService tpUserService;
 	@Autowired
-	private IAdminService adminService;
+	private ITpUserAuthService tpUserAuthService;
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, Model model,
@@ -127,9 +126,8 @@ public class LoginController extends BaseController {
 		if ((tpUser = tpUserService.getTpUserByUid(uid)) != null) {
 			Thirdparty tp = InitData.getTpByTpNameAndJoinType(
 					tpUser.getTpName(), JoinTypeEnum.CONNECT);
-			AuthInfo authInfo = getAuthInfo(uid, tp.getId());
 			// 授权过期
-			if (adminService.isTokenExpired(authInfo)) {
+			if (tpUserAuthService.isTokenExpired(uid, tp.getId())) {
 				return "redirect:/authorize/show";
 			}
 		}

@@ -56,6 +56,12 @@
 					</div>
 				</div>
 				<!--acc end-->
+				<!--my_gift begin-->
+				<div class="my_gift">
+					<p></p>
+					<a href="/event/show"></a>
+				</div>
+				<!--my_gift end-->
 				<div class="my_face_login"><a href="/home/${loginUser.uid}" title="<c:out value="${loginUser.nickname}" />"><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}" height="20" width="20" /><p><c:out value="${jzu:truncate(loginUser.nickname,12,'')}"/></p></a></div>
 			</c:if>
 			<c:if test="${context.uid<=0}">

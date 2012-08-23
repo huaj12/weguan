@@ -49,7 +49,8 @@ public class InitData {
 
 	private void initRandomIdea() {
 		IdeaExample example = new IdeaExample();
-		example.createCriteria().andRandomEqualTo(true);
+		example.createCriteria().andRandomEqualTo(true)
+				.andDefunctEqualTo(false);
 		List<Idea> ideaList = ideaMapper.selectByExample(example);
 		for (Idea idea : ideaList) {
 			List<Idea> list = RANDOM_IDEA.get(idea.getCity());

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.core.web.AjaxResult;
@@ -33,7 +34,8 @@ public class CmsIndexManagerController {
 
 	@RequestMapping(value = "/post/add", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult postAdd(Model model, long postId) {
+	public AjaxResult postAdd(Model model,
+			@RequestParam(defaultValue = "0") long postId) {
 		if (postService.getPostById(postId) != null) {
 			postSearchService.createIndex(postId);
 		}
@@ -42,7 +44,8 @@ public class CmsIndexManagerController {
 
 	@RequestMapping(value = "/post/del", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult postDel(Model model, long postId) {
+	public AjaxResult postDel(Model model,
+			@RequestParam(defaultValue = "0") long postId) {
 		if (postService.getPostById(postId) != null) {
 			postSearchService.deleteIndex(postId);
 		}
@@ -51,7 +54,8 @@ public class CmsIndexManagerController {
 
 	@RequestMapping(value = "/profile/add", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult profileAdd(Model model, long uid) {
+	public AjaxResult profileAdd(Model model,
+			@RequestParam(defaultValue = "0") long uid) {
 		ProfileCache cache = profileService.getProfileCacheByUid(uid);
 		if (cache != null) {
 			profileSearchService.createIndex(uid);
@@ -61,7 +65,8 @@ public class CmsIndexManagerController {
 
 	@RequestMapping(value = "/profile/del", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult profileDel(Model model, long uid) {
+	public AjaxResult profileDel(Model model,
+			@RequestParam(defaultValue = "0") long uid) {
 		ProfileCache cache = profileService.getProfileCacheByUid(uid);
 		if (cache != null) {
 			profileSearchService.deleteIndex(uid);

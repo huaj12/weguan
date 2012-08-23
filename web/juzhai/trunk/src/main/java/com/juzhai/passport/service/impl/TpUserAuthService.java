@@ -160,7 +160,9 @@ public class TpUserAuthService implements ITpUserAuthService {
 	@Override
 	public boolean isTokenExpired(long uid, long tpId) {
 		AuthInfo authInfo = getAuthInfo(uid, tpId);
+		if (authInfo == null) {
+			return false;
+		}
 		return adminService.isTokenExpired(authInfo);
 	}
-
 }

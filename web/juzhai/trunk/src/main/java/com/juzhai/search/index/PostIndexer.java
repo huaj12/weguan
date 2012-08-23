@@ -27,8 +27,8 @@ public class PostIndexer implements Indexer<Post> {
 	@Override
 	public void addIndex(Post post, boolean isCommit)
 			throws CorruptIndexException, IOException {
-		Document doc = buildDoc(post);
-		postIndexWriter.addDocument(doc);
+		postIndexWriter.updateDocument(new Term("id", post.getId().toString()),
+				buildDoc(post));
 		if (isCommit) {
 			commit();
 		}

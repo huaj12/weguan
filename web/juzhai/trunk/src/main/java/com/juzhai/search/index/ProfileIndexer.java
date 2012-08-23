@@ -22,8 +22,8 @@ public class ProfileIndexer implements Indexer<Profile> {
 	@Override
 	public void addIndex(Profile profile, boolean isCommit)
 			throws CorruptIndexException, IOException {
-		Document doc = buildDoc(profile);
-		profileIndexWriter.addDocument(doc);
+		profileIndexWriter.updateDocument(new Term("uid", profile.getUid()
+				.toString()), buildDoc(profile));
 		if (isCommit) {
 			commit();
 		}

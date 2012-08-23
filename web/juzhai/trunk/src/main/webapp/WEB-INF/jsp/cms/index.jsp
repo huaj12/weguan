@@ -323,6 +323,16 @@ a:hover {
 					</li>
 				</ul>
 			</li>
+			<li>
+				<a href="javascript:showChild('lunece_');">索引管理</a>
+				<ul style="display: none;" id="lunece_" class="child">
+					<li style="background-color: #A4D3EE;"><a
+						style="color: black;" href="/cms/lunece/manager/show"
+						target="config">索引管理</a>
+					</li>
+				</ul>
+			</li>
+			
 			<!-- <li>
 				<a href="/cms/searchActs" target="config">近义词设置</a>
 			</li>

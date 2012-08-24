@@ -15,7 +15,7 @@
 				<c:set var="age" value="${jzu:age(responseUserView.profileCache.birthYear, responseUserView.profileCache.birthSecret)}" />
 				<c:set var="constellationName" value="${jzd:constellationName(responseUserView.profileCache.constellationId)}" />
 				<em><c:if test="${age > 0}">${age}岁&nbsp;</c:if><c:if test="${responseUserView.profileCache.city != null && responseUserView.profileCache.city > 0}">${jzd:cityName(responseUserView.profileCache.city)}<c:if test="${responseUserView.profileCache.town != null && responseUserView.profileCache.town > 0}">${jzd:townName(responseUserView.profileCache.town)}</c:if>&nbsp;</c:if><c:if test="${not empty constellationName}">${constellationName}&nbsp;</c:if><c:if test="${not empty responseUserView.profileCache.profession}">${responseUserView.profileCache.profession}</c:if></em>
-				<b><c:set var="date" value="${responseUserView.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />+好主意</b>
+				<b><c:set var="date" value="${responseUserView.createTime}" scope="request" /><c:import url="/WEB-INF/jsp/web/common/fragment/show_time.jsp" />+有兴趣</b>
 				<c:if test="${context.uid != responseUserView.profileCache.uid}">
 					<span><a class="send-message" href="javascript:void(0);" target-uid="${responseUserView.profileCache.uid}" target-nickname="<c:out value='${responseUserView.profileCache.nickname}' />">私信</a></span>
 					<div class="keep user-remove-interest remove-interest-${responseUserView.profileCache.uid}" <c:if test="${!responseUserView.hasInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${responseUserView.profileCache.uid}" title="点击取消关注">已关注</a></div>

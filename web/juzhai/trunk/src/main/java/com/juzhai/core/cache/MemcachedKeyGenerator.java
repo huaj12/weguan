@@ -240,4 +240,15 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	public static String genIsCanSendRescueBoyKey(long uid) {
 		return genKey(uid, "isCanSendRescueBoyKey");
 	}
+
+	/**
+	 * 用户接收自救器消息的次数
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String genUserReceiveCountKey(long uid) {
+		return genKey(uid, "userReceiveCountKey");
+	}
+
 }

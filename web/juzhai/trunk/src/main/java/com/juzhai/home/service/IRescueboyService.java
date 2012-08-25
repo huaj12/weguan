@@ -34,6 +34,6 @@ public interface IRescueboyService {
 	 * @param uid
 	 * @return
 	 */
-	boolean isSend(long uid);
+	boolean isCanSend(long uid);
 
 }

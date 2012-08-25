@@ -237,8 +237,8 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	 * 
 	 * @return
 	 */
-	public static String genIsCanSendRescueBoyKey(long uid) {
-		return genKey(uid, "isCanSendRescueBoyKey");
+	public static String genIsCanSendRescueboyKey(long uid) {
+		return genKey(uid, "isCanSendRescueboyKey");
 	}
 
 	/**
@@ -247,8 +247,8 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 	 * @param uid
 	 * @return
 	 */
-	public static String genUserReceiveCountKey(long uid) {
-		return genKey(uid, "userReceiveCountKey");
+	public static String genUserReceiveRescueboyCountKey(long uid) {
+		return genKey(uid, "UserReceiveRescueboyCountKey");
 	}
 
 }

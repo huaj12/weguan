@@ -71,7 +71,7 @@ public class RescueboyService implements IRescueboyService {
 			}
 			try {
 				Long num = memcachedClient.get(MemcachedKeyGenerator
-						.genUserReceiveCountKey(receiveUid));
+						.genUserReceiveRescueboyCountKey(receiveUid));
 				if (num == null) {
 					num = 0l;
 				}
@@ -87,7 +87,8 @@ public class RescueboyService implements IRescueboyService {
 							idea.getContent());
 					int exp = DateUtil.getNextDayTime();
 					memcachedClient.set(MemcachedKeyGenerator
-							.genUserReceiveCountKey(receiveUid), exp, num);
+							.genUserReceiveRescueboyCountKey(receiveUid), exp,
+							num);
 				}
 
 			} catch (DialogException e) {
@@ -109,7 +110,7 @@ public class RescueboyService implements IRescueboyService {
 		int exp = DateUtil.getNextDayTime();
 		try {
 			memcachedClient.set(
-					MemcachedKeyGenerator.genIsCanSendRescueBoyKey(uid), exp,
+					MemcachedKeyGenerator.genIsCanSendRescueboyKey(uid), exp,
 					true);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -120,7 +121,7 @@ public class RescueboyService implements IRescueboyService {
 	public boolean isCanSend(long uid) {
 		try {
 			Object obj = memcachedClient.get(MemcachedKeyGenerator
-					.genIsCanSendRescueBoyKey(uid));
+					.genIsCanSendRescueboyKey(uid));
 			if (obj == null) {
 				return true;
 			} else {

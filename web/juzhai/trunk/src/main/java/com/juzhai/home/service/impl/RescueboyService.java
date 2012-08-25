@@ -87,7 +87,7 @@ public class RescueboyService implements IRescueboyService {
 							idea.getContent());
 					int exp = DateUtil.getNextDayTime();
 					memcachedClient.set(MemcachedKeyGenerator
-							.genUserReceiveCountKey(receiveUid), exp, true);
+							.genUserReceiveCountKey(receiveUid), exp, num);
 				}
 
 			} catch (DialogException e) {

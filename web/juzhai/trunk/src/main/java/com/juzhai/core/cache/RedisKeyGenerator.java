@@ -386,15 +386,4 @@ public class RedisKeyGenerator extends KeyGenerator {
 	public static String genRescueboyStatusKey() {
 		return "rescueboyStatus";
 	}
-
-	/**
-	 * 每个城市下待解救的女宅的数量
-	 * 
-	 * @param city
-	 * @return
-	 */
-	public static String genWaitInviteGirlCitySizeKey(long city) {
-		return genKey(city, "waitInviteGirlCitySize");
-	}
-
 }

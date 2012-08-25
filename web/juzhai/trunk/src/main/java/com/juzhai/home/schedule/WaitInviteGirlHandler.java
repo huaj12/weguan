@@ -28,7 +28,7 @@ public class WaitInviteGirlHandler extends AbstractScheduleHandler {
 
 	@Override
 	protected void doHandle() {
-		RescueboyService.citySendNum.clear();
+		RescueboyService.userSendNum.clear();
 		Set<Long> citys = redisTemplate.opsForSet().members(
 				RedisKeyGenerator.genWaitInviteGirlAllCityKey());
 		redisTemplate.delete(RedisKeyGenerator.genWaitInviteGirlAllCityKey());
@@ -36,9 +36,6 @@ public class WaitInviteGirlHandler extends AbstractScheduleHandler {
 			for (Long city : citys) {
 				redisTemplate.delete(RedisKeyGenerator
 						.genWaitInviteGirlKey(city));
-				redisTemplate.delete(RedisKeyGenerator
-						.genWaitInviteGirlCitySizeKey(city));
-
 			}
 		}
 		Date cdate = new Date();
@@ -57,7 +54,7 @@ public class WaitInviteGirlHandler extends AbstractScheduleHandler {
 			List<Profile> list = profileMapper.selectByExample(example);
 			if (CollectionUtils.isNotEmpty(list)) {
 				for (Profile profile : list) {
-					redisTemplate.opsForList().rightPush(
+					redisTemplate.opsForSet().add(
 							RedisKeyGenerator.genWaitInviteGirlKey(profile
 									.getCity()), profile.getUid());
 					redisTemplate.opsForSet().add(
@@ -68,16 +65,6 @@ public class WaitInviteGirlHandler extends AbstractScheduleHandler {
 			i += num;
 			if (list.size() < num) {
 				break;
-			}
-		}
-		citys = redisTemplate.opsForSet().members(
-				RedisKeyGenerator.genWaitInviteGirlAllCityKey());
-		if (CollectionUtils.isNotEmpty(citys)) {
-			for (Long city : citys) {
-				redisTemplate.opsForSet().add(
-						RedisKeyGenerator.genWaitInviteGirlCitySizeKey(city),
-						redisTemplate.opsForList().size(
-								RedisKeyGenerator.genWaitInviteGirlKey(city)));
 			}
 		}
 	}

@@ -33,7 +33,7 @@ public class RescueboyService implements IRescueboyService {
 	private IIdeaService ideaService;
 	@Autowired
 	private MemcachedClient memcachedClient;
-	public static Map<Long, Long> citySendNum = new HashMap<Long, Long>();
+	public static Map<Long, Long> userSendNum = new HashMap<Long, Long>();
 	@Value("${rescue.boy.send.people.count}")
 	private long rescueBoySendPeopleCount;
 	@Value("${rescue.boy.receive.count}")
@@ -60,43 +60,37 @@ public class RescueboyService implements IRescueboyService {
 
 	@Override
 	public void rescueboy(long uid, long city) {
-		Long size = redisTemplate.opsForSet().pop(
-				RedisKeyGenerator.genWaitInviteGirlCitySizeKey(city));
-		if (size != null) {
-			redisTemplate.opsForSet().add(
-					RedisKeyGenerator.genWaitInviteGirlCitySizeKey(city), size);
-		}
 		Idea idea = ideaService.getRandomIdea(0l);
 		if (idea == null) {
 			return;
 		}
-		rescueBoySendPeopleCount = rescueBoySendPeopleCount > size ? size
-				: rescueBoySendPeopleCount;
 		for (int i = 0; i < rescueBoySendPeopleCount; i++) {
-			Long receiveUid = redisTemplate.opsForList().leftPop(
+			Long receiveUid = redisTemplate.opsForSet().pop(
 					RedisKeyGenerator.genWaitInviteGirlKey(city));
 			if (receiveUid == null) {
 				break;
 			}
 			try {
-				synchronized (citySendNum) {
-					long num = citySendNum.get(city) == null ? 0 : citySendNum
-							.get(city);
-					num++;
-					if (num > (size * rescueBoyReceiveCount)) {
-						return;
-					}
+				long num = userSendNum.get(receiveUid) == null ? 0
+						: userSendNum.get(receiveUid);
+				num++;
+				if (num > rescueBoyReceiveCount) {
+					userSendNum.remove(receiveUid);
+					return;
+				} else {
+					redisTemplate.opsForSet().add(
+							RedisKeyGenerator.genWaitInviteGirlKey(city),
+							receiveUid);
 					dialogService.sendSMS(uid, receiveUid,
 							DialogContentTemplate.PRIVATE_DATE,
 							idea.getContent());
-					citySendNum.put(city, num);
+					userSendNum.put(receiveUid, num);
 				}
+
 			} catch (DialogException e) {
 				log.error("rescueboy uid=" + uid + "receiveUid=" + receiveUid
 						+ " send msg is error", e);
 			}
-			redisTemplate.opsForList().rightPush(
-					RedisKeyGenerator.genWaitInviteGirlKey(city), receiveUid);
 			setSendRescueboy(uid);
 		}
 

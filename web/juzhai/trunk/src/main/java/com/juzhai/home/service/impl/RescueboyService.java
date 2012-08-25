@@ -35,7 +35,7 @@ public class RescueboyService implements IRescueboyService {
 	private MemcachedClient memcachedClient;
 	public static Map<Long, Long> citySendNum = new HashMap<Long, Long>();
 	@Value("${rescue.boy.send.people.count}")
-	private int rescueBoySendPeopleCount;
+	private long rescueBoySendPeopleCount;
 	@Value("${rescue.boy.receive.count}")
 	private int rescueBoyReceiveCount;
 
@@ -70,7 +70,8 @@ public class RescueboyService implements IRescueboyService {
 		if (idea == null) {
 			return;
 		}
-
+		rescueBoySendPeopleCount = rescueBoySendPeopleCount > size ? size
+				: rescueBoySendPeopleCount;
 		for (int i = 0; i < rescueBoySendPeopleCount; i++) {
 			Long receiveUid = redisTemplate.opsForList().leftPop(
 					RedisKeyGenerator.genWaitInviteGirlKey(city));

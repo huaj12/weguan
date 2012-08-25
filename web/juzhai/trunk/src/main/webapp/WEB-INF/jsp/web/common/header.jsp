@@ -60,7 +60,7 @@
 				</div>
 				<!--acc end-->
 				<!--my_gift begin-->
-				<div class="my_gift">
+				<div class="my_gift" style="display: none">
 					<p></p>
 					<a href="/event/show"></a>
 				</div>

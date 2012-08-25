@@ -11,5 +11,8 @@
 			<a href="/authorize/show" <c:if test="${page=='authorize'}">class="active"</c:if> >授权管理</a>
 		</c:if>
 	</c:if>
+	<c:if test="${loginUser.gender==1}">
+			<a href="/rescueboy" <c:if test="${page=='rescueboy'}">class="active"</c:if> >宅男自救器</a>
+	</c:if>
 	<%-- <a href="/profile/email" <c:if test="${page=='mail'}">class="active"</c:if>>订阅设置</a> --%>
 </div>

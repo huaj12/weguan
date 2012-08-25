@@ -113,7 +113,7 @@ public class RescueboyService implements IRescueboyService {
 	}
 
 	@Override
-	public boolean isSend(long uid) {
+	public boolean isCanSend(long uid) {
 		try {
 			Object obj = memcachedClient.get(MemcachedKeyGenerator
 					.genSendRescueBoyKey(uid));

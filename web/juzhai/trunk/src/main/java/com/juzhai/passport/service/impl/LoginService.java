@@ -139,7 +139,7 @@ public class LoginService implements ILoginService {
 		if (cache.getGender() != null && cache.getGender() == 1
 				&& StringUtils.isNotEmpty(cache.getLogoPic())
 				&& rescueboyService.isOpenRescueboy(uid)
-				&& rescueboyService.isSend(uid)) {
+				&& rescueboyService.isCanSend(uid)) {
 			rescueboyService.rescueboy(uid, cache.getCity());
 		}
 		// 启动一个线程来获取和保存

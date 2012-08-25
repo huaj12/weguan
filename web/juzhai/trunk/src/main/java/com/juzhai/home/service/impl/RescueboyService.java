@@ -99,8 +99,9 @@ public class RescueboyService implements IRescueboyService {
 	public void setSendRescueboy(long uid) {
 		int exp = DateUtil.getNextDayTime();
 		try {
-			memcachedClient.set(MemcachedKeyGenerator.genSendRescueBoyKey(uid),
-					exp, true);
+			memcachedClient.set(
+					MemcachedKeyGenerator.genIsCanSendRescueBoyKey(uid), exp,
+					true);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
@@ -110,7 +111,7 @@ public class RescueboyService implements IRescueboyService {
 	public boolean isCanSend(long uid) {
 		try {
 			Object obj = memcachedClient.get(MemcachedKeyGenerator
-					.genSendRescueBoyKey(uid));
+					.genIsCanSendRescueBoyKey(uid));
 			if (obj == null) {
 				return true;
 			} else {

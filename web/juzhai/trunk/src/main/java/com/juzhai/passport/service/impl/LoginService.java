@@ -137,6 +137,7 @@ public class LoginService implements ILoginService {
 		}
 		// 判断是否开启宅男自救器
 		if (cache.getGender() != null && cache.getGender() == 1
+				&& StringUtils.isNotEmpty(cache.getLogoPic())
 				&& rescueboyService.isOpenRescueboy(uid)
 				&& rescueboyService.isSend(uid)) {
 			rescueboyService.rescueboy(uid, cache.getCity());

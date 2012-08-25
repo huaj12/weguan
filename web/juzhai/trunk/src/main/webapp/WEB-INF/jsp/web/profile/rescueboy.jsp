@@ -20,7 +20,7 @@
 						<c:set var="page" value="rescueboy" scope="request" />
 						<jsp:include page="/WEB-INF/jsp/web/profile/common/left.jsp" />
 						<div class="set_right"><!--set_right begin-->
-							<div class="title"><h2>设置我们自救器</h2></div>
+							<div class="title"><h2>设置宅男自救器</h2></div>
 							<div class="save_self"><!--save_self begin-->
 							<div class="img"></div>
 								<div class="save_right">

@@ -22,6 +22,7 @@ import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.bean.ShowPostOrder;
+import com.juzhai.home.service.IRescueboyService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;
@@ -61,6 +62,8 @@ public class HomeController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private ICounter openRescueGirlDialogCounter;
+	@Autowired
+	private IRescueboyService rescueboyService;
 	@Value("${web.home.post.max.rows}")
 	private int webHomePostMaxRows;
 	@Value("${web.home.right.user.rows}")
@@ -333,6 +336,8 @@ public class HomeController extends BaseController {
 		}
 		model.addAttribute("preferenceInput", input);
 		model.addAttribute("preferenceId", preference.getId());
+		model.addAttribute("isopenrescueboy",
+				rescueboyService.isOpenRescueboy(context.getUid()));
 	}
 
 	@RequestMapping(value = "/rescue/girl", method = RequestMethod.GET)

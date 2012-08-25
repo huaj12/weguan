@@ -31,6 +31,7 @@ public class UserMView {
 	private int interestMeCount;
 	private int postCount;
 	private boolean hasGuided;
+	private boolean tokenExpired;
 	private boolean hasInterest;
 	private long tpId;
 	private String tpName;
@@ -291,5 +292,13 @@ public class UserMView {
 
 	public void setOnlineStatus(int onlineStatus) {
 		this.onlineStatus = onlineStatus;
+	}
+
+	public boolean isTokenExpired() {
+		return tokenExpired;
+	}
+
+	public void setTokenExpired(boolean tokenExpired) {
+		this.tokenExpired = tokenExpired;
 	}
 }

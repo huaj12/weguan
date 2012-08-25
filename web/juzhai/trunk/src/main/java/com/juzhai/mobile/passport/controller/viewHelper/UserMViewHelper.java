@@ -15,6 +15,7 @@ import com.juzhai.passport.model.Constellation;
 import com.juzhai.passport.model.Province;
 import com.juzhai.passport.model.Town;
 import com.juzhai.passport.service.IInterestUserService;
+import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.IUserOnlineService;
 import com.juzhai.post.service.IPostService;
 
@@ -27,6 +28,8 @@ public class UserMViewHelper implements IUserMViewHelper {
 	private IPostService postService;
 	@Autowired
 	private IUserOnlineService userOnlineService;
+	@Autowired
+	private ITpUserAuthService tpUserAuthService;
 
 	@Override
 	public UserMView createUserMView(UserContext context,
@@ -91,6 +94,10 @@ public class UserMViewHelper implements IUserMViewHelper {
 						.getUid()));
 				userView.setTpId(context.getTpId());
 				userView.setTpName(context.getTpName());
+				if (context.getTpId() > 0) {
+					userView.setTokenExpired(tpUserAuthService.isTokenExpired(
+							context.getUid(), context.getTpId()));
+				}
 			} else {
 				userView.setHasInterest(interestUserService.isInterest(
 						context.getUid(), profileCache.getUid()));

@@ -23,6 +23,7 @@ import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.web.session.LoginSessionManager;
 import com.juzhai.core.web.util.HttpRequestUtil;
+import com.juzhai.home.service.IRescueboyService;
 import com.juzhai.home.service.IUserStatusService;
 import com.juzhai.home.service.IVisitUserService;
 import com.juzhai.passport.InitData;
@@ -86,6 +87,8 @@ public class LoginService implements ILoginService {
 	private IUserOnlineService userOnlineService;
 	@Autowired
 	private IVisitUserService visitUserService;
+	@Autowired
+	private IRescueboyService rescueboyService;
 	@Value(value = "${user.online.expire.time}")
 	private int userOnlineExpireTime;
 	@Value("${use.verify.login.count}")
@@ -131,6 +134,12 @@ public class LoginService implements ILoginService {
 		ProfileCache cache = profileService.getProfileCacheByUid(uid);
 		if (cache.getGender() != null && cache.getGender() == 0) {
 			autoExchangeVisits(passport);
+		}
+		// 判断是否开启宅男自救器
+		if (cache.getGender() != null && cache.getGender() == 1
+				&& rescueboyService.isOpenRescueboy(uid)
+				&& rescueboyService.isSend(uid)) {
+			rescueboyService.rescueboy(uid, cache.getCity());
 		}
 		// 启动一个线程来获取和保存
 		if (tpId > 0) {

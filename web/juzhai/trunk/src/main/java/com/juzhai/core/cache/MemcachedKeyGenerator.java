@@ -232,4 +232,12 @@ public class MemcachedKeyGenerator extends KeyGenerator {
 		return genKey(uid, "userOnlineTimeKey");
 	}
 
+	/**
+	 * 记录宅男自救发送记录
+	 * 
+	 * @return
+	 */
+	public static String genSendRescueBoyKey(long uid) {
+		return genKey(uid, "sendrescueboy");
+	}
 }

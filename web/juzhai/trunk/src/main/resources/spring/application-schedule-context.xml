@@ -230,6 +230,16 @@
 	</bean>
 	<!-- update static version end-->
 	
+	<!-- wait invite girl  begin -->
+	<bean id="waitInviteGirlTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="waitInviteGirlHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${wait.invite.girl.cron}" />
+	</bean>
+	<!--wait invite girl  end-->
 	<bean id="scheduler"  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
@@ -251,6 +261,7 @@
 				<ref bean="updateSearchWordHotTrigger"/>
 				<ref bean="updateStaticVersionTrigger"/>
 				<ref bean="noticeQplusTrigger"/>
+				<ref bean="waitInviteGirlTrigger"/>
 			</list>
 		</property>
 	</bean>

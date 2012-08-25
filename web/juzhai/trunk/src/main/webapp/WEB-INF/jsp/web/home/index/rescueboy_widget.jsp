@@ -9,7 +9,7 @@
 				<div class="save_self_show">
 					<p><img src="${jzr:static('/images/web2/save_self_pic.jpg')}" width="70" height="70" /></p>
 					<span>闷骚宅男的脱宅利器,帮助你更有效的拒宅</span>
-					<a href="/rescueboy">去看看 &lg;&lt;</a>
+					<a href="/rescueboy">去看看 &gt;&gt;</a>
 				</div>
 		</div>
 		<div class="t"></div>

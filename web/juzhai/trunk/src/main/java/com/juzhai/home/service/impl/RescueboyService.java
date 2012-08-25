@@ -77,7 +77,7 @@ public class RescueboyService implements IRescueboyService {
 				}
 				num++;
 				if (num > rescueBoyReceiveCount) {
-					return;
+					continue;
 				} else {
 					redisTemplate.opsForSet().add(
 							RedisKeyGenerator.genWaitInviteGirlKey(city),

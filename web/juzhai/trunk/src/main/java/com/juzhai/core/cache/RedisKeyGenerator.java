@@ -359,4 +359,42 @@ public class RedisKeyGenerator extends KeyGenerator {
 		return "indexIdea";
 	}
 
+	/**
+	 * 等待邀请的女孩所有所在城市key
+	 * 
+	 * @return
+	 */
+	public static String genWaitInviteGirlAllCityKey() {
+		return "waitInviteGirlAllCity";
+	}
+
+	/**
+	 * 等待邀请的女孩的列表
+	 * 
+	 * @param city
+	 * @return
+	 */
+	public static String genWaitInviteGirlKey(long city) {
+		return genKey(city, "waitInviteGirl");
+	}
+
+	/**
+	 * 打开宅男自救器的用户
+	 * 
+	 * @return
+	 */
+	public static String genRescueboyStatusKey() {
+		return "rescueboyStatus";
+	}
+
+	/**
+	 * 每个城市下待解救的女宅的数量
+	 * 
+	 * @param city
+	 * @return
+	 */
+	public static String genWaitInviteGirlCitySizeKey(long city) {
+		return genKey(city, "waitInviteGirlCitySize");
+	}
+
 }

@@ -24,7 +24,9 @@
 							<div class="save_self"><!--save_self begin-->
 							<div class="img"></div>
 								<div class="save_right">
-								<p>启用后，如果您每天登陆，我们会帮您精选出优质的拒宅邀请发给<br />适合你的宅女。使用后，您回常能收到女生的惊喜回复哦！</p>
+								<p>启用后，如果您每天登陆，我们会帮您精选出优质的拒宅邀请发给适合你的宅女。
+									让您时常收到宅女们的惊喜回复。本功能仅对部分优质宅男开放，快来试试吧！
+								</p>
 										<c:choose>
 											<c:when test="${not empty loginUser.logoPic }">
 												<div class="close_save" <c:if test="${!open}">style="display: none"</c:if> >

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.schedule.AbstractScheduleHandler;
-import com.juzhai.home.service.impl.RescueboyService;
 import com.juzhai.passport.mapper.ProfileMapper;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.ProfileExample;
@@ -28,7 +27,6 @@ public class WaitInviteGirlHandler extends AbstractScheduleHandler {
 
 	@Override
 	protected void doHandle() {
-		RescueboyService.userSendNum.clear();
 		Set<Long> citys = redisTemplate.opsForSet().members(
 				RedisKeyGenerator.genWaitInviteGirlAllCityKey());
 		redisTemplate.delete(RedisKeyGenerator.genWaitInviteGirlAllCityKey());

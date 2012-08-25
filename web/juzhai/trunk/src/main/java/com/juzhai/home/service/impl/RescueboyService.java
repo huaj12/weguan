@@ -1,9 +1,9 @@
 package com.juzhai.home.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import net.rubyeye.xmemcached.MemcachedClient;
+import net.rubyeye.xmemcached.exception.MemcachedException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,7 +33,6 @@ public class RescueboyService implements IRescueboyService {
 	private IIdeaService ideaService;
 	@Autowired
 	private MemcachedClient memcachedClient;
-	public static Map<Long, Long> userSendNum = new HashMap<Long, Long>();
 	@Value("${rescue.boy.send.people.count}")
 	private long rescueBoySendPeopleCount;
 	@Value("${rescue.boy.receive.count}")
@@ -71,11 +70,13 @@ public class RescueboyService implements IRescueboyService {
 				break;
 			}
 			try {
-				long num = userSendNum.get(receiveUid) == null ? 0
-						: userSendNum.get(receiveUid);
+				Long num = memcachedClient.get(MemcachedKeyGenerator
+						.genUserReceiveCountKey(receiveUid));
+				if (num == null) {
+					num = 0l;
+				}
 				num++;
 				if (num > rescueBoyReceiveCount) {
-					userSendNum.remove(receiveUid);
 					return;
 				} else {
 					redisTemplate.opsForSet().add(
@@ -84,12 +85,20 @@ public class RescueboyService implements IRescueboyService {
 					dialogService.sendSMS(uid, receiveUid,
 							DialogContentTemplate.PRIVATE_DATE,
 							idea.getContent());
-					userSendNum.put(receiveUid, num);
+					int exp = DateUtil.getNextDayTime();
+					memcachedClient.set(MemcachedKeyGenerator
+							.genUserReceiveCountKey(receiveUid), exp, true);
 				}
 
 			} catch (DialogException e) {
 				log.error("rescueboy uid=" + uid + "receiveUid=" + receiveUid
 						+ " send msg is error", e);
+			} catch (TimeoutException e) {
+				log.error(e.getMessage(), e);
+			} catch (InterruptedException e) {
+				log.error(e.getMessage(), e);
+			} catch (MemcachedException e) {
+				log.error(e.getMessage(), e);
 			}
 			setSendRescueboy(uid);
 		}

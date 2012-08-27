@@ -39,6 +39,7 @@ public abstract class AbstractSpiderIdeaService implements ISpiderIdeaService {
 
 	@Override
 	public String crawl(String url) throws SpiderIdeaException {
+		url = JzUtilFunction.getLink(url);
 		String joinType = null;
 		for (Domain domain : Domain.values()) {
 			if (url.indexOf(domain.getUrl()) != -1) {

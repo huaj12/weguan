@@ -168,8 +168,11 @@ public class RecommendIdeaService implements IRecommendIdeaService {
 	@Override
 	public Idea getIndexIdea() {
 		String key = RedisKeyGenerator.genIndexIdeaKey();
-		//TODO (review) set里没有数据怎么办？
-		long ideaId = redisIdeaTemplate.opsForSet().pop(key);
+		// TODO (done) set里没有数据怎么办？
+		Long ideaId = redisIdeaTemplate.opsForSet().pop(key);
+		if (ideaId == null) {
+			return ideaService.getRandomIdea(0L);
+		}
 		redisIdeaTemplate.opsForSet().add(RedisKeyGenerator.genIndexIdeaKey(),
 				ideaId);
 		return ideaService.getIdeaById(ideaId);

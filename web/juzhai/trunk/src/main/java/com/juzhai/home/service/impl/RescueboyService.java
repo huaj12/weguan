@@ -21,6 +21,7 @@ import com.juzhai.home.service.IDialogService;
 import com.juzhai.home.service.IRescueboyService;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaService;
+import com.juzhai.stats.counter.service.ICounter;
 
 @Service
 public class RescueboyService implements IRescueboyService {
@@ -33,6 +34,10 @@ public class RescueboyService implements IRescueboyService {
 	private IIdeaService ideaService;
 	@Autowired
 	private MemcachedClient memcachedClient;
+	@Autowired
+	private ICounter registerRescueboyIncrCounter;
+	@Autowired
+	private ICounter registerRescueboyDecrCounter;
 	@Value("${rescue.boy.send.people.count}")
 	private long rescueBoySendPeopleCount;
 	@Value("${rescue.boy.receive.count}")
@@ -48,13 +53,14 @@ public class RescueboyService implements IRescueboyService {
 	public void open(long uid) {
 		redisTemplate.opsForSet().add(
 				RedisKeyGenerator.genRescueboyStatusKey(), uid);
+		registerRescueboyIncrCounter.incr(null, 1);
 	}
 
 	@Override
 	public void close(long uid) {
 		redisTemplate.opsForSet().remove(
 				RedisKeyGenerator.genRescueboyStatusKey(), uid);
-
+		registerRescueboyDecrCounter.incr(null, 1);
 	}
 
 	@Override

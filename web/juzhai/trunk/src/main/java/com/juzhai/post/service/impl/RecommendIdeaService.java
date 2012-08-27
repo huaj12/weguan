@@ -168,6 +168,7 @@ public class RecommendIdeaService implements IRecommendIdeaService {
 	@Override
 	public Idea getIndexIdea() {
 		String key = RedisKeyGenerator.genIndexIdeaKey();
+		//TODO (review) set里没有数据怎么办？
 		long ideaId = redisIdeaTemplate.opsForSet().pop(key);
 		redisIdeaTemplate.opsForSet().add(RedisKeyGenerator.genIndexIdeaKey(),
 				ideaId);

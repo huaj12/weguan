@@ -70,21 +70,20 @@ public class RescueboyService implements IRescueboyService {
 				break;
 			}
 			try {
+				dialogService.sendSMS(uid, receiveUid,
+						DialogContentTemplate.PRIVATE_DATE, idea.getContent());
 				Long num = memcachedClient.get(MemcachedKeyGenerator
 						.genUserReceiveRescueboyCountKey(receiveUid));
 				if (num == null) {
 					num = 0l;
 				}
 				num++;
-				if (num > rescueBoyReceiveCount) {
+				if (num >= rescueBoyReceiveCount) {
 					continue;
 				} else {
 					redisTemplate.opsForSet().add(
 							RedisKeyGenerator.genWaitInviteGirlKey(city),
 							receiveUid);
-					dialogService.sendSMS(uid, receiveUid,
-							DialogContentTemplate.PRIVATE_DATE,
-							idea.getContent());
 					int exp = DateUtil.getNextDayTime();
 					memcachedClient.set(MemcachedKeyGenerator
 							.genUserReceiveRescueboyCountKey(receiveUid), exp,

@@ -9,7 +9,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,8 +17,7 @@ import com.juzhai.post.exception.InputRecommendException;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IRecommendIdeaService;
 
-@Controller
-@RequestMapping("/cms")
+@Deprecated
 public class MigrateIndexIdeaController {
 	private final Log log = LogFactory.getLog(getClass());
 

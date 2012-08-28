@@ -1,6 +1,7 @@
 package com.juzhai.platform.service.impl;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,8 +49,15 @@ public class UserService implements IUserService, BeanFactoryAware {
 	public long access(HttpServletRequest request,
 			HttpServletResponse response, AuthInfo authInfo, Thirdparty tp,
 			long inviterUid, DeviceName deviceName) {
-		return getUserServiceBean(tp).access(request, response, authInfo, tp,
-				inviterUid, deviceName);
+		if (tp == null) {
+			return 0l;
+		}
+		IUserService service = getUserServiceBean(tp);
+		if (service == null) {
+			return 0l;
+		}
+		return service.access(request, response, authInfo, tp, inviterUid,
+				deviceName);
 	}
 
 	private IUserService getUserServiceBean(Thirdparty tp) {
@@ -60,42 +68,83 @@ public class UserService implements IUserService, BeanFactoryAware {
 	public String getLoginAuthorizeURLforCode(HttpServletRequest request,
 			HttpServletResponse response, Thirdparty tp, Terminal terminal,
 			String turnTo, String incode) throws UnsupportedEncodingException {
-		return getUserServiceBean(tp).getLoginAuthorizeURLforCode(request,
-				response, tp, terminal, turnTo, incode);
+		if (tp == null) {
+			return null;
+		}
+		IUserService service = getUserServiceBean(tp);
+		if (service == null) {
+			return null;
+		}
+		return service.getLoginAuthorizeURLforCode(request, response, tp,
+				terminal, turnTo, incode);
 	}
 
 	@Override
 	public List<String> getUserNames(AuthInfo authInfo, List<String> fuids) {
-		return getUserServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).getUserNames(authInfo, fuids);
+		if (authInfo == null) {
+			return Collections.emptyList();
+		}
+		IUserService service = getUserServiceBean(authInfo.getThirdpartyName(),
+				authInfo.getJoinType());
+		if (service == null) {
+			return Collections.emptyList();
+		}
+		return service.getUserNames(authInfo, fuids);
 	}
 
 	@Override
 	public String getExpiredAuthorizeURLforCode(HttpServletRequest request,
 			HttpServletResponse response, Thirdparty tp, Terminal terminal)
 			throws UnsupportedEncodingException {
-		return getUserServiceBean(tp).getExpiredAuthorizeURLforCode(request,
-				response, tp, terminal);
+		if (tp == null) {
+			return null;
+		}
+		IUserService service = getUserServiceBean(tp);
+		if (service == null) {
+			return null;
+		}
+		return service.getExpiredAuthorizeURLforCode(request, response, tp,
+				terminal);
 	}
 
 	@Override
 	public void expireAccess(HttpServletRequest request, Thirdparty tp, long uid)
 			throws TokenAuthorizeException {
-		getUserServiceBean(tp).expireAccess(request, tp, uid);
+		if (tp == null) {
+			return;
+		}
+		IUserService service = getUserServiceBean(tp);
+		if (service == null) {
+			return;
+		}
+		service.expireAccess(request, tp, uid);
 	}
 
 	@Override
 	public String getBindAuthorizeURLforCode(HttpServletRequest request,
 			HttpServletResponse response, Thirdparty tp, Terminal terminal)
 			throws UnsupportedEncodingException {
-		return getUserServiceBean(tp).getBindAuthorizeURLforCode(request,
-				response, tp, terminal);
+		if (tp == null) {
+			return null;
+		}
+		IUserService service = getUserServiceBean(tp);
+		if (service == null) {
+			return null;
+		}
+		return service.getBindAuthorizeURLforCode(request, response, tp,
+				terminal);
 	}
 
 	@Override
 	public void bindAccess(HttpServletRequest request, Thirdparty tp, long uid)
 			throws TokenAuthorizeException {
-		getUserServiceBean(tp).bindAccess(request, tp, uid);
+		if (tp == null) {
+			return;
+		}
+		IUserService service = getUserServiceBean(tp);
+		if (service != null) {
+			service.bindAccess(request, tp, uid);
+		}
 
 	}
 }

@@ -1,5 +1,6 @@
 package com.juzhai.platform.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,20 +30,41 @@ public class RelationshipService implements IRelationshipService,
 
 	@Override
 	public List<TpFriend> getAllFriends(AuthInfo authInfo) {
-		return getRelationshipSerivceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).getAllFriends(authInfo);
+		if (authInfo == null) {
+			return Collections.emptyList();
+		}
+		IRelationshipService relationshipService = getRelationshipSerivceBean(
+				authInfo.getThirdpartyName(), authInfo.getJoinType());
+		if (relationshipService == null) {
+			return Collections.emptyList();
+		}
+		return relationshipService.getAllFriends(authInfo);
 	}
 
 	@Override
 	public List<String> getAppFriends(AuthInfo authInfo) {
-		return getRelationshipSerivceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).getAppFriends(authInfo);
+		if (authInfo == null) {
+			return Collections.emptyList();
+		}
+		IRelationshipService relationshipService = getRelationshipSerivceBean(
+				authInfo.getThirdpartyName(), authInfo.getJoinType());
+		if (relationshipService == null) {
+			return Collections.emptyList();
+		}
+		return relationshipService.getAppFriends(authInfo);
 	}
 
 	@Override
 	public List<String> getInstallFollows(AuthInfo authInfo) {
-		return getRelationshipSerivceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).getInstallFollows(authInfo);
+		if (authInfo == null) {
+			return Collections.emptyList();
+		}
+		IRelationshipService relationshipService = getRelationshipSerivceBean(
+				authInfo.getThirdpartyName(), authInfo.getJoinType());
+		if (relationshipService == null) {
+			return Collections.emptyList();
+		}
+		return relationshipService.getInstallFollows(authInfo);
 	}
 
 	private IRelationshipService getRelationshipSerivceBean(String tpName,

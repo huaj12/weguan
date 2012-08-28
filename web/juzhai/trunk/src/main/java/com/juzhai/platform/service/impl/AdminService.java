@@ -33,8 +33,15 @@ public class AdminService implements IAdminService, BeanFactoryAware {
 
 	@Override
 	public boolean isAllocation(AuthInfo authInfo) {
-		return getAdminServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).isAllocation(authInfo);
+		if (authInfo == null) {
+			return false;
+		}
+		IAdminService adminService = getAdminServiceBean(
+				authInfo.getThirdpartyName(), authInfo.getJoinType());
+		if (adminService == null) {
+			return false;
+		}
+		return adminService.isAllocation(authInfo);
 	}
 
 	@Override
@@ -45,8 +52,14 @@ public class AdminService implements IAdminService, BeanFactoryAware {
 
 	@Override
 	public boolean isTokenExpired(AuthInfo authInfo) {
-		return getAdminServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).isTokenExpired(authInfo);
+		if (authInfo == null) {
+			return false;
+		}
+		IAdminService adminService = getAdminServiceBean(
+				authInfo.getThirdpartyName(), authInfo.getJoinType());
+		if (adminService == null) {
+			return false;
+		}
+		return adminService.isTokenExpired(authInfo);
 	}
-
 }

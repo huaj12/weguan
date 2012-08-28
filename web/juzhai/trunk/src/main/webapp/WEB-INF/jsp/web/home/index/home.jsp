@@ -11,15 +11,18 @@
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 	</head>
+	
 	<body>
 		<div class="warp"><!--warp begin-->
 			<div class="main" today-visit="false"><!--main begin-->
-				<c:if test="${hasNotAccount || hasNotActive}">
+				<c:set value="${!(context.tpId>0)}" var="hasBind"></c:set>	
+				<c:if test="${hasNotAccount || hasNotActive||hasBind}">
 					<div class="float_box" style="display: none;bottom: -100px;"><!--float_box begin-->
 						<div class="width960"><!--width960 begin-->
 							<p>
 								<c:choose>
 									<c:when test="${hasNotAccount}">拒宅提示：为了更好的拒宅效果和账户安全，建议你现在就去<a href="/passport/account">设置邮箱</a></c:when>
+									<c:when test="${hasBind}">拒宅提示：为了获得更加完整的拒宅体验，建议你现在就去<a href="/passport/account">绑定第三方账号</a></c:when>
 									<c:when test="${hasNotActive}">拒宅提示：你还没有验证拒宅邮箱，为了方便以后找回密码，建议你现在就去<a href="/passport/account">激活邮箱</a></c:when>
 								</c:choose>
 							</p>

@@ -59,7 +59,7 @@ public class TokenAuthorizeController extends BaseController {
 			return error_404;
 		}
 		String url = userService.getExpiredAuthorizeURLforCode(request,
-				response, tp, Terminal.PC, null, null);
+				response, tp, Terminal.PC);
 		if (StringUtils.isEmpty(url)) {
 			return error_404;
 		}
@@ -95,7 +95,7 @@ public class TokenAuthorizeController extends BaseController {
 			return error_404;
 		}
 		String url = userService.getBindAuthorizeURLforCode(request, response,
-				tp, Terminal.PC, null, null);
+				tp, Terminal.PC);
 		if (StringUtils.isEmpty(url)) {
 			return error_404;
 		}
@@ -109,11 +109,7 @@ public class TokenAuthorizeController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		try {
-			//TODO (review) 复制过来，也不看看逻辑是不是对
-			if (tp == null || context.getTpId() != tp.getId()) {
-				throw new TokenAuthorizeException(
-						TokenAuthorizeException.ILLEGAL_OPERATION);
-			}
+			// TODO (done) 复制过来，也不看看逻辑是不是对
 			userService.bindAccess(request, tp, context.getUid());
 		} catch (TokenAuthorizeException e) {
 			model.addAttribute("errorInfo", messageSource.getMessage(

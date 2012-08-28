@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
-import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.JoinTypeEnum;
@@ -130,12 +129,8 @@ public class TokenAuthorizeController extends BaseController {
 			}
 			userService.bindAccess(request, tp, context.getUid());
 			// 授权成功重新登录一次更新tpid
-			try {
-				loginService.login(request, response, context.getUid(),
-						tp.getId(), RunType.CONNET, false);
-			} catch (Exception e) {
-				log.error("bindAccess   login is error" + e.getMessage());
-			}
+			loginService.updateTpId(request, response, context.getUid(),
+					tp.getId());
 		} catch (TokenAuthorizeException e) {
 			String errorInfo = messageSource.getMessage(e.getErrorCode(), null,
 					Locale.SIMPLIFIED_CHINESE);

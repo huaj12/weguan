@@ -120,4 +120,15 @@ public interface ILoginService {
 	 */
 	void updateLastLoginTime(long uid, RunType runType);
 
+	/**
+	 * 更新tpid
+	 * 
+	 * @param request
+	 * @param response
+	 * @param uid
+	 * @param tpId
+	 */
+	void updateTpId(HttpServletRequest request, HttpServletResponse response,
+			long uid, long tpId);
+
 }

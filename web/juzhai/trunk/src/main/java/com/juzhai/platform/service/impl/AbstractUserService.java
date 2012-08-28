@@ -154,6 +154,11 @@ public abstract class AbstractUserService implements IUserService {
 			throw new TokenAuthorizeException(
 					TokenAuthorizeException.ILLEGAL_OPERATION);
 		}
+		String tpIdentity = fetchTpIdentity(request, authInfo, tp);
+		if (StringUtils.isEmpty(tpIdentity) || "null".equals(tpIdentity)) {
+			throw new TokenAuthorizeException(
+					TokenAuthorizeException.ILLEGAL_OPERATION);
+		}
 		if (!tpUser.getTpIdentity().equalsIgnoreCase(authInfo.getTpIdentity())) {
 			// 新号授权
 			if (tpUserAuthService.countUserAuth(uid) > 1) {
@@ -183,8 +188,8 @@ public abstract class AbstractUserService implements IUserService {
 					TokenAuthorizeException.USER_NOT_REQUIRE_BIND);
 		}
 		AuthInfo authInfo = new AuthInfo();
-		fetchTpIdentity(request, authInfo, tp);
-		if (StringUtils.isEmpty(authInfo.getToken())) {
+		String tpIdentity = fetchTpIdentity(request, authInfo, tp);
+		if (StringUtils.isEmpty(tpIdentity) || "null".equals(tpIdentity)) {
 			throw new TokenAuthorizeException(
 					TokenAuthorizeException.ILLEGAL_OPERATION);
 		}

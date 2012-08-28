@@ -36,10 +36,10 @@
 			<c:choose>
 				<c:when test="${context.uid != profile.uid}">
 					<c:if test="${profile.logoVerifyState == 3}"><div class="yq_load_face"><a href="javascript:void(0);" id="inviteUploadLogo" uid="${profile.uid}">邀请ta上传头像</a></div></c:if>
-					<div class="keep"><a href="javascript:void(0);" target-uid="${profile.uid}" target-nickname="<c:out value='${profile.nickname}'/>">约ta</a></div>
+					<div class="keep user-remove-interest remove-interest-${profile.uid}" <c:if test="${!isInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" class="done" uid="${profile.uid}" title="点击取消关注">已关注</a></div>
+					<div class="keep user-add-interest interest-${profile.uid}" <c:if test="${isInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${profile.uid}" title="点击关注">关注</a></div>
 					<div class="message_icon"><a class="send-message" href="javascript:void(0);" target-uid="${profile.uid}" target-nickname="<c:out value='${profile.nickname}'/>">私信</a></div>
-					<div class="ta_btn user-remove-interest remove-interest-${profile.uid} done" <c:if test="${!isInterest}">style="display: none;"</c:if> ><a href="javascript:void(0);" class="done" uid="${profile.uid}" title="点击取消关注">已关注</a></div>
-					<div class="ta_btn user-add-interest interest-${profile.uid}" <c:if test="${isInterest}">style="display: none;"</c:if>><a href="javascript:void(0);" uid="${profile.uid}" title="点击关注">+关注</a></div>
+					<div class="ta_btn"><a href="javascript:void(0);" target-uid="${profile.uid}" target-nickname="<c:out value='${profile.nickname}'/>">约ta</a></div>
 					<div class="jb"><a href="javascript:void(0);" target-uid="${profile.uid}" id="report-profile" >举报</a></div>
 					<div class="pb">
 					<c:choose>

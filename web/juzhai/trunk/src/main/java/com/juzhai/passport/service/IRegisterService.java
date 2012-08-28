@@ -148,6 +148,7 @@ public interface IRegisterService {
 	 * @param identity
 	 * @param passport
 	 */
+	//TODO (review) 既然有多个地方要使用，变为公共方法，那就把方法移入TpUserService,方法的实现应该由TpUserService负责
 	public void registerTpUser(Thirdparty tp, String identity, Passport passport);
 
 }

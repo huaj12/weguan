@@ -1,5 +1,6 @@
 package com.juzhai.platform.service.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -37,13 +38,13 @@ public class SynchronizeService implements ISynchronizeService,
 
 	@Override
 	public List<UserStatus> listStatus(AuthInfo authInfo, long fuid, int size) {
-		if (null == authInfo) {
-			return null;
+		if (authInfo == null) {
+			return Collections.emptyList();
 		}
 		ISynchronizeService service = getSynchronizeServiceBean(
 				authInfo.getThirdpartyName(), authInfo.getJoinType());
 		if (null == service) {
-			return null;
+			return Collections.emptyList();
 		}
 		return service.listStatus(authInfo, fuid, size);
 	}
@@ -83,23 +84,39 @@ public class SynchronizeService implements ISynchronizeService,
 	@Override
 	public void sendMessage(AuthInfo authInfo, String title, String text,
 			String link, byte[] image, String imageUrl) {
-		getSynchronizeServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).sendMessage(authInfo, title, text,
-				link, image, imageUrl);
+		if (authInfo == null) {
+			return;
+		}
+		ISynchronizeService synchronizeService = getSynchronizeServiceBean(
+				authInfo.getThirdpartyName(), authInfo.getJoinType());
+		if (synchronizeService != null) {
+			synchronizeService.sendMessage(authInfo, title, text, link, image,
+					imageUrl);
+		}
 	}
 
 	@Override
 	public void inviteMessage(AuthInfo authInfo, String text, byte[] image,
 			List<String> fuids) {
-		getSynchronizeServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).inviteMessage(authInfo, text, image,
-				fuids);
+		if (authInfo == null) {
+			return;
+		}
+		ISynchronizeService synchronizeService = getSynchronizeServiceBean(
+				authInfo.getThirdpartyName(), authInfo.getJoinType());
+		if (synchronizeService != null) {
+			synchronizeService.inviteMessage(authInfo, text, image, fuids);
+		}
 	}
 
 	@Override
 	public void notifyMessage(AuthInfo authInfo, String[] fuids, String text) {
-		getSynchronizeServiceBean(authInfo.getThirdpartyName(),
-				authInfo.getJoinType()).notifyMessage(authInfo, fuids, text);
+		if (authInfo == null) {
+			return;
+		}
+		ISynchronizeService synchronizeService = getSynchronizeServiceBean(
+				authInfo.getThirdpartyName(), authInfo.getJoinType());
+		if (synchronizeService != null) {
+			synchronizeService.notifyMessage(authInfo, fuids, text);
+		}
 	}
-
 }

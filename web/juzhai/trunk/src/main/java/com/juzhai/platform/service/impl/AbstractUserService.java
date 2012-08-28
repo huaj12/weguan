@@ -117,26 +117,26 @@ public abstract class AbstractUserService implements IUserService {
 
 	@Override
 	public String getExpiredAuthorizeURLforCode(HttpServletRequest request,
-			HttpServletResponse response, Thirdparty tp, Terminal terminal,
-			String turnTo, String incode) throws UnsupportedEncodingException {
+			HttpServletResponse response, Thirdparty tp, Terminal terminal)
+			throws UnsupportedEncodingException {
 		String callback = messageSource.getMessage(
 				"authorize.token.callback.url",
 				new Object[] { SystemConfig.getDomain(), tp.getId() },
 				Locale.SIMPLIFIED_CHINESE);
-		return getAuthorizeURLforCode(request, response, tp, terminal, turnTo,
-				incode, callback);
+		return getAuthorizeURLforCode(request, response, tp, terminal, null,
+				null, callback);
 	}
 
 	@Override
 	public String getBindAuthorizeURLforCode(HttpServletRequest request,
-			HttpServletResponse response, Thirdparty tp, Terminal terminal,
-			String turnTo, String incode) throws UnsupportedEncodingException {
+			HttpServletResponse response, Thirdparty tp, Terminal terminal)
+			throws UnsupportedEncodingException {
 		String callback = messageSource.getMessage(
 				"authorize.bind.callback.url",
 				new Object[] { SystemConfig.getDomain(), tp.getId() },
 				Locale.SIMPLIFIED_CHINESE);
-		return getAuthorizeURLforCode(request, response, tp, terminal, turnTo,
-				incode, callback);
+		return getAuthorizeURLforCode(request, response, tp, terminal, null,
+				null, callback);
 	}
 
 	@Override

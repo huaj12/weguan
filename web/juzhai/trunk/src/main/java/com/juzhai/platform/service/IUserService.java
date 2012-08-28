@@ -50,10 +50,10 @@ public interface IUserService {
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	// TODO (review) turnTo和incode这两个参数还需要？
+	// TODO (done) turnTo和incode这两个参数还需要？
 	String getExpiredAuthorizeURLforCode(HttpServletRequest request,
-			HttpServletResponse response, Thirdparty tp, Terminal terminal,
-			String turnTo, String incode) throws UnsupportedEncodingException;
+			HttpServletResponse response, Thirdparty tp, Terminal terminal)
+			throws UnsupportedEncodingException;
 
 	/**
 	 * 获取用户名字
@@ -87,10 +87,10 @@ public interface IUserService {
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	// TODO (review) turnTo和incode这两个参数还需要？
+	// TODO (done) turnTo和incode这两个参数还需要？
 	String getBindAuthorizeURLforCode(HttpServletRequest request,
-			HttpServletResponse response, Thirdparty tp, Terminal terminal,
-			String turnTo, String incode) throws UnsupportedEncodingException;
+			HttpServletResponse response, Thirdparty tp, Terminal terminal)
+			throws UnsupportedEncodingException;
 
 	/**
 	 * 本地注册绑定第三方账户

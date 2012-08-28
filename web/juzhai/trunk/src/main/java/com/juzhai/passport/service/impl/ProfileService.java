@@ -37,7 +37,7 @@ import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.util.DateUtil;
 import com.juzhai.core.util.StringUtil;
-import com.juzhai.lab.controller.form.ProfileMForm;
+import com.juzhai.mobile.passport.controller.form.ProfileMForm;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;

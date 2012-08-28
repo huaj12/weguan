@@ -43,8 +43,8 @@ public class AuthorizeMController extends BaseController {
 	@Autowired
 	private IUserMViewHelper userMViewHelper;
 
-	@RequestMapping(value = "/token/{tpId}", method = RequestMethod.GET)
-	public String authorize(HttpServletRequest request,
+	@RequestMapping(value = "/expired/{tpId}", method = RequestMethod.GET)
+	public String expired(HttpServletRequest request,
 			HttpServletResponse response, Model model, @PathVariable long tpId)
 			throws NeedLoginException, UnsupportedEncodingException {
 		checkLoginForWeb(request);
@@ -60,9 +60,9 @@ public class AuthorizeMController extends BaseController {
 		return "redirect:" + url;
 	}
 
-	@RequestMapping(value = "/access/{tpId}")
+	@RequestMapping(value = "/expired/access/{tpId}")
 	@ResponseBody
-	public AjaxResult access(HttpServletRequest request,
+	public AjaxResult expiredAccess(HttpServletRequest request,
 			HttpServletResponse response, @PathVariable long tpId, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
@@ -74,6 +74,41 @@ public class AuthorizeMController extends BaseController {
 						TokenAuthorizeException.ILLEGAL_OPERATION);
 			}
 			userService.expireAccess(request, tp, context.getUid());
+		} catch (TokenAuthorizeException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
+		result.setResult(userMViewHelper.createUserMView(context,
+				profileService.getProfileCacheByUid(context.getUid()), true));
+		return result;
+	}
+
+	@RequestMapping(value = "/bind/{tpId}", method = RequestMethod.GET)
+	public String bind(HttpServletRequest request,
+			HttpServletResponse response, Model model, @PathVariable long tpId)
+			throws NeedLoginException, UnsupportedEncodingException {
+		checkLoginForWeb(request);
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		if (null == tp) {
+			return error_404;
+		}
+		String url = userService.getBindAuthorizeURLforCode(request, response,
+				tp, Terminal.MOBILE);
+		if (StringUtils.isEmpty(url)) {
+			return error_404;
+		}
+		return "redirect:" + url;
+	}
+
+	@RequestMapping(value = "/bind/access/{tpId}")
+	@ResponseBody
+	public AjaxResult bindAccess(HttpServletRequest request,
+			HttpServletResponse response, @PathVariable long tpId, Model model)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult result = new AjaxResult();
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		try {
+			userService.bindAccess(request, tp, context.getUid());
 		} catch (TokenAuthorizeException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		}

@@ -1,4 +1,4 @@
-package com.juzhai.lab.controller.form;
+package com.juzhai.mobile.passport.controller.form;
 
 import org.springframework.web.multipart.MultipartFile;
 

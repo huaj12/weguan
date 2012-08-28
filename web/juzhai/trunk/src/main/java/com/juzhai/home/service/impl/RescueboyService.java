@@ -35,9 +35,9 @@ public class RescueboyService implements IRescueboyService {
 	@Autowired
 	private MemcachedClient memcachedClient;
 	@Autowired
-	private ICounter registerRescueboyIncrCounter;
+	private ICounter rescueboyOpenCounter;
 	@Autowired
-	private ICounter registerRescueboyDecrCounter;
+	private ICounter rescueboyCloseCounter;
 	@Value("${rescue.boy.send.people.count}")
 	private long rescueBoySendPeopleCount;
 	@Value("${rescue.boy.receive.count}")
@@ -53,14 +53,14 @@ public class RescueboyService implements IRescueboyService {
 	public void open(long uid) {
 		redisTemplate.opsForSet().add(
 				RedisKeyGenerator.genRescueboyStatusKey(), uid);
-		registerRescueboyIncrCounter.incr(null, 1);
+		rescueboyOpenCounter.incr(null, 1);
 	}
 
 	@Override
 	public void close(long uid) {
 		redisTemplate.opsForSet().remove(
 				RedisKeyGenerator.genRescueboyStatusKey(), uid);
-		registerRescueboyDecrCounter.incr(null, 1);
+		rescueboyCloseCounter.incr(null, 1);
 	}
 
 	@Override

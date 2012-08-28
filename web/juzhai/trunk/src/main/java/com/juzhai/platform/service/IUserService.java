@@ -50,6 +50,7 @@ public interface IUserService {
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
+	// TODO (review) turnTo和incode这两个参数还需要？
 	String getExpiredAuthorizeURLforCode(HttpServletRequest request,
 			HttpServletResponse response, Thirdparty tp, Terminal terminal,
 			String turnTo, String incode) throws UnsupportedEncodingException;
@@ -86,6 +87,7 @@ public interface IUserService {
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
+	// TODO (review) turnTo和incode这两个参数还需要？
 	String getBindAuthorizeURLforCode(HttpServletRequest request,
 			HttpServletResponse response, Thirdparty tp, Terminal terminal,
 			String turnTo, String incode) throws UnsupportedEncodingException;

@@ -41,10 +41,12 @@ public class TokenAuthorizeController extends BaseController {
 			HttpServletResponse response, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		model.addAttribute(
-				"isExpired",
-				tpUserAuthService.isTokenExpired(context.getUid(),
-						context.getTpId()));
+		if (context.getTpId() > 0) {
+			model.addAttribute(
+					"isExpired",
+					tpUserAuthService.isTokenExpired(context.getUid(),
+							context.getTpId()));
+		}
 		return "web/profile/authorize";
 	}
 
@@ -83,4 +85,41 @@ public class TokenAuthorizeController extends BaseController {
 		}
 		return "redirect:/authorize/show";
 	}
+
+	@RequestMapping(value = "/bind/{tpId}", method = RequestMethod.GET)
+	public String bind(HttpServletRequest request,
+			HttpServletResponse response, Model model, @PathVariable long tpId)
+			throws NeedLoginException, UnsupportedEncodingException {
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		if (null == tp) {
+			return error_404;
+		}
+		String url = userService.getBindAuthorizeURLforCode(request, response,
+				tp, Terminal.PC, null, null);
+		if (StringUtils.isEmpty(url)) {
+			return error_404;
+		}
+		return "redirect:" + url;
+	}
+
+	@RequestMapping(value = "/bindAccess/{tpId}", method = RequestMethod.GET)
+	public String bindAccess(HttpServletRequest request,
+			HttpServletResponse response, @PathVariable long tpId, Model model)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		try {
+			if (tp == null || context.getTpId() != tp.getId()) {
+				throw new TokenAuthorizeException(
+						TokenAuthorizeException.ILLEGAL_OPERATION);
+			}
+			userService.bindAccess(request, tp, context.getUid());
+		} catch (TokenAuthorizeException e) {
+			model.addAttribute("errorInfo", messageSource.getMessage(
+					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
+			return show(request, response, model);
+		}
+		return "redirect:/authorize/show";
+	}
+
 }

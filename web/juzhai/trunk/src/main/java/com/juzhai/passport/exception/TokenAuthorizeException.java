@@ -17,6 +17,10 @@ public class TokenAuthorizeException extends JuzhaiException {
 	 * 重新授权的新号已经注册过了
 	 */
 	public static final String USER_IS_EXIST = "230003";
+	/**
+	 * 这个号绑定过了或者不是本地注册
+	 */
+	public static final String USER_NOT_REQUIRE_BIND = "230004";
 
 	public TokenAuthorizeException(String errorCode, Throwable cause) {
 		super(errorCode, cause);

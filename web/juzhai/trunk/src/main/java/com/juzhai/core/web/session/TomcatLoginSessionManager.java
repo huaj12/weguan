@@ -48,4 +48,10 @@ public class TomcatLoginSessionManager extends AbstractLoginSessionManager {
 		HttpRequestUtil.removeSessionAttribute(request, ADMIN_ATTRIBUTE_NAME);
 		delPersistLogin(request, response);
 	}
+
+	@Override
+	public void updateTpId(HttpServletRequest request,
+			HttpServletResponse response, long uid, long tpId) {
+
+	}
 }

@@ -89,4 +89,21 @@ public class MemcachedLoginSessionManager extends AbstractLoginSessionManager {
 		}
 		delPersistLogin(request, response);
 	}
+
+	@Override
+	public void updateTpId(HttpServletRequest request,
+			HttpServletResponse response, long uid, long tpId) {
+		String token = CookiesManager.getCookie(request, token_cookies_name);
+		if (StringUtils.isNotEmpty(token)) {
+			try {
+				Map<String, Object> map = memcachedClient.get(token);
+				map.put(TPID_ATTRIBUTE_NAME, tpId);
+				memcachedClient.set(token, loginExpireTimeSeconds, map);
+			} catch (Exception e) {
+				log.error("updateTpId error", e);
+			}
+			request.setAttribute("context",
+					getUserContext(request, uid, token, tpId, false));
+		}
+	}
 }

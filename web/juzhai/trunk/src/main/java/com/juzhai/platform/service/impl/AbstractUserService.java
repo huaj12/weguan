@@ -150,6 +150,10 @@ public abstract class AbstractUserService implements IUserService {
 		}
 		AuthInfo authInfo = new AuthInfo();
 		fetchTpIdentity(request, authInfo, tp);
+		if (StringUtils.isEmpty(authInfo.getToken())) {
+			throw new TokenAuthorizeException(
+					TokenAuthorizeException.ILLEGAL_OPERATION);
+		}
 		if (!tpUser.getTpIdentity().equalsIgnoreCase(authInfo.getTpIdentity())) {
 			// 新号授权
 			if (tpUserAuthService.countUserAuth(uid) > 1) {
@@ -180,6 +184,10 @@ public abstract class AbstractUserService implements IUserService {
 		}
 		AuthInfo authInfo = new AuthInfo();
 		fetchTpIdentity(request, authInfo, tp);
+		if (StringUtils.isEmpty(authInfo.getToken())) {
+			throw new TokenAuthorizeException(
+					TokenAuthorizeException.ILLEGAL_OPERATION);
+		}
 		if (tpUserService.existTpUserByTpIdAndIdentity(tp.getId(),
 				authInfo.getTpIdentity())) {
 			// 新授权的号已注册过

@@ -19,7 +19,7 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.InitData;
-import com.juzhai.passport.bean.ThirdpartyNameEnum;
+import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.exception.TokenAuthorizeException;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.ITpUserAuthService;
@@ -112,12 +112,7 @@ public class TokenAuthorizeController extends BaseController {
 		try {
 			// TODO (done) 我说逻辑不对，就应该删掉？仔细点思考一下啊！！！
 			if (tp == null
-					|| (!tp.getName().equals(
-							ThirdpartyNameEnum.DOUBAN.getName())
-							&& !tp.getName().equals(
-									ThirdpartyNameEnum.QQ.getName()) && !tp
-							.getName().equals(
-									ThirdpartyNameEnum.WEIBO.getName()))) {
+					|| !tp.getJoinType().equals(JoinTypeEnum.CONNECT.getName())) {
 				throw new TokenAuthorizeException(
 						TokenAuthorizeException.ILLEGAL_OPERATION);
 			}
@@ -129,5 +124,4 @@ public class TokenAuthorizeController extends BaseController {
 		}
 		return "redirect:/authorize/show";
 	}
-
 }

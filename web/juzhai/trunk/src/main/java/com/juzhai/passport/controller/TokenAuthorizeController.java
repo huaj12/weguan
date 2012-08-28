@@ -11,17 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.exception.TokenAuthorizeException;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.service.IUserService;
@@ -36,19 +40,25 @@ public class TokenAuthorizeController extends BaseController {
 	private IUserService userService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	ILoginService loginService;
 
 	@RequestMapping(value = "/show", method = RequestMethod.GET)
 	public String show(HttpServletRequest request,
-			HttpServletResponse response, Model model)
+			HttpServletResponse response, Model model, String errorInfo)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
+		model.addAttribute("errorInfo", errorInfo);
 		if (context.getTpId() > 0) {
 			model.addAttribute(
 					"isExpired",
 					tpUserAuthService.isTokenExpired(context.getUid(),
 							context.getTpId()));
+			return "web/profile/authorize";
+		} else {
+			return "web/profile/bind";
 		}
-		return "web/profile/authorize";
+
 	}
 
 	@RequestMapping(value = "/token/{tpId}", method = RequestMethod.GET)
@@ -68,11 +78,12 @@ public class TokenAuthorizeController extends BaseController {
 	}
 
 	@RequestMapping(value = "/access/{tpId}", method = RequestMethod.GET)
-	public String access(HttpServletRequest request,
+	public ModelAndView access(HttpServletRequest request,
 			HttpServletResponse response, @PathVariable long tpId, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		ModelMap mmap = new ModelMap();
 		try {
 			if (tp == null || context.getTpId() != tp.getId()) {
 				throw new TokenAuthorizeException(
@@ -80,11 +91,11 @@ public class TokenAuthorizeController extends BaseController {
 			}
 			userService.expireAccess(request, tp, context.getUid());
 		} catch (TokenAuthorizeException e) {
-			model.addAttribute("errorInfo", messageSource.getMessage(
-					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
-			return show(request, response, model);
+			String errorInfo = messageSource.getMessage(e.getErrorCode(), null,
+					Locale.SIMPLIFIED_CHINESE);
+			mmap.addAttribute("errorInfo", errorInfo);
 		}
-		return "redirect:/authorize/show";
+		return new ModelAndView("redirect:/authorize/show", mmap);
 	}
 
 	@RequestMapping(value = "/bind/{tpId}", method = RequestMethod.GET)
@@ -104,11 +115,12 @@ public class TokenAuthorizeController extends BaseController {
 	}
 
 	@RequestMapping(value = "/bindAccess/{tpId}", method = RequestMethod.GET)
-	public String bindAccess(HttpServletRequest request,
+	public ModelAndView bindAccess(HttpServletRequest request,
 			HttpServletResponse response, @PathVariable long tpId, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
+		ModelMap mmap = new ModelMap();
 		try {
 			// TODO (done) 我说逻辑不对，就应该删掉？仔细点思考一下啊！！！
 			if (tp == null || context.getTpId() > 0
@@ -117,11 +129,18 @@ public class TokenAuthorizeController extends BaseController {
 						TokenAuthorizeException.ILLEGAL_OPERATION);
 			}
 			userService.bindAccess(request, tp, context.getUid());
+			// 授权成功重新登录一次更新tpid
+			try {
+				loginService.login(request, response, context.getUid(),
+						tp.getId(), RunType.CONNET, false);
+			} catch (Exception e) {
+				log.error("bindAccess   login is error" + e.getMessage());
+			}
 		} catch (TokenAuthorizeException e) {
-			model.addAttribute("errorInfo", messageSource.getMessage(
-					e.getErrorCode(), null, Locale.SIMPLIFIED_CHINESE));
-			return show(request, response, model);
+			String errorInfo = messageSource.getMessage(e.getErrorCode(), null,
+					Locale.SIMPLIFIED_CHINESE);
+			mmap.addAttribute("errorInfo", errorInfo);
 		}
-		return "redirect:/authorize/show";
+		return new ModelAndView("redirect:/authorize/show", mmap);
 	}
 }

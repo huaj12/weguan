@@ -1,5 +1,7 @@
 package com.juzhai.passport.service;
 
+import com.juzhai.passport.model.Passport;
+import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 
 public interface ITpUserService {
@@ -30,4 +32,15 @@ public interface ITpUserService {
 	 * @return
 	 */
 	boolean existTpUserByTpIdAndIdentity(long tpId, String identity);
+
+	/**
+	 * 注册第三方账户
+	 * 
+	 * @param tp
+	 * @param identity
+	 * @param passport
+	 */
+	// TODO (done)
+	// 既然有多个地方要使用，变为公共方法，那就把方法移入TpUserService,方法的实现应该由TpUserService负责
+	public void registerTpUser(Thirdparty tp, String identity, Passport passport);
 }

@@ -41,10 +41,10 @@ import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.PassportExample;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
-import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
+import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.stats.counter.service.ICounter;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
@@ -79,6 +79,8 @@ public class RegisterService implements IRegisterService {
 	private IWordFilterService wordFilterService;
 	@Autowired
 	private ICounter plusRegisterCounter;
+	@Autowired
+	private ITpUserService tpUserService;
 	@Value("${register.email.min}")
 	private int registerEmailMin;
 	@Value("${register.email.max}")
@@ -107,7 +109,7 @@ public class RegisterService implements IRegisterService {
 		registerProfile(profile, passport);
 		// registerAccount(passport);
 		// registerUserGuide(passport);
-		registerTpUser(tp, identity, passport);
+		tpUserService.registerTpUser(tp, identity, passport);
 		tpUserAuthService.updateTpUserAuth(passport.getId(), tp.getId(),
 				authInfo);
 		// passportService.setUseLevel(passport.getId(), UseLevel.Level1);
@@ -161,17 +163,6 @@ public class RegisterService implements IRegisterService {
 		profile.setLastModifyTime(passport.getLastModifyTime());
 		// profile.setLastUpdateTime(passport.getCreateTime());
 		profileMapper.insertSelective(profile);
-	}
-
-	@Override
-	public void registerTpUser(Thirdparty tp, String identity, Passport passport) {
-		TpUser tpUser = new TpUser();
-		tpUser.setUid(passport.getId());
-		tpUser.setTpName(tp.getName());
-		tpUser.setTpIdentity(identity);
-		tpUser.setCreateTime(passport.getCreateTime());
-		tpUser.setLastModifyTime(passport.getLastModifyTime());
-		tpUserMapper.insertSelective(tpUser);
 	}
 
 	private Passport registerPassport(String loginName, String email,

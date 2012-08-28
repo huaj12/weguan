@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.juzhai.core.exception.UploadImageException;
-import com.juzhai.lab.controller.form.ProfileMForm;
+import com.juzhai.mobile.passport.controller.form.ProfileMForm;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.Profile;

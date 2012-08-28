@@ -16,7 +16,7 @@ import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.lab.controller.form.ProfileMForm;
+import com.juzhai.mobile.passport.controller.form.ProfileMForm;
 import com.juzhai.mobile.passport.controller.viewHelper.IUserMViewHelper;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.model.UserGuide;

@@ -186,7 +186,7 @@ public abstract class AbstractUserService implements IUserService {
 			throw new TokenAuthorizeException(
 					TokenAuthorizeException.USER_IS_EXIST);
 		}
-		registerService.registerTpUser(tp, authInfo.getTpIdentity(), passport);
+		tpUserService.registerTpUser(tp, authInfo.getTpIdentity(), passport);
 		tpUserAuthService.updateTpUserAuth(uid, tp.getId(), authInfo);
 		tpUserAuthService.cacheAuthInfo(uid, authInfo);
 	}

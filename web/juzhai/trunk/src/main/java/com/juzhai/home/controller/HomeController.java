@@ -320,7 +320,7 @@ public class HomeController extends BaseController {
 			model.addAttribute("hasNotActive",
 					!registerService.hasActiveEmail(passport));
 		}
-
+		model.addAttribute("hasBind", !(context.getTpId() > 0));
 		// 偏好设置性别
 		List<String> genders = userPreferenceService.getUserAnswer(
 				context.getUid(), SiftTypePreference.GENDER.getPreferenceId());

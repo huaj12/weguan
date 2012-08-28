@@ -53,7 +53,7 @@ public class AuthorizeMController extends BaseController {
 			return error_404;
 		}
 		String url = userService.getExpiredAuthorizeURLforCode(request,
-				response, tp, Terminal.MOBILE, null, null);
+				response, tp, Terminal.MOBILE);
 		if (StringUtils.isEmpty(url)) {
 			return error_404;
 		}

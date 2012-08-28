@@ -111,7 +111,7 @@ public class TokenAuthorizeController extends BaseController {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		try {
 			// TODO (done) 我说逻辑不对，就应该删掉？仔细点思考一下啊！！！
-			if (tp == null
+			if (tp == null || context.getTpId() > 0
 					|| !tp.getJoinType().equals(JoinTypeEnum.CONNECT.getName())) {
 				throw new TokenAuthorizeException(
 						TokenAuthorizeException.ILLEGAL_OPERATION);

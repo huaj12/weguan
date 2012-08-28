@@ -109,6 +109,7 @@ public class TokenAuthorizeController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		try {
+			//TODO (review) 复制过来，也不看看逻辑是不是对
 			if (tp == null || context.getTpId() != tp.getId()) {
 				throw new TokenAuthorizeException(
 						TokenAuthorizeException.ILLEGAL_OPERATION);

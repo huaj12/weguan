@@ -74,4 +74,31 @@ public interface IUserService {
 	void expireAccess(HttpServletRequest request, Thirdparty tp, long uid)
 			throws TokenAuthorizeException;
 
+	/**
+	 * 本地账户绑定第三方帐号
+	 * 
+	 * @param request
+	 * @param response
+	 * @param tp
+	 * @param terminal
+	 * @param turnTo
+	 * @param incode
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	String getBindAuthorizeURLforCode(HttpServletRequest request,
+			HttpServletResponse response, Thirdparty tp, Terminal terminal,
+			String turnTo, String incode) throws UnsupportedEncodingException;
+
+	/**
+	 * 本地注册绑定第三方账户
+	 * 
+	 * @param request
+	 * @param tp
+	 * @param uid
+	 * @throws TokenAuthorizeException
+	 */
+	void bindAccess(HttpServletRequest request, Thirdparty tp, long uid)
+			throws TokenAuthorizeException;
+
 }

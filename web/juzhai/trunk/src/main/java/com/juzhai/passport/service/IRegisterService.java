@@ -141,4 +141,13 @@ public interface IRegisterService {
 	 */
 	boolean activeAccount(String code);
 
+	/**
+	 * 注册第三方账户
+	 * 
+	 * @param tp
+	 * @param identity
+	 * @param passport
+	 */
+	public void registerTpUser(Thirdparty tp, String identity, Passport passport);
+
 }

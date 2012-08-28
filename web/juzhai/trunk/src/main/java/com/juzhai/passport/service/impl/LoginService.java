@@ -349,4 +349,10 @@ public class LoginService implements ILoginService {
 			});
 		}
 	}
+
+	@Override
+	public void updateTpId(HttpServletRequest request,
+			HttpServletResponse response, long uid, long tpId) {
+		loginSessionManager.login(request, response, uid, tpId, false, false);
+	}
 }

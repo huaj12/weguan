@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.mapper.TpUserMapper;
+import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.model.TpUser;
 import com.juzhai.passport.model.TpUserExample;
@@ -53,6 +54,17 @@ public class TpUserService implements ITpUserService {
 		example.createCriteria().andTpNameEqualTo(tp.getName())
 				.andTpIdentityEqualTo(identity);
 		return tpUserMapper.countByExample(example) > 0;
+	}
+
+	@Override
+	public void registerTpUser(Thirdparty tp, String identity, Passport passport) {
+		TpUser tpUser = new TpUser();
+		tpUser.setUid(passport.getId());
+		tpUser.setTpName(tp.getName());
+		tpUser.setTpIdentity(identity);
+		tpUser.setCreateTime(passport.getCreateTime());
+		tpUser.setLastModifyTime(passport.getLastModifyTime());
+		tpUserMapper.insertSelective(tpUser);
 	}
 
 }

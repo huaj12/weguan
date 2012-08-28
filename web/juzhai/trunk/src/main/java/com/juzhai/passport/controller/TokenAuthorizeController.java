@@ -109,7 +109,7 @@ public class TokenAuthorizeController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		try {
-			// TODO (done) 复制过来，也不看看逻辑是不是对
+			// TODO (review) 我说逻辑不对，就应该删掉？仔细点思考一下啊！！！
 			userService.bindAccess(request, tp, context.getUid());
 		} catch (TokenAuthorizeException e) {
 			model.addAttribute("errorInfo", messageSource.getMessage(

@@ -83,4 +83,19 @@ public class UserService implements IUserService, BeanFactoryAware {
 			throws TokenAuthorizeException {
 		getUserServiceBean(tp).expireAccess(request, tp, uid);
 	}
+
+	@Override
+	public String getBindAuthorizeURLforCode(HttpServletRequest request,
+			HttpServletResponse response, Thirdparty tp, Terminal terminal,
+			String turnTo, String incode) throws UnsupportedEncodingException {
+		return getUserServiceBean(tp).getBindAuthorizeURLforCode(request,
+				response, tp, terminal, turnTo, incode);
+	}
+
+	@Override
+	public void bindAccess(HttpServletRequest request, Thirdparty tp, long uid)
+			throws TokenAuthorizeException {
+		getUserServiceBean(tp).bindAccess(request, tp, uid);
+
+	}
 }

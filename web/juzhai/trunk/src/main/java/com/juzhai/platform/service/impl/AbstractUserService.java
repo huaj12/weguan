@@ -126,7 +126,19 @@ public abstract class AbstractUserService implements IUserService {
 		return getAuthorizeURLforCode(request, response, tp, terminal, turnTo,
 				incode, callback);
 	}
-	
+
+	@Override
+	public String getBindAuthorizeURLforCode(HttpServletRequest request,
+			HttpServletResponse response, Thirdparty tp, Terminal terminal,
+			String turnTo, String incode) throws UnsupportedEncodingException {
+		String callback = messageSource.getMessage(
+				"authorize.bind.callback.url",
+				new Object[] { SystemConfig.getDomain(), tp.getId() },
+				Locale.SIMPLIFIED_CHINESE);
+		return getAuthorizeURLforCode(request, response, tp, terminal, turnTo,
+				incode, callback);
+	}
+
 	@Override
 	public void expireAccess(HttpServletRequest request, Thirdparty tp, long uid)
 			throws TokenAuthorizeException {
@@ -153,6 +165,28 @@ public abstract class AbstractUserService implements IUserService {
 			}
 			tpUserService.updateTpIdentity(uid, authInfo.getTpIdentity());
 		}
+		tpUserAuthService.updateTpUserAuth(uid, tp.getId(), authInfo);
+		tpUserAuthService.cacheAuthInfo(uid, authInfo);
+	}
+
+	@Override
+	public void bindAccess(HttpServletRequest request, Thirdparty tp, long uid)
+			throws TokenAuthorizeException {
+		Passport passport = passportService.getPassportByUid(uid);
+		TpUser tpUser = tpUserService.getTpUserByUid(uid);
+		if (null != tpUser || !registerService.hasAccount(passport)) {
+			throw new TokenAuthorizeException(
+					TokenAuthorizeException.USER_NOT_REQUIRE_BIND);
+		}
+		AuthInfo authInfo = new AuthInfo();
+		fetchTpIdentity(request, authInfo, tp);
+		if (tpUserService.existTpUserByTpIdAndIdentity(tp.getId(),
+				authInfo.getTpIdentity())) {
+			// 新授权的号已注册过
+			throw new TokenAuthorizeException(
+					TokenAuthorizeException.USER_IS_EXIST);
+		}
+		registerService.registerTpUser(tp, authInfo.getTpIdentity(), passport);
 		tpUserAuthService.updateTpUserAuth(uid, tp.getId(), authInfo);
 		tpUserAuthService.cacheAuthInfo(uid, authInfo);
 	}

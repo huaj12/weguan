@@ -19,4 +19,8 @@ public interface LoginSessionManager {
 
 	long persistentLoginUid(HttpServletRequest request,
 			HttpServletResponse response);
+
+	// TODO 临时方法。绑定多tpid时 需从memcached里移除tpid
+	void updateTpId(HttpServletRequest request, HttpServletResponse response,
+			long uid, long tpId);
 }

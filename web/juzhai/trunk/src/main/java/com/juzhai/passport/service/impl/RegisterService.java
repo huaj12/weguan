@@ -163,8 +163,8 @@ public class RegisterService implements IRegisterService {
 		profileMapper.insertSelective(profile);
 	}
 
-	private void registerTpUser(Thirdparty tp, String identity,
-			Passport passport) {
+	@Override
+	public void registerTpUser(Thirdparty tp, String identity, Passport passport) {
 		TpUser tpUser = new TpUser();
 		tpUser.setUid(passport.getId());
 		tpUser.setTpName(tp.getName());

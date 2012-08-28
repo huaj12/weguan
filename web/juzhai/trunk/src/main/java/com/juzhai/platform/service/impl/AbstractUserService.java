@@ -149,11 +149,6 @@ public abstract class AbstractUserService implements IUserService {
 					TokenAuthorizeException.USER_NOT_REQUIRE_AUTHORIZE);
 		}
 		AuthInfo authInfo = new AuthInfo();
-		fetchTpIdentity(request, authInfo, tp);
-		if (StringUtils.isEmpty(authInfo.getToken())) {
-			throw new TokenAuthorizeException(
-					TokenAuthorizeException.ILLEGAL_OPERATION);
-		}
 		String tpIdentity = fetchTpIdentity(request, authInfo, tp);
 		if (StringUtils.isEmpty(tpIdentity) || "null".equals(tpIdentity)) {
 			throw new TokenAuthorizeException(

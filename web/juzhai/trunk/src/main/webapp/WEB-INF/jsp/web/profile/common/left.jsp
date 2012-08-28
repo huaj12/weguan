@@ -7,9 +7,7 @@
 	<a href="/passport/account" <c:if test="${page=='account'}">class="active"</c:if> >账号密码</a>
 	<a href="/home/blacklist" <c:if test="${page=='shield'}">class="active"</c:if> >屏蔽管理</a>
 	<c:if test="${empty isQplus||!isQplus}">
-		<c:if test="${context.tpId>0}">
-			<a href="/authorize/show" <c:if test="${page=='authorize'}">class="active"</c:if> >授权管理</a>
-		</c:if>
+			<a href="/authorize/show" <c:if test="${page=='authorize'}">class="active"</c:if> >授权设置</a>
 	</c:if>
 	<c:if test="${loginUser.gender==1}">
 			<a href="/rescueboy" <c:if test="${page=='rescueboy'}">class="active"</c:if> >宅男自救器</a>

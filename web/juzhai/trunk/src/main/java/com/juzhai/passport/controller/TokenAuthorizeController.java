@@ -19,6 +19,7 @@ import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.InitData;
+import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.exception.TokenAuthorizeException;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.passport.service.ITpUserAuthService;
@@ -109,7 +110,17 @@ public class TokenAuthorizeController extends BaseController {
 		UserContext context = checkLoginForWeb(request);
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		try {
-			// TODO (review) 我说逻辑不对，就应该删掉？仔细点思考一下啊！！！
+			// TODO (done) 我说逻辑不对，就应该删掉？仔细点思考一下啊！！！
+			if (tp == null
+					|| (!tp.getName().equals(
+							ThirdpartyNameEnum.DOUBAN.getName())
+							&& !tp.getName().equals(
+									ThirdpartyNameEnum.QQ.getName()) && !tp
+							.getName().equals(
+									ThirdpartyNameEnum.WEIBO.getName()))) {
+				throw new TokenAuthorizeException(
+						TokenAuthorizeException.ILLEGAL_OPERATION);
+			}
 			userService.bindAccess(request, tp, context.getUid());
 		} catch (TokenAuthorizeException e) {
 			model.addAttribute("errorInfo", messageSource.getMessage(

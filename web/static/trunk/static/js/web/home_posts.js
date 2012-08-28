@@ -5,7 +5,7 @@ $(document).ready(function() {
 		openMessage(uid, nickname);
 		return false;
 	});
-	$("div.keep > a").click(function(){
+	$("div.ta_btn > a").click(function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openDate(uid, nickname);

@@ -13,7 +13,7 @@ $(document).ready(function(){
 	selectMonthlyIncome.bindClick();
 	selectMonthlyIncome.bindSelect();
 	moreSeach();
-	$("div.keep > a").click(function(){
+	$("div.date > a").click(function(){
 		var uid = $(this).attr("target-uid");
 		var nickname = $(this).attr("target-nickname");
 		openDate(uid, nickname);

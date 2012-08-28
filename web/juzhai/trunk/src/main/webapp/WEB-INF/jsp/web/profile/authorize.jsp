@@ -33,7 +33,7 @@
 									<a href="/authorize/token/${context.tpId }">&lt;&lt;去重新授权</a>
 								</c:when>
 								<c:otherwise>
-									<p>您的${name}授权未过期，可以正常使用</p>
+									<p>您的${name}授权成功，可以正常使用</p>
 								</c:otherwise>
 							</c:choose>
 							<br/>

@@ -25,6 +25,7 @@ import com.juzhai.mobile.passport.controller.viewHelper.IUserMViewHelper;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.exception.TokenAuthorizeException;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.service.IUserService;
@@ -42,6 +43,8 @@ public class AuthorizeMController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private IUserMViewHelper userMViewHelper;
+	@Autowired
+	private ILoginService loginService;
 
 	@RequestMapping(value = "/expired/{tpId}", method = RequestMethod.GET)
 	public String expired(HttpServletRequest request,
@@ -109,9 +112,11 @@ public class AuthorizeMController extends BaseController {
 		Thirdparty tp = InitData.TP_MAP.get(tpId);
 		try {
 			userService.bindAccess(request, tp, context.getUid());
+			loginService.updateTpId(request, response, context.getUid(), tpId);
 		} catch (TokenAuthorizeException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		}
+		context = (UserContext) request.getAttribute("context");
 		result.setResult(userMViewHelper.createUserMView(context,
 				profileService.getProfileCacheByUid(context.getUid()), true));
 		return result;

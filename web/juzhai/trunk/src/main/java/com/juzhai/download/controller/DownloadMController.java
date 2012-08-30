@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.juzhai.download.service.IDownloadService;
+import com.juzhai.stats.counter.service.ICounter;
 
 @Controller
 @RequestMapping("download")
@@ -25,6 +26,8 @@ public class DownloadMController {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private IDownloadService downloadService;
+	@Autowired
+	private ICounter iosDownloadCounter;
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
@@ -52,6 +55,7 @@ public class DownloadMController {
 			toClient.write(buffer);
 			toClient.flush();
 			toClient.close();
+			iosDownloadCounter.incr(null, 1l);
 		} catch (IOException e) {
 			log.error("download is error", e);
 		} finally {

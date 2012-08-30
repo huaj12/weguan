@@ -13,6 +13,7 @@
 		<meta name="description" content="<c:if test="${!empty jzd:cityName(idea.city )}">在jzd:cityName(idea.city )}</c:if>周末不想宅在家拒宅网帮你出好主意,<c:out value="${jzu:truncate(idea.content, 120, '...')}" />_" />
 		<link href="${jzr:static('/css/jz_web.css')}" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.3"></script>
 	</head>
 	<body>
 		<div class="warp"><!--warp begin-->
@@ -171,6 +172,7 @@
 					</div><!--main_left end--> --%>
 					<div class="main_right"><!--main_right begin-->
 							<jsp:include page="/WEB-INF/jsp/web/idea/common/want_idea_widget.jsp" />
+							<jsp:include page="/WEB-INF/jsp/web/idea/common/idea_map_widget.jsp" />
 							<jsp:include page="/WEB-INF/jsp/web/idea/common/share_idea_widget.jsp" />
 							<jsp:include page="/WEB-INF/jsp/web/index/cqw/recent_idea_widget.jsp" />
 							<jsp:include page="/WEB-INF/jsp/web/index/cqw/idea_ad_widget.jsp" />

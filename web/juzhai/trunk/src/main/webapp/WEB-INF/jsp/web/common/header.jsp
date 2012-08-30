@@ -35,9 +35,7 @@
 						<a href="/passport/account">账号密码</a>
 						<a href="/home/blacklist/">屏蔽管理</a>
 						<c:if test="${empty isQplus||!isQplus}">
-							<c:if test="${context.tpId>0}">
-								<a href="/authorize/show">授权管理</a>
-							</c:if>
+							<a href="/authorize/show">授权设置</a>
 						</c:if>
 						<c:if test="${loginUser.gender==1}">
 								<a href="/rescueboy">宅男自救器</a>
@@ -60,11 +58,16 @@
 				</div>
 				<!--acc end-->
 				<!--my_gift begin-->
-				<div class="my_gift" style="display: none">
+				<div class="my_gift">
 					<p></p>
 					<a href="/event/show"></a>
 				</div>
 				<!--my_gift end-->
+				<div class="my_iphone"><!--my_iphone begin-->
+					<a href="/download/index"></a>
+				</div>
+				<!--my_iphone end-->
+				
 				<div class="my_face_login"><a href="/home/${loginUser.uid}" title="<c:out value="${loginUser.nickname}" />"><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}" height="20" width="20" /><p><c:out value="${jzu:truncate(loginUser.nickname,12,'')}"/></p></a></div>
 			</c:if>
 			<c:if test="${context.uid<=0}">

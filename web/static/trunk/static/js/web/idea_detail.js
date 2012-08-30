@@ -62,4 +62,48 @@ $(document).ready(function(){
 		});
 		return false;
 	});
+	$("div.view_map > a").bind("click", function() {
+		var ideaId=$(this).attr("idea-id");
+		$.ajax({
+			url : "/idea/bigmap",
+			type : "get",
+			cache : false,
+			data : {ideaId:ideaId},
+			dataType : "html",
+			success : function(result) {
+				if(result.indexOf("map_tcc")!=-1){
+					var dialog = openDialog(null, "bigMap", result);
+					var opts = {type: BMAP_NAVIGATION_CONTROL_LARGE}; 
+					createMap("big-map-container",opts);
+				}
+			},
+			statusCode : {
+				401 : function() {
+					window.location.href = "/login?turnTo=" + window.location.href;
+				}
+			}
+		});
+		return false;
+	});
+	
+	if($("#container").length>0){
+		var opts = {type: BMAP_NAVIGATION_CONTROL_ZOOM}; 
+		createMap("container",opts);
+	}
 });
+
+function createMap(id,opts){
+	var lat=$("#"+id).attr("lat");
+	var lng=$("#"+id).attr("lng");
+	var ctiyName=$("#"+id).attr("city-name");
+	var placeName=$("#"+id).attr("place-name");
+	var townName=$("#"+id).attr("town-name");
+	var map = new BMap.Map(id);
+	var point =new BMap.Point(lng,lat);
+ 	map.centerAndZoom(point,15);  
+	var marker = new BMap.Marker(point);        // 创建标注
+	marker.setTitle(ctiyName+townName+placeName);
+	map.addControl(new BMap.NavigationControl(opts));
+	map.addControl(new BMap.OverviewMapControl());  
+	map.addOverlay(marker);
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Idea_Position_Mapper">
+
+    <insert id="insertIdeaPosition" parameterType="map">
+        insert into tb_idea_position values (#{ideaId}, GeomFromText(#{point}), #{createTime}, #{lastModifyTime})
+    </insert>
+    
+	<update id="updateIdeaPosition" parameterType="map">
+	    update tb_idea_position set location = GeomFromText(#{point}), last_modify_time = #{lastModifyTime} where idea_id = #{ideaId}
+	</update>
+	<select id="getIdeaLocation" parameterType="map" resultType="java.lang.String">
+		SELECT AsText(location) FROM tb_idea_position where idea_id=#{ideaId}
+	</select>
+	
+	
+</mapper>

@@ -36,6 +36,8 @@ import com.juzhai.core.web.jstl.JzDataFunction;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.controller.view.IdeaView;
+import com.juzhai.map.bean.Point;
+import com.juzhai.map.service.IMapService;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.City;
@@ -43,6 +45,7 @@ import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.post.controller.view.IdeaUserView;
+import com.juzhai.post.dao.IIdeaPositionDao;
 import com.juzhai.post.exception.InputIdeaException;
 import com.juzhai.post.exception.InputRawIdeaException;
 import com.juzhai.post.model.Idea;
@@ -77,6 +80,10 @@ public class IdeaController extends BaseController {
 	private IRawIdeaService rawIdeaService;
 	@Autowired
 	private ICounter openIdeaDialogCounter;
+	@Autowired
+	private IIdeaPositionDao ideaPositionDao;
+	@Autowired
+	private IMapService mapService;
 	@Value("${idea.user.max.rows}")
 	private int ideaUserMaxRows;
 	@Value("${idea.detail.ad.count}")
@@ -218,7 +225,39 @@ public class IdeaController extends BaseController {
 			model.addAttribute("hasInterest",
 					ideaService.isInterestIdea(context.getUid(), idea.getId()));
 		}
+		setPoint(idea, model);
 		return true;
+	}
+
+	private void setPoint(Idea idea, Model model) {
+		String pointStr = ideaPositionDao.getLocation(idea.getId());
+		Point point = getPoint(pointStr);
+		if (point == null) {
+			point = mapService.geocode(idea.getCity(), idea.getPlace());
+			if (point != null) {
+				ideaPositionDao.insert(idea.getId(), point.getLng(),
+						point.getLat());
+			}
+		}
+		model.addAttribute("point", point);
+	}
+
+	private Point getPoint(String pointStr) {
+		if (StringUtils.isEmpty(pointStr)) {
+			return null;
+		}
+		Point point = null;
+		try {
+			pointStr = pointStr.substring(pointStr.indexOf("(") + 1,
+					pointStr.indexOf(")"));
+			String str[] = pointStr.split(" ");
+			point = new Point();
+			point.setLat(Double.valueOf(str[1]));
+			point.setLng(Double.valueOf(str[0]));
+		} catch (Exception e) {
+			log.error("ideaDetail getPoint is error", e);
+		}
+		return point;
 	}
 
 	@RequestMapping(value = "/presendidea", method = RequestMethod.GET)
@@ -486,4 +525,14 @@ public class IdeaController extends BaseController {
 		return result;
 	}
 
+	@RequestMapping(value = "/bigmap", method = RequestMethod.GET)
+	public String bigmap(HttpServletRequest request, Model model, long ideaId) {
+		Idea idea = ideaService.getIdeaById(ideaId);
+		if (idea == null) {
+			return error_404;
+		}
+		setPoint(idea, model);
+		model.addAttribute("idea", idea);
+		return "web/map/big_map_dialog";
+	}
 }

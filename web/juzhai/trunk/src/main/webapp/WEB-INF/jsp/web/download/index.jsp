@@ -28,6 +28,7 @@
 				<div class="iphone_page"><!--iphone_page begin-->
 					<div class="btns">
 						<a href="/download/ios" target="_blank"><img src="${jzr:static('/images/web2/iphone_btn2.jpg')}" /></a>
+						<a href="javascript:void(0);"><img src="${jzr:static('/images/web2/iphone_btn_unable.jpg')}" class="unable" /></a>
 						<!-- 
 						<a href="#"><img src="${jzr:static('/images/web2/iphone_btn1.jpg')}" /></a>
 						<a href="#"><img src="${jzr:static('/images/web2/iphone_btn3.jpg')}" /></a>

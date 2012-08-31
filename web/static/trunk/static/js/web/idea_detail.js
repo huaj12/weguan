@@ -65,7 +65,7 @@ $(document).ready(function(){
 	
 	
 	var script = document.createElement("script");
-	  script.src = "http://api.map.baidu.com/api?v=1.3&callback=initialize";
+	  script.src = "http://api.map.baidu.com/api?v=1.2&callback=initialize";
 	  document.body.appendChild(script);
 	
 });

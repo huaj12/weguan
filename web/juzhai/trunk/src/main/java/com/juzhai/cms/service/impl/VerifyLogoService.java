@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -123,14 +122,13 @@ public class VerifyLogoService implements IVerifyLogoService {
 					// 通过头像后通过好主意发布的拒宅自动通过
 					List<Post> posts = postService.listRawPostIdea(uid);
 					if (CollectionUtils.isNotEmpty(posts)) {
-						List<Long> postIds = new ArrayList<Long>(posts.size());
 						for (Post post : posts) {
-							postIds.add(post.getId());
+							try {
+								postService.handlePost(post.getId());
+							} catch (InputPostException e) {
+							}
 						}
-						try {
-							postService.handlePost(postIds);
-						} catch (InputPostException e) {
-						}
+
 					}
 				}
 			}

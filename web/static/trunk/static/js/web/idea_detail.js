@@ -123,6 +123,7 @@ function createMap(id,opts){
 	var placeName=$("#"+id).attr("place-name");
 	var townName=$("#"+id).attr("town-name");
 	var map = new BMap.Map(id);
+	map.enableScrollWheelZoom();
 	var point =new BMap.Point(lng,lat);
  	map.centerAndZoom(point,15);  
 	var marker = new BMap.Marker(point);        // 创建标注

@@ -62,16 +62,16 @@ function shield(id){
 function handleById(id){
 	jQuery.ajax({
 		url : "/cms/post/handle",
-		type : "get",
+		type : "post",
 		data : {
-			"postIds" : id
+			"postId" : id
 		},
 		dataType : "json",
 		success : function(result) {
 			if (result.success!=null&&result.success) {
 				location.reload();
 			} else {
-				alert("标记错误请重试");
+				alert(result.errorInfo);
 			}
 		},
 		statusCode : {

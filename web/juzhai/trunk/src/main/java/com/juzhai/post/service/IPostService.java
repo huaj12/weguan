@@ -191,7 +191,7 @@ public interface IPostService {
 	 * 
 	 * @param postIds
 	 */
-	void handlePost(List<Long> postIds) throws InputPostException;
+	void handlePost(Long postId) throws InputPostException;
 
 	/**
 	 * 标记为好主意

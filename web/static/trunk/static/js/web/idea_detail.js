@@ -62,35 +62,59 @@ $(document).ready(function(){
 		});
 		return false;
 	});
-	$("div.view_map > a").bind("click", function() {
-		var ideaId=$(this).attr("idea-id");
-		$.ajax({
-			url : "/idea/bigmap",
-			type : "get",
-			cache : false,
-			data : {ideaId:ideaId},
-			dataType : "html",
-			success : function(result) {
-				if(result.indexOf("map_tcc")!=-1){
-					var dialog = openDialog(null, "bigMap", result);
-					var opts = {type: BMAP_NAVIGATION_CONTROL_LARGE}; 
-					createMap("big-map-container",opts);
-				}
-			},
-			statusCode : {
-				401 : function() {
-					window.location.href = "/login?turnTo=" + window.location.href;
-				}
-			}
-		});
-		return false;
-	});
 	
-	if($("#container").length>0){
-		var opts = {type: BMAP_NAVIGATION_CONTROL_ZOOM}; 
-		createMap("container",opts);
-	}
+	
+	var script = document.createElement("script");
+	  script.src = "http://api.map.baidu.com/api?v=1.3&callback=initialize";
+	  document.body.appendChild(script);
+	
 });
+
+function initialize(){
+	var ideaId=$("#ideaId").val();
+	$.ajax({
+		url : "/idea/ajax/map",
+		type : "get",
+		data : {ideaId:ideaId},
+		dataType : "html",
+		success : function(result) {
+			if(result.indexOf("container")!=-1){
+				$("#map-view").show();
+				$("#map-view").html(result);
+				var opts = {type: BMAP_NAVIGATION_CONTROL_ZOOM}; 
+				createMap("container",opts);
+				$("#map-view").find("div.view_map > a").bind("click", function() {
+					var ideaId=$(this).attr("idea-id");
+					$.ajax({
+						url : "/idea/bigmap",
+						type : "get",
+						data : {ideaId:ideaId},
+						dataType : "html",
+						success : function(result) {
+							if(result.indexOf("map_tcc")!=-1){
+								var dialog = openDialog(null, "bigMap", result);
+								var opts = {type: BMAP_NAVIGATION_CONTROL_LARGE}; 
+								createMap("big-map-container",opts);
+							}
+						},
+						statusCode : {
+							401 : function() {
+								window.location.href = "/login?turnTo=" + window.location.href;
+							}
+						}
+					});
+					return false;
+				});
+			}
+		},
+		statusCode : {
+			401 : function() {
+				window.location.href = "/login?turnTo=" + window.location.href;
+			}
+		}
+	});
+	return false;
+}
 
 function createMap(id,opts){
 	var lat=$("#"+id).attr("lat");

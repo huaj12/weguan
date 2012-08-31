@@ -57,7 +57,7 @@
 					</div>
 				</div>
 				<!--acc end-->
-				<div class="my_iphone"><!--my_iphone begin-->
+				<div class="my_iphone" style="display: none"><!--my_iphone begin-->
 					<a href="/download/index"></a>
 				</div>
 				<!--my_iphone end-->

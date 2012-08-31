@@ -615,28 +615,22 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public void handlePost(List<Long> postIds) throws InputPostException {
-		if (CollectionUtils.isEmpty(postIds)) {
+	public void handlePost(Long postId) throws InputPostException {
+		if (postId == null || postId <= 0) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
 		}
-		PostExample example = new PostExample();
-		Post post = new Post();
+		Post post = getPostById(postId);
+		if (post.getDefunct()) {
+			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
+		}
 		post.setLastModifyTime(new Date());
 		post.setVerifyType(VerifyType.QUALIFIED.getType());
-		example.createCriteria().andIdIn(postIds);
-		if (postMapper.updateByExampleSelective(post, example) > 0) {
+		if (postMapper.updateByPrimaryKeySelective(post) > 0) {
 			auditPostCounter.incr(null, 1L);
 		}
-		for (Long postId : postIds) {
-			if (postId != null && postId > 0) {
-				setUserLatestPost(getPostById(postId));
-				// 后台拒宅通过审核 取消屏蔽
-				postSearchService.createIndex(postId);
-			}
-		}
-
-		// 通过审核
-
+		setUserLatestPost(getPostById(postId));
+		// 后台拒宅通过审核 取消屏蔽
+		postSearchService.createIndex(postId);
 	}
 
 	@Override

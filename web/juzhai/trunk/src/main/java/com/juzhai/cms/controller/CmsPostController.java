@@ -3,7 +3,6 @@ package com.juzhai.cms.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -122,23 +121,12 @@ public class CmsPostController {
 		return ajaxResult;
 	}
 
-	@RequestMapping(value = "/post/handle", method = RequestMethod.GET)
+	@RequestMapping(value = "/post/handle", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResult postHandle(String postIds) {
+	public AjaxResult postHandle(@RequestParam(defaultValue = "0") long postId) {
 		AjaxResult ajaxResult = new AjaxResult();
-		List<Long> list = new ArrayList<Long>();
 		try {
-			if (StringUtils.isNotEmpty(postIds)) {
-				for (String str : postIds.split(",")) {
-					list.add(Long.valueOf(str));
-				}
-			}
-		} catch (Exception e) {
-			ajaxResult.setSuccess(false);
-			return ajaxResult;
-		}
-		try {
-			postService.handlePost(list);
+			postService.handlePost(postId);
 		} catch (InputPostException e) {
 			ajaxResult.setError(e.getErrorCode(), messageSource);
 		}

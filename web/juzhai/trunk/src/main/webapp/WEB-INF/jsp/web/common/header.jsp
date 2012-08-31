@@ -57,12 +57,6 @@
 					</div>
 				</div>
 				<!--acc end-->
-				<!--my_gift begin-->
-				<div class="my_gift">
-					<p></p>
-					<a href="/event/show"></a>
-				</div>
-				<!--my_gift end-->
 				<div class="my_iphone"><!--my_iphone begin-->
 					<a href="/download/index"></a>
 				</div>

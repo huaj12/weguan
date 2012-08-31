@@ -33,9 +33,9 @@
 										<div class="share_area">刚发现一个有趣的脱宅社区；周末不想宅在家的朋友可以来试试~，还有机会赢取500元的#拒宅自助金#哦。 http://t.cn/zWRIehS </div>
 									        <a href="http://v.t.sina.com.cn/share/share.php?url=http%3A%2F%2Fwww.51juzhai.com%2F%23593065-tsina-1-58528-357aeb2577d0b4df256629dbfb0b0f76&title=刚发现一个有趣的脱宅社区；周末不想宅在家的朋友可以来试试~，还有机会赢取500元的%23拒宅自助金%23哦。&appkey=3631414437&pic=http%3A%2F%2Fimg.51juzhai.com%2Fimages%2Fweb2%2Fshare_pic.jpg" target="_blank"></a>
 									</div><!--hd_left end-->
-									<div class="hd_over" style="display: none">
+									<div class="hd_over">
 										<h2>本期活动已结束</h2>
-										<p></p>
+										<p>本期中奖用户为<a href="http://weibo.com/u/1761950454" target="_blank">@方芳芳-芳</a>，敬请期待下期活动</p>
 										<div class="clear"></div>
 									</div>
 							</div><!--jz_hd end-->

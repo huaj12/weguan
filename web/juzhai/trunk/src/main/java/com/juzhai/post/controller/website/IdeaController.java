@@ -36,13 +36,12 @@ import com.juzhai.core.web.jstl.JzDataFunction;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.index.controller.view.IdeaView;
-import com.juzhai.map.bean.Point;
-import com.juzhai.map.service.IMapService;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
+import com.juzhai.post.bean.Point;
 import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.post.controller.view.IdeaUserView;
 import com.juzhai.post.dao.IIdeaPositionDao;
@@ -52,6 +51,7 @@ import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.IdeaDetail;
 import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaService;
+import com.juzhai.post.service.IMapService;
 import com.juzhai.post.service.IRawIdeaService;
 import com.juzhai.post.service.impl.IdeaDetailService;
 import com.juzhai.spider.share.exception.SpiderIdeaException;
@@ -225,11 +225,10 @@ public class IdeaController extends BaseController {
 			model.addAttribute("hasInterest",
 					ideaService.isInterestIdea(context.getUid(), idea.getId()));
 		}
-		setPoint(idea, model);
 		return true;
 	}
 
-	private void setPoint(Idea idea, Model model) {
+	private Point getIdeaPoint(Idea idea) {
 		String pointStr = ideaPositionDao.getLocation(idea.getId());
 		Point point = getPoint(pointStr);
 		if (point == null) {
@@ -239,7 +238,7 @@ public class IdeaController extends BaseController {
 						point.getLat());
 			}
 		}
-		model.addAttribute("point", point);
+		return point;
 	}
 
 	private Point getPoint(String pointStr) {
@@ -531,8 +530,19 @@ public class IdeaController extends BaseController {
 		if (idea == null) {
 			return error_404;
 		}
-		setPoint(idea, model);
+		model.addAttribute("point", getIdeaPoint(idea));
 		model.addAttribute("idea", idea);
-		return "web/map/big_map_dialog";
+		return "web/idea/big_map_dialog";
+	}
+
+	@RequestMapping(value = "/ajax/map", method = RequestMethod.GET)
+	public String ajaxMap(HttpServletRequest request, Model model, long ideaId) {
+		Idea idea = ideaService.getIdeaById(ideaId);
+		if (idea == null) {
+			return error_404;
+		}
+		model.addAttribute("point", getIdeaPoint(idea));
+		model.addAttribute("idea", idea);
+		return "web/idea/idea_widget_fragment";
 	}
 }

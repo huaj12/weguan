@@ -60,46 +60,19 @@ function shield(id){
 	}
 }
 
-function handle(){
-	var ids="";
-	$('input[name=postIds]').each(function(){
-		 ids=ids+this.value+",";
-	});
-	jQuery.ajax({
-		url : "/cms/post/handle",
-		type : "get",
-		data : {
-			"postIds" : ids
-		},
-		dataType : "json",
-		success : function(result) {
-			if (result.success!=null&&result.success) {
-				location.reload();
-			} else {
-				alert("标记错误请重试");
-			}
-		},
-		statusCode : {
-			401 : function() {
-				alert("请先登陆");
-			}
-		}
-	});
-}
-
 function handleById(id){
 	jQuery.ajax({
 		url : "/cms/post/handle",
-		type : "get",
+		type : "post",
 		data : {
-			"postIds" : id
+			"postId" : id
 		},
 		dataType : "json",
 		success : function(result) {
 			if (result.success!=null&&result.success) {
 				$("#post-handle-"+id).text("已处理").removeAttr("onclick");
 			} else {
-				alert("标记错误请重试");
+				alert(result.errorInfo);
 			}
 		},
 		statusCode : {
@@ -113,7 +86,7 @@ function handleById(id){
 </script>
 </head>
 <body>
-	<h2>未处理内容</h2><a href="javascript:;" onclick="handle();">将本页标记为已处理</a>
+	<h2>未处理内容</h2>
 	<form action="/cms/show/post/unhandle" method="get">
 	<select name="city">
 				<option value="0">全国</option>

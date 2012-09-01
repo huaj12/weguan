@@ -71,7 +71,7 @@ $(document).ready(function(){
 });
 
 function initialize(){
-	var ideaId=$("#ideaId").val();
+	var ideaId=$("#map-view").attr("idea-id");
 	$.ajax({
 		url : "/idea/ajax/map",
 		type : "get",

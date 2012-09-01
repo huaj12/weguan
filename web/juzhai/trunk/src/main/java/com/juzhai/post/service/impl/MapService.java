@@ -50,11 +50,13 @@ public class MapService implements IMapService {
 			String status = json.getString("status");
 			if (status != null && status.equalsIgnoreCase("ok")) {
 				JSONArray resultsArray = json.getJSONArray("results");
-				JSONObject results = resultsArray.getJSONObject(0);
-				JSONObject location = results.getJSONObject("location");
-				point = new Point();
-				point.setLat(location.getDouble("lat"));
-				point.setLng(location.getDouble("lng"));
+				if (resultsArray != null && resultsArray.size() > 0) {
+					JSONObject results = resultsArray.getJSONObject(0);
+					JSONObject location = results.getJSONObject("location");
+					point = new Point();
+					point.setLat(location.getDouble("lat"));
+					point.setLng(location.getDouble("lng"));
+				}
 			}
 		} catch (JSONException e) {
 			log.error("google map  conversion point is error", e);

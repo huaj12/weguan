@@ -47,7 +47,7 @@
 									<p>裁剪后的效果</p>
 									<span><img src="${jzr:userLogo(profile.uid,profile.newLogoPic,180)}" id="preview_180" width="180" height="180"  /></span>
 								</div><!--preview_face end-->
-								<div class="btn_area"><a href="javscript:void(0);" style="display: none" class="save"></a>
+								<div class="btn_area"><a href="javascript:void(0);" style="display: none" class="save"></a>
 									<div class="reload" style="display: none"><!--btns begin-->
 									<form id="uploadImgForm" method="post" enctype="multipart/form-data">
 											<input class="reload_input" size=6 type="file" name="profileLogo" onchange="javascript:uploadImage(this);"/>  
@@ -55,7 +55,7 @@
 									</form>
 									</div>
 									<div class="reloading" style="display: none"><!--btns begin-->
-									<a href="javscript:void(0);"></a> 
+									<a href="javascript:void(0);"></a> 
 									</div>  <!--btns end-->
 								</div>
 							</div><!--my_face end-->

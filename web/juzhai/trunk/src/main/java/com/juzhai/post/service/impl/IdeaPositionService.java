@@ -10,6 +10,7 @@ import com.juzhai.post.bean.Point;
 import com.juzhai.post.dao.IIdeaPositionDao;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.service.IIdeaPositionService;
+import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IMapService;
 
 @Service
@@ -19,22 +20,16 @@ public class IdeaPositionService implements IIdeaPositionService {
 	private IIdeaPositionDao ideaPositionDao;
 	@Autowired
 	private IMapService mapService;
+	@Autowired
+	private IIdeaService ideaService;
 
 	@Override
-	public Point getIdeaPoint(Idea idea) {
-		if (idea == null) {
+	public Point getIdeaPoint(Long ideaId) {
+		if (ideaId == null) {
 			return null;
 		}
-		String pointStr = ideaPositionDao.getLocation(idea.getId());
-		Point point = getPoint(pointStr);
-		if (point == null) {
-			point = mapService.geocode(idea.getCity(), idea.getPlace());
-			if (point != null) {
-				ideaPositionDao.insert(idea.getId(), point.getLng(),
-						point.getLat());
-			}
-		}
-		return point;
+		Idea idea = ideaService.getIdeaById(ideaId);
+		return getIdeaPoint(idea);
 	}
 
 	private Point getPoint(String pointStr) {
@@ -51,6 +46,23 @@ public class IdeaPositionService implements IIdeaPositionService {
 			point.setLng(Double.valueOf(str[0]));
 		} catch (Exception e) {
 			log.error("ideaDetail getPoint is error", e);
+		}
+		return point;
+	}
+
+	@Override
+	public Point getIdeaPoint(Idea idea) {
+		if (idea == null) {
+			return null;
+		}
+		String pointStr = ideaPositionDao.getLocation(idea.getId());
+		Point point = getPoint(pointStr);
+		if (point == null) {
+			point = mapService.geocode(idea.getCity(), idea.getPlace());
+			if (point != null) {
+				ideaPositionDao.insert(idea.getId(), point.getLng(),
+						point.getLat());
+			}
 		}
 		return point;
 	}

@@ -31,23 +31,23 @@
 											<c:when test="${not empty loginUser.logoPic }">
 												<div class="close_save" <c:if test="${!open}">style="display: none"</c:if> >
 													<em></em>
-													<a href="javscript:void(0);"></a>
+													<a href="javascript:void(0);"></a>
 												</div>
 												<div class="open_save" <c:if test="${open }">style="display: none"</c:if>>
-													<a href="javscript:void(0);"></a>
+													<a href="javascript:void(0);"></a>
 												</div>
 												<div class="save_ms" <c:if test="${open }">style="display: none"</c:if>>自救器开启后,您随时可以关闭</div>
 											</c:when>
 											<c:otherwise>
 												<div class="open_save_unable">
-													<a href="javscript:void(0);"></a>
+													<a href="javascript:void(0);"></a>
 												</div>
 												<div class="save_ms">自救器开启后,您随时可以关闭</div>
 												<div class="load_face">上传真实头像后才能使用本功能哦，<a href="/profile/index/face">去上传头像</a></div>
 											</c:otherwise>
 										</c:choose>
 										<div class="open_save_ing" style="display:none;">
-												<a href="javscript:void(0);"></a>
+												<a href="javascript:void(0);"></a>
 										</div>
 								</div>
 							</div><!--save_self end-->

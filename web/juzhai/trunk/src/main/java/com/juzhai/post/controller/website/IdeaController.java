@@ -41,17 +41,15 @@ import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.model.City;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
-import com.juzhai.post.bean.Point;
 import com.juzhai.post.controller.form.RawIdeaForm;
 import com.juzhai.post.controller.view.IdeaUserView;
-import com.juzhai.post.dao.IIdeaPositionDao;
 import com.juzhai.post.exception.InputIdeaException;
 import com.juzhai.post.exception.InputRawIdeaException;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.IdeaDetail;
 import com.juzhai.post.service.IIdeaImageService;
+import com.juzhai.post.service.IIdeaPositionService;
 import com.juzhai.post.service.IIdeaService;
-import com.juzhai.post.service.IMapService;
 import com.juzhai.post.service.IRawIdeaService;
 import com.juzhai.post.service.impl.IdeaDetailService;
 import com.juzhai.spider.share.exception.SpiderIdeaException;
@@ -81,9 +79,8 @@ public class IdeaController extends BaseController {
 	@Autowired
 	private ICounter openIdeaDialogCounter;
 	@Autowired
-	private IIdeaPositionDao ideaPositionDao;
-	@Autowired
-	private IMapService mapService;
+	private IIdeaPositionService ideaPositionService;
+
 	@Value("${idea.user.max.rows}")
 	private int ideaUserMaxRows;
 	@Value("${idea.detail.ad.count}")
@@ -226,37 +223,6 @@ public class IdeaController extends BaseController {
 					ideaService.isInterestIdea(context.getUid(), idea.getId()));
 		}
 		return true;
-	}
-
-	private Point getIdeaPoint(Idea idea) {
-		String pointStr = ideaPositionDao.getLocation(idea.getId());
-		Point point = getPoint(pointStr);
-		if (point == null) {
-			point = mapService.geocode(idea.getCity(), idea.getPlace());
-			if (point != null) {
-				ideaPositionDao.insert(idea.getId(), point.getLng(),
-						point.getLat());
-			}
-		}
-		return point;
-	}
-
-	private Point getPoint(String pointStr) {
-		if (StringUtils.isEmpty(pointStr)) {
-			return null;
-		}
-		Point point = null;
-		try {
-			pointStr = pointStr.substring(pointStr.indexOf("(") + 1,
-					pointStr.indexOf(")"));
-			String str[] = pointStr.split(" ");
-			point = new Point();
-			point.setLat(Double.valueOf(str[1]));
-			point.setLng(Double.valueOf(str[0]));
-		} catch (Exception e) {
-			log.error("ideaDetail getPoint is error", e);
-		}
-		return point;
 	}
 
 	@RequestMapping(value = "/presendidea", method = RequestMethod.GET)
@@ -530,7 +496,7 @@ public class IdeaController extends BaseController {
 		if (idea == null) {
 			return error_404;
 		}
-		model.addAttribute("point", getIdeaPoint(idea));
+		model.addAttribute("point", ideaPositionService.getIdeaPoint(idea));
 		model.addAttribute("idea", idea);
 		return "web/idea/big_map_dialog";
 	}
@@ -541,7 +507,7 @@ public class IdeaController extends BaseController {
 		if (idea == null) {
 			return error_404;
 		}
-		model.addAttribute("point", getIdeaPoint(idea));
+		model.addAttribute("point", ideaPositionService.getIdeaPoint(idea));
 		model.addAttribute("idea", idea);
 		return "web/idea/idea_widget_fragment";
 	}

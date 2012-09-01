@@ -25,13 +25,11 @@ import com.juzhai.mobile.passport.controller.viewHelper.IUserMViewHelper;
 import com.juzhai.mobile.post.controller.view.PostMView;
 import com.juzhai.mobile.post.controller.viewHelper.IPostMViewHelper;
 import com.juzhai.passport.bean.ProfileCache;
-import com.juzhai.passport.dao.IUserPositionDao;
 import com.juzhai.passport.exception.InterestUserException;
-import com.juzhai.passport.mapper.UserPositionMapper;
-import com.juzhai.passport.model.UserPositionExample;
 import com.juzhai.passport.service.IInterestUserService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IUserGuideService;
+import com.juzhai.passport.service.IUserPositionService;
 import com.juzhai.plug.service.IInviteService;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostService;
@@ -55,9 +53,7 @@ public class HomeMController extends BaseController {
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
-	private UserPositionMapper userPositionMapper;
-	@Autowired
-	private IUserPositionDao userPositionDao;
+	private IUserPositionService userPositionService;
 	@Autowired
 	private IInviteService inviteService;
 	@Value("${mobile.my.post.max.rows}")
@@ -186,13 +182,8 @@ public class HomeMController extends BaseController {
 	public AjaxResult updateLocation(HttpServletRequest request,
 			double longitude, double latitude) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		UserPositionExample example = new UserPositionExample();
-		example.createCriteria().andUidEqualTo(context.getUid());
-		if (userPositionMapper.countByExample(example) > 0) {
-			userPositionDao.update(context.getUid(), longitude, latitude);
-		} else {
-			userPositionDao.insert(context.getUid(), longitude, latitude);
-		}
+		userPositionService.updatePosition(context.getUid(), longitude,
+				latitude);
 		return new AjaxResult();
 	}
 }

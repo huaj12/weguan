@@ -496,7 +496,7 @@ public class IdeaController extends BaseController {
 		if (idea == null) {
 			return error_404;
 		}
-		model.addAttribute("point", ideaPositionService.getIdeaPoint(ideaId));
+		model.addAttribute("point", ideaPositionService.getIdeaPoint(idea));
 		model.addAttribute("idea", idea);
 		return "web/idea/big_map_dialog";
 	}

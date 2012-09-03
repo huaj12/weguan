@@ -58,9 +58,15 @@ public class QqPlusUserService extends AbstractUserService {
 			QOpenResult result = service.getUserInfo(bean);
 			if (result.isSuccess()) {
 				Profile profile = new Profile();
+				String nickname = null;
+				if (StringUtils.isEmpty(result.getValue("info.nick"))) {
+					nickname = authInfo.getTpIdentity();
+				} else {
+					nickname = result.getValue("info.nick");
+				}
 				profile.setNickname(TextTruncateUtil.truncate(
-						HtmlUtils.htmlUnescape(result.getValue("info.nick")),
-						nicknameLengthMax, StringUtils.EMPTY));
+						HtmlUtils.htmlUnescape(nickname), nicknameLengthMax,
+						StringUtils.EMPTY));
 				// 只有小图而且url超级长不存了。
 				// profile.setNewLogoPic(result.getValue("info.face"));
 				profile.setLogoVerifyState(LogoVerifyState.NONE.getType());

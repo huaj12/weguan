@@ -89,9 +89,15 @@ public class QqConnectUserService extends AbstractUserService {
 				return null;
 			}
 			Profile profile = new Profile();
+			String nickname = null;
+			if (StringUtils.isEmpty(userInfo.getNickName())) {
+				nickname = authInfo.getTpIdentity();
+			} else {
+				nickname = userInfo.getNickName();
+			}
 			profile.setNickname(TextTruncateUtil.truncate(
-					HtmlUtils.htmlUnescape(userInfo.getNickName()),
-					nicknameLengthMax, StringUtils.EMPTY));
+					HtmlUtils.htmlUnescape(nickname), nicknameLengthMax,
+					StringUtils.EMPTY));
 			profile.setNewLogoPic(userInfo.getAvatarLarge());
 			profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
 

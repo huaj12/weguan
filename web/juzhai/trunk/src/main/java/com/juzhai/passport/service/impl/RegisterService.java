@@ -117,7 +117,7 @@ public class RegisterService implements IRegisterService {
 		// 初始化数据
 
 		// 1.缓存profile
-		profileService.cacheProfile(profile, identity);
+		// profileService.cacheProfile(profile, identity);
 		// 2.所在城市
 		// profileService.cacheUserCity(profile);
 		// 3.好友列表

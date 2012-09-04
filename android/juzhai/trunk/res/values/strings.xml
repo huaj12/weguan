@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello android!</string>
+    <string name="app_name">android</string>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- test -->
+   <string name="providerList">系统所有的LocationProvider列表</string>
+</resources>

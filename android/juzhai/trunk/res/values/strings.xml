@@ -14,4 +14,7 @@
     
     <!-- test -->
    <string name="providerList">系统所有的LocationProvider列表</string>
+   <string name="read">读</string>
+   <string name="write">写</string>
+   <string name="loading">正在加载</string>
 </resources>

@@ -11,9 +11,10 @@
         <android-platform>10</android-platform>
          <android-maven-plugin-version>3.3.0</android-maven-plugin-version>
          <maven-compiler-plugin-version>2.3.2</maven-compiler-plugin-version>
-         <java-version>1.7</java-version>
+         <java-version>1.6</java-version>
          <org.springframework.android-version>1.0.0.RELEASE</org.springframework.android-version>
          <com.google.android-version>2.3.3</com.google.android-version>
+         <org.codehaus.jackson-version>1.9.9</org.codehaus.jackson-version>
     </properties>
   	
   <dependencies>
@@ -28,6 +29,11 @@
 	    <artifactId>spring-android-rest-template</artifactId>
 	    <version>${org.springframework.android-version}</version>
 	</dependency> 
+ 	<dependency>
+   		<groupId>org.codehaus.jackson</groupId>
+   		<artifactId>jackson-mapper-asl</artifactId>
+   		<version>${org.codehaus.jackson-version}</version>
+  	</dependency>
   </dependencies>
 
   <build>

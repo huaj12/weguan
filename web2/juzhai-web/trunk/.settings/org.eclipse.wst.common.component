@@ -27,6 +27,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/juzhai-web/target/classes"/>
-        <property name="context-root" value="juzhai-web"/>
+        <property name="context-root" value="juzhai"/>
     </wb-module>
 </project-modules>

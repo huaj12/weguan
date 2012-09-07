@@ -25,6 +25,7 @@ import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.service.IRescueboyService;
+import com.juzhai.home.service.IUserStatusService;
 import com.juzhai.home.service.IVisitUserService;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.mapper.LoginLogMapper;
@@ -69,7 +70,8 @@ public class PassportService implements IPassportService {
 	private IAdLockIpService adLockIpService;
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
-
+	@Autowired
+	private IUserStatusService userStatusService;
 	@Value("${is.permanent.lock.time}")
 	private long isPermanentLockTime;
 	@Value("${user.gag.expire.time}")
@@ -280,8 +282,9 @@ public class PassportService implements IPassportService {
 	}
 
 	@Override
-	public void loginProcess(Passport passport, String remoteIp, RunType runType) {
-		long uid = passport.getId();
+	public void loginProcess(Passport passport, final long tpId,
+			String remoteIp, RunType runType) {
+		final long uid = passport.getId();
 		// 更新最后登录时间
 		updateLastLoginTime(uid, runType);
 		// 如果该用户是有效用户则更新lucene 索引（用户更新时间）
@@ -303,15 +306,15 @@ public class PassportService implements IPassportService {
 			rescueboyService.rescueboy(uid, cache.getCity());
 		}
 		// 启动一个线程来获取和保存
-		// if (tpId > 0) {
-		// taskExecutor.execute(new Runnable() {
-		// @Override
-		// public void run() {
-		// // friendService.updateExpiredFriends(uid, tpId);
-		// userStatusService.updateUserStatus(uid, tpId);
-		// }
-		// });
-		// }
+		if (tpId > 0) {
+			taskExecutor.execute(new Runnable() {
+				@Override
+				public void run() {
+					// friendService.updateExpiredFriends(uid, tpId);
+					userStatusService.updateUserStatus(uid, tpId);
+				}
+			});
+		}
 	}
 
 	private void addLoginLog(long uid, String remoteIp) {

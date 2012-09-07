@@ -73,7 +73,7 @@ public class LoginService implements ILoginService {
 		isShield(passport.getId(), request, response);
 		loginSessionManager.login(request, response, uid, tpId, false,
 				persistent);
-		passportService.loginProcess(passport,
+		passportService.loginProcess(passport, tpId,
 				HttpRequestUtil.getRemoteIp(request), runType);
 	}
 

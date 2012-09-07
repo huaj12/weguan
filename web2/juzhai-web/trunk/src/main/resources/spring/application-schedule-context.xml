@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		" default-lazy-init="false">
+	<bean id="abstractJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean" abstract="true">
+		<property name="concurrent" value="false" />
+		<property name="targetMethod" value="handle" />
+	</bean>
+	<bean id="abstractSimpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean" abstract="true">
+		<property name="startDelay" value="${default.start.delay}" />
+	</bean>
+	<bean id="abstractCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean" abstract="true">
+	</bean>
+	
+	<!-- delete temp image begin -->
+	<bean id="deleteTempImageTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="deleteTempImageHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${delete.temp.image.cron}" />
+	</bean>
+	<!-- delete temp image end -->
+	
+	<!-- delete expired ad  start -->
+	<bean id="deleteExpiredAdTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="deleteExpiredAdHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${del.expired.ad.cron}" />
+	</bean>
+	<!-- delete expired ad end -->
+	
+	<!-- delete expired raw ad  start -->
+	<bean id="deleteExpiredRawAdTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="deleteExpiredRawAdHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${del.expired.raw.ad.cron}" />
+	</bean>
+	<!-- delete expired raw ad end -->
+	
+	<!-- post index  begin -->
+	<bean id="postIndexOptimizationAndCommitTrigger" parent="abstractSimpleTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="postIndexOptimizationAndCommitHandler" />
+			</bean>
+		</property>
+		<property name="startDelay" value="${postIndex.optimization.commit.start.delay}" />
+		<property name="repeatInterval" value="${postIndex.optimization.commit.repeat.interval}" />
+	</bean>
+	<!--post index end-->
+	
+	<!-- profile index  begin -->
+	<bean id="profileIndexOptimizationAndCommitTrigger" parent="abstractSimpleTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="profileIndexOptimizationAndCommitHandler" />
+			</bean>
+		</property>
+		<property name="startDelay" value="${profileIndex.optimization.commit.start.delay}" />
+		<property name="repeatInterval" value="${profileIndex.optimization.commit.repeat.interval}" />
+	</bean>
+	<!-- profile index  end -->
+	
+	
+	<!-- create site map begin -->
+	<bean id="createSitemapTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="createSitemapHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${site.map.cron}" />
+	</bean>
+	<!-- create site map end -->
+	
+	<!-- idea window begin -->
+	<!-- <bean id="ideaWindowSortTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="ideaWindowSortHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${idea.window.cron}" />
+	</bean> -->
+	<!-- idea window end -->
+	
+	<!-- delete out free date begin -->
+	<!-- <bean id="delOutFreeDateTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="delOutFreeDateHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${del.out.free.date.cron}" />
+	</bean> -->
+	<!-- delete out free date end -->
+	
+	<!-- Recommend Post begin -->
+	<bean id="recommendDataTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="recommendDataHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${recommend.data.cron}" />
+	</bean>
+	<!-- Recommend Post end -->
+	
+	<!-- guess you like begin -->
+	<bean id="guessYouLikeUsersTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="guessYouLikeUsersHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${guess.you.like.users.cron}" />
+	</bean>
+	<!-- guess you like end -->
+	
+	<!-- delete expire active code begin -->
+	<bean id="delExpireActiveCodeTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="delExpireActiveCodeHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${del.expire.active.code.cron}" />
+	</bean>
+	<!-- delete expire active code end -->
+	
+	<!--notice Qplus  begin -->
+	<bean id="noticeQplusTrigger" parent="abstractSimpleTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="noticeQplusHandler" />
+			</bean>
+		</property>
+		<property name="startDelay" value="${qplus.push.start.delay}" />
+		<property name="repeatInterval" value="${qplus.push.repeat.interval}" />
+	</bean>
+	<!--	notice Qplus  end -->
+	
+	
+	<!-- delete expire active code begin -->
+	<bean id="defunctExpireIdeaTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="defunctExpireIdeaHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${defunct.expire.idea.cron}" />
+	</bean>
+	<!-- delete expire active code end -->
+	
+	<!-- delete expire active code begin -->
+	<bean id="ideaShowTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="ideaShowHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${idea.show.cron}" />
+	</bean>
+	<!-- delete expire active code end -->
+	
+		<!-- update search word hot begin -->
+	<bean id="updateSearchWordHotTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="updateSearchWordHotHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${update.search.word.hot.cron}" />
+	</bean>
+	<!-- update search word hot end -->
+	
+	<!-- qplus new user push begin -->
+	<bean id="qplusNewUserPushTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="qplusNewUserPushHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${qplus.new.user.push.cron}" />
+	</bean>
+	<!-- qplus new user push end -->
+	
+	
+	<!-- week send email  begin -->
+	<bean id="noticeWeekEmailTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="noticeWeekEmailHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${notice.week.email.cron}" />
+	</bean>
+	<!--week send email  end-->
+	
+	<!-- update static version  begin--> 
+	<bean id="updateStaticVersionTrigger" parent="abstractSimpleTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="updateStaticVersionHandler" />
+			</bean>
+		</property>
+		<property name="startDelay" value="${default.start.delay}" />
+		<!-- 只启动一次 -->
+		<property name="repeatCount" value="0"/>
+	</bean>
+	<!-- update static version end-->
+	
+	<!-- wait invite girl  begin -->
+	<bean id="waitInviteGirlTrigger" parent="abstractCronTrigger">
+		<property name="jobDetail">
+			<bean parent="abstractJobDetail">
+				<property name="targetObject" ref="waitInviteGirlHandler" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${wait.invite.girl.cron}" />
+	</bean>
+	<!--wait invite girl  end-->
+	<bean id="scheduler"  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<!-- <ref bean="delOutFreeDateTrigger"/>
+				<ref bean="ideaShowTrigger"/>
+				<ref bean="ideaWindowSortTrigger"/>
+				<ref bean="deleteExpiredAdTrigger"/>
+				<ref bean="deleteExpiredRawAdTrigger"/>
+				<ref bean="noticeWeekEmailTrigger"/>
+				 -->
+				<ref bean="deleteTempImageTrigger"/>
+				<ref bean="postIndexOptimizationAndCommitTrigger"/>
+				<ref bean="profileIndexOptimizationAndCommitTrigger"/>
+				<ref bean="createSitemapTrigger"/>
+				<ref bean="recommendDataTrigger"/>
+				<ref bean="guessYouLikeUsersTrigger"/>
+				<ref bean="delExpireActiveCodeTrigger"/>
+				<ref bean="defunctExpireIdeaTrigger"/>
+				<ref bean="updateSearchWordHotTrigger"/>
+				<ref bean="updateStaticVersionTrigger"/>
+				<ref bean="noticeQplusTrigger"/>
+				<ref bean="waitInviteGirlTrigger"/>
+			</list>
+		</property>
+	</bean>
+	
+</beans>
+

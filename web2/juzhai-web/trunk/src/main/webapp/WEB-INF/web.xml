@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+  
+  
+  <display-name>juzhai-web</display-name>
+  
+  <filter>
+  	<filter-name>spring character encoding filter</filter-name>
+  	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+  	<init-param>
+  		<param-name>forceEncoding</param-name>
+  		<param-value>true</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>encoding</param-name>
+  		<param-value>UTF-8</param-value>
+  	</init-param>
+  </filter>
+  <filter-mapping>
+  	<filter-name>spring character encoding filter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+  	<filter-name>checkLoginFilter</filter-name>
+  	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>checkLoginFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+   <filter>
+  	<filter-name>statsFilter</filter-name>
+  	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>statsFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+   <filter>
+  	<filter-name>userOnlineFilter</filter-name>
+  	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>userOnlineFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+  	<filter-name>checkCmsLoginFilter</filter-name>
+  	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>checkCmsLoginFilter</filter-name>
+  	<url-pattern>/cms/*</url-pattern>
+  </filter-mapping>
+  <listener>
+	<listener-class>com.juzhai.core.web.listener.WebContextListener</listener-class>
+  </listener>
+  <!-- <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener> -->
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>/WEB-INF/classes/spring/application-context.xml</param-value>
+  </context-param>
+  
+    <servlet>
+       <servlet-name>spring web</servlet-name>
+       <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+       <init-param>
+       	<param-name>contextConfigLocation</param-name>
+       	<param-value>/WEB-INF/classes/spring/web-context.xml</param-value>
+       </init-param>
+       <load-on-startup>1</load-on-startup>
+   </servlet>
+
+   <servlet-mapping>
+       <servlet-name>spring web</servlet-name>
+       <url-pattern>/</url-pattern>
+   </servlet-mapping>
+   
+   <servlet>
+		<servlet-name>hessian</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				/WEB-INF/classes/spring/hessian-context.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>hessian</servlet-name>
+		<url-pattern>/hessian/*</url-pattern>
+	</servlet-mapping>
+   
+   <jsp-config>
+   	<taglib>
+   		<taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
+   		<taglib-location>/WEB-INF/tld/c.tld</taglib-location>
+   	</taglib>
+   	<taglib>
+   		<taglib-uri>http://java.sun.com/jsp/jstl/functions</taglib-uri>
+   		<taglib-location>/WEB-INF/tld/fn.tld</taglib-location>
+   	</taglib>
+   	<taglib>
+   		<taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
+   		<taglib-location>/WEB-INF/tld/fmt.tld</taglib-location>
+   	</taglib>
+   	<taglib>
+   		<taglib-uri>http://www.51juzhai.com/jsp/jstl/jz</taglib-uri>
+   		<taglib-location>/WEB-INF/tld/jz.tld</taglib-location>
+   	</taglib>
+   	<taglib>
+   		<taglib-uri>http://www.51juzhai.com/jsp/jstl/jzData</taglib-uri>
+   		<taglib-location>/WEB-INF/tld/jzd.tld</taglib-location>
+   	</taglib>
+   	<taglib>
+   		<taglib-uri>http://www.51juzhai.com/jsp/jstl/jzResource</taglib-uri>
+   		<taglib-location>/WEB-INF/tld/jzr.tld</taglib-location>
+   	</taglib>
+   	<taglib>
+   		<taglib-uri>http://www.51juzhai.com/jsp/jstl/jzUtil</taglib-uri>
+   		<taglib-location>/WEB-INF/tld/jzu.tld</taglib-location>
+   	</taglib>
+   </jsp-config>
+   
+</web-app>
+

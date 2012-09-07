@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <bean id="redisMailQueue" class="com.juzhai.core.mail.manager.impl.RedisMailQueue">
+        <property name="redisTemplate" ref="redisTemplate" />
+    </bean>
+    
+	<bean id="abstractMailManager" class="com.juzhai.core.mail.manager.AbstractMailManager" abstract="true">
+		<property name="mailSender" ref="jMailSender" />
+		<property name="taskExecutor" ref="taskExecutor" />
+		<property name="mailQueue" ref="redisMailQueue" />
+		<property name="blockPopMailTimeout" value="${mail.block.pop.mail.timeout}" />
+	</bean>
+	
+	<bean id="simpleMailManager" class="com.juzhai.core.mail.manager.SimpleMailManager"  parent="abstractMailManager" >
+	</bean>
+	
+	<bean id="frequencyMailManager" class="com.juzhai.core.mail.manager.FrequencyMailManager"  parent="abstractMailManager" >
+		<property name="frequencyStrategy" ref="frequencyStrategy" />
+	</bean>
+	
+	<bean id="frequencyStrategy" class="com.juzhai.core.mail.manager.impl.FrequencyStrategy">
+		<property name="frequencyMap">
+			<map>
+				<entry key="qq.com" value="1000"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="velocityMailTemplate" class="com.juzhai.core.mail.template.impl.VelocityMailTemplate">
+	    <property name="velocityEngine" ref="velocityEngine" />
+	</bean>
+
+	<bean id="jMailSender" class="com.juzhai.core.mail.manager.impl.JMailSender">
+		<property name="javaMailSender">
+			<bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
+				<property name="defaultEncoding" value="${support.mail.default.encoding}" />
+				<property name="host" value="${support.mail.host}" />
+				<property name="port" value="${support.mail.port}" />
+				<property name="protocol" value="${support.mail.protocol}" />
+				<property name="username" value="${sender.user.name}" />
+				<property name="password" value="${sender.password}" />
+			</bean>
+		</property>
+		<property name="sender">
+			<bean class="com.juzhai.core.mail.bean.MailUser">
+				<constructor-arg value="${sender.mail.address}" />
+				<constructor-arg value="${sender.nickname}" />
+			</bean>
+		</property>
+		<property name="mailTemplate" ref="velocityMailTemplate" />
+	</bean>
+
+	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<value>
+				resource.loader=class
+				class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+			</value>
+		</property>
+	</bean>
+
+</beans>

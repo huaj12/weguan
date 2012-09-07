@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+    version="2.1">
+    
+    <description>JSTL 1.1 core library</description>
+	<display-name>mytaglib</display-name>
+	<tlib-version>1.1</tlib-version>
+	<short-name>jzr</short-name>
+	<uri>http://www.51juzhai.com/jsp/jstl/jzResource</uri>
+    
+    <function>
+    	<name>static</name>
+    	<function-class>com.juzhai.core.web.jstl.JzResourceFunction</function-class>
+    	<function-signature>java.lang.String u(java.lang.String)</function-signature>
+    	<example>${jzr:static('/images/example.png')}</example>
+    </function>
+    
+    <function>
+    	<name>actLogo</name>
+    	<function-class>com.juzhai.core.web.jstl.JzResourceFunction</function-class>
+    	<function-signature>java.lang.String actLogo(long,java.lang.String,int)</function-signature>
+    	<example>${jzr:actLogo(123456,'abc.jpg',120)}</example>
+    </function>
+        <function>
+    	<name>ideaTempLogo</name>
+    	<function-class>com.juzhai.core.web.jstl.JzResourceFunction</function-class>
+    	<function-signature>java.lang.String ideaTempLogo(java.lang.String)</function-signature>
+    	<example>${jzr:ideaTempLogo('abc.jpg')}</example>
+    </function>
+    
+     <function>
+    	<name>userLogo</name>
+    	<function-class>com.juzhai.core.web.jstl.JzResourceFunction</function-class>
+    	<function-signature>java.lang.String userLogo(long,java.lang.String,int)</function-signature>
+    	<example>${jzr:userLogo(123456,'abc.jpg',120)}</example>
+    </function>
+     <function>
+    	<name>postPic</name>
+    	<function-class>com.juzhai.core.web.jstl.JzResourceFunction</function-class>
+    	<function-signature>java.lang.String postPic(long,long,java.lang.String,int)</function-signature>
+    	<example>${jzr:postPic(123456,3456,'abc.jpg',200)}</example>
+    </function>
+    <function>
+    	<name>ideaPic</name>
+    	<function-class>com.juzhai.core.web.jstl.JzResourceFunction</function-class>
+    	<function-signature>java.lang.String ideaPic(long,java.lang.String,int)</function-signature>
+    	<example>${jzr:ideaPic(123456,'abc.jpg',450)}</example>
+    </function>    
+    <function>
+    	<name>tpHomeUrl</name>
+    	<function-class>com.juzhai.core.web.jstl.JzResourceFunction</function-class>
+    	<function-signature>java.lang.String tpHomeUrl(java.lang.String,long)</function-signature>
+    	<example>${jzr:tpHomeUrl('1234233',1)}</example>
+    </function>
+    
+</taglib>

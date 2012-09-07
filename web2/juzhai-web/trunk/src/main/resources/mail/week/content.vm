@@ -1,0 +1,36 @@
+<div style=" width:660px; height:auto; overflow:hidden; margin: 0 auto; margin-top:
+30px; padding-bottom:30px; background:#fff;">
+<div style=" width:660px; height:40px; overflow:hidden;  background:#333;"><a href="http://www.51juzhai.com?from=mail" style="margin-left:20px; margin-top:5px; float:left;"><img src="http://img.51juzhai.com/images/web2/logo.jpg"  style="border:none"/></a></div>
+
+<div style="width:640px; height:auto; overflow:hidden; margin:0 auto; margin-top:20px;">
+<div style="float:left; font-family:'微软雅黑'; font-weight:bold; font-size:18px; color:#666; margin-left:10px; display:inline;">本周大家分享了<a href="http://www.51juzhai.com?from=mail" style="text-decoration:none; color:#3E8BD9; ">$totalIdeaCount</a>条拒宅好主意</div>
+<a href="http://www.51juzhai.com?from=mail" style="float:right; color:#3E8BD9; margin-right:10px; margin-top:8px; font-size:12px; display:inline;">更多</a>
+
+<div style="clear:both;"></div>
+	#foreach($idea in $ideaList)
+		<div style="margin-left:10px; margin-top:20px; width:200px; height:195px; overflow:hidden; float:left; display:inline; position:relative; ">
+		<div style="float:left; width:200px; height:126px; overflow:hidden;"><a href="http://www.51juzhai.com?from=mail" style="text-decoration:none;"><img src="$idea.pic" style="border:none"/></a></div>
+		<div style="color:#666; font-size:12px; margin-top:10px; float:left; line-height:150%;">$idea.content</div>
+		<a href="http://www.51juzhai.com?from=mail" style=" position:absolute; bottom:0px; right:0px; color:#3E8BD9; font-size:12px; line-height:150%; text-decoration:none;">$idea.useCount人想去</a>
+		</div>
+	#end
+</div>
+
+
+
+
+<div style="width:640px; height:auto; overflow:hidden; margin:0 auto; margin-top:50px;">
+<div style="float:left; font-family:'微软雅黑'; font-weight:bold; font-size:18px; color:#666; margin-left:10px; display:inline;"><a href="http://www.51juzhai.com?from=mail" style="text-decoration:none; color:#3E8BD9; ">$totalPostCount</a>人正在找伴儿出去玩，快来解救他们</div>
+<a href="http://www.51juzhai.com?from=mail" style="float:right; color:#3E8BD9; margin-right:10px; margin-top:8px; font-size:12px; display:inline;">更多</a>
+
+<div style="clear:both;"></div>
+  	#foreach( $view in $postList ) 
+		<div style="margin-left:10px; margin-top:20px; width:305px; height:auto; overflow:hidden; float:left; display:inline;">
+		<a href="http://www.51juzhai.com?from=mail" style="float:left; margin-right:20px;"><img src="$view.profileCache.logoPic" width="80" height="80" style="border:none"  /></a>
+		<a href="http://www.51juzhai.com?from=mail" style=" color:#FF6699; float:left; font-size:12px; font-weight:bold; text-decoration:none;">$view.profileCache.nickname</a><div style="color:#ccc; float:left; font-size:12px;  width:195px; margin-top:0px;">#if($view.age && $view.age>0)$view.age&nbsp; #end#if($view.constellationName)$view.constellationName&nbsp;#end#if($view.profileCache.profession)$view.profileCache.profession#end</div>
+		<div style="float:left; font-size:12px; color:#666; width:195px; margin-top:0px; line-height:150%;"><font style="color:#999; font-size:12px;">我想去:</font>$view.post.content</div>
+		</div>
+	#end
+</div>
+<img src="http://www.51juzhai.com/profile/openEmail" width="1" height="1"/>
+</div>

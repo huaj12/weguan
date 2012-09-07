@@ -1,0 +1,102 @@
+package com.juzhai.passport.service;
+
+import java.util.Date;
+import java.util.List;
+
+import com.juzhai.core.bean.Function;
+import com.juzhai.core.bean.UseLevel;
+import com.juzhai.core.exception.JuzhaiException;
+import com.juzhai.core.exception.NeedLoginException.RunType;
+import com.juzhai.core.web.session.UserContext;
+import com.juzhai.passport.model.Passport;
+
+public interface IPassportService extends IPassportRemoteService {
+
+	/**
+	 * 锁定用户
+	 * 
+	 * @param uid
+	 * @param time锁定时间time
+	 *            ==0则解锁
+	 */
+	void lockUser(long uid, Date time);
+
+	/**
+	 * 获取所有锁定用户
+	 * 
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Passport> listLockUser(int firstResult, int maxResults);
+
+	/**
+	 * 获取锁定用户数量
+	 * 
+	 * @return
+	 */
+	int countLockUser();
+
+	/**
+	 * 总数
+	 * 
+	 * @return
+	 */
+	int totalCount();
+
+	/**
+	 * 获取邀请的人
+	 * 
+	 * @param inviterUid
+	 * @return
+	 */
+	List<Long> listInviteUsers(long inviterUid);
+
+	/**
+	 * 是否是永久封号（封号到期时间-当前时间》1年）
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	boolean isPermanentLock(long uid);
+
+	/**
+	 * 获取用户的使用该功能
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	boolean isUse(Function level, long uid);
+
+	/**
+	 * 设置用户使用等级
+	 * 
+	 * @param uid
+	 * @param useLevel
+	 */
+	void setUseLevel(long uid, UseLevel useLevel);
+
+	/**
+	 * 是否是广告
+	 * 
+	 * @param context
+	 */
+	void isAd(UserContext context) throws JuzhaiException;
+
+	/**
+	 * 获取验证过的邮箱
+	 * 
+	 * @param firstResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<Passport> getEmailPassports(int firstResult, int maxResults);
+
+	/**
+	 * 更新最后登录时间
+	 * 
+	 * @param uid
+	 * @param runType
+	 */
+	void updateLastLoginTime(long uid, RunType runType);
+}

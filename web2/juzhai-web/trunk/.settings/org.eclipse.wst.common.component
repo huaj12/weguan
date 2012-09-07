@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="juzhai-web">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="juzhai-core-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/juzhai-core/juzhai-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="juzhai-dao-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/juzhai-dao/juzhai-dao">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="juzhai-model-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/juzhai-model/juzhai-model">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="juzhai-remote-service-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/juzhai-remote-service/juzhai-remote-service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="wbsdk-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/wbsdk/wbsdk">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="dbsdk-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dbsdk/dbsdk">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="qqsdk-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/qqsdk/qqsdk">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/juzhai-web/target/classes"/>
+        <property name="context-root" value="juzhai"/>
+    </wb-module>
+</project-modules>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+    version="2.1">
+    
+    <description>JSTL 1.1 core library</description>
+	<display-name>mytaglib</display-name>
+	<tlib-version>1.1</tlib-version>
+	<short-name>jzu</short-name>
+	<uri>http://www.51juzhai.com/jsp/jstl/jzUtil</uri>
+         
+    <function>
+    	<name>truncate</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.String truncate(java.lang.String,int,java.lang.String)</function-signature>
+    	<example>${jzu:truncate('出国旅游',2,'...')}</example>
+    </function>
+    
+    <function>
+    	<name>dateAfter</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.Boolean dateAfter(java.util.Date)</function-signature>
+    	<example>${jzu:dateAfter(date)}</example>
+    </function>
+    
+    <function>
+    	<name>beforeSeconds</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>long beforeSeconds(java.util.Date)</function-signature>
+    	<example>${jzu:beforeSeconds(date)}</example>
+    </function>
+    
+    <function>
+    	<name>beforeMinutes</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>long beforeMinutes(java.util.Date)</function-signature>
+    	<example>${jzu:beforeMinutes(date)}</example>
+    </function>
+    
+    <function>
+    	<name>beforeDays</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>long beforeDays(java.util.Date)</function-signature>
+    	<example>${jzu:beforeDays(date)}</example>
+    </function>
+    
+    <function>
+    	<name>age</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>int age(java.lang.Integer, boolean)</function-signature>
+    	<example>${jzu:age(1983, true)}</example>
+    </function>
+    
+    <function>
+    	<name>showFreeDates</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.String showFreeDates(java.util.List,int)</function-signature>
+    	<example>${jzu:showFreeDates(freeDateList,4)}</example>
+    </function>
+    
+    <function>
+    	<name>gapWeekendHours</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>long gapWeekendHours()</function-signature>
+    	<example>${jzu:gapWeekendHours()}</example>
+    </function>
+    
+    <function>
+    	<name>convertFace</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.String convertFace(java.lang.String)</function-signature>
+    	<example>${jzu:convertFace('[嘻嘻]')}</example>
+    </function>
+    
+    <function>
+    	<name>htmlOut</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.String htmlOut(java.lang.String)</function-signature>
+    	<example>${jzu:htmlOut('"')}</example>
+    </function>
+    
+    <function>
+    	<name>mailDomain</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.String mailDomain(java.lang.String)</function-signature>
+    	<example>${jzu:mailDomain('"')}</example>
+    </function>
+     <function>
+    	<name>cleanString</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.String cleanString(java.lang.String)</function-signature>
+    	<example>${jzu:cleanString('"')}</example>
+    </function>
+	<function>
+    	<name>getLink</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.String getLink(java.lang.String)</function-signature>
+    	<example>${jzu:getLink('"')}</example>
+    </function>    
+    
+    
+</taglib>

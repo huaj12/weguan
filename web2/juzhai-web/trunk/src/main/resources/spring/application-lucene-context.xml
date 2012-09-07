@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd">
+
+	<!-- postSearch begin -->
+	<bean id="postIKAnalyzer" class="org.wltea.analyzer.lucene.IKAnalyzer">
+		<property name="maxWordLength" value="${post.analyzer.maxWordLength}" />
+	</bean>
+
+	<bean id="postIndexWriter" class="com.juzhai.core.lucene.index.FSDirectoryIndexWriter"
+		destroy-method="close">
+		<property name="indexPath" value="${post.index.path}" />
+		<property name="version" value="${version}" />
+		<property name="maxBufferedDeleteTerms" value="${post.maxBufferedDeleteTerms}" />
+		<property name="maxBufferedDocs" value="${post.maxBufferedDocs}" />
+		<property name="maxThreadStates" value="${post.maxThreadStates}" />
+		<property name="ramBufferSizeMB" value="${post.ramBufferSizeMB}" />
+		<property name="readerPooling" value="${post.readerPooling}" />
+		<property name="writeLockTimeout" value="${post.writeLockTimeout}" />
+		<property name="analyzer" ref="postIKAnalyzer" />
+	</bean>
+
+	<bean id="postIndexSearcherManager" class="com.juzhai.core.lucene.searcher.IndexSearcherManager"
+		init-method="init" destroy-method="close">
+		<property name="indexWriter" ref="postIndexWriter" />
+	</bean>
+
+	<bean id="postIndexSearcherTemplate" class="com.juzhai.core.lucene.searcher.IndexSearcherTemplate">
+		<property name="searcherManager" ref="postIndexSearcherManager" />
+	</bean>
+	<!-- postSearch end -->
+
+	<!-- profile Search begin -->
+	<bean id="profileIKAnalyzer" class="org.wltea.analyzer.lucene.IKAnalyzer">
+		<property name="maxWordLength" value="${profile.analyzer.maxWordLength}" />
+	</bean>
+
+	<bean id="profileIndexWriter" class="com.juzhai.core.lucene.index.FSDirectoryIndexWriter"
+		destroy-method="close">
+		<property name="indexPath" value="${profile.index.path}" />
+		<property name="version" value="${version}" />
+		<property name="maxBufferedDeleteTerms" value="${profile.maxBufferedDeleteTerms}" />
+		<property name="maxBufferedDocs" value="${profile.maxBufferedDocs}" />
+		<property name="maxThreadStates" value="${profile.maxThreadStates}" />
+		<property name="ramBufferSizeMB" value="${profile.ramBufferSizeMB}" />
+		<property name="readerPooling" value="${profile.readerPooling}" />
+		<property name="writeLockTimeout" value="${profile.writeLockTimeout}" />
+		<property name="analyzer" ref="profileIKAnalyzer" />
+	</bean>
+
+	<bean id="profileIndexSearcherManager" class="com.juzhai.core.lucene.searcher.IndexSearcherManager"
+		init-method="init" destroy-method="close">
+		<property name="indexWriter" ref="profileIndexWriter" />
+	</bean>
+
+	<bean id="profileIndexSearcherTemplate" class="com.juzhai.core.lucene.searcher.IndexSearcherTemplate">
+		<property name="searcherManager" ref="profileIndexSearcherManager" />
+	</bean>
+	<!-- profile Search end -->
+</beans>

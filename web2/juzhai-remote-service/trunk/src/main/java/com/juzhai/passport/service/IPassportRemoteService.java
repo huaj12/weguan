@@ -26,5 +26,6 @@ public interface IPassportRemoteService {
 	 * 
 	 * @param uid
 	 */
-	void loginProcess(Passport passport, String remoteIp, RunType runType);
+	void loginProcess(Passport passport, long tpId, String remoteIp,
+			RunType runType);
 }

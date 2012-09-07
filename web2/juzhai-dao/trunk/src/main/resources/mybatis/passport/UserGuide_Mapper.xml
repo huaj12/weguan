@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserGuide_Mapper">
+	<update id="next" parameterType="map">
+	    update tb_user_guide set guide_step = guide_step + 1 where uid = #{uid}
+	</update>
+	<update id="complete" parameterType="map">
+	    update tb_user_guide set guide_step = guide_step + 1, complete = 1 where uid = #{uid}
+	</update>
+</mapper>

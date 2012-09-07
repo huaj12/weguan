@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Idea_Mapper">
+	<update id="incrUseCount" parameterType="map">
+	    update tb_idea set use_count = use_count + #{p} where id = #{id}
+	</update>
+	
+	<update id="addFirstUser" parameterType="map">
+	    update tb_idea set use_count = use_count + 1, first_uid = #{uid} where id = #{id} and use_count = 0
+	</update>
+	
+	<select id="getRecentPopIdea" resultType="java.util.HashMap" parameterType="map">
+		select
+			t.i ideaId, t.c cnt
+		from
+			(select
+				ti.id i,ti.create_time ct, count(*) c
+			from
+				tb_post tp inner join tb_idea ti on tp.idea_id = ti.id
+			where
+				ti.defunct = 0 and 
+				ti.category_id = #{categoryId} and 
+				ti.pic is not null and
+				ti.pic != "" and
+				tp.defunct = 0 and 
+				tp.verify_type = 1 and 
+				tp.create_time between #{startTime} and #{endTime} 
+			group by tp.idea_id) t
+		order by t.c desc, t.ct desc
+		limit 1				
+	</select>
+	
+	<update id="incrInterestCount" parameterType="map">
+	    update tb_idea set interest_cnt = interest_cnt + #{p} where id = #{id}
+	</update>
+	
+	
+</mapper>

@@ -1,0 +1,8 @@
+package com.juzhai.home.dao;
+
+public interface IUserPositionDao {
+
+	int insert(long uid, double lon, double lat);
+
+	int update(long uid, double lon, double lat);
+}

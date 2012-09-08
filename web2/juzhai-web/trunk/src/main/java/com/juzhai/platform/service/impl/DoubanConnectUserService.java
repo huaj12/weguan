@@ -4,12 +4,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,6 +22,7 @@ import com.google.gdata.data.douban.UserEntry;
 import com.juzhai.common.model.City;
 import com.juzhai.common.model.Province;
 import com.juzhai.core.util.TextTruncateUtil;
+import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.JoinTypeEnum;
@@ -78,7 +77,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 	}
 
 	@Override
-	protected Profile convertToProfile(Map<String, String[]> parameters,
+	protected Profile convertToProfile(RequestParameter requestParameter,
 			AuthInfo authInfo, String thirdpartyIdentity) {
 		try {
 			Thirdparty tp = InitData.getTpByTpNameAndJoinType(
@@ -137,13 +136,9 @@ public class DoubanConnectUserService extends AbstractUserService {
 	}
 
 	@Override
-	protected String fetchTpIdentity(Map<String, String[]> parameters,
+	protected String fetchTpIdentity(RequestParameter requestParameter,
 			AuthInfo authInfo, Thirdparty tp) {
-		String[] oauthTokenParams = parameters.get("oauth_token");
-		String oauthToken = null;
-		if (ArrayUtils.isNotEmpty(oauthTokenParams)) {
-			oauthToken = oauthTokenParams[0];
-		}
+		String oauthToken = requestParameter.get("oauth_token");
 		if (StringUtils.isEmpty(oauthToken)) {
 			log.error("douban get oauth_token is null");
 			return null;

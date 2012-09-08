@@ -4,11 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.core.util.TextTruncateUtil;
+import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.LogoVerifyState;
@@ -71,7 +70,7 @@ public class QqConnectUserService extends AbstractUserService {
 	}
 
 	@Override
-	protected Profile convertToProfile(Map<String, String[]> parameters,
+	protected Profile convertToProfile(RequestParameter requestParameter,
 			AuthInfo authInfo, String thirdpartyIdentity) {
 		try {
 			User user = new User(authInfo.getToken(), authInfo.getAppKey(),
@@ -127,22 +126,14 @@ public class QqConnectUserService extends AbstractUserService {
 	}
 
 	@Override
-	protected String fetchTpIdentity(Map<String, String[]> parameters,
+	protected String fetchTpIdentity(RequestParameter requestParameter,
 			AuthInfo authInfo, Thirdparty tp) {
-		String[] codeParams = parameters.get("code");
-		String code = null;
-		if (ArrayUtils.isNotEmpty(codeParams)) {
-			code = codeParams[0];
-		}
+		String code = requestParameter.get("code");
 		if (StringUtils.isEmpty(code)) {
 			log.error("QQ  code is null");
 			return null;
 		}
-		String[] stateParams = parameters.get("state");
-		String state = null;
-		if (ArrayUtils.isNotEmpty(stateParams)) {
-			state = stateParams[0];
-		}
+		String state = requestParameter.get("state");
 		// if (StringUtils.isEmpty(state)) {
 		// log.error("QQ  state is null");
 		// return null;

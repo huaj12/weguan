@@ -1,8 +1,8 @@
 package com.juzhai.platform.service;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Map;
 
+import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.model.Thirdparty;
@@ -24,7 +24,7 @@ public interface IUserRemoteService {
 	 *            授权服务商对象
 	 * @return 授权成功返回用户ID,否则返回0
 	 */
-	long access(Map<String, String[]> parameters, AuthInfo authInfo,
+	long access(RequestParameter requestParameter, AuthInfo authInfo,
 			Thirdparty tp, long inviterUid, DeviceName deviceName);
 
 	/**
@@ -72,7 +72,7 @@ public interface IUserRemoteService {
 	 * @param uid
 	 * @param userTpId
 	 */
-	void expireAccess(Map<String, String[]> parameters, Thirdparty tp, long uid)
+	void expireAccess(RequestParameter requestParameter, Thirdparty tp, long uid)
 			throws TokenAuthorizeException;
 
 	/**
@@ -83,7 +83,7 @@ public interface IUserRemoteService {
 	 * @param uid
 	 * @throws TokenAuthorizeException
 	 */
-	void bindAccess(Map<String, String[]> parameters, Thirdparty tp, long uid)
+	void bindAccess(RequestParameter requestParameter, Thirdparty tp, long uid)
 			throws TokenAuthorizeException;
 
 }

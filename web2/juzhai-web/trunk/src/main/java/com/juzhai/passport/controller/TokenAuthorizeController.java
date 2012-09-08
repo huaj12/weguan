@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
+import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.JoinTypeEnum;
@@ -87,7 +88,7 @@ public class TokenAuthorizeController extends BaseController {
 				throw new TokenAuthorizeException(
 						TokenAuthorizeException.ILLEGAL_OPERATION);
 			}
-			userService.expireAccess(request.getParameterMap(), tp,
+			userService.expireAccess(new RequestParameter(request), tp,
 					context.getUid());
 		} catch (TokenAuthorizeException e) {
 			String errorInfo = messageSource.getMessage(e.getErrorCode(), null,
@@ -126,7 +127,7 @@ public class TokenAuthorizeController extends BaseController {
 				throw new TokenAuthorizeException(
 						TokenAuthorizeException.ILLEGAL_OPERATION);
 			}
-			userService.bindAccess(request.getParameterMap(), tp,
+			userService.bindAccess(new RequestParameter(request), tp,
 					context.getUid());
 			// 授权成功重新登录一次更新tpid
 			loginService.updateTpId(request, response, context.getUid(),

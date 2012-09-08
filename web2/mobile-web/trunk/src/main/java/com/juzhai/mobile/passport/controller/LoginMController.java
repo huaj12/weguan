@@ -23,6 +23,7 @@ import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.web.AjaxResult;
+import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.mobile.InitData;
 import com.juzhai.mobile.passport.controller.viewHelper.IUserMViewHelper;
@@ -99,8 +100,8 @@ public class LoginMController extends BaseController {
 							+ ", joinType=" + tp.getJoinType() + "]");
 				}
 				AuthInfo authInfo = null;
-				uid = userService.access(request.getParameterMap(), authInfo,
-						tp, 0L, DeviceName.IPHONE);
+				uid = userService.access(new RequestParameter(request),
+						authInfo, tp, 0L, DeviceName.IPHONE);
 			}
 			if (uid <= 0) {
 				log.error("access failed.[tpName=" + tp.getName()

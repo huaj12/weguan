@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
+import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.mobile.InitData;
 import com.juzhai.mobile.passport.controller.viewHelper.IUserMViewHelper;
@@ -76,7 +77,7 @@ public class AuthorizeMController extends BaseController {
 				throw new TokenAuthorizeException(
 						TokenAuthorizeException.ILLEGAL_OPERATION);
 			}
-			userService.expireAccess(request.getParameterMap(), tp,
+			userService.expireAccess(new RequestParameter(request), tp,
 					context.getUid());
 		} catch (TokenAuthorizeException e) {
 			result.setError(e.getErrorCode(), messageSource);
@@ -112,7 +113,7 @@ public class AuthorizeMController extends BaseController {
 		AjaxResult result = new AjaxResult();
 		Thirdparty tp = InitData.getTpMap().get(tpId);
 		try {
-			userService.bindAccess(request.getParameterMap(), tp,
+			userService.bindAccess(new RequestParameter(request), tp,
 					context.getUid());
 			loginService.updateTpId(request, response, context.getUid(), tpId);
 		} catch (TokenAuthorizeException e) {

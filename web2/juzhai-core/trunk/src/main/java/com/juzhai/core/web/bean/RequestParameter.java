@@ -1,12 +1,17 @@
 package com.juzhai.core.web.bean;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import com.juzhai.core.web.util.HttpRequestUtil;
 
-public class RequestParameter {
+public class RequestParameter implements Serializable {
+
+	private static final long serialVersionUID = 2301038686314247287L;
 	private Map<String, String[]> map;
 	private String queryString;
 	private String ip;
@@ -19,7 +24,7 @@ public class RequestParameter {
 
 	public String get(String key) {
 		String str[] = map.get(key);
-		if (str == null || str.length == 0) {
+		if (ArrayUtils.isEmpty(str)) {
 			return null;
 		}
 		return str[0];

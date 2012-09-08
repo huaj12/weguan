@@ -3,7 +3,6 @@ package com.juzhai.platform.service.impl;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.model.Thirdparty;
@@ -44,7 +44,7 @@ public class UserService implements IUserService, BeanFactoryAware {
 	}
 
 	@Override
-	public long access(Map<String, String[]> parameters, AuthInfo authInfo,
+	public long access(RequestParameter requestParameter, AuthInfo authInfo,
 			Thirdparty tp, long inviterUid, DeviceName deviceName) {
 		if (tp == null) {
 			return 0l;
@@ -53,7 +53,8 @@ public class UserService implements IUserService, BeanFactoryAware {
 		if (service == null) {
 			return 0l;
 		}
-		return service.access(parameters, authInfo, tp, inviterUid, deviceName);
+		return service.access(requestParameter, authInfo, tp, inviterUid,
+				deviceName);
 	}
 
 	private IUserService getUserServiceBean(Thirdparty tp) {
@@ -101,7 +102,7 @@ public class UserService implements IUserService, BeanFactoryAware {
 	}
 
 	@Override
-	public void expireAccess(Map<String, String[]> parameters, Thirdparty tp,
+	public void expireAccess(RequestParameter requestParameter, Thirdparty tp,
 			long uid) throws TokenAuthorizeException {
 		if (tp == null) {
 			return;
@@ -110,7 +111,7 @@ public class UserService implements IUserService, BeanFactoryAware {
 		if (service == null) {
 			return;
 		}
-		service.expireAccess(parameters, tp, uid);
+		service.expireAccess(requestParameter, tp, uid);
 	}
 
 	@Override
@@ -127,14 +128,14 @@ public class UserService implements IUserService, BeanFactoryAware {
 	}
 
 	@Override
-	public void bindAccess(Map<String, String[]> parameters, Thirdparty tp,
+	public void bindAccess(RequestParameter requestParameter, Thirdparty tp,
 			long uid) throws TokenAuthorizeException {
 		if (tp == null) {
 			return;
 		}
 		IUserService service = getUserServiceBean(tp);
 		if (service != null) {
-			service.bindAccess(parameters, tp, uid);
+			service.bindAccess(requestParameter, tp, uid);
 		}
 
 	}

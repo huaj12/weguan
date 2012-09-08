@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -28,6 +27,7 @@ import com.juzhai.common.model.City;
 import com.juzhai.common.model.Town;
 import com.juzhai.core.Constants;
 import com.juzhai.core.util.TextTruncateUtil;
+import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.Municipal;
@@ -63,7 +63,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 	}
 
 	@Override
-	protected Profile convertToProfile(Map<String, String[]> parameters,
+	protected Profile convertToProfile(RequestParameter requestParameter,
 			AuthInfo authInfo, String thirdpartyIdentity) {
 		try {
 			Users users = new Users(authInfo.getToken(),
@@ -133,13 +133,9 @@ public class WeiboConnectUserService extends AbstractUserService {
 	}
 
 	@Override
-	protected String fetchTpIdentity(Map<String, String[]> parameters,
+	protected String fetchTpIdentity(RequestParameter requestParameter,
 			AuthInfo authInfo, Thirdparty tp) {
-		String[] codeParams = parameters.get("code");
-		String code = null;
-		if (ArrayUtils.isNotEmpty(codeParams)) {
-			code = codeParams[0];
-		}
+		String code = requestParameter.get("code");
 		if (StringUtils.isEmpty(code)) {
 			log.error("weibo get code is " + code);
 			return null;

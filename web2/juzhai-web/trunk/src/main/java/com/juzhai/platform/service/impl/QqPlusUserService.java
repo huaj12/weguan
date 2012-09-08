@@ -3,11 +3,7 @@ package com.juzhai.platform.service.impl;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.core.util.TextTruncateUtil;
+import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.model.Profile;
@@ -44,15 +41,14 @@ public class QqPlusUserService extends AbstractUserService {
 	}
 
 	@Override
-	protected Profile convertToProfile(Map<String, String[]> parameters,
+	protected Profile convertToProfile(RequestParameter requestParameter,
 			AuthInfo authInfo, String thirdpartyIdentity) {
 		try {
 			QOpenService service = QOpenService.createInstance(
 					Integer.parseInt(authInfo.getAppKey()),
 					authInfo.getAppSecret());
 			QOpenBean bean = new QOpenBean(authInfo.getTpIdentity(),
-					authInfo.getToken(), null);
-			// HttpRequestUtil.getRemoteIp(request));
+					authInfo.getToken(), requestParameter.getIp());
 			QOpenResult result = service.getUserInfo(bean);
 			if (result.isSuccess()) {
 				Profile profile = new Profile();
@@ -90,33 +86,24 @@ public class QqPlusUserService extends AbstractUserService {
 	}
 
 	@Override
-	protected String fetchTpIdentity(Map<String, String[]> parameters,
+	protected String fetchTpIdentity(RequestParameter requestParameter,
 			AuthInfo authInfo, Thirdparty tp) {
-		// if (!checkAuthInfo(request, authInfo, tp)) {
-		// log.error("QQ Plus checkAuthInfo is error.");
-		// return null;
-		// }
-		String[] uidParams = parameters.get("app_openid");
-		String uid = null;
-		if (ArrayUtils.isNotEmpty(uidParams)) {
-			uid = uidParams[0];
+		if (!checkAuthInfo(requestParameter, authInfo, tp)) {
+			log.error("QQ Plus checkAuthInfo is error.");
+			return null;
 		}
-		String[] appOpenKeyParams = parameters.get("app_openkey");
-		String appOpenKey = null;
-		if (ArrayUtils.isNotEmpty(appOpenKeyParams)) {
-			appOpenKey = appOpenKeyParams[0];
-		}
+		String uid = requestParameter.get("app_openid");
+		String appOpenKey = requestParameter.get("app_openkey");
 		authInfo.setThirdparty(tp);
 		authInfo.setTpIdentity(uid);
 		authInfo.setToken(appOpenKey);
 		return uid;
 	}
 
-	private boolean checkAuthInfo(HttpServletRequest request,
+	private boolean checkAuthInfo(RequestParameter requestParameter,
 			AuthInfo authInfo, Thirdparty tp) {
 		QOpenService service = QOpenService.createInstance(
 				Integer.parseInt(tp.getAppId()), tp.getAppSecret());
-		return service.checkParamsSig(request.getQueryString());
+		return service.checkParamsSig(requestParameter.getQueryString());
 	}
-
 }

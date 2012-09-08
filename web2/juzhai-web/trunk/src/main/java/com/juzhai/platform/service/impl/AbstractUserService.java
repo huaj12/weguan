@@ -2,7 +2,6 @@ package com.juzhai.platform.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -13,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.cache.RedisKeyGenerator;
+import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.dao.ITpUserDao;
@@ -48,23 +48,23 @@ public abstract class AbstractUserService implements IUserService {
 	private ITpUserService tpUserService;
 
 	@Override
-	public long access(Map<String, String[]> parameters, AuthInfo authInfo,
+	public long access(RequestParameter requestParameter, AuthInfo authInfo,
 			Thirdparty tp, long inviterUid, DeviceName deviceName) {
 		if (authInfo == null) {
 			authInfo = new AuthInfo();
 		}
-		String tpIdentity = fetchTpIdentity(parameters, authInfo, tp);
+		String tpIdentity = fetchTpIdentity(requestParameter, authInfo, tp);
 		if (StringUtils.isEmpty(tpIdentity) || "null".equals(tpIdentity)) {
 			log.error("Fetch thirdparty identity failed.[tpName:"
 					+ tp.getName() + ", joinType:" + tp.getJoinType());
 			return 0L;
 		}
 		authInfo.setTpIdentity(tpIdentity);
-		return completeAccessUser(parameters, authInfo, tpIdentity, tp,
+		return completeAccessUser(requestParameter, authInfo, tpIdentity, tp,
 				inviterUid, deviceName);
 	}
 
-	private long completeAccessUser(Map<String, String[]> parameters,
+	private long completeAccessUser(RequestParameter requestParameter,
 			AuthInfo authInfo, String tpIdentity, Thirdparty tp,
 			long inviterUid, DeviceName deviceName) {
 		log.debug("completeAssessUser");
@@ -77,7 +77,8 @@ public abstract class AbstractUserService implements IUserService {
 						+ ", need to create.]");
 			}
 			// 注册&激活账号&激活产品
-			Profile profile = convertToProfile(parameters, authInfo, tpIdentity);
+			Profile profile = convertToProfile(requestParameter, authInfo,
+					tpIdentity);
 			if (null == profile) {
 				return 0;
 			}
@@ -131,7 +132,7 @@ public abstract class AbstractUserService implements IUserService {
 	}
 
 	@Override
-	public void expireAccess(Map<String, String[]> parameters, Thirdparty tp,
+	public void expireAccess(RequestParameter requestParameter, Thirdparty tp,
 			long uid) throws TokenAuthorizeException {
 		Passport passport = passportService.getPassportByUid(uid);
 		TpUser tpUser = tpUserService.getTpUserByUid(uid);
@@ -140,7 +141,7 @@ public abstract class AbstractUserService implements IUserService {
 					TokenAuthorizeException.USER_NOT_REQUIRE_AUTHORIZE);
 		}
 		AuthInfo authInfo = new AuthInfo();
-		String tpIdentity = fetchTpIdentity(parameters, authInfo, tp);
+		String tpIdentity = fetchTpIdentity(requestParameter, authInfo, tp);
 		if (StringUtils.isEmpty(tpIdentity) || "null".equals(tpIdentity)) {
 			throw new TokenAuthorizeException(
 					TokenAuthorizeException.ILLEGAL_OPERATION);
@@ -165,7 +166,7 @@ public abstract class AbstractUserService implements IUserService {
 	}
 
 	@Override
-	public void bindAccess(Map<String, String[]> parameters, Thirdparty tp,
+	public void bindAccess(RequestParameter requestParameter, Thirdparty tp,
 			long uid) throws TokenAuthorizeException {
 		Passport passport = passportService.getPassportByUid(uid);
 		TpUser tpUser = tpUserService.getTpUserByUid(uid);
@@ -174,7 +175,7 @@ public abstract class AbstractUserService implements IUserService {
 					TokenAuthorizeException.USER_NOT_REQUIRE_BIND);
 		}
 		AuthInfo authInfo = new AuthInfo();
-		String tpIdentity = fetchTpIdentity(parameters, authInfo, tp);
+		String tpIdentity = fetchTpIdentity(requestParameter, authInfo, tp);
 		if (StringUtils.isEmpty(tpIdentity) || "null".equals(tpIdentity)) {
 			throw new TokenAuthorizeException(
 					TokenAuthorizeException.ILLEGAL_OPERATION);
@@ -204,11 +205,11 @@ public abstract class AbstractUserService implements IUserService {
 	}
 
 	protected abstract Profile convertToProfile(
-			Map<String, String[]> parameters, AuthInfo authInfo,
+			RequestParameter requestParameter, AuthInfo authInfo,
 			String thirdpartyIdentity);
 
-	protected abstract String fetchTpIdentity(Map<String, String[]> parameters,
-			AuthInfo authInfo, Thirdparty tp);
+	protected abstract String fetchTpIdentity(
+			RequestParameter requestParameter, AuthInfo authInfo, Thirdparty tp);
 
 	/**
 	 * 获取授权地址

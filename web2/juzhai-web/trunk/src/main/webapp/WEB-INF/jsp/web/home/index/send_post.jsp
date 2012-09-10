@@ -61,7 +61,7 @@
 							<div class="clear"></div>
 							<div class="ts">仅支持JPG GIF PNG BMP图片文件,文件小于2M</div>
 						</div><!--upload end-->
-						<div class="upload_ok" <c:if test="${empty postForm.pic}">style="display: none;"</c:if>><!--upload_ok begin-->
+						<div class="upload_ok1" <c:if test="${empty postForm.pic}">style="display: none;"</c:if>><!--upload_ok begin-->
 							<em><a href="javascript:void(0);">重新上传</a></em>
 							<c:choose>
 								<c:when test="${empty postForm.pic}"><c:set var="initImgUrl" value="${jzr:static('/images/web2/1px.gif')}" /></c:when>

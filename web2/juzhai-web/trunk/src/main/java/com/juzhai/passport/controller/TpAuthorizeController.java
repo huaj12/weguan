@@ -124,7 +124,7 @@ public class TpAuthorizeController extends BaseController {
 			return "web/login/login_error";
 		}
 		if (!userGuideService.isCompleteGuide(uid)) {
-			return "redirect:../home/guide";
+			return "redirect:/../home/guide";
 		}
 		return "redirect:"
 				+ (StringUtils.isEmpty(turnTo) ? "/../home" : StringUtil

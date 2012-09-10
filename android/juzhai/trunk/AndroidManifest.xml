@@ -9,10 +9,12 @@
         <!--created by kooks at 2012-09-04 14:32:10-->
         <activity android:name="com.juzhai.test.gps.GpsTestActivity"/>
         <!--created by kooks at 2012-09-05 14:14:46-->
-        <activity android:name="com.juzhai.test.persistence.SharedPreferencesActivity">
-        </activity>
+        <activity android:name="com.juzhai.test.persistence.SharedPreferencesActivity"/>
         <!--created by kooks at 2012-09-06 14:06:21-->
         <activity android:name="com.juzhai.test.asyn.AsyncTaskAcitvity">
+        </activity>
+        <!--created by kooks at 2012-09-07 11:17:52-->
+        <activity android:name="com.juzhai.test.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

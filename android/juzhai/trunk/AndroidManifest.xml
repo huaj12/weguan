@@ -11,10 +11,12 @@
         <!--created by kooks at 2012-09-05 14:14:46-->
         <activity android:name="com.juzhai.test.persistence.SharedPreferencesActivity"/>
         <!--created by kooks at 2012-09-06 14:06:21-->
-        <activity android:name="com.juzhai.test.asyn.AsyncTaskAcitvity">
-        </activity>
+        <activity android:name="com.juzhai.test.asyn.AsyncTaskAcitvity"/>
         <!--created by kooks at 2012-09-07 11:17:52-->
         <activity android:name="com.juzhai.test.login.LoginActivity">
+        </activity>
+        <!--created by kooks at 2012-09-10 17:04:33-->
+        <activity android:name="com.juzhai.test.pic.PicCutAcitvity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

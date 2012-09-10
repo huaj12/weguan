@@ -128,7 +128,7 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 .top h2 a{display:block; width:100%; height:100%; overflow:hidden;}
 .top h1{ float:left;  margin-top:11px;  width:125px; height:30px; overflow:hidden; background:url(../images/web2/pub_top.jpg) no-repeat 0 0;}
 .top h1 a{ display:block; width:100%; height:100%; overflow:hidden;}
-.top h3{ float:left;  margin-top:11px;  width:98px; height:30px; overflow:hidden; background:url(../images/web2/pub_top.jpg) no-repeat 0 -125px;}
+.top h3{ float:left;  margin-top:11px;  width:98px; height:30px; overflow:hidden; background:url(../images/web2/pub_top.jpg) no-repeat -125px 0px;}
 .top h3 a{ display:block; width:100%; height:100%; overflow:hidden;}
 .top .back_to_home{ float:right; font-family:"微软雅黑"; font-size:13px; margin-top:16px;}
 .top .back_to_home a{ color:#ccc;}

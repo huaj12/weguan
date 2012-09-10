@@ -1029,8 +1029,8 @@ var PostSender =  Class.extend({
 				success : function(result) {
 					if (result.success) {
 						sendPostPic.find("input[name='pic']").val(result.result[1]);
-						sendPostPic.find("div.upload_ok > div.img > img").attr("src", result.result[0]);
-						sendPostPic.find("div.upload_ok").show();
+						sendPostPic.find("div.upload_ok1 > div.img > img").attr("src", result.result[0]);
+						sendPostPic.find("div.upload_ok1").show();
 						sendPostPic.addClass("done");
 						//$("div.upload > div.loading").hide();
 					} else if (result.errorCode == "00003") {
@@ -1050,12 +1050,12 @@ var PostSender =  Class.extend({
 			sendForm.ajaxSubmit(options);
 			return false;
 		});
-		sendPostPic.find("div.upload_ok > em > a").click(function(){
+		sendPostPic.find("div.upload_ok1 > em > a").click(function(){
 			sendPostPic.removeClass("done");
 			sendPostPic.find("input[name='pic']").val("");
 			sendPostPic.find("input[name='picIdeaId']").val(0);
-			sendPostPic.find("div.upload_ok > div.img > img").attr("src", sendPostPic.find("div.upload_ok > div.img > img").attr("init-pic"));
-			sendPostPic.find("div.upload_ok").hide();
+			sendPostPic.find("div.upload_ok1 > div.img > img").attr("src", sendPostPic.find("div.upload_ok1 > div.img > img").attr("init-pic"));
+			sendPostPic.find("div.upload_ok1").hide();
 			sendPostPic.find("div.load_error").hide();
 			sendPostPic.find("div.show_area > div.upload_photo_area > div.upload").show();
 			return false;

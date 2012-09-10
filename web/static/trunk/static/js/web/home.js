@@ -168,8 +168,8 @@ $(document).ready(function(){
 						sendPostPic.find("div.load_error").hide();
 						sendPostPic.find("input[name='pic']").val(pic);
 						sendPostPic.find("input[name='picIdeaId']").val(ideaId);
-						sendPostPic.find("div.upload_ok > div.img > img").attr("src", picUrl);
-						sendPostPic.find("div.upload_ok").show();
+						sendPostPic.find("div.upload_ok1 > div.img > img").attr("src", picUrl);
+						sendPostPic.find("div.upload_ok1").show();
 						sendPostPic.addClass("done");
 					}
 					//category
@@ -295,8 +295,8 @@ function resetAdditionForm(sendForm){
 	sendForm.find("#send-post-pic").removeClass("done").removeClass("active");
 	sendForm.find("div.upload").show();
 	sendForm.find("div.upload > div.load_error").text("").hide();
-	sendForm.find("div.upload_ok > div.img > img").attr("src", sendForm.find("div.upload_ok > div.img > img").attr("init-pic"));
-	sendForm.find("div.upload_ok").hide();
+	sendForm.find("div.upload_ok1 > div.img > img").attr("src", sendForm.find("div.upload_ok1 > div.img > img").attr("init-pic"));
+	sendForm.find("div.upload_ok1").hide();
 }
 
 function waitRescueUser(postContent,flag){

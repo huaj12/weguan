@@ -1,22 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello android!</string>
-    <string name="app_name">android</string>
+    <string name="app_name">拒宅</string>
     
+    <!-- tab -->
+    <string name="tab_words">Words</string>
+    <string name="tab_numbers">Numbers</string>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    <!-- test -->
-   <string name="providerList">系统所有的LocationProvider列表</string>
-   <string name="read">读</string>
-   <string name="write">写</string>
-   <string name="loading">正在加载</string>
-   <string name="loginweibo">微博登录</string>
-   <string name="getpic">获取图片</string>
 </resources>

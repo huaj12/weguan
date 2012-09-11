@@ -65,7 +65,7 @@
 				<div class="my_face_login"><a href="/home/${loginUser.uid}" title="<c:out value="${loginUser.nickname}" />"><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}" height="20" width="20" /><p><c:out value="${jzu:truncate(loginUser.nickname,12,'')}"/></p></a></div>
 			</c:if>
 			<c:if test="${context.uid<=0}">
-				<div class="login_btn"><a href="/login" class="btn_log" title="登录">登录</a><a href="/passport/register" class="btn_res" title="">注册</a></div>
+				<div class="welcome_page_login"><a href="/login" title="登录">登录</a><a href="/passport/register" title="注册">注册</a><a href="/download/index" title="手机版">手机版</a></div>
 			</c:if>
 		</div><!--top end-->
 	</div><!--fix_top end-->

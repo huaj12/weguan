@@ -17,7 +17,7 @@
 					<div class="beta"></div>
 					<div class="top"><!--top begin-->
 						<h1><a href="http://www.51juzhai.com"></a></h1>
-						<div class="login_btn"><a href="/login" class="btn_log" title="登录">登录</a><a href="/passport/register" class="btn_res" title="注册">注册</a></div>
+						<div class="welcome_page_login"><a href="/login" title="登录">登录</a><a href="/passport/register" title="注册">注册</a><a href="/download/index" title="手机版">手机版</a></div>
 					</div><!--top end-->
 				</div><!--fix_top end-->
 				<div class="member_area"><!--member_area begin-->

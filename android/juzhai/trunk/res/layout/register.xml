@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="@android:color/darker_gray">
+	<!-- 标题栏 -->
+	<RelativeLayout android:layout_width="fill_parent"
+		android:paddingRight="10dp" android:background="@drawable/top_nav_bg"
+		android:layout_height="wrap_content" android:id="@+id/login_titlebar">
+		<TextView android:id="@+id/title" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/register"
+			android:textColor="@android:color/white" android:textSize="20sp"
+			android:layout_centerInParent="true" />
+		<Button android:id="@+id/finsh" android:layout_marginTop="11dp" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/finish"
+			android:background="@drawable/finish_selector_button"
+			android:layout_alignParentRight="true" android:textColor="@android:color/white" />
+	</RelativeLayout>
+
+	<LinearLayout  android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:orientation="vertical"
+		android:layout_weight="1">
+		<!-- 输入账号、密码 -->
+		<LinearLayout android:id="@+id/content"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:orientation="vertical">
+			<ListView android:id="@+id/reg_listview_input"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+				android:layout_marginTop="20dp" android:background="@drawable/shape_bg_listview"
+				android:cacheColorHint="@null" />
+		</LinearLayout>
+		<!-- 新浪、豆瓣、QQ登录 -->
+		<ListView android:id="@+id/tp_reg_listview_button"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+			android:layout_marginTop="20dp" android:background="@drawable/shape_bg_listview"
+			android:layout_marginBottom="20dp" android:cacheColorHint="@null" />
+	</LinearLayout>
+	<!-- 底部按钮 -->
+	<LinearLayout android:id="@+id/tip_login_layout"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:gravity="bottom">
+		<Button android:id="@+id/tip_login_bt" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/tip_login"
+			android:background="@drawable/bottom_menu_bg" android:textColor="@android:color/white" />
+	</LinearLayout>
+
+</LinearLayout>

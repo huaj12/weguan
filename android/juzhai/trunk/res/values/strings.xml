@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">拒宅</string>
-    
+    <!-- login begin -->
+     <string name="accLogin">帐号登录</string>
+     <string name="login">登录</string>
+     <string name="find_pwd">找回密码</string>
+     <string name="tip_reg">还没有账号？来这里注册</string>
+     <string name="sinaLogin">用新浪微博帐号登录</string>
+     <string name="doubanLogin">用豆瓣帐号登录</string>
+     <string name="qqLogin">用QQ帐号登录</string>
+     <string name="alertDefalutTitle">请输入登录账号和密码</string>
+     <string name="login_input_tip_account">输入登录帐号</string>
+     <string name="login_input_tip_pwd">输入登录密码</string>
+    <!-- login end -->
+    <!-- webview begin -->
+    <string name="webview_title">用户授权</string>
+    <!-- webview end -->
+    <!-- register begin -->
+    <string name="tip_login">己有账号，请直接登录</string>
+    <string name="register">帐号注册</string>
+    <string name="reg_input_tip_account">请输入邮箱</string>
+    <string name="reg_input_tip_nickname">请输入昵称</string>
+     <string name="reg_input_tip_pwd">输入登录密码</string>
+     <string name="reg_input_tip_rep_pwd">在输入一次密码</string>
+    <!-- register end -->
     <!-- tab item title -->
     <string name="tabitem_zhaoban">找伴</string>
     <string name="tabitem_chuquwan">出去玩</string>
     <string name="tabitem_message">消息</string>
     <string name="tabitem_home">我家</string>
     <string name="tabitem_setting">设置</string>
+    <!-- common begin -->
+    <string name="finish">完成</string>
+    <!-- common end -->
     
 </resources>

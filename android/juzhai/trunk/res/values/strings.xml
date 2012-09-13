@@ -2,8 +2,11 @@
 <resources>
     <string name="app_name">拒宅</string>
     
-    <!-- tab -->
-    <string name="tab_words">Words</string>
-    <string name="tab_numbers">Numbers</string>
+    <!-- tab item title -->
+    <string name="tabitem_zhaoban">找伴</string>
+    <string name="tabitem_chuquwan">出去玩</string>
+    <string name="tabitem_message">消息</string>
+    <string name="tabitem_home">我家</string>
+    <string name="tabitem_setting">设置</string>
     
 </resources>

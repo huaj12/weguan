@@ -4,9 +4,14 @@ import android.app.ActivityGroup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Window;
 
 import com.juzhai.android.R;
+import com.juzhai.android.dialog.activity.DialogListActivity;
+import com.juzhai.android.home.activity.HomeActivity;
 import com.juzhai.android.home.activity.ZhaobanActivity;
+import com.juzhai.android.idea.activity.IdeaListActivity;
+import com.juzhai.android.setting.activity.SettingListActivity;
 import com.juzhai.android.widget.tab.TabBar;
 import com.juzhai.android.widget.tab.TabBarItem;
 
@@ -17,6 +22,7 @@ public class MainTabActivity extends ActivityGroup {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		LayoutInflater layoutInflater = getLayoutInflater();
 
 		tabBar = new TabBar<Intent>(R.layout.main_tab);
@@ -25,17 +31,17 @@ public class MainTabActivity extends ActivityGroup {
 						ZhaobanActivity.class)));
 		tabBar.addTabBarItem(new TabBarItem<Intent>(R.drawable.chuquwaner,
 				R.drawable.set, R.string.tabitem_chuquwan, new Intent(this,
-						ZhaobanActivity.class)));
+						IdeaListActivity.class)));
 		tabBar.addTabBarItem(new TabBarItem<Intent>(R.drawable.mail,
 				R.drawable.set, R.string.tabitem_message, new Intent(this,
-						ZhaobanActivity.class)));
+						DialogListActivity.class)));
 		tabBar.addTabBarItem(new TabBarItem<Intent>(R.drawable.wojia,
 				R.drawable.set, R.string.tabitem_home, new Intent(this,
-						ZhaobanActivity.class)));
+						HomeActivity.class)));
 		tabBar.addTabBarItem(new TabBarItem<Intent>(R.drawable.set,
 				R.drawable.set, R.string.tabitem_setting, new Intent(this,
-						ZhaobanActivity.class)));
-		tabBar.setBgResources(R.drawable.tabbar_bg_default);
+						SettingListActivity.class)));
+		tabBar.setBgResources(R.drawable.tab_bar_background);
 		setContentView(tabBar.build(layoutInflater, this));
 	}
 }

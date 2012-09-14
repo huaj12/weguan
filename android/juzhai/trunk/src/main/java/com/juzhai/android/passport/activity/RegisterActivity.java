@@ -34,12 +34,13 @@ import com.juzhai.android.passport.bean.UserCacheManager;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.listener.TpLoginListener;
 import com.juzhai.android.passport.model.UserResults;
+import com.juzhai.android.widget.navigation.app.NavigationActivity;
 
 /**
  * @author kooks
  * 
  */
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends NavigationActivity {
 	private ListView mListView = null;
 	private ListView listViewInput = null;
 	private Intent intent = null;
@@ -48,7 +49,17 @@ public class RegisterActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.register);
+
+		// --------------设置NavigationBar--------------------
+		getNavigationBar().setBarTitle(
+				getResources().getString(R.string.register));
+		setNavContentView(R.layout.register);
+		Button finish = (Button) (Button) getLayoutInflater().inflate(
+				R.layout.finish_button, null);
+		finish.setOnClickListener(loginListener);
+		getNavigationBar().setRightBarButton(finish);
+		// --------------设置NavigationBar--------------------
+
 		mContext = this;
 		mListView = (ListView) findViewById(R.id.tp_reg_listview_button);
 		listViewInput = (ListView) findViewById(R.id.reg_listview_input);
@@ -64,13 +75,13 @@ public class RegisterActivity extends Activity {
 		login.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				intent = new Intent(RegisterActivity.this, LoginActivity.class);
-				startActivity(intent);
+				// intent = new Intent(RegisterActivity.this,
+				// LoginActivity.class);
+				// startActivity(intent);
+				popIntent();
 			}
 		});
 		mListView.setOnItemClickListener(new TpLoginListener(mContext));
-		Button finish = (Button) findViewById(R.id.finsh);
-		finish.setOnClickListener(loginListener);
 	}
 
 	/**

@@ -4,9 +4,11 @@ import android.app.ActivityGroup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.juzhai.android.R;
 import com.juzhai.android.widget.navigation.NavigationBar;
 
 public class NavigationActivity extends ActivityGroup {
@@ -23,7 +25,6 @@ public class NavigationActivity extends ActivityGroup {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		hasParent = getIntent().getBooleanExtra(EXTRA_HAS_PARENT_NAME, false);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		if (rootView == null) {
 			rootView = new LinearLayout(this);
 			rootView.setOrientation(LinearLayout.VERTICAL);
@@ -32,14 +33,16 @@ public class NavigationActivity extends ActivityGroup {
 		if (navigationBar == null) {
 			navigationBar = new NavigationBar(this);
 			if (hasParent) {
-				navigationBar.setLeftBarButton("返回");
-				NavigationBar.NavigationBarListener nbl = new NavigationBar.NavigationBarListener() {
+				Button button = (Button) getLayoutInflater().inflate(
+						R.layout.back_button, null);
+				// set OnClickListener
+				button.setOnClickListener(new OnClickListener() {
 					@Override
-					public void OnNavigationButtonClick(int which) {
+					public void onClick(View v) {
 						popIntent();
 					}
-				};
-				navigationBar.setNavigationBarListener(nbl);
+				});
+				navigationBar.setLeftBarButton(button);
 			}
 			rootView.addView(navigationBar);
 		}

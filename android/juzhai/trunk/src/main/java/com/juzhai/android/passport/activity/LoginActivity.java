@@ -9,7 +9,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.ResponseEntity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,12 +32,13 @@ import com.juzhai.android.passport.bean.UserCacheManager;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.listener.TpLoginListener;
 import com.juzhai.android.passport.model.UserResults;
+import com.juzhai.android.widget.navigation.app.NavigationActivity;
 
 /**
  * @author kooks
  * 
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends NavigationActivity {
 	private ListView mListView = null;
 	private ListView listViewInput = null;
 	private String account = null;
@@ -49,7 +49,17 @@ public class LoginActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.login);
+
+		// --------------设置NavigationBar--------------------
+		getNavigationBar()
+				.setBarTitle(getResources().getString(R.string.login));
+		setNavContentView(R.layout.login);
+		Button finish = (Button) (Button) getLayoutInflater().inflate(
+				R.layout.finish_button, null);
+		finish.setOnClickListener(loginListener);
+		getNavigationBar().setRightBarButton(finish);
+		// --------------设置NavigationBar--------------------
+
 		mContext = this;
 		mListView = (ListView) findViewById(R.id.tp_login_listview_button);
 		listViewInput = (ListView) findViewById(R.id.login_listview_input);
@@ -62,7 +72,6 @@ public class LoginActivity extends Activity {
 		listViewInput.setAdapter(new LoginInputListAdapter(this,
 				LAYOUT_INFLATER_SERVICE));
 		Button login = (Button) findViewById(R.id.bnLogin);
-		Button finish = (Button) findViewById(R.id.finsh);
 		Button reg = (Button) findViewById(R.id.tip_reg_bt);
 		Button forget_pwd = (Button) findViewById(R.id.forget_pwd);
 		forget_pwd.setOnClickListener(new OnClickListener() {
@@ -70,19 +79,20 @@ public class LoginActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				intent = new Intent(LoginActivity.this, ForgotPwdActivity.class);
-				startActivity(intent);
+				// startActivity(intent);
+				pushIntent(intent);
 			}
 		});
 		reg.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				intent = new Intent(LoginActivity.this, RegisterActivity.class);
-				startActivity(intent);
+				// startActivity(intent);
+				pushIntent(intent);
 			}
 		});
 		mListView.setOnItemClickListener(new TpLoginListener(mContext));
 		login.setOnClickListener(loginListener);
-		finish.setOnClickListener(loginListener);
 		String errorInfo = getIntent().getStringExtra("errorInfo");
 		if (StringUtils.isNotEmpty(errorInfo)) {
 			Toast.makeText(this, errorInfo, 5000).show();
@@ -131,7 +141,8 @@ public class LoginActivity extends Activity {
 				intent.putExtra("errorInfo",
 						UserCache.getUserInfo().getNickname()
 								+ "登录成功拉 l_token=" + UserCache.getlToken());
-				startActivity(intent);
+				// startActivity(intent);
+				pushIntent(intent);
 			}
 
 		}

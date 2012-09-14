@@ -3,7 +3,11 @@
  */
 package com.juzhai.android.passport.activity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
+import org.springframework.http.ResponseEntity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,18 +17,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.passport.InitDate;
 import com.juzhai.android.passport.adapter.LoginInputListAdapter;
+import com.juzhai.android.passport.bean.UserCacheManager;
+import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.listener.TpLoginListener;
+import com.juzhai.android.passport.model.UserResults;
 
 /**
  * @author kooks
@@ -65,28 +73,11 @@ public class LoginActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-
-		mListView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				intent = new Intent(LoginActivity.this, WebViewActivity.class);
-				switch (position) {
-				case 0:
-					intent.putExtra("tpId", "6");
-					break;
-				case 1:
-					intent.putExtra("tpId", "7");
-					break;
-				case 2:
-					intent.putExtra("tpId", "8");
-					break;
-				}
-				startActivity(intent);
-			}
-
-		});
-
+		mListView.setOnItemClickListener(new TpLoginListener(mContext));
+		String errorInfo = getIntent().getStringExtra("errorInfo");
+		if (StringUtils.isNotEmpty(errorInfo)) {
+			Toast.makeText(this, errorInfo, 5000).show();
+		}
 	}
 
 	/**
@@ -106,7 +97,7 @@ public class LoginActivity extends Activity {
 			if (StringUtils.isEmpty(account) || StringUtils.isEmpty(password)) {
 				new AlertDialog.Builder(mContext)
 						.setMessage(R.string.alertDefalutTitle)
-						.setNegativeButton("关闭",
+						.setNegativeButton(R.string.close,
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int whichButton) {
@@ -115,8 +106,27 @@ public class LoginActivity extends Activity {
 								}).show();
 				return;
 			}
+			Map<String, String> values = new HashMap<String, String>();
+			values.put("account", account);
+			values.put("password", password);
+			ResponseEntity<UserResults> responseEntity = HttpUtils.post(
+					"passport/login", values, UserResults.class);
+			UserResults results = responseEntity.getBody();
+			if (!results.getSuccess()) {
+				Toast.makeText(mContext, results.getErrorInfo(), 5000).show();
+			} else {
+				// 保存登录信息
+				UserCacheManager.initUserCacheManager(responseEntity, mContext);
+				// 跳转到登录成功页面
+				intent = new Intent(mContext, LoginActivity.class);
+				intent.putExtra("errorInfo",
+						UserCache.getUserInfo().getNickname()
+								+ "登录成功拉 l_token=" + UserCache.getlToken());
+				startActivity(intent);
+			}
 
 		}
 
 	};
+
 }

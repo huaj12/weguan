@@ -30,9 +30,15 @@
     <string name="tabitem_message">消息</string>
     <string name="tabitem_home">我家</string>
     <string name="tabitem_setting">设置</string>
+    
+    <!-- find pwd  begin-->
+     <string name="forgot_pwd_tip">请输入注册邮箱</string>
+    <!-- find pwd  end-->
+    
     <!-- common begin -->
     <string name="finish">完成</string>
     <string name="close">关闭</string>
+    <string name="ok">确定</string>
     <!-- common end -->
     
     

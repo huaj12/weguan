@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:tileMode="repeat" android:background="@drawable/app_bg"
     >
     <!-- 标题栏 -->
 	<RelativeLayout android:layout_width="fill_parent"
@@ -19,4 +20,14 @@
 	</RelativeLayout>
 	 <WebView android:layout_width="fill_parent"
         android:layout_height="wrap_content" android:id="@+id/webView" />
+	 <RelativeLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent" >
+		 <ProgressBar android:id="@+id/pro_bar"
+		    android:layout_centerInParent="true"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			>
+		</ProgressBar>
+	</RelativeLayout>
 </LinearLayout>

@@ -10,9 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.http.ResponseEntity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +24,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
@@ -95,15 +94,7 @@ public class RegisterActivity extends Activity {
 					.toString();
 			int errorInfo = VerifyData(nickname, account, pwd, confirmPwd);
 			if (errorInfo != 0) {
-				new AlertDialog.Builder(mContext)
-						.setMessage(errorInfo)
-						.setNegativeButton(R.string.close,
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int whichButton) {
-										setResult(RESULT_OK);// 取消按钮事件
-									}
-								}).show();
+				DialogUtils.showAlertDialog(mContext, errorInfo);
 				return;
 			}
 			Map<String, String> values = new HashMap<String, String>();

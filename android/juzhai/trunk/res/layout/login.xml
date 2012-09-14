@@ -26,7 +26,7 @@
 			<ListView android:id="@+id/login_listview_input"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:layout_marginLeft="20dp" android:layout_marginRight="20dp"
-				android:layout_marginTop="25dp" android:background="@drawable/shape_bg_listview"
+				android:layout_marginTop="20dp" android:background="@drawable/shape_bg_listview"
 				android:cacheColorHint="@null" />
 		</LinearLayout>
 
@@ -40,7 +40,7 @@
 				android:text="@string/find_pwd"
 				android:textColor="@color/blue" 
 				android:background="@drawable/find_pwd_selector_button"
-				android:textSize="20sp"
+				android:textSize="18sp"
 				android:layout_alignParentLeft="true"
 				 />
 			<Button android:id="@+id/bnLogin" android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
 				android:text="@string/login"
 				android:layout_marginTop="20dp"
 				android:layout_marginRight="20dp"
-				android:textSize="20sp"
+				android:textSize="18sp"
 				android:textColor="@color/white"
 				android:background="@drawable/login_selector_button"
 				android:layout_alignParentRight="true"
@@ -58,8 +58,8 @@
 		<ListView android:id="@+id/tp_login_listview_button"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
 			android:layout_marginLeft="20dp" android:layout_marginRight="20dp"
-			android:layout_marginTop="30dp" android:background="@drawable/shape_bg_listview"
-			android:layout_marginBottom="20dp" android:cacheColorHint="@null" />
+			android:layout_marginTop="36dp" android:background="@drawable/shape_bg_listview"
+			android:cacheColorHint="@null" />
 	</LinearLayout>
 	<!-- 底部按钮 -->
 	<LinearLayout android:id="@+id/tip_reg_layout"

@@ -4,30 +4,26 @@
     <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="10"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <application android:icon="@drawable/logo" android:theme="@android:style/Theme.NoTitleBar" android:label="@string/app_name">
         <activity android:name=".main.activity.MainTabActivity">
-            <intent-filter>
+        </activity>
+        <activity android:name=".home.activity.ZhaobanActivity"/>
+        <activity android:name=".idea.activity.IdeaListActivity"/>
+        <activity android:name=".dialog.activity.DialogListActivity"/>
+        <activity android:name=".home.activity.HomeActivity"/>
+        <activity android:name=".setting.activity.SettingListActivity"/>
+        <activity android:name=".post.activity.PostDetailActivity"/>
+        <activity android:name=".passport.activity.LoginActivity">
+             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        
-        <activity android:name=".home.activity.ZhaobanActivity" />
-        <activity android:name=".idea.activity.IdeaListActivity" />
-        <activity android:name=".dialog.activity.DialogListActivity" />
-        <activity android:name=".home.activity.HomeActivity" />
-        <activity android:name=".setting.activity.SettingListActivity" />
-        <activity android:name=".post.activity.PostDetailActivity" />
-        
-        <activity android:name=".passport.activity.LoginActivity">
-        </activity>
-        
         <!--created by kooks at 2012-09-12 17:24:53-->
         <activity android:name=".passport.activity.WebViewActivity"/>
         <!--created by kooks at 2012-09-12 22:47:44-->
-        <activity android:name=".passport.activity.RegisterActivity" android:theme="@android:style/Theme.NoTitleBar"
-			android:windowSoftInputMode="adjustPan" 
-		/>
-        
+        <activity android:name=".passport.activity.RegisterActivity" android:windowSoftInputMode="adjustPan"/>
+        <!--created by kooks at 2012-09-14 14:06:05-->
+        <activity android:name=".passport.activity.ForgotPwdActivity"/>
     </application>
 </manifest>

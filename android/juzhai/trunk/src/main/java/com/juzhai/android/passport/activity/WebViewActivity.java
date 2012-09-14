@@ -19,6 +19,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,17 +41,22 @@ import com.juzhai.android.passport.model.UserResults;
  * 
  */
 public class WebViewActivity extends Activity {
-	private WebView webView;
 	private ProgressDialog progressDialog;
-	// private String toLoginUrl = "http://m.51juzhai.com/passport/tpLogin/";
-	// private String webAccessUrl = "http://www.51juzhai.com/web/access/";
-	// private String mAccessUrl = "http://m.51juzhai.com/passport/tpAccess/";
+	private WebView webView;
 	private String toLoginUrl = SystemConfig.BASEURL + "passport/tpLogin/";
 	private String webAccessUrl = "http://test.51juzhai.com/web/access/";
 	private String mAccessUrl = SystemConfig.BASEURL + "passport/tpAccess/";
 	private Intent intent;
 	private Context mContext;
 	ProgressBar bar = null;
+	private Handler handle = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			progressDialog = ProgressDialog.show(mContext, "Loading...",
+					"Please wait...", true, false);
+		}
+
+	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +66,6 @@ public class WebViewActivity extends Activity {
 		webView = (WebView) findViewById(R.id.webView);
 		Button backBt = (Button) findViewById(R.id.back);
 		backBt.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				WebViewActivity.this.finish();
@@ -69,9 +75,8 @@ public class WebViewActivity extends Activity {
 		setting.setJavaScriptCanOpenWindowsAutomatically(true);
 		setting.setJavaScriptEnabled(true);
 		String tpId = getIntent().getStringExtra("tpId");
-		progressDialog = ProgressDialog
-				.show(this, "正在打开页面", "请稍等", true, false);
-
+		bar = (ProgressBar) findViewById(R.id.pro_bar);
+		bar.setProgress(0);
 		webView.setWebViewClient(new Webclient());
 		webView.loadUrl(toLoginUrl + tpId);
 	}
@@ -90,10 +95,8 @@ public class WebViewActivity extends Activity {
 
 		@Override
 		public void onPageFinished(WebView view, String url) {
-			// 第一次载入页面完成取消等待框
-			if (progressDialog != null) {
-				progressDialog.dismiss();
-				progressDialog = null;
+			if (bar != null) {
+				bar.setProgress(100);
 			}
 		}
 
@@ -105,6 +108,7 @@ public class WebViewActivity extends Activity {
 	 * @param url
 	 */
 	public void login(String url) {
+		handle.sendEmptyMessage(0);
 		url = url.replaceAll(webAccessUrl, mAccessUrl);
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setAccept(Collections.singletonList(new MediaType(
@@ -114,8 +118,8 @@ public class WebViewActivity extends Activity {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(
 				new MappingJacksonHttpMessageConverter());
-		ResponseEntity<UserResults> responseEntity = restTemplate.exchange(
-				url, HttpMethod.GET, requestEntity, UserResults.class);
+		ResponseEntity<UserResults> responseEntity = restTemplate.exchange(url,
+				HttpMethod.GET, requestEntity, UserResults.class);
 		UserResults results = responseEntity.getBody();
 		if (!results.getSuccess()) {
 			intent = new Intent(mContext, LoginActivity.class);

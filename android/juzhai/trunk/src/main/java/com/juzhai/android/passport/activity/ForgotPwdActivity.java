@@ -66,13 +66,12 @@ public class ForgotPwdActivity extends Activity {
 				Results results = response.getBody();
 				String msg = null;
 				if (results.getSuccess()) {
-					msg = getResources().getString(R.string.send_ok);
-					Toast.makeText(mContext, msg, 5000).show();
+					DialogUtils.showAlertDialog(mContext, R.string.send_ok);
+					finish();
 				} else {
 					msg = results.getErrorInfo();
 					Toast.makeText(mContext, msg, 5000).show();
 				}
-
 			}
 		});
 	}

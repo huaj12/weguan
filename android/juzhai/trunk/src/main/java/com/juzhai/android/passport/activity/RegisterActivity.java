@@ -3,21 +3,38 @@
  */
 package com.juzhai.android.passport.activity;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.http.ResponseEntity;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.utils.HttpUtils;
+import com.juzhai.android.core.utils.StringUtil;
+import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.passport.InitDate;
 import com.juzhai.android.passport.adapter.RegisterInputListAdapter;
+import com.juzhai.android.passport.bean.UserCacheManager;
+import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.listener.TpLoginListener;
+import com.juzhai.android.passport.model.UserResults;
 
 /**
  * @author kooks
@@ -52,27 +69,95 @@ public class RegisterActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-		mListView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				intent = new Intent(RegisterActivity.this,
-						WebViewActivity.class);
-				switch (position) {
-				case 0:
-					intent.putExtra("tpId", "6");
-					break;
-				case 1:
-					intent.putExtra("tpId", "7");
-					break;
-				case 2:
-					intent.putExtra("tpId", "8");
-					break;
-				}
+		mListView.setOnItemClickListener(new TpLoginListener(mContext));
+		Button finish = (Button) findViewById(R.id.finsh);
+		finish.setOnClickListener(loginListener);
+	}
+
+	/**
+	 * 完成按钮注册处理事件
+	 */
+	private OnClickListener loginListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			String nickname = ((EditText) ((RelativeLayout) ((LinearLayout) listViewInput
+					.getChildAt(0)).getChildAt(0)).getChildAt(0)).getText()
+					.toString();
+			String account = ((EditText) ((RelativeLayout) ((LinearLayout) listViewInput
+					.getChildAt(1)).getChildAt(0)).getChildAt(0)).getText()
+					.toString();
+			String pwd = ((EditText) ((RelativeLayout) ((LinearLayout) listViewInput
+					.getChildAt(2)).getChildAt(0)).getChildAt(0)).getText()
+					.toString();
+			String confirmPwd = ((EditText) ((RelativeLayout) ((LinearLayout) listViewInput
+					.getChildAt(3)).getChildAt(0)).getChildAt(0)).getText()
+					.toString();
+			int errorInfo = VerifyData(nickname, account, pwd, confirmPwd);
+			if (errorInfo != 0) {
+				new AlertDialog.Builder(mContext)
+						.setMessage(errorInfo)
+						.setNegativeButton(R.string.close,
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int whichButton) {
+										setResult(RESULT_OK);// 取消按钮事件
+									}
+								}).show();
+				return;
+			}
+			Map<String, String> values = new HashMap<String, String>();
+			values.put("nickname", nickname);
+			values.put("account", account);
+			values.put("pwd", pwd);
+			values.put("confirmPwd", confirmPwd);
+			ResponseEntity<UserResults> responseEntity = HttpUtils.post(
+					"passport/register", values, UserResults.class);
+			UserResults results = responseEntity.getBody();
+			if (!results.getSuccess()) {
+				Toast.makeText(mContext, results.getErrorInfo(), 5000).show();
+			} else {
+				// 保存登录信息
+				UserCacheManager.initUserCacheManager(responseEntity, mContext);
+				// 跳转到登录成功页面
+				intent = new Intent(mContext, LoginActivity.class);
+				intent.putExtra("errorInfo",
+						UserCache.getUserInfo().getNickname()
+								+ "注册成功拉 l_token=" + UserCache.getlToken());
 				startActivity(intent);
 			}
 
-		});
-	}
+		}
 
+		private int VerifyData(String nickname, String account, String pwd,
+				String confirmPwd) {
+
+			if (StringUtils.isEmpty(nickname)) {
+				return R.string.nickname_is_null;
+			}
+			int nicknameLength = StringUtil.chineseLength(nickname);
+			if (nicknameLength > Validation.NICKNAME_LENGTH_MAX) {
+				return R.string.nickname_too_long;
+			}
+			if (StringUtils.isEmpty(account)) {
+				return R.string.email_is_null;
+			}
+			int emailLength = StringUtil.chineseLength(account);
+			if (emailLength > Validation.REGISTER_EMAIL_MAX
+					|| emailLength < Validation.REGISTER_EMAIL_MIN
+					|| !StringUtil.checkMailFormat(account)) {
+				return R.string.email_account_invalid;
+			}
+			int pwdLength = pwd.length();
+			if (pwdLength < Validation.REGISTER_PASSWORD_MIN
+					|| pwdLength > Validation.REGISTER_PASSWORD_MAX) {
+				return R.string.pwd_length_invalid;
+			}
+			if (!StringUtils.equals(pwd, confirmPwd)) {
+				return R.string.confirm_pwd_error;
+			}
+			return 0;
+		}
+
+	};
 }

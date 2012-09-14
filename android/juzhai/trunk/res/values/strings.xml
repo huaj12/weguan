@@ -32,6 +32,18 @@
     <string name="tabitem_setting">设置</string>
     <!-- common begin -->
     <string name="finish">完成</string>
+    <string name="close">关闭</string>
     <!-- common end -->
     
+    
+    
+    
+    <!-- error begin-->
+    <string name="email_account_invalid">邮箱帐号不合法</string>
+    <string name="email_is_null">邮箱不能为空</string>
+    <string name="nickname_is_null">昵称不能为空</string>
+    <string name="nickname_too_long">昵称太长</string>
+    <string name="pwd_length_invalid">密码长度不合法</string>
+    <string name="confirm_pwd_error">两次密码不一致</string>
+    <!-- error end -->
 </resources>

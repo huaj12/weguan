@@ -63,9 +63,16 @@ public class LoginActivity extends Activity {
 				LAYOUT_INFLATER_SERVICE));
 		Button login = (Button) findViewById(R.id.bnLogin);
 		Button finish = (Button) findViewById(R.id.finsh);
-		login.setOnClickListener(loginListener);
-		finish.setOnClickListener(loginListener);
 		Button reg = (Button) findViewById(R.id.tip_reg_bt);
+		Button forget_pwd = (Button) findViewById(R.id.forget_pwd);
+		forget_pwd.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				intent = new Intent(LoginActivity.this, ForgotPwdActivity.class);
+				startActivity(intent);
+			}
+		});
 		reg.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -74,6 +81,8 @@ public class LoginActivity extends Activity {
 			}
 		});
 		mListView.setOnItemClickListener(new TpLoginListener(mContext));
+		login.setOnClickListener(loginListener);
+		finish.setOnClickListener(loginListener);
 		String errorInfo = getIntent().getStringExtra("errorInfo");
 		if (StringUtils.isNotEmpty(errorInfo)) {
 			Toast.makeText(this, errorInfo, 5000).show();

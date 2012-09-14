@@ -1,10 +1,12 @@
 package com.juzhai.android.widget.tab;
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.utils.UIUtil;
 
 public class TabBarItem<C> {
 
@@ -72,8 +74,12 @@ public class TabBarItem<C> {
 		View tabItemView = layoutInflater.inflate(tabItemLayout, null);
 		TextView textView = (TextView) tabItemView
 				.findViewById(R.id.tab_item_tv);
-		textView.setPadding(3, 3, 3, 3);
+		textView.setPadding(0, UIUtil.dip2px(layoutInflater.getContext(), 7),
+				0, 0);
 		textView.setText(this.title);
+		textView.setTextColor(layoutInflater.getContext().getResources()
+				.getColor(android.R.color.white));
+		textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
 		textView.setCompoundDrawablesWithIntrinsicBounds(0, this.icon, 0, 0);
 		return tabItemView;
 	}

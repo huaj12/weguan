@@ -26,13 +26,13 @@ import android.widget.Toast;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.HttpUtils;
+import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.passport.InitDate;
 import com.juzhai.android.passport.adapter.LoginInputListAdapter;
 import com.juzhai.android.passport.bean.UserCacheManager;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.listener.TpLoginListener;
 import com.juzhai.android.passport.model.UserResults;
-import com.juzhai.android.widget.navigation.app.NavigationActivity;
 
 /**
  * @author kooks

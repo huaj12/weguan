@@ -7,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.Window;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.widget.tab.TabBar;
+import com.juzhai.android.core.widget.tab.TabBarItem;
 import com.juzhai.android.dialog.activity.DialogListActivity;
 import com.juzhai.android.home.activity.HomeActivity;
 import com.juzhai.android.home.activity.ZhaobanActivity;
 import com.juzhai.android.idea.activity.IdeaListActivity;
 import com.juzhai.android.setting.activity.SettingListActivity;
-import com.juzhai.android.widget.tab.TabBar;
-import com.juzhai.android.widget.tab.TabBarItem;
 
 public class MainTabActivity extends ActivityGroup {
 
@@ -53,4 +53,15 @@ public class MainTabActivity extends ActivityGroup {
 		tabBar.setBgResources(R.drawable.tab_bar_background);
 		setContentView(tabBar.build(layoutInflater, this));
 	}
+
+	// @Override
+	// protected void onActivityResult(int requestCode, int resultCode, Intent
+	// data) {
+	// if (requestCode == 1 && resultCode == 1) {
+	// setResult(1);
+	// finish();
+	// }
+	// super.onActivityResult(requestCode, resultCode, data);
+	// }
+
 }

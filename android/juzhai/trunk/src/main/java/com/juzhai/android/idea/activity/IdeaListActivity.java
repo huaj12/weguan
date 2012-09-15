@@ -2,7 +2,7 @@ package com.juzhai.android.idea.activity;
 
 import android.os.Bundle;
 
-import com.juzhai.android.widget.navigation.app.NavigationActivity;
+import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 
 public class IdeaListActivity extends NavigationActivity {
 

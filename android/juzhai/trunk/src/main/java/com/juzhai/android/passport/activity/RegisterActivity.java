@@ -9,7 +9,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.ResponseEntity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,13 +27,13 @@ import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
+import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.passport.InitDate;
 import com.juzhai.android.passport.adapter.RegisterInputListAdapter;
 import com.juzhai.android.passport.bean.UserCacheManager;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.listener.TpLoginListener;
 import com.juzhai.android.passport.model.UserResults;
-import com.juzhai.android.widget.navigation.app.NavigationActivity;
 
 /**
  * @author kooks

@@ -1,6 +1,6 @@
 package com.juzhai.android.widget.navigation.app;
 
-import android.app.ActivityGroup;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import com.juzhai.android.R;
 import com.juzhai.android.widget.navigation.NavigationBar;
 
-public class NavigationActivity extends ActivityGroup {
+public class NavigationActivity extends Activity {
 
 	private final static String EXTRA_HAS_PARENT_NAME = "hasParent";
 

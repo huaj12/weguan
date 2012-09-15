@@ -3,6 +3,7 @@ package com.juzhai.android.widget.navigation;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -95,7 +96,7 @@ public class NavigationBar extends RelativeLayout {
 
 		// set text
 		newTitle.setText(title);
-		newTitle.setTextSize(UIUtil.dip2px(mContext, 14));
+		newTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 21);
 		newTitle.setTextColor(Color.WHITE);
 
 		// add title to NavigationBar

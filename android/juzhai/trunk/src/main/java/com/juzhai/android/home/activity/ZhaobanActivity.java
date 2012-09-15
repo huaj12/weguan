@@ -15,8 +15,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.post.activity.PostDetailActivity;
-import com.juzhai.android.widget.navigation.app.NavigationActivity;
 
 public class ZhaobanActivity extends NavigationActivity {
 
@@ -40,15 +40,16 @@ public class ZhaobanActivity extends NavigationActivity {
 				R.layout.user_post_list_item, new String[] { "userName",
 						"postContent" }, new int[] { R.id.user_name,
 						R.id.post_content });
-
 		// 添加并且显示
 		listView.setAdapter(userPostListAdapter);
 		final Context context = this;
+
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				pushIntent(new Intent(context, PostDetailActivity.class));
+				Intent intent = new Intent(context, PostDetailActivity.class);
+				pushIntent(intent);
 			}
 		});
 	}

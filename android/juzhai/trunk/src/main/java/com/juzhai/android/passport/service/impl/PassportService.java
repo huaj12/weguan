@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
+import com.juzhai.android.core.model.Results;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.StringUtil;
@@ -25,6 +26,7 @@ public class PassportService implements IPassportService {
 
 	private static final String LOGIN_URI = "passport/login";
 	private static final String REGISTER_URI = "passport/register";
+	private static final String GETBACK_PWD_URI = "passport/getbackpwd";
 
 	@Override
 	public boolean checkLogin(Context context) {
@@ -147,5 +149,31 @@ public class PassportService implements IPassportService {
 			return R.string.confirm_pwd_error;
 		}
 		return 0;
+	}
+
+	@Override
+	public void getbackPwd(Context context, String account)
+			throws PassportException {
+		int emailLength = StringUtil.chineseLength(account);
+		if (emailLength > Validation.REGISTER_EMAIL_MAX
+				|| emailLength < Validation.REGISTER_EMAIL_MIN
+				|| !StringUtil.checkMailFormat(account)) {
+			throw new PassportException(R.string.email_account_invalid);
+		}
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("account", account);
+		ResponseEntity<Results> response = null;
+		try {
+			response = HttpUtils.post(GETBACK_PWD_URI, values, Results.class);
+		} catch (Exception e) {
+			if (BuildConfig.DEBUG) {
+				Log.e(getClass().getSimpleName(), "getback pwd error", e);
+			}
+			throw new PassportException(R.string.system_internet_erorr, e);
+		}
+		Results results = response.getBody();
+		if (!results.getSuccess()) {
+			throw new PassportException(results.getErrorInfo(), 0);
+		}
 	}
 }

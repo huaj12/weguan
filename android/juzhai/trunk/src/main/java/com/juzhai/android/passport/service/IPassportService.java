@@ -36,4 +36,13 @@ public interface IPassportService {
 	 */
 	void register(Context context, String account, String nickname, String pwd,
 			String confirmPwd) throws PassportException;
+
+	/**
+	 * 找回密码
+	 * 
+	 * @param context
+	 * @param account
+	 * @throws PassportException
+	 */
+	void getbackPwd(Context context, String account) throws PassportException;
 }

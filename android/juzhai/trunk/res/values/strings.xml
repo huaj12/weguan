@@ -47,6 +47,10 @@
     <string name="image_test_des">test</string>
     <!-- test end -->
     
+    <!-- tip  begin-->
+    <string name="tip_loging">登陆中</string>
+    <string name="please_wait">请稍等</string>
+    <!-- tip end -->
     
     <!-- error begin-->
     <string name="system_internet_erorr">当前网络不可用请稍后重试</string>

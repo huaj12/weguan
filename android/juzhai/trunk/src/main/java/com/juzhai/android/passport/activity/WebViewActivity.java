@@ -94,16 +94,14 @@ public class WebViewActivity extends NavigationActivity {
 					"errorInfo",
 					mContext.getResources().getString(
 							R.string.system_internet_erorr));
-			// pushIntentForResult(intent, CLEAR_REQUEST_CODE);
-			// popIntent();
+			popIntent();
 			return;
 		}
 		UserResults results = responseEntity.getBody();
 		if (!results.getSuccess()) {
 			intent = new Intent(mContext, LoginActivity.class);
 			intent.putExtra("errorInfo", results.getErrorInfo());
-			// pushIntentForResult(intent, CLEAR_REQUEST_CODE);
-			// popIntent();
+			popIntent();
 		} else {
 			// 保存登录信息
 			UserCacheManager.initUserCacheManager(responseEntity, this);

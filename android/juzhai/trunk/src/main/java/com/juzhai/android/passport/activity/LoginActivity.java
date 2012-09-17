@@ -91,7 +91,7 @@ public class LoginActivity extends NavigationActivity {
 				pushIntentForResult(intent, CLEAR_REQUEST_CODE);
 			}
 		});
-		mListView.setOnItemClickListener(new TpLoginListener(mContext));
+		mListView.setOnItemClickListener(new TpLoginListener(this));
 		login.setOnClickListener(loginListener);
 		String errorInfo = getIntent().getStringExtra("errorInfo");
 		if (StringUtils.isNotEmpty(errorInfo)) {

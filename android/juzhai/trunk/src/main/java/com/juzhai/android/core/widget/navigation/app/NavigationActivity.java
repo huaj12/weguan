@@ -60,17 +60,17 @@ public class NavigationActivity extends BaseActivity {
 		return navigationBar;
 	}
 
-	protected void pushIntent(Intent intent) {
+	public void pushIntent(Intent intent) {
 		intent.putExtra(EXTRA_HAS_PARENT_NAME, true);
 		startActivity(intent);
 	}
 
-	protected void pushIntentForResult(Intent intent, int requestCode) {
+	public void pushIntentForResult(Intent intent, int requestCode) {
 		intent.putExtra(EXTRA_HAS_PARENT_NAME, true);
 		startActivityForResult(intent, requestCode);
 	}
 
-	protected void popIntent() {
+	public void popIntent() {
 		this.finish();
 	}
 }

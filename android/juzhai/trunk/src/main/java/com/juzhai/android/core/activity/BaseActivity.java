@@ -14,7 +14,7 @@ public class BaseActivity extends Activity {
 	public final static int CLEAR_REQUEST_CODE = 1;
 	public final static int CLEAR_RESULT_CODE = 2;
 
-	protected void clearStackAndStartActivity(Intent intent) {
+	public void clearStackAndStartActivity(Intent intent) {
 		setResult(CLEAR_RESULT_CODE);
 		startActivity(intent);
 		finish();

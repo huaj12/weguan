@@ -42,7 +42,7 @@ public class RegisterActivity extends NavigationActivity {
 		setNavContentView(R.layout.register);
 		Button finish = (Button) (Button) getLayoutInflater().inflate(
 				R.layout.finish_button, null);
-		finish.setOnClickListener(loginListener);
+		finish.setOnClickListener(registerListener);
 		getNavigationBar().setRightBarButton(finish);
 		// --------------设置NavigationBar--------------------
 
@@ -69,8 +69,8 @@ public class RegisterActivity extends NavigationActivity {
 	/**
 	 * 完成按钮注册处理事件
 	 */
-	// TODO (review) loginListener？
-	private OnClickListener loginListener = new OnClickListener() {
+	// TODO (done) loginListener？
+	private OnClickListener registerListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {

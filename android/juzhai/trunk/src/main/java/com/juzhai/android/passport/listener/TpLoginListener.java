@@ -1,24 +1,24 @@
 package com.juzhai.android.passport.listener;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.passport.activity.WebViewActivity;
 
 public class TpLoginListener implements OnItemClickListener {
-	private Context mContext;
+	private NavigationActivity activity;
 
-	public TpLoginListener(Context mContext) {
-		this.mContext = mContext;
+	public TpLoginListener(NavigationActivity activity) {
+		this.activity = activity;
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Intent intent = new Intent(mContext, WebViewActivity.class);
+		Intent intent = new Intent(activity, WebViewActivity.class);
 		switch (position) {
 		case 0:
 			intent.putExtra("tpId", "6");
@@ -30,7 +30,7 @@ public class TpLoginListener implements OnItemClickListener {
 			intent.putExtra("tpId", "8");
 			break;
 		}
-		mContext.startActivity(intent);
+		activity.pushIntent(intent);
 
 	}
 }

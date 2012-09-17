@@ -76,7 +76,7 @@ public class RegisterActivity extends NavigationActivity {
 				popIntent();
 			}
 		});
-		mListView.setOnItemClickListener(new TpLoginListener(mContext));
+		mListView.setOnItemClickListener(new TpLoginListener(this));
 	}
 
 	/**

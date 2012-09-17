@@ -125,8 +125,7 @@ public class RegisterActivity extends NavigationActivity {
 				UserCacheManager.initUserCacheManager(responseEntity, mContext);
 				// 跳转到登录成功页面
 				intent = new Intent(mContext, MainTabActivity.class);
-				pushIntent(intent);
-				popAllIntent();
+				clearStackAndStartActivity(intent);
 			}
 
 		}

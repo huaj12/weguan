@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,6 +24,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 
+import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
@@ -79,14 +81,14 @@ public class LoginActivity extends NavigationActivity {
 			@Override
 			public void onClick(View v) {
 				intent = new Intent(LoginActivity.this, ForgotPwdActivity.class);
-				pushIntent(intent);
+				pushIntentForResult(intent, CLEAR_REQUEST_CODE);
 			}
 		});
 		reg.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				intent = new Intent(LoginActivity.this, RegisterActivity.class);
-				pushIntent(intent);
+				pushIntentForResult(intent, CLEAR_REQUEST_CODE);
 			}
 		});
 		mListView.setOnItemClickListener(new TpLoginListener(mContext));
@@ -133,6 +135,9 @@ public class LoginActivity extends NavigationActivity {
 			} catch (Exception e) {
 				DialogUtils.showToastText(mContext,
 						R.string.system_internet_erorr);
+				if (BuildConfig.DEBUG) {
+					Log.e(LoginActivity.class.getSimpleName(), "login error", e);
+				}
 				return;
 			}
 			UserResults results = responseEntity.getBody();
@@ -143,8 +148,7 @@ public class LoginActivity extends NavigationActivity {
 				UserCacheManager.initUserCacheManager(responseEntity, mContext);
 				// 跳转到登录成功页面
 				intent = new Intent(mContext, MainTabActivity.class);
-				pushIntent(intent);
-				popAllIntent();
+				clearStackAndStartActivity(intent);
 			}
 		}
 

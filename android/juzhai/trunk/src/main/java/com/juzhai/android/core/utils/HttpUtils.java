@@ -57,7 +57,7 @@ public class HttpUtils {
 		return responseEntity;
 	}
 
-	public static <T> ResponseEntity<T> get(String url, Class<T> responseType) {
+	public static <T> ResponseEntity<T> get(String uri, Class<T> responseType) {
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setAccept(Collections.singletonList(new MediaType(
 				"application", "json")));
@@ -66,8 +66,9 @@ public class HttpUtils {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.getMessageConverters().add(
 				new MappingJacksonHttpMessageConverter());
-		ResponseEntity<T> responseEntity = restTemplate.exchange(url,
-				HttpMethod.GET, requestEntity, responseType);
+		ResponseEntity<T> responseEntity = restTemplate.exchange(
+				SystemConfig.BASEURL + uri, HttpMethod.GET, requestEntity,
+				responseType);
 		return responseEntity;
 	}
 }

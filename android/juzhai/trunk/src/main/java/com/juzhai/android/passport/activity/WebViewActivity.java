@@ -3,9 +3,6 @@
  */
 package com.juzhai.android.passport.activity;
 
-import org.springframework.http.ResponseEntity;
-
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -17,11 +14,12 @@ import android.widget.ProgressBar;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.SystemConfig;
-import com.juzhai.android.core.utils.HttpUtils;
+import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.main.activity.MainTabActivity;
-import com.juzhai.android.passport.bean.UserCacheManager;
-import com.juzhai.android.passport.model.UserResults;
+import com.juzhai.android.passport.exception.PassportException;
+import com.juzhai.android.passport.service.IPassportService;
+import com.juzhai.android.passport.service.impl.PassportService;
 
 /**
  * @author kooks
@@ -30,11 +28,9 @@ import com.juzhai.android.passport.model.UserResults;
 public class WebViewActivity extends NavigationActivity {
 	private WebView webView;
 	private String toLoginUrl = SystemConfig.BASEURL + "passport/tpLogin/";
-	private String webAccessUrl = "http://test.51juzhai.com/web/access/";
-	private String mAccessUrl = SystemConfig.BASEURL + "passport/tpAccess/";
-	private Intent intent;
-	private Context mContext;
-	ProgressBar bar = null;
+	private String webAccessUrl = "/web/access/";
+	private ProgressBar bar;
+	private long tpId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,15 +38,13 @@ public class WebViewActivity extends NavigationActivity {
 		// --------------设置NavigationBar--------------------
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.webview_title));
-		setNavContentView(R.layout.webview);
+		setNavContentView(R.layout.web_view);
 		// --------------设置NavigationBar--------------------
-
-		mContext = this;
-		webView = (WebView) findViewById(R.id.webView);
+		tpId = Long.valueOf(getIntent().getStringExtra("tpId"));
+		webView = (WebView) findViewById(R.id.web_view);
 		WebSettings setting = webView.getSettings();
-		setting.setJavaScriptCanOpenWindowsAutomatically(true);
+		// setting.setJavaScriptCanOpenWindowsAutomatically(true);
 		setting.setJavaScriptEnabled(true);
-		String tpId = getIntent().getStringExtra("tpId");
 		bar = (ProgressBar) findViewById(R.id.pro_bar);
 		bar.setProgress(0);
 		webView.setWebViewClient(new Webclient());
@@ -58,13 +52,27 @@ public class WebViewActivity extends NavigationActivity {
 	}
 
 	private class Webclient extends WebViewClient {
-
 		@Override
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
-			if (url != null && url.startsWith(webAccessUrl)) {
+			if (url != null && url.contains(webAccessUrl)) {
 				// 得到url后停止webview加载不然会重复调用login
 				webView.stopLoading();
-				login(url);
+				IPassportService passportService = new PassportService();
+				String queryString = url.substring(url.indexOf("?"));
+				try {
+					passportService.tpLogin(WebViewActivity.this, tpId,
+							queryString);// 跳转到登录成功页面
+					clearStackAndStartActivity(new Intent(WebViewActivity.this,
+							MainTabActivity.class));
+				} catch (PassportException e) {
+					if (e.getMessageId() > 0) {
+						DialogUtils.showToastText(WebViewActivity.this,
+								e.getMessageId());
+					} else {
+						DialogUtils.showToastText(WebViewActivity.this,
+								e.getMessage());
+					}
+				}
 			}
 		}
 
@@ -74,40 +82,6 @@ public class WebViewActivity extends NavigationActivity {
 				bar.setProgress(100);
 				bar.setVisibility(View.GONE);
 			}
-		}
-	}
-
-	/**
-	 * 找到登录请求
-	 * 
-	 * @param url
-	 */
-	public void login(String url) {
-		url = url.replaceAll(webAccessUrl, mAccessUrl);
-
-		ResponseEntity<UserResults> responseEntity = null;
-		try {
-			responseEntity = HttpUtils.get(url, UserResults.class);
-		} catch (Exception e) {
-			intent = new Intent(mContext, LoginActivity.class);
-			intent.putExtra(
-					"errorInfo",
-					mContext.getResources().getString(
-							R.string.system_internet_erorr));
-			popIntent();
-			return;
-		}
-		UserResults results = responseEntity.getBody();
-		if (!results.getSuccess()) {
-			intent = new Intent(mContext, LoginActivity.class);
-			intent.putExtra("errorInfo", results.getErrorInfo());
-			popIntent();
-		} else {
-			// 保存登录信息
-			UserCacheManager.initUserCacheManager(responseEntity, this);
-			// 跳转到登录成功页面
-			intent = new Intent(mContext, MainTabActivity.class);
-			clearStackAndStartActivity(intent);
 		}
 	}
 }

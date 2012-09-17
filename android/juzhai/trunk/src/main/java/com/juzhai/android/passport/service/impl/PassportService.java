@@ -27,6 +27,7 @@ public class PassportService implements IPassportService {
 	private static final String LOGIN_URI = "passport/login";
 	private static final String REGISTER_URI = "passport/register";
 	private static final String GETBACK_PWD_URI = "passport/getbackpwd";
+	private static final String ACCESS_URI = "passport/tpAccess";
 
 	@Override
 	public boolean checkLogin(Context context) {
@@ -172,6 +173,24 @@ public class PassportService implements IPassportService {
 		Results results = response.getBody();
 		if (!results.getSuccess()) {
 			throw new PassportException(results.getErrorInfo(), 0);
+		}
+	}
+
+	@Override
+	public void tpLogin(Context context, long tpId, String queryString)
+			throws PassportException {
+		ResponseEntity<UserResults> responseEntity = null;
+		try {
+			responseEntity = HttpUtils.get(ACCESS_URI + "/" + tpId
+					+ queryString, UserResults.class);
+		} catch (Exception e) {
+			new PassportException(R.string.system_internet_erorr);
+		}
+		UserResults results = responseEntity.getBody();
+		if (!results.getSuccess()) {
+			new PassportException(results.getErrorInfo(), 0);
+		} else {
+			loginSuccess(context, responseEntity);
 		}
 	}
 }

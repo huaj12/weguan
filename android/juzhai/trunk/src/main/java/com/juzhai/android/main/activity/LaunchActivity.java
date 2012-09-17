@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.widget.ProgressBar;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.activity.BaseActivity;
@@ -34,8 +33,8 @@ public class LaunchActivity extends BaseActivity {
 		setContentView(R.layout.launch);
 
 		// 初始化ProgressBar
-		ProgressBar bar = (ProgressBar) findViewById(R.id.pro_bar);
-		bar.setProgress(0);
+		// ProgressBar bar = (ProgressBar) findViewById(R.id.pro_bar);
+		// bar.setProgress(0);
 
 		new AsyncTask<Void, Void, Boolean>() {
 			protected void onPostExecute(Boolean result) {

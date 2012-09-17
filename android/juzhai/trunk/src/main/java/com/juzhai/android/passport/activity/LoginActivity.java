@@ -3,18 +3,11 @@
  */
 package com.juzhai.android.passport.activity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
-import org.springframework.http.ResponseEntity;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,17 +17,16 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 
-import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.DialogUtils;
-import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.main.activity.MainTabActivity;
 import com.juzhai.android.passport.InitDate;
 import com.juzhai.android.passport.adapter.LoginInputListAdapter;
-import com.juzhai.android.passport.bean.UserCacheManager;
+import com.juzhai.android.passport.exception.PassportException;
 import com.juzhai.android.passport.listener.TpLoginListener;
-import com.juzhai.android.passport.model.UserResults;
+import com.juzhai.android.passport.service.IPassportService;
+import com.juzhai.android.passport.service.impl.PassportService;
 
 /**
  * @author kooks
@@ -44,7 +36,6 @@ public class LoginActivity extends NavigationActivity {
 	private ListView listViewInput = null;
 	private String account = null;
 	private String password = null;
-	private Context mContext;// 上下文对象
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +51,6 @@ public class LoginActivity extends NavigationActivity {
 		getNavigationBar().setRightBarButton(finish);
 		// --------------设置NavigationBar--------------------
 
-		mContext = this;
 		listViewInput = (ListView) findViewById(R.id.login_listview_input);
 		listViewInput.setAdapter(new LoginInputListAdapter(this,
 				LAYOUT_INFLATER_SERVICE));
@@ -98,7 +88,7 @@ public class LoginActivity extends NavigationActivity {
 		// 显示报错信息
 		String errorInfo = getIntent().getStringExtra("errorInfo");
 		if (StringUtils.isNotEmpty(errorInfo)) {
-			DialogUtils.showToastText(mContext, errorInfo);
+			DialogUtils.showToastText(this, errorInfo);
 		}
 	}
 
@@ -108,6 +98,7 @@ public class LoginActivity extends NavigationActivity {
 	private OnClickListener loginListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			// TODO （review）应该通过id直接获取EditText对象吧
 			// 获取账号跟密码
 			account = ((EditText) ((RelativeLayout) ((LinearLayout) listViewInput
 					.getChildAt(0)).getChildAt(0)).getChildAt(0)).getText()
@@ -116,43 +107,20 @@ public class LoginActivity extends NavigationActivity {
 					.getChildAt(1)).getChildAt(0)).getChildAt(0)).getText()
 					.toString();
 
-			// TODO （review）是否放入service中？
-			if (StringUtils.isEmpty(account) || StringUtils.isEmpty(password)) {
-				new AlertDialog.Builder(mContext)
-						.setMessage(R.string.alertDefalutTitle)
-						.setNegativeButton(R.string.close,
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int whichButton) {
-										setResult(RESULT_OK);// 取消按钮事件
-									}
-								}).show();
-				return;
-			}
-			Map<String, String> values = new HashMap<String, String>();
-			values.put("account", account);
-			values.put("password", password);
-			ResponseEntity<UserResults> responseEntity = null;
+			// TODO (review) 看看能否改为异步（主线程操作webService，在3.0系统之后，是有限制的）
+			IPassportService passportService = new PassportService();
 			try {
-				responseEntity = HttpUtils.post("passport/login", values,
-						UserResults.class);
-			} catch (Exception e) {
-				DialogUtils.showToastText(mContext,
-						R.string.system_internet_erorr);
-				if (BuildConfig.DEBUG) {
-					Log.e(LoginActivity.class.getSimpleName(), "login error", e);
-				}
-				return;
-			}
-			UserResults results = responseEntity.getBody();
-			if (!results.getSuccess()) {
-				DialogUtils.showToastText(mContext, results.getErrorInfo());
-			} else {
-				// 保存登录信息
-				UserCacheManager.initUserCacheManager(responseEntity, mContext);
-				// 跳转到登录成功页面
-				clearStackAndStartActivity(new Intent(mContext,
+				passportService.login(LoginActivity.this, account, password);
+				clearStackAndStartActivity(new Intent(LoginActivity.this,
 						MainTabActivity.class));
+			} catch (PassportException e) {
+				if (e.getMessageId() > 0) {
+					DialogUtils.showToastText(LoginActivity.this,
+							e.getMessageId());
+				} else {
+					DialogUtils.showToastText(LoginActivity.this,
+							e.getMessage());
+				}
 			}
 		}
 

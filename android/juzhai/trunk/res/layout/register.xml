@@ -1,34 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:tileMode="repeat" android:background="@drawable/app_bg">	
-	<LinearLayout  android:layout_width="fill_parent"
-		android:layout_height="fill_parent" android:orientation="vertical"
-		android:layout_weight="1">
-		<!-- 输入账号、密码 -->
-		<LinearLayout android:id="@+id/content"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:orientation="vertical">
-			<ListView android:id="@+id/reg_listview_input"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
-				android:layout_marginTop="20dp" android:background="@drawable/shape_bg_listview"
-				android:cacheColorHint="@null" />
-		</LinearLayout>
-		<!-- 新浪、豆瓣、QQ登录 -->
-		<ListView android:id="@+id/tp_reg_listview_button"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
-			android:layout_marginTop="20dp" android:background="@drawable/shape_bg_listview"
-			android:layout_marginBottom="20dp" android:cacheColorHint="@null" />
-	</LinearLayout>
-	<!-- 底部按钮 -->
-	<LinearLayout android:id="@+id/tip_login_layout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:tileMode="repeat"
+	android:background="@drawable/app_bg">	
+	<ListView android:id="@+id/reg_listview_input"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:gravity="bottom">
-		<Button android:id="@+id/tip_login_bt" android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:text="@string/tip_login"
-			android:background="@drawable/bottom_menu_bg" android:textColor="@android:color/white" />
-	</LinearLayout>
-
-</LinearLayout>
+		android:layout_marginLeft="20dp" android:layout_marginRight="20dp"
+		android:layout_marginTop="20dp" android:background="@drawable/shape_bg_listview"
+		android:cacheColorHint="@null" />
+	<!-- 新浪、豆瓣、QQ登录 -->
+	<ListView android:id="@+id/tp_reg_listview_button"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_marginLeft="20dp" android:layout_marginRight="20dp"
+		android:layout_marginTop="20dp" android:background="@drawable/shape_bg_listview"
+		android:layout_marginBottom="20dp" android:cacheColorHint="@null" 
+		android:layout_below="@id/reg_listview_input"/>
+	<!-- 底部按钮 -->
+	<Button android:id="@+id/tip_login_bt" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="@string/tip_login"
+		android:background="@drawable/bottom_menu_bg" android:textColor="@android:color/white"
+		android:layout_alignParentBottom="true"/>
+</RelativeLayout>

@@ -54,7 +54,7 @@ public class ImageViewLoader {
 		}
 	}
 
-	public synchronized static ImageViewLoader getInstance(Context context) {
+	public static ImageViewLoader getInstance(Context context) {
 		synchronized (ImageViewLoader.class) {
 			if (null == instance) {
 				instance = new ImageViewLoader(context);

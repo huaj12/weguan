@@ -3,8 +3,13 @@
  */
 package com.juzhai.android.passport.activity;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -31,6 +36,7 @@ public class WebViewActivity extends NavigationActivity {
 	private String webAccessUrl = "/web/access/";
 	private ProgressBar bar;
 	private long tpId;
+	private ProgressDialog progressDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,25 +60,62 @@ public class WebViewActivity extends NavigationActivity {
 	private class Webclient extends WebViewClient {
 		@Override
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
-			if (url != null && url.contains(webAccessUrl)) {
+			URL requestURL = null;
+			try {
+				requestURL = new URL(url);
+			} catch (MalformedURLException e1) {
+				return;
+			}
+			if (requestURL.getPath().contains(webAccessUrl)) {
 				// 得到url后停止webview加载不然会重复调用login
 				webView.stopLoading();
-				IPassportService passportService = new PassportService();
-				String queryString = url.substring(url.indexOf("?"));
-				try {
-					passportService.tpLogin(WebViewActivity.this, tpId,
-							queryString);// 跳转到登录成功页面
-					clearStackAndStartActivity(new Intent(WebViewActivity.this,
-							MainTabActivity.class));
-				} catch (PassportException e) {
-					if (e.getMessageId() > 0) {
-						DialogUtils.showToastText(WebViewActivity.this,
-								e.getMessageId());
-					} else {
-						DialogUtils.showToastText(WebViewActivity.this,
-								e.getMessage());
+
+				new AsyncTask<String, Integer, String>() {
+					@Override
+					protected String doInBackground(String... params) {
+						IPassportService passportService = new PassportService();
+						try {
+							passportService.tpLogin(WebViewActivity.this, tpId,
+									params[0]);// 跳转到登录成功页面
+							return null;
+						} catch (PassportException e) {
+							if (e.getMessageId() > 0) {
+								return WebViewActivity.this.getResources()
+										.getString(e.getMessageId());
+							} else {
+								return e.getMessage();
+							}
+						}
 					}
-				}
+
+					@Override
+					protected void onPostExecute(String errorInfo) {
+						if (progressDialog != null) {
+							progressDialog.dismiss();
+						}
+						if (errorInfo != null && !errorInfo.equals("")) {
+							DialogUtils.showToastText(WebViewActivity.this,
+									errorInfo);
+						} else {
+							clearStackAndStartActivity(new Intent(
+									WebViewActivity.this, MainTabActivity.class));
+						}
+					}
+
+					@Override
+					protected void onPreExecute() {
+						if (progressDialog != null) {
+							progressDialog.show();
+						} else {
+							progressDialog = ProgressDialog.show(
+									WebViewActivity.this,
+									getResources().getString(
+											R.string.tip_loging),
+									getResources().getString(
+											R.string.please_wait), true, false);
+						}
+					}
+				}.execute(requestURL.getQuery());
 			}
 		}
 

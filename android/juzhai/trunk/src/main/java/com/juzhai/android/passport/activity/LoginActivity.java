@@ -5,9 +5,12 @@ package com.juzhai.android.passport.activity;
 
 import org.apache.commons.lang.StringUtils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,13 +23,10 @@ import android.widget.SimpleAdapter;
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
-import com.juzhai.android.main.activity.MainTabActivity;
 import com.juzhai.android.passport.InitDate;
 import com.juzhai.android.passport.adapter.LoginInputListAdapter;
-import com.juzhai.android.passport.exception.PassportException;
 import com.juzhai.android.passport.listener.TpLoginListener;
-import com.juzhai.android.passport.service.IPassportService;
-import com.juzhai.android.passport.service.impl.PassportService;
+import com.juzhai.android.passport.task.AsyncLoginTask;
 
 /**
  * @author kooks
@@ -36,11 +36,36 @@ public class LoginActivity extends NavigationActivity {
 	private ListView listViewInput = null;
 	private String account = null;
 	private String password = null;
+	private Context mContext = null;
+	private ProgressDialog progressDialog;
+	private Handler handler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 1:
+				DialogUtils.showToastText(mContext,
+						msg.getData().getString("errorInfo"));
+				break;
+			case 2:
+				progressDialog = ProgressDialog.show(mContext, getResources()
+						.getString(R.string.tip_loging), getResources()
+						.getString(R.string.please_wait), true, false);
+				break;
+			case 3:
+				if (progressDialog != null) {
+					progressDialog.dismiss();
+				}
+				break;
+			}
+
+		}
+	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		mContext = this;
 		// --------------设置NavigationBar--------------------
 		getNavigationBar()
 				.setBarTitle(getResources().getString(R.string.login));
@@ -106,22 +131,9 @@ public class LoginActivity extends NavigationActivity {
 			password = ((EditText) ((RelativeLayout) ((LinearLayout) listViewInput
 					.getChildAt(1)).getChildAt(0)).getChildAt(0)).getText()
 					.toString();
-
-			// TODO (review) 看看能否改为异步（主线程操作webService，在3.0系统之后，是有限制的）
-			IPassportService passportService = new PassportService();
-			try {
-				passportService.login(LoginActivity.this, account, password);
-				clearStackAndStartActivity(new Intent(LoginActivity.this,
-						MainTabActivity.class));
-			} catch (PassportException e) {
-				if (e.getMessageId() > 0) {
-					DialogUtils.showToastText(LoginActivity.this,
-							e.getMessageId());
-				} else {
-					DialogUtils.showToastText(LoginActivity.this,
-							e.getMessage());
-				}
-			}
+			AsyncLoginTask loginTask = new AsyncLoginTask(account, password,
+					mContext, handler);
+			loginTask.execute(null);
 		}
 
 	};

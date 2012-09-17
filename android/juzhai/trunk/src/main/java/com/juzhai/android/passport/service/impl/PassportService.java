@@ -30,14 +30,12 @@ public class PassportService implements IPassportService {
 
 	@Override
 	public boolean checkLogin(Context context) {
-		// TODO (review) 有bug，记不住登录状态
+		// TODO (done) 有bug，记不住登录状态
+		// 登录成功后 initUserCacheManager 这里会记住登录状态
 		SharedPreferences sharedPreferences = context.getSharedPreferences(
 				"juzhai-android", Context.MODE_PRIVATE);
-		String p_token = null;
-		// TODO (review) 此处contains方法是否多余
-		if (sharedPreferences.contains("p_token")) {
-			p_token = sharedPreferences.getString("p_token", null);
-		}
+		// TODO (done) 此处contains方法是否多余
+		String p_token = sharedPreferences.getString("p_token", null);
 		if (StringUtils.isEmpty(p_token)) {
 			return false;
 		} else {

@@ -41,12 +41,10 @@ import com.juzhai.android.passport.model.UserResults;
  * 
  */
 public class LoginActivity extends NavigationActivity {
-	private ListView mListView = null;
 	private ListView listViewInput = null;
 	private String account = null;
 	private String password = null;
 	private Context mContext;// 上下文对象
-	private Intent intent = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,36 +61,41 @@ public class LoginActivity extends NavigationActivity {
 		// --------------设置NavigationBar--------------------
 
 		mContext = this;
-		mListView = (ListView) findViewById(R.id.tp_login_listview_button);
 		listViewInput = (ListView) findViewById(R.id.login_listview_input);
+		listViewInput.setAdapter(new LoginInputListAdapter(this,
+				LAYOUT_INFLATER_SERVICE));
+
+		// TODO (review) 和注册的那块UI能否提取出来？否则以后加一个第三方，需要改两处代码
+		ListView mListView = (ListView) findViewById(R.id.tp_login_listview_button);
 		mListView
 				.setAdapter(new SimpleAdapter(this, new InitDate(this)
 						.getTpLoginList(), R.layout.tp_login_list_item,
 						new String[] { "image_logo", "item_title", "arrow" },
 						new int[] { R.id.tp_image_logo, R.id.tp_item_title,
 								R.id.tp_image_select }));
-		listViewInput.setAdapter(new LoginInputListAdapter(this,
-				LAYOUT_INFLATER_SERVICE));
-		Button login = (Button) findViewById(R.id.bnLogin);
-		Button reg = (Button) findViewById(R.id.tip_reg_bt);
-		Button forget_pwd = (Button) findViewById(R.id.forget_pwd);
-		forget_pwd.setOnClickListener(new OnClickListener() {
+		mListView.setOnItemClickListener(new TpLoginListener(this));
 
-			@Override
-			public void onClick(View v) {
-				intent = new Intent(LoginActivity.this, ForgotPwdActivity.class);
-				pushIntentForResult(intent, CLEAR_REQUEST_CODE);
-			}
-		});
+		Button login = (Button) findViewById(R.id.bnLogin);
+		login.setOnClickListener(loginListener);
+
+		Button reg = (Button) findViewById(R.id.tip_reg_bt);
 		reg.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				intent = new Intent(LoginActivity.this, RegisterActivity.class);
-				pushIntentForResult(intent, CLEAR_REQUEST_CODE);
+				pushIntentForResult(new Intent(LoginActivity.this,
+						RegisterActivity.class), CLEAR_REQUEST_CODE);
 			}
 		});
-		mListView.setOnItemClickListener(new TpLoginListener(this));
-		login.setOnClickListener(loginListener);
+		Button forgetPwd = (Button) findViewById(R.id.forget_pwd);
+		forgetPwd.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				pushIntentForResult(new Intent(LoginActivity.this,
+						ForgotPwdActivity.class), CLEAR_REQUEST_CODE);
+			}
+		});
+
+		// 显示报错信息
 		String errorInfo = getIntent().getStringExtra("errorInfo");
 		if (StringUtils.isNotEmpty(errorInfo)) {
 			DialogUtils.showToastText(mContext, errorInfo);
@@ -103,7 +106,6 @@ public class LoginActivity extends NavigationActivity {
 	 * 登录 、完成按钮事件处理事件
 	 */
 	private OnClickListener loginListener = new OnClickListener() {
-
 		@Override
 		public void onClick(View v) {
 			// 获取账号跟密码
@@ -113,6 +115,8 @@ public class LoginActivity extends NavigationActivity {
 			password = ((EditText) ((RelativeLayout) ((LinearLayout) listViewInput
 					.getChildAt(1)).getChildAt(0)).getChildAt(0)).getText()
 					.toString();
+
+			// TODO （review）是否放入service中？
 			if (StringUtils.isEmpty(account) || StringUtils.isEmpty(password)) {
 				new AlertDialog.Builder(mContext)
 						.setMessage(R.string.alertDefalutTitle)
@@ -147,8 +151,8 @@ public class LoginActivity extends NavigationActivity {
 				// 保存登录信息
 				UserCacheManager.initUserCacheManager(responseEntity, mContext);
 				// 跳转到登录成功页面
-				intent = new Intent(mContext, MainTabActivity.class);
-				clearStackAndStartActivity(intent);
+				clearStackAndStartActivity(new Intent(mContext,
+						MainTabActivity.class));
 			}
 		}
 

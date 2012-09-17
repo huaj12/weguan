@@ -94,23 +94,22 @@ public class WebViewActivity extends NavigationActivity {
 					"errorInfo",
 					mContext.getResources().getString(
 							R.string.system_internet_erorr));
-			pushIntent(intent);
-			popIntent();
+			// pushIntentForResult(intent, CLEAR_REQUEST_CODE);
+			// popIntent();
 			return;
 		}
 		UserResults results = responseEntity.getBody();
 		if (!results.getSuccess()) {
 			intent = new Intent(mContext, LoginActivity.class);
 			intent.putExtra("errorInfo", results.getErrorInfo());
-			pushIntent(intent);
-			popIntent();
+			// pushIntentForResult(intent, CLEAR_REQUEST_CODE);
+			// popIntent();
 		} else {
 			// 保存登录信息
 			UserCacheManager.initUserCacheManager(responseEntity, this);
 			// 跳转到登录成功页面
 			intent = new Intent(mContext, MainTabActivity.class);
-			pushIntent(intent);
-			popAllIntent();
+			clearStackAndStartActivity(intent);
 		}
 	}
 }

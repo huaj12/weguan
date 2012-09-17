@@ -42,7 +42,9 @@
     <string name="send_ok">发送成功</string>
     <!-- common end -->
     
-    
+    <!-- test start-->
+    <string name="image_test_des">test</string>
+    <!-- test end -->
     
     
     <!-- error begin-->

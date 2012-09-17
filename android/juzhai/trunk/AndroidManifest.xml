@@ -23,7 +23,7 @@
         <!--created by kooks at 2012-09-14 14:06:05-->
         <activity android:name=".passport.activity.ForgotPwdActivity"/>
         <!--created by kooks at 2012-09-16 12:44:44-->
-        <activity android:name=".main.activity.MainActivity">
+        <activity android:name=".main.activity.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

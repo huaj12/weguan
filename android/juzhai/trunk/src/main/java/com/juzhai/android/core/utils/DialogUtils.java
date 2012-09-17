@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.widget.Toast;
 
 import com.juzhai.android.R;
 
@@ -18,5 +19,14 @@ public class DialogUtils {
 								((Activity) mContext).finish();
 							}
 						}).show();
+	}
+
+	public static void showToastText(Context mContext, int message) {
+		Toast.makeText(mContext, mContext.getResources().getString(message),
+				5000).show();
+	}
+
+	public static void showToastText(Context mContext, String message) {
+		Toast.makeText(mContext, message, 5000).show();
 	}
 }

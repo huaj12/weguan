@@ -3,45 +3,31 @@
  */
 package com.juzhai.android.passport.activity;
 
-import java.util.Collections;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.SystemConfig;
+import com.juzhai.android.core.utils.HttpUtils;
+import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
+import com.juzhai.android.main.activity.MainTabActivity;
 import com.juzhai.android.passport.bean.UserCacheManager;
-import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.UserResults;
 
 /**
  * @author kooks
  * 
  */
-public class WebViewActivity extends Activity {
-	private ProgressDialog progressDialog;
+public class WebViewActivity extends NavigationActivity {
 	private WebView webView;
 	private String toLoginUrl = SystemConfig.BASEURL + "passport/tpLogin/";
 	private String webAccessUrl = "http://test.51juzhai.com/web/access/";
@@ -49,28 +35,18 @@ public class WebViewActivity extends Activity {
 	private Intent intent;
 	private Context mContext;
 	ProgressBar bar = null;
-	private Handler handle = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			progressDialog = ProgressDialog.show(mContext, "Loading...",
-					"Please wait...", true, false);
-		}
-
-	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.webview);
+		// --------------设置NavigationBar--------------------
+		getNavigationBar().setBarTitle(
+				getResources().getString(R.string.webview_title));
+		setNavContentView(R.layout.webview);
+		// --------------设置NavigationBar--------------------
+
 		mContext = this;
 		webView = (WebView) findViewById(R.id.webView);
-		Button backBt = (Button) findViewById(R.id.back);
-		backBt.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				WebViewActivity.this.finish();
-			}
-		});
 		WebSettings setting = webView.getSettings();
 		setting.setJavaScriptCanOpenWindowsAutomatically(true);
 		setting.setJavaScriptEnabled(true);
@@ -85,7 +61,6 @@ public class WebViewActivity extends Activity {
 
 		@Override
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
-			Log.i("debug", url);
 			if (url != null && url.startsWith(webAccessUrl)) {
 				// 得到url后停止webview加载不然会重复调用login
 				webView.stopLoading();
@@ -97,9 +72,9 @@ public class WebViewActivity extends Activity {
 		public void onPageFinished(WebView view, String url) {
 			if (bar != null) {
 				bar.setProgress(100);
+				bar.setVisibility(View.GONE);
 			}
 		}
-
 	}
 
 	/**
@@ -108,32 +83,34 @@ public class WebViewActivity extends Activity {
 	 * @param url
 	 */
 	public void login(String url) {
-		handle.sendEmptyMessage(0);
 		url = url.replaceAll(webAccessUrl, mAccessUrl);
-		HttpHeaders requestHeaders = new HttpHeaders();
-		requestHeaders.setAccept(Collections.singletonList(new MediaType(
-				"application", "json")));
-		HttpEntity<Object> requestEntity = new HttpEntity<Object>(
-				requestHeaders);
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.getMessageConverters().add(
-				new MappingJacksonHttpMessageConverter());
-		ResponseEntity<UserResults> responseEntity = restTemplate.exchange(url,
-				HttpMethod.GET, requestEntity, UserResults.class);
+
+		ResponseEntity<UserResults> responseEntity = null;
+		try {
+			responseEntity = HttpUtils.get(url, UserResults.class);
+		} catch (Exception e) {
+			intent = new Intent(mContext, LoginActivity.class);
+			intent.putExtra(
+					"errorInfo",
+					mContext.getResources().getString(
+							R.string.system_internet_erorr));
+			pushIntent(intent);
+			popIntent();
+			return;
+		}
 		UserResults results = responseEntity.getBody();
 		if (!results.getSuccess()) {
 			intent = new Intent(mContext, LoginActivity.class);
 			intent.putExtra("errorInfo", results.getErrorInfo());
-			startActivity(intent);
+			pushIntent(intent);
+			popIntent();
 		} else {
 			// 保存登录信息
 			UserCacheManager.initUserCacheManager(responseEntity, this);
 			// 跳转到登录成功页面
-			intent = new Intent(mContext, LoginActivity.class);
-			intent.putExtra("errorInfo", UserCache.getUserInfo().getNickname()
-					+ "登录成功拉 l_token=" + UserCache.getlToken());
-			startActivity(intent);
+			intent = new Intent(mContext, MainTabActivity.class);
+			pushIntent(intent);
+			popAllIntent();
 		}
-		finish();
 	}
 }

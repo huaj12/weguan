@@ -32,6 +32,7 @@
     <string name="tabitem_setting">设置</string>
     
     <!-- find pwd  begin-->
+    <string name="forgot_password_title">忘记密码</string>
      <string name="forgot_pwd_tip">请输入注册邮箱</string>
     <!-- find pwd  end-->
     
@@ -48,6 +49,7 @@
     
     
     <!-- error begin-->
+    <string name="system_internet_erorr">当前网络不可用请稍后重试</string>
     <string name="email_account_invalid">邮箱帐号不合法</string>
     <string name="email_is_null">邮箱不能为空</string>
     <string name="nickname_is_null">昵称不能为空</string>

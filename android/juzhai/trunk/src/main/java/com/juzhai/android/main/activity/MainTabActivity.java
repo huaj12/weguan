@@ -1,12 +1,12 @@
 package com.juzhai.android.main.activity;
 
-import android.app.ActivityGroup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Window;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.activity.BaseActivity;
 import com.juzhai.android.core.widget.tab.TabBar;
 import com.juzhai.android.core.widget.tab.TabBarItem;
 import com.juzhai.android.dialog.activity.DialogListActivity;
@@ -15,7 +15,7 @@ import com.juzhai.android.home.activity.ZhaobanActivity;
 import com.juzhai.android.idea.activity.IdeaListActivity;
 import com.juzhai.android.setting.activity.SettingListActivity;
 
-public class MainTabActivity extends ActivityGroup {
+public class MainTabActivity extends BaseActivity {
 
 	private TabBar<Intent> tabBar;
 

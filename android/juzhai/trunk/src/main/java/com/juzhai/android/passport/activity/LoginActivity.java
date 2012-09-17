@@ -22,15 +22,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
+import com.juzhai.android.main.activity.MainTabActivity;
 import com.juzhai.android.passport.InitDate;
 import com.juzhai.android.passport.adapter.LoginInputListAdapter;
 import com.juzhai.android.passport.bean.UserCacheManager;
-import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.listener.TpLoginListener;
 import com.juzhai.android.passport.model.UserResults;
 
@@ -79,7 +79,6 @@ public class LoginActivity extends NavigationActivity {
 			@Override
 			public void onClick(View v) {
 				intent = new Intent(LoginActivity.this, ForgotPwdActivity.class);
-				// startActivity(intent);
 				pushIntent(intent);
 			}
 		});
@@ -87,7 +86,6 @@ public class LoginActivity extends NavigationActivity {
 			@Override
 			public void onClick(View v) {
 				intent = new Intent(LoginActivity.this, RegisterActivity.class);
-				// startActivity(intent);
 				pushIntent(intent);
 			}
 		});
@@ -95,7 +93,7 @@ public class LoginActivity extends NavigationActivity {
 		login.setOnClickListener(loginListener);
 		String errorInfo = getIntent().getStringExtra("errorInfo");
 		if (StringUtils.isNotEmpty(errorInfo)) {
-			Toast.makeText(this, errorInfo, 5000).show();
+			DialogUtils.showToastText(mContext, errorInfo);
 		}
 	}
 
@@ -128,25 +126,33 @@ public class LoginActivity extends NavigationActivity {
 			Map<String, String> values = new HashMap<String, String>();
 			values.put("account", account);
 			values.put("password", password);
-			ResponseEntity<UserResults> responseEntity = HttpUtils.post(
-					"passport/login", values, UserResults.class);
+			ResponseEntity<UserResults> responseEntity = null;
+			try {
+				responseEntity = HttpUtils.post("passport/login", values,
+						UserResults.class);
+			} catch (Exception e) {
+				DialogUtils.showToastText(mContext,
+						R.string.system_internet_erorr);
+				return;
+			}
 			UserResults results = responseEntity.getBody();
 			if (!results.getSuccess()) {
-				Toast.makeText(mContext, results.getErrorInfo(), 5000).show();
+				DialogUtils.showToastText(mContext, results.getErrorInfo());
 			} else {
 				// 保存登录信息
 				UserCacheManager.initUserCacheManager(responseEntity, mContext);
 				// 跳转到登录成功页面
-				intent = new Intent(mContext, LoginActivity.class);
-				intent.putExtra("errorInfo",
-						UserCache.getUserInfo().getNickname()
-								+ "登录成功拉 l_token=" + UserCache.getlToken());
-				// startActivity(intent);
+				intent = new Intent(mContext, MainTabActivity.class);
 				pushIntent(intent);
+				popAllIntent();
 			}
-
 		}
 
 	};
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 
 }

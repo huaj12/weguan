@@ -1,7 +1,5 @@
 package com.juzhai.android.core.widget.navigation.app;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -9,12 +7,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.activity.BaseActivity;
 import com.juzhai.android.core.widget.navigation.NavigationBar;
 
-public class NavigationActivity extends Activity {
-
-	private final static String EXTRA_HAS_PARENT_NAME = "hasParent";
-
+public class NavigationActivity extends BaseActivity {
 	private LinearLayout rootView;
 
 	private NavigationBar navigationBar;
@@ -58,15 +54,5 @@ public class NavigationActivity extends Activity {
 
 	protected NavigationBar getNavigationBar() {
 		return navigationBar;
-	}
-
-	protected void pushIntent(Intent intent) {
-		// TODO 把this带到下一个NavigationActivity中
-		intent.putExtra(EXTRA_HAS_PARENT_NAME, true);
-		startActivity(intent);
-	}
-
-	protected void popIntent() {
-		this.finish();
 	}
 }

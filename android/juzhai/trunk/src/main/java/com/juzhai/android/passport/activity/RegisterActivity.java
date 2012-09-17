@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.DialogUtils;
@@ -28,10 +27,10 @@ import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
+import com.juzhai.android.main.activity.MainTabActivity;
 import com.juzhai.android.passport.InitDate;
 import com.juzhai.android.passport.adapter.RegisterInputListAdapter;
 import com.juzhai.android.passport.bean.UserCacheManager;
-import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.listener.TpLoginListener;
 import com.juzhai.android.passport.model.UserResults;
 
@@ -74,9 +73,6 @@ public class RegisterActivity extends NavigationActivity {
 		login.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// intent = new Intent(RegisterActivity.this,
-				// LoginActivity.class);
-				// startActivity(intent);
 				popIntent();
 			}
 		});
@@ -112,20 +108,25 @@ public class RegisterActivity extends NavigationActivity {
 			values.put("account", account);
 			values.put("pwd", pwd);
 			values.put("confirmPwd", confirmPwd);
-			ResponseEntity<UserResults> responseEntity = HttpUtils.post(
-					"passport/register", values, UserResults.class);
+			ResponseEntity<UserResults> responseEntity = null;
+			try {
+				responseEntity = HttpUtils.post("passport/register", values,
+						UserResults.class);
+			} catch (Exception e) {
+				DialogUtils.showToastText(mContext,
+						R.string.system_internet_erorr);
+				return;
+			}
 			UserResults results = responseEntity.getBody();
 			if (!results.getSuccess()) {
-				Toast.makeText(mContext, results.getErrorInfo(), 5000).show();
+				DialogUtils.showToastText(mContext, results.getErrorInfo());
 			} else {
 				// 保存登录信息
 				UserCacheManager.initUserCacheManager(responseEntity, mContext);
 				// 跳转到登录成功页面
-				intent = new Intent(mContext, LoginActivity.class);
-				intent.putExtra("errorInfo",
-						UserCache.getUserInfo().getNickname()
-								+ "注册成功拉 l_token=" + UserCache.getlToken());
-				startActivity(intent);
+				intent = new Intent(mContext, MainTabActivity.class);
+				pushIntent(intent);
+				popAllIntent();
 			}
 
 		}

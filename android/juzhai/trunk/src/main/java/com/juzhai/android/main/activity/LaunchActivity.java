@@ -22,13 +22,13 @@ public class LaunchActivity extends BaseActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// Android OS 3.0之后，需要以下代码，才能在主线程进行webService访问
-		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-				.detectDiskReads().detectDiskWrites().detectNetwork()
-				.penaltyLog().build());
-		StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-				.detectLeakedSqlLiteObjects().penaltyLog().penaltyDeath()
-				.build());
+		// // Android OS 3.0之后，需要以下代码，才能在主线程进行webService访问
+		// StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+		// .detectDiskReads().detectDiskWrites().detectNetwork()
+		// .penaltyLog().build());
+		// StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+		// .detectLeakedSqlLiteObjects().penaltyLog().penaltyDeath()
+		// .build());
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.launch);
 

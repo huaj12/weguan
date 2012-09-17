@@ -13,7 +13,6 @@ import android.util.Log;
 import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
 import com.juzhai.android.core.model.Results;
-import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
@@ -48,8 +47,6 @@ public class PassportService implements IPassportService {
 				responseEntity = HttpUtils.post(LOGIN_URI, null, cookies,
 						UserResults.class);
 			} catch (Exception e) {
-				DialogUtils.showToastText(context,
-						R.string.system_internet_erorr);
 				// 登录失败跳转到登录页面
 				return false;
 			}
@@ -73,7 +70,7 @@ public class PassportService implements IPassportService {
 					UserResults.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
-				Log.e(getClass().getSimpleName(), "login error", e);
+				Log.d(getClass().getSimpleName(), "login error", e);
 			}
 			throw new PassportException(R.string.system_internet_erorr, e);
 		}
@@ -109,7 +106,7 @@ public class PassportService implements IPassportService {
 					UserResults.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
-				Log.e(getClass().getSimpleName(), "register error", e);
+				Log.d(getClass().getSimpleName(), "register error", e);
 			}
 			throw new PassportException(R.string.system_internet_erorr, e);
 		}
@@ -166,7 +163,7 @@ public class PassportService implements IPassportService {
 			response = HttpUtils.post(GETBACK_PWD_URI, values, Results.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
-				Log.e(getClass().getSimpleName(), "getback pwd error", e);
+				Log.d(getClass().getSimpleName(), "getback pwd error", e);
 			}
 			throw new PassportException(R.string.system_internet_erorr, e);
 		}
@@ -181,14 +178,17 @@ public class PassportService implements IPassportService {
 			throws PassportException {
 		ResponseEntity<UserResults> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(ACCESS_URI + "/" + tpId
+			responseEntity = HttpUtils.get(ACCESS_URI + "/" + tpId + "?"
 					+ queryString, UserResults.class);
 		} catch (Exception e) {
-			new PassportException(R.string.system_internet_erorr);
+			if (BuildConfig.DEBUG) {
+				Log.d(getClass().getSimpleName(), "thirdparty login error", e);
+			}
+			throw new PassportException(R.string.system_internet_erorr);
 		}
 		UserResults results = responseEntity.getBody();
 		if (!results.getSuccess()) {
-			new PassportException(results.getErrorInfo(), 0);
+			throw new PassportException(results.getErrorInfo(), 0);
 		} else {
 			loginSuccess(context, responseEntity);
 		}

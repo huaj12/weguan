@@ -6,7 +6,6 @@ package com.juzhai.android.main.activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.activity.BaseActivity;

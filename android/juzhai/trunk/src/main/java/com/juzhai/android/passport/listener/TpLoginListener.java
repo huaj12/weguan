@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.juzhai.android.core.activity.BaseActivity;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.passport.activity.WebViewActivity;
 
@@ -30,7 +31,7 @@ public class TpLoginListener implements OnItemClickListener {
 			intent.putExtra("tpId", "8");
 			break;
 		}
-		activity.pushIntent(intent);
+		activity.pushIntentForResult(intent, BaseActivity.CLEAR_REQUEST_CODE);
 
 	}
 }

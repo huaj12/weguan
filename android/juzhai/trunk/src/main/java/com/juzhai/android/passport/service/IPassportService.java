@@ -45,4 +45,15 @@ public interface IPassportService {
 	 * @throws PassportException
 	 */
 	void getbackPwd(Context context, String account) throws PassportException;
+
+	/**
+	 * 第三方access
+	 * 
+	 * @param context
+	 * @param tpId
+	 * @param queryString
+	 * @throws PassportException
+	 */
+	void tpLogin(Context context, long tpId, String queryString)
+			throws PassportException;
 }

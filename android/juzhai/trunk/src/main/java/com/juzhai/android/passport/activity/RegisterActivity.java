@@ -74,6 +74,7 @@ public class RegisterActivity extends NavigationActivity {
 
 		@Override
 		public void onClick(View v) {
+			// TODO (review) 用id去获得
 			String nickname = ((EditText) ((RelativeLayout) ((LinearLayout) listViewInput
 					.getChildAt(0)).getChildAt(0)).getChildAt(0)).getText()
 					.toString();

@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:tileMode="repeat" android:background="@drawable/app_bg">
-	<LinearLayout  android:layout_width="fill_parent"
+	<!-- <LinearLayout  android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:orientation="vertical"
 		android:layout_weight="1">
-		<!-- 输入账号、密码 -->
+		输入账号、密码
 		<LinearLayout android:id="@+id/content"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:orientation="vertical">
+			android:orientation="vertical"> -->
 			<ListView android:id="@+id/login_listview_input"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:layout_marginLeft="20dp" android:layout_marginRight="20dp"
 				android:layout_marginTop="20dp" android:background="@drawable/shape_bg_listview"
 				android:cacheColorHint="@null" />
-		</LinearLayout>
+		<!-- </LinearLayout> -->
 
 		<!-- 找回密码 -->
-		<RelativeLayout  android:layout_width="fill_parent"
-			android:layout_height="wrap_content"  >
+		<RelativeLayout android:id="@+id/login_button"
+		    android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/login_listview_input" >
 			<Button android:id="@+id/forget_pwd"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:layout_marginTop="20dp"
@@ -45,15 +47,20 @@
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
 			android:layout_marginLeft="20dp" android:layout_marginRight="20dp"
 			android:layout_marginTop="36dp" android:background="@drawable/shape_bg_listview"
-			android:cacheColorHint="@null" />
-	</LinearLayout>
+			android:cacheColorHint="@null"
+			android:layout_below="@id/login_button" />
+	<!-- </LinearLayout> -->
 	<!-- 底部按钮 -->
-	<LinearLayout android:id="@+id/tip_reg_layout"
+	<!-- <LinearLayout android:id="@+id/tip_reg_layout"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:gravity="bottom">
-		<Button android:id="@+id/tip_reg_bt" android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:text="@string/tip_reg"
-			android:background="@drawable/bottom_menu_bg" android:textColor="@android:color/white" />
-	</LinearLayout>
+		android:gravity="bottom"> -->
+		<Button android:id="@+id/tip_reg_bt"
+		    android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/tip_reg"
+			android:background="@drawable/bottom_menu_bg"
+			android:textColor="@android:color/white"
+			android:layout_alignParentBottom="true" />
+	<!-- </LinearLayout> -->
 
-</LinearLayout>
+</RelativeLayout>

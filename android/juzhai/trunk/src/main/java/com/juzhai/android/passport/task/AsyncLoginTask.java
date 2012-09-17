@@ -20,6 +20,7 @@ import com.juzhai.android.passport.service.impl.PassportService;
  * @author kooks
  * 
  */
+@Deprecated
 public class AsyncLoginTask extends AsyncTask<String, Integer, String> {
 	private String account;
 	private String password;

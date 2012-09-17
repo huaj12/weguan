@@ -3,7 +3,6 @@
  */
 package com.juzhai.android.passport.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,12 +21,10 @@ import com.juzhai.android.passport.service.impl.PassportService;
  */
 public class ForgotPwdActivity extends NavigationActivity {
 	private EditText account;
-	private Context mContext;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mContext = this;
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.forgot_password_title));
 		setNavContentView(R.layout.forgot_password);
@@ -38,13 +35,15 @@ public class ForgotPwdActivity extends NavigationActivity {
 		sendBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
+				// TODO (review) 改为异步发送
 				PassportService passportService = new PassportService();
 				try {
-					passportService.getbackPwd(mContext, account.getText()
-							.toString());
-					// TODO (done) 这里的提示加返回显然写法有问题。
-					DialogUtils.showAlertDialog(mContext, R.string.send_ok);
-					popIntent();
+					passportService.getbackPwd(ForgotPwdActivity.this, account
+							.getText().toString());
+					// TODO (review) 这里的提示加返回显然写法有问题。
+					DialogUtils.showAlertDialog(ForgotPwdActivity.this,
+							R.string.send_ok);
 				} catch (PassportException e) {
 					if (e.getMessageId() > 0) {
 						DialogUtils.showToastText(ForgotPwdActivity.this,

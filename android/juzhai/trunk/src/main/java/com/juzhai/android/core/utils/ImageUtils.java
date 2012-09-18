@@ -10,7 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 public class ImageUtils {
-	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
+	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, float radius) {
 		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
 				bitmap.getHeight(), Config.ARGB_8888);
 		Canvas canvas = new Canvas(output);
@@ -18,11 +18,10 @@ public class ImageUtils {
 		final Paint paint = new Paint();
 		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 		final RectF rectF = new RectF(rect);
-		final float roundPx = 12;
 		paint.setAntiAlias(true);
 		canvas.drawARGB(0, 0, 0, 0);
 		paint.setColor(color);
-		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+		canvas.drawRoundRect(rectF, radius, radius, paint);
 		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
 		canvas.drawBitmap(bitmap, rect, rect, paint);
 		return output;

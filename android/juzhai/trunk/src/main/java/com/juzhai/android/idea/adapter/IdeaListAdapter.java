@@ -1,5 +1,7 @@
 package com.juzhai.android.idea.adapter;
 
+import org.apache.commons.lang.StringUtils;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -75,17 +77,19 @@ public class IdeaListAdapter extends BaseAdapter {
 			final ImageView imageView = (ImageView) convertView
 					.findViewById(R.id.idea_image);
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
-			nid.fetchImage(idea.getBigPic().replaceAll("test.", ""), 0,
-					imageView, new ImageLoaderCallback() {
-						@Override
-						public void imageLoaderFinish(Bitmap bitmap) {
-							imageView.setScaleType(ScaleType.CENTER_INSIDE);
-							imageView.setImageBitmap(ImageUtils
-									.getRoundedCornerBitmap(bitmap, 10));
-							contentText
-									.setBackgroundResource(R.drawable.good_idea_item_txt_infor_bg);
-						}
-					});
+			if (StringUtils.isNotEmpty(idea.getBigPic())) {
+				nid.fetchImage(idea.getBigPic().replaceAll("test.", ""), 0,
+						imageView, new ImageLoaderCallback() {
+							@Override
+							public void imageLoaderFinish(Bitmap bitmap) {
+								imageView.setScaleType(ScaleType.CENTER_INSIDE);
+								imageView.setImageBitmap(ImageUtils
+										.getRoundedCornerBitmap(bitmap, 10));
+								contentText
+										.setBackgroundResource(R.drawable.good_idea_item_txt_infor_bg);
+							}
+						});
+			}
 
 		}
 		return convertView;

@@ -16,7 +16,8 @@ public class DialogUtils {
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								((Activity) mContext).finish();
+								Activity activity = ((Activity) mContext);
+								activity.setResult(activity.RESULT_OK);
 							}
 						}).show();
 	}

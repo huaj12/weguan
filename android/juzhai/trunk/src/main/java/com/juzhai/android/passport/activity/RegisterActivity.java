@@ -3,7 +3,12 @@
  */
 package com.juzhai.android.passport.activity;
 
+import org.apache.commons.lang.StringUtils;
+
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,11 +36,13 @@ import com.juzhai.android.passport.service.impl.PassportService;
  */
 public class RegisterActivity extends NavigationActivity {
 	private ListView listViewInput = null;
+	private ProgressDialog progressDialog;
+	private Context mContext;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		mContext = this;
 		// --------------设置NavigationBar--------------------
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.register));
@@ -88,21 +95,52 @@ public class RegisterActivity extends NavigationActivity {
 					.getChildAt(3)).getChildAt(0)).getChildAt(0)).getText()
 					.toString();
 
-			IPassportService passportService = new PassportService();
-			try {
-				passportService.register(RegisterActivity.this, account,
-						nickname, pwd, confirmPwd);
-				clearStackAndStartActivity(new Intent(RegisterActivity.this,
-						MainTabActivity.class));
-			} catch (PassportException e) {
-				if (e.getMessageId() > 0) {
-					DialogUtils.showToastText(RegisterActivity.this,
-							e.getMessageId());
-				} else {
-					DialogUtils.showToastText(RegisterActivity.this,
-							e.getMessage());
+			new AsyncTask<String, Integer, String>() {
+				@Override
+				protected String doInBackground(String... params) {
+					IPassportService passportService = new PassportService();
+					try {
+						passportService.register(RegisterActivity.this,
+								params[0], params[1], params[2], params[3]);
+						clearStackAndStartActivity(new Intent(mContext,
+								MainTabActivity.class));
+						return null;
+					} catch (PassportException e) {
+						if (e.getMessageId() > 0) {
+							return mContext.getResources().getString(
+									e.getMessageId());
+						} else {
+							return e.getMessage();
+						}
+					}
 				}
-			}
+
+				@Override
+				protected void onPostExecute(String errorInfo) {
+					if (progressDialog != null) {
+						progressDialog.dismiss();
+					}
+					if (StringUtils.isNotEmpty(errorInfo)) {
+						DialogUtils.showToastText(mContext, errorInfo);
+					} else {
+						clearStackAndStartActivity(new Intent(mContext,
+								MainTabActivity.class));
+					}
+				}
+
+				@Override
+				protected void onPreExecute() {
+					if (progressDialog != null) {
+						progressDialog.show();
+					} else {
+						progressDialog = ProgressDialog.show(mContext,
+								getResources().getString(R.string.tip_reging),
+								getResources().getString(R.string.please_wait),
+								true, false);
+					}
+				}
+			}.execute(account, nickname, pwd, confirmPwd);
+
 		}
 
 	};

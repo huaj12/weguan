@@ -28,6 +28,7 @@ public class UserCacheManager {
 			}
 		}
 		UserCache.setlToken(cookies.get("l_token"));
+		UserCache.setpToken(cookies.get("p_token"));
 		SharedPreferences sharedPreferences = context.getSharedPreferences(
 				"juzhai-android", Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPreferences.edit();

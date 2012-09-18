@@ -10,7 +10,6 @@ import org.apache.commons.lang.StringUtils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -81,8 +80,7 @@ public class ForgotPwdActivity extends NavigationActivity {
 							TimerTask task = new TimerTask() {
 								@Override
 								public void run() {
-									clearStackAndStartActivity(new Intent(
-											mContext, LoginActivity.class));
+									popIntent();
 								}
 
 							};

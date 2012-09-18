@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Button xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/back_button" android:layout_width="wrap_content"
+	android:id="@+id/send_jz_button" android:layout_width="wrap_content"
 	android:layout_height="wrap_content" 
-	android:background="@drawable/back_selector_button" />
+	android:background="@drawable/send_jz_selector_button" />

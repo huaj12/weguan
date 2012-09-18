@@ -48,7 +48,7 @@ public class RegisterActivity extends NavigationActivity {
 		Button finish = (Button) (Button) getLayoutInflater().inflate(
 				R.layout.finish_button, null);
 		finish.setOnClickListener(registerListener);
-		getNavigationBar().setRightBarButton(finish);
+		getNavigationBar().setRightView(finish);
 		// --------------设置NavigationBar--------------------
 
 		ListView mListView = (ListView) findViewById(R.id.tp_reg_listview_button);
@@ -62,12 +62,7 @@ public class RegisterActivity extends NavigationActivity {
 		listViewInput.setAdapter(new RegisterInputListAdapter(this,
 				LAYOUT_INFLATER_SERVICE));
 		Button login = (Button) findViewById(R.id.tip_login_bt);
-		login.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				popIntent();
-			}
-		});
+		login.setOnClickListener(backClickListener);
 		mListView.setOnItemClickListener(new TpLoginListener(this));
 	}
 

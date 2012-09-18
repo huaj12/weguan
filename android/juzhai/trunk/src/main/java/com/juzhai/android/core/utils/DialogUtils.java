@@ -8,8 +8,8 @@ import android.widget.Toast;
 import com.juzhai.android.R;
 
 public class DialogUtils {
-	public static void showAlertDialog(final Context mContext, int message) {
-		new AlertDialog.Builder(mContext)
+	public static void showAlertDialog(final Context context, int message) {
+		new AlertDialog.Builder(context)
 				.setMessage(message)
 				.setNegativeButton(R.string.close,
 						new DialogInterface.OnClickListener() {
@@ -20,9 +20,10 @@ public class DialogUtils {
 						}).show();
 	}
 
-	public static void showToastText(Context mContext, int message) {
-		Toast.makeText(mContext, mContext.getResources().getString(message),
-				5000).show();
+	public static void showToastText(Context context, int message) {
+		// TODO (review) 警告处理掉
+		Toast.makeText(context, context.getResources().getString(message), 5000)
+				.show();
 	}
 
 	public static void showToastText(Context mContext, String message) {

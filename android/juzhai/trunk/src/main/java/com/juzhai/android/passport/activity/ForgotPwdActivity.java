@@ -9,7 +9,6 @@ import java.util.TimerTask;
 import org.apache.commons.lang.StringUtils;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -29,28 +28,23 @@ import com.juzhai.android.passport.service.impl.PassportService;
  */
 public class ForgotPwdActivity extends NavigationActivity {
 	private EditText account;
-	private Context mContext;
 	private ProgressDialog progressDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mContext = this;
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.forgot_password_title));
 		setNavContentView(R.layout.forgot_password);
 
-		Button sendBtn = (Button) findViewById(R.id.send_btn);
 		account = (EditText) findViewById(R.id.account);
+		Button sendBtn = (Button) findViewById(R.id.send_btn);
 		sendBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
 				new AsyncTask<String, Integer, String>() {
-
 					@Override
 					protected String doInBackground(String... params) {
-						// TODO (done) 改为异步发送
 						PassportService passportService = new PassportService();
 						try {
 							passportService.getbackPwd(ForgotPwdActivity.this,
@@ -58,8 +52,8 @@ public class ForgotPwdActivity extends NavigationActivity {
 							return null;
 						} catch (PassportException e) {
 							if (e.getMessageId() > 0) {
-								return mContext.getResources().getString(
-										e.getMessageId());
+								return ForgotPwdActivity.this.getResources()
+										.getString(e.getMessageId());
 							} else {
 								return e.getMessage();
 							}
@@ -72,10 +66,10 @@ public class ForgotPwdActivity extends NavigationActivity {
 							progressDialog.dismiss();
 						}
 						if (StringUtils.isNotEmpty(errorInfo)) {
-							DialogUtils.showToastText(mContext, errorInfo);
+							DialogUtils.showToastText(ForgotPwdActivity.this,
+									errorInfo);
 						} else {
-							// TODO (done) 这里的提示加返回显然写法有问题。
-							DialogUtils.showToastText(mContext,
+							DialogUtils.showToastText(ForgotPwdActivity.this,
 									R.string.send_ok);
 							TimerTask task = new TimerTask() {
 								@Override
@@ -94,7 +88,7 @@ public class ForgotPwdActivity extends NavigationActivity {
 							progressDialog.show();
 						} else {
 							progressDialog = ProgressDialog.show(
-									mContext,
+									ForgotPwdActivity.this,
 									getResources().getString(
 											R.string.tip_find_pwding),
 									getResources().getString(
@@ -103,7 +97,6 @@ public class ForgotPwdActivity extends NavigationActivity {
 					}
 
 				}.execute(account.getText().toString());
-
 			}
 		});
 	}

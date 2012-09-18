@@ -21,6 +21,13 @@ public class NavigationActivity extends BaseActivity {
 
 	private Boolean hasParent;
 
+	protected OnClickListener backClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			popIntent();
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,13 +43,8 @@ public class NavigationActivity extends BaseActivity {
 				Button button = (Button) getLayoutInflater().inflate(
 						R.layout.back_button, null);
 				// set OnClickListener
-				button.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						popIntent();
-					}
-				});
-				navigationBar.setLeftBarButton(button);
+				button.setOnClickListener(backClickListener);
+				navigationBar.setLeftView(button);
 			}
 			rootView.addView(navigationBar);
 		}

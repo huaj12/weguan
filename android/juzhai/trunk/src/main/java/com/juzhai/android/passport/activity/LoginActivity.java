@@ -45,7 +45,7 @@ public class LoginActivity extends NavigationActivity {
 		Button finish = (Button) (Button) getLayoutInflater().inflate(
 				R.layout.finish_button, null);
 		finish.setOnClickListener(loginListener);
-		getNavigationBar().setRightBarButton(finish);
+		getNavigationBar().setRightView(finish);
 		// --------------设置NavigationBar--------------------
 
 		listViewInput = (ListView) findViewById(R.id.login_listview_input);

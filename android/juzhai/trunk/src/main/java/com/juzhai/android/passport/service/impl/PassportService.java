@@ -50,6 +50,10 @@ public class PassportService implements IPassportService {
 				// 登录失败跳转到登录页面
 				return false;
 			}
+			if (responseEntity.getBody() == null
+					|| !responseEntity.getBody().getSuccess()) {
+				return false;
+			}
 			UserCacheManager.initUserCacheManager(responseEntity, context);
 			return true;
 		}

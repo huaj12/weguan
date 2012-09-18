@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 public class ImageUtils {
+
 	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, float radius) {
 		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
 				bitmap.getHeight(), Config.ARGB_8888);

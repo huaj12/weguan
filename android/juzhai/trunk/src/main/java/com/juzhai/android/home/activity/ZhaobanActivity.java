@@ -8,13 +8,16 @@ import java.util.Map;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.widget.button.SegmentedButton;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.post.activity.PostDetailActivity;
 
@@ -23,8 +26,25 @@ public class ZhaobanActivity extends NavigationActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getNavigationBar().setBarTitle("找伴");
+
+		// 内容视图
 		setNavContentView(R.layout.user_post_list);
+		// 导航左边按钮
+		Button sendJzButton = (Button) getLayoutInflater().inflate(
+				R.layout.send_jz_button, null);
+		sendJzButton.setOnClickListener(null);
+		getNavigationBar().setLeftView(sendJzButton);
+		// 导航右边按钮
+		SegmentedButton segmentedButton = new SegmentedButton(this,
+				new String[] { "最新发布", "活跃小宅" }, 80, 32);
+		segmentedButton
+				.setOnClickListener(new SegmentedButton.OnClickListener() {
+					@Override
+					public void onClick(Button button, int which) {
+						Log.d("juzhai", "button : " + which);
+					}
+				});
+		getNavigationBar().setBarTitleView(segmentedButton);
 
 		ListView listView = (ListView) findViewById(R.id.user_post_list);
 

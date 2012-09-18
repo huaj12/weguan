@@ -35,6 +35,10 @@ public class SegmentedButton extends LinearLayout {
 
 	private void init(Context context, String[] segmentTitles, int dpWidth,
 			int dpHeight) {
+		if (null == segmentTitles || segmentTitles.length == 0) {
+			throw new IllegalArgumentException(
+					"SegmentTitles can not be null or empty.");
+		}
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		this.setLayoutParams(lp);

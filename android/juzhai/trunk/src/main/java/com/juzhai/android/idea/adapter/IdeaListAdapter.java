@@ -70,7 +70,7 @@ public class IdeaListAdapter extends BaseAdapter {
 			} else {
 				btn.setText(convertView.getResources().getString(
 						R.string.i_want));
-				btn.setBackgroundResource(R.drawable.i_want_sekector_button);
+				btn.setBackgroundResource(R.drawable.i_want_selector_button);
 			}
 			final ImageView imageView = (ImageView) convertView
 					.findViewById(R.id.idea_image);

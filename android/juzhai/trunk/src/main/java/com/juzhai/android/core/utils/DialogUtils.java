@@ -1,6 +1,5 @@
 package com.juzhai.android.core.utils;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,8 +15,7 @@ public class DialogUtils {
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								Activity activity = ((Activity) mContext);
-								activity.setResult(activity.RESULT_OK);
+								dialog.cancel();
 							}
 						}).show();
 	}

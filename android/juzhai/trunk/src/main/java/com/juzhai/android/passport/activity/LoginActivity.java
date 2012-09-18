@@ -85,7 +85,7 @@ public class LoginActivity extends NavigationActivity {
 		});
 
 		// 显示报错信息
-		String errorInfo = getIntent().getStringExtra("errorInfo");
+		String errorInfo = getIntent().getStringExtra("messageInfo");
 		if (StringUtils.isNotEmpty(errorInfo)) {
 			DialogUtils.showToastText(this, errorInfo);
 		}

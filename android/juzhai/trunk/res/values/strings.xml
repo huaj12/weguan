@@ -48,7 +48,9 @@
     <!-- test end -->
     
     <!-- tip  begin-->
-    <string name="tip_loging">登陆中</string>
+    <string name="tip_loging">正在登陆</string>
+    <string name="tip_reging">正在注册</string>
+    <string name="tip_find_pwding">正在找回密码</string>
     <string name="please_wait">请稍等</string>
     <!-- tip end -->
     

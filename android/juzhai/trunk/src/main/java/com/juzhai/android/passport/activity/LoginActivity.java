@@ -3,8 +3,6 @@
  */
 package com.juzhai.android.passport.activity;
 
-import org.apache.commons.lang.StringUtils;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -83,12 +81,6 @@ public class LoginActivity extends NavigationActivity {
 						ForgotPwdActivity.class), CLEAR_REQUEST_CODE);
 			}
 		});
-
-		// 显示报错信息
-		String errorInfo = getIntent().getStringExtra("messageInfo");
-		if (StringUtils.isNotEmpty(errorInfo)) {
-			DialogUtils.showToastText(this, errorInfo);
-		}
 	}
 
 	/**

@@ -3,6 +3,9 @@
  */
 package com.juzhai.android.passport.activity;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.apache.commons.lang.StringUtils;
 
 import android.app.ProgressDialog;
@@ -73,11 +76,17 @@ public class ForgotPwdActivity extends NavigationActivity {
 							DialogUtils.showToastText(mContext, errorInfo);
 						} else {
 							// TODO (done) 这里的提示加返回显然写法有问题。
-							Intent intent = new Intent(mContext,
-									LoginActivity.class);
-							intent.putExtra("messageInfo", getResources()
-									.getString(R.string.send_ok));
-							clearStackAndStartActivity(intent);
+							DialogUtils.showToastText(mContext,
+									R.string.send_ok);
+							TimerTask task = new TimerTask() {
+								@Override
+								public void run() {
+									clearStackAndStartActivity(new Intent(
+											mContext, LoginActivity.class));
+								}
+
+							};
+							new Timer().schedule(task, 2000);
 						}
 					}
 

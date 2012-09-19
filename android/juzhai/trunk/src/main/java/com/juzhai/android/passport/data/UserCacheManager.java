@@ -48,6 +48,12 @@ public class UserCacheManager {
 		editor.commit();
 	}
 
+	public static String getPersistToken(Context context) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(
+				SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+		return sharedPreferences.getString("p_token", null);
+	}
+
 	private static Map<String, String> parseCookies(List<String> list) {
 		Map<String, String> cookies = new HashMap<String, String>();
 		if (null != list) {

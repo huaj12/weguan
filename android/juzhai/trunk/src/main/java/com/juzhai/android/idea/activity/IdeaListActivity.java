@@ -1,12 +1,8 @@
 package com.juzhai.android.idea.activity;
 
-import org.springframework.http.ResponseEntity;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -17,21 +13,23 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.utils.HttpUtils;
+import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.widget.button.SegmentedButton;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.idea.adapter.IdeaListAdapter;
+import com.juzhai.android.idea.exception.IdeaException;
 import com.juzhai.android.idea.model.IdeaListAndPager;
 import com.juzhai.android.idea.model.IdeaResult;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.idea.service.IIdeaService;
+import com.juzhai.android.idea.service.impl.IdeaService;
 
 public class IdeaListActivity extends NavigationActivity {
 	private static final String[] categorys = { "拒宅灵感", "休闲娱乐", "结伴游玩", "聚会活动",
 			"看场电影", "好吃好喝", "演出展览" };
-	private String uri = "idea/list";
 	private ProgressBar bar;
-	private String categoryId = "0";
-	private String orderType = "pop";
+	private int categoryId = 0;
+	private int page = 1;
+	private String orderType = "time";
 	private ListView ideaListView;
 
 	@Override
@@ -45,12 +43,9 @@ public class IdeaListActivity extends NavigationActivity {
 				android.R.layout.simple_spinner_item, categorys);
 		// 设置下拉列表的风格
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		Spinner spinner = new Spinner(IdeaListActivity.this);
-//		spinner.setLayoutParams(new LayoutParams(100, 32));
-		spinner.setBackgroundResource(R.drawable.category_selector_button);
-//		spinner.setAdapter(adapter);
-
+		Spinner spinner = (Spinner) getLayoutInflater().inflate(
+				R.layout.category_button, null);
+		spinner.setAdapter(adapter);
 		getNavigationBar().setLeftView(spinner);
 		// 导航右边按钮
 		SegmentedButton segmentedButton = new SegmentedButton(this,
@@ -59,59 +54,18 @@ public class IdeaListActivity extends NavigationActivity {
 				.setOnClickListener(new SegmentedButton.OnClickListener() {
 					@Override
 					public void onClick(Button button, int which) {
-						Log.d("juzhai", "button : " + which);
+						switch (which) {
+						case 0:
+							orderType = "time";
+							break;
+						case 1:
+							orderType = "pop";
+							break;
+						}
+						refreshList();
 					}
 				});
 		getNavigationBar().setRightView(segmentedButton);
-
-		bar = (ProgressBar) findViewById(R.id.pro_bar);
-		ideaListView = (ListView) findViewById(R.id.idea_listview);
-		new AsyncTask<String, Integer, IdeaListAndPager>() {
-
-			@Override
-			protected IdeaListAndPager doInBackground(String... params) {
-				String url = params[0] + "?categoryId=" + params[1]
-						+ "&orderType=" + params[2] + "&page=" + params[3];
-				ResponseEntity<IdeaResult> responseEntity = null;
-				try {
-					responseEntity = HttpUtils.get(url,
-							UserCache.getUserStatus(), IdeaResult.class);
-				} catch (Exception e) {
-					Log.e("error", e.getMessage());
-				}
-				return responseEntity.getBody().getResult();
-			}
-
-			@Override
-			protected void onPostExecute(IdeaListAndPager result) {
-				bar.setProgress(100);
-				bar.setVisibility(View.GONE);
-				ideaListView.setVisibility(View.VISIBLE);
-				ideaListView.setAdapter(new IdeaListAdapter(result,
-						IdeaListActivity.this, LAYOUT_INFLATER_SERVICE));
-			}
-
-			@Override
-			protected void onPreExecute() {
-				bar.setProgress(0);
-			}
-
-		}.execute(uri, categoryId, orderType, "1");
-
-		// getNavigationBar().setBarTitle("出去玩");
-		// setNavContentView(R.layout.idea_list);
-		//
-		// final ImageView imageView = (ImageView) findViewById(R.id.test_img);
-		//
-		// ImageViewLoader nid = ImageViewLoader.getInstance(this);
-		// nid.fetchImage(
-		// "http://static.51juzhai.com/upload/idea/0/0/1001/450/2ef86e9e-769e-448f-8a57-cd11694ed98c.jpg",
-		// 0, imageView, new ImageLoaderCallback() {
-		// @Override
-		// public void imageLoaderFinish(Bitmap bitmap) {
-		// imageView.setImageBitmap(bitmap);
-		// }
-		// });
 
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
@@ -119,13 +73,60 @@ public class IdeaListActivity extends NavigationActivity {
 					int position, long id) {
 				TextView tv = (TextView) view;
 				tv.setTextColor(getResources().getColor(R.color.white)); // 设置颜色
-				tv.setTextSize(15.0f); // 设置大小
-				tv.setGravity(android.view.Gravity.CENTER_HORIZONTAL); // 设置居中
+				tv.setTextSize(11.0f); // 设置大小
+				tv.setGravity(android.view.Gravity.LEFT);
+				tv.setPadding(15, 0, 0, 0);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
+		bar = (ProgressBar) findViewById(R.id.pro_bar);
+		ideaListView = (ListView) findViewById(R.id.idea_listview);
+		refreshList();
+	}
+
+	private void refreshList() {
+		new AsyncTask<String, Integer, IdeaListAndPager>() {
+
+			@Override
+			protected IdeaListAndPager doInBackground(String... params) {
+				IIdeaService ideaService = new IdeaService();
+				IdeaResult ideaResult = null;
+				try {
+					ideaResult = ideaService.list(categoryId, orderType, page);
+				} catch (IdeaException e) {
+					DialogUtils.showToastText(IdeaListActivity.this,
+							e.getMessageId());
+					return null;
+				}
+				if (ideaResult != null && !ideaResult.getSuccess()) {
+					DialogUtils.showToastText(IdeaListActivity.this,
+							ideaResult.getErrorInfo());
+					return null;
+				}
+				return ideaResult.getResult();
+			}
+
+			@Override
+			protected void onPostExecute(IdeaListAndPager result) {
+				bar.setProgress(100);
+				bar.setVisibility(View.GONE);
+				if (result != null) {
+					ideaListView.setVisibility(View.VISIBLE);
+					ideaListView.setAdapter(new IdeaListAdapter(result,
+							IdeaListActivity.this, LAYOUT_INFLATER_SERVICE));
+				}
+			}
+
+			@Override
+			protected void onPreExecute() {
+				bar.setProgress(0);
+				bar.setVisibility(View.VISIBLE);
+				ideaListView.setVisibility(View.GONE);
+			}
+
+		}.execute();
 	}
 }

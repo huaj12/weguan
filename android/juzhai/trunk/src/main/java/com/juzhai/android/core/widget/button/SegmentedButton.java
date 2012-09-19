@@ -13,6 +13,8 @@ import com.juzhai.android.core.utils.UIUtil;
 
 public class SegmentedButton extends LinearLayout {
 
+	private final static float TEXT_SIZE = 13;
+
 	private OnClickListener onClickListener;
 
 	private Button[] buttons;
@@ -60,7 +62,7 @@ public class SegmentedButton extends LinearLayout {
 				button.setBackgroundResource(R.drawable.segment_middle_button);
 			}
 			button.setTextColor(context.getResources().getColor(R.color.white));
-			button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+			button.setTextSize(TypedValue.COMPLEX_UNIT_SP, TEXT_SIZE);
 			button.setText(segmentTitles[i]);
 			button.setOnClickListener(new View.OnClickListener() {
 				@Override

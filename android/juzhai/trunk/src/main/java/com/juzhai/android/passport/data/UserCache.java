@@ -10,7 +10,7 @@ public class UserCache {
 	private static String lToken;
 	private static String pToken;
 
-	public static void setUserInfo(User user) {
+	static void setUserInfo(User user) {
 		userInfo = user;
 	}
 
@@ -22,7 +22,7 @@ public class UserCache {
 		return lToken;
 	}
 
-	public static void setlToken(String lToken) {
+	static void setlToken(String lToken) {
 		UserCache.lToken = lToken;
 	}
 
@@ -30,7 +30,7 @@ public class UserCache {
 		return pToken;
 	}
 
-	public static void setpToken(String pToken) {
+	static void setpToken(String pToken) {
 		UserCache.pToken = pToken;
 	}
 

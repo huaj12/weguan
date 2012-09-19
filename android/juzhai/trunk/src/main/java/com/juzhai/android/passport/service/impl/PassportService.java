@@ -16,7 +16,7 @@ import com.juzhai.android.core.model.Results;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
-import com.juzhai.android.passport.bean.UserCacheManager;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.exception.PassportException;
 import com.juzhai.android.passport.model.UserResults;
 import com.juzhai.android.passport.service.IPassportService;
@@ -53,8 +53,7 @@ public class PassportService implements IPassportService {
 					|| !responseEntity.getBody().getSuccess()) {
 				return false;
 			}
-			UserCacheManager.initUserCacheManager(responseEntity, p_token,
-					context);
+			UserCacheManager.cache(context, responseEntity);
 			return true;
 		}
 	}
@@ -89,7 +88,8 @@ public class PassportService implements IPassportService {
 	private void loginSuccess(Context context,
 			ResponseEntity<UserResults> responseEntity) {
 		// 保存登录信息
-		UserCacheManager.initUserCacheManager(responseEntity, context);
+		UserCacheManager.cache(context, responseEntity);
+		UserCacheManager.persistToken(context, responseEntity);
 	}
 
 	@Override

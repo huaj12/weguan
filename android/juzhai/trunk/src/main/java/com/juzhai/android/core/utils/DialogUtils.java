@@ -21,12 +21,12 @@ public class DialogUtils {
 	}
 
 	public static void showToastText(Context context, int message) {
-		// TODO (review) 警告处理掉
-		Toast.makeText(context, context.getResources().getString(message), 5000)
-				.show();
+		// TODO (done) 警告处理掉
+		Toast.makeText(context, context.getResources().getString(message),
+				Toast.LENGTH_LONG).show();
 	}
 
 	public static void showToastText(Context mContext, String message) {
-		Toast.makeText(mContext, message, 5000).show();
+		Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
 	}
 }

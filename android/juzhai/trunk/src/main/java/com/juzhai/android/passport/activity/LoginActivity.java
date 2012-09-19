@@ -12,14 +12,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.main.activity.MainTabActivity;
-import com.juzhai.android.passport.InitDate;
 import com.juzhai.android.passport.adapter.LoginInputListAdapter;
+import com.juzhai.android.passport.adapter.TpLoginAdapter;
 import com.juzhai.android.passport.exception.PassportException;
 import com.juzhai.android.passport.listener.TpLoginListener;
 import com.juzhai.android.passport.service.IPassportService;
@@ -50,17 +49,12 @@ public class LoginActivity extends NavigationActivity {
 		listViewInput
 				.setAdapter(new LoginInputListAdapter(getLayoutInflater()));
 
-		// TODO (review) 和注册的那块UI能否提取出来？否则以后加一个第三方，需要改两处代码
+		// 第三方登录
 		ListView mListView = (ListView) findViewById(R.id.tp_login_listview_button);
-		mListView
-				.setAdapter(new SimpleAdapter(this, new InitDate(this)
-						.getTpLoginList(), R.layout.tp_login_list_item,
-						new String[] { "image_logo", "item_title", "arrow" },
-						new int[] { R.id.tp_image_logo, R.id.tp_item_title,
-								R.id.tp_image_select }));
+		mListView.setAdapter(new TpLoginAdapter(getLayoutInflater()));
 		mListView.setOnItemClickListener(new TpLoginListener(this));
 
-		Button login = (Button) findViewById(R.id.bnLogin);
+		Button login = (Button) findViewById(R.id.login_button);
 		login.setOnClickListener(loginListener);
 
 		Button reg = (Button) findViewById(R.id.tip_reg_bt);

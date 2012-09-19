@@ -63,7 +63,7 @@ public class PassportService implements IPassportService {
 	public void login(Context context, String account, String password)
 			throws PassportException {
 		if (StringUtils.isEmpty(account) || StringUtils.isEmpty(password)) {
-			throw new PassportException(R.string.alertDefalutTitle);
+			throw new PassportException(R.string.login_defalut_error);
 		}
 		Map<String, String> values = new HashMap<String, String>();
 		values.put("account", account);

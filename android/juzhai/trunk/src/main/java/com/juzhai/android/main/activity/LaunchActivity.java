@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.activity.BaseActivity;
+import com.juzhai.android.core.task.InitDataTask;
 import com.juzhai.android.passport.activity.LoginActivity;
 import com.juzhai.android.passport.service.IPassportService;
 import com.juzhai.android.passport.service.impl.PassportService;
@@ -52,5 +53,7 @@ public class LaunchActivity extends BaseActivity {
 				return passportService.checkLogin(LaunchActivity.this);
 			}
 		}.execute();
+		// 初始化数据
+		new InitDataTask(LaunchActivity.this).execute();
 	}
 }

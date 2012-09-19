@@ -40,6 +40,7 @@ public class UserCacheManager {
 				.get("Set-Cookie"));
 		String pToken = cookies.get("p_token");
 
+		// TODO (review) 今后如果有其他信息需要持久化，下面持久化的操作需要封装出来
 		SharedPreferences sharedPreferences = context.getSharedPreferences(
 				SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPreferences.edit();

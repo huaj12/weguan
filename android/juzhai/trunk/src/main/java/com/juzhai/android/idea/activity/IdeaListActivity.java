@@ -6,11 +6,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -43,16 +43,18 @@ public class IdeaListActivity extends NavigationActivity {
 		// 导航左边按钮
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, categorys);
-		Spinner spinner = new Spinner(IdeaListActivity.this);
-		spinner.setLayoutParams(new LayoutParams(100, 32));
-		spinner.setBackgroundResource(R.drawable.category_selector_button);
 		// 设置下拉列表的风格
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
+
+		Spinner spinner = new Spinner(IdeaListActivity.this);
+//		spinner.setLayoutParams(new LayoutParams(100, 32));
+		spinner.setBackgroundResource(R.drawable.category_selector_button);
+//		spinner.setAdapter(adapter);
+
 		getNavigationBar().setLeftView(spinner);
 		// 导航右边按钮
 		SegmentedButton segmentedButton = new SegmentedButton(this,
-				new String[] { "最新", "最热" }, 40, 32);
+				new String[] { "最新", "最热" }, 60, 32);
 		segmentedButton
 				.setOnClickListener(new SegmentedButton.OnClickListener() {
 					@Override

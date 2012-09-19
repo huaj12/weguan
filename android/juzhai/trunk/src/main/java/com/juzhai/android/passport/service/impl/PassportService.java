@@ -31,7 +31,6 @@ public class PassportService implements IPassportService {
 	@Override
 	public boolean checkLogin(Context context) {
 		// TODO (done) 有bug，记不住登录状态
-		// 登录成功后 initUserCacheManager 这里会记住登录状态
 		SharedPreferences sharedPreferences = context.getSharedPreferences(
 				"juzhai-android", Context.MODE_PRIVATE);
 		// TODO (done) 此处contains方法是否多余
@@ -54,7 +53,8 @@ public class PassportService implements IPassportService {
 					|| !responseEntity.getBody().getSuccess()) {
 				return false;
 			}
-			UserCacheManager.initUserCacheManager(responseEntity, context);
+			UserCacheManager.initUserCacheManager(responseEntity, p_token,
+					context);
 			return true;
 		}
 	}

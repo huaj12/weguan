@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
+import com.juzhai.android.core.SystemConfig;
 import com.juzhai.android.core.model.Results;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.StringUtil;
@@ -32,7 +33,7 @@ public class PassportService implements IPassportService {
 	public boolean checkLogin(Context context) {
 		// TODO (done) 有bug，记不住登录状态
 		SharedPreferences sharedPreferences = context.getSharedPreferences(
-				"juzhai-android", Context.MODE_PRIVATE);
+				SystemConfig.SHAREDPREFERNCES_NAME, Context.MODE_PRIVATE);
 		// TODO (done) 此处contains方法是否多余
 		String p_token = sharedPreferences.getString("p_token", null);
 		if (StringUtils.isEmpty(p_token)) {

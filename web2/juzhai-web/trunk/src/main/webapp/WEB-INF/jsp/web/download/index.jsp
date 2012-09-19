@@ -29,11 +29,12 @@
 					<div class="btns">
 						<a href="/download/ios" target="_blank"><img src="${jzr:static('/images/web2/iphone_btn2.jpg')}" /></a>
 						<a href="javascript:void(0);"><img src="${jzr:static('/images/web2/iphone_btn_unable.jpg')}" class="unable" /></a>
-						<!-- 
+						<!--
 						<a href="#"><img src="${jzr:static('/images/web2/iphone_btn1.jpg')}" /></a>
-						<a href="#"><img src="${jzr:static('/images/web2/iphone_btn3.jpg')}" /></a>
-						<a href="#"><img src="${jzr:static('/images/web2/iphone_btn4.jpg')}" /></a>
-						 -->
+						--> 
+						<a target="_blank" href="http://app.91.com/Soft/iPhone/com.juzhai-1.0.0-1.0.0.html"><img src="${jzr:static('/images/web2/iphone_btn3.jpg')}" /></a>
+						<a target="_blank" href="http://app.tongbu.com/581918_juzhai.html"><img src="${jzr:static('/images/web2/iphone_btn4.jpg')}" /></a>
+						 
 					</div>
 				<div class="show"></div>
 				</div><!--iphone_page end-->

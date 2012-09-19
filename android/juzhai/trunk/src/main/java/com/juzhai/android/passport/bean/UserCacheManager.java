@@ -15,6 +15,12 @@ import com.juzhai.android.passport.model.UserResults;
 public class UserCacheManager {
 	public static void initUserCacheManager(
 			ResponseEntity<UserResults> responseEntity, Context context) {
+		initUserCacheManager(responseEntity, null, context);
+	}
+
+	public static void initUserCacheManager(
+			ResponseEntity<UserResults> responseEntity, String p_token,
+			Context context) {
 		UserCache.setUserInfo(responseEntity.getBody().getResult());
 		List<String> list = responseEntity.getHeaders().get("Set-Cookie");
 		Map<String, String> cookies = new HashMap<String, String>();
@@ -28,11 +34,15 @@ public class UserCacheManager {
 			}
 		}
 		UserCache.setlToken(cookies.get("l_token"));
-		UserCache.setpToken(cookies.get("p_token"));
-		SharedPreferences sharedPreferences = context.getSharedPreferences(
-				"juzhai-android", Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sharedPreferences.edit();
-		editor.putString("p_token", cookies.get("p_token"));
-		editor.commit();
+		if (p_token == null) {
+			UserCache.setpToken(cookies.get("p_token"));
+			SharedPreferences sharedPreferences = context.getSharedPreferences(
+					"juzhai-android", Context.MODE_PRIVATE);
+			SharedPreferences.Editor editor = sharedPreferences.edit();
+			editor.putString("p_token", cookies.get("p_token"));
+			editor.commit();
+		} else {
+			UserCache.setpToken(p_token);
+		}
 	}
 }

@@ -20,7 +20,7 @@ public class RegisterInputListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.input_list_item, null);
+			convertView = inflater.inflate(R.layout.item_input_list, null);
 			EditText editText = (EditText) convertView
 					.findViewById(R.id.edit_input);
 			editText.setTag(position);

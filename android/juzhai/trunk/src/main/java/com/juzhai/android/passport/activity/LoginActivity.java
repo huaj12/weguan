@@ -38,9 +38,9 @@ public class LoginActivity extends NavigationActivity {
 		// --------------设置NavigationBar--------------------
 		getNavigationBar()
 				.setBarTitle(getResources().getString(R.string.login));
-		setNavContentView(R.layout.login);
+		setNavContentView(R.layout.page_login);
 		Button finish = (Button) (Button) getLayoutInflater().inflate(
-				R.layout.finish_button, null);
+				R.layout.button_finish, null);
 		finish.setOnClickListener(loginListener);
 		getNavigationBar().setRightView(finish);
 		// --------------设置NavigationBar--------------------

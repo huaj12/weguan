@@ -16,7 +16,7 @@ public class PostDetailActivity extends NavigationActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		getNavigationBar().setBarTitle("拒宅详情");
-		setNavContentView(R.layout.post_detail);
+		setNavContentView(R.layout.page_post_detail);
 
 		final ImageView imageView = (ImageView) findViewById(R.id.test_img2);
 

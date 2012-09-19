@@ -37,14 +37,14 @@ public class IdeaListActivity extends NavigationActivity {
 		super.onCreate(savedInstanceState);
 
 		// 内容视图
-		setNavContentView(R.layout.idea_list);
+		setNavContentView(R.layout.page_idea_list);
 		// 导航左边按钮
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, categorys);
 		// 设置下拉列表的风格
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner spinner = (Spinner) getLayoutInflater().inflate(
-				R.layout.category_button, null);
+				R.layout.button_category, null);
 		spinner.setAdapter(adapter);
 		getNavigationBar().setLeftView(spinner);
 		// 导航右边按钮

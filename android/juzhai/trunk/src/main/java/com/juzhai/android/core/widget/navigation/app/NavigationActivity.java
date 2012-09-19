@@ -41,7 +41,7 @@ public class NavigationActivity extends BaseActivity {
 			navigationBar = new NavigationBar(this);
 			if (hasParent) {
 				Button button = (Button) getLayoutInflater().inflate(
-						R.layout.back_button, null);
+						R.layout.button_back, null);
 				// set OnClickListener
 				button.setOnClickListener(backClickListener);
 				navigationBar.setLeftView(button);

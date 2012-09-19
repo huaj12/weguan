@@ -35,7 +35,7 @@ public class TpLoginAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.tp_login_list_item, null);
+			convertView = inflater.inflate(R.layout.item_tp_login_list, null);
 			ImageView logo = (ImageView) convertView
 					.findViewById(R.id.tp_image_logo);
 			TextView title = (TextView) convertView

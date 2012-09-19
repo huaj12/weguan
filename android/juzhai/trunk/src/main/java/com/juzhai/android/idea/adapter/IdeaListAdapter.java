@@ -56,7 +56,7 @@ public class IdeaListAdapter extends BaseAdapter {
 				inflater = (LayoutInflater) mContext.getSystemService(name);
 			}
 			Idea idea = ideaResult.getList().get(position);
-			convertView = inflater.inflate(R.layout.idea_list_item, null);
+			convertView = inflater.inflate(R.layout.item_idea_list, null);
 			final TextView contentText = (TextView) convertView
 					.findViewById(R.id.idea_content);
 			contentText.setText(idea.getContent());

@@ -30,7 +30,7 @@ public class LaunchActivity extends BaseActivity {
 		// .detectLeakedSqlLiteObjects().penaltyLog().penaltyDeath()
 		// .build());
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.launch);
+		setContentView(R.layout.page_launch);
 
 		// 初始化ProgressBar
 		// ProgressBar bar = (ProgressBar) findViewById(R.id.pro_bar);

@@ -28,10 +28,10 @@ public class ZhaobanActivity extends NavigationActivity {
 		super.onCreate(savedInstanceState);
 
 		// 内容视图
-		setNavContentView(R.layout.user_post_list);
+		setNavContentView(R.layout.page_user_post_list);
 		// 导航左边按钮
 		Button sendJzButton = (Button) getLayoutInflater().inflate(
-				R.layout.send_jz_button, null);
+				R.layout.button_send_jz, null);
 		sendJzButton.setOnClickListener(null);
 		getNavigationBar().setLeftView(sendJzButton);
 		// 导航右边按钮
@@ -57,7 +57,7 @@ public class ZhaobanActivity extends NavigationActivity {
 		}
 
 		SimpleAdapter userPostListAdapter = new SimpleAdapter(this, data,
-				R.layout.user_post_list_item, new String[] { "userName",
+				R.layout.item_user_post_list, new String[] { "userName",
 						"postContent" }, new int[] { R.id.user_name,
 						R.id.post_content });
 		// 添加并且显示

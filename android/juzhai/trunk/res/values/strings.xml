@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">拒宅</string>
     <!-- login begin -->
-     <string name="accLogin">帐号登录</string>
-     <string name="login">登录</string>
-     <string name="find_pwd">找回密码</string>
-     <string name="tip_reg">还没有账号？来这里注册</string>
-     <string name="sinaLogin">用新浪微博帐号登录</string>
-     <string name="doubanLogin">用豆瓣帐号登录</string>
-     <string name="qqLogin">用QQ帐号登录</string>
-     <string name="alertDefalutTitle">请输入登录账号和密码</string>
-     <string name="login_input_tip_account">输入登录帐号</string>
-     <string name="login_input_tip_pwd">输入登录密码</string>
+    <string name="acc_login">帐号登录</string>
+    <string name="login">登录</string>
+    <string name="find_pwd">找回密码</string>
+    <string name="tip_reg">还没有账号？来这里注册</string>
+    <string name="login_defalut_error">请输入登录账号和密码</string>
+    <string name="login_input_tip_account">输入登录帐号</string>
+    <string name="login_input_tip_pwd">输入登录密码</string>
+    
+    <!-- 第三方登录 begin-->
+    <string name="sina_login_title">用新浪微博帐号登录</string>
+    <string name="db_login_title">用豆瓣帐号登录</string>
+    <string name="qq_login_title">用QQ帐号登录</string>
+	<!-- 第三方登录 end-->
     <!-- login end -->
     <!-- webview begin -->
     <string name="webview_title">用户授权</string>
@@ -21,8 +25,8 @@
     <string name="register">帐号注册</string>
     <string name="reg_input_tip_account">请输入邮箱</string>
     <string name="reg_input_tip_nickname">请输入昵称</string>
-     <string name="reg_input_tip_pwd">输入登录密码</string>
-     <string name="reg_input_tip_rep_pwd">在输入一次密码</string>
+    <string name="reg_input_tip_pwd">输入登录密码</string>
+    <string name="reg_input_tip_rep_pwd">在输入一次密码</string>
     <!-- register end -->
     <!-- tab item title -->
     <string name="tabitem_zhaoban">找伴</string>
@@ -30,24 +34,27 @@
     <string name="tabitem_message">消息</string>
     <string name="tabitem_home">我家</string>
     <string name="tabitem_setting">设置</string>
-    
-    <!-- find pwd  begin-->
+
+    <!-- find pwd  begin -->
     <string name="forgot_password_title">忘记密码</string>
-     <string name="forgot_pwd_tip">请输入注册邮箱</string>
-    <!-- find pwd  end-->
-    
+    <string name="forgot_pwd_tip">请输入注册邮箱</string>
+    <!-- find pwd  end -->
+
+
     <!-- common begin -->
     <string name="finish">完成</string>
     <string name="close">关闭</string>
     <string name="ok">确定</string>
     <string name="send_ok">发送成功</string>
     <!-- common end -->
-    
-    <!-- test start-->
+
+
+    <!-- test start -->
     <string name="image_test_des">test</string>
     <!-- test end -->
-    
-    <!-- tip  begin-->
+
+
+    <!-- tip  begin -->
     <string name="tip_loging">正在登陆</string>
     <string name="tip_reging">正在注册</string>
     <string name="tip_find_pwding">正在找回密码</string>
@@ -56,8 +63,8 @@
     <!-- idea begin -->
     <string name="i_want">我想去 </string>
     <string name="want_done">已想去 </string>
-    <!-- idea end-->
-    <!-- error begin-->
+    <!-- idea end -->
+    <!-- error begin -->
     <string name="system_internet_erorr">当前网络不可用请稍后重试</string>
     <string name="email_account_invalid">邮箱帐号不合法</string>
     <string name="email_is_null">邮箱不能为空</string>
@@ -66,4 +73,5 @@
     <string name="pwd_length_invalid">密码长度不合法</string>
     <string name="confirm_pwd_error">两次密码不一致</string>
     <!-- error end -->
+
 </resources>

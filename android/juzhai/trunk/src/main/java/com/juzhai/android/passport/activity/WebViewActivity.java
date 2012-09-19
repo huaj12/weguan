@@ -46,7 +46,7 @@ public class WebViewActivity extends NavigationActivity {
 				getResources().getString(R.string.webview_title));
 		setNavContentView(R.layout.web_view);
 		// --------------设置NavigationBar--------------------
-		tpId = Long.valueOf(getIntent().getStringExtra("tpId"));
+		tpId = getIntent().getIntExtra("tpId", 0);
 		webView = (WebView) findViewById(R.id.web_view);
 		WebSettings setting = webView.getSettings();
 		// setting.setJavaScriptCanOpenWindowsAutomatically(true);

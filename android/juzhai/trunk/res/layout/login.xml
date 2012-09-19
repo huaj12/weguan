@@ -1,52 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:tileMode="repeat"
-	android:background="@drawable/app_bg">
-	<ListView android:id="@+id/login_listview_input"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:layout_marginLeft="20dp" android:layout_marginRight="20dp"
-		android:layout_marginTop="20dp" android:background="@drawable/shape_bg_listview"
-		android:cacheColorHint="@null" />
-	<!-- 找回密码 -->
-	<RelativeLayout android:id="@+id/login_button"
-	    android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/login_listview_input" >
-		<Button android:id="@+id/forget_pwd"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:layout_marginTop="20dp"
-			android:layout_marginLeft="20dp"
-			android:text="@string/find_pwd"
-			android:textColor="@color/blue" 
-			android:background="@drawable/find_pwd_selector_button"
-			android:textSize="18sp"
-			android:layout_alignParentLeft="true"
-			 />
-		<Button android:id="@+id/bnLogin" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:text="@string/login"
-			android:layout_marginTop="20dp"
-			android:layout_marginRight="20dp"
-			android:textSize="18sp"
-			android:textColor="@color/white"
-			android:background="@drawable/login_selector_button"
-			android:layout_alignParentRight="true" />
-	</RelativeLayout >
-	<!-- 新浪、豆瓣、QQ登录 -->
-	<ListView android:id="@+id/tp_login_listview_button"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:layout_marginLeft="20dp" android:layout_marginRight="20dp"
-		android:layout_marginTop="36dp" android:background="@drawable/shape_bg_listview"
-		android:cacheColorHint="@null"
-		android:layout_below="@id/login_button" />
-	<Button android:id="@+id/tip_reg_bt"
-	    android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/tip_reg"
-		android:background="@drawable/bottom_menu_bg"
-		android:textColor="@android:color/white"
-		android:layout_alignParentBottom="true" />
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/app_bg"
+    android:orientation="vertical"
+    android:tileMode="repeat" >
+
+    <ListView
+        android:id="@+id/login_listview_input"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_bg_list_view"
+        android:cacheColorHint="@null" />
+    <!-- 找回密码 -->
+
+    <RelativeLayout
+        android:id="@+id/login_button_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_listview_input" >
+
+        <Button
+            android:id="@+id/forget_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/find_pwd_selector_button"
+            android:text="@string/find_pwd"
+            android:textColor="@color/blue"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_selector_button"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <!-- 新浪、豆瓣、QQ登录 -->
+
+    <ListView
+        android:id="@+id/tp_login_listview_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/shape_bg_list_view"
+        android:cacheColorHint="@null"
+        android:layout_below="@id/login_button_layout" />
+
+    <Button
+        android:id="@+id/tip_reg_bt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bottom_menu_bg"
+        android:text="@string/tip_reg"
+        android:textColor="@android:color/white" />
+
 </RelativeLayout>

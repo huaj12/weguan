@@ -14,14 +14,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.main.activity.MainTabActivity;
-import com.juzhai.android.passport.InitDate;
 import com.juzhai.android.passport.adapter.RegisterInputListAdapter;
+import com.juzhai.android.passport.adapter.TpLoginAdapter;
 import com.juzhai.android.passport.exception.PassportException;
 import com.juzhai.android.passport.listener.TpLoginListener;
 import com.juzhai.android.passport.service.IPassportService;
@@ -49,13 +48,9 @@ public class RegisterActivity extends NavigationActivity {
 		getNavigationBar().setRightView(finish);
 		// --------------设置NavigationBar--------------------
 
-		ListView mListView = (ListView) findViewById(R.id.tp_reg_listview_button);
-		mListView
-				.setAdapter(new SimpleAdapter(this, new InitDate(this)
-						.getTpLoginList(), R.layout.tp_login_list_item,
-						new String[] { "image_logo", "item_title", "arrow" },
-						new int[] { R.id.tp_image_logo, R.id.tp_item_title,
-								R.id.tp_image_select }));
+		// 第三方登录
+		ListView mListView = (ListView) findViewById(R.id.tp_login_listview_button);
+		mListView.setAdapter(new TpLoginAdapter(getLayoutInflater()));
 		mListView.setOnItemClickListener(new TpLoginListener(this));
 
 		listViewInput = (ListView) findViewById(R.id.reg_listview_input);

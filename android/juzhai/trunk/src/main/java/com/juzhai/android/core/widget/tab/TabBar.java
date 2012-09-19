@@ -105,7 +105,7 @@ public class TabBar<C> {
 			TabHost.TabSpec tabSpec = tabHost.newTabSpec(
 					String.valueOf(tabBarItem.getTitle())).setIndicator(
 					tabBarItem
-							.getTabItemView(layoutInflater, R.layout.tab_item));
+							.getTabItemView(layoutInflater, R.layout.item_tab));
 			if (tabBarItem.getContent() instanceof Integer) {
 				tabSpec.setContent((Integer) tabBarItem.getContent());
 			} else if (tabBarItem.getContent() instanceof Intent) {

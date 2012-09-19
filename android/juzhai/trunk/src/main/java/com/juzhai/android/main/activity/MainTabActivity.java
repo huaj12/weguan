@@ -25,7 +25,7 @@ public class MainTabActivity extends ActivityGroup {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		LayoutInflater layoutInflater = getLayoutInflater();
 
-		tabBar = new TabBar<Intent>(R.layout.main_tab);
+		tabBar = new TabBar<Intent>(R.layout.page_main_tab);
 		tabBar.addTabBarItem(new TabBarItem<Intent>(
 				R.drawable.bottom_menu_icon_zhaober_link,
 				R.drawable.bottom_menu_icon_zhaober_active,

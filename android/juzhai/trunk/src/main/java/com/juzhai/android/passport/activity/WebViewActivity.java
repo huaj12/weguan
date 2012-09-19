@@ -44,7 +44,7 @@ public class WebViewActivity extends NavigationActivity {
 		// --------------设置NavigationBar--------------------
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.webview_title));
-		setNavContentView(R.layout.web_view);
+		setNavContentView(R.layout.page_web_view);
 		// --------------设置NavigationBar--------------------
 		tpId = getIntent().getIntExtra("tpId", 0);
 		webView = (WebView) findViewById(R.id.web_view);

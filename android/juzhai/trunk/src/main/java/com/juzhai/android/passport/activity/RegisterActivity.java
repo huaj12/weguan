@@ -41,9 +41,9 @@ public class RegisterActivity extends NavigationActivity {
 		// --------------设置NavigationBar--------------------
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.register));
-		setNavContentView(R.layout.register);
+		setNavContentView(R.layout.page_register);
 		Button finish = (Button) (Button) getLayoutInflater().inflate(
-				R.layout.finish_button, null);
+				R.layout.button_finish, null);
 		finish.setOnClickListener(registerListener);
 		getNavigationBar().setRightView(finish);
 		// --------------设置NavigationBar--------------------

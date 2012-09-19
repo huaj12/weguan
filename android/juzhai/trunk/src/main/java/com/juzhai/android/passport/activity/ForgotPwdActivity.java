@@ -35,7 +35,7 @@ public class ForgotPwdActivity extends NavigationActivity {
 		super.onCreate(savedInstanceState);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.forgot_password_title));
-		setNavContentView(R.layout.forgot_password);
+		setNavContentView(R.layout.page_forgot_password);
 		account = (EditText) findViewById(R.id.account);
 		Button sendBtn = (Button) findViewById(R.id.send_btn);
 		sendBtn.setOnClickListener(new OnClickListener() {

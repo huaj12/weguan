@@ -17,6 +17,7 @@
 		        android:layout_height="40dp"
 		        android:layout_alignParentBottom="true"
 		        android:textSize="15sp"
+		        android:background="@color/idea_text_black"
 		        android:textColor="@color/white"
 		        />
 		</RelativeLayout>

@@ -82,11 +82,15 @@ public class IdeaListAdapter extends BaseAdapter {
 						imageView, new ImageLoaderCallback() {
 							@Override
 							public void imageLoaderFinish(Bitmap bitmap) {
-								imageView.setScaleType(ScaleType.CENTER_INSIDE);
-								imageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(bitmap, 10));
-								contentText
-										.setBackgroundResource(R.drawable.good_idea_item_txt_infor_bg);
+								if (bitmap != null) {
+									imageView
+											.setScaleType(ScaleType.CENTER_INSIDE);
+									imageView.setImageBitmap(ImageUtils
+											.getRoundedCornerBitmap(bitmap, 10));
+									contentText
+											.setBackgroundResource(R.drawable.good_idea_item_txt_infor_bg);
+									contentText.setTextColor(R.color.white);
+								}
 							}
 						});
 			}

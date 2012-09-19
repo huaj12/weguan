@@ -13,9 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 
 import com.juzhai.android.R;
@@ -52,18 +50,20 @@ public class RegisterActivity extends NavigationActivity {
 		// --------------设置NavigationBar--------------------
 
 		ListView mListView = (ListView) findViewById(R.id.tp_reg_listview_button);
-		listViewInput = (ListView) findViewById(R.id.reg_listview_input);
 		mListView
 				.setAdapter(new SimpleAdapter(this, new InitDate(this)
 						.getTpLoginList(), R.layout.tp_login_list_item,
 						new String[] { "image_logo", "item_title", "arrow" },
 						new int[] { R.id.tp_image_logo, R.id.tp_item_title,
 								R.id.tp_image_select }));
-		listViewInput.setAdapter(new RegisterInputListAdapter(this,
-				LAYOUT_INFLATER_SERVICE));
+		mListView.setOnItemClickListener(new TpLoginListener(this));
+
+		listViewInput = (ListView) findViewById(R.id.reg_listview_input);
+		listViewInput.setAdapter(new RegisterInputListAdapter(
+				getLayoutInflater()));
+
 		Button login = (Button) findViewById(R.id.tip_login_bt);
 		login.setOnClickListener(backClickListener);
-		mListView.setOnItemClickListener(new TpLoginListener(this));
 	}
 
 	/**
@@ -73,19 +73,14 @@ public class RegisterActivity extends NavigationActivity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO (review) 用id去获得
-			String nickname = ((EditText) ((RelativeLayout) ((LinearLayout) listViewInput
-					.getChildAt(0)).getChildAt(0)).getChildAt(0)).getText()
-					.toString();
-			String account = ((EditText) ((RelativeLayout) ((LinearLayout) listViewInput
-					.getChildAt(1)).getChildAt(0)).getChildAt(0)).getText()
-					.toString();
-			String pwd = ((EditText) ((RelativeLayout) ((LinearLayout) listViewInput
-					.getChildAt(2)).getChildAt(0)).getChildAt(0)).getText()
-					.toString();
-			String confirmPwd = ((EditText) ((RelativeLayout) ((LinearLayout) listViewInput
-					.getChildAt(3)).getChildAt(0)).getChildAt(0)).getText()
-					.toString();
+			String account = ((EditText) listViewInput.findViewWithTag(0))
+					.getText().toString();
+			String nickname = ((EditText) listViewInput.findViewWithTag(1))
+					.getText().toString();
+			String pwd = ((EditText) listViewInput.findViewWithTag(2))
+					.getText().toString();
+			String confirmPwd = ((EditText) listViewInput.findViewWithTag(3))
+					.getText().toString();
 
 			new AsyncTask<String, Integer, String>() {
 				@Override

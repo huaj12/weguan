@@ -1,6 +1,5 @@
 package com.juzhai.android.passport.adapter;
 
-import android.content.Context;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,38 +10,26 @@ import android.widget.EditText;
 import com.juzhai.android.R;
 
 public class LoginInputListAdapter extends BaseAdapter {
-	private Context mContext = null;
-	private EditText accountText;
-	private EditText passwordText;
-	private String name = null;
 
-	public LoginInputListAdapter(Context mContext, String name) {
-		this.mContext = mContext;
-		this.name = name;
+	private LayoutInflater inflater = null;
+
+	public LoginInputListAdapter(LayoutInflater inflater) {
+		this.inflater = inflater;
 	}
-
-	LayoutInflater inflater = null;
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			if (inflater == null) {
-				inflater = (LayoutInflater) mContext.getSystemService(name);
-			}
 			convertView = inflater.inflate(R.layout.input_list_item, null);
-
+			EditText editText = (EditText) convertView
+					.findViewById(R.id.edit_input);
+			editText.setTag(position);
 			if (position == 0) {
-				accountText = (EditText) convertView
-						.findViewById(R.id.editInput);
-				accountText.setTag(R.id.editInput);
-				accountText.setHint(R.string.login_input_tip_account);
+				editText.setHint(R.string.login_input_tip_account);
 			} else if (position == 1) {
-				passwordText = (EditText) convertView
-						.findViewById(R.id.editInput);
-				passwordText.setHint(R.string.login_input_tip_pwd);
-				passwordText
-						.setTransformationMethod(PasswordTransformationMethod
-								.getInstance());
+				editText.setHint(R.string.login_input_tip_pwd);
+				editText.setTransformationMethod(PasswordTransformationMethod
+						.getInstance());
 			}
 		}
 		return convertView;

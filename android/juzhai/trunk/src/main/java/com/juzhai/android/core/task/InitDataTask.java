@@ -15,12 +15,10 @@ import com.juzhai.android.core.utils.JackSonSerializer;
 
 public class InitDataTask extends AsyncTask<Void, Void, Boolean> {
 	private final String CATEGORY_URI = "base/categoryList";
-	private Context context;
-	private SharedPreferencesManager manager = new SharedPreferencesManager(
-			context);
+	private SharedPreferencesManager manager;
 
 	public InitDataTask(Context context) {
-		this.context = context;
+		manager = new SharedPreferencesManager(context);
 	}
 
 	@Override

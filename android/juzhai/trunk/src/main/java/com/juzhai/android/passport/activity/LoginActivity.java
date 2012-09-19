@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 
 import com.juzhai.android.R;
@@ -49,8 +47,8 @@ public class LoginActivity extends NavigationActivity {
 		// --------------设置NavigationBar--------------------
 
 		listViewInput = (ListView) findViewById(R.id.login_listview_input);
-		listViewInput.setAdapter(new LoginInputListAdapter(this,
-				LAYOUT_INFLATER_SERVICE));
+		listViewInput
+				.setAdapter(new LoginInputListAdapter(getLayoutInflater()));
 
 		// TODO (review) 和注册的那块UI能否提取出来？否则以后加一个第三方，需要改两处代码
 		ListView mListView = (ListView) findViewById(R.id.tp_login_listview_button);
@@ -89,18 +87,13 @@ public class LoginActivity extends NavigationActivity {
 	private OnClickListener loginListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			// TODO （review）应该通过id直接获取EditText对象吧
-			// 获取账号跟密码
-			String account = ((EditText) ((RelativeLayout) ((LinearLayout) listViewInput
-					.getChildAt(0)).getChildAt(0)).getChildAt(0)).getText()
-					.toString();
-			String password = ((EditText) ((RelativeLayout) ((LinearLayout) listViewInput
-					.getChildAt(1)).getChildAt(0)).getChildAt(0)).getText()
-					.toString();
+			String account = ((EditText) listViewInput.findViewWithTag(0))
+					.getText().toString();
+			String password = ((EditText) listViewInput.findViewWithTag(1))
+					.getText().toString();
 			new AsyncTask<String, Integer, String>() {
 				@Override
 				protected String doInBackground(String... params) {
-					// TODO (done) 看看能否改为异步（主线程操作webService，在3.0系统之后，是有限制的）
 					IPassportService passportService = new PassportService();
 					try {
 						passportService.login(LoginActivity.this, params[0],

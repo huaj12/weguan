@@ -16,5 +16,7 @@
 		android:dividerHeight="20dip"
 		android:divider="@drawable/app_bg"
 		android:tileMode="repeat"
+		android:fastScrollEnabled="true" 
+        android:focusable="true"
 		 />
 </RelativeLayout>

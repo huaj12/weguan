@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="none">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:orientation="vertical">
 		<LinearLayout
-	android:layout_width="wrap_content" android:layout_height="wrap_content"
-	android:orientation="vertical" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:padding="10dp"  android:background="@drawable/good_idea_list_item_bg">
-		<RelativeLayout android:layout_width="262dp" android:layout_height="180dp" android:background="@color/bg_gray">
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical" android:layout_marginLeft="20dp" android:layout_marginTop="15dp" android:layout_marginRight="20dp" android:padding="10dp"  android:background="@drawable/good_idea_list_item_bg">
+		<RelativeLayout  android:layout_width="262dp" android:layout_height="180dp" android:background="@color/bg_gray">
 			<ImageView android:id="@+id/idea_image"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:src="@drawable/good_idea_list_pic_none_icon"
 		        android:layout_centerInParent="true"
 		        />
 			<TextView android:id="@+id/idea_content"
@@ -17,7 +20,7 @@
 		        android:layout_height="40dp"
 		        android:layout_alignParentBottom="true"
 		        android:textSize="15sp"
-		        android:textColor="@color/black"
+		        android:gravity="left"
 		        />
 		</RelativeLayout>
 		<RelativeLayout 
@@ -35,3 +38,4 @@
 		</RelativeLayout>
 	</LinearLayout>
 </LinearLayout>
+</ScrollView>

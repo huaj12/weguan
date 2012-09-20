@@ -46,6 +46,8 @@
     <string name="close">关闭</string>
     <string name="ok">确定</string>
     <string name="send_ok">发送成功</string>
+    <string name="more">查看更多</string>
+    <string name="loding">正在加载</string>
     <!-- common end -->
 
 

@@ -1,6 +1,8 @@
 package com.juzhai.android.idea.adapter;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -18,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.listener.BaseListener;
+import com.juzhai.android.core.listener.ListenerSuccessCallBack;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.utils.UIUtil;
@@ -85,7 +89,7 @@ public class IdeaListAdapter extends BaseAdapter {
 		contentText.setTextColor(android.graphics.Color.BLACK);
 		contentText.setBackgroundDrawable(null);
 		final ImageView imageView = holder.getImageView();
-		Button btn = holder.getWantbtn();
+		final Button btn = holder.getWantbtn();
 		contentText.setText(TextTruncateUtil.truncate(idea.getContent(),
 				Validation.IDEA_CONTENT_MAX_LENGTH, "..."));
 		TextView textView = holder.getTextView();
@@ -132,6 +136,18 @@ public class IdeaListAdapter extends BaseAdapter {
 						activity.CLEAR_REQUEST_CODE);
 			}
 		});
+		// 我想去
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("ideaId", String.valueOf(idea.getIdeaId()));
+		btn.setOnClickListener(new BaseListener("post/sendPost", mContext,
+				values, new ListenerSuccessCallBack() {
+					@Override
+					public void callback() {
+						btn.setBackgroundResource(R.drawable.i_want_go_btn_done);
+						btn.setText(mContext.getResources().getString(
+								R.string.want_done));
+					}
+				}));
 		return convertView;
 	}
 

@@ -31,5 +31,7 @@
         </activity>
         <!--created by kooks at 2012-09-17 10:37:53-->
         <activity android:name=".core.activity.BaseActivity"/>
+        <!--created by kooks at 2012-09-19 20:43:54-->
+        <activity android:name=".idea.activity.IdeaDetailActivity"/>
     </application>
 </manifest>

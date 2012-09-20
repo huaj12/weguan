@@ -2,17 +2,17 @@ package com.juzhai.android.idea.model;
 
 import java.util.List;
 
-import com.juzhai.android.core.model.PagerManager;
+import com.juzhai.android.core.pager.Pager;
 
 public class IdeaListAndPager {
-	private PagerManager pager;
+	private Pager pager;
 	private List<Idea> list;
 
-	public PagerManager getPager() {
+	public Pager getPager() {
 		return pager;
 	}
 
-	public void setPager(PagerManager pager) {
+	public void setPager(Pager pager) {
 		this.pager = pager;
 	}
 

@@ -2,6 +2,8 @@ package com.juzhai.android.idea.activity;
 
 import java.util.List;
 
+import org.springframework.util.CollectionUtils;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.CommonData;
 import com.juzhai.android.core.model.Category;
+import com.juzhai.android.core.pager.Pager;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.widget.button.SegmentedButton;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
@@ -33,19 +37,24 @@ public class IdeaListActivity extends NavigationActivity {
 	private int page = 1;
 	private String orderType = "time";
 	private ListView ideaListView;
-
 	private List<Category> categorys;
+	private IdeaListAdapter adapter;
+	private View view;
+	private TextView moreTextView;
+	private LinearLayout loadProgressBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// 内容视图
+		setNavContentView(R.layout.page_idea_list);
+		ideaListView = (ListView) findViewById(R.id.idea_listview);
+		addPage();
 		categorys = CommonData.getCategorys(IdeaListActivity.this);
 		String[] categoryNames = new String[categorys.size()];
 		for (int i = 0; i < categorys.size(); i++) {
 			categoryNames[i] = categorys.get(i).getName();
 		}
-		// 内容视图
-		setNavContentView(R.layout.page_idea_list);
 		// 导航左边按钮
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, categoryNames) {
@@ -99,7 +108,6 @@ public class IdeaListActivity extends NavigationActivity {
 			}
 		});
 		bar = (ProgressBar) findViewById(R.id.pro_bar);
-		ideaListView = (ListView) findViewById(R.id.idea_listview);
 	}
 
 	private void refreshList() {
@@ -110,6 +118,7 @@ public class IdeaListActivity extends NavigationActivity {
 				IIdeaService ideaService = new IdeaService();
 				IdeaResult ideaResult = null;
 				try {
+					page = 1;
 					ideaResult = ideaService.list(categoryId, orderType, page);
 				} catch (IdeaException e) {
 					DialogUtils.showToastText(IdeaListActivity.this,
@@ -126,22 +135,90 @@ public class IdeaListActivity extends NavigationActivity {
 
 			@Override
 			protected void onPostExecute(IdeaListAndPager result) {
-				bar.setProgress(100);
 				bar.setVisibility(View.GONE);
 				if (result != null) {
 					ideaListView.setVisibility(View.VISIBLE);
-					ideaListView.setAdapter(new IdeaListAdapter(result,
-							IdeaListActivity.this, LAYOUT_INFLATER_SERVICE));
+					adapter = new IdeaListAdapter(result.getList(),
+							IdeaListActivity.this, LAYOUT_INFLATER_SERVICE);
+					ideaListView.setAdapter(adapter);
 				}
+				showPage(result.getPager());
 			}
 
 			@Override
 			protected void onPreExecute() {
-				bar.setProgress(0);
 				bar.setVisibility(View.VISIBLE);
 				ideaListView.setVisibility(View.GONE);
 			}
 
 		}.execute();
+	}
+
+	private void addPage() {
+		if (view == null) {
+			view = getLayoutInflater().inflate(R.layout.fragment_page, null);
+			moreTextView = (TextView) view.findViewById(R.id.more_id);
+			loadProgressBar = (LinearLayout) view.findViewById(R.id.load_id);
+			moreTextView.setOnClickListener(new Button.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					new AsyncTask<String, Integer, IdeaListAndPager>() {
+
+						@Override
+						protected IdeaListAndPager doInBackground(
+								String... params) {
+							IIdeaService ideaService = new IdeaService();
+							IdeaResult ideaResult = null;
+							page = page + 1;
+							try {
+								ideaResult = ideaService.list(categoryId,
+										orderType, page);
+							} catch (IdeaException e) {
+								DialogUtils.showToastText(
+										IdeaListActivity.this, e.getMessageId());
+								return null;
+							}
+							if (ideaResult != null && !ideaResult.getSuccess()) {
+								DialogUtils.showToastText(
+										IdeaListActivity.this,
+										ideaResult.getErrorInfo());
+								return null;
+							}
+							return ideaResult.getResult();
+						}
+
+						@Override
+						protected void onPostExecute(IdeaListAndPager result) {
+							if (result != null
+									&& !CollectionUtils.isEmpty(result
+											.getList())) {
+								adapter.push(result.getList());
+								adapter.notifyDataSetChanged();
+							}
+							showPage(result.getPager());
+
+						}
+
+						@Override
+						protected void onPreExecute() {
+							moreTextView.setVisibility(View.GONE);
+							loadProgressBar.setVisibility(View.VISIBLE);
+						}
+
+					}.execute();
+				}
+			});
+			ideaListView.addFooterView(view);
+		}
+	}
+
+	private void showPage(Pager pager) {
+		if (pager != null && pager.getHasNext()) {
+			moreTextView.setVisibility(View.VISIBLE);
+			loadProgressBar.setVisibility(View.GONE);
+		} else {
+			moreTextView.setVisibility(View.GONE);
+			loadProgressBar.setVisibility(View.GONE);
+		}
 	}
 }

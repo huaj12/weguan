@@ -1,5 +1,7 @@
 package com.juzhai.android.idea.adapter;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 
 import android.annotation.SuppressLint;
@@ -27,17 +29,15 @@ import com.juzhai.android.idea.activity.IdeaDetailActivity;
 import com.juzhai.android.idea.activity.IdeaListActivity;
 import com.juzhai.android.idea.adapter.viewholder.IdeaListViewHolder;
 import com.juzhai.android.idea.model.Idea;
-import com.juzhai.android.idea.model.IdeaListAndPager;
 
 @SuppressLint("ResourceAsColor")
 public class IdeaListAdapter extends BaseAdapter {
-	private IdeaListAndPager ideaResult;
+	private List<Idea> ideaResult;
 	private Context mContext = null;
 	private String name = null;
 	private LayoutInflater inflater = null;
 
-	public IdeaListAdapter(IdeaListAndPager ideaResult, Context mContext,
-			String name) {
+	public IdeaListAdapter(List<Idea> ideaResult, Context mContext, String name) {
 		this.ideaResult = ideaResult;
 		this.mContext = mContext;
 		this.name = name;
@@ -45,17 +45,17 @@ public class IdeaListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return ideaResult.getList().size();
+		return ideaResult.size();
 	}
 
 	@Override
 	public Object getItem(int i) {
-		return ideaResult.getList().get(i);
+		return ideaResult.get(i);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		Idea idea = ideaResult.getList().get(position);
+		Idea idea = ideaResult.get(position);
 		return idea.getIdeaId();
 	}
 
@@ -80,7 +80,7 @@ public class IdeaListAdapter extends BaseAdapter {
 		} else {
 			holder = (IdeaListViewHolder) convertView.getTag();
 		}
-		final Idea idea = ideaResult.getList().get(position);
+		final Idea idea = ideaResult.get(position);
 		final TextView contentText = holder.getContentText();
 		contentText.setTextColor(android.graphics.Color.BLACK);
 		contentText.setBackgroundDrawable(null);
@@ -133,5 +133,9 @@ public class IdeaListAdapter extends BaseAdapter {
 			}
 		});
 		return convertView;
+	}
+
+	public void push(List<Idea> list) {
+		ideaResult.addAll(list);
 	}
 }

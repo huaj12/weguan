@@ -1,5 +1,7 @@
 package com.juzhai.android.idea.activity;
 
+import java.util.List;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.CommonData;
+import com.juzhai.android.core.model.Category;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.widget.button.SegmentedButton;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
@@ -24,23 +28,33 @@ import com.juzhai.android.idea.service.IIdeaService;
 import com.juzhai.android.idea.service.impl.IdeaService;
 
 public class IdeaListActivity extends NavigationActivity {
-	private static final String[] categorys = { "拒宅灵感", "休闲娱乐", "结伴游玩", "聚会活动",
-			"看场电影", "好吃好喝", "演出展览" };
 	private ProgressBar bar;
 	private int categoryId = 0;
 	private int page = 1;
 	private String orderType = "time";
 	private ListView ideaListView;
 
+	private List<Category> categorys;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		categorys = CommonData.getCategorys(IdeaListActivity.this);
+		String[] categoryNames = new String[categorys.size()];
+		for (int i = 0; i < categorys.size(); i++) {
+			categoryNames[i] = categorys.get(i).getName();
+		}
 		// 内容视图
 		setNavContentView(R.layout.page_idea_list);
 		// 导航左边按钮
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, categorys);
+				android.R.layout.simple_spinner_item, categoryNames) {
+			@Override
+			public long getItemId(int position) {
+				return categorys.get(position).getCategoryId();
+			}
+
+		};
 		// 设置下拉列表的风格
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner spinner = (Spinner) getLayoutInflater().inflate(
@@ -73,9 +87,11 @@ public class IdeaListActivity extends NavigationActivity {
 					int position, long id) {
 				TextView tv = (TextView) view;
 				tv.setTextColor(getResources().getColor(R.color.white)); // 设置颜色
-				tv.setTextSize(11.0f); // 设置大小
+				tv.setTextSize(13.0f); // 设置大小
 				tv.setGravity(android.view.Gravity.LEFT);
-				tv.setPadding(15, 0, 0, 0);
+				tv.setPadding(25, 0, 0, 0);
+				categoryId = (int) id;
+				refreshList();
 			}
 
 			@Override
@@ -84,7 +100,6 @@ public class IdeaListActivity extends NavigationActivity {
 		});
 		bar = (ProgressBar) findViewById(R.id.pro_bar);
 		ideaListView = (ListView) findViewById(R.id.idea_listview);
-		refreshList();
 	}
 
 	private void refreshList() {

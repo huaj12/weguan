@@ -2,24 +2,34 @@ package com.juzhai.android.idea.adapter;
 
 import org.apache.commons.lang.StringUtils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.ImageUtils;
+import com.juzhai.android.core.utils.TextTruncateUtil;
+import com.juzhai.android.core.utils.UIUtil;
+import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
+import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
+import com.juzhai.android.idea.activity.IdeaDetailActivity;
+import com.juzhai.android.idea.activity.IdeaListActivity;
+import com.juzhai.android.idea.adapter.viewholder.IdeaListViewHolder;
 import com.juzhai.android.idea.model.Idea;
 import com.juzhai.android.idea.model.IdeaListAndPager;
 
+@SuppressLint("ResourceAsColor")
 public class IdeaListAdapter extends BaseAdapter {
 	private IdeaListAndPager ideaResult;
 	private Context mContext = null;
@@ -39,8 +49,8 @@ public class IdeaListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int arg0) {
-		return ideaResult.getList().get(arg0);
+	public Object getItem(int i) {
+		return ideaResult.getList().get(i);
 	}
 
 	@Override
@@ -51,51 +61,77 @@ public class IdeaListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		IdeaListViewHolder holder;
 		if (convertView == null) {
 			if (inflater == null) {
 				inflater = (LayoutInflater) mContext.getSystemService(name);
 			}
-			Idea idea = ideaResult.getList().get(position);
 			convertView = inflater.inflate(R.layout.item_idea_list, null);
-			final TextView contentText = (TextView) convertView
-					.findViewById(R.id.idea_content);
-			contentText.setText(idea.getContent());
-			TextView textView = (TextView) convertView
-					.findViewById(R.id.idea_use_count_txet);
-			textView.setText("已有" + idea.getUseCount() + "想去");
-
-			Button btn = (Button) convertView.findViewById(R.id.idea_want_btn);
-			if (idea.isHasUsed()) {
-				btn.setBackgroundResource(R.drawable.i_want_go_btn_done);
-				btn.setText(convertView.getResources().getString(
-						R.string.want_done));
-			} else {
-				btn.setText(convertView.getResources().getString(
-						R.string.i_want));
-				btn.setBackgroundResource(R.drawable.i_want_selector_button);
-			}
-			final ImageView imageView = (ImageView) convertView
-					.findViewById(R.id.idea_image);
-			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
-			if (StringUtils.isNotEmpty(idea.getBigPic())) {
-				nid.fetchImage(idea.getBigPic().replaceAll("test.", ""), 0,
-						imageView, new ImageLoaderCallback() {
-							@Override
-							public void imageLoaderFinish(Bitmap bitmap) {
-								if (bitmap != null) {
-									imageView
-											.setScaleType(ScaleType.CENTER_INSIDE);
-									imageView.setImageBitmap(ImageUtils
-											.getRoundedCornerBitmap(bitmap, 10));
-									contentText
-											.setBackgroundResource(R.drawable.good_idea_item_txt_infor_bg);
-									contentText.setTextColor(R.color.white);
-								}
-							}
-						});
-			}
-
+			holder = new IdeaListViewHolder();
+			holder.setTextView((TextView) convertView
+					.findViewById(R.id.idea_use_count_txet));
+			holder.setImageView((ImageView) convertView
+					.findViewById(R.id.idea_image));
+			holder.setContentText((TextView) convertView
+					.findViewById(R.id.idea_content));
+			holder.setWantbtn((Button) convertView
+					.findViewById(R.id.idea_want_btn));
+			convertView.setTag(holder);
+		} else {
+			holder = (IdeaListViewHolder) convertView.getTag();
 		}
+		final Idea idea = ideaResult.getList().get(position);
+		final TextView contentText = holder.getContentText();
+		contentText.setTextColor(android.graphics.Color.BLACK);
+		contentText.setBackgroundDrawable(null);
+		final ImageView imageView = holder.getImageView();
+		Button btn = holder.getWantbtn();
+		contentText.setText(TextTruncateUtil.truncate(idea.getContent(),
+				Validation.IDEA_CONTENT_MAX_LENGTH, "..."));
+		TextView textView = holder.getTextView();
+		textView.setText(mContext.getResources().getString(
+				R.string.use_count_begin)
+				+ idea.getUseCount()
+				+ mContext.getResources().getString(R.string.use_count_end));
+		if (idea.isHasUsed()) {
+			btn.setBackgroundResource(R.drawable.i_want_go_btn_done);
+			btn.setText(convertView.getResources()
+					.getString(R.string.want_done));
+		} else {
+			btn.setText(convertView.getResources().getString(R.string.i_want));
+			btn.setBackgroundResource(R.drawable.i_want_selector_button);
+		}
+		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
+		if (StringUtils.isNotEmpty(idea.getBigPic())) {
+			nid.fetchImage(idea.getBigPic().replaceAll("test.", ""),
+					R.drawable.good_idea_list_pic_none_icon, imageView,
+					new ImageLoaderCallback() {
+						@Override
+						public void imageLoaderFinish(Bitmap bitmap) {
+							if (bitmap != null) {
+								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
+										bitmap, UIUtil.dip2px(mContext, 262),
+										UIUtil.dip2px(mContext, 180));
+								imageView.setImageBitmap(ImageUtils
+										.getRoundedCornerBitmap(zoomBitmap, 15));
+								contentText
+										.setBackgroundResource(R.drawable.good_idea_item_txt_infor_bg);
+								contentText
+										.setTextColor(android.graphics.Color.WHITE);
+							}
+						}
+					});
+		}
+		imageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, IdeaDetailActivity.class);
+				intent.putExtra("idea", idea);
+				NavigationActivity activity = (IdeaListActivity) mContext;
+				activity.pushIntentForResult(intent,
+						activity.CLEAR_REQUEST_CODE);
+			}
+		});
 		return convertView;
 	}
 }

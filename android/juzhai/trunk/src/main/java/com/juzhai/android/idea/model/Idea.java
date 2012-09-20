@@ -1,6 +1,11 @@
 package com.juzhai.android.idea.model;
 
-public class Idea {
+import java.io.Serializable;
+
+public class Idea implements Serializable {
+
+	private static final long serialVersionUID = 3515981490191602657L;
+
 	private long ideaId;
 
 	private String content;

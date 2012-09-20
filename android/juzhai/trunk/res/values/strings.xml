@@ -48,6 +48,8 @@
     <string name="send_ok">发送成功</string>
     <string name="more">查看更多</string>
     <string name="loding">正在加载</string>
+    <string name="sending">正在请求</string>
+    <string name="success">操作成功</string>
     <!-- common end -->
 
 
@@ -69,6 +71,7 @@
     <string name="use_count_end">想去 </string>
     <string name="idea_detail_title">好主意详情</string>
     <string name="share">分享</string>
+    <string name="yuan">元</string>
     <!-- idea end -->
     <!-- error begin -->
     <string name="system_internet_erorr">当前网络不可用请稍后重试</string>

@@ -74,6 +74,38 @@ public class IdeaDetailActivity extends NavigationActivity {
 						}
 					});
 		}
+		if (idea.isHasUsed()) {
+			wantBtn.setText(R.string.want_done);
+			wantBtn.setBackgroundColor(R.drawable.good_idea_detial_btn_wtg_done);
+		} else {
+			Map<String, String> values = new HashMap<String, String>();
+			values.put("ideaId", String.valueOf(idea.getIdeaId()));
+			wantBtn.setOnClickListener(new BaseListener("post/sendPost",
+					IdeaDetailActivity.this, values,
+					new ListenerSuccessCallBack() {
+						@Override
+						public void callback() {
+							wantBtn.setText(R.string.want_done);
+							wantBtn.setBackgroundColor(R.drawable.good_idea_detial_btn_wtg_done);
+							wantBtn.setOnClickListener(null);
+						}
+					}));
+		}
+		useCountText.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(IdeaDetailActivity.this,
+						IdeaUsersActivity.class);
+				intent.putExtra("idea", idea);
+				pushIntentForResult(intent, CLEAR_REQUEST_CODE);
+			}
+		});
+		initIdeaInfo();
+
+	}
+
+	private void initIdeaInfo() {
 		// 设置地点
 		LinearLayout placeLayout = (LinearLayout) findViewById(R.id.idea_place_layout);
 		TextView place = (TextView) findViewById(R.id.idea_place_text);
@@ -113,35 +145,5 @@ public class IdeaDetailActivity extends NavigationActivity {
 		} else {
 			chargeLayout.setVisibility(View.GONE);
 		}
-
-		if (idea.isHasUsed()) {
-			wantBtn.setText(R.string.want_done);
-			wantBtn.setBackgroundColor(R.drawable.good_idea_detial_btn_wtg_done);
-		} else {
-			Map<String, String> values = new HashMap<String, String>();
-			values.put("ideaId", String.valueOf(idea.getIdeaId()));
-			wantBtn.setOnClickListener(new BaseListener("post/sendPost",
-					IdeaDetailActivity.this, values,
-					new ListenerSuccessCallBack() {
-						@Override
-						public void callback() {
-							wantBtn.setText(R.string.want_done);
-							wantBtn.setBackgroundColor(R.drawable.good_idea_detial_btn_wtg_done);
-							wantBtn.setOnClickListener(null);
-						}
-					}));
-		}
-
-		useCountText.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(IdeaDetailActivity.this,
-						IdeaUsersActivity.class);
-				intent.putExtra("idea", idea);
-				pushIntentForResult(intent, CLEAR_REQUEST_CODE);
-			}
-		});
-
 	}
 }

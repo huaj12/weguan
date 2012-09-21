@@ -436,6 +436,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
 	@Override
 	public final void setRefreshing(boolean doScroll) {
 		if (!isRefreshing()) {
+			mCurrentMode = Mode.PULL_DOWN_TO_REFRESH;
 			setRefreshingInternal(doScroll);
 			mState = MANUAL_REFRESHING;
 			// add by wujiajun to get data auto
@@ -1058,7 +1059,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
 		 * from the top, and released.
 		 */
 		public void onPullDownToRefresh(final PullToRefreshBase<V> refreshView) {
-			refreshView.setLastUpdatedTime();
+//			refreshView.setLastUpdatedTime();
 		}
 
 		/**

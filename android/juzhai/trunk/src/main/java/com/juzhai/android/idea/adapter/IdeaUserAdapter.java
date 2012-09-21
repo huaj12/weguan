@@ -128,7 +128,7 @@ public class IdeaUserAdapter extends BaseAdapter {
 		}
 		if (user.getGender() == 0) {
 			nicknameText.setTextColor(mContext.getResources().getColor(
-					R.color.red));
+					R.color.pink));
 		} else {
 			nicknameText.setTextColor(mContext.getResources().getColor(
 					R.color.blue));

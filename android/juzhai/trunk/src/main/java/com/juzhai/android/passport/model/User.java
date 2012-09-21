@@ -1,6 +1,9 @@
 package com.juzhai.android.passport.model;
 
-public class User {
+import com.juzhai.android.core.model.Entity;
+
+public class User extends Entity {
+	private static final long serialVersionUID = -8385388032091129353L;
 	private long uid;
 	private String nickname;
 	private int gender;
@@ -297,6 +300,11 @@ public class User {
 
 	public void setTokenExpired(boolean tokenExpired) {
 		this.tokenExpired = tokenExpired;
+	}
+
+	@Override
+	public Object getIdentify() {
+		return this.getUid();
 	}
 
 }

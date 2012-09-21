@@ -10,13 +10,13 @@ import org.springframework.util.StringUtils;
 import android.content.Context;
 
 import com.juzhai.android.core.data.SharedPreferencesManager;
+import com.juzhai.android.core.model.Result.UserResult;
 import com.juzhai.android.passport.model.User;
-import com.juzhai.android.passport.model.UserResults;
 
 public class UserCacheManager {
 
 	public static void cache(Context context,
-			ResponseEntity<UserResults> responseEntity) {
+			ResponseEntity<UserResult> responseEntity) {
 		UserCache.setUserInfo(responseEntity.getBody().getResult());
 		Map<String, String> cookies = parseCookies(responseEntity.getHeaders()
 				.get("Set-Cookie"));
@@ -33,7 +33,7 @@ public class UserCacheManager {
 	}
 
 	public static void persistToken(Context context,
-			ResponseEntity<UserResults> responseEntity) {
+			ResponseEntity<UserResult> responseEntity) {
 		Map<String, String> cookies = parseCookies(responseEntity.getHeaders()
 				.get("Set-Cookie"));
 		String pToken = cookies.get("p_token");

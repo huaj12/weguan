@@ -8,8 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.juzhai.android.R;
+import com.juzhai.android.common.task.InitDataTask;
 import com.juzhai.android.core.activity.BaseActivity;
-import com.juzhai.android.core.task.InitDataTask;
 import com.juzhai.android.passport.activity.LoginActivity;
 import com.juzhai.android.passport.service.IPassportService;
 import com.juzhai.android.passport.service.impl.PassportService;

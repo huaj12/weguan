@@ -1,17 +1,14 @@
 package com.juzhai.android.idea.adapter;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,44 +23,21 @@ import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
+import com.juzhai.android.core.widget.list.PageAdapter;
 import com.juzhai.android.idea.adapter.viewholder.IdeaUserViewHolder;
 import com.juzhai.android.idea.model.IdeaUser;
 import com.juzhai.android.passport.model.User;
 
-public class IdeaUserAdapter extends BaseAdapter {
-	private List<IdeaUser> result;
-	private Context mContext = null;
-	private String name = null;
-	private LayoutInflater inflater = null;
+public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 
-	public IdeaUserAdapter(List<IdeaUser> result, Context mContext, String name) {
-		this.result = result;
-		this.mContext = mContext;
-		this.name = name;
-	}
-
-	@Override
-	public int getCount() {
-		return result.size();
-	}
-
-	@Override
-	public Object getItem(int location) {
-		return result.get(location);
-	}
-
-	@Override
-	public long getItemId(int location) {
-		return result.get(location).getUserView().getUid();
+	public IdeaUserListAdapter(Context mContext) {
+		super(mContext);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		IdeaUserViewHolder holder;
 		if (convertView == null) {
-			if (inflater == null) {
-				inflater = (LayoutInflater) mContext.getSystemService(name);
-			}
 			convertView = inflater.inflate(R.layout.item_idea_users, null);
 			holder = new IdeaUserViewHolder();
 			holder.setNicknameText((TextView) convertView
@@ -78,7 +52,7 @@ public class IdeaUserAdapter extends BaseAdapter {
 		} else {
 			holder = (IdeaUserViewHolder) convertView.getTag();
 		}
-		final IdeaUser ideaUser = result.get(position);
+		final IdeaUser ideaUser = data.getDatas().get(position);
 		final TextView nicknameText = holder.getNicknameText();
 		final TextView infoText = holder.getUserInfoText();
 		final ImageView imageView = holder.getUserLogoImage();
@@ -128,7 +102,7 @@ public class IdeaUserAdapter extends BaseAdapter {
 		}
 		if (user.getGender() == 0) {
 			nicknameText.setTextColor(mContext.getResources().getColor(
-					R.color.pink));
+					R.color.blue));
 		} else {
 			nicknameText.setTextColor(mContext.getResources().getColor(
 					R.color.blue));

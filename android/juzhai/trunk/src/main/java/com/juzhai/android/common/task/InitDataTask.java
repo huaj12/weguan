@@ -1,4 +1,4 @@
-package com.juzhai.android.core.task;
+package com.juzhai.android.common.task;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.juzhai.android.BuildConfig;
 import com.juzhai.android.core.data.SharedPreferencesManager;
-import com.juzhai.android.core.model.CategoryResults;
+import com.juzhai.android.core.model.Result.CategoryResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.JackSonSerializer;
 
@@ -30,11 +30,11 @@ public class InitDataTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	private void initCategory() {
-		ResponseEntity<CategoryResults> response = HttpUtils.get(CATEGORY_URI,
-				CategoryResults.class);
+		ResponseEntity<CategoryResult> response = HttpUtils.get(CATEGORY_URI,
+				CategoryResult.class);
 		if (response != null && response.getBody() != null
 				&& response.getBody().getSuccess()) {
-			CategoryResults categoryResults = response.getBody();
+			CategoryResult categoryResults = response.getBody();
 			try {
 				manager.commit("category",
 						JackSonSerializer.toString(categoryResults));

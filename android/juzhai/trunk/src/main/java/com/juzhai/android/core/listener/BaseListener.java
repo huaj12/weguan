@@ -13,7 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.model.Results;
+import com.juzhai.android.core.model.Result;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.passport.data.UserCache;
@@ -41,15 +41,15 @@ public class BaseListener implements OnClickListener {
 
 			@Override
 			protected String doInBackground(Void... params) {
-				ResponseEntity<Results> responseEntity = null;
+				ResponseEntity<Result> responseEntity = null;
 				try {
 					responseEntity = HttpUtils.post(uri, values,
-							UserCache.getUserStatus(), Results.class);
+							UserCache.getUserStatus(), Result.class);
 				} catch (Exception e) {
 					return context.getResources().getString(
 							R.string.system_internet_erorr);
 				}
-				Results results = responseEntity.getBody();
+				Result results = responseEntity.getBody();
 				if (!results.getSuccess()) {
 					return results.getErrorInfo();
 				}

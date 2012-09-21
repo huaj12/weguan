@@ -2,21 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" android:tileMode="repeat"  android:background="@drawable/app_bg" >
-    		<ProgressBar android:id="@+id/pro_bar"
-		    android:layout_centerInParent="true"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			>
-			</ProgressBar>
-			 <ListView android:id="@+id/idea_listview"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:cacheColorHint="@null"
-		android:visibility="gone"
-		android:dividerHeight="20dip"
-		android:divider="@drawable/app_bg"
-		android:tileMode="repeat"
-		android:fastScrollEnabled="true" 
-        android:focusable="true"
-		 />
+    android:background="@drawable/app_bg"
+    android:orientation="vertical"
+    android:tileMode="repeat" >
+    
+    <com.juzhai.android.core.widget.list.JuzhaiRefreshListView
+        android:id="@+id/idea_list_view"
+        android:layout_height="fill_parent"
+    	android:layout_width="fill_parent"
+        android:cacheColorHint="#00000000"
+        android:divider="@null"
+        android:fadingEdge="none"
+        android:focusable="true" />
+
 </RelativeLayout>

@@ -1,6 +1,9 @@
 package com.juzhai.android.passport.model;
 
-public class UserPost {
+import com.juzhai.android.core.model.Entity;
+
+public class UserPost extends Entity {
+	private static final long serialVersionUID = -4148599586995728665L;
 	private long postId;
 	private String purpose;
 	private String content;
@@ -90,6 +93,11 @@ public class UserPost {
 
 	public void setBigPic(String bigPic) {
 		this.bigPic = bigPic;
+	}
+
+	@Override
+	public Object getIdentify() {
+		return this.postId;
 	}
 
 }

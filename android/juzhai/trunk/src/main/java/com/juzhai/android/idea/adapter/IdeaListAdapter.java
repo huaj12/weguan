@@ -1,7 +1,6 @@
 package com.juzhai.android.idea.adapter;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -9,11 +8,9 @@ import org.apache.commons.lang.StringUtils;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +24,7 @@ import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
+import com.juzhai.android.core.widget.list.PageAdapter;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.idea.activity.IdeaDetailActivity;
 import com.juzhai.android.idea.activity.IdeaListActivity;
@@ -34,41 +32,16 @@ import com.juzhai.android.idea.activity.IdeaUsersActivity;
 import com.juzhai.android.idea.adapter.viewholder.IdeaListViewHolder;
 import com.juzhai.android.idea.model.Idea;
 
-public class IdeaListAdapter extends BaseAdapter {
-	private List<Idea> ideaResult;
-	private Context mContext = null;
-	private String name = null;
-	private LayoutInflater inflater = null;
+public class IdeaListAdapter extends PageAdapter<Idea> {
 
-	public IdeaListAdapter(List<Idea> ideaResult, Context mContext, String name) {
-		this.ideaResult = ideaResult;
-		this.mContext = mContext;
-		this.name = name;
-	}
-
-	@Override
-	public int getCount() {
-		return ideaResult.size();
-	}
-
-	@Override
-	public Object getItem(int i) {
-		return ideaResult.get(i);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		Idea idea = ideaResult.get(position);
-		return idea.getIdeaId();
+	public IdeaListAdapter(Context mContext) {
+		super(mContext);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		IdeaListViewHolder holder;
 		if (convertView == null) {
-			if (inflater == null) {
-				inflater = (LayoutInflater) mContext.getSystemService(name);
-			}
 			convertView = inflater.inflate(R.layout.item_idea_list, null);
 			holder = new IdeaListViewHolder();
 			holder.setTextView((TextView) convertView
@@ -83,7 +56,8 @@ public class IdeaListAdapter extends BaseAdapter {
 		} else {
 			holder = (IdeaListViewHolder) convertView.getTag();
 		}
-		final Idea idea = ideaResult.get(position);
+
+		final Idea idea = data.getDatas().get(position);
 		final TextView contentText = holder.getContentText();
 		contentText.setTextColor(android.graphics.Color.BLACK);
 		contentText.setBackgroundDrawable(null);
@@ -132,8 +106,9 @@ public class IdeaListAdapter extends BaseAdapter {
 										.getRoundedCornerBitmap(zoomBitmap, 15));
 								contentText
 										.setBackgroundResource(R.drawable.good_idea_item_txt_infor_bg);
-								contentText
-										.setTextColor(android.graphics.Color.WHITE);
+								contentText.setTextColor(mContext
+										.getResources().getColor(
+												android.R.color.white));
 							}
 						}
 					});
@@ -143,9 +118,7 @@ public class IdeaListAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, IdeaDetailActivity.class);
 				intent.putExtra("idea", idea);
-				NavigationActivity activity = (IdeaListActivity) mContext;
-				activity.pushIntentForResult(intent,
-						activity.CLEAR_REQUEST_CODE);
+				((IdeaListActivity) mContext).pushIntent(intent);
 			}
 		});
 		textView.setOnClickListener(new OnClickListener() {
@@ -155,15 +128,10 @@ public class IdeaListAdapter extends BaseAdapter {
 				Intent intent = new Intent(mContext, IdeaUsersActivity.class);
 				intent.putExtra("idea", idea);
 				NavigationActivity activity = (IdeaListActivity) mContext;
-				activity.pushIntentForResult(intent,
-						activity.CLEAR_REQUEST_CODE);
+				activity.pushIntent(intent);
 
 			}
 		});
 		return convertView;
-	}
-
-	public void push(List<Idea> list) {
-		ideaResult.addAll(list);
 	}
 }

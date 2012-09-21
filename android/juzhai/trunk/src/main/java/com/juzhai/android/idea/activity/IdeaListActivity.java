@@ -3,6 +3,7 @@ package com.juzhai.android.idea.activity;
 import java.util.List;
 
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -59,7 +60,7 @@ public class IdeaListActivity extends NavigationActivity {
 					int position, long id) {
 				TextView tv = (TextView) view;
 				tv.setTextColor(getResources().getColor(R.color.white)); // 设置颜色
-				tv.setTextSize(13.0f); // 设置大小
+				tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13); // 设置大小
 				tv.setGravity(android.view.Gravity.LEFT);
 				tv.setPadding(25, 0, 0, 0);
 				categoryId = (int) id;
@@ -99,6 +100,7 @@ public class IdeaListActivity extends NavigationActivity {
 			@Override
 			public void onPullDownToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
+				super.onPullDownToRefresh(refreshView);
 				new IdeaListGetDataTask(ideaListView).execute(categoryId,
 						orderType, 1);
 			}
@@ -106,12 +108,14 @@ public class IdeaListActivity extends NavigationActivity {
 			@Override
 			public void onPullUpToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
+				super.onPullUpToRefresh(refreshView);
 				new IdeaListGetDataTask(ideaListView).execute(categoryId,
-						orderType, ideaListView.getAdapter().getPager()
+						orderType, ideaListView.getPageAdapter().getPager()
 								.getCurrentPage() + 1);
 			}
 		});
 		ideaListView.setAdapter(new IdeaListAdapter(IdeaListActivity.this));
+
 		ideaListView.manualRefresh();
 	}
 }

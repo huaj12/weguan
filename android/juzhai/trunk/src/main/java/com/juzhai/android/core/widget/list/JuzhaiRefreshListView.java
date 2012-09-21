@@ -29,7 +29,6 @@ public class JuzhaiRefreshListView extends PullToRefreshListView {
 	}
 
 	public void manualRefresh() {
-		getRefreshableView().setSelection(0);
 		this.setRefreshing();
 	}
 
@@ -39,7 +38,7 @@ public class JuzhaiRefreshListView extends PullToRefreshListView {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Entity> PageAdapter<T> getAdapter() {
+	public <T extends Entity> PageAdapter<T> getPageAdapter() {
 		return (PageAdapter<T>) adapter;
 	}
 }

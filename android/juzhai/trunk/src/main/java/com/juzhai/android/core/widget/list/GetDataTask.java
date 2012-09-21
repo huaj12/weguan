@@ -28,7 +28,7 @@ public abstract class GetDataTask<T extends Result<? extends PageList<E>>, E ext
 		} else {
 			// add or override
 			Pager pager = result.getResult().getPager();
-			PageAdapter<E> adapter = refreshListView.getAdapter();
+			PageAdapter<E> adapter = refreshListView.getPageAdapter();
 			adapter.setPager(pager);
 			List<E> list = result.getResult().getList();
 			if (pager.getCurrentPage() == 1) {

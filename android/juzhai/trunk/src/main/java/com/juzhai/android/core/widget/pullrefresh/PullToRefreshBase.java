@@ -307,14 +307,12 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
 				if (mState == RELEASE_TO_REFRESH) {
 					if (null != mOnRefreshListener) {
 						setRefreshingInternal(true);
-						setLastUpdatedTime();
 						mOnRefreshListener.onRefresh(this);
 						return true;
 
 					} else if (null != mOnRefreshListener2) {
 						setRefreshingInternal(true);
 						if (mCurrentMode == Mode.PULL_DOWN_TO_REFRESH) {
-							setLastUpdatedTime();
 							mOnRefreshListener2.onPullDownToRefresh(this);
 						} else if (mCurrentMode == Mode.PULL_UP_TO_REFRESH) {
 							mOnRefreshListener2.onPullUpToRefresh(this);
@@ -335,13 +333,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
 		}
 
 		return false;
-	}
-
-	private void setLastUpdatedTime() {
-		setLastUpdatedLabel(DateUtils.formatDateTime(getContext(),
-				System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME
-						| DateUtils.FORMAT_SHOW_DATE
-						| DateUtils.FORMAT_ABBREV_ALL));
 	}
 
 	@Override
@@ -769,7 +760,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
 				LayoutParams.MATCH_PARENT, 0, 1.0f));
 	}
 
-	@SuppressWarnings("deprecation")
 	private void init(Context context, AttributeSet attrs) {
 		setOrientation(LinearLayout.VERTICAL);
 
@@ -1042,13 +1032,15 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
 	 * 
 	 * @author Chris Banes
 	 */
-	public static interface OnRefreshListener<V extends View> {
+	public static class OnRefreshListener<V extends View> {
 
 		/**
 		 * onRefresh will be called for both Pull Down from top, and Pull Up
 		 * from Bottom
 		 */
-		public void onRefresh(final PullToRefreshBase<V> refreshView);
+		public void onRefresh(final PullToRefreshBase<V> refreshView) {
+			refreshView.setLastUpdatedTime();
+		}
 
 	}
 
@@ -1059,20 +1051,31 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
 	 * 
 	 * @author Chris Banes
 	 */
-	public static interface OnRefreshListener2<V extends View> {
+	public static class OnRefreshListener2<V extends View> {
 
 		/**
 		 * onPullDownToRefresh will be called only when the user has Pulled Down
 		 * from the top, and released.
 		 */
-		public void onPullDownToRefresh(final PullToRefreshBase<V> refreshView);
+		public void onPullDownToRefresh(final PullToRefreshBase<V> refreshView) {
+			refreshView.setLastUpdatedTime();
+		}
 
 		/**
 		 * onPullUpToRefresh will be called only when the user has Pulled Up
 		 * from the bottom, and released.
 		 */
-		public void onPullUpToRefresh(final PullToRefreshBase<V> refreshView);
+		public void onPullUpToRefresh(final PullToRefreshBase<V> refreshView) {
 
+		}
+
+	}
+
+	private void setLastUpdatedTime() {
+		setLastUpdatedLabel(DateUtils.formatDateTime(getContext(),
+				System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME
+						| DateUtils.FORMAT_SHOW_DATE
+						| DateUtils.FORMAT_ABBREV_ALL));
 	}
 
 	final class SmoothScrollRunnable implements Runnable {

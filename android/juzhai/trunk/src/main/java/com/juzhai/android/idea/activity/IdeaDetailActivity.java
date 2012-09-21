@@ -76,7 +76,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 		}
 		if (idea.isHasUsed()) {
 			wantBtn.setText(R.string.want_done);
-			wantBtn.setBackgroundColor(R.drawable.good_idea_detial_btn_wtg_done);
+			wantBtn.setBackgroundResource(R.drawable.good_idea_detial_btn_wtg_done);
 		} else {
 			Map<String, String> values = new HashMap<String, String>();
 			values.put("ideaId", String.valueOf(idea.getIdeaId()));
@@ -86,7 +86,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 						@Override
 						public void callback() {
 							wantBtn.setText(R.string.want_done);
-							wantBtn.setBackgroundColor(R.drawable.good_idea_detial_btn_wtg_done);
+							wantBtn.setBackgroundResource(R.drawable.good_idea_detial_btn_wtg_done);
 							wantBtn.setOnClickListener(null);
 						}
 					}));

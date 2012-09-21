@@ -3,17 +3,24 @@
  */
 package com.juzhai.android.idea.activity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.listener.BaseListener;
+import com.juzhai.android.core.listener.ListenerSuccessCallBack;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
@@ -26,7 +33,9 @@ import com.juzhai.android.idea.model.Idea;
  * 
  */
 public class IdeaDetailActivity extends NavigationActivity {
-	private ListView ideaInfoList;
+	private Idea idea;
+	private ImageView imageView;
+	private Button wantBtn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +43,14 @@ public class IdeaDetailActivity extends NavigationActivity {
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.idea_detail_title));
 		setNavContentView(R.layout.page_idea_detail);
-		Idea idea = (Idea) getIntent().getSerializableExtra("idea");
+		idea = (Idea) getIntent().getSerializableExtra("idea");
 		if (idea == null) {
 			popIntent();
 		}
-		final ImageView imageView = (ImageView) findViewById(R.id.idea_image);
+		imageView = (ImageView) findViewById(R.id.idea_image);
 		TextView useCountText = (TextView) findViewById(R.id.idea_use_count_txet);
 		TextView contentText = (TextView) findViewById(R.id.idea_content);
+		wantBtn = (Button) findViewById(R.id.idea_want_btn);
 		contentText.setText(idea.getContent());
 		useCountText.setText(getResources().getString(R.string.use_count_begin)
 				+ idea.getUseCount()
@@ -104,6 +114,34 @@ public class IdeaDetailActivity extends NavigationActivity {
 			chargeLayout.setVisibility(View.GONE);
 		}
 
-	}
+		if (idea.isHasUsed()) {
+			wantBtn.setText(R.string.want_done);
+			wantBtn.setBackgroundColor(R.drawable.good_idea_detial_btn_wtg_done);
+		} else {
+			Map<String, String> values = new HashMap<String, String>();
+			values.put("ideaId", String.valueOf(idea.getIdeaId()));
+			wantBtn.setOnClickListener(new BaseListener("post/sendPost",
+					IdeaDetailActivity.this, values,
+					new ListenerSuccessCallBack() {
+						@Override
+						public void callback() {
+							wantBtn.setText(R.string.want_done);
+							wantBtn.setBackgroundColor(R.drawable.good_idea_detial_btn_wtg_done);
+							wantBtn.setOnClickListener(null);
+						}
+					}));
+		}
 
+		useCountText.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(IdeaDetailActivity.this,
+						IdeaUsersActivity.class);
+				intent.putExtra("idea", idea);
+				pushIntentForResult(intent, CLEAR_REQUEST_CODE);
+			}
+		});
+
+	}
 }

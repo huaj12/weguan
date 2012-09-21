@@ -3,109 +3,73 @@
  */
 package com.juzhai.android.idea.activity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.utils.Validation;
+import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
-import com.juzhai.android.idea.adapter.IdeaUserAdapter;
-import com.juzhai.android.idea.exception.IdeaException;
+import com.juzhai.android.core.widget.pullrefresh.PullToRefreshBase;
+import com.juzhai.android.core.widget.pullrefresh.PullToRefreshBase.OnRefreshListener2;
+import com.juzhai.android.idea.adapter.IdeaUserListAdapter;
 import com.juzhai.android.idea.model.Idea;
-import com.juzhai.android.idea.model.IdeaUserAndPager;
-import com.juzhai.android.idea.model.IdeaUserResult;
-import com.juzhai.android.idea.service.IIdeaService;
-import com.juzhai.android.idea.service.impl.IdeaService;
+import com.juzhai.android.idea.task.IdeaUserListGetDataTask;
 
 /**
  * @author kooks
  * 
  */
 public class IdeaUsersActivity extends NavigationActivity {
-	private ProgressBar bar;
-	private int page = 1;
-	private ListView listView;
-	private Idea idea;
-	private BaseAdapter adapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		idea = (Idea) getIntent().getSerializableExtra("idea");
+		final Idea idea = (Idea) getIntent().getSerializableExtra("idea");
 		if (idea == null) {
 			popIntent();
 		}
 		// 内容视图
 		setNavContentView(R.layout.page_idea_users);
+		final JuzhaiRefreshListView listView = (JuzhaiRefreshListView) findViewById(R.id.idea_users_list_view);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.idea_users_title));
 		Button refeshBtn = (Button) getLayoutInflater().inflate(
 				R.layout.button_refresh, null);
+		getNavigationBar().setRightView(refeshBtn);
 		refeshBtn.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-				refreshList();
+				listView.manualRefresh();
 			}
 		});
-		getNavigationBar().setRightView(refeshBtn);
-		bar = (ProgressBar) findViewById(R.id.pro_bar);
-		listView = (ListView) findViewById(R.id.idea_users_listview);
 		TextView ideaContent = (TextView) findViewById(R.id.idea_users_content);
 		ideaContent.setText(TextTruncateUtil.truncate(idea.getContent(),
 				Validation.IDEA_USER_CONTENT_MAX_LENGTH, "..."));
-		refreshList();
+
+		// list
+		listView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
+			@Override
+			public void onPullDownToRefresh(
+					PullToRefreshBase<ListView> refreshView) {
+				new IdeaUserListGetDataTask(listView).execute(idea.getIdeaId(),
+						1);
+			}
+
+			@Override
+			public void onPullUpToRefresh(
+					PullToRefreshBase<ListView> refreshView) {
+				new IdeaUserListGetDataTask(listView).execute(idea.getIdeaId(),
+						listView.getAdapter().getPager().getCurrentPage() + 1);
+			}
+		});
+		listView.setAdapter(new IdeaUserListAdapter(IdeaUsersActivity.this));
+
+		listView.manualRefresh();
 	}
-
-	private void refreshList() {
-		new AsyncTask<String, Integer, IdeaUserAndPager>() {
-
-			@Override
-			protected IdeaUserAndPager doInBackground(String... params) {
-				IIdeaService ideaService = new IdeaService();
-				IdeaUserResult result = null;
-				try {
-					result = ideaService.listIdeaUser(idea.getIdeaId(), page);
-				} catch (IdeaException e) {
-					DialogUtils.showToastText(IdeaUsersActivity.this,
-							e.getMessageId());
-					return null;
-				}
-				if (result != null && !result.getSuccess()) {
-					DialogUtils.showToastText(IdeaUsersActivity.this,
-							result.getErrorInfo());
-					return null;
-				}
-				return result.getResult();
-			}
-
-			@Override
-			protected void onPostExecute(IdeaUserAndPager result) {
-				bar.setVisibility(View.GONE);
-				if (result != null) {
-					listView.setVisibility(View.VISIBLE);
-					adapter = new IdeaUserAdapter(result.getList(),
-							IdeaUsersActivity.this, LAYOUT_INFLATER_SERVICE);
-					listView.setAdapter(adapter);
-				}
-			}
-
-			@Override
-			protected void onPreExecute() {
-				bar.setVisibility(View.VISIBLE);
-				listView.setVisibility(View.GONE);
-			}
-
-		}.execute();
-	}
-
 }

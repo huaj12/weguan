@@ -1,8 +1,8 @@
 package com.juzhai.android.idea.model;
 
-import java.io.Serializable;
+import com.juzhai.android.core.model.Entity;
 
-public class Idea implements Serializable {
+public class Idea extends Entity {
 
 	private static final long serialVersionUID = 3515981490191602657L;
 
@@ -134,6 +134,11 @@ public class Idea implements Serializable {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+
+	@Override
+	public Object getIdentify() {
+		return this.ideaId;
 	}
 
 }

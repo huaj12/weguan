@@ -1,8 +1,12 @@
 package com.juzhai.android.idea.model;
 
+import com.juzhai.android.core.model.Entity;
 import com.juzhai.android.passport.model.User;
 
-public class IdeaUser {
+public class IdeaUser extends Entity {
+
+	private static final long serialVersionUID = -4043146830668132620L;
+
 	private long ideaId;
 
 	private User userView;
@@ -31,6 +35,11 @@ public class IdeaUser {
 
 	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
+	}
+
+	@Override
+	public Object getIdentify() {
+		return this.getUserView().getIdentify();
 	}
 
 }

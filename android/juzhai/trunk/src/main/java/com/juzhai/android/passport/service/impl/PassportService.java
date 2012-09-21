@@ -11,13 +11,13 @@ import android.util.Log;
 
 import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
-import com.juzhai.android.core.model.Results;
+import com.juzhai.android.core.model.Result.StringResult;
+import com.juzhai.android.core.model.Result.UserResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.exception.PassportException;
-import com.juzhai.android.passport.model.UserResults;
 import com.juzhai.android.passport.service.IPassportService;
 
 public class PassportService implements IPassportService {
@@ -36,10 +36,10 @@ public class PassportService implements IPassportService {
 			// 有记录登录状态直接登录
 			Map<String, String> cookies = new HashMap<String, String>();
 			cookies.put("p_token", pToken);
-			ResponseEntity<UserResults> responseEntity = null;
+			ResponseEntity<UserResult> responseEntity = null;
 			try {
 				responseEntity = HttpUtils.post(LOGIN_URI, null, cookies,
-						UserResults.class);
+						UserResult.class);
 			} catch (Exception e) {
 				// 登录失败跳转到登录页面
 				return false;
@@ -62,17 +62,17 @@ public class PassportService implements IPassportService {
 		Map<String, String> values = new HashMap<String, String>();
 		values.put("account", account);
 		values.put("password", password);
-		ResponseEntity<UserResults> responseEntity = null;
+		ResponseEntity<UserResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.post(LOGIN_URI, values,
-					UserResults.class);
+			responseEntity = HttpUtils
+					.post(LOGIN_URI, values, UserResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "login error", e);
 			}
 			throw new PassportException(R.string.system_internet_erorr, e);
 		}
-		UserResults results = responseEntity.getBody();
+		UserResult results = responseEntity.getBody();
 		if (!results.getSuccess()) {
 			throw new PassportException(results.getErrorInfo(), 0);
 		} else {
@@ -81,7 +81,7 @@ public class PassportService implements IPassportService {
 	}
 
 	private void loginSuccess(Context context,
-			ResponseEntity<UserResults> responseEntity) {
+			ResponseEntity<UserResult> responseEntity) {
 		// 保存登录信息
 		UserCacheManager.cache(context, responseEntity);
 		UserCacheManager.persistToken(context, responseEntity);
@@ -99,17 +99,17 @@ public class PassportService implements IPassportService {
 		values.put("account", account);
 		values.put("pwd", pwd);
 		values.put("confirmPwd", confirmPwd);
-		ResponseEntity<UserResults> responseEntity = null;
+		ResponseEntity<UserResult> responseEntity = null;
 		try {
 			responseEntity = HttpUtils.post(REGISTER_URI, values,
-					UserResults.class);
+					UserResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "register error", e);
 			}
 			throw new PassportException(R.string.system_internet_erorr, e);
 		}
-		UserResults results = responseEntity.getBody();
+		UserResult results = responseEntity.getBody();
 		if (!results.getSuccess()) {
 			throw new PassportException(results.getErrorInfo(), 0);
 		} else {
@@ -157,35 +157,36 @@ public class PassportService implements IPassportService {
 		}
 		Map<String, String> values = new HashMap<String, String>();
 		values.put("account", account);
-		ResponseEntity<Results> response = null;
+		ResponseEntity<StringResult> response = null;
 		try {
-			response = HttpUtils.post(GETBACK_PWD_URI, values, Results.class);
+			response = HttpUtils.post(GETBACK_PWD_URI, values,
+					StringResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "getback pwd error", e);
 			}
 			throw new PassportException(R.string.system_internet_erorr, e);
 		}
-		Results results = response.getBody();
-		if (!results.getSuccess()) {
-			throw new PassportException(results.getErrorInfo(), 0);
+		StringResult result = response.getBody();
+		if (!result.getSuccess()) {
+			throw new PassportException(result.getErrorInfo(), 0);
 		}
 	}
 
 	@Override
 	public void tpLogin(Context context, long tpId, String queryString)
 			throws PassportException {
-		ResponseEntity<UserResults> responseEntity = null;
+		ResponseEntity<UserResult> responseEntity = null;
 		try {
 			responseEntity = HttpUtils.get(ACCESS_URI + "/" + tpId + "?"
-					+ queryString, UserResults.class);
+					+ queryString, UserResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "thirdparty login error", e);
 			}
 			throw new PassportException(R.string.system_internet_erorr);
 		}
-		UserResults results = responseEntity.getBody();
+		UserResult results = responseEntity.getBody();
 		if (!results.getSuccess()) {
 			throw new PassportException(results.getErrorInfo(), 0);
 		} else {

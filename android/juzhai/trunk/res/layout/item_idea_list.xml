@@ -1,36 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:orientation="vertical">
-		<LinearLayout
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:orientation="vertical" android:layout_marginLeft="20dp" android:layout_marginTop="15dp" android:layout_marginRight="20dp" android:padding="10dp"  android:background="@drawable/good_idea_list_item_bg">
-		<RelativeLayout  android:layout_width="262dp" android:layout_height="180dp" android:background="@color/bg_gray">
-			<ImageView android:id="@+id/idea_image"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_centerInParent="true"
-		        />
-			<TextView android:id="@+id/idea_content"
-		        android:layout_width="fill_parent"
-		        android:layout_height="40dp"
-		        android:layout_alignParentBottom="true"
-		        android:textSize="15sp"
-		        android:gravity="left"
-		        />
-		</RelativeLayout>
-		<RelativeLayout 
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:paddingTop="10dip">
-			<TextView android:id="@+id/idea_use_count_txet" android:layout_width="wrap_content" android:layout_height="wrap_content"
-			  android:textColor="@color/blue"
-			  android:textSize="15sp"
-			  android:layout_alignParentLeft="true"  
-			    />
-			<Button android:id="@+id/idea_want_btn" android:layout_width="wrap_content" android:layout_height="wrap_content"
-			    android:gravity="right" android:layout_alignParentRight="true" android:textColor="@color/white"
-			    android:textSize="12sp" 
-			    />
-		</RelativeLayout>
-	</LinearLayout>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/good_idea_list_item_bg"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <RelativeLayout
+            android:layout_width="262dp"
+            android:layout_height="180dp"
+            android:background="@color/bg_gray" >
+
+            <ImageView
+                android:id="@+id/idea_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:id="@+id/idea_content"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:gravity="left"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dip" >
+
+            <TextView
+                android:id="@+id/idea_use_count_txet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/blue"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/idea_want_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="right"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>

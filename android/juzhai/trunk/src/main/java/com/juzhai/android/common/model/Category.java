@@ -1,6 +1,9 @@
-package com.juzhai.android.core.model;
+package com.juzhai.android.common.model;
 
-public class Category {
+import com.juzhai.android.core.model.Entity;
+
+public class Category extends Entity {
+	private static final long serialVersionUID = 7440601412026137403L;
 	private long categoryId;
 	private String name;
 	private String icon;
@@ -27,6 +30,11 @@ public class Category {
 
 	public void setIcon(String icon) {
 		this.icon = icon;
+	}
+
+	@Override
+	public Object getIdentify() {
+		return getCategoryId();
 	}
 
 }

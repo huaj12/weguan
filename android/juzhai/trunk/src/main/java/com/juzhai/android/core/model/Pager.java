@@ -1,8 +1,9 @@
-package com.juzhai.android.core.pager;
+package com.juzhai.android.core.model;
 
 import java.util.List;
 
 public class Pager {
+
 	private Boolean hasPre;
 	private Boolean hasNext;
 	private List<String> showPages;

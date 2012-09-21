@@ -75,7 +75,7 @@
 		</LinearLayout>
 	</ScrollView>	
 	<RelativeLayout  android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" >
-	    <Button android:paddingLeft="25dp" android:id="@+id/idea_want_btn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:background="@drawable/good_idea_detial_btn_wtg" android:textColor="@color/white" android:text="@string/i_want"/>
-	    <Button android:paddingLeft="25dp" android:id="@+id/idea_share_btn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:background="@drawable/good_idea_detial_btn_share" android:textColor="@color/white" android:text="@string/share"/>
+	    <Button android:paddingLeft="25dp" android:id="@+id/idea_want_btn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:background="@drawable/idea_detial_want_button" android:text="@string/i_want"  android:textColor="@color/white" />
+	    <Button android:paddingLeft="25dp" android:id="@+id/idea_share_btn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:background="@drawable/idea_share_button" android:textColor="@color/white" android:text="@string/share"/>
 	</RelativeLayout>
 </RelativeLayout>

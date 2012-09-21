@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -31,10 +30,10 @@ import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.idea.activity.IdeaDetailActivity;
 import com.juzhai.android.idea.activity.IdeaListActivity;
+import com.juzhai.android.idea.activity.IdeaUsersActivity;
 import com.juzhai.android.idea.adapter.viewholder.IdeaListViewHolder;
 import com.juzhai.android.idea.model.Idea;
 
-@SuppressLint("ResourceAsColor")
 public class IdeaListAdapter extends BaseAdapter {
 	private List<Idea> ideaResult;
 	private Context mContext = null;
@@ -104,6 +103,19 @@ public class IdeaListAdapter extends BaseAdapter {
 		} else {
 			btn.setText(convertView.getResources().getString(R.string.i_want));
 			btn.setBackgroundResource(R.drawable.i_want_selector_button);
+			// 我想去
+			Map<String, String> values = new HashMap<String, String>();
+			values.put("ideaId", String.valueOf(idea.getIdeaId()));
+			btn.setOnClickListener(new BaseListener("post/sendPost", mContext,
+					values, new ListenerSuccessCallBack() {
+						@Override
+						public void callback() {
+							btn.setOnClickListener(null);
+							btn.setBackgroundResource(R.drawable.i_want_go_btn_done);
+							btn.setText(mContext.getResources().getString(
+									R.string.want_done));
+						}
+					}));
 		}
 		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 		if (StringUtils.isNotEmpty(idea.getBigPic())) {
@@ -136,18 +148,18 @@ public class IdeaListAdapter extends BaseAdapter {
 						activity.CLEAR_REQUEST_CODE);
 			}
 		});
-		// 我想去
-		Map<String, String> values = new HashMap<String, String>();
-		values.put("ideaId", String.valueOf(idea.getIdeaId()));
-		btn.setOnClickListener(new BaseListener("post/sendPost", mContext,
-				values, new ListenerSuccessCallBack() {
-					@Override
-					public void callback() {
-						btn.setBackgroundResource(R.drawable.i_want_go_btn_done);
-						btn.setText(mContext.getResources().getString(
-								R.string.want_done));
-					}
-				}));
+		textView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, IdeaUsersActivity.class);
+				intent.putExtra("idea", idea);
+				NavigationActivity activity = (IdeaListActivity) mContext;
+				activity.pushIntentForResult(intent,
+						activity.CLEAR_REQUEST_CODE);
+
+			}
+		});
 		return convertView;
 	}
 

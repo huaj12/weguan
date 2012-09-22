@@ -10,14 +10,14 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.model.Result;
+import com.juzhai.android.core.model.Result.StringResult;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.passport.data.UserCache;
 
+//TODO (review) BaseListener这个名字取的太大
 public class BaseListener implements OnClickListener {
 	private String uri;
 	private ProgressDialog progressDialog;
@@ -36,22 +36,21 @@ public class BaseListener implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		final Button btn = (Button) v;
 		new AsyncTask<Void, Void, String>() {
 
 			@Override
 			protected String doInBackground(Void... params) {
-				ResponseEntity<Result> responseEntity = null;
+				ResponseEntity<StringResult> responseEntity = null;
 				try {
 					responseEntity = HttpUtils.post(uri, values,
-							UserCache.getUserStatus(), Result.class);
+							UserCache.getUserStatus(), StringResult.class);
 				} catch (Exception e) {
 					return context.getResources().getString(
 							R.string.system_internet_erorr);
 				}
-				Result results = responseEntity.getBody();
-				if (!results.getSuccess()) {
-					return results.getErrorInfo();
+				StringResult result = responseEntity.getBody();
+				if (!result.getSuccess()) {
+					return result.getErrorInfo();
 				}
 				return null;
 			}
@@ -64,6 +63,7 @@ public class BaseListener implements OnClickListener {
 				if (StringUtils.isNotEmpty(errorInfo)) {
 					DialogUtils.showToastText(context, errorInfo);
 				} else {
+					// TODO (review) 成功提示如果需要自定义呢？
 					DialogUtils.showToastText(context, R.string.success);
 					callback.callback();
 				}

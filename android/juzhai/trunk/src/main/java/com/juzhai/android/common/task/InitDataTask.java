@@ -11,7 +11,7 @@ import com.juzhai.android.BuildConfig;
 import com.juzhai.android.core.data.SharedPreferencesManager;
 import com.juzhai.android.core.model.Result.CategoryResult;
 import com.juzhai.android.core.utils.HttpUtils;
-import com.juzhai.android.core.utils.JackSonSerializer;
+import com.juzhai.android.core.utils.JacksonSerializer;
 
 public class InitDataTask extends AsyncTask<Void, Void, Boolean> {
 	private final String CATEGORY_URI = "base/categoryList";
@@ -34,10 +34,10 @@ public class InitDataTask extends AsyncTask<Void, Void, Boolean> {
 				CategoryResult.class);
 		if (response != null && response.getBody() != null
 				&& response.getBody().getSuccess()) {
-			CategoryResult categoryResults = response.getBody();
+			CategoryResult categoryResult = response.getBody();
 			try {
 				manager.commit("category",
-						JackSonSerializer.toString(categoryResults));
+						JacksonSerializer.toString(categoryResult));
 			} catch (JsonGenerationException e) {
 				if (BuildConfig.DEBUG) {
 					Log.d(getClass().getSimpleName(),

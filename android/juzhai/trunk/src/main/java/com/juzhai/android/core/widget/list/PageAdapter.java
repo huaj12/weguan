@@ -46,10 +46,12 @@ public abstract class PageAdapter<T extends Entity> extends BaseAdapter {
 
 	public void pushDatas(List<T> datas) {
 		data.addAll(datas);
+		notifyDataSetChanged();
 	}
 
 	public void setDatas(List<T> datas) {
 		data.clearAndAddAll(datas);
+		notifyDataSetChanged();
 	}
 
 	public void setPager(Pager pager) {

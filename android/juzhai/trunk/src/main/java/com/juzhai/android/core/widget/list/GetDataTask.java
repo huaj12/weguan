@@ -39,7 +39,6 @@ public abstract class GetDataTask<T extends Result<? extends PageList<E>>, E ext
 			refreshListView
 					.setMode(result.getResult().getPager().getHasNext() ? Mode.BOTH
 							: Mode.PULL_DOWN_TO_REFRESH);
-			refreshListView.getPageAdapter().notifyDataSetChanged();
 		}
 		if (null != refreshListView) {
 			refreshListView.onRefreshComplete();

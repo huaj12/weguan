@@ -7,7 +7,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
-public class JackSonSerializer {
+public class JacksonSerializer {
 
 	private static ObjectMapper m = new ObjectMapper();
 

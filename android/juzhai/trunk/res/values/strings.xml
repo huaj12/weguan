@@ -51,6 +51,7 @@
     <string name="sending">正在请求</string>
     <string name="success">操作成功</string>
     <string name="age">岁</string>
+    <string name="all">全部</string>
     <!-- common end -->
 
 
@@ -78,7 +79,14 @@
     <string name="idea_users_title">想去的人</string>
     <string name="about">约Ta</string>
     <string name="about_done">已约</string>
+    <string name="idea_hot">最热</string>
+    <string name="idea_time">最新</string>
     <!-- idea end -->
+    
+    <!-- home begin-->
+    <string name="home_title">我的主页</string>
+    <string name="update_profile_btn">编辑个人资料</string>
+    <!-- home end -->
     <!-- error begin -->
     <string name="system_internet_erorr">当前网络不可用请稍后重试</string>
     <string name="email_account_invalid">邮箱帐号不合法</string>

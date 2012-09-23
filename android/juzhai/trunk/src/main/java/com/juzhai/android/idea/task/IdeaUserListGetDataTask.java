@@ -26,7 +26,8 @@ public class IdeaUserListGetDataTask extends
 			IIdeaService ideaService = new IdeaService();
 			Map<String, String> values = new HashMap<String, String>();
 			values.put("ideaId", String.valueOf(ideaId));
-			return ideaService.listIdeaUser(values, page);
+			values.put("page", String.valueOf(page));
+			return ideaService.listIdeaUser(values);
 		} catch (IdeaException e) {
 			return null;
 		}

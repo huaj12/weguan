@@ -20,10 +20,8 @@ public class IdeaService implements IIdeaService {
 	private String ideaUsersUri = "idea/users";
 
 	@Override
-	public IdeaListResult list(Map<String, String> values, int page)
-			throws IdeaException {
+	public IdeaListResult list(Map<String, String> values) throws IdeaException {
 		// TODO (done) 通过Map传入get方法
-		values.put("page", String.valueOf(page));
 		String uri = ideaListUri + HttpUtils.createHttpParam(values);
 		ResponseEntity<IdeaListResult> responseEntity = null;
 		try {
@@ -40,10 +38,9 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public IdeaUserListResult listIdeaUser(Map<String, String> values, int page)
+	public IdeaUserListResult listIdeaUser(Map<String, String> values)
 			throws IdeaException {
 		// TODO (done) 通过Map传入get方法
-		values.put("page", String.valueOf(page));
 		String url = ideaUsersUri + HttpUtils.createHttpParam(values);
 		ResponseEntity<IdeaUserListResult> responseEntity = null;
 		try {

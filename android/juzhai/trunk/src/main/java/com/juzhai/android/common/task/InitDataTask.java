@@ -23,7 +23,7 @@ public class InitDataTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(Void... params) {
-		if (!manager.isExist("category")) {
+		if (!manager.isExist(SharedPreferencesManager.CATEGORY)) {
 			initCategory();
 		}
 		return true;
@@ -36,7 +36,7 @@ public class InitDataTask extends AsyncTask<Void, Void, Boolean> {
 				&& response.getBody().getSuccess()) {
 			CategoryResult categoryResult = response.getBody();
 			try {
-				manager.commit("category",
+				manager.commit(SharedPreferencesManager.CATEGORY,
 						JacksonSerializer.toString(categoryResult));
 			} catch (JsonGenerationException e) {
 				if (BuildConfig.DEBUG) {

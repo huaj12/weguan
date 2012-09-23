@@ -37,10 +37,8 @@ public class IdeaListActivity extends NavigationActivity {
 		// 分类
 		final List<Category> categorys = CommonData
 				.getCategorys(IdeaListActivity.this);
-		String[] categoryNames = new String[categorys.size()];
-		for (int i = 0; i < categorys.size(); i++) {
-			categoryNames[i] = categorys.get(i).getName();
-		}
+		String[] categoryNames = CommonData
+				.getCategoryNames(IdeaListActivity.this);
 		// 导航左边按钮
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, categoryNames) {
@@ -55,12 +53,12 @@ public class IdeaListActivity extends NavigationActivity {
 		Spinner spinner = (Spinner) getLayoutInflater().inflate(
 				R.layout.button_category, null);
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			//TODO (review) 为什么是onItemSelected，而不是onclick？
-			//TODO (review) 少了所有好主意
+			// TODO (review) 为什么是onItemSelected，而不是onclick？
+			// TODO (done) 少了所有好主意
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
-				//TODO (review) 为什么是事件内部来设置样式？
+				// TODO (review) 为什么是事件内部来设置样式？
 				TextView tv = (TextView) view;
 				tv.setTextColor(getResources().getColor(R.color.white)); // 设置颜色
 				tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13); // 设置大小
@@ -79,9 +77,10 @@ public class IdeaListActivity extends NavigationActivity {
 		getNavigationBar().setLeftView(spinner);
 
 		// 导航右边按钮
-		//TODO (review) 文字配制化（最新，推荐）
+		// TODO (done) 文字配制化（最新，推荐）
 		SegmentedButton segmentedButton = new SegmentedButton(this,
-				new String[] { "最新", "最热" }, 60, 32);
+				new String[] { getResources().getString(R.string.idea_time),
+						getResources().getString(R.string.idea_hot) }, 60, 32);
 		segmentedButton
 				.setOnClickListener(new SegmentedButton.OnClickListener() {
 					@Override
@@ -91,7 +90,8 @@ public class IdeaListActivity extends NavigationActivity {
 							orderType = "time";
 							break;
 						case 1:
-							//TODO (review) 目前好主意列表支持推荐列表，orderType传入“recommend”（事实上只要OrderType枚举获取不到）就会请求windowIdeas
+							// TODO (review)
+							// 目前好主意列表支持推荐列表，orderType传入“recommend”（事实上只要OrderType枚举获取不到）就会请求windowIdeas
 							orderType = "pop";
 							break;
 						}

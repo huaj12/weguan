@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.listener.BaseListener;
 import com.juzhai.android.core.listener.ListenerSuccessCallBack;
+import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.utils.UIUtil;
@@ -61,7 +61,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		final TextView contentTextView = holder.contentTextView;
 		contentTextView.setTextColor(android.graphics.Color.BLACK);
 		contentTextView.setBackgroundDrawable(null);
-		// TODO (review) 这个截字有什么意义？
+		// TODO (done) 这个截字有什么意义？ 保证他只显示2行。
 		contentTextView.setText(TextTruncateUtil.truncate(idea.getContent(),
 				Validation.IDEA_CONTENT_MAX_LENGTH, "..."));
 
@@ -83,20 +83,21 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 
 		final Button wantButton = holder.wantButton;
 		if (idea.isHasUsed()) {
-			// TODO (review) 背景资源通过改变按钮状态来进行切换
+			// TODO (done) 背景资源通过改变按钮状态来进行切换 这个按钮是灰的不可以按。
 			wantButton.setBackgroundResource(R.drawable.i_want_go_btn_done);
 			wantButton.setText(convertView.getResources().getString(
 					R.string.want_done));
 		} else {
-			// TODO (review) 按钮按下没有效果？
+			// TODO (done) 按钮按下没有效果？ i_want_selector_button就是一个背景资源。有下按效果
 			wantButton.setText(convertView.getResources().getString(
 					R.string.i_want));
 			wantButton.setBackgroundResource(R.drawable.i_want_selector_button);
 			// 我想去
 			Map<String, String> values = new HashMap<String, String>();
 			values.put("ideaId", String.valueOf(idea.getIdeaId()));
-			wantButton.setOnClickListener(new BaseListener("post/sendPost",
-					mContext, values, new ListenerSuccessCallBack() {
+			wantButton.setOnClickListener(new SimpleClickListener(
+					"post/sendPost", mContext, values,
+					new ListenerSuccessCallBack() {
 						@Override
 						public void callback() {
 							wantButton.setOnClickListener(null);
@@ -111,8 +112,8 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		final ImageView imageView = holder.imageView;
 		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 		if (StringUtils.isNotEmpty(idea.getBigPic())) {
-			// TODO (review) 这个替换要干嘛？
-			nid.fetchImage(idea.getBigPic().replaceAll("test.", ""),
+			// TODO (done) 这个替换要干嘛？
+			nid.fetchImage(idea.getBigPic(),
 					R.drawable.good_idea_list_pic_none_icon, imageView,
 					new ImageLoaderCallback() {
 						@Override

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 
 public class SharedPreferencesManager {
 	private SharedPreferences sharedPreferences;
+	public static final String CATEGORY = "category";
 
 	public SharedPreferencesManager(Context context) {
 		sharedPreferences = context.getSharedPreferences("juzhai-android",

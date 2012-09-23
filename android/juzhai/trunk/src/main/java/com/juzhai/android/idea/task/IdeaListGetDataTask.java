@@ -27,7 +27,8 @@ public class IdeaListGetDataTask extends GetDataTask<IdeaListResult, Idea> {
 			Map<String, String> values = new HashMap<String, String>();
 			values.put("categoryId", String.valueOf(categoryId));
 			values.put("orderType", orderType);
-			return ideaService.list(values, page);
+			values.put("page", String.valueOf(page));
+			return ideaService.list(values);
 		} catch (IdeaException e) {
 			return null;
 		}

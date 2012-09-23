@@ -83,4 +83,18 @@ public class HttpUtils {
 				responseType);
 		return responseEntity;
 	}
+
+	public static String createHttpParam(Map<String, String> values) {
+		StringBuilder str = new StringBuilder();
+		str.append("?");
+		for (Entry<String, String> entry : values.entrySet()) {
+			if (str.length() != 1) {
+				str.append('&');
+			}
+			str.append(entry.getKey());
+			str.append('=');
+			str.append(entry.getValue());
+		}
+		return str.toString();
+	}
 }

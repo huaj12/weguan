@@ -17,21 +17,33 @@ import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.passport.data.UserCache;
 
-//TODO (review) BaseListener这个名字取的太大
-public class BaseListener implements OnClickListener {
+//TODO (done) BaseListener这个名字取的太大
+public class SimpleClickListener implements OnClickListener {
 	private String uri;
 	private ProgressDialog progressDialog;
 	private Context context;
 	private Map<String, String> values;
 	private ListenerSuccessCallBack callback;
+	private int successMessage = 0;
 
-	public BaseListener(String uri, Context context,
+	public SimpleClickListener(String uri, Context context,
 			Map<String, String> values, ListenerSuccessCallBack callback) {
 		super();
 		this.uri = uri;
 		this.context = context;
 		this.values = values;
 		this.callback = callback;
+	}
+
+	public SimpleClickListener(String uri, Context context,
+			Map<String, String> values, int successMessage,
+			ListenerSuccessCallBack callback) {
+		super();
+		this.uri = uri;
+		this.context = context;
+		this.values = values;
+		this.callback = callback;
+		this.successMessage = successMessage;
 	}
 
 	@Override
@@ -63,8 +75,13 @@ public class BaseListener implements OnClickListener {
 				if (StringUtils.isNotEmpty(errorInfo)) {
 					DialogUtils.showToastText(context, errorInfo);
 				} else {
-					// TODO (review) 成功提示如果需要自定义呢？
-					DialogUtils.showToastText(context, R.string.success);
+					// TODO (done) 成功提示如果需要自定义呢？
+					if (successMessage != 0) {
+						DialogUtils.showToastText(context, context
+								.getResources().getString(successMessage));
+					} else {
+						DialogUtils.showToastText(context, R.string.success);
+					}
 					callback.callback();
 				}
 			}

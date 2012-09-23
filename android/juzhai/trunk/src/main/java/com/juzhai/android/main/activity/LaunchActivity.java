@@ -8,7 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.juzhai.android.R;
-import com.juzhai.android.common.task.InitDataTask;
+import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.activity.BaseActivity;
 import com.juzhai.android.passport.activity.LoginActivity;
 import com.juzhai.android.passport.service.IPassportService;
@@ -54,7 +54,7 @@ public class LaunchActivity extends BaseActivity {
 			}
 		}.execute();
 		// 初始化数据
-		// TODO (review) 为什么不是由基础数据管理器统一管理，而是读写四处调用呢？
-		new InitDataTask(LaunchActivity.this).execute();
+		// TODO (done) 为什么不是由基础数据管理器统一管理，而是读写四处调用呢？
+		CommonData.InitDate(LaunchActivity.this);
 	}
 }

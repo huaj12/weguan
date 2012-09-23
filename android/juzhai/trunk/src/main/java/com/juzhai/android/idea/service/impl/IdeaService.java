@@ -1,5 +1,7 @@
 package com.juzhai.android.idea.service.impl;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 
 import android.util.Log;
@@ -18,11 +20,11 @@ public class IdeaService implements IIdeaService {
 	private String ideaUsersUri = "idea/users";
 
 	@Override
-	public IdeaListResult list(int categoryId, String orderType, int page)
+	public IdeaListResult list(Map<String, String> values, int page)
 			throws IdeaException {
-		// TODO (review) 通过Map传入get方法
-		String uri = ideaListUri + "?categoryId=" + categoryId + "&orderType="
-				+ orderType + "&page=" + page;
+		// TODO (done) 通过Map传入get方法
+		values.put("page", String.valueOf(page));
+		String uri = ideaListUri + HttpUtils.createHttpParam(values);
 		ResponseEntity<IdeaListResult> responseEntity = null;
 		try {
 			responseEntity = HttpUtils.get(uri, UserCache.getUserStatus(),
@@ -38,10 +40,11 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public IdeaUserListResult listIdeaUser(long ideaId, int page)
+	public IdeaUserListResult listIdeaUser(Map<String, String> values, int page)
 			throws IdeaException {
-		// TODO (review) 通过Map传入get方法
-		String url = ideaUsersUri + "?ideaId=" + ideaId + "&page=" + page;
+		// TODO (done) 通过Map传入get方法
+		values.put("page", String.valueOf(page));
+		String url = ideaUsersUri + HttpUtils.createHttpParam(values);
 		ResponseEntity<IdeaUserListResult> responseEntity = null;
 		try {
 			responseEntity = HttpUtils.get(url, UserCache.getUserStatus(),

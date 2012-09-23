@@ -19,8 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.listener.BaseListener;
 import com.juzhai.android.core.listener.ListenerSuccessCallBack;
+import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
@@ -58,8 +58,9 @@ public class IdeaDetailActivity extends NavigationActivity {
 		ImageViewLoader nid = ImageViewLoader
 				.getInstance(IdeaDetailActivity.this);
 		if (StringUtils.isNotEmpty(idea.getBigPic())) {
-			nid.fetchImage(idea.getBigPic().replaceAll("test.", ""), 0,
-					imageView, new ImageLoaderCallback() {
+			nid.fetchImage(idea.getBigPic(),
+					R.drawable.good_idea_list_pic_none_icon, imageView,
+					new ImageLoaderCallback() {
 						@Override
 						public void imageLoaderFinish(Bitmap bitmap) {
 							if (bitmap != null) {
@@ -80,7 +81,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 		} else {
 			Map<String, String> values = new HashMap<String, String>();
 			values.put("ideaId", String.valueOf(idea.getIdeaId()));
-			wantBtn.setOnClickListener(new BaseListener("post/sendPost",
+			wantBtn.setOnClickListener(new SimpleClickListener("post/sendPost",
 					IdeaDetailActivity.this, values,
 					new ListenerSuccessCallBack() {
 						@Override

@@ -113,7 +113,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 		if (StringUtils.isNotEmpty(idea.getBigPic())) {
 			// TODO (done) 这个替换要干嘛？
-			nid.fetchImage(idea.getBigPic(),
+			nid.fetchImage(idea.getBigPic().replaceAll("test.", ""),
 					R.drawable.good_idea_list_pic_none_icon, imageView,
 					new ImageLoaderCallback() {
 						@Override
@@ -126,7 +126,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 										UIUtil.dip2px(mContext, 180));
 								// TODO (review) 圆角有问题
 								imageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 15));
+										.getRoundedCornerBitmap(zoomBitmap, 30));
 								contentTextView
 										.setBackgroundResource(R.drawable.good_idea_item_txt_infor_bg);
 								contentTextView.setTextColor(mContext

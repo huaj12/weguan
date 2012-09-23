@@ -14,10 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.listener.BaseListener;
 import com.juzhai.android.core.listener.ListenerSuccessCallBack;
+import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.utils.ImageUtils;
-import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.utils.Validation;
@@ -59,29 +58,23 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 		final Button dateButton = holder.dateButton;
 
 		User user = ideaUser.getUserView();
-		// TODO (review) hasInterest是约他的意思？
-		if (user.isHasInterest()) {
-			// TODO (review) 用按钮状态的方式来改变背景资源（不知道text内容和颜色能否也一样的做法）
-			dateButton.setBackgroundResource(R.drawable.date_btn_done);
-			dateButton.setText(R.string.about_done);
-			dateButton.setTextColor(mContext.getResources().getColor(
-					R.color.about_gray));
-		} else {
-			// TODO (review) 用按钮状态的方式来改变背景资源（不知道text内容和颜色能否也一样的做法）
-			dateButton.setBackgroundResource(R.drawable.about_selector_button);
-			dateButton.setText(R.string.about);
-			dateButton.setTextColor(mContext.getResources().getColor(
-					R.color.white));
-		}
-		// TODO (review) 按钮按下没有效果？
+		// TODO (done) hasInterest是约他的意思？
+		// TODO (done) 用按钮状态的方式来改变背景资源（不知道text内容和颜色能否也一样的做法） 这个是约他的button也有按下效果
+		dateButton.setBackgroundResource(R.drawable.about_selector_button);
+		dateButton.setText(R.string.about);
+		dateButton
+				.setTextColor(mContext.getResources().getColor(R.color.white));
+		// TODO (done) 按钮按下没有效果？ 这个是约他的button也有按下效果上面设置了。
 		Map<String, String> values = new HashMap<String, String>();
 		values.put("targetUid", String.valueOf(user.getUid()));
 		values.put("ideaId", String.valueOf(ideaUser.getIdeaId()));
-		dateButton.setOnClickListener(new BaseListener("dialog/sendDate",
-				mContext, values, new ListenerSuccessCallBack() {
+		dateButton.setOnClickListener(new SimpleClickListener(
+				"dialog/sendDate", mContext, values,
+				new ListenerSuccessCallBack() {
 					@Override
 					public void callback() {
-						// TODO (review) 用按钮状态的方式来改变背景资源（不知道text内容和颜色能否也一样的做法）
+						// TODO (done)
+						// 用按钮状态的方式来改变背景资源（不知道text内容和颜色能否也一样的做法）已经约了。所以是不可点状态了。不需要有按下效果了。
 						dateButton
 								.setBackgroundResource(R.drawable.date_btn_done);
 						dateButton.setText(R.string.about_done);
@@ -93,7 +86,7 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 
 		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 		if (user.isHasLogo() && StringUtils.isNotEmpty(user.getLogo())) {
-			// TODO (review) 这个replace是干嘛的？
+			// TODO (done) 这个replace是干嘛的？
 			nid.fetchImage(user.getLogo().replaceAll("test.", ""),
 					R.drawable.user_face_unload, imageView,
 					new ImageLoaderCallback() {
@@ -110,33 +103,20 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 					});
 		}
 		if (user.getGender() == 0) {
-			//TODO (review) 颜色问题，之前pink，我看不能编译临时改为blue
+			// TODO (done) 颜色问题，之前pink，我看不能编译临时改为blue
 			nicknameTextView.setTextColor(mContext.getResources().getColor(
-					R.color.blue));
+					R.color.pink));
 		} else {
 			nicknameTextView.setTextColor(mContext.getResources().getColor(
 					R.color.blue));
 		}
-		//TODO (review) 这个截字有什么意义？
+		// TODO (done) 这个截字有什么意义？ nickname会太长
 		nicknameTextView.setText(TextTruncateUtil.truncate(user.getNickname(),
 				Validation.NICKNAME_LENGTH_MAX, "..."));
-		
-		//TODO (review) 组装用户info的代码，可以封装到User里去
-		StringBuffer sbString = new StringBuffer();
-		if (JzUtils.age(user.getBirthYear()) > 0) {
-			sbString.append(JzUtils.age(user.getBirthYear())
-					+ mContext.getResources().getString(R.string.age));
-			sbString.append(",");
-		}
-		if (StringUtils.isNotEmpty(user.getConstellation())) {
-			sbString.append(user.getConstellation());
-			sbString.append(",");
-		}
-		if (StringUtils.isNotEmpty(user.getProfession())) {
-			sbString.append(user.getProfession());
-		}
-		//TODO (review) 截字为什么是Validation？
-		infoTextView.setText(TextTruncateUtil.truncate(sbString.toString(),
+
+		// TODO (review) 截字为什么是Validation？
+		infoTextView.setText(TextTruncateUtil.truncate(
+				user.getUserInfo(mContext),
 				Validation.USER_INFO_CONTENT_MAX_LENGTH, "..."));
 		return convertView;
 	}

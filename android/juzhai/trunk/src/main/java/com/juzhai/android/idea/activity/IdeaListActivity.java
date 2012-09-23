@@ -3,7 +3,6 @@ package com.juzhai.android.idea.activity;
 import java.util.List;
 
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -11,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.common.model.Category;
@@ -41,7 +39,7 @@ public class IdeaListActivity extends NavigationActivity {
 				.getCategoryNames(IdeaListActivity.this);
 		// 导航左边按钮
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, categoryNames) {
+				R.layout.button_category_spinner, categoryNames) {
 			@Override
 			public long getItemId(int position) {
 				return categorys.get(position).getCategoryId();
@@ -53,20 +51,17 @@ public class IdeaListActivity extends NavigationActivity {
 		Spinner spinner = (Spinner) getLayoutInflater().inflate(
 				R.layout.button_category, null);
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			// TODO (review) 为什么是onItemSelected，而不是onclick？
+			// TODO (done) 为什么是onItemSelected，而不是onclick？ onItemSelected
+			// 如果选择当前选中的item不会触发。少请求一次。
 			// TODO (done) 少了所有好主意
+			// TODO (done) bug 初始化的时候会执行一次onItemSelected所以manualRefresh放在里面
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO (review) 为什么是事件内部来设置样式？
-				TextView tv = (TextView) view;
-				tv.setTextColor(getResources().getColor(R.color.white)); // 设置颜色
-				tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13); // 设置大小
-				tv.setGravity(android.view.Gravity.LEFT);
-				tv.setPadding(25, 0, 0, 0);
+				// TODO (done) 为什么是事件内部来设置样式？
 				categoryId = (int) id;
-				// TODO (review) bug
-				// ideaListView.manualRefresh();
+
+				ideaListView.manualRefresh();
 			}
 
 			@Override
@@ -121,6 +116,6 @@ public class IdeaListActivity extends NavigationActivity {
 		});
 		ideaListView.setAdapter(new IdeaListAdapter(IdeaListActivity.this));
 
-		ideaListView.manualRefresh();
+		// ideaListView.manualRefresh();
 	}
 }

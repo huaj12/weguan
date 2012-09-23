@@ -1,6 +1,12 @@
 package com.juzhai.android.passport.model;
 
+import org.apache.commons.lang.StringUtils;
+
+import android.content.Context;
+
+import com.juzhai.android.R;
 import com.juzhai.android.core.model.Entity;
+import com.juzhai.android.core.utils.JzUtils;
 
 public class User extends Entity {
 	private static final long serialVersionUID = -8385388032091129353L;
@@ -305,6 +311,24 @@ public class User extends Entity {
 	@Override
 	public Object getIdentify() {
 		return this.getUid();
+	}
+
+	public String getUserInfo(Context mContext) {
+		// TODO (done) 组装用户info的代码，可以封装到User里去
+		StringBuffer sbString = new StringBuffer();
+		if (JzUtils.age(getBirthYear()) > 0) {
+			sbString.append(JzUtils.age(getBirthYear())
+					+ mContext.getResources().getString(R.string.age));
+			sbString.append(",");
+		}
+		if (StringUtils.isNotEmpty(getConstellation())) {
+			sbString.append(getConstellation());
+			sbString.append(",");
+		}
+		if (StringUtils.isNotEmpty(getProfession())) {
+			sbString.append(getProfession());
+		}
+		return sbString.toString();
 	}
 
 }

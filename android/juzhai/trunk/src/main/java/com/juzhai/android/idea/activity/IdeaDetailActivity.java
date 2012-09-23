@@ -58,7 +58,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 		ImageViewLoader nid = ImageViewLoader
 				.getInstance(IdeaDetailActivity.this);
 		if (StringUtils.isNotEmpty(idea.getBigPic())) {
-			nid.fetchImage(idea.getBigPic(),
+			nid.fetchImage(idea.getBigPic().replaceAll("test.", ""),
 					R.drawable.good_idea_list_pic_none_icon, imageView,
 					new ImageLoaderCallback() {
 						@Override

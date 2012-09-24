@@ -35,11 +35,18 @@ public class ImageUtils {
 		int height = scrBitmap.getHeight();
 		Matrix matrix = new Matrix();
 		float scaleWidth = ((float) tagerWidth) / width;
-		float scaleHeight = ((float) tagerHeight) / height;
-		matrix.postScale(scaleWidth, scaleHeight);
+		// float scaleHeight = ((float) tagerHeight) / height;
+		matrix.postScale(scaleWidth, scaleWidth);
 		Bitmap result = Bitmap.createBitmap(scrBitmap, 0, 0, width, height,
 				matrix, true);
+		if (result.getHeight() > tagerHeight) {
+			int y = (result.getHeight() / 2) - (tagerHeight / 2);
+			if (y + tagerHeight >= result.getHeight()) {
+				y = 0;
+			}
+			return Bitmap.createBitmap(result, 0, y, tagerWidth, tagerHeight);
+		}
 		return result;
-	}
 
+	}
 }

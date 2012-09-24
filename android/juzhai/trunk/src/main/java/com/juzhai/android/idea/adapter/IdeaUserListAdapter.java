@@ -62,6 +62,7 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 		dateButton.setText(R.string.about);
 		dateButton
 				.setTextColor(mContext.getResources().getColor(R.color.white));
+		dateButton.setEnabled(true);
 		Map<String, String> values = new HashMap<String, String>();
 		values.put("targetUid", String.valueOf(user.getUid()));
 		values.put("ideaId", String.valueOf(ideaUser.getIdeaId()));

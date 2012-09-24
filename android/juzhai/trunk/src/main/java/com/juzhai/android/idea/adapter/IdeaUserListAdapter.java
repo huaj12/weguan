@@ -79,7 +79,7 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 				}));
 
 		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
-		if (user.isHasLogo() && StringUtils.isNotEmpty(user.getLogo())) {
+		if (StringUtils.isNotEmpty(user.getLogo())) {
 			nid.fetchImage(JzUtils.getImageUrl(user.getLogo()),
 					R.drawable.user_face_unload, imageView,
 					new ImageLoaderCallback() {

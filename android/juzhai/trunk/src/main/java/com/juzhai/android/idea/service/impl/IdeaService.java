@@ -21,14 +21,14 @@ public class IdeaService implements IIdeaService {
 	private String ideaUsersUri = "idea/users";
 
 	@Override
-	public IdeaListResult list(int categoryId, String orderType, int page)
+	public IdeaListResult list(long categoryId, String orderType, int page)
 			throws IdeaException {
-		//TODO (review) 不能是<String,Object>
-		Map<String, String> values = new HashMap<String, String>();
-		values.put("categoryId", String.valueOf(categoryId));
+		// TODO (done) 不能是<String,Object>
+		Map<String, Object> values = new HashMap<String, Object>();
+		values.put("categoryId", categoryId);
 		values.put("orderType", orderType);
-		values.put("page", String.valueOf(page));
-		String uri = ideaListUri + HttpUtils.createHttpParam(values);
+		values.put("page", page);
+		String uri = HttpUtils.createHttpParam(ideaListUri, values);
 		ResponseEntity<IdeaListResult> responseEntity = null;
 		try {
 			responseEntity = HttpUtils.get(uri, UserCache.getUserStatus(),
@@ -46,11 +46,11 @@ public class IdeaService implements IIdeaService {
 	@Override
 	public IdeaUserListResult listIdeaUser(long ideaId, int page)
 			throws IdeaException {
-		Map<String, String> values = new HashMap<String, String>();
-		values.put("ideaId", String.valueOf(ideaId));
-		values.put("page", String.valueOf(page));
-		//TODO (review) 不能是<String,Object>
-		String url = ideaUsersUri + HttpUtils.createHttpParam(values);
+		Map<String, Object> values = new HashMap<String, Object>();
+		values.put("ideaId", ideaId);
+		values.put("page", page);
+		// TODO (done) 不能是<String,Object>
+		String url = HttpUtils.createHttpParam(ideaUsersUri, values);
 		ResponseEntity<IdeaUserListResult> responseEntity = null;
 		try {
 			responseEntity = HttpUtils.get(url, UserCache.getUserStatus(),

@@ -16,7 +16,7 @@ public class IdeaListGetDataTask extends GetDataTask<IdeaListResult, Idea> {
 
 	@Override
 	protected IdeaListResult doInBackground(Object... params) {
-		int categoryId = (Integer) params[0];
+		long categoryId = (Long) params[0];
 		String orderType = String.valueOf(params[1]);
 		int page = (Integer) params[2];
 		try {

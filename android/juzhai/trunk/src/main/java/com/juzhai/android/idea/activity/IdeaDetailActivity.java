@@ -22,6 +22,7 @@ import com.juzhai.android.R;
 import com.juzhai.android.core.listener.ListenerSuccessCallBack;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.utils.ImageUtils;
+import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
@@ -58,7 +59,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 		ImageViewLoader nid = ImageViewLoader
 				.getInstance(IdeaDetailActivity.this);
 		if (StringUtils.isNotEmpty(idea.getBigPic())) {
-			nid.fetchImage(idea.getBigPic().replaceAll("test.", ""),
+			nid.fetchImage(JzUtils.getImageUrl(idea.getBigPic()),
 					R.drawable.good_idea_list_pic_none_icon, imageView,
 					new ImageLoaderCallback() {
 						@Override

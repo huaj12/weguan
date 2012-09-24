@@ -41,4 +41,8 @@ public class UserCache {
 		return cookies;
 	}
 
+	public static long getUid() {
+		return userInfo.getUid();
+	}
+
 }

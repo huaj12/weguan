@@ -17,9 +17,9 @@ import com.juzhai.android.R;
 import com.juzhai.android.core.listener.ListenerSuccessCallBack;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.utils.ImageUtils;
+import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.utils.UIUtil;
-import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
@@ -70,20 +70,19 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 				new ListenerSuccessCallBack() {
 					@Override
 					public void callback() {
-						// TODO (review) 用按钮状态的方式来改变背景资源（不知道text内容和颜色能否也一样的做法）已经约了。所以是不可点状态了。不需要有按下效果了。
-						dateButton
-								.setBackgroundResource(R.drawable.date_btn_done);
+						// TODO (done)
+						// 用按钮状态的方式来改变背景资源（不知道text内容和颜色能否也一样的做法）已经约了。所以是不可点状态了。不需要有按下效果了。
 						dateButton.setText(R.string.about_done);
 						dateButton.setTextColor(mContext.getResources()
 								.getColor(R.color.about_gray));
-						dateButton.setOnClickListener(null);
+						dateButton.setEnabled(false);
 					}
 				}));
 
 		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 		if (user.isHasLogo() && StringUtils.isNotEmpty(user.getLogo())) {
-			// TODO (review) 这个replace是干嘛的？
-			nid.fetchImage(user.getLogo().replaceAll("test.", ""),
+			// TODO (done) 这个replace是干嘛的？
+			nid.fetchImage(JzUtils.getImageUrl(user.getLogo()),
 					R.drawable.user_face_unload, imageView,
 					new ImageLoaderCallback() {
 						@Override
@@ -105,14 +104,13 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 			nicknameTextView.setTextColor(mContext.getResources().getColor(
 					R.color.blue));
 		}
-		// TODO (reivew) Validation不适合
+		// TODO (done) Validation不适合
 		nicknameTextView.setText(TextTruncateUtil.truncate(user.getNickname(),
-				Validation.NICKNAME_LENGTH_MAX, "..."));
+				20, "..."));
 
-		// TODO (review) 截字为什么是Validation？
+		// TODO (done) 截字为什么是Validation？
 		infoTextView.setText(TextTruncateUtil.truncate(
-				user.getUserInfo(mContext),
-				Validation.USER_INFO_CONTENT_MAX_LENGTH, "..."));
+				user.getUserInfo(mContext), 23, "..."));
 		return convertView;
 	}
 

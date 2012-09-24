@@ -19,9 +19,9 @@ import com.juzhai.android.R;
 import com.juzhai.android.core.listener.ListenerSuccessCallBack;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.utils.ImageUtils;
+import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.utils.UIUtil;
-import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
@@ -61,16 +61,16 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		final TextView contentTextView = holder.contentTextView;
 		contentTextView.setTextColor(android.graphics.Color.BLACK);
 		contentTextView.setBackgroundDrawable(null);
-		// TODO (review) Validation不适合
+		// TODO (done) Validation不适合
 		contentTextView.setText(TextTruncateUtil.truncate(idea.getContent(),
-				Validation.IDEA_CONTENT_MAX_LENGTH, "..."));
+				60, "..."));
 
 		TextView userCountTextView = holder.userCountTextView;
 		userCountTextView.setText(mContext.getResources().getString(
 				R.string.use_count_begin)
 				+ idea.getUseCount()
 				+ mContext.getResources().getString(R.string.use_count_end));
-		// TODO (review) 按钮按下没有效果？
+		// TODO (done) 按钮按下没有效果？
 		userCountTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -83,9 +83,9 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 
 		final Button wantButton = holder.wantButton;
 		if (idea.isHasUsed()) {
-			// TODO (review) 按钮enable false的状态来使用背景资源
-			wantButton.setBackgroundResource(R.drawable.i_want_go_btn_done);
-			wantButton.setText(convertView.getResources().getString(
+			// TODO (done) 按钮enable false的状态来使用背景资源
+			wantButton.setEnabled(false);
+			wantButton.setText(mContext.getResources().getString(
 					R.string.want_done));
 		} else {
 			wantButton.setText(convertView.getResources().getString(
@@ -99,10 +99,8 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 					new ListenerSuccessCallBack() {
 						@Override
 						public void callback() {
-							//TODO (review) 通过改变按钮状态来实现样式修改和不可点
-							wantButton.setOnClickListener(null);
-							wantButton
-									.setBackgroundResource(R.drawable.i_want_go_btn_done);
+							// TODO (done) 通过改变按钮状态来实现样式修改和不可点
+							wantButton.setEnabled(false);
 							wantButton.setText(mContext.getResources()
 									.getString(R.string.want_done));
 						}
@@ -112,20 +110,21 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		final ImageView imageView = holder.imageView;
 		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 		if (StringUtils.isNotEmpty(idea.getBigPic())) {
-			// TODO (review) 这个替换要干嘛？
-			nid.fetchImage(idea.getBigPic().replaceAll("test.", ""),
+			// TODO (done) 这个替换要干嘛？
+			nid.fetchImage(JzUtils.getImageUrl(idea.getBigPic()),
 					R.drawable.good_idea_list_pic_none_icon, imageView,
 					new ImageLoaderCallback() {
 						@Override
 						public void imageLoaderFinish(Bitmap bitmap) {
 							if (bitmap != null) {
-								// TODO (review) 这里缩放我没解释清除，是固定一条边，然后等比例另外一条边，然后取固定尺寸的图片内容
+								// TODO (done)
+								// 这里缩放我没解释清除，是固定一条边，然后等比例另外一条边，然后取固定尺寸的图片内容
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
 										bitmap, UIUtil.dip2px(mContext, 262),
 										UIUtil.dip2px(mContext, 180));
 								// TODO (review) 圆角有问题
 								imageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 30));
+										.getRoundedCornerBitmap(zoomBitmap, 15));
 								contentTextView
 										.setBackgroundResource(R.drawable.good_idea_item_txt_infor_bg);
 								contentTextView.setTextColor(mContext

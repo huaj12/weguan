@@ -23,7 +23,7 @@ import com.juzhai.android.idea.adapter.IdeaListAdapter;
 import com.juzhai.android.idea.task.IdeaListGetDataTask;
 
 public class IdeaListActivity extends NavigationActivity {
-	private int categoryId = 0;
+	private long categoryId = 0;
 	private String orderType = "time";
 
 	@Override
@@ -51,14 +51,16 @@ public class IdeaListActivity extends NavigationActivity {
 		Spinner spinner = (Spinner) getLayoutInflater().inflate(
 				R.layout.button_category, null);
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			// TODO (review) 为什么是onItemSelected，而不是onclick？
+			// TODO (done) 为什么是onItemSelected，而不是onclick？
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
-				//TODO (review) 用long
-				categoryId = (int) id;
-
-				// ideaListView.manualRefresh();
+				// TODO (done) 用long
+				// 只有在初始化的时候才会相等
+				if (categoryId != id) {
+					categoryId = id;
+					ideaListView.manualRefresh();
+				}
 			}
 
 			@Override
@@ -69,10 +71,11 @@ public class IdeaListActivity extends NavigationActivity {
 		getNavigationBar().setLeftView(spinner);
 
 		// 导航右边按钮
-		// TODO (review) 是“推荐”不是“最热”
+		// TODO (done) 是“推荐”不是“最热”
 		SegmentedButton segmentedButton = new SegmentedButton(this,
 				new String[] { getResources().getString(R.string.idea_time),
-						getResources().getString(R.string.idea_hot) }, 60, 32);
+						getResources().getString(R.string.idea_recommend) },
+				60, 32);
 		segmentedButton
 				.setOnClickListener(new SegmentedButton.OnClickListener() {
 					@Override
@@ -82,8 +85,9 @@ public class IdeaListActivity extends NavigationActivity {
 							orderType = "time";
 							break;
 						case 1:
-							// TODO (review) 目前好主意列表支持推荐列表，orderType传入“recommend”（事实上只要OrderType枚举获取不到）就会请求windowIdeas
-							orderType = "pop";
+							// TODO (done)
+							// 目前好主意列表支持推荐列表，orderType传入“recommend”（事实上只要OrderType枚举获取不到）就会请求windowIdeas
+							orderType = "recommend";
 							break;
 						}
 						ideaListView.manualRefresh();

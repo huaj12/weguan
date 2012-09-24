@@ -36,12 +36,13 @@ public abstract class GetDataTask<T extends Result<? extends PageList<E>>, E ext
 			} else {
 				adapter.pushDatas(list);
 			}
-			refreshListView
-					.setMode(result.getResult().getPager().getHasNext() ? Mode.BOTH
-							: Mode.PULL_DOWN_TO_REFRESH);
 		}
 		if (null != refreshListView) {
 			refreshListView.onRefreshComplete();
+			if (null != result && result.getSuccess()) {
+				refreshListView.setMode(result.getResult().getPager()
+						.getHasNext() ? Mode.BOTH : Mode.PULL_DOWN_TO_REFRESH);
+			}
 		}
 		super.onPostExecute(result);
 	}

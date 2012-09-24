@@ -1,8 +1,5 @@
 package com.juzhai.android.idea.task;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.juzhai.android.core.model.Result.IdeaUserListResult;
 import com.juzhai.android.core.widget.list.GetDataTask;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
@@ -24,10 +21,7 @@ public class IdeaUserListGetDataTask extends
 		int page = (Integer) params[1];
 		try {
 			IIdeaService ideaService = new IdeaService();
-			Map<String, String> values = new HashMap<String, String>();
-			values.put("ideaId", String.valueOf(ideaId));
-			values.put("page", String.valueOf(page));
-			return ideaService.listIdeaUser(values);
+			return ideaService.listIdeaUser(ideaId, page);
 		} catch (IdeaException e) {
 			return null;
 		}

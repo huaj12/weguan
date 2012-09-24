@@ -68,14 +68,16 @@ public class ImageViewLoader {
 		if (placeholderImage > 0) {
 			imageView.setImageResource(placeholderImage);
 		}
+		if (imageView.getTag() != null
+				&& imageView.getTag() instanceof WebImageTask) {
+			((WebImageTask) imageView.getTag()).cancel(true);
+		}
 		if (StringUtils.hasText(url)) {
 			// 查询内存缓存
 			Bitmap bitmap = mCache.get(getKey(url));
 			if (null == bitmap) {
-				bitmap = diskCache.getBitmap(getKey(url));
-			}
-			if (null == bitmap) {
 				WebImageTask imageLoader = new WebImageTask(imageLoaderCallback);
+				imageView.setTag(imageLoader);
 				imageLoader.execute(url);
 			} else {
 				imageLoaderCallback.imageLoaderFinish(bitmap);

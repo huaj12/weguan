@@ -29,22 +29,27 @@
             <TextView
                 android:id="@+id/idea_content"
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:gravity="left"
-                android:textSize="15sp" />
+                android:gravity="bottom"
+                android:textSize="15sp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingBottom="4dp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dip" >
+            android:layout_marginTop="10dip"
+            >
 
             <TextView
                 android:id="@+id/idea_use_count_txet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
                 android:textColor="@color/blue"
                 android:textSize="15sp" />
 
@@ -53,8 +58,9 @@
                 android:layout_width="80dp"
                 android:layout_height="26dp"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textSize="15sp"
                 android:textColor="@color/white"
-                android:textSize="12sp" 
                 android:paddingLeft="20dp"
                 android:paddingTop="0dp"
                 android:paddingRight="0dp"

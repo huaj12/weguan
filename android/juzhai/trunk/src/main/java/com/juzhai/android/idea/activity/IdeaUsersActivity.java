@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.TextTruncateUtil;
-import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.core.widget.pullrefresh.PullToRefreshBase;
@@ -49,9 +48,9 @@ public class IdeaUsersActivity extends NavigationActivity {
 			}
 		});
 		TextView ideaContent = (TextView) findViewById(R.id.idea_users_content);
-		// TODO (review) 截字用Validation
-		ideaContent.setText(TextTruncateUtil.truncate(idea.getContent(),
-				Validation.IDEA_USER_CONTENT_MAX_LENGTH, "..."));
+		// TODO (done) 截字用Validation
+		ideaContent.setText(TextTruncateUtil.truncate(idea.getContent(), 30,
+				"..."));
 
 		// list
 		listView.setOnRefreshListener(new OnRefreshListener2<ListView>() {

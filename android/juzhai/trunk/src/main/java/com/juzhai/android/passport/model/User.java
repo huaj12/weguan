@@ -10,6 +10,7 @@ import com.juzhai.android.core.utils.JzUtils;
 
 public class User extends Entity {
 	private static final long serialVersionUID = -8385388032091129353L;
+	private static final String SPLIT = ",";
 	private long uid;
 	private String nickname;
 	private int gender;
@@ -314,16 +315,16 @@ public class User extends Entity {
 	}
 
 	public String getUserInfo(Context mContext) {
-		// TODO (review) 逗号用两个","?
+		// TODO (done) 逗号用两个","?
 		StringBuffer sbString = new StringBuffer();
 		if (JzUtils.age(getBirthYear()) > 0) {
 			sbString.append(JzUtils.age(getBirthYear())
 					+ mContext.getResources().getString(R.string.age));
-			sbString.append(",");
+			sbString.append(SPLIT);
 		}
 		if (StringUtils.isNotEmpty(getConstellation())) {
 			sbString.append(getConstellation());
-			sbString.append(",");
+			sbString.append(SPLIT);
 		}
 		if (StringUtils.isNotEmpty(getProfession())) {
 			sbString.append(getProfession());

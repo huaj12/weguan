@@ -51,17 +51,14 @@ public class IdeaListActivity extends NavigationActivity {
 		Spinner spinner = (Spinner) getLayoutInflater().inflate(
 				R.layout.button_category, null);
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			// TODO (done) 为什么是onItemSelected，而不是onclick？ onItemSelected
-			// 如果选择当前选中的item不会触发。少请求一次。
-			// TODO (done) 少了所有好主意
-			// TODO (done) bug 初始化的时候会执行一次onItemSelected所以manualRefresh放在里面
+			// TODO (review) 为什么是onItemSelected，而不是onclick？
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO (done) 为什么是事件内部来设置样式？
+				//TODO (review) 用long
 				categoryId = (int) id;
 
-				ideaListView.manualRefresh();
+				// ideaListView.manualRefresh();
 			}
 
 			@Override
@@ -72,7 +69,7 @@ public class IdeaListActivity extends NavigationActivity {
 		getNavigationBar().setLeftView(spinner);
 
 		// 导航右边按钮
-		// TODO (done) 文字配制化（最新，推荐）
+		// TODO (review) 是“推荐”不是“最热”
 		SegmentedButton segmentedButton = new SegmentedButton(this,
 				new String[] { getResources().getString(R.string.idea_time),
 						getResources().getString(R.string.idea_hot) }, 60, 32);
@@ -85,8 +82,7 @@ public class IdeaListActivity extends NavigationActivity {
 							orderType = "time";
 							break;
 						case 1:
-							// TODO (review)
-							// 目前好主意列表支持推荐列表，orderType传入“recommend”（事实上只要OrderType枚举获取不到）就会请求windowIdeas
+							// TODO (review) 目前好主意列表支持推荐列表，orderType传入“recommend”（事实上只要OrderType枚举获取不到）就会请求windowIdeas
 							orderType = "pop";
 							break;
 						}
@@ -116,6 +112,6 @@ public class IdeaListActivity extends NavigationActivity {
 		});
 		ideaListView.setAdapter(new IdeaListAdapter(IdeaListActivity.this));
 
-		// ideaListView.manualRefresh();
+		ideaListView.manualRefresh();
 	}
 }

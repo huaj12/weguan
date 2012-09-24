@@ -19,12 +19,9 @@ import com.juzhai.android.core.utils.JacksonSerializer;
 
 public class CommonData {
 	public static List<Category> getCategorys(Context context) {
-		// TODO (done) 变量名是大写的吗？
-		// TODO (done) "category"为什么没有常量？存储的地方不需要用？为什么要分开在不同地方使用？
 		String jsonString = new SharedPreferencesManager(context)
 				.getString(SharedPreferencesManager.CATEGORY);
 		if (StringUtils.isNotEmpty(jsonString)) {
-			// TODO (done) 空字符串就能进入if里了吗？
 			try {
 				CategoryResult result = JacksonSerializer.toBean(jsonString,
 						CategoryResult.class);
@@ -53,6 +50,7 @@ public class CommonData {
 		return categoryNames;
 	}
 
+	//TODO (review) 自己看有什么问题。如果你希望把所有基础数据请求放在一个任务里，那就用内部类来实现，因为外部不会使用InitDataTask
 	public static void InitDate(Context context) {
 		new InitDataTask(context).execute();
 	}

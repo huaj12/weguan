@@ -37,7 +37,6 @@ public class AsyncLoginTask extends AsyncTask<String, Integer, String> {
 
 	@Override
 	protected String doInBackground(String... params) {
-		// TODO (done) 看看能否改为异步（主线程操作webService，在3.0系统之后，是有限制的）
 		IPassportService passportService = new PassportService();
 		try {
 			passportService.login(mContext, account, password);

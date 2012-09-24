@@ -37,8 +37,6 @@ public class UserCacheManager {
 		Map<String, String> cookies = parseCookies(responseEntity.getHeaders()
 				.get("Set-Cookie"));
 		String pToken = cookies.get("p_token");
-
-		// TODO (done) 今后如果有其他信息需要持久化，下面持久化的操作需要封装出来
 		new SharedPreferencesManager(context).commit("p_token", pToken);
 	}
 

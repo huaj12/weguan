@@ -7,10 +7,10 @@ import android.content.Context;
 import com.juzhai.android.R;
 import com.juzhai.android.core.model.Entity;
 import com.juzhai.android.core.utils.JzUtils;
+import com.juzhai.android.core.utils.StringUtil;
 
 public class User extends Entity {
 	private static final long serialVersionUID = -8385388032091129353L;
-	private static final String SPLIT = ",";
 	private long uid;
 	private String nickname;
 	private int gender;
@@ -315,16 +315,15 @@ public class User extends Entity {
 	}
 
 	public String getUserInfo(Context mContext) {
-		// TODO (review) 逗号用静态变量？解释一下
 		StringBuffer sbString = new StringBuffer();
 		if (JzUtils.age(getBirthYear()) > 0) {
 			sbString.append(JzUtils.age(getBirthYear())
 					+ mContext.getResources().getString(R.string.age));
-			sbString.append(SPLIT);
+			sbString.append(StringUtil.COMMA);
 		}
 		if (StringUtils.isNotEmpty(getConstellation())) {
 			sbString.append(getConstellation());
-			sbString.append(SPLIT);
+			sbString.append(StringUtil.COMMA);
 		}
 		if (StringUtils.isNotEmpty(getProfession())) {
 			sbString.append(getProfession());

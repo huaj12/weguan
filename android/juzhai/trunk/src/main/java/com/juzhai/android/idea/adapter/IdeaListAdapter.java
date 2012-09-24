@@ -80,15 +80,21 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		});
 
 		final Button wantButton = holder.wantButton;
+		wantButton.setBackgroundResource(R.drawable.i_want_selector_button);
 		if (idea.isHasUsed()) {
-			// TODO (review) 没有设置Backround，设置enable为false有何用？
+			// TODO (done) 没有设置Backround，设置enable为false有何用？
 			wantButton.setEnabled(false);
 			wantButton.setText(mContext.getResources().getString(
 					R.string.want_done));
+			wantButton.setTextColor(mContext.getResources().getColor(
+					R.color.idea_want_done));
+
 		} else {
+			wantButton.setEnabled(true);
 			wantButton.setText(convertView.getResources().getString(
 					R.string.i_want));
-			wantButton.setBackgroundResource(R.drawable.i_want_selector_button);
+			wantButton.setTextColor(mContext.getResources().getColor(
+					R.color.idea_want));
 			// 我想去
 			Map<String, String> values = new HashMap<String, String>();
 			values.put("ideaId", String.valueOf(idea.getIdeaId()));
@@ -100,6 +106,8 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 							wantButton.setEnabled(false);
 							wantButton.setText(mContext.getResources()
 									.getString(R.string.want_done));
+							wantButton.setTextColor(mContext.getResources()
+									.getColor(R.color.idea_want_done));
 						}
 					}));
 		}
@@ -117,9 +125,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
 										bitmap, UIUtil.dip2px(mContext, 262),
 										UIUtil.dip2px(mContext, 180));
-								// TODO (review) 圆角有问题
-								imageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 15));
+								imageView.setImageBitmap(zoomBitmap);
 								contentTextView
 										.setBackgroundResource(R.drawable.good_idea_item_txt_infor_bg);
 								contentTextView.setTextColor(mContext

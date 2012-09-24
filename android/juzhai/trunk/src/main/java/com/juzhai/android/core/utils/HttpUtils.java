@@ -85,7 +85,7 @@ public class HttpUtils {
 	}
 
 	public static String createHttpParam(String uri, Map<String, Object> values) {
-		// TODO (done) 有没有考虑url已经有了“？”的情况？
+		// TODO (review) 一定要“?”结尾？
 		StringBuilder str = new StringBuilder();
 		if (!uri.endsWith("?")) {
 			str.append("?");

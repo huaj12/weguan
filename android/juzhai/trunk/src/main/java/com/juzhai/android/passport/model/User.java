@@ -315,7 +315,7 @@ public class User extends Entity {
 	}
 
 	public String getUserInfo(Context mContext) {
-		// TODO (done) 逗号用两个","?
+		// TODO (review) 逗号用静态变量？解释一下
 		StringBuffer sbString = new StringBuffer();
 		if (JzUtils.age(getBirthYear()) > 0) {
 			sbString.append(JzUtils.age(getBirthYear())

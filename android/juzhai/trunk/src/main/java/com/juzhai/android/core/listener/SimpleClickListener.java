@@ -74,7 +74,6 @@ public class SimpleClickListener implements OnClickListener {
 				if (StringUtils.isNotEmpty(errorInfo)) {
 					DialogUtils.showToastText(context, errorInfo);
 				} else {
-					// TODO (done) 我是说成功提示的样式自定义，不是文字
 					if (defaultStyle) {
 						DialogUtils.showToastText(context, R.string.success);
 					}

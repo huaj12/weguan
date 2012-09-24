@@ -21,12 +21,11 @@ import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.JacksonSerializer;
 
 public class CommonData {
-	// TODO (done) 这个是基础类，为什么会有category这个东西？
-	public static final String SHAREDPREFERNCES_CATEGORY = "category";
+	public static final String SHARED_PREFERNCES_CATEGORY = "category";
 
 	public static List<Category> getCategorys(Context context) {
 		String jsonString = new SharedPreferencesManager(context)
-				.getString(SHAREDPREFERNCES_CATEGORY);
+				.getString(SHARED_PREFERNCES_CATEGORY);
 		if (StringUtils.isNotEmpty(jsonString)) {
 			try {
 				CategoryResult result = JacksonSerializer.toBean(jsonString,
@@ -56,8 +55,7 @@ public class CommonData {
 		return categoryNames;
 	}
 
-	// TODO (done)
-	// 自己看有什么问题。如果你希望把所有基础数据请求放在一个任务里，那就用内部类来实现，因为外部不会使用InitDataTask
+	// TODO (review) 自己看有什么问题。
 	public static void InitDate(final Context context) {
 		new AsyncTask<Void, Void, Boolean>() {
 			private final String CATEGORY_URI = "base/categoryList";
@@ -66,7 +64,8 @@ public class CommonData {
 
 			@Override
 			protected Boolean doInBackground(Void... params) {
-				if (!manager.isExist(SHAREDPREFERNCES_CATEGORY)) {
+				//TODO (review) 自己看什么问题
+				if (!manager.isExist(SHARED_PREFERNCES_CATEGORY)) {
 					initCategory();
 				}
 				return true;
@@ -79,7 +78,7 @@ public class CommonData {
 						&& response.getBody().getSuccess()) {
 					CategoryResult categoryResult = response.getBody();
 					try {
-						manager.commit(SHAREDPREFERNCES_CATEGORY,
+						manager.commit(SHARED_PREFERNCES_CATEGORY,
 								JacksonSerializer.toString(categoryResult));
 					} catch (JsonGenerationException e) {
 						if (BuildConfig.DEBUG) {

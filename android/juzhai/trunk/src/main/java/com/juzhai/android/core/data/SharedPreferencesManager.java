@@ -7,11 +7,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class SharedPreferencesManager {
-	private SharedPreferences sharedPreferences;
+	private static SharedPreferences sharedPreferences = null;
 
 	public SharedPreferencesManager(Context context) {
-		sharedPreferences = context.getSharedPreferences("juzhai-android",
-				Context.MODE_PRIVATE);
+		synchronized (sharedPreferences) {
+			if (sharedPreferences == null) {
+				sharedPreferences = context.getSharedPreferences(
+						"juzhai-android", Context.MODE_PRIVATE);
+			}
+		}
 	}
 
 	public boolean isExist(String key) {

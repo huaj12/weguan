@@ -7,16 +7,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class SharedPreferencesManager {
-	private static SharedPreferences sharedPreferences = null;
-	private static Object obj = new Object();
+	private SharedPreferences sharedPreferences = null;
 
 	public SharedPreferencesManager(Context context) {
-		synchronized (obj) {
-			if (sharedPreferences == null) {
-				sharedPreferences = context.getSharedPreferences(
-						"juzhai-android", Context.MODE_PRIVATE);
-
-			}
+		if (sharedPreferences == null) {
+			sharedPreferences = context.getSharedPreferences("juzhai-android",
+					Context.MODE_PRIVATE);
 		}
 	}
 

@@ -84,18 +84,20 @@ public class HttpUtils {
 		return responseEntity;
 	}
 
-	public static String createHttpParam(Map<String, String> values) {
-		//TODO (review) 有没有考虑url已经有了“？”的情况？
+	public static String createHttpParam(String uri, Map<String, Object> values) {
+		// TODO (done) 有没有考虑url已经有了“？”的情况？
 		StringBuilder str = new StringBuilder();
-		str.append("?");
-		for (Entry<String, String> entry : values.entrySet()) {
+		if (!uri.endsWith("?")) {
+			str.append("?");
+		}
+		for (Entry<String, Object> entry : values.entrySet()) {
 			if (str.length() != 1) {
 				str.append('&');
 			}
 			str.append(entry.getKey());
 			str.append('=');
-			str.append(entry.getValue());
+			str.append(String.valueOf(entry.getValue()));
 		}
-		return str.toString();
+		return uri + str.toString();
 	}
 }

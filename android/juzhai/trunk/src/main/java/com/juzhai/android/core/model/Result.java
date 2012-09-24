@@ -3,6 +3,7 @@ package com.juzhai.android.core.model;
 import java.util.List;
 
 import com.juzhai.android.common.model.Category;
+import com.juzhai.android.dialog.model.Dialog;
 import com.juzhai.android.idea.model.Idea;
 import com.juzhai.android.idea.model.IdeaUser;
 import com.juzhai.android.passport.model.User;
@@ -58,5 +59,8 @@ public class Result<T> {
 	}
 
 	public static class CategoryResult extends Result<List<Category>> {
+	}
+
+	public static class DialogListResult extends Result<PageList<Dialog>> {
 	}
 }

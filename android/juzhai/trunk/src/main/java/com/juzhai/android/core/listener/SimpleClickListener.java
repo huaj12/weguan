@@ -23,7 +23,7 @@ public class SimpleClickListener implements OnClickListener {
 	private Context context;
 	private Map<String, String> values;
 	private ListenerSuccessCallBack callback;
-	private int successMessage = 0;
+	private boolean defaultStyle = true;
 
 	public SimpleClickListener(String uri, Context context,
 			Map<String, String> values, ListenerSuccessCallBack callback) {
@@ -35,14 +35,14 @@ public class SimpleClickListener implements OnClickListener {
 	}
 
 	public SimpleClickListener(String uri, Context context,
-			Map<String, String> values, int successMessage,
+			Map<String, String> values, boolean defaultStyle,
 			ListenerSuccessCallBack callback) {
 		super();
 		this.uri = uri;
 		this.context = context;
 		this.values = values;
 		this.callback = callback;
-		this.successMessage = successMessage;
+		this.defaultStyle = defaultStyle;
 	}
 
 	@Override
@@ -74,11 +74,8 @@ public class SimpleClickListener implements OnClickListener {
 				if (StringUtils.isNotEmpty(errorInfo)) {
 					DialogUtils.showToastText(context, errorInfo);
 				} else {
-					// TODO (review) 我是说成功提示的样式自定义，不是文字
-					if (successMessage != 0) {
-						DialogUtils.showToastText(context, context
-								.getResources().getString(successMessage));
-					} else {
+					// TODO (done) 我是说成功提示的样式自定义，不是文字
+					if (defaultStyle) {
 						DialogUtils.showToastText(context, R.string.success);
 					}
 					callback.callback();

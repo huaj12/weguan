@@ -1,81 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="wrap_content" android:layout_height="wrap_content"
-	android:orientation="vertical" android:background="@drawable/app_bg">
-	<ScrollView  android:layout_width="wrap_content"  
-    android:layout_height="wrap_content" android:scrollbars="vertical">  
-	<LinearLayout 
-		android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" >
-			<LinearLayout android:id="@+id/idea_image_layout"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:orientation="vertical" android:layout_margin="20dp" android:padding="10dp"  android:background="@drawable/good_idea_list_item_bg">
-				<RelativeLayout  android:layout_width="262dp" android:layout_height="180dp" android:background="@color/bg_gray" >
-						<ImageView android:id="@+id/idea_image"
-					        android:layout_width="wrap_content"
-					        android:layout_height="wrap_content"
-					        android:src="@drawable/good_idea_list_pic_none_icon"
-					        android:layout_centerInParent="true"
-					        />
-				</RelativeLayout>
-				<LinearLayout  android:layout_width="fill_parent" android:orientation="vertical" android:layout_marginTop="10dp" android:layout_height="wrap_content">
-						<TextView android:id="@id/idea_content" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textColor="@color/black" android:textSize="15sp" />
-				</LinearLayout>
-				<LinearLayout  android:layout_width="fill_parent" android:orientation="vertical" android:layout_marginTop="10dp" android:layout_height="wrap_content">
-						<TextView android:id="@id/idea_use_count_txet" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textColor="@color/blue"  android:textSize="15sp"  android:gravity="right"/>
-				</LinearLayout>
-			</LinearLayout>
-		
-			<LinearLayout android:id="@+id/idea_place_layout" android:layout_width="fill_parent" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="1dp"  android:background="@drawable/good_idea_list_item_bg" >
-				 <ImageView
-		          	android:layout_width="wrap_content"
-		       		android:layout_height="wrap_content"
-		        	android:background="@drawable/price_icon_link"
-		        />
-			    <TextView
-			        android:id="@+id/idea_place_text"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_marginLeft="10dp"
-			        android:layout_marginTop="7dp"
-			        android:textColor="@color/gray"
-			        android:textSize="15sp"/>
-			</LinearLayout>
-			
-			<LinearLayout android:id="@+id/idea_time_layout" android:layout_width="fill_parent" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="1dp"  android:background="@drawable/good_idea_list_item_bg" >
-				 <ImageView
-		          	android:layout_width="wrap_content"
-		       		android:layout_height="wrap_content"
-		        	android:background="@drawable/time_icon_link"
-		        />
-			    <TextView
-			        android:id="@+id/idea_time_text"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_marginLeft="10dp"
-			        android:layout_marginTop="7dp"
-			        android:textColor="@color/gray"
-			        android:textSize="15sp"/>
-			</LinearLayout>
-			
-			<LinearLayout android:id="@+id/idea_charge_layout" android:layout_width="fill_parent" android:layout_marginLeft="20dp" android:layout_marginRight="20dp" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="1dp"  android:background="@drawable/good_idea_list_item_bg" >
-				 <ImageView
-		          	android:layout_width="wrap_content"
-		       		android:layout_height="wrap_content"
-		        	android:background="@drawable/price_icon_link"
-		        />
-			    <TextView
-			        android:id="@+id/idea_charge_text"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_marginLeft="10dp"
-			        android:layout_marginTop="7dp"
-			        android:textColor="@color/gray"
-			        android:textSize="15sp"/>
-			</LinearLayout>
-		</LinearLayout>
-	</ScrollView>	
-	<RelativeLayout  android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true" >
-	    <Button android:paddingLeft="25dp" android:id="@+id/idea_want_btn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:background="@drawable/idea_detial_want_button" android:text="@string/i_want"  android:textColor="@color/white" />
-	    <Button android:paddingLeft="25dp" android:id="@+id/idea_share_btn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:background="@drawable/idea_share_button" android:textColor="@color/white" android:text="@string/share"/>
-	</RelativeLayout>
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/app_bg"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/idea_image_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/good_idea_list_item_bg"
+                android:orientation="vertical"
+                android:padding="10dp" >
+
+                <RelativeLayout
+                    android:layout_width="262dp"
+                    android:layout_height="180dp"
+                    android:background="@color/bg_gray" >
+
+                    <ImageView
+                        android:id="@+id/idea_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/good_idea_list_pic_none_icon" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@id/idea_content"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@id/idea_use_count_txet"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textColor="@color/blue"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/idea_place_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/good_idea_list_item_bg"
+                android:orientation="horizontal"
+                android:padding="1dp" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/price_icon_link" />
+
+                <TextView
+                    android:id="@+id/idea_place_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/gray"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/idea_time_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/good_idea_list_item_bg"
+                android:orientation="horizontal"
+                android:padding="1dp" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/time_icon_link" />
+
+                <TextView
+                    android:id="@+id/idea_time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/gray"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/idea_charge_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/good_idea_list_item_bg"
+                android:orientation="horizontal"
+                android:padding="1dp" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/price_icon_link" />
+
+                <TextView
+                    android:id="@+id/idea_charge_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/gray"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <Button
+            android:id="@+id/idea_want_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/idea_detial_want_button"
+            android:paddingLeft="25dp"
+            android:text="@string/i_want"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/idea_share_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/idea_share_button"
+            android:paddingLeft="25dp"
+            android:text="@string/share"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
 </RelativeLayout>

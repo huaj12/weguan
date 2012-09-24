@@ -1,5 +1,6 @@
 package com.juzhai.android.idea.service.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,12 @@ public class IdeaService implements IIdeaService {
 	private String ideaUsersUri = "idea/users";
 
 	@Override
-	public IdeaListResult list(Map<String, String> values) throws IdeaException {
+	public IdeaListResult list(int categoryId, String orderType, int page)
+			throws IdeaException {
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("categoryId", String.valueOf(categoryId));
+		values.put("orderType", orderType);
+		values.put("page", String.valueOf(page));
 		// TODO (done) 通过Map传入get方法
 		String uri = ideaListUri + HttpUtils.createHttpParam(values);
 		ResponseEntity<IdeaListResult> responseEntity = null;
@@ -38,8 +44,11 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public IdeaUserListResult listIdeaUser(Map<String, String> values)
+	public IdeaUserListResult listIdeaUser(long ideaId, int page)
 			throws IdeaException {
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("ideaId", String.valueOf(ideaId));
+		values.put("page", String.valueOf(page));
 		// TODO (done) 通过Map传入get方法
 		String url = ideaUsersUri + HttpUtils.createHttpParam(values);
 		ResponseEntity<IdeaUserListResult> responseEntity = null;

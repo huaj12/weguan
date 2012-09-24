@@ -17,7 +17,6 @@ import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.passport.data.UserCache;
 
-//TODO (done) BaseListener这个名字取的太大
 public class SimpleClickListener implements OnClickListener {
 	private String uri;
 	private ProgressDialog progressDialog;
@@ -75,7 +74,7 @@ public class SimpleClickListener implements OnClickListener {
 				if (StringUtils.isNotEmpty(errorInfo)) {
 					DialogUtils.showToastText(context, errorInfo);
 				} else {
-					// TODO (done) 成功提示如果需要自定义呢？
+					// TODO (review) 我是说成功提示的样式自定义，不是文字
 					if (successMessage != 0) {
 						DialogUtils.showToastText(context, context
 								.getResources().getString(successMessage));

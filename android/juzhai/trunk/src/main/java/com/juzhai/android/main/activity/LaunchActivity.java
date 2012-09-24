@@ -54,7 +54,6 @@ public class LaunchActivity extends BaseActivity {
 			}
 		}.execute();
 		// 初始化数据
-		// TODO (done) 为什么不是由基础数据管理器统一管理，而是读写四处调用呢？
 		CommonData.InitDate(LaunchActivity.this);
 	}
 }

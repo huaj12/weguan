@@ -21,7 +21,6 @@ public class DialogUtils {
 	}
 
 	public static void showToastText(Context context, int message) {
-		// TODO (done) 警告处理掉
 		Toast.makeText(context, context.getResources().getString(message),
 				Toast.LENGTH_LONG).show();
 	}

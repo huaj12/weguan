@@ -61,7 +61,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		final TextView contentTextView = holder.contentTextView;
 		contentTextView.setTextColor(android.graphics.Color.BLACK);
 		contentTextView.setBackgroundDrawable(null);
-		// TODO (done) 这个截字有什么意义？ 保证他只显示2行。
+		// TODO (review) Validation不适合
 		contentTextView.setText(TextTruncateUtil.truncate(idea.getContent(),
 				Validation.IDEA_CONTENT_MAX_LENGTH, "..."));
 
@@ -83,12 +83,11 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 
 		final Button wantButton = holder.wantButton;
 		if (idea.isHasUsed()) {
-			// TODO (done) 背景资源通过改变按钮状态来进行切换 这个按钮是灰的不可以按。
+			// TODO (review) 按钮enable false的状态来使用背景资源
 			wantButton.setBackgroundResource(R.drawable.i_want_go_btn_done);
 			wantButton.setText(convertView.getResources().getString(
 					R.string.want_done));
 		} else {
-			// TODO (done) 按钮按下没有效果？ i_want_selector_button就是一个背景资源。有下按效果
 			wantButton.setText(convertView.getResources().getString(
 					R.string.i_want));
 			wantButton.setBackgroundResource(R.drawable.i_want_selector_button);
@@ -100,6 +99,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 					new ListenerSuccessCallBack() {
 						@Override
 						public void callback() {
+							//TODO (review) 通过改变按钮状态来实现样式修改和不可点
 							wantButton.setOnClickListener(null);
 							wantButton
 									.setBackgroundResource(R.drawable.i_want_go_btn_done);
@@ -112,15 +112,14 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		final ImageView imageView = holder.imageView;
 		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 		if (StringUtils.isNotEmpty(idea.getBigPic())) {
-			// TODO (done) 这个替换要干嘛？
+			// TODO (review) 这个替换要干嘛？
 			nid.fetchImage(idea.getBigPic().replaceAll("test.", ""),
 					R.drawable.good_idea_list_pic_none_icon, imageView,
 					new ImageLoaderCallback() {
 						@Override
 						public void imageLoaderFinish(Bitmap bitmap) {
 							if (bitmap != null) {
-								// TODO (review)
-								// 这里缩放我没解释清除，是固定一条边，然后等比例另外一条边，然后取固定尺寸的图片内容
+								// TODO (review) 这里缩放我没解释清除，是固定一条边，然后等比例另外一条边，然后取固定尺寸的图片内容
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
 										bitmap, UIUtil.dip2px(mContext, 262),
 										UIUtil.dip2px(mContext, 180));

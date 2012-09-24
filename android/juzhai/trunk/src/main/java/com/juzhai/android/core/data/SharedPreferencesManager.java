@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 
 public class SharedPreferencesManager {
 	private SharedPreferences sharedPreferences;
+	//TODO (review) 这个是基础类，为什么会有category这个东西？
 	public static final String CATEGORY = "category";
 
 	public SharedPreferencesManager(Context context) {

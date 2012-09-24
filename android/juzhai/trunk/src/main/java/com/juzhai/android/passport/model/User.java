@@ -314,7 +314,7 @@ public class User extends Entity {
 	}
 
 	public String getUserInfo(Context mContext) {
-		// TODO (done) 组装用户info的代码，可以封装到User里去
+		// TODO (review) 逗号用两个","?
 		StringBuffer sbString = new StringBuffer();
 		if (JzUtils.age(getBirthYear()) > 0) {
 			sbString.append(JzUtils.age(getBirthYear())

@@ -54,6 +54,6 @@ public class LaunchActivity extends BaseActivity {
 			}
 		}.execute();
 		// 初始化数据
-		CommonData.InitDate(LaunchActivity.this);
+		CommonData.initDate(LaunchActivity.this);
 	}
 }

@@ -85,6 +85,7 @@ public class HttpUtils {
 	}
 
 	public static String createHttpParam(Map<String, String> values) {
+		//TODO (review) 有没有考虑url已经有了“？”的情况？
 		StringBuilder str = new StringBuilder();
 		str.append("?");
 		for (Entry<String, String> entry : values.entrySet()) {

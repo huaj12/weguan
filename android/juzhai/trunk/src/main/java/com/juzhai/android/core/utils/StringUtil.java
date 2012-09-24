@@ -10,6 +10,8 @@ public class StringUtil {
 			.compile(EMAIL_PATTERN_STRING);
 
 	public static char separator = (char) 036;
+	// TODO (done) 逗号用静态变量？解释一下
+	public static final String COMMA = ",";
 
 	public static int chineseLength(String text) {
 		if (StringUtils.isEmpty(text)) {

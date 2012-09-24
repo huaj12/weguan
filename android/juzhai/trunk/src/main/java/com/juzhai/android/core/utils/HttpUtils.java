@@ -85,9 +85,9 @@ public class HttpUtils {
 	}
 
 	public static String createHttpParam(String uri, Map<String, Object> values) {
-		// TODO (review) 一定要“?”结尾？
+		// TODO (done) 一定要“?”结尾？
 		StringBuilder str = new StringBuilder();
-		if (!uri.endsWith("?")) {
+		if (uri.indexOf("?") == -1) {
 			str.append("?");
 		}
 		for (Entry<String, Object> entry : values.entrySet()) {

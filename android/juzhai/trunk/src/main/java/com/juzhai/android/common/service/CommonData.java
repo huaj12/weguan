@@ -55,40 +55,42 @@ public class CommonData {
 		return categoryNames;
 	}
 
-	// TODO (review) 自己看有什么问题。
-	public static void InitDate(final Context context) {
-		new AsyncTask<Void, Void, Boolean>() {
-			private final String CATEGORY_URI = "base/categoryList";
-			private SharedPreferencesManager manager = new SharedPreferencesManager(
-					context);
+	// TODO (done) 自己看有什么问题。
+	public static void initDate(Context context) {
+		final SharedPreferencesManager manager = new SharedPreferencesManager(
+				context);
+		if (!manager.isExist(SHARED_PREFERNCES_CATEGORY)) {
+			new AsyncTask<Void, Void, Boolean>() {
+				private final String CATEGORY_URI = "base/categoryList";
 
-			@Override
-			protected Boolean doInBackground(Void... params) {
-				//TODO (review) 自己看什么问题
-				if (!manager.isExist(SHARED_PREFERNCES_CATEGORY)) {
-					initCategory();
-				}
-				return true;
-			}
-
-			private void initCategory() {
-				ResponseEntity<CategoryResult> response = HttpUtils.get(
-						CATEGORY_URI, CategoryResult.class);
-				if (response != null && response.getBody() != null
-						&& response.getBody().getSuccess()) {
-					CategoryResult categoryResult = response.getBody();
-					try {
-						manager.commit(SHARED_PREFERNCES_CATEGORY,
-								JacksonSerializer.toString(categoryResult));
-					} catch (JsonGenerationException e) {
-						if (BuildConfig.DEBUG) {
-							Log.d(getClass().getSimpleName(),
-									"Category to json is error", e);
-						}
+				@Override
+				protected Boolean doInBackground(Void... params) {
+					// TODO (done) 自己看什么问题
+					if (!manager.isExist(SHARED_PREFERNCES_CATEGORY)) {
+						initCategory();
 					}
-
+					return true;
 				}
-			}
-		}.execute();
+
+				private void initCategory() {
+					ResponseEntity<CategoryResult> response = HttpUtils.get(
+							CATEGORY_URI, CategoryResult.class);
+					if (response != null && response.getBody() != null
+							&& response.getBody().getSuccess()) {
+						CategoryResult categoryResult = response.getBody();
+						try {
+							manager.commit(SHARED_PREFERNCES_CATEGORY,
+									JacksonSerializer.toString(categoryResult));
+						} catch (JsonGenerationException e) {
+							if (BuildConfig.DEBUG) {
+								Log.d(getClass().getSimpleName(),
+										"Category to json is error", e);
+							}
+						}
+
+					}
+				}
+			}.execute();
+		}
 	}
 }

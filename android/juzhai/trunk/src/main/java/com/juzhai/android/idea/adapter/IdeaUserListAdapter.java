@@ -70,8 +70,6 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 				new ListenerSuccessCallBack() {
 					@Override
 					public void callback() {
-						// TODO (done)
-						// 用按钮状态的方式来改变背景资源（不知道text内容和颜色能否也一样的做法）已经约了。所以是不可点状态了。不需要有按下效果了。
 						dateButton.setText(R.string.about_done);
 						dateButton.setTextColor(mContext.getResources()
 								.getColor(R.color.about_gray));
@@ -81,7 +79,6 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 
 		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 		if (user.isHasLogo() && StringUtils.isNotEmpty(user.getLogo())) {
-			// TODO (done) 这个replace是干嘛的？
 			nid.fetchImage(JzUtils.getImageUrl(user.getLogo()),
 					R.drawable.user_face_unload, imageView,
 					new ImageLoaderCallback() {
@@ -104,11 +101,8 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 			nicknameTextView.setTextColor(mContext.getResources().getColor(
 					R.color.blue));
 		}
-		// TODO (done) Validation不适合
 		nicknameTextView.setText(TextTruncateUtil.truncate(user.getNickname(),
 				20, "..."));
-
-		// TODO (done) 截字为什么是Validation？
 		infoTextView.setText(TextTruncateUtil.truncate(
 				user.getUserInfo(mContext), 23, "..."));
 		return convertView;

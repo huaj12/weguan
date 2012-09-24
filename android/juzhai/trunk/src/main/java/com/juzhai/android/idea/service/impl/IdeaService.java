@@ -23,7 +23,6 @@ public class IdeaService implements IIdeaService {
 	@Override
 	public IdeaListResult list(long categoryId, String orderType, int page)
 			throws IdeaException {
-		// TODO (done) 不能是<String,Object>
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("categoryId", categoryId);
 		values.put("orderType", orderType);
@@ -49,7 +48,6 @@ public class IdeaService implements IIdeaService {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("ideaId", ideaId);
 		values.put("page", page);
-		// TODO (done) 不能是<String,Object>
 		String url = HttpUtils.createHttpParam(ideaUsersUri, values);
 		ResponseEntity<IdeaUserListResult> responseEntity = null;
 		try {

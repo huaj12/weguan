@@ -48,7 +48,6 @@ public class IdeaUsersActivity extends NavigationActivity {
 			}
 		});
 		TextView ideaContent = (TextView) findViewById(R.id.idea_users_content);
-		// TODO (done) 截字用Validation
 		ideaContent.setText(TextTruncateUtil.truncate(idea.getContent(), 30,
 				"..."));
 

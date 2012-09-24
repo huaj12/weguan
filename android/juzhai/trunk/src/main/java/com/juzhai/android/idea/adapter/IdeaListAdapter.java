@@ -61,7 +61,6 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		final TextView contentTextView = holder.contentTextView;
 		contentTextView.setTextColor(android.graphics.Color.BLACK);
 		contentTextView.setBackgroundDrawable(null);
-		// TODO (done) Validation不适合
 		contentTextView.setText(TextTruncateUtil.truncate(idea.getContent(),
 				60, "..."));
 
@@ -70,7 +69,6 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 				R.string.use_count_begin)
 				+ idea.getUseCount()
 				+ mContext.getResources().getString(R.string.use_count_end));
-		// TODO (done) 按钮按下没有效果？
 		userCountTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -83,7 +81,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 
 		final Button wantButton = holder.wantButton;
 		if (idea.isHasUsed()) {
-			// TODO (done) 按钮enable false的状态来使用背景资源
+			// TODO (review) 没有设置Backround，设置enable为false有何用？
 			wantButton.setEnabled(false);
 			wantButton.setText(mContext.getResources().getString(
 					R.string.want_done));
@@ -99,7 +97,6 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 					new ListenerSuccessCallBack() {
 						@Override
 						public void callback() {
-							// TODO (done) 通过改变按钮状态来实现样式修改和不可点
 							wantButton.setEnabled(false);
 							wantButton.setText(mContext.getResources()
 									.getString(R.string.want_done));
@@ -110,15 +107,13 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		final ImageView imageView = holder.imageView;
 		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 		if (StringUtils.isNotEmpty(idea.getBigPic())) {
-			// TODO (done) 这个替换要干嘛？
 			nid.fetchImage(JzUtils.getImageUrl(idea.getBigPic()),
 					R.drawable.good_idea_list_pic_none_icon, imageView,
 					new ImageLoaderCallback() {
 						@Override
 						public void imageLoaderFinish(Bitmap bitmap) {
 							if (bitmap != null) {
-								// TODO (done)
-								// 这里缩放我没解释清除，是固定一条边，然后等比例另外一条边，然后取固定尺寸的图片内容
+								// TODO (review) 高和宽写死的？imageView没有高和宽的属性？
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
 										bitmap, UIUtil.dip2px(mContext, 262),
 										UIUtil.dip2px(mContext, 180));

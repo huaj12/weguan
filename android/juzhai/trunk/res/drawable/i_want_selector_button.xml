@@ -2,5 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 	<item android:state_pressed="true" android:drawable="@drawable/i_want_go_btn_active" />
 	<item android:state_focused="true" android:drawable="@drawable/i_want_go_btn_link" />
+	<item android:state_enabled="false" android:drawable="@drawable/i_want_go_btn_done"></item>
 	<item android:drawable="@drawable/i_want_go_btn_link" />
 </selector>

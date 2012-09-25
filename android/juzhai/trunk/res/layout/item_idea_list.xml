@@ -64,7 +64,8 @@
                 android:paddingLeft="20dp"
                 android:paddingTop="0dp"
                 android:paddingRight="0dp"
-                android:paddingBottom="1dp"/>
+                android:paddingBottom="1dp"
+                android:background="@drawable/i_want_selector_button"/>
         </RelativeLayout>
     </LinearLayout>
 

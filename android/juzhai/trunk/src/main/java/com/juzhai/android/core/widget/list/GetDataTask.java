@@ -10,7 +10,7 @@ import com.juzhai.android.core.model.PageList;
 import com.juzhai.android.core.model.Pager;
 import com.juzhai.android.core.model.Result;
 import com.juzhai.android.core.utils.DialogUtils;
-import com.juzhai.android.core.widget.pullrefresh.PullToRefreshBase.Mode;
+import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase.Mode;
 
 public abstract class GetDataTask<T extends Result<? extends PageList<E>>, E extends Entity>
 		extends AsyncTask<Object, Integer, T> {

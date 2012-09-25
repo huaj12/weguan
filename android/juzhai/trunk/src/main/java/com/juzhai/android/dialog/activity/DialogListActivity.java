@@ -1,6 +1,10 @@
 package com.juzhai.android.dialog.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.juzhai.android.R;
@@ -9,6 +13,7 @@ import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.core.widget.pullrefresh.PullToRefreshBase;
 import com.juzhai.android.core.widget.pullrefresh.PullToRefreshBase.OnRefreshListener2;
 import com.juzhai.android.dialog.adapter.DialogListAdapter;
+import com.juzhai.android.dialog.model.Dialog;
 import com.juzhai.android.dialog.task.DialogListGetDataTask;
 
 public class DialogListActivity extends NavigationActivity {
@@ -40,7 +45,19 @@ public class DialogListActivity extends NavigationActivity {
 		});
 		dialogListView
 				.setAdapter(new DialogListAdapter(DialogListActivity.this));
+		dialogListView.setOnItemClickListener(new OnItemClickListener() {
 
+			@Override
+			public void onItemClick(AdapterView<?> item, View view,
+					int position, long id) {
+				Dialog dialog = (Dialog) item.getItemAtPosition(position);
+				Intent intent = new Intent(DialogListActivity.this,
+						DailogContentListActivity.class);
+				intent.putExtra("dialog", dialog);
+				pushIntentForResult(intent, CLEAR_REQUEST_CODE);
+			}
+
+		});
 		dialogListView.manualRefresh();
 	}
 

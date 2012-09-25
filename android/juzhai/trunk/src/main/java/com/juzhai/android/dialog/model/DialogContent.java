@@ -1,6 +1,10 @@
 package com.juzhai.android.dialog.model;
 
-public class DialogContent {
+import com.juzhai.android.core.model.Entity;
+
+public class DialogContent extends Entity {
+	private static final long serialVersionUID = -3656049529919195124L;
+
 	private long dialogContentId;
 
 	private String content;
@@ -59,6 +63,11 @@ public class DialogContent {
 
 	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
+	}
+
+	@Override
+	public Object getIdentify() {
+		return this.dialogContentId;
 	}
 
 }

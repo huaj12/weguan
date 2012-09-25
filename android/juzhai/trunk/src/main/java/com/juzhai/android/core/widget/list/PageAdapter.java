@@ -54,6 +54,11 @@ public abstract class PageAdapter<T extends Entity> extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+	public void replaceData(int position, T t) {
+		data.getDatas().set(position, t);
+		notifyDataSetChanged();
+	}
+
 	public void setPager(Pager pager) {
 		data.setPager(pager);
 	}

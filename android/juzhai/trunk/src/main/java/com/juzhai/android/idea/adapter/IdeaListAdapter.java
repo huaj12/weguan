@@ -65,22 +65,26 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 				60, "..."));
 
 		TextView userCountTextView = holder.userCountTextView;
-		userCountTextView.setText(mContext.getResources().getString(
-				R.string.use_count_begin)
-				+ idea.getUseCount()
-				+ mContext.getResources().getString(R.string.use_count_end));
-		userCountTextView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(mContext, IdeaUsersActivity.class);
-				intent.putExtra("idea", idea);
-				NavigationActivity activity = (IdeaListActivity) mContext;
-				activity.pushIntent(intent);
-			}
-		});
+		if (idea.getUseCount() != null && idea.getUseCount() > 0) {
+			userCountTextView
+					.setText(mContext.getResources().getString(
+							R.string.use_count_begin)
+							+ idea.getUseCount()
+							+ mContext.getResources().getString(
+									R.string.use_count_end));
+			userCountTextView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(mContext,
+							IdeaUsersActivity.class);
+					intent.putExtra("idea", idea);
+					NavigationActivity activity = (IdeaListActivity) mContext;
+					activity.pushIntent(intent);
+				}
+			});
+		}
 
 		final Button wantButton = holder.wantButton;
-		wantButton.setBackgroundResource(R.drawable.i_want_selector_button);
 		if (idea.isHasUsed()) {
 			// TODO (done) 没有设置Backround，设置enable为false有何用？
 			wantButton.setEnabled(false);

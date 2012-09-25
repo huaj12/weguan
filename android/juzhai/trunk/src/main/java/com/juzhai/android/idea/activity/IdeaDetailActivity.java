@@ -66,7 +66,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 					Intent intent = new Intent(IdeaDetailActivity.this,
 							IdeaUsersActivity.class);
 					intent.putExtra("idea", idea);
-					pushIntentForResult(intent, CLEAR_REQUEST_CODE);
+					pushIntent(intent);
 				}
 			});
 		}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/app_bg"
+    android:orientation="vertical" >
+
+    <com.juzhai.android.core.widget.list.JuzhaiRefreshListView
+        android:id="@+id/dialog_content_list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:cacheColorHint="#00000000"
+        android:focusable="true"
+        android:fadingEdge="none" />
+	<LinearLayout android:layout_width="fill_parent"
+	    		  android:layout_height="wrap_content"
+	    		  android:background="@color/white"
+	    		  android:orientation="horizontal"
+	    		  android:layout_alignParentBottom="true"
+	    		  >
+	 <Button android:layout_width="wrap_content"
+	     	 android:layout_height="wrap_content"
+	     	 android:background="@drawable/upload_pic_selector_button"
+	     	 android:layout_margin="10dp"
+	     	 android:id="@+id/upload_pic_btn"/>
+	 <EditText android:layout_width="wrap_content"
+	     	   android:layout_height="wrap_content"
+	     	   android:background="@drawable/mess_input_bg"
+	     	   android:inputType="text"
+	     	   android:layout_margin="10dp"
+	     	   android:id="@+id/message_content_input"
+	     	 />   
+	 <Button android:layout_width="wrap_content"
+	     	 android:layout_height="wrap_content"
+	     	 android:background="@drawable/send_message_sekector_button"
+	     	 android:layout_margin="10dp"
+	     	 android:id="@+id/send_message_btn"/>
+	</LinearLayout>
+</RelativeLayout>

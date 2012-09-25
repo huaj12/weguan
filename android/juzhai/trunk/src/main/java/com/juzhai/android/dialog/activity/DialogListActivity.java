@@ -9,9 +9,9 @@ import android.widget.ListView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
+import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
+import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase.OnRefreshListener2;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
-import com.juzhai.android.core.widget.pullrefresh.PullToRefreshBase;
-import com.juzhai.android.core.widget.pullrefresh.PullToRefreshBase.OnRefreshListener2;
 import com.juzhai.android.dialog.adapter.DialogListAdapter;
 import com.juzhai.android.dialog.model.Dialog;
 import com.juzhai.android.dialog.task.DialogListGetDataTask;

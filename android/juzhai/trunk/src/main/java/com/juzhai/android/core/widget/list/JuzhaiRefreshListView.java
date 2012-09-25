@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.juzhai.android.core.model.Entity;
-import com.juzhai.android.core.widget.pullrefresh.PullToRefreshListView;
+import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshListView;
 
 public class JuzhaiRefreshListView extends PullToRefreshListView {
 

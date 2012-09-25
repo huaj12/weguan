@@ -102,6 +102,12 @@ public class IdeaDetailActivity extends NavigationActivity {
 							wantBtn.setText(R.string.want_done);
 							wantBtn.setBackgroundResource(R.drawable.good_idea_detial_btn_wtg_done);
 							wantBtn.setOnClickListener(null);
+							idea.setHasUsed(true);
+							Intent intent = new Intent(IdeaDetailActivity.this,
+									IdeaListActivity.class);
+							intent.putExtra("idea", idea);
+							setResult(getIntent().getIntExtra("position", 0),
+									intent);
 						}
 					}));
 		}

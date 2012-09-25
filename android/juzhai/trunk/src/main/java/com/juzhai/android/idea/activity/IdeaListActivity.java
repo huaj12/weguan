@@ -2,6 +2,7 @@ package com.juzhai.android.idea.activity;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,11 +21,13 @@ import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.core.widget.pullrefresh.PullToRefreshBase;
 import com.juzhai.android.core.widget.pullrefresh.PullToRefreshBase.OnRefreshListener2;
 import com.juzhai.android.idea.adapter.IdeaListAdapter;
+import com.juzhai.android.idea.model.Idea;
 import com.juzhai.android.idea.task.IdeaListGetDataTask;
 
 public class IdeaListActivity extends NavigationActivity {
 	private long categoryId = 0;
 	private String orderType = "time";
+	private IdeaListAdapter ideaListAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +112,19 @@ public class IdeaListActivity extends NavigationActivity {
 								.getCurrentPage() + 1);
 			}
 		});
-		ideaListView.setAdapter(new IdeaListAdapter(IdeaListActivity.this));
+		ideaListAdapter = new IdeaListAdapter(IdeaListActivity.this);
+		ideaListView.setAdapter(ideaListAdapter);
 
 		ideaListView.manualRefresh();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == IDEA_LIST_REQUEST_CODE) {
+			Idea idea = (Idea) data.getSerializableExtra("idea");
+			ideaListAdapter.replaceData(resultCode, idea);
+
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 }

@@ -53,9 +53,22 @@ public class IdeaDetailActivity extends NavigationActivity {
 		TextView contentText = (TextView) findViewById(R.id.idea_content);
 		wantBtn = (Button) findViewById(R.id.idea_want_btn);
 		contentText.setText(idea.getContent());
-		useCountText.setText(getResources().getString(R.string.use_count_begin)
-				+ idea.getUseCount()
-				+ getResources().getString(R.string.use_count_end));
+		if (idea.getUseCount() != null && idea.getUseCount() > 0) {
+			useCountText.setText(getResources().getString(
+					R.string.use_count_begin)
+					+ idea.getUseCount()
+					+ getResources().getString(R.string.use_count_end));
+			useCountText.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(IdeaDetailActivity.this,
+							IdeaUsersActivity.class);
+					intent.putExtra("idea", idea);
+					pushIntentForResult(intent, CLEAR_REQUEST_CODE);
+				}
+			});
+		}
 		ImageViewLoader nid = ImageViewLoader
 				.getInstance(IdeaDetailActivity.this);
 		if (StringUtils.isNotEmpty(idea.getBigPic())) {
@@ -93,16 +106,6 @@ public class IdeaDetailActivity extends NavigationActivity {
 						}
 					}));
 		}
-		useCountText.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(IdeaDetailActivity.this,
-						IdeaUsersActivity.class);
-				intent.putExtra("idea", idea);
-				pushIntentForResult(intent, CLEAR_REQUEST_CODE);
-			}
-		});
 		initIdeaInfo();
 
 	}

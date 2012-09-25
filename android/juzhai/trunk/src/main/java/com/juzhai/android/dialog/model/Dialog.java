@@ -5,6 +5,8 @@ import com.juzhai.android.passport.model.User;
 
 public class Dialog extends Entity {
 
+	private static final long serialVersionUID = -8137925571716013807L;
+
 	private long dialogId;
 
 	private long receiverUid;

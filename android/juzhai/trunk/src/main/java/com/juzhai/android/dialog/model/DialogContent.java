@@ -3,6 +3,7 @@ package com.juzhai.android.dialog.model;
 import com.juzhai.android.core.model.Entity;
 
 public class DialogContent extends Entity {
+	
 	private static final long serialVersionUID = -3656049529919195124L;
 
 	private long dialogContentId;

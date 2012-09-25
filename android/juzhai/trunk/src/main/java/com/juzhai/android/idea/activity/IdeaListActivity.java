@@ -25,6 +25,7 @@ import com.juzhai.android.idea.model.Idea;
 import com.juzhai.android.idea.task.IdeaListGetDataTask;
 
 public class IdeaListActivity extends NavigationActivity {
+	public final static int IDEA_LIST_REQUEST_CODE = 3;
 	private long categoryId = 0;
 	private String orderType = "time";
 	private IdeaListAdapter ideaListAdapter;
@@ -120,9 +121,11 @@ public class IdeaListActivity extends NavigationActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == IDEA_LIST_REQUEST_CODE) {
+		if (requestCode == IDEA_LIST_REQUEST_CODE
+				&& resultCode == IdeaDetailActivity.IDEA_LIST_RESULT_CODE) {
 			Idea idea = (Idea) data.getSerializableExtra("idea");
-			ideaListAdapter.replaceData(resultCode, idea);
+			int position = data.getIntExtra("position", 0);
+			ideaListAdapter.replaceData(position, idea);
 
 		}
 		super.onActivityResult(requestCode, resultCode, data);

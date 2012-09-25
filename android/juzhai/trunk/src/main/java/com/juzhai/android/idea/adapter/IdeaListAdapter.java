@@ -146,7 +146,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 				intent.putExtra("idea", idea);
 				intent.putExtra("position", position);
 				((IdeaListActivity) mContext).pushIntentForResult(intent,
-						((IdeaListActivity) mContext).IDEA_LIST_REQUEST_CODE);
+						IdeaListActivity.IDEA_LIST_REQUEST_CODE);
 			}
 		});
 

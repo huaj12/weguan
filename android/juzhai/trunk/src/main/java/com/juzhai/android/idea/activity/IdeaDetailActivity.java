@@ -34,6 +34,7 @@ import com.juzhai.android.idea.model.Idea;
  * 
  */
 public class IdeaDetailActivity extends NavigationActivity {
+	public final static int IDEA_LIST_RESULT_CODE = 4;
 	private Idea idea;
 	private ImageView imageView;
 	private Button wantBtn;
@@ -106,8 +107,9 @@ public class IdeaDetailActivity extends NavigationActivity {
 							Intent intent = new Intent(IdeaDetailActivity.this,
 									IdeaListActivity.class);
 							intent.putExtra("idea", idea);
-							setResult(getIntent().getIntExtra("position", 0),
-									intent);
+							intent.putExtra("position", getIntent()
+									.getIntExtra("position", 0));
+							setResult(IDEA_LIST_RESULT_CODE, intent);
 						}
 					}));
 		}

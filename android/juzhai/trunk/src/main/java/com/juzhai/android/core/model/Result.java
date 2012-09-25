@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.juzhai.android.common.model.Category;
 import com.juzhai.android.dialog.model.Dialog;
+import com.juzhai.android.dialog.model.DialogContent;
 import com.juzhai.android.idea.model.Idea;
 import com.juzhai.android.idea.model.IdeaUser;
 import com.juzhai.android.passport.model.User;
@@ -63,4 +64,9 @@ public class Result<T> {
 
 	public static class DialogListResult extends Result<PageList<Dialog>> {
 	}
+
+	public static class DialogContentListResult extends
+			Result<PageList<DialogContent>> {
+	}
+
 }

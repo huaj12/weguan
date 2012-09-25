@@ -16,5 +16,11 @@
         <attr name="ptrDrawable" format="reference" />
         <attr name="ptrOverScroll" format="reference|boolean" />
     </declare-styleable>
+    
+    <declare-styleable name="UIButton">
+	    <attr name="title" format="string" />
+	    <attr name="subtitle" format="string" />
+	    <attr name="image" format="integer" />
+  	</declare-styleable>
 
 </resources>

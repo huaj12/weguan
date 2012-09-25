@@ -13,6 +13,7 @@ import android.content.Intent;
 public class BaseActivity extends Activity {
 	public final static int CLEAR_REQUEST_CODE = 1;
 	public final static int CLEAR_RESULT_CODE = 2;
+	public final static int IDEA_LIST_REQUEST_CODE = 3;
 
 	public void clearStackAndStartActivity(Intent intent) {
 		setResult(CLEAR_RESULT_CODE);

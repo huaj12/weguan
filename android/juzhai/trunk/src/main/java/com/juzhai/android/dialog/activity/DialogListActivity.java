@@ -54,7 +54,7 @@ public class DialogListActivity extends NavigationActivity {
 				Intent intent = new Intent(DialogListActivity.this,
 						DailogContentListActivity.class);
 				intent.putExtra("dialog", dialog);
-				pushIntentForResult(intent, CLEAR_REQUEST_CODE);
+				pushIntent(intent);
 			}
 
 		});

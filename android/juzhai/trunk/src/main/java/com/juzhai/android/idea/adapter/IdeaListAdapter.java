@@ -38,7 +38,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.item_idea_list, null);
@@ -144,7 +144,9 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, IdeaDetailActivity.class);
 				intent.putExtra("idea", idea);
-				((IdeaListActivity) mContext).pushIntent(intent);
+				intent.putExtra("position", position);
+				((IdeaListActivity) mContext).pushIntentForResult(intent,
+						((IdeaListActivity) mContext).IDEA_LIST_REQUEST_CODE);
 			}
 		});
 

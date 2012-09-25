@@ -124,7 +124,7 @@ public class IdeaListActivity extends NavigationActivity {
 				&& resultCode == IdeaDetailActivity.IDEA_LIST_RESULT_CODE) {
 			Idea idea = (Idea) data.getSerializableExtra("idea");
 			int position = data.getIntExtra("position", -1);
-			if (position != -1 && idea != null) {
+			if (position > 0 && idea != null) {
 				ideaListView.getPageAdapter().replaceData(position, idea);
 			}
 

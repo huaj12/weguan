@@ -34,5 +34,7 @@
         <activity android:name=".idea.activity.IdeaDetailActivity"/>
         <!--created by kooks at 2012-09-20 22:11:12-->
         <activity android:name=".idea.activity.IdeaUsersActivity"/>
+        <!--created by kooks at 2012-09-24 22:58:05-->
+        <activity android:name=".dialog.activity.DailogContentListActivity"/>
     </application>
 </manifest>

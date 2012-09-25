@@ -59,7 +59,7 @@
                 android:layout_height="26dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:textSize="15sp"
+                android:textSize="12sp"
                 android:textColor="@color/white"
                 android:paddingLeft="20dp"
                 android:paddingTop="0dp"

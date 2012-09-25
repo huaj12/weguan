@@ -28,14 +28,14 @@ public class IdeaListActivity extends NavigationActivity {
 	public final static int IDEA_LIST_REQUEST_CODE = 3;
 	private long categoryId = 0;
 	private String orderType = "time";
-	private IdeaListAdapter ideaListAdapter;
+	private JuzhaiRefreshListView ideaListView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// 内容视图
 		setNavContentView(R.layout.page_idea_list);
-		final JuzhaiRefreshListView ideaListView = (JuzhaiRefreshListView) findViewById(R.id.idea_list_view);
+		ideaListView = (JuzhaiRefreshListView) findViewById(R.id.idea_list_view);
 		// 分类
 		final List<Category> categorys = CommonData
 				.getCategorys(IdeaListActivity.this);
@@ -113,8 +113,7 @@ public class IdeaListActivity extends NavigationActivity {
 								.getCurrentPage() + 1);
 			}
 		});
-		ideaListAdapter = new IdeaListAdapter(IdeaListActivity.this);
-		ideaListView.setAdapter(ideaListAdapter);
+		ideaListView.setAdapter(new IdeaListAdapter(IdeaListActivity.this));
 
 		ideaListView.manualRefresh();
 	}
@@ -124,8 +123,10 @@ public class IdeaListActivity extends NavigationActivity {
 		if (requestCode == IDEA_LIST_REQUEST_CODE
 				&& resultCode == IdeaDetailActivity.IDEA_LIST_RESULT_CODE) {
 			Idea idea = (Idea) data.getSerializableExtra("idea");
-			int position = data.getIntExtra("position", 0);
-			ideaListAdapter.replaceData(position, idea);
+			int position = data.getIntExtra("position", -1);
+			if (position != -1 && idea != null) {
+				ideaListView.getPageAdapter().replaceData(position, idea);
+			}
 
 		}
 		super.onActivityResult(requestCode, resultCode, data);

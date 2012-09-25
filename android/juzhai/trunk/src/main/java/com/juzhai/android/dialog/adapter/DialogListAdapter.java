@@ -60,6 +60,7 @@ public class DialogListAdapter extends PageAdapter<Dialog> {
 		final Dialog dialog = data.getDatas().get(position);
 		User user = dialog.getTargetUser();
 		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
+		// TODO (review) user.isHasLogo()不是在显示头像的地方用的，是用来是否能发拒宅判断用的
 		if (user.isHasLogo() && StringUtils.isNotEmpty(user.getLogo())) {
 			nid.fetchImage(JzUtils.getImageUrl(user.getLogo()),
 					R.drawable.user_face_unload, logoView,
@@ -67,6 +68,7 @@ public class DialogListAdapter extends PageAdapter<Dialog> {
 						@Override
 						public void imageLoaderFinish(Bitmap bitmap) {
 							if (bitmap != null) {
+								// TODO (review) 尽量数字不写死
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
 										bitmap, UIUtil.dip2px(mContext, 60),
 										UIUtil.dip2px(mContext, 60));
@@ -83,6 +85,7 @@ public class DialogListAdapter extends PageAdapter<Dialog> {
 			nicknameTextView.setTextColor(mContext.getResources().getColor(
 					R.color.blue));
 		}
+		// TODO (review) 还在用Validation？
 		nicknameTextView.setText(TextTruncateUtil.truncate(user.getNickname(),
 				Validation.NICKNAME_LENGTH_MAX, "..."));
 		contentTextView.setText(TextTruncateUtil.truncate(

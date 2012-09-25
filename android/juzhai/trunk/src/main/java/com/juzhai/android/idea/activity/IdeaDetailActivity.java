@@ -83,8 +83,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 												IdeaDetailActivity.this, 262),
 										UIUtil.dip2px(IdeaDetailActivity.this,
 												180));
-								imageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 10));
+								imageView.setImageBitmap(zoomBitmap);
 							}
 						}
 					});

@@ -113,7 +113,14 @@ public class HttpUtils {
 		}
 		if (file != null) {
 			Resource resource = new ByteArrayResource(
-					ImageUtils.Bitmap2Bytes(file), ImageUtils.getFileName());
+					ImageUtils.Bitmap2Bytes(file)) {
+
+				@Override
+				public String getFilename() throws IllegalStateException {
+					return ImageUtils.getFileName();
+				}
+
+			};
 			formData.add(filename, resource);
 		}
 		return post(uri, formData, cookies, new MediaType("multipart",

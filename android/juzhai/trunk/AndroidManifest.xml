@@ -36,5 +36,7 @@
         <activity android:name=".idea.activity.IdeaUsersActivity"/>
         <!--created by kooks at 2012-09-24 22:58:05-->
         <activity android:name=".dialog.activity.DailogContentListActivity"/>
+        <!--created by kooks at 2012-09-25 17:34:29-->
+        <activity android:name=".core.activity.UploadImageActivity" android:theme="@android:style/Theme.Dialog"/>
     </application>
 </manifest>

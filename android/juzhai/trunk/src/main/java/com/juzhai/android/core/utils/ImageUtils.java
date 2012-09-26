@@ -1,5 +1,8 @@
 package com.juzhai.android.core.utils;
 
+import java.io.ByteArrayOutputStream;
+import java.util.UUID;
+
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -48,5 +51,15 @@ public class ImageUtils {
 		}
 		return result;
 
+	}
+
+	public static byte[] Bitmap2Bytes(Bitmap bm) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+		return baos.toByteArray();
+	}
+
+	public static String getFileName() {
+		return UUID.randomUUID().toString() + ".jpg";
 	}
 }

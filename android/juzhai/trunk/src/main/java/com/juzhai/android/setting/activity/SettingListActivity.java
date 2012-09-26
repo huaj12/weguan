@@ -152,6 +152,8 @@ public class SettingListActivity extends NavigationActivity {
 											int whichButton) {
 										dialog.cancel();
 										new AsyncTask<Void, Integer, Void>() {
+											ProgressDialog progressDialog = null;
+
 											@Override
 											protected Void doInBackground(
 													Void... params) {
@@ -163,6 +165,9 @@ public class SettingListActivity extends NavigationActivity {
 
 											protected void onPostExecute(
 													Void result) {
+												if (null != progressDialog) {
+													progressDialog.dismiss();
+												}
 												Intent intent = new Intent(
 														SettingListActivity.this,
 														LoginActivity.class);
@@ -170,7 +175,7 @@ public class SettingListActivity extends NavigationActivity {
 											};
 
 											protected void onPreExecute() {
-												ProgressDialog
+												progressDialog = ProgressDialog
 														.show(SettingListActivity.this,
 																getResources()
 																		.getString(

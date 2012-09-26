@@ -57,6 +57,10 @@
     <string name="before_hour">小时前</string>
     <string name="yesterday">昨天</string>
     <string name="before_yesterday">前天</string>
+    <string name="send">发送</string>
+    <string name="select_pic">选择照片</string>
+    <string name="slelect_by_album">从相册里选</string>
+    <string name="select_camera">拍照</string>
     <!-- common end -->
 
 
@@ -104,6 +108,8 @@
     <string name="nickname_too_long">昵称太长</string>
     <string name="pwd_length_invalid">密码长度不合法</string>
     <string name="confirm_pwd_error">两次密码不一致</string>
+    <string name="select_pic_error">操作失败请重新选择</string>
+    <string name="content_is_null">内容不能为空</string>
     <!-- error end -->
 
 </resources>

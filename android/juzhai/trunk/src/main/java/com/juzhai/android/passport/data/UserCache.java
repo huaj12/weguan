@@ -45,4 +45,9 @@ public class UserCache {
 		return userInfo.getUid();
 	}
 
+	static void clear() {
+		userInfo = null;
+		lToken = null;
+		pToken = null;
+	}
 }

@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
 
 public class SharedPreferencesManager {
 	private SharedPreferences sharedPreferences;
-	
+
 	public SharedPreferencesManager(Context context) {
 		sharedPreferences = context.getSharedPreferences("juzhai-android",
 				Context.MODE_PRIVATE);
@@ -16,6 +16,12 @@ public class SharedPreferencesManager {
 
 	public boolean isExist(String key) {
 		return sharedPreferences.contains(key);
+	}
+
+	public void delete(String key) {
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.remove(key);
+		editor.commit();
 	}
 
 	public void commit(String key, String value) {

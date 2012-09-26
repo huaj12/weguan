@@ -59,6 +59,7 @@ public class ImageUtils {
 		return baos.toByteArray();
 	}
 
+	// TODO (review) 这个方法要了干嘛？
 	public static String getFileName() {
 		return UUID.randomUUID().toString() + ".jpg";
 	}

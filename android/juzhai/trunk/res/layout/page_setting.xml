@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/setting_scroll_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/setting_tables"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <com.juzhai.android.core.widget.list.table.widget.UITableView
+            android:id="@+id/setting_account_table_view"
+            style="@style/UITableView" />
+
+        <com.juzhai.android.core.widget.list.table.widget.UITableView
+            android:id="@+id/setting_app_table_view"
+            style="@style/UITableView" />
+
+        <com.juzhai.android.core.widget.list.table.widget.UITableView
+            android:id="@+id/setting_cache_table_view"
+            style="@style/UITableView" />
+
+        <com.juzhai.android.core.widget.list.table.widget.UITableView
+            android:id="@+id/setting_logout_table_view"
+            style="@style/UITableView" />
+    </LinearLayout>
+
+</ScrollView>

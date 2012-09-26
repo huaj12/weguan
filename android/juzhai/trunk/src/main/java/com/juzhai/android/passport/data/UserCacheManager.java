@@ -15,6 +15,8 @@ import com.juzhai.android.passport.model.User;
 
 public class UserCacheManager {
 
+	private final static String P_TOKEN_NAME = "p_token";
+
 	public static void cache(Context context,
 			ResponseEntity<UserResult> responseEntity) {
 		UserCache.setUserInfo(responseEntity.getBody().getResult());
@@ -23,7 +25,7 @@ public class UserCacheManager {
 		String lToken = cookies.get("l_token");
 		if (StringUtils.hasText(lToken))
 			UserCache.setlToken(lToken);
-		String pToken = cookies.get("p_token");
+		String pToken = cookies.get(P_TOKEN_NAME);
 		if (StringUtils.hasText(pToken))
 			UserCache.setpToken(pToken);
 	}
@@ -36,12 +38,21 @@ public class UserCacheManager {
 			ResponseEntity<UserResult> responseEntity) {
 		Map<String, String> cookies = parseCookies(responseEntity.getHeaders()
 				.get("Set-Cookie"));
-		String pToken = cookies.get("p_token");
-		new SharedPreferencesManager(context).commit("p_token", pToken);
+		String pToken = cookies.get(P_TOKEN_NAME);
+		new SharedPreferencesManager(context).commit(P_TOKEN_NAME, pToken);
 	}
 
 	public static String getPersistToken(Context context) {
-		return new SharedPreferencesManager(context).getString("p_token");
+		return new SharedPreferencesManager(context).getString(P_TOKEN_NAME);
+	}
+
+	public static void clearPersistToken(Context context) {
+		new SharedPreferencesManager(context).delete(P_TOKEN_NAME);
+	}
+
+	public static void localLogout(Context context) {
+		UserCache.clear();
+		clearPersistToken(context);
 	}
 
 	private static Map<String, String> parseCookies(List<String> list) {

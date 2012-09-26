@@ -55,6 +55,7 @@ public abstract class PageAdapter<T extends Entity> extends BaseAdapter {
 	}
 
 	public void replaceData(int position, T t) {
+		//TODO (review) 不能直接用getDatas()来操作列表
 		data.getDatas().set(position, t);
 		notifyDataSetChanged();
 	}

@@ -68,10 +68,10 @@
 	<!-- TEXT -->
 	<style name="content_page_large_text">
 		<item name="android:duplicateParentState">true</item>
-        <item name="android:textSize">16.0dip</item>
+        <item name="android:textSize">17.0dip</item>
         <item name="android:typeface">sans</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#ff8295bf</item>
+        <item name="android:textColor">@color/text_color_selector</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">end</item>
@@ -83,7 +83,7 @@
         <item name="android:textSize">12.0dip</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">#ff8295bf</item>
+        <item name="android:textColor">@color/text_color_selector</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
     </style>

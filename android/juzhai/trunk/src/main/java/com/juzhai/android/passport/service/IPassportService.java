@@ -56,4 +56,11 @@ public interface IPassportService {
 	 */
 	void tpLogin(Context context, long tpId, String queryString)
 			throws PassportException;
+
+	/**
+	 * 登出
+	 * 
+	 * @param context
+	 */
+	void logout(Context context);
 }

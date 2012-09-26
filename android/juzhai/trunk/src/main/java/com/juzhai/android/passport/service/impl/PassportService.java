@@ -16,6 +16,7 @@ import com.juzhai.android.core.model.Result.UserResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
+import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.exception.PassportException;
 import com.juzhai.android.passport.service.IPassportService;
@@ -23,6 +24,7 @@ import com.juzhai.android.passport.service.IPassportService;
 public class PassportService implements IPassportService {
 
 	private static final String LOGIN_URI = "passport/login";
+	private static final String LOGOUT_URI = "passport/logout";
 	private static final String REGISTER_URI = "passport/register";
 	private static final String GETBACK_PWD_URI = "passport/getbackpwd";
 	private static final String ACCESS_URI = "passport/tpAccess";
@@ -192,5 +194,26 @@ public class PassportService implements IPassportService {
 		} else {
 			loginSuccess(context, responseEntity);
 		}
+	}
+
+	@Override
+	public void logout(Context context) {
+		ResponseEntity<UserResult> responseEntity = null;
+		try {
+			responseEntity = HttpUtils.post(LOGOUT_URI, null,
+					UserCache.getUserStatus(), UserResult.class);
+		} catch (Exception e) {
+			if (BuildConfig.DEBUG) {
+				Log.d(this.getClass().getSimpleName(), "logout error.", e);
+			}
+		}
+		if (responseEntity.getBody() == null
+				|| !responseEntity.getBody().getSuccess()) {
+			if (BuildConfig.DEBUG) {
+				Log.d(this.getClass().getSimpleName(), "logout response error.");
+			}
+		}
+		// 本地登出
+		UserCacheManager.localLogout(context);
 	}
 }

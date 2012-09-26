@@ -45,6 +45,7 @@
     <string name="finish">完成</string>
     <string name="close">关闭</string>
     <string name="ok">确定</string>
+    <string name="logout">退出</string>
     <string name="send_ok">发送成功</string>
     <string name="more">查看更多</string>
     <string name="loding">正在加载</string>
@@ -72,6 +73,10 @@
     <!-- tip  begin -->
     <string name="tip_loging">正在登陆</string>
     <string name="tip_reging">正在注册</string>
+    <string name="tip_logouting">正在登出</string>
+    <string name="tip_cache_clearing">正在清除缓存</string>
+    <string name="tip_logout_confirm">确定要退出吗？</string>
+    <string name="tip_clear_cache_confirm">确定清除图片缓存吗？</string>
     <string name="tip_find_pwding">正在找回密码</string>
     <string name="please_wait">请稍等</string>
     <!-- tip end -->
@@ -111,5 +116,15 @@
     <string name="select_pic_error">操作失败请重新选择</string>
     <string name="content_is_null">内容不能为空</string>
     <!-- error end -->
+
+	<!-- setting -->
+	<string name="setting_title">设置</string>
+	<string name="setting_cell_logout">退出帐号</string>
+	<string name="setting_cell_clear_cache">清除缓存</string>
+	<string name="setting_cell_version">版本更新</string>
+	<string name="setting_cell_feedback">意见反馈</string>
+	<string name="setting_cell_protocal">使用协议</string>
+	<string name="setting_cell_authority">授权设置</string>
+	<string name="setting_cell_profile">个人资料设置</string>
 
 </resources>

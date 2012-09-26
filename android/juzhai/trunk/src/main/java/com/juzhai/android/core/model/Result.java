@@ -69,4 +69,7 @@ public class Result<T> {
 			Result<PageList<DialogContent>> {
 	}
 
+	public static class DialogContentResult extends Result<DialogContent> {
+	}
+
 }

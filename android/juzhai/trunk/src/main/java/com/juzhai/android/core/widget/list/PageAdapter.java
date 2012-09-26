@@ -1,6 +1,5 @@
 package com.juzhai.android.core.widget.list;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -60,13 +59,9 @@ public abstract class PageAdapter<T extends Entity> extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void addFirstData(T t) {
-		List<T> tempList = new ArrayList<T>(data.getDatas().size() + 1);
-		tempList.add(t);
-		tempList.addAll(data.getDatas());
-		data.clearAndAddAll(tempList);
+	public void pushData(T t) {
+		data.addData(t);
 		notifyDataSetChanged();
-
 	}
 
 	public void setPager(Pager pager) {

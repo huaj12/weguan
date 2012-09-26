@@ -21,6 +21,7 @@ import com.juzhai.android.core.model.Result.DialogContentResult;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
+import com.juzhai.android.dialog.model.DialogContent;
 import com.juzhai.android.passport.data.UserCache;
 
 public class SendMessageListener implements OnClickListener {
@@ -31,6 +32,7 @@ public class SendMessageListener implements OnClickListener {
 	private Bitmap pic;
 	private long uid;
 	private JuzhaiRefreshListView dialogContentListView;
+	private DialogContent dialogContent;
 
 	public SendMessageListener(Context context, EditText contentTextView,
 			long uid, JuzhaiRefreshListView dialogContentListView) {
@@ -65,10 +67,8 @@ public class SendMessageListener implements OnClickListener {
 				DialogContentResult result = responseEntity.getBody();
 				if (!result.getSuccess()) {
 					return result.getErrorInfo();
-				} else {
-					dialogContentListView.getPageAdapter().addFirstData(
-							result.getResult());
 				}
+				dialogContent = result.getResult();
 				return null;
 			}
 
@@ -79,6 +79,9 @@ public class SendMessageListener implements OnClickListener {
 				}
 				if (StringUtils.isNotEmpty(errorInfo)) {
 					DialogUtils.showToastText(context, errorInfo);
+				} else {
+					dialogContentListView.getPageAdapter().pushData(
+							dialogContent);
 				}
 			}
 

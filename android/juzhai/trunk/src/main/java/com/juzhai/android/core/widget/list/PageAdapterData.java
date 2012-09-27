@@ -51,4 +51,10 @@ public class PageAdapterData<T extends Entity> {
 	public int getCount() {
 		return datas.size();
 	}
+
+	public void replaceData(int location, T data) {
+		identifySet.add(data.getIdentify());
+		this.datas.set(location, data);
+	}
+
 }

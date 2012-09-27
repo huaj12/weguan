@@ -30,6 +30,12 @@ public class SharedPreferencesManager {
 		editor.commit();
 	}
 
+	public void commitBool(String key, boolean value) {
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putBoolean(key, value);
+		editor.commit();
+	}
+
 	public void commit(Map<String, String> map) {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		for (Entry<String, String> entry : map.entrySet()) {
@@ -40,5 +46,9 @@ public class SharedPreferencesManager {
 
 	public String getString(String key) {
 		return sharedPreferences.getString(key, null);
+	}
+
+	public boolean getBoolean(String key) {
+		return sharedPreferences.getBoolean(key, false);
 	}
 }

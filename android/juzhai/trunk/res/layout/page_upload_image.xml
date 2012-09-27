@@ -8,6 +8,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:text="@string/select_pic"
+    android:gravity="center"
     />
 <Button android:layout_width="fill_parent"
     	android:id="@+id/upload_album"

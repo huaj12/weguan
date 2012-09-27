@@ -17,10 +17,10 @@ import android.widget.ListView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.DialogUtils;
+import com.juzhai.android.core.widget.list.table.widget.UITableView;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.main.activity.MainTabActivity;
 import com.juzhai.android.passport.adapter.RegisterInputListAdapter;
-import com.juzhai.android.passport.adapter.TpLoginAdapter;
 import com.juzhai.android.passport.exception.PassportException;
 import com.juzhai.android.passport.listener.TpLoginListener;
 import com.juzhai.android.passport.service.IPassportService;
@@ -49,9 +49,15 @@ public class RegisterActivity extends NavigationActivity {
 		// --------------设置NavigationBar--------------------
 
 		// 第三方登录
-		ListView mListView = (ListView) findViewById(R.id.tp_login_listview_button);
-		mListView.setAdapter(new TpLoginAdapter(getLayoutInflater()));
-		mListView.setOnItemClickListener(new TpLoginListener(this));
+		UITableView tpLoginTableView = (UITableView) findViewById(R.id.tp_login_table_view);
+		tpLoginTableView.setClickListener(new TpLoginListener(this));
+		tpLoginTableView.addBasicItem(R.drawable.sina_login_icon,
+				getResources().getString(R.string.sina_login_title), null);
+		tpLoginTableView.addBasicItem(R.drawable.qq_login_icon, getResources()
+				.getString(R.string.qq_login_title), null);
+		tpLoginTableView.addBasicItem(R.drawable.db_login_icon, getResources()
+				.getString(R.string.db_login_title), null);
+		tpLoginTableView.commit();
 
 		listViewInput = (ListView) findViewById(R.id.reg_listview_input);
 		listViewInput.setAdapter(new RegisterInputListAdapter(

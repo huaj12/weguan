@@ -10,11 +10,13 @@
         android:id="@+id/login_listview_input"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/shape_bg_list_view"
-        android:cacheColorHint="@null" />
+        android:cacheColorHint="@null"
+        android:divider="@color/gray"
+        android:dividerHeight="0.5dip" />
     <!-- 找回密码 -->
 
     <RelativeLayout
@@ -50,7 +52,7 @@
 
     <!-- 新浪、豆瓣、QQ登录 -->
 
-    <ListView
+    <!-- <ListView
         android:id="@+id/tp_login_listview_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -59,6 +61,12 @@
         android:layout_marginTop="36dp"
         android:background="@drawable/shape_bg_list_view"
         android:cacheColorHint="@null"
+        android:layout_below="@id/login_button_layout" /> -->
+        
+	<com.juzhai.android.core.widget.list.table.widget.UITableView
+		android:id="@+id/tp_login_table_view"
+		style="@style/UITableView"
+		android:layout_marginTop="36dp"
         android:layout_below="@id/login_button_layout" />
 
     <Button

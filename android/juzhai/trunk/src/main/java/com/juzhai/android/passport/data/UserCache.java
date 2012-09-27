@@ -50,4 +50,12 @@ public class UserCache {
 		lToken = null;
 		pToken = null;
 	}
+
+	public static boolean hasLogin() {
+		if (null != userInfo && userInfo.getUid() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

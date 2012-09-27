@@ -64,9 +64,8 @@ public class JzUtils {
 		long seconds = beforeSeconds(date);
 		long minutes = beforeMinutes(date);
 		long day = beforeDays(date);
-		if (seconds >= 0 && seconds < 60) {
-			return seconds
-					+ context.getResources().getString(R.string.before_seconds);
+		if (seconds < 60) {
+			return context.getResources().getString(R.string.before_seconds);
 		} else if (minutes > 0 && minutes < 60) {
 			return minutes
 					+ context.getResources().getString(R.string.before_minutes);

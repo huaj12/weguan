@@ -40,19 +40,19 @@ public class LaunchActivity extends BaseActivity {
 		new AsyncTask<Void, Void, Boolean>() {
 			protected void onPostExecute(Boolean result) {
 				// 判断是否走过引导
-				if (!new GuidanceService().hasGuide(LaunchActivity.this)) {
+//				if (!new GuidanceService().hasGuide(LaunchActivity.this)) {
 					// 跳往引导
+					clearStackAndStartActivity(new Intent(LaunchActivity.this,
+							GuidanceActivity.class));
+					return;
+//				}
+//				if (result) {
 //					clearStackAndStartActivity(new Intent(LaunchActivity.this,
-//							GuidanceActivity.class));
-//					return;
-				}
-				if (result) {
-					clearStackAndStartActivity(new Intent(LaunchActivity.this,
-							MainTabActivity.class));
-				} else {
-					clearStackAndStartActivity(new Intent(LaunchActivity.this,
-							LoginActivity.class));
-				}
+//							MainTabActivity.class));
+//				} else {
+//					clearStackAndStartActivity(new Intent(LaunchActivity.this,
+//							LoginActivity.class));
+//				}
 			};
 
 			@Override

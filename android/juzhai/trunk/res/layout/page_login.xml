@@ -15,7 +15,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/shape_bg_list_view"
         android:cacheColorHint="@null"
-        android:divider="@color/gray"
+        android:divider="@color/rounded_container_border"
         android:dividerHeight="0.5dip" />
     <!-- 找回密码 -->
 

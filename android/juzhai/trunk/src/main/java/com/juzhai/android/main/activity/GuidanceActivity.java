@@ -26,4 +26,9 @@ public class GuidanceActivity extends FragmentActivity {
 		PageIndicator mIndicator = (CirclePageIndicator) findViewById(R.id.guidance_indicator);
 		mIndicator.setViewPager(mPager);
 	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
 }

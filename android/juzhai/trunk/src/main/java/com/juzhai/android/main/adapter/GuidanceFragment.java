@@ -41,16 +41,16 @@ public final class GuidanceFragment extends Fragment {
 		layout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
 		switch (index) {
 		case 0:
-			layout.setBackgroundResource(R.drawable.app_bg);
+			layout.setBackgroundResource(R.drawable.yd1);
 			break;
 		case 1:
-			layout.setBackgroundResource(R.drawable.arrow_down);
+			layout.setBackgroundResource(R.drawable.yd2);
 			break;
 		case 2:
-			layout.setBackgroundResource(R.drawable.back_selector_button);
+			layout.setBackgroundResource(R.drawable.yd3);
 			break;
 		case 3:
-			layout.setBackgroundResource(R.drawable.about_selector_button);
+			layout.setBackgroundResource(R.drawable.yd4);
 			Button button = new Button(getActivity());
 			button.setBackgroundResource(R.drawable.guidance_selector_button);
 
@@ -78,5 +78,11 @@ public final class GuidanceFragment extends Fragment {
 			break;
 		}
 		return layout;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		setUserVisibleHint(true);
 	}
 }

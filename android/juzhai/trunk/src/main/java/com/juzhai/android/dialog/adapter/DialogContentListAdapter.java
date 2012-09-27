@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
@@ -18,6 +19,7 @@ import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
+import com.juzhai.android.dialog.bean.MessageStatus;
 import com.juzhai.android.dialog.model.DialogContent;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
@@ -47,6 +49,16 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 					.findViewById(R.id.message_rigth_content);
 			holder.createTimeTextView = (TextView) convertView
 					.findViewById(R.id.message_send_time);
+			holder.leftIcon = (ImageView) convertView
+					.findViewById(R.id.message_left_icon);
+			holder.leftImage = (ImageView) convertView
+					.findViewById(R.id.message_left_image);
+			holder.rightImage = (ImageView) convertView
+					.findViewById(R.id.message_right_image);
+			holder.rightRelativeLayout = (RelativeLayout) convertView
+					.findViewById(R.id.message_rigth_layout);
+			holder.leftRelativeLayout = (RelativeLayout) convertView
+					.findViewById(R.id.message_left_layout);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -57,26 +69,60 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 		final ImageView leftUserLogo = holder.leftUserLogo;
 		final TextView createTimeTextView = holder.createTimeTextView;
 		final ImageView rightUserLogo = holder.rightUserLogo;
+		final ImageView leftIcon = holder.leftIcon;
+		final ImageView leftImage = holder.leftImage;
+		final ImageView rightImage = holder.rightImage;
+		final RelativeLayout leftRelativeLayout = holder.leftRelativeLayout;
+		final RelativeLayout rightRelativeLayout = holder.rightRelativeLayout;
 
-		rightTextView.setVisibility(View.VISIBLE);
+		rightRelativeLayout.setVisibility(View.VISIBLE);
 		rightUserLogo.setVisibility(View.VISIBLE);
-		leftTextView.setVisibility(View.VISIBLE);
+		leftRelativeLayout.setVisibility(View.VISIBLE);
 		leftUserLogo.setVisibility(View.VISIBLE);
+		leftImage.setVisibility(View.GONE);
+		rightImage.setVisibility(View.GONE);
 
 		if (dailContent.getSenderUid() == tagerUser.getUid()) {
-			rightTextView.setVisibility(View.GONE);
+			rightRelativeLayout.setVisibility(View.GONE);
 			rightUserLogo.setVisibility(View.GONE);
 			leftTextView.setText(dailContent.getContent());
 			setLogo(leftUserLogo, tagerUser);
-		} else {
-			leftTextView.setVisibility(View.GONE);
+			setImage(leftImage, dailContent);
+		} else if (dailContent.getSenderUid() == UserCache.getUid()) {
+			leftRelativeLayout.setVisibility(View.GONE);
 			leftUserLogo.setVisibility(View.GONE);
 			rightTextView.setText(dailContent.getContent());
 			setLogo(rightUserLogo, UserCache.getUserInfo());
+			setImage(rightImage, dailContent);
 		}
 		createTimeTextView.setText(JzUtils.showTime(mContext, new Date(
 				dailContent.getCreateTime())));
+		updateMessageStauts(leftIcon, dailContent.getStatus());
 		return convertView;
+	}
+
+	private void updateMessageStauts(ImageView leftIcon, MessageStatus status) {
+		if (status == null) {
+			leftIcon.setBackgroundDrawable(null);
+			leftIcon.setVisibility(View.GONE);
+			return;
+		}
+		leftIcon.setVisibility(View.VISIBLE);
+		switch (status) {
+		case WAIT:
+			leftIcon.setBackgroundResource(R.drawable.mess_icon_waiting);
+			break;
+		case SENDING:
+			leftIcon.setBackgroundResource(R.drawable.mess_icon_sending);
+			break;
+		case ERROR:
+			leftIcon.setBackgroundResource(R.drawable.mess_icon_send_unable);
+			break;
+		case SUCCESS:
+			leftIcon.setBackgroundDrawable(null);
+			leftIcon.setVisibility(View.GONE);
+			break;
+		}
 	}
 
 	private class ViewHolder {
@@ -85,6 +131,36 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 		public ImageView rightUserLogo;
 		public TextView createTimeTextView;
 		public TextView rightTextView;
+		public ImageView leftIcon;
+		public ImageView leftImage;
+		public ImageView rightImage;
+		public RelativeLayout leftRelativeLayout;
+		public RelativeLayout rightRelativeLayout;
+	}
+
+	private void setImage(final ImageView imageView, DialogContent dialogContent) {
+		imageView.setImageBitmap(null);
+		if (StringUtils.isNotEmpty(dialogContent.getImgUrl())) {
+			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
+			nid.fetchImage(JzUtils.getImageUrl(dialogContent.getImgUrl()), 0,
+					imageView, new ImageLoaderCallback() {
+						@Override
+						public void imageLoaderFinish(Bitmap bitmap) {
+							if (bitmap != null) {
+								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
+										bitmap, UIUtil.dip2px(mContext, 40),
+										UIUtil.dip2px(mContext, 40));
+								imageView.setImageBitmap(zoomBitmap);
+								imageView.setVisibility(View.VISIBLE);
+							}
+						}
+					});
+		} else if (dialogContent.getImage() != null) {
+			Bitmap zoomBitmap = ImageUtils.zoomBitmap(dialogContent.getImage(),
+					UIUtil.dip2px(mContext, 40), UIUtil.dip2px(mContext, 40));
+			imageView.setImageBitmap(zoomBitmap);
+			imageView.setVisibility(View.VISIBLE);
+		}
 	}
 
 	private void setLogo(final ImageView logo, User user) {
@@ -106,4 +182,5 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 					});
 		}
 	}
+
 }

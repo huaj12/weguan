@@ -1,9 +1,12 @@
 package com.juzhai.android.dialog.model;
 
+import android.graphics.Bitmap;
+
 import com.juzhai.android.core.model.Entity;
+import com.juzhai.android.dialog.bean.MessageStatus;
 
 public class DialogContent extends Entity {
-	
+
 	private static final long serialVersionUID = -3656049529919195124L;
 
 	private long dialogContentId;
@@ -17,6 +20,10 @@ public class DialogContent extends Entity {
 	private long receiverUid;
 
 	private long createTime;
+
+	private MessageStatus status;
+
+	private Bitmap image;
 
 	public long getDialogContentId() {
 		return dialogContentId;
@@ -69,6 +76,22 @@ public class DialogContent extends Entity {
 	@Override
 	public Object getIdentify() {
 		return this.dialogContentId;
+	}
+
+	public MessageStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(MessageStatus status) {
+		this.status = status;
+	}
+
+	public Bitmap getImage() {
+		return image;
+	}
+
+	public void setImage(Bitmap image) {
+		this.image = image;
 	}
 
 }

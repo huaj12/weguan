@@ -16,7 +16,6 @@ import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.utils.UIUtil;
-import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
@@ -85,9 +84,9 @@ public class DialogListAdapter extends PageAdapter<Dialog> {
 			nicknameTextView.setTextColor(mContext.getResources().getColor(
 					R.color.blue));
 		}
-		// TODO (review) 还在用Validation？
+		// TODO (done) 还在用Validation？
 		nicknameTextView.setText(TextTruncateUtil.truncate(user.getNickname(),
-				Validation.NICKNAME_LENGTH_MAX, "..."));
+				20, "..."));
 		contentTextView.setText(TextTruncateUtil.truncate(
 				dialog.getLatestContent(), 66, "..."));
 		// 接受者

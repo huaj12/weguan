@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.widget.list.table.model.BasicItem;
+import com.juzhai.android.core.widget.list.table.model.BasicItem.ItemType;
 import com.juzhai.android.core.widget.list.table.model.IListItem;
 import com.juzhai.android.core.widget.list.table.model.ViewItem;
 
@@ -55,8 +56,8 @@ public class UITableView extends LinearLayout {
 	 * @param title
 	 * @param summary
 	 */
-	public void addBasicItem(String title, String summary) {
-		mItemList.add(new BasicItem(title, summary));
+	public void addBasicItem(String title, String summary, ItemType itemType) {
+		mItemList.add(new BasicItem(title, summary, itemType));
 	}
 
 	/**
@@ -65,18 +66,9 @@ public class UITableView extends LinearLayout {
 	 * @param summary
 	 * @param color
 	 */
-	public void addBasicItem(String title, String summary, int color) {
-		mItemList.add(new BasicItem(title, summary, color));
-	}
-
-	/**
-	 * 
-	 * @param drawable
-	 * @param title
-	 * @param summary
-	 */
-	public void addBasicItem(int drawable, String title, String summary) {
-		mItemList.add(new BasicItem(drawable, title, summary));
+	public void addBasicItem(String title, String summary, ItemType itemType,
+			int color) {
+		mItemList.add(new BasicItem(title, summary, itemType, color));
 	}
 
 	/**
@@ -86,8 +78,19 @@ public class UITableView extends LinearLayout {
 	 * @param summary
 	 */
 	public void addBasicItem(int drawable, String title, String summary,
-			int color) {
-		mItemList.add(new BasicItem(drawable, title, summary, color));
+			ItemType itemType) {
+		mItemList.add(new BasicItem(drawable, title, summary, itemType));
+	}
+
+	/**
+	 * 
+	 * @param drawable
+	 * @param title
+	 * @param summary
+	 */
+	public void addBasicItem(int drawable, String title, String summary,
+			ItemType itemType, int color) {
+		mItemList.add(new BasicItem(drawable, title, summary, itemType, color));
 	}
 
 	/**
@@ -156,6 +159,16 @@ public class UITableView extends LinearLayout {
 	 * @param index
 	 */
 	private void setupBasicItem(View view, BasicItem item, int index) {
+		switch (item.getType()) {
+		case HORIZONTAL:
+			((LinearLayout) view).removeView(view
+					.findViewById(R.id.uitable_item_type_vertical));
+			break;
+		case VERTICAL:
+			((LinearLayout) view).removeView(view
+					.findViewById(R.id.uitable_item_type_horizontal));
+			break;
+		}
 		if (item.getDrawable() > -1) {
 			((ImageView) view.findViewById(R.id.image))
 					.setBackgroundResource(item.getDrawable());

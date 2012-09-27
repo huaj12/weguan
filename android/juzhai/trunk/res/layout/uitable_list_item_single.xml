@@ -9,7 +9,11 @@
    	style="@style/list_item_single">
     
     <ImageView android:id="@+id/image" android:layout_width="wrap_content" android:layout_height="wrap_content"  />
-    <LinearLayout android:duplicateParentState="true" android:gravity="center_vertical" android:paddingLeft="10dip" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1.0">
+    <LinearLayout android:id="@+id/uitable_item_type_vertical" android:duplicateParentState="true" android:gravity="center_vertical" android:paddingLeft="10dip" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1.0">
+        <TextView android:text="title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/title" style="@style/content_page_large_text" />
+        <TextView android:text="summary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/subtitle" android:visibility="visible" style="@style/content_page_small_text" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/uitable_item_type_horizontal" android:duplicateParentState="true" android:gravity="center_vertical" android:paddingLeft="10dip" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1.0">
         <TextView android:text="title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/title" style="@style/content_page_large_text" />
         <TextView android:text="summary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/subtitle" android:visibility="visible" style="@style/content_page_small_text" />
     </LinearLayout>

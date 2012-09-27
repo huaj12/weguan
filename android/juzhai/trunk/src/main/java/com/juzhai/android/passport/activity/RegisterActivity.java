@@ -17,6 +17,7 @@ import android.widget.ListView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.DialogUtils;
+import com.juzhai.android.core.widget.list.table.model.BasicItem.ItemType;
 import com.juzhai.android.core.widget.list.table.widget.UITableView;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.main.activity.MainTabActivity;
@@ -52,11 +53,12 @@ public class RegisterActivity extends NavigationActivity {
 		UITableView tpLoginTableView = (UITableView) findViewById(R.id.tp_login_table_view);
 		tpLoginTableView.setClickListener(new TpLoginListener(this));
 		tpLoginTableView.addBasicItem(R.drawable.sina_login_icon,
-				getResources().getString(R.string.sina_login_title), null);
+				getResources().getString(R.string.sina_login_title), null,
+				ItemType.HORIZONTAL);
 		tpLoginTableView.addBasicItem(R.drawable.qq_login_icon, getResources()
-				.getString(R.string.qq_login_title), null);
+				.getString(R.string.qq_login_title), null, ItemType.HORIZONTAL);
 		tpLoginTableView.addBasicItem(R.drawable.db_login_icon, getResources()
-				.getString(R.string.db_login_title), null);
+				.getString(R.string.db_login_title), null, ItemType.HORIZONTAL);
 		tpLoginTableView.commit();
 
 		listViewInput = (ListView) findViewById(R.id.reg_listview_input);

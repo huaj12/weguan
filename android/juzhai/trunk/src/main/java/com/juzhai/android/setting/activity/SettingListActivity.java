@@ -8,7 +8,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.SystemConfig;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
+import com.juzhai.android.core.widget.list.table.model.BasicItem.ItemType;
 import com.juzhai.android.core.widget.list.table.widget.UITableView;
 import com.juzhai.android.core.widget.list.table.widget.UITableView.ClickListener;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
@@ -53,8 +55,9 @@ public class SettingListActivity extends NavigationActivity {
 		});
 		accountTableView.addBasicItem(getResources().getString(
 				R.string.setting_cell_profile));
-		accountTableView.addBasicItem(getResources().getString(
-				R.string.setting_cell_authority));
+		accountTableView.addBasicItem(
+				getResources().getString(R.string.setting_cell_authority),
+				"未绑定", ItemType.HORIZONTAL);
 	}
 
 	private void createAppList() {
@@ -67,8 +70,10 @@ public class SettingListActivity extends NavigationActivity {
 				R.string.setting_cell_protocal));
 		appTableView.addBasicItem(getResources().getString(
 				R.string.setting_cell_feedback));
-		appTableView.addBasicItem(getResources().getString(
-				R.string.setting_cell_version));
+		appTableView.addBasicItem(
+				getResources().getString(R.string.setting_cell_version),
+				"v" + SystemConfig.getVersionName(SettingListActivity.this),
+				ItemType.HORIZONTAL);
 	}
 
 	private void cacheAppList() {

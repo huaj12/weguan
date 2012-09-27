@@ -10,6 +10,7 @@ import android.os.Bundle;
 import com.juzhai.android.R;
 import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.activity.BaseActivity;
+import com.juzhai.android.main.service.impl.GuidanceService;
 import com.juzhai.android.passport.activity.LoginActivity;
 import com.juzhai.android.passport.service.IPassportService;
 import com.juzhai.android.passport.service.impl.PassportService;
@@ -38,6 +39,13 @@ public class LaunchActivity extends BaseActivity {
 
 		new AsyncTask<Void, Void, Boolean>() {
 			protected void onPostExecute(Boolean result) {
+				// 判断是否走过引导
+				if (!new GuidanceService().hasGuide(LaunchActivity.this)) {
+					// 跳往引导
+//					clearStackAndStartActivity(new Intent(LaunchActivity.this,
+//							GuidanceActivity.class));
+//					return;
+				}
 				if (result) {
 					clearStackAndStartActivity(new Intent(LaunchActivity.this,
 							MainTabActivity.class));

@@ -55,14 +55,24 @@ public abstract class PageAdapter<T extends Entity> extends BaseAdapter {
 	}
 
 	public void replaceData(int position, T t) {
-		//TODO (review) 不能直接用getDatas()来操作列表
-		data.getDatas().set(position, t);
+		// TODO (done) 不能直接用getDatas()来操作列表
+		data.replaceData(position, t);
 		notifyDataSetChanged();
 	}
 
-	public void pushData(T t) {
+	public int addTempData(T t) {
+		data.getDatas().add(t);
+		return data.getCount() - 1;
+	}
+
+	public void replaceDataNotNotifyData(int position, T t) {
+		data.replaceData(position, t);
+	}
+
+	public int pushData(T t) {
 		data.addData(t);
 		notifyDataSetChanged();
+		return data.getCount() - 1;
 	}
 
 	public void setPager(Pager pager) {

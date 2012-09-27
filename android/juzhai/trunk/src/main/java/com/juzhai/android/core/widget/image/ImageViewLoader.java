@@ -66,6 +66,7 @@ public class ImageViewLoader {
 	public void clearCache() {
 		diskCache.clearCache();
 		mCache.evictAll();
+		instance = null;
 	}
 
 	public void fetchImage(final String url, int placeholderImage,

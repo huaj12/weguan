@@ -1,15 +1,13 @@
 package com.juzhai.android.passport.listener;
 
 import android.content.Intent;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.juzhai.android.core.activity.BaseActivity;
+import com.juzhai.android.core.widget.list.table.widget.UITableView.ClickListener;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.passport.activity.WebViewActivity;
 
-public class TpLoginListener implements OnItemClickListener {
+public class TpLoginListener implements ClickListener {
 
 	private NavigationActivity activity;
 
@@ -18,10 +16,21 @@ public class TpLoginListener implements OnItemClickListener {
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
+	public void onClick(int index) {
+		int tpId = 0;
+		switch (index) {
+		case 0:
+			tpId = 6;
+			break;
+		case 1:
+			tpId = 8;
+			break;
+		case 2:
+			tpId = 7;
+			break;
+		}
 		Intent intent = new Intent(activity, WebViewActivity.class);
-		intent.putExtra("tpId", (Integer) view.getTag());
+		intent.putExtra("tpId", tpId);
 		activity.pushIntentForResult(intent, BaseActivity.CLEAR_REQUEST_CODE);
 
 	}

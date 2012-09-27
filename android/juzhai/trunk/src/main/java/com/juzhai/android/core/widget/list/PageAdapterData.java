@@ -17,7 +17,7 @@ public class PageAdapterData<T extends Entity> {
 	private Set<Object> identifySet = new HashSet<Object>();
 
 	public void addData(T data) {
-		if (null != data && identifySet.contains(data)) {
+		if (null == data || identifySet.contains(data.getIdentify())) {
 			return;
 		}
 		identifySet.add(data.getIdentify());
@@ -46,5 +46,9 @@ public class PageAdapterData<T extends Entity> {
 
 	public List<T> getDatas() {
 		return datas;
+	}
+
+	public int getCount() {
+		return datas.size();
 	}
 }

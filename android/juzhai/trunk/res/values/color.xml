@@ -27,4 +27,8 @@
     <!-- ITEM TEXT COLORS - STATES - PRESSED AND DEFAULT -->
     <color name="text_color_default">#000000</color>
     <color name="text_color_pressed">#ffffff</color>
+    
+    <color name="online_status_now">#24A93B</color>
+	<color name="online_status_today">#FF9933</color>
+	<color name="online_status_recent">#999999</color>
 </resources>

@@ -25,6 +25,7 @@ import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 
 public class DialogContentListAdapter extends PageAdapter<DialogContent> {
+
 	private User tagerUser;
 
 	public DialogContentListAdapter(User tagerUser, Context mContext) {
@@ -102,7 +103,7 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 	}
 
 	private void updateMessageStauts(ImageView leftIcon, MessageStatus status) {
-		if (status == null) {
+		if (status == null || status.equals(MessageStatus.SUCCESS)) {
 			leftIcon.setBackgroundDrawable(null);
 			leftIcon.setVisibility(View.GONE);
 			return;
@@ -118,30 +119,19 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 		case ERROR:
 			leftIcon.setBackgroundResource(R.drawable.mess_icon_send_unable);
 			break;
-		case SUCCESS:
-			leftIcon.setBackgroundDrawable(null);
-			leftIcon.setVisibility(View.GONE);
-			break;
 		}
-	}
-
-	private class ViewHolder {
-		public TextView leftTextView;
-		public ImageView leftUserLogo;
-		public ImageView rightUserLogo;
-		public TextView createTimeTextView;
-		public TextView rightTextView;
-		public ImageView leftIcon;
-		public ImageView leftImage;
-		public ImageView rightImage;
-		public RelativeLayout leftRelativeLayout;
-		public RelativeLayout rightRelativeLayout;
 	}
 
 	private void setImage(final ImageView imageView, DialogContent dialogContent) {
 		imageView.setImageBitmap(null);
-		if (StringUtils.isNotEmpty(dialogContent.getImgUrl())) {
+		if (dialogContent.getImage() != null) {
+			Bitmap zoomBitmap = ImageUtils.zoomBitmap(dialogContent.getImage(),
+					UIUtil.dip2px(mContext, 40), UIUtil.dip2px(mContext, 40));
+			imageView.setImageBitmap(zoomBitmap);
+			imageView.setVisibility(View.VISIBLE);
+		} else if (StringUtils.isNotEmpty(dialogContent.getImgUrl())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
+			// TODO (review) 需要有默认图片
 			nid.fetchImage(JzUtils.getImageUrl(dialogContent.getImgUrl()), 0,
 					imageView, new ImageLoaderCallback() {
 						@Override
@@ -155,16 +145,13 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 							}
 						}
 					});
-		} else if (dialogContent.getImage() != null) {
-			Bitmap zoomBitmap = ImageUtils.zoomBitmap(dialogContent.getImage(),
-					UIUtil.dip2px(mContext, 40), UIUtil.dip2px(mContext, 40));
-			imageView.setImageBitmap(zoomBitmap);
-			imageView.setVisibility(View.VISIBLE);
 		}
 	}
 
 	private void setLogo(final ImageView logo, User user) {
-		if (user.isHasLogo() && StringUtils.isNotEmpty(user.getLogo())) {
+		// TODO (review) user.isHasLogo()不是这么用的
+		// if (user.isHasLogo() && StringUtils.isNotEmpty(user.getLogo())) {
+		if (StringUtils.isNotEmpty(user.getLogo())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 			nid.fetchImage(JzUtils.getImageUrl(user.getLogo()),
 					R.drawable.user_face_unload, logo,
@@ -183,4 +170,16 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 		}
 	}
 
+	private class ViewHolder {
+		public TextView leftTextView;
+		public ImageView leftUserLogo;
+		public ImageView rightUserLogo;
+		public TextView createTimeTextView;
+		public TextView rightTextView;
+		public ImageView leftIcon;
+		public ImageView leftImage;
+		public ImageView rightImage;
+		public RelativeLayout leftRelativeLayout;
+		public RelativeLayout rightRelativeLayout;
+	}
 }

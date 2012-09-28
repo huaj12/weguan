@@ -80,7 +80,7 @@ public class UserPostAdapter extends PageAdapter<User> {
 		// TODO (review) 不同purpose不同前定语
 		postContentView.setText(mContext.getResources().getString(
 				R.string.post_head)
-				+ ":" + user.getPostView().getContent());
+				+ ": " + user.getPostView().getContent());
 		userInfoView.setText(TextTruncateUtil.truncate(
 				user.getUserInfo(mContext), 23, "..."));
 

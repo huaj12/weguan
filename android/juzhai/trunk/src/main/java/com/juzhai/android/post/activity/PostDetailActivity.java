@@ -50,7 +50,7 @@ public class PostDetailActivity extends NavigationActivity {
 		TextView contentView = (TextView) findViewById(R.id.post_content);
 		final ImageView postImageView = (ImageView) findViewById(R.id.post_image);
 		Button postInterest = (Button) findViewById(R.id.post_interest);
-		contentView.setText(getResources().getString(R.string.post_head) + ":"
+		contentView.setText(getResources().getString(R.string.post_head) + ": "
 				+ user.getPostView().getContent());
 		userViewHelper.showUserLogo(PostDetailActivity.this, user,
 				userLogoView, 60, 60);

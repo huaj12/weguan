@@ -3,11 +3,20 @@ package com.juzhai.android.passport.model;
 import org.apache.commons.lang.StringUtils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.model.Entity;
+import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.StringUtil;
+import com.juzhai.android.core.utils.TextTruncateUtil;
+import com.juzhai.android.core.utils.UIUtil;
+import com.juzhai.android.core.widget.image.ImageLoaderCallback;
+import com.juzhai.android.core.widget.image.ImageViewLoader;
+import com.juzhai.android.home.bean.OnlineStatus;
 
 public class User extends Entity {
 	private static final long serialVersionUID = -8385388032091129353L;
@@ -329,6 +338,71 @@ public class User extends Entity {
 			sbString.append(getProfession());
 		}
 		return sbString.toString();
+	}
+
+	public void setLogoImage(final ImageView imageView, final int tagerWidth,
+			final int tagerHeight, final Context mContext) {
+		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
+		if (isHasLogo() && StringUtils.isNotEmpty(getLogo())) {
+			nid.fetchImage(JzUtils.getImageUrl(getLogo()),
+					R.drawable.user_face_unload, imageView,
+					new ImageLoaderCallback() {
+						@Override
+						public void imageLoaderFinish(Bitmap bitmap) {
+							if (bitmap != null) {
+								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
+										bitmap,
+										UIUtil.dip2px(mContext, tagerWidth),
+										UIUtil.dip2px(mContext, tagerHeight));
+								imageView.setImageBitmap(ImageUtils
+										.getRoundedCornerBitmap(zoomBitmap, 10));
+							}
+						}
+					});
+		}
+	}
+
+	public void setNickName(TextView nicknameView, Context mContext) {
+		if (getGender() == 0) {
+			nicknameView.setTextColor(mContext.getResources().getColor(
+					R.color.pink));
+		} else {
+			nicknameView.setTextColor(mContext.getResources().getColor(
+					R.color.blue));
+		}
+		nicknameView.setText(TextTruncateUtil
+				.truncate(getNickname(), 20, "..."));
+	}
+
+	public void setUserOnlineStauts(TextView userOnlineStatusView,
+			Context mContext) {
+		OnlineStatus onlineStatus = OnlineStatus
+				.getOnlineStatusEnum(getOnlineStatus());
+		if (onlineStatus == null) {
+			return;
+		}
+		switch (onlineStatus) {
+		case NOW:
+			userOnlineStatusView.setText(mContext.getResources().getString(
+					R.string.online_now));
+			userOnlineStatusView.setTextColor(mContext.getResources().getColor(
+					R.color.online_status_now));
+			break;
+		case TODAY:
+			userOnlineStatusView.setText(mContext.getResources().getString(
+					R.string.online_today));
+			userOnlineStatusView.setTextColor(mContext.getResources().getColor(
+					R.color.online_status_today));
+			break;
+		case RECENT:
+			userOnlineStatusView.setText(mContext.getResources().getString(
+					R.string.online_recent));
+			userOnlineStatusView.setTextColor(mContext.getResources().getColor(
+					R.color.online_status_recent));
+			break;
+		case NONE:
+			break;
+		}
 	}
 
 }

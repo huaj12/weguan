@@ -58,10 +58,10 @@ public class DialogListAdapter extends PageAdapter<Dialog> {
 
 		final Dialog dialog = data.getDatas().get(position);
 		User user = dialog.getTargetUser();
-		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 		// TODO (review) user.isHasLogo()不是在显示头像的地方用的，是用来是否能发拒宅判断用的
 		// if (user.isHasLogo() && StringUtils.isNotEmpty(user.getLogo())) {
 		if (StringUtils.isNotEmpty(user.getLogo())) {
+			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 			nid.fetchImage(JzUtils.getImageUrl(user.getLogo()),
 					R.drawable.user_face_unload, logoView,
 					new ImageLoaderCallback() {

@@ -304,7 +304,9 @@ public class DailogContentListActivity extends NavigationActivity {
 	public void finish() {
 		// 关闭前先关闭发送消息的线程
 		flag = false;
+		queue.clear();
 		timer.cancel();
+		timer.purge();
 		super.finish();
 	}
 }

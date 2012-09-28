@@ -70,9 +70,9 @@ public class IdeaDetailActivity extends NavigationActivity {
 				}
 			});
 		}
-		ImageViewLoader nid = ImageViewLoader
-				.getInstance(IdeaDetailActivity.this);
 		if (StringUtils.isNotEmpty(idea.getBigPic())) {
+			ImageViewLoader nid = ImageViewLoader
+					.getInstance(IdeaDetailActivity.this);
 			nid.fetchImage(JzUtils.getImageUrl(idea.getBigPic()),
 					R.drawable.good_idea_list_pic_none_icon, imageView,
 					new ImageLoaderCallback() {

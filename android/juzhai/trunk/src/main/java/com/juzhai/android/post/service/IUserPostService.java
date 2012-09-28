@@ -1,6 +1,7 @@
 package com.juzhai.android.post.service;
 
 import com.juzhai.android.core.model.Result.UserListResult;
+import com.juzhai.android.home.bean.ZhaobanOrder;
 import com.juzhai.android.post.exception.PostException;
 
 public interface IUserPostService {
@@ -12,6 +13,6 @@ public interface IUserPostService {
 	 * @param page
 	 * @return
 	 */
-	UserListResult list(Integer gender, String orderType, int page)
+	UserListResult list(Integer gender, ZhaobanOrder order, int page)
 			throws PostException;
 }

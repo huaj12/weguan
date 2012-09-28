@@ -2,6 +2,7 @@ package com.juzhai.android.home.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,8 +17,11 @@ import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase.OnRefre
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.home.adapter.UserPostAdapter;
 import com.juzhai.android.home.task.UserPostListGetDataTask;
+import com.juzhai.android.passport.model.User;
+import com.juzhai.android.post.activity.PostDetailActivity;
 
 public class ZhaobanActivity extends NavigationActivity {
+	public static final int Zhaoban_LIST_REQUEST_CODE = 1;
 	private String order = "online";
 	private Integer gender = null;
 	private JuzhaiRefreshListView postListView = null;
@@ -111,5 +115,19 @@ public class ZhaobanActivity extends NavigationActivity {
 		});
 		postListView.setAdapter(new UserPostAdapter(ZhaobanActivity.this));
 		postListView.manualRefresh();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == Zhaoban_LIST_REQUEST_CODE
+				&& resultCode == PostDetailActivity.Zhaoban_LIST_RESULT_CODE) {
+			User user = (User) data.getSerializableExtra("user");
+			int position = data.getIntExtra("position", -1);
+			if (position >= 0 && user != null) {
+				postListView.getPageAdapter().replaceData(position, user);
+			}
+
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 }

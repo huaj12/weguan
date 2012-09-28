@@ -3,28 +3,24 @@ package com.juzhai.android.home.adapter;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.listener.ListenerSuccessCallBack;
 import com.juzhai.android.core.listener.SimpleClickListener;
-import com.juzhai.android.core.utils.ImageUtils;
-import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
-import com.juzhai.android.core.utils.UIUtil;
-import com.juzhai.android.core.widget.image.ImageLoaderCallback;
-import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
-import com.juzhai.android.home.bean.OnlineStatus;
+import com.juzhai.android.home.activity.ZhaobanActivity;
 import com.juzhai.android.passport.model.User;
+import com.juzhai.android.post.activity.PostDetailActivity;
 
 public class UserPostAdapter extends PageAdapter<User> {
 
@@ -52,6 +48,8 @@ public class UserPostAdapter extends PageAdapter<User> {
 					.findViewById(R.id.user_logo);
 			holder.userOnlineStatusView = (TextView) convertView
 					.findViewById(R.id.user_online_stauts);
+			holder.linearLayout = (LinearLayout) convertView
+					.findViewById(R.id.post_item_layout);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -64,16 +62,28 @@ public class UserPostAdapter extends PageAdapter<User> {
 		final TextView userInfoView = holder.userInfoView;
 		final ImageView userLogoView = holder.userLogoView;
 		final TextView userOnlineStatusView = holder.userOnlineStatusView;
-		setLogoImage(user, userLogoView);
-		setPostImage(user.getPostView().getBigPic(), postImageView);
+		final LinearLayout linearLayout = holder.linearLayout;
+		user.setLogoImage(userLogoView, 60, 60, mContext);
+		user.getPostView().setPostImage(postImageView, 105, 70, mContext);
 		postContentView.setText(mContext.getResources().getString(
 				R.string.post_head)
 				+ ":" + user.getPostView().getContent());
 		userInfoView.setText(TextTruncateUtil.truncate(
 				user.getUserInfo(mContext), 23, "..."));
-		setNickName(nicknameView, user);
+		user.setNickName(nicknameView, mContext);
 		setRespBtn(user, postInterest);
-		setUserOnlineStauts(userOnlineStatusView, user.getOnlineStatus());
+		user.setUserOnlineStauts(userOnlineStatusView, mContext);
+		linearLayout.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, PostDetailActivity.class);
+				intent.putExtra("user", user);
+				intent.putExtra("position", position);
+				((ZhaobanActivity) mContext).pushIntentForResult(intent,
+						ZhaobanActivity.Zhaoban_LIST_REQUEST_CODE);
+			}
+		});
 		return convertView;
 	}
 
@@ -85,6 +95,7 @@ public class UserPostAdapter extends PageAdapter<User> {
 		public TextView nicknameView;
 		public TextView userInfoView;
 		public TextView postContentView;
+		public LinearLayout linearLayout;
 	}
 
 	private void setRespBtn(final User user, final TextView postInterest) {
@@ -117,85 +128,4 @@ public class UserPostAdapter extends PageAdapter<User> {
 		}
 	}
 
-	private void setLogoImage(User user, final ImageView imageView) {
-		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
-		if (user.isHasLogo() && StringUtils.isNotEmpty(user.getLogo())) {
-			nid.fetchImage(JzUtils.getImageUrl(user.getLogo()),
-					R.drawable.user_face_unload, imageView,
-					new ImageLoaderCallback() {
-						@Override
-						public void imageLoaderFinish(Bitmap bitmap) {
-							if (bitmap != null) {
-								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, UIUtil.dip2px(mContext, 60),
-										UIUtil.dip2px(mContext, 60));
-								imageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 10));
-							}
-						}
-					});
-		}
-	}
-
-	private void setPostImage(String url, final ImageView imageView) {
-		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
-		if (StringUtils.isNotEmpty(url)) {
-			nid.fetchImage(JzUtils.getImageUrl(url), 0, imageView,
-					new ImageLoaderCallback() {
-						@Override
-						public void imageLoaderFinish(Bitmap bitmap) {
-							if (bitmap != null) {
-								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, UIUtil.dip2px(mContext, 105),
-										UIUtil.dip2px(mContext, 70));
-								imageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 10));
-							}
-						}
-					});
-		} else {
-			imageView.setVisibility(View.GONE);
-		}
-	}
-
-	private void setNickName(TextView nicknameView, User user) {
-		if (user.getGender() == 0) {
-			nicknameView.setTextColor(mContext.getResources().getColor(
-					R.color.pink));
-		} else {
-			nicknameView.setTextColor(mContext.getResources().getColor(
-					R.color.blue));
-		}
-		nicknameView.setText(TextTruncateUtil.truncate(user.getNickname(), 20,
-				"..."));
-	}
-
-	public void setUserOnlineStauts(TextView userOnlineStatusView, int status) {
-		OnlineStatus onlineStatus = OnlineStatus.getOnlineStatusEnum(status);
-		if (onlineStatus == null) {
-			return;
-		}
-		switch (onlineStatus) {
-		case NOW:
-			userOnlineStatusView.setText(mContext.getResources().getString(
-					R.string.online_now));
-			userOnlineStatusView.setTextColor(mContext.getResources().getColor(
-					R.color.online_status_now));
-			break;
-		case TODAY:
-			userOnlineStatusView.setText(mContext.getResources().getString(
-					R.string.online_today));
-			userOnlineStatusView.setTextColor(mContext.getResources().getColor(
-					R.color.online_status_today));
-			break;
-		case RECENT:
-			userOnlineStatusView.setText(mContext.getResources().getString(
-					R.string.online_recent));
-			userOnlineStatusView.setTextColor(mContext.getResources().getColor(
-					R.color.online_status_recent));
-			break;
-		case NONE:
-			break;
-		}
-	}
 }

@@ -115,6 +115,7 @@
     <string name="confirm_pwd_error">两次密码不一致</string>
     <string name="select_pic_error">操作失败请重新选择</string>
     <string name="content_is_null">内容不能为空</string>
+    <string name="send_message_length_invalid">私信内容请在1到200字之间</string>
     <string name="frequency_exceeds_the_limit">您发送的太快休息一会吧</string>
     <!-- error end -->
 

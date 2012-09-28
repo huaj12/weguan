@@ -66,7 +66,9 @@ public class UserPostAdapter extends PageAdapter<User> {
 		final TextView userOnlineStatusView = holder.userOnlineStatusView;
 		setLogoImage(user, userLogoView);
 		setPostImage(user.getPostView().getBigPic(), postImageView);
-		postContentView.setText(user.getPostView().getContent());
+		postContentView.setText(mContext.getResources().getString(
+				R.string.post_head)
+				+ ":" + user.getPostView().getContent());
 		userInfoView.setText(TextTruncateUtil.truncate(
 				user.getUserInfo(mContext), 23, "..."));
 		setNickName(nicknameView, user);

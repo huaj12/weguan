@@ -1,33 +1,106 @@
 package com.juzhai.android.post.activity;
 
-import android.graphics.Bitmap;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.widget.image.ImageLoaderCallback;
-import com.juzhai.android.core.widget.image.ImageViewLoader;
+import com.juzhai.android.core.listener.ListenerSuccessCallBack;
+import com.juzhai.android.core.listener.SimpleClickListener;
+import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
+import com.juzhai.android.passport.model.User;
+import com.juzhai.android.passport.model.UserPost;
 
 public class PostDetailActivity extends NavigationActivity {
+	public static final int Zhaoban_LIST_RESULT_CODE = 6;
+	private User user = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		getNavigationBar().setBarTitle("拒宅详情");
+		getNavigationBar().setBarTitle(
+				getResources().getString(R.string.post_detail_title));
 		setNavContentView(R.layout.page_post_detail);
+		user = (User) getIntent().getSerializableExtra("user");
+		if (user == null) {
+			popIntent();
+		}
+		ImageView userLogoView = (ImageView) findViewById(R.id.user_logo);
+		TextView nickNameView = (TextView) findViewById(R.id.user_nickname);
+		TextView userInfoView = (TextView) findViewById(R.id.user_info);
+		TextView contentView = (TextView) findViewById(R.id.post_content);
+		ImageView postImage = (ImageView) findViewById(R.id.post_image);
+		Button postInterest = (Button) findViewById(R.id.post_interest);
+		contentView.setText(getResources().getString(R.string.post_head) + ":"
+				+ user.getPostView().getContent());
+		user.setLogoImage(userLogoView, 60, 60, PostDetailActivity.this);
+		user.setNickName(nickNameView, PostDetailActivity.this);
+		userInfoView.setText(TextTruncateUtil.truncate(
+				user.getUserInfo(PostDetailActivity.this), 23, "..."));
+		user.getPostView().setPostImage(postImage, 262, 180,
+				PostDetailActivity.this);
+		initUserPostInfo();
 
-		final ImageView imageView = (ImageView) findViewById(R.id.test_img2);
+		setRespBtn(postInterest);
+	}
 
-		ImageViewLoader nid = ImageViewLoader.getInstance(this);
-		nid.fetchImage(
-				"http://static.51juzhai.com/upload/idea/0/0/118/450/ab8ea94a-d42a-49e3-8e13-0b4bf795ac06.jpg",
-				0, imageView, new ImageLoaderCallback() {
-					@Override
-					public void imageLoaderFinish(Bitmap bitmap) {
-						imageView.setImageBitmap(bitmap);
-					}
-				});
+	private void initUserPostInfo() {
+		UserPost post = user.getPostView();
+		// 设置时间
+		LinearLayout timeLayout = (LinearLayout) findViewById(R.id.post_detail_time_layout);
+		TextView time = (TextView) findViewById(R.id.post_detail_time_text);
+		if (StringUtils.isNotEmpty(post.getDate())) {
+			time.setText(post.getDate());
+		} else {
+			timeLayout.setVisibility(View.GONE);
+		}
+		// 设置地点
+		LinearLayout placeLayout = (LinearLayout) findViewById(R.id.post_detail_place_layout);
+		TextView place = (TextView) findViewById(R.id.post_detail_place_text);
+		if (StringUtils.isNotEmpty(post.getPlace())) {
+			place.setText(post.getPlace());
+		} else {
+			placeLayout.setVisibility(View.GONE);
+		}
+
+	}
+
+	private void setRespBtn(final TextView postInterest) {
+		if (user.getPostView().isHasResp()) {
+			postInterest.setEnabled(false);
+			postInterest.setText(getResources().getString(
+					R.string.post_response_done));
+		} else {
+			postInterest.setEnabled(true);
+			postInterest.setText(getResources().getString(
+					R.string.post_response));
+			Map<String, String> values = new HashMap<String, String>();
+			values.put("postId", String.valueOf(user.getPostView().getPostId()));
+			postInterest.setOnClickListener(new SimpleClickListener(
+					"post/respPost", PostDetailActivity.this, values,
+					new ListenerSuccessCallBack() {
+						@Override
+						public void callback() {
+							postInterest.setEnabled(false);
+							postInterest.setText(getResources().getString(
+									R.string.post_response_done));
+							user.getPostView().setHasResp(true);
+							Intent intent = getIntent();
+							intent.putExtra("user", user);
+							setResult(Zhaoban_LIST_RESULT_CODE, intent);
+						}
+					}));
+
+		}
 	}
 }

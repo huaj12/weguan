@@ -1,5 +1,6 @@
 package com.juzhai.android.dialog.exception;
 
+
 public class DialogContentException extends Exception {
 
 	private static final long serialVersionUID = 1579295456821382028L;

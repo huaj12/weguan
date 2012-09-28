@@ -44,9 +44,18 @@ public abstract class PageAdapter<T extends Entity> extends BaseAdapter {
 		}
 	}
 
+	public void pushData(T t) {
+		data.addData(t);
+		notifyDataSetChanged();
+	}
+
 	public void pushDatas(List<T> datas) {
 		data.addAll(datas);
 		notifyDataSetChanged();
+	}
+
+	public void pushDatasWithoutNotify(List<T> datas) {
+		data.addAll(datas);
 	}
 
 	public void setDatas(List<T> datas) {
@@ -55,24 +64,12 @@ public abstract class PageAdapter<T extends Entity> extends BaseAdapter {
 	}
 
 	public void replaceData(int position, T t) {
-		// TODO (done) 不能直接用getDatas()来操作列表
 		data.replaceData(position, t);
 		notifyDataSetChanged();
 	}
 
-	public int addTempData(T t) {
-		data.getDatas().add(t);
-		return data.getCount() - 1;
-	}
-
-	public void replaceDataNotNotifyData(int position, T t) {
-		data.replaceData(position, t);
-	}
-
-	public int pushData(T t) {
-		data.addData(t);
-		notifyDataSetChanged();
-		return data.getCount() - 1;
+	public void refreshIdentify() {
+		data.refreshIdentifySet();
 	}
 
 	public void setPager(Pager pager) {

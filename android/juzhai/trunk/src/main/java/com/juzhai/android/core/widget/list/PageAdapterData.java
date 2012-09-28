@@ -17,16 +17,29 @@ public class PageAdapterData<T extends Entity> {
 	private Set<Object> identifySet = new HashSet<Object>();
 
 	public void addData(T data) {
-		if (null == data || identifySet.contains(data.getIdentify())) {
+		if (null == data
+				|| (data.getIdentify() != null && identifySet.contains(data
+						.getIdentify()))) {
 			return;
 		}
-		identifySet.add(data.getIdentify());
+		if (null != data.getIdentify()) {
+			identifySet.add(data.getIdentify());
+		}
 		this.datas.add(data);
 	}
 
 	public void addAll(List<T> datas) {
 		for (T data : datas) {
 			addData(data);
+		}
+	}
+
+	public void refreshIdentifySet() {
+		identifySet.clear();
+		for (T data : datas) {
+			if (data.getIdentify() != null) {
+				identifySet.add(data.getIdentify());
+			}
 		}
 	}
 
@@ -53,8 +66,17 @@ public class PageAdapterData<T extends Entity> {
 	}
 
 	public void replaceData(int location, T data) {
-		identifySet.add(data.getIdentify());
+		T preData = this.datas.get(location);
+		if (null == data
+				|| (data.getIdentify() != null
+						&& !data.getIdentify().equals(preData.getIdentify()) && identifySet
+							.contains(data.getIdentify()))) {
+			return;
+		}
+		identifySet.remove(preData.getIdentify());
+		if (null != data.getIdentify()) {
+			identifySet.add(data.getIdentify());
+		}
 		this.datas.set(location, data);
 	}
-
 }

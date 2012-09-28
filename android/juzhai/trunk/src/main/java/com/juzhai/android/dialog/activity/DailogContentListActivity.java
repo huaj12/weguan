@@ -37,7 +37,9 @@ import com.juzhai.android.core.model.Result.DialogContentResult;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.ImageUtils;
+import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.UIUtil;
+import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.dialog.adapter.DialogContentListAdapter;
 import com.juzhai.android.dialog.bean.MessageStatus;
@@ -165,6 +167,14 @@ public class DailogContentListActivity extends NavigationActivity {
 
 			@Override
 			public void onClick(View v) {
+				int contentLengt = StringUtil.chineseLength(contentTextView
+						.getText().toString());
+				if (contentLengt < Validation.SEND_MESSAGE_MIN_LENGTH
+						|| contentLengt > Validation.SEND_MESSAGE_MAX_LENGTH) {
+					DialogUtils.showToastText(DailogContentListActivity.this,
+							R.string.send_message_length_invalid);
+					return;
+				}
 				LocationAndDialogContent ld = new LocationAndDialogContent();
 				DialogContent dialogContent = new DialogContent();
 				dialogContent.setContent(contentTextView.getText().toString());

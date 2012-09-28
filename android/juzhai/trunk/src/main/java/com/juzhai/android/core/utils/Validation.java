@@ -6,4 +6,6 @@ public class Validation {
 	public static final int NICKNAME_LENGTH_MAX = 20;
 	public static final int REGISTER_PASSWORD_MIN = 6;
 	public static final int REGISTER_PASSWORD_MAX = 32;
+	public static final int SEND_MESSAGE_MIN_LENGTH = 2;
+	public static final int SEND_MESSAGE_MAX_LENGTH = 400;
 }

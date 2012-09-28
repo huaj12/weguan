@@ -72,4 +72,7 @@ public class Result<T> {
 	public static class DialogContentResult extends Result<DialogContent> {
 	}
 
+	public static class UserListResult extends Result<PageList<User>> {
+	}
+
 }

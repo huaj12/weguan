@@ -58,10 +58,12 @@
        	    	   android:id="@+id/post_image"
        	    	   android:layout_marginTop="10dp"
        	    	   android:contentDescription="@null"/>
+       	<RelativeLayout android:layout_width="fill_parent"
+       	    			android:layout_height="wrap_content"
+       	    			android:layout_marginTop="10dp"
+       	    			>
        	<Button android:layout_width="wrap_content"
        	        android:layout_height="wrap_content"
-       	        android:layout_marginTop="10dp"
-       	        android:layout_marginLeft="117dp"
        	        android:paddingLeft="23dp"
         		android:paddingTop="0dp"
         		android:paddingRight="3dp"
@@ -69,7 +71,10 @@
         		android:textSize="12sp"
        	        android:id="@+id/post_interest"
        	        android:background="@drawable/interest_post_selector_button"
-       	        android:textColor="@color/text_color_selector"/>      		  
+       	        android:textColor="@color/text_color_selector"
+       	        android:layout_alignParentRight="true"
+       	        />  
+       	 </RelativeLayout>    		  
     </LinearLayout>
 
 </RelativeLayout>

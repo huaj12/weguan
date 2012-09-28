@@ -12,6 +12,7 @@
 	<color name="pink">#ff6699</color>
 	<color name="idea_want">#666666</color>
 	<color name="idea_want_done">#cccccc</color>
+	<color name="post_detail_info">#888888</color>
 	
 	<!-- LIST BORDER COLOR -->
 	<color name="rounded_container_border">#ffb7babb</color>

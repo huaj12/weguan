@@ -111,28 +111,4 @@ public class UserPost extends Entity {
 	public Object getIdentify() {
 		return this.postId;
 	}
-
-	public void setPostImage(final ImageView imageView, final int width,
-			final int height, final Context mContext) {
-		imageView.setVisibility(View.VISIBLE);
-		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
-		if (StringUtils.isNotEmpty(getPic())) {
-			nid.fetchImage(JzUtils.getImageUrl(getPic()), 0, imageView,
-					new ImageLoaderCallback() {
-						@Override
-						public void imageLoaderFinish(Bitmap bitmap) {
-							if (bitmap != null) {
-								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, UIUtil.dip2px(mContext, width),
-										UIUtil.dip2px(mContext, height));
-								imageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 10));
-							}
-						}
-					});
-		} else {
-			imageView.setVisibility(View.GONE);
-		}
-	}
-
 }

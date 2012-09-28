@@ -117,8 +117,8 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		}
 
 		final ImageView imageView = holder.imageView;
-		ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 		if (StringUtils.isNotEmpty(idea.getBigPic())) {
+			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 			nid.fetchImage(JzUtils.getImageUrl(idea.getBigPic()),
 					R.drawable.good_idea_list_pic_none_icon, imageView,
 					new ImageLoaderCallback() {

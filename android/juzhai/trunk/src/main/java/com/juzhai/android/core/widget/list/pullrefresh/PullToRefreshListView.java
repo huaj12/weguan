@@ -146,8 +146,9 @@ public class PullToRefreshListView extends
 		ListAdapter adapter = mRefreshableView.getAdapter();
 		if (!getShowViewWhileRefreshing() || null == adapter
 				|| adapter.isEmpty()) {
-			super.resetHeader();
-			return;
+			// modified by wujiajun
+			// super.resetHeader();
+			// return;
 		}
 
 		LoadingLayout originalLoadingLayout;

@@ -16,13 +16,14 @@ import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase.OnRefreshListener2;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.home.adapter.UserPostAdapter;
+import com.juzhai.android.home.bean.ZhaobanOrder;
 import com.juzhai.android.home.task.UserPostListGetDataTask;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.activity.PostDetailActivity;
 
 public class ZhaobanActivity extends NavigationActivity {
-	public static final int Zhaoban_LIST_REQUEST_CODE = 1;
-	private String order = "online";
+	public static final int ZHAOBAN_LIST_REQUEST_CODE = 1;
+	private ZhaobanOrder order = ZhaobanOrder.ONLINE;
 	private Integer gender = null;
 	private JuzhaiRefreshListView postListView = null;
 
@@ -43,17 +44,16 @@ public class ZhaobanActivity extends NavigationActivity {
 					public void onClick(Button button, int which) {
 						switch (which) {
 						case 0:
-							order = "online";
+							order = ZhaobanOrder.ONLINE;
 							break;
 						case 1:
-							order = "new";
+							order = ZhaobanOrder.NEW;
 							break;
 						}
 						postListView.manualRefresh();
 					}
 				});
 		getNavigationBar().setBarTitleView(segmentedButton);
-
 		final Button genderBtn = (Button) getLayoutInflater().inflate(
 				R.layout.button_gender, null);
 		genderBtn.setOnClickListener(new OnClickListener() {
@@ -94,6 +94,7 @@ public class ZhaobanActivity extends NavigationActivity {
 			}
 		});
 		getNavigationBar().setRightView(genderBtn);
+
 		postListView = (JuzhaiRefreshListView) findViewById(R.id.user_post_list);
 		postListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 			@Override
@@ -119,8 +120,8 @@ public class ZhaobanActivity extends NavigationActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == Zhaoban_LIST_REQUEST_CODE
-				&& resultCode == PostDetailActivity.Zhaoban_LIST_RESULT_CODE) {
+		if (requestCode == ZHAOBAN_LIST_REQUEST_CODE
+				&& resultCode == PostDetailActivity.ZHAOBAN_LIST_RESULT_CODE) {
 			User user = (User) data.getSerializableExtra("user");
 			int position = data.getIntExtra("position", -1);
 			if (position >= 0 && user != null) {

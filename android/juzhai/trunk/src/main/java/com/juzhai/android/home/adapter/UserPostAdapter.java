@@ -3,8 +3,11 @@ package com.juzhai.android.home.adapter;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -16,13 +19,23 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.listener.ListenerSuccessCallBack;
 import com.juzhai.android.core.listener.SimpleClickListener;
+import com.juzhai.android.core.utils.ImageUtils;
+import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
+import com.juzhai.android.core.utils.UIUtil;
+import com.juzhai.android.core.widget.image.ImageLoaderCallback;
+import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
 import com.juzhai.android.home.activity.ZhaobanActivity;
+import com.juzhai.android.home.helper.IUserViewHelper;
+import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.activity.PostDetailActivity;
 
 public class UserPostAdapter extends PageAdapter<User> {
+
+	private final String RESPONSE_POST_URI = "post/respPost";
+	private IUserViewHelper userViewHelper = new UserViewHelper();
 
 	public UserPostAdapter(Context mContext) {
 		super(mContext);
@@ -63,25 +76,48 @@ public class UserPostAdapter extends PageAdapter<User> {
 		final ImageView userLogoView = holder.userLogoView;
 		final TextView userOnlineStatusView = holder.userOnlineStatusView;
 		final LinearLayout linearLayout = holder.linearLayout;
-		user.setLogoImage(userLogoView, 60, 60, mContext);
-		user.getPostView().setPostImage(postImageView, 105, 70, mContext);
+
+		// TODO (review) 不同purpose不同前定语
 		postContentView.setText(mContext.getResources().getString(
 				R.string.post_head)
 				+ ":" + user.getPostView().getContent());
 		userInfoView.setText(TextTruncateUtil.truncate(
 				user.getUserInfo(mContext), 23, "..."));
-		user.setNickName(nicknameView, mContext);
-		setRespBtn(user, postInterest);
-		user.setUserOnlineStauts(userOnlineStatusView, mContext);
-		linearLayout.setOnClickListener(new OnClickListener() {
 
+		userViewHelper.showUserLogo(mContext, user, userLogoView, 60, 60);
+
+		if (StringUtils.isNotEmpty(user.getPostView().getPic())) {
+			postImageView.setVisibility(View.VISIBLE);
+			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
+			// TODO (review) 默认图片
+			nid.fetchImage(JzUtils.getImageUrl(user.getPostView().getPic()), 0,
+					postImageView, new ImageLoaderCallback() {
+						@Override
+						public void imageLoaderFinish(Bitmap bitmap) {
+							if (bitmap != null) {
+								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
+										bitmap, UIUtil.dip2px(mContext, 105),
+										UIUtil.dip2px(mContext, 70));
+								postImageView.setImageBitmap(ImageUtils
+										.getRoundedCornerBitmap(zoomBitmap, 10));
+							}
+						}
+					});
+		} else {
+			postImageView.setVisibility(View.GONE);
+		}
+		userViewHelper.showUserNickname(mContext, user, nicknameView);
+		userViewHelper.showOnlineState(mContext, user, userOnlineStatusView);
+
+		setRespBtn(user, postInterest);
+		linearLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, PostDetailActivity.class);
 				intent.putExtra("user", user);
 				intent.putExtra("position", position);
 				((ZhaobanActivity) mContext).pushIntentForResult(intent,
-						ZhaobanActivity.Zhaoban_LIST_REQUEST_CODE);
+						ZhaobanActivity.ZHAOBAN_LIST_REQUEST_CODE);
 			}
 		});
 		return convertView;
@@ -104,16 +140,16 @@ public class UserPostAdapter extends PageAdapter<User> {
 			postInterest.setEnabled(false);
 			postInterest.setText(mContext.getResources().getString(
 					R.string.post_interest_done)
-					+ " " + (respCnt > 0 ? respCnt : ""));
+					+ " " + (respCnt > 0 ? respCnt : "") + "  ");
 		} else {
 			postInterest.setEnabled(true);
 			postInterest.setText(mContext.getResources().getString(
 					R.string.post_interest)
-					+ " " + (respCnt > 0 ? respCnt : ""));
+					+ " " + (respCnt > 0 ? respCnt : "") + "  ");
 			Map<String, String> values = new HashMap<String, String>();
 			values.put("postId", String.valueOf(user.getPostView().getPostId()));
 			postInterest.setOnClickListener(new SimpleClickListener(
-					"post/respPost", mContext, values,
+					RESPONSE_POST_URI, mContext, values,
 					new ListenerSuccessCallBack() {
 						@Override
 						public void callback() {
@@ -121,11 +157,12 @@ public class UserPostAdapter extends PageAdapter<User> {
 							postInterest.setText(mContext.getResources()
 									.getString(R.string.post_interest_done)
 									+ " "
-									+ (user.getPostView().getRespCnt() + 1));
+									+ (user.getPostView().getRespCnt() + 1)
+									+ "  ");
+							user.getPostView().setHasResp(true);
 						}
 					}));
 
 		}
 	}
-
 }

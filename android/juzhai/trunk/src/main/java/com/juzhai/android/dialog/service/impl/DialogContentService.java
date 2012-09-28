@@ -31,7 +31,8 @@ public class DialogContentService implements IDialogContentService {
 					DialogContentListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
-				Log.d(getClass().getSimpleName(), "login error", e);
+				Log.d(getClass().getSimpleName(),
+						"get DialogContentListResult error", e);
 			}
 			throw new DialogContentException(R.string.system_internet_erorr, e);
 		}

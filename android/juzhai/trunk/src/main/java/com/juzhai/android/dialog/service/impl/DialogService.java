@@ -29,7 +29,8 @@ public class DialogService implements IDialogService {
 					DialogListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
-				Log.d(getClass().getSimpleName(), "login error", e);
+				Log.d(getClass().getSimpleName(),
+						"get DialogListResult is  error", e);
 			}
 			throw new DialogException(R.string.system_internet_erorr, e);
 		}

@@ -9,7 +9,7 @@ public class DialogContent extends Entity {
 
 	private static final long serialVersionUID = -3656049529919195124L;
 
-	private long dialogContentId;
+	private Long dialogContentId;
 
 	private String content;
 
@@ -25,11 +25,11 @@ public class DialogContent extends Entity {
 
 	private Bitmap image;
 
-	public long getDialogContentId() {
+	public Long getDialogContentId() {
 		return dialogContentId;
 	}
 
-	public void setDialogContentId(long dialogContentId) {
+	public void setDialogContentId(Long dialogContentId) {
 		this.dialogContentId = dialogContentId;
 	}
 

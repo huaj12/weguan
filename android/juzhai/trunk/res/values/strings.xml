@@ -105,6 +105,24 @@
     <string name="home_title">我的主页</string>
     <string name="update_profile_btn">编辑个人资料</string>
     <!-- home end -->
+    
+    <!-- post begin -->
+    <string-array name="post_head_tab_item">
+        <item>活跃小宅</item>
+        <item>最新发布</item>
+    </string-array>
+    <string-array name="select_gender_item">
+        <item>全部小宅</item>
+        <item>宅男</item>
+        <item>宅女</item>
+    </string-array>
+    <string name="select_gender">请选择性别</string>
+    <string name="online_now">当前在线</string>
+    <string name="online_today">今日来访</string>
+    <string name="online_recent">近期来访</string>
+    <string name="post_interest">有兴趣</string>
+    <string name="post_interest_done">已有兴趣</string>
+    <!-- post end -->
     <!-- error begin -->
     <string name="system_internet_erorr">当前网络不可用请稍后重试</string>
     <string name="email_account_invalid">邮箱帐号不合法</string>

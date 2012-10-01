@@ -8,9 +8,9 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" 
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp">
+        android:background="@color/white"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp" >
 
         <ImageView
             android:id="@+id/user_logo"
@@ -73,50 +73,26 @@
             android:layout_marginTop="5dp"
             android:contentDescription="@null" />
 
-        <LinearLayout
-            android:id="@+id/post_detail_time_layout"
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/post_detail_time_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/jzxq_icon_time"
+            android:textColor="@color/post_detail_info"
+            android:textSize="14sp" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:background="@drawable/jzxq_icon_time" />
-
-            <TextView
-                android:id="@+id/post_detail_time_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="11dp"
-                android:textColor="@color/post_detail_info"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/post_detail_place_layout"
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/post_detail_place_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:background="@drawable/jzxq_icon_des" />
-
-            <TextView
-                android:id="@+id/post_detail_place_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="11dp"
-                android:textColor="@color/post_detail_info"
-                android:textSize="14sp" />
-        </LinearLayout>
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:drawableLeft="@drawable/jzxq_icon_des"
+            android:textColor="@color/post_detail_info"
+            android:textSize="14sp"
+             />
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -134,6 +110,7 @@
                 android:textSize="14sp" />
 
             <Button
+                android:id="@+id/contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

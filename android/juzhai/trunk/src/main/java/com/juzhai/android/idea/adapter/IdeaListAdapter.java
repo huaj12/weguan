@@ -86,7 +86,6 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 
 		final Button wantButton = holder.wantButton;
 		if (idea.isHasUsed()) {
-			// TODO (done) 没有设置Backround，设置enable为false有何用？
 			wantButton.setEnabled(false);
 			wantButton.setText(mContext.getResources().getString(
 					R.string.want_done));
@@ -112,6 +111,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 									.getString(R.string.want_done));
 							wantButton.setTextColor(mContext.getResources()
 									.getColor(R.color.idea_want_done));
+							idea.setHasUsed(true);
 						}
 					}));
 		}

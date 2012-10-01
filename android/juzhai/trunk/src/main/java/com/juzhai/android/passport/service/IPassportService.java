@@ -58,6 +58,27 @@ public interface IPassportService {
 			throws PassportException;
 
 	/**
+	 * 过期授权
+	 * 
+	 * @param context
+	 * @param tpId
+	 * @param queryString
+	 * @throws PassportException
+	 */
+	void tpExpiredAuthorize(Context context, long tpId, String queryString)
+			throws PassportException;
+
+	/**
+	 * 绑定第三方
+	 * 
+	 * @param context
+	 * @param tpId
+	 * @param queryString
+	 * @throws PassportException
+	 */
+	void tpBind(Context context, long tpId, String queryString) throws PassportException;
+
+	/**
 	 * 登出
 	 * 
 	 * @param context

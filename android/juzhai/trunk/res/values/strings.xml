@@ -15,6 +15,9 @@
     <string name="sina_login_title">用新浪微博帐号登录</string>
     <string name="db_login_title">用豆瓣帐号登录</string>
     <string name="qq_login_title">用QQ帐号登录</string>
+    <string name="sina_bind_title">绑定浪微博帐号</string>
+    <string name="db_bind_title">绑定豆瓣帐号</string>
+    <string name="qq_bind_title">绑定QQ帐号</string>
 	<!-- 第三方登录 end-->
     <!-- login end -->
     <!-- webview begin -->
@@ -149,7 +152,12 @@
 	<string name="setting_cell_version">版本更新</string>
 	<string name="setting_cell_feedback">意见反馈</string>
 	<string name="setting_cell_protocal">使用协议</string>
-	<string name="setting_cell_authority">授权设置</string>
+	<string name="setting_cell_authorize">授权设置</string>
 	<string name="setting_cell_profile">个人资料设置</string>
 
+	<!-- 授权 -->
+	<string name="authorize_title">授权设置</string>
+	<string name="authorize_bind_tip1">为了获得更加完整的拒宅体验，建议你现在就去绑定一个常用的第三方帐号</string>
+	<string name="authorize_bind_tip2">授权后，你可以把拒宅计划同步到第三方平台，让好友及时看到你的拒宅召唤</string>
+	<string name="authorize_back">下次再说</string>
 </resources>

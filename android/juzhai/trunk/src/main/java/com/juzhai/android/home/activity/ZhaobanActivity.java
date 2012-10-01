@@ -18,6 +18,9 @@ import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.home.adapter.UserPostAdapter;
 import com.juzhai.android.home.bean.ZhaobanOrder;
 import com.juzhai.android.home.task.UserPostListGetDataTask;
+import com.juzhai.android.passport.activity.AuthorizeBindActivity;
+import com.juzhai.android.passport.activity.AuthorizeExpiredActivity;
+import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.activity.PostDetailActivity;
 
@@ -116,6 +119,16 @@ public class ZhaobanActivity extends NavigationActivity {
 		});
 		postListView.setAdapter(new UserPostAdapter(ZhaobanActivity.this));
 		postListView.manualRefresh();
+
+		User user = UserCache.getUserInfo();
+		if (user.getTpId() > 0 && user.isTokenExpired()) {
+			pushIntent(new Intent(ZhaobanActivity.this,
+					AuthorizeExpiredActivity.class));
+		} else if (user.getTpId() <= 0) {
+			// 提示授权
+			pushIntent(new Intent(ZhaobanActivity.this,
+					AuthorizeBindActivity.class));
+		}
 	}
 
 	@Override

@@ -9,9 +9,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
@@ -24,6 +24,7 @@ import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
+import com.juzhai.android.dialog.activity.DailogContentListActivity;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.passport.model.User;
@@ -50,14 +51,17 @@ public class PostDetailActivity extends NavigationActivity {
 		TextView contentView = (TextView) findViewById(R.id.post_content);
 		final ImageView postImageView = (ImageView) findViewById(R.id.post_image);
 		Button postInterest = (Button) findViewById(R.id.post_interest);
-		contentView.setText(getResources().getString(R.string.post_head) + ": "
-				+ user.getPostView().getContent());
+		Button contact = (Button) findViewById(R.id.contact);
+
 		userViewHelper.showUserLogo(PostDetailActivity.this, user,
 				userLogoView, 60, 60);
 		userViewHelper.showUserNickname(PostDetailActivity.this, user,
 				nicknameView);
 		userInfoView.setText(TextTruncateUtil.truncate(
 				user.getUserInfo(PostDetailActivity.this), 23, "..."));
+
+		contentView.setText(getResources().getString(R.string.post_head) + ": "
+				+ user.getPostView().getContent());
 		if (StringUtils.isNotEmpty(user.getPostView().getBigPic())) {
 			postImageView.setVisibility(View.VISIBLE);
 			ImageViewLoader nid = ImageViewLoader
@@ -81,28 +85,35 @@ public class PostDetailActivity extends NavigationActivity {
 		} else {
 			postImageView.setVisibility(View.GONE);
 		}
-		initUserPostInfo();
+		showPostInfo();
 
 		setRespBtn(postInterest);
+		contact.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(PostDetailActivity.this,
+						DailogContentListActivity.class);
+				intent.putExtra("targetUser", user);
+				pushIntent(intent);
+			}
+		});
 	}
 
-	private void initUserPostInfo() {
+	private void showPostInfo() {
 		UserPost post = user.getPostView();
 		// 设置时间
-		LinearLayout timeLayout = (LinearLayout) findViewById(R.id.post_detail_time_layout);
 		TextView time = (TextView) findViewById(R.id.post_detail_time_text);
 		if (StringUtils.isNotEmpty(post.getDate())) {
 			time.setText(post.getDate());
 		} else {
-			timeLayout.setVisibility(View.GONE);
+			time.setVisibility(View.GONE);
 		}
 		// 设置地点
-		LinearLayout placeLayout = (LinearLayout) findViewById(R.id.post_detail_place_layout);
 		TextView place = (TextView) findViewById(R.id.post_detail_place_text);
 		if (StringUtils.isNotEmpty(post.getPlace())) {
 			place.setText(post.getPlace());
 		} else {
-			placeLayout.setVisibility(View.GONE);
+			place.setVisibility(View.GONE);
 		}
 
 	}

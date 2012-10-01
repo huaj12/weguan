@@ -56,7 +56,7 @@ public class SettingListActivity extends NavigationActivity {
 		accountTableView.addBasicItem(getResources().getString(
 				R.string.setting_cell_profile));
 		accountTableView.addBasicItem(
-				getResources().getString(R.string.setting_cell_authority),
+				getResources().getString(R.string.setting_cell_authorize),
 				"未绑定", ItemType.HORIZONTAL);
 	}
 

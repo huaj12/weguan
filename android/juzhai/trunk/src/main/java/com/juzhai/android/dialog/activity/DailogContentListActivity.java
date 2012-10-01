@@ -43,16 +43,16 @@ import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.dialog.adapter.DialogContentListAdapter;
 import com.juzhai.android.dialog.bean.MessageStatus;
 import com.juzhai.android.dialog.exception.DialogContentException;
-import com.juzhai.android.dialog.model.Dialog;
 import com.juzhai.android.dialog.model.DialogContent;
 import com.juzhai.android.dialog.service.impl.DialogContentService;
 import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.model.User;
 
 public class DailogContentListActivity extends NavigationActivity {
 	private final int PIC_REQUEST_CODE = 1;
 	private final Timer timer = new Timer();
 	private boolean flag = true;
-	private Dialog dialog;
+	private User targetUser;
 	private ImageView picView;
 	private Bitmap pic;
 	private DialogContentListAdapter adapter;
@@ -91,20 +91,20 @@ public class DailogContentListActivity extends NavigationActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		dialog = (Dialog) getIntent().getSerializableExtra("dialog");
-		if (dialog == null) {
+		targetUser = (User) getIntent().getSerializableExtra("targetUser");
+		if (targetUser == null) {
 			popIntent();
 		}
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.dialog_content_title_begin)
-						+ dialog.getTargetUser().getNickname()
+						+ targetUser.getNickname()
 						+ getResources().getString(
 								R.string.dialog_content_title_end));
 		setNavContentView(R.layout.page_dialog_content_list);
 
 		// 获取view
 		dialogContentListView = (ListView) findViewById(R.id.dialog_content_list_view);
-		adapter = new DialogContentListAdapter(dialog.getTargetUser(),
+		adapter = new DialogContentListAdapter(targetUser,
 				DailogContentListActivity.this);
 		dialogContentListView.setAdapter(adapter);
 		Button uploadBtn = (Button) findViewById(R.id.upload_pic_btn);
@@ -139,7 +139,7 @@ public class DailogContentListActivity extends NavigationActivity {
 				dialogContent.setContent(contentTextView.getText().toString());
 				dialogContent.setCreateTime(new Date().getTime());
 				dialogContent.setSenderUid(UserCache.getUid());
-				dialogContent.setReceiverUid(dialog.getTargetUser().getUid());
+				dialogContent.setReceiverUid(targetUser.getUid());
 				dialogContent.setImage(pic);
 				dialogContent.setStatus(MessageStatus.WAIT);
 				if (!queue.offer(dialogContent)) {
@@ -166,7 +166,7 @@ public class DailogContentListActivity extends NavigationActivity {
 			protected List<DialogContent> doInBackground(Void... params) {
 				try {
 					PageList<DialogContent> pageList = dialogContentService
-							.list(dialog.getTargetUser().getUid(), 1);
+							.list(targetUser.getUid(), 1);
 					if (null == pageList) {
 						return null;
 					} else {
@@ -275,7 +275,7 @@ public class DailogContentListActivity extends NavigationActivity {
 					}
 				} else {
 					PageList<DialogContent> pageList = dialogContentService
-							.refreshList(dialog.getTargetUser().getUid());
+							.refreshList(targetUser.getUid());
 					if (pageList != null
 							&& !CollectionUtils.isEmpty(pageList.getList())) {
 						List<DialogContent> list = pageList.getList();

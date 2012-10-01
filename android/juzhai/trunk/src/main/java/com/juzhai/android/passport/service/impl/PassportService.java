@@ -27,7 +27,9 @@ public class PassportService implements IPassportService {
 	private static final String LOGOUT_URI = "passport/logout";
 	private static final String REGISTER_URI = "passport/register";
 	private static final String GETBACK_PWD_URI = "passport/getbackpwd";
-	private static final String ACCESS_URI = "passport/tpAccess";
+	private static final String LOGIN_ACCESS_URI = "passport/tpAccess";
+	private static final String BIND_ACCESS_URI = "passport/authorize/bind/access";
+	private static final String EXPIRED_ACCESS_URI = "passport/authorize/expired/access";
 
 	@Override
 	public boolean checkLogin(Context context) {
@@ -180,7 +182,7 @@ public class PassportService implements IPassportService {
 			throws PassportException {
 		ResponseEntity<UserResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(ACCESS_URI + "/" + tpId + "?"
+			responseEntity = HttpUtils.get(LOGIN_ACCESS_URI + "/" + tpId + "?"
 					+ queryString, UserResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
@@ -215,5 +217,36 @@ public class PassportService implements IPassportService {
 		}
 		// 本地登出
 		UserCacheManager.localLogout(context);
+	}
+
+	@Override
+	public void tpExpiredAuthorize(Context context, long tpId,
+			String queryString) throws PassportException {
+		doAuthorize(tpId, EXPIRED_ACCESS_URI + "/" + tpId + "?" + queryString);
+	}
+
+	@Override
+	public void tpBind(Context context, long tpId, String queryString)
+			throws PassportException {
+		doAuthorize(tpId, BIND_ACCESS_URI + "/" + tpId + "?" + queryString);
+	}
+
+	private void doAuthorize(long tpId, String url) throws PassportException {
+		ResponseEntity<UserResult> responseEntity = null;
+		try {
+			responseEntity = HttpUtils.get(url, UserCache.getUserStatus(),
+					UserResult.class);
+		} catch (Exception e) {
+			if (BuildConfig.DEBUG) {
+				Log.d(getClass().getSimpleName(), "thirdparty login error", e);
+			}
+			throw new PassportException(R.string.system_internet_erorr);
+		}
+		UserResult result = responseEntity.getBody();
+		if (!result.getSuccess()) {
+			throw new PassportException(result.getErrorInfo(), 0);
+		} else {
+			UserCacheManager.updateUserCache(result.getResult());
+		}
 	}
 }

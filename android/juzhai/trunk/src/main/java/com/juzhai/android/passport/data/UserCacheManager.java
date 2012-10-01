@@ -8,7 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 
 import android.content.Context;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 
+import com.juzhai.android.core.SystemConfig;
 import com.juzhai.android.core.data.SharedPreferencesManager;
 import com.juzhai.android.core.model.Result.UserResult;
 import com.juzhai.android.passport.model.User;
@@ -20,14 +23,24 @@ public class UserCacheManager {
 	public static void cache(Context context,
 			ResponseEntity<UserResult> responseEntity) {
 		UserCache.setUserInfo(responseEntity.getBody().getResult());
-		Map<String, String> cookies = parseCookies(responseEntity.getHeaders()
-				.get("Set-Cookie"));
+		List<String> cookieHeaders = responseEntity.getHeaders().get(
+				"Set-Cookie");
+		Map<String, String> cookies = parseCookies(cookieHeaders);
 		String lToken = cookies.get("l_token");
 		if (StringUtils.hasText(lToken))
 			UserCache.setlToken(lToken);
 		String pToken = cookies.get(P_TOKEN_NAME);
 		if (StringUtils.hasText(pToken))
 			UserCache.setpToken(pToken);
+
+		CookieSyncManager.createInstance(context);
+		CookieManager cookieManager = CookieManager.getInstance();
+		cookieManager.setAcceptCookie(true);
+		// cookieManager.removeSessionCookie();
+		for (String cookie : cookieHeaders) {
+			cookieManager.setCookie(SystemConfig.BASEURL, cookie);
+		}
+		CookieSyncManager.getInstance().sync();
 	}
 
 	public static void updateUserCache(User user) {

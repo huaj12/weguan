@@ -4,7 +4,6 @@ import android.app.ActivityGroup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Window;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.widget.tab.TabBar;
@@ -22,7 +21,6 @@ public class MainTabActivity extends ActivityGroup {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		LayoutInflater layoutInflater = getLayoutInflater();
 
 		tabBar = new TabBar<Intent>(R.layout.page_main_tab);
@@ -53,15 +51,4 @@ public class MainTabActivity extends ActivityGroup {
 		tabBar.setBgResources(R.drawable.tab_bar_background);
 		setContentView(tabBar.build(layoutInflater, this));
 	}
-
-	// @Override
-	// protected void onActivityResult(int requestCode, int resultCode, Intent
-	// data) {
-	// if (requestCode == 1 && resultCode == 1) {
-	// setResult(1);
-	// finish();
-	// }
-	// super.onActivityResult(requestCode, resultCode, data);
-	// }
-
 }

@@ -2,16 +2,19 @@ package com.juzhai.android.passport.listener;
 
 import android.content.Intent;
 
-import com.juzhai.android.core.activity.BaseActivity;
 import com.juzhai.android.core.widget.list.table.widget.UITableView.ClickListener;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.passport.activity.TpLoginActivity;
 
-public class TpLoginListener implements ClickListener {
+public class TpAuthorizeListener implements ClickListener {
+
+	public final static int AUTHORIZE_REQUEST = 10;
+	public final static int BIND_SUCCESS_RESULT = 10;
+	public final static int EXPIRED_SUCCESS_RESULT = 10;
 
 	private NavigationActivity activity;
 
-	public TpLoginListener(NavigationActivity activity) {
+	public TpAuthorizeListener(NavigationActivity activity) {
 		this.activity = activity;
 	}
 
@@ -31,7 +34,8 @@ public class TpLoginListener implements ClickListener {
 		}
 		Intent intent = new Intent(activity, TpLoginActivity.class);
 		intent.putExtra("tpId", tpId);
-		activity.pushIntentForResult(intent, BaseActivity.CLEAR_REQUEST_CODE);
+		intent.putExtra("authorizeType", 2);
+		activity.pushIntentForResult(intent, AUTHORIZE_REQUEST);
 
 	}
 }

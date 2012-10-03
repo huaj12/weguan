@@ -10,7 +10,7 @@ import com.juzhai.android.BuildConfig;
 
 public class SystemConfig {
 
-	public static final String DOMAIN = "192.168.0.113";
+	public static final String DOMAIN = "192.168.1.5";
 
 	// public static final String BASEURL = "http://192.168.15.104:8080/mobile/";
 

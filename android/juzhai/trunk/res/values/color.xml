@@ -36,4 +36,5 @@
 	<!-- authorize -->
 	<color name="authorize_bind_tip1">#666666</color>
 	<color name="authorize_bind_tip2">#999999</color>
+	<color name="authorize_expired_tip">#666666</color>
 </resources>

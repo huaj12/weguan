@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/authorize_expired_tip1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:textColor="@color/authorize_expired_tip"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/authorize_expired_tip2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/authorize_expired_tip1"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:textColor="@color/authorize_expired_tip"
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/authorize_expired_tip2"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="25dp" >
+
+        <Button
+            android:id="@+id/expired_authorize"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/expired_authorize_selector_button"
+            android:gravity="center"
+            android:text="@string/expired_authorize"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/expired_authorize"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/authorize_back_selector_button"
+            android:gravity="center"
+            android:text="@string/authorize_back"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

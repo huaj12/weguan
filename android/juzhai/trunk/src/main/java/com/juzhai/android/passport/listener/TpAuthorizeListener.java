@@ -10,7 +10,7 @@ public class TpAuthorizeListener implements ClickListener {
 
 	public final static int AUTHORIZE_REQUEST = 10;
 	public final static int BIND_SUCCESS_RESULT = 10;
-	public final static int EXPIRED_SUCCESS_RESULT = 10;
+	public final static int EXPIRED_SUCCESS_RESULT = 11;
 
 	private NavigationActivity activity;
 

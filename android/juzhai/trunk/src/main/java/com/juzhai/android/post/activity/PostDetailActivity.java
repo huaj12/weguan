@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,23 +16,21 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.listener.ListenerSuccessCallBack;
 import com.juzhai.android.core.listener.SimpleClickListener;
-import com.juzhai.android.core.utils.ImageUtils;
-import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
-import com.juzhai.android.core.utils.UIUtil;
-import com.juzhai.android.core.widget.image.ImageLoaderCallback;
-import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.dialog.activity.DailogContentListActivity;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
+import com.juzhai.android.passport.model.Post;
 import com.juzhai.android.passport.model.User;
-import com.juzhai.android.passport.model.UserPost;
+import com.juzhai.android.post.helper.IPostViewHelper;
+import com.juzhai.android.post.helper.impl.PostViewHelper;
 
 public class PostDetailActivity extends NavigationActivity {
 	public static final int ZHAOBAN_LIST_RESULT_CODE = 6;
 	private User user;
 	private IUserViewHelper userViewHelper = new UserViewHelper();
+	private IPostViewHelper postViewHelper = new PostViewHelper();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +46,7 @@ public class PostDetailActivity extends NavigationActivity {
 		TextView nicknameView = (TextView) findViewById(R.id.user_nickname);
 		TextView userInfoView = (TextView) findViewById(R.id.user_info);
 		TextView contentView = (TextView) findViewById(R.id.post_content);
-		final ImageView postImageView = (ImageView) findViewById(R.id.post_image);
+		ImageView postImageView = (ImageView) findViewById(R.id.post_image);
 		Button postInterest = (Button) findViewById(R.id.post_interest);
 		Button contact = (Button) findViewById(R.id.contact);
 
@@ -62,29 +59,8 @@ public class PostDetailActivity extends NavigationActivity {
 
 		contentView.setText(getResources().getString(R.string.post_head) + ": "
 				+ user.getPostView().getContent());
-		if (StringUtils.isNotEmpty(user.getPostView().getBigPic())) {
-			postImageView.setVisibility(View.VISIBLE);
-			ImageViewLoader nid = ImageViewLoader
-					.getInstance(PostDetailActivity.this);
-			// TODO (review) 默认图片
-			nid.fetchImage(JzUtils.getImageUrl(user.getPostView().getBigPic()),
-					0, postImageView, new ImageLoaderCallback() {
-						@Override
-						public void imageLoaderFinish(Bitmap bitmap) {
-							if (bitmap != null) {
-								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, UIUtil.dip2px(
-												PostDetailActivity.this, 262),
-										UIUtil.dip2px(PostDetailActivity.this,
-												180));
-								postImageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 10));
-							}
-						}
-					});
-		} else {
-			postImageView.setVisibility(View.GONE);
-		}
+		postViewHelper.showBigPostImage(PostDetailActivity.this,
+				user.getPostView(), postImageView);
 		showPostInfo();
 
 		setRespBtn(postInterest);
@@ -100,7 +76,7 @@ public class PostDetailActivity extends NavigationActivity {
 	}
 
 	private void showPostInfo() {
-		UserPost post = user.getPostView();
+		Post post = user.getPostView();
 		// 设置时间
 		TextView time = (TextView) findViewById(R.id.post_detail_time_text);
 		if (StringUtils.isNotEmpty(post.getDate())) {

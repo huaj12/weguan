@@ -43,7 +43,7 @@ public class User extends Entity {
 	private long tpId;
 	private String tpName;
 	private int onlineStatus;
-	private UserPost postView;
+	private Post postView;
 
 	public long getUid() {
 		return uid;
@@ -149,11 +149,11 @@ public class User extends Entity {
 		this.townName = townName;
 	}
 
-	public UserPost getPostView() {
+	public Post getPostView() {
 		return postView;
 	}
 
-	public void setPostView(UserPost postView) {
+	public void setPostView(Post postView) {
 		this.postView = postView;
 	}
 

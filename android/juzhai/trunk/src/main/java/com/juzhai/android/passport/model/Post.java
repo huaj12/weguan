@@ -14,7 +14,7 @@ import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 
-public class UserPost extends Entity {
+public class Post extends Entity {
 	private static final long serialVersionUID = -4148599586995728665L;
 	private long postId;
 	private String purpose;

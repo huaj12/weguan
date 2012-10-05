@@ -3,11 +3,8 @@ package com.juzhai.android.home.adapter;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -19,21 +16,19 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.listener.ListenerSuccessCallBack;
 import com.juzhai.android.core.listener.SimpleClickListener;
-import com.juzhai.android.core.utils.ImageUtils;
-import com.juzhai.android.core.utils.JzUtils;
+import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.TextTruncateUtil;
-import com.juzhai.android.core.utils.UIUtil;
-import com.juzhai.android.core.widget.image.ImageLoaderCallback;
-import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
 import com.juzhai.android.home.activity.ZhaobanActivity;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.activity.PostDetailActivity;
+import com.juzhai.android.post.helper.IPostViewHelper;
+import com.juzhai.android.post.helper.impl.PostViewHelper;
 
 public class UserPostAdapter extends PageAdapter<User> {
-
+	private IPostViewHelper postViewHelper = new PostViewHelper();
 	private final String RESPONSE_POST_URI = "post/respPost";
 	private IUserViewHelper userViewHelper = new UserViewHelper();
 
@@ -82,30 +77,14 @@ public class UserPostAdapter extends PageAdapter<User> {
 				R.string.post_head)
 				+ ": " + user.getPostView().getContent());
 		userInfoView.setText(TextTruncateUtil.truncate(
-				user.getUserInfo(mContext), 23, "..."));
+				user.getUserInfo(mContext),
+				(28 - StringUtil.chineseLength(user.getNickname().trim())),
+				".."));
 
 		userViewHelper.showUserLogo(mContext, user, userLogoView, 60, 60);
 
-		if (StringUtils.isNotEmpty(user.getPostView().getPic())) {
-			postImageView.setVisibility(View.VISIBLE);
-			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
-			// TODO (review) 默认图片
-			nid.fetchImage(JzUtils.getImageUrl(user.getPostView().getPic()), 0,
-					postImageView, new ImageLoaderCallback() {
-						@Override
-						public void imageLoaderFinish(Bitmap bitmap) {
-							if (bitmap != null) {
-								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, UIUtil.dip2px(mContext, 105),
-										UIUtil.dip2px(mContext, 70));
-								postImageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 10));
-							}
-						}
-					});
-		} else {
-			postImageView.setVisibility(View.GONE);
-		}
+		postViewHelper.showSmallPostImage(mContext, user.getPostView(),
+				postImageView);
 		userViewHelper.showUserNickname(mContext, user, nicknameView);
 		userViewHelper.showOnlineState(mContext, user, userOnlineStatusView);
 

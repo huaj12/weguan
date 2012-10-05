@@ -38,11 +38,14 @@
         <activity android:name=".dialog.activity.DailogContentListActivity"/>
         <!--created by kooks at 2012-09-25 17:34:29-->
         <activity android:name=".core.activity.UploadImageActivity" android:theme="@android:style/Theme.Dialog"/>
-        
-        <activity android:name=".main.activity.GuidanceActivity"></activity>
-        
-        <activity android:name=".passport.activity.AuthorizeBindActivity"></activity>
-        
-        <activity android:name=".passport.activity.AuthorizeExpiredActivity"></activity>
+        <activity android:name=".main.activity.GuidanceActivity"/>
+        <activity android:name=".passport.activity.AuthorizeBindActivity"/>
+        <activity android:name=".passport.activity.AuthorizeExpiredActivity"/>
+        <!--created by kooks at 2012-10-05 17:14:22-->
+        <activity android:name=".home.activity.InterestActivity"/>
+        <!--created by kooks at 2012-10-05 17:26:58-->
+        <activity android:name=".home.activity.InterestMeActivity"/>
+        <!--created by kooks at 2012-10-05 19:06:24-->
+        <activity android:name=".home.activity.MyPostActivity"/>
     </application>
 </manifest>

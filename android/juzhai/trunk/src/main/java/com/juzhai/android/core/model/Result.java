@@ -7,6 +7,7 @@ import com.juzhai.android.dialog.model.Dialog;
 import com.juzhai.android.dialog.model.DialogContent;
 import com.juzhai.android.idea.model.Idea;
 import com.juzhai.android.idea.model.IdeaUser;
+import com.juzhai.android.passport.model.Post;
 import com.juzhai.android.passport.model.User;
 
 public class Result<T> {
@@ -73,6 +74,9 @@ public class Result<T> {
 	}
 
 	public static class UserListResult extends Result<PageList<User>> {
+	}
+
+	public static class PostListResult extends Result<PageList<Post>> {
 	}
 
 }

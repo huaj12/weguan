@@ -66,6 +66,8 @@
     <string name="slelect_by_album">从相册里选</string>
     <string name="select_camera">拍照</string>
     <string name="contact">联系Ta</string>
+    <string name="invite_friend">邀请好友</string>
+    
     <!-- common end -->
 
 
@@ -107,7 +109,10 @@
     <!-- dialog end -->
     <!-- home begin-->
     <string name="home_title">我的主页</string>
-    <string name="update_profile_btn">编辑个人资料</string>
+    <string name="update_profile_btn">编辑</string>
+    <string name="interest_title">我的关注</string>
+    <string name="interest_me_title">我的粉丝</string>
+    <string name="my_post_title">我的拒宅</string>
     <!-- home end -->
     
     <!-- post begin -->
@@ -126,7 +131,7 @@
     <string name="online_recent">近期来访</string>
     <string name="post_interest">&#160;&#160;有兴趣</string>
     <string name="post_interest_done">&#160;&#160;已有兴趣</string>
-    <string name="post_head">想找伴去</string>
+    <string name="post_head">我想去</string>
     <string name="post_detail_title">拒宅详情</string>
     <string name="post_response">响应</string>
     <string name="post_response_done">已响应</string>

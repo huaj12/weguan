@@ -42,15 +42,17 @@ public class MyPostsListGetDataTask extends GetDataTask<PostListResult, Post> {
 	@Override
 	protected void onPostExecute(PostListResult result) {
 		super.onPostExecute(result);
-		int count = refreshListView.getPageAdapter().getPager()
-				.getTotalResults() == null ? 0 : refreshListView
-				.getPageAdapter().getPager().getTotalResults();
-		view.setText(mContext.getResources().getString(
-				R.string.user_home_post_count_begin)
-				+ count
-				+ mContext.getResources().getString(
-						R.string.user_home_post_count_end));
+		if (view != null && mContext != null) {
+			int count = refreshListView.getPageAdapter().getPager()
+					.getTotalResults() == null ? 0 : refreshListView
+					.getPageAdapter().getPager().getTotalResults();
+			view.setText(mContext.getResources().getString(
+					R.string.user_home_post_count_begin)
+					+ count
+					+ mContext.getResources().getString(
+							R.string.user_home_post_count_end));
 
+		}
 	}
 
 }

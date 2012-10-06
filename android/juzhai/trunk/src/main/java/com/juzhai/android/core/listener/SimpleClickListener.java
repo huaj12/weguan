@@ -13,87 +13,29 @@ import android.view.View.OnClickListener;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.model.Result.StringResult;
+import com.juzhai.android.core.task.PostTask;
+import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.passport.data.UserCache;
 
-public class SimpleClickListener implements OnClickListener {
-	private String uri;
-	private ProgressDialog progressDialog;
-	private Context context;
-	private Map<String, String> values;
-	private ListenerSuccessCallBack callback;
-	private boolean defaultStyle = true;
+public class SimpleClickListener extends PostTask implements OnClickListener {
 
 	public SimpleClickListener(String uri, Context context,
-			Map<String, String> values, ListenerSuccessCallBack callback) {
-		super();
-		this.uri = uri;
-		this.context = context;
-		this.values = values;
-		this.callback = callback;
+			Map<String, String> values, TaskSuccessCallBack callback) {
+		super(uri, context, values, callback);
 	}
 
 	public SimpleClickListener(String uri, Context context,
 			Map<String, String> values, boolean defaultStyle,
-			ListenerSuccessCallBack callback) {
-		super();
-		this.uri = uri;
-		this.context = context;
-		this.values = values;
-		this.callback = callback;
-		this.defaultStyle = defaultStyle;
+			TaskSuccessCallBack callback) {
+		super(uri, context, values, callback, defaultStyle);
+
 	}
 
 	@Override
 	public void onClick(View v) {
-		new AsyncTask<Void, Void, String>() {
-
-			@Override
-			protected String doInBackground(Void... params) {
-				ResponseEntity<StringResult> responseEntity = null;
-				try {
-					responseEntity = HttpUtils.post(uri, values,
-							UserCache.getUserStatus(), StringResult.class);
-				} catch (Exception e) {
-					return context.getResources().getString(
-							R.string.system_internet_erorr);
-				}
-				StringResult result = responseEntity.getBody();
-				if (!result.getSuccess()) {
-					return result.getErrorInfo();
-				}
-				return null;
-			}
-
-			@Override
-			protected void onPostExecute(String errorInfo) {
-				if (progressDialog != null) {
-					progressDialog.dismiss();
-				}
-				if (StringUtils.isNotEmpty(errorInfo)) {
-					DialogUtils.showToastText(context, errorInfo);
-				} else {
-					if (defaultStyle) {
-						DialogUtils.showToastText(context, R.string.success);
-					}
-					callback.callback();
-				}
-			}
-
-			@Override
-			protected void onPreExecute() {
-				if (progressDialog != null) {
-					progressDialog.show();
-				} else {
-					progressDialog = ProgressDialog.show(
-							context,
-							context.getResources().getString(R.string.sending),
-							context.getResources().getString(
-									R.string.please_wait), true, false);
-				}
-			}
-		}.execute();
+		execute();
 
 	}
 }

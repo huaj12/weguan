@@ -138,8 +138,10 @@ public class IdeaDetailActivity extends NavigationActivity {
 		TextView time = (TextView) findViewById(R.id.idea_time_text);
 		if (StringUtils.isNotEmpty(idea.getStartTime())
 				|| StringUtils.isNotEmpty(idea.getEndTime())) {
-			time.setText(idea.getStartTime() == null ? "" : idea.getStartTime()
-					+ " " + idea.getEndTime() == null ? "" : idea.getEndTime());
+			String startTime = idea.getStartTime() == null ? "" : idea
+					.getStartTime();
+			String endTime = idea.getEndTime() == null ? "" : idea.getEndTime();
+			time.setText(startTime + " " + endTime);
 		} else {
 			timeLayout.setVisibility(View.GONE);
 		}

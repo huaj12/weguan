@@ -23,10 +23,13 @@ import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
+import com.juzhai.android.home.helper.IUserViewHelper;
+import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.idea.model.IdeaUser;
 import com.juzhai.android.passport.model.User;
 
 public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
+	private IUserViewHelper userViewHelper = new UserViewHelper();
 
 	public IdeaUserListAdapter(Context mContext) {
 		super(mContext);
@@ -76,33 +79,8 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 						dateButton.setEnabled(false);
 					}
 				}));
-
-		if (StringUtils.isNotEmpty(user.getLogo())) {
-			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
-			nid.fetchImage(JzUtils.getImageUrl(user.getLogo()),
-					R.drawable.user_face_unload, imageView,
-					new ImageLoaderCallback() {
-						@Override
-						public void imageLoaderFinish(Bitmap bitmap) {
-							if (bitmap != null) {
-								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, UIUtil.dip2px(mContext, 60),
-										UIUtil.dip2px(mContext, 60));
-								imageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 10));
-							}
-						}
-					});
-		}
-		if (user.getGender() == 0) {
-			nicknameTextView.setTextColor(mContext.getResources().getColor(
-					R.color.pink));
-		} else {
-			nicknameTextView.setTextColor(mContext.getResources().getColor(
-					R.color.blue));
-		}
-		nicknameTextView.setText(TextTruncateUtil.truncate(user.getNickname(),
-				20, "..."));
+		userViewHelper.showUserNickname(mContext, user, nicknameTextView);
+		userViewHelper.showUserLogo(mContext, user, imageView, 60, 60);
 		infoTextView.setText(TextTruncateUtil.truncate(
 				user.getUserInfo(mContext), 23, "..."));
 		return convertView;

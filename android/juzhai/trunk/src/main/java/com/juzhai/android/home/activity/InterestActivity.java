@@ -9,9 +9,11 @@ import java.util.Map;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
@@ -22,6 +24,7 @@ import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase.OnRefreshListener2;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
+import com.juzhai.android.dialog.activity.DialogContentListActivity;
 import com.juzhai.android.home.adapter.InterestUserListAdapter;
 import com.juzhai.android.home.task.InterestListGetDataTask;
 import com.juzhai.android.passport.model.User;
@@ -63,6 +66,7 @@ public class InterestActivity extends NavigationActivity {
 				});
 		interestListView.setAdapter(new InterestUserListAdapter(
 				InterestActivity.this));
+		interestListView.manualRefresh();
 		interestListView
 				.setOnItemLongClickListener(new OnItemLongClickListener() {
 
@@ -112,7 +116,12 @@ public class InterestActivity extends NavigationActivity {
 															}).execute();
 													break;
 												case 1:
-													// 私信ta
+													Intent intent = new Intent(
+															InterestActivity.this,
+															DialogContentListActivity.class);
+													intent.putExtra(
+															"targetUser", user);
+													pushIntent(intent);
 													break;
 												}
 
@@ -121,7 +130,21 @@ public class InterestActivity extends NavigationActivity {
 						return false;
 					}
 				});
-		interestListView.manualRefresh();
+
+		interestListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long id) {
+				int location = (int) id;
+				User user = (User) interestListView.getPageAdapter().getItem(
+						location);
+				Intent intent = new Intent(InterestActivity.this,
+						UserHomeActivity.class);
+				intent.putExtra("targetUser", user);
+				pushIntent(intent);
+			}
+		});
 
 	}
 

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.widget.list.PageAdapter;
+import com.juzhai.android.home.activity.UserHomeActivity;
 import com.juzhai.android.home.activity.ZhaobanActivity;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
@@ -80,7 +82,6 @@ public class UserPostAdapter extends PageAdapter<User> {
 				user.getUserInfo(mContext),
 				(28 - StringUtil.chineseLength(user.getNickname().trim())),
 				".."));
-
 		userViewHelper.showUserLogo(mContext, user, userLogoView, 60, 60);
 
 		postViewHelper.showSmallPostImage(mContext, user.getPostView(),
@@ -97,6 +98,17 @@ public class UserPostAdapter extends PageAdapter<User> {
 				intent.putExtra("position", position);
 				((ZhaobanActivity) mContext).pushIntentForResult(intent,
 						ZhaobanActivity.ZHAOBAN_LIST_REQUEST_CODE);
+			}
+		});
+
+		userLogoView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Log.d("debug", "click me");
+				Intent intent = new Intent(mContext, UserHomeActivity.class);
+				intent.putExtra("targetUser", user);
+				((ZhaobanActivity) mContext).pushIntent(intent);
 			}
 		});
 		return convertView;

@@ -64,7 +64,7 @@ public class DialogListActivity extends NavigationActivity {
 					int position, long id) {
 				Dialog dialog = (Dialog) item.getItemAtPosition(position);
 				Intent intent = new Intent(DialogListActivity.this,
-						DailogContentListActivity.class);
+						DialogContentListActivity.class);
 				intent.putExtra("targetUser", dialog.getTargetUser());
 				pushIntent(intent);
 			}

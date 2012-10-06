@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
@@ -18,7 +19,8 @@ import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
-import com.juzhai.android.dialog.activity.DailogContentListActivity;
+import com.juzhai.android.dialog.activity.DialogContentListActivity;
+import com.juzhai.android.home.activity.UserHomeActivity;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.passport.model.Post;
@@ -49,6 +51,7 @@ public class PostDetailActivity extends NavigationActivity {
 		ImageView postImageView = (ImageView) findViewById(R.id.post_image);
 		Button postInterest = (Button) findViewById(R.id.post_interest);
 		Button contact = (Button) findViewById(R.id.contact);
+		RelativeLayout userLayout = (RelativeLayout) findViewById(R.id.user_layout);
 
 		userViewHelper.showUserLogo(PostDetailActivity.this, user,
 				userLogoView, 60, 60);
@@ -68,9 +71,20 @@ public class PostDetailActivity extends NavigationActivity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(PostDetailActivity.this,
-						DailogContentListActivity.class);
+						DialogContentListActivity.class);
 				intent.putExtra("targetUser", user);
 				pushIntent(intent);
+			}
+		});
+		userLayout.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(PostDetailActivity.this,
+						UserHomeActivity.class);
+				intent.putExtra("targetUser", user);
+				pushIntent(intent);
+
 			}
 		});
 	}

@@ -48,7 +48,7 @@ import com.juzhai.android.dialog.service.impl.DialogContentService;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 
-public class DailogContentListActivity extends NavigationActivity {
+public class DialogContentListActivity extends NavigationActivity {
 	private final int PIC_REQUEST_CODE = 1;
 	private final Timer timer = new Timer();
 	private boolean flag = true;
@@ -65,11 +65,11 @@ public class DailogContentListActivity extends NavigationActivity {
 
 	static class MyHandler extends Handler {
 
-		WeakReference<DailogContentListActivity> mActivity;
+		WeakReference<DialogContentListActivity> mActivity;
 
-		MyHandler(DailogContentListActivity mActivity) {
+		MyHandler(DialogContentListActivity mActivity) {
 			super();
-			this.mActivity = new WeakReference<DailogContentListActivity>(
+			this.mActivity = new WeakReference<DialogContentListActivity>(
 					mActivity);
 		}
 
@@ -105,7 +105,7 @@ public class DailogContentListActivity extends NavigationActivity {
 		// 获取view
 		dialogContentListView = (ListView) findViewById(R.id.dialog_content_list_view);
 		adapter = new DialogContentListAdapter(targetUser,
-				DailogContentListActivity.this);
+				DialogContentListActivity.this);
 		dialogContentListView.setAdapter(adapter);
 		Button uploadBtn = (Button) findViewById(R.id.upload_pic_btn);
 		Button sendBtn = (Button) findViewById(R.id.send_message_btn);
@@ -116,7 +116,7 @@ public class DailogContentListActivity extends NavigationActivity {
 		uploadBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(DailogContentListActivity.this,
+				Intent intent = new Intent(DialogContentListActivity.this,
 						UploadImageActivity.class);
 				startActivityForResult(intent, PIC_REQUEST_CODE);
 			}
@@ -129,7 +129,7 @@ public class DailogContentListActivity extends NavigationActivity {
 						.getText().toString());
 				if (contentLengt < Validation.SEND_MESSAGE_MIN_LENGTH
 						|| contentLengt > Validation.SEND_MESSAGE_MAX_LENGTH) {
-					DialogUtils.showToastText(DailogContentListActivity.this,
+					DialogUtils.showToastText(DialogContentListActivity.this,
 							R.string.send_message_length_invalid);
 					return;
 				}
@@ -144,7 +144,7 @@ public class DailogContentListActivity extends NavigationActivity {
 				dialogContent.setStatus(MessageStatus.WAIT);
 				if (!queue.offer(dialogContent)) {
 					// 队列不能加入元素了。
-					DialogUtils.showToastText(DailogContentListActivity.this,
+					DialogUtils.showToastText(DialogContentListActivity.this,
 							R.string.frequency_exceeds_the_limit);
 					return;
 				}
@@ -182,7 +182,7 @@ public class DailogContentListActivity extends NavigationActivity {
 					progressDialog.show();
 				} else {
 					progressDialog = ProgressDialog.show(
-							DailogContentListActivity.this, null,
+							DialogContentListActivity.this, null,
 							getResources().getString(R.string.please_wait),
 							true, false);
 				}
@@ -198,7 +198,7 @@ public class DailogContentListActivity extends NavigationActivity {
 					dialogContentListView.setSelection(adapter.getCount() - 1);
 				} else {
 					// 报错
-					DialogUtils.showToastText(DailogContentListActivity.this,
+					DialogUtils.showToastText(DialogContentListActivity.this,
 							R.string.system_internet_erorr);
 				}
 				// 定时任务
@@ -225,15 +225,15 @@ public class DailogContentListActivity extends NavigationActivity {
 				&& UploadImageActivity.PIC_RESULT_CODE == resultCode) {
 			pic = data.getParcelableExtra("pic");
 			if (picView == null) {
-				DialogUtils.showToastText(DailogContentListActivity.this,
+				DialogUtils.showToastText(DialogContentListActivity.this,
 						R.string.select_pic_error);
 				picView.setVisibility(View.GONE);
 				return;
 			}
 			picView.setVisibility(View.VISIBLE);
 			picView.setImageBitmap(ImageUtils.zoomBitmap(pic,
-					UIUtil.dip2px(DailogContentListActivity.this, 30),
-					UIUtil.dip2px(DailogContentListActivity.this, 30)));
+					UIUtil.dip2px(DialogContentListActivity.this, 30),
+					UIUtil.dip2px(DialogContentListActivity.this, 30)));
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -256,7 +256,7 @@ public class DailogContentListActivity extends NavigationActivity {
 					updateUI(true, null);
 					try {
 						DialogContent sentDialogContent = dialogContentService
-								.sendSms(DailogContentListActivity.this,
+								.sendSms(DialogContentListActivity.this,
 										dialogContent.getReceiverUid(),
 										dialogContent.getContent(),
 										dialogContent.getImage());

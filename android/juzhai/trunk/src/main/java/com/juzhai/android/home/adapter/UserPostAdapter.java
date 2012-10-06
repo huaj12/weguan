@@ -14,8 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.listener.ListenerSuccessCallBack;
 import com.juzhai.android.core.listener.SimpleClickListener;
+import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.widget.list.PageAdapter;
@@ -129,7 +129,7 @@ public class UserPostAdapter extends PageAdapter<User> {
 			values.put("postId", String.valueOf(user.getPostView().getPostId()));
 			postInterest.setOnClickListener(new SimpleClickListener(
 					RESPONSE_POST_URI, mContext, values,
-					new ListenerSuccessCallBack() {
+					new TaskSuccessCallBack() {
 						@Override
 						public void callback() {
 							postInterest.setEnabled(false);

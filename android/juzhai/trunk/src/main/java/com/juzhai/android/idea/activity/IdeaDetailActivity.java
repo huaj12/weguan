@@ -19,8 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.listener.ListenerSuccessCallBack;
 import com.juzhai.android.core.listener.SimpleClickListener;
+import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.UIUtil;
@@ -96,8 +96,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 			Map<String, String> values = new HashMap<String, String>();
 			values.put("ideaId", String.valueOf(idea.getIdeaId()));
 			wantBtn.setOnClickListener(new SimpleClickListener("post/sendPost",
-					IdeaDetailActivity.this, values,
-					new ListenerSuccessCallBack() {
+					IdeaDetailActivity.this, values, new TaskSuccessCallBack() {
 						@Override
 						public void callback() {
 							wantBtn.setText(R.string.want_done);

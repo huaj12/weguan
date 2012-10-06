@@ -14,8 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.listener.ListenerSuccessCallBack;
 import com.juzhai.android.core.listener.SimpleClickListener;
+import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.dialog.activity.DailogContentListActivity;
@@ -107,7 +107,7 @@ public class PostDetailActivity extends NavigationActivity {
 			values.put("postId", String.valueOf(user.getPostView().getPostId()));
 			postInterest.setOnClickListener(new SimpleClickListener(
 					"post/respPost", PostDetailActivity.this, values,
-					new ListenerSuccessCallBack() {
+					new TaskSuccessCallBack() {
 						@Override
 						public void callback() {
 							postInterest.setEnabled(false);

@@ -14,8 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.listener.ListenerSuccessCallBack;
 import com.juzhai.android.core.listener.SimpleClickListener;
+import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
@@ -67,8 +67,7 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 		values.put("targetUid", String.valueOf(user.getUid()));
 		values.put("ideaId", String.valueOf(ideaUser.getIdeaId()));
 		dateButton.setOnClickListener(new SimpleClickListener(
-				"dialog/sendDate", mContext, values,
-				new ListenerSuccessCallBack() {
+				"dialog/sendDate", mContext, values, new TaskSuccessCallBack() {
 					@Override
 					public void callback() {
 						dateButton.setText(R.string.about_done);

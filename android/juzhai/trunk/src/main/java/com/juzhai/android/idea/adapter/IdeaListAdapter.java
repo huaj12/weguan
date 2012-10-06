@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.listener.ListenerSuccessCallBack;
 import com.juzhai.android.core.listener.SimpleClickListener;
+import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
@@ -103,7 +103,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 			values.put("ideaId", String.valueOf(idea.getIdeaId()));
 			wantButton.setOnClickListener(new SimpleClickListener(
 					"post/sendPost", mContext, values,
-					new ListenerSuccessCallBack() {
+					new TaskSuccessCallBack() {
 						@Override
 						public void callback() {
 							wantButton.setEnabled(false);

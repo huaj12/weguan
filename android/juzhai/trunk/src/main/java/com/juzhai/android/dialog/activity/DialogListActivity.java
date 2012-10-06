@@ -92,32 +92,36 @@ public class DialogListActivity extends NavigationActivity {
 													final DialogInterface dialog,
 													int which) {
 												dialog.cancel();
-												final int location = (int) id;
-												Dialog d = (Dialog) dialogListView
-														.getPageAdapter()
-														.getItem(location);
-												Map<String, String> values = new HashMap<String, String>();
-												values.put("dialogId", String
-														.valueOf(d
-																.getDialogId()));
+												switch (which) {
+												case 0:
+													final int location = (int) id;
+													Dialog d = (Dialog) dialogListView
+															.getPageAdapter()
+															.getItem(location);
+													Map<String, String> values = new HashMap<String, String>();
+													values.put(
+															"dialogId",
+															String.valueOf(d
+																	.getDialogId()));
 
-												DialogUtils
-														.showConfirmDialog(
-																DialogListActivity.this,
-																new PostTask(
-																		delDialogUri,
-																		DialogListActivity.this,
-																		values,
-																		new TaskSuccessCallBack() {
-																			@Override
-																			public void callback() {
-																				dialogListView
-																						.getPageAdapter()
-																						.deleteData(
-																								location);
-																			}
-																		}));
-
+													DialogUtils
+															.showConfirmDialog(
+																	DialogListActivity.this,
+																	new PostTask(
+																			delDialogUri,
+																			DialogListActivity.this,
+																			values,
+																			new TaskSuccessCallBack() {
+																				@Override
+																				public void callback() {
+																					dialogListView
+																							.getPageAdapter()
+																							.deleteData(
+																									location);
+																				}
+																			}));
+													break;
+												}
 											}
 										}).show();
 						return false;

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/app_bg">
+    
+     <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp" >
+
+        <ImageView
+            android:id="@+id/user_logo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_margin="10dp"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/user_nickname"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/user_logo"
+            android:gravity="left"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/user_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="35dp"
+            android:layout_toRightOf="@+id/user_logo"
+            android:gravity="left"
+            android:textColor="@color/gray"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp"
+            android:textSize="10dp"
+            android:textColor="@color/white"
+            android:text="@string/contact"
+            android:background="@drawable/home_contact_button"
+            />
+        
+                <Button
+                    android:id="@+id/interest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/contact"
+            android:paddingLeft="10dp"
+            android:textSize="10dp"
+            android:textColor="@color/white"
+            android:text="@string/interest"
+            android:background="@drawable/home_interest_selector_button"
+            />
+    </RelativeLayout>
+    <TextView android:layout_width="fill_parent"
+        	  android:layout_height="wrap_content"
+        	  android:background="@drawable/ta_home_jz_num_bg"
+        	  android:paddingLeft="10dp"
+        	  android:id="@+id/home_post_count"
+        	  android:textSize="15sp"
+        	  android:textColor="@color/black"	/>
+       <com.juzhai.android.core.widget.list.JuzhaiRefreshListView
+        android:id="@+id/my_posts_list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:cacheColorHint="#00000000"
+        android:focusable="true"
+        android:fadingEdge="none" />
+</LinearLayout>

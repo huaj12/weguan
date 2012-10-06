@@ -47,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:paddingLeft="10dp"
             android:textSize="11dp"
             android:textColor="@color/white"
@@ -60,7 +61,7 @@
         		  android:layout_marginLeft="7dp"
         		  android:layout_marginRight="7dp"
         		  android:id="@+id/home_my_post_layout"
-        		  android:background="@drawable/base_selector_layout">
+        		  android:background="@drawable/base_shape_selector_layout">
      <TextView
             android:id="@+id/home_my_post"
             android:layout_width="wrap_content"
@@ -85,7 +86,7 @@
         		  android:layout_marginLeft="7dp"
         		  android:layout_marginRight="7dp"
         		  android:id="@+id/home_my_interest_layout"
-        		  android:background="@drawable/base_selector_layout">
+        		  android:background="@drawable/base_shape_selector_layout">
      <TextView
             android:id="@+id/home_my_interest"
             android:layout_width="wrap_content"
@@ -109,7 +110,7 @@
         		  android:layout_marginLeft="7dp"
         		  android:layout_marginRight="7dp"
         		  android:id="@+id/home_interest_me_layout"
-        		  android:background="@drawable/base_selector_layout">
+        		  android:background="@drawable/base_shape_selector_layout">
      <TextView
             android:id="@+id/home_interest_me"
             android:layout_width="wrap_content"
@@ -133,7 +134,7 @@
         		  android:layout_marginTop="10dp"
         		  android:layout_marginLeft="7dp"
         		  android:layout_marginRight="7dp"
-        		  android:background="@drawable/base_selector_layout">
+        		  android:background="@drawable/base_shape_selector_layout">
      <TextView
             android:id="@+id/home_invite"
             android:layout_width="wrap_content"

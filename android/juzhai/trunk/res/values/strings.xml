@@ -121,6 +121,9 @@
     <string name="my_post_title">我的拒宅</string>
     <string name="del_post">删除拒宅</string>
     <string name="edit_post">编辑拒宅</string>
+    <string name="user_home_title">的主页</string>
+    <string name="user_home_post_count_begin">共  </string>
+    <string name="user_home_post_count_end"> 条拒宅</string>
     <!-- home end -->
     
     <!-- post begin -->

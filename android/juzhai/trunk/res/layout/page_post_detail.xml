@@ -6,9 +6,10 @@
     android:orientation="vertical" >
 
     <RelativeLayout
+        android:id="@+id/user_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/base_selector_layout"
         android:paddingBottom="5dp"
         android:paddingTop="5dp" >
 

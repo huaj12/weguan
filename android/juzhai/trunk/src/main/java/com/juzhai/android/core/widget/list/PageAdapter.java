@@ -68,6 +68,11 @@ public abstract class PageAdapter<T extends Entity> extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+	public void deleteData(int position) {
+		data.deleteData(position);
+		notifyDataSetChanged();
+	}
+
 	public void refreshIdentify() {
 		data.refreshIdentifySet();
 	}

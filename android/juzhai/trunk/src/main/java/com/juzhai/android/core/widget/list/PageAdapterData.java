@@ -79,4 +79,13 @@ public class PageAdapterData<T extends Entity> {
 		}
 		this.datas.set(location, data);
 	}
+
+	public void deleteData(int location) {
+		T preData = this.datas.get(location);
+		if (null == preData) {
+			return;
+		}
+		identifySet.remove(preData.getIdentify());
+		this.datas.remove(location);
+	}
 }

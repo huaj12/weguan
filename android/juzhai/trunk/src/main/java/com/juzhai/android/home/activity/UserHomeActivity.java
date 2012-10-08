@@ -60,10 +60,9 @@ public class UserHomeActivity extends NavigationActivity {
 		userViewHelper.showUserNickname(UserHomeActivity.this, user,
 				nicknameView);
 		userInfoView.setText(user.getUserInfo(UserHomeActivity.this));
-		// TODO (review) "..."是什么意思
 		postCountView.setText(getResources().getString(
 				R.string.user_home_post_count_begin)
-				+ "..."
+				+ 0
 				+ getResources().getString(R.string.user_home_post_count_end));
 		contactBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -93,8 +92,7 @@ public class UserHomeActivity extends NavigationActivity {
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullDownToRefresh(refreshView);
 				new MyPostsListGetDataTask(UserHomeActivity.this,
-						postsListView, UserHomeActivity.this, postCountView)
-						.execute(user.getUid(), 1);
+						postsListView, postCountView).execute(user.getUid(), 1);
 			}
 
 			@Override

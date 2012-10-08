@@ -5,7 +5,6 @@ import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -105,7 +104,6 @@ public class UserPostAdapter extends PageAdapter<User> {
 
 			@Override
 			public void onClick(View v) {
-				Log.d("debug", "click me");
 				Intent intent = new Intent(mContext, UserHomeActivity.class);
 				intent.putExtra("targetUser", user);
 				((ZhaobanActivity) mContext).pushIntent(intent);

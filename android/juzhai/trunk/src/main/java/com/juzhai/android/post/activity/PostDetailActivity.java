@@ -60,7 +60,7 @@ public class PostDetailActivity extends NavigationActivity {
 		userInfoView.setText(TextTruncateUtil.truncate(
 				user.getUserInfo(PostDetailActivity.this), 23, "..."));
 
-		contentView.setText(getResources().getString(R.string.post_head) + ": "
+		contentView.setText(user.getPostView().getPurpose() + ": "
 				+ user.getPostView().getContent());
 		postViewHelper.showBigPostImage(PostDetailActivity.this,
 				user.getPostView(), postImageView);

@@ -49,13 +49,13 @@
                 android:id="@id/user_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="11.5sp" />
+                android:textSize="12.5sp" />
 
             <TextView
                 android:id="@+id/user_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="11.5sp"
+                android:textSize="12.5sp"
                 android:layout_marginLeft="7dp" />
         </LinearLayout>
 
@@ -63,10 +63,10 @@
             android:id="@+id/post_content"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:lineSpacingExtra="2dp"
             android:textColor="@color/idea_want"
-            android:textSize="13sp" />
+            android:textSize="14.5sp" />
 
         <ImageView
             android:id="@+id/post_image"

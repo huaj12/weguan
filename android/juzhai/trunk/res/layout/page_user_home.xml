@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/app_bg">
-    
-     <RelativeLayout
+    android:background="@drawable/app_bg" >
+
+    <RelativeLayout
+        android:id="@+id/user_area"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -50,40 +49,44 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:paddingLeft="10dp"
-            android:textSize="10dp"
-            android:textColor="@color/white"
-            android:text="@string/contact"
             android:background="@drawable/home_contact_button"
-            />
-        
-                <Button
-                    android:id="@+id/interest"
+            android:paddingLeft="10dp"
+            android:text="@string/contact"
+            android:textColor="@color/white"
+            android:textSize="10dp" />
+
+        <Button
+            android:id="@+id/interest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_below="@+id/contact"
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/contact"
-            android:paddingLeft="10dp"
-            android:textSize="10dp"
-            android:textColor="@color/white"
-            android:text="@string/interest"
             android:background="@drawable/home_interest_selector_button"
-            />
+            android:paddingLeft="10dp"
+            android:text="@string/interest"
+            android:textColor="@color/white"
+            android:textSize="10dp" />
     </RelativeLayout>
-    <TextView android:layout_width="fill_parent"
-        	  android:layout_height="wrap_content"
-        	  android:background="@drawable/ta_home_jz_num_bg"
-        	  android:paddingLeft="10dp"
-        	  android:id="@+id/home_post_count"
-        	  android:textSize="15sp"
-        	  android:textColor="@color/black"	/>
-       <com.juzhai.android.core.widget.list.JuzhaiRefreshListView
+
+    <TextView
+        android:id="@+id/home_post_count"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_area"
+        android:background="@drawable/ta_home_jz_num_bg"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <com.juzhai.android.core.widget.list.JuzhaiRefreshListView
         android:id="@+id/my_posts_list_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_below="@id/home_post_count"
         android:cacheColorHint="#00000000"
-        android:focusable="true"
-        android:fadingEdge="none" />
-</LinearLayout>
+        android:fadingEdge="none"
+        android:focusable="true" />
+
+</RelativeLayout>

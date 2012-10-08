@@ -16,8 +16,7 @@ public class MyPostsListGetDataTask extends GetDataTask<PostListResult, Post> {
 	private TextView view;
 
 	public MyPostsListGetDataTask(Context context,
-			JuzhaiRefreshListView refreshListView, Context mContext,
-			TextView view) {
+			JuzhaiRefreshListView refreshListView, TextView view) {
 		super(context, refreshListView);
 		this.view = view;
 	}
@@ -51,7 +50,6 @@ public class MyPostsListGetDataTask extends GetDataTask<PostListResult, Post> {
 					+ count
 					+ context.getResources().getString(
 							R.string.user_home_post_count_end));
-
 		}
 	}
 

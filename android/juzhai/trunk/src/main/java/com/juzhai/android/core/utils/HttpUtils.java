@@ -169,26 +169,26 @@ public class HttpUtils {
 		scrf.setConnectTimeout(CONNECT_TIMEOUT);
 		scrf.setReadTimeout(READ_TIMEOUT);
 		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.setErrorHandler(new ResponseErrorHandler() {
-			@Override
-			public boolean hasError(ClientHttpResponse response)
-					throws IOException {
-				if (null == response) {
-					return false;
-				}
-				return response.getStatusCode() != HttpStatus.OK;
-			}
-
-			@Override
-			public void handleError(ClientHttpResponse response)
-					throws IOException {
-				if (response != null) {
-					if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-						// TODO 跳往登录
-					}
-				}
-			}
-		});
+		// restTemplate.setErrorHandler(new ResponseErrorHandler() {
+		// @Override
+		// public boolean hasError(ClientHttpResponse response)
+		// throws IOException {
+		// if (null == response) {
+		// return false;
+		// }
+		// return response.getStatusCode() != HttpStatus.OK;
+		// }
+		//
+		// @Override
+		// public void handleError(ClientHttpResponse response)
+		// throws IOException {
+		// if (response != null) {
+		// if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+		// // TODO 跳往登录
+		// }
+		// }
+		// }
+		// });
 		return restTemplate;
 	}
 }

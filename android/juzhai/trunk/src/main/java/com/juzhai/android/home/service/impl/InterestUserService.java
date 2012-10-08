@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.juzhai.android.BuildConfig;
@@ -20,14 +21,15 @@ public class InterestUserService implements IInterestUserService {
 	private String interestUri = "home/interestList";
 
 	@Override
-	public UserListResult interestList(int page) throws HomeException {
+	public UserListResult interestList(Context context, int page)
+			throws HomeException {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("page", page);
 		String url = HttpUtils.createHttpParam(interestUri, values);
 		ResponseEntity<UserListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(url, UserCache.getUserStatus(),
-					UserListResult.class);
+			responseEntity = HttpUtils.get(context, url,
+					UserCache.getUserStatus(), UserListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "interestList is error", e);
@@ -38,14 +40,15 @@ public class InterestUserService implements IInterestUserService {
 	}
 
 	@Override
-	public UserListResult interestMeList(int page) throws HomeException {
+	public UserListResult interestMeList(Context context, int page)
+			throws HomeException {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("page", page);
 		String url = HttpUtils.createHttpParam(interestMeUri, values);
 		ResponseEntity<UserListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(url, UserCache.getUserStatus(),
-					UserListResult.class);
+			responseEntity = HttpUtils.get(context, url,
+					UserCache.getUserStatus(), UserListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "interestMeList is error", e);

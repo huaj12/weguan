@@ -41,17 +41,18 @@ public class MyPostActivity extends NavigationActivity {
 			public void onPullDownToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullDownToRefresh(refreshView);
-				new MyPostsListGetDataTask(postsListView).execute(
-						UserCache.getUid(), 1);
+				new MyPostsListGetDataTask(MyPostActivity.this, postsListView)
+						.execute(UserCache.getUid(), 1);
 			}
 
 			@Override
 			public void onPullUpToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullUpToRefresh(refreshView);
-				new MyPostsListGetDataTask(postsListView).execute(
-						UserCache.getUid(), postsListView.getPageAdapter()
-								.getPager().getCurrentPage() + 1);
+				new MyPostsListGetDataTask(MyPostActivity.this, postsListView)
+						.execute(UserCache.getUid(),
+								postsListView.getPageAdapter().getPager()
+										.getCurrentPage() + 1);
 			}
 		});
 		postsListView.setAdapter(new MyPostsAdapter(MyPostActivity.this));

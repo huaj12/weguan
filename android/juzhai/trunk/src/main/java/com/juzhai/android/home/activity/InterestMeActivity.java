@@ -41,7 +41,7 @@ public class InterestMeActivity extends NavigationActivity {
 		setNavContentView(R.layout.page_interest);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.interest_me_title));
-		//TODO (review) 自己看什么问题？
+		// TODO (review) 自己看什么问题？
 		final JuzhaiRefreshListView interestListView = (JuzhaiRefreshListView) findViewById(R.id.interest_list_view);
 		interestListView
 				.setOnRefreshListener(new OnRefreshListener2<ListView>() {
@@ -49,15 +49,16 @@ public class InterestMeActivity extends NavigationActivity {
 					public void onPullDownToRefresh(
 							PullToRefreshBase<ListView> refreshView) {
 						super.onPullDownToRefresh(refreshView);
-						new InterestMeListGetDataTask(interestListView)
-								.execute(1);
+						new InterestMeListGetDataTask(InterestMeActivity.this,
+								interestListView).execute(1);
 					}
 
 					@Override
 					public void onPullUpToRefresh(
 							PullToRefreshBase<ListView> refreshView) {
 						super.onPullUpToRefresh(refreshView);
-						new InterestMeListGetDataTask(interestListView)
+						new InterestMeListGetDataTask(InterestMeActivity.this,
+								interestListView)
 								.execute(interestListView.getPageAdapter()
 										.getPager().getCurrentPage() + 1);
 					}

@@ -1,5 +1,7 @@
 package com.juzhai.android.post.service;
 
+import android.content.Context;
+
 import com.juzhai.android.core.model.Result.PostListResult;
 import com.juzhai.android.core.model.Result.UserListResult;
 import com.juzhai.android.home.bean.ZhaobanOrder;
@@ -14,8 +16,8 @@ public interface IUserPostService {
 	 * @param page
 	 * @return
 	 */
-	UserListResult list(Integer gender, ZhaobanOrder order, int page)
-			throws PostException;
+	UserListResult list(Context context, Integer gender, ZhaobanOrder order,
+			int page) throws PostException;
 
 	/**
 	 * 找出某用户所有的拒宅
@@ -25,5 +27,6 @@ public interface IUserPostService {
 	 * @return
 	 * @throws PostException
 	 */
-	PostListResult listPosts(long uid, int page) throws PostException;
+	PostListResult listPosts(Context context, long uid, int page)
+			throws PostException;
 }

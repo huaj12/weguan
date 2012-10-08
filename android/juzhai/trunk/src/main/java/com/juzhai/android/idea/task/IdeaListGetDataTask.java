@@ -1,5 +1,7 @@
 package com.juzhai.android.idea.task;
 
+import android.content.Context;
+
 import com.juzhai.android.core.model.Result.IdeaListResult;
 import com.juzhai.android.core.widget.list.GetDataTask;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
@@ -10,8 +12,9 @@ import com.juzhai.android.idea.service.impl.IdeaService;
 
 public class IdeaListGetDataTask extends GetDataTask<IdeaListResult, Idea> {
 
-	public IdeaListGetDataTask(JuzhaiRefreshListView refreshListView) {
-		super(refreshListView);
+	public IdeaListGetDataTask(Context context,
+			JuzhaiRefreshListView refreshListView) {
+		super(context, refreshListView);
 	}
 
 	@Override
@@ -21,7 +24,7 @@ public class IdeaListGetDataTask extends GetDataTask<IdeaListResult, Idea> {
 		int page = (Integer) params[2];
 		try {
 			IIdeaService ideaService = new IdeaService();
-			return ideaService.list(categoryId, orderType, page);
+			return ideaService.list(context, categoryId, orderType, page);
 		} catch (IdeaException e) {
 			return null;
 		}

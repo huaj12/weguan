@@ -42,8 +42,8 @@ public class PassportService implements IPassportService {
 			cookies.put("p_token", pToken);
 			ResponseEntity<UserResult> responseEntity = null;
 			try {
-				responseEntity = HttpUtils.post(LOGIN_URI, null, cookies,
-						UserResult.class);
+				responseEntity = HttpUtils.post(context, LOGIN_URI, null,
+						cookies, UserResult.class);
 			} catch (Exception e) {
 				// 登录失败跳转到登录页面
 				return false;
@@ -68,8 +68,8 @@ public class PassportService implements IPassportService {
 		values.put("password", password);
 		ResponseEntity<UserResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils
-					.post(LOGIN_URI, values, UserResult.class);
+			responseEntity = HttpUtils.post(context, LOGIN_URI, values,
+					UserResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "login error", e);
@@ -105,7 +105,7 @@ public class PassportService implements IPassportService {
 		values.put("confirmPwd", confirmPwd);
 		ResponseEntity<UserResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.post(REGISTER_URI, values,
+			responseEntity = HttpUtils.post(context, REGISTER_URI, values,
 					UserResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
@@ -163,7 +163,7 @@ public class PassportService implements IPassportService {
 		values.put("account", account);
 		ResponseEntity<StringResult> response = null;
 		try {
-			response = HttpUtils.post(GETBACK_PWD_URI, values,
+			response = HttpUtils.post(context, GETBACK_PWD_URI, values,
 					StringResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
@@ -182,8 +182,8 @@ public class PassportService implements IPassportService {
 			throws PassportException {
 		ResponseEntity<UserResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(LOGIN_ACCESS_URI + "/" + tpId + "?"
-					+ queryString, UserResult.class);
+			responseEntity = HttpUtils.get(context, LOGIN_ACCESS_URI + "/"
+					+ tpId + "?" + queryString, UserResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "thirdparty login error", e);
@@ -202,7 +202,7 @@ public class PassportService implements IPassportService {
 	public void logout(Context context) {
 		ResponseEntity<UserResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.post(LOGOUT_URI, null,
+			responseEntity = HttpUtils.post(context, LOGOUT_URI, null,
 					UserCache.getUserStatus(), UserResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
@@ -222,20 +222,23 @@ public class PassportService implements IPassportService {
 	@Override
 	public void tpExpiredAuthorize(Context context, long tpId,
 			String queryString) throws PassportException {
-		doAuthorize(tpId, EXPIRED_ACCESS_URI + "/" + tpId + "?" + queryString);
+		doAuthorize(context, tpId, EXPIRED_ACCESS_URI + "/" + tpId + "?"
+				+ queryString);
 	}
 
 	@Override
 	public void tpBind(Context context, long tpId, String queryString)
 			throws PassportException {
-		doAuthorize(tpId, BIND_ACCESS_URI + "/" + tpId + "?" + queryString);
+		doAuthorize(context, tpId, BIND_ACCESS_URI + "/" + tpId + "?"
+				+ queryString);
 	}
 
-	private void doAuthorize(long tpId, String url) throws PassportException {
+	private void doAuthorize(Context context, long tpId, String url)
+			throws PassportException {
 		ResponseEntity<UserResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(url, UserCache.getUserStatus(),
-					UserResult.class);
+			responseEntity = HttpUtils.get(context, url,
+					UserCache.getUserStatus(), UserResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "thirdparty login error", e);

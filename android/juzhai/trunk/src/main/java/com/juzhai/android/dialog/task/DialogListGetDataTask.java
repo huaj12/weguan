@@ -1,5 +1,6 @@
 package com.juzhai.android.dialog.task;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.juzhai.android.core.model.Result.DialogListResult;
@@ -13,8 +14,9 @@ import com.juzhai.android.dialog.service.impl.DialogService;
 public class DialogListGetDataTask extends
 		GetDataTask<DialogListResult, Dialog> {
 
-	public DialogListGetDataTask(JuzhaiRefreshListView refreshListView) {
-		super(refreshListView);
+	public DialogListGetDataTask(Context context,
+			JuzhaiRefreshListView refreshListView) {
+		super(context, refreshListView);
 	}
 
 	@Override
@@ -23,7 +25,7 @@ public class DialogListGetDataTask extends
 		int page = (Integer) params[0];
 		try {
 			IDialogService dialogService = new DialogService();
-			result = dialogService.list(page);
+			result = dialogService.list(context, page);
 		} catch (DialogException e) {
 			Log.i("debug", e.getMessage());
 		}

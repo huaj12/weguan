@@ -1,5 +1,7 @@
 package com.juzhai.android.dialog.service;
 
+import android.content.Context;
+
 import com.juzhai.android.core.model.Result.DialogListResult;
 import com.juzhai.android.dialog.exception.DialogException;
 
@@ -11,5 +13,5 @@ public interface IDialogService {
 	 * @return
 	 * @throws DialogException
 	 */
-	DialogListResult list(int page) throws DialogException;
+	DialogListResult list(Context context, int page) throws DialogException;
 }

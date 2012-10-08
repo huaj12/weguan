@@ -23,7 +23,6 @@ import com.juzhai.android.passport.activity.AuthorizeBindActivity;
 import com.juzhai.android.passport.activity.AuthorizeExpiredActivity;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
-import com.juzhai.android.post.activity.PostDetailActivity;
 
 public class ZhaobanActivity extends NavigationActivity {
 	private ZhaobanOrder order = ZhaobanOrder.ONLINE;
@@ -104,17 +103,17 @@ public class ZhaobanActivity extends NavigationActivity {
 			public void onPullDownToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullDownToRefresh(refreshView);
-				new UserPostListGetDataTask(postListView).execute(gender,
-						order, 1);
+				new UserPostListGetDataTask(ZhaobanActivity.this, postListView)
+						.execute(gender, order, 1);
 			}
 
 			@Override
 			public void onPullUpToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullUpToRefresh(refreshView);
-				new UserPostListGetDataTask(postListView).execute(gender,
-						order, postListView.getPageAdapter().getPager()
-								.getCurrentPage() + 1);
+				new UserPostListGetDataTask(ZhaobanActivity.this, postListView)
+						.execute(gender, order, postListView.getPageAdapter()
+								.getPager().getCurrentPage() + 1);
 			}
 		});
 		postListView.setAdapter(new UserPostAdapter(ZhaobanActivity.this));

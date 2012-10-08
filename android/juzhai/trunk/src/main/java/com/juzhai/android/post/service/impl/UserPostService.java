@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.juzhai.android.BuildConfig;
@@ -22,8 +23,8 @@ public class UserPostService implements IUserPostService {
 	private String postsUri = "home";
 
 	@Override
-	public UserListResult list(Integer gender, ZhaobanOrder order, int page)
-			throws PostException {
+	public UserListResult list(Context context, Integer gender,
+			ZhaobanOrder order, int page) throws PostException {
 		Map<String, Object> values = new HashMap<String, Object>();
 		if (gender != null) {
 			values.put("gender", gender.intValue());
@@ -33,8 +34,8 @@ public class UserPostService implements IUserPostService {
 		String uri = HttpUtils.createHttpParam(userPostUri, values);
 		ResponseEntity<UserListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(uri, UserCache.getUserStatus(),
-					UserListResult.class);
+			responseEntity = HttpUtils.get(context, uri,
+					UserCache.getUserStatus(), UserListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -46,15 +47,16 @@ public class UserPostService implements IUserPostService {
 	}
 
 	@Override
-	public PostListResult listPosts(long uid, int page) throws PostException {
+	public PostListResult listPosts(Context context, long uid, int page)
+			throws PostException {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("uid", uid);
 		values.put("page", page);
 		String uri = HttpUtils.createHttpParam(postsUri, values);
 		ResponseEntity<PostListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(uri, UserCache.getUserStatus(),
-					PostListResult.class);
+			responseEntity = HttpUtils.get(context, uri,
+					UserCache.getUserStatus(), PostListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),

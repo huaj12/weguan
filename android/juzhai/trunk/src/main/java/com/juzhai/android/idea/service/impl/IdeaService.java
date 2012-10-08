@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.juzhai.android.BuildConfig;
@@ -21,8 +22,8 @@ public class IdeaService implements IIdeaService {
 	private String ideaUsersUri = "idea/users";
 
 	@Override
-	public IdeaListResult list(long categoryId, String orderType, int page)
-			throws IdeaException {
+	public IdeaListResult list(Context context, long categoryId,
+			String orderType, int page) throws IdeaException {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("categoryId", categoryId);
 		values.put("orderType", orderType);
@@ -30,8 +31,8 @@ public class IdeaService implements IIdeaService {
 		String uri = HttpUtils.createHttpParam(ideaListUri, values);
 		ResponseEntity<IdeaListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(uri, UserCache.getUserStatus(),
-					IdeaListResult.class);
+			responseEntity = HttpUtils.get(context, uri,
+					UserCache.getUserStatus(), IdeaListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -44,16 +45,16 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public IdeaUserListResult listIdeaUser(long ideaId, int page)
-			throws IdeaException {
+	public IdeaUserListResult listIdeaUser(Context context, long ideaId,
+			int page) throws IdeaException {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("ideaId", ideaId);
 		values.put("page", page);
 		String url = HttpUtils.createHttpParam(ideaUsersUri, values);
 		ResponseEntity<IdeaUserListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(url, UserCache.getUserStatus(),
-					IdeaUserListResult.class);
+			responseEntity = HttpUtils.get(context, url,
+					UserCache.getUserStatus(), IdeaUserListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "login error", e);

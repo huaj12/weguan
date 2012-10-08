@@ -50,17 +50,17 @@ public class IdeaUsersActivity extends NavigationActivity {
 			public void onPullDownToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullDownToRefresh(refreshView);
-				new IdeaUserListGetDataTask(listView).execute(idea.getIdeaId(),
-						1);
+				new IdeaUserListGetDataTask(IdeaUsersActivity.this, listView)
+						.execute(idea.getIdeaId(), 1);
 			}
 
 			@Override
 			public void onPullUpToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullUpToRefresh(refreshView);
-				new IdeaUserListGetDataTask(listView).execute(
-						idea.getIdeaId(),
-						listView.getPageAdapter().getPager().getCurrentPage() + 1);
+				new IdeaUserListGetDataTask(IdeaUsersActivity.this, listView)
+						.execute(idea.getIdeaId(), listView.getPageAdapter()
+								.getPager().getCurrentPage() + 1);
 			}
 		});
 		listView.setAdapter(new IdeaUserListAdapter(IdeaUsersActivity.this));

@@ -15,7 +15,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -25,6 +27,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -110,6 +113,16 @@ public class DialogContentListActivity extends NavigationActivity {
 		Button uploadBtn = (Button) findViewById(R.id.upload_pic_btn);
 		Button sendBtn = (Button) findViewById(R.id.send_message_btn);
 		final EditText contentTextView = (EditText) findViewById(R.id.message_content_input);
+		contentTextView.setOnFocusChangeListener(new OnFocusChangeListener() {
+
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					dialogContentListView.setSelection(dialogContentListView
+							.getAdapter().getCount() - 1);
+				}
+			}
+		});
 		picView = (ImageView) findViewById(R.id.pic_view);
 
 		// 绑定事件
@@ -120,6 +133,37 @@ public class DialogContentListActivity extends NavigationActivity {
 						UploadImageActivity.class);
 				startActivityForResult(intent,
 						ActivityCode.RequestCode.PIC_REQUEST_CODE);
+			}
+		});
+
+		picView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				new AlertDialog.Builder(DialogContentListActivity.this)
+						.setTitle(R.string.operating)
+						.setItems(
+								new String[] {
+										getResources().getString(
+												R.string.image_delete),
+										getResources().getString(
+												R.string.cancel) },
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(
+											final DialogInterface dialog,
+											int which) {
+										dialog.cancel();
+										switch (which) {
+										case 0:
+											picView.setVisibility(View.GONE);
+											picView.setImageBitmap(null);
+											pic = null;
+											break;
+										}
+									}
+								}).show();
 			}
 		});
 

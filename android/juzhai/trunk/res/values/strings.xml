@@ -112,6 +112,7 @@
         <string name="dialog_content_title_begin">与</string>
         <string name="dialog_content_title_end">的对话</string>
         <string name="dialog_delete">删除对话</string>
+        <string name="image_delete">删除图片</string>
     <!-- dialog end -->
     <!-- home begin-->
     <string name="home_title">我的主页</string>

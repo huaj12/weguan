@@ -60,7 +60,7 @@ public class UserHomeActivity extends NavigationActivity {
 		userViewHelper.showUserNickname(UserHomeActivity.this, user,
 				nicknameView);
 		userInfoView.setText(user.getUserInfo(UserHomeActivity.this));
-		//TODO (review) "..."是什么意思
+		// TODO (review) "..."是什么意思
 		postCountView.setText(getResources().getString(
 				R.string.user_home_post_count_begin)
 				+ "..."
@@ -92,24 +92,24 @@ public class UserHomeActivity extends NavigationActivity {
 			public void onPullDownToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullDownToRefresh(refreshView);
-				new MyPostsListGetDataTask(postsListView,
-						UserHomeActivity.this, postCountView).execute(
-						user.getUid(), 1);
+				new MyPostsListGetDataTask(UserHomeActivity.this,
+						postsListView, UserHomeActivity.this, postCountView)
+						.execute(user.getUid(), 1);
 			}
 
 			@Override
 			public void onPullUpToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullUpToRefresh(refreshView);
-				new MyPostsListGetDataTask(postsListView).execute(
-						user.getUid(), postsListView.getPageAdapter()
+				new MyPostsListGetDataTask(UserHomeActivity.this, postsListView)
+						.execute(user.getUid(), postsListView.getPageAdapter()
 								.getPager().getCurrentPage() + 1);
 			}
 		});
 		postsListView.setAdapter(new MyPostsAdapter(UserHomeActivity.this));
 		postsListView.manualRefresh();
 
-		//TODO (review) 你准备修改和删除他人的拒宅？
+		// TODO (review) 你准备修改和删除他人的拒宅？
 		postsListView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			@Override

@@ -1,5 +1,7 @@
 package com.juzhai.android.home.task;
 
+import android.content.Context;
+
 import com.juzhai.android.core.model.Result.UserListResult;
 import com.juzhai.android.core.widget.list.GetDataTask;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
@@ -11,8 +13,9 @@ import com.juzhai.android.post.service.impl.UserPostService;
 
 public class UserPostListGetDataTask extends GetDataTask<UserListResult, User> {
 
-	public UserPostListGetDataTask(JuzhaiRefreshListView refreshListView) {
-		super(refreshListView);
+	public UserPostListGetDataTask(Context context,
+			JuzhaiRefreshListView refreshListView) {
+		super(context, refreshListView);
 	}
 
 	@Override
@@ -22,7 +25,7 @@ public class UserPostListGetDataTask extends GetDataTask<UserListResult, User> {
 		int page = (Integer) params[2];
 		try {
 			IUserPostService userPostService = new UserPostService();
-			return userPostService.list(gender, order, page);
+			return userPostService.list(context, gender, order, page);
 		} catch (PostException e) {
 			return null;
 		}

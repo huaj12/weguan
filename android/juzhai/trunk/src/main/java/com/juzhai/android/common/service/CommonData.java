@@ -56,7 +56,7 @@ public class CommonData {
 	}
 
 	// TODO (done) 自己看有什么问题。
-	public static void initDate(Context context) {
+	public static void initDate(final Context context) {
 		final SharedPreferencesManager manager = new SharedPreferencesManager(
 				context);
 		if (!manager.isExist(SHARED_PREFERNCES_CATEGORY)) {
@@ -74,7 +74,7 @@ public class CommonData {
 
 				private void initCategory() {
 					ResponseEntity<CategoryResult> response = HttpUtils.get(
-							CATEGORY_URI, CategoryResult.class);
+							context, CATEGORY_URI, CategoryResult.class);
 					if (response != null && response.getBody() != null
 							&& response.getBody().getSuccess()) {
 						CategoryResult categoryResult = response.getBody();

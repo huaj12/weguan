@@ -50,15 +50,16 @@ public class InterestActivity extends NavigationActivity {
 					public void onPullDownToRefresh(
 							PullToRefreshBase<ListView> refreshView) {
 						super.onPullDownToRefresh(refreshView);
-						new InterestListGetDataTask(interestListView)
-								.execute(1);
+						new InterestListGetDataTask(InterestActivity.this,
+								interestListView).execute(1);
 					}
 
 					@Override
 					public void onPullUpToRefresh(
 							PullToRefreshBase<ListView> refreshView) {
 						super.onPullUpToRefresh(refreshView);
-						new InterestListGetDataTask(interestListView)
+						new InterestListGetDataTask(InterestActivity.this,
+								interestListView)
 								.execute(interestListView.getPageAdapter()
 										.getPager().getCurrentPage() + 1);
 					}

@@ -211,7 +211,8 @@ public class DialogContentListActivity extends NavigationActivity {
 			protected List<DialogContent> doInBackground(Void... params) {
 				try {
 					PageList<DialogContent> pageList = dialogContentService
-							.list(targetUser.getUid(), 1);
+							.list(DialogContentListActivity.this,
+									targetUser.getUid(), 1);
 					if (null == pageList) {
 						return null;
 					} else {
@@ -320,7 +321,8 @@ public class DialogContentListActivity extends NavigationActivity {
 					}
 				} else {
 					PageList<DialogContent> pageList = dialogContentService
-							.refreshList(targetUser.getUid());
+							.refreshList(DialogContentListActivity.this,
+									targetUser.getUid());
 					if (pageList != null
 							&& !CollectionUtils.isEmpty(pageList.getList())) {
 						List<DialogContent> list = pageList.getList();

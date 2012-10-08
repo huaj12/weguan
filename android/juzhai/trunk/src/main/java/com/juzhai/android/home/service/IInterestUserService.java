@@ -1,5 +1,7 @@
 package com.juzhai.android.home.service;
 
+import android.content.Context;
+
 import com.juzhai.android.core.model.Result.UserListResult;
 import com.juzhai.android.home.exception.HomeException;
 
@@ -10,7 +12,7 @@ public interface IInterestUserService {
 	 * @param page
 	 * @return
 	 */
-	UserListResult interestList(int page) throws HomeException;
+	UserListResult interestList(Context context, int page) throws HomeException;
 
 	/**
 	 * 获取粉丝列表
@@ -18,5 +20,6 @@ public interface IInterestUserService {
 	 * @param page
 	 * @return
 	 */
-	UserListResult interestMeList(int page) throws HomeException;
+	UserListResult interestMeList(Context context, int page)
+			throws HomeException;
 }

@@ -16,7 +16,7 @@ public interface IDialogContentService {
 	 * @return
 	 * @throws DialogContentException
 	 */
-	PageList<DialogContent> list(long uid, int page)
+	PageList<DialogContent> list(Context context, long uid, int page)
 			throws DialogContentException;
 
 	/**
@@ -25,7 +25,7 @@ public interface IDialogContentService {
 	 * @param uid
 	 * @return
 	 */
-	PageList<DialogContent> refreshList(long uid);
+	PageList<DialogContent> refreshList(Context context, long uid);
 
 	/**
 	 * 发送私信

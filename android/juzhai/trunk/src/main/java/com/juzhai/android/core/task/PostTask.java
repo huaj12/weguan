@@ -46,7 +46,7 @@ public class PostTask extends AsyncTask<Void, Void, String> {
 	protected String doInBackground(Void... params) {
 		ResponseEntity<StringResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.post(uri, values,
+			responseEntity = HttpUtils.post(context, uri, values,
 					UserCache.getUserStatus(), StringResult.class);
 		} catch (Exception e) {
 			return context.getResources().getString(

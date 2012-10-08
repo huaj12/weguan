@@ -1,5 +1,7 @@
 package com.juzhai.android.home.task;
 
+import android.content.Context;
+
 import com.juzhai.android.core.model.Result.UserListResult;
 import com.juzhai.android.core.widget.list.GetDataTask;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
@@ -10,8 +12,9 @@ import com.juzhai.android.passport.model.User;
 
 public class InterestListGetDataTask extends GetDataTask<UserListResult, User> {
 
-	public InterestListGetDataTask(JuzhaiRefreshListView refreshListView) {
-		super(refreshListView);
+	public InterestListGetDataTask(Context context,
+			JuzhaiRefreshListView refreshListView) {
+		super(context, refreshListView);
 	}
 
 	@Override
@@ -19,7 +22,7 @@ public class InterestListGetDataTask extends GetDataTask<UserListResult, User> {
 		int page = (Integer) params[0];
 		try {
 			IInterestUserService interestUserService = new InterestUserService();
-			return interestUserService.interestList(page);
+			return interestUserService.interestList(context, page);
 		} catch (HomeException e) {
 			return null;
 		}

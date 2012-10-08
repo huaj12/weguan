@@ -13,18 +13,18 @@ import com.juzhai.android.post.service.IUserPostService;
 import com.juzhai.android.post.service.impl.UserPostService;
 
 public class MyPostsListGetDataTask extends GetDataTask<PostListResult, Post> {
-	private Context mContext;
 	private TextView view;
 
-	public MyPostsListGetDataTask(JuzhaiRefreshListView refreshListView,
-			Context mContext, TextView view) {
-		super(refreshListView);
-		this.mContext = mContext;
+	public MyPostsListGetDataTask(Context context,
+			JuzhaiRefreshListView refreshListView, Context mContext,
+			TextView view) {
+		super(context, refreshListView);
 		this.view = view;
 	}
 
-	public MyPostsListGetDataTask(JuzhaiRefreshListView refreshListView) {
-		super(refreshListView);
+	public MyPostsListGetDataTask(Context context,
+			JuzhaiRefreshListView refreshListView) {
+		super(context, refreshListView);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class MyPostsListGetDataTask extends GetDataTask<PostListResult, Post> {
 		int page = (Integer) params[1];
 		try {
 			IUserPostService userPostService = new UserPostService();
-			return userPostService.listPosts(uid, page);
+			return userPostService.listPosts(context, uid, page);
 		} catch (PostException e) {
 			return null;
 		}
@@ -42,14 +42,14 @@ public class MyPostsListGetDataTask extends GetDataTask<PostListResult, Post> {
 	@Override
 	protected void onPostExecute(PostListResult result) {
 		super.onPostExecute(result);
-		if (view != null && mContext != null) {
+		if (view != null && context != null) {
 			int count = refreshListView.getPageAdapter().getPager()
 					.getTotalResults() == null ? 0 : refreshListView
 					.getPageAdapter().getPager().getTotalResults();
-			view.setText(mContext.getResources().getString(
+			view.setText(context.getResources().getString(
 					R.string.user_home_post_count_begin)
 					+ count
-					+ mContext.getResources().getString(
+					+ context.getResources().getString(
 							R.string.user_home_post_count_end));
 
 		}

@@ -100,17 +100,18 @@ public class IdeaListActivity extends NavigationActivity {
 			public void onPullDownToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullDownToRefresh(refreshView);
-				new IdeaListGetDataTask(ideaListView).execute(categoryId,
-						orderType, 1);
+				new IdeaListGetDataTask(IdeaListActivity.this, ideaListView)
+						.execute(categoryId, orderType, 1);
 			}
 
 			@Override
 			public void onPullUpToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullUpToRefresh(refreshView);
-				new IdeaListGetDataTask(ideaListView).execute(categoryId,
-						orderType, ideaListView.getPageAdapter().getPager()
-								.getCurrentPage() + 1);
+				new IdeaListGetDataTask(IdeaListActivity.this, ideaListView)
+						.execute(categoryId, orderType,
+								ideaListView.getPageAdapter().getPager()
+										.getCurrentPage() + 1);
 			}
 		});
 		ideaListView.setAdapter(new IdeaListAdapter(IdeaListActivity.this));

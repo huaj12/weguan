@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.juzhai.android.BuildConfig;
@@ -19,14 +20,15 @@ public class DialogService implements IDialogService {
 	private String dialogListUri = "dialog/dialogList";
 
 	@Override
-	public DialogListResult list(int page) throws DialogException {
+	public DialogListResult list(Context context, int page)
+			throws DialogException {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("page", page);
 		String uri = HttpUtils.createHttpParam(dialogListUri, values);
 		ResponseEntity<DialogListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(uri, UserCache.getUserStatus(),
-					DialogListResult.class);
+			responseEntity = HttpUtils.get(context, uri,
+					UserCache.getUserStatus(), DialogListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),

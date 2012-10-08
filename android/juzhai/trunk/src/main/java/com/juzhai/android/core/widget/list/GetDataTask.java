@@ -2,6 +2,7 @@ package com.juzhai.android.core.widget.list;
 
 import java.util.List;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.juzhai.android.R;
@@ -17,7 +18,10 @@ public abstract class GetDataTask<T extends Result<? extends PageList<E>>, E ext
 
 	protected JuzhaiRefreshListView refreshListView;
 
-	public GetDataTask(JuzhaiRefreshListView refreshListView) {
+	protected Context context;
+
+	public GetDataTask(Context context, JuzhaiRefreshListView refreshListView) {
+		this.context = context;
 		this.refreshListView = refreshListView;
 	}
 

@@ -26,7 +26,7 @@ public class DialogContentService implements IDialogContentService {
 	private String refreshDialogContentListUri = "dialog/refreshDialogContent";
 
 	@Override
-	public PageList<DialogContent> list(long uid, int page)
+	public PageList<DialogContent> list(Context context, long uid, int page)
 			throws DialogContentException {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("page", page);
@@ -34,8 +34,8 @@ public class DialogContentService implements IDialogContentService {
 		String uri = HttpUtils.createHttpParam(dialogContentListUri, values);
 		ResponseEntity<DialogContentListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(uri, UserCache.getUserStatus(),
-					DialogContentListResult.class);
+			responseEntity = HttpUtils.get(context, uri,
+					UserCache.getUserStatus(), DialogContentListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -47,15 +47,15 @@ public class DialogContentService implements IDialogContentService {
 	}
 
 	@Override
-	public PageList<DialogContent> refreshList(long uid) {
+	public PageList<DialogContent> refreshList(Context context, long uid) {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("uid", uid);
 		String uri = HttpUtils.createHttpParam(refreshDialogContentListUri,
 				values);
 		ResponseEntity<DialogContentListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(uri, UserCache.getUserStatus(),
-					DialogContentListResult.class);
+			responseEntity = HttpUtils.get(context, uri,
+					UserCache.getUserStatus(), DialogContentListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -74,8 +74,8 @@ public class DialogContentService implements IDialogContentService {
 			Map<String, Object> values = new HashMap<String, Object>();
 			values.put("content", content);
 			values.put("uid", String.valueOf(uid));
-			responseEntity = HttpUtils.uploadFile(sendMessageUri, values,
-					UserCache.getUserStatus(), "dialogImg", image,
+			responseEntity = HttpUtils.uploadFile(context, sendMessageUri,
+					values, UserCache.getUserStatus(), "dialogImg", image,
 					DialogContentResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {

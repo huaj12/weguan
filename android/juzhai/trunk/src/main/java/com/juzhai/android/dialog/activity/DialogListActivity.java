@@ -43,16 +43,17 @@ public class DialogListActivity extends NavigationActivity {
 			public void onPullDownToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullDownToRefresh(refreshView);
-				new DialogListGetDataTask(dialogListView).execute(1);
+				new DialogListGetDataTask(DialogListActivity.this,
+						dialogListView).execute(1);
 			}
 
 			@Override
 			public void onPullUpToRefresh(
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullUpToRefresh(refreshView);
-				new DialogListGetDataTask(dialogListView)
-						.execute(dialogListView.getPageAdapter().getPager()
-								.getCurrentPage() + 1);
+				new DialogListGetDataTask(DialogListActivity.this,
+						dialogListView).execute(dialogListView.getPageAdapter()
+						.getPager().getCurrentPage() + 1);
 			}
 		});
 		dialogListView

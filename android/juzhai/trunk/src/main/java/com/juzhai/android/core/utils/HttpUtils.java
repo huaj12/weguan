@@ -1,5 +1,6 @@
 package com.juzhai.android.core.utils;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,28 +10,37 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.ResponseErrorHandler;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
 
 import com.juzhai.android.core.SystemConfig;
 
 public class HttpUtils {
 
-	public static <T> ResponseEntity<T> post(String uri,
-			Map<String, String> values, Class<T> responseType) {
+	private static int CONNECT_TIMEOUT = 20000;
+	private static int READ_TIMEOUT = 20000;
 
-		return post(uri, values, null, responseType);
+	public static <T> ResponseEntity<T> post(Context context, String uri,
+			Map<String, String> values, Class<T> responseType) {
+		return post(context, uri, values, null, responseType);
 	}
 
-	public static <T> ResponseEntity<T> post(String uri,
+	public static <T> ResponseEntity<T> post(Context context, String uri,
 			Map<String, String> values, Map<String, String> cookies,
 			Class<T> responseType) {
 		MultiValueMap<String, Object> formData = new LinkedMultiValueMap<String, Object>();
@@ -39,11 +49,11 @@ public class HttpUtils {
 				formData.add(entry.getKey(), entry.getValue());
 			}
 		}
-		return post(uri, formData, cookies, new MediaType("application",
-				"x-www-form-urlencoded"), responseType);
+		return post(context, uri, formData, cookies, new MediaType(
+				"application", "x-www-form-urlencoded"), responseType);
 	}
 
-	public static <T> ResponseEntity<T> uploadFile(String uri,
+	public static <T> ResponseEntity<T> uploadFile(Context context, String uri,
 			Map<String, Object> values, Map<String, String> cookies,
 			String filename, Bitmap file, Class<T> responseType) {
 		MultiValueMap<String, Object> formData = new LinkedMultiValueMap<String, Object>();
@@ -63,11 +73,11 @@ public class HttpUtils {
 			};
 			formData.add(filename, resource);
 		}
-		return post(uri, formData, cookies, MediaType.MULTIPART_FORM_DATA,
-				responseType);
+		return post(context, uri, formData, cookies,
+				MediaType.MULTIPART_FORM_DATA, responseType);
 	}
 
-	private static <T> ResponseEntity<T> post(String uri,
+	private static <T> ResponseEntity<T> post(Context context, String uri,
 			MultiValueMap<String, Object> formData,
 			Map<String, String> cookies, MediaType mediaType,
 			Class<T> responseType) {
@@ -84,23 +94,25 @@ public class HttpUtils {
 		requestHeaders.setContentType(mediaType);
 		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(
 				formData, requestHeaders);
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = createRestTemplate(context);
+		if (null == restTemplate) {
+			throw new RestClientException("no network");
+		}
 		restTemplate.getMessageConverters().add(
 				new MappingJacksonHttpMessageConverter());
 		restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
-		// restTemplate.getMessageConverters().add(
-		// new ResourceHttpMessageConverter());
 		ResponseEntity<T> responseEntity = restTemplate.exchange(
 				SystemConfig.BASEURL + uri, HttpMethod.POST, requestEntity,
 				responseType);
 		return responseEntity;
 	}
 
-	public static <T> ResponseEntity<T> get(String uri, Class<T> responseType) {
-		return get(uri, null, responseType);
+	public static <T> ResponseEntity<T> get(Context context, String uri,
+			Class<T> responseType) {
+		return get(context, uri, null, responseType);
 	}
 
-	public static <T> ResponseEntity<T> get(String uri,
+	public static <T> ResponseEntity<T> get(Context context, String uri,
 			Map<String, String> cookies, Class<T> responseType) {
 		HttpHeaders requestHeaders = new HttpHeaders();
 		if (!CollectionUtils.isEmpty(cookies)) {
@@ -113,7 +125,10 @@ public class HttpUtils {
 				"application", "json")));
 		HttpEntity<Object> requestEntity = new HttpEntity<Object>(
 				requestHeaders);
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = createRestTemplate(context);
+		if (null == restTemplate) {
+			throw new RestClientException("no network");
+		}
 		restTemplate.getMessageConverters().add(
 				new MappingJacksonHttpMessageConverter());
 		ResponseEntity<T> responseEntity = restTemplate.exchange(
@@ -122,6 +137,7 @@ public class HttpUtils {
 		return responseEntity;
 	}
 
+	// TODO (review) 在内部调用，不要在外部调用
 	public static String createHttpParam(String uri, Map<String, Object> values) {
 		// TODO (done) 一定要“?”结尾？
 		StringBuilder str = new StringBuilder();
@@ -137,5 +153,37 @@ public class HttpUtils {
 			str.append(String.valueOf(entry.getValue()));
 		}
 		return uri + str.toString();
+	}
+
+	private static RestTemplate createRestTemplate(Context context) {
+		boolean hasNetwork = false;
+		ConnectivityManager cwjManager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (cwjManager.getActiveNetworkInfo() != null) {
+			hasNetwork = cwjManager.getActiveNetworkInfo().isAvailable();
+		}
+		if (!hasNetwork) {
+			return null;
+		}
+		SimpleClientHttpRequestFactory scrf = new SimpleClientHttpRequestFactory();
+		scrf.setConnectTimeout(CONNECT_TIMEOUT);
+		scrf.setReadTimeout(READ_TIMEOUT);
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.setErrorHandler(new ResponseErrorHandler() {
+			@Override
+			public boolean hasError(ClientHttpResponse response)
+					throws IOException {
+				return response.getStatusCode() != HttpStatus.OK;
+			}
+
+			@Override
+			public void handleError(ClientHttpResponse response)
+					throws IOException {
+				if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+					// TODO 跳往登录
+				}
+			}
+		});
+		return restTemplate;
 	}
 }

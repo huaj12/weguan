@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.widget.button.SegmentedButton;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
@@ -25,7 +26,6 @@ import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.activity.PostDetailActivity;
 
 public class ZhaobanActivity extends NavigationActivity {
-	public static final int ZHAOBAN_LIST_REQUEST_CODE = 1;
 	private ZhaobanOrder order = ZhaobanOrder.ONLINE;
 	private Integer gender = null;
 	private JuzhaiRefreshListView postListView = null;
@@ -133,8 +133,8 @@ public class ZhaobanActivity extends NavigationActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == ZHAOBAN_LIST_REQUEST_CODE
-				&& resultCode == PostDetailActivity.ZHAOBAN_LIST_RESULT_CODE) {
+		if (requestCode == ActivityCode.RequestCode.ZHAOBAN_LIST_REQUEST_CODE
+				&& resultCode == ActivityCode.ResultCode.ZHAOBAN_LIST_RESULT_CODE) {
 			User user = (User) data.getSerializableExtra("user");
 			int position = data.getIntExtra("position", -1);
 			if (position >= 0 && user != null) {

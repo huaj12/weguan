@@ -32,6 +32,7 @@ import android.widget.ListView;
 
 import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
+import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.activity.UploadImageActivity;
 import com.juzhai.android.core.model.PageList;
 import com.juzhai.android.core.utils.DialogUtils;
@@ -49,7 +50,6 @@ import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 
 public class DialogContentListActivity extends NavigationActivity {
-	private final int PIC_REQUEST_CODE = 1;
 	private final Timer timer = new Timer();
 	private boolean flag = true;
 	private User targetUser;
@@ -118,7 +118,8 @@ public class DialogContentListActivity extends NavigationActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(DialogContentListActivity.this,
 						UploadImageActivity.class);
-				startActivityForResult(intent, PIC_REQUEST_CODE);
+				startActivityForResult(intent,
+						ActivityCode.RequestCode.PIC_REQUEST_CODE);
 			}
 		});
 
@@ -221,8 +222,8 @@ public class DialogContentListActivity extends NavigationActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == PIC_REQUEST_CODE
-				&& UploadImageActivity.PIC_RESULT_CODE == resultCode) {
+		if (requestCode == ActivityCode.RequestCode.PIC_REQUEST_CODE
+				&& ActivityCode.ResultCode.PIC_RESULT_CODE == resultCode) {
 			pic = data.getParcelableExtra("pic");
 			if (picView == null) {
 				DialogUtils.showToastText(DialogContentListActivity.this,

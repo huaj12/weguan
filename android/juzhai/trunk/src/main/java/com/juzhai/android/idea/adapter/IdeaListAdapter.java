@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.utils.ImageUtils;
@@ -146,7 +147,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 				intent.putExtra("idea", idea);
 				intent.putExtra("position", position);
 				((IdeaListActivity) mContext).pushIntentForResult(intent,
-						IdeaListActivity.IDEA_LIST_REQUEST_CODE);
+						ActivityCode.RequestCode.IDEA_LIST_REQUEST_CODE);
 			}
 		});
 

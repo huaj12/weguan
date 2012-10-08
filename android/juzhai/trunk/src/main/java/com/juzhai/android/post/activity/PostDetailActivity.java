@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.utils.TextTruncateUtil;
@@ -29,7 +30,6 @@ import com.juzhai.android.post.helper.IPostViewHelper;
 import com.juzhai.android.post.helper.impl.PostViewHelper;
 
 public class PostDetailActivity extends NavigationActivity {
-	public static final int ZHAOBAN_LIST_RESULT_CODE = 6;
 	private User user;
 	private IUserViewHelper userViewHelper = new UserViewHelper();
 	private IPostViewHelper postViewHelper = new PostViewHelper();
@@ -130,7 +130,9 @@ public class PostDetailActivity extends NavigationActivity {
 							user.getPostView().setHasResp(true);
 							Intent intent = getIntent();
 							intent.putExtra("user", user);
-							setResult(ZHAOBAN_LIST_RESULT_CODE, intent);
+							setResult(
+									ActivityCode.ResultCode.ZHAOBAN_LIST_RESULT_CODE,
+									intent);
 						}
 					}));
 

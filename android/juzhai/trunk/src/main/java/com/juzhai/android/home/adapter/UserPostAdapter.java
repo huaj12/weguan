@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.utils.StringUtil;
@@ -95,7 +96,7 @@ public class UserPostAdapter extends PageAdapter<User> {
 				intent.putExtra("user", user);
 				intent.putExtra("position", position);
 				((ZhaobanActivity) mContext).pushIntentForResult(intent,
-						ZhaobanActivity.ZHAOBAN_LIST_REQUEST_CODE);
+						ActivityCode.RequestCode.ZHAOBAN_LIST_REQUEST_CODE);
 			}
 		});
 

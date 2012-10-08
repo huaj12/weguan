@@ -24,10 +24,6 @@ import com.juzhai.android.core.utils.ImageUtils;
  * 
  */
 public class UploadImageActivity extends Activity {
-	private final int CAMERA_REQUEST_CODE = 1;
-	private final int ALBUM_REQUEST_CODE = 2;
-	private final int CUT_REQUEST_CODE = 3;
-	public static final int PIC_RESULT_CODE = 4;
 	private String filename;
 
 	@Override
@@ -43,7 +39,8 @@ public class UploadImageActivity extends Activity {
 				Intent intent = new Intent(Intent.ACTION_PICK, null);
 				intent.setDataAndType(
 						MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-				startActivityForResult(intent, ALBUM_REQUEST_CODE);
+				startActivityForResult(intent,
+						ActivityCode.RequestCode.ALBUM_REQUEST_CODE);
 			}
 		});
 		cameraBtn.setOnClickListener(new OnClickListener() {
@@ -54,7 +51,8 @@ public class UploadImageActivity extends Activity {
 				filename = ImageUtils.getFileName();
 				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(
 						Environment.getExternalStorageDirectory(), filename)));
-				startActivityForResult(intent, CAMERA_REQUEST_CODE);
+				startActivityForResult(intent,
+						ActivityCode.RequestCode.CAMERA_REQUEST_CODE);
 			}
 		});
 
@@ -64,7 +62,7 @@ public class UploadImageActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		// 如果是直接从相册获取
-		case ALBUM_REQUEST_CODE:
+		case ActivityCode.RequestCode.ALBUM_REQUEST_CODE:
 			if (data != null && data.getData() != null) {
 				startPhotoZoom(data.getData());
 			} else {
@@ -72,7 +70,7 @@ public class UploadImageActivity extends Activity {
 			}
 			break;
 		// 如果是调用相机拍照时
-		case CAMERA_REQUEST_CODE:
+		case ActivityCode.RequestCode.CAMERA_REQUEST_CODE:
 			if (filename != null) {
 				File temp = new File(Environment.getExternalStorageDirectory()
 						+ File.separator + filename);
@@ -82,13 +80,13 @@ public class UploadImageActivity extends Activity {
 			}
 			break;
 		// 取得裁剪后的图片
-		case CUT_REQUEST_CODE:
+		case ActivityCode.RequestCode.CUT_REQUEST_CODE:
 			if (data != null) {
 				Bundle extras = data.getExtras();
 				if (extras != null) {
 					Bitmap pic = extras.getParcelable("data");
 					data.putExtra("pic", pic);
-					setResult(PIC_RESULT_CODE, data);
+					setResult(ActivityCode.ResultCode.PIC_RESULT_CODE, data);
 				}
 			}
 			finish();
@@ -114,7 +112,8 @@ public class UploadImageActivity extends Activity {
 		intent.putExtra("outputX", 150);
 		intent.putExtra("outputY", 150);
 		intent.putExtra("return-data", true);
-		startActivityForResult(intent, CUT_REQUEST_CODE);
+		startActivityForResult(intent,
+				ActivityCode.RequestCode.CUT_REQUEST_CODE);
 	}
 
 }

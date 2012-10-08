@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import com.juzhai.android.R;
 import com.juzhai.android.common.model.Category;
 import com.juzhai.android.common.service.CommonData;
+import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.widget.button.SegmentedButton;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
@@ -25,7 +26,6 @@ import com.juzhai.android.idea.model.Idea;
 import com.juzhai.android.idea.task.IdeaListGetDataTask;
 
 public class IdeaListActivity extends NavigationActivity {
-	public final static int IDEA_LIST_REQUEST_CODE = 3;
 	private long categoryId = 0;
 	private String orderType = "time";
 	private JuzhaiRefreshListView ideaListView;
@@ -120,8 +120,8 @@ public class IdeaListActivity extends NavigationActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == IDEA_LIST_REQUEST_CODE
-				&& resultCode == IdeaDetailActivity.IDEA_LIST_RESULT_CODE) {
+		if (requestCode == ActivityCode.RequestCode.IDEA_LIST_REQUEST_CODE
+				&& resultCode == ActivityCode.ResultCode.IDEA_LIST_RESULT_CODE) {
 			Idea idea = (Idea) data.getSerializableExtra("idea");
 			int position = data.getIntExtra("position", -1);
 			if (position >= 0 && idea != null) {

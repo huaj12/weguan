@@ -33,7 +33,6 @@ import com.juzhai.android.passport.model.User;
  * 
  */
 public class InterestMeActivity extends NavigationActivity {
-	private JuzhaiRefreshListView interestListView;
 	private String interestUri = "home/interest";
 
 	@Override
@@ -42,7 +41,8 @@ public class InterestMeActivity extends NavigationActivity {
 		setNavContentView(R.layout.page_interest);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.interest_me_title));
-		interestListView = (JuzhaiRefreshListView) findViewById(R.id.interest_list_view);
+		//TODO (review) 自己看什么问题？
+		final JuzhaiRefreshListView interestListView = (JuzhaiRefreshListView) findViewById(R.id.interest_list_view);
 		interestListView
 				.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 					@Override

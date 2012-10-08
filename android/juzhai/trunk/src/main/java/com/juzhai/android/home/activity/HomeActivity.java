@@ -38,6 +38,7 @@ public class HomeActivity extends NavigationActivity {
 		TextView myPostView = (TextView) findViewById(R.id.home_my_post);
 		TextView myInterestView = (TextView) findViewById(R.id.home_my_interest);
 		TextView myInterestMeView = (TextView) findViewById(R.id.home_interest_me);
+		//TODO (review) 出现了多个括号 可以尝试使用string format
 		myPostView.setText(getResources().getString(R.string.my_post_title)
 				+ " (" + user.getPostCount() + ")");
 		myInterestView.setText(getResources()

@@ -27,7 +27,6 @@ import com.juzhai.android.passport.model.Post;
  * 
  */
 public class MyPostActivity extends NavigationActivity {
-	private JuzhaiRefreshListView postsListView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class MyPostActivity extends NavigationActivity {
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.my_post_title));
 
-		postsListView = (JuzhaiRefreshListView) findViewById(R.id.my_posts_list_view);
+		final JuzhaiRefreshListView postsListView = (JuzhaiRefreshListView) findViewById(R.id.my_posts_list_view);
 		postsListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 			@Override
 			public void onPullDownToRefresh(

@@ -39,14 +39,12 @@ import com.juzhai.android.passport.model.User;
  */
 public class UserHomeActivity extends NavigationActivity {
 	private IUserViewHelper userViewHelper = new UserViewHelper();
-	private User user;
-	private JuzhaiRefreshListView postsListView;
 	private String interestUri = "home/interest";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		user = (User) getIntent().getSerializableExtra("targetUser");
+		final User user = (User) getIntent().getSerializableExtra("targetUser");
 		setNavContentView(R.layout.page_user_home);
 		getNavigationBar().setBarTitle(
 				user.getNickname()
@@ -62,6 +60,7 @@ public class UserHomeActivity extends NavigationActivity {
 		userViewHelper.showUserNickname(UserHomeActivity.this, user,
 				nicknameView);
 		userInfoView.setText(user.getUserInfo(UserHomeActivity.this));
+		//TODO (review) "..."是什么意思
 		postCountView.setText(getResources().getString(
 				R.string.user_home_post_count_begin)
 				+ "..."
@@ -80,13 +79,14 @@ public class UserHomeActivity extends NavigationActivity {
 
 			@Override
 			public void onClick(View v) {
+				// TODO (review) 为什么不用SimpleClickListener
 				Map<String, String> values = new HashMap<String, String>();
 				values.put("uid", String.valueOf(user.getUid()));
 				new PostTask(interestUri, UserHomeActivity.this, values, null)
 						.execute();
 			}
 		});
-		postsListView = (JuzhaiRefreshListView) findViewById(R.id.my_posts_list_view);
+		final JuzhaiRefreshListView postsListView = (JuzhaiRefreshListView) findViewById(R.id.my_posts_list_view);
 		postsListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 			@Override
 			public void onPullDownToRefresh(
@@ -109,6 +109,7 @@ public class UserHomeActivity extends NavigationActivity {
 		postsListView.setAdapter(new MyPostsAdapter(UserHomeActivity.this));
 		postsListView.manualRefresh();
 
+		//TODO (review) 你准备修改和删除他人的拒宅？
 		postsListView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			@Override

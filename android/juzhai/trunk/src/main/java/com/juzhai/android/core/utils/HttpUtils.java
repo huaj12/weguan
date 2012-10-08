@@ -173,14 +173,19 @@ public class HttpUtils {
 			@Override
 			public boolean hasError(ClientHttpResponse response)
 					throws IOException {
+				if (null == response) {
+					return false;
+				}
 				return response.getStatusCode() != HttpStatus.OK;
 			}
 
 			@Override
 			public void handleError(ClientHttpResponse response)
 					throws IOException {
-				if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-					// TODO 跳往登录
+				if (response != null) {
+					if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+						// TODO 跳往登录
+					}
 				}
 			}
 		});

@@ -14,7 +14,11 @@ import com.juzhai.android.core.widget.list.table.model.BasicItem.ItemType;
 import com.juzhai.android.core.widget.list.table.widget.UITableView;
 import com.juzhai.android.core.widget.list.table.widget.UITableView.ClickListener;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
+import com.juzhai.android.passport.activity.AuthorizeBindActivity;
+import com.juzhai.android.passport.activity.AuthorizeExpiredActivity;
 import com.juzhai.android.passport.activity.LoginActivity;
+import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.model.User;
 import com.juzhai.android.passport.service.impl.PassportService;
 
 public class SettingListActivity extends NavigationActivity {
@@ -30,6 +34,7 @@ public class SettingListActivity extends NavigationActivity {
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.setting_title));
 		setNavContentView(R.layout.page_setting);
+
 		accountTableView = (UITableView) findViewById(R.id.setting_account_table_view);
 		createAccountList();
 		accountTableView.commit();
@@ -51,13 +56,33 @@ public class SettingListActivity extends NavigationActivity {
 		accountTableView.setClickListener(new ClickListener() {
 			@Override
 			public void onClick(int index) {
+				if (index == 1) {
+					User user = UserCache.getUserInfo();
+					if (user.hasTpExpired()) {
+						pushIntent(new Intent(SettingListActivity.this,
+								AuthorizeExpiredActivity.class));
+					} else if (!user.hasTp()) {
+						pushIntent(new Intent(SettingListActivity.this,
+								AuthorizeBindActivity.class));
+					}
+				}
 			}
 		});
 		accountTableView.addBasicItem(getResources().getString(
 				R.string.setting_cell_profile));
+
+		String authorizeSubTitle = null;
+		User user = UserCache.getUserInfo();
+		if (user.hasTpExpired()) {
+			authorizeSubTitle = "授权已过期";
+		} else if (user.hasTp()) {
+			authorizeSubTitle = "已绑定：新浪微博";
+		} else {
+			authorizeSubTitle = "未绑定";
+		}
 		accountTableView.addBasicItem(
 				getResources().getString(R.string.setting_cell_authorize),
-				"未绑定", ItemType.HORIZONTAL);
+				authorizeSubTitle, ItemType.HORIZONTAL);
 	}
 
 	private void createAppList() {

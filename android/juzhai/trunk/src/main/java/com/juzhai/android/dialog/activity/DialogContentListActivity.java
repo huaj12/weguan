@@ -53,7 +53,7 @@ import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 
 public class DialogContentListActivity extends NavigationActivity {
-	private final Timer timer = new Timer();
+	private Timer timer;
 	private boolean flag = true;
 	private User targetUser;
 	private ImageView picView;
@@ -94,6 +94,7 @@ public class DialogContentListActivity extends NavigationActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		timer = new Timer();
 		targetUser = (User) getIntent().getSerializableExtra("targetUser");
 		if (targetUser == null) {
 			popIntent();
@@ -352,8 +353,10 @@ public class DialogContentListActivity extends NavigationActivity {
 		// 关闭前先关闭发送消息的线程
 		flag = false;
 		queue.clear();
-		timer.cancel();
-		timer.purge();
+		if (null != timer) {
+			timer.cancel();
+			timer = null;
+		}
 		super.finish();
 	}
 }

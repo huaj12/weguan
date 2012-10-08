@@ -13,15 +13,19 @@
         android:layout_marginRight="7dp"
         android:layout_marginTop="10dp"
         android:contentDescription="@null" />
-
+	<RelativeLayout   android:layout_width="60dp" 
+	    			  android:layout_height="wrap_content"
+	    			  android:layout_marginLeft="10dp"
+        			  android:layout_marginTop="5dp"
+        			  android:layout_below="@+id/user_logo">
     <TextView
         android:id="@+id/user_online_stauts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/user_logo"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp" />
-
+        android:textSize="10sp"
+        android:layout_centerHorizontal="true"
+        />
+	</RelativeLayout>
     <LinearLayout
         android:id="@+id/post_item_layout"
         android:layout_width="fill_parent"
@@ -44,12 +48,14 @@
             <TextView
                 android:id="@id/user_nickname"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="11.5sp" />
 
             <TextView
                 android:id="@+id/user_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="11.5sp"
                 android:layout_marginLeft="7dp" />
         </LinearLayout>
 
@@ -84,8 +90,8 @@
                 android:paddingLeft="23dp"
                 android:paddingRight="3dp"
                 android:paddingTop="0dp"
-                android:textColor="@color/text_color_selector"
-                android:textSize="12sp" />
+                android:textColor="@color/user_post_response_text_color_selector"
+                android:textSize="11sp" />
         </RelativeLayout>
     </LinearLayout>
 

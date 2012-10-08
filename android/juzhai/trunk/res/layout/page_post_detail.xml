@@ -41,7 +41,7 @@
             android:layout_toRightOf="@+id/user_logo"
             android:gravity="left"
             android:textColor="@color/gray"
-            android:textSize="14sp" />
+            android:textSize="13sp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:lineSpacingExtra="2dp"
             android:textColor="@color/idea_want"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/post_image"
@@ -82,7 +82,7 @@
             android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/jzxq_icon_time"
             android:textColor="@color/post_detail_info"
-            android:textSize="14sp" />
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/post_detail_place_text"
@@ -92,7 +92,8 @@
             android:layout_marginTop="5dp"
             android:drawableLeft="@drawable/jzxq_icon_des"
             android:textColor="@color/post_detail_info"
-            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:textSize="11sp"
              />
 
         <RelativeLayout

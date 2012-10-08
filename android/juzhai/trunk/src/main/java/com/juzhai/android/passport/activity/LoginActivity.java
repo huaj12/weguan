@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.widget.list.table.model.BasicItem.ItemType;
 import com.juzhai.android.core.widget.list.table.widget.UITableView;
@@ -75,7 +76,8 @@ public class LoginActivity extends NavigationActivity {
 			@Override
 			public void onClick(View v) {
 				pushIntentForResult(new Intent(LoginActivity.this,
-						RegisterActivity.class), CLEAR_REQUEST_CODE);
+						RegisterActivity.class),
+						ActivityCode.RequestCode.CLEAR_REQUEST_CODE);
 			}
 		});
 		Button forgetPwd = (Button) findViewById(R.id.forget_pwd);
@@ -83,7 +85,8 @@ public class LoginActivity extends NavigationActivity {
 			@Override
 			public void onClick(View v) {
 				pushIntentForResult(new Intent(LoginActivity.this,
-						ForgotPwdActivity.class), CLEAR_REQUEST_CODE);
+						ForgotPwdActivity.class),
+						ActivityCode.RequestCode.CLEAR_REQUEST_CODE);
 			}
 		});
 	}

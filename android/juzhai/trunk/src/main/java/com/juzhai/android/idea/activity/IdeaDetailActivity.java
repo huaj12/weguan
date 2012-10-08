@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.utils.ImageUtils;
@@ -34,7 +35,6 @@ import com.juzhai.android.idea.model.Idea;
  * 
  */
 public class IdeaDetailActivity extends NavigationActivity {
-	public final static int IDEA_LIST_RESULT_CODE = 4;
 	private Idea idea;
 	private ImageView imageView;
 	private Button wantBtn;
@@ -104,7 +104,9 @@ public class IdeaDetailActivity extends NavigationActivity {
 							idea.setHasUsed(true);
 							Intent intent = getIntent();
 							intent.putExtra("idea", idea);
-							setResult(IDEA_LIST_RESULT_CODE, intent);
+							setResult(
+									ActivityCode.ResultCode.IDEA_LIST_RESULT_CODE,
+									intent);
 						}
 					}));
 		}

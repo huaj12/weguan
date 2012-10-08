@@ -5,6 +5,12 @@
     android:background="@drawable/item_color_bg"
     android:orientation="horizontal" >
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/white" />
+
     <ImageView
         android:id="@+id/dialog_send_flag"
         android:layout_width="wrap_content"
@@ -22,7 +28,7 @@
         android:layout_marginBottom="25dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="25dp"/>
+        android:layout_marginTop="25dp" />
 
     <TextView
         android:id="@+id/user_nickname"
@@ -53,5 +59,11 @@
         android:textColor="@color/time_color"
         android:gravity="right"
         android:textSize="12sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray" />
 
 </RelativeLayout>

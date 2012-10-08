@@ -34,7 +34,6 @@ import com.juzhai.android.passport.model.User;
  * 
  */
 public class InterestActivity extends NavigationActivity {
-	private JuzhaiRefreshListView interestListView;
 	private String unInterestUri = "home/removeInterest";
 
 	@Override
@@ -44,7 +43,7 @@ public class InterestActivity extends NavigationActivity {
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.interest_title));
 
-		interestListView = (JuzhaiRefreshListView) findViewById(R.id.interest_list_view);
+		final JuzhaiRefreshListView interestListView = (JuzhaiRefreshListView) findViewById(R.id.interest_list_view);
 		interestListView
 				.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 					@Override
@@ -67,6 +66,8 @@ public class InterestActivity extends NavigationActivity {
 		interestListView.setAdapter(new InterestUserListAdapter(
 				InterestActivity.this));
 		interestListView.manualRefresh();
+
+		// TODO (review) 长按菜单能否封装一下？
 		interestListView
 				.setOnItemLongClickListener(new OnItemLongClickListener() {
 

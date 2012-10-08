@@ -71,6 +71,7 @@ public class DialogListActivity extends NavigationActivity {
 
 		});
 
+		// TODO (review) 长按弹出菜单能否封装一下
 		dialogListView
 				.setOnItemLongClickListener(new OnItemLongClickListener() {
 

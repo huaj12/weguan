@@ -120,10 +120,10 @@ public class ZhaobanActivity extends NavigationActivity {
 		postListView.manualRefresh();
 
 		User user = UserCache.getUserInfo();
-		if (user.getTpId() > 0 && user.isTokenExpired()) {
+		if (user.hasTpExpired()) {
 			pushIntent(new Intent(ZhaobanActivity.this,
 					AuthorizeExpiredActivity.class));
-		} else if (user.getTpId() <= 0) {
+		} else if (!user.hasTp()) {
 			// 提示授权
 			pushIntent(new Intent(ZhaobanActivity.this,
 					AuthorizeBindActivity.class));

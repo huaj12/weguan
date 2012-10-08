@@ -330,4 +330,12 @@ public class User extends Entity {
 		}
 		return sbString.toString();
 	}
+
+	public boolean hasTp() {
+		return this.getTpId() > 0;
+	}
+
+	public boolean hasTpExpired() {
+		return this.hasTp() && this.isTokenExpired();
+	}
 }

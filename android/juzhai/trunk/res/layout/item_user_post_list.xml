@@ -22,7 +22,7 @@
         android:id="@+id/user_online_stauts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
+        android:textSize="11sp"
         android:layout_centerHorizontal="true"
         />
 	</RelativeLayout>
@@ -36,7 +36,7 @@
         android:background="@drawable/zhaober_list_item_bg"
         android:orientation="vertical"
         android:paddingBottom="10dp"
-        android:paddingLeft="13dp"
+        android:paddingLeft="15dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp" >
 
@@ -63,7 +63,7 @@
             android:id="@+id/post_content"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:lineSpacingExtra="2dp"
             android:textColor="@color/idea_want"
             android:textSize="14.5sp" />

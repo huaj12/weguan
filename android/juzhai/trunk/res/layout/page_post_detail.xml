@@ -9,7 +9,7 @@
         android:id="@+id/user_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/base_selector_layout"
+        android:background="@color/white"
         android:paddingBottom="5dp"
         android:paddingTop="5dp" >
 
@@ -26,22 +26,22 @@
             android:id="@+id/user_nickname"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="8dp"
             android:layout_toRightOf="@+id/user_logo"
             android:gravity="left"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/user_info"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="37dp"
             android:layout_toRightOf="@+id/user_logo"
             android:gravity="left"
             android:textColor="@color/gray"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -57,6 +57,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="2dp"
         android:padding="10dp" >
 
         <TextView
@@ -65,7 +66,7 @@
             android:layout_height="wrap_content"
             android:lineSpacingExtra="2dp"
             android:textColor="@color/idea_want"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/post_image"
@@ -82,7 +83,7 @@
             android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/jzxq_icon_time"
             android:textColor="@color/post_detail_info"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/post_detail_place_text"
@@ -93,7 +94,7 @@
             android:drawableLeft="@drawable/jzxq_icon_des"
             android:textColor="@color/post_detail_info"
             android:gravity="center_vertical"
-            android:textSize="11sp"
+            android:textSize="12sp"
              />
 
         <RelativeLayout

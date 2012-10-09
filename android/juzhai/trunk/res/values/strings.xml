@@ -78,6 +78,8 @@
     <string name="interest">关注ta</string>
     <string name="un_interest">取消关注</string>
     <string name="done_interest">已关注</string>
+    <string name="verified">审核未通过</string>
+    <string name="verifying">正在审核中</string>
    
     <!-- common end -->
 

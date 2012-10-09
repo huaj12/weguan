@@ -3,6 +3,7 @@
     android:layout_width="200dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:theme="@android:style/Theme.NoTitleBar"
  >
 <TextView 
     android:layout_width="fill_parent"

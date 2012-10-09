@@ -14,8 +14,9 @@
 	<color name="idea_want_done">#cccccc</color>
 	<color name="post_detail_info">#888888</color>
 	<color name="layout_blue">#3D83DA</color>
-	<color name="divider">#b9b9b9</color>
+	<color name="divider">#e2e2e2</color>
 	<color name="time_color">#b6b6b6</color>
+	<color name="post_count">#333333</color>
 	
 	<!-- LIST BORDER COLOR -->
 	<color name="rounded_container_border">#ffb7babb</color>

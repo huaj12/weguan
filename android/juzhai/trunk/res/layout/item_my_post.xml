@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     	xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-         android:background="@drawable/item_color_bg"
-        android:padding="10dp" >
-
+        android:background="@drawable/item_color_bg"
+        >
+          <include layout="@layout/fragment__divider_head"/>
         <TextView
             android:id="@+id/post_content"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="2dp"
             android:textColor="@color/idea_want"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:textSize="16sp" />
-
-        <ImageView
-            android:id="@+id/post_image"
-            android:layout_width="110dp"
-            android:layout_height="80dp"
+        <LinearLayout android:layout_below="@+id/post_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:contentDescription="@null" />
-    </LinearLayout>
+            android:layout_marginLeft="10dp" >
+	        <ImageView
+	            android:id="@+id/post_image"
+	            android:layout_width="110dp"
+	            android:layout_height="80dp"
+	            android:contentDescription="@null"
+	            android:layout_marginBottom="10dp" />
+        </LinearLayout>
+        <include layout="@layout/fragment__divider_foot"/>
+    </RelativeLayout>

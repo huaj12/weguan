@@ -5,19 +5,16 @@
     android:background="@drawable/item_color_bg"
     android:orientation="horizontal" >
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="0.5dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/white" />
-
+  	<include layout="@layout/fragment__divider_head"/>
+	
     <ImageView
         android:id="@+id/dialog_send_flag"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="61dp" />
+        android:layout_marginLeft="61dp"
+        android:contentDescription="@null"/>
 
     <ImageView
         android:id="@+id/user_logo"
@@ -28,7 +25,8 @@
         android:layout_marginBottom="25dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="25dp" 
+        android:contentDescription="@null"/>
 
     <TextView
         android:id="@+id/user_nickname"
@@ -62,10 +60,6 @@
         android:gravity="right"
         android:textSize="12sp" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="0.5dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/gray" />
+ 	<include layout="@layout/fragment__divider_foot"/>
 
 </RelativeLayout>

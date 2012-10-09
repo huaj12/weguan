@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.utils.ImageUtils;
@@ -27,7 +26,6 @@ import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
-import com.juzhai.android.idea.activity.IdeaDetailActivity;
 import com.juzhai.android.idea.activity.IdeaListActivity;
 import com.juzhai.android.idea.activity.IdeaUsersActivity;
 import com.juzhai.android.idea.model.Idea;
@@ -140,17 +138,6 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 						}
 					});
 		}
-		imageView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(mContext, IdeaDetailActivity.class);
-				intent.putExtra("idea", idea);
-				intent.putExtra("position", position);
-				((IdeaListActivity) mContext).pushIntentForResult(intent,
-						ActivityCode.RequestCode.IDEA_LIST_REQUEST_CODE);
-			}
-		});
-
 		return convertView;
 	}
 

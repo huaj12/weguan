@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -117,6 +118,23 @@ public class IdeaListActivity extends NavigationActivity {
 		ideaListView.setAdapter(new IdeaListAdapter(IdeaListActivity.this));
 
 		ideaListView.manualRefresh();
+
+		ideaListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long id) {
+				int position = (int) id;
+				Idea idea = (Idea) ideaListView.getPageAdapter().getItem(
+						position);
+				Intent intent = new Intent(IdeaListActivity.this,
+						IdeaDetailActivity.class);
+				intent.putExtra("idea", idea);
+				intent.putExtra("position", position);
+				pushIntentForResult(intent,
+						ActivityCode.RequestCode.IDEA_LIST_REQUEST_CODE);
+			}
+		});
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -80,6 +81,36 @@ public class UserViewHelper implements IUserViewHelper {
 		case NONE:
 			textView.setText(null);
 			break;
+		}
+	}
+
+	@Override
+	public void showUserNewLogo(final Context context, User user,
+			final ImageView imageView, final TextView textView,
+			final int width, final int height) {
+		if (StringUtils.isNotEmpty(user.getNewLogo())) {
+			ImageViewLoader nid = ImageViewLoader.getInstance(context);
+			final int verifystate = user.getLogoVerifyState();
+			nid.fetchImage(JzUtils.getImageUrl(user.getNewLogo()),
+					R.drawable.user_face_unload, imageView,
+					new ImageLoaderCallback() {
+						@Override
+						public void imageLoaderFinish(Bitmap bitmap) {
+							if (bitmap != null) {
+								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
+										bitmap, UIUtil.dip2px(context, width),
+										UIUtil.dip2px(context, height));
+								imageView.setImageBitmap(ImageUtils
+										.getRoundedCornerBitmap(zoomBitmap, 10));
+								String str = JzUtils.getLogverifyStateString(
+										verifystate, context);
+								if (!StringUtils.isEmpty(str)) {
+									textView.setVisibility(View.VISIBLE);
+									textView.setText(str);
+								}
+							}
+						}
+					});
 		}
 	}
 }

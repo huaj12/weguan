@@ -3,7 +3,11 @@
  */
 package com.juzhai.android.home.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.juzhai.android.R;
@@ -14,6 +18,9 @@ import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.home.adapter.MyPostsAdapter;
 import com.juzhai.android.home.task.MyPostsListGetDataTask;
 import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.model.Post;
+import com.juzhai.android.passport.model.User;
+import com.juzhai.android.post.activity.PostDetailActivity;
 
 /**
  * @author kooks
@@ -50,5 +57,23 @@ public class MyPostActivity extends NavigationActivity {
 		});
 		postsListView.setAdapter(new MyPostsAdapter(MyPostActivity.this));
 		postsListView.manualRefresh();
+
+		postsListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> item, View view, int arg2,
+					long id) {
+				int position = (int) id;
+				Post post = (Post) postsListView.getPageAdapter().getItem(
+						position);
+				Intent intent = new Intent(MyPostActivity.this,
+						PostDetailActivity.class);
+				User user = UserCache.getUserInfo();
+				user.setPostView(post);
+				intent.putExtra("user", user);
+				pushIntent(intent);
+			}
+
+		});
 	}
 }

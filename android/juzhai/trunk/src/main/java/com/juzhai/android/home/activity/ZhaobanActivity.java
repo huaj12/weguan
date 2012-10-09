@@ -135,6 +135,8 @@ public class ZhaobanActivity extends NavigationActivity {
 		if (requestCode == ActivityCode.RequestCode.ZHAOBAN_LIST_REQUEST_CODE
 				&& resultCode == ActivityCode.ResultCode.ZHAOBAN_LIST_RESULT_CODE) {
 			User user = (User) data.getSerializableExtra("user");
+			int respCnt = user.getPostView().getRespCnt();
+			user.getPostView().setRespCnt(respCnt + 1);
 			int position = data.getIntExtra("position", -1);
 			if (position >= 0 && user != null) {
 				postListView.getPageAdapter().replaceData(position, user);

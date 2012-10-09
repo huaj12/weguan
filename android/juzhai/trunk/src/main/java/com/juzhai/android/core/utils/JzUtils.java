@@ -85,4 +85,21 @@ public class JzUtils {
 	public static String getImageUrl(String url) {
 		return url.replaceAll("test.", "");
 	}
+
+	public static String getLogverifyStateString(int verifystate,
+			Context context) {
+		String str = null;
+		switch (verifystate) {
+		case -1:
+			str = context.getResources().getString(R.string.verifying);
+			break;
+		case 1:
+			str = context.getResources().getString(R.string.verifying);
+			break;
+		case 3:
+			str = context.getResources().getString(R.string.verified);
+			break;
+		}
+		return str;
+	}
 }

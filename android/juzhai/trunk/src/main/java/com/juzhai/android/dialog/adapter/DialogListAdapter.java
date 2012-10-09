@@ -5,8 +5,10 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +21,9 @@ import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
+import com.juzhai.android.dialog.activity.DialogListActivity;
 import com.juzhai.android.dialog.model.Dialog;
+import com.juzhai.android.home.activity.UserHomeActivity;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 
@@ -57,7 +61,7 @@ public class DialogListAdapter extends PageAdapter<Dialog> {
 		final ImageView sendFlagView = holder.sendFlagView;
 
 		final Dialog dialog = data.getDatas().get(position);
-		User user = dialog.getTargetUser();
+		final User user = dialog.getTargetUser();
 		// TODO (review) user.isHasLogo()不是在显示头像的地方用的，是用来是否能发拒宅判断用的
 		// if (user.isHasLogo() && StringUtils.isNotEmpty(user.getLogo())) {
 		if (StringUtils.isNotEmpty(user.getLogo())) {
@@ -88,7 +92,7 @@ public class DialogListAdapter extends PageAdapter<Dialog> {
 		nicknameTextView.setText(TextTruncateUtil.truncate(user.getNickname(),
 				20, "..."));
 		contentTextView.setText(TextTruncateUtil.truncate(
-				dialog.getLatestContent(), 66, "..."));
+				dialog.getLatestContent(), 33, "..."));
 		// 接受者
 		if (UserCache.getUid() == dialog.getReceiverUid()) {
 			sendFlagView.setBackgroundResource(R.drawable.mess_ta_sendto_me);
@@ -97,6 +101,15 @@ public class DialogListAdapter extends PageAdapter<Dialog> {
 		}
 		createTimeTextView.setText(JzUtils.showTime(mContext,
 				new Date(dialog.getCreateTime())));
+		logoView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, UserHomeActivity.class);
+				intent.putExtra("targetUser", user);
+				((DialogListActivity) mContext).pushIntent(intent);
+			}
+		});
 		return convertView;
 	}
 

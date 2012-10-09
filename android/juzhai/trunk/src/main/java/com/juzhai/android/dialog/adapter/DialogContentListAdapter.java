@@ -5,8 +5,10 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -19,8 +21,10 @@ import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
+import com.juzhai.android.dialog.activity.DialogContentListActivity;
 import com.juzhai.android.dialog.bean.MessageStatus;
 import com.juzhai.android.dialog.model.DialogContent;
+import com.juzhai.android.home.activity.UserHomeActivity;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 
@@ -99,6 +103,16 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 		createTimeTextView.setText(JzUtils.showTime(mContext, new Date(
 				dailContent.getCreateTime())));
 		updateMessageStauts(leftIcon, dailContent.getStatus());
+		leftUserLogo.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, UserHomeActivity.class);
+				intent.putExtra("targetUser", tagerUser);
+				((DialogContentListActivity) mContext).pushIntent(intent);
+
+			}
+		});
 		return convertView;
 	}
 

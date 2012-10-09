@@ -36,20 +36,26 @@ public class SettingListActivity extends NavigationActivity {
 		setNavContentView(R.layout.page_setting);
 
 		accountTableView = (UITableView) findViewById(R.id.setting_account_table_view);
-		createAccountList();
-		accountTableView.commit();
-
 		appTableView = (UITableView) findViewById(R.id.setting_app_table_view);
+		cacheTableView = (UITableView) findViewById(R.id.setting_cache_table_view);
+		logoutTableView = (UITableView) findViewById(R.id.setting_logout_table_view);
+
 		createAppList();
 		appTableView.commit();
 
-		cacheTableView = (UITableView) findViewById(R.id.setting_cache_table_view);
 		cacheAppList();
 		cacheTableView.commit();
 
-		logoutTableView = (UITableView) findViewById(R.id.setting_logout_table_view);
 		logoutAppList();
 		logoutTableView.commit();
+	}
+
+	@Override
+	protected void onResume() {
+		accountTableView.clear();
+		createAccountList();
+		accountTableView.commit();
+		super.onResume();
 	}
 
 	private void createAccountList() {
@@ -74,11 +80,22 @@ public class SettingListActivity extends NavigationActivity {
 		String authorizeSubTitle = null;
 		User user = UserCache.getUserInfo();
 		if (user.hasTpExpired()) {
-			authorizeSubTitle = "授权已过期";
+			authorizeSubTitle = getResources().getString(
+					R.string.setting_authorize_expired);
 		} else if (user.hasTp()) {
-			authorizeSubTitle = "已绑定：新浪微博";
+			String tpTitle = null;
+			if (user.getTpId() == 6L) {
+				tpTitle = getResources().getString(R.string.sina_title);
+			} else if (user.getTpId() == 7L) {
+				tpTitle = getResources().getString(R.string.db_title);
+			} else if (user.getTpId() == 8L) {
+				tpTitle = getResources().getString(R.string.qq_title);
+			}
+			authorizeSubTitle = getResources().getString(
+					R.string.setting_authorize_has_bind, tpTitle);
 		} else {
-			authorizeSubTitle = "未绑定";
+			authorizeSubTitle = getResources().getString(
+					R.string.setting_authorize_unbind);
 		}
 		accountTableView.addBasicItem(
 				getResources().getString(R.string.setting_cell_authorize),
@@ -89,6 +106,15 @@ public class SettingListActivity extends NavigationActivity {
 		appTableView.setClickListener(new ClickListener() {
 			@Override
 			public void onClick(int index) {
+				if (index == 0) {
+					Intent intent = new Intent(SettingListActivity.this,
+							SettingProtocalActivity.class);
+					pushIntent(intent);
+				} else if (index == 1) {
+
+				} else if (index == 2) {
+
+				}
 			}
 		});
 		appTableView.addBasicItem(getResources().getString(

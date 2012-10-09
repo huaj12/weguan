@@ -48,4 +48,17 @@ public interface IUserViewHelper {
 	 *            要显示的View
 	 */
 	void showOnlineState(Context context, User user, TextView textView);
+
+	/**
+	 * 显示用户新头像。（包括审核状态）
+	 * 
+	 * @param context
+	 * @param user
+	 * @param imageView
+	 * @param textView
+	 * @param width
+	 * @param height
+	 */
+	void showUserNewLogo(Context context, User user, ImageView imageView,
+			TextView textView, int width, int height);
 }

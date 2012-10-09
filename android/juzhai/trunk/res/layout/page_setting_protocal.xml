@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" > -->
+    android:layout_height="wrap_content"
+    android:fadingEdge="none"
+    android:scrollbars="vertical" >
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:fadingEdge="none"
-        android:scrollbars="vertical" >
+        android:contentDescription="@null"
+        android:src="@drawable/use_xy" />
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="@null"
-            android:src="@drawable/use_xy" />
-    </ScrollView>
-
-<!-- </RelativeLayout> -->
+</ScrollView>

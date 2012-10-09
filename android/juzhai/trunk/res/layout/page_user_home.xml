@@ -67,25 +67,48 @@
             android:paddingLeft="10dp"
             android:text="@string/interest"
             android:textColor="@color/white"
-            android:textSize="10dp" />
+            android:textSize="10dp"
+            android:visibility="gone" />
+         <Button
+            android:id="@+id/un_interest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/contact"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ta_home_gz_btn_done"
+            android:paddingLeft="10dp"
+            android:text="@string/done_interest"
+            android:textColor="@color/idea_want_done"
+            android:textSize="10dp"
+            android:visibility="gone"
+             />
     </RelativeLayout>
-
+	<View
+	     android:layout_below="@id/user_area"
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divider"
+        android:id="@+id/divider" />
     <TextView
         android:id="@+id/home_post_count"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/user_area"
+        android:layout_below="@+id/divider"
+        android:gravity="center_vertical"
         android:background="@drawable/ta_home_jz_num_bg"
         android:paddingLeft="10dp"
-        android:textColor="@color/black"
-        android:textSize="15sp" />
+        android:textColor="@color/post_count"
+        android:textSize="13sp" />
 
     <com.juzhai.android.core.widget.list.JuzhaiRefreshListView
+        android:layout_below="@+id/home_post_count"
         android:id="@+id/my_posts_list_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/home_post_count"
         android:cacheColorHint="#00000000"
+        android:divider="@null"
         android:fadingEdge="none"
         android:focusable="true" />
 

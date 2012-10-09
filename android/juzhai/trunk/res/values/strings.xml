@@ -77,6 +77,8 @@
     <string name="private_letter">私信ta</string>
     <string name="interest">关注ta</string>
     <string name="un_interest">取消关注</string>
+    <string name="done_interest">已关注</string>
+   
     <!-- common end -->
 
 

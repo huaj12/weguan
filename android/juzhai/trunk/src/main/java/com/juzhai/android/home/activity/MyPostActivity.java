@@ -3,13 +3,7 @@
  */
 package com.juzhai.android.home.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.juzhai.android.R;
@@ -20,7 +14,6 @@ import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.home.adapter.MyPostsAdapter;
 import com.juzhai.android.home.task.MyPostsListGetDataTask;
 import com.juzhai.android.passport.data.UserCache;
-import com.juzhai.android.passport.model.Post;
 
 /**
  * @author kooks
@@ -57,46 +50,5 @@ public class MyPostActivity extends NavigationActivity {
 		});
 		postsListView.setAdapter(new MyPostsAdapter(MyPostActivity.this));
 		postsListView.manualRefresh();
-
-		postsListView.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-			@Override
-			public boolean onItemLongClick(AdapterView<?> item, View view,
-					int position, final long id) {
-				new AlertDialog.Builder(MyPostActivity.this)
-						.setTitle(R.string.operating)
-						.setItems(
-								new String[] {
-										getResources().getString(
-												R.string.del_post),
-										getResources().getString(
-												R.string.edit_post),
-										getResources().getString(
-												R.string.cancel) },
-								new OnClickListener() {
-
-									@Override
-									public void onClick(
-											final DialogInterface dialog,
-											int which) {
-										dialog.cancel();
-										final int location = (int) id;
-										Post post = (Post) postsListView
-												.getPageAdapter().getItem(
-														location);
-										switch (which) {
-										case 0:
-											// 删除拒宅
-											break;
-										case 1:
-											// 编辑拒宅
-											break;
-										}
-
-									}
-								}).show();
-				return false;
-			}
-		});
 	}
 }

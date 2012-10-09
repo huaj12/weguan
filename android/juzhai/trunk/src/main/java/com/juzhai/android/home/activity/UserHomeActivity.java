@@ -9,12 +9,14 @@ import java.util.Map;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.activity.PreviewActivity;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
@@ -45,7 +47,7 @@ public class UserHomeActivity extends NavigationActivity {
 		getNavigationBar().setBarTitle(
 				user.getNickname()
 						+ getResources().getString(R.string.user_home_title));
-		ImageView userLogoView = (ImageView) findViewById(R.id.user_logo);
+		final ImageView userLogoView = (ImageView) findViewById(R.id.user_logo);
 		TextView nicknameView = (TextView) findViewById(R.id.user_nickname);
 		TextView userInfoView = (TextView) findViewById(R.id.user_info);
 		Button contactBtn = (Button) findViewById(R.id.contact);
@@ -61,6 +63,16 @@ public class UserHomeActivity extends NavigationActivity {
 				R.string.user_home_post_count_begin)
 				+ 0
 				+ getResources().getString(R.string.user_home_post_count_end));
+		userLogoView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(UserHomeActivity.this,
+						PreviewActivity.class);
+				intent.putExtra("targetUser", user);
+				pushIntent(intent);
+			}
+		});
 		contactBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

@@ -28,17 +28,18 @@ public class HomeActivity extends NavigationActivity {
 		ImageView userLogoView = (ImageView) findViewById(R.id.user_logo);
 		TextView nicknameView = (TextView) findViewById(R.id.user_nickname);
 		TextView userInfoView = (TextView) findViewById(R.id.user_info);
+		TextView logoAuditView = (TextView) findViewById(R.id.logo_audit);
 		RelativeLayout interestMeLayout = (RelativeLayout) findViewById(R.id.home_interest_me_layout);
 		RelativeLayout interestLayout = (RelativeLayout) findViewById(R.id.home_my_interest_layout);
 		RelativeLayout myPostLayout = (RelativeLayout) findViewById(R.id.home_my_post_layout);
-		userViewHelper.showUserLogo(HomeActivity.this, user, userLogoView, 60,
-				60);
+		userViewHelper.showUserNewLogo(HomeActivity.this, user, userLogoView,
+				logoAuditView, 60, 60);
 		userViewHelper.showUserNickname(HomeActivity.this, user, nicknameView);
 		userInfoView.setText(user.getUserInfo(HomeActivity.this));
 		TextView myPostView = (TextView) findViewById(R.id.home_my_post);
 		TextView myInterestView = (TextView) findViewById(R.id.home_my_interest);
 		TextView myInterestMeView = (TextView) findViewById(R.id.home_interest_me);
-		//TODO (review) 出现了多个括号 可以尝试使用string format
+		// TODO (review) 出现了多个括号 可以尝试使用string format
 		myPostView.setText(getResources().getString(R.string.my_post_title)
 				+ " (" + user.getPostCount() + ")");
 		myInterestView.setText(getResources()

@@ -19,6 +19,7 @@ import android.widget.ListView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.task.PostTask;
+import com.juzhai.android.core.task.TaskSuccessCallBack;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase.OnRefreshListener2;
@@ -34,6 +35,8 @@ import com.juzhai.android.passport.model.User;
  */
 public class InterestMeActivity extends NavigationActivity {
 	private String interestUri = "home/interest";
+	private String unInterestUri = "home/removeInterest";
+	private JuzhaiRefreshListView interestListView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,7 @@ public class InterestMeActivity extends NavigationActivity {
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.interest_me_title));
 		// TODO (review) 自己看什么问题？
-		final JuzhaiRefreshListView interestListView = (JuzhaiRefreshListView) findViewById(R.id.interest_list_view);
+		interestListView = (JuzhaiRefreshListView) findViewById(R.id.interest_list_view);
 		interestListView
 				.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 					@Override
@@ -72,12 +75,21 @@ public class InterestMeActivity extends NavigationActivity {
 					@Override
 					public boolean onItemLongClick(AdapterView<?> item,
 							View view, int position, final long id) {
+						final int location = (int) id;
+						final User user = (User) interestListView
+								.getPageAdapter().getItem(location);
+						String title = null;
+						if (user.isHasInterest()) {
+							title = getResources().getString(
+									R.string.un_interest);
+						} else {
+							title = getResources().getString(R.string.interest);
+						}
 						new AlertDialog.Builder(InterestMeActivity.this)
 								.setTitle(R.string.operating)
 								.setItems(
 										new String[] {
-												getResources().getString(
-														R.string.interest),
+												title,
 												getResources()
 														.getString(
 																R.string.private_letter),
@@ -90,21 +102,35 @@ public class InterestMeActivity extends NavigationActivity {
 													final DialogInterface dialog,
 													int which) {
 												dialog.cancel();
-												final int location = (int) id;
-												User user = (User) interestListView
-														.getPageAdapter()
-														.getItem(location);
 												switch (which) {
 												case 0:
+													String url = null;
+													if (user.isHasInterest()) {
+														url = unInterestUri;
+													} else {
+														url = interestUri;
+													}
 													Map<String, String> values = new HashMap<String, String>();
 													values.put("uid", String
 															.valueOf(user
 																	.getUid()));
 													new PostTask(
-															interestUri,
+															url,
 															InterestMeActivity.this,
-															values, null)
-															.execute();
+															values,
+															new TaskSuccessCallBack() {
+
+																@Override
+																public void callback() {
+																	user.setHasInterest(!user
+																			.isHasInterest());
+																	interestListView
+																			.getPageAdapter()
+																			.replaceData(
+																					location,
+																					user);
+																}
+															}).execute();
 													break;
 												case 1:
 													Intent intent = new Intent(
@@ -138,5 +164,4 @@ public class InterestMeActivity extends NavigationActivity {
 		});
 
 	}
-
 }

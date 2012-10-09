@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/item_color_bg"
     >
+    <include layout="@layout/fragment__divider_head"/>
     <ImageView
         android:id="@+id/user_logo"
         android:layout_width="60dp"
@@ -34,5 +35,5 @@
         android:textSize="14sp"
         android:textColor="@color/gray" />
 
-
+ 	<include layout="@layout/fragment__divider_foot"/>
 </RelativeLayout>

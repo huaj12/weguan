@@ -1,6 +1,5 @@
 package com.juzhai.android.core.utils;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,17 +9,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -58,9 +54,10 @@ public class HttpUtils {
 			String filename, Bitmap file, Class<T> responseType) {
 		MultiValueMap<String, Object> formData = new LinkedMultiValueMap<String, Object>();
 		if (!CollectionUtils.isEmpty(values)) {
-			for (Entry<String, Object> entry : values.entrySet()) {
-				formData.add(entry.getKey(), entry.getValue());
-			}
+			// for (Entry<String, Object> entry : values.entrySet()) {
+			// formData.add(entry.getKey(), entry.getValue());
+			// }
+			uri = createHttpParam(uri, values);
 		}
 		if (file != null) {
 			Resource resource = new ByteArrayResource(
@@ -168,7 +165,7 @@ public class HttpUtils {
 		SimpleClientHttpRequestFactory scrf = new SimpleClientHttpRequestFactory();
 		scrf.setConnectTimeout(CONNECT_TIMEOUT);
 		scrf.setReadTimeout(READ_TIMEOUT);
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = new RestTemplate(scrf);
 		// restTemplate.setErrorHandler(new ResponseErrorHandler() {
 		// @Override
 		// public boolean hasError(ClientHttpResponse response)

@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 
 import com.juzhai.android.R;
@@ -29,6 +30,7 @@ public class UploadImageActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.page_upload_image);
 		Button alubmBtn = (Button) findViewById(R.id.upload_album);
 		Button cameraBtn = (Button) findViewById(R.id.upload_camera);

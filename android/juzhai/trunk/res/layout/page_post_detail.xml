@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/app_bg"
     android:orientation="vertical" >
-
     <RelativeLayout
         android:id="@+id/user_layout"
         android:layout_width="fill_parent"
@@ -52,77 +51,80 @@
             android:background="@drawable/arrow"
             android:contentDescription="@null" />
     </RelativeLayout>
-
-    <LinearLayout
+ 	<ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="2dp"
-        android:padding="10dp" >
-
-        <TextView
-            android:id="@+id/post_content"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:lineSpacingExtra="2dp"
-            android:textColor="@color/idea_want"
-            android:textSize="15sp" />
-
-        <ImageView
-            android:id="@+id/post_image"
-            android:layout_width="230dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@null" />
-
-        <TextView
-            android:id="@+id/post_detail_time_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/jzxq_icon_time"
-            android:textColor="@color/post_detail_info"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/post_detail_place_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:drawableLeft="@drawable/jzxq_icon_des"
-            android:textColor="@color/post_detail_info"
-            android:gravity="center_vertical"
-            android:textSize="12sp"
-             />
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" >
-
-            <Button
-                android:id="@id/post_interest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/post_detail_interest_button"
-                android:paddingLeft="25dp"
-                android:textColor="@color/post_detail_response_text_color_selector"
-                android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/contact"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/contact_selector_button"
-                android:paddingLeft="25dp"
-                android:text="@string/contact"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-        </RelativeLayout>
-    </LinearLayout>
-
+        android:layout_height="fill_parent"
+        android:scrollbars="vertical" >
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        android:layout_marginTop="2dp"
+	        android:padding="10dp" >
+	
+	        <TextView
+	            android:id="@+id/post_content"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:lineSpacingExtra="2dp"
+	            android:textColor="@color/idea_want"
+	            android:textSize="15sp" />
+	
+	        <ImageView
+	            android:id="@+id/post_image"
+	            android:layout_width="230dp"
+	            android:layout_height="150dp"
+	            android:layout_marginTop="10dp"
+	            android:contentDescription="@null" />
+	
+	        <TextView
+	            android:id="@+id/post_detail_time_text"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginRight="5dp"
+	            android:layout_marginTop="10dp"
+	            android:drawableLeft="@drawable/jzxq_icon_time"
+	            android:textColor="@color/post_detail_info"
+	            android:textSize="12sp" />
+	
+	        <TextView
+	            android:id="@+id/post_detail_place_text"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginRight="5dp"
+	            android:layout_marginTop="5dp"
+	            android:drawableLeft="@drawable/jzxq_icon_des"
+	            android:textColor="@color/post_detail_info"
+	            android:gravity="center_vertical"
+	            android:textSize="12sp"
+	             />
+	
+	        <RelativeLayout
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_marginTop="10dp" >
+	
+	            <Button
+	                android:id="@id/post_interest"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentLeft="true"
+	                android:background="@drawable/post_detail_interest_button"
+	                android:paddingLeft="25dp"
+	                android:textColor="@color/post_detail_response_text_color_selector"
+	                android:textSize="14sp" />
+	
+	            <Button
+	                android:id="@+id/contact"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentRight="true"
+	                android:background="@drawable/contact_selector_button"
+	                android:paddingLeft="25dp"
+	                android:text="@string/contact"
+	                android:textColor="@color/white"
+	                android:textSize="14sp" />
+	        </RelativeLayout>
+	    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

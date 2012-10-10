@@ -37,18 +37,17 @@
             android:id="@+id/user_nickname"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/user_layout"
             android:gravity="left"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/user_info"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/user_nickname"
             android:layout_toRightOf="@+id/user_layout"
             android:gravity="left"
             android:textColor="@color/gray"

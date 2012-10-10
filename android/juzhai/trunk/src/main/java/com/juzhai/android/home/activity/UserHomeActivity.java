@@ -162,6 +162,8 @@ public class UserHomeActivity extends NavigationActivity {
 							interestBtn.setVisibility(View.GONE);
 						}
 					}));
+		} else {
+			contactBtn.setVisibility(View.GONE);
 		}
 	}
 }

@@ -44,15 +44,20 @@ public class ZhaobanActivity extends NavigationActivity {
 				.setOnClickListener(new SegmentedButton.OnClickListener() {
 					@Override
 					public void onClick(Button button, int which) {
+						ZhaobanOrder selectOrder = null;
 						switch (which) {
 						case 0:
-							order = ZhaobanOrder.ONLINE;
+							selectOrder = ZhaobanOrder.ONLINE;
 							break;
 						case 1:
-							order = ZhaobanOrder.NEW;
+							selectOrder = ZhaobanOrder.NEW;
 							break;
 						}
-						postListView.manualRefresh();
+						if (!selectOrder.getName().equals(order.getName())) {
+							order = selectOrder;
+							postListView.manualRefresh();
+						}
+
 					}
 				});
 		getNavigationBar().setBarTitleView(segmentedButton);
@@ -71,25 +76,38 @@ public class ZhaobanActivity extends NavigationActivity {
 									@Override
 									public void onClick(DialogInterface dialog,
 											int which) {
+										dialog.cancel();
+										Integer selectGender = null;
 										switch (which) {
 										case 0:
-											gender = null;
+											selectGender = null;
 											genderBtn
 													.setBackgroundResource(R.drawable.gender_selector_button);
 											break;
 										case 1:
-											gender = 1;
+											selectGender = 1;
 											genderBtn
 													.setBackgroundResource(R.drawable.boy_selector_button);
 											break;
 										case 2:
-											gender = 0;
+											selectGender = 0;
 											genderBtn
 													.setBackgroundResource(R.drawable.girl_selector_button);
 											break;
 										}
+										if (selectGender == null
+												&& gender == null) {
+											return;
+										}
+										if (selectGender != null
+												&& gender != null) {
+											if (gender.equals(selectGender)) {
+												return;
+											}
+										}
+										gender = selectGender;
 										postListView.manualRefresh();
-										dialog.cancel();
+
 									}
 
 								}).show();

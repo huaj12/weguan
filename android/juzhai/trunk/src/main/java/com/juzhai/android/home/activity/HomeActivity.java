@@ -1,14 +1,23 @@
 package com.juzhai.android.home.activity;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.http.ResponseEntity;
+
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.model.Result.UserResult;
+import com.juzhai.android.core.utils.DialogUtils;
+import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
@@ -16,22 +25,99 @@ import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 
 public class HomeActivity extends NavigationActivity {
+	private String refeshUri = "home/refresh";
 	private IUserViewHelper userViewHelper = new UserViewHelper();
 	private User user = UserCache.getUserInfo();
+	private ImageView userLogoView;
+	private TextView nicknameView;
+	private TextView userInfoView;
+	private TextView logoAuditView;
+	private RelativeLayout interestMeLayout;
+	private RelativeLayout interestLayout;
+	private RelativeLayout myPostLayout;
+	private ProgressDialog progressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setNavContentView(R.layout.page_home);
+		Button refreshBtn = (Button) getLayoutInflater().inflate(
+				R.layout.button_refresh, null);
+
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.tabitem_home));
-		ImageView userLogoView = (ImageView) findViewById(R.id.user_logo);
-		TextView nicknameView = (TextView) findViewById(R.id.user_nickname);
-		TextView userInfoView = (TextView) findViewById(R.id.user_info);
-		TextView logoAuditView = (TextView) findViewById(R.id.logo_audit);
-		RelativeLayout interestMeLayout = (RelativeLayout) findViewById(R.id.home_interest_me_layout);
-		RelativeLayout interestLayout = (RelativeLayout) findViewById(R.id.home_my_interest_layout);
-		RelativeLayout myPostLayout = (RelativeLayout) findViewById(R.id.home_my_post_layout);
+		getNavigationBar().setRightView(refreshBtn);
+		userLogoView = (ImageView) findViewById(R.id.user_logo);
+		nicknameView = (TextView) findViewById(R.id.user_nickname);
+		userInfoView = (TextView) findViewById(R.id.user_info);
+		logoAuditView = (TextView) findViewById(R.id.logo_audit);
+		interestMeLayout = (RelativeLayout) findViewById(R.id.home_interest_me_layout);
+		interestLayout = (RelativeLayout) findViewById(R.id.home_my_interest_layout);
+		myPostLayout = (RelativeLayout) findViewById(R.id.home_my_post_layout);
+		refresh();
+
+		refreshBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				new AsyncTask<Void, Void, String>() {
+
+					@Override
+					protected String doInBackground(Void... params) {
+
+						ResponseEntity<UserResult> responseEntity = null;
+						try {
+							responseEntity = HttpUtils.get(HomeActivity.this,
+									refeshUri, UserCache.getUserStatus(),
+									UserResult.class);
+						} catch (Exception e) {
+							return getResources().getString(
+									R.string.system_internet_erorr);
+						}
+						UserResult result = responseEntity.getBody();
+						if (!result.getSuccess()) {
+							return result.getErrorInfo();
+						} else {
+							user = result.getResult();
+						}
+						return null;
+					}
+
+					@Override
+					protected void onPreExecute() {
+						if (progressDialog != null) {
+							progressDialog.show();
+						} else {
+							progressDialog = ProgressDialog.show(
+									HomeActivity.this,
+									getResources().getString(R.string.sending),
+									getResources().getString(
+											R.string.please_wait), true, false);
+						}
+						super.onPreExecute();
+					}
+
+					@Override
+					protected void onPostExecute(String errorInfo) {
+						if (progressDialog != null) {
+							progressDialog.dismiss();
+						}
+						if (StringUtils.isNotEmpty(errorInfo)) {
+							DialogUtils.showToastText(HomeActivity.this,
+									errorInfo);
+						} else {
+							DialogUtils.showToastText(HomeActivity.this,
+									R.string.success);
+							refresh();
+						}
+					}
+
+				}.execute();
+			}
+		});
+	}
+
+	private void refresh() {
 		userViewHelper.showUserNewLogo(HomeActivity.this, user, userLogoView,
 				logoAuditView, 60, 60);
 		userViewHelper.showUserNickname(HomeActivity.this, user, nicknameView);

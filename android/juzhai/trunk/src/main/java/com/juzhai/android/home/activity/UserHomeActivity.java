@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,7 +20,9 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.activity.PreviewActivity;
 import com.juzhai.android.core.listener.SimpleClickListener;
+import com.juzhai.android.core.task.PostTask;
 import com.juzhai.android.core.task.TaskSuccessCallBack;
+import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase.OnRefreshListener2;
@@ -28,7 +32,9 @@ import com.juzhai.android.home.adapter.MyPostsAdapter;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.home.task.MyPostsListGetDataTask;
+import com.juzhai.android.passport.model.Post;
 import com.juzhai.android.passport.model.User;
+import com.juzhai.android.post.activity.PostDetailActivity;
 
 /**
  * @author kooks
@@ -38,11 +44,12 @@ public class UserHomeActivity extends NavigationActivity {
 	private IUserViewHelper userViewHelper = new UserViewHelper();
 	private String interestUri = "home/interest";
 	private String unInterestUri = "home/removeInterest";
+	private User user;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		final User user = (User) getIntent().getSerializableExtra("targetUser");
+		user = (User) getIntent().getSerializableExtra("targetUser");
 		setNavContentView(R.layout.page_user_home);
 		getNavigationBar().setBarTitle(
 				user.getNickname()
@@ -111,16 +118,22 @@ public class UserHomeActivity extends NavigationActivity {
 			unInterestBtn.setVisibility(View.GONE);
 			interestBtn.setVisibility(View.VISIBLE);
 		}
-		Map<String, String> values = new HashMap<String, String>();
+		final Map<String, String> values = new HashMap<String, String>();
 		values.put("uid", String.valueOf(user.getUid()));
-		unInterestBtn.setOnClickListener(new SimpleClickListener(unInterestUri,
-				UserHomeActivity.this, values, new TaskSuccessCallBack() {
-					@Override
-					public void callback() {
-						unInterestBtn.setVisibility(View.GONE);
-						interestBtn.setVisibility(View.VISIBLE);
-					}
-				}));
+		unInterestBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				DialogUtils.showConfirmDialog(UserHomeActivity.this,
+						new PostTask(unInterestUri, UserHomeActivity.this,
+								values, new TaskSuccessCallBack() {
+									@Override
+									public void callback() {
+										unInterestBtn.setVisibility(View.GONE);
+										interestBtn.setVisibility(View.VISIBLE);
+									}
+								}));
+			}
+		});
 		interestBtn.setOnClickListener(new SimpleClickListener(interestUri,
 				UserHomeActivity.this, values, new TaskSuccessCallBack() {
 					@Override
@@ -129,5 +142,22 @@ public class UserHomeActivity extends NavigationActivity {
 						interestBtn.setVisibility(View.GONE);
 					}
 				}));
+
+		postsListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> item, View view, int arg2,
+					long id) {
+				int position = (int) id;
+				Post post = (Post) postsListView.getPageAdapter().getItem(
+						position);
+				Intent intent = new Intent(UserHomeActivity.this,
+						PostDetailActivity.class);
+				user.setPostView(post);
+				intent.putExtra("user", user);
+				pushIntent(intent);
+			}
+
+		});
 	}
 }

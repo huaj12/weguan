@@ -62,7 +62,7 @@ public class PostViewHelper implements IPostViewHelper {
 						@Override
 						public void imageLoaderFinish(Bitmap bitmap) {
 							if (bitmap != null) {
-								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
+								Bitmap zoomBitmap = ImageUtils.zoomWidthBitmap(
 										bitmap, UIUtil.dip2px(context, 230),
 										UIUtil.dip2px(context, 150));
 								LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView

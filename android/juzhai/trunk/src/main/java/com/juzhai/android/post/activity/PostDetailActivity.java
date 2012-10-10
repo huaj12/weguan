@@ -24,6 +24,7 @@ import com.juzhai.android.dialog.activity.DialogContentListActivity;
 import com.juzhai.android.home.activity.UserHomeActivity;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
+import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.Post;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.helper.IPostViewHelper;
@@ -65,17 +66,21 @@ public class PostDetailActivity extends NavigationActivity {
 		postViewHelper.showBigPostImage(PostDetailActivity.this,
 				user.getPostView(), postImageView);
 		showPostInfo();
-
-		setRespBtn(postInterest);
-		contact.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(PostDetailActivity.this,
-						DialogContentListActivity.class);
-				intent.putExtra("targetUser", user);
-				pushIntent(intent);
-			}
-		});
+		if (user.getUid() == UserCache.getUid()) {
+			postInterest.setVisibility(View.GONE);
+			contact.setVisibility(View.GONE);
+		} else {
+			setRespBtn(postInterest);
+			contact.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(PostDetailActivity.this,
+							DialogContentListActivity.class);
+					intent.putExtra("targetUser", user);
+					pushIntent(intent);
+				}
+			});
+		}
 		userLayout.setOnClickListener(new OnClickListener() {
 
 			@Override

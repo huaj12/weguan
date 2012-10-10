@@ -32,6 +32,7 @@ import com.juzhai.android.home.adapter.MyPostsAdapter;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.home.task.MyPostsListGetDataTask;
+import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.Post;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.activity.PostDetailActivity;
@@ -111,38 +112,6 @@ public class UserHomeActivity extends NavigationActivity {
 		});
 		postsListView.setAdapter(new MyPostsAdapter(UserHomeActivity.this));
 		postsListView.manualRefresh();
-		if (user.isHasInterest()) {
-			unInterestBtn.setVisibility(View.VISIBLE);
-			interestBtn.setVisibility(View.GONE);
-		} else {
-			unInterestBtn.setVisibility(View.GONE);
-			interestBtn.setVisibility(View.VISIBLE);
-		}
-		final Map<String, String> values = new HashMap<String, String>();
-		values.put("uid", String.valueOf(user.getUid()));
-		unInterestBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				DialogUtils.showConfirmDialog(UserHomeActivity.this,
-						new PostTask(unInterestUri, UserHomeActivity.this,
-								values, new TaskSuccessCallBack() {
-									@Override
-									public void callback() {
-										unInterestBtn.setVisibility(View.GONE);
-										interestBtn.setVisibility(View.VISIBLE);
-									}
-								}));
-			}
-		});
-		interestBtn.setOnClickListener(new SimpleClickListener(interestUri,
-				UserHomeActivity.this, values, new TaskSuccessCallBack() {
-					@Override
-					public void callback() {
-						unInterestBtn.setVisibility(View.VISIBLE);
-						interestBtn.setVisibility(View.GONE);
-					}
-				}));
-
 		postsListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -159,5 +128,40 @@ public class UserHomeActivity extends NavigationActivity {
 			}
 
 		});
+		if (user.getUid() != UserCache.getUid()) {
+			if (user.isHasInterest()) {
+				unInterestBtn.setVisibility(View.VISIBLE);
+				interestBtn.setVisibility(View.GONE);
+			} else {
+				unInterestBtn.setVisibility(View.GONE);
+				interestBtn.setVisibility(View.VISIBLE);
+			}
+			final Map<String, String> values = new HashMap<String, String>();
+			values.put("uid", String.valueOf(user.getUid()));
+			unInterestBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					DialogUtils.showConfirmDialog(UserHomeActivity.this,
+							new PostTask(unInterestUri, UserHomeActivity.this,
+									values, new TaskSuccessCallBack() {
+										@Override
+										public void callback() {
+											unInterestBtn
+													.setVisibility(View.GONE);
+											interestBtn
+													.setVisibility(View.VISIBLE);
+										}
+									}));
+				}
+			});
+			interestBtn.setOnClickListener(new SimpleClickListener(interestUri,
+					UserHomeActivity.this, values, new TaskSuccessCallBack() {
+						@Override
+						public void callback() {
+							unInterestBtn.setVisibility(View.VISIBLE);
+							interestBtn.setVisibility(View.GONE);
+						}
+					}));
+		}
 	}
 }

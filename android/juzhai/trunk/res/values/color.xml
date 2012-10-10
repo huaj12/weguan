@@ -17,6 +17,7 @@
 	<color name="divider">#e2e2e2</color>
 	<color name="time_color">#b6b6b6</color>
 	<color name="post_count">#333333</color>
+	<color name="home_gray">#999999</color>
 	
 	<!-- LIST BORDER COLOR -->
 	<color name="rounded_container_border">#ffb7babb</color>

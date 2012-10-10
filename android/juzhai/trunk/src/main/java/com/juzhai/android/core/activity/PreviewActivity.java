@@ -30,7 +30,7 @@ public class PreviewActivity extends Activity {
 		final ImageView imageView = (ImageView) findViewById(R.id.preview_image);
 		final ProgressBar bar = (ProgressBar) findViewById(R.id.progressbar);
 		ImageViewLoader nid = ImageViewLoader.getInstance(PreviewActivity.this);
-		nid.fetchImage(JzUtils.getImageUrl(user.getBigLogo()),
+		nid.fetchImage(JzUtils.getImageUrl(user.getOriginalLogo()),
 				R.drawable.user_face_unload, imageView,
 				new ImageLoaderCallback() {
 					@Override

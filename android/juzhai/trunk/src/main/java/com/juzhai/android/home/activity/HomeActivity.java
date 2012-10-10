@@ -22,12 +22,12 @@ import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.model.User;
 
 public class HomeActivity extends NavigationActivity {
 	private String refeshUri = "home/refresh";
 	private IUserViewHelper userViewHelper = new UserViewHelper();
-	private User user = UserCache.getUserInfo();
 	private ImageView userLogoView;
 	private TextView nicknameView;
 	private TextView userInfoView;
@@ -78,7 +78,7 @@ public class HomeActivity extends NavigationActivity {
 						if (!result.getSuccess()) {
 							return result.getErrorInfo();
 						} else {
-							user = result.getResult();
+							UserCacheManager.updateUserCache(result.getResult());
 						}
 						return null;
 					}
@@ -118,6 +118,7 @@ public class HomeActivity extends NavigationActivity {
 	}
 
 	private void refresh() {
+		User user = UserCache.getUserInfo();
 		userViewHelper.showUserNewLogo(HomeActivity.this, user, userLogoView,
 				logoAuditView, 60, 60);
 		userViewHelper.showUserNickname(HomeActivity.this, user, nicknameView);

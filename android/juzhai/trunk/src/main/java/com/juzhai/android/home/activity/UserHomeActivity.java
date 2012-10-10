@@ -20,8 +20,8 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.activity.PreviewActivity;
 import com.juzhai.android.core.listener.SimpleClickListener;
-import com.juzhai.android.core.task.PostTask;
-import com.juzhai.android.core.task.TaskSuccessCallBack;
+import com.juzhai.android.core.task.PostProgressTask;
+import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
@@ -45,12 +45,11 @@ public class UserHomeActivity extends NavigationActivity {
 	private IUserViewHelper userViewHelper = new UserViewHelper();
 	private String interestUri = "home/interest";
 	private String unInterestUri = "home/removeInterest";
-	private User user;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		user = (User) getIntent().getSerializableExtra("targetUser");
+		final User user = (User) getIntent().getSerializableExtra("targetUser");
 		setNavContentView(R.layout.page_user_home);
 		getNavigationBar().setBarTitle(
 				user.getNickname()
@@ -113,7 +112,6 @@ public class UserHomeActivity extends NavigationActivity {
 		postsListView.setAdapter(new MyPostsAdapter(UserHomeActivity.this));
 		postsListView.manualRefresh();
 		postsListView.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> item, View view, int arg2,
 					long id) {
@@ -128,6 +126,7 @@ public class UserHomeActivity extends NavigationActivity {
 			}
 
 		});
+
 		if (user.getUid() != UserCache.getUid()) {
 			if (user.isHasInterest()) {
 				unInterestBtn.setVisibility(View.VISIBLE);
@@ -142,24 +141,34 @@ public class UserHomeActivity extends NavigationActivity {
 				@Override
 				public void onClick(View v) {
 					DialogUtils.showConfirmDialog(UserHomeActivity.this,
-							new PostTask(unInterestUri, UserHomeActivity.this,
-									values, new TaskSuccessCallBack() {
+							new PostProgressTask(UserHomeActivity.this, unInterestUri,
+									values, new TaskCallback() {
 										@Override
-										public void callback() {
+										public void successCallback() {
 											unInterestBtn
 													.setVisibility(View.GONE);
 											interestBtn
 													.setVisibility(View.VISIBLE);
 										}
+
+										@Override
+										public String doInBackground() {
+											return null;
+										}
 									}));
 				}
 			});
 			interestBtn.setOnClickListener(new SimpleClickListener(interestUri,
-					UserHomeActivity.this, values, new TaskSuccessCallBack() {
+					UserHomeActivity.this, values, new TaskCallback() {
 						@Override
-						public void callback() {
+						public void successCallback() {
 							unInterestBtn.setVisibility(View.VISIBLE);
 							interestBtn.setVisibility(View.GONE);
+						}
+
+						@Override
+						public String doInBackground() {
+							return null;
 						}
 					}));
 		} else {

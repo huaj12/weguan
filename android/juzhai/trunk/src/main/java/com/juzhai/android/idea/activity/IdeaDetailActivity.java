@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
-import com.juzhai.android.core.task.TaskSuccessCallBack;
+import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.UIUtil;
@@ -96,9 +96,9 @@ public class IdeaDetailActivity extends NavigationActivity {
 			Map<String, String> values = new HashMap<String, String>();
 			values.put("ideaId", String.valueOf(idea.getIdeaId()));
 			wantBtn.setOnClickListener(new SimpleClickListener("post/sendPost",
-					IdeaDetailActivity.this, values, new TaskSuccessCallBack() {
+					IdeaDetailActivity.this, values, new TaskCallback() {
 						@Override
-						public void callback() {
+						public void successCallback() {
 							wantBtn.setText(R.string.want_done);
 							wantBtn.setEnabled(false);
 							idea.setHasUsed(true);
@@ -107,6 +107,11 @@ public class IdeaDetailActivity extends NavigationActivity {
 							setResult(
 									ActivityCode.ResultCode.IDEA_LIST_RESULT_CODE,
 									intent);
+						}
+
+						@Override
+						public String doInBackground() {
+							return null;
 						}
 					}));
 		}

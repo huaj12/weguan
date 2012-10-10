@@ -29,7 +29,7 @@ public abstract class BaseAuthorizeActivity extends NavigationActivity {
 			new Timer().schedule(new TimerTask() {
 				@Override
 				public void run() {
-					finish();
+					popIntent();
 				}
 			}, 2000);
 		}

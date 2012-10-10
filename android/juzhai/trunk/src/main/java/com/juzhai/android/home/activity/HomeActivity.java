@@ -1,11 +1,6 @@
 package com.juzhai.android.home.activity;
 
-import org.apache.commons.lang.StringUtils;
-import org.springframework.http.ResponseEntity;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,18 +10,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.model.Result.UserResult;
-import com.juzhai.android.core.utils.DialogUtils;
-import com.juzhai.android.core.utils.HttpUtils;
+import com.juzhai.android.core.task.ProgressTask;
+import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
+import com.juzhai.android.home.service.impl.HomeService;
 import com.juzhai.android.passport.data.UserCache;
-import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.model.User;
 
 public class HomeActivity extends NavigationActivity {
-	private String refeshUri = "home/refresh";
 	private IUserViewHelper userViewHelper = new UserViewHelper();
 	private ImageView userLogoView;
 	private TextView nicknameView;
@@ -35,7 +28,6 @@ public class HomeActivity extends NavigationActivity {
 	private RelativeLayout interestMeLayout;
 	private RelativeLayout interestLayout;
 	private RelativeLayout myPostLayout;
-	private ProgressDialog progressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,70 +46,28 @@ public class HomeActivity extends NavigationActivity {
 		interestMeLayout = (RelativeLayout) findViewById(R.id.home_interest_me_layout);
 		interestLayout = (RelativeLayout) findViewById(R.id.home_my_interest_layout);
 		myPostLayout = (RelativeLayout) findViewById(R.id.home_my_post_layout);
-		refresh();
+		showUserInfos();
 
 		refreshBtn.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-				new AsyncTask<Void, Void, String>() {
 
+				new ProgressTask(HomeActivity.this, new TaskCallback() {
 					@Override
-					protected String doInBackground(Void... params) {
-
-						ResponseEntity<UserResult> responseEntity = null;
-						try {
-							responseEntity = HttpUtils.get(HomeActivity.this,
-									refeshUri, UserCache.getUserStatus(),
-									UserResult.class);
-						} catch (Exception e) {
-							return getResources().getString(
-									R.string.system_internet_erorr);
-						}
-						UserResult result = responseEntity.getBody();
-						if (!result.getSuccess()) {
-							return result.getErrorInfo();
-						} else {
-							UserCacheManager.updateUserCache(result.getResult());
-						}
-						return null;
+					public void successCallback() {
+						showUserInfos();
 					}
 
 					@Override
-					protected void onPreExecute() {
-						if (progressDialog != null) {
-							progressDialog.show();
-						} else {
-							progressDialog = ProgressDialog.show(
-									HomeActivity.this,
-									getResources().getString(R.string.sending),
-									getResources().getString(
-											R.string.please_wait), true, false);
-						}
-						super.onPreExecute();
+					public String doInBackground() {
+						return new HomeService().refresh(HomeActivity.this);
 					}
-
-					@Override
-					protected void onPostExecute(String errorInfo) {
-						if (progressDialog != null) {
-							progressDialog.dismiss();
-						}
-						if (StringUtils.isNotEmpty(errorInfo)) {
-							DialogUtils.showToastText(HomeActivity.this,
-									errorInfo);
-						} else {
-							DialogUtils.showToastText(HomeActivity.this,
-									R.string.success);
-							refresh();
-						}
-					}
-
-				}.execute();
+				}, false).execute();
 			}
 		});
 	}
 
-	private void refresh() {
+	private void showUserInfos() {
 		User user = UserCache.getUserInfo();
 		userViewHelper.showUserNewLogo(HomeActivity.this, user, userLogoView,
 				logoAuditView, 60, 60);

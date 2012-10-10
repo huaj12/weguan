@@ -48,6 +48,7 @@ import com.juzhai.android.dialog.adapter.DialogContentListAdapter;
 import com.juzhai.android.dialog.bean.MessageStatus;
 import com.juzhai.android.dialog.exception.DialogContentException;
 import com.juzhai.android.dialog.model.DialogContent;
+import com.juzhai.android.dialog.service.IDialogContentService;
 import com.juzhai.android.dialog.service.impl.DialogContentService;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
@@ -62,7 +63,7 @@ public class DialogContentListActivity extends NavigationActivity {
 	private ListView dialogContentListView;
 	private BlockingQueue<DialogContent> queue = new LinkedBlockingQueue<DialogContent>(
 			10);
-	private DialogContentService dialogContentService = new DialogContentService();
+	private IDialogContentService dialogContentService = new DialogContentService();
 	private ProgressDialog progressDialog;
 	private MyHandler myHandler = new MyHandler(this);
 
@@ -204,8 +205,6 @@ public class DialogContentListActivity extends NavigationActivity {
 			}
 		});
 
-		new Thread(new DailogContentThread()).start();
-
 		// 锁屏获取列表
 		new AsyncTask<Void, Integer, List<DialogContent>>() {
 			@Override
@@ -249,9 +248,13 @@ public class DialogContentListActivity extends NavigationActivity {
 							R.string.system_internet_erorr);
 				}
 				// 定时任务
-				timer.schedule(new MyTimeTask(), 10000);
+				if (timer != null) {
+					timer.schedule(new MyTimeTask(), 10000);
+				}
 			};
 		}.execute();
+
+		new Thread(new DailogContentThread()).start();
 	}
 
 	private class MyTimeTask extends TimerTask {
@@ -331,7 +334,9 @@ public class DialogContentListActivity extends NavigationActivity {
 						adapter.pushDatasWithoutNotify(list);
 						// 发送更新通知
 						updateUI(true, null);
-						timer.schedule(new MyTimeTask(), 10000);
+						if (null != timer) {
+							timer.schedule(new MyTimeTask(), 10000);
+						}
 					}
 				}
 			}

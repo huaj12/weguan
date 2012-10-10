@@ -14,7 +14,11 @@ import com.juzhai.android.R;
 import com.juzhai.android.core.model.PageList;
 import com.juzhai.android.core.model.Result.DialogContentListResult;
 import com.juzhai.android.core.model.Result.DialogContentResult;
+import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
+import com.juzhai.android.core.utils.StringUtil;
+import com.juzhai.android.core.utils.Validation;
+import com.juzhai.android.dialog.activity.DialogContentListActivity;
 import com.juzhai.android.dialog.exception.DialogContentException;
 import com.juzhai.android.dialog.model.DialogContent;
 import com.juzhai.android.dialog.service.IDialogContentService;
@@ -24,6 +28,7 @@ public class DialogContentService implements IDialogContentService {
 	private String dialogContentListUri = "dialog/dialogContentList";
 	private String sendMessageUri = "dialog/sendSms";
 	private String refreshDialogContentListUri = "dialog/refreshDialogContent";
+	private final long feedbackReceiverUid = 2L;
 
 	@Override
 	public PageList<DialogContent> list(Context context, long uid, int page)
@@ -95,5 +100,17 @@ public class DialogContentService implements IDialogContentService {
 		} else {
 			return responseEntity.getBody().getResult();
 		}
+	}
+
+	@Override
+	public void sendFeedback(Context context, String content)
+			throws DialogContentException {
+		int contentLengt = StringUtil.chineseLength(content);
+		if (contentLengt < Validation.SEND_MESSAGE_MIN_LENGTH
+				|| contentLengt > Validation.SEND_MESSAGE_MAX_LENGTH) {
+			throw new DialogContentException(
+					R.string.send_message_length_invalid);
+		}
+		sendSms(context, feedbackReceiverUid, content, null);
 	}
 }

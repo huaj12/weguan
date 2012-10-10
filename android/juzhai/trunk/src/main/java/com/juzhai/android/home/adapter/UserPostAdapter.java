@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
-import com.juzhai.android.core.task.TaskSuccessCallBack;
+import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.widget.list.PageAdapter;
@@ -138,10 +138,9 @@ public class UserPostAdapter extends PageAdapter<User> {
 			Map<String, String> values = new HashMap<String, String>();
 			values.put("postId", String.valueOf(user.getPostView().getPostId()));
 			postInterest.setOnClickListener(new SimpleClickListener(
-					RESPONSE_POST_URI, mContext, values,
-					new TaskSuccessCallBack() {
+					RESPONSE_POST_URI, mContext, values, new TaskCallback() {
 						@Override
-						public void callback() {
+						public void successCallback() {
 							postInterest.setEnabled(false);
 							postInterest.setText(mContext.getResources()
 									.getString(R.string.post_interest_done)
@@ -149,6 +148,11 @@ public class UserPostAdapter extends PageAdapter<User> {
 									+ (user.getPostView().getRespCnt() + 1)
 									+ "  ");
 							user.getPostView().setHasResp(true);
+						}
+
+						@Override
+						public String doInBackground() {
+							return null;
 						}
 					}));
 

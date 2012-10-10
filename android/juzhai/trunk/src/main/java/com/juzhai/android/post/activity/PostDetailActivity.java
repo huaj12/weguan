@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
-import com.juzhai.android.core.task.TaskSuccessCallBack;
+import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.dialog.activity.DialogContentListActivity;
@@ -126,9 +126,9 @@ public class PostDetailActivity extends NavigationActivity {
 			values.put("postId", String.valueOf(user.getPostView().getPostId()));
 			postInterest.setOnClickListener(new SimpleClickListener(
 					"post/respPost", PostDetailActivity.this, values,
-					new TaskSuccessCallBack() {
+					new TaskCallback() {
 						@Override
-						public void callback() {
+						public void successCallback() {
 							postInterest.setEnabled(false);
 							postInterest.setText(getResources().getString(
 									R.string.post_response_done));
@@ -138,6 +138,11 @@ public class PostDetailActivity extends NavigationActivity {
 							setResult(
 									ActivityCode.ResultCode.ZHAOBAN_LIST_RESULT_CODE,
 									intent);
+						}
+
+						@Override
+						public String doInBackground() {
+							return null;
 						}
 					}));
 

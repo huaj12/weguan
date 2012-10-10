@@ -38,4 +38,14 @@ public interface IDialogContentService {
 	DialogContent sendSms(Context context, long uid, String content,
 			Bitmap image) throws DialogContentException;
 
+	/**
+	 * 发送意见反馈
+	 * 
+	 * @param context
+	 * @param content
+	 * @throws DialogContentException
+	 */
+	void sendFeedback(Context context, String content)
+			throws DialogContentException;
+
 }

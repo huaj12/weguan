@@ -1,38 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    
-     <RelativeLayout
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingBottom="5dp"
         android:paddingTop="5dp" >
-		<RelativeLayout android:id="@+id/user_layout"
-		    			android:layout_width="60dp"
-		    			android:layout_height="60dp"
-		    			android:layout_alignParentLeft="true"
-            			android:layout_centerInParent="true"
-            			android:layout_margin="10dp">
-        <ImageView
-            android:id="@+id/user_logo"
+
+        <RelativeLayout
+            android:id="@+id/user_layout"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:contentDescription="@null" />
-        <TextView android:layout_width="60dp"
-            	  android:layout_height="21dp"
-            	  android:textColor="@color/white"
-            	  android:textSize="10sp"
-            	  android:background="@color/post_count"
-            	  android:gravity="center"
-            	  android:layout_alignParentBottom="true"
-            	  android:visibility="gone"
-            	  android:id="@+id/logo_audit"/>
-		</RelativeLayout>
+            android:layout_margin="10dp" >
+
+            <ImageView
+                android:id="@+id/user_logo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:contentDescription="@null" />
+
+            <TextView
+                android:id="@+id/logo_audit"
+                android:layout_width="60dp"
+                android:layout_height="21dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/post_count"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:visibility="gone" />
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/user_nickname"
             android:layout_width="fill_parent"
@@ -40,14 +45,14 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/user_layout"
             android:gravity="left"
-            android:textSize="15sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/user_info"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_below="@+id/user_nickname"
+            android:layout_marginTop="8dp"
             android:layout_toRightOf="@+id/user_layout"
             android:gravity="left"
             android:textColor="@color/gray"
@@ -59,108 +64,121 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:paddingLeft="10dp"
-            android:textSize="11dp"
-            android:textColor="@color/white"
-            android:text="@string/update_profile_btn"
             android:background="@drawable/edit_user_selector_button"
-            />
+            android:paddingLeft="10dp"
+            android:text="@string/update_profile_btn"
+            android:textColor="@color/white"
+            android:textSize="11dp" />
     </RelativeLayout>
-    <RelativeLayout android:layout_width="fill_parent"
-        		  android:layout_height="wrap_content"
-        		  android:layout_marginTop="15dp"
-        		  android:layout_marginLeft="7dp"
-        		  android:layout_marginRight="7dp"
-        		  android:id="@+id/home_my_post_layout"
-        		  android:background="@drawable/base_shape_selector_layout">
-     <TextView
+
+    <RelativeLayout
+        android:id="@+id/home_my_post_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/base_shape_selector_layout" >
+
+        <TextView
             android:id="@+id/home_my_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/black"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
             android:textSize="14sp" />
-      <ImageView
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/login_icon_arrow"
-            android:contentDescription="@null" />   
+            android:contentDescription="@null" />
     </RelativeLayout>
-    
-    <RelativeLayout android:layout_width="fill_parent"
-        		  android:layout_height="wrap_content"
-        		  android:layout_marginTop="10dp"
-        		  android:layout_marginLeft="7dp"
-        		  android:layout_marginRight="7dp"
-        		  android:id="@+id/home_my_interest_layout"
-        		  android:background="@drawable/base_shape_selector_layout">
-     <TextView
+
+    <RelativeLayout
+        android:id="@+id/home_my_interest_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/base_shape_selector_layout" >
+
+        <TextView
             android:id="@+id/home_my_interest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/black"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
             android:textSize="14sp" />
-      <ImageView
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@drawable/login_icon_arrow"
-            android:contentDescription="@null" />   
+            android:contentDescription="@null" />
     </RelativeLayout>
-    
-    <RelativeLayout android:layout_width="fill_parent"
-        		  android:layout_height="wrap_content"
-        		  android:layout_marginTop="10dp"
-        		  android:layout_marginLeft="7dp"
-        		  android:layout_marginRight="7dp"
-        		  android:id="@+id/home_interest_me_layout"
-        		  android:background="@drawable/base_shape_selector_layout">
-     <TextView
+
+    <RelativeLayout
+        android:id="@+id/home_interest_me_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/base_shape_selector_layout" >
+
+        <TextView
             android:id="@+id/home_interest_me"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/black"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
             android:textSize="14sp" />
-      <ImageView
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@drawable/login_icon_arrow"
-            android:contentDescription="@null" />   
+            android:contentDescription="@null" />
     </RelativeLayout>
-    
-    <RelativeLayout android:layout_width="fill_parent"
-        		  android:layout_height="wrap_content"
-        		  android:id="@+id/home_invite_layout"
-        		  android:layout_marginTop="10dp"
-        		  android:layout_marginLeft="7dp"
-        		  android:layout_marginRight="7dp"
-        		  android:background="@drawable/base_shape_selector_layout">
-     <TextView
+
+    <RelativeLayout
+        android:id="@+id/home_invite_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/base_shape_selector_layout" >
+
+        <TextView
             android:id="@+id/home_invite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/black"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:text="@string/invite_friend"
+            android:textColor="@color/black"
             android:textSize="14sp" />
-      <ImageView
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@drawable/login_icon_arrow"
-            android:contentDescription="@null" />   
+            android:contentDescription="@null" />
     </RelativeLayout>
+
 </LinearLayout>

@@ -40,6 +40,7 @@ public class ImageUtils {
 	 * @param tagerHeight
 	 * @return
 	 */
+	//TODO (review) dp和px的关系
 	public static Bitmap zoomBitmap(Bitmap scrBitmap, int tagerWidth,
 			int tagerHeight) {
 		int width = scrBitmap.getWidth();
@@ -61,6 +62,7 @@ public class ImageUtils {
 
 	}
 
+	//TODO (review) dp和px的关系
 	public static Bitmap zoomWidthBitmap(Bitmap scrBitmap, int tagerWidth,
 			int tagerHeight) {
 		int width = scrBitmap.getWidth();

@@ -77,7 +77,7 @@
             android:layout_below="@+id/contact"
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/ta_home_gz_btn_done"
+            android:background="@drawable/home_un_interest_selector_button"
             android:paddingLeft="10dp"
             android:text="@string/done_interest"
             android:textColor="@color/idea_want_done"

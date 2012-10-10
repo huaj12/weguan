@@ -111,7 +111,9 @@ public class SettingListActivity extends NavigationActivity {
 							SettingProtocalActivity.class);
 					pushIntent(intent);
 				} else if (index == 1) {
-
+					Intent intent = new Intent(SettingListActivity.this,
+							SettingFeedbackActivity.class);
+					pushIntent(intent);
 				} else if (index == 2) {
 
 				}

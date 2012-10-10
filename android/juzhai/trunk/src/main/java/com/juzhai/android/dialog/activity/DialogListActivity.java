@@ -15,8 +15,8 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.task.PostTask;
-import com.juzhai.android.core.task.TaskSuccessCallBack;
+import com.juzhai.android.core.task.PostProgressTask;
+import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
@@ -109,17 +109,22 @@ public class DialogListActivity extends NavigationActivity {
 													DialogUtils
 															.showConfirmDialog(
 																	DialogListActivity.this,
-																	new PostTask(
-																			delDialogUri,
+																	new PostProgressTask(
 																			DialogListActivity.this,
+																			delDialogUri,
 																			values,
-																			new TaskSuccessCallBack() {
+																			new TaskCallback() {
 																				@Override
-																				public void callback() {
+																				public void successCallback() {
 																					dialogListView
 																							.getPageAdapter()
 																							.deleteData(
 																									location);
+																				}
+
+																				@Override
+																				public String doInBackground() {
+																					return null;
 																				}
 																			}));
 													break;

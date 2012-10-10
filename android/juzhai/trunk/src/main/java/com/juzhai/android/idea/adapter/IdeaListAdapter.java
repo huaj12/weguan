@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.listener.SimpleClickListener;
-import com.juzhai.android.core.task.TaskSuccessCallBack;
+import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
@@ -101,16 +101,20 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 			Map<String, String> values = new HashMap<String, String>();
 			values.put("ideaId", String.valueOf(idea.getIdeaId()));
 			wantButton.setOnClickListener(new SimpleClickListener(
-					"post/sendPost", mContext, values,
-					new TaskSuccessCallBack() {
+					"post/sendPost", mContext, values, new TaskCallback() {
 						@Override
-						public void callback() {
+						public void successCallback() {
 							wantButton.setEnabled(false);
 							wantButton.setText(mContext.getResources()
 									.getString(R.string.want_done));
 							wantButton.setTextColor(mContext.getResources()
 									.getColor(R.color.idea_want_done));
 							idea.setHasUsed(true);
+						}
+
+						@Override
+						public String doInBackground() {
+							return null;
 						}
 					}));
 		}

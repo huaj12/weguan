@@ -3,10 +3,7 @@ package com.juzhai.android.idea.adapter;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,13 +12,8 @@ import android.widget.TextView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.listener.SimpleClickListener;
-import com.juzhai.android.core.task.TaskSuccessCallBack;
-import com.juzhai.android.core.utils.ImageUtils;
-import com.juzhai.android.core.utils.JzUtils;
+import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.TextTruncateUtil;
-import com.juzhai.android.core.utils.UIUtil;
-import com.juzhai.android.core.widget.image.ImageLoaderCallback;
-import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
@@ -70,13 +62,18 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 		values.put("targetUid", String.valueOf(user.getUid()));
 		values.put("ideaId", String.valueOf(ideaUser.getIdeaId()));
 		dateButton.setOnClickListener(new SimpleClickListener(
-				"dialog/sendDate", mContext, values, new TaskSuccessCallBack() {
+				"dialog/sendDate", mContext, values, new TaskCallback() {
 					@Override
-					public void callback() {
+					public void successCallback() {
 						dateButton.setText(R.string.about_done);
 						dateButton.setTextColor(mContext.getResources()
 								.getColor(R.color.about_gray));
 						dateButton.setEnabled(false);
+					}
+
+					@Override
+					public String doInBackground() {
+						return null;
 					}
 				}));
 		userViewHelper.showUserNickname(mContext, user, nicknameTextView);

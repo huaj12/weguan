@@ -32,6 +32,14 @@ public class ImageUtils {
 		return output;
 	}
 
+	/**
+	 * 按宽度压缩。取中间部分图
+	 * 
+	 * @param scrBitmap
+	 * @param tagerWidth
+	 * @param tagerHeight
+	 * @return
+	 */
 	public static Bitmap zoomBitmap(Bitmap scrBitmap, int tagerWidth,
 			int tagerHeight) {
 		int width = scrBitmap.getWidth();
@@ -51,6 +59,18 @@ public class ImageUtils {
 		}
 		return result;
 
+	}
+
+	public static Bitmap zoomWidthBitmap(Bitmap scrBitmap, int tagerWidth,
+			int tagerHeight) {
+		int width = scrBitmap.getWidth();
+		int height = scrBitmap.getHeight();
+		Matrix matrix = new Matrix();
+		float scaleWidth = ((float) tagerWidth) / width;
+		matrix.postScale(scaleWidth, scaleWidth);
+		Bitmap result = Bitmap.createBitmap(scrBitmap, 0, 0, width, height,
+				matrix, true);
+		return result;
 	}
 
 	public static byte[] Bitmap2Bytes(Bitmap bm) {

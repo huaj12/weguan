@@ -51,5 +51,7 @@
         <!--created by kooks at 2012-10-06 16:10:19-->
         <activity android:name=".home.activity.UserHomeActivity"/>
         <activity android:name=".setting.activity.SettingProtocalActivity"/>
+        <!--created by kooks at 2012-10-09 21:50:42-->
+        <activity android:name=".core.activity.PreviewActivity" android:theme="@android:style/Theme.Dialog"/>
     </application>
 </manifest>

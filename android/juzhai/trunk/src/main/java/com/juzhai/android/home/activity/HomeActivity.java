@@ -49,32 +49,37 @@ public class HomeActivity extends NavigationActivity {
 		myInterestMeView.setText(getResources().getString(
 				R.string.interest_me_title)
 				+ " (" + user.getInterestMeCount() + ")");
-		interestLayout.setOnClickListener(new OnClickListener() {
+		if (user.getInterestUserCount() > 0) {
+			interestLayout.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(HomeActivity.this,
-						InterestActivity.class);
-				pushIntent(intent);
-			}
-		});
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(HomeActivity.this,
+							InterestActivity.class);
+					pushIntent(intent);
+				}
+			});
+		}
+		if (user.getInterestMeCount() > 0) {
+			interestMeLayout.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(HomeActivity.this,
+							InterestMeActivity.class);
+					pushIntent(intent);
+				}
+			});
+		}
+		if (user.getPostCount() > 0) {
+			myPostLayout.setOnClickListener(new OnClickListener() {
 
-		interestMeLayout.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(HomeActivity.this,
-						InterestMeActivity.class);
-				pushIntent(intent);
-			}
-		});
-		myPostLayout.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(HomeActivity.this,
-						MyPostActivity.class);
-				pushIntent(intent);
-			}
-		});
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(HomeActivity.this,
+							MyPostActivity.class);
+					pushIntent(intent);
+				}
+			});
+		}
 	}
 }

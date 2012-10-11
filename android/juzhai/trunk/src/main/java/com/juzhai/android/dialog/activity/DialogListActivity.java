@@ -21,12 +21,12 @@ import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase.OnRefreshListener2;
-import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.dialog.adapter.DialogListAdapter;
 import com.juzhai.android.dialog.model.Dialog;
 import com.juzhai.android.dialog.task.DialogListGetDataTask;
+import com.juzhai.android.main.activity.TabItemActivity;
 
-public class DialogListActivity extends NavigationActivity {
+public class DialogListActivity extends TabItemActivity {
 	private JuzhaiRefreshListView dialogListView;
 	private String delDialogUri = "dialog/deleteDialog";
 
@@ -100,11 +100,9 @@ public class DialogListActivity extends NavigationActivity {
 													Dialog d = (Dialog) dialogListView
 															.getPageAdapter()
 															.getItem(location);
-													Map<String, String> values = new HashMap<String, String>();
-													values.put(
-															"dialogId",
-															String.valueOf(d
-																	.getDialogId()));
+													Map<String, Object> values = new HashMap<String, Object>();
+													values.put("dialogId",
+															d.getDialogId());
 
 													DialogUtils
 															.showConfirmDialog(

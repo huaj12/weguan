@@ -14,7 +14,6 @@ import com.juzhai.android.core.model.Result.PostListResult;
 import com.juzhai.android.core.model.Result.UserListResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.home.bean.ZhaobanOrder;
-import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.post.exception.PostException;
 import com.juzhai.android.post.service.IUserPostService;
 
@@ -34,8 +33,7 @@ public class UserPostService implements IUserPostService {
 		String uri = HttpUtils.createHttpParam(userPostUri, values);
 		ResponseEntity<UserListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, uri,
-					UserCache.getUserStatus(), UserListResult.class);
+			responseEntity = HttpUtils.get(context, uri, UserListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -55,8 +53,7 @@ public class UserPostService implements IUserPostService {
 		String uri = HttpUtils.createHttpParam(postsUri, values);
 		ResponseEntity<PostListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, uri,
-					UserCache.getUserStatus(), PostListResult.class);
+			responseEntity = HttpUtils.get(context, uri, PostListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -66,5 +63,4 @@ public class UserPostService implements IUserPostService {
 		}
 		return responseEntity.getBody();
 	}
-
 }

@@ -12,14 +12,14 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.task.ProgressTask;
 import com.juzhai.android.core.task.TaskCallback;
-import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.home.service.impl.HomeService;
+import com.juzhai.android.main.activity.TabItemActivity;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 
-public class HomeActivity extends NavigationActivity {
+public class HomeActivity extends TabItemActivity {
 	private IUserViewHelper userViewHelper = new UserViewHelper();
 	private ImageView userLogoView;
 	private TextView nicknameView;

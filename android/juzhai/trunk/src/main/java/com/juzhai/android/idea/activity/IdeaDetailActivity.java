@@ -93,8 +93,8 @@ public class IdeaDetailActivity extends NavigationActivity {
 			wantBtn.setText(R.string.want_done);
 			wantBtn.setEnabled(false);
 		} else {
-			Map<String, String> values = new HashMap<String, String>();
-			values.put("ideaId", String.valueOf(idea.getIdeaId()));
+			Map<String, Object> values = new HashMap<String, Object>();
+			values.put("ideaId", idea.getIdeaId());
 			wantBtn.setOnClickListener(new SimpleClickListener("post/sendPost",
 					IdeaDetailActivity.this, values, new TaskCallback() {
 						@Override

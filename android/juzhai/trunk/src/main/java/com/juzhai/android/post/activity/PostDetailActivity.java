@@ -122,8 +122,8 @@ public class PostDetailActivity extends NavigationActivity {
 			postInterest.setEnabled(true);
 			postInterest.setText(getResources().getString(
 					R.string.post_response));
-			Map<String, String> values = new HashMap<String, String>();
-			values.put("postId", String.valueOf(user.getPostView().getPostId()));
+			Map<String, Object> values = new HashMap<String, Object>();
+			values.put("postId", user.getPostView().getPostId());
 			postInterest.setOnClickListener(new SimpleClickListener(
 					"post/respPost", PostDetailActivity.this, values,
 					new TaskCallback() {

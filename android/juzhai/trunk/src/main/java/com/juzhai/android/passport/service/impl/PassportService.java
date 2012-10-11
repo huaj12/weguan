@@ -16,7 +16,6 @@ import com.juzhai.android.core.model.Result.UserResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
-import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.exception.PassportException;
 import com.juzhai.android.passport.service.IPassportService;
@@ -63,7 +62,7 @@ public class PassportService implements IPassportService {
 		if (StringUtils.isEmpty(account) || StringUtils.isEmpty(password)) {
 			throw new PassportException(R.string.login_defalut_error);
 		}
-		Map<String, String> values = new HashMap<String, String>();
+		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("account", account);
 		values.put("password", password);
 		ResponseEntity<UserResult> responseEntity = null;
@@ -98,7 +97,7 @@ public class PassportService implements IPassportService {
 		if (errorId > 0) {
 			throw new PassportException(errorId);
 		}
-		Map<String, String> values = new HashMap<String, String>();
+		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("nickname", nickname);
 		values.put("account", account);
 		values.put("pwd", pwd);
@@ -159,7 +158,7 @@ public class PassportService implements IPassportService {
 				|| !StringUtil.checkMailFormat(account)) {
 			throw new PassportException(R.string.email_account_invalid);
 		}
-		Map<String, String> values = new HashMap<String, String>();
+		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("account", account);
 		ResponseEntity<StringResult> response = null;
 		try {
@@ -203,7 +202,7 @@ public class PassportService implements IPassportService {
 		ResponseEntity<UserResult> responseEntity = null;
 		try {
 			responseEntity = HttpUtils.post(context, LOGOUT_URI, null,
-					UserCache.getUserStatus(), UserResult.class);
+					UserResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(this.getClass().getSimpleName(), "logout error.", e);
@@ -237,8 +236,7 @@ public class PassportService implements IPassportService {
 			throws PassportException {
 		ResponseEntity<UserResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, url,
-					UserCache.getUserStatus(), UserResult.class);
+			responseEntity = HttpUtils.get(context, url, UserResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "thirdparty login error", e);

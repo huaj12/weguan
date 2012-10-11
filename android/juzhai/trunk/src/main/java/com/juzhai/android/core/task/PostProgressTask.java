@@ -5,7 +5,9 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
 import com.juzhai.android.core.model.Result.StringResult;
 import com.juzhai.android.core.utils.HttpUtils;
@@ -14,18 +16,20 @@ import com.juzhai.android.passport.data.UserCache;
 public class PostProgressTask extends ProgressTask {
 
 	public PostProgressTask(final Context context, final String uri,
-			final Map<String, String> values, final TaskCallback callback) {
+			final Map<String, Object> values, final TaskCallback callback) {
 		this(context, uri, values, callback, false);
 	}
 
 	public PostProgressTask(final Context context, final String uri,
-			final Map<String, String> values, final TaskCallback callback,
+			final Map<String, Object> values, final TaskCallback callback,
 			boolean defaultStyle) {
 		super(context, new TaskCallback() {
 
 			@Override
 			public void successCallback() {
-				callback.successCallback();
+				if (callback != null) {
+					callback.successCallback();
+				}
 			}
 
 			@Override
@@ -33,8 +37,12 @@ public class PostProgressTask extends ProgressTask {
 				ResponseEntity<StringResult> responseEntity = null;
 				try {
 					responseEntity = HttpUtils.post(context, uri, values,
-							UserCache.getUserStatus(), StringResult.class);
+							StringResult.class);
 				} catch (Exception e) {
+					if (BuildConfig.DEBUG) {
+						Log.d(PostProgressTask.class.getSimpleName(),
+								e.getMessage(), e);
+					}
 					return context.getResources().getString(
 							R.string.system_internet_erorr);
 				}

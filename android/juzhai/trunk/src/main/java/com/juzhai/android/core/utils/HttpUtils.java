@@ -25,6 +25,7 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 
 import com.juzhai.android.core.SystemConfig;
+import com.juzhai.android.passport.data.UserCache;
 
 public class HttpUtils {
 
@@ -32,17 +33,17 @@ public class HttpUtils {
 	private static int READ_TIMEOUT = 20000;
 
 	public static <T> ResponseEntity<T> post(Context context, String uri,
-			Map<String, String> values, Class<T> responseType) {
+			Map<String, Object> values, Class<T> responseType) {
 		return post(context, uri, values, null, responseType);
 	}
 
 	public static <T> ResponseEntity<T> post(Context context, String uri,
-			Map<String, String> values, Map<String, String> cookies,
+			Map<String, Object> values, Map<String, String> cookies,
 			Class<T> responseType) {
 		MultiValueMap<String, Object> formData = new LinkedMultiValueMap<String, Object>();
 		if (!CollectionUtils.isEmpty(values)) {
-			for (Entry<String, String> entry : values.entrySet()) {
-				formData.add(entry.getKey(), entry.getValue());
+			for (Entry<String, Object> entry : values.entrySet()) {
+				formData.add(entry.getKey(), String.valueOf(entry.getValue()));
 			}
 		}
 		return post(context, uri, formData, cookies, new MediaType(
@@ -81,13 +82,8 @@ public class HttpUtils {
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setAccept(Collections.singletonList(new MediaType(
 				"application", "json")));
+		prepareCookies(cookies, requestHeaders);
 
-		if (!CollectionUtils.isEmpty(cookies)) {
-			for (Entry<String, String> entry : cookies.entrySet()) {
-				requestHeaders.add("Cookie",
-						entry.getKey() + "=" + entry.getValue());
-			}
-		}
 		requestHeaders.setContentType(mediaType);
 		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(
 				formData, requestHeaders);
@@ -104,6 +100,18 @@ public class HttpUtils {
 		return responseEntity;
 	}
 
+	private static void prepareCookies(Map<String, String> cookies,
+			HttpHeaders requestHeaders) {
+		Map<String, String> userStatusCookies = UserCache.getUserStatus();
+		if (!CollectionUtils.isEmpty(cookies)) {
+			userStatusCookies.putAll(cookies);
+		}
+		for (Entry<String, String> entry : userStatusCookies.entrySet()) {
+			requestHeaders.add("Cookie",
+					entry.getKey() + "=" + entry.getValue());
+		}
+	}
+
 	public static <T> ResponseEntity<T> get(Context context, String uri,
 			Class<T> responseType) {
 		return get(context, uri, null, responseType);
@@ -112,14 +120,10 @@ public class HttpUtils {
 	public static <T> ResponseEntity<T> get(Context context, String uri,
 			Map<String, String> cookies, Class<T> responseType) {
 		HttpHeaders requestHeaders = new HttpHeaders();
-		if (!CollectionUtils.isEmpty(cookies)) {
-			for (Entry<String, String> entry : cookies.entrySet()) {
-				requestHeaders.add("Cookie",
-						entry.getKey() + "=" + entry.getValue());
-			}
-		}
 		requestHeaders.setAccept(Collections.singletonList(new MediaType(
 				"application", "json")));
+		prepareCookies(cookies, requestHeaders);
+
 		HttpEntity<Object> requestEntity = new HttpEntity<Object>(
 				requestHeaders);
 		RestTemplate restTemplate = createRestTemplate(context);

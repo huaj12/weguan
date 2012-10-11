@@ -135,8 +135,8 @@ public class UserPostAdapter extends PageAdapter<User> {
 			postInterest.setText(mContext.getResources().getString(
 					R.string.post_interest)
 					+ " " + (respCnt > 0 ? respCnt : "") + "  ");
-			Map<String, String> values = new HashMap<String, String>();
-			values.put("postId", String.valueOf(user.getPostView().getPostId()));
+			Map<String, Object> values = new HashMap<String, Object>();
+			values.put("postId", user.getPostView().getPostId());
 			postInterest.setOnClickListener(new SimpleClickListener(
 					RESPONSE_POST_URI, mContext, values, new TaskCallback() {
 						@Override

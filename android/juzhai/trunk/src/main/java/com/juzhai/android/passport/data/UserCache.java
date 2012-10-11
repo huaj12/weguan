@@ -3,6 +3,8 @@ package com.juzhai.android.passport.data;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.util.StringUtils;
+
 import com.juzhai.android.passport.model.User;
 
 public class UserCache {
@@ -36,8 +38,12 @@ public class UserCache {
 
 	public static Map<String, String> getUserStatus() {
 		Map<String, String> cookies = new HashMap<String, String>();
-		cookies.put("l_token", UserCache.getlToken());
-		cookies.put("p_token", UserCache.getpToken());
+		if (StringUtils.hasText(UserCache.getlToken())) {
+			cookies.put("l_token", UserCache.getlToken());
+		}
+		if (StringUtils.hasText(UserCache.getpToken())) {
+			cookies.put("p_token", UserCache.getpToken());
+		}
 		return cookies;
 	}
 

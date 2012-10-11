@@ -58,9 +58,9 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 		dateButton
 				.setTextColor(mContext.getResources().getColor(R.color.white));
 		dateButton.setEnabled(true);
-		Map<String, String> values = new HashMap<String, String>();
-		values.put("targetUid", String.valueOf(user.getUid()));
-		values.put("ideaId", String.valueOf(ideaUser.getIdeaId()));
+		Map<String, Object> values = new HashMap<String, Object>();
+		values.put("targetUid", user.getUid());
+		values.put("ideaId", ideaUser.getIdeaId());
 		dateButton.setOnClickListener(new SimpleClickListener(
 				"dialog/sendDate", mContext, values, new TaskCallback() {
 					@Override

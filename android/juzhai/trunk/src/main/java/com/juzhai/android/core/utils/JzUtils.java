@@ -102,4 +102,18 @@ public class JzUtils {
 		}
 		return str;
 	}
+
+	public static String getGender(int gender, Context context) {
+		String str = null;
+		switch (gender) {
+		case 0:
+			str = context.getResources().getString(R.string.girl);
+			break;
+		case 1:
+			str = context.getResources().getString(R.string.boy);
+			break;
+		}
+		return str;
+	}
+
 }

@@ -28,8 +28,7 @@ public class InterestUserService implements IInterestUserService {
 		String url = HttpUtils.createHttpParam(interestUri, values);
 		ResponseEntity<UserListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, url,
-					UserCache.getUserStatus(), UserListResult.class);
+			responseEntity = HttpUtils.get(context, url, UserListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "interestList is error", e);
@@ -47,8 +46,7 @@ public class InterestUserService implements IInterestUserService {
 		String url = HttpUtils.createHttpParam(interestMeUri, values);
 		ResponseEntity<UserListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, url,
-					UserCache.getUserStatus(), UserListResult.class);
+			responseEntity = HttpUtils.get(context, url, UserListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "interestMeList is error", e);

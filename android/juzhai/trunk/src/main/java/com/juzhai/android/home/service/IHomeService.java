@@ -11,4 +11,13 @@ public interface IHomeService {
 	 * @return 错误
 	 */
 	String refresh(Context context);
+
+	/**
+	 * 更新所在位置
+	 * 
+	 * @param context
+	 * @param longitude
+	 * @param latitude
+	 */
+	void updateLocation(Context context, double longitude, double latitude);
 }

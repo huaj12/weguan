@@ -135,14 +135,14 @@ public class UserHomeActivity extends NavigationActivity {
 				unInterestBtn.setVisibility(View.GONE);
 				interestBtn.setVisibility(View.VISIBLE);
 			}
-			final Map<String, String> values = new HashMap<String, String>();
-			values.put("uid", String.valueOf(user.getUid()));
+			final Map<String, Object> values = new HashMap<String, Object>();
+			values.put("uid", user.getUid());
 			unInterestBtn.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					DialogUtils.showConfirmDialog(UserHomeActivity.this,
-							new PostProgressTask(UserHomeActivity.this, unInterestUri,
-									values, new TaskCallback() {
+							new PostProgressTask(UserHomeActivity.this,
+									unInterestUri, values, new TaskCallback() {
 										@Override
 										public void successCallback() {
 											unInterestBtn

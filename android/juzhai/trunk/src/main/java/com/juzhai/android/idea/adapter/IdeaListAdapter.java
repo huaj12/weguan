@@ -98,8 +98,8 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 			wantButton.setTextColor(mContext.getResources().getColor(
 					R.color.idea_want));
 			// 我想去
-			Map<String, String> values = new HashMap<String, String>();
-			values.put("ideaId", String.valueOf(idea.getIdeaId()));
+			Map<String, Object> values = new HashMap<String, Object>();
+			values.put("ideaId", idea.getIdeaId());
 			wantButton.setOnClickListener(new SimpleClickListener(
 					"post/sendPost", mContext, values, new TaskCallback() {
 						@Override

@@ -14,11 +14,9 @@ import com.juzhai.android.R;
 import com.juzhai.android.core.model.PageList;
 import com.juzhai.android.core.model.Result.DialogContentListResult;
 import com.juzhai.android.core.model.Result.DialogContentResult;
-import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
-import com.juzhai.android.dialog.activity.DialogContentListActivity;
 import com.juzhai.android.dialog.exception.DialogContentException;
 import com.juzhai.android.dialog.model.DialogContent;
 import com.juzhai.android.dialog.service.IDialogContentService;
@@ -40,7 +38,7 @@ public class DialogContentService implements IDialogContentService {
 		ResponseEntity<DialogContentListResult> responseEntity = null;
 		try {
 			responseEntity = HttpUtils.get(context, uri,
-					UserCache.getUserStatus(), DialogContentListResult.class);
+					DialogContentListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -60,7 +58,7 @@ public class DialogContentService implements IDialogContentService {
 		ResponseEntity<DialogContentListResult> responseEntity = null;
 		try {
 			responseEntity = HttpUtils.get(context, uri,
-					UserCache.getUserStatus(), DialogContentListResult.class);
+					DialogContentListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),

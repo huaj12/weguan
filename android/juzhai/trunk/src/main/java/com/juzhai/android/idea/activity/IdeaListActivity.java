@@ -21,12 +21,12 @@ import com.juzhai.android.core.widget.button.SegmentedButton;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase.OnRefreshListener2;
-import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.idea.adapter.IdeaListAdapter;
 import com.juzhai.android.idea.model.Idea;
 import com.juzhai.android.idea.task.IdeaListGetDataTask;
+import com.juzhai.android.main.activity.TabItemActivity;
 
-public class IdeaListActivity extends NavigationActivity {
+public class IdeaListActivity extends TabItemActivity {
 	private long categoryId = 0;
 	private String orderType = "time";
 	private JuzhaiRefreshListView ideaListView;

@@ -15,7 +15,6 @@ import com.juzhai.android.core.model.Result.IdeaUserListResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.idea.exception.IdeaException;
 import com.juzhai.android.idea.service.IIdeaService;
-import com.juzhai.android.passport.data.UserCache;
 
 public class IdeaService implements IIdeaService {
 	private String ideaListUri = "idea/list";
@@ -31,8 +30,7 @@ public class IdeaService implements IIdeaService {
 		String uri = HttpUtils.createHttpParam(ideaListUri, values);
 		ResponseEntity<IdeaListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, uri,
-					UserCache.getUserStatus(), IdeaListResult.class);
+			responseEntity = HttpUtils.get(context, uri, IdeaListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -54,7 +52,7 @@ public class IdeaService implements IIdeaService {
 		ResponseEntity<IdeaUserListResult> responseEntity = null;
 		try {
 			responseEntity = HttpUtils.get(context, url,
-					UserCache.getUserStatus(), IdeaUserListResult.class);
+					IdeaUserListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "login error", e);

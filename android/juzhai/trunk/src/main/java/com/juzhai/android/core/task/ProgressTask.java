@@ -31,7 +31,10 @@ public class ProgressTask extends AsyncTask<Void, Void, String> {
 
 	@Override
 	protected String doInBackground(Void... params) {
-		return callback.doInBackground();
+		if (null != callback) {
+			return callback.doInBackground();
+		}
+		return null;
 	}
 
 	@Override

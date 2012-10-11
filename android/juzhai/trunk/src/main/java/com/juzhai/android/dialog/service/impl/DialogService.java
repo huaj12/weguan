@@ -14,7 +14,6 @@ import com.juzhai.android.core.model.Result.DialogListResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.dialog.exception.DialogException;
 import com.juzhai.android.dialog.service.IDialogService;
-import com.juzhai.android.passport.data.UserCache;
 
 public class DialogService implements IDialogService {
 	private String dialogListUri = "dialog/dialogList";
@@ -27,8 +26,8 @@ public class DialogService implements IDialogService {
 		String uri = HttpUtils.createHttpParam(dialogListUri, values);
 		ResponseEntity<DialogListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, uri,
-					UserCache.getUserStatus(), DialogListResult.class);
+			responseEntity = HttpUtils
+					.get(context, uri, DialogListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),

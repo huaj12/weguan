@@ -11,7 +11,6 @@ import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
 import com.juzhai.android.core.model.Result.StringResult;
 import com.juzhai.android.core.utils.HttpUtils;
-import com.juzhai.android.passport.data.UserCache;
 
 public class PostProgressTask extends ProgressTask {
 
@@ -53,5 +52,26 @@ public class PostProgressTask extends ProgressTask {
 				return null;
 			}
 		}, defaultStyle);
+	}
+
+	public PostProgressTask(final Context context, final TaskCallback callback) {
+		super(context, new TaskCallback() {
+
+			@Override
+			public void successCallback() {
+				if (callback != null) {
+					callback.successCallback();
+				}
+			}
+
+			@Override
+			public String doInBackground() {
+				if (callback != null) {
+					return callback.doInBackground();
+				}
+				return null;
+
+			}
+		}, false);
 	}
 }

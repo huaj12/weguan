@@ -186,7 +186,6 @@ public class ZhaobanActivity extends TabItemActivity {
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			Log.d("onProviderDisabled", provider);
 			if (provider.equals(LocationManager.GPS_PROVIDER)) {
 				locationManager.requestSingleUpdate(
 						LocationManager.NETWORK_PROVIDER, locationListener,
@@ -196,7 +195,6 @@ public class ZhaobanActivity extends TabItemActivity {
 
 		@Override
 		public void onLocationChanged(Location location) {
-			Log.d("onLocationChanged", location.getProvider());
 			if (currentLocation == null
 					|| isBetterLocation(location, currentLocation)) {
 				currentLocation = location;
@@ -226,9 +224,7 @@ public class ZhaobanActivity extends TabItemActivity {
 		criteria.setCostAllowed(true);
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
 		String provider = locationManager.getBestProvider(criteria, true);
-		Log.d("bestProvider", provider);
 		locationManager.requestSingleUpdate(provider, locationListener, null);
-		// Log.d("location", "111111111111111111111111111");
 	}
 
 	private static final int CHECK_INTERVAL = 1000 * 30;

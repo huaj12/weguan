@@ -54,6 +54,9 @@ public class Result<T> {
 	public static class StringResult extends Result<String> {
 	}
 
+	public static class IntegerResult extends Result<Integer> {
+	}
+
 	public static class IdeaListResult extends Result<PageList<Idea>> {
 	}
 

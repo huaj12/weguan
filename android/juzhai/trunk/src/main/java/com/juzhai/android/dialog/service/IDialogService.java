@@ -14,4 +14,11 @@ public interface IDialogService {
 	 * @throws DialogException
 	 */
 	DialogListResult list(Context context, int page) throws DialogException;
+
+	/**
+	 * 提示新消息
+	 * 
+	 * @param context
+	 */
+	int newMessageCount(Context context);
 }

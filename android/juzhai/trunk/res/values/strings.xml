@@ -92,6 +92,7 @@
 	<string name="girl">女</string>
 	<string name="select_city">选择城市</string>
    <string name="other">其他</string>
+   <string name="save_success">保存成功</string>
     <!-- common end -->
 
 
@@ -188,6 +189,9 @@
     <string name="frequency_exceeds_the_limit">您发送的太快休息一会吧</string>
     <string name="feature_is_null">自我评价不能为空</string>
     <string name="feature_too_long">自我评价写的太多了</string>
+    <string name="profession_name_is_null">职业描述不能为空</string>
+    <string name="profession_name_too_long">职业描述写的太多了</string>
+    
     <!-- error end -->
 
 	<!-- setting -->

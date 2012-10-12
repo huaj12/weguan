@@ -10,6 +10,10 @@ public class ActivityCode {
 		public static final int PIC_REQUEST_CODE = 5;
 		public static final int ZHAOBAN_LIST_REQUEST_CODE = 6;
 		public static final int IDEA_LIST_REQUEST_CODE = 7;
+		public static final int SETTING_NICKNAME_REQUEST_CODE = 8;
+		public static final int SETTING_ADDRESS_REQUEST_CODE = 9;
+		public static final int SETTING_FEATURE_REQUEST_CODE = 10;
+		public static final int SETTING_PROFESSION_REQUEST_CODE = 11;
 	}
 
 	public class ResultCode {
@@ -17,5 +21,9 @@ public class ActivityCode {
 		public static final int PIC_RESULT_CODE = 2;
 		public final static int IDEA_LIST_RESULT_CODE = 3;
 		public static final int ZHAOBAN_LIST_RESULT_CODE = 4;
+		public static final int SETTING_NICKNAME_RESULT_CODE = 5;
+		public static final int SETTING_ADDRESS_RESULT_CODE = 6;
+		public static final int SETTING_FEATURE_RESULT_CODE = 7;
+		public static final int SETTING_PROFESSION_RESULT_CODE = 8;
 	}
 }

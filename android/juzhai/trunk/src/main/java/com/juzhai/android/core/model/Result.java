@@ -1,8 +1,10 @@
 package com.juzhai.android.core.model;
 
 import java.util.List;
+import java.util.Map;
 
 import com.juzhai.android.common.model.Category;
+import com.juzhai.android.common.model.ProvinceCity;
 import com.juzhai.android.dialog.model.Dialog;
 import com.juzhai.android.dialog.model.DialogContent;
 import com.juzhai.android.idea.model.Idea;
@@ -82,4 +84,10 @@ public class Result<T> {
 	public static class PostListResult extends Result<PageList<Post>> {
 	}
 
+	public static class ProvinceCityResult extends Result<ProvinceCity> {
+	}
+
+	public static class ProfessionResult extends
+			Result<List<Map<Long, String>>> {
+	}
 }

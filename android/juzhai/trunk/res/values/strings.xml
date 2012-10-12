@@ -80,7 +80,18 @@
     <string name="done_interest">已关注</string>
     <string name="verified">审核未通过</string>
     <string name="verifying">正在审核中</string>
-   
+    <string name="upload_logo">上传头像</string>
+	<string name="nickname">昵称</string>
+	<string name="gender">性别</string>
+	<string name="birthday">生日</string>
+	<string name="feature">自我评价</string>
+	<string name="please_enter_feature">请输入自我评价</string>
+	<string name="address">所在地</string>
+	<string name="profession">职业</string>
+	<string name="boy">男</string>
+	<string name="girl">女</string>
+	<string name="select_city">选择城市</string>
+   <string name="other">其他</string>
     <!-- common end -->
 
 
@@ -97,6 +108,7 @@
     <string name="tip_clear_cache_confirm">确定清除图片缓存吗？</string>
     <string name="tip_find_pwding">正在找回密码</string>
     <string name="please_wait">请稍等</string>
+    <string name="set_feature_tip">说说你是个什么样的人吧70字以内</string>
     <!-- tip end -->
     <!-- idea begin -->
     <string name="i_want">我想去 </string>
@@ -132,6 +144,13 @@
     <string name="user_home_title">的主页</string>
     <string name="user_home_post_count_begin">共  </string>
     <string name="user_home_post_count_end"> 条拒宅</string>
+    <string name="home_setting_title">设置个人资料</string>
+    <string-array name="gender_item">
+        <item>男</item>
+        <item>女</item>
+    </string-array>
+    <string name="set_nickname_tip">10字以内</string>
+    <string name="set_profession_tip">10字以内</string>
     <!-- home end -->
     
     <!-- post begin -->
@@ -167,6 +186,8 @@
     <string name="content_is_null">内容不能为空</string>
     <string name="send_message_length_invalid">私信内容请在1到200字之间</string>
     <string name="frequency_exceeds_the_limit">您发送的太快休息一会吧</string>
+    <string name="feature_is_null">自我评价不能为空</string>
+    <string name="feature_too_long">自我评价写的太多了</string>
     <!-- error end -->
 
 	<!-- setting -->

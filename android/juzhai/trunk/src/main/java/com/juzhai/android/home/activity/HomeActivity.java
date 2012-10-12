@@ -46,6 +46,7 @@ public class HomeActivity extends TabItemActivity {
 		interestMeLayout = (RelativeLayout) findViewById(R.id.home_interest_me_layout);
 		interestLayout = (RelativeLayout) findViewById(R.id.home_my_interest_layout);
 		myPostLayout = (RelativeLayout) findViewById(R.id.home_my_post_layout);
+		Button edit = (Button) findViewById(R.id.edit_profile_btn);
 		showUserInfos();
 
 		refreshBtn.setOnClickListener(new OnClickListener() {
@@ -63,6 +64,16 @@ public class HomeActivity extends TabItemActivity {
 						return new HomeService().refresh(HomeActivity.this);
 					}
 				}, false).execute();
+			}
+		});
+		edit.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(HomeActivity.this,
+						HomeSettingActivity.class);
+				pushIntent(intent);
+
 			}
 		});
 	}

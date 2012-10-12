@@ -8,4 +8,6 @@ public class Validation {
 	public static final int REGISTER_PASSWORD_MAX = 32;
 	public static final int SEND_MESSAGE_MIN_LENGTH = 2;
 	public static final int SEND_MESSAGE_MAX_LENGTH = 400;
+	public static final int USER_FEATURE_MAX_LENGTH = 140;
+	public static final int PROFESSION_LENGTH_MAX = 20;
 }

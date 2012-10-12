@@ -68,7 +68,8 @@
             android:paddingLeft="10dp"
             android:text="@string/update_profile_btn"
             android:textColor="@color/white"
-            android:textSize="11dp" />
+            android:textSize="11dp"
+            android:id="@+id/edit_profile_btn" />
     </RelativeLayout>
 
     <RelativeLayout

@@ -3,6 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    
+    android:layout_height="fill_parent"
+    android:background="@drawable/app_bg">
+     <com.juzhai.android.core.widget.list.table.widget.UITableView
+            android:id="@+id/setting_logo_table_view"
+            style="@style/UITableView" />
+     
+     <com.juzhai.android.core.widget.list.table.widget.UITableView
+            android:id="@+id/setting_info_table_view"
+            style="@style/UITableView" />
+     
+      <com.juzhai.android.core.widget.list.table.widget.UITableView
+            android:id="@+id/setting_other_table_view"
+            style="@style/UITableView" />
+     
 </LinearLayout>

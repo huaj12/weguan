@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabContentFactory;
-import android.widget.TextView;
 
 import com.juzhai.android.R;
 
@@ -129,12 +128,10 @@ public class TabBar<C> {
 	private void refreshTabBarItemState() {
 		for (int i = 0; i < tabBarItems.size(); i++) {
 			TabBarItem<C> tabBarItem = tabBarItems.get(i);
-			View view = tabHost.getTabWidget().getChildTabViewAt(i);
-			TextView textView = (TextView) view.findViewById(R.id.tab_item_tv);
 			if (i == tabHost.getCurrentTab()) {
-				tabBarItem.selectedTab(textView);
+				tabBarItem.selectedTab();
 			} else {
-				tabBarItem.unSelectedTab(textView);
+				tabBarItem.unSelectedTab();
 			}
 		}
 	}
@@ -144,5 +141,20 @@ public class TabBar<C> {
 			View view = tabHost.getTabWidget().getChildAt(i);
 			view.setBackgroundResource(bgResources);
 		}
+	}
+
+	public void setBadgeValue(int tabIndex, int badgeValue) {
+		TabBarItem<C> tabBarItem = tabBarItems.get(tabIndex);
+		if (null != tabBarItem) {
+			tabBarItem.updateBadgeValue(badgeValue);
+		}
+	}
+
+	public int getBadgeValue(int tabIndex) {
+		TabBarItem<C> tabBarItem = tabBarItems.get(tabIndex);
+		if (null != tabBarItem) {
+			return tabBarItem.getBadgeValue();
+		}
+		return 0;
 	}
 }

@@ -10,6 +10,7 @@ import com.juzhai.android.dialog.exception.DialogException;
 import com.juzhai.android.dialog.model.Dialog;
 import com.juzhai.android.dialog.service.IDialogService;
 import com.juzhai.android.dialog.service.impl.DialogService;
+import com.juzhai.android.main.activity.MainTabActivity;
 
 public class DialogListGetDataTask extends
 		GetDataTask<DialogListResult, Dialog> {
@@ -17,6 +18,12 @@ public class DialogListGetDataTask extends
 	public DialogListGetDataTask(Context context,
 			JuzhaiRefreshListView refreshListView) {
 		super(context, refreshListView);
+	}
+
+	@Override
+	protected void loadComplete() {
+		MainTabActivity.tabBar.setBadgeValue(2, 0);
+		super.loadComplete();
 	}
 
 	@Override

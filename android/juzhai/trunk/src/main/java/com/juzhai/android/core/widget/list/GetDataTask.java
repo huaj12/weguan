@@ -40,6 +40,7 @@ public abstract class GetDataTask<T extends Result<? extends PageList<E>>, E ext
 			} else {
 				adapter.pushDatas(list);
 			}
+			loadComplete();
 		}
 		if (null != refreshListView) {
 			refreshListView.onRefreshComplete();
@@ -49,5 +50,8 @@ public abstract class GetDataTask<T extends Result<? extends PageList<E>>, E ext
 			}
 		}
 		super.onPostExecute(result);
+	}
+
+	protected void loadComplete() {
 	}
 }

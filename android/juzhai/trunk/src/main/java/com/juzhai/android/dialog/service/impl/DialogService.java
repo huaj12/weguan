@@ -11,12 +11,14 @@ import android.util.Log;
 import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
 import com.juzhai.android.core.model.Result.DialogListResult;
+import com.juzhai.android.core.model.Result.IntegerResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.dialog.exception.DialogException;
 import com.juzhai.android.dialog.service.IDialogService;
 
 public class DialogService implements IDialogService {
 	private String dialogListUri = "dialog/dialogList";
+	private String noticeNumsUri = "dialog/notice/nums";
 
 	@Override
 	public DialogListResult list(Context context, int page)
@@ -38,4 +40,19 @@ public class DialogService implements IDialogService {
 		return responseEntity.getBody();
 	}
 
+	@Override
+	public int newMessageCount(Context context) {
+		try {
+			ResponseEntity<IntegerResult> responseEntity = HttpUtils.get(
+					context, noticeNumsUri, null, IntegerResult.class);
+			if (responseEntity.getBody() != null
+					&& responseEntity.getBody() != null
+					&& responseEntity.getBody().getSuccess()) {
+				return responseEntity.getBody().getResult();
+			}
+		} catch (Exception e) {
+			Log.e(getClass().getSimpleName(), "update location error.", e);
+		}
+		return 0;
+	}
 }

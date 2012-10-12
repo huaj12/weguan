@@ -11,6 +11,11 @@ import com.juzhai.android.core.utils.UIUtil;
 public class TabBarItem<C> {
 
 	/**
+	 * tab的View
+	 */
+	private View tabItemView;
+
+	/**
 	 * tabItem上的图标
 	 */
 	private int icon;
@@ -30,12 +35,27 @@ public class TabBarItem<C> {
 	 */
 	private C content;
 
+	/**
+	 * 消息提示数
+	 */
+	private int badgeValue;
+
 	public TabBarItem(int icon, int highligntIcon, int title, C content) {
 		super();
 		this.icon = icon;
 		this.highligntIcon = highligntIcon;
 		this.title = title;
 		this.content = content;
+	}
+
+	public TabBarItem(int icon, int highligntIcon, int title, C content,
+			int badgeValue) {
+		super();
+		this.icon = icon;
+		this.highligntIcon = highligntIcon;
+		this.title = title;
+		this.content = content;
+		this.badgeValue = badgeValue;
 	}
 
 	public int getIcon() {
@@ -70,8 +90,16 @@ public class TabBarItem<C> {
 		this.content = content;
 	}
 
+	public int getBadgeValue() {
+		return badgeValue;
+	}
+
+	public void setBadgeValue(int badgeValue) {
+		this.badgeValue = badgeValue;
+	}
+
 	public View getTabItemView(LayoutInflater layoutInflater, int tabItemLayout) {
-		View tabItemView = layoutInflater.inflate(tabItemLayout, null);
+		this.tabItemView = layoutInflater.inflate(tabItemLayout, null);
 		TextView textView = (TextView) tabItemView
 				.findViewById(R.id.tab_item_tv);
 		textView.setPadding(0, UIUtil.dip2px(layoutInflater.getContext(), 7),
@@ -81,17 +109,52 @@ public class TabBarItem<C> {
 				.getColor(android.R.color.white));
 		textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
 		textView.setCompoundDrawablesWithIntrinsicBounds(0, this.icon, 0, 0);
+
+		TextView badgeView = (TextView) tabItemView
+				.findViewById(R.id.tab_item_badge);
+		if (badgeValue > 0) {
+			badgeView.setText(String.valueOf(badgeValue));
+			badgeView.setVisibility(View.VISIBLE);
+		} else {
+			badgeView.setVisibility(View.GONE);
+		}
+
 		return tabItemView;
 	}
 
-	public void selectedTab(TextView textView) {
-		if (this.highligntIcon > 0) {
-			textView.setCompoundDrawablesWithIntrinsicBounds(0,
-					this.highligntIcon, 0, 0);
+	public void selectedTab() {
+		if (tabItemView != null) {
+			TextView textView = (TextView) tabItemView
+					.findViewById(R.id.tab_item_tv);
+			if (this.highligntIcon > 0) {
+				textView.setCompoundDrawablesWithIntrinsicBounds(0,
+						this.highligntIcon, 0, 0);
+			}
 		}
 	}
 
-	public void unSelectedTab(TextView textView) {
-		textView.setCompoundDrawablesWithIntrinsicBounds(0, this.icon, 0, 0);
+	public void unSelectedTab() {
+		if (tabItemView != null) {
+			TextView textView = (TextView) tabItemView
+					.findViewById(R.id.tab_item_tv);
+			if (this.highligntIcon > 0) {
+				textView.setCompoundDrawablesWithIntrinsicBounds(0, this.icon,
+						0, 0);
+			}
+		}
+	}
+
+	public void updateBadgeValue(int badgeValue) {
+		if (tabItemView != null) {
+			this.badgeValue = badgeValue;
+			TextView textView = (TextView) tabItemView
+					.findViewById(R.id.tab_item_badge);
+			if (badgeValue > 0) {
+				textView.setText(String.valueOf(badgeValue));
+				textView.setVisibility(View.VISIBLE);
+			} else {
+				textView.setVisibility(View.GONE);
+			}
+		}
 	}
 }

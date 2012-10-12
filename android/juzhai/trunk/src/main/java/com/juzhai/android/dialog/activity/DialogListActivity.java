@@ -24,9 +24,11 @@ import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase.OnRefre
 import com.juzhai.android.dialog.adapter.DialogListAdapter;
 import com.juzhai.android.dialog.model.Dialog;
 import com.juzhai.android.dialog.task.DialogListGetDataTask;
+import com.juzhai.android.main.activity.MainTabActivity;
 import com.juzhai.android.main.activity.TabItemActivity;
 
 public class DialogListActivity extends TabItemActivity {
+	private boolean hasLoad;
 	private JuzhaiRefreshListView dialogListView;
 	private String delDialogUri = "dialog/deleteDialog";
 
@@ -134,6 +136,14 @@ public class DialogListActivity extends TabItemActivity {
 				});
 
 		dialogListView.manualRefresh();
+	}
 
+	@Override
+	protected void onResume() {
+		if (!hasLoad || MainTabActivity.tabBar.getBadgeValue(2) > 0) {
+			dialogListView.manualRefresh();
+			hasLoad = true;
+		}
+		super.onResume();
 	}
 }

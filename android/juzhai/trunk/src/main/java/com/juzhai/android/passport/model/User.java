@@ -3,6 +3,7 @@ package com.juzhai.android.passport.model;
 import org.apache.commons.lang.StringUtils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.model.Entity;
@@ -44,6 +45,7 @@ public class User extends Entity {
 	private String tpName;
 	private int onlineStatus;
 	private Post postView;
+	private Bitmap logoImage;
 
 	public long getUid() {
 		return uid;
@@ -338,4 +340,13 @@ public class User extends Entity {
 	public boolean hasTpExpired() {
 		return this.hasTp() && this.isTokenExpired();
 	}
+
+	public Bitmap getLogoImage() {
+		return logoImage;
+	}
+
+	public void setLogoImage(Bitmap logoImage) {
+		this.logoImage = logoImage;
+	}
+
 }

@@ -21,7 +21,7 @@
 	<c:when test="${footType == 'welcome'}">
 		<div class="wel_copy ${parame}">
 						拒宅网©2012&nbsp;<a href="http://www.miibeian.gov.cn/" target="_blank">沪ICP备11031778号</a><a href="http://weibo.com/51juzhai" target="_blank">官方微博</a><a href="/about/us" target="_blank">关于我们</a><a href="/searchusers" target="_blank">找伴儿</a><a href="/showideas" target="_blank">出去玩</a><br />
-						友情链接：<a href="http://www.douban.com/" target="_blank">豆瓣</a><a href="http://www.xuejineng.cn/" target="_blank">学技能</a><a href="http://app.tongbu.com/" target="_blank">同步助手</a><a href="http://www.party021.com" target="_blank">上海派对网</a><a href="http://www.365ddt.com/" target="_blank">店店通</a>
+						友情链接：<a href="http://www.douban.com/" target="_blank">豆瓣</a><a href="http://www.xuejineng.cn/" target="_blank">学技能</a><a href="http://app.tongbu.com/" target="_blank">同步助手</a><a href="http://www.party021.com" target="_blank">上海派对网</a><a href="http://www.365ddt.com/" target="_blank">店店通</a><a href="http://www.25pp.com/" target="_blank">iPhone游戏</a><a href="http://www.gzhong.cn/" target="_blank">工众网</a>
 		</div>
 	</c:when>
 </c:choose>

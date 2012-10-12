@@ -1,5 +1,7 @@
 package com.juzhai.android.common.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.juzhai.android.core.model.Entity;
 
 public class Category extends Entity {
@@ -33,8 +35,9 @@ public class Category extends Entity {
 	}
 
 	@Override
+	@JsonIgnore
 	public Object getIdentify() {
-		return getCategoryId();
+		return categoryId;
 	}
 
 }

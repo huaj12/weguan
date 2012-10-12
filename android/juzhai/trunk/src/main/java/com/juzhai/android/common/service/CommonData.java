@@ -3,10 +3,13 @@ package com.juzhai.android.common.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -15,13 +18,23 @@ import android.util.Log;
 import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
 import com.juzhai.android.common.model.Category;
+import com.juzhai.android.common.model.City;
+import com.juzhai.android.common.model.Profession;
+import com.juzhai.android.common.model.Province;
 import com.juzhai.android.core.data.SharedPreferencesManager;
 import com.juzhai.android.core.model.Result.CategoryResult;
+import com.juzhai.android.core.model.Result.ProfessionResult;
+import com.juzhai.android.core.model.Result.ProvinceCityResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.JacksonSerializer;
 
 public class CommonData {
 	public static final String SHARED_PREFERNCES_CATEGORY = "category";
+	public static final String SHARED_PROVINCE_CITY = "provinceCity";
+	public static final String SHARED_PREFERNCES_PROFESSION = "profession";
+	private static List<Province> provinceList = null;
+	private static List<City> cityList = null;
+	private static List<Profession> professionList = null;
 
 	public static List<Category> getCategorys(Context context) {
 		String jsonString = new SharedPreferencesManager(context)
@@ -46,6 +59,87 @@ public class CommonData {
 		return Collections.emptyList();
 	}
 
+	public static List<Province> getProvinces(Context context) {
+		if (CollectionUtils.isEmpty(provinceList)) {
+			String jsonString = new SharedPreferencesManager(context)
+					.getString(SHARED_PROVINCE_CITY);
+			if (StringUtils.isNotEmpty(jsonString)) {
+				try {
+					ProvinceCityResult result = JacksonSerializer.toBean(
+							jsonString, ProvinceCityResult.class);
+					provinceList = result.getResult().getProvinceList();
+					return provinceList;
+				} catch (Exception e) {
+					if (BuildConfig.DEBUG) {
+						Log.d("getProvinces", "json to province is error", e);
+					}
+				}
+			}
+			return Collections.emptyList();
+		} else {
+			return provinceList;
+		}
+	}
+
+	public static List<City> getCitys(Context context) {
+		if (CollectionUtils.isEmpty(cityList)) {
+			String jsonString = new SharedPreferencesManager(context)
+					.getString(SHARED_PROVINCE_CITY);
+			if (StringUtils.isNotEmpty(jsonString)) {
+				try {
+					ProvinceCityResult result = JacksonSerializer.toBean(
+							jsonString, ProvinceCityResult.class);
+					cityList = result.getResult().getCityList();
+					return cityList;
+				} catch (Exception e) {
+					if (BuildConfig.DEBUG) {
+						Log.d("getCitys", "json to city is error", e);
+					}
+				}
+			}
+			return Collections.emptyList();
+		} else {
+			return cityList;
+		}
+	}
+
+	public static List<Profession> getProfessionList(Context context) {
+		if (CollectionUtils.isEmpty(professionList)) {
+			String jsonString = new SharedPreferencesManager(context)
+					.getString(SHARED_PREFERNCES_PROFESSION);
+			if (StringUtils.isNotEmpty(jsonString)) {
+				try {
+					ProfessionResult result = JacksonSerializer.toBean(
+							jsonString, ProfessionResult.class);
+					professionList = new ArrayList<Profession>(result
+							.getResult().size());
+					for (Map<Long, String> mapAll : result.getResult()) {
+						for (Entry<Long, String> map : mapAll.entrySet()) {
+							Profession profession = new Profession();
+							profession.setId(map.getKey());
+							profession.setName(map.getValue());
+							professionList.add(profession);
+						}
+					}
+					Profession profession = new Profession();
+					profession.setId(0);
+					profession.setName(context.getResources().getString(
+							R.string.other));
+					professionList.add(profession);
+					return professionList;
+				} catch (Exception e) {
+					if (BuildConfig.DEBUG) {
+						Log.d("getProfessionList",
+								"json to profession is error", e);
+					}
+				}
+			}
+			return Collections.emptyList();
+		} else {
+			return professionList;
+		}
+	}
+
 	public static String[] getCategoryNames(Context context) {
 		List<Category> categorys = getCategorys(context);
 		String[] categoryNames = new String[categorys.size()];
@@ -55,20 +149,17 @@ public class CommonData {
 		return categoryNames;
 	}
 
-	// TODO (done) 自己看有什么问题。
 	public static void initDate(final Context context) {
 		final SharedPreferencesManager manager = new SharedPreferencesManager(
 				context);
+		// 加载类别
 		if (!manager.isExist(SHARED_PREFERNCES_CATEGORY)) {
 			new AsyncTask<Void, Void, Boolean>() {
 				private final String CATEGORY_URI = "base/categoryList";
 
 				@Override
 				protected Boolean doInBackground(Void... params) {
-					// TODO (done) 自己看什么问题
-					if (!manager.isExist(SHARED_PREFERNCES_CATEGORY)) {
-						initCategory();
-					}
+					initCategory();
 					return true;
 				}
 
@@ -92,5 +183,70 @@ public class CommonData {
 				}
 			}.execute();
 		}
+		// 加载城市
+		if (!manager.isExist(SHARED_PROVINCE_CITY)) {
+			new AsyncTask<Void, Void, Boolean>() {
+				private final String PROVINCE_CITY_URI = "base/provinceCityList";
+
+				@Override
+				protected Boolean doInBackground(Void... params) {
+					initProvinceCity();
+					return true;
+				}
+
+				private void initProvinceCity() {
+					ResponseEntity<ProvinceCityResult> response = HttpUtils
+							.get(context, PROVINCE_CITY_URI,
+									ProvinceCityResult.class);
+					if (response != null && response.getBody() != null
+							&& response.getBody().getSuccess()) {
+						ProvinceCityResult result = response.getBody();
+						try {
+							manager.commit(SHARED_PROVINCE_CITY,
+									JacksonSerializer.toString(result));
+						} catch (JsonGenerationException e) {
+							if (BuildConfig.DEBUG) {
+								Log.d(getClass().getSimpleName(),
+										"provinceCity to json is error", e);
+							}
+						}
+
+					}
+				}
+			}.execute();
+		}
+
+		// 加载职业
+		if (!manager.isExist(SHARED_PREFERNCES_PROFESSION)) {
+			new AsyncTask<Void, Void, Boolean>() {
+				private final String PROFESSION_URI = "base/professionList";
+
+				@Override
+				protected Boolean doInBackground(Void... params) {
+					initProfession();
+					return true;
+				}
+
+				private void initProfession() {
+					ResponseEntity<ProfessionResult> response = HttpUtils.get(
+							context, PROFESSION_URI, ProfessionResult.class);
+					if (response != null && response.getBody() != null
+							&& response.getBody().getSuccess()) {
+						ProfessionResult result = response.getBody();
+						try {
+							manager.commit(SHARED_PREFERNCES_PROFESSION,
+									JacksonSerializer.toString(result));
+						} catch (JsonGenerationException e) {
+							if (BuildConfig.DEBUG) {
+								Log.d(getClass().getSimpleName(),
+										"profession to json is error", e);
+							}
+						}
+
+					}
+				}
+			}.execute();
+		}
 	}
+
 }

@@ -20,9 +20,21 @@ import com.juzhai.android.passport.service.IProfileService;
 
 public class ProfileService implements IProfileService {
 	private final String updateUserUri = "profile/save";
+	private final String userGuideUri = "profile/guide";
 
 	@Override
 	public void updateUser(User user, Context context) throws ProfileException {
+		save(user, context, updateUserUri);
+	}
+
+	@Override
+	public void guide(User user, Context context) throws ProfileException {
+		save(user, context, userGuideUri);
+
+	}
+
+	private void save(User user, Context context, String url)
+			throws ProfileException {
 		ResponseEntity<UserResult> responseEntity = null;
 		try {
 			Map<String, Object> values = new HashMap<String, Object>();
@@ -35,12 +47,13 @@ public class ProfileService implements IProfileService {
 			values.put("birth",
 					user.getBirthYear() + "-" + user.getBirthMonth() + "-"
 							+ user.getBirthDay());
-			responseEntity = HttpUtils.uploadFile(context, updateUserUri,
-					values, UserCache.getUserStatus(), "logo",
-					user.getLogoImage(), UserResult.class);
+			responseEntity = HttpUtils.uploadFile(context, url, values,
+					UserCache.getUserStatus(), "logo", user.getLogoImage(),
+					UserResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
-				Log.d(getClass().getSimpleName(), "updateUser  is error", e);
+				Log.d(getClass().getSimpleName(), "save " + url + "  is error",
+						e);
 			}
 			throw new ProfileException(R.string.system_internet_erorr, e);
 		}
@@ -56,7 +69,6 @@ public class ProfileService implements IProfileService {
 			UserCacheManager.updateUserCache(responseEntity.getBody()
 					.getResult());
 		}
-
 	}
 
 }

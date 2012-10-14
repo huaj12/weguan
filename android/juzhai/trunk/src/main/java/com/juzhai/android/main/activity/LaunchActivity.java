@@ -12,6 +12,7 @@ import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.activity.BaseActivity;
 import com.juzhai.android.main.service.impl.GuidanceService;
 import com.juzhai.android.passport.activity.LoginActivity;
+import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.service.IPassportService;
 import com.juzhai.android.passport.service.impl.PassportService;
 
@@ -47,8 +48,13 @@ public class LaunchActivity extends BaseActivity {
 					return;
 				}
 				if (result) {
-					clearStackAndStartActivity(new Intent(LaunchActivity.this,
-							MainTabActivity.class));
+					if (UserCache.getUserInfo().isHasGuided()) {
+						clearStackAndStartActivity(new Intent(
+								LaunchActivity.this, MainTabActivity.class));
+					} else {
+						clearStackAndStartActivity(new Intent(
+								LaunchActivity.this, UserGuideActivity.class));
+					}
 				} else {
 					clearStackAndStartActivity(new Intent(LaunchActivity.this,
 							LoginActivity.class));

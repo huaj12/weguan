@@ -20,4 +20,5 @@ public interface IHomeService {
 	 * @param latitude
 	 */
 	void updateLocation(Context context, double longitude, double latitude);
+
 }

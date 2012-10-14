@@ -40,7 +40,8 @@ public class SetAddressAcitvity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.page_setting_address);
 		long cityId = getIntent().getLongExtra("cityId", 0);
-		long provinceId = getIntent().getLongExtra("provinceId", 1);
+		long provinceId = getIntent().getLongExtra("provinceId", 0);
+		provinceId = provinceId == 0 ? 1 : provinceId;
 		provinceList = CommonData.getProvinces(SetAddressAcitvity.this);
 		cityList = getSelectCity(provinceId,
 				CommonData.getCitys(SetAddressAcitvity.this));

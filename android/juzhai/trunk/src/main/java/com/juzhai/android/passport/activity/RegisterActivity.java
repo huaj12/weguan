@@ -21,7 +21,9 @@ import com.juzhai.android.core.widget.list.table.model.BasicItem.ItemType;
 import com.juzhai.android.core.widget.list.table.widget.UITableView;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.main.activity.MainTabActivity;
+import com.juzhai.android.main.activity.UserGuideActivity;
 import com.juzhai.android.passport.adapter.RegisterInputListAdapter;
+import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.exception.PassportException;
 import com.juzhai.android.passport.listener.TpLoginListener;
 import com.juzhai.android.passport.service.IPassportService;
@@ -113,7 +115,7 @@ public class RegisterActivity extends NavigationActivity {
 								errorInfo);
 					} else {
 						clearStackAndStartActivity(new Intent(
-								RegisterActivity.this, MainTabActivity.class));
+								RegisterActivity.this, UserGuideActivity.class));
 					}
 				}
 

@@ -74,5 +74,7 @@
         <activity android:name=".home.activity.SetFeatureActivity"/>
         <!--created by kooks at 2012-10-12 12:26:18-->
         <activity android:name=".home.activity.SetProfessionActivity"/>
+        <!--created by kooks at 2012-10-12 21:18:53-->
+        <activity android:name=".main.activity.UserGuideActivity"/>
     </application>
 </manifest>

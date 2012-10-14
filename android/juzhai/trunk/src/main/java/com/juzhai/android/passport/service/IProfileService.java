@@ -13,4 +13,13 @@ public interface IProfileService {
 	 * @param context
 	 */
 	void updateUser(User user, Context context) throws ProfileException;
+
+	/**
+	 * 用户引导
+	 * 
+	 * @param user
+	 * @param context
+	 * @throws ProfileException
+	 */
+	void guide(User user, Context context) throws ProfileException;
 }

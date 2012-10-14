@@ -93,6 +93,8 @@
 	<string name="select_city">选择城市</string>
    <string name="other">其他</string>
    <string name="save_success">保存成功</string>
+   <string name="user_guide_title">新手引导</string>
+   <string name="begin_jz">开始拒宅</string>
     <!-- common end -->
 
 

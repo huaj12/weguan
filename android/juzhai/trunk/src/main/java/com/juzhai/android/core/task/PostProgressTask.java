@@ -54,24 +54,4 @@ public class PostProgressTask extends ProgressTask {
 		}, defaultStyle);
 	}
 
-	public PostProgressTask(final Context context, final TaskCallback callback) {
-		super(context, new TaskCallback() {
-
-			@Override
-			public void successCallback() {
-				if (callback != null) {
-					callback.successCallback();
-				}
-			}
-
-			@Override
-			public String doInBackground() {
-				if (callback != null) {
-					return callback.doInBackground();
-				}
-				return null;
-
-			}
-		}, false);
-	}
 }

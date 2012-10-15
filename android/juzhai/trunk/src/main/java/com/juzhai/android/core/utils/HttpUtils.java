@@ -24,6 +24,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 
+import com.juzhai.android.R;
 import com.juzhai.android.core.SystemConfig;
 import com.juzhai.android.passport.data.UserCache;
 
@@ -89,7 +90,8 @@ public class HttpUtils {
 				formData, requestHeaders);
 		RestTemplate restTemplate = createRestTemplate(context);
 		if (null == restTemplate) {
-			throw new RestClientException("no network");
+			throw new RestClientException(
+					context.getString(R.string.system_internet_erorr));
 		}
 		restTemplate.getMessageConverters().add(
 				new MappingJacksonHttpMessageConverter());

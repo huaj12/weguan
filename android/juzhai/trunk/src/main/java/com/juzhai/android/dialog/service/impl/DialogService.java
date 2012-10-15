@@ -35,7 +35,8 @@ public class DialogService implements IDialogService {
 				Log.d(getClass().getSimpleName(),
 						"get DialogListResult is  error", e);
 			}
-			throw new DialogException(R.string.system_internet_erorr, e);
+			throw new DialogException(context, R.string.system_internet_erorr,
+					e);
 		}
 		return responseEntity.getBody();
 	}

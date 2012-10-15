@@ -50,12 +50,7 @@ public class ForgotPwdActivity extends NavigationActivity {
 									params[0]);
 							return null;
 						} catch (PassportException e) {
-							if (e.getMessageId() > 0) {
-								return ForgotPwdActivity.this.getResources()
-										.getString(e.getMessageId());
-							} else {
-								return e.getMessage();
-							}
+							return e.getMessage();
 						}
 					}
 

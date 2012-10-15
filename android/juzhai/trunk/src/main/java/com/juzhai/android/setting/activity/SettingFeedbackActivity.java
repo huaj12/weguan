@@ -56,13 +56,7 @@ public class SettingFeedbackActivity extends NavigationActivity {
 											editText.getText().toString());
 									return null;
 								} catch (DialogContentException e) {
-									if (e.getMessageId() > 0) {
-										return SettingFeedbackActivity.this
-												.getResources().getString(
-														e.getMessageId());
-									} else {
-										return e.getMessage();
-									}
+									return e.getMessage();
 								}
 							}
 

@@ -1,31 +1,27 @@
 package com.juzhai.android.idea.exception;
 
-public class IdeaException extends Exception {
+import android.content.Context;
+
+import com.juzhai.android.core.exception.JuzhaiException;
+
+public class IdeaException extends JuzhaiException {
+
 	private static final long serialVersionUID = 7400271977091952584L;
-	private int messageId;
 
-	public IdeaException(int messageId) {
-		super();
-		this.messageId = messageId;
+	public IdeaException(Context context, int messageId) {
+		super(context, messageId);
 	}
 
-	public IdeaException(int messageId, Throwable throwable) {
-		super(throwable);
-		this.messageId = messageId;
+	public IdeaException(Context context, String detailMessage) {
+		super(context, detailMessage);
 	}
 
-	public IdeaException(String detailMessage, int messageId) {
-		super(detailMessage);
-		this.messageId = messageId;
+	public IdeaException(Context context, int messageId, Throwable throwable) {
+		super(context, messageId, throwable);
 	}
 
-	public IdeaException(String detailMessage, int messageId,
+	public IdeaException(Context context, String detailMessage,
 			Throwable throwable) {
-		super(detailMessage, throwable);
-		this.messageId = messageId;
-	}
-
-	public int getMessageId() {
-		return messageId;
+		super(context, detailMessage, throwable);
 	}
 }

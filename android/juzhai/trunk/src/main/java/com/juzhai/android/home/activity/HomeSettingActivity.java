@@ -3,8 +3,6 @@
  */
 package com.juzhai.android.home.activity;
 
-import org.apache.commons.lang.StringUtils;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,14 +23,12 @@ public class HomeSettingActivity extends SetUserInfoActivity {
 		super.onCreate(savedInstanceState);
 		setmContext(HomeSettingActivity.this);
 		setNavContentView(R.layout.page_home_setting);
-		init();
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.home_setting_title));
 		finish = (Button) getLayoutInflater().inflate(R.layout.button_finish,
 				null);
 		finish.setEnabled(false);
 		getNavigationBar().setRightView(finish);
-
 		finish.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -52,12 +48,7 @@ public class HomeSettingActivity extends SetUserInfoActivity {
 							profileService.updateUser(user,
 									HomeSettingActivity.this);
 						} catch (ProfileException e) {
-							if (e.getMessageId() > 0) {
-								return HomeSettingActivity.this.getResources()
-										.getString(e.getMessageId());
-							} else if (StringUtils.isEmpty(e.getMessage())) {
-								return e.getMessage();
-							}
+							return e.getMessage();
 						}
 						return null;
 					}
@@ -65,6 +56,7 @@ public class HomeSettingActivity extends SetUserInfoActivity {
 
 			}
 		});
+		init();
 	}
 
 }

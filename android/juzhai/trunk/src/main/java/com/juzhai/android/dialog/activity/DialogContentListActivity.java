@@ -320,8 +320,7 @@ public class DialogContentListActivity extends NavigationActivity {
 						// 发送失败
 						dialogContent.setStatus(MessageStatus.ERROR);
 						// 发送更新通知
-						updateUI(false, e.getMessageId() > 0 ? getResources()
-								.getString(e.getMessageId()) : e.getMessage());
+						updateUI(false, e.getMessage());
 					}
 				} else {
 					PageList<DialogContent> pageList = dialogContentService

@@ -1,6 +1,7 @@
 package com.juzhai.android.core.utils;
 
 public class Validation {
+	//TODO (review) 一会max，min；一会length_max；一会max_length。到底是什么？
 	public static final int REGISTER_EMAIL_MAX = 100;
 	public static final int REGISTER_EMAIL_MIN = 6;
 	public static final int NICKNAME_LENGTH_MAX = 20;

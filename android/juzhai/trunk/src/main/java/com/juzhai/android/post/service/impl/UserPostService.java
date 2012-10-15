@@ -39,7 +39,7 @@ public class UserPostService implements IUserPostService {
 				Log.d(getClass().getSimpleName(),
 						"post get UserListResult is  error", e);
 			}
-			throw new PostException(R.string.system_internet_erorr, e);
+			throw new PostException(context, R.string.system_internet_erorr, e);
 		}
 		return responseEntity.getBody();
 	}
@@ -59,7 +59,7 @@ public class UserPostService implements IUserPostService {
 				Log.d(getClass().getSimpleName(),
 						"post get UserPostListResult is  error", e);
 			}
-			throw new PostException(R.string.system_internet_erorr, e);
+			throw new PostException(context, R.string.system_internet_erorr, e);
 		}
 		return responseEntity.getBody();
 	}

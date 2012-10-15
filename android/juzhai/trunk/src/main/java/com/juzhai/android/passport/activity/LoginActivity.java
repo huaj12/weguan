@@ -112,12 +112,7 @@ public class LoginActivity extends NavigationActivity {
 								params[1]);
 						return null;
 					} catch (PassportException e) {
-						if (e.getMessageId() > 0) {
-							return LoginActivity.this.getResources().getString(
-									e.getMessageId());
-						} else {
-							return e.getMessage();
-						}
+						return e.getMessage();
 					}
 				}
 

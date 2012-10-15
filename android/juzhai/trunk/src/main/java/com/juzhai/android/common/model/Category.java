@@ -37,7 +37,7 @@ public class Category extends Entity {
 	@Override
 	@JsonIgnore
 	public Object getIdentify() {
-		return categoryId;
+		return getCategoryId();
 	}
 
 }

@@ -28,8 +28,8 @@ public class HomeSettingActivity extends SetUserInfoActivity {
 		init();
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.home_setting_title));
-		finish = (Button) (Button) getLayoutInflater().inflate(
-				R.layout.button_finish, null);
+		finish = (Button) getLayoutInflater().inflate(R.layout.button_finish,
+				null);
 		finish.setEnabled(false);
 		getNavigationBar().setRightView(finish);
 

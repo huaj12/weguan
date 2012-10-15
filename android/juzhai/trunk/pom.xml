@@ -55,6 +55,11 @@
 	    <artifactId>disklrucache</artifactId>
 	    <version>1.1.0</version>
 	</dependency>
+	<dependency>
+	    <groupId>com.umeng</groupId>
+	    <artifactId>umengsdk</artifactId>
+	    <version>5.5</version>
+	</dependency>
   </dependencies>
 
   <build>

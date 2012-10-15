@@ -11,8 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -70,16 +68,19 @@ public class SetUserInfoActivity extends NavigationActivity {
 	// TODO (review) 子类需要调用？
 	protected void logoList() {
 		userLogoView = (ImageView) logoLayout.findViewById(R.id.user_logo);
-		userLogoView.setOnClickListener(new OnClickListener() {
+		userViewHelper.showUserLogo(mContext, user, userLogoView, 35, 35);
+		logoTableView.setClickListener(new ClickListener() {
 			@Override
-			public void onClick(View v) {
-				// TODO (review) mContext为什么不能用SetUserInfoActivity.this
-				Intent intent = new Intent(mContext, UploadImageActivity.class);
-				startActivityForResult(intent,
-						ActivityCode.RequestCode.PIC_REQUEST_CODE);
+			public void onClick(int index) {
+				if (index == 0) {
+					// TODO (review) mContext为什么不能用SetUserInfoActivity.this
+					Intent intent = new Intent(mContext,
+							UploadImageActivity.class);
+					startActivityForResult(intent,
+							ActivityCode.RequestCode.PIC_REQUEST_CODE);
+				}
 			}
 		});
-		userViewHelper.showUserLogo(mContext, user, userLogoView, 35, 35);
 		logoTableView.addViewItem(new ViewItem(logoLayout));
 	}
 

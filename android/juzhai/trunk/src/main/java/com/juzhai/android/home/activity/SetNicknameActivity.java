@@ -35,17 +35,16 @@ public class SetNicknameActivity extends NavigationActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		String nickname = getIntent().getStringExtra("nickname");
+		setNavContentView(R.layout.page_setting_nickname);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.nickname));
 		finish = (Button) (Button) getLayoutInflater().inflate(
 				R.layout.button_finish, null);
 		getNavigationBar().setRightView(finish);
-		setNavContentView(R.layout.page_setting_nickname);
+		String nickname = getIntent().getStringExtra("nickname");
 		final EditText editText = (EditText) findViewById(R.id.nickname);
 		editText.setText(nickname);
 		finish.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				final String nickname = editText.getText().toString();

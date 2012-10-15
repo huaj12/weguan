@@ -41,6 +41,7 @@ public class SetAddressAcitvity extends Activity {
 		setContentView(R.layout.page_setting_address);
 		long cityId = getIntent().getLongExtra("cityId", 0);
 		long provinceId = getIntent().getLongExtra("provinceId", 0);
+		//TODO (review) 为什么provinceId等于0的话，就要设置为1呢？
 		provinceId = provinceId == 0 ? 1 : provinceId;
 		provinceList = CommonData.getProvinces(SetAddressAcitvity.this);
 		cityList = getSelectCity(provinceId,
@@ -54,6 +55,7 @@ public class SetAddressAcitvity extends Activity {
 		}
 		final WheelView provinceView = (WheelView) findViewById(R.id.province);
 		final WheelView cityView = (WheelView) findViewById(R.id.city);
+		//TODO (review) 下面的40和6,是sp，dp还是px？
 		provinceView.TEXT_SIZE = 40;
 		cityView.TEXT_SIZE = 40;
 		ArrayWheelAdapter<Province> provinceWheelAdapter = new ArrayWheelAdapter<Province>(
@@ -78,6 +80,7 @@ public class SetAddressAcitvity extends Activity {
 				cityView.setCurrentItem(0);
 			}
 		});
+		//TODO (review) 两个问题。a.为什么上面是10,下面是20。b.代码不觉得重复吗？
 		ArrayWheelAdapter<City> cityWheelAdapter = new ArrayWheelAdapter<City>(
 				cityList, 20);
 		cityView.setAdapter(cityWheelAdapter);
@@ -111,6 +114,7 @@ public class SetAddressAcitvity extends Activity {
 		});
 	}
 
+	//TODO (review) 这个方法放适合放在这里嘛？
 	private int getCityIndxex(long cityId, List<City> citys) {
 		for (int i = 0; i < citys.size(); i++) {
 			City city = citys.get(i);
@@ -121,6 +125,7 @@ public class SetAddressAcitvity extends Activity {
 		return 0;
 	}
 
+	//TODO (review) 这个方法放适合放在这里嘛？
 	private int getProvinceIndxex(long provinceId, List<Province> provinces) {
 		for (int i = 0; i < provinces.size(); i++) {
 			Province province = provinces.get(i);
@@ -131,6 +136,7 @@ public class SetAddressAcitvity extends Activity {
 		return 0;
 	}
 
+	//TODO (review) 这个方法放适合放在这里嘛？
 	private List<City> getSelectCity(long provinceId, List<City> allCitys) {
 		List<City> ciyts = new ArrayList<City>();
 		for (City city : allCitys) {

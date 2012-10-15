@@ -1,48 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="wrap_content"
-	android:layout_width="fill_parent"
-	android:background="@color/white"
-	>
-	
-	<EditText android:id="@+id/profession_input" 
-	    android:layout_width="fill_parent"
-		android:layout_marginLeft="20dp"
-		android:layout_marginTop="20dp"
-		android:layout_marginRight="20dp"
-		android:paddingLeft="5dp" 
-		android:layout_height="wrap_content" 
-		android:background="@drawable/find_password_input" 
-		android:inputType="text"
-		android:textColor="@color/idea_want"
-		android:textSize="15sp"
-		android:visibility="gone"
-		/>
-	<TextView android:layout_width="wrap_content"
-	    	  android:layout_height="wrap_content"
-	    	  android:layout_marginLeft="20dp"
-	    	  android:layout_below="@+id/profession_input"
-	    	  android:text="@string/set_profession_tip"
-	    	  android:textColor="@color/home_gray"
-			  android:textSize="15sp"
-			  android:visibility="gone"
-			  android:id="@+id/profession_tip"/>
-	<LinearLayout
-	    android:layout_below="@+id/profession_tip"
-		android:layout_height="wrap_content" android:layout_width="wrap_content"
-		android:layout_gravity="center_horizontal"
-		android:paddingTop="10dp"
-		android:layout_centerHorizontal="true" >
-		<com.juzhai.android.core.widget.wheelview.WheelView
-			android:id="@+id/profession"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content" />
-	</LinearLayout>
-	    <TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white" >
+
+    <EditText
+        android:id="@+id/profession_input"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/find_password_input"
+        android:inputType="text"
+        android:paddingLeft="5dp"
+        android:textColor="@color/idea_want"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/profession_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profession_input"
+        android:layout_marginLeft="20dp"
+        android:text="@string/set_profession_tip"
+        android:textColor="@color/home_gray"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profession_tip"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="10dp" >
+
+        <com.juzhai.android.core.widget.wheelview.WheelView
+            android:id="@+id/profession"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="1dp"
         android:text="@null" />
-	
+
 </RelativeLayout>

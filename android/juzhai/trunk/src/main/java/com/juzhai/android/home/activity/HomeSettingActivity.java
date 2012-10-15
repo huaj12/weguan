@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.task.PostProgressTask;
+import com.juzhai.android.core.task.ProgressTask;
 import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.passport.exception.ProfileException;
@@ -36,36 +36,32 @@ public class HomeSettingActivity extends SetUserInfoActivity {
 		finish.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new PostProgressTask(HomeSettingActivity.this,
-						new TaskCallback() {
+				new ProgressTask(HomeSettingActivity.this, new TaskCallback() {
 
-							@Override
-							public void successCallback() {
-								DialogUtils.showToastText(
-										HomeSettingActivity.this,
-										R.string.save_success);
-								HomeSettingActivity.this.finish();
-							}
+					@Override
+					public void successCallback() {
+						DialogUtils.showToastText(HomeSettingActivity.this,
+								R.string.save_success);
+						HomeSettingActivity.this.finish();
+					}
 
-							@Override
-							public String doInBackground() {
-								IProfileService profileService = new ProfileService();
-								try {
-									profileService.updateUser(user,
-											HomeSettingActivity.this);
-								} catch (ProfileException e) {
-									if (e.getMessageId() > 0) {
-										return HomeSettingActivity.this
-												.getResources().getString(
-														e.getMessageId());
-									} else if (StringUtils.isEmpty(e
-											.getMessage())) {
-										return e.getMessage();
-									}
-								}
-								return null;
+					@Override
+					public String doInBackground() {
+						IProfileService profileService = new ProfileService();
+						try {
+							profileService.updateUser(user,
+									HomeSettingActivity.this);
+						} catch (ProfileException e) {
+							if (e.getMessageId() > 0) {
+								return HomeSettingActivity.this.getResources()
+										.getString(e.getMessageId());
+							} else if (StringUtils.isEmpty(e.getMessage())) {
+								return e.getMessage();
 							}
-						}).execute();
+						}
+						return null;
+					}
+				}, false).execute();
 
 			}
 		});

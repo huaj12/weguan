@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=umeng_sdk.jar -DgroupId=com.umeng -DartifactId=umengsdk -Dversion=5.5 -Dpackaging=jar

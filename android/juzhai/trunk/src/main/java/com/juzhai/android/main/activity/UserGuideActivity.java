@@ -35,9 +35,10 @@ public class UserGuideActivity extends SetUserInfoActivity {
 		init();
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.user_guide_title));
-
-		finish = (Button) findViewById(R.id.begin_jz);
+		finish = (Button) getLayoutInflater().inflate(R.layout.button_finish,
+				null);
 		finish.setEnabled(false);
+		getNavigationBar().setRightView(finish);
 		finish.setOnClickListener(new OnClickListener() {
 
 			@Override

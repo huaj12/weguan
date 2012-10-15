@@ -13,6 +13,8 @@ import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.table.model.BasicItem.ItemType;
 import com.juzhai.android.core.widget.list.table.widget.UITableView;
 import com.juzhai.android.core.widget.list.table.widget.UITableView.ClickListener;
+import com.juzhai.android.home.activity.HomeActivity;
+import com.juzhai.android.home.activity.HomeSettingActivity;
 import com.juzhai.android.main.activity.TabItemActivity;
 import com.juzhai.android.passport.activity.AuthorizeBindActivity;
 import com.juzhai.android.passport.activity.AuthorizeExpiredActivity;
@@ -62,7 +64,11 @@ public class SettingListActivity extends TabItemActivity {
 		accountTableView.setClickListener(new ClickListener() {
 			@Override
 			public void onClick(int index) {
-				if (index == 1) {
+				if (index == 0) {
+					Intent intent = new Intent(SettingListActivity.this,
+							HomeSettingActivity.class);
+					pushIntent(intent);
+				} else if (index == 1) {
 					User user = UserCache.getUserInfo();
 					if (user.hasTpExpired()) {
 						pushIntent(new Intent(SettingListActivity.this,

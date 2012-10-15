@@ -234,6 +234,7 @@ public class SetUserInfoActivity extends NavigationActivity {
 			long cityId = data.getLongExtra("cityId", -1);
 			String provinceName = data.getStringExtra("provinceName");
 			String cityName = data.getStringExtra("cityName");
+			// TODO (review) provinceId,cityId可以是-2?-3?0?
 			if (provinceId != -1 && cityId != -1) {
 				user.setProvinceId(provinceId);
 				user.setCityId(cityId);
@@ -275,7 +276,7 @@ public class SetUserInfoActivity extends NavigationActivity {
 	}
 
 	public boolean validateFinish() {
-		//TODO (review) 这里的逻辑是怎么样的？我觉得有问题啊
+		// TODO (review) 这里的逻辑是怎么样的？我觉得有问题啊
 		if (isGuide) {
 			if (user.getLogoImage() != null
 					&& StringUtils.isNotEmpty(user.getNickname())

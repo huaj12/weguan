@@ -125,6 +125,7 @@ public class SetProfessionActivity extends NavigationActivity {
 		});
 	}
 
+	// TODO (review) Indexex是什么意思
 	private int getProfessionIndxex(long professionId,
 			List<Profession> professions) {
 		for (int i = 0; i < professions.size(); i++) {

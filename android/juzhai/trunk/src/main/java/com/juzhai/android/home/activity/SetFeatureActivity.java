@@ -33,9 +33,9 @@ public class SetFeatureActivity extends NavigationActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setNavContentView(R.layout.page_setting_feature);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.feature));
-		setNavContentView(R.layout.page_setting_feature);
 		Button finish = (Button) getLayoutInflater().inflate(
 				R.layout.button_finish, null);
 		getNavigationBar().setRightView(finish);
@@ -52,7 +52,6 @@ public class SetFeatureActivity extends NavigationActivity {
 			}
 		}, 300);
 		finish.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				String feature = editText.getText().toString();

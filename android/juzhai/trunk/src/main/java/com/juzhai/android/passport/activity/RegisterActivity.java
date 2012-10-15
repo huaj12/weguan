@@ -96,12 +96,7 @@ public class RegisterActivity extends NavigationActivity {
 								params[0], params[1], params[2], params[3]);
 						return null;
 					} catch (PassportException e) {
-						if (e.getMessageId() > 0) {
-							return RegisterActivity.this.getResources()
-									.getString(e.getMessageId());
-						} else {
-							return e.getMessage();
-						}
+						return e.getMessage();
 					}
 				}
 

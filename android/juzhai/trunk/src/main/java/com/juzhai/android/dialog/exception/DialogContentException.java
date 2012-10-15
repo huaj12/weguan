@@ -1,33 +1,28 @@
 package com.juzhai.android.dialog.exception;
 
+import android.content.Context;
 
-public class DialogContentException extends Exception {
+import com.juzhai.android.core.exception.JuzhaiException;
+
+public class DialogContentException extends JuzhaiException {
 
 	private static final long serialVersionUID = 1579295456821382028L;
-	private int messageId;
 
-	public DialogContentException(int messageId) {
-		super();
-		this.messageId = messageId;
+	public DialogContentException(Context context, int messageId) {
+		super(context, messageId);
 	}
 
-	public DialogContentException(int messageId, Throwable throwable) {
-		super(throwable);
-		this.messageId = messageId;
+	public DialogContentException(Context context, String detailMessage) {
+		super(context, detailMessage);
 	}
 
-	public DialogContentException(String detailMessage, int messageId) {
-		super(detailMessage);
-		this.messageId = messageId;
-	}
-
-	public DialogContentException(String detailMessage, int messageId,
+	public DialogContentException(Context context, int messageId,
 			Throwable throwable) {
-		super(detailMessage, throwable);
-		this.messageId = messageId;
+		super(context, messageId, throwable);
 	}
 
-	public int getMessageId() {
-		return messageId;
+	public DialogContentException(Context context, String detailMessage,
+			Throwable throwable) {
+		super(context, detailMessage, throwable);
 	}
 }

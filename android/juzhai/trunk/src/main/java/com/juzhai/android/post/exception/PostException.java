@@ -1,33 +1,27 @@
 package com.juzhai.android.post.exception;
 
-public class PostException extends Exception {
+import android.content.Context;
+
+import com.juzhai.android.core.exception.JuzhaiException;
+
+public class PostException extends JuzhaiException {
 
 	private static final long serialVersionUID = 1191329540989752039L;
 
-	private int messageId;
-
-	public PostException(int messageId) {
-		super();
-		this.messageId = messageId;
+	public PostException(Context context, int messageId) {
+		super(context, messageId);
 	}
 
-	public PostException(int messageId, Throwable throwable) {
-		super(throwable);
-		this.messageId = messageId;
+	public PostException(Context context, String detailMessage) {
+		super(context, detailMessage);
 	}
 
-	public PostException(String detailMessage, int messageId) {
-		super(detailMessage);
-		this.messageId = messageId;
+	public PostException(Context context, int messageId, Throwable throwable) {
+		super(context, messageId, throwable);
 	}
 
-	public PostException(String detailMessage, int messageId,
+	public PostException(Context context, String detailMessage,
 			Throwable throwable) {
-		super(detailMessage, throwable);
-		this.messageId = messageId;
-	}
-
-	public int getMessageId() {
-		return messageId;
+		super(context, detailMessage, throwable);
 	}
 }

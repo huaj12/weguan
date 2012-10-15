@@ -36,8 +36,6 @@ import com.juzhai.android.idea.model.Idea;
  */
 public class IdeaDetailActivity extends NavigationActivity {
 	private Idea idea;
-	private ImageView imageView;
-	private Button wantBtn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +47,11 @@ public class IdeaDetailActivity extends NavigationActivity {
 		if (idea == null) {
 			popIntent();
 		}
-		imageView = (ImageView) findViewById(R.id.idea_image);
+		final ImageView imageView = (ImageView) findViewById(R.id.idea_image);
 		TextView useCountText = (TextView) findViewById(R.id.idea_use_count_txet);
 		TextView contentText = (TextView) findViewById(R.id.idea_content);
-		wantBtn = (Button) findViewById(R.id.idea_want_btn);
+		final Button wantBtn = (Button) findViewById(R.id.idea_want_btn);
+		final Button shareBtn = (Button) findViewById(R.id.idea_share_btn);
 		contentText.setText(idea.getContent());
 		if (idea.getUseCount() != null && idea.getUseCount() > 0) {
 			useCountText.setText(getResources().getString(
@@ -115,6 +114,17 @@ public class IdeaDetailActivity extends NavigationActivity {
 						}
 					}));
 		}
+		shareBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_SEND);
+				intent.setType("text/plain");
+				intent.putExtra(Intent.EXTRA_SUBJECT, "title");
+				intent.putExtra(Intent.EXTRA_TEXT, "text");
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(Intent.createChooser(intent, "分享"));
+			}
+		});
 		initIdeaInfo();
 
 	}

@@ -14,7 +14,6 @@ import com.juzhai.android.core.model.Result.UserListResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.home.exception.HomeException;
 import com.juzhai.android.home.service.IInterestUserService;
-import com.juzhai.android.passport.data.UserCache;
 
 public class InterestUserService implements IInterestUserService {
 	private String interestMeUri = "home/interestMeList";
@@ -33,7 +32,7 @@ public class InterestUserService implements IInterestUserService {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "interestList is error", e);
 			}
-			throw new HomeException(R.string.system_internet_erorr, e);
+			throw new HomeException(context, R.string.system_internet_erorr, e);
 		}
 		return responseEntity.getBody();
 	}
@@ -51,7 +50,7 @@ public class InterestUserService implements IInterestUserService {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "interestMeList is error", e);
 			}
-			throw new HomeException(R.string.system_internet_erorr, e);
+			throw new HomeException(context, R.string.system_internet_erorr, e);
 		}
 		return responseEntity.getBody();
 	}

@@ -44,7 +44,8 @@ public class DialogContentService implements IDialogContentService {
 				Log.d(getClass().getSimpleName(),
 						"get DialogContentListResult error", e);
 			}
-			throw new DialogContentException(R.string.system_internet_erorr, e);
+			throw new DialogContentException(context,
+					R.string.system_internet_erorr, e);
 		}
 		return responseEntity.getBody().getResult();
 	}
@@ -85,16 +86,18 @@ public class DialogContentService implements IDialogContentService {
 				Log.d(getClass().getSimpleName(),
 						"send message thread is error", e);
 			}
-			throw new DialogContentException(R.string.system_internet_erorr, e);
+			throw new DialogContentException(context,
+					R.string.system_internet_erorr, e);
 		}
 		if (responseEntity == null || responseEntity.getBody() == null) {
-			throw new DialogContentException(R.string.system_internet_erorr);
+			throw new DialogContentException(context,
+					R.string.system_internet_erorr);
 		}
 
 		if (!responseEntity.getBody().getSuccess()
 				|| responseEntity.getBody().getResult() == null) {
-			throw new DialogContentException(responseEntity.getBody()
-					.getErrorInfo(), 0);
+			throw new DialogContentException(context, responseEntity.getBody()
+					.getErrorInfo());
 		} else {
 			return responseEntity.getBody().getResult();
 		}
@@ -106,7 +109,7 @@ public class DialogContentService implements IDialogContentService {
 		int contentLengt = StringUtil.chineseLength(content);
 		if (contentLengt < Validation.SEND_MESSAGE_MIN_LENGTH
 				|| contentLengt > Validation.SEND_MESSAGE_MAX_LENGTH) {
-			throw new DialogContentException(
+			throw new DialogContentException(context,
 					R.string.send_message_length_invalid);
 		}
 		sendSms(context, feedbackReceiverUid, content, null);

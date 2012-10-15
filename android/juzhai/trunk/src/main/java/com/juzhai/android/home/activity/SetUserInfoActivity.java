@@ -44,9 +44,11 @@ public class SetUserInfoActivity extends NavigationActivity {
 	protected RelativeLayout logoLayout;
 	protected Context mContext;
 	protected Button finish;
+	// TODO (review) 大错特错！！非常严重！
 	protected User user = UserCache.getUserInfo();
 	protected boolean isGuide = false;
 
+	// TODO (review) 结构设计有问题。为什么不用onCreate方法？
 	protected void init() {
 		logoLayout = (RelativeLayout) getLayoutInflater().inflate(
 				R.layout.fragment_user_upload_logo, null);
@@ -65,11 +67,13 @@ public class SetUserInfoActivity extends NavigationActivity {
 
 	}
 
+	// TODO (review) 子类需要调用？
 	protected void logoList() {
 		userLogoView = (ImageView) logoLayout.findViewById(R.id.user_logo);
 		userLogoView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				// TODO (review) mContext为什么不能用SetUserInfoActivity.this
 				Intent intent = new Intent(mContext, UploadImageActivity.class);
 				startActivityForResult(intent,
 						ActivityCode.RequestCode.PIC_REQUEST_CODE);
@@ -79,12 +83,13 @@ public class SetUserInfoActivity extends NavigationActivity {
 		logoTableView.addViewItem(new ViewItem(logoLayout));
 	}
 
+	// TODO (review) 子类需要调用？
 	protected void infoList() {
 		infoTableView.setClickListener(new ClickListener() {
-
 			@Override
 			public void onClick(int index) {
 				if (index == 0) {
+					// TODO (review) mContext为什么不能用SetUserInfoActivity.this
 					Intent intent = new Intent(mContext,
 							SetNicknameActivity.class);
 					intent.putExtra("nickname", user.getNickname());
@@ -135,6 +140,7 @@ public class SetUserInfoActivity extends NavigationActivity {
 									user.setBirthYear(year);
 									user.setBirthMonth(monthOfYear + 1);
 									user.setBirthDay(dayOfMonth);
+									// TODO (review) 为什么validateFinish？
 									finish.setEnabled(validateFinish());
 									reloadInfoTableView();
 								}
@@ -149,21 +155,14 @@ public class SetUserInfoActivity extends NavigationActivity {
 		infoTableView.addBasicItem(getResources().getString(R.string.gender),
 				JzUtils.getGender(user.getGender(), mContext),
 				ItemType.HORIZONTAL);
-		if (user.getBirthYear() <= 0) {
-			infoTableView.addBasicItem(
-					getResources().getString(R.string.birthday), null,
-					ItemType.HORIZONTAL);
-		} else {
-			infoTableView.addBasicItem(
-					getResources().getString(R.string.birthday),
-					user.getBirthYear() + "-" + user.getBirthMonth() + "-"
-							+ user.getBirthDay(), ItemType.HORIZONTAL);
-		}
+		infoTableView.addBasicItem(getResources().getString(R.string.birthday),
+				user.getBirthYear() <= 0 ? null : user.getBirthYear() + "-"
+						+ user.getBirthMonth() + "-" + user.getBirthDay(),
+				ItemType.HORIZONTAL);
 	}
 
 	protected void otherList() {
 		otherTableView.setClickListener(new ClickListener() {
-
 			@Override
 			public void onClick(int index) {
 				if (index == 0) {
@@ -276,6 +275,7 @@ public class SetUserInfoActivity extends NavigationActivity {
 	}
 
 	public boolean validateFinish() {
+		//TODO (review) 这里的逻辑是怎么样的？我觉得有问题啊
 		if (isGuide) {
 			if (user.getLogoImage() != null
 					&& StringUtils.isNotEmpty(user.getNickname())

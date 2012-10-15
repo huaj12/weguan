@@ -3,8 +3,6 @@
  */
 package com.juzhai.android.main.activity;
 
-import org.apache.commons.lang.StringUtils;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -32,9 +30,9 @@ public class UserGuideActivity extends SetUserInfoActivity {
 		setmContext(UserGuideActivity.this);
 		setGuide(true);
 		setNavContentView(R.layout.page_user_guide);
-		init();
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.user_guide_title));
+		// TODO (review) finish按钮设置可以封装起来
 		finish = (Button) getLayoutInflater().inflate(R.layout.button_finish,
 				null);
 		finish.setEnabled(false);
@@ -49,6 +47,7 @@ public class UserGuideActivity extends SetUserInfoActivity {
 					public void successCallback() {
 						DialogUtils.showToastText(UserGuideActivity.this,
 								R.string.save_success);
+						// TODO (review) 为什么不用clearStackAndStartActivity方法？
 						pushIntent(new Intent(UserGuideActivity.this,
 								MainTabActivity.class));
 						UserGuideActivity.this.finish();
@@ -60,12 +59,7 @@ public class UserGuideActivity extends SetUserInfoActivity {
 						try {
 							profileService.guide(user, UserGuideActivity.this);
 						} catch (ProfileException e) {
-							if (e.getMessageId() > 0) {
-								return UserGuideActivity.this.getResources()
-										.getString(e.getMessageId());
-							} else if (StringUtils.isNotEmpty(e.getMessage())) {
-								return e.getMessage();
-							}
+							return e.getMessage();
 						}
 						return null;
 					}
@@ -73,7 +67,7 @@ public class UserGuideActivity extends SetUserInfoActivity {
 
 			}
 		});
-
+		init();
 	}
 
 }

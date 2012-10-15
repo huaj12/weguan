@@ -28,11 +28,7 @@ public abstract class AbstractAuthorizeTask extends
 			doAuthorize(tpId, params);
 			return null;
 		} catch (PassportException e) {
-			if (e.getMessageId() > 0) {
-				return baseActivity.getResources().getString(e.getMessageId());
-			} else {
-				return e.getMessage();
-			}
+			return e.getMessage();
 		}
 	}
 

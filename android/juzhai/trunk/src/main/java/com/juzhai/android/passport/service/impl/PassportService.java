@@ -60,7 +60,7 @@ public class PassportService implements IPassportService {
 	public void login(Context context, String account, String password)
 			throws PassportException {
 		if (StringUtils.isEmpty(account) || StringUtils.isEmpty(password)) {
-			throw new PassportException(R.string.login_defalut_error);
+			throw new PassportException(context, R.string.login_defalut_error);
 		}
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("account", account);
@@ -73,11 +73,12 @@ public class PassportService implements IPassportService {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "login error", e);
 			}
-			throw new PassportException(R.string.system_internet_erorr, e);
+			throw new PassportException(context,
+					R.string.system_internet_erorr, e);
 		}
 		UserResult results = responseEntity.getBody();
 		if (!results.getSuccess()) {
-			throw new PassportException(results.getErrorInfo(), 0);
+			throw new PassportException(context, results.getErrorInfo());
 		} else {
 			loginSuccess(context, responseEntity);
 		}
@@ -95,7 +96,7 @@ public class PassportService implements IPassportService {
 			String pwd, String confirmPwd) throws PassportException {
 		int errorId = VerifyData(nickname, account, pwd, confirmPwd);
 		if (errorId > 0) {
-			throw new PassportException(errorId);
+			throw new PassportException(context, errorId);
 		}
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("nickname", nickname);
@@ -110,11 +111,12 @@ public class PassportService implements IPassportService {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "register error", e);
 			}
-			throw new PassportException(R.string.system_internet_erorr, e);
+			throw new PassportException(context,
+					R.string.system_internet_erorr, e);
 		}
 		UserResult results = responseEntity.getBody();
 		if (!results.getSuccess()) {
-			throw new PassportException(results.getErrorInfo(), 0);
+			throw new PassportException(context, results.getErrorInfo());
 		} else {
 			loginSuccess(context, responseEntity);
 		}
@@ -156,7 +158,7 @@ public class PassportService implements IPassportService {
 		if (emailLength > Validation.REGISTER_EMAIL_MAX
 				|| emailLength < Validation.REGISTER_EMAIL_MIN
 				|| !StringUtil.checkMailFormat(account)) {
-			throw new PassportException(R.string.email_account_invalid);
+			throw new PassportException(context, R.string.email_account_invalid);
 		}
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("account", account);
@@ -168,11 +170,12 @@ public class PassportService implements IPassportService {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "getback pwd error", e);
 			}
-			throw new PassportException(R.string.system_internet_erorr, e);
+			throw new PassportException(context,
+					R.string.system_internet_erorr, e);
 		}
 		StringResult result = response.getBody();
 		if (!result.getSuccess()) {
-			throw new PassportException(result.getErrorInfo(), 0);
+			throw new PassportException(context, result.getErrorInfo());
 		}
 	}
 
@@ -187,11 +190,11 @@ public class PassportService implements IPassportService {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "thirdparty login error", e);
 			}
-			throw new PassportException(R.string.system_internet_erorr);
+			throw new PassportException(context, R.string.system_internet_erorr);
 		}
 		UserResult results = responseEntity.getBody();
 		if (!results.getSuccess()) {
-			throw new PassportException(results.getErrorInfo(), 0);
+			throw new PassportException(context, results.getErrorInfo());
 		} else {
 			loginSuccess(context, responseEntity);
 		}
@@ -241,11 +244,11 @@ public class PassportService implements IPassportService {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "thirdparty login error", e);
 			}
-			throw new PassportException(R.string.system_internet_erorr);
+			throw new PassportException(context, R.string.system_internet_erorr);
 		}
 		UserResult result = responseEntity.getBody();
 		if (!result.getSuccess()) {
-			throw new PassportException(result.getErrorInfo(), 0);
+			throw new PassportException(context, result.getErrorInfo());
 		} else {
 			UserCacheManager.updateUserCache(result.getResult());
 		}

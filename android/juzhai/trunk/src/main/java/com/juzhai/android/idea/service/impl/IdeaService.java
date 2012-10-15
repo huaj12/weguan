@@ -36,7 +36,7 @@ public class IdeaService implements IIdeaService {
 				Log.d(getClass().getSimpleName(),
 						"get IdeaListResult is  error", e);
 			}
-			throw new IdeaException(R.string.system_internet_erorr, e);
+			throw new IdeaException(context, R.string.system_internet_erorr, e);
 		}
 		return responseEntity.getBody();
 
@@ -57,7 +57,7 @@ public class IdeaService implements IIdeaService {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "login error", e);
 			}
-			throw new IdeaException(R.string.system_internet_erorr, e);
+			throw new IdeaException(context, R.string.system_internet_erorr, e);
 		}
 		return responseEntity.getBody();
 

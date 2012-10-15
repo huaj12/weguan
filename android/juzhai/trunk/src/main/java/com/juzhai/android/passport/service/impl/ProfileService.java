@@ -58,16 +58,17 @@ public class ProfileService implements IProfileService {
 				Log.d(getClass().getSimpleName(), "save " + url + "  is error",
 						e);
 			}
-			throw new ProfileException(R.string.system_internet_erorr, e);
+			throw new ProfileException(context, R.string.system_internet_erorr,
+					e);
 		}
 		if (responseEntity == null || responseEntity.getBody() == null) {
-			throw new ProfileException(R.string.system_internet_erorr);
+			throw new ProfileException(context, R.string.system_internet_erorr);
 		}
 
 		if (!responseEntity.getBody().getSuccess()
 				|| responseEntity.getBody().getResult() == null) {
-			throw new ProfileException(responseEntity.getBody().getErrorInfo(),
-					0);
+			throw new ProfileException(context, responseEntity.getBody()
+					.getErrorInfo());
 		} else {
 			UserCacheManager.updateUserCache(responseEntity.getBody()
 					.getResult());

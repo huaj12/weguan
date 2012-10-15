@@ -1,33 +1,27 @@
 package com.juzhai.android.passport.exception;
 
-public class PassportException extends Exception {
+import android.content.Context;
+
+import com.juzhai.android.core.exception.JuzhaiException;
+
+public class PassportException extends JuzhaiException {
 
 	private static final long serialVersionUID = -950569690585929599L;
 
-	private int messageId;
-
-	public PassportException(int messageId) {
-		super();
-		this.messageId = messageId;
+	public PassportException(Context context, int messageId) {
+		super(context, messageId);
 	}
 
-	public PassportException(int messageId, Throwable throwable) {
-		super(throwable);
-		this.messageId = messageId;
+	public PassportException(Context context, String detailMessage) {
+		super(context, detailMessage);
 	}
 
-	public PassportException(String detailMessage, int messageId) {
-		super(detailMessage);
-		this.messageId = messageId;
+	public PassportException(Context context, int messageId, Throwable throwable) {
+		super(context, messageId, throwable);
 	}
 
-	public PassportException(String detailMessage, int messageId,
+	public PassportException(Context context, String detailMessage,
 			Throwable throwable) {
-		super(detailMessage, throwable);
-		this.messageId = messageId;
-	}
-
-	public int getMessageId() {
-		return messageId;
+		super(context, detailMessage, throwable);
 	}
 }

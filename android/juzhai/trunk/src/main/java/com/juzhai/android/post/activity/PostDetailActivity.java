@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
+import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
@@ -29,6 +30,7 @@ import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.helper.IPostViewHelper;
 import com.juzhai.android.post.helper.impl.PostViewHelper;
 import com.juzhai.android.post.model.Post;
+import com.umeng.analytics.MobclickAgent;
 
 public class PostDetailActivity extends NavigationActivity {
 	private User user;
@@ -138,6 +140,8 @@ public class PostDetailActivity extends NavigationActivity {
 							setResult(
 									ActivityCode.ResultCode.ZHAOBAN_LIST_RESULT_CODE,
 									intent);
+							MobclickAgent.onEvent(PostDetailActivity.this,
+									UmengEvent.RESPONSE_POST);
 						}
 
 						@Override

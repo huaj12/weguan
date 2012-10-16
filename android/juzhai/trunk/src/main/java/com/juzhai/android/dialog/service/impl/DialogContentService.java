@@ -14,6 +14,7 @@ import com.juzhai.android.R;
 import com.juzhai.android.core.model.PageList;
 import com.juzhai.android.core.model.Result.DialogContentListResult;
 import com.juzhai.android.core.model.Result.DialogContentResult;
+import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
@@ -21,6 +22,7 @@ import com.juzhai.android.dialog.exception.DialogContentException;
 import com.juzhai.android.dialog.model.DialogContent;
 import com.juzhai.android.dialog.service.IDialogContentService;
 import com.juzhai.android.passport.data.UserCache;
+import com.umeng.analytics.MobclickAgent;
 
 public class DialogContentService implements IDialogContentService {
 	private String dialogContentListUri = "dialog/dialogContentList";
@@ -99,6 +101,7 @@ public class DialogContentService implements IDialogContentService {
 			throw new DialogContentException(context, responseEntity.getBody()
 					.getErrorInfo());
 		} else {
+			MobclickAgent.onEvent(context, UmengEvent.SEND_SMS);
 			return responseEntity.getBody().getResult();
 		}
 	}

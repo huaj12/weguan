@@ -71,7 +71,7 @@ public class UserPostService implements IUserPostService {
 	}
 
 	@Override
-	public void sendPost(Bitmap image, Post post, Context context)
+	public void sendPost(Context context, Post post, Bitmap image)
 			throws PostException {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("content", post.getContent());

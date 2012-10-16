@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
+import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
@@ -29,6 +30,7 @@ import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.idea.model.Idea;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @author kooks
@@ -106,6 +108,8 @@ public class IdeaDetailActivity extends NavigationActivity {
 							setResult(
 									ActivityCode.ResultCode.IDEA_LIST_RESULT_CODE,
 									intent);
+							MobclickAgent.onEvent(IdeaDetailActivity.this,
+									UmengEvent.SEND_IDEA);
 						}
 
 						@Override

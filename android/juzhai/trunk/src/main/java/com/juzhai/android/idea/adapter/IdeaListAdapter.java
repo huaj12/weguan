@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.listener.SimpleClickListener;
+import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
@@ -26,9 +27,11 @@ import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
+import com.juzhai.android.idea.activity.IdeaDetailActivity;
 import com.juzhai.android.idea.activity.IdeaListActivity;
 import com.juzhai.android.idea.activity.IdeaUsersActivity;
 import com.juzhai.android.idea.model.Idea;
+import com.umeng.analytics.MobclickAgent;
 
 public class IdeaListAdapter extends PageAdapter<Idea> {
 
@@ -110,6 +113,8 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 							wantButton.setTextColor(mContext.getResources()
 									.getColor(R.color.idea_want_done));
 							idea.setHasUsed(true);
+							MobclickAgent.onEvent(mContext,
+									UmengEvent.SEND_IDEA);
 						}
 
 						@Override

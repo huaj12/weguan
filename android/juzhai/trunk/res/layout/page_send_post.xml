@@ -2,130 +2,153 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/app_bg"
-    >
-	<EditText 	android:layout_width="fill_parent"
-	    	  	android:layout_height="fill_parent"
-		        android:background="@null"
-		        android:gravity="top"
-		        android:inputType="textMultiLine"
-		        android:singleLine="false"
-		        android:textSize="17sp"
-				android:paddingLeft="12dp"
-				android:paddingRight="12dp"
-				android:paddingTop="10dp"		     
-				android:hint="@string/post_content_hint"   
-		        android:id="@+id/post_content" />
-	
-		<RelativeLayout android:layout_width="fill_parent"
-	    			android:layout_height="wrap_content"
-	    			android:background="@drawable/send_jz_menu_bg"
-	    			android:layout_alignParentBottom="true"
-	    			>
-	    				<Button android:background="@drawable/post_selector_category_button"
-	    			    	android:layout_width="wrap_content"
-	    			    	android:layout_height="wrap_content"
-	    			    	android:id="@+id/post_category_btn"
-	    			    	android:layout_alignParentLeft="true"
-	    			    	/>
-		    			<LinearLayout android:layout_width="wrap_content"
-		    			    		  android:layout_height="wrap_content"
-		    			    		  android:layout_toRightOf="@+id/post_category_btn"
-		    			    		  android:orientation="horizontal">
-		    			 <View  
-	        					android:layout_width="0.5dp"
-	        					android:layout_height="36dp"
-	      				 		android:background="@color/gray" />
-		    			 <View  
-	        					android:layout_width="0.5dp"
-	        					android:layout_height="36dp"
-	      				 		android:background="@color/white" />
-		    			 </LinearLayout>
-	    				 <Button android:background="@drawable/post_selector_place_button"
-	    			    	android:layout_width="wrap_content"
-	    			    	android:layout_height="wrap_content"
-	    			    	android:layout_toRightOf="@+id/post_category_btn"
-	    			    	android:id="@+id/post_place_btn"
-	    			    	android:layout_marginLeft="1dp"
-	    			    	/>
-		    			<LinearLayout android:layout_width="wrap_content"
-		    			    		  android:layout_height="wrap_content"
-		    			    		  android:layout_toRightOf="@+id/post_place_btn"
-		    			    		  android:orientation="horizontal">
-		    			 <View  
-	        					android:layout_width="0.5dp"
-	        					android:layout_height="36dp"
-	      				 		android:background="@color/gray" />
-		    			 <View  
-	        					android:layout_width="0.5dp"
-	        					android:layout_height="36dp"
-	      				 		android:background="@color/white" />
-		    			 </LinearLayout>
-	    				<Button android:background="@drawable/post_selector_time_button"
-	    			    	android:layout_width="wrap_content"
-	    			    	android:layout_height="wrap_content"
-	    			    	android:layout_toRightOf="@+id/post_place_btn"
-	    			    	android:id="@+id/post_time_btn"
-	    			    	android:layout_marginLeft="1dp"
-	    			    	/>
-	    				<LinearLayout android:layout_width="wrap_content"
-		    			    		  android:layout_height="wrap_content"
-		    			    		  android:layout_toRightOf="@+id/post_time_btn"
-		    			    		  android:orientation="horizontal">
-		    			 <View  
-	        					android:layout_width="0.5dp"
-	        					android:layout_height="36dp"
-	      				 		android:background="@color/gray" />
-		    			 <View  
-	        					android:layout_width="0.5dp"
-	        					android:layout_height="36dp"
-	      				 		android:background="@color/white" />
-		    			</LinearLayout>
-	    				<Button android:background="@drawable/post_selector_image_button"
-	    			    	android:layout_width="wrap_content"
-	    			    	android:layout_height="wrap_content"
-	    			    	android:layout_toRightOf="@+id/post_time_btn"
-	    			    	android:id="@+id/post_image_btn"
-	    			    	android:layout_marginLeft="1dp"
-	    			    	/>
-	    				<LinearLayout android:layout_width="wrap_content"
-		    			    		  android:layout_height="wrap_content"
-		    			    		  android:layout_toRightOf="@+id/post_image_btn"
-		    			    		  android:orientation="horizontal">
-		    			 <View  
-	        					android:layout_width="0.5dp"
-	        					android:layout_height="36dp"
-	      				 		android:background="@color/gray" />
-		    			 <View  
-	        					android:layout_width="0.5dp"
-	        					android:layout_height="36dp"
-	      				 		android:background="@color/white" />
-		    			</LinearLayout>
-	    				<ImageView android:layout_width="wrap_content"
-	    			    	   android:layout_height="wrap_content"
-	    			    	   android:visibility="gone"
-	    			    	   android:id="@+id/post_image"
-	    			    	   android:contentDescription="@null"
-	    			    	   android:layout_toRightOf="@+id/post_image_btn"
-	    			    	   android:layout_marginLeft="1dp"
-	    			    	   android:padding="8dp"
-	    			    	   />
-	    			
-	    				<Button android:background="@drawable/send_jz_menu_clearn_link"
-	    			    	android:layout_width="wrap_content"
-	    			    	android:layout_height="wrap_content"
-	    			    	android:id="@+id/post_clean_btn"
-	    			    	android:layout_alignParentRight="true"
-	    			    	/>
-	    				<TextView android:layout_width="wrap_content"
-	    			    	  android:layout_height="wrap_content"
-	    			    	  android:layout_marginRight="5dp"
-	    			    	  android:textSize="11sp"
-	    			    	  android:layout_centerVertical="true"
-	    			    	  android:textColor="@color/home_gray"
-	    			    	  android:layout_toLeftOf="@+id/post_clean_btn"
-	    			    	  android:id="@+id/post_content_count_tip"/>
-	</RelativeLayout>
-	
+    android:background="@drawable/app_bg" >
+
+    <EditText
+        android:id="@+id/post_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@null"
+        android:gravity="top"
+        android:hint="@string/post_content_hint"
+        android:inputType="textMultiLine"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="10dp"
+        android:singleLine="false"
+        android:textSize="17sp" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/send_jz_menu_bg" >
+
+        <Button
+            android:id="@+id/post_category_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/post_selector_category_button" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/post_category_btn"
+            android:orientation="horizontal" >
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="36dp"
+                android:background="@color/gray" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="36dp"
+                android:background="@color/white" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/post_place_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_toRightOf="@+id/post_category_btn"
+            android:background="@drawable/post_selector_place_button" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/post_place_btn"
+            android:orientation="horizontal" >
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="36dp"
+                android:background="@color/gray" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="36dp"
+                android:background="@color/white" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/post_time_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_toRightOf="@+id/post_place_btn"
+            android:background="@drawable/post_selector_time_button" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/post_time_btn"
+            android:orientation="horizontal" >
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="36dp"
+                android:background="@color/gray" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="36dp"
+                android:background="@color/white" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/post_image_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_toRightOf="@+id/post_time_btn"
+            android:background="@drawable/post_selector_image_button" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/post_image_btn"
+            android:orientation="horizontal" >
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="36dp"
+                android:background="@color/gray" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="36dp"
+                android:background="@color/white" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/post_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_toRightOf="@+id/post_image_btn"
+            android:contentDescription="@null"
+            android:padding="8dp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/post_clean_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/send_jz_menu_clearn_link" />
+
+        <TextView
+            android:id="@+id/post_content_count_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/post_clean_btn"
+            android:textColor="@color/home_gray"
+            android:textSize="11sp" />
+    </RelativeLayout>
 
 </RelativeLayout>

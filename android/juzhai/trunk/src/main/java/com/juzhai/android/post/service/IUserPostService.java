@@ -35,11 +35,11 @@ public interface IUserPostService {
 	/**
 	 * 发送拒宅
 	 * 
-	 * @param image
-	 * @param post
 	 * @param context
+	 * @param post
+	 * @param image
 	 * @throws PostException
 	 */
-	void sendPost(Bitmap image, Post post, Context context)
+	void sendPost(Context context, Post post, Bitmap image)
 			throws PostException;
 }

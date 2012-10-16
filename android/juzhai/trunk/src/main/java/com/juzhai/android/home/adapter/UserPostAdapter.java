@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
+import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.TextTruncateUtil;
@@ -28,6 +29,7 @@ import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.activity.PostDetailActivity;
 import com.juzhai.android.post.helper.IPostViewHelper;
 import com.juzhai.android.post.helper.impl.PostViewHelper;
+import com.umeng.analytics.MobclickAgent;
 
 public class UserPostAdapter extends PageAdapter<User> {
 	private IPostViewHelper postViewHelper = new PostViewHelper();
@@ -148,6 +150,8 @@ public class UserPostAdapter extends PageAdapter<User> {
 									+ (user.getPostView().getRespCnt() + 1)
 									+ "  ");
 							user.getPostView().setHasResp(true);
+							MobclickAgent.onEvent(mContext,
+									UmengEvent.RESPONSE_POST);
 						}
 
 						@Override

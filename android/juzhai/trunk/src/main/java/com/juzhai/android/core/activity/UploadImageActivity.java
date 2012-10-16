@@ -35,7 +35,7 @@ public class UploadImageActivity extends Activity {
 		boolean isDeleteBtn = getIntent().getBooleanExtra("isDeleteBtn", false);
 		Button alubmBtn = (Button) findViewById(R.id.upload_album);
 		Button cameraBtn = (Button) findViewById(R.id.upload_camera);
-		Button deleteBtn = (Button) findViewById(R.id.delete_upload);
+		Button deleteBtn = (Button) findViewById(R.id.delete_pic);
 		alubmBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -64,6 +64,7 @@ public class UploadImageActivity extends Activity {
 			deleteBtn.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					//TODO (review) 删除图片和成功选择图片，用一样的result code？
 					setResult(ActivityCode.ResultCode.PIC_RESULT_CODE,
 							getIntent());
 					finish();

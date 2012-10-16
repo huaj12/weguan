@@ -95,7 +95,7 @@
    <string name="save_success">保存成功</string>
    <string name="user_guide_title">新手引导</string>
    <string name="send_post_title">发布拒宅</string>
-   <string name="cancel_upload">取消上传</string>
+   <string name="delete_upload">删除图片</string>
    <string name="note">注意</string>
    <string name="clean_content">清除文字</string>
    

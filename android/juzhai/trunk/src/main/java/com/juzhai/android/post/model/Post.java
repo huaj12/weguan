@@ -4,7 +4,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.juzhai.android.core.model.Entity;
 
-//TODO (done) Post是Passport的？
 public class Post extends Entity {
 	private static final long serialVersionUID = -4148599586995728665L;
 	private long postId;

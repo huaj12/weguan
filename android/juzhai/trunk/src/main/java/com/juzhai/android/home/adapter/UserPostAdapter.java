@@ -76,7 +76,6 @@ public class UserPostAdapter extends PageAdapter<User> {
 		final TextView userOnlineStatusView = holder.userOnlineStatusView;
 		final LinearLayout linearLayout = holder.linearLayout;
 
-		// TODO (done) 不同purpose不同前定语
 		postContentView.setText(user.getPostView().getPurpose() + ": "
 				+ user.getPostView().getContent());
 		userInfoView.setText(TextTruncateUtil.truncate(

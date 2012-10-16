@@ -79,12 +79,12 @@ public class DialogUtils {
 		final WheelView wheelView = (WheelView) view
 				.findViewById(R.id.wheelview);
 		wheelView.TEXT_SIZE = 35;
-		// TODO (review) 20表达什么？另外，是px还是dp，还是sp
+		// TODO (done) 20表达什么？另外，是px还是dp，还是sp 文字的最大宽度
 		ArrayWheelAdapter<T> wheelViewAdapter = new ArrayWheelAdapter<T>(datas,
 				20);
 		wheelView.setAdapter(wheelViewAdapter);
 		if (selectedEntity != null) {
-			wheelView.setCurrentItem(getDataIndxex(
+			wheelView.setCurrentItem(JzUtils.getDataIndxex(
 					(Long) selectedEntity.getIdentify(), datas));
 		} else {
 			wheelView.setCurrentItem(0);
@@ -101,14 +101,4 @@ public class DialogUtils {
 
 	}
 
-	// TODO (review) 似曾相识
-	private static <T extends Entity> int getDataIndxex(long id, List<T> datas) {
-		for (int i = 0; i < datas.size(); i++) {
-			long identify = (Long) datas.get(i).getIdentify();
-			if (identify == id) {
-				return i;
-			}
-		}
-		return 0;
-	}
 }

@@ -8,9 +8,9 @@ import android.widget.TextView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.widget.list.PageAdapter;
-import com.juzhai.android.passport.model.Post;
 import com.juzhai.android.post.helper.IPostViewHelper;
 import com.juzhai.android.post.helper.impl.PostViewHelper;
+import com.juzhai.android.post.model.Post;
 
 public class MyPostsAdapter extends PageAdapter<Post> {
 	private IPostViewHelper postViewHelper = new PostViewHelper();

@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
-import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
@@ -140,20 +139,20 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 		imageView.setImageBitmap(null);
 		if (dialogContent.getImage() != null) {
 			Bitmap zoomBitmap = ImageUtils.zoomBitmap(dialogContent.getImage(),
-					UIUtil.dip2px(mContext, 40), UIUtil.dip2px(mContext, 40));
+					40, 40, mContext);
 			imageView.setImageBitmap(zoomBitmap);
 			imageView.setVisibility(View.VISIBLE);
 		} else if (StringUtils.isNotEmpty(dialogContent.getImgUrl())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
-			// TODO (review) 需要有默认图片
-			nid.fetchImage(JzUtils.getImageUrl(dialogContent.getImgUrl()), 0,
-					imageView, new ImageLoaderCallback() {
+			// TODO (done) 需要有默认图片
+			nid.fetchImage(JzUtils.getImageUrl(dialogContent.getImgUrl()),
+					R.drawable.user_face_unload, imageView,
+					new ImageLoaderCallback() {
 						@Override
 						public void imageLoaderFinish(Bitmap bitmap) {
 							if (bitmap != null) {
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, UIUtil.dip2px(mContext, 40),
-										UIUtil.dip2px(mContext, 40));
+										bitmap, 40, 40, mContext);
 								imageView.setImageBitmap(zoomBitmap);
 								imageView.setVisibility(View.VISIBLE);
 							}
@@ -163,8 +162,7 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 	}
 
 	private void setLogo(final ImageView logo, User user) {
-		// TODO (review) user.isHasLogo()不是这么用的
-		// if (user.isHasLogo() && StringUtils.isNotEmpty(user.getLogo())) {
+		// TODO (done) user.isHasLogo()不是这么用的
 		if (StringUtils.isNotEmpty(user.getLogo())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 			nid.fetchImage(JzUtils.getImageUrl(user.getLogo()),
@@ -174,8 +172,7 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 						public void imageLoaderFinish(Bitmap bitmap) {
 							if (bitmap != null) {
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, UIUtil.dip2px(mContext, 40),
-										UIUtil.dip2px(mContext, 40));
+										bitmap, 40, 40, mContext);
 								logo.setImageBitmap(ImageUtils
 										.getRoundedCornerBitmap(zoomBitmap, 6));
 							}

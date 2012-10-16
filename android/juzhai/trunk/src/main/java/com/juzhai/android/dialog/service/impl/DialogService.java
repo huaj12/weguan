@@ -25,11 +25,10 @@ public class DialogService implements IDialogService {
 			throws DialogException {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("page", page);
-		String uri = HttpUtils.createHttpParam(dialogListUri, values);
 		ResponseEntity<DialogListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils
-					.get(context, uri, DialogListResult.class);
+			responseEntity = HttpUtils.get(context, dialogListUri, values,
+					DialogListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -45,7 +44,7 @@ public class DialogService implements IDialogService {
 	public int newMessageCount(Context context) {
 		try {
 			ResponseEntity<IntegerResult> responseEntity = HttpUtils.get(
-					context, noticeNumsUri, null, IntegerResult.class);
+					context, noticeNumsUri, IntegerResult.class);
 			if (responseEntity.getBody() != null
 					&& responseEntity.getBody() != null
 					&& responseEntity.getBody().getSuccess()) {

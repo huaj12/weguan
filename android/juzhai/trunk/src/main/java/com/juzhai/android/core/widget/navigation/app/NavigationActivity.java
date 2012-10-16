@@ -87,4 +87,11 @@ public class NavigationActivity extends BaseActivity {
 		}
 		return false;
 	}
+
+	protected Button setRightFinishButton() {
+		Button finish = (Button) getLayoutInflater().inflate(
+				R.layout.button_finish, null);
+		navigationBar.setRightView(finish);
+		return finish;
+	}
 }

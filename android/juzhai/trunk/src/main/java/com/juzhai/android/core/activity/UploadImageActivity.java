@@ -35,7 +35,7 @@ public class UploadImageActivity extends Activity {
 		boolean isCancelBtn = getIntent().getBooleanExtra("isCancelBtn", false);
 		Button alubmBtn = (Button) findViewById(R.id.upload_album);
 		Button cameraBtn = (Button) findViewById(R.id.upload_camera);
-		Button cancelBtn = (Button) findViewById(R.id.cancel_upload);
+		Button cancelBtn = (Button) findViewById(R.id.delete_upload);
 		alubmBtn.setOnClickListener(new OnClickListener() {
 
 			@Override

@@ -1,0 +1,7 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:state_pressed="true" android:drawable="@drawable/send_jz_menu_cag_active" />
+	<item android:state_focused="true" android:drawable="@drawable/send_jz_menu_cag_link" />
+	<item android:state_selected="true" android:drawable="@drawable/send_jz_menu_cag_done"/>
+	<item android:state_selected="false" android:drawable="@drawable/send_jz_menu_cag_link"/>
+	<item android:drawable="@drawable/send_jz_menu_cag_link" />
+</selector>

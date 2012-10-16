@@ -21,6 +21,7 @@ import com.juzhai.android.common.model.Profession;
 import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.utils.DialogUtils;
+import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
@@ -42,9 +43,7 @@ public class SetProfessionActivity extends NavigationActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		finish = (Button) (Button) getLayoutInflater().inflate(
-				R.layout.button_finish, null);
-		getNavigationBar().setRightView(finish);
+		finish = setRightFinishButton();
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.profession));
 		setNavContentView(R.layout.page_setting_profession);
@@ -70,7 +69,7 @@ public class SetProfessionActivity extends NavigationActivity {
 		ArrayWheelAdapter<Profession> professionWheelAdapter = new ArrayWheelAdapter<Profession>(
 				professionList, 20);
 		professionView.setAdapter(professionWheelAdapter);
-		professionView.setCurrentItem(getProfessionIndxex(professionId,
+		professionView.setCurrentItem(JzUtils.getDataIndxex(professionId,
 				professionList));
 		professionView.setScrollingListener(new OnWheelScrollListener() {
 			@Override
@@ -123,18 +122,6 @@ public class SetProfessionActivity extends NavigationActivity {
 				SetProfessionActivity.this.finish();
 			}
 		});
-	}
-
-	// TODO (review) Indexex是什么意思
-	private int getProfessionIndxex(long professionId,
-			List<Profession> professions) {
-		for (int i = 0; i < professions.size(); i++) {
-			Profession profession = professions.get(i);
-			if (profession.getId() == professionId) {
-				return i;
-			}
-		}
-		return 0;
 	}
 
 }

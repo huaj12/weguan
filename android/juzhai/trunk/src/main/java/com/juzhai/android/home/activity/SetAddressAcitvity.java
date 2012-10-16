@@ -3,7 +3,6 @@
  */
 package com.juzhai.android.home.activity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.util.CollectionUtils;
@@ -22,6 +21,8 @@ import com.juzhai.android.common.model.Province;
 import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.utils.DialogUtils;
+import com.juzhai.android.core.utils.JzUtils;
+import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.wheelview.ArrayWheelAdapter;
 import com.juzhai.android.core.widget.wheelview.OnWheelScrollListener;
 import com.juzhai.android.core.widget.wheelview.WheelView;
@@ -40,11 +41,11 @@ public class SetAddressAcitvity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.page_setting_address);
 		long cityId = getIntent().getLongExtra("cityId", 0);
-		long provinceId = getIntent().getLongExtra("provinceId", 0);
-		//TODO (review) 为什么provinceId等于0的话，就要设置为1呢？
-		provinceId = provinceId == 0 ? 1 : provinceId;
+		// TODO (done) 为什么provinceId等于0的话，就要设置为1呢？
+		// 没有的情况设置默认值
+		long provinceId = getIntent().getLongExtra("provinceId", 1);
 		provinceList = CommonData.getProvinces(SetAddressAcitvity.this);
-		cityList = getSelectCity(provinceId,
+		cityList = JzUtils.getSelectCity(provinceId,
 				CommonData.getCitys(SetAddressAcitvity.this));
 		// 网速原因数据没加载完
 		if (CollectionUtils.isEmpty(provinceList)
@@ -55,14 +56,14 @@ public class SetAddressAcitvity extends Activity {
 		}
 		final WheelView provinceView = (WheelView) findViewById(R.id.province);
 		final WheelView cityView = (WheelView) findViewById(R.id.city);
-		//TODO (review) 下面的40和6,是sp，dp还是px？
-		provinceView.TEXT_SIZE = 40;
-		cityView.TEXT_SIZE = 40;
+		// TODO (done) 下面的40和6,是sp，dp还是px？
+		provinceView.TEXT_SIZE = UIUtil.dip2px(SetAddressAcitvity.this, 27);
+		cityView.TEXT_SIZE = UIUtil.dip2px(SetAddressAcitvity.this, 27);
 		ArrayWheelAdapter<Province> provinceWheelAdapter = new ArrayWheelAdapter<Province>(
 				provinceList, 6);
 		provinceView.setAdapter(provinceWheelAdapter);
-		provinceView
-				.setCurrentItem(getProvinceIndxex(provinceId, provinceList));
+		provinceView.setCurrentItem(JzUtils.getDataIndxex(provinceId,
+				provinceList));
 		provinceView.setScrollingListener(new OnWheelScrollListener() {
 			@Override
 			public void onScrollingStarted(WheelView wheel) {
@@ -70,7 +71,7 @@ public class SetAddressAcitvity extends Activity {
 
 			@Override
 			public void onScrollingFinished(WheelView wheel) {
-				cityList = getSelectCity(
+				cityList = JzUtils.getSelectCity(
 						provinceList.get(wheel.getCurrentItem())
 								.getProvinceId(), CommonData
 								.getCitys(SetAddressAcitvity.this));
@@ -80,11 +81,11 @@ public class SetAddressAcitvity extends Activity {
 				cityView.setCurrentItem(0);
 			}
 		});
-		//TODO (review) 两个问题。a.为什么上面是10,下面是20。b.代码不觉得重复吗？
+		// TODO (review) 两个问题。a.为什么上面是10,下面是20。b.代码不觉得重复吗？
 		ArrayWheelAdapter<City> cityWheelAdapter = new ArrayWheelAdapter<City>(
 				cityList, 20);
 		cityView.setAdapter(cityWheelAdapter);
-		cityView.setCurrentItem(getCityIndxex(cityId, cityList));
+		cityView.setCurrentItem(JzUtils.getDataIndxex(cityId, cityList));
 
 		Button cancelBtn = (Button) findViewById(R.id.btn_cancel);
 		Button okBtn = (Button) findViewById(R.id.btn_ok);
@@ -114,36 +115,4 @@ public class SetAddressAcitvity extends Activity {
 		});
 	}
 
-	//TODO (review) 这个方法放适合放在这里嘛？
-	private int getCityIndxex(long cityId, List<City> citys) {
-		for (int i = 0; i < citys.size(); i++) {
-			City city = citys.get(i);
-			if (city.getCityId() == cityId) {
-				return i;
-			}
-		}
-		return 0;
-	}
-
-	//TODO (review) 这个方法放适合放在这里嘛？
-	private int getProvinceIndxex(long provinceId, List<Province> provinces) {
-		for (int i = 0; i < provinces.size(); i++) {
-			Province province = provinces.get(i);
-			if (province.getProvinceId() == provinceId) {
-				return i;
-			}
-		}
-		return 0;
-	}
-
-	//TODO (review) 这个方法放适合放在这里嘛？
-	private List<City> getSelectCity(long provinceId, List<City> allCitys) {
-		List<City> ciyts = new ArrayList<City>();
-		for (City city : allCitys) {
-			if (provinceId == city.getProvinceId()) {
-				ciyts.add(city);
-			}
-		}
-		return ciyts;
-	}
 }

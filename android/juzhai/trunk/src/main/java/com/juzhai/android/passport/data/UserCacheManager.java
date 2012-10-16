@@ -68,6 +68,7 @@ public class UserCacheManager {
 		clearPersistToken(context);
 	}
 
+	// TODO (review) 解析cookies的逻辑完全错误，打印出来慢慢debug
 	private static Map<String, String> parseCookies(List<String> list) {
 		Map<String, String> cookies = new HashMap<String, String>();
 		if (null != list) {

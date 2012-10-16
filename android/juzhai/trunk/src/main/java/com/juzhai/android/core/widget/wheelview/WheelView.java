@@ -1015,4 +1015,8 @@ public class WheelView extends View {
 		startScrolling();
 	}
 
+	public interface WheelViewCallBack {
+		void callback(int index);
+	}
+
 }

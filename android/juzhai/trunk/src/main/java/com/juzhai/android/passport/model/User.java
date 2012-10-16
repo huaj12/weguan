@@ -9,6 +9,7 @@ import com.juzhai.android.R;
 import com.juzhai.android.core.model.Entity;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.StringUtil;
+import com.juzhai.android.post.model.Post;
 
 public class User extends Entity {
 	private static final long serialVersionUID = -8385388032091129353L;

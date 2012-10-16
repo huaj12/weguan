@@ -36,11 +36,10 @@ public class DialogContentService implements IDialogContentService {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("page", page);
 		values.put("uid", uid);
-		String uri = HttpUtils.createHttpParam(dialogContentListUri, values);
 		ResponseEntity<DialogContentListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, uri,
-					DialogContentListResult.class);
+			responseEntity = HttpUtils.get(context, dialogContentListUri,
+					values, DialogContentListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -56,11 +55,10 @@ public class DialogContentService implements IDialogContentService {
 	public PageList<DialogContent> refreshList(Context context, long uid) {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("uid", uid);
-		String uri = HttpUtils.createHttpParam(refreshDialogContentListUri,
-				values);
 		ResponseEntity<DialogContentListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, uri,
+			responseEntity = HttpUtils.get(context,
+					refreshDialogContentListUri, values,
 					DialogContentListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {

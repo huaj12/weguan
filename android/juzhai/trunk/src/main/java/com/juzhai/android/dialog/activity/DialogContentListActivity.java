@@ -41,7 +41,6 @@ import com.juzhai.android.core.model.PageList;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.StringUtil;
-import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.dialog.adapter.DialogContentListAdapter;
@@ -281,9 +280,8 @@ public class DialogContentListActivity extends NavigationActivity {
 				return;
 			}
 			picView.setVisibility(View.VISIBLE);
-			picView.setImageBitmap(ImageUtils.zoomBitmap(pic,
-					UIUtil.dip2px(DialogContentListActivity.this, 30),
-					UIUtil.dip2px(DialogContentListActivity.this, 30)));
+			picView.setImageBitmap(ImageUtils.zoomBitmap(pic, 30, 30,
+					DialogContentListActivity.this));
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}

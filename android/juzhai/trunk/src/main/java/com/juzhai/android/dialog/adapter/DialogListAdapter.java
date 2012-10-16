@@ -17,7 +17,6 @@ import com.juzhai.android.R;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
-import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
@@ -62,8 +61,7 @@ public class DialogListAdapter extends PageAdapter<Dialog> {
 
 		final Dialog dialog = data.getDatas().get(position);
 		final User user = dialog.getTargetUser();
-		// TODO (review) user.isHasLogo()不是在显示头像的地方用的，是用来是否能发拒宅判断用的
-		// if (user.isHasLogo() && StringUtils.isNotEmpty(user.getLogo())) {
+		// TODO (done) user.isHasLogo()不是在显示头像的地方用的，是用来是否能发拒宅判断用的
 		if (StringUtils.isNotEmpty(user.getLogo())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 			nid.fetchImage(JzUtils.getImageUrl(user.getLogo()),
@@ -74,8 +72,7 @@ public class DialogListAdapter extends PageAdapter<Dialog> {
 							if (bitmap != null) {
 								// TODO (review) 尽量数字不写死
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, UIUtil.dip2px(mContext, 60),
-										UIUtil.dip2px(mContext, 60));
+										bitmap, 60, 60, mContext);
 								logoView.setImageBitmap(ImageUtils
 										.getRoundedCornerBitmap(zoomBitmap, 10));
 							}

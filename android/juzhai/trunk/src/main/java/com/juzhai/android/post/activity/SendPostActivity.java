@@ -53,19 +53,12 @@ public class SendPostActivity extends NavigationActivity {
 	private int month = 0;
 	private int day = 0;
 	private Category selectedCategory;
-	private EditText placeEditText = null;
 	private Post post = new Post();
-	private Bitmap postImage = null;
+	private Bitmap postImage;
 	private int restLength = Validation.POST_CONTENT_LENGTH_MAX;
-	private EditText contentText;
-	private Button categoryBtn;
-	private Button placeBtn;
-	private Button timeBtn;
-	private Button imageBtn;
 	private ImageView imageView;
 	private TextView countTip;
-	private Button cleanBtn;
-	private Button finish;
+	private Button imageBtn;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -73,21 +66,21 @@ public class SendPostActivity extends NavigationActivity {
 		setNavContentView(R.layout.page_send_post);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.send_post_title));
-		finish = (Button) getLayoutInflater().inflate(R.layout.button_finish,
-				null);
+		Button finish = (Button) getLayoutInflater().inflate(
+				R.layout.button_finish, null);
 		getNavigationBar().setRightView(finish);
-		contentText = (EditText) findViewById(R.id.post_content);
-		categoryBtn = (Button) findViewById(R.id.post_category_btn);
-		placeBtn = (Button) findViewById(R.id.post_place_btn);
-		timeBtn = (Button) findViewById(R.id.post_time_btn);
+		final EditText contentText = (EditText) findViewById(R.id.post_content);
+		final Button categoryBtn = (Button) findViewById(R.id.post_category_btn);
+		final Button placeBtn = (Button) findViewById(R.id.post_place_btn);
+		final Button timeBtn = (Button) findViewById(R.id.post_time_btn);
 		imageBtn = (Button) findViewById(R.id.post_image_btn);
 		imageView = (ImageView) findViewById(R.id.post_image);
 		countTip = (TextView) findViewById(R.id.post_content_count_tip);
-		cleanBtn = (Button) findViewById(R.id.post_clean_btn);
+		Button cleanBtn = (Button) findViewById(R.id.post_clean_btn);
 		setCountTip();
 		final List<Category> categorys = CommonData
 				.getCategorys(SendPostActivity.this);
-		// 删除全部这个选项
+		// TODO (review) 删除全部这个选项
 		categorys.remove(0);
 
 		categoryBtn.setOnClickListener(new OnClickListener() {
@@ -97,7 +90,6 @@ public class SendPostActivity extends NavigationActivity {
 				DialogUtils.showWheelView(R.string.post_category,
 						selectedCategory, categorys, SendPostActivity.this,
 						new WheelView.WheelViewCallBack() {
-
 							@Override
 							public void callback(int location) {
 								selectedCategory = categorys.get(location);
@@ -113,7 +105,8 @@ public class SendPostActivity extends NavigationActivity {
 
 			@Override
 			public void onClick(View v) {
-				placeEditText = new EditText(SendPostActivity.this);
+				final EditText placeEditText = new EditText(
+						SendPostActivity.this);
 				placeEditText.setText(post.getPlace());
 				new AlertDialog.Builder(SendPostActivity.this)
 						.setTitle(R.string.post_place)
@@ -154,6 +147,7 @@ public class SendPostActivity extends NavigationActivity {
 			public void onClick(View v) {
 				Calendar cal = Calendar.getInstance();
 
+				//TODO (review) 为什么要使用year，month，day？不是有存入post了吗？
 				if (year <= 0) {
 					year = cal.get(Calendar.YEAR);
 					month = cal.get(Calendar.MONTH);
@@ -175,6 +169,7 @@ public class SendPostActivity extends NavigationActivity {
 						}, year, month, day);
 				dlg.setButton(
 						AlertDialog.BUTTON_NEGATIVE,
+						//TODO (review) 这里到底是取消还是清空？
 						SendPostActivity.this.getResources().getString(
 								R.string.cancel),
 						new DialogInterface.OnClickListener() {
@@ -198,6 +193,7 @@ public class SendPostActivity extends NavigationActivity {
 				Intent intent = new Intent(SendPostActivity.this,
 						UploadImageActivity.class);
 				if (postImage != null) {
+					//TODO (review) isCancelBtn? 应该是“是否有清除图片选项”的意思？
 					intent.putExtra("isCancelBtn", true);
 				}
 				startActivityForResult(intent,
@@ -240,6 +236,7 @@ public class SendPostActivity extends NavigationActivity {
 									public void onClick(DialogInterface dialog,
 											int which) {
 										contentText.setText(null);
+										// TODO (review) 这里需要设置restLength吗？
 										restLength = Validation.POST_CONTENT_LENGTH_MAX;
 									}
 								}).setNegativeButton(R.string.cancel, null)
@@ -294,6 +291,7 @@ public class SendPostActivity extends NavigationActivity {
 			}
 		});
 
+		// TODO (review) 考虑封装弹出键盘（方案1.放入BaseActivity，方案2...，方案3....）
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 			@Override
@@ -310,6 +308,7 @@ public class SendPostActivity extends NavigationActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == ActivityCode.RequestCode.PIC_REQUEST_CODE
 				&& ActivityCode.ResultCode.PIC_RESULT_CODE == resultCode) {
+			//TODO (review) 选择图片和删除图片为什么用一个resultCode？resultCode要来何用？
 			Bitmap image = data.getParcelableExtra("pic");
 			boolean isDeleteBtn = data.getBooleanExtra("isDeleteBtn", false);
 			if (isDeleteBtn) {

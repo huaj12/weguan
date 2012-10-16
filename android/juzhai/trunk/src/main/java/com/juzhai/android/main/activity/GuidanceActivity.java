@@ -8,6 +8,7 @@ import com.juzhai.android.R;
 import com.juzhai.android.core.widget.pager.CirclePageIndicator;
 import com.juzhai.android.core.widget.pager.PageIndicator;
 import com.juzhai.android.main.adapter.GuidancePagerAdapter;
+import com.umeng.analytics.MobclickAgent;
 
 public class GuidanceActivity extends FragmentActivity {
 
@@ -26,9 +27,16 @@ public class GuidanceActivity extends FragmentActivity {
 		PageIndicator mIndicator = (CirclePageIndicator) findViewById(R.id.guidance_indicator);
 		mIndicator.setViewPager(mPager);
 	}
-	
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
 	@Override
 	protected void onPause() {
 		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 }

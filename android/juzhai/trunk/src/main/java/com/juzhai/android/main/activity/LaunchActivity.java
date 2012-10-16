@@ -15,6 +15,8 @@ import com.juzhai.android.passport.activity.LoginActivity;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.service.IPassportService;
 import com.juzhai.android.passport.service.impl.PassportService;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 /**
  * @author kooks
@@ -24,20 +26,9 @@ public class LaunchActivity extends BaseActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// // Android OS 3.0之后，需要以下代码，才能在主线程进行webService访问
-		// StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-		// .detectDiskReads().detectDiskWrites().detectNetwork()
-		// .penaltyLog().build());
-		// StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-		// .detectLeakedSqlLiteObjects().penaltyLog().penaltyDeath()
-		// .build());
 		super.onCreate(savedInstanceState);
+		MobclickAgent.onError(this);
 		setContentView(R.layout.page_launch);
-
-		// 初始化ProgressBar
-		// ProgressBar bar = (ProgressBar) findViewById(R.id.pro_bar);
-		// bar.setProgress(0);
-
 		new AsyncTask<Void, Void, Boolean>() {
 			protected void onPostExecute(Boolean result) {
 				// 判断是否走过引导

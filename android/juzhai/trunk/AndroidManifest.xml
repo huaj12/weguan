@@ -80,6 +80,8 @@
         <activity android:name=".home.activity.SetProfessionActivity"/>
         <!--created by kooks at 2012-10-12 21:18:53-->
         <activity android:name=".main.activity.UserGuideActivity"/>
+        <!--created by kooks at 2012-10-15 09:56:01-->
+        <activity android:name=".post.activity.SendPostActivity" android:windowSoftInputMode="adjustResize"/>
         
         <service
             android:name="com.umeng.common.net.DownloadingService"

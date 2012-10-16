@@ -32,10 +32,10 @@ public class UploadImageActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.page_upload_image);
-		boolean isCancelBtn = getIntent().getBooleanExtra("isCancelBtn", false);
+		boolean isDeleteBtn = getIntent().getBooleanExtra("isDeleteBtn", false);
 		Button alubmBtn = (Button) findViewById(R.id.upload_album);
 		Button cameraBtn = (Button) findViewById(R.id.upload_camera);
-		Button cancelBtn = (Button) findViewById(R.id.delete_upload);
+		Button deleteBtn = (Button) findViewById(R.id.delete_upload);
 		alubmBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -59,9 +59,9 @@ public class UploadImageActivity extends Activity {
 						ActivityCode.RequestCode.CAMERA_REQUEST_CODE);
 			}
 		});
-		if (isCancelBtn) {
-			cancelBtn.setVisibility(View.VISIBLE);
-			cancelBtn.setOnClickListener(new OnClickListener() {
+		if (isDeleteBtn) {
+			deleteBtn.setVisibility(View.VISIBLE);
+			deleteBtn.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					setResult(ActivityCode.ResultCode.PIC_RESULT_CODE,

@@ -311,8 +311,8 @@ public class SendPostActivity extends NavigationActivity {
 		if (requestCode == ActivityCode.RequestCode.PIC_REQUEST_CODE
 				&& ActivityCode.ResultCode.PIC_RESULT_CODE == resultCode) {
 			Bitmap image = data.getParcelableExtra("pic");
-			boolean isCancelBtn = data.getBooleanExtra("isCancelBtn", false);
-			if (isCancelBtn) {
+			boolean isDeleteBtn = data.getBooleanExtra("isDeleteBtn", false);
+			if (isDeleteBtn) {
 				postImage = null;
 				imageView.setImageBitmap(null);
 				imageBtn.setSelected(false);

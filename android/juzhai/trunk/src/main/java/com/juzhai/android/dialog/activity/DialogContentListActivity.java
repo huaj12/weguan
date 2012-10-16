@@ -174,8 +174,8 @@ public class DialogContentListActivity extends NavigationActivity {
 			public void onClick(View v) {
 				int contentLengt = StringUtil.chineseLength(contentTextView
 						.getText().toString());
-				if (contentLengt < Validation.SEND_MESSAGE_MIN_LENGTH
-						|| contentLengt > Validation.SEND_MESSAGE_MAX_LENGTH) {
+				if (contentLengt < Validation.SEND_MESSAGE_LENGTH_MIN
+						|| contentLengt > Validation.SEND_MESSAGE_LENGTH_MAX) {
 					DialogUtils.showToastText(DialogContentListActivity.this,
 							R.string.send_message_length_invalid);
 					return;

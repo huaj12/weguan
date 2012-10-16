@@ -33,9 +33,9 @@ import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.home.task.MyPostsListGetDataTask;
 import com.juzhai.android.passport.data.UserCache;
-import com.juzhai.android.passport.model.Post;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.activity.PostDetailActivity;
+import com.juzhai.android.post.model.Post;
 
 /**
  * @author kooks

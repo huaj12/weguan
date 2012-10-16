@@ -3,11 +3,12 @@
  */
 package com.juzhai.android.main.activity;
 
+import org.apache.commons.lang.StringUtils;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.task.ProgressTask;
@@ -27,30 +28,48 @@ public class UserGuideActivity extends SetUserInfoActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setmContext(UserGuideActivity.this);
 		setGuide(true);
 		setNavContentView(R.layout.page_user_guide);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.user_guide_title));
-		// TODO (review) finish按钮设置可以封装起来
-		finish = (Button) getLayoutInflater().inflate(R.layout.button_finish,
-				null);
+		// TODO (done) finish按钮设置可以封装起来
+		finish = setRightFinishButton();
 		finish.setEnabled(false);
-		getNavigationBar().setRightView(finish);
 		finish.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				// TODO (done) 这里的逻辑是怎么样的？我觉得有问题啊
+				if (StringUtils.isEmpty(user.getNickname())) {
+					DialogUtils.showToastText(UserGuideActivity.this,
+							R.string.nickname_is_null);
+					return;
+				}
+				if (user.getBirthYear() <= 0) {
+					DialogUtils.showToastText(UserGuideActivity.this,
+							R.string.user_birth_day_is_null);
+					return;
+				}
+				if (user.getCityId() <= 0) {
+					DialogUtils.showToastText(UserGuideActivity.this,
+							R.string.user_address_is_null);
+					return;
+				}
+				if (user.getProfessionId() <= 0
+						&& StringUtils.isNotEmpty(user.getProfession())) {
+					DialogUtils.showToastText(UserGuideActivity.this,
+							R.string.profession_name_is_null);
+					return;
+				}
 				new ProgressTask(UserGuideActivity.this, new TaskCallback() {
 
 					@Override
 					public void successCallback() {
 						DialogUtils.showToastText(UserGuideActivity.this,
 								R.string.save_success);
-						// TODO (review) 为什么不用clearStackAndStartActivity方法？
-						pushIntent(new Intent(UserGuideActivity.this,
-								MainTabActivity.class));
-						UserGuideActivity.this.finish();
+						// TODO (done) 为什么不用clearStackAndStartActivity方法？
+						clearStackAndStartActivity(new Intent(
+								UserGuideActivity.this, MainTabActivity.class));
 					}
 
 					@Override

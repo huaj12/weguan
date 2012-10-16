@@ -39,10 +39,11 @@ import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.StringUtil;
-import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.core.widget.wheelview.WheelView;
+import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.exception.PostException;
 import com.juzhai.android.post.model.Post;
 import com.juzhai.android.post.service.IUserPostService;
@@ -66,9 +67,7 @@ public class SendPostActivity extends NavigationActivity {
 		setNavContentView(R.layout.page_send_post);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.send_post_title));
-		Button finish = (Button) getLayoutInflater().inflate(
-				R.layout.button_finish, null);
-		getNavigationBar().setRightView(finish);
+		Button finish = setRightFinishButton();
 		final EditText contentText = (EditText) findViewById(R.id.post_content);
 		final Button categoryBtn = (Button) findViewById(R.id.post_category_btn);
 		final Button placeBtn = (Button) findViewById(R.id.post_place_btn);
@@ -80,8 +79,6 @@ public class SendPostActivity extends NavigationActivity {
 		setCountTip();
 		final List<Category> categorys = CommonData
 				.getCategorys(SendPostActivity.this);
-		// TODO (review) 删除全部这个选项
-		categorys.remove(0);
 
 		categoryBtn.setOnClickListener(new OnClickListener() {
 
@@ -147,7 +144,8 @@ public class SendPostActivity extends NavigationActivity {
 			public void onClick(View v) {
 				Calendar cal = Calendar.getInstance();
 
-				//TODO (review) 为什么要使用year，month，day？不是有存入post了吗？
+				// TODO (done) 为什么要使用year，month，day？不是有存入post了吗？
+				// post值为空的时候需要默认值。
 				if (year <= 0) {
 					year = cal.get(Calendar.YEAR);
 					month = cal.get(Calendar.MONTH);
@@ -169,9 +167,9 @@ public class SendPostActivity extends NavigationActivity {
 						}, year, month, day);
 				dlg.setButton(
 						AlertDialog.BUTTON_NEGATIVE,
-						//TODO (review) 这里到底是取消还是清空？
+						// TODO (done) 这里到底是取消还是清空？
 						SendPostActivity.this.getResources().getString(
-								R.string.cancel),
+								R.string.clean),
 						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog,
@@ -193,8 +191,8 @@ public class SendPostActivity extends NavigationActivity {
 				Intent intent = new Intent(SendPostActivity.this,
 						UploadImageActivity.class);
 				if (postImage != null) {
-					//TODO (review) isCancelBtn? 应该是“是否有清除图片选项”的意思？
-					intent.putExtra("isCancelBtn", true);
+					// TODO (done) isCancelBtn? 应该是“是否有清除图片选项”的意思？
+					intent.putExtra("isDeleteBtn", true);
 				}
 				startActivityForResult(intent,
 						ActivityCode.RequestCode.PIC_REQUEST_CODE);
@@ -236,7 +234,8 @@ public class SendPostActivity extends NavigationActivity {
 									public void onClick(DialogInterface dialog,
 											int which) {
 										contentText.setText(null);
-										// TODO (review) 这里需要设置restLength吗？
+										// TODO (done) 这里需要设置restLength吗？
+										// 需要。内容都重置了。restLength也需要重置
 										restLength = Validation.POST_CONTENT_LENGTH_MAX;
 									}
 								}).setNegativeButton(R.string.cancel, null)
@@ -263,6 +262,13 @@ public class SendPostActivity extends NavigationActivity {
 				if (contentLength > Validation.POST_CONTENT_LENGTH_MAX) {
 					DialogUtils.showToastText(SendPostActivity.this,
 							R.string.send_post_content_too_more);
+					return;
+				}
+				// 没有头像不能发布拒宅
+				User user = UserCache.getUserInfo();
+				if (!user.isHasLogo() || StringUtils.isEmpty(user.getLogo())) {
+					DialogUtils.showToastText(SendPostActivity.this,
+							R.string.send_post_user_logo_is_null);
 					return;
 				}
 				post.setContent(content);
@@ -308,26 +314,27 @@ public class SendPostActivity extends NavigationActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == ActivityCode.RequestCode.PIC_REQUEST_CODE
 				&& ActivityCode.ResultCode.PIC_RESULT_CODE == resultCode) {
-			//TODO (review) 选择图片和删除图片为什么用一个resultCode？resultCode要来何用？
+
 			Bitmap image = data.getParcelableExtra("pic");
+			if (image != null) {
+				postImage = image;
+				imageView.setImageBitmap(ImageUtils.zoomBitmap(image, 20, 20,
+						SendPostActivity.this));
+				imageBtn.setSelected(true);
+				imageView.setVisibility(View.VISIBLE);
+			} else {
+				DialogUtils.showToastText(SendPostActivity.this,
+						R.string.select_pic_error);
+			}
+		} else if (requestCode == ActivityCode.RequestCode.PIC_REQUEST_CODE
+				&& ActivityCode.ResultCode.PIC_DELETE_RESULT_CODE == resultCode) {
+			// TODO (DONE) 选择图片和删除图片为什么用一个resultCode？resultCode要来何用？
 			boolean isDeleteBtn = data.getBooleanExtra("isDeleteBtn", false);
 			if (isDeleteBtn) {
 				postImage = null;
 				imageView.setImageBitmap(null);
 				imageBtn.setSelected(false);
 				imageView.setVisibility(View.GONE);
-				return;
-			}
-			if (image != null) {
-				postImage = image;
-				imageView.setImageBitmap(ImageUtils.zoomBitmap(image,
-						UIUtil.dip2px(SendPostActivity.this, 20),
-						UIUtil.dip2px(SendPostActivity.this, 20)));
-				imageBtn.setSelected(true);
-				imageView.setVisibility(View.VISIBLE);
-			} else {
-				DialogUtils.showToastText(SendPostActivity.this,
-						R.string.select_pic_error);
 			}
 		}
 	}

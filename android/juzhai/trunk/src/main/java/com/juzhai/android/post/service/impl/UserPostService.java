@@ -38,10 +38,10 @@ public class UserPostService implements IUserPostService {
 		}
 		values.put("orderType", order.getName());
 		values.put("page", page);
-		String uri = HttpUtils.createHttpParam(userPostUri, values);
 		ResponseEntity<UserListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, uri, UserListResult.class);
+			responseEntity = HttpUtils.get(context, userPostUri, values,
+					UserListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -58,10 +58,10 @@ public class UserPostService implements IUserPostService {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("uid", uid);
 		values.put("page", page);
-		String uri = HttpUtils.createHttpParam(postsUri, values);
 		ResponseEntity<PostListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, uri, PostListResult.class);
+			responseEntity = HttpUtils.get(context, postsUri, values,
+					PostListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),

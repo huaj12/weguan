@@ -26,11 +26,8 @@ public class SettingFeedbackActivity extends NavigationActivity {
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.setting_cell_feedback));
 		setNavContentView(R.layout.page_setting_feedback);
-		Button finish = (Button) getLayoutInflater().inflate(
-				R.layout.button_finish, null);
+		Button finish = setRightFinishButton();
 		finish.setText(R.string.send);
-		getNavigationBar().setRightView(finish);
-
 		final EditText editText = (EditText) findViewById(R.id.feedback_input);
 		Timer timer = new Timer(); // 设置定时器
 		timer.schedule(new TimerTask() {

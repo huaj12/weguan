@@ -40,4 +40,9 @@ public class Category extends Entity {
 		return getCategoryId();
 	}
 
+	@Override
+	public String toString() {
+		return name;
+	}
+
 }

@@ -8,7 +8,6 @@ import java.net.URL;
 
 import org.springframework.util.StringUtils;
 
-import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -28,7 +27,6 @@ import com.juzhai.android.passport.task.LoginAuthorizeTask;
  * @author kooks
  * 
  */
-@SuppressLint("SetJavaScriptEnabled")
 public class TpLoginActivity extends NavigationActivity {
 	private String tpLoginUrl = SystemConfig.BASEURL + "passport/tpLogin/";
 	private String tpBindUrl = SystemConfig.BASEURL

@@ -15,7 +15,7 @@
  *******************************************************************************/
 package com.juzhai.android.core.widget.list.pullrefresh;
 
-import android.annotation.TargetApi;
+//import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -84,7 +84,7 @@ public class PullToRefreshExpandableListView extends
 		}
 	}
 
-	@TargetApi(9)
+	// @TargetApi(9)
 	final class InternalExpandableListViewSDK9 extends
 			InternalExpandableListView {
 

@@ -13,7 +13,6 @@ import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.table.model.BasicItem.ItemType;
 import com.juzhai.android.core.widget.list.table.widget.UITableView;
 import com.juzhai.android.core.widget.list.table.widget.UITableView.ClickListener;
-import com.juzhai.android.home.activity.HomeActivity;
 import com.juzhai.android.home.activity.HomeSettingActivity;
 import com.juzhai.android.main.activity.TabItemActivity;
 import com.juzhai.android.passport.activity.AuthorizeBindActivity;
@@ -22,6 +21,7 @@ import com.juzhai.android.passport.activity.LoginActivity;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.passport.service.impl.PassportService;
+import com.umeng.update.UmengUpdateAgent;
 
 public class SettingListActivity extends TabItemActivity {
 
@@ -121,7 +121,8 @@ public class SettingListActivity extends TabItemActivity {
 							SettingFeedbackActivity.class);
 					pushIntent(intent);
 				} else if (index == 2) {
-
+					UmengUpdateAgent.update(SettingListActivity.this
+							.getParent());
 				}
 			}
 		});

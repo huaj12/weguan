@@ -15,7 +15,7 @@
  *******************************************************************************/
 package com.juzhai.android.core.widget.list.pullrefresh;
 
-import android.annotation.TargetApi;
+//import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -103,7 +103,7 @@ public class PullToRefreshWebView extends PullToRefreshBase<WebView> {
 				.getHeight());
 	}
 
-	@TargetApi(9)
+	// @TargetApi(9)
 	final class InternalWebViewSDK9 extends WebView {
 
 		// WebView doesn't always scroll back to it's edge so we add some

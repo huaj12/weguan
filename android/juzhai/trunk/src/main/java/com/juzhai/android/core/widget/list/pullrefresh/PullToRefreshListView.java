@@ -15,7 +15,7 @@
  *******************************************************************************/
 package com.juzhai.android.core.widget.list.pullrefresh;
 
-import android.annotation.TargetApi;
+//import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -301,7 +301,7 @@ public class PullToRefreshListView extends
 
 	}
 
-	@TargetApi(9)
+	// @TargetApi(9)
 	final class InternalListViewSDK9 extends InternalListView {
 
 		public InternalListViewSDK9(Context context, AttributeSet attrs) {

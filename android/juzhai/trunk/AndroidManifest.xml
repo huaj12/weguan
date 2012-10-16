@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <application android:icon="@drawable/logo"
         android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar">
+        <meta-data android:value="507cbf5c5270153d42000010" android:name="UMENG_APPKEY" />
+		<meta-data android:value="local" android:name="UMENG_CHANNEL"/>
         <activity android:name=".main.activity.MainTabActivity" android:screenOrientation="portrait"/>
         <activity android:name=".home.activity.ZhaobanActivity" android:screenOrientation="portrait"/>
         <activity android:name=".idea.activity.IdeaListActivity" android:screenOrientation="portrait"/>
@@ -78,5 +80,12 @@
         <activity android:name=".home.activity.SetProfessionActivity"/>
         <!--created by kooks at 2012-10-12 21:18:53-->
         <activity android:name=".main.activity.UserGuideActivity"/>
+        
+        <service
+            android:name="com.umeng.common.net.DownloadingService"
+            android:exported="true"
+            android:process=":DownloadingService">
+		</service>
+        
     </application>
 </manifest>

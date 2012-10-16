@@ -1,9 +1,9 @@
 package com.juzhai.android.core.widget.list.pullrefresh.internal;
 
-import android.annotation.TargetApi;
+//import android.annotation.TargetApi;
 import android.view.View;
 
-@TargetApi(16)
+//@TargetApi(16)
 public class SDK16 {
 
 	public static void postOnAnimation(View view, Runnable runnable) {

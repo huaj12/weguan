@@ -31,6 +31,7 @@ import com.juzhai.android.passport.activity.AuthorizeBindActivity;
 import com.juzhai.android.passport.activity.AuthorizeExpiredActivity;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
+import com.umeng.update.UmengUpdateAgent;
 
 public class ZhaobanActivity extends TabItemActivity {
 	private ZhaobanOrder order = ZhaobanOrder.ONLINE;
@@ -42,6 +43,7 @@ public class ZhaobanActivity extends TabItemActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		UmengUpdateAgent.update(this);
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		setNavContentView(R.layout.page_user_post_list);
 		Button sendJzButton = (Button) getLayoutInflater().inflate(

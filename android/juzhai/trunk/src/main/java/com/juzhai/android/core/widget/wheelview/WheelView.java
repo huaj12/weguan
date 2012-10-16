@@ -1015,6 +1015,7 @@ public class WheelView extends View {
 		startScrolling();
 	}
 
+	// TODO (review) 这个接口看不懂是什么功能
 	public interface WheelViewCallBack {
 		void callback(int index);
 	}

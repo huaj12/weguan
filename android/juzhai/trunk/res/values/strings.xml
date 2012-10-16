@@ -70,8 +70,9 @@
     <string name="before_yesterday">前天</string>
     <string name="send">发送</string>
     <string name="select_pic">选择照片</string>
-    <string name="slelect_by_album">从相册里选</string>
-    <string name="select_camera">拍照</string>
+    <string name="select_by_album">从相册里选</string>
+    <string name="select_by_camera">拍照</string>
+	<string name="delete_pic">删除图片</string>
     <string name="contact">联系Ta</string>
     <string name="invite_friend">邀请好友</string>
     <string name="private_letter">私信ta</string>
@@ -95,7 +96,6 @@
    <string name="save_success">保存成功</string>
    <string name="user_guide_title">新手引导</string>
    <string name="send_post_title">发布拒宅</string>
-   <string name="delete_upload">删除图片</string>
    <string name="note">注意</string>
    <string name="clean_content">清除文字</string>
    

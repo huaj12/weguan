@@ -282,8 +282,8 @@ public class SendPostActivity extends NavigationActivity {
 					public String doInBackground() {
 						IUserPostService userPostService = new UserPostService();
 						try {
-							userPostService.sendPost(postImage, post,
-									SendPostActivity.this);
+							userPostService.sendPost(SendPostActivity.this,
+									post, postImage);
 						} catch (PostException e) {
 							return e.getMessage();
 						}

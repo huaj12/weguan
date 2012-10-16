@@ -13,12 +13,14 @@ import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
 import com.juzhai.android.core.model.Result.StringResult;
 import com.juzhai.android.core.model.Result.UserResult;
+import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.exception.PassportException;
 import com.juzhai.android.passport.service.IPassportService;
+import com.umeng.analytics.MobclickAgent;
 
 public class PassportService implements IPassportService {
 
@@ -118,6 +120,7 @@ public class PassportService implements IPassportService {
 		if (!results.getSuccess()) {
 			throw new PassportException(context, results.getErrorInfo());
 		} else {
+			MobclickAgent.onEvent(context, UmengEvent.LOCAL_REGISTER);
 			loginSuccess(context, responseEntity);
 		}
 	}

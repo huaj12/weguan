@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.activity.PreviewActivity;
 import com.juzhai.android.core.listener.SimpleClickListener;
+import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.task.PostProgressTask;
 import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.DialogUtils;
@@ -36,6 +37,7 @@ import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.activity.PostDetailActivity;
 import com.juzhai.android.post.model.Post;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @author kooks
@@ -164,6 +166,8 @@ public class UserHomeActivity extends NavigationActivity {
 						public void successCallback() {
 							unInterestBtn.setVisibility(View.VISIBLE);
 							interestBtn.setVisibility(View.GONE);
+							MobclickAgent.onEvent(UserHomeActivity.this,
+									UmengEvent.INTEREST_USER);
 						}
 
 						@Override

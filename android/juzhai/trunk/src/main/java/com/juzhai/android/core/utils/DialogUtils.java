@@ -69,8 +69,8 @@ public class DialogUtils {
 
 	}
 
-	public static <T extends Entity> void showWheelView(int title, T t,
-			final List<T> datas, Context context,
+	public static <T extends Entity> void showWheelView(int title,
+			T selectedEntity, final List<T> datas, Context context,
 			final WheelView.WheelViewCallBack callback) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -78,12 +78,13 @@ public class DialogUtils {
 		final WheelView wheelView = (WheelView) view
 				.findViewById(R.id.wheelview);
 		wheelView.TEXT_SIZE = 35;
+		// TODO (review) 20表达什么？另外，是px还是dp，还是sp
 		ArrayWheelAdapter<T> wheelViewAdapter = new ArrayWheelAdapter<T>(datas,
 				20);
 		wheelView.setAdapter(wheelViewAdapter);
-		if (t != null) {
-			wheelView.setCurrentItem(getDataIndxex((Long) t.getIdentify(),
-					datas));
+		if (selectedEntity != null) {
+			wheelView.setCurrentItem(getDataIndxex(
+					(Long) selectedEntity.getIdentify(), datas));
 		} else {
 			wheelView.setCurrentItem(0);
 		}
@@ -99,6 +100,7 @@ public class DialogUtils {
 
 	}
 
+	// TODO (review) 似曾相识
 	private static <T extends Entity> int getDataIndxex(long id, List<T> datas) {
 		for (int i = 0; i < datas.size(); i++) {
 			long identify = (Long) datas.get(i).getIdentify();

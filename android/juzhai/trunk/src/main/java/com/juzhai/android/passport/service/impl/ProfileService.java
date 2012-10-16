@@ -12,12 +12,14 @@ import android.util.Log;
 import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
 import com.juzhai.android.core.model.Result.UserResult;
+import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.exception.ProfileException;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.passport.service.IProfileService;
+import com.umeng.analytics.MobclickAgent;
 
 public class ProfileService implements IProfileService {
 	private final String updateUserUri = "profile/save";
@@ -31,7 +33,7 @@ public class ProfileService implements IProfileService {
 	@Override
 	public void guide(User user, Context context) throws ProfileException {
 		save(user, context, userGuideUri);
-
+		MobclickAgent.onEvent(context, UmengEvent.USER_GUIDE);
 	}
 
 	private void save(User user, Context context, String url)
@@ -72,6 +74,9 @@ public class ProfileService implements IProfileService {
 		} else {
 			UserCacheManager.updateUserCache(responseEntity.getBody()
 					.getResult());
+			if (user.getLogoImage() != null) {
+				MobclickAgent.onEvent(context, UmengEvent.UPLOAD_LOGO);
+			}
 		}
 	}
 

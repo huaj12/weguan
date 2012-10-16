@@ -3,6 +3,7 @@ package com.juzhai.android.core.utils;
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -37,12 +38,18 @@ public class ImageUtils {
 	 * 
 	 * @param scrBitmap
 	 * @param tagerWidth
+	 *            (dp)
+	 * 
 	 * @param tagerHeight
+	 *            (dp)
+	 * 
 	 * @return
 	 */
-	//TODO (review) dp和px的关系
+	// TODO (done) dp和px的关系
 	public static Bitmap zoomBitmap(Bitmap scrBitmap, int tagerWidth,
-			int tagerHeight) {
+			int tagerHeight, Context context) {
+		tagerWidth = UIUtil.dip2px(context, tagerWidth);
+		tagerHeight = UIUtil.dip2px(context, tagerHeight);
 		int width = scrBitmap.getWidth();
 		int height = scrBitmap.getHeight();
 		Matrix matrix = new Matrix();
@@ -62,9 +69,21 @@ public class ImageUtils {
 
 	}
 
-	//TODO (review) dp和px的关系
+	/**
+	 * 按宽度等比例压缩
+	 * 
+	 * @param scrBitmap
+	 * @param tagerWidth
+	 *            (dp)
+	 * @param tagerHeight
+	 *            (dp)
+	 * @return
+	 */
+	// TODO (done) dp和px的关系
 	public static Bitmap zoomWidthBitmap(Bitmap scrBitmap, int tagerWidth,
-			int tagerHeight) {
+			int tagerHeight, Context context) {
+		tagerWidth = UIUtil.dip2px(context, tagerWidth);
+		tagerHeight = UIUtil.dip2px(context, tagerHeight);
 		int width = scrBitmap.getWidth();
 		int height = scrBitmap.getHeight();
 		Matrix matrix = new Matrix();
@@ -81,7 +100,8 @@ public class ImageUtils {
 		return baos.toByteArray();
 	}
 
-	// TODO (review) 这个方法要了干嘛？
+	// TODO (done) 这个方法要了干嘛？
+	// 生成文件名字。ByteArrayResource需要重写他文件名的方法
 	public static String getFileName() {
 		return UUID.randomUUID().toString() + ".jpg";
 	}

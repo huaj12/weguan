@@ -115,12 +115,18 @@ public class HttpUtils {
 	}
 
 	public static <T> ResponseEntity<T> get(Context context, String uri,
-			Class<T> responseType) {
-		return get(context, uri, null, responseType);
+			Map<String, Object> values, Class<T> responseType) {
+		return get(context, uri, values, null, responseType);
 	}
 
 	public static <T> ResponseEntity<T> get(Context context, String uri,
-			Map<String, String> cookies, Class<T> responseType) {
+			Class<T> responseType) {
+		return get(context, uri, null, null, responseType);
+	}
+
+	public static <T> ResponseEntity<T> get(Context context, String uri,
+			Map<String, Object> values, Map<String, String> cookies,
+			Class<T> responseType) {
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setAccept(Collections.singletonList(new MediaType(
 				"application", "json")));
@@ -135,13 +141,16 @@ public class HttpUtils {
 		restTemplate.getMessageConverters().add(
 				new MappingJacksonHttpMessageConverter());
 		ResponseEntity<T> responseEntity = restTemplate.exchange(
-				SystemConfig.BASEURL + uri, HttpMethod.GET, requestEntity,
-				responseType);
+				SystemConfig.BASEURL + createHttpParam(uri, values),
+				HttpMethod.GET, requestEntity, responseType);
 		return responseEntity;
 	}
 
-	// TODO (review) 在内部调用，不要在外部调用
-	public static String createHttpParam(String uri, Map<String, Object> values) {
+	// TODO (done) 在内部调用，不要在外部调用
+	private static String createHttpParam(String uri, Map<String, Object> values) {
+		if (CollectionUtils.isEmpty(values)) {
+			return uri;
+		}
 		StringBuilder str = new StringBuilder();
 		if (uri.indexOf("?") == -1) {
 			str.append("?");

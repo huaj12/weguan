@@ -25,5 +25,6 @@ public class ActivityCode {
 		public static final int SETTING_ADDRESS_RESULT_CODE = 6;
 		public static final int SETTING_FEATURE_RESULT_CODE = 7;
 		public static final int SETTING_PROFESSION_RESULT_CODE = 8;
+		public static final int PIC_DELETE_RESULT_CODE = 9;
 	}
 }

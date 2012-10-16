@@ -31,6 +31,7 @@ import com.juzhai.android.passport.activity.AuthorizeBindActivity;
 import com.juzhai.android.passport.activity.AuthorizeExpiredActivity;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
+import com.juzhai.android.post.activity.SendPostActivity;
 import com.umeng.update.UmengUpdateAgent;
 
 public class ZhaobanActivity extends TabItemActivity {
@@ -48,7 +49,13 @@ public class ZhaobanActivity extends TabItemActivity {
 		setNavContentView(R.layout.page_user_post_list);
 		Button sendJzButton = (Button) getLayoutInflater().inflate(
 				R.layout.button_send_jz, null);
-		sendJzButton.setOnClickListener(null);
+		sendJzButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				pushIntent(new Intent(ZhaobanActivity.this,
+						SendPostActivity.class));
+			}
+		});
 		getNavigationBar().setLeftView(sendJzButton);
 		SegmentedButton segmentedButton = new SegmentedButton(this,
 				getResources().getStringArray(R.array.post_head_tab_item), 80,

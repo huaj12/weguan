@@ -3,6 +3,8 @@
  */
 package com.juzhai.android.core.activity;
 
+import com.umeng.analytics.MobclickAgent;
+
 import android.app.Activity;
 import android.content.Intent;
 
@@ -28,4 +30,15 @@ public class BaseActivity extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
+	}
 }

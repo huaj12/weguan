@@ -15,12 +15,14 @@ import com.juzhai.android.R;
 import com.juzhai.android.core.model.Result.PostListResult;
 import com.juzhai.android.core.model.Result.StringResult;
 import com.juzhai.android.core.model.Result.UserListResult;
+import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.home.bean.ZhaobanOrder;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.post.exception.PostException;
 import com.juzhai.android.post.model.Post;
 import com.juzhai.android.post.service.IUserPostService;
+import com.umeng.analytics.MobclickAgent;
 
 public class UserPostService implements IUserPostService {
 	private String userPostUri = "post/showposts";
@@ -97,5 +99,6 @@ public class UserPostService implements IUserPostService {
 		if (!result.getSuccess()) {
 			throw new PostException(context, result.getErrorInfo());
 		}
+		MobclickAgent.onEvent(context, UmengEvent.SEND_POST);
 	}
 }

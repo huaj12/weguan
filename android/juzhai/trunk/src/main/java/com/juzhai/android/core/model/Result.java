@@ -9,8 +9,8 @@ import com.juzhai.android.dialog.model.Dialog;
 import com.juzhai.android.dialog.model.DialogContent;
 import com.juzhai.android.idea.model.Idea;
 import com.juzhai.android.idea.model.IdeaUser;
-import com.juzhai.android.passport.model.Post;
 import com.juzhai.android.passport.model.User;
+import com.juzhai.android.post.model.Post;
 
 public class Result<T> {
 	private T result;

@@ -107,8 +107,8 @@ public class DialogContentService implements IDialogContentService {
 	public void sendFeedback(Context context, String content)
 			throws DialogContentException {
 		int contentLengt = StringUtil.chineseLength(content);
-		if (contentLengt < Validation.SEND_MESSAGE_MIN_LENGTH
-				|| contentLengt > Validation.SEND_MESSAGE_MAX_LENGTH) {
+		if (contentLengt < Validation.SEND_MESSAGE_LENGTH_MIN
+				|| contentLengt > Validation.SEND_MESSAGE_LENGTH_MAX) {
 			throw new DialogContentException(context,
 					R.string.send_message_length_invalid);
 		}

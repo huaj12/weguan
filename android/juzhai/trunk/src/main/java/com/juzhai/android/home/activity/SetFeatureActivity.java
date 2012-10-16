@@ -61,7 +61,7 @@ public class SetFeatureActivity extends NavigationActivity {
 					return;
 				}
 				int featureLength = StringUtil.chineseLength(feature);
-				if (featureLength > Validation.USER_FEATURE_MAX_LENGTH) {
+				if (featureLength > Validation.USER_FEATURE_LENGTH_MAX) {
 					DialogUtils.showToastText(SetFeatureActivity.this,
 							R.string.feature_too_long);
 					return;

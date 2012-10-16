@@ -10,8 +10,9 @@ public class StringUtil {
 			.compile(EMAIL_PATTERN_STRING);
 
 	public static char separator = (char) 036;
-	// TODO (done) 逗号用静态变量？解释一下
+	// TODO (review) 逗号用静态变量？用来干嘛？
 	public static final String COMMA = ",";
+	// TODO (review) 空格用静态变量？用来干嘛？
 	public static final String SPACE = " ";
 
 	public static int chineseLength(String text) {

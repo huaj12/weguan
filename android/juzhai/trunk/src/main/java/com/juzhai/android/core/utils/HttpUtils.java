@@ -142,7 +142,6 @@ public class HttpUtils {
 
 	// TODO (review) 在内部调用，不要在外部调用
 	public static String createHttpParam(String uri, Map<String, Object> values) {
-		// TODO (done) 一定要“?”结尾？
 		StringBuilder str = new StringBuilder();
 		if (uri.indexOf("?") == -1) {
 			str.append("?");

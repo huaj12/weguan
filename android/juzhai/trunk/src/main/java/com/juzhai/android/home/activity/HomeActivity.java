@@ -87,16 +87,16 @@ public class HomeActivity extends TabItemActivity {
 		TextView myPostView = (TextView) findViewById(R.id.home_my_post);
 		TextView myInterestView = (TextView) findViewById(R.id.home_my_interest);
 		TextView myInterestMeView = (TextView) findViewById(R.id.home_interest_me);
-		// TODO (review) 出现了多个括号 可以尝试使用string format
-		myPostView.setText(getResources().getString(R.string.my_post_title)
-				+ " (" + user.getPostCount() + ")");
-		myInterestView.setText(getResources()
-				.getString(R.string.interest_title)
-				+ " ("
-				+ user.getInterestUserCount() + ")");
-		myInterestMeView.setText(getResources().getString(
-				R.string.interest_me_title)
-				+ " (" + user.getInterestMeCount() + ")");
+		// TODO (done) 出现了多个括号 可以尝试使用string format
+		myPostView.setText(assembly(
+				getResources().getString(R.string.my_post_title),
+				user.getPostCount()));
+		myInterestView.setText(assembly(
+				getResources().getString(R.string.interest_title),
+				user.getInterestUserCount()));
+		myInterestMeView.setText(assembly(
+				getResources().getString(R.string.interest_me_title),
+				user.getInterestMeCount()));
 		if (user.getInterestUserCount() > 0) {
 			interestLayout.setOnClickListener(new OnClickListener() {
 
@@ -129,5 +129,9 @@ public class HomeActivity extends TabItemActivity {
 				}
 			});
 		}
+	}
+
+	private String assembly(String name, int count) {
+		return String.format("%1$s (%2$s)", name, count);
 	}
 }

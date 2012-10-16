@@ -2,12 +2,9 @@ package com.juzhai.android.home.activity;
 
 import java.util.Calendar;
 
-import org.apache.commons.lang.StringUtils;
-
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,7 +19,6 @@ import com.juzhai.android.core.activity.UploadImageActivity;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
-import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.list.table.model.BasicItem.ItemType;
 import com.juzhai.android.core.widget.list.table.model.ViewItem;
 import com.juzhai.android.core.widget.list.table.widget.UITableView;
@@ -40,10 +36,9 @@ public class SetUserInfoActivity extends NavigationActivity {
 	protected UITableView otherTableView;
 	protected ImageView userLogoView;
 	protected RelativeLayout logoLayout;
-	protected Context mContext;
 	protected Button finish;
-	// TODO (review) 大错特错！！非常严重！
-	protected User user = UserCache.getUserInfo();
+	// TODO (done) 大错特错！！非常严重！
+	protected User user = UserCache.getCopyUserInfo();
 	protected boolean isGuide = false;
 
 	// TODO (review) 结构设计有问题。为什么不用onCreate方法？
@@ -65,16 +60,18 @@ public class SetUserInfoActivity extends NavigationActivity {
 
 	}
 
-	// TODO (review) 子类需要调用？
-	protected void logoList() {
+	// TODO (done) 子类需要调用？
+	private void logoList() {
 		userLogoView = (ImageView) logoLayout.findViewById(R.id.user_logo);
-		userViewHelper.showUserLogo(mContext, user, userLogoView, 35, 35);
+		userViewHelper.showUserLogo(SetUserInfoActivity.this, user,
+				userLogoView, 35, 35);
 		logoTableView.setClickListener(new ClickListener() {
 			@Override
 			public void onClick(int index) {
 				if (index == 0) {
-					// TODO (review) mContext为什么不能用SetUserInfoActivity.this
-					Intent intent = new Intent(mContext,
+					// TODO (done)
+					// Context为什么不能用SetUserInfoActivity.this
+					Intent intent = new Intent(SetUserInfoActivity.this,
 							UploadImageActivity.class);
 					startActivityForResult(intent,
 							ActivityCode.RequestCode.PIC_REQUEST_CODE);
@@ -84,21 +81,22 @@ public class SetUserInfoActivity extends NavigationActivity {
 		logoTableView.addViewItem(new ViewItem(logoLayout));
 	}
 
-	// TODO (review) 子类需要调用？
-	protected void infoList() {
+	// TODO (done) 子类需要调用？
+	private void infoList() {
 		infoTableView.setClickListener(new ClickListener() {
 			@Override
 			public void onClick(int index) {
 				if (index == 0) {
-					// TODO (review) mContext为什么不能用SetUserInfoActivity.this
-					Intent intent = new Intent(mContext,
+					// TODO (done)
+					// SetUserInfoActivity.this为什么不能用SetUserInfoActivity.this
+					Intent intent = new Intent(SetUserInfoActivity.this,
 							SetNicknameActivity.class);
 					intent.putExtra("nickname", user.getNickname());
 					pushIntentForResult(
 							intent,
 							ActivityCode.RequestCode.SETTING_NICKNAME_REQUEST_CODE);
 				} else if (index == 1) {
-					new AlertDialog.Builder(mContext)
+					new AlertDialog.Builder(SetUserInfoActivity.this)
 							.setTitle(
 									getResources().getString(
 											R.string.select_gender))
@@ -117,7 +115,7 @@ public class SetUserInfoActivity extends NavigationActivity {
 												user.setGender(0);
 												break;
 											}
-											finish.setEnabled(validateFinish());
+											finish.setEnabled(true);
 											reloadInfoTableView();
 										}
 
@@ -132,8 +130,8 @@ public class SetUserInfoActivity extends NavigationActivity {
 						month = cal.get(Calendar.MONTH);
 						day = cal.get(Calendar.DAY_OF_MONTH);
 					}
-					DatePickerDialog dlg = new DatePickerDialog(mContext,
-							new OnDateSetListener() {
+					DatePickerDialog dlg = new DatePickerDialog(
+							SetUserInfoActivity.this, new OnDateSetListener() {
 								@Override
 								public void onDateSet(DatePicker view,
 										int year, int monthOfYear,
@@ -141,8 +139,8 @@ public class SetUserInfoActivity extends NavigationActivity {
 									user.setBirthYear(year);
 									user.setBirthMonth(monthOfYear + 1);
 									user.setBirthDay(dayOfMonth);
-									// TODO (review) 为什么validateFinish？
-									finish.setEnabled(validateFinish());
+									// TODO (done) 为什么validateFinish？
+									finish.setEnabled(true);
 									reloadInfoTableView();
 								}
 							}, year, month, day);
@@ -154,7 +152,7 @@ public class SetUserInfoActivity extends NavigationActivity {
 		infoTableView.addBasicItem(getResources().getString(R.string.nickname),
 				user.getNickname(), ItemType.HORIZONTAL);
 		infoTableView.addBasicItem(getResources().getString(R.string.gender),
-				JzUtils.getGender(user.getGender(), mContext),
+				JzUtils.getGender(user.getGender(), SetUserInfoActivity.this),
 				ItemType.HORIZONTAL);
 		infoTableView.addBasicItem(getResources().getString(R.string.birthday),
 				user.getBirthYear() <= 0 ? null : user.getBirthYear() + "-"
@@ -162,12 +160,12 @@ public class SetUserInfoActivity extends NavigationActivity {
 				ItemType.HORIZONTAL);
 	}
 
-	protected void otherList() {
+	private void otherList() {
 		otherTableView.setClickListener(new ClickListener() {
 			@Override
 			public void onClick(int index) {
 				if (index == 0) {
-					Intent intent = new Intent(mContext,
+					Intent intent = new Intent(SetUserInfoActivity.this,
 							SetAddressAcitvity.class);
 					intent.putExtra("provinceId", user.getProvinceId());
 					intent.putExtra("cityId", user.getCityId());
@@ -175,7 +173,7 @@ public class SetUserInfoActivity extends NavigationActivity {
 							intent,
 							ActivityCode.RequestCode.SETTING_ADDRESS_REQUEST_CODE);
 				} else if (index == 1) {
-					Intent intent = new Intent(mContext,
+					Intent intent = new Intent(SetUserInfoActivity.this,
 							SetProfessionActivity.class);
 					intent.putExtra("professionId", user.getProfessionId());
 					intent.putExtra("profession", user.getProfession());
@@ -183,7 +181,7 @@ public class SetUserInfoActivity extends NavigationActivity {
 							intent,
 							ActivityCode.RequestCode.SETTING_PROFESSION_REQUEST_CODE);
 				} else if (index == 2 && !isGuide) {
-					Intent intent = new Intent(mContext,
+					Intent intent = new Intent(SetUserInfoActivity.this,
 							SetFeatureActivity.class);
 					intent.putExtra("feature", user.getFeature());
 					pushIntentForResult(
@@ -210,24 +208,24 @@ public class SetUserInfoActivity extends NavigationActivity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == ActivityCode.RequestCode.PIC_REQUEST_CODE
 				&& ActivityCode.ResultCode.PIC_RESULT_CODE == resultCode) {
 			Bitmap logo = data.getParcelableExtra("pic");
 			if (logo != null) {
 				user.setLogoImage(logo);
-				userLogoView.setImageBitmap(ImageUtils.zoomBitmap(logo,
-						UIUtil.dip2px(mContext, 35),
-						UIUtil.dip2px(mContext, 35)));
-				finish.setEnabled(validateFinish());
+				userLogoView.setImageBitmap(ImageUtils.zoomBitmap(logo, 35, 35,
+						SetUserInfoActivity.this));
+				finish.setEnabled(true);
 			} else {
-				DialogUtils.showToastText(mContext, R.string.select_pic_error);
+				DialogUtils.showToastText(SetUserInfoActivity.this,
+						R.string.select_pic_error);
 			}
 		} else if (requestCode == ActivityCode.RequestCode.SETTING_NICKNAME_REQUEST_CODE
 				&& ActivityCode.ResultCode.SETTING_NICKNAME_RESULT_CODE == resultCode) {
 			String nickname = data.getStringExtra("nickname");
 			user.setNickname(nickname);
-			finish.setEnabled(validateFinish());
+			finish.setEnabled(true);
 			reloadInfoTableView();
 		} else if (requestCode == ActivityCode.RequestCode.SETTING_ADDRESS_REQUEST_CODE
 				&& ActivityCode.ResultCode.SETTING_ADDRESS_RESULT_CODE == resultCode) {
@@ -235,13 +233,13 @@ public class SetUserInfoActivity extends NavigationActivity {
 			long cityId = data.getLongExtra("cityId", -1);
 			String provinceName = data.getStringExtra("provinceName");
 			String cityName = data.getStringExtra("cityName");
-			// TODO (review) provinceId,cityId可以是-2?-3?0?
-			if (provinceId != -1 && cityId != -1) {
+			// TODO (done) provinceId,cityId可以是-2?-3?0?
+			if (provinceId > 0 && cityId > 0) {
 				user.setProvinceId(provinceId);
 				user.setCityId(cityId);
 				user.setProvinceName(provinceName);
 				user.setCityName(cityName);
-				finish.setEnabled(validateFinish());
+				finish.setEnabled(true);
 				reloadOtherTableView();
 			}
 
@@ -249,7 +247,7 @@ public class SetUserInfoActivity extends NavigationActivity {
 				&& ActivityCode.ResultCode.SETTING_FEATURE_RESULT_CODE == resultCode) {
 			String feature = data.getStringExtra("feature");
 			user.setFeature(feature);
-			finish.setEnabled(validateFinish());
+			finish.setEnabled(true);
 			reloadOtherTableView();
 		} else if (requestCode == ActivityCode.RequestCode.SETTING_PROFESSION_REQUEST_CODE
 				&& ActivityCode.ResultCode.SETTING_PROFESSION_RESULT_CODE == resultCode) {
@@ -257,7 +255,7 @@ public class SetUserInfoActivity extends NavigationActivity {
 			long professionId = data.getLongExtra("professionId", -1);
 			user.setProfession(profession);
 			user.setProfessionId(professionId);
-			finish.setEnabled(validateFinish());
+			finish.setEnabled(true);
 			reloadOtherTableView();
 		}
 
@@ -274,30 +272,6 @@ public class SetUserInfoActivity extends NavigationActivity {
 		otherTableView.clear();
 		otherList();
 		otherTableView.commit();
-	}
-
-	public boolean validateFinish() {
-		// TODO (review) 这里的逻辑是怎么样的？我觉得有问题啊
-		if (isGuide) {
-			if (user.getLogoImage() != null
-					&& StringUtils.isNotEmpty(user.getNickname())
-					&& user.getBirthYear() > 0
-					&& user.getBirthMonth() > 0
-					&& user.getBirthDay() > 0
-					&& user.getCityId() > 0
-					&& (user.getProfessionId() > 0 || (user.getProfessionId() == 0 && StringUtils
-							.isNotEmpty(user.getProfession())))) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return true;
-		}
-	}
-
-	public void setmContext(Context mContext) {
-		this.mContext = mContext;
 	}
 
 	public void setGuide(boolean isGuide) {

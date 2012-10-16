@@ -38,8 +38,7 @@ public class SetNicknameActivity extends NavigationActivity {
 		setNavContentView(R.layout.page_setting_nickname);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.nickname));
-		finish = (Button) (Button) getLayoutInflater().inflate(
-				R.layout.button_finish, null);
+		finish = setRightFinishButton();
 		getNavigationBar().setRightView(finish);
 		String nickname = getIntent().getStringExtra("nickname");
 		final EditText editText = (EditText) findViewById(R.id.nickname);

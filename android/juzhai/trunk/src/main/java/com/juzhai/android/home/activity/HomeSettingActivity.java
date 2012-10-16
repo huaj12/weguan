@@ -6,7 +6,6 @@ package com.juzhai.android.home.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.task.ProgressTask;
@@ -21,14 +20,11 @@ public class HomeSettingActivity extends SetUserInfoActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setmContext(HomeSettingActivity.this);
 		setNavContentView(R.layout.page_home_setting);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.home_setting_title));
-		finish = (Button) getLayoutInflater().inflate(R.layout.button_finish,
-				null);
+		finish = setRightFinishButton();
 		finish.setEnabled(false);
-		getNavigationBar().setRightView(finish);
 		finish.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

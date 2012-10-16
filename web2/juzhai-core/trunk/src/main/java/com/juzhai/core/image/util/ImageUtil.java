@@ -111,19 +111,19 @@ public class ImageUtil {
 	 */
 	public static int validationImage(String imageSuffix, int imageSize,
 			MultipartFile image) {
-		String[] types = StringUtils.split(imageSuffix, "|");
+		// String[] types = StringUtils.split(imageSuffix, "|");
 		String contentType = image.getContentType().toLowerCase();
 		boolean validType = false;
-		for (String type : types) {
-			if (StringUtils.contains(contentType, type)) {
-				validType = true;
-				break;
-			}
-		}
-		if (!validType) {
-			log.error("Image type[" + contentType + "] is invalid.");
-			return -1;
-		}
+		// for (String type : types) {
+		// if (StringUtils.contains(contentType, type)) {
+		// validType = true;
+		// break;
+		// }
+		// }
+		// if (!validType) {
+		// log.error("Image type[" + contentType + "] is invalid.");
+		// return -1;
+		// }
 
 		// 通过文件的二进制头来判断文件类型
 		validType = false;

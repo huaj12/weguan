@@ -7,8 +7,8 @@ import com.juzhai.android.R;
 import com.juzhai.android.core.model.Result.PostListResult;
 import com.juzhai.android.core.widget.list.GetDataTask;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
-import com.juzhai.android.passport.model.Post;
 import com.juzhai.android.post.exception.PostException;
+import com.juzhai.android.post.model.Post;
 import com.juzhai.android.post.service.IUserPostService;
 import com.juzhai.android.post.service.impl.UserPostService;
 

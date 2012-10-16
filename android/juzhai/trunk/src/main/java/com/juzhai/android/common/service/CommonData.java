@@ -35,29 +35,40 @@ public class CommonData {
 	private static List<Province> provinceList = null;
 	private static List<City> cityList = null;
 	private static List<Profession> professionList = null;
+	private static List<Category> categoryList = null;
 
 	public static List<Category> getCategorys(Context context) {
-		//TODO (review) category为什么没有其他三个数据的待遇？
-		String jsonString = new SharedPreferencesManager(context)
-				.getString(SHARED_PREFERNCES_CATEGORY);
-		if (StringUtils.isNotEmpty(jsonString)) {
-			try {
-				CategoryResult result = JacksonSerializer.toBean(jsonString,
-						CategoryResult.class);
-				Category cat = new Category();
-				cat.setCategoryId(0);
-				cat.setName(context.getResources().getString(R.string.all));
-				List<Category> list = new ArrayList<Category>();
-				list.add(cat);
-				list.addAll(result.getResult());
-				return list;
-			} catch (Exception e) {
-				if (BuildConfig.DEBUG) {
-					Log.d("getCategorys", "json to Category is error", e);
+		// TODO (done) category为什么没有其他三个数据的待遇？
+		if (CollectionUtils.isEmpty(categoryList)) {
+			String jsonString = new SharedPreferencesManager(context)
+					.getString(SHARED_PREFERNCES_CATEGORY);
+			if (StringUtils.isNotEmpty(jsonString)) {
+				try {
+					CategoryResult result = JacksonSerializer.toBean(
+							jsonString, CategoryResult.class);
+					categoryList = result.getResult();
+					return categoryList;
+				} catch (Exception e) {
+					if (BuildConfig.DEBUG) {
+						Log.d("getCategorys", "json to Category is error", e);
+					}
 				}
 			}
+			return Collections.emptyList();
+		} else {
+			return categoryList;
 		}
-		return Collections.emptyList();
+	}
+
+	public static List<Category> getAllCategorys(Context context) {
+		List<Category> list = new ArrayList<Category>();
+		Category cat = new Category();
+		cat.setCategoryId(0);
+		cat.setName(context.getResources().getString(R.string.all));
+		list.add(cat);
+		list.addAll(getCategorys(context));
+		return list;
+
 	}
 
 	public static List<Province> getProvinces(Context context) {
@@ -105,7 +116,8 @@ public class CommonData {
 	}
 
 	public static List<Profession> getProfessionList(Context context) {
-		//TODO (review) 如果professionList不是null，只是一个空列表，也需要每次去磁盘上取？city和province同理
+		// TODO (done)
+		// 如果professionList不是null，只是一个空列表，也需要每次去磁盘上取？city和province同理
 		if (CollectionUtils.isEmpty(professionList)) {
 			String jsonString = new SharedPreferencesManager(context)
 					.getString(SHARED_PREFERNCES_PROFESSION);
@@ -142,8 +154,15 @@ public class CommonData {
 		}
 	}
 
+	public static String[] getAllCategoryNames(Context context) {
+		return getCategoryNames(getAllCategorys(context));
+	}
+
 	public static String[] getCategoryNames(Context context) {
-		List<Category> categorys = getCategorys(context);
+		return getCategoryNames(getCategorys(context));
+	}
+
+	private static String[] getCategoryNames(List<Category> categorys) {
 		String[] categoryNames = new String[categorys.size()];
 		for (int i = 0; i < categorys.size(); i++) {
 			categoryNames[i] = categorys.get(i).getName();

@@ -1,0 +1,342 @@
+/**
+ * 
+ */
+package com.juzhai.android.post.activity;
+
+import java.util.Calendar;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.apache.commons.lang.StringUtils;
+
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.juzhai.android.R;
+import com.juzhai.android.common.model.Category;
+import com.juzhai.android.common.service.CommonData;
+import com.juzhai.android.core.activity.ActivityCode;
+import com.juzhai.android.core.activity.UploadImageActivity;
+import com.juzhai.android.core.task.ProgressTask;
+import com.juzhai.android.core.task.TaskCallback;
+import com.juzhai.android.core.utils.DialogUtils;
+import com.juzhai.android.core.utils.ImageUtils;
+import com.juzhai.android.core.utils.StringUtil;
+import com.juzhai.android.core.utils.UIUtil;
+import com.juzhai.android.core.utils.Validation;
+import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
+import com.juzhai.android.core.widget.wheelview.WheelView;
+import com.juzhai.android.post.exception.PostException;
+import com.juzhai.android.post.model.Post;
+import com.juzhai.android.post.service.IUserPostService;
+import com.juzhai.android.post.service.impl.UserPostService;
+
+public class SendPostActivity extends NavigationActivity {
+	private int year = 0;
+	private int month = 0;
+	private int day = 0;
+	private Category selectedCategory;
+	private EditText placeEditText = null;
+	private Post post = new Post();
+	private Bitmap postImage = null;
+	private int restLength = Validation.POST_CONTENT_LENGTH_MAX;
+	private EditText contentText;
+	private Button categoryBtn;
+	private Button placeBtn;
+	private Button timeBtn;
+	private Button imageBtn;
+	private ImageView imageView;
+	private TextView countTip;
+	private Button cleanBtn;
+	private Button finish;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setNavContentView(R.layout.page_send_post);
+		getNavigationBar().setBarTitle(
+				getResources().getString(R.string.send_post_title));
+		finish = (Button) getLayoutInflater().inflate(R.layout.button_finish,
+				null);
+		getNavigationBar().setRightView(finish);
+		contentText = (EditText) findViewById(R.id.post_content);
+		categoryBtn = (Button) findViewById(R.id.post_category_btn);
+		placeBtn = (Button) findViewById(R.id.post_place_btn);
+		timeBtn = (Button) findViewById(R.id.post_time_btn);
+		imageBtn = (Button) findViewById(R.id.post_image_btn);
+		imageView = (ImageView) findViewById(R.id.post_image);
+		countTip = (TextView) findViewById(R.id.post_content_count_tip);
+		cleanBtn = (Button) findViewById(R.id.post_clean_btn);
+		setCountTip();
+		final List<Category> categorys = CommonData
+				.getCategorys(SendPostActivity.this);
+		// 删除全部这个选项
+		categorys.remove(0);
+
+		categoryBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				DialogUtils.showWheelView(R.string.post_category,
+						selectedCategory, categorys, SendPostActivity.this,
+						new WheelView.WheelViewCallBack() {
+
+							@Override
+							public void callback(int location) {
+								selectedCategory = categorys.get(location);
+								categoryBtn.setSelected(true);
+								post.setCategoryId(selectedCategory
+										.getCategoryId());
+							}
+						});
+			}
+		});
+
+		placeBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				placeEditText = new EditText(SendPostActivity.this);
+				placeEditText.setText(post.getPlace());
+				new AlertDialog.Builder(SendPostActivity.this)
+						.setTitle(R.string.post_place)
+						.setIcon(android.R.drawable.ic_dialog_info)
+						.setView(placeEditText)
+						.setPositiveButton(R.string.ok,
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										String place = placeEditText.getText()
+												.toString();
+										if (StringUtils.isEmpty(place)) {
+											placeBtn.setSelected(false);
+										} else {
+											int placeLength = StringUtil
+													.chineseLength(place);
+											if (placeLength > Validation.POST_PLACE_LENGTH_MAX) {
+												DialogUtils
+														.showToastText(
+																SendPostActivity.this,
+																R.string.send_post_place_length_invalid);
+												return;
+											}
+											placeBtn.setSelected(true);
+										}
+										post.setPlace(place);
+									}
+								}).setNegativeButton(R.string.cancel, null)
+						.show();
+
+			}
+		});
+
+		timeBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Calendar cal = Calendar.getInstance();
+
+				if (year <= 0) {
+					year = cal.get(Calendar.YEAR);
+					month = cal.get(Calendar.MONTH);
+					day = cal.get(Calendar.DAY_OF_MONTH);
+				}
+
+				DatePickerDialog dlg = new DatePickerDialog(
+						SendPostActivity.this, new OnDateSetListener() {
+							@Override
+							public void onDateSet(DatePicker view, int sYear,
+									int monthOfYear, int dayOfMonth) {
+								post.setDate(year + "-" + (monthOfYear + 1)
+										+ "-" + dayOfMonth);
+								year = sYear;
+								month = monthOfYear;
+								day = dayOfMonth;
+								timeBtn.setSelected(true);
+							}
+						}, year, month, day);
+				dlg.setButton(
+						AlertDialog.BUTTON_NEGATIVE,
+						SendPostActivity.this.getResources().getString(
+								R.string.cancel),
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								post.setDate(null);
+								year = 0;
+								month = 0;
+								day = 0;
+								timeBtn.setSelected(false);
+							}
+						});
+				dlg.show();
+			}
+		});
+
+		imageBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(SendPostActivity.this,
+						UploadImageActivity.class);
+				if (postImage != null) {
+					intent.putExtra("isCancelBtn", true);
+				}
+				startActivityForResult(intent,
+						ActivityCode.RequestCode.PIC_REQUEST_CODE);
+			}
+		});
+
+		contentText.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				restLength = Validation.POST_CONTENT_LENGTH_MAX
+						- StringUtil.chineseLength(contentText.getText()
+								.toString());
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				setCountTip();
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				setCountTip();
+			}
+		});
+
+		cleanBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				new AlertDialog.Builder(SendPostActivity.this)
+						.setTitle(R.string.note)
+						.setMessage(R.string.clean_content)
+						.setPositiveButton(R.string.ok,
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										contentText.setText(null);
+										restLength = Validation.POST_CONTENT_LENGTH_MAX;
+									}
+								}).setNegativeButton(R.string.cancel, null)
+						.show();
+			}
+		});
+
+		finish.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (selectedCategory == null) {
+					DialogUtils.showToastText(SendPostActivity.this,
+							R.string.send_post_category_is_null);
+					return;
+				}
+				String content = contentText.getText().toString();
+				int contentLength = StringUtil.chineseLength(content);
+				if (contentLength < Validation.POST_CONTENT_LENGTH_MIN) {
+					DialogUtils.showToastText(SendPostActivity.this,
+							R.string.send_post_content_too_little);
+					return;
+				}
+				if (contentLength > Validation.POST_CONTENT_LENGTH_MAX) {
+					DialogUtils.showToastText(SendPostActivity.this,
+							R.string.send_post_content_too_more);
+					return;
+				}
+				post.setContent(content);
+				new ProgressTask(SendPostActivity.this, new TaskCallback() {
+
+					@Override
+					public void successCallback() {
+						DialogUtils.showToastText(SendPostActivity.this,
+								R.string.send_ok);
+						SendPostActivity.this.finish();
+					}
+
+					@Override
+					public String doInBackground() {
+						IUserPostService userPostService = new UserPostService();
+						try {
+							userPostService.sendPost(postImage, post,
+									SendPostActivity.this);
+						} catch (PostException e) {
+							return e.getMessage();
+						}
+						return null;
+					}
+				}, false).execute();
+
+			}
+		});
+
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.showSoftInput(contentText,
+						InputMethodManager.RESULT_UNCHANGED_SHOWN);
+			}
+		}, 300);
+
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == ActivityCode.RequestCode.PIC_REQUEST_CODE
+				&& ActivityCode.ResultCode.PIC_RESULT_CODE == resultCode) {
+			Bitmap image = data.getParcelableExtra("pic");
+			boolean isCancelBtn = data.getBooleanExtra("isCancelBtn", false);
+			if (isCancelBtn) {
+				postImage = null;
+				imageView.setImageBitmap(null);
+				imageBtn.setSelected(false);
+				imageView.setVisibility(View.GONE);
+				return;
+			}
+			if (image != null) {
+				postImage = image;
+				imageView.setImageBitmap(ImageUtils.zoomBitmap(image,
+						UIUtil.dip2px(SendPostActivity.this, 20),
+						UIUtil.dip2px(SendPostActivity.this, 20)));
+				imageBtn.setSelected(true);
+				imageView.setVisibility(View.VISIBLE);
+			} else {
+				DialogUtils.showToastText(SendPostActivity.this,
+						R.string.select_pic_error);
+			}
+		}
+	}
+
+	private void setCountTip() {
+		countTip.setText(getResources().getString(
+				R.string.post_content_tip_begin)
+				+ (restLength / 2)
+				+ getResources().getString(R.string.post_content_tip_end));
+	}
+}

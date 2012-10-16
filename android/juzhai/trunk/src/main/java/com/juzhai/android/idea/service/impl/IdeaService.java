@@ -27,10 +27,10 @@ public class IdeaService implements IIdeaService {
 		values.put("categoryId", categoryId);
 		values.put("orderType", orderType);
 		values.put("page", page);
-		String uri = HttpUtils.createHttpParam(ideaListUri, values);
 		ResponseEntity<IdeaListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, uri, IdeaListResult.class);
+			responseEntity = HttpUtils.get(context, ideaListUri, values,
+					IdeaListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -48,10 +48,9 @@ public class IdeaService implements IIdeaService {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("ideaId", ideaId);
 		values.put("page", page);
-		String url = HttpUtils.createHttpParam(ideaUsersUri, values);
 		ResponseEntity<IdeaUserListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, url,
+			responseEntity = HttpUtils.get(context, ideaUsersUri, values,
 					IdeaUserListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {

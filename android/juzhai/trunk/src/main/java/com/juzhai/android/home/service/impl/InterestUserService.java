@@ -24,10 +24,10 @@ public class InterestUserService implements IInterestUserService {
 			throws HomeException {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("page", page);
-		String url = HttpUtils.createHttpParam(interestUri, values);
 		ResponseEntity<UserListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, url, UserListResult.class);
+			responseEntity = HttpUtils.get(context, interestUri, values,
+					UserListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "interestList is error", e);
@@ -42,10 +42,10 @@ public class InterestUserService implements IInterestUserService {
 			throws HomeException {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("page", page);
-		String url = HttpUtils.createHttpParam(interestMeUri, values);
 		ResponseEntity<UserListResult> responseEntity = null;
 		try {
-			responseEntity = HttpUtils.get(context, url, UserListResult.class);
+			responseEntity = HttpUtils.get(context, interestMeUri, values,
+					UserListResult.class);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "interestMeList is error", e);

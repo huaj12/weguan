@@ -39,9 +39,9 @@ public class IdeaListActivity extends TabItemActivity {
 		ideaListView = (JuzhaiRefreshListView) findViewById(R.id.idea_list_view);
 		// 分类
 		final List<Category> categorys = CommonData
-				.getCategorys(IdeaListActivity.this);
+				.getAllCategorys(IdeaListActivity.this);
 		String[] categoryNames = CommonData
-				.getCategoryNames(IdeaListActivity.this);
+				.getAllCategoryNames(IdeaListActivity.this);
 		// 导航左边按钮
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				R.layout.button_category_spinner, categoryNames) {

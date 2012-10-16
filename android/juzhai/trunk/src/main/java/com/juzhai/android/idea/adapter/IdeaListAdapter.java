@@ -22,12 +22,10 @@ import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
-import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
-import com.juzhai.android.idea.activity.IdeaDetailActivity;
 import com.juzhai.android.idea.activity.IdeaListActivity;
 import com.juzhai.android.idea.activity.IdeaUsersActivity;
 import com.juzhai.android.idea.model.Idea;
@@ -135,8 +133,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 							if (bitmap != null) {
 								// TODO (review) 高和宽写死的？imageView没有高和宽的属性？
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, UIUtil.dip2px(mContext, 262),
-										UIUtil.dip2px(mContext, 180));
+										bitmap, 262, 180, mContext);
 								imageView.setImageBitmap(zoomBitmap);
 								contentTextView
 										.setBackgroundResource(R.drawable.good_idea_item_txt_infor_bg);

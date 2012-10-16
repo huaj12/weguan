@@ -350,4 +350,13 @@ public class User extends Entity {
 		this.logoImage = logoImage;
 	}
 
+	public User clone() {
+		try {
+			User user = (User) super.clone();
+			return user;
+		} catch (CloneNotSupportedException e) {
+			return null;
+		}
+	}
+
 }

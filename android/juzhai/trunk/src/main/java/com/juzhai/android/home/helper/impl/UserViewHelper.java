@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
-import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.home.bean.OnlineStatus;
@@ -32,8 +31,7 @@ public class UserViewHelper implements IUserViewHelper {
 						public void imageLoaderFinish(Bitmap bitmap) {
 							if (bitmap != null) {
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, UIUtil.dip2px(context, width),
-										UIUtil.dip2px(context, height));
+										bitmap, width, height, context);
 								imageView.setImageBitmap(ImageUtils
 										.getRoundedCornerBitmap(zoomBitmap, 10));
 							}
@@ -98,8 +96,7 @@ public class UserViewHelper implements IUserViewHelper {
 						public void imageLoaderFinish(Bitmap bitmap) {
 							if (bitmap != null) {
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, UIUtil.dip2px(context, width),
-										UIUtil.dip2px(context, height));
+										bitmap, width, height, context);
 								imageView.setImageBitmap(ImageUtils
 										.getRoundedCornerBitmap(zoomBitmap, 10));
 								String str = JzUtils.getLogverifyStateString(

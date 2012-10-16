@@ -25,7 +25,6 @@ import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
-import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
@@ -81,10 +80,8 @@ public class IdeaDetailActivity extends NavigationActivity {
 						public void imageLoaderFinish(Bitmap bitmap) {
 							if (bitmap != null) {
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, UIUtil.dip2px(
-												IdeaDetailActivity.this, 262),
-										UIUtil.dip2px(IdeaDetailActivity.this,
-												180));
+										bitmap, 262, 180,
+										IdeaDetailActivity.this);
 								imageView.setImageBitmap(zoomBitmap);
 							}
 						}

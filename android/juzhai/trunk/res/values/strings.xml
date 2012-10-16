@@ -98,7 +98,7 @@
    <string name="send_post_title">发布拒宅</string>
    <string name="note">注意</string>
    <string name="clean_content">清除文字</string>
-   
+   <string name="clean">清空</string>
     <!-- common end -->
 
 
@@ -206,7 +206,9 @@
     <string name="send_post_category_is_null">请选择拒宅分类</string>
     <string name="send_post_content_too_little">您写的内容太少了</string>
     <string name="send_post_content_too_more">您写的内容太多了</string>
-    
+    <string name="user_address_is_null">请选择所在地</string>
+    <string name="user_birth_day_is_null">请选择生日</string>
+    <string name="send_post_user_logo_is_null">您还没有上传头像不能发布拒宅</string>
     <!-- error end -->
 
 	<!-- setting -->

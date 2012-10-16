@@ -18,9 +18,9 @@ import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.home.adapter.MyPostsAdapter;
 import com.juzhai.android.home.task.MyPostsListGetDataTask;
 import com.juzhai.android.passport.data.UserCache;
-import com.juzhai.android.passport.model.Post;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.activity.PostDetailActivity;
+import com.juzhai.android.post.model.Post;
 
 /**
  * @author kooks

@@ -3,7 +3,7 @@ package com.juzhai.android.post.helper;
 import android.content.Context;
 import android.widget.ImageView;
 
-import com.juzhai.android.passport.model.Post;
+import com.juzhai.android.post.model.Post;
 
 public interface IPostViewHelper {
 	/**

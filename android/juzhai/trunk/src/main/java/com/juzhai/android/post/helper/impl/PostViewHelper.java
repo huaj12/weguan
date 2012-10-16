@@ -14,8 +14,8 @@ import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
-import com.juzhai.android.passport.model.Post;
 import com.juzhai.android.post.helper.IPostViewHelper;
+import com.juzhai.android.post.model.Post;
 
 public class PostViewHelper implements IPostViewHelper {
 

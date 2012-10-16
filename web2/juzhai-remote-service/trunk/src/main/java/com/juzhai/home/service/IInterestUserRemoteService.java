@@ -63,16 +63,6 @@ public interface IInterestUserRemoteService {
 	void removeInterestUser(long uid, long targetUid);
 
 	/**
-	 * 收藏感兴趣的人
-	 * 
-	 * @param uid
-	 * @param targetUid
-	 * @throws InterestUserException
-	 */
-	void interestUser(long uid, long targetUid, String content)
-			throws InterestUserException;
-
-	/**
 	 * 是否感兴趣
 	 * 
 	 * @param uid

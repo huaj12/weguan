@@ -42,6 +42,7 @@ import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.core.widget.wheelview.WheelViewDialog;
+import com.juzhai.android.core.widget.wheelview.WheelViewDialog.WheelViewCallBack;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.exception.PostException;
@@ -81,9 +82,9 @@ public class SendPostActivity extends NavigationActivity {
 
 			@Override
 			public void onClick(View v) {
-				WheelViewDialog.showWheelView(R.string.post_category,
+				new WheelViewDialog<Category>(R.string.post_category,
 						selectedCategory, categorys, SendPostActivity.this,
-						new WheelViewDialog.WheelViewCallBack() {
+						new WheelViewCallBack() {
 							@Override
 							public void callback(int location) {
 								selectedCategory = categorys.get(location);
@@ -91,7 +92,7 @@ public class SendPostActivity extends NavigationActivity {
 								post.setCategoryId(selectedCategory
 										.getCategoryId());
 							}
-						});
+						}).show();
 			}
 		});
 
@@ -139,17 +140,7 @@ public class SendPostActivity extends NavigationActivity {
 
 			@Override
 			public void onClick(View v) {
-				Calendar cal = Calendar.getInstance();
-
-				int year = getDate(0);
-				int month = getDate(1) - 1;
-				int day = getDate(2);
-				if (year <= 0) {
-					year = cal.get(Calendar.YEAR);
-					month = cal.get(Calendar.MONTH);
-					day = cal.get(Calendar.DAY_OF_MONTH);
-				}
-
+				int[] dates = getDate();
 				DatePickerDialog dlg = new DatePickerDialog(
 						SendPostActivity.this, new OnDateSetListener() {
 							@Override
@@ -159,7 +150,7 @@ public class SendPostActivity extends NavigationActivity {
 										+ "-" + dayOfMonth);
 								timeBtn.setSelected(true);
 							}
-						}, year, month, day);
+						}, dates[0], dates[1], dates[2]);
 				dlg.setButton(
 						AlertDialog.BUTTON_NEGATIVE,
 						SendPostActivity.this.getResources().getString(
@@ -224,8 +215,8 @@ public class SendPostActivity extends NavigationActivity {
 									public void onClick(DialogInterface dialog,
 											int which) {
 										contentText.setText(null);
-										// TODO (review) 调用了setText方法，不会触发onTextChanged事件？
-										restLength = Validation.POST_CONTENT_LENGTH_MAX;
+										// TODO (done)
+										// 调用了setText方法，不会触发onTextChanged事件？
 									}
 								}).setNegativeButton(R.string.cancel, null)
 						.show();
@@ -331,14 +322,22 @@ public class SendPostActivity extends NavigationActivity {
 				+ getResources().getString(R.string.post_content_tip_end));
 	}
 
-	private int getDate(int index) {
-		//TODO (review) 为什么不判断post.getDate()是否为null
-		//TODO (review) 为什么要调用多次？
-		//TODO (review) 当date没有值，获取当前时间，为什么不封装在一起
-		try {
-			return Integer.parseInt(post.getDate().split("-")[index]);
-		} catch (Exception e) {
-			return 0;
+	private int[] getDate() {
+		int[] dates = new int[3];
+		// TODO (done) 为什么不判断post.getDate()是否为null
+		// TODO (done) 为什么要调用多次？
+		// TODO (done) 当date没有值，获取当前时间，为什么不封装在一起
+		if (post.getDate() == null) {
+			Calendar cal = Calendar.getInstance();
+			dates[0] = cal.get(Calendar.YEAR);
+			dates[1] = cal.get(Calendar.MONTH);
+			dates[2] = cal.get(Calendar.DAY_OF_MONTH);
+		} else {
+			String[] str = post.getDate().split("-");
+			dates[0] = Integer.parseInt(str[0]);
+			dates[1] = Integer.parseInt(str[1]) - 1;
+			dates[2] = Integer.parseInt(str[2]);
 		}
+		return dates;
 	}
 }

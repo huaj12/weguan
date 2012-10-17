@@ -317,16 +317,17 @@ public class User extends Entity {
 	}
 
 	public String getUserInfo(Context mContext) {
-		//TODO (review)  自己看吧
+		String comma = ",";
+		// TODO (done) 自己看吧
 		StringBuffer sbString = new StringBuffer();
 		if (JzUtils.age(getBirthYear()) > 0) {
 			sbString.append(JzUtils.age(getBirthYear())
 					+ mContext.getResources().getString(R.string.age));
-			sbString.append(",");
+			sbString.append(comma);
 		}
 		if (StringUtils.isNotEmpty(getConstellation())) {
 			sbString.append(getConstellation());
-			sbString.append(",");
+			sbString.append(comma);
 		}
 		if (StringUtils.isNotEmpty(getProfession())) {
 			sbString.append(getProfession());

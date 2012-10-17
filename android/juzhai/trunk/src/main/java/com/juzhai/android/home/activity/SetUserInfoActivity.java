@@ -41,7 +41,6 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 	protected User user = UserCache.getCopyUserInfo();
 	protected boolean isGuide = false;
 
-	// TODO (done) 结构设计有问题。为什么不用onCreate方法？
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

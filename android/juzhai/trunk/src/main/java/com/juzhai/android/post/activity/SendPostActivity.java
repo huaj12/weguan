@@ -141,8 +141,6 @@ public class SendPostActivity extends NavigationActivity {
 			public void onClick(View v) {
 				Calendar cal = Calendar.getInstance();
 
-				// TODO (done) 为什么要使用year，month，day？不是有存入post了吗？不需要
-				// year，month，day这三个成员变量啊
 				int year = getDate(0);
 				int month = getDate(1) - 1;
 				int day = getDate(2);
@@ -226,8 +224,7 @@ public class SendPostActivity extends NavigationActivity {
 									public void onClick(DialogInterface dialog,
 											int which) {
 										contentText.setText(null);
-										// TODO (review)
-										// 调用了setText方法，不会触发onTextChanged事件？
+										// TODO (review) 调用了setText方法，不会触发onTextChanged事件？
 										restLength = Validation.POST_CONTENT_LENGTH_MAX;
 									}
 								}).setNegativeButton(R.string.cancel, null)
@@ -319,7 +316,6 @@ public class SendPostActivity extends NavigationActivity {
 							R.string.select_pic_error);
 				}
 			} else if (ActivityCode.ResultCode.PIC_DELETE_RESULT_CODE == resultCode) {
-				// TODO (done) 下面的判断要了干嘛？
 				postImage = null;
 				imageView.setImageBitmap(null);
 				imageBtn.setSelected(false);
@@ -336,6 +332,9 @@ public class SendPostActivity extends NavigationActivity {
 	}
 
 	private int getDate(int index) {
+		//TODO (review) 为什么不判断post.getDate()是否为null
+		//TODO (review) 为什么要调用多次？
+		//TODO (review) 当date没有值，获取当前时间，为什么不封装在一起
 		try {
 			return Integer.parseInt(post.getDate().split("-")[index]);
 		} catch (Exception e) {

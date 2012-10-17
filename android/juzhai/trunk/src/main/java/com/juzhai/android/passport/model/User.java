@@ -317,6 +317,7 @@ public class User extends Entity {
 	}
 
 	public String getUserInfo(Context mContext) {
+		//TODO (review)  自己看吧
 		StringBuffer sbString = new StringBuffer();
 		if (JzUtils.age(getBirthYear()) > 0) {
 			sbString.append(JzUtils.age(getBirthYear())

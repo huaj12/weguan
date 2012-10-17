@@ -39,7 +39,6 @@ public class CommonData {
 	private static List<Category> categoryList = null;
 
 	public static List<Category> getCategorys(Context context) {
-		// TODO (done) 如果categoryList不是null，只是一个空列表，也需要每次去磁盘上取？city和province同理
 		if (categoryList == null) {
 			String jsonString = new SharedPreferencesManager(context)
 					.getString(SHARED_PREFERNCES_CATEGORY);
@@ -117,8 +116,6 @@ public class CommonData {
 	}
 
 	public static List<Profession> getProfessionList(Context context) {
-		// TODO (done)
-		// 如果professionList不是null，只是一个空列表，也需要每次去磁盘上取？city和province同理
 		if (professionList == null) {
 			String jsonString = new SharedPreferencesManager(context)
 					.getString(SHARED_PREFERNCES_PROFESSION);
@@ -271,7 +268,6 @@ public class CommonData {
 		}
 	}
 
-	// TODO (done) 放到commonService里吧
 	public static <T extends Entity> int getDataIndxex(long id, List<T> datas) {
 		for (int i = 0; i < datas.size(); i++) {
 			long identify = (Long) datas.get(i).getIdentify();
@@ -282,7 +278,6 @@ public class CommonData {
 		return 0;
 	}
 
-	// TODO (done) 放到commonService里吧
 	public static List<City> getSelectCity(long provinceId, List<City> allCitys) {
 		List<City> ciyts = new ArrayList<City>();
 		for (City city : allCitys) {

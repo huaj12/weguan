@@ -14,7 +14,7 @@ import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.model.Entity;
 
 public class WheelViewDialog {
-	// TODO (done) WheelView.WheelViewCallBack 多此一举
+	// TODO (review) 不是这么个意思，不是让你方法换一个地方⋯⋯。面向对象！
 	public static <T extends Entity> void showWheelView(int title,
 			T selectedEntity, final List<T> datas, Context context,
 			final WheelViewCallBack callback) {
@@ -45,7 +45,6 @@ public class WheelViewDialog {
 
 	}
 
-	// TODO (done) 这个接口看不懂是什么功能
 	public interface WheelViewCallBack {
 		void callback(int index);
 	}

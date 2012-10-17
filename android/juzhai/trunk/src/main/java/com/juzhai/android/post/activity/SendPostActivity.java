@@ -42,7 +42,7 @@ import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.core.widget.wheelview.WheelViewDialog;
-import com.juzhai.android.core.widget.wheelview.WheelViewDialog.WheelViewCallBack;
+import com.juzhai.android.core.widget.wheelview.WheelViewDialog.WheelViewDialogListener;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.exception.PostException;
@@ -82,12 +82,12 @@ public class SendPostActivity extends NavigationActivity {
 
 			@Override
 			public void onClick(View v) {
-				new WheelViewDialog<Category>(R.string.post_category,
-						selectedCategory, categorys, SendPostActivity.this,
-						new WheelViewCallBack() {
+				new WheelViewDialog<Category>(SendPostActivity.this,
+						R.string.post_category, selectedCategory, categorys,
+						new WheelViewDialogListener() {
 							@Override
-							public void callback(int location) {
-								selectedCategory = categorys.get(location);
+							public void onClickPositive(int selectedIndex) {
+								selectedCategory = categorys.get(selectedIndex);
 								categoryBtn.setSelected(true);
 								post.setCategoryId(selectedCategory
 										.getCategoryId());
@@ -324,9 +324,6 @@ public class SendPostActivity extends NavigationActivity {
 
 	private int[] getDate() {
 		int[] dates = new int[3];
-		// TODO (done) 为什么不判断post.getDate()是否为null
-		// TODO (done) 为什么要调用多次？
-		// TODO (done) 当date没有值，获取当前时间，为什么不封装在一起
 		if (post.getDate() == null) {
 			Calendar cal = Calendar.getInstance();
 			dates[0] = cal.get(Calendar.YEAR);

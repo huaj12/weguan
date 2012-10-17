@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -12,22 +13,18 @@ import com.juzhai.android.R;
 import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.model.Entity;
 
-public class WheelViewDialog<T extends Entity> extends AlertDialog {
-	private int title;
-	private WheelViewCallBack callback;
-	private Context context;
-	private View view;
+public class WheelViewDialog<T extends Entity> extends AlertDialog implements
+		OnClickListener {
+	private WheelViewDialogListener wheelViewDialogListener;
 	private WheelView wheelView;
 
-	public WheelViewDialog(int title, T selectedEntity, List<T> datas,
-			Context context, WheelViewCallBack callback) {
+	public WheelViewDialog(Context context, int title, T selectedEntity,
+			List<T> datas, WheelViewDialogListener wheelViewDialogListener) {
 		super(context);
-		this.title = title;
-		this.callback = callback;
-		this.context = context;
+		this.wheelViewDialogListener = wheelViewDialogListener;
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		view = inflater.inflate(R.layout.fragment_wheelview, null);
+		View view = inflater.inflate(R.layout.fragment_wheelview, null);
 		wheelView = (WheelView) view.findViewById(R.id.wheelview);
 		wheelView.TEXT_SIZE = 35;
 		ArrayWheelAdapter<T> wheelViewAdapter = new ArrayWheelAdapter<T>(datas,
@@ -39,25 +36,22 @@ public class WheelViewDialog<T extends Entity> extends AlertDialog {
 		} else {
 			wheelView.setCurrentItem(0);
 		}
+		setTitle(context.getResources().getString(title));
+		setView(view);
+		setButton(BUTTON_POSITIVE, context.getString(R.string.ok), this);
+		setButton(BUTTON_NEGATIVE, context.getString(R.string.cancel),
+				(OnClickListener) null);
 	}
-
-	// TODO (done) 不是这么个意思，不是让你方法换一个地方⋯⋯。面向对象！
 
 	@Override
-	public void show() {
-		new AlertDialog.Builder(context)
-				.setTitle(context.getResources().getString(title))
-				.setView(view)
-				.setPositiveButton(R.string.ok, new OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						callback.callback(wheelView.getCurrentItem());
-					}
-				}).setNegativeButton(R.string.cancel, null).show();
+	public void onClick(DialogInterface dialog, int which) {
+		if (which == AlertDialog.BUTTON_POSITIVE) {
+			wheelViewDialogListener.onClickPositive(wheelView.getCurrentItem());
+		}
 	}
 
-	public interface WheelViewCallBack {
-		void callback(int index);
+	public interface WheelViewDialogListener {
+		void onClickPositive(int selectedIndex);
 	}
 
 }

@@ -3,17 +3,12 @@
  */
 package com.juzhai.android.home.activity;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import org.apache.commons.lang.StringUtils;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -40,15 +35,7 @@ public class SetFeatureActivity extends NavigationActivity {
 		String feature = getIntent().getStringExtra("feature");
 		final EditText editText = (EditText) findViewById(R.id.feature_input);
 		editText.setText(feature);
-		Timer timer = new Timer(); // 设置定时器
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() { // 弹出软键盘的代码
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.showSoftInput(editText,
-						InputMethodManager.RESULT_UNCHANGED_SHOWN);
-			}
-		}, 300);
+		openKeyboard(editText);
 		finish.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

@@ -33,7 +33,6 @@ public class InterestMeActivity extends NavigationActivity {
 		setNavContentView(R.layout.page_interest);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.interest_me_title));
-		// TODO (done) 自己看什么问题？
 		final JuzhaiRefreshListView interestMeListView = (JuzhaiRefreshListView) findViewById(R.id.interest_list_view);
 		interestMeListView
 				.setOnRefreshListener(new OnRefreshListener2<ListView>() {

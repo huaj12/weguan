@@ -49,7 +49,6 @@ public class BaseActivity extends Activity {
 	}
 
 	protected void openKeyboard(final View view) {
-		// TODO (done) 考虑封装弹出键盘（方案1.放入BaseActivity，方案2...，方案3....）
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 			@Override

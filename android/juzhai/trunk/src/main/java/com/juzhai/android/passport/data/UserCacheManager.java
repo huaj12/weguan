@@ -79,7 +79,6 @@ public class UserCacheManager {
 		clearPersistToken(context);
 	}
 
-	// TODO (done) 解析cookies的逻辑完全错误，打印出来慢慢debug
 	private static Map<String, Map<String, String>> parseCookies(
 			List<String> list) {
 		Map<String, Map<String, String>> cookies = new HashMap<String, Map<String, String>>();
@@ -91,7 +90,7 @@ public class UserCacheManager {
 				for (String cookieStr : cookiesStr) {
 					String[] values = cookieStr.split("=");
 					if (values != null && values.length > 1) {
-						if (org.apache.commons.lang.StringUtils.isEmpty(key)) {
+						if (null == key) {
 							key = values[0];
 						}
 						map.put(values[0], values[1]);

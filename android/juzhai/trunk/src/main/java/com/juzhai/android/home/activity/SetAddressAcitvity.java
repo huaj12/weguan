@@ -73,7 +73,6 @@ public class SetAddressAcitvity extends Activity {
 				cityView.setArrayAdapter(cityList, 0, 10);
 			}
 		});
-		// TODO (done) 两个问题。a.为什么上面是10,下面是20。b.代码不觉得重复吗？
 		cityView.setArrayAdapter(cityList,
 				CommonData.getDataIndxex(cityId, cityList), 10);
 

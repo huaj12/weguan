@@ -35,29 +35,33 @@ public class UserGuideActivity extends SetUserInfoActivity {
 
 			@Override
 			public void onClick(View v) {
-				validation();
-				new ProgressTask(UserGuideActivity.this, new TaskCallback() {
+				if (validation()) {
+					new ProgressTask(UserGuideActivity.this,
+							new TaskCallback() {
 
-					@Override
-					public void successCallback() {
-						DialogUtils.showToastText(UserGuideActivity.this,
-								R.string.save_success);
-						clearStackAndStartActivity(new Intent(
-								UserGuideActivity.this, MainTabActivity.class));
-					}
+								@Override
+								public void successCallback() {
+									DialogUtils.showToastText(
+											UserGuideActivity.this,
+											R.string.save_success);
+									clearStackAndStartActivity(new Intent(
+											UserGuideActivity.this,
+											MainTabActivity.class));
+								}
 
-					@Override
-					public String doInBackground() {
-						IProfileService profileService = new ProfileService();
-						try {
-							profileService.guide(user, UserGuideActivity.this);
-						} catch (ProfileException e) {
-							return e.getMessage();
-						}
-						return null;
-					}
-				}, false).execute();
-
+								@Override
+								public String doInBackground() {
+									IProfileService profileService = new ProfileService();
+									try {
+										profileService.guide(user,
+												UserGuideActivity.this);
+									} catch (ProfileException e) {
+										return e.getMessage();
+									}
+									return null;
+								}
+							}, false).execute();
+				}
 			}
 		});
 	}

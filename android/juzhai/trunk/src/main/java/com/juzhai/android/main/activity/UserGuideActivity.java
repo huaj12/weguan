@@ -25,8 +25,8 @@ public class UserGuideActivity extends SetUserInfoActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		setGuide(true);
+		super.onCreate(savedInstanceState);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.user_guide_title));
 		finish = setRightFinishButton();

@@ -41,18 +41,19 @@ public class SetAddressAcitvity extends Activity {
 		long cityId = getIntent().getLongExtra("cityId", 0);
 		long provinceId = getIntent().getLongExtra("provinceId", -1);
 		provinceList = CommonData.getProvinces(SetAddressAcitvity.this);
-		cityList = CommonData.getSelectCity(provinceId,
-				CommonData.getCitys(SetAddressAcitvity.this));
 		// 网速原因数据没加载完
-		if (CollectionUtils.isEmpty(provinceList)
-				|| CollectionUtils.isEmpty(cityList)) {
+		if (CollectionUtils.isEmpty(provinceList)) {
 			DialogUtils.showToastText(SetAddressAcitvity.this,
 					R.string.system_internet_erorr);
 			this.finish();
 		}
+
 		if (provinceId <= 0) {
 			provinceId = provinceList.get(0).getProvinceId();
 		}
+		cityList = CommonData.getSelectCity(provinceId,
+				CommonData.getCitys(SetAddressAcitvity.this));
+
 		final WheelView provinceView = (WheelView) findViewById(R.id.province);
 		final WheelView cityView = (WheelView) findViewById(R.id.city);
 		provinceView.TEXT_SIZE = UIUtil.dip2px(SetAddressAcitvity.this, 27);

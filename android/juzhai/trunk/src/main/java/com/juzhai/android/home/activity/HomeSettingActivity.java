@@ -27,6 +27,7 @@ public class HomeSettingActivity extends SetUserInfoActivity {
 		finish.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				validation();
 				new ProgressTask(HomeSettingActivity.this, new TaskCallback() {
 
 					@Override

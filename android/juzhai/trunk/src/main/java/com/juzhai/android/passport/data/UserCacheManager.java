@@ -19,19 +19,28 @@ import com.juzhai.android.passport.model.User;
 public class UserCacheManager {
 
 	private final static String P_TOKEN_NAME = "p_token";
+	private final static String L_TOKEN_NAME = "l_token";
 
 	public static void cache(Context context,
 			ResponseEntity<UserResult> responseEntity) {
 		UserCache.setUserInfo(responseEntity.getBody().getResult());
 		List<String> cookieHeaders = responseEntity.getHeaders().get(
 				"Set-Cookie");
-		Map<String, String> cookies = parseCookies(cookieHeaders);
-		String lToken = cookies.get("l_token");
-		if (StringUtils.hasText(lToken))
-			UserCache.setlToken(lToken);
-		String pToken = cookies.get(P_TOKEN_NAME);
-		if (StringUtils.hasText(pToken))
-			UserCache.setpToken(pToken);
+		Map<String, Map<String, String>> cookies = parseCookies(cookieHeaders);
+		Map<String, String> pTokenMap = cookies.get(P_TOKEN_NAME);
+		Map<String, String> lTokenMap = cookies.get(L_TOKEN_NAME);
+		if (lTokenMap != null) {
+			String lToken = lTokenMap.get(L_TOKEN_NAME);
+			if (StringUtils.hasText(lToken)) {
+				UserCache.setlToken(lToken);
+			}
+		}
+		if (pTokenMap != null) {
+			String pToken = pTokenMap.get(P_TOKEN_NAME);
+			if (StringUtils.hasText(pToken)) {
+				UserCache.setpToken(pToken);
+			}
+		}
 
 		CookieSyncManager.createInstance(context);
 		CookieManager cookieManager = CookieManager.getInstance();
@@ -49,10 +58,12 @@ public class UserCacheManager {
 
 	public static void persistToken(Context context,
 			ResponseEntity<UserResult> responseEntity) {
-		Map<String, String> cookies = parseCookies(responseEntity.getHeaders()
-				.get("Set-Cookie"));
-		String pToken = cookies.get(P_TOKEN_NAME);
-		new SharedPreferencesManager(context).commit(P_TOKEN_NAME, pToken);
+		Map<String, Map<String, String>> cookies = parseCookies(responseEntity
+				.getHeaders().get("Set-Cookie"));
+		if (cookies.get(P_TOKEN_NAME) != null) {
+			String pToken = cookies.get(P_TOKEN_NAME).get(P_TOKEN_NAME);
+			new SharedPreferencesManager(context).commit(P_TOKEN_NAME, pToken);
+		}
 	}
 
 	public static String getPersistToken(Context context) {
@@ -68,18 +79,25 @@ public class UserCacheManager {
 		clearPersistToken(context);
 	}
 
-	// TODO (review) 解析cookies的逻辑完全错误，打印出来慢慢debug
-	private static Map<String, String> parseCookies(List<String> list) {
-		Map<String, String> cookies = new HashMap<String, String>();
+	// TODO (done) 解析cookies的逻辑完全错误，打印出来慢慢debug
+	private static Map<String, Map<String, String>> parseCookies(
+			List<String> list) {
+		Map<String, Map<String, String>> cookies = new HashMap<String, Map<String, String>>();
 		if (null != list) {
 			for (String str : list) {
 				String[] cookiesStr = str.split(";");
+				Map<String, String> map = new HashMap<String, String>();
+				String key = null;
 				for (String cookieStr : cookiesStr) {
 					String[] values = cookieStr.split("=");
 					if (values != null && values.length > 1) {
-						cookies.put(values[0], values[1]);
+						if (org.apache.commons.lang.StringUtils.isEmpty(key)) {
+							key = values[0];
+						}
+						map.put(values[0], values[1]);
 					}
 				}
+				cookies.put(key, map);
 			}
 		}
 		return cookies;

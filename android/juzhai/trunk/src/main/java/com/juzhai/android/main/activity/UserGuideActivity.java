@@ -3,8 +3,6 @@
  */
 package com.juzhai.android.main.activity;
 
-import org.apache.commons.lang.StringUtils;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -37,28 +35,7 @@ public class UserGuideActivity extends SetUserInfoActivity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO (review) 编辑个人资料的时候，怎么没有验证？
-				if (StringUtils.isEmpty(user.getNickname())) {
-					DialogUtils.showToastText(UserGuideActivity.this,
-							R.string.nickname_is_null);
-					return;
-				}
-				if (user.getBirthYear() <= 0) {
-					DialogUtils.showToastText(UserGuideActivity.this,
-							R.string.user_birth_day_is_null);
-					return;
-				}
-				if (user.getCityId() <= 0) {
-					DialogUtils.showToastText(UserGuideActivity.this,
-							R.string.user_address_is_null);
-					return;
-				}
-				if (user.getProfessionId() <= 0
-						&& StringUtils.isNotEmpty(user.getProfession())) {
-					DialogUtils.showToastText(UserGuideActivity.this,
-							R.string.profession_name_is_null);
-					return;
-				}
+				validation();
 				new ProgressTask(UserGuideActivity.this, new TaskCallback() {
 
 					@Override

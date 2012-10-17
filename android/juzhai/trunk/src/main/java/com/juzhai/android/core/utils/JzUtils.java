@@ -120,7 +120,7 @@ public class JzUtils {
 		return str;
 	}
 
-	// TODO (done) 似曾相识
+	// TODO (review) 放到commonService里吧
 	public static <T extends Entity> int getDataIndxex(long id, List<T> datas) {
 		for (int i = 0; i < datas.size(); i++) {
 			long identify = (Long) datas.get(i).getIdentify();
@@ -131,7 +131,7 @@ public class JzUtils {
 		return 0;
 	}
 
-	// TODO (done) 这个方法放适合放在这里嘛？
+	// TODO (review) 放到commonService里吧
 	public static List<City> getSelectCity(long provinceId, List<City> allCitys) {
 		List<City> ciyts = new ArrayList<City>();
 		for (City city : allCitys) {

@@ -144,7 +144,7 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 			imageView.setVisibility(View.VISIBLE);
 		} else if (StringUtils.isNotEmpty(dialogContent.getImgUrl())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
-			// TODO (done) 需要有默认图片
+			// TODO (review) 默认图片是头像？
 			nid.fetchImage(JzUtils.getImageUrl(dialogContent.getImgUrl()),
 					R.drawable.user_face_unload, imageView,
 					new ImageLoaderCallback() {
@@ -162,7 +162,6 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 	}
 
 	private void setLogo(final ImageView logo, User user) {
-		// TODO (done) user.isHasLogo()不是这么用的
 		if (StringUtils.isNotEmpty(user.getLogo())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 			nid.fetchImage(JzUtils.getImageUrl(user.getLogo()),

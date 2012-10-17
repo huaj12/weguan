@@ -45,7 +45,6 @@ public class ImageUtils {
 	 * 
 	 * @return
 	 */
-	// TODO (done) dp和px的关系
 	public static Bitmap zoomBitmap(Bitmap scrBitmap, int tagerWidth,
 			int tagerHeight, Context context) {
 		tagerWidth = UIUtil.dip2px(context, tagerWidth);
@@ -79,7 +78,6 @@ public class ImageUtils {
 	 *            (dp)
 	 * @return
 	 */
-	// TODO (done) dp和px的关系
 	public static Bitmap zoomWidthBitmap(Bitmap scrBitmap, int tagerWidth,
 			int tagerHeight, Context context) {
 		tagerWidth = UIUtil.dip2px(context, tagerWidth);
@@ -100,8 +98,6 @@ public class ImageUtils {
 		return baos.toByteArray();
 	}
 
-	// TODO (done) 这个方法要了干嘛？
-	// 生成文件名字。ByteArrayResource需要重写他文件名的方法
 	public static String getFileName() {
 		return UUID.randomUUID().toString() + ".jpg";
 	}

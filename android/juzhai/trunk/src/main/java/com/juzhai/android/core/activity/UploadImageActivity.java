@@ -64,7 +64,6 @@ public class UploadImageActivity extends Activity {
 			deleteBtn.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// TODO (done) 删除图片和成功选择图片，用一样的result code？
 					setResult(ActivityCode.ResultCode.PIC_DELETE_RESULT_CODE,
 							getIntent());
 					finish();

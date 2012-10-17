@@ -22,6 +22,8 @@ import com.juzhai.android.core.activity.UploadImageActivity;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
+import com.juzhai.android.core.utils.StringUtil;
+import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.list.table.model.BasicItem.ItemType;
 import com.juzhai.android.core.widget.list.table.model.ViewItem;
 import com.juzhai.android.core.widget.list.table.widget.UITableView;
@@ -42,6 +44,7 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 	protected Button finish;
 	protected User user = UserCache.getCopyUserInfo();
 	protected boolean isGuide = false;
+	private boolean isUpdateGender = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -107,9 +110,11 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 											switch (which) {
 											case 0:
 												user.setGender(1);
+												isUpdateGender = true;
 												break;
 											case 1:
 												user.setGender(0);
+												isUpdateGender = true;
 												break;
 											}
 											finish.setEnabled(true);
@@ -147,9 +152,17 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 
 		infoTableView.addBasicItem(getResources().getString(R.string.nickname),
 				user.getNickname(), ItemType.HORIZONTAL);
-		infoTableView.addBasicItem(getResources().getString(R.string.gender),
-				JzUtils.getGender(user.getGender(), SetUserInfoActivity.this),
-				ItemType.HORIZONTAL);
+		if (isGuide) {
+			infoTableView.addBasicItem(getResources()
+					.getString(R.string.gender),
+					getResources().getString(R.string.select_gender),
+					ItemType.HORIZONTAL);
+		} else {
+			infoTableView.addBasicItem(getResources()
+					.getString(R.string.gender), JzUtils.getGender(
+					user.getGender(), SetUserInfoActivity.this),
+					ItemType.HORIZONTAL);
+		}
 		infoTableView.addBasicItem(getResources().getString(R.string.birthday),
 				user.getBirthYear() <= 0 ? null : user.getBirthYear() + "-"
 						+ user.getBirthMonth() + "-" + user.getBirthDay(),
@@ -274,11 +287,18 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 	}
 
 	protected boolean validation() {
-		// TODO (review) 个人简介的验证呢？性别验证呢？
+		// TODO (done) 个人简介的验证呢？性别验证呢？
 		if (StringUtils.isEmpty(user.getNickname())) {
 			DialogUtils.showToastText(SetUserInfoActivity.this,
 					R.string.nickname_is_null);
 			return false;
+		}
+		if (isGuide) {
+			if (!isUpdateGender) {
+				DialogUtils.showToastText(SetUserInfoActivity.this,
+						R.string.user_gender_is_null);
+				return false;
+			}
 		}
 		if (user.getBirthYear() <= 0) {
 			DialogUtils.showToastText(SetUserInfoActivity.this,
@@ -295,6 +315,20 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 			DialogUtils.showToastText(SetUserInfoActivity.this,
 					R.string.profession_name_is_null);
 			return false;
+		}
+		if (!isGuide) {
+			String feature = user.getFeature();
+			if (StringUtils.isEmpty(feature)) {
+				DialogUtils.showToastText(SetUserInfoActivity.this,
+						R.string.feature_is_null);
+				return false;
+			}
+			int featureLength = StringUtil.chineseLength(feature);
+			if (featureLength > Validation.USER_FEATURE_LENGTH_MAX) {
+				DialogUtils.showToastText(SetUserInfoActivity.this,
+						R.string.feature_too_long);
+				return false;
+			}
 		}
 		return true;
 	}

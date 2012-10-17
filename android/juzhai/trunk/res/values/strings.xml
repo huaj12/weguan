@@ -210,6 +210,8 @@
     <string name="user_address_is_null">请选择所在地</string>
     <string name="user_birth_day_is_null">请选择生日</string>
     <string name="send_post_user_logo_is_null">您还没有上传头像不能发布拒宅</string>
+    <string name="user_gender_is_null">请选择性别</string>
+    
     <!-- error end -->
 
 	<!-- setting -->

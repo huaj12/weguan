@@ -274,7 +274,7 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 	}
 
 	protected boolean validation() {
-		// TODO (done) 编辑个人资料的时候，怎么没有验证？
+		// TODO (review) 个人简介的验证呢？性别验证呢？
 		if (StringUtils.isEmpty(user.getNickname())) {
 			DialogUtils.showToastText(SetUserInfoActivity.this,
 					R.string.nickname_is_null);

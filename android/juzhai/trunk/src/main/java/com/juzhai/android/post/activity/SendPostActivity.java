@@ -211,8 +211,6 @@ public class SendPostActivity extends NavigationActivity {
 									public void onClick(DialogInterface dialog,
 											int which) {
 										contentText.setText(null);
-										// TODO (done)
-										// 调用了setText方法，不会触发onTextChanged事件？
 									}
 								}).setNegativeButton(R.string.cancel, null)
 						.show();

@@ -79,7 +79,6 @@ public class DialogUtils {
 		final WheelView wheelView = (WheelView) view
 				.findViewById(R.id.wheelview);
 		wheelView.TEXT_SIZE = 35;
-		// TODO (done) 20表达什么？另外，是px还是dp，还是sp 文字的最大宽度
 		ArrayWheelAdapter<T> wheelViewAdapter = new ArrayWheelAdapter<T>(datas,
 				20);
 		wheelView.setAdapter(wheelViewAdapter);

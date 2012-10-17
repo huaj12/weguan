@@ -87,7 +87,6 @@ public class HomeActivity extends TabItemActivity {
 		TextView myPostView = (TextView) findViewById(R.id.home_my_post);
 		TextView myInterestView = (TextView) findViewById(R.id.home_my_interest);
 		TextView myInterestMeView = (TextView) findViewById(R.id.home_interest_me);
-		// TODO (done) 出现了多个括号 可以尝试使用string format
 		myPostView.setText(assembly(
 				getResources().getString(R.string.my_post_title),
 				user.getPostCount()));
@@ -131,6 +130,7 @@ public class HomeActivity extends TabItemActivity {
 		}
 	}
 
+	//TODO (review) 我指的是android string资源的format
 	private String assembly(String name, int count) {
 		return String.format("%1$s (%2$s)", name, count);
 	}

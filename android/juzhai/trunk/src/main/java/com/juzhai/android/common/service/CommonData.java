@@ -38,7 +38,7 @@ public class CommonData {
 	private static List<Category> categoryList = null;
 
 	public static List<Category> getCategorys(Context context) {
-		// TODO (done) category为什么没有其他三个数据的待遇？
+		// TODO (review) 如果categoryList不是null，只是一个空列表，也需要每次去磁盘上取？city和province同理
 		if (CollectionUtils.isEmpty(categoryList)) {
 			String jsonString = new SharedPreferencesManager(context)
 					.getString(SHARED_PREFERNCES_CATEGORY);
@@ -116,8 +116,7 @@ public class CommonData {
 	}
 
 	public static List<Profession> getProfessionList(Context context) {
-		// TODO (done)
-		// 如果professionList不是null，只是一个空列表，也需要每次去磁盘上取？city和province同理
+		// TODO (review) 如果professionList不是null，只是一个空列表，也需要每次去磁盘上取？city和province同理
 		if (CollectionUtils.isEmpty(professionList)) {
 			String jsonString = new SharedPreferencesManager(context)
 					.getString(SHARED_PREFERNCES_PROFESSION);

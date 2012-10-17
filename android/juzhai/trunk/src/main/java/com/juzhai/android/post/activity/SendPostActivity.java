@@ -144,8 +144,7 @@ public class SendPostActivity extends NavigationActivity {
 			public void onClick(View v) {
 				Calendar cal = Calendar.getInstance();
 
-				// TODO (done) 为什么要使用year，month，day？不是有存入post了吗？
-				// post值为空的时候需要默认值。
+				// TODO (review) 为什么要使用year，month，day？不是有存入post了吗？不需要 year，month，day这三个成员变量啊
 				if (year <= 0) {
 					year = cal.get(Calendar.YEAR);
 					month = cal.get(Calendar.MONTH);
@@ -167,7 +166,6 @@ public class SendPostActivity extends NavigationActivity {
 						}, year, month, day);
 				dlg.setButton(
 						AlertDialog.BUTTON_NEGATIVE,
-						// TODO (done) 这里到底是取消还是清空？
 						SendPostActivity.this.getResources().getString(
 								R.string.clean),
 						new DialogInterface.OnClickListener() {
@@ -191,7 +189,6 @@ public class SendPostActivity extends NavigationActivity {
 				Intent intent = new Intent(SendPostActivity.this,
 						UploadImageActivity.class);
 				if (postImage != null) {
-					// TODO (done) isCancelBtn? 应该是“是否有清除图片选项”的意思？
 					intent.putExtra("isDeleteBtn", true);
 				}
 				startActivityForResult(intent,
@@ -234,8 +231,7 @@ public class SendPostActivity extends NavigationActivity {
 									public void onClick(DialogInterface dialog,
 											int which) {
 										contentText.setText(null);
-										// TODO (done) 这里需要设置restLength吗？
-										// 需要。内容都重置了。restLength也需要重置
+										// TODO (review) 调用了setText方法，不会触发onTextChanged事件？
 										restLength = Validation.POST_CONTENT_LENGTH_MAX;
 									}
 								}).setNegativeButton(R.string.cancel, null)
@@ -312,29 +308,30 @@ public class SendPostActivity extends NavigationActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == ActivityCode.RequestCode.PIC_REQUEST_CODE
-				&& ActivityCode.ResultCode.PIC_RESULT_CODE == resultCode) {
+		if (requestCode == ActivityCode.RequestCode.PIC_REQUEST_CODE) {
+			if (ActivityCode.ResultCode.PIC_RESULT_CODE == resultCode) {
 
-			Bitmap image = data.getParcelableExtra("pic");
-			if (image != null) {
-				postImage = image;
-				imageView.setImageBitmap(ImageUtils.zoomBitmap(image, 20, 20,
-						SendPostActivity.this));
-				imageBtn.setSelected(true);
-				imageView.setVisibility(View.VISIBLE);
-			} else {
-				DialogUtils.showToastText(SendPostActivity.this,
-						R.string.select_pic_error);
-			}
-		} else if (requestCode == ActivityCode.RequestCode.PIC_REQUEST_CODE
-				&& ActivityCode.ResultCode.PIC_DELETE_RESULT_CODE == resultCode) {
-			// TODO (DONE) 选择图片和删除图片为什么用一个resultCode？resultCode要来何用？
-			boolean isDeleteBtn = data.getBooleanExtra("isDeleteBtn", false);
-			if (isDeleteBtn) {
-				postImage = null;
-				imageView.setImageBitmap(null);
-				imageBtn.setSelected(false);
-				imageView.setVisibility(View.GONE);
+				Bitmap image = data.getParcelableExtra("pic");
+				if (image != null) {
+					postImage = image;
+					imageView.setImageBitmap(ImageUtils.zoomBitmap(image, 20,
+							20, SendPostActivity.this));
+					imageBtn.setSelected(true);
+					imageView.setVisibility(View.VISIBLE);
+				} else {
+					DialogUtils.showToastText(SendPostActivity.this,
+							R.string.select_pic_error);
+				}
+			} else if (ActivityCode.ResultCode.PIC_DELETE_RESULT_CODE == resultCode) {
+				//TODO (review) 下面的判断要了干嘛？
+				boolean isDeleteBtn = data
+						.getBooleanExtra("isDeleteBtn", false);
+				if (isDeleteBtn) {
+					postImage = null;
+					imageView.setImageBitmap(null);
+					imageBtn.setSelected(false);
+					imageView.setVisibility(View.GONE);
+				}
 			}
 		}
 	}

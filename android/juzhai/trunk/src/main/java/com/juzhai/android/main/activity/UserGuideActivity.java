@@ -32,14 +32,13 @@ public class UserGuideActivity extends SetUserInfoActivity {
 		setNavContentView(R.layout.page_user_guide);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.user_guide_title));
-		// TODO (done) finish按钮设置可以封装起来
 		finish = setRightFinishButton();
 		finish.setEnabled(false);
 		finish.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// TODO (done) 这里的逻辑是怎么样的？我觉得有问题啊
+				// TODO (review) 编辑个人资料的时候，怎么没有验证？
 				if (StringUtils.isEmpty(user.getNickname())) {
 					DialogUtils.showToastText(UserGuideActivity.this,
 							R.string.nickname_is_null);
@@ -67,7 +66,6 @@ public class UserGuideActivity extends SetUserInfoActivity {
 					public void successCallback() {
 						DialogUtils.showToastText(UserGuideActivity.this,
 								R.string.save_success);
-						// TODO (done) 为什么不用clearStackAndStartActivity方法？
 						clearStackAndStartActivity(new Intent(
 								UserGuideActivity.this, MainTabActivity.class));
 					}

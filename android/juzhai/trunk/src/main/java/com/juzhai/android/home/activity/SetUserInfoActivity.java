@@ -37,7 +37,6 @@ public class SetUserInfoActivity extends NavigationActivity {
 	protected ImageView userLogoView;
 	protected RelativeLayout logoLayout;
 	protected Button finish;
-	// TODO (done) 大错特错！！非常严重！
 	protected User user = UserCache.getCopyUserInfo();
 	protected boolean isGuide = false;
 
@@ -60,7 +59,6 @@ public class SetUserInfoActivity extends NavigationActivity {
 
 	}
 
-	// TODO (done) 子类需要调用？
 	private void logoList() {
 		userLogoView = (ImageView) logoLayout.findViewById(R.id.user_logo);
 		userViewHelper.showUserLogo(SetUserInfoActivity.this, user,
@@ -69,8 +67,6 @@ public class SetUserInfoActivity extends NavigationActivity {
 			@Override
 			public void onClick(int index) {
 				if (index == 0) {
-					// TODO (done)
-					// Context为什么不能用SetUserInfoActivity.this
 					Intent intent = new Intent(SetUserInfoActivity.this,
 							UploadImageActivity.class);
 					startActivityForResult(intent,
@@ -81,14 +77,11 @@ public class SetUserInfoActivity extends NavigationActivity {
 		logoTableView.addViewItem(new ViewItem(logoLayout));
 	}
 
-	// TODO (done) 子类需要调用？
 	private void infoList() {
 		infoTableView.setClickListener(new ClickListener() {
 			@Override
 			public void onClick(int index) {
 				if (index == 0) {
-					// TODO (done)
-					// SetUserInfoActivity.this为什么不能用SetUserInfoActivity.this
 					Intent intent = new Intent(SetUserInfoActivity.this,
 							SetNicknameActivity.class);
 					intent.putExtra("nickname", user.getNickname());
@@ -139,7 +132,6 @@ public class SetUserInfoActivity extends NavigationActivity {
 									user.setBirthYear(year);
 									user.setBirthMonth(monthOfYear + 1);
 									user.setBirthDay(dayOfMonth);
-									// TODO (done) 为什么validateFinish？
 									finish.setEnabled(true);
 									reloadInfoTableView();
 								}
@@ -233,7 +225,6 @@ public class SetUserInfoActivity extends NavigationActivity {
 			long cityId = data.getLongExtra("cityId", -1);
 			String provinceName = data.getStringExtra("provinceName");
 			String cityName = data.getStringExtra("cityName");
-			// TODO (done) provinceId,cityId可以是-2?-3?0?
 			if (provinceId > 0 && cityId > 0) {
 				user.setProvinceId(provinceId);
 				user.setCityId(cityId);

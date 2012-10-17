@@ -41,8 +41,7 @@ public class SetAddressAcitvity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.page_setting_address);
 		long cityId = getIntent().getLongExtra("cityId", 0);
-		// TODO (done) 为什么provinceId等于0的话，就要设置为1呢？
-		// 没有的情况设置默认值
+		// TODO (review) 为什么provinceId的默认值是1？
 		long provinceId = getIntent().getLongExtra("provinceId", 1);
 		provinceList = CommonData.getProvinces(SetAddressAcitvity.this);
 		cityList = JzUtils.getSelectCity(provinceId,
@@ -56,7 +55,6 @@ public class SetAddressAcitvity extends Activity {
 		}
 		final WheelView provinceView = (WheelView) findViewById(R.id.province);
 		final WheelView cityView = (WheelView) findViewById(R.id.city);
-		// TODO (done) 下面的40和6,是sp，dp还是px？
 		provinceView.TEXT_SIZE = UIUtil.dip2px(SetAddressAcitvity.this, 27);
 		cityView.TEXT_SIZE = UIUtil.dip2px(SetAddressAcitvity.this, 27);
 		ArrayWheelAdapter<Province> provinceWheelAdapter = new ArrayWheelAdapter<Province>(

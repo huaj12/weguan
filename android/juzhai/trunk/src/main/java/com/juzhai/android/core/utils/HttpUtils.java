@@ -146,7 +146,6 @@ public class HttpUtils {
 		return responseEntity;
 	}
 
-	// TODO (done) 在内部调用，不要在外部调用
 	private static String createHttpParam(String uri, Map<String, Object> values) {
 		if (CollectionUtils.isEmpty(values)) {
 			return uri;

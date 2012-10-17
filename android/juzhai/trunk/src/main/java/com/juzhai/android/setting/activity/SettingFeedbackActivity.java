@@ -3,11 +3,9 @@ package com.juzhai.android.setting.activity;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -29,16 +27,7 @@ public class SettingFeedbackActivity extends NavigationActivity {
 		Button finish = setRightFinishButton();
 		finish.setText(R.string.send);
 		final EditText editText = (EditText) findViewById(R.id.feedback_input);
-		Timer timer = new Timer(); // 设置定时器
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() { // 弹出软键盘的代码
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.showSoftInput(editText,
-						InputMethodManager.RESULT_UNCHANGED_SHOWN);
-			}
-		}, 300); // 设置300毫秒的时长
-
+		openKeyboard(editText);
 		finish.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

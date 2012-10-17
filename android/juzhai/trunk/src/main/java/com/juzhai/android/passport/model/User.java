@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import com.juzhai.android.R;
 import com.juzhai.android.core.model.Entity;
 import com.juzhai.android.core.utils.JzUtils;
-import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.post.model.Post;
 
 public class User extends Entity {
@@ -322,11 +321,11 @@ public class User extends Entity {
 		if (JzUtils.age(getBirthYear()) > 0) {
 			sbString.append(JzUtils.age(getBirthYear())
 					+ mContext.getResources().getString(R.string.age));
-			sbString.append(StringUtil.COMMA);
+			sbString.append(",");
 		}
 		if (StringUtils.isNotEmpty(getConstellation())) {
 			sbString.append(getConstellation());
-			sbString.append(StringUtil.COMMA);
+			sbString.append(",");
 		}
 		if (StringUtils.isNotEmpty(getProfession())) {
 			sbString.append(getProfession());

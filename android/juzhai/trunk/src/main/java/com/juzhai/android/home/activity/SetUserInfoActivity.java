@@ -8,6 +8,7 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -29,7 +30,7 @@ import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 
-public class SetUserInfoActivity extends NavigationActivity {
+public abstract class SetUserInfoActivity extends NavigationActivity {
 	protected IUserViewHelper userViewHelper = new UserViewHelper();
 	protected UITableView logoTableView;
 	protected UITableView infoTableView;
@@ -40,8 +41,11 @@ public class SetUserInfoActivity extends NavigationActivity {
 	protected User user = UserCache.getCopyUserInfo();
 	protected boolean isGuide = false;
 
-	// TODO (review) 结构设计有问题。为什么不用onCreate方法？
-	protected void init() {
+	// TODO (done) 结构设计有问题。为什么不用onCreate方法？
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setNavContentView(getNavContentViewLayout());
 		logoLayout = (RelativeLayout) getLayoutInflater().inflate(
 				R.layout.fragment_user_upload_logo, null);
 		logoTableView = (UITableView) findViewById(R.id.setting_logo_table_view);
@@ -56,7 +60,6 @@ public class SetUserInfoActivity extends NavigationActivity {
 
 		otherList();
 		otherTableView.commit();
-
 	}
 
 	private void logoList() {
@@ -268,5 +271,7 @@ public class SetUserInfoActivity extends NavigationActivity {
 	public void setGuide(boolean isGuide) {
 		this.isGuide = isGuide;
 	}
+
+	abstract protected int getNavContentViewLayout();
 
 }

@@ -21,7 +21,6 @@ import com.juzhai.android.common.model.Province;
 import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.utils.DialogUtils;
-import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.wheelview.ArrayWheelAdapter;
 import com.juzhai.android.core.widget.wheelview.OnWheelScrollListener;
@@ -41,10 +40,10 @@ public class SetAddressAcitvity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.page_setting_address);
 		long cityId = getIntent().getLongExtra("cityId", 0);
-		// TODO (review) 为什么provinceId的默认值是1？
-		long provinceId = getIntent().getLongExtra("provinceId", 1);
+		// TODO (done) 为什么provinceId的默认值是1？
+		long provinceId = getIntent().getLongExtra("provinceId", -1);
 		provinceList = CommonData.getProvinces(SetAddressAcitvity.this);
-		cityList = JzUtils.getSelectCity(provinceId,
+		cityList = CommonData.getSelectCity(provinceId,
 				CommonData.getCitys(SetAddressAcitvity.this));
 		// 网速原因数据没加载完
 		if (CollectionUtils.isEmpty(provinceList)
@@ -53,6 +52,9 @@ public class SetAddressAcitvity extends Activity {
 					R.string.system_internet_erorr);
 			this.finish();
 		}
+		if (provinceId <= 0) {
+			provinceId = provinceList.get(0).getProvinceId();
+		}
 		final WheelView provinceView = (WheelView) findViewById(R.id.province);
 		final WheelView cityView = (WheelView) findViewById(R.id.city);
 		provinceView.TEXT_SIZE = UIUtil.dip2px(SetAddressAcitvity.this, 27);
@@ -60,7 +62,7 @@ public class SetAddressAcitvity extends Activity {
 		ArrayWheelAdapter<Province> provinceWheelAdapter = new ArrayWheelAdapter<Province>(
 				provinceList, 6);
 		provinceView.setAdapter(provinceWheelAdapter);
-		provinceView.setCurrentItem(JzUtils.getDataIndxex(provinceId,
+		provinceView.setCurrentItem(CommonData.getDataIndxex(provinceId,
 				provinceList));
 		provinceView.setScrollingListener(new OnWheelScrollListener() {
 			@Override
@@ -69,7 +71,7 @@ public class SetAddressAcitvity extends Activity {
 
 			@Override
 			public void onScrollingFinished(WheelView wheel) {
-				cityList = JzUtils.getSelectCity(
+				cityList = CommonData.getSelectCity(
 						provinceList.get(wheel.getCurrentItem())
 								.getProvinceId(), CommonData
 								.getCitys(SetAddressAcitvity.this));
@@ -83,7 +85,7 @@ public class SetAddressAcitvity extends Activity {
 		ArrayWheelAdapter<City> cityWheelAdapter = new ArrayWheelAdapter<City>(
 				cityList, 20);
 		cityView.setAdapter(cityWheelAdapter);
-		cityView.setCurrentItem(JzUtils.getDataIndxex(cityId, cityList));
+		cityView.setCurrentItem(CommonData.getDataIndxex(cityId, cityList));
 
 		Button cancelBtn = (Button) findViewById(R.id.btn_cancel);
 		Button okBtn = (Button) findViewById(R.id.btn_ok);
@@ -112,5 +114,4 @@ public class SetAddressAcitvity extends Activity {
 			}
 		});
 	}
-
 }

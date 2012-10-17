@@ -41,7 +41,7 @@ import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
-import com.juzhai.android.core.widget.wheelview.WheelView;
+import com.juzhai.android.core.widget.wheelview.WheelViewDialog;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.exception.PostException;
@@ -50,9 +50,6 @@ import com.juzhai.android.post.service.IUserPostService;
 import com.juzhai.android.post.service.impl.UserPostService;
 
 public class SendPostActivity extends NavigationActivity {
-	private int year = 0;
-	private int month = 0;
-	private int day = 0;
 	private Category selectedCategory;
 	private Post post = new Post();
 	private Bitmap postImage;
@@ -84,9 +81,9 @@ public class SendPostActivity extends NavigationActivity {
 
 			@Override
 			public void onClick(View v) {
-				DialogUtils.showWheelView(R.string.post_category,
+				WheelViewDialog.showWheelView(R.string.post_category,
 						selectedCategory, categorys, SendPostActivity.this,
-						new WheelView.WheelViewCallBack() {
+						new WheelViewDialog.WheelViewCallBack() {
 							@Override
 							public void callback(int location) {
 								selectedCategory = categorys.get(location);
@@ -144,7 +141,11 @@ public class SendPostActivity extends NavigationActivity {
 			public void onClick(View v) {
 				Calendar cal = Calendar.getInstance();
 
-				// TODO (review) 为什么要使用year，month，day？不是有存入post了吗？不需要 year，month，day这三个成员变量啊
+				// TODO (done) 为什么要使用year，month，day？不是有存入post了吗？不需要
+				// year，month，day这三个成员变量啊
+				int year = getDate(0);
+				int month = getDate(1) - 1;
+				int day = getDate(2);
 				if (year <= 0) {
 					year = cal.get(Calendar.YEAR);
 					month = cal.get(Calendar.MONTH);
@@ -154,13 +155,10 @@ public class SendPostActivity extends NavigationActivity {
 				DatePickerDialog dlg = new DatePickerDialog(
 						SendPostActivity.this, new OnDateSetListener() {
 							@Override
-							public void onDateSet(DatePicker view, int sYear,
+							public void onDateSet(DatePicker view, int year,
 									int monthOfYear, int dayOfMonth) {
 								post.setDate(year + "-" + (monthOfYear + 1)
 										+ "-" + dayOfMonth);
-								year = sYear;
-								month = monthOfYear;
-								day = dayOfMonth;
 								timeBtn.setSelected(true);
 							}
 						}, year, month, day);
@@ -173,9 +171,6 @@ public class SendPostActivity extends NavigationActivity {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								post.setDate(null);
-								year = 0;
-								month = 0;
-								day = 0;
 								timeBtn.setSelected(false);
 							}
 						});
@@ -231,7 +226,8 @@ public class SendPostActivity extends NavigationActivity {
 									public void onClick(DialogInterface dialog,
 											int which) {
 										contentText.setText(null);
-										// TODO (review) 调用了setText方法，不会触发onTextChanged事件？
+										// TODO (review)
+										// 调用了setText方法，不会触发onTextChanged事件？
 										restLength = Validation.POST_CONTENT_LENGTH_MAX;
 									}
 								}).setNegativeButton(R.string.cancel, null)
@@ -323,15 +319,11 @@ public class SendPostActivity extends NavigationActivity {
 							R.string.select_pic_error);
 				}
 			} else if (ActivityCode.ResultCode.PIC_DELETE_RESULT_CODE == resultCode) {
-				//TODO (review) 下面的判断要了干嘛？
-				boolean isDeleteBtn = data
-						.getBooleanExtra("isDeleteBtn", false);
-				if (isDeleteBtn) {
-					postImage = null;
-					imageView.setImageBitmap(null);
-					imageBtn.setSelected(false);
-					imageView.setVisibility(View.GONE);
-				}
+				// TODO (done) 下面的判断要了干嘛？
+				postImage = null;
+				imageView.setImageBitmap(null);
+				imageBtn.setSelected(false);
+				imageView.setVisibility(View.GONE);
 			}
 		}
 	}
@@ -341,5 +333,13 @@ public class SendPostActivity extends NavigationActivity {
 				R.string.post_content_tip_begin)
 				+ (restLength / 2)
 				+ getResources().getString(R.string.post_content_tip_end));
+	}
+
+	private int getDate(int index) {
+		try {
+			return Integer.parseInt(post.getDate().split("-")[index]);
+		} catch (Exception e) {
+			return 0;
+		}
 	}
 }

@@ -29,7 +29,6 @@ public class UserGuideActivity extends SetUserInfoActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setGuide(true);
-		setNavContentView(R.layout.page_user_guide);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.user_guide_title));
 		finish = setRightFinishButton();
@@ -84,7 +83,11 @@ public class UserGuideActivity extends SetUserInfoActivity {
 
 			}
 		});
-		init();
+	}
+
+	@Override
+	protected int getNavContentViewLayout() {
+		return R.layout.page_user_guide;
 	}
 
 }

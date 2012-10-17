@@ -21,7 +21,6 @@ import com.juzhai.android.common.model.Profession;
 import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.utils.DialogUtils;
-import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
@@ -69,7 +68,7 @@ public class SetProfessionActivity extends NavigationActivity {
 		ArrayWheelAdapter<Profession> professionWheelAdapter = new ArrayWheelAdapter<Profession>(
 				professionList, 20);
 		professionView.setAdapter(professionWheelAdapter);
-		professionView.setCurrentItem(JzUtils.getDataIndxex(professionId,
+		professionView.setCurrentItem(CommonData.getDataIndxex(professionId,
 				professionList));
 		professionView.setScrollingListener(new OnWheelScrollListener() {
 			@Override

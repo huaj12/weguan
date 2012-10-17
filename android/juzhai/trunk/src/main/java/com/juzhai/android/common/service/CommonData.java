@@ -22,6 +22,7 @@ import com.juzhai.android.common.model.City;
 import com.juzhai.android.common.model.Profession;
 import com.juzhai.android.common.model.Province;
 import com.juzhai.android.core.data.SharedPreferencesManager;
+import com.juzhai.android.core.model.Entity;
 import com.juzhai.android.core.model.Result.CategoryResult;
 import com.juzhai.android.core.model.Result.ProfessionResult;
 import com.juzhai.android.core.model.Result.ProvinceCityResult;
@@ -38,8 +39,8 @@ public class CommonData {
 	private static List<Category> categoryList = null;
 
 	public static List<Category> getCategorys(Context context) {
-		// TODO (review) 如果categoryList不是null，只是一个空列表，也需要每次去磁盘上取？city和province同理
-		if (CollectionUtils.isEmpty(categoryList)) {
+		// TODO (done) 如果categoryList不是null，只是一个空列表，也需要每次去磁盘上取？city和province同理
+		if (categoryList == null) {
 			String jsonString = new SharedPreferencesManager(context)
 					.getString(SHARED_PREFERNCES_CATEGORY);
 			if (StringUtils.isNotEmpty(jsonString)) {
@@ -72,7 +73,7 @@ public class CommonData {
 	}
 
 	public static List<Province> getProvinces(Context context) {
-		if (CollectionUtils.isEmpty(provinceList)) {
+		if (provinceList == null) {
 			String jsonString = new SharedPreferencesManager(context)
 					.getString(SHARED_PROVINCE_CITY);
 			if (StringUtils.isNotEmpty(jsonString)) {
@@ -94,7 +95,7 @@ public class CommonData {
 	}
 
 	public static List<City> getCitys(Context context) {
-		if (CollectionUtils.isEmpty(cityList)) {
+		if (cityList == null) {
 			String jsonString = new SharedPreferencesManager(context)
 					.getString(SHARED_PROVINCE_CITY);
 			if (StringUtils.isNotEmpty(jsonString)) {
@@ -116,8 +117,9 @@ public class CommonData {
 	}
 
 	public static List<Profession> getProfessionList(Context context) {
-		// TODO (review) 如果professionList不是null，只是一个空列表，也需要每次去磁盘上取？city和province同理
-		if (CollectionUtils.isEmpty(professionList)) {
+		// TODO (done)
+		// 如果professionList不是null，只是一个空列表，也需要每次去磁盘上取？city和province同理
+		if (professionList == null) {
 			String jsonString = new SharedPreferencesManager(context)
 					.getString(SHARED_PREFERNCES_PROFESSION);
 			if (StringUtils.isNotEmpty(jsonString)) {
@@ -267,6 +269,28 @@ public class CommonData {
 				}
 			}.execute();
 		}
+	}
+
+	// TODO (done) 放到commonService里吧
+	public static <T extends Entity> int getDataIndxex(long id, List<T> datas) {
+		for (int i = 0; i < datas.size(); i++) {
+			long identify = (Long) datas.get(i).getIdentify();
+			if (identify == id) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	// TODO (done) 放到commonService里吧
+	public static List<City> getSelectCity(long provinceId, List<City> allCitys) {
+		List<City> ciyts = new ArrayList<City>();
+		for (City city : allCitys) {
+			if (provinceId == city.getProvinceId()) {
+				ciyts.add(city);
+			}
+		}
+		return ciyts;
 	}
 
 }

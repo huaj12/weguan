@@ -58,7 +58,7 @@ public class InterestActivity extends NavigationActivity {
 				InterestActivity.this));
 		interestListView.manualRefresh();
 
-		// TODO (review) 长按菜单能否封装一下？
+		// (review) 长按菜单能否封装一下？
 		// interestListView
 		// .setOnItemLongClickListener(new OnItemLongClickListener() {
 		//

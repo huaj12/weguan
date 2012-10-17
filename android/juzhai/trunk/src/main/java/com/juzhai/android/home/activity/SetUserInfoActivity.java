@@ -2,6 +2,8 @@ package com.juzhai.android.home.activity;
 
 import java.util.Calendar;
 
+import org.apache.commons.lang.StringUtils;
+
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -269,6 +271,31 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 
 	public void setGuide(boolean isGuide) {
 		this.isGuide = isGuide;
+	}
+
+	protected void validation() {
+		// TODO (done) 编辑个人资料的时候，怎么没有验证？
+		if (StringUtils.isEmpty(user.getNickname())) {
+			DialogUtils.showToastText(SetUserInfoActivity.this,
+					R.string.nickname_is_null);
+			return;
+		}
+		if (user.getBirthYear() <= 0) {
+			DialogUtils.showToastText(SetUserInfoActivity.this,
+					R.string.user_birth_day_is_null);
+			return;
+		}
+		if (user.getCityId() <= 0) {
+			DialogUtils.showToastText(SetUserInfoActivity.this,
+					R.string.user_address_is_null);
+			return;
+		}
+		if (user.getProfessionId() <= 0
+				&& StringUtils.isNotEmpty(user.getProfession())) {
+			DialogUtils.showToastText(SetUserInfoActivity.this,
+					R.string.profession_name_is_null);
+			return;
+		}
 	}
 
 	abstract protected int getNavContentViewLayout();

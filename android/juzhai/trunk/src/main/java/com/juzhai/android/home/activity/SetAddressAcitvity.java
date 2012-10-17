@@ -22,7 +22,6 @@ import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.UIUtil;
-import com.juzhai.android.core.widget.wheelview.ArrayWheelAdapter;
 import com.juzhai.android.core.widget.wheelview.OnWheelScrollListener;
 import com.juzhai.android.core.widget.wheelview.WheelView;
 
@@ -58,11 +57,8 @@ public class SetAddressAcitvity extends Activity {
 		final WheelView cityView = (WheelView) findViewById(R.id.city);
 		provinceView.TEXT_SIZE = UIUtil.dip2px(SetAddressAcitvity.this, 27);
 		cityView.TEXT_SIZE = UIUtil.dip2px(SetAddressAcitvity.this, 27);
-		ArrayWheelAdapter<Province> provinceWheelAdapter = new ArrayWheelAdapter<Province>(
-				provinceList, 6);
-		provinceView.setAdapter(provinceWheelAdapter);
-		provinceView.setCurrentItem(CommonData.getDataIndxex(provinceId,
-				provinceList));
+		provinceView.setArrayAdapter(provinceList,
+				CommonData.getDataIndxex(provinceId, provinceList), 6);
 		provinceView.setScrollingListener(new OnWheelScrollListener() {
 			@Override
 			public void onScrollingStarted(WheelView wheel) {
@@ -74,17 +70,12 @@ public class SetAddressAcitvity extends Activity {
 						provinceList.get(wheel.getCurrentItem())
 								.getProvinceId(), CommonData
 								.getCitys(SetAddressAcitvity.this));
-				ArrayWheelAdapter<City> cityWheelAdapter = new ArrayWheelAdapter<City>(
-						cityList, 10);
-				cityView.setAdapter(cityWheelAdapter);
-				cityView.setCurrentItem(0);
+				cityView.setArrayAdapter(cityList, 0, 10);
 			}
 		});
-		// TODO (review) 两个问题。a.为什么上面是10,下面是20。b.代码不觉得重复吗？
-		ArrayWheelAdapter<City> cityWheelAdapter = new ArrayWheelAdapter<City>(
-				cityList, 20);
-		cityView.setAdapter(cityWheelAdapter);
-		cityView.setCurrentItem(CommonData.getDataIndxex(cityId, cityList));
+		// TODO (done) 两个问题。a.为什么上面是10,下面是20。b.代码不觉得重复吗？
+		cityView.setArrayAdapter(cityList,
+				CommonData.getDataIndxex(cityId, cityList), 10);
 
 		Button cancelBtn = (Button) findViewById(R.id.btn_cancel);
 		Button okBtn = (Button) findViewById(R.id.btn_ok);

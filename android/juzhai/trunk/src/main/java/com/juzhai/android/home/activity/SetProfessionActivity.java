@@ -24,7 +24,6 @@ import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
-import com.juzhai.android.core.widget.wheelview.ArrayWheelAdapter;
 import com.juzhai.android.core.widget.wheelview.OnWheelScrollListener;
 import com.juzhai.android.core.widget.wheelview.WheelView;
 
@@ -65,11 +64,8 @@ public class SetProfessionActivity extends NavigationActivity {
 		editText.setText(profession);
 		professionView = (WheelView) findViewById(R.id.profession);
 		professionView.TEXT_SIZE = 35;
-		ArrayWheelAdapter<Profession> professionWheelAdapter = new ArrayWheelAdapter<Profession>(
-				professionList, 20);
-		professionView.setAdapter(professionWheelAdapter);
-		professionView.setCurrentItem(CommonData.getDataIndxex(professionId,
-				professionList));
+		professionView.setArrayAdapter(professionList,
+				CommonData.getDataIndxex(professionId, professionList), 20);
 		professionView.setScrollingListener(new OnWheelScrollListener() {
 			@Override
 			public void onScrollingStarted(WheelView wheel) {
@@ -122,5 +118,4 @@ public class SetProfessionActivity extends NavigationActivity {
 			}
 		});
 	}
-
 }

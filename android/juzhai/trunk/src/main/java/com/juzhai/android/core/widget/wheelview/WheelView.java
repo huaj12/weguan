@@ -44,6 +44,7 @@ import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.model.Entity;
 
 /**
  * Numeric wheel view.
@@ -1013,6 +1014,12 @@ public class WheelView extends View {
 		setNextMessage(MESSAGE_SCROLL);
 
 		startScrolling();
+	}
+
+	public <T extends Entity> void setArrayAdapter(List<T> datas,
+			int itemIndex, int length) {
+		this.setAdapter(new ArrayWheelAdapter<T>(datas, length));
+		this.setCurrentItem(itemIndex);
 	}
 
 }

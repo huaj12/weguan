@@ -88,7 +88,7 @@ public class NavigationActivity extends BaseActivity {
 		return false;
 	}
 
-	//TODO (review) 文字可能每个地方会不同
+	// TODO (done) 文字可能每个地方会不同
 	protected Button setRightFinishButton() {
 		Button finish = (Button) getLayoutInflater().inflate(
 				R.layout.button_finish, null);

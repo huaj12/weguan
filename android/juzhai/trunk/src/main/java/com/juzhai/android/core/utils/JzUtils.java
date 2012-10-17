@@ -1,10 +1,8 @@
 package com.juzhai.android.core.utils;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.time.DateUtils;
@@ -12,8 +10,6 @@ import org.apache.commons.lang.time.DateUtils;
 import android.content.Context;
 
 import com.juzhai.android.R;
-import com.juzhai.android.common.model.City;
-import com.juzhai.android.core.model.Entity;
 
 public class JzUtils {
 	private final static Pattern FACE_PATTERN = Pattern.compile("\\[(.+?)\\]");
@@ -118,28 +114,6 @@ public class JzUtils {
 			break;
 		}
 		return str;
-	}
-
-	// TODO (review) 放到commonService里吧
-	public static <T extends Entity> int getDataIndxex(long id, List<T> datas) {
-		for (int i = 0; i < datas.size(); i++) {
-			long identify = (Long) datas.get(i).getIdentify();
-			if (identify == id) {
-				return i;
-			}
-		}
-		return 0;
-	}
-
-	// TODO (review) 放到commonService里吧
-	public static List<City> getSelectCity(long provinceId, List<City> allCitys) {
-		List<City> ciyts = new ArrayList<City>();
-		for (City city : allCitys) {
-			if (provinceId == city.getProvinceId()) {
-				ciyts.add(city);
-			}
-		}
-		return ciyts;
 	}
 
 }

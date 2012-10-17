@@ -130,8 +130,8 @@ public class HomeActivity extends TabItemActivity {
 		}
 	}
 
-	//TODO (review) 我指的是android string资源的format
+	// TODO (done) 我指的是android string资源的format
 	private String assembly(String name, int count) {
-		return String.format("%1$s (%2$s)", name, count);
+		return getResources().getString(R.string.home_info_layout, name, count);
 	}
 }

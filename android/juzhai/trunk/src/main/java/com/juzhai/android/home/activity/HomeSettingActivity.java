@@ -20,7 +20,6 @@ public class HomeSettingActivity extends SetUserInfoActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setNavContentView(R.layout.page_home_setting);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.home_setting_title));
 		finish = setRightFinishButton();
@@ -52,7 +51,11 @@ public class HomeSettingActivity extends SetUserInfoActivity {
 
 			}
 		});
-		init();
+	}
+
+	@Override
+	protected int getNavContentViewLayout() {
+		return R.layout.page_home_setting;
 	}
 
 }

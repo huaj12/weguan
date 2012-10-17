@@ -138,14 +138,14 @@ public class PassportService implements IPassportService {
 			return R.string.email_is_null;
 		}
 		int emailLength = StringUtil.chineseLength(account);
-		if (emailLength > Validation.REGISTER_EMAIL_MAX
-				|| emailLength < Validation.REGISTER_EMAIL_MIN
+		if (emailLength > Validation.REGISTER_EMAIL_LENGTH_MAX
+				|| emailLength < Validation.REGISTER_EMAIL_LENGTH_MIN
 				|| !StringUtil.checkMailFormat(account)) {
 			return R.string.email_account_invalid;
 		}
 		int pwdLength = pwd.length();
-		if (pwdLength < Validation.REGISTER_PASSWORD_MIN
-				|| pwdLength > Validation.REGISTER_PASSWORD_MAX) {
+		if (pwdLength < Validation.REGISTER_PASSWORD_LENGTH_MIN
+				|| pwdLength > Validation.REGISTER_PASSWORD_LENGTH_MAX) {
 			return R.string.pwd_length_invalid;
 		}
 		if (!StringUtils.equals(pwd, confirmPwd)) {
@@ -158,8 +158,8 @@ public class PassportService implements IPassportService {
 	public void getbackPwd(Context context, String account)
 			throws PassportException {
 		int emailLength = StringUtil.chineseLength(account);
-		if (emailLength > Validation.REGISTER_EMAIL_MAX
-				|| emailLength < Validation.REGISTER_EMAIL_MIN
+		if (emailLength > Validation.REGISTER_EMAIL_LENGTH_MAX
+				|| emailLength < Validation.REGISTER_EMAIL_LENGTH_MIN
 				|| !StringUtil.checkMailFormat(account)) {
 			throw new PassportException(context, R.string.email_account_invalid);
 		}

@@ -9,10 +9,7 @@ public class StringUtil {
 	public static final Pattern EMAIL_PATTERN = Pattern
 			.compile(EMAIL_PATTERN_STRING);
 
-	public static char separator = (char) 036;
-
-	// TODO (done) 逗号用静态变量？用来干嘛？
-	// TODO (done) 空格用静态变量？用来干嘛？
+	// public static char separator = (char) 036;
 
 	public static int chineseLength(String text) {
 		if (StringUtils.isEmpty(text)) {

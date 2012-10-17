@@ -40,7 +40,6 @@ public class SetAddressAcitvity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.page_setting_address);
 		long cityId = getIntent().getLongExtra("cityId", 0);
-		// TODO (done) 为什么provinceId的默认值是1？
 		long provinceId = getIntent().getLongExtra("provinceId", -1);
 		provinceList = CommonData.getProvinces(SetAddressAcitvity.this);
 		cityList = CommonData.getSelectCity(provinceId,

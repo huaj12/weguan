@@ -144,7 +144,6 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 			imageView.setVisibility(View.VISIBLE);
 		} else if (StringUtils.isNotEmpty(dialogContent.getImgUrl())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
-			// TODO (done) 默认图片是头像？
 			nid.fetchImage(JzUtils.getImageUrl(dialogContent.getImgUrl()),
 					R.drawable.message_pic_load, imageView,
 					new ImageLoaderCallback() {

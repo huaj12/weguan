@@ -287,7 +287,6 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 	}
 
 	protected boolean validation() {
-		// TODO (done) 个人简介的验证呢？性别验证呢？
 		if (StringUtils.isEmpty(user.getNickname())) {
 			DialogUtils.showToastText(SetUserInfoActivity.this,
 					R.string.nickname_is_null);
@@ -310,12 +309,6 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 					R.string.user_address_is_null);
 			return false;
 		}
-		if (user.getProfessionId() <= 0
-				&& StringUtils.isNotEmpty(user.getProfession())) {
-			DialogUtils.showToastText(SetUserInfoActivity.this,
-					R.string.profession_name_is_null);
-			return false;
-		}
 		if (!isGuide) {
 			String feature = user.getFeature();
 			if (StringUtils.isEmpty(feature)) {
@@ -329,6 +322,12 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 						R.string.feature_too_long);
 				return false;
 			}
+		}
+		if (user.getProfessionId() <= 0
+				&& StringUtils.isNotEmpty(user.getProfession())) {
+			DialogUtils.showToastText(SetUserInfoActivity.this,
+					R.string.profession_name_is_null);
+			return false;
 		}
 		return true;
 	}

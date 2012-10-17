@@ -5,15 +5,12 @@ package com.juzhai.android.post.activity;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import org.apache.commons.lang.StringUtils;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,7 +19,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -276,18 +272,7 @@ public class SendPostActivity extends NavigationActivity {
 
 			}
 		});
-
-		// TODO (review) 考虑封装弹出键盘（方案1.放入BaseActivity，方案2...，方案3....）
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.showSoftInput(contentText,
-						InputMethodManager.RESULT_UNCHANGED_SHOWN);
-			}
-		}, 300);
-
+		openKeyboard(contentText);
 	}
 
 	@Override

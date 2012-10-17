@@ -27,28 +27,31 @@ public class HomeSettingActivity extends SetUserInfoActivity {
 		finish.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				validation();
-				new ProgressTask(HomeSettingActivity.this, new TaskCallback() {
+				if (validation()) {
+					new ProgressTask(HomeSettingActivity.this,
+							new TaskCallback() {
 
-					@Override
-					public void successCallback() {
-						DialogUtils.showToastText(HomeSettingActivity.this,
-								R.string.save_success);
-						HomeSettingActivity.this.finish();
-					}
+								@Override
+								public void successCallback() {
+									DialogUtils.showToastText(
+											HomeSettingActivity.this,
+											R.string.save_success);
+									HomeSettingActivity.this.finish();
+								}
 
-					@Override
-					public String doInBackground() {
-						IProfileService profileService = new ProfileService();
-						try {
-							profileService.updateUser(user,
-									HomeSettingActivity.this);
-						} catch (ProfileException e) {
-							return e.getMessage();
-						}
-						return null;
-					}
-				}, false).execute();
+								@Override
+								public String doInBackground() {
+									IProfileService profileService = new ProfileService();
+									try {
+										profileService.updateUser(user,
+												HomeSettingActivity.this);
+									} catch (ProfileException e) {
+										return e.getMessage();
+									}
+									return null;
+								}
+							}, false).execute();
+				}
 
 			}
 		});

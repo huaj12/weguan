@@ -33,16 +33,16 @@ public class InterestMeActivity extends NavigationActivity {
 		setNavContentView(R.layout.page_interest);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.interest_me_title));
-		// TODO (review) 自己看什么问题？
-		final JuzhaiRefreshListView interestListView = (JuzhaiRefreshListView) findViewById(R.id.interest_list_view);
-		interestListView
+		// TODO (done) 自己看什么问题？
+		final JuzhaiRefreshListView interestMeListView = (JuzhaiRefreshListView) findViewById(R.id.interest_list_view);
+		interestMeListView
 				.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 					@Override
 					public void onPullDownToRefresh(
 							PullToRefreshBase<ListView> refreshView) {
 						super.onPullDownToRefresh(refreshView);
 						new InterestMeListGetDataTask(InterestMeActivity.this,
-								interestListView).execute(1);
+								interestMeListView).execute(1);
 					}
 
 					@Override
@@ -50,14 +50,14 @@ public class InterestMeActivity extends NavigationActivity {
 							PullToRefreshBase<ListView> refreshView) {
 						super.onPullUpToRefresh(refreshView);
 						new InterestMeListGetDataTask(InterestMeActivity.this,
-								interestListView)
-								.execute(interestListView.getPageAdapter()
+								interestMeListView)
+								.execute(interestMeListView.getPageAdapter()
 										.getPager().getCurrentPage() + 1);
 					}
 				});
-		interestListView.setAdapter(new InterestUserListAdapter(
+		interestMeListView.setAdapter(new InterestUserListAdapter(
 				InterestMeActivity.this));
-		interestListView.manualRefresh();
+		interestMeListView.manualRefresh();
 
 		// interestListView
 		// .setOnItemLongClickListener(new OnItemLongClickListener() {
@@ -138,12 +138,12 @@ public class InterestMeActivity extends NavigationActivity {
 		// }
 		// });
 
-		interestListView.setOnItemClickListener(new OnItemClickListener() {
+		interestMeListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long id) {
 				int location = (int) id;
-				User user = (User) interestListView.getPageAdapter().getItem(
+				User user = (User) interestMeListView.getPageAdapter().getItem(
 						location);
 				Intent intent = new Intent(InterestMeActivity.this,
 						UserHomeActivity.class);

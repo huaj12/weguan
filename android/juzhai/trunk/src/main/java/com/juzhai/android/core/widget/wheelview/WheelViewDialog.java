@@ -27,15 +27,12 @@ public class WheelViewDialog<T extends Entity> extends AlertDialog implements
 		View view = inflater.inflate(R.layout.fragment_wheelview, null);
 		wheelView = (WheelView) view.findViewById(R.id.wheelview);
 		wheelView.TEXT_SIZE = 35;
-		ArrayWheelAdapter<T> wheelViewAdapter = new ArrayWheelAdapter<T>(datas,
-				20);
-		wheelView.setAdapter(wheelViewAdapter);
+		int itemIndex = 0;
 		if (selectedEntity != null) {
-			wheelView.setCurrentItem(CommonData.getDataIndxex(
-					(Long) selectedEntity.getIdentify(), datas));
-		} else {
-			wheelView.setCurrentItem(0);
+			itemIndex = CommonData.getDataIndxex(
+					(Long) selectedEntity.getIdentify(), datas);
 		}
+		wheelView.setArrayAdapter(datas, itemIndex, 20);
 		setTitle(context.getResources().getString(title));
 		setView(view);
 		setButton(BUTTON_POSITIVE, context.getString(R.string.ok), this);

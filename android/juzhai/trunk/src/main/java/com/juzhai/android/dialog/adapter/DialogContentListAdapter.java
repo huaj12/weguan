@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.activity.PreviewActivity;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
@@ -137,11 +138,14 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 
 	private void setImage(final ImageView imageView, DialogContent dialogContent) {
 		imageView.setImageBitmap(null);
+		final Intent intent = new Intent(mContext, PreviewActivity.class);
+		intent.putExtra("defaultImage", R.drawable.message_pic_load);
 		if (dialogContent.getImage() != null) {
 			Bitmap zoomBitmap = ImageUtils.zoomBitmap(dialogContent.getImage(),
 					40, 40, mContext);
 			imageView.setImageBitmap(zoomBitmap);
 			imageView.setVisibility(View.VISIBLE);
+			intent.putExtra("imageBitmap", dialogContent.getImage());
 		} else if (StringUtils.isNotEmpty(dialogContent.getImgUrl())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 			nid.fetchImage(JzUtils.getImageUrl(dialogContent.getImgUrl()),
@@ -157,7 +161,14 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 							}
 						}
 					});
+			intent.putExtra("imageUrl", dialogContent.getImgUrl());
 		}
+		imageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				((DialogContentListActivity) mContext).pushIntent(intent);
+			}
+		});
 	}
 
 	private void setLogo(final ImageView logo, User user) {

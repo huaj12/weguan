@@ -13,9 +13,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.task.TaskCallback;
@@ -26,6 +28,7 @@ import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.PageAdapter;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
+import com.juzhai.android.idea.activity.IdeaDetailActivity;
 import com.juzhai.android.idea.activity.IdeaListActivity;
 import com.juzhai.android.idea.activity.IdeaUsersActivity;
 import com.juzhai.android.idea.model.Idea;
@@ -51,14 +54,16 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 					.findViewById(R.id.idea_content);
 			holder.wantButton = (Button) convertView
 					.findViewById(R.id.idea_want_btn);
+			holder.ideaLayout = (LinearLayout) convertView
+					.findViewById(R.id.idea_layout);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
 		final Idea idea = data.getDatas().get(position);
-
 		final TextView contentTextView = holder.contentTextView;
+		LinearLayout ideaLayout = holder.ideaLayout;
 		contentTextView.setTextColor(android.graphics.Color.BLACK);
 		contentTextView.setBackgroundDrawable(null);
 		contentTextView.setText(TextTruncateUtil.truncate(idea.getContent(),
@@ -144,6 +149,18 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 						}
 					});
 		}
+
+		ideaLayout.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(mContext, IdeaDetailActivity.class);
+				intent.putExtra("idea", idea);
+				intent.putExtra("position", position);
+				((IdeaListActivity) mContext).pushIntentForResult(intent,
+						ActivityCode.RequestCode.IDEA_LIST_REQUEST_CODE);
+			}
+		});
 		return convertView;
 	}
 
@@ -152,5 +169,6 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		public ImageView imageView;
 		public Button wantButton;
 		public TextView userCountTextView;
+		public LinearLayout ideaLayout;
 	}
 }

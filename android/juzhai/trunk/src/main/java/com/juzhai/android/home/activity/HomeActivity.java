@@ -59,6 +59,10 @@ public class HomeActivity extends TabItemActivity {
 				new ProgressTask(HomeActivity.this, new TaskCallback() {
 					@Override
 					public void successCallback() {
+						postTableView.clear();
+						interestTableView.clear();
+						interestMeTableView.clear();
+						inviteTableView.clear();
 						showUserInfos();
 					}
 

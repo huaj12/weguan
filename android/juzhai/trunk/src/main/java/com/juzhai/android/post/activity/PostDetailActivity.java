@@ -112,6 +112,8 @@ public class PostDetailActivity extends NavigationActivity {
 		} else {
 			place.setVisibility(View.GONE);
 		}
+		TextView category = (TextView) findViewById(R.id.post_detail_category_text);
+		category.setText(user.getPostView().getCategoryName());
 
 	}
 

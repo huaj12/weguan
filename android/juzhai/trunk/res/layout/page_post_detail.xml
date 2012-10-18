@@ -85,6 +85,7 @@
 	            android:layout_marginTop="10dp"
 	            android:drawableLeft="@drawable/jzxq_icon_time"
 	            android:textColor="@color/post_detail_info"
+	            android:paddingRight="2dp"
 	            android:textSize="12sp" />
 	
 	        <TextView
@@ -96,6 +97,20 @@
 	            android:drawableLeft="@drawable/jzxq_icon_des"
 	            android:textColor="@color/post_detail_info"
 	            android:gravity="center_vertical"
+	            android:textSize="12sp"
+	            android:paddingRight="2dp"
+	             />
+	        
+	         <TextView
+	            android:id="@+id/post_detail_category_text"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginRight="5dp"
+	            android:layout_marginTop="5dp"
+	            android:drawableLeft="@drawable/jzxq_icon_ca"
+	            android:textColor="@color/post_detail_info"
+	            android:gravity="center_vertical"
+	            android:paddingRight="2dp"
 	            android:textSize="12sp"
 	             />
 	

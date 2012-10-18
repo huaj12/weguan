@@ -30,6 +30,7 @@ public class HomeActivity extends TabItemActivity {
 	private UITableView interestTableView;
 	private UITableView interestMeTableView;
 	private UITableView inviteTableView;
+	private User user;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class HomeActivity extends TabItemActivity {
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.tabitem_home));
 		getNavigationBar().setRightView(refreshBtn);
+		user = UserCache.getUserInfo();
 		userLogoView = (ImageView) findViewById(R.id.user_logo);
 		nicknameView = (TextView) findViewById(R.id.user_nickname);
 		userInfoView = (TextView) findViewById(R.id.user_info);
@@ -50,7 +52,7 @@ public class HomeActivity extends TabItemActivity {
 		interestMeTableView = (UITableView) findViewById(R.id.home_interest_me_table_view);
 		inviteTableView = (UITableView) findViewById(R.id.home_invite_table_view);
 		Button edit = (Button) findViewById(R.id.edit_profile_btn);
-		showUserInfos();
+		showTableView();
 
 		refreshBtn.setOnClickListener(new OnClickListener() {
 			@Override
@@ -59,11 +61,11 @@ public class HomeActivity extends TabItemActivity {
 				new ProgressTask(HomeActivity.this, new TaskCallback() {
 					@Override
 					public void successCallback() {
-						postTableView.clear();
-						interestTableView.clear();
-						interestMeTableView.clear();
-						inviteTableView.clear();
-						showUserInfos();
+						// postTableView.clear();
+						// interestTableView.clear();
+						// interestMeTableView.clear();
+						// inviteTableView.clear();
+						// showTableView();
 					}
 
 					@Override
@@ -87,21 +89,20 @@ public class HomeActivity extends TabItemActivity {
 
 	@Override
 	protected void onResume() {
-		postTableView.clear();
-		interestTableView.clear();
-		interestMeTableView.clear();
-		inviteTableView.clear();
+		user = UserCache.getUserInfo();
 		showUserInfos();
 		super.onResume();
 	}
 
 	private void showUserInfos() {
-		final User user = UserCache.getUserInfo();
 		userViewHelper.showUserNewLogo(HomeActivity.this, user, userLogoView,
 				logoAuditView, 60, 60);
 		userViewHelper.showUserNickname(HomeActivity.this, user, nicknameView);
 		userInfoView.setText(user.getUserInfo(HomeActivity.this));
 
+	}
+
+	private void showTableView() {
 		postTableView.setClickListener(new ClickListener() {
 
 			@Override
@@ -156,7 +157,6 @@ public class HomeActivity extends TabItemActivity {
 		inviteTableView.addBasicItem(getResources().getString(
 				R.string.invite_friend));
 		inviteTableView.commit();
-
 	}
 
 	private String assembly(String name, int count) {

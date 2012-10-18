@@ -16,7 +16,7 @@
 	     	   android:layout_height="wrap_content"
 	     	   android:text="@string/upload_logo"
 	     	   android:textColor="@color/black"
-	     	   android:textSize="14sp"
+	     	   android:textSize="17sp"
 	     	   android:layout_centerInParent="true"
 	     	   />
 	  <ImageView

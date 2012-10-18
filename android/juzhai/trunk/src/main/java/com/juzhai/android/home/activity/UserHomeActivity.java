@@ -78,7 +78,8 @@ public class UserHomeActivity extends NavigationActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(UserHomeActivity.this,
 						PreviewActivity.class);
-				intent.putExtra("targetUser", user);
+				intent.putExtra("defaultImage", R.drawable.user_face_unload);
+				intent.putExtra("imageUrl", user.getOriginalLogo());
 				pushIntent(intent);
 			}
 		});

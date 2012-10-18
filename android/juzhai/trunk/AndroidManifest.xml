@@ -47,7 +47,7 @@
             android:name=".dialog.activity.DialogContentListActivity" android:screenOrientation="portrait"/>
         <!--created by kooks at 2012-09-25 17:34:29-->
         <activity android:name=".core.activity.UploadImageActivity"
-            android:screenOrientation="portrait" android:theme="@android:style/Theme.Dialog"/>
+            android:screenOrientation="portrait" android:theme="@style/dialog"/>
         <activity android:name=".main.activity.GuidanceActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".passport.activity.AuthorizeBindActivity" android:screenOrientation="portrait"/>

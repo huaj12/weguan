@@ -58,8 +58,8 @@ public class SetAddressAcitvity extends Activity {
 
 		final WheelView provinceView = (WheelView) findViewById(R.id.province);
 		final WheelView cityView = (WheelView) findViewById(R.id.city);
-		provinceView.TEXT_SIZE = UIUtil.dip2px(SetAddressAcitvity.this, 27);
-		cityView.TEXT_SIZE = UIUtil.dip2px(SetAddressAcitvity.this, 27);
+		provinceView.TEXT_SIZE = UIUtil.dip2px(SetAddressAcitvity.this, 23);
+		cityView.TEXT_SIZE = UIUtil.dip2px(SetAddressAcitvity.this, 23);
 		provinceView.setArrayAdapter(provinceList,
 				CommonData.getDataIndxex(provinceId, provinceList), 6);
 		provinceView.setScrollingListener(new OnWheelScrollListener() {
@@ -77,7 +77,7 @@ public class SetAddressAcitvity extends Activity {
 			}
 		});
 		cityView.setArrayAdapter(cityList,
-				CommonData.getDataIndxex(cityId, cityList), 10);
+				CommonData.getDataIndxex(cityId, cityList), 14);
 
 		Button cancelBtn = (Button) findViewById(R.id.btn_cancel);
 		Button okBtn = (Button) findViewById(R.id.btn_ok);

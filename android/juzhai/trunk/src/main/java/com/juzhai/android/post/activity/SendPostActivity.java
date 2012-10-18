@@ -177,6 +177,7 @@ public class SendPostActivity extends NavigationActivity {
 				}
 				startActivityForResult(intent,
 						ActivityCode.RequestCode.PIC_REQUEST_CODE);
+				uploadImageDialogAnim();
 			}
 		});
 

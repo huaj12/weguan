@@ -67,7 +67,7 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 					public void successCallback() {
 						dateButton.setText(R.string.about_done);
 						dateButton.setTextColor(mContext.getResources()
-								.getColor(R.color.about_gray));
+								.getColor(R.color.about_btn));
 						dateButton.setEnabled(false);
 					}
 

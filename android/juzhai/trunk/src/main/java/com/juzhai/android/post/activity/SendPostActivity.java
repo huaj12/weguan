@@ -117,9 +117,13 @@ public class SendPostActivity extends NavigationActivity {
 													.chineseLength(place);
 											if (placeLength > Validation.POST_PLACE_LENGTH_MAX) {
 												DialogUtils
-														.showToastText(
+														.showErrorDialog(
 																SendPostActivity.this,
 																R.string.send_post_place_length_invalid);
+												// DialogUtils
+												// .showToastText(
+												// SendPostActivity.this,
+												// R.string.send_post_place_length_invalid);
 												return;
 											}
 											placeBtn.setSelected(true);
@@ -222,27 +226,35 @@ public class SendPostActivity extends NavigationActivity {
 			@Override
 			public void onClick(View v) {
 				if (selectedCategory == null) {
-					DialogUtils.showToastText(SendPostActivity.this,
+					DialogUtils.showErrorDialog(SendPostActivity.this,
 							R.string.send_post_category_is_null);
+					// DialogUtils.showToastText(SendPostActivity.this,
+					// R.string.send_post_category_is_null);
 					return;
 				}
 				String content = contentText.getText().toString();
 				int contentLength = StringUtil.chineseLength(content);
 				if (contentLength < Validation.POST_CONTENT_LENGTH_MIN) {
-					DialogUtils.showToastText(SendPostActivity.this,
+					DialogUtils.showErrorDialog(SendPostActivity.this,
 							R.string.send_post_content_too_little);
+					// DialogUtils.showToastText(SendPostActivity.this,
+					// R.string.send_post_content_too_little);
 					return;
 				}
 				if (contentLength > Validation.POST_CONTENT_LENGTH_MAX) {
-					DialogUtils.showToastText(SendPostActivity.this,
+					DialogUtils.showErrorDialog(SendPostActivity.this,
 							R.string.send_post_content_too_more);
+					// DialogUtils.showToastText(SendPostActivity.this,
+					// R.string.send_post_content_too_more);
 					return;
 				}
 				// 没有头像不能发布拒宅
 				User user = UserCache.getUserInfo();
 				if (!user.isHasLogo() || StringUtils.isEmpty(user.getLogo())) {
-					DialogUtils.showToastText(SendPostActivity.this,
+					DialogUtils.showErrorDialog(SendPostActivity.this,
 							R.string.send_post_user_logo_is_null);
+					// DialogUtils.showToastText(SendPostActivity.this,
+					// R.string.send_post_user_logo_is_null);
 					return;
 				}
 				post.setContent(content);
@@ -250,8 +262,10 @@ public class SendPostActivity extends NavigationActivity {
 
 					@Override
 					public void successCallback() {
-						DialogUtils.showToastText(SendPostActivity.this,
+						DialogUtils.showSuccessDialog(SendPostActivity.this,
 								R.string.send_ok);
+						// DialogUtils.showToastText(SendPostActivity.this,
+						// R.string.send_ok);
 						SendPostActivity.this.finish();
 					}
 
@@ -286,8 +300,10 @@ public class SendPostActivity extends NavigationActivity {
 					imageBtn.setSelected(true);
 					imageView.setVisibility(View.VISIBLE);
 				} else {
-					DialogUtils.showToastText(SendPostActivity.this,
+					DialogUtils.showErrorDialog(SendPostActivity.this,
 							R.string.select_pic_error);
+					// DialogUtils.showToastText(SendPostActivity.this,
+					// R.string.select_pic_error);
 				}
 			} else if (ActivityCode.ResultCode.PIC_DELETE_RESULT_CODE == resultCode) {
 				postImage = null;

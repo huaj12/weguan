@@ -53,7 +53,8 @@ public abstract class AbstractAuthorizeTask extends
 			progressDialog.dismiss();
 		}
 		if (errorInfo != null && !errorInfo.equals("")) {
-			DialogUtils.showToastText(baseActivity, errorInfo);
+			DialogUtils.showErrorDialog(baseActivity, errorInfo);
+			// DialogUtils.showToastText(baseActivity, errorInfo);
 		} else {
 			// success
 			successCallback();

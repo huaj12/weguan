@@ -43,10 +43,12 @@ public class ProgressTask extends AsyncTask<Void, Void, String> {
 			progressDialog.dismiss();
 		}
 		if (StringUtils.isNotEmpty(errorInfo)) {
-			DialogUtils.showToastText(context, errorInfo);
+			DialogUtils.showErrorDialog(context, errorInfo);
+			// DialogUtils.showToastText(context, errorInfo);
 		} else {
 			if (defaultStyle) {
-				DialogUtils.showToastText(context, R.string.success);
+				// DialogUtils.showToastText(context, R.string.success);
+				DialogUtils.showSuccessDialog(context, R.string.success);
 			}
 			if (callback != null) {
 				callback.successCallback();

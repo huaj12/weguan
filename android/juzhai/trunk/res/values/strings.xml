@@ -239,4 +239,6 @@
 	<string name="authorize_expired_tip2_db">请重新授权激活豆瓣说同步功能</string>
 	<string name="authorize_expired_tip1_qq">qq帐号授权已经过期</string>
 	<string name="authorize_expired_tip2_qq">请重新授权激活qq同步功能</string>
+	<string name="bind_ok">绑定成功</string>
+	<string name="authorize_ok">授权成功</string>
 </resources>

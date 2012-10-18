@@ -41,14 +41,18 @@ public class SetFeatureActivity extends NavigationActivity {
 			public void onClick(View v) {
 				String feature = editText.getText().toString();
 				if (StringUtils.isEmpty(feature)) {
-					DialogUtils.showToastText(SetFeatureActivity.this,
+					DialogUtils.showErrorDialog(SetFeatureActivity.this,
 							R.string.feature_is_null);
+					// DialogUtils.showToastText(SetFeatureActivity.this,
+					// R.string.feature_is_null);
 					return;
 				}
 				int featureLength = StringUtil.chineseLength(feature);
 				if (featureLength > Validation.USER_FEATURE_LENGTH_MAX) {
-					DialogUtils.showToastText(SetFeatureActivity.this,
+					DialogUtils.showErrorDialog(SetFeatureActivity.this,
 							R.string.feature_too_long);
+					// DialogUtils.showToastText(SetFeatureActivity.this,
+					// R.string.feature_too_long);
 					return;
 				}
 				Intent intent = getIntent();

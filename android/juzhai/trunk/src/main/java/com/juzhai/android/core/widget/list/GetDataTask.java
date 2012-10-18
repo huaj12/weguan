@@ -27,8 +27,10 @@ public abstract class GetDataTask<T extends Result<? extends PageList<E>>, E ext
 
 	protected void onPostExecute(T result) {
 		if (null == result || !result.getSuccess()) {
-			DialogUtils.showToastText(refreshListView.getContext(),
+			DialogUtils.showErrorDialog(refreshListView.getContext(),
 					R.string.system_internet_erorr);
+			// DialogUtils.showToastText(refreshListView.getContext(),
+			// R.string.system_internet_erorr);
 		} else {
 			// add or override
 			Pager pager = result.getResult().getPager();

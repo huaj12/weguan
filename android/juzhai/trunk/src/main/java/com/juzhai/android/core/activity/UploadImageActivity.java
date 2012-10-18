@@ -36,7 +36,7 @@ public class UploadImageActivity extends Activity {
 		getWindow().setBackgroundDrawable(new BitmapDrawable());
 		WindowManager.LayoutParams lp = getWindow().getAttributes();
 		lp.x = 0;
-		lp.y = 230;
+		lp.y = 300;
 		Button alubmBtn = (Button) findViewById(R.id.upload_album);
 		Button cameraBtn = (Button) findViewById(R.id.upload_camera);
 		Button deleteBtn = (Button) findViewById(R.id.delete_pic);
@@ -135,6 +135,12 @@ public class UploadImageActivity extends Activity {
 		intent.putExtra("return-data", true);
 		startActivityForResult(intent,
 				ActivityCode.RequestCode.CUT_REQUEST_CODE);
+	}
+
+	@Override
+	public void finish() {
+		super.finish();
+		overridePendingTransition(R.anim.dialog_up_in, R.anim.dialog_up_out);
 	}
 
 }

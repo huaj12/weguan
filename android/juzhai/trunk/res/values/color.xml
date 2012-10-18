@@ -20,6 +20,7 @@
 	<color name="home_gray">#999999</color>
 	<color name="finish_gray">#5A94C8</color>
 	<color name="begin_jz_done">#C6C6C6</color>
+	<color name="dialog_gray">#aaaaaa</color>
 	<!-- LIST BORDER COLOR -->
 	<color name="rounded_container_border">#ffb7babb</color>
 

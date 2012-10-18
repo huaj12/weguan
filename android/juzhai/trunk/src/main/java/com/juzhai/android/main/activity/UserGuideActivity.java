@@ -41,9 +41,12 @@ public class UserGuideActivity extends SetUserInfoActivity {
 
 								@Override
 								public void successCallback() {
-									DialogUtils.showToastText(
+									DialogUtils.showSuccessDialog(
 											UserGuideActivity.this,
 											R.string.save_success);
+									// DialogUtils.showToastText(
+									// UserGuideActivity.this,
+									// R.string.save_success);
 									clearStackAndStartActivity(new Intent(
 											UserGuideActivity.this,
 											MainTabActivity.class));

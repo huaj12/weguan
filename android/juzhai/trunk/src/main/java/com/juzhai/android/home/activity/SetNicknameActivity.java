@@ -48,14 +48,18 @@ public class SetNicknameActivity extends NavigationActivity {
 			public void onClick(View v) {
 				final String nickname = editText.getText().toString();
 				if (StringUtils.isEmpty(nickname)) {
-					DialogUtils.showToastText(SetNicknameActivity.this,
+					DialogUtils.showErrorDialog(SetNicknameActivity.this,
 							R.string.nickname_is_null);
+					// DialogUtils.showToastText(SetNicknameActivity.this,
+					// R.string.nickname_is_null);
 					return;
 				}
 				int nicknameLength = StringUtil.chineseLength(nickname);
 				if (nicknameLength > Validation.NICKNAME_LENGTH_MAX) {
-					DialogUtils.showToastText(SetNicknameActivity.this,
+					DialogUtils.showErrorDialog(SetNicknameActivity.this,
 							R.string.nickname_too_long);
+					// DialogUtils.showToastText(SetNicknameActivity.this,
+					// R.string.nickname_too_long);
 					return;
 				}
 				Map<String, Object> values = new HashMap<String, Object>();

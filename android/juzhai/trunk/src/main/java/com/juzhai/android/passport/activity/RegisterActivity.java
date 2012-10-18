@@ -102,8 +102,10 @@ public class RegisterActivity extends NavigationActivity {
 						progressDialog.dismiss();
 					}
 					if (StringUtils.isNotEmpty(errorInfo)) {
-						DialogUtils.showToastText(RegisterActivity.this,
+						DialogUtils.showErrorDialog(RegisterActivity.this,
 								errorInfo);
+						// DialogUtils.showToastText(RegisterActivity.this,
+						// errorInfo);
 					} else {
 						clearStackAndStartActivity(new Intent(
 								RegisterActivity.this, UserGuideActivity.class));

@@ -33,9 +33,12 @@ public class HomeSettingActivity extends SetUserInfoActivity {
 
 								@Override
 								public void successCallback() {
-									DialogUtils.showToastText(
+									DialogUtils.showSuccessDialog(
 											HomeSettingActivity.this,
 											R.string.save_success);
+									// DialogUtils.showToastText(
+									// HomeSettingActivity.this,
+									// R.string.save_success);
 									HomeSettingActivity.this.finish();
 								}
 

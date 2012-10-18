@@ -43,8 +43,10 @@ public class SetAddressAcitvity extends Activity {
 		provinceList = CommonData.getProvinces(SetAddressAcitvity.this);
 		// 网速原因数据没加载完
 		if (CollectionUtils.isEmpty(provinceList)) {
-			DialogUtils.showToastText(SetAddressAcitvity.this,
+			DialogUtils.showErrorDialog(SetAddressAcitvity.this,
 					R.string.system_internet_erorr);
+			// DialogUtils.showToastText(SetAddressAcitvity.this,
+			// R.string.system_internet_erorr);
 			this.finish();
 		}
 

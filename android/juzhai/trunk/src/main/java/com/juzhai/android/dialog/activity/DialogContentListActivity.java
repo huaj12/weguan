@@ -85,8 +85,10 @@ public class DialogContentListActivity extends NavigationActivity {
 
 			// 发送失败
 			if (msg.what == 0) {
-				DialogUtils.showToastText(mActivity.get(), msg.getData()
+				DialogUtils.showErrorDialog(mActivity.get(), msg.getData()
 						.getString("errorInfo"));
+				// DialogUtils.showToastText(mActivity.get(), msg.getData()
+				// .getString("errorInfo"));
 			}
 		}
 	};
@@ -175,8 +177,10 @@ public class DialogContentListActivity extends NavigationActivity {
 						.getText().toString());
 				if (contentLengt < Validation.SEND_MESSAGE_LENGTH_MIN
 						|| contentLengt > Validation.SEND_MESSAGE_LENGTH_MAX) {
-					DialogUtils.showToastText(DialogContentListActivity.this,
+					DialogUtils.showErrorDialog(DialogContentListActivity.this,
 							R.string.send_message_length_invalid);
+					// DialogUtils.showToastText(DialogContentListActivity.this,
+					// R.string.send_message_length_invalid);
 					return;
 				}
 
@@ -190,8 +194,10 @@ public class DialogContentListActivity extends NavigationActivity {
 				dialogContent.setStatus(MessageStatus.WAIT);
 				if (!queue.offer(dialogContent)) {
 					// 队列不能加入元素了。
-					DialogUtils.showToastText(DialogContentListActivity.this,
+					DialogUtils.showErrorDialog(DialogContentListActivity.this,
 							R.string.frequency_exceeds_the_limit);
+					// DialogUtils.showToastText(DialogContentListActivity.this,
+					// R.string.frequency_exceeds_the_limit);
 					return;
 				}
 				adapter.pushData(dialogContent);
@@ -243,8 +249,10 @@ public class DialogContentListActivity extends NavigationActivity {
 					dialogContentListView.setSelection(adapter.getCount() - 1);
 				} else {
 					// 报错
-					DialogUtils.showToastText(DialogContentListActivity.this,
+					DialogUtils.showErrorDialog(DialogContentListActivity.this,
 							R.string.system_internet_erorr);
+					// DialogUtils.showToastText(DialogContentListActivity.this,
+					// R.string.system_internet_erorr);
 				}
 				// 定时任务
 				if (timer != null) {
@@ -274,8 +282,10 @@ public class DialogContentListActivity extends NavigationActivity {
 				&& ActivityCode.ResultCode.PIC_RESULT_CODE == resultCode) {
 			pic = data.getParcelableExtra("pic");
 			if (picView == null) {
-				DialogUtils.showToastText(DialogContentListActivity.this,
+				DialogUtils.showErrorDialog(DialogContentListActivity.this,
 						R.string.select_pic_error);
+				// DialogUtils.showToastText(DialogContentListActivity.this,
+				// R.string.select_pic_error);
 				picView.setVisibility(View.GONE);
 				return;
 			}

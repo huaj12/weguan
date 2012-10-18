@@ -227,8 +227,10 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 						SetUserInfoActivity.this));
 				finish.setEnabled(true);
 			} else {
-				DialogUtils.showToastText(SetUserInfoActivity.this,
+				DialogUtils.showErrorDialog(SetUserInfoActivity.this,
 						R.string.select_pic_error);
+				// DialogUtils.showToastText(SetUserInfoActivity.this,
+				// R.string.select_pic_error);
 			}
 		} else if (requestCode == ActivityCode.RequestCode.SETTING_NICKNAME_REQUEST_CODE
 				&& ActivityCode.ResultCode.SETTING_NICKNAME_RESULT_CODE == resultCode) {
@@ -288,45 +290,59 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 
 	protected boolean validation() {
 		if (StringUtils.isEmpty(user.getNickname())) {
-			DialogUtils.showToastText(SetUserInfoActivity.this,
+			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
 					R.string.nickname_is_null);
+			// DialogUtils.showToastText(SetUserInfoActivity.this,
+			// R.string.nickname_is_null);
 			return false;
 		}
 		if (isGuide) {
 			if (!isUpdateGender) {
-				DialogUtils.showToastText(SetUserInfoActivity.this,
+				DialogUtils.showErrorDialog(SetUserInfoActivity.this,
 						R.string.user_gender_is_null);
+				// DialogUtils.showToastText(SetUserInfoActivity.this,
+				// R.string.user_gender_is_null);
 				return false;
 			}
 		}
 		if (user.getBirthYear() <= 0) {
-			DialogUtils.showToastText(SetUserInfoActivity.this,
+			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
 					R.string.user_birth_day_is_null);
+			// DialogUtils.showToastText(SetUserInfoActivity.this,
+			// R.string.user_birth_day_is_null);
 			return false;
 		}
 		if (user.getCityId() <= 0) {
-			DialogUtils.showToastText(SetUserInfoActivity.this,
+			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
 					R.string.user_address_is_null);
+			// DialogUtils.showToastText(SetUserInfoActivity.this,
+			// R.string.user_address_is_null);
 			return false;
 		}
 		if (!isGuide) {
 			String feature = user.getFeature();
 			if (StringUtils.isEmpty(feature)) {
-				DialogUtils.showToastText(SetUserInfoActivity.this,
+				DialogUtils.showErrorDialog(SetUserInfoActivity.this,
 						R.string.feature_is_null);
+				// DialogUtils.showToastText(SetUserInfoActivity.this,
+				// R.string.feature_is_null);
 				return false;
 			}
 			int featureLength = StringUtil.chineseLength(feature);
 			if (featureLength > Validation.USER_FEATURE_LENGTH_MAX) {
-				DialogUtils.showToastText(SetUserInfoActivity.this,
+				DialogUtils.showErrorDialog(SetUserInfoActivity.this,
 						R.string.feature_too_long);
+				// DialogUtils.showToastText(SetUserInfoActivity.this,
+				// R.string.feature_too_long);
 				return false;
 			}
 		}
 		if (user.getProfessionId() <= 0
 				&& StringUtils.isNotEmpty(user.getProfession())) {
-			DialogUtils.showToastText(SetUserInfoActivity.this,
+			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
 					R.string.profession_name_is_null);
+			// DialogUtils.showToastText(SetUserInfoActivity.this,
+			// R.string.profession_name_is_null);
 			return false;
 		}
 		return true;

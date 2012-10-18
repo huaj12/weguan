@@ -60,11 +60,15 @@ public class ForgotPwdActivity extends NavigationActivity {
 							progressDialog.dismiss();
 						}
 						if (StringUtils.isNotEmpty(errorInfo)) {
-							DialogUtils.showToastText(ForgotPwdActivity.this,
+							DialogUtils.showErrorDialog(ForgotPwdActivity.this,
 									errorInfo);
+							// DialogUtils.showToastText(ForgotPwdActivity.this,
+							// errorInfo);
 						} else {
-							DialogUtils.showToastText(ForgotPwdActivity.this,
-									R.string.send_ok);
+							DialogUtils.showSuccessDialog(
+									ForgotPwdActivity.this, R.string.send_ok);
+							// DialogUtils.showToastText(ForgotPwdActivity.this,
+							// R.string.send_ok);
 							TimerTask task = new TimerTask() {
 								@Override
 								public void run() {

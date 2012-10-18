@@ -120,8 +120,10 @@ public class LoginActivity extends NavigationActivity {
 						progressDialog.dismiss();
 					}
 					if (errorInfo != null && !errorInfo.equals("")) {
-						DialogUtils
-								.showToastText(LoginActivity.this, errorInfo);
+						DialogUtils.showErrorDialog(LoginActivity.this,
+								errorInfo);
+						// DialogUtils
+						// .showToastText(LoginActivity.this, errorInfo);
 					} else {
 						if (UserCache.getUserInfo().isHasGuided()) {
 							clearStackAndStartActivity(new Intent(

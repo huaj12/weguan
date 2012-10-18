@@ -51,8 +51,10 @@ public class SetProfessionActivity extends NavigationActivity {
 				.getProfessionList(SetProfessionActivity.this);
 		// 网速原因数据没加载完
 		if (CollectionUtils.isEmpty(professionList)) {
-			DialogUtils.showToastText(SetProfessionActivity.this,
+			DialogUtils.showErrorDialog(SetProfessionActivity.this,
 					R.string.system_internet_erorr);
+			// DialogUtils.showToastText(SetProfessionActivity.this,
+			// R.string.system_internet_erorr);
 			this.finish();
 		}
 		editText = (EditText) findViewById(R.id.profession_input);
@@ -95,15 +97,19 @@ public class SetProfessionActivity extends NavigationActivity {
 				if (profession.getId() == 0) {
 					String professionName = editText.getText().toString();
 					if (StringUtils.isEmpty(professionName)) {
-						DialogUtils.showToastText(SetProfessionActivity.this,
+						DialogUtils.showErrorDialog(SetProfessionActivity.this,
 								R.string.profession_name_is_null);
+						// DialogUtils.showToastText(SetProfessionActivity.this,
+						// R.string.profession_name_is_null);
 						return;
 					}
 					int professionNameLength = StringUtil
 							.chineseLength(professionName);
 					if (professionNameLength > Validation.PROFESSION_LENGTH_MAX) {
-						DialogUtils.showToastText(SetProfessionActivity.this,
+						DialogUtils.showErrorDialog(SetProfessionActivity.this,
 								R.string.profession_name_too_long);
+						// DialogUtils.showToastText(SetProfessionActivity.this,
+						// R.string.profession_name_too_long);
 						return;
 					}
 					intent.putExtra("profession", professionName);

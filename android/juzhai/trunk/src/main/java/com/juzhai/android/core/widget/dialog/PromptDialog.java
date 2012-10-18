@@ -9,10 +9,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
 
 public class PromptDialog extends Dialog {
@@ -62,7 +64,14 @@ public class PromptDialog extends Dialog {
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				dismiss();
+				try {
+					dismiss();
+				} catch (Exception e) {
+					if (BuildConfig.DEBUG) {
+						Log.d(PromptDialog.class.getSimpleName(),
+								"dismiss promptDialog error.", e);
+					}
+				}
 			}
 		}, 3000);
 

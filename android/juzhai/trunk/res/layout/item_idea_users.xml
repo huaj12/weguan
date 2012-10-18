@@ -47,6 +47,8 @@
         android:paddingTop="0dp"
         android:paddingRight="0dp"
         android:paddingBottom="1dp"
+        android:background="@drawable/about_selector_button"
+        android:textColor="@color/about_btn_text_color_selector"
         android:textSize="12sp" />
      	<include layout="@layout/fragment__divider_foot"/>
 </RelativeLayout>

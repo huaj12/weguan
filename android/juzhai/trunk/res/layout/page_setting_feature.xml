@@ -13,6 +13,8 @@
         android:gravity="top"
         android:inputType="textMultiLine"
         android:lines="4"
+        android:textColor="@color/idea_want"
+        android:textSize="15sp"
         android:singleLine="false" />
 
     <TextView

@@ -17,7 +17,6 @@ import com.juzhai.android.R;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
-import com.juzhai.android.passport.model.User;
 
 public class PreviewActivity extends Activity {
 
@@ -27,21 +26,29 @@ public class PreviewActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.page_preview_image);
 		Intent intent = getIntent();
-		User user = (User) intent.getSerializableExtra("targetUser");
+		String imageUrl = intent.getStringExtra("imageUrl");
+		Bitmap imageBitmap = intent.getParcelableExtra("imageBitmap");
+		int defaultImage = intent.getIntExtra("defaultImage",
+				R.drawable.load_pic_s);
 		final ImageView imageView = (ImageView) findViewById(R.id.preview_image);
 		final ProgressBar bar = (ProgressBar) findViewById(R.id.progressbar);
-		ImageViewLoader nid = ImageViewLoader.getInstance(PreviewActivity.this);
-		nid.fetchImage(JzUtils.getImageUrl(user.getOriginalLogo()),
-				R.drawable.user_face_unload, imageView,
-				new ImageLoaderCallback() {
-					@Override
-					public void imageLoaderFinish(Bitmap bitmap) {
-						if (bitmap != null) {
-							bar.setVisibility(View.GONE);
-							imageView.setImageBitmap(bitmap);
+		if (imageBitmap == null) {
+			ImageViewLoader nid = ImageViewLoader
+					.getInstance(PreviewActivity.this);
+			nid.fetchImage(JzUtils.getImageUrl(imageUrl), defaultImage,
+					imageView, new ImageLoaderCallback() {
+						@Override
+						public void imageLoaderFinish(Bitmap bitmap) {
+							if (bitmap != null) {
+								bar.setVisibility(View.GONE);
+								imageView.setImageBitmap(bitmap);
+							}
 						}
-					}
-				});
+					});
+		} else {
+			bar.setVisibility(View.GONE);
+			imageView.setImageBitmap(imageBitmap);
+		}
 
 	}
 

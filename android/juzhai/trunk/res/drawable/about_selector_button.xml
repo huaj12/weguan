@@ -2,5 +2,6 @@
 	<item android:state_pressed="true" android:drawable="@drawable/date_btn_active" />
 	<item android:state_focused="true" android:drawable="@drawable/date_btn_link" />
 	<item android:state_enabled="false" android:drawable="@drawable/date_btn_done"></item>
+	<item android:state_enabled="true" android:drawable="@drawable/date_btn_link"></item>
 	<item android:drawable="@drawable/date_btn_link" />
 </selector>

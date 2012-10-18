@@ -8,13 +8,14 @@ import java.io.File;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.juzhai.android.R;
@@ -30,9 +31,12 @@ public class UploadImageActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.page_upload_image);
 		boolean isDeleteBtn = getIntent().getBooleanExtra("isDeleteBtn", false);
+		getWindow().setBackgroundDrawable(new BitmapDrawable());
+		WindowManager.LayoutParams lp = getWindow().getAttributes();
+		lp.x = 0;
+		lp.y = 230;
 		Button alubmBtn = (Button) findViewById(R.id.upload_album);
 		Button cameraBtn = (Button) findViewById(R.id.upload_camera);
 		Button deleteBtn = (Button) findViewById(R.id.delete_pic);
@@ -89,7 +93,9 @@ public class UploadImageActivity extends Activity {
 			if (filename != null) {
 				File temp = new File(Environment.getExternalStorageDirectory()
 						+ File.separator + filename);
-				startPhotoZoom(Uri.fromFile(temp));
+				if (temp.exists()) {
+					startPhotoZoom(Uri.fromFile(temp));
+				}
 			} else {
 				finish();
 			}

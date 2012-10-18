@@ -137,6 +137,7 @@ public class DialogContentListActivity extends NavigationActivity {
 						UploadImageActivity.class);
 				startActivityForResult(intent,
 						ActivityCode.RequestCode.PIC_REQUEST_CODE);
+				uploadImageDialogAnim();
 			}
 		});
 

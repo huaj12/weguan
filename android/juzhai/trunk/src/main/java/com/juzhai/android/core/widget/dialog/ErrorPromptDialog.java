@@ -10,4 +10,8 @@ public class ErrorPromptDialog extends PromptDialog {
 		super(context, message, R.drawable.cross);
 	}
 
+	public ErrorPromptDialog(Context context, String message) {
+		super(context, message, R.drawable.cross);
+	}
+
 }

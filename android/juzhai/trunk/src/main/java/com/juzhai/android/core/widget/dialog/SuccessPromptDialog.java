@@ -10,4 +10,8 @@ public class SuccessPromptDialog extends PromptDialog {
 		super(context, message, R.drawable.tick);
 	}
 
+	public SuccessPromptDialog(Context context, String message) {
+		super(context, message, R.drawable.tick);
+	}
+
 }

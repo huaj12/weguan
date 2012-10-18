@@ -3,6 +3,8 @@ package com.juzhai.android.core.widget.dialog;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.commons.lang.StringUtils;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,18 +17,29 @@ import com.juzhai.android.R;
 
 public class PromptDialog extends Dialog {
 	private int message;
+	private String messageStr;
 	private int icon;
 
 	public PromptDialog(Context context, int message) {
-		// 设置dialog样式
 		super(context, R.style.dialog);
 		this.message = message;
+	}
+
+	public PromptDialog(Context context, String messageStr) {
+		super(context, R.style.dialog);
+		this.messageStr = messageStr;
 	}
 
 	public PromptDialog(Context context, int message, int icon) {
 		// 设置dialog样式
 		super(context, R.style.dialog);
 		this.message = message;
+		this.icon = icon;
+	}
+
+	public PromptDialog(Context context, String messageStr, int icon) {
+		super(context, R.style.dialog);
+		this.messageStr = messageStr;
 		this.icon = icon;
 	}
 
@@ -38,7 +51,12 @@ public class PromptDialog extends Dialog {
 		this.setContentView(R.layout.fragment_prompt_dialog);
 		TextView messageView = (TextView) findViewById(R.id.prompt_message);
 		ImageView iconView = (ImageView) findViewById(R.id.prompt_icon);
-		messageView.setText(message);
+		if (StringUtils.isEmpty(messageStr)) {
+			messageView.setText(message);
+		} else {
+			messageView.setText(messageStr);
+		}
+
 		iconView.setBackgroundResource(icon);
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {

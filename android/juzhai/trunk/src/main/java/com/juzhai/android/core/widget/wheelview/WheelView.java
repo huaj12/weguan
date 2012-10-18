@@ -69,7 +69,7 @@ public class WheelView extends View {
 			0x00AAAAAA, 0x00AAAAAA };
 
 	/** Additional items height (is added to standard text item height) */
-	private static final int ADDITIONAL_ITEM_HEIGHT = 15;
+	private static final int ADDITIONAL_ITEM_HEIGHT = 23;
 
 	/** Text size */
 	public int TEXT_SIZE;
@@ -414,15 +414,14 @@ public class WheelView extends View {
 	 */
 	private void initResourcesIfNecessary() {
 		if (itemsPaint == null) {
-			itemsPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG
-					| Paint.FAKE_BOLD_TEXT_FLAG);
+			itemsPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
 			// itemsPaint.density = getResources().getDisplayMetrics().density;
 			itemsPaint.setTextSize(TEXT_SIZE);
 		}
 
 		if (valuePaint == null) {
 			valuePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG
-					| Paint.FAKE_BOLD_TEXT_FLAG | Paint.DITHER_FLAG);
+					| Paint.DITHER_FLAG);
 			// valuePaint.density = getResources().getDisplayMetrics().density;
 			valuePaint.setTextSize(TEXT_SIZE);
 			valuePaint.setShadowLayer(0.1f, 0, 0.1f, 0xFFC0C0C0);

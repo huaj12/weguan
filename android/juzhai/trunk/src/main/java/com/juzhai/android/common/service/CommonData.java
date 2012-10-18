@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.CollectionUtils;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -64,7 +63,7 @@ public class CommonData {
 		List<Category> list = new ArrayList<Category>();
 		Category cat = new Category();
 		cat.setCategoryId(0);
-		cat.setName(context.getResources().getString(R.string.all));
+		cat.setName(context.getResources().getString(R.string.category_all));
 		list.add(cat);
 		list.addAll(getCategorys(context));
 		return list;

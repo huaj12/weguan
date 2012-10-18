@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.juzhai.android.R;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -58,6 +59,10 @@ public class BaseActivity extends Activity {
 						InputMethodManager.RESULT_UNCHANGED_SHOWN);
 			}
 		}, 300);
+	}
+
+	protected void uploadImageDialogAnim() {
+		overridePendingTransition(R.anim.dialog_up_in, R.anim.dialog_up_out);
 	}
 
 }

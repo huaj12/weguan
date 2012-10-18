@@ -85,6 +85,16 @@ public class HomeActivity extends TabItemActivity {
 		});
 	}
 
+	@Override
+	protected void onResume() {
+		postTableView.clear();
+		interestTableView.clear();
+		interestMeTableView.clear();
+		inviteTableView.clear();
+		showUserInfos();
+		super.onResume();
+	}
+
 	private void showUserInfos() {
 		final User user = UserCache.getUserInfo();
 		userViewHelper.showUserNewLogo(HomeActivity.this, user, userLogoView,

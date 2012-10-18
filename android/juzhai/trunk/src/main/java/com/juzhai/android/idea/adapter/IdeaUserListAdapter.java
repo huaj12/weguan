@@ -51,12 +51,8 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 		final TextView infoTextView = holder.userInfoTextView;
 		final ImageView imageView = holder.userLogoImageView;
 		final Button dateButton = holder.dateButton;
-
 		User user = ideaUser.getUserView();
-		dateButton.setBackgroundResource(R.drawable.about_selector_button);
 		dateButton.setText(R.string.about);
-		dateButton
-				.setTextColor(mContext.getResources().getColor(R.color.white));
 		dateButton.setEnabled(true);
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("targetUid", user.getUid());
@@ -66,8 +62,6 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 					@Override
 					public void successCallback() {
 						dateButton.setText(R.string.about_done);
-						dateButton.setTextColor(mContext.getResources()
-								.getColor(R.color.about_btn));
 						dateButton.setEnabled(false);
 					}
 

@@ -42,6 +42,8 @@ import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.Validation;
+import com.juzhai.android.core.widget.layout.KeyboardLayout;
+import com.juzhai.android.core.widget.layout.KeyboardLayout.OnKeyBoardStateChangeListener;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.dialog.adapter.DialogContentListAdapter;
 import com.juzhai.android.dialog.bean.MessageStatus;
@@ -117,7 +119,6 @@ public class DialogContentListActivity extends NavigationActivity {
 		Button sendBtn = (Button) findViewById(R.id.send_message_btn);
 		final EditText contentTextView = (EditText) findViewById(R.id.message_content_input);
 		contentTextView.setOnFocusChangeListener(new OnFocusChangeListener() {
-
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
@@ -209,6 +210,23 @@ public class DialogContentListActivity extends NavigationActivity {
 				contentTextView.setText(null);
 			}
 		});
+
+		((KeyboardLayout) findViewById(R.id.dialog_content_layout))
+				.setOnKeyBoardStateChangeListener(new OnKeyBoardStateChangeListener() {
+					@Override
+					public void onKeyBoardStateChange(int state) {
+						if (state == KeyboardLayout.KEYBOARD_STATE_SHOW) {
+							new Timer().schedule(new TimerTask() {
+								@Override
+								public void run() {
+									Message msg = new Message();
+									msg.what = 1;
+									myHandler.sendMessage(msg);
+								}
+							}, 200);
+						}
+					}
+				});
 
 		// 锁屏获取列表
 		new AsyncTask<Void, Integer, List<DialogContent>>() {

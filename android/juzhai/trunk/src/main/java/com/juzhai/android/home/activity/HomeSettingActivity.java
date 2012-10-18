@@ -39,7 +39,6 @@ public class HomeSettingActivity extends SetUserInfoActivity {
 									// DialogUtils.showToastText(
 									// HomeSettingActivity.this,
 									// R.string.save_success);
-									HomeSettingActivity.this.finish();
 								}
 
 								@Override

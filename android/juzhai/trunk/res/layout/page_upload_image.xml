@@ -1,33 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:theme="@android:style/Theme.NoTitleBar" >
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/select_pic" />
-
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+     >
     <Button
         android:id="@+id/upload_album"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="15dp"
+        android:textSize="15sp"
+        android:background="@drawable/select_upload_button"
+        android:textColor="@color/select_upload_btn_text_color_selector"
         android:text="@string/select_by_album" />
 
     <Button
         android:id="@+id/upload_camera"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+         android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="15dp"
+        android:textSize="15sp"
+        android:background="@drawable/select_upload_button"
+        android:textColor="@color/select_upload_btn_text_color_selector"
         android:text="@string/select_by_camera" />
 
     <Button
         android:id="@+id/delete_pic"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/delete_pic"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:textSize="15sp"
+        android:background="@drawable/select_upload_button"
+        android:textColor="@color/select_upload_btn_text_color_selector"
+         android:layout_marginBottom="10dp"
         android:visibility="gone" />
 
 </LinearLayout>

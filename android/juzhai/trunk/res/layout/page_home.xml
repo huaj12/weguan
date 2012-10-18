@@ -72,114 +72,20 @@
             android:id="@+id/edit_profile_btn" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/home_my_post_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/base_shape_selector_layout" >
-
-        <TextView
-            android:id="@+id/home_my_post"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/login_icon_arrow"
-            android:contentDescription="@null" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/home_my_interest_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/base_shape_selector_layout" >
-
-        <TextView
-            android:id="@+id/home_my_interest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/login_icon_arrow"
-            android:contentDescription="@null" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/home_interest_me_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/base_shape_selector_layout" >
-
-        <TextView
-            android:id="@+id/home_interest_me"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/login_icon_arrow"
-            android:contentDescription="@null" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/home_invite_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/base_shape_selector_layout" >
-
-        <TextView
-            android:id="@+id/home_invite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:text="@string/invite_friend"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/login_icon_arrow"
-            android:contentDescription="@null" />
-    </RelativeLayout>
+     <com.juzhai.android.core.widget.list.table.widget.UITableView
+            android:id="@+id/home_post_table_view"
+            style="@style/UITableView" />
+     
+     <com.juzhai.android.core.widget.list.table.widget.UITableView
+            android:id="@+id/home_interest_table_view"
+            style="@style/UITableView" />
+      
+     <com.juzhai.android.core.widget.list.table.widget.UITableView
+            android:id="@+id/home_interest_me_table_view"
+            style="@style/UITableView" />
+       
+     <com.juzhai.android.core.widget.list.table.widget.UITableView
+            android:id="@+id/home_invite_table_view"
+            style="@style/UITableView" />
 
 </LinearLayout>

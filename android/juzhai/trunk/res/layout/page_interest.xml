@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/app_bg"
+    android:background="@color/page_background_color"
     android:orientation="vertical" >
 
     <com.juzhai.android.core.widget.list.JuzhaiRefreshListView
@@ -11,7 +11,7 @@
         android:layout_height="fill_parent"
         android:cacheColorHint="#00000000"
         android:divider="@null"
-        android:focusable="true"
-        android:fadingEdge="none" />
+        android:fadingEdge="none"
+        android:focusable="true" />
 
 </RelativeLayout>

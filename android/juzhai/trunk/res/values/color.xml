@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="page_background_color">#E6E6E6</color>
 	<color name="red">#FF1014</color>
 	<color name="blue">#3982C6</color>
 	<color name="white">#FFFFFF</color>

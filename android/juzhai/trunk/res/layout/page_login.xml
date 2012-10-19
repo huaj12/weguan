@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/app_bg"
-    android:orientation="vertical"
-    android:tileMode="repeat" >
+    android:background="@color/page_background_color"
+    android:orientation="vertical" >
 
     <ListView
         android:id="@+id/login_listview_input"
@@ -52,7 +51,9 @@
 
     <!-- 新浪、豆瓣、QQ登录 -->
 
-    <!-- <ListView
+
+    <!--
+         <ListView
         android:id="@+id/tp_login_listview_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -61,13 +62,14 @@
         android:layout_marginTop="36dp"
         android:background="@drawable/shape_bg_list_view"
         android:cacheColorHint="@null"
-        android:layout_below="@id/login_button_layout" /> -->
-        
-	<com.juzhai.android.core.widget.list.table.widget.UITableView
-		android:id="@+id/tp_login_table_view"
-		style="@style/UITableView"
-		android:layout_marginTop="36dp"
         android:layout_below="@id/login_button_layout" />
+    -->
+
+    <com.juzhai.android.core.widget.list.table.widget.UITableView
+        android:id="@+id/tp_login_table_view"
+        style="@style/UITableView"
+        android:layout_below="@id/login_button_layout"
+        android:layout_marginTop="36dp" />
 
     <Button
         android:id="@+id/tip_reg_bt"

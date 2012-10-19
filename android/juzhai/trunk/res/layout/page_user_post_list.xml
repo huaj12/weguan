@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
-    
+    android:background="@color/page_background_color"
+    android:orientation="vertical" >
+
     <com.juzhai.android.core.widget.list.JuzhaiRefreshListView
         android:id="@+id/user_post_list"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-    	android:layout_width="fill_parent"
         android:cacheColorHint="#00000000"
         android:divider="@null"
         android:fadingEdge="none"

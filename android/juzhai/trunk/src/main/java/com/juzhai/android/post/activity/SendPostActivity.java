@@ -97,6 +97,11 @@ public class SendPostActivity extends NavigationActivity {
 								}
 								openKeyboard(contentText);
 							}
+
+							@Override
+							public void onClickNegative(int selectedIndex) {
+								openKeyboard(contentText);
+							}
 						}).show();
 			}
 		});
@@ -122,19 +127,16 @@ public class SendPostActivity extends NavigationActivity {
 										if (StringUtils.isEmpty(place)) {
 											placeBtn.setSelected(false);
 										} else {
-											int placeLength = StringUtil
-													.chineseLength(place);
-											if (placeLength > Validation.POST_PLACE_LENGTH_MAX) {
-												DialogUtils
-														.showErrorDialog(
-																SendPostActivity.this,
-																R.string.send_post_place_length_invalid);
-												// DialogUtils
-												// .showToastText(
-												// SendPostActivity.this,
-												// R.string.send_post_place_length_invalid);
-												return;
-											}
+											// int placeLength = StringUtil
+											// .chineseLength(place);
+											// if (placeLength >
+											// Validation.POST_PLACE_LENGTH_MAX)
+											// {
+											// DialogUtils
+											// .showErrorDialog(
+											// SendPostActivity.this,
+											// R.string.send_post_place_length_invalid);
+											// }
 											placeBtn.setSelected(true);
 										}
 										post.setPlace(place);
@@ -149,8 +151,6 @@ public class SendPostActivity extends NavigationActivity {
 										openKeyboard(contentText);
 									}
 								}).show();
-				openKeyboard(placeEditText);
-
 			}
 		});
 
@@ -251,6 +251,12 @@ public class SendPostActivity extends NavigationActivity {
 							R.string.send_post_category_is_null);
 					// DialogUtils.showToastText(SendPostActivity.this,
 					// R.string.send_post_category_is_null);
+					return;
+				}
+				int placeLength = StringUtil.chineseLength(post.getPlace());
+				if (placeLength > Validation.POST_PLACE_LENGTH_MAX) {
+					DialogUtils.showErrorDialog(SendPostActivity.this,
+							R.string.send_post_place_length_invalid);
 					return;
 				}
 				String content = contentText.getText().toString();

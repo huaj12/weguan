@@ -16,7 +16,9 @@
         android:paddingRight="12dp"
         android:paddingTop="10dp"
         android:singleLine="false"
-        android:textSize="17sp" />
+        android:textSize="17sp"
+        android:lineSpacingExtra="2dp"
+        android:textColor="@color/send_post_content_text" />
 
     <RelativeLayout
         android:layout_width="fill_parent"

@@ -61,6 +61,11 @@ public class BaseActivity extends Activity {
 		}, 300);
 	}
 
+	protected void closeKeyboard(View view) {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+	}
+
 	protected void uploadImageDialogAnim() {
 		overridePendingTransition(R.anim.dialog_up_in, R.anim.dialog_up_out);
 	}

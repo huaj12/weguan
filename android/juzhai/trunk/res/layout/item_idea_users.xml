@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/idea_users_item_layout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_color_bg"
-    android:descendantFocusability="blocksDescendants"
-     >
-	<include layout="@layout/fragment__divider_head"/>
+    android:descendantFocusability="blocksDescendants" >
+
+    <include layout="@layout/fragment__divider_head" />
+
     <ImageView
         android:id="@+id/user_logo"
         android:layout_width="60dp"
@@ -21,9 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:textSize="14sp"
         android:layout_toRightOf="@+id/user_logo"
-        android:gravity="left" />
+        android:gravity="left"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/user_info"
@@ -33,9 +35,9 @@
         android:layout_marginTop="35dp"
         android:layout_toRightOf="@+id/user_logo"
         android:gravity="left"
-        android:textSize="14sp"
-        android:textColor="@color/gray" />
-    
+        android:textColor="@color/gray"
+        android:textSize="14sp" />
+
     <Button
         android:id="@+id/about_btn"
         android:layout_width="wrap_content"
@@ -43,12 +45,14 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:paddingLeft="20dp"
-        android:paddingTop="0dp"
-        android:paddingRight="0dp"
-        android:paddingBottom="1dp"
         android:background="@drawable/about_selector_button"
+        android:paddingBottom="1dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="0dp"
+        android:paddingTop="0dp"
         android:textColor="@color/about_btn_text_color_selector"
         android:textSize="12sp" />
-     	<include layout="@layout/fragment__divider_foot"/>
+
+    <include layout="@layout/fragment__divider_foot" />
+
 </RelativeLayout>

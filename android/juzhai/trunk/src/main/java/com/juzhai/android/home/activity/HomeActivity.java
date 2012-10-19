@@ -19,6 +19,7 @@ import com.juzhai.android.home.service.impl.HomeService;
 import com.juzhai.android.main.activity.TabItemActivity;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
+import com.juzhai.android.post.activity.SendPostActivity;
 
 public class HomeActivity extends TabItemActivity {
 	private IUserViewHelper userViewHelper = new UserViewHelper();
@@ -37,10 +38,18 @@ public class HomeActivity extends TabItemActivity {
 		setNavContentView(R.layout.page_home);
 		Button refreshBtn = (Button) getLayoutInflater().inflate(
 				R.layout.button_refresh, null);
-
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.tabitem_home));
 		getNavigationBar().setRightView(refreshBtn);
+		Button sendJzButton = (Button) getLayoutInflater().inflate(
+				R.layout.button_send_jz, null);
+		sendJzButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				pushIntent(new Intent(HomeActivity.this, SendPostActivity.class));
+			}
+		});
+		getNavigationBar().setLeftView(sendJzButton);
 		userLogoView = (ImageView) findViewById(R.id.user_logo);
 		nicknameView = (TextView) findViewById(R.id.user_nickname);
 		userInfoView = (TextView) findViewById(R.id.user_info);

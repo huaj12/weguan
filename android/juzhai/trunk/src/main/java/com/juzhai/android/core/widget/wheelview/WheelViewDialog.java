@@ -19,8 +19,7 @@ public class WheelViewDialog<T extends Entity> extends AlertDialog implements
 	private WheelView wheelView;
 
 	public WheelViewDialog(Context context, int title, T selectedEntity,
-			List<T> datas, WheelViewDialogListener wheelViewDialogListener,
-			DialogInterface.OnClickListener cancelLinstener) {
+			List<T> datas, WheelViewDialogListener wheelViewDialogListener) {
 		super(context);
 		this.wheelViewDialogListener = wheelViewDialogListener;
 		LayoutInflater inflater = (LayoutInflater) context
@@ -38,7 +37,7 @@ public class WheelViewDialog<T extends Entity> extends AlertDialog implements
 		setView(view);
 		setButton(BUTTON_POSITIVE, context.getString(R.string.ok), this);
 		setButton(BUTTON_NEGATIVE, context.getString(R.string.cancel),
-				cancelLinstener);
+				(OnClickListener) null);
 	}
 
 	@Override

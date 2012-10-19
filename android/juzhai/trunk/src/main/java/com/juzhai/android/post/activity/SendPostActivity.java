@@ -54,6 +54,7 @@ public class SendPostActivity extends NavigationActivity {
 	private ImageView imageView;
 	private TextView countTip;
 	private Button imageBtn;
+	private EditText contentText;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class SendPostActivity extends NavigationActivity {
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.send_post_title));
 		Button finish = setRightFinishButton();
-		final EditText contentText = (EditText) findViewById(R.id.post_content);
+		contentText = (EditText) findViewById(R.id.post_content);
 		final Button categoryBtn = (Button) findViewById(R.id.post_category_btn);
 		final Button placeBtn = (Button) findViewById(R.id.post_place_btn);
 		final Button timeBtn = (Button) findViewById(R.id.post_time_btn);
@@ -72,7 +73,7 @@ public class SendPostActivity extends NavigationActivity {
 		Button cleanBtn = (Button) findViewById(R.id.post_clean_btn);
 		setCountTip();
 		final List<Category> categorys = CommonData
-				.getCategorys(SendPostActivity.this);
+				.getAllCategorys(SendPostActivity.this);
 
 		categoryBtn.setOnClickListener(new OnClickListener() {
 
@@ -83,10 +84,25 @@ public class SendPostActivity extends NavigationActivity {
 						new WheelViewDialogListener() {
 							@Override
 							public void onClickPositive(int selectedIndex) {
-								selectedCategory = categorys.get(selectedIndex);
-								categoryBtn.setSelected(true);
-								post.setCategoryId(selectedCategory
-										.getCategoryId());
+								if (selectedIndex > 0) {
+									selectedCategory = categorys
+											.get(selectedIndex);
+									categoryBtn.setSelected(true);
+									post.setCategoryId(selectedCategory
+											.getCategoryId());
+								} else {
+									selectedCategory = null;
+									categoryBtn.setSelected(false);
+									post.setCategoryId(0l);
+								}
+								openKeyboard(contentText);
+							}
+						}, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.dismiss();
+								openKeyboard(contentText);
 							}
 						}).show();
 			}
@@ -129,9 +145,18 @@ public class SendPostActivity extends NavigationActivity {
 											placeBtn.setSelected(true);
 										}
 										post.setPlace(place);
+										openKeyboard(contentText);
 									}
-								}).setNegativeButton(R.string.cancel, null)
-						.show();
+								})
+						.setNegativeButton(R.string.cancel,
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										openKeyboard(contentText);
+									}
+								}).show();
+				openKeyboard(placeEditText);
 
 			}
 		});
@@ -149,6 +174,7 @@ public class SendPostActivity extends NavigationActivity {
 								post.setDate(year + "-" + (monthOfYear + 1)
 										+ "-" + dayOfMonth);
 								timeBtn.setSelected(true);
+								openKeyboard(contentText);
 							}
 						}, dates[0], dates[1], dates[2]);
 				dlg.setButton(
@@ -161,6 +187,7 @@ public class SendPostActivity extends NavigationActivity {
 									int which) {
 								post.setDate(null);
 								timeBtn.setSelected(false);
+								openKeyboard(contentText);
 							}
 						});
 				dlg.show();
@@ -285,7 +312,6 @@ public class SendPostActivity extends NavigationActivity {
 
 			}
 		});
-		openKeyboard(contentText);
 	}
 
 	@Override
@@ -336,5 +362,11 @@ public class SendPostActivity extends NavigationActivity {
 			dates[2] = Integer.parseInt(str[2]);
 		}
 		return dates;
+	}
+
+	@Override
+	protected void onResume() {
+		openKeyboard(contentText);
+		super.onResume();
 	}
 }

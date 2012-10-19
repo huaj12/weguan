@@ -30,7 +30,6 @@ public class HomeActivity extends TabItemActivity {
 	private UITableView interestTableView;
 	private UITableView interestMeTableView;
 	private UITableView inviteTableView;
-	private User user;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,6 @@ public class HomeActivity extends TabItemActivity {
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.tabitem_home));
 		getNavigationBar().setRightView(refreshBtn);
-		user = UserCache.getUserInfo();
 		userLogoView = (ImageView) findViewById(R.id.user_logo);
 		nicknameView = (TextView) findViewById(R.id.user_nickname);
 		userInfoView = (TextView) findViewById(R.id.user_info);
@@ -65,7 +63,6 @@ public class HomeActivity extends TabItemActivity {
 						interestTableView.clear();
 						interestMeTableView.clear();
 						inviteTableView.clear();
-						user = UserCache.getUserInfo();
 						showTableView();
 						showUserInfos();
 					}
@@ -91,12 +88,12 @@ public class HomeActivity extends TabItemActivity {
 
 	@Override
 	protected void onResume() {
-		user = UserCache.getUserInfo();
 		showUserInfos();
 		super.onResume();
 	}
 
 	private void showUserInfos() {
+		User user = UserCache.getUserInfo();
 		userViewHelper.showUserNewLogo(HomeActivity.this, user, userLogoView,
 				logoAuditView, 60, 60);
 		userViewHelper.showUserNickname(HomeActivity.this, user, nicknameView);
@@ -105,6 +102,7 @@ public class HomeActivity extends TabItemActivity {
 	}
 
 	private void showTableView() {
+		final User user = UserCache.getUserInfo();
 		postTableView.setClickListener(new ClickListener() {
 
 			@Override

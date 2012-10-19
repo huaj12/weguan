@@ -44,7 +44,6 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 	protected Button finish;
 	protected User user = UserCache.getCopyUserInfo();
 	protected boolean isGuide = false;
-	private boolean isUpdateGender = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,11 +110,9 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 											switch (which) {
 											case 0:
 												user.setGender(1);
-												isUpdateGender = true;
 												break;
 											case 1:
 												user.setGender(0);
-												isUpdateGender = true;
 												break;
 											}
 											finish.setEnabled(true);
@@ -153,17 +150,9 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 
 		infoTableView.addBasicItem(getResources().getString(R.string.nickname),
 				user.getNickname(), ItemType.HORIZONTAL);
-		if (isGuide) {
-			infoTableView.addBasicItem(getResources()
-					.getString(R.string.gender),
-					getResources().getString(R.string.select_gender),
-					ItemType.HORIZONTAL);
-		} else {
-			infoTableView.addBasicItem(getResources()
-					.getString(R.string.gender), JzUtils.getGender(
-					user.getGender(), SetUserInfoActivity.this),
-					ItemType.HORIZONTAL);
-		}
+		infoTableView.addBasicItem(getResources().getString(R.string.gender),
+				JzUtils.getGender(user.getGender(), SetUserInfoActivity.this),
+				ItemType.HORIZONTAL);
 		infoTableView.addBasicItem(getResources().getString(R.string.birthday),
 				user.getBirthYear() <= 0 ? null : user.getBirthYear() + "-"
 						+ user.getBirthMonth() + "-" + user.getBirthDay(),
@@ -297,14 +286,12 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 			// R.string.nickname_is_null);
 			return false;
 		}
-		if (isGuide) {
-			if (!isUpdateGender) {
-				DialogUtils.showErrorDialog(SetUserInfoActivity.this,
-						R.string.user_gender_is_null);
-				// DialogUtils.showToastText(SetUserInfoActivity.this,
-				// R.string.user_gender_is_null);
-				return false;
-			}
+		if (user.getGender() < 0) {
+			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
+					R.string.user_gender_is_null);
+			// DialogUtils.showToastText(SetUserInfoActivity.this,
+			// R.string.user_gender_is_null);
+			return false;
 		}
 		if (user.getBirthYear() <= 0) {
 			DialogUtils.showErrorDialog(SetUserInfoActivity.this,

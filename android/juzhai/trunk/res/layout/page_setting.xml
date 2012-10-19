@@ -3,7 +3,8 @@
     android:id="@+id/setting_scroll_view"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:background="@color/page_background_color"
+    android:scrollbars="vertical" >
 
     <LinearLayout
         android:id="@+id/setting_tables"

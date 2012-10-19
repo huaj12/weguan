@@ -97,5 +97,6 @@ public class ForgotPwdActivity extends NavigationActivity {
 				}.execute(account.getText().toString());
 			}
 		});
+		openKeyboard(account);
 	}
 }

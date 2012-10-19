@@ -36,19 +36,22 @@ public class WheelViewDialog<T extends Entity> extends AlertDialog implements
 		setTitle(context.getResources().getString(title));
 		setView(view);
 		setButton(BUTTON_POSITIVE, context.getString(R.string.ok), this);
-		setButton(BUTTON_NEGATIVE, context.getString(R.string.cancel),
-				(OnClickListener) null);
+		setButton(BUTTON_NEGATIVE, context.getString(R.string.cancel), this);
 	}
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		if (which == AlertDialog.BUTTON_POSITIVE) {
 			wheelViewDialogListener.onClickPositive(wheelView.getCurrentItem());
+		} else if (which == AlertDialog.BUTTON_NEGATIVE) {
+			wheelViewDialogListener.onClickNegative(wheelView.getCurrentItem());
 		}
 	}
 
 	public interface WheelViewDialogListener {
 		void onClickPositive(int selectedIndex);
+
+		void onClickNegative(int selectedIndex);
 	}
 
 }

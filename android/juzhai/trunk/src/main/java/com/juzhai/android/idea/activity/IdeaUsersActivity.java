@@ -3,11 +3,7 @@
  */
 package com.juzhai.android.idea.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,10 +13,8 @@ import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase.OnRefreshListener2;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
-import com.juzhai.android.home.activity.UserHomeActivity;
 import com.juzhai.android.idea.adapter.IdeaUserListAdapter;
 import com.juzhai.android.idea.model.Idea;
-import com.juzhai.android.idea.model.IdeaUser;
 import com.juzhai.android.idea.task.IdeaUserListGetDataTask;
 
 /**
@@ -65,21 +59,5 @@ public class IdeaUsersActivity extends NavigationActivity {
 		});
 		listView.setAdapter(new IdeaUserListAdapter(IdeaUsersActivity.this));
 		listView.manualRefresh();
-
-		listView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> item, View view, int arg2,
-					long id) {
-				int position = (int) id;
-				IdeaUser ideaUser = (IdeaUser) listView.getPageAdapter()
-						.getItem(position);
-				Intent intent = new Intent(IdeaUsersActivity.this,
-						UserHomeActivity.class);
-				intent.putExtra("targetUser", ideaUser.getUserView());
-				pushIntent(intent);
-
-			}
-		});
 	}
 }

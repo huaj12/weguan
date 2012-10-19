@@ -43,6 +43,7 @@ public class SetNicknameActivity extends NavigationActivity {
 		String nickname = getIntent().getStringExtra("nickname");
 		final EditText editText = (EditText) findViewById(R.id.nickname);
 		editText.setText(nickname);
+		openKeyboard(editText);
 		finish.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

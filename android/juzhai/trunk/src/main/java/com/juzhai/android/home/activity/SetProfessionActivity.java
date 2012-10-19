@@ -60,10 +60,10 @@ public class SetProfessionActivity extends NavigationActivity {
 		editText = (EditText) findViewById(R.id.profession_input);
 		tipView = (TextView) findViewById(R.id.profession_tip);
 		if (professionId == 0) {
+			editText.setText(profession);
 			tipView.setVisibility(View.VISIBLE);
 			editText.setVisibility(View.VISIBLE);
 		}
-		editText.setText(profession);
 		professionView = (WheelView) findViewById(R.id.profession);
 		professionView.TEXT_SIZE = 35;
 		professionView.setArrayAdapter(professionList,
@@ -82,6 +82,7 @@ public class SetProfessionActivity extends NavigationActivity {
 					tipView.setVisibility(View.GONE);
 					editText.setVisibility(View.GONE);
 					editText.setText(null);
+					closeKeyboard(editText);
 				}
 			}
 

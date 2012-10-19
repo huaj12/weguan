@@ -97,13 +97,6 @@ public class SendPostActivity extends NavigationActivity {
 								}
 								openKeyboard(contentText);
 							}
-						}, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								dialog.dismiss();
-								openKeyboard(contentText);
-							}
 						}).show();
 			}
 		});

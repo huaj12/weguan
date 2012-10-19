@@ -16,6 +16,7 @@
 		    	  android:id="@+id/prompt_message"
 		    	  android:background="@color/post_count"
 		    	  android:layout_centerHorizontal="true"
+		    	  android:gravity="center"
 		    	  android:layout_marginTop="5dp"
 		    	  />
 </RelativeLayout>

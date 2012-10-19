@@ -87,6 +87,8 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 					activity.pushIntent(intent);
 				}
 			});
+		} else {
+			userCountTextView.setText(null);
 		}
 
 		final Button wantButton = holder.wantButton;

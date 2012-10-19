@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/app_bg" >
+    android:background="@color/send_post_bg" >
 
     <EditText
         android:id="@+id/post_content"
@@ -40,12 +40,12 @@
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="36dp"
-                android:background="@color/gray" />
+                android:background="@color/send_post_left_divider" />
 
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="36dp"
-                android:background="@color/white" />
+                android:background="@color/send_post_right_divider" />
         </LinearLayout>
 
         <Button
@@ -65,12 +65,12 @@
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="36dp"
-                android:background="@color/gray" />
+                android:background="@color/send_post_left_divider" />
 
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="36dp"
-                android:background="@color/white" />
+                android:background="@color/send_post_right_divider" />
         </LinearLayout>
 
         <Button
@@ -87,15 +87,15 @@
             android:layout_toRightOf="@+id/post_time_btn"
             android:orientation="horizontal" >
 
-            <View
+             <View
                 android:layout_width="0.5dp"
                 android:layout_height="36dp"
-                android:background="@color/gray" />
+                android:background="@color/send_post_left_divider" />
 
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="36dp"
-                android:background="@color/white" />
+                android:background="@color/send_post_right_divider" />
         </LinearLayout>
 
         <Button
@@ -115,12 +115,12 @@
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="36dp"
-                android:background="@color/gray" />
+                android:background="@color/send_post_left_divider" />
 
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="36dp"
-                android:background="@color/white" />
+                android:background="@color/send_post_right_divider" />
         </LinearLayout>
 
         <ImageView

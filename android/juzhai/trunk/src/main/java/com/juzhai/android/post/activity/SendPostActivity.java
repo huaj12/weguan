@@ -74,7 +74,8 @@ public class SendPostActivity extends NavigationActivity {
 		setCountTip();
 		final List<Category> categorys = CommonData
 				.getCategorys(SendPostActivity.this);
-
+		selectedCategory = categorys.get(0);
+		post.setCategoryId(selectedCategory.getCategoryId());
 		categoryBtn.setOnClickListener(new OnClickListener() {
 
 			@Override

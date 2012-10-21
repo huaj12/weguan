@@ -73,7 +73,7 @@ public class SendPostActivity extends NavigationActivity {
 		Button cleanBtn = (Button) findViewById(R.id.post_clean_btn);
 		setCountTip();
 		final List<Category> categorys = CommonData
-				.getAllCategorys(SendPostActivity.this);
+				.getCategorys(SendPostActivity.this);
 
 		categoryBtn.setOnClickListener(new OnClickListener() {
 
@@ -90,10 +90,6 @@ public class SendPostActivity extends NavigationActivity {
 									categoryBtn.setSelected(true);
 									post.setCategoryId(selectedCategory
 											.getCategoryId());
-								} else {
-									selectedCategory = null;
-									categoryBtn.setSelected(false);
-									post.setCategoryId(0l);
 								}
 								openKeyboard(contentText);
 							}

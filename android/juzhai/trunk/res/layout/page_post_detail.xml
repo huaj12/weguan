@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:background="@drawable/post_detail_interest_button"
-                    android:paddingLeft="25dp"
+                    android:paddingLeft="33dp"
                     android:textColor="@color/post_detail_response_text_color_selector"
                     android:textSize="14sp" />
 

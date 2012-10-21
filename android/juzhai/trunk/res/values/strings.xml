@@ -121,8 +121,8 @@
     <!-- idea begin -->
     <string name="i_want">我想去 </string>
     <string name="want_done">已想去 </string>
-    <string name="use_count_begin">已有 </string>
-    <string name="use_count_end">想去 </string>
+    <string name="use_count_begin"></string>
+    <string name="use_count_end">人想去 </string>
     <string name="idea_detail_title">好主意详情</string>
     <string name="share">分享</string>
     <string name="yuan">元</string>
@@ -180,11 +180,11 @@
     <string name="post_interest_done">&#160;&#160;已有兴趣</string>
     <string name="post_head">我想去</string>
     <string name="post_detail_title">拒宅详情</string>
-    <string name="post_response">响应</string>
-    <string name="post_response_done">已响应</string>
+    <string name="post_response">有兴趣</string>
+    <string name="post_response_done">已有兴趣</string>
     <string name="post_category">拒宅分类</string>
     <string name="post_place">输入地址</string>
-    <string name="post_content_hint">我想找伴去。。。</string>
+    <string name="post_content_hint">我想找伴去...</string>
     <string name="post_content_tip_begin">还剩</string>
     <string name="post_content_tip_end">字</string>
     <!-- post end -->

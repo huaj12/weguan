@@ -80,7 +80,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 						public void imageLoaderFinish(Bitmap bitmap) {
 							if (bitmap != null) {
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, 262, 180,
+										bitmap, 262, 170,
 										IdeaDetailActivity.this);
 								imageView.setImageBitmap(zoomBitmap);
 							}

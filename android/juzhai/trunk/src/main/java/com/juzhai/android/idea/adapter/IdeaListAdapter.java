@@ -140,7 +140,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 							if (bitmap != null) {
 								// TODO (review) 高和宽写死的？imageView没有高和宽的属性？
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, 262, 180, mContext);
+										bitmap, 262, 170, mContext);
 								imageView.setImageBitmap(zoomBitmap);
 								contentTextView
 										.setBackgroundResource(R.drawable.good_idea_item_txt_infor_bg);

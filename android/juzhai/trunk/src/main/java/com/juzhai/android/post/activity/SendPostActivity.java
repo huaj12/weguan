@@ -84,13 +84,10 @@ public class SendPostActivity extends NavigationActivity {
 						new WheelViewDialogListener() {
 							@Override
 							public void onClickPositive(int selectedIndex) {
-								if (selectedIndex > 0) {
-									selectedCategory = categorys
-											.get(selectedIndex);
-									categoryBtn.setSelected(true);
-									post.setCategoryId(selectedCategory
-											.getCategoryId());
-								}
+								selectedCategory = categorys.get(selectedIndex);
+								categoryBtn.setSelected(true);
+								post.setCategoryId(selectedCategory
+										.getCategoryId());
 								openKeyboard(contentText);
 							}
 

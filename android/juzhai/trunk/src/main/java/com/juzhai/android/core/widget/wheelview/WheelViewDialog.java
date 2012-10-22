@@ -18,6 +18,7 @@ public class WheelViewDialog<T extends Entity> extends AlertDialog implements
 	private WheelViewDialogListener wheelViewDialogListener;
 	private WheelView wheelView;
 
+	// TODO (review) selectedEntity应该用选择第几个,或者用identify
 	public WheelViewDialog(Context context, int title, T selectedEntity,
 			List<T> datas, WheelViewDialogListener wheelViewDialogListener) {
 		super(context);

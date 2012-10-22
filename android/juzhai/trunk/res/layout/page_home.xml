@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:layout_marginBottom="5dp" >
+        android:paddingTop="5dp" >
 
         <RelativeLayout
             android:id="@+id/user_layout"
@@ -78,24 +77,25 @@
     <com.juzhai.android.core.widget.list.table.widget.UITableView
         android:id="@+id/home_post_table_view"
         style="@style/UITableView"
-        android:layout_below="@id/home_user_info_layout" />
+        android:layout_below="@id/home_user_info_layout"
+        android:layout_marginTop="5dp" />
 
     <com.juzhai.android.core.widget.list.table.widget.UITableView
         android:id="@+id/home_interest_table_view"
         style="@style/UITableView"
-        android:layout_below="@id/home_user_info_layout" 
-        android:layout_marginTop="62dp"/>
+        android:layout_below="@id/home_user_info_layout"
+        android:layout_marginTop="67dp" />
 
     <com.juzhai.android.core.widget.list.table.widget.UITableView
         android:id="@+id/home_interest_me_table_view"
         style="@style/UITableView"
         android:layout_below="@id/home_user_info_layout"
-        android:layout_marginTop="124dp"/>
+        android:layout_marginTop="129dp" />
 
     <com.juzhai.android.core.widget.list.table.widget.UITableView
         android:id="@+id/home_invite_table_view"
         style="@style/UITableView"
         android:layout_below="@id/home_user_info_layout"
-        android:layout_marginTop="186dp"/>
+        android:layout_marginTop="191dp" />
 
 </RelativeLayout>

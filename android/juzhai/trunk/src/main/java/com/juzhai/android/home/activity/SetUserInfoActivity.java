@@ -307,6 +307,14 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 			// R.string.user_address_is_null);
 			return false;
 		}
+		if (user.getProfessionId() <= 0
+				&& StringUtils.isEmpty(user.getProfession())) {
+			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
+					R.string.profession_name_is_null);
+			// DialogUtils.showToastText(SetUserInfoActivity.this,
+			// R.string.profession_name_is_null);
+			return false;
+		}
 		if (!isGuide) {
 			String feature = user.getFeature();
 			if (StringUtils.isEmpty(feature)) {
@@ -324,14 +332,6 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 				// R.string.feature_too_long);
 				return false;
 			}
-		}
-		if (user.getProfessionId() <= 0
-				&& StringUtils.isEmpty(user.getProfession())) {
-			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
-					R.string.profession_name_is_null);
-			// DialogUtils.showToastText(SetUserInfoActivity.this,
-			// R.string.profession_name_is_null);
-			return false;
 		}
 		return true;
 	}

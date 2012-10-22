@@ -204,13 +204,12 @@
     <string name="feature_too_long">自我评价写的太多了</string>
     <string name="profession_name_is_null">职业描述不能为空</string>
     <string name="profession_name_too_long">职业描述写的太多了</string>
-    <string name="send_post_place_length_invalid">地址控制在50字以内</string>
+    <string name="send_post_place_length_invalid">地点字数控制在50字以内</string>
     <string name="send_post_category_is_null">请选择拒宅分类</string>
-    <string name="send_post_content_too_little">您写的内容太少了</string>
-    <string name="send_post_content_too_more">您写的内容太多了</string>
+    <string name="send_post_content_length_invalid">发布内容请控制在2~80字以内</string>
     <string name="user_address_is_null">请选择所在地</string>
     <string name="user_birth_day_is_null">请选择生日</string>
-    <string name="send_post_user_logo_is_null">您还没有上传头像不能发布拒宅</string>
+    <string name="send_post_user_logo_is_null">你的头像未通过审核，不能发拒宅！</string>
     <string name="user_gender_is_null">请选择性别</string>
     
     <!-- error end -->

@@ -39,8 +39,6 @@ import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.core.widget.wheelview.WheelViewDialog;
 import com.juzhai.android.core.widget.wheelview.WheelViewDialog.WheelViewDialogListener;
-import com.juzhai.android.passport.data.UserCache;
-import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.exception.PostException;
 import com.juzhai.android.post.model.Post;
 import com.juzhai.android.post.service.IUserPostService;
@@ -240,6 +238,16 @@ public class SendPostActivity extends NavigationActivity {
 
 			@Override
 			public void onClick(View v) {
+				// 没有头像不能发布拒宅
+				// User user = UserCache.getUserInfo();
+				// if (!user.isHasLogo() || StringUtils.isEmpty(user.getLogo()))
+				// {
+				// DialogUtils.showErrorDialog(SendPostActivity.this,
+				// R.string.send_post_user_logo_is_null);
+				// DialogUtils.showToastText(SendPostActivity.this,
+				// R.string.send_post_user_logo_is_null);
+				// return;
+				// }
 				if (selectedCategory == null) {
 					DialogUtils.showErrorDialog(SendPostActivity.this,
 							R.string.send_post_category_is_null);
@@ -267,15 +275,6 @@ public class SendPostActivity extends NavigationActivity {
 							R.string.send_post_content_too_more);
 					// DialogUtils.showToastText(SendPostActivity.this,
 					// R.string.send_post_content_too_more);
-					return;
-				}
-				// 没有头像不能发布拒宅
-				User user = UserCache.getUserInfo();
-				if (!user.isHasLogo() || StringUtils.isEmpty(user.getLogo())) {
-					DialogUtils.showErrorDialog(SendPostActivity.this,
-							R.string.send_post_user_logo_is_null);
-					// DialogUtils.showToastText(SendPostActivity.this,
-					// R.string.send_post_user_logo_is_null);
 					return;
 				}
 				post.setContent(content);

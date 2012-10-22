@@ -17,8 +17,9 @@
         android:padding="10dp" >
 
         <RelativeLayout
+            android:id="@+id/idea_image_bg_layout"
             android:layout_width="262dp"
-            android:layout_height="170dp"
+            android:layout_height="180dp"
             android:background="@color/bg_gray" >
 
             <ImageView

@@ -152,6 +152,8 @@ public class SendPostActivity extends NavigationActivity {
 						UIUtil.px2dip(SendPostActivity.this, 5),
 						UIUtil.px2dip(SendPostActivity.this, 15), 0);
 				placeEditText.setLayoutParams(params);
+				placeEditText.setSingleLine(false);
+				placeEditText.setLines(3);
 			}
 		});
 
@@ -228,18 +230,21 @@ public class SendPostActivity extends NavigationActivity {
 
 			@Override
 			public void onClick(View v) {
-				new AlertDialog.Builder(SendPostActivity.this)
-						.setTitle(R.string.note)
-						.setMessage(R.string.clean_content)
-						.setPositiveButton(R.string.ok,
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog,
-											int which) {
-										contentText.setText(null);
-									}
-								}).setNegativeButton(R.string.cancel, null)
-						.show();
+				if (StringUtils.isNotEmpty(contentText.getText().toString())) {
+					new AlertDialog.Builder(SendPostActivity.this)
+							.setTitle(R.string.note)
+							.setMessage(R.string.clean_content)
+							.setPositiveButton(R.string.ok,
+									new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(
+												DialogInterface dialog,
+												int which) {
+											contentText.setText(null);
+										}
+									}).setNegativeButton(R.string.cancel, null)
+							.show();
+				}
 			}
 		});
 

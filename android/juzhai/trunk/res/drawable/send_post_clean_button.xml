@@ -1,0 +1,5 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:state_pressed="true" android:drawable="@drawable/send_jz_menu_clearn_active" />
+	<item android:state_focused="true" android:drawable="@drawable/send_jz_menu_clearn_link" />
+	<item android:drawable="@drawable/send_jz_menu_clearn_link" />
+</selector>

@@ -240,7 +240,7 @@ public class SendPostActivity extends NavigationActivity {
 			public void onClick(View v) {
 				// 没有头像不能发布拒宅
 				// User user = UserCache.getUserInfo();
-				// if (!user.isHasLogo() || StringUtils.isEmpty(user.getLogo()))
+				// if (!user.isHasLogo())
 				// {
 				// DialogUtils.showErrorDialog(SendPostActivity.this,
 				// R.string.send_post_user_logo_is_null);

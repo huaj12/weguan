@@ -23,6 +23,7 @@ public class HomeSettingActivity extends SetUserInfoActivity {
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.home_setting_title));
 		finish = setRightFinishButton();
+		finish.setText(R.string.save);
 		finish.setEnabled(false);
 		finish.setOnClickListener(new OnClickListener() {
 			@Override

@@ -32,6 +32,7 @@ public class SetFeatureActivity extends NavigationActivity {
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.feature));
 		Button finish = setRightFinishButton();
+		finish.setText(R.string.save);
 		String feature = getIntent().getStringExtra("feature");
 		final EditText editText = (EditText) findViewById(R.id.feature_input);
 		editText.setText(feature);

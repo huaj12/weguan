@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
@@ -53,6 +54,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 		TextView contentText = (TextView) findViewById(R.id.idea_content);
 		final Button wantBtn = (Button) findViewById(R.id.idea_want_btn);
 		final Button shareBtn = (Button) findViewById(R.id.idea_share_btn);
+		final RelativeLayout imageLayout = (RelativeLayout) findViewById(R.id.idea_image_bg_layout);
 		contentText.setText(idea.getContent());
 		if (idea.getUseCount() != null && idea.getUseCount() > 0) {
 			useCountText.setText(getResources().getString(
@@ -79,9 +81,13 @@ public class IdeaDetailActivity extends NavigationActivity {
 						@Override
 						public void imageLoaderFinish(Bitmap bitmap) {
 							if (bitmap != null) {
-								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, 262, 170,
-										IdeaDetailActivity.this);
+								Bitmap zoomBitmap = ImageUtils
+										.ZoomBitmapNotCut(bitmap, 262, 180,
+												IdeaDetailActivity.this);
+								imageLayout.getLayoutParams().height = zoomBitmap
+										.getHeight();
+								imageLayout.getLayoutParams().width = zoomBitmap
+										.getWidth();
 								imageView.setImageBitmap(zoomBitmap);
 							}
 						}

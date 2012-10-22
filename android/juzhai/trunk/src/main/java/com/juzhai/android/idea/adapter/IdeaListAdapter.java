@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
@@ -56,6 +57,8 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 					.findViewById(R.id.idea_want_btn);
 			holder.ideaLayout = (LinearLayout) convertView
 					.findViewById(R.id.idea_layout);
+			holder.imageLayout = (RelativeLayout) convertView
+					.findViewById(R.id.idea_image_bg_layout);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -68,6 +71,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		contentTextView.setBackgroundDrawable(null);
 		contentTextView.setText(TextTruncateUtil.truncate(idea.getContent(),
 				60, "..."));
+		final RelativeLayout imageLayout = holder.imageLayout;
 
 		TextView userCountTextView = holder.userCountTextView;
 		if (idea.getUseCount() != null && idea.getUseCount() > 0) {
@@ -140,7 +144,11 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 							if (bitmap != null) {
 								// TODO (review) 高和宽写死的？imageView没有高和宽的属性？
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
-										bitmap, 262, 170, mContext);
+										bitmap, 262, 180, mContext);
+								imageLayout.getLayoutParams().width = zoomBitmap
+										.getWidth();
+								imageLayout.getLayoutParams().height = zoomBitmap
+										.getHeight();
 								imageView.setImageBitmap(zoomBitmap);
 								contentTextView
 										.setBackgroundResource(R.drawable.good_idea_item_txt_infor_bg);
@@ -172,5 +180,6 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		public Button wantButton;
 		public TextView userCountTextView;
 		public LinearLayout ideaLayout;
+		public RelativeLayout imageLayout;
 	}
 }

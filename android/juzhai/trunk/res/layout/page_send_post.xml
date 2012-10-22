@@ -18,6 +18,7 @@
         android:singleLine="false"
         android:textSize="17sp"
         android:lineSpacingExtra="2dp"
+        android:layout_marginBottom="37dp"
         android:textColor="@color/send_post_content_text" />
 
     <RelativeLayout

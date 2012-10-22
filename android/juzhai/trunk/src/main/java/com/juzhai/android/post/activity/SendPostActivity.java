@@ -22,8 +22,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
@@ -104,14 +104,8 @@ public class SendPostActivity extends NavigationActivity {
 
 			@Override
 			public void onClick(View v) {
-				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-						LinearLayout.LayoutParams.WRAP_CONTENT,
-						LinearLayout.LayoutParams.WRAP_CONTENT);
-				params.setMargins(UIUtil.px2dip(SendPostActivity.this, 5), 0,
-						0, UIUtil.px2dip(SendPostActivity.this, 5));
 				final EditText placeEditText = new EditText(
 						SendPostActivity.this);
-				placeEditText.setLayoutParams(params);
 				placeEditText.setText(post.getPlace());
 				new AlertDialog.Builder(SendPostActivity.this)
 						.setTitle(R.string.post_place)
@@ -151,6 +145,13 @@ public class SendPostActivity extends NavigationActivity {
 										openKeyboard(contentText);
 									}
 								}).show();
+				FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+						FrameLayout.LayoutParams.FILL_PARENT,
+						FrameLayout.LayoutParams.WRAP_CONTENT);
+				params.setMargins(UIUtil.px2dip(SendPostActivity.this, 15),
+						UIUtil.px2dip(SendPostActivity.this, 5),
+						UIUtil.px2dip(SendPostActivity.this, 15), 0);
+				placeEditText.setLayoutParams(params);
 			}
 		});
 

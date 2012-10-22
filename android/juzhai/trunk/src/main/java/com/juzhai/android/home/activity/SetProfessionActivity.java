@@ -42,6 +42,7 @@ public class SetProfessionActivity extends NavigationActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		finish = setRightFinishButton();
+		finish.setText(R.string.save);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.profession));
 		setNavContentView(R.layout.page_setting_profession);

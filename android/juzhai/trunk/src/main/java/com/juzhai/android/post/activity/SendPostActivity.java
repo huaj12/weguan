@@ -366,6 +366,7 @@ public class SendPostActivity extends NavigationActivity {
 
 	@Override
 	protected void onResume() {
+		contentText.setFocusable(true);
 		openKeyboard(contentText);
 		super.onResume();
 	}

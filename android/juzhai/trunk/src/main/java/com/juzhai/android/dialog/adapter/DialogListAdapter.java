@@ -102,7 +102,7 @@ public class DialogListAdapter extends PageAdapter<Dialog> {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, UserHomeActivity.class);
-				intent.putExtra("targetUser", user);
+				intent.putExtra("uid", user.getUid());
 				((DialogListActivity) mContext).pushIntent(intent);
 			}
 		});

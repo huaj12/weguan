@@ -93,7 +93,7 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, UserHomeActivity.class);
-				intent.putExtra("targetUser", ideaUser.getUserView());
+				intent.putExtra("uid", ideaUser.getUserView().getUid());
 				((IdeaUsersActivity) mContext).pushIntent(intent);
 
 			}

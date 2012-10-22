@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
@@ -35,6 +36,7 @@ import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.StringUtil;
+import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.core.widget.wheelview.WheelViewDialog;
@@ -102,8 +104,14 @@ public class SendPostActivity extends NavigationActivity {
 
 			@Override
 			public void onClick(View v) {
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
+				params.setMargins(UIUtil.px2dip(SendPostActivity.this, 5), 0,
+						0, UIUtil.px2dip(SendPostActivity.this, 5));
 				final EditText placeEditText = new EditText(
 						SendPostActivity.this);
+				placeEditText.setLayoutParams(params);
 				placeEditText.setText(post.getPlace());
 				new AlertDialog.Builder(SendPostActivity.this)
 						.setTitle(R.string.post_place)

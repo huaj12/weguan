@@ -7,7 +7,6 @@
     <string name="login">登录</string>
     <string name="find_pwd">找回密码</string>
     <string name="tip_reg">还没有账号？来这里注册</string>
-    <string name="login_defalut_error">请输入登录账号和密码</string>
     <string name="login_input_tip_account">输入登录帐号</string>
     <string name="login_input_tip_pwd">输入登录密码</string>
     
@@ -193,13 +192,18 @@
     <string name="send_post_finish_button">发布</string>
     <!-- send post end -->
     <!-- error begin -->
+    	
+    	<!-- login begin -->
+    		 <string name="login_defalut_error">请输入登录账号和密码</string>
+		<!-- login end --> 
+		<!-- reg begin -->
+		    <string name="nickname_is_null">昵称不能为空</string>
+   			<string name="nickname_too_long">昵称不能超过10个字</string>
+   			<string name="email_account_invalid">输入的邮箱不合法</string>
+   			<string name="pwd_length_invalid">密码控制在6~32位之间</string>
+   			<string name="confirm_pwd_error">两次输入的密码不相符</string>
+		<!-- reg end -->   
     <string name="system_internet_erorr">当前网络不可用请稍后重试</string>
-    <string name="email_account_invalid">邮箱帐号不合法</string>
-    <string name="email_is_null">邮箱不能为空</string>
-    <string name="nickname_is_null">昵称不能为空</string>
-    <string name="nickname_too_long">昵称太长</string>
-    <string name="pwd_length_invalid">密码长度不合法</string>
-    <string name="confirm_pwd_error">两次密码不一致</string>
     <string name="select_pic_error">操作失败请重新选择</string>
     <string name="content_is_null">内容不能为空</string>
     <string name="send_message_length_invalid">私信内容请在1到200字之间</string>

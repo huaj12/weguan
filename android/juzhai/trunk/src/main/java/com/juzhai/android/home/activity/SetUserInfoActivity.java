@@ -310,7 +310,7 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 		if (user.getProfessionId() <= 0
 				&& StringUtils.isEmpty(user.getProfession())) {
 			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
-					R.string.profession_name_is_null);
+					R.string.profession_is_null);
 			// DialogUtils.showToastText(SetUserInfoActivity.this,
 			// R.string.profession_name_is_null);
 			return false;

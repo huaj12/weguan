@@ -61,6 +61,25 @@ public class HomeMController extends BaseController {
 	@Value("${mobile.interest.user.max.rows}")
 	private int mobileInterestUserMaxRows = 1;
 
+	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult userInfo(HttpServletRequest request, long uid)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult result = new AjaxResult();
+		result.setSuccess(false);
+		if (uid > 0) {
+			ProfileCache profileCache = profileService
+					.getProfileCacheByUid(uid);
+			UserMView userView = userMViewHelper.createUserMView(context,
+					profileCache, false);
+			if (null != userView) {
+				result.setResult(userView);
+			}
+		}
+		return result;
+	}
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	@ResponseBody
 	public ListJsonResult home(HttpServletRequest request, Long uid, int page)
@@ -172,8 +191,8 @@ public class HomeMController extends BaseController {
 	public AjaxResult invite(HttpServletRequest request, String content)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		inviteService.inviteSynchronize(context.getUid(),
-				context.getTpId(), content);
+		inviteService.inviteSynchronize(context.getUid(), context.getTpId(),
+				content);
 		return new AjaxResult(true);
 	}
 

@@ -36,6 +36,9 @@ public class UserMViewHelper implements IUserMViewHelper {
 	@Override
 	public UserMView createUserMView(UserContext context,
 			ProfileCache profileCache, boolean isCompleteGuide) {
+		if (null == profileCache) {
+			return null;
+		}
 		UserMView userView = new UserMView();
 		userView.setHasGuided(isCompleteGuide);
 		userView.setUid(profileCache.getUid());

@@ -104,9 +104,6 @@ public class PromptDialog extends Dialog {
 				public void run() {
 					try {
 						dismiss();
-						if (callback != null) {
-							callback.dismissCallback();
-						}
 					} catch (Exception e) {
 						if (BuildConfig.DEBUG) {
 							Log.d(PromptDialog.class.getSimpleName(),
@@ -120,15 +117,20 @@ public class PromptDialog extends Dialog {
 	}
 
 	@Override
+	public void dismiss() {
+		super.dismiss();
+		if (callback != null) {
+			callback.dismiss();
+		}
+	}
+
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		dismiss();
-		if (callback != null) {
-			callback.dismissCallback();
-		}
 		return super.onTouchEvent(event);
 	}
 
 	public interface PromptDialogCallback {
-		void dismissCallback();
+		void dismiss();
 	}
 }

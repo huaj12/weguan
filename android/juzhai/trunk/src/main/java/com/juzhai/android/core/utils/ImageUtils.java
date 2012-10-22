@@ -49,14 +49,8 @@ public class ImageUtils {
 			int tagerHeight, Context context) {
 		tagerWidth = UIUtil.dip2px(context, tagerWidth);
 		tagerHeight = UIUtil.dip2px(context, tagerHeight);
-		int width = scrBitmap.getWidth();
-		int height = scrBitmap.getHeight();
-		Matrix matrix = new Matrix();
-		float scaleWidth = ((float) tagerWidth) / width;
-		// float scaleHeight = ((float) tagerHeight) / height;
-		matrix.postScale(scaleWidth, scaleWidth);
-		Bitmap result = Bitmap.createBitmap(scrBitmap, 0, 0, width, height,
-				matrix, true);
+		Bitmap result = zoomWidthBitmap(scrBitmap, tagerWidth, tagerHeight,
+				context);
 		if (result.getHeight() > tagerHeight) {
 			int y = (result.getHeight() / 2) - (tagerHeight / 2);
 			if (y + tagerHeight >= result.getHeight()) {
@@ -78,10 +72,15 @@ public class ImageUtils {
 	 *            (dp)
 	 * @return
 	 */
-	public static Bitmap zoomWidthBitmap(Bitmap scrBitmap, int tagerWidth,
+	public static Bitmap ZoomBitmapNotCut(Bitmap scrBitmap, int tagerWidth,
 			int tagerHeight, Context context) {
 		tagerWidth = UIUtil.dip2px(context, tagerWidth);
 		tagerHeight = UIUtil.dip2px(context, tagerHeight);
+		return zoomWidthBitmap(scrBitmap, tagerWidth, tagerHeight, context);
+	}
+
+	private static Bitmap zoomWidthBitmap(Bitmap scrBitmap, int tagerWidth,
+			int tagerHeight, Context context) {
 		int width = scrBitmap.getWidth();
 		int height = scrBitmap.getHeight();
 		Matrix matrix = new Matrix();

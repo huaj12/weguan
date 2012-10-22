@@ -127,18 +127,18 @@ public class PassportService implements IPassportService {
 
 	private int VerifyData(String nickname, String account, String pwd,
 			String confirmPwd) {
+		int emailLength = StringUtil.chineseLength(account);
+		if (emailLength > Validation.REGISTER_EMAIL_LENGTH_MAX
+				|| emailLength < Validation.REGISTER_EMAIL_LENGTH_MIN
+				|| !StringUtil.checkMailFormat(account)) {
+			return R.string.email_account_invalid;
+		}
 		if (StringUtils.isEmpty(nickname)) {
 			return R.string.nickname_is_null;
 		}
 		int nicknameLength = StringUtil.chineseLength(nickname);
 		if (nicknameLength > Validation.NICKNAME_LENGTH_MAX) {
 			return R.string.nickname_too_long;
-		}
-		int emailLength = StringUtil.chineseLength(account);
-		if (emailLength > Validation.REGISTER_EMAIL_LENGTH_MAX
-				|| emailLength < Validation.REGISTER_EMAIL_LENGTH_MIN
-				|| !StringUtil.checkMailFormat(account)) {
-			return R.string.email_account_invalid;
 		}
 		int pwdLength = pwd.length();
 		if (pwdLength < Validation.REGISTER_PASSWORD_LENGTH_MIN

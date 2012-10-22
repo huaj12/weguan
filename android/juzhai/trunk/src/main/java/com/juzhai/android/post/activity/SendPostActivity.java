@@ -63,6 +63,7 @@ public class SendPostActivity extends NavigationActivity {
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.send_post_title));
 		Button finish = setRightFinishButton();
+		finish.setText(R.string.send_post_finish_button);
 		contentText = (EditText) findViewById(R.id.post_content);
 		final Button categoryBtn = (Button) findViewById(R.id.post_category_btn);
 		final Button placeBtn = (Button) findViewById(R.id.post_place_btn);

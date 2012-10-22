@@ -140,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@drawable/send_jz_menu_clearn_link" />
+            android:background="@drawable/send_post_clean_button" />
 
         <TextView
             android:id="@+id/post_content_count_tip"

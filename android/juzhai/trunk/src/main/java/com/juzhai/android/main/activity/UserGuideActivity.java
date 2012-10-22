@@ -44,7 +44,7 @@ public class UserGuideActivity extends SetUserInfoActivity {
 								public void successCallback() {
 									DialogUtils.showSuccessDialog(
 											UserGuideActivity.this,
-											R.string.save_success);
+											R.string.save_success, 0);
 									// DialogUtils.showToastText(
 									// UserGuideActivity.this,
 									// R.string.save_success);

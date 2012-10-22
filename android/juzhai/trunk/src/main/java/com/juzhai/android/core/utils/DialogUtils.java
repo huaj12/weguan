@@ -23,6 +23,11 @@ public class DialogUtils {
 	// }).show();
 	// }
 
+	public static void showSuccessDialog(Context context, int messageId,
+			int closeDelay) {
+		new SuccessPromptDialog(context, messageId, closeDelay).show();
+	}
+
 	public static void showSuccessDialog(Context context, int messageId) {
 		new SuccessPromptDialog(context, messageId).show();
 	}

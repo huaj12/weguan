@@ -21,6 +21,8 @@ public class PromptDialog extends Dialog {
 	private int message;
 	private String messageStr;
 	private int icon;
+	private int closetime = 3000;
+	private PromptDialogCallback callback;
 
 	public PromptDialog(Context context, int message) {
 		super(context, R.style.dialog);
@@ -30,6 +32,25 @@ public class PromptDialog extends Dialog {
 	public PromptDialog(Context context, String messageStr) {
 		super(context, R.style.dialog);
 		this.messageStr = messageStr;
+	}
+
+	public PromptDialog(Context context, int message, int icon, int closetime,
+			PromptDialogCallback callback) {
+		// 设置dialog样式
+		super(context, R.style.dialog);
+		this.message = message;
+		this.icon = icon;
+		this.closetime = closetime;
+		this.callback = callback;
+	}
+
+	public PromptDialog(Context context, String messageStr, int icon,
+			int closetime, PromptDialogCallback callback) {
+		super(context, R.style.dialog);
+		this.messageStr = messageStr;
+		this.icon = icon;
+		this.closetime = closetime;
+		this.callback = callback;
 	}
 
 	public PromptDialog(Context context, int message, int icon) {
@@ -43,6 +64,22 @@ public class PromptDialog extends Dialog {
 		super(context, R.style.dialog);
 		this.messageStr = messageStr;
 		this.icon = icon;
+	}
+
+	public PromptDialog(Context context, int message, int icon,
+			PromptDialogCallback callback) {
+		super(context, R.style.dialog);
+		this.message = message;
+		this.icon = icon;
+		this.callback = callback;
+	}
+
+	public PromptDialog(Context context, String messageStr, int icon,
+			PromptDialogCallback callback) {
+		super(context, R.style.dialog);
+		this.messageStr = messageStr;
+		this.icon = icon;
+		this.callback = callback;
 	}
 
 	@Override
@@ -60,26 +97,38 @@ public class PromptDialog extends Dialog {
 		}
 
 		iconView.setBackgroundResource(icon);
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				try {
-					dismiss();
-				} catch (Exception e) {
-					if (BuildConfig.DEBUG) {
-						Log.d(PromptDialog.class.getSimpleName(),
-								"dismiss promptDialog error.", e);
+		if (closetime > 0) {
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					try {
+						dismiss();
+						if (callback != null) {
+							callback.dismissCallback();
+						}
+					} catch (Exception e) {
+						if (BuildConfig.DEBUG) {
+							Log.d(PromptDialog.class.getSimpleName(),
+									"dismiss promptDialog error.", e);
+						}
 					}
 				}
-			}
-		}, 3000);
+			}, closetime);
+		}
 
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		dismiss();
+		if (callback != null) {
+			callback.dismissCallback();
+		}
 		return super.onTouchEvent(event);
+	}
+
+	public interface PromptDialogCallback {
+		void dismissCallback();
 	}
 }

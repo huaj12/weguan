@@ -19,7 +19,8 @@
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_margin="10dp"
-            android:contentDescription="@null" />
+            android:contentDescription="@null"
+            android:src="@drawable/user_face_unload" />
 
         <TextView
             android:id="@+id/user_nickname"
@@ -66,8 +67,7 @@
             android:paddingLeft="10dp"
             android:text="@string/interest"
             android:textColor="@color/white"
-            android:textSize="10dp"
-            android:visibility="gone" />
+            android:textSize="10dp"/>
 
         <Button
             android:id="@+id/un_interest"

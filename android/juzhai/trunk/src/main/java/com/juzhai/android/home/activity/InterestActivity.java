@@ -133,7 +133,7 @@ public class InterestActivity extends NavigationActivity {
 						location);
 				Intent intent = new Intent(InterestActivity.this,
 						UserHomeActivity.class);
-				intent.putExtra("targetUser", user);
+				intent.putExtra("uid", user.getUid());
 				pushIntent(intent);
 			}
 		});

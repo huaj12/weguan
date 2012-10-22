@@ -146,7 +146,7 @@ public class InterestMeActivity extends NavigationActivity {
 						location);
 				Intent intent = new Intent(InterestMeActivity.this,
 						UserHomeActivity.class);
-				intent.putExtra("targetUser", user);
+				intent.putExtra("uid", user.getUid());
 				pushIntent(intent);
 			}
 		});

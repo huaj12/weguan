@@ -106,7 +106,7 @@ public class UserPostAdapter extends PageAdapter<User> {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, UserHomeActivity.class);
-				intent.putExtra("targetUser", user);
+				intent.putExtra("uid", user.getUid());
 				((ZhaobanActivity) mContext).pushIntent(intent);
 			}
 		});

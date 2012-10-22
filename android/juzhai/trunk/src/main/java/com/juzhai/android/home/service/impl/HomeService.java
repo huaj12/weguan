@@ -12,13 +12,16 @@ import com.juzhai.android.R;
 import com.juzhai.android.core.model.Result.StringResult;
 import com.juzhai.android.core.model.Result.UserResult;
 import com.juzhai.android.core.utils.HttpUtils;
+import com.juzhai.android.home.exception.HomeException;
 import com.juzhai.android.home.service.IHomeService;
 import com.juzhai.android.passport.data.UserCacheManager;
+import com.juzhai.android.passport.model.User;
 
 public class HomeService implements IHomeService {
 
 	private final String refeshUri = "home/refresh";
 	private final String updatelocUri = "home/updateloc";
+	private final String userInfoUri = "home/userInfo";
 
 	@Override
 	public String refresh(Context context) {
@@ -50,5 +53,23 @@ public class HomeService implements IHomeService {
 		} catch (Exception e) {
 			Log.e(getClass().getSimpleName(), "update location error.", e);
 		}
+	}
+
+	@Override
+	public User getUserInfo(Context context, long uid) throws HomeException {
+		ResponseEntity<UserResult> responseEntity = null;
+		try {
+			Map<String, Object> values = new HashMap<String, Object>();
+			values.put("uid", uid);
+			responseEntity = HttpUtils.get(context, userInfoUri, values,
+					UserResult.class);
+		} catch (Exception e) {
+			throw new HomeException(context, R.string.system_internet_erorr);
+		}
+		UserResult result = responseEntity.getBody();
+		if (!result.getSuccess()) {
+			throw new HomeException(context, result.getErrorInfo());
+		}
+		return result.getResult();
 	}
 }

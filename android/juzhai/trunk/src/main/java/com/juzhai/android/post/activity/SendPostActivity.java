@@ -152,8 +152,7 @@ public class SendPostActivity extends NavigationActivity {
 						UIUtil.px2dip(SendPostActivity.this, 5),
 						UIUtil.px2dip(SendPostActivity.this, 15), 0);
 				placeEditText.setLayoutParams(params);
-				placeEditText.setSingleLine(false);
-				placeEditText.setLines(3);
+				placeEditText.setSingleLine(true);
 			}
 		});
 

@@ -108,7 +108,7 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, UserHomeActivity.class);
-				intent.putExtra("targetUser", tagerUser);
+				intent.putExtra("uid", tagerUser.getUid());
 				((DialogContentListActivity) mContext).pushIntent(intent);
 
 			}

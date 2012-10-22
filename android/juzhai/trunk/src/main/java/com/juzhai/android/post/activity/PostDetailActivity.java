@@ -89,7 +89,7 @@ public class PostDetailActivity extends NavigationActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(PostDetailActivity.this,
 						UserHomeActivity.class);
-				intent.putExtra("targetUser", user);
+				intent.putExtra("uid", user.getUid());
 				pushIntent(intent);
 
 			}

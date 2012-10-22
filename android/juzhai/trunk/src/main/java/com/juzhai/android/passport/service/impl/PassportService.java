@@ -134,9 +134,6 @@ public class PassportService implements IPassportService {
 		if (nicknameLength > Validation.NICKNAME_LENGTH_MAX) {
 			return R.string.nickname_too_long;
 		}
-		if (StringUtils.isEmpty(account)) {
-			return R.string.email_is_null;
-		}
 		int emailLength = StringUtil.chineseLength(account);
 		if (emailLength > Validation.REGISTER_EMAIL_LENGTH_MAX
 				|| emailLength < Validation.REGISTER_EMAIL_LENGTH_MIN

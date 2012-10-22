@@ -271,18 +271,12 @@ public class SendPostActivity extends NavigationActivity {
 				}
 				String content = contentText.getText().toString();
 				int contentLength = StringUtil.chineseLength(content);
-				if (contentLength < Validation.POST_CONTENT_LENGTH_MIN) {
+				if (contentLength < Validation.POST_CONTENT_LENGTH_MIN
+						|| contentLength > Validation.POST_CONTENT_LENGTH_MAX) {
 					DialogUtils.showErrorDialog(SendPostActivity.this,
-							R.string.send_post_content_too_little);
+							R.string.send_post_content_length_invalid);
 					// DialogUtils.showToastText(SendPostActivity.this,
 					// R.string.send_post_content_too_little);
-					return;
-				}
-				if (contentLength > Validation.POST_CONTENT_LENGTH_MAX) {
-					DialogUtils.showErrorDialog(SendPostActivity.this,
-							R.string.send_post_content_too_more);
-					// DialogUtils.showToastText(SendPostActivity.this,
-					// R.string.send_post_content_too_more);
 					return;
 				}
 				post.setContent(content);

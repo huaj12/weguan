@@ -126,7 +126,15 @@ public class DialogListActivity extends TabItemActivity {
 																				public String doInBackground() {
 																					return null;
 																				}
-																			}));
+																			}),
+																	getResources()
+																			.getString(
+																					R.string.dialog_delete_confirm_begin)
+																			+ d.getTargetUser()
+																					.getNickname()
+																			+ getResources()
+																					.getString(
+																							R.string.dialog_delete_confirm_end));
 													break;
 												}
 											}

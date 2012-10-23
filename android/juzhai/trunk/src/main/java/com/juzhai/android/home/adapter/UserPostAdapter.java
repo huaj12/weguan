@@ -18,9 +18,9 @@ import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.task.TaskCallback;
+import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.core.utils.TextTruncateUtil;
-import com.juzhai.android.core.widget.dialog.SuccessPromptDialog;
 import com.juzhai.android.core.widget.list.PageAdapter;
 import com.juzhai.android.home.activity.UserHomeActivity;
 import com.juzhai.android.home.activity.ZhaobanActivity;
@@ -144,8 +144,8 @@ public class UserPostAdapter extends PageAdapter<User> {
 					new TaskCallback() {
 						@Override
 						public void successCallback() {
-							new SuccessPromptDialog(mContext,
-									R.string.post_interest_success).show();
+							DialogUtils.showSuccessDialog(mContext,
+									R.string.post_interest_success);
 							postInterest.setEnabled(false);
 							postInterest.setText(mContext.getResources()
 									.getString(R.string.post_interest_done)

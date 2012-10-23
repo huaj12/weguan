@@ -100,7 +100,7 @@ public class SetProfessionActivity extends NavigationActivity {
 					String professionName = editText.getText().toString();
 					if (StringUtils.isEmpty(professionName)) {
 						DialogUtils.showErrorDialog(SetProfessionActivity.this,
-								R.string.profession_name_is_null);
+								R.string.profession_name_is_null_error);
 						// DialogUtils.showToastText(SetProfessionActivity.this,
 						// R.string.profession_name_is_null);
 						return;
@@ -109,7 +109,7 @@ public class SetProfessionActivity extends NavigationActivity {
 							.chineseLength(professionName);
 					if (professionNameLength > Validation.PROFESSION_LENGTH_MAX) {
 						DialogUtils.showErrorDialog(SetProfessionActivity.this,
-								R.string.profession_name_too_long);
+								R.string.profession_name_too_long_error);
 						// DialogUtils.showToastText(SetProfessionActivity.this,
 						// R.string.profession_name_too_long);
 						return;

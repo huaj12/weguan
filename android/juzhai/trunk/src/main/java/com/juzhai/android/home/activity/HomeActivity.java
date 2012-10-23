@@ -38,8 +38,7 @@ public class HomeActivity extends TabItemActivity {
 		setNavContentView(R.layout.page_home);
 		Button refreshBtn = (Button) getLayoutInflater().inflate(
 				R.layout.button_refresh, null);
-		getNavigationBar().setBarTitle(
-				getResources().getString(R.string.tabitem_home));
+		getNavigationBar().setBarTitle(getResources().getString(R.string.home));
 		getNavigationBar().setRightView(refreshBtn);
 		Button sendJzButton = (Button) getLayoutInflater().inflate(
 				R.layout.button_send_jz, null);

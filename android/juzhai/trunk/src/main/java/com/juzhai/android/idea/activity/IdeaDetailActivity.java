@@ -57,10 +57,8 @@ public class IdeaDetailActivity extends NavigationActivity {
 		final RelativeLayout imageLayout = (RelativeLayout) findViewById(R.id.idea_image_bg_layout);
 		contentText.setText(idea.getContent());
 		if (idea.getUseCount() != null && idea.getUseCount() > 0) {
-			useCountText.setText(getResources().getString(
-					R.string.use_count_begin)
-					+ idea.getUseCount()
-					+ getResources().getString(R.string.use_count_end));
+			useCountText.setText(idea.getUseCount()
+					+ getResources().getString(R.string.use_count));
 			useCountText.setOnClickListener(new OnClickListener() {
 
 				@Override

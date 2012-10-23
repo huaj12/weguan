@@ -200,8 +200,8 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 			otherTableView.addBasicItem(
 					getResources().getString(R.string.feature),
 					user.getFeature() == null ? getResources().getString(
-							R.string.please_enter_feature) : user.getFeature(),
-					ItemType.VERTICAL);
+							R.string.setting_feature_title_tip) : user
+							.getFeature(), ItemType.VERTICAL);
 		}
 
 	}
@@ -281,28 +281,28 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 	protected boolean validation() {
 		if (StringUtils.isEmpty(user.getNickname())) {
 			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
-					R.string.nickname_is_null);
+					R.string.nickname_is_null_error);
 			// DialogUtils.showToastText(SetUserInfoActivity.this,
 			// R.string.nickname_is_null);
 			return false;
 		}
 		if (user.getGender() < 0) {
 			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
-					R.string.user_gender_is_null);
+					R.string.user_gender_is_null_error);
 			// DialogUtils.showToastText(SetUserInfoActivity.this,
 			// R.string.user_gender_is_null);
 			return false;
 		}
 		if (user.getBirthYear() <= 0) {
 			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
-					R.string.user_birth_day_is_null);
+					R.string.user_birth_day_is_null_error);
 			// DialogUtils.showToastText(SetUserInfoActivity.this,
 			// R.string.user_birth_day_is_null);
 			return false;
 		}
 		if (user.getCityId() <= 0) {
 			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
-					R.string.user_address_is_null);
+					R.string.user_address_is_null_error);
 			// DialogUtils.showToastText(SetUserInfoActivity.this,
 			// R.string.user_address_is_null);
 			return false;
@@ -310,7 +310,7 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 		if (user.getProfessionId() <= 0
 				&& StringUtils.isEmpty(user.getProfession())) {
 			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
-					R.string.profession_is_null);
+					R.string.profession_is_null_error);
 			// DialogUtils.showToastText(SetUserInfoActivity.this,
 			// R.string.profession_name_is_null);
 			return false;
@@ -319,7 +319,7 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 			String feature = user.getFeature();
 			if (StringUtils.isEmpty(feature)) {
 				DialogUtils.showErrorDialog(SetUserInfoActivity.this,
-						R.string.feature_is_null);
+						R.string.feature_is_null_error);
 				// DialogUtils.showToastText(SetUserInfoActivity.this,
 				// R.string.feature_is_null);
 				return false;
@@ -327,7 +327,7 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 			int featureLength = StringUtil.chineseLength(feature);
 			if (featureLength > Validation.USER_FEATURE_LENGTH_MAX) {
 				DialogUtils.showErrorDialog(SetUserInfoActivity.this,
-						R.string.feature_too_long);
+						R.string.feature_too_long_error);
 				// DialogUtils.showToastText(SetUserInfoActivity.this,
 				// R.string.feature_too_long);
 				return false;

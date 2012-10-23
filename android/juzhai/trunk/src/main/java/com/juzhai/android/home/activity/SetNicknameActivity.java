@@ -51,7 +51,7 @@ public class SetNicknameActivity extends NavigationActivity {
 				final String nickname = editText.getText().toString();
 				if (StringUtils.isEmpty(nickname)) {
 					DialogUtils.showErrorDialog(SetNicknameActivity.this,
-							R.string.nickname_is_null);
+							R.string.nickname_is_null_error);
 					// DialogUtils.showToastText(SetNicknameActivity.this,
 					// R.string.nickname_is_null);
 					return;
@@ -59,7 +59,7 @@ public class SetNicknameActivity extends NavigationActivity {
 				int nicknameLength = StringUtil.chineseLength(nickname);
 				if (nicknameLength > Validation.NICKNAME_LENGTH_MAX) {
 					DialogUtils.showErrorDialog(SetNicknameActivity.this,
-							R.string.nickname_too_long);
+							R.string.nickname_too_long_error);
 					// DialogUtils.showToastText(SetNicknameActivity.this,
 					// R.string.nickname_too_long);
 					return;

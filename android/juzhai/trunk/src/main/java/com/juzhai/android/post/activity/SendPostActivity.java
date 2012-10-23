@@ -82,7 +82,8 @@ public class SendPostActivity extends NavigationActivity {
 			@Override
 			public void onClick(View v) {
 				new WheelViewDialog<Category>(SendPostActivity.this,
-						R.string.post_category, selectedCategory, categorys,
+						R.string.send_post_select_category_title,
+						selectedCategory, categorys,
 						new WheelViewDialogListener() {
 							@Override
 							public void onClickPositive(int selectedIndex) {
@@ -109,7 +110,7 @@ public class SendPostActivity extends NavigationActivity {
 						SendPostActivity.this);
 				placeEditText.setText(post.getPlace());
 				new AlertDialog.Builder(SendPostActivity.this)
-						.setTitle(R.string.post_place)
+						.setTitle(R.string.send_post_place_title)
 						.setIcon(android.R.drawable.ic_dialog_info)
 						.setView(placeEditText)
 						.setPositiveButton(R.string.ok,
@@ -264,7 +265,7 @@ public class SendPostActivity extends NavigationActivity {
 				// }
 				if (selectedCategory == null) {
 					DialogUtils.showErrorDialog(SendPostActivity.this,
-							R.string.send_post_category_is_null);
+							R.string.send_post_category_is_null_error);
 					// DialogUtils.showToastText(SendPostActivity.this,
 					// R.string.send_post_category_is_null);
 					return;
@@ -272,7 +273,7 @@ public class SendPostActivity extends NavigationActivity {
 				int placeLength = StringUtil.chineseLength(post.getPlace());
 				if (placeLength > Validation.POST_PLACE_LENGTH_MAX) {
 					DialogUtils.showErrorDialog(SendPostActivity.this,
-							R.string.send_post_place_length_invalid);
+							R.string.send_post_place_length_invalid_error);
 					return;
 				}
 				String content = contentText.getText().toString();
@@ -280,7 +281,7 @@ public class SendPostActivity extends NavigationActivity {
 				if (contentLength < Validation.POST_CONTENT_LENGTH_MIN
 						|| contentLength > Validation.POST_CONTENT_LENGTH_MAX) {
 					DialogUtils.showErrorDialog(SendPostActivity.this,
-							R.string.send_post_content_length_invalid);
+							R.string.send_post_content_length_invalid_error);
 					// DialogUtils.showToastText(SendPostActivity.this,
 					// R.string.send_post_content_too_little);
 					return;
@@ -343,9 +344,9 @@ public class SendPostActivity extends NavigationActivity {
 
 	private void setCountTip() {
 		countTip.setText(getResources().getString(
-				R.string.post_content_tip_begin)
+				R.string.send_post_content_tip_begin)
 				+ (restLength / 2)
-				+ getResources().getString(R.string.post_content_tip_end));
+				+ getResources().getString(R.string.send_post_content_tip_end));
 	}
 
 	private int[] getDate() {

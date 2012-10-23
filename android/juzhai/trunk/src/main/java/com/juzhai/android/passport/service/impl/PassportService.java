@@ -131,19 +131,19 @@ public class PassportService implements IPassportService {
 		if (emailLength > Validation.REGISTER_EMAIL_LENGTH_MAX
 				|| emailLength < Validation.REGISTER_EMAIL_LENGTH_MIN
 				|| !StringUtil.checkMailFormat(account)) {
-			return R.string.email_account_invalid;
+			return R.string.email_account_invalid_error;
 		}
 		if (StringUtils.isEmpty(nickname)) {
-			return R.string.nickname_is_null;
+			return R.string.nickname_is_null_error;
 		}
 		int nicknameLength = StringUtil.chineseLength(nickname);
 		if (nicknameLength > Validation.NICKNAME_LENGTH_MAX) {
-			return R.string.nickname_too_long;
+			return R.string.nickname_too_long_error;
 		}
 		int pwdLength = pwd.length();
 		if (pwdLength < Validation.REGISTER_PASSWORD_LENGTH_MIN
 				|| pwdLength > Validation.REGISTER_PASSWORD_LENGTH_MAX) {
-			return R.string.pwd_length_invalid;
+			return R.string.pwd_length_invalid_error;
 		}
 		if (!StringUtils.equals(pwd, confirmPwd)) {
 			return R.string.confirm_pwd_error;
@@ -158,7 +158,8 @@ public class PassportService implements IPassportService {
 		if (emailLength > Validation.REGISTER_EMAIL_LENGTH_MAX
 				|| emailLength < Validation.REGISTER_EMAIL_LENGTH_MIN
 				|| !StringUtil.checkMailFormat(account)) {
-			throw new PassportException(context, R.string.email_account_invalid);
+			throw new PassportException(context,
+					R.string.email_account_invalid_error);
 		}
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("account", account);

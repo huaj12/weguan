@@ -180,7 +180,7 @@ public class DialogContentListActivity extends NavigationActivity {
 				if (contentLengt < Validation.SEND_MESSAGE_LENGTH_MIN
 						|| contentLengt > Validation.SEND_MESSAGE_LENGTH_MAX) {
 					DialogUtils.showErrorDialog(DialogContentListActivity.this,
-							R.string.send_message_length_invalid);
+							R.string.send_message_length_invalid_error);
 					// DialogUtils.showToastText(DialogContentListActivity.this,
 					// R.string.send_message_length_invalid);
 					return;
@@ -197,7 +197,7 @@ public class DialogContentListActivity extends NavigationActivity {
 				if (!queue.offer(dialogContent)) {
 					// 队列不能加入元素了。
 					DialogUtils.showErrorDialog(DialogContentListActivity.this,
-							R.string.frequency_exceeds_the_limit);
+							R.string.frequency_exceeds_the_limit_error);
 					// DialogUtils.showToastText(DialogContentListActivity.this,
 					// R.string.frequency_exceeds_the_limit);
 					return;

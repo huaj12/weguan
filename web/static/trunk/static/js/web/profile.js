@@ -188,21 +188,21 @@ function setting(uid){
 	}
 	if(!checkValLength(feature, 1, 140)){
 		$("#feature")[0].focus();
-		 $("#feature_tp").show().text("自我评价在1-70个字之间哦!");
+		 $("#feature_tp").show().text("自我评价请控制在1~70字以内");
 		 return ;
 	}else{
 		$("#feature_tp").hide();
 	}
 	if(!checkValLength(blog, 0, 70)){
 		$("#blog")[0].focus();
-		 $("#blog_tp").show().text("请输入正确的格式！");
+		 $("#blog_tp").show().text("请输入正确格式的个人主页");
 		 return ;
 	}else{
 		$("#blog_tp").hide();
 	}
 	if(!checkValLength(home, 0, 20)){
 		$("#home")[0].focus();
-		 $("#home_tp").show().text("不要超过10个字哦!");
+		 $("#home_tp").show().text("家乡名称请不要超过10个字");
 		 return ;
 	}else{
 		$("#home_tp").hide();

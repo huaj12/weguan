@@ -135,6 +135,8 @@
         <string name="dialog_content_title_end">的对话</string>
         <string name="dialog_delete">删除对话</string>
         <string name="image_delete">删除图片</string>
+        <string name="dialog_delete_confirm_begin">确定删除与&#160;</string>
+        <string name="dialog_delete_confirm_end">&#160;的所有私信么?</string>
     <!-- dialog end -->
     <!-- home begin-->
     <string name="home">我家</string>
@@ -156,6 +158,9 @@
     <string name="setting_feature_tip">说说你是个什么样的人吧70字以内</string>
     <string name="setting_feature_title_tip">请输入自我评价</string>
     <string name="home_info_layout">%1$s (%2$s)</string>
+    <string name="un_interest_confirm">确定取消关注么?</string>
+    <string name="user_interest_success">好的，ta看到会开心的</string>
+    
     <!-- home end -->
     
     <!-- post begin -->
@@ -174,6 +179,7 @@
     <string name="post_detail_title">拒宅详情</string>
     <string name="post_detail_response">有兴趣</string>
     <string name="post_detail_response_done">已有兴趣</string>
+    <string name="post_interest_success">ta看到会开心的</string>
     <!-- post end -->
     <!-- send post begin -->
     <string name="send_post_finish_button">发布</string>
@@ -217,4 +223,5 @@
 	<string name="authorize_expired_tip2_qq">请重新授权激活qq同步功能</string>
 	<string name="bind_ok">绑定成功</string>
 	<string name="authorize_ok">授权成功</string>
+	
 </resources>

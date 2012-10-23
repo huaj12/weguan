@@ -1249,7 +1249,7 @@ var CommentWidget = Class.extend({
 			}
 			var content = commentForm.find("input[name='content']").val();
 			if(!checkValLength(content, 4, 280)){
-				commentForm.find(".error").text("留言内容控制在2~140个汉字内").show();
+				commentForm.find(".error").text("留言内容请控制在2~140字以内").show();
 				return false;
 			}
 			sendBtn.text("发布中").addClass("done");

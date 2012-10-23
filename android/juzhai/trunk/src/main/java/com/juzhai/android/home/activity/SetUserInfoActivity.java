@@ -317,17 +317,11 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 		}
 		if (!isGuide) {
 			String feature = user.getFeature();
-			if (StringUtils.isEmpty(feature)) {
-				DialogUtils.showErrorDialog(SetUserInfoActivity.this,
-						R.string.feature_is_null_error);
-				// DialogUtils.showToastText(SetUserInfoActivity.this,
-				// R.string.feature_is_null);
-				return false;
-			}
 			int featureLength = StringUtil.chineseLength(feature);
-			if (featureLength > Validation.USER_FEATURE_LENGTH_MAX) {
+			if (featureLength > Validation.USER_FEATURE_LENGTH_MAX
+					|| featureLength < Validation.USER_FEATURE_LENGTH_MIN) {
 				DialogUtils.showErrorDialog(SetUserInfoActivity.this,
-						R.string.feature_too_long_error);
+						R.string.feature_content_invalid_error);
 				// DialogUtils.showToastText(SetUserInfoActivity.this,
 				// R.string.feature_too_long);
 				return false;

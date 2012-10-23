@@ -3,8 +3,6 @@
  */
 package com.juzhai.android.home.activity;
 
-import org.apache.commons.lang.StringUtils;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -41,19 +39,11 @@ public class SetFeatureActivity extends NavigationActivity {
 			@Override
 			public void onClick(View v) {
 				String feature = editText.getText().toString();
-				if (StringUtils.isEmpty(feature)) {
-					DialogUtils.showErrorDialog(SetFeatureActivity.this,
-							R.string.feature_is_null_error);
-					// DialogUtils.showToastText(SetFeatureActivity.this,
-					// R.string.feature_is_null);
-					return;
-				}
 				int featureLength = StringUtil.chineseLength(feature);
-				if (featureLength > Validation.USER_FEATURE_LENGTH_MAX) {
+				if (featureLength > Validation.USER_FEATURE_LENGTH_MAX
+						|| featureLength < Validation.USER_FEATURE_LENGTH_MIN) {
 					DialogUtils.showErrorDialog(SetFeatureActivity.this,
-							R.string.feature_too_long_error);
-					// DialogUtils.showToastText(SetFeatureActivity.this,
-					// R.string.feature_too_long);
+							R.string.feature_content_invalid_error);
 					return;
 				}
 				Intent intent = getIntent();

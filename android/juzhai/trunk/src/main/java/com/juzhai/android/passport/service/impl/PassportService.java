@@ -61,6 +61,10 @@ public class PassportService implements IPassportService {
 	@Override
 	public void login(Context context, String account, String password)
 			throws PassportException {
+		if (!StringUtil.checkMailFormat(account)) {
+			throw new PassportException(context,
+					R.string.login_account_is_null_error);
+		}
 		if (StringUtils.isEmpty(account) || StringUtils.isEmpty(password)) {
 			throw new PassportException(context, R.string.login_defalut_error);
 		}

@@ -25,6 +25,7 @@ import com.juzhai.android.core.task.PostProgressTask;
 import com.juzhai.android.core.task.ProgressTask;
 import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.DialogUtils;
+import com.juzhai.android.core.widget.dialog.SuccessPromptDialog;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase.OnRefreshListener2;
@@ -138,14 +139,20 @@ public class UserHomeActivity extends NavigationActivity {
 												public String doInBackground() {
 													return null;
 												}
-											}));
+											}),
+
+									R.string.un_interest_confirm);
 						}
 					});
 					interestBtn.setOnClickListener(new SimpleClickListener(
-							interestUri, UserHomeActivity.this, values,
+							interestUri, UserHomeActivity.this, values, false,
 							new TaskCallback() {
 								@Override
 								public void successCallback() {
+									new SuccessPromptDialog(
+											UserHomeActivity.this,
+											R.string.user_interest_success)
+											.show();
 									unInterestBtn.setVisibility(View.VISIBLE);
 									interestBtn.setVisibility(View.GONE);
 									MobclickAgent.onEvent(

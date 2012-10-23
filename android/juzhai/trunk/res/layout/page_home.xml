@@ -69,7 +69,7 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/edit_user_selector_button"
             android:paddingLeft="10dp"
-            android:text="@string/update_profile_btn"
+            android:text="@string/home_update_profile_btn"
             android:textColor="@color/white"
             android:textSize="11dp" />
     </RelativeLayout>

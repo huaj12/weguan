@@ -121,11 +121,11 @@ public class PostDetailActivity extends NavigationActivity {
 		if (user.getPostView().isHasResp()) {
 			postInterest.setEnabled(false);
 			postInterest.setText(getResources().getString(
-					R.string.post_response_done));
+					R.string.post_detail_response_done));
 		} else {
 			postInterest.setEnabled(true);
 			postInterest.setText(getResources().getString(
-					R.string.post_response));
+					R.string.post_detail_response));
 			Map<String, Object> values = new HashMap<String, Object>();
 			values.put("postId", user.getPostView().getPostId());
 			postInterest.setOnClickListener(new SimpleClickListener(
@@ -135,7 +135,7 @@ public class PostDetailActivity extends NavigationActivity {
 						public void successCallback() {
 							postInterest.setEnabled(false);
 							postInterest.setText(getResources().getString(
-									R.string.post_response_done));
+									R.string.post_detail_response_done));
 							user.getPostView().setHasResp(true);
 							Intent intent = getIntent();
 							intent.putExtra("user", user);

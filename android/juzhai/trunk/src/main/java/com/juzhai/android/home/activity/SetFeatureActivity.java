@@ -43,7 +43,7 @@ public class SetFeatureActivity extends NavigationActivity {
 				String feature = editText.getText().toString();
 				if (StringUtils.isEmpty(feature)) {
 					DialogUtils.showErrorDialog(SetFeatureActivity.this,
-							R.string.feature_is_null);
+							R.string.feature_is_null_error);
 					// DialogUtils.showToastText(SetFeatureActivity.this,
 					// R.string.feature_is_null);
 					return;
@@ -51,7 +51,7 @@ public class SetFeatureActivity extends NavigationActivity {
 				int featureLength = StringUtil.chineseLength(feature);
 				if (featureLength > Validation.USER_FEATURE_LENGTH_MAX) {
 					DialogUtils.showErrorDialog(SetFeatureActivity.this,
-							R.string.feature_too_long);
+							R.string.feature_too_long_error);
 					// DialogUtils.showToastText(SetFeatureActivity.this,
 					// R.string.feature_too_long);
 					return;

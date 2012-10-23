@@ -75,12 +75,8 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 
 		TextView userCountTextView = holder.userCountTextView;
 		if (idea.getUseCount() != null && idea.getUseCount() > 0) {
-			userCountTextView
-					.setText(mContext.getResources().getString(
-							R.string.use_count_begin)
-							+ idea.getUseCount()
-							+ mContext.getResources().getString(
-									R.string.use_count_end));
+			userCountTextView.setText(idea.getUseCount()
+					+ mContext.getResources().getString(R.string.use_count));
 			userCountTextView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {

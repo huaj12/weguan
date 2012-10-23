@@ -111,7 +111,7 @@ public class DialogContentService implements IDialogContentService {
 		if (contentLengt < Validation.SEND_MESSAGE_LENGTH_MIN
 				|| contentLengt > Validation.SEND_MESSAGE_LENGTH_MAX) {
 			throw new DialogContentException(context,
-					R.string.send_message_length_invalid);
+					R.string.send_message_length_invalid_error);
 		}
 		sendSms(context, feedbackReceiverUid, content, null);
 	}

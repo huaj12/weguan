@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 
 public class StringUtil {
+	public static String EMPTY = "";
 	public static final String EMAIL_PATTERN_STRING = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*$";
 	public static final Pattern EMAIL_PATTERN = Pattern
 			.compile(EMAIL_PATTERN_STRING);

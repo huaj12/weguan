@@ -46,8 +46,10 @@ public class UserCacheManager {
 		CookieManager cookieManager = CookieManager.getInstance();
 		cookieManager.setAcceptCookie(true);
 		// cookieManager.removeSessionCookie();
-		for (String cookie : cookieHeaders) {
-			cookieManager.setCookie(SystemConfig.BASEURL, cookie);
+		if (null != cookieHeaders) {
+			for (String cookie : cookieHeaders) {
+				cookieManager.setCookie(SystemConfig.BASEURL, cookie);
+			}
 		}
 		CookieSyncManager.getInstance().sync();
 	}

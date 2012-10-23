@@ -54,11 +54,9 @@ public class DialogUtils {
 	// }
 
 	public static void showConfirmDialog(Context context,
-			final AsyncTask<Void, Void, String> task) {
+			final AsyncTask<Void, Void, String> task, String message) {
 		new AlertDialog.Builder(context)
-				.setMessage(
-						context.getResources().getString(
-								R.string.confirm_message))
+				.setMessage(message)
 				.setTitle(context.getResources().getString(R.string.confirm))
 				.setPositiveButton(
 						context.getResources().getString(R.string.ok),
@@ -82,4 +80,9 @@ public class DialogUtils {
 						}).show();
 	}
 
+	public static void showConfirmDialog(Context context,
+			final AsyncTask<Void, Void, String> task, int message) {
+		showConfirmDialog(context, task,
+				context.getResources().getString(message));
+	}
 }

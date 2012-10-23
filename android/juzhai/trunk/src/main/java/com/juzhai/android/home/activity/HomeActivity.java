@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.common.service.IShareService;
+import com.juzhai.android.common.service.impl.ShareService;
 import com.juzhai.android.core.task.ProgressTask;
 import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.widget.list.table.widget.UITableView;
@@ -31,6 +33,7 @@ public class HomeActivity extends TabItemActivity {
 	private UITableView interestTableView;
 	private UITableView interestMeTableView;
 	private UITableView inviteTableView;
+	private IShareService shareService = new ShareService();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +165,15 @@ public class HomeActivity extends TabItemActivity {
 				getResources().getString(R.string.interest_me_title),
 				user.getInterestMeCount()));
 		interestMeTableView.commit();
+
+		inviteTableView.setClickListener(new ClickListener() {
+			@Override
+			public void onClick(int index) {
+				if (index == 0) {
+					shareService.openInvitePop(HomeActivity.this);
+				}
+			}
+		});
 		inviteTableView.addBasicItem(getResources().getString(
 				R.string.invite_friend));
 		inviteTableView.commit();

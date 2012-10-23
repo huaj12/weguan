@@ -8,8 +8,8 @@
     <string name="tip_reg">还没有账号？来这里注册</string>
     <string name="login_input_tip_account">输入登录帐号</string>
     <string name="login_input_tip_pwd">输入登录密码</string>
-    
-    <!-- 第三方登录 begin-->
+
+    <!-- 第三方登录 begin -->
     <string name="sina_title">新浪微博</string>
     <string name="db_title">豆瓣帐号</string>
     <string name="qq_title">QQ帐号</string>
@@ -19,8 +19,8 @@
     <string name="sina_bind_title">绑定浪微博帐号</string>
     <string name="db_bind_title">绑定豆瓣帐号</string>
     <string name="qq_bind_title">绑定QQ帐号</string>
-     <string name="webview_title">用户授权</string>
-	<!-- 第三方登录 end-->
+    <string name="webview_title">用户授权</string>
+    <!-- 第三方登录 end -->
     <!-- login end -->
     <!-- register begin -->
     <string name="tip_login">己有账号，请直接登录</string>
@@ -68,7 +68,7 @@
     <string name="select_pic">选择照片</string>
     <string name="select_by_album">从相册里选</string>
     <string name="select_by_camera">拍照</string>
-	<string name="delete_pic">删除图片</string>
+    <string name="delete_pic">删除图片</string>
     <string name="contact">联系Ta</string>
     <string name="invite_friend">邀请好友</string>
     <string name="private_letter">私信ta</string>
@@ -78,33 +78,34 @@
     <string name="verified">审核未通过</string>
     <string name="verifying">正在审核中</string>
     <string name="upload_logo">上传头像</string>
-	<string name="nickname">昵称</string>
-	<string name="gender">性别</string>
-	<string name="birthday">生日</string>
-	<string name="feature">自我评价</string>
-	<string name="address">所在地</string>
-	<string name="profession">职业</string>
-	<string name="boy">男</string>
-	<string name="girl">女</string>
-	<string name="select_city">选择城市</string>
-   <string name="other">其他</string>
-   <string name="save_success">保存成功</string>
-   <string name="note">注意</string>
-   <string name="clean">清空</string>
-   <string name="category_all">拒宅项目</string>
-   <string name="save">保存</string>
-   <string name="please_wait">请稍等</string>
-   <string name="yuan">元</string>
-   <string name="select_gender">请选择性别</string>
-   <string name="online_now">当前在线</string>
-   <string name="online_today">今日来访</string>
-   <string name="online_recent">近期来访</string>
+    <string name="nickname">昵称</string>
+    <string name="gender">性别</string>
+    <string name="birthday">生日</string>
+    <string name="feature">自我评价</string>
+    <string name="address">所在地</string>
+    <string name="profession">职业</string>
+    <string name="boy">男</string>
+    <string name="girl">女</string>
+    <string name="select_city">选择城市</string>
+    <string name="other">其他</string>
+    <string name="save_success">保存成功</string>
+    <string name="note">注意</string>
+    <string name="clean">清空</string>
+    <string name="category_all">拒宅项目</string>
+    <string name="save">保存</string>
+    <string name="please_wait">请稍等</string>
+    <string name="yuan">元</string>
+    <string name="select_gender">请选择性别</string>
+    <string name="online_now">当前在线</string>
+    <string name="online_today">今日来访</string>
+    <string name="online_recent">近期来访</string>
     <!-- common end -->
 
 
     <!-- test start -->
     <string name="image_test_des">test</string>
     <!-- test end -->
+
 
     <!-- tip  begin -->
     <string name="tip_loging">正在登陆</string>
@@ -130,13 +131,13 @@
     <string name="idea_new_time">最新</string>
     <!-- idea end -->
     <!-- dialog begin -->
-        <string name="dialog_title">我的消息</string>
-        <string name="dialog_content_title">与&#160;%1$s&#160;的对话</string>
-        <string name="dialog_delete">删除对话</string>
-        <string name="image_delete">删除图片</string>
-        <string name="dialog_delete_confirm">确定删除与&#160;%1$s&#160;的所有私信么?</string>
+    <string name="dialog_title">我的消息</string>
+    <string name="dialog_content_title">与&#160;%1$s&#160;的对话</string>
+    <string name="dialog_delete">删除对话</string>
+    <string name="image_delete">删除图片</string>
+    <string name="dialog_delete_confirm">确定删除与&#160;%1$s&#160;的所有私信么?</string>
     <!-- dialog end -->
-    <!-- home begin-->
+    <!-- home begin -->
     <string name="home">我家</string>
     <string name="home_title">我的主页</string>
     <string name="home_update_profile_btn">编辑</string>
@@ -146,10 +147,12 @@
     <string name="user_home_title">的主页</string>
     <string name="user_home_post_count">共&#160;%1$s&#160;条拒宅 </string>
     <string name="home_setting_title">设置个人资料</string>
+
     <string-array name="gender_item">
         <item>男</item>
         <item>女</item>
     </string-array>
+
     <string name="setting_nickname_tip">不要超过10个字哦</string>
     <string name="setting_profession_tip">不要超过10个字哦</string>
     <string name="setting_feature_tip">说说你是个什么样的人吧70字以内</string>
@@ -157,9 +160,10 @@
     <string name="home_info_layout">%1$s (%2$s)</string>
     <string name="un_interest_confirm">确定取消关注么?</string>
     <string name="user_interest_success">好的，ta看到会开心的</string>
-    
+
     <!-- home end -->
-    
+
+
     <!-- post begin -->
     <string-array name="post_head_tab_item">
         <item>活跃小宅</item>
@@ -170,6 +174,7 @@
         <item>宅男</item>
         <item>宅女</item>
     </string-array>
+
     <string name="post_interest">&#160;&#160;有兴趣</string>
     <string name="post_interest_done">&#160;&#160;已有兴趣</string>
     <string name="post_head">我想去</string>
@@ -183,41 +188,54 @@
     <string name="clean_content">清除文字</string>
     <string name="send_post_select_category_title">拒宅分类</string>
     <string name="send_post_place_title">输入地址</string>
-    <string name="send_post_content_hint">我想找伴去...</string>
+    <string name="send_post_content_hint">我想找伴去&#8230;</string>
     <string name="send_post_content_tip">还剩%1$s字</string>
     <string name="send_post_title">发布拒宅</string>
     <!-- send post end -->
-    
-    <!-- 新手引导  begin-->
+
+
+    <!-- 新手引导  begin -->
     <string name="user_guide_title">新手引导</string>
     <!-- 新手引导  end -->
 
-	<!-- setting -->
-	<string name="setting_title">设置</string>
-	<string name="setting_cell_logout">退出帐号</string>
-	<string name="setting_cell_clear_cache">清除缓存</string>
-	<string name="setting_cell_version">版本更新</string>
-	<string name="setting_cell_feedback">意见反馈</string>
-	<string name="setting_cell_protocal">使用协议</string>
-	<string name="setting_cell_authorize">授权设置</string>
-	<string name="setting_authorize_expired">授权已过期</string>
-	<string name="setting_authorize_unbind">未绑定</string>
-	<string name="setting_authorize_has_bind">已绑定：%1$s</string>
-	<string name="setting_cell_profile">个人资料设置</string>
 
-	<!-- 授权 -->
-	<string name="authorize_title">授权设置</string>
-	<string name="authorize_bind_tip1">为了获得更加完整的拒宅体验，建议你现在就去绑定一个常用的第三方帐号</string>
-	<string name="authorize_bind_tip2">授权后，你可以把拒宅计划同步到第三方平台，让好友及时看到你的拒宅召唤</string>
-	<string name="authorize_back">下次再说</string>
-	<string name="expired_authorize">重新授权</string>
-	<string name="authorize_expired_tip1_sina">新浪微博授权已经过期</string>
-	<string name="authorize_expired_tip2_sina">请重新授权激活微博同步功能</string>
-	<string name="authorize_expired_tip1_db">豆瓣帐号授权已经过期</string>
-	<string name="authorize_expired_tip2_db">请重新授权激活豆瓣说同步功能</string>
-	<string name="authorize_expired_tip1_qq">qq帐号授权已经过期</string>
-	<string name="authorize_expired_tip2_qq">请重新授权激活qq同步功能</string>
-	<string name="bind_ok">绑定成功</string>
-	<string name="authorize_ok">授权成功</string>
-	
+    <!-- setting -->
+    <string name="setting_title">设置</string>
+    <string name="setting_cell_logout">退出帐号</string>
+    <string name="setting_cell_clear_cache">清除缓存</string>
+    <string name="setting_cell_version">版本更新</string>
+    <string name="setting_cell_feedback">意见反馈</string>
+    <string name="setting_cell_protocal">使用协议</string>
+    <string name="setting_cell_authorize">授权设置</string>
+    <string name="setting_authorize_expired">授权已过期</string>
+    <string name="setting_authorize_unbind">未绑定</string>
+    <string name="setting_authorize_has_bind">已绑定：%1$s</string>
+    <string name="setting_cell_profile">个人资料设置</string>
+
+    <!-- 授权 -->
+    <string name="authorize_title">授权设置</string>
+    <string name="authorize_bind_tip1">为了获得更加完整的拒宅体验，建议你现在就去绑定一个常用的第三方帐号</string>
+    <string name="authorize_bind_tip2">授权后，你可以把拒宅计划同步到第三方平台，让好友及时看到你的拒宅召唤</string>
+    <string name="authorize_back">下次再说</string>
+    <string name="expired_authorize">重新授权</string>
+    <string name="authorize_expired_tip1_sina">新浪微博授权已经过期</string>
+    <string name="authorize_expired_tip2_sina">请重新授权激活微博同步功能</string>
+    <string name="authorize_expired_tip1_db">豆瓣帐号授权已经过期</string>
+    <string name="authorize_expired_tip2_db">请重新授权激活豆瓣说同步功能</string>
+    <string name="authorize_expired_tip1_qq">qq帐号授权已经过期</string>
+    <string name="authorize_expired_tip2_qq">请重新授权激活qq同步功能</string>
+    <string name="bind_ok">绑定成功</string>
+    <string name="authorize_ok">授权成功</string>
+
+    <!-- share & invite -->
+    <string name="share_title">分享到</string>
+    <string name="share_to_tp_idea_text">想一起去：%1$s么？%2$s&#160;http://www.51juzhai.com/idea/%3$d</string>
+    <string name="share_idea_place">地点：%1$s</string>
+    <string name="share_to_email_idea_subject">分享拒宅好主意</string>
+    <string name="share_to_email_idea_text">想一起去：%1$s么？%2$s&#160;http://www.51juzhai.com/idea/%3$d</string>
+    <string name="share_to_mms_idea_text">想一起去：%1$s么？（来自 拒宅android版）http://www.51juzhai.com</string>
+
+    <string name="invite_title">邀请</string>
+    <string name="invite_text">刚发现一个小清新的脱宅社区，蛮有新意的；周末不想宅在家的朋友可以来试试哦~http://www.51juzhai.com</string>
+    <string name="invite_subject">发现一个不错的社区，蛮有新意的</string>
 </resources>

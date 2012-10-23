@@ -3,13 +3,21 @@
  */
 package com.juzhai.android.idea.activity;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.util.StringUtils;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +28,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.common.service.IShareService;
+import com.juzhai.android.common.service.impl.ShareService;
 import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.stat.UmengEvent;
@@ -38,6 +48,9 @@ import com.umeng.analytics.MobclickAgent;
  */
 public class IdeaDetailActivity extends NavigationActivity {
 	private Idea idea;
+	private Bitmap ideaBitmap;
+	private Uri ideaUri;
+	private IShareService shareService = new ShareService();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +83,8 @@ public class IdeaDetailActivity extends NavigationActivity {
 				}
 			});
 		}
-		if (StringUtils.isNotEmpty(idea.getBigPic())) {
-			ImageViewLoader nid = ImageViewLoader
+		if (StringUtils.hasText(idea.getBigPic())) {
+			final ImageViewLoader nid = ImageViewLoader
 					.getInstance(IdeaDetailActivity.this);
 			nid.fetchImage(JzUtils.getImageUrl(idea.getBigPic()),
 					R.drawable.good_idea_list_pic_none_icon, imageView,
@@ -79,6 +92,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 						@Override
 						public void imageLoaderFinish(Bitmap bitmap) {
 							if (bitmap != null) {
+								ideaBitmap = bitmap;
 								Bitmap zoomBitmap = ImageUtils
 										.ZoomBitmapNotCut(bitmap, 262, 180,
 												IdeaDetailActivity.this);
@@ -122,12 +136,28 @@ public class IdeaDetailActivity extends NavigationActivity {
 		shareBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_SEND);
-				intent.setType("text/plain");
-				intent.putExtra(Intent.EXTRA_SUBJECT, "title");
-				intent.putExtra(Intent.EXTRA_TEXT, "text");
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(Intent.createChooser(intent, "分享"));
+				if (null == ideaUri && ideaBitmap != null) {
+					FileOutputStream fos = null;
+					String fileName = new String(Hex.encodeHex(DigestUtils
+							.md5(idea.getBigPic()))) + ".jpg";
+					try {
+						fos = IdeaDetailActivity.this.openFileOutput(fileName,
+								Context.MODE_WORLD_READABLE);
+						ideaBitmap.compress(Bitmap.CompressFormat.JPEG, 100,
+								fos);
+					} catch (FileNotFoundException e) {
+					} finally {
+						try {
+							fos.close();
+						} catch (IOException e) {
+						}
+					}
+					File file = IdeaDetailActivity.this
+							.getFileStreamPath(fileName);
+					ideaUri = Uri.fromFile(file);
+				}
+				shareService.openIdeaSharePop(IdeaDetailActivity.this, idea,
+						ideaUri);
 			}
 		});
 		initIdeaInfo();
@@ -138,15 +168,15 @@ public class IdeaDetailActivity extends NavigationActivity {
 		// 设置地点
 		LinearLayout placeLayout = (LinearLayout) findViewById(R.id.idea_place_layout);
 		TextView place = (TextView) findViewById(R.id.idea_place_text);
-		if (StringUtils.isNotEmpty(idea.getCityName())
-				|| StringUtils.isNotEmpty(idea.getTownName())
-				|| StringUtils.isNotEmpty(idea.getPlace())) {
+		if (StringUtils.hasText(idea.getCityName())
+				|| StringUtils.hasText(idea.getTownName())
+				|| StringUtils.hasText(idea.getPlace())) {
 			StringBuffer sbStr = new StringBuffer();
-			if (StringUtils.isNotEmpty(idea.getCityName())) {
+			if (StringUtils.hasText(idea.getCityName())) {
 				sbStr.append(idea.getCityName());
 				sbStr.append(" ");
 			}
-			if (StringUtils.isNotEmpty(idea.getTownName())) {
+			if (StringUtils.hasText(idea.getTownName())) {
 				sbStr.append(idea.getTownName());
 				sbStr.append(" ");
 			}
@@ -158,8 +188,8 @@ public class IdeaDetailActivity extends NavigationActivity {
 		// 设置时间
 		LinearLayout timeLayout = (LinearLayout) findViewById(R.id.idea_time_layout);
 		TextView time = (TextView) findViewById(R.id.idea_time_text);
-		if (StringUtils.isNotEmpty(idea.getStartTime())
-				|| StringUtils.isNotEmpty(idea.getEndTime())) {
+		if (StringUtils.hasText(idea.getStartTime())
+				|| StringUtils.hasText(idea.getEndTime())) {
 			String startTime = idea.getStartTime() == null ? "" : idea
 					.getStartTime();
 			String endTime = idea.getEndTime() == null ? "" : idea.getEndTime();

@@ -173,10 +173,7 @@ public class UserHomeActivity extends NavigationActivity {
 
 				final TextView postCountView = (TextView) findViewById(R.id.home_post_count);
 				postCountView.setText(getResources().getString(
-						R.string.user_home_post_count_begin)
-						+ 0
-						+ getResources().getString(
-								R.string.user_home_post_count_end));
+						R.string.user_home_post_count, 0));
 				final JuzhaiRefreshListView postsListView = (JuzhaiRefreshListView) findViewById(R.id.my_posts_list_view);
 				postsListView
 						.setOnRefreshListener(new OnRefreshListener2<ListView>() {

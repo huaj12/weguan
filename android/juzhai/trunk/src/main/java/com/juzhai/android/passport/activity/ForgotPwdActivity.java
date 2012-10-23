@@ -19,7 +19,6 @@ import android.widget.EditText;
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.StringUtil;
-import com.juzhai.android.core.widget.dialog.ErrorPromptDialog;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.passport.exception.PassportException;
 import com.juzhai.android.passport.service.impl.PassportService;
@@ -44,8 +43,8 @@ public class ForgotPwdActivity extends NavigationActivity {
 			@Override
 			public void onClick(View v) {
 				if (!StringUtil.checkMailFormat(account.getText().toString())) {
-					new ErrorPromptDialog(ForgotPwdActivity.this,
-							R.string.forgot_pwd_account_invalid_error).show();
+					DialogUtils.showErrorDialog(ForgotPwdActivity.this,
+							R.string.forgot_pwd_account_invalid_error);
 					return;
 				}
 				new AsyncTask<String, Integer, String>() {

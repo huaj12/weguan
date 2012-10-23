@@ -3,30 +3,36 @@
     	
     	<!-- login begin -->
     		 <string name="login_defalut_error">请输入登录账号和密码</string>
+    		 <string name="login_account_is_null_error">请输入正确格式的邮箱</string>
 		<!-- login end --> 
 		<!-- reg begin -->
-		    <string name="nickname_is_null_error">昵称不能为空</string>
-   			<string name="nickname_too_long_error">昵称不能超过10个字</string>
-   			<string name="email_account_invalid_error">输入的邮箱不合法</string>
+		    <string name="nickname_is_null_error">请输入昵称</string>
+   			<string name="nickname_too_long_error">昵称请不要超过10个字</string>
+   			<string name="email_account_invalid_error">请输入正确格式的邮箱</string>
    			<string name="pwd_length_invalid_error">密码控制在6~32位之间</string>
    			<string name="confirm_pwd_error">两次输入的密码不相符</string>
 		<!-- reg end -->
+		<!-- 忘记密码  begin-->
+		 <string name="forgot_pwd_account_invalid_error">请输入正确格式的邮箱</string>
+		<!-- 忘记密码  end-->
 		<!-- user info begin -->
 			<string name="user_gender_is_null_error">请选择性别</string>
 			<string name="user_birth_day_is_null_error">请选择生日</string>
 			<string name="user_address_is_null_error">请选择所在地</string>
 			<string name="profession_is_null_error">请选择职业</string>
-			<string name="feature_is_null_error">自我评价不能为空</string>
-    		<string name="feature_too_long_error">自我评价请不要超过70个字</string>
+    		<string name="feature_content_invalid_error">自我评价请控制在1~70字以内</string>
 		<!-- user info end -->   
-    <string name="system_internet_erorr">当前网络不可用请稍后重试</string>
-    <string name="select_pic_error">操作失败请重新选择</string>
-    <string name="send_message_length_invalid_error">私信内容请在1到200字之间</string>
-    <string name="frequency_exceeds_the_limit_error">您发送的太快休息一会吧</string>
-    <string name="profession_name_is_null_error">职业描述不能为空</string>
-    <string name="profession_name_too_long_error">职业描述写的太多了</string>
-    <string name="send_post_place_length_invalid_error">地点字数控制在50字以内</string>
-    <string name="send_post_category_is_null_error">请选择拒宅分类</string>
-    <string name="send_post_content_length_invalid_error">发布内容请控制在2~80字以内</string>
-    
+	    <!-- 发送私信 begin-->
+	    <string name="send_message_length_invalid_error">私信内容请控制在1~200字以内</string>
+	    <string name="frequency_exceeds_the_limit_error">您发送的太快休息一会吧</string>
+	    <!-- 发送私信  end -->
+	    <string name="profession_name_is_null_error">职业描述不能为空</string>
+	    <string name="profession_name_too_long_error">职业描述写的太多了</string>
+	    <!-- send_post begin -->
+	    <string name="send_post_place_length_invalid_error">地点字数控制在50字以内</string>
+	    <string name="send_post_category_is_null_error">请选择拒宅分类</string>
+	    <string name="send_post_content_length_invalid_error">发布内容请控制在2~80字以内</string>
+	    <!-- send_post end -->
+	    <string name="system_internet_erorr">网络不给力请稍后重试</string>
+    	<string name="select_pic_error">操作失败请重新选择</string>
 </resources>

@@ -74,6 +74,7 @@ public class HomeMController extends BaseController {
 			UserMView userView = userMViewHelper.createUserMView(context,
 					profileCache, false);
 			if (null != userView) {
+				result.setSuccess(true);
 				result.setResult(userView);
 			}
 		}

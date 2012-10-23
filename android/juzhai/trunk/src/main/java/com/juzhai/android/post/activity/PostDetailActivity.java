@@ -19,8 +19,8 @@ import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.task.TaskCallback;
+import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
-import com.juzhai.android.core.widget.dialog.SuccessPromptDialog;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.dialog.activity.DialogContentListActivity;
 import com.juzhai.android.home.activity.UserHomeActivity;
@@ -134,8 +134,9 @@ public class PostDetailActivity extends NavigationActivity {
 					new TaskCallback() {
 						@Override
 						public void successCallback() {
-							new SuccessPromptDialog(PostDetailActivity.this,
-									R.string.post_interest_success).show();
+							DialogUtils.showSuccessDialog(
+									PostDetailActivity.this,
+									R.string.post_interest_success);
 							postInterest.setEnabled(false);
 							postInterest.setText(getResources().getString(
 									R.string.post_detail_response_done));

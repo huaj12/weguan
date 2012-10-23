@@ -45,7 +45,7 @@ public class ForgotPwdActivity extends NavigationActivity {
 			public void onClick(View v) {
 				if (!StringUtil.checkMailFormat(account.getText().toString())) {
 					new ErrorPromptDialog(ForgotPwdActivity.this,
-							R.string.forgot_pwd_account_invalid_error);
+							R.string.forgot_pwd_account_invalid_error).show();
 					return;
 				}
 				new AsyncTask<String, Integer, String>() {

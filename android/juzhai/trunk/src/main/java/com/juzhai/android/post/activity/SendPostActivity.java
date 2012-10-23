@@ -344,9 +344,7 @@ public class SendPostActivity extends NavigationActivity {
 
 	private void setCountTip() {
 		countTip.setText(getResources().getString(
-				R.string.send_post_content_tip_begin)
-				+ (restLength / 2)
-				+ getResources().getString(R.string.send_post_content_tip_end));
+				R.string.send_post_content_tip, (restLength / 2)));
 	}
 
 	private int[] getDate() {

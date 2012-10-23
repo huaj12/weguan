@@ -151,8 +151,8 @@
         <item>男</item>
         <item>女</item>
     </string-array>
-    <string name="setting_nickname_tip">10字以内</string>
-    <string name="setting_profession_tip">10字以内</string>
+    <string name="setting_nickname_tip">不要超过10个字哦</string>
+    <string name="setting_profession_tip">不要超过10个字哦</string>
     <string name="setting_feature_tip">说说你是个什么样的人吧70字以内</string>
     <string name="setting_feature_title_tip">请输入自我评价</string>
     <string name="home_info_layout">%1$s (%2$s)</string>

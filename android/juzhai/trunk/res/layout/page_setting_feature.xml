@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/feature_input"
         android:layout_marginLeft="10dp"
-        android:text="@string/set_feature_tip"
+        android:text="@string/setting_feature_tip"
         android:textColor="@color/home_gray"
         android:textSize="15sp" />
 

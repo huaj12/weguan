@@ -104,10 +104,8 @@ public class DialogContentListActivity extends NavigationActivity {
 			popIntent();
 		}
 		getNavigationBar().setBarTitle(
-				getResources().getString(R.string.dialog_content_title_begin)
-						+ targetUser.getNickname()
-						+ getResources().getString(
-								R.string.dialog_content_title_end));
+				getResources().getString(R.string.dialog_content_title,
+						targetUser.getNickname()));
 		setNavContentView(R.layout.page_dialog_content_list);
 
 		// 获取view

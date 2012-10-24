@@ -1,5 +1,6 @@
 package com.juzhai.android.core.widget.tab;
 
+import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,8 +106,7 @@ public class TabBarItem<C> {
 		textView.setPadding(0, UIUtil.dip2px(layoutInflater.getContext(), 7),
 				0, 0);
 		textView.setText(this.title);
-		textView.setTextColor(layoutInflater.getContext().getResources()
-				.getColor(android.R.color.white));
+		textView.setTextColor(Color.WHITE);
 		textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
 		textView.setCompoundDrawablesWithIntrinsicBounds(0, this.icon, 0, 0);
 

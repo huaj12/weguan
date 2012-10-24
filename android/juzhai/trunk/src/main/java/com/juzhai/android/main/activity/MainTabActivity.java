@@ -18,6 +18,10 @@ import com.juzhai.android.home.activity.HomeActivity;
 import com.juzhai.android.home.activity.ZhaobanActivity;
 import com.juzhai.android.idea.activity.IdeaListActivity;
 import com.juzhai.android.main.handler.MessageNoticiHandler;
+import com.juzhai.android.passport.activity.AuthorizeBindActivity;
+import com.juzhai.android.passport.activity.AuthorizeExpiredActivity;
+import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.model.User;
 import com.juzhai.android.setting.activity.SettingListActivity;
 
 public class MainTabActivity extends ActivityGroup {
@@ -65,6 +69,19 @@ public class MainTabActivity extends ActivityGroup {
 						SettingListActivity.class)));
 		tabBar.setBgResources(R.drawable.tab_bar_background);
 		setContentView(tabBar.build(layoutInflater, this));
+
+		User user = UserCache.getUserInfo();
+		if (null != user) {
+			if (user.hasTpExpired()) {
+				Intent intent = new Intent(this, AuthorizeExpiredActivity.class);
+				startActivity(intent);
+
+			} else if (!user.hasTp()) {
+				// 提示授权
+				Intent intent = new Intent(this, AuthorizeBindActivity.class);
+				startActivity(intent);
+			}
+		}
 	}
 
 	@Override

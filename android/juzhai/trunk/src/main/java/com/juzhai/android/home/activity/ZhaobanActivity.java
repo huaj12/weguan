@@ -44,7 +44,6 @@ public class ZhaobanActivity extends TabItemActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		UmengUpdateAgent.update(this);
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		setNavContentView(R.layout.page_user_post_list);
 		Button sendJzButton = (Button) getLayoutInflater().inflate(
@@ -155,18 +154,7 @@ public class ZhaobanActivity extends TabItemActivity {
 		});
 		postListView.setAdapter(new UserPostAdapter(ZhaobanActivity.this));
 		postListView.manualRefresh();
-
-		User user = UserCache.getUserInfo();
-		if (null != user) {
-			if (user.hasTpExpired()) {
-				pushIntent(new Intent(ZhaobanActivity.this,
-						AuthorizeExpiredActivity.class));
-			} else if (!user.hasTp()) {
-				// 提示授权
-				pushIntent(new Intent(ZhaobanActivity.this,
-						AuthorizeBindActivity.class));
-			}
-		}
+		UmengUpdateAgent.update(this);
 	}
 
 	@Override

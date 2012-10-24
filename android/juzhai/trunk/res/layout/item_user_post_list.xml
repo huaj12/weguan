@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:lineSpacingExtra="2dp"
-            android:textColor="@color/idea_want"
+            android:textColor="@color/post_content_color"
             android:textSize="14.5sp" />
 
         <ImageView

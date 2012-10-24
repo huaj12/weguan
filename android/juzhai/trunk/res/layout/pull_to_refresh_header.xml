@@ -28,7 +28,7 @@
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold"
-            android:textColor="@color/gray" />
+            android:textColor="@color/text_gray" />
 
         <TextView
             android:id="@+id/pull_to_refresh_sub_text"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/gray"
+            android:textColor="@color/text_gray"
             android:visibility="gone" />
 
     </LinearLayout>

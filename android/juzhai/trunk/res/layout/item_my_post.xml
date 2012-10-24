@@ -11,7 +11,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="2dp"
-            android:textColor="@color/idea_want"
+            android:textColor="@color/post_content_color"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"

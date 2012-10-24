@@ -33,7 +33,7 @@
                 android:layout_width="60dp"
                 android:layout_height="21dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/post_count"
+                android:background="@color/home_logo_audit_text_color"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="10sp"
@@ -57,7 +57,7 @@
             android:layout_marginTop="8dp"
             android:layout_toRightOf="@+id/user_layout"
             android:gravity="left"
-            android:textColor="@color/gray"
+            android:textColor="@color/text_gray"
             android:textSize="14sp" />
 
         <Button

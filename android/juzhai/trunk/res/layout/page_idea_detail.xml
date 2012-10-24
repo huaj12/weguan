@@ -33,7 +33,7 @@
                     android:id="@id/idea_image_bg_layout"
                     android:layout_width="262dp"
                     android:layout_height="180dp"
-                    android:background="@color/bg_gray" >
+                    android:background="@color/idea_image_bg_color" >
 
                     <ImageView
                         android:id="@+id/idea_image"
@@ -68,7 +68,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:textColor="@color/blue"
+                        android:textColor="@color/idea_use_count_color"
                         android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -96,7 +96,7 @@
                     android:layout_marginTop="7dp"
                     android:layout_marginBottom="7dp"
                     android:layout_marginRight="5dp"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/text_gray"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="7dp"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/text_gray"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -146,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="7dp"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/text_gray"
                     android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>

@@ -14,7 +14,7 @@
         android:inputType="textMultiLine"
         android:lines="4"
         android:singleLine="false"
-        android:textColor="@color/idea_want"
+        android:textColor="@color/edit_text_color"
         android:textSize="15sp" />
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_below="@+id/feature_input"
         android:layout_marginLeft="10dp"
         android:text="@string/setting_feature_tip"
-        android:textColor="@color/home_gray"
+        android:textColor="@color/tips_text_color"
         android:textSize="15sp" />
 
     <TextView

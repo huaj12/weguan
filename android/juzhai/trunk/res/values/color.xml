@@ -1,28 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="page_background_color">#E6E6E6</color>
-	<color name="red">#FF1014</color>
-	<color name="blue">#3982C6</color>
-	<color name="white">#FFFFFF</color>
-	<color name="gray">#808080</color>
-	<color name="black">#000000</color>
-	<color name="alert_black">#AA000000</color>
-	<color name="alert_gray">#FF7F7F7F</color>
-	<color name="bg_gray">#F3F3F3</color>
-	<color name="about_gray">#595959</color>
-	<color name="pink">#ff6699</color>
-	<color name="idea_want">#666666</color>
-	<color name="idea_want_done">#cccccc</color>
-	<color name="post_detail_info">#888888</color>
-	<color name="layout_blue">#3D83DA</color>
-	<color name="divider">#e2e2e2</color>
-	<color name="time_color">#b6b6b6</color>
-	<color name="post_count">#333333</color>
-	<color name="home_gray">#999999</color>
-	<color name="finish_gray">#5A94C8</color>
-	<color name="begin_jz_done">#C6C6C6</color>
-	<color name="dialog_gray">#aaaaaa</color>
-	<color name="about_btn">#b9b9b9</color>
+    <!-- common begin -->
+	    <color name="page_background_color">#E6E6E6</color>
+	    <color name="online_status_now">#24A93B</color>
+		<color name="online_status_today">#FF9933</color>
+		<color name="online_status_recent">#999999</color>
+		<color name="nickname_girl_color">#ff6699</color>
+	    <color name="nickname_boy_color">#3982C6</color>
+	    <color name="text_gray">#808080</color>
+	    <color name="white">#FFFFFF</color>
+		<color name="black">#000000</color>
+	    <color name="divider_foot_color">#808080</color>
+	    <color name="button_link_color">#666666</color>
+		<color name="button_done_color">#cccccc</color>
+		<color name="button_select_color">#ffffff</color>
+		<color name="edit_text_color">#666666</color>
+		<color name="prompt_dialog_text_color">#aaaaaa</color>
+		<color name="finish_button_text_color">#5A94C8</color>
+		<color name="dialog_shape_solid_color">#333333</color>
+		<color name="upload_image_button_text_color">#333333</color>
+		<color name="tips_text_color">#999999</color>
+    <!-- common end -->
+    <!-- login begin -->
+    	<color name="forget_pwd_btn_color">#3982C6</color>
+    <!-- login end -->
+    <!-- idea begin -->
+    	<color name="idea_use_count_color">#3982C6</color>
+    	<color name="idea_image_bg_color">#F3F3F3</color>
+    	<color name="idea_user_about_btn">#b9b9b9</color>
+    <!-- idea end -->
+    <!-- setting address begin -->
+      <color name="address_title_divider">#808080</color>
+    <!-- setting address end  -->
+    <!-- dialog begin -->
+    <color name="dialog_time_color">#b6b6b6</color>
+    <!-- dialog end -->
+	
+	<!-- home begin -->
+	<color name="userhome_divider_color">#e2e2e2</color>
+	<color name="home_logo_audit_text_color">#333333</color>
+	<color name="home_post_count_text_color">#999999</color>
+	<!-- home end -->
+	<!-- post begin-->
+	<color name="post_content_color">#666666</color>
+	<color name="post_detail_info_color">#888888</color>
+	<color name="post_count_text_color">#333333</color>
+	
+	<!--  post end-->
+	
 	<!-- send post begin-->
 	<color name="send_post_right_divider">#FFFFFF</color>
 	<color name="send_post_left_divider">#d8d8d8</color>
@@ -43,10 +68,7 @@
     <!-- ITEM TEXT COLORS - STATES - PRESSED AND DEFAULT -->
     <color name="text_color_default">#000000</color>
     <color name="text_color_pressed">#ffffff</color>
-    
-    <color name="online_status_now">#24A93B</color>
-	<color name="online_status_today">#FF9933</color>
-	<color name="online_status_recent">#999999</color>
+   
 	
 	<!-- authorize -->
 	<color name="authorize_bind_tip1">#666666</color>

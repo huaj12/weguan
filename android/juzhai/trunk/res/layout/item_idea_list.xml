@@ -20,7 +20,7 @@
             android:id="@+id/idea_image_bg_layout"
             android:layout_width="262dp"
             android:layout_height="180dp"
-            android:background="@color/bg_gray" >
+            android:background="@color/idea_image_bg_color" >
 
             <ImageView
                 android:id="@+id/idea_image"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:textColor="@color/blue"
+                android:textColor="@color/idea_use_count_color"
                 android:textSize="15sp" />
 
             <Button

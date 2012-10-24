@@ -14,7 +14,7 @@
         android:background="@drawable/find_password_input"
         android:inputType="text"
         android:paddingLeft="5dp"
-        android:textColor="@color/idea_want"
+        android:textColor="@color/edit_text_color"
         android:textSize="15sp"
         android:visibility="gone" />
 
@@ -25,7 +25,7 @@
         android:layout_below="@+id/profession_input"
         android:layout_marginLeft="20dp"
         android:text="@string/setting_profession_tip"
-        android:textColor="@color/home_gray"
+        android:textColor="@color/tips_text_color"
         android:textSize="15sp"
         android:visibility="gone" />
 

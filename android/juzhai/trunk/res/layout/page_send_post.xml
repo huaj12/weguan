@@ -150,7 +150,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/post_clean_btn"
-            android:textColor="@color/home_gray"
+            android:textColor="@color/tips_text_color"
             android:textSize="11sp" />
     </RelativeLayout>
 

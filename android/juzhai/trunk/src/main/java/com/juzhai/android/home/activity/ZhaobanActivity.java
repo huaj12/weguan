@@ -157,13 +157,15 @@ public class ZhaobanActivity extends TabItemActivity {
 		postListView.manualRefresh();
 
 		User user = UserCache.getUserInfo();
-		if (user.hasTpExpired()) {
-			pushIntent(new Intent(ZhaobanActivity.this,
-					AuthorizeExpiredActivity.class));
-		} else if (!user.hasTp()) {
-			// 提示授权
-			pushIntent(new Intent(ZhaobanActivity.this,
-					AuthorizeBindActivity.class));
+		if (null != user) {
+			if (user.hasTpExpired()) {
+				pushIntent(new Intent(ZhaobanActivity.this,
+						AuthorizeExpiredActivity.class));
+			} else if (!user.hasTp()) {
+				// 提示授权
+				pushIntent(new Intent(ZhaobanActivity.this,
+						AuthorizeBindActivity.class));
+			}
 		}
 	}
 

@@ -106,6 +106,7 @@ public class UploadImageActivity extends Activity {
 				Bundle extras = data.getExtras();
 				if (extras != null) {
 					Bitmap pic = extras.getParcelable("data");
+					//TODO (review) 有没有压缩图片？
 					data.putExtra("pic", pic);
 					setResult(ActivityCode.ResultCode.PIC_RESULT_CODE, data);
 				}

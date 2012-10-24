@@ -1,6 +1,7 @@
 package com.juzhai.android.core.widget.button;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -61,7 +62,7 @@ public class SegmentedButton extends LinearLayout {
 			} else {
 				button.setBackgroundResource(R.drawable.segment_middle_button);
 			}
-			button.setTextColor(context.getResources().getColor(R.color.white));
+			button.setTextColor(Color.WHITE);
 			button.setTextSize(TypedValue.COMPLEX_UNIT_SP, TEXT_SIZE);
 			button.setText(segmentTitles[i]);
 			button.setOnClickListener(new View.OnClickListener() {

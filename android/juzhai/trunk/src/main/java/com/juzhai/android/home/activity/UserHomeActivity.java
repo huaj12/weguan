@@ -90,12 +90,14 @@ public class UserHomeActivity extends NavigationActivity {
 
 					@Override
 					public void onClick(View v) {
-						Intent intent = new Intent(UserHomeActivity.this,
-								PreviewActivity.class);
-						intent.putExtra("defaultImage",
-								R.drawable.user_face_unload);
-						intent.putExtra("imageUrl", user.getOriginalLogo());
-						pushIntent(intent);
+						if (user.isHasLogo()) {
+							Intent intent = new Intent(UserHomeActivity.this,
+									PreviewActivity.class);
+							intent.putExtra("defaultImage",
+									R.drawable.user_face_unload);
+							intent.putExtra("imageUrl", user.getOriginalLogo());
+							pushIntent(intent);
+						}
 					}
 				});
 				contactBtn.setOnClickListener(new View.OnClickListener() {

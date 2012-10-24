@@ -27,7 +27,7 @@
 	    <string name="frequency_exceeds_the_limit_error">您发送的太快休息一会吧</string>
 	    <!-- 发送私信  end -->
 	    <string name="profession_name_is_null_error">职业描述不能为空</string>
-	    <string name="profession_name_too_long_error">职业描述写的太多了</string>
+	    <string name="profession_name_too_long_error">不要超过10个字哦</string>
 	    <!-- send_post begin -->
 	    <string name="send_post_place_length_invalid_error">地点字数控制在50字以内</string>
 	    <string name="send_post_category_is_null_error">请选择拒宅分类</string>

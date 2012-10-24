@@ -26,6 +26,7 @@ public class JuzhaiRefreshListView extends PullToRefreshListView {
 	}
 
 	private void init() {
+		setShowIndicator(false);
 	}
 
 	public void manualRefresh() {

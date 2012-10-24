@@ -21,7 +21,8 @@
         <activity android:name=".home.activity.HomeActivity" android:screenOrientation="portrait"/>
         <activity android:name=".setting.activity.SettingListActivity" android:screenOrientation="portrait"/>
         <activity android:name=".post.activity.PostDetailActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".passport.activity.LoginActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".passport.activity.LoginActivity"
+            android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan"/>
         <!--created by kooks at 2012-09-12 17:24:53-->
         <activity android:name=".passport.activity.TpLoginActivity" android:screenOrientation="portrait"/>
         <!--created by kooks at 2012-09-12 22:47:44-->

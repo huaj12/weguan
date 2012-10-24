@@ -15,7 +15,7 @@
         android:inputType="text"
         android:maxEms="10"
         android:paddingLeft="5dp"
-        android:textColor="@color/idea_want"
+        android:textColor="@color/edit_text_color"
         android:textSize="15sp" />
 
     <TextView
@@ -25,7 +25,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:text="@string/setting_nickname_tip"
-        android:textColor="@color/home_gray"
+        android:textColor="@color/tips_text_color"
         android:textSize="15sp" />
 
     <TextView

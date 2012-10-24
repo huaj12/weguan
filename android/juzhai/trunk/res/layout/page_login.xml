@@ -33,7 +33,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/find_pwd_selector_button"
             android:text="@string/find_pwd"
-            android:textColor="@color/blue"
+            android:textColor="@color/forget_pwd_btn_color"
             android:textSize="18sp" />
 
         <Button

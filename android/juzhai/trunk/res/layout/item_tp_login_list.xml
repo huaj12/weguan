@@ -16,7 +16,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="45dp"
         android:layout_toRightOf="@+id/tp_image_logo"
-        android:textColor="@color/gray"
+        android:textColor="@color/text_gray"
         android:textSize="15sp" />
     <ImageView
         android:id="@+id/tp_image_select"

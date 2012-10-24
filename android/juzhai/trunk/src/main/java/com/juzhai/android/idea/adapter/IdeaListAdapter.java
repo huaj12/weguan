@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -97,14 +98,14 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 			wantButton.setText(mContext.getResources().getString(
 					R.string.want_done));
 			wantButton.setTextColor(mContext.getResources().getColor(
-					R.color.idea_want_done));
+					R.color.button_done_color));
 
 		} else {
 			wantButton.setEnabled(true);
 			wantButton.setText(convertView.getResources().getString(
 					R.string.i_want));
 			wantButton.setTextColor(mContext.getResources().getColor(
-					R.color.idea_want));
+					R.color.button_link_color));
 			// 我想去
 			Map<String, Object> values = new HashMap<String, Object>();
 			values.put("ideaId", idea.getIdeaId());
@@ -116,7 +117,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 							wantButton.setText(mContext.getResources()
 									.getString(R.string.want_done));
 							wantButton.setTextColor(mContext.getResources()
-									.getColor(R.color.idea_want_done));
+									.getColor(R.color.button_done_color));
 							idea.setHasUsed(true);
 							MobclickAgent.onEvent(mContext,
 									UmengEvent.SEND_IDEA);
@@ -148,9 +149,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 								imageView.setImageBitmap(zoomBitmap);
 								contentTextView
 										.setBackgroundResource(R.drawable.good_idea_item_txt_infor_bg);
-								contentTextView.setTextColor(mContext
-										.getResources().getColor(
-												android.R.color.white));
+								contentTextView.setTextColor(Color.WHITE);
 							}
 						}
 					});

@@ -43,9 +43,11 @@ public class UserViewHelper implements IUserViewHelper {
 	@Override
 	public void showUserNickname(Context context, User user, TextView textView) {
 		if (user.getGender() == 0) {
-			textView.setTextColor(context.getResources().getColor(R.color.pink));
+			textView.setTextColor(context.getResources().getColor(
+					R.color.nickname_girl_color));
 		} else {
-			textView.setTextColor(context.getResources().getColor(R.color.blue));
+			textView.setTextColor(context.getResources().getColor(
+					R.color.nickname_boy_color));
 		}
 		textView.setText(user.getNickname());
 	}

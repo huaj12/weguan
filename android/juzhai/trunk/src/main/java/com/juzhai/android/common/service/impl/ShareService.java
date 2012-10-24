@@ -1,5 +1,8 @@
 package com.juzhai.android.common.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,6 +16,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.juzhai.android.R;
 import com.juzhai.android.common.service.IShareService;
@@ -21,6 +25,8 @@ import com.juzhai.android.core.utils.StringUtil;
 import com.juzhai.android.idea.model.Idea;
 
 public class ShareService implements IShareService {
+
+	private static final String INVITE_IMAGE = "share_pic.jpg";
 
 	@Override
 	public void openIdeaSharePop(Context context, Idea idea, Uri imageUri) {
@@ -124,7 +130,12 @@ public class ShareService implements IShareService {
 								.getName().equals(activityInfo.name))) {
 					Intent targeted = new Intent(Intent.ACTION_SEND);
 					targeted.setPackage(activityInfo.packageName);
+					// if (!SharedApp.QZONE.equals(sharedApp)
+					// && !SharedApp.RENREN.equals(sharedApp)) {
+					// targeted.setType("image/*"); // 分享图片信息类型
+					// } else {
 					targeted.setType("text/plain");
+					// }
 					targeted.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					if (SharedApp.EMAIL.equals(sharedApp)) {
 						targeted.putExtra(Intent.EXTRA_SUBJECT,

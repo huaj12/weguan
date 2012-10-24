@@ -23,10 +23,13 @@ import com.juzhai.android.core.widget.list.PageAdapter;
 import com.juzhai.android.dialog.activity.DialogListActivity;
 import com.juzhai.android.dialog.model.Dialog;
 import com.juzhai.android.home.activity.UserHomeActivity;
+import com.juzhai.android.home.helper.IUserViewHelper;
+import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.model.User;
 
 public class DialogListAdapter extends PageAdapter<Dialog> {
+	private IUserViewHelper userViewHelper = new UserViewHelper();
 
 	public DialogListAdapter(Context mContext) {
 		super(mContext);
@@ -78,15 +81,7 @@ public class DialogListAdapter extends PageAdapter<Dialog> {
 						}
 					});
 		}
-		if (user.getGender() == 0) {
-			nicknameTextView.setTextColor(mContext.getResources().getColor(
-					R.color.pink));
-		} else {
-			nicknameTextView.setTextColor(mContext.getResources().getColor(
-					R.color.blue));
-		}
-		nicknameTextView.setText(TextTruncateUtil.truncate(user.getNickname(),
-				20, "..."));
+		userViewHelper.showUserNickname(mContext, user, nicknameTextView);
 		contentTextView.setText(TextTruncateUtil.truncate(
 				dialog.getLatestContent(), 33, "..."));
 		// 接受者

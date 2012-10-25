@@ -22,6 +22,7 @@ import com.juzhai.android.dialog.exception.DialogContentException;
 import com.juzhai.android.dialog.model.DialogContent;
 import com.juzhai.android.dialog.service.IDialogContentService;
 import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.exception.NeedLoginException;
 import com.umeng.analytics.MobclickAgent;
 
 public class DialogContentService implements IDialogContentService {
@@ -40,6 +41,9 @@ public class DialogContentService implements IDialogContentService {
 		try {
 			responseEntity = HttpUtils.get(context, dialogContentListUri,
 					values, DialogContentListResult.class);
+		} catch (NeedLoginException e) {
+			throw new DialogContentException(context,
+					R.string.login_status_error, e);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -81,6 +85,9 @@ public class DialogContentService implements IDialogContentService {
 			responseEntity = HttpUtils.uploadFile(context, sendMessageUri,
 					values, UserCache.getUserStatus(), "dialogImg", image,
 					DialogContentResult.class);
+		} catch (NeedLoginException e) {
+			throw new DialogContentException(context,
+					R.string.login_status_error, e);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),

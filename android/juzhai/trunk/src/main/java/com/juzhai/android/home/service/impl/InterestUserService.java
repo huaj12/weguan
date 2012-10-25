@@ -14,6 +14,7 @@ import com.juzhai.android.core.model.Result.UserListResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.home.exception.HomeException;
 import com.juzhai.android.home.service.IInterestUserService;
+import com.juzhai.android.passport.exception.NeedLoginException;
 
 public class InterestUserService implements IInterestUserService {
 	private String interestMeUri = "home/interestMeList";
@@ -28,6 +29,12 @@ public class InterestUserService implements IInterestUserService {
 		try {
 			responseEntity = HttpUtils.get(context, interestUri, values,
 					UserListResult.class);
+		} catch (NeedLoginException e) {
+			UserListResult userListResult = new UserListResult();
+			userListResult.setSuccess(false);
+			userListResult.setErrorInfo(context
+					.getString(R.string.login_status_error));
+			return userListResult;
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "interestList is error", e);
@@ -46,6 +53,12 @@ public class InterestUserService implements IInterestUserService {
 		try {
 			responseEntity = HttpUtils.get(context, interestMeUri, values,
 					UserListResult.class);
+		} catch (NeedLoginException e) {
+			UserListResult userListResult = new UserListResult();
+			userListResult.setSuccess(false);
+			userListResult.setErrorInfo(context
+					.getString(R.string.login_status_error));
+			return userListResult;
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "interestMeList is error", e);

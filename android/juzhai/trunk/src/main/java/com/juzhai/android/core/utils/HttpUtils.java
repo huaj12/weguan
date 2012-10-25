@@ -1,5 +1,6 @@
 package com.juzhai.android.core.utils;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,14 +10,17 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,20 +31,22 @@ import android.net.ConnectivityManager;
 import com.juzhai.android.R;
 import com.juzhai.android.core.SystemConfig;
 import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.exception.NeedLoginException;
 
 public class HttpUtils {
 
 	private static int CONNECT_TIMEOUT = 20000;
-	private static int READ_TIMEOUT = 20000;
+	private static int READ_TIMEOUT = 30000;
 
 	public static <T> ResponseEntity<T> post(Context context, String uri,
-			Map<String, Object> values, Class<T> responseType) {
+			Map<String, Object> values, Class<T> responseType)
+			throws NeedLoginException {
 		return post(context, uri, values, null, responseType);
 	}
 
 	public static <T> ResponseEntity<T> post(Context context, String uri,
 			Map<String, Object> values, Map<String, String> cookies,
-			Class<T> responseType) {
+			Class<T> responseType) throws NeedLoginException {
 		MultiValueMap<String, Object> formData = new LinkedMultiValueMap<String, Object>();
 		if (!CollectionUtils.isEmpty(values)) {
 			for (Entry<String, Object> entry : values.entrySet()) {
@@ -53,7 +59,8 @@ public class HttpUtils {
 
 	public static <T> ResponseEntity<T> uploadFile(Context context, String uri,
 			Map<String, Object> values, Map<String, String> cookies,
-			String filename, Bitmap file, Class<T> responseType) {
+			String filename, Bitmap file, Class<T> responseType)
+			throws NeedLoginException {
 		MultiValueMap<String, Object> formData = new LinkedMultiValueMap<String, Object>();
 		if (!CollectionUtils.isEmpty(values)) {
 			// for (Entry<String, Object> entry : values.entrySet()) {
@@ -79,7 +86,7 @@ public class HttpUtils {
 	private static <T> ResponseEntity<T> post(Context context, String uri,
 			MultiValueMap<String, Object> formData,
 			Map<String, String> cookies, MediaType mediaType,
-			Class<T> responseType) {
+			Class<T> responseType) throws NeedLoginException {
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setAccept(Collections.singletonList(new MediaType(
 				"application", "json")));
@@ -96,10 +103,18 @@ public class HttpUtils {
 		restTemplate.getMessageConverters().add(
 				new MappingJacksonHttpMessageConverter());
 		restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
-		ResponseEntity<T> responseEntity = restTemplate.exchange(
-				SystemConfig.BASEURL + uri, HttpMethod.POST, requestEntity,
-				responseType);
-		return responseEntity;
+		try {
+			ResponseEntity<T> responseEntity = restTemplate.exchange(
+					SystemConfig.BASEURL + uri, HttpMethod.POST, requestEntity,
+					responseType);
+			return responseEntity;
+		} catch (RestClientException e) {
+			if (e.getCause() instanceof NeedLoginException) {
+				throw (NeedLoginException) e.getCause();
+			} else {
+				throw e;
+			}
+		}
 	}
 
 	private static void prepareCookies(Map<String, String> cookies,
@@ -115,18 +130,19 @@ public class HttpUtils {
 	}
 
 	public static <T> ResponseEntity<T> get(Context context, String uri,
-			Map<String, Object> values, Class<T> responseType) {
+			Map<String, Object> values, Class<T> responseType)
+			throws NeedLoginException {
 		return get(context, uri, values, null, responseType);
 	}
 
 	public static <T> ResponseEntity<T> get(Context context, String uri,
-			Class<T> responseType) {
+			Class<T> responseType) throws NeedLoginException {
 		return get(context, uri, null, null, responseType);
 	}
 
 	public static <T> ResponseEntity<T> get(Context context, String uri,
 			Map<String, Object> values, Map<String, String> cookies,
-			Class<T> responseType) {
+			Class<T> responseType) throws NeedLoginException {
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setAccept(Collections.singletonList(new MediaType(
 				"application", "json")));
@@ -140,10 +156,18 @@ public class HttpUtils {
 		}
 		restTemplate.getMessageConverters().add(
 				new MappingJacksonHttpMessageConverter());
-		ResponseEntity<T> responseEntity = restTemplate.exchange(
-				SystemConfig.BASEURL + createHttpParam(uri, values),
-				HttpMethod.GET, requestEntity, responseType);
-		return responseEntity;
+		try {
+			ResponseEntity<T> responseEntity = restTemplate.exchange(
+					SystemConfig.BASEURL + createHttpParam(uri, values),
+					HttpMethod.GET, requestEntity, responseType);
+			return responseEntity;
+		} catch (RestClientException e) {
+			if (e.getCause() instanceof NeedLoginException) {
+				throw (NeedLoginException) e.getCause();
+			} else {
+				throw e;
+			}
+		}
 	}
 
 	private static String createHttpParam(String uri, Map<String, Object> values) {
@@ -165,7 +189,7 @@ public class HttpUtils {
 		return uri + str.toString();
 	}
 
-	private static RestTemplate createRestTemplate(Context context) {
+	private static RestTemplate createRestTemplate(final Context context) {
 		boolean hasNetwork = false;
 		ConnectivityManager cwjManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -179,26 +203,27 @@ public class HttpUtils {
 		scrf.setConnectTimeout(CONNECT_TIMEOUT);
 		scrf.setReadTimeout(READ_TIMEOUT);
 		RestTemplate restTemplate = new RestTemplate(scrf);
-		// restTemplate.setErrorHandler(new ResponseErrorHandler() {
-		// @Override
-		// public boolean hasError(ClientHttpResponse response)
-		// throws IOException {
-		// if (null == response) {
-		// return false;
-		// }
-		// return response.getStatusCode() != HttpStatus.OK;
-		// }
-		//
-		// @Override
-		// public void handleError(ClientHttpResponse response)
-		// throws IOException {
-		// if (response != null) {
-		// if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-		// // TODO 跳往登录
-		// }
-		// }
-		// }
-		// });
+		restTemplate.setErrorHandler(new ResponseErrorHandler() {
+			@Override
+			public boolean hasError(ClientHttpResponse response)
+					throws IOException {
+				if (null == response) {
+					return false;
+				}
+				return !HttpStatus.OK.equals(response.getStatusCode());
+			}
+
+			@Override
+			public void handleError(ClientHttpResponse response)
+					throws IOException {
+				if (response != null) {
+					if (HttpStatus.UNAUTHORIZED.equals(response.getStatusCode())) {
+						throw new RestClientException("not login",
+								new NeedLoginException());
+					}
+				}
+			}
+		});
 		return restTemplate;
 	}
 }

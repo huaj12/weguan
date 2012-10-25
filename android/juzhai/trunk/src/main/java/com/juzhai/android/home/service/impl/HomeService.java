@@ -15,6 +15,7 @@ import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.home.exception.HomeException;
 import com.juzhai.android.home.service.IHomeService;
 import com.juzhai.android.passport.data.UserCacheManager;
+import com.juzhai.android.passport.exception.NeedLoginException;
 import com.juzhai.android.passport.model.User;
 
 public class HomeService implements IHomeService {
@@ -29,6 +30,9 @@ public class HomeService implements IHomeService {
 		try {
 			responseEntity = HttpUtils
 					.get(context, refeshUri, UserResult.class);
+		} catch (NeedLoginException e) {
+			return context.getResources()
+					.getString(R.string.login_status_error);
 		} catch (Exception e) {
 			return context.getResources().getString(
 					R.string.system_internet_erorr);
@@ -63,6 +67,8 @@ public class HomeService implements IHomeService {
 			values.put("uid", uid);
 			responseEntity = HttpUtils.get(context, userInfoUri, values,
 					UserResult.class);
+		} catch (NeedLoginException e) {
+			throw new HomeException(context, R.string.login_status_error);
 		} catch (Exception e) {
 			throw new HomeException(context, R.string.system_internet_erorr);
 		}

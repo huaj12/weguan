@@ -15,6 +15,7 @@ import com.juzhai.android.core.model.Result.IdeaUserListResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.idea.exception.IdeaException;
 import com.juzhai.android.idea.service.IIdeaService;
+import com.juzhai.android.passport.exception.NeedLoginException;
 
 public class IdeaService implements IIdeaService {
 	private String ideaListUri = "idea/list";
@@ -31,6 +32,12 @@ public class IdeaService implements IIdeaService {
 		try {
 			responseEntity = HttpUtils.get(context, ideaListUri, values,
 					IdeaListResult.class);
+		} catch (NeedLoginException e) {
+			IdeaListResult ideaListResult = new IdeaListResult();
+			ideaListResult.setSuccess(false);
+			ideaListResult.setErrorInfo(context
+					.getString(R.string.login_status_error));
+			return ideaListResult;
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -52,6 +59,12 @@ public class IdeaService implements IIdeaService {
 		try {
 			responseEntity = HttpUtils.get(context, ideaUsersUri, values,
 					IdeaUserListResult.class);
+		} catch (NeedLoginException e) {
+			IdeaUserListResult ideaUserListResult = new IdeaUserListResult();
+			ideaUserListResult.setSuccess(false);
+			ideaUserListResult.setErrorInfo(context
+					.getString(R.string.login_status_error));
+			return ideaUserListResult;
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "login error", e);

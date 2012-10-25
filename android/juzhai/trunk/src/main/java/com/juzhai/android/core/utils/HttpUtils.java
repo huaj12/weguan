@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -30,6 +31,7 @@ import android.net.ConnectivityManager;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.SystemConfig;
+import com.juzhai.android.core.data.SharedPreferencesManager;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.exception.NeedLoginException;
 
@@ -225,5 +227,38 @@ public class HttpUtils {
 			}
 		});
 		return restTemplate;
+	}
+
+	public static <T> ResponseEntity<T> serviceGet(Context context, String uri,
+			Map<String, Object> values, Class<T> responseType)
+			throws NeedLoginException {
+		HttpHeaders requestHeaders = new HttpHeaders();
+		requestHeaders.setAccept(Collections.singletonList(new MediaType(
+				"application", "json")));
+		String p_token = new SharedPreferencesManager(context)
+				.getString("p_token");
+		if (StringUtils.isNotEmpty(p_token)) {
+			requestHeaders.add("Cookie", "p_token=" + p_token);
+		}
+		HttpEntity<Object> requestEntity = new HttpEntity<Object>(
+				requestHeaders);
+		RestTemplate restTemplate = createRestTemplate(context);
+		if (null == restTemplate) {
+			throw new RestClientException("no network");
+		}
+		restTemplate.getMessageConverters().add(
+				new MappingJacksonHttpMessageConverter());
+		try {
+			ResponseEntity<T> responseEntity = restTemplate.exchange(
+					createHttpParam(uri, values), HttpMethod.GET,
+					requestEntity, responseType);
+			return responseEntity;
+		} catch (RestClientException e) {
+			if (e.getCause() instanceof NeedLoginException) {
+				throw (NeedLoginException) e.getCause();
+			} else {
+				throw e;
+			}
+		}
 	}
 }

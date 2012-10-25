@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.image.DialogSizeType;
-import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.image.manager.IImageManager;
 import com.juzhai.core.image.util.ImageUtil;
 import com.juzhai.home.service.IDialogImageService;
@@ -54,13 +53,29 @@ public class DialogImageService implements IDialogImageService {
 
 	@Override
 	public String saveImg(long uid, String filePath) {
+		// TODO 多个尺寸
 		File srcFile = new File(imageManager.getUploadTempImageHome()
 				+ filePath);
 		String fileName = srcFile.getName();
 		String directoryPath = uploadDialogContentImageHome
 				+ ImageUtil.generateHierarchyImagePath(uid,
-						JzImageSizeType.ORIGINAL.getType());
+						DialogSizeType.ORIGINAL.getType());
 		imageManager.copyImage(directoryPath, fileName, srcFile);
+
+		// 大图
+		String distDirectoryPath = uploadDialogContentImageHome
+				+ ImageUtil.generateHierarchyImagePath(uid,
+						DialogSizeType.BIG.getType());
+		imageManager.reduceImageWidth(directoryPath + fileName,
+				distDirectoryPath, fileName, DialogSizeType.BIG.getType());
+
+		// 中图
+		distDirectoryPath = uploadDialogContentImageHome
+				+ ImageUtil.generateHierarchyImagePath(uid,
+						DialogSizeType.MIDDLE.getType());
+		imageManager.reduceImage(directoryPath + fileName, distDirectoryPath,
+				fileName, DialogSizeType.MIDDLE.getType());
+
 		return fileName;
 	}
 }

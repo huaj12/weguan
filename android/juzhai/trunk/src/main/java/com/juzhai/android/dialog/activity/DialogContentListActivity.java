@@ -338,6 +338,10 @@ public class DialogContentListActivity extends NavigationActivity {
 						dialogContent.setDialogContentId(sentDialogContent
 								.getDialogContentId());
 						dialogContent.setImgUrl(sentDialogContent.getImgUrl());
+						dialogContent.setBigImgUrl(sentDialogContent
+								.getBigImgUrl());
+						dialogContent.setOriginalImgUrl(sentDialogContent
+								.getOriginalImgUrl());
 						dialogContent.setStatus(MessageStatus.SUCCESS);
 						adapter.refreshIdentify();
 						updateUI(true, null);

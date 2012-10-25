@@ -161,7 +161,7 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 							}
 						}
 					});
-			intent.putExtra("imageUrl", dialogContent.getImgUrl());
+			intent.putExtra("imageUrl", dialogContent.getBigImgUrl());
 		}
 		imageView.setOnClickListener(new OnClickListener() {
 			@Override

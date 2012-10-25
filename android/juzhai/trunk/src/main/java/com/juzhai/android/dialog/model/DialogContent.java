@@ -15,6 +15,10 @@ public class DialogContent extends Entity {
 
 	private String imgUrl;
 
+	private String bigImgUrl;
+
+	private String originalImgUrl;
+
 	private long senderUid;
 
 	private long receiverUid;
@@ -47,6 +51,22 @@ public class DialogContent extends Entity {
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
+	}
+
+	public String getBigImgUrl() {
+		return bigImgUrl;
+	}
+
+	public void setBigImgUrl(String bigImgUrl) {
+		this.bigImgUrl = bigImgUrl;
+	}
+
+	public String getOriginalImgUrl() {
+		return originalImgUrl;
+	}
+
+	public void setOriginalImgUrl(String originalImgUrl) {
+		this.originalImgUrl = originalImgUrl;
 	}
 
 	public long getSenderUid() {

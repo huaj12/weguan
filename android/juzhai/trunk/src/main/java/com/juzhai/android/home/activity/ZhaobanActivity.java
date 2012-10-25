@@ -220,7 +220,10 @@ public class ZhaobanActivity extends TabItemActivity {
 		criteria.setCostAllowed(true);
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
 		String provider = locationManager.getBestProvider(criteria, true);
-		locationManager.requestSingleUpdate(provider, locationListener, null);
+		if (null != provider) {
+			locationManager.requestSingleUpdate(provider, locationListener,
+					null);
+		}
 	}
 
 	private static final int CHECK_INTERVAL = 1000 * 30;

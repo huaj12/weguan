@@ -5,6 +5,8 @@ package com.juzhai.android.post.activity;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -292,10 +294,13 @@ public class SendPostActivity extends NavigationActivity {
 					@Override
 					public void successCallback() {
 						DialogUtils.showSuccessDialog(SendPostActivity.this,
-								R.string.send_ok);
-						// DialogUtils.showToastText(SendPostActivity.this,
-						// R.string.send_ok);
-						SendPostActivity.this.finish();
+								R.string.send_ok, 0);
+						new Timer().schedule(new TimerTask() {
+							@Override
+							public void run() {
+								popIntent();
+							}
+						}, 2000);
 					}
 
 					@Override

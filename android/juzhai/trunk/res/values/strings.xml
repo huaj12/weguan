@@ -238,4 +238,9 @@
     <string name="invite_title">邀请</string>
     <string name="invite_text">刚发现一个小清新的脱宅社区，蛮有新意的；周末不想宅在家的朋友可以来试试哦~http://www.51juzhai.com</string>
     <string name="invite_subject">发现一个不错的社区，蛮有新意的</string>
+    
+    <!-- 消息栏模版 -->
+    <string name="notification_title">拒宅消息</string>
+    <string name="notification_un_read_message">你有%1$d条未读消息,快来看看吧</string>
+    <string name="notification_week">快到周末了，想好去哪玩了么？来看看本周都有哪些拒宅好主意吧！</string>
 </resources>

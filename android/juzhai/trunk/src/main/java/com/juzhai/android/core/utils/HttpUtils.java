@@ -2,6 +2,7 @@ package com.juzhai.android.core.utils;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -229,7 +230,8 @@ public class HttpUtils {
 		return restTemplate;
 	}
 
-	public static <T> ResponseEntity<T> serviceGet(Context context, String uri,
+	public static <T> ResponseEntity<T> get(Context context, String baseUrl,
+			String uri, Map<String, String> cookies,
 			Map<String, Object> values, Class<T> responseType)
 			throws NeedLoginException {
 		HttpHeaders requestHeaders = new HttpHeaders();
@@ -238,8 +240,12 @@ public class HttpUtils {
 		String p_token = new SharedPreferencesManager(context)
 				.getString("p_token");
 		if (StringUtils.isNotEmpty(p_token)) {
-			requestHeaders.add("Cookie", "p_token=" + p_token);
+			if (cookies == null) {
+				cookies = new HashMap<String, String>();
+			}
+			cookies.put("p_token", p_token);
 		}
+		prepareCookies(cookies, requestHeaders);
 		HttpEntity<Object> requestEntity = new HttpEntity<Object>(
 				requestHeaders);
 		RestTemplate restTemplate = createRestTemplate(context);
@@ -249,8 +255,8 @@ public class HttpUtils {
 		restTemplate.getMessageConverters().add(
 				new MappingJacksonHttpMessageConverter());
 		try {
-			ResponseEntity<T> responseEntity = restTemplate.exchange(
-					createHttpParam(uri, values), HttpMethod.GET,
+			ResponseEntity<T> responseEntity = restTemplate.exchange(baseUrl
+					+ createHttpParam(uri, values), HttpMethod.GET,
 					requestEntity, responseType);
 			return responseEntity;
 		} catch (RestClientException e) {

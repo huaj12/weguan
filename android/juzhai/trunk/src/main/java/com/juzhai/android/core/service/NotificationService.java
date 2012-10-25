@@ -34,9 +34,10 @@ public class NotificationService extends Service {
 	private int noticeWeekPeriod = 3600000;
 	private int weekHourTime = 10;
 	private int weekDayTime = 5;
+	public final String BASEURL = "http://m.51juzhai.com/";
 	// private String noticeNumsUri =
 	// "http://192.168.15.102:8080/mobile/dialog/notice/nums";
-	private String noticeNumsUri = "http://m.51juzhai.com/dialog/notice/nums";
+	private String noticeNumsUri = "dialog/notice/nums";
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -122,9 +123,9 @@ public class NotificationService extends Service {
 
 	private int getMessageCount() {
 		try {
-			ResponseEntity<IntegerResult> responseEntity = HttpUtils
-					.serviceGet(NotificationService.this, noticeNumsUri, null,
-							IntegerResult.class);
+			ResponseEntity<IntegerResult> responseEntity = HttpUtils.get(
+					NotificationService.this, BASEURL, noticeNumsUri, null,
+					null, IntegerResult.class);
 			if (responseEntity.getBody() != null
 					&& responseEntity.getBody() != null
 					&& responseEntity.getBody().getSuccess()) {

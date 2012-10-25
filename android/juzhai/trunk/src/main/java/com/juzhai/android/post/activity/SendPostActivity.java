@@ -19,6 +19,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -152,9 +153,11 @@ public class SendPostActivity extends NavigationActivity {
 				FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
 						FrameLayout.LayoutParams.FILL_PARENT,
 						FrameLayout.LayoutParams.WRAP_CONTENT);
-				params.setMargins(UIUtil.px2dip(SendPostActivity.this, 15),
-						UIUtil.px2dip(SendPostActivity.this, 5),
-						UIUtil.px2dip(SendPostActivity.this, 15), 0);
+				params.gravity = Gravity.CENTER;
+				params.setMargins(UIUtil.dip2px(SendPostActivity.this, 10),
+						UIUtil.dip2px(SendPostActivity.this, 5),
+						UIUtil.dip2px(SendPostActivity.this, 10),
+						UIUtil.dip2px(SendPostActivity.this, 5));
 				placeEditText.setLayoutParams(params);
 				placeEditText.setSingleLine(true);
 			}

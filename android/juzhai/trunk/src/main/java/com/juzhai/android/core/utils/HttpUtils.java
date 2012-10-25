@@ -207,7 +207,7 @@ public class HttpUtils {
 			@Override
 			public boolean hasError(ClientHttpResponse response)
 					throws IOException {
-				if (null == response) {
+				if (null == response || response.getStatusCode() == null) {
 					return false;
 				}
 				return !HttpStatus.OK.equals(response.getStatusCode());

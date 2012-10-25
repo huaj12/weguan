@@ -18,11 +18,11 @@ public abstract class BaseAuthorizeActivity extends NavigationActivity {
 				&& (resultCode == TpAuthorizeListener.BIND_SUCCESS_RESULT || resultCode == TpAuthorizeListener.EXPIRED_SUCCESS_RESULT)) {
 			// 显示成功提示
 			if (resultCode == TpAuthorizeListener.BIND_SUCCESS_RESULT) {
-				DialogUtils.showSuccessDialog(this, R.string.bind_ok);
+				DialogUtils.showSuccessDialog(this, R.string.bind_ok, 0);
 				// new AlertDialog.Builder(this).setMessage("绑定成功")
 				// .setCancelable(false).show();
 			} else if (resultCode == TpAuthorizeListener.EXPIRED_SUCCESS_RESULT) {
-				DialogUtils.showSuccessDialog(this, R.string.authorize_ok);
+				DialogUtils.showSuccessDialog(this, R.string.authorize_ok, 0);
 				// alertDialog = new
 				// AlertDialog.Builder(this).setMessage("授权成功")
 				// .setCancelable(false).show();

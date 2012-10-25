@@ -2,6 +2,8 @@ package com.juzhai.android.core.widget.list;
 
 import java.util.List;
 
+import org.springframework.util.StringUtils;
+
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -26,11 +28,14 @@ public abstract class GetDataTask<T extends Result<? extends PageList<E>>, E ext
 	}
 
 	protected void onPostExecute(T result) {
-		if (null == result || !result.getSuccess()) {
+		if (null == result
+				|| (!result.getSuccess() && !StringUtils.hasText(result
+						.getErrorInfo()))) {
 			DialogUtils.showErrorDialog(refreshListView.getContext(),
 					R.string.system_internet_erorr);
-			// DialogUtils.showToastText(refreshListView.getContext(),
-			// R.string.system_internet_erorr);
+		} else if (!result.getSuccess()) {
+			DialogUtils.showErrorDialog(refreshListView.getContext(),
+					result.getErrorInfo());
 		} else {
 			// add or override
 			Pager pager = result.getResult().getPager();

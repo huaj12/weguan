@@ -16,6 +16,7 @@ import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.data.UserCacheManager;
+import com.juzhai.android.passport.exception.NeedLoginException;
 import com.juzhai.android.passport.exception.ProfileException;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.passport.service.IProfileService;
@@ -55,6 +56,8 @@ public class ProfileService implements IProfileService {
 			responseEntity = HttpUtils.uploadFile(context, url, values,
 					UserCache.getUserStatus(), "logo", user.getLogoImage(),
 					UserResult.class);
+		} catch (NeedLoginException e) {
+			throw new ProfileException(context, R.string.login_status_error, e);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "save " + url + "  is error",

@@ -11,6 +11,7 @@ import com.juzhai.android.BuildConfig;
 import com.juzhai.android.R;
 import com.juzhai.android.core.model.Result.StringResult;
 import com.juzhai.android.core.utils.HttpUtils;
+import com.juzhai.android.passport.exception.NeedLoginException;
 
 public class PostProgressTask extends ProgressTask {
 
@@ -37,6 +38,9 @@ public class PostProgressTask extends ProgressTask {
 				try {
 					responseEntity = HttpUtils.post(context, uri, values,
 							StringResult.class);
+				} catch (NeedLoginException e) {
+					return context.getResources().getString(
+							R.string.login_status_error);
 				} catch (Exception e) {
 					if (BuildConfig.DEBUG) {
 						Log.d(PostProgressTask.class.getSimpleName(),

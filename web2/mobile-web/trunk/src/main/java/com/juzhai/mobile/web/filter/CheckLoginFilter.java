@@ -116,7 +116,7 @@ public class CheckLoginFilter implements Filter {
 			throws IOException {
 		if (isAjaxRequest(request)) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		} else if (isIOSRequest(request)) {
+		} else if (isMobileRequest(request)) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		} else {
 			if (RunType.APP.equals(e.getRunType())) {
@@ -145,11 +145,12 @@ public class CheckLoginFilter implements Filter {
 		return false;
 	}
 
-	private boolean isIOSRequest(HttpServletRequest request) {
+	private boolean isMobileRequest(HttpServletRequest request) {
 		String userAgent = request.getHeader("User-Agent");
 		if (StringUtils.isEmpty(userAgent)) {
 			return false;
 		}
-		return userAgent.contains("iPhone OS") || userAgent.contains("iPad OS");
+		return userAgent.contains("iPhone OS") || userAgent.contains("iPad OS")
+				|| userAgent.contains("Android");
 	}
 }

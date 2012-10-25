@@ -19,6 +19,7 @@ import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.home.bean.ZhaobanOrder;
 import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.exception.NeedLoginException;
 import com.juzhai.android.post.exception.PostException;
 import com.juzhai.android.post.model.Post;
 import com.juzhai.android.post.service.IUserPostService;
@@ -42,6 +43,12 @@ public class UserPostService implements IUserPostService {
 		try {
 			responseEntity = HttpUtils.get(context, userPostUri, values,
 					UserListResult.class);
+		} catch (NeedLoginException e) {
+			UserListResult userListResult = new UserListResult();
+			userListResult.setSuccess(false);
+			userListResult.setErrorInfo(context
+					.getString(R.string.login_status_error));
+			return userListResult;
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -62,6 +69,12 @@ public class UserPostService implements IUserPostService {
 		try {
 			responseEntity = HttpUtils.get(context, postsUri, values,
 					PostListResult.class);
+		} catch (NeedLoginException e) {
+			PostListResult postListResult = new PostListResult();
+			postListResult.setSuccess(false);
+			postListResult.setErrorInfo(context
+					.getString(R.string.login_status_error));
+			return postListResult;
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(),
@@ -89,6 +102,8 @@ public class UserPostService implements IUserPostService {
 			responseEntity = HttpUtils.uploadFile(context, sendPostUri, values,
 					UserCache.getUserStatus(), "postImg", image,
 					StringResult.class);
+		} catch (NeedLoginException e) {
+			throw new PostException(context, R.string.login_status_error, e);
 		} catch (Exception e) {
 			if (BuildConfig.DEBUG) {
 				Log.d(getClass().getSimpleName(), "post  sendPost is  error", e);

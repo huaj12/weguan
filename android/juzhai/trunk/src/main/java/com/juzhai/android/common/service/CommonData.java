@@ -27,6 +27,7 @@ import com.juzhai.android.core.model.Result.ProfessionResult;
 import com.juzhai.android.core.model.Result.ProvinceCityResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.core.utils.JacksonSerializer;
+import com.juzhai.android.passport.exception.NeedLoginException;
 
 public class CommonData {
 	public static final String SHARED_PREFERNCES_CATEGORY = "category";
@@ -182,21 +183,26 @@ public class CommonData {
 				}
 
 				private void initCategory() {
-					ResponseEntity<CategoryResult> response = HttpUtils.get(
-							context, CATEGORY_URI, CategoryResult.class);
-					if (response != null && response.getBody() != null
-							&& response.getBody().getSuccess()) {
-						CategoryResult categoryResult = response.getBody();
-						try {
-							manager.commit(SHARED_PREFERNCES_CATEGORY,
-									JacksonSerializer.toString(categoryResult));
-						} catch (JsonGenerationException e) {
-							if (BuildConfig.DEBUG) {
-								Log.d(getClass().getSimpleName(),
-										"Category to json is error", e);
+					ResponseEntity<CategoryResult> response;
+					try {
+						response = HttpUtils.get(context, CATEGORY_URI,
+								CategoryResult.class);
+						if (response != null && response.getBody() != null
+								&& response.getBody().getSuccess()) {
+							CategoryResult categoryResult = response.getBody();
+							try {
+								manager.commit(SHARED_PREFERNCES_CATEGORY,
+										JacksonSerializer
+												.toString(categoryResult));
+							} catch (JsonGenerationException e) {
+								if (BuildConfig.DEBUG) {
+									Log.d(getClass().getSimpleName(),
+											"Category to json is error", e);
+								}
 							}
-						}
 
+						}
+					} catch (NeedLoginException e) {
 					}
 				}
 			}.execute();
@@ -213,22 +219,25 @@ public class CommonData {
 				}
 
 				private void initProvinceCity() {
-					ResponseEntity<ProvinceCityResult> response = HttpUtils
-							.get(context, PROVINCE_CITY_URI,
-									ProvinceCityResult.class);
-					if (response != null && response.getBody() != null
-							&& response.getBody().getSuccess()) {
-						ProvinceCityResult result = response.getBody();
-						try {
-							manager.commit(SHARED_PROVINCE_CITY,
-									JacksonSerializer.toString(result));
-						} catch (JsonGenerationException e) {
-							if (BuildConfig.DEBUG) {
-								Log.d(getClass().getSimpleName(),
-										"provinceCity to json is error", e);
+					try {
+						ResponseEntity<ProvinceCityResult> response = HttpUtils
+								.get(context, PROVINCE_CITY_URI,
+										ProvinceCityResult.class);
+						if (response != null && response.getBody() != null
+								&& response.getBody().getSuccess()) {
+							ProvinceCityResult result = response.getBody();
+							try {
+								manager.commit(SHARED_PROVINCE_CITY,
+										JacksonSerializer.toString(result));
+							} catch (JsonGenerationException e) {
+								if (BuildConfig.DEBUG) {
+									Log.d(getClass().getSimpleName(),
+											"provinceCity to json is error", e);
+								}
 							}
-						}
 
+						}
+					} catch (NeedLoginException e) {
 					}
 				}
 			}.execute();
@@ -246,21 +255,25 @@ public class CommonData {
 				}
 
 				private void initProfession() {
-					ResponseEntity<ProfessionResult> response = HttpUtils.get(
-							context, PROFESSION_URI, ProfessionResult.class);
-					if (response != null && response.getBody() != null
-							&& response.getBody().getSuccess()) {
-						ProfessionResult result = response.getBody();
-						try {
-							manager.commit(SHARED_PREFERNCES_PROFESSION,
-									JacksonSerializer.toString(result));
-						} catch (JsonGenerationException e) {
-							if (BuildConfig.DEBUG) {
-								Log.d(getClass().getSimpleName(),
-										"profession to json is error", e);
+					try {
+						ResponseEntity<ProfessionResult> response = HttpUtils
+								.get(context, PROFESSION_URI,
+										ProfessionResult.class);
+						if (response != null && response.getBody() != null
+								&& response.getBody().getSuccess()) {
+							ProfessionResult result = response.getBody();
+							try {
+								manager.commit(SHARED_PREFERNCES_PROFESSION,
+										JacksonSerializer.toString(result));
+							} catch (JsonGenerationException e) {
+								if (BuildConfig.DEBUG) {
+									Log.d(getClass().getSimpleName(),
+											"profession to json is error", e);
+								}
 							}
-						}
 
+						}
+					} catch (NeedLoginException e) {
 					}
 				}
 			}.execute();

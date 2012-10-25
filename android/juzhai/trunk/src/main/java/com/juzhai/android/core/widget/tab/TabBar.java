@@ -76,9 +76,6 @@ public class TabBar<C> {
 			Log.e("tabBar", "tabHostResource is empty.");
 			return null;
 		}
-		if (currentIndex >= 0) {
-			tabHost.setCurrentTab(currentIndex);
-		}
 		View view = layoutInflater.inflate(tabHostResource, null);
 		tabHost = (TabHost) view.findViewById(android.R.id.tabhost);
 		if (activityGroup == null) {
@@ -97,6 +94,9 @@ public class TabBar<C> {
 		}
 
 		setTabSpecs(layoutInflater);
+		if (currentIndex >= 0) {
+			tabHost.setCurrentTab(currentIndex);
+		}
 		setTabWidgetBg();
 		setTabHostListener();
 		refreshTabBarItemState();

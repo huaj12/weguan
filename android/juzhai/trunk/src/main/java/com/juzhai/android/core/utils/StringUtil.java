@@ -16,6 +16,7 @@ public class StringUtil {
 		if (StringUtils.isEmpty(text)) {
 			return 0;
 		}
+		text = text.trim();
 		int length = 0;
 		char[] charArray = text.toCharArray();
 		for (char c : charArray) {

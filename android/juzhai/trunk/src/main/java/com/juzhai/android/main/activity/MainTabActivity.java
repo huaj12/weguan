@@ -68,7 +68,7 @@ public class MainTabActivity extends ActivityGroup {
 				R.string.tabitem_setting, new Intent(this,
 						SettingListActivity.class)));
 		tabBar.setBgResources(R.drawable.tab_bar_background);
-		setContentView(tabBar.build(layoutInflater, this));
+		setContentView(tabBar.build(layoutInflater, this, -1));
 
 		User user = UserCache.getUserInfo();
 		if (null != user) {

@@ -10,13 +10,13 @@ import android.os.Bundle;
 import com.juzhai.android.R;
 import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.activity.BaseActivity;
+import com.juzhai.android.core.service.NotificationService;
 import com.juzhai.android.main.service.impl.GuidanceService;
 import com.juzhai.android.passport.activity.LoginActivity;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.service.IPassportService;
 import com.juzhai.android.passport.service.impl.PassportService;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.update.UmengUpdateAgent;
 
 /**
  * @author kooks
@@ -40,8 +40,10 @@ public class LaunchActivity extends BaseActivity {
 				}
 				if (result) {
 					if (UserCache.getUserInfo().isHasGuided()) {
-						clearStackAndStartActivity(new Intent(
-								LaunchActivity.this, MainTabActivity.class));
+						Intent intent = getIntent();
+						intent.setClass(LaunchActivity.this,
+								MainTabActivity.class);
+						clearStackAndStartActivity(intent);
 					} else {
 						clearStackAndStartActivity(new Intent(
 								LaunchActivity.this, UserGuideActivity.class));
@@ -60,5 +62,10 @@ public class LaunchActivity extends BaseActivity {
 		}.execute();
 		// 初始化数据
 		CommonData.initDate(LaunchActivity.this);
+
+		// 启动通知栏service
+		Intent serviceIntent = new Intent(LaunchActivity.this,
+				NotificationService.class);
+		startService(serviceIntent);
 	}
 }

@@ -41,7 +41,7 @@ public class MainTabActivity extends ActivityGroup {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		LayoutInflater layoutInflater = getLayoutInflater();
-
+		int itemIndex = getIntent().getIntExtra("itemIndex", -1);
 		tabBar = new TabBar<Intent>(R.layout.page_main_tab);
 		tabBar.addTabBarItem(new TabBarItem<Intent>(
 				R.drawable.bottom_menu_icon_zhaober_link,
@@ -68,7 +68,7 @@ public class MainTabActivity extends ActivityGroup {
 				R.string.tabitem_setting, new Intent(this,
 						SettingListActivity.class)));
 		tabBar.setBgResources(R.drawable.tab_bar_background);
-		setContentView(tabBar.build(layoutInflater, this, -1));
+		setContentView(tabBar.build(layoutInflater, this, itemIndex));
 
 		User user = UserCache.getUserInfo();
 		if (null != user) {

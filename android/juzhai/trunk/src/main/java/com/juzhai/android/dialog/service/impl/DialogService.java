@@ -58,8 +58,9 @@ public class DialogService implements IDialogService {
 				return responseEntity.getBody().getResult();
 			}
 		} catch (Exception e) {
-			Log.e(getClass().getSimpleName(), "update location error.", e);
+			Log.e(getClass().getSimpleName(), "get newMessageCount error.", e);
 		}
 		return 0;
 	}
+
 }

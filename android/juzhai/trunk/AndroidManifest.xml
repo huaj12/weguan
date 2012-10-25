@@ -89,6 +89,8 @@
             android:exported="true"
             android:process=":DownloadingService">
 		</service>
+        <service android:name=".core.service.NotificationService" android:process=".NotificationService">
+		</service>
         
     </application>
 </manifest>

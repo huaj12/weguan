@@ -70,10 +70,14 @@ public class TabBar<C> {
 		this.bgResources = bgResources;
 	}
 
-	public View build(LayoutInflater layoutInflater, ActivityGroup activityGroup) {
+	public View build(LayoutInflater layoutInflater,
+			ActivityGroup activityGroup, int currentIndex) {
 		if (tabHostResource <= 0) {
 			Log.e("tabBar", "tabHostResource is empty.");
 			return null;
+		}
+		if (currentIndex >= 0) {
+			tabHost.setCurrentTab(currentIndex);
 		}
 		View view = layoutInflater.inflate(tabHostResource, null);
 		tabHost = (TabHost) view.findViewById(android.R.id.tabhost);

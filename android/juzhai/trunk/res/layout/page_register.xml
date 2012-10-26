@@ -31,13 +31,15 @@
         android:cacheColorHint="@null"
         android:layout_below="@id/reg_listview_input" />
     -->
-
+	<LinearLayout android:layout_height="wrap_content"
+	    		  android:layout_width="fill_parent"
+	    		  android:layout_above="@+id/tip_login_bt"
+	>
     <com.juzhai.android.core.widget.list.table.widget.UITableView
         android:id="@+id/tp_login_table_view"
         style="@style/UITableView"
-        android:layout_below="@id/reg_listview_input"
-        android:layout_marginTop="36dp" />
-
+        />
+	</LinearLayout>
     <!-- 底部按钮 -->
 
     <Button

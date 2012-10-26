@@ -2,11 +2,9 @@ package com.juzhai.android.core.utils;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -32,7 +30,6 @@ import android.net.ConnectivityManager;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.SystemConfig;
-import com.juzhai.android.core.data.SharedPreferencesManager;
 import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.exception.NeedLoginException;
 
@@ -106,9 +103,10 @@ public class HttpUtils {
 		restTemplate.getMessageConverters().add(
 				new MappingJacksonHttpMessageConverter());
 		restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
+		SystemConfig config = (SystemConfig) context.getApplicationContext();
 		try {
 			ResponseEntity<T> responseEntity = restTemplate.exchange(
-					SystemConfig.BASEURL + uri, HttpMethod.POST, requestEntity,
+					config.getBaseUrl() + uri, HttpMethod.POST, requestEntity,
 					responseType);
 			return responseEntity;
 		} catch (RestClientException e) {
@@ -159,9 +157,10 @@ public class HttpUtils {
 		}
 		restTemplate.getMessageConverters().add(
 				new MappingJacksonHttpMessageConverter());
+		SystemConfig config = (SystemConfig) context.getApplicationContext();
 		try {
 			ResponseEntity<T> responseEntity = restTemplate.exchange(
-					SystemConfig.BASEURL + createHttpParam(uri, values),
+					config.getBaseUrl() + createHttpParam(uri, values),
 					HttpMethod.GET, requestEntity, responseType);
 			return responseEntity;
 		} catch (RestClientException e) {
@@ -228,43 +227,5 @@ public class HttpUtils {
 			}
 		});
 		return restTemplate;
-	}
-
-	public static <T> ResponseEntity<T> get(Context context, String baseUrl,
-			String uri, Map<String, String> cookies,
-			Map<String, Object> values, Class<T> responseType)
-			throws NeedLoginException {
-		HttpHeaders requestHeaders = new HttpHeaders();
-		requestHeaders.setAccept(Collections.singletonList(new MediaType(
-				"application", "json")));
-		String p_token = new SharedPreferencesManager(context)
-				.getString("p_token");
-		if (StringUtils.isNotEmpty(p_token)) {
-			if (cookies == null) {
-				cookies = new HashMap<String, String>();
-			}
-			cookies.put("p_token", p_token);
-		}
-		prepareCookies(cookies, requestHeaders);
-		HttpEntity<Object> requestEntity = new HttpEntity<Object>(
-				requestHeaders);
-		RestTemplate restTemplate = createRestTemplate(context);
-		if (null == restTemplate) {
-			throw new RestClientException("no network");
-		}
-		restTemplate.getMessageConverters().add(
-				new MappingJacksonHttpMessageConverter());
-		try {
-			ResponseEntity<T> responseEntity = restTemplate.exchange(baseUrl
-					+ createHttpParam(uri, values), HttpMethod.GET,
-					requestEntity, responseType);
-			return responseEntity;
-		} catch (RestClientException e) {
-			if (e.getCause() instanceof NeedLoginException) {
-				throw (NeedLoginException) e.getCause();
-			} else {
-				throw e;
-			}
-		}
 	}
 }

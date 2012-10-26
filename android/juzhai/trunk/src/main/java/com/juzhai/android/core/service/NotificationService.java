@@ -1,7 +1,9 @@
 package com.juzhai.android.core.service;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -36,9 +38,6 @@ public class NotificationService extends Service {
 	private int noticeWeekPeriod = 3600000;
 	private int weekHourTime = 10;
 	private int weekDayTime = 5;
-	public final String BASEURL = "http://m.51juzhai.com/";
-	// private String noticeNumsUri =
-	// "http://192.168.15.102:8080/mobile/dialog/notice/nums";
 	private String noticeNumsUri = "dialog/notice/nums";
 
 	@Override
@@ -55,11 +54,7 @@ public class NotificationService extends Service {
 			@Override
 			public void run() {
 				if (!isAppOnForeground(NotificationService.this)) {
-					String p_token = new SharedPreferencesManager(
-							NotificationService.this).getString("p_token");
-					if (StringUtils.isEmpty(p_token)) {
-						return;
-					}
+
 					int messageCount = getMessageCount();
 					if (messageCount > 0) {
 						Intent intent = new Intent(NotificationService.this,
@@ -129,10 +124,17 @@ public class NotificationService extends Service {
 	}
 
 	private int getMessageCount() {
+		String p_token = new SharedPreferencesManager(NotificationService.this)
+				.getString("p_token");
+		if (StringUtils.isEmpty(p_token)) {
+			return 0;
+		}
 		try {
+			Map<String, String> cookies = new HashMap<String, String>();
+			cookies.put("p_token", p_token);
 			ResponseEntity<IntegerResult> responseEntity = HttpUtils.get(
-					NotificationService.this, BASEURL, noticeNumsUri, null,
-					null, IntegerResult.class);
+					NotificationService.this, noticeNumsUri, null, cookies,
+					IntegerResult.class);
 			if (responseEntity.getBody() != null
 					&& responseEntity.getBody() != null
 					&& responseEntity.getBody().getSuccess()) {

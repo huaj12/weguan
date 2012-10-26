@@ -28,11 +28,9 @@ import com.juzhai.android.passport.task.LoginAuthorizeTask;
  * 
  */
 public class TpLoginActivity extends NavigationActivity {
-	private String tpLoginUrl = SystemConfig.BASEURL + "passport/tpLogin/";
-	private String tpBindUrl = SystemConfig.BASEURL
-			+ "passport/authorize/bind/";
-	private String tpExpiredUrl = SystemConfig.BASEURL
-			+ "passport/authorize/expired/";
+	private String tpLoginUrl = "passport/tpLogin/";
+	private String tpBindUrl = "passport/authorize/bind/";
+	private String tpExpiredUrl = "passport/authorize/expired/";
 	private String loginAccessUrl = "/web/access/";
 	private String expiredAccessUrl = "/authorize/access/";
 	private String bindAccessUrl = "/authorize/bindAccess/";
@@ -50,14 +48,14 @@ public class TpLoginActivity extends NavigationActivity {
 		// --------------设置NavigationBar--------------------
 		tpId = getIntent().getLongExtra("tpId", 0L);
 		authorizeType = getIntent().getIntExtra("authorizeType", 0);
-
+		SystemConfig config = (SystemConfig) getApplication();
 		String url = null;
 		if (authorizeType == 1) {
-			url = tpExpiredUrl + tpId;
+			url = config.getBaseUrl() + tpExpiredUrl + tpId;
 		} else if (authorizeType == 2) {
-			url = tpBindUrl + tpId;
+			url = config.getBaseUrl() + tpBindUrl + tpId;
 		} else {
-			url = tpLoginUrl + tpId;
+			url = config.getBaseUrl() + tpLoginUrl + tpId;
 		}
 		if (!StringUtils.hasText(url)) {
 			return;

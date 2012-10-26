@@ -48,13 +48,17 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
     </RelativeLayout>
-
-    <!-- 新浪、豆瓣、QQ登录 -->
-    <com.juzhai.android.core.widget.list.table.widget.UITableView
-        android:id="@+id/tp_login_table_view"
-        style="@style/UITableView"
-        android:layout_below="@id/login_button_layout"
-        android:layout_marginTop="36dp" />
+    
+	<LinearLayout android:layout_height="wrap_content"
+	    		  android:layout_width="fill_parent"
+	    		  android:layout_above="@+id/tip_reg_bt"
+	>
+	    <!-- 新浪、豆瓣、QQ登录 -->
+	    <com.juzhai.android.core.widget.list.table.widget.UITableView
+	        android:id="@+id/tp_login_table_view"
+	        style="@style/UITableView"
+	         />
+    </LinearLayout>
 
     <Button
         android:id="@+id/tip_reg_bt"

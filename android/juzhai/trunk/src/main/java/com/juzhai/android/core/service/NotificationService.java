@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.http.ResponseEntity;
 
 import android.app.ActivityManager;
@@ -19,6 +20,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.data.SharedPreferencesManager;
 import com.juzhai.android.core.model.Result.IntegerResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.main.activity.LaunchActivity;
@@ -53,17 +55,22 @@ public class NotificationService extends Service {
 			@Override
 			public void run() {
 				if (!isAppOnForeground(NotificationService.this)) {
+					String p_token = new SharedPreferencesManager(
+							NotificationService.this).getString("p_token");
+					if (StringUtils.isEmpty(p_token)) {
+						return;
+					}
 					int messageCount = getMessageCount();
 					if (messageCount > 0) {
 						Intent intent = new Intent(NotificationService.this,
 								LaunchActivity.class);
 						intent.putExtra("itemIndex", 2);
+						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						PendingIntent pendingIntent = PendingIntent
 								.getActivity(NotificationService.this, 0,
 										intent, 0);
 						sendMessage(
 								notificationType,
-								R.drawable.logo,
 								NotificationService.this.getResources()
 										.getString(R.string.notification_title),
 								NotificationService.this
@@ -90,12 +97,12 @@ public class NotificationService extends Service {
 						Intent intent = new Intent(NotificationService.this,
 								LaunchActivity.class);
 						intent.putExtra("itemIndex", 1);
+						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						PendingIntent pendingIntent = PendingIntent
 								.getActivity(NotificationService.this, 0,
 										intent, 0);
 						sendMessage(
 								notificationType,
-								R.drawable.logo,
 								NotificationService.this.getResources()
 										.getString(R.string.notification_title),
 								NotificationService.this.getResources()
@@ -138,12 +145,12 @@ public class NotificationService extends Service {
 		return 0;
 	}
 
-	private void sendMessage(int id, int icon, String title, String text,
+	private void sendMessage(int id, String title, String text,
 			PendingIntent pendingIntent) {
 		// 构造Notification对象
 		Notification notification = new Notification();
 		// 设置通知在状态栏显示的图标
-		notification.icon = icon;
+		notification.icon = R.drawable.logo_tz;
 		// 当我们点击通知时显示的内容
 		notification.tickerText = text;
 		// 通知时发出默认的声音
@@ -152,6 +159,7 @@ public class NotificationService extends Service {
 		// 设置通知显示的参数
 		notification.setLatestEventInfo(NotificationService.this, title, text,
 				pendingIntent);
+		notification.icon = R.drawable.logo_top;
 		// 开始执行
 		notificationManager.notify(id, notification);
 	}

@@ -23,6 +23,7 @@ public class UserCacheManager {
 
 	public static void cache(Context context,
 			ResponseEntity<UserResult> responseEntity) {
+		SystemConfig config = (SystemConfig) context.getApplicationContext();
 		UserCache.setUserInfo(responseEntity.getBody().getResult());
 		List<String> cookieHeaders = responseEntity.getHeaders().get(
 				"Set-Cookie");
@@ -48,7 +49,7 @@ public class UserCacheManager {
 		// cookieManager.removeSessionCookie();
 		if (null != cookieHeaders) {
 			for (String cookie : cookieHeaders) {
-				cookieManager.setCookie(SystemConfig.BASEURL, cookie);
+				cookieManager.setCookie(config.getBaseUrl(), cookie);
 			}
 		}
 		CookieSyncManager.getInstance().sync();

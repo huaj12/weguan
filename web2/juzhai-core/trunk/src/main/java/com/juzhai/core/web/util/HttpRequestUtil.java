@@ -7,6 +7,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.juzhai.core.bean.DeviceName;
+import com.juzhai.core.web.session.UserContext;
+
 public class HttpRequestUtil {
 	public final static Log log = LogFactory.getLog(HttpRequestUtil.class);
 
@@ -121,5 +124,16 @@ public class HttpRequestUtil {
 			}
 		}
 		return false;
+	}
+
+	public static DeviceName getClientName(UserContext context) {
+		String userAgent = context.getUserAgentPermanentCode();
+		String deviceName = null;
+		if (userAgent.contains("iPhone OS") || userAgent.contains("iPad OS")) {
+			deviceName = DeviceName.IPHONE.getName();
+		} else if (userAgent.contains("Android")) {
+			deviceName = DeviceName.ANDROID.getName();
+		}
+		return DeviceName.getDeviceName(deviceName);
 	}
 }

@@ -11,10 +11,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import com.juzhai.core.SystemConfig;
+import com.juzhai.core.bean.DeviceName;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.dao.ITpUserDao;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;

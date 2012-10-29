@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.juzhai.core.Constants;
+import com.juzhai.core.bean.DeviceName;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.exception.NeedLoginException.RunType;
@@ -36,8 +37,7 @@ public class CheckLoginFilter implements Filter {
 
 	public final Log log = LogFactory.getLog(getClass());
 
-	public static final String LOGIN_USER_KEY = "loginUser";
-	public static final String IS_FROM_QQ_PLUS = "isQplus";
+	public static final String DEVICE_NAME = "device_name";
 
 	@Autowired
 	private LoginSessionManager loginSessionManager;
@@ -85,13 +85,6 @@ public class CheckLoginFilter implements Filter {
 				}
 				userOnlineService.setLastUserOnlineTime(context.getUid());
 			}
-
-			// 判断是否来自q+
-			String userAgent = context.getUserAgentPermanentCode();
-			req.setAttribute(
-					IS_FROM_QQ_PLUS,
-					StringUtils.isEmpty(userAgent) ? false : userAgent
-							.contains("Qplus"));
 
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
@@ -146,11 +139,9 @@ public class CheckLoginFilter implements Filter {
 	}
 
 	private boolean isMobileRequest(HttpServletRequest request) {
-		String userAgent = request.getHeader("User-Agent");
-		if (StringUtils.isEmpty(userAgent)) {
-			return false;
-		}
-		return userAgent.contains("iPhone OS") || userAgent.contains("iPad OS")
-				|| userAgent.contains("Android");
+		UserContext context = (UserContext) request.getAttribute("context");
+		DeviceName deviceName = HttpRequestUtil.getClientName(context);
+		return DeviceName.IPHONE.equals(deviceName)
+				|| DeviceName.ANDROID.equals(deviceName);
 	}
 }

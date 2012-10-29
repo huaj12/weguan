@@ -8,9 +8,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.juzhai.android.R;
+import com.juzhai.android.common.adservice.NotificationService;
 import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.activity.BaseActivity;
-import com.juzhai.android.core.service.NotificationService;
 import com.juzhai.android.main.service.impl.GuidanceService;
 import com.juzhai.android.passport.activity.LoginActivity;
 import com.juzhai.android.passport.data.UserCache;

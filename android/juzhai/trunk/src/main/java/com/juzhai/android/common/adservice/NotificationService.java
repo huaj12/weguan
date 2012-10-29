@@ -1,4 +1,4 @@
-package com.juzhai.android.core.service;
+package com.juzhai.android.common.adservice;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -166,6 +166,7 @@ public class NotificationService extends Service {
 		notificationManager.notify(id, notification);
 	}
 
+	//TODO (review) 把此方法公用一下，其它也有地方需要使用
 	private boolean isAppOnForeground(Context context) {
 		boolean result = false;
 		String packageName = context.getPackageName();

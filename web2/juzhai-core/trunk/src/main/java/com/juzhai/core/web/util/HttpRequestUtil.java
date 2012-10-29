@@ -129,7 +129,7 @@ public class HttpRequestUtil {
 	public static DeviceName getClientName(UserContext context) {
 		String userAgent = context.getUserAgentPermanentCode();
 		String deviceName = null;
-		if (userAgent.contains("iPhone OS") || userAgent.contains("iPad OS")) {
+		if (userAgent.contains("iPhone") || userAgent.contains("iPad")) {
 			deviceName = DeviceName.IPHONE.getName();
 		} else if (userAgent.contains("Android")) {
 			deviceName = DeviceName.ANDROID.getName();

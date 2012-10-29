@@ -16,7 +16,9 @@ import android.graphics.RectF;
 
 public class ImageUtils {
 
-	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, float radius) {
+	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, float radius,
+			Context context) {
+		radius = UIUtil.dip2px(context, radius);
 		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
 				bitmap.getHeight(), Config.ARGB_8888);
 		Canvas canvas = new Canvas(output);

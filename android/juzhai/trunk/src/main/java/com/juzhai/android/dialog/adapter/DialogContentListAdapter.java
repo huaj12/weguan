@@ -183,7 +183,7 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
 										bitmap, 40, 40, mContext);
 								logo.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 6,
+										.getRoundedCornerBitmap(zoomBitmap, 5,
 												mContext));
 							}
 						}

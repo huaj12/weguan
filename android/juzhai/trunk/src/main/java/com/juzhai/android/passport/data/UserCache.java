@@ -39,12 +39,10 @@ public class UserCache {
 	public static Map<String, String> getUserStatus() {
 		Map<String, String> cookies = new HashMap<String, String>();
 
-		if (org.apache.commons.lang.StringUtils.isNotEmpty(UserCache
-				.getlToken()) && StringUtils.hasText(UserCache.getlToken())) {
+		if (StringUtils.hasText(UserCache.getlToken())) {
 			cookies.put("l_token", UserCache.getlToken());
 		}
-		if (org.apache.commons.lang.StringUtils.isNotEmpty(UserCache
-				.getpToken()) && StringUtils.hasText(UserCache.getpToken())) {
+		if (StringUtils.hasText(UserCache.getpToken())) {
 			cookies.put("p_token", UserCache.getpToken());
 		}
 		return cookies;

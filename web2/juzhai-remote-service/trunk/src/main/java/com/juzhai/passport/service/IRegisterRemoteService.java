@@ -1,6 +1,6 @@
 package com.juzhai.passport.service;
 
-import com.juzhai.passport.bean.DeviceName;
+import com.juzhai.core.bean.DeviceName;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ProfileInputException;
 

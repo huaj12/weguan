@@ -39,7 +39,8 @@ public class PostViewHelper implements IPostViewHelper {
 								params.height = zoomBitmap.getHeight();
 								imageView.setLayoutParams(params);
 								imageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 10));
+										.getRoundedCornerBitmap(zoomBitmap, 6,
+												context));
 							}
 						}
 					});
@@ -70,7 +71,8 @@ public class PostViewHelper implements IPostViewHelper {
 								params.height = zoomBitmap.getHeight();
 								imageView.setLayoutParams(params);
 								imageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 10));
+										.getRoundedCornerBitmap(zoomBitmap, 6,
+												context));
 							}
 						}
 					});

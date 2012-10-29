@@ -33,7 +33,7 @@ public class UserViewHelper implements IUserViewHelper {
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
 										bitmap, width, height, context);
 								imageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 6,
+										.getRoundedCornerBitmap(zoomBitmap, 5,
 												context));
 							}
 						}
@@ -101,7 +101,7 @@ public class UserViewHelper implements IUserViewHelper {
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
 										bitmap, width, height, context);
 								imageView.setImageBitmap(ImageUtils
-										.getRoundedCornerBitmap(zoomBitmap, 6,
+										.getRoundedCornerBitmap(zoomBitmap, 5,
 												context));
 								String str = JzUtils.getLogverifyStateString(
 										verifystate, context);

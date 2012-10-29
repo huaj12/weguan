@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -38,6 +39,7 @@ public class ForgotPwdActivity extends NavigationActivity {
 				getResources().getString(R.string.forgot_password_title));
 		setNavContentView(R.layout.page_forgot_password);
 		account = (EditText) findViewById(R.id.account);
+		account.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 		Button sendBtn = (Button) findViewById(R.id.send_btn);
 		sendBtn.setOnClickListener(new OnClickListener() {
 			@Override

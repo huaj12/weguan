@@ -1,5 +1,6 @@
 package com.juzhai.android.passport.adapter;
 
+import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,14 +26,17 @@ public class RegisterInputListAdapter extends BaseAdapter {
 					.findViewById(R.id.edit_input);
 			editText.setTag(position);
 			if (position == 0) {
+				editText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 				editText.setHint(R.string.reg_input_tip_account);
 			} else if (position == 1) {
 				editText.setHint(R.string.reg_input_tip_nickname);
 			} else if (position == 2) {
+				editText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
 				editText.setHint(R.string.reg_input_tip_pwd);
 				editText.setTransformationMethod(PasswordTransformationMethod
 						.getInstance());
 			} else {
+				editText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
 				editText.setHint(R.string.reg_input_tip_rep_pwd);
 				editText.setTransformationMethod(PasswordTransformationMethod
 						.getInstance());

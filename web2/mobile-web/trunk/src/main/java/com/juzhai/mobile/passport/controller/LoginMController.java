@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.juzhai.core.bean.DeviceName;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
@@ -25,10 +26,11 @@ import com.juzhai.core.exception.NeedLoginException.RunType;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.mobile.InitData;
 import com.juzhai.mobile.passport.controller.viewHelper.IUserMViewHelper;
+import com.juzhai.mobile.web.filter.CheckLoginFilter;
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ReportAccountException;
 import com.juzhai.passport.model.Thirdparty;
@@ -100,8 +102,13 @@ public class LoginMController extends BaseController {
 							+ ", joinType=" + tp.getJoinType() + "]");
 				}
 				AuthInfo authInfo = null;
+				DeviceName deviceName = HttpRequestUtil.getClientName(context);
+				if (deviceName == null) {
+					result.setError(JuzhaiException.SYSTEM_ERROR, messageSource);
+					return result;
+				}
 				uid = userService.access(new RequestParameter(request),
-						authInfo, tp, 0L, DeviceName.IPHONE);
+						authInfo, tp, 0L, deviceName);
 			}
 			if (uid <= 0) {
 				log.error("access failed.[tpName=" + tp.getName()

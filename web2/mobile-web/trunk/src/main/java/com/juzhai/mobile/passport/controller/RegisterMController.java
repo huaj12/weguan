@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.juzhai.core.bean.DeviceName;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.mobile.passport.controller.form.RegisterMForm;
 import com.juzhai.mobile.passport.controller.viewHelper.IUserMViewHelper;
-import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IProfileRemoteService;
@@ -50,10 +51,15 @@ public class RegisterMController extends BaseController {
 			return result;
 		}
 		try {
+			DeviceName deviceName = HttpRequestUtil.getClientName(context);
+			if (deviceName == null) {
+				result.setError(JuzhaiException.SYSTEM_ERROR, messageSource);
+				return result;
+			}
 			long uid = registerRemoteService.register(
 					registerMForm.getAccount(), registerMForm.getNickname(),
 					registerMForm.getPwd(), registerMForm.getConfirmPwd(),
-					registerMForm.getInviterUid(), DeviceName.IPHONE);
+					registerMForm.getInviterUid(), deviceName);
 			loginService.autoLogin(request, response, uid, true);
 			result.setResult(userMViewHelper.createUserMView(context,
 					profileRemoteService.getProfileCacheByUid(uid), false));

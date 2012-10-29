@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.common.bean.ActiveCodeType;
 import com.juzhai.common.service.IActiveCodeService;
+import com.juzhai.core.bean.DeviceName;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.controller.form.RegisterForm;
 import com.juzhai.passport.controller.form.ResetPwdForm;
 import com.juzhai.passport.exception.PassportAccountException;

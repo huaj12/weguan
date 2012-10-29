@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.juzhai.activity.controller.ActivityController;
 import com.juzhai.core.Constants;
+import com.juzhai.core.bean.DeviceName;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.core.exception.NeedLoginException;
@@ -33,7 +34,6 @@ import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.exception.PassportAccountException;

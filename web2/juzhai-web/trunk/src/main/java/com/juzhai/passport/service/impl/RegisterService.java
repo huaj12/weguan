@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.common.bean.ActiveCodeType;
 import com.juzhai.common.service.IActiveCodeService;
+import com.juzhai.core.bean.DeviceName;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.mail.bean.Mail;
 import com.juzhai.core.mail.factory.MailFactory;
@@ -28,7 +29,6 @@ import com.juzhai.core.stats.counter.service.ICounter;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.bean.ThirdpartyNameEnum;
@@ -36,7 +36,6 @@ import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ProfileInputException;
 import com.juzhai.passport.mapper.PassportMapper;
 import com.juzhai.passport.mapper.ProfileMapper;
-import com.juzhai.passport.mapper.TpUserMapper;
 import com.juzhai.passport.model.Constellation;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.PassportExample;
@@ -57,8 +56,6 @@ public class RegisterService implements IRegisterService {
 	private PassportMapper passportMapper;
 	@Autowired
 	private ProfileMapper profileMapper;
-	@Autowired
-	private TpUserMapper tpUserMapper;
 	@Autowired
 	private TpUserAuthService tpUserAuthService;
 	@Autowired

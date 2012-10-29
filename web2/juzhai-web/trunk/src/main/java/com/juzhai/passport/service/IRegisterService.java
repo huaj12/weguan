@@ -3,8 +3,8 @@
  */
 package com.juzhai.passport.service;
 
+import com.juzhai.core.bean.DeviceName;
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;

@@ -2,9 +2,9 @@ package com.juzhai.platform.service;
 
 import java.io.UnsupportedEncodingException;
 
+import com.juzhai.core.bean.DeviceName;
 import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.DeviceName;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.exception.TokenAuthorizeException;

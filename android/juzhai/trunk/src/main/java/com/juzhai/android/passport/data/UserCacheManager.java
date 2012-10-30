@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import android.content.Context;
@@ -173,5 +174,24 @@ public class UserCacheManager {
 			return sb.toString();
 		}
 		return null;
+	}
+
+	public static <T> void updateLToken(Context context,
+			ResponseEntity<T> responseEntity) {
+		List<String> cookieHeaders = responseEntity.getHeaders().get(
+				"Set-Cookie");
+		if (CollectionUtils.isEmpty(cookieHeaders)) {
+			return;
+		}
+		Map<String, Map<String, String>> cookies = parseCookies(cookieHeaders);
+		Map<String, String> lTokenCookie = cookies.get(L_TOKEN_NAME);
+		if (CollectionUtils.isEmpty(lTokenCookie)) {
+			return;
+		}
+		String lToken = lTokenCookie.get(L_TOKEN_NAME);
+		UserCache.setlToken(lToken);
+		clearPersistLToken(context);
+		new SharedPreferencesManager(context).commit(L_TOKEN_NAME, lToken);
+
 	}
 }

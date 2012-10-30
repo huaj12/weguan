@@ -92,7 +92,7 @@
 		</service>
         <service android:name=".common.adservice.NotificationService" android:process=".NotificationService">
 		</service>
-		<receiver android:name=".core.receiver.BootReceiver">  
+		<receiver android:name=".common.receiver.BootReceiver">  
        	  	 <intent-filter>  
          	 	<action android:name="android.intent.action.BOOT_COMPLETED" />  
         	 </intent-filter>  

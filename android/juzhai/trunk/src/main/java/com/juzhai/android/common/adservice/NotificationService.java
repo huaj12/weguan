@@ -27,17 +27,19 @@ import com.juzhai.android.passport.data.UserCacheManager;
 
 public class NotificationService extends Service {
 	private NotificationManager notificationManager;
-	private int notificationType = 0;
+	private int smsNoticeType = 0;
+	private int weekNoticeType = 1;
 
-	private Timer notificationTimer;
-	private Timer weekTimer;
+	private Timer smsNoticeTimer;
+	private Timer weekNoticeTimer;
+
 	private int baseDelay = 2000;
-	private int noticeMessagePeriod = 5000;
-	private int weekHourTime = 10;
-	private int weekDayTime = 5;
+	private int smsNoticePeriod = 3600000;
+	private long weekNoticePeriod = 1000 * 3600 * 24 * 7;
+	private int weekDayHour = 10;
+	private int weekDay = 5;
+
 	private String noticeNumsUri = "dialog/notice/nums";
-	private TimerTask task;
-	private long weekTime = 1000 * 3600 * 24 * 7;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -48,8 +50,8 @@ public class NotificationService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		notificationTimer = new Timer();
-		notificationTimer.schedule(new TimerTask() {
+		smsNoticeTimer = new Timer();
+		smsNoticeTimer.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				if (!isAppOnForeground(NotificationService.this)) {
@@ -64,7 +66,7 @@ public class NotificationService extends Service {
 								.getActivity(NotificationService.this, 0,
 										intent, 0);
 						sendMessage(
-								notificationType,
+								smsNoticeType,
 								NotificationService.this.getResources()
 										.getString(R.string.notification_title),
 								NotificationService.this
@@ -76,12 +78,12 @@ public class NotificationService extends Service {
 				}
 
 			}
-		}, baseDelay, noticeMessagePeriod);
+		}, baseDelay, smsNoticePeriod);
 
 		// 拒宅周末提醒
 
-		weekTimer = new Timer();
-		task = new TimerTask() {
+		weekNoticeTimer = new Timer();
+		weekNoticeTimer.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				if (!isAppOnForeground(NotificationService.this)) {
@@ -92,27 +94,26 @@ public class NotificationService extends Service {
 					PendingIntent pendingIntent = PendingIntent.getActivity(
 							NotificationService.this, 0, intent, 0);
 					sendMessage(
-							notificationType,
+							weekNoticeType,
 							NotificationService.this.getResources().getString(
 									R.string.notification_title),
 							NotificationService.this.getResources().getString(
 									R.string.notification_week), pendingIntent);
 				}
 			}
-		};
-		weekTimer.schedule(task, getWeekTipTime(), weekTime);
+		}, getWeekTipDelay(), weekNoticePeriod);
 	}
 
 	@Override
 	public void onDestroy() {
 		// 停止timer
-		if (null != notificationTimer) {
-			notificationTimer.cancel();
-			notificationTimer = null;
+		if (null != smsNoticeTimer) {
+			smsNoticeTimer.cancel();
+			smsNoticeTimer = null;
 		}
-		if (null != weekTimer) {
-			weekTimer.cancel();
-			weekTimer = null;
+		if (null != weekNoticeTimer) {
+			weekNoticeTimer.cancel();
+			weekNoticeTimer = null;
 		}
 		super.onDestroy();
 	}
@@ -174,15 +175,15 @@ public class NotificationService extends Service {
 		return result;
 	}
 
-	private long getWeekTipTime() {
+	private long getWeekTipDelay() {
 		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.DAY_OF_WEEK, weekDayTime + 1);
-		cal.set(Calendar.HOUR_OF_DAY, weekHourTime);
+		cal.set(Calendar.DAY_OF_WEEK, weekDay + 1);
+		cal.set(Calendar.HOUR_OF_DAY, weekDayHour);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		long time = cal.getTimeInMillis() - new Date().getTime();
 		if (time < 0) {
-			time = weekTime + time;
+			time = weekNoticePeriod + time;
 		}
 		return time;
 	}

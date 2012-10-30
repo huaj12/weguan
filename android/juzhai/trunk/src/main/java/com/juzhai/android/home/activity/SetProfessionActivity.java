@@ -5,8 +5,8 @@ package com.juzhai.android.home.activity;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -98,7 +98,7 @@ public class SetProfessionActivity extends NavigationActivity {
 						.getCurrentItem());
 				if (profession.getId() == 0) {
 					String professionName = editText.getText().toString();
-					if (StringUtils.isEmpty(professionName)) {
+					if (!StringUtils.hasText(professionName)) {
 						DialogUtils.showErrorDialog(SetProfessionActivity.this,
 								R.string.profession_name_is_null_error);
 						// DialogUtils.showToastText(SetProfessionActivity.this,

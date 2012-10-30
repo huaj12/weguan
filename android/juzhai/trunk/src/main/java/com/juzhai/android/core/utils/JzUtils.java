@@ -5,8 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.time.DateUtils;
-
 import android.content.Context;
 
 import com.juzhai.android.R;
@@ -56,7 +54,7 @@ public class JzUtils {
 	 * @return
 	 */
 	public static long beforeDays(Date date) {
-		return ((DateUtils.truncate(new Date(), Calendar.DATE).getTime() - DateUtils
+		return ((DateUtil.truncate(new Date(), Calendar.DATE).getTime() - DateUtil
 				.truncate(date, Calendar.DATE).getTime()) / (24 * 60 * 60 * 1000));
 	}
 

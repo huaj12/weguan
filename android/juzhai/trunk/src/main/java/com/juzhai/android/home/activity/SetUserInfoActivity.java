@@ -2,7 +2,7 @@ package com.juzhai.android.home.activity;
 
 import java.util.Calendar;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -279,7 +279,7 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 	}
 
 	protected boolean validation() {
-		if (StringUtils.isEmpty(user.getNickname())) {
+		if (!StringUtils.hasText(user.getNickname())) {
 			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
 					R.string.nickname_is_null_error);
 			// DialogUtils.showToastText(SetUserInfoActivity.this,
@@ -308,7 +308,7 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 			return false;
 		}
 		if (user.getProfessionId() <= 0
-				&& StringUtils.isEmpty(user.getProfession())) {
+				&& !StringUtils.hasText(user.getProfession())) {
 			DialogUtils.showErrorDialog(SetUserInfoActivity.this,
 					R.string.profession_is_null_error);
 			// DialogUtils.showToastText(SetUserInfoActivity.this,

@@ -3,8 +3,8 @@ package com.juzhai.android.passport.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 
 import android.content.Context;
 import android.util.Log;
@@ -44,7 +44,7 @@ public class ProfileService implements IProfileService {
 			Map<String, Object> values = new HashMap<String, Object>();
 			values.put("nickname", user.getNickname());
 			values.put("gender", user.getGender());
-			if (StringUtils.isNotEmpty(user.getFeature())) {
+			if (StringUtils.hasText(user.getFeature())) {
 				values.put("feature", user.getFeature());
 			}
 			values.put("professionId", user.getProfessionId());

@@ -3,7 +3,7 @@ package com.juzhai.android.core.widget.dialog;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -90,7 +90,7 @@ public class PromptDialog extends Dialog {
 		this.setContentView(R.layout.fragment_prompt_dialog);
 		TextView messageView = (TextView) findViewById(R.id.prompt_message);
 		ImageView iconView = (ImageView) findViewById(R.id.prompt_icon);
-		if (StringUtils.isEmpty(messageStr)) {
+		if (!StringUtils.hasText(messageStr)) {
 			messageView.setText(message);
 		} else {
 			messageView.setText(messageStr);

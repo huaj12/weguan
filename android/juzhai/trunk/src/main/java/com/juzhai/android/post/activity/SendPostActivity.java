@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -123,7 +123,7 @@ public class SendPostActivity extends NavigationActivity {
 											int which) {
 										String place = placeEditText.getText()
 												.toString();
-										if (StringUtils.isEmpty(place)) {
+										if (!StringUtils.hasText(place)) {
 											placeBtn.setSelected(false);
 										} else {
 											// int placeLength = StringUtil
@@ -236,7 +236,7 @@ public class SendPostActivity extends NavigationActivity {
 
 			@Override
 			public void onClick(View v) {
-				if (StringUtils.isNotEmpty(contentText.getText().toString())) {
+				if (StringUtils.hasText(contentText.getText().toString())) {
 					new AlertDialog.Builder(SendPostActivity.this)
 							.setTitle(R.string.note)
 							.setMessage(R.string.clean_content)

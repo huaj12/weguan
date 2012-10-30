@@ -6,7 +6,7 @@ package com.juzhai.android.home.activity;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -49,7 +49,7 @@ public class SetNicknameActivity extends NavigationActivity {
 			@Override
 			public void onClick(View v) {
 				final String nickname = editText.getText().toString();
-				if (StringUtils.isEmpty(nickname)) {
+				if (!StringUtils.hasText(nickname)) {
 					DialogUtils.showErrorDialog(SetNicknameActivity.this,
 							R.string.nickname_is_null_error);
 					// DialogUtils.showToastText(SetNicknameActivity.this,

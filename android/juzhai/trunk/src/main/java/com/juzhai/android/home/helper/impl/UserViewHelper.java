@@ -1,6 +1,6 @@
 package com.juzhai.android.home.helper.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -22,7 +22,7 @@ public class UserViewHelper implements IUserViewHelper {
 	@Override
 	public void showUserLogo(final Context context, User user,
 			final ImageView imageView, final int width, final int height) {
-		if (StringUtils.isNotEmpty(user.getLogo())) {
+		if (StringUtils.hasText(user.getLogo())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(context);
 			nid.fetchImage(JzUtils.getImageUrl(user.getLogo()),
 					R.drawable.user_face_unload, imageView,
@@ -89,7 +89,7 @@ public class UserViewHelper implements IUserViewHelper {
 	public void showUserNewLogo(final Context context, User user,
 			final ImageView imageView, final TextView textView,
 			final int width, final int height) {
-		if (StringUtils.isNotEmpty(user.getNewLogo())) {
+		if (StringUtils.hasText(user.getNewLogo())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(context);
 			final int verifystate = user.getLogoVerifyState();
 			nid.fetchImage(JzUtils.getImageUrl(user.getNewLogo()),
@@ -105,7 +105,7 @@ public class UserViewHelper implements IUserViewHelper {
 												context));
 								String str = JzUtils.getLogverifyStateString(
 										verifystate, context);
-								if (!StringUtils.isEmpty(str)) {
+								if (StringUtils.hasText(str)) {
 									textView.setVisibility(View.VISIBLE);
 									textView.setText(str);
 								}

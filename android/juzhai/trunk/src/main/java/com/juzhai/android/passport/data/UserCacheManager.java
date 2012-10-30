@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import android.content.Context;
@@ -32,11 +31,17 @@ public class UserCacheManager {
 		UserCache.setUserInfo(responseEntity.getBody().getResult());
 		List<String> cookieHeaders = responseEntity.getHeaders().get(
 				"Set-Cookie");
-		if (CollectionUtils.isEmpty(cookieHeaders)) {
-			cookieHeaders = new ArrayList<String>();
+		if (null == cookieHeaders) {
+			cookieHeaders = new ArrayList<String>(1);
 		}
-		parseLtoken(cookieHeaders, context, config);
 		Map<String, Map<String, String>> cookies = parseCookies(cookieHeaders);
+		if (!cookies.containsKey(L_TOKEN_NAME)) {
+			String lTokenString = newLTokenString(context, config);
+			if (StringUtils.hasText(lTokenString)) {
+				cookieHeaders.add(lTokenString);
+				putParseCookie(cookies, lTokenString);
+			}
+		}
 		Map<String, String> pTokenMap = cookies.get(P_TOKEN_NAME);
 		Map<String, String> lTokenMap = cookies.get(L_TOKEN_NAME);
 		if (lTokenMap != null) {
@@ -105,7 +110,7 @@ public class UserCacheManager {
 
 	public static long getPersistUid(Context context) {
 		String str = new SharedPreferencesManager(context).getString(UID_NAME);
-		if (org.apache.commons.lang.StringUtils.isEmpty(str)) {
+		if (!StringUtils.hasText(str)) {
 			return 0;
 		}
 		return Long.valueOf(str);
@@ -127,46 +132,46 @@ public class UserCacheManager {
 		Map<String, Map<String, String>> cookies = new HashMap<String, Map<String, String>>();
 		if (null != list) {
 			for (String str : list) {
-				String[] cookiesStr = str.split(SEMICOLON);
-				Map<String, String> map = new HashMap<String, String>();
-				String key = null;
-				for (String cookieStr : cookiesStr) {
-					String[] values = cookieStr.split(EQUALSIGN);
-					if (values != null && values.length > 1) {
-						if (null == key) {
-							key = values[0];
-						}
-						map.put(values[0], values[1]);
-					}
-				}
-				cookies.put(key, map);
+				putParseCookie(cookies, str);
 			}
 		}
 		return cookies;
 	}
 
-	private static void parseLtoken(List<String> cookieHeaders,
-			Context context, SystemConfig config) {
-		String cookieStr = org.apache.commons.lang.StringUtils.join(
-				cookieHeaders, SEMICOLON);
-		if (org.apache.commons.lang.StringUtils.isEmpty(cookieStr)
-				|| cookieStr.indexOf(L_TOKEN_NAME) == -1) {
-			String lToken = UserCacheManager.getPersistLToken(context);
-			if (org.apache.commons.lang.StringUtils.isNotEmpty(lToken)) {
-				StringBuilder sb = new StringBuilder();
-				sb.append(L_TOKEN_NAME);
-				sb.append(EQUALSIGN);
-				sb.append(lToken);
-				sb.append(SEMICOLON);
-				sb.append("Domain");
-				sb.append(EQUALSIGN);
-				sb.append(config.getBaseUrl());
-				sb.append(SEMICOLON);
-				sb.append("Path");
-				sb.append(EQUALSIGN);
-				sb.append("/");
-				cookieHeaders.add(sb.toString());
+	protected static void putParseCookie(
+			Map<String, Map<String, String>> cookies, String str) {
+		String[] cookiesStr = str.split(SEMICOLON);
+		Map<String, String> map = new HashMap<String, String>();
+		String key = null;
+		for (String cookieStr : cookiesStr) {
+			String[] values = cookieStr.split(EQUALSIGN);
+			if (values != null && values.length > 1) {
+				if (null == key) {
+					key = values[0];
+				}
+				map.put(values[0], values[1]);
 			}
 		}
+		cookies.put(key, map);
+	}
+
+	private static String newLTokenString(Context context, SystemConfig config) {
+		String lToken = UserCacheManager.getPersistLToken(context);
+		if (StringUtils.hasText(lToken)) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(L_TOKEN_NAME);
+			sb.append(EQUALSIGN);
+			sb.append(lToken);
+			sb.append(SEMICOLON);
+			sb.append("Domain");
+			sb.append(EQUALSIGN);
+			sb.append(config.getBaseUrl());
+			sb.append(SEMICOLON);
+			sb.append("Path");
+			sb.append(EQUALSIGN);
+			sb.append("/");
+			return sb.toString();
+		}
+		return null;
 	}
 }

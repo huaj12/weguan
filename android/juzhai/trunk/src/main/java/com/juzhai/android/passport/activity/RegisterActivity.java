@@ -3,7 +3,7 @@
  */
 package com.juzhai.android.passport.activity;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -101,7 +101,7 @@ public class RegisterActivity extends NavigationActivity {
 					if (progressDialog != null) {
 						progressDialog.dismiss();
 					}
-					if (StringUtils.isNotEmpty(errorInfo)) {
+					if (StringUtils.hasText(errorInfo)) {
 						DialogUtils.showErrorDialog(RegisterActivity.this,
 								errorInfo);
 						// DialogUtils.showToastText(RegisterActivity.this,

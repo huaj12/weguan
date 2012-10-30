@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -202,9 +203,15 @@ public class DialogMController extends BaseController {
 	public AjaxResult noticeNums(HttpServletRequest request, Model model)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
+		return noticeNums(request, model, context.getUid());
+	}
+
+	@RequestMapping(value = "/notice/nums/{uid}", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult noticeNums(HttpServletRequest request, Model model,
+			@PathVariable long uid) {
 		AjaxResult result = new AjaxResult();
-		result.setResult(noticeService.getNoticeNum(context.getUid(),
-				NoticeType.DIALOG));
+		result.setResult(noticeService.getNoticeNum(uid, NoticeType.DIALOG));
 		return result;
 	}
 }

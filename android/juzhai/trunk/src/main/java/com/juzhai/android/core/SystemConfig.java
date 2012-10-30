@@ -11,15 +11,14 @@ import com.juzhai.android.BuildConfig;
 
 public class SystemConfig extends Application {
 
-	public final String DOMAIN = "192.168.15.102";
+	public final String DOMAIN = "192.168.15.103";
 
 	// public static final String BASEURL =
 	// "http://192.168.15.104:8080/mobile/";
 
-	public final String baseUrl = "http://m.51juzhai.com/";
+	// public final String baseUrl = "http://m.51juzhai.com/";
 
-	// public final String baseUrl = "http://" + DOMAIN +
-	// ":8080/mobile/";
+	public final String baseUrl = "http://" + DOMAIN + ":8080/mobile/";
 
 	public static String getVersionName(Context context) {
 		// 获取packagemanager的实例

@@ -9,4 +9,18 @@ public interface IDownloadService {
 	 * @return
 	 */
 	File getIOSFile();
+
+	/**
+	 * 获取android web地址
+	 * 
+	 * @return
+	 */
+	String getAndroidWebPath();
+
+	/**
+	 * 获取ios web地址
+	 * 
+	 * @return
+	 */
+	String getIOSWebPath();
 }

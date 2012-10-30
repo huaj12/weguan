@@ -41,6 +41,7 @@ public class PassportService implements IPassportService {
 			// 有记录登录状态直接登录
 			Map<String, String> cookies = new HashMap<String, String>();
 			cookies.put("p_token", pToken);
+			cookies.put("l_token", UserCacheManager.getPersistLToken(context));
 			ResponseEntity<UserResult> responseEntity = null;
 			try {
 				responseEntity = HttpUtils.post(context, LOGIN_URI, null,
@@ -94,7 +95,7 @@ public class PassportService implements IPassportService {
 			ResponseEntity<UserResult> responseEntity) {
 		// 保存登录信息
 		UserCacheManager.cache(context, responseEntity);
-		UserCacheManager.persistToken(context, responseEntity);
+		UserCacheManager.persistInfo(context, responseEntity);
 	}
 
 	@Override

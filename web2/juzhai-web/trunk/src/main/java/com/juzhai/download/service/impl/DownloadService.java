@@ -9,26 +9,26 @@ import com.juzhai.download.service.IDownloadService;
 
 @Service
 public class DownloadService implements IDownloadService {
-	@Value("${web.download.ios.path}")
-	private String webDownloadIosPath;
-	@Value("download.android.web.path")
-	private String downloadAndroidWebPath;
-	@Value("download.ios.web.path")
-	private String downloadIOSWebPath;
+	@Value("${local.ios.download.file}")
+	private String localIosDownloadFile;
+	@Value("local.android.download.url")
+	private String localAndroidDownloadUrl;
+	@Value("appstore.download.url")
+	private String appstoreDownloadUrl;
 
 	@Override
 	public File getIOSFile() {
-		return new File(webDownloadIosPath);
+		return new File(localIosDownloadFile);
 	}
 
 	@Override
 	public String getAndroidWebPath() {
-		return downloadAndroidWebPath;
+		return localAndroidDownloadUrl;
 	}
 
 	@Override
 	public String getIOSWebPath() {
-		return downloadIOSWebPath;
+		return appstoreDownloadUrl;
 	}
 
 }

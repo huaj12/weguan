@@ -1,6 +1,6 @@
 package com.juzhai.android.post.helper.impl;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -22,7 +22,7 @@ public class PostViewHelper implements IPostViewHelper {
 	@Override
 	public void showSmallPostImage(final Context context, Post post,
 			final ImageView imageView) {
-		if (StringUtils.isNotEmpty(post.getPic())) {
+		if (StringUtils.hasText(post.getPic())) {
 			imageView.setVisibility(View.VISIBLE);
 			ImageViewLoader nid = ImageViewLoader.getInstance(context);
 			nid.fetchImage(JzUtils.getImageUrl(post.getPic()),
@@ -53,7 +53,7 @@ public class PostViewHelper implements IPostViewHelper {
 	@Override
 	public void showBigPostImage(final Context context, Post post,
 			final ImageView imageView) {
-		if (StringUtils.isNotEmpty(post.getBigPic())) {
+		if (StringUtils.hasText(post.getBigPic())) {
 			imageView.setVisibility(View.VISIBLE);
 			ImageViewLoader nid = ImageViewLoader.getInstance(context);
 			nid.fetchImage(JzUtils.getImageUrl(post.getBigPic()),

@@ -3,8 +3,8 @@ package com.juzhai.android.passport.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 
 import android.content.Context;
 import android.util.Log;
@@ -35,7 +35,7 @@ public class PassportService implements IPassportService {
 	@Override
 	public boolean checkLogin(Context context) {
 		String pToken = UserCacheManager.getPersistToken(context);
-		if (StringUtils.isEmpty(pToken)) {
+		if (!StringUtils.hasText(pToken)) {
 			return false;
 		} else {
 			// 有记录登录状态直接登录
@@ -66,7 +66,7 @@ public class PassportService implements IPassportService {
 			throw new PassportException(context,
 					R.string.login_account_is_null_error);
 		}
-		if (StringUtils.isEmpty(account) || StringUtils.isEmpty(password)) {
+		if (!StringUtils.hasText(account) || !StringUtils.hasText(password)) {
 			throw new PassportException(context, R.string.login_defalut_error);
 		}
 		Map<String, Object> values = new HashMap<String, Object>();
@@ -138,7 +138,7 @@ public class PassportService implements IPassportService {
 				|| !StringUtil.checkMailFormat(account)) {
 			return R.string.email_account_invalid_error;
 		}
-		if (StringUtils.isEmpty(nickname)) {
+		if (!StringUtils.hasText(nickname)) {
 			return R.string.nickname_is_null_error;
 		}
 		int nicknameLength = StringUtil.chineseLength(nickname);
@@ -150,7 +150,7 @@ public class PassportService implements IPassportService {
 				|| pwdLength > Validation.REGISTER_PASSWORD_LENGTH_MAX) {
 			return R.string.pwd_length_invalid_error;
 		}
-		if (!StringUtils.equals(pwd, confirmPwd)) {
+		if (!pwd.equals(confirmPwd)) {
 			return R.string.confirm_pwd_error;
 		}
 		return 0;

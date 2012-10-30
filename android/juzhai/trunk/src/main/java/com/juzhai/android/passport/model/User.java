@@ -1,6 +1,6 @@
 package com.juzhai.android.passport.model;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -324,11 +324,11 @@ public class User extends Entity {
 					+ mContext.getResources().getString(R.string.age));
 			sbString.append(comma);
 		}
-		if (StringUtils.isNotEmpty(getConstellation())) {
+		if (StringUtils.hasText(getConstellation())) {
 			sbString.append(getConstellation());
 			sbString.append(comma);
 		}
-		if (StringUtils.isNotEmpty(getProfession())) {
+		if (StringUtils.hasText(getProfession())) {
 			sbString.append(getProfession());
 		}
 		return sbString.toString();

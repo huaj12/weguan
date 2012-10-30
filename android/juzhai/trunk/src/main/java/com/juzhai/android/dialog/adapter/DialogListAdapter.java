@@ -2,7 +2,7 @@ package com.juzhai.android.dialog.adapter;
 
 import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -64,7 +64,7 @@ public class DialogListAdapter extends PageAdapter<Dialog> {
 
 		final Dialog dialog = data.getDatas().get(position);
 		final User user = dialog.getTargetUser();
-		if (StringUtils.isNotEmpty(user.getLogo())) {
+		if (StringUtils.hasText(user.getLogo())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 			nid.fetchImage(JzUtils.getImageUrl(user.getLogo()),
 					R.drawable.user_face_unload, logoView,

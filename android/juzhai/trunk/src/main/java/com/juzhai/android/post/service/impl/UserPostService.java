@@ -3,8 +3,8 @@ package com.juzhai.android.post.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -91,10 +91,10 @@ public class UserPostService implements IUserPostService {
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("content", post.getContent());
 		values.put("categoryId", post.getCategoryId());
-		if (StringUtils.isNotEmpty(post.getPlace())) {
+		if (StringUtils.hasText(post.getPlace())) {
 			values.put("place", post.getPlace());
 		}
-		if (StringUtils.isNotEmpty(post.getDate())) {
+		if (StringUtils.hasText(post.getDate())) {
 			values.put("dateString", post.getDate());
 		}
 		ResponseEntity<StringResult> responseEntity = null;

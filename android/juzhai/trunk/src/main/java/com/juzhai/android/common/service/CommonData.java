@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -42,7 +42,7 @@ public class CommonData {
 		if (categoryList == null) {
 			String jsonString = new SharedPreferencesManager(context)
 					.getString(SHARED_PREFERNCES_CATEGORY);
-			if (StringUtils.isNotEmpty(jsonString)) {
+			if (StringUtils.hasText(jsonString)) {
 				try {
 					CategoryResult result = JacksonSerializer.toBean(
 							jsonString, CategoryResult.class);
@@ -75,7 +75,7 @@ public class CommonData {
 		if (provinceList == null) {
 			String jsonString = new SharedPreferencesManager(context)
 					.getString(SHARED_PROVINCE_CITY);
-			if (StringUtils.isNotEmpty(jsonString)) {
+			if (StringUtils.hasText(jsonString)) {
 				try {
 					ProvinceCityResult result = JacksonSerializer.toBean(
 							jsonString, ProvinceCityResult.class);
@@ -97,7 +97,7 @@ public class CommonData {
 		if (cityList == null) {
 			String jsonString = new SharedPreferencesManager(context)
 					.getString(SHARED_PROVINCE_CITY);
-			if (StringUtils.isNotEmpty(jsonString)) {
+			if (StringUtils.hasText(jsonString)) {
 				try {
 					ProvinceCityResult result = JacksonSerializer.toBean(
 							jsonString, ProvinceCityResult.class);
@@ -119,7 +119,7 @@ public class CommonData {
 		if (professionList == null) {
 			String jsonString = new SharedPreferencesManager(context)
 					.getString(SHARED_PREFERNCES_PROFESSION);
-			if (StringUtils.isNotEmpty(jsonString)) {
+			if (StringUtils.hasText(jsonString)) {
 				try {
 					ProfessionResult result = JacksonSerializer.toBean(
 							jsonString, ProfessionResult.class);

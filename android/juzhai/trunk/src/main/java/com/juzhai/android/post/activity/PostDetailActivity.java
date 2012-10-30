@@ -3,7 +3,7 @@ package com.juzhai.android.post.activity;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -101,14 +101,14 @@ public class PostDetailActivity extends NavigationActivity {
 		Post post = user.getPostView();
 		// 设置时间
 		TextView time = (TextView) findViewById(R.id.post_detail_time_text);
-		if (StringUtils.isNotEmpty(post.getDate())) {
+		if (StringUtils.hasText(post.getDate())) {
 			time.setText(post.getDate());
 		} else {
 			time.setVisibility(View.GONE);
 		}
 		// 设置地点
 		TextView place = (TextView) findViewById(R.id.post_detail_place_text);
-		if (StringUtils.isNotEmpty(post.getPlace())) {
+		if (StringUtils.hasText(post.getPlace())) {
 			place.setText(post.getPlace());
 		} else {
 			place.setVisibility(View.GONE);

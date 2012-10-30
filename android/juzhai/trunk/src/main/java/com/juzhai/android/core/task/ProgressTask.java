@@ -1,6 +1,6 @@
 package com.juzhai.android.core.task;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -42,7 +42,7 @@ public class ProgressTask extends AsyncTask<Void, Void, String> {
 		if (progressDialog != null) {
 			progressDialog.dismiss();
 		}
-		if (StringUtils.isNotEmpty(errorInfo)) {
+		if (StringUtils.hasText(errorInfo)) {
 			DialogUtils.showErrorDialog(context, errorInfo);
 			// DialogUtils.showToastText(context, errorInfo);
 		} else {

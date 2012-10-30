@@ -6,7 +6,7 @@ package com.juzhai.android.passport.activity;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -67,7 +67,7 @@ public class ForgotPwdActivity extends NavigationActivity {
 						if (progressDialog != null) {
 							progressDialog.dismiss();
 						}
-						if (StringUtils.isNotEmpty(errorInfo)) {
+						if (StringUtils.hasText(errorInfo)) {
 							DialogUtils.showErrorDialog(ForgotPwdActivity.this,
 									errorInfo);
 							// DialogUtils.showToastText(ForgotPwdActivity.this,

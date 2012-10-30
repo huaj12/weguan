@@ -3,7 +3,7 @@ package com.juzhai.android.idea.adapter;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -131,7 +131,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 		}
 
 		final ImageView imageView = holder.imageView;
-		if (StringUtils.isNotEmpty(idea.getBigPic())) {
+		if (StringUtils.hasText(idea.getBigPic())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 			nid.fetchImage(JzUtils.getImageUrl(idea.getBigPic()),
 					R.drawable.good_idea_list_pic_none_icon, imageView,

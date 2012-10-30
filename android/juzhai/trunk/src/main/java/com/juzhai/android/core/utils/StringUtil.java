@@ -2,7 +2,7 @@ package com.juzhai.android.core.utils;
 
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 public class StringUtil {
 	public static String EMPTY = "";
@@ -13,7 +13,7 @@ public class StringUtil {
 	// public static char separator = (char) 036;
 
 	public static int chineseLength(String text) {
-		if (StringUtils.isEmpty(text)) {
+		if (!StringUtils.hasText(text)) {
 			return 0;
 		}
 		text = text.trim();
@@ -30,10 +30,10 @@ public class StringUtil {
 	}
 
 	public static boolean checkMailFormat(String email) {
-		if (StringUtils.isEmpty(email)) {
+		if (!StringUtils.hasText(email)) {
 			return false;
 		}
-		email = StringUtils.trim(email);
+		email = email.trim();
 		if (!EMAIL_PATTERN.matcher(email).matches()) {
 			return false;
 		}
@@ -41,8 +41,8 @@ public class StringUtil {
 	}
 
 	public static String decodeUnicode(String theString) {
-		if (StringUtils.isEmpty(theString)) {
-			return StringUtils.EMPTY;
+		if (!StringUtils.hasText(theString)) {
+			return EMPTY;
 		}
 		char aChar;
 		int len = theString.length();
@@ -107,5 +107,4 @@ public class StringUtil {
 		return outBuilder.toString();
 
 	}
-
 }

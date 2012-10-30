@@ -2,7 +2,7 @@ package com.juzhai.android.dialog.adapter;
 
 import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -146,7 +146,7 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 			imageView.setImageBitmap(zoomBitmap);
 			imageView.setVisibility(View.VISIBLE);
 			intent.putExtra("imageBitmap", dialogContent.getImage());
-		} else if (StringUtils.isNotEmpty(dialogContent.getImgUrl())) {
+		} else if (StringUtils.hasText(dialogContent.getImgUrl())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 			nid.fetchImage(JzUtils.getImageUrl(dialogContent.getImgUrl()),
 					R.drawable.message_pic_load, imageView,
@@ -172,7 +172,7 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 	}
 
 	private void setLogo(final ImageView logo, User user) {
-		if (StringUtils.isNotEmpty(user.getLogo())) {
+		if (StringUtils.hasText(user.getLogo())) {
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 			nid.fetchImage(JzUtils.getImageUrl(user.getLogo()),
 					R.drawable.user_face_unload, logo,

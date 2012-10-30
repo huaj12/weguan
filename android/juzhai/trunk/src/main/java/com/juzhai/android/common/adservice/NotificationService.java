@@ -1,13 +1,11 @@
 package com.juzhai.android.common.adservice;
 
 import java.util.Calendar;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.http.ResponseEntity;
 
 import android.app.ActivityManager;
@@ -22,10 +20,10 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.data.SharedPreferencesManager;
 import com.juzhai.android.core.model.Result.IntegerResult;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.main.activity.LaunchActivity;
+import com.juzhai.android.passport.data.UserCacheManager;
 
 public class NotificationService extends Service {
 	private NotificationManager notificationManager;
@@ -35,10 +33,11 @@ public class NotificationService extends Service {
 	private Timer weekTimer;
 	private int baseDelay = 2000;
 	private int noticeMessagePeriod = 5000;
-	private int noticeWeekPeriod = 3600000;
 	private int weekHourTime = 10;
 	private int weekDayTime = 5;
 	private String noticeNumsUri = "dialog/notice/nums";
+	private TimerTask task;
+	private long weekTime = 1000 * 3600 * 24 * 7;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -80,33 +79,28 @@ public class NotificationService extends Service {
 		}, baseDelay, noticeMessagePeriod);
 
 		// 拒宅周末提醒
+
 		weekTimer = new Timer();
-		weekTimer.schedule(new TimerTask() {
+		task = new TimerTask() {
 			@Override
 			public void run() {
 				if (!isAppOnForeground(NotificationService.this)) {
-					Calendar cal = Calendar.getInstance();
-					int nowHour = cal.get(Calendar.HOUR_OF_DAY);
-					int nowDay = cal.get(Calendar.DAY_OF_WEEK);
-					if (nowHour == weekHourTime && nowDay == (weekDayTime + 1)) {
-						Intent intent = new Intent(NotificationService.this,
-								LaunchActivity.class);
-						intent.putExtra("itemIndex", 1);
-						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						PendingIntent pendingIntent = PendingIntent
-								.getActivity(NotificationService.this, 0,
-										intent, 0);
-						sendMessage(
-								notificationType,
-								NotificationService.this.getResources()
-										.getString(R.string.notification_title),
-								NotificationService.this.getResources()
-										.getString(R.string.notification_week),
-								pendingIntent);
-					}
+					Intent intent = new Intent(NotificationService.this,
+							LaunchActivity.class);
+					intent.putExtra("itemIndex", 1);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					PendingIntent pendingIntent = PendingIntent.getActivity(
+							NotificationService.this, 0, intent, 0);
+					sendMessage(
+							notificationType,
+							NotificationService.this.getResources().getString(
+									R.string.notification_title),
+							NotificationService.this.getResources().getString(
+									R.string.notification_week), pendingIntent);
 				}
 			}
-		}, baseDelay, noticeWeekPeriod);
+		};
+		weekTimer.schedule(task, getWeekTipTime(), weekTime);
 	}
 
 	@Override
@@ -124,17 +118,14 @@ public class NotificationService extends Service {
 	}
 
 	private int getMessageCount() {
-		String p_token = new SharedPreferencesManager(NotificationService.this)
-				.getString("p_token");
-		if (StringUtils.isEmpty(p_token)) {
+		long uid = UserCacheManager.getPersistUid(NotificationService.this);
+		if (uid <= 0) {
 			return 0;
 		}
 		try {
-			Map<String, String> cookies = new HashMap<String, String>();
-			cookies.put("p_token", p_token);
 			ResponseEntity<IntegerResult> responseEntity = HttpUtils.get(
-					NotificationService.this, noticeNumsUri, null, cookies,
-					IntegerResult.class);
+					NotificationService.this, noticeNumsUri + "/" + uid, null,
+					null, IntegerResult.class);
 			if (responseEntity.getBody() != null
 					&& responseEntity.getBody() != null
 					&& responseEntity.getBody().getSuccess()) {
@@ -166,7 +157,6 @@ public class NotificationService extends Service {
 		notificationManager.notify(id, notification);
 	}
 
-	//TODO (review) 把此方法公用一下，其它也有地方需要使用
 	private boolean isAppOnForeground(Context context) {
 		boolean result = false;
 		String packageName = context.getPackageName();
@@ -184,4 +174,16 @@ public class NotificationService extends Service {
 		return result;
 	}
 
+	private long getWeekTipTime() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.DAY_OF_WEEK, weekDayTime + 1);
+		cal.set(Calendar.HOUR_OF_DAY, weekHourTime);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		long time = cal.getTimeInMillis() - new Date().getTime();
+		if (time < 0) {
+			time = weekTime + time;
+		}
+		return time;
+	}
 }

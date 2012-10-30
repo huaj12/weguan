@@ -31,6 +31,7 @@ import android.net.ConnectivityManager;
 import com.juzhai.android.R;
 import com.juzhai.android.core.SystemConfig;
 import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.exception.NeedLoginException;
 
 public class HttpUtils {
@@ -108,6 +109,7 @@ public class HttpUtils {
 			ResponseEntity<T> responseEntity = restTemplate.exchange(
 					config.getBaseUrl() + uri, HttpMethod.POST, requestEntity,
 					responseType);
+			UserCacheManager.updateLToken(context, responseEntity);
 			return responseEntity;
 		} catch (RestClientException e) {
 			if (e.getCause() instanceof NeedLoginException) {
@@ -162,6 +164,7 @@ public class HttpUtils {
 			ResponseEntity<T> responseEntity = restTemplate.exchange(
 					config.getBaseUrl() + createHttpParam(uri, values),
 					HttpMethod.GET, requestEntity, responseType);
+			UserCacheManager.updateLToken(context, responseEntity);
 			return responseEntity;
 		} catch (RestClientException e) {
 			if (e.getCause() instanceof NeedLoginException) {

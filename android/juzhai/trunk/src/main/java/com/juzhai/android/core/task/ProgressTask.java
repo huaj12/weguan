@@ -40,7 +40,11 @@ public class ProgressTask extends AsyncTask<Void, Void, String> {
 	@Override
 	protected void onPostExecute(String errorInfo) {
 		if (progressDialog != null) {
-			progressDialog.dismiss();
+			try {
+				progressDialog.dismiss();
+			} catch (Exception e) {
+
+			}
 		}
 		if (StringUtils.hasText(errorInfo)) {
 			DialogUtils.showErrorDialog(context, errorInfo);

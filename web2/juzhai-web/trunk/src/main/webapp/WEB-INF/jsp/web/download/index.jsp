@@ -68,13 +68,13 @@
 							<!--acc end-->
 							<div class="my_iphone" ><!--my_iphone begin-->
 								<p></p>
-								<a href="/download/index"></a>
+								<a href="/dl/index"></a>
 							</div>
 							<!--my_iphone end-->
 							<div class="my_face_login"><a href="/home/${loginUser.uid}" title="<c:out value="${loginUser.nickname}" />"><img src="${jzr:userLogo(loginUser.uid,loginUser.logoPic,80)}" height="20" width="20" /><p><c:out value="${jzu:truncate(loginUser.nickname,12,'')}"/></p></a></div>
 						</c:if>
 						<c:if test="${context.uid<=0}">
-							<div class="welcome_page_login"><a href="/login" title="登录">登录</a><a href="/passport/register" title="注册">注册</a><a href="/download/index" title="手机版">手机版</a></div>
+							<div class="welcome_page_login"><a href="/login" title="登录">登录</a><a href="/passport/register" title="注册">注册</a><a href="/dl/index" title="手机版">手机版</a></div>
 						</c:if>
 					</div><!--top end-->
 				</div><!--fix_top end-->
@@ -100,11 +100,11 @@
 					<p><span class="pic_gd"></span></p>
 				</div><!--phone_bg end-->
 				<div class="ewm"><!--ewm begin-->
-					<p></p>
+					<p><img src="${jzr:static('/images/web2/ewm.png')}" width="78" height="78"></img></p>
 				</div><!--ewm end-->
 				<div class="download_btns">
 					<a href="https://itunes.apple.com/cn/app/id563109200?ls=1&mt=8" target="_blank" class="ip"></a>
-					<a href="#" target="_blank" class="ad"></a>
+					<a href="http://www.51juzhai.com/dl/android" target="_blank" class="ad"></a>
 				</div>
 				<div class="iphone_page"><!--iphone_page begin-->
 				</div><!--iphone_page end-->

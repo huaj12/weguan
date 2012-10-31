@@ -1,15 +1,18 @@
 package com.juzhai.android.setting.activity;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.task.ProgressTask;
 import com.juzhai.android.core.task.TaskCallback;
+import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.dialog.exception.DialogContentException;
 import com.juzhai.android.dialog.service.impl.DialogContentService;
@@ -46,12 +49,15 @@ public class SettingFeedbackActivity extends NavigationActivity {
 
 							@Override
 							public void successCallback() {
-								Toast.makeText(
+								DialogUtils.showSuccessDialog(
 										SettingFeedbackActivity.this,
-										getResources().getString(
-												R.string.success),
-										Toast.LENGTH_LONG).show();
-								popIntent();
+										R.string.send_ok, 0);
+								new Timer().schedule(new TimerTask() {
+									@Override
+									public void run() {
+										popIntent();
+									}
+								}, 2000);
 							}
 
 						}, false).execute();

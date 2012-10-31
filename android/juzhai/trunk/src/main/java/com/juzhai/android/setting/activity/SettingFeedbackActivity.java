@@ -1,13 +1,11 @@
 package com.juzhai.android.setting.activity;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.task.ProgressTask;
@@ -48,15 +46,15 @@ public class SettingFeedbackActivity extends NavigationActivity {
 
 							@Override
 							public void successCallback() {
-								new Timer().schedule(new TimerTask() {
-									@Override
-									public void run() {
-										popIntent();
-									}
-								}, 2000);
+								Toast.makeText(
+										SettingFeedbackActivity.this,
+										getResources().getString(
+												R.string.success),
+										Toast.LENGTH_LONG).show();
+								popIntent();
 							}
 
-						}).execute();
+						}, false).execute();
 			}
 		});
 	}

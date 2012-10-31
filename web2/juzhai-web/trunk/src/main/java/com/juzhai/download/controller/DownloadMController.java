@@ -24,7 +24,7 @@ import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.download.service.IDownloadService;
 
 @Controller
-@RequestMapping("download")
+@RequestMapping("dl")
 public class DownloadMController {
 	private final Log log = LogFactory.getLog(getClass());
 	@Autowired

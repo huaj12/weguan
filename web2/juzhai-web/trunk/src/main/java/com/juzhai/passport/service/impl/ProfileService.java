@@ -618,8 +618,9 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROFESSION_IS_TOO_LONG);
 		}
-		profile.setFeature(IOSEmojiUtil.removeUtf8mb4Char(profile.getFeature()));
 		if (null != profile.getFeature()) {
+			profile.setFeature(IOSEmojiUtil.removeUtf8mb4Char(profile
+					.getFeature()));
 			if (StringUtils.isEmpty(profile.getFeature())) {
 				// 性格描述不能为空
 				throw new ProfileInputException(

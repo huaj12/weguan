@@ -22,6 +22,11 @@ public class JuzhaiException extends Exception {
 	 */
 	public static final String AD_IP_SHIELD = "00007";
 
+	/**
+	 * 使用了非法字符
+	 */
+	public static final String ILLEGAL_CHARACTER = "00008";
+
 	public JuzhaiException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

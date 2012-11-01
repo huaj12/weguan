@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
@@ -350,7 +351,11 @@ public class PostService implements IPostService {
 		if (StringUtils.isEmpty(profile.getLogoPic())) {
 			post.setVerifyType(VerifyType.RAW.getType());
 		}
-		postMapper.insertSelective(post);
+		try {
+			postMapper.insertSelective(post);
+		} catch (UncategorizedSQLException e) {
+			throw new InputPostException(InputPostException.ILLEGAL_CHARACTER);
+		}
 
 		if (StringUtils.isNotEmpty(tmpImgFilePath)
 				|| (postImg != null && postImg.getSize() > 0)) {
@@ -480,7 +485,11 @@ public class PostService implements IPostService {
 		post.setLastModifyTime(post.getLastModifyTime());
 		post.setUserCity(profile.getCity());
 		post.setUserGender(profile.getGender());
-		postMapper.updateByPrimaryKey(post);
+		try {
+			postMapper.updateByPrimaryKey(post);
+		} catch (UncategorizedSQLException e) {
+			throw new InputPostException(InputPostException.ILLEGAL_CHARACTER);
+		}
 
 		if (breakIdeaId > 0) {
 			ideaService.removeUser(breakIdeaId, uid);

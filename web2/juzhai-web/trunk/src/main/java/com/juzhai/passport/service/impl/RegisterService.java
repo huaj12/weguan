@@ -17,6 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.common.bean.ActiveCodeType;

@@ -35,6 +35,7 @@ import com.juzhai.core.dao.Limit;
 import com.juzhai.core.encrypt.DESUtils;
 import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.util.DateUtil;
+import com.juzhai.core.util.IOSEmojiUtil;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.passport.InitData;
 import com.juzhai.passport.bean.LogoVerifyState;
@@ -49,6 +50,7 @@ import com.juzhai.passport.service.IProfileImageService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.passport.service.IUserGuideService;
+import com.juzhai.post.exception.InputPostException;
 import com.juzhai.search.service.IProfileSearchService;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
@@ -318,6 +320,10 @@ public class ProfileService implements IProfileService {
 	@Override
 	public boolean isExistNickname(String nickname, long uid)
 			throws ProfileInputException {
+		if (IOSEmojiUtil.hasUtf8mb4Char(nickname)) {
+			throw new ProfileInputException(
+					ProfileInputException.ILLEGAL_CHARACTER);
+		}
 		if (StringUtils.isEmpty(nickname)) {
 			return false;
 		}
@@ -612,6 +618,7 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_PROFESSION_IS_TOO_LONG);
 		}
+		profile.setFeature(IOSEmojiUtil.removeUtf8mb4Char(profile.getFeature()));
 		if (null != profile.getFeature()) {
 			if (StringUtils.isEmpty(profile.getFeature())) {
 				// 性格描述不能为空

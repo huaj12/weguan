@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.passport.InitData;
@@ -65,7 +66,10 @@ public class TpUserService implements ITpUserService {
 		tpUser.setTpIdentity(identity);
 		tpUser.setCreateTime(passport.getCreateTime());
 		tpUser.setLastModifyTime(passport.getLastModifyTime());
-		tpUserMapper.insertSelective(tpUser);
+		try {
+			tpUserMapper.insertSelective(tpUser);
+		} catch (DuplicateKeyException e) {
+		}
 	}
 
 	@Override

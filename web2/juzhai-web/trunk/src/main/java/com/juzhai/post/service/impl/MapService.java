@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.juzhai.common.InitData;
 import com.juzhai.common.model.City;
+import com.juzhai.core.Constants;
 import com.juzhai.core.util.HttpUtil;
 import com.juzhai.post.bean.Point;
 import com.juzhai.post.service.IMapService;
@@ -68,7 +69,7 @@ public class MapService implements IMapService {
 		if (value == null)
 			return null;
 		try {
-			return java.net.URLEncoder.encode(value, "UTF-8");
+			return java.net.URLEncoder.encode(value, Constants.UTF8);
 		} catch (IOException ex) {
 			return value;
 		}

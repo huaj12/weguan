@@ -21,6 +21,7 @@ import com.google.gdata.data.Link;
 import com.google.gdata.data.douban.UserEntry;
 import com.juzhai.common.model.City;
 import com.juzhai.common.model.Province;
+import com.juzhai.core.util.IOSEmojiUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.passport.InitData;
@@ -89,9 +90,10 @@ public class DoubanConnectUserService extends AbstractUserService {
 					tp.getAppId());
 			UserEntry user = doubanService.getAuthorizedUser();
 			Profile profile = new Profile();
-			profile.setNickname(TextTruncateUtil.truncate(
-					HtmlUtils.htmlUnescape(user.getTitle().getPlainText()),
-					nicknameLengthMax, StringUtils.EMPTY));
+			profile.setNickname(TextTruncateUtil.truncate(IOSEmojiUtil
+					.removeUtf8mb4Char(HtmlUtils.htmlUnescape(user.getTitle()
+							.getPlainText())), nicknameLengthMax,
+					StringUtils.EMPTY));
 
 			List<Link> links = user.getLinks();
 			for (Link link : links) {
@@ -102,9 +104,9 @@ public class DoubanConnectUserService extends AbstractUserService {
 			}
 			profile.setLogoVerifyState(LogoVerifyState.NONE.getType());
 			// 用户简介
-			profile.setFeature(TextTruncateUtil.truncate(
-					HtmlUtils.htmlUnescape(user.getContent().getLang()),
-					featureLengthMax, StringUtils.EMPTY));
+			profile.setFeature(TextTruncateUtil.truncate(IOSEmojiUtil
+					.removeUtf8mb4Char(HtmlUtils.htmlUnescape(user.getContent()
+							.getLang())), featureLengthMax, StringUtils.EMPTY));
 
 			City city = null;
 			String cityName = user.getLocation();

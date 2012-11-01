@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -99,8 +100,12 @@ public class PassportService implements IPassportService {
 	public Passport getPassportByLoginName(String loginName) {
 		PassportExample example = new PassportExample();
 		example.createCriteria().andLoginNameEqualTo(loginName);
-		List<Passport> list = passportMapper.selectByExample(example);
-		return CollectionUtils.isEmpty(list) ? null : list.get(0);
+		try {
+			List<Passport> list = passportMapper.selectByExample(example);
+			return CollectionUtils.isEmpty(list) ? null : list.get(0);
+		} catch (UncategorizedSQLException e) {
+			return null;
+		}
 	}
 
 	@Override

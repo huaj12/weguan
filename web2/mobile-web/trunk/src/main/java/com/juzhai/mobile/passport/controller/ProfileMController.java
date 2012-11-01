@@ -43,14 +43,19 @@ public class ProfileMController extends BaseController {
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
 		nickname = StringUtils.trim(nickname);
-		boolean exist = profileService.isExistNickname(nickname,
-				context.getUid());
 		AjaxResult result = new AjaxResult();
-		result.setResult(exist);
-		if (exist) {
-			result.setError(ProfileInputException.PROFILE_NICKNAME_IS_EXIST,
-					messageSource);
+		boolean exist = true;
+		try {
+			exist = profileService.isExistNickname(nickname, context.getUid());
+			if (exist) {
+				result.setError(
+						ProfileInputException.PROFILE_NICKNAME_IS_EXIST,
+						messageSource);
+			}
+		} catch (ProfileInputException e) {
+			result.setError(e.getErrorCode(), messageSource);
 		}
+		result.setResult(exist);
 		return result;
 	}
 

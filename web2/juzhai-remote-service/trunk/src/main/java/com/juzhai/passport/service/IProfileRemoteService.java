@@ -28,8 +28,9 @@ public interface IProfileRemoteService {
 	 * 
 	 * @param nickname
 	 * @return
+	 * @throws ProfileInputException
 	 */
-	boolean isExistNickname(String nickname, long uid);
+	boolean isExistNickname(String nickname, long uid) throws ProfileInputException;
 
 	/**
 	 * 保存头像和个人资料（用于手机应用）

@@ -24,6 +24,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -315,7 +316,8 @@ public class ProfileService implements IProfileService {
 	}
 
 	@Override
-	public boolean isExistNickname(String nickname, long uid) {
+	public boolean isExistNickname(String nickname, long uid)
+			throws ProfileInputException {
 		if (StringUtils.isEmpty(nickname)) {
 			return false;
 		}
@@ -325,7 +327,12 @@ public class ProfileService implements IProfileService {
 		if (uid > 0) {
 			c.andUidNotEqualTo(uid);
 		}
-		return profileMapper.countByExample(example) > 0 ? true : false;
+		try {
+			return profileMapper.countByExample(example) > 0 ? true : false;
+		} catch (UncategorizedSQLException e) {
+			throw new ProfileInputException(
+					ProfileInputException.ILLEGAL_CHARACTER);
+		}
 	}
 
 	@Override
@@ -662,6 +669,9 @@ public class ProfileService implements IProfileService {
 		profile.setLastModifyTime(new Date());
 		try {
 			profileMapper.updateByPrimaryKeySelective(profile);
+		} catch (UncategorizedSQLException e) {
+			throw new ProfileInputException(
+					ProfileInputException.ILLEGAL_CHARACTER);
 		} catch (Exception e) {
 			throw new ProfileInputException(ProfileInputException.PROFILE_ERROR);
 		}

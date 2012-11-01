@@ -406,10 +406,11 @@ public class PostService implements IPostService {
 
 	private String checkContentDuplicate(long uid, String content,
 			String contentMd5, long postId) throws InputPostException {
-		if (IOSEmojiUtil.hasUtf8mb4Char(content)) {
-			throw new InputPostException(InputPostException.ILLEGAL_CHARACTER);
-		}
 		if (StringUtils.isNotEmpty(content)) {
+			if (IOSEmojiUtil.hasUtf8mb4Char(content)) {
+				throw new InputPostException(
+						InputPostException.ILLEGAL_CHARACTER);
+			}
 			contentMd5 = DigestUtils.md5Hex(content);
 		}
 		PostExample example = new PostExample();

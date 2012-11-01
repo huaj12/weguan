@@ -50,7 +50,6 @@ import com.juzhai.passport.service.IProfileImageService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.passport.service.IUserGuideService;
-import com.juzhai.post.exception.InputPostException;
 import com.juzhai.search.service.IProfileSearchService;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
@@ -320,12 +319,12 @@ public class ProfileService implements IProfileService {
 	@Override
 	public boolean isExistNickname(String nickname, long uid)
 			throws ProfileInputException {
+		if (StringUtils.isEmpty(nickname)) {
+			return false;
+		}
 		if (IOSEmojiUtil.hasUtf8mb4Char(nickname)) {
 			throw new ProfileInputException(
 					ProfileInputException.ILLEGAL_CHARACTER);
-		}
-		if (StringUtils.isEmpty(nickname)) {
-			return false;
 		}
 		ProfileExample example = new ProfileExample();
 		ProfileExample.Criteria c = example.createCriteria()

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
+import com.juzhai.core.util.IOSEmojiUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.passport.bean.AuthInfo;
@@ -58,9 +59,9 @@ public class QqPlusUserService extends AbstractUserService {
 				} else {
 					nickname = result.getValue("info.nick");
 				}
-				profile.setNickname(TextTruncateUtil.truncate(
-						HtmlUtils.htmlUnescape(nickname), nicknameLengthMax,
-						StringUtils.EMPTY));
+				profile.setNickname(TextTruncateUtil.truncate(IOSEmojiUtil
+						.removeUtf8mb4Char(HtmlUtils.htmlUnescape(nickname)),
+						nicknameLengthMax, StringUtils.EMPTY));
 				// 只有小图而且url超级长不存了。
 				// profile.setNewLogoPic(result.getValue("info.face"));
 				profile.setLogoVerifyState(LogoVerifyState.NONE.getType());

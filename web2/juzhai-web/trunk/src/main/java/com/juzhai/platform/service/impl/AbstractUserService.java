@@ -8,11 +8,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.data.redis.core.RedisTemplate;
 
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.bean.DeviceName;
-import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.dao.ITpUserDao;
@@ -38,8 +36,8 @@ public abstract class AbstractUserService implements IUserService {
 	private IRegisterService registerService;
 	@Autowired
 	private ITpUserAuthService tpUserAuthService;
-	@Autowired
-	private RedisTemplate<String, String> redisTemplate;
+	// @Autowired
+	// private RedisTemplate<String, String> redisTemplate;
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
@@ -85,9 +83,9 @@ public abstract class AbstractUserService implements IUserService {
 			uid = registerService.autoRegister(tp, tpIdentity, authInfo,
 					profile, inviterUid, deviceName);
 			// redis记录已安装App的用户
-			redisTemplate.opsForSet().add(
-					RedisKeyGenerator.genTpInstallUsersKey(tp.getName()),
-					tpIdentity);
+			// redisTemplate.opsForSet().add(
+			// RedisKeyGenerator.genTpInstallUsersKey(tp.getName()),
+			// tpIdentity);
 		} else {
 			if (log.isDebugEnabled()) {
 				log.debug("save authInfo.[tp=" + tpUser.getTpName() + ", uid="

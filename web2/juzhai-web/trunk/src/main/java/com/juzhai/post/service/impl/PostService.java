@@ -37,6 +37,7 @@ import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.stats.counter.service.ICounter;
 import com.juzhai.core.util.DateFormat;
+import com.juzhai.core.util.IOSEmojiUtil;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.jstl.JzResourceFunction;
@@ -288,6 +289,10 @@ public class PostService implements IPostService {
 
 	private void validatePostForm(long uid, PostForm postForm)
 			throws InputPostException {
+		if (IOSEmojiUtil.hasUtf8mb4Char(postForm.getContent())) {
+			throw new InputPostException(InputPostException.ILLEGAL_CHARACTER);
+		}
+
 		// 验证内容字数
 		int contentLength = StringUtil.chineseLength(postForm.getContent());
 		if (contentLength < postContentLengthMin
@@ -401,6 +406,9 @@ public class PostService implements IPostService {
 
 	private String checkContentDuplicate(long uid, String content,
 			String contentMd5, long postId) throws InputPostException {
+		if (IOSEmojiUtil.hasUtf8mb4Char(content)) {
+			throw new InputPostException(InputPostException.ILLEGAL_CHARACTER);
+		}
 		if (StringUtils.isNotEmpty(content)) {
 			contentMd5 = DigestUtils.md5Hex(content);
 		}

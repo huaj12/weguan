@@ -10,6 +10,8 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.juzhai.core.Constants;
+
 public class HttpUtil {
 	public static String getUrl(String url) throws IOException {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
@@ -17,7 +19,7 @@ public class HttpUtil {
 		HttpResponse res = null;
 		try {
 			res = httpclient.execute(method);
-			String content = getHtml(res, "UTF-8", false);
+			String content = getHtml(res, Constants.UTF8, false);
 			return content;
 		} finally {
 			httpclient.getConnectionManager().shutdown();

@@ -16,6 +16,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
+import com.juzhai.core.util.IOSEmojiUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.core.web.jstl.JzResourceFunction;
@@ -89,9 +90,9 @@ public class QqConnectUserService extends AbstractUserService {
 			} else {
 				nickname = userInfo.getNickName();
 			}
-			profile.setNickname(TextTruncateUtil.truncate(
-					HtmlUtils.htmlUnescape(nickname), nicknameLengthMax,
-					StringUtils.EMPTY));
+			profile.setNickname(TextTruncateUtil.truncate(IOSEmojiUtil
+					.removeUtf8mb4Char(HtmlUtils.htmlUnescape(nickname)),
+					nicknameLengthMax, StringUtils.EMPTY));
 			profile.setNewLogoPic(userInfo.getAvatarLarge());
 			profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
 

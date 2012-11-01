@@ -23,6 +23,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.cms.service.IVerifyLogoService;
+import com.juzhai.core.Constants;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.stats.counter.service.ICounter;
@@ -219,7 +220,7 @@ public class VerifyLogoService implements IVerifyLogoService {
 					"Cookie",
 					"PREF=ID=fd801fe8f5340192:U=061582e14624ae44:FF=1:LD=zh-CN:NW=1:TM=1341909827:LM=1341988947:S=eJwDE1ujDWUbJfNy; NID=61=XYrkd4_U2YgZ6jZ4FyIx5lOmwPUjed2cr2AVlp5pQ77RtpVR6iLCjYWNnh8oalspFB79bnB2b-o2gm6CFzVhUdb0PCifEOQ_HNVvk69D0VPFrsR53_AbPNtuG8erv-tt");
 			res = httpclient.execute(method);
-			String content = getHtml(res, "UTF-8", false);
+			String content = getHtml(res, Constants.UTF8, false);
 			if (content.indexOf("id=resultStats") == -1) {
 				return true;
 			} else {

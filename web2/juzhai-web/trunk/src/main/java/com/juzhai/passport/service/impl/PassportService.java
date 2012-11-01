@@ -24,6 +24,7 @@ import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.dao.Limit;
 import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException.RunType;
+import com.juzhai.core.util.IOSEmojiUtil;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.home.service.IRescueboyService;
 import com.juzhai.home.service.IUserStatusService;
@@ -40,6 +41,7 @@ import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IReportService;
 import com.juzhai.passport.service.IUserOnlineService;
+import com.juzhai.post.exception.InputPostException;
 import com.juzhai.search.service.IProfileSearchService;
 
 @Service
@@ -98,6 +100,9 @@ public class PassportService implements IPassportService {
 
 	@Override
 	public Passport getPassportByLoginName(String loginName) {
+		if (IOSEmojiUtil.hasUtf8mb4Char(loginName)) {
+			return null;
+		}
 		PassportExample example = new PassportExample();
 		example.createCriteria().andLoginNameEqualTo(loginName);
 		try {

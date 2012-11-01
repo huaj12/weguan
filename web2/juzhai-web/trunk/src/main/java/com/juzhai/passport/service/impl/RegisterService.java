@@ -16,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.common.bean.ActiveCodeType;
@@ -96,35 +97,22 @@ public class RegisterService implements IRegisterService {
 	@Override
 	public long autoRegister(Thirdparty tp, String identity, AuthInfo authInfo,
 			Profile profile, long inviterUid, DeviceName deviceName) {
-		Passport passport = registerPassport("@" + tp.getName() + "_"
-				+ identity, "", "", inviterUid, deviceName);
+		Passport passport = null;
+		String loginName = "@" + tp.getName() + "_" + identity;
+		try {
+			passport = registerPassport(loginName, "", "", inviterUid,
+					deviceName);
+		} catch (PassportAccountException e) {
+		}
 		if (null == passport || null == passport.getId()
 				|| passport.getId() <= 0) {
 			log.error("Register passport failed by DB.");
 			return 0L;
 		}
 		registerProfile(profile, passport);
-		// registerAccount(passport);
-		// registerUserGuide(passport);
 		tpUserService.registerTpUser(tp, identity, passport);
 		tpUserAuthService.updateTpUserAuth(passport.getId(), tp.getId(),
 				authInfo);
-		// passportService.setUseLevel(passport.getId(), UseLevel.Level1);
-
-		// 初始化数据
-
-		// 1.缓存profile
-		// profileService.cacheProfile(profile, identity);
-		// 2.所在城市
-		// profileService.cacheUserCity(profile);
-		// 3.好友列表
-		// friendService.updateExpiredFriends(passport.getId(), tp.getId(),
-		// authInfo);
-		// // 4.拉数据
-		// inboxService.syncInboxByTask(passport.getId());
-		// 5.预存消息转正
-		// msgService.getPrestore(identity, tp.getId(), passport.getId(),
-		// MergerActMsg.class);
 
 		// 统计注册数
 		registerCounter.incr(null, 1);
@@ -136,14 +124,6 @@ public class RegisterService implements IRegisterService {
 		}
 		return passport.getId();
 	}
-
-	// private void registerUserGuide(Passport passport) {
-	// userGuideService.craeteUserGuide(passport.getId());
-	// }
-	//
-	// private void registerAccount(Passport passport) {
-	// accountService.createAccount(passport.getId());
-	// }
 
 	private void registerProfile(Profile profile, Passport passport) {
 		profile.setUid(passport.getId());
@@ -163,7 +143,8 @@ public class RegisterService implements IRegisterService {
 	}
 
 	private Passport registerPassport(String loginName, String email,
-			String password, long inviterUid, DeviceName deviceName) {
+			String password, long inviterUid, DeviceName deviceName)
+			throws PassportAccountException {
 		Passport passport = new Passport();
 		passport.setLoginName(loginName);
 		passport.setPassword(DigestUtils.md5Hex(password));
@@ -172,8 +153,13 @@ public class RegisterService implements IRegisterService {
 		passport.setLastModifyTime(passport.getCreateTime());
 		passport.setInviterUid(inviterUid);
 		passport.setDeviceName(deviceName.getName());
-		if (passportMapper.insertSelective(passport) == 1) {
-			return passport;
+		try {
+			if (passportMapper.insertSelective(passport) == 1) {
+				return passport;
+			}
+		} catch (DuplicateKeyException e) {
+			throw new PassportAccountException(
+					PassportAccountException.ILLEGAL_OPERATION);
 		}
 		return null;
 	}
@@ -202,9 +188,14 @@ public class RegisterService implements IRegisterService {
 		profile.setNickname(nickname);
 		profile.setCreateTime(new Date());
 		profile.setLastModifyTime(profile.getCreateTime());
-		if (0 == profileMapper.insertSelective(profile)) {
-			throw new PassportAccountException(
-					PassportAccountException.SYSTEM_ERROR);
+		try {
+			if (0 == profileMapper.insertSelective(profile)) {
+				throw new PassportAccountException(
+						PassportAccountException.SYSTEM_ERROR);
+			}
+		} catch (DuplicateKeyException e) {
+			throw new ProfileInputException(
+					ProfileInputException.ILLEGAL_OPERATION);
 		}
 		// 统计注册数
 		nativeRegisterCounter.incr(null, 1);

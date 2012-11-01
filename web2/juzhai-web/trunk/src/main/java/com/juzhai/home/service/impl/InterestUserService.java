@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -140,7 +141,12 @@ public class InterestUserService implements IInterestUserService {
 		interestUser.setInterestUid(targetUid);
 		interestUser.setCreateTime(new Date());
 		interestUser.setLastModifyTime(interestUser.getCreateTime());
-		interestUserMapper.insertSelective(interestUser);
+		try {
+			interestUserMapper.insertSelective(interestUser);
+		} catch (DuplicateKeyException e) {
+			throw new InterestUserException(
+					InterestUserException.INTEREST_USER_EXISTENCE);
+		}
 		// redis
 		redisTemplate.opsForSet().add(
 				RedisKeyGenerator.genInterestUsersKey(uid), targetUid);

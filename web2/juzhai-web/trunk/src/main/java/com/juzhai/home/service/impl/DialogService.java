@@ -17,6 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -260,21 +261,29 @@ public class DialogService implements IDialogService {
 		return null;
 	}
 
-	private long updateDialog(long uid, long targetUid, boolean hasNew) {
+	private long updateDialog(long uid, long targetUid, boolean hasNew)
+			throws DialogException {
 		Dialog dialog = getDialogByUidAndTargetUid(uid, targetUid);
 		if (null == dialog) {
-			dialog = new Dialog();
-			dialog.setUid(uid);
-			dialog.setTargetUid(targetUid);
-			dialog.setCreateTime(new Date());
-			dialog.setLastModifyTime(dialog.getCreateTime());
-			dialog.setHasNew(hasNew);
-			dialogMapper.insert(dialog);
-		} else {
-			dialog.setHasNew(hasNew);
-			dialog.setLastModifyTime(new Date());
-			dialogMapper.updateByPrimaryKeySelective(dialog);
+			Dialog tempDialog = new Dialog();
+			tempDialog.setUid(uid);
+			tempDialog.setTargetUid(targetUid);
+			tempDialog.setCreateTime(new Date());
+			tempDialog.setLastModifyTime(tempDialog.getCreateTime());
+			tempDialog.setHasNew(hasNew);
+			try {
+				dialogMapper.insert(tempDialog);
+				return tempDialog.getId();
+			} catch (DuplicateKeyException e) {
+				dialog = getDialogByUidAndTargetUid(uid, targetUid);
+			}
 		}
+		if (dialog == null) {
+			throw new DialogException(DialogException.ILLEGAL_OPERATION);
+		}
+		dialog.setHasNew(hasNew);
+		dialog.setLastModifyTime(new Date());
+		dialogMapper.updateByPrimaryKeySelective(dialog);
 		return dialog.getId();
 	}
 

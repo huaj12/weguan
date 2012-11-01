@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -220,8 +221,11 @@ public class PostService implements IPostService {
 
 		post.setVerifyType(VerifyType.QUALIFIED.getType());
 
-		createPost(uid, post, null, null, null, null);
-
+		try {
+			createPost(uid, post, null, null, null, null);
+		} catch (DuplicateKeyException e) {
+			throw new InputPostException(InputPostException.IDEA_HAS_POSTED);
+		}
 		// 添加idea的useCount或者firstUser
 		if (idea.getUseCount() == 0) {
 			ideaService.addFirstUser(ideaId, uid);
@@ -270,8 +274,12 @@ public class PostService implements IPostService {
 		post.setPlace(postForm.getPlace());
 		post.setDateTime(postForm.getDate());
 		post.setPurposeType(postForm.getPurposeType());
-
-		createPost(uid, post, repost, picIdea, postForm.getPic(), null);
+		try {
+			createPost(uid, post, repost, picIdea, postForm.getPic(), null);
+		} catch (DuplicateKeyException e) {
+			throw new InputPostException(
+					InputPostException.POST_CONTENT_DUPLICATE);
+		}
 		// 每日发布拒宅统计
 		postCounter.incr(null, 1L);
 		return post.getId();
@@ -328,7 +336,8 @@ public class PostService implements IPostService {
 
 	private void createPost(long uid, Post post, Post repost, Idea picIdea,
 			String tmpImgFilePath, MultipartFile postImg)
-			throws InputPostException, UploadImageException {
+			throws InputPostException, UploadImageException,
+			DuplicateKeyException {
 		ProfileCache profile = profileService.getProfileCacheByUid(uid);
 		if (null == profile) {
 			throw new InputPostException(InputPostException.ILLEGAL_OPERATION);
@@ -520,7 +529,11 @@ public class PostService implements IPostService {
 		postResponse.setPostId(postId);
 		postResponse.setCreateTime(new Date());
 		postResponse.setLastModifyTime(postResponse.getCreateTime());
-		postResponseMapper.insertSelective(postResponse);
+		try {
+			postResponseMapper.insertSelective(postResponse);
+		} catch (DuplicateKeyException e) {
+			return;
+		}
 
 		// response列表缓存
 		redisTemplate.opsForSet().add(

@@ -11,9 +11,9 @@ import com.juzhai.download.service.IDownloadService;
 public class DownloadService implements IDownloadService {
 	@Value("${local.ios.download.file}")
 	private String localIosDownloadFile;
-	@Value("local.android.download.url")
+	@Value("${local.android.download.url}")
 	private String localAndroidDownloadUrl;
-	@Value("appstore.download.url")
+	@Value("${appstore.download.url}")
 	private String appstoreDownloadUrl;
 
 	@Override

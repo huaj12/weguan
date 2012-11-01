@@ -6,6 +6,7 @@ import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -46,14 +47,14 @@ public class UserGuideService implements IUserGuideService {
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
 
-	@Override
-	public void craeteUserGuide(long uid) {
-		UserGuide userGuide = new UserGuide();
-		userGuide.setUid(uid);
-		userGuide.setCreateTime(new Date());
-		userGuide.setLastModifyTime(userGuide.getCreateTime());
-		userGuideMapper.insertSelective(userGuide);
-	}
+	// @Override
+	// public void craeteUserGuide(long uid) {
+	// UserGuide userGuide = new UserGuide();
+	// userGuide.setUid(uid);
+	// userGuide.setCreateTime(new Date());
+	// userGuide.setLastModifyTime(userGuide.getCreateTime());
+	// userGuideMapper.insertSelective(userGuide);
+	// }
 
 	@Override
 	public void createAndCompleteGuide(long uid) {
@@ -63,7 +64,11 @@ public class UserGuideService implements IUserGuideService {
 		userGuide.setGuideStep(1);
 		userGuide.setCreateTime(new Date());
 		userGuide.setLastModifyTime(userGuide.getCreateTime());
-		userGuideMapper.insertSelective(userGuide);
+		try {
+			userGuideMapper.insertSelective(userGuide);
+		} catch (DuplicateKeyException e) {
+			return;
+		}
 
 		afterGuide(uid);
 	}
@@ -87,10 +92,10 @@ public class UserGuideService implements IUserGuideService {
 		return userGuide == null ? false : userGuide.getComplete();
 	}
 
-	@Override
-	public void nextGuide(long uid) {
-		userGuideDao.next(uid);
-	}
+	// @Override
+	// public void nextGuide(long uid) {
+	// userGuideDao.next(uid);
+	// }
 
 	@Override
 	public void completeGuide(long uid) {

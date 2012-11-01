@@ -289,7 +289,8 @@ public class PostService implements IPostService {
 
 	private void validatePostForm(long uid, PostForm postForm)
 			throws InputPostException {
-		if (IOSEmojiUtil.hasUtf8mb4Char(postForm.getContent())) {
+		if (postForm.getContent() != null
+				&& IOSEmojiUtil.hasUtf8mb4Char(postForm.getContent())) {
 			throw new InputPostException(InputPostException.ILLEGAL_CHARACTER);
 		}
 

@@ -29,7 +29,6 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.mobile.InitData;
 import com.juzhai.mobile.passport.controller.viewHelper.IUserMViewHelper;
-import com.juzhai.mobile.web.filter.CheckLoginFilter;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ReportAccountException;

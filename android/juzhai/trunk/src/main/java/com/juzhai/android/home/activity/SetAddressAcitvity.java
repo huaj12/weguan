@@ -20,7 +20,6 @@ import com.juzhai.android.common.model.City;
 import com.juzhai.android.common.model.Province;
 import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.activity.ActivityCode;
-import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.core.widget.wheelview.OnWheelScrollListener;
 import com.juzhai.android.core.widget.wheelview.WheelView;
@@ -43,11 +42,10 @@ public class SetAddressAcitvity extends Activity {
 		provinceList = CommonData.getProvinces(SetAddressAcitvity.this);
 		// 网速原因数据没加载完
 		if (CollectionUtils.isEmpty(provinceList)) {
-			DialogUtils.showErrorDialog(SetAddressAcitvity.this,
-					R.string.system_internet_erorr);
 			// DialogUtils.showToastText(SetAddressAcitvity.this,
 			// R.string.system_internet_erorr);
 			this.finish();
+			return;
 		}
 
 		if (provinceId <= 0) {

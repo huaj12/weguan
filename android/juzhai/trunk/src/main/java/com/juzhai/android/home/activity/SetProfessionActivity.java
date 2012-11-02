@@ -52,11 +52,8 @@ public class SetProfessionActivity extends NavigationActivity {
 				.getProfessionList(SetProfessionActivity.this);
 		// 网速原因数据没加载完
 		if (CollectionUtils.isEmpty(professionList)) {
-			DialogUtils.showErrorDialog(SetProfessionActivity.this,
-					R.string.system_internet_erorr);
-			// DialogUtils.showToastText(SetProfessionActivity.this,
-			// R.string.system_internet_erorr);
 			this.finish();
+			return;
 		}
 		editText = (EditText) findViewById(R.id.profession_input);
 		tipView = (TextView) findViewById(R.id.profession_tip);

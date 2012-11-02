@@ -15,8 +15,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 public class ImageUtils {
-	private static long maxImageLength = 1024 * 5;
-	private static int reducequality = 5;
+	private static long maxImageLength = 1024 * 1024;
+	private static int reduceQuality = 5;
 
 	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, float radius,
 			Context context) {

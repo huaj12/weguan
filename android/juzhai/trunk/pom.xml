@@ -3,10 +3,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.juzhai</groupId>
-	<artifactId>android</artifactId>
+	<artifactId>juzhai</artifactId>
 	<version>1.1.0</version>
 	<packaging>apk</packaging>
-	<name>android</name>
+	<name>juzhai</name>
 	<properties>
 		<android-platform>10</android-platform>
 		<android-maven-plugin-version>3.3.2</android-maven-plugin-version>
@@ -113,6 +113,10 @@
 									<storepass>51chuangye</storepass>
 									<keypass>51chuangye</keypass>
 									<alias>android</alias>
+									<arguments>
+										<argument>-sigalg</argument><argument>MD5withRSA</argument>
+										<argument>-digestalg</argument><argument>SHA1</argument>
+									</arguments>
 								</configuration>
 							</execution>
 						</executions>

@@ -101,7 +101,7 @@ public class PassportService implements IPassportService {
 	@Override
 	public void register(Context context, String account, String nickname,
 			String pwd, String confirmPwd) throws PassportException {
-		int errorId = VerifyData(nickname, account, pwd, confirmPwd);
+		int errorId = verifyData(nickname, account, pwd, confirmPwd);
 		if (errorId > 0) {
 			throw new PassportException(context, errorId);
 		}
@@ -130,7 +130,7 @@ public class PassportService implements IPassportService {
 		}
 	}
 
-	private int VerifyData(String nickname, String account, String pwd,
+	private int verifyData(String nickname, String account, String pwd,
 			String confirmPwd) {
 		int emailLength = StringUtil.chineseLength(account);
 		if (emailLength > Validation.REGISTER_EMAIL_LENGTH_MAX

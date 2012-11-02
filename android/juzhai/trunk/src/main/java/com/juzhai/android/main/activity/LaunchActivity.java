@@ -9,7 +9,6 @@ import android.os.Bundle;
 
 import com.juzhai.android.R;
 import com.juzhai.android.common.adservice.NotificationService;
-import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.activity.BaseActivity;
 import com.juzhai.android.main.service.impl.GuidanceService;
 import com.juzhai.android.passport.activity.LoginActivity;
@@ -60,8 +59,6 @@ public class LaunchActivity extends BaseActivity {
 				return passportService.checkLogin(LaunchActivity.this);
 			}
 		}.execute();
-		// 初始化数据
-		CommonData.initDate(LaunchActivity.this);
 
 		// 启动通知栏service
 		Intent serviceIntent = new Intent(LaunchActivity.this,

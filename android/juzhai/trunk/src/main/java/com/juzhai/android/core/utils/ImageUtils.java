@@ -100,7 +100,7 @@ public class ImageUtils {
 		bm.compress(Bitmap.CompressFormat.JPEG, quality, baos);
 		byte[] imageInByte = baos.toByteArray();
 		if (imageInByte.length > maxImageLength
-				&& (quality - reducequality) > 0) {
+				&& (quality - reduceQuality) > 0) {
 			imageInByte = null;
 			if (baos != null) {
 				try {
@@ -111,7 +111,7 @@ public class ImageUtils {
 					baos = null;
 				}
 			}
-			return Bitmap2Bytes(bm, quality - reducequality);
+			return Bitmap2Bytes(bm, quality - reduceQuality);
 		} else {
 			return imageInByte;
 		}

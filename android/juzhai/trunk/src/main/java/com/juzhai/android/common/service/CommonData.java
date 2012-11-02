@@ -178,7 +178,14 @@ public class CommonData {
 
 				@Override
 				protected Boolean doInBackground(Void... params) {
-					initCategory();
+					try {
+						initCategory();
+					} catch (Exception e) {
+						if (BuildConfig.DEBUG) {
+							Log.d(getClass().getSimpleName(),
+									"initCategory error", e);
+						}
+					}
 					return true;
 				}
 
@@ -214,7 +221,14 @@ public class CommonData {
 
 				@Override
 				protected Boolean doInBackground(Void... params) {
-					initProvinceCity();
+					try {
+						initProvinceCity();
+					} catch (Exception e) {
+						if (BuildConfig.DEBUG) {
+							Log.d(getClass().getSimpleName(),
+									"initProvinceCity error", e);
+						}
+					}
 					return true;
 				}
 
@@ -250,7 +264,14 @@ public class CommonData {
 
 				@Override
 				protected Boolean doInBackground(Void... params) {
-					initProfession();
+					try {
+						initProfession();
+					} catch (Exception e) {
+						if (BuildConfig.DEBUG) {
+							Log.d(getClass().getSimpleName(),
+									"initProfession error", e);
+						}
+					}
 					return true;
 				}
 

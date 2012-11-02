@@ -18,9 +18,8 @@ import com.juzhai.android.common.model.Category;
 import com.juzhai.android.common.model.City;
 import com.juzhai.android.common.model.Profession;
 import com.juzhai.android.common.model.Province;
+import com.juzhai.android.common.model.ProvinceCity;
 import com.juzhai.android.core.model.Entity;
-import com.juzhai.android.core.model.Result.ProfessionResult;
-import com.juzhai.android.core.model.Result.ProvinceCityResult;
 
 public class CommonData {
 	public static final String SHARED_PREFERNCES_CATEGORY = "category";
@@ -65,10 +64,10 @@ public class CommonData {
 	public static List<Province> getProvinces(Context context) {
 		if (provinceList == null) {
 			try {
-				ProvinceCityResult result = objectMapper.readValue(context
+				ProvinceCity result = objectMapper.readValue(context
 						.getAssets().open("provinceCity.txt"),
-						ProvinceCityResult.class);
-				provinceList = result.getResult().getProvinceList();
+						ProvinceCity.class);
+				provinceList = result.getProvinceList();
 				return provinceList;
 			} catch (Exception e) {
 				if (BuildConfig.DEBUG) {
@@ -84,10 +83,10 @@ public class CommonData {
 	public static List<City> getCitys(Context context) {
 		if (cityList == null) {
 			try {
-				ProvinceCityResult result = objectMapper.readValue(context
+				ProvinceCity result = objectMapper.readValue(context
 						.getAssets().open("provinceCity.txt"),
-						ProvinceCityResult.class);
-				cityList = result.getResult().getCityList();
+						ProvinceCity.class);
+				cityList = result.getCityList();
 				return cityList;
 			} catch (Exception e) {
 				if (BuildConfig.DEBUG) {
@@ -103,12 +102,12 @@ public class CommonData {
 	public static List<Profession> getProfessionList(Context context) {
 		if (professionList == null) {
 			try {
-				ProfessionResult result = objectMapper.readValue(context
-						.getAssets().open("profession.txt"),
-						ProfessionResult.class);
-				professionList = new ArrayList<Profession>(result.getResult()
-						.size());
-				for (Map<Long, String> mapAll : result.getResult()) {
+				List<Map<Long, String>> mapList = objectMapper.readValue(
+						context.getAssets().open("profession.txt"),
+						new TypeReference<List<Map<Long, String>>>() {
+						});
+				professionList = new ArrayList<Profession>(mapList.size());
+				for (Map<Long, String> mapAll : mapList) {
 					for (Entry<Long, String> map : mapAll.entrySet()) {
 						Profession profession = new Profession();
 						profession.setId(map.getKey());

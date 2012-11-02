@@ -15,6 +15,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 public class ImageUtils {
+	private static long maxImageLength = 1024 * 5;
+	private static int reducequality = 5;
 
 	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, float radius,
 			Context context) {
@@ -93,10 +95,26 @@ public class ImageUtils {
 		return result;
 	}
 
-	public static byte[] Bitmap2Bytes(Bitmap bm) {
+	public static byte[] Bitmap2Bytes(Bitmap bm, int quality) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-		return baos.toByteArray();
+		bm.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+		byte[] imageInByte = baos.toByteArray();
+		if (imageInByte.length > maxImageLength
+				&& (quality - reducequality) > 0) {
+			imageInByte = null;
+			if (baos != null) {
+				try {
+					baos.flush();
+					baos.close();
+				} catch (Exception e) {
+				} finally {
+					baos = null;
+				}
+			}
+			return Bitmap2Bytes(bm, quality - reducequality);
+		} else {
+			return imageInByte;
+		}
 	}
 
 	public static String getFileName() {

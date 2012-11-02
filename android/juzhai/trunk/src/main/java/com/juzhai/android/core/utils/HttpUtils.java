@@ -70,8 +70,8 @@ public class HttpUtils {
 			uri = createHttpParam(uri, values);
 		}
 		if (file != null) {
-			Resource resource = new ByteArrayResource(
-					ImageUtils.Bitmap2Bytes(file)) {
+			Resource resource = new ByteArrayResource(ImageUtils.Bitmap2Bytes(
+					file, 100)) {
 
 				@Override
 				public String getFilename() throws IllegalStateException {

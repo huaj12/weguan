@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 
 import android.content.Context;
 import android.util.Log;
@@ -18,7 +19,6 @@ import com.juzhai.android.common.model.City;
 import com.juzhai.android.common.model.Profession;
 import com.juzhai.android.common.model.Province;
 import com.juzhai.android.core.model.Entity;
-import com.juzhai.android.core.model.Result.CategoryResult;
 import com.juzhai.android.core.model.Result.ProfessionResult;
 import com.juzhai.android.core.model.Result.ProvinceCityResult;
 
@@ -35,10 +35,10 @@ public class CommonData {
 	public static List<Category> getCategorys(Context context) {
 		if (categoryList == null) {
 			try {
-				CategoryResult result = objectMapper
-						.readValue(context.getAssets().open("category.txt"),
-								CategoryResult.class);
-				categoryList = result.getResult();
+				categoryList = objectMapper.readValue(
+						context.getAssets().open("category.txt"),
+						new TypeReference<List<Category>>() {
+						});
 				return categoryList;
 			} catch (Exception e) {
 				if (BuildConfig.DEBUG) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.model.Pager;
 import com.juzhai.android.core.model.Result.PostListResult;
 import com.juzhai.android.core.widget.list.GetDataTask;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
@@ -42,9 +43,12 @@ public class MyPostsListGetDataTask extends GetDataTask<PostListResult, Post> {
 	protected void onPostExecute(PostListResult result) {
 		super.onPostExecute(result);
 		if (view != null && context != null) {
-			int count = refreshListView.getPageAdapter().getPager()
-					.getTotalResults() == null ? 0 : refreshListView
-					.getPageAdapter().getPager().getTotalResults();
+			Pager pager = refreshListView.getPageAdapter().getPager();
+			int count = 0;
+			if (pager != null) {
+				count = pager.getTotalResults() == null ? 0 : pager
+						.getTotalResults();
+			}
 			view.setText(context.getResources().getString(
 					R.string.user_home_post_count, count));
 		}

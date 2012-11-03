@@ -1,5 +1,6 @@
 package com.juzhai.android.core.utils;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,22 +26,37 @@ public class DialogUtils {
 
 	public static void showSuccessDialog(Context context, int messageId,
 			int closeDelay) {
+		if (isFinishing(context)) {
+			return;
+		}
 		new SuccessPromptDialog(context, messageId, closeDelay).show();
 	}
 
 	public static void showSuccessDialog(Context context, int messageId) {
+		if (isFinishing(context)) {
+			return;
+		}
 		new SuccessPromptDialog(context, messageId).show();
 	}
 
 	public static void showErrorDialog(Context context, int messageId) {
+		if (isFinishing(context)) {
+			return;
+		}
 		new ErrorPromptDialog(context, messageId).show();
 	}
 
 	public static void showSuccessDialog(Context context, String message) {
+		if (isFinishing(context)) {
+			return;
+		}
 		new SuccessPromptDialog(context, message).show();
 	}
 
 	public static void showErrorDialog(Context context, String message) {
+		if (isFinishing(context)) {
+			return;
+		}
 		new ErrorPromptDialog(context, message).show();
 	}
 
@@ -84,5 +100,13 @@ public class DialogUtils {
 			final AsyncTask<Void, Void, String> task, int message) {
 		showConfirmDialog(context, task,
 				context.getResources().getString(message));
+	}
+
+	private static boolean isFinishing(Context context) {
+		if (context == null) {
+			return true;
+		}
+		Activity activity = ((Activity) context);
+		return activity.isFinishing();
 	}
 }

@@ -1,5 +1,6 @@
 package com.juzhai.android.passport.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.util.StringUtils;
 
 import android.content.Context;
@@ -311,11 +312,13 @@ public class User extends Entity {
 		this.tokenExpired = tokenExpired;
 	}
 
+	@JsonIgnore
 	@Override
 	public Object getIdentify() {
 		return this.getUid();
 	}
 
+	@JsonIgnore
 	public String getUserInfo(Context mContext) {
 		String comma = ",";
 		StringBuffer sbString = new StringBuffer();

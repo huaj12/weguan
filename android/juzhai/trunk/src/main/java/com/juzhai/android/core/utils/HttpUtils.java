@@ -29,8 +29,7 @@ import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.SystemConfig;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.core.ApplicationContext;
 import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.exception.NeedLoginException;
 
@@ -91,7 +90,7 @@ public class HttpUtils {
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setAccept(Collections.singletonList(new MediaType(
 				"application", "json")));
-		prepareCookies(cookies, requestHeaders);
+		prepareCookies(context, cookies, requestHeaders);
 
 		requestHeaders.setContentType(mediaType);
 		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(
@@ -104,7 +103,8 @@ public class HttpUtils {
 		restTemplate.getMessageConverters().add(
 				new MappingJacksonHttpMessageConverter());
 		restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
-		SystemConfig config = (SystemConfig) context.getApplicationContext();
+		ApplicationContext config = (ApplicationContext) context
+				.getApplicationContext();
 		try {
 			ResponseEntity<T> responseEntity = restTemplate.exchange(
 					config.getBaseUrl() + uri, HttpMethod.POST, requestEntity,
@@ -120,9 +120,10 @@ public class HttpUtils {
 		}
 	}
 
-	private static void prepareCookies(Map<String, String> cookies,
-			HttpHeaders requestHeaders) {
-		Map<String, String> userStatusCookies = UserCache.getUserStatus();
+	private static void prepareCookies(Context context,
+			Map<String, String> cookies, HttpHeaders requestHeaders) {
+		Map<String, String> userStatusCookies = UserCacheManager.getUserCache(
+				context).getUserStatus();
 		if (!CollectionUtils.isEmpty(cookies)) {
 			userStatusCookies.putAll(cookies);
 		}
@@ -149,7 +150,7 @@ public class HttpUtils {
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setAccept(Collections.singletonList(new MediaType(
 				"application", "json")));
-		prepareCookies(cookies, requestHeaders);
+		prepareCookies(context, cookies, requestHeaders);
 
 		HttpEntity<Object> requestEntity = new HttpEntity<Object>(
 				requestHeaders);
@@ -159,7 +160,8 @@ public class HttpUtils {
 		}
 		restTemplate.getMessageConverters().add(
 				new MappingJacksonHttpMessageConverter());
-		SystemConfig config = (SystemConfig) context.getApplicationContext();
+		ApplicationContext config = (ApplicationContext) context
+				.getApplicationContext();
 		try {
 			ResponseEntity<T> responseEntity = restTemplate.exchange(
 					config.getBaseUrl() + createHttpParam(uri, values),

@@ -23,7 +23,7 @@ import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.idea.activity.IdeaUsersActivity;
 import com.juzhai.android.idea.model.IdeaUser;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.model.User;
 
 public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
@@ -62,7 +62,7 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 		final Button dateButton = holder.dateButton;
 		User user = ideaUser.getUserView();
 
-		if (user.getUid() == UserCache.getUid()) {
+		if (user.getUid() == UserCacheManager.getUserCache(mContext).getUid()) {
 			dateButton.setVisibility(View.GONE);
 		} else {
 			dateButton.setVisibility(View.VISIBLE);

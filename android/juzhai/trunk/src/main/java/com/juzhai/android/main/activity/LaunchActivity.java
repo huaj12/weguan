@@ -12,7 +12,7 @@ import com.juzhai.android.common.adservice.NotificationService;
 import com.juzhai.android.core.activity.BaseActivity;
 import com.juzhai.android.main.service.impl.GuidanceService;
 import com.juzhai.android.passport.activity.LoginActivity;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.service.IPassportService;
 import com.juzhai.android.passport.service.impl.PassportService;
 import com.umeng.analytics.MobclickAgent;
@@ -38,7 +38,8 @@ public class LaunchActivity extends BaseActivity {
 					return;
 				}
 				if (result) {
-					if (UserCache.getUserInfo().isHasGuided()) {
+					if (UserCacheManager.getUserCache(LaunchActivity.this)
+							.getUserInfo().isHasGuided()) {
 						Intent intent = getIntent();
 						intent.setClass(LaunchActivity.this,
 								MainTabActivity.class);

@@ -26,7 +26,7 @@ import com.juzhai.android.dialog.activity.DialogContentListActivity;
 import com.juzhai.android.home.activity.UserHomeActivity;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.helper.IPostViewHelper;
 import com.juzhai.android.post.helper.impl.PostViewHelper;
@@ -69,7 +69,8 @@ public class PostDetailActivity extends NavigationActivity {
 		postViewHelper.showBigPostImage(PostDetailActivity.this,
 				user.getPostView(), postImageView);
 		showPostInfo();
-		if (user.getUid() == UserCache.getUid()) {
+		if (user.getUid() == UserCacheManager.getUserCache(
+				PostDetailActivity.this).getUid()) {
 			postInterest.setVisibility(View.GONE);
 			contact.setVisibility(View.GONE);
 		} else {

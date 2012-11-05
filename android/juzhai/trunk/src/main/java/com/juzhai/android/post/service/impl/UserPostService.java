@@ -18,7 +18,6 @@ import com.juzhai.android.core.model.Result.UserListResult;
 import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.utils.HttpUtils;
 import com.juzhai.android.home.bean.ZhaobanOrder;
-import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.exception.NeedLoginException;
 import com.juzhai.android.post.exception.PostException;
 import com.juzhai.android.post.model.Post;
@@ -100,8 +99,7 @@ public class UserPostService implements IUserPostService {
 		ResponseEntity<StringResult> responseEntity = null;
 		try {
 			responseEntity = HttpUtils.uploadFile(context, sendPostUri, values,
-					UserCache.getUserStatus(), "postImg", image,
-					StringResult.class);
+					null, "postImg", image, StringResult.class);
 		} catch (NeedLoginException e) {
 			throw new PostException(context, R.string.login_status_error, e);
 		} catch (Exception e) {

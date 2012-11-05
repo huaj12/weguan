@@ -25,7 +25,7 @@ import com.juzhai.android.dialog.activity.DialogContentListActivity;
 import com.juzhai.android.dialog.bean.MessageStatus;
 import com.juzhai.android.dialog.model.DialogContent;
 import com.juzhai.android.home.activity.UserHomeActivity;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.model.User;
 
 public class DialogContentListAdapter extends PageAdapter<DialogContent> {
@@ -93,11 +93,13 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 			leftTextView.setText(dailContent.getContent());
 			setLogo(leftUserLogo, tagerUser);
 			setImage(leftImage, dailContent);
-		} else if (dailContent.getSenderUid() == UserCache.getUid()) {
+		} else if (dailContent.getSenderUid() == UserCacheManager.getUserCache(
+				mContext).getUid()) {
 			leftRelativeLayout.setVisibility(View.GONE);
 			leftUserLogo.setVisibility(View.GONE);
 			rightTextView.setText(dailContent.getContent());
-			setLogo(rightUserLogo, UserCache.getUserInfo());
+			setLogo(rightUserLogo, UserCacheManager.getUserCache(mContext)
+					.getUserInfo());
 			setImage(rightImage, dailContent);
 		}
 		createTimeTextView.setText(JzUtils.showTime(mContext, new Date(

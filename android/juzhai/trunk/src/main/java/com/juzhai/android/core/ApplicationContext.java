@@ -8,17 +8,18 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 
 import com.juzhai.android.BuildConfig;
+import com.juzhai.android.passport.data.UserCache;
 
-public class SystemConfig extends Application {
-
+public class ApplicationContext extends Application {
+	private UserCache userCache = new UserCache();
 	public final String DOMAIN = "192.168.15.103";
 
 	// public static final String BASEURL =
 	// "http://192.168.15.104:8080/mobile/";
 
-	// public final String baseUrl = "http://m.51juzhai.com/";
+	public final String baseUrl = "http://m.51juzhai.com/";
 
-	public final String baseUrl = "http://" + DOMAIN + ":8080/mobile/";
+	// public final String baseUrl = "http://" + DOMAIN + ":8080/mobile/";
 
 	public static String getVersionName(Context context) {
 		// 获取packagemanager的实例
@@ -30,7 +31,8 @@ public class SystemConfig extends Application {
 					0);
 		} catch (NameNotFoundException e) {
 			if (BuildConfig.DEBUG) {
-				Log.d(SystemConfig.class.getSimpleName(), "get packInfo error");
+				Log.d(ApplicationContext.class.getSimpleName(),
+						"get packInfo error");
 			}
 			return null;
 		}
@@ -40,6 +42,10 @@ public class SystemConfig extends Application {
 
 	public String getBaseUrl() {
 		return baseUrl;
+	}
+
+	public UserCache getUserCache() {
+		return userCache;
 	}
 
 }

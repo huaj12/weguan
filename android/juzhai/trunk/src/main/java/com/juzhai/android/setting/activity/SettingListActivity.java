@@ -8,7 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.SystemConfig;
+import com.juzhai.android.core.ApplicationContext;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.list.table.model.BasicItem.ItemType;
 import com.juzhai.android.core.widget.list.table.widget.UITableView;
@@ -18,7 +18,7 @@ import com.juzhai.android.main.activity.TabItemActivity;
 import com.juzhai.android.passport.activity.AuthorizeBindActivity;
 import com.juzhai.android.passport.activity.AuthorizeExpiredActivity;
 import com.juzhai.android.passport.activity.LoginActivity;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.passport.service.impl.PassportService;
 import com.umeng.update.UmengUpdateAgent;
@@ -69,7 +69,8 @@ public class SettingListActivity extends TabItemActivity {
 							HomeSettingActivity.class);
 					pushIntent(intent);
 				} else if (index == 1) {
-					User user = UserCache.getUserInfo();
+					User user = UserCacheManager.getUserCache(
+							SettingListActivity.this).getUserInfo();
 					if (user.hasTpExpired()) {
 						pushIntent(new Intent(SettingListActivity.this,
 								AuthorizeExpiredActivity.class));
@@ -84,7 +85,8 @@ public class SettingListActivity extends TabItemActivity {
 				R.string.setting_cell_profile));
 
 		String authorizeSubTitle = null;
-		User user = UserCache.getUserInfo();
+		User user = UserCacheManager.getUserCache(SettingListActivity.this)
+				.getUserInfo();
 		if (user.hasTpExpired()) {
 			authorizeSubTitle = getResources().getString(
 					R.string.setting_authorize_expired);
@@ -132,7 +134,9 @@ public class SettingListActivity extends TabItemActivity {
 				R.string.setting_cell_feedback));
 		appTableView.addBasicItem(
 				getResources().getString(R.string.setting_cell_version),
-				"v" + SystemConfig.getVersionName(SettingListActivity.this),
+				"v"
+						+ ApplicationContext
+								.getVersionName(SettingListActivity.this),
 				ItemType.HORIZONTAL);
 	}
 

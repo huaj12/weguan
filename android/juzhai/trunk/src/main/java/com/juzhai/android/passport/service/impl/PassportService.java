@@ -54,7 +54,7 @@ public class PassportService implements IPassportService {
 					|| !responseEntity.getBody().getSuccess()) {
 				return false;
 			}
-			UserCacheManager.cache(context, responseEntity);
+			loginSuccess(context, responseEntity);
 			return true;
 		}
 	}

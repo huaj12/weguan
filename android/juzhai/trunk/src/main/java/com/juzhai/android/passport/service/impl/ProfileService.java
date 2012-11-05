@@ -14,7 +14,6 @@ import com.juzhai.android.R;
 import com.juzhai.android.core.model.Result.UserResult;
 import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.utils.HttpUtils;
-import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.exception.NeedLoginException;
 import com.juzhai.android.passport.exception.ProfileException;
@@ -53,9 +52,8 @@ public class ProfileService implements IProfileService {
 			values.put("birth",
 					user.getBirthYear() + "-" + user.getBirthMonth() + "-"
 							+ user.getBirthDay());
-			responseEntity = HttpUtils.uploadFile(context, url, values,
-					UserCache.getUserStatus(), "logo", user.getLogoImage(),
-					UserResult.class);
+			responseEntity = HttpUtils.uploadFile(context, url, values, null,
+					"logo", user.getLogoImage(), UserResult.class);
 		} catch (NeedLoginException e) {
 			throw new ProfileException(context, R.string.login_status_error, e);
 		} catch (Exception e) {
@@ -75,7 +73,7 @@ public class ProfileService implements IProfileService {
 			throw new ProfileException(context, responseEntity.getBody()
 					.getErrorInfo());
 		} else {
-			UserCacheManager.updateUserCache(responseEntity.getBody()
+			UserCacheManager.updateUserCache(context, responseEntity.getBody()
 					.getResult());
 			if (user.getLogoImage() != null) {
 				MobclickAgent.onEvent(context, UmengEvent.UPLOAD_LOGO);

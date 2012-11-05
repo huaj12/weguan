@@ -17,7 +17,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.juzhai.android.R;
-import com.juzhai.android.core.SystemConfig;
+import com.juzhai.android.core.ApplicationContext;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.passport.task.BindAuthorizeTask;
 import com.juzhai.android.passport.task.ExpiredAuthorizeTask;
@@ -48,7 +48,7 @@ public class TpLoginActivity extends NavigationActivity {
 		// --------------设置NavigationBar--------------------
 		tpId = getIntent().getLongExtra("tpId", 0L);
 		authorizeType = getIntent().getIntExtra("authorizeType", 0);
-		SystemConfig config = (SystemConfig) getApplication();
+		ApplicationContext config = (ApplicationContext) getApplication();
 		String url = null;
 		if (authorizeType == 1) {
 			url = config.getBaseUrl() + tpExpiredUrl + tpId;

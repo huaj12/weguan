@@ -13,7 +13,7 @@ import android.content.Context;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
-import com.juzhai.android.core.SystemConfig;
+import com.juzhai.android.core.ApplicationContext;
 import com.juzhai.android.core.data.SharedPreferencesManager;
 import com.juzhai.android.core.model.Result.UserResult;
 import com.juzhai.android.passport.model.User;
@@ -28,8 +28,10 @@ public class UserCacheManager {
 
 	public static void cache(Context context,
 			ResponseEntity<UserResult> responseEntity) {
-		SystemConfig config = (SystemConfig) context.getApplicationContext();
-		UserCache.setUserInfo(responseEntity.getBody().getResult());
+		ApplicationContext applicationContext = (ApplicationContext) context
+				.getApplicationContext();
+		applicationContext.getUserCache().setUserInfo(
+				responseEntity.getBody().getResult());
 		List<String> cookieHeaders = responseEntity.getHeaders().get(
 				"Set-Cookie");
 		if (null == cookieHeaders) {
@@ -37,7 +39,7 @@ public class UserCacheManager {
 		}
 		Map<String, Map<String, String>> cookies = parseCookies(cookieHeaders);
 		if (!cookies.containsKey(L_TOKEN_NAME)) {
-			String lTokenString = newLTokenString(context, config);
+			String lTokenString = newLTokenString(context, applicationContext);
 			if (StringUtils.hasText(lTokenString)) {
 				cookieHeaders.add(lTokenString);
 				putParseCookie(cookies, lTokenString);
@@ -48,13 +50,13 @@ public class UserCacheManager {
 		if (lTokenMap != null) {
 			String lToken = lTokenMap.get(L_TOKEN_NAME);
 			if (StringUtils.hasText(lToken)) {
-				UserCache.setlToken(lToken);
+				applicationContext.getUserCache().setlToken(lToken);
 			}
 		}
 		if (pTokenMap != null) {
 			String pToken = pTokenMap.get(P_TOKEN_NAME);
 			if (StringUtils.hasText(pToken)) {
-				UserCache.setpToken(pToken);
+				applicationContext.getUserCache().setpToken(pToken);
 			}
 		}
 
@@ -64,14 +66,15 @@ public class UserCacheManager {
 		// cookieManager.removeSessionCookie();
 		if (null != cookieHeaders) {
 			for (String cookie : cookieHeaders) {
-				cookieManager.setCookie(config.getBaseUrl(), cookie);
+				cookieManager
+						.setCookie(applicationContext.getBaseUrl(), cookie);
 			}
 		}
 		CookieSyncManager.getInstance().sync();
 	}
 
-	public static void updateUserCache(User user) {
-		UserCache.setUserInfo(user);
+	public static void updateUserCache(Context context, User user) {
+		UserCacheManager.getUserCache(context).setUserInfo(user);
 	}
 
 	public static void persistInfo(Context context,
@@ -122,7 +125,7 @@ public class UserCacheManager {
 	}
 
 	public static void localLogout(Context context) {
-		UserCache.clear();
+		UserCacheManager.getUserCache(context).clear();
 		clearPersistToken(context);
 		clearPersistLToken(context);
 		clearPersistUid(context);
@@ -156,7 +159,8 @@ public class UserCacheManager {
 		cookies.put(key, map);
 	}
 
-	private static String newLTokenString(Context context, SystemConfig config) {
+	private static String newLTokenString(Context context,
+			ApplicationContext config) {
 		String lToken = UserCacheManager.getPersistLToken(context);
 		if (StringUtils.hasText(lToken)) {
 			StringBuilder sb = new StringBuilder();
@@ -189,9 +193,14 @@ public class UserCacheManager {
 			return;
 		}
 		String lToken = lTokenCookie.get(L_TOKEN_NAME);
-		UserCache.setlToken(lToken);
+		UserCacheManager.getUserCache(context).setlToken(lToken);
 		clearPersistLToken(context);
 		new SharedPreferencesManager(context).commit(L_TOKEN_NAME, lToken);
+	}
 
+	public static UserCache getUserCache(Context context) {
+		ApplicationContext applicationContext = (ApplicationContext) context
+				.getApplicationContext();
+		return applicationContext.getUserCache();
 	}
 }

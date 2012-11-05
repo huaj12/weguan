@@ -22,7 +22,7 @@ import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.main.activity.MainTabActivity;
 import com.juzhai.android.main.activity.UserGuideActivity;
 import com.juzhai.android.passport.adapter.LoginInputListAdapter;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.exception.PassportException;
 import com.juzhai.android.passport.listener.TpLoginListener;
 import com.juzhai.android.passport.service.IPassportService;
@@ -125,7 +125,8 @@ public class LoginActivity extends NavigationActivity {
 						// DialogUtils
 						// .showToastText(LoginActivity.this, errorInfo);
 					} else {
-						if (UserCache.getUserInfo().isHasGuided()) {
+						if (UserCacheManager.getUserCache(LoginActivity.this)
+								.getUserInfo().isHasGuided()) {
 							clearStackAndStartActivity(new Intent(
 									LoginActivity.this, MainTabActivity.class));
 						} else {

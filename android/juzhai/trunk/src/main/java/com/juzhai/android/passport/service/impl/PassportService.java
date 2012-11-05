@@ -256,7 +256,7 @@ public class PassportService implements IPassportService {
 		if (!result.getSuccess()) {
 			throw new PassportException(context, result.getErrorInfo());
 		} else {
-			UserCacheManager.updateUserCache(result.getResult());
+			UserCacheManager.updateUserCache(context, result.getResult());
 		}
 	}
 }

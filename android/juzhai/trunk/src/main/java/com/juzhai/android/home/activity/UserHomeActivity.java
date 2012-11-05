@@ -37,7 +37,7 @@ import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.home.service.IHomeService;
 import com.juzhai.android.home.service.impl.HomeService;
 import com.juzhai.android.home.task.MyPostsListGetDataTask;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.activity.PostDetailActivity;
 import com.juzhai.android.post.model.Post;
@@ -110,7 +110,8 @@ public class UserHomeActivity extends NavigationActivity {
 					}
 
 				});
-				if (user.getUid() != UserCache.getUid()) {
+				if (user.getUid() != UserCacheManager.getUserCache(
+						UserHomeActivity.this).getUid()) {
 					if (user.isHasInterest()) {
 						unInterestBtn.setVisibility(View.VISIBLE);
 						interestBtn.setVisibility(View.GONE);

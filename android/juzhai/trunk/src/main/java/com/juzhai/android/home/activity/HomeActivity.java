@@ -19,7 +19,7 @@ import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
 import com.juzhai.android.home.service.impl.HomeService;
 import com.juzhai.android.main.activity.TabItemActivity;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.activity.SendPostActivity;
 
@@ -104,7 +104,8 @@ public class HomeActivity extends TabItemActivity {
 	}
 
 	private void showUserInfos() {
-		User user = UserCache.getUserInfo();
+		User user = UserCacheManager.getUserCache(HomeActivity.this)
+				.getUserInfo();
 		userViewHelper.showUserNewLogo(HomeActivity.this, user, userLogoView,
 				logoAuditView, 60, 60);
 		userViewHelper.showUserNickname(HomeActivity.this, user, nicknameView);
@@ -113,7 +114,8 @@ public class HomeActivity extends TabItemActivity {
 	}
 
 	private void showTableView() {
-		final User user = UserCache.getUserInfo();
+		final User user = UserCacheManager.getUserCache(HomeActivity.this)
+				.getUserInfo();
 		postTableView.setClickListener(new ClickListener() {
 
 			@Override

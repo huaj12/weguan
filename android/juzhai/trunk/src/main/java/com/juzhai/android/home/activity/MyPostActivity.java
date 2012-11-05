@@ -17,7 +17,7 @@ import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase.OnRefre
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.home.adapter.MyPostsAdapter;
 import com.juzhai.android.home.task.MyPostsListGetDataTask;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.model.User;
 import com.juzhai.android.post.activity.PostDetailActivity;
 import com.juzhai.android.post.model.Post;
@@ -27,7 +27,6 @@ import com.juzhai.android.post.model.Post;
  * 
  */
 public class MyPostActivity extends NavigationActivity {
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,7 +41,9 @@ public class MyPostActivity extends NavigationActivity {
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullDownToRefresh(refreshView);
 				new MyPostsListGetDataTask(MyPostActivity.this, postsListView)
-						.execute(UserCache.getUid(), 1);
+						.execute(
+								UserCacheManager.getUserCache(
+										MyPostActivity.this).getUid(), 1);
 			}
 
 			@Override
@@ -50,7 +51,9 @@ public class MyPostActivity extends NavigationActivity {
 					PullToRefreshBase<ListView> refreshView) {
 				super.onPullUpToRefresh(refreshView);
 				new MyPostsListGetDataTask(MyPostActivity.this, postsListView)
-						.execute(UserCache.getUid(),
+						.execute(
+								UserCacheManager.getUserCache(
+										MyPostActivity.this).getUid(),
 								postsListView.getPageAdapter().getPager()
 										.getCurrentPage() + 1);
 			}
@@ -68,7 +71,8 @@ public class MyPostActivity extends NavigationActivity {
 						position);
 				Intent intent = new Intent(MyPostActivity.this,
 						PostDetailActivity.class);
-				User user = UserCache.getUserInfo();
+				User user = UserCacheManager.getUserCache(MyPostActivity.this)
+						.getUserInfo();
 				user.setPostView(post);
 				intent.putExtra("user", user);
 				pushIntent(intent);

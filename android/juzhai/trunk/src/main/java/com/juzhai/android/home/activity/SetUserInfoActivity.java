@@ -31,7 +31,7 @@ import com.juzhai.android.core.widget.list.table.widget.UITableView.ClickListene
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.model.User;
 
 public abstract class SetUserInfoActivity extends NavigationActivity {
@@ -42,12 +42,14 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 	protected ImageView userLogoView;
 	protected RelativeLayout logoLayout;
 	protected Button finish;
-	protected User user = UserCache.getCopyUserInfo();
+	protected User user = null;
 	protected boolean isGuide = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		user = UserCacheManager.getUserCache(SetUserInfoActivity.this)
+				.getCopyUserInfo();
 		setNavContentView(getNavContentViewLayout());
 		logoLayout = (RelativeLayout) getLayoutInflater().inflate(
 				R.layout.fragment_user_upload_logo, null);

@@ -21,7 +21,6 @@ import com.juzhai.android.core.utils.Validation;
 import com.juzhai.android.dialog.exception.DialogContentException;
 import com.juzhai.android.dialog.model.DialogContent;
 import com.juzhai.android.dialog.service.IDialogContentService;
-import com.juzhai.android.passport.data.UserCache;
 import com.juzhai.android.passport.exception.NeedLoginException;
 import com.umeng.analytics.MobclickAgent;
 
@@ -82,9 +81,9 @@ public class DialogContentService implements IDialogContentService {
 			Map<String, Object> values = new HashMap<String, Object>();
 			values.put("content", content);
 			values.put("uid", String.valueOf(uid));
-			responseEntity = HttpUtils.uploadFile(context, sendMessageUri,
-					values, UserCache.getUserStatus(), "dialogImg", image,
-					DialogContentResult.class);
+			responseEntity = HttpUtils
+					.uploadFile(context, sendMessageUri, values, null,
+							"dialogImg", image, DialogContentResult.class);
 		} catch (NeedLoginException e) {
 			throw new DialogContentException(context,
 					R.string.login_status_error, e);

@@ -51,7 +51,7 @@ import com.juzhai.android.dialog.exception.DialogContentException;
 import com.juzhai.android.dialog.model.DialogContent;
 import com.juzhai.android.dialog.service.IDialogContentService;
 import com.juzhai.android.dialog.service.impl.DialogContentService;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.model.User;
 
 public class DialogContentListActivity extends NavigationActivity {
@@ -188,7 +188,8 @@ public class DialogContentListActivity extends NavigationActivity {
 				DialogContent dialogContent = new DialogContent();
 				dialogContent.setContent(contentTextView.getText().toString());
 				dialogContent.setCreateTime(new Date().getTime());
-				dialogContent.setSenderUid(UserCache.getUid());
+				dialogContent.setSenderUid(UserCacheManager.getUserCache(
+						DialogContentListActivity.this).getUid());
 				dialogContent.setReceiverUid(targetUser.getUid());
 				dialogContent.setImage(pic);
 				dialogContent.setStatus(MessageStatus.WAIT);

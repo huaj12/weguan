@@ -25,7 +25,7 @@ import com.juzhai.android.dialog.model.Dialog;
 import com.juzhai.android.home.activity.UserHomeActivity;
 import com.juzhai.android.home.helper.IUserViewHelper;
 import com.juzhai.android.home.helper.impl.UserViewHelper;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.model.User;
 
 public class DialogListAdapter extends PageAdapter<Dialog> {
@@ -86,7 +86,8 @@ public class DialogListAdapter extends PageAdapter<Dialog> {
 		contentTextView.setText(TextTruncateUtil.truncate(
 				dialog.getLatestContent(), 33, "..."));
 		// 接受者
-		if (UserCache.getUid() == dialog.getReceiverUid()) {
+		if (UserCacheManager.getUserCache(mContext).getUid() == dialog
+				.getReceiverUid()) {
 			sendFlagView.setBackgroundResource(R.drawable.mess_ta_sendto_me);
 		} else {
 			sendFlagView.setBackgroundResource(R.drawable.mess_i_sendto_ta);

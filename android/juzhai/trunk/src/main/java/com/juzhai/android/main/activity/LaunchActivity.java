@@ -40,9 +40,10 @@ public class LaunchActivity extends BaseActivity {
 				if (result) {
 					if (UserCacheManager.getUserCache(LaunchActivity.this)
 							.getUserInfo().isHasGuided()) {
-						Intent intent = getIntent();
-						intent.setClass(LaunchActivity.this,
+						Intent intent = new Intent(LaunchActivity.this,
 								MainTabActivity.class);
+						intent.putExtra("itemIndex",
+								getIntent().getIntExtra("itemIndex", -1));
 						clearStackAndStartActivity(intent);
 					} else {
 						clearStackAndStartActivity(new Intent(

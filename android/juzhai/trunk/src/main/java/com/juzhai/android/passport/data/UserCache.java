@@ -8,57 +8,57 @@ import org.springframework.util.StringUtils;
 import com.juzhai.android.passport.model.User;
 
 public class UserCache {
-	private static User userInfo;
-	private static String lToken;
-	private static String pToken;
+	private User userInfo;
+	private String lToken;
+	private String pToken;
 
-	static void setUserInfo(User user) {
+	void setUserInfo(User user) {
 		userInfo = user;
 	}
 
-	public static User getUserInfo() {
+	public User getUserInfo() {
 		return userInfo;
 	}
 
-	public static String getlToken() {
+	public String getlToken() {
 		return lToken;
 	}
 
-	static void setlToken(String lToken) {
-		UserCache.lToken = lToken;
+	void setlToken(String lToken) {
+		this.lToken = lToken;
 	}
 
-	public static String getpToken() {
+	public String getpToken() {
 		return pToken;
 	}
 
-	static void setpToken(String pToken) {
-		UserCache.pToken = pToken;
+	void setpToken(String pToken) {
+		this.pToken = pToken;
 	}
 
-	public static Map<String, String> getUserStatus() {
+	public Map<String, String> getUserStatus() {
 		Map<String, String> cookies = new HashMap<String, String>();
 
-		if (StringUtils.hasText(UserCache.getlToken())) {
-			cookies.put("l_token", UserCache.getlToken());
+		if (StringUtils.hasText(getlToken())) {
+			cookies.put("l_token", getlToken());
 		}
-		if (StringUtils.hasText(UserCache.getpToken())) {
-			cookies.put("p_token", UserCache.getpToken());
+		if (StringUtils.hasText(getpToken())) {
+			cookies.put("p_token", getpToken());
 		}
 		return cookies;
 	}
 
-	public static long getUid() {
+	public long getUid() {
 		return userInfo.getUid();
 	}
 
-	static void clear() {
+	void clear() {
 		userInfo = null;
 		lToken = null;
 		pToken = null;
 	}
 
-	public static boolean hasLogin() {
+	public boolean hasLogin() {
 		if (null != userInfo && userInfo.getUid() > 0) {
 			return true;
 		} else {
@@ -66,7 +66,7 @@ public class UserCache {
 		}
 	}
 
-	public static User getCopyUserInfo() {
+	public User getCopyUserInfo() {
 		return userInfo.clone();
 	}
 }

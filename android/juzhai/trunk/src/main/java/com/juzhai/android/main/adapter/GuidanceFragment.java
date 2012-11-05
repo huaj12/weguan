@@ -17,7 +17,7 @@ import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.main.activity.MainTabActivity;
 import com.juzhai.android.main.service.impl.GuidanceService;
 import com.juzhai.android.passport.activity.LoginActivity;
-import com.juzhai.android.passport.data.UserCache;
+import com.juzhai.android.passport.data.UserCacheManager;
 
 public final class GuidanceFragment extends Fragment {
 
@@ -65,7 +65,7 @@ public final class GuidanceFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					new GuidanceService().completeGuide(getActivity());
-					if (UserCache.hasLogin()) {
+					if (UserCacheManager.getUserCache(getActivity()).hasLogin()) {
 						startActivity(new Intent(getActivity(),
 								MainTabActivity.class));
 					} else {

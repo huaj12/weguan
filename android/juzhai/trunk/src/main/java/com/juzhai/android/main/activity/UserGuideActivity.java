@@ -33,7 +33,6 @@ public class UserGuideActivity extends SetUserInfoActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setGuide(true);
-		user.setGender(-1);
 		super.onCreate(savedInstanceState);
 		getNavigationBar().setBarTitle(
 				getResources().getString(R.string.user_guide_title));

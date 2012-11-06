@@ -11,7 +11,7 @@ import com.juzhai.android.BuildConfig;
 import com.juzhai.android.passport.data.UserCache;
 
 public class ApplicationContext extends Application {
-	private UserCache userCache = new UserCache();
+	private final UserCache userCache = new UserCache();
 	public final String DOMAIN = "192.168.15.103";
 
 	// public static final String BASEURL =

@@ -143,12 +143,14 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 		final Intent intent = new Intent(mContext, PreviewActivity.class);
 		intent.putExtra("defaultImage", R.drawable.message_pic_load);
 		if (dialogContent.getImage() != null) {
+			imageView.setVisibility(View.VISIBLE);
 			Bitmap zoomBitmap = ImageUtils.zoomBitmap(dialogContent.getImage(),
 					40, 40, mContext);
 			imageView.setImageBitmap(zoomBitmap);
 			imageView.setVisibility(View.VISIBLE);
 			intent.putExtra("imageBitmap", dialogContent.getImage());
 		} else if (StringUtils.hasText(dialogContent.getImgUrl())) {
+			imageView.setVisibility(View.VISIBLE);
 			ImageViewLoader nid = ImageViewLoader.getInstance(mContext);
 			nid.fetchImage(JzUtils.getImageUrl(dialogContent.getImgUrl()),
 					R.drawable.message_pic_load, imageView,
@@ -159,11 +161,13 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
 										bitmap, 40, 40, mContext);
 								imageView.setImageBitmap(zoomBitmap);
-								imageView.setVisibility(View.VISIBLE);
+
 							}
 						}
 					});
 			intent.putExtra("imageUrl", dialogContent.getBigImgUrl());
+		} else {
+			imageView.setVisibility(View.GONE);
 		}
 		imageView.setOnClickListener(new OnClickListener() {
 			@Override

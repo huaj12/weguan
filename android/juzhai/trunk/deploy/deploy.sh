@@ -14,6 +14,8 @@ package_apk(){
 }
 
 cd /Users/wujiajun/work/workspace/AndroidClient
+#本地
+package_apk local
 #小米
 package_apk xiaomi
 #安卓

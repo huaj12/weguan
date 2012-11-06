@@ -50,6 +50,10 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 		super.onCreate(savedInstanceState);
 		user = UserCacheManager.getUserCache(SetUserInfoActivity.this)
 				.getCopyUserInfo();
+		if (isGuide) {
+			// 新手引导
+			user.setGender(-1);
+		}
 		setNavContentView(getNavContentViewLayout());
 		logoLayout = (RelativeLayout) getLayoutInflater().inflate(
 				R.layout.fragment_user_upload_logo, null);

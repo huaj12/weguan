@@ -147,7 +147,6 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 			Bitmap zoomBitmap = ImageUtils.zoomBitmap(dialogContent.getImage(),
 					40, 40, mContext);
 			imageView.setImageBitmap(zoomBitmap);
-			imageView.setVisibility(View.VISIBLE);
 			intent.putExtra("imageBitmap", dialogContent.getImage());
 		} else if (StringUtils.hasText(dialogContent.getImgUrl())) {
 			imageView.setVisibility(View.VISIBLE);
@@ -161,11 +160,10 @@ public class DialogContentListAdapter extends PageAdapter<DialogContent> {
 								Bitmap zoomBitmap = ImageUtils.zoomBitmap(
 										bitmap, 40, 40, mContext);
 								imageView.setImageBitmap(zoomBitmap);
-
 							}
 						}
 					});
-			intent.putExtra("imageUrl", dialogContent.getBigImgUrl());
+			intent.putExtra("imageUrl", dialogContent.getOriginalImgUrl());
 		} else {
 			imageView.setVisibility(View.GONE);
 		}

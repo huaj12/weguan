@@ -69,6 +69,9 @@
 							</c:choose>
 							<div class="img"><img src="${initImgUrl}" init-pic="${jzr:static('/images/web2/1px.gif')}" width="250" /></div>
 						</div><!--upload_ok end-->
+						<div class="uploading1" style="display: none;"><!--uploading begin-->
+							<span><b><img src="${jzr:static('/images/web2/list_loading.gif')}" width="16" height="16"></b><em>图片上传中...</em></span>
+						</div>
 					</div><!--upload_photo_arae end-->
 				</div><!--show_area end-->
 			</div><!--menu_item end-->

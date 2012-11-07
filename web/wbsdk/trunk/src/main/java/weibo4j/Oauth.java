@@ -102,10 +102,15 @@ public class Oauth extends Weibo {
 
 	public String authorize(String response_type, String display)
 			throws WeiboException {
-		return WeiboConfig.getValue("authorizeURL").trim() + "?client_id="
-				+ client_ID.trim() + "&redirect_uri=" + redirect_URI.trim()
-				+ "&response_type=" + response_type
-				+ "&with_offical_account=1&display=" + display;
+		return WeiboConfig.getValue("authorizeURL").trim()
+				+ "?client_id="
+				+ client_ID.trim()
+				+ "&redirect_uri="
+				+ redirect_URI.trim()
+				+ "&response_type="
+				+ response_type
+				+ "&with_offical_account=1&forcelogin=1&scope=follow_app_official_microblog&display="
+				+ display;
 	}
 
 	/*----------------------------auth1.0接口--------------------------------------*/

@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=bcprov-jdk15-146.jar -DgroupId=org.bouncycastle -DartifactId=bcprov -Dversion=1.46 -Dpackaging=jar

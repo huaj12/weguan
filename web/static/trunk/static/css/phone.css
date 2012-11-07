@@ -202,33 +202,33 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 
 
 
-.iphone{ width:900px; height:500px; overflow:hidden; background:#999; margin-top:100px; position:relative; background:#666;} 
+.iphone{ width:960px; height:500px; overflow:hidden; background:#999; margin-top:100px; position:relative; background:#666;} 
 .iphone .title{ position:absolute; left:80px; top:87px; background:url(../images/web2/iphone_title.png) no-repeat; width:182px; height:41px; overflow:hidden;z-index:90;}
 
-.iphone .detail{position:absolute; left:95px; top:157px; width:190px; z-index:110;}
+.iphone .detail{position:absolute; left:103px; top:163px; width:190px; z-index:110;}
 .iphone .detail span{ font-family:"微软雅黑"; font-size:14px; line-height:21px; color:#fff; float:left; white-space:nowrap;}
 
 
-.iphone .phone_bg{position:absolute; right:90px; top:50px;  z-index:110; width:205px; height:440px; background:url(../images/web2/white_iphone.png) no-repeat; overflow:hidden;}
-.iphone .phone_bg p{ width:172px; height:257px; overflow:hidden; float:left; margin-left:17px; margin-top:70px; display:inline;}
+.iphone .phone_bg{position:absolute; right:70px; top:25px;  z-index:110; width:233px; height:455px; background:url(../images/web2/white_iphone.png) no-repeat; overflow:hidden;}
+.iphone .phone_bg p{ width:198px; height:296px; overflow:hidden; float:left; margin-left:19px; margin-top:80px; display:inline; background:#00ff99;}
 
 
 .iphone .ewm{position:absolute; right:315px; top:92px; z-index:110; background:url(../images/web2/erweima_bg.png) no-repeat; width:100px; height:107px; overflow:hidden;} 
 .iphone .ewm p{ width:78px; height:78px; overflow:hidden; float:left; margin-left:7px; display:inline; margin-top:7px; overflow:hidden; background:#00ff99;}
 
 .iphone .download_btns{position:absolute; left:80px; bottom:115px; z-index:110; }
-.iphone .download_btns a{ float:left; width:165px; height:55px; overflow:hidden; display:block inline; float:left;}
+.iphone .download_btns a{ float:left; width:160px; height:55px; overflow:hidden; display:block inline; margin-right:20px; background:url(../images/web2/app_btn.png) no-repeat;}
 
 
 
-.iphone .download_btns a.ip{ background:url(../images/web2/iphone_app_btn.png) no-repeat; }
-.iphone .download_btns a.ip:hover{ background:url(../images/web2/iphone_app_btn_hover.png) no-repeat; }
-.iphone .download_btns a.ad{ background:url(../images/web2/and_app_btn.png) no-repeat; margin-left:15px;}
-.iphone .download_btns a.ad:hover{ background:url(../images/web2/and_app_btn_hover.png) no-repeat;}
+.iphone .download_btns a.ip{ background-position:0 -165px;}
+.iphone .download_btns a.ip:hover{ background-position:0 -110px;}
+.iphone .download_btns a.ad{background-position:0 0;}
+.iphone .download_btns a.ad:hover{ background-position:0 -55px;}
 
 
 
-.iphone_page{ background:url(../images/web2/iphone_bg.jpg) no-repeat; width:900px; position:absolute; height:500px; top:0; left:0; z-index:100;}
+.iphone_page{ background:url(../images/web2/iphone_bg.jpg) no-repeat; width:960px; position:absolute; height:500px; top:0; left:0; z-index:100;}
 
 
 
@@ -240,41 +240,14 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 
 
 
-@-webkit-keyframes glow {
-    0%{ -webkit-transform:translate(0, 0px);}
-	16%{-webkit-transform:translate(0, 0px);}
-   20%{ -webkit-transform:translate(-172px, 0px);}
-   36%{ -webkit-transform:translate(-172px, 0px);}
-   40%{-webkit-transform:translate(-344px, 0px);}
-   56%{ -webkit-transform:translate(-344px, 0px);}
-   60%{ -webkit-transform:translate(-172px, 0px);}
-   76%{ -webkit-transform:translate(-172px, 0px);}
-   80%{-webkit-transform:translate(0px, 0px); }
-   96%{-webkit-transform:translate(0px, 0px); }
-   100%{-webkit-transform:translate(0px, 0px);}
-}
 
 
 
 
-.iphone .pic_gd{ background:url(../images/web2/pic_jd.jpg) no-repeat; width:516px; height:2570px; float:left;
 
-    -webkit-animation-name: glow;
-    -webkit-animation-duration:16s;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-direction: alternate;
-    -webkit-animation-timing-function: ease-in-out;
-
-
- 
-
-}
 
 .welcome_page_login{ float:right; margin-top:16px;}
 .welcome_page_login a{ font-family:"微软雅黑"; font-size:12px; color:#fff; float:left; margin-left:20px; display:inline;}
 .welcome_page_login a:hover{ color:#3E8BD9;}
-
-
-
 
 

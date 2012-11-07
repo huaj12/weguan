@@ -142,9 +142,9 @@ function uploadImage(obj) {
 		error : function(data) {
 			var errorInfo=data["responseText"];
 			if(errorInfo!=null&&errorInfo.indexOf("413 Request Entity Too Large")!=-1){
-				$("div.my_face > div.upload_error").text("图片不能超过4m");
+				$("div.my_face > div.upload_error").text("图片不要大于4M");
 			}else{
-				$("div.my_face > div.upload_error").text("上传失败");
+				$("div.my_face > div.upload_error").text("上传失败，请稍后再试");
 			}
 			$("div.my_face > div.upload_error").show();
 			$("div.upload_area > div.loading").hide();

@@ -48,7 +48,13 @@
     	<function-class>com.juzhai.core.web.jstl.JzResourceFunction</function-class>
     	<function-signature>java.lang.String ideaPic(long,java.lang.String,int)</function-signature>
     	<example>${jzr:ideaPic(123456,'abc.jpg',450)}</example>
-    </function>    
+    </function>
+    <function>
+    	<name>dialogContentPic</name>
+    	<function-class>com.juzhai.core.web.jstl.JzResourceFunction</function-class>
+    	<function-signature>java.lang.String dialogContentPic(long,java.lang.String,int)</function-signature>
+    	<example>${jzr:dialogContentPic(123456,'abc.jpg',200)}</example>
+    </function>
     <function>
     	<name>tpHomeUrl</name>
     	<function-class>com.juzhai.core.web.jstl.JzResourceFunction</function-class>

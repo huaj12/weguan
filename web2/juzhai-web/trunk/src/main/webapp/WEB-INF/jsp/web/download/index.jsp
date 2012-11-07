@@ -97,7 +97,7 @@
 					<span>跟小宅们直接对话，相约拒宅</span>
 				</div><!--detail end-->
 				<div class="phone_bg"><!--phone_bg begin-->
-					<p><span class="pic_gd"></span></p>
+					<p><span class="pic_gd"><img src="${jzr:static('/images/web2/ipone_pic1.jpg')}"></img></span></p>
 				</div><!--phone_bg end-->
 				<div class="ewm"><!--ewm begin-->
 					<p><img src="${jzr:static('/images/web2/ewm.png')}" width="78" height="78"></img></p>

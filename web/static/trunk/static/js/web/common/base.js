@@ -1042,15 +1042,14 @@ var PostSender =  Class.extend({
 					}
 				},
 				error : function(data) {
+					var errorInfo=data["responseText"];
+					if(errorInfo!=null&&errorInfo.indexOf("413 Request Entity Too Large")!=-1){
+						sendPostPic.find("div.load_error").text("图片不能超过4m").show();
+					}else{
+						sendPostPic.find("div.load_error").text("上传失败").show();
+					}
 					sendPostPic.find("div.show_area > div.upload_photo_area > div.upload").show();
 					sendPostPic.find("div.uploading1").hide();
-					var errorInfo=data["responseText"];
-					if(errorInfo.indexOf("413 Request Entity Too Large")==-1){
-						sendPostPic.find("div.load_error").text("上传失败").show();
-					}else{
-						sendPostPic.find("div.load_error").text("图片不能超过4m").show();
-					}
-					
 				}
 			};
 			sendForm.ajaxSubmit(options);

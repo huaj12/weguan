@@ -1020,7 +1020,7 @@ var PostSender =  Class.extend({
 		sendPostPic.find("input.btn_file_molding").change(function(){
 			sendPostPic.find("div.show_area > div.upload_photo_area > div.upload").hide();
 			sendPostPic.find("div.load_error").hide();
-			//$("div.upload > div.loading").show();
+			sendPostPic.find("div.uploading1").show();
 			var options = {
 				url : "/post/pic/upload",
 				type : "POST",
@@ -1032,19 +1032,25 @@ var PostSender =  Class.extend({
 						sendPostPic.find("div.upload_ok1 > div.img > img").attr("src", result.result[0]);
 						sendPostPic.find("div.upload_ok1").show();
 						sendPostPic.addClass("done");
-						//$("div.upload > div.loading").hide();
+						sendPostPic.find("div.uploading1").hide();
 					} else if (result.errorCode == "00003") {
 						window.location.href = "/login?turnTo=" + window.location.href;
 					} else {
-						//$("div.upload > div.loading").hide();
 						sendPostPic.find("div.load_error").text(result.errorInfo).show();
 						sendPostPic.find("div.show_area > div.upload_photo_area > div.upload").show();
+						sendPostPic.find("div.uploading1").hide();
 					}
 				},
 				error : function(data) {
-					//$("div.upload > div.loading").hide();
-					sendPostPic.find("div.load_error").text("上传失败").show();
-					sendPostPic.find("div.show_area > div.upload_photo_area > div.upload-input").show();
+					sendPostPic.find("div.show_area > div.upload_photo_area > div.upload").show();
+					sendPostPic.find("div.uploading1").hide();
+					var errorInfo=data["responseText"];
+					if(errorInfo.indexOf("413 Request Entity Too Large")==-1){
+						sendPostPic.find("div.load_error").text("上传失败").show();
+					}else{
+						sendPostPic.find("div.load_error").text("图片不能超过4m").show();
+					}
+					
 				}
 			};
 			sendForm.ajaxSubmit(options);

@@ -583,6 +583,15 @@ trip_sc_area .img a{}
 .show_area .upload_ok1 .img{ padding-bottom:4px; width:252px; overflow:hidden; height:auto; margin-top:10px; float:left;}
 
 
+.show_area .uploading1{ width:252px; height:auto; overflow:hidden; float:left; margin-left:14px; margin-top:20px; display:inline; padding-bottom:15px;}
+
+.show_area .uploading1 span{ float:left; margin-left:70px;}
+.show_area .uploading1 span b{ float:left; margin-right:5px; display:inline; margin-top:2px;}
+.show_area .uploading1 span em{ color:#999;}
+
+
+
+
 
 .show_area2 .tag_list{  padding:2px; display:block;}
 .show_area2 .tag_list a{ width:100%; text-align:center; height:25px; line-height:25px; line-height:27px\9; display:block; background:#fafafa; margin-top:2px; color:#999;}
@@ -1594,10 +1603,13 @@ body:nth-of-type(1) .select_pub .sel_r{ width:30px; height:32px; float:left; bac
 .repy_list_item .repy_box p{ width:553px; height:1px; overflow:hidden; margin-left:1px; display:inline; float:left; background:#f6f6f6;}
 .repy_list_item .repy_box span{ width:525px; min-height:68px; _height:68px; padding:5px 15px; display:block; float:left; background:#f6f6f6;}
 
+
+.repy_list_item .repy_box .from_phone{ width:525px; float:left; color:#999;}
 .repy_list_item .repy_box span h3{ width:525px; float:left; color:#999;}
 .repy_list_item .repy_box span h3 a{ text-decoration:none; color:#999;}
 .repy_list_item .repy_box span h3 a:hover{ text-decoration:underline;}
 .repy_list_item .repy_box span em{  width:525px; float:left; line-height:180%; color:#666; margin-top:2px;}
+.repy_list_item .repy_box span .pic{ clear:both; padding-top:5px;}
 .repy_list_item .repy_box span b{ width:300px; float:left; color:#ccc; font-weight:normal; margin-top:8px;}
 
 .repy_list_item .repy_box span .btn{ float:right; margin-top:5px; display:none;}
@@ -2320,7 +2332,7 @@ i{ color:#f00;}
 
 
 
-.idea_btns .add_fav{ float:left; margin-top:0px; display:inline;}
+.idea_btns .add_fav{ float:left; margin-top:28px; margin-top:29px\9; display:inline;}
 .idea_btns .add_fav a{color:#999; padding-left:20px; display:block; background:url(../images/web2/add_fav_icon.png) no-repeat;}
 .idea_btns .add_fav a:hover{background:url(../images/web2/add_fav_icon_hover.png) no-repeat;  color:#3E8BD9;}
 
@@ -2330,7 +2342,7 @@ i{ color:#f00;}
 
 
 
-.idea_btns .date_btn{ float:right; margin-top:0px; }
+.idea_btns .date_btn{ float:right; margin-top:28px; margin-right:25px; display:inline;}
 .idea_btns .date_btn a{ color:#3E8BD9; font-size:14px; }
 
 
@@ -2358,7 +2370,7 @@ i{ color:#f00;}
 
 .good_idea_detail .idea_show .idea_pic{ width:250px; overflow:hidden; float:left; margin-right:20px; display:inline;}
 
-.good_idea_detail .idea_show .idea_infor{ float:left; overflow:hidden; width:310px; font-size:12px; padding-bottom:30px;}
+.good_idea_detail .idea_show .idea_infor{ float:left; display:block; width:310px; font-size:12px; padding-bottom:30px;}
 .idea_show .idea_infor h2{width:100%; font-size:18px; color:#666; font-family:"微软雅黑"; padding-bottom:10px; line-height:150%; }
 .idea_show .idea_infor h2 a{ color:#3E8BD9; font-size:12px; font-family:"宋体"; margin-left:5px; white-space:nowrap;}
 .idea_show .idea_infor h2 a:hover{ text-decoration:underline;}
@@ -2375,7 +2387,7 @@ i{ color:#f00;}
 .idea_show p a.gyr{color:#3E8BD9; margin-right:10px;}
 
 
-.idea_show .edit_error{ float:left; margin-top:-1px\9; margin-left:10px; display:none;}
+.idea_show .edit_error{ float:left; margin-top:28px; margin-left:10px; display:none;}
 .idea_show .edit_error a{ color:#999;}
 .idea_show .edit_error a:hover{ color:#3E8BD9;}
 
@@ -2383,11 +2395,13 @@ i{ color:#f00;}
 .idea_show .link a{color:#3E8BD9; float:left; margin-left:23px; display:inline;}
 .idea_show .link a:hover{color:#3E8BD9;}
 
-.idea_show .idea_btns{ position:absolute; bottom:17px; right:20px; width:310px; }
+.idea_show .idea_btns{ position:absolute; bottom:0px; right:-5px; width:310px; height:68px; }
 
 .idea_btns .fb_btn{ float:right; margin-top:5px;}
 .idea_btns .fb_btn a{background:url(../images/web2/send_area_btn.gif) no-repeat; width:80px; height:30px; overflow:hidden; display:block; color:#fff; text-align:center; font-size:14px; line-height:30px; line-height:32px\9;}
 
+.idea_btns .gotobuy{ float:right;  display:inline; margin-left:-15px; width:87px; height:68px; }
+.idea_btns .gotobuy a{ width:87px; height:68px; overflow:hidden; background:url(../images/web2/gotobuy_btn.png) no-repeat; display:block;}
 
 
 
@@ -3301,6 +3315,12 @@ float:left;overflow:hidden;  background:#404040; line-height:35px;
 .other_left a{ color:#3E8BD9; margin-top:30px; float:left;}
 .other_left a:hover{ text-decoration:underline;}
 .other_left p a{ margin:0; float:none;}
+
+
+.other_left ul{ float:left; width:600px; margin-left:2px; display:inline; margin-top:10px;}
+.other_left ul li{ float:left; width:80px; margin-top:15px;  margin-right:20px; }
+.other_left ul li a{ text-align:left; margin:0; float:none; color:#999; font-size:14px;}
+.other_left ul li a:hover{color:#3E8BD9; }
 
 
 .other_page .other_right{ width:200px; float:left; height:auto; overflow:hidden; margin-top:35px;}

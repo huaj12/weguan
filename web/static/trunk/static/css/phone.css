@@ -210,8 +210,7 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 
 
 .iphone .phone_bg{position:absolute; right:70px; top:25px;  z-index:110; width:233px; height:455px; background:url(../images/web2/white_iphone.png) no-repeat; overflow:hidden;}
-.iphone .phone_bg p{ width:198px; height:296px; overflow:hidden; float:left; margin-left:19px; margin-top:80px; display:inline; background:#00ff99;}
-
+.iphone .phone_bg p{ width:198px; height:296px; overflow:hidden; float:left; margin-left:19px; margin-top:80px; display:inline; }
 
 .iphone .ewm{position:absolute; right:315px; top:92px; z-index:110; background:url(../images/web2/erweima_bg.png) no-repeat; width:100px; height:107px; overflow:hidden;} 
 .iphone .ewm p{ width:78px; height:78px; overflow:hidden; float:left; margin-left:7px; display:inline; margin-top:7px; overflow:hidden; background:#00ff99;}
@@ -236,6 +235,107 @@ _left:expression(eval(document.documentElement.scrollLeft));_top:expression(eval
 .wel_copy a{ color:#666; margin-left:5px;}
 .wel_copy a:hover{color:#3E8BD9;}
 .iphone_mt{ margin-top:10px;}
+
+
+
+
+
+
+
+
+
+@-webkit-keyframes glow {
+    0%{ -webkit-transform:translate(0, 0px); }
+	16%{-webkit-transform:translate(0, 0px);}
+   20%{ -webkit-transform:translate(-198px, 0px);}
+   36%{ -webkit-transform:translate(-198px, 0px);}
+   40%{-webkit-transform:translate(-396px, 0px);}
+   56%{ -webkit-transform:translate(-396px, 0px);}
+   60%{ -webkit-transform:translate(-198px, 0px);}
+   76%{ -webkit-transform:translate(-198px, 0px);}
+   80%{-webkit-transform:translate(0px, 0px); }
+   96%{-webkit-transform:translate(0px, 0px); }
+   100%{-webkit-transform:translate(0px, 0px);}
+}
+
+
+
+
+@-moz-keyframes glow {
+    0%{ -moz-transform:translate(0, 0px); }
+	16%{-moz-transform:translate(0, 0px);}
+   20%{ -moz-transform:translate(-198px, 0px);}
+   36%{ -moz-transform:translate(-198px, 0px);}
+   40%{-moz-transform:translate(-396px, 0px);}
+   56%{ -moz-transform:translate(-396px, 0px);}
+   60%{ -moz-transform:translate(-198px, 0px);}
+   76%{ -moz-transform:translate(-198px, 0px);}
+   80%{-moz-transform:translate(0px, 0px); }
+   96%{-moz-transform:translate(0px, 0px); }
+   100%{-moz-transform:translate(0px, 0px);}
+
+}
+
+
+@-ms-keyframes glow {
+    0%{ -ms-transform:translate(0, 0px); }
+	16%{-ms-transform:translate(0, 0px);}
+   20%{ -ms-transform:translate(-198px, 0px);}
+   36%{ -ms-transform:translate(-198px, 0px);}
+   40%{-ms-transform:translate(-396px, 0px);}
+   56%{ -ms-transform:translate(-396px, 0px);}
+   60%{ -ms-transform:translate(-198px, 0px);}
+   76%{ -ms-transform:translate(-198px, 0px);}
+   80%{-ms-transform:translate(0px, 0px); }
+   96%{-ms-transform:translate(0px, 0px); }
+   100%{-ms-transform:translate(0px, 0px);}
+}
+
+
+
+
+
+.phone_bg .pic_gd{ background:url(../images/web2/ipone_pic1.jpg); width:594px; height:296px; float:left;
+
+    -webkit-animation-name: glow;
+    -webkit-animation-duration:16s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: alternate;
+    -webkit-animation-timing-function: ease-in-out;
+
+    -moz-animation-name: glow;
+    -moz-animation-duration:16s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-direction: alternate;
+    -moz-animation-timing-function: ease-in-out;
+	
+	
+	-ms-animation-name: glow;
+    -ms-animation-duration:16s;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-direction: alternate;
+    -ms-animation-timing-function: ease-in-out;
+ 
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

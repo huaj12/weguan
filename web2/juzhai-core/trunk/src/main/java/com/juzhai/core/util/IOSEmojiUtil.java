@@ -4,10 +4,14 @@ import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.juzhai.core.Constants;
 
 public class IOSEmojiUtil {
+
+	private static final Log log = LogFactory.getLog(IOSEmojiUtil.class);
 
 	public static String[] ios5emoji;
 	public static String[] ios4emoji;
@@ -41,6 +45,9 @@ public class IOSEmojiUtil {
 				i += 3;
 			} else if ((b ^ 0xF0) >> 4 == 0) {
 				i += 4;
+			} else {
+				log.error("remove utf8mb4 not find bytes length.");
+				break;
 			}
 		}
 		buffer.flip();
@@ -63,6 +70,9 @@ public class IOSEmojiUtil {
 				i += 3;
 			} else if ((b ^ 0xF0) >> 4 == 0) {
 				return true;
+			} else {
+				log.error("check has utf8mb4 not find bytes length.");
+				break;
 			}
 		}
 		return false;
@@ -175,4 +185,7 @@ public class IOSEmojiUtil {
 	// }
 	// }
 
+	public static void main(String[] args) {
+		removeUtf8mb4Char("");
+	}
 }

@@ -140,7 +140,12 @@ function uploadImage(obj) {
 			}
 		},
 		error : function(data) {
-			$("div.my_face > div.upload_error").text("上传失败");
+			var errorInfo=data["responseText"];
+			if(errorInfo!=null&&errorInfo.indexOf("413 Request Entity Too Large")!=-1){
+				$("div.my_face > div.upload_error").text("图片不能超过4m");
+			}else{
+				$("div.my_face > div.upload_error").text("上传失败");
+			}
 			$("div.my_face > div.upload_error").show();
 			$("div.upload_area > div.loading").hide();
 			$("div.btn_area > div.reloading").hide();

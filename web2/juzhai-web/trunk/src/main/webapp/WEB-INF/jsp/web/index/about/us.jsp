@@ -31,6 +31,7 @@
 								<a href="/about/rule">社区管理细则</a>
 								<a href="/about/contact">联系我们</a>
 								<a href="/about/join">加入我们</a>
+								<a href="/about/links">友情链接</a>
 							</div><!--other_right end-->
 						</div><!--other_page end-->
 					</div><!--m end-->

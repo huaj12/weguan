@@ -15,6 +15,7 @@
 				<span>
 					<c:set value="${dialogContentView.dialogContent.senderUid==context.uid}" var="isMe"></c:set>
 					<h3><c:choose><c:when test="${isMe}">我:</c:when><c:otherwise><a href="/home/${dialogContentView.profile.uid}"><c:out value="${dialogContentView.profile.nickname}" />:</a></c:otherwise></c:choose></h3>
+					<c:if test="${!empty dialogContentView.dialogContent.pic}"><div class="from_phone">我刚才通过拒宅手机版给你发了一张图片:</div></c:if>
 					<em>“${jzu:convertFace(dialogContentView.dialogContent.content)}”</em>
 					<c:if test="${!empty dialogContentView.dialogContent.pic}"><div class="pic"><img src=" ${jzr:dialogContentPic(dialogContentView.dialogContent.id,dialogContentView.dialogContent.pic,200)}"></div></c:if>
 					<b><c:set var="date" value="${dialogContentView.dialogContent.createTime}" scope="request" /><jsp:include page="/WEB-INF/jsp/web/common/fragment/show_time.jsp" /></b>

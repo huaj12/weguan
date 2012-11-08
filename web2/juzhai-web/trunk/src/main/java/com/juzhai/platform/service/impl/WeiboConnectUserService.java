@@ -72,9 +72,12 @@ public class WeiboConnectUserService extends AbstractUserService {
 					authInfo.getAppSecret());
 			User user = users.showUserById(authInfo.getTpIdentity());
 			Profile profile = new Profile();
-			profile.setNickname(TextTruncateUtil.truncate(IOSEmojiUtil
-					.removeUtf8mb4Char(HtmlUtils.htmlUnescape(user.getName())),
-					nicknameLengthMax, StringUtils.EMPTY));
+			String nickname = user.getName();
+			if (StringUtils.isNotEmpty(nickname)) {
+				profile.setNickname(TextTruncateUtil.truncate(IOSEmojiUtil
+						.removeUtf8mb4Char(HtmlUtils.htmlUnescape(nickname)),
+						nicknameLengthMax, StringUtils.EMPTY));
+			}
 			int sex = 0;
 			if ("m".equals(user.getGender())) {
 				sex = 1;
@@ -95,10 +98,12 @@ public class WeiboConnectUserService extends AbstractUserService {
 			profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
 			// profile.setLogoPic(user.getAvatarLarge());
 			// 用户简介
-			profile.setFeature(TextTruncateUtil.truncate(IOSEmojiUtil
-					.removeUtf8mb4Char(HtmlUtils.htmlUnescape(user
-							.getDescription())), featureLengthMax,
-					StringUtils.EMPTY));
+			String feature = user.getDescription();
+			if (StringUtils.isNotEmpty(feature)) {
+				profile.setFeature(TextTruncateUtil.truncate(IOSEmojiUtil
+						.removeUtf8mb4Char(HtmlUtils.htmlUnescape(feature)),
+						featureLengthMax, StringUtils.EMPTY));
+			}
 			// 没有家乡用所在地代替
 			// profile.setHome(user.getLocation());
 			// 获取不到生日需要高级接口

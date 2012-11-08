@@ -64,6 +64,7 @@
 																	</c:otherwise>
 														</c:choose>
 														<div class="edit_error"><a href="/idea/update/${idea.id}">修改/报错</a></div>
+														<c:if test="${not empty idea.buyLink}"><div class="gotobuy"><a href="${idea.buyLink}" target="_blank"></a></div></c:if>
 														<div class="date_btn">
 															<c:if test="${not empty idea.link}">
 																	<a href="/idea/outside/${idea.id}" <c:if test="${empty isQplus || !isQplus}">target="_blank"</c:if>>去了解更多</a>

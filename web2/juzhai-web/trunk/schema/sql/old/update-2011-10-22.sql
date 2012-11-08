@@ -1,0 +1,1 @@
+update tb_act set category_ids = CONCAT(category_ids, ',4') where name in ('远足','一起看球','喝茶聊天','看演出','私奔','打架泄愤','大街上看美女','坐过山车');

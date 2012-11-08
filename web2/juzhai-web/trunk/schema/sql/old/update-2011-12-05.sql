@@ -1,0 +1,4 @@
+insert  into `tb_thirdparty`(`id`,`name`,`join_type`,`app_key`,`app_secret`,`app_url`,`user_home_url`,`app_id`) values 
+(4,'kaixin001','connect','299124366072d6393ab50fb290c332b9','11e40af583569d07e39dcdf87e095cf2','http://www.51juzhai.com/web/access/4','http://www.kaixin001.com/home/?uid={0}','100019946'),
+(5,'renren','connect','34d3561df0dc41b0a26e00fc6d7b02d9','676c86a831cb4d9c82b5e421da164f7f','http://www.51juzhai.com/web/access/5','http://www.renren.com/profile.do?id={0}','171677'),
+(6,'weibo','connect','3631414437','9cf899e425f577491b688b07cea17bf8','http://www.51juzhai.com/web/access/6','http://www.weibo.com/{0}','3631414437');

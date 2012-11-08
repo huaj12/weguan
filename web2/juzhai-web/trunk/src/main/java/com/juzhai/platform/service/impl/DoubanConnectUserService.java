@@ -90,11 +90,12 @@ public class DoubanConnectUserService extends AbstractUserService {
 					tp.getAppId());
 			UserEntry user = doubanService.getAuthorizedUser();
 			Profile profile = new Profile();
-			profile.setNickname(TextTruncateUtil.truncate(IOSEmojiUtil
-					.removeUtf8mb4Char(HtmlUtils.htmlUnescape(user.getTitle()
-							.getPlainText())), nicknameLengthMax,
-					StringUtils.EMPTY));
-
+			String nickname = user.getTitle().getPlainText();
+			if (StringUtils.isNotEmpty(nickname)) {
+				profile.setNickname(TextTruncateUtil.truncate(IOSEmojiUtil
+						.removeUtf8mb4Char(HtmlUtils.htmlUnescape(nickname)),
+						nicknameLengthMax, StringUtils.EMPTY));
+			}
 			List<Link> links = user.getLinks();
 			for (Link link : links) {
 				if ("alternate".equals(link.getRel())) {
@@ -104,9 +105,12 @@ public class DoubanConnectUserService extends AbstractUserService {
 			}
 			profile.setLogoVerifyState(LogoVerifyState.NONE.getType());
 			// 用户简介
-			profile.setFeature(TextTruncateUtil.truncate(IOSEmojiUtil
-					.removeUtf8mb4Char(HtmlUtils.htmlUnescape(user.getContent()
-							.getLang())), featureLengthMax, StringUtils.EMPTY));
+			String feature = user.getContent().getLang();
+			if (StringUtils.isNotEmpty(feature)) {
+				profile.setFeature(TextTruncateUtil.truncate(IOSEmojiUtil
+						.removeUtf8mb4Char(HtmlUtils.htmlUnescape(feature)),
+						featureLengthMax, StringUtils.EMPTY));
+			}
 
 			City city = null;
 			String cityName = user.getLocation();

@@ -59,9 +59,12 @@ public class QqPlusUserService extends AbstractUserService {
 				} else {
 					nickname = result.getValue("info.nick");
 				}
-				profile.setNickname(TextTruncateUtil.truncate(IOSEmojiUtil
-						.removeUtf8mb4Char(HtmlUtils.htmlUnescape(nickname)),
-						nicknameLengthMax, StringUtils.EMPTY));
+				if (StringUtils.isNotEmpty(nickname)) {
+					profile.setNickname(TextTruncateUtil.truncate(
+							IOSEmojiUtil.removeUtf8mb4Char(HtmlUtils
+									.htmlUnescape(nickname)),
+							nicknameLengthMax, StringUtils.EMPTY));
+				}
 				// 只有小图而且url超级长不存了。
 				// profile.setNewLogoPic(result.getValue("info.face"));
 				profile.setLogoVerifyState(LogoVerifyState.NONE.getType());

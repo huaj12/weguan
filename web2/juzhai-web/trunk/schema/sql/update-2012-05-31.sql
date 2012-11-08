@@ -1,0 +1,1 @@
+ALTER TABLE `juzhai`.`tb_category` ADD `icon`  varchar(45) AFTER last_modify_time;

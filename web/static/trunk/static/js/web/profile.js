@@ -186,9 +186,9 @@ function setting(uid){
 	}else{
 		$("#profession_tip").hide();
 	}
-	if(!checkValLength(feature, 1, 140)){
+	if(!checkValLength(feature, 0, 140)){
 		$("#feature")[0].focus();
-		 $("#feature_tp").show().text("自我评价请控制在1~70字以内");
+		 $("#feature_tp").show().text("自我评价请控制在70字以内");
 		 return ;
 	}else{
 		$("#feature_tp").hide();

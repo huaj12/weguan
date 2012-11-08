@@ -38,10 +38,11 @@ public class UserCacheManager {
 				.getApplicationContext();
 		applicationContext.getUserCache().setUserInfo(
 				responseEntity.getBody().getResult());
-		List<String> cookieHeaders = responseEntity.getHeaders().get(
-				"Set-Cookie");
-		if (null == cookieHeaders) {
-			cookieHeaders = new ArrayList<String>(1);
+		List<String> cookiesList = responseEntity.getHeaders()
+				.get("Set-Cookie");
+		List<String> cookieHeaders = new ArrayList<String>();
+		if (null != cookiesList) {
+			cookieHeaders.addAll(cookiesList);
 		}
 		Map<String, Map<String, String>> cookies = parseCookies(cookieHeaders);
 		createToken(L_TOKEN_NAME, cookies, cookieHeaders, applicationContext);

@@ -5,7 +5,7 @@
 
 <generatorConfiguration>
   	<classPathEntry location="tool/MBG/mysql-connector-java-5.1.12.jar" />
-	    
+	     <!--
 	<context id="passport" targetRuntime="MyBatis3">
 	  	
 	  	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
@@ -38,7 +38,7 @@
 	      <property name="useActualColumnNames" value="false"/>
 	    </table>
 	    
-	    <!-- <table tableName="tb_profile" domainObjectName="Profile" >
+	    <table tableName="tb_profile" domainObjectName="Profile" >
 	      <property name="useActualColumnNames" value="false"/>
 	      <columnOverride column="sub_email" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 	      <columnOverride column="has_modify_nickname" javaType="java.lang.Boolean" jdbcType="TINYINT" />
@@ -93,9 +93,9 @@
 		<table tableName="tb_user_guide" domainObjectName="UserGuide" >
 	      <property name="useActualColumnNames" value="false"/>
 	      <columnOverride column="complete" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-		</table> -->
+		</table>
 	</context>
-	    	
+	    	 -->
 	<!-- <context id="common" targetRuntime="MyBatis3">
 		<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -307,12 +307,8 @@
 	    <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.post.mapper"  targetProject="src/main/java">
 	      <property name="enableSubPackages" value="false" />
 	    </javaClientGenerator>
-		
-	 	<table tableName="tb_idea_position" domainObjectName="IdeaPosition" >
-	      <property name="useActualColumnNames" value="false"/>
-	    </table>
-	 
-	    <!-- <table tableName="tb_idea" domainObjectName="Idea">
+	    
+	    <table tableName="tb_idea" domainObjectName="Idea">
 	      <property name="useActualColumnNames" value="false"/>
 	      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
 	      <columnOverride column="random" javaType="java.lang.Boolean" jdbcType="TINYINT" />
@@ -320,6 +316,10 @@
 	      <columnOverride column="defunct" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 	    </table>
 	    
+		 <!--
+	 	<table tableName="tb_idea_position" domainObjectName="IdeaPosition" >
+	      <property name="useActualColumnNames" value="false"/>
+	    </table>
 	    <table tableName="tb_raw_idea" domainObjectName="RawIdea">
 	      <property name="useActualColumnNames" value="false"/>
 	    </table>

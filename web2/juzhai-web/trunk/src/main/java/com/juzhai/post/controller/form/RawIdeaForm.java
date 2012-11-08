@@ -29,6 +29,7 @@ public class RawIdeaForm implements Serializable {
 	private String picWeb;
 	private String cityName;
 	private String townName;
+	private String buyLink;
 
 	public String getCityName() {
 		return cityName;
@@ -204,6 +205,14 @@ public class RawIdeaForm implements Serializable {
 
 	public void setProvince(Long province) {
 		this.province = province;
+	}
+
+	public String getBuyLink() {
+		return buyLink;
+	}
+
+	public void setBuyLink(String buyLink) {
+		this.buyLink = buyLink;
 	}
 
 }

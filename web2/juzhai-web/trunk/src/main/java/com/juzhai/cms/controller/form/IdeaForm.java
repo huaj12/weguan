@@ -27,6 +27,7 @@ public class IdeaForm {
 	private Long town;
 	private String detail;
 	private String picWeb;
+	private String buyLink;
 
 	public Boolean getRandom() {
 		return random;
@@ -202,6 +203,14 @@ public class IdeaForm {
 
 	public void setPicWeb(String picWeb) {
 		this.picWeb = picWeb;
+	}
+
+	public String getBuyLink() {
+		return buyLink;
+	}
+
+	public void setBuyLink(String buyLink) {
+		this.buyLink = buyLink;
 	}
 
 }

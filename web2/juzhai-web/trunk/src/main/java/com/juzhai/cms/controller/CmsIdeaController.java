@@ -166,6 +166,7 @@ public class CmsIdeaController extends BaseController {
 				ideaForm.setPic(idea.getPic());
 				ideaForm.setIdeaId(id);
 				ideaForm.setLink(idea.getLink());
+				ideaForm.setBuyLink(idea.getBuyLink());
 				ideaForm.setCharge(idea.getCharge());
 				ideaForm.setTown(idea.getTown());
 			}
@@ -342,6 +343,7 @@ public class CmsIdeaController extends BaseController {
 				rawIdeaForm.setPlace(rawIdea.getPlace());
 				rawIdeaForm.setPic(rawIdea.getPic());
 				rawIdeaForm.setLink(rawIdea.getLink());
+				rawIdeaForm.setBuyLink(rawIdea.getBuyLink());
 				rawIdeaForm.setCharge(rawIdea.getCharge());
 				rawIdeaForm.setTown(rawIdea.getTown());
 				rawIdeaForm.setDetail(rawIdea.getDetail());
@@ -433,6 +435,7 @@ public class CmsIdeaController extends BaseController {
 			ideaForm.setPlace(rawIdeaForm.getPlace());
 			ideaForm.setPic(rawIdeaForm.getPic());
 			ideaForm.setLink(rawIdeaForm.getLink());
+			ideaForm.setBuyLink(rawIdeaForm.getBuyLink());
 			ideaForm.setCharge(rawIdeaForm.getCharge());
 			ideaForm.setDetail(rawIdeaForm.getDetail());
 			ideaForm.setPicWeb(rawIdeaForm.getPicWeb());

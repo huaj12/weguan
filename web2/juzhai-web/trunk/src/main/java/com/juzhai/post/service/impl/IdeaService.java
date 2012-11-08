@@ -225,6 +225,7 @@ public class IdeaService implements IIdeaService {
 		idea.setLastModifyTime(new Date());
 
 		idea.setLink(JzUtilFunction.getLink(ideaForm.getLink()));
+		idea.setBuyLink(JzUtilFunction.getLink(ideaForm.getBuyLink()));
 		idea.setPlace(ideaForm.getPlace());
 		if (ideaForm.getGender() != null) {
 			idea.setGender(ideaForm.getGender());
@@ -295,6 +296,7 @@ public class IdeaService implements IIdeaService {
 		idea.setTown(ideaForm.getTown());
 		idea.setLastModifyTime(new Date());
 		idea.setLink(JzUtilFunction.getLink(ideaForm.getLink()));
+		idea.setBuyLink(JzUtilFunction.getLink(ideaForm.getBuyLink()));
 		idea.setPlace(ideaForm.getPlace());
 		idea.setGender(ideaForm.getGender());
 		idea.setCategoryId(ideaForm.getCategoryId());

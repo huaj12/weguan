@@ -120,6 +120,14 @@
 		</tr>
 		<tr>
 			<td>
+				购买链接
+			</td>
+			<td>
+				<input type="text" name="buyLink" value="${ideaForm.buyLink}" />
+			</td>
+		</tr>
+		<tr>
+			<td>
 				费用
 			</td>
 			<td>

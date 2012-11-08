@@ -307,21 +307,20 @@
 	    <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.post.mapper"  targetProject="src/main/java">
 	      <property name="enableSubPackages" value="false" />
 	    </javaClientGenerator>
-	    
-	    <table tableName="tb_idea" domainObjectName="Idea">
+	   
+	    <table tableName="tb_raw_idea" domainObjectName="RawIdea">
+	      <property name="useActualColumnNames" value="false"/>
+	    </table>
+		 <!--
+	 	<table tableName="tb_idea_position" domainObjectName="IdeaPosition" >
+	      <property name="useActualColumnNames" value="false"/>
+	    </table>
+	     <table tableName="tb_idea" domainObjectName="Idea">
 	      <property name="useActualColumnNames" value="false"/>
 	      <generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()" identity="true" type="post"/>
 	      <columnOverride column="random" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 	      <columnOverride column="window" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 	      <columnOverride column="defunct" javaType="java.lang.Boolean" jdbcType="TINYINT" />
-	    </table>
-	    
-		 <!--
-	 	<table tableName="tb_idea_position" domainObjectName="IdeaPosition" >
-	      <property name="useActualColumnNames" value="false"/>
-	    </table>
-	    <table tableName="tb_raw_idea" domainObjectName="RawIdea">
-	      <property name="useActualColumnNames" value="false"/>
 	    </table>
 	    
 	    <table tableName="tb_idea_interest" domainObjectName="IdeaInterest">

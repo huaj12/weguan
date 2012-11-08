@@ -284,6 +284,7 @@ public class RawIdeaService implements IRawIdeaService {
 		idea.setEndTime(rawIdea.getEndTime());
 		idea.setLastModifyTime(idea.getCreateTime());
 		idea.setLink(JzUtilFunction.getLink(rawIdea.getLink()));
+		idea.setBuyLink(JzUtilFunction.getLink(rawIdea.getBuyLink()));
 		idea.setPlace(rawIdea.getPlace());
 		idea.setStartTime(rawIdea.getStartTime());
 		idea.setTown(rawIdea.getTown());
@@ -350,6 +351,7 @@ public class RawIdeaService implements IRawIdeaService {
 		rawIdea.setStartTime(rawIdeaForm.getStartTime());
 		rawIdea.setIdeaId(rawIdeaForm.getIdeaId());
 		rawIdea.setLink(rawIdeaForm.getLink());
+		rawIdea.setBuyLink(rawIdeaForm.getBuyLink());
 		rawIdea.setPic(rawIdeaForm.getPic());
 		rawIdea.setPlace(rawIdeaForm.getPlace());
 		rawIdea.setTown(rawIdeaForm.getTown());

@@ -90,9 +90,11 @@ public class QqConnectUserService extends AbstractUserService {
 			} else {
 				nickname = userInfo.getNickName();
 			}
-			profile.setNickname(TextTruncateUtil.truncate(IOSEmojiUtil
-					.removeUtf8mb4Char(HtmlUtils.htmlUnescape(nickname)),
-					nicknameLengthMax, StringUtils.EMPTY));
+			if (StringUtils.isNotEmpty(nickname)) {
+				profile.setNickname(TextTruncateUtil.truncate(IOSEmojiUtil
+						.removeUtf8mb4Char(HtmlUtils.htmlUnescape(nickname)),
+						nicknameLengthMax, StringUtils.EMPTY));
+			}
 			profile.setNewLogoPic(userInfo.getAvatarLarge());
 			profile.setLogoVerifyState(LogoVerifyState.VERIFYING.getType());
 

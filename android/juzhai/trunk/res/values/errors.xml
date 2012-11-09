@@ -20,7 +20,7 @@
     <string name="user_birth_day_is_null_error">请选择生日</string>
     <string name="user_address_is_null_error">请选择所在地</string>
     <string name="profession_is_null_error">请选择职业</string>
-    <string name="feature_content_invalid_error">自我评价请控制在1~70字以内</string>
+    <string name="feature_content_invalid_error">自我评价请控制在70字以内</string>
     <!-- user info end -->
     <!-- 发送私信 begin -->
     <string name="send_message_length_invalid_error">私信内容请控制在1~200字以内</string>

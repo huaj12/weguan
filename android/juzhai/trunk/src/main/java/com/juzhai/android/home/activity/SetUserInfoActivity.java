@@ -324,8 +324,7 @@ public abstract class SetUserInfoActivity extends NavigationActivity {
 		if (!isGuide) {
 			String feature = user.getFeature();
 			int featureLength = StringUtil.chineseLength(feature);
-			if (featureLength > Validation.USER_FEATURE_LENGTH_MAX
-					|| featureLength < Validation.USER_FEATURE_LENGTH_MIN) {
+			if (featureLength > Validation.USER_FEATURE_LENGTH_MAX) {
 				DialogUtils.showErrorDialog(SetUserInfoActivity.this,
 						R.string.feature_content_invalid_error);
 				// DialogUtils.showToastText(SetUserInfoActivity.this,

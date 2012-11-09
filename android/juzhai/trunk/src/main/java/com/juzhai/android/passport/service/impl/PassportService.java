@@ -217,7 +217,7 @@ public class PassportService implements IPassportService {
 				Log.d(this.getClass().getSimpleName(), "logout error.", e);
 			}
 		}
-		if (responseEntity.getBody() == null
+		if (responseEntity == null || responseEntity.getBody() == null
 				|| !responseEntity.getBody().getSuccess()) {
 			if (BuildConfig.DEBUG) {
 				Log.d(this.getClass().getSimpleName(), "logout response error.");

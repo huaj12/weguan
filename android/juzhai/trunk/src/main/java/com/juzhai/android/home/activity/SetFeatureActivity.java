@@ -40,8 +40,7 @@ public class SetFeatureActivity extends NavigationActivity {
 			public void onClick(View v) {
 				String feature = editText.getText().toString();
 				int featureLength = StringUtil.chineseLength(feature);
-				if (featureLength > Validation.USER_FEATURE_LENGTH_MAX
-						|| featureLength < Validation.USER_FEATURE_LENGTH_MIN) {
+				if (featureLength > Validation.USER_FEATURE_LENGTH_MAX) {
 					DialogUtils.showErrorDialog(SetFeatureActivity.this,
 							R.string.feature_content_invalid_error);
 					return;

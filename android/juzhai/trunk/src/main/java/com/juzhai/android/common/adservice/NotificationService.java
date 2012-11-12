@@ -61,10 +61,12 @@ public class NotificationService extends Service {
 						Intent intent = new Intent(NotificationService.this,
 								LaunchActivity.class);
 						intent.putExtra("itemIndex", 2);
-						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						intent.setAction(Intent.ACTION_MAIN);
+						intent.addCategory(Intent.CATEGORY_LAUNCHER);
 						PendingIntent pendingIntent = PendingIntent
 								.getActivity(NotificationService.this, 0,
-										intent, 0);
+										intent,
+										PendingIntent.FLAG_UPDATE_CURRENT);
 						sendMessage(
 								smsNoticeType,
 								NotificationService.this.getResources()
@@ -90,9 +92,11 @@ public class NotificationService extends Service {
 					Intent intent = new Intent(NotificationService.this,
 							LaunchActivity.class);
 					intent.putExtra("itemIndex", 1);
-					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intent.setAction(Intent.ACTION_MAIN);
+					intent.addCategory(Intent.CATEGORY_LAUNCHER);
 					PendingIntent pendingIntent = PendingIntent.getActivity(
-							NotificationService.this, 0, intent, 0);
+							NotificationService.this, 0, intent,
+							PendingIntent.FLAG_UPDATE_CURRENT);
 					sendMessage(
 							weekNoticeType,
 							NotificationService.this.getResources().getString(

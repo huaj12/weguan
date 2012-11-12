@@ -14,9 +14,9 @@ import android.widget.RelativeLayout.LayoutParams;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.UIUtil;
+import com.juzhai.android.main.activity.LoginAndRegisterActivity;
 import com.juzhai.android.main.activity.MainTabActivity;
 import com.juzhai.android.main.service.impl.GuidanceService;
-import com.juzhai.android.passport.activity.LoginActivity;
 import com.juzhai.android.passport.data.UserCacheManager;
 
 public final class GuidanceFragment extends Fragment {
@@ -70,7 +70,7 @@ public final class GuidanceFragment extends Fragment {
 								MainTabActivity.class));
 					} else {
 						startActivity(new Intent(getActivity(),
-								LoginActivity.class));
+								LoginAndRegisterActivity.class));
 					}
 					getActivity().finish();
 				}

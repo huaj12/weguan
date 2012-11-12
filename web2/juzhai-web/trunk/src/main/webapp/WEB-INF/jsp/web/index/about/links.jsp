@@ -28,6 +28,7 @@
 									<li><a href="http://www.365ddt.com/" target="_blank">店店通</a></li>
 									<li><a href="http://www.25pp.com/" target="_blank">iPhone游戏</a></li>
 									<li><a href="http://www.gzhong.cn/" target="_blank">工众网</a></li>
+									<li><a href="http://www.appsgo.cn/" target="_blank">爱扑GO</a></li>
 								</ul>
 							</div><!--other_left end-->
 							<div class="other_right"><!--other_right begin-->

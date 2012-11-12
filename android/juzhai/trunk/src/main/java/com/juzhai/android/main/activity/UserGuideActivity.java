@@ -18,7 +18,6 @@ import com.juzhai.android.core.task.ProgressTask;
 import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.home.activity.SetUserInfoActivity;
-import com.juzhai.android.passport.activity.LoginActivity;
 import com.juzhai.android.passport.exception.ProfileException;
 import com.juzhai.android.passport.service.IProfileService;
 import com.juzhai.android.passport.service.impl.PassportService;
@@ -115,7 +114,7 @@ public class UserGuideActivity extends SetUserInfoActivity {
 												}
 												Intent intent = new Intent(
 														UserGuideActivity.this,
-														LoginActivity.class);
+														LoginAndRegisterActivity.class);
 												clearStackAndStartActivity(intent);
 											};
 

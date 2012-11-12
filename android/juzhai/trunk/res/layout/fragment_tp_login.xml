@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout   
+      				xmlns:android="http://schemas.android.com/apk/res/android"
+	    		 	android:layout_width="fill_parent"
+	    		 	android:layout_height="wrap_content"
+	    		 	android:layout_below="@+id/login_divider"
+               		android:layout_marginTop="25dp"
+               		android:paddingLeft="20dp"
+               		android:paddingRight="20dp">
+	    		 	
+	    			<RelativeLayout android:layout_width="wrap_content"
+    		 		    			android:layout_height="wrap_content"
+    		 		    			android:layout_alignParentLeft="true">
+		    		 	<Button android:layout_width="wrap_content"
+		    		 	    	android:layout_height="wrap_content"
+		    		 	    	android:background="@drawable/sina_login_selector_button"
+		    		 	    	android:id="@+id/login_sina_btn"/>
+		    		 	<TextView android:layout_width="wrap_content"
+		    		 	    	  android:layout_height="wrap_content"
+		    		 	    	  android:layout_below="@+id/login_sina_btn"
+		    		 	    	  android:text="@string/sina_login_title"
+		    		 	    	  android:layout_centerHorizontal="true"
+		    		 	    	  android:textColor="@color/tp_login_text_color"
+		    		 	    	  android:textSize="12sp"
+		    		 	    	  />
+	    		 	</RelativeLayout>
+	    		 	
+	    		 	<RelativeLayout android:layout_width="wrap_content"
+    		 		    			android:layout_height="wrap_content"
+    		 		    			android:layout_centerHorizontal="true">
+		    		 	<Button android:layout_width="wrap_content"
+		    		 	    	android:layout_height="wrap_content"
+		    		 	    	android:background="@drawable/qq_login_selector_button"
+		    		 	    	android:id="@+id/login_qq_btn"
+		    		 	    	/>
+	    		 		<TextView android:layout_width="wrap_content"
+	    		 	    	  android:layout_height="wrap_content"
+	    		 	    	  android:layout_below="@+id/login_qq_btn"
+	    		 	    	  android:text="@string/qq_login_title"
+	    		 	    	  android:layout_centerHorizontal="true"
+	    		 	    	  android:textColor="@color/tp_login_text_color"
+	    		 	    	  android:textSize="12sp"
+	    		 	    	  />
+    		 		</RelativeLayout>
+	    		 	
+    		 		<RelativeLayout android:layout_width="wrap_content"
+    		 		    			android:layout_height="wrap_content"
+    		 		    			android:layout_alignParentRight="true">
+		    		 	<Button android:layout_width="wrap_content"
+		    		 	    	android:layout_height="wrap_content"
+		    		 	    	android:background="@drawable/db_login_selector_button"
+		    		 	    	android:id="@+id/login_db_btn"/>
+		    		 	<TextView android:layout_width="wrap_content"
+	    		 	    	  android:layout_height="wrap_content"
+	    		 	    	  android:layout_below="@+id/login_db_btn"
+	    		 	    	  android:text="@string/db_login_title"
+	    					  android:layout_centerHorizontal="true"
+	    					  android:textColor="@color/tp_login_text_color"
+	    					  android:textSize="12sp" 	    	  
+	    		 	    	  />
+	    		 	</RelativeLayout>
+	 </RelativeLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="@drawable/welcome_loading_page">
+	<Button android:layout_alignParentBottom="true"
+	    	android:layout_marginBottom="40dp"
+	    	android:layout_width="110dp"
+	    	android:layout_height="45dp"
+	    	android:textColor="@color/white"
+	    	android:textSize="18sp"
+	    	android:gravity="center"
+	    	android:text="@string/register_btn_text"
+	    	android:background="@drawable/login_reginster_selector_button"
+	    	android:layout_marginLeft="30dp"
+	    	android:layout_alignParentLeft="true"
+	    	android:id="@+id/register_btn"/>
+	
+	<Button android:layout_alignParentBottom="true"
+	    	android:layout_marginBottom="40dp"
+	    	android:layout_width="100dp"
+	    	android:layout_height="45dp"
+	    	android:textColor="@color/white"
+	    	android:textSize="18sp"
+	    	android:gravity="center"
+	    	android:text="@string/login_btn_text"
+	    	android:background="@drawable/login_reginster_selector_button"
+	    	android:layout_marginRight="30dp"
+	    	android:layout_alignParentRight="true"
+	    	android:id="@+id/login_btn"/>
+</RelativeLayout>

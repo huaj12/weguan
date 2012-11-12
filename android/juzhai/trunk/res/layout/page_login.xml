@@ -48,25 +48,22 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
     </RelativeLayout>
-    
-	<LinearLayout android:layout_height="wrap_content"
-	    		  android:layout_width="fill_parent"
-	    		  android:layout_above="@+id/tip_reg_bt"
-	>
-	    <!-- 新浪、豆瓣、QQ登录 -->
-	    <com.juzhai.android.core.widget.list.table.widget.UITableView
-	        android:id="@+id/tp_login_table_view"
-	        style="@style/UITableView"
-	         />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/tip_reg_bt"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/bottom_menu_bg"
-        android:text="@string/tip_reg"
-        android:textColor="@android:color/white" />
-
+    <RelativeLayout
+        	   android:layout_below="@+id/login_button_layout"
+               android:layout_marginTop="45dp"
+         	   android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:id="@+id/login_divider">
+    <ImageView android:src="@drawable/login_divider"
+        	   android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:contentDescription="@null"
+               android:layout_centerInParent="true"
+               />
+	</RelativeLayout>
+	<include layout="@layout/fragment_tp_login"/>
+	<ImageView android:layout_width="wrap_content"
+	     		android:layout_height="wrap_content"
+	     		android:layout_alignParentBottom="true"
+	     		android:contentDescription="@null"/>   		 	
 </RelativeLayout>

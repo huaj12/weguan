@@ -17,13 +17,12 @@ import android.widget.ListView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.DialogUtils;
-import com.juzhai.android.core.widget.list.table.model.BasicItem.ItemType;
-import com.juzhai.android.core.widget.list.table.widget.UITableView;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.main.activity.UserGuideActivity;
 import com.juzhai.android.passport.adapter.RegisterInputListAdapter;
 import com.juzhai.android.passport.exception.PassportException;
-import com.juzhai.android.passport.listener.TpLoginListener;
+import com.juzhai.android.passport.helper.ITpLoginHelper;
+import com.juzhai.android.passport.helper.impl.TpLoginHelper;
 import com.juzhai.android.passport.service.IPassportService;
 import com.juzhai.android.passport.service.impl.PassportService;
 
@@ -34,6 +33,7 @@ import com.juzhai.android.passport.service.impl.PassportService;
 public class RegisterActivity extends NavigationActivity {
 	private ListView listViewInput = null;
 	private ProgressDialog progressDialog;
+	private ITpLoginHelper tpLoginHelper = new TpLoginHelper();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,25 +46,10 @@ public class RegisterActivity extends NavigationActivity {
 		Button finish = setRightFinishButton();
 		finish.setOnClickListener(registerListener);
 		// --------------设置NavigationBar--------------------
-
-		// 第三方登录
-		UITableView tpLoginTableView = (UITableView) findViewById(R.id.tp_login_table_view);
-		tpLoginTableView.setClickListener(new TpLoginListener(this));
-		tpLoginTableView.addBasicItem(R.drawable.sina_login_icon,
-				getResources().getString(R.string.sina_login_title), null,
-				ItemType.HORIZONTAL);
-		tpLoginTableView.addBasicItem(R.drawable.qq_login_icon, getResources()
-				.getString(R.string.qq_login_title), null, ItemType.HORIZONTAL);
-		tpLoginTableView.addBasicItem(R.drawable.db_login_icon, getResources()
-				.getString(R.string.db_login_title), null, ItemType.HORIZONTAL);
-		tpLoginTableView.commit();
-
+		tpLoginHelper.addTpLoginListener(RegisterActivity.this);
 		listViewInput = (ListView) findViewById(R.id.reg_listview_input);
 		listViewInput.setAdapter(new RegisterInputListAdapter(
 				getLayoutInflater()));
-
-		Button login = (Button) findViewById(R.id.tip_login_bt);
-		login.setOnClickListener(backClickListener);
 	}
 
 	/**

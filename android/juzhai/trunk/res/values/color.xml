@@ -23,6 +23,9 @@
     <!-- common end -->
     <!-- login begin -->
     	<color name="forget_pwd_btn_color">#3982C6</color>
+    	<color name="login_reginster_btn_pressed">#82000000</color>
+    	<color name="login_reginster_btn_default">#3C000000</color>
+    	<color name="tp_login_text_color">#333333</color>
     <!-- login end -->
     <!-- idea begin -->
     	<color name="idea_use_count_color">#3982C6</color>

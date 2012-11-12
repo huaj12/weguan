@@ -87,7 +87,8 @@
         <activity android:name=".main.activity.UserGuideActivity"/>
         <!--created by kooks at 2012-10-15 09:56:01-->
         <activity android:name=".post.activity.SendPostActivity" android:windowSoftInputMode="adjustResize"/>
-        
+         <!--created by kooks at 2012-11-10 21:26:35-->
+        <activity android:name=".main.activity.LoginAndRegisterActivity"/>
         <service
             android:name="com.umeng.common.net.DownloadingService"
             android:exported="true"

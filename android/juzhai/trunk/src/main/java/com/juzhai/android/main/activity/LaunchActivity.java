@@ -11,7 +11,6 @@ import com.juzhai.android.R;
 import com.juzhai.android.common.adservice.NotificationService;
 import com.juzhai.android.core.activity.BaseActivity;
 import com.juzhai.android.main.service.impl.GuidanceService;
-import com.juzhai.android.passport.activity.LoginActivity;
 import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.service.IPassportService;
 import com.juzhai.android.passport.service.impl.PassportService;
@@ -51,7 +50,7 @@ public class LaunchActivity extends BaseActivity {
 					}
 				} else {
 					clearStackAndStartActivity(new Intent(LaunchActivity.this,
-							LoginActivity.class));
+							LoginAndRegisterActivity.class));
 				}
 			};
 

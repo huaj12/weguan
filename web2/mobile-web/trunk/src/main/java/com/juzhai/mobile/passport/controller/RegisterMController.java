@@ -20,7 +20,9 @@ import com.juzhai.core.web.session.UserContext;
 import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.mobile.passport.controller.form.RegisterMForm;
 import com.juzhai.mobile.passport.controller.viewHelper.IUserMViewHelper;
+import com.juzhai.passport.exception.IosDeviceException;
 import com.juzhai.passport.exception.PassportAccountException;
+import com.juzhai.passport.service.IIosDeviceRemoteService;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IProfileRemoteService;
 import com.juzhai.passport.service.IRegisterRemoteService;
@@ -39,6 +41,8 @@ public class RegisterMController extends BaseController {
 	private IProfileRemoteService profileRemoteService;
 	@Autowired
 	private IUserMViewHelper userMViewHelper;
+	@Autowired
+	private IIosDeviceRemoteService iosDeviceRemoteService;
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	@ResponseBody
@@ -81,5 +85,18 @@ public class RegisterMController extends BaseController {
 		// 发送邮件
 		registerRemoteService.sendResetPwdMail(account);
 		return new AjaxResult();
+	}
+
+	@RequestMapping(value = "register/device", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResult registerDevice(HttpServletRequest request, Model model,
+			String deviceToken, Long uid) {
+		AjaxResult result = new AjaxResult();
+		try {
+			iosDeviceRemoteService.registerDevice(deviceToken, uid);
+		} catch (IosDeviceException e) {
+			result.setError(e.getErrorCode(), messageSource);
+		}
+		return result;
 	}
 }

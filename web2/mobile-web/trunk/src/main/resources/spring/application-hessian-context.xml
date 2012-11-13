@@ -111,4 +111,8 @@
 	    <property name="serviceInterface" value="com.juzhai.passport.service.IReportRemoteService"/>
 	</bean>
 	
+	<bean name="iosDeviceService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+	    <property name="serviceUrl" value="http://localhost:8080/juzhai/hessian/iosDeviceService"/>
+	    <property name="serviceInterface" value="com.juzhai.passport.service.IIosDeviceRemoteService"/>
+	</bean>
 </beans>

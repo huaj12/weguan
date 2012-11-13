@@ -111,5 +111,8 @@
 	    <property name="service" ref="reportService"/>
 	    <property name="serviceInterface" value="com.juzhai.passport.service.IReportRemoteService"/>
 	</bean>
-	
+	<bean name="/iosDeviceService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+	    <property name="service" ref="iosDeviceService"/>
+	    <property name="serviceInterface" value="com.juzhai.passport.service.IIosDeviceRemoteService"/>
+	</bean>
 </beans>

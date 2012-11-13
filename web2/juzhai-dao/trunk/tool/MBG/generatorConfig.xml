@@ -5,7 +5,6 @@
 
 <generatorConfiguration>
   	<classPathEntry location="tool/MBG/mysql-connector-java-5.1.12.jar" />
-	     <!--
 	<context id="passport" targetRuntime="MyBatis3">
 	  	
 	  	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
@@ -33,7 +32,10 @@
 	    <javaClientGenerator type="XMLMAPPER" targetPackage="com.juzhai.passport.mapper"  targetProject="src/main/java">
 	      <property name="enableSubPackages" value="false" />
 	    </javaClientGenerator>
-    	
+	    <table tableName="tb_ios_device" domainObjectName="IosDevice" >
+	      <property name="useActualColumnNames" value="false"/>
+	    </table>
+    	<!-- 
 	    <table tableName="tb_report" domainObjectName="Report" >
 	      <property name="useActualColumnNames" value="false"/>
 	    </table>
@@ -94,8 +96,9 @@
 	      <property name="useActualColumnNames" value="false"/>
 	      <columnOverride column="complete" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 		</table>
+		 -->
 	</context>
-	    	 -->
+	    	
 	<!-- <context id="common" targetRuntime="MyBatis3">
 		<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -279,7 +282,7 @@
 	    </table>
     
   	</context> -->
-  	
+  	<!-- 
   	<context id="post" targetRuntime="MyBatis3">
   
 		<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
@@ -311,7 +314,6 @@
 	    <table tableName="tb_raw_idea" domainObjectName="RawIdea">
 	      <property name="useActualColumnNames" value="false"/>
 	    </table>
-		 <!--
 	 	<table tableName="tb_idea_position" domainObjectName="IdeaPosition" >
 	      <property name="useActualColumnNames" value="false"/>
 	    </table>
@@ -356,9 +358,9 @@
 	    
 	    <table tableName="tb_post_response" domainObjectName="PostResponse">
 	      <property name="useActualColumnNames" value="false"/>
-	    </table> -->
+	    </table>
 	</context>
-	
+	 -->
 	<!-- <context id="preference" targetRuntime="MyBatis3">
 	  	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />

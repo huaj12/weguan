@@ -9,6 +9,14 @@ public interface IIosDeviceRemoteService {
 	 * @param deviceToken
 	 * @param uid
 	 */
-	void registerDevice(String deviceToken, Long uid)
-			throws IosDeviceException;
+	void registerDevice(String deviceToken, Long uid) throws IosDeviceException;
+
+	/**
+	 * 移除设备
+	 * 
+	 * @param deviceToken
+	 * @param uid
+	 * @throws IosDeviceException
+	 */
+	void removeDevice(String deviceToken) throws IosDeviceException;
 }

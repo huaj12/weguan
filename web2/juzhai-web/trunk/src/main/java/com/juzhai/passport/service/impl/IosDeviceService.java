@@ -26,7 +26,7 @@ public class IosDeviceService implements IIosDeviceService {
 		IosDevice iosDevice = getIosDevice(deviceToken);
 		if (iosDevice != null) {
 			if (uid != null && uid > 0) {
-				if (iosDevice.getUid() == null || iosDevice.getUid() == 0
+				if (iosDevice.getUid() == 0
 						|| uid.longValue() != iosDevice.getUid()) {
 					iosDevice.setLastModifyTime(new Date());
 					iosDevice.setDeviceToken(deviceToken);
@@ -50,7 +50,7 @@ public class IosDeviceService implements IIosDeviceService {
 	}
 
 	@Override
-	public void removeDevice(String deviceToken) throws IosDeviceException {
+	public void clearUserDevice(String deviceToken) throws IosDeviceException {
 		if (StringUtils.isEmpty(deviceToken)) {
 			throw new IosDeviceException(
 					IosDeviceException.IOS_DEVICE_TOKEN_IS_NULL);

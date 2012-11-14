@@ -8,6 +8,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import javapns.Push;
+import javapns.communication.exceptions.CommunicationException;
+import javapns.communication.exceptions.KeystoreException;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,14 +19,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.notice.bean.NoticeType;
 import com.juzhai.notice.bean.NoticeUserTemplate;
 import com.juzhai.notice.service.INoticeService;
+import com.juzhai.notice.service.IosPushInfo;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.model.TpUser;
+import com.juzhai.passport.service.IIosDeviceService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.exception.AdminException;
@@ -41,6 +48,10 @@ public class NoticeService implements INoticeService {
 	private ITpUserService tpUserService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private ThreadPoolTaskExecutor taskExecutor;
+	@Autowired
+	private IIosDeviceService iosDeviceService;
 
 	@Override
 	public long incrNotice(long uid, NoticeType noticeType) {
@@ -138,4 +149,30 @@ public class NoticeService implements INoticeService {
 				RedisKeyGenerator.genNoticeUsersKey(), uid);
 	}
 
+	@Override
+	public void noticeIosUser(long uid) {
+		final Long num = getNoticeNum(uid, NoticeType.DIALOG);
+		final List<String> deviceTokenList = iosDeviceService
+				.getDeviceTokenList(uid);
+		final String text = messageSource.getMessage("notici.ios.push.text",
+				new Object[] { num }, Locale.SIMPLIFIED_CHINESE);
+		if (CollectionUtils.isNotEmpty(deviceTokenList)) {
+			taskExecutor.execute(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						for (String deviceToken : deviceTokenList) {
+							Push.combined(text, num.intValue(),
+									IosPushInfo.getSound(),
+									IosPushInfo.getKeystore(),
+									IosPushInfo.getPassword(),
+									IosPushInfo.isProduction(), deviceToken);
+						}
+					} catch (CommunicationException | KeystoreException e) {
+						log.error(e.getMessage(), e);
+					}
+				}
+			}, 10000);
+		}
+	}
 }

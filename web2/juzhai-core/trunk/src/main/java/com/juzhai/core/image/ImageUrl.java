@@ -19,7 +19,7 @@ public class ImageUrl {
 	private static String webTempImagePath;
 
 	static {
-		InputStream in = StaticUtil.class.getClassLoader().getResourceAsStream(
+		InputStream in = ImageUrl.class.getClassLoader().getResourceAsStream(
 				FILE_CONFIG_PATH);
 		if (in == null) {
 			throw new RuntimeException(

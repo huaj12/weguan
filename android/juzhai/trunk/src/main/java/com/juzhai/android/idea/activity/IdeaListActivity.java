@@ -27,7 +27,7 @@ import com.juzhai.android.main.activity.TabItemActivity;
 
 public class IdeaListActivity extends TabItemActivity {
 	private long categoryId = 0;
-	private String orderType = "time";
+	private String orderType = "recommend";
 	private JuzhaiRefreshListView ideaListView;
 
 	@Override
@@ -75,19 +75,19 @@ public class IdeaListActivity extends TabItemActivity {
 		// 导航右边按钮
 		SegmentedButton segmentedButton = new SegmentedButton(this,
 				new String[] {
-						getResources().getString(R.string.idea_new_time),
-						getResources().getString(R.string.idea_recommend) },
-				60, 32);
+						getResources().getString(R.string.idea_recommend),
+						getResources().getString(R.string.idea_new_time) }, 60,
+				32);
 		segmentedButton
 				.setOnClickListener(new SegmentedButton.OnClickListener() {
 					@Override
 					public void onClick(Button button, int which) {
 						switch (which) {
 						case 0:
-							orderType = "time";
+							orderType = "recommend";
 							break;
 						case 1:
-							orderType = "recommend";
+							orderType = "time";
 							break;
 						}
 						ideaListView.manualRefresh();

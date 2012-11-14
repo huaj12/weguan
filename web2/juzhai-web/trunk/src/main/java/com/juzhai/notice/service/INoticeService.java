@@ -49,4 +49,10 @@ public interface INoticeService extends INoticeRemoteService {
 	 */
 	void noticeUserUnReadNum(long receiver, long num) throws AdminException;
 
+	/**
+	 * 通知ios用户
+	 * 
+	 * @param uid
+	 */
+	void noticeIosUser(long uid);
 }

@@ -176,6 +176,9 @@ public class DialogService implements IDialogService {
 				RedisKeyGenerator.genDialogContentsKey(receiverDialogId),
 				dialogContent.getId());
 		noticeService.incrNotice(targetUid, NoticeType.DIALOG);
+
+		noticeService.noticeIosUser(targetUid);
+
 		return dialogContent.getId();
 	}
 

@@ -18,5 +18,5 @@ public interface IIosDeviceRemoteService {
 	 * @param uid
 	 * @throws IosDeviceException
 	 */
-	void clearUserDevice(String deviceToken) throws IosDeviceException;
+	void clearUserDevice(String deviceToken);
 }

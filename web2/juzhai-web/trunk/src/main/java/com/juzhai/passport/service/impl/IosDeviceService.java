@@ -25,15 +25,21 @@ public class IosDeviceService implements IIosDeviceService {
 					IosDeviceException.IOS_DEVICE_TOKEN_IS_NULL);
 		}
 		if (exist(deviceToken)) {
-			throw new IosDeviceException(
-					IosDeviceException.IOS_DEVICE_TOKEN_IS_EXIST);
+			if (uid != null && uid > 0) {
+				IosDevice iosDevice = new IosDevice();
+				iosDevice.setLastModifyTime(new Date());
+				iosDevice.setDeviceToken(deviceToken);
+				iosDevice.setUid(uid);
+				iosDeviceMapper.updateByPrimaryKeySelective(iosDevice);
+			}
+		} else {
+			IosDevice iosDevice = new IosDevice();
+			iosDevice.setCreateTime(new Date());
+			iosDevice.setLastModifyTime(iosDevice.getCreateTime());
+			iosDevice.setDeviceToken(deviceToken);
+			iosDevice.setUid(uid);
+			iosDeviceMapper.insertSelective(iosDevice);
 		}
-		IosDevice iosDevice = new IosDevice();
-		iosDevice.setCreateTime(new Date());
-		iosDevice.setLastModifyTime(iosDevice.getCreateTime());
-		iosDevice.setDeviceToken(deviceToken);
-		iosDevice.setUid(uid);
-		iosDeviceMapper.insertSelective(iosDevice);
 
 	}
 

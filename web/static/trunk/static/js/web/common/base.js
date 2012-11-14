@@ -224,7 +224,7 @@ function postIdea(form, successCallback){
 		success : function(result) {
 			if(result&&result.success){
 				closeDialog("openIdeaSender");
-				var content = $("#dialog-success").html().replace("{0}", "发布成功！");
+				var content = $("#dialog-success").html().replace("{0}", "发布成功,也许会有人约你同去哦！");
 				showSuccess(null, content);
 				successCallback();
 			}else{

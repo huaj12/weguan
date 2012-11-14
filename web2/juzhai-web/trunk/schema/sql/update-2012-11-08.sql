@@ -3,6 +3,8 @@ ALTER TABLE `juzhai`.`tb_raw_idea` ADD  buy_link  varchar(200)  AFTER link;
 
 
 
+
+
 -- -----------------------------------------------------
 
 -- Table `juzhai`.`tb_ios_device`
@@ -19,7 +21,7 @@ CREATE  TABLE IF NOT EXISTS `juzhai`.`tb_ios_device` (
 
   `device_token` VARCHAR(100) NOT NULL ,
 
-  `uid` BIGINT NULL ,
+  `uid` BIGINT NOT NULL DEFAULT 0 ,
 
   `create_time` DATETIME NOT NULL ,
 
@@ -41,6 +43,9 @@ SHOW WARNINGS;
 
 CREATE INDEX `idx_uid` ON `juzhai`.`tb_ios_device` (`uid` ASC) ;
 
+
+
+SHOW WARNINGS;
 
 
 

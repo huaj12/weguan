@@ -108,6 +108,8 @@ public class UserViewHelper implements IUserViewHelper {
 								if (StringUtils.hasText(str)) {
 									textView.setVisibility(View.VISIBLE);
 									textView.setText(str);
+								} else {
+									textView.setVisibility(View.GONE);
 								}
 							}
 						}

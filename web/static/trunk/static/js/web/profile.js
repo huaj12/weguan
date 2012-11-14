@@ -181,7 +181,7 @@ function setting(uid){
 	}
 	if(professionId==0&&!checkValLength(profession, 1, 20)){
 		$("#profession")[0].focus();
-		 $("#profession_tip").show().text("不要超过10个字哦!");
+		 $("#profession_tip").show().text("职业描述，不要超过10个字哦!");
 		 return ;
 	}else{
 		$("#profession_tip").hide();

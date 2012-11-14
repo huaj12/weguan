@@ -87,13 +87,15 @@ public class RegisterMController extends BaseController {
 		return new AjaxResult();
 	}
 
-	@RequestMapping(value = "register/device", method = RequestMethod.POST)
+	@RequestMapping(value = "registerDevice", method = RequestMethod.GET)
 	@ResponseBody
-	public AjaxResult registerDevice(HttpServletRequest request, Model model,
-			String deviceToken, Long uid) {
+	public AjaxResult registerDevice(HttpServletRequest request,
+			String deviceToken) {
+		UserContext context = (UserContext) request.getAttribute("context");
 		AjaxResult result = new AjaxResult();
 		try {
-			iosDeviceRemoteService.registerDevice(deviceToken, uid);
+			iosDeviceRemoteService.registerDevice(deviceToken,
+					context.hasLogin() ? context.getUid() : 0L);
 		} catch (IosDeviceException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		}

@@ -33,6 +33,7 @@ import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.exception.PassportAccountException;
 import com.juzhai.passport.exception.ReportAccountException;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.passport.service.IIosDeviceRemoteService;
 import com.juzhai.passport.service.ILoginService;
 import com.juzhai.passport.service.IProfileRemoteService;
 import com.juzhai.passport.service.IUserGuideRemoteService;
@@ -56,6 +57,8 @@ public class LoginMController extends BaseController {
 	private IUserGuideRemoteService userGuideRemoteService;
 	@Autowired
 	private IUserMViewHelper userMViewHelper;
+	@Autowired
+	private IIosDeviceRemoteService iosDeviceRemoteService;
 
 	@RequestMapping(value = "/tpLogin/{tpId}")
 	public String webLogin(HttpServletRequest request,
@@ -166,11 +169,14 @@ public class LoginMController extends BaseController {
 	@RequestMapping(value = "/logout")
 	@ResponseBody
 	public AjaxResult logout(HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response, String deviceToken) {
 		AjaxResult result = new AjaxResult();
 		try {
 			UserContext context = checkLoginForWeb(request);
 			loginService.logout(request, response, context.getUid());
+			if (null != deviceToken) {
+				iosDeviceRemoteService.clearUserDevice(deviceToken);
+			}
 		} catch (NeedLoginException e) {
 		}
 		return result;

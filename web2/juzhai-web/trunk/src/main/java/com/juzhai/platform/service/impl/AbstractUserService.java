@@ -1,8 +1,10 @@
 package com.juzhai.platform.service.impl;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,7 +13,9 @@ import org.springframework.context.MessageSource;
 
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.bean.DeviceName;
+import com.juzhai.core.util.StaticUtil;
 import com.juzhai.core.web.bean.RequestParameter;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.dao.ITpUserDao;
 import com.juzhai.passport.model.Passport;
@@ -22,9 +26,14 @@ import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
+import com.juzhai.platform.bean.SynchronizeQqTemplate;
+import com.juzhai.platform.bean.SynchronizeTpMobileTemplate;
 import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.exception.TokenAuthorizeException;
+import com.juzhai.platform.service.ISynchronizeService;
 import com.juzhai.platform.service.IUserService;
+
+;
 
 public abstract class AbstractUserService implements IUserService {
 
@@ -44,6 +53,8 @@ public abstract class AbstractUserService implements IUserService {
 	private IPassportService passportService;
 	@Autowired
 	private ITpUserService tpUserService;
+	@Autowired
+	private ISynchronizeService synchronizeService;
 
 	@Override
 	public long access(RequestParameter requestParameter, AuthInfo authInfo,
@@ -218,5 +229,58 @@ public abstract class AbstractUserService implements IUserService {
 	protected abstract String getAuthorizeURLforCode(Thirdparty tp,
 			Terminal terminal, String turnTo, String incode, String callback)
 			throws UnsupportedEncodingException;
+
+	@Override
+	public void registerSucesssAfter(Thirdparty tp, AuthInfo authInfo,
+			DeviceName deviceName) {
+		// 注册成功后分享
+		switch (deviceName) {
+		case BROWSER:
+			if (tp.getId() == 8) {
+				try {
+					String title = getMessage(SynchronizeQqTemplate.SYNCHRONIZE_TITLE
+							.getName());
+					String link = getMessage(SynchronizeQqTemplate.SYNCHRONIZE_LINK
+							.getName());
+					String imageUrl = getMessage(SynchronizeQqTemplate.SYNCHRONIZE_IMAGE
+							.getName());
+					synchronizeService.sendMessage(authInfo, title, null, link,
+							null, JzResourceFunction.u(imageUrl));
+				} catch (Exception e) {
+					log.error("QQ web register share is error");
+				}
+			}
+			break;
+		default:
+			try {
+				String title = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TITLE
+						.getName());
+				String text = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TEXT
+						.getName());
+				String link = null;
+				// qq 才需要分享链接
+				if (tp.getId() == 8) {
+					link = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_LINK
+							.getName());
+				}
+				String imageUrl = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_IMAGE
+						.getName());
+				String imagePath = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_IMAGE_FILE
+						.getName());
+				File file = new File(StaticUtil.IMAGE_FILE_ROOT_PATH
+						+ imagePath);
+				byte[] image = FileUtils.readFileToByteArray(file);
+				synchronizeService.sendMessage(authInfo, title, text, link,
+						image, JzResourceFunction.u(imageUrl));
+			} catch (Exception e) {
+				log.error("tp mobile register share is error");
+			}
+			break;
+		}
+	}
+
+	private String getMessage(String name) {
+		return messageSource.getMessage(name, null, Locale.SIMPLIFIED_CHINESE);
+	}
 
 }

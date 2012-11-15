@@ -19,13 +19,11 @@ import org.springframework.web.util.HtmlUtils;
 import com.juzhai.core.util.IOSEmojiUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.bean.RequestParameter;
-import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.passport.bean.AuthInfo;
 import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
 import com.juzhai.platform.bean.Terminal;
-import com.juzhai.platform.service.ISynchronizeService;
 import com.qq.oauth2.Oauth;
 import com.qq.oauth2.User;
 import com.qq.oauth2.bean.UserInfoBean;
@@ -37,8 +35,6 @@ public class QqConnectUserService extends AbstractUserService {
 	private int nicknameLengthMax;
 	@Autowired
 	private MessageSource messageSource;
-	@Autowired
-	private ISynchronizeService synchronizeService;
 	@Autowired
 	private MemcachedClient memcachedClient;
 	@Value("${user.state.id.expire.time}")
@@ -104,22 +100,6 @@ public class QqConnectUserService extends AbstractUserService {
 				profile.setGender(1);
 			} else {
 				profile.setGender(0);
-			}
-			try {
-				// 注册成功分享
-				String title = messageSource.getMessage(
-						"qq.register.share.title", null,
-						Locale.SIMPLIFIED_CHINESE);
-				String link = messageSource.getMessage(
-						"qq.register.share.link", null,
-						Locale.SIMPLIFIED_CHINESE);
-				String imageUrl = messageSource.getMessage(
-						"qq.register.share.imgUrl", null,
-						Locale.SIMPLIFIED_CHINESE);
-				synchronizeService.sendMessage(authInfo, title, null, link,
-						null, JzResourceFunction.u(imageUrl));
-			} catch (Exception e) {
-				log.error("QQ register share is error");
 			}
 			return profile;
 		} catch (Exception e) {

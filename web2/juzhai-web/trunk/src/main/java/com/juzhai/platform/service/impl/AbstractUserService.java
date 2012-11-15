@@ -13,10 +13,13 @@ import org.springframework.context.MessageSource;
 
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.bean.DeviceName;
+import com.juzhai.core.stats.counter.service.ICounter;
 import com.juzhai.core.util.StaticUtil;
 import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.JoinTypeEnum;
+import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.dao.ITpUserDao;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;
@@ -55,6 +58,19 @@ public abstract class AbstractUserService implements IUserService {
 	private ITpUserService tpUserService;
 	@Autowired
 	private ISynchronizeService synchronizeService;
+
+	@Autowired
+	private ICounter iosMobileQqRegCounter;
+	@Autowired
+	private ICounter iosMobileDbRegCounter;
+	@Autowired
+	private ICounter iosMobileSinaRegCounter;
+	@Autowired
+	private ICounter androidMobileQqRegCounter;
+	@Autowired
+	private ICounter androidMobileDbRegCounter;
+	@Autowired
+	private ICounter androidMobileSinaRegCounter;
 
 	@Override
 	public long access(RequestParameter requestParameter, AuthInfo authInfo,
@@ -236,7 +252,8 @@ public abstract class AbstractUserService implements IUserService {
 		// 注册成功后分享
 		switch (deviceName) {
 		case BROWSER:
-			if (tp.getId() == 8) {
+			if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
+					&& ThirdpartyNameEnum.QQ.getName().equals(tp.getName())) {
 				try {
 					String title = getMessage(SynchronizeQqTemplate.SYNCHRONIZE_TITLE
 							.getName());
@@ -252,6 +269,7 @@ public abstract class AbstractUserService implements IUserService {
 			}
 			break;
 		default:
+			countRegister(deviceName, tp);
 			try {
 				String title = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TITLE
 						.getName());
@@ -259,7 +277,8 @@ public abstract class AbstractUserService implements IUserService {
 						.getName());
 				String link = null;
 				// qq 才需要分享链接
-				if (tp.getId() == 8) {
+				if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
+						&& ThirdpartyNameEnum.QQ.getName().equals(tp.getName())) {
 					link = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_LINK
 							.getName());
 				}
@@ -283,4 +302,34 @@ public abstract class AbstractUserService implements IUserService {
 		return messageSource.getMessage(name, null, Locale.SIMPLIFIED_CHINESE);
 	}
 
+	private void countRegister(DeviceName deviceName, Thirdparty tp) {
+		switch (deviceName) {
+		case ANDROID:
+			if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
+					&& ThirdpartyNameEnum.QQ.getName().equals(tp.getName())) {
+				androidMobileQqRegCounter.incr(null, 1l);
+			} else if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
+					&& ThirdpartyNameEnum.DOUBAN.getName().equals(tp.getName())) {
+				androidMobileDbRegCounter.incr(null, 1l);
+			} else if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
+					&& ThirdpartyNameEnum.WEIBO.getName().equals(tp.getName())) {
+				androidMobileSinaRegCounter.incr(null, 1l);
+			}
+			break;
+		case IPHONE:
+			if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
+					&& ThirdpartyNameEnum.QQ.getName().equals(tp.getName())) {
+				iosMobileQqRegCounter.incr(null, 1l);
+			} else if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
+					&& ThirdpartyNameEnum.DOUBAN.getName().equals(tp.getName())) {
+				iosMobileDbRegCounter.incr(null, 1l);
+			} else if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
+					&& ThirdpartyNameEnum.WEIBO.getName().equals(tp.getName())) {
+				iosMobileSinaRegCounter.incr(null, 1l);
+			}
+			break;
+		case BROWSER:
+			break;
+		}
+	}
 }

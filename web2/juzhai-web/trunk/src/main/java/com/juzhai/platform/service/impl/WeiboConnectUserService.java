@@ -1,15 +1,18 @@
 package com.juzhai.platform.service.impl;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
@@ -26,7 +29,9 @@ import com.juzhai.common.InitData;
 import com.juzhai.common.model.City;
 import com.juzhai.common.model.Town;
 import com.juzhai.core.Constants;
+import com.juzhai.core.bean.DeviceName;
 import com.juzhai.core.util.IOSEmojiUtil;
+import com.juzhai.core.util.StaticUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.passport.bean.AuthInfo;
@@ -34,12 +39,16 @@ import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.Municipal;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.platform.bean.SynchronizeTpMobileTemplate;
 import com.juzhai.platform.bean.Terminal;
+import com.juzhai.platform.service.ISynchronizeService;
 
 @Service
 public class WeiboConnectUserService extends AbstractUserService {
 	private static final Log log = LogFactory
 			.getLog(WeiboConnectUserService.class);
+	@Autowired
+	private ISynchronizeService synchronizeService;
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
 	@Value(value = "${feature.length.max}")
@@ -213,6 +222,33 @@ public class WeiboConnectUserService extends AbstractUserService {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	protected void registerSucesssAfter(Thirdparty tp, AuthInfo authInfo,
+			DeviceName deviceName) {
+		// 注册成功后分享
+		switch (deviceName) {
+		case BROWSER:
+			break;
+		default:
+			try {
+				String title = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TITLE
+						.getName());
+				String text = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TEXT
+						.getName());
+				String imagePath = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_IMAGE_FILE
+						.getName());
+				File file = new File(StaticUtil.IMAGE_FILE_ROOT_PATH
+						+ imagePath);
+				byte[] image = FileUtils.readFileToByteArray(file);
+				synchronizeService.sendMessage(authInfo, title, text, "",
+						image, null);
+			} catch (Exception e) {
+				log.error("weibo mobile register share is error");
+			}
+			break;
+		}
 	}
 
 }

@@ -21,6 +21,7 @@ import com.google.gdata.data.Link;
 import com.google.gdata.data.douban.UserEntry;
 import com.juzhai.common.model.City;
 import com.juzhai.common.model.Province;
+import com.juzhai.core.bean.DeviceName;
 import com.juzhai.core.util.IOSEmojiUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.bean.RequestParameter;
@@ -31,7 +32,9 @@ import com.juzhai.passport.bean.LogoVerifyState;
 import com.juzhai.passport.bean.Municipal;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.platform.bean.SynchronizeTpMobileTemplate;
 import com.juzhai.platform.bean.Terminal;
+import com.juzhai.platform.service.ISynchronizeService;
 
 @Service
 public class DoubanConnectUserService extends AbstractUserService {
@@ -44,6 +47,8 @@ public class DoubanConnectUserService extends AbstractUserService {
 	private MemcachedClient memcachedClient;
 	@Value("${oauth.token.secret.expire.time}")
 	private int oauthTokenSecretExpireTime;
+	@Autowired
+	private ISynchronizeService synchronizeService;
 
 	@Override
 	public String getAuthorizeURLforCode(Thirdparty tp, Terminal terminal,
@@ -217,6 +222,28 @@ public class DoubanConnectUserService extends AbstractUserService {
 			return null;
 		}
 		return StringUtils.join(list, ",");
+	}
+
+	@Override
+	protected void registerSucesssAfter(Thirdparty tp, AuthInfo authInfo,
+			DeviceName deviceName) {
+		// 注册成功后分享
+		switch (deviceName) {
+		case BROWSER:
+			break;
+		default:
+			try {
+				String title = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TITLE
+						.getName());
+				String text = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TEXT
+						.getName());
+				synchronizeService.sendMessage(authInfo, title, text, "", null,
+						null);
+			} catch (Exception e) {
+				log.error("douban mobile register share is error");
+			}
+			break;
+		}
 	}
 
 }

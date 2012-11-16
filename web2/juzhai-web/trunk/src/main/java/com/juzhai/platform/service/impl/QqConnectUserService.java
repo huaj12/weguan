@@ -16,14 +16,21 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
+import com.juzhai.core.bean.DeviceName;
 import com.juzhai.core.util.IOSEmojiUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.bean.RequestParameter;
+import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.passport.bean.AuthInfo;
+import com.juzhai.passport.bean.JoinTypeEnum;
 import com.juzhai.passport.bean.LogoVerifyState;
+import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.model.Profile;
 import com.juzhai.passport.model.Thirdparty;
+import com.juzhai.platform.bean.SynchronizeQqTemplate;
+import com.juzhai.platform.bean.SynchronizeTpMobileTemplate;
 import com.juzhai.platform.bean.Terminal;
+import com.juzhai.platform.service.ISynchronizeService;
 import com.qq.oauth2.Oauth;
 import com.qq.oauth2.User;
 import com.qq.oauth2.bean.UserInfoBean;
@@ -39,6 +46,8 @@ public class QqConnectUserService extends AbstractUserService {
 	private MemcachedClient memcachedClient;
 	@Value("${user.state.id.expire.time}")
 	private int userStateIdExpireTime;
+	@Autowired
+	private ISynchronizeService synchronizeService;
 
 	@Override
 	public String getAuthorizeURLforCode(Thirdparty tp, Terminal terminal,
@@ -175,6 +184,47 @@ public class QqConnectUserService extends AbstractUserService {
 		authInfo.setTpIdentity(uid);
 		authInfo.setExpiresTime(expiresTime);
 		return uid;
+	}
+
+	@Override
+	protected void registerSucesssAfter(Thirdparty tp, AuthInfo authInfo,
+			DeviceName deviceName) {
+		// 注册成功后分享
+		switch (deviceName) {
+		case BROWSER:
+			if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
+					&& ThirdpartyNameEnum.QQ.getName().equals(tp.getName())) {
+				try {
+					String title = getMessage(SynchronizeQqTemplate.SYNCHRONIZE_TITLE
+							.getName());
+					String link = getMessage(SynchronizeQqTemplate.SYNCHRONIZE_LINK
+							.getName());
+					String imageUrl = getMessage(SynchronizeQqTemplate.SYNCHRONIZE_IMAGE
+							.getName());
+					synchronizeService.sendMessage(authInfo, title, null, link,
+							null, JzResourceFunction.u(imageUrl));
+				} catch (Exception e) {
+					log.error("QQ web register share is error");
+				}
+			}
+			break;
+		default:
+			try {
+				String title = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TITLE
+						.getName());
+				String text = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TEXT
+						.getName());
+				String link = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_LINK
+						.getName());
+				String imageUrl = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_IMAGE
+						.getName());
+				synchronizeService.sendMessage(authInfo, title, text, link,
+						null, JzResourceFunction.u(imageUrl));
+			} catch (Exception e) {
+				log.error("qq mobile register share is error");
+			}
+			break;
+		}
 	}
 
 }

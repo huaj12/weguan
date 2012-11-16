@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.juzhai.common.service.IEmojiRemoteService;
-import com.juzhai.core.Constants;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;

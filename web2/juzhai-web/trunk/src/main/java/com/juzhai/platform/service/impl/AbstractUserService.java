@@ -24,7 +24,6 @@ import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
 import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.exception.TokenAuthorizeException;
-import com.juzhai.platform.service.ISynchronizeService;
 import com.juzhai.platform.service.IUserService;
 
 ;
@@ -47,8 +46,6 @@ public abstract class AbstractUserService implements IUserService {
 	private IPassportService passportService;
 	@Autowired
 	private ITpUserService tpUserService;
-	@Autowired
-	private ISynchronizeService synchronizeService;
 
 	@Override
 	public long access(RequestParameter requestParameter, AuthInfo authInfo,

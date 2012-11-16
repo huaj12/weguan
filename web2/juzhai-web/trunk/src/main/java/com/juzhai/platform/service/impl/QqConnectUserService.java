@@ -47,7 +47,7 @@ public class QqConnectUserService extends AbstractUserService {
 	@Value("${user.state.id.expire.time}")
 	private int userStateIdExpireTime;
 	@Autowired
-	private ISynchronizeService synchronizeService;
+	private ISynchronizeService qqConnectSynchronizeService;
 
 	@Override
 	public String getAuthorizeURLforCode(Thirdparty tp, Terminal terminal,
@@ -189,9 +189,7 @@ public class QqConnectUserService extends AbstractUserService {
 	@Override
 	protected void registerSucesssAfter(Thirdparty tp, AuthInfo authInfo,
 			DeviceName deviceName) {
-		// 注册成功后分享
-		switch (deviceName) {
-		case BROWSER:
+		if (DeviceName.BROWSER.getName().equals(deviceName.getName())) {
 			if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
 					&& ThirdpartyNameEnum.QQ.getName().equals(tp.getName())) {
 				try {
@@ -201,14 +199,13 @@ public class QqConnectUserService extends AbstractUserService {
 							.getName());
 					String imageUrl = getMessage(SynchronizeQqTemplate.SYNCHRONIZE_IMAGE
 							.getName());
-					synchronizeService.sendMessage(authInfo, title, null, link,
-							null, JzResourceFunction.u(imageUrl));
+					qqConnectSynchronizeService.sendMessage(authInfo, title,
+							null, link, null, JzResourceFunction.u(imageUrl));
 				} catch (Exception e) {
 					log.error("QQ web register share is error");
 				}
 			}
-			break;
-		default:
+		} else {
 			try {
 				String title = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TITLE
 						.getName());
@@ -218,13 +215,13 @@ public class QqConnectUserService extends AbstractUserService {
 						.getName());
 				String imageUrl = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_IMAGE
 						.getName());
-				synchronizeService.sendMessage(authInfo, title, text, link,
-						null, JzResourceFunction.u(imageUrl));
+				qqConnectSynchronizeService.sendMessage(authInfo, title, text,
+						link, null, JzResourceFunction.u(imageUrl));
 			} catch (Exception e) {
 				log.error("qq mobile register share is error");
 			}
-			break;
 		}
+
 	}
 
 }

@@ -48,7 +48,7 @@ public class DoubanConnectUserService extends AbstractUserService {
 	@Value("${oauth.token.secret.expire.time}")
 	private int oauthTokenSecretExpireTime;
 	@Autowired
-	private ISynchronizeService synchronizeService;
+	private ISynchronizeService doubanConnectSynchronizeService;
 
 	@Override
 	public String getAuthorizeURLforCode(Thirdparty tp, Terminal terminal,
@@ -227,22 +227,17 @@ public class DoubanConnectUserService extends AbstractUserService {
 	@Override
 	protected void registerSucesssAfter(Thirdparty tp, AuthInfo authInfo,
 			DeviceName deviceName) {
-		// 注册成功后分享
-		switch (deviceName) {
-		case BROWSER:
-			break;
-		default:
+		if (!DeviceName.BROWSER.getName().equals(deviceName.getName())) {
 			try {
 				String title = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TITLE
 						.getName());
 				String text = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TEXT
 						.getName());
-				synchronizeService.sendMessage(authInfo, title, text, "", null,
-						null);
+				doubanConnectSynchronizeService.sendMessage(authInfo, title,
+						text, "", null, null);
 			} catch (Exception e) {
 				log.error("douban mobile register share is error");
 			}
-			break;
 		}
 	}
 

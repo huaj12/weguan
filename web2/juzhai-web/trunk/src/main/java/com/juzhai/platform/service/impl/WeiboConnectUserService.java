@@ -48,7 +48,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 	private static final Log log = LogFactory
 			.getLog(WeiboConnectUserService.class);
 	@Autowired
-	private ISynchronizeService synchronizeService;
+	private ISynchronizeService weiboConnectSynchronizeService;
 	@Value(value = "${nickname.length.max}")
 	private int nicknameLengthMax;
 	@Value(value = "${feature.length.max}")
@@ -227,11 +227,7 @@ public class WeiboConnectUserService extends AbstractUserService {
 	@Override
 	protected void registerSucesssAfter(Thirdparty tp, AuthInfo authInfo,
 			DeviceName deviceName) {
-		// 注册成功后分享
-		switch (deviceName) {
-		case BROWSER:
-			break;
-		default:
+		if (!DeviceName.BROWSER.getName().equals(deviceName.getName())) {
 			try {
 				String title = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TITLE
 						.getName());
@@ -242,12 +238,11 @@ public class WeiboConnectUserService extends AbstractUserService {
 				File file = new File(StaticUtil.IMAGE_FILE_ROOT_PATH
 						+ imagePath);
 				byte[] image = FileUtils.readFileToByteArray(file);
-				synchronizeService.sendMessage(authInfo, title, text, "",
-						image, null);
+				weiboConnectSynchronizeService.sendMessage(authInfo, title,
+						text, "", image, null);
 			} catch (Exception e) {
 				log.error("weibo mobile register share is error");
 			}
-			break;
 		}
 	}
 

@@ -140,15 +140,4 @@ public class UserService implements IUserService, BeanFactoryAware {
 
 	}
 
-	@Override
-	public void registerSucesssAfter(Thirdparty tp, AuthInfo authInfo,
-			DeviceName deviceName) {
-		if (tp == null) {
-			return;
-		}
-		IUserService service = getUserServiceBean(tp);
-		if (service != null) {
-			service.registerSucesssAfter(tp, authInfo, deviceName);
-		}
-	}
 }

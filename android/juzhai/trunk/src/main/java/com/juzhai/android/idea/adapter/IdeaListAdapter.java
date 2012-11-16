@@ -23,6 +23,7 @@ import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.task.TaskCallback;
+import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.utils.TextTruncateUtil;
@@ -110,9 +111,12 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 			Map<String, Object> values = new HashMap<String, Object>();
 			values.put("ideaId", idea.getIdeaId());
 			wantButton.setOnClickListener(new SimpleClickListener(
-					"post/sendPost", mContext, values, new TaskCallback() {
+					"post/sendPost", mContext, values, false,
+					new TaskCallback() {
 						@Override
 						public void successCallback() {
+							DialogUtils.showSuccessDialog(mContext,
+									R.string.i_want_success_text);
 							wantButton.setEnabled(false);
 							wantButton.setText(mContext.getResources()
 									.getString(R.string.want_done));

@@ -34,6 +34,7 @@ import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.task.TaskCallback;
+import com.juzhai.android.core.utils.DialogUtils;
 import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
@@ -112,9 +113,12 @@ public class IdeaDetailActivity extends NavigationActivity {
 			Map<String, Object> values = new HashMap<String, Object>();
 			values.put("ideaId", idea.getIdeaId());
 			wantBtn.setOnClickListener(new SimpleClickListener("post/sendPost",
-					IdeaDetailActivity.this, values, new TaskCallback() {
+					IdeaDetailActivity.this, values, false, new TaskCallback() {
 						@Override
 						public void successCallback() {
+							DialogUtils.showSuccessDialog(
+									IdeaDetailActivity.this,
+									R.string.i_want_success_text);
 							wantBtn.setText(R.string.want_done);
 							wantBtn.setEnabled(false);
 							idea.setHasUsed(true);

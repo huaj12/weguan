@@ -41,36 +41,15 @@ public class UserGuideActivity extends SetUserInfoActivity {
 
 			@Override
 			public void onClick(View v) {
-				if (validation()) {
-					new ProgressTask(UserGuideActivity.this,
-							new TaskCallback() {
+				clickfinish();
+			}
+		});
+		Button beginBtn = (Button) findViewById(R.id.begin_jz_btn);
+		beginBtn.setOnClickListener(new OnClickListener() {
 
-								@Override
-								public void successCallback() {
-									DialogUtils.showSuccessDialog(
-											UserGuideActivity.this,
-											R.string.save_success, 0);
-									// DialogUtils.showToastText(
-									// UserGuideActivity.this,
-									// R.string.save_success);
-									clearStackAndStartActivity(new Intent(
-											UserGuideActivity.this,
-											MainTabActivity.class));
-								}
-
-								@Override
-								public String doInBackground() {
-									IProfileService profileService = new ProfileService();
-									try {
-										profileService.guide(user,
-												UserGuideActivity.this);
-									} catch (ProfileException e) {
-										return e.getMessage();
-									}
-									return null;
-								}
-							}, false).execute();
-				}
+			@Override
+			public void onClick(View v) {
+				clickfinish();
 			}
 		});
 
@@ -139,6 +118,31 @@ public class UserGuideActivity extends SetUserInfoActivity {
 	@Override
 	protected int getNavContentViewLayout() {
 		return R.layout.page_user_guide;
+	}
+
+	public void clickfinish() {
+		if (validation()) {
+			new ProgressTask(UserGuideActivity.this, new TaskCallback() {
+				@Override
+				public void successCallback() {
+					DialogUtils.showSuccessDialog(UserGuideActivity.this,
+							R.string.save_success, 0);
+					clearStackAndStartActivity(new Intent(
+							UserGuideActivity.this, MainTabActivity.class));
+				}
+
+				@Override
+				public String doInBackground() {
+					IProfileService profileService = new ProfileService();
+					try {
+						profileService.guide(user, UserGuideActivity.this);
+					} catch (ProfileException e) {
+						return e.getMessage();
+					}
+					return null;
+				}
+			}, false).execute();
+		}
 	}
 
 }

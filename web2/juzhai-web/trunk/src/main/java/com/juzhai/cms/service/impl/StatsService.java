@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -41,18 +42,40 @@ public class StatsService implements IStatsService, BeanFactoryAware {
 		for (String serviceName : CounterServiceRegistry.SERVICE_NAME_SET) {
 			ICounter counter = (ICounter) beanFactory.getBean(serviceName
 					+ "Counter");
-			String key = messageSource.getMessage("stats." + serviceName, null,
-					null, Locale.SIMPLIFIED_CHINESE);
-			Date beginTime = begin;
-			Date endTime = end;
-			long value = 0;
-			while (beginTime.compareTo(endTime) <= 0) {
-				value += counter.get(null, beginTime);
-				beginTime = DateUtils.addDays(beginTime, 1);
+			String primarys = messageSource.getMessage("stats." + serviceName
+					+ ".primary", null, null, Locale.SIMPLIFIED_CHINESE);
+			if (StringUtils.isEmpty(primarys)) {
+				setMap(begin, end, serviceName, null, counter, map);
+			} else {
+				String primaryArry[] = primarys.split(",");
+				for (String primary : primaryArry) {
+					setMap(begin, end, serviceName, primary, counter, map);
+				}
 			}
-			map.put(key, value);
+
 		}
 		return map;
+	}
+
+	private void setMap(Date begin, Date end, String serviceName,
+			String primary, ICounter counter, Map<String, Long> map) {
+		String key = null;
+		if (StringUtils.isEmpty(primary)) {
+			key = messageSource.getMessage("stats." + serviceName, null, null,
+					Locale.SIMPLIFIED_CHINESE);
+		} else {
+			key = messageSource.getMessage("stats." + serviceName + "."
+					+ primary, null, null, Locale.SIMPLIFIED_CHINESE);
+		}
+		Date beginTime = begin;
+		Date endTime = end;
+		long value = 0;
+		while (beginTime.compareTo(endTime) <= 0) {
+			value += counter.get(StringUtils.isEmpty(primary) ? null
+					: new Object[] { primary }, beginTime);
+			beginTime = DateUtils.addDays(beginTime, 1);
+		}
+		map.put(key, value);
 	}
 
 	@Override

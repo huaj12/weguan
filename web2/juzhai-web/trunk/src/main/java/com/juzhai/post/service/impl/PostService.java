@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.cms.controller.view.CmsPostView;
+import com.juzhai.common.util.IOSEmojiUtil;
 import com.juzhai.core.cache.MemcachedKeyGenerator;
 import com.juzhai.core.cache.RedisKeyGenerator;
 import com.juzhai.core.dao.Limit;
@@ -37,7 +38,6 @@ import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.stats.counter.service.ICounter;
 import com.juzhai.core.util.DateFormat;
-import com.juzhai.core.util.IOSEmojiUtil;
 import com.juzhai.core.util.StringUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.jstl.JzResourceFunction;

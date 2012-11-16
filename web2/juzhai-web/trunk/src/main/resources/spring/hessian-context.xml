@@ -115,4 +115,8 @@
 	    <property name="service" ref="iosDeviceService"/>
 	    <property name="serviceInterface" value="com.juzhai.passport.service.IIosDeviceRemoteService"/>
 	</bean>
+	<bean name="/emojiService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+	    <property name="service" ref="emojiService"/>
+	    <property name="serviceInterface" value="com.juzhai.common.service.IEmojiRemoteService"/>
+	</bean>
 </beans>

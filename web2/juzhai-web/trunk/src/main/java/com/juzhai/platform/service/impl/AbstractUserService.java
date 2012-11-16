@@ -26,8 +26,6 @@ import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.exception.TokenAuthorizeException;
 import com.juzhai.platform.service.IUserService;
 
-;
-
 public abstract class AbstractUserService implements IUserService {
 
 	private static final Log log = LogFactory.getLog(AbstractUserService.class);

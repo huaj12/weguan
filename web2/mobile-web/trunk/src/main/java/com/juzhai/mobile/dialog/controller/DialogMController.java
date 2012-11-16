@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.juzhai.common.service.IEmojiRemoteService;
+import com.juzhai.core.Constants;
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.JuzhaiException;
 import com.juzhai.core.exception.NeedLoginException;
@@ -25,6 +27,7 @@ import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
+import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.home.bean.DialogContentTemplate;
 import com.juzhai.home.controller.view.DialogContentView;
 import com.juzhai.home.controller.view.DialogView;
@@ -57,6 +60,8 @@ public class DialogMController extends BaseController {
 	private MessageSource messageSource;
 	@Autowired
 	private IIdeaRemoteService ideaService;
+	@Autowired
+	private IEmojiRemoteService emojiRemoteService;
 	@Value("${mobile.dialog.max.rows}")
 	private int mobileDialogMaxRows = 1;
 	@Value("${mobile.dialog.content.max.rows}")
@@ -75,13 +80,19 @@ public class DialogMController extends BaseController {
 				context.getUid(), pager.getFirstResult(), pager.getMaxResult());
 		List<DialogMView> list = new ArrayList<DialogMView>(
 				dialogViewlist.size());
+		int iosVersion = HttpRequestUtil.getIosBigVersion(context);
 		for (DialogView dialogView : dialogViewlist) {
 			DialogMView dialogMView = new DialogMView();
 			dialogMView.setDialogId(dialogView.getDialog().getId());
 			dialogMView.setReceiverUid(dialogView.getDialogContent()
 					.getReceiverUid());
-			dialogMView.setLatestContent(dialogView.getDialogContent()
+			dialogMView.setLatestContent(iosVersion <= 4 ? emojiRemoteService
+					.transToIOS4AndAdEmoji(dialogView.getDialogContent()
+							.getContent()) : dialogView.getDialogContent()
 					.getContent());
+			printContent(dialogMView.getLatestContent());
+			// dialogMView.setLatestContent(dialogView.getDialogContent()
+			// .getContent());
 			dialogMView.setCreateTime(dialogView.getDialogContent()
 					.getCreateTime().getTime());
 			dialogMView.setDialogContentCount(dialogView.getDialogContentCnt());
@@ -136,6 +147,7 @@ public class DialogMController extends BaseController {
 	public ListJsonResult dialogContentList(HttpServletRequest request,
 			int page, long uid) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
+		int iosVersion = HttpRequestUtil.getIosBigVersion(context);
 		PagerManager pager = new PagerManager(page,
 				mobileDialogContentsMaxRows, dialogService.countDialogContent(
 						context.getUid(), uid));
@@ -145,10 +157,15 @@ public class DialogMController extends BaseController {
 		List<DialogContentMView> list = new ArrayList<DialogContentMView>(
 				dialogContentViewList.size());
 		for (DialogContentView dialogContentView : dialogContentViewList) {
+			if (iosVersion <= 4) {
+				dialogContentView.getDialogContent().setContent(
+						emojiRemoteService
+								.transToIOS4AndAdEmoji(dialogContentView
+										.getDialogContent().getContent()));
+			}
 			list.add(DialogContentMView
 					.converFromDialogContentView(dialogContentView));
 		}
-
 		ListJsonResult result = new ListJsonResult();
 		result.setResult(pager, list);
 		return result;
@@ -159,12 +176,19 @@ public class DialogMController extends BaseController {
 	public ListJsonResult refreshDialogContent(HttpServletRequest request,
 			long uid) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
+		int iosVersion = HttpRequestUtil.getIosBigVersion(context);
 		List<DialogContentView> dialogContentViewList = dialogService
 				.listDialogContent(context.getUid(), uid, 0,
 						mobileRefreshDialogContentCount);
 		List<DialogContentMView> list = new ArrayList<DialogContentMView>(
 				dialogContentViewList.size());
 		for (DialogContentView dialogContentView : dialogContentViewList) {
+			if (iosVersion <= 4) {
+				dialogContentView.getDialogContent().setContent(
+						emojiRemoteService
+								.transToIOS4AndAdEmoji(dialogContentView
+										.getDialogContent().getContent()));
+			}
 			list.add(DialogContentMView
 					.converFromDialogContentView(dialogContentView));
 		}
@@ -182,12 +206,22 @@ public class DialogMController extends BaseController {
 			@RequestParam(value = "dialogImg", required = false) MultipartFile dialogImg)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
+		int iosVersion = HttpRequestUtil.getIosBigVersion(context);
 		AjaxResult result = new AjaxResult();
 		try {
+			printContent(content);
+			if (iosVersion <= 4) {
+				content = emojiRemoteService.transToIOS5Emoji(content);
+				printContent(content);
+			}
 			long dialogContentId = dialogMService.sendSMS(context, uid,
 					content, dialogImg);
 			DialogContent dialogContent = dialogService
 					.getDialogContent(dialogContentId);
+			if (iosVersion <= 4) {
+				dialogContent.setContent(emojiRemoteService
+						.transToIOS4AndAdEmoji(dialogContent.getContent()));
+			}
 			result.setResult(DialogContentMView
 					.converFromDialogContent(dialogContent));
 		} catch (DialogException e) {
@@ -196,6 +230,15 @@ public class DialogMController extends BaseController {
 			result.setError(e.getErrorCode(), messageSource);
 		}
 		return result;
+	}
+
+	private void printContent(String content) {
+		byte[] tmp = content.getBytes(Constants.CHARSET_UTF8);
+		for (byte b : tmp) {
+			System.out.print(b);
+			System.out.print(" ");
+		}
+		System.out.println("");
 	}
 
 	@RequestMapping(value = "/notice/nums", method = RequestMethod.GET)

@@ -1,5 +1,6 @@
 package com.juzhai.common;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -10,6 +11,8 @@ import java.util.StringTokenizer;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Component;
 import com.juzhai.common.mapper.CityMapper;
 import com.juzhai.common.mapper.CityMappingMapper;
 import com.juzhai.common.mapper.FaceMapper;
+import com.juzhai.common.mapper.IosEmojiMapper;
 import com.juzhai.common.mapper.ProvinceMapper;
 import com.juzhai.common.mapper.ProvinceMappingMapper;
 import com.juzhai.common.mapper.TownMapper;
@@ -28,17 +32,23 @@ import com.juzhai.common.model.CityMapping;
 import com.juzhai.common.model.CityMappingExample;
 import com.juzhai.common.model.Face;
 import com.juzhai.common.model.FaceExample;
+import com.juzhai.common.model.IosEmoji;
+import com.juzhai.common.model.IosEmojiExample;
 import com.juzhai.common.model.Province;
 import com.juzhai.common.model.ProvinceExample;
 import com.juzhai.common.model.ProvinceMapping;
 import com.juzhai.common.model.ProvinceMappingExample;
 import com.juzhai.common.model.Town;
 import com.juzhai.common.model.TownExample;
+import com.juzhai.common.util.IOSEmojiUtil;
 import com.juzhai.core.util.JackSonSerializer;
+import com.juzhai.core.util.StaticUtil;
 
 @Component("commonInitData")
 @Lazy(false)
 public class InitData {
+
+	private final Log log = LogFactory.getLog(getClass());
 
 	public static final Map<Long, Province> PROVINCE_MAP = new HashMap<Long, Province>();
 	public static final Map<Long, City> CITY_MAP = new HashMap<Long, City>();
@@ -60,6 +70,8 @@ public class InitData {
 	@Autowired
 	private ProvinceMappingMapper provinceMappingMapper;
 	@Autowired
+	private IosEmojiMapper iosEmojiMapper;
+	@Autowired
 	private FaceMapper faceMapper;
 	@Value("${special.city.ids}")
 	private String specialCityIds;
@@ -75,6 +87,7 @@ public class InitData {
 		initTown();
 		initCityAndProvinceMapping();
 		initFace();
+		initEmoji();
 	}
 
 	private void initFace() {
@@ -168,5 +181,28 @@ public class InitData {
 			}
 		}
 		return returnCity;
+	}
+
+	private void initEmoji() {
+		List<IosEmoji> iosEmojiList = iosEmojiMapper
+				.selectByExample(new IosEmojiExample());
+		String[] i5Emjs = new String[iosEmojiList.size()];
+		String[] i4Emjs = new String[iosEmojiList.size()];
+		String[] webEmjs = new String[iosEmojiList.size()];
+		for (int i = 0; i < iosEmojiList.size(); i++) {
+			try {
+				i5Emjs[i] = IOSEmojiUtil.hexstr2String(iosEmojiList.get(i)
+						.getUtf8());
+				i4Emjs[i] = IOSEmojiUtil.sbunicode2utfString(iosEmojiList
+						.get(i).getSbunicode());
+				webEmjs[i] = "<img src=\"" + StaticUtil.getPrefixImage()
+						+ "/images/face/emoji/"
+						+ iosEmojiList.get(i).getFilename()
+						+ "\" width=\"22\" height=\"22\" />";
+			} catch (UnsupportedEncodingException e) {
+				log.error(e.getMessage(), e);
+			}
+		}
+		IOSEmojiUtil.initIosEmoji(i5Emjs, i4Emjs, null, null, webEmjs);
 	}
 }

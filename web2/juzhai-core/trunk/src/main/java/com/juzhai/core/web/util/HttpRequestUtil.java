@@ -1,5 +1,8 @@
 package com.juzhai.core.web.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +18,8 @@ public class HttpRequestUtil {
 
 	private static final String NGINX_IP_HEADER = "X-Real-IP";
 	private static final String NGINX_URL_HEADER = "X-Real-Url";
+	private static final Pattern IOS_VERSION_PATTERN = Pattern
+			.compile(".+\\((.+?)\\).*");
 
 	public static boolean getSessionAttributeAsBoolean(
 			HttpServletRequest request, String name, boolean defaultValue) {
@@ -135,5 +140,45 @@ public class HttpRequestUtil {
 			deviceName = DeviceName.ANDROID.getName();
 		}
 		return DeviceName.getDeviceName(deviceName);
+	}
+
+	public static int getIosBigVersion(UserContext context) {
+		String userAgent = context.getUserAgentPermanentCode();
+		Matcher m = IOS_VERSION_PATTERN.matcher(userAgent);
+		if (m.find()) {
+			String str = m.group(1);
+			if (StringUtils.isNotEmpty(str)
+					&& (str.contains("iPhone") || str.contains("iPad"))) {
+				String[] infos = str.split(";");
+				if (infos.length == 3) {
+					String version = infos[1].trim();
+					if (StringUtils.isNotEmpty(version)) {
+						String[] versions = version.split(" ");
+						if (versions.length == 3) {
+							String versionNum = versions[2];
+							try {
+								return Integer.valueOf(String
+										.valueOf(versionNum.charAt(0)));
+							} catch (Exception e) {
+							}
+
+						}
+					}
+				}
+			}
+		}
+		return 0;
+	}
+
+	public static void main(String[] args) {
+		switch (1) {
+		case 1:
+			System.out.println(1);
+			break;
+
+		default:
+			System.out.println(2);
+			break;
+		}
 	}
 }

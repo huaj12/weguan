@@ -1,4 +1,4 @@
-package com.juzhai.core.util;
+package com.juzhai.common.util;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
@@ -17,13 +17,15 @@ public class IOSEmojiUtil {
 	public static String[] ios4emoji;
 	public static String[] androidnullemoji;
 	public static String[] adsbuniemoji;
+	public static String[] webEmoji;
 
-	public static void initios5emoji(String[] i5emj, String[] i4emj,
-			String[] adnullemoji, String[] adsbemoji) {
+	public static void initIosEmoji(String[] i5emj, String[] i4emj,
+			String[] adnullemoji, String[] adsbemoji, String[] wEmoji) {
 		ios5emoji = i5emj;
 		ios4emoji = i4emj;
 		androidnullemoji = adnullemoji;
 		adsbuniemoji = adsbemoji;
+		webEmoji = wEmoji;
 	}
 
 	public static String removeUtf8mb4Char(String text) {
@@ -78,39 +80,44 @@ public class IOSEmojiUtil {
 		return false;
 	}
 
-	// 在ios上将ios5转换为ios4编码
+	// 在web上显示，将ios5转换为file
+	public static String transToWebEmoji(String src) {
+		return StringUtils.replaceEach(src, ios5emoji, webEmoji);
+	}
+
+	// 在ios4上显示，将ios5转换为ios4编码
 	public static String transToIOS4emoji(String src) {
 		return StringUtils.replaceEach(src, ios5emoji, ios4emoji);
 	}
 
-	// 在ios上将ios4转换为ios5编码
+	// 储存前，将ios4转换为ios5编码
 	public static String transToIOS5emoji(String src) {
 		return StringUtils.replaceEach(src, ios4emoji, ios5emoji);
 	}
 
-	// 在android上将ios5的表情符替换为空
-	public static String transToAndroidemojiNull(String src) {
-		return StringUtils.replaceEach(src, ios5emoji, androidnullemoji);
-	}
+	// // 在android上将ios5的表情符替换为空
+	// public static String transToAndroidemojiNull(String src) {
+	// return StringUtils.replaceEach(src, ios5emoji, androidnullemoji);
+	// }
+	//
+	// // 在android上将ios5的表情符替换为SBUNICODE
+	// public static String transToAndroidemojiSB(String src) {
+	// return StringUtils.replaceEach(src, ios5emoji, adsbuniemoji);
+	// }
+	//
+	// // 在android上将SBUNICODE的表情符替换为ios5
+	// public static String transSBToIOS5emoji(String src) {
+	// return StringUtils.replaceEach(src, adsbuniemoji, ios5emoji);
+	// }
 
-	// 在android上将ios5的表情符替换为SBUNICODE
-	public static String transToAndroidemojiSB(String src) {
-		return StringUtils.replaceEach(src, ios5emoji, adsbuniemoji);
-	}
-
-	// 在android上将SBUNICODE的表情符替换为ios5
-	public static String transSBToIOS5emoji(String src) {
-		return StringUtils.replaceEach(src, adsbuniemoji, ios5emoji);
-	}
-
-	// eg. param: 0xF0 0x9F 0x8F 0x80
+	// eg. param: 0xF0 0x9F 0x8F 0x80 初始化ios5emoji
 	public static String hexstr2String(String hexstr)
 			throws UnsupportedEncodingException {
 		byte[] b = hexstr2bytes(hexstr);
 		return new String(b, "UTF-8");
 	}
 
-	// eg. param: E018
+	// eg. param: E018 初始化ios4emoji
 	public static String sbunicode2utfString(String sbhexstr)
 			throws UnsupportedEncodingException {
 		byte[] b = sbunicode2utfbytes(sbhexstr);
@@ -118,7 +125,7 @@ public class IOSEmojiUtil {
 	}
 
 	// eg. param: 0xF0 0x9F 0x8F 0x80
-	public static byte[] hexstr2bytes(String hexstr) {
+	private static byte[] hexstr2bytes(String hexstr) {
 		String[] hexstrs = hexstr.split(" ");
 		byte[] b = new byte[hexstrs.length];
 
@@ -129,7 +136,7 @@ public class IOSEmojiUtil {
 	}
 
 	// eg. param: E018
-	public static byte[] sbunicode2utfbytes(String sbhexstr)
+	private static byte[] sbunicode2utfbytes(String sbhexstr)
 			throws UnsupportedEncodingException {
 		int inthex = Integer.parseInt(sbhexstr, 16);
 		char[] schar = { (char) inthex };
@@ -137,7 +144,7 @@ public class IOSEmojiUtil {
 		return b;
 	}
 
-	public static byte[] hexStringToByte(String hex) {
+	private static byte[] hexStringToByte(String hex) {
 		int len = (hex.length() / 2);
 		byte[] result = new byte[len];
 		char[] achar = hex.toCharArray();
@@ -185,7 +192,11 @@ public class IOSEmojiUtil {
 	// }
 	// }
 
-	public static void main(String[] args) {
-		removeUtf8mb4Char("");
+	public static void main(String[] args) throws UnsupportedEncodingException {
+		byte[] tmp = sbunicode2utfbytes("E415");
+		for (byte b : tmp) {
+			System.out.print(b);
+			System.out.print(" ");
+		}
 	}
 }

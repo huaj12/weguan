@@ -1,10 +1,8 @@
 package com.juzhai.platform.service.impl;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,13 +11,8 @@ import org.springframework.context.MessageSource;
 
 import com.juzhai.core.SystemConfig;
 import com.juzhai.core.bean.DeviceName;
-import com.juzhai.core.stats.counter.service.ICounter;
-import com.juzhai.core.util.StaticUtil;
 import com.juzhai.core.web.bean.RequestParameter;
-import com.juzhai.core.web.jstl.JzResourceFunction;
 import com.juzhai.passport.bean.AuthInfo;
-import com.juzhai.passport.bean.JoinTypeEnum;
-import com.juzhai.passport.bean.ThirdpartyNameEnum;
 import com.juzhai.passport.dao.ITpUserDao;
 import com.juzhai.passport.model.Passport;
 import com.juzhai.passport.model.Profile;
@@ -29,8 +22,6 @@ import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.ITpUserAuthService;
 import com.juzhai.passport.service.ITpUserService;
-import com.juzhai.platform.bean.SynchronizeQqTemplate;
-import com.juzhai.platform.bean.SynchronizeTpMobileTemplate;
 import com.juzhai.platform.bean.Terminal;
 import com.juzhai.platform.exception.TokenAuthorizeException;
 import com.juzhai.platform.service.ISynchronizeService;
@@ -58,19 +49,6 @@ public abstract class AbstractUserService implements IUserService {
 	private ITpUserService tpUserService;
 	@Autowired
 	private ISynchronizeService synchronizeService;
-
-	@Autowired
-	private ICounter iosMobileQqRegCounter;
-	@Autowired
-	private ICounter iosMobileDbRegCounter;
-	@Autowired
-	private ICounter iosMobileSinaRegCounter;
-	@Autowired
-	private ICounter androidMobileQqRegCounter;
-	@Autowired
-	private ICounter androidMobileDbRegCounter;
-	@Autowired
-	private ICounter androidMobileSinaRegCounter;
 
 	@Override
 	public long access(RequestParameter requestParameter, AuthInfo authInfo,
@@ -113,6 +91,7 @@ public abstract class AbstractUserService implements IUserService {
 			// redisTemplate.opsForSet().add(
 			// RedisKeyGenerator.genTpInstallUsersKey(tp.getName()),
 			// tpIdentity);
+			registerSucesssAfter(tp, authInfo, deviceName);
 		} else {
 			if (log.isDebugEnabled()) {
 				log.debug("save authInfo.[tp=" + tpUser.getTpName() + ", uid="
@@ -246,90 +225,17 @@ public abstract class AbstractUserService implements IUserService {
 			Terminal terminal, String turnTo, String incode, String callback)
 			throws UnsupportedEncodingException;
 
-	@Override
-	public void registerSucesssAfter(Thirdparty tp, AuthInfo authInfo,
-			DeviceName deviceName) {
-		// 注册成功后分享
-		switch (deviceName) {
-		case BROWSER:
-			if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
-					&& ThirdpartyNameEnum.QQ.getName().equals(tp.getName())) {
-				try {
-					String title = getMessage(SynchronizeQqTemplate.SYNCHRONIZE_TITLE
-							.getName());
-					String link = getMessage(SynchronizeQqTemplate.SYNCHRONIZE_LINK
-							.getName());
-					String imageUrl = getMessage(SynchronizeQqTemplate.SYNCHRONIZE_IMAGE
-							.getName());
-					synchronizeService.sendMessage(authInfo, title, null, link,
-							null, JzResourceFunction.u(imageUrl));
-				} catch (Exception e) {
-					log.error("QQ web register share is error");
-				}
-			}
-			break;
-		default:
-			countRegister(deviceName, tp);
-			try {
-				String title = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TITLE
-						.getName());
-				String text = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_TEXT
-						.getName());
-				String link = null;
-				// qq 才需要分享链接
-				if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
-						&& ThirdpartyNameEnum.QQ.getName().equals(tp.getName())) {
-					link = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_LINK
-							.getName());
-				}
-				String imageUrl = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_IMAGE
-						.getName());
-				String imagePath = getMessage(SynchronizeTpMobileTemplate.SYNCHRONIZE_IMAGE_FILE
-						.getName());
-				File file = new File(StaticUtil.IMAGE_FILE_ROOT_PATH
-						+ imagePath);
-				byte[] image = FileUtils.readFileToByteArray(file);
-				synchronizeService.sendMessage(authInfo, title, text, link,
-						image, JzResourceFunction.u(imageUrl));
-			} catch (Exception e) {
-				log.error("tp mobile register share is error");
-			}
-			break;
-		}
-	}
+	/**
+	 * 注册成功后调用
+	 * 
+	 * @param tp
+	 * @param authInfo
+	 * @param deviceName
+	 */
+	protected abstract void registerSucesssAfter(Thirdparty tp,
+			AuthInfo authInfo, DeviceName deviceName);
 
-	private String getMessage(String name) {
+	protected String getMessage(String name) {
 		return messageSource.getMessage(name, null, Locale.SIMPLIFIED_CHINESE);
-	}
-
-	private void countRegister(DeviceName deviceName, Thirdparty tp) {
-		switch (deviceName) {
-		case ANDROID:
-			if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
-					&& ThirdpartyNameEnum.QQ.getName().equals(tp.getName())) {
-				androidMobileQqRegCounter.incr(null, 1l);
-			} else if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
-					&& ThirdpartyNameEnum.DOUBAN.getName().equals(tp.getName())) {
-				androidMobileDbRegCounter.incr(null, 1l);
-			} else if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
-					&& ThirdpartyNameEnum.WEIBO.getName().equals(tp.getName())) {
-				androidMobileSinaRegCounter.incr(null, 1l);
-			}
-			break;
-		case IPHONE:
-			if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
-					&& ThirdpartyNameEnum.QQ.getName().equals(tp.getName())) {
-				iosMobileQqRegCounter.incr(null, 1l);
-			} else if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
-					&& ThirdpartyNameEnum.DOUBAN.getName().equals(tp.getName())) {
-				iosMobileDbRegCounter.incr(null, 1l);
-			} else if (JoinTypeEnum.CONNECT.getName().equals(tp.getJoinType())
-					&& ThirdpartyNameEnum.WEIBO.getName().equals(tp.getName())) {
-				iosMobileSinaRegCounter.incr(null, 1l);
-			}
-			break;
-		case BROWSER:
-			break;
-		}
 	}
 }

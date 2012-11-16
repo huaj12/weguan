@@ -34,7 +34,7 @@
             android:id="@+id/expired_authorize"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/expired_authorize_selector_button"
+            android:background="@drawable/big_blue_selector_button"
             android:gravity="center"
             android:text="@string/expired_authorize"
             android:textColor="@color/white"

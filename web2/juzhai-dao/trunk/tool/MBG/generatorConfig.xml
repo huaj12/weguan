@@ -5,7 +5,7 @@
 
 <generatorConfiguration>
   	<classPathEntry location="tool/MBG/mysql-connector-java-5.1.12.jar" />
-	<context id="passport" targetRuntime="MyBatis3">
+	<!-- <context id="passport" targetRuntime="MyBatis3">
 	  	
 	  	<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
@@ -35,7 +35,7 @@
 	    <table tableName="tb_ios_device" domainObjectName="IosDevice" >
 	      <property name="useActualColumnNames" value="false"/>
 	    </table>
-    	<!-- 
+    	
 	    <table tableName="tb_report" domainObjectName="Report" >
 	      <property name="useActualColumnNames" value="false"/>
 	    </table>
@@ -96,10 +96,9 @@
 	      <property name="useActualColumnNames" value="false"/>
 	      <columnOverride column="complete" javaType="java.lang.Boolean" jdbcType="TINYINT" />
 		</table>
-		 -->
-	</context>
+	</context> -->
 	    	
-	<!-- <context id="common" targetRuntime="MyBatis3">
+	<context id="common" targetRuntime="MyBatis3">
 		<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
   
@@ -126,7 +125,11 @@
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
 	 
-		<table tableName="tb_active_code" domainObjectName="ActiveCode">
+	 	<table tableName="tb_ios_emoji" domainObjectName="IosEmoji">
+			<property name="useActualColumnNames" value="false"/>
+		</table>
+	 
+		<!-- <table tableName="tb_active_code" domainObjectName="ActiveCode">
 			<property name="useActualColumnNames" value="false"/>
 		</table>
 
@@ -152,10 +155,10 @@
 		   
 		<table tableName="tb_province_mapping" domainObjectName="ProvinceMapping">
 			<property name="useActualColumnNames" value="false"/>
-		</table>
+		</table> -->
 	</context>
 	
-	<context id="cms" targetRuntime="MyBatis3">
+	<!-- <context id="cms" targetRuntime="MyBatis3">
 		<plugin type="com.juzhai.mybatisPlugin.ModelExampleLimitPlugin" />
 		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
 	  

@@ -25,4 +25,5 @@ public interface ICommonDataRemoteService {
 	Map<Long, String> getSpecialCityQqMap();
 
 	Map<String, Face> getFaceMap();
+
 }

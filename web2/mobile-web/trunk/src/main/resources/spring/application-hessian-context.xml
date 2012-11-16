@@ -115,4 +115,9 @@
 	    <property name="serviceUrl" value="http://localhost:8080/juzhai/hessian/iosDeviceService"/>
 	    <property name="serviceInterface" value="com.juzhai.passport.service.IIosDeviceRemoteService"/>
 	</bean>
+	
+	<bean name="emojiService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+	    <property name="serviceUrl" value="http://localhost:8080/juzhai/hessian/emojiService"/>
+	    <property name="serviceInterface" value="com.juzhai.common.service.IEmojiRemoteService"/>
+	</bean>
 </beans>

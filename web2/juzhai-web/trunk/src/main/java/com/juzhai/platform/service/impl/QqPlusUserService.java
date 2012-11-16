@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
+import com.juzhai.common.util.IOSEmojiUtil;
 import com.juzhai.core.bean.DeviceName;
-import com.juzhai.core.util.IOSEmojiUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 import com.juzhai.core.web.bean.RequestParameter;
 import com.juzhai.passport.bean.AuthInfo;

@@ -14,6 +14,7 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.juzhai.common.InitData;
 import com.juzhai.common.model.Face;
+import com.juzhai.common.util.IOSEmojiUtil;
 import com.juzhai.core.util.StaticUtil;
 import com.juzhai.core.util.TextTruncateUtil;
 
@@ -182,7 +183,7 @@ public class JzUtilFunction {
 			}
 		}
 		m.appendTail(sb);
-		return sb.toString();
+		return IOSEmojiUtil.transToWebEmoji(sb.toString());
 	}
 
 	/**

@@ -90,9 +90,6 @@ public class DialogMController extends BaseController {
 					.transToIOS4AndAdEmoji(dialogView.getDialogContent()
 							.getContent()) : dialogView.getDialogContent()
 					.getContent());
-			printContent(dialogMView.getLatestContent());
-			// dialogMView.setLatestContent(dialogView.getDialogContent()
-			// .getContent());
 			dialogMView.setCreateTime(dialogView.getDialogContent()
 					.getCreateTime().getTime());
 			dialogMView.setDialogContentCount(dialogView.getDialogContentCnt());
@@ -209,10 +206,8 @@ public class DialogMController extends BaseController {
 		int iosVersion = HttpRequestUtil.getIosBigVersion(context);
 		AjaxResult result = new AjaxResult();
 		try {
-			printContent(content);
 			if (iosVersion <= 4) {
 				content = emojiRemoteService.transToIOS5Emoji(content);
-				printContent(content);
 			}
 			long dialogContentId = dialogMService.sendSMS(context, uid,
 					content, dialogImg);
@@ -230,15 +225,6 @@ public class DialogMController extends BaseController {
 			result.setError(e.getErrorCode(), messageSource);
 		}
 		return result;
-	}
-
-	private void printContent(String content) {
-		byte[] tmp = content.getBytes(Constants.CHARSET_UTF8);
-		for (byte b : tmp) {
-			System.out.print(b);
-			System.out.print(" ");
-		}
-		System.out.println("");
 	}
 
 	@RequestMapping(value = "/notice/nums", method = RequestMethod.GET)

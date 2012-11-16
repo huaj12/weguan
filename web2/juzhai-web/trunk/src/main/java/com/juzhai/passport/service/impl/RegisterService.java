@@ -46,7 +46,6 @@ import com.juzhai.passport.service.IPassportService;
 import com.juzhai.passport.service.IProfileService;
 import com.juzhai.passport.service.IRegisterService;
 import com.juzhai.passport.service.ITpUserService;
-import com.juzhai.platform.service.IUserService;
 import com.juzhai.wordfilter.service.IWordFilterService;
 
 @Service
@@ -81,7 +80,9 @@ public class RegisterService implements IRegisterService {
 	@Autowired
 	private ITpUserService tpUserService;
 	@Autowired
-	private IUserService userService;
+	private ICounter androidMobileRegCounter;
+	@Autowired
+	private ICounter iosMobileRegCounter;
 	@Value("${register.email.min}")
 	private int registerEmailMin;
 	@Value("${register.email.max}")
@@ -125,7 +126,16 @@ public class RegisterService implements IRegisterService {
 						tp.getName())) {
 			plusRegisterCounter.incr(null, 1l);
 		}
-		userService.registerSucesssAfter(tp, authInfo, deviceName);
+		switch (deviceName) {
+		case IPHONE:
+			iosMobileRegCounter.incr(new Object[] { tp.getName() }, 1l);
+			break;
+		case ANDROID:
+			androidMobileRegCounter.incr(new Object[] { tp.getName() }, 1l);
+			break;
+		default:
+			break;
+		}
 		return passport.getId();
 	}
 

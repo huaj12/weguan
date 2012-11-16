@@ -29,9 +29,9 @@
             <RelativeLayout android:layout_width="fill_parent"
                 			android:layout_height="wrap_content"
                 			android:layout_marginTop="10dp">
-            <Button android:layout_width="wrap_content"
+            <Button android:layout_width="280dp"
                 	android:layout_height="wrap_content"
-                	android:background="@drawable/begin_jz_selector_button"
+                	android:background="@drawable/big_blue_selector_button"
                 	android:id="@+id/begin_jz_btn"
                 	android:textColor="@color/white"
                 	android:text="@string/begin_jz_btn_text"

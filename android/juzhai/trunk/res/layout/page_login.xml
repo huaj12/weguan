@@ -38,12 +38,12 @@
 
         <Button
             android:id="@+id/login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/login_selector_button"
+            android:layout_width="128dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/big_blue_selector_button"
             android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="18sp" />

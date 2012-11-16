@@ -131,6 +131,7 @@
     <string name="about_done">已约</string>
     <string name="idea_recommend">推荐</string>
     <string name="idea_new_time">最新</string>
+    <string name="i_want_success_text">发布成功\n也许会有人约你同去哦</string>
     <!-- idea end -->
     <!-- dialog begin -->
     <string name="dialog_title">我的消息</string>
@@ -168,7 +169,7 @@
 
     <!-- post begin -->
     <string-array name="post_head_tab_item">
-        <item>活跃小宅</item>
+        <item>同城活跃</item>
         <item>最新发布</item>
     </string-array>
     <string-array name="select_gender_item">
@@ -198,6 +199,7 @@
 
     <!-- 新手引导  begin -->
     <string name="user_guide_title">设置拒宅名片</string>
+    <string name="begin_jz_btn_text">开始拒宅</string>
     <!-- 新手引导  end -->
 
 

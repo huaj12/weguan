@@ -164,6 +164,7 @@ public class ProfileContrller extends BaseController {
 		profile.setMaxMonthlyIncome(settingForm.getMaxMonthlyIncome());
 		try {
 			profileService.updateProfile(profile);
+			ajaxResult.setResult(profile.getUid());
 		} catch (ProfileInputException e) {
 			ajaxResult.setError(e.getErrorCode(), messageSource);
 		}

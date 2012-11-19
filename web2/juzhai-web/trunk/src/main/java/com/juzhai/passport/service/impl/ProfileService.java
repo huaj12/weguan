@@ -272,10 +272,10 @@ public class ProfileService implements IProfileService {
 			throw new ProfileInputException(
 					ProfileInputException.PROFILE_UID_NOT_EXIST);
 		}
-		if (profile.getHasModifyNickname()) {
-			throw new ProfileInputException(
-					ProfileInputException.PROFILE_NICKNAME_REPEAT_UPDATE);
-		}
+		// if (profile.getHasModifyNickname()) {
+		// throw new ProfileInputException(
+		// ProfileInputException.PROFILE_NICKNAME_REPEAT_UPDATE);
+		// }
 		profile.setNickname(nickName);
 		profile.setLastModifyTime(new Date());
 		profile.setHasModifyNickname(true);

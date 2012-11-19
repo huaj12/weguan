@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
@@ -39,24 +40,35 @@ public final class GuidanceFragment extends Fragment {
 		layout.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 		layout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
+		layout.setBackgroundColor(getResources().getColor(
+				R.color.guidance_bg_color));
+		LayoutParams imageLayoutParams = new LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		ImageView imageView = new ImageView(getActivity());
+		imageView.setLayoutParams(imageLayoutParams);
 		switch (index) {
 		case 0:
-			layout.setBackgroundResource(R.drawable.yd1);
+			imageView.setBackgroundResource(R.drawable.yd1);
+			layout.addView(imageView);
 			break;
 		case 1:
-			layout.setBackgroundResource(R.drawable.yd2);
+			imageView.setBackgroundResource(R.drawable.yd2);
+			layout.addView(imageView);
 			break;
 		case 2:
-			layout.setBackgroundResource(R.drawable.yd3);
+			imageView.setBackgroundResource(R.drawable.yd3);
+			layout.addView(imageView);
 			break;
 		case 3:
-			layout.setBackgroundResource(R.drawable.yd4);
+			imageView.setBackgroundResource(R.drawable.yd4);
+			layout.addView(imageView);
 			Button button = new Button(getActivity());
 			button.setBackgroundResource(R.drawable.guidance_selector_button);
 
 			LayoutParams buttonLayoutParams = new LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			buttonLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+			buttonLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 			buttonLayoutParams.setMargins(-1, -1, -1,
 					UIUtil.dip2px(getActivity(), 40));
 			button.setLayoutParams(buttonLayoutParams);

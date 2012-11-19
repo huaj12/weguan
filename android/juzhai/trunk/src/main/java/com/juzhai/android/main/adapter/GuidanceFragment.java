@@ -46,22 +46,20 @@ public final class GuidanceFragment extends Fragment {
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		ImageView imageView = new ImageView(getActivity());
 		imageView.setLayoutParams(imageLayoutParams);
+		layout.addView(imageView);
 		switch (index) {
 		case 0:
 			imageView.setBackgroundResource(R.drawable.yd1);
-			layout.addView(imageView);
+
 			break;
 		case 1:
 			imageView.setBackgroundResource(R.drawable.yd2);
-			layout.addView(imageView);
 			break;
 		case 2:
 			imageView.setBackgroundResource(R.drawable.yd3);
-			layout.addView(imageView);
 			break;
 		case 3:
 			imageView.setBackgroundResource(R.drawable.yd4);
-			layout.addView(imageView);
 			Button button = new Button(getActivity());
 			button.setBackgroundResource(R.drawable.guidance_selector_button);
 

@@ -1,7 +1,34 @@
 $(document).ready(function(){
+	$("#nickname_xg > a").click(function(){
+		showUpdateDiv('nickname');
+		return false;
+	});
+	$("#input_nickname > a.ok").click(function(){
+		setNickname();
+		return false;
+	});
+	$("#input_nickname > a.cancel").click(function(){
+		cancelUpdateDiv("nickname");
+		return false;
+	});
+	$("#gender_xg > a").click(function(){
+		showUpdateDiv('gender');
+	});
+	$("#input_gender > a.ok").click(function(){
+		setGender();
+		return false;
+	});
+	$("#input_gender > a.cancel").click(function(){
+		cancelUpdateDiv("gender");
+		return false;
+	});
 	if($("#towns").css("display")=="none"){
 		selectCity($("#city")[0]);
 	}
+	$("div.save_btn > a").click(function(){
+		setting();
+		return false;
+	});
 });
 function selectProvince(obj) {
 	$.get('/base/selectProvince', {
@@ -29,15 +56,21 @@ function profession(obj){
 		$("#profession_input").hide();
 	}
 }
-function show_updateDiv(str){
+function showUpdateDiv(str){
 	$("#user_"+str).hide();
 	$("#input_"+str).show();
-	$("#ts_"+str).show();
+	var tsObj = $("#ts_"+str); 
+	if(tsObj){
+		tsObj.show();
+	}
 }
-function cancel_updateDiv(str){
+function cancelUpdateDiv(str){
 	$("#user_"+str).show();
 	$("#input_"+str).hide();
-	$("#ts_"+str).hide();
+	var tsObj = $("#ts_"+str); 
+	if(tsObj){
+		tsObj.hide();
+	}
 	$("#error_"+str).html("");
 }
 function setNickname(){
@@ -55,7 +88,7 @@ function setNickname(){
 		success: function(result){
 			if(result.success){
 				$("#nickname_xg").html("");
-				cancel_updateDiv('nickname');
+				cancelUpdateDiv('nickname');
 				$("#new_nickname").html(name);
 				$("#error_nickname").html("");
 			}else{
@@ -80,7 +113,7 @@ function setGender(){
 		success: function(result){
 			if(result.success){
 				$("#gender_xg").html("");
-				cancel_updateDiv('gender');
+				cancelUpdateDiv('gender');
 				if(gender==1){
 					$("#new_gender").html('男');	
 				}else{
@@ -115,7 +148,7 @@ function parseMonthlyIncome(str){
 //	return arr;
 }
 
-function setting(uid){
+function setting(){
 	var province=$("#province").val();
 	var city=$("#city").val();
 	var town=$("#town").val();
@@ -237,9 +270,9 @@ function setting(uid){
 			},
 		dataType: "json",
 		success: function(result){
-			if(result.success){
+			if(result.success && result.result > 0){
 				//保存成功后跳转
-				window.location.href = "/home/"+uid;
+				window.location.href = "/home/" + result.result;
 			}else{
 				if(result.errorCode=='20008'||result.errorCode=='20009'||result.errorCode=='20023'){
 					$("#location_tip").show().text(result.errorInfo);

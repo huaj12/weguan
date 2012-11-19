@@ -16,7 +16,7 @@
 					<div class="t"></div>
 					<div class="m"><!--m begin-->
 						<div class="message"><!--message begin-->
-							<div class="title"><span class="sx"></span><h2>我的私信</h2><p>如看到不良信息，请<b>举报</b>。我们会根据<a href="/about/rule">社区管理细则</a>处理</p></div>
+							<div class="title"><span class="sx"></span><h2>我的私信</h2><div class="phone_download"><a href="/dl/index">下载拒宅手机版，交流沟通更及时</a></div><p>如看到不良信息，请<b>举报</b>。我们会根据<a href="/about/rule">社区管理细则</a>处理</p></div>
 							<jsp:include page="dialog_list.jsp" />
 						</div><!--message end-->
 					</div><!--m end-->

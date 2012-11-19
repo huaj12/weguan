@@ -1469,7 +1469,7 @@ body:nth-of-type(1) .select_pub .sel_r{ width:30px; height:32px; float:left; bac
 .message .title em{ color:#999; margin-left:10px; font-size:12px;}
 .message .title h2{ float:left; color:#999; font-family:"微软雅黑","宋体"; font-weight:bold; font-size:20px; margin-left:8px; display:inline;}
  
-.message .title a{ float:right; margin-right:28px; display:inline; line-height:70px; text-decoration:underline; color:#3E8BD9; font-size:14px; }
+.message .title a.back{ float:right; margin-right:28px; display:inline; line-height:70px; text-decoration:underline; color:#3E8BD9; font-size:14px; }
 
 .message .title p{ float:right; margin-right:28px; display:inline; line-height:70px; color:#999;}
 .message .title p b{ color:#666;}
@@ -1685,7 +1685,7 @@ body:nth-of-type(1) .select_pub .sel_r{ width:30px; height:32px; float:left; bac
 .message .title span.sx{ background:url(../images/web2/message_title_icon.jpg) no-repeat; width:24px; height:33px; margin-top:18px;}
 .message .title em{ color:#999; margin-left:10px; font-size:12px;}
 .message .title h2{ float:left; color:#999; font-family:"微软雅黑","宋体"; font-weight:bold; font-size:20px; margin-left:8px; display:inline;}
-.message .title a{ float:right; margin-right:28px; display:inline; line-height:70px; text-decoration:underline; color:#3E8BD9; font-size:14px; }
+
 
 
 
@@ -4426,6 +4426,27 @@ search_xz .hot{ margin-top:-10px;}
 .view_map{ position:absolute; left:12px; bottom:0px; width:260px; height:auto;  text-align:center; padding-bottom:8px;}
 .view_map a{ color:#999;}
 .view_map a:hover{ color:#3E8BD9;}
+
+
+
+/*私信-下载手机气泡*/
+.phone_download{ float:left; margin-top:18px; margin-left:15px; display:inline;}
+.phone_download a{ background:url(../images/web2/message_title_phone_download.jpg) no-repeat; width:195px; height:23px; overflow:hidden; display:block; font-size:12px; color:#8D5312; line-height:normal; padding-left:16px; padding-top:9px; padding-top:10px\9; height:22px\9;}
+
+.phone_download a:hover{background:url(../images/web2/message_title_phone_download.jpg) no-repeat 0 -32px; color:#79470F;}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

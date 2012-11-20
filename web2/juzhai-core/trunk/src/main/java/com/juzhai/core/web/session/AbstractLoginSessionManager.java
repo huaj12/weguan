@@ -115,8 +115,9 @@ public abstract class AbstractLoginSessionManager implements
 				uid = entry.getKey();
 				token = entry.getValue();
 			}
+			Long tokenUid = redisTemplate.opsForValue().get(token);
 			// 新的token存储策略
-			if (uid == redisTemplate.opsForValue().get(token)) {
+			if (null != tokenUid && uid == tokenUid.longValue()) {
 				return uid;
 			}
 			// 兼容旧的token存储策略

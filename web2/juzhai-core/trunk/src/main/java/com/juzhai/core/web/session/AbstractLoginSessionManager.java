@@ -32,7 +32,9 @@ public abstract class AbstractLoginSessionManager implements
 	protected final String ADMIN_ATTRIBUTE_NAME = "admin";
 
 	@Autowired
-	private RedisTemplate<String, String> redisTemplate;
+	private RedisTemplate<String, String> oldRedisTemplate;
+	@Autowired
+	private RedisTemplate<String, Long> redisTemplate;
 	@Value(value = "${login.expire.time.seconds}")
 	protected int loginExpireTimeSeconds = 1800;
 	@Value(value = "${persist.login.expire.time.seconds}")
@@ -53,10 +55,15 @@ public abstract class AbstractLoginSessionManager implements
 		String value = uid + persist_token_separator + persistToken;
 		CookiesManager.setCookie(request, response, persist_token_cookies_name,
 				value, persistLoginExpireTimeSeconds);
-		String key = RedisKeyGenerator.genPersistLoginTokenKey(uid);
-		redisTemplate.opsForValue().set(key, persistToken);
-		redisTemplate.expire(key, persistLoginExpireTimeSeconds,
+
+		redisTemplate.opsForValue().set(persistToken, uid);
+		redisTemplate.expire(persistToken, persistLoginExpireTimeSeconds,
 				TimeUnit.SECONDS);
+
+		// String key = RedisKeyGenerator.genPersistLoginTokenKey(uid);
+		// redisTemplate.opsForValue().set(key, persistToken);
+		// redisTemplate.expire(key, persistLoginExpireTimeSeconds,
+		// TimeUnit.SECONDS);
 	}
 
 	protected void delPersistLogin(HttpServletRequest request,
@@ -70,8 +77,12 @@ public abstract class AbstractLoginSessionManager implements
 				token = entry.getValue();
 			}
 			if (uid > 0 && StringUtils.isNotEmpty(token)) {
+				// 新的token存储策略
+				redisTemplate.delete(token);
+
+				// 兼容旧的token存储策略
 				String key = RedisKeyGenerator.genPersistLoginTokenKey(uid);
-				redisTemplate.delete(key);
+				oldRedisTemplate.delete(key);
 			}
 			CookiesManager.delCookie(request, response,
 					persist_token_cookies_name);
@@ -104,9 +115,14 @@ public abstract class AbstractLoginSessionManager implements
 				uid = entry.getKey();
 				token = entry.getValue();
 			}
+			// 新的token存储策略
+			if (uid == redisTemplate.opsForValue().get(token)) {
+				return uid;
+			}
+			// 兼容旧的token存储策略
 			if (StringUtils.equals(
 					token,
-					redisTemplate.opsForValue().get(
+					oldRedisTemplate.opsForValue().get(
 							RedisKeyGenerator.genPersistLoginTokenKey(uid)))) {
 
 				return uid;

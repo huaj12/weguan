@@ -73,8 +73,6 @@ public class PostMController extends BaseController {
 	public ListJsonResult showPosts(HttpServletRequest request, Integer gender,
 			ShowPostOrder order, int page) throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-
-		HttpRequestUtil.getClientName(context);
 		long cityId = 0L;
 		ProfileCache loginUser = profileService.getProfileCacheByUid(context
 				.getUid());

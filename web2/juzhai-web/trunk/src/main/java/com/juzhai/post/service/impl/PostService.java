@@ -1055,7 +1055,8 @@ public class PostService implements IPostService {
 
 			String text = messageSource.getMessage(
 					SynchronizeWeiboTemplate.SYNCHRONIZE_TEXT.getName(),
-					new Object[] { content, time == null ? "" : time, place },
+					new Object[] { content, time == null ? "" : time,
+							place == null ? "" : place },
 					Locale.SIMPLIFIED_CHINESE);
 			String title = TextTruncateUtil.truncate(
 					HtmlUtils.htmlUnescape(content), synchronizeTitleLengthMax,

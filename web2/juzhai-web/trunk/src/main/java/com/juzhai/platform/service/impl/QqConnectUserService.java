@@ -90,10 +90,12 @@ public class QqConnectUserService extends AbstractUserService {
 			}
 			Profile profile = new Profile();
 			String nickname = null;
-			if (StringUtils.isEmpty(userInfo.getNickName())) {
+			if (StringUtils.isEmpty(userInfo.getNickName())
+					|| StringUtils.isEmpty(StringUtils.trimToEmpty(userInfo
+							.getNickName()))) {
 				nickname = authInfo.getTpIdentity();
 			} else {
-				nickname = userInfo.getNickName();
+				nickname = StringUtils.trimToEmpty(userInfo.getNickName());
 			}
 			if (StringUtils.isNotEmpty(nickname)) {
 				profile.setNickname(TextTruncateUtil.truncate(IOSEmojiUtil

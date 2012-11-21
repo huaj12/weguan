@@ -73,7 +73,7 @@ public class ProfileService implements IProfileService {
 			throw new ProfileException(context, responseEntity.getBody()
 					.getErrorInfo());
 		} else {
-			UserCacheManager.updateUserCache(context, responseEntity.getBody()
+			UserCacheManager.updateUser(context, responseEntity.getBody()
 					.getResult());
 			if (user.getLogoImage() != null) {
 				MobclickAgent.onEvent(context, UmengEvent.UPLOAD_LOGO);

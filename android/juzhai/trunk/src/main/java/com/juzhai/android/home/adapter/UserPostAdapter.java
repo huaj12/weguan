@@ -19,8 +19,6 @@ import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.DialogUtils;
-import com.juzhai.android.core.utils.StringUtil;
-import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.widget.list.PageAdapter;
 import com.juzhai.android.home.activity.UserHomeActivity;
 import com.juzhai.android.home.activity.ZhaobanActivity;
@@ -79,10 +77,7 @@ public class UserPostAdapter extends PageAdapter<User> {
 
 		postContentView.setText(user.getPostView().getPurpose() + ": "
 				+ user.getPostView().getContent());
-		userInfoView.setText(TextTruncateUtil.truncate(
-				user.getUserInfo(mContext),
-				(28 - StringUtil.chineseLength(user.getNickname().trim())),
-				".."));
+		userInfoView.setText(user.getUserInfo(mContext));
 		userViewHelper.showUserLogo(mContext, user, userLogoView, 60, 60);
 
 		postViewHelper.showSmallPostImage(mContext, user.getPostView(),

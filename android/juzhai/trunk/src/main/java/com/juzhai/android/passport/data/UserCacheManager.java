@@ -32,12 +32,10 @@ public class UserCacheManager {
 	private final static String SEMICOLON = ";";
 	private final static String EQUALSIGN = "=";
 
-	public static void cache(Context context,
+	private static void cache(Context context,
 			ResponseEntity<UserResult> responseEntity) {
 		ApplicationContext applicationContext = (ApplicationContext) context
 				.getApplicationContext();
-		applicationContext.getUserCache().setUserInfo(
-				responseEntity.getBody().getResult());
 		List<String> cookiesList = responseEntity.getHeaders()
 				.get("Set-Cookie");
 		List<String> cookieHeaders = new ArrayList<String>();
@@ -75,11 +73,29 @@ public class UserCacheManager {
 		CookieSyncManager.getInstance().sync();
 	}
 
-	public static void updateUserCache(Context context, User user) {
-		UserCacheManager.getUserCache(context).setUserInfo(user);
+	public static void updateUser(Context context, User user) {
+		if (user != null) {
+			SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(
+					context);
+			UserCacheManager.getUserCache(context).setUserInfo(user);
+			long uid = user.getUid();
+			if (uid > 0) {
+				sharedPreferencesManager.commit(UID_NAME, String.valueOf(uid));
+			}
+			try {
+				String jsonUserStr = JacksonSerializer.toString(user);
+				sharedPreferencesManager.commit(USER_INFO, jsonUserStr);
+			} catch (JsonGenerationException e) {
+				if (BuildConfig.DEBUG) {
+					Log.d("UserCacheManager",
+							"updateUser JsonGenerationException", e);
+				}
+			}
+		}
+
 	}
 
-	public static void persistInfo(Context context,
+	private static void persistCookie(Context context,
 			ResponseEntity<UserResult> responseEntity) {
 		SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(
 				context);
@@ -92,23 +108,6 @@ public class UserCacheManager {
 		if (cookies.get(L_TOKEN_NAME) != null) {
 			String lToken = cookies.get(L_TOKEN_NAME).get(L_TOKEN_NAME);
 			sharedPreferencesManager.commit(L_TOKEN_NAME, lToken);
-		}
-		User user = responseEntity.getBody().getResult();
-		if (user != null) {
-			long uid = responseEntity.getBody().getResult().getUid();
-			if (uid > 0) {
-				sharedPreferencesManager.commit(UID_NAME, String.valueOf(uid));
-			}
-			try {
-				String jsonUserStr = JacksonSerializer.toString(user);
-				sharedPreferencesManager.delete(USER_INFO);
-				sharedPreferencesManager.commit(USER_INFO, jsonUserStr);
-			} catch (JsonGenerationException e) {
-				if (BuildConfig.DEBUG) {
-					Log.d("UserCacheManager",
-							"persistInfo JsonGenerationException", e);
-				}
-			}
 		}
 	}
 
@@ -165,6 +164,15 @@ public class UserCacheManager {
 		clearPersistLToken(context);
 		clearPersistUid(context);
 		clearPersistUserInfo(context);
+	}
+
+	public static void localLogin(Context context,
+			ResponseEntity<UserResult> responseEntity) {
+		// 保存登录信息
+		UserCacheManager.cache(context, responseEntity);
+		UserCacheManager.persistCookie(context, responseEntity);
+		UserCacheManager.updateUser(context, responseEntity.getBody()
+				.getResult());
 	}
 
 	private static Map<String, Map<String, String>> parseCookies(

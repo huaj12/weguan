@@ -41,7 +41,7 @@ public class HomeService implements IHomeService {
 		if (!result.getSuccess()) {
 			return result.getErrorInfo();
 		} else {
-			UserCacheManager.updateUserCache(context, result.getResult());
+			UserCacheManager.updateUser(context, result.getResult());
 		}
 		return null;
 	}

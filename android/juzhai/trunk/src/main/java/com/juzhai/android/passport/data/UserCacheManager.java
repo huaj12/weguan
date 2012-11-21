@@ -158,6 +158,7 @@ public class UserCacheManager {
 	}
 
 	public static void localLogout(Context context) {
+		CookieSyncManager.createInstance(context);
 		CookieManager.getInstance().removeAllCookie();
 		UserCacheManager.getUserCache(context).clear();
 		clearPersistToken(context);

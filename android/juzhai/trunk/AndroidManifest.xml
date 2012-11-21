@@ -74,21 +74,21 @@
         <activity
             android:name=".setting.activity.SettingFeedbackActivity" android:screenOrientation="portrait"/>
         <!--created by kooks at 2012-10-11 10:51:56-->
-        <activity android:name=".home.activity.HomeSettingActivity"/>
+        <activity android:name=".home.activity.HomeSettingActivity" android:screenOrientation="portrait"/>
         <!--created by kooks at 2012-10-11 15:17:25-->
-        <activity android:name=".home.activity.SetNicknameActivity"/>
+        <activity android:name=".home.activity.SetNicknameActivity" android:screenOrientation="portrait"/>
         <!--created by kooks at 2012-10-11 17:00:42-->
-        <activity android:name=".home.activity.SetAddressAcitvity" android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".home.activity.SetAddressAcitvity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Dialog"/>
         <!--created by kooks at 2012-10-12 10:22:57-->
-        <activity android:name=".home.activity.SetFeatureActivity"/>
+        <activity android:name=".home.activity.SetFeatureActivity" android:screenOrientation="portrait"/>
         <!--created by kooks at 2012-10-12 12:26:18-->
-        <activity android:name=".home.activity.SetProfessionActivity"/>
+        <activity android:name=".home.activity.SetProfessionActivity" android:screenOrientation="portrait"/>
         <!--created by kooks at 2012-10-12 21:18:53-->
-        <activity android:name=".main.activity.UserGuideActivity"/>
+        <activity android:name=".main.activity.UserGuideActivity" android:screenOrientation="portrait"/>
         <!--created by kooks at 2012-10-15 09:56:01-->
-        <activity android:name=".post.activity.SendPostActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".post.activity.SendPostActivity" android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait"/>
          <!--created by kooks at 2012-11-10 21:26:35-->
-        <activity android:name=".main.activity.LoginAndRegisterActivity"/>
+        <activity android:name=".main.activity.LoginAndRegisterActivity" android:screenOrientation="portrait"/>
         <service
             android:name="com.umeng.common.net.DownloadingService"
             android:exported="true"

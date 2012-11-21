@@ -320,7 +320,7 @@ public class User extends Entity {
 
 	@JsonIgnore
 	public String getUserInfo(Context mContext) {
-		String comma = ",";
+		String comma = " ";
 		StringBuffer sbString = new StringBuffer();
 		if (JzUtils.age(getBirthYear()) > 0) {
 			sbString.append(JzUtils.age(getBirthYear())

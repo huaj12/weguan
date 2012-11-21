@@ -109,7 +109,7 @@ public class HttpUtils {
 			ResponseEntity<T> responseEntity = restTemplate.exchange(
 					config.getBaseUrl() + uri, HttpMethod.POST, requestEntity,
 					responseType);
-			UserCacheManager.updateLToken(context, responseEntity);
+			UserCacheManager.updateTokens(context, responseEntity);
 			return responseEntity;
 		} catch (RestClientException e) {
 			if (e.getCause() instanceof NeedLoginException) {
@@ -166,7 +166,7 @@ public class HttpUtils {
 			ResponseEntity<T> responseEntity = restTemplate.exchange(
 					config.getBaseUrl() + createHttpParam(uri, values),
 					HttpMethod.GET, requestEntity, responseType);
-			UserCacheManager.updateLToken(context, responseEntity);
+			UserCacheManager.updateTokens(context, responseEntity);
 			return responseEntity;
 		} catch (RestClientException e) {
 			if (e.getCause() instanceof NeedLoginException) {

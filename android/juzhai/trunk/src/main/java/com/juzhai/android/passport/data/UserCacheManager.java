@@ -32,6 +32,22 @@ public class UserCacheManager {
 	private final static String SEMICOLON = ";";
 	private final static String EQUALSIGN = "=";
 
+	public static UserCache getUserCache(Context context) {
+		ApplicationContext applicationContext = (ApplicationContext) context
+				.getApplicationContext();
+		UserCache cache = applicationContext.getUserCache();
+		if (cache.getUserInfo() == null) {
+			cache.setUserInfo(getPersistUserInfo(context));
+		}
+		if (cache.getlToken() == null) {
+			cache.setlToken(getPersistLToken(context));
+		}
+		if (cache.getpToken() == null) {
+			cache.setpToken(getPersistToken(context));
+		}
+		return applicationContext.getUserCache();
+	}
+
 	public static void updateUser(Context context, User user) {
 		if (user != null) {
 			SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(
@@ -54,34 +70,11 @@ public class UserCacheManager {
 
 	}
 
-	public static void updateTokens(Context context,
-			Map<String, Map<String, String>> cookies) {
-		SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(
-				context);
-		ApplicationContext applicationContext = (ApplicationContext) context
-				.getApplicationContext();
-		if (!CollectionUtils.isEmpty(cookies.get(P_TOKEN_NAME))) {
-			String pToken = cookies.get(P_TOKEN_NAME).get(P_TOKEN_NAME);
-			if (StringUtils.hasText(pToken)) {
-				applicationContext.getUserCache().setpToken(pToken);
-				sharedPreferencesManager.commit(P_TOKEN_NAME, pToken);
-			}
-
-		}
-		if (!CollectionUtils.isEmpty(cookies.get(L_TOKEN_NAME))) {
-			String lToken = cookies.get(L_TOKEN_NAME).get(L_TOKEN_NAME);
-			if (StringUtils.hasText(lToken)) {
-				sharedPreferencesManager.commit(L_TOKEN_NAME, lToken);
-				applicationContext.getUserCache().setlToken(lToken);
-			}
-		}
-	}
-
 	public static String getPersistToken(Context context) {
 		return new SharedPreferencesManager(context).getString(P_TOKEN_NAME);
 	}
 
-	public static void clearPersistToken(Context context) {
+	private static void clearPersistToken(Context context) {
 		new SharedPreferencesManager(context).delete(P_TOKEN_NAME);
 	}
 
@@ -89,7 +82,7 @@ public class UserCacheManager {
 		return new SharedPreferencesManager(context).getString(L_TOKEN_NAME);
 	}
 
-	public static void clearPersistLToken(Context context) {
+	private static void clearPersistLToken(Context context) {
 		new SharedPreferencesManager(context).delete(L_TOKEN_NAME);
 	}
 
@@ -101,11 +94,11 @@ public class UserCacheManager {
 		return Long.valueOf(str);
 	}
 
-	public static void clearPersistUid(Context context) {
+	private static void clearPersistUid(Context context) {
 		new SharedPreferencesManager(context).delete(UID_NAME);
 	}
 
-	public static User getPersistUserInfo(Context context) {
+	private static User getPersistUserInfo(Context context) {
 		String str = new SharedPreferencesManager(context).getString(USER_INFO);
 		User user = null;
 		try {
@@ -118,12 +111,12 @@ public class UserCacheManager {
 		return user;
 	}
 
-	public static void clearPersistUserInfo(Context context) {
+	private static void clearPersistUserInfo(Context context) {
 		new SharedPreferencesManager(context).delete(USER_INFO);
 	}
 
 	public static void localLogout(Context context) {
-		CookieSyncManager.createInstance(context);
+		// CookieSyncManager.createInstance(context);
 		CookieManager.getInstance().removeAllCookie();
 		UserCacheManager.getUserCache(context).clear();
 		clearPersistToken(context);
@@ -146,7 +139,6 @@ public class UserCacheManager {
 		Map<String, Map<String, String>> cookies = parseCookies(cookieHeaders);
 		createToken(L_TOKEN_NAME, cookies, cookieHeaders, applicationContext);
 		createToken(P_TOKEN_NAME, cookies, cookieHeaders, applicationContext);
-		updateTokens(context, cookies);
 		synCookieManager(applicationContext, cookieHeaders);
 		UserCacheManager.updateUser(context, responseEntity.getBody()
 				.getResult());
@@ -176,7 +168,7 @@ public class UserCacheManager {
 		return cookies;
 	}
 
-	protected static void putParseCookie(
+	private static void putParseCookie(
 			Map<String, Map<String, String>> cookies, String str) {
 		String[] cookiesStr = str.split(SEMICOLON);
 		Map<String, String> map = new HashMap<String, String>();
@@ -191,6 +183,54 @@ public class UserCacheManager {
 			}
 		}
 		cookies.put(key, map);
+	}
+
+	public static <T> void updateTokens(Context context,
+			ResponseEntity<T> responseEntity) {
+		List<String> cookieHeaders = responseEntity.getHeaders().get(
+				"Set-Cookie");
+		if (CollectionUtils.isEmpty(cookieHeaders)) {
+			return;
+		}
+		Map<String, Map<String, String>> cookies = parseCookies(cookieHeaders);
+		updateTokens(context, cookies);
+	}
+
+	private static void updateTokens(Context context,
+			Map<String, Map<String, String>> cookies) {
+		SharedPreferencesManager sharedPreferencesManager = new SharedPreferencesManager(
+				context);
+		ApplicationContext applicationContext = (ApplicationContext) context
+				.getApplicationContext();
+		if (!CollectionUtils.isEmpty(cookies.get(P_TOKEN_NAME))) {
+			String pToken = cookies.get(P_TOKEN_NAME).get(P_TOKEN_NAME);
+			if (StringUtils.hasText(pToken)) {
+				applicationContext.getUserCache().setpToken(pToken);
+				sharedPreferencesManager.commit(P_TOKEN_NAME, pToken);
+			}
+
+		}
+		if (!CollectionUtils.isEmpty(cookies.get(L_TOKEN_NAME))) {
+			String lToken = cookies.get(L_TOKEN_NAME).get(L_TOKEN_NAME);
+			if (StringUtils.hasText(lToken)) {
+				applicationContext.getUserCache().setlToken(lToken);
+				sharedPreferencesManager.commit(L_TOKEN_NAME, lToken);
+			}
+		}
+	}
+
+	private static void createToken(String name,
+			Map<String, Map<String, String>> cookies,
+			List<String> cookieHeaders, ApplicationContext applicationContext) {
+		if (!cookies.containsKey(name)) {
+			String tokenString = newTokenString(name,
+					new SharedPreferencesManager(applicationContext)
+							.getString(name), applicationContext);
+			if (StringUtils.hasText(tokenString)) {
+				cookieHeaders.add(tokenString);
+				putParseCookie(cookies, tokenString);
+			}
+		}
 	}
 
 	private static String newTokenString(String name, String value,
@@ -211,46 +251,5 @@ public class UserCacheManager {
 			return sb.toString();
 		}
 		return null;
-	}
-
-	public static <T> void updateLToken(Context context,
-			ResponseEntity<T> responseEntity) {
-		List<String> cookieHeaders = responseEntity.getHeaders().get(
-				"Set-Cookie");
-		if (CollectionUtils.isEmpty(cookieHeaders)) {
-			return;
-		}
-		Map<String, Map<String, String>> cookies = parseCookies(cookieHeaders);
-		updateTokens(context, cookies);
-	}
-
-	public static UserCache getUserCache(Context context) {
-		ApplicationContext applicationContext = (ApplicationContext) context
-				.getApplicationContext();
-		UserCache cache = applicationContext.getUserCache();
-		if (cache.getUserInfo() == null) {
-			cache.setUserInfo(getPersistUserInfo(context));
-		}
-		if (cache.getlToken() == null) {
-			cache.setlToken(getPersistLToken(context));
-		}
-		if (cache.getpToken() == null) {
-			cache.setpToken(getPersistToken(context));
-		}
-		return applicationContext.getUserCache();
-	}
-
-	public static void createToken(String name,
-			Map<String, Map<String, String>> cookies,
-			List<String> cookieHeaders, ApplicationContext applicationContext) {
-		if (!cookies.containsKey(name)) {
-			String tokenString = newTokenString(name,
-					new SharedPreferencesManager(applicationContext)
-							.getString(name), applicationContext);
-			if (StringUtils.hasText(tokenString)) {
-				cookieHeaders.add(tokenString);
-				putParseCookie(cookies, tokenString);
-			}
-		}
 	}
 }

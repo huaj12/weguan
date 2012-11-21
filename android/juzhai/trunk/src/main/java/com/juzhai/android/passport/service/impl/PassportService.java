@@ -54,7 +54,7 @@ public class PassportService implements IPassportService {
 					|| !responseEntity.getBody().getSuccess()) {
 				return false;
 			}
-			loginSuccess(context, responseEntity);
+			UserCacheManager.localLogin(context, responseEntity);
 			return true;
 		}
 	}
@@ -87,15 +87,8 @@ public class PassportService implements IPassportService {
 		if (!results.getSuccess()) {
 			throw new PassportException(context, results.getErrorInfo());
 		} else {
-			loginSuccess(context, responseEntity);
+			UserCacheManager.localLogin(context, responseEntity);
 		}
-	}
-
-	private void loginSuccess(Context context,
-			ResponseEntity<UserResult> responseEntity) {
-		// 保存登录信息
-		UserCacheManager.cache(context, responseEntity);
-		UserCacheManager.persistInfo(context, responseEntity);
 	}
 
 	@Override
@@ -126,7 +119,7 @@ public class PassportService implements IPassportService {
 			throw new PassportException(context, results.getErrorInfo());
 		} else {
 			MobclickAgent.onEvent(context, UmengEvent.LOCAL_REGISTER);
-			loginSuccess(context, responseEntity);
+			UserCacheManager.localLogin(context, responseEntity);
 		}
 	}
 
@@ -202,7 +195,7 @@ public class PassportService implements IPassportService {
 		if (!results.getSuccess()) {
 			throw new PassportException(context, results.getErrorInfo());
 		} else {
-			loginSuccess(context, responseEntity);
+			UserCacheManager.localLogin(context, responseEntity);
 		}
 	}
 
@@ -256,7 +249,7 @@ public class PassportService implements IPassportService {
 		if (!result.getSuccess()) {
 			throw new PassportException(context, result.getErrorInfo());
 		} else {
-			UserCacheManager.updateUserCache(context, result.getResult());
+			UserCacheManager.updateUser(context, result.getResult());
 		}
 	}
 }

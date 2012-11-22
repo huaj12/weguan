@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -34,9 +35,11 @@ public class UploadImageActivity extends Activity {
 		setContentView(R.layout.page_upload_image);
 		boolean isDeleteBtn = getIntent().getBooleanExtra("isDeleteBtn", false);
 		getWindow().setBackgroundDrawable(new BitmapDrawable());
+		WindowManager manage = getWindowManager();
+		Display display = manage.getDefaultDisplay();
 		WindowManager.LayoutParams lp = getWindow().getAttributes();
 		lp.x = 0;
-		lp.y = 300;
+		lp.y = display.getHeight();
 		Button alubmBtn = (Button) findViewById(R.id.upload_album);
 		Button cameraBtn = (Button) findViewById(R.id.upload_camera);
 		Button deleteBtn = (Button) findViewById(R.id.delete_pic);
@@ -106,7 +109,7 @@ public class UploadImageActivity extends Activity {
 				Bundle extras = data.getExtras();
 				if (extras != null) {
 					Bitmap pic = extras.getParcelable("data");
-					//TODO (review) 有没有压缩图片？
+					// TODO (review) 有没有压缩图片？
 					data.putExtra("pic", pic);
 					setResult(ActivityCode.ResultCode.PIC_RESULT_CODE, data);
 				}

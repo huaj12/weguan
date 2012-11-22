@@ -22,7 +22,6 @@ import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.core.web.util.HttpRequestUtil;
 import com.juzhai.mobile.common.web.response.ListJsonResult;
 import com.juzhai.mobile.passport.controller.view.UserMView;
 import com.juzhai.mobile.passport.controller.viewHelper.IUserMViewHelper;

@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/page_background_color"
     android:orientation="vertical" >
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:layout_marginBottom="40dp" >
+        android:layout_marginBottom="40dp"
+        android:scrollbars="vertical" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
 
             <LinearLayout
                 android:id="@+id/idea_image_layout"
-                android:layout_width="wrap_content"
+                android:layout_width="282dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/good_idea_list_item_bg"
                 android:orientation="vertical"
                 android:padding="10dp" >
@@ -40,6 +38,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
+                        android:contentDescription="@null"
                         android:src="@drawable/good_idea_list_pic_none_icon" />
                 </RelativeLayout>
 
@@ -75,10 +74,8 @@
 
             <LinearLayout
                 android:id="@+id/idea_place_layout"
-                android:layout_width="fill_parent"
+                android:layout_width="282dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:background="@drawable/good_idea_list_item_bg"
                 android:orientation="horizontal"
                 android:padding="1dp" >
@@ -86,26 +83,25 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/position_icon_link" />
+                    android:background="@drawable/position_icon_link"
+                    android:contentDescription="@null" />
 
                 <TextView
                     android:id="@+id/idea_place_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="7dp"
                     android:layout_marginBottom="7dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginTop="7dp"
                     android:textColor="@color/text_gray"
                     android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/idea_time_layout"
-                android:layout_width="fill_parent"
+                android:layout_width="282dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:background="@drawable/good_idea_list_item_bg"
                 android:orientation="horizontal"
                 android:padding="1dp" >
@@ -113,7 +109,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/time_icon_link" />
+                    android:background="@drawable/time_icon_link"
+                    android:contentDescription="@null" />
 
                 <TextView
                     android:id="@+id/idea_time_text"
@@ -127,10 +124,8 @@
 
             <LinearLayout
                 android:id="@+id/idea_charge_layout"
-                android:layout_width="fill_parent"
+                android:layout_width="282dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:background="@drawable/good_idea_list_item_bg"
                 android:orientation="horizontal"
                 android:padding="1dp" >
@@ -138,7 +133,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/price_icon_link" />
+                    android:background="@drawable/price_icon_link"
+                    android:contentDescription="@null" />
 
                 <TextView
                     android:id="@+id/idea_charge_text"

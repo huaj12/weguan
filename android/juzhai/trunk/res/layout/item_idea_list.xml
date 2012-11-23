@@ -2,16 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants" 
+    android:gravity="center_horizontal">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:id="@+id/idea_layout"
+        android:layout_width="282dp"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/good_idea_list_item_bg"
         android:orientation="vertical"
         android:padding="10dp" >
@@ -35,17 +34,16 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:gravity="bottom"
-                android:textSize="15sp"
+                android:paddingBottom="4dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:paddingBottom="4dp" />
+                android:textSize="15sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            >
+            android:layout_marginTop="10dip" >
 
             <TextView
                 android:id="@+id/idea_use_count_txet"
@@ -62,13 +60,13 @@
                 android:layout_height="26dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:paddingLeft="20dp"
-                android:paddingTop="0dp"
-                android:paddingRight="0dp"
+                android:background="@drawable/i_want_selector_button"
                 android:paddingBottom="1dp"
-                android:background="@drawable/i_want_selector_button"/>
+                android:paddingLeft="20dp"
+                android:paddingRight="0dp"
+                android:paddingTop="0dp"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </RelativeLayout>
     </LinearLayout>
 

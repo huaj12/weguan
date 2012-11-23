@@ -1,0 +1,6 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:state_pressed="true" android:drawable="@drawable/good_idea_detial_icon_wtg" />
+	<item android:state_focused="true" android:drawable="@drawable/good_idea_detial_icon_wtg" />
+	<item android:state_enabled="false" android:drawable="@drawable/good_idea_detial_icon_wtg_done" />
+	<item android:drawable="@drawable/good_idea_detial_icon_wtg" />
+</selector>

@@ -1,6 +1,5 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:state_pressed="true" android:drawable="@drawable/good_idea_detial_btn_wtg_active" />
-	<item android:state_focused="true" android:drawable="@drawable/good_idea_detial_btn_wtg" />
-	<item android:state_enabled="false" android:drawable="@drawable/good_idea_detial_btn_wtg_done"></item>
-	<item android:drawable="@drawable/good_idea_detial_btn_wtg" />
+	<item android:state_pressed="true" android:drawable="@drawable/pub_bottom_float_left_menu_bg_active" />
+	<item android:state_focused="true" android:drawable="@drawable/pub_bottom_float_left_menu_bg_link" />
+	<item android:drawable="@drawable/pub_bottom_float_left_menu_bg_link" />
 </selector>

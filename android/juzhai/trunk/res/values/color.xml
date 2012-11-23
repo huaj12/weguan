@@ -20,7 +20,7 @@
 		<color name="dialog_shape_solid_color">#333333</color>
 		<color name="upload_image_button_text_color">#333333</color>
 		<color name="tips_text_color">#999999</color>
-		<color name="guidance_bg_color">#fefefe</color>
+		<color name="guidance_bg_color">#e6e6e6</color>
     <!-- common end -->
     <!-- login begin -->
     	<color name="forget_pwd_btn_color">#3982C6</color>

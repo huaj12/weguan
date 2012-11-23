@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.activity.ActivityCode;
+import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.passport.activity.LoginActivity;
 import com.juzhai.android.passport.activity.RegisterActivity;
@@ -25,6 +27,10 @@ public class LoginAndRegisterActivity extends NavigationActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_login_register);
+		ImageView image = (ImageView) findViewById(R.id.login_register_bg_image);
+		image.setImageBitmap(ImageUtils.getZoomBackground(getResources()
+				.getDrawable(R.drawable.welcome_loading_page),
+				LoginAndRegisterActivity.this));
 		Button reginsterBtn = (Button) findViewById(R.id.register_btn);
 		Button loginBtn = (Button) findViewById(R.id.login_btn);
 		reginsterBtn.setOnClickListener(new OnClickListener() {

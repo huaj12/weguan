@@ -104,16 +104,15 @@ public class ImageUtils {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bm.compress(Bitmap.CompressFormat.JPEG, quality, baos);
 		byte[] imageInByte = baos.toByteArray();
+		recycle(baos);
 		if (imageInByte.length > maxImageLength
 				&& (quality - reduceQuality) > 0) {
 			imageInByte = null;
-			recycle(baos);
 			return bitmap2Bytes(bm, quality - reduceQuality);
 		} else {
 			if (!bm.isRecycled()) {
 				bm.recycle();
 			}
-			recycle(baos);
 			return imageInByte;
 		}
 	}

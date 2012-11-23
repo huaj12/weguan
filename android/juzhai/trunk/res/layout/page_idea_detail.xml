@@ -156,26 +156,33 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" >
-
+		<LinearLayout android:layout_width="fill_parent"
+        			  android:layout_height="wrap_content"
+        			  android:orientation="horizontal"
+		    >
         <Button
             android:id="@+id/idea_want_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:background="@drawable/idea_detial_want_button"
-            android:paddingLeft="25dp"
             android:text="@string/i_want"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/idea_detial_want_icon"
+            android:drawablePadding="-50dp"
+            android:paddingLeft="25dp"
             android:textColor="@color/white" />
-
         <Button
             android:id="@+id/idea_share_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:background="@drawable/idea_share_button"
+            android:drawableLeft="@drawable/good_idea_detial_icon_share"
+            android:drawablePadding="-50dp"
             android:paddingLeft="25dp"
             android:text="@string/share"
+            android:layout_weight="1"
             android:textColor="@color/white" />
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

@@ -10,10 +10,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.core.utils.UIUtil;
 import com.juzhai.android.main.activity.LoginAndRegisterActivity;
 import com.juzhai.android.main.activity.MainTabActivity;
@@ -46,20 +48,24 @@ public final class GuidanceFragment extends Fragment {
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		ImageView imageView = new ImageView(getActivity());
 		imageView.setLayoutParams(imageLayoutParams);
+		imageView.setScaleType(ScaleType.MATRIX);
 		layout.addView(imageView);
 		switch (index) {
 		case 0:
-			imageView.setBackgroundResource(R.drawable.yd1);
-
+			imageView.setImageBitmap(ImageUtils.getZoomBackground(
+					getResources().getDrawable(R.drawable.yd1), getActivity()));
 			break;
 		case 1:
-			imageView.setBackgroundResource(R.drawable.yd2);
+			imageView.setImageBitmap(ImageUtils.getZoomBackground(
+					getResources().getDrawable(R.drawable.yd2), getActivity()));
 			break;
 		case 2:
-			imageView.setBackgroundResource(R.drawable.yd3);
+			imageView.setImageBitmap(ImageUtils.getZoomBackground(
+					getResources().getDrawable(R.drawable.yd3), getActivity()));
 			break;
 		case 3:
-			imageView.setBackgroundResource(R.drawable.yd4);
+			imageView.setImageBitmap(ImageUtils.getZoomBackground(
+					getResources().getDrawable(R.drawable.yd4), getActivity()));
 			Button button = new Button(getActivity());
 			button.setBackgroundResource(R.drawable.guidance_selector_button);
 

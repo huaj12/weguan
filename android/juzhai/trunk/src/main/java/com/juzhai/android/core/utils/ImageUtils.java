@@ -3,6 +3,7 @@ package com.juzhai.android.core.utils;
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -13,6 +14,10 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.view.Display;
+import android.view.WindowManager;
 
 public class ImageUtils {
 	private static long maxImageLength = 1024 * 1024;
@@ -95,29 +100,46 @@ public class ImageUtils {
 		return result;
 	}
 
-	public static byte[] Bitmap2Bytes(Bitmap bm, int quality) {
+	public static byte[] bitmap2Bytes(Bitmap bm, int quality) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bm.compress(Bitmap.CompressFormat.JPEG, quality, baos);
 		byte[] imageInByte = baos.toByteArray();
 		if (imageInByte.length > maxImageLength
 				&& (quality - reduceQuality) > 0) {
 			imageInByte = null;
-			if (baos != null) {
-				try {
-					baos.flush();
-					baos.close();
-				} catch (Exception e) {
-				} finally {
-					baos = null;
-				}
-			}
-			return Bitmap2Bytes(bm, quality - reduceQuality);
+			recycle(baos);
+			return bitmap2Bytes(bm, quality - reduceQuality);
 		} else {
+			if (!bm.isRecycled()) {
+				bm.recycle();
+			}
+			recycle(baos);
 			return imageInByte;
+		}
+	}
+
+	private static void recycle(ByteArrayOutputStream baos) {
+		if (baos != null) {
+			try {
+				baos.flush();
+				baos.close();
+			} catch (Exception e) {
+			} finally {
+				baos = null;
+			}
 		}
 	}
 
 	public static String getFileName() {
 		return UUID.randomUUID().toString() + ".jpg";
 	}
+
+	public static Bitmap getZoomBackground(Drawable drawable, Context context) {
+		WindowManager manage = ((Activity) context).getWindowManager();
+		Display display = manage.getDefaultDisplay();
+		int tagerWidth = display.getWidth();
+		BitmapDrawable bd = (BitmapDrawable) drawable;
+		return zoomWidthBitmap(bd.getBitmap(), tagerWidth, 0, context);
+	}
+
 }

@@ -6,10 +6,12 @@ package com.juzhai.android.main.activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.common.adservice.NotificationService;
 import com.juzhai.android.core.activity.BaseActivity;
+import com.juzhai.android.core.utils.ImageUtils;
 import com.juzhai.android.main.service.impl.GuidanceService;
 import com.juzhai.android.passport.data.UserCacheManager;
 import com.juzhai.android.passport.service.IPassportService;
@@ -27,6 +29,10 @@ public class LaunchActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		MobclickAgent.onError(this);
 		setContentView(R.layout.page_launch);
+		ImageView image = (ImageView) findViewById(R.id.launch_bg_image);
+		image.setImageBitmap(ImageUtils.getZoomBackground(getResources()
+				.getDrawable(R.drawable.welcome_loading_page),
+				LaunchActivity.this));
 		new AsyncTask<Void, Void, Boolean>() {
 			protected void onPostExecute(Boolean result) {
 				// 判断是否走过引导

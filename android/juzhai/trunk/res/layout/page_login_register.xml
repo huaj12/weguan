@@ -9,7 +9,7 @@
         android:layout_height="fill_parent"
         android:contentDescription="@null"
         android:scaleType="matrix"
-        android:src="@drawable/welcome_loading_page" />
+        android:id="@+id/login_register_bg_image"/>
 
     <Button
         android:id="@+id/register_btn"

@@ -69,7 +69,7 @@ public class HttpUtils {
 			uri = createHttpParam(uri, values);
 		}
 		if (file != null) {
-			Resource resource = new ByteArrayResource(ImageUtils.Bitmap2Bytes(
+			Resource resource = new ByteArrayResource(ImageUtils.bitmap2Bytes(
 					file, 100)) {
 
 				@Override

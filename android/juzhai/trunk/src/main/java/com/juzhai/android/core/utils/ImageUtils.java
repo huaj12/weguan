@@ -20,7 +20,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 public class ImageUtils {
-	private static long maxImageLength = 1024 * 1024;
+	private static long maxImageLength = 1024 * 100;
 	private static int reduceQuality = 5;
 
 	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, float radius,

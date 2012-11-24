@@ -4,6 +4,7 @@
 package com.juzhai.android.main.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,15 +23,17 @@ import com.juzhai.android.passport.activity.RegisterActivity;
  * 
  */
 public class LoginAndRegisterActivity extends NavigationActivity {
+	private Bitmap bitmap = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_login_register);
 		ImageView image = (ImageView) findViewById(R.id.login_register_bg_image);
-		image.setImageBitmap(ImageUtils.getZoomBackground(getResources()
-				.getDrawable(R.drawable.welcome_loading_page),
-				LoginAndRegisterActivity.this));
+		bitmap = ImageUtils.getZoomBackground(
+				getResources().getDrawable(R.drawable.welcome_loading_page),
+				LoginAndRegisterActivity.this);
+		image.setImageBitmap(bitmap);
 		Button reginsterBtn = (Button) findViewById(R.id.register_btn);
 		Button loginBtn = (Button) findViewById(R.id.login_btn);
 		reginsterBtn.setOnClickListener(new OnClickListener() {
@@ -52,4 +55,12 @@ public class LoginAndRegisterActivity extends NavigationActivity {
 		});
 	}
 
+	@Override
+	protected void onDestroy() {
+		if (bitmap != null && !bitmap.isRecycled()) {
+			bitmap.recycle();
+			bitmap = null;
+		}
+		super.onDestroy();
+	}
 }

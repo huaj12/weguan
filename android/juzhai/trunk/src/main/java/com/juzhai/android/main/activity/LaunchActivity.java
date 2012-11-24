@@ -4,6 +4,7 @@
 package com.juzhai.android.main.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import com.umeng.analytics.MobclickAgent;
  * 
  */
 public class LaunchActivity extends BaseActivity {
+	private Bitmap bitmap = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,9 +32,10 @@ public class LaunchActivity extends BaseActivity {
 		MobclickAgent.onError(this);
 		setContentView(R.layout.page_launch);
 		ImageView image = (ImageView) findViewById(R.id.launch_bg_image);
-		image.setImageBitmap(ImageUtils.getZoomBackground(getResources()
-				.getDrawable(R.drawable.welcome_loading_page),
-				LaunchActivity.this));
+		bitmap = ImageUtils.getZoomBackground(
+				getResources().getDrawable(R.drawable.welcome_loading_page),
+				LaunchActivity.this);
+		image.setImageBitmap(bitmap);
 		new AsyncTask<Void, Void, Boolean>() {
 			protected void onPostExecute(Boolean result) {
 				// 判断是否走过引导
@@ -71,5 +74,14 @@ public class LaunchActivity extends BaseActivity {
 		Intent serviceIntent = new Intent(LaunchActivity.this,
 				NotificationService.class);
 		startService(serviceIntent);
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (bitmap != null && !bitmap.isRecycled()) {
+			bitmap.recycle();
+			bitmap = null;
+		}
+		super.onDestroy();
 	}
 }

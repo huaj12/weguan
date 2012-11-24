@@ -164,8 +164,8 @@
             android:text="@string/i_want"
             android:layout_weight="1"
             android:drawableLeft="@drawable/idea_detial_want_icon"
-            android:drawablePadding="-50dp"
-            android:paddingLeft="25dp"
+            android:drawablePadding="-60dp"
+            android:paddingLeft="30dp"
             android:textColor="@color/white" />
         <Button
             android:id="@+id/idea_share_btn"
@@ -173,8 +173,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/idea_share_button"
             android:drawableLeft="@drawable/good_idea_detial_icon_share"
-            android:drawablePadding="-50dp"
-            android:paddingLeft="25dp"
+            android:drawablePadding="-60dp"
+            android:paddingLeft="30dp"
             android:text="@string/share"
             android:layout_weight="1"
             android:textColor="@color/white" />

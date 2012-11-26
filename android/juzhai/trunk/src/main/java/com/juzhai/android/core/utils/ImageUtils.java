@@ -110,9 +110,6 @@ public class ImageUtils {
 			imageInByte = null;
 			return bitmap2Bytes(bm, quality - reduceQuality);
 		} else {
-			if (!bm.isRecycled()) {
-				bm.recycle();
-			}
 			return imageInByte;
 		}
 	}

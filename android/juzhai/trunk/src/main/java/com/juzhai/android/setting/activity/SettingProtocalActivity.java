@@ -13,7 +13,7 @@ import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 
 public class SettingProtocalActivity extends NavigationActivity {
 
-	private String url = "http://www.51juzhai.com/about/protocal";
+	private String protocalurl = "about/protocal";
 	private ProgressBar bar;
 
 	@Override
@@ -26,11 +26,10 @@ public class SettingProtocalActivity extends NavigationActivity {
 		WebView webView = (WebView) findViewById(R.id.web_view);
 		WebSettings setting = webView.getSettings();
 		setting.setBuiltInZoomControls(true);
-		setting.setJavaScriptEnabled(true);
 		bar = (ProgressBar) findViewById(R.id.pro_bar);
 		bar.setProgress(0);
 		webView.setWebViewClient(new Webclient());
-		webView.loadUrl(url);
+		webView.loadUrl(config.getBaseUrl() + protocalurl);
 	}
 
 	private class Webclient extends WebViewClient {

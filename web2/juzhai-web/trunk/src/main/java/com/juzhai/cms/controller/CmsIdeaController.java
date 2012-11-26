@@ -64,12 +64,13 @@ public class CmsIdeaController extends BaseController {
 	public String showIdea(Model model,
 			@RequestParam(defaultValue = "1") int pageId, Long city,
 			@RequestParam(defaultValue = "0") long categoryId, Boolean window,
-			Boolean random) {
+			Boolean random,
+			@RequestParam(defaultValue = "false") boolean defunct) {
 		PagerManager pager = new PagerManager(pageId, 20,
 				ideaService.countCmsIdeaByCityAndCategory(window, city,
-						categoryId, random));
+						categoryId, random, defunct));
 		List<Idea> list = ideaService.listCmsIdeaByCityAndCategory(window,
-				city, categoryId, random, ShowIdeaOrder.HOT_TIME,
+				city, categoryId, random, defunct, ShowIdeaOrder.HOT_TIME,
 				pager.getFirstResult(), pager.getMaxResult());
 		List<CmsIdeaView> ideaViews = assembleCmsIdeaView(list);
 		model.addAttribute("ideaViews", ideaViews);
@@ -81,20 +82,7 @@ public class CmsIdeaController extends BaseController {
 		model.addAttribute("categoryId", categoryId);
 		model.addAttribute("window", window);
 		model.addAttribute("random", random);
-		return "/cms/idea/list";
-	}
-
-	@RequestMapping(value = "/show/defunctidea", method = RequestMethod.GET)
-	public String showDefunctIdea(Model model,
-			@RequestParam(defaultValue = "1") int pageId) {
-		PagerManager pager = new PagerManager(pageId, 20,
-				ideaService.countDefunctIdea());
-		List<Idea> list = ideaService.listDefunctIdea(pager.getFirstResult(),
-				pager.getMaxResult());
-		List<CmsIdeaView> ideaViews = assembleCmsIdeaView(list);
-		model.addAttribute("ideaViews", ideaViews);
-		model.addAttribute("pager", pager);
-		model.addAttribute("isDefunct", true);
+		model.addAttribute("defunct", defunct);
 		return "/cms/idea/list";
 	}
 
@@ -190,7 +178,7 @@ public class CmsIdeaController extends BaseController {
 					Locale.SIMPLIFIED_CHINESE);
 			return showIdeaAdd(model, msg, ideaForm, null);
 		}
-		return showIdea(model, 1, null, 0, null, null);
+		return showIdea(model, 1, null, 0, null, null, false);
 	}
 
 	@RequestMapping(value = "/update/idea", method = RequestMethod.POST)
@@ -202,7 +190,7 @@ public class CmsIdeaController extends BaseController {
 					messageSource.getMessage(e.getMessage(), null,
 							Locale.SIMPLIFIED_CHINESE), ideaForm);
 		}
-		return showIdea(model, 1, null, 0, null, null);
+		return showIdea(model, 1, null, 0, null, null, false);
 	}
 
 	@RequestMapping(value = "/idea/del", method = RequestMethod.POST)

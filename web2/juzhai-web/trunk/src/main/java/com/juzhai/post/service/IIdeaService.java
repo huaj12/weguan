@@ -81,22 +81,6 @@ public interface IIdeaService extends IIdeaRemoteService {
 			List<Long> excludeIdeaIds, int firstResult, int maxResults);
 
 	/**
-	 * 被屏蔽好主意数量
-	 * 
-	 * @return
-	 */
-	int countDefunctIdea();
-
-	/**
-	 * 被屏蔽的好主意列表
-	 * 
-	 * @param firstResult
-	 * @param maxResults
-	 * @return
-	 */
-	List<Idea> listDefunctIdea(int firstResult, int maxResults);
-
-	/**
 	 * 添加好主意
 	 * 
 	 * @param idea
@@ -167,7 +151,7 @@ public interface IIdeaService extends IIdeaRemoteService {
 	 * @return
 	 */
 	int countCmsIdeaByCityAndCategory(Boolean window, Long cityId,
-			Long categoryId, Boolean random);
+			Long categoryId, Boolean random, boolean defunct);
 
 	/**
 	 * 好主意列表（选择某城市不包括全国）
@@ -178,8 +162,8 @@ public interface IIdeaService extends IIdeaRemoteService {
 	 * @return
 	 */
 	List<Idea> listCmsIdeaByCityAndCategory(Boolean window, Long cityId,
-			Long categoryId, Boolean random, ShowIdeaOrder oderType,
-			int firstResult, int maxResults);
+			Long categoryId, Boolean random, boolean defunct,
+			ShowIdeaOrder oderType, int firstResult, int maxResults);
 
 	/**
 	 * 总的好主意数

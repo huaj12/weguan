@@ -604,22 +604,6 @@ public class IdeaService implements IIdeaService {
 	}
 
 	@Override
-	public int countDefunctIdea() {
-		IdeaExample example = new IdeaExample();
-		example.createCriteria().andDefunctEqualTo(true);
-		return ideaMapper.countByExample(example);
-	}
-
-	@Override
-	public List<Idea> listDefunctIdea(int firstResult, int maxResults) {
-		IdeaExample example = new IdeaExample();
-		example.createCriteria().andDefunctEqualTo(true);
-		example.setOrderByClause("create_time desc");
-		example.setLimit(new Limit(firstResult, maxResults));
-		return ideaMapper.selectByExample(example);
-	}
-
-	@Override
 	public void defunctIdea(long ideaId) {
 		Idea idea = new Idea();
 		idea.setId(ideaId);
@@ -647,18 +631,18 @@ public class IdeaService implements IIdeaService {
 
 	@Override
 	public int countCmsIdeaByCityAndCategory(Boolean window, Long cityId,
-			Long categoryId, Boolean random) {
+			Long categoryId, Boolean random, boolean defunct) {
 		IdeaExample example = createCmsIdeaExample(window, cityId, categoryId,
-				random);
+				random, defunct);
 		return ideaMapper.countByExample(example);
 	}
 
 	@Override
 	public List<Idea> listCmsIdeaByCityAndCategory(Boolean window, Long cityId,
-			Long categoryId, Boolean random, ShowIdeaOrder oderType,
-			int firstResult, int maxResults) {
+			Long categoryId, Boolean random, boolean defunct,
+			ShowIdeaOrder oderType, int firstResult, int maxResults) {
 		IdeaExample example = createCmsIdeaExample(window, cityId, categoryId,
-				random);
+				random, defunct);
 		if (window != null && window) {
 			example.setOrderByClause(" create_window_time desc");
 		} else {
@@ -670,7 +654,7 @@ public class IdeaService implements IIdeaService {
 	}
 
 	private IdeaExample createCmsIdeaExample(Boolean window, Long cityId,
-			Long categoryId, Boolean random) {
+			Long categoryId, Boolean random, boolean defunct) {
 		IdeaExample example = new IdeaExample();
 		IdeaExample.Criteria c = example.createCriteria();
 		if (null != cityId) {
@@ -685,7 +669,7 @@ public class IdeaService implements IIdeaService {
 		if (random != null) {
 			c.andRandomEqualTo(random);
 		}
-		c.andDefunctEqualTo(false);
+		c.andDefunctEqualTo(defunct);
 		return example;
 	}
 

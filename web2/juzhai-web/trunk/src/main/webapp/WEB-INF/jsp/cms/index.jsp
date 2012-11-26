@@ -195,7 +195,7 @@ a:hover {
 						target="config">拒宅好主意</a>
 					</li>
 					<li style="background-color: #A4D3EE;"><a
-						style="color: black;" href="/cms/show/defunctidea"
+						style="color: black;" href="/cms/show/idea?defunct=true"
 						target="config">被屏蔽的好主意</a>
 					</li>
 					<li style="background-color: #A4D3EE;"><a

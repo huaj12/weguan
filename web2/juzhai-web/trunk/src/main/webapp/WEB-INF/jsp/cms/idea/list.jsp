@@ -156,7 +156,7 @@ function selectRandom(){
 </head>
 <body>
 	<c:choose>
-		<c:when test="${!isDefunct}">
+		<c:when test="${!defunct}">
 			<h2>已发布的好主意----<a href="/cms/show/idea/add">添加好主意</a></h2>
 			<form method="get" action="/cms//share/idea"><input name="url" type="text" /><input type="submit" value="分享"/></form>
 		</c:when>
@@ -188,6 +188,7 @@ function selectRandom(){
 				<option <c:if test="${random==false}"> selected="selected"</c:if> value="false">未随即</option>
 				<option <c:if test="${random==true}"> selected="selected"</c:if> value="true">已随即</option>
 	</select>
+	<input name="defunct" value="${defunct}" type="hidden"/>
 	</form>
 	<table border="0" cellspacing="4">
 		<tr style="background-color: #CCCCCC;">
@@ -255,7 +256,7 @@ function selectRandom(){
 				<c:forEach var="pageId" items="${pager.showPages}">
 					<c:choose>
 						<c:when test="${pageId!=pager.currentPage}">
-							<a href="/cms/show/<c:if test='${isDefunct}'>defunct</c:if>idea?city=${city}&categoryId=${categoryId}&window=${window}&random=${random}&pageId=${pageId}">${pageId}</a>
+							<a href="/cms/show/idea?defunct=${defunct}&city=${city}&categoryId=${categoryId}&window=${window}&random=${random}&pageId=${pageId}">${pageId}</a>
 						</c:when>
 						<c:otherwise>
 							<strong>${pageId}</strong>

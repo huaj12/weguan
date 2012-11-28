@@ -311,12 +311,12 @@ public class PassportService implements IPassportService {
 			autoExchangeVisits(passport);
 		}
 		// 判断是否开启宅男自救器
-		if (cache.getGender() != null && cache.getGender() == 1
-				&& StringUtils.isNotEmpty(cache.getLogoPic())
-				&& rescueboyService.isOpenRescueboy(uid)
-				&& rescueboyService.isCanSend(uid)) {
-			rescueboyService.rescueboy(uid, cache.getCity());
-		}
+		// if (cache.getGender() != null && cache.getGender() == 1
+		// && StringUtils.isNotEmpty(cache.getLogoPic())
+		// && rescueboyService.isOpenRescueboy(uid)
+		// && rescueboyService.isCanSend(uid)) {
+		// rescueboyService.rescueboy(uid, cache.getCity());
+		// }
 		// 启动一个线程来获取和保存
 		if (tpId > 0) {
 			taskExecutor.execute(new Runnable() {

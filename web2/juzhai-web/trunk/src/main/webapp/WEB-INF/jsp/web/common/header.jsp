@@ -37,9 +37,6 @@
 						<c:if test="${empty isQplus||!isQplus}">
 							<a href="/authorize/show">授权设置</a>
 						</c:if>
-						<c:if test="${loginUser.gender==1}">
-								<a href="/rescueboy">宅男自救器</a>
-						</c:if>
 						<!-- <a href="/profile/email">订阅设置</a> -->
 						<a href="/logout">退出</a>
 					</div><!--acc_list end-->

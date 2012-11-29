@@ -10,21 +10,17 @@ import com.juzhai.core.image.ImageUrl;
 import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.util.DateFormat;
 import com.juzhai.core.web.session.UserContext;
-import com.juzhai.idea.service.IIdeaDetailRemoteService;
 import com.juzhai.idea.service.IIdeaRemoteService;
 import com.juzhai.mobile.InitData;
 import com.juzhai.mobile.idea.controller.view.IdeaMView;
 import com.juzhai.post.model.Category;
 import com.juzhai.post.model.Idea;
-import com.juzhai.post.model.IdeaDetail;
 
 @Component
 public class IdeaMViewHelper implements IIdeaMViewHelper {
 
 	@Autowired
 	private IIdeaRemoteService ideaService;
-	@Autowired
-	private IIdeaDetailRemoteService ideaDetailService;
 
 	@Override
 	public IdeaMView createPostMView(UserContext context, Idea idea) {
@@ -62,11 +58,6 @@ public class IdeaMViewHelper implements IIdeaMViewHelper {
 		if (idea.getEndTime() != null) {
 			ideaMView.setEndTime(DateFormat.SDF.format(idea.getEndTime()));
 		}
-		IdeaDetail ideaDetail = ideaDetailService.getIdeaDetail(idea.getId());
-		if (null != ideaDetail) {
-			ideaMView.setDetail(ideaDetail.getDetail());
-		}
 		return ideaMView;
 	}
-
 }

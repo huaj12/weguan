@@ -23,10 +23,12 @@ public class IdeaMView {
 	private String pic;
 
 	private String bigPic;
-	
+
 	private String startTime;
-	
+
 	private String endTime;
+
+	private String detail;
 
 	public long getIdeaId() {
 		return ideaId;
@@ -130,5 +132,13 @@ public class IdeaMView {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
 	}
 }

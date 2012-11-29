@@ -3,6 +3,7 @@ package com.juzhai.post.service;
 import java.util.List;
 
 import com.juzhai.core.exception.UploadImageException;
+import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.bean.PostResult;
 import com.juzhai.post.bean.ShowPostOrder;
 import com.juzhai.post.controller.form.PostForm;
@@ -94,4 +95,23 @@ public interface IPostRemoteService {
 	 * @return
 	 */
 	int countUserPost(long uid);
+
+	/**
+	 * 拒宅的响应者列表
+	 * 
+	 * @param postId
+	 * @param firestResult
+	 * @param maxResults
+	 * @return
+	 */
+	List<ProfileCache> listResponseUser(long postId, int firstResult,
+			int maxResults);
+
+	/**
+	 * 拒宅的响应者数量
+	 * 
+	 * @param postId
+	 * @return
+	 */
+	int countResponseUser(long postId);
 }

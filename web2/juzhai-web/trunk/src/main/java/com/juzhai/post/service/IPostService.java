@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.juzhai.cms.controller.view.CmsPostView;
-import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.post.controller.form.PostForm;
 import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.model.Post;
@@ -194,17 +193,6 @@ public interface IPostService extends IPostRemoteService {
 	Post getPostById(long postId);
 
 	/**
-	 * 拒宅的响应者列表
-	 * 
-	 * @param postId
-	 * @param firestResult
-	 * @param maxResults
-	 * @return
-	 */
-	List<ProfileCache> listResponseUser(long postId, int firstResult,
-			int maxResults);
-
-	/**
 	 * 拒宅的响应列表
 	 * 
 	 * @param postId
@@ -214,14 +202,6 @@ public interface IPostService extends IPostRemoteService {
 	 */
 	List<PostResponse> listPostResponse(long postId, int firstResult,
 			int maxResults);
-
-	/**
-	 * 拒宅的响应者数量
-	 * 
-	 * @param postId
-	 * @return
-	 */
-	int countResponseUser(long postId);
 
 	/**
 	 * 获取总的响应数，半小时缓存

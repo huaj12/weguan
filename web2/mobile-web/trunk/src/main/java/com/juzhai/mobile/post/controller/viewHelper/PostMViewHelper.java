@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
+import com.juzhai.common.model.City;
 import com.juzhai.core.image.ImageUrl;
 import com.juzhai.core.image.JzImageSizeType;
 import com.juzhai.core.util.DateFormat;
@@ -38,6 +39,13 @@ public class PostMViewHelper implements IPostMViewHelper {
 		postView.setPurpose(messageSource.getMessage(
 				PurposeType.getWordMessageKey(post.getPurposeType()), null,
 				Locale.SIMPLIFIED_CHINESE));
+		postView.setIdeaId(post.getIdeaId() == null ? 0L : post.getIdeaId());
+		if (post.getCity() != null && post.getCity() > 0) {
+			City city = InitData.getCityMap().get(post.getCity());
+			if (null != city) {
+				postView.setCityName(city.getName());
+			}
+		}
 		postView.setRespCnt(post.getResponseCnt());
 		if (null != post.getDateTime()) {
 			postView.setDate(DateFormat.SDF.format(post.getDateTime()));
@@ -48,8 +56,8 @@ public class PostMViewHelper implements IPostMViewHelper {
 		}
 		if (null != context && context.hasLogin()
 				&& context.getUid() != post.getCreateUid()) {
-			postView.setHasResp(postService.isResponsePost(
-					context.getUid(), post.getId()));
+			postView.setHasResp(postService.isResponsePost(context.getUid(),
+					post.getId()));
 		}
 		return postView;
 	}

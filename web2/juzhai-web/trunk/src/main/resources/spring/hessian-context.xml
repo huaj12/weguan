@@ -37,6 +37,11 @@
 	    <property name="serviceInterface" value="com.juzhai.idea.service.IIdeaRemoteService"/>
 	</bean>
 	
+	<bean name="/ideaDetailService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+	    <property name="service" ref="ideaDetailService"/>
+	    <property name="serviceInterface" value="com.juzhai.idea.service.IIdeaDetailRemoteService"/>
+	</bean>
+	
 	<bean name="/noticeService" class="org.springframework.remoting.caucho.HessianServiceExporter">
 	    <property name="service" ref="noticeService"/>
 	    <property name="serviceInterface" value="com.juzhai.notice.service.INoticeRemoteService"/>

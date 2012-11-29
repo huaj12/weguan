@@ -57,6 +57,8 @@ public class PostMController extends BaseController {
 	private MessageSource messageSource;
 	@Value("${mobile.show.users.max.rows}")
 	private int mobileShowUsersMaxRows = 1;
+	@Value("${mobile.resp.users.max.rows}")
+	private int mobileRespUsersMaxRows = 1;
 
 	@RequestMapping(value = "/showposts", method = RequestMethod.GET)
 	@ResponseBody
@@ -142,6 +144,25 @@ public class PostMController extends BaseController {
 		} catch (UploadImageException e) {
 			result.setError(e.getErrorCode(), messageSource);
 		}
+		return result;
+	}
+
+	@RequestMapping(value = "/respUsers", method = RequestMethod.GET)
+	@ResponseBody
+	public ListJsonResult respUsers(HttpServletRequest request, long postId,
+			int page) throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		PagerManager pager = new PagerManager(page, mobileRespUsersMaxRows,
+				postService.countResponseUser(postId));
+		List<ProfileCache> respUserList = postService.listResponseUser(postId,
+				pager.getFirstResult(), pager.getMaxResult());
+		List<UserMView> list = new ArrayList<UserMView>(respUserList.size());
+		for (ProfileCache profileCache : respUserList) {
+			list.add(userMViewHelper.createUserMView(context, profileCache,
+					false));
+		}
+		ListJsonResult result = new ListJsonResult();
+		result.setResult(pager, list);
 		return result;
 	}
 }

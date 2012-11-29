@@ -11,6 +11,8 @@ public class PostMView {
 	private String categoryName;
 	private String date;
 	private int respCnt;
+	private long ideaId;
+	private String cityName;
 	private boolean hasResp;
 
 	public long getPostId() {
@@ -93,4 +95,19 @@ public class PostMView {
 		this.bigPic = bigPic;
 	}
 
+	public long getIdeaId() {
+		return ideaId;
+	}
+
+	public void setIdeaId(long ideaId) {
+		this.ideaId = ideaId;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
 }

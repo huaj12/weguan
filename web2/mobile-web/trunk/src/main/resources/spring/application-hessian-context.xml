@@ -36,11 +36,6 @@
 	    <property name="serviceInterface" value="com.juzhai.idea.service.IIdeaRemoteService"/>
 	</bean>
 	
-	<bean name="ideaDetailService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
-	    <property name="serviceUrl" value="http://localhost:8080/juzhai/hessian/ideaDetailService"/>
-	    <property name="serviceInterface" value="com.juzhai.idea.service.IIdeaDetailRemoteService"/>
-	</bean>
-	
 	<bean name="noticeService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
 	    <property name="serviceUrl" value="http://localhost:8080/juzhai/hessian/noticeService"/>
 	    <property name="serviceInterface" value="com.juzhai.notice.service.INoticeRemoteService"/>

@@ -1,8 +1,8 @@
 package com.juzhai.post.service;
 
-import com.juzhai.idea.service.IIdeaDetailRemoteService;
+import com.juzhai.post.model.IdeaDetail;
 
-public interface IIdeaDetailService extends IIdeaDetailRemoteService {
+public interface IIdeaDetailService {
 
 	/**
 	 * 更新项目详情
@@ -12,4 +12,11 @@ public interface IIdeaDetailService extends IIdeaDetailRemoteService {
 	 */
 	void updateIdeaDetail(long ideaId, String detail);
 
+	/**
+	 * 获取项目详情
+	 * 
+	 * @param actId
+	 * @return
+	 */
+	IdeaDetail getIdeaDetail(long ideaId);
 }

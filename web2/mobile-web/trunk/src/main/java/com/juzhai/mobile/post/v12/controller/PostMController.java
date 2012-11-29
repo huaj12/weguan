@@ -1,4 +1,4 @@
-package com.juzhai.mobile.post.controller;
+package com.juzhai.mobile.post.v12.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,38 +6,30 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.juzhai.core.controller.BaseController;
 import com.juzhai.core.exception.NeedLoginException;
-import com.juzhai.core.exception.UploadImageException;
 import com.juzhai.core.pager.PagerManager;
 import com.juzhai.core.web.AjaxResult;
 import com.juzhai.core.web.session.UserContext;
 import com.juzhai.mobile.common.web.response.ListJsonResult;
-import com.juzhai.mobile.passport.controller.view.UserMView;
-import com.juzhai.mobile.passport.controller.viewHelper.IUserMViewHelper;
-import com.juzhai.mobile.post.controller.form.PostImgForm;
-import com.juzhai.mobile.post.controller.viewHelper.IPostMViewHelper;
-import com.juzhai.mobile.post.service.IPostMService;
+import com.juzhai.mobile.passport.v12.controller.view.UserMView;
+import com.juzhai.mobile.passport.v12.controller.viewHelper.IUserMViewHelper;
+import com.juzhai.mobile.post.v12.controller.viewHelper.IPostMViewHelper;
 import com.juzhai.passport.bean.ProfileCache;
 import com.juzhai.passport.service.IProfileRemoteService;
 import com.juzhai.post.bean.ShowPostOrder;
-import com.juzhai.post.controller.form.PostForm;
-import com.juzhai.post.exception.InputPostException;
 import com.juzhai.post.model.Post;
 import com.juzhai.post.service.IPostRemoteService;
 import com.juzhai.post.service.IRecommendPostRemoteService;
 
-@Controller
+@Controller("v12PostMController")
 @RequestMapping("post")
 public class PostMController extends BaseController {
 
@@ -48,19 +40,13 @@ public class PostMController extends BaseController {
 	@Autowired
 	private IProfileRemoteService profileService;
 	@Autowired
-	private IPostMService postMService;
+	private IUserMViewHelper v12UserMViewHelper;
 	@Autowired
-	private IUserMViewHelper userMViewHelper;
-	@Autowired
-	private IPostMViewHelper postMViewHelper;
-	@Autowired
-	private MessageSource messageSource;
+	private IPostMViewHelper v12PostMViewHelper;
 	@Value("${mobile.show.users.max.rows}")
 	private int mobileShowUsersMaxRows = 1;
-	@Value("${mobile.resp.users.max.rows}")
-	private int mobileRespUsersMaxRows = 1;
 
-	@RequestMapping(value = "/userPosts", method = RequestMethod.GET)
+	@RequestMapping(value = "/showposts", method = RequestMethod.GET)
 	@ResponseBody
 	public AjaxResult showposts(HttpServletRequest request, Integer gender,
 			String orderType, int page) throws NeedLoginException {
@@ -75,7 +61,6 @@ public class PostMController extends BaseController {
 			Integer gender, ShowPostOrder order, int page)
 			throws NeedLoginException {
 		UserContext context = checkLoginForWeb(request);
-		System.out.println(context.getUserAgentPermanentCode());
 		long cityId = 0L;
 		ProfileCache loginUser = profileService.getProfileCacheByUid(context
 				.getUid());
@@ -106,65 +91,13 @@ public class PostMController extends BaseController {
 		for (Post post : postList) {
 			ProfileCache profileCache = profileService
 					.getProfileCacheByUid(post.getCreateUid());
-			UserMView view = userMViewHelper.createUserMView(context,
+			UserMView view = v12UserMViewHelper.createUserMView(context,
 					profileCache, false);
-			view.setPostView(postMViewHelper.createPostMView(context, post));
+			view.setPostView(v12PostMViewHelper.createPostMView(context, post));
 			userViewList.add(view);
 		}
 		ListJsonResult result = new ListJsonResult();
 		result.setResult(pager, userViewList);
-		return result;
-	}
-
-	@RequestMapping(value = "/respPost", method = RequestMethod.POST)
-	@ResponseBody
-	public AjaxResult respPost(HttpServletRequest request, long postId)
-			throws NeedLoginException {
-		UserContext context = checkLoginForWeb(request);
-		AjaxResult result = new AjaxResult();
-		try {
-			postService.responsePost(context.getUid(), postId,
-					StringUtils.EMPTY);
-		} catch (InputPostException e) {
-			result.setError(e.getErrorCode(), messageSource);
-		}
-		return result;
-	}
-
-	@RequestMapping(value = "/sendPost", method = RequestMethod.POST)
-	@ResponseBody
-	public AjaxResult sendPost(HttpServletRequest request, Model model,
-			PostForm postForm, PostImgForm postImgForm)
-			throws NeedLoginException {
-		UserContext context = checkLoginForWeb(request);
-		AjaxResult result = new AjaxResult();
-		try {
-			postMService
-					.createPost(context, postForm, postImgForm.getPostImg());
-		} catch (InputPostException e) {
-			result.setError(e.getErrorCode(), messageSource);
-		} catch (UploadImageException e) {
-			result.setError(e.getErrorCode(), messageSource);
-		}
-		return result;
-	}
-
-	@RequestMapping(value = "/respUsers", method = RequestMethod.GET)
-	@ResponseBody
-	public ListJsonResult respUsers(HttpServletRequest request, long postId,
-			int page) throws NeedLoginException {
-		UserContext context = checkLoginForWeb(request);
-		PagerManager pager = new PagerManager(page, mobileRespUsersMaxRows,
-				postService.countResponseUser(postId));
-		List<ProfileCache> respUserList = postService.listResponseUser(postId,
-				pager.getFirstResult(), pager.getMaxResult());
-		List<UserMView> list = new ArrayList<UserMView>(respUserList.size());
-		for (ProfileCache profileCache : respUserList) {
-			list.add(userMViewHelper.createUserMView(context, profileCache,
-					false));
-		}
-		ListJsonResult result = new ListJsonResult();
-		result.setResult(pager, list);
 		return result;
 	}
 }

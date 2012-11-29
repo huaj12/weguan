@@ -81,7 +81,7 @@ public class HomeMController extends BaseController {
 		return result;
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "posts", method = RequestMethod.GET)
 	@ResponseBody
 	public ListJsonResult home(HttpServletRequest request, Long uid, int page)
 			throws NeedLoginException {

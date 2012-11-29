@@ -6,8 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -35,7 +33,6 @@ import com.juzhai.platform.service.IUserRemoteService;
 @RequestMapping("passport/authorize")
 public class AuthorizeMController extends BaseController {
 
-	private final Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private IUserRemoteService userService;
 	@Autowired

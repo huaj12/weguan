@@ -75,7 +75,7 @@ public class IdeaMController extends BaseController {
 
 		List<IdeaMView> ideaViewList = new ArrayList<IdeaMView>(ideaList.size());
 		for (Idea idea : ideaList) {
-			ideaViewList.add(ideaMViewHelper.createPostMView(context, idea));
+			ideaViewList.add(ideaMViewHelper.createIdeaMView(context, idea));
 		}
 
 		ListJsonResult result = new ListJsonResult();
@@ -116,6 +116,20 @@ public class IdeaMController extends BaseController {
 		ideaService.shareIdea(context.getUid(), context.getTpId(), content,
 				ideaId);
 		return new AjaxResult(true);
+	}
 
+	@RequestMapping(value = "/showIdea", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResult showIdea(HttpServletRequest request, long ideaId)
+			throws NeedLoginException {
+		UserContext context = checkLoginForWeb(request);
+		AjaxResult result = new AjaxResult(true);
+		Idea idea = ideaService.getIdeaById(ideaId);
+		if (null != idea) {
+			result.setResult(ideaMViewHelper.createIdeaMView(context, idea));
+		} else {
+			result.setSuccess(false);
+		}
+		return result;
 	}
 }

@@ -23,7 +23,7 @@ public class IdeaMViewHelper implements IIdeaMViewHelper {
 	private IIdeaRemoteService ideaService;
 
 	@Override
-	public IdeaMView createPostMView(UserContext context, Idea idea) {
+	public IdeaMView createIdeaMView(UserContext context, Idea idea) {
 		IdeaMView ideaMView = new IdeaMView();
 		ideaMView.setIdeaId(idea.getId());
 		ideaMView.setContent(idea.getContent());
@@ -53,10 +53,12 @@ public class IdeaMViewHelper implements IIdeaMViewHelper {
 		ideaMView.setBigPic(ImageUrl.ideaPic(idea.getId(), idea.getPic(),
 				JzImageSizeType.BIG.getType()));
 		if (idea.getStartTime() != null) {
-			ideaMView.setStartTime(DateFormat.SDF.format(idea.getStartTime()));
+			ideaMView.setStartTime(DateFormat.MOBILE_SDF_TIME.format(idea
+					.getStartTime()));
 		}
 		if (idea.getEndTime() != null) {
-			ideaMView.setEndTime(DateFormat.SDF.format(idea.getEndTime()));
+			ideaMView.setEndTime(DateFormat.MOBILE_SDF_TIME.format(idea
+					.getEndTime()));
 		}
 		return ideaMView;
 	}

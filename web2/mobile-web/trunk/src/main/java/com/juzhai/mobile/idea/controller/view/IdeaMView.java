@@ -14,6 +14,8 @@ public class IdeaMView {
 
 	private String townName;
 
+	private long categoryId;
+
 	private String categoryName;
 
 	private Integer useCount;
@@ -130,5 +132,13 @@ public class IdeaMView {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+
+	public long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
 	}
 }

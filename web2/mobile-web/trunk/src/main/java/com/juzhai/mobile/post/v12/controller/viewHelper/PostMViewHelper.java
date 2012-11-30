@@ -40,7 +40,7 @@ public class PostMViewHelper implements IPostMViewHelper {
 				Locale.SIMPLIFIED_CHINESE));
 		postView.setRespCnt(post.getResponseCnt());
 		if (null != post.getDateTime()) {
-			postView.setDate(DateFormat.SDF.format(post.getDateTime()));
+			postView.setDate(DateFormat.MOBILE_SDF.format(post.getDateTime()));
 		}
 		Category category = InitData.getCategoryMap().get(post.getCategoryId());
 		if (null != category) {

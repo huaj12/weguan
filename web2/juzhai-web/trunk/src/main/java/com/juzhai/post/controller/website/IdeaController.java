@@ -49,7 +49,6 @@ import com.juzhai.post.exception.InputIdeaException;
 import com.juzhai.post.exception.InputRawIdeaException;
 import com.juzhai.post.model.Ad;
 import com.juzhai.post.model.Idea;
-import com.juzhai.post.model.IdeaDetail;
 import com.juzhai.post.service.IAdService;
 import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaPositionService;
@@ -222,10 +221,6 @@ public class IdeaController extends BaseController {
 					profileService.getProfileCacheByUid(idea.getCreateUid()));
 		}
 		model.addAttribute("idea", idea);
-		IdeaDetail ideaDetail = ideaDetailService.getIdeaDetail(idea.getId());
-		if (null != ideaDetail) {
-			model.addAttribute("ideaDetail", ideaDetail);
-		}
 		if (context.hasLogin()) {
 			boolean hasUsed = ideaService.isUseIdea(context.getUid(),
 					idea.getId());
@@ -407,7 +402,6 @@ public class IdeaController extends BaseController {
 			model.addAttribute("province", city.getProvinceId());
 		}
 		model.addAttribute("categoryId", idea.getCategoryId());
-		model.addAttribute("detail", ideaDetailService.getIdeaDetail(ideaId));
 		return "web/idea/user_create_idea";
 	}
 

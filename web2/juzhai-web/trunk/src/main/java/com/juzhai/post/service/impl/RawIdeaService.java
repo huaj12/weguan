@@ -288,14 +288,15 @@ public class RawIdeaService implements IRawIdeaService {
 		idea.setPlace(rawIdea.getPlace());
 		idea.setStartTime(rawIdea.getStartTime());
 		idea.setTown(rawIdea.getTown());
+		idea.setDetail(rawIdea.getDetail());
 		ideaMapper.insertSelective(idea);
 		if (idea.getId() != null) {
 			String newPic = ideaImageService.intoIdeaLogo(idea.getId(),
 					rawIdea.getPic());
 			idea.setPic(newPic);
 			ideaMapper.updateByPrimaryKeySelective(idea);
-			ideaDetailService.updateIdeaDetail(idea.getId(),
-					rawIdea.getDetail());
+			// ideaDetailService.updateIdeaDetail(idea.getId(),
+			// rawIdea.getDetail());
 		}
 		return idea;
 	}

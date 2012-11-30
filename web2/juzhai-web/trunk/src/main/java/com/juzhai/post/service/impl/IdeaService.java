@@ -227,6 +227,7 @@ public class IdeaService implements IIdeaService {
 		idea.setLink(JzUtilFunction.getLink(ideaForm.getLink()));
 		idea.setBuyLink(JzUtilFunction.getLink(ideaForm.getBuyLink()));
 		idea.setPlace(ideaForm.getPlace());
+		idea.setDetail(ideaForm.getDetail());
 		if (ideaForm.getGender() != null) {
 			idea.setGender(ideaForm.getGender());
 		}
@@ -240,7 +241,7 @@ public class IdeaService implements IIdeaService {
 		ideaMapper.insertSelective(idea);
 
 		Long ideaId = idea.getId();
-		ideaDetailService.updateIdeaDetail(ideaId, ideaForm.getDetail());
+		// ideaDetailService.updateIdeaDetail(ideaId, ideaForm.getDetail());
 		String fileName = null;
 		if (ideaForm.getPostId() == null && ideaForm.getNewpic().getSize() == 0
 				&& StringUtils.isNotEmpty(ideaForm.getPic())) {
@@ -301,7 +302,8 @@ public class IdeaService implements IIdeaService {
 		idea.setGender(ideaForm.getGender());
 		idea.setCategoryId(ideaForm.getCategoryId());
 		idea.setRandom(ideaForm.getRandom());
-		ideaDetailService.updateIdeaDetail(ideaId, ideaForm.getDetail());
+		idea.setDetail(ideaForm.getDetail());
+		// ideaDetailService.updateIdeaDetail(ideaId, ideaForm.getDetail());
 		String fileName = ideaImageService.uploadIdeaPic(ideaForm.getPostId(),
 				ideaForm.getNewpic(), ideaId, ideaForm.getPic());
 		idea.setPic(fileName);

@@ -354,6 +354,7 @@ public class IdeaService implements IIdeaService {
 		} catch (ParseException e) {
 			throw new InputIdeaException(InputIdeaException.ILLEGAL_OPERATION);
 		}
+		//TODO (review) detail验证
 	}
 
 	@Override

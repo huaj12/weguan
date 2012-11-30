@@ -36,7 +36,6 @@ import com.juzhai.post.mapper.RawIdeaMapper;
 import com.juzhai.post.model.Idea;
 import com.juzhai.post.model.RawIdea;
 import com.juzhai.post.model.RawIdeaExample;
-import com.juzhai.post.service.IIdeaDetailService;
 import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IPostService;
@@ -72,8 +71,6 @@ public class RawIdeaService implements IRawIdeaService {
 	private IdeaMapper ideaMapper;
 	@Autowired
 	private IIdeaImageService ideaImageService;
-	@Autowired
-	private IIdeaDetailService ideaDetailService;
 	@Autowired
 	private MemcachedClient memcachedClient;
 	@Autowired
@@ -209,9 +206,9 @@ public class RawIdeaService implements IRawIdeaService {
 				|| placeLength > postPlaceLengthMax) {
 			throw new InputRawIdeaException(
 					InputRawIdeaException.RAW_IDEA_ADDRESS_TOO_LONG);
-
 		}
 
+		// TODO (review) 验证错误
 		int detailLength = StringUtil.chineseLength(rawIdeaForm.getDetail());
 		if (detailLength > ideaDetailLengthMax) {
 			throw new InputRawIdeaException(

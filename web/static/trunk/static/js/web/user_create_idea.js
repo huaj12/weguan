@@ -23,20 +23,6 @@ $(document).ready(function() {
 	registerInitMsg($("input[name='startDay']"));
 	registerInitMsg($("input[name='endDay']"));
 });
-var editor;
-KindEditor.ready(function(K) {
-	editor = K.create('textarea[name="detail"]', {
-		resizeType : 1,
-		uploadJson : '/idea/kindEditor/upload',
-		allowPreviewEmoticons : false,
-		allowImageUpload : true,
-		items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
-				'bold', 'italic', 'underline', 'removeformat', '|',
-				'justifyleft', 'justifycenter', 'justifyright',
-				'insertorderedlist', 'insertunorderedlist', '|', 'emoticons',
-				'image', 'link' ]
-	});
-});
 
 function uploadImage() {
 	$("div.pub_x > div.load_pic_btn").hide();
@@ -93,7 +79,7 @@ function userCreateIdea() {
 	var city = $("select[name='city']").val();
 	var town = $("select[name='town']").val();
 	var place = $("input[name='place']").val();
-	var detail = editor.html();
+	var detail = $("textarea[name='detail']").val();
 	var charge = $("input[name='charge']").val();
 	var link = $("input[name='link']").val();
 	var placeDes = $("input[name='place']").attr("init-tip");
@@ -224,8 +210,8 @@ function userCreateIdea() {
 		$("input[name='place']").parent().parent().removeClass("wrong");
 	}
 
-	if (!checkValLength(detail, 0, 40000)) {
-		$("#detail-tip").show().text("介绍太多了!");
+	if (!checkValLength(detail, 0, 2000)) {
+		$("#detail-tip").show().text("简介内容请不要超过1000字");
 		$("textarea[name='detail']").parent().parent().addClass("wrong");
 		return;
 	} else {

@@ -67,7 +67,7 @@ public class IdeaMController extends BaseController {
 
 		List<IdeaMView> ideaViewList = new ArrayList<IdeaMView>(ideaList.size());
 		for (Idea idea : ideaList) {
-			ideaViewList.add(v12IdeaMViewHelper.createPostMView(context, idea));
+			ideaViewList.add(v12IdeaMViewHelper.createIdeaMView(context, idea));
 		}
 
 		ListJsonResult result = new ListJsonResult();

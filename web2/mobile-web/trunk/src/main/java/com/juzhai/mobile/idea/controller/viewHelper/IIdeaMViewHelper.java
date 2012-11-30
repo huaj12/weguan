@@ -6,5 +6,5 @@ import com.juzhai.post.model.Idea;
 
 public interface IIdeaMViewHelper {
 
-	IdeaMView createPostMView(UserContext context, Idea idea);
+	IdeaMView createIdeaMView(UserContext context, Idea idea);
 }

@@ -14,7 +14,15 @@
 <script type="text/javascript" src="${jzr:static('/js/My97DatePicker/WdatePicker.js')}"></script>
 </head>
 <body>
-	<h2><a href="/cms/show/idea">已发布的好主意</a>----添加好主意</h2>
+	<c:choose>
+		<c:when test="${empty rawIdea}">
+			<h2><a href="/cms/show/idea">已发布的好主意</a>----添加好主意</h2>
+		</c:when>
+		<c:otherwise>
+			<h2>好主意纠错</h2>
+		</c:otherwise>
+	</c:choose>
+	
 	<h3><font color="red">${msg}</font></h3>
 	<form action="/cms/update/idea" method="post" enctype="multipart/form-data">
 	<table>

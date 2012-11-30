@@ -246,4 +246,8 @@ public class JzUtilFunction {
 		return link;
 	}
 
+	public static String textareaOut(String text) {
+		return text.replaceAll("\\n", "</br>");
+	}
+
 }

@@ -76,13 +76,13 @@
 											<div class="clear"></div>
 											<div class="pub_box_b"></div>
 										</div><!--pub_box end-->
-										<c:if test="${ideaDetail != null}">
+										<c:if test="${not empty idea.detail}">
 											<div class="pub_box"><!--pub_box begin-->
 												<div class="pub_box_t"></div>
 												<div class="pub_box_m"><!--pub_box_m begin-->
 													<div class="idea_js"><!--idea_js begin-->
 														<h2>简介</h2>
-														<p>${ideaDetail.detail}</p>
+														<div class="idea_txt">${jzu:textareaOut(idea.detail)}</div>
 														<a name="ideaList" id="ideaList">&nbsp;</a>
 													</div><!--idea_js end-->
 												</div><!--pub_box_m end-->

@@ -2410,7 +2410,7 @@ i{ color:#f00;}
 .idea_js{ width:100%; height:auto; overflow:hidden;}
 .h200{ height:200px;}
 .idea_js h2{ font-size:14px; font-weight:bold; color:#666;}
-.idea_js p{ color:#666; line-height:19px; margin-top:15px; padding-bottom:10px;}
+.idea_js .idea_txt{ color:#666; line-height:19px; margin-top:15px; padding-bottom:10px;}
 .idea_js a{  color:#3E8BD9;}
 .idea_js a:hover{ text-decoration:underline;}
 .good_idea_detail a.show_more{float:right; color:#3E8BD9; margin-top:15px;}
@@ -4070,7 +4070,7 @@ search_xz .hot{ margin-top:-10px;}
 
 
 .pub_x .jieshao{ float:left; margin-top:10px; margin-left:4px; display:inline;}
-.pub_x .jieshao textarea{ width:350px; height:150px;  border:none;  overflow:hidden;}
+.pub_x .jieshao textarea{ width:350px; height:150px;  border:1px solid #eaeaea; padding:10px; overflow:hidden;}
 
 
 

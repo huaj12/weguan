@@ -140,11 +140,14 @@
 		</tr>
 		<tr>
 		<td>详情</td>
-			<td><textarea id="detail" style="width: 700px; height: 200px; visibility: hidden;" name="detail">${detail.detail}</textarea></td>
-			<c:if test="${not empty rawIdea.detail &&jzu:cleanString(rawIdea.detail)!=jzu:cleanString(detail.detail)}">
+			<td><textarea id="detail" style="width: 700px; height: 200px;" name="detail">${ideaForm.detail}</textarea></td>
+			<c:if test="${not empty rawIdea.detail &&jzu:cleanString(rawIdea.detail)!=jzu:cleanString(ideaForm.detail)}">
 			<td><font color="red">纠错</font></td>
 			<td>${rawIdea.detail}</td>
 			</c:if>
+		</tr>
+			<td>富文本详情</td>
+			<td><textarea  style="width: 700px; height: 200px; visibility: hidden;" name="testDetail">${detail.detail}</textarea></td>
 		</tr>
 		<tr>
 			<td></td>
@@ -160,7 +163,7 @@
 		<script>
 		var editor;
 		KindEditor.ready(function(K) {
-			editor = K.create('textarea[name="detail"]', {
+			editor = K.create('textarea[name="testDetail"]', {
 				resizeType : 1,
 				uploadJson : '/idea/kindEditor/upload',
 				allowPreviewEmoticons : false,

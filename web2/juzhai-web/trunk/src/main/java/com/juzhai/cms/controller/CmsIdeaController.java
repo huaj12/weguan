@@ -157,6 +157,7 @@ public class CmsIdeaController extends BaseController {
 				ideaForm.setBuyLink(idea.getBuyLink());
 				ideaForm.setCharge(idea.getCharge());
 				ideaForm.setTown(idea.getTown());
+				ideaForm.setDetail(idea.getDetail());
 			}
 			model.addAttribute("ideaForm", ideaForm);
 			model.addAttribute("idea", idea);

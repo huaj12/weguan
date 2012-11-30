@@ -54,7 +54,6 @@ import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaPositionService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IRawIdeaService;
-import com.juzhai.post.service.impl.IdeaDetailService;
 import com.juzhai.spider.share.exception.SpiderIdeaException;
 import com.juzhai.spider.share.service.ISpiderIdeaService;
 
@@ -70,8 +69,6 @@ public class IdeaController extends BaseController {
 	private IProfileService profileService;
 	@Autowired
 	private IIdeaImageService ideaImageService;
-	@Autowired
-	private IdeaDetailService ideaDetailService;
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired

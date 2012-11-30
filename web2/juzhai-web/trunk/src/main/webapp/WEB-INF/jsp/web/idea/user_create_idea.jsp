@@ -175,7 +175,7 @@
 											</c:if>
 											<div class="pub_x"><!--pub_x begin-->
 											<h3><c:if test="${categoryId==3||categoryId==6 }"><font>*</font></c:if>介绍：</h3>
-											<div class="jieshao"><textarea name="detail" style="width: 570px; height: 200px; visibility: hidden;">${detail.detail}</textarea></div>
+											<div class="jieshao"><textarea name="detail">${idea.detail}</textarea></div>
 											<em id="detail-tip" style="display: none"></em>
 											</div><!--pub_x end-->
 											
@@ -218,7 +218,6 @@
 											<div class="area_b"></div>
 											</div><!--huodong_area end-->
 										</div><!--main end-->
-												<jsp:include page="/WEB-INF/jsp/web/common/script/kindEditor.jsp" />
 												<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 												<script type="text/javascript" src="${jzr:static('/js/jquery/jquery.form.js')}"></script>
 												<script type="text/javascript" src="${jzr:static('/js/web/user_create_idea.js')}"></script>

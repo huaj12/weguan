@@ -87,8 +87,6 @@ public class IdeaService implements IIdeaService {
 	@Autowired
 	private IDialogService dialogService;
 	@Autowired
-	private IdeaDetailService ideaDetailService;
-	@Autowired
 	private IdeaInterestMapper ideaInterestMapper;
 	@Autowired
 	private ICounter ideaInterestCounter;

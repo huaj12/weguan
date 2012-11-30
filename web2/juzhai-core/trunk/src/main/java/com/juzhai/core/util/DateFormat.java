@@ -13,4 +13,8 @@ public class DateFormat {
 	public static SimpleDateFormat SDF_TIME = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss");
 
+	public static SimpleDateFormat MOBILE_SDF = new SimpleDateFormat("yyyy-MM-dd");
+
+	public static SimpleDateFormat MOBILE_SDF_TIME = new SimpleDateFormat(
+			"yyyy.MM.dd HH:mm");
 }

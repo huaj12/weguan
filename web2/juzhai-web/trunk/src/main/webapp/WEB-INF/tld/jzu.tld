@@ -99,6 +99,11 @@
     	<function-signature>java.lang.String getLink(java.lang.String)</function-signature>
     	<example>${jzu:getLink('"')}</example>
     </function>    
-    
+    <function>
+    	<name>textareaOut</name>
+    	<function-class>com.juzhai.core.web.jstl.JzUtilFunction</function-class>
+    	<function-signature>java.lang.String textareaOut(java.lang.String)</function-signature>
+    	<example>${jzu:textareaOut('"')}</example>
+    </function>
     
 </taglib>

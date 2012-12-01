@@ -20,6 +20,8 @@ public class InputIdeaException extends JuzhaiException {
 
 	public static final String IDEA_INTEREST_DUPLICATE = "110007";
 
+	public static final String IDEA_DETAIL_TOO_LONG = "110008";
+
 	public InputIdeaException(String errorCode, Throwable cause) {
 		super(errorCode, cause);
 	}

@@ -82,7 +82,7 @@
 												<div class="pub_box_m"><!--pub_box_m begin-->
 													<div class="idea_js"><!--idea_js begin-->
 														<h2>简介</h2>
-														<div class="idea_txt">${jzu:textareaOut(idea.detail)}</div>
+														<div class="idea_txt"><c:out value="${jzu:textareaOut(idea.detail)}"></c:out> </div>
 														<a name="ideaList" id="ideaList">&nbsp;</a>
 													</div><!--idea_js end-->
 												</div><!--pub_box_m end-->

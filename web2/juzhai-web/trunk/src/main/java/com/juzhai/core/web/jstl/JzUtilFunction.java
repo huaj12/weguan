@@ -247,7 +247,7 @@ public class JzUtilFunction {
 	}
 
 	public static String textareaOut(String text) {
-		return text.replaceAll("\\n", "<br />");
+		text = HtmlUtils.htmlEscape(text);
+		return text.replaceAll("\\n", " <br />");
 	}
-
 }

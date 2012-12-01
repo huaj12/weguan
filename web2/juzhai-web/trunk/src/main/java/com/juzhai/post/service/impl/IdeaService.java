@@ -110,6 +110,8 @@ public class IdeaService implements IIdeaService {
 	private int synchronizePlaceLengthMax;
 	@Value("${synchronize.title.length.max}")
 	private int synchronizeTitleLengthMax;
+	@Value("${idea.detail.length.max}")
+	private int ideaDetailLengthMax;
 
 	@Override
 	public Idea getIdeaById(long ideaId) {
@@ -354,7 +356,13 @@ public class IdeaService implements IIdeaService {
 		} catch (ParseException e) {
 			throw new InputIdeaException(InputIdeaException.ILLEGAL_OPERATION);
 		}
-		//TODO (review) detail验证
+		// TODO (done) detail验证
+		int detailLength = StringUtil.chineseLength(ideaForm.getDetail());
+		if (detailLength > ideaDetailLengthMax) {
+			throw new InputIdeaException(
+					InputIdeaException.IDEA_DETAIL_TOO_LONG);
+		}
+
 	}
 
 	@Override

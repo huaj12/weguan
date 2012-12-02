@@ -154,8 +154,7 @@
 			<td>${rawIdea.detail}</td>
 			</c:if>
 		</tr>
-			<td>富文本详情</td>
-			<td><textarea  style="width: 700px; height: 200px; visibility: hidden;" name="testDetail">${detail.detail}</textarea></td>
+			<td><div>${detail.detail}</div></td>
 		</tr>
 		<tr>
 			<td></td>

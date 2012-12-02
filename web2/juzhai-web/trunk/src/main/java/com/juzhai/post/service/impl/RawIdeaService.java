@@ -208,7 +208,7 @@ public class RawIdeaService implements IRawIdeaService {
 					InputRawIdeaException.RAW_IDEA_ADDRESS_TOO_LONG);
 		}
 
-		// TODO (review) 验证错误
+		// TODO (done) 验证错误
 		int detailLength = StringUtil.chineseLength(rawIdeaForm.getDetail());
 		if (detailLength > ideaDetailLengthMax) {
 			throw new InputRawIdeaException(

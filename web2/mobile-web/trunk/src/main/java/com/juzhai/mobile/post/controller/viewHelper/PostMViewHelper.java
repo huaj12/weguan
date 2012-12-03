@@ -59,6 +59,7 @@ public class PostMViewHelper implements IPostMViewHelper {
 			postView.setHasResp(postService.isResponsePost(context.getUid(),
 					post.getId()));
 		}
+		postView.setCreateUid(post.getCreateUid());
 		return postView;
 	}
 

@@ -49,11 +49,13 @@ import com.juzhai.post.exception.InputIdeaException;
 import com.juzhai.post.exception.InputRawIdeaException;
 import com.juzhai.post.model.Ad;
 import com.juzhai.post.model.Idea;
+import com.juzhai.post.model.IdeaDetail;
 import com.juzhai.post.service.IAdService;
 import com.juzhai.post.service.IIdeaImageService;
 import com.juzhai.post.service.IIdeaPositionService;
 import com.juzhai.post.service.IIdeaService;
 import com.juzhai.post.service.IRawIdeaService;
+import com.juzhai.post.service.impl.IdeaDetailService;
 import com.juzhai.spider.share.exception.SpiderIdeaException;
 import com.juzhai.spider.share.service.ISpiderIdeaService;
 
@@ -79,6 +81,8 @@ public class IdeaController extends BaseController {
 	private ICounter openIdeaDialogCounter;
 	@Autowired
 	private IIdeaPositionService ideaPositionService;
+	@Autowired
+	private IdeaDetailService ideaDetailService;
 
 	@Value("${idea.user.max.rows}")
 	private int ideaUserMaxRows;
@@ -211,6 +215,10 @@ public class IdeaController extends BaseController {
 		Idea idea = ideaService.getIdeaById(ideaId);
 		if (null == idea) {
 			return false;
+		}
+		IdeaDetail ideaDetail = ideaDetailService.getIdeaDetail(idea.getId());
+		if (null != ideaDetail) {
+			model.addAttribute("ideaDetail", ideaDetail);
 		}
 		UserContext context = (UserContext) request.getAttribute("context");
 		if (idea.getCreateUid() > 0) {

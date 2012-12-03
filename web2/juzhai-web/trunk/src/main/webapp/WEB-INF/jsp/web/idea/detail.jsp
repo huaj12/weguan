@@ -63,7 +63,7 @@
 																		<div class="add_fav idea-interest" idea-id="${idea.id}"><a href="javascript:void(0);">收藏</a></div>
 																	</c:otherwise>
 														</c:choose>
-														<div class="edit_error"><a href="/idea/update/${idea.id}">修改/报错</a></div>
+														<!-- <div class="edit_error"><a href="/idea/update/${idea.id}">修改/报错</a></div> -->
 														<c:if test="${not empty idea.buyLink}"><div class="gotobuy"><a href="${idea.buyLink}" target="_blank"></a></div></c:if>
 														<div class="date_btn">
 															<c:if test="${not empty idea.link}">

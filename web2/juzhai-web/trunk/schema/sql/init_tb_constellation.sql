@@ -10,7 +10,7 @@ INSERT INTO `tb_constellation` (`id`,`name`,`start_month`,`start_date`,`end_mont
 INSERT INTO `tb_constellation` (`id`,`name`,`start_month`,`start_date`,`end_month`,`end_date`) VALUES (4,'巨蟹座',6,22,7,22);
 INSERT INTO `tb_constellation` (`id`,`name`,`start_month`,`start_date`,`end_month`,`end_date`) VALUES (5,'狮子座',7,23,8,22);
 INSERT INTO `tb_constellation` (`id`,`name`,`start_month`,`start_date`,`end_month`,`end_date`) VALUES (6,'处女座',8,23,9,22);
-INSERT INTO `tb_constellation` (`id`,`name`,`start_month`,`start_date`,`end_month`,`end_date`) VALUES (7,'天枰座',9,23,10,23);
+INSERT INTO `tb_constellation` (`id`,`name`,`start_month`,`start_date`,`end_month`,`end_date`) VALUES (7,'天秤座',9,23,10,23);
 INSERT INTO `tb_constellation` (`id`,`name`,`start_month`,`start_date`,`end_month`,`end_date`) VALUES (8,'天蝎座',10,24,11,22);
 INSERT INTO `tb_constellation` (`id`,`name`,`start_month`,`start_date`,`end_month`,`end_date`) VALUES (9,'射手座',11,23,12,21);
 INSERT INTO `tb_constellation` (`id`,`name`,`start_month`,`start_date`,`end_month`,`end_date`) VALUES (10,'摩羯座',12,22,1,19);

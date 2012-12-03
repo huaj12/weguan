@@ -166,23 +166,6 @@
 		</tr>
 	</table>
 	</form>
-	<jsp:include page="/WEB-INF/jsp/web/common/script/kindEditor.jsp" />
-		<script>
-		var editor;
-		KindEditor.ready(function(K) {
-			editor = K.create('textarea[name="testDetail"]', {
-				resizeType : 1,
-				uploadJson : '/idea/kindEditor/upload',
-				allowPreviewEmoticons : false,
-				allowImageUpload : true,
-				items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
-						'bold', 'italic', 'underline',
-						'removeformat', '|', 'justifyleft', 'justifycenter',
-						'justifyright', 'insertorderedlist', 'insertunorderedlist',
-						'|', 'emoticons', 'image', 'link' ]
-			});
-		});
-		</script>
 		<jsp:include page="/WEB-INF/jsp/web/common/script/script.jsp" />
 		<script>new LocationWidget();
 		function del(id){

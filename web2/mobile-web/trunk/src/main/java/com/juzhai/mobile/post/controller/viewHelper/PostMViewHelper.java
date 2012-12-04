@@ -60,6 +60,7 @@ public class PostMViewHelper implements IPostMViewHelper {
 					post.getId()));
 		}
 		postView.setCreateUid(post.getCreateUid());
+		postView.setLink(post.getLink());
 		return postView;
 	}
 

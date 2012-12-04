@@ -30,6 +30,8 @@ public class IdeaMView {
 
 	private String endTime;
 
+	private String detail;
+
 	public long getIdeaId() {
 		return ideaId;
 	}
@@ -140,5 +142,13 @@ public class IdeaMView {
 
 	public void setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
 	}
 }

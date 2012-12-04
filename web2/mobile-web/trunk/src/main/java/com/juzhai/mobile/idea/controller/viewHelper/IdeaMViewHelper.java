@@ -61,6 +61,7 @@ public class IdeaMViewHelper implements IIdeaMViewHelper {
 			ideaMView.setEndTime(DateFormat.MOBILE_SDF_TIME.format(idea
 					.getEndTime()));
 		}
+		ideaMView.setDetail(idea.getDetail());
 		return ideaMView;
 	}
 }

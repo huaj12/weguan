@@ -15,6 +15,7 @@ public class PostMView {
 	private String cityName;
 	private boolean hasResp;
 	private long createUid;
+	private String link;
 
 	public long getPostId() {
 		return postId;
@@ -118,5 +119,13 @@ public class PostMView {
 
 	public void setCreateUid(long createUid) {
 		this.createUid = createUid;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 }

@@ -97,6 +97,7 @@ public class NavigationActivity extends BaseActivity {
 		return finish;
 	}
 
+	//TODO (review) 能不能面向对象一点，子类化一个GenderButton，能很容易的使用
 	protected Button setGenderButton(
 			final GenderButtonCallback genderButtonCallback) {
 		final Button genderBtn = (Button) getLayoutInflater().inflate(

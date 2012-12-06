@@ -11,15 +11,11 @@ import com.juzhai.android.BuildConfig;
 import com.juzhai.android.passport.data.UserCache;
 
 public class ApplicationContext extends Application {
-	private final UserCache userCache = new UserCache();
 	public final String DOMAIN = "192.168.15.103";
+	public final String baseUrl = "http://" + DOMAIN + ":8080/mobile/";
+//	 public final String baseUrl = "http://m.51juzhai.com/";
 
-	// public static final String BASEURL =
-	// "http://192.168.15.104:8080/mobile/";
-
-	public final String baseUrl = "http://m.51juzhai.com/";
-
-	// public final String baseUrl = "http://" + DOMAIN + ":8080/mobile/";
+	private final UserCache userCache = new UserCache();
 
 	public static String getVersionName(Context context) {
 		// 获取packagemanager的实例

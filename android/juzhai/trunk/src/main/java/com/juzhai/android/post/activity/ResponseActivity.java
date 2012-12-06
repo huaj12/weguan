@@ -49,6 +49,7 @@ public class ResponseActivity extends NavigationActivity {
 										.getCurrentPage() + 1);
 					}
 				});
+		//TODO (review) 关注的人和粉丝列表？怎么回事？？？？
 		responseListView.setAdapter(new InterestUserListAdapter(
 				ResponseActivity.this));
 		responseListView.manualRefresh();

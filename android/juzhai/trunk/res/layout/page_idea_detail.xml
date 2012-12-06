@@ -9,68 +9,112 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
-        android:scrollbars="vertical" >
+        android:scrollbars="vertical"
+         >
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical" >
-
-            <LinearLayout
-                android:id="@+id/idea_image_layout"
-                android:layout_width="282dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/good_idea_list_item_bg"
-                android:orientation="vertical"
-                android:padding="10dp" >
-
-                <RelativeLayout
-                    android:id="@id/idea_image_bg_layout"
-                    android:layout_width="262dp"
-                    android:layout_height="180dp"
-                    android:background="@color/idea_image_bg_color" >
-
-                    <ImageView
-                        android:id="@+id/idea_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:contentDescription="@null"
-                        android:src="@drawable/good_idea_list_pic_none_icon" />
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@id/idea_content"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@id/idea_use_count_txet"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:textColor="@color/idea_use_count_color"
-                        android:textSize="15sp" />
-                </LinearLayout>
-            </LinearLayout>
+			<RelativeLayout android:layout_width="fill_parent"
+			    			android:layout_height="wrap_content">
+	            <LinearLayout
+	                android:id="@+id/idea_image_layout"
+	                android:layout_width="282dp"
+	                android:layout_height="wrap_content"
+	                android:layout_marginBottom="10dp"
+	                android:layout_marginTop="20dp"
+	                android:layout_marginRight="-35dp"
+	                android:background="@drawable/good_idea_list_item_bg"
+	                android:orientation="vertical"
+	                android:layout_centerHorizontal="true"
+	                android:padding="10dp" >
+	
+	                <RelativeLayout
+	                    android:id="@id/idea_image_bg_layout"
+	                    android:layout_width="262dp"
+	                    android:layout_height="180dp"
+	                    android:background="@color/idea_image_bg_color" >
+	
+	                    <ImageView
+	                        android:id="@+id/idea_image"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_centerInParent="true"
+	                        android:contentDescription="@null"
+	                        android:src="@drawable/good_idea_list_pic_none_icon" />
+	                </RelativeLayout>
+	
+	                <LinearLayout
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginTop="10dp"
+	                    android:orientation="vertical" >
+	
+	                    <TextView
+	                        android:id="@id/idea_content"
+	                        android:layout_width="fill_parent"
+	                        android:layout_height="wrap_content"
+	                        android:textColor="@color/black"
+	                        android:textSize="16sp" />
+	                </LinearLayout>
+	            </LinearLayout>
+	            <Button android:id="@+id/idea_cat_btn"
+                 android:layout_width="40dp"
+                 android:layout_height="40dp"
+                 android:textColor="@color/white"
+                 android:layout_toRightOf="@+id/idea_image_layout"
+                 android:layout_marginTop="41dp"
+                 android:textSize="12sp"
+                 android:paddingLeft="8dp"
+                 android:paddingRight="8dp"
+                 android:paddingTop="0dp"
+                 android:paddingBottom="0dp"
+                 android:lineSpacingExtra="-2dp"
+                 android:gravity="center_horizontal"/>
+            </RelativeLayout>
+            
+			<RelativeLayout android:layout_width="282dp"
+			    			android:layout_height="wrap_content"
+			    			android:layout_marginTop="10dp"
+			    			android:layout_marginBottom="10dp"
+			    			android:paddingRight="10dp"
+			    			android:paddingLeft="10dp"
+			    			android:paddingTop="5dp"
+			    			android:paddingBottom="5dp"
+			    			android:gravity="center_vertical"
+			    			android:background="@color/idea_detail_use_count_bg_color"
+			    			android:id="@+id/idea_use_count_layout">
+	            <TextView android:layout_width="wrap_content"
+	                	  android:layout_height="wrap_content"
+	                	  android:textColor="@color/idea_detail_use_count_text_color"
+	                	  android:textSize="18sp"
+	                	  android:layout_alignParentLeft="true"
+	                	  android:layout_centerVertical="true"
+	                	  android:id="@+id/idea_use_count_txet"/>
+	            <TextView android:layout_width="wrap_content"
+	                	  android:layout_height="wrap_content"
+	                	  android:textColor="@color/idea_detail_use_count_text_color"
+	                	  android:textSize="15sp"
+	                	  android:layout_marginLeft="4dp"
+	                	  android:text="@string/use_count"
+	                	  android:layout_centerVertical="true"
+	                	  android:layout_toRightOf="@+id/idea_use_count_txet"
+	                	  />
+	            <TextView android:layout_width="wrap_content"
+	                	  android:layout_height="wrap_content"
+	                	  android:textColor="@color/idea_detail_use_count_tip_color"
+	                	  android:textSize="12sp"
+	                	  android:gravity="center"
+	                	  android:layout_alignParentRight="true"
+	                	  android:layout_centerVertical="true"
+	                	  android:drawablePadding="10dp"
+	                	  android:drawableRight="@drawable/know_more_s_link"
+	                	  android:text="@string/idea_detail_use_count_tip"
+	                	  />
+			    
+			</RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/idea_place_layout"
@@ -160,7 +204,7 @@
             android:id="@+id/idea_want_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/idea_detial_want_button"
+            android:background="@drawable/pub_bottom_float_left_button"
             android:text="@string/i_want"
             android:layout_weight="1"
             android:drawableLeft="@drawable/idea_detial_want_icon"
@@ -171,7 +215,7 @@
             android:id="@+id/idea_share_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/idea_share_button"
+            android:background="@drawable/pub_bottom_float_right_button"
             android:drawableLeft="@drawable/good_idea_detial_icon_share"
             android:drawablePadding="-60dp"
             android:paddingLeft="30dp"

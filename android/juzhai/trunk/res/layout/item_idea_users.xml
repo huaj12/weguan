@@ -5,35 +5,35 @@
     android:layout_height="wrap_content"
     android:background="@drawable/item_color_bg"
     android:descendantFocusability="blocksDescendants" >
-
     <include layout="@layout/fragment__divider_head" />
-
+	<RelativeLayout  android:layout_width="fill_parent"
+   					 android:layout_height="wrap_content"
+   					 android:padding="10dp">
     <ImageView
         android:id="@+id/user_logo"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
         android:layout_centerInParent="true"
-        android:layout_margin="10dp"
+        android:layout_marginRight="10dp"
         android:contentDescription="@null" />
 
     <TextView
         android:id="@+id/user_nickname"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="3dp"
         android:layout_toRightOf="@+id/user_logo"
         android:gravity="left"
         android:textSize="14sp" />
 
     <TextView
         android:id="@+id/user_info"
-        android:layout_width="fill_parent"
+        android:layout_width="155dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/user_logo"
+        android:layout_below="@+id/user_nickname"
         android:gravity="left"
         android:textColor="@color/text_gray"
         android:textSize="14sp" />
@@ -44,15 +44,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
         android:background="@drawable/about_selector_button"
-        android:paddingBottom="1dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="0dp"
-        android:paddingTop="0dp"
         android:textColor="@color/about_btn_text_color_selector"
+        android:gravity="center"
         android:textSize="12sp" />
-
+	</RelativeLayout>
     <include layout="@layout/fragment__divider_foot" />
-
 </RelativeLayout>

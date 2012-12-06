@@ -16,23 +16,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="@string/idea_users_content_begin"
             android:textColor="@color/text_gray"
+            android:id="@+id/idea_users_content_begin_view"
             android:textSize="12sp" />
 
         <TextView
             android:id="@+id/idea_users_content"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/idea_users_content_end"
+            android:id="@+id/idea_users_content_end_view"
             android:textColor="@color/text_gray"
             android:textSize="12sp" />
     </LinearLayout>

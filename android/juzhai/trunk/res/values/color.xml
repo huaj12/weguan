@@ -32,6 +32,9 @@
     	<color name="idea_use_count_color">#3982C6</color>
     	<color name="idea_image_bg_color">#F3F3F3</color>
     	<color name="idea_user_about_btn">#b9b9b9</color>
+    	<color name="idea_detail_use_count_bg_color">#f6f6f6</color>
+    	<color name="idea_detail_use_count_text_color">#666666</color>
+    	<color name="idea_detail_use_count_tip_color">#999999</color>
     <!-- idea end -->
     <!-- setting address begin -->
       <color name="address_title_divider">#808080</color>
@@ -49,7 +52,7 @@
 	<color name="post_content_color">#666666</color>
 	<color name="post_detail_info_color">#888888</color>
 	<color name="post_count_text_color">#333333</color>
-	
+	<color name="post_detail_divider">#E9E8E7</color>
 	<!--  post end-->
 	
 	<!-- send post begin-->

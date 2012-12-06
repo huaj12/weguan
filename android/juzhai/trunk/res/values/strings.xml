@@ -124,14 +124,19 @@
     <string name="use_count">人想去 </string>
     <string name="idea_detail_title">好主意详情</string>
     <string name="share">分享</string>
-    <string name="idea_users_content_begin">想去</string>
-    <string name="idea_users_content_end">的人</string>
+    <string name="idea_users_content_begin_text">同城%1$s人想去</string>
+    <string name="idea_users_content_end_text">全国共%1$s人</string>
     <string name="idea_users_title">想去的人</string>
-    <string name="about">约Ta</string>
-    <string name="about_done">已约</string>
+    <string name="about">约ta同去</string>
+    <string name="about_done">已约同去</string>
     <string name="idea_recommend">推荐</string>
     <string name="idea_new_time">最新</string>
     <string name="i_want_success_text">发布成功\n也许会有人约你同去哦</string>
+    <string-array name="idea_user_head_tab_item">
+        <item>同城</item>
+        <item>全国</item>
+    </string-array>
+      <string name="idea_detail_use_count_tip">约人同去</string>
     <!-- idea end -->
     <!-- dialog begin -->
     <string name="dialog_title">我的消息</string>
@@ -185,6 +190,8 @@
     <string name="post_detail_response">有兴趣</string>
     <string name="post_detail_response_done">已有兴趣</string>
     <string name="post_interest_success">ta看到会开心的</string>
+    <string name="post_detail_interest_cnt">%1$s&#160;人有兴趣</string>
+    <string name="post_response_user_title">有兴趣的人</string>
     <!-- post end -->
     <!-- send post begin -->
     <string name="send_post_finish_button">发布</string>
@@ -194,6 +201,7 @@
     <string name="send_post_content_hint">我想找伴去&#8230;</string>
     <string name="send_post_content_tip">还剩%1$s字</string>
     <string name="send_post_title">发布拒宅</string>
+    
     <!-- send post end -->
 
 

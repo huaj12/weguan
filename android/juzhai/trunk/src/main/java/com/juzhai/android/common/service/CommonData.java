@@ -167,4 +167,17 @@ public class CommonData {
 		}
 		return ciyts;
 	}
+
+	public static int getCategoryBackground(long catId, Context context) {
+		List<Category> list = getCategorys(context);
+		// 给一个默认文件名
+		String filename = "ca_yc";
+		for (Category category : list) {
+			if (category.getCategoryId() == catId) {
+				filename = category.getIcon();
+			}
+		}
+		return context.getResources().getIdentifier(filename, "drawable",
+				"com.juzhai.android");
+	}
 }

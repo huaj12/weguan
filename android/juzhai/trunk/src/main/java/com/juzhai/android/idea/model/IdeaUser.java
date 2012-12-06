@@ -1,8 +1,11 @@
 package com.juzhai.android.idea.model;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.juzhai.android.core.model.Entity;
 import com.juzhai.android.passport.model.User;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class IdeaUser extends Entity {
 
 	private static final long serialVersionUID = -4043146830668132620L;

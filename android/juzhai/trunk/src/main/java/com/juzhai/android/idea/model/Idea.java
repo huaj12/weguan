@@ -1,7 +1,10 @@
 package com.juzhai.android.idea.model;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.juzhai.android.core.model.Entity;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Idea extends Entity {
 
 	private static final long serialVersionUID = 3515981490191602657L;
@@ -17,6 +20,8 @@ public class Idea extends Entity {
 	private String cityName;
 
 	private String townName;
+
+	private long categoryId;
 
 	private String categoryName;
 
@@ -139,6 +144,14 @@ public class Idea extends Entity {
 	@Override
 	public Object getIdentify() {
 		return this.ideaId;
+	}
+
+	public long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 }

@@ -25,9 +25,10 @@ import com.juzhai.android.post.service.IUserPostService;
 import com.umeng.analytics.MobclickAgent;
 
 public class UserPostService implements IUserPostService {
-	private String userPostUri = "post/showposts";
+	private String userPostUri = "post/userPosts";
 	private String postsUri = "home";
 	private String sendPostUri = "post/sendPost";
+	private String respUsersUri = "post/respUsers";
 
 	@Override
 	public UserListResult list(Context context, Integer gender,
@@ -113,5 +114,31 @@ public class UserPostService implements IUserPostService {
 			throw new PostException(context, result.getErrorInfo());
 		}
 		MobclickAgent.onEvent(context, UmengEvent.SEND_POST);
+	}
+
+	@Override
+	public UserListResult respUsers(Context context, long postId, int page)
+			throws PostException {
+		Map<String, Object> values = new HashMap<String, Object>();
+		values.put("postId", postId);
+		values.put("page", page);
+		ResponseEntity<UserListResult> responseEntity = null;
+		try {
+			responseEntity = HttpUtils.get(context, respUsersUri, values,
+					UserListResult.class);
+		} catch (NeedLoginException e) {
+			UserListResult userListResult = new UserListResult();
+			userListResult.setSuccess(false);
+			userListResult.setErrorInfo(context
+					.getString(R.string.login_status_error));
+			return userListResult;
+		} catch (Exception e) {
+			if (BuildConfig.DEBUG) {
+				Log.d(getClass().getSimpleName(),
+						"respUsers get UserListResult is  error", e);
+			}
+			throw new PostException(context, R.string.system_internet_erorr, e);
+		}
+		return responseEntity.getBody();
 	}
 }

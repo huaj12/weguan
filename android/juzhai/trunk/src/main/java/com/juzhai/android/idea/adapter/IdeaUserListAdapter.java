@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.juzhai.android.R;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.task.TaskCallback;
-import com.juzhai.android.core.utils.TextTruncateUtil;
 import com.juzhai.android.core.widget.list.PageAdapter;
 import com.juzhai.android.home.activity.UserHomeActivity;
 import com.juzhai.android.home.helper.IUserViewHelper;
@@ -87,8 +86,7 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 		}
 		userViewHelper.showUserNickname(mContext, user, nicknameTextView);
 		userViewHelper.showUserLogo(mContext, user, imageView, 60, 60);
-		infoTextView.setText(TextTruncateUtil.truncate(
-				user.getUserInfo(mContext), 23, "..."));
+		infoTextView.setText(userViewHelper.getUserInfoCity(user, mContext));
 		ideaUsersItemLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

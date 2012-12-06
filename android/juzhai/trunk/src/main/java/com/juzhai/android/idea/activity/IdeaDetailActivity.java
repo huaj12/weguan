@@ -133,6 +133,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 		final Button wantBtn = (Button) findViewById(R.id.idea_want_btn);
 		final Button shareBtn = (Button) findViewById(R.id.idea_share_btn);
 		final RelativeLayout imageLayout = (RelativeLayout) findViewById(R.id.idea_image_bg_layout);
+		//TODO (review) 为什么不用TextView
 		Button catImageBtn = (Button) findViewById(R.id.idea_cat_btn);
 		catImageBtn.setBackgroundResource(CommonData.getCategoryBackground(
 				idea.getCategoryId(), IdeaDetailActivity.this));

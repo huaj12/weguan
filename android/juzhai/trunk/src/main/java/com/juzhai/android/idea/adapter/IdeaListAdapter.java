@@ -71,6 +71,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 
 		final Idea idea = data.getDatas().get(position);
 		final TextView contentTextView = holder.contentTextView;
+		//TODO (review) 为什么用Button？TextView不行吗？
 		Button catImageBtn = holder.catImageBtn;
 		catImageBtn.setBackgroundResource(CommonData.getCategoryBackground(
 				idea.getCategoryId(), mContext));

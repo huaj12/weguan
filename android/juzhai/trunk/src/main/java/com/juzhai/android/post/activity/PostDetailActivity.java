@@ -101,6 +101,7 @@ public class PostDetailActivity extends NavigationActivity {
 				gotoUserHome();
 			}
 		});
+		//TODO (review) 没有ideaId，也有“了解更多”按钮？
 		if (StringUtils.hasText(user.getPostView().getLink())) {
 			moreButton.setOnClickListener(new OnClickListener() {
 

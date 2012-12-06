@@ -1,8 +1,6 @@
 package com.juzhai.android.home.activity;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
@@ -77,56 +75,22 @@ public class ZhaobanActivity extends TabItemActivity {
 					}
 				});
 		getNavigationBar().setBarTitleView(segmentedButton);
-		final Button genderBtn = (Button) getLayoutInflater().inflate(
-				R.layout.button_gender, null);
-		genderBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				new AlertDialog.Builder(ZhaobanActivity.this)
-						.setTitle(
-								getResources()
-										.getString(R.string.select_gender))
-						.setItems(R.array.select_gender_item,
-								new DialogInterface.OnClickListener() {
+		getNavigationBar().setRightView(
+				setGenderButton(new GenderButtonCallback() {
 
-									@Override
-									public void onClick(DialogInterface dialog,
-											int which) {
-										dialog.cancel();
-										Integer selectGender = null;
-										switch (which) {
-										case 0:
-											selectGender = null;
-											genderBtn
-													.setBackgroundResource(R.drawable.gender_selector_button);
-											break;
-										case 1:
-											selectGender = 1;
-											genderBtn
-													.setBackgroundResource(R.drawable.boy_selector_button);
-											break;
-										case 2:
-											selectGender = 0;
-											genderBtn
-													.setBackgroundResource(R.drawable.girl_selector_button);
-											break;
-										}
-										if (selectGender == null
-												&& gender == null) {
-											return;
-										}
-										if (selectGender != null
-												&& gender != null
-												&& gender.equals(selectGender)) {
-											return;
-										}
-										gender = selectGender;
-										postListView.manualRefresh();
-									}
-								}).show();
-			}
-		});
-		getNavigationBar().setRightView(genderBtn);
+					@Override
+					public void onClickCallback(Integer selectGender) {
+						if (gender == null && selectGender == null) {
+							return;
+						} else if (gender != null && selectGender != null) {
+							if (selectGender.intValue() == gender) {
+								return;
+							}
+						}
+						gender = selectGender;
+						postListView.manualRefresh();
+					}
+				}));
 
 		postListView = (JuzhaiRefreshListView) findViewById(R.id.user_post_list);
 		postListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {

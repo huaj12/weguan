@@ -116,4 +116,23 @@ public class UserViewHelper implements IUserViewHelper {
 					});
 		}
 	}
+
+	@Override
+	public String getUserInfoCity(User user, Context mContext) {
+		String comma = " ";
+		StringBuffer sbString = new StringBuffer();
+		if (JzUtils.age(user.getBirthYear()) > 0) {
+			sbString.append(JzUtils.age(user.getBirthYear())
+					+ mContext.getResources().getString(R.string.age));
+			sbString.append(comma);
+		}
+		if (StringUtils.hasText(user.getCityName())) {
+			sbString.append(user.getCityName());
+			sbString.append(comma);
+		}
+		if (StringUtils.hasText(user.getProfession())) {
+			sbString.append(user.getProfession());
+		}
+		return sbString.toString();
+	}
 }

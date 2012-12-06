@@ -61,4 +61,14 @@ public interface IUserViewHelper {
 	 */
 	void showUserNewLogo(Context context, User user, ImageView imageView,
 			TextView textView, int width, int height);
+
+	/**
+	 * 带有city（不带星座）的用户详情
+	 * 
+	 * @param user
+	 * @param mContext
+	 * @return
+	 */
+	String getUserInfoCity(User user, Context mContext);
+
 }

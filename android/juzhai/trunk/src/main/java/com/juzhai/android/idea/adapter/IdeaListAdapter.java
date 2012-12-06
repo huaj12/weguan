@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
 import com.juzhai.android.core.stat.UmengEvent;
@@ -61,6 +62,8 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 					.findViewById(R.id.idea_layout);
 			holder.imageLayout = (RelativeLayout) convertView
 					.findViewById(R.id.idea_image_bg_layout);
+			holder.catImageBtn = (Button) convertView
+					.findViewById(R.id.idea_cat_btn);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -68,6 +71,11 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 
 		final Idea idea = data.getDatas().get(position);
 		final TextView contentTextView = holder.contentTextView;
+		Button catImageBtn = holder.catImageBtn;
+		catImageBtn.setBackgroundResource(CommonData.getCategoryBackground(
+				idea.getCategoryId(), mContext));
+		catImageBtn.setEnabled(false);
+		catImageBtn.setText(idea.getCategoryName());
 		LinearLayout ideaLayout = holder.ideaLayout;
 		contentTextView.setTextColor(android.graphics.Color.BLACK);
 		contentTextView.setBackgroundDrawable(null);
@@ -176,6 +184,7 @@ public class IdeaListAdapter extends PageAdapter<Idea> {
 	private class ViewHolder {
 		public TextView contentTextView;
 		public ImageView imageView;
+		public Button catImageBtn;
 		public Button wantButton;
 		public TextView userCountTextView;
 		public LinearLayout ideaLayout;

@@ -90,4 +90,7 @@ public class Result<T> {
 	public static class ProfessionResult extends
 			Result<List<Map<Long, String>>> {
 	}
+
+	public static class IdeaResult extends Result<Idea> {
+	}
 }

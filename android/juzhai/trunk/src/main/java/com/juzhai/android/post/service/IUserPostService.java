@@ -42,4 +42,16 @@ public interface IUserPostService {
 	 */
 	void sendPost(Context context, Post post, Bitmap image)
 			throws PostException;
+
+	/**
+	 * 获取响应人列表
+	 * 
+	 * @param context
+	 * @param postId
+	 * @param page
+	 * @return
+	 * @throws PostException
+	 */
+	UserListResult respUsers(Context context, long postId, int page)
+			throws PostException;
 }

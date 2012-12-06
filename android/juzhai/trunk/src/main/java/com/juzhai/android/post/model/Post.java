@@ -1,9 +1,11 @@
 package com.juzhai.android.post.model;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.juzhai.android.core.model.Entity;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Post extends Entity {
 	private static final long serialVersionUID = -4148599586995728665L;
 	private long postId;
@@ -15,7 +17,11 @@ public class Post extends Entity {
 	private String categoryName;
 	private String date;
 	private int respCnt;
+	private long ideaId;
+	private String cityName;
 	private boolean hasResp;
+	private long createUid;
+	private String link;
 	@JsonIgnore
 	private long categoryId;
 
@@ -110,6 +116,38 @@ public class Post extends Entity {
 
 	public void setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public long getIdeaId() {
+		return ideaId;
+	}
+
+	public void setIdeaId(long ideaId) {
+		this.ideaId = ideaId;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
+	public long getCreateUid() {
+		return createUid;
+	}
+
+	public void setCreateUid(long createUid) {
+		this.createUid = createUid;
 	}
 
 }

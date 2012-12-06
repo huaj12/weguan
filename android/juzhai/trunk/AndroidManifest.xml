@@ -89,6 +89,7 @@
         <activity android:name=".post.activity.SendPostActivity" android:windowSoftInputMode="adjustResize" android:screenOrientation="portrait"/>
          <!--created by kooks at 2012-11-10 21:26:35-->
         <activity android:name=".main.activity.LoginAndRegisterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".post.activity.ResponseActivity"  android:screenOrientation="portrait"/>
         <service
             android:name="com.umeng.common.net.DownloadingService"
             android:exported="true"

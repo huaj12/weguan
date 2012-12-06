@@ -1,6 +1,7 @@
 package com.juzhai.android.passport.model;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.util.StringUtils;
 
 import android.content.Context;
@@ -11,6 +12,7 @@ import com.juzhai.android.core.model.Entity;
 import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.post.model.Post;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User extends Entity {
 	private static final long serialVersionUID = -8385388032091129353L;
 	private long uid;

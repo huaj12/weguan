@@ -14,10 +14,12 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.util.StringUtils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,10 +30,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.common.service.IShareService;
 import com.juzhai.android.common.service.impl.ShareService;
 import com.juzhai.android.core.activity.ActivityCode;
 import com.juzhai.android.core.listener.SimpleClickListener;
+import com.juzhai.android.core.model.Result.IdeaResult;
 import com.juzhai.android.core.stat.UmengEvent;
 import com.juzhai.android.core.task.TaskCallback;
 import com.juzhai.android.core.utils.DialogUtils;
@@ -40,7 +44,10 @@ import com.juzhai.android.core.utils.JzUtils;
 import com.juzhai.android.core.widget.image.ImageLoaderCallback;
 import com.juzhai.android.core.widget.image.ImageViewLoader;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
+import com.juzhai.android.idea.exception.IdeaException;
 import com.juzhai.android.idea.model.Idea;
+import com.juzhai.android.idea.service.IIdeaService;
+import com.juzhai.android.idea.service.impl.IdeaService;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -51,7 +58,56 @@ public class IdeaDetailActivity extends NavigationActivity {
 	private Idea idea;
 	private Bitmap ideaBitmap;
 	private Uri ideaUri;
+	long ideaId = 0;
 	private IShareService shareService = new ShareService();
+	private IIdeaService ideaService = new IdeaService();
+	private ProgressDialog progressDialog;
+
+	class LoadIdeaTask extends AsyncTask<String, Integer, String> {
+
+		@Override
+		protected String doInBackground(String... arg0) {
+			IdeaResult result = null;
+			try {
+				result = ideaService.showIdea(IdeaDetailActivity.this, ideaId);
+			} catch (IdeaException e) {
+				DialogUtils.showErrorDialog(IdeaDetailActivity.this,
+						e.getMessage());
+				return null;
+			}
+			if (result.getSuccess()) {
+				idea = result.getResult();
+			} else {
+				DialogUtils.showErrorDialog(IdeaDetailActivity.this,
+						result.getErrorInfo());
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if (progressDialog != null) {
+				progressDialog.dismiss();
+			}
+			initIdeaDetail();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			if (progressDialog != null) {
+				progressDialog.show();
+			} else {
+				progressDialog = ProgressDialog.show(
+						IdeaDetailActivity.this,
+						getResources().getString(R.string.sending),
+						IdeaDetailActivity.this.getResources().getString(
+								R.string.please_wait), true, false);
+			}
+			super.onPreExecute();
+		}
+
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,20 +116,33 @@ public class IdeaDetailActivity extends NavigationActivity {
 				getResources().getString(R.string.idea_detail_title));
 		setNavContentView(R.layout.page_idea_detail);
 		idea = (Idea) getIntent().getSerializableExtra("idea");
+		ideaId = getIntent().getLongExtra("ideaId", 0);
 		if (idea == null) {
-			popIntent();
+			LoadIdeaTask task = new LoadIdeaTask();
+			task.execute();
+		} else {
+			initIdeaDetail();
 		}
+
+	}
+
+	private void initIdeaDetail() {
 		final ImageView imageView = (ImageView) findViewById(R.id.idea_image);
 		TextView useCountText = (TextView) findViewById(R.id.idea_use_count_txet);
 		TextView contentText = (TextView) findViewById(R.id.idea_content);
 		final Button wantBtn = (Button) findViewById(R.id.idea_want_btn);
 		final Button shareBtn = (Button) findViewById(R.id.idea_share_btn);
 		final RelativeLayout imageLayout = (RelativeLayout) findViewById(R.id.idea_image_bg_layout);
+		Button catImageBtn = (Button) findViewById(R.id.idea_cat_btn);
+		catImageBtn.setBackgroundResource(CommonData.getCategoryBackground(
+				idea.getCategoryId(), IdeaDetailActivity.this));
+		catImageBtn.setEnabled(false);
+		catImageBtn.setText(idea.getCategoryName());
 		contentText.setText(idea.getContent());
 		if (idea.getUseCount() != null && idea.getUseCount() > 0) {
-			useCountText.setText(idea.getUseCount()
-					+ getResources().getString(R.string.use_count));
-			useCountText.setOnClickListener(new OnClickListener() {
+			useCountText.setText(idea.getUseCount() + "");
+			RelativeLayout layout = (RelativeLayout) findViewById(R.id.idea_use_count_layout);
+			layout.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
@@ -165,7 +234,6 @@ public class IdeaDetailActivity extends NavigationActivity {
 			}
 		});
 		initIdeaInfo();
-
 	}
 
 	private void initIdeaInfo() {

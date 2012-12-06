@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.utils.ImageUtils;
@@ -65,7 +66,7 @@ public class PostViewHelper implements IPostViewHelper {
 								Bitmap zoomBitmap = ImageUtils
 										.ZoomBitmapNotCut(bitmap, 230, 150,
 												context);
-								LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView
+								RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) imageView
 										.getLayoutParams();
 								params.width = UIUtil.dip2px(context, 230);
 								params.height = zoomBitmap.getHeight();

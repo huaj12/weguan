@@ -99,6 +99,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 			} else {
 				progressDialog = ProgressDialog.show(
 						IdeaDetailActivity.this,
+						//TODO (review) sending和loading什么区别？“正在请求”&“正在加载”
 						getResources().getString(R.string.sending),
 						IdeaDetailActivity.this.getResources().getString(
 								R.string.please_wait), true, false);
@@ -132,6 +133,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 		final Button wantBtn = (Button) findViewById(R.id.idea_want_btn);
 		final Button shareBtn = (Button) findViewById(R.id.idea_share_btn);
 		final RelativeLayout imageLayout = (RelativeLayout) findViewById(R.id.idea_image_bg_layout);
+		//TODO (review) 为什么会提取出来了？默认是GONE的，满足if就VISIABLE不行吗？
 		RelativeLayout useCountlayout = (RelativeLayout) findViewById(R.id.idea_use_count_layout);
 		// TODO (review) 为什么不用TextView
 		Button catImageBtn = (Button) findViewById(R.id.idea_cat_btn);
@@ -243,6 +245,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 		// 设置地点
 		RelativeLayout placeLayout = (RelativeLayout) findViewById(R.id.idea_place_layout);
 		TextView place = (TextView) findViewById(R.id.idea_place_text);
+		//TODO (review) 有city，有town，没place的状态下，显示地址那条信息？
 		if (StringUtils.hasText(idea.getCityName())
 				|| StringUtils.hasText(idea.getTownName())
 				|| StringUtils.hasText(idea.getPlace())) {
@@ -269,6 +272,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 			String startTime = idea.getStartTime() == null ? "" : idea
 					.getStartTime();
 			String endTime = idea.getEndTime() == null ? "" : idea.getEndTime();
+			//TODO (review) 个人资料可以用空格隔开，时间段怎么能用空格呢？
 			time.setText(startTime + " " + endTime);
 			flag = true;
 		} else {
@@ -286,6 +290,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 		}
 		TextView tipView = (TextView) findViewById(R.id.idea_detail_list_info_tip_view);
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.idea_info_list_relativeLayout);
+		//TODO (review) flag这个局部变量其实可以不用，你想想看有什么办法
 		if (!flag) {
 			tipView.setVisibility(View.GONE);
 			layout.setVisibility(View.GONE);

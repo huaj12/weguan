@@ -54,6 +54,7 @@ public class ResponseActivity extends NavigationActivity {
 				ResponseActivity.this));
 		responseListView.manualRefresh();
 
+		//TODO (review) 我看到IdeaUserList的对行点击操作是写在Adapter里的？记得你当时说的一个什么问题？response怎么写在了Activity里了？
 		responseListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override

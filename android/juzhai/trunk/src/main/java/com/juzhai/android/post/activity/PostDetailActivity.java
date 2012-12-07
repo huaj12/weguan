@@ -101,7 +101,7 @@ public class PostDetailActivity extends NavigationActivity {
 				gotoUserHome();
 			}
 		});
-		// TODO (done) 没有ideaId，也有“了解更多”按钮？
+		// TODO (review) moreButton默认是可见还是不可见？为什么会用if else？
 		if (user.getPostView().getIdeaId() > 0
 				&& StringUtils.hasText(user.getPostView().getLink())) {
 			moreButton.setOnClickListener(new OnClickListener() {

@@ -16,8 +16,8 @@ import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase.OnRefreshListener2;
 import com.juzhai.android.core.widget.navigation.app.NavigationActivity;
 import com.juzhai.android.home.activity.UserHomeActivity;
-import com.juzhai.android.home.adapter.InterestUserListAdapter;
 import com.juzhai.android.passport.model.User;
+import com.juzhai.android.post.adapter.ResponseListAdapter;
 import com.juzhai.android.post.task.ResponseListGetDataTask;
 
 public class ResponseActivity extends NavigationActivity {
@@ -49,8 +49,8 @@ public class ResponseActivity extends NavigationActivity {
 										.getCurrentPage() + 1);
 					}
 				});
-		//TODO (review) 关注的人和粉丝列表？怎么回事？？？？
-		responseListView.setAdapter(new InterestUserListAdapter(
+		// TODO (done) 关注的人和粉丝列表？怎么回事？？？？
+		responseListView.setAdapter(new ResponseListAdapter(
 				ResponseActivity.this));
 		responseListView.manualRefresh();
 

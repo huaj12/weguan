@@ -25,7 +25,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -133,7 +132,8 @@ public class IdeaDetailActivity extends NavigationActivity {
 		final Button wantBtn = (Button) findViewById(R.id.idea_want_btn);
 		final Button shareBtn = (Button) findViewById(R.id.idea_share_btn);
 		final RelativeLayout imageLayout = (RelativeLayout) findViewById(R.id.idea_image_bg_layout);
-		//TODO (review) 为什么不用TextView
+		RelativeLayout useCountlayout = (RelativeLayout) findViewById(R.id.idea_use_count_layout);
+		// TODO (review) 为什么不用TextView
 		Button catImageBtn = (Button) findViewById(R.id.idea_cat_btn);
 		catImageBtn.setBackgroundResource(CommonData.getCategoryBackground(
 				idea.getCategoryId(), IdeaDetailActivity.this));
@@ -142,8 +142,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 		contentText.setText(idea.getContent());
 		if (idea.getUseCount() != null && idea.getUseCount() > 0) {
 			useCountText.setText(idea.getUseCount() + "");
-			RelativeLayout layout = (RelativeLayout) findViewById(R.id.idea_use_count_layout);
-			layout.setOnClickListener(new OnClickListener() {
+			useCountlayout.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
@@ -153,6 +152,8 @@ public class IdeaDetailActivity extends NavigationActivity {
 					pushIntent(intent);
 				}
 			});
+		} else {
+			useCountlayout.setVisibility(View.GONE);
 		}
 		if (StringUtils.hasText(idea.getBigPic())) {
 			final ImageViewLoader nid = ImageViewLoader
@@ -238,8 +239,9 @@ public class IdeaDetailActivity extends NavigationActivity {
 	}
 
 	private void initIdeaInfo() {
+		boolean flag = false;
 		// 设置地点
-		LinearLayout placeLayout = (LinearLayout) findViewById(R.id.idea_place_layout);
+		RelativeLayout placeLayout = (RelativeLayout) findViewById(R.id.idea_place_layout);
 		TextView place = (TextView) findViewById(R.id.idea_place_text);
 		if (StringUtils.hasText(idea.getCityName())
 				|| StringUtils.hasText(idea.getTownName())
@@ -255,11 +257,12 @@ public class IdeaDetailActivity extends NavigationActivity {
 			}
 			sbStr.append(idea.getPlace());
 			place.setText(sbStr.toString());
+			flag = true;
 		} else {
 			placeLayout.setVisibility(View.GONE);
 		}
 		// 设置时间
-		LinearLayout timeLayout = (LinearLayout) findViewById(R.id.idea_time_layout);
+		RelativeLayout timeLayout = (RelativeLayout) findViewById(R.id.idea_time_layout);
 		TextView time = (TextView) findViewById(R.id.idea_time_text);
 		if (StringUtils.hasText(idea.getStartTime())
 				|| StringUtils.hasText(idea.getEndTime())) {
@@ -267,17 +270,34 @@ public class IdeaDetailActivity extends NavigationActivity {
 					.getStartTime();
 			String endTime = idea.getEndTime() == null ? "" : idea.getEndTime();
 			time.setText(startTime + " " + endTime);
+			flag = true;
 		} else {
 			timeLayout.setVisibility(View.GONE);
 		}
 		// 设置价格
-		LinearLayout chargeLayout = (LinearLayout) findViewById(R.id.idea_charge_layout);
+		RelativeLayout chargeLayout = (RelativeLayout) findViewById(R.id.idea_charge_layout);
 		TextView charge = (TextView) findViewById(R.id.idea_charge_text);
 		if (idea.getCharge() != null) {
 			charge.setText(idea.getCharge()
 					+ getResources().getString(R.string.yuan));
+			flag = true;
 		} else {
 			chargeLayout.setVisibility(View.GONE);
+		}
+		TextView tipView = (TextView) findViewById(R.id.idea_detail_list_info_tip_view);
+		RelativeLayout layout = (RelativeLayout) findViewById(R.id.idea_info_list_relativeLayout);
+		if (!flag) {
+			tipView.setVisibility(View.GONE);
+			layout.setVisibility(View.GONE);
+		}
+		TextView detailView = (TextView) findViewById(R.id.idea_detail_text_view);
+		RelativeLayout detailRelativeLayoutView = (RelativeLayout) findViewById(R.id.idea_detail_text_layout);
+		TextView detailTipView = (TextView) findViewById(R.id.idea_detail_tip_view);
+		if (StringUtils.hasText(idea.getDetail())) {
+			detailView.setText(idea.getDetail());
+		} else {
+			detailTipView.setVisibility(View.GONE);
+			detailRelativeLayoutView.setVisibility(View.GONE);
 		}
 	}
 }

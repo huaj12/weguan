@@ -136,7 +136,9 @@
         <item>同城</item>
         <item>全国</item>
     </string-array>
-      <string name="idea_detail_use_count_tip">约人同去</string>
+    <string name="idea_detail_use_count_tip">约人同去</string>
+    <string name="baseinfo">基本信息</string>
+    <string name="idea_detail_tip">简介</string>
     <!-- idea end -->
     <!-- dialog begin -->
     <string name="dialog_title">我的消息</string>

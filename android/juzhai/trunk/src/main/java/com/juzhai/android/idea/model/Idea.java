@@ -37,6 +37,8 @@ public class Idea extends Entity {
 
 	private String endTime;
 
+	private String detail;
+
 	public long getIdeaId() {
 		return ideaId;
 	}
@@ -152,6 +154,14 @@ public class Idea extends Entity {
 
 	public void setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
 	}
 
 }

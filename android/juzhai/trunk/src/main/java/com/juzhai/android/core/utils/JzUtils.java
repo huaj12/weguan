@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 import android.content.Context;
 
 import com.juzhai.android.R;
+import com.juzhai.android.common.model.Category;
+import com.juzhai.android.common.service.CommonData;
 
 public class JzUtils {
 	private final static Pattern FACE_PATTERN = Pattern.compile("\\[(.+?)\\]");
@@ -114,4 +116,13 @@ public class JzUtils {
 		return str;
 	}
 
+	public static int getCategoryBackground(long catId, Context context) {
+		Category category = CommonData.getCategory(catId, context);
+		String filename = "ca_yc";
+		if (category != null) {
+			filename = category.getIcon();
+		}
+		return context.getResources().getIdentifier(filename, "drawable",
+				"com.juzhai.android");
+	}
 }

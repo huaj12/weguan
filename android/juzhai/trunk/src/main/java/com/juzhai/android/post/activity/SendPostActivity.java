@@ -58,6 +58,7 @@ public class SendPostActivity extends NavigationActivity {
 	private TextView countTip;
 	private Button imageBtn;
 	private EditText contentText;
+	private int itemIndex = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -84,10 +85,13 @@ public class SendPostActivity extends NavigationActivity {
 
 			@Override
 			public void onClick(View v) {
+				if (selectedCategory != null) {
+					itemIndex = CommonData.getDataIndxex(
+							(Long) selectedCategory.getIdentify(), categorys);
+				}
 				new WheelViewDialog<Category>(SendPostActivity.this,
-						R.string.send_post_select_category_title,
-						selectedCategory, categorys,
-						new WheelViewDialogListener() {
+						R.string.send_post_select_category_title, itemIndex,
+						categorys, new WheelViewDialogListener() {
 							@Override
 							public void onClickPositive(int selectedIndex) {
 								selectedCategory = categorys.get(selectedIndex);

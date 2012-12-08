@@ -16,6 +16,8 @@ import android.widget.ListView;
 
 import com.juzhai.android.R;
 import com.juzhai.android.core.activity.ActivityCode;
+import com.juzhai.android.core.widget.button.GenderButton;
+import com.juzhai.android.core.widget.button.GenderButton.GenderButtonCallback;
 import com.juzhai.android.core.widget.button.SegmentedButton;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
@@ -76,21 +78,23 @@ public class ZhaobanActivity extends TabItemActivity {
 				});
 		getNavigationBar().setBarTitleView(segmentedButton);
 		getNavigationBar().setRightView(
-				setGenderButton(new GenderButtonCallback() {
+				new GenderButton(ZhaobanActivity.this,
+						new GenderButtonCallback() {
 
-					@Override
-					public void onClickCallback(Integer selectGender) {
-						if (gender == null && selectGender == null) {
-							return;
-						} else if (gender != null && selectGender != null) {
-							if (selectGender.intValue() == gender) {
-								return;
+							@Override
+							public void onClickCallback(Integer selectGender) {
+								if (gender == null && selectGender == null) {
+									return;
+								} else if (gender != null
+										&& selectGender != null) {
+									if (selectGender.intValue() == gender) {
+										return;
+									}
+								}
+								gender = selectGender;
+								postListView.manualRefresh();
 							}
-						}
-						gender = selectGender;
-						postListView.manualRefresh();
-					}
-				}));
+						}));
 
 		postListView = (JuzhaiRefreshListView) findViewById(R.id.user_post_list);
 		postListView.setOnRefreshListener(new OnRefreshListener2<ListView>() {

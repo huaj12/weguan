@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.juzhai.android.R;
-import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.core.model.Entity;
 
 public class WheelViewDialog<T extends Entity> extends AlertDialog implements
@@ -18,8 +17,8 @@ public class WheelViewDialog<T extends Entity> extends AlertDialog implements
 	private WheelViewDialogListener wheelViewDialogListener;
 	private WheelView wheelView;
 
-	// TODO (review) selectedEntity应该用选择第几个,或者用identify
-	public WheelViewDialog(Context context, int title, T selectedEntity,
+	// TODO (done) selectedEntity应该用选择第几个,或者用identify
+	public WheelViewDialog(Context context, int title, int itemIndex,
 			List<T> datas, WheelViewDialogListener wheelViewDialogListener) {
 		super(context);
 		this.wheelViewDialogListener = wheelViewDialogListener;
@@ -28,11 +27,6 @@ public class WheelViewDialog<T extends Entity> extends AlertDialog implements
 		View view = inflater.inflate(R.layout.fragment_wheelview, null);
 		wheelView = (WheelView) view.findViewById(R.id.wheelview);
 		wheelView.TEXT_SIZE = 35;
-		int itemIndex = 0;
-		if (selectedEntity != null) {
-			itemIndex = CommonData.getDataIndxex(
-					(Long) selectedEntity.getIdentify(), datas);
-		}
 		wheelView.setArrayAdapter(datas, itemIndex, 20);
 		setTitle(context.getResources().getString(title));
 		setView(view);

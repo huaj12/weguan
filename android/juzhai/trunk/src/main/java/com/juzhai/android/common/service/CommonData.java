@@ -168,17 +168,15 @@ public class CommonData {
 		return ciyts;
 	}
 
-	//TODO (review) 这个类不应该带有显示层的功能，这个类只提供通过categoryId获取Category，具体获取category什么信息，调用方自己取
-	public static int getCategoryBackground(long catId, Context context) {
+	// TODO (done)
+	// 这个类不应该带有显示层的功能，这个类只提供通过categoryId获取Category，具体获取category什么信息，调用方自己取
+	public static Category getCategory(long catId, Context context) {
 		List<Category> list = getCategorys(context);
-		// 给一个默认文件名
-		String filename = "ca_yc";
 		for (Category category : list) {
 			if (category.getCategoryId() == catId) {
-				filename = category.getIcon();
+				return category;
 			}
 		}
-		return context.getResources().getIdentifier(filename, "drawable",
-				"com.juzhai.android");
+		return null;
 	}
 }

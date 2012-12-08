@@ -116,7 +116,8 @@
 			          	  android:layout_alignParentRight="true"
 			          	  android:layout_alignParentBottom="true"
 			          	  android:layout_marginRight="10dp"
-			          	  android:id="@+id/post_detial_more_view"/>
+			          	  android:id="@+id/post_detial_more_view"
+			          	  android:visibility="gone"/>
 			</RelativeLayout>
 			<RelativeLayout 
 			    			android:layout_width="wrap_content"

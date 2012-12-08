@@ -60,7 +60,7 @@
 	                        android:textSize="16sp" />
 	                </LinearLayout>
 	            </LinearLayout>
-	            <Button android:id="@+id/idea_cat_btn"
+	            <TextView android:id="@+id/idea_cat_btn"
                  android:layout_width="40dp"
                  android:layout_height="40dp"
                  android:textColor="@color/white"
@@ -81,7 +81,8 @@
 			    			android:padding="12dp"
 			    			android:gravity="center_vertical"
 			    			android:background="@color/idea_detail_use_count_bg_color"
-			    			android:id="@+id/idea_use_count_layout">
+			    			android:id="@+id/idea_use_count_layout"
+			    			android:visibility="gone">
 	            <TextView android:layout_width="wrap_content"
 	                	  android:layout_height="wrap_content"
 	                	  android:textColor="@color/idea_detail_use_count_text_color"

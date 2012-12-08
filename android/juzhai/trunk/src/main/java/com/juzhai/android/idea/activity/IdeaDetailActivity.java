@@ -29,7 +29,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
-import com.juzhai.android.common.service.CommonData;
 import com.juzhai.android.common.service.IShareService;
 import com.juzhai.android.common.service.impl.ShareService;
 import com.juzhai.android.core.activity.ActivityCode;
@@ -97,10 +96,9 @@ public class IdeaDetailActivity extends NavigationActivity {
 			if (progressDialog != null) {
 				progressDialog.show();
 			} else {
-				progressDialog = ProgressDialog.show(
-						IdeaDetailActivity.this,
-						//TODO (review) sending和loading什么区别？“正在请求”&“正在加载”
-						getResources().getString(R.string.sending),
+				progressDialog = ProgressDialog.show(IdeaDetailActivity.this,
+						// TODO (done) sending和loading什么区别？“正在请求”&“正在加载”
+						getResources().getString(R.string.loding),
 						IdeaDetailActivity.this.getResources().getString(
 								R.string.please_wait), true, false);
 			}
@@ -133,14 +131,14 @@ public class IdeaDetailActivity extends NavigationActivity {
 		final Button wantBtn = (Button) findViewById(R.id.idea_want_btn);
 		final Button shareBtn = (Button) findViewById(R.id.idea_share_btn);
 		final RelativeLayout imageLayout = (RelativeLayout) findViewById(R.id.idea_image_bg_layout);
-		//TODO (review) 为什么会提取出来了？默认是GONE的，满足if就VISIABLE不行吗？
+		// TODO (done) 为什么会提取出来了？默认是GONE的，满足if就VISIABLE不行吗？
 		RelativeLayout useCountlayout = (RelativeLayout) findViewById(R.id.idea_use_count_layout);
-		// TODO (review) 为什么不用TextView
-		Button catImageBtn = (Button) findViewById(R.id.idea_cat_btn);
-		catImageBtn.setBackgroundResource(CommonData.getCategoryBackground(
+		// TODO (done) 为什么不用TextView
+		TextView catImageTextView = (TextView) findViewById(R.id.idea_cat_btn);
+		catImageTextView.setBackgroundResource(JzUtils.getCategoryBackground(
 				idea.getCategoryId(), IdeaDetailActivity.this));
-		catImageBtn.setEnabled(false);
-		catImageBtn.setText(idea.getCategoryName());
+		catImageTextView.setEnabled(false);
+		catImageTextView.setText(idea.getCategoryName());
 		contentText.setText(idea.getContent());
 		if (idea.getUseCount() != null && idea.getUseCount() > 0) {
 			useCountText.setText(idea.getUseCount() + "");
@@ -154,8 +152,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 					pushIntent(intent);
 				}
 			});
-		} else {
-			useCountlayout.setVisibility(View.GONE);
+			useCountlayout.setVisibility(View.VISIBLE);
 		}
 		if (StringUtils.hasText(idea.getBigPic())) {
 			final ImageViewLoader nid = ImageViewLoader
@@ -245,10 +242,8 @@ public class IdeaDetailActivity extends NavigationActivity {
 		// 设置地点
 		RelativeLayout placeLayout = (RelativeLayout) findViewById(R.id.idea_place_layout);
 		TextView place = (TextView) findViewById(R.id.idea_place_text);
-		//TODO (review) 有city，有town，没place的状态下，显示地址那条信息？
-		if (StringUtils.hasText(idea.getCityName())
-				|| StringUtils.hasText(idea.getTownName())
-				|| StringUtils.hasText(idea.getPlace())) {
+		// TODO (done) 有city，有town，没place的状态下，显示地址那条信息？
+		if (StringUtils.hasText(idea.getPlace())) {
 			StringBuffer sbStr = new StringBuffer();
 			if (StringUtils.hasText(idea.getCityName())) {
 				sbStr.append(idea.getCityName());
@@ -272,8 +267,12 @@ public class IdeaDetailActivity extends NavigationActivity {
 			String startTime = idea.getStartTime() == null ? "" : idea
 					.getStartTime();
 			String endTime = idea.getEndTime() == null ? "" : idea.getEndTime();
-			//TODO (review) 个人资料可以用空格隔开，时间段怎么能用空格呢？
-			time.setText(startTime + " " + endTime);
+			// TODO (done) 个人资料可以用空格隔开，时间段怎么能用空格呢？
+			String split = " ";
+			if (StringUtils.hasText(startTime)) {
+				split = "-";
+			}
+			time.setText(startTime + split + endTime);
 			flag = true;
 		} else {
 			timeLayout.setVisibility(View.GONE);
@@ -290,7 +289,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 		}
 		TextView tipView = (TextView) findViewById(R.id.idea_detail_list_info_tip_view);
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.idea_info_list_relativeLayout);
-		//TODO (review) flag这个局部变量其实可以不用，你想想看有什么办法
+		// TODO (review) flag这个局部变量其实可以不用，你想想看有什么办法
 		if (!flag) {
 			tipView.setVisibility(View.GONE);
 			layout.setVisibility(View.GONE);

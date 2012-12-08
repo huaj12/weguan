@@ -9,6 +9,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.juzhai.android.R;
+import com.juzhai.android.core.widget.button.GenderButton;
+import com.juzhai.android.core.widget.button.GenderButton.GenderButtonCallback;
 import com.juzhai.android.core.widget.button.SegmentedButton;
 import com.juzhai.android.core.widget.list.JuzhaiRefreshListView;
 import com.juzhai.android.core.widget.list.pullrefresh.PullToRefreshBase;
@@ -62,21 +64,23 @@ public class IdeaUsersActivity extends NavigationActivity {
 				});
 		getNavigationBar().setBarTitleView(segmentedButton);
 		getNavigationBar().setRightView(
-				setGenderButton(new GenderButtonCallback() {
+				new GenderButton(IdeaUsersActivity.this,
+						new GenderButtonCallback() {
 
-					@Override
-					public void onClickCallback(Integer selectGender) {
-						if (gender == null && selectGender == null) {
-							return;
-						} else if (gender != null && selectGender != null) {
-							if (selectGender.intValue() == gender) {
-								return;
+							@Override
+							public void onClickCallback(Integer selectGender) {
+								if (gender == null && selectGender == null) {
+									return;
+								} else if (gender != null
+										&& selectGender != null) {
+									if (selectGender.intValue() == gender) {
+										return;
+									}
+								}
+								gender = selectGender;
+								listView.manualRefresh();
 							}
-						}
-						gender = selectGender;
-						listView.manualRefresh();
-					}
-				}));
+						}));
 		TextView ideaContent = (TextView) findViewById(R.id.idea_users_content);
 		TextView ideaContentEnd = (TextView) findViewById(R.id.idea_users_content_end_view);
 		final TextView ideaContentBegin = (TextView) findViewById(R.id.idea_users_content_begin_view);

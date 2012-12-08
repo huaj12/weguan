@@ -101,7 +101,7 @@ public class PostDetailActivity extends NavigationActivity {
 				gotoUserHome();
 			}
 		});
-		// TODO (review) moreButton默认是可见还是不可见？为什么会用if else？
+		// TODO (done) moreButton默认是可见还是不可见？为什么会用if else？
 		if (user.getPostView().getIdeaId() > 0
 				&& StringUtils.hasText(user.getPostView().getLink())) {
 			moreButton.setOnClickListener(new OnClickListener() {
@@ -115,8 +115,6 @@ public class PostDetailActivity extends NavigationActivity {
 				}
 			});
 			moreButton.setVisibility(View.VISIBLE);
-		} else {
-			moreButton.setVisibility(View.GONE);
 		}
 	}
 

@@ -1,7 +1,5 @@
 package com.juzhai.android.core.widget.navigation.app;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -97,55 +95,4 @@ public class NavigationActivity extends BaseActivity {
 		return finish;
 	}
 
-	//TODO (review) 能不能面向对象一点，子类化一个GenderButton，能很容易的使用
-	protected Button setGenderButton(
-			final GenderButtonCallback genderButtonCallback) {
-		final Button genderBtn = (Button) getLayoutInflater().inflate(
-				R.layout.button_gender, null);
-		genderBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				new AlertDialog.Builder(NavigationActivity.this)
-						.setTitle(
-								getResources()
-										.getString(R.string.select_gender))
-						.setItems(R.array.select_gender_item,
-								new DialogInterface.OnClickListener() {
-
-									@Override
-									public void onClick(DialogInterface dialog,
-											int which) {
-										dialog.cancel();
-										Integer selectGender = null;
-										switch (which) {
-										case 0:
-											selectGender = null;
-											genderBtn
-													.setBackgroundResource(R.drawable.gender_selector_button);
-											break;
-										case 1:
-											selectGender = 1;
-											genderBtn
-													.setBackgroundResource(R.drawable.boy_selector_button);
-											break;
-										case 2:
-											selectGender = 0;
-											genderBtn
-													.setBackgroundResource(R.drawable.girl_selector_button);
-											break;
-										}
-										genderButtonCallback
-												.onClickCallback(selectGender);
-
-									}
-								}).show();
-			}
-		});
-		return genderBtn;
-	}
-
-	public interface GenderButtonCallback {
-
-		void onClickCallback(Integer selectGender);
-	}
 }

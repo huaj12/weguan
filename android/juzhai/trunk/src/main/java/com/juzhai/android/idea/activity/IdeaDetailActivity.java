@@ -269,7 +269,7 @@ public class IdeaDetailActivity extends NavigationActivity {
 			String endTime = idea.getEndTime() == null ? "" : idea.getEndTime();
 			// TODO (done) 个人资料可以用空格隔开，时间段怎么能用空格呢？
 			String split = " ";
-			if (StringUtils.hasText(startTime)) {
+			if (StringUtils.hasText(startTime) && StringUtils.hasText(endTime)) {
 				split = "-";
 			}
 			time.setText(startTime + split + endTime);

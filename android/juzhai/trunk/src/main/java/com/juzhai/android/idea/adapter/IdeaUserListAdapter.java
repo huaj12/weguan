@@ -86,7 +86,7 @@ public class IdeaUserListAdapter extends PageAdapter<IdeaUser> {
 		}
 		userViewHelper.showUserNickname(mContext, user, nicknameTextView);
 		userViewHelper.showUserLogo(mContext, user, imageView, 60, 60);
-		infoTextView.setText(userViewHelper.getUserInfoCity(user, mContext));
+		infoTextView.setText(user.getUserInfoCity(mContext));
 		ideaUsersItemLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

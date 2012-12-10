@@ -339,6 +339,29 @@ public class User extends Entity {
 		return sbString.toString();
 	}
 
+	@JsonIgnore
+	public String getUserInfoCity(Context mContext) {
+		String comma = " ";
+		StringBuffer sbString = new StringBuffer();
+		if (JzUtils.age(getBirthYear()) > 0) {
+			sbString.append(JzUtils.age(getBirthYear())
+					+ mContext.getResources().getString(R.string.age));
+			sbString.append(comma);
+		}
+		if (StringUtils.hasText(getCityName())) {
+			sbString.append(getCityName());
+			sbString.append(comma);
+		}
+		if (StringUtils.hasText(getConstellation())) {
+			sbString.append(getConstellation());
+			sbString.append(comma);
+		}
+		if (StringUtils.hasText(getProfession())) {
+			sbString.append(getProfession());
+		}
+		return sbString.toString();
+	}
+
 	public boolean hasTp() {
 		return this.getTpId() > 0;
 	}

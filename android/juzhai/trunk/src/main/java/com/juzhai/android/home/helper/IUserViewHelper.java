@@ -62,14 +62,4 @@ public interface IUserViewHelper {
 	void showUserNewLogo(Context context, User user, ImageView imageView,
 			TextView textView, int width, int height);
 
-	/**
-	 * 带有city（不带星座）的用户详情
-	 * 
-	 * @param user
-	 * @param mContext
-	 * @return
-	 */
-	// TODO (review) 1.不需要不带星座了；2.方法名用getUserInfoWithCity；3.为什么getUserInfo在User里，这个却放在UserViewHelper里？
-	String getUserInfoCity(User user, Context mContext);
-
 }

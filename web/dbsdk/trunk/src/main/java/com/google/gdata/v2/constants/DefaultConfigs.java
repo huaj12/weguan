@@ -13,7 +13,7 @@ public class DefaultConfigs {
 	public static final String API_URL_PREFIX = "https://api.douban.com";
 	public static final String AUTH_URL = "https://www.douban.com/service/auth2/auth";
 	public static final String ACCESS_TOKEN_URL = "https://www.douban.com/service/auth2/token";
-	public static final String ACCESS_TOKEN_REDIRECT_URL = "http://www.dongxuexidu.com";
+	public static final String ACCESS_TOKEN_REDIRECT_URL = "http://www.51juzhai.com/web/access/7";
 
 	public static final XmlNamespaceDictionary DOUBAN_XML_NAMESPACE = new XmlNamespaceDictionary()
 			.set("", "http://www.w3.org/2005/Atom")

@@ -12,7 +12,7 @@ public class Configuration {
 
 	/* package */static void init() {
 		defaultProperty = new Properties();
-		defaultProperty.setProperty("dianping.debug", "true");
+		defaultProperty.setProperty("dianping.debug", "false");
 		defaultProperty.setProperty("dianping.http.useSSL", "false");
 		defaultProperty.setProperty("dianping.http.proxyHost.fallback",
 				"http.proxyHost");

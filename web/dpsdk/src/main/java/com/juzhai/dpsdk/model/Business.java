@@ -1,6 +1,7 @@
 package com.juzhai.dpsdk.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -314,6 +315,24 @@ public class Business extends DianPingResponse implements java.io.Serializable {
 			throw new DianPingException(je);
 		}
 
+	}
+
+	@Override
+	public String toString() {
+		return "Business [id=" + id + ", name=" + name + ", branchName="
+				+ branchName + ", address=" + address + ", telephone="
+				+ telephone + ", city=" + city + ", regions="
+				+ Arrays.toString(regions) + ", categories="
+				+ Arrays.toString(categories) + ", avgRating=" + avgRating
+				+ ", ratingImgUrl=" + ratingImgUrl + ", ratingSImgUrl="
+				+ ratingSImgUrl + ", productGrade=" + productGrade
+				+ ", decorationGrade=" + decorationGrade + ", serviceGrade="
+				+ serviceGrade + ", reviewCount=" + reviewCount + ", distance="
+				+ distance + ", businessUrl=" + businessUrl + ", photoUrl="
+				+ photoUrl + ", hasCoupon=" + hasCoupon + ", couponId="
+				+ couponId + ", couponTitle=" + couponTitle + ", couponUrl="
+				+ couponUrl + ", hasDeal=" + hasDeal + ", dealId=" + dealId
+				+ ", dealTitle=" + dealTitle + ", dealUrl=" + dealUrl + "]";
 	}
 
 }

@@ -232,7 +232,6 @@ public class HttpClient implements java.io.Serializable {
 			}
 		}
 		url += "&appkey=" + getAppkey() + "&sign=" + getSign(params);
-		System.out.println(url);
 		GetMethod getmethod = new GetMethod(url);
 		return httpRequest(getmethod);
 

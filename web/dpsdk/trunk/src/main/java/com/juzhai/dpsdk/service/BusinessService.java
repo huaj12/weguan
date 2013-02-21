@@ -41,10 +41,9 @@ public class BusinessService extends DianPing {
 	 */
 	public List<Business> findBusiness(String city, String region,
 			String category, String keyword, int radius, int hasCoupon,
-			int hasDeal, int sort, int limit, double latitude, double longitude)
+			int hasDeal, int sort, int limit, Double latitude, Double longitude)
 			throws DianPingException {
-		return Business.constructBusiness(client.get(getBaseURL()
-				+ "business/find_businesses", new PostParameter[] {
+		PostParameter[] parameter = new PostParameter[] {
 				new PostParameter("city", city),
 				new PostParameter("region", region),
 				new PostParameter("category", category),
@@ -52,9 +51,14 @@ public class BusinessService extends DianPing {
 				new PostParameter("has_coupon", hasCoupon),
 				new PostParameter("has_deal", hasDeal),
 				new PostParameter("sort", sort),
-				new PostParameter("limit", limit),
-				new PostParameter("latitude", latitude),
-				new PostParameter("longitude", longitude) }));
+				new PostParameter("limit", limit) };
+		if (latitude != null && longitude != null) {
+			parameter[parameter.length] = new PostParameter("latitude",
+					latitude);
+			parameter[parameter.length] = new PostParameter("longitude",
+					longitude);
+		}
+		return Business.constructBusiness(client.get(getBaseURL()
+				+ "business/find_businesses", parameter));
 	}
-
 }

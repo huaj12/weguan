@@ -6,6 +6,7 @@ import com.juzhai.dpsdk.DianPing;
 import com.juzhai.dpsdk.exception.DianPingException;
 import com.juzhai.dpsdk.model.Business;
 import com.juzhai.dpsdk.model.PostParameter;
+import com.juzhai.dpsdk.utils.ArrayUtils;
 
 public class BusinessService extends DianPing {
 	private static final long serialVersionUID = 6661073095033402454L;
@@ -53,10 +54,9 @@ public class BusinessService extends DianPing {
 				new PostParameter("sort", sort),
 				new PostParameter("limit", limit) };
 		if (latitude != null && longitude != null) {
-			parameter[parameter.length] = new PostParameter("latitude",
-					latitude);
-			parameter[parameter.length] = new PostParameter("longitude",
-					longitude);
+			parameter = (PostParameter[]) ArrayUtils.expand(parameter, 10);
+			parameter[8] = new PostParameter("latitude", latitude);
+			parameter[9] = new PostParameter("longitude", longitude);
 		}
 		return Business.constructBusiness(client.get(getBaseURL()
 				+ "business/find_businesses", parameter));

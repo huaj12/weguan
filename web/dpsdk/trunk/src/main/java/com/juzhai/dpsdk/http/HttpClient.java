@@ -32,7 +32,6 @@ import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.httpclient.protocol.Protocol;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.juzhai.dpsdk.exception.DianPingException;
@@ -419,9 +418,6 @@ public class HttpClient implements java.io.Serializable {
 	public static String encodeParameters(PostParameter[] postParams) {
 		StringBuffer buf = new StringBuffer();
 		for (int j = 0; j < postParams.length; j++) {
-			if (StringUtils.isEmpty(postParams[j].getValue())) {
-				continue;
-			}
 			if (j != 0) {
 				buf.append("&");
 			}
@@ -503,9 +499,6 @@ public class HttpClient implements java.io.Serializable {
 		Map<String, String> paramMap = new HashMap<String, String>(
 				params.length);
 		for (int i = 0; i < params.length; i++) {
-			if (StringUtils.isEmpty(params[i].getValue())) {
-				continue;
-			}
 			paramMap.put(params[i].getName(), params[i].getValue());
 		}
 		// 对参数名进行字典排序

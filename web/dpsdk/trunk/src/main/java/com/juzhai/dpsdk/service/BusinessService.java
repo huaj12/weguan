@@ -3,6 +3,8 @@ package com.juzhai.dpsdk.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.juzhai.dpsdk.DianPing;
 import com.juzhai.dpsdk.exception.DianPingException;
 import com.juzhai.dpsdk.model.Business;
@@ -45,10 +47,18 @@ public class BusinessService extends DianPing {
 			int hasDeal, int sort, int limit, Double latitude, Double longitude)
 			throws DianPingException {
 		List<PostParameter> parameter = new ArrayList<PostParameter>();
-		parameter.add(new PostParameter("city", city));
-		parameter.add(new PostParameter("region", region));
-		parameter.add(new PostParameter("category", category));
-		parameter.add(new PostParameter("keyword", keyword));
+		if (StringUtils.isNotEmpty(city)) {
+			parameter.add(new PostParameter("city", city));
+		}
+		if (StringUtils.isNotEmpty(region)) {
+			parameter.add(new PostParameter("region", region));
+		}
+		if (StringUtils.isNotEmpty(category)) {
+			parameter.add(new PostParameter("category", category));
+		}
+		if (StringUtils.isNotEmpty(keyword)) {
+			parameter.add(new PostParameter("keyword", keyword));
+		}
 		parameter.add(new PostParameter("has_coupon", hasCoupon));
 		parameter.add(new PostParameter("has_deal", hasDeal));
 		parameter.add(new PostParameter("sort", sort));

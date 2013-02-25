@@ -1,12 +1,12 @@
 package com.juzhai.dpsdk.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.juzhai.dpsdk.DianPing;
 import com.juzhai.dpsdk.exception.DianPingException;
 import com.juzhai.dpsdk.model.Business;
 import com.juzhai.dpsdk.model.PostParameter;
-import com.juzhai.dpsdk.utils.ArrayUtils;
 
 public class BusinessService extends DianPing {
 	private static final long serialVersionUID = 6661073095033402454L;
@@ -44,21 +44,22 @@ public class BusinessService extends DianPing {
 			String category, String keyword, int radius, int hasCoupon,
 			int hasDeal, int sort, int limit, Double latitude, Double longitude)
 			throws DianPingException {
-		PostParameter[] parameter = new PostParameter[] {
-				new PostParameter("city", city),
-				new PostParameter("region", region),
-				new PostParameter("category", category),
-				new PostParameter("keyword", keyword),
-				new PostParameter("has_coupon", hasCoupon),
-				new PostParameter("has_deal", hasDeal),
-				new PostParameter("sort", sort),
-				new PostParameter("limit", limit) };
+		List<PostParameter> parameter = new ArrayList<PostParameter>();
+		parameter.add(new PostParameter("city", city));
+		parameter.add(new PostParameter("region", region));
+		parameter.add(new PostParameter("category", category));
+		parameter.add(new PostParameter("keyword", keyword));
+		parameter.add(new PostParameter("has_coupon", hasCoupon));
+		parameter.add(new PostParameter("has_deal", hasDeal));
+		parameter.add(new PostParameter("sort", sort));
+		parameter.add(new PostParameter("limit", limit));
 		if (latitude != null && longitude != null) {
-			parameter = (PostParameter[]) ArrayUtils.expand(parameter, 10);
-			parameter[8] = new PostParameter("latitude", latitude);
-			parameter[9] = new PostParameter("longitude", longitude);
+			parameter.add(new PostParameter("latitude", latitude));
+			parameter.add(new PostParameter("longitude", longitude));
 		}
+
 		return Business.constructBusiness(client.get(getBaseURL()
-				+ "business/find_businesses", parameter));
+				+ "business/find_businesses",
+				parameter.toArray(new PostParameter[parameter.size()])));
 	}
 }

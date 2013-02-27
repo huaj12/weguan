@@ -47,6 +47,12 @@ public class BusinessService extends DianPing {
 			Integer hasDeal, int sort, int limit, Double latitude,
 			Double longitude) throws DianPingException {
 		List<PostParameter> parameter = new ArrayList<PostParameter>();
+		if (latitude != null && longitude != null) {
+			parameter.add(new PostParameter("latitude", latitude));
+			parameter.add(new PostParameter("longitude", longitude));
+			// 没有坐标半径为0
+			radius = 0;
+		}
 		if (StringUtils.isNotEmpty(city)) {
 			parameter.add(new PostParameter("city", city));
 		}
@@ -70,10 +76,6 @@ public class BusinessService extends DianPing {
 		}
 		parameter.add(new PostParameter("sort", sort));
 		parameter.add(new PostParameter("limit", limit));
-		if (latitude != null && longitude != null) {
-			parameter.add(new PostParameter("latitude", latitude));
-			parameter.add(new PostParameter("longitude", longitude));
-		}
 
 		return Business.constructBusiness(client.get(getBaseURL()
 				+ "business/find_businesses",

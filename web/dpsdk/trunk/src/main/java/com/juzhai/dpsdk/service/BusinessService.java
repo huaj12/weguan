@@ -67,7 +67,6 @@ public class BusinessService extends DianPing {
 		if (hasDeal != null) {
 			parameter.add(new PostParameter("has_deal", hasDeal));
 		}
-		parameter.add(new PostParameter("offset_type", offsetType));
 		parameter.add(new PostParameter("sort", sort));
 		parameter.add(new PostParameter("limit", limit));
 		if (latitude != null && longitude != null) {
@@ -77,6 +76,7 @@ public class BusinessService extends DianPing {
 			if (radius != null) {
 				parameter.add(new PostParameter("radius", radius));
 			}
+			parameter.add(new PostParameter("offset_type", offsetType));
 		}
 		return Business.constructBusiness(client.get(getBaseURL()
 				+ "business/find_businesses",

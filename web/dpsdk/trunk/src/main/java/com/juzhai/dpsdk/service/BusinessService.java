@@ -39,20 +39,16 @@ public class BusinessService extends DianPing {
 	 *            纬度坐标，须与经度坐标同时传入，与城市名称二者必选其一传入
 	 * @param longitude
 	 *            经度坐标，须与纬度坐标同时传入，与城市名称二者必选其一传入
+	 * @param offsetType
+	 *            偏移类型，0:未偏移，1:高德坐标系偏移，2:四维图新坐标系偏移，如不传入默认为0
 	 * @return
 	 * @throws DianPingException
 	 */
 	public List<Business> findBusiness(String city, String region,
-			String category, String keyword, int radius, Integer hasCoupon,
+			String category, String keyword, Integer radius, Integer hasCoupon,
 			Integer hasDeal, int sort, int limit, Double latitude,
-			Double longitude) throws DianPingException {
+			Double longitude, int offsetType) throws DianPingException {
 		List<PostParameter> parameter = new ArrayList<PostParameter>();
-		if (latitude != null && longitude != null) {
-			parameter.add(new PostParameter("latitude", latitude));
-			parameter.add(new PostParameter("longitude", longitude));
-			// 没有坐标半径为0
-			radius = 0;
-		}
 		if (StringUtils.isNotEmpty(city)) {
 			parameter.add(new PostParameter("city", city));
 		}
@@ -71,12 +67,16 @@ public class BusinessService extends DianPing {
 		if (hasDeal != null) {
 			parameter.add(new PostParameter("has_deal", hasDeal));
 		}
-		if (radius > 0) {
+		if (radius != null) {
 			parameter.add(new PostParameter("radius", radius));
 		}
+		parameter.add(new PostParameter("offset_type", offsetType));
 		parameter.add(new PostParameter("sort", sort));
 		parameter.add(new PostParameter("limit", limit));
-
+		if (latitude != null && longitude != null) {
+			parameter.add(new PostParameter("latitude", latitude));
+			parameter.add(new PostParameter("longitude", longitude));
+		}
 		return Business.constructBusiness(client.get(getBaseURL()
 				+ "business/find_businesses",
 				parameter.toArray(new PostParameter[parameter.size()])));

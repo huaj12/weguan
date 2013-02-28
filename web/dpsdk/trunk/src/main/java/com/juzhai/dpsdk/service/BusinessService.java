@@ -67,15 +67,16 @@ public class BusinessService extends DianPing {
 		if (hasDeal != null) {
 			parameter.add(new PostParameter("has_deal", hasDeal));
 		}
-		if (radius != null) {
-			parameter.add(new PostParameter("radius", radius));
-		}
 		parameter.add(new PostParameter("offset_type", offsetType));
 		parameter.add(new PostParameter("sort", sort));
 		parameter.add(new PostParameter("limit", limit));
 		if (latitude != null && longitude != null) {
 			parameter.add(new PostParameter("latitude", latitude));
 			parameter.add(new PostParameter("longitude", longitude));
+			// 传入坐标才需要搜索半径
+			if (radius != null) {
+				parameter.add(new PostParameter("radius", radius));
+			}
 		}
 		return Business.constructBusiness(client.get(getBaseURL()
 				+ "business/find_businesses",

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">夜猫子</string>
+    <string name="work_time">晚上几点干活</string>
+    <string name="work_time_value">干活时间%1$s</string>
+    <string name="sub_btn">立即爬取数据</string>
+    <string name="tiem_error">请输入0-23之间的数字</string>
+    <string name="sucess">更新数据成功</string>
+    <string name="runing">正在爬取</string>
+    <string name="has_spider_text">%1$s已爬取过数据</string>
+    <string name="update_time_btn">保存时间</string>
+    <string name="has_run_task_text">%1$s执行过任务</string>
+    <string name="has_wifi_text">%1$s给服务端发请求是否有wifi%2$s</string>
+</resources>

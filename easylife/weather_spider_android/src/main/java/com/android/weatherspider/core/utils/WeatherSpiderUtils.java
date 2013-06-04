@@ -21,7 +21,7 @@ public class WeatherSpiderUtils {
 		return false;
 	}
 
-	public static long getDelay(Context context) {
+	public static long getTriggerAtMillis(Context context) {
 		SharedPreferencesManager manager = new SharedPreferencesManager(context);
 		int dayHour = manager.getInt(SharedPreferencesManager.HOUR_OF_DAY, 3);
 		int minute = manager.getInt(SharedPreferencesManager.MINUTE, 0);

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<LinearLayout android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+<EditText android:layout_width="100dp"
+	      android:layout_height="wrap_content"
+    	  android:id="@+id/hour_view"
+    	  android:singleLine="true" 
+    	  android:inputType="number"/>
+<TextView android:text="点"
+    	  android:layout_width="wrap_content"
+    	  android:layout_height="wrap_content"/>
+<EditText android:layout_width="100dp"
+	      android:layout_height="wrap_content"
+    	  android:id="@+id/minute_view"
+    	  android:singleLine="true" 
+    	  android:inputType="number"
+    	  />
+    	  <TextView android:text="分钟"
+    	  android:layout_width="wrap_content"
+    	  android:layout_height="wrap_content"/>    
+</LinearLayout>
+<Button android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="@string/update_time_btn"
+    	android:id="@+id/update_time_btn"/>
+<TextView android:layout_width="wrap_content"
+    	  android:layout_height="wrap_content"
+    	  android:text="@string/work_time"/>
+<TextView android:layout_width="wrap_content"
+    	  android:layout_height="wrap_content"
+    	  android:id="@+id/work_time_view"
+    	  />
+<Button android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="@string/sub_btn"
+    	android:id="@+id/sub_btn_view"/>
+<TextView android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:id="@+id/has_spider_view"/>
+<TextView android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:id="@+id/has_run_task_view"/>
+<TextView android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:id="@+id/has_wifi_view"/>
+</LinearLayout>

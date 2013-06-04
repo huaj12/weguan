@@ -61,7 +61,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 					new Intent("android.alarm.spider.action"),
 					PendingIntent.FLAG_CANCEL_CURRENT);
 			am.setRepeating(AlarmManager.RTC_WAKEUP,
-					WeatherSpiderUtils.getDelay(context), noticePeriod, sender);
+					WeatherSpiderUtils.getTriggerAtMillis(context),
+					noticePeriod, sender);
 		}
 	}
 }

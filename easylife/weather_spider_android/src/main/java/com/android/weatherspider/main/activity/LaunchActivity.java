@@ -43,8 +43,10 @@ public class LaunchActivity extends Activity {
 		minuteView.setText(user_minute + "");
 		final Button btn = (Button) findViewById(R.id.sub_btn_view);
 		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
-		workTimeView.setText(getString(R.string.work_time_value,
-				sdf.format(new Date(WeatherSpiderUtils.getDelay(this)))));
+		workTimeView
+				.setText(getString(R.string.work_time_value, sdf
+						.format(new Date(WeatherSpiderUtils
+								.getTriggerAtMillis(this)))));
 		SharedPreferencesManager dataManager = new SharedPreferencesManager(
 				this);
 		if (dataManager.getBoolean("hasRunning")) {
@@ -104,7 +106,8 @@ public class LaunchActivity extends Activity {
 		PendingIntent sender = PendingIntent.getBroadcast(this, 0, intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 		am.setRepeating(AlarmManager.RTC_WAKEUP,
-				WeatherSpiderUtils.getDelay(this), noticePeriod, sender);
+				WeatherSpiderUtils.getTriggerAtMillis(this), noticePeriod,
+				sender);
 		// // // 注册一个号
 		// HashMap<String, Object> values = new HashMap<String, Object>();
 		// values.put("token", "10019922");

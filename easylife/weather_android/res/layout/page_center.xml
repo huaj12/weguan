@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:id="@+id/page_color_view" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+         >
+
+        <Button
+            android:id="@+id/showLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:background="@drawable/weather_detail_button"
+             />
+        <TextView android:layout_width="wrap_content"
+            	  android:layout_height="wrap_content"
+            	  android:layout_toRightOf="@+id/showLeft"
+            	  android:layout_centerVertical="true"
+            	  android:id="@+id/week_view"
+            	  android:textColor="@color/white"
+            	  android:paddingTop="0dp"
+            	  android:paddingBottom="0dp"
+            	  android:lineSpacingExtra="0dp"
+            	  android:layout_marginLeft="4dp"
+            	  android:includeFontPadding="false"
+    	  		  android:textSize="12sp"/>
+        <Button android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:layout_toRightOf="@+id/showLeft"
+            	android:id="@+id/refresh_view"
+            	android:layout_marginLeft="18dp"
+            	android:layout_centerVertical="true"
+            	android:background="@drawable/refresh_button"/>
+
+        <Button
+            android:id="@+id/showRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:background="@drawable/setting_button" />
+
+        <TextView android:layout_width="wrap_content"
+    	  android:layout_height="wrap_content"
+    	  android:layout_toLeftOf="@+id/showRight"
+    	  android:id="@+id/city_view"
+    	  android:textColor="@color/white"
+    	  android:textSize="12sp"
+    	  android:paddingTop="0dp"
+          android:paddingBottom="0dp"
+          android:lineSpacingExtra="0dp"
+          android:includeFontPadding="false"
+    	  android:layout_centerVertical="true"
+    	  android:layout_marginRight="4dp"/>
+    </RelativeLayout>
+	<ListView 	
+		    		android:id="@+id/today_weather_info_list_view"
+				    android:layout_width="fill_parent"   
+				    android:layout_height="fill_parent"  
+				    android:cacheColorHint="#00000000"
+				    android:listSelector="#00000000"
+				    android:divider="@null"
+				    android:fadingEdge="none"
+				    android:paddingBottom="40dp"
+				      >
+	</ListView>
+</LinearLayout>

@@ -1,0 +1,5 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:state_pressed="true" android:drawable="@color/setting_list_hover_color" />
+	<item android:state_focused="true" android:drawable="@color/setting_list_color" />
+	<item android:drawable="@color/setting_list_color" />
+</selector>

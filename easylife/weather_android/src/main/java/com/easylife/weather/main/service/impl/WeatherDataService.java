@@ -15,6 +15,7 @@ import org.springframework.web.client.RestClientException;
 import org.xmlpull.v1.XmlPullParser;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.Xml;
 
 import com.easylife.weather.R;
@@ -42,6 +43,7 @@ public class WeatherDataService implements IWeatherDataService {
 		String today = sdf.format(cal.getTime());
 		Map<String, WeatherInfo> weathers = null;
 		try {
+			Log.d("weather", url);
 			String content = HttpUtils.getContent(url);
 			if (!StringUtils.hasText(content)) {
 				return null;
@@ -102,16 +104,13 @@ public class WeatherDataService implements IWeatherDataService {
 						String date = parser.getAttributeValue("", "date");
 						WeatherInfo info = weathers.get(date);
 						if (info != null) {
-							info.setDaytimeSky(parser.getAttributeValue("",
-									"hwd"));
 							info.setDescription(parser.getAttributeValue("",
 									"kn"));
 							info.setWindPower(parser
 									.getAttributeValue("", "wl"));
 							info.setWindDirection(parser.getAttributeValue("",
 									"wdir"));
-							info.setNightSky(parser
-									.getAttributeValue("", "lwd"));
+
 							info.setLastFestival(parser.getAttributeValue("",
 									"ftv"));
 							info.setMinTmp(parser.getAttributeValue("", "ltmp"));
@@ -131,8 +130,7 @@ public class WeatherDataService implements IWeatherDataService {
 								.setNowTmp(parser.getAttributeValue("", "tmp"));
 						todayinfo.setHum(parser.getAttributeValue("", "hum"));
 						todayinfo.setSky(parser.getAttributeValue("", "wd"));
-						todayinfo.setUvidx(parser
-								.getAttributeValue("", "uvidx"));
+						todayinfo.setIcon(parser.getAttributeValue("", "wid"));
 						weathers.put(today, todayinfo);
 					}
 					if ("day".equals(parser.getName())) {
@@ -149,7 +147,10 @@ public class WeatherDataService implements IWeatherDataService {
 								"", "hwdir"));
 						info.setNightWindDirection(parser.getAttributeValue("",
 								"lwdir"));
-						info.setIcon(parser.getAttributeValue("", "hwid"));
+						info.setDaytimeSky(parser.getAttributeValue("", "hwd"));
+						info.setNightSky(parser.getAttributeValue("", "lwd"));
+						info.setDaytimeIcon(parser
+								.getAttributeValue("", "hwid"));
 						weathers.put(date, info);
 
 					}
@@ -176,6 +177,22 @@ public class WeatherDataService implements IWeatherDataService {
 						air.setTitle(parser.getAttributeValue("", "title"));
 						todayinfo.setAir(air);
 						weathers.put(today, todayinfo);
+					}
+					if ("idx".equals(parser.getName())) {
+						if ("12".equals(parser.getAttributeValue("", "type"))) {
+							todayinfo = weathers.get(today);
+							int lv = 0;
+							try {
+								lv = Integer.parseInt(parser.getAttributeValue(
+										"", "lv"));
+							} catch (Exception e) {
+
+							}
+							todayinfo.setUvidxLv(lv);
+							todayinfo.setUvidx(parser.getAttributeValue("",
+									"desc"));
+							weathers.put(today, todayinfo);
+						}
 					}
 					break;
 				case XmlPullParser.END_TAG:// 判断当前事件是否是标签元素结束事件

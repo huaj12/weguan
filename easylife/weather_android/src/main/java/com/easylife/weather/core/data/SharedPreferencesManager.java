@@ -15,6 +15,7 @@ public class SharedPreferencesManager {
 	public final static String P_USER_CONFIG = "p_user_config";
 	public final static String P_BACKGROUNDCOLOR = "p_backgroundcolor";
 	public final static String CREATE_SHORTCUT = "create_shortcut";
+	public final static String LAST_UPDATE_TIME = "last_update_time";
 
 	public SharedPreferencesManager(Context context) {
 		sharedPreferences = context.getSharedPreferences("weather-android",
@@ -49,6 +50,12 @@ public class SharedPreferencesManager {
 		editor.commit();
 	}
 
+	public void commit(String key, long value) {
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putLong(key, value);
+		editor.commit();
+	}
+
 	public void commit(Map<String, String> map) {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		for (Entry<String, String> entry : map.entrySet()) {
@@ -67,6 +74,10 @@ public class SharedPreferencesManager {
 
 	public int getInt(String key) {
 		return sharedPreferences.getInt(key, 0);
+	}
+
+	public long getLong(String key) {
+		return sharedPreferences.getLong(key, 0);
 	}
 
 	public int getInt(String key, int defValue) {

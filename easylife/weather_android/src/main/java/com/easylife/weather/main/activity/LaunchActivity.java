@@ -14,7 +14,6 @@ import cn.domob.android.ads.DomobSplashAd.DomobSplashMode;
 import cn.domob.android.ads.DomobSplashAdListener;
 
 import com.easylife.weather.R;
-import com.easylife.weather.common.adservice.NotificationService;
 import com.easylife.weather.core.Constants;
 import com.easylife.weather.core.activity.BaseActivity;
 import com.easylife.weather.core.data.SharedPreferencesManager;
@@ -23,6 +22,7 @@ import com.easylife.weather.core.location.BDLocation;
 import com.easylife.weather.core.location.BDLocation.BDLocationCallback;
 import com.easylife.weather.core.stat.UmengEvent;
 import com.easylife.weather.core.utils.DateUtil;
+import com.easylife.weather.core.utils.WeatherUtils;
 import com.easylife.weather.main.data.WeatherDataManager;
 import com.easylife.weather.main.model.WeatherInfo;
 import com.easylife.weather.main.service.IWeatherDataService;
@@ -161,15 +161,10 @@ public class LaunchActivity extends BaseActivity {
 
 		} else {
 			Intent intent = new Intent(LaunchActivity.this, MainActivity.class);
-			intent.putExtra("update",
-					getIntent().getBooleanExtra("update", false));
 			startActivity(intent);
 			finish();
 		}
-		// 启动通知栏service
-		Intent serviceIntent = new Intent(LaunchActivity.this,
-				NotificationService.class);
-		startService(serviceIntent);
+		WeatherUtils.setRepeating(this);
 	}
 
 	@Override

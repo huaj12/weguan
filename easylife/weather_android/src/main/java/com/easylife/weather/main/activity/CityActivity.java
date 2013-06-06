@@ -54,6 +54,7 @@ public class CityActivity extends BaseActivity {
 	private SharedPreferencesManager manager = null;
 	private BDLocation location;
 	private UserConfig user;
+	private CitySqlite sqlLite = null;
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -85,6 +86,7 @@ public class CityActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_city);
+		sqlLite = new CitySqlite(CityActivity.this);
 		searchEditTextView = (EditText) findViewById(R.id.search_edit_text);
 		Button calcelBtn = (Button) findViewById(R.id.cancel_btn);
 		manager = new SharedPreferencesManager(CityActivity.this);
@@ -118,8 +120,6 @@ public class CityActivity extends BaseActivity {
 				if (!StringUtils.hasText(content)) {
 					return;
 				}
-
-				CitySqlite sqlLite = new CitySqlite(CityActivity.this);
 				Cursor cursor = null;
 				try {
 					cursor = sqlLite.getChooseCity(content);
@@ -245,6 +245,9 @@ public class CityActivity extends BaseActivity {
 	protected void onDestroy() {
 		if (location != null) {
 			location.stop();
+		}
+		if (sqlLite != null) {
+			sqlLite.close();
 		}
 		super.onDestroy();
 	}

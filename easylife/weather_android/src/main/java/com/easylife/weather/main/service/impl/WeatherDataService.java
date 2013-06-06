@@ -18,6 +18,7 @@ import android.content.Context;
 import android.util.Xml;
 
 import com.easylife.weather.R;
+import com.easylife.weather.core.data.SharedPreferencesManager;
 import com.easylife.weather.core.exception.WeatherException;
 import com.easylife.weather.core.model.Result.StringResult;
 import com.easylife.weather.core.model.Result.WeatherInfoResult;
@@ -189,6 +190,9 @@ public class WeatherDataService implements IWeatherDataService {
 		}
 		result.setResult(weathers);
 		WeatherDataManager.saveWeatherInfo(context, result);
+		SharedPreferencesManager manager = new SharedPreferencesManager(context);
+		manager.commit(SharedPreferencesManager.LAST_UPDATE_TIME,
+				System.currentTimeMillis());
 		return result;
 	}
 

@@ -13,7 +13,6 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
@@ -34,7 +33,9 @@ import android.widget.ViewSwitcher.ViewFactory;
 import com.easylife.weather.R;
 import com.easylife.weather.common.service.IShareService;
 import com.easylife.weather.common.service.impl.ShareService;
+import com.easylife.weather.core.Constants;
 import com.easylife.weather.core.activity.ActivityCode;
+import com.easylife.weather.core.data.SharedPreferencesManager;
 import com.easylife.weather.core.exception.WeatherException;
 import com.easylife.weather.core.task.ProgressTask;
 import com.easylife.weather.core.task.TaskCallback;
@@ -98,8 +99,13 @@ public class MainActivity extends SlidingFragmentActivity {
 		slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 		setBehindContentView(R.layout.fragment_left);
 		slidingMenu.setSecondaryMenu(R.layout.fragment_right);
-		weatherInfo = WeatherDataManager.getWeatherInfos(DateUtil.getToday(),
-				MainActivity.this);
+		SharedPreferencesManager manager = new SharedPreferencesManager(this);
+		long lastUpdateTime = manager
+				.getLong(SharedPreferencesManager.LAST_UPDATE_TIME);
+		if (System.currentTimeMillis() - lastUpdateTime < Constants.WEATHER_UPDATE_INTERVAL) {
+			weatherInfo = WeatherDataManager.getWeatherInfos(
+					DateUtil.getToday(), MainActivity.this);
+		}
 		cityName = UserConfigManager.getCityName(MainActivity.this);
 		if (!StringUtils.hasText(cityName)) {
 			// 没有城市则去选择城市页面
@@ -289,21 +295,12 @@ public class MainActivity extends SlidingFragmentActivity {
 				final UserConfig user = UserConfigManager
 						.getUserConfig(MainActivity.this);
 				user.setHourStr(hour);
-				new AsyncTask<Void, Void, Void>() {
-
-					@Override
-					protected Void doInBackground(Void... params) {
-
-						try {
-							passportService.updateUserConfig(user,
-									MainActivity.this);
-						} catch (WeatherException e) {
-						}
-						return null;
-					}
-
-				}.execute();
-				// 先保存本地的为了更新数据
+				user.setHour(Integer.parseInt(hour.split(":")[0]));
+				WeatherUtils.setRepeating(MainActivity.this);
+				try {
+					passportService.updateUserConfig(user, MainActivity.this);
+				} catch (WeatherException e) {
+				}
 				rightFragment.settingAdapter.notifyDataSetChanged();
 			}
 		}

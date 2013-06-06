@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=locSDK_3.3.jar -DgroupId=com.baidu -DartifactId=locationsdk -Dversion=3.3 -Dpackaging=jar

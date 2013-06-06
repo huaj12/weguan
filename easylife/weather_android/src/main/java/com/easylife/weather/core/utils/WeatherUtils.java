@@ -1,6 +1,7 @@
 package com.easylife.weather.core.utils;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,16 +9,21 @@ import org.springframework.util.StringUtils;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.easylife.weather.R;
+import com.easylife.weather.core.Constants;
 import com.easylife.weather.core.data.SharedPreferencesManager;
 import com.easylife.weather.main.model.WeatherInfo;
 import com.easylife.weather.passport.data.UserConfigManager;
+import com.easylife.weather.passport.model.UserConfig;
 
 public class WeatherUtils {
 	private static final int[] WEATHER_TYEP = { R.drawable.btyy_normal,
@@ -50,7 +56,7 @@ public class WeatherUtils {
 		try {
 			int daytimeWind = getWindLevel(info.getDaytimeWindPower());
 			int nightWind = getWindLevel(info.getNightWindPower());
-			if (daytimeWind >= 6 || nightWind >= 6) {
+			if (daytimeWind > 6 || nightWind > 6) {
 				resource = R.drawable.dflx_normal;
 			}
 		} catch (Exception e) {
@@ -62,7 +68,7 @@ public class WeatherUtils {
 	public static int getPM25Resource(WeatherInfo info) {
 		int resource = 0;
 		int pm25 = getPM2Level(info);
-		if (pm25 > 2) {
+		if (pm25 > 3) {
 			resource = R.drawable.kqwr_normal;
 		}
 		return resource;
@@ -74,7 +80,8 @@ public class WeatherUtils {
 		try {
 			int oldTmp = Integer.parseInt(yesterdayInfo.getMinTmp());
 			int tmp = Integer.parseInt(todayInfo.getMinTmp());
-			if (oldTmp - tmp >= 5 && tmp < 15) {
+			if (oldTmp - tmp >= Constants.TEMPERATURE
+					&& tmp < Constants.COLLING_TMP_MIN) {
 				resource = R.drawable.wdzj_normal;
 			}
 		} catch (Exception e) {
@@ -240,5 +247,45 @@ public class WeatherUtils {
 		notification.icon = R.drawable.logo_top;
 		// 开始执行
 		notificationManager.notify(id, notification);
+	}
+
+	public static long userRemindTime(Context context) {
+		UserConfig user = UserConfigManager.getUserConfig(context);
+		int hour = Constants.HOUR;
+		if (user != null) {
+			hour = user.getHour();
+		}
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, hour);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.add(Calendar.DATE, 0);
+		long time = cal.getTimeInMillis() - new Date().getTime();
+		if (time > 0) {
+			return cal.getTime().getTime();
+		} else {
+			return cal.getTimeInMillis() + (1000 * 3600 * 24);
+		}
+	}
+
+	public static void setRepeating(Context context) {
+		Log.d("weather", "setRepeating begin");
+		long noticePeriod = 1000 * 3600 * 24;
+		UserConfig user = UserConfigManager.getUserConfig(context);
+		if (user == null
+				|| (user.isRemindCooling() || user.isRemindRain() || user
+						.isRemindWind())) {
+			AlarmManager am = (AlarmManager) context
+					.getSystemService(Context.ALARM_SERVICE);
+			PendingIntent sender = PendingIntent.getBroadcast(context, 0,
+					new Intent(Constants.ALARM_INTENT),
+					PendingIntent.FLAG_CANCEL_CURRENT);
+			am.setRepeating(AlarmManager.RTC_WAKEUP,
+					WeatherUtils.userRemindTime(context), noticePeriod, sender);
+			// am.setRepeating(AlarmManager.RTC_WAKEUP,
+			// System.currentTimeMillis()
+			// + (1000 * 30), noticePeriod, sender);
+		}
+		Log.d("weather", "setRepeating end");
 	}
 }

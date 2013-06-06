@@ -1,7 +1,9 @@
 package com.easylife.weather.main.adapter;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.easylife.weather.R;
+import com.easylife.weather.core.Constants;
 import com.easylife.weather.core.exception.WeatherException;
+import com.easylife.weather.core.utils.WeatherUtils;
 import com.easylife.weather.core.widget.button.SwitchButton;
 import com.easylife.weather.core.widget.button.SwitchButton.OnChangedListener;
 import com.easylife.weather.passport.data.UserConfigManager;
@@ -97,18 +101,21 @@ public class RemindListAdapter extends BaseAdapter {
 	}
 
 	private void updateUser(final UserConfig user) {
-		new AsyncTask<Void, Void, Void>() {
-
-			@Override
-			protected Void doInBackground(Void... params) {
-				try {
-					passportService.updateUserConfig(user, context);
-				} catch (WeatherException e) {
-				}
-				return null;
-			}
-
-		}.execute();
+		try {
+			passportService.updateUserConfig(user, context);
+		} catch (WeatherException e) {
+		}
+		if (!user.isRemindCooling() && !user.isRemindRain()
+				&& !user.isRemindWind()) {
+			AlarmManager am = (AlarmManager) context
+					.getSystemService(Context.ALARM_SERVICE);
+			PendingIntent sender = PendingIntent.getBroadcast(context, 0,
+					new Intent(Constants.ALARM_INTENT),
+					PendingIntent.FLAG_CANCEL_CURRENT);
+			am.cancel(sender);
+		} else {
+			WeatherUtils.setRepeating(context);
+		}
 	}
 
 }

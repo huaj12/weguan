@@ -252,12 +252,16 @@ public class WeatherUtils {
 	public static long userRemindTime(Context context) {
 		UserConfig user = UserConfigManager.getUserConfig(context);
 		int hour = Constants.HOUR;
-		if (user != null) {
-			hour = user.getHour();
+		int minute = 0;
+		if (user != null && user.getTime() > 0) {
+			Calendar c = Calendar.getInstance();
+			c.setTimeInMillis(user.getTime());
+			hour = c.get(Calendar.HOUR_OF_DAY);
+			minute = c.get(Calendar.MINUTE);
 		}
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.HOUR_OF_DAY, hour);
-		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.MINUTE, minute);
 		cal.set(Calendar.SECOND, 0);
 		cal.add(Calendar.DATE, 0);
 		long time = cal.getTimeInMillis() - new Date().getTime();

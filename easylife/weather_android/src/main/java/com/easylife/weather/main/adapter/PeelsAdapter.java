@@ -82,8 +82,8 @@ public class PeelsAdapter extends BaseAdapter {
 				}
 				WeatherDataManager.setBackgroundColor(mContext, colorInt);
 				BaseActivity activity = (BaseActivity) mContext;
-				activity.clearStackAndStartActivity(new Intent(mContext,
-						MainActivity.class));
+				activity.startActivity(new Intent(mContext, MainActivity.class));
+				activity.finish();
 			}
 		});
 		return convertView;

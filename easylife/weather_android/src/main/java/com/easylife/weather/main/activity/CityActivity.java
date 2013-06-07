@@ -172,6 +172,8 @@ public class CityActivity extends BaseActivity {
 							} catch (WeatherException e) {
 							}
 							if (cityUrl != null) {
+								WeatherDataManager
+										.delWeatherDate(CityActivity.this);
 								// 获取天气数据和城市
 								weatherDataService.getWeatherInfo(cityUrl,
 										CityActivity.this);
@@ -185,9 +187,9 @@ public class CityActivity extends BaseActivity {
 											.getUserConfig(CityActivity.this);
 									user.setCityName(info.getCityName());
 									handler.sendEmptyMessage(1);
-									clearStackAndStartActivity(new Intent(
-											CityActivity.this,
+									startActivity(new Intent(CityActivity.this,
 											MainActivity.class));
+									finish();
 								} else {
 									handler.sendEmptyMessage(R.string.no_network);
 								}
@@ -229,8 +231,9 @@ public class CityActivity extends BaseActivity {
 					user.setCityName(content);
 					handler.sendEmptyMessage(1);
 					WeatherDataManager.delWeatherDate(CityActivity.this);
-					clearStackAndStartActivity(new Intent(CityActivity.this,
+					startActivity(new Intent(CityActivity.this,
 							MainActivity.class));
+					finish();
 				}
 			}
 		});

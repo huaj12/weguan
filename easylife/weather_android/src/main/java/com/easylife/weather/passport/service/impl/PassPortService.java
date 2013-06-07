@@ -2,7 +2,6 @@ package com.easylife.weather.passport.service.impl;
 
 import android.content.Context;
 
-import com.easylife.weather.core.Constants;
 import com.easylife.weather.core.exception.WeatherException;
 import com.easylife.weather.core.utils.WeatherUtils;
 import com.easylife.weather.passport.data.UserConfigManager;
@@ -22,8 +21,8 @@ public class PassPortService implements IPassportService {
 			throws WeatherException {
 		UserConfig userConfig = new UserConfig();
 		userConfig.setCityName(cityname);
-		userConfig.setHourStr("7:00");
-		userConfig.setHour(Constants.HOUR);
+		userConfig.setTimeStr("7:00");
+		userConfig.setTime(WeatherUtils.userRemindTime(context));
 		userConfig.setRemindCooling(false);
 		userConfig.setRemindRain(true);
 		userConfig.setRemindWind(false);

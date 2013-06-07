@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -34,13 +35,14 @@ import com.easylife.weather.R;
 import com.easylife.weather.common.service.IShareService;
 import com.easylife.weather.common.service.impl.ShareService;
 import com.easylife.weather.core.Constants;
-import com.easylife.weather.core.activity.ActivityCode;
 import com.easylife.weather.core.data.SharedPreferencesManager;
 import com.easylife.weather.core.exception.WeatherException;
 import com.easylife.weather.core.task.ProgressTask;
 import com.easylife.weather.core.task.TaskCallback;
 import com.easylife.weather.core.utils.DateUtil;
 import com.easylife.weather.core.utils.WeatherUtils;
+import com.easylife.weather.core.widget.date.DateSlider;
+import com.easylife.weather.core.widget.date.TimeSlider;
 import com.easylife.weather.core.widget.menu.SlidingMenu;
 import com.easylife.weather.core.widget.menu.app.SlidingFragmentActivity;
 import com.easylife.weather.main.adapter.MainListAdapter;
@@ -54,10 +56,11 @@ import com.easylife.weather.passport.data.UserConfigManager;
 import com.easylife.weather.passport.model.UserConfig;
 import com.easylife.weather.passport.service.IPassportService;
 import com.easylife.weather.passport.service.impl.PassPortService;
+import com.nd.dianjin.DianJinPlatform;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.update.UmengUpdateAgent;
 
 public class MainActivity extends SlidingFragmentActivity {
+	public final int TIMESELECTOR_ID = 4;
 	private IWeatherDataService weatherDataService = new WeatherDataService();
 	private IPassportService passportService = new PassPortService();
 	private SlidingMenu slidingMenu;
@@ -77,14 +80,27 @@ public class MainActivity extends SlidingFragmentActivity {
 			mSwitcher.setImageResource(msg.what);
 		}
 	};
+	private DateSlider.OnDateSetListener mTimeSetListener = new DateSlider.OnDateSetListener() {
+
+		@Override
+		public void onDateSet(DateSlider view, Calendar selectedDate) {
+			UserConfig user = UserConfigManager
+					.getUserConfig(MainActivity.this);
+			user.setTimeStr(String.format("%tR", selectedDate));
+			user.setTime(selectedDate.getTimeInMillis());
+			WeatherUtils.setRepeating(MainActivity.this);
+			try {
+				passportService.updateUserConfig(user, MainActivity.this);
+			} catch (WeatherException e) {
+			}
+			rightFragment.settingAdapter.notifyDataSetChanged();
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		setContentView(R.layout.page_center);
-		LinearLayout layout = (LinearLayout) findViewById(R.id.page_color_view);
-		layout.setBackgroundColor(WeatherDataManager
-				.getBackgroundColor(MainActivity.this));
 		slidingMenu = getSlidingMenu();
 		slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);
 		slidingMenu.setShadowWidth(getWindowManager().getDefaultDisplay()
@@ -110,14 +126,24 @@ public class MainActivity extends SlidingFragmentActivity {
 		if (!StringUtils.hasText(cityName)) {
 			// 没有城市则去选择城市页面
 			startActivity(new Intent(MainActivity.this, CityActivity.class));
-			finish();
 		}
-		if (getIntent().getBooleanExtra("update", false)) {
-			UmengUpdateAgent.setUpdateAutoPopup(true);
-			UmengUpdateAgent.update(this);
-		}
-		init();
 
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		weatherInfo = null;
+		cityName = UserConfigManager.getCityName(MainActivity.this);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		LinearLayout layout = (LinearLayout) findViewById(R.id.page_color_view);
+		layout.setBackgroundColor(WeatherDataManager
+				.getBackgroundColor(MainActivity.this));
+		init();
 	}
 
 	public void init() {
@@ -282,30 +308,6 @@ public class MainActivity extends SlidingFragmentActivity {
 		}
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == ActivityCode.RequestCode.CLEAR_REQUEST_CODE
-				&& resultCode == ActivityCode.ResultCode.CLEAR_RESULT_CODE) {
-			setResult(ActivityCode.ResultCode.CLEAR_RESULT_CODE);
-			finish();
-		} else if (requestCode == ActivityCode.RequestCode.HOUR_REQUEST_CODE
-				&& resultCode == ActivityCode.ResultCode.HOUR_RESULT_CODE) {
-			String hour = data.getStringExtra("hour");
-			if (StringUtils.hasText(hour)) {
-				final UserConfig user = UserConfigManager
-						.getUserConfig(MainActivity.this);
-				user.setHourStr(hour);
-				user.setHour(Integer.parseInt(hour.split(":")[0]));
-				WeatherUtils.setRepeating(MainActivity.this);
-				try {
-					passportService.updateUserConfig(user, MainActivity.this);
-				} catch (WeatherException e) {
-				}
-				rightFragment.settingAdapter.notifyDataSetChanged();
-			}
-		}
-	}
-
 	private Integer[] getTravelTips() {
 		List<Integer> resources = new ArrayList<Integer>();
 		int rain = WeatherUtils.getRainResource(weatherInfo, MainActivity.this);
@@ -342,5 +344,25 @@ public class MainActivity extends SlidingFragmentActivity {
 	protected void onPause() {
 		super.onPause();
 		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		DianJinPlatform.destroy();
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		if (id == TIMESELECTOR_ID) {
+			Calendar c = Calendar.getInstance();
+			c.setTimeInMillis(WeatherUtils.userRemindTime(MainActivity.this));
+			return new TimeSlider(this, mTimeSetListener, c, 5);
+		}
+		return null;
+	}
+
+	public void closeRight() {
+		slidingMenu.showSecondaryMenu();
 	}
 }

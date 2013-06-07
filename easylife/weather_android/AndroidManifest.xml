@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.easylife.weather" android:versionCode="3" android:versionName="1.1.0">
+  package="com.easylife.weather" android:versionCode="4" android:versionName="1.1.1">
   <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="10"/>
   	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
@@ -38,11 +38,9 @@
     <!-- test <meta-data android:value="517b77ca527015938d000005" android:name="UMENG_APPKEY"></meta-data>-->
 	<meta-data android:value="${umeng-channel}" android:name="UMENG_CHANNEL"/>
     <activity android:name=".core.activity.BaseActivity" android:screenOrientation="portrait"/>
-    <activity android:name=".main.activity.MainActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".main.activity.MainActivity" android:screenOrientation="portrait"  android:launchMode="singleInstance" />
     <activity android:name=".main.activity.CityActivity" android:screenOrientation="portrait"/>
     <activity android:name=".main.activity.PeelsActivity" android:screenOrientation="portrait"/>
-    <activity android:name=".main.activity.RemindTimeActivity"
-            android:screenOrientation="portrait" android:theme="@android:style/Theme.Dialog"/>
     <activity android:name=".wxapi.WXEntryActivity" android:exported="true"/>
     <service
     android:name="com.umeng.common.net.DownloadingService"
@@ -65,11 +63,26 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.alarm.weather.action"/>
             </intent-filter>
-        </receiver>
-        
-        <!-- ad -->
-        <activity android:name="cn.domob.android.ads.DomobActivity"
-			android:theme="@android:style/Theme.Translucent"></activity>
+      </receiver>
+      
+      <!-- 91 -->
+      <activity android:name="com.nd.dianjin.activity.OfferAppActivity"
+		android:configChanges="keyboardHidden|orientation"
+		android:launchMode="singleTop"
+		/>
+		<activity android:name="com.nd.dianjin.activity.DownloadManagerActivity"
+		android:configChanges="keyboardHidden|orientation"
+		android:launchMode="singleTop"/>
+		<activity android:name="com.nd.dianjin.activity.DetailActivity"
+		android:configChanges="keyboardHidden|orientation"
+		android:launchMode="singleTop"
+		/>
+		<service android:name="com.nd.dianjin.service.PackageChangedService"/>
+		<service android:name="com.nd.dianjin.appdownload.DownloadService">
+				<intent-filter>
+				<action android:name="com.easylife.weather" />
+				</intent-filter>
+		</service>
   </application>
 
 </manifest>

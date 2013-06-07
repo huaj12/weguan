@@ -1,6 +1,5 @@
 package com.easylife.weather.main.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,15 +16,20 @@ import android.widget.Toast;
 import com.easylife.weather.R;
 import com.easylife.weather.common.service.IShareService;
 import com.easylife.weather.common.service.impl.ShareService;
-import com.easylife.weather.core.activity.ActivityCode;
+import com.easylife.weather.core.stat.UmengEvent;
 import com.easylife.weather.core.utils.UIUtil;
 import com.easylife.weather.main.activity.CityActivity;
+import com.easylife.weather.main.activity.MainActivity;
 import com.easylife.weather.main.activity.PeelsActivity;
-import com.easylife.weather.main.activity.RemindTimeActivity;
 import com.easylife.weather.main.adapter.RemindListAdapter;
 import com.easylife.weather.main.adapter.SettingListAdapter;
-import com.easylife.weather.passport.data.UserConfigManager;
 import com.easylife.weather.passport.model.UserConfig;
+import com.nd.dianjin.DianJinPlatform;
+import com.nd.dianjin.DianJinPlatform.OfferWallStyle;
+import com.nd.dianjin.DianJinPlatform.Oriention;
+import com.nd.dianjin.listener.AppActivatedListener;
+import com.nd.dianjin.listener.OfferWallStateListener;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
@@ -64,19 +68,13 @@ public class RightFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int index,
 					long arg3) {
+				MainActivity activty = (MainActivity) context;
 				switch (index) {
 				case 0:
-					pushIntentForResult(
-							new Intent(context, CityActivity.class),
-							ActivityCode.RequestCode.CLEAR_REQUEST_CODE);
+					startActivity(new Intent(context, CityActivity.class));
 					break;
 				case 1:
-					user = UserConfigManager.getUserConfig(context);
-					Intent intent = new Intent(context,
-							RemindTimeActivity.class);
-					intent.putExtra("hour", user.getHourStr());
-					pushIntentForResult(intent,
-							ActivityCode.RequestCode.HOUR_REQUEST_CODE);
+					activty.showDialog(activty.TIMESELECTOR_ID);
 					break;
 				case 2:
 					Intent i = new Intent(Intent.ACTION_SEND);
@@ -95,9 +93,7 @@ public class RightFragment extends Fragment {
 									R.string.share_friend_text), context);
 					break;
 				case 4:
-					pushIntentForResult(
-							new Intent(context, PeelsActivity.class),
-							ActivityCode.RequestCode.CLEAR_REQUEST_CODE);
+					startActivity(new Intent(context, PeelsActivity.class));
 					break;
 				case 5:
 					UmengUpdateAgent.update(context);
@@ -131,6 +127,43 @@ public class RightFragment extends Fragment {
 								}
 							});
 					break;
+				case 6:
+					DianJinPlatform.showOfferWall(context, Oriention.SENSOR,
+							OfferWallStyle.BROWN);
+					DianJinPlatform
+							.setOfferWallStateListener(new OfferWallStateListener() {
+								@Override
+								public void onOfferWallState(int code) {
+									switch (code) {
+									case DianJinPlatform.DIANJIN_OFFERWALL_START:
+										MobclickAgent.onEvent(context,
+												UmengEvent.OPEN_OFFER);
+										break;
+									default:
+										break;
+									}
+								}
+							});
+					DianJinPlatform
+							.setAppActivatedListener(new AppActivatedListener() {
+								/*
+								 * 确认应用是否被激活
+								 */
+								@Override
+								public void onAppActivatedResponse(
+										int responseCode) {
+
+									switch (responseCode) {
+									case DianJinPlatform.APP_ACTIVATED_SUCESS:
+										MobclickAgent.onEvent(context,
+												UmengEvent.ACTIVITY_OFFER);
+										break;
+									default:
+										break;
+									}
+								}
+							});
+					break;
 				default:
 					break;
 				}
@@ -142,12 +175,6 @@ public class RightFragment extends Fragment {
 
 	public void pushIntentForResult(Intent intent, int requestCode) {
 		startActivityForResult(intent, requestCode);
-	}
-
-	@Override
-	public void startActivityForResult(Intent intent, int requestCode) {
-		Activity activity = (Activity) context;
-		activity.startActivityForResult(intent, requestCode);
 	}
 
 }

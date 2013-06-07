@@ -1,8 +1,8 @@
 package com.easylife.weather.core;
 
 public class Constants {
-	public static final String DOMOB_ID = "56OJzaKIuNXU/vd/Zn";
-	public static final String SPLASH_PPID = "16TLm9yoApCH2NUHJ7j-nZfz";
+	public static final int DIANJIN_ID = 33066;
+	public static final String SECRET_KEY = "790ef675dc75da16e50dd9773f132642";
 	public static final int COLLING_TMP_MIN = 20;
 	public static final int TEMPERATURE = 5;
 	public static final long WEATHER_UPDATE_INTERVAL = 1000 * 3600 * 2;

@@ -8,7 +8,6 @@ import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -19,27 +18,6 @@ import com.umeng.analytics.MobclickAgent;
  * 
  */
 public class BaseActivity extends Activity {
-
-	public void clearStackAndStartActivity(Intent intent) {
-		setResult(ActivityCode.ResultCode.CLEAR_RESULT_CODE);
-		startActivity(intent);
-		finish();
-	}
-
-	public void pushIntentForResult(Intent intent) {
-		startActivityForResult(intent,
-				ActivityCode.RequestCode.CLEAR_REQUEST_CODE);
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == ActivityCode.RequestCode.CLEAR_REQUEST_CODE
-				&& resultCode == ActivityCode.ResultCode.CLEAR_RESULT_CODE) {
-			setResult(ActivityCode.ResultCode.CLEAR_RESULT_CODE);
-			finish();
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
 
 	@Override
 	protected void onResume() {

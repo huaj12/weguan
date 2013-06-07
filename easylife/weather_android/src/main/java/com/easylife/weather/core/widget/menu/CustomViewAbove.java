@@ -942,7 +942,7 @@ public class CustomViewAbove extends ViewGroup {
 		}
 	}
 
-	private void setScrollingCacheEnabled(boolean enabled) {
+	public void setScrollingCacheEnabled(boolean enabled) {
 		if (mScrollingCacheEnabled != enabled) {
 			mScrollingCacheEnabled = enabled;
 			if (USE_CACHE) {

@@ -9,9 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.widget.Toast;
-import cn.domob.android.ads.DomobSplashAd;
-import cn.domob.android.ads.DomobSplashAd.DomobSplashMode;
-import cn.domob.android.ads.DomobSplashAdListener;
 
 import com.easylife.weather.R;
 import com.easylife.weather.core.Constants;
@@ -20,7 +17,6 @@ import com.easylife.weather.core.data.SharedPreferencesManager;
 import com.easylife.weather.core.exception.WeatherException;
 import com.easylife.weather.core.location.BDLocation;
 import com.easylife.weather.core.location.BDLocation.BDLocationCallback;
-import com.easylife.weather.core.stat.UmengEvent;
 import com.easylife.weather.core.utils.DateUtil;
 import com.easylife.weather.core.utils.WeatherUtils;
 import com.easylife.weather.main.data.WeatherDataManager;
@@ -31,13 +27,12 @@ import com.easylife.weather.passport.data.UserConfigManager;
 import com.easylife.weather.passport.model.UserConfig;
 import com.easylife.weather.passport.service.IPassportService;
 import com.easylife.weather.passport.service.impl.PassPortService;
-import com.umeng.analytics.MobclickAgent;
+import com.nd.dianjin.DianJinPlatform;
 
 public class LaunchActivity extends BaseActivity {
 	private IPassportService passPortService = new PassPortService();
 	private BDLocation location;
 	private SharedPreferencesManager manager = null;
-	private DomobSplashAd splashAd;
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			Toast.makeText(LaunchActivity.this, msg.what, Toast.LENGTH_SHORT)
@@ -49,39 +44,10 @@ public class LaunchActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		DianJinPlatform.initialize(this, Constants.DIANJIN_ID,
+				Constants.SECRET_KEY);
 		setContentView(R.layout.page_launch);
-		splashAd = new DomobSplashAd(this, Constants.DOMOB_ID,
-				Constants.SPLASH_PPID,
-				DomobSplashMode.DomobSplashModeFullScreen);
-		splashAd.setSplashAdListener(new DomobSplashAdListener() {
-			@Override
-			public void onSplashPresent() {
-			}
-
-			@Override
-			public void onSplashDismiss() {
-				MobclickAgent.onEvent(LaunchActivity.this,
-						UmengEvent.OPEN_FULLAD);
-				jump();
-			}
-
-			@Override
-			public void onSplashLoadFailed() {
-			}
-		});
-
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				if (splashAd.isSplashAdReady()) {
-					splashAd.splash(LaunchActivity.this, LaunchActivity.this
-							.findViewById(R.id.splash_holder));
-				} else {
-					jump();
-				}
-			}
-		}, 1000);
-
+		jump();
 	}
 
 	private void jump() {

@@ -10,7 +10,7 @@ import android.os.Handler;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import com.easylife.DianJinPlatform;
+import com.easy.DianJinPlatform;
 import com.easylife.weather.R;
 import com.easylife.weather.core.Constants;
 import com.easylife.weather.core.activity.BaseActivity;

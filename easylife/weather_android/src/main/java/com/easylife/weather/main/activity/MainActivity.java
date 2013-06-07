@@ -31,7 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewSwitcher.ViewFactory;
 
-import com.easylife.DianJinPlatform;
+import com.easy.DianJinPlatform;
 import com.easylife.weather.R;
 import com.easylife.weather.common.service.IShareService;
 import com.easylife.weather.common.service.impl.ShareService;
@@ -74,10 +74,15 @@ public class MainActivity extends SlidingFragmentActivity {
 	private TextView cityView;
 	private WeatherInfo weatherInfo;
 	private ImageSwitcher mSwitcher;
-	private int index = 0;
+	private ListView listView;
+	private RelativeLayout hearView;
+	private Timer timer;
+	private int index = 1;
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
-			mSwitcher.setImageResource(msg.what);
+			if (mSwitcher != null) {
+				mSwitcher.setImageResource(msg.what);
+			}
 		}
 	};
 	private DateSlider.OnDateSetListener mTimeSetListener = new DateSlider.OnDateSetListener() {
@@ -206,7 +211,10 @@ public class MainActivity extends SlidingFragmentActivity {
 		showLeft = (Button) findViewById(R.id.showLeft);
 		showRight = (Button) findViewById(R.id.showRight);
 		refresh_view = (Button) findViewById(R.id.refresh_view);
-		ListView listView = (ListView) findViewById(R.id.today_weather_info_list_view);
+		listView = (ListView) findViewById(R.id.today_weather_info_list_view);
+		if (hearView != null) {
+			listView.removeHeaderView(hearView);
+		}
 		showRight.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -226,7 +234,7 @@ public class MainActivity extends SlidingFragmentActivity {
 
 			@Override
 			public void onClick(View v) {
-				// slidingMenu.showSecondaryMenu();
+				slidingMenu.showSecondaryMenu();
 			}
 		});
 		refresh_view.setOnClickListener(new View.OnClickListener() {
@@ -254,11 +262,13 @@ public class MainActivity extends SlidingFragmentActivity {
 				R.anim.image_view_in);
 		Animation outAni = AnimationUtils.loadAnimation(MainActivity.this,
 				R.anim.image_view_out);
-		RelativeLayout hearView = (RelativeLayout) ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE))
+		hearView = (RelativeLayout) ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE))
 				.inflate(R.layout.fragment__imageswitcher, null);
 		ImageView shareView = (ImageView) hearView
 				.findViewById(R.id.share_image_view);
 		mSwitcher = (ImageSwitcher) hearView.findViewById(R.id.switcher);
+		// 必须放到动画前面
+		mSwitcher.setAnimateFirstView(false);
 		mSwitcher.setInAnimation(inAni);
 		mSwitcher.setOutAnimation(outAni);
 		mSwitcher.setFactory(new ViewFactory() {
@@ -273,10 +283,12 @@ public class MainActivity extends SlidingFragmentActivity {
 			}
 		});
 		final Integer[] res = getTravelTips();
-		if (res.length == 1) {
-			mSwitcher.setImageResource(res[0]);
-		} else {
-			Timer timer = new Timer();
+		if (timer != null) {
+			timer.cancel();
+		}
+		mSwitcher.setImageResource(res[0]);
+		if (res.length > 1) {
+			timer = new Timer();
 			timer.schedule(new TimerTask() {
 				@Override
 				public void run() {
@@ -288,9 +300,10 @@ public class MainActivity extends SlidingFragmentActivity {
 				}
 			}, 0, 4000);
 		}
-		if (0 == listView.getHeaderViewsCount()) {
-			listView.addHeaderView(hearView);
-		}
+		// if (0 == listView.getHeaderViewsCount()) {
+		listView.setAdapter(null);
+		listView.addHeaderView(hearView);
+		// }
 		listView.setAdapter(new MainListAdapter(weatherInfo, MainActivity.this));
 		if (res[0] == R.drawable.wycx_normal) {
 			shareView.setVisibility(View.GONE);
@@ -350,6 +363,10 @@ public class MainActivity extends SlidingFragmentActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		DianJinPlatform.destroy();
+		if (timer != null) {
+			timer.cancel();
+			timer = null;
+		}
 	}
 
 	@Override

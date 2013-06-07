@@ -13,11 +13,11 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.easylife.DianJinPlatform;
-import com.easylife.DianJinPlatform.OfferWallStyle;
-import com.easylife.DianJinPlatform.Oriention;
-import com.easylife.listener.AppActivatedListener;
-import com.easylife.listener.OfferWallStateListener;
+import com.easy.DianJinPlatform;
+import com.easy.DianJinPlatform.OfferWallStyle;
+import com.easy.DianJinPlatform.Oriention;
+import com.easy.listener.AppActivatedListener;
+import com.easy.listener.OfferWallStateListener;
 import com.easylife.weather.R;
 import com.easylife.weather.common.service.IShareService;
 import com.easylife.weather.common.service.impl.ShareService;

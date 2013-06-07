@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewSwitcher.ViewFactory;
 
+import com.easylife.DianJinPlatform;
 import com.easylife.weather.R;
 import com.easylife.weather.common.service.IShareService;
 import com.easylife.weather.common.service.impl.ShareService;
@@ -56,7 +57,6 @@ import com.easylife.weather.passport.data.UserConfigManager;
 import com.easylife.weather.passport.model.UserConfig;
 import com.easylife.weather.passport.service.IPassportService;
 import com.easylife.weather.passport.service.impl.PassPortService;
-import com.nd.dianjin.DianJinPlatform;
 import com.umeng.analytics.MobclickAgent;
 
 public class MainActivity extends SlidingFragmentActivity {

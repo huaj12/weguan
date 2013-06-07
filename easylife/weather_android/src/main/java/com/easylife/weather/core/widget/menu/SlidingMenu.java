@@ -73,7 +73,7 @@ public class SlidingMenu extends RelativeLayout {
 	 */
 	public static final int LEFT_RIGHT = 2;
 
-	private CustomViewAbove mViewAbove;
+	public CustomViewAbove mViewAbove;
 
 	private CustomViewBehind mViewBehind;
 

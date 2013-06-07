@@ -101,7 +101,7 @@ public class LeftFragment extends Fragment {
 			String date = DateUtil.sdf.format(cal.getTime());
 			WeatherInfo info = WeatherDataManager
 					.getWeatherInfos(date, context);
-			if (info != null && info.getIcon() != null) {
+			if (info != null && info.getDaytimeIcon() != null) {
 				View itemView = inflater.inflate(R.layout.item_weater, null);
 				ImageView iconView = (ImageView) itemView
 						.findViewById(R.id.icon_view);
@@ -110,7 +110,7 @@ public class LeftFragment extends Fragment {
 				TextView weatherView = (TextView) itemView
 						.findViewById(R.id.weather_view);
 				int iconId = context.getResources().getIdentifier(
-						"w" + info.getIcon() + "_s", "drawable",
+						"w" + info.getDaytimeIcon() + "_s", "drawable",
 						context.getPackageName());
 				iconView.setBackgroundDrawable(context.getResources()
 						.getDrawable(iconId));

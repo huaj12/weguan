@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.easylife.weather.R;
@@ -24,7 +25,7 @@ public class SettingListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return 6;
+		return 7;
 	}
 
 	@Override
@@ -44,6 +45,11 @@ public class SettingListAdapter extends BaseAdapter {
 		TextView textView = (TextView) convertView.findViewById(R.id.item_text);
 		TextView valueView = (TextView) convertView
 				.findViewById(R.id.item_value);
+		TextView iconView = (TextView) convertView.findViewById(R.id.item_icon);
+		ImageView imgView = (ImageView) convertView.findViewById(R.id.item_img);
+		imgView.setVisibility(View.GONE);
+		iconView.setVisibility(View.VISIBLE);
+		valueView.setVisibility(View.VISIBLE);
 		switch (position) {
 		case 0:
 			getSelectCityView(textView, valueView);
@@ -51,7 +57,7 @@ public class SettingListAdapter extends BaseAdapter {
 		case 1:
 			textView.setText(context.getResources().getString(
 					R.string.setting_remind_title));
-			valueView.setText(user.getHourStr());
+			valueView.setText(user.getTimeStr());
 			break;
 		case 2:
 			textView.setText(context.getResources().getString(
@@ -71,6 +77,14 @@ public class SettingListAdapter extends BaseAdapter {
 			ApplicationContext applicationContext = (ApplicationContext) context
 					.getApplicationContext();
 			valueView.setText("v" + applicationContext.getVersionName(context));
+			break;
+		case 6:
+			textView.setText(context.getResources().getString(
+					R.string.offer_wall));
+			imgView.setBackgroundResource(R.drawable.new_pic);
+			imgView.setVisibility(View.VISIBLE);
+			iconView.setVisibility(View.GONE);
+			valueView.setVisibility(View.GONE);
 			break;
 		default:
 			break;

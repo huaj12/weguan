@@ -12,8 +12,8 @@ public class UserConfig implements Serializable {
 	private boolean remindRain;
 	private boolean remindWind;
 	private boolean remindCooling;
-	private String hourStr;
-	private int hour;
+	private String timeStr;
+	private long time;
 
 	public String getToken() {
 		return token;
@@ -55,20 +55,20 @@ public class UserConfig implements Serializable {
 		this.remindCooling = remindCooling;
 	}
 
-	public String getHourStr() {
-		return hourStr;
+	public String getTimeStr() {
+		return timeStr;
 	}
 
-	public void setHourStr(String hourStr) {
-		this.hourStr = hourStr;
+	public void setTimeStr(String timeStr) {
+		this.timeStr = timeStr;
 	}
 
-	public int getHour() {
-		return hour;
+	public long getTime() {
+		return time;
 	}
 
-	public void setHour(int hour) {
-		this.hour = hour;
+	public void setTime(long time) {
+		this.time = time;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 public class WeatherInfo {
 	private String cityName;// 城市名字只在今天的天气数据里获取
 	private String icon;
+	private String daytimeIcon;
 	private String daytimeSky;// 白天天气 阴天 雨天 晴天
 	private String nightSky;// 晚上天气 阴天 雨天 晴天
 	private String date;// 时间 2013/03/29
@@ -28,7 +29,16 @@ public class WeatherInfo {
 	private String nowTmp;// 实时温度
 	private String hum;// 湿度
 	private List<ForecastHour> forecastHours;
+	private int uvidxLv;
 	private String uvidx;
+
+	public String getDaytimeIcon() {
+		return daytimeIcon;
+	}
+
+	public void setDaytimeIcon(String daytimeIcon) {
+		this.daytimeIcon = daytimeIcon;
+	}
 
 	public String getCityName() {
 		return cityName;
@@ -36,6 +46,14 @@ public class WeatherInfo {
 
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
+	}
+
+	public int getUvidxLv() {
+		return uvidxLv;
+	}
+
+	public void setUvidxLv(int uvidxLv) {
+		this.uvidxLv = uvidxLv;
 	}
 
 	public String getUvidx() {

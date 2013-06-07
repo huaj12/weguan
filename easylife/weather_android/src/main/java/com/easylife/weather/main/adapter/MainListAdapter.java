@@ -110,7 +110,7 @@ public class MainListAdapter extends BaseAdapter {
 				"w" + todayWeather.getIcon(), "drawable",
 				mContext.getPackageName());
 		icon.setBackgroundResource(iconId);
-		text.setText(todayWeather.getDaytimeSky());
+		text.setText(todayWeather.getSky());
 	}
 
 	private void getPM2(ImageView icon, TextView text) {
@@ -162,17 +162,10 @@ public class MainListAdapter extends BaseAdapter {
 
 	private void getUvidx(ImageView icon, TextView text) {
 		String uvidx = "00";
-		if (StringUtils.hasText(todayWeather.getUvidx())) {
-			String uvidxStr = mContext.getResources().getString(
-					R.string.uvidx_level);
-			if (uvidxStr.equals(todayWeather.getUvidx())) {
-				uvidx = "100";
-			}
-			text.setText(mContext.getResources().getString(R.string.uvidx,
-					todayWeather.getUvidx()));
-		} else {
-			text.setText(mContext.getResources().getString(R.string.uvidx_00));
+		if (todayWeather.getUvidxLv() > 3) {
+			uvidx = "100";
 		}
+		text.setText(todayWeather.getUvidx());
 		int iconId = mContext.getResources().getIdentifier("ray_" + uvidx,
 				"drawable", mContext.getPackageName());
 		icon.setBackgroundResource(iconId);

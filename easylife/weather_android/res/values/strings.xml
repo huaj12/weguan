@@ -29,16 +29,16 @@
     <string name="weather_loading">正在加载数据...</string>
     
     <!-- left -->
-    <string name="today_weather">近期天气</string>
-    <string name="future_weather">未来天气</string>
+    <string name="today_weather">今日天气</string>
+    <string name="future_weather">近期天气</string>
     <string name="send_email">发送邮件</string>
     <string name="forecastHour_today">今天</string>
     <string name="forecastHour_yesterday">昨天</string>
     <string name="forecastHour_tomorrow">明天</string>
     <string name="forecastHour_1">凌晨</string>
-    <string name="forecastHour_2">早上</string>
+    <string name="forecastHour_2">上午</string>
     <string name="forecastHour_3">下午</string>
-    <string name="forecastHour_4">晚上</string>
+    <string name="forecastHour_4">晚间</string>
     <string name="forecastHour_time">%1$s/%2$s</string>
     <string name="weather_info">%1$s/%2$s~%3$s℃</string>
     <string name="future_date">%1$s/%2$s</string>
@@ -78,11 +78,13 @@
     <string name="setting_version_title">检查版本</string>
     <string name="setting">功能设置</string>
     <string name="setting_remind">提醒设置</string>
+    <string name="setting_remind_time_title">设置提醒时间: %1$s</string>
     <string name="setting_icon">></string>
     <string name="setting_city_title">切换城市</string>
     <string name="setting_remind_title">提醒时间</string>
     <string name="setting_proposal_title">意见反馈</string>
     <string name="proposal">意见反馈（懒人天气）</string>
+    <string name="offer_wall">精品推荐</string>
     
     <string name="setting_peels_title">更换皮肤</string>
     <string name="setting_share_title">告诉好友</string>

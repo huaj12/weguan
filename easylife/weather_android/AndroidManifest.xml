@@ -66,23 +66,30 @@
       </receiver>
       
       <!-- 91 -->
-      <activity android:name="com.nd.dianjin.activity.OfferAppActivity"
-		android:configChanges="keyboardHidden|orientation"
-		android:launchMode="singleTop"
+     	<activity android:name="com.easy.activity.easyOfferAppActivity"
+				  android:configChanges="keyboardHidden|orientation"
+				  android:launchMode="singleTask"
+				  
 		/>
-		<activity android:name="com.nd.dianjin.activity.DownloadManagerActivity"
-		android:configChanges="keyboardHidden|orientation"
-		android:launchMode="singleTop"/>
-		<activity android:name="com.nd.dianjin.activity.DetailActivity"
-		android:configChanges="keyboardHidden|orientation"
-		android:launchMode="singleTop"
+		 <activity android:name="com.easy.activity.easyDownloadManagerActivity"
+				  android:configChanges="keyboardHidden|orientation"
+				  android:launchMode="singleTop"
 		/>
-		<service android:name="com.nd.dianjin.service.PackageChangedService"/>
-		<service android:name="com.nd.dianjin.appdownload.DownloadService">
-				<intent-filter>
-				<action android:name="com.easylife.weather" />
-				</intent-filter>
-		</service>
+	
+		<activity android:name="com.easy.activity.easyDetailActivity"
+				  android:configChanges="keyboardHidden|orientation"
+				  android:launchMode="singleTop"
+				  android:theme="@android:style/Theme.Black.NoTitleBar"	
+		/>
+		
+       <service android:name="com.easy.appdownload.easyDownloadService">
+            <intent-filter>
+                <action android:name="com.easylife.weather" />
+                <!-- action中的android:name请输入应用的包名 -->
+            </intent-filter>
+       </service>
+        
+	   <service android:name="com.easy.service.easyPackageChangedService"></service>
   </application>
 
 </manifest>

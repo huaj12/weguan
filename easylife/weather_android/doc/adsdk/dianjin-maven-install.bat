@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=dianjin.jar -DgroupId=com.ads -DartifactId=dianjin -Dversion=1.1.6 -Dpackaging=jar

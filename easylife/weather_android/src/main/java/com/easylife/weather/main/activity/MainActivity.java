@@ -167,7 +167,7 @@ public class MainActivity extends SlidingFragmentActivity {
 					rightFragment.setContext(MainActivity.this);
 					slidingMenu.setSecondaryMenu(R.layout.fragment_right);
 					t.replace(R.id.right_frame, rightFragment);
-					t.commit();
+					t.commitAllowingStateLoss();
 
 				} else {
 					AlertDialog.Builder builder = new Builder(MainActivity.this);

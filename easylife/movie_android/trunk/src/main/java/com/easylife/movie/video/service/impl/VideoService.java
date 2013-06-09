@@ -8,6 +8,8 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 
@@ -28,23 +30,21 @@ public class VideoService implements IVideoService {
 	@Override
 	public VideoListResult getVideoListResult(Context context, long categoryId,
 			int page) {
-		// ActivityInfo info = null;
-		// String channelId = null;
-		// try {
-		// info = context.getPackageManager().getActivityInfo(
-		// ((Activity) context).getComponentName(),
-		// PackageManager.GET_META_DATA);
-		// channelId = info.metaData.getString("UMENG_CHANNEL");
-		// } catch (Exception e1) {
-		// }
-
+		ApplicationInfo info = null;
+		String channelId = null;
+		try {
+			info = context.getPackageManager().getApplicationInfo(
+					context.getPackageName(), PackageManager.GET_META_DATA);
+			channelId = info.metaData.getString("UMENG_CHANNEL");
+		} catch (Exception e1) {
+		}
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("page", page);
 		values.put("categoryId", categoryId);
-		// values.put("isAndroid", true);
-		// if (channelId != null) {
-		// values.put("channel", channelId);
-		// }
+		values.put("isAndroid", true);
+		if (channelId != null) {
+			values.put("channel", channelId);
+		}
 		ResponseEntity<VideoListResult> responseEntity = null;
 		try {
 			responseEntity = HttpUtils.get(context, VIDEOLISTURI, values,

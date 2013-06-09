@@ -1,0 +1,111 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:adsmogo="http://www.adsmogo.com"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="#ff000000"
+    > 
+    <SurfaceView 
+        android:id="@+id/surfaceView"
+                android:layout_height="match_parent" 
+                android:layout_width="match_parent"
+                android:layout_gravity="center">
+    </SurfaceView>
+     <com.adsmogo.adview.AdsMogoLayout
+		android:id="@+id/thumb"
+		android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+		android:layout_marginBottom="0dp"
+		adsmogo:appid="4bfcc8cd83ee4815b27c05a4747fcdc2"
+		adsmogo:express_mode="false" />
+<RelativeLayout 
+     android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="#00000000">
+<!-- title -->
+<RelativeLayout 
+    android:id="@+id/palyer_title_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:background="#80000000"
+    android:gravity="center_vertical"
+    >
+   <TextView 
+       android:id="@+id/player_title_name"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" 
+       android:textColor="#ffffff"
+       android:textSize="18sp" 
+       android:textStyle="bold"
+       android:text="@string/video_loading"    
+       android:padding="10dp"
+       android:layout_alignParentRight="true" 
+       />
+   <Button android:layout_width="wrap_content"
+       	   android:layout_height="wrap_content"
+       	   android:background="@drawable/video_close_btn"
+       	   android:layout_alignParentRight="true"
+       	   android:id="@+id/close_btn"/> 
+    
+</RelativeLayout>
+<!-- Control bar -->
+<RelativeLayout 
+    android:id="@+id/palyer_control_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true" 
+    android:background="#80000000"
+    >
+   <ImageView 
+    android:id="@+id/palyer_control_paly"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/video_play_btn" 
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="15dp"  
+    android:layout_marginRight="15dp"   
+    android:contentDescription="@null"/>
+   <SeekBar
+       	android:id="@+id/palyer_control_progress"
+        android:max="100"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="3dp"
+        android:maxHeight="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_toRightOf="@+id/palyer_control_paly"
+        android:layout_toLeftOf="@+id/cur_time"
+        android:progressDrawable="@drawable/seekbar_style"
+        android:thumb="@drawable/seek_img"
+     />
+    <TextView 
+        android:id="@+id/cur_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:textStyle="bold"    
+        android:layout_toLeftOf="@+id/total_time"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        />
+    
+     <TextView 
+        android:id="@+id/total_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/00:00"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:textStyle="bold"    
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        />
+  </RelativeLayout>
+</RelativeLayout>
+</FrameLayout>

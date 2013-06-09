@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=ShareSDK-Wechat-Core.jar -DgroupId=com.share -DartifactId=wechat-core -Dversion=1.0 -Dpackaging=jar

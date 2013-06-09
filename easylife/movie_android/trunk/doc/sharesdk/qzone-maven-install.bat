@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=ShareSDK-QZone.jar -DgroupId=com.share -DartifactId=qzone -Dversion=1.0 -Dpackaging=jar

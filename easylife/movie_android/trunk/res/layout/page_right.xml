@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mlist"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/movie_bg"
+    android:orientation="vertical"
+     >
+     	<ListView  android:id="@+id/setting_list_view"
+		    			 	   android:layout_width="fill_parent"   
+							   android:layout_height="wrap_content"  
+							   android:cacheColorHint="#00000000"
+						       android:divider="@null"
+						       android:fadingEdge="none"
+						       android:focusable="true" 
+									/>
+     	<RelativeLayout android:layout_width="fill_parent"
+     	    android:layout_height="fill_parent">
+     	    <ImageView android:layout_width="wrap_content"
+     	        	   android:layout_height="wrap_content"
+     	        	   android:background="@drawable/footicon"
+     	        	   android:contentDescription="@null"
+					   android:layout_centerInParent="true"
+     	        	   android:id="@+id/footicon_view"/>
+     	    <TextView android:layout_width="wrap_content"
+     	        	  android:layout_height="wrap_content"
+     	        	  android:layout_toRightOf="@+id/footicon_view"
+     	        	  android:layout_above="@+id/footicon_view"
+     	        	  android:layout_marginBottom="-10dp"
+     	        	  android:layout_marginLeft="5dp"
+     	        	  android:textSize="12sp"
+     	        	  android:id="@+id/ver"
+     	        	  android:textColor="@color/movie_ver_text"
+     	        	  />
+     	</RelativeLayout>
+</LinearLayout>

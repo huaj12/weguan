@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mlist"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/movie_bg"
+    >
+	<ListView  android:id="@+id/category_list_view"
+		    			 	   android:layout_width="fill_parent"   
+							   android:layout_height="fill_parent"  
+							   android:cacheColorHint="#00000000"
+						       android:divider="@null"
+						       android:fadingEdge="none"
+						       android:focusable="true" 
+									/>
+</LinearLayout>

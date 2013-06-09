@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">哇哦小视频</string>
+    <string name="no_network">您的网络状况不太好请稍后重试</string>
+    <string name="setting_icon">></string>
+    <string name="interest_success">收藏成功</string>
+    <string name="un_interest">取消收藏</string>
+    <string name="un_interest_confirm">是否确定取消收藏</string>
+    <string name="point_confirm">这是私密视频，需要%1$s个积分即可观看</string>
+    <string name="point_ok">获取积分</string>
+    <string name="ok">确定</string>
+    <string name="confirm">提示</string>
+    <string name="cancel">取消</string>
+    <!-- setting -->
+    <string name="history">我看过的</string>
+    <string name="interest">收藏</string>
+    <string name="clean_cache">清除缓存</string>
+    <string name="please_wait">正在处理请稍后</string>
+    <string name="tip_cache_clearing">正在清理缓存</string>
+    <string name="close">关闭</string>
+    <string name="tip_clear_cache_confirm">是否要清除缓存</string>
+    <string name="feedback">意见反馈</string>
+    <string name="setting_proposal_title">意见反馈(哇哦小视频)</string>
+    <string name="official_mail">easylife222@qq.com</string>
+    <string name="send_email">发送邮件</string>
+    <string name="notification_update">更新提醒</string>
+    
+    <string name="notification_title">哇哦小视频</string>
+    <string name="notification_nologin">有不少新料发布咯！精彩内容别错过~</string>
+    <string name="title_history">历史</string>
+    <string name="title_interest">收藏</string>
+    <string name="title_wao">哇哦</string>
+    <string name="share_title">告诉好友</string>
+    <string name="share_friend_text">【哇哦小视频】每天更新国内外网友的趣味猛料短视频。推荐下载 http://m.wandoujia.com/apps/com.easylife.movie</string>
+    <string name="video_loading">视频加载中...</string>
+    <string name="video_buffering">网速有点慢帮您暂停一会</string>
+    <string name="get_reward_sucess">成功获取积分%1$s</string>
+    
+</resources>

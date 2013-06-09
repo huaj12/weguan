@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=sharesdk.jar -DgroupId=com.share -DartifactId=sharesdk -Dversion=1.0 -Dpackaging=jar

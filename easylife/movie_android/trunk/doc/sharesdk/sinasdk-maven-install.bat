@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=ShareSDK-SinaWeibo.jar -DgroupId=com.share -DartifactId=sina-sdk -Dversion=1.0 -Dpackaging=jar

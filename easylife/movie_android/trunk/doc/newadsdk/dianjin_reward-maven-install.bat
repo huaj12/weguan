@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=dianjin_reward.jar -DgroupId=com.ads -DartifactId=dianjin_reward -Dversion=1.1.5 -Dpackaging=jar

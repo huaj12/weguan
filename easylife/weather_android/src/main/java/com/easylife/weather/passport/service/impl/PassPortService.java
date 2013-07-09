@@ -23,9 +23,10 @@ public class PassPortService implements IPassportService {
 		userConfig.setCityName(cityname);
 		userConfig.setTimeStr("7:00");
 		userConfig.setTime(WeatherUtils.userRemindTime(context));
-		userConfig.setRemindCooling(false);
+		userConfig.setRemindCooling(true);
 		userConfig.setRemindRain(true);
-		userConfig.setRemindWind(false);
+		userConfig.setRemindWind(true);
+		userConfig.setRemindHot(true);
 		userConfig.setToken(WeatherUtils.getDeviceToken(context));
 		UserConfigManager.saveUserConfig(userConfig, context);
 		return userConfig;

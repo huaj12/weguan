@@ -1,11 +1,14 @@
 package com.easylife.weather.main.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -40,6 +43,7 @@ public class RightFragment extends Fragment {
 	private ListView remindListView = null;
 	private LayoutInflater inflater;
 	private UserConfig user;
+	private View qaLayout;
 	public BaseAdapter settingAdapter;
 
 	public RightFragment() {
@@ -54,6 +58,7 @@ public class RightFragment extends Fragment {
 		View view = inflater.inflate(R.layout.page_right, null);
 		settingListView = (ListView) view.findViewById(R.id.setting_list_view);
 		remindListView = (ListView) view.findViewById(R.id.remind_list_view);
+		qaLayout = view.findViewById(R.id.qa_layout);
 		this.inflater = inflater;
 		return view;
 	}
@@ -171,6 +176,22 @@ public class RightFragment extends Fragment {
 		});
 		remindListView.setAdapter(new RemindListAdapter(context));
 		UIUtil.setListViewHeightBasedOnChildren(remindListView);
+		String phoneType = Build.MANUFACTURER;
+		if (phoneType.equalsIgnoreCase(context.getResources().getString(
+				R.string.xiaomi))) {
+			qaLayout.setVisibility(View.VISIBLE);
+			qaLayout.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					new AlertDialog.Builder(context)
+							.setMessage(R.string.no_remind_answer)
+							.setTitle(R.string.no_remind)
+							.setPositiveButton(R.string.i_kown, null).show();
+
+				}
+			});
+		}
 	}
 
 	public void pushIntentForResult(Intent intent, int requestCode) {

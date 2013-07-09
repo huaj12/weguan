@@ -12,6 +12,7 @@ public class UserConfig implements Serializable {
 	private boolean remindRain;
 	private boolean remindWind;
 	private boolean remindCooling;
+	private boolean remindHot;
 	private String timeStr;
 	private long time;
 
@@ -69,6 +70,14 @@ public class UserConfig implements Serializable {
 
 	public void setTime(long time) {
 		this.time = time;
+	}
+
+	public boolean isRemindHot() {
+		return remindHot;
+	}
+
+	public void setRemindHot(boolean remindHot) {
+		this.remindHot = remindHot;
 	}
 
 }
